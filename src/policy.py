@@ -48,7 +48,17 @@ OPS = {
     "gte":       lambda v, a: v is not None and v >= a,
     "lte":       lambda v, a: v is not None and v <= a,
     "in_range":  lambda v, a: v is not None and a[0] <= v <= a[1],
-    "nonempty":  lambda v, _a: bool(v) and len(v) > 0,
+    # HALF OF THIS CHECK COULD NOT FAIL, AND THE OTHER HALF COULD ONLY ERROR (order
+    # df76f922f635). It read `bool(v) and len(v) > 0`: for anything sized those two are the
+    # same test, so the second conjunct could never change a verdict, and for a truthy value
+    # with no length -- a number in a name field -- `len(v)` raised TypeError, which
+    # `check_rule`'s handler records as a RULE FAILURE ON THE DOCUMENT. That is the confusion
+    # the note at check_rule explicitly exists to prevent ("a malformed rule reported as a
+    # failing document ... sends the reader to the wrong place entirely"), arriving from the
+    # value side instead of the rule side. Spelled as what it means: a non-empty container or
+    # string. A number in a name field now FAILS, which is the true verdict, rather than
+    # ERRORING and being filed as a broken rule.
+    "nonempty":  lambda v, _a: hasattr(v, "__len__") and len(v) > 0,
     "len_gte":   lambda v, a: v is not None and len(v) >= a,
     "matches":   lambda v, a: v is not None and re.search(a, str(v)) is not None,
     "not_matches": lambda v, a: v is None or re.search(a, str(v)) is None,
@@ -147,7 +157,8 @@ def check_rule(doc, rule):
     try:
         ok = bool(OPS[op](value, rule.get("arg")))
     except Exception as e:
-        ok = False
+        # (`ok = False` stood here and was never read -- the return below carries the verdict
+        # literally. Removed under order df76f922f635.)
         return {"id": rule["id"], "ok": False, "observed": _observed(value),
                 "found": found, "op": op, "error": "%s: %s" % (type(e).__name__, e),
                 "severity": rule.get("severity", "MINOR"), "why": rule.get("why", "")}
@@ -320,7 +331,12 @@ def main():
                 evals.append(evaluate(json.load(f), RECORD_RULES, os.path.basename(p)))
         except Exception as e:
             silence.note("policy.py:record-unreadable")
-            unreadable.append((os.path.basename(p), "%s: %s" % (type(e).__name__, str(e)[:70])))
+            # THE WHOLE REASON. This is not a console string -- it is now carried into
+            # state/policy_report.json below, which is a FILE, and a parse error cut at 70
+            # characters loses the offset and the context that say WHERE the record is torn,
+            # which is the entire actionable content of a JSONDecodeError. The console line at
+            # the bottom pads rather than cuts, so nothing needs it short.
+            unreadable.append((os.path.basename(p), "%s: %s" % (type(e).__name__, e)))
             continue
     cov = os.path.join(HERE, "data", "COVERAGE.json")
     cov_total = cov_read = 0
@@ -396,6 +412,17 @@ def main():
     landed = report(evals, scope={
         "limit": a.limit, "partial": partial,
         "records_total": len(all_records), "records_evaluated": len(records),
+        # UNREADABLE RECORDS REACH THE ONLY COPY THAT OUTLIVES THE RUN (order c19d9ebcac14).
+        # These were collected and printed to stdout and then dropped: `report()`'s own
+        # docstring says the artifact it writes is the only copy that lasts, and the comment
+        # sixty lines above already CLAIMED "every unreadable file is named in full, here and in
+        # the report" -- true of the evidence sweep, which carries `evidence_unreadable`, and
+        # untrue of the record sweep, which carried nothing. A record that could not be parsed
+        # was therefore absent from the report exactly as if it had passed, in the module whose
+        # opening thesis is that a check which cannot fail looks like one that passed.
+        # Both the count and the names, because a count nobody can act on is half a finding.
+        "records_unreadable": len(unreadable),
+        "records_unreadable_detail": [{"file": f, "error": w} for f, w in unreadable],
         "coverage_total": cov_total, "coverage_evaluated": cov_read,
         "evidence_swept": not a.skip_evidence,
         "evidence_total": ev_total, "evidence_evaluated": ev_read,
@@ -443,7 +470,11 @@ def main():
         print("%d record(s) COULD NOT BE READ and were never evaluated -- not a pass"
               % len(unreadable))
         for fname, why in unreadable:
-            print("  UNREAD %-26s %s" % (fname[:26], why))
+            # PAD, DO NOT CUT. The comment above this loop's collection site claims every
+            # unreadable file is "named in full", and `fname[:26]` was quietly making that
+            # false for any record filename longer than 26 characters -- which is the name a
+            # person needs in order to go and open the torn file.
+            print("  UNREAD %-26s %s" % (fname, why))
     if info:
         by_rule = {}
         for _s, r in info:
@@ -466,6 +497,16 @@ def main():
     # only whether the library is well-formed keeps checking `rc == 1`; a caller about to trust
     # the report file has to look at `rc != 0`.
     if failed:
+        return 1
+    # A RECORD THAT COULD NOT BE READ IS NOT A PASS, AND THE EXIT CODE HAS TO SAY SO (order
+    # c19d9ebcac14). The line printed above already says "not a pass" in words, but a run that
+    # skipped N corrupted records still returned 0, so every automated caller -- the ones that
+    # cannot read the words -- was told the corpus was clean. Folded into 1 rather than given a
+    # code of its own: 1 has always meant "the library is not well-formed", and a record the
+    # rules could not be applied to at all belongs there. Nothing that treats nonzero as bad
+    # changes, and the direction is the safe one -- this can only turn a false clean into a
+    # flag, never the reverse.
+    if unreadable:
         return 1
     if not landed:
         return 2

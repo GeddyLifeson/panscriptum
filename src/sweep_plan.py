@@ -22,6 +22,7 @@ work, it never drops any of it, and `missing()` is the check that proves nothing
 
 import argparse
 import glob
+import hashlib
 import json
 import os
 import sys as _sys
@@ -32,6 +33,10 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(HERE, "src")
 COVERAGE = os.path.join(HERE, "state", "SWEEP_COVERAGE.json")
 SHARDS = os.path.join(HERE, "state", "sweep_shards")
+# One frozen batch plan per run, so a batch number names the same modules all run long. See
+# `freeze_plan`. Its OWN directory rather than a loose state/sweep<N>_plan.json, because that
+# convention was an operator shell redirect and estate graded the result corrupt -- see main().
+PLANS = os.path.join(HERE, "state", "sweep_plan")
 
 
 def _src_py_files():
@@ -99,16 +104,28 @@ def modules():
     return sorted(out, key=lambda m: -m["lines"])
 
 
-def batches(n=16):
+def batches(n=16, snapshot=None):
     """Greedy longest-first bin packing into `n` roughly equal-line batches.
 
     Longest-first matters: dropping the 3,459-line file into whichever bin is emptiest at the
     end produces one batch nobody can actually read. Packed largest-first, the spread across
     bins stays tight enough that every agent gets a context it can hold.
+
+    `snapshot` IS THE FROZEN TABLE, and it is why a batch number can mean one thing for a whole
+    run (order 4d44a6363245). Packing is a pure function of the module/line table it is given;
+    given `modules()` it is a pure function of the LIVE line counts, so a one-line edit to any
+    module re-runs the packing and reshuffles every bin. Measured on run39: `batches(16)[10]`
+    returned nine modules at dispatch and eight different ones ninety minutes later, six having
+    moved to other bins, while eight files in src/ were edited in that window -- which is the
+    NORMAL condition of the tree during a sweep, because the standing set runs
+    `foreman.py --go --patch` and its model lane edits src/ unattended.
+
+    Pass the table `freeze_plan()` stored and the plan is reproducible; pass nothing and the
+    behaviour is exactly what it always was. See `freeze_plan` for which of those is right.
     """
     n = max(1, int(n))
     bins = [{"batch": i + 1, "lines": 0, "modules": [], "unreadable": []} for i in range(n)]
-    for m in modules():
+    for m in (modules() if snapshot is None else list(snapshot)):
         b = min(bins, key=lambda b: b["lines"])
         b["modules"].append(m["module"])
         b["lines"] += m["lines"]
@@ -123,6 +140,169 @@ def batches(n=16):
             # modules could not be sized and report it rather than silently skip a stub.
             b["unreadable"].append(m["module"])
     return [b for b in bins if b["modules"]]
+
+
+def _table_digest(table):
+    """A short digest of a module/line table, so two plans can be told apart. -> str."""
+    payload = json.dumps([[m.get("module"), m.get("lines", 0), bool(m.get("unreadable"))]
+                          for m in table], sort_keys=True)
+    return hashlib.sha1(payload.encode("utf-8")).hexdigest()[:12]
+
+
+def plan_path(run):
+    """Where a run's frozen plan lives. One file per run, named for the run."""
+    safe = "".join(c if c.isalnum() or c in "-_." else "_" for c in str(run))
+    return os.path.join(PLANS, "%s.json" % safe)
+
+
+def frozen_plan(run):
+    """The plan `run` was dispatched from, or None if it was never frozen.
+
+    Absent is honestly absent and returns None; UNREADABLE is noted rather than silently
+    treated as absent, because falling back to a recomputed plan is precisely the reshuffle
+    this exists to prevent, and doing it in silence would hide the one condition that matters.
+    """
+    p = plan_path(run)
+    # ABSENT IS ASKED, NOT CAUGHT, so there is no silent handler here to exempt.
+    #
+    # This was an `except FileNotFoundError: return None`, and the 2026-09-05 run first tried to
+    # settle it by writing a `silence-exempt:` comment on that handler. That was wrong twice
+    # over, and the battery caught it within the hour (checks_L1
+    # check_sweep_plan_data_reads_are_noted went red): `silence.audit()` counts a handler as
+    # SILENT unless it can see a note beside it, and the exemption marker this project honours
+    # elsewhere is not what that check reads. More importantly the marker was arguing the wrong
+    # thing. A missing plan file is not a tolerated FAILURE that deserves an exemption -- it is
+    # the ordinary state of a run nobody has frozen yet, which is a QUESTION with an answer, and
+    # the honest shape for a question is to ask it rather than to catch the refusal.
+    #
+    # Asking also keeps the race honest: if the file vanishes between this check and the open
+    # below, that FileNotFoundError now falls into the UNREADABLE arm and IS noted -- which is
+    # right, because a plan file disappearing out from under a live run is exactly the condition
+    # worth hearing about, and the old handler swallowed it identically to an ordinary absence.
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding="utf-8") as f:
+            rec = json.load(f)
+    except Exception:
+        try:
+            import silence
+            silence.note("sweep_plan.py:frozen-plan-unreadable")
+        except Exception:
+            pass
+        print("sweep_plan: %s EXISTS and could not be read, so the frozen plan for run=%s is "
+              "unavailable. Recomputing would reshuffle the batches this run was dispatched "
+              "from; fix or remove the file instead." % (p, run), file=_sys.stderr)
+        return None
+    return rec if isinstance(rec, dict) else None
+
+
+def freeze_plan(run, n=16):
+    """Compute the plan for `run` ONCE and land it. -> the frozen record.
+
+    THE BATCH NUMBER MUST MEAN ONE THING FOR A WHOLE RUN (order 4d44a6343245's sibling,
+    4d44a6363245). `batches()` packs the live line counts, so during a sweep -- which is exactly
+    when src/ is being edited, by ten agents and by foreman's unattended patch lane -- two
+    agents asking for "batch 11" minutes apart get different module sets. Measured on run39: six
+    of nine modules moved out of batch 11 in ninety minutes, and five modules then labelled
+    "batch 11" were never in that agent's brief. Work is duplicated where the sets overlap, and
+    a module can fall out of every dispatched brief if the coordinator dispatches at t0 and any
+    agent recomputes later.
+
+    WHAT IS FROZEN AND WHAT IS DELIBERATELY NOT. The PLAN is frozen: which modules a batch
+    number names, for the life of the run. `missing()` and `check_briefs`'s `uncovered` stay on
+    the LIVE `modules()`, and that is not an oversight -- it is the fail-safe direction. A
+    module ADDED to src/ mid-run has been read by nobody, and freezing the completeness proof
+    would make it invisible. So the plan answers "who was asked to read what" and the live tree
+    answers "what is there to read"; freezing the first without the second is the whole fix.
+
+    IDEMPOTENT: an existing frozen plan is RETURNED, never recomputed and never overwritten.
+    Re-running the dispatch command cannot silently re-shuffle a run that is already underway.
+
+    A REFUSED LANDING IS REPORTED, NOT ASSUMED. The record carries `frozen: False` when the
+    write did not land, because a plan nobody can read back is not a frozen plan and the caller
+    must not dispatch from it believing otherwise.
+    """
+    existing = frozen_plan(run)
+    if existing is not None:
+        return existing
+    table = modules()
+    rec = {"run": str(run), "at": time.time(), "n": max(1, int(n)),
+           "src_table_digest": _table_digest(table),
+           "modules": table, "batches": batches(n, snapshot=table), "frozen": True}
+    try:
+        import silence
+        os.makedirs(PLANS, exist_ok=True)
+        if not silence.write_json(plan_path(run), rec, indent=1):
+            rec["frozen"] = False
+            silence.note("sweep_plan.py:plan-freeze-denied")
+            print("sweep_plan: the plan for run=%s did NOT land at %s (replace refused). It is "
+                  "NOT frozen: another process asking for this run's plan will recompute it "
+                  "from the live tree and may get different batches. Re-run before dispatching."
+                  % (run, plan_path(run)), file=_sys.stderr)
+    except Exception as exc:
+        rec["frozen"] = False
+        try:
+            import silence
+            silence.note("sweep_plan.py:plan-freeze-failed")
+        except Exception:
+            pass
+        print("sweep_plan: the plan for run=%s could not be written (%s: %s). It is NOT frozen."
+              % (run, type(exc).__name__, exc), file=_sys.stderr)
+    return rec
+
+
+def known_modules():
+    """The exact vocabulary `record()` accepts: every label `batches()` emits. -> set.
+
+    One function, asked by both sides, so the spelling a batch is GIVEN and the spelling its
+    coverage is CHECKED against cannot be two different things.
+    """
+    return {m["module"] for m in modules()}
+
+
+def normalise_module(name, known=None):
+    """One recorded coverage name -> the label this module itself emits, or None if unknown.
+
+    THE PROOF THAT A SWEEP COVERED EVERYTHING USED TO ACCEPT ANY STRING (order f307490add1e).
+    `record()` stored whatever it was handed. On run41, fifteen batches that all genuinely read
+    their modules in full sent THREE different spellings from three callers -- `drill.py` (what
+    `batches()` emits, and the only form `missing()` matches), `src/publish.py` (path-prefixed),
+    and `foreman` (extension stripped). `missing()` then named 26 of 116 modules as NEVER READ
+    when every one of them had been read line by line, which costs a whole re-audit; one batch
+    noticed and re-recorded, four did not, and nothing told them.
+
+    THE OTHER DIRECTION IS THE ONE THAT MATTERS, and it is why this refuses rather than guesses.
+    Shard run41.7 recorded `catalogue_local.py`, a name this module does not know -- it spells
+    that file `deprecated/catalogue_local.py`. That entry sat in the coverage record matching
+    nothing at all, and no mechanism anywhere noticed. A claim that matches no module is not
+    coverage, and a check that cannot tell a claim from a reading is a check that cannot fail.
+
+    NORMALISATION IS EXACT, NEVER APPROXIMATE. A `src/` prefix is stripped, a missing `.py` is
+    added, and a bare basename resolves to a subdirectory label ONLY when exactly one known
+    module has that basename. Two modules sharing a basename make the name ambiguous and it is
+    refused -- picking one would be the invented coverage this whole function exists to stop.
+    """
+    known = known_modules() if known is None else known
+    raw = str(name or "").strip().replace("\\", "/")
+    while raw.startswith("./"):
+        raw = raw[2:]
+    if not raw:
+        return None
+    if raw in known:
+        return raw
+    cand = raw[4:] if raw.startswith("src/") else raw
+    if cand in known:
+        return cand
+    if not cand.endswith(".py"):
+        cand += ".py"
+        if cand in known:
+            return cand
+    base = cand.rsplit("/", 1)[-1]
+    hits = sorted(k for k in known if k.rsplit("/", 1)[-1] == base)
+    if len(hits) == 1:
+        return hits[0]
+    return None
 
 
 _RECORD_LOCK = threading.Lock()
@@ -190,15 +370,49 @@ def record(run, covered, batch=None):
     VIEW for `--coverage` — nothing draws a conclusion from it that the shards do not support.
     (Race found by the sweep auditing this very file; topology bug found the run after, by the
     sweep auditing it again. 2026-08-25.)
+
+    AND EVERY NAME IS NORMALISED AND VALIDATED BEFORE IT COUNTS (order f307490add1e). See
+    `normalise_module` for the measurement. A name this module can resolve is stored in
+    `modules`, which is the field `covered_by()` -- and therefore `missing()`, and therefore the
+    whole completeness proof -- reads. A name that resolves to NO module is stored in `unknown`,
+    where nothing counts it as coverage, and is announced on stderr and to `silence`. It is kept
+    rather than dropped because the fact that a batch claimed it is itself the finding: the point
+    is not to tidy the record but to make a false claim VISIBLE, which is what `unknown_claims()`
+    and `--missing` now report.
+
+    IT DOES NOT RAISE, deliberately. `record()` is called by sixteen batch agents at the end of
+    work already done; taking one of them down over a misspelling would discard the valid part
+    of its claim as well, which is the opposite of what this is for. The unreadable-name half is
+    refused; the readable half still lands.
     """
-    covered = list(covered)
+    _known = known_modules()
+    _accepted, _unknown = [], []
+    for _name in list(covered):
+        _lbl = normalise_module(_name, _known)
+        if _lbl is None:
+            _unknown.append(str(_name))
+        elif _lbl not in _accepted:
+            _accepted.append(_lbl)
+    if _unknown:
+        print("sweep_plan: run=%s batch=%s recorded %d name(s) matching NO module in src/: %s. "
+              "They are NOT counted as coverage and are kept under `unknown` in the shard. A "
+              "coverage claim that names nothing is not a reading; check the spelling against "
+              "`python src/sweep_plan.py --batches 16` and re-record."
+              % (run, batch, len(_unknown), ", ".join(_unknown)), file=_sys.stderr)
+        try:
+            import silence
+            silence.note("sweep_plan.py:coverage-name-unknown")
+        except Exception:
+            pass
+    covered = _accepted
     now = time.time()
     try:
         os.makedirs(SHARDS, exist_ok=True)
         p = _shard_path(run, batch if batch is not None else "x")
         tmp = "%s.tmp" % p
         with open(tmp, "w", encoding="utf-8") as f:
-            json.dump({"run": run, "batch": batch, "at": now, "modules": covered}, f, indent=1)
+            json.dump({"run": run, "batch": batch, "at": now, "modules": covered,
+                       "unknown": _unknown}, f, indent=1)
         # replace_retry, not a bare os.replace -- the other two landings in this file already go
         # through it. `_read_shards()` in a sibling process globs and opens this very directory
         # on its own clock, and on Windows the rename is DENIED while any reader holds the
@@ -409,6 +623,71 @@ def covered_by(run):
     return out
 
 
+def unknown_claims(run=None):
+    """Coverage names a sweep recorded that match NO module in src/. -> [(run, batch, name)].
+
+    THE FALSIFIER (order f307490add1e). `missing()` answers "which modules went unread", and it
+    could never answer "did a batch claim something that is not a module": an unresolvable name
+    was stored beside the real ones and matched nothing for ever, so a batch that read nothing
+    and recorded a plausible-looking name was indistinguishable from one that read everything.
+    `record()` now refuses such a name as coverage and keeps it under `unknown`; this is where
+    that gets read. Reported alongside `--missing`, because the two together are the whole
+    proof -- what was not read, and what was claimed but is not a thing.
+
+    `run=None` asks the question of every shard on disk. NO CAP: every claim is returned.
+    """
+    want = None if run is None else str(run)
+    out = []
+    try:
+        paths = sorted(glob.glob(os.path.join(SHARDS, "*.json")))
+    except Exception:
+        try:
+            import silence
+            silence.note("sweep_plan.py:unknown-claims-glob-failed")
+        except Exception:
+            pass
+        paths = []
+    for p in paths:
+        try:
+            with open(p, encoding="utf-8") as f:
+                rec = json.load(f)
+        except Exception:
+            try:
+                import silence
+                silence.note("sweep_plan.py:shard-unreadable")
+            except Exception:
+                pass
+            continue
+        if want is not None and str(rec.get("run")) != want:
+            continue
+        for name in (rec.get("unknown") or []):
+            out.append((str(rec.get("run")), str(rec.get("batch")), str(name)))
+    # AND THE SHARDS WRITTEN BEFORE THIS EXISTED ARE STILL ASKED. They carry no `unknown` key,
+    # so an unresolvable name recorded then is sitting in `modules` where nothing has ever
+    # looked at it. Re-checking against the live module set is the only way that history
+    # becomes visible; it costs one pass over names already read.
+    known = known_modules()
+    for p in paths:
+        try:
+            with open(p, encoding="utf-8") as f:
+                rec = json.load(f)
+        except Exception:
+            # NOT SILENT. This loop re-checks recorded coverage shards, and an unreadable shard
+            # is the one case where "nothing to report" and "could not look" are the same shape
+            # -- which is precisely the defect this whole module was hardened against, since a
+            # shard nobody could read would quietly shrink the set of claims being falsified.
+            silence.note("sweep_plan.py:shard-unreadable")
+            continue
+        if want is not None and str(rec.get("run")) != want:
+            continue
+        if "unknown" in rec:
+            continue
+        for name in (rec.get("modules") or []):
+            if str(name) not in known:
+                out.append((str(rec.get("run")), str(rec.get("batch")), str(name)))
+    return sorted(set(out))
+
+
 # `latest_run()` (the run label of the most recently written shard) was REMOVED here (order
 # 03da766af24d). It was written as the fix for "the completeness check must not name a run in
 # a literal" but was superseded before it gained a caller: `latest_run` has no notion of a run
@@ -452,7 +731,7 @@ def _assignment(obj):
     return out
 
 
-def check_briefs(assigned, n=16):
+def check_briefs(assigned, n=16, run=None):
     """Diff what was DISPATCHED against `batches(n)`. -> a report dict; empty faults means clean.
 
     THE COORDINATOR'S OWN BRIEFS LOST TWO MODULES AND ONLY `missing()` NOTICED (order
@@ -474,7 +753,23 @@ def check_briefs(assigned, n=16):
         "added": {batch: [...]}, "undispatched": [batch, ...], "uncovered": [...], "clean": bool}
     NO CAPS on any list here: this is read to act on, and a truncated one is the fault it hunts.
     """
-    plan = {str(b["batch"]): list(b["modules"]) for b in batches(n)}
+    # AGAINST THE PLAN THE RUN WAS DISPATCHED FROM, WHEN THERE IS ONE (order 4d44a6363245).
+    # This recomputed `batches(n)` at CHECK time, so running it after any src/ edit reported
+    # `dropped` and `added` against a coordinator whose dispatch was exactly right when it was
+    # made -- a net that fires on a correct dispatch, which is as corrosive to an audit as a
+    # missed fault. The docstring above promises the comparison is "available BEFORE dispatch";
+    # nothing made it mean the same thing afterwards. A frozen plan does, and it is the same
+    # object the agents were dispatched from rather than a second computation of it.
+    frozen = frozen_plan(run) if run else None
+    if frozen is not None:
+        plan = {str(b["batch"]): list(b["modules"]) for b in (frozen.get("batches") or [])}
+        plan_source = "frozen plan for run=%s (%s)" % (run, plan_path(run))
+        tree_moved = _table_digest(modules()) != frozen.get("src_table_digest")
+    else:
+        plan = {str(b["batch"]): list(b["modules"]) for b in batches(n)}
+        plan_source = ("recomputed from the LIVE tree -- no frozen plan"
+                       + (" for run=%s" % run if run else "; pass --run to freeze one"))
+        tree_moved = None
     got = _assignment(assigned)
     dropped, added = {}, {}
     for bid, mods in plan.items():
@@ -492,6 +787,11 @@ def check_briefs(assigned, n=16):
     return {
         "planned_batches": len(plan),
         "dispatched_batches": len(got),
+        # SAY WHICH PLAN THIS WAS JUDGED AGAINST. A verdict that does not name its yardstick is
+        # unreadable after the fact, and "the tree moved under a recomputed plan" is the one
+        # explanation a reader must not have to guess at.
+        "plan_source": plan_source,
+        "tree_changed_since_freeze": tree_moved,
         "dropped": dropped,
         "added": added,
         "undispatched": sorted(b for b in plan if b not in got),
@@ -510,23 +810,71 @@ def main():
     ap.add_argument("--check-briefs", metavar="FILE",
                     help="diff the dispatched module lists in FILE against --batches N, "
                          "BEFORE dispatch (see check_briefs)")
+    ap.add_argument("--run", metavar="RUNID",
+                    help="freeze this run's plan (or reuse the one already frozen) so a batch "
+                         "number names the same modules all run long -- see freeze_plan")
+    ap.add_argument("--out", metavar="PATH",
+                    help="land the plan at PATH atomically instead of printing it to stdout. "
+                         "Use this rather than a shell redirect; see the note in main()")
     a = ap.parse_args()
     if a.batches:
-        plan = batches(a.batches)
-        print(json.dumps(plan, indent=1))
+        # STDOUT CARRIES THE JSON AND NOTHING ELSE (order 2d6c9343cd32). These two summary
+        # lines were printed to stdout directly after `json.dumps(plan)`, so the documented
+        # way of keeping a plan -- redirecting this command into a file -- produced ONE JSON
+        # DOCUMENT FOLLOWED BY COMMENT TEXT, which is not valid JSON. That is exactly the
+        # "Extra data: line 231 column 1 (char 3476)" that allsweep's estate pass graded as a
+        # corrupt artifact in state/sweep44_plan.json, and the order has been refiled twelve
+        # times. The trap is here, in the printer, not in the operator who used a redirect.
+        #
+        # Nothing parses these lines: `--batches` has no programmatic consumer anywhere in
+        # src/ (grep finds only this module's own docstring, MAINTENANCE.md and HANDOFF.md
+        # describing the command for a human), so moving them to stderr breaks no reader. The
+        # JSON stays on stdout because that is what a redirect is FOR and what every existing
+        # instruction pipes; moving the JSON instead would break every one of them.
+        plan_rec = freeze_plan(a.run, a.batches) if a.run else None
+        plan = plan_rec["batches"] if plan_rec else batches(a.batches)
+        if a.out:
+            # THE REDIRECT MADE UNNECESSARY. Lands through the same helper every state file in
+            # this project lands through -- pid/thread-stamped temp, then replace_retry -- so a
+            # reader arriving mid-write never sees a half-file, and a refused landing is said
+            # out loud instead of leaving a truncated plan behind.
+            import silence
+            if silence.write_json(a.out, plan, indent=1):
+                print("plan for %d batch(es) landed at %s" % (len(plan), a.out),
+                      file=_sys.stderr)
+            else:
+                print("sweep_plan: the plan did NOT land at %s (replace refused). NOTHING was "
+                      "written there; do not dispatch from that path." % a.out,
+                      file=_sys.stderr)
+                return 2
+        else:
+            print(json.dumps(plan, indent=1))
         print("# %d modules, %d lines, %d batches"
               % (sum(len(b["modules"]) for b in plan),
-                 sum(b["lines"] for b in plan), len(plan)))
+                 sum(b["lines"] for b in plan), len(plan)), file=_sys.stderr)
+        if plan_rec is not None:
+            print("# plan for run=%s is %s at %s"
+                  % (a.run, "FROZEN" if plan_rec.get("frozen") else "NOT FROZEN (write refused)",
+                     plan_path(a.run)), file=_sys.stderr)
+        else:
+            print("# NOT frozen: this plan is packed from the live line counts and will "
+                  "reshuffle as src/ changes. Pass --run RUNID to freeze it for the sweep.",
+                  file=_sys.stderr)
         unreadable = sorted(m for b in plan for m in b.get("unreadable", []))
         if unreadable:
             # Self-announcing, on a console listing only (Hard Rule 0 concerns a listing that
             # loses evidence silently; this states its own count and every name, nothing is cut).
-            print("# %d module(s) UNREADABLE: %s" % (len(unreadable), ", ".join(unreadable)))
+            print("# %d module(s) UNREADABLE: %s" % (len(unreadable), ", ".join(unreadable)),
+                  file=_sys.stderr)
     elif a.check_briefs:
         with open(a.check_briefs, encoding="utf-8") as f:
-            rep = check_briefs(json.load(f), a.batches or 16)
-        print("planned %d batch(es), dispatched %d"
-              % (rep["planned_batches"], rep["dispatched_batches"]))
+            rep = check_briefs(json.load(f), a.batches or 16, run=a.run)
+        print("planned %d batch(es), dispatched %d -- judged against the %s"
+              % (rep["planned_batches"], rep["dispatched_batches"], rep["plan_source"]))
+        if rep["tree_changed_since_freeze"]:
+            print("note: src/ has changed since this plan was frozen. That does NOT invalidate "
+                  "the diff below -- the frozen plan is what the agents were dispatched from -- "
+                  "but a module added since is caught by `uncovered`, which reads the live tree.")
         for bid, mods in sorted(rep["dropped"].items()):
             print("DROPPED   batch %s is missing: %s" % (bid, ", ".join(mods)))
         for bid, mods in sorted(rep["added"].items()):
@@ -542,6 +890,16 @@ def main():
     elif a.missing:
         miss = missing(a.missing)
         print("\n".join(miss) if miss else "nothing missing -- the sweep was complete")
+        # THE OTHER HALF OF THE PROOF (order f307490add1e). "nothing missing" is only evidence
+        # of a complete sweep if every name that produced it was a real module. A claim that
+        # resolves to nothing is not coverage, and printing it HERE is what makes a false claim
+        # detectable instead of merely uncounted. Uncapped: every claim, every batch.
+        bogus = unknown_claims(a.missing)
+        if bogus:
+            print("BUT %d recorded coverage name(s) match NO module in src/, so they prove "
+                  "nothing and were not counted:" % len(bogus))
+            for r, b, name in bogus:
+                print("  run=%s batch=%s recorded %r" % (r, b, name))
     elif a.coverage:
         try:
             with open(COVERAGE, encoding="utf-8") as f:

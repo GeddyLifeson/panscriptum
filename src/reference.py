@@ -212,7 +212,7 @@ REFERENCE = {
 }
 
 
-def compute(name, rec):
+def compute(rec):
     scores = {ax: v[0] for ax, v in rec["axes"].items()}
     sheet = {ax: f"{v[1]}  <{v[2]}>  [{v[3]}]" for ax, v in rec["axes"].items()}
     return A.assay(rec["anchor"], scores, attestation=rec["attestation"],
@@ -260,7 +260,7 @@ def shelfmark(rec):
     return "Ω › " + " › ".join(marks)
 
 
-def citation(name, rec, res):
+def citation(rec, res):
     """The charter's canonical formal-citation block (Part Three, The Two Registers).
 
     Part Three's obligations here are absolute, the way units and error bars are absolute in
@@ -296,11 +296,11 @@ def _vernacular(res):
     return f"a {third} {word}{edge}{tail}"
 
 
-def card(name, rec, res):
+def card(rec, res):
     band, val, ci = rec["charter"]
     delta = abs(res["decimal"] + A.LADDER.index(res["magnitude"]) - val)
     inside = delta <= ci
-    L = ["=" * 92, citation(name, rec, res), "=" * 92,
+    L = ["=" * 92, citation(rec, res), "=" * 92,
          f"  Anchor  {rec['anchor']} — presence: {rec['presence']}", "",
          f"  {'MEASURE':<15}{'SCORE':>6}{'w':>8}{'w.s':>8}   WORKSHEET LINE",
          "  " + "-" * 88]
@@ -334,7 +334,7 @@ def main():
     # d049dbbfed6e).
     out, inside, outside = {}, 0, []
     for name, rec in REFERENCE.items():
-        res = compute(name, rec)
+        res = compute(rec)
         out[name] = {"reference": res, "charter": rec["charter"], "epoch": rec["epoch"],
                      "anchor": rec["anchor"], "spine": rec["spine"],
                      "shelfmark": shelfmark(rec),
@@ -346,7 +346,7 @@ def main():
             inside += 1
         else:
             outside.append((name, delta, rec["charter"][2]))
-        print(card(name, rec, res))
+        print(card(rec, res))
         print()
 
     # ATOMIC: standards.py and zfighters.py both read REFERENCE_ASSAYS.json. 2026-08-25.
@@ -359,7 +359,8 @@ def main():
     # and this dropped it, so a denied replace still printed "-> OUT" under a file that had not
     # changed. Reported, and the exit status carries it, because the one thing that must not
     # happen is a benchmark refresh that reports success and did not occur.
-    import silence
+    # (`silence` is imported at module level and used at :245; the re-import that stood here was
+    # a no-op pyflakes does not flag, since a second import is legal -- order 595673139291.)
     landed = silence.write_json(OUT, out, indent=1, ensure_ascii=False)
     if landed:
         print(f"{inside}/{len(REFERENCE)} reconstructions land inside the charter's published "

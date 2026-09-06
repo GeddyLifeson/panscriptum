@@ -601,6 +601,46 @@ def _check_constants():
             "an attestation sigma (%.4f) exceeds SIGMA_MAX (%.4f); `_interval` clamps it, so the "
             "table in the source is not the table in the arithmetic." % (max(vals), SIGMA_MAX))
 
+    # BAND_EDGES NOW GETS THE SAME TREATMENT, and for the same reason (orders d9c8aab72a2c,
+    # 6d132aa1e8aa, 95404f8825f2 -- three independent signals saying this file's constant tables
+    # are load-bearing for every published plus-or-minus and are guarded unevenly).
+    # `axis_score` scales a quantity into `(log(hi) - log(lo))`, so a rung whose ceiling is not
+    # above its floor is a ZeroDivisionError when they are equal and a SILENTLY INVERTED score
+    # when they cross. axis_score already refuses that -- and the mutation survivor at L228 is
+    # what exposed the problem: the refusal has never once been WATCHED refuse, because the
+    # table happens to be well-ordered, so a mutant that deleted the refusal outright changed
+    # nothing anybody was looking at. This turns a property the table currently HAS into a
+    # property it must KEEP. Measured green when written: 11 rungs x 5 axes, complete,
+    # symmetric between every adjacent pair, and strictly increasing on every axis.
+    _off_ladder = sorted(b for b in BAND_EDGES if b not in LADDER)
+    if _off_ladder:
+        raise AssayIntegrityError(
+            "BAND_EDGES names rungs that are not on the Ladder: %s. `axis_score` reaches an edge "
+            "row only through LADDER, so an off-Ladder rung is never scored against and its "
+            "numbers are decoration." % (_off_ladder,))
+    _no_edges = [b for b in LADDER if b not in BAND_EDGES]
+    if _no_edges:
+        raise AssayIntegrityError(
+            "the Ladder carries rungs BAND_EDGES has no edges for: %s. Every `axis_score` "
+            "against such a rung refuses, so those rungs cannot be scored at all." % (_no_edges,))
+    for _i in range(len(LADDER) - 1):
+        _lower, _upper = LADDER[_i], LADDER[_i + 1]
+        _l_axes, _u_axes = set(BAND_EDGES[_lower]), set(BAND_EDGES[_upper])
+        if _l_axes != _u_axes:
+            raise AssayIntegrityError(
+                "BAND_EDGES is HALF-EXTENDED between %s and %s: the axes %s sit on one rung and "
+                "not the other, so `axis_score` has no interval to scale them into and refuses "
+                "them silently." % (_lower, _upper, sorted(_l_axes ^ _u_axes)))
+        for _axis in sorted(_l_axes):
+            _lo, _hi = BAND_EDGES[_lower][_axis], BAND_EDGES[_upper][_axis]
+            if not _hi > _lo:
+                raise AssayIntegrityError(
+                    "BAND_EDGES is not strictly increasing on axis %r: the %s floor is %r and "
+                    "the %s floor above it is %r. `axis_score` divides by log(hi) - log(lo), "
+                    "which is zero when the two are equal and NEGATIVE -- a confidently "
+                    "inverted score -- when they cross."
+                    % (_axis, _lower, _lo, _upper, _hi))
+
 
 # The charter's own worked example, kept HERE beside the constants it calibrates rather than
 # only in the battery. Part Three's example predates Vol. X.6's three faculty axes, so they are

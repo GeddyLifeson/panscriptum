@@ -289,8 +289,27 @@ def report(rows, top=18):
     print(f"   {'axes':>4}{'qty':>5}{'chars':>10}   {'character':<30}{'source':<26}native")
     for r in best:
         nat = f"{r['native']['value']:,.0f} (#{r['native']['rank']})" if r["native"] else ""
+        # PAD, DO NOT CUT (Hard Rule 0; orders 4f66afc16fbd and 9e5c04e01d74, one fault filed
+        # twice). This row cut the character name at 29 and the source name at 25, both with no
+        # marker -- in the table a person reads to choose which characters to assay next, where
+        # the character name IS the row identity they act on. The long paragraph below removed
+        # the row caps from the two lists further down and states "the source name is no longer
+        # cut either"; that sentence was true of those lists and never of this row twelve lines
+        # above it, and the reprieve it grants this table is explicitly for its `[:top]` ROW
+        # limit -- an explicit --top request -- not for these per-VALUE cuts, which were never
+        # considered. That paragraph's own measurement notes one source name running to 82
+        # characters.
+        #
+        # PADDED RATHER THAN MARKED, and rather than reordered. Marking (the corpus_db._cell
+        # form) preserves alignment but still withholds the value, and the house rule is to keep
+        # it whole where that is possible -- here it is. Reordering so `native` leads, which the
+        # first order suggests, assumes native is short and fixed-width: it is a magnitude
+        # formatted with commas, this library's quantities reach M10, and there is no
+        # CHARACTER_SWEEP.json on disk today to bound it, so promoting it would have risked
+        # worse misalignment than the cut it replaced. Padding costs alignment only on the rows
+        # that overflow, and only visibly.
         print(f"   {r['axes']:>4}{r['quantities']:>5}{r['chars']:>10,}   "
-              f"{r['name'][:29]:<30}{r['source'][:25]:<26}{nat}")
+              f"{r['name']:<30}{r['source']:<26}{nat}")
 
     # HARD RULE 0 ON BOTH LISTS BELOW. These were `most_common(10)` and `most_common(8)`, ranked
     # and then cut with no "and N more" anywhere on the page. Measured against the live

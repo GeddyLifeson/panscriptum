@@ -527,7 +527,60 @@ def records():
             continue
         if r.get("entries"):
             out.append((p, r))
+            _remember_top_keys(p, r)
     return out
+
+
+# WHAT THE CALLER KNEW WHEN IT LOADED THE RECORD. (order a4b5ffc46f95)
+#
+# `_merge_top_keys` rules that any non-None key in the caller's `rec` was authored by this call
+# and belongs on disk. That rule is only sound if `rec` is built fresh per call, and for the
+# pipeline's own phases it is not: `phase_entrypass` calls `records()` ONCE (:1576) and reuses
+# the same `rec` object for every batch it writes -- roughly 1,500 separate `write_record` calls
+# for marvel.json, over however long the phase takes. Every one of them re-stamped the LOAD-TIME
+# value of `synthesis`, `purged_roster` and every other non-`entries` key onto disk, so anything
+# `write_record_catalogue` or `ingest_doc` refreshed for that source mid-phase was reverted by
+# the very next batch, silently -- the existing `kept` log only fires on the None branch, which
+# this path never takes. That is the project's signature defect (a stale value clobbering a
+# fresh one) reintroduced in write_record's twin by a different mechanism.
+#
+# The remedy the order asks for is a way to tell "the caller authored this key on THIS call"
+# from "the key is merely present because the whole record was loaded once". A per-call-site
+# allow-list would do it but would have to be threaded through five modules this writer does not
+# own. A watermark does it with no call-site change at all: remember, per record path, a
+# fingerprint of each non-`entries` key AS THE CALLER LAST SAW IT -- at `records()` load, and
+# again after each successful `write_record` -- and then a key whose in-memory value still
+# matches that watermark was NOT authored this call. If disk has moved on from it, disk wins.
+#
+# Fingerprints rather than copies, so holding this for 216 records costs a hash per key instead
+# of a deep copy of every synthesis block and purged roster. `_writer` is exempt because
+# `stamp_record` rewrites it on every single write, so it would otherwise report "another writer
+# refreshed this" on every batch after the first and drown the log that matters.
+_TOP_SNAPSHOT = {}
+_TOP_SNAPSHOT_EXEMPT = ("_writer",)
+
+
+def _fp_one(val):
+    import hashlib
+    try:
+        blob = json.dumps(val, sort_keys=True, ensure_ascii=False, default=str)
+    except Exception:
+        blob = repr(val)
+    return hashlib.sha1(blob.encode("utf-8", "replace")).hexdigest()
+
+
+def _top_fingerprint(rec):
+    """-> {non-entries top-level key: fingerprint}. Never truncated; every key is carried."""
+    return {k: _fp_one(v) for k, v in (rec.items() if isinstance(rec, dict) else ())
+            if k != "entries" and k not in _TOP_SNAPSHOT_EXEMPT}
+
+
+def _remember_top_keys(path, rec):
+    """Advance this path's watermark to what the caller now holds."""
+    try:
+        _TOP_SNAPSHOT[os.path.abspath(path)] = _top_fingerprint(rec)
+    except Exception:
+        silence.note("pipeline.py:top-snapshot")
 
 
 # THE PER-ENTRY MERGE ALLOWLIST, WRITTEN ONCE FOR BOTH WRITERS.
@@ -583,6 +636,76 @@ ENTRY_REJECTION_COMPANIONS = {"scale_note": "scale_note_rejected",
                               "topic": "topic_rejected",
                               "subroom": "subroom_rejected"}
 
+# THE FIELDS THE FRESH CAST ALWAYS FILLS IN, WHICH THE CATALOGUE-SIDE FOLD THEREFORE COULD NOT
+# PRESERVE (order 0a45c595655b).
+#
+# `write_record_catalogue`'s per-entry fold is `if dv and (not sv or sv == "unassayed")`: the
+# disk value wins only when the fresh cast left the field EMPTY. For `magnitude`, `topic` and
+# `subroom` that is exactly right, because no cast-builder in the tree writes those keys, so
+# `sv` is always None there and the pipeline's judgment always propagates. For `category` and
+# `description` it is inert, because every cast-builder sets BOTH on every entry it emits and
+# never leaves either empty (`catalogue_web.py:244-246` and `:456-458`, and the same shape in
+# `catalogue_aurora`, `catalogue_codex`, `ingest_doc` and `backfill`). So `sv` was always truthy
+# for those two, the `not sv` branch never fired, and the fresh cast's uncorrected guess beat
+# the disk's corrected value every single time this writer ran against an already-processed
+# source -- which is not hypothetical: this file's own docstring records marvel.json going from
+# 1,051 entries to 30,207 in one such pass, and `ingest_doc`'s stated purpose is appending to
+# EXISTING records through this writer.
+#
+# What was being reverted: `phase_entrypass`'s category corrections (its ENTRY_SYSTEM exists to
+# fix "an ability filed as an object"), and `cleanup.clean_description`'s markup stripping --
+# ruby annotations, citation stubs and WP link markers back in the description text that
+# cleanup.py's docstring calls "the evidence every later volume quotes from".
+#
+# So these two fields get a gate that asks the question the truthy test cannot: HAS THE DISK
+# VALUE BEEN CURATED. Two different answers, because the two fields are curated by different
+# acts and each has its own honest signal:
+#
+#   category    -- the pipeline's judging loop leaves marks on the entry it ruled on
+#                  (`catalogued`, `excluded`, `topic`, `subroom`, and the rejection notes), and
+#                  no cast-builder writes any of them. An entry carrying one has been through
+#                  phase_entrypass, so its category is a JUDGMENT and the fresh cast's default
+#                  guess must not overwrite it.
+#   description -- there is no per-entry mark for "cleaned", but there does not need to be one:
+#                  if running `cleanup.clean_description` over the FRESH text yields exactly the
+#                  disk text, the disk copy IS the cleaned twin of what the cast just re-emitted
+#                  and keeping the raw form is a pure regression. A genuinely different
+#                  description -- a re-scrape that actually found more text -- does not satisfy
+#                  that and the fresh cast still wins, which keeps the writer's stated
+#                  asymmetry intact.
+#
+# Neither rule invents a policy about which side is better in general, and both are logged.
+CATALOGUE_CURATED_FIELDS = ("category", "description")
+
+# Keys a cast-builder never writes; their presence means a pipeline-side writer has ruled on
+# this entry. `scale_note` is deliberately NOT here -- catalogue_web sets it to "" on every
+# fresh entry, so it says nothing about curation.
+_PIPELINE_JUDGMENT_MARKS = ("catalogued", "excluded", "magnitude", "topic", "topic_rejected",
+                            "subroom", "subroom_rejected", "scale_note_rejected",
+                            "thin_description")
+
+
+def _entry_was_judged(de):
+    """Has a pipeline-side writer already ruled on this DISK entry?"""
+    return isinstance(de, dict) and any(k in de for k in _PIPELINE_JUDGMENT_MARKS)
+
+
+def _is_cleaned_twin(dv, sv):
+    """Is the disk description `dv` exactly what cleanup would make of the fresh one, `sv`?
+
+    Imported lazily: `cleanup` imports this module at its top, so a module-level import here
+    would be circular. If it cannot be imported the answer is simply no -- the fold falls back
+    to the fresh cast, which is the behaviour that stood before this rule existed.
+    """
+    if not (isinstance(dv, str) and isinstance(sv, str)) or dv == sv:
+        return False
+    try:
+        import cleanup
+        return cleanup.clean_description(sv) == dv
+    except Exception:
+        silence.note("pipeline.py:cleaned-twin-check")
+        return False
+
 
 def write_record_catalogue(path, rec):
     """The CATALOGUE's side of the two-writer contract; write_record below is the pipeline's.
@@ -626,6 +749,7 @@ def write_record_catalogue(path, rec):
         with open(path, encoding="utf-8") as f:
             disk = json.load(f)
         by = {e.get("name"): e for e in rec.get("entries") or [] if isinstance(e, dict)}
+        curated = collections.Counter()
         for de in disk.get("entries") or []:
             if not isinstance(de, dict):
                 continue
@@ -633,10 +757,27 @@ def write_record_catalogue(path, rec):
             if se is None:
                 rec.setdefault("entries", []).append(de)
                 continue
+            judged = _entry_was_judged(de)
             for fld in MERGED_ENTRY_FIELDS:
                 dv, sv = de.get(fld), se.get(fld)
-                if dv and (not sv or sv == "unassayed"):
+                if not dv:
+                    continue
+                if not sv or sv == "unassayed":
                     se[fld] = dv
+                    continue
+                # See CATALOGUE_CURATED_FIELDS: for the two fields the fresh cast always fills
+                # in, an empty fresh value is not the signal, curation is.
+                if fld not in CATALOGUE_CURATED_FIELDS or dv == sv:
+                    continue
+                if (fld == "category" and judged) or \
+                        (fld == "description" and _is_cleaned_twin(dv, sv)):
+                    se[fld] = dv
+                    curated[fld] += 1
+        if curated:
+            log(f"    write_record_catalogue: {os.path.basename(path)} keeping the disk copy's "
+                f"curated value over the fresh cast's for "
+                + ", ".join(f"{n} {f}" for f, n in sorted(curated.items()))
+                + " (order 0a45c595655b)")
         # THE NON-ENTRIES KEYS. See the docstring: absent or None from the caller is not an
         # instruction to erase what is on disk.
         kept = []
@@ -777,7 +918,7 @@ def land_json(path, obj, indent=1, default=None):
     return _landed(tmp, path)
 
 
-def _merge_top_keys(disk, rec, label):
+def _merge_top_keys(disk, rec, label, snapshot=None):
     """Fold `rec`'s non-`entries` top-level keys onto `disk`. -> [keys kept from disk].
 
     THE SAME RULING AS `write_record_catalogue`, APPLIED TO THE OTHER WRITER, which never got it.
@@ -806,18 +947,40 @@ def _merge_top_keys(disk, rec, label):
 
     The entry-list asymmetry is UNTOUCHED: `write_record` still keeps the DISK cast, because the
     pipeline's copy is the stale side, and that asymmetry is the whole reason it exists.
+
+    AND A PRESENT-BUT-STALE VALUE IS NOT AN AUTHORED ONE EITHER (order a4b5ffc46f95). `None`
+    was the only shape of "unauthored" this fold could see, and the rule behind it -- anything
+    else means the caller meant it -- assumes `rec` is built fresh per call. `phase_entrypass`
+    holds one `rec` across ~1,500 batch writes, so every batch after the first re-stamped a
+    LOAD-TIME `synthesis` / `purged_roster` over whatever the catalogue had refreshed in the
+    meantime, silently, because the `kept` log below only fires on the None branch. `snapshot`
+    (see `_TOP_SNAPSHOT`) is the fingerprint of each key as this caller last saw it; a key that
+    still matches its watermark was not authored on this call, so when disk has moved on from
+    it, DISK WINS and the divergence is logged rather than overwritten in silence. With no
+    watermark -- a caller that built `rec` some other way -- the None rule stands unchanged.
     """
-    kept = []
+    kept, stale = [], []
     for key, val in rec.items():
         if key == "entries":
             continue
         if val is None and disk.get(key) is not None:
             kept.append(key)          # unauthored by this caller; the disk value stands
             continue
+        if snapshot and key in snapshot and key not in _TOP_SNAPSHOT_EXEMPT:
+            fp = _fp_one(val)
+            if fp == snapshot[key] and key in disk and _fp_one(disk.get(key)) != fp:
+                stale.append(key)     # untouched since load; another writer refreshed disk
+                continue
         disk[key] = val
     if kept:
         log(f"    write_record: {label} keeping {len(kept)} disk-authored key(s) the caller "
             f"left unauthored: {', '.join(sorted(kept))}")
+    if stale:
+        log(f"    write_record: {label} keeping {len(stale)} disk key(s) another writer "
+            f"refreshed since this caller loaded the record; the caller has not touched "
+            f"{'it' if len(stale) == 1 else 'them'} since, so its copy is the stale side: "
+            f"{', '.join(sorted(stale))}")
+        silence.note("pipeline.py:write_record-stale-top-key")
     return kept
 
 
@@ -877,27 +1040,52 @@ def write_record(path, rec):
         # Introduced by the run-36 top-key repair, whose own red-check uses entries carrying no
         # judgment fields -- so the check could not see the fields it was dropping. Hoisted here
         # rather than duplicated into the `else`, so the two paths cannot drift apart again.
-        by_name = {e.get("name"): e for e in rec.get("entries") or []}
-        # ORDER b67dc1990af6: `by_name` is keyed on `name`, and `name` is demonstrably not a
-        # per-entry identity -- duplicate names are ordinary here ('2112 (Rush)' carries two
-        # entries called 'The Guitar'). Every disk entry sharing a duplicated name folds from
-        # whichever in-memory entry the dict comprehension above happened to keep last, so the
-        # OTHER duplicates' judgments are silently discarded even though this function still
-        # returns True. Giving every entry a stable identity that survives the merge is a data
-        # model decision for the owner (index? content hash? (name, type, description) triple?)
-        # and is not made here. What IS done, per the order's own "cheaper interim": count the
-        # collapses and say so, so a caller -- or a human reading the log -- can tell a write
-        # was partial instead of finding out by diffing the file.
-        name_counts = collections.Counter(
-            e.get("name") for e in rec.get("entries") or [] if isinstance(e, dict))
-        dup_names = {n for n, c in name_counts.items() if n and c > 1}
-        collapsed = 0
+        # ORDER b67dc1990af6: `name` IS NOT A PER-ENTRY IDENTITY, so the fold cannot be keyed on
+        # it alone. Duplicate names are ordinary here -- '2112 (Rush)' alone carries two entries
+        # called 'The Guitar' and two called 'Red Star of the Solar Federation'. This used to be
+        # `by_name = {e.get("name"): e for e in rec["entries"]}`, which collapses every duplicate
+        # to whichever entry the comprehension happened to keep LAST and then folds EVERY disk
+        # entry of that name from that one survivor. A per-entry judgment on any of the others
+        # could not be expressed and was discarded while this function still returned True.
+        # MEASURED, not theorised: a field-level restore of `topic` reverted 5,293 of 5,418
+        # target rows and the residual 125 would not stick across repeated passes -- 125 of 125
+        # of them duplicated-name, 0 unique.
+        #
+        # The identity used instead is ORDER WITHIN THE NAME GROUP: the k-th disk entry called N
+        # takes its judgments from the k-th in-memory entry called N. That is EXACT on the path
+        # this writer actually serves -- `phase_entrypass` fills bands and notes into
+        # `rec["entries"]` IN PLACE and never renames, reorders or reslices it, and the no-drift
+        # case is defined by `_entry_digest`, which is the ordered name sequence, so the two
+        # lists agree element for element -- and it is strictly better than the old rule
+        # everywhere else, because the old rule misattributed every duplicate but one. Giving
+        # entries a STORED identity that survives any reordering (an index field, a content
+        # hash, the (name, type, description) triple) is a data-model change and stays the
+        # owner's call; it is not made here.
+        #
+        # WHAT CANNOT BE PAIRED IS NOT GUESSED. If the two groups are different lengths, the
+        # surplus on either side has no counterpart: a surplus DISK entry is left exactly as it
+        # is rather than stamped with a judgment computed for a different entry, and a surplus
+        # IN-MEMORY judgment has nowhere to land. Both are counted and logged in full, because a
+        # partial write that answers True is the shape this order exists to end.
+        mem_groups = {}
+        for e in rec.get("entries") or []:
+            if isinstance(e, dict):
+                mem_groups.setdefault(e.get("name"), []).append(e)
+        seen = collections.Counter()
+        unpaired_disk = []
         for de in disk.get("entries") or []:
-            se = by_name.get(de.get("name"))
-            if not se:
+            if not isinstance(de, dict):
                 continue
-            if de.get("name") in dup_names:
-                collapsed += 1
+            nm = de.get("name")
+            group = mem_groups.get(nm)
+            if not group:
+                continue
+            k = seen[nm]
+            seen[nm] += 1
+            if k >= len(group):
+                unpaired_disk.append(nm)
+                continue
+            se = group[k]
             for fld in MERGED_ENTRY_FIELDS:
                 if fld in se:
                     de[fld] = se[fld]
@@ -907,17 +1095,27 @@ def write_record(path, rec):
             for fld, rej in ENTRY_REJECTION_COMPANIONS.items():
                 if fld in se and rej not in se:
                     de.pop(rej, None)
-        if collapsed:
-            log(f"    write_record: {os.path.basename(path)} {collapsed} disk entr"
-                f"{'y shares' if collapsed == 1 else 'ies share'} a duplicated name with "
-                f"{len(dup_names)} distinct name(s) in the in-memory cast -- only the LAST "
-                f"in-memory entry per name survived the merge, so the others' judgments were "
-                f"not written even though this call returns True. See order b67dc1990af6.")
-            silence.note("pipeline.py:write_record-duplicate-name-collapse")
+        # In-memory entries whose name IS on disk but which ran off the end of the disk group.
+        # (A name the disk does not carry at all is a different matter and an old one: this
+        # writer keeps the DISK cast by design, so an in-memory-only entry is not written and
+        # never was -- see the docstring's stated asymmetry.)
+        unpaired_mem = sorted(nm for nm, g in mem_groups.items()
+                              if seen.get(nm) and len(g) > seen[nm])
+        if unpaired_disk or unpaired_mem:
+            log(f"    write_record: {os.path.basename(path)} PARTIAL per-entry merge on "
+                f"duplicated names -- {len(unpaired_disk)} disk entr"
+                f"{'y' if len(unpaired_disk) == 1 else 'ies'} had no in-memory counterpart and "
+                f"{'was' if len(unpaired_disk) == 1 else 'were'} left untouched; "
+                f"{len(unpaired_mem)} name(s) carried more in-memory entries than disk holds, so "
+                f"those judgments were NOT written. Disk-side names: "
+                f"{', '.join(sorted(unpaired_disk)) or 'none'} | memory-side names: "
+                f"{', '.join(unpaired_mem) or 'none'}. See order b67dc1990af6.")
+            silence.note("pipeline.py:write_record-duplicate-name-unpaired")
         # NO DRIFT IS NOT NO CHANGE. Folding onto `disk` keeps every disk-authored top-level key
         # -- a `synthesis`, `purged_roster` or `ceiling_entity` another writer refreshed since
         # this record was loaded -- instead of writing the pipeline's hours-old copy whole.
-        _merge_top_keys(disk, rec, os.path.basename(path))
+        _merge_top_keys(disk, rec, os.path.basename(path),
+                        _TOP_SNAPSHOT.get(os.path.abspath(path)))
         merged = disk
         if drift:
             log(f"    write_record: {os.path.basename(path)} drifted on disk by {drift} "
@@ -949,7 +1147,14 @@ def write_record(path, rec):
     tmp = _tmp_for(path)
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(merged, f, indent=2, ensure_ascii=False)
-    return _landed(tmp, path)
+    landed = _landed(tmp, path)
+    if landed:
+        # The watermark advances to what THIS CALLER holds, not to what was written: the two
+        # differ exactly on the keys the fold just decided in disk's favour, and recording the
+        # written value there would make the caller's untouched copy look freshly authored on
+        # the next batch and clobber the very value we kept. (order a4b5ffc46f95)
+        _remember_top_keys(path, rec)
+    return landed
 
 
 # ------------------------------------------------- the two-writer contract, made checkable
@@ -1150,15 +1355,58 @@ def synthesis_blocks(rec):
     return (blocks, feats_for)
 
 
+def _budgeted(text, limit):
+    """Cut `text` to `limit` characters AND SAY SO. Never a silent truncation.
+
+    Hard Rule 0's objection to a cap is not that a bound exists, it is that an unmarked one
+    "returns a smaller universe wearing the same shape as the real one". A marked one cannot:
+    the reader (here, the model) is told a cut happened and how much was withheld.
+    """
+    s = (text or "").strip()
+    if len(s) <= limit:
+        return s
+    return s[:limit].rstrip() + f" [cut here; {len(s) - limit} more characters in the source]"
+
+
 def synthesis_prompt(src, sample, feats_for, ci, nchunks, total):
-    """The prompt for one nomination block. Same spelling for the main phase and the retry."""
+    """The prompt for one nomination block. Same spelling for the main phase and the retry.
+
+    THE FEAT LIST IS RANKED, AND WHAT DOES NOT FIT IS DECLARED (order 0e041fe97852). This was
+    `" | ".join(... for x in fl[:3])[:420]` -- each entity's mined feats cut to the first THREE
+    in FILE order, unranked, and the join cut again, with nothing anywhere saying a cut had
+    happened. That is Hard Rule 0's worked example exactly: an ordered listing sliced at its
+    head, which does not fail and quietly decides that a fourth feat does not exist -- and the
+    power ceiling it feeds is a published quantity.
+
+    A bound itself is not the defect: this is prompt construction, the model window is finite,
+    and the repository has a `context_budget` for that reason. What was wrong was that the bound
+    was neither RANKED nor DISCLOSED, which the project's own rule names as the difference
+    between ordering and truncating. So the feats are ordered richest-first (by flattened
+    length, the same evidence-density proxy `feat_blocks` already uses to decide which entities
+    lead), as many are carried as the budget holds, and the line ends by naming how many feats
+    of how many were withheld. Nothing is decided on the entity's behalf in silence, and whether
+    the budget should be larger -- or gone -- stays an owner question with the numbers visible.
+    """
     lines = []
     for e in sample:
-        fl = feats_for.get(e["name"]) or []
+        fl = [x for x in (feats_for.get(e["name"]) or []) if (x or "").strip()]
         if fl:
-            d = " | ".join(re.sub(r"\s+", " ", x)[:150] for x in fl[:3])[:420]
+            flat = sorted((re.sub(r"\s+", " ", x).strip() for x in fl),
+                          key=lambda s: (-len(s), s))
+            shown, used = [], 0
+            for s in flat:
+                piece = _budgeted(s, 150)
+                cost = len(piece) + (3 if shown else 0)
+                if shown and used + cost > 420:
+                    break
+                shown.append(piece)
+                used += cost
+            d = " | ".join(shown)
+            if len(shown) < len(flat):
+                d += (f" | [{len(flat) - len(shown)} of this entity's {len(flat)} mined feats "
+                      f"withheld for prompt budget, ranked richest-first]")
         else:
-            d = re.sub(r"\s+", " ", e.get("description", ""))[:300]
+            d = _budgeted(re.sub(r"\s+", " ", e.get("description", "")), 300)
         lines.append(f"- {e['name']} [{e.get('type','')}]: {d}")
     return (f"SOURCE: {src}\n\nCATALOGUED ENTRIES (nomination block {ci + 1} of "
             f"{nchunks}, {len(sample)} of {total} entries):\n"

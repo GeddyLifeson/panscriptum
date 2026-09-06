@@ -464,9 +464,29 @@ def bradley_terry(wins, iters=500, tol=1e-12, prior=0.0):
             f"components the ordering is the prior's assumption that an entity with no contests "
             f"is average, not a finding.")
         return out
+    # TWO REFUSALS, EVALUATED INDEPENDENTLY (order 0fa1ad406c7e).
+    #
+    # These were an `if`/`elif` chain, and the second arm could never run. `identified` is
+    # "the beat graph is ONE strongly connected component spanning every entrant". An
+    # `undefeated` entrant has in-degree 0 in that graph, so no other node can reach it; a
+    # `winless` one has out-degree 0, so it can reach nothing. Either condition breaks strong
+    # connectivity by definition for n > 1, and for n <= 1 both lists are vacuously empty. So
+    # `identified` mathematically IMPLIES both lists are empty, the first arm already refuses
+    # every case the second was written for, and the elif body was unreachable -- verified over
+    # 20,000 randomised tournaments, which produced no case of identified=True with a non-empty
+    # list. The safety property was never missing; what was wrong is that the code PRESENTED
+    # two independent checks where only one could ever fire, which is this project's own named
+    # defect shape -- a check that cannot fail looks exactly like a check that passed.
+    #
+    # NOT DELETED, because the intent is genuine and is stated in this function's own docstring:
+    # a disconnected graph and a diverging theta are two different faults and "both now REFUSE
+    # rather than report". Un-chaining it is what makes that true as written -- the second test
+    # is now asked of the data rather than of the first test's answer, so a future change to how
+    # `identified` is computed cannot silently take the unbounded-MLE guard down with it, and
+    # when both faults hold the reader is told both instead of only the first.
+    faults = []
     if not identified:
-        out["strengths"] = None
-        out["refusal"] = (
+        faults.append(
             # UNCUT (Hard Rule 0, sweep42-batch11). Two nested cuts: four of the components,
             # three members of each. This string IS the refusal -- it is what a reader gets
             # instead of a ranking -- so the components it names are the evidence for why no
@@ -475,12 +495,16 @@ def bradley_terry(wins, iters=500, tol=1e-12, prior=0.0):
             f"{[list(c) for c in comps]}. Ford (1957) — the MLE is identified only within a "
             f"component, and BETWEEN components the scale is arbitrary. A cross-component "
             f"ranking would be an artifact of the solver, not a finding about the entrants.")
-    elif undefeated or winless:
-        out["strengths"] = None
-        out["refusal"] = (
+    if undefeated or winless:
+        faults.append(
             f"unbounded MLE: undefeated={undefeated} winless={winless}. Their theta diverges, so "
             f"no finite maximiser exists. Any number reported here would be the iteration cap "
             f"wearing the costume of an estimate.")
+    if faults:
+        out["strengths"] = None
+        # Both, when both hold. A refusal that names one of two reasons is a refusal somebody
+        # can "fix" halfway and re-run into the same wall.
+        out["refusal"] = " AND ".join(faults)
     return out
 
 

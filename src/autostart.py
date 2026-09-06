@@ -190,10 +190,30 @@ def install():
 
 
 def uninstall():
-    if os.path.exists(VBS):
+    """Remove the Startup launcher. -> "removed", "nothing installed", or "REMOVE DENIED ...".
+
+    A THIRD STATE, BECAUSE THERE ARE THREE OUTCOMES. This returned a bare True/False and did the
+    remove unguarded, so the one case that is neither -- Windows refusing the delete because
+    something holds the file open -- came out as a traceback from `main()`, after the existence
+    check just above had established the file IS there. Every WRITE path in this module already
+    routes a denial into a named verdict rather than an exception (`install()` has four of them,
+    and `replace_retry` exists precisely so a denied replace is a return value), so a raw
+    OSError here was the one place the module broke its own house style, and it broke it in the
+    direction of a traceback for the operator instead of a sentence.
+
+    The distinction matters more here than the wording suggests: "nothing installed" and "could
+    not remove it" are opposite facts about whether the launcher will run at the next logon, and
+    the old False collapsed the second into the first.
+    """
+    if not os.path.exists(VBS):
+        return "nothing installed"
+    try:
         os.remove(VBS)
-        return True
-    return False
+    except OSError as e:
+        silence.note("autostart.py:vbs-remove")
+        return ("REMOVE DENIED (%s: %s) -- something is holding it open; the launcher is STILL "
+                "INSTALLED and will start a watchdog at the next logon" % (type(e).__name__, e))
+    return "removed"
 
 
 def supervisor_alive():
@@ -305,7 +325,12 @@ def _twin_watchdog():
         except Exception as e:
             why = type(e).__name__
             silence.note("autostart.py:twin-query")
-            time.sleep(TWIN_RETRY_SECONDS)
+            # NOT AFTER THE LAST TRY. The loop exits straight into the FAILED OPEN line below,
+            # so a sleep on the final attempt buys nothing and is paid at LOGON, before the
+            # watchdog that guards the whole kit has run its first cycle. With TWIN_TRIES=4 and
+            # TWIN_RETRY_SECONDS=5 a fully-failing probe cost 20s of which the last 5 were dead.
+            if attempt < TWIN_TRIES - 1:
+                time.sleep(TWIN_RETRY_SECONDS)
             continue
         for pid in pids:
             try:
@@ -440,8 +465,12 @@ def main():
     a = ap.parse_args()
 
     if a.uninstall:
-        print("removed" if uninstall() else "nothing installed")
-        return 0
+        # THE VERDICT REACHES THE EXIT CODE HERE TOO, matching `--install` below. A denied
+        # remove leaves the launcher installed, and a caller reading rc must not be told that
+        # as a clean uninstall.
+        why = uninstall()
+        print(why)
+        return 0 if why in ("removed", "nothing installed") else 1
     if a.install:
         path, why = install()
         print(f"{why}: {path}" if path else why)

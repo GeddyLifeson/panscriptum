@@ -202,13 +202,30 @@ def children_of(tier, coord, tree=None):
     # go unaddressed -- "which hyperverse" is a real question with a wrong-by-default answer.
     # Refusing rather than degrading to "everything": a caller that wants a specific node's
     # children must say which node.
-    if not any(t in coord for t in prefix):
+    # EVERY PREFIX KEY, NOT MERELY ONE OF THEM (order 3b422bc17939). The guard here read
+    # `not any(t in coord for t in prefix)` and so only refused the FULLY empty coordinate that
+    # order 3270e0172391 closed. One step in from that, a PARTIAL coordinate still walked
+    # through: ask for the children of a `metaverse` node with only `hyperverse` set, and the
+    # filter below skipped the `metaverse` comparison entirely -- `for t in prefix if t in
+    # coord` produces no test for a key that is absent -- so every metaverse under that
+    # hyperverse was pooled together and returned, labelled as the children of one node. That is
+    # the same wrong-by-default answer the earlier fix refused, silently, for an input that
+    # merely looks more specific than it is. A node is identified by its whole coordinate, so a
+    # coordinate missing any part of it does not name a node.
+    #
+    # Latent: no current caller passes a partial coord (`view()` hands over a whole one). Fixed
+    # while it is still latent, and the filter below no longer needs its `if t in coord` guard
+    # -- every prefix key is now guaranteed present, which is what makes the comparison total.
+    missing = [t for t in prefix if t not in coord]
+    if missing:
         raise ValueError(
-            f"children_of({tier!r}, {coord!r}): coord names none of {prefix}, so nothing "
-            "would be filtered and the whole pool would be returned as this node's children")
+            f"children_of({tier!r}, {coord!r}): coord does not name {missing}, so those "
+            f"dimensions would go unfiltered and children from every value of them would be "
+            f"pooled together and returned as this one node's children. A node is named by its "
+            f"whole coordinate: {prefix}")
     buckets = {}
     for name, c in pools.items():
-        if any(c.get(t) != coord.get(t) for t in prefix if t in coord):
+        if any(c.get(t) != coord.get(t) for t in prefix):
             continue
         if child_tier not in c:
             continue
@@ -295,7 +312,12 @@ def main():
     for t in TIER_ORDER:
         if t in FETCHED:
             v = view(t, map_seed=seed, galaxy=54167113046, star=42873198, rank=1)
-            rows.append((t, "url", v["url"][:64]))
+            # THE WHOLE URL (order a9160ee5a8bf). Cut at 64 characters with no marker, in the
+            # one place an operator can read the address that was built for a fetched tier --
+            # and nothing else prints it, so this report is in practice the only view of it. It
+            # is the LAST field on the printed line below (`{t:<14}{k:<8}{how}`), so there is no
+            # column after it to keep aligned and nothing was bought by the cut.
+            rows.append((t, "url", v["url"]))
             if args.probe:
                 probes[t] = _probe(v["url"])
         else:

@@ -109,8 +109,32 @@ ORDINAL_LADDERS = {
 
 # Stand statistics only ever appear inside a labelled parameter block, which is what makes them
 # findable at all: "Power: A", "Speed: B". The label is the context the bare letter lacks.
+#
+# THE SEPARATOR REPEATS (orders 77a92394a9a4, a86ab026c95f). This was `\s*[:=|]\s*`, exactly one
+# separator character, and the two shapes a wiki actually publishes these in are an infobox
+# parameter (`|power = A`, which that matched) and a TABLE ROW (`| Power || A` / `! Power !! A`,
+# which it did not: after the first `|` the following `\s*` cannot cross the second one). A
+# parser that misses the table form misses the page format the stat blocks are most often
+# tabulated in. `+` on the class costs nothing else -- the alternatives are still the six named
+# parameters and the five published grades, so a run of separators cannot manufacture a match.
 _STAND = re.compile(
-    r"\b(power|speed|range|durability|precision|potential)\s*[:=|]\s*([A-E])\b", re.I)
+    r"\b(power|speed|range|durability|precision|potential)\s*[:=|!]+\s*([A-E])\b", re.I)
+
+# The published order of a Stand's grade, weakest first, which is all a rank correlation needs.
+# The joke and special grades some Stands carry -- "Infinite", "None", "?" -- are deliberately
+# NOT mapped: they are not rungs on this ladder, and giving them one would rank a gag above A
+# in the ground truth the Assay is being checked against.
+_STAND_GRADE = {"e": 0, "d": 1, "c": 2, "b": 3, "a": 4}
+
+# How many of the six parameters must be present before a run of matches is read as a Stand's
+# stat block at all. A lone "Rank: B" in prose is a coincidence of vocabulary, the same hazard
+# the ORDINAL_LADDERS note above records for single-letter rungs; three of six is a block.
+STAND_MIN_PARAMS = 3
+
+# How far back from a parameter to look for the name the block belongs to. A JoJo stat block
+# sits directly under its Stand's heading or link, and 400 characters covers an infobox header
+# without reaching the previous entry on a densely-listed page.
+STAND_NAME_WINDOW = 400
 
 # Section headings and link targets that are not characters. Without this the DBZ table yields
 # "Frieza Saga -> 2000" and the One Piece table yields "Straw Hat Pirates#Bounties -> 903".
@@ -204,6 +228,55 @@ def ordinal_rows(wikitext, ladder):
     return out
 
 
+def stand_rows(wikitext):
+    """(name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
+
+    THE THIRD PARSER, AND IT WAS MISSING RATHER THAN BROKEN (orders 77a92394a9a4 MAJOR,
+    a86ab026c95f). `_STAND` has been compiled at the top of this module since it was written,
+    `SCALE_QUERIES` searches every wiki for "stand stats" and "stand parameters", and the module
+    docstring names Stand statistics as one of the charter's own worked examples of what Rosetta
+    does -- and nothing ever called the pattern. Grep found the definition and one mention of it
+    in a comment, no caller anywhere in src/, so the scale was fetched, its pages were fetched,
+    and then every one of them fell out of `scales_for` at the `continue` below the ordinal
+    attempt. A capability that reports itself present and is not.
+
+    IT IS A THIRD FAMILY, NOT AN ORDINAL LADDER, and that is why `ORDINAL_LADDERS` has no Stand
+    entry to add one to. The note above that table already rules on it: an early version listed
+    the grades as `["e","d","c","b","a"]`, the bare letters matched somewhere on every page of
+    every wiki, and all 49 entities on an unrelated One-Punch Man page were graded at the top of
+    the ladder. A rung that is one character cannot be found by matching. What makes these
+    findable is the LABEL beside them -- "Power: A" -- so they are read from the parameter block,
+    which is what `_STAND`'s own comment says was intended and what this function finally does.
+
+    THE VALUE IS THE MEAN OF THE PARAMETERS PRESENT, not of six. A Stand published with four
+    graded parameters and two unknowns has four gradings, and scoring the absent two as zero
+    would rank it below a genuinely weak Stand that published all six. Rank correlation is the
+    only use, so the units do not matter, but the ORDER does.
+
+    NAMES ARE TAKEN FROM THE NEAREST PRECEDING LINK, not from every link in the window the way
+    `ordinal_rows` does. A ladder tier is a phrase that a list of characters is written around;
+    a stat block belongs to exactly one Stand, and attributing it to every name above it would
+    grade a whole section at whatever the last block said.
+    """
+    blocks = {}
+    for m in _STAND.finditer(wikitext):
+        grade = _STAND_GRADE.get(m.group(2).lower())
+        if grade is None:
+            continue
+        seg = wikitext[max(0, m.start() - STAND_NAME_WINDOW):m.start()]
+        owner = None
+        for cand in reversed(re.findall(r"\[\[([^\]|#]{3,40})(?:\|[^\]]*)?\]\]", seg)):
+            cand = cand.strip()
+            if not _NOT_A_NAME.search(cand):
+                owner = cand
+                break
+        if owner is None:
+            continue
+        blocks.setdefault(owner, {})[m.group(1).lower()] = grade
+    return {n: round(sum(p.values()) / float(len(p)), 3)
+            for n, p in blocks.items() if len(p) >= STAND_MIN_PARAMS}
+
+
 def scales_for(host, verbose=False, errors=None):
     """Every native scale this wiki publishes, as {scale_name: {entity: value}}.
 
@@ -259,7 +332,18 @@ def scales_for(host, verbose=False, errors=None):
             if len(best) >= 8:
                 rows, kind = best, f"ordinal:{blab}"
             else:
-                continue
+                # THE THIRD FAMILY, TRIED LAST (orders 77a92394a9a4, a86ab026c95f). Stand
+                # statistics are neither magnitudes nor a word-ladder, so they reached this
+                # `continue` and every "stand stats" page this module went and fetched was
+                # dropped unparsed. Tried after the other two because it is the narrowest of
+                # the three -- it only fires on a page carrying labelled parameter blocks --
+                # and the same eight-row floor applies, for the same reason: below that a
+                # scale cannot rank anything.
+                stands = stand_rows(wt)
+                if len(stands) >= 8:
+                    rows, kind = stands, "stand"
+                else:
+                    continue
         found[title] = {"kind": kind, "n": len(rows), "values": rows}
         if verbose:
             print(f"      {kind:<18}{len(rows):>4} rows   {title}")

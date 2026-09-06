@@ -39,6 +39,7 @@ import collections
 import glob
 import json
 import os
+import re
 import sys
 import threading
 import time
@@ -66,20 +67,62 @@ LEDGER = collections.Counter()
 _LOCK = threading.Lock()
 LEDGER_PATH = os.path.join(HERE, "state", "failures.json")
 
+# A REHEARSAL IS KEPT, NOT COUNTED AS A FAULT (order 5bbbb65e7787).
+#
+# drill.py's park and rung-4 nets drive the REAL `escalation.escalate()` /
+# `stop_subsystem()` / `resume_subsystem()` against synthetic subjects -- `__drill__`,
+# `__drill_rung4__`, `__drill_rung4b__`, `__drill_litter_probe__` -- and `escalation.py`
+# unconditionally calls `record()` for every escalation. So every battery run added a row to
+# `state/failures.json`, the ledger a person reads to find real faults, with no ceiling and no
+# way to tell a rehearsed MANAGER-rung subsystem stop from a real one except by recognising the
+# name by eye. Measured 2026-09-01: seven of the ledger's keys were drill rehearsal.
+#
+# NOT DROPPED, ROUTED. A self-test that stops being recorded anywhere is a self-test nobody can
+# audit, and this module's whole subject is failures converted into plausible negative results.
+# The counts land in a ledger of their own, and `main(--failures)` prints them under their own
+# heading rather than hiding them.
+#
+# THE PATTERN IS THE ONE workorders.py ALREADY PROVED OUT (`SELFTEST_SUBJECT`, workorders.py:81)
+# and it reads a convention drill.py already keeps. It is `search`, not `match`: what arrives
+# here is a composed key like `escalation:MANAGER:SUBSYSTEM_STOPPED:__drill_rung4__ stopped:
+# ...`, with the synthetic subject embedded rather than standing alone.
+#
+# WHAT THIS HALF CANNOT SEE, said out loud. One live row carries the synthetic subject only in
+# the escalation's `source` field, never in the text this function is handed:
+# `escalation:SUPERVISOR:DRILL_AREA:drill: one area closing` (source `__drill__`). No amount of
+# reading the key catches that one -- the caller has to say. `subject=` below is that door, and
+# it is the half proposed to `escalation.py:248`.
+SELFTEST_LEDGER_PATH = os.path.join(HERE, "state", "failures_selftest.json")
+_SELFTEST = collections.Counter()
+SELFTEST_SUBJECT = re.compile(r"__drill[A-Za-z0-9_]*__")
+
+
+def is_selftest(key, subject=None):
+    """Is this record a detector rehearsing itself, rather than a fault? -> bool."""
+    return bool(SELFTEST_SUBJECT.search(str(key or ""))
+                or SELFTEST_SUBJECT.search(str(subject or "")))
+
 
 SAMPLES_PATH = os.path.join(HERE, "state", "failure_samples.json")
 _SAMPLES = {}
 SAMPLES_KEEP = 3
 
 
-def record(kind, detail="", sample=None):
+def record(kind, detail="", sample=None, subject=None):
     """Note a failure by CLASS. The class is what makes a pattern visible; the instance does
     not -- but a class with NO instance on file costs a grep and a reproduction every time it
     is diagnosed, so the last few concrete examples ride along in a small ring beside the
-    counts. Counts are the ledger; samples are the evidence bag."""
+    counts. Counts are the ledger; samples are the evidence bag.
+
+    `subject` is optional and is READ ONLY to tell a rehearsal apart from a fault -- see
+    `is_selftest` above. A caller that knows WHO the record is about (escalation.py knows: it
+    is holding the escalation's `source`) can say so, and a record about one of drill.py's
+    reserved synthetic subjects is then kept in the self-test ledger instead of the one a
+    person reads to find real faults.
+    """
     with _LOCK:
         key = f"{kind}:{detail}" if detail else kind
-        LEDGER[key] += 1
+        (_SELFTEST if is_selftest(key, subject) else LEDGER)[key] += 1
         if sample:
             ring = _SAMPLES.setdefault(key, [])
             # FULL repr, NOT A PRODUCER-SIDE CUT (order 7d85937fc436). This ring is "the evidence
@@ -139,15 +182,19 @@ def flush():
 
 def _flush():
     with _LOCK:
-        if not LEDGER and not _SAMPLES:
+        if not LEDGER and not _SELFTEST and not _SAMPLES:
             return
         # `_SAMPLES` alone is enough to justify a flush: a previous round can land the ledger and
         # then fail on the samples file, which under the old `if not LEDGER: return` guard left
-        # the evidence bag stranded in memory until the process exited.
+        # the evidence bag stranded in memory until the process exited. `_SELFTEST` is here for
+        # the same reason -- a run whose only records were rehearsals still has counts to land.
         taken = dict(LEDGER)
+        taken_self = dict(_SELFTEST)
         taken_s = {k: list(ring) for k, ring in _SAMPLES.items()}
     if taken:
         _flush_ledger(taken)
+    if taken_self:
+        _flush_ledger(taken_self, path=SELFTEST_LEDGER_PATH, ledger=_SELFTEST)
     if taken_s:
         _flush_samples(taken_s)
 
@@ -194,8 +241,15 @@ def _cas_land(path, obj, expected_digest, **dump_kw):
     return ok, why
 
 
-def _flush_ledger(taken):
+def _flush_ledger(taken, path=None, ledger=None):
     """Merge `taken` into state/failures.json under COMPARE-AND-SWAP, then settle LEDGER.
+
+    `path` and `ledger` are parameters only so the SELF-TEST ledger (order 5bbbb65e7787) gets
+    exactly the same treatment as the real one -- the same compare-and-swap, the same
+    preserve-the-wreck branch, the same never-settle-on-a-refusal rule. A second ledger written
+    by a second, simpler routine would be a second chance to reintroduce the lost update this
+    function's whole body exists to refuse. Defaults are the live ledger, so every existing
+    caller is unchanged.
 
     THIS WAS A LOST UPDATE, IN THE RECORDER (order d770b1896635). The read at the top and the
     write at the bottom were an unguarded read-modify-write over the highest-traffic shared file
@@ -214,17 +268,19 @@ def _flush_ledger(taken):
     `workorders._mutate` is the pattern this copies; `runguard._land_claim` is the same shape on
     the guard file.
     """
-    os.makedirs(os.path.dirname(LEDGER_PATH), exist_ok=True)
+    path = LEDGER_PATH if path is None else path
+    ledger = LEDGER if ledger is None else ledger
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     last_why = "not attempted"
     for _attempt in range(FLUSH_CAS_ATTEMPTS):
         # THE DIGEST IS TAKEN BEFORE THE READ, never after the merge: it has to describe the
         # copy this round's arithmetic was done against, so that anything landing afterwards
         # refuses this write instead of disappearing under it.
-        digest = silence.digest_of(LEDGER_PATH)
+        digest = silence.digest_of(path)
         prev = {}
-        if os.path.exists(LEDGER_PATH):
+        if os.path.exists(path):
             try:
-                with open(LEDGER_PATH, encoding="utf-8") as f:
+                with open(path, encoding="utf-8") as f:
                     prev = json.load(f)
             except Exception as e:
                 # An unreadable ledger must not be quietly replaced by an empty one -- that would
@@ -243,27 +299,28 @@ def _flush_ledger(taken):
                 # aside, this flush writes NOTHING: overwriting an unreadable ledger we could not
                 # first preserve would destroy the only copy of whatever tore it. LEDGER is left
                 # intact so the counts are still in memory for the next flush attempt.
-                if not silence.replace_retry(LEDGER_PATH, LEDGER_PATH + ".corrupt"):
+                _wreck = os.path.basename(path) + ".corrupt"
+                if not silence.replace_retry(path, path + ".corrupt"):
                     print(f"health: ledger unreadable ({type(e).__name__}) AND could not be set "
-                          f"aside as failures.json.corrupt (rename refused) -- refusing to write "
+                          f"aside as {_wreck} (rename refused) -- refusing to write "
                           f"over it; counts kept in memory for the next flush", file=sys.stderr)
                     return
                 prev = {"ledger:unreadable": 1}
                 # THE DIGEST IS RE-TAKEN, because the wreck has just been renamed away and the
                 # digest read moments ago describes a file that is no longer at this path. Left
                 # as it was, the compare-and-swap below would refuse for ever after a preserve.
-                digest = silence.digest_of(LEDGER_PATH)
+                digest = silence.digest_of(path)
                 print(f"health: ledger unreadable ({type(e).__name__}); "
-                      f"kept as failures.json.corrupt", file=sys.stderr)
+                      f"kept as {_wreck}", file=sys.stderr)
         for k, v in taken.items():
             prev[k] = prev.get(k, 0) + v
-        landed, why = _cas_land(LEDGER_PATH, prev, digest)
+        landed, why = _cas_land(path, prev, digest)
         if landed:
             with _LOCK:
                 for k, v in taken.items():
-                    LEDGER[k] -= v
-                    if LEDGER[k] <= 0:
-                        del LEDGER[k]
+                    ledger[k] -= v
+                    if ledger[k] <= 0:
+                        del ledger[k]
             return
         # REFUSED, SO RE-READ AND RE-MERGE -- never settle. `taken` is still entirely in memory
         # and the next round adds it to whatever the winner wrote, which is the difference
@@ -422,13 +479,28 @@ def summary():
     Grep for those two strings. As of this writing they sit at dashboard.py:350-360 and
     standards.py:1000-1028.
     """
-    if os.path.exists(LEDGER_PATH):
+    return _read_ledger(LEDGER_PATH)
+
+
+def selftest_summary():
+    """The SELF-TEST ledger as it stands. -> {class: count}. Same reader, other file.
+
+    Kept separate from `summary()` on purpose (order 5bbbb65e7787): a rehearsal is evidence
+    about the detector, not about the library, and merging the two is what made the ledger
+    unreadable in the first place. `main(--failures)` prints both, under their own headings --
+    partitioned, never suppressed.
+    """
+    return _read_ledger(SELFTEST_LEDGER_PATH)
+
+
+def _read_ledger(path):
+    if os.path.exists(path):
         try:
-            with open(LEDGER_PATH, encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 return json.load(f)
         except Exception as e:
             silence.note("health.py:summary")
-            print(f"health: failure ledger unreadable ({type(e).__name__}) -- "
+            print(f"health: {os.path.basename(path)} unreadable ({type(e).__name__}) -- "
                   f"the counts below are not the ledger", file=sys.stderr)
             return {"ledger:unreadable": 1}
     return {}
@@ -949,12 +1021,32 @@ def main():
         return 1 if reopen_stranded(dry=not a.go) is None else 0
     if a.failures:
         s = summary()
-        if not s:
+        # THE REHEARSALS ARE PRINTED, UNDER THEIR OWN HEADING (order 5bbbb65e7787). Two
+        # separations, and only the first is new. Records arriving from now on are routed by
+        # `record()` into the self-test ledger, so they never enter this table; records the
+        # ledger ALREADY carries from before that routing existed cannot be un-mixed on disk
+        # without editing the operational ledger, so they are named here instead. Ranked and
+        # listed whole -- every row is printed, in both sections.
+        mixed = {k: v for k, v in s.items() if is_selftest(k)}
+        real = {k: v for k, v in s.items() if k not in mixed}
+        self_s = selftest_summary()
+        if not s and not self_s:
             print("no failures recorded")
             return 0
-        print(f"{'count':>8}  class")
-        for k, v in sorted(s.items(), key=lambda kv: -kv[1]):
-            print(f"{v:>8}  {k}")
+        if not real:
+            print("no failures recorded")
+        else:
+            print(f"{'count':>8}  class")
+            for k, v in sorted(real.items(), key=lambda kv: -kv[1]):
+                print(f"{v:>8}  {k}")
+        for label, rows, where in (
+                ("self-test rehearsals still mixed into the operational ledger", mixed,
+                 os.path.basename(LEDGER_PATH)),
+                ("self-test rehearsals", self_s, os.path.basename(SELFTEST_LEDGER_PATH))):
+            if rows:
+                print(f"\n{label} ({where}) -- NOT faults:")
+                for k, v in sorted(rows.items(), key=lambda kv: -kv[1]):
+                    print(f"{v:>8}  {k}")
         return 0
     # `a.preflight` is named explicitly (order c6726717282a): it used to work only by
     # coincidence of being the fall-through default after --reopen and --failures both return

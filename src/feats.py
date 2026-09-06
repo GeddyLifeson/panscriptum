@@ -1171,6 +1171,32 @@ _QUANTITY = re.compile(
     r"(?:[x×]\s*10\s*(?:\^?\s*(-?\d+)|([⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+))\s*)?"
     r"(tons?|tonnes?|kilotons?|megatons?|gigatons?|joules?|watts?|newtons?|"
     r"kilomet(?:er|re)s?|met(?:er|re)s?|miles?|light[- ]?years?|parsecs?|"
+    # `kili` IS A WHOLE WORD, NOT AN EATEN ESCAPE. It reads like the truncated-fragment
+    # corruption this project calls its oldest bug -- a bare four letters among otherwise
+    # complete unit words -- and a sweep has flagged it as exactly that, correctly, as a
+    # QUESTION. The answer, so that it lives beside the code instead of in a handoff nobody
+    # greps: `kili` and `power level` are the Dragon Ball scouter's own units, which is why they
+    # are adjacent here. magnitude.py:417 names both in terms as "franchise-internal scales with
+    # no conversion", deliberately absent from `_TO_JOULES` and belonging to the Rosetta Tables
+    # (Vol. X.4) rather than a joules column; "3,000 kili" is the worked example at
+    # magnitude.py:45 and :640 and the cited Reach evidence at reference.py:95, and
+    # src/zfighters.py is the module whose evidence is written in these units. Mining them is
+    # the point: a quantity that cannot be converted is still a quantity the assay must SEE
+    # before it decides it has no arithmetic for it. (order 26599d13c6a9)
+    #
+    # AND A MEASUREMENT THAT CAME OUT OF ANSWERING THAT QUESTION, LEFT HERE AS A QUESTION OF ITS
+    # OWN RATHER THAN CHANGED. This pattern is anchored on a LEADING figure, so `power level`
+    # can only ever match the form "<N> power level" -- and that is not how the corpus writes
+    # it. Counted over the whole feats cache, every one of the 275,010 files and nothing
+    # sampled: `power level` appears 11,622 times and the minable "<N> power level" form 16
+    # times, so this alternative reaches about 0.1% of its own subject. `kili` is the opposite
+    # and earns its place -- 565 mentions, 247 of them minable, because the wikis really do
+    # write "3,000 kili". The corpus form for the other one is "a power level of 5,000" (see
+    # this module's own docstring at line 7, and zfighters.py:302, :328, :365), which is
+    # UNIT-then-number and cannot be reached without a second alternative. Whether to add one
+    # is a judgment for whoever owns the assay and NOT a maintenance fix: "a power level of
+    # 5,000" attributed to the wrong subject is worse evidence than no quantity at all, and
+    # this pattern has no subject-resolution to lean on. Nothing is changed here on that basis.
     r"kili|power\s*level|degrees?|kelvin|celsius|mach|times\s+the\s+speed\s+of\s+light)\b",
     re.I)
 
@@ -1298,16 +1324,37 @@ _CMP = re.compile(r"\b(faster|stronger|greater|more powerful|beyond|surpass|exce
                   re.I)
 
 
-def axis_evidence(sentence, axis):
-    """Does this sentence evidence THIS axis, with the subject as the doer?"""
-    if P._STATBLOCK.search(sentence):
-        return False
-    if not _AXIS_ACT_RE[axis].search(sentence):
-        return False
-    if P._PATIENT.search(sentence):
+def _axis_independent_gates(sentence):
+    """The three gates that do not depend on which axis is being evidenced. ONE definition.
+
+    These were spelled out TWICE -- once inline in `by_axis` and once in `axis_evidence` -- and
+    that is the whole of order 73aacce08418. `by_axis` is the live one (magnitude.py:867);
+    `axis_evidence` has no callers anywhere in the tree. So the axis gate had two definitions and
+    only one of them ran: anyone tuning `axis_evidence`, the one with the explanatory name and
+    the docstring, would have changed nothing at all, and anyone tuning `by_axis` would have left
+    the named function silently disagreeing with the live one. Neither would have been told.
+
+    Pulled out rather than deleted, because the drift is the hazard and the duplication is the
+    drift. THE HOIST IS PRESERVED EXACTLY, which the order is explicit about: this runs ONCE per
+    sentence in `by_axis` and the per-axis loop still runs only the axis vocabulary check, so the
+    3x regex cost over an 874MB corpus that the hoist was measured to remove does not come back.
+    """
+    if P._STATBLOCK.search(sentence) or P._PATIENT.search(sentence):
         return False
     return bool(_OBJ.search(sentence) or P._MAGNITUDE.search(sentence)
                 or _CMP.search(sentence))
+
+
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
+# (order 25ec11447b4c) -- the same marker `weave.pair_weights` carries. `axis_evidence` has ZERO
+# callers repo-wide; `by_axis` below is the live spelling of this gate and is what
+# magnitude.py:867 calls. It is kept as a WRAPPER over the shared predicate rather than as a
+# second copy of it, so that a future tuning of the gate cannot leave the two disagreeing in
+# silence: there is now one definition of the axis-independent part and one of the axis part,
+# and this function is composed of both. (order 73aacce08418)
+def axis_evidence(sentence, axis):
+    """Does this sentence evidence THIS axis, with the subject as the doer?"""
+    return _axis_independent_gates(sentence) and bool(_AXIS_ACT_RE[axis].search(sentence))
 
 
 def by_axis(text, page):
@@ -1323,10 +1370,10 @@ def by_axis(text, page):
         # The statblock, patient and evidence-object gates do not depend on the axis, yet the
         # per-axis loop was re-running all three eleven times per sentence -- a 3x regex
         # redundancy over an 874MB corpus (round-2 optimization audit, finding 1). Hoisted:
-        # each runs once per sentence, and only the axis vocabulary check stays inside.
-        if P._STATBLOCK.search(s) or P._PATIENT.search(s):
-            continue
-        if not (_OBJ.search(s) or P._MAGNITUDE.search(s) or _CMP.search(s)):
+        # each runs once per sentence, and only the axis vocabulary check stays inside. The
+        # hoist is unchanged; the three gates simply live in `_axis_independent_gates` now, so
+        # that `axis_evidence` cannot drift away from this one. (order 73aacce08418)
+        if not _axis_independent_gates(s):
             continue
         for ax in AXIS_ACT:
             if _AXIS_ACT_RE[ax].search(s):
@@ -1775,16 +1822,28 @@ def _show(ev):
     # the true counts print two lines above -- but an unmarked `[:6]` is indistinguishable from
     # "this entity has six feats", which is the reading the comment above spends its length
     # refusing. Marked the way `chain.main()` marks its own: the count, and where the rest is.
+    #
+    # AND NOW THE ROWS THEMSELVES ARE WHOLE (orders 85678936df55, 86b9f6b2f32d). The paragraph
+    # above -- "AND THE ROWS ARE NOT CUT EITHER" -- was written about the refusal rows and was
+    # TRUE of them and false of these two, which still carried `f['feat'][:120]` and
+    # `q['sentence'][:80]`: one sentence in one comment, true of the block above it and false of
+    # the block below it, which is the worst arrangement of the two. The cut is not marked here,
+    # it is GONE, because nothing forced it. Both values come out of `_units`, whose 400-char
+    # ceiling is printed by the length-filter report above, so a row is bounded at roughly three
+    # console lines and the whole value fits. That matters for exactly the reason the preview
+    # exists: this is the view a person opens to judge whether a feat is real evidence, and a
+    # feat's qualifying clause -- the "in the anime only", the "according to a databook" -- is
+    # written at the END of the sentence, which is the half both cuts removed.
     _nf, _nq = len(ev["feats"]), len(ev["quantities"])
     if _nf:
         print(f"       feats, first {min(6, _nf)} of {_nf} (all of them are in the record):")
     for f in ev["feats"][:6]:
-        print(f"       * {f['feat'][:120]}")
+        print(f"       * {f['feat']}")
     if _nq:
         print(f"       quantities, first {min(4, _nq)} of {_nq} "
               f"(all of them are in the record):")
     for q in ev["quantities"][:4]:
-        print(f"       # {q['value']} {q['unit']}  <- {q['sentence'][:80]}")
+        print(f"       # {q['value']} {q['unit']}  <- {q['sentence']}")
 
 
 def main():

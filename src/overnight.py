@@ -418,6 +418,78 @@ def _guarded_popen(name, args, fh, banner=None):
 
 CANON_BACKUP_EVERY_HOURS = 12
 
+# How stale the designator inventory may get before the supervisor re-mines the whole tree.
+# Measured 2026-08-29 (order 126088ccf8fe): a whole-tree mine reads 261,289 files under
+# data/feats and takes 992 seconds. Twenty-four hours is chosen against that cost and against
+# how fast the corpus actually grows -- a day of mining adds titles to hosts the index already
+# knows, which is precisely the case `identity.load`'s incremental self-heal cannot see.
+IDENTITY_REFRESH_EVERY_HOURS = 24
+
+
+def identity_refresh_cycle():
+    """Re-mine the designator inventory whole, at most once a day. Never raises.
+
+    WHY THE SUPERVISOR AND NOT allsweep OR THE FOREMAN (order 126088ccf8fe). `identity.load()`
+    already repairs itself for a host directory the cache has never SEEN, which closed the
+    destructive direction -- an unseen host answered "no continuity" for every title on it,
+    indistinguishable from a genuinely single-timeline source, and produced wrong merges that
+    the module's own docstring calls unrecoverable. What that repair cannot see is a host that
+    was already indexed and whose feats cache has since GROWN: a continuity first appearing in
+    titles mined after the last full pass stays invisible until somebody runs `--refresh` by
+    hand, and nothing scheduled one. `allsweep.py:170` is the only automated caller and passes
+    no `--refresh`.
+
+    The reason it could not simply go on that row is arithmetic: 992 seconds for a whole-tree
+    mine against 91.6 seconds for the 51 missing directories the incremental repair handles.
+    Sixteen minutes inside every allsweep run, or inside the foreman's 900-second remedy budget,
+    breaks the schedule rather than fixing the index. This supervisor is the one actor whose
+    jobs are allowed to be long -- its own lap is measured in hours -- so it is where a job of
+    that size belongs.
+
+    RATE-LIMITED BY THE CACHE'S OWN TIMESTAMP, not by a counter in memory, for the reason
+    `canon_backup_cycle` above spells out: this process restarts (rc=17 on a source change among
+    others) and an in-memory counter would restart with it, so a bouncing supervisor would spend
+    a quarter of an hour re-mining on every lap.
+
+    A SUBPROCESS, NOT AN IN-PROCESS `load(refresh=True)`. Sixteen minutes of file reading inside
+    the supervisor's own thread is sixteen minutes in which its keeper does not run and its
+    `except` blocks are the library's only error handling; the same reasoning that makes every
+    other long stage here a child process. It also makes the command identical to the one the
+    order names, which is the one a person would run by hand.
+
+    NEVER RAISES, and never fails silently: a refresh that has quietly stopped happening is the
+    exact state this order describes, and it went 179 hours unnoticed once already.
+    """
+    try:
+        import identity as _ID
+        cache = _ID.CACHE
+    except Exception as e:
+        log(f"  identity refresh: MODULE MISSING ({e}) -- the designator inventory is unmined")
+        silence.note("overnight.py:identity-module")
+        return
+    try:
+        if os.path.exists(cache):
+            age_h = (time.time() - os.path.getmtime(cache)) / 3600.0
+            if age_h < IDENTITY_REFRESH_EVERY_HOURS:
+                return
+        t0 = time.time()
+        r = subprocess.run([PY, os.path.join(SRC, "identity.py"), "--refresh"], cwd=HERE,
+                           capture_output=True, text=True, timeout=3600,
+                           env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
+        if r.returncode != 0:
+            silence.note("overnight.py:identity-refresh-failed")
+            log(f"  identity refresh: DID NOT COMPLETE ({name_rc(r.returncode)}) -- the "
+                f"inventory is still whatever it was, and its counts remain a FLOOR")
+            err = (r.stderr or "").strip().splitlines()
+            if err:
+                log(f"    identity refresh last stderr line: {err[-1]}")
+            return
+        log(f"  identity refresh: designator inventory re-mined whole in "
+            f"{time.time() - t0:.0f}s")
+    except Exception as e:
+        log(f"  identity refresh: FAILED -- {type(e).__name__}: {e}")
+        silence.note("overnight.py:identity-refresh")
+
 
 def canon_backup_cycle():
     """Take a verified snapshot of the canonical corpus, at most twice a day. Never raises.
@@ -1182,6 +1254,29 @@ def main():
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
             "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
     _ESC.assert_clear(os.path.basename(__file__))
+    # THE SUPERVISOR IS A STANDING JOB TOO (order 2cb8756deb0a). Every daemon in `STANDING`
+    # stamps its source at startup and exits rc=17 when `src/` moves under it, because a Python
+    # process is a photograph of the code it started with. This process runs for DAYS across
+    # `--cycles` and had no stamp at all, so a supervisor started on Monday was still dispatching
+    # Monday's stages on Thursday -- including its own halt interlock, its own idle arithmetic
+    # and its own safety-drill call, none of which any edit could reach.
+    #
+    # THE KEEPER RELATIONSHIP rc=17 REQUIRES EXISTS HERE, which is what makes this safe and is
+    # why this file is the one gap of the six the order names that can be closed today. It is
+    # NOT overnight's own 300-second keeper thread -- that dies with this process -- it is
+    # `autostart.py --watch`, which polls `supervisor_alive()` and calls `start_supervisor()`
+    # whenever no supervisor is up (autostart.py:389-420). Two budgets now bound that loop and
+    # neither is changed here: `codewatch.BUDGET_PER_HOUR` refuses the rc=17 exit itself, and
+    # `autostart.MAX_STARTS_PER_HOUR` (3) caps how many times the watchdog will restart a
+    # supervisor in an hour -- so a source-change restart now spends from the same budget as a
+    # crash restart. `autostart` reads no exit code at all (it Popens detached and only ever
+    # asks the process table whether a supervisor is alive), so an rc=17 cannot be misread there
+    # as a crash the way this project's longest outage began.
+    try:
+        import codewatch
+        codewatch.stamp("overnight")
+    except Exception:
+        silence.note("overnight.py:codewatch-stamp")
     ap = argparse.ArgumentParser()
     ap.add_argument("--cycles", type=int, default=99)
     ap.add_argument("--read-hours", type=float, default=3.0)
@@ -1336,6 +1431,21 @@ def main():
         log(f"--- cycle {cycle} ---")
         cycle_t0 = time.time()
 
+        # AT THE TOP OF A LAP AND NOWHERE ELSE (order 2cb8756deb0a). Verified against this loop
+        # rather than assumed: at this point every stage this lap will run is still unstarted --
+        # `statuses` is not even built yet -- and the only things running are the STANDING
+        # daemons, which are separate processes with their own rc=17 interlocks and their own
+        # keeper. Nothing this supervisor AWAITS is in flight: `read` is a blocking `run()`,
+        # `roll` is joined inside the same lap, and both finished before the previous iteration
+        # ended. So exiting here abandons no work. The same call placed mid-lap would drop a
+        # running reader or roll on the floor, which is why it is not there.
+        try:
+            codewatch.exit_if_stale("overnight")
+        except NameError:
+            pass                      # the startup stamp above could not import codewatch
+        except Exception:
+            silence.note("overnight.py:codewatch-check")
+
         # THE PLANT-WIDE INTERLOCK, RE-ASKED EVERY CYCLE. A halt raised while the supervisor was
         # mid-cycle must stop the NEXT one; checking only at startup would let a halted library
         # keep running for hours because the process that needed to notice had already started.
@@ -1357,7 +1467,27 @@ def main():
         # THE PARK INSPECTION. Every cycle, before any stage is started: are the things that are
         # supposed to stop us still able to? Cheap (no model calls, no network) and it is the
         # only check that would notice a safety having been REMOVED rather than having failed.
-        safety_drill()
+        #
+        # THE VERDICT IS READ NOW, AND THE MITIGATION IS VERIFIED RATHER THAN ASSUMED (order
+        # 214fea37dfbd). The finding was that this return code was discarded, so a BREACH
+        # detected here did not stop the current cycle's own launches -- only the NEXT cycle's
+        # `assert_clear` would -- which would make Hard Rule -1's "a BREACHED net halts the
+        # library by itself" untrue for one whole lap. The proposed mitigation was that every
+        # job self-checks the halt at its own entry point, and that is now CHECKED, not assumed:
+        # `drill.py` raises an OWNER-level halt itself on a breach, and every job this cycle
+        # starts afterwards opens `main()` with `escalation.assert_clear` -- dashboard.py:1068,
+        # publish.py:1594, foreman.py:1711, overwatch.py:922, pipeline.py:2876 (the whole of
+        # STANDING), plus read.py:1408 and feats.py:1813, the two long jobs that hang off this
+        # lap. So they exit on purpose the moment they start, and the mitigation holds.
+        #
+        # WITH ONE EXCEPTION, WHICH IS WHY THIS IS NOW A GATE AND NOT ONLY A COMMENT.
+        # `generate.py` -- the prose stage below -- has NO halt interlock anywhere in it (grep
+        # for escalation/assert_clear: no hits). It is the one job this cycle can start that
+        # would not notice the library halting under it, so it is the one job that needs this
+        # verdict. `== 1` only: rc 0 is a clean inspection, and None or any other code means the
+        # drill DID NOT RUN, which is reported by `safety_drill` itself and is not evidence of a
+        # breach.
+        drill_rc = safety_drill()
 
         n, blocking = preflight()
         if blocking:
@@ -1421,9 +1551,16 @@ def main():
         # `prose_enabled` in config.yaml is where the decision lives now: still out of the log,
         # still not an instruction to a human, but no longer taken by the automation either.
         manifest = os.path.join(HERE, "output", "index", "manifest.json")
-        if os.path.exists(manifest) and _prose_enabled():
+        # `drill_rc != 1` is the halt interlock generate.py does not carry -- see the safety
+        # drill note above. It does NOT open or widen the owner's gate: `_prose_enabled()` is
+        # untouched and still decides whether prose runs at all.
+        if os.path.exists(manifest) and _prose_enabled() and drill_rc != 1:
             start("prose", [os.path.join(SRC, "generate.py"), "--manifest", manifest],
                   "prose_auto.log")
+        elif os.path.exists(manifest) and _prose_enabled() and drill_rc == 1:
+            log("  prose: NOT started -- a safety net was breached this cycle and the library "
+                "has halted itself. generate.py carries no halt interlock of its own, so it is "
+                "the one stage that would keep writing through a halt.")
         roll = start("roll", [os.path.join(SRC, "feats.py"), "--roll", "--workers", "12"],
                      LN.ROLL)
 
@@ -1461,6 +1598,10 @@ def main():
                             LN.PIPELINE, timeout_h=2))
 
         canon_backup_cycle()
+        # Beside the backup and for the same reason: a long job that belongs on a clock rather
+        # than in a person's memory, placed after the reader so it mines the titles this lap
+        # produced rather than the ones it started with. (order 126088ccf8fe)
+        identity_refresh_cycle()
 
         foreman_report()
         watch_report()
@@ -1529,11 +1670,38 @@ def main():
                 # lesson 10, committed by the newest guard in the tree. So the halt is checked
                 # FIRST, and a halted supervisor WAITS instead of giving up: the whole promise
                 # of the halt is that work resumes when a person clears it.
+                # AND AN UNREADABLE HALT IS TREATED AS A HALT, NOT AS A CLEAR LIBRARY (order
+                # 3e901a1c6c00). This was `except Exception: _halted, _rec = False, None`, a
+                # fail-OPEN default inside the branch whose entire purpose is the fail-closed
+                # guarantee above -- so if the question could not be asked, the code assumed the
+                # answer it wanted, fell through to the HALT branch below, broke the loop and
+                # ended the supervisor: the 2026-08-25 outage reproduced one layer down, by the
+                # code written to prevent it. Hard Rule -1 rules on exactly this: "an unreadable
+                # config, a corrupt halt file: all refuse. Silence must never authorise
+                # anything."
+                #
+                # NEARLY UNREACHABLE, AND THAT IS NOT A REASON TO LEAVE IT WRONG.
+                # `escalation._read_halt_raw()` catches every read and parse failure itself and
+                # returns a fail-closed stand-in, and `status()` only derives from that, so the
+                # realistic trigger is `import escalation` failing HERE -- the module deleted or
+                # broken by a foreman auto-patch or a maintenance run hours into a cycle, which
+                # the top-of-cycle interlock ran far too early to have caught.
+                #
+                # WAITING, NOT EXITING, matching the branch below rather than the startup
+                # interlock's SystemExit: this supervisor's own history says a safety that ends
+                # the supervisor process is the outage, and a supervisor that waits is one a
+                # person can rescue by fixing the file. It leaves a mark either way -- the note
+                # counts it, and the log line names the cause instead of printing a halt code
+                # that does not exist.
                 try:
                     import escalation as _ESC
                     _halted, _rec = _ESC.status()
-                except Exception:
-                    _halted, _rec = False, None
+                except Exception as _halt_unreadable:
+                    silence.note("overnight.py:halt-status-unreadable")
+                    _halted = True
+                    _rec = {"code": "HALT UNREADABLE (%s: %s)"
+                                    % (type(_halt_unreadable).__name__,
+                                       str(_halt_unreadable)[:120])}
                 if _halted:
                     log("  the library is HALTED (%s) -- every job is exiting on purpose, which "
                         "is not the same as failing. Waiting for a person to clear it."

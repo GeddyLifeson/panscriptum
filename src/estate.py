@@ -183,9 +183,38 @@ def inspect(path):
             rec["note"] = "vanished during scan (transient extension; a concurrent writer's " \
                            "own temp/lock file, not a fault)"
             return rec
-        silence.note("estate.py:stat-failed")
-        rec["error"] = "cannot stat"
-        return rec
+        # ONE RETRY BEFORE GRADING, AND THEN SAY WHICH OF THE TWO IT WAS (order 0c8e0252a930).
+        # The exemption above is keyed on the EXTENSION, so it cannot see the commonest race in
+        # this tree: `state/gpu_lane/slot.*.json` are claim files a live daemon replaces on every
+        # model call, and one was reported on 2026-08-31 as `{'bytes': 0, 'error': 'cannot stat'}`
+        # while being, on the very next look, 72 bytes of valid JSON. Nothing was wrong with it;
+        # `os.replace` had landed between `_walk`'s listing and this `getsize`. Grading that bad
+        # makes the whole sweep's headline number depend on WHEN the scan reached the directory,
+        # and a verdict that flickers is one people stop reading.
+        #
+        # A RETRY RATHER THAN AN EXEMPTION, because `state/gpu_lane` also has a REAL fault
+        # (sweep39-batch09: `_take_slot` can never reclaim a corrupt slot file, and a zero-byte
+        # `slot.0.json` stalls every model call for a full 900s poll). Excluding the path would
+        # blind the tier to that. The race window is exactly one rename wide, so a single retry
+        # closes it while a genuinely missing or genuinely unreadable file still fails twice.
+        #
+        # AND THE TWO REMAINING OUTCOMES ARE NAMED APART. "Could not read" and "is not there" are
+        # different findings and this tier already refuses to conflate them elsewhere; a bare
+        # "cannot stat" said neither.
+        try:
+            rec["bytes"] = os.path.getsize(path)
+        except FileNotFoundError:
+            silence.note("estate.py:stat-failed-gone")
+            rec["error"] = "cannot stat: GONE (absent on a second look, one rename later)"
+            return rec
+        except OSError as again:
+            silence.note("estate.py:stat-failed")
+            rec["error"] = ("cannot stat: UNREADABLE (%s: %s)"
+                            % (type(again).__name__, _brief(again, 60)))
+            return rec
+        silence.note("estate.py:stat-failed-then-succeeded")
+        rec["note"] = ("stat failed once and succeeded on retry -- the file was being rewritten "
+                       "at that instant (the write mechanism working, not damage)")
     if rec["bytes"] == 0:
         # A LOG IS ALLOWED TO BE EMPTY. `state/overnight_stderr.log` at zero bytes means the
         # supervisor wrote nothing to stderr, which is the best possible news, and reporting it
@@ -491,7 +520,27 @@ def written():
             except Exception as e:
                 note(label + " UNREADABLE", _brief(e, 70), bad=True)
         else:
-            note(label, f"{os.path.getsize(p):,} bytes")
+            # GUARDED, the same way `inspect()`'s own `getsize` is (order 7acb9f753547). This is
+            # twelve lines below an `os.path.exists(p)` check and that is exactly the TOCTOU
+            # shape order 553f5a2f5499 repaired in `inspect()` -- a fix that was scoped to
+            # `inspect()` and never reached this second, independent call site in the same file.
+            # `output/index/unassigned_sources.md` is REWRITTEN by `manifest_builder.py`, so it
+            # can legitimately be absent for the instant between the exists() and the stat, and
+            # an uncaught `FileNotFoundError` here is graded by `allsweep` as WRITTEN "check
+            # itself failed", bad=True -- a benign race reported as a corrupt estate. A transient
+            # graded as corruption is noise that hides real corruption.
+            #
+            # A GENUINE PERMISSION ERROR IS STILL A FAULT. Only the vanish is benign, and the row
+            # says which of the two happened rather than reporting one bare failure for both.
+            try:
+                note(label, f"{os.path.getsize(p):,} bytes")
+            except FileNotFoundError:
+                silence.note("estate.py:written-stat-vanished")
+                note(label, "vanished between the exists() check and the stat -- a concurrent "
+                            "rewrite, not damage")
+            except OSError as e:
+                silence.note("estate.py:written-stat-failed")
+                note(label + " UNREADABLE", type(e).__name__ + ": " + _brief(e, 70), bad=True)
     return out
 
 

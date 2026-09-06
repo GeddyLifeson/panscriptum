@@ -78,19 +78,48 @@ def audit_invariants(recs):
             stats["sources_with_synthesis"] += 1
             ce = (syn.get("ceiling_entity") or "").strip()
             band = syn.get("provisional_magnitude")
+            ev = syn.get("evidence") or ""
+            # ONE MISSING KEY, ONE HONEST ROW (order f149e109c174). These were three
+            # INDEPENDENT questions, and a synthesis with no `provisional_magnitude` at all
+            # answered all three: `band` is None, None is not in VALID_BANDS (PL.BANDS carries
+            # no None -- checked), and None != "unassayed" is true, so the two dependent checks
+            # fired as well. The report then said "band claimed with no ceiling entity" and
+            # "band rests on evidence that is not a scale feat" about a synthesis claiming no
+            # band whatsoever: three rows, one right and two false, in the one pass whose
+            # stated premise is checking the pipeline's claims from OUTSIDE the code that
+            # enforces them. A guard that reads as though it had considered the case is worse
+            # than one that visibly has not.
+            #
+            # Latent, measured: 0 of 210 synthesis rows are missing the key today. The same
+            # ladder now also covers a band that is PRESENT but off the ladder ("M99"), which
+            # had the identical shape -- what is wrong with it is that it is not a band, and
+            # asking what its ceiling entity is presumes the answer to that.
+            claims_a_band = band in VALID_BANDS and band != "unassayed"
             if band not in VALID_BANDS:
                 fails["synthesis: band not on the ladder"].append(f"{src}: {band!r}")
-            if band != "unassayed" and not ce:
+            if claims_a_band and not ce:
                 fails["synthesis: band claimed with no ceiling entity"].append(src)
             if ce:
                 names = {(e.get("name") or "").strip().lower() for e in rec["entries"]}
                 if ce.lower() not in names:
                     fails["synthesis: ceiling entity not among the source's own entries"].append(
                         f"{src}: {ce!r}")
-            ev = syn.get("evidence") or ""
-            if band != "unassayed" and not PL.valid_scale_note(ev):
+            if claims_a_band and not PL.valid_scale_note(ev):
+                # WHOLE, NOT `ev[:60]` (orders 2e3355528f9f and d7e6e8db9f53, one line, twice).
+                # `PL.valid_scale_note` is run against the whole note, so a sixty-character cut
+                # showed the reader LESS than the checker saw -- and these are exactly the rows
+                # where a person has to judge whether the gate was right to refuse. Sixty
+                # characters is rarely enough to tell a bad feat from a well-attested one that
+                # tripped a phrasing rule, and there was no marker, so a short note and a cut
+                # one looked identical.
+                #
+                # Both orders reasoned from a print site that no longer exists: they argue the
+                # list is too long to print whole because only four rows print with an "... and
+                # N more". Order sweep42-batch13 removed that cap -- the loop below now prints
+                # EVERY occurrence -- so the volume argument is gone and with it the case for a
+                # marked cut. Nothing is sliced; the field is the last thing on the line.
                 fails["synthesis: band rests on evidence that is not a scale feat"].append(
-                    f"{src}: {ev[:60]!r}")
+                    f"{src}: {ev!r}")
 
         # -- entry-level -----------------------------------------------------------------
         for e in rec["entries"]:
@@ -117,8 +146,9 @@ def audit_invariants(recs):
                 if not sn:
                     fails["entry: BAND WITH NO SCALE NOTE (core invariant)"].append(f"{src}/{nm}")
                 elif not PL.valid_scale_note(sn):
+                    # WHOLE, for the reason recorded at the synthesis twin of this line above.
                     fails["entry: band rests on a note that no longer passes the gate"].append(
-                        f"{src}/{nm}: {sn[:60]!r}")
+                        f"{src}/{nm}: {sn!r}")
 
             if sn:
                 stats["entries_with_scale_note"] += 1
@@ -137,8 +167,18 @@ def audit_invariants(recs):
             if not d.strip():
                 fails["entry: empty description"].append(f"{src}/{nm}")
             elif len(d.strip()) < 15:
+                # AND THIS ONE IS NOT THE HARMLESS SLICE BOTH ORDERS TOOK IT FOR. Their
+                # argument is that `d[:40]` cannot truncate anything the class is about,
+                # because the line above already checked the string is under 15 characters --
+                # but that check is on `d.strip()` and the slice is on `d`. A description of
+                # 100 spaces followed by "abc" passes the `< 15` test and prints as forty
+                # spaces: the reader is shown nothing at all about the row, which is the same
+                # cut wearing a shorter string. Driven before the change.
+                #
+                # The stripped value is what the class is about and what the threshold measured,
+                # so that is what is printed, and being under 15 characters it cannot be cut.
                 fails["entry: description too short to be evidence"].append(
-                    f"{src}/{nm}: {d[:40]!r}")
+                    f"{src}/{nm}: {d.strip()!r}")
 
     return fails, stats
 

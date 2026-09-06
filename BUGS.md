@@ -2209,6 +2209,76 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+- **[M70 — RESOLVED 2026-09-05, scheduled maintenance run #45] `pipeline.write_record` RETURNED
+  `True` WHILE SILENTLY DROPPING ENTRIES.** The per-entry fold was keyed on entry *name*
+  (`by_name = {e["name"]: e for e in rec["entries"]}`), so N entries sharing a name collapsed to
+  whichever the comprehension kept last — and the function reported success. **Measured: 125 lost
+  rows of 5,418 in a restore**, against a corpus where 1,840 entries across 65 of 210 records carry
+  a duplicated name. Root cause: a name is not a per-entry identity here, and nothing said so.
+  Fixed by pairing on **order within the name group** (the kth disk entry named N takes the kth
+  in-memory entry named N), which is exact for every write the pipeline itself makes; surplus on
+  either side is no longer guessed but left untouched and named in a new PARTIAL log line plus a
+  `silence.note`. Guarded by a new behavioural row in `verify_math` — *write_record can address
+  duplicate-named entries separately* — which was **watched going red** against the reverted fold
+  (`['T2', None]` vs `['T1','T2']`). Choosing a permanent per-entry identity (index field, content
+  hash, or the name/type/description triple) is a curatorial call and is left to the owner with the
+  measured trade-offs written up. **The same fold is still standing in `write_record_catalogue` one
+  function over** — open as `b418b8b3be54`, measured at 935 collapsible rows. Orders
+  `b67dc1990af6`, `0a45c595655b`, `a4b5ffc46f95`, `0e041fe97852`.
+
+- **[M71 — RESOLVED 2026-09-05, run #45] SECTION 20z WAS NEVER A NETWORK FLAKE.** The battery row
+  that twice went red for "third-party provider throttling" — **disabling `verify_math` as a gate
+  for an entire 119-mutant pass and making its survivor list roughly two-thirds noise** — actually
+  fails on the Cascade scratch *database*. `cascade_bridge.provider_error` opens
+  `state/cascade_scratch.db` read-only and is total by design, so any failed read is swallowed into
+  `silence.note("cascade_bridge.py:provider-error")`, reaches the live ledger, and the §20z spy
+  correctly reports an escape. **Reproduced out of band** by pointing `SCRATCH_DB` at a missing
+  file. Fixed with a `_third_party_vm(dep)` scope that keeps the echo out of the operational ledger
+  **and records what it suppressed**, prints a loud `ABSTAINED` banner naming the dependency, and
+  is bounded by a new row asserting an abstention only ever covers the classes granted for it — an
+  ungranted class still reddens by name. The assertions themselves were not touched. Order
+  `c121db910a17`.
+
+- **[M72 — RESOLVED 2026-09-05, run #45] THE FREE RUNG WAS BEING HUNG UP ON, NOT FAILING.** Two
+  earlier shifts recorded the LOCAL rung "coming back empty-handed" and read it as the local model
+  being incapable. **Measured: `rc=1` after 570s with `transport: TimeoutError` and an empty patch
+  list.** Root cause: `local_agent._chat` carried a hardcoded `timeout=420` — a bare literal about
+  the Ollama daemon sitting *directly beneath a comment explaining why bare literals about that
+  same daemon had made this rung unreliable* — while `config.yaml` serves `request_timeout: 1800`
+  with a written rationale ("a safety net for a hung server, not a throughput control, so it should
+  sit far above the worst legitimate case"). Now read from config, with the measurement recorded in
+  the comment. Same defect shape as the `num_ctx` literal fixed one paragraph above it. Related and
+  **still open for the owner**: the configured model is a *thinking* variant that `config.yaml`
+  explicitly forbids (`342ccfafa4a4`).
+
+- **[M73 — RAISED AND RESOLVED 2026-09-05, run #45] A HALT THIS RUN CAUSED, AND LIFTED.** `drill.py`
+  was run at 22:44:18 to verify newly-added nets **while nine sweep agents were still editing
+  `src/`**. One had momentarily left a docstring paragraph outside its closing quotes, so
+  `publish.py` was not valid Python for a few seconds; the mutation-interlock net is AST-based and
+  an unparseable file fails all four of its requirements at once, so it reported BREACHED and a
+  breached net halts the library by itself. **Evidence it was timing, not a defect: `publish.py`'s
+  mtime is 51.8 seconds AFTER the halt was raised**, so the drill read a state that no longer
+  existed; the interlock was then re-verified structurally on the settled file with all eight
+  requirements passing. Root cause was **sequencing by the maintenance run**, not code. Lifted with
+  a written ruling only after the tree settled (`quiet_seconds` 198 against a 180s window) and the
+  battery was green (drill 404/404, verify_math 1144/0). **Nothing was weakened to clear it.**
+  Whether a breach read from a tree under active edit should halt at all is filed as
+  `71ae3fa7e55e` (OWNER) and deliberately not decided by this run.
+
+- **[M74 — RESOLVED 2026-09-05, run #45] THE MUTATION SANDBOX WAS NOT A FAITHFUL COPY.**
+  `mutate.sandbox()` built its tree with a flat `os.listdir(SRC)`, so `src/deprecated/` was never
+  copied. Three fixes landed the same day moved `liveness._modules`, `silence.audit` and
+  `silence.instrument` from flat listings to walks, surfacing `deprecated/catalogue_local.py` for
+  the first time, and two new drill nets were written that legitimately read it. **In the sandbox
+  those two nets were false: baseline `404 attacked, 402 held, 2 BREACHED`, against `404/404` on
+  the live tree the same minute.** One missing directory, two breaches, one cause. The harness
+  **refused to mutate on a red baseline** — the guard added earlier the same shift, working on its
+  first real outing and saving a ~20-hour run from producing noise. Fixed by walking `SRC` and
+  recreating subdirectories (skipping `__pycache__`); the claim sequence and ownership machinery
+  were deliberately not touched. Verified by building a sandbox (115 top-level modules,
+  `deprecated/` present, all targets present) and relaunching to a **green three-gate baseline**.
+  Order `e9a781faa10c`.
+
 - **[M69 — RESOLVED 2026-09-02, scheduled maintenance] LOCAL_AGENT ALLOWLIST BYPASS, CLASS SEVEN.**
   `t_propose_patch` tested the writable-surface **allowlist** against the path *as written*
   (`local_agent.py:737` builds `rel` from the unresolved `full`), while `_safe()` re-asks only the

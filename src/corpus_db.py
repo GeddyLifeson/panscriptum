@@ -178,6 +178,17 @@ def rebuild(include_evidence=True, evidence_limit=None):
     # A LOOKUP THAT FAILED IS NOT A VERDICT. This list is the third state the `spine` column had
     # no way to express; see `SPINE_LOOKUP_FAILED` and the block in the loop below.
     spine_failures = []
+    # THE NAMES ON DISK AT BUILD TIME, WRITTEN INTO THE INDEX (order bf729d9664b1). `freshness()`
+    # decided staleness purely by comparing each CURRENT record file's mtime against `built_at`,
+    # which can only ever see a record that was ADDED or MODIFIED. A record DELETED after the
+    # build leaves nothing in the glob to compare, so nothing was counted, and the banner above
+    # every query said "no record has changed since the index was built" while `source` and
+    # `entry` rows for the vanished record were still being returned -- only a whole rebuild
+    # drops them. Recording the basenames is what makes the missing side of the comparison
+    # possible at all; it costs one small JSON row (216 names today) and no cap, per Hard Rule 0,
+    # because a truncated list would silently declare the names past the cut to be deletions.
+    record_files = sorted(os.path.basename(p) for p in
+                          glob.glob(os.path.join(HERE, "data", "records", "*.json")))
     for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json"))):
         try:
             with open(p, encoding="utf-8") as f:
@@ -313,6 +324,12 @@ def rebuild(include_evidence=True, evidence_limit=None):
     # to find out that some of these rows are an absence of an answer, not an answer.
     con.execute("INSERT OR REPLACE INTO meta VALUES ('spine_lookup_failures', ?)",
                 (str(len(spine_failures)),))
+    # THE OTHER HALF OF THE FRESHNESS COMPARISON (order bf729d9664b1). See `record_files` above
+    # and the deletion arm of `freshness()`. Stored as a JSON list rather than a count so the
+    # missing names can be NAMED when one goes: a count would say "one fewer" and leave the
+    # reader to work out which source's rows are now orphaned in this index.
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('record_files', ?)",
+                (json.dumps(record_files, ensure_ascii=False),))
     con.commit()
     con.close()
     # THE VERDICT OF THE FINAL WRITE HAS TO REACH THE CALLER. `replace_retry` returns False
@@ -413,9 +430,24 @@ def freshness():
     built means the index is behind, and 216 stat calls cost microseconds where a recount costs
     the better part of a second on every query. `drift()` does the expensive exact version for
     when somebody actually needs the number.
+
+    AND BY WHAT IS MISSING, WHICH MTIME CANNOT SEE (order bf729d9664b1). A deleted record leaves
+    no file to stat, so a walk over the CURRENT contents can only ever report an addition or an
+    edit; a source re-filed, a duplicate removed or a bad record corrected out produced
+    `stale=False, "no record has changed since the index was built"` while `source` and `entry`
+    rows for the vanished record were still being served. `rebuild()` now writes the basenames it
+    built from into `meta.record_files` and the set is compared here, so a name that is in the
+    index and not on disk counts as staleness too, and is NAMED. An index built before that key
+    existed reports `deletion_check: "unavailable"` and says so in `reason` -- an unanswered
+    question, never an all-clear.
     """
     out = {"built_at": None, "age_seconds": None, "stale": True,
-           "newer_records": 0, "reason": "no index", "evidence_included": None}
+           "newer_records": 0, "reason": "no index", "evidence_included": None,
+           # THE DELETION ARM, PRESENT ON EVERY RETURN PATH (order bf729d9664b1).
+           # `deletion_check` is "compared" when this index recorded the record basenames it was
+           # built from and they have been checked, and "unavailable" when it could not be asked
+           # -- which is a different claim from "nothing was deleted" and must never read as one.
+           "deletion_check": "unavailable", "deleted_records": []}
     if not os.path.exists(DB):
         return out
     try:
@@ -425,7 +457,7 @@ def freshness():
         # the only consumer was `main()`'s own return dict, in the same process that had just
         # built the database. See the banner for what the unread caveat cost. (order b66146e38fb5)
         cols, rows = query("SELECT key, value FROM meta "
-                           "WHERE key IN ('built_at', 'evidence_included')")
+                           "WHERE key IN ('built_at', 'evidence_included', 'record_files')")
     except Exception:
         out["reason"] = "index unreadable"
         return out
@@ -437,17 +469,63 @@ def freshness():
     built = float(meta["built_at"])
     out["built_at"] = built
     out["age_seconds"] = time.time() - built
+    on_disk = glob.glob(os.path.join(HERE, "data", "records", "*.json"))
     newer = 0
-    for p in glob.glob(os.path.join(HERE, "data", "records", "*.json")):
+    for p in on_disk:
         try:
             if os.path.getmtime(p) > built:
                 newer += 1
         except OSError:
             newer += 1                 # a record we cannot stat is a record we cannot vouch for
     out["newer_records"] = newer
-    out["stale"] = newer > 0
-    out["reason"] = ("%d record file(s) written since the index was built" % newer
-                     if newer else "no record has changed since the index was built")
+    # AND THE RECORDS THAT ARE NO LONGER THERE (order bf729d9664b1). Mtime can only see a file
+    # that still exists; a record deleted after the build -- a source re-filed, a duplicate
+    # removed, a bad record corrected out -- vanishes from the glob and was therefore counted as
+    # nothing at all, so the banner said "no record has changed" while this index still held
+    # `source` and `entry` rows for it. Only a whole rebuild drops those rows, which makes a
+    # deletion exactly as much of a staleness event as an edit, and the more misleading of the
+    # two: an edited record makes counts a FLOOR, a deleted one makes them an OVERCOUNT.
+    #
+    # AN INDEX THAT PREDATES `meta.record_files` SAYS SO RATHER THAN ANSWERING. Treating a
+    # missing key as "no deletions" would reintroduce the defect in the exact shape it had --
+    # silence read as an all-clear -- and forcing `stale` True for every query until the next
+    # rebuild would make the banner permanently red, which is the other way to be ignored. So
+    # the question is reported as UNANSWERED, in the reason, where the banner prints it.
+    known = meta.get("record_files")
+    if known is None:
+        out["deletion_check"] = "unavailable"
+        out["deleted_records"] = []
+    else:
+        try:
+            indexed = json.loads(known)
+        except Exception:
+            indexed = None
+        if not isinstance(indexed, list):
+            out["deletion_check"] = "unavailable"
+            out["deleted_records"] = []
+        else:
+            here = {os.path.basename(p) for p in on_disk}
+            out["deletion_check"] = "compared"
+            # NAMED IN FULL, NOT COUNTED. Which record went is what tells a reader whose rows in
+            # this index are now orphaned; no cap, Hard Rule 0.
+            out["deleted_records"] = sorted(n for n in indexed if n not in here)
+    gone = out["deleted_records"]
+    out["stale"] = newer > 0 or bool(gone)
+    if newer and gone:
+        out["reason"] = ("%d record file(s) written and %d DELETED since the index was built "
+                         "(%s)" % (newer, len(gone), ", ".join(gone)))
+    elif gone:
+        out["reason"] = ("%d record file(s) DELETED since the index was built (%s); this index "
+                         "still holds source and entry rows for them, so its counts are an "
+                         "OVERCOUNT until it is rebuilt" % (len(gone), ", ".join(gone)))
+    elif newer:
+        out["reason"] = "%d record file(s) written since the index was built" % newer
+    elif out["deletion_check"] == "unavailable":
+        out["reason"] = ("no record has changed since the index was built -- but this index was "
+                         "built before the deleted-record check existed and CANNOT say whether "
+                         "one was removed; --rebuild to enable it")
+    else:
+        out["reason"] = "no record has been changed or deleted since the index was built"
     return out
 
 
@@ -529,7 +607,25 @@ def _freshness_banner():
                          "results, and --rebuild may not be the remedy. ]" % f["reason"])
     mins = f["age_seconds"] / 60
     if not f["stale"]:
-        return caveat + "  [ index built %.0f min ago; no record has changed since ]" % mins
+        # THE UNANSWERED QUESTION RIDES ON THE ALL-CLEAR LINE (order bf729d9664b1). An index
+        # built before `meta.record_files` existed cannot be asked whether a record was DELETED,
+        # and a clean-looking banner that quietly cannot see one whole kind of staleness is the
+        # defect this order was filed about.
+        if f.get("deletion_check") != "compared":
+            return caveat + ("  [ index built %.0f min ago; no record has been WRITTEN since -- "
+                             "but this index predates the deleted-record check and cannot say "
+                             "whether one was REMOVED. --rebuild to enable it. ]" % mins)
+        return caveat + ("  [ index built %.0f min ago; no record has been written or deleted "
+                         "since ]" % mins)
+    gone = f.get("deleted_records") or []
+    if gone:
+        # DELETIONS MAKE THE COUNTS AN OVERCOUNT, WHICH IS THE OPPOSITE ERROR FROM A FLOOR, so
+        # the line must not say FLOOR when both are true. Every missing name is printed; no cap.
+        return caveat + ("  [ STALE: index built %.0f min ago, %d record(s) written since and "
+                         "%d DELETED (%s). This index still holds rows for the deleted "
+                         "record(s), so counts below are NOT a floor -- they can be an "
+                         "OVERCOUNT. --rebuild for current. ]"
+                         % (mins, f["newer_records"], len(gone), ", ".join(gone)))
     return caveat + ("  [ STALE: index built %.0f min ago, %d record(s) written since. "
                      "Counts below are a FLOOR, not a total. --rebuild for current. ]"
                      % (mins, f["newer_records"]))

@@ -36,7 +36,23 @@ def _load_spine_codes():
     return _SPINE_CODES
 
 
-_FILLER = {"all", "the", "a", "and", "1", "2", "3", "&", "-", "incl", "its", "associated"}
+# SIX OF THE TWELVE ENTRIES HERE COULD NEVER BE CONSULTED (order 7b9d3605a8a4). `_token_set`
+# below is this set's only consumer: it builds its words with `re.findall(r"[a-z0-9]+", ...)`,
+# which can never emit "&" or "-", and then drops every token with `len(w) > 1`, which removes
+# "a", "1", "2" and "3" before the set is asked about them. The reachable subset was exactly
+# {all, and, associated, incl, its, the} -- verified -- and the six dead entries are gone.
+#
+# It matters because this is the SPINE-CODE matcher: a person tuning this list to fix a
+# mis-shelving would reasonably believe that adding a one-character token here does something,
+# and it does not. The `len(w) > 1` filter is what excludes single characters, not this set.
+#
+# AND THE ORIGINAL INTENT IS AN OPEN QUESTION, NOT SETTLED HERE. "1", "2" and "3" sitting in
+# the list suggests single-character tokens were once meant to be excluded BY NAME rather than
+# by length. Dropping the `len(w) > 1` filter and letting this set do the whole job is a
+# BEHAVIOUR change and needs the diff -- re-verified against all 215 roll entries and all 220
+# index names, the way orders 7f9a58566f91 and 3b030216a138 did for the two matching branches
+# above -- so it is left for a ruling and only the dead entries are removed.
+_FILLER = {"all", "the", "and", "incl", "its", "associated"}
 
 
 def _normalize(name: str) -> str:

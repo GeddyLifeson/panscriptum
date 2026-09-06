@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 381  ·  last run 2026-09-05 20:52
+round 383  ·  last run 2026-09-05 22:35
 
 ## Structure
 
@@ -12,12 +12,20 @@ round 381  ·  last run 2026-09-05 20:52
 
 ## What the model found in the code
 
-**6 open** (1 high). Newest first.
+**10 open** (4 high). Newest first.
 
-- **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] The code returns 1 if the result is None, else 0, which is the opposite of what the comment says it does. The comment states that the return value should be used to determine the exit code, but the code inverts this logic.
-  - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
-- **assay.py** `var` — [MEDIUM] var is set to the maximum of (var + cov) and 0.0, which is correct
-  - says: A variance is not allowed to be negative however the correlations fall. If a future matrix ever drove this below zero the formula would be returning an imaginary error bar, which would surface as a crash somewhere far away from the cause.
+- **assay.py** `instrument` — [HIGH] Raises ValueError if anchor is not in INSTRUMENT_WINDOWS, which may not be the same as LADDER
+  - says: Deterministic conversion to the six faculties, 1-30, plus Transcendence Grade.
+- **address_space.py** `assign` — [HIGH] assign(desig, tiers.get(src) or {}) with wrong second argument
+  - says: assign(desig, tiers.get(src) or {})
+- **address_space.py** `pack` — [HIGH] pack(**fields) with fields having wrong keys
+  - says: pack(3, 11, ...)
+- **address_space.py** `FIELDS` — [HIGH] hyperverse and xenoverse ARE fields with computed widths counting toward TOTAL_BITS
+  - says: hyperverse and xenoverse are NOT fields ... reserving bits for them would invite filling them in
+- **allsweep.py** `bad` — [MEDIUM] sum of various counts including ungraded reconcile rows
+  - says: count of bad subsystems
+- **address_space.py** `drawn` — [MEDIUM] drawn field from the digest, but the comment says it's a hash draw and the code contradicts the comment
+  - says: drawn field from the digest
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 - **dashboard.py** `safety` — [MEDIUM] The function reads data from `state/drill_last.json` and calculates the age of the data, which aligns with the claim. However, the code does not explicitly state that the age is crucial for distinguishing between current and past data states.

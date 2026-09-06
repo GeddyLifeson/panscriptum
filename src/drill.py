@@ -626,6 +626,52 @@ def _live_stmt_walk(stmts):
     return [x for s in stmts for x in _live_walk(s)]
 
 
+def _arm_leaves(body, exits):
+    """Does this branch's OWN body leave by one of `exits`? -> bool.
+
+    THE QUESTION EVERY GUARD NET IS ACTUALLY ASKING, and four of them were asking a looser one
+    (order 515eb8cae3c2). They walked the whole arm with `_live_stmt_walk` and accepted any
+    `Continue` node anywhere inside it -- so a `continue` belonging to a NESTED loop counted as
+    the arm leaving. Proved with a fixture whose only `continue` sits in an inner `for` and
+    which spawns unconditionally afterwards: the inner loop swallows the `continue`, the arm
+    falls through, and the launch the guard was supposed to skip happens anyway. The net said
+    the guard was wired.
+
+    So an exit is credited only to the block that OWNS it:
+
+      * `Continue`/`Break` belong to the innermost enclosing loop, so one inside a `for`/`while`
+        nested in the arm does not leave the arm;
+      * `Return` belongs to the innermost enclosing function, and a nested `def` is not executed
+        where it is written, so nothing inside one counts at all;
+      * `Raise` propagates out of every loop, so it leaves from wherever it stands.
+
+    Reachability is handled here rather than by the caller: every statement list on the way down
+    goes through `_live_stmts`, so a `continue` parked after a `return` is not an exit either.
+    """
+    import ast
+
+    def scan(stmts, in_loop):
+        for s in _live_stmts(stmts):
+            if isinstance(s, exits) and not (isinstance(s, (ast.Continue, ast.Break))
+                                             and in_loop):
+                return True
+            if isinstance(s, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                continue                       # a definition does not run where it is written
+            loop = isinstance(s, (ast.For, ast.AsyncFor, ast.While))
+            for field in ("body", "orelse", "finalbody"):
+                block = getattr(s, field, None)
+                # A loop's `else` is outside the loop for `continue`/`break` purposes: an exit
+                # there binds to whatever loop encloses the whole statement, not to this one.
+                if block and scan(block, in_loop or (loop and field == "body")):
+                    return True
+            for h in getattr(s, "handlers", ()) or ():
+                if scan(h.body, in_loop):
+                    return True
+        return False
+
+    return scan(body, False)
+
+
 def _call_spellings(tree, node=None, reachable=False):
     """Every call spelling inside `node` (default: the whole module), resolved through the
     module's imports.
@@ -890,7 +936,7 @@ def _gate_precedes_spawn(tree, fn, gate, spawn, exits):
         if not isinstance(g, ast.If) or not _guarded_by(tree, g, answered):
             continue
         arm = _live_stmt_walk(_live_stmts(g.body))
-        if not any(isinstance(x, exits) for x in arm):
+        if not _arm_leaves(g.body, exits):
             continue                            # the stopped arm must LEAVE, not fall through
         if any(x is s for x in arm for s in spawns):
             continue                            # ... and must not launch what it just refused
@@ -951,9 +997,20 @@ def _subscript_assigns(node, obj, key, reachable=False):
     return out
 
 
-_WRITE_CALLS = {"_write": 0, "write_bytes": 0, "write_text": 0, "os.remove": 0,
+# Free functions whose PATH is the argument at the mapped index.
+_WRITE_CALLS = {"_write": 0, "os.remove": 0,
                 "os.unlink": 0, "shutil.rmtree": 0, "shutil.copy": 1, "shutil.copy2": 1,
                 "shutil.copyfile": 1, "shutil.move": 1, "os.replace": 1, "os.rename": 1}
+
+# pathlib METHODS, whose path is the RECEIVER and is not an argument at all. They sat in the
+# table above at index 0, beside the free functions, which is how they came to be filed there --
+# but in `p.write_text(body)` argument 0 is the BODY, so `_write_targets` handed back the
+# CONTENT expression as though it were the path, and `mutation_never_touches_the_live_tree`
+# would have been reasoning about the wrong node. The error runs toward a FALSE owner halt, not
+# a missed one, and it is latent: `mutate.py` writes through its own `_write(path, data)`, where
+# index 0 really is the path, so nothing was wrong on today's tree. It was wrong for the day
+# somebody reached for pathlib. (order d1b2247ff350)
+_WRITE_METHODS = ("write_bytes", "write_text")
 
 
 def _write_targets(tree, node):
@@ -962,12 +1019,21 @@ def _write_targets(tree, node):
     `open(p, "w")` and friends, plus the small set of module helpers and shutil/os spellings
     this project actually writes through. A mode with no `w`/`a`/`x`/`+` in it is a read and is
     not collected -- `_read`'s `open(path, "rb")` must not count as touching anything.
+
+    Two tables, because two shapes: `_WRITE_CALLS` holds free functions whose path is an
+    ARGUMENT, `_WRITE_METHODS` the pathlib methods whose path is the RECEIVER. See the note
+    above `_WRITE_METHODS` for what filing the second kind in the first table did.
     """
     import ast
     maps = _import_maps(tree)
     out = []
     for n in _live_walk(node):
-        if not isinstance(n, ast.Call) or not n.args:
+        if not isinstance(n, ast.Call):
+            continue
+        if isinstance(n.func, ast.Attribute) and n.func.attr in _WRITE_METHODS:
+            out.append((n, n.func.value))      # `p.write_text(body)` -- the path is `p`
+            continue
+        if not n.args:
             continue
         spellings = _spellings_of_call(tree, n, maps)
         for want, idx in _WRITE_CALLS.items():
@@ -1071,9 +1137,25 @@ def _rooted_names(tree, node, seed):
 def _is_rooted(tree, expr, derived, maps=None):
     """Is this expression a path anchored at one of `derived`? -> bool.
 
-    A bare `path`, an `os.path.join(root, ...)`, or either wrapped in `or`/a conditional. A
-    literal, an unrelated name, or a join off some other root is NOT rooted, which is the whole
-    question a net asks when it wants to know whether a write landed in the sandbox.
+    A bare `path`, any `join(...)` carrying one -- `os.path.join(root, ...)` is the spelling
+    this project writes -- or either wrapped in `or`/a conditional. A literal, an unrelated
+    name, or a join off some other root is NOT rooted, which is the whole question a net asks
+    when it wants to know whether a write landed in the sandbox.
+
+    THERE USED TO BE AN `os.path.join` BRANCH ABOVE THE `join` ONE AND IT COULD NEVER FIRE
+    (order 3c4b04b4b463). `_spellings_of_call` builds a dotted spelling only when the callee's
+    receiver is a bare `Name`, and in `os.path.join(...)` the receiver is `os.path`, an
+    `Attribute` -- so the only spelling that call ever produced was the bare `join`, and the
+    branch below it was doing all the work for both. Dead code that reads as a check is the
+    shape this whole file exists against, so the dead branch is gone and the live one says what
+    it accepts.
+
+    WHAT IT NO LONGER ACCEPTS. A bare `join` matched `",".join(root)` as readily as a path
+    build, so a SENTENCE assembled out of a rooted name read as a place inside the sandbox. A
+    string literal in the receiver position is the SEPARATOR; when it holds no path separator
+    the answer is text, not a location. `os.sep.join`, `"/".join` and any join this module
+    cannot resolve are all still read as path builds, which keeps the accepting direction the
+    two branches had between them -- the narrowing is exactly the case that was never a path.
     """
     import ast
     maps = maps if maps is not None else _import_maps(tree)
@@ -1082,10 +1164,11 @@ def _is_rooted(tree, expr, derived, maps=None):
     if isinstance(expr, (ast.BoolOp, ast.IfExp)):
         kids = expr.values if isinstance(expr, ast.BoolOp) else [expr.body, expr.orelse]
         return any(_is_rooted(tree, k, derived, maps) for k in kids)
-    if isinstance(expr, ast.Call) and _spelled(_spellings_of_call(tree, expr, maps),
-                                               "os.path.join"):
-        return any(_is_rooted(tree, a, derived, maps) for a in expr.args)
     if isinstance(expr, ast.Call) and _spelled(_spellings_of_call(tree, expr, maps), "join"):
+        recv = expr.func.value if isinstance(expr.func, ast.Attribute) else None
+        if (isinstance(recv, ast.Constant) and isinstance(recv.value, str)
+                and not any(c in recv.value for c in "/\\")):
+            return False                       # `",".join(...)` is text, not a place
         return any(_is_rooted(tree, a, derived, maps) for a in expr.args)
     return False
 
@@ -2165,7 +2248,7 @@ def _halt_is_not_breakage(src=None):
             if not isinstance(g, ast.If) or not _guarded_by(tree, g, asked):
                 continue
             arm = _live_stmts(g.body)
-            if not any(isinstance(x, ast.Continue) for x in _live_stmt_walk(arm)):
+            if not _arm_leaves(g.body, ast.Continue):
                 continue
             if any(_says(s, "it is a broken one", reachable=True) for s in arm):
                 continue                       # the halted arm IS the give-up. Not a guard.
@@ -2232,9 +2315,17 @@ def _the_log_name_actually_sanitises():
     """
     hostile = 'Kobold Press: ../../etc/passwd\\x00 & "quoted" (Midgard)'
     out = ESC._safe_name(hostile)
-    kept = set(out) - set("-_")
-    return (out and all(c.isalnum() for c in kept)
-            and "/" not in out and "\\" not in out and ":" not in out and ".." not in out
+    # ONE ALPHABET CLAUSE, NOT FIVE (order 16b4f9dbecb6). Four clauses used to follow this one
+    # -- `"/" not in out`, `"\\" not in out`, `":" not in out`, `".." not in out` -- and not one
+    # of them could ever be the reason this net refused. Every character they name is non-alnum
+    # and is neither `-` nor `_`, so the alphabet clause had already failed on it. A check that
+    # cannot fail reads exactly like a check that passed, which is the shape `liveness.py`
+    # exists to find and the standing lesson CLAUDE.md names -- and it was sitting in the drill,
+    # which is what Hard Rule -1 rests on. The alphabet is the clause that actually carries all
+    # four of those promises, so it is stated once, over the whole answer, where loosening it
+    # loses the promises visibly instead of leaving four true-by-construction clauses standing
+    # in for a guarantee that has quietly gone.
+    return (out and all(c.isalnum() or c in "-_" for c in out)
             # and it still separates two different sources, which is the other half of the
             # contract `_safe_name` was rewritten for (order e8cd908ce5e4).
             and ESC._safe_name("a" * 80 + "one") != ESC._safe_name("a" * 80 + "two"))
@@ -2764,7 +2855,17 @@ def drill_local_agent():
             unstage()
         # Refused through the link, and the ordinary path still permitted -- a gate that refuses
         # everything passes every refusal test ever written.
-        return through_link is None and bool(ordinary) and not os.path.exists(link)
+        #
+        # AND THE CLEANUP IS NOT PART OF THE VERDICT (order f5f01fe5f8ef). This used to end
+        # `and not os.path.exists(link)`, which graded the net's OWN litter: a denied `os.rmdir`
+        # -- an antivirus scanner holding the directory for a moment is enough on this machine
+        # -- turned a held net into a breached one, and `main()` escalates a breached net to
+        # OWNER. A full stop caused by a probe that could not tidy up is precisely the failure
+        # order ef0b67732a3b already records this net causing once, and it contradicts the
+        # ruling written above: a probe that could not be staged, or unstaged, is NOTED, not
+        # graded. `unstage()` files that note. The sibling net at
+        # `_junction_to_an_unlisted_but_undenied_place` has always left the term out.
+        return through_link is None and bool(ordinary)
     net(a, "a JUNCTION out of the writable surface is refused",
         _junction_out_of_the_writable_surface,
         "the gate compared a string while the filesystem resolved a different one -- the same "
@@ -3530,9 +3631,21 @@ def _the_scanner_reads_files_over_two_megabytes():
                     else P.scan_for_secrets(d))
 
         long_line = filler * 55_000                     # ~3.1 MB, no newline anywhere
+        # AND THE "MULTI-LINE" ARM HAD NO LINE BREAKS IN IT (order 010eedfe1c47). `filler`
+        # contains no newline, so `filler * 40_000 + _AWS_EXAMPLE + "\n"` was ONE ~2.36 MB
+        # logical line with the only newline at the very end -- structurally identical to
+        # `long_line` below, which the comment beside it calls "no newline anywhere". Both
+        # therefore took `_scan_units`'s overlapping-SEGMENT branch, since that branch is
+        # entered by a logical line longer than `line_cap` and not by a large file. So this
+        # arm tested the same code shape as the next one, and the genuinely different case --
+        # the ordinary file of many short lines that only crosses `max_bytes` in AGGREGATE,
+        # which is the likely shape of the incident's own examples (a 2.97 MB citations file, a
+        # 2.68 MB terminal page) -- drove nothing here. `_scan_units`'s per-line yield and its
+        # `for mid in parts[1:-1]` had no regression cover in this file at all. Real breaks now.
+        multi_line = "\n".join([filler] * 40_000)       # ~2.3 MB, 40,000 ordinary short lines
         # The two oversized arms take the REAL default, because "size is not a reason to skip"
         # is a claim about what the scanner does to files nobody sized for it.
-        if not only("big.md", filler * 40_000 + _AWS_EXAMPLE + "\n"):
+        if not only("big.md", multi_line + _AWS_EXAMPLE + "\n"):
             return False
         if not only("register.json", _AWS_EXAMPLE + long_line):
             return False
@@ -3543,7 +3656,7 @@ def _the_scanner_reads_files_over_two_megabytes():
                       + long_line[:seam])              # material on the far side of the cut
         if not only("minified.js", straddling, cap=seam):
             return False
-        return not only("clean.md", filler * 40_000)
+        return not only("clean.md", multi_line)
     finally:
         shutil.rmtree(d, ignore_errors=True)
 
@@ -4188,6 +4301,69 @@ def drill_two_writer():
         nothing_to_write_is_not_a_failure,
         "phase 8 with nothing settled enough to write is a correct outcome, not a denied write")
 
+    def the_deprecated_cataloguer_still_refuses(src=None):
+        """THE THIRD WRITER IS QUARANTINED, and nothing was watching the quarantine.
+
+        `src/deprecated/catalogue_local.py` is a live entry point that writes
+        `data/records/<slug>.json` with a bare `open(path, "w")` -- a third writer against the
+        two-writer contract every other net in this area defends -- and rewrites the whole of
+        `data/SWEEP_ROLL.json` non-atomically inside its per-source loop, so a Ctrl-C lands a
+        truncated roll. What stopped it was a README until order 2bf50e1ae6ce put a refusal at
+        the top of the file itself, above every path, so importing it stops as hard as running
+        it. That order's own last line asked for this net (order ee3d4404718a).
+
+        THE ATTACK THIS EXISTS AGAINST is somebody deleting the refusal because six lines at the
+        top of a deprecated file nobody reads look exactly like dead code -- which is the shape
+        of the 2026-08-25 incident, an autonomous run removing a safety it judged unnecessary.
+        `_drill_never_writes_the_gate` is the precedent: a net whose whole job is to notice the
+        reintroduction of a removed fault.
+
+        BOTH HALVES, because each protects the other. Every argv, and none at all, must exit
+        NON-ZERO and name `deprecated/README.md` ON STDERR. And `--help` must still exit ZERO:
+        `allsweep.check_import` asks every module under `src/` for `--help` and grades a
+        non-zero rc as a BROKEN IMPORT, and `sweep_plan._src_py_files` made this directory
+        visible to that tier, so a bare refusal here files a MAJOR order against a module
+        behaving exactly as designed -- order 2d6c9343cd32's mistake, which `cascade_bridge` was
+        given an argv guard to escape. A net that only checked the refusal would push whoever
+        fixed the resulting false order straight into removing the exemption.
+
+        WHICH STREAM IT ARRIVES ON IS THE WHOLE DIFFERENCE, and the first version of this net
+        did not ask. "Non-zero, and the words appear somewhere" is satisfied by
+        `print(_REFUSAL)` over a `main()` left fully live -- the module says the right thing,
+        runs anyway, and exits non-zero later for some unrelated reason of its own. Watched: the
+        loose form reported HELD against exactly that mutant. `raise SystemExit(msg)` writes
+        `msg` to STDERR; `print(msg)` writes it to STDOUT. So a refusal is a refusal only on
+        stderr, and `--help`'s notice -- which is a message, not a refusal -- only on stdout.
+        That is the line between stopping and merely mentioning, and it is the line this net is
+        about.
+
+        Run as a SUBPROCESS, not imported: the refusal is a module-level `SystemExit`, so
+        importing it here would end the drill, and `sys.modules` would make a second ask
+        meaningless anyway. Nothing is written by any of these five runs -- that is the claim.
+        """
+        import subprocess
+        mod = os.path.join(_srcdir(src), "deprecated", "catalogue_local.py")
+        if not os.path.isfile(mod):
+            return False              # the quarantined module gone is not evidence of a refusal
+
+        def ask(argv):
+            r = subprocess.run([sys.executable, mod] + list(argv), capture_output=True,
+                               text=True, errors="replace", cwd=HERE, timeout=300,
+                               creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            return r.returncode, (r.stdout or ""), (r.stderr or "")
+
+        named = "deprecated/README.md"
+        for argv in ([], ["--dry-run"], ["--limit", "3"], ["--only", "Bleach"]):
+            rc, out, err = ask(argv)
+            if rc == 0 or named not in err:
+                return False
+        rc, out, err = ask(["--help"])
+        return rc == 0 and named in out
+    net(a, "the deprecated cataloguer still refuses to run, and still answers --help",
+        the_deprecated_cataloguer_still_refuses,
+        "a README said 'do not run' for months while every entry point stayed fully live; the "
+        "refusal that replaced it is six lines in a file nobody opens")
+
 
 # ============================================================== THE DONE-KEY (permanent loss)
 
@@ -4596,6 +4772,45 @@ def drill_profile():
     net(a, "a well-formed profile still decodes",
         lambda: PR.decode("PS-1a-hfc-0000-u0")["address"] == 42,
         "a decoder that refuses everything is a wall, not a format")
+
+    def the_validator_is_what_refuses_it(src=None):
+        """THE TWO NETS ABOVE CANNOT TELL A REFUSAL FROM A CRASH, and for four days that was
+        the whole of the fault (orders ed46a60bc2dc, 559b09f35e5c, 6f1652a21efb -- three
+        separate filings against one line).
+
+        `decode`'s pattern spelled its address and feature groups `[0-9a-z]`, the full
+        36-character range, while `B32` is the 32-symbol Crockford set with i, l, o and u
+        removed. So those four letters passed `re.fullmatch` cleanly, the
+        `raise ValueError(f"not a world profile: {profile!r}")` written for exactly that case
+        never fired, and execution carried on into `_unb32`, where `B32.index(ch)` raised a bare
+        `ValueError: substring not found` from inside a private helper -- naming neither the
+        profile nor the offending character.
+
+        AND `_refuses(..., ValueError)` ACCEPTS BOTH, which is why two nets sat directly above
+        this one asserting the right property and reporting HELD across every one of those four
+        days. The string was refused either way and nothing decoded wrongly; what was wrong is
+        WHICH LAYER refused it and with what. A net that asks only for the exception TYPE cannot
+        see that difference, and the difference is the entire remedy.
+
+        So this asks for the message. All four excluded letters, in both fields, and the
+        refusal must be the validator's own -- it must name the profile it rejected, which
+        `B32.index`'s cannot do because it never saw one.
+        """
+        import profile as _PR
+        for bad in ("PS-i23-myc-0000-u0", "PS-1l3-myc-0000-u0", "PS-1o3-myc-0000-u0",
+                    "PS-1u3-myc-0000-u0", "PS-123-myc-000i-u0", "PS-123-myc-l000-u0",
+                    "PS-123-myc-00o0-u0", "PS-123-myc-000u-u0"):
+            try:
+                _PR.decode(bad)
+                return False                   # accepted a character the encoder cannot write
+            except ValueError as e:
+                if "not a world profile" not in str(e) or repr(bad) not in str(e):
+                    return False               # refused, but by `B32.index`, not the validator
+        return True
+    net(a, "a profile outside the alphabet is refused BY THE VALIDATOR, naming the string",
+        the_validator_is_what_refuses_it,
+        "the guard written for this case never fired; the string died four frames later inside "
+        "a private helper, as 'substring not found', naming neither the profile nor the char")
 
 
 # ============================================================== THE UNDO (snapshots)
@@ -5822,9 +6037,7 @@ def _local_buckets_excluded_from_cloud_claims(src=None):
                     guards = True
             if not guards:
                 continue
-            arm = _live_stmt_walk(_live_stmts(n.body))
-            if any(isinstance(x, (ast.Continue, ast.Break, ast.Return, ast.Raise))
-                   for x in arm):
+            if _arm_leaves(n.body, (ast.Continue, ast.Break, ast.Return, ast.Raise)):
                 return True
         return False
 
@@ -7252,7 +7465,7 @@ def drill_rung_four():
             if not isinstance(g, ast.If) or not _guarded_by(tree, g, answered):
                 continue
             arm = _live_stmt_walk(_live_stmts(g.body))
-            if not any(isinstance(x, ast.Continue) for x in arm):
+            if not _arm_leaves(g.body, ast.Continue):
                 continue                       # the stopped arm must SKIP, not fall through
             if any(x is s for x in arm for s in started):
                 continue                       # ... and must not start the job it just skipped
@@ -8086,6 +8299,83 @@ def drill_escalation_behaviour():
         "order 4f290dae34ef: the operator got a traceback while the subsystem was still "
         "stopped on disk; reporting it as resumed instead is the same fault told as good news")
 
+    def a_stop_that_was_never_recorded_closes_only_a_FALSE_order():
+        """THE RECHECK AFTER AN UNRECORDABLE STOP -- three worlds, and only one closes an order.
+
+        `stop_subsystem` escalates to MANAGER before it touches any disk, and `escalate` turns
+        every escalation into a work order -- so a MAJOR order keyed (SUBSYSTEM_STOPPED, name)
+        exists saying the subsystem is stopped. If the write to `state/STOPPED.json` then never
+        lands, that order is FALSE and order b1ffe2a0e293 closes it. But `landed` False does not
+        by itself prove the subsystem is running: the name may have been stopped by an earlier
+        call that DID land, in which case the order is true and closing it erases a live alarm.
+        So the ledger is re-read, and the order is closed only where it positively shows the
+        name absent.
+
+        TWO MUTANTS, BOTH IN THIS BLOCK AND BOTH FAIL-OPEN (orders 3d88887246d3 at
+        escalation.py:601 and 8c02de6742ee at :602). `_still_stopped = True` on an unreadable
+        ledger -> False closes a SUBSYSTEM_STOPPED order that is still true; `if not
+        _still_stopped:` losing its `not` closes the order exactly when the subsystem IS
+        stopped. Both survived because nothing in the battery arranges a stop whose write
+        fails -- the branch was unreachable, so every line in it was free.
+
+        THREE WORLDS, because each mutant is invisible in the other two:
+
+          * the write is denied and the ledger does NOT hold the name -- the order is false and
+            must be CLOSED. This is the only world in which anything is closed at all, and
+            without it the `not` could be dropped for nothing;
+          * the write is denied and the ledger DOES hold the name, from an earlier stop that
+            landed -- the order is TRUE and nothing may be closed. This kills the dropped `not`;
+          * the ledger cannot be asked at all -- `subsystem_stopped` raises -- and the order
+            STANDS, because an answer nobody could get is not evidence that a subsystem is
+            running. This kills the fail-open `_still_stopped = False`.
+
+        `workorders.resolve_code` is stood in for and its calls collected. It is not one of the
+        two side effects `_esc_sandbox` already stops (`file_order` and `health.record`), so
+        without the stand-in this probe would reach the real queue -- and reaching the real
+        queue to close orders is the one thing a net about closing orders wrongly must not do.
+        """
+        def probe(d, filed):
+            import workorders as WO
+            real_resolve, real_stopped = WO.resolve_code, ESC.subsystem_stopped
+            closed = []
+            WO.resolve_code = lambda *args, **kw: closed.append((args, kw))
+            try:
+                def denied_stop(name):
+                    del closed[:]
+                    _with_refused_writes(
+                        d, lambda: ESC.stop_subsystem(name, "a reason", who="drill-probe"))
+
+                # 1 -- nothing in the ledger: the order the escalation filed is false.
+                denied_stop("sub-never-landed")
+                if len(closed) != 1:
+                    return False
+                args, kw = closed[0]
+                if args[0] != "SUBSYSTEM_STOPPED" or kw.get("where") != "sub-never-landed":
+                    return False
+
+                # 2 -- already stopped by a call that DID land: the order is true, leave it.
+                with open(ESC.STOPPED, "w", encoding="utf-8") as f:
+                    json.dump({"sub-already-stopped": {"at": time.time(),
+                                                       "reason": "an earlier stop that landed",
+                                                       "by": "someone"}}, f)
+                denied_stop("sub-already-stopped")
+                if closed:
+                    return False
+
+                # 3 -- the ledger cannot be asked: leave the order standing.
+                def unaskable(_name):
+                    raise OSError("the stop ledger cannot be read at all")
+                ESC.subsystem_stopped = unaskable
+                denied_stop("sub-unknowable")
+                return not closed
+            finally:
+                WO.resolve_code, ESC.subsystem_stopped = real_resolve, real_stopped
+        return _esc_probe(probe)
+    net(a, "an unrecordable stop closes its work order only when the ledger says NOT stopped",
+        a_stop_that_was_never_recorded_closes_only_a_FALSE_order,
+        "this rung's whole worth is that a real stop can be FOUND in the queue, and it cannot "
+        "be found among false copies of itself -- nor if a true one is quietly closed")
+
     def a_refused_write_leaves_no_litter_beside_the_ledger():
         def probe(d, filed):
             ESC.stop_subsystem("probe-sub", "a reason", who="p")
@@ -8277,6 +8567,112 @@ def drill_escalation_behaviour():
         a_lift_that_did_not_land_writes_no_ledger_entry,
         "a ledger entry for a lift that did not happen is worse than no entry, because it "
         "is what the next reader trusts when the file and the log disagree")
+
+    def the_readback_asks_what_the_file_says_not_what_shape_it_is():
+        """`_halt_file_cleared` is the readback that makes a lift's verdict EVIDENCE.
+
+        THE MUTATION THIS REFUSES (order be7eed229509, escalation.py:966). `isinstance(cur,
+        dict) and bool(cur.get("cleared", False))` -> `or`. The file exists and parses -- it
+        always does, that is what a standing halt looks like -- so the first operand is True and
+        the mutant answers True without ever reading the field. A STANDING HALT REPORTS AS
+        LIFTED. `clear()` then writes its HALT_CLEARED ledger line and tells the person the
+        library is running while every job goes on refusing, which is the precise disagreement
+        between file and log that the net above exists to keep out of the ledger.
+
+        It survived because the only caller is inside `clear()`, and `clear()` refuses a
+        programmatic caller by design -- correctly, and that refusal is not weakened here. The
+        helper is called DIRECTLY instead, which lifts nothing and asks nobody's permission.
+
+        BOTH ANSWERS, since a readback that always says False refuses every real lift and would
+        pass a one-directional test -- that is the same shape as `lifting_an_unhalted_library`'s
+        lost `not`, arriving one function down.
+        """
+        def probe(d, filed):
+            def on_disk(cleared):
+                with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                    json.dump({"code": "TEST", "cleared": cleared}, f)
+            on_disk(False)
+            if ESC._halt_file_cleared() is not False:
+                return False               # a standing halt read as lifted
+            on_disk(True)
+            return ESC._halt_file_cleared() is True
+        return _esc_probe(probe)
+    net(a, "the halt readback answers the CLEARED FIELD, not the file's existence",
+        the_readback_asks_what_the_file_says_not_what_shape_it_is,
+        "the one check standing between a refused lift and a HALT_CLEARED line in the ledger")
+
+    def a_refused_lift_leaves_no_temp_file_behind():
+        """A compare-and-swap that REFUSED must take its scratch copy with it.
+
+        THE MUTATION THIS REFUSES (order 5be3e1774747, escalation.py:984). `_land_clear` writes
+        the lifted record to a temp file and hands it to `replace_if_unchanged`; on a refusal --
+        which is the ordinary outcome when a fault landed under the writer, and the reason the
+        compare-and-swap is there at all -- `if not landed: _unlink(tmp)` removes it. Drop the
+        `not` and every refused attempt leaks a `HALT.json.<pid>.<tid>.clear.tmp` beside the
+        real halt file, and `clear()` makes STOP_CAS_ATTEMPTS of them per lift. That is litter
+        in `state/`, which is on `local_agent.DENYLIST_PREFIXES` and is the directory a person
+        reads when they are deciding whether the library is halted -- and each leaked file is a
+        complete halt record saying `cleared: true`.
+
+        Forced by handing an `expected` digest that cannot match what is on disk, so
+        `replace_if_unchanged` must refuse the rename. The whole sandbox directory is listed
+        before and after: the assertion is that NOTHING appeared, which does not depend on the
+        temp file's name and so cannot be defeated by renaming it.
+        """
+        def probe(d, filed):
+            with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                json.dump({"code": "TEST", "cleared": False}, f)
+            before = sorted(os.listdir(d))
+            landed, why = ESC._land_clear({"code": "TEST", "cleared": True},
+                                          "not-the-digest-on-disk")
+            return (landed is False and "refusing to land a stale copy" in (why or "")
+                    and sorted(os.listdir(d)) == before)
+        return _esc_probe(probe)
+    net(a, "a refused lift removes its own scratch copy", a_refused_lift_leaves_no_temp_file_behind,
+        "each leak is a complete halt record reading cleared:true, in the directory a person "
+        "reads to find out whether the library is halted")
+
+    def a_writer_who_says_it_landed_is_not_taken_at_its_word():
+        """AND THE READBACK IS ASKED, not merely available (order 5b051a906ecf, line 939).
+
+        `if landed and _halt_file_cleared():` -> `or`. The net two above proves the readback
+        answers the file correctly; this proves `clear()` still CONSULTS it. They are different
+        claims and each survives the other's mutation: a perfect readback nothing asks is a
+        perfect readback nothing asks.
+
+        The gap the `and` covers is stated in `clear()`'s own comment: `replace_if_unchanged`
+        re-reads the digest immediately before its rename, so a competing writer can still land
+        in the gap between that read and the rename, and `landed` is then the WRITER'S OWN claim
+        about a file it no longer owns. That is the same discarded-verdict shape `_raise_halt`
+        was repaired for. With `or`, the writer's word is enough: HALT_CLEARED goes into the
+        ledger and `clear()` returns True over a `state/HALT.json` that still says `cleared:
+        false`, so the person walks away and every job goes on refusing.
+
+        DRIVEN BY A LANDING THAT DID NOT LAND. `_land_clear` is stood in for -- it reports
+        `(True, "")` and writes nothing -- which is exactly the world the readback exists to
+        catch and is not otherwise reachable, since a real `replace_if_unchanged` that returns
+        True has by then genuinely written the file. The halt is real, the person check is
+        stubbed the way the rest of this section stubs it, and the assertion is on both the
+        verdict and the ledger: `clear()` must report False and no HALT_CLEARED line may exist.
+        """
+        def probe(d, filed):
+            ESC.escalate(ESC.OWNER, "ORIGINAL", "the fault that stopped the library")
+            real_land = ESC._land_clear
+            ESC._land_clear = lambda rec, expected: (True, "")   # claims to have landed
+            try:
+                did = _as_a_person(lambda: ESC.clear("a ruling long enough to pass"))
+            finally:
+                ESC._land_clear = real_land
+            halted, rec = ESC.status()
+            with open(ESC.LOG, encoding="utf-8") as f:
+                rows = [json.loads(line) for line in f if line.strip()]
+            return (did is False and halted is True and rec.get("cleared") is not True
+                    and not [r for r in rows if r.get("code") == "HALT_CLEARED"])
+        return _esc_probe(probe)
+    net(a, "a lift is not believed on the writer's word; the file is read back",
+        a_writer_who_says_it_landed_is_not_taken_at_its_word,
+        "`replace_if_unchanged` re-reads the digest before its own rename, so a competing "
+        "writer still fits in the gap and `landed` is a claim about a file this writer lost")
 
     # ------------------------------------------------------------------ the CLI
     #
@@ -9156,6 +9552,97 @@ def drill_codewatch():
     net(a, "source-change restarts are budgeted per job per hour", restarts_are_budgeted,
         "an unbudgeted restarter is a respawn loop waiting for an edit storm")
 
+    def the_live_claim_path_runs_out_and_refills():
+        """THE SAME BUDGET, THROUGH THE FUNCTION THAT ACTUALLY SPENDS IT (order 06b7f22484df).
+
+        The net above drives `_budget_left`, and `codewatch.py`'s own docstring on that function
+        says in capitals that it has NO PRODUCTION CALLER: since the run #36 fix `exit_if_stale`
+        claims through `_claim_restart_slot` -> `_take_locked(enforce=True)`. `_budget_left`
+        delegates to the same two helpers, so the arithmetic it measures is the real one -- but
+        the ENFORCEMENT is not arithmetic. It is `if enforce and len(recent) >=
+        BUDGET_PER_HOUR: return False`, one branch in a different function, and nothing drove
+        it. A budget that is only ever read is not a budget anyone has watched refuse.
+
+        So this spends real slots through the real claim, requires the fifth to be REFUSED, then
+        ages the ledger past the rolling hour and requires the budget to come back. Both
+        directions, because a claim that always refuses caps a daemon at zero restarts for ever
+        and would pass a one-directional test.
+
+        `_claim_restart_slot` and NOT `exit_if_stale`, for the reason the net above states: the
+        far end of that function escalates and then exits the process, so a net that reached it
+        would raise on a live library or kill the drill. `_claim_restart_slot` takes the ledger
+        lock, reads, appends and writes -- it escalates nothing and exits nothing. Confirmed
+        against the source this shift.
+
+        BOTH `LEDGER` AND `LEDGER_LOCK` ARE REDIRECTED, and the second one matters here in a way
+        it does not above. `LEDGER_LOCK = LEDGER + ".lock"` is computed once at import, so
+        repointing `LEDGER` alone leaves the lock file pointing into the real `state/`
+        directory -- and unlike `_budget_left`, which never locks, this path creates and removes
+        that file on every claim. A probe that litters the live state directory is the shape
+        `_ledger_redirected` was written for one module over.
+        """
+        import codewatch as CW
+        real, real_lock = CW.LEDGER, CW.LEDGER_LOCK
+        d = tempfile.mkdtemp(prefix="drill_codewatch_claim_")
+        who = "__drill__"
+        try:
+            CW.LEDGER = os.path.join(d, "CODEWATCH.json")
+            CW.LEDGER_LOCK = CW.LEDGER + ".lock"
+            for i in range(CW.BUDGET_PER_HOUR):
+                granted, used = CW._claim_restart_slot(who)
+                if not granted or used != i:
+                    return False               # a slot inside the budget must be GRANTED
+            if CW._claim_restart_slot(who) != (False, CW.BUDGET_PER_HOUR):
+                return False                   # ... and the one past it must be REFUSED
+            with open(CW.LEDGER, encoding="utf-8") as f:
+                doc = json.load(f)
+            doc[who] = [t - 3601 for t in doc[who]]     # an hour and a second on
+            with open(CW.LEDGER, "w", encoding="utf-8") as f:
+                json.dump(doc, f)
+            return CW._claim_restart_slot(who) == (True, 0)
+        finally:
+            CW.LEDGER, CW.LEDGER_LOCK = real, real_lock
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "the restart claim itself runs out at the budget, and refills after the hour",
+        the_live_claim_path_runs_out_and_refills,
+        "the tested arithmetic and the spent arithmetic were two different functions, and only "
+        "one of them could refuse anything")
+
+    def a_denied_ledger_write_refuses_the_restart():
+        """FAIL CLOSED ON A DENIED WRITE -- the fix of order f06ba4c82363, never watched.
+
+        `_take_locked` used to call `silence.write_json` for its side effect and grant the slot
+        regardless. That function returns False rather than raising when the atomic replace is
+        denied, and on Windows a denied replace is the ORDINARY case for this file: the
+        dashboard reads `CODEWATCH.json` and a reader holding it open is enough. So a
+        persistently denied write granted every claim while recording none -- `recent` never
+        grew, `BUDGET_PER_HOUR` could never be reached, and the only cap between a daemon that
+        keeps exiting and a restart storm was silently absent. Not a smaller budget: no budget,
+        with the arithmetic still reporting one.
+
+        The repair is one line -- if the spend cannot be recorded it is not authorised -- and
+        nothing anywhere asked whether it was still there. Driven by refusing the write the way
+        Windows refuses it, with a bool and not an exception, because an exception is the case
+        the surrounding `try` already handled and the bool is the case it did not.
+        """
+        import codewatch as CW
+        import silence as SI
+        real, real_lock, real_write = CW.LEDGER, CW.LEDGER_LOCK, SI.write_json
+        d = tempfile.mkdtemp(prefix="drill_codewatch_denied_")
+        try:
+            CW.LEDGER = os.path.join(d, "CODEWATCH.json")
+            CW.LEDGER_LOCK = CW.LEDGER + ".lock"
+            SI.write_json = lambda *args, **kw: False      # denied, not raised
+            granted, used = CW._claim_restart_slot("__drill_denied__")
+            return granted is False and used == 0
+        finally:
+            CW.LEDGER, CW.LEDGER_LOCK, SI.write_json = real, real_lock, real_write
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a restart whose ledger write was DENIED is refused, not granted unrecorded",
+        a_denied_ledger_write_refuses_the_restart,
+        "a budget whose accounting can fail unnoticed is not a budget; the cap was absent "
+        "exactly when the file was busy, which is exactly when daemons are restarting")
+
     def twin_detection_does_not_match_bystanders():
         """THE ONE THAT WOULD HAVE CAUSED THE OUTAGE IT PREVENTS, and that then went on to cause
         two outages of its own before it was written correctly.
@@ -9976,6 +10463,48 @@ def drill_recorders_and_lane():
         "wrote its 50 rows from one process, so the one hazard the function exists for was the "
         "one thing it could not produce -- 704 of 3,200 rows were being destroyed silently")
 
+    def a_coverage_name_that_is_no_module_is_refused():
+        """`sweep_plan.record()` USED TO ACCEPT ANY STRING as a coverage claim (order
+        f307490add1e), so `missing() == 0` was not evidence that a sweep had read anything: a
+        batch that read nothing and recorded four plausible module names was indistinguishable
+        from one that read every line of them. The completeness proof the whole sweep rests on
+        could not tell a claim from a reading, which is a check that cannot fail.
+
+        BOTH DIRECTIONS, and they are separate faults with separate costs.
+
+        Accepting the spellings that ARE real. On run41 fifteen batches all genuinely read their
+        modules and sent three different spellings from three callers -- the label `batches()`
+        emits, a `src/`-prefixed path, and a bare name with the extension stripped. `missing()`
+        matched only the first, named 26 of 116 modules as never read, and cost a re-audit of
+        every one of them. So `src/publish.py` and `foreman` have to resolve.
+
+        Refusing the ones that are NOT. Shard run41.7 recorded `catalogue_local.py`, which this
+        module spells `deprecated/catalogue_local.py` -- a name matching nothing, sitting in the
+        coverage record, noticed by nothing. That is the direction that matters, because a name
+        that resolves to no module is a void claim wearing the shape of proof.
+
+        The basename clause leans on `deprecated/catalogue_local.py` being the only module with
+        that basename, which is what makes the resolution exact rather than a guess -- checked
+        against the tree this shift: no basename under `src/` is duplicated. If two ever share
+        one, `normalise_module` refuses the bare form by design and this clause is the thing
+        that will say so.
+
+        PURE. It asks the vocabulary and the resolver and writes no shard, so running it every
+        cycle records nothing and disturbs no coverage record.
+        """
+        import sweep_plan as SP
+        known = SP.known_modules()
+        return (SP.normalise_module("src/publish.py", known) == "publish.py"
+                and SP.normalise_module("foreman", known) == "foreman.py"
+                and SP.normalise_module("catalogue_local.py", known)
+                == "deprecated/catalogue_local.py"
+                and SP.normalise_module("totally_made_up.py", known) is None)
+    net(a, "a coverage name that is not a module is refused, and run41's three spellings resolve",
+        a_coverage_name_that_is_no_module_is_refused,
+        "record() accepted any string, so missing()==0 was not evidence of coverage: a batch "
+        "that read nothing and recorded a plausible name looked identical to one that read "
+        "every line (order f307490add1e)")
+
 
 def drill_mutation():
     """The mutation lock — because breaking code on purpose is only safe if everyone knows.
@@ -10680,23 +11209,34 @@ def drill_scope():
         "an exclusion a maintenance script can undo unnoticed is not an exclusion")
 
     def excluded_sources_keep_their_records():
-        """Removed from work, NOT from disk. Reversing the ruling must cost one field."""
+        """Removed from work, NOT from disk. Reversing the ruling must cost one field.
+
+        THE SWALLOWED READ (order a531ac23d07c). This carried a bare `except Exception:
+        continue` around the record read -- verbatim the swallow `_policy_corpus_clean`'s own
+        docstring records REMOVING from itself, for the stated reason that a swallowed read
+        makes a breach here name the wrong fault. A record this net could not open contributed
+        no source name, so an unreadable corpus arrived as an EMPTY one, and `not names` reads
+        an empty corpus as "nothing was deleted". That is absence read as clean, in the net
+        whose whole subject is records that must still be on disk. Counted and failed now, and
+        it is the only thing that can fail this net which is not a missing record, so the two
+        cannot be confused by whoever reads the breach.
+        """
         import roll
         import glob as _g
         ex = roll.out_of_scope()
         if not ex:
             return True
-        names = set()
+        names, unreadable = set(), 0
         for p in _g.glob(os.path.join(HERE, "data", "records", "*.json")):
             try:
                 with open(p, encoding="utf-8") as fh:
                     names.add(json.load(fh).get("source"))
             except Exception:
-                continue
+                unreadable += 1
         # At least one excluded source that HAD records must still have them. If every excluded
         # source lost its records, "exclusion" has quietly become deletion.
         had = [n for n in ex if n in names]
-        return bool(had) or not names
+        return unreadable == 0 and (bool(had) or not names)
     net(a, "an excluded source keeps its records on disk", excluded_sources_keep_their_records,
         "withdraw MOVES, it does not unlink -- reversing a ruling must not need a re-crawl")
 

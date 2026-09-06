@@ -203,10 +203,31 @@ def clean_ceiling(ce, entry_names):
     # the entry 'Skarsgard Abraxis ("Skars"; also Admiral/Commander Abraxis...)' -- the same being,
     # written at greater length. A name cannot prefix an unrelated entry by accident the way it can
     # appear inside one.
-    low_pref = [n for n in entry_names
-                if n.lower().startswith(ce.lower()) and len(ce) >= 6]
-    if len(low_pref) >= 1:
-        return min(low_pref, key=len), "prefix"
+    # ONE MATCH RESOLVES; SEVERAL IS A GUESS, AND GUESSING IS WHAT THIS FUNCTION REFUSES TO DO
+    # (order ed6e66c0c12d). The guard was `len(low_pref) >= 1` followed by
+    # `min(low_pref, key=len)`, so where two or more catalogued entries shared the prefix --
+    # "Kratos (God of War)" beside "Kratos Aurion", a family surname, a numbered series -- the
+    # SHORTEST won on no evidence at all, was labelled "prefix" as though it had been resolved,
+    # and with --apply was written into synthesis.ceiling_entity. The docstring three lines up
+    # promises the opposite ("guessing a name would be worse than admitting phase 1 answered the
+    # wrong question"), and the comment above records that the SUBSTRING strategy was removed
+    # from this same function for exactly this failure. The safety argument offered for prefixes
+    # -- "a name cannot prefix an unrelated entry by accident the way it can appear inside one"
+    # -- is an argument about ONE match and does not survive being applied to several.
+    #
+    # `len(ce) >= 6` is invariant across the comprehension and read as a per-item test; hoisted.
+    # The `exact` branch above has already taken the identity case, so this only ever fires on a
+    # PROPER prefix.
+    low_pref = ([n for n in entry_names if n.lower().startswith(ce.lower())]
+                if len(ce) >= 6 else [])
+    if len(low_pref) == 1:
+        return low_pref[0], "prefix"
+    if low_pref:
+        # ITS OWN REASON, NOT FOLDED INTO "unresolved". Both are left alone, but they are
+        # different situations for whoever reads the report: nothing matched at all, versus
+        # several matched and the ceiling is genuinely ambiguous. The second is the one a person
+        # can act on, because the candidates are right there.
+        return ce, "prefix-ambiguous"
     return ce, "unresolved"
 
 
@@ -215,7 +236,12 @@ def main():
     ap.add_argument("--apply", action="store_true")
     args = ap.parse_args()
 
-    nav, ceil_fixed, ceil_unres, desc_fixed, thin = [], [], [], [], []
+    # SEPARATE LISTS FOR SEPARATE FINDINGS (orders c3eb0a80bb8a, ed6e66c0c12d). `nav` used to
+    # carry two different exclusions -- wiki navigation and empty rules mechanics -- under one
+    # heading and one number, while writing two DIFFERENT `excluded` reasons into the records.
+    # `ceil_ambig` is likewise split out of `ceil_unres`: nothing matched and several matched
+    # are not the same answer.
+    nav, mech, ceil_fixed, ceil_unres, ceil_ambig, desc_fixed, thin = [], [], [], [], [], [], []
     unwritten = []
 
     for path, rec in PL.records():
@@ -227,10 +253,21 @@ def main():
         ce = (syn.get("ceiling_entity") or "").strip()
         if ce:
             fixed, how = clean_ceiling(ce, names)
+            # WHOLE CEILINGS IN ALL THREE ROSTERS. The comment over the report below states that
+            # "the per-name character cuts in the same statements go with them" when the row
+            # caps were removed -- true of the lists it names and never true of these two, which
+            # went on cutting the ceiling prose at 70 and 52 characters with no marker. A
+            # ceiling is prose that phase 1 produced; the half that got cut is routinely the
+            # half that says why it could not be reduced to a name.
             if how == "unresolved":
-                ceil_unres.append((src, ce[:70]))
+                ceil_unres.append((src, ce))
+            elif how == "prefix-ambiguous":
+                # The candidates are recomputed here rather than returned, so `clean_ceiling`
+                # keeps its two-value contract. They are what makes this row actionable.
+                ceil_ambig.append((src, ce, sorted(n for n in names
+                                                   if n.lower().startswith(ce.lower()))))
             elif fixed != ce:
-                ceil_fixed.append((src, ce[:52], fixed, how))
+                ceil_fixed.append((src, ce, fixed, how))
                 if args.apply:
                     syn["ceiling_entity"] = fixed
                     syn.setdefault("ceiling_prose", ce)   # the argument is kept, not discarded
@@ -250,7 +287,10 @@ def main():
 
             d = e.get("description") or ""
             if not d.strip() and _EMPTY_MECHANIC.search(nm):
-                nav.append((src, nm + "  [empty mechanic]"))
+                # ITS OWN LIST. The inline "[empty mechanic]" tag that used to ride on the name
+                # is dropped: the heading carries it now, and a tag glued onto a name is not
+                # something a reader can count.
+                mech.append((src, nm))
                 if args.apply:
                     e["catalogued"] = False
                     e["excluded"] = "rules construct with no description; not an entity"
@@ -311,6 +351,15 @@ def main():
     print(f"\n1. wiki navigation removed from the catalogue : {len(nav):,}")
     for s, n in nav:
         print(f"     {s:<28}{n}")
+    # TWO EXCLUSIONS, TWO HEADINGS, TWO NUMBERS (order c3eb0a80bb8a). These rows were appended
+    # to the navigation list and printed under its heading, while the records they struck got a
+    # different `excluded` reason written into them -- "rules construct with no description"
+    # rather than "wiki navigation, not an entity of any fiction". One number covering two
+    # conditions is a number nobody can act on, and the report was disagreeing with the data it
+    # had just written.
+    print(f"\n1b. rules constructs with no description      : {len(mech):,}")
+    for s, n in mech:
+        print(f"     {s:<28}{n}")
     print(f"\n2. ceiling entities reduced to a name        : {len(ceil_fixed):,}")
     for s, before, after, how in ceil_fixed:
         print(f"     {s:<24}{how:<10}{before!r}")
@@ -318,6 +367,13 @@ def main():
     print(f"   still unresolved (left alone, not guessed) : {len(ceil_unres):,}")
     for s, ce in ceil_unres:
         print(f"     {s:<28}{ce}")
+    print(f"   ambiguous prefix (several matched, NOT guessed) : {len(ceil_ambig):,}")
+    for s, ce, cands in ceil_ambig:
+        print(f"     {s:<28}{ce}")
+        # EVERY CANDIDATE. These are the names the old code was silently choosing between by
+        # length; listing them is the whole point of separating this from "unresolved".
+        for c in cands:
+            print(f"     {'':<28}  candidate: {c}")
     print(f"\n3. descriptions with markup stripped         : {len(desc_fixed):,}")
     for s, n, b, a in desc_fixed:
         print(f"     {str(n):<24}{b!r}")

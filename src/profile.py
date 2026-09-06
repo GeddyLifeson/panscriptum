@@ -17,7 +17,11 @@ THE PANSCRIPTUM PROFILE
 
     PS-<address>-<gr><rg>-<lcce>-<band><att>
 
-    address   the 88-bit shelfmark in base32: where the world IS
+    address   the world address in Crockford base32: where the world IS. Its width is
+              address_space.TOTAL_BITS, derived from the census -- never restate it here, and
+              run `python src/address_space.py` for the live per-field widths and the total.
+              (The SHELFMARK is a different artefact: the 'Omega > H1 > X1 > Mt.1 > ...' string
+              `AS.shelfmark(address)` builds, which `decode` hands back as its own key.)
     gr rg     genre and naming register: what KIND of story it belongs to
     lcce      landform, climate, condition, era: what the world IS LIKE
     band      Magnitude, 0-A, or 'u' for unassayed
@@ -65,6 +69,28 @@ import silence
 # re-lettering of digits 27-31 rewrites nothing on disk. Found by the run #33 sweep.
 B32 = "0123456789abcdefghjkmnpqrstvwxyz"
 
+# THE VALIDATOR'S ALPHABET IS THE ENCODER'S ALPHABET, and it is built from it rather than
+# retyped beside it (orders ed46a60bc2dc, 559b09f35e5c, 6f1652a21efb -- three filings against
+# this one line). `decode`'s pattern spelled the address and feature groups `[0-9a-z]`, the full
+# 36-character range, so the four letters the paragraph above removes from B32 -- i, l, o, u --
+# passed `re.fullmatch` cleanly. The `raise ValueError(f"not a world profile: ...")` written for
+# exactly that case therefore NEVER FIRED on them: execution carried on into `_unb32`, and
+# `B32.index(ch)` raised a bare `ValueError: substring not found` from inside a private helper,
+# naming neither the profile nor the offending character. Reproduced before the change:
+# `decode("PS-i23-myc-0000-u0")`.
+#
+# So the string was refused either way and nothing decoded wrongly -- the run #33 fix above
+# closed that half. What was wrong is WHICH LAYER refused it, and with what. That is the
+# readable-refusal half of what this comment block claims to have delivered, and it is the
+# difference between a validator and a crash.
+#
+# Built from `B32` itself so the two cannot drift again: re-letter the alphabet and the pattern
+# re-letters with it. The band group stays `[0-9au]` -- it is already scoped to exactly the
+# values `encode` can emit, which is the pattern this restores to the other two groups.
+_B32_CLASS = "[%s]" % re.escape(B32)
+_PROFILE_RE = re.compile(r"PS-(%s+)-([a-z]{2})([a-z])-(%s{4})-([0-9au])([0-4])"
+                         % (_B32_CLASS, _B32_CLASS))
+
 GENRE_CODE = {
     "mythology": "my", "high_fantasy": "hf", "grimdark": "gd", "cosmic_horror": "ch",
     "space_opera": "so", "cyberpunk": "cp", "post_apocalyptic": "pa", "military_modern": "mm",
@@ -106,7 +132,7 @@ def encode(address, genre, register, features, band="unassayed", attested=0):
 
 
 def decode(profile):
-    m = re.fullmatch(r"PS-([0-9a-z]+)-([a-z]{2})([a-z])-([0-9a-z]{4})-([0-9au])([0-4])", profile)
+    m = _PROFILE_RE.fullmatch(profile)
     if not m:
         raise ValueError(f"not a world profile: {profile!r}")
     addr, gr, rg, feats, band, att = m.groups()
@@ -172,6 +198,13 @@ def main():
     print("=" * 100)
     print("THE WORLD PROFILE — a whole world in one string")
     print("=" * 100)
+    if not rows:
+        # `min(lens)` raises on an empty list and `sum(lens)/len(lens)` divides by zero, so a
+        # library with no worlds in it crashed here before it could say so. A traceback is not
+        # a report, and no worlds to profile is a real answer this module has to be able to
+        # give -- as a non-zero one, since nothing was checked. (order b9ff8dbf2c77)
+        print("\nno worlds profiled: worldseed.build_all() returned nothing.")
+        return 1
     lens = [len(r["profile"]) for r in rows]
     print(f"\nworlds profiled : {len(rows):,}")
     print(f"profile length  : {min(lens)}-{max(lens)} chars "
@@ -215,6 +248,15 @@ def main():
     print(f"   surface map  https://azgaar.github.io/Fantasy-Map-Generator/?seed={d['map_seed']}&...")
     print(f"   galaxy       {g}")
     print(f"   neighbourhood{n}")
+    # THE VERDICT TRAVELS IN THE EXIT CODE, not only in a line somebody has to be reading
+    # (order b9ff8dbf2c77). A profile that does not reconstruct the world it encodes is the one
+    # failure this module exists to detect, and it used to exit 0 over any number of them --
+    # one step from the `d["profile"] == r["profile"]` check above, which could not fail at all.
+    # `sys.exit(main())` below already propagates whatever this returns.
+    if bad:
+        print(f"\nROUND TRIP FAILED for {bad:,} of {len(rows):,} worlds. "
+              "The profile format does not reconstruct what it encodes.")
+        return 1
     return 0
 
 

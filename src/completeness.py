@@ -290,7 +290,18 @@ def catalogued_counts():
             continue
         c = collections.Counter()
         for e in (j.get("entries") or []):
-            c[str(e.get("category") or "?")[:40]] += 1
+            # THE WHOLE CATEGORY IS THE KEY (order 0d22402acd2c). This was `[:40]`, so two
+            # categories sharing a 40-character prefix would FOLD INTO ONE COUNT here, with
+            # nothing marking the merge -- and `by_category` is what every coverage figure
+            # downstream is computed from. Nothing collides today (the seven canonical
+            # `wiki_source.CATEGORY_PROBES` keys have distinct 40-character prefixes), but that
+            # is a property of today's DATA and not of this code: data/records/*.json is written
+            # by a separate cataloguing session and the category field is not constrained to
+            # those seven strings, so one new or hand-entered category sharing a prefix would
+            # merge two counts invisibly. This is an in-memory Counter with no budget to save,
+            # and a display bound -- if one is ever wanted -- belongs at the print site where it
+            # is reversible, which is where this module's own comments already say a cap belongs.
+            c[str(e.get("category") or "?")] += 1
         out[j.get("source") or fn[:-5]] = {"total": sum(c.values()), "by_category": dict(c),
                                            "file": fn}
     return out
@@ -442,19 +453,30 @@ def audit(only=None, workers=6):
     def _rec(src):
         return byslug.get(str(src).lower()) or byslug.get(str(src).lower().replace("-", " "))
 
-    def _unmeasured(src, host, why, probe_failures=0, probes_run=0):
+    def _unmeasured(src, host, why):
         """The row shape for a source no denominator could be obtained for. -> dict.
 
         Every field a measured row carries, so a reader never has to branch on which kind of
         row it is holding, and `unreliable` says which question went unanswered. What is on
         disk IS reported: the numerator is known even when the denominator is not.
+
+        `probe_failures` AND `probes_run` ARE EMITTED AS ZEROS AND ARE NOT PARAMETERS (order
+        fc2e8e735f6c). They used to be arguments with 0 defaults, and none of this function's
+        four call sites -- :473, :477, :489, :560 -- ever passed either, so they were two knobs
+        nothing turned sitting in a signature whose whole purpose is to document the row shape.
+        They died when order 1065e3eb7cd3 removed `probe_failures=len(probes)` from the
+        unreachable-host branch and moved the declined-probe count into the `unreliable` prose
+        instead, on the reasoning recorded below: a probe that was never attempted cannot have
+        failed. The FIELDS stay, honestly zero, because an unmeasured row must keep the same
+        shape as a measured one -- that is the point of this function. Only the unreachable
+        knobs are gone.
         """
         rec0 = _rec(src)
         return {"source": src, "host": host, "wiki_persons": None,
                 "wiki_categories": {}, "catalogued_total": (rec0 or {}).get("total"),
                 "catalogued_persons": (sum(v for k, v in rec0["by_category"].items()
                                            if k.startswith("Persons")) if rec0 else None),
-                "coverage": 0.0, "probe_failures": probe_failures, "probes_run": probes_run,
+                "coverage": 0.0, "probe_failures": 0, "probes_run": 0,
                 "unreliable": why}
 
     def work(item):
@@ -720,18 +742,35 @@ def main():
     good = [r for r in rows if not r["unreliable"]]
     bad = [r for r in rows if r["unreliable"]]
 
-    print("%-34s %10s %10s %8s" % ("SOURCE", "ON WIKI", "CATALOGUED", "COVERAGE"))
-    print("-" * 66)
-    for r in good[:a.top]:
-        print("%-34s %10s %10s %7.1f%%"
-              % (str(r["source"])[:33], "{:,}".format(r["wiki_persons"]),
+    # THE SOURCE COLUMN IS SIZED FROM THE DATA, NOT CUT TO FIT (order afa03b660e9a). Both this
+    # table and the NOT MEASURED list below printed `str(r["source"])[:33]` -- a silent mid-word
+    # cut on the one column a person uses to tell two sources apart, with no ellipsis and no
+    # count. Measured when this was filed: 21 of the 216 rows in data/COMPLETENESS.json carry
+    # names longer than 33 characters, so the cut fired on every ordinary run, and the roll's
+    # longest names are the publisher-plus-title forms that share prefixes -- exactly the rows
+    # that most need distinguishing. The lower list is the worse of the two, because that is the
+    # list a person reads in order to go and FIX a source, and a name cut mid-word there is a
+    # name they have to guess at.
+    #
+    # The column is widened to the longest name actually being printed rather than being marked,
+    # because nothing here forces a bound: this is a console table, not a stored field. Note the
+    # function already got the honest form right one line down -- "rows printed: N of M
+    # measurable (the file holds every row)" -- so this was an inconsistency inside one function
+    # rather than a missing habit.
+    _shown = good[:a.top]
+    _w = max([len("SOURCE")] + [len(str(r["source"])) for r in _shown] + [22])
+    print("%-*s %10s %10s %8s" % (_w, "SOURCE", "ON WIKI", "CATALOGUED", "COVERAGE"))
+    print("-" * (_w + 32))
+    for r in _shown:
+        print("%-*s %10s %10s %7.1f%%"
+              % (_w, str(r["source"]), "{:,}".format(r["wiki_persons"]),
                  "{:,}".format(r["catalogued_persons"] or 0), 100 * r["coverage"]))
 
     total_wiki = sum(r["wiki_persons"] or 0 for r in good)
     total_have = sum(r["catalogued_persons"] or 0 for r in good)
-    print("-" * 66)
-    print("%-34s %10s %10s %7.1f%%"
-          % (str(len(good)) + " MEASURABLE SOURCES", "{:,}".format(total_wiki),
+    print("-" * (_w + 32))
+    print("%-*s %10s %10s %7.1f%%"
+          % (_w, str(len(good)) + " MEASURABLE SOURCES", "{:,}".format(total_wiki),
              "{:,}".format(total_have),
              100 * total_have / total_wiki if total_wiki else 0))
     print("")
@@ -739,8 +778,11 @@ def main():
           % (min(a.top, len(good)), len(good)))
     print("")
     print("NOT MEASURED -- %d sources whose denominator this tool cannot stand behind:" % len(bad))
+    # Sized from this list's OWN longest name, for the reason in the comment above the table:
+    # this is the list a person works from, so a name here must be usable as written.
+    _wb = max([len(str(r["source"])) for r in bad] + [22])
     for r in bad:
-        print("   %-34s %s" % (str(r["source"])[:33], r["unreliable"]))
+        print("   %-*s %s" % (_wb, str(r["source"]), r["unreliable"]))
     print("")
     print("Those are excluded from the total rather than folded into it. A completeness figure "
           "that quietly")

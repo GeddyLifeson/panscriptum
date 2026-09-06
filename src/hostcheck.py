@@ -193,7 +193,21 @@ def _unlink(path):
         silence.note("hostcheck.py:tmp-cleanup")
 
 
-GOOD = 0.35        # at or above: the host holds the fiction
+# NAMED FOR WHAT IT ACTUALLY IS (order 4c1f531236ad). This was `GOOD = 0.35`, sitting in the
+# threshold block beside four constants that are read by live code, and read by NOTHING: grep
+# across src/ finds the binding, the module docstring at :37, and two historical comments at
+# :800 and :815 describing the selection path that USED to consult it. Its sibling `DEAD` right
+# below IS live (score(), :719-742); `GOOD_LIFT` at :219, which the live code does read, is a
+# different constant measuring a different thing.
+#
+# Not deleted -- dead code is not automatically deletable here (order 25ec11447b4c) -- but it may
+# not go on looking live either, and that is the whole finding: selection in sweep(--repair) was
+# comparing RAW RATES until order e2f0b13c766f replaced them with lift, and a bare `GOOD` in the
+# threshold block is an standing invitation to the next reader to wire the raw rate back into a
+# selection path. An absolute hit rate is not comparable between hosts, which is the argument
+# score()'s own docstring makes at length. The name now says the only thing it is for: the figure
+# quoted in the prose at :37.
+_PROSE_ONLY_GOOD_RATE = 0.35   # quoted in the module docstring; NOT read by any selection path
 DEAD = 0.05        # at or below: the host is about something else entirely
 PROBE = 40         # names per host. One API call takes 50; forty leaves room for redirects.
 ABOUT = 0.40       # of the articles that exist, this fraction must actually be about the source
@@ -908,7 +922,20 @@ def sweep(only=None, repair=False, workers=8):
             # precisely the "gap indistinguishable from a source nobody has got to yet" the
             # comment eight lines above says this whole file exists to end, and the line below
             # announced the rejections file as written.
-            unfit_landed = _land(UNFIT, unfit)
+            # A NO-OP MERGE MUST NOT WRITE (order c107711349f0), which is the ruling `_land_hosts`
+            # already makes for its own target at :136-140 -- "re-landing an unchanged map is not
+            # free on this file: it invalidates every other writer's in-flight digest ... a write
+            # with no content behind it is pure exposure". This writer had no such guard: it fired
+            # whenever `fixed` was non-empty, and `unfit` is only ever mutated for entries whose
+            # value is None, so a repair pass that repointed hosts and rejected NOTHING re-landed
+            # a byte-identical HOST_UNFIT.json. On this machine the replace is commonly denied,
+            # and the denial then printed "0 rejection(s) from this pass are not on file, so the
+            # sources they dropped from the host map now read as sources nobody has got to yet"
+            # -- a sentence about nothing, on stderr, that an operator has to reason past. The
+            # count is computed once here so the message below can never be zero: if it is zero
+            # there is no write to report on, landed or denied.
+            n_reject = sum(1 for v in fixed.values() if v is None)
+            unfit_landed = _land(UNFIT, unfit) if n_reject else None
             if landed:
                 print(f"\nWIKI_HOSTS.json updated: {sum(1 for v in fixed.values() if v)} "
                       f"repointed, {sum(1 for v in fixed.values() if not v)} recorded unfit")
@@ -916,10 +943,15 @@ def sweep(only=None, repair=False, workers=8):
                 # A repair that did not land must not be reported as one. This is the file the
                 # rest of the pipeline reads to know where anything lives.
                 print("\nWIKI_HOSTS.json NOT updated: " + why, file=sys.stderr)
-            if unfit_landed:
-                print(f"-> {UNFIT}   (every rejection kept, so a gap reads as a gap)")
+            if not n_reject:
+                # Nothing was rejected, so nothing was written and there is nothing to report
+                # either way. Saying "every rejection kept" over an untouched file would be as
+                # misleading as the empty denial message this replaces.
+                pass
+            elif unfit_landed:
+                print(f"-> {UNFIT}   ({n_reject} rejection(s) kept, so a gap reads as a gap)")
             else:
-                print(f"{UNFIT} NOT updated (denied replace): {sum(1 for v in fixed.values() if not v)} "
+                print(f"{UNFIT} NOT updated (denied replace): {n_reject} "
                       f"rejection(s) from this pass are not on file, so the sources they dropped "
                       f"from the host map now read as sources nobody has got to yet",
                       file=sys.stderr)
@@ -1076,11 +1108,27 @@ def purge(dry=True, only=None):
                 continue
             if r.get("source") != src:
                 continue
-            n_entries = len(r.get("entries") or [])
+            # ACCUMULATED ACROSS THE SOURCE'S RECORD FILES, NOT OVERWRITTEN BY THE LAST ONE
+            # (order ae5276abc7f8). This was `n_entries = len(...)` inside a loop over EVERY
+            # record file, with `n_entries` initialised once at the top -- so if a source ever
+            # had two record files, this pass would empty both and report only the second one's
+            # count, in the ROSTER_PURGES.json log and in all three operator lines below.
+            # Latent rather than live: measured today, 216 record files carry 216 distinct
+            # sources and none has more than one file, so nothing has been misreported yet. It
+            # is worth correcting anyway because this function's own docstring says the point of
+            # the purge log is that "the gap it leaves is a recorded finding rather than a
+            # silence", and a count that undercounts what was emptied is a partial silence.
+            #
+            # The two numbers are genuinely different and both are kept: `n_this` is what THIS
+            # record file lost and is what its own purged_roster must record, while `n_entries`
+            # is what the whole purge removed for this source and is what gets logged and
+            # reported. Folding them together in either direction would make one of them lie.
+            n_this = len(r.get("entries") or [])
+            n_entries += n_this
             if not dry:
                 r["entries"] = []
                 r["purged_roster"] = {"mined_from": mined, "reason": "wrong fiction",
-                                      "removed": n_entries}
+                                      "removed": n_this}
                 # Deliberately a direct write and NOT pipeline.write_record_catalogue: that
                 # writer merges and never shrinks an entry list, which is exactly right for a
                 # cast-growing pass and exactly wrong for a purge whose whole purpose is to

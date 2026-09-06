@@ -407,7 +407,17 @@ def structure(deep=True):
                             or "MORE THAN ONE" in r["finding"]]
     except Exception as e:
         silence.note("overwatch.py:structure-import-reconcile")
-        out["error"] = f"{type(e).__name__}: {str(e)[:90]}"
+        # WHOLE, BECAUSE THIS STRING IS THE ENTIRE EXPLANATION. `write_report` does not print
+        # this beside the count -- it prints it INSTEAD of the count, as "modules that will not
+        # import: UNKNOWN -- the import scan itself failed -- {error}". The one sentence saying
+        # why a whole tier is unknown was being cut at 90 characters, unmarked, into a markdown
+        # FILE. Same ruling this module has already applied twice in this same reporting path:
+        # the reconcile detail's [:80] went for "WATCH.md is a file, not a console: markdown
+        # wraps for free and there is no column to fit", and actual[:180]/claim[:160] went under
+        # order 80519f08d9ac, which recorded that the house exemption for console renderers does
+        # not reach here. This is the third instance and it survived both. The console progress
+        # line prints counts only, so there is nothing there this needs to fit.
+        out["error"] = f"{type(e).__name__}: {e}"
     if not deep:
         return out
     try:
@@ -417,7 +427,9 @@ def structure(deep=True):
         out["files"] = art["total"]
     except Exception as e:
         silence.note("overwatch.py:structure-estate")
-        out["estate_error"] = f"{type(e).__name__}: {str(e)[:90]}"
+        # Whole, for the reason given at the sibling above: `write_report` renders this as the
+        # WHOLE explanation for "files that will not parse: UNKNOWN", replacing the number.
+        out["estate_error"] = f"{type(e).__name__}: {e}"
     return out
 
 

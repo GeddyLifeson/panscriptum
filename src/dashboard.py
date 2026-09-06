@@ -455,8 +455,25 @@ def movement(now_state):
         #   3. The stall detector does not go blind if it never lands. With the file frozen,
         #      `base` stays the last row that did land and `span` grows, so a genuinely flat
         #      counter still satisfies `delta == 0 and span >= 10` -- the panel keeps reporting
-        #      stalled, and once the 24h cutoff empties the frozen rows it reports a zero-length
-        #      window rather than a false clean bill.
+        #      stalled, and once the frozen rows age out it reports a zero-length window rather
+        #      than a false clean bill.
+        #
+        #      WHICH BOUND EMPTIES THEM IS NOT ALWAYS THE 24h ONE, and this argument used to
+        #      name only that one (order 7bebaa921ef3). There are TWO bounds on the line above:
+        #      the 24h cutoff and the 2000-sample cap. The page polls every 5s and this runs on
+        #      every /api/state request, so a browser left open for a day produces 17,280
+        #      samples and the CAP binds at roughly 2.8h; with the page opened only now and
+        #      then the cutoff binds instead. Measured on the live file today: 200 samples
+        #      spanning nearly the full 24h, so the cutoff is what binds in current practice --
+        #      but the frozen-rows argument above holds under either, which is why both bounds
+        #      are kept rather than one being dropped.
+        #
+        #      DELIBERATELY NOT RECONCILED BY RAISING THE CAP. Covering 24h at the real poll
+        #      rate means 17,280 samples, and the live file measures 167 bytes a sample, so this
+        #      write -- which happens on EVERY poll, five seconds apart -- would go from 33 KB
+        #      to about 2.9 MB. Neither bound is wrong; the reasoning simply has to name both.
+        #      MOVED_WINDOW_MIN is 30, far inside either bound, so no delta on the page is
+        #      affected by which one binds.
         #
         # Note the `except` below covers the append/serialise, NOT the replace: write_json
         # answers False for a denied rename instead of raising. A persistent denial is still
@@ -468,8 +485,27 @@ def movement(now_state):
         return []
 
     window = time.time() - MOVED_WINDOW_MIN * 60
-    older = [h for h in hist if h.get("at", 0) <= window]
-    base = older[-1] if older else (hist[0] if hist else {})
+    # COMPARED AGAINST THE SAMPLES THAT CAME BEFORE THIS ONE, NEVER AGAINST THIS ONE. `row` was
+    # appended to `hist` above, so on a genuine cold start -- no history file, or the
+    # corrupt-history-must-heal branch above having just reset `hist` to [] -- `hist[0]` IS
+    # `row`, and `base` became the very sample it is supposed to be the baseline for. Every
+    # metric then read `was == v`, `delta == 0`, and the panel announced "no change yet" (or
+    # "STALLED", once `span` reached ten minutes) for a poll where there was nothing to compare
+    # against at all. That is the exact opposite of the truth and the exact case the
+    # `delta is None -> first reading` path exists to render; this function's own docstring
+    # calls telling those apart "the difference between an instrument and a decoration".
+    #
+    # `hist[:-1]` rather than a snapshot taken before the append, so the cutoff and the
+    # [-2000:] cap that `hist` has already been through still apply to the baseline. `row` is
+    # necessarily the last element: it carries this instant's `at`, so the cutoff cannot drop
+    # it and the tail slice cannot move it.
+    #
+    # Self-limiting but recurring: only the one poll after an empty history, and the next poll
+    # five seconds later is correct -- but the heal branch above empties `hist` on every torn
+    # -file recovery, so this arrives again on every one of those, not only at process start.
+    prior = hist[:-1]
+    older = [h for h in prior if h.get("at", 0) <= window]
+    base = older[-1] if older else (prior[0] if prior else {})
     span = (row["at"] - base.get("at", row["at"])) / 60 if base else 0
     out = []
     for k, v in keys.items():

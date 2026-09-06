@@ -41,7 +41,13 @@ and `assay()`, and an axis that fails any of them does not get a number:
                    only the SENTENCE and never the entity, so it could not tell a doer from a
                    bystander in either direction -- see the note above `subject_refusal`.
   4. SATURATION    a sheet whose scored axes all sit at the top is a sheet from a model that
-                   would not refuse. It is rejected whole, not averaged down.
+                   would not refuse. It is rejected whole, not averaged down. The test carries a
+                   width floor as well as a height one -- SIX scored axes or more, all at 9.0 or
+                   above -- because uniform ceiling scores are evidence about the SCORER, and on
+                   a two- or three-axis sheet they are not: SYSTEM below tells the model that
+                   most entities have evidence for only two or three axes, so a short high sheet
+                   is the ordinary honest case. See `saturated()` for why six. (order
+                   7e9d19b28694)
   5. QUANTITY      "40 tons", "3,000 kili" never reach the model's judgement at all. A measured
                    quantity is converted and scored arithmetically by assay.axis_score against
                    BAND_EDGES, which is the highest-grade evidence the library can hold -- and
@@ -882,17 +888,47 @@ def _overlap(a, b):
 
 
 def saturated(scores):
-    """Guard 4. Every scored axis at the top means the model did not refuse anywhere."""
+    """Guard 4. Every scored axis at the top, ON A SHEET WIDE ENOUGH FOR THAT TO MEAN ANYTHING.
+
+    THE SIX-AXIS FLOOR IS A CONDITION AND IS NOW STATED AS ONE (order 7e9d19b28694). This
+    docstring used to read "Every scored axis at the top means the model did not refuse
+    anywhere", which describes the `min(nums) >= 9.0` half and silently omitted the
+    `len(nums) >= 6` half -- so a reader checking the guard against its description would find a
+    guard doing less than it claimed, and a sheet with five axes all at 9.9 IS every scored axis
+    at the ceiling and is deliberately NOT caught here.
+
+    WHY THE FLOOR IS RIGHT, rather than a threshold to be argued down: saturation is evidence
+    about the MODEL, not about the entity -- it is the shape of a model that would not refuse
+    anywhere. Three axes at 9.9 on a genuinely extreme being is not that shape, it is a short
+    sheet about something enormous. `SYSTEM` tells the model in terms that "Most entities have
+    evidence for two or three axes", so a low-N sheet sitting high is the common and probably
+    honest case, and rejecting it whole would throw away real assays to catch a fault that
+    cannot be distinguished at that width. Six is where a sheet becomes wide enough that
+    uniform ceiling scores say more about the scorer than the scored.
+
+    Whether SIX is the right number is a separate ruling and is not made here; what this
+    docstring now guarantees is that the number is visible to whoever makes it.
+    """
     nums = [v for v in scores.values() if _is_score(v)]
     return len(nums) >= 6 and min(nums) >= 9.0
 
 
-def candidates(ev, cap=None):
+def candidates(ev):
     """{axis: [sentences]} drawn from the entity's own cached pages.
 
     The model used to receive one flat pile of feats and had to allocate it across eleven axes,
     which is how an earthquake ended up cited for Celerity. It now sees only the candidates for
     the axis it is scoring, so citing across axes stops being an error it can make.
+
+    THE `cap` PARAMETER IS GONE (order 7eee204672ce). This was `candidates(ev, cap=None)` ending
+    in `sorted(...)[:cap] if cap else sorted(...)`, and neither of its two callers -- :1172 here
+    and sweep.py:190 -- ever passed one, so the truncating arm was unreachable while the comment
+    directly beneath it argued against ever reaching it: "capping at six decided that an entity
+    with forty pieces of Ruin evidence had six." A parameter whose only behaviour is the one
+    Hard Rule 0 forbids, sitting under the paragraph explaining why it must never be used, is a
+    loaded gun kept beside its own warning label. Removed rather than documented, because there
+    is no caller to keep it for; if one is ever wanted, the ruling that permits a cap here has
+    to be written down first.
     """
     out = {ax: [] for ax in AXES}
     for page, clean in (ev.get("text") or {}).items():
@@ -901,8 +937,7 @@ def candidates(ev, cap=None):
     # Longest first: a sentence carrying more of its own context makes the better worksheet line.
     # Ranked longest-first so the richest line leads, but never truncated: capping at six
     # decided that an entity with forty pieces of Ruin evidence had six.
-    return {ax: sorted(v, key=lambda r: -len(r["feat"]))[:cap] if cap
-            else sorted(v, key=lambda r: -len(r["feat"])) for ax, v in out.items()}
+    return {ax: sorted(v, key=lambda r: -len(r["feat"])) for ax, v in out.items()}
 
 
 AXIS_SCHEMA = {
@@ -1171,7 +1206,19 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
     ev = F.evidence_for(host, entity)
     cand = candidates(ev)
     if not sum(len(v) for v in cand.values()) and not ev["quantities"]:
-        return {"entity": entity, "result": None,
+        # THE HOST TRAVELS WITH THE RECORD (order 2ec51780ad94). Every other return in this
+        # function carries `"host": host`; this one and the saturation refusal below did not --
+        # and those two are precisely the returns `settled()` calls a FINDING, so they are the
+        # records that stand for ever and are never recomputed. Measured on disk before this
+        # fix: data/ASSAYS.json holds 507 records and 10 of them have no `host` key, 7 from here
+        # and 3 from the saturation refusal. The ASSAYS dict key still carries the host, so
+        # nothing was lost outright, but a reader doing `rec["host"]` raises on 10 of 507 rows
+        # and one doing `rec.get("host")` silently attributes them to nothing.
+        #
+        # Rows already written keep their shape until their entity is re-assayed, and
+        # `settled()` will not re-run them -- accepted the same way, and in the same words, as
+        # the pre-fix instrument worksheets accept it further down this function.
+        return {"entity": entity, "host": host, "result": None,
                 "reason": "no axis cleared its gate on this entity's own source pages"}
 
     # TRY THE POOL WITH EVERYTHING, THEN THE LOCAL MODEL WITH WHAT FITS IN IT.
@@ -1376,7 +1423,9 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
                      f"  ({q.get('page', '')})")
 
     if saturated(scores):
-        return {"entity": entity, "result": None, "anchor": anchor,
+        # `host` carried here too -- see the no-gate return above; this is the other of the two
+        # permanent-record returns that omitted it. (order 2ec51780ad94)
+        return {"entity": entity, "host": host, "result": None, "anchor": anchor,
                 "reason": "sheet saturated: every scored axis at the ceiling, model did not refuse",
                 "rejections": rejects}
 
@@ -1740,7 +1789,20 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
     print("queue: %d entities, %d already assayed, %d to do"
           % (len(all_q), len(done), len(todo)))
     lock = threading.Lock()
-    tally = {"n": 0, "scored": 0, "band_only": 0, "unlanded": 0}
+    # THREE OUTCOMES, NOT TWO (order b3c6838c33ed). This tally was binary -- scored, or
+    # `band_only` for everything else -- and the closing line printed the remainder as
+    # "band-only or refused". A `status: DEFERRED` record has `result: None`, so every transport
+    # failure landed in that bucket and an entire batch lost to a rate-limited pool printed
+    # identically to a batch of honest refusals. That is the precise confusion the DEFERRED
+    # status was introduced to end, and `settled()`'s own docstring is written around it:
+    # "Everything else is a transport failure wearing a result's clothes." The summary line is
+    # the only thing an operator reads at the end of an hours-long batch, and it was throwing
+    # the distinction away.
+    #
+    # The predicate already existed and is reused rather than re-derived: `settled(r)` is what
+    # decides whether the next run picks the entity up again, so keying the counters on it means
+    # the report and the requeue can never disagree.
+    tally = {"n": 0, "scored": 0, "refused": 0, "deferred": 0, "unlanded": 0}
 
     def work(item):
         h, n, _ch = item
@@ -1758,8 +1820,13 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
             tally["n"] += 1
             if (r.get("result") or {}).get("decimal") is not None:
                 tally["scored"] += 1
+            elif settled(r):
+                # A real finding: no axis cleared its gate, or the sheet was rejected whole.
+                # settled() will not re-run these.
+                tally["refused"] += 1
             else:
-                tally["band_only"] += 1
+                # A transport failure wearing a result's clothes. Requeued next run.
+                tally["deferred"] += 1
             # On Windows os.replace is DENIED while any reader holds the target open --
             # the dashboard and settled() both read ASSAYS.json on their own clocks, and
             # one collision took a worker down mid-batch (2026-08-23, WinError 5). A short
@@ -1777,8 +1844,9 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
             if not silence.write_json(OUT, done, ensure_ascii=False, indent=None):
                 tally["unlanded"] += 1
             if tally["n"] % 10 == 0 or tally["n"] == len(todo):
-                print("   %5d/%d   scored %d   no-number %d"
-                      % (tally["n"], len(todo), tally["scored"], tally["band_only"]),
+                print("   %5d/%d   scored %d   refused %d   deferred %d"
+                      % (tally["n"], len(todo), tally["scored"], tally["refused"],
+                         tally["deferred"]),
                       flush=True)
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
@@ -1786,7 +1854,10 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
 
     print("")
     print("assayed with a decimal: %d" % tally["scored"])
-    print("band-only or refused  : %d" % tally["band_only"])
+    print("refused, a real finding: %d  (no axis cleared its gate, or the sheet was saturated; "
+          "settled() will NOT re-run these)" % tally["refused"])
+    print("deferred, not a finding: %d  (transport failure wearing a result's clothes; these "
+          "are requeued by settled() next run)" % tally["deferred"])
     if tally["unlanded"]:
         print("checkpoints that did NOT land: %d  (a reader held %s open; those results are "
               "requeued by settled() next run)" % (tally["unlanded"], os.path.basename(OUT)))

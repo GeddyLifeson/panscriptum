@@ -120,6 +120,66 @@ NEVER_RUN = {
 RC_BROKEN = "broken"      # a nonzero exit is a FAULT: it fails the sweep and files a work order
 RC_FINDINGS = "findings"  # a nonzero exit is this tool's documented "I have findings" signal
 
+# How many lines of a FAILING verifier's output the console shows. The whole output is stored in
+# data/ALLSWEEP.json either way (see `run_verifier`), so this bounds a screen, not a record -- and
+# the print says how many lines it did not show and where they are. That is the difference this
+# file already draws between `art['bad'][:25]`, which announces its cut and keeps the full list,
+# and the cuts order 2da56d4307ea was filed against, which announced nothing and kept nothing.
+_VERIFIER_CONSOLE_LINES = 40
+
+
+def _marked(s, width):
+    """One display field, cut only if it must be, and NEVER silently. -> str.
+
+    THIS IS THE EIGHTH COPY OF THIS THREE-TOKEN EXPRESSION IN src/, and saying so is the point.
+    `corpus_db._cell`, `cosmology_graph`, `secondopinion._message`, `suppressions._preview`,
+    `publish._marked` and inline forms elsewhere are all the same function at different widths.
+    Order b0586860a8ae asked for it to be hoisted into ONE shared helper that every site calls,
+    and that hoist is proposed rather than performed here because it spans files this shift does
+    not own -- so this copy is written in the identical shape and with the identical marker,
+    which makes the eventual hoist a rename and not a re-argument. It is deliberately NOT
+    imported from `publish`: importing that module runs `SITE = export_root()` at import time,
+    which resolves (and can complain about) the export destination, and an auditor must not have
+    a side effect like that just to format a column.
+
+    ONLY FOR A REVERSIBLE DISPLAY CUT, on a field whose whole value is also in ALLSWEEP.json. A
+    marker makes a cut honest; it does not make a cut correct, and where the record exists
+    nowhere else the answer is to keep the whole thing -- see `run_verifier`'s `tail`.
+    """
+    s = str(s)
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
+
+
+def verifier_console_lines(r):
+    """What the console shows for ONE failing verifier row. -> list of ready-to-print lines.
+
+    A FUNCTION, NOT AN INLINE BLOCK IN `main()`, for the reason `publish.export_root`'s docstring
+    gives for the same choice: a rule spelled inline can only be tested by running the whole
+    thing, and a display rule that cannot be tested against a synthetic row is one that quietly
+    drifts back to the shape it was repaired from. Order 2da56d4307ea is exactly that repair.
+
+    THE PER-LINE [:150] IS GONE. This file removed exactly that clip from the LINT tier for
+    exactly this reason, stated there: "on this machine the absolute path alone eats most of 100,
+    which puts the identifier a person needs past the cut." A traceback line is the same kind of
+    line, and a failing verifier is the one place the identifier matters most.
+
+    AND THE LIST CUT SAYS HOW MUCH IT CUT, the convention `art['bad'][:25]` in `main()` already
+    follows: the console shows the LAST lines, because that is where a traceback keeps its
+    exception, and announces how many it did not show and where the whole thing is.
+    `run_verifier` now stores the full output for a failing check, so "full output in
+    ALLSWEEP.json" is a true statement rather than a hopeful one.
+    """
+    tail = list(r.get("tail") or [])
+    shown = tail[-_VERIFIER_CONSOLE_LINES:]
+    earlier = len(tail) - len(shown)
+    out = []
+    if earlier:
+        out.append("      ... %s earlier line(s) not shown here -- the full %s-line output is "
+                   "in ALLSWEEP.json under this check's 'tail'"
+                   % (f"{earlier:,}", f"{r.get('lines_total', len(tail)):,}"))
+    out += ["      " + ln for ln in shown]
+    return out
+
 
 class Verifier:
     """One row of the VERIFY tier: what to run, and what a nonzero exit MEANS.
@@ -327,20 +387,39 @@ def run_verifier(item):
         # new tier. A child that printed the halt refusal obeyed the interlock.
         refused = _HALT_REFUSAL in out
         failed = bool(crashed or (r.returncode != 0 and rc_means == RC_BROKEN and not refused))
+        lines = [ln for ln in out.strip().splitlines() if ln.strip()]
+        # THE WHOLE OUTPUT IS KEPT WHEN IT IS EVIDENCE (order 2da56d4307ea). `tail` was
+        # unconditionally the last 14 lines, and this row is what gets written into
+        # data/ALLSWEEP.json -- so for a FAILING verifier everything earlier than those 14 lines
+        # was discarded in-process and existed nowhere afterwards: not on the console, not in the
+        # JSON, not in the child (it has exited). That is precisely the shape `reconcile.note`'s
+        # own comment below was written against. A traceback's useful half is routinely more than
+        # fourteen lines, and a verifier that fails is the one row somebody has to act on.
+        #
+        # A PASSING VERIFIER KEEPS THE 14-LINE WINDOW, because its output is not evidence of
+        # anything and ten passing verifiers' full logs would bloat the file every tier reads --
+        # but `lines_total` is recorded either way, so even the window is a DISCLOSED cut and a
+        # reader can always tell 14 lines of 14 from 14 lines of 900.
         return {"check": label, "rc": r.returncode, "crashed": crashed,
                 "rc_means": rc_means, "refused": refused, "failed": failed,
                 "seconds": round(time.time() - t, 1),
-                "tail": [ln for ln in out.strip().splitlines() if ln.strip()][-14:]}
+                "lines_total": len(lines),
+                "tail": lines if (failed or crashed) else lines[-14:]}
     except subprocess.TimeoutExpired:
         silence.note("allsweep.py:run_verifier-timeout")
         return {"check": label, "rc": None, "crashed": False, "timeout": True,
                 "rc_means": rc_means, "refused": False, "failed": True,
-                "seconds": round(time.time() - t, 1), "tail": ["timed out after 30 minutes"]}
+                "seconds": round(time.time() - t, 1), "lines_total": 1,
+                "tail": ["timed out after 30 minutes"]}
     except Exception as e:
         silence.note("allsweep.py:run_verifier")
         return {"check": label, "rc": None, "crashed": True, "seconds": 0,
-                "rc_means": rc_means, "refused": False, "failed": True,
-                "tail": [f"{type(e).__name__}: {str(e)[:120]}"]}
+                "rc_means": rc_means, "refused": False, "failed": True, "lines_total": 1,
+                # WHOLE. This is the only record that this verifier could not even be launched,
+                # and a [:120] cut on the reason left the operator with the head of a sentence
+                # (order 2da56d4307ea's sibling shape, same argument as `git()` in publish.py:
+                # the exception is gone once this returns, so the cut is irreversible).
+                "tail": [f"{type(e).__name__}: {e}"]}
 
 
 # --------------------------------------------------------------------------- tier 3: reconcile
@@ -428,10 +507,19 @@ def reconcile():
 
     # --- rejected hosts must not still be mining -------------------------------------------
     try:
-        import re as _re
+        import cachekey
         import feats as F
         hosts = json.load(open(F.HOSTS, encoding="utf-8"))
-        live = {_re.sub(r"[^A-Za-z0-9]+", "_", h)[:40] for h in hosts.values() if h}
+        # THE HELPER, NOT A THIRD SPELLING OF IT (order c499e168fd48). This was the last
+        # hand-written twin of `cachekey.host_dir` -- the same sanitiser and the same 40-character
+        # cap, re-typed -- and `cachekey.py`'s own header rules "ONE HELPER, NOT FOUR SPELLINGS
+        # ... If a sixth site is ever found, add it to this list rather than to the drift."
+        # Order 5159320dd758 fixed the `hostcheck.py` twin and deliberately left this one because
+        # allsweep.py was not in that run's owned files; the follow-up never landed. The values
+        # agree today, so nothing is mis-computed right now -- the exposure is that a change to
+        # HOST_CAP or _SANITISE would silently make EVERY host directory look stale to the
+        # "cache directories no source points to" row below, firing for every host at once.
+        live = {cachekey.host_dir(h) for h in hosts.values() if h}
         stale = []
         for base in ("feats", "readfeats"):
             root = os.path.join(HERE, "data", base)
@@ -720,8 +808,8 @@ def main():
         for r in verifiers:
             if r.get("failed") or r["crashed"] or r.get("timeout"):
                 print(f"\n   --- {r['check']} ---")
-                for ln in r["tail"]:
-                    print(f"      {ln[:150]}")
+                for ln in verifier_console_lines(r):
+                    print(ln)
 
     est = {}
     if not a.quick:
@@ -736,7 +824,16 @@ def main():
             print("   {:<20}{:>8,} files  {:>9,.0f} MB{}".format(
                 d, v["files"], v["bytes"] / 1e6, flag))
         for r in art["bad"][:25]:
-            print("      {:<60}{}".format(r["error"][:58], r["path"][:72]))
+            # THE TWO FIELD CUTS SAY SO NOW. The [:25] on the list is fine and stays: it
+            # announces itself two lines down AND the full list is in ALLSWEEP.json, which is
+            # this file's own declared-correct shape. These two were the other kind -- an error
+            # string cut at 58 and a PATH cut at 72, both silently, on the row a person reads to
+            # go and open the broken file. A path is the worst possible field to cut without
+            # saying so: on this machine the absolute prefix eats most of the budget, so it is
+            # the distinguishing tail that disappears and two different files can print
+            # identically. Marked rather than dropped, because this IS a table with a column to
+            # align and the whole record is one keystroke away in the JSON.
+            print("      {:<60}{}".format(_marked(r["error"], 58), _marked(r["path"], 72)))
         if len(art["bad"]) > 25:
             print("      ... and {:,} more (full list in ALLSWEEP.json)".format(
                 len(art["bad"]) - 25))

@@ -83,8 +83,26 @@ def _is_throwaway(path):
     return any(s in ("temp", "tmp", "scratchpad") for s in segs)
 
 
-def home_export():
-    return os.path.join(os.environ.get("USERPROFILE") or os.path.expanduser("~"),
+def home_export(env=None):
+    """The export repo's home-directory default. ONE SPELLING OF IT (order 1614178e099c).
+
+    This had no caller and `export_root`'s fallback re-spelled its body inline -- two spellings
+    of one fact, on the constant that decides where a repo carrying a PUBLIC remote lives, with
+    the reachable copy being the one nobody could test in isolation. `export_root`'s own
+    docstring below records what a wrong answer here cost the last time: 160 commits ahead of
+    origin/main in a dead session's scratchpad, publishing four times an hour. That is the
+    family-vs-enumeration shape this same file repairs one function over for
+    `SKIP_SUFFIX`/`gitignore_lines`.
+
+    THE SYMBOL IS KEPT RATHER THAN DELETED, and `export_root` now calls it, which is remedy (b)
+    of the order and the one it prefers: removing a public-looking name is a public-signature
+    change, so it is reported and ruled on rather than done in passing. `env` is carried through
+    because `export_root(env=...)` is written to be testable against a synthetic environment --
+    reading `os.environ` directly is the property whose absence hid the original fault -- and a
+    helper the caller cannot point at the same environment would have re-opened it.
+    """
+    e = os.environ if env is None else env
+    return os.path.join(e.get("USERPROFILE") or os.path.expanduser("~"),
                         "panscriptum-export")
 
 
@@ -113,8 +131,7 @@ def export_root(env=None, warn=True):
     named = e.get("PANSCRIPTUM_EXPORT")
     if named and not _is_throwaway(named):
         return named
-    fallback = os.path.join(e.get("USERPROFILE") or os.path.expanduser("~"),
-                            "panscriptum-export")
+    fallback = home_export(e)
     if named and warn:
         # Loud, every cycle, and never silent: this is the exact class of default whose
         # firing must be reported rather than absorbed.
@@ -167,6 +184,36 @@ def _is_skipped(name):
     return name.endswith(SKIP_SUFFIX) or _PRE_BACKUP.search(name) is not None
 
 
+# THE DIRECTORIES THAT TAKE THE RECORD BUT NOT THE TOOLS THAT MADE IT (order a66423722e45).
+# `handoff/` is a COPY_DIRS root, so everything under it is copied to the PUBLIC repo -- and what
+# agents actually write there is audits (`.md`) and queue state (`.json`), plus, eighteen times so
+# far, a throwaway script (`handoff/run35/checks_*.py`) used to check one thing once. Those are
+# working files, not part of the record, and they are the path fault behind the 2026-08-28
+# SECRET_IN_EXPORT halt: a sweep agent asked to DEMONSTRATE that the scanner catches credentials
+# wrote its fixtures into a script in this directory, and the gate refused the push. Nothing
+# leaked; the gate worked. But the gate should not have had to.
+#
+# THE GUARD IS ON PUBLISH, NOT ONLY ON THE BRIEF. Moving the eighteen files out is a one-time
+# repair of the tree; the next brief that names `handoff/` as a scratch location puts a nineteenth
+# one there. `src/` is where this project's code lives and it is published deliberately -- so the
+# rule is not "no .py in the export", it is "no .py in the directories whose contents are a
+# JOURNAL". Scoped to a named tuple of roots for exactly that reason.
+#
+# AND IT WITHDRAWS WHAT IS ALREADY THERE. A refused file contributes nothing to `wanted`, so
+# `prune_export` deletes the published copy on this same cycle rather than leaving eighteen
+# scripts standing in public for ever behind a rule that only stops the nineteenth.
+CODE_FREE_DIRS = ("handoff",)
+_CODE_EXT = (".py", ".pyw", ".pyi")
+
+
+def _is_agent_scratch(rel):
+    """True for a file `sync_tree` must never publish because of WHERE it is rather than what it
+    is called: source code under a `CODE_FREE_DIRS` root. `rel` is repo-relative with forward
+    slashes. The root itself is never a file, so a bare `handoff` cannot match."""
+    head = rel.split("/")[0]
+    return head in CODE_FREE_DIRS and os.path.splitext(rel)[1].lower() in _CODE_EXT
+
+
 def gitignore_lines():
     """The export repo's `.gitignore`, DERIVED FROM `_is_skipped` rather than restated beside it.
 
@@ -181,8 +228,39 @@ def gitignore_lines():
     the name", so `*.pre*` also catches names the regex would not. Wider is the correct direction
     for the half of the pair that guards a PUBLIC repo, and it costs nothing in precision where
     it matters: `_is_skipped` remains the exact authority on what `sync_tree` copies.
+
+    AND THE SAME PAIRING FOR `CODE_FREE_DIRS` (order a66423722e45). `sync_tree` refuses to COPY a
+    `.py` out of `handoff/`, and `prune_export` withdraws the copies already published -- but a
+    file that reaches the export tree by any other route is still caught by `git add -A`, which is
+    exactly the hole the hand-typed `*.presilence` left. Derived from the same two constants the
+    copier reads, so the two halves cannot drift apart.
     """
-    return ["__pycache__/"] + ["*" + s for s in SKIP_SUFFIX] + ["*.pre*"]
+    return (["__pycache__/"] + ["*" + s for s in SKIP_SUFFIX] + ["*.pre*"]
+            + [d + "/**/*" + e for d in CODE_FREE_DIRS for e in _CODE_EXT]
+            + [d + "/*" + e for d in CODE_FREE_DIRS for e in _CODE_EXT])
+
+
+def _marked(s, width):
+    """One display field, cut only if it must be, and NEVER silently. -> str.
+
+    Hard Rule 0 forbids a truncation that hides what it dropped. This is the seventh copy of the
+    same three-token expression in `src/` (`corpus_db._cell`, `cosmology_graph`,
+    `secondopinion._message`, `suppressions._preview`, and inline forms elsewhere) and order
+    b0586860a8ae asks for it to be hoisted into one shared helper that all of them call. It is
+    written here rather than hoisted because this shift owns four files and none of the others;
+    the hoist is proposed rather than performed. Same form, same marker, same width convention,
+    so hoisting later is a rename and not a re-argument.
+
+    ONLY FOR A REVERSIBLE DISPLAY CUT -- a field beside a path and a line number that the reader
+    can go and look at. It must never be used on an exception message or on anything that is the
+    only surviving copy of what it says; see `git()`. It is also not a licence to keep a bound
+    that should not exist at all: the suppression-reason site this helper was first written for
+    dropped its bound entirely under order bcf6fa2f6dcf, because a line whose stated purpose is
+    to be AUDITED cannot be audited from a marked cut either. A marker makes a cut honest; it
+    does not make a cut correct.
+    """
+    s = str(s)
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
 
 # THE VENDOR LIST — first of three independent locks. Widened 2026-08-25 after an audit
 # enumerated what walked past the original eight prefixes into the PUBLIC repo unredacted: AWS
@@ -290,7 +368,18 @@ FIXTURE_MARKER = "SECRET-FIXTURE"
 # Getting this wrong in the other direction is worse and I did it first: gating every pattern on
 # entropy cleared an AWS access-key id, a PEM private-key header and a live database
 # URL, because none of them are random-looking. The drill caught all three immediately.
-_AMBIGUOUS = re.compile(r"^(sk-|[a-z+]+://)")
+# CASE-INSENSITIVE, TO MATCH THE PATTERN IT GATES (order b52eb95195bd, sweep43-batch10). The
+# connection-string half of `_SECRET` is explicitly `(?i:postgres|postgresql|mysql|...)://`, so
+# `_SECRET.search("Postgres://user:pass@host/db")` matches while a case-sensitive `[a-z+]+://`
+# here did not -- and a value this gate does NOT match is treated as "structural, shape alone is
+# proof" and never offered to the placeholder/entropy check at all. So the exact documentation
+# placeholder this gate exists to clear (`postgres://user:pass@`) was cleared in lowercase and
+# flagged as a real credential in any other case. The direction is fail-safe, which is why it was
+# not a leak, but `push()` turns any unsuppressed hit into `SECRET_IN_EXPORT`, an OWNER halt and a
+# refused push -- and per Hard Rule -1 an OWNER halt may only be lifted by a written ruling. A
+# capitalised connection string in a HANDOFF.md example or an in-fiction passage would have
+# stopped the public repo on nothing.
+_AMBIGUOUS = re.compile(r"^(sk-|[a-z+]+://)", re.I)
 # Credential pairs that are obviously placeholders in documentation.
 _PLACEHOLDER_CREDS = re.compile(
     r"(?i)://(user|username|admin|root|me|you|someone|example|test|foo)"
@@ -441,8 +530,14 @@ def scan_for_secrets(root, max_bytes=2_000_000, only=None):
     `only` NARROWS THE WALK TO NAMED TOP-LEVEL ENTRIES, and it must never be passed on the push
     path. The whole point of this lock is that it reads everything staged, so an argument that
     can make it read less is a loaded gun: `write()`/`push()` call it with `only=None` and the
-    drill's `_secret_scan_reads_every_staged_file` fixture proves the unnarrowed walk still sees
-    an oversized file. It exists for a caller that must scan against REPO-RELATIVE paths -- the
+    drill's `_the_scanner_reads_files_over_two_megabytes` net (in src/drill.py; no line number,
+    because that is what drifted) proves the unnarrowed walk still sees an oversized file -- it
+    calls `P.scan_for_secrets(d)` with no
+    `only=` against three files over 2 MB. (The name here read
+    `_secret_scan_reads_every_staged_file` until order f4ed53f4691b: no such net exists, so a
+    reader checking the safety argument for this parameter grepped for it, found nothing, and
+    could not tell whether the proof had been renamed or never written.) It exists for a caller
+    that must scan against REPO-RELATIVE paths -- the
     suppression table is keyed that way, so `root` has to stay the repo root and cannot simply
     be pointed at a subdirectory -- while paying for the export set rather than for a 4.3 GB
     tree of mined corpus. Order 01a479a891a5: one drill net was walking 277,221 files to check
@@ -502,9 +597,21 @@ def scan_for_secrets(root, max_bytes=2_000_000, only=None):
                         # finding entirely is indistinguishable from a detector that stopped
                         # working.
                         if _SECRET.search(line) or _SECRET_ASSIGN.search(line):
+                            # THE REASON IS PRINTED WHOLE. It was cut at 60 characters with no
+                            # marker; order b0586860a8ae asked for the chr(8230) marker at that
+                            # width and order bcf6fa2f6dcf, filed independently against the same
+                            # line, asked for the cut to go entirely. THE SECOND READING WINS,
+                            # and the comment four lines up is why: this line exists so the
+                            # waiver can be AUDITED, and the three live suppression reasons run
+                            # 137, 175 and 300 characters, so a marked cut at 60 is still a
+                            # reason nobody can audit -- it would only have changed an
+                            # unreadable line into a line that admits it is unreadable. There is
+                            # nothing to align against here (it is one field in a tuple, not a
+                            # table column) and these strings are hand-written into the
+                            # suppressions table, so they are short by construction and bounded
+                            # by the number of waivers a person chose to grant.
                             _add((rel, i, "supp"),
-                                 (rel, i,
-                                  "SUPPRESSED (%s)" % supp.get("reason", "")[:60]))
+                                 (rel, i, "SUPPRESSED (%s)" % supp.get("reason", "")))
                         continue
                     # EVERY vendor match on the line, not just the first. `search` stopped at
                     # match one, so a real key sitting behind a slug that `_is_real_secret`
@@ -582,8 +689,17 @@ def git(*args, check=True):
     r = subprocess.run(["git", *list(args)], cwd=SITE, capture_output=True,
                        text=True, encoding="utf-8", errors="replace", env=env, creationflags=_NO_WIN)
     if check and r.returncode != 0:
+        # GIT'S OWN DIAGNOSTIC, WHOLE (order f5fdaab825a6, sweep38-batch10; Hard Rule 0). This was
+        # clipped to 220 characters with no marker, and unlike every other truncation in this file
+        # that one was IRREVERSIBLE: the subprocess has exited, `r.stderr` is the only copy, and
+        # the bytes past the cut are gone for good. Git's most useful failures are its longest --
+        # a rejected push names the ref, the remote and a hint block; a rebase conflict names the
+        # files; the 403 this function's own comment above calls "the whole diagnosis" carries the
+        # account name near the end. Clipping it left the operator with the first two lines of the
+        # explanation for why the PUBLIC repo did not update. This is an exception message, not a
+        # table cell, and nothing downstream aligns on it.
         raise RuntimeError("git " + " ".join(args) + ": "
-                           + (r.stderr or r.stdout).strip()[:220])
+                           + (r.stderr or r.stdout).strip())
     return (r.stdout or "").strip()
 
 
@@ -679,6 +795,28 @@ def _live_root_state(d):
     return "unavailable" if present else "gone"
 
 
+def _why_no_delete_in_export():
+    """WHY nothing may be deleted under `SITE`, or None if deletion is allowed. -> str or None.
+
+    The reason, not just the verdict (order 61febefc5dcc). `_may_delete_in_export` answers a
+    bool, and `prune_export` turned that bool into a bare `return 0` -- the same value it
+    returns for "nothing needed pruning" -- so a `SITE` that had lost its marker, or one whose
+    marker merely could not be read this cycle, turned the ENTIRE prune off silently and
+    indefinitely while the cycle line read exactly as it does on a healthy run. This function
+    exists so the refusal can say WHICH half fired, in the words a person can act on.
+    """
+    if _same_dir(SITE, HERE):
+        return ("SITE resolves to the live project itself (%s) -- nothing may be deleted there"
+                % SITE)
+    marker = os.path.join(SITE, ".is-export-copy")
+    if not os.path.exists(marker):
+        # `os.path.exists` answers False for absent AND for unreadable alike, and the message
+        # says so rather than asserting the file is gone: both mean "not proven to be the export
+        # copy", but they are different things to go and fix.
+        return "no .is-export-copy marker at " + marker + " (absent, or unreadable this cycle)"
+    return None
+
+
 def _may_delete_in_export():
     """May anything be DELETED under `SITE` at all? -> bool.
 
@@ -688,13 +826,12 @@ def _may_delete_in_export():
     marker; `sync_tree`'s COPY_FILES withdrawal checked only the first, so a `SITE` that
     misresolved onto some other directory carrying the same file names could be deleted out of.
     Deletion has no undo, and a misresolved SITE has happened here -- see `export_root`.
+
+    THE REFUSAL ITSELF IS UNCHANGED and must stay: declining to delete is correct, being quiet
+    about it was not. `_why_no_delete_in_export` above holds the reason; this stays a bool for
+    the callers that only need the verdict.
     """
-    if _same_dir(SITE, HERE):
-        return False
-    # `os.path.exists` is the right call for a MARKER, unlike for a live file: it answers False
-    # for absent and for unreadable alike, and both of those mean "not proven to be the export
-    # copy", which is a refusal to delete. The failure direction is the safe one.
-    return os.path.exists(os.path.join(SITE, ".is-export-copy"))
+    return _why_no_delete_in_export() is None
 
 
 def _live_file_state(f):
@@ -734,7 +871,11 @@ def _live_file_state(f):
 
 
 def prune_export(wanted, held=()):
-    """Delete from the export copy everything `sync_tree` did not just put there. -> count.
+    """Delete from the export copy everything `sync_tree` did not just put there.
+
+    -> the number of files withdrawn, or None if the prune REFUSED to run at all. 0 means the
+    prune ran and found nothing to withdraw; None means it never looked. See the paragraph on
+    order 61febefc5dcc below for why those two must not share a return value.
 
     A COPY IS NOT A REFRESH. This loop copies forward and never looked back, so a file deleted
     from the live project stayed in the export copy forever: `git add -A` re-staged it every
@@ -773,9 +914,24 @@ def prune_export(wanted, held=()):
     `state/` (five run-state files, including a scratch SQLite database) had been sitting in the
     public repo since 2026-08-23, left behind by a COPY_DIRS that used to name it.
     (order f2271d9ee843)
+
+    REFUSING AND HAVING NOTHING TO DO ARE NO LONGER THE SAME ANSWER (order 61febefc5dcc). This
+    opened `if not _may_delete_in_export(): return 0`, and 0 is what a healthy cycle with a tidy
+    tree returns -- so the whole prune switching itself off was indistinguishable, on the console
+    and in the caller, from there being nothing to prune. That is this project's signature defect:
+    a failure wearing the same face as an honest empty result. A refusal now returns None, is
+    noted, and says on stderr WHICH half fired. It matters more since the `CODE_FREE_DIRS` guard
+    landed: withdrawing an already-published file is now something the prune does on purpose, so
+    a silent refusal leaves agent scripts standing in the PUBLIC repo behind a rule that reads as
+    though it worked.
     """
-    if not _may_delete_in_export():
-        return 0
+    why = _why_no_delete_in_export()
+    if why is not None:
+        silence.note("publish.py:prune-refused")
+        print("publish: THE PRUNE REFUSED AND NOTHING WAS WITHDRAWN -- " + why
+              + ". Every file removed from the live project goes on being re-staged by "
+                "git add -A and published. This is NOT 'nothing to prune'.", file=sys.stderr)
+        return None
     held = set(held or ())
     removed = 0
     for d in COPY_DIRS:
@@ -869,6 +1025,7 @@ def sync_tree():
     n = 0
     wanted = set()
     held = set()
+    refused = []
 
     def _hold(d, why):
         held.add(d)
@@ -895,8 +1052,13 @@ def sync_tree():
                 if _is_skipped(f):
                     continue
                 srcp = os.path.join(base, f)
-                dstp = os.path.join(SITE, os.path.relpath(srcp, HERE))
-                wanted.add(os.path.relpath(srcp, HERE).replace(os.sep, "/"))
+                rel = os.path.relpath(srcp, HERE).replace(os.sep, "/")
+                if _is_agent_scratch(rel):
+                    # REFUSED BY LOCATION, and named out loud below -- see `_is_agent_scratch`.
+                    refused.append(rel)
+                    continue
+                dstp = os.path.join(SITE, rel)
+                wanted.add(rel)
                 os.makedirs(os.path.dirname(dstp), exist_ok=True)
                 # rsync-style short-circuit: this loop was copying 139 files / 14.5MB every
                 # ten minutes unconditionally (~2GB/day of writes for Norton to re-scan) when
@@ -911,8 +1073,23 @@ def sync_tree():
                 shutil.copy2(srcp, dstp)
                 n += 1
         if walk_errors:
-            _hold(d, "%d director(ies) under it could not be listed (%s)"
-                     % (len(walk_errors), str(walk_errors[0])[:80]))
+            # `_marked`, not a bare [:80]: this is the line telling an operator that a whole
+            # subtree of the PUBLIC repo is being held, and the cut said nothing. The COUNT of
+            # errors is stated, so showing the first one is a disclosed head rather than a
+            # silent sample; the string cut inside it was the undisclosed half.
+            _hold(d, "%d director(ies) under it could not be listed, the first being: %s"
+                     % (len(walk_errors), _marked(walk_errors[0], 80)))
+    if refused:
+        # EVERY NAME, NOT A COUNT (Hard Rule 0). A file being kept out of the PUBLIC repo is the
+        # kind of decision that must be readable, and there is no second place to go and look it
+        # up -- so the list is printed whole, however long it grows.
+        silence.note("publish.py:agent-scratch-refused")
+        print("publish: REFUSED to publish %d source file(s) living under %s -- those "
+              "directories carry the record (.md audits, .json queue state), not the throwaway "
+              "scripts that produced it. The published copies are withdrawn by this same cycle's "
+              "prune. Move working scripts outside the repo. Refused:\n%s"
+              % (len(refused), "/, ".join(CODE_FREE_DIRS) + "/",
+                 "\n".join("    " + r for r in sorted(refused))), file=sys.stderr)
     withdrawn = []
     for f in COPY_FILES:
         srcp = os.path.join(HERE, f)
@@ -956,19 +1133,33 @@ def sync_tree():
         # repo is a bigger event than a file entering it, and this withdrawal was silent.
         print("withdrew %d file(s) no longer in the live project: %s"
               % (len(withdrawn), ", ".join(sorted(withdrawn))))
-    pruned = prune_export(wanted, held=held)
-    if pruned:
-        # SAY IT. A file leaving the public repo is a bigger event than a file entering it,
-        # and the cycle line only ever reported arrivals.
-        print("pruned %d file(s) no longer in the live project" % pruned)
     # Mark the copy AS a copy. Every module imports silence, which refuses to run from a tree
     # carrying this marker -- so a command aimed at the wrong directory fails loudly instead of
     # succeeding into nothing. Atomic (order 7d2d5f2d0d57's same-shape, low-stakes sibling):
     # a torn write here is a tiny file with low stakes, but the primitive is free, so it rides
     # along rather than being left as the one bare `open(..., "w")` in this function.
+    #
+    # BEFORE THE PRUNE, NOT AFTER IT (order 61febefc5dcc, the second half). This write sat below
+    # `prune_export`, and `_may_delete_in_export` requires exactly this marker -- so the first
+    # cycle into a fresh export directory ALWAYS refused to prune, silently, and only the second
+    # cycle onwards could withdraw anything. That one self-corrected; it also meant the loudest
+    # possible refusal message would have fired on an ordinary first run and taught the operator
+    # to ignore it. Writing the marker first makes the refusal mean what it says: SITE is wrong,
+    # or the marker cannot be read.
     _write_text_atomic(os.path.join(SITE, ".is-export-copy"),
                         "Published copy of the Panscriptum. The project lives elsewhere."
                         + chr(10))
+    pruned = prune_export(wanted, held=held)
+    if pruned:
+        # SAY IT. A file leaving the public repo is a bigger event than a file entering it,
+        # and the cycle line only ever reported arrivals.
+        print("pruned %d file(s) no longer in the live project" % pruned)
+    elif pruned is None:
+        # AND SAY THE OTHER THING TOO. `prune_export` has already printed WHICH half refused and
+        # noted it; this is the line on stdout beside "synced N files", so the cycle summary a
+        # person actually reads cannot show a clean run over a prune that never happened.
+        print("prune REFUSED -- nothing was withdrawn this cycle (reason on stderr above). "
+              "This is not 'nothing to prune'.")
     return n
 
 
@@ -1361,7 +1552,11 @@ def push(message=None, before=None):
         silence.note("publish.py:push-held")
         raise PushHeld(
             "PUSH HELD -- " + held_what + " and NOTHING reached "
-            "the public repo: the rebase onto origin/main failed (" + str(e)[:120]
+            # WHOLE, not clipped to 120 characters (order f5fdaab825a6). `PushHeld` is printed
+            # WHOLE by `main()` -- that is the entire reason the class exists -- so a clip here
+            # was the only thing standing between the operator and git's actual explanation, and
+            # it threw away the half of a rebase-conflict message that names the files.
+            "the public repo: the rebase onto origin/main failed (" + str(e)
             + "). The export is now ahead of origin; the next cycle retries on a fresh tree. "
               "This is not 'no change to push'.") from e
     # THE PUSH ITSELF IS HELD, NOT RAISED GENERICALLY. This was a bare `git(...)`, so a refused
@@ -1375,7 +1570,8 @@ def push(message=None, before=None):
         silence.note("publish.py:push-held")
         raise PushHeld(
             "PUSH HELD -- " + held_what + " and the push to "
-            "origin/main was REFUSED (" + str(e)[:160] + "). Nothing reached the public repo; "
+            # WHOLE, for the same reason as the rebase branch above (order f5fdaab825a6).
+            "origin/main was REFUSED (" + str(e) + "). Nothing reached the public repo; "
             "the export is now ahead of origin. The next cycle retries. This is not 'no change "
             "to push'.") from e
     # AND THE PUSH IS CONFIRMED, not assumed from rc=0. `git push` is the one step here whose

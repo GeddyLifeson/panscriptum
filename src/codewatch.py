@@ -65,6 +65,13 @@ STABLE_SECONDS = 180
 # code, and it is the failure that looks most like everything being fine.
 BUDGET_PER_HOUR = 4
 
+# How hard `stamp()` tries before it accepts that it cannot read src/ at all. The condition it
+# is riding out is a file open for writing, which lasts milliseconds; five attempts with the
+# backoff below spans about three seconds of startup, and a daemon that starts three seconds
+# later costs nothing next to a daemon that spends its whole life unable to notice a patch.
+STAMP_ATTEMPTS = 5
+STAMP_RETRY_SECONDS = 0.2
+
 LEDGER = os.path.join(HERE, "state", "CODEWATCH.json")
 LEDGER_LOCK = LEDGER + ".lock"
 
@@ -73,8 +80,22 @@ LEDGER_LOCK = LEDGER + ".lock"
 # stolen rather than waited on forever.
 LOCK_STALE_SECONDS = 30
 
+# How long this process may sit on code that does not match the disk before the condition is
+# SAID OUT LOUD. Not a restart trigger and not a budget: the restart rules are untouched, this
+# only ends the silence around them. STABLE_SECONDS is the settle window for ONE change; this is
+# the far longer window that asks whether the tree has stopped settling at all. An hour is well
+# past any single patch (`local_agent` settles in seconds) and short enough to catch the real
+# case, which was measured at 23 hours.
+SETTLE_ALARM_SECONDS = 3600
+
 _START = {"digest": None, "at": None}
-_PENDING = {"digest": None, "first_seen": None}
+# `first_seen` times the CURRENT digest; `differing_since` times how long this process has been
+# running code that does not match the disk AT ALL, across however many different digests. The
+# two are not the same clock and the difference is the whole point (see `exit_if_stale`): during
+# a maintenance shift the digest changes every few seconds, so `first_seen` resets every few
+# seconds and can never grow, while `differing_since` keeps counting for as long as the process
+# is out of date.
+_PENDING = {"digest": None, "first_seen": None, "differing_since": None, "said_at": 0.0}
 
 
 def fingerprint(root=None):
@@ -291,12 +312,59 @@ def claim_singleton(who, module=None, exit_code=0):
 
 
 def stamp(who="?"):
-    """Record the code this process actually started with. Call once, at startup."""
-    _START["digest"] = fingerprint()
+    """Record the code this process actually started with. Call once, at startup.
+
+    A STAMP THAT COMES UP `None` DISARMS THIS DAEMON FOR THE REST OF ITS LIFE, AND USED TO DO
+    IT SILENTLY (order e3c220e87d57). `fingerprint()` deliberately answers None whenever any
+    `.py` directly under `src/` cannot be opened at that instant, which is the ordinary
+    signature of a file being written -- `local_agent.py --patch` applying a patch set, an
+    editor's write-temp-then-rename. This ran it exactly once and kept whatever came back. With
+    None in `_START["digest"]`, `stale()` returns False with "not stamped" on every subsequent
+    call for ever, `exit_if_stale` reads that False as the ordinary nothing-changed case and
+    returns without a word, and none of the six live callers checks what this returns or ever
+    calls it again. The result is a daemon that is indistinguishable, in every log and every
+    report, from a freshly-stamped healthy one, while the rc=17 interlock is simply not there.
+
+    And the trigger is this module's own success case: `exit_if_stale` restarts a daemon
+    BECAUSE `src/` is being edited, so the replacement process runs its startup stamp in the
+    middle of exactly the window that produces None. The daemon most likely to restart near a
+    `src/` edit was the one most likely to come back blind to the next one.
+
+    Two answers, in order. First RETRY: a mid-write file is unreadable for milliseconds, so a
+    few short attempts convert almost every instance of this into a normal stamp. Then, if it
+    still will not read, SAY SO -- loudly, and at the same rank as `CODEWATCH_BUDGET`, because
+    the consequence is the same one: this job will keep running old code and nothing else will
+    report it. Deliberately NOT a re-stamp later from inside `stale()`: a digest taken minutes
+    after startup describes the tree as it is then, not the code this process actually loaded,
+    so a late stamp would replace a known blindness with a confident wrong answer.
+    """
+    for attempt in range(STAMP_ATTEMPTS):
+        digest = fingerprint()
+        if digest is not None:
+            break
+        if attempt + 1 < STAMP_ATTEMPTS:
+            time.sleep(STAMP_RETRY_SECONDS * (2 ** attempt))
+    _START["digest"] = digest
     _START["at"] = time.time()
     _PENDING["digest"] = None
     _PENDING["first_seen"] = None
-    return _START["digest"]
+    _PENDING["differing_since"] = None
+    _PENDING["said_at"] = 0.0
+    if digest is None:
+        why = ("%s could not fingerprint src/ in %d attempts at startup, so it has NO stamp and "
+               "codewatch cannot ever tell it that its source changed. It will run whatever code "
+               "it loaded until something restarts it by hand. A file under src/ was unreadable "
+               "for the whole retry window, which usually means a write that did not finish."
+               % (who, STAMP_ATTEMPTS))
+        print("[codewatch] %s" % why, flush=True)
+        try:
+            import escalation
+            escalation.escalate("MANAGER", "CODEWATCH_NOT_STAMPED", why,
+                                evidence={"job": who, "attempts": STAMP_ATTEMPTS},
+                                source=who, who="codewatch")
+        except Exception:
+            silence.note("codewatch.py:stamp-escalate")
+    return digest
 
 
 def _read_ledger():
@@ -453,14 +521,34 @@ def stale(who="?"):
     read the tree" -- three states a bare False would flatten into one.
     """
     if _START["digest"] is None:
-        return False, "not stamped; call stamp() at startup"
+        # TWO WAYS TO BE UNSTAMPED, AND THE SECOND ONE IS NOT A PROGRAMMING MISTAKE. Either
+        # `stamp()` was never called -- the caller's bug, and what this reason used to assume --
+        # or it WAS called and every attempt to fingerprint src/ came back None (see `stamp`,
+        # order e3c220e87d57). Both leave this daemon permanently unable to notice a source
+        # change, so both belong in the reason a caller logs; naming only the first sends a
+        # person looking for a missing call that is right there.
+        return False, ("not stamped: either stamp() was never called at startup, or it was and "
+                       "src/ could not be fingerprinted -- either way this process cannot be "
+                       "told its source changed")
     now = fingerprint()
     if now is None:
         return False, "source unreadable right now (probably mid-write)"
     if now == _START["digest"]:
         _PENDING["digest"] = None
         _PENDING["first_seen"] = None
+        _PENDING["differing_since"] = None
         return False, "unchanged"
+    # TWO CLOCKS, AND THE SECOND ONE IS THE ONE THAT MEASURES THE HARM. `first_seen` restarts
+    # every time the tree takes a NEW shape, which is correct for the settle window -- a change
+    # still in progress has not held still. But it means that while anything edits `src/`
+    # continuously, `first_seen` is reset faster than STABLE_SECONDS can ever be reached, so it
+    # can never say how long this process has been out of date. `differing_since` is set once,
+    # on the first poll that disagrees with the stamp, and cleared only by agreeing with it
+    # again. It is therefore the honest answer to "how long has this daemon been running code
+    # that is not on disk", whether that is one change settling or ten agents editing for an
+    # hour. Read by `exit_if_stale`, which reports on it; nothing here restarts because of it.
+    if _PENDING["differing_since"] is None:
+        _PENDING["differing_since"] = time.time()
     if _PENDING["digest"] != now:
         _PENDING["digest"] = now
         _PENDING["first_seen"] = time.time()
@@ -499,6 +587,102 @@ def stale(who="?"):
         _START["digest"], now, held, how)
 
 
+def _maintenance_run_live():
+    """Is a maintenance shift holding the run guard right now? -> (bool, description).
+
+    WHY THIS MODULE ASKS. `src/` being rewritten is either a shift doing it ON PURPOSE or
+    something doing it pathologically, and those two produce an identical picture here: the
+    fingerprint keeps moving and no daemon can settle. They need opposite responses from a
+    person -- one is "expected, it will be bounced at the end of the shift", the other is "find
+    out what is writing to src/" -- so a report that cannot tell them apart sends every reader
+    to the wrong place half the time.
+
+    ASKED ONLY TO DESCRIBE, NEVER TO DECIDE. Nothing below this changes what restarts or what
+    the budget allows on the strength of this answer. Whether a live shift should suppress
+    restarts outright, or spend from a separate budget, is a real question and an owner's to
+    rule on; it is deliberately not settled here by a helper quietly changing the rules.
+
+    `runguard` owns this file and `holder_is_live` is its own definition of a live holder
+    (unfinished, with a heartbeat inside its staleness limit), so this borrows the judgement
+    rather than re-spelling it -- the failure mode of a second opinion on a shared file is two
+    modules disagreeing about whether a run is happening. Fails to "cannot tell", which reads
+    as neither expected nor pathological, because an unreadable guard proves nothing either way.
+    """
+    try:
+        import runguard
+        rec = runguard.read()
+        if not rec:
+            return False, "no maintenance run holds the guard"
+        if runguard.holder_is_live(rec):
+            return True, ("a maintenance run (%s) holds the guard and is heartbeating, so src/ "
+                          "is being rewritten ON PURPOSE" % rec.get("agent", "?"))
+        return False, ("the run guard is held by %s but it is finished or its heartbeat has "
+                       "gone stale, so no live shift explains this" % rec.get("agent", "?"))
+    except Exception:
+        silence.note("codewatch.py:maintenance-probe")
+        return False, "could not read the run guard, so nothing can be said about a live shift"
+
+
+def _report_if_never_settling(who, why):
+    """Say so when a daemon has sat on out-of-date code for SETTLE_ALARM_SECONDS.
+
+    THE ONE PATH THROUGH THIS MODULE THAT SAID NOTHING AT ALL. `exit_if_stale` escalates when a
+    restart is CLAIMED AND REFUSED, and it announces one that is granted -- but the settling
+    branch returned a bare False, exactly like "unchanged". So a daemon whose source keeps
+    moving and therefore never settles produced no log line, no escalation and no ledger entry,
+    for as long as it lasted, and read in every report as a healthy job with a full budget.
+
+    MEASURED, NOT SUPPOSED (coordinator, 2026-09-05). With ten agents editing `src/` for
+    forty-five minutes, `quiet_seconds()` sat at 8-19s against STABLE_SECONDS=180, so no poll
+    could ever settle. `codewatch.py` reported all four daemons at "0 restart(s) in the last
+    hour (budget 4)" -- an untouched budget reads as nothing to report -- while the newest entry
+    in the restart ledger was 23 HOURS old. Four daemons had been running pre-shift code for a
+    day, and the report designed to show exactly that showed a clean bill of health, because the
+    only thing it had ever been taught to speak about was the budget.
+
+    NOT A RESTART AND NOT A BUDGET CHANGE. "Bouncing is worse than lag" is a considered ruling
+    and this does not touch it, nor spend a slot, nor raise BUDGET_PER_HOUR. Lag that nobody can
+    see is the defect; lag that is written down is the ruling working.
+
+    The rank is the shift-versus-pathology distinction, and it is the only thing the run guard
+    is consulted for: a live maintenance shift rewriting `src/` on purpose is EXPECTED and is
+    recorded at JANITOR, and the same silence with nothing holding the guard means something is
+    rewriting the tree that nobody asked for -- MANAGER, matching CODEWATCH_BUDGET, because the
+    consequence is the one CODEWATCH_BUDGET describes: this job is running stale code and will
+    go on doing so. Rate-limited to once per alarm window per process, so a shift that runs for
+    hours produces a handful of lines rather than one per poll.
+    """
+    since = _PENDING.get("differing_since")
+    if not since:
+        return False
+    held = time.time() - since
+    if held < SETTLE_ALARM_SECONDS:
+        return False
+    now = time.time()
+    if now - (_PENDING.get("said_at") or 0.0) < SETTLE_ALARM_SECONDS:
+        return False
+    _PENDING["said_at"] = now
+    shift, note = _maintenance_run_live()
+    msg = ("%s has been running code that does not match src/ for %.1f hours without ever "
+           "restarting, because the tree has not held still for %ds in all that time (last "
+           "poll: %s). No restart has been claimed and no budget has been spent, so every "
+           "report of this job shows a full restart budget and nothing wrong. %s"
+           % (who, held / 3600.0, STABLE_SECONDS, why, note))
+    print("[codewatch] %s" % msg, flush=True)
+    try:
+        import escalation
+        escalation.escalate(
+            escalation.JANITOR if shift else "MANAGER",
+            "CODEWATCH_STALE_THROUGH_SHIFT" if shift else "CODEWATCH_NEVER_SETTLES",
+            msg, evidence={"job": who, "stale_hours": round(held / 3600.0, 2),
+                           "stable_seconds": STABLE_SECONDS, "maintenance_run_live": shift,
+                           "last_poll_reason": why},
+            source=who, who="codewatch")
+    except Exception:
+        silence.note("codewatch.py:never-settling-escalate")
+    return True
+
+
 def exit_if_stale(who="?", rc=RC_STALE):
     """The one call a long-lived loop makes. Exits the process if its code is out of date.
 
@@ -509,6 +693,7 @@ def exit_if_stale(who="?", rc=RC_STALE):
     """
     is_stale, why = stale(who)
     if not is_stale:
+        _report_if_never_settling(who, why)
         return False
     # CHECK AND TAKE TOGETHER. Reading the budget here and recording the restart further down
     # was two operations with a gap in the middle that two twins could both walk through.

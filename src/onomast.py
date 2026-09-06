@@ -175,11 +175,36 @@ def well_formed(name):
     good names like Amastes and Valeornus. Random morpheme concatenation has no opinion about
     whether a result is pronounceable, so the opinion has to be supplied.
 
-    Four constraints, all mechanical:
+    Seven constraints, all mechanical. The name beside each is one this constraint ACTUALLY
+    rejects, checked against the code below rather than remembered:
       length      4 to 11 characters -- long enough to be distinctive, short enough to shelve
-      echo        no trigram appearing twice (kills Shiashiathasha, Shessasha)
-      stutter     no immediately doubled syllable (kills Goggoktok, Khakak)
-      cluster     no run of three consonants (kills Zgournazhun's opening)
+                  (kills Shiashiathasha at 14)
+      echo        no trigram appearing twice (kills Shiashiathasha: "sha" three times)
+      stutter     no immediately doubled syllable (kills Khakak: "ka" then "ka")
+      cluster     no run of three consonants (kills an opening like Zgr-)
+      density     no consonant more than twice (kills Shessasha s x4, Goggoktok and
+                  Goggournok g x3)
+      vowel run   no run of three vowels (kills Aeeinna)
+      vowel floor at least two vowels in the name
+
+    THE HEADER SAID FOUR AND THE BODY CHECKED SEVEN (order 136b923d405e). The last three were
+    added later, each with its own comment naming the ugly names the first four let through,
+    and the opening line was never updated -- so the summary a reader trusts undercounted the
+    function by three, in a module whose subject is names being written down the same way twice.
+
+    AND THREE OF THE FOUR ORIGINAL ATTRIBUTIONS NAMED THE WRONG CONSTRAINT, which is the same
+    defect one level down and was found while fixing the count. Measured against this function:
+    Shessasha has no repeated trigram (echo does not fire; DENSITY rejects it), Goggoktok has no
+    doubled syllable (stutter does not fire; DENSITY rejects it), and Zgournazhun's opening is a
+    run of TWO consonants, so cluster does not fire on it either. A reader debugging why a name
+    was refused would have been sent to the wrong test three times out of four.
+
+    ZGOURNAZHUN IS ACCEPTED BY EVERY CONSTRAINT HERE. It is named in the paragraph above as one
+    of the ugly outputs that motivated this function, and it passes: max consonant run 2, no
+    repeated trigram, no doubled syllable, z and n twice each. Left standing rather than
+    legislated against, because "is Zgournazhun sayable" is a question about the register's
+    taste and not a mechanical defect, and adding a rule to exclude one remembered name is how
+    a filter stops being mechanical. Recorded here so the gap is known rather than implied shut.
     """
     n = name.lower()
     if not (4 <= len(n) <= 11):
@@ -572,7 +597,14 @@ def main():
         print(f"\n  {endo} — {len(rows)} worlds, none of them each other:")
         for v in rows[:9]:
             src = v["attestations"][0]
-            print(f"     {v['catalogue_name']:<16}{v['register']:<11}{src[:34]}")
+            # PAD, DO NOT CUT (order 478dea657aaf, Hard Rule 0). Four lines under the comment
+            # that corrected this same function's silent outer `[:4]`, the FIELD inside each row
+            # was still cut at 34 characters with nothing to show for it. An attestation is the
+            # provenance of a designation -- the thing this module exists to make citable -- and
+            # it is the LAST field on the line, so the width was holding a column that has
+            # nothing after it. Padding keeps short attestations aligned and lets long ones
+            # print whole, which is the house form this same block already asks for elsewhere.
+            print(f"     {v['catalogue_name']:<16}{v['register']:<11}{src:<34}")
         if len(rows) > 9:
             print(f"     ... and {len(rows)-9} more")
     if len(_endonyms) > 4:

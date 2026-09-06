@@ -93,6 +93,49 @@ class BadOrder(ValueError):
     """A work order that could not be routed. Refused rather than filed unroutable."""
 
 
+# WHAT A SHELL DOES TO WORK-ORDER TEXT, named construct by construct (order 1c99df1f69c1).
+#
+# On 2026-09-01 a remedy field whose text contained a backticked command was passed to this
+# CLI as a Bash argument. Command substitution did not mangle it -- it RAN IT: a full chain
+# pipeline started under the wrong interpreter, reached 589 MB RSS, and was still running
+# sixteen minutes later, competing with the library's real work for a saturated GPU. Nobody
+# decided it should run. Two other closures the same day lost a word each to the milder form
+# of the same mechanism, and the closed log is append-only, so those are unrepairable.
+#
+# THIS IS STRUCTURAL, NOT CARELESSNESS. Order text is DATA -- written by earlier runs, by
+# detectors, and by other agents -- and a REMEDY field is the field most likely to contain a
+# command. Routing that data through a shell makes the queue an execution path: anything the
+# queue can be made to say, the shell will run. The three occurrences were accidents; the
+# mechanism does not require one.
+#
+# The remedy is a channel that is not a command line -- `--how-file`, and `--how -` for stdin,
+# both below -- plus this, which is the guard on the WRITING side, because the caller is the
+# thing that cannot be trusted to remember. It cannot undo a substitution that already
+# happened (the backticks are gone by the time argv exists); what it can do is say, at the
+# moment a resolution arrives as a shell argument, that the text carries constructs a shell
+# acts on, so the next closure goes through the file.
+SHELL_ACTIVE = (
+    ("`", "backtick command substitution -- the shell RUNS what is inside it"),
+    ("$(", "$(...) command substitution -- the shell RUNS what is inside it"),
+    ("${", "${...} parameter expansion"),
+    ("$", "$ variable expansion -- the shell replaces the name, usually with nothing"),
+    ("\\", "backslash escape -- the shell eats it and the character after it"),
+    ('"', "double quote -- ends the caller's own quoting and re-opens the line to the shell"),
+)
+
+
+def shell_active(text):
+    """Which shell constructs a string contains. -> [description, ...], empty if it is inert.
+
+    A plain report, not a verdict: this refuses nothing. See SHELL_ACTIVE for why the honest
+    answer here is a warning plus a safe channel rather than a rejection -- a resolution that
+    reaches this function has already survived whatever the shell did to it, and refusing to
+    record it would lose the close as well.
+    """
+    s = str(text or "")
+    return [why for tok, why in SHELL_ACTIVE if tok in s]
+
+
 # --------------------------------------------------------------------- the battery's artifacts
 #
 # How long a battery result stays meaningful. A STALE result is a fault in its own right and is
@@ -598,6 +641,78 @@ def open_orders(handler=None, severity=None):
     rows.sort(key=lambda r: (-SEVERITY.index(r.get("severity", "INFO")),
                              r.get("first_seen", 0)))
     return rows
+
+
+# A `where` NAMES A FILE, AND SOMETIMES A LINE. Same shape as the module regex the misrouted-
+# LOCAL detector already uses, widened by an optional `:line` and by an optional directory
+# prefix, so `src/workorders.py:405-419`, `workorders.py:resolve,main` and
+# `deprecated/catalogue_local.py:12` all parse.
+WHERE_TARGET = re.compile(r"\b((?:[A-Za-z0-9_.-]+/)*[A-Za-z_][A-Za-z0-9_]*\.py)(?::(\d+))?")
+
+
+def where_targets(where):
+    """Parse a `where` string. -> (sorted [file], sorted [file:line]).
+
+    The file is normalised to its basename, because the same fault is written `publish.py` by
+    one sweep and `src/publish.py` by the next, and a grouping that treats those as two files
+    cannot find the twin it exists to find. Nothing is GUESSED from prose: a `where` that names
+    no `.py` file at all returns two empty lists and is counted separately by `twins()`, which
+    is itself the first finding -- an order whose target cannot be parsed cannot be grouped with
+    anything and is invisible to any twin check.
+    """
+    files, lines = set(), set()
+    for path, line in WHERE_TARGET.findall(str(where or "")):
+        base = path.rsplit("/", 1)[-1]
+        files.add(base)
+        if line:
+            lines.add("%s:%s" % (base, line))
+    return sorted(files), sorted(lines)
+
+
+def twins(rows=None):
+    """Open orders that describe the same file, and the same file:line. -> a report dict.
+
+    ONE FAULT CAN HOLD SEVERAL OPEN ORDERS, AND FIXING THE LINE CLOSES ONLY ONE (order
+    c98ac549fb7b). The dedup key is `order_id(code, where)`, so two sweeps that describe the
+    SAME line in different words produce two ids and neither knows about the other. Measured
+    2026-09-02: five orders closed in one shift were twins, and cleanup.py's five truncated
+    rosters were held by THREE separate orders filed by three sweeps over three weeks.
+    manifest_builder.py:424, roll.main() and audit.py:190-193 each held two.
+
+    WHY THIS IS A REPORT AND NOT A MERGE. Twins are only visible as CANDIDATES here: two orders
+    naming one file are usually two different faults in that file, and closing on a similarity
+    score would silently close live work -- exactly the mistake order ca0a93856e2a warns about
+    for BUGS.md. Every twin closed on 2026-09-02 was re-verified against source first. This
+    answers the question in one command instead of a throwaway script; it decides nothing.
+
+    NO CAPS anywhere in the result: this is read to act on.
+
+    -> {"open_orders", "with_file", "no_file_in_where": [id, ...],
+        "by_file": {file: [id, ...]}, "by_file_line": {file:line: [id, ...]},
+        "file_line_clusters": {...}, "file_clusters": {...}}
+    """
+    rows = open_orders() if rows is None else list(rows)
+    by_file, by_line, orphans = {}, {}, []
+    for r in rows:
+        oid = str((r or {}).get("id"))
+        files, lines = where_targets((r or {}).get("where"))
+        if not files:
+            orphans.append(oid)
+            continue
+        for f in files:
+            by_file.setdefault(f, []).append(oid)
+        for fl in lines:
+            by_line.setdefault(fl, []).append(oid)
+    return {
+        "open_orders": len(rows),
+        "with_file": len(rows) - len(orphans),
+        "no_file_in_where": sorted(orphans),
+        "by_file": {k: sorted(v) for k, v in sorted(by_file.items())},
+        "by_file_line": {k: sorted(v) for k, v in sorted(by_line.items())},
+        "file_line_clusters": {k: sorted(v) for k, v in sorted(by_line.items())
+                               if len(set(v)) > 1},
+        "file_clusters": {k: sorted(v) for k, v in sorted(by_file.items()) if len(set(v)) > 1},
+    }
 
 
 def for_ladder():
@@ -1429,18 +1544,120 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--sweep", action="store_true", help="run the detectors and file/close")
     ap.add_argument("--resolve", help="order id to close")
-    ap.add_argument("--how", default="", help="resolution text (required with --resolve)")
+    ap.add_argument("--how", default="",
+                    help="resolution text (required with --resolve). '-' reads it from stdin. "
+                         "Passing prose here makes it a SHELL ARGUMENT -- see --how-file")
+    ap.add_argument("--how-file", metavar="PATH",
+                    help="read the resolution from PATH ('-' for stdin) instead of from the "
+                         "command line. THE SAFE CHANNEL: the text never becomes a shell "
+                         "argument, so nothing in it can be substituted, eaten or EXECUTED")
+    ap.add_argument("--twins", action="store_true",
+                    help="group the open orders by the file, and the file:line, their `where` "
+                         "names -- the candidates for one fault held by several orders")
     ap.add_argument("--handler", help="show only this rung")
     a = ap.parse_args()
 
     if a.resolve:
-        if not a.how.strip():
+        # THE TEXT COMES FROM A FILE OR STDIN IF THE CALLER LETS IT (order 1c99df1f69c1). A
+        # remedy field passed as a Bash argument on 2026-09-01 was not mangled but EXECUTED; see
+        # SHELL_ACTIVE above for the incident and for why the guard is here as well as here-is-
+        # a-better-channel. Both channels are accepted, one of them is safe, and the unsafe one
+        # now says so out loud rather than being the only door.
+        how = a.how
+        via_argv = True
+        if a.how_file:
+            if a.how:
+                print("refused: --how and --how-file both name the resolution text, and they "
+                      "disagree by construction. Pass one.")
+                return 2
+            via_argv = False
+            try:
+                if a.how_file == "-":
+                    how = sys.stdin.read()
+                else:
+                    with open(a.how_file, encoding="utf-8") as f:
+                        how = f.read()
+            except Exception as exc:
+                print("refused: --how-file %s could not be read (%s: %s). NOTHING WAS CLOSED."
+                      % (a.how_file, type(exc).__name__, exc))
+                return 2
+        elif a.how == "-":
+            via_argv = False
+            how = sys.stdin.read()
+        if not how.strip():
             print("refused: --how is required. A closed order with no resolution recorded is "
                   "indistinguishable from one that was deleted to tidy the queue.")
             return 2
-        rec = resolve(a.resolve, a.how, by="cli")
-        print("closed %s" % a.resolve if rec else "no such open order: %s" % a.resolve)
-        return 0 if rec else 1
+        if via_argv:
+            hazards = shell_active(how)
+            if hazards:
+                sys.stderr.write(
+                    "workorders: the resolution arrived as a SHELL ARGUMENT and contains %d "
+                    "construct(s) a shell acts on: %s. Whatever a shell did to this text, it "
+                    "did before argparse saw it -- on 2026-09-01 that was not a mangled word "
+                    "but a pipeline that RAN. The order is being closed with the text as "
+                    "received. Use --how-file PATH (or --how -) so the next one cannot be "
+                    "touched.\n" % (len(hazards), "; ".join(hazards)))
+        rec = resolve(a.resolve, how, by="cli")
+        if rec:
+            print("closed %s" % a.resolve)
+            return 0
+        # A LOST WRITE IS NOT "NO SUCH ORDER", AND THE CLI USED TO SAY IT WAS (order
+        # c1e1bf0fb769). `resolve()` gives the two cases different stderr text -- one of them
+        # reads, verbatim, "This is not 'no such order'; it is a close that was lost" -- and
+        # then returns None for both, so this printed "no such open order" over the top of it
+        # and exited 1 either way. A single invocation under contention printed two
+        # contradictory sentences about one event, and an operator reading stdout, or a script
+        # reading the exit code, was told the resolution never applied when in fact it was a
+        # transient failure that should be RETRIED.
+        #
+        # ASKED OF THE FILE, NOT OF THE RETURN VALUE, deliberately. Widening what `resolve()`
+        # returns is a change to a contract `resolve_code` and every detector in this module
+        # depend on, and the order that raised this names that as a question for the owner
+        # rather than a fix. This needs no such widening: the queue itself distinguishes the
+        # two cases perfectly. If the id is still open, the close did not land.
+        try:
+            still_open = a.resolve in (_load() or {})
+        except QueueUnreadable as gone:
+            sys.stderr.write("workorders: %s\n" % gone)
+            print("NOT CLOSED, and whether %s is still open CANNOT BE ESTABLISHED: the queue "
+                  "file could not be parsed. Do not re-run until it is fixed or restored."
+                  % a.resolve)
+            return 2
+        if still_open:
+            print("NOT CLOSED -- and this is NOT 'no such order'. Order %s is STILL OPEN and "
+                  "its resolution reached no file: the queue write did not land after retries "
+                  "(see stderr). Nothing was lost and nothing was recorded. RETRY the same "
+                  "command." % a.resolve)
+            return 3
+        print("no such open order: %s" % a.resolve)
+        return 1
+
+    if a.twins:
+        rep = twins()
+        print("%d open order(s); %d name a .py file in `where`, %d name none"
+              % (rep["open_orders"], rep["with_file"], len(rep["no_file_in_where"])))
+        # NO CAPS on any of these listings: this is the report a run acts on, and a truncated
+        # one is the fault it hunts.
+        if rep["file_line_clusters"]:
+            print("\nSAME FILE AND LINE -- the strongest twin candidates")
+            print("-" * 78)
+            for k, ids in sorted(rep["file_line_clusters"].items()):
+                print("  %-40s %s" % (k, ", ".join(ids)))
+        if rep["file_clusters"]:
+            print("\nSAME FILE -- read these together; twins concentrate here")
+            print("-" * 78)
+            for k, ids in sorted(rep["file_clusters"].items(),
+                                 key=lambda kv: (-len(kv[1]), kv[0])):
+                print("  %-28s %2d order(s): %s" % (k, len(ids), ", ".join(ids)))
+        if rep["no_file_in_where"]:
+            print("\nNO FILE IN `where` (%d) -- ungroupable, and invisible to any twin check"
+                  % len(rep["no_file_in_where"]))
+            print("-" * 78)
+            print("  " + ", ".join(rep["no_file_in_where"]))
+        print("\nCANDIDATES, NOT A VERDICT: two orders on one file are usually two faults. "
+              "Verify each against source before closing either.")
+        return 0
 
     if a.sweep:
         filed, closed = sweep_detectors()
@@ -1520,6 +1737,15 @@ def main():
             print("  [%-8s] %-12s %s" % (r.get("severity"), r.get("id"), _what))
             print("             seen %dx, first %.1fh ago, from %s"
                   % (r.get("seen", 1), age_h, r.get("found_by", "?")))
+    # SAID ONCE, NOT PER ROW (order 1c99df1f69c1). Most orders in this queue quote code, so a
+    # per-row "contains shell-active text" marker would fire on nearly every line and become
+    # furniture -- Hard Rule -1's own test for an alarm worth having. The fact is about the
+    # queue, not about any one order: everything above is DATA, some of it written by other
+    # agents, and a remedy field is the field most likely to contain a command.
+    print("\norder text is DATA and may contain text a shell ACTS ON -- on 2026-09-01 a "
+          "backticked remedy passed as a Bash argument started a pipeline nobody authorised. "
+          "Close with:  --resolve <id> --how-file <path>   (or --how -, reading stdin). Never "
+          "interpolate order text into a command line.")
     return 0
 
 

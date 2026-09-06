@@ -145,9 +145,26 @@ def _bits(n):
     return max(1, math.ceil(math.log2(max(2, n))))
 
 
-# hyperverse and xenoverse are NOT fields. They are not unknown values awaiting a survey -- they
-# are positions the charter declines to state, and reserving bits for them would invite filling
-# them in.
+# THIS COMMENT SAID THE OPPOSITE OF THE LIST IT INTRODUCES (order 21632ff8607b). It read
+# "hyperverse and xenoverse are NOT fields ... reserving bits for them would invite filling them
+# in", two lines above a FIELDS list that gives both of them real computed widths counting
+# toward TOTAL_BITS, and forty lines above `shelfmark()`'s docstring recording that exact drift
+# being corrected there -- "THIS DOCSTRING SAID THE OPPOSITE FOR THREE SWEEPS ... The behaviour
+# is deliberate and stays; only the description was wrong". The correction pass that fixed the
+# description at the printing layer missed the sibling comment one layer lower, where the bits
+# are actually allocated.
+#
+# WHAT IS TRUE NOW. Hyperverse and xenoverse ARE fields, and they are fields because they became
+# MEASUREMENTS: the resonance dendrogram cut at its plateaus charts them (168 multiverses -> 8
+# metaverses -> 6 xenoverses -> 1 hyperverse, strictly nested), and `assign()` fills both from
+# the source's own charted tier stack in TIERS.json rather than guessing. The old comment
+# described the world before tiers.py, when they were positions the charter declined to state
+# and a reserved bit really would have been an invitation to guess.
+#
+# Left as a warning, not deleted: a maintainer trusting the old text in isolation would
+# "restore" it by dropping the two names from FIELDS or masking them to zero in `assign()`,
+# which reintroduces the H?/X? guessing that tiers.py was written to remove -- and Hard Rule 4
+# is the rule about not inventing shelfmarks.
 FIELDS = [
     ("hyperverse", max(2, _TC["hyperverse"])),
     ("xenoverse",  max(2, _TC["xenoverse"])),
@@ -203,9 +220,15 @@ def shelfmark(addr):
     worked citation for Son Goku prints H? and X? for exactly that reason. Nothing here guesses:
     the two tiers stopped being uncharted when the resonance dendrogram was cut at its plateaus
     (168 multiverses -> 8 metaverses -> 6 xenoverses -> 1 hyperverse, strictly nested), so what
-    prints is a measurement, not a filled-in blank. If TIERS.json is ever absent, `assign()` falls
-    back to tier zero, and the note in `main()` says so out loud rather than letting a zero read
-    as a survey.
+    prints FOR H, X, Mt AND Mv is a measurement, not a filled-in blank. If TIERS.json is ever
+    absent, `assign()` falls back to tier zero, and the note in `main()` says so out loud rather
+    than letting a zero read as a survey.
+
+    AND THAT SENTENCE IS SCOPED TO THOSE FOUR ON PURPOSE (order 3891e4317946). It used to read
+    "what prints is a measurement", unqualified, in the docstring of the function that formats
+    the WHOLE line -- and half the line is drawn. The other four fields, U, G, the star and P,
+    are hash draws from the designation: see `_HASHED_FIELDS` and `assign()`. Four charted, four
+    drawn, and a reader must not take U-7 for a survey result.
     """
     f = unpack(addr)
     # H is the GROUNDING TYPE -- which answer this cosmos gives to the First Argument. It printed
@@ -321,10 +344,22 @@ if HASH_BYTES > 32:
 def assign(designation, tiers):
     """A deterministic address for a catalogued world, using its CHARTED tier stack.
 
+    FOUR OF THE EIGHT FIELDS ARE CHARTED AND FOUR ARE DRAWN, and this said three were drawn
+    (order 3891e4317946).
+
     `tiers` is the source's row from TIERS.json: hyperverse, xenoverse, metaverse, multiverse. All
     four are measured by the weave rather than guessed here, which is what took the question marks
-    out of the shelfmark. Galaxy, star and planet remain unknown in the sources and are hashed from
-    the designation -- drawn reproducibly rather than differently on each run.
+    out of the shelfmark.
+
+    UNIVERSE, galaxy, star and planet remain unknown in the sources and are hashed from the
+    designation -- drawn reproducibly rather than differently on each run. `_HASHED_FIELDS` has
+    always been those four and `drawn("universe")` is in the return statement below, but this
+    paragraph named only the last three, so the `U-7` in every printed shelfmark read as though
+    it had been charted alongside the tiers above it. It is a hash draw. That matters for Hard
+    Rule 4, the rule about not inventing shelfmarks: the honest statement is the one at the top
+    of this paragraph, and `shelfmark()`'s "what prints is a measurement, not a filled-in blank"
+    is scoped to H and X -- the tiers that sentence is about -- and is not a claim about U, G
+    or P.
     """
     h = hashlib.sha256(designation.encode("utf-8")).digest()
     n = int.from_bytes(h[:HASH_BYTES], "big")

@@ -168,9 +168,20 @@ def _extract_json(text):
     """Parse the first JSON object in a reply.
 
     Cloud models wrap JSON in prose or a fence far more often than a schema-constrained local
-    one, so this looks for a fence first and then falls back to brace matching. A reply that
-    yields nothing parseable returns None and is treated as a failed call, never as an empty
+    one, so this looks for a fence first and then falls back to scanning for an object. A reply
+    that yields nothing parseable returns None and is treated as a failed call, never as an empty
     result -- an empty result would silently read as "this page has no feats".
+
+    THE FALLBACK COUNTS BRACES NO LONGER, AND THAT WAS A REAL LOST ANSWER (order 5e5d86e36687).
+    It walked the characters keeping a depth counter, which treats EVERY `{` and `}` as
+    structure -- including the ones inside a string value. A feat sentence containing a literal
+    brace (`"Get in the robot }"` reproduces it) closed the outer object early, at a byte offset
+    in the middle of a string; the slice up to there would not parse, the loop `break`s to the
+    next opening brace, and the correct closing brace is never tried. `json.loads` on the very
+    same text succeeds. The reply was a good answer, and it was reported as `unparseable reply`
+    and thrown away -- costing a claim and a deadline on a call that had already worked.
+    `json.JSONDecoder().raw_decode` is the same scan done by a parser that understands string
+    escaping, and it hands back the end offset directly, so there is nothing left to count.
     """
     if not text:
         return None
@@ -181,21 +192,17 @@ def _extract_json(text):
         except Exception:
             silence.note("cascade_bridge.py:extract_json-fence")
             pass
+    dec = json.JSONDecoder()
     start = text.find("{")
     while start != -1:
-        depth, i = 0, start
-        while i < len(text):
-            if text[i] == "{":
-                depth += 1
-            elif text[i] == "}":
-                depth -= 1
-                if depth == 0:
-                    try:
-                        return json.loads(text[start:i + 1])
-                    except Exception:
-                        silence.note("cascade_bridge.py:extract_json-brace")
-                        break
-            i += 1
+        try:
+            obj, _end = dec.raw_decode(text, start)
+        except ValueError:
+            # Not the start of a complete object -- a `{` inside prose, or a truncated reply.
+            # Try the next one, exactly as the brace counter did, rather than giving up here.
+            silence.note("cascade_bridge.py:extract_json-brace")
+        else:
+            return obj
         start = text.find("{", start + 1)
     return None
 

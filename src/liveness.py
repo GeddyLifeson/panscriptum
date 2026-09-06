@@ -99,9 +99,33 @@ EXEMPT_MODULES = {}
 
 
 def _modules():
-    for f in sorted(os.listdir(SRC)):
-        if f.endswith(".py") and not f.startswith("_"):
-            yield f, os.path.join(SRC, f)
+    """Every `.py` under `src/`, SUBDIRECTORIES INCLUDED. -> (label, full path) pairs.
+
+    THE DETECTOR THAT CANNOT FAIL WAS BLIND TO A WHOLE DIRECTORY (order aeeba9364147). This
+    listed candidates with `os.listdir(SRC)`, which does not descend, and `src/deprecated/`
+    exists and holds `catalogue_local.py` (280 lines, kept on purpose as a record of a failure
+    mode). That file therefore never entered `trees`: never a DEAD or DEAD_CLASS or TAUTOLOGY
+    or PHANTOM candidate, never contributing to `referenced` for the dead-module pass, never
+    reportable as a dead module itself. A subdirectory nothing can see reads exactly like a
+    clean one -- zero findings either way -- and this file is the project's designated check
+    that cannot fail. Third occurrence of the same defect class: `sweep_plan._src_py_files`
+    (order f42c55355431) and `drill._src_py_files` (order cf9ee9000be8) were both walked for
+    this same reason and the fix was never propagated here.
+
+    `__pycache__` holds no source and is skipped. The `_` prefix filter is kept and now applies
+    to directories too, for the same reason it applies to files. The label carries the relative
+    path with forward slashes, so a finding names the file a person has to open; `_stem` below
+    takes the basename before matching, because a reference spells the module (`catalogue_local`)
+    and never the path.
+    """
+    out = []
+    for root, dirs, files in os.walk(SRC):
+        dirs[:] = [d for d in sorted(dirs) if not d.startswith("_")]
+        for f in sorted(files):
+            if f.endswith(".py") and not f.startswith("_"):
+                full = os.path.join(root, f)
+                out.append((os.path.relpath(full, SRC).replace(os.sep, "/"), full))
+    return sorted(out)
 
 
 def _parse(path):
@@ -365,6 +389,12 @@ def scan():
     # the entire tree dead -- which is how it read on first measurement, and a limb that fires on
     # everything is as useless as one that fires on nothing.
     def _stem(s):
+        # BASENAME FIRST, because `_modules()` now walks subdirectories and labels them by
+        # relative path (`deprecated/catalogue_local.py`) while every reference to a module
+        # spells the bare name (`import catalogue_local`, or the string `src/catalogue_local.py`).
+        # Compared unstemmed the two can never match, which would report every module in a
+        # subdirectory as dead on the strength of its directory alone.
+        s = s.replace("\\", "/").rsplit("/", 1)[-1]
         return s[:-3] if s.endswith(".py") else s
 
     referenced = set()

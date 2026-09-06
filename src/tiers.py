@@ -52,7 +52,10 @@ distribution has a cliff:
     5926   Call of Duty Zombies <-> Black Ops
     ----   an order of magnitude of nothing ----
     1146   Pantheon: Greek <-> major fantasy pantheons
-     365   the 99.5th percentile of all 3,638 links
+     365   the 99.5th percentile of all 3,638 links, AS MEASURED WHEN THIS WAS WRITTEN. The
+           figures in this block are that one graph, kept as the record of the discovery. The
+           live percentile is recomputed and printed by `main()`; do not read this one as
+           current, and do not copy it forward.
 
 Two links stand an order of magnitude above every other. Nothing statistical produces that; those
 universes were joined because somebody joined them. That is "by builders, or by declaration",
@@ -401,7 +404,19 @@ def main():
     print("-" * 96)
     for v, a, b, sh in deliberate_joins(w, shared):
         print(f"   {v:>8.0f}  {a[:26]:<28}{b[:26]:<28}{sh}")
-    print(f"   (99.5th percentile of all {len(w):,} links is 365 — these are not statistical)")
+    # BOTH NUMBERS IN THIS SENTENCE ARE NOW THIS RUN'S (order 57d0d1e4139e). `len(w)` was
+    # measured live and 365 was a literal carried over from the docstring's original
+    # measurement at :55, sitting in the same sentence, so a reader took both for this corpus.
+    # That is load-bearing rather than idle prose: DELIBERATE_JOIN = 2000.0 at :122 -- the
+    # threshold the whole "a xenoverse is artificial" claim rests on -- is argued at :50-59 from
+    # that 365, so anyone checking whether the cliff still exists was checking it against a
+    # number from another graph. Nearest-rank, which needs no numpy and is exact for a
+    # percentile this far into the tail.
+    vals = sorted(w.values())
+    rank = max(1, -((-995 * len(vals)) // 1000))          # ceil(0.995 * n), integer arithmetic
+    p995 = vals[rank - 1] if vals else 0.0
+    print(f"   (99.5th percentile of all {len(w):,} links is {p995:,.0f} — these are not "
+          f"statistical)")
 
     print("\n" + "-" * 96)
     print("SAMPLE STACKS")

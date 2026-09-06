@@ -49,7 +49,6 @@ glance.
 """
 import argparse
 import ast
-import glob
 import os
 import re
 import sys
@@ -206,8 +205,43 @@ def _handler_is_observed(node):
         for stmt in node.body for n in ast.walk(stmt))
 
 
-def _handlers(path):
-    """Every `except` in a file, with whether its body records anything."""
+def _src_py_files(root):
+    """Every `.py` under `root`, SUBDIRECTORIES INCLUDED. -> sorted [(label, full path)].
+
+    THE AUDIT OF HIDDEN FAILURES WAS ITSELF HIDING A DIRECTORY (order d7620dd893fa). `audit()`
+    and `instrument()` both listed candidates with `glob.glob(os.path.join(root, "*.py"))`,
+    which does not descend, and `src/deprecated/` holds `catalogue_local.py` -- 280 lines kept
+    on purpose as a record of a failure mode, and containing handlers. Every silent `except` in
+    it was uncounted by `python src/silence.py` and unreachable by `--instrument`, and an
+    uncounted handler reads in the printed total exactly like a handler that is not there. That
+    is this module's own subject applied to this module.
+
+    Same defect class already fixed twice in this tree for the same "every module in src/"
+    question -- `sweep_plan._src_py_files` (order f42c55355431) and `drill._src_py_files`
+    (order cf9ee9000be8) -- and the same shape as `liveness._modules` (order aeeba9364147).
+
+    `__pycache__` holds no source and is skipped. The label is the path relative to `root` with
+    forward slashes, so a row names the file a person has to open rather than a basename that
+    two directories could both claim.
+    """
+    out = []
+    for here, dirs, files in os.walk(root):
+        dirs[:] = [d for d in sorted(dirs) if d != "__pycache__"]
+        for f in sorted(files):
+            if f.endswith(".py"):
+                full = os.path.join(here, f)
+                out.append((os.path.relpath(full, root).replace(os.sep, "/"), full))
+    return sorted(out)
+
+
+def _handlers(path, label=None):
+    """Every `except` in a file, with whether its body records anything.
+
+    `label` is what a row calls the file; it defaults to the basename and `audit()` passes the
+    path relative to `src/`, so a handler in a subdirectory is not reported under a name that
+    reads as a top-level module.
+    """
+    label = label or os.path.basename(path)
     try:
         with open(path, encoding="utf-8") as f:
             src = f.read()
@@ -219,9 +253,9 @@ def _handlers(path):
         # `secondopinion`'s tally -- exactly like a clean one. The one audit whose whole subject
         # is failures filed as honest absences must not file its own that way. Recorded, and said
         # out loud on stderr, because the printed count is otherwise quietly short.
-        note("silence.py:_handlers:" + os.path.basename(path))
+        note("silence.py:_handlers:" + label)
         print("silence.py: %s could not be read or parsed -- its handlers are NOT counted in "
-              "this audit" % os.path.basename(path), file=sys.stderr)
+              "this audit" % label, file=sys.stderr)
         return []
     out = []
     for node in ast.walk(tree):
@@ -233,7 +267,7 @@ def _handlers(path):
         # `_handler_is_observed`, shared with `instrument`, so the counter and the rewriter
         # cannot disagree about what counts. (order 1e86b06e7463)
         silent = not _handler_is_observed(node)
-        out.append({"file": os.path.basename(path), "line": node.lineno,
+        out.append({"file": label, "line": node.lineno,
                     "type": getattr(node.type, "id", None) if node.type else "bare",
                     "silent": silent})
     return out
@@ -242,8 +276,8 @@ def _handlers(path):
 def audit(root=None):
     root = root or os.path.join(HERE, "src")
     rows = []
-    for p in sorted(glob.glob(os.path.join(root, "*.py"))):
-        rows += _handlers(p)
+    for label, p in _src_py_files(root):
+        rows += _handlers(p, label)
     return rows
 
 
@@ -882,7 +916,14 @@ def instrument(root=None, dry=False):
     """
     root = root or os.path.join(HERE, "src")
     changed = []
-    for path in sorted(glob.glob(os.path.join(root, "*.py"))):
+    for label, path in _src_py_files(root):
+        # SKIPPED BY BASENAME, REPORTED AND TAGGED BY IT TOO. `SKIP_FILES` names modules
+        # (`silence.py`), and a `note()` tag has always been `<basename>:<qualname>`, so both
+        # keep reading the basename now that the walk is recursive; only the operator-facing
+        # label carries the directory. A module in a subdirectory that this rewrites gets an
+        # `import silence` spliced in by `_ensure_import`, which resolves only if `src/` is on
+        # the path -- true for anything imported as a sibling, NOT automatically true for a
+        # file run directly out of a subdirectory. Check that before accepting a rewrite there.
         base = os.path.basename(path)
         if base in SKIP_FILES:
             continue
@@ -898,9 +939,9 @@ def instrument(root=None, dry=False):
             # instrument". Said out loud, in the same shape as the rewrite-would-not-parse
             # report twenty lines below, so an operator running --instrument knows which modules
             # the pass could not reach.
-            note("silence.py:instrument-unparseable:" + base)
+            note("silence.py:instrument-unparseable:" + label)
             print("  !! %s: could not be parsed (%s: %s); left uninstrumented"
-                  % (base, type(exc).__name__, str(exc)[:120]))
+                  % (label, type(exc).__name__, str(exc)[:120]))
             continue
         sites = []
         for node in ast.walk(tree):
@@ -954,14 +995,14 @@ def instrument(root=None, dry=False):
         try:
             ast.parse(src)
         except SyntaxError as e:
-            print(f"  !! {base}: rewrite would not parse ({e}); left alone")
+            print(f"  !! {label}: rewrite would not parse ({e}); left alone")
             continue
         if not dry:
             with open(path + ".presilence", "w", encoding="utf-8") as f:
                 f.write(original)
             with open(path, "w", encoding="utf-8") as f:
                 f.write(src)
-        changed.append((base, len(sites)))
+        changed.append((label, len(sites)))
     return changed
 
 

@@ -682,7 +682,16 @@ def main():
     print(f"   with curl fraction 0.30: decimal = {rv['decimal']}")
     print(f"   {rv.get('reason','')}")
     print("\n" + "=" * 96)
-    return 0
+    # A TABLE FAULT IS A NON-ZERO EXIT, NOT ONLY A PRINTED LINE (order d27e95a57233). `main()`
+    # printed the faults near the top and then returned 0 regardless, which is the
+    # "computed, printed and dropped" shape this module keeps being found in -- a reader has to
+    # notice the line, and nothing that runs this file can act on it. Zero faults today (both
+    # zero-tilt Custodes declare 0.0 with written reasons), so this changes no current run; it
+    # means the next occurrence is a red exit rather than a paragraph in a report. It does NOT
+    # replace the battery hook `table_faults`' own docstring asks for -- nothing invokes this
+    # module as a subprocess yet, so the rc has no reader until a row exists to read it. That
+    # row is order 00a85c511b53, still open.
+    return 1 if _faults else 0
 
 
 if __name__ == "__main__":

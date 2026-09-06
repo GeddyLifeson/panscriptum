@@ -709,7 +709,19 @@ def _row_ids(out):
     return rows
 
 
-def _gate_result(name, cmd, timeout=1200, env=None, cwd=None, rows_out=None):
+# HOW MUCH ROOM THE PRISTINE CODE MUST HAVE LEFT BEFORE A MUTANT'S TIMEOUT MEANS ANYTHING.
+#
+# A gate that times out on a mutant is only evidence when the SAME gate finished comfortably on
+# unmutated code: the asymmetry is the whole argument. If the pristine run was already near the
+# limit -- a loaded machine, nine agents on one box, a gate that is simply slow today -- then the
+# mutant hitting the wall says nothing about the mutation, and NO VERDICT stays the honest
+# answer. Three times means the mutant had to take at least three times the pristine run's wall
+# clock AND still not finish. `drill` takes about five minutes against a 1200s limit, so it
+# clears this comfortably on a quiet machine and correctly fails to clear it on a busy one.
+HANG_MARGIN = 3.0
+
+
+def _gate_result(name, cmd, timeout=1200, env=None, cwd=None, rows_out=None, times_out=None):
     """Run one gate and return a SIGNATURE of what it said. -> (signature, detail).
 
     A SIGNATURE, NOT A BOOLEAN, and this is the correction for the failure that made the first
@@ -741,7 +753,15 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None, rows_out=None):
     function is called from three places and two of them (`flaky_gates`, the per-mutant judging
     loop in `_run_mutation`) unpack a fixed 2-tuple; changing the arity would break both. Left
     None, the default, this costs nothing extra and behaves exactly as before.
+
+    `times_out`, IF GIVEN, IS FILLED THE SAME WAY: `times_out[name] = {"seconds": ...,
+    "timeout": ..., "completed": ...}`. A SECOND side channel rather than a wider tuple, for the
+    reason above. This is what lets a timeout mean something: a gate that times out on a mutant
+    is only evidence of a hang when the same gate finished with room to spare on unmutated code,
+    and until this was measured nobody could tell the two apart. See `HANG_MARGIN` and
+    `hang_confirms_a_kill`.
     """
+    t0 = time.time()
     try:
         r = subprocess.run(cmd, cwd=(cwd or HERE), capture_output=True, text=True,
                            creationflags=_NO_WIN, timeout=timeout, env=env)
@@ -751,10 +771,16 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None, rows_out=None):
         # (or from a drill net that hands one in directly) is still recognised.
         if rows_out is not None:
             rows_out[name] = []
+        if times_out is not None:
+            times_out[name] = {"seconds": round(time.time() - t0, 1), "timeout": timeout,
+                               "completed": False}
         return "TIMEOUT|%s" % name, "%s timed out after %ds" % (name, timeout)
     except Exception as e:
         if rows_out is not None:
             rows_out[name] = []
+        if times_out is not None:
+            times_out[name] = {"seconds": round(time.time() - t0, 1), "timeout": timeout,
+                               "completed": False}
         return ("ERROR:%s|%s" % (type(e).__name__, name),
                 "%s raised %s" % (name, type(e).__name__))
     out = (r.stdout or "") + (r.stderr or "")
@@ -768,6 +794,9 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None, rows_out=None):
             marks.append(t)
     if rows_out is not None:
         rows_out[name] = _row_ids(out)
+    if times_out is not None:
+        times_out[name] = {"seconds": round(time.time() - t0, 1), "timeout": timeout,
+                           "completed": True}
     return ("rc=%d|%s" % (r.returncode, " ".join(marks)),
             "%s %s" % (name, marks[0] if marks else "rc=%d" % r.returncode))
 
@@ -818,6 +847,16 @@ def _junction(link, target):
 
 JOURNAL = os.path.join(HERE, "state", "MUTANTS_SURVIVED.jsonl")
 
+# THE RULED-EQUIVALENT REGISTRY (order 35ba53586e6f). A survivor a person has READ and ruled a
+# genuinely equivalent mutation is a settled question; without somewhere to write the ruling down
+# the harness re-files the identical order on the next pass and the ruling ends up in the closed
+# log sitting BEHIND an open copy of the thing it settled. Measured: `a380a696d364`
+# (escalation.py:409, `landed, why = False, "not attempted"` -> True) was ruled equivalent and
+# closed on 2026-09-01, re-filed and re-closed on the same ruling on 2026-09-02, and is open
+# again today with `seen: 2`; `aebfcf414477` (assay.py:593, `strict=True` -> `False`) has been
+# closed three times on the same reading. See `ruled_equivalent`.
+RULED_EQUIVALENT = os.path.join(HERE, "state", "MUTANTS_RULED_EQUIVALENT.json")
+
 # WAS THE TREE BEING EDITED WHEN THIS SESSION TOOK ITS BASELINE? Set once by `_session` from
 # `tree_is_moving()` and stamped onto every survivor row, because a survivor list is read days
 # later by somebody who has no other way to know a maintenance shift was mid-edit when the
@@ -846,8 +885,16 @@ def _journal(target, rec):
         silence.note("mutate.py:journal")
 
 
-def survivors_on_record(target=None):
-    """-> the survivors written by every run so far, newest last."""
+def journal_rows(target=None):
+    """-> every row in the survivors journal, of every kind, newest last.
+
+    The journal is append-only and now carries three kinds of row: a SURVIVOR (has `line`,
+    `mutation`, `was`, `became`), a BASELINE EVENT (`baseline_event`, written by
+    `_run_mutation._refresh_baseline` when a mid-run re-photograph moves or cannot complete), and
+    a RULED-EQUIVALENT SUPPRESSION (`ruled_equivalent`, written by `file_orders` when a survivor
+    matched a standing ruling and was therefore not filed as a new order). This returns all of
+    them; `survivors_on_record` and `suppressed_on_record` are the filtered views.
+    """
     rows = []
     try:
         with open(JOURNAL, encoding="utf-8") as f:
@@ -866,6 +913,175 @@ def survivors_on_record(target=None):
     except Exception:
         silence.note("mutate.py:journal-read")
     return rows
+
+
+def survivors_on_record(target=None):
+    """-> the survivors written by every run so far, newest last.
+
+    FILTERED TO ACTUAL SURVIVORS, and it was not. `_journal` is also the recorder for baseline
+    drift events and (order 35ba53586e6f) for ruled-equivalent suppressions, and this function
+    returned every row it found -- so `_session`'s "on record from earlier runs: assay.py x20"
+    line counted drift records and suppressed mutants as though they were unread findings. A
+    count of standing findings that silently includes rows that are not findings is the same
+    shape of wrong answer this module exists to measure.
+    """
+    return [r for r in journal_rows(target)
+            if "line" in r and not r.get("baseline_event") and not r.get("ruled_equivalent")]
+
+
+def suppressed_on_record(target=None):
+    """-> every survivor a standing ruling kept out of the queue, newest last (order
+    35ba53586e6f).
+
+    THE COUNTABLE HALF OF SUPPRESSION. A registry that removes work from the queue and leaves no
+    trace is indistinguishable from a harness that stopped finding anything, so every suppressed
+    mutant is written here with the ruling that suppressed it and the id that would un-suppress
+    it. A ruling can be wrong; this is how the next reader sees the ones being applied.
+    """
+    return [r for r in journal_rows(target) if r.get("ruled_equivalent")]
+
+
+def ruled_equivalent(path=RULED_EQUIVALENT):
+    """The standing rulings, keyed by work-order id. -> {id: entry}. Never raises.
+
+    THE KEY IS THE ORDER ID `file_orders` ALREADY DERIVES -- `workorders.order_id(code, where)`
+    over `MUTANT_SURVIVED_<TARGET>_L<line>` and `src/<target>:<line>` -- so a person registering
+    a ruling uses the SAME twelve characters they typed to close the order, and nothing new has
+    to be looked up. It is a function of (file, line), which means a ruling stops matching the
+    moment the line moves; that is the safe direction (the mutant is filed again as new work) and
+    it is why the entry ALSO records the mutation and the exact `was`/`became` text: an id that
+    matches while the source at that line does not is a stale ruling, and `file_orders` files it
+    anyway and says so rather than suppressing on a coincidence of line number.
+
+    FAILS TOWARDS REPORTING. A missing file, a malformed file, or a file whose `entries` is not a
+    mapping all yield {} -- i.e. nothing is suppressed and every survivor is filed exactly as it
+    was before this feature existed. The opposite default would let a corrupted registry silence
+    the harness, which is the one failure a suppression mechanism must not have.
+
+    Shape on disk (state/MUTANTS_RULED_EQUIVALENT.json):
+
+        {"version": 1,
+         "entries": {"<order id>": {"id": "<order id>", "target": "escalation.py",
+                                    "line": 409, "mutation": "False -> True",
+                                    "was": "<the exact source line, stripped>",
+                                    "became": "<the exact mutated line, stripped>",
+                                    "ruling": "<why it is equivalent, in full>",
+                                    "ruled_by": "<who>", "ruled_at": <epoch seconds>}}}
+    """
+    try:
+        with open(path, encoding="utf-8") as f:
+            doc = json.load(f)
+    except FileNotFoundError:
+        return {}
+    except Exception as e:
+        sys.stderr.write("mutate: state/MUTANTS_RULED_EQUIVALENT.json could not be read (%s) -- "
+                         "NO ruling is being applied and every survivor will be filed.\n"
+                         % type(e).__name__)
+        silence.note("mutate.py:ruled-equivalent-unreadable")
+        return {}
+    entries = doc.get("entries") if isinstance(doc, dict) else None
+    if not isinstance(entries, dict):
+        sys.stderr.write("mutate: state/MUTANTS_RULED_EQUIVALENT.json has no 'entries' mapping "
+                         "-- NO ruling is being applied and every survivor will be filed.\n")
+        silence.note("mutate.py:ruled-equivalent-malformed")
+        return {}
+    return {k: v for k, v in entries.items() if isinstance(v, dict)}
+
+
+def ruling_mismatch(entry, target, s):
+    """-> [str] every field on which a standing ruling disagrees with THIS survivor.
+
+    Empty means the ruling describes exactly the mutant in hand and may be applied. Non-empty
+    means the id collided with a DIFFERENT mutation -- almost always because the file was edited
+    and line N is now a different line -- and the ruling must not be applied to it.
+    """
+    want = (("target", target), ("line", s.get("line")), ("mutation", s.get("mutation")),
+            ("was", s.get("was")), ("became", s.get("became")))
+    return ["%s: the ruling was recorded against %r, this run found %r" % (k, entry.get(k), v)
+            for k, v in want if entry.get(k) != v]
+
+
+def _write_rulings(entries, path=RULED_EQUIVALENT):
+    """Replace the registry on disk with `entries`. -> path. Raises on failure.
+
+    Written through a temporary file and `os.replace` so a crash mid-write cannot leave a half
+    registry -- an unreadable registry suppresses nothing (see `ruled_equivalent`), but a
+    TRUNCATED one that still parses would silently drop rulings, which is worse. This is only
+    ever called from the two human-driven CLI flags, never from inside a mutation run.
+    """
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump({"version": 1, "entries": entries}, f, ensure_ascii=False, indent=1,
+                  sort_keys=True)
+    os.replace(tmp, path)
+    return path
+
+
+def _site(spec):
+    """Parse a `target.py:LINE` command-line argument. -> (target, line). Raises on refusal."""
+    target, _sep, lineno = str(spec).rpartition(":")
+    if not target or not lineno.strip().isdigit():
+        raise SystemExit("expected TARGET.py:LINE (for example escalation.py:409), got %r"
+                         % (spec,))
+    if target not in TARGETS:
+        raise SystemExit("%s is not one of the mutation targets %s" % (target, ", ".join(TARGETS)))
+    return target, int(lineno)
+
+
+def _order_identity(target, line):
+    """-> (order id, code, where) exactly as `file_orders` would derive them for this site."""
+    import workorders
+    code = "MUTANT_SURVIVED_%s_L%d" % (target.replace(".py", "").upper(), line)
+    where = "src/%s:%d" % (target, line)
+    return workorders.order_id(code, where), code, where
+
+
+def rule_equivalent(target, line, ruling, ruled_by="", path=RULED_EQUIVALENT):
+    """Record that the mutant at `target:line` has been READ and ruled equivalent. -> entry.
+
+    THE MUTANT IS TAKEN FROM THE JOURNAL, NOT FROM THE ARGUMENT, so a ruling can only ever be
+    registered against a mutation this harness actually produced and filed -- there is no way to
+    register a ruling for a mutant nobody has seen. If the journal has no survivor at that site
+    this refuses; the intended reading of that refusal is "run it and see the survivor first".
+    """
+    ruling = str(ruling or "").strip()
+    if len(ruling) < 12:
+        raise SystemExit("a ruling must say WHY the mutation is equivalent; %r is not a ruling"
+                         % (ruling,))
+    rows = [r for r in survivors_on_record(target) if r.get("line") == line]
+    if not rows:
+        raise SystemExit("no survivor for %s:%d is on record in state/MUTANTS_SURVIVED.jsonl, so "
+                         "there is nothing to rule on. A ruling is registered against a mutation "
+                         "this harness produced, never against a line number alone." % (target, line))
+    s = rows[-1]
+    oid, code, where = _order_identity(target, line)
+    entry = {"id": oid, "code": code, "where": where, "target": target, "line": line,
+             "mutation": s.get("mutation"), "was": s.get("was"), "became": s.get("became"),
+             "ruling": ruling, "ruled_by": str(ruled_by or ""), "ruled_at": time.time()}
+    entries = dict(ruled_equivalent(path))
+    entries[oid] = entry
+    _write_rulings(entries, path)
+    return entry
+
+
+def unrule_equivalent(target, line, path=RULED_EQUIVALENT):
+    """Withdraw a standing ruling so the mutant is filed as work again. -> the removed entry.
+
+    THE UN-SUPPRESS PROCEDURE, and it is one command: `--unrule <target.py>:<line>`. The next
+    pass files the mutant as an ordinary work order, with its full diff, exactly as it would have
+    been had it never been registered. Nothing about the ruling is destroyed anywhere else -- the
+    closure that carried it is still in `state/workorders_closed.jsonl`, and every occasion the
+    ruling was applied is still in the journal (`suppressed_on_record`).
+    """
+    oid, _code, _where = _order_identity(target, line)
+    entries = dict(ruled_equivalent(path))
+    if oid not in entries:
+        raise SystemExit("no standing ruling for %s:%d (order id %s) in %s"
+                         % (target, line, oid, path))
+    gone = entries.pop(oid)
+    _write_rulings(entries, path)
+    return gone
 
 
 SANDBOX_PREFIX = "panscriptum_mutate_"
@@ -1136,18 +1352,43 @@ def sandbox():
     # failure surfaced far from its cause and looked like a bug in the mutation engine. The
     # targets are the one thing this sandbox exists to hold, so they are CHECKED here, at the
     # point where the answer is still cheap and the reason is still legible.
+    # AND IT WALKS, because `src/` HAS a subdirectory and two nets read it (2026-09-05).
+    #
+    # This was `os.listdir(SRC)`, one level, which was true enough while every module sat at the
+    # top. It stopped being true the moment anything looked into `src/deprecated/`, and on this
+    # date three separate fixes did: `liveness._modules` and `silence.audit`/`instrument` were
+    # all changed from a flat listing to a walk, which surfaced `deprecated/catalogue_local.py`
+    # to the scans for the first time, and two NEW drill nets were then written that legitimately
+    # depend on it -- one asserting the deprecated cataloguer still refuses to run, one asserting
+    # a coverage name that is not a module is refused (which asks `sweep_plan.known_modules()`,
+    # i.e. the same enumeration).
+    #
+    # In a sandbox missing that directory both nets are false, so the baseline came back
+    # `404 attacked, 402 held, 2 BREACHED` while the LIVE tree the same minute was 404/404. The
+    # harness correctly refused to mutate on a red baseline -- but the redness was the sandbox's
+    # own incompleteness, not the library's, and it would have cost this shift its whole
+    # ~20-hour pass. One missing directory, two breaches, one cause.
+    #
+    # `__pycache__` is skipped for the reason it is skipped everywhere else here: it is build
+    # output, it is large, and a stale `.pyc` in a sandbox is a way to run code nobody copied.
     missed = []
-    for f in os.listdir(SRC):
-        if not f.endswith(".py"):
-            continue
-        try:
-            shutil.copy2(os.path.join(SRC, f), os.path.join(root, "src", f))
-        except OSError:
-            # A module that vanished mid-copy is recorded, not raised: only the TARGETS are
-            # load-bearing, and a run that can still do its job should not be stopped by an
-            # unrelated file being rewritten a directory away.
-            silence.note("mutate.py:sandbox-copy:" + f)
-            missed.append(f)
+    for base, dirs, files in os.walk(SRC):
+        dirs[:] = [d for d in dirs if d != "__pycache__"]
+        rel_dir = os.path.relpath(base, SRC)
+        out_dir = os.path.join(root, "src") if rel_dir == "." else os.path.join(root, "src", rel_dir)
+        os.makedirs(out_dir, exist_ok=True)
+        for f in files:
+            if not f.endswith(".py"):
+                continue
+            rel = f if rel_dir == "." else os.path.join(rel_dir, f)
+            try:
+                shutil.copy2(os.path.join(base, f), os.path.join(out_dir, f))
+            except OSError:
+                # A module that vanished mid-copy is recorded, not raised: only the TARGETS are
+                # load-bearing, and a run that can still do its job should not be stopped by an
+                # unrelated file being rewritten a directory away.
+                silence.note("mutate.py:sandbox-copy:" + rel)
+                missed.append(rel)
     absent = [t for t in TARGETS if not os.path.isfile(os.path.join(root, "src", t))]
     if absent:
         shutil.rmtree(root, ignore_errors=True)
@@ -1363,7 +1604,7 @@ def sandbox():
     return root
 
 
-def baseline(root, gates=GATES, rows_out=None):
+def baseline(root, gates=GATES, rows_out=None, times_out=None):
     """What does each gate say about UNMUTATED code? -> {gate: signature}.
 
     This is the reference every mutant is compared against. It does NOT require the tree to be
@@ -1378,11 +1619,87 @@ def baseline(root, gates=GATES, rows_out=None):
     than just that the gate is down. The return type is unchanged so every existing caller that
     treats `base` as {gate: signature} (`red_gates`, `unusable_gates`, `flaky_gates`,
     `_run_mutation`'s kill test, `run()`'s public contract) needs no changes.
+
+    `times_out` IS THE SECOND SIDE CHANNEL, {gate: {"seconds", "timeout", "completed"}}: how long
+    each gate took on UNMUTATED code and how close that was to its limit. Without it a mutant
+    that times out cannot be told apart from a machine that is merely busy, which is what made
+    the hanging `assay.py` mutant of 2026-09-04 come back as INDETERMINATE. See
+    `hang_confirms_a_kill`.
     """
     out = {}
     for name, cmd in gates:
-        out[name] = _gate_result(name, cmd, cwd=root, rows_out=rows_out)[0]
+        out[name] = _gate_result(name, cmd, cwd=root, rows_out=rows_out, times_out=times_out)[0]
     return out
+
+
+def hang_confirms_a_kill(gname, cmd, root, path, original, base, base_times):
+    """A mutant timed out on `gname`. Was that the MUTATION hanging, or the machine? -> (bool, why).
+
+    THE TIMEOUT WAS THE DETECTION, AND IT WAS BEING THROWN AWAY. Measured on the 2026-09-04 pass:
+    `assay.py`'s `while any(abs(v - centre) > interval for v in vals)` was mutated to `<=`, and
+    `interval` is seeded at `sqrt(half_spread**2 + floor**2)`, which is >= `half_spread` and
+    therefore >= every `abs(v - centre)` -- so under the flipped comparison the condition is true
+    for every value on entry and the loop widens the interval by 0.01 for ever. It was re-attacked
+    directly and measured at 200,000 iterations with `interval` at 2000.52 and still climbing,
+    against 7 iterations for the original; `verify_math` calls `interval_from_hands` six times and
+    `drill` four, so the first call never returns and the gate hits its limit. The run scored that
+    mutant INDETERMINATE -- in neither the killed nor the survived count -- and a whole re-run was
+    spent establishing what the timeout had already proved. That understates the kill rate: the
+    assay.py line for that pass reads 117 killed with one unknown where it should read 118.
+
+    A TIMEOUT ON ITS OWN STILL PROVES NOTHING, which is why `could_not_judge` exists and why this
+    does not simply score every timeout as a kill. The evidence is the ASYMMETRY -- this gate
+    finishing quickly on unmutated code and not finishing on the mutant -- so this demands two
+    independent readings of the pristine side before it will call a kill:
+
+      * THE BASELINE'S OWN MARGIN. `base_times[gname]` must show the gate COMPLETING in no more
+        than 1/HANG_MARGIN of its limit. If the pristine run was already near the wall, a mutant
+        hitting it is not evidence of anything -- a loaded machine looks exactly like a hang from
+        here -- and NO VERDICT is the honest answer.
+      * A FRESH READING TAKEN NOW, on restored code, at this moment's load. The baseline may be
+        hours old on a run this length, and "the machine got busy" is precisely the alternative
+        explanation being ruled out, so it has to be ruled out against the machine as it is right
+        now. The re-run must complete, must still leave the margin, and must produce the SAME
+        signature the baseline holds -- a pristine tree that now says something different is a
+        tree that moved, which is a `baseline_drifts` event and not a verdict about this mutant.
+
+    ANY FAILURE OF ANY OF THAT RETURNS False, which restores exactly the behaviour that existed
+    before this function: the mutant is INDETERMINATE and says so. False kills are the expensive
+    direction -- a false survivor wastes a reader's time, a false kill hides a gap and reports it
+    as covered -- so every uncertainty here resolves towards not claiming one.
+
+    Costs one extra gate run, and only on a mutant that has already timed out, which is the
+    rarest outcome this module produces (one in 299 on the pass that motivated it).
+    """
+    want = (base_times or {}).get(gname)
+    if not isinstance(want, dict) or not want.get("completed"):
+        return False, ("no completed baseline timing for %s, so a timeout here cannot be told "
+                       "apart from a slow machine" % gname)
+    limit = float(want.get("timeout") or 0)
+    was = float(want.get("seconds") or 0)
+    if limit <= 0 or was * HANG_MARGIN > limit:
+        return False, ("%s took %.0fs of its %.0fs limit on unmutated code, less than %gx of "
+                       "room, so this timeout is not evidence of a hang"
+                       % (gname, was, limit, HANG_MARGIN))
+    fresh_times = {}
+    _write(path, original)
+    sig, _why = _gate_result(gname, cmd, cwd=root, times_out=fresh_times)
+    now = fresh_times.get(gname) or {}
+    if not now.get("completed"):
+        return False, ("%s does not complete on RESTORED code either right now, so the machine "
+                       "and not the mutation is the likelier explanation" % gname)
+    fresh_s = float(now.get("seconds") or 0)
+    if fresh_s * HANG_MARGIN > limit:
+        return False, ("%s took %.0fs of its %.0fs limit on RESTORED code just now, less than "
+                       "%gx of room, so this machine is too busy for a timeout to mean anything"
+                       % (gname, fresh_s, limit, HANG_MARGIN))
+    if sig != base.get(gname):
+        return False, ("%s answered %s on restored code just now against %s at the baseline -- "
+                       "the tree moved, so this timeout is not a verdict about the mutation"
+                       % (gname, sig, base.get(gname)))
+    return True, ("%s HUNG: pristine code completed in %.0fs at the baseline and %.0fs on a "
+                  "re-run taken just now, both inside %.0fs; the mutant did not finish in %.0fs"
+                  % (gname, was, fresh_s, limit, limit))
 
 
 def unusable_gates(base):
@@ -1489,7 +1806,7 @@ def flaky_gates(root, base, gates=GATES):
 
 
 def run(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
-        confirm=CONFIRM_GATES, rebaseline_every=None):
+        confirm=CONFIRM_GATES, rebaseline_every=None, base_times=None):
     """Mutate one module IN A SANDBOX and report which mutants survived. -> dict.
 
     THE LOCK IS TAKEN HERE, around the whole of it, and here rather than only in `main()`
@@ -1504,15 +1821,21 @@ def run(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
     REFUSES rather than a default that silently scores every mutant killed. Build one with
     `baseline(root)` and hand it in. The refusal, and the two baseline-health guards that used
     to live only in `_session`, are in `_run_mutation`.
+
+    `base_times` IS OPTIONAL AND ITS ABSENCE IS SAFE. Fill it by passing the same dict to
+    `baseline(root, times_out=...)` and a mutant that HANGS a gate the pristine code passes
+    quickly is scored KILLED rather than INDETERMINATE -- see `hang_confirms_a_kill` for the
+    measured case and for the two readings that have to agree before that is claimed. Left None,
+    every timeout stays NO VERDICT exactly as before.
     """
     with _hold_lock([target]):
         return _run_mutation(target, limit=limit, gates=gates, root=root, keep=keep,
                              base=base, confirm=confirm,
-                             rebaseline_every=rebaseline_every)
+                             rebaseline_every=rebaseline_every, base_times=base_times)
 
 
 def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
-                  confirm=CONFIRM_GATES, rebaseline_every=None):
+                  confirm=CONFIRM_GATES, rebaseline_every=None, base_times=None):
     """The body of `run`, with the mutation lock already held. Do not call this directly."""
     # A MISSING BASELINE IS REFUSED, NOT DEFAULTED (order 91c1a581453d). This was
     # `base = {} if base is None else base`, and `run()`'s public signature defaults
@@ -1587,6 +1910,12 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
 
         lines = text.splitlines(keepends=True)
         survivors, killed, indeterminate = [], 0, []
+        # KILLS THE CLOCK CAUGHT RATHER THAN AN ASSERTION, named separately so the score can be
+        # audited. They are inside `killed`, not beside it -- a mutant that hangs a gate the
+        # pristine code passes has been detected by the battery -- but "killed by a failing check"
+        # and "killed by never finishing" are different facts about the battery's coverage, and a
+        # reader deciding whether a gate really covers a line needs to be able to tell them apart.
+        hang_kills = []
         # THE BASELINE IS A PHOTOGRAPH, AND THIS RUN TAKES SIXTEEN HOURS.
         #
         # Every mutant is judged by DIFFERENCE from a signature taken once, before the first
@@ -1621,7 +1950,13 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
         def _refresh_baseline():
             """Re-photograph the gates on RESTORED code. -> True if anything moved."""
             _write(path, original)
-            fresh = baseline(root, gates=tuple(gates) + tuple(confirm))
+            # THE TIMINGS ARE RE-TAKEN WITH THE SIGNATURES, not left at their launch values. The
+            # hang test compares a mutant's timeout against how much room the pristine code had,
+            # and on a sixteen-hour run the load at hour fourteen is not the load at hour zero --
+            # a stale timing would let a busy machine's timeout read as a hang, which is the
+            # false-kill direction this whole feature exists to avoid producing more of.
+            fresh_times = {}
+            fresh = baseline(root, gates=tuple(gates) + tuple(confirm), times_out=fresh_times)
             # A REFRESH THAT COULD NOT COMPLETE IS NOT A NEW BASELINE (sweep 44, batch 5 found
             # this in the first version of this function, hours after it was written). The launch
             # baseline is guarded by `unusable_gates` and this one was not -- so a gate that
@@ -1650,6 +1985,12 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                     "previous baseline rather than adopting a signature no gate could take.\n"
                     % ", ".join(n for n, _s in unusable))
                 return False
+            # The refresh completed, so its timings are the current truth about this machine even
+            # when no signature moved. Adopted here rather than inside the `moved` arm for that
+            # reason: an unchanged signature taken twice as slowly is exactly the state in which
+            # a timeout must STOP counting as a hang.
+            if base_times is not None:
+                base_times.update(fresh_times)
             moved = {g: (base.get(g), fresh.get(g)) for g in fresh if fresh.get(g) != base.get(g)}
             if moved:
                 # THE WINDOW IS NAMED, NOT JUST THE EVENT. A drift with no list of what was
@@ -1697,6 +2038,29 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                     # mutant is set aside as INDETERMINATE and counted separately, so `killed`
                     # and `survived` contain only mutants that were actually judged.
                     if could_not_judge(sig):
+                        # A TIMEOUT IS SOMETIMES THE DETECTION, AND IT WAS ALWAYS DISCARDED. See
+                        # `hang_confirms_a_kill`: a mutant that makes a gate run for ever, where
+                        # the pristine code finishes that same gate with room to spare and still
+                        # does so on a re-run taken at this moment's load, has been caught by the
+                        # battery -- caught by the clock rather than by an assertion, but caught.
+                        # Everything else about a timeout is unchanged: any doubt at all, in
+                        # either reading, and the mutant stays INDETERMINATE.
+                        if sig.startswith("TIMEOUT|") and base_times:
+                            hung, hwhy = hang_confirms_a_kill(gname, cmd, root, path, original,
+                                                              base, base_times)
+                            if hung:
+                                died_at = hwhy
+                                hang_kills.append({"line": lineno, "mutation": desc,
+                                                   "was": old_line.strip(),
+                                                   "became": new_line.strip(),
+                                                   "gate": gname, "why": hwhy})
+                                break
+                            # NOT A KILL, AND THE REASON IS KEPT. The indeterminate row carries
+                            # why the hang test declined, so a reader can tell "the machine was
+                            # busy" from "there was no baseline timing" without re-running
+                            # anything -- which is the whole cost this feature was written to
+                            # remove.
+                            sig = "%s (not scored as a hang: %s)" % (sig, hwhy)
                         # `sig` and `why` both carry the gate name now (see `_gate_result`), so
                         # the caller no longer re-attaches `gname` by hand. Order 7bd7f47b012d.
                         no_verdict = sig
@@ -1777,6 +2141,10 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 # JUDGED, NOT SCORED. `killed + survived + indeterminate == mutants`, and the
                 # third term is the one that used to be silently folded into the first.
                 "indeterminate": len(indeterminate), "indeterminates": indeterminate,
+                # OF THOSE KILLS, THE ONES THE CLOCK CAUGHT. Counted inside `killed`; named here
+                # with the gate and the timing evidence so the claim can be checked rather than
+                # taken. Empty when `base_times` was not supplied, because the test cannot run.
+                "killed_by_hang": len(hang_kills), "hang_kills": hang_kills,
                 # SITES THIS RUN COULD NOT EVEN ATTEMPT. Reported beside the mutant count so
                 # that "264 attempted" is never read as "264 attemptable" -- Hard Rule 0 applied
                 # to the tool that measures coverage. Not truncated.
@@ -1799,24 +2167,73 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
             shutil.rmtree(root, ignore_errors=True)
 
 
-def file_orders(result, found_by="mutate"):
-    """A survivor is a hole in the safeties. File it as one. -> ids."""
+def file_orders(result, found_by="mutate", suppressed_out=None):
+    """A survivor is a hole in the safeties. File it as one. -> ids.
+
+    EXCEPT ONE A PERSON HAS ALREADY RULED ON (order 35ba53586e6f). A survivor carrying a standing
+    ruling in `ruled_equivalent()` is NOT filed as a new order: it is written to the journal as a
+    suppression, with the ruling and the id that lifts it, and handed back through
+    `suppressed_out` so the console can say it out loud. It is never hidden -- `_session` prints
+    every survivor before this function is reached, and prints the suppressions again underneath
+    -- because a ruling can be wrong and the next reader has to be able to see the ones in force.
+    A registered id whose recorded mutation does NOT match the mutant in hand (the usual cause
+    being an edit that moved the line) is filed anyway, with the mismatch stated in the order.
+
+    AND THE DISABLED-DETECTOR CAVEAT TRAVELS IN THE SENTENCE (order 7322a64a6f54).
+    `_run_mutation` stamps `red_gates_disabled` on every survivor row -- the gates that were
+    already red at this run's baseline and therefore could not kill anything -- and until now
+    that rode only in `evidence`, while the `what` a RUN handler actually reads said "and the
+    entire battery still passed" whether the battery was whole or not. `_session` prints the
+    caveat at launch; the permanent record did not carry it.
+    """
     import workorders
+    registry = ruled_equivalent()
     ids = []
     for s in result["survivors"]:
-        oid = workorders.file_order(
-            code="MUTANT_SURVIVED_%s_L%d" % (result["target"].replace(".py", "").upper(),
-                                             s["line"]),
-            what=("%s:%d was changed to something WRONG (%s) and the entire battery still "
-                  "passed. `%s` became `%s`. Either a check is missing here, or the mutation is "
-                  "genuinely equivalent -- and which of those it is has to be decided by "
-                  "reading it, not assumed."
-                  % (result["target"], s["line"], s["mutation"], s["was"], s["became"])),
-            handler="RUN", severity="MAJOR",
-            where="src/%s:%d" % (result["target"], s["line"]),
+        oid, code, where = _order_identity(result["target"], s["line"])
+        entry = registry.get(oid)
+        stale = ruling_mismatch(entry, result["target"], s) if entry else []
+        if entry and not stale:
+            row = {"ruled_equivalent": True, "order_id": oid, "line": s["line"],
+                   "mutation": s["mutation"], "was": s["was"], "became": s["became"],
+                   "ruling": entry.get("ruling"), "ruled_by": entry.get("ruled_by"),
+                   "ruled_at": entry.get("ruled_at"),
+                   "red_gates_disabled": s.get("red_gates_disabled") or [],
+                   "unsuppress_with": "python src/mutate.py --unrule %s:%d"
+                                      % (result["target"], s["line"])}
+            _journal(result["target"], row)
+            if suppressed_out is not None:
+                suppressed_out.append(row)
+            continue
+        what = ("%s:%d was changed to something WRONG (%s) and the entire battery still "
+                "passed. `%s` became `%s`. Either a check is missing here, or the mutation is "
+                "genuinely equivalent -- and which of those it is has to be decided by "
+                "reading it, not assumed."
+                % (result["target"], s["line"], s["mutation"], s["was"], s["became"]))
+        if stale:
+            what += (" NOTE: order id %s carries a RULED-EQUIVALENT registration in "
+                     "state/MUTANTS_RULED_EQUIVALENT.json that does not describe this mutant, so "
+                     "the ruling was NOT applied and this is filed as ordinary work. The "
+                     "disagreements, in full: %s. The usual cause is an edit that moved the "
+                     "line, which makes the old ruling a statement about a different mutation; "
+                     "withdraw it with `python src/mutate.py --unrule %s:%d` and re-rule the "
+                     "site if the reading still holds."
+                     % (oid, "; ".join(stale), result["target"], s["line"]))
+        red = s.get("red_gates_disabled") or []
+        if red:
+            what += (" NOTE: %d gate(s) were ALREADY RED at this run's baseline (%s) and could "
+                     "not kill any mutant -- a gate that is red on unmutated code matches every "
+                     "mutant's signature, so it was disabled as a detector for the whole run. "
+                     "This survivor may be an artefact of that rather than a hole in the "
+                     "battery. Re-attack it with the battery whole before treating it as a "
+                     "finding; the same list is on the survivor row in "
+                     "state/MUTANTS_SURVIVED.jsonl and in this order's evidence under "
+                     "red_gates_disabled." % (len(red), ", ".join(red)))
+        rec = workorders.file_order(
+            code=code, what=what, handler="RUN", severity="MAJOR", where=where,
             found_by=found_by, evidence=s)
-        if oid:
-            ids.append(oid)
+        if rec:
+            ids.append(rec)
     return ids
 
 
@@ -1861,7 +2278,69 @@ def main():
                          "confirmed false kill over a 16-hour run. Default 1800.")
     ap.add_argument("--no-confirm", action="store_true",
                     help="skip the slow confirm gate; SURVIVORS BECOME UNCONFIRMED")
+    # THE RULED-EQUIVALENT REGISTRY, DRIVEN BY A PERSON AND ONLY BY A PERSON (order
+    # 35ba53586e6f). Nothing in a mutation run ever writes a ruling; a run only READS them.
+    ap.add_argument("--rule-equivalent", metavar="TARGET.py:LINE",
+                    help="record that the survivor at this site has been read and ruled a "
+                         "genuinely equivalent mutation, so later passes stop filing it as new "
+                         "work. Requires --ruling. Withdraw it with --unrule.")
+    ap.add_argument("--ruling", metavar="TEXT",
+                    help="why the mutation at --rule-equivalent is equivalent, in full")
+    ap.add_argument("--ruled-by", metavar="WHO", default="",
+                    help="who made the ruling given with --rule-equivalent")
+    ap.add_argument("--unrule", metavar="TARGET.py:LINE",
+                    help="withdraw a standing ruling so the mutant is filed as work again")
+    ap.add_argument("--list-ruled", action="store_true",
+                    help="print every standing ruling and every occasion one was applied")
     a = ap.parse_args()
+
+    # THE REGISTRY COMMANDS RUN BEFORE THE HALT CHECK AND TAKE NO LOCK, because none of them
+    # mutates anything: they read and write one small JSON file of human rulings. Refusing to let
+    # somebody CORRECT a ruling while a halt stands would be exactly backwards -- a wrong
+    # suppression is the sort of thing a halt is standing over.
+    if a.list_ruled:
+        entries = ruled_equivalent()
+        if not entries:
+            print("no standing rulings (%s)" % RULED_EQUIVALENT)
+        for oid, e in sorted(entries.items(),
+                             key=lambda kv: (str(kv[1].get("target")), kv[1].get("line") or 0)):
+            print("%s  %s:%s  %s" % (oid, e.get("target"), e.get("line"), e.get("mutation")))
+            print("    was:     %s" % e.get("was"))
+            print("    became:  %s" % e.get("became"))
+            print("    ruled by %s at %s"
+                  % (e.get("ruled_by") or "(unrecorded)",
+                     time.strftime("%Y-%m-%d %H:%M",
+                                   time.localtime(e.get("ruled_at") or 0))))
+            print("    ruling:  %s" % e.get("ruling"))
+            print("    withdraw with: python src/mutate.py --unrule %s:%s"
+                  % (e.get("target"), e.get("line")))
+        applied = suppressed_on_record()
+        print("\n%d occasion(s) on which a ruling kept a survivor out of the queue:"
+              % len(applied))
+        for row in applied:
+            print("   %s  %s:%-5d %-16s  (order %s)"
+                  % (time.strftime("%Y-%m-%d %H:%M", time.localtime(row.get("at") or 0)),
+                     row.get("target"), row.get("line") or 0, row.get("mutation"),
+                     row.get("order_id")))
+        return 0
+    if a.rule_equivalent:
+        if not a.ruling:
+            print("--rule-equivalent needs --ruling: a suppression with no stated reason is "
+                  "indistinguishable from the harness having stopped looking.")
+            return 2
+        _t, _ln = _site(a.rule_equivalent)
+        e = rule_equivalent(_t, _ln, a.ruling, ruled_by=a.ruled_by)
+        print("ruled equivalent: %s:%d (%s), order id %s" % (_t, _ln, e["mutation"], e["id"]))
+        print("   later passes will record it as RULED-EQUIVALENT in "
+              "state/MUTANTS_SURVIVED.jsonl instead of filing a new order.")
+        print("   withdraw with: python src/mutate.py --unrule %s:%d" % (_t, _ln))
+        return 0
+    if a.unrule:
+        _t, _ln = _site(a.unrule)
+        e = unrule_equivalent(_t, _ln)
+        print("ruling withdrawn: %s:%d (%s), order id %s" % (_t, _ln, e.get("mutation"), e["id"]))
+        print("   the next pass will file this survivor as an ordinary work order again.")
+        return 0
 
     # A halt means the library is not in a state anyone should be deliberately breaking.
     halted, _rec = escalation.status()
@@ -1919,10 +2398,27 @@ def _session(a, targets):
         # which cost a shift a hand-built sandbox and a manual diff to learn the answer was five
         # sandbox omissions, not library defects.
         base_rows = {}
-        base = baseline(root, gates=gates + confirm, rows_out=base_rows)
+        # base_times IS THE OTHER SIDE CHANNEL: how long each gate took on unmutated code, and
+        # how close that was to its limit. It is what makes a mutant's TIMEOUT mean something --
+        # see `hang_confirms_a_kill` and the hanging assay.py mutant of 2026-09-04 that was
+        # scored INDETERMINATE when the clock had already killed it.
+        base_times = {}
+        base = baseline(root, gates=gates + confirm, rows_out=base_rows, times_out=base_times)
         print("baseline signatures:")
         for gname, sig in base.items():
+            t = base_times.get(gname) or {}
+            # THE MARGIN IS PRINTED WHETHER OR NOT IT IS EVER USED, because it is the number a
+            # reader needs to check any hang verdict below -- and, on a busy machine, the number
+            # that explains why there are none.
             print("   %-14s %s" % (gname, sig[:90]))
+            if t:
+                print("       %s in %.0fs of a %.0fs limit (%s for a mutant timeout to count "
+                      "as a hang)"
+                      % ("completed" if t.get("completed") else "DID NOT COMPLETE",
+                         t.get("seconds") or 0, t.get("timeout") or 0,
+                         "enough room" if (t.get("completed") and
+                                           (t.get("seconds") or 0) * HANG_MARGIN
+                                           <= (t.get("timeout") or 0)) else "NOT enough room"))
         # OPT-IN, because it runs every gate a second time and the slow one is five minutes.
         # Worth paying before trusting a survivor list; not worth paying on every smoke run.
         dead = unusable_gates(base)
@@ -2046,11 +2542,26 @@ def _session(a, targets):
         for i, t in enumerate(targets):
             t0 = time.time()
             r = run(t, limit=a.limit, root=root, base=base, gates=gates, confirm=confirm,
-                    rebaseline_every=a.rebaseline_every or None)
+                    rebaseline_every=a.rebaseline_every or None, base_times=base_times)
             total_s += time.time() - t0
             print("\n%s — %d mutants, %d killed, %d SURVIVED, %d INDETERMINATE   (%.0fs)"
                   % (t, r["mutants"], r["killed"], r["survived"], r["indeterminate"],
                      time.time() - t0))
+            # WHICH DETECTORS WERE DOWN WHILE THAT ARITHMETIC WAS PRODUCED, NAMED DOWN TO THE ROW
+            # (order 2461a04d8849). The launch banner already says a red gate is disabled; this
+            # says it again BESIDE THE SCORE, which is the line that gets quoted, and names the
+            # individual FAILED/BREACHED rows behind each red signature -- the difference between
+            # "verify_math is red" and knowing the five red rows were sandbox omissions rather
+            # than library defects, which once cost a shift a hand-built sandbox to learn.
+            for _g in (r.get("red_gates_disabled") or []):
+                _rows = base_rows.get(_g) or []
+                print("  *** %s WAS RED AT THE BASELINE AND KILLED NOTHING. The %d killed above "
+                      "are killed by the REMAINING gates only. ***" % (_g, r["killed"]))
+                for _rid in _rows:
+                    print("        red at launch: %s" % _rid)
+                if not _rows:
+                    print("        (no FAILED/BREACHED row was printed by this gate at the "
+                          "launch baseline; read its signature above)")
             # THE DRIFT, SAID OUT LOUD AND BESIDE THE SCORE, because a score is what gets
             # quoted and this is the fact that decides whether it means anything.
             for d in (r.get("baseline_drifts") or []):
@@ -2088,6 +2599,17 @@ def _session(a, targets):
                 print("  (capped at --limit %d; this is NOT the whole set)" % a.limit)
             # NEITHER KILLED NOR SURVIVED, AND SAID SO. A gate that timed out or errored on a
             # mutant used to be counted as a kill, which is the direction that hides holes.
+            # KILLED BY THE CLOCK, WITH THE EVIDENCE ON THE SAME LINE. Inside the killed count
+            # above; printed separately because "the battery caught this by never finishing" is a
+            # different statement about coverage from "an assertion went red", and because a
+            # reader must be able to check the margin that justified the verdict.
+            for h_ in r.get("hang_kills") or []:
+                print("  KILLED BY HANG %s:%-5d %-16s  %s"
+                      % (t, h_["line"], h_["mutation"], h_["why"]))
+            if r.get("killed_by_hang"):
+                print("  %d of the %d kills above were HANGS, not failing checks: the mutant made"
+                      " a gate run past its limit that the unmutated code passes with room to"
+                      " spare." % (r["killed_by_hang"], r["killed"]))
             for s_ in r["indeterminates"]:
                 print("  NO VERDICT %s:%-5d %-16s  gate %s"
                       % (t, s_["line"], s_["mutation"], s_["gate"]))
@@ -2108,7 +2630,26 @@ def _session(a, targets):
                 print("  --no-confirm was used: these passed the FAST gates only. They are"
                       " candidates, not findings, and must not be filed as findings.")
             if a.file_orders and r["survivors"] and confirm:
-                print("  filed %d work order(s)" % len(file_orders(r)))
+                # SUPPRESSIONS ARE PRINTED, NOT MERELY COUNTED (order 35ba53586e6f). A survivor
+                # kept out of the queue by a standing ruling is still a survivor and it is still
+                # listed above; what changes is only that it does not become a new work order.
+                # The ruling, who made it and the one command that withdraws it are all printed
+                # here, because a registry a reader cannot see the contents of is a registry
+                # nobody can correct.
+                _suppressed = []
+                _filed = file_orders(r, suppressed_out=_suppressed)
+                print("  filed %d work order(s)" % len(_filed))
+                if _suppressed:
+                    print("  %d survivor(s) NOT filed -- already RULED EQUIVALENT by a person:"
+                          % len(_suppressed))
+                    for _s in _suppressed:
+                        print("     %s:%-5d %-16s  ruled by %s"
+                              % (t, _s["line"], _s["mutation"], _s["ruled_by"] or "(unrecorded)"))
+                        print("        ruling: %s" % _s["ruling"])
+                        print("        to file it as work again: %s" % _s["unsuppress_with"])
+                    print("     A ruling can be wrong. These are recorded in "
+                          "state/MUTANTS_SURVIVED.jsonl and readable with "
+                          "mutate.suppressed_on_record().")
             # BREAK AFTER this target's own report, not before it: the findings for the target
             # that tripped the check were computed before the check tripped and are still worth
             # printing. What must not happen is the NEXT target.

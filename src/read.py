@@ -49,6 +49,11 @@ import feats as F                                                       # noqa: 
 import assay as A                                                       # noqa: E402
 import cachekey
 import silence
+# THE SLOT COUNT IS READ FROM THE MODULE THAT PARSES IT, NOT PARSED AGAIN HERE (order
+# e8f7fad0acfe). See GATE_LOCAL_N below. `gpu_lane` imports only contextlib/json/os/threading/
+# time plus `silence`, and nothing it imports imports this module, so there is no cycle; it has
+# no module-level side effects beyond computing its own constants.
+import gpu_lane as _GL                                                  # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
@@ -322,15 +327,30 @@ def ensure_transport(verbose=True):
 # re-read lazily on a timer, so a mid-run recovery re-opens the gate without a restart.
 GATE_CLOUD_N = 16
 
-# ONE PHYSICAL FACT, READ RATHER THAN RESTATED. How many requests the card serves at once is
-# decided by the daemon's `OLLAMA_NUM_PARALLEL`, and it was previously spelled out a second time
-# here as a bare `2` and a third time as `gpu_lane.MAX_SLOTS`. Three constants for one fact, with
-# nothing linking them: change the daemon's setting and this gate keeps admitting the old number,
-# silently over- or under-subscribing the card. `PANSCRIPTUM_GPU_SLOTS` still wins if set, so the
-# lane and this gate can be pinned together for an experiment. The 2 at the end is the last
-# resort, not the source of truth.
-GATE_LOCAL_N = max(1, int(os.environ.get("PANSCRIPTUM_GPU_SLOTS")
-                          or os.environ.get("OLLAMA_NUM_PARALLEL") or "2"))
+# ONE PHYSICAL FACT, READ RATHER THAN RESTATED -- AND NOW ACTUALLY READ (order e8f7fad0acfe).
+# How many requests the card serves at once is decided by the daemon's `OLLAMA_NUM_PARALLEL`.
+# Both this file and `gpu_lane.py:61-65` carried a comment in these words claiming the three
+# constants had been unified into one; only gpu_lane's half was ever written. This line stayed
+# the original expression -- `max(1, int(PANSCRIPTUM_GPU_SLOTS or OLLAMA_NUM_PARALLEL or "2"))`
+# -- so two gates parsed one env var independently, and a comment asserting otherwise sat
+# directly above the second parser. A restatement that DOCUMENTS itself as unified is worse
+# than a plain restatement, because the next reader stops looking.
+#
+# THE TWO DEFECTS IT CARRIED, both of which `gpu_lane._slot_count` (order b54fbcf84962) already
+# removes and both measured on this machine before this change:
+#
+#   OLLAMA_NUM_PARALLEL=auto  -> `import gpu_lane` gives 2; `import read` RAISED
+#                                ValueError: invalid literal for int() with base 10: 'auto'
+#                                -- at MODULE SCOPE, in the module the library's whole
+#                                throughput runs through, on a value the daemon accepts.
+#   OLLAMA_NUM_PARALLEL=0     -> gpu_lane 2, read 1. `0` is Ollama's own "let the server
+#                                decide", not a request for one slot, and `max(1, 0)` silently
+#                                serialised the whole library behind a single call -- the exact
+#                                outcome the comment above says two slots exist to avoid.
+#
+# `PANSCRIPTUM_GPU_SLOTS` still wins when set, and the default is still 2: that precedence lives
+# in `_slot_count`, which is now the only place in this tree that reads these variables.
+GATE_LOCAL_N = _GL.MAX_SLOTS
 GATE_RECHECK_S = 120
 _GATE_CLOUD = threading.BoundedSemaphore(GATE_CLOUD_N)
 _GATE_LOCAL = threading.BoundedSemaphore(GATE_LOCAL_N)

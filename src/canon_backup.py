@@ -134,7 +134,27 @@ def snapshot(stamp=None):
     worse than no snapshot: it occupies the place where a real one would go.
     """
     os.makedirs(ROOT, exist_ok=True)
-    stamp = stamp or time.strftime("%Y%m%d-%H%M%S")
+    # THE STAMP CARRIES PID AND THREAD, LIKE THE SCRATCH NAME BELOW (order 7c0c86c6257f). It was
+    # `time.strftime("%Y%m%d-%H%M%S")` alone, so two snapshots STARTING IN THE SAME SECOND shared
+    # `stamp`, and therefore shared `final` (`canon-<stamp>.zip`) AND the manifest destination
+    # beside it: the second writer's `os.replace` landed its archive over the first's at the same
+    # path and its manifest over the first's manifest, and whichever pair lost the race was gone.
+    # Order 112bed050c3a closed the TEMP half of this; what was left was the DESTINATION half,
+    # which is the same thing the comment twenty lines below refuses one level down -- "a
+    # second-resolution stamp is not a disambiguator" -- applied to the final name rather than to
+    # the scratch one. Unlikely rather than impossible: a snapshot of the 217-source corpus takes
+    # far longer than a second, so the collision needs two snapshots LAUNCHED together, which is
+    # exactly what the supervisor's `canon_backup_cycle` plus a hand-run `--snapshot` produces.
+    #
+    # THE NAMING CONVENTION STILL SORTS, which is the reason this was left open rather than done
+    # blind. `prune()` and `newest()` both list `canon-*.zip` and order them by NAME, taking the
+    # timestamp as the age. The timestamp is fixed-width and still leads, so archives written
+    # before this change interleave correctly with ones written after it; the only ordering that
+    # changes is BETWEEN two archives of the same second, which had no defined order anyway
+    # because they were the same name. `prune()` derives the manifest sibling from the zip name
+    # (`f[:-4] + ".manifest.json"`), so the pair still deletes together whatever the stamp says.
+    stamp = stamp or "%s-%d-%d" % (time.strftime("%Y%m%d-%H%M%S"),
+                                   os.getpid(), threading.get_ident())
     items = members()
     if not items:
         raise RuntimeError("no canonical files found under %s -- refusing to write an empty "
@@ -206,10 +226,9 @@ def snapshot(stamp=None):
     # in the temp, discards the temp on a denied replace, and returns the verdict this line
     # already gates on. Order 112bed050c3a.
     #
-    # NOT FULLY CLOSED, and deliberately left so: two snapshots starting in the same second
-    # share `stamp`, hence share `final` and this destination name. Closing that means putting
-    # the pid into `stamp` itself, which changes the archive naming `prune()` and `newest()`
-    # read, so it is a separate decision from this one.
+    # THE ENCLOSING HAZARD THIS NOTE USED TO LEAVE OPEN IS CLOSED (order 7c0c86c6257f): two
+    # snapshots starting in the same second no longer share `stamp`, so they no longer share
+    # `final` or this destination name. See the stamp itself, at the top of this function.
     if not silence.write_json(final[:-4] + ".manifest.json", manifest,
                               indent=2, sort_keys=True):
         raise RuntimeError(

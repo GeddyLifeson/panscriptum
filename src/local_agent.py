@@ -556,6 +556,33 @@ def t_list_dir(path=".", **_):
     return {"path": path, "entries": out}
 
 
+GREP_LINE_CHARS = 4000
+
+
+def _whole_line(s):
+    """A matched line, kept WHOLE, and when it genuinely cannot be, cut WITH A MARKER that says
+    how much was removed. -> str.
+
+    Order f15279b5e869 (sweep44-batch16): this was a bare `ln.strip()[:200]`, the one unlabelled
+    truncation in a file that labels every other cut it makes. It matters more than a console cut
+    because this is not display -- it is what the local MODEL reads to decide what to patch, and
+    the model cannot ask for the rest. A match whose interesting half sits past character 200 is
+    a match the model is told does not exist, which is Hard Rule 0's failure mode exactly: not an
+    error, a smaller universe wearing the same shape as the real one.
+
+    Two hundred characters is well inside a normal source line, so the old cut fired constantly.
+    Four thousand is past any line this tree actually holds and exists only so that one minified
+    `.json` line -- `t_grep` walks `.json` as well as `.py` -- cannot swallow the model's whole
+    context window. When it does fire it says so and names the count, so the model knows there is
+    more and can narrow the pattern or read the file, which is what makes the cut reversible.
+    """
+    s = str(s)
+    if len(s) <= GREP_LINE_CHARS:
+        return s
+    return "%s [+%d more characters on this line, not shown]" % (
+        s[:GREP_LINE_CHARS], len(s) - GREP_LINE_CHARS)
+
+
 def t_grep(pattern, subtree="src", **_):
     """Search a regex over a directory OR A SINGLE FILE. -> {pattern, matches, hits}.
 
@@ -576,7 +603,10 @@ def t_grep(pattern, subtree="src", **_):
     try:
         rx = re.compile(pattern)
     except re.error as e:
-        return {"error": "bad regex: " + str(e)[:120]}
+        # WHOLE, not cut. `re.error` renders as "bad character range a-Z at position 14" -- the
+        # position sits at the END, which is exactly what the old `str(e)[:120]` removed, and it
+        # is the only part that tells the model where its own pattern went wrong.
+        return {"error": "bad regex: " + str(e)}
     hits = []
 
     def _scan(fp):
@@ -584,7 +614,7 @@ def t_grep(pattern, subtree="src", **_):
             for i, ln in enumerate(open(fp, encoding="utf-8", errors="replace"), 1):
                 if rx.search(ln):
                     hits.append(os.path.relpath(fp, HERE) + ":" + str(i) + ": "
-                                + ln.strip()[:200])
+                                + _whole_line(ln.strip()))
         except Exception:
             _ = "silence-exempt: an unreadable stray file is not this search's problem"
 
@@ -944,19 +974,41 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
         return _settle(out)
 
 
-def _chat(model, messages, host, timeout=420):
+def _chat(model, messages, host, timeout=None):
     # num_ctx FROM CONFIG, not a literal. This read 8192 while config.yaml serves 12288, so
     # every local-agent task named a window the daemon did not have resident and paid for a
     # runner teardown+rebuild -- "240 s+, never completed" by gpu_lane.py's own measurement.
     # That is why this rung has been unreliable: not the model's competence, the window.
     # Same defect, same day, as standards.ollama_token_flow's 512. Pinned by verify_math S19ab.
+    #
+    # AND THE TIMEOUT FROM CONFIG TOO, FOR EXACTLY THE SAME REASON, which the paragraph above
+    # should have been enough to catch and was not. This signature read `timeout=420` -- another
+    # bare literal about the same daemon, sitting directly under a comment explaining why bare
+    # literals about the same daemon had made this rung unreliable. config.yaml serves
+    # `request_timeout: 1800` and its own note says why: "The timeout is a safety net for a hung
+    # server, not a throughput control, so it should sit far above the worst legitimate case."
+    # 420 is three and a half times tighter than the value this project settled on for a
+    # comparable call, and it was not a considered exception -- nothing anywhere records a
+    # ruling for it.
+    #
+    # MEASURED THIS SHIFT, which is why it is being changed rather than merely noticed. The
+    # 2026-09-05 maintenance run routed the LOCAL rung's work orders through here and the FIRST
+    # one came back `rc=1  570s  transport: TimeoutError timed out` with `"patches": []` -- the
+    # rung did not do bad work, it did no work, and returned nothing to show for nine and a half
+    # minutes of a saturated GPU. That is the same symptom two earlier shifts recorded as "the
+    # LOCAL rung came back empty-handed" (order 9b54659bc403) and read as the model being
+    # incapable. It was the transport hanging up on it mid-answer.
     try:
         import yaml as _yaml
         _cfg = _yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8")) or {}
         _ctx = int(_cfg.get("num_ctx", 8192))
+        if timeout is None:
+            timeout = float(_cfg.get("request_timeout", 1800))
     except Exception:
         silence.note("local_agent.py:chat-ctx")
         _ctx = 8192
+    if timeout is None:
+        timeout = 1800.0
     body = {"model": model, "stream": False, "messages": messages, "tools": TOOLS,
             "options": {"num_ctx": _ctx, "temperature": 0.1}}
     req = urllib.request.Request(host.rstrip("/") + "/api/chat",

@@ -100,7 +100,16 @@ _FIELDS = {
     SUPERVISOR: ("at", "level_name", "code", "what", "source"),
     SAFETY:     ("at", "level_name", "code", "what", "source"),
     MANAGER:    ("at", "level_name", "code", "what", "source", "who"),
-    OWNER:      ("at", "code", "what", "source", "evidence", "who", "halt_landed"),
+    # `level_name` HERE TOO, and it was the one rung without it (order 7f7cceae27a5). Every
+    # other tuple above carries it; OWNER's did not. `_append_log` writes the per-source history
+    # with `brief(rec, rec.get("level", JANITOR))`, so in `state/escalations/<source>.log` a
+    # SUPERVISOR or SAFETY entry about a source announced its rung and that source's MOST
+    # SERIOUS entries did not. Not fail-open -- `state/escalation.log` is always briefed at
+    # JANITOR and keeps the full picture -- but a person reading one source's own history had to
+    # infer OWNER from the `code` string, and a hand-written `--raise-halt` code does not
+    # reliably read as a rung. Purely additive: a whitelist gains a field the record already
+    # carries.
+    OWNER:      ("at", "level_name", "code", "what", "source", "evidence", "who", "halt_landed"),
 }
 
 
@@ -245,7 +254,17 @@ def escalate(level, code, what, evidence=None, source=None, who=None):
     _append_log(rec)
     try:
         import health
-        health.record("escalation:%s:%s" % (NAMES.get(level, level), code), rec["what"])
+        # THE SUBJECT TRAVELS, so a REHEARSAL can be told from a FAULT (order 5bbbb65e7787).
+        # `health.is_selftest` matches `__drill[A-Za-z0-9_]*__` against the composed key AND
+        # against `subject`, and until now only the key was offered. That caught six of the
+        # seven synthetic rows this shift, because most drill rehearsals embed the marker in a
+        # code or a source name that ends up inside the key. The seventh --
+        # `escalation:SUPERVISOR:DRILL_AREA:drill: one area closing`, whose synthetic marker is
+        # in `source` and nowhere in the key -- could not be caught by ANY reading of the key,
+        # so `state/failures.json`, the ledger a person reads to find real faults, carried a
+        # drill's own rehearsal as one. Passing the source is the whole fix.
+        health.record("escalation:%s:%s" % (NAMES.get(level, level), code), rec["what"],
+                      subject=rec.get("source"))
     except Exception:
         silence.note("escalation.py:health")
     # EVERY ESCALATION BECOMES A WORK ORDER (owner ruling 2026-08-25). The chain says how bad a
@@ -508,9 +527,10 @@ def stop_subsystem(name, reason, who="?", evidence=None):
 
     A stop here is deliberately NARROW: one subsystem closes, the rest of the library keeps
     running, which is the whole point of having a rung below the halt. It is also deliberately
-    STICKY: `resume_subsystem` demands a written ruling, exactly as `clear` does, because the
-    thing that undid the last one was an automated actor with good intentions and a restart
-    timer.
+    STICKY: `resume_subsystem` demands a written ruling, as `clear` does -- and a longer one, 20
+    characters against 12 (order 8b1b81bcfee4; this sentence also used to claim the two bars
+    matched) -- because the thing that undid the last one was an automated actor with good
+    intentions and a restart timer.
     """
     rec = escalate(MANAGER, "SUBSYSTEM_STOPPED",
                    "%s stopped: %s" % (name, reason), evidence=evidence,
@@ -710,7 +730,18 @@ def subsystem_stopped(name):
 
 
 def resume_subsystem(name, ruling, by="?"):
-    """Re-open one subsystem. Demands a written ruling, exactly as `clear` does. -> bool.
+    """Re-open one subsystem. Demands a written ruling, as `clear` does -- but a LONGER one. -> bool.
+
+    THE TWO BARS ARE NOT THE SAME AND THIS DOCSTRING USED TO SAY THEY WERE (order 8b1b81bcfee4,
+    reported by sweep44-batch14). It read "exactly as `clear` does", while
+    `resume_subsystem_verdict` demands 20 characters and `clear` demands 12. Corrected here to
+    what the code actually enforces rather than by moving either threshold: this is the halt
+    chain, where a wrong belief is most expensive, and a reader who trusts a docstring about it
+    should get the real rule.
+    WHICH NUMBER IS RIGHT IS LEFT OPEN ON PURPOSE. Both are defensible -- a resume is stickier
+    than a lift in one reading, and strictly less consequential in another -- and `drill.py`
+    probes `clear("")` and `clear("ok")` against the 12, so moving either bar is a behavioural
+    change to a tested safety and not a docstring repair. Flagged for a ruling, not decided.
 
     THIN WRAPPER OVER `resume_subsystem_verdict` (order 7209d442c73e). This is a public function
     with a documented `-> bool`, so the signature stays -- but a bare bool collapses two
