@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 422  ·  last run 2026-09-07 14:13
+round 423  ·  last run 2026-09-07 15:00
 
 ## Structure
 
@@ -12,38 +12,32 @@ round 422  ·  last run 2026-09-07 14:13
 
 ## What the model found in the code
 
-**15 open** (10 high). Newest first.
+**12 open** (5 high). Newest first.
 
-- **thread_integrity.py** `dist` — [HIGH] dist is assigned None and then possibly set to _measure, but the code's comment suggests it should represent distance between entities, and the handling of exceptions sets it to None without recording failures, leading to incorrect asymmetry classification
-  - says: the code says it does instead
-- **sweep_plan.py** `record` — [HIGH] raises an exception when the shard write is denied
-  - says: IT DOES NOT RAISE, deliberately. `record()` is called by sixteen batch agents at the end of work already done; taking one of them down over a misspelling would discard the valid part of its claim as well, which is the opposite of what this is for.
-- **sevenfold.py** `main` — [HIGH] did not gate its own write
-  - says: gated writes
-- **secondopinion.py** `run` — [HIGH] is not defined in this slice
-  - says: -> a digest of the .py files in `roots`, or None if any of them could not be read.
-- **scout.py** `seen` — [HIGH] empty because the file would not open
-  - says: pre-read of attempts
-- **scout.py** `silence.replace_if_unchanged` — [HIGH] Refuses only when the TARGET is unreadable AS BYTES at write time, and a corrupt-but-readable file digests perfectly well.
-  - says: Refuse the write and say why; a caller told "not landed" retries or escalates, where a caller told "landed" over a wreck loses the file silently.
-- **rosetta.py** `silence.write_json` — [HIGH] overwrites without checking if the new mine is larger
-  - says: DO NOT OVERWRITE A BIGGER MINE WITH A SMALLER ONE WITHOUT SAYING SO (order 6447bcc2f18c)
-- **rosetta.py** `kept` — [HIGH] kept counts rows before they are filtered by the 4-row floor
-  - says: kept MUST ONLY COUNT ROWS THAT SURVIVE INTO `out`
-- **roll.py** `apply` — [HIGH] Apply a function to rows, returning the modified rows.
-  - says: Apply `{source_name: {field: value, ...}}` to the roll, key-wise.
-- **rigor.py** `identified` — [HIGH] the code checks for a single component but the variable is used in a condition that implies the absence of undefeated or winless entrants
-  - says: the beat graph is ONE strongly connected component spanning every entrant
-- **threads.py** `recorded_pairs` — [MEDIUM] a function that returns the number of source->source directions
-  - says: a function that returns the number of source->source directions
-- **secondopinion.py** `run` — [MEDIUM] Returns a dictionary with 'status' and 'findings' for each tool, but the 'status' field is not accurately reflecting whether the tool ran or not. For example, if a tool throws an exception, the status is set to 'ERRORED', but the findings are still empty. However, the docstring states that a tool that did not run has status 'NOT INSTALLED' and an empty finding list, and those two facts must always be read together.
-  - says: Ask all three. -> {tool: {'status': str, 'findings': [...]}}.
-- **scout.py** `never_asked` — [MEDIUM] sources that were never asked but their stamps are left as they are
-  - says: sources that were never asked
-- **scout.py** `tmp` — [MEDIUM] A temporary file path that is not unique across threads, leading to potential data loss in multi-threaded environments
-  - says: A temporary file path for writing the modified content
-- **rosetta.py** `kept` — [MEDIUM] kept is incremented before potential filtering by the 4-row floor
-  - says: kept + dropped stayed arithmetically equal to the pre-refine total
+- **verify_math.py** `path` — [HIGH] is read from the entire module, not the function's scope
+  - says: is scoped to the function
+- **verify_math.py** `call_idxs` — [HIGH] was deleted due to a conditional check that no longer exists
+  - says: finds the call site of verify_restore
+- **verify_math.py** `A._interval` — [HIGH] the code inverts the guard, which turns the one safe case into the crash case and vice versa
+  - says: Between-hand dispersion is only defined for MORE THAN ONE reading
+- **verify_math.py** `_chunk_key` — [HIGH] produces the same key for entities reading the same passage
+  - says: two entities reading the SAME passage get different cache keys
+- **verify_math.py** `check` — [HIGH] ignores tolerance when the want is an integer
+  - says: compares values with tolerance
+- **weave.py** `pair_weights` — [MEDIUM] Summed idf of everything each source-pair shares, but with no cap on the contribution of each entity, which can lead to overcounting.
+  - says: Summed idf of everything each source-pair shares.
+- **verify_math.py** `_ALL_SRC` — [MEDIUM] list of all .py files in the current directory (not necessarily the src directory)
+  - says: list of all .py files in the src directory
+- **verify_math.py** `_pool19ai` — [MEDIUM] Returns a mock object when the standard is absent, but the code around it expects it to return a real standard or raise an error
+  - says: Run the real standards.check() over a synthetic throughput window.
+- **verify_math.py** `BG.HAMLET_FLOOR` — [MEDIUM] the value is re-spelt here instead of read from the module
+  - says: the floor was RE-SPELT here rather than read, which is the "one spelling in one place" rule broken
+- **verify_math.py** `max` — [MEDIUM] the comparison falls through to exact equality, and the tolerance is silently discarded
+  - says: Auerbach 1913 / Zipf 1949; q = 1 is the classical rule. Integer populations, compared exactly -- no tolerance, because a tolerance on two ints is discarded
+- **tuning.py** `cloud_success_rate` — [MEDIUM] The function returns (None, 0) when there's an exception, which is not treated as a fault, but the docstring says it's never treated as a fault. However, the function's path is hardcoded, which may not be the intended location.
+  - says: The pool's MEASURED success rate over the recent past: (rate, calls).
+- **tiers.py** `deliberate_joins` — [MEDIUM] the names are cut with nothing marking it
+  - says: THE TWO SOURCE NAMES SAY WHEN THEY ARE CUT (orders 1d1ac500342d, fe99e57e1993). These were `a[:26]` and `b[:26]`, bare slices, on the panel titled "why a xenoverse is 'artificial'" -- the panel `deliberate_joins()`'s own docstring calls THE EVIDENCE. An earlier repair (order 9861c18b8485) uncapped the row count and the shared-evidence list on this very block and left the names themselves cut with nothing marking it.
 
 ---
 
