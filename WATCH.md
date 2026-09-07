@@ -1,19 +1,27 @@
 # OVERWATCH
 
-round 415  ·  last run 2026-09-07 07:15
+round 416  ·  last run 2026-09-07 08:32
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 298,873 inspected
+- files that will not parse: **0** of 298,873 inspected (deep scan as of round 415)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**36 open** (9 high). Newest first.
+**43 open** (12 high). Newest first.
 
+- **overnight.py** `preflight` — [HIGH] Returns (n_failing_checks, blocking) even when health.py crashes or cannot be launched, which contradicts the claim that it returns only when there are corrupted source blocks.
+  - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
+- **mutate.py** `killed` — [HIGH] incremented as a count but not written to disk
+  - says: APPENDED TO DISK THE MOMENT IT IS FOUND
+- **mutate.py** `indeterminate` — [HIGH] a list that is appended to but not written to disk
+  - says: the permanent record of the diff
+- **mutate.py** `_lock_release` — [HIGH] Unconditionally removes the lock file, regardless of ownership
+  - says: Drop the lock, but only if it is still OURS.
 - **manifest_builder.py** `write_json` — [HIGH] discarded the verdict and printed "Wrote N jobs" regardless
   - says: returns whether the rename LANDED
 - **ingest_doc.py** `state_p` — [HIGH] used but never defined in this file or its imports
@@ -30,8 +38,20 @@ round 415  ·  last run 2026-09-07 07:15
   - says: A DEAD REFUSAL MUST NOT READ LIKE A LIVE ONE
 - **estate.py** `low` — [HIGH] low is a variable that is used but never defined in this file or its imports
   - says: low is a variable that is supposed to represent the combined lowercase text of the bottom three bands' descriptions
-- **endpoint.py** `html_text` — [HIGH] Defined in another module, but not imported here
-  - says: Extract text from HTML body
+- **overnight.py** `join` — [MEDIUM] join the roll process with a timeout
+  - says: absorb the new feats into ceilings and per-entry judgements
+- **overnight.py** `codewatch` — [MEDIUM] imported but not used
+  - says: BOUND TO A VALUE, NOT LEFT UNDEFINED
+- **overnight.py** `start` — [MEDIUM] The manager-rung gate is implemented, but the logic for handling the manager being stopped is different from run(), which may lead to inconsistent behavior
+  - says: AND THE SAME MANAGER-RUNG GATE AS run() (order 4c1eaa9df7fa).
+- **overnight.py** `start` — [MEDIUM] Returns None in multiple scenarios, including when the manager is stopped or the process is already running, which may not all indicate the subsystem is closed
+  - says: Returns None when the subsystem is closed, which every caller already treats as "did not start".
+- **overnight.py** `start` — [MEDIUM] Returns None if the job was already running, but also returns None if the manager is stopped or if the process is already running, which is inconsistent with the claim that it launches a job without waiting
+  - says: Launch a job without waiting for it.
+- **mutate.py** `escalation.escalate` — [MEDIUM] does not raise, but the code expects it to stop the loop
+  - says: Raising is the CALLER's decision for rungs 1-4
+- **mutate.py** `os.makedirs` — [MEDIUM] creates the state directory if it doesn't exist
+  - says: STATE IS COPIED, NOT CREATED EMPTY
 - **magnitude.py** `band_hits` — [MEDIUM] counts BAND MATCHES ONLY
   - says: counts BAND MATCHES ONLY
 - **local_agent.py** `out` — [MEDIUM] a dictionary that is modified in multiple places, leading to potential confusion about its final state
@@ -74,12 +94,6 @@ round 415  ·  last run 2026-09-07 07:15
   - says: Find a wiki for sources that have none. Entries with no host are uncitable forever.
 - **feats_index.py** `_norm` — [MEDIUM] Folds a name to its comparable core, but does not strip parentheticals, contradicting a previous docstring claim that it did.
   - says: Fold a name to its comparable core. Case and punctuation differ freely between a wiki page title and the catalogue's entry name, and both are written by different passes. Alphanumerics only.
-- **escalation.py** `clear` — [MEDIUM] The code catches ValueError and PermissionError, but the comment suggests they are the same event, which may not be accurate.
-  - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller, and the two refusals are the same event to a reader: the lift did not happen and here is why.
-- **escalation.py** `assert_clear` — [MEDIUM] raises an exception if the system is not halted, but the docstring says it's the interlock that makes the chain real and prevents the library from working while halted
-  - says: EVERY entry point calls this before doing anything. The plant-wide interlock.
-- **escalation.py** `escalate` — [MEDIUM] Rung 4, made DURABLE. Stop one subsystem until a person resumes it. -> the record.
-  - says: Rung 4, made DURABLE. Stop one subsystem until a person resumes it.
 - **dashboard.py** `hist` — [MEDIUM] is validated to be a list of dicts with numeric 'at' keys
   - says: THE GUARD HAS TO COVER THE FIELDS THE ARITHMETIC BELOW ACTUALLY USES
 - **binding_health.py** `F.fetch` — [MEDIUM] fetch host and list of titles
