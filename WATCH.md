@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 416  ·  last run 2026-09-07 08:32
+round 417  ·  last run 2026-09-07 09:43
 
 ## Structure
 
@@ -12,8 +12,12 @@ round 416  ·  last run 2026-09-07 08:32
 
 ## What the model found in the code
 
-**43 open** (12 high). Newest first.
+**46 open** (13 high). Newest first.
 
+- **policy.py** `main` — [HIGH] not defined
+  - says: entry point for the script
+- **pipeline.py** `phases` — [HIGH] the code proceeds to process phases even when the list is empty, which is not the case when the list is empty
+  - says: A RUNNER WITH AN EMPTY WORK LIST MUST SAY WHICH KIND OF EMPTY IT IS.
 - **overnight.py** `preflight` — [HIGH] Returns (n_failing_checks, blocking) even when health.py crashes or cannot be launched, which contradicts the claim that it returns only when there are corrupted source blocks.
   - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
 - **mutate.py** `killed` — [HIGH] incremented as a count but not written to disk
@@ -36,8 +40,14 @@ round 416  ·  last run 2026-09-07 08:32
   - says: Classify one source from its own catalogued entries.
 - **generate.py** `failures.pop` — [HIGH] removes a failure entry from the failures list even if the chapter was successfully catalogued
   - says: A DEAD REFUSAL MUST NOT READ LIKE A LIVE ONE
-- **estate.py** `low` — [HIGH] low is a variable that is used but never defined in this file or its imports
-  - says: low is a variable that is supposed to represent the combined lowercase text of the bottom three bands' descriptions
+- **policy.py** `evidence_unreadable_detail` — [MEDIUM] only the file names are included, but the error message is truncated to 40 characters
+  - says: every failure, every vacuous pass and every unreadable file is named in full, here and in the report
+- **policy.py** `ap.add_argument("--limit", ...)` — [MEDIUM] default is no limit, the whole corpus; --limit is for a partial run
+  - says: evaluate only the first N of each set
+- **policy.py** `--limit` — [MEDIUM] default is no limit, the whole corpus; --limit is for a partial run
+  - says: evaluate only the first N of each set
+- **policy.py** `main` — [MEDIUM] evaluates the whole corpus by default, with --limit for a partial run
+  - says: evaluate only the first N of each set
 - **overnight.py** `join` — [MEDIUM] join the roll process with a timeout
   - says: absorb the new feats into ceilings and per-entry judgements
 - **overnight.py** `codewatch` — [MEDIUM] imported but not used
@@ -90,10 +100,6 @@ round 416  ·  last run 2026-09-07 08:32
   - says: The page roll has not finished its pass. It is network-bound, so a stall is a host problem rather than a quota one -- and the supervisor restarts it next cycle anyway. This reports rather than acts, because two rolls at once is the failure the supervisor exists to prevent.
 - **foreman.py** `scout_hostless` — [MEDIUM] Counts sources that are both kept and registered, but the comment suggests it should verify URLs
   - says: Ask the model where the sources with no host publish, and verify every answer.
-- **foreman.py** `adopt_hosts` — [MEDIUM] Attempts to adopt hosts by running a script and checks for adoption count
-  - says: Find a wiki for sources that have none. Entries with no host are uncitable forever.
-- **feats_index.py** `_norm` — [MEDIUM] Folds a name to its comparable core, but does not strip parentheticals, contradicting a previous docstring claim that it did.
-  - says: Fold a name to its comparable core. Case and punctuation differ freely between a wiki page title and the catalogue's entry name, and both are written by different passes. Alphanumerics only.
 - **dashboard.py** `hist` — [MEDIUM] is validated to be a list of dicts with numeric 'at' keys
   - says: THE GUARD HAS TO COVER THE FIELDS THE ARITHMETIC BELOW ACTUALLY USES
 - **binding_health.py** `F.fetch` — [MEDIUM] fetch host and list of titles
