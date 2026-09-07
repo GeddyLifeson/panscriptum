@@ -1,19 +1,23 @@
 # OVERWATCH
 
-round 421  ·  last run 2026-09-07 13:28
+round 422  ·  last run 2026-09-07 14:13
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 299,182 inspected
+- files that will not parse: **0** of 299,182 inspected (deep scan as of round 421)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**21 open** (11 high). Newest first.
+**15 open** (10 high). Newest first.
 
+- **thread_integrity.py** `dist` — [HIGH] dist is assigned None and then possibly set to _measure, but the code's comment suggests it should represent distance between entities, and the handling of exceptions sets it to None without recording failures, leading to incorrect asymmetry classification
+  - says: the code says it does instead
+- **sweep_plan.py** `record` — [HIGH] raises an exception when the shard write is denied
+  - says: IT DOES NOT RAISE, deliberately. `record()` is called by sixteen batch agents at the end of work already done; taking one of them down over a misspelling would discard the valid part of its claim as well, which is the opposite of what this is for.
 - **sevenfold.py** `main` — [HIGH] did not gate its own write
   - says: gated writes
 - **secondopinion.py** `run` — [HIGH] is not defined in this slice
@@ -30,32 +34,16 @@ round 421  ·  last run 2026-09-07 13:28
   - says: Apply `{source_name: {field: value, ...}}` to the roll, key-wise.
 - **rigor.py** `identified` — [HIGH] the code checks for a single component but the variable is used in a condition that implies the absence of undefeated or winless entrants
   - says: the beat graph is ONE strongly connected component spanning every entrant
-- **retry_synthesis.py** `PL.ask_pool_first` — [HIGH] calls a different model than phase_synthesis
-  - says: calls the same transport as phase_synthesis
-- **render.py** `main` — [HIGH] returns 1 on success
-  - says: returns 0 on success
-- **read.py** `priority` — [HIGH] Sorted purely by own-page size
-  - says: Depth first, because depth is what the model is actually better at.
+- **threads.py** `recorded_pairs` — [MEDIUM] a function that returns the number of source->source directions
+  - says: a function that returns the number of source->source directions
 - **secondopinion.py** `run` — [MEDIUM] Returns a dictionary with 'status' and 'findings' for each tool, but the 'status' field is not accurately reflecting whether the tool ran or not. For example, if a tool throws an exception, the status is set to 'ERRORED', but the findings are still empty. However, the docstring states that a tool that did not run has status 'NOT INSTALLED' and an empty finding list, and those two facts must always be read together.
   - says: Ask all three. -> {tool: {'status': str, 'findings': [...]}}.
 - **scout.py** `never_asked` — [MEDIUM] sources that were never asked but their stamps are left as they are
   - says: sources that were never asked
 - **scout.py** `tmp` — [MEDIUM] A temporary file path that is not unique across threads, leading to potential data loss in multi-threaded environments
   - says: A temporary file path for writing the modified content
-- **scope.py** `best` — [MEDIUM] best is set to None if nothing clears the floor, which is then returned as None, implying no scope established
-  - says: Nothing clears the floor means nothing was established, and that is a real answer.
-- **rosetta.py** `check` — [MEDIUM] check() is called with rosetta and assays, but the docstring refers to a bare-name lookup that scored 0 overlap on all eight standing scales, which is not directly related to the parameters passed to check()
-  - says: check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
 - **rosetta.py** `kept` — [MEDIUM] kept is incremented before potential filtering by the 4-row floor
   - says: kept + dropped stayed arithmetically equal to the pre-refine total
-- **rigor.py** `lognormal_product` — [MEDIUM] used in a context that does not match the comment's claim about adjudication auditing
-  - says: A SEVENTH ADJUDICATION CANNOT SILENTLY GO UNAUDITED (order 7368cd63bd2c, the remedy's second half).
-- **retry_synthesis.py** `PL.write_record` — [MEDIUM] re-reads the file and MERGES, but the code around it suggests it should be used to derive a value rather than perform an action
-  - says: re-reads the file and MERGES, precisely so a stale in-memory copy cannot be published over a fresher disk one
-- **retry_synthesis.py** `PL.valid_scale_note` — [MEDIUM] validates a truncated string
-  - says: validates the whole string
-- **resync_roll.py** `by_source` — [MEDIUM] indexes by the normalized version of the source name
-  - says: index every record file by its declared `source`
 
 ---
 
