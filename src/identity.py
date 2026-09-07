@@ -231,7 +231,12 @@ def _is_continuity(desig, stat):
         return True
     if n == 1:
         return shared >= 1
-    return n >= 2 and shared >= max(2, 0.5 * n)
+    # A real majority -- MORE than half, not "at least half" -- so this stays correct if
+    # MIN_BEARERS is ever tuned and n == 2 stops being the only value that reaches here.
+    # (`max(2, 0.5 * n)` used to sit here: at n == 2 it is indistinguishable from this, but
+    # it does not scale -- it stops being a majority rule for any n > 2. n == 0 cannot occur;
+    # `mine()` only ever populates `bearers[desig]` by adding at least one base name to it.)
+    return shared >= (n // 2) + 1
 
 
 def _feats_root(root=None):
@@ -573,7 +578,7 @@ def epoch_of(sentence, strict=False):
     already been closed. A line number is a citation with an expiry date nobody can see; a
     function name moves with the function. (order 328c1dd39f3d)
     """
-    raw = _ask(sentence.strip()[:1200])
+    raw = _ask(sentence.strip())
     d = _json(raw) if raw is not None else None
     if not d:
         # UNPROBED, not unmarked. Both arms land here: no transport (raw is None) and a reply
@@ -586,7 +591,18 @@ def epoch_of(sentence, strict=False):
         return ""
     if not d.get("explicit"):
         return ""
-    return str(d.get("epoch") or "").strip()[:60]
+    epoch = str(d.get("epoch") or "").strip()
+    if len(epoch) > 60:
+        # A silently shortened key can fold two distinct epochs into one node
+        # (identity.node() below). Refuse the answer rather than cut it.
+        silence.note("identity.py:epoch-overlong")
+        if strict:
+            raise ProbeUnavailable(
+                "the epoch probe returned an answer longer than the six-word bound this "
+                "key assumes, so cutting it risks merging two distinct epochs under one "
+                "key; treating it as absent would date a record from a failed call")
+        return ""
+    return epoch
 
 
 # `adjudicate(edges)` (mutual-pair time-splitting over `winner`/`loser` edges) lived here and

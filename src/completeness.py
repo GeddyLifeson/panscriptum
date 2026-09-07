@@ -736,7 +736,18 @@ def main():
     a = ap.parse_args()
 
     rows = audit(only=a.only, workers=a.workers)
-    if not land(rows, only=a.only):
+    # THE THREE-VALUED VERDICT IS CAPTURED, NOT DISCARDED (order 6c3092103415). `land()` was
+    # given a THIRD outcome for exactly this caller -- SKIPPED_ONLY, "neither of the above: the
+    # file was left exactly as it was, deliberately ... a DIFFERENT success than 'I wrote your
+    # rows', which is why it is not spelled True" -- and `main()` tested only `if not land(...)`.
+    # SKIPPED_ONLY is truthy, so the run continued and the report's last line printed
+    # `-> data/COMPLETENESS.json` over a file this pass deliberately did not touch, one screen
+    # after stderr said the opposite. Two streams disagreeing on the same console is the failure
+    # escalation.main()'s `--clear` arm carries the repair note for. Nothing is lost -- the rows
+    # on disk are the correct whole-corpus ones -- but a reader's takeaway from a `-> path` line
+    # is that the path now holds what they just read.
+    verdict = land(rows, only=a.only)
+    if not verdict:
         return 1
 
     good = [r for r in rows if not r["unreliable"]]
@@ -787,7 +798,13 @@ def main():
     print("Those are excluded from the total rather than folded into it. A completeness figure "
           "that quietly")
     print("includes rows it cannot compute is the same species of error it was written to find.")
-    print("-> " + OUT)
+    # The other half of order 6c3092103415: this was an unconditional `print("-> " + OUT)`.
+    if verdict is True:
+        print("-> " + OUT)
+    else:
+        print("NOT WRITTEN: this was a --only spot check, so %s was left exactly as it was. "
+              "The numbers above are this run's; the file on disk still holds the last "
+              "WHOLE-CORPUS measurement." % OUT)
     return 0
 
 

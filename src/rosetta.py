@@ -280,11 +280,20 @@ def stand_rows(wikitext):
 def scales_for(host, verbose=False, errors=None):
     """Every native scale this wiki publishes, as {scale_name: {entity: value}}.
 
-    `errors`, if a list is passed, receives one string per search that did not come back --
-    a throttle, a 429, a block, an exception out of `F.api`. It exists because this function
-    CANNOT otherwise distinguish "this wiki publishes no scale" from "we were not allowed to
-    look": both end at `if not seen: return {}` and both read, to the caller, as an empty wiki
-    (order 6447bcc2f18c). The return value is unchanged, so every existing caller is unaffected.
+    `errors`, if a list is passed, receives one string per search or fetch that did not come
+    back -- a throttle, a 429, a block, an exception out of `F.api` or `F.fetch`. It exists
+    because this function CANNOT otherwise distinguish "this wiki publishes no scale" from "we
+    were not allowed to look": both end at `if not seen: return {}` (or the equivalent fetch
+    failure below) and both read, to the caller, as an empty wiki (order 6447bcc2f18c). The
+    return value is unchanged, so every existing caller is unaffected.
+
+    EACH ENTRY IS TAGGED "search: " OR "fetch: " (order eca7cb1d2d8f). A SEARCH failure costs
+    this wiki one query; a FETCH failure happens only after every search already succeeded and
+    costs the wiki every scale it had already found (`F.fetch` is the single call below that
+    turns the found titles into pages -- see the `return {}` right after it). Reporting both
+    under one unlabelled message read a lost fetch as "N of 31 searches did not come back",
+    which sends the reader to the wrong step and understates what was actually lost. Callers
+    that want the old undifferentiated count can still get it with `len(errors)`.
     """
     seen, found = set(), {}
     for q in SCALE_QUERIES:
@@ -300,10 +309,10 @@ def scales_for(host, verbose=False, errors=None):
             # raising must not cost this wiki its other thirty.
             silence.note("rosetta.py:scales_for-api")
             if errors is not None:
-                errors.append("%s: %s (%s)" % (q, type(e).__name__, str(e)[:60]))
+                errors.append("search: %s: %s (%s)" % (q, type(e).__name__, str(e)[:60]))
             continue
         if d is None and errors is not None:
-            errors.append("%s: no response" % q)
+            errors.append("search: %s: no response" % q)
         for row in (d or {}).get("query", {}).get("search", []):
             t = row["title"]
             if t in seen or not _SCALE_TITLE.search(t) or row.get("size", 0) < 1500:
@@ -317,7 +326,7 @@ def scales_for(host, verbose=False, errors=None):
     except Exception as e:
         silence.note("rosetta.py:scales_for-fetch")
         if errors is not None:
-            errors.append("fetch of %d page(s): %s (%s)"
+            errors.append("fetch: %d page(s): %s (%s)"
                           % (len(seen), type(e).__name__, str(e)[:60]))
         return {}
     for title, wt in pages.items():
@@ -511,7 +520,6 @@ def refine(rosetta, records, hosts):
         for title, sc in scales.items():
             vals = {n: v for n, v in sc["values"].items() if _norm(n) in known}
             dropped += len(sc["values"]) - len(vals)
-            kept += len(vals)
             if len(vals) < 4:                  # below four rows a scale cannot rank anything
                 continue
             # A POWER scale spans orders of magnitude; a PROGRESSION ladder counts 1 to 100.
@@ -523,6 +531,14 @@ def refine(rosetta, records, hosts):
                 lo, hi = min(vals.values()), max(vals.values())
                 if lo <= 0 or hi / lo < 100:
                     continue
+            # `kept` MUST ONLY COUNT ROWS THAT SURVIVE INTO `out` (order 78f2bebed995). This
+            # used to increment right after building `vals`, before either `continue` above
+            # could still drop the whole scale -- so a scale matching 3 names had those 3 rows
+            # counted as "kept" and then discarded by the 4-row floor, and `kept` no longer
+            # described what --refine actually wrote to data/ROSETTA.json. `kept + dropped`
+            # stayed arithmetically equal to the pre-refine total either way, which is what let
+            # the discrepancy hide behind two numbers that looked reconciled.
+            kept += len(vals)
             keep_scales[title] = {"kind": sc["kind"], "n": len(vals), "values": vals}
         if keep_scales:
             out[host] = keep_scales
@@ -542,10 +558,38 @@ def main():
     a = ap.parse_args()
 
     if a.probe:
-        for t, sc in scales_for(a.probe, verbose=True).items():
-            top = sorted(sc["values"].items(), key=lambda kv: -kv[1])[:6]
+        # ERRORS ARE COLLECTED AND PRINTED HERE TOO (order 78d6aa8eb434). scales_for's own
+        # docstring says `errors` exists because it "CANNOT otherwise distinguish 'this wiki
+        # publishes no scale' from 'we were not allowed to look'" -- --mine already passes it
+        # and prints every failure by wiki; --probe, the one INTERACTIVE mode a person runs to
+        # answer exactly that question, called scales_for with no `errors` argument, so a wiki
+        # that refused all thirty-one searches printed nothing and returned 0 -- identical to a
+        # wiki that genuinely publishes nothing.
+        errs = []
+        found_any = False
+        for t, sc in scales_for(a.probe, verbose=True, errors=errs).items():
+            found_any = True
+            # UNCUT (Hard Rule 0, order 377b69ad3c0e). This was `[:6]` on the ranked values and
+            # `n[:34]` on the name, both with no marker -- the value cap binds on every scale of
+            # any real size (One Piece's Bounty/List holds 96 rows) and the name cut renders a
+            # long title identically to a short one. Diagnostic listing, not a fixed-width
+            # report: every row prints, and the column is allowed to be ragged.
+            top = sorted(sc["values"].items(), key=lambda kv: -kv[1])
             for n, v in top:
-                print(f"          {n[:34]:<36}{v:,.0f}")
+                print(f"          {n:<36}{v:,.0f}")
+        if errs:
+            # Same split as --mine (order eca7cb1d2d8f): a search failure and a fetch failure
+            # are different losses and are worded for what actually happened.
+            _search_errs = [e for e in errs if e.startswith("search: ")]
+            _fetch_errs = [e for e in errs if e.startswith("fetch: ")]
+            if _search_errs:
+                print("  %d of %d searches did not come back: %s"
+                      % (len(_search_errs), len(SCALE_QUERIES), "; ".join(_search_errs)))
+            if _fetch_errs:
+                print("  the page fetch failed, so this wiki's scales were lost even though "
+                      "its searches succeeded: %s" % "; ".join(_fetch_errs))
+        if not found_any and errs:
+            return 1
         return 0
 
     if a.mine:
@@ -567,7 +611,23 @@ def main():
                 print(f"  {i:>3}/{len(uniq)}  {h:<38}FAILED -- {failed[h]}", flush=True)
                 continue
             if errs:
-                failed[h] = "%d of %d searches did not come back" % (len(errs), len(SCALE_QUERIES))
+                # SEARCH AND FETCH ARE DIFFERENT LOSSES, REPORTED SEPARATELY (order eca7cb1d2d8f).
+                # A search failure costs one query; a fetch failure happens only after every
+                # search already succeeded and costs the wiki every scale it had already found
+                # (`scales_for` returns {} right after F.fetch raises). Folding both under "N of
+                # 31 searches did not come back" sent the reader to the wrong step and understated
+                # the loss whenever the failure was actually the fetch.
+                _search_errs = [e for e in errs if e.startswith("search: ")]
+                _fetch_errs = [e for e in errs if e.startswith("fetch: ")]
+                _bits = []
+                if _search_errs:
+                    _bits.append("%d of %d searches did not come back"
+                                 % (len(_search_errs), len(SCALE_QUERIES)))
+                if _fetch_errs:
+                    _bits.append("the page fetch failed, so this wiki's scales were lost even "
+                                 "though its searches succeeded (%s)"
+                                 % "; ".join(_fetch_errs))
+                failed[h] = "; ".join(_bits)
             if sc:
                 out[h] = sc
                 tot = sum(v["n"] for v in sc.values())
@@ -698,14 +758,17 @@ def main():
                 # SAID OUT LOUD RATHER THAN OMITTED. Fewer than four overlapping names means the
                 # scale could not be ranked at all, which is a different thing from agreeing.
                 unscored.append(r)
-                print(f"  rho     --  n={r['overlap']:>4}  {r['scale'][:38]:<40}"
+                # UNCUT (Hard Rule 0, order 377b69ad3c0e). `r['scale'][:38]` cut a scale title
+                # mid-name with no marker on the line an operator actually reads to decide which
+                # scale needs attention; ragged column, whole name.
+                print(f"  rho     --  n={r['overlap']:>4}  {r['scale']:<40}"
                       f"{r['kind']}  UNSCORED (needs 4 overlapping names)"
                       f"{'  [%d row(s) carry no assay from this wiki]' % r['unmatched'] if r['unmatched'] else ''}")
                 continue
             disagrees = r["rho"] < 0.3
             if disagrees:
                 bad.append(r)
-            print(f"  rho {r['rho']:>6}  n={r['overlap']:>4}  {r['scale'][:38]:<40}"
+            print(f"  rho {r['rho']:>6}  n={r['overlap']:>4}  {r['scale']:<40}"
                   f"{r['kind']}{'  DISAGREES' if disagrees else ''}")
         if unscored:
             print(f"\n{len(unscored)} of {len(rows)} scale(s) could NOT be scored (fewer than "

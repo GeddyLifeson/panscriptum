@@ -174,7 +174,21 @@ def cloud_success_rate(minutes=15):
     WORKING. `(None, 0)` means no evidence, which is never treated as a fault.
     """
     import sqlite3
-    path = os.path.join(HERE, "state", "cascade_scratch.db")
+    # THE PATH COMES FROM THE MODULE THAT OWNS THE FILE (order 9eb6a45e5a46). This was
+    # `os.path.join(HERE, "state", "cascade_scratch.db")`, a second spelling of a path
+    # `cascade_bridge.SCRATCH_DB` already declares and `cascade_bridge.provider_error` already
+    # uses. Two spellings of one path is the shape this project has a written rule about -- the
+    # mutate sandbox takes its log list from `lognames` and its root manifest from `publish` for
+    # exactly this reason, "a second copy of a list is how the two come to disagree". Nothing was
+    # broken: both resolved to the same file. The exposure is that if SCRATCH_DB is ever
+    # repointed, this function keeps reading the OLD location and returns (None, 0) -- "no
+    # evidence" -- which the docstring above says is never treated as a fault, so the
+    # cloud-success measure would go permanently unmeasured with nothing going red.
+    #
+    # Imported inside the function, not at module scope: `cascade_bridge` is the pipeline's
+    # heaviest module and `tuning` is imported by callers that must not pay for it.
+    import cascade_bridge as CB
+    path = CB.SCRATCH_DB
     try:
         conn = sqlite3.connect(path, timeout=2.0)
         try:

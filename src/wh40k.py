@@ -269,10 +269,22 @@ def main():
                 # shape of the whole of it. Same repair, same day, in the twins halo.py and
                 # zfighters.py, which carried the identical construction at [:54] and [:60] --
                 # three widths for one decision nobody made.
+                # THE PROVENANCE MARK IS SHOWN, NOT ONLY COMPUTED (order 901e441aae1d).
+                # `compute()` derives a mark for every axis and --full printed the axis, the
+                # score and the citation and nothing else, so the one view a curator would use
+                # was the one view that hid the gap. `compute()`'s own docstring says the entire
+                # purpose of the 'unattributed' default is that it "leaves the gap VISIBLE for
+                # the curatorial pass, instead of hiding it behind a tag that reads as if the
+                # work had been done" -- and every axis entry in this ROSTER is a 2-tuple, so all
+                # 55 are 'unattributed' today and --full showed none of it. The mark survived
+                # only into data/WH40K_ASSAYS.json, which is not what a person reads. Mirrored
+                # from the twin at zfighters.py, including `.get` rather than `[...]` and the
+                # continuation padding of len(prov) + 2 so wrapped text stays aligned.
+                prov = d.get("provenance", "")
                 body = textwrap.wrap(d["cited"], 56) or [""]
-                print("   %-15s%5.1f  %s" % (ax, d["score"], body[0]))
+                print("   %-15s%5.1f  [%s] %s" % (ax, d["score"], prov, body[0]))
                 for cont in body[1:]:
-                    print("   %-15s%5s  %s" % ("", "", cont))
+                    print("   %-15s%5s  %s %s" % ("", "", " " * (len(prov) + 2), cont))
     # ATOMIC, for the same reason and by the same hand as the gated write at the end of
     # `zfighters.main()`. That file is this
     # one's twin -- same shape, same job, same `main()` ending in a hand-built assay dump -- and

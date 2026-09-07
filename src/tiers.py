@@ -112,6 +112,18 @@ import silence
 # metaverse at 150 while the multiverse sat at the weave's permutation threshold of 102.3 -- so a
 # multiverse whose internal pairs ran between 102 and 150 was split across two metaverses, and five
 # of them were. A tier that does not contain its own members is not a tier.
+def _cut(v, width):
+    """One display field, cut only if it must be, and NEVER silently. -> str.
+
+    The house shape, spelled the same way as `cosmology_graph._cut`, `corpus_db._cell`,
+    `suppressions._preview` and `allsweep._marked`. Order b0586860a8ae asks for these to be
+    hoisted into one shared helper; until that lands, a copy in the identical shape makes the
+    hoist a rename rather than a re-argument.
+    """
+    s = str(v)
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
+
+
 MULTIVERSE_THRESHOLD = 102.3        # the weave's permutation threshold, complete linkage
 CUTS = [
     ("metaverse",  100.0, "strong resonance: shared theme, law, mutual recognition"),
@@ -403,7 +415,14 @@ def main():
     print("THE DELIBERATE JOINS — why a xenoverse is 'artificial'")
     print("-" * 96)
     for v, a, b, sh in deliberate_joins(w, shared):
-        print(f"   {v:>8.0f}  {a[:26]:<28}{b[:26]:<28}{sh}")
+        # THE TWO SOURCE NAMES SAY WHEN THEY ARE CUT (orders 1d1ac500342d, fe99e57e1993). These
+        # were `a[:26]` and `b[:26]`, bare slices, on the panel titled "why a xenoverse is
+        # 'artificial'" -- the panel `deliberate_joins()`'s own docstring calls THE EVIDENCE. An
+        # earlier repair (order 9861c18b8485) uncapped the row count and the shared-evidence
+        # list on this very block and left the names themselves cut with nothing marking it.
+        # They stay cut rather than uncut because this is a three-column table whose third
+        # column is the shared-evidence list, and the whole row is in data/TIERS.json.
+        print(f"   {v:>8.0f}  {_cut(a, 26):<28}{_cut(b, 26):<28}{sh}")
     # BOTH NUMBERS IN THIS SENTENCE ARE NOW THIS RUN'S (order 57d0d1e4139e). `len(w)` was
     # measured live and 365 was a literal carried over from the docstring's original
     # measurement at :55, sitting in the same sentence, so a reader took both for this corpus.

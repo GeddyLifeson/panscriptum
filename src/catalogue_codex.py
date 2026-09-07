@@ -205,6 +205,10 @@ def main():
     roll_changes = {}
     ambiguous = []      # (source_name, [candidate section titles]) -- bound to nothing on purpose
     reg_ambiguous = {}  # norm(element) -> [register spellings] -- desc left untranscribed
+    # section title -> ["<type>: <name>", ...] -- manifest lines whose (type, name) pair was
+    # already taken in that section, i.e. a genuine repeat rather than a type collision.
+    # (order f4f3c1d15915)
+    dupe_elements = {}
     for r in roll:
         if r.get("entry_count", 0) > 0:
             continue
@@ -242,9 +246,42 @@ def main():
         seen = set()
         for etype, name in sec["contents"]:
             key = norm(name)
-            if not key or key in seen:
+            # THE ELEMENT'S IDENTITY IS THE PAIR (type, name) (order f4f3c1d15915). `seen` was
+            # keyed on `norm(name)` alone, so two different element TYPES sharing a name
+            # collapsed to one entry and the second was dropped with no count, no name and no
+            # line in any report. The manifest line this module parses is literally
+            # `Dragonmark (12): Mark of Detection; ...` -- the type is part of what the element
+            # IS, and `TYPE_CATEGORY` below turns it into a different CATEGORY.
+            #
+            # MEASURED against the live codex when filed: 64 sections, 4,489 manifest elements,
+            # 88 dropped across 8 sections, 28 of them in sections bound to a current SWEEP_ROLL
+            # row. The drops were not duplicates -- Race 'Troglodyte' (FACTIONS) kept while
+            # Language 'Troglodyte' (POWERS) vanished; Companion 'Mastiff' (PERSONS) kept while
+            # Item 'Mastiff' (THINGS) vanished; all eleven Eberron Dragonmarks colliding with a
+            # Race Variant of the same name lost from POWERS.
+            #
+            # It is a Hard Rule 0 matter rather than a tidy-up because the record is written
+            # under attestation 'Transcribed' with a provenance sentence saying the element names
+            # come from that section's Full Contents manifest. They did not: 2% were missing, and
+            # nothing in the record, the console or the roll said so. Every other norm() collision
+            # class in this same module is already reported UNCAPPED -- section titles above,
+            # register descriptions below -- and this was the third instance of that shape and
+            # the only one still silent, on the one that drops CATALOGUE ENTRIES.
+            #
+            # `key` stays the NAME norm, because that is what the Local Register is indexed by.
+            pair = (norm(etype), key)
+            if not key:
                 continue
-            seen.add(key)
+            if pair in seen:
+                # A residual TRUE duplicate -- the same (type, name) twice in one manifest. That
+                # is a real condition and it is collected and reported, not dropped in silence.
+                # `norm()` also strips '+' and '-', so 'Item: Armor: AC +1' and 'Armor: AC -1'
+                # land here as one key: two genuinely different items. Reported rather than
+                # guessed at, per the order -- changing norm() for these names is a separate
+                # decision about the whole key space.
+                dupe_elements.setdefault(title, []).append("%s: %s" % (etype, name))
+                continue
+            seen.add(pair)
             hits = register.get(key) or []
             # Prefer the register's transcribed text; fall back to naming the type and the
             # source honestly rather than inventing a description.
@@ -316,6 +353,22 @@ def main():
               % len(reg_ambiguous))
         for k, names in sorted(reg_ambiguous.items()):
             print("      %s -> %s" % (k, " / ".join(repr(x) for x in names)))
+        print("", flush=True)
+
+    if dupe_elements:
+        # Uncapped, and before the write report, for the same reason the two collision lists
+        # above are: this is what a person reads to go and fix the codex. Unlike those two, an
+        # element named here IS dropped from the record, so the count is a count of catalogue
+        # entries that do not exist. (order f4f3c1d15915)
+        _n = sum(len(v) for v in dupe_elements.values())
+        print("  MANIFEST ELEMENTS DROPPED AS REPEATS -- %d element(s) across %d section(s) "
+              "whose (type, name) pair was already taken in that same section. A repeat in the "
+              "codex is one cause; the other is norm() folding two different names together "
+              "(it strips '+' and '-', so 'Armor: AC +1' and 'Armor: AC -1' are one key). Each "
+              "one is an element the record does NOT contain:"
+              % (_n, len(dupe_elements)))
+        for _t, _items in sorted(dupe_elements.items()):
+            print("      %s: %s" % (_t, "; ".join(_items)))
         print("", flush=True)
 
     denied = []

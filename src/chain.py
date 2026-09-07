@@ -786,7 +786,28 @@ def main():
 
     res = fit(edges, prior=a.prior)
     if "error" in res:
+        # THE HARVEST IS WRITTEN EVEN WHEN THE FIT REFUSES (order 0ced896514e7). This printed the
+        # error and returned, with no `write_result` call at all -- throwing away the edges, the
+        # unmatched roster AND the transport tally, on the one path where the fit refuses. The
+        # other documented caller of `write_result` does the opposite on the identical path:
+        # `pipeline.phase_chain` writes the same result and its comment says why -- "Refusing is
+        # the correct answer, and it is a RESULT -- the edges are kept and the graph is the
+        # finding." The same argument is already written into this function forty lines lower
+        # for the strengths-is-None case, so the module held both spellings of one rule.
+        #
+        # AND IT IS NOT ONLY THE EDGES. `write_result`'s `unanswered` field exists precisely so a
+        # starved pass says so on disk, it is carried from `extract()` through `_LAST_EXTRACT`,
+        # and it is written ONLY by `write_result`. A pass whose model pool is entirely down
+        # produces few or no usable edges -- which IS the `len(wins) < 3` condition `fit` refuses
+        # on -- so on a TOTAL transport failure the tally built to record transport failure was
+        # the thing never persisted. The field was at its most valuable on the one path that
+        # discarded it. `fit_error` likewise could never be populated from the CLI, because
+        # `main()` returned before writing on the only path that sets it.
+        #
+        # rc stays 1: refusing is a result, and it is not a success.
         print(res["error"])
+        write_result(edges, res, unmatched)
+        print(f"-> {OUT}   (edges kept; the graph is the result)")
         return 1
     comps = res.get("components") or []
     print(f"\nentrants: {len(res['names']):,}")

@@ -280,7 +280,10 @@ def build():
     """
     import tiers as TI
     import worldseed as WS
-    srcs, w, shared = TI._graph()
+    # `_` RATHER THAN A NAMED BINDING (order 1e9a348ea2ca). `TI._graph()` returns a third value,
+    # the shared-entity map, and nothing in build() has ever read it. A named binding nobody
+    # reads is the shape liveness.py exists to find.
+    srcs, w, _ = TI._graph()
 
     top = shelve(srcs, w, depth=len(SOURCE_TIERS))
     coords = {s: {t: top[s][t] for t in SOURCE_TIERS} for s in srcs}
@@ -383,15 +386,32 @@ def main():
         if a in coords and b in coords:
             ca, cb = coords[a], coords[b]
             same = [t for t in SOURCE_TIERS if ca[t] == cb[t]]
-            print(f"   {a[:24]:<26}{b[:24]:<26}share {len(same)}/{len(SOURCE_TIERS)}: {same}")
+            # UNCUT (order 1e9a348ea2ca). The pair list above is a literal, so no name here can
+            # reach 24 characters today -- but the slice would cut one silently the moment a
+            # pair were added, and the pad already holds the column.
+            print(f"   {a:<26}{b:<26}share {len(same)}/{len(SOURCE_TIERS)}: {same}")
 
-    print("\nsample shelfmarks:")
-    for s in sorted(coords)[:8]:
-        print(f"   {s[:34]:<36}{shelfmark(coords[s])}")
+    # THE HEAD SAYS WHAT IT IS A HEAD OF, AND THE NAMES ARE UNCUT (order 1e9a348ea2ca). Both
+    # blocks below are honestly headed "sample" and their totals are printed above, which is why
+    # the `[:8]` stays and this is not a Hard Rule 0 breach -- but neither line said how many
+    # were NOT shown, and the house standard elsewhere is either to print everything
+    # (catalog.cmd_stats) or to flag the cut in the shape returned (entity_match.candidates'
+    # `truncated` field). The per-row slices were the other kind of cut entirely: unmarked cuts
+    # on an IDENTITY, which a reader then cannot look up.
+    _sample = sorted(coords)
+    print(f"\nsample shelfmarks (first 8 of {len(_sample):,}):")
+    for s in _sample[:8]:
+        print(f"   {s:<36}{shelfmark(coords[s])}")
 
-    print("\nsample WORLD shelfmarks — the leaves the tier system exists for:")
-    for d in sorted(worlds)[:8]:
-        print(f"   {d[:42]:<44}{shelfmark(worlds[d])}")
+    # Same two repairs. World designations are `source::world` strings and routinely run past 42
+    # characters, so this was the site that actually printed identifiers a reader could not look
+    # up -- in the section named as the leaves the whole tier system exists for. Neither change
+    # touches SEVENFOLD.json, which is written whole below.
+    _wsample = sorted(worlds)
+    print(f"\nsample WORLD shelfmarks — the leaves the tier system exists for "
+          f"(first 8 of {len(_wsample):,}):")
+    for d in _wsample[:8]:
+        print(f"   {d:<44}{shelfmark(worlds[d])}")
 
     if args.write:
         p = os.path.join(HERE, "data", "SEVENFOLD.json")

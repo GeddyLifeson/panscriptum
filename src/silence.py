@@ -501,7 +501,16 @@ def _close_quietly(fd):
     try:
         os.close(fd)
     except OSError:
-        pass
+        # UNLIKE `_unlock` ABOVE, THIS HAS NO ARGUMENT FOR STAYING SILENT (order 83122ea1003f).
+        # `_unlock`'s silence is earned: the OS drops the lock at close anyway, so an explicit
+        # release failing costs nothing. A CLOSE that fails is a descriptor that stays open.
+        # `append_line` opens this fd on every one of its calls from five live processes on
+        # every model call (see its own docstring) -- a persistent close failure here is a
+        # descriptor leak that grows with call volume in exactly the long-lived daemons this
+        # module keeps up for days, and it would be invisible until the process ran out of
+        # handles. `note()` is total and cannot itself raise, which is the same property
+        # `_discard_tmp` already relies on for the identical job one layer up.
+        note("silence.py:fd-not-closed")
 
 
 # The third answer `digest_of` cannot give, because its contract is two-valued. Kept private
@@ -590,12 +599,22 @@ def replace_if_unchanged(tmp, dst, expected_digest, attempts=5):
             # target cannot be shown to still hold what the writer read, so it is not eligible
             # for a compare-and-swap. Refusing costs a round; landing costs whatever the other
             # writer put there, silently, which is the m42 loss this function was written after.
-            note("silence.py:stale-write-refused")
+            #
+            # A DIFFERENT FAULT WEARS A DIFFERENT NAME IN THE LEDGER (order 895ed2946027, same
+            # argument as replace_retry's OSError comment below and this function's own OSError
+            # comment further down). This branch is a FAULT: `_digest_or_unreadable` returns
+            # UNREADABLE only after an exception that is not FileNotFoundError -- a permission
+            # denial, a target that became a directory, a reader holding it in a way that breaks
+            # the read -- and a persistent unreadable target means a writer that will NEVER
+            # land. The branch below is ORDINARY, expected contention: the compare-and-swap
+            # doing its job. Collapsing the two hid a permanent condition inside the count of a
+            # transient one -- the exact fault this whole module exists to stop.
+            note("silence.py:cas-target-unreadable")
             return False, ("%s could not be read, so it cannot be shown to be unchanged -- "
                            "refusing to land over it. Retry next round."
                            % os.path.basename(dst))
         if actual != expected_digest:
-            note("silence.py:stale-write-refused")
+            note("silence.py:cas-target-changed")
             return False, ("%s changed under this writer (expected %s, found %s) -- refusing to "
                            "land a stale copy. Re-read and merge."
                            % (os.path.basename(dst), expected_digest, actual))
@@ -714,6 +733,18 @@ def write_json(path, obj, **dump_kw):
 
     Returns True if the file landed. Never raises on a denied replace: `replace_retry` records
     it and the caller's write lands next round, which is the established behaviour here.
+
+    ATOMIC AGAINST A CONCURRENT READER; ALSO FSYNCED AGAINST A CRASH (order 698963577852).
+    `os.replace` makes the directory-entry swap atomic -- a reader never sees a half-written
+    file -- but by itself it says nothing about whether the temp file's DATA has reached disk.
+    On a power loss or a hard reset between the rename and the filesystem flushing the temp's
+    blocks, the target can come back under the new name with zero-length or partial content:
+    the TRUNCATE-THEN-FILL outcome this function exists to end, arriving by the other door. The
+    flush+fsync below closes that gap at the cost of one syscall per write, on files written at
+    human frequency; a failure there is caught by the same `except Exception` as a failed
+    `json.dump` immediately above it, so it discards the temp and raises exactly the way a
+    failed dump already does -- no new behaviour for a caller that already handles this
+    function raising on the WRITE side (only a DENIED REPLACE is guaranteed silent).
     """
     import json as _j            # local, matching `replace_retry`'s own idiom: this module is
     import threading as _th      # imported by nearly everything and stays deliberately thin
@@ -726,6 +757,8 @@ def write_json(path, obj, **dump_kw):
     try:
         with open(tmp, "w", encoding="utf-8") as f:
             _j.dump(obj, f, **dump_kw)
+            f.flush()
+            os.fsync(f.fileno())
     except Exception:
         _discard_tmp(tmp)
         raise

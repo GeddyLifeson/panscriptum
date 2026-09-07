@@ -51,7 +51,11 @@ import json
 import os
 import re
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# NO `HERE` (order 42fa60f85054). This module used to bind the repo root here and nothing read
+# it -- not in this file, and not in any of the fifteen modules that import it. Every path this
+# module builds is relative to a `base` its caller supplies, which is why the constant was never
+# needed. Removed rather than left as documentation, so the next liveness pass does not re-file
+# it; if the repo root is ever wanted here, it should arrive with the caller that wants it.
 
 # The sanitiser, kept EXACTLY as the four call sites spelled it. Changing it would rename every
 # file on disk, which is the expensive migration this fix exists to avoid.
@@ -141,7 +145,6 @@ def text_digest(text_map):
     project's own liveness ratchet flagged it within minutes. Forward-looking API is dead code
     wearing a plan.)
     """
-    import hashlib
     per = {}
     for title, body in (text_map or {}).items():
         per[str(title)] = hashlib.sha1((body or "").encode("utf-8")).hexdigest()[:16]

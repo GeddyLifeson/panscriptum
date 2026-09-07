@@ -305,7 +305,17 @@ def main():
     print(f"\ncontested cosmogonies (two accounts run close; flagged, not forced): {len(low)}")
     for s, v in sorted(low, key=lambda x: x[1]["confidence"]):
         ru = ", ".join(f"{g}:{n}" for g, n in v["runners_up"])
-        print(f"   {s[:28]:<30}{v['grounding']:<15}{v['confidence']:.2f}  vs {ru}")
+        # THE NAME IS UNCUT TOO (order f844326cafc8). The list and the runners-up were
+        # deliberately uncapped by the comment above, and then the per-row NAME was still sliced
+        # to 28 characters with nothing saying so -- the same defect feats.py was repaired for
+        # under order b0e69b869473, whose ruling is that "a truncated NAME is worse than a
+        # truncated list, because it still looks like an entry the operator can act on". Live
+        # corpus source names run well past 28 characters. The `:<30` pad stays so the columns
+        # still line up on the ordinary rows; a long name now makes its own row ragged instead
+        # of losing its tail. (The sibling `s[:26]` at the fixed SAMPLE loop above is a
+        # different case and is left alone: every name in that literal tuple is under 26
+        # characters and cannot truncate.)
+        print(f"   {s:<30}{v['grounding']:<15}{v['confidence']:.2f}  vs {ru}")
 
     if args.write:
         p = os.path.join(HERE, "data", "GROUNDINGS.json")

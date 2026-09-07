@@ -361,7 +361,13 @@ def main():
               f"first -- all of them:")
         print(f"{'share':>7}{'persons':>9}{'entries':>9}   source")
         for x in rows:
-            print(f"{x['share']:>7.1%}{x['persons']:>9,}{x['entries']:>9,}   {x['source'][:52]}")
+            # UNCUT (Hard Rule 0, order fe99e57e1993). This was `x['source'][:52]`, a bare slice
+            # sitting directly beneath the comment above that records the removal of a DIFFERENT
+            # cap (`rows[:26]`) on this same block -- so the roster stopped being truncated and
+            # the NAMES on it did not. This diagnostic writes nowhere else, so a cut source name
+            # has no second copy to look it up in; and it is the LAST column, so printing it
+            # whole costs no alignment at all.
+            print(f"{x['share']:>7.1%}{x['persons']:>9,}{x['entries']:>9,}   {x['source']}")
         return 0
 
     if a.all:

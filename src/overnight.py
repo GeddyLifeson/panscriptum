@@ -40,6 +40,7 @@ import subprocess
 _NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 import sys
+import threading
 import time
 import silence
 import lognames as LN
@@ -98,7 +99,12 @@ def log(msg):
 
 
 _PROCS = {"at": 0.0, "out": ""}
-_PROCS_LOCK = None
+# CONSTRUCTED AT MODULE LEVEL, not lazily on first use (order da5cd66c1217). Python's import
+# system already serialises module execution, so this is a free fix for the classic
+# unsynchronised double-checked-locking race: the GIL can switch threads at any bytecode
+# boundary, and two threads racing "if _PROCS_LOCK is None" could each construct and briefly
+# hold a DIFFERENT Lock() instance before the shared global settled on one of them.
+_PROCS_LOCK = threading.Lock()
 
 
 def _proc_lines(ttl=3.0):
@@ -133,10 +139,6 @@ def _proc_lines(ttl=3.0):
     is left un-stamped, so the very next caller retries the spawn rather than inheriting the
     blindness for a TTL.
     """
-    global _PROCS_LOCK
-    if _PROCS_LOCK is None:
-        import threading
-        _PROCS_LOCK = threading.Lock()
     with _PROCS_LOCK:
         now = time.time()
         if now - _PROCS["at"] > ttl:
@@ -271,10 +273,17 @@ def _in_this_tree(pid, cmd):
             import psutil
             script = os.path.join(psutil.Process(pid).cwd(), script)
         except Exception:
+            # OBSERVABLE, not just fail-open: if psutil is unimportable or Process(pid).cwd()
+            # keeps raising, this returns False for every relative-path command line for the
+            # life of the process, silently degrading `running()`'s singleton guard toward
+            # allowing a duplicate stage launch -- so it is noted like every other swallow in
+            # this file. (order 7ae8965922b1)
+            silence.note("overnight.py:in-this-tree-psutil")
             return False              # cannot tell whose copy it is -- see the docstring
     try:
         return os.path.samefile(script, os.path.join(HERE, "src", os.path.basename(script)))
     except OSError:
+        silence.note("overnight.py:in-this-tree-samefile")
         return False                  # vanished mid-walk, or unreadable
 
 
@@ -351,19 +360,30 @@ def _cmd_is_running(fragment, cmd):
 # and their return codes are read, and a detached child cannot be waited on.
 NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
-_SPAWN_LOCK = None
+# CONSTRUCTED AT MODULE LEVEL, not lazily on first use (order da5cd66c1217, same reasoning as
+# _PROCS_LOCK above). `_guarded_popen`'s own docstring stakes a correctness claim on this lock
+# actually serialising every thread in this process; a racy bootstrap could silently reopen the
+# double-spawn bug that made this lock necessary in the first place.
+_SPAWN_LOCK = threading.Lock()
+
+# A DISTINCT SENTINEL, so `_guarded_popen`'s two refusals do not collapse into one `None` at its
+# callers. `run()` needs to tell "the authoritative probe went blind" apart from "found already
+# running" so it can report its own pre-built 'probe-blind' status instead of misreporting a
+# blind probe as a stage that was found up (order 6a3e4238042d). `start()` keeps treating both
+# as "did not start" by checking for `None` OR this sentinel, unchanged from before.
+_PROBE_BLIND = object()
 
 
 def _spawn_lock():
-    global _SPAWN_LOCK
-    if _SPAWN_LOCK is None:
-        import threading
-        _SPAWN_LOCK = threading.Lock()
     return _SPAWN_LOCK
 
 
 def _guarded_popen(name, args, fh, banner=None):
-    """Check-then-spawn, SERIALISED against every other thread in this process. -> Popen | None.
+    """Check-then-spawn, SERIALISED against every other thread in this process.
+
+    -> Popen (spawned) | None (found already running) | _PROBE_BLIND sentinel (the authoritative
+    probe could not read the process table -- distinct from "already running" so `run()` can
+    report which one happened; `start()` treats both non-Popen returns the same way).
 
     THE SINGLETON GUARD WAS A CHECK AND A SPAWN WITH NOTHING HOLDING THEM TOGETHER, and this
     process runs two threads that both make that pair of calls for the SAME job names: the keeper
@@ -401,7 +421,7 @@ def _guarded_popen(name, args, fh, banner=None):
         if _up is None:
             _blind("guarded-popen", f"  {name}: cannot read the process table, so NOT starting "
                                     f"it -- a blind spot is not an absence")
-            return None
+            return _PROBE_BLIND
         if _up:
             log(f"  {name}: already running, left alone (found on the second check)")
             return None
@@ -625,6 +645,13 @@ def run(name, args, logfile, timeout_h=6):
                 fh.flush()
 
             p = _guarded_popen(name, args, fh, banner=_banner)
+            if p is _PROBE_BLIND:
+                # THE AUTHORITATIVE CHECK WENT BLIND, not "found already up" (order
+                # 6a3e4238042d). This is the window the lock exists for -- between the
+                # unlocked pre-check above and the locked one inside _guarded_popen -- and
+                # conflating the two here defeated the distinct 'probe-blind' status this
+                # function already builds for its OWN pre-check three lines up.
+                return "probe-blind"
             if p is None:
                 return "already-running"
             p.wait(timeout=timeout_h * 3600)
@@ -700,7 +727,10 @@ def start(name, args, logfile):
         fh.flush()
 
     p = _guarded_popen(name, args, fh, banner=_banner)
-    if p is None:
+    if p is None or p is _PROBE_BLIND:
+        # Both non-Popen returns mean "did not start" here, unchanged (order 6a3e4238042d only
+        # gives run() a way to tell them apart for its own status string; start()'s callers
+        # already treat None uniformly and that is still correct).
         with contextlib.suppress(Exception):
             fh.close()
         return None
@@ -1056,9 +1086,26 @@ def preflight():
     # ("  ok    control characters in source"), so it was true on every clean preflight and the
     # whole gate rested on the second term. A reader saw a two-condition guard and there was
     # one. There is one now, and it is the real one.
+    # SELECTED BY IDENTITY, NOT POSITION (order 15150e8442fc). `_health.CHECKS[0][0]` was right
+    # only as long as the control-characters check happened to sit first in the list; adding a
+    # check above it, or sorting it, would silently repoint the pin at the wrong label with no
+    # error anywhere -- the guard below could not catch it, because the WRONG label is still a
+    # real label health prints on both its ok and FAIL lines. Found by name instead, so the
+    # identity survives reordering.
     try:
         import health as _health
-        _control_label = _health.CHECKS[0][0]
+        _control_label = next((lbl for lbl, _fn in _health.CHECKS
+                                if "control character" in lbl), None)
+        if _control_label is None:
+            # health.CHECKS no longer declares a check by this name at all. This is not the
+            # same case as "did not report at all" below (a real, named check that simply
+            # didn't run this cycle) -- the check itself may be gone. Fail closed: an unreadable
+            # gate must not read as a clear one, matching the project's own doctrine that
+            # silence must never authorise anything.
+            silence.note("overnight.py:preflight-label-missing")
+            log("  preflight: no check named 'control character...' is declared in "
+                "health.CHECKS any more -- the halt gate is UNREADABLE, treating as blocking")
+            return len(fails), True
     except Exception:
         # A health.py that cannot even be imported is a bigger problem than this gate, and the
         # subprocess above would already have failed -- but the gate must not evaporate on the
@@ -1276,7 +1323,13 @@ def main():
         import codewatch
         codewatch.stamp("overnight")
     except Exception:
+        # BOUND TO A VALUE, NOT LEFT UNDEFINED (order 7d08eb10c1a7, same shape as
+        # autostart.py:402-407). The per-lap check below now guards on `codewatch is not None`
+        # instead of catching NameError -- an `except NameError` also swallows a NameError
+        # raised INSIDE codewatch.exit_if_stale, which is not hypothetical here since
+        # foreman.py runs with --patch and can auto-edit modules in src/.
         silence.note("overnight.py:codewatch-stamp")
+        codewatch = None
     ap = argparse.ArgumentParser()
     ap.add_argument("--cycles", type=int, default=99)
     ap.add_argument("--read-hours", type=float, default=3.0)
@@ -1439,12 +1492,19 @@ def main():
         # `roll` is joined inside the same lap, and both finished before the previous iteration
         # ended. So exiting here abandons no work. The same call placed mid-lap would drop a
         # running reader or roll on the floor, which is why it is not there.
-        try:
-            codewatch.exit_if_stale("overnight")
-        except NameError:
-            pass                      # the startup stamp above could not import codewatch
-        except Exception:
-            silence.note("overnight.py:codewatch-check")
+        if codewatch is None:
+            # THE STICKY CASE, NOW MARKED EVERY LAP-WINDOW instead of never after startup. If
+            # the import failed, this supervisor cannot see source changes for the rest of its
+            # life -- rate-limited via `_blind` (same one-hour window as the process-table
+            # blindness above) so a days-long run does not bury the log. (order 7d08eb10c1a7)
+            _blind("overnight.py:codewatch-unavailable",
+                   "codewatch unavailable -- the staleness interlock is OFF; this supervisor "
+                   "cannot notice a source change")
+        else:
+            try:
+                codewatch.exit_if_stale("overnight")
+            except Exception:
+                silence.note("overnight.py:codewatch-check")
 
         # THE PLANT-WIDE INTERLOCK, RE-ASKED EVERY CYCLE. A halt raised while the supervisor was
         # mid-cycle must stop the NEXT one; checking only at startup would let a halted library

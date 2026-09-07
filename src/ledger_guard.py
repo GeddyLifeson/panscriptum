@@ -775,16 +775,34 @@ def main():
     for line in acknowledged:
         print("     carried: " + line)
 
+    # THE SINCE-LAST-SEAL LOOP IS ONE MECHANISM, WHATEVER ITS LENGTH (order b1623ff4a677).
+    # `failures` used to be incremented once PER NAME in APPEND_ONLY, and the closing line calls
+    # it a count of "the three mechanisms" -- so with two names today the counter's ceiling was
+    # 4 and the sentence could read "4 of the three mechanisms reported a fault". It was wrong
+    # below the ceiling too: check_all plus both seal checks failing printed "3 of the three",
+    # which reads as every mechanism red when the hash chain had in fact verified. That is the
+    # direction that gets a correct per-line verdict skimmed past, on the one line an operator
+    # or a log scrape keeps -- in the function whose own docstring is about exactly this hazard
+    # ("three verdicts collapsed into one sentence cannot be audited against the code").
+    # The per-mechanism lines above are unchanged; they were always right.
+    seal_failed = []
     for name in APPEND_ONLY:
         ok, why = check_since_snapshot(name)
         if ok:
             print("SINCE LAST SEAL  : ok  %s -- %s" % (name, why))
         else:
-            failures += 1
+            seal_failed.append(name)
             print("SINCE LAST SEAL  : FAILED  %s -- %s" % (name, why))
+    if seal_failed:
+        failures += 1
 
-    print("\nledgers: all intact" if not failures
-          else "\nledgers: %d of the three mechanisms reported a fault" % failures)
+    if not failures:
+        print("\nledgers: all intact")
+    else:
+        # Names the ledgers behind the one mechanism, so folding the loop into a single verdict
+        # loses no detail: the count is now of mechanisms and the sentence says mechanisms.
+        detail = ("  (since-last-seal: %s)" % ", ".join(seal_failed)) if seal_failed else ""
+        print("\nledgers: %d of the three mechanisms reported a fault%s" % (failures, detail))
     return 1 if failures else 0
 
 

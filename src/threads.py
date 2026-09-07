@@ -195,11 +195,41 @@ FINER = {"Weapons": "Vessels & Things", "Relics": "Vessels & Things", "Wars": "E
 # reason: a shelf that names the wrong room must open nothing. Derived from `pipeline.SUBROOMS`
 # rather than restated, because two hand-kept copies of one mapping is how they come to
 # disagree, and this one decides the shape of the thread graph.
+# WHY THE TABLE MIGHT BE EMPTY, ON A MODULE-LEVEL CONSTANT, THE WAY `assay.RHO_FALLBACK_REASON`
+# DOES FOR THE IDENTICAL PROBLEM (order 04c6360636bf). None means the table was built; a string
+# means it was not, and says what stopped it.
+#
+# WHAT AN EMPTY TABLE DOES, and it is not a degraded corner: `category_path` gates the finer room
+# on `SUBROOM_PARENT.get(sub) == coarse`, so with `{}` no entry can ever reach its subroom and
+# EVERY finer room in the graph disappears -- the pass silently reverts to the pre-2026-09-01
+# shape the comment in `category_path` calls "a regression dressed as a correction". Nothing
+# downstream catches it: `verify()` tests structural properties that still hold, `main()` prints
+# counts that are internally consistent and merely smaller, the ratification gate is about
+# authorisation and not shape, and THREADS.json lands derived under a different rule with nothing
+# in the artifact or on the console saying so. The only reader who could tell is one who happened
+# to remember last run's numbers.
+#
+# The fallback itself is right -- an import cycle or a partial tree must not stop the module
+# loading. The silence was the fault, in the file whose docstring is a list of refusals and whose
+# sibling paths record every gap they meet by name: `build()` writes an `unaddressed` list into
+# the artifact under the heading NOT SILENTLY DROPPED, `threads_for` raises rather than return a
+# blank, and `main()` reports sources with no cohort "because a reader cannot otherwise tell
+# 'this volume has no siblings' from 'the cohort pass did not reach it'". This is the same
+# distinction, about the rule the graph was built with.
+SUBROOM_FALLBACK_REASON = None
+
 try:
     import pipeline as _PL
     SUBROOM_PARENT = {v: room for room, vs in _PL.SUBROOMS.items() for v in vs}
-except Exception:                       # pragma: no cover -- import cycle or a partial tree
+except Exception as _e:                 # pragma: no cover -- import cycle or a partial tree
     SUBROOM_PARENT = {}
+    SUBROOM_FALLBACK_REASON = (
+        "pipeline.SUBROOMS could not be read (%s: %s), so the subroom->room table is EMPTY and "
+        "no entry can reach a finer room. Every finer room in this graph is absent, and the "
+        "graph is the pre-subroom shape -- not a measurement that the shelves are empty."
+        % (type(_e).__name__, _e))
+    silence.note("threads.py:subrooms-unavailable")
+    sys.stderr.write("threads: " + SUBROOM_FALLBACK_REASON + "\n")
 
 
 def _key(path):
@@ -383,7 +413,13 @@ def build(records=None):
                     "T2": cohort,
                     "by_category": {_key(k): v for k, v in cats_of.get(src, {}).items()}}
 
-    return {"classes": list(DERIVABLE), "sources": out, "unaddressed": refused,
+    # STAMPED BESIDE `classes`, because it is a fact about the RULE this graph was derived under
+    # and not about its contents (order 04c6360636bf). None on every ordinary run; a sentence
+    # when the subroom table was unavailable, so a reader of THREADS.json can tell a graph with
+    # no finer rooms from a graph built by a pass that could not see them. See
+    # SUBROOM_FALLBACK_REASON.
+    return {"classes": list(DERIVABLE), "subroom_fallback": SUBROOM_FALLBACK_REASON,
+            "sources": out, "unaddressed": refused,
             "counts": counts(out)}
 
 
@@ -574,6 +610,11 @@ def main():
 
     print("THREADS — Step 4 Phase 4.1 (T1 home + T2 cohort)")
     print("=" * 78)
+    if SUBROOM_FALLBACK_REASON:
+        # ON THE CONSOLE, ABOVE THE COUNTS IT EXPLAINS (order 04c6360636bf). The counts below
+        # would be internally consistent and simply smaller, which is the one thing a reader
+        # cannot detect from the numbers themselves.
+        print("   !! SUBROOMS UNAVAILABLE: " + SUBROOM_FALLBACK_REASON)
     print("   addressed sources        : %d" % n_src)
     print("   entries behind them      : %s" % format(c["entries"], ","))
     print("   T1 edges (home)          : %s" % format(c["T1_edges"], ","))

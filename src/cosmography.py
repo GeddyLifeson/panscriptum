@@ -44,11 +44,16 @@ SECONDS_PER_YEAR = 3.15576e7
 # Galaxies in the observable universe. Two published figures, both kept, because the disagreement
 # is real and the library's own doctrine is to file both readings rather than silently average.
 GALAXIES_CONSELICE_2016 = 2.0e12   # Conselice et al. 2016, deep-field extrapolation
+# REFERENCE ONLY: read by nothing in this tree (grep-verified). Kept as the filed alternative
+# reading to GALAXIES_LAUER_2021 below, per this module's own doctrine of filing both published
+# figures rather than silently averaging them -- not a candidate for removal by a dead-code pass.
 GALAXIES_LAUER_2021 = 2.0e11       # Lauer et al. 2021, New Horizons cosmic optical background
 GALAXIES_DEFAULT = GALAXIES_LAUER_2021   # declared choice: the newer, more direct measurement
 
 # Stars. The Milky Way is a large spiral and NOT typical -- most galaxies are dwarfs, which is
 # why the mean is far below it.
+# REFERENCE ONLY: read by nothing in this tree (grep-verified). Kept as the stated contrast that
+# explains why STARS_PER_GALAXY_MEAN sits three orders below it -- not a candidate for removal.
 STARS_MILKY_WAY = 2.0e11           # 100-400 billion; midpoint
 STARS_PER_GALAXY_MEAN = 1.0e8      # dwarf-dominated mean; order-of-magnitude
 

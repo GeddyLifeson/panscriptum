@@ -158,7 +158,23 @@ def wanted(cfg):
 # rather than in `sweep`'s return value because that return value is the payload -- the shape
 # `standards.py` reads -- and because a flag inside the payload would read as though it were a
 # field of the FILE, which it deliberately is not. One writer, one reader (`main`), one call.
-LAST_WRITE_LANDED = True
+#
+# THREE STATES, and the default is the one that has actually happened (order 1c5551aded53):
+#   None   -- no sweep has run, so no write has been ATTEMPTED. Nothing is known.
+#   False  -- the replace was refused; the snapshot on disk is the PREVIOUS one.
+#   True   -- this sweep's results landed.
+#
+# It initialised to True, which asserts a landing that never happened. Latent rather than live:
+# the CLI always runs `sweep()` before `main()` reads it, and `foreman.recatalogue_models` reads
+# the subprocess return code rather than this flag. The two ways it becomes real are an importer
+# reading `catalogue_models.LAST_WRITE_LANDED` without calling `sweep()`, and a `sweep()` that
+# raises anywhere before the assignment below (the config open, the json.load, the executor map)
+# leaving the module-level default in place for whatever reads it next. Given this module's own
+# header argument -- that a discarded write verdict reported a successful refresh to the one
+# caller whose job is deciding whether the remedy worked -- the honest default is "no write has
+# been attempted". `main()`'s `return 0 if LAST_WRITE_LANDED else 1` already treats None as
+# failure and is therefore correct unchanged.
+LAST_WRITE_LANDED = None
 
 
 def sweep(config_path=None, workers=6):

@@ -73,6 +73,45 @@ OUT = os.path.join(HERE, "data", "HOST_FITNESS.json")
 UNFIT = os.path.join(HERE, "data", "HOST_UNFIT.json")
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before anything in this module WRITES or DELETES.
+
+    Order 77950336e3aa, and the precedent is exact: order bd107a18b13e filed
+    `withdraw_chapters.py` for this same shape -- "the one tool in its batch with an irreversible
+    action and the one not calling assert_clear" -- and it was then wired here-fashion and given
+    a behavioural drill net run with `--go` on purpose. This module had ZERO references to
+    `escalation` and was on no roster, while `--purge --go` empties `entries` in every matching
+    `data/records/*.json` and then `os.remove()`s every cached page under `data/feats/<host>/`
+    and `data/readfeats/<host>/` -- and those caches are the only supporting evidence for the
+    entries being removed. `--repair` and `--adopt --go` rewrite `WIKI_HOSTS.json`, which this
+    same file calls one of the two files confirmed not reconstructible from anything else on
+    disk.
+
+    WHY A HALT SPECIFICALLY. A halt means a library-wide invariant is broken and nothing may
+    proceed on uncertain ground. Every decision this module makes is made FROM the state a halt
+    says is untrustworthy: `purge` reads `data/ROSTER_AUDIT.json`, `sweep(repair=True)` and
+    `adopt` read `WIKI_HOSTS.json` and the catalogued rosters. Running it under a halt lets a
+    suspect measurement delete evidence and repoint the map the whole pipeline mines from.
+
+    DELIBERATELY NARROW: the WRITING paths only. A read-only `sweep`, a `--rosters` audit and
+    every dry run are MEASUREMENTS, and this project has ruled that a measurement which cannot
+    be retaken is abandoned rather than deferred (`completeness.host_reachable`). Whether the
+    whole module should be gated instead is an owner question, not one this module may settle.
+
+    FAIL CLOSED ON THE IMPORT, copied from `withdraw_chapters.main()` and `publish.py`, and NOT
+    wrapped in a bare `except ImportError: pass` -- that spelling is the original incident, in
+    which a deleted `escalation.py` switched the plant-wide halt off in eight jobs at once,
+    quietly.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    _ESC.assert_clear("hostcheck.py %s" % what)
+
+
 def _land(path, obj, sort_keys=True, ensure_ascii=True):
     """Write a shared artifact whole or not at all. -> True if it LANDED, False if refused.
 
@@ -637,6 +676,28 @@ def null_rate(host, by=None, exclude=None, sample=40):
     # sample -- a changed control is a changed key.
     uniq = sorted(set(foreign))
     foreign = uniq[::max(1, len(uniq) // sample)][:sample]
+    # AND THE CONTROL GETS THE SAME FLOOR THE SUBJECT HAS ALWAYS HAD (order a5fd110e3910).
+    # `MIN_PROBE` exists with the comment "under five names, a hit rate is noise -- 1/2 reads as
+    # 50% and means nothing", and it was enforced in two places on the SUBJECT side (the
+    # `probed < MIN_PROBE` verdict in `score`, and the roster-audit floor) and NOWHERE on the
+    # control. `foreign` is built from at most three names per source, so a caller with few
+    # sources, or one whose rosters overlap heavily, got a control four names wide -- or two, or
+    # one -- and the baseline came back as an ordinary number with nothing on it distinguishing
+    # it from one measured against forty. Every lift in this module is computed against that
+    # number.
+    #
+    # WHICH OF THE TWO CANDIDATE PLACEMENTS, DECIDED RATHER THAN LEFT OPEN. The floor goes HERE,
+    # inside `null_rate`, so the answer travels on the path this function's own comment below
+    # already proves: "a control that did not measure is None, not zero", handled by every
+    # caller, bucketed by `score` as UNREACHABLE, retried another day, and never promoted. A
+    # small-but-real control and a probe that threw are not the same event, so the CAUSES are
+    # kept apart in the janitor's counters -- a distinct `silence.note` below -- rather than by
+    # inventing a second unmeasured-control channel for the verdict to carry. This function's
+    # own standard applies to itself: a baseline measured against the wrong foreign set is worse
+    # than no baseline, because it still looks like one.
+    if len(foreign) < MIN_PROBE:
+        silence.note("hostcheck.py:null_rate-control-too-thin")
+        return None
     key = (host, exclude, sample, tuple(foreign))
     with _NULL_LOCK:
         if key in _NULL_CACHE:
@@ -727,12 +788,47 @@ def score(host, names, source, by=None):
         # the reading that adopted a homebrew shelf onto Wikipedia and rejected one from the
         # wiki that hosts it. Bucketed as UNREACHABLE so `sweep()` retries it another day rather
         # than sending it for repair on a measurement that was never made.
-        r["verdict"] = "UNREACHABLE — the control probe failed, so this host has no baseline"
+        # NAMES BOTH CAUSES NOW (order a5fd110e3910). `null_rate` answers None for a probe that
+        # threw or was throttled AND for a foreign sample too thin to be a control at all; the
+        # janitor's counters tell those apart (`hostcheck.py:null_rate-control-too-thin`), and
+        # the verdict must not claim a failure that may not have happened.
+        r["verdict"] = ("UNREACHABLE — the control could not be measured (a failed probe, or a "
+                        "foreign sample too thin to be one), so this host has no baseline")
     elif r["probed"] < MIN_PROBE:
         r["verdict"] = "too few names to judge"
     elif r["hits"] < 2 or r["lift"] <= LIFT_MIN:
         # Indistinguishable from what this host gives anybody who asks.
         r["verdict"] = "WRONG FICTION" if rate <= DEAD else "NAMES ONLY"
+    elif r["about"] is None and r["about_n"] == 0:
+        # ZERO BODIES READ IS THE THINNEST EVIDENCE OF ALL, AND IT USED TO BUY THE MOST
+        # PERMISSION (order d66e629ae3ca). `relevance()` answers `(None, 0)` when no article
+        # body could be read at all -- a throttle, a 403, a network fault swallowed by its own
+        # `silence.note`, or a wiki serving no revisions. Both veto branches below are guarded
+        # on `about is not None`, so with n=0 NEITHER fired and the verdict fell through to
+        # lift alone, landing on `holds` or `partial` -- and `partial` is inside JUDGED, so the
+        # host was kept or promoted and `adopt()`/`discover()` would select it.
+        #
+        # THE ORDERING WAS INVERTED AT ITS OWN BOTTOM END. Two bodies read -> UNREACHABLE,
+        # nothing decided, host left alone. ZERO bodies read -> judged `holds`. Strictly less
+        # evidence bought strictly more permission, which is the precise thing the ABOUT_MIN
+        # comment immediately below spent a paragraph refusing at n=1 and n=2.
+        #
+        # AND THE BRANCH IS ONLY REACHED WHERE THE VETO IS DUE. `about`/`about_n` are asked only
+        # when `hits and base is not None and base >= ABOUT_VETO_ABOVE` -- i.e. on the GENEROUS
+        # hosts where this module's own docstring says holding a roster proves nothing and only
+        # reading the pages can separate coverage from coincidence. That is the en.wikipedia.org
+        # class `score()` records Rocket League as nearly being adopted onto, on names alone.
+        #
+        # `about_n == 0` and not `is not None`: 0 means ASKED AND GOT NOTHING, None means NOT
+        # ASKED (the veto was not due, or `relevance` short-circuited on a host NAMED after the
+        # fiction, where `about` is 1.0 on real evidence). The distinguishing value was already
+        # on the row; nothing read it.
+        #
+        # PLACED BELOW THE LIFT BRANCH ON PURPOSE. Aboutness is a VETO -- it only ever
+        # downgrades -- so a host already rejected by lift stays rejected. This converts only
+        # the verdicts that would have been `holds` or `partial`, which is the whole exposure.
+        r["verdict"] = ("UNREACHABLE — no article body could be read, so aboutness could not "
+                        "be measured")
     elif (r["about"] is not None and r["about"] < ABOUT
           and r["about_n"] is not None and r["about_n"] < ABOUT_MIN):
         # THE VETO IS DUE AND ITS INPUT IS TOO THIN TO CARRY IT (order 44ae72489678). This host
@@ -761,6 +857,12 @@ def score(host, names, source, by=None):
 
 
 def sweep(only=None, repair=False, workers=8):
+    # A bare sweep is a MEASUREMENT and is not gated. `--repair` rewrites WIKI_HOSTS.json, which
+    # is not reconstructible, off a judgement made from state a halt says is untrustworthy --
+    # so it asks first, and it asks BEFORE the probe rather than beside the write, exactly as
+    # `withdraw_chapters` asks before it moves anything. (order 77950336e3aa)
+    if repair:
+        _assert_not_halted("--repair")
     from concurrent.futures import ThreadPoolExecutor
     import feats as F
     hosts = json.load(open(F.HOSTS, encoding="utf-8"))
@@ -1016,6 +1118,12 @@ def purge(dry=True, only=None):
     after reading the roster. Every purge is written to ROSTER_PURGES.json with what was removed, so
     the gap it leaves is a recorded finding rather than a silence.
     """
+    # THE ONE IRREVERSIBLE ACTION IN THIS MODULE ASKS ABOUT THE HALT FIRST (order 77950336e3aa).
+    # Above the audit read, so there is no path into a real purge that skips it, and gated on
+    # `not dry` so the shortlist a person reads before deciding is still available while the
+    # library is stopped. The caches this deletes are the only copy afterwards.
+    if not dry:
+        _assert_not_halted("--purge --go")
     import feats as F
     import weave_index as WI
     hosts = json.load(open(F.HOSTS, encoding="utf-8"))
@@ -1345,6 +1453,12 @@ def adopt(dry=True, workers=4):
     over-eager repair and simply need it back. The same three-test verdict decides, so nothing is
     adopted on a name match alone.
     """
+    # `--adopt --go` rewrites WIKI_HOSTS.json, the map the whole pipeline mines from and one of
+    # the two files this project cannot rebuild. `foreman.py` runs exactly this line on a
+    # schedule, so a halt raised after the foreman started must still reach it here. (order
+    # 77950336e3aa)
+    if not dry:
+        _assert_not_halted("--adopt --go")
     from concurrent.futures import ThreadPoolExecutor
     import feats as F
     import weave_index as WI

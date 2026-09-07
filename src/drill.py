@@ -2043,6 +2043,32 @@ def drill_assay_engine():
     net(a, "a broken sigma table refuses to load", _broken_table_refuses,
         "the instrument checks itself at import, like the eaten-escape guard")
 
+    # THE OTHER TABLE ON THE PUBLISHING PATH (orders 00a85c511b53 / d27e95a57233, landed
+    # 2026-09-06 from handoff/nets_20260906/custodes_policy.py). `custodes.table_faults()`
+    # has detected this since order 39f19f7e646c and `custodes.main()` exits non-zero on it,
+    # but nothing in the battery or the drill consulted either -- so a new zero-tilt entry
+    # would still have surfaced only by audit, three sweeps later, exactly as Threnody's did.
+    # This net and the verify_math row added beside it are that missing consultation.
+    def custodes_table_faults_is_empty():
+        """No CUSTODES entry may carry tilt == 0.0 together with a non-zero evidence_sensitivity.
+
+        Reads the LIVE table via custodes.table_faults() rather than duplicating its arithmetic, so
+        this net tracks the real function and cannot drift from it. HELD means the table declares
+        nothing it does not enforce; a BREACH names the entry and the exact reason in `error` via the
+        normal `net()` failure path once `attack()` is made to return the fault list on breach (or,
+        matching this file's sibling convention, a caller may swap the boolean below for `not
+        CU.table_faults()` and log `CU.table_faults()` separately when False).
+        """
+        import custodes as CU
+        return CU.table_faults() == []
+
+
+    net(a, "no CUSTODES entry declares a sensitivity its own tilt makes inert",
+        custodes_table_faults_is_empty,
+        "orders 00a85c511b53 / d27e95a57233 -- tilt=0.0 makes evidence_sensitivity inert by "
+        "construction (evidential_part = tilt * evidence_sensitivity * (1 - q)); Threnody sat "
+        "exactly there once, found by audit rather than by the battery")
+
 
 def _sigmas_monotone():
     import assay as A
@@ -2522,7 +2548,15 @@ def _a_refused_landing_reports_that_it_was_refused():
                                  "cleared": False, "also": []}))
         before = open(scratch, encoding="utf-8").read()
         ESC.HALT_FILE = scratch
-        stale, why_stale = ESC._land_halt(rec, "not-the-digest-on-disk")
+        # The last of the ten probe-litter sites (2026-09-06). ARM 1 hands `_land_halt` a digest
+        # that is deliberately not the file's, so the compare-and-swap refuses and
+        # `replace_if_unchanged` files `note("silence.py:cas-target-changed")` -> `health.record`.
+        # Found by instrumenting `health.record` with a stack-capturing spy and running the whole
+        # drill: the ledger diff said the key still grew by one, and reading code had already
+        # sent me to the wrong function twice. Two of these ten were located by measurement after
+        # inspection failed, which is the argument order 895a99602bf0 makes for a standing check.
+        stale, why_stale = _deliberately_failing(
+            lambda: ESC._land_halt(rec, "not-the-digest-on-disk"))
         after = open(scratch, encoding="utf-8").read()
         arm1 = (stale is False and after == before and bool(str(why_stale).strip()))
 
@@ -3189,8 +3223,17 @@ def drill_local_agent():
             #      taken to zero, so the very first charge is over budget and the refusal
             #      arrives before anything is written -- which is what "the cap bites" means.
             LA.MAX_PATCHES_PER_RUN = LA.MAX_FILES_PER_RUN = 0
-            r = LA.t_propose_patch(rel, "MARKER-ONCE", "MARKER-TWICE",
-                                   why="drill", apply=True)
+            # ORDER 247b173c78ee's CLASS, the eighth and last of them (2026-09-06). The cleanup
+            # below already retires the WORK ORDER this refusal files -- but the refusal also
+            # goes through `escalation.escalate` at MANAGER, and escalate calls `health.record`,
+            # so an `escalation:MANAGER:LOCAL_AGENT_BLAST_CAP:...` row landed in the LIVE
+            # state/failures.json on every drill run and nothing retired THAT. It stood at 39,
+            # the drill-run count, exactly like the seven `silent:` rows. Two ledgers, one probe;
+            # the order queue had the discipline and the failure ledger did not. The net still
+            # asserts the refusal, the charge, and the untouched file, so nothing is suppressed.
+            r = _deliberately_failing(
+                lambda: LA.t_propose_patch(rel, "MARKER-ONCE", "MARKER-TWICE",
+                                           why="drill", apply=True))
             if "blast-radius cap" not in str((r or {}).get("error", "")):
                 return False
             if (r or {}).get("applied") is not False or LA._BLAST["patches"] != 1:
@@ -3312,6 +3355,52 @@ def drill_local_agent():
     net(a, "it cannot write a brand-new top-level file",
         cannot_write_an_unlisted_top_level_file,
         "the test that matters: a path invented AFTER the lists were written")
+
+    # THE SEVENTH FAMILY, and it is not a path at all (order f29382aa7911, landed
+    # 2026-09-06 from handoff/nets_20260906/safety.py).
+    def an_empty_find_is_not_a_location():
+        """`str.count("")` returns len(s) + 1, which is 1 for the empty string alone -- so on a
+        ZERO-BYTE target the uniqueness test passed, and `"".replace("", replace, 1)` is just
+        `replace`. The model writes arbitrary content into a file without having read a byte of
+        it.
+
+        NOT A GATE BYPASS, and the net says so: the target still has to pass every allow/deny
+        gate and must already exist, so no protected file is reachable and no new file is
+        created. What is lost is the CONTRACT the tool's own description and the SYSTEM prompt
+        both state -- an exact unique find string copied verbatim from the file -- which is the
+        thing that makes a patch evidence that the model read its target.
+
+        `apply=False` throughout: the staged/refused verdict is the whole assertion, and a net
+        about a write gate must not be the thing that writes. The probe file is created and
+        removed inside the drill's own handoff scratch, which is on the writable surface, so the
+        gates under test are the real ones."""
+        import local_agent as LA
+        rel = "handoff/__drill_empty_find__.txt"
+        full = os.path.join(HERE, rel.replace("/", os.sep))
+        try:
+            open(full, "w", encoding="utf-8").close()          # genuinely zero bytes
+            r = LA.t_propose_patch(rel, "", "content never read", apply=False)
+            if r.get("applied") is not False or "not a location" not in (r.get("error") or ""):
+                return False
+            if r.get("staged") or os.path.getsize(full) != 0:
+                return False
+            # ... and no honest patch is affected.
+            with open(full, "w", encoding="utf-8") as f:
+                f.write("alpha beta gamma\n")
+            if LA.t_propose_patch(rel, "beta", "delta", apply=False).get("staged") is not True:
+                return False
+            miss = LA.t_propose_patch(rel, "zzz-not-present", "x", apply=False)
+            return "occurs 0 times" in (miss.get("error") or "")
+        finally:
+            try:
+                os.remove(full)
+            except OSError:
+                pass
+    net(a, "an empty find string is refused, with its own reason",
+        an_empty_find_is_not_a_location,
+        "find_symbol, read_file and the uniqueness test are the three things standing between "
+        "this lane and a model editing what it has not looked at, and one of them had a hole "
+        "exactly one byte wide")
 
 
 def _no_runtime_clear():
@@ -3867,7 +3956,16 @@ def _a_broken_maintenance_guard_fails_open():
                                            "done": False, "heartbeat": now - (limit + 1)}))),
         ]
         for _label, p in cases:
-            busy, why = P.maintenance_shift_live(path=p, now=now)
+            # ORDER b53dd5b3f76f: one of these eight fixtures ("not json") is the only one that
+            # reaches `maintenance_shift_live`'s except-Exception arm, which calls
+            # `note("publish.py:maintenance-guard")` -> `health.record` and wrote a
+            # `silent:publish.py:maintenance-guard:JSONDecodeError` row into the LIVE
+            # state/failures.json on every drill run. Measured 2026-09-06 at 39, the drill-run
+            # count. Wrapping the whole loop rather than only that fixture keeps the probe honest
+            # if another case later grows an unreadable shape -- the net still asserts the
+            # VERDICT (`busy is False` with a reason), so nothing under test is suppressed.
+            busy, why = _deliberately_failing(
+                lambda p=p: P.maintenance_shift_live(path=p, now=now))
             if busy is not False or not why:
                 return False
         return True
@@ -4222,7 +4320,14 @@ def drill_ledgers():
             if ok or len(probs) != 2 or len(carried) != 2:
                 return False                                  # (4) the unnamed ledger still fails
             ack([1, 3], LG.APPEND_ONLY, reason="too short")
-            ok, probs = LG.verify_chain()
+            # ORDER 630fe4529c51's CLASS, found 2026-09-06 but named by no order: case (5) writes
+            # a DELIBERATELY malformed waiver, and `_load_acknowledgements` answers that with
+            # `note("ledger_guard.py:acknowledgement-refused")` -> `health.record`, writing that
+            # row into the LIVE state/failures.json on every drill run. It stood at 39, the
+            # drill-run count. A refused waiver on the tamper-evident ledger chain is close to
+            # the most alarming row this ledger can carry, and every one of them was this
+            # rehearsal. The net still asserts the refusal, so nothing under test is suppressed.
+            ok, probs = _deliberately_failing(LG.verify_chain)
             if ok or len(probs) != 4:
                 return False                                  # (5) malformed = refused = all fail
             ack([1, 3], LG.APPEND_ONLY)
@@ -4723,6 +4828,119 @@ def _the_catalogue_cannot_erase_what_it_did_not_author():
         shutil.rmtree(d, ignore_errors=True)
 
 
+def _the_catalogue_merge_does_not_key_entries_on_name_alone():
+    """`name` is not a per-entry identity, and a merge keyed on one loses two ways.
+
+    ORDER b418b8b3be54. `write_record_catalogue` built its merge map as
+    `{e.get("name"): e for e in rec["entries"]}` -- the exact expression order b67dc1990af6 had
+    already removed from the twin, `write_record`, and left standing in the writer EVERY
+    cataloguer goes through. Both losses were silent and both still returned True:
+
+      (1) A REVERTED JUDGMENT. A duplicated name collapsed to whichever fresh entry the
+          comprehension saw LAST, so every disk row of that name folded onto that one survivor
+          and the others emerged with no judgment at all. Measured against the pre-fix code:
+          the surviving row came out carrying BOTH rows' marks (`excluded` AND `catalogued`)
+          while its twin came out `{}`.
+      (2) A SHRUNK CAST. A disk row whose name was in the map was folded and never appended, so
+          three identical-named disk rows merged to one -- against a docstring that promises in
+          as many words that "a merge never shrinks a cast".
+
+    MEASURED over data/records/*.json: 282,822 entries, 1,840 in duplicated-name groups, 935
+    rows a name-keyed dict collapses, 65 of 216 records affected.
+
+    THIS NET ATTACKS ALL THREE PROPERTIES OF THE FIX, because pinning only the easy one would
+    let the other two rot:
+      * judgments follow the RIGHT row when the fresh cast arrives REORDERED (the case ordinal
+        pairing gets wrong, and the reason the twin's remedy does not transfer here);
+      * the cast does not shrink when the triple genuinely cannot separate the rows;
+      * the merge is IDEMPOTENT, so a re-catalogue cannot grow a record without bound -- the
+        failure a naive "append everything unpaired" fix would introduce.
+
+    A throwaway record in a temp directory. Nothing in `data/records/` is opened.
+    """
+    import shutil
+    import silence as _S
+    import pipeline as PL
+    d = tempfile.mkdtemp(prefix="drilldup_")
+    keep = (PL.log, PL.silence)
+    try:
+        PL.log = lambda *a, **k: None
+        PL.silence = _quiet(_S)
+        # (1) two rows share a name and are separated only by the rest of the triple; the fresh
+        #     cast arrives in the OPPOSITE order to the disk copy.
+        path = os.path.join(d, "dup.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"source": "drill", "entries": [
+                {"name": "The Guitar", "type": "Thing", "description": "the red one",
+                 "category": "M3", "excluded": True},
+                {"name": "The Guitar", "type": "Thing", "description": "the blue one",
+                 "category": "M7", "catalogued": True}]}, f)
+        rec = {"source": "drill", "entries": [
+            {"name": "The Guitar", "type": "Thing", "description": "the blue one"},
+            {"name": "The Guitar", "type": "Thing", "description": "the red one"}]}
+        if PL.write_record_catalogue(path, rec) is not True:
+            return False
+        with open(path, encoding="utf-8") as f:
+            out = json.load(f)
+        rows = {(e.get("name"), e.get("description")): e for e in out.get("entries") or []}
+        if len(out.get("entries") or []) != 2:
+            return False
+        red = rows.get(("The Guitar", "the red one")) or {}
+        blue = rows.get(("The Guitar", "the blue one")) or {}
+        if red.get("category") != "M3" or not red.get("excluded") or red.get("catalogued"):
+            return False
+        if blue.get("category") != "M7" or not blue.get("catalogued") or blue.get("excluded"):
+            return False
+        # (2) rows the triple CANNOT separate: the cast must not shrink, and (3) re-merging the
+        #     result against the same fresh cast must not grow it.
+        p2 = os.path.join(d, "identical.json")
+        same = [{"name": "Dup", "type": "T", "description": "same", "category": m}
+                for m in ("M1", "M2", "M3")]
+        with open(p2, "w", encoding="utf-8") as f:
+            json.dump({"source": "drill", "entries": same}, f)
+        rec2 = {"source": "drill",
+                "entries": [{"name": "Dup", "type": "T", "description": "same"}]}
+        if PL.write_record_catalogue(p2, rec2) is not True:
+            return False
+        with open(p2, encoding="utf-8") as f:
+            first = len(json.load(f).get("entries") or [])
+        if first < 3:
+            return False
+        rec3 = {"source": "drill",
+                "entries": [{"name": "Dup", "type": "T", "description": "same"}]}
+        if PL.write_record_catalogue(p2, rec3) is not True:
+            return False
+        with open(p2, encoding="utf-8") as f:
+            second = len(json.load(f).get("entries") or [])
+        if second != first:
+            return False
+        # (4) AN UNHASHABLE FIELD MUST NOT TURN A MERGE INTO THE FALL-THROUGH. The pairing key is
+        # a dict key, and the fresh cast is not a trusted shape -- it comes from a wiki re-fetch
+        # or a doc ingest. A list or dict in name/type/description would raise TypeError, and the
+        # raise would land in this writer's `except Exception` arm, so the merge would silently
+        # become whatever that handler does. Keying on three fields instead of one widened that
+        # exposure, so the key coerces; this is the attack on that coercion.
+        p3 = os.path.join(d, "unhashable.json")
+        with open(p3, "w", encoding="utf-8") as f:
+            json.dump({"source": "drill", "entries": [
+                {"name": "X", "type": "T", "description": ["a", "list"], "category": "M1"},
+                {"name": "X", "type": "T", "description": {"a": 1}, "category": "M2"}]}, f)
+        rec4 = {"source": "drill", "entries": [
+            {"name": "X", "type": "T", "description": ["a", "list"]},
+            {"name": "X", "type": "T", "description": {"a": 1}}]}
+        if PL.write_record_catalogue(p3, rec4) is not True:
+            return False
+        with open(p3, encoding="utf-8") as f:
+            got = json.load(f).get("entries") or []
+        if len(got) != 2:
+            return False
+        # and the judgments still landed on the RIGHT rows, not merely without raising
+        return [e.get("category") for e in got] == ["M1", "M2"]
+    finally:
+        PL.log, PL.silence = keep
+        shutil.rmtree(d, ignore_errors=True)
+
+
 def drill_done_keys():
     """A done-key is permanent, so writing one over a failed write is permanent loss."""
     a = "THE DONE-KEY — is a phase marked complete over an artifact that never landed?"
@@ -4750,6 +4968,11 @@ def drill_done_keys():
         _the_catalogue_cannot_erase_what_it_did_not_author,
         "catalogue_web's honest `synthesis: None` was dumped whole over the pipeline's Assay "
         "block: 26 records nulled in 24 hours, DC among them, and it does not self-heal")
+    net(a, "the catalogue merge does not key entries on name alone",
+        _the_catalogue_merge_does_not_key_entries_on_name_alone,
+        "the fold order b67dc1990af6 removed from write_record stood on in its twin: 935 rows a "
+        "name-keyed dict collapses across 65 records, judgments stamped onto the wrong entity "
+        "and a cast that shrank, against a docstring promising it never does")
 
 
 # ============================================================== THE HANDLE (the world profile)
@@ -5080,7 +5303,16 @@ def drill_stale_writer():
             f.write('{"v":"STALE"}')
 
         def refused():
-            ok, _why = S.replace_if_unchanged(tmp, dst, seen)
+            # Found 2026-09-06 by diffing state/failures.json across a full drill run, NOT by
+            # reading code: `silent:silence.py:cas-target-changed` rose by 2 per run while the
+            # eight known probe rows held flat. This is one of the two. The refusal under test
+            # reaches `note("silence.py:cas-target-changed")` -> `health.record`, so the probe was
+            # manufacturing the exact stale-write signal it exists to prove the library can raise.
+            # `_deliberately_failing`'s docstring already names a `silence.py:stale-write-refused`
+            # row it covers -- a DIFFERENT key from a different branch of the same module, which
+            # is how this one stayed hidden behind an entry that looked like it.
+            ok, _why = _deliberately_failing(
+                lambda: S.replace_if_unchanged(tmp, dst, seen))
             with open(dst, encoding="utf-8") as f:
                 return (not ok) and f.read() == '{"v":2}'
         net(a, "a stale write is REFUSED and the fresher file survives", refused,
@@ -5141,7 +5373,15 @@ def drill_stale_writer():
                     raise PermissionError("stand-in: only Windows denies this for real")
                 os.replace = _denied
             try:
-                ok, why = S.replace_if_unchanged(t3, dst, expected, attempts=1)
+                # ORDER 630fe4529c51: the denial this probe manufactures reaches
+                # `note("replace-denied:" + basename(dst))` -> `health.record`, which wrote a
+                # `silent:replace-denied:shared.json` row into the LIVE state/failures.json on
+                # every drill run. Its sibling `the_loser_of_a_race_is_refused_mid_backoff`
+                # right below drives the same function's refusal path and has always wrapped
+                # the call; this one never did. Measured 2026-09-06: that key stood at 39, the
+                # exact drill-run count, alongside seven others of the same shape.
+                ok, why = _deliberately_failing(
+                    lambda: S.replace_if_unchanged(t3, dst, expected, attempts=1))
             finally:
                 if holder is not None:
                     holder.close()
@@ -5310,6 +5550,68 @@ def _a_boolean_is_not_a_score():
     rejects = all(MG._is_score(v) is False for v in (True, False, "n/a", None, "", [], {}))
     accepts = all(MG._is_score(v) is True for v in (0, 0.0, 1, 1.5, -3, 10.0))
     return rejects and accepts
+
+
+def _a_scope_refusal_is_never_cached_as_no_ceiling():
+    """A host whose scope could not be READ must not become a host with NO CEILING. -> bool.
+
+    ORDER 3eeedaafce1e (sweep46-batch08). `scope.scope_for` was repaired on 2026-09-06 to stop
+    caching an API failure as an honest empty verdict -- it raises `ProbeUnread` instead (order
+    6e2dab4c3981). `magnitude.host_ceiling` then caught that refusal in a bare `except Exception`
+    and returned `cl = None`, which every caller reads as "this host has no ceiling", so the
+    fabrication was recreated one layer above the fix.
+
+    AND IT WAS CACHED, which is what made it permanent: the None went into `_SCOPE_CACHE`, so
+    every later entity from that host in the same process skipped the clamp as well, with no
+    second attempt and nothing recorded. A throttled host mid-batch is ordinary, and this clamp
+    is the only outside check on the model's anchoring -- `host_ceiling`'s own docstring records
+    what its absence produced: Jace Beleren at M10.77 against a published M2.88, Silver Surfer at
+    M10.93.
+
+    THREE ARMS, because fixing only the first would leave the expensive half in place:
+      1. the refusal REACHES the caller instead of turning into None;
+      2. it is NOT cached, so the next call tries again rather than inheriting a verdict that was
+         never reached;
+      3. a GENUINE empty verdict -- scope read successfully, no ceiling recorded -- still returns
+         None and is still cached, so the fix cannot be "refuse everything", which would pass arm
+         1 and quietly disable the on-disk fast path for all 155 hosts already measured.
+    """
+    import magnitude as MG
+    import scope as _SC
+    real_scope_for, real_cache = MG.SCOPE.scope_for, dict(MG._SCOPE_CACHE)
+    host = "__drill_scope_probe__.invalid"
+    calls = {"n": 0}
+    try:
+        def refusing(_h):
+            calls["n"] += 1
+            raise _SC.ProbeUnread("drill: the scope probe could not be read")
+        MG.SCOPE.scope_for = refusing
+        MG._SCOPE_CACHE.clear()
+        # WRAPPED, BECAUSE THIS NET WAS ITSELF THE TWELFTH PROBE-LITTER SITE. The refusal path it
+        # drives calls `note("magnitude.py:host_ceiling-unread")` -> `health.record`, and a
+        # before/after diff of state/failures.json across a full drill run caught it growing 6 -> 8
+        # -- two per run, one per arm -- within minutes of the net being written, on the same day
+        # eleven older sites of this exact shape were retired. Recorded rather than quietly fixed:
+        # the discipline is easy to state and easy to forget while writing the net that needs it,
+        # which is the argument order 895a99602bf0 makes for a standing ledger check instead of
+        # per-site care. The assertions are untouched.
+        for _ in range(2):
+            try:
+                _deliberately_failing(lambda: MG.host_ceiling(host))
+                return False                      # arm 1: swallowed the refusal
+            except _SC.ProbeUnread:
+                pass
+        if host in MG._SCOPE_CACHE:
+            return False                          # arm 2: cached a verdict never reached
+        if calls["n"] != 2:
+            return False                          # arm 2: did not retry
+        MG.SCOPE.scope_for = lambda _h: {}
+        MG._SCOPE_CACHE.clear()
+        return MG.host_ceiling(host) is None and host in MG._SCOPE_CACHE   # arm 3
+    finally:
+        MG.SCOPE.scope_for = real_scope_for
+        MG._SCOPE_CACHE.clear()
+        MG._SCOPE_CACHE.update(real_cache)
 
 
 def _status_reports_i_do_not_know_as_itself(src=None):
@@ -5774,6 +6076,11 @@ def drill_binding_identity():
         "`bool` subclasses `int`, so `isinstance(x, (int, float))` took JSON `true` as the "
         "number 1.0 and published it inside an assay interval -- while the obvious truthiness "
         "'fix' would refuse a legitimate score of 0")
+    net(a, "a scope that could not be READ is never cached as a host with NO CEILING",
+        _a_scope_refusal_is_never_cached_as_no_ceiling,
+        "scope.py was fixed to raise rather than cache an API failure as an empty verdict, and "
+        "host_ceiling's bare `except Exception` turned the refusal straight back into None -- "
+        "then cached it, so every later entity from that host skipped the clamp too")
     net(a, "`--status` reports an unreadable process table as UNKNOWN, not as 'not running'",
         _status_reports_i_do_not_know_as_itself,
         "`running()` is tri-state and None means nobody knows; rendering that as the confident "
@@ -6266,6 +6573,155 @@ def drill_fetch():
         "case in the ledger that was never opened on disk")
     net(a, "the backoff has a ceiling -- slowed, never stopped", _backoff_stops_at_its_ceiling,
         "an unbounded backoff is an outage that reports itself as politeness")
+
+    # A TRANSPORT FAILURE READ AS AN EMPTY ANSWER, in three more places (orders
+    # de0681cb9edc and 6e2dab4c3981, landed 2026-09-06 from
+    # handoff/nets_20260906/read_catalogue.py and longtail.py). Same subject as this
+    # area's founding nets one layer up: a roster or a scope that was never read must not
+    # come back looking like a roster or a scope that was read and was empty. All three
+    # stub the transport; none makes a request.
+    # Both attack wiki_source's listing walks with a MOCKED transport -- no network call is made, and
+    # neither writes to the corpus, the roll, or any file. `wiki_source._api` is monkeypatched to
+    # succeed once (one page, with a pagination continuation token) and then raise on every call after
+    # that -- exactly the shape of a real mid-walk API hiccup -- and each net checks that the walk
+    # propagates the failure instead of silently returning the alphabetical prefix it had already
+    # collected as if it were the whole roster.
+    #
+    # PROVEN RED AGAINST THE PRE-FIX wiki_source.py (this sweep, before the order de0681cb9edc edit
+    # landed):
+    #
+    #     category_members: NO EXCEPTION -- returned ['Alpha', 'Beta'] -- BREACH (pre-fix expected)
+    #     all_categories:   NO EXCEPTION -- returned [(500, 'Characters')] -- BREACH (pre-fix expected)
+    #
+    # AND GREEN AFTER IT (this sweep, against the fixed wiki_source.py in this same tree):
+    #
+    #     category_members: RAISED TimeoutError -- HELD
+    #     all_categories:   RAISED TimeoutError -- HELD
+    #
+    # Order: de0681cb9edc (priority order, sweep45-batch09, verified against source by run #45).
+
+    def wiki_source_partial_roster_never_lands_as_complete():
+        """category_members must raise on a transport failure mid-pagination, not return the
+        alphabetical prefix it had already collected as if that were the whole category.
+
+        Pre-fix, `category_members` caught the transport exception, logged it via `silence.note`,
+        and `break`-ed out with whatever had been paginated so far -- and because MediaWiki returns
+        category members ALPHABETICALLY, that partial list is an A-through-something PREFIX of the
+        real roster, handed back with no marker distinguishing it from a genuinely short category.
+        `catalogue()`'s single-wiki path (catalogue_web.py) wraps nothing around this call, on the
+        documented premise that a transport failure here fails the whole attempt honestly and keeps
+        the source retryable (`entry_count` stays 0) -- a premise that was false as written before
+        this fix, because the exception this premise depends on never actually reached the caller.
+        """
+        import wiki_source as WS
+
+        calls = {"n": 0}
+
+        def _fake_api(subdomain, params, timeout=25):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                return {"query": {"categorymembers": [{"title": "Alpha"}, {"title": "Beta"}]},
+                        "continue": {"cmcontinue": "next-page"}}
+            raise TimeoutError("simulated transport failure mid-pagination")
+
+        _orig_api = WS._api
+        WS._api = _fake_api
+        try:
+            try:
+                # The propagating failure notes itself on the way out, so the call that is
+                # SUPPOSED to raise is wrapped -- see `_deliberately_failing`. The RAISE is
+                # what is asserted; nothing under test is suppressed.
+                _deliberately_failing(
+                    lambda: WS.category_members("faketest-net-de0681cb9edc", "Characters",
+                                                limit=None))
+                return False   # no exception -- the partial roster was returned silently: BREACH
+            except Exception:
+                return True    # the failure propagated -- HELD
+        finally:
+            WS._api = _orig_api
+
+
+    def wiki_source_all_categories_partial_walk_never_cached_as_complete():
+        """all_categories must raise on a transport failure mid-pagination -- and, because a failed
+        walk that raises can never reach the memoisation line below it, a failed walk can no longer
+        be cached as the wiki's whole category set for the rest of the process either.
+
+        Pre-fix, this caught the transport exception, set `complete = False`, `break`-ed out with the
+        partial list, and returned it (uncached only because of the `complete` guard -- the partial
+        list itself was still handed to the caller as the answer). Every one of the seven canonical
+        classes that calls `find_categories` -> `discover_categories` -> `all_categories` for the
+        same wiki would then have silently read that same truncated category list.
+        """
+        import wiki_source as WS
+
+        calls = {"n": 0}
+        key = ("faketest-net-de0681cb9edc-allcats", 40, None)
+
+        def _fake_api(subdomain, params, timeout=25):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                return {"query": {"allcategories": [{"*": "Characters", "pages": 500}]},
+                        "continue": {"accontinue": "next-page"}}
+            raise TimeoutError("simulated transport failure mid-pagination")
+
+        _orig_api = WS._api
+        with WS._ALLCATS_LOCK:
+            WS._ALLCATS.pop(key, None)   # leave no state behind from a previous run of this net
+        WS._api = _fake_api
+        try:
+            try:
+                _deliberately_failing(
+                    lambda: WS.all_categories("faketest-net-de0681cb9edc-allcats",
+                                              min_pages=40))
+                return False   # no exception -- the partial category list was returned: BREACH
+            except Exception:
+                return True    # the failure propagated -- HELD
+        finally:
+            WS._api = _orig_api
+            with WS._ALLCATS_LOCK:
+                WS._ALLCATS.pop(key, None)
+
+
+    net(a, "a category roster cut off mid-walk is not handed back as the whole roster",
+        wiki_source_partial_roster_never_lands_as_complete,
+        "category_members raises on a transport failure mid-pagination instead of silently "
+        "returning the alphabetical prefix already collected (order de0681cb9edc)")
+
+    net(a, "a category WALK cut off mid-pagination is not handed back as the wiki's whole set",
+        wiki_source_all_categories_partial_walk_never_cached_as_complete,
+        "all_categories raises on a transport failure mid-pagination instead of returning (and, "
+        "unbounded, memoising) a partial category list (order de0681cb9edc)")
+
+    def drill_scope_refuses_an_unread_host():
+        import scope as SC, feats as F
+        real = F.api, F.fetch
+        def _fail(host, params, retries=2, outcome=None):
+            if outcome is not None:
+                outcome.clear(); outcome["ok"], outcome["why"] = False, "throttled"
+            return None
+        def _ok_empty(host, params, retries=2, outcome=None):
+            if outcome is not None:
+                outcome.clear(); outcome["ok"], outcome["why"] = True, "ok"
+            return {"query": {"search": []}}
+        try:
+            F.api = _fail
+            try:
+                SC.scope_for("fixture.invalid")
+                return False              # a swallowed failure came back as a verdict
+            except SC.ProbeUnread:
+                pass
+            F.api = _ok_empty
+            if SC.scope_for("fixture.invalid") is not None:
+                return False              # the genuine empty answer must still be the empty answer
+            return True
+        finally:
+            F.api, F.fetch = real
+
+
+    net(a, "a host that could not be read is not stamped as having no scope",
+        drill_scope_refuses_an_unread_host,
+        "scope_for raises ProbeUnread when feats.api swallowed a failure, and still returns "
+        "None for a host that genuinely answered with nothing")
 
 
 # ============================================================== THE CLOUD POOL (cascade)
@@ -7792,6 +8248,79 @@ def drill_escalation_behaviour():
         "raised, and `landed = True` reports every FAILED one as raised -- which is the "
         "failure the whole verdict was added to expose")
 
+    # THE SAME QUESTION ONE RUNG DOWN, and the one the ledger routes on. Landed 2026-09-06
+    # from handoff/nets_20260906/safety.py (orders cd76813c39bc, 5bbbb65e7787).
+    def a_lost_escalation_says_so_on_the_record():
+        """THE JANITOR'S RUNG REPORTS WHETHER IT ACTUALLY TOOK THE ALARM DOWN.
+
+        `escalate()` used to call `_append_log(rec)` bare -- no assignment, no branch, nothing
+        placed on the record -- and `_append_log` itself answered for `state/escalation.log`
+        alone, dropping the per-source append's verdict on the floor one line later. So the
+        record handed back to whoever raised the alarm was byte-identical whether the alarm was
+        written down or lost. At rungs 1-4 the log IS the whole enforcement: OPERATOR,
+        SUPERVISOR and SAFETY neither raise a halt nor write a state file, so a lost append
+        leaves no trace a person can find.
+
+        BOTH APPENDS, SEPARATELY, because the per-source half is the one that was invisible and
+        a net that only refuses the both-denied case would pass over it. And the landed case
+        too: a `recorded` that is always False is the same defect facing the other way.
+        """
+        def probe(d, filed):
+            import silence as SI
+            real = SI.append_line
+            try:
+                if ESC.escalate(ESC.SUPERVISOR, "C", "W", source="S").get("recorded") is not True:
+                    return False                      # a landed escalation must say so
+
+                SI.append_line = lambda *a, **kw: False
+                if ESC.escalate(ESC.SUPERVISOR, "C", "W", source="S").get("recorded") is not False:
+                    return False                      # every append refused
+
+                def only_the_area_log_fails(path, line):
+                    if os.path.basename(os.path.dirname(path)) == "escalations":
+                        return False
+                    return real(path, line)
+
+                SI.append_line = only_the_area_log_fails
+                # THE HALF THAT USED TO BE LOST: state/escalation.log lands, the source's own
+                # log does not, and the verdict must still be False.
+                return ESC.escalate(ESC.SUPERVISOR, "C", "W",
+                                    source="S").get("recorded") is False
+            finally:
+                SI.append_line = real
+        return _esc_probe(probe)
+    net(a, "an escalation that could not be written down says so on its own record",
+        a_lost_escalation_says_so_on_the_record,
+        "at rungs 1-4 the log is the whole enforcement, and the record used to read as filed "
+        "whether it was filed or lost -- the defect already repaired one rung up (halt_landed) "
+        "and one rung down (stop_recorded)")
+
+
+    def the_escalations_source_travels_to_the_failure_ledger():
+        """`health.is_selftest` matches `__drill[A-Za-z0-9_]*__` against the composed key AND
+        against `subject`, and only the key used to be offered. Six of the seven live drill rows
+        embed the marker somewhere inside the key; the seventh --
+        `escalation:SUPERVISOR:DRILL_AREA:drill: one area closing`, whose marker is in `source`
+        and nowhere in the key -- cannot be caught by ANY reading of the key. The caller has to
+        say, and `escalate()` is the caller that knows."""
+        def probe(d, filed):
+            import health as _H
+            seen = []
+            real = _H.record
+            _H.record = lambda *args, **kw: seen.append(kw.get("subject"))
+            try:
+                ESC.escalate(ESC.SUPERVISOR, "DRILL_AREA", "drill: one area closing",
+                             source="__drill__")
+            finally:
+                _H.record = real
+            return seen == ["__drill__"]
+        return _esc_probe(probe)
+    net(a, "an escalation hands the failure ledger its SOURCE, not only its key",
+        the_escalations_source_travels_to_the_failure_ledger,
+        "state/failures.json is the ledger a person reads to find real faults, and one of "
+        "drill.py's own rehearsals could not be told from a real SUPERVISOR-rung area closure "
+        "by any reading of the composed key")
+
     def a_second_fault_corroborates_and_does_not_bury_the_first():
         def probe(d, filed):
             ESC.escalate(ESC.OWNER, "FIRST", "the first thing that went wrong")
@@ -7965,6 +8494,73 @@ def drill_escalation_behaviour():
         "a halt is raised when a library-wide invariant has been violated, and moving the "
         "chapters out and rewriting the index of them is the last thing that should proceed "
         "on uncertain ground -- the move is one-way, so the archive is the only copy")
+
+    # THE SECOND TOOL IN THAT CLASS, found by the same reasoning (order 77950336e3aa,
+    # landed 2026-09-06 from handoff/nets_20260906/safety.py). Same shape as the net
+    # directly above, including the `--go` on purpose.
+    def the_tool_that_deletes_mined_evidence_asks_about_the_halt():
+        """`hostcheck --purge --go` empties `entries` in every matching data/records/*.json and
+        then os.remove()s every cached page under data/feats/<host>/ and data/readfeats/<host>/
+        -- the only supporting evidence for the entries being removed, deleted one way.
+        `--repair` and `--adopt --go` rewrite WIKI_HOSTS.json, which hostcheck.py itself calls
+        one of the two files not reconstructible from anything else on disk. None of the three
+        asked about the plant-wide halt.
+
+        THE DRY RUNS AND THE READ-ONLY SWEEP ARE ASSERTED UNGATED, and that half is not padding:
+        a measurement that cannot be retaken is abandoned rather than deferred
+        (completeness.host_reachable), and a gate that swallowed the shortlist a person reads
+        before deciding what to purge would be over-eager safety of the shape this project keeps
+        having to walk back."""
+        import hostcheck as HC
+        import weave_index as WI
+        d = tempfile.mkdtemp(prefix="drill_hostcheck_halt_")
+        saved_halt = ESC.HALT_FILE
+        saved = {k: getattr(HC, k) for k in ("ROSTERS", "entities_by_source",
+                                             "_land_hosts", "_land")}
+        real_records = WI.load_records
+        try:
+            ESC.HALT_FILE = os.path.join(d, "HALT.json")
+            with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
+                           "cleared": False}, f)
+            if not ESC.status()[0]:
+                return False              # the synthetic halt must actually stand
+            # Second line of defence: with the gate removed, none of these can move anything.
+            HC.ROSTERS = os.path.join(d, "no-such-roster-audit.json")
+            HC.entities_by_source = lambda: {}
+            HC._land_hosts = lambda *a, **kw: (False, "drill: writing is stubbed out")
+            HC._land = lambda *a, **kw: False
+            WI.load_records = lambda *a, **kw: []
+
+            def refuses(fn):
+                try:
+                    fn()
+                except ESC.SystemHalted:
+                    return True
+                return False
+
+            if not refuses(lambda: HC.purge(dry=False, only=["__drill_source__"])):
+                return False
+            if not refuses(lambda: HC.adopt(dry=False, workers=1)):
+                return False
+            if not refuses(lambda: HC.sweep(repair=True, workers=1)):
+                return False
+            if refuses(lambda: HC.purge(dry=True, only=["__drill_source__"])):
+                return False              # a shortlist is a measurement
+            if refuses(lambda: HC.sweep(repair=False, workers=1)):
+                return False              # so is a read-only sweep
+            os.remove(ESC.HALT_FILE)
+            return not refuses(lambda: HC.sweep(repair=True, workers=1))
+        finally:
+            ESC.HALT_FILE = saved_halt
+            WI.load_records = real_records
+            for k, v in saved.items():
+                setattr(HC, k, v)
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "the tool that DELETES mined evidence asks about the halt first",
+        the_tool_that_deletes_mined_evidence_asks_about_the_halt,
+        "purge --go deletes the only copy of the evidence for the entries it removes, and every "
+        "decision it makes is made from the state a halt says is untrustworthy")
 
     # ------------------------------------------------------------------ clear(), the asymmetry
     #
@@ -9059,6 +9655,330 @@ def drill_assay_behaviour():
         "of its two published figures still matches, which is the check certifying itself")
 
 
+    # ============================== THE TABLES IT LOADS, AND THE FIELDS THE REPORT CARRIES
+    #
+    # Landed 2026-09-06 from handoff/nets_20260906/assay.py. Nine of the ten attack guards added
+    # to `assay.py` the same day -- five import-time ratchets over constant tables that had no
+    # net anywhere in the tree, and four additive report fields that make a silently-absorbed bad
+    # input speak. The tenth is COVERAGE rather than proof and says so in its own comment:
+    # `axis_score`'s `hi <= lo` limb is old code nothing had ever watched refuse, because
+    # BAND_EDGES happens to be well-ordered, which is precisely the condition the limb defends
+    # against a future edit breaking.
+
+    # -------------------------------------------------------------- the second attestation table
+    #
+    # Orders 6d132aa1e8aa and 95404f8825f2, filed independently, same finding: `SIGMA_BY_ATTESTATION`
+    # is checked at import and `ATTESTATION_FLOOR` -- the quadrature floor `interval_from_hands` adds,
+    # and the table `custodes.py` reads as `A.ATTESTATION_FLOOR` for all ten Custodes' evidential
+    # parts -- was checked nowhere in the tree.
+
+    def the_attestation_floors_cannot_be_rearranged_mid_table():
+        """A floor swap that leaves both endpoints alone must still refuse at import.
+
+        Instrumented and Disputed are untouched here on purpose: that is precisely the edit the two
+        existing endpoint probes cannot see, and it publishes a NARROWER bar for the worse-attested
+        of the two grades it moves -- the "less knowledge, narrower bar" defect assay.py's own header
+        names as the worst direction this library can be wrong in.
+        """
+        saved = dict(ASSAY.ATTESTATION_FLOOR)
+        try:
+            ASSAY.ATTESTATION_FLOOR.update({"Transcribed": 0.40, "Reconstructed": 0.20})
+            refused = _refuses(ASSAY._check_constants, ASSAY.AssayIntegrityError)
+        finally:
+            ASSAY.ATTESTATION_FLOOR.clear()
+            ASSAY.ATTESTATION_FLOOR.update(saved)
+        # And the live table is exactly as it was, so a red net cannot leave a redder library.
+        return refused and ASSAY.ATTESTATION_FLOOR == saved
+
+    net(a, "an attestation FLOOR table that is not strictly increasing refuses to load",
+        the_attestation_floors_cannot_be_rearranged_mid_table,
+        "ATTESTATION_FLOOR had no ordering check anywhere in src/. Swap Transcribed 0.20 and "
+        "Reconstructed 0.40 and leave the endpoints alone: import succeeds, drill's two-point probe "
+        "still passes, and interval_from_hands plus custodes.ATTESTATION_QUALITY publish a TIGHTER "
+        "bar for the worse-attested grade -- less knowledge, narrower bar, on the table with no net")
+
+    def a_renamed_attestation_grade_refuses_rather_than_substituting():
+        """The five grades are the charter's, and a table that lost one must not load.
+
+        `interval_from_hands` SUBSTITUTES ATTESTATION_FLOOR_UNRECOGNISED for a grade it cannot find,
+        so a renamed grade does not raise anywhere downstream -- it quietly publishes every reading
+        of that grade against a floor the charter never assigned it, and says "UNRECOGNISED" about a
+        grade the charter does define.
+        """
+        saved = dict(ASSAY.ATTESTATION_FLOOR)
+        try:
+            ASSAY.ATTESTATION_FLOOR.pop("Witnessed")
+            ASSAY.ATTESTATION_FLOOR["Seen"] = 0.10
+            refused = _refuses(ASSAY._check_constants, ASSAY.AssayIntegrityError)
+        finally:
+            ASSAY.ATTESTATION_FLOOR.clear()
+            ASSAY.ATTESTATION_FLOOR.update(saved)
+        return refused and ASSAY.ATTESTATION_FLOOR == saved
+
+    net(a, "an ATTESTATION_FLOOR that lost or renamed a charter grade refuses to load",
+        a_renamed_attestation_grade_refuses_rather_than_substituting,
+        "the substitution path is silent by design, so a dropped grade is not a KeyError -- it is "
+        "every reading of that grade published against ATTESTATION_FLOOR_UNRECOGNISED with a "
+        "sentence saying the charter does not define a grade the charter does define")
+
+    def the_substituted_floor_is_never_a_reward():
+        """A grade nobody recognised must not buy a bar as tight as an instrument reading.
+
+        This is the SIGMA_UNKNOWN check's own shape, asserted on the floor table: the substituted
+        value is what an unread grade GETS, and it is not allowed to be better than the best evidence
+        on file.
+        """
+        saved = ASSAY.ATTESTATION_FLOOR_UNRECOGNISED
+        try:
+            ASSAY.ATTESTATION_FLOOR_UNRECOGNISED = 0.05
+            refused = _refuses(ASSAY._check_constants, ASSAY.AssayIntegrityError)
+        finally:
+            ASSAY.ATTESTATION_FLOOR_UNRECOGNISED = saved
+        return refused and ASSAY.ATTESTATION_FLOOR_UNRECOGNISED == saved
+
+    net(a, "a substituted floor tighter than the best recognised grade refuses to load",
+        the_substituted_floor_is_never_a_reward,
+        "ATTESTATION_FLOOR_UNRECOGNISED at 0.05 makes an INVENTED grade the most confident reading "
+        "in the library -- the fastest way to a tight bar becomes typing a grade nobody has heard of")
+
+    # ------------------------------------------------------------- the Instrument's own constants
+    #
+    # Order 422ccc9f6eb4. Two tables sitting beside BAND_EDGES, both read on the publishing path,
+    # neither checked when the BAND_EDGES ratchet was written.
+
+    def a_ladder_rung_with_no_instrument_window_refuses_to_load():
+        """`instrument()` refuses such a rung with a message that NAMES it as acceptable.
+
+        Worse, anchors.py:427 indexes INSTRUMENT_WINDOWS[b] for every b in LADDER with no guard, so
+        the same divergence arrives as a KeyError raised from inside production code. Both directions
+        are attacked, because a table can disagree with the Ladder by having too little or too much.
+        """
+        saved = dict(ASSAY.INSTRUMENT_WINDOWS)
+        try:
+            ASSAY.INSTRUMENT_WINDOWS.pop("M7")
+            missing_refused = _refuses(ASSAY._check_constants, ASSAY.AssayIntegrityError)
+            ASSAY.INSTRUMENT_WINDOWS.clear()
+            ASSAY.INSTRUMENT_WINDOWS.update(saved)
+            ASSAY.INSTRUMENT_WINDOWS["M11"] = (30, 30)
+            stray_refused = _refuses(ASSAY._check_constants, ASSAY.AssayIntegrityError)
+        finally:
+            ASSAY.INSTRUMENT_WINDOWS.clear()
+            ASSAY.INSTRUMENT_WINDOWS.update(saved)
+        return missing_refused and stray_refused and ASSAY.INSTRUMENT_WINDOWS == saved
+
+    net(a, "INSTRUMENT_WINDOWS and the Ladder must name the same rungs, both directions",
+        a_ladder_rung_with_no_instrument_window_refuses_to_load,
+        "a rung on the Ladder with no window is refused by `anchor must be one of {LADDER}` -- a "
+        "sentence that names that rung as acceptable -- and is an unguarded KeyError out of "
+        "anchors.py:427; a window row off the Ladder is numbers nothing can ever score against")
+
+    def a_faculty_that_reads_a_measure_nobody_defines_refuses_to_load():
+        """A misspelt axis in FACULTY_READS is not a refusal downstream, it is a SILENT DROP.
+
+        `instrument()` does `axis_scores.get(axis)`, so an unknown name returns None, the faculty
+        prints None, and `faculty_status` records "unattested" -- which ASSERTS the subject was never
+        observed exercising that faculty. `_check_scores` cannot see it: it validates the CALLER's
+        keys and this is the table's own values. The second attack is the same fault reached from the
+        WEIGHTS side, and it covers Constitution, whose two halves are read by name in code rather
+        than through FACULTY_READS at all.
+        """
+        saved_reads = dict(ASSAY.FACULTY_READS)
+        saved_w = dict(ASSAY.WEIGHTS)
+        try:
+            ASSAY.FACULTY_READS["Wisdom"] = "discernement"
+            misspelt_refused = _refuses(ASSAY._check_constants, ASSAY.AssayIntegrityError)
+            ASSAY.FACULTY_READS.clear()
+            ASSAY.FACULTY_READS.update(saved_reads)
+            ASSAY.WEIGHTS.pop("sustain")
+            constitution_refused = _refuses(ASSAY._check_constants, ASSAY.AssayIntegrityError)
+        finally:
+            ASSAY.FACULTY_READS.clear()
+            ASSAY.FACULTY_READS.update(saved_reads)
+            ASSAY.WEIGHTS.clear()
+            ASSAY.WEIGHTS.update(saved_w)
+        return (misspelt_refused and constitution_refused
+                and ASSAY.FACULTY_READS == saved_reads and ASSAY.WEIGHTS == saved_w)
+
+    net(a, "a faculty pointed at a Measure that does not exist refuses to load",
+        a_faculty_that_reads_a_measure_nobody_defines_refuses_to_load,
+        "one letter in FACULTY_READS prints a published faculty as unattested, which asserts the "
+        "subject was never observed exercising it -- a finding manufactured out of a typo, and "
+        "invisible to `_check_scores`, which judges the caller's keys and not the table's values")
+
+    # ----------------------------------------------------------- the grade speaks at BOTH layers
+    #
+    # Order 9a0588111549. `interval_from_hands` names an unrecognised grade; `assay()` -- the layer
+    # that produces every printed Magnitude in the library -- absorbed it, doubled the bar, and
+    # returned a dict whose `attestation` field said "witnessed" while its interval said Disputed.
+
+    def assay_names_an_attestation_grade_it_could_not_read():
+        """A lowercase spelling and an invented grade must both be flagged, not just widened.
+
+        Widening is the safe direction and that is not why the silence was acceptable: the interval
+        IS the published claim about how much the library does not know, and a bar that doubled
+        because somebody typed a lowercase w is not a statement about evidence. Measured on the
+        charter's own worksheet: 'Witnessed' 0.12, 'witnessed' 0.25, 'Excellent' 0.25.
+        """
+        proper = ASSAY.assay("M3", dict(ASSAY.CHARTER_KENSHIRO), attestation="Witnessed",
+                             worksheet="w")
+        typo = ASSAY.assay("M3", dict(ASSAY.CHARTER_KENSHIRO), attestation="witnessed",
+                           worksheet="w")
+        invented = ASSAY.assay("M3", dict(ASSAY.CHARTER_KENSHIRO), attestation="Excellent",
+                               worksheet="w")
+        return (proper["attestation_recognised"] is True
+                and proper["attestation_sigma"] == ASSAY.SIGMA_BY_ATTESTATION["Witnessed"]
+                and "UNRECOGNISED" not in proper["attestation_source"]
+                and typo["attestation_recognised"] is False
+                and invented["attestation_recognised"] is False
+                and typo["attestation_sigma"] == ASSAY.SIGMA_MAX
+                and "UNRECOGNISED" in typo["attestation_source"]
+                and "UNRECOGNISED" in invented["attestation_source"]
+                # the grade is still carried verbatim: the flag is ADDITIVE, never a rewrite
+                and typo["attestation"] == "witnessed"
+                and typo["interval"] > proper["interval"])
+
+    net(a, "assay() says when it could not read the attestation grade it was handed",
+        assay_names_an_attestation_grade_it_could_not_read,
+        "`SIGMA_BY_ATTESTATION.get(attestation, SIGMA_MAX)` absorbs a lowercase 'witnessed' onto the "
+        "Disputed sigma and doubles the published bar, while the stored entry says 'witnessed' -- "
+        "the entry and its interval then disagree about the evidence and nothing reconciles them. "
+        "`attestation_recognised` flipped to `not in` reverses it: every real grade is flagged unread")
+
+    def the_reported_sigma_is_the_sigma_the_arithmetic_used():
+        """One lookup, not two. A reported number that can drift from the computed one is worse
+        than no report, because a reader stops checking.
+
+        The `sigma=` override is the case that separates them: `calibration_report` sweeps ~650 of
+        them, and a call that overrides the dispersion has NOT thereby validated its grade, so the
+        recognition flag must still describe the GRADE while the reported sigma describes the CALL.
+        """
+        swept = ASSAY.assay("M3", dict(ASSAY.CHARTER_KENSHIRO), attestation="Witnessed",
+                            worksheet="w", sigma=2.0)
+        clamped = ASSAY.assay("M3", dict(ASSAY.CHARTER_KENSHIRO), attestation="Witnessed",
+                              worksheet="w", sigma=99.0)
+        return (swept["attestation_sigma"] == 2.0
+                and swept["attestation_recognised"] is True
+                and "sigma= override" in swept["attestation_source"]
+                # the ceiling binds an override exactly as it binds the table
+                and clamped["attestation_sigma"] == round(ASSAY.SIGMA_MAX, 4))
+
+    net(a, "the sigma an assay reports is the sigma it computed with, override and ceiling included",
+        the_reported_sigma_is_the_sigma_the_arithmetic_used,
+        "the lookup was hoisted so the dict reports the same value `_interval` used; a second copy "
+        "of it would report the table's sigma while the bar was computed from a swept one, and a "
+        "`min(SIGMA_MAX, ...)` dropped from either copy lets a caller buy certainty the table cannot")
+
+    # ----------------------------------------------------------- the Hands are read, not assumed
+    #
+    # Order 91a30aa88893. `HANDS` had no reader anywhere in src/ while `interval_from_hands`'
+    # `readings` argument is keyed by exactly those four names and validated none of them.
+
+    def a_signature_that_is_not_one_of_the_hands_is_named():
+        """{"AVARR": 7.41} used to yield a perfectly ordinary interval with nothing saying so.
+
+        This matters more than a typo usually would: per Vol. 0.5 §2 this interval is the divergence
+        between the ORDER'S CANONICAL PRIORS, and HANDS is the list of those priors. A signature from
+        outside them is a reading whose prior is not on file, so the quantity the field publishes is
+        not the quantity it claims. Every KEY is judged, including one whose value is None -- a
+        misspelt Hand that filed nothing is still a caller who does not know the Hands' names.
+        """
+        good = ASSAY.interval_from_hands({"AVAR": 7.41, "QUILL": 7.90})
+        typo = ASSAY.interval_from_hands({"AVARR": 7.41, "QUILL": 7.90})
+        silent = ASSAY.interval_from_hands({"AVAR": 7.41, "QILL": None})
+        return (good["hands_recognised"] is True
+                and good["unrecognised_hands"] == []
+                and "UNRECOGNISED" not in good["hands_source"]
+                and typo["hands_recognised"] is False
+                and typo["unrecognised_hands"] == ["AVARR"]
+                and "UNRECOGNISED" in typo["hands_source"]
+                and silent["unrecognised_hands"] == ["QILL"]
+                # ADDITIVE: the interval itself is unchanged by the flag
+                and typo["interval"] == good["interval"])
+
+    net(a, "a reading signed by something that is not one of the four Hands is named",
+        a_signature_that_is_not_one_of_the_hands_is_named,
+        "HANDS was prose that happens to be a dict -- no reader anywhere in src/ -- beside the one "
+        "function keyed by its names. `h not in HANDS` flipped to `in` flags all four canonical "
+        "Hands and passes every typo, which is the fault inverted rather than removed")
+
+    # ---------------------------------------------------- the guarantee, and the datum beside it
+    #
+    # Orders e4c8355cc7a0 and 623ac39b4d61, which are one finding. `covers_all_signatures` is True
+    # for every possible input because the widening loop terminates exactly when its expression does
+    #  so nothing read it, and the mutation that inverts it survived a full battery.
+
+    def the_covering_guarantee_holds_and_says_what_bought_it():
+        """Three things at once, because they are one claim about one published number.
+
+        (1) The guarantee itself: whatever the readings, the interval covers every signature. This is
+        what the L1392 mutant (`<=` flipped to `>`) breaks -- and that mutant is NOT equivalent, it
+        returns False for EVERY non-empty `readings`, so a single assertion kills it.
+        (2) The datum: whether the EVIDENCE covered them, or the covering rule bought the coverage.
+        (3) That the datum is not a second tautology -- a skewed set really does fail the quadrature
+        interval, because `centre` is the mean while the spread is measured from the extremes.
+        """
+        plain = ASSAY.interval_from_hands({"AVAR": 7.41, "QUILL": 7.90})
+        skewed = ASSAY.interval_from_hands({"AVAR": 0.0, "QUILL": 0.0, "MOTH": 30.0})
+        return (plain["covers_all_signatures"] is True
+                and skewed["covers_all_signatures"] is True
+                and plain["covered_before_widening"] is True
+                and plain["widening_added"] == 0.0
+                and plain["interval"] == plain["quadrature_interval"]
+                and skewed["covered_before_widening"] is False
+                and skewed["widening_added"] > 0.0
+                and skewed["interval"] > skewed["quadrature_interval"]
+                # and the widened interval really does cover the outlier the quadrature one missed
+                and abs(30.0 - 10.0) <= skewed["interval"])
+
+    net(a, "the interval covers every signature, and says whether the evidence or the rule did it",
+        the_covering_guarantee_holds_and_says_what_bought_it,
+        "assay.py:1392 `<=` flipped to `>` survived a whole mutation pass because NOTHING read this "
+        "field; it is not equivalent, it publishes False for every reading on file. And a guarantee "
+        "published as if it were a check is the shape CLAUDE.md names -- a check that cannot fail "
+        "looks exactly like a check that passed -- so `covered_before_widening` is asserted beside "
+        "it, in both directions, or the pair reads as two rubber stamps instead of one and a datum")
+
+    # ---------------------------------------------------------- the limb of a guard nobody drives
+    #
+    # Order d9c8aab72a2c, remedy (2). NOT a net for a guard added this shift: `axis_score`'s
+    # `hi <= lo` refusal has been there all along and is unchanged. It has simply never been WATCHED
+    # refuse, because BAND_EDGES happens to be well-ordered, so the mutant that deleted it outright
+    # changed nothing anybody looked at. This net drives it directly instead of through the table.
+    # It therefore HOLDS against the pre-fix module too, and is staged as coverage, not as proof.
+
+    def axis_score_refuses_a_band_whose_ceiling_is_not_above_its_floor():
+        """An inverted or degenerate band pair must return None, not a number.
+
+        Without the refusal, `(log(x) - log(lo)) / (log(hi) - log(lo))` is a ZeroDivisionError when
+        hi == lo and a NEGATIVE denominator when hi < lo -- a scoring function that returns a
+        confident wrong number rather than declining. Driven by synthesising the edges rather than by
+        corrupting BAND_EDGES, because the property under test is what the FUNCTION does with a bad
+        pair; `_check_constants` separately ratchets the table so a bad pair cannot arise from it.
+        """
+        saved = {b: dict(ASSAY.BAND_EDGES[b]) for b in ("M3", "M4")}
+        try:
+            ASSAY.BAND_EDGES["M4"]["ruin"] = ASSAY.BAND_EDGES["M3"]["ruin"]      # hi == lo
+            degenerate = ASSAY.axis_score(1e28, "M3", "ruin")
+            ASSAY.BAND_EDGES["M4"]["ruin"] = ASSAY.BAND_EDGES["M3"]["ruin"] / 10.0   # hi < lo
+            inverted = ASSAY.axis_score(1e28, "M3", "ruin")
+        finally:
+            for b, row in saved.items():
+                ASSAY.BAND_EDGES[b].clear()
+                ASSAY.BAND_EDGES[b].update(row)
+        return (degenerate is None and inverted is None
+                # half-defined edges refuse too, and the live table is back as it was
+                and ASSAY.axis_score(1e28, "M3", "acumen") is None
+                and ASSAY.BAND_EDGES["M4"]["ruin"] == saved["M4"]["ruin"])
+
+    net(a, "axis_score refuses a band whose ceiling is not above its floor",
+        axis_score_refuses_a_band_whose_ceiling_is_not_above_its_floor,
+        "`if not lo or not hi or hi <= lo` with the last limb dropped -- which is exactly what the "
+        "surviving mutant `not lo or not hi and hi <= lo` does, since `and` binds tighter -- is a "
+        "ZeroDivisionError at hi == lo and a silently INVERTED score at hi < lo. The limb has never "
+        "been watched refuse because BAND_EDGES happens to be well-ordered, which is the condition "
+        "the guard exists to defend against a future edit breaking")
+
+
 def drill_threads():
     """The entanglement pass — the one place a citation can be invented.
 
@@ -9346,7 +10266,13 @@ def drill_threads():
                  TI._floor_verdict(3, path=p)[0], TI._floor_verdict(4, path=p)[0]]
             with open(p, "w", encoding="utf-8") as fh:
                 fh.write("{ broken")
-            s.append(TI._floor_verdict(0, path=p)[0])
+            # ORDER 630fe4529c51's CLASS, found 2026-09-06 but named by no order: this last case
+            # writes a deliberately unparseable floor file, and `_floor_verdict`'s except arm
+            # calls `note("thread_integrity.py:floor-unreadable")` -> `health.record`, writing
+            # that row into the LIVE state/failures.json on every drill run. It stood at 39, the
+            # drill-run count. The net still asserts the UNREADABLE verdict itself -- which is
+            # the property under test -- so nothing is suppressed.
+            s.append(_deliberately_failing(lambda: TI._floor_verdict(0, path=p))[0])
             return s == ["baseline", "REGRESSED", "ratcheted", "REGRESSED", "UNREADABLE"]
         finally:
             shutil.rmtree(d, ignore_errors=True)
@@ -9507,9 +10433,22 @@ def drill_codewatch():
         one nobody was going to set to zero. The enforcement is `_budget_left`, whose rolling
         hour is the whole mechanism: drop the `t > cutoff` filter and a job that restarted four
         times last week can never restart again; drop the subtraction and a daemon bounces for
-        ever. `exit_if_stale` reads `left <= 0` and keeps running STALE on purpose past it —
-        lag beats thrash, and this project has already paid for one respawn loop
-        (`autostart._twin_watchdog`). None of that was observed by an `isinstance`.
+        ever. Past the budget the job keeps running STALE on purpose — lag beats thrash, and
+        this project has already paid for one respawn loop (`autostart._twin_watchdog`). None of
+        that was observed by an `isinstance`.
+
+        CORRECTED 2026-09-06 (order 06b7f22484df, remedy (c)). This paragraph used to say
+        "`exit_if_stale` reads `left <= 0` and keeps running STALE on purpose past it". That
+        stopped being true when the check and the spend were fused: `exit_if_stale` now reads
+        `granted, used = _claim_restart_slot(who)` and never inspects a `left` at all — the
+        rolling-hour arithmetic moved inside the claim so two twins could not both walk through
+        the gap between reading the budget and taking from it. The sentence also predates the
+        SECOND refusal reason: a claim is now refused either because the hour's budget is spent
+        (`used >= BUDGET_PER_HOUR`) or because the ledger write was DENIED and the spend could
+        not be recorded at all (order f06ba4c82363), and codewatch reports those separately
+        because they send a person looking for different things. Left as a correction rather
+        than a silent edit: this docstring is what a reader consults to decide which branch is
+        safe to drive, and a stale explanation of a safety is its own small hazard.
 
         `_budget_left` and not `exit_if_stale`, deliberately. The budget-exhausted branch is the
         only safe one to drive: the other end of that function CALLS `escalation.escalate` and
@@ -9633,7 +10572,15 @@ def drill_codewatch():
             CW.LEDGER = os.path.join(d, "CODEWATCH.json")
             CW.LEDGER_LOCK = CW.LEDGER + ".lock"
             SI.write_json = lambda *args, **kw: False      # denied, not raised
-            granted, used = CW._claim_restart_slot("__drill_denied__")
+            # ORDER 247b173c78ee's CLASS, found 2026-09-06 but named by no order: the denial this
+            # probe manufactures reaches `note("codewatch.py:record-denied")` -> `health.record`,
+            # writing a `silent:codewatch.py:record-denied` row into the LIVE state/failures.json
+            # on every drill run. It stood at 39 -- the drill-run count -- beside seven others of
+            # the same shape, and "a restart could not be recorded" is exactly the class a person
+            # reading that ledger would go looking for a cause of. The net still asserts the
+            # refusal itself, so nothing under test is suppressed.
+            granted, used = _deliberately_failing(
+                lambda: CW._claim_restart_slot("__drill_denied__"))
             return granted is False and used == 0
         finally:
             CW.LEDGER, CW.LEDGER_LOCK, SI.write_json = real, real_lock, real_write
@@ -10011,7 +10958,14 @@ def _the_log_roll_off_archives_before_it_trims():
         with open(SC.LOG, "w", encoding="utf-8") as fh:
             _json.dump(seed, fh)
         with contextlib.redirect_stdout(io.StringIO()):
-            SC.sweep(limit=1, register=False)
+            # ORDER 31a946e96c69: this fourth case forces `_S.append_line` to fail on purpose, and
+            # scout.sweep's roll-off arm answers that with `note("scout.py:archive-unwritable")`
+            # -> `health.record`, writing a `silent:scout.py:archive-unwritable` row into the LIVE
+            # state/failures.json on every drill run (measured 2026-09-06 at 39, the drill-run
+            # count). The redirect above only silences the PRINTED warning; it never touched the
+            # ledger. The net still asserts the real property -- the log keeps every cycle when
+            # the archive write fails -- so nothing under test is suppressed.
+            _deliberately_failing(lambda: SC.sweep(limit=1, register=False))
         kept = _json.load(open(SC.LOG, encoding="utf-8"))
         rolled = [_json.loads(ln) for ln in open(arch, encoding="utf-8").read().splitlines() if ln]
         if len(kept) != SC.LOG_CYCLES or [c["at"] for c in rolled] != [c["at"] for c in seed[:3]]:
@@ -10028,7 +10982,14 @@ def _the_log_roll_off_archives_before_it_trims():
         _S.append_line = lambda *a_, **k_: False
         with contextlib.redirect_stdout(io.StringIO()), \
                 contextlib.redirect_stderr(io.StringIO()):
-            SC.sweep(limit=1, register=False)
+            # ORDER 31a946e96c69, AND THIS IS THE CALL THAT ACTUALLY LEAKS -- the one directly
+            # under the `append_line` stub. My first pass at this order wrapped the case-3 sweep
+            # above instead, and a before/after diff of state/failures.json across a full drill
+            # run showed `silent:scout.py:archive-unwritable` still climbing (41 -> 42) while the
+            # other seven held flat. That measurement is the only reason the mistake was caught:
+            # the wrapper looked right and the order was closeable on inspection. The redirects
+            # on this line silence the printed warning only; they never touched the ledger.
+            _deliberately_failing(lambda: SC.sweep(limit=1, register=False))
         after = _json.load(open(SC.LOG, encoding="utf-8"))
         return len(after) == len(seed) + 1
     finally:
@@ -10505,6 +11466,226 @@ def drill_recorders_and_lane():
         "that read nothing and recorded a plausible name looked identical to one that read "
         "every line (order f307490add1e)")
 
+    # THE LEDGER ROUTES ON THE SUBJECT THE ESCALATION HANDS IT (order 5bbbb65e7787, landed
+    # 2026-09-06 from handoff/nets_20260906/safety.py). Its sibling in
+    # `drill_escalation_behaviour` proves the SUBJECT travels; this proves the ledger routes
+    # on it. Either alone passes while the other's half is broken, which is why they are two.
+    def a_rehearsal_is_not_filed_as_a_fault():
+        """AND THE LEDGER ROUTES ON IT. Both directions: a synthetic subject goes to the
+        self-test ledger, a real one stays in the operational ledger. A router that sends
+        everything to the self-test ledger empties the ledger a person reads, which is the same
+        defect facing the other way."""
+        import health as _H
+        key = "escalation:SUPERVISOR:DRILL_AREA:drill: one area closing"
+        saved_l, saved_s = dict(_H.LEDGER), dict(_H._SELFTEST)
+        try:
+            _H.LEDGER.clear()
+            _H._SELFTEST.clear()
+            _H.record(key, "", subject="__drill__")
+            if _H._SELFTEST.get(key) != 1 or key in _H.LEDGER:
+                return False
+            _H.LEDGER.clear()
+            _H._SELFTEST.clear()
+            _H.record("escalation:SUPERVISOR:AREA_CLOSED", "", subject="Song of Syx")
+            return bool(_H.LEDGER) and not _H._SELFTEST
+        finally:
+            _H.LEDGER.clear()
+            _H.LEDGER.update(saved_l)
+            _H._SELFTEST.clear()
+            _H._SELFTEST.update(saved_s)
+    net(a, "a rehearsal lands in the self-test ledger and a fault lands in the real one",
+        a_rehearsal_is_not_filed_as_a_fault,
+        "7 of 67 keys and 42 of 4,054 counted events in state/failures.json were the battery "
+        "rehearsing itself, incrementing once per run with no ceiling")
+
+    # THE PREFLIGHT'S OWN LIVENESS PROBE (order f366f81f6ddc, landed 2026-09-06 from
+    # handoff/nets_20260906/safety.py).
+    def the_liveness_probe_retries_and_names_what_it_found():
+        """This is the preflight's liveness probe. It made ONE attempt per host family
+        (`retries=0` against feats.api's default of 2), so a single DNS hiccup or TLS handshake
+        failure -- documented, live faults on this machine -- became a preflight problem, a
+        stamped row in state/preflight_last.json, a filed MAJOR order and an rc=1 cycle, for a
+        condition that had already cleared. `check_caches` in the same file states the doctrine:
+        "A permanent red is not extra safety; it is how a preflight stops being read."
+
+        And it did not pass api()'s `outcome` dict, so "fandom API unreachable" was emitted
+        identically for the wrong API path -- the 404 that cost 5,590 entries and is this
+        check's whole stated purpose -- and for a transient network fault. Two faults with
+        opposite remedies, one sentence. api() separates them and its own docstring says that
+        channel exists because collapsing them "is NOT tolerable for a liveness probe".
+
+        THREE WORLDS, since a probe that reports every fault as `network` is as useless as one
+        that reports every fault as `unreachable`."""
+        import feats as F
+        import health as _H
+        calls = []
+        real = F.api
+
+        def stub(why, ok, ret):
+            def api(host, params, retries=2, outcome=None):
+                calls.append((retries, outcome is not None))
+                if outcome is not None:
+                    outcome.clear()
+                    outcome["ok"], outcome["why"] = ok, why
+                return ret
+            return api
+        try:
+            F.api = stub("http-404", False, None)
+            rows = _H.check_api_paths()
+            if not rows or not all("http-404" in r[1] for r in rows):
+                return False
+            if not calls or any(r == 0 for r, _ in calls) or not all(o for _, o in calls):
+                return False              # retries=0 forced, or the channel not passed
+            F.api = stub("network", False, None)
+            if not all("network" in r[1] for r in _H.check_api_paths()):
+                return False
+            F.api = stub("ok", True, {"batchcomplete": True})
+            return all("without a `query` block" in r[1] for r in _H.check_api_paths())
+        finally:
+            F.api = real
+    net(a, "the API liveness probe retries, and its report names which fault it found",
+        the_liveness_probe_retries_and_names_what_it_found,
+        "a spurious red was one packet away and became a filed order; and 'unreachable' is not "
+        "actionable while 'http-404 on /api.php' is")
+
+    # TWO OVERNIGHT REPAIRS (orders df385729e15f and 6c3a42f8dbdd, landed 2026-09-06 from
+    # handoff/nets_20260906/foreman_overnight.py). Both are the same class as this area's
+    # founding four: a caller could not tell a denial from a success.
+    def an_owner_queue_denial_is_reported_as_a_denial():
+        """A denied FOR_OWNER.md replace must not print as a successful landing.
+
+        `foreman.owner_queue()` staged the markdown to a pid/thread-qualified scratch name and
+        landed it with `silence.replace_retry(_tmp, FOR_OWNER)` -- but on refusal it fell straight
+        through to `return FOR_OWNER`, the SAME value returned on success. `round_once()` then
+        printed "N for the owner -> <path>" over a file that still held the previous round's queue,
+        while `publish.py` copies FOR_OWNER.md into the export tree on its own 10-minute loop --
+        so a denied replace, the ORDINARY outcome on Windows when any reader holds the target open,
+        published a stale decision document under a caption claiming it was fresh (order
+        df385729e15f, MAJOR).
+
+        Driven with `silence.replace_retry` monkeypatched to always refuse and `FM.FOR_OWNER`
+        redirected to a throwaway temp file, so no real state is touched and no real reader can be
+        holding the target open to begin with -- the refusal is forced, not awaited.
+        """
+        import tempfile
+        import shutil
+        import foreman as FM
+        import silence as SI
+        tmpdir = tempfile.mkdtemp(prefix="drill_owner_queue_")
+        orig_replace_retry = SI.replace_retry
+        orig_for_owner = FM.FOR_OWNER
+        try:
+            FM.FOR_OWNER = os.path.join(tmpdir, "FOR_OWNER.md")
+            with open(FM.FOR_OWNER, "w", encoding="utf-8") as f:
+                f.write("previous round\n")
+            SI.replace_retry = lambda *a, **k: False       # force the Windows-refuses-the-rename case
+            # The denial under test calls `silence.note`, so the call that is SUPPOSED to be
+            # refused is wrapped -- see `_deliberately_failing`. The returned SHAPE is still
+            # what is asserted, so nothing under test is suppressed.
+            result = _deliberately_failing(lambda: FM.owner_queue([]))
+            # HELD only if the caller can actually tell the denial happened -- a bare path string
+            # (the pre-fix return) is indistinguishable from success at the call site.
+            return isinstance(result, tuple) and len(result) == 2 and result[1] is False
+        finally:
+            SI.replace_retry = orig_replace_retry
+            FM.FOR_OWNER = orig_for_owner
+            shutil.rmtree(tmpdir, ignore_errors=True)
+
+
+    net(a, "a denied FOR_OWNER.md replace is reported as denied, not printed as landed",
+        an_owner_queue_denial_is_reported_as_a_denial,
+        "round_once prints 'N for the owner -> <path>' over a file that still holds the previous "
+        "round's queue, exactly when publish.py's next 10-minute loop exports it")
+
+
+    def scout_hostless_does_not_count_an_unregistered_page_as_found():
+        """A source whose URL verified but whose REGISTRATION failed must not read as solved.
+
+        `foreman.scout_hostless()` counted `r.get("kept")` truthy as found, which is true for the
+        UNSAVED case `scout.sweep()` deliberately excludes from its own `found` (scout.py:616,
+        `r["kept"] and r.get("registered") is True`) -- so a persistently unwritable
+        SOURCE_PAGES.json could print scout's honest '0 of N sources now have somewhere to read
+        from' immediately followed by foreman's '4 of 4 sources given somewhere to read from', with
+        foreman's line the one that reaches the supervisor's report and the dashboard (order
+        6c3a42f8dbdd).
+
+        Driven with `sys.modules["scout"]` stubbed to a fake module returning one result whose
+        page verified (`kept`) but whose registration explicitly failed (`registered: False`), so
+        no network call happens and no real scout state is touched.
+        """
+        import sys
+        import types
+        import foreman as FM
+        fake = types.ModuleType("scout")
+
+        def sweep(limit=None):
+            return [{"kept": ["http://example.invalid/a"], "registered": False}]
+        fake.sweep = sweep
+        real = sys.modules.get("scout")
+        sys.modules["scout"] = fake
+        try:
+            ok, why = FM.scout_hostless()
+            return ok is False and why.startswith("0 of 1")
+        finally:
+            if real is not None:
+                sys.modules["scout"] = real
+            else:
+                del sys.modules["scout"]
+
+
+    net(a, "a verified-but-unregistered source is not counted as given somewhere to read from",
+        scout_hostless_does_not_count_an_unregistered_page_as_found,
+        "a persistently unwritable registry reads as a scout that is working perfectly, on the "
+        "line that reaches the supervisor's report and the dashboard")
+
+    # AND TWO FROM THE 44-ORDER LONG TAIL (orders 91cbbd5e4d24 and f4f3c1d15915, landed
+    # 2026-09-06 from handoff/nets_20260906/longtail.py). The first is the whole-corpus
+    # idempotency assertion remedy (c) asks for by name, and it is a whole-corpus read rather
+    # than a sample on purpose: this class cannot be seen from a single pass, and a SAMPLED
+    # idempotency check is exactly the shape this project refuses. It costs about thirty-five
+    # seconds of the battery and writes nothing.
+    def drill_clean_description_is_idempotent():
+        import json as _json, os as _os, cleanup as _C
+        recs = _os.path.join(HERE, "data", "records")
+        for fn in sorted(f for f in _os.listdir(recs) if f.endswith(".json")):
+            try:
+                d = _json.load(open(_os.path.join(recs, fn), encoding="utf-8"))
+            except Exception:
+                continue          # an unreadable record is estate.py's finding, not this net's
+            ents = d.get("entries") or []
+            if isinstance(ents, dict):
+                ents = list(ents.values())
+            for e in ents:
+                if not isinstance(e, dict):
+                    continue
+                desc = e.get("description")
+                if not desc:
+                    continue
+                once = _C.clean_description(desc)
+                if _C.clean_description(once) != once:
+                    return False
+        return True
+
+    net(a, "clean_description reaches a fixed point on every catalogued description",
+        drill_clean_description_is_idempotent,
+        "a second `cleanup.py --apply` must not change what the first one wrote -- "
+        "pipeline._is_cleaned_twin is built on that identity")
+
+    # ------------------------------------------------------------------------------------------
+    def drill_codex_dedupe_is_typed():
+        import catalogue_codex as _CC
+        contents = [("Race", "Troglodyte"), ("Language", "Troglodyte"),
+                    ("Companion", "Mastiff"), ("Item", "Mastiff")]
+        seen = set()
+        for et, nm in contents:
+            seen.add((_CC.norm(et), _CC.norm(nm)))
+        return len(seen) == 4
+
+    net(a, "two element types sharing a name are two elements",
+        drill_codex_dedupe_is_typed,
+        "a Dragonmark and a Race Variant of the same name must not collapse to one "
+        "catalogue entry")
+
 
 def drill_mutation():
     """The mutation lock — because breaking code on purpose is only safe if everyone knows.
@@ -10759,6 +11940,31 @@ def drill_mutation():
         import mutate as M
         if not hasattr(M, "reap_orphans") or M.ORPHAN_AGE_SECONDS < 3600:
             return False
+        # CONTAINED 2026-09-06, and this is the net the M46 docstring below points at when it says
+        # "the net directly above this one ... destroyed every concurrent sandbox on the machine".
+        # It calls the REAL `reap_orphans()` against the REAL temp root. At the default age that
+        # looked safe, and it is not, for a reason the age gate cannot see:
+        #
+        #   A LIVE MUTATION SANDBOX GOES STALE WHILE IT IS BEING USED. `reap_orphans` ages on
+        #   `os.path.getmtime(p)` -- the sandbox ROOT -- but a running pass writes into
+        #   `p/src/*.py`, which updates `p/src`'s mtime and NOT `p`'s. So after ORPHAN_AGE_SECONDS
+        #   a pass that is actively running looks exactly like an abandoned one, and the ownership
+        #   check is the only thing left. That check FAILS SAFE TO REAPING by design: an
+        #   unreadable, malformed or absent owner file drops back to age-only.
+        #
+        # PROVED, not argued: a decoy sandbox planted in the real temp root with an unreadable
+        # owner claim and a 10-hour age was DELETED by a full drill run on 2026-09-06 -- after the
+        # sibling M46 net had already been contained, which is how this second call site was
+        # found. The same run's mutation pass had died at 23:20:47 with FileNotFoundError on its
+        # own sandbox, 60 seconds after a drill run.
+        #
+        # Redirecting `tempfile.tempdir` sends both this probe's fixtures and the
+        # `tempfile.gettempdir()` inside `reap_orphans` to a throwaway root. The age logic is
+        # still proved exactly as before -- one aged fixture reaped, one fresh fixture spared --
+        # against the real function. It simply cannot reach anyone else's sandbox to do it.
+        _tmp_root = tempfile.mkdtemp(prefix="drill_orphan_root_")
+        _saved_tempdir = tempfile.tempdir
+        tempfile.tempdir = _tmp_root
         root = tempfile.gettempdir()
         aged = os.path.join(root, M.SANDBOX_PREFIX + "drillprobe_aged_%d" % os.getpid())
         fresh = os.path.join(root, M.SANDBOX_PREFIX + "drillprobe_fresh_%d" % os.getpid())
@@ -10779,8 +11985,12 @@ def drill_mutation():
         finally:
             # The probe cleans up after itself whichever way the answer came out; a net that
             # leaves litter in TEMP is a net that reproduces the fault it is testing for.
+            # The tempdir is restored FIRST and unconditionally, before anything else in this
+            # process allocates another temp path.
+            tempfile.tempdir = _saved_tempdir
             shutil.rmtree(aged, ignore_errors=True)
             shutil.rmtree(fresh, ignore_errors=True)
+            shutil.rmtree(_tmp_root, ignore_errors=True)
     net(a, "abandoned sandboxes are reaped, but only once they are old",
         abandoned_sandboxes_are_reaped,
         "a leak of 50 MB per interrupted run fills a disk without ever reporting anything")
@@ -10827,6 +12037,30 @@ def drill_mutation():
         made = []
         child = _sp.Popen([sys.executable, "-c", "import time; time.sleep(90)"],
                           creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+        # THE BLAST RADIUS IS NOW CONTAINED, 2026-09-06. `reap_orphans` scans
+        # `tempfile.gettempdir()`, and this net calls it at `older_than=0` -- the most aggressive
+        # reap there is -- in the REAL temp directory, where real mutation sandboxes live. The
+        # ownership check this net exists to prove was the ONLY thing standing between that call
+        # and somebody's in-flight run, and by its own design it FAILS SAFE TO REAPING: an
+        # unreadable, malformed or absent owner file drops back to age-only, which `older_than=0`
+        # satisfies for everything. One unlucky read of an owner file and M46 happens again.
+        #
+        # It may already have. `state/mutate_20260905b.log` died at 23:20:47 with
+        # FileNotFoundError on its OWN sandbox's escalation.py, 60 seconds after a drill run
+        # finished at 23:19:47, having completed assay.py and prose_gate.py over ~12 hours.
+        # Causation is NOT proven and is recorded as unproven in order f0a7... (see the handoff):
+        # the one signal that would settle it, `mutate.py:reap-skipped-live-owner`, is suppressed
+        # during this call by the `_deliberately_failing` wrapper added the same day.
+        #
+        # So the root is redirected for the duration. `tempfile.mkdtemp` inside `_mk` and the
+        # `tempfile.gettempdir()` inside `reap_orphans` then both resolve to a throwaway
+        # directory, and the reap physically cannot see a real sandbox. NOTHING UNDER TEST IS
+        # WEAKENED: all four arms still run against a genuinely live pid, a genuinely expired
+        # claim, a dead pid and an unowned directory, so the ownership logic is proved exactly as
+        # before -- it simply can no longer take a live run with it if it is wrong.
+        _tmp_root = tempfile.mkdtemp(prefix="drill_reap_root_")
+        _saved_tempdir = tempfile.tempdir
+        tempfile.tempdir = _tmp_root
         try:
             live = _mk("netlive", child.pid, started=time.time())
             expired = _mk("netexpired", child.pid, age=10 * 3600,
@@ -10834,16 +12068,29 @@ def drill_mutation():
             dead = _mk("netdead", 999999999, age=10 * 3600, started=time.time())
             unowned = _mk("netnone", None, age=10 * 3600)
             made = [live, expired, dead, unowned]
-            M.reap_orphans(older_than=0)
+            # ORDER 247b173c78ee: the `expired` fixture exists precisely to drive mutate.py's
+            # ownership-expiry branch, and that branch calls
+            # `note("mutate.py:owner-claim-expired")` -> `health.record`, writing a
+            # `silent:mutate.py:owner-claim-expired` row into the LIVE state/failures.json on
+            # every drill run -- a manufactured entry indistinguishable from a genuinely expired
+            # orphaned sandbox, in the ledger a person reads to find out whether that happened.
+            # Measured 2026-09-06 at 39, the drill-run count. The net still asserts every reap
+            # verdict below, so nothing under test is suppressed.
+            _deliberately_failing(lambda: M.reap_orphans(older_than=0))
             return (os.path.isdir(live)              # the M46 failure itself
                     and not os.path.isdir(expired)   # a recycled pid cannot protect for ever
                     and not os.path.isdir(dead)      # no new disk leak
                     and not os.path.isdir(unowned))  # unclaimed still reaps by age
         finally:
+            # Restored FIRST and unconditionally: every later net, and anything this process does
+            # afterwards, would otherwise keep writing temp files into a directory this block is
+            # about to delete.
+            tempfile.tempdir = _saved_tempdir
             child.kill()
             child.wait(timeout=10)
             for d in made:
                 shutil.rmtree(d, ignore_errors=True)
+            shutil.rmtree(_tmp_root, ignore_errors=True)
 
     net(a, "a reap never deletes a sandbox whose owner is still running",
         _a_reap_never_takes_a_live_runs_sandbox,
@@ -11627,6 +12874,592 @@ def drill_resonance():
 
 # ============================================================== report
 
+# ================================================== THIS SHIFT'S identity.py / dashboard.py
+# Landed 2026-09-06 from handoff/nets_20260906/identity_dashboard.py. Every attack below was
+# run once against the OLD logic, reconstructed inline (there is no VCS in this checkout to
+# revert against), and once against the real post-fix modules: all five RED then GREEN. The
+# transcript of that proof run is kept verbatim at the foot of this area, because a net's claim
+# to have been watched refuse is the only thing separating it from a green light of unknown
+# provenance, and that claim is worth no more than the evidence filed with it.
+#
+# Each attack is self-contained: it imports the real module under test, patches ONLY a
+# module-level path constant (or, for identity.MIN_BEARERS, a module-level tuning constant) to
+# point at a scratch file or directory, and restores it in a `finally`. Nothing here touches
+# live state/ or data/ files, and the three that drive a repair path wrap the call that is
+# SUPPOSED to trip it in `_deliberately_failing`, so the rehearsal stays out of the operational
+# failure ledger.
+#
+# Covers:
+#   order d4e2df7d7d6a  identity._is_continuity's majority rule (src/identity.py)
+#   order c003673cff01  dashboard.movement()'s corrupt-history repair, Cases A and B
+#   order e7ea68901bfe  dashboard.safety()'s drill/escalation UNREADABLE-vs-ABSENT distinction
+
+def drill_identity_dashboard():
+    """Attacks against this shift's identity.py / dashboard.py fixes (2026-09-06)."""
+    a = "IDENTITY/DASHBOARD — this shift's fixes, attacked (2026-09-06)"
+    import tempfile
+    import json
+    import time as _time
+
+    # ---- order d4e2df7d7d6a --------------------------------------------------------------
+    # identity._is_continuity's "BRANCHING" majority test collapsed to the constant
+    # `max(2, 0.5*n)`, which is only a real majority at n == 2 (the only value MIN_BEARERS = 3
+    # ever lets reach it). Raise MIN_BEARERS and the constant stops tracking a majority without
+    # anything else changing. The fix (`shared >= (n // 2) + 1`) is a majority at every n.
+    def continuity_majority_scales():
+        import identity as ID
+        orig = ID.MIN_BEARERS
+        try:
+            ID.MIN_BEARERS = 5   # lets n == 4 reach the final branch instead of being caught
+                                  # by the n >= MIN_BEARERS shortcut above it
+            # 2 of 4 bearers shared is NOT a majority (a majority of 4 needs > 2, i.e. >= 3).
+            return ID._is_continuity("Foo", {"bearers": 4, "shared": 2}) is False
+        finally:
+            ID.MIN_BEARERS = orig
+    net(a, "a 2-of-4 shared count is refused as a continuity (not a majority)",
+        continuity_majority_scales,
+        "order d4e2df7d7d6a: max(2, 0.5*n) stopped being a majority rule for any n > 2 and "
+        "would silently admit a minority-shared designator the day MIN_BEARERS moved past 3")
+
+    # ---- order c003673cff01, Case A --------------------------------------------------------
+    # A history row whose 'at' is a string passed the old `isinstance(h, dict)`-only guard,
+    # then raised TypeError (str > float) INSIDE the try -- upstream of the write that would
+    # have replaced the bad file -- so the file could never heal itself and every later poll
+    # re-threw on the same bytes forever.
+    def history_heals_nonnumeric_at():
+        import dashboard as DB
+        tmp = tempfile.mktemp(suffix=".json")
+        orig_history = DB.HISTORY
+        try:
+            DB.HISTORY = tmp
+            corrupt = [{"at": "2026-09-05", "cited": 1}]
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(corrupt, f)
+            before = open(tmp, encoding="utf-8").read()
+            # The repair under test calls `silence.note`; only the call that is SUPPOSED
+            # to trip it is wrapped (see `_deliberately_failing`), and the healed FILE is
+            # still what is asserted.
+            _deliberately_failing(lambda: DB.movement({}))
+            after = open(tmp, encoding="utf-8").read()
+            return after != before and json.loads(after) != corrupt
+        finally:
+            DB.HISTORY = orig_history
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+    net(a, "a history row with a non-numeric 'at' heals the file rather than wedging it",
+        history_heals_nonnumeric_at,
+        "order c003673cff01 Case A: the write that would have healed HISTORY was never "
+        "reached, so the one function that can replace the file could not -- worse than the "
+        "list-of-non-dicts shape order 62286a6c018a fixed, which at least reset and healed")
+
+    # ---- order c003673cff01, Case B --------------------------------------------------------
+    # The delta loop (`delta = v - was`) sat OUTSIDE movement()'s try/except. A history row
+    # whose metric value is a string cleared the cutoff filter and reached the subtraction
+    # unguarded, raising TypeError straight out of movement() -- and state() calls movement()
+    # unguarded as its last act, so do_GET's /api/state handler answered an error for the WHOLE
+    # page over one bad field in one sample.
+    def movement_survives_nonnumeric_metric():
+        import dashboard as DB
+        tmp = tempfile.mktemp(suffix=".json")
+        orig_history = DB.HISTORY
+        try:
+            DB.HISTORY = tmp
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump([{"at": _time.time() - 3600, "cited": "n/a"}], f)
+            try:
+                out = DB.movement({"library": {"coverage": {"cited": 5}}})
+                return isinstance(out, list)
+            except TypeError:
+                return False
+        finally:
+            DB.HISTORY = orig_history
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+    net(a, "a non-numeric stored metric does not raise out of movement()",
+        movement_survives_nonnumeric_metric,
+        "order c003673cff01 Case B: one string in one history sample used to black out every "
+        "panel on the page, including the halt headline panelSafety renders first and loud")
+
+    # ---- order e7ea68901bfe, drill -----------------------------------------------------------
+    # safety()'s drill-record except-block's own exemption text covers ONLY "no drill has run
+    # yet" (FileNotFoundError). The old bare `except Exception` also swallowed a torn/unreadable
+    # file the same way, so the panel that answers "did the nets hold" could not tell "never
+    # asked" from "could not read the answer".
+    def safety_distinguishes_unreadable_drill():
+        import dashboard as DB
+        d = tempfile.mkdtemp()
+        os.makedirs(os.path.join(d, "state"), exist_ok=True)
+        with open(os.path.join(d, "state", "drill_last.json"), "w", encoding="utf-8") as f:
+            f.write("{not valid json")
+        orig_here = DB.HERE
+        try:
+            DB.HERE = d
+            # `safety()` NOTES the unreadable record it is reporting on, which is correct
+            # behaviour and would otherwise file one row per drill run; see
+            # `_deliberately_failing`. The reported verdict is still what is asserted.
+            out = _deliberately_failing(DB.safety)
+            return out.get("drill") == {"unreadable": True}
+        finally:
+            DB.HERE = orig_here
+    net(a, "an unparseable drill_last.json reports 'unreadable', not 'no drill has run yet'",
+        safety_distinguishes_unreadable_drill,
+        "order e7ea68901bfe: a JSONDecodeError on a torn drill_last.json, a denial, a lock, an "
+        "OSError on getmtime all rendered identically to a drill that has never run")
+
+    # ---- order e7ea68901bfe, escalation -------------------------------------------------------
+    # The escalation-ledger except-block's own comment ASSERTS THE VERDICT for every exception
+    # ("an empty escalation log is the good state"), not only for the FileNotFoundError it is
+    # actually true of. An UNREADABLE escalation log is not the good state and is not an empty
+    # one -- it is the ledger of everything the library has escalated in the last 24 hours.
+    def safety_distinguishes_unreadable_escalation():
+        import dashboard as DB
+        d = tempfile.mkdtemp()
+        os.makedirs(os.path.join(d, "state"), exist_ok=True)
+        # A directory where the log is expected forces a real read failure (IsADirectoryError)
+        # rather than the per-line json.loads swallow escalation.log's own parser already does
+        # on purpose for one torn LINE (that swallow is correct and is not what this attacks).
+        os.makedirs(os.path.join(d, "state", "escalation.log"))
+        orig_here = DB.HERE
+        try:
+            DB.HERE = d
+            out = _deliberately_failing(DB.safety)
+            return out.get("escalation_unreadable") is True
+        finally:
+            DB.HERE = orig_here
+    net(a, "an unreadable escalation.log reports 'unreadable', not a clean empty 24h",
+        safety_distinguishes_unreadable_escalation,
+        "order e7ea68901bfe: a read failure on the escalation ledger used to be presented as a "
+        "clean 24 hours, the exact 'silence reads as a pass' shape this whole layer exists "
+        "against")
+
+
+# ============================================================================================
+# TRANSCRIPT of the RED (pre-fix) -> GREEN (post-fix) proof run, 2026-09-06, produced by a
+# throwaway script (not part of this file, not part of the tree) that:
+#   (a) re-runs each OLD formula/guard/except-block inline against the same fixture, showing it
+#       either returns the wrong answer or raises where the new code does not, and
+#   (b) imports the REAL, current identity.py / dashboard.py and runs the attacks above against
+#       them, showing each one now HOLDS.
+#
+# === NET 1: identity._is_continuity majority scaling (order d4e2df7d7d6a) ===
+# OLD formula, n=4 shared=2 MIN_BEARERS=5 -> True (expected True = BUG: 2-of-4 admitted as majority)
+# NEW code,  n=4 shared=2 MIN_BEARERS=5 -> False (expected False = FIXED)
+# NET 1: proven RED (old=True) -> GREEN (new=False)
+#
+# === NET 2/3: dashboard.movement() (order c003673cff01) ===
+# Case A: movement({}) returned [] ; file changed: True
+# NET 2 (Case A): file healed instead of wedging -- GREEN
+# OLD guard on the case-A corrupt row -> True (True = guard PASSES, so the TypeError below is
+#   reached and the write never lands)
+# OLD comparison raises: '>' not supported between instances of 'str' and 'float' -- confirms
+#   pre-fix WEDGE
+# Case B: movement(now_state) returned
+#   [{'metric': 'cited', 'now': 5, 'delta': None, 'minutes': 60, 'reset': False, 'stalled': False}]
+#   without raising
+# NET 3 (Case B): no crash out of movement() -- GREEN
+# OLD subtraction raises: unsupported operand type(s) for -: 'int' and 'str' -- confirms
+#   pre-fix Case B crash
+#
+# === NET 4/5: dashboard.safety() drill/escalation UNREADABLE vs ABSENT (order e7ea68901bfe) ===
+# drill -> {'unreadable': True}
+# escalation_recent -> None  escalation_unreadable -> True
+# NET 4/5: UNREADABLE distinguished from ABSENT -- GREEN
+# OLD behaviour (reconstructed): both bare `except Exception` blocks would have left drill=None
+#   (indistinguishable from 'never run') and escalation_recent=None with no
+#   escalation_unreadable flag at all (indistinguishable from 'empty log') -- confirms pre-fix
+#   collapse of UNREADABLE into the clean/absent state.
+#
+# ALL NETS: RED (pre-fix) -> GREEN (post-fix) PROVEN
+# ============================================================================================
+
+
+def drill_hostcheck():
+    """The host verdict, and the baseline every lift in the module is computed against.
+
+    Landed 2026-09-06 from handoff/nets_20260906/safety.py; orders d66e629ae3ca and a5fd110e3910.
+    Neither of these had ANY drill area to belong to -- `hostcheck.py` scores which wikis the
+    library is allowed to mine and nothing in the battery had ever driven `score()` or
+    `null_rate()` -- so they get one rather than being filed beside a neighbour that does not
+    share their subject.
+
+    Both are the same defect facing opposite directions: strictly LESS evidence buying strictly
+    MORE permission. Zero readable article bodies skipped both aboutness veto branches (each
+    guarded on `about is not None`) and fell through to lift alone, so a host nothing could be
+    read from scored `holds` while a host with two readable bodies scored UNREACHABLE. And
+    MIN_PROBE -- whose own comment says "under five names, a hit rate is noise -- 1/2 reads as
+    50% and means nothing" -- was enforced twice on the subject side and nowhere on the control,
+    while `foreign` is built from at most three names per source.
+    """
+    a = "THE HOST SCORE — can less evidence buy more permission?"
+
+    def zero_readable_bodies_is_the_thinnest_evidence_and_buys_the_least():
+        """`relevance()` answers (None, 0) when no article body could be read at all -- a
+        throttle, a 403, a network fault swallowed by its own silence.note, or a wiki serving no
+        revisions. Both aboutness veto branches are guarded on `about is not None`, so at n=0
+        NEITHER fired and the verdict fell through to lift alone: `holds`, or `partial`, which
+        is inside JUDGED. Two bodies read -> UNREACHABLE, host untouched. ZERO bodies read ->
+        judged and promoted. Strictly less evidence bought strictly more permission, at the
+        bottom end of the very floor ABOUT_MIN was added to hold.
+
+        FOUR ROWS, because three of them are what stops this being a one-directional change:
+        the n=1..2 UNREACHABLE must be unchanged, a measured about host must still judge, a
+        measured NOT-about host must still be vetoed, and a host already rejected by LIFT must
+        STAY rejected -- aboutness is a veto and only ever downgrades."""
+        import hostcheck as HC
+        saved = {k: getattr(HC, k) for k in ("probe", "null_rate", "relevance")}
+        try:
+            def row(about, about_n, rate=0.60, base=0.30):
+                HC.probe = lambda host, names: {"host": host, "probed": 20, "hits": 12,
+                                                "rate": rate,
+                                                "titles": ["T%d" % i for i in range(12)]}
+                HC.null_rate = lambda host, by=None, exclude=None, sample=40: base
+                HC.relevance = lambda host, titles, source, sample=12: (about, about_n)
+                return HC.score("en.wikipedia.org", ["a", "b", "c"], "S",
+                                by={"S": []})["verdict"]
+
+            return (row(None, 0).startswith("UNREACHABLE")
+                    and row(0.0, 2).startswith("UNREACHABLE")
+                    and row(0.9, 12) in ("holds", "partial")
+                    and row(0.1, 12) == "NAMES ONLY"
+                    and row(None, 0, rate=0.31, base=0.30) in ("WRONG FICTION", "NAMES ONLY")
+                    and row(1.0, None) in ("holds", "partial"))
+        finally:
+            for k, v in saved.items():
+                setattr(HC, k, v)
+    net(a, "a host on which NO article body could be read is unmeasured, not `holds`",
+        zero_readable_bodies_is_the_thinnest_evidence_and_buys_the_least,
+        "the branch is reached only on the generous hosts the veto exists for -- the "
+        "en.wikipedia.org class score() records Rocket League as nearly being adopted onto")
+
+
+    def a_control_too_thin_to_be_one_is_not_a_baseline():
+        """MIN_PROBE exists with the comment "under five names, a hit rate is noise -- 1/2 reads
+        as 50% and means nothing", and it was enforced twice on the SUBJECT side and nowhere on
+        the CONTROL. `foreign` is built from at most three names per source, so a caller with
+        few sources, or one whose rosters overlap heavily, got a control four names wide -- or
+        two, or one -- and every lift in the module is computed against it.
+
+        BOTH DIRECTIONS AND THE NETWORK TOO: below the floor the answer must be None AND the
+        probe must never have been made (an unmeasurable control is not worth a request), and at
+        or above it the control must still measure over the whole sample."""
+        import hostcheck as HC
+        asked = []
+        real = HC.probe
+        try:
+            HC.probe = lambda host, names: asked.append(list(names)) or {
+                "host": host, "probed": len(names), "hits": 1, "rate": 0.5, "titles": []}
+            HC._NULL_CACHE.clear()
+            # WRAPPED FOR THE LEDGER, NOT FOR THE ASSERTION (see `_deliberately_failing`). The
+            # refusal under test IS a `silence.note`, so an unwrapped probe filed one
+            # `silent:hostcheck.py:null_rate-control-too-thin` row in `state/failures.json` on every
+            # drill run -- a rehearsal arriving in the ledger a person reads to find real faults.
+            # Only the call that is SUPPOSED to refuse is wrapped; the return value is still what is
+            # asserted, so nothing under test is suppressed.
+            if _deliberately_failing(
+                    lambda: HC.null_rate("h", by={"A": ["a1", "a2"], "S": ["x"]},
+                                         exclude="S")) is not None:
+                return False
+            if asked:
+                return False
+            HC._NULL_CACHE.clear()
+            wide = {"S%d" % i: ["n%d_%d" % (i, j) for j in range(3)] for i in range(4)}
+            if HC.null_rate("h", by=wide) != 0.5:
+                return False
+            return bool(asked) and len(asked[-1]) >= HC.MIN_PROBE
+        finally:
+            HC.probe = real
+            HC._NULL_CACHE.clear()
+    net(a, "a foreign control below MIN_PROBE is unmeasured, not a number",
+        a_control_too_thin_to_be_one_is_not_a_baseline,
+        "this function's own comment: a baseline measured against the wrong foreign set is "
+        "worse than no baseline, because it still looks like one")
+
+
+def drill_weave_plan():
+    """Two thresholds that could be spent without ever having been measured.
+
+    Landed 2026-09-06 from handoff/nets_20260906/weave_rigor.py; orders 12aca83cab86 (weave.py)
+    and 9508f9322b4c (sweep_plan.py). They are one area because they are one shape, and it is
+    this project's oldest: an UNMEASURED answer spelled as a perfectly ordinary measured one.
+    `null_threshold_surprisal` returned 0.0 -- a real, spendable threshold -- whenever no
+    permutation trial produced a single pair weight, and `components()` then merged every pair
+    that cleared it, which at 0.0 is every pair in the corpus INCLUDING pairs sharing no entity
+    at all; complete-linkage agglomeration ran until every source sat in one continuity, with no
+    evidence anywhere under it. `frozen_plan` collapsed absent, unreadable and
+    parsed-but-not-a-dict into one bare None, so `freeze_plan` recomputed against the live tree
+    and landed a NEW plan over the existing file -- destroying it -- while `main()` printed that
+    the run's plan "is FROZEN". The list shape it destroys is one this module's own CLI writes.
+    """
+    a = "THE WEAVE AND THE PLAN — an unmeasured threshold is not a permissive one"
+
+    def weave_components_refuses_nonpositive_threshold():
+        """components() must refuse threshold <= 0 rather than merge every source into one cluster.
+
+        Builds a fixture with sources that share NO entity at all (`w={}`, so every pair falls to
+        the lookup's absent-pair default of 0.0) and asserts that a threshold of exactly 0.0 is
+        REFUSED, not agglomerated into a single continuity the way the pre-fix code did.
+        """
+        import weave as W
+        sources = ["adventure_time", "alien", "warhammer", "one_piece"]
+        try:
+            W.components(sources, {}, 0.0)
+            return False                      # did not raise -- BREACHED
+        except ValueError:
+            return True                       # HELD
+
+
+    def weave_null_threshold_surprisal_refuses_unmeasured():
+        """null_threshold_surprisal() must raise, not return 0.0, when no trial produced a weight.
+
+        Two distinct unmeasurable inputs: an empty corpus (no entity in the 2..60-source band) and
+        a non-positive `--trials`. Both used to return a spendable 0.0; both must now raise
+        `weave.NullThresholdUnmeasured`.
+        """
+        import weave as W
+        ok = True
+        try:
+            W.null_threshold_surprisal({}, {}, [], trials=20)
+            ok = False
+        except W.NullThresholdUnmeasured:
+            pass
+        try:
+            W.null_threshold_surprisal({"k": ["a", "b"]}, {"k": 1.0}, ["a", "b"], trials=0)
+        except W.NullThresholdUnmeasured:
+            pass
+        else:
+            ok = False
+        return ok
+
+
+    def sweep_plan_freeze_plan_refuses_a_broken_existing_file():
+        """freeze_plan() must refuse -- not recompute and overwrite -- a plan file that exists but
+        is not a usable frozen-plan record.
+
+        Reproduces case (c) from the order: a bare JSON list at plan_path(run), the shape this
+        module's own `--batches N --out PATH` writes. Asserts the file is left byte-for-byte
+        unchanged and the return carries `frozen: False, reason: "not_a_dict"`.
+        """
+        import json
+        import shutil
+        import tempfile
+        import sweep_plan as SP
+
+        tmp = tempfile.mkdtemp(prefix="drill_sweepplan_freeze_")
+        real_plans = SP.PLANS
+        try:
+            SP.PLANS = tmp
+            run = "__drill_freeze_plan_case_c__"
+            path = SP.plan_path(run)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump([{"batch": 1, "lines": 10, "modules": ["a.py"]}], f)
+            before = open(path, encoding="utf-8").read()
+
+            # The refusal under test calls `silence.note`, so the call that is SUPPOSED to
+            # refuse is wrapped -- see `_deliberately_failing`. The verdict is still asserted.
+            rec = _deliberately_failing(lambda: SP.freeze_plan(run, 4))
+
+            after = open(path, encoding="utf-8").read()
+            return (before == after and rec.get("frozen") is False
+                    and rec.get("reason") == "not_a_dict")
+        finally:
+            SP.PLANS = real_plans
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    net(a, "components() refuses a non-positive threshold instead of merging every source",
+        weave_components_refuses_nonpositive_threshold,
+        "order 12aca83cab86 -- threshold<=0 makes every absent-pair default (0.0) clear the bar, "
+        "degenerating complete linkage to one continuity containing everything")
+
+    net(a, "null_threshold_surprisal refuses an unmeasured null instead of returning 0.0",
+        weave_null_threshold_surprisal_refuses_unmeasured,
+        "order 12aca83cab86 -- an empty corpus or trials<=0 used to hand back 0.0, spent by "
+        "components() as the most permissive threshold there is")
+
+    net(a, "freeze_plan refuses to recompute over an existing non-dict plan file",
+        sweep_plan_freeze_plan_refuses_a_broken_existing_file,
+        "order 9508f9322b4c -- case (c): `--batches N --out PATH` writes a bare JSON list at the "
+        "plan path, and freeze_plan used to silently recompute and overwrite it")
+
+
+# ==================================================== THE ONE GUARD BETWEEN A SCRATCH
+#                                                      SCRIPT AND THE PUBLIC REPO
+# Landed 2026-09-06 from handoff/nets_20260906/unlocated.py.
+#
+# WHY THIS NET EXISTS.
+#
+# `publish._is_agent_scratch` (src/publish.py:205-214) is the only thing between an agent's
+# throwaway `.py` script and the PUBLIC repo. It is the repair for the class behind the
+# 2026-08-28 SECRET_IN_EXPORT halt: a sweep agent asked to demonstrate that the secret scanner
+# catches credentials wrote the fixtures into a script under `handoff/`, which is a
+# `publish.COPY_DIRS` root, so the file was staged for publication. Nothing leaked -- the secret
+# gate refused the push -- but the fault was the PATH, and this is the guard that now closes it.
+#
+# NOTHING IN THE BATTERY WATCHED IT REFUSE until this area landed. Measured 2026-09-06: `_is_agent_scratch` and
+# `CODE_FREE_DIRS` appear NOWHERE in src/drill.py and NOWHERE in src/verify_math.py. By Hard
+# Rule -1's third property that makes it an unproven safety -- "a guard nobody has watched
+# REFUSE is a guard nobody has evidence about" -- and it is the exact shape the same rule warns
+# about, because the guard is silent when it works: a file that is quietly not copied looks
+# identical to a file that was never there.
+#
+# It is live and it is firing. `state/failures.json` carries
+# `silent:publish.py:agent-scratch-refused` at 33, `publish.gitignore_lines()` emits
+# `handoff/**/*.py`, `handoff/*.py` and the .pyw/.pyi variants, and the export copy at
+# C:\Users\imarl\panscriptum-export holds ZERO .py files under `handoff/` against 20 in the live
+# tree. So the guard works today and nothing would notice if it stopped.
+#
+# THIS ALSO CORRECTS AN OPEN ORDER. `a66423722e45` (AGENT_SCRATCH_IN_PUBLISHED_TREE, MINOR, RUN)
+# says of those files "so every one of them is copied to the PUBLIC repo on the next push".
+# THAT IS NO LONGER TRUE, and the sentence is generated by the detector in
+# `workorders.sweep` (src/workorders.py, the `handoff-scratch` block), so it will be regenerated
+# verbatim on every sweep until someone who owns that file rewrites it. The detector's LIST is
+# still correct and still worth having; only its stated consequence is stale. Left as an open
+# order rather than closed, because the files really are still there and where they should live
+# is a curatorial call, but the urgency it claims is not real.
+#
+# ============================================================================================
+# THE ATTACK THAT WOULD DEFEAT WHAT EXISTS TODAY
+# ============================================================================================
+#
+# Somebody removes `CODE_FREE_DIRS`, empties it, drops `.py` from `_CODE_EXT`, or -- the one
+# that leaves every existing artefact looking right -- deletes the four lines in `sync_tree`
+# that ASK the predicate, leaving `_is_agent_scratch` defined, documented, unit-testable and
+# never called. `gitignore_lines()` would still name the pattern, the docstrings would still
+# describe the guard, and the next `--push` would publish the scripts. That is the FOURTH
+# PROPERTY, IN EFFECT, and it is why the third net below asks the parse tree rather than the
+# predicate.
+#
+# ============================================================================================
+# PROVEN RED BEFORE LANDING (2026-09-06) -- each net run against a deliberately broken fixture
+# ============================================================================================
+#
+#   net 1  `CODE_FREE_DIRS = ()`                      -> the_scratch_gate_refuses_code_under_handoff  False
+#   net 1  `_CODE_EXT = (".pyw", ".pyi")`             -> the_scratch_gate_refuses_code_under_handoff  False
+#   net 2  gitignore_lines() with the handoff rules removed -> the_ignore_file_names_the_same_class  False
+#   net 3  a `sync_tree` fixture with the four-line   -> the_copy_loop_actually_asks_the_gate         False
+#          `if _is_agent_scratch(rel): ... continue`
+#          block deleted, everything else identical
+#
+# and GREEN against the live module and the live `src/publish.py` as they stand today. The
+# fixtures and the runner are in the session scratchpad, not in this repo -- which is the
+# practice order `a66423722e45` is actually asking for.
+#
+# NOT USING `_gate_precedes_spawn`, DELIBERATELY, AND THAT IS WHY NET 3 LOOKS UNLIKE ITS
+# SIBLINGS.
+# The obvious move is to reuse the house helper the way `_the_loop_asks_the_gate` does for
+# `maintenance_shift_live`. It would report BREACHED against correct code. `_gate_precedes_spawn`
+# requires the guard's answer to be BOUND to a name (`_bound_from_call` only matches
+# `ast.Assign` / `ast.AnnAssign`), and `sync_tree` tests the predicate inline --
+# `if _is_agent_scratch(rel):` -- so the bound-name set comes back empty and the helper returns
+# False. A net that goes red on a correct guard is worse than no net, so net 3 below asks the
+# same three-part question directly against this shape: the `if` TESTS the predicate, the arm
+# LEAVES by `continue`, the arm COPIES NOTHING, and every `shutil.copy2` in the function sits
+# outside that arm.
+#
+
+def drill_agent_scratch_gate():
+    """The one guard between an agent's throwaway script and the public repo.
+
+    THE FAULT IT REPAIRS is a PATH, not a string. `handoff/` is a `publish.COPY_DIRS` root and
+    is the directory every sweep brief points agents at, correctly, for their `.md` audits and
+    `.json` queue state. A `.py` file there is by construction something somebody ran once, and
+    on 2026-08-28 one of them carried credential-shaped fixtures into the publish staging area.
+
+    ATTACKED FROM BOTH SIDES, because a guard that refuses everything is a wall and would take
+    `handoff/`'s audits and queue state out of the published record along with the scripts --
+    which is the whole reason `handoff/` is in `COPY_DIRS` in the first place.
+
+    AND FROM THE THIRD SIDE, which is the one the other two cannot see: whether `sync_tree`
+    still ASKS. The predicate is pure and will keep answering correctly long after the call
+    site is gone, and a guard nothing calls is a comment.
+    """
+    a = "THE PUBLISHED TREE — can an agent's working script still reach the public repo?"
+
+    def the_scratch_gate_refuses_code_under_handoff():
+        import publish as P
+        return (P._is_agent_scratch("handoff/run35/checks_F1.py")
+                and P._is_agent_scratch("handoff/nets_20260906/unlocated.py")
+                and P._is_agent_scratch("handoff/x.pyw")
+                and P._is_agent_scratch("handoff/x.pyi")
+                and P._is_agent_scratch("handoff/deep/deeper/still.PY")   # case, and depth
+                # EVERY EXECUTABLE SHAPE, NOT JUST PYTHON'S (orders e7e00ffde6c5, 749597eb95d4).
+                # `_CODE_EXT` enumerated one language's suffixes while `_is_agent_scratch` exists
+                # to refuse scratch CODE by WHERE it sits, so a `.sh`/`.ps1`/`.bat` an agent left
+                # under handoff/ synced to the export tree and was pushed to the PUBLIC repo. The
+                # net asserted only the `.py` family, so it would have stayed green through the
+                # whole hole -- and would stay green again if the tuple were narrowed back.
+                and P._is_agent_scratch("handoff/x.sh")
+                and P._is_agent_scratch("handoff/x.ps1")
+                and P._is_agent_scratch("handoff/x.bat")
+                and P._is_agent_scratch("handoff/run35/helper.js")
+                # ... and refuses NOTHING else: the record itself must still publish.
+                and not P._is_agent_scratch("handoff/AUDIT_batch11.md")
+                and not P._is_agent_scratch("handoff/queue/state.json")
+                and not P._is_agent_scratch("handoff")          # the root is never a file
+                and not P._is_agent_scratch("src/publish.py")   # src/ IS the published code
+                and not P._is_agent_scratch("reference/x.py"))
+    net(a, "a .py under handoff/ is refused, and nothing else is",
+        the_scratch_gate_refuses_code_under_handoff,
+        "the 2026-08-28 SECRET_IN_EXPORT halt was a working script written into a COPY_DIRS "
+        "root; a gate that also refused the .md audits would take the record out of the "
+        "published tree, which is what handoff/ is in COPY_DIRS to carry")
+
+    def the_ignore_file_names_the_same_class():
+        import publish as P
+        lines = set(P.gitignore_lines())
+        return all(p in lines for p in ("handoff/**/*.py", "handoff/*.py",
+                                        "handoff/**/*.pyw", "handoff/*.pyw",
+                                        "handoff/**/*.pyi", "handoff/*.pyi"))
+        # BOTH FORMS. `handoff/*.py` alone misses every subdirectory, which is where all 20 of
+        # the live scratch scripts actually are; `handoff/**/*.py` alone misses the root.
+    net(a, "the export .gitignore names the same class the copy gate refuses",
+        the_ignore_file_names_the_same_class,
+        "the copy gate and the ignore file are two independent layers over one rule, and two "
+        "layers enforcing DIFFERENT rules is one layer and a decoy")
+
+    def the_copy_loop_actually_asks_the_gate(src=None):
+        """IN EFFECT, asked of the parse tree in the same three parts as the launcher nets.
+
+        Not through `_gate_precedes_spawn`: that helper requires the answer to be BOUND to a
+        name and `sync_tree` tests the call inline, so it would report BREACHED against correct
+        code. The three parts are unchanged -- the predicate is ASKED in the test of a reachable
+        `if`, that arm LEAVES without copying, and every reachable copy sits outside it.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(src), "publish.py"))
+        fn = _defn(tree, "sync_tree")
+        if fn is None:
+            return False
+        maps = _import_maps(tree)
+        copies = [n for n in _live_walk(fn)
+                  if isinstance(n, ast.Call) and _spelled(_spellings_of_call(tree, n, maps),
+                                                          "copy2")]
+        if not copies:
+            return False          # a sync that copies nothing proves nothing about a copy gate
+        for g in _live_walk(fn):
+            if not isinstance(g, ast.If):
+                continue
+            asked = [c for c in ast.walk(g.test)
+                     if isinstance(c, ast.Call)
+                     and _spelled(_spellings_of_call(tree, c, maps), "_is_agent_scratch")]
+            if not asked:
+                continue
+            if not _arm_leaves(g.body, (ast.Continue,)):
+                continue          # a guard that falls through is not a guard
+            inside = {id(x) for x in _live_walk(g)}
+            if all(id(c) not in inside and c.lineno > g.lineno for c in copies):
+                return True
+        return False
+    net(a, "sync_tree's copy loop still ASKS the scratch gate before copying",
+        the_copy_loop_actually_asks_the_gate,
+        "the predicate is pure and will keep answering correctly for ever after the call site "
+        "is deleted -- and the failure is silent, because a file quietly not copied looks "
+        "exactly like a file that was never copied")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--to-halt", action="store_true",
@@ -11643,6 +13476,14 @@ def main():
                drill_scope, drill_correlation, drill_resonance, drill_threads,
                drill_escalation_behaviour,
                drill_assay_behaviour,
+               # LANDED 2026-09-06. Four areas whose subjects had no home in the list above:
+               # identity/dashboard's repairs from this shift, `hostcheck.score` and
+               # `null_rate` (which nothing in the battery had ever driven), weave's and
+               # sweep_plan's unmeasured thresholds, and the one guard between an agent's
+               # throwaway script and the public repo. An area added here and nowhere else
+               # is an area whose nets never run, which is the quietest way to lose a net.
+               drill_identity_dashboard, drill_hostcheck, drill_weave_plan,
+               drill_agent_scratch_gate,
                drill_outside):
         # AN AREA THAT DIES IS A BREACH OF THAT AREA, NOT THE END OF THE RUN (order
         # 5c87268a388c, run #37).

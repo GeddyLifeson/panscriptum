@@ -84,6 +84,28 @@ QUERIES = ["cosmology universe world setting", "multiverse", "universe", "world"
 PROBE_VERSION = 2
 
 
+class ProbeUnread(Exception):
+    """The host was NOT read. Distinct from "read it, and nothing cleared MIN_MENTIONS".
+
+    `F.api` does not raise. It returns None for a throttle, for any HTTP status, for a non-JSON
+    200 (a WAF or a login wall), for a network fault and for "no usable API here" -- the same
+    None that a genuine empty search returns. `scope_for` used to read all of those as
+    `titles == []` and return None, and `build()` then STAMPED that None at PROBE_VERSION, which
+    retires the host from every future build until somebody bumps the constant. The exception
+    handler in `build()` already says what must happen instead -- "A FAILURE IS NOT A VERDICT,
+    AND IT MUST NOT BE CACHED AS ONE" -- and it only ever saw exceptions, so the swallowed
+    failures walked straight past it. Raising is how they reach it.
+
+    The ONE clean negative `api()` documents is http-404: the wiki answered, and there is no
+    such page. Everything else means the probe did not happen.
+    """
+
+
+# The one `why` from `feats.api`'s outcome channel that is a real answer rather than a failure
+# to get one. See ProbeUnread.
+_CLEAN_NEGATIVE = ("http-404",)
+
+
 def scope_for(host, verbose=False):
     titles, seen = [], set()
     for q in QUERIES:
@@ -96,7 +118,15 @@ def scope_for(host, verbose=False):
         # results beyond that, which is worth knowing rather than pretending away, so it goes
         # into the ledger instead of the API's default of 10. Previously reported at
         # handoff/sweep24/AUDIT_batch06.md:320 and left unfixed since.
-        d = F.api(host, {"action": "query", "list": "search", "srlimit": "500", "srsearch": q})
+        oc = {}
+        d = F.api(host, {"action": "query", "list": "search", "srlimit": "500", "srsearch": q},
+                  outcome=oc)
+        # THE HOST WAS NOT READ, SO THERE IS NO VERDICT TO CACHE. Without this, a throttled,
+        # unreachable or challenge-serving host produced an empty `titles` that is spelled
+        # exactly like the honest "nothing cleared MIN_MENTIONS", and `build()` stamped it
+        # permanently. See ProbeUnread.
+        if not oc.get("ok") and oc.get("why") not in _CLEAN_NEGATIVE:
+            raise ProbeUnread("%s: query %r not answered (%s)" % (host, q, oc.get("why")))
         if (d or {}).get("continue"):
             silence.note("scope.py:srlimit-bound")
         for row in (d or {}).get("query", {}).get("search", []):
@@ -110,6 +140,17 @@ def scope_for(host, verbose=False):
     # pass it dropped everything past the eighth relevance-ranked title before a single mention
     # was counted.
     pages = F.fetch(host, titles)
+    # F.fetch HAS THE SAME PROPERTY ONE LAYER DOWN: it returns {} rather than raising when its
+    # own api() calls fail, so a search that succeeded followed by a fetch that did not lands as
+    # another honest-looking empty. It has no `outcome` channel to consult (feats.py is not this
+    # module's to change), so the one thing that CAN be said from here is said: the titles came
+    # out of a search this host just answered, so fetching every one of them and getting nothing
+    # back is a transport failure, not a corpus fact. A PARTIALLY failed fetch -- some batches
+    # answered, some not -- is still invisible from here and remains an open gap; it degrades a
+    # measurement rather than inventing one, and it is bounded by the same retry the next build
+    # gives an unstamped host.
+    if titles and not pages:
+        raise ProbeUnread("%s: %d titles searched, none fetched" % (host, len(titles)))
     text = " ".join(F.strip_wikitext(v) for v in pages.values())
     counts = {lab: len(rx.findall(text)) for lab, rx, _ in _RE}
 
@@ -171,6 +212,14 @@ def build(hosts, force=False):
     for i, h in enumerate(todo, 1):
         try:
             sc = scope_for(h)
+        except ProbeUnread as e:
+            # THE SWALLOWED FAILURES NOW ARRIVE HERE TOO, which is the whole point of the class:
+            # this branch and its comment below were written for exactly this condition and only
+            # ever saw the small minority of it that happened to raise.
+            silence.note("scope.py:build-probe-unread")
+            print(f"  {i:>3}/{len(todo)}  {h:<34}NOT READ -- {e}; left unscored, "
+                  f"the next build retries it", flush=True)
+            continue
         except Exception:
             # A FAILURE IS NOT A VERDICT, AND IT MUST NOT BE CACHED AS ONE. `out[h] = None` used
             # to be written here as well, and `todo` above excludes every host that is already a
@@ -235,13 +284,26 @@ def main():
         # every hit over 1200 bytes, so `pages` -- the provenance of the whole verdict -- runs to
         # hundreds of titles. `--probe` exists to let someone inspect a scope answer before
         # trusting it, so it is the one surface that must never abbreviate one.
-        print(json.dumps(scope_for(a.probe, verbose=True), indent=1))
+        try:
+            print(json.dumps(scope_for(a.probe, verbose=True), indent=1))
+        except ProbeUnread as e:
+            # NOT `null`. --probe printing `null` for an unread host is the same conflation this
+            # module's build path was just repaired for, on the surface a person uses to decide
+            # whether to trust a scope answer.
+            print(f"NOT READ: {e}")
+            return 1
         return 0
     if a.host:
         # ONE WIKI, BY HAND. `build()` skips whatever the stamp says is current, so re-probing a
         # single host after a wiki itself has changed had no route at all before this.
         cache = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
-        sc = scope_for(a.host, verbose=True)
+        try:
+            sc = scope_for(a.host, verbose=True)
+        except ProbeUnread as e:
+            # NOTHING IS WRITTEN. Stamping an unread host here retires it from `build()` exactly
+            # as the cached-failure path did.
+            print(f"NOT READ: {e}; {OUT} is unchanged and the next build retries this host")
+            return 1
         cache[a.host] = sc or {"scope": None, "ceiling": None,
                                "probe_version": PROBE_VERSION}
         if not silence.write_json(OUT, cache, indent=1, ensure_ascii=False):

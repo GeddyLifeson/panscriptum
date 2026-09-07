@@ -393,18 +393,32 @@ def all_categories(subdomain, min_pages=40, hard_stop=None):
     an explicitly-passed one is left available for a human debugging a pathological wiki -- but
     nothing in the tree passes it, and nothing should.
 
-    A FAILED WALK IS NEVER MEMOISED. The `except` below breaks out with a partial list; caching
-    that under `(subdomain, min_pages)` made one transient API error decide, for the rest of the
-    process, that a wiki had fewer categories than it has -- and every one of the seven canonical
-    classes then read the same truncated answer without re-asking. The partial list is still
-    returned so the run makes what progress it can; it is simply not remembered as the truth.
+    A FAILED WALK RAISES; IT IS NEVER RETURNED AS THE ANSWER, MEMOISED OR NOT (order de0681cb9edc,
+    verified against source by sweep45-batch09/run#45). This used to catch the transport error,
+    `break` out with whatever had been paginated so far, and return that partial list -- and
+    because `allcategories` returns alphabetically, a mid-walk API hiccup meant every one of the
+    seven canonical classes silently read an alphabetical PREFIX of the real category set as if
+    it were complete. `_get` has already retried (its own `retries=2`) by the time this raises,
+    so a caller sees this only once retry is exhausted. `find_categories`/`discover_categories`
+    do not wrap this call, so the exception reaches `catalogue()`'s single-wiki path uncaught --
+    matching the comment at catalogue_web.py:257-259, which describes exactly this and, before
+    this fix, was describing behaviour the code did not actually have. The partial list this
+    walk collected before failing is discarded along with the exception: a truncated roster is
+    not a smaller correct answer, it is the Hard Rule 0 failure the charter names by example.
     """
-    key = (subdomain, min_pages)
+    # `hard_stop` IS PART OF THE KEY (order 83bf7498d135). Not reachable today -- no caller in
+    # this tree passes a non-None hard_stop, and a bounded result is never written into the
+    # cache in the first place (see the `if hard_stop is None:` write-guard below), so this was
+    # dormant rather than live. Filed because a cache key omitting an argument that changes the
+    # answer is a trap for the first caller that DOES pass one: without this, that bounded call
+    # would read back whatever unbounded result a previous caller happened to cache under the
+    # same (subdomain, min_pages), silently ignoring the bound it asked for.
+    key = (subdomain, min_pages, hard_stop)
     with _ALLCATS_LOCK:
         if key in _ALLCATS:
             return _ALLCATS[key]
 
-    out, cont, complete = [], None, True
+    out, cont = [], None
     while hard_stop is None or len(out) < hard_stop:
         p = {"action": "query", "list": "allcategories", "aclimit": 500,
              "acmin": min_pages, "acprop": "size"}
@@ -414,8 +428,7 @@ def all_categories(subdomain, min_pages=40, hard_stop=None):
             d = _api(subdomain, p)
         except Exception:
             silence.note("wiki_source.py:all_categories")
-            complete = False
-            break
+            raise
         for c in d.get("query", {}).get("allcategories", []):
             name = c.get("*") or ""
             if name and not _META_CATEGORY.search(name):
@@ -423,7 +436,7 @@ def all_categories(subdomain, min_pages=40, hard_stop=None):
         cont = d.get("continue", {}).get("accontinue")
         if not cont:
             break
-    if complete and hard_stop is None:
+    if hard_stop is None:
         with _ALLCATS_LOCK:
             _ALLCATS[key] = out
     return out
@@ -575,6 +588,17 @@ def category_members(subdomain, category, limit=None):
     Hard Rule 0: a cap on a category listing is a truncation, not a sample, because MediaWiki
     returns categories ALPHABETICALLY. A limit of 200 on DC's 33,614-member character category
     returns Abin Sur through Adolf Hitler and reports it as the roster.
+
+    A TRANSPORT FAILURE MID-WALK RAISES; IT IS NEVER RETURNED AS THE ROSTER (order de0681cb9edc,
+    verified against source by sweep45-batch09/run#45). This used to catch the error, log it, and
+    `break` out with whatever had been paginated so far -- for an alphabetically-returned listing
+    that IS an A-through-something prefix, landed silently as the whole cast, and the caller has
+    no way to tell it apart from a genuinely small category. `_get` has already retried by the
+    time this raises. `catalogue_composite`'s per-category `try/except` (catalogue_web.py:220-224)
+    is the intended handler for this call: it now actually catches the failure, records the
+    category in `failed_cats`, and keeps going with the rest of the source. `catalogue()`'s
+    single-wiki path wraps nothing around this call on purpose, so the exception fails that whole
+    attempt honestly and the source stays retryable (`entry_count` stays 0).
     """
     out, cont = [], None
     while limit is None or len(out) < limit:
@@ -588,7 +612,7 @@ def category_members(subdomain, category, limit=None):
             d = _api(subdomain, p)
         except Exception:
             silence.note("wiki_source.py:category-members-api")
-            break
+            raise
         out += [m["title"] for m in d.get("query", {}).get("categorymembers", [])]
         cont = d.get("continue", {}).get("cmcontinue")
         if not cont:
@@ -597,7 +621,15 @@ def category_members(subdomain, category, limit=None):
 
 
 def extracts(subdomain, titles, chars=700):
-    """Intro text for up to 20 pages per call -- the real article prose."""
+    """Intro text for up to 20 pages per call -- the real article prose.
+
+    A TRANSPORT FAILURE ON A BATCH RAISES; IT NO LONGER SILENTLY DROPS THAT BATCH'S TITLES
+    (order de0681cb9edc). This used to `continue` past a failed batch, so the returned dict was
+    missing an unknown subset of the requested titles with nothing telling the caller. No caller
+    in this tree currently uses this function; raising here matches category_members /
+    all_categories so the first caller that does add one gets an honest failure instead of a
+    silently partial dict.
+    """
     out = {}
     for i in range(0, len(titles), 20):
         batch = titles[i:i + 20]
@@ -607,7 +639,7 @@ def extracts(subdomain, titles, chars=700):
                                  "titles": "|".join(batch), "redirects": 1}, timeout=40)
         except Exception:
             silence.note("wiki_source.py:extracts-api")
-            continue
+            raise
         for page in d.get("query", {}).get("pages", {}).values():
             if "extract" in page and page.get("title"):
                 txt = re.sub(r"\s+", " ", page["extract"]).strip()

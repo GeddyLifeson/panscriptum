@@ -586,7 +586,21 @@ def main():
         print(f"({stale_count} of those are stale -- previously generated, but the source data, "
               f"model, or prompt version has changed since, so they'll be regenerated)")
 
-    if args.limit:
+    # `is not None`, NOT TRUTHINESS (order 4ed4041c3b78). This was `if args.limit:`, so
+    # `--limit 0` -- a value the operator gave, and the default is None precisely so "not given"
+    # has its own spelling -- was read as "no limit given" and the command ran EVERYTHING
+    # instead of nothing. The same falsy-zero slip was fixed this shift in binding_health.py
+    # (orders cd7492eec3bc, f1901d2178ba) and earlier in burgs.py.
+    #
+    # AND WHAT AN EMPTY WORK LIST DOES, which is the question binding_health showed must be asked
+    # rather than patched past -- fixing the falsy-zero there ARMED a second bug only an empty
+    # selection could reach. Checked here: `pending == []` walks the "total jobs / pending" print
+    # below (0 pending, correct), skips the --dry-run loop harmlessly, and reaches the generation
+    # loop, which iterates nothing and reports 0 written. No division by len(pending), no
+    # max()/min() over it, and the catalog write is by-key so an empty pass writes no rows rather
+    # than an empty catalog. `--limit 0` is therefore an honest "cost me nothing and tell me what
+    # you would have done", which is what an operator typing it means.
+    if args.limit is not None:
         pending = pending[: args.limit]
 
     print(f"{len(jobs)} total jobs, {len(pending)} pending (not yet cached under current "

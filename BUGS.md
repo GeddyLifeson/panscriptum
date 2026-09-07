@@ -2209,6 +2209,117 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+- **[M71 — RESOLVED 2026-09-06, scheduled maintenance run #46] THE TWIN OF M70: `write_record_catalogue`
+  KEYED ITS MERGE ON ENTRY NAME AND LOST TWO WAYS, SILENTLY, WHILE RETURNING `True`.** M70 removed
+  `{e["name"]: e for e in rec["entries"]}` from `write_record`. The identical expression was still
+  standing one function over in `write_record_catalogue` — the writer **every cataloguer** goes
+  through (`catalogue_web._one`, `ingest_doc`, `backfill`, `catalogue_aurora`, `catalogue_codex`).
+  It lost twice: **(1) a reverted judgment** — a duplicated name collapsed to whichever fresh entry
+  the comprehension saw LAST, so every disk row of that name folded onto that one survivor and the
+  others emerged carrying no pipeline judgment at all (`catalogued` gone, so `phase_entrypass`
+  re-spends a model call; `excluded` gone, which is the reverted-exclusion cycle closed after the
+  149-entry incident); and **(2) a shrunk cast** — a disk row whose name was in the map was folded
+  and never appended, so m disk rows against k fresh rows merged to k, against a docstring
+  promising in as many words that *a merge never shrinks a cast*. **Measured over
+  `data/records/*.json`: 282,822 entries, 1,840 in duplicated-name groups, 935 rows a name-keyed
+  dict collapses, 65 of 216 records affected.** Root cause: the same one as M70 — a name is not a
+  per-entry identity — but **M70's remedy does not transfer**, because this writer's fresh cast
+  arrives from a wiki re-fetch or a doc ingest whose ordering is unrelated to the disk copy's, so
+  ordinal pairing would attribute one entity's judgments to another's row. Fixed by pairing on the
+  **(name, type, description) triple**, used only where it identifies exactly one row on each side.
+  **Measured before choosing it: of 905 duplicated-name groups the triple fully separates 880,
+  partially 2, and leaves 23 identical** — so 97.2% of ambiguous groups recover their judgments
+  without guessing, and the remaining 25 are refused rather than mis-stamped, on the order's own
+  argument that a judgment on the wrong entity is worse than one not carried. Unpaired disk rows
+  are carried forward capped at `max(m, k)`, which restores the docstring's promise **and is
+  idempotent** — the naive "append every unpaired row" reading would have grown a record without
+  bound on every re-catalogue (k+m, then k+k+m). The pairing key also coerces non-primitives,
+  because the fresh cast is not a schema-checked shape (measured: 0 of 282,822 entries carry one
+  today). **Watched red first** via a positive control reimplementing the old fold: the surviving
+  row came out carrying BOTH rows' marks while its twin came out `{}`, and a 3-row cast merged to
+  1. Guarded by drill net *the catalogue merge does not key entries on name alone*, which attacks
+  all four properties (judgments follow the right row across a REORDERED cast; the cast does not
+  shrink; the merge is idempotent; an unhashable field does not divert the merge into the
+  `except` arm). **The 935 already-collapsed rows are NOT repaired** — this stops the loss going
+  forward; re-deriving what a past merge discarded is a data question and those disk copies are
+  gone rather than mis-stored. Orders `b418b8b3be54`; twin of `b67dc1990af6`/M70.
+
+- **[M72 — RESOLVED 2026-09-06, run #46] TWELVE PROBE SITES WERE MANUFACTURING, IN THE OPERATIONAL
+  FAILURE LEDGER, THE EXACT FAULTS THAT LEDGER EXISTS TO REPORT.** Eight keys in
+  `state/failures.json` stood at **exactly 39 each — the drill-run count, identical across all
+  eight**, which is what gave the class away. Each was a deliberate-failure probe whose refusal
+  reached `silence.note` → `health.record`, including `silent:ledger_guard.py:acknowledgement-refused`
+  (a **refused waiver on the tamper-evident ledger chain**) and
+  `escalation:MANAGER:LOCAL_AGENT_BLAST_CAP`. Four more were found afterwards: two
+  `silence.py:cas-target-changed` writers, `magnitude.py:host_ceiling-unread` (a site **created by
+  this run's own new net** and caught by the same measurement within minutes), and
+  `mutate.py:reap-skipped-live-owner` (closed as a side effect of the reap containment below).
+  Root cause: `_deliberately_failing` had existed since 2026-08-31 and the discipline was applied
+  per-site by hand, so it was only ever as complete as the last person to remember it — while the
+  **work-order** queue has had an enforced equivalent (`_sweep_probe_litter`,
+  `a_probe_leaves_no_order_behind`) for months. Two ledgers, one probe, one of them watched.
+  Fixed by wrapping only the call that is supposed to fail at each site. **Proved, not argued: a
+  full drill run now grows ZERO keys**, verified by before/after diff repeated until empty; the
+  only movement is `endpoint.py:fetch_raw-absent`, separately measured at **+25 in 60 seconds with
+  no drill running** and confirmed to be a live crawl recording genuine HTTP 404/410s, which is
+  that note's designed purpose. **Four of the twelve were found only by measurement after reading
+  code sent the run to the wrong function twice** — which is the whole argument of the structural
+  order left open for the owner, `895a99602bf0`. Orders `247b173c78ee`, `31a946e96c69`,
+  `630fe4529c51`, `b53dd5b3f76f`, `dad7b19b2136`.
+
+- **[M73 — RESOLVED 2026-09-06, run #46] `host_ceiling` RE-FABRICATED "NO CEILING" ONE LAYER ABOVE
+  THE FIX THAT HAD JUST STOPPED IT, AND CACHED IT.** `scope.scope_for` was repaired the same shift
+  to raise `ProbeUnread` rather than cache an API failure as an honest empty verdict (order
+  `6e2dab4c3981`). `magnitude.host_ceiling` caught that refusal in a bare `except Exception` and
+  returned `None` — which every caller reads as *this host has no ceiling* — **and wrote that None
+  into `_SCOPE_CACHE`**, so every later entity from the same host in the same process skipped the
+  clamp too, with no second attempt and nothing recorded. A throttled host mid-batch is ordinary,
+  and this clamp is the only outside check on the model's anchoring; the function's own docstring
+  records the alternative (Jace Beleren at M10.77 against a published 𝔄 M2.88, Silver Surfer at
+  M10.93). Root cause: a bare handler cannot tell a refusal from an answer, and the fix one layer
+  down made refusals *more* common rather than less. Fixed by catching `ProbeUnread` specifically,
+  **not caching it, and re-raising** — `run_batch.work()` already records the entity with an uncut
+  reason, so the batch refuses honestly and the next host gets a fresh attempt. **Watched red
+  first**: the reinstated pre-fix function returned None, cached it, and made only ONE `scope_for`
+  attempt across two calls; the fixed one propagates, caches nothing, and attempts both times. A
+  genuine empty verdict still returns None and still caches — the fix is not "refuse everything",
+  which would have passed the first arm while disabling the on-disk fast path for all 155 measured
+  hosts. Guarded by a three-arm drill net, **also watched red**. Order `3eeedaafce1e`.
+
+- **[M74 — RESOLVED 2026-09-06, run #46] A SHELL SCRIPT LEFT UNDER `handoff/` WOULD HAVE BEEN
+  PUSHED TO THE PUBLIC REPO.** `publish._is_agent_scratch` refuses scratch code by **where it
+  sits**, but `_CODE_EXT` enumerated one language's suffixes (`.py`, `.pyw`, `.pyi`), so a `.sh`,
+  `.ps1`, `.bat` or `.js` dropped there by an agent synced into the export tree unchecked. Root
+  cause: the enumeration-versus-family mistake this same file's `gitignore_lines()` docstring
+  already records being repaired one function below (the hand-typed `*.presilence` against
+  `_is_skipped`'s `.pre*` shape, order `e14c1f1c494e`) — and it mattered doubly here because that
+  one tuple feeds **both** the copier and the export repo's `.gitignore`. **Found twice,
+  independently, from opposite directions** by two sweep46 agents: one reading the gate, one
+  finding a live vector (`handoff/__drill_empty_find__.txt`, a drill probe whose cleanup failure is
+  swallowed — still open as `749597eb95d4`). Fixed by widening `_CODE_EXT` to the executable
+  family. **Measured before widening: no file of any of those types exists under `handoff/`
+  today**, so this closed a latent hole rather than changing what publishes; `.md`/`.txt`/`.json`
+  are deliberately untouched, being what that directory is in `COPY_DIRS` to carry. **The net was
+  wrong too** — it asserted only the `.py` family, so it was green through the hole's entire
+  lifetime and would have gone green again on a narrowing; it now asserts the wider family and was
+  **watched red** against the restored python-only tuple. Order `e7e00ffde6c5`.
+
+- **[M75 — RESOLVED 2026-09-06, run #46] `mutate._session()` CRASHED ON ONE OF THE TWO EVENT SHAPES
+  ITS OWN `_refresh_baseline` WRITES, DESTROYING A 20-HOUR PASS'S REPORT AFTER THE WORK WAS DONE.**
+  `_refresh_baseline` appends either `{gates_that_moved, verdicts_now_in_doubt}` (the signature
+  moved) or `{refresh_unusable, kept_previous_baseline, verdicts_since_last_good_baseline}` (the
+  refresh could not complete). The report loop read `d["gates_that_moved"]` unconditionally, so the
+  second shape raised `KeyError` and replaced every remaining target's findings with a bare
+  traceback. Not an edge case: `--rebaseline-every` defaults to 1800s against a run measured in
+  hours on a shared machine, and the 2026-09-05 pass logged four drift events in one session. Root
+  cause: one producer, two shapes, one consumer that knew one of them. Fixed by branching on the
+  shape and reporting the unusable case as the different thing it is — the previous baseline was
+  *kept*, so those verdicts rest on a photograph never re-confirmed, which is weaker than a
+  confirmed drift and far better than a crash; both paths now use `.get()` so a third shape cannot
+  resurrect it. **Proved by replaying the loop over both shapes**: old logic →
+  `KeyError('gates_that_moved')`; new logic → both events reported. Taken off the SESSION rung
+  deliberately, because the run's next act was relaunching that very pass. Order `f4af474dfc49`.
+
 - **[M70 — RESOLVED 2026-09-05, scheduled maintenance run #45] `pipeline.write_record` RETURNED
   `True` WHILE SILENTLY DROPPING ENTRIES.** The per-entry fold was keyed on entry *name*
   (`by_name = {e["name"]: e for e in rec["entries"]}`), so N entries sharing a name collapsed to

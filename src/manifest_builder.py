@@ -352,9 +352,15 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
         feat_rows = feats_index.feats_for_source(source_name, record)
     except Exception as e:
         silence.note("manifest_builder.py:feats")
-        print("WARNING: feats lookup FAILED for %s (%s: %s) -- this volume will carry no Feats "
+        # UNCUT (order bd3f737f4241). `str(e)[:110]` is the one thing distinguishing a BUG in
+        # feats_index from a source with genuinely no attested feats, and a KeyError, a nested
+        # AttributeError or any exception carrying a path routinely exceeds 110 characters -- the
+        # cut was unmarked, so the operator could be handed a message that stopped before the
+        # part naming the cause. Printed in full, on its own indented continuation line.
+        print("WARNING: feats lookup FAILED for %s (%s) -- this volume will carry no Feats "
               "chapter, which is NOT the same finding as a source with no attested feats"
-              % (source_name, type(e).__name__, str(e)[:110]))
+              % (source_name, type(e).__name__))
+        print("   %s" % str(e))
         feat_rows = []
     if feat_rows:
         # DERIVED, NOT DECLARED (m46). `FEATS_BLOCK_CHARS` had no arithmetic relationship to
@@ -507,11 +513,22 @@ def main():
 
     all_jobs = []
     missing_records = []
+    # SOURCES WHOSE RECORD WAS FOUND BUT HELD NO ENTRIES (order 07d101ba4b90). This is a
+    # DIFFERENT finding from `missing_records` above (the record could not be found at all) and
+    # from `skipped_empty` below (the ROLL says entry_count == 0, computed before any record is
+    # ever opened). A record on disk with `entries: []` produces zero jobs from
+    # `build_jobs_for_source` with nothing printed and nothing in the manifest -- a volume that
+    # silently stopped being built reads identically to one that was never on the roll. Detected
+    # here, against the RECORD, not folded into `skipped_empty`, which reads the roll and can
+    # disagree with what the record actually holds.
+    empty_records = []
     for r in build_pool:
         record = load_record(cfg, r["name"])
         if record is None:
             missing_records.append(r["name"])
             continue
+        if not record.get("entries", []):
+            empty_records.append(r["name"])
         all_jobs.extend(build_jobs_for_source(cfg, r, record, volume_code[r["name"]]))
 
     out_key = "pilot_manifest" if args.pilot else "manifest"
@@ -536,6 +553,11 @@ def main():
     if missing_records:
         print(f"WARNING: {len(missing_records)} sources had no matching record file: "
               f"{missing_records}")
+    if empty_records:
+        # Uncapped, per Hard Rule 0 -- every one named, in full.
+        print(f"WARNING: {len(empty_records)} sources had a record file that was found but held "
+              f"no entries (zero jobs produced, not the same finding as a missing record): "
+              f"{empty_records}")
     print(f"Skipped {len(skipped_empty)} sources with entry_count == 0 "
           f"(re-sweep pending on the cloud side).")
 
@@ -573,7 +595,17 @@ def main():
     else:
         header = ("**None.** Every populated source on the Acquisitions Roll resolves to a "
                   "real spine code as of this manifest build.\n")
-    with open(report_path, "w", encoding="utf-8") as f:
+    # ATOMIC, LIKE THE MANIFEST FIFTY LINES UP (order 00ef174b7495). A bare
+    # `open(report_path, "w")` is a truncate-then-fill, not a write -- `silence.write_json`'s own
+    # docstring is the finding about that shape, and it applies here whether the payload is JSON
+    # or Markdown. A reader arriving in the gap, or a crash in it, left this report empty or
+    # half-written PERMANENTLY, reading as current for as long as anyone looked at it -- exactly
+    # the "stale report is worse than no report" argument this block already makes above about
+    # staleness, one failure mode over. Land it through a pid+thread temp and silence.replace_retry,
+    # and report the verdict on the same footing as the manifest write instead of assuming it.
+    import threading as _th
+    _report_tmp = "%s.%d.%d.tmp" % (report_path, os.getpid(), _th.get_ident())
+    with open(_report_tmp, "w", encoding="utf-8") as f:
         f.write("# Sources with no spine code yet\n\n")
         f.write(header)
         # Uncapped, per Hard Rule 0: this is the outstanding curatorial work, in full.
@@ -581,7 +613,13 @@ def main():
             f.write(f"- **{r['name']}** ({r['category']}, {r.get('entry_count', 0)} entries)"
                     + (f" -- built as `{provisional_spine(r)}`\n"
                        if args.include_unassigned else "\n"))
-    if unassigned and not args.include_unassigned:
+    report_landed = silence.replace_retry(_report_tmp, report_path)
+    if not report_landed:
+        silence.note("manifest_builder.py:unassigned-report-write-denied")
+        print(f"UNASSIGNED-SOURCES REPORT WRITE DENIED -> {report_path}: replace refused, so "
+              f"this build's list did NOT land. The file on disk is the PREVIOUS report -- do "
+              f"not read it as describing this roll. Rerun to retry.")
+    elif unassigned and not args.include_unassigned:
         print(f"\n{len(unassigned)} populated sources have NO spine code in the charter yet -- "
               f"skipped. See {report_path}")
     elif unassigned:
@@ -590,8 +628,9 @@ def main():
 
     # The unassigned-sources report above is refreshed either way -- it describes the ROLL, not
     # the manifest, and letting a denied manifest write leave it stale would be the same defect
-    # this block's own comment was written about. The exit status carries the manifest verdict.
-    return 0 if manifest_landed else 1
+    # this block's own comment was written about. The exit status now carries BOTH verdicts: a
+    # denied report write is exactly as much "the run did not land" as a denied manifest write.
+    return 0 if (manifest_landed and report_landed) else 1
 
 
 if __name__ == "__main__":

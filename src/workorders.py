@@ -116,11 +116,19 @@ class BadOrder(ValueError):
 # acts on, so the next closure goes through the file.
 SHELL_ACTIVE = (
     ("`", "backtick command substitution -- the shell RUNS what is inside it"),
-    ("$(", "$(...) command substitution -- the shell RUNS what is inside it"),
-    ("${", "${...} parameter expansion"),
-    ("$", "$ variable expansion -- the shell replaces the name, usually with nothing"),
+    ("$", "$ dollar sign -- $(...) command substitution, ${...} parameter expansion, or $NAME "
+          "variable expansion, all performed by the shell (one report covers all three forms "
+          "so a single $(...) is not counted twice)"),
     ("\\", "backslash escape -- the shell eats it and the character after it"),
     ('"', "double quote -- ends the caller's own quoting and re-opens the line to the shell"),
+    ("'", "single quote -- ends the caller's own quoting and re-opens the line to the shell"),
+    (";", "; command separator -- ends one command and starts another"),
+    ("|", "| pipe -- feeds this command's output into another command"),
+    ("&", "& background/AND operator -- runs another command"),
+    (">", "> output redirection -- overwrites or creates a file"),
+    ("<", "< input redirection -- reads a file as input"),
+    ("\n", "newline -- the shell treats it as a command separator"),
+    ("!", "! history expansion"),
 )
 
 
@@ -252,7 +260,7 @@ def battery_faults(preflight=None, allsweep=None, now=None):
         bad = []
         for r in (allsweep.get("imports") or []):
             if not r.get("ok"):
-                bad.append("import %s: %s" % (r.get("module"), str(r.get("detail"))[:160]))
+                bad.append("import %s: %s" % (r.get("module"), str(r.get("detail"))))
         # THE VERIFY TIER, READ FROM ITS PUBLISHED GRADE (run #37, order 14bd09740627). This
         # used to test `crashed or timeout` only -- rc was never consulted -- so a verifier's
         # own verdict reached neither allsweep's exit code nor this queue, and `rosetta.py
@@ -284,9 +292,9 @@ def battery_faults(preflight=None, allsweep=None, now=None):
                            "predates per-row rc semantics, so its verdict cannot be counted"
                            % (r.get("check"), r.get("rc")))
         for ln in (allsweep.get("lint") or []):
-            bad.append("lint %s" % str(ln)[:160])
+            bad.append("lint %s" % str(ln))
         for art in (((allsweep.get("estate") or {}).get("artifacts") or {}).get("bad") or []):
-            bad.append("estate artifact %s" % str(art)[:160])
+            bad.append("estate artifact %s" % str(art))
         # The four named ESTATE tiers, already graded by `allsweep.estate_faults`. Read, never
         # re-graded: `_row_is_fault` lives in allsweep and a copy of it here would be the second
         # rule this section exists to avoid.
@@ -302,13 +310,15 @@ def battery_faults(preflight=None, allsweep=None, now=None):
         for f in (faults or []):
             if isinstance(f, dict):
                 bad.append("estate %s: %s -- %s" % (f.get("tier"), f.get("finding"),
-                                                    str(f.get("detail"))[:120]))
+                                                    str(f.get("detail"))))
             else:
-                bad.append("estate finding %s" % str(f)[:160])
+                bad.append("estate finding %s" % str(f))
         if bad:
             out["BATTERY_GRADED"] = {
                 # Same shape as PREFLIGHT_PROBLEM above: the count and the three are honest and
-                # labelled, the evidence is complete.
+                # labelled, the evidence is complete -- `bad` carries the FULL text of every
+                # row (order 14c70c3782fd removed the five [:160]/[:120] slices that used to
+                # cut it before storage; console display, if any, cuts at its own call site).
                 "what": "allsweep grades %d subsystem(s) bad, first three: %s"
                         % (len(bad), "; ".join(bad[:3])),
                 "handler": "RUN", "severity": "MAJOR", "evidence": bad}
@@ -516,11 +526,17 @@ def is_selftest(rec):
     So an order is a self-test if it was FILED as one or CLOSED as one -- and a real blast-cap
     order closed by anybody else still lands in the real paper trail, which is the property that
     actually matters here.
+
+    This function only ever tests the FILED case (the reserved-subject convention below). The
+    CLOSED case is decided by the caller, not by this function reading the record: resolve() and
+    resolve_code() take their own `synthetic=` argument and OR it with this function's result at
+    the log-routing call site (`SELFTEST_LOG if (synthetic or is_selftest(rec)) else CLOSED_LOG`)
+    -- no writer in this module ever stores a `synthetic` key on the order record itself, so a
+    record-level check for one would always read False (order 792617e0047b: that dead branch
+    used to be here and never fired).
     """
     if not isinstance(rec, dict):
         return False
-    if rec.get("synthetic"):
-        return True
     return bool(SELFTEST_SUBJECT.match(str(rec.get("where") or "")))
 
 
@@ -918,7 +934,7 @@ def ghost_orders(open_map=None, rows=None):
     """
     when = closed_at(rows)
     ghosts, recurrences = [], 0
-    for oid, rec in (open_map if open_map is not None else (_load() or {})).items():
+    for oid, rec in (open_map if open_map is not None else _load()).items():
         stamp = when.get(oid)
         if stamp is None:
             continue
@@ -1499,7 +1515,7 @@ def sweep_detectors():
         import local_agent as _LA
         _rx_mod = __import__("re").compile(r"\b([A-Za-z_][A-Za-z0-9_]*)\.py\b")
         _stuck = []
-        for _oid, _rec in sorted((_load() or {}).items()):
+        for _oid, _rec in sorted(_load().items()):
             if (_rec or {}).get("handler") != "LOCAL":
                 continue
             _mods = set(_rx_mod.findall(str(_rec.get("where") or "")))
@@ -1583,7 +1599,12 @@ def main():
                 return 2
         elif a.how == "-":
             via_argv = False
-            how = sys.stdin.read()
+            try:
+                how = sys.stdin.read()
+            except Exception as exc:
+                print("refused: --how - could not be read from stdin (%s: %s). NOTHING WAS "
+                      "CLOSED." % (type(exc).__name__, exc))
+                return 2
         if not how.strip():
             print("refused: --how is required. A closed order with no resolution recorded is "
                   "indistinguishable from one that was deleted to tidy the queue.")

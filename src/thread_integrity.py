@@ -172,11 +172,22 @@ def _floor_verdict(measured, path=None):
     raised by anything in the automation -- §8's rule that no phase may lower a floor to go
     green, read in the direction this floor points.
 
-      baseline   no floor on record; this measurement becomes it
-      held       measured == bar
-      ratcheted  measured <  bar; bar lowered to measured
-      REGRESSED  measured >  bar (fails)
-      UNREADABLE the floor file exists and cannot be read (fails closed: cannot judge)
+      baseline     no floor on record; this measurement becomes it, and the write LANDED
+      UNRECORDABLE no floor on record and the baseline write was DENIED -- fails closed,
+                   because every future run would take this same FileNotFoundError arm again,
+                   re-measure, and report "baseline" forever; REGRESSED could then never fire
+                   however far ASYMMETRIC-SUSPECT grows (order 8dfba71f73c3)
+      held         measured == bar
+      ratcheted    measured <  bar; bar lowered to measured, and the write LANDED
+      held-unrecorded  measured < bar but the ratchet write was DENIED -- recoverable: the
+                   higher bar simply stands, so this does not fail, but it must not claim a
+                   ratchet that never landed on disk
+      REGRESSED    measured >  bar (fails)
+      UNREADABLE   the floor file exists and cannot be read (fails closed: cannot judge)
+
+    `silence.write_json` RETURNS FALSE ON A DENIED WRITE AND NEVER RAISES -- the ordinary case
+    on this machine. Both arms below used to write-then-return unconditionally, which asserted
+    a durable fact about a file that may not have changed; both now check the verdict.
     """
     p = path or FLOOR
     try:
@@ -184,10 +195,13 @@ def _floor_verdict(measured, path=None):
             cur = json.load(f)
         bar = int(cur["asymmetric_suspect_max"])
     except FileNotFoundError:
-        silence.write_json(p, {"asymmetric_suspect_max": int(measured),
-                               "set_at": __import__("time").time(),
-                               "by": "thread_integrity: first measurement (Phase 4.2 baseline)"},
-                           indent=1)
+        landed = silence.write_json(
+            p, {"asymmetric_suspect_max": int(measured),
+                "set_at": __import__("time").time(),
+                "by": "thread_integrity: first measurement (Phase 4.2 baseline)"},
+            indent=1)
+        if not landed:
+            return "UNRECORDABLE", measured, None
         return "baseline", measured, measured
     except Exception:
         silence.note("thread_integrity.py:floor-unreadable")
@@ -195,11 +209,14 @@ def _floor_verdict(measured, path=None):
     if measured > bar:
         return "REGRESSED", measured, bar
     if measured < bar:
-        silence.write_json(p, {"asymmetric_suspect_max": int(measured),
-                               "set_at": __import__("time").time(),
-                               "by": "thread_integrity: ratcheted down from %d" % bar,
-                               "was": bar},
-                           indent=1)
+        landed = silence.write_json(
+            p, {"asymmetric_suspect_max": int(measured),
+                "set_at": __import__("time").time(),
+                "by": "thread_integrity: ratcheted down from %d" % bar,
+                "was": bar},
+            indent=1)
+        if not landed:
+            return "held-unrecorded", measured, bar
         return "ratcheted", measured, bar
     return "held", measured, bar
 
@@ -611,6 +628,16 @@ def main():
             print(f"ASYMMETRIC-SUSPECT floor: held at {measured:,}")
         elif state == "ratcheted":
             print(f"ASYMMETRIC-SUSPECT floor: {bar:,} -> {measured:,}, ratcheted down")
+        elif state == "held-unrecorded":
+            print(f"ASYMMETRIC-SUSPECT floor: held at {bar:,} (measured {measured:,}; the "
+                  f"ratchet write was DENIED, so the lower bar was not recorded -- the higher "
+                  f"bar stands rather than claiming a ratchet that did not land)")
+        elif state == "UNRECORDABLE":
+            failed = True
+            print(f"THREAD INTEGRITY FAILED: measured {measured:,}, but the Phase 4.2 baseline "
+                  f"write was DENIED, so nothing is on record. Every future run would take this "
+                  f"same path and re-report 'baseline' forever, so REGRESSED could never fire. "
+                  f"Fail closed.")
         elif state == "REGRESSED":
             failed = True
             print(f"THREAD INTEGRITY FAILED: ASYMMETRIC-SUSPECT REGRESSED, {measured:,} against "

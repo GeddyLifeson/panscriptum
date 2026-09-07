@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 404  ·  last run 2026-09-06 21:29
+round 407  ·  last run 2026-09-07 00:11
 
 ## Structure
 
@@ -12,20 +12,40 @@ round 404  ·  last run 2026-09-06 21:29
 
 ## What the model found in the code
 
-**6 open** (0 high). Newest first.
+**16 open** (5 high). Newest first.
 
-- **ingest_doc.py** `landed_found` — [MEDIUM] landed_found is initialized to state['found'], which may not have been written to disk and thus may not reflect the actual value on disk
-  - says: landed_found tracks the value that last actually landed
-- **ingest_doc.py** `state` — [MEDIUM] state is initialized to a default value if an exception occurs during loading, but the code does not handle specific exceptions like FileNotFoundError
-  - says: state is initialized to a default value if the file is not found
-- **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
-  - says: searches for replacements for hosts that failed to hold their fiction
-- **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
-  - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair.
+- **axis_correlation.py** `rho` — [HIGH] returns 0.0 when doc is missing, which contradicts the claim that the default is the measured mean
+  - says: THE DEFAULT IS THE MEASURED MEAN, NOT ZERO
+- **autostart.py** `threading` — [HIGH] not defined in this slice
+  - says: used for thread identification
+- **autostart.py** `contextlib` — [HIGH] not defined in this slice
+  - says: used for suppressing exceptions
+- **autostart.py** `silence` — [HIGH] not defined in this slice
+  - says: used for handling errors and logging
+- **autostart.py** `installed_state` — [HIGH] not defined in this slice
+  - says: returns the state of the launcher
+- **binding_health.py** `F.page_looks_real` — [MEDIUM] judge page as real document
+  - says: judge page as real article
+- **binding_health.py** `F.fetch` — [MEDIUM] fetch host and list of titles
+  - says: fetch host and title
+- **axis_correlation.py** `measure` — [MEDIUM] used but never defined in this file or its imports
+  - says: generate data for axis correlation
+- **axis_correlation.py** `rho` — [MEDIUM] used but never defined in this file or its imports
+  - says: compute correlation between two axes
+- **autostart.py** `ON.running` — [MEDIUM] ON.running(job) is used to check if a job is running, but the comment indicates that `ON.ALL_JOBS` is the correct roster to use and that `ON.running` may not be the correct function to check job status. The comment also mentions that `ON.running()` returns None when it could not read the process table, and that the code should test `is None` explicitly rather than relying on truthiness.
+  - says: THE SINGLE ROSTER, NOT A HAND-KEPT SUBSET OF IT. This used to be a six-item tuple typed out here, and it had already drifted from `ON.STANDING`: it named "feats.py" where the roster's own entry is "feats.py --roll" (a real fragment-with-argument, per `_cmd_is_running`'s own docstring, not a mention), and it had no entry at all for `pipeline`, which joined STANDING after this tuple was written -- so `--status` could print every job on ITS list green while pipeline.py was down. `ON.ALL_JOBS` is the roster its own comment in overnight.py says exists so nothing keeps a partial copy; `autostart.py`/`overnight.py` are skipped here because this report already named them above, as the launcher and supervisor lines.
+- **assay.py** `scores` — [MEDIUM] the key is present even when no axes were scored
+  - says: A ROW WITHOUT THIS KEY IS "NOT RECORDED", NEVER ZERO
+- **assay.py** `moth_number` — [MEDIUM] the decimal is clamped to 0.0 or 0.99, but the dict does not always indicate which end it hit
+  - says: printed decimal is inside [0, 1) or the dict says which end it hit and why
+- **assay.py** `denom` — [MEDIUM] sum(W[k] for k in applicable) or 1.0 is used as a denominator, but the comment states it is a structural backstop and not a live path, yet it is still present in the code
+  - says: sum(W[k] for k in applicable) or 1.0
+- **assay.py** `_rho_doc` — [MEDIUM] The function does not actually guard against the matrix being missing; it only sets a fallback reason and does not prevent the use of the fallback value in subsequent computations.
+  - says: ON THE FALLBACK, AND WHAT ACTUALLY GUARDS IT (corrected 2026-08-26, order c00cab9d0412). If the matrix is missing this degrades to rho = 0 -- the independence assumption -- which is the WRONG answer, deliberately chosen: it is the only value that reproduces the library's historical numbers exactly, so a missing file degrades to "as it was before" rather than to some third behaviour nobody has seen.
+- **assay.py** `_rho_doc` — [MEDIUM] The function returns a dict, but it does not actually load the matrix; it only caches the result of a previous load and sets a fallback reason if the matrix is missing.
+  - says: The measured matrix, loaded once per process. -> dict, EMPTY when it is unavailable.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
-- **ingest_doc.py** `mine` — [MEDIUM] mine(a.source) is called but its return value is not checked for the early stops conditions
-  - says: mine(a.source) returns True only when every chunk was processed, and False on both of its early stops
 
 ---
 

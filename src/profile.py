@@ -217,7 +217,15 @@ def main():
     print("-" * 100)
     for r in rows[:8]:
         d = decode(r["profile"])
-        print(f"\n  {r['designation'][:56]}")
+        # UNCUT (Hard Rule 0, order ea31ea2ba72b). This was `r['designation'][:56]`, a bare
+        # slice on the world's IDENTITY, in the one place a person reads to check that the
+        # profile format is doing its job. `build_all()` derives everything else from this
+        # string (`w['designation'].split('::')[0]` keys the genre and tier lookups), and the
+        # `::<continuity>` suffix that tells two worlds of one source apart sits at the END --
+        # exactly the part a 56-character cut removes. Nothing forces a bound here: it is a
+        # console line in a report, not a stored field and not a path component, and only eight
+        # rows print. Same repair as recover_folder_records.py, hosts.py and hostcheck.py.
+        print(f"\n  {r['designation']}")
         print(f"     {r['profile']}")
         print(f"     {d['shelfmark']}")
         print(f"     {d['genre']}/{d['register']}  {d['features']}  "

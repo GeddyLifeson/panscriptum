@@ -690,6 +690,38 @@ def _entry_was_judged(de):
     return isinstance(de, dict) and any(k in de for k in _PIPELINE_JUDGMENT_MARKS)
 
 
+def _entry_pair_key(e):
+    """The identity write_record_catalogue pairs a disk row to a fresh row on.
+
+    `name` ALONE IS NOT A PER-ENTRY IDENTITY -- duplicate names are ordinary here, and keying a
+    merge on one is the fault order b418b8b3be54 (and, in the twin, b67dc1990af6) exists to end.
+    The twin can disambiguate by ORDER within the name group because the pipeline fills its list
+    in place; this writer cannot, because its fresh cast comes from a wiki re-fetch or a doc
+    ingest whose ordering has nothing to do with the disk copy's.
+
+    So the key is the (name, type, description) triple, which does not depend on order at all.
+    MEASURED over data/records/*.json, 2026-09-06: of the 905 duplicated-name groups in the
+    corpus the triple fully separates 880, partially separates 2, and leaves 23 unseparated
+    (rows identical in all three fields). It is used ONLY where it identifies exactly one row on
+    each side -- see the caller -- so the 23 are refused rather than guessed at.
+
+    This reads existing fields and stores nothing. Giving entries a STORED identity that
+    survives any reordering is a data-model change and stays the owner's call; write_record's
+    comment at the same point already rules that, and this does not reopen it.
+
+    EVERY PART IS FORCED HASHABLE, because this key is used as a dict key and the fresh cast is
+    NOT a trusted shape -- it arrives from a wiki re-fetch or a doc ingest, not from a schema.
+    A list or dict in any of the three fields would raise TypeError, and the raise would land in
+    write_record_catalogue's `except Exception` fall-through, turning a merge into whatever that
+    handler does instead. The old name-keyed fold had the same exposure on one field; keying on
+    three widens it, so it is closed here rather than left to the data staying well-formed.
+    MEASURED 2026-09-06: 0 of 282,822 entries currently carry a non-primitive in any of the
+    three, so this costs nothing today and is purely a guard against the shape changing.
+    """
+    return tuple(v if isinstance(v, (str, int, float, bool, type(None))) else repr(v)
+                 for v in (e.get("name"), e.get("type"), e.get("description")))
+
+
 def _is_cleaned_twin(dv, sv):
     """Is the disk description `dv` exactly what cleanup would make of the fresh one, `sv`?
 
@@ -748,14 +780,76 @@ def write_record_catalogue(path, rec):
     try:
         with open(path, encoding="utf-8") as f:
             disk = json.load(f)
-        by = {e.get("name"): e for e in rec.get("entries") or [] if isinstance(e, dict)}
-        curated = collections.Counter()
-        for de in disk.get("entries") or []:
-            if not isinstance(de, dict):
+        # ORDER b418b8b3be54: THE NAME-KEYED FOLD, STILL STANDING IN THIS TWIN AFTER IT WAS
+        # REMOVED FROM write_record. This was `by = {e.get("name"): e for e in rec["entries"]}`,
+        # and it lost TWO ways, both silently, both still answering True:
+        #
+        #   (1) A REVERTED JUDGMENT. A duplicated name collapsed to whichever FRESH entry the
+        #       comprehension happened to keep LAST. Every disk row of that name folded its
+        #       judgments onto that one survivor, and the other fresh rows emerged carrying no
+        #       pipeline judgment at all -- `catalogued` gone, so phase_entrypass re-spends a
+        #       model call, and `excluded` gone, which is the reverted-exclusion cycle
+        #       MERGED_ENTRY_FIELDS' own comment records as closed after the 149-entry incident.
+        #   (2) A SHRUNK CAST. The `se is None` arm was the only path carrying a disk row
+        #       forward, so a disk row whose name was in `by` was folded and never appended:
+        #       m disk rows against k fresh rows merged to k. The docstring above promises the
+        #       opposite in as many words -- "a merge never shrinks a cast" -- and that sentence
+        #       was false for every duplicated name.
+        #
+        # MEASURED over data/records/*.json, not theorised: 282,822 entries; 1,840 sit in
+        # duplicated-name groups; 935 are extras beyond the first of their name and so are
+        # exactly what a name-keyed dict collapses; 65 of 216 records affected.
+        #
+        # Pairing is by _entry_pair_key and ONLY where it names exactly one row on each side, so
+        # an ambiguous group is refused rather than guessed at: a judgment stamped onto the wrong
+        # entity is worse than a judgment not carried. Unpaired disk rows are then carried
+        # forward until the merged group is at least as large as the disk group was, which
+        # restores the docstring's promise and is IDEMPOTENT -- the merged size is max(m, k), and
+        # re-merging max(m, k) against k is max(m, k) again, so a re-catalogue cannot grow a
+        # record without bound.
+        disk_entries = [e for e in (disk.get("entries") or []) if isinstance(e, dict)]
+        fresh_groups = {}
+        for e in rec.get("entries") or []:
+            if isinstance(e, dict):
+                fresh_groups.setdefault(e.get("name"), []).append(e)
+        disk_groups = {}
+        for de in disk_entries:
+            disk_groups.setdefault(de.get("name"), []).append(de)
+        paired = {}      # id(disk row) -> the fresh row it folds onto
+        carry = set()    # id(disk row) -> kept as a row of its own, never folded
+        ambiguous = []
+        for nm, dgroup in disk_groups.items():
+            fgroup = fresh_groups.get(nm) or []
+            if not fgroup:
+                # A name the fresh cast does not carry at all. This is the one path that has
+                # always carried a disk row forward, and it is unchanged.
+                carry.update(id(de) for de in dgroup)
                 continue
-            se = by.get(de.get("name"))
+            if len(dgroup) == 1 and len(fgroup) == 1:
+                paired[id(dgroup[0])] = fgroup[0]
+                continue
+            fresh_by_key = {}
+            for e in fgroup:
+                fresh_by_key.setdefault(_entry_pair_key(e), []).append(e)
+            disk_by_key = {}
+            for de in dgroup:
+                disk_by_key.setdefault(_entry_pair_key(de), []).append(de)
+            unpaired = []
+            for key, dsub in disk_by_key.items():
+                fsub = fresh_by_key.get(key) or []
+                if len(dsub) == 1 and len(fsub) == 1:
+                    paired[id(dsub[0])] = fsub[0]
+                else:
+                    unpaired.extend(dsub)
+            if unpaired:
+                ambiguous.append(nm)
+                # Never shrink the cast. `surplus` is provably <= len(unpaired), because the
+                # paired count for this group cannot exceed len(fgroup).
+                carry.update(id(de) for de in unpaired[:max(len(dgroup) - len(fgroup), 0)])
+        curated = collections.Counter()
+        for de in disk_entries:
+            se = paired.get(id(de))
             if se is None:
-                rec.setdefault("entries", []).append(de)
                 continue
             judged = _entry_was_judged(de)
             for fld in MERGED_ENTRY_FIELDS:
@@ -773,6 +867,18 @@ def write_record_catalogue(path, rec):
                         (fld == "description" and _is_cleaned_twin(dv, sv)):
                     se[fld] = dv
                     curated[fld] += 1
+        # Carried in DISK ORDER, which is the order the old `se is None` arm appended in.
+        if carry:
+            rec.setdefault("entries", []).extend(
+                de for de in disk_entries if id(de) in carry)
+        if ambiguous:
+            log(f"    write_record_catalogue: {os.path.basename(path)} PARTIAL per-entry merge "
+                f"on {len(ambiguous)} duplicated name(s) the (name, type, description) triple "
+                f"could not separate one-to-one. Their disk-side judgments were NOT folded -- a "
+                f"judgment stamped onto the wrong entity is worse than one not carried -- and "
+                f"the surplus disk rows were carried forward whole so the cast did not shrink. "
+                f"Names: {', '.join(sorted(ambiguous))}. See order b418b8b3be54.")
+            silence.note("pipeline.py:write_record_catalogue-duplicate-name-unpaired")
         if curated:
             log(f"    write_record_catalogue: {os.path.basename(path)} keeping the disk copy's "
                 f"curated value over the fresh cast's for "

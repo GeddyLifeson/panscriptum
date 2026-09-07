@@ -37,15 +37,18 @@ terrain; above it, it draws its own.
 One call, `view()`, takes a coordinate at any tier and returns whichever is right.
 """
 import argparse
+import contextlib
 import hashlib
 import html
 import json
 import math
 import os
 import sys
+import threading
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silence                                                          # noqa: E402
 
 # `sevenfold` is no longer imported here: the only use was `children_of`'s SF.TIERS gate, which
 # asserted a schema instead of reading the tree (see the note there). pyflakes is load-bearing in
@@ -343,14 +346,55 @@ def main():
               "-- their URLs were formatted, not contacted (pass --probe to check reachability)")
 
     if args.write:
+        # ATOMIC, AND THE VERDICT IS READ (order c738ca184269). This was a bare
+        # `open(p, "w") ... f.write(...)` per file -- a truncate-then-fill, with no check that
+        # the write succeeded at all. It is the defect class `worldseed.py`'s own --write path
+        # documents fixing ("The 2026-08-25 sweep found twelve such sites across ten modules and
+        # moved them onto silence.write_json ... every sibling cross-cycle artifact already goes
+        # that way"), and output/ is not exempt from it elsewhere either: `generate.py` writes
+        # output/raw chapter files through `silence.replace_retry(tmp, raw_path)`.
+        #
+        # `silence.write_json` does not apply -- these are SVG text, not JSON -- so this is the
+        # same tmp-name-with-pid + `replace_retry` pattern gpu_lane.py and sweep_plan.py use for
+        # per-file non-JSON writes, with the pid AND thread ident that silence.write_json's own
+        # comment gives the collision reason for.
+        #
+        # Exposure today is low and is stated rather than assumed: nothing in src/ or
+        # registry_terminal/ currently reads output/views/*.svg, so there is no known concurrent
+        # reader. It is fixed for consistency with the house convention and because that changes
+        # the moment anything starts serving these diagrams.
         out = os.path.join(HERE, "output", "views")
         os.makedirs(out, exist_ok=True)
+        landed, denied = 0, []
         for t in DRAWN:
             v = view(t, coord=sample, tree=tree)
             p = os.path.join(out, f"{t}.svg")
-            with open(p, "w", encoding="utf-8") as f:
-                f.write(v["svg"])
-        print(f"wrote {len(DRAWN)} diagrams to output/views/")
+            tmp = "%s.%d.%d.tmp" % (p, os.getpid(), threading.get_ident())
+            try:
+                with open(tmp, "w", encoding="utf-8") as f:
+                    f.write(v["svg"])
+                    f.flush()
+                    os.fsync(f.fileno())
+            except Exception as e:
+                with contextlib.suppress(Exception):
+                    os.remove(tmp)
+                silence.note("render.py:view-tmp")
+                denied.append("%s.svg (%s)" % (t, type(e).__name__))
+                continue
+            if silence.replace_retry(tmp, p):
+                landed += 1
+            else:
+                with contextlib.suppress(Exception):
+                    os.remove(tmp)
+                denied.append("%s.svg (replace denied)" % t)
+        if denied:
+            # NOT "wrote N diagrams". A discarded write verdict is what makes a file that did not
+            # change look exactly like one that did.
+            print("WROTE %d of %d diagrams to output/views/ -- %d did NOT land: %s. The files "
+                  "named here are the PREVIOUS run's, or absent."
+                  % (landed, len(DRAWN), len(denied), ", ".join(denied)))
+            return 1
+        print(f"wrote {landed} diagrams to output/views/")
     return 0
 
 

@@ -308,13 +308,47 @@ def main():
     # had changed and the record of it had not, leaving the catalog pointing at paths nothing
     # occupies and nothing on disk saying which of the two was right. A stray that will not move
     # is a line in the report, not a reason to abandon the record of the ones that did.
+    #
+    # AND IT NOW HAS THE TEST ITS OWN HEADING PROMISES (order ba5683e9506a). "Anything left in
+    # output/raw that the catalog never claimed" described a filter that did not exist: the loop
+    # walked every file in output/raw and took it. The only thing that had ever kept catalogued
+    # chapters out of the count was an implicit ordering assumption -- that the loop above has
+    # already MOVED them -- and that assumption is false in two situations:
+    #
+    #   (a) THE DRY RUN, ALWAYS. `shutil.move` is inside `if a.go`; `extra += 1` was not. Without
+    #       --go nothing has been moved, so every catalogued chapter is still sitting in
+    #       output/raw and every one of them was counted -- the preview printed "(+M unclaimed by
+    #       the catalog)" with M inflated by the ENTIRE catalogued population. The dry run exists
+    #       so a person can see what --go will do, and it reported an archive swallowing files
+    #       --go will not touch, on the screen read before authorising an irreversible act.
+    #
+    #   (b) A STUCK ENTRY, WHENEVER ITS CONDITION CLEARS. An entry whose move failed, or whose
+    #       stat came back "unavailable", KEEPS ITS RECORD pointing at output/raw -- that is this
+    #       module's whole doctrine. The sweep then reached the same file a few lines later, and
+    #       if the lock or denial had lifted in between (`os.path.isfile` answers False only
+    #       while it is still held) it MOVED the file, counted it "unclaimed", and made no
+    #       amendment because `entry_left` is empty. The catalog was left pointing at a path
+    #       nothing occupies while the report said "their files are still in the library".
+    #
+    #   (c) On an archive-name collision the same catalogued file was reported twice -- once as a
+    #       chapter that was not moved and once as an "unclaimed" stray. A file cannot be both.
+    #
+    # The claim set is built from the WHOLE catalog, not from this run's selection and not from
+    # what this run happened to move, so "unclaimed" means unclaimed: the dry-run and --go counts
+    # agree, and (b) closes without relying on the ordering.
+    claimed_raw = {os.path.basename(_abs(rec.get("raw_path")))
+                   for rec in cat.values() if rec.get("raw_path")}
     extra = 0
+    skipped_claimed = 0
     stray_stuck = []
     rawdir = os.path.join(HERE, "output", "raw")
     if not filtered and os.path.isdir(rawdir):
         for f in sorted(os.listdir(rawdir)):
             src = os.path.join(rawdir, f)
             if not os.path.isfile(src):
+                continue
+            if f in claimed_raw:
+                skipped_claimed += 1
                 continue
             if a.go:
                 dst = os.path.join(arch, "raw", f)
@@ -405,7 +439,13 @@ def main():
     # PATHS AND ENTRIES ARE DIFFERENT UNITS and these lines used to hide it: `moved` and
     # `missing` count PATHS (two per entry) while `stuck` counts ENTRIES, and every line read
     # like an entry count (order 1687ff8084b9). The unit is now written into each label.
+    # `skipped_claimed` is printed rather than merely acted on: it is the number the old count
+    # was silently inflated by, and a reader comparing this run's preview against an earlier
+    # one's needs to see where the difference went. (order ba5683e9506a)
     print("raw paths moved       : %d  (+%d unclaimed by the catalog)" % (moved["raw"], extra))
+    if skipped_claimed:
+        print("                        %d file(s) in output/raw are CLAIMED by the catalog and "
+              "are not counted as strays" % skipped_claimed)
     print("compressed paths moved: %d" % moved["compressed"])
     print("paths already gone    : %d" % missing)
     if stuck:

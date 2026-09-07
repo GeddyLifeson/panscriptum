@@ -366,9 +366,25 @@ def verify(path=None):
     added = [r for r in live if r not in recorded]
     gone = [r for r in recorded if r not in live]
     notes.append("archive intact, %d members" % len(recorded))
-    notes.append("%d canonical files changed since the snapshot" % len(changed))
+    # NAMED, LIKE `gone` (order 323703189931). These two were counts only -- "%d canonical files
+    # changed since the snapshot" -- while the docstring above promises this call answers "is the
+    # archive itself still intact and readable, AND WHICH CANONICAL FILES HAVE CHANGED since it
+    # was taken". `changed` and `added` were computed and their contents discarded, and `main()`
+    # prints only these notes, so the names existed nowhere once the call returned: a person
+    # running --verify to find out whether a snapshot still matches the tree got a number where
+    # the module promised names.
+    #
+    # THE VOLUME ARGUMENT DOES NOT APPLY, which is the same reasoning this module already uses to
+    # refuse a cap for `missing` and for `gone`: the set is bounded by the canonical inventory
+    # (CANON_FILES + data/records/*.json, ~219 files) and this runs only on an explicit --verify.
+    if changed:
+        notes.append("%d canonical files changed since the snapshot: %s"
+                     % (len(changed), ", ".join(sorted(changed))))
+    else:
+        notes.append("0 canonical files changed since the snapshot")
     if added:
-        notes.append("%d canonical files are new since the snapshot" % len(added))
+        notes.append("%d canonical files are new since the snapshot: %s"
+                     % (len(added), ", ".join(sorted(added))))
     if gone:
         # UNCAPPED. A canonical record file that has disappeared from the live tree is the
         # single most actionable thing this module can tell anyone, and `sorted(gone)[:5]` named

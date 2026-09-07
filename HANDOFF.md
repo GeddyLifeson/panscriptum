@@ -17,6 +17,59 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-06/07 (scheduled maintenance, daily) — RUN #46: TWELVE PROBE-LITTER SITES, A MUTATION PASS THAT DIED, AND THE WHOLE TREE SWEPT AGAIN
+
+### FOR THE OWNER — READ THESE SIX
+
+1. **NO HALT WAS RAISED OR LIFTED THIS SHIFT.** `escalation.py --status` reports *clear — the library is running* at open and at close. I say this first because run #45's entry opens with a halt it raised and lifted, and the absence of one is the thing a reader will look for.
+
+2. **THE MUTATION PASS FROM RUN #45 DIED ON ITS THIRD TARGET, AND `escalation.py` HAS NO RESULT — `f9643582fd29` (OWNER).** It completed `assay.py` (124 mutants, **122 killed, 2 SURVIVED**) and `prose_gate.py` (62 mutants, **62 killed, 0 SURVIVED**) over ~12.3 hours, then died at 23:20:47 with `FileNotFoundError` on **its own sandbox's** `escalation.py`. A pass killed partway is not a pass with fewer survivors: a third of the mandate is simply missing. My first hypothesis — that the reaper takes aged-but-live sandboxes — **is wrong, and I disproved it by experiment**: a 10-hour-old sandbox whose owner pid is alive SURVIVES a full drill run. The mechanism that does fit is already written down here as an accepted risk (`404d0ccf9df5`): `sandbox()` calls `reap_orphans()` and then `mkdtemp`, and between those two steps the directory exists with **no owner file yet**, so a concurrent `reap_orphans(older_than=0)` deletes it. That comment says the 6-hour age gate closes the window "in every real run" — but `older_than=0` is exactly what removes the age gate, and that is the call the drill makes. I ran drill three times in five minutes; the pass died 60 seconds after the third. **Causation is not proven and I am not claiming it.** sweep46-batch04 worked out the mechanical remedy (build the sandbox under a name that does *not* match `SANDBOX_PREFIX`, rename it into place only once the owner file is written) — recorded on the order, not taken, because it changes the reaper's contract.
+
+3. **TWELVE SITES WERE MANUFACTURING THE EXACT FAULTS THE FAILURE LEDGER EXISTS TO REPORT — the structural question is `895a99602bf0` (OWNER).** Eight keys in `state/failures.json` stood at a count of **exactly 39 each** — the drill-run count, identical across all eight. That equality is what gave the class away. Every one was a deliberate-failure probe writing into the live operational ledger, including `ledger_guard.py:acknowledgement-refused`, which is a **refused waiver on the tamper-evident ledger chain** — close to the most alarming row this ledger can carry, and every instance of it was a rehearsal. Four were named by orders; **eight were not**. All twelve are now wrapped and **a full drill run adds zero rows**, proved by before/after diff. But **four of the twelve were found only by measurement after reading code sent me to the wrong function twice**, and the twelfth was one *I* created while fixing the other eleven. A per-site fix will rot; the order asks for a standing check and gives three options with a recommendation.
+
+4. **`host_ceiling` was re-fabricating the very thing `scope.py` had just been repaired to stop — `3eeedaafce1e`, fixed.** `scope.scope_for` now raises `ProbeUnread` instead of caching an API failure as an honest empty verdict. `magnitude.host_ceiling` caught that refusal in a bare `except Exception` and returned `None`, which every caller reads as *this host has no ceiling* — **and cached it**, so every later entity from that host in the same process skipped the clamp too, silently. A throttled host mid-batch is ordinary, and this clamp is the only outside check on the model's anchoring (its own docstring records the alternative: Jace Beleren at M10.77 against a published 𝔄 M2.88).
+
+5. **A `.sh`, `.ps1` or `.bat` left under `handoff/` would have been pushed to the PUBLIC repo — `e7e00ffde6c5`, fixed.** `_is_agent_scratch` refuses scratch code by *where it sits*, but `_CODE_EXT` enumerated one language's suffixes. **Two agents found this independently from opposite directions**: one by reading the gate, one by finding a live vector (a drill probe file under `handoff/` whose cleanup failure is swallowed — still open as `749597eb95d4`). Nothing of those types exists under `handoff/` today, so this closed a latent hole rather than changing what publishes. **The net was wrong too** — it asserted only the `.py` family, so it was green through the whole lifetime of the hole.
+
+6. **THE QUEUE GREW, ON PURPOSE. 406 → 293.** I closed **172** orders and the sweep filed **52** new ones. The remaining workable rung is **93 (LOCAL 42 · RUN 47 · BOTS 4), of which 27 are MAJOR** — they are listed by id in `NEXT_STEPS.md` §0 so the next run starts from my position instead of rediscovering it. **OWNER is 137 and SESSION 63; I did not decide any of them.**
+
+---
+
+### THE BATTERY, AT CLOSE, ON A SETTLED TREE
+
+`drill` **443 nets attacked, 443 held, 0 BREACHED** (405 → 443) · `verify_math` **1159 passed, 0 FAILED** (1144 → 1159) · `allsweep` **0 subsystems bad** · `secondopinion` all three tools **RAN**, **0 secrets agreed by two independently-written scanners** · `liveness` 45 findings, **0 tautology, 0 phantom** · `health --preflight` all checks pass · `escalation --status` clear · `pyflakes` over all of `src/` clean · `corpus_db` rebuilt at open (216 sources, **282,822 entries**, 278,251 evidence rows) · `axis_correlation` **n_entities = 45, unchanged, so no `--write`** (same verdict as run #45).
+
+### SWEEP46 — COMPLETE, WITH FALSIFIABLE COVERAGE
+
+**16 batches, 116 modules, 102,408 lines, `missing() = 0`.** Every module in the frozen plan was read end to end and recorded by the agent that read it. 16 audit files under `handoff/sweep46/`. The plan was frozen (`state/sweep_plan/run46.json`) before dispatch so coverage could be checked against a fixed target rather than a recomputed one.
+
+### WHAT I FIXED MYSELF, WITH THE PROOF
+
+- **`b418b8b3be54` (MAJOR)** — the name-keyed fold in `write_record_catalogue`, twin of a fault fixed in `write_record` and left standing in the writer every cataloguer uses. **I measured before choosing a remedy**: of 905 duplicate-name groups, the `(name, type, description)` triple fully separates **880**, partially 2, leaves **23** identical. So pairing uses that triple only where it names exactly one row per side, refuses the rest, and carries unpaired disk rows forward capped at `max(m,k)` — which keeps the merge **idempotent**, the failure a naive "append everything unpaired" fix would have introduced (k+m, then k+k+m, unbounded). Watched red first: the old code gave one row *both* judgments and left its twin `{}`, and shrank a 3-row cast to 1. Also hardened the pairing key against unhashable values, since the fresh cast arrives from a wiki re-fetch and is not a trusted shape (measured: 0 of 282,822 entries carry one today).
+- **`f4af474dfc49` (MAJOR)** — `mutate._session()` read `d["gates_that_moved"]` unconditionally, but `_refresh_baseline` appends **two** event shapes; the unusable-refresh shape carries neither key, so it raised `KeyError` and replaced every remaining target's findings with a traceback *after* the hours were spent. Taken off the SESSION rung deliberately: my next action was relaunching the 20-hour pass, and leaving it meant knowingly launching a job that would abort.
+- **`3eeedaafce1e`**, **`e7e00ffde6c5`**, and the **twelve probe-litter sites** (`247b173c78ee`, `31a946e96c69`, `630fe4529c51`, `b53dd5b3f76f`, `dad7b19b2136` + seven unnamed), each above.
+- **`06b7f22484df` remedy (c)** — a stale `drill.py` docstring claiming `exit_if_stale` reads `left <= 0`. It does not: the check and the spend were fused into `_claim_restart_slot`, and there are now **two** refusal reasons (budget spent vs ledger write denied) that codewatch reports separately. Corrected rather than silently edited — that docstring is what a reader consults to decide which branch is safe to drive.
+
+### THREE FALSE REDS, ALL FROM THE SAME MECHANISM
+
+`verify_math` came back **980/1**, then **979/2**, then a `SCAN_MODULES` mismatch — all three against a tree twelve agents were editing, with tracebacks whose line numbers pointed at comment text (the file had changed under the run). All three cleared on a quiet tree. Two agents hit the same thing independently and said so. **This is the mechanism that cost run #45 a halt**, and it is already queued for the owner as `71ae3fa7e55e`; I have not filed a duplicate. Related and newly filed: `690db2bf4f1d` (RUN) — `mutate` infers "src/ is being edited" from the *maintenance guard's heartbeat*, which is the wrong proposition in both directions (it fired falsely on a settled tree this shift, and it would stay silent for a person editing by hand, an interactive session, or `local_agent --patch`). `codewatch` already computes the exact signal.
+
+### THE SHELL-INJECTION MECHANISM BIT TWICE MORE
+
+Two sweep agents had order prose mangled by backtick command substitution while filing via `python -c`, caught it by reading the stored record back, and refiled from script files. **It then bit me**, writing these very resolutions through a heredoc. `NEXT_STEPS.md` records the gap: the session brief covers `--how` but says nothing about `file_order` prose, and the remedy is brief wording, not a repo file.
+
+### DAEMON RESTARTS
+
+The `src/` fingerprint moved repeatedly under twelve agents, and **`dashboard` spent its entire restart budget (4/4 in the hour)** — which is the budget working as designed (lag beats thrash), but it means that job ran stale on purpose for a period. `codewatch` reports it and `escalation` files it, so it reaches a person. Recorded here because Hard Rule -1's fourth property says a safety in a file is not a safety in effect, and this is the shape of that.
+
+### NOT DONE, DELIBERATELY
+
+- The **935 rows already collapsed** by the old name-keyed fold are **not** repaired. This stops the loss going forward; re-deriving what a past merge discarded is a data question and the disk copies are gone rather than mis-stored.
+- **No OWNER or SESSION order was decided.** Three OWNER-rung orders were *closed*, all as verified-already-fixed-in-source on executable lines, with the code quoted in the resolution — never as a ruling.
+- `prose_enabled` and `step4_enabled` untouched.
+
+---
+
 ## 2026-09-05 (scheduled maintenance, daily) — RUN #45: A HALT I RAISED AND LIFTED, THE FREE RUNG WAS NEVER BROKEN, AND THE WHOLE TREE SWEPT WITH FALSIFIABLE COVERAGE
 
 ### FOR THE OWNER — READ THESE SEVEN, THE REST IS DETAIL

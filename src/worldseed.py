@@ -322,8 +322,12 @@ def build_all(limit=None):
             except (KeyError, TypeError):
                 bad_rows += 1
     except Exception:
+        # `ono = {}` deleted here (order 0bbf8ff1e3aa): its only consumer, the `for v in
+        # (ono or {}).values()` loop above, is INSIDE the try this except has already left, so
+        # the assignment did nothing but read as a safe default it was not. What this handler
+        # actually leaves behind is `reg_by_group`, already initialised at line 315 outside the
+        # try, and the `if not reg_by_group` branch below is what reports the failure.
         silence.note("worldseed.py:onomasticon-load")
-        ono = {}
     LAST_BUILD["onomasticon_bad_rows"] = bad_rows
     if not reg_by_group:
         LAST_BUILD["onomasticon"] = "unread"
@@ -358,6 +362,14 @@ def build_all(limit=None):
         g = gid.get(src, 0)
         reg = reg_by_group.get(g, "classical")
         for e in rec["entries"]:
+            # `if limit and ...` treated limit=0 as "no limit" (order 82adeee9b7ee): 0 is falsy,
+            # so `build_all(limit=0)` skipped this guard entirely and walked the whole ~12,435-
+            # entry catalogue instead of stopping at zero. `is not None` distinguishes "no limit
+            # was given" from "a limit of zero was given", and the check now runs BEFORE the
+            # append it guards -- checked after, limit=0 still let exactly one entry through,
+            # because the first append always happens before the first post-append check fires.
+            if limit is not None and len(out) >= limit:
+                return out
             if not e.get("catalogued") or e.get("topic") != "Places":
                 continue
             nm, d = e.get("name") or "", e.get("description") or ""
@@ -371,8 +383,6 @@ def build_all(limit=None):
                 continue
             desig = f"{src}::{nm}"
             out.append(to_options(desig, nm, d, e.get("magnitude") or "unassayed", reg, g))
-            if limit and len(out) >= limit:
-                return out
     return out
 
 
@@ -411,15 +421,24 @@ def main():
         print(f"\n  {k} distribution: {dict(counts)}")
 
     print("\n" + "-" * 100)
-    print("SAMPLE — description in, world out")
+    # NAMES THE POPULATION (order 61a15f94928a). "SAMPLE" with no denominator read as complete;
+    # the count is one line above (worlds encoded: N), so saying "6 of N" costs nothing new.
+    print(f"SAMPLE — description in, world out (6 of {len(worlds):,})")
     print("-" * 100)
     for w in worlds[:6]:
-        print(f"\n  {w['designation'][:60]}")
+        # UNCUT (order 61a15f94928a). `w['designation'][:60]` was a MID-NAME cut: a designation
+        # is f'{src}::{nm}', the source name alone routinely runs past 60 characters, and this is
+        # the identity string the collision report above tells a reader to go rename -- printed
+        # here in a form that could not be pasted back.
+        print(f"\n  {w['designation']}")
         print(f"     features {w['features']}  band={w['band']}")
         print(f"     address  {address(w)}")
     if worlds:
         print("\n  example query:")
-        print("     " + to_fmg_query(worlds[0])[:150])
+        # UNCUT (order 61a15f94928a). `to_fmg_query(...)[:150]` cut the built URL mid-parameter;
+        # this report is the only place the URL is printed, so nothing downstream lost anything
+        # by the cut except a reader trying to use it.
+        print("     " + to_fmg_query(worlds[0]))
 
     if args.write:
         # ATOMIC. This was a bare `open(path, "w")` + `json.dump`, which is not a write but a

@@ -167,8 +167,13 @@ def observed_mark(distance, years_since):
     heard of Dragon Ball Z's tournaments because the news is still in transit, not because
     nobody countersigned it. THE HONEST [^0] COMES SOLELY FROM THE `lag < 0` GUARD BELOW --
     once lag is non-negative, `ascension_years(1) == 0.0` (order ad730acf0b18), so the loop's
-    first iteration always matches and always returns; the trailing `return 0` after the loop
-    is unreached and is not a second [^0] path.
+    LAST iteration (rung 1, counting down from LADDER_HEIGHT) always matches and the loop always
+    returns before falling through; the trailing `return 0` after the loop is unreached and is
+    not a second [^0] path. (Corrected order 67a45b2dcaf8: this previously said "first
+    iteration" -- the substantive conclusion, that the trailing `return 0` is unreachable, was
+    always correct; only the direction of the loop this sentence describes was wrong. The loop
+    below counts DOWN from `LADDER_HEIGHT` to 1, so rung 1 -- the one `ascension_years` makes
+    zero -- is the LAST iteration, not the first.)
     """
     lag = years_since - arrival_years(distance)
     if lag < 0:
@@ -196,7 +201,10 @@ def main():
         d, path = shortest(adj, args.src, args.dst)
         if not path:
             print(f"{args.src} -> {args.dst}: DISCONNECTED (no shared furniture at any remove)")
-            return
+            # A VERDICT, NOT JUST A LINE (order d773ad5756ab). `main()` returned `None` on
+            # every path -- including this one -- so the process exited 0 whatever it found and
+            # an automated caller could not tell a resolved pair from a disconnected one.
+            return 1
         print(f"{args.src}  ->  {args.dst}")
         print(f"  hops     : {hops(path)}")
         print(f"  distance : {d:.4f}")
@@ -204,7 +212,7 @@ def main():
         print(f"  arrival  : {arrival_years(d):,.0f} years before it is heard of at all")
         print(f"  own [^17]: {ascension_years():,.0f} years to ratify at home")
         print(f"  after {args.years:,.0f} yr, this shelf sees [^{observed_mark(d, args.years)}]")
-        return
+        return 0
 
     # Default: the diameter survey -- who is far from whom
     print("SAMPLE DISTANCES — arrival delay and what each shelf currently sees:")
@@ -216,20 +224,31 @@ def main():
         ("Pantheon: Greek", "Marvel"),
         ("Minecraft", "Warhammer 40,000"),
     ]
+    unresolved = 0
     for a, b in probes:
         if a in adj and b in adj:
             d, p = shortest(adj, a, b)
             if p:
                 marks = " ".join(f"{y}yr:[^{observed_mark(d, y)}]"
                                  for y in (100, 500, 1500))
-                print(f"  d={d:6.3f}  arrives+{arrival_years(d):>6,.0f}yr  "
-                      f"{a[:19]:21s} -> {b[:19]:21s}  {marks}")
+                # UNCUT (Hard Rule 0, order e8f59f0800fd). `a[:19]` and `b[:19]` cut both shelf
+                # names mid-word with no marker -- this module's own comment above quotes
+                # "Xanathar's Guide to Everything" (30) and "DMs Guild: Heroes of Hell" (25) as
+                # the diameter pair, and both names are routinely longer than 19 characters.
+                # Printed on their own line above the numbers instead of sharing a cut column.
+                print(f"  {a} -> {b}")
+                print(f"    d={d:6.3f}  arrives+{arrival_years(d):>6,.0f}yr  {marks}")
             else:
                 print(f"   -- DISCONNECTED  {a} -> {b}")
+                unresolved += 1
         else:
             missing = a if a not in adj else b
             print(f"   ?? not in graph: {missing}")
+            unresolved += 1
+    # SAME VERDICT DISCIPLINE AS THE --from/--to PATH ABOVE (order d773ad5756ab): the survey
+    # returns 1 if any probe pair was disconnected or absent from the graph, 0 otherwise.
+    return 1 if unresolved else 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

@@ -340,11 +340,22 @@ def main():
     vram_gb = free_vram_gb()
     print(f"{len(models)} models installed: {len(scored)} resident and usable, "
           f"{len(refused)} refused for VRAM, {len(excluded)} not text models.")
-    if vram_gb:
+    # `is not None`, NOT TRUTHINESS, AND 0.0 GETS ITS OWN SENTENCE (order ae7b56cd43d0). This
+    # was `if vram_gb:`, so a genuine 0.0 GB free and an unreadable instrument fell down the same
+    # branch -- and the message chosen for both was "couldn't read free VRAM". A card with
+    # nothing free is precisely the condition this report exists to surface: `free_vram_gb`'s own
+    # docstring describes the desktop holding 2.3GB of a 10GB card as the reason it reads free
+    # rather than total. Reporting it as an instrument failure sends the operator to check
+    # nvidia-smi when the finding is "close your browser".
+    if vram_gb is None:
+        print("(couldn't read free VRAM -- nvidia-smi not available)\n")
+    elif vram_gb <= 0:
+        print("0.0GB VRAM currently free -- nvidia-smi WAS read and the card has nothing "
+              "available. This is a measurement, not an instrument failure: close whatever "
+              "holds the GPU (browsers, wallpaper apps, an orphaned llama-server) and re-run.\n")
+    else:
         print(f"~{vram_gb:.1f}GB VRAM currently free (close browsers/wallpaper apps to raise "
               f"this):\n")
-    else:
-        print("(couldn't read free VRAM -- nvidia-smi not available)\n")
     if refused:
         print("REFUSED under the GPU-only residency ruling (2026-08-24) -- would offload:")
         for sc, m in refused:
@@ -354,7 +365,10 @@ def main():
     for s, m in scored:
         tier = family_tier(m["name"])
         params = parse_param_size(m)
-        note = f"  [{fit_note(m, vram_gb)}]" if vram_gb else ""
+        # `is not None` here too (order ae7b56cd43d0). With 0.0GB free the fit note is not just
+        # available, it is the whole story -- every model "WILL OFFLOAD" -- and suppressing it
+        # was the one case where the reader most needed it.
+        note = f"  [{fit_note(m, vram_gb)}]" if vram_gb is not None else ""
         print(f"  [{s:5.1f}] {m['name']:35s} tier={tier} ~{params:.0f}B params{note}")
 
     if not scored:

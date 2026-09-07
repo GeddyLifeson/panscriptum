@@ -102,6 +102,13 @@ _PAGES_SENTINEL = "pages:"
 # exactly that, and a cache that ignores its own key is a wrong answer waiting for a caller.
 _CACHE = {"hosts": {}, "index": {}, "index_faults": {}}
 
+# source name -> ["<source> | kept <a>, dropped <b>", ...]. Filled by `feats_for_source` when two
+# entries of ONE source fold to the same `_norm` key; see the comment there. Accumulated across
+# calls rather than reset, so a caller that walks the roll ends holding the whole picture, and
+# `audit()` reports the corpus-wide figure independently by rewalking the records. (order
+# 04a3f79b7f55)
+_ENTRY_COLLISIONS = {}
+
 
 def _norm(s):
     """Fold a name to its comparable core.
@@ -263,9 +270,39 @@ def feats_for_source(source_name, record):
     hosts = [h for h, srcs in host_to_sources().items() if source_name in srcs]
     if not hosts:
         return []
+    # THE LOSER OF A WITHIN-SOURCE NAME COLLISION IS RECORDED (order 04a3f79b7f55). This was a
+    # bare `entries_by_norm.setdefault(...)`: two entries of ONE source whose names fold to the
+    # same `_norm` key resolved to whichever was listed first in `record['entries']`, and the
+    # second simply vanished, with no count, no note and no mention in `audit()`'s report.
+    #
+    # That is the identical class of problem `load_index` above tracks explicitly, incrementing
+    # `faults['collided']` and appending to `faults['collided_keys']`, under a comment that gives
+    # the reason: "two records folding onto one key is a real condition ... What was wrong was
+    # that the loser vanished from the total as though it had never been mined."
+    #
+    # WHAT HAPPENS HERE IS NARROWER THAN THE load_index CASE, and saying so is part of the
+    # finding: no mined FEAT becomes unreachable, because the entity's feats still attach to
+    # whichever catalogue entry won. What can go wrong is that the ENTRY metadata -- the
+    # description and magnitude used downstream when the feats prose is generated -- is taken
+    # from the wrong one of two same-named catalogue entries.
+    #
+    # MEASURED over all 282,822 catalogued entries in data/records (whole corpus, no sampling):
+    # 992 within-source collisions. Most are exact repeats of one name, where the two entries say
+    # the same thing and the choice does not matter; some are not -- Acquisitions Incorporated
+    # carries 'New Hampshire Darkmagics' and 'Newhamp Shire (Darkmagics)', which fold together
+    # and are different rows. Last-writer-wins is NOT changed here: which of two same-named
+    # entries should survive is a curatorial call. What changes is that it is no longer invisible.
     entries_by_norm = {}
+    collisions = []
     for e in (record.get("entries") or []):
-        entries_by_norm.setdefault(_norm(e.get("name")), e)
+        k = _norm(e.get("name"))
+        if k in entries_by_norm:
+            collisions.append("%s | kept %r, dropped %r"
+                              % (source_name, entries_by_norm[k].get("name"), e.get("name")))
+            continue
+        entries_by_norm[k] = e
+    if collisions:
+        _ENTRY_COLLISIONS[source_name] = collisions
 
     out = []
     for host in hosts:
@@ -310,6 +347,22 @@ def audit():
     for _, rec in PL.records():
         by_src[rec["source"]] = {_norm(e.get("name")) for e in (rec.get("entries") or [])}
 
+    # WITHIN-SOURCE CATALOGUE-ENTRY COLLISIONS, measured over the whole corpus rather than over
+    # whatever `feats_for_source` happens to have been called with (order 04a3f79b7f55). See the
+    # comment in `feats_for_source`: this is the same fold, computed here so `audit()` can report
+    # it without depending on call order. Named uncapped, like `collided_keys` beside it -- a
+    # count alone is not something a curator can act on.
+    entry_collisions = []
+    for _, rec in PL.records():
+        seen_names = {}
+        for e in (rec.get("entries") or []):
+            k = _norm(e.get("name"))
+            if k in seen_names:
+                entry_collisions.append("%s | kept %r, dropped %r"
+                                        % (rec["source"], seen_names[k], e.get("name")))
+            else:
+                seen_names[k] = e.get("name")
+
     joined, stranded = [], []
     for (host, ent_norm), rec in idx.items():
         srcs = [s for s in h2s.get(host, []) if ent_norm in by_src.get(s, set())]
@@ -321,6 +374,12 @@ def audit():
         "unreadable_files": faults["unreadable_files"],
         "collided": faults["collided"],
         "collided_keys": faults["collided_keys"],
+        # The SECOND collision class, the one that had no reporting at all (order 04a3f79b7f55).
+        # Kept distinct from `collided` above: that one is two feats RECORDS folding onto one
+        # index key, this one is two CATALOGUE ENTRIES of one source folding onto one name key.
+        # Different losses, different remedies, so one number would serve neither.
+        "entry_collisions": len(entry_collisions),
+        "entry_collision_pairs": entry_collisions,
         "files_seen": len(idx) + faults["unreadable"] + faults["collided"],
         "joined": len(joined),
         "stranded": len(stranded),
@@ -353,6 +412,15 @@ def main():
     print(f"  NAME COLLISIONS     : {a['collided']:,}  (two records folding onto one "
           f"(host, name) key; the later one wins)")
     for k in a["collided_keys"]:
+        print(f"      {k}")
+    # THE SECOND COLLISION CLASS, reported the way the first already was (order 04a3f79b7f55).
+    # Uncapped and named, because a count of 992 tells a curator nothing about which pair to go
+    # and look at. Distinguished in words from the row above it: no feat is lost here, the
+    # dropped entry's own description and magnitude are.
+    print(f"  ENTRY-NAME COLLISIONS: {a['entry_collisions']:,}  (two CATALOGUE ENTRIES of one "
+          f"source folding onto one name key; the first one wins, and the second's description "
+          f"and magnitude are what the feats prose will not see. No mined feat is lost.)")
+    for k in a["entry_collision_pairs"]:
         print(f"      {k}")
     print(f"  entities catalogued in more than one source on the same host: {a['shared']:,}")
     if a["stranded_hosts"]:

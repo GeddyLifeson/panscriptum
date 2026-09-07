@@ -26,8 +26,10 @@ Nothing here is clever. It is the difference between a system that runs while so
 watching it and one that runs.
 """
 import argparse
+import contextlib
 import os
 import subprocess
+import threading
 # Every subprocess this module starts carries this flag -- owner directive, no console window may
 # ever appear. Named once here and used at both call sites, the way allsweep.py, foreman.py,
 # local_agent.py and mutate.py all do it: two independent re-spellings of the same expression are
@@ -172,16 +174,35 @@ def install():
     if not os.path.isdir(STARTUP):
         return None, "no Startup folder on this machine"
     body = _vbs_body()
-    tmp = "%s.%d.tmp" % (VBS, os.getpid())
+    # PID AND THREAD IDENT, LIKE silence.write_json (order 521b551b790b). This was pid only, so
+    # two installs from different threads of one process collide on the scratch name -- the exact
+    # collision the qualifier in `silence.write_json` exists for.
+    tmp = "%s.%d.%d.tmp" % (VBS, os.getpid(), threading.get_ident())
     try:
         with open(tmp, "w", encoding="utf-8") as f:
             f.write(body)
     except Exception:
+        # THE TEMP IS REMOVED ON BOTH FAILURE PATHS (order 521b551b790b). This function was
+        # converted to the temp-plus-replace idiom without the cleanup half of it, so a failed
+        # write left a truncated or empty scratch file behind and a denied replace left a
+        # complete one -- and nothing anywhere in the tree cleans them up. `silence.write_json`
+        # calls `_discard_tmp` on both of these same two branches, and `overnight.write_status`
+        # does the same citing it; the comment that put the second one there is the argument:
+        # "A denied replace is the ORDINARY case here (it is the entire reason replace_retry
+        # exists), so the leak was proportional to how contended a file is."
+        #
+        # It matters more here than for a state file: the litter lands in the user's Startup
+        # folder, which is a directory Windows walks at every logon and which a person opens to
+        # find out what starts on this machine.
+        with contextlib.suppress(Exception):
+            os.remove(tmp)
         silence.note("autostart.py:vbs-tmp")
         return VBS, "WRITE FAILED (could not create the temp file beside it)"
     if not silence.replace_retry(tmp, VBS):
         # replace_retry never raises and has already recorded the denial; the previous launcher,
         # if any, is untouched, which is the right outcome -- a stale launcher beats none.
+        with contextlib.suppress(Exception):
+            os.remove(tmp)
         return VBS, "WRITE DENIED (something is holding it open); the previous launcher stands"
     state = installed_state()
     if state != "current":

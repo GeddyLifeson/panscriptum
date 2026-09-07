@@ -32,8 +32,24 @@ def load_config():
 
 
 def load_catalog(cfg):
+    """The generated-chapter index, or {} -- and it SAYS which (order 3f4d2d058fdc).
+
+    A MISSING INDEX USED TO READ AS AN EMPTY ONE. This returned {} silently when the configured
+    path did not exist, so `cmd_stats` printed "Sources with at least one generated chapter: 0"
+    and "Total chapters/frontmatter pages generated: 0" -- byte-identical to a catalogue that
+    exists and is genuinely empty. CLAUDE.md's "When you're done with a batch" section tells the
+    operator to report current coverage from this command, so the one output a person is told to
+    trust could not distinguish "nothing generated yet" from "the catalog file is not where
+    config.yaml says it is". That is this project's signature failure shape: a broken read
+    wearing the face of an honest negative.
+
+    Still returns {}, so nothing downstream changes; what is added is the sentence saying so.
+    """
     path = os.path.join(HERE, cfg["paths"]["catalog"])
     if not os.path.exists(path):
+        print("NOTE: no catalog file at %s -- config.yaml's paths.catalog points there and "
+              "nothing is on disk. The zero counts below mean 'not found', NOT 'nothing "
+              "generated yet'." % path, file=sys.stderr)
         return {}
     with open(path, encoding="utf-8") as f:
         return json.load(f)
@@ -88,25 +104,29 @@ def cmd_search(cfg, catalog, query):
 
 
 def cmd_address(cfg, catalog, address):
+    """-> rc. A MISS IS rc=1 (order 3f4d2d058fdc). See main()."""
     v = catalog.get(address)
     if not v:
         print(f"No entry for address: {address}")
-        return
+        return 1
     print(json.dumps(v, indent=2))
+    return 0
 
 
 def cmd_read(cfg, catalog, address):
+    """-> rc. A MISS IS rc=1 (order 3f4d2d058fdc). See main()."""
     v = catalog.get(address)
     if not v:
         print(f"No entry for address: {address}")
-        return
+        return 1
     raw_path = os.path.join(HERE, v["raw_path"])
     if os.path.exists(raw_path):
         with open(raw_path, encoding="utf-8") as f:
             print(f.read())
-        return
+        return 0
     text = compress_store.load(os.path.join(HERE, v["compressed_path"]), v["codec"])
     print(text)
+    return 0
 
 
 def main():
@@ -124,15 +144,24 @@ def main():
     cfg = load_config()
     catalog = load_catalog(cfg)
 
+    # EVERY PATH USED TO EXIT 0 (order 3f4d2d058fdc). `main()` had no return statement and
+    # `__main__` called it without `sys.exit`, so an unknown address ("No entry for address: X")
+    # and a missing catalogue both exited 0 -- any script or scheduled step shelling out to
+    # `catalog.py read ...` could not tell a hit from a miss. Every other CLI audited alongside
+    # it ends `sys.exit(main())` and returns non-zero on a refusal: read.py, health.py,
+    # identity.py, ingest_doc.py, sevenfold.py.
     if args.cmd == "stats":
         cmd_stats(cfg, catalog)
-    elif args.cmd == "search":
+        return 0
+    if args.cmd == "search":
         cmd_search(cfg, catalog, args.query)
-    elif args.cmd == "address":
-        cmd_address(cfg, catalog, args.address)
-    elif args.cmd == "read":
-        cmd_read(cfg, catalog, args.address)
+        return 0
+    if args.cmd == "address":
+        return cmd_address(cfg, catalog, args.address)
+    if args.cmd == "read":
+        return cmd_read(cfg, catalog, args.address)
+    return 2
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

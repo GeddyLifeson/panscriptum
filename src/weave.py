@@ -60,6 +60,7 @@ import math
 import os
 import random
 import sys
+import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -82,7 +83,65 @@ OUT_RESOLVED = os.path.join(HERE, "data", "RESOLVED_ENTITIES.json")
 OUT_GRAPH = os.path.join(HERE, "data", "SHARED_STAGE_GRAPH_IDF.json")
 
 
+RECORDS_DIR = os.path.join(HERE, "data", "records")
+
+
+def index_staleness(index_path=INDEX, records_dir=RECORDS_DIR):
+    """How far behind ENTITY_INDEX.json is against the live data/records/ directory.
+
+    Order e0f9da6e9466. ENTITY_INDEX.json is built by weave_index.py --write, a separate,
+    manually-invoked script that pipeline.py's own phase_weave never calls -- so a corpus that
+    grows after the last build is read blind by load_index() with nothing anywhere reporting
+    the gap. weave_index.py itself says outright why nothing checks it: "neither file carries a
+    build stamp the other could be checked against" (weave_index.py, near its --write path).
+
+    weave_index.py is not in this pass's edit scope, so this does not add a build stamp to the
+    file's CONTENT -- it reads the file's own on-disk mtime as a stand-in build stamp (the one
+    signal available without touching the writer) and compares it against every record file's
+    mtime, the same shape corpus_db.freshness() already uses for a different index. This is a
+    FLOOR, not an exact accounting -- a record deleted since the build, or one rewritten with an
+    unchanged mtime, will not show here -- but it is strictly more honest than reporting nothing,
+    which is the status quo this replaces.
+    """
+    out = {"built_at": None, "age_seconds": None, "stale": True, "newer_records": 0,
+           "reason": "ENTITY_INDEX.json does not exist"}
+    try:
+        built = os.path.getmtime(index_path)
+    except OSError:
+        return out
+    out["built_at"] = built
+    out["age_seconds"] = time.time() - built
+    newer = 0
+    try:
+        with os.scandir(records_dir) as it:
+            for de in it:
+                if not de.name.endswith(".json"):
+                    continue
+                try:
+                    if de.stat().st_mtime > built:
+                        newer += 1
+                except OSError:
+                    newer += 1      # a record we cannot stat is a record we cannot vouch for
+    except OSError:
+        out["reason"] = f"records directory unreadable: {records_dir}"
+        return out
+    out["newer_records"] = newer
+    out["stale"] = newer > 0
+    out["reason"] = (
+        "no record has changed since ENTITY_INDEX.json was built" if newer == 0 else
+        f"{newer:,} record(s) in data/records/ were modified after ENTITY_INDEX.json was "
+        "built -- the continuity groups, resolved entities and resonance graph computed from "
+        "this index are a snapshot of a PARTIAL corpus")
+    return out
+
+
 def load_index():
+    fresh = index_staleness()
+    if fresh["stale"]:
+        age = (f"{fresh['age_seconds'] / 3600:.1f}h old" if fresh["age_seconds"] is not None
+               else "age unknown")
+        print(f"ENTITY_INDEX.json STALE ({age}): {fresh['reason']}", file=sys.stderr)
+        silence.note("weave.py:index-stale")
     with open(INDEX, encoding="utf-8") as f:
         return json.load(f)
 
@@ -253,8 +312,29 @@ def surprisal_pair_weights(occ, sur, min_sources=2, max_sources=60):
     return w, shared
 
 
+class NullThresholdUnmeasured(ValueError):
+    """Raised when the permutation null could not be measured at all -- no trial produced a
+    single pair weight. This is a distinct condition from 'the null was measured and happened
+    to be low': it means the corpus was too small/empty/filtered, or `trials` was non-positive,
+    to run the simulation in the first place. It must never be reported as a threshold of 0.0,
+    because 0.0 is a value complete-linkage agglomeration in components() reads as 'merge
+    everything' (order 12aca83cab86)."""
+
+
 def null_threshold_surprisal(occ, sur, sources, trials=20, pct=99.9, seed=20260820):
-    """Permutation null on the surprisal weights: what pair evidence arises by chance alone?"""
+    """Permutation null on the surprisal weights: what pair evidence arises by chance alone?
+
+    Raises NullThresholdUnmeasured, rather than returning 0.0, when no trial produced a single
+    pair weight -- i.e. when `keys` is empty (no entity occurring in 2..60 sources) or `trials`
+    is not positive. 0.0 is a legitimate MEASURED median (a corpus where the simulated null
+    genuinely clusters at zero); "no trial ran" is a different fact and must say so, not spend
+    itself as the most permissive threshold there is.
+    """
+    if trials <= 0:
+        raise NullThresholdUnmeasured(
+            f"null_threshold_surprisal: trials={trials!r} is not positive -- the permutation "
+            "null cannot be simulated at all, and a threshold cannot be measured from zero "
+            "trials.")
     rng = random.Random(seed)
     out = []
     keys = [(k, len(v)) for k, v in occ.items() if 2 <= len(v) <= 60]
@@ -270,9 +350,21 @@ def null_threshold_surprisal(occ, sur, sources, trials=20, pct=99.9, seed=202608
             vals = sorted(w.values())
             out.append(vals[min(len(vals) - 1, int(len(vals) * pct / 100.0))])
     out.sort()
-    return out[len(out) // 2] if out else 0.0
+    if not out:
+        raise NullThresholdUnmeasured(
+            "null_threshold_surprisal: no trial produced a single pair weight -- `keys` is "
+            "empty (no entity occurs in 2..60 sources). The corpus is too small, too fresh, or "
+            "was emptied by filtering; there is nothing to measure a null threshold from.")
+    return out[len(out) // 2]
 
 
+# SUPERSEDED, NOT CALLED ANYWHERE -- `main()` here, `pipeline.py` and `tiers.py` all call
+# `null_threshold_surprisal()` instead. This is the idf-weighted permutation null; surprisal
+# replaced idf for weighting for the same reason `pair_weights` above was superseded (see its
+# comment). Reported, not deleted, per house doctrine that dead code is not automatically
+# deletable: order 25ec11447b4c / sweep33 batch08 finding 8. Reported in sweeps 22, 25, 26, 27,
+# 28, 30, 31, 34, 38 and now here (order 905f13a21f0c) -- this is the annotation that was
+# missing from the matched pair, which is what made every one of those re-file it.
 def null_threshold(occ, idf, sources, trials=40, pct=99.9, seed=20260820):
     """Permutation null: what pair weight arises purely by chance?
 
@@ -280,7 +372,15 @@ def null_threshold(occ, idf, sources, trials=40, pct=99.9, seed=20260820):
     that size. Everything real about the corpus -- how many entities, how widely each is spread --
     is preserved; only the association between entities and particular sources is destroyed. The
     resulting weights are what coincidence alone produces.
+
+    Raises NullThresholdUnmeasured under the same conditions as its surprisal-weighted twin
+    `null_threshold_surprisal` -- see there. This function is reported dead (order 905f13a21f0c);
+    the fix is carried here anyway so it cannot mislead a future caller who revives it.
     """
+    if trials <= 0:
+        raise NullThresholdUnmeasured(
+            f"null_threshold: trials={trials!r} is not positive -- the permutation null cannot "
+            "be simulated at all, and a threshold cannot be measured from zero trials.")
     rng = random.Random(seed)
     maxes = []
     keys = [(k, len(v)) for k, v in occ.items() if 2 <= len(v) <= 60]
@@ -297,7 +397,12 @@ def null_threshold(occ, idf, sources, trials=40, pct=99.9, seed=20260820):
             vals = sorted(w.values())
             maxes.append(vals[min(len(vals) - 1, int(len(vals) * pct / 100.0))])
     maxes.sort()
-    return maxes[len(maxes) // 2] if maxes else 0.0
+    if not maxes:
+        raise NullThresholdUnmeasured(
+            "null_threshold: no trial produced a single pair weight -- `keys` is empty (no "
+            "entity occurs in 2..60 sources). The corpus is too small, too fresh, or was "
+            "emptied by filtering; there is nothing to measure a null threshold from.")
+    return maxes[len(maxes) // 2]
 
 
 def components(sources, w, threshold):
@@ -315,7 +420,20 @@ def components(sources, w, threshold):
     Complete linkage states the requirement directly: a continuity group is one in which EVERY
     pair clears the bar, not merely one where a path exists. That is a clique condition, and it is
     what "these all share a continuity with one another" actually means.
+
+    REFUSES a threshold <= 0 (order 12aca83cab86). `w` never carries an edge for a pair that
+    shares no entity -- `lookup.get((a, b), 0.0)` is the absent-pair default -- so threshold<=0
+    makes `m >= threshold` true for every pair whether or not any evidence exists, and complete
+    linkage degenerates to "merge everything". This is a second, independent layer: it refuses
+    the value regardless of how it arrived (a caller with its own hand-picked non-positive
+    threshold is refused exactly like a caller that got 0.0 from an unmeasured null).
     """
+    if threshold <= 0:
+        raise ValueError(
+            f"components: threshold={threshold!r} is <= 0. A pair with no shared entity scores "
+            "0.0 by default (lookup.get returns 0.0 for an absent edge), so a non-positive "
+            "threshold merges every source into one continuity regardless of evidence. Refusing "
+            "rather than agglomerating.")
     lookup = {}
     for (a, b), v in w.items():
         lookup[(a, b)] = v
@@ -447,6 +565,12 @@ def main():
     ap.add_argument("--trials", type=int, default=20)
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args()
+    if args.trials < 1:
+        # A floor, not a clamp -- order 12aca83cab86. `--trials` fed straight to
+        # null_threshold_surprisal(trials=...), and trials<=0 is one of the two ways that
+        # function used to hand back an unmeasured 0.0 as if it were a real threshold.
+        ap.error(f"--trials must be >= 1 (got {args.trials}); a permutation null needs at "
+                 "least one trial to measure anything")
 
     raw = load_index()
     index, dropped = filtered_index(raw)
@@ -459,17 +583,34 @@ def main():
     sur, names = name_surprisal(index)
 
     print("\nname surprisal separates genuine sharing from coincidence:")
+    # UNCUT (order 357e24fa2fa1, sweep45). `names[k][:34]` was a mid-name truncation on the last
+    # of the four cuts this diagnostic carried -- the other three (the continuity-group head,
+    # the fusions ranking, the homonym ranking, plus the attestations mid-value cut) were already
+    # fixed by sweep42-batch11's Hard Rule 0 pass. `:<36` still pads for alignment; it no longer
+    # cuts the name to fit the column.
     for k in ("gordon", "russia", "knife", "ellenripley", "weylandyutanicorporation"):
         if k in sur:
-            print(f"   {names[k][:34]:<36} {sur[k]:7.1f} bits")
+            print(f"   {names[k]:<36} {sur[k]:7.1f} bits")
 
     w, shared = surprisal_pair_weights(occ, sur)
-    thr = null_threshold_surprisal(occ, sur, sources, trials=args.trials)
+    try:
+        thr = null_threshold_surprisal(occ, sur, sources, trials=args.trials)
+    except NullThresholdUnmeasured as e:
+        # FAIL CLOSED (order 12aca83cab86): a threshold that could not be measured is refused
+        # here, not spent as 0.0. No artifacts are written and the run reports failure.
+        print(f"\nREFUSED: permutation threshold could not be measured -- {e}")
+        silence.note("weave.py:main-threshold-unmeasured")
+        return 1
     print(f"\ncandidate pairs {len(w):,}   permutation threshold {thr:.1f}")
     kept = {p: v for p, v in w.items() if v >= thr}
     print(f"pairs surviving: {len(kept):,} ({len(kept)/max(1,len(w)):.1%})")
 
-    groups = components(sources, w, thr)
+    try:
+        groups = components(sources, w, thr)
+    except ValueError as e:
+        print(f"\nREFUSED: {e}")
+        silence.note("weave.py:main-components-refused")
+        return 1
     multi = [g for g in groups if len(g) > 1]
     print(f"\ncontinuity groups: {len(groups)}  ({len(multi)} multi-source, "
           f"{len(groups)-len(multi)} singleton universes)")

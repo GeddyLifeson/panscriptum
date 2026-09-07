@@ -262,12 +262,18 @@ def report(rows, show=None, show_best=10):
     print(f"  {'-'*46}")
     print(f"  SETTLED     {cited+read:>8,}  {(cited+read)/d:>6.1%}   "
           f"looked at and answered either way")
-    print(f"\n  total feats on record: {feats:,}")
+    # Summed per catalogue ROW, not per distinct mined evidence file: two entries in one
+    # record that share a name resolve to the same evidence (cachekey.natural_path is a
+    # per-(host, name) lookup), so a duplicate-named entry's feats are counted again here.
+    # Order 4c53346eb9ba: 935 of 282,822 entries (0.33%) are such duplicates.
+    print(f"\n  total feats on record: {feats:,}  (summed per catalogue entry, not per "
+          f"distinct evidence file -- a name duplicated within a source's record is counted "
+          f"once per occurrence)")
 
     hostless = sorted((x for x in rows if not x["host"]), key=lambda x: -x["entries"])
     print(f"\nSOURCES WITH NO WIKI HOST — nothing can ever be cited here ({len(hostless)}, all shown)")
     for r in hostless:
-        print(f"   {r['entries']:>6,}  {r['source'][:58]}")
+        print(f"   {r['entries']:>6,}  {r['source']}")
 
     have = [r for r in rows if r["host"] and r["entries"] >= 40]
     worst = sorted(have, key=lambda x: (x["coverage"], -x["entries"]))
@@ -279,7 +285,7 @@ def report(rows, show=None, show_best=10):
         print(f"\nWORST COVERED WITH A HOST — where the work is ({len(worst)}, all shown)")
     for r in worst[:limit]:
         print(f"   {r['coverage']:>6.1%} cited  {r['settled']:>6.1%} settled  "
-              f"{r['entries']:>6,} entries   {r['source'][:44]}")
+              f"{r['entries']:>6,} entries   {r['source']}")
 
     best_all = sorted(have, key=lambda x: -x["coverage"])
     # 0 AND None BOTH MEAN "ALL OF THEM" (order 89fc2eaf23f1). `--show-best` had no value that
@@ -294,7 +300,7 @@ def report(rows, show=None, show_best=10):
         print(f"\nBEST COVERED ({len(best_all)}, all shown)")
     for r in best_all[:blimit]:
         print(f"   {r['coverage']:>6.1%} cited  {r['feats']:>6,} feats  "
-              f"{r['entries']:>6,} entries   {r['source'][:44]}")
+              f"{r['entries']:>6,} entries   {r['source']}")
 
 
 def main():

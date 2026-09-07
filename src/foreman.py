@@ -119,6 +119,19 @@ CATALOGUE_SHORTFALL = 100
 # needs none -- it only makes the list satisfy the rule it states.
 DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards", "verify_math",
             "drill", "escalation", "codewatch", "liveness", "overnight"}
+
+# THE PROCESS-KILL EXCLUSION LIST, declared SEPARATELY from DENYLIST even though it currently
+# starts as DENYLIST plus two names. DENYLIST answers "may a model patch this file", which is a
+# patch-safety policy; NEVER_DEDUPED answers "may kill_duplicate_jobs end a second instance of
+# this job", which is a supervision-chain policy (a duplicate SUPERVISOR must never be killed by
+# a repair tool, and duplicate checkers/watchdogs are tolerated rather than de-duplicated). The
+# two questions look coupled today only because every module added to DENYLIST for patch-safety
+# reasons (order 881ff7f49438: drill, escalation, codewatch, liveness, overnight) also happens to
+# be a module whose duplicate-process handling has not been examined -- that was never a decision
+# anyone made, and the next DENYLIST addition should not silently inherit kill-immunity again.
+# "overnight" and "autostart" are named directly because kill_duplicate_jobs's own reasoning
+# (below) is about the supervision chain specifically, not about patch safety. (order 5a269c4ad1ab)
+NEVER_DEDUPED = DENYLIST | {"overnight", "autostart"}
 MAX_PATCH_LINES = 40
 
 
@@ -254,8 +267,16 @@ def scout_hostless():
     try:
         import scout as SC
         res = SC.sweep(limit=4)
-        found = sum(1 for r in res if r.get("kept"))
-        return bool(found), f"{found} of {len(res)} sources given somewhere to read from"
+        # SAME TEST AS scout.py's OWN found COUNTER (scout.py:616), not a truthy read of `kept`
+        # alone. `registered` is a three-state field (None = nobody tried, True = landed,
+        # False = tried and failed) -- a source whose URLs verified but whose registration
+        # FAILED is the UNSAVED case scout.sweep excludes from its own `found`, and this
+        # function's only caller (the supervisor report/dashboard) must not count it as solved
+        # either. (order 6c3a42f8dbdd)
+        found = sum(1 for r in res if r.get("kept") and r.get("registered") is True)
+        unsaved = sum(1 for r in res if r.get("kept") and r.get("registered") is not True)
+        note = f"; {unsaved} page(s) verified but NOT registered" if unsaved else ""
+        return bool(found), f"{found} of {len(res)} sources given somewhere to read from{note}"
     except Exception as e:
         silence.note("foreman.py:scout_hostless")
         return False, f"{type(e).__name__}: {str(e)[:80]}"
@@ -572,7 +593,11 @@ def kill_stalled_job():
     # loose in the other direction too: a stem like "pipeline" matches any command line that
     # merely mentions it. lognames.OWNER carries the specific fragment for each managed job.
     import lognames as _LN
-    owners = {fn[:-4]: frag for fn, frag in _LN.OWNER.items()}
+    # SAME KEY DERIVATION AS standards.py:1511-1512, the code that writes the names this
+    # function parses -- guarded, not an unconditional strip, so the two cannot silently
+    # disagree the day lognames.OWNER gains an entry whose filename does not end in '.log'.
+    # (order 8a5593b3e777)
+    owners = {(fn[:-4] if fn.endswith(".log") else fn): frag for fn, frag in _LN.OWNER.items()}
 
     killed = []
     unrestartable = []        # stalled, but nothing would bring it back -- reported, not killed
@@ -681,9 +706,7 @@ def kill_duplicate_jobs():
         # the user watched the corpses flash by as console windows. Duplicate SUPERVISORS are
         # the watchdog's own self-guard's problem; a repair tool that can kill its own
         # dispatcher is a repair tool that can dismantle the system it repairs.
-        if job in ("overnight", "autostart"):
-            continue
-        if p == os.getpid() or job in DENYLIST:
+        if p == os.getpid() or job in NEVER_DEDUPED:
             continue
         # AN UNREADABLE CREATION TIME IS NOT A TIMESTAMP. The old fallback invented "9" * 14,
         # which sorts as the NEWEST possible process -- so an instance whose CreationDate field
@@ -819,6 +842,14 @@ def _catalogue_batch():
         if missing > 0:
             gap[str(c.get("source"))] = missing
 
+    # THE UNIVERSE FIGURE, captured before off_roll and unnameable are popped out of `gap` below.
+    # Both are real, named, printed-by-name categories -- not sources Hard Rule 0 loses -- but
+    # they are still short sources, and this function's own docstring says three times that the
+    # universe is WHOLE ("every source the audit says is short"). len(gap) AFTER the pops is the
+    # dispatchable count, not the true short-source count; universe_size is the true one and is
+    # what run_catalogue_gap prints as its headline denominator. (order a39f5792c5f9)
+    universe_size = len(gap)
+
     # A SOURCE THE AUDIT NAMES BUT THE ROLL DOES NOT can never be dispatched by any argument, so
     # it is separated out and reported rather than left to look like a source waiting its turn.
     import catalogue_web as CW
@@ -871,7 +902,7 @@ def _catalogue_batch():
         silence.note("foreman.py:catalogue-attempts-denied")
 
     return ([(s, gap[s]) for s in batch], [(s, gap[s]) for s in rest],
-            off_roll, unnameable, len(gap), frags, len(comp))
+            off_roll, unnameable, universe_size, frags, len(comp))
 
 
 def run_catalogue_gap():
@@ -1368,12 +1399,14 @@ def attempt_patch(finding, dry=True):
     # competes with nothing the library actually needs. The cloud is the fallback, not the
     # default -- exactly inverted from the reader, because their scarcities are opposite.
     got = None
+    tried_cloud = False
     try:
         import read as R
         got = R._local(R.config(), PATCH_SYSTEM, prompt, PATCH_SCHEMA)
     except Exception:
         silence.note("foreman.py:attempt_patch-local")
     if got is None and _pool_has_room():
+        tried_cloud = True
         try:
             import read as R
             R.ensure_transport(verbose=False)
@@ -1382,7 +1415,13 @@ def attempt_patch(finding, dry=True):
             silence.note("foreman.py:attempt_patch-ask")
             return {"ok": False, "why": f"model unreachable: {type(e).__name__}"}
     if got is None:
-        return {"ok": False, "why": "GPU busy and no spare pool capacity; will retry"}
+        # THE POOL MAY HAVE HAD ROOM AND SIMPLY ANSWERED NOTHING (order 90945e55b1c9): if
+        # `_pool_has_room()` was True and `R._ask` returned None without raising, this branch
+        # used to report "GPU busy and no spare pool capacity" -- false on both counts, and the
+        # sentence a person reads in the operational log to learn why the model lane stalled.
+        why = ("the local model and the pool both returned nothing" if tried_cloud
+               else "GPU busy and no spare pool capacity; will retry")
+        return {"ok": False, "why": why}
     if not got:
         return {"ok": False, "why": "no answer from the model"}
     if got.get("verdict") != "fix":
@@ -1564,7 +1603,11 @@ def owner_queue(items):
                 os.remove(_tmp)
         except Exception:
             silence.note("foreman.py:for-owner-tmp-not-removed")
-    return FOR_OWNER
+        # Landing was DENIED -- FOR_OWNER.md still holds the previous round's queue. The caller
+        # (round_once) must not report this path as freshly written; return the landed=False
+        # half of the pair so the printed sentence tells the truth. (order df385729e15f)
+        return FOR_OWNER, False
+    return FOR_OWNER, True
 
 
 def round_once(dry=True, patch=False):
@@ -1670,8 +1713,13 @@ def round_once(dry=True, patch=False):
                 _retire(f)
 
     owner_items = [o for o in orders if o["standard"] in log["owner"]]
-    p = owner_queue(owner_items)
-    print(f"\n{len(owner_items)} for the owner -> {p}")
+    p, _landed = owner_queue(owner_items)
+    if _landed:
+        print(f"\n{len(owner_items)} for the owner -> {p}")
+    else:
+        print(f"\n{len(owner_items)} for the owner but {p} could NOT be landed "
+              f"(replace denied); the file still holds the previous round and "
+              f"publish.py will export that one")
 
     try:
         prev = json.load(open(LOG, encoding="utf-8")) if os.path.exists(LOG) else []

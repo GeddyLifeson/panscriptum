@@ -265,6 +265,7 @@ def main():
     write_ok = silence.write_json(OUT, out, indent=1, ensure_ascii=False)
 
     combined = dict(out)
+    merge_failed = []          # see the merge below (order a8eb06d38216)
     if not a.gods_only:
         for path in ("Z_FIGHTERS.json",):
             try:
@@ -281,8 +282,31 @@ def main():
                                       "incomplete." % (path, ", ".join(map(str, v))))
                             continue
                         combined.setdefault(k, v)
-            except Exception:
+            except Exception as e:
+                # THE FAILED MERGE IS ON THE CONSOLE, NOT ONLY IN THE LEDGER (order a8eb06d38216).
+                # This was a bare `except Exception: silence.note(...)`. If Z_FIGHTERS.json is
+                # absent, locked, torn or the wrong shape, the loop dies on the first entry and
+                # the run goes straight on to print a table headed "DRAGON BALL, UNIVERSES 6 AND
+                # 7 -- BY MAGNITUDE" holding 6 of 21 entities, with no marker, no count and
+                # nothing on the console -- and then returned 0 if the PANTHEON.json write
+                # landed. A smaller universe in the same shape as the real one.
+                #
+                # It was the only silent one of the three: the partial-roster path directly above
+                # DOES print a note, and its comment says why ("a reader can tell a partial
+                # roster from a whole one"), and the --full view below was repaired for this
+                # exact loss on these exact fifteen entries, with the note "71% of the ranking,
+                # gone from the one view whose name promises the opposite, with no count and no
+                # note". The order that fixed --full stopped one level short of the merge that
+                # feeds it.
+                #
+                # Measured when filed: all fifteen Z_FIGHTERS entries carry an assay and all
+                # eleven axes, so the merge does not fail on the current data. That is the
+                # condition under which the --full loss also sat quiet.
+                merge_failed.append("%s (%s: %s)" % (path, type(e).__name__, e))
                 silence.note("pantheon.py:merge")
+                print("  MERGE FAILED: data/%s could not be folded in (%s: %s). THE RANKING "
+                      "BELOW IS THE %d HAND-BUILT GOD(S) ALONE, not the full roster."
+                      % (path, type(e).__name__, e, len(out)))
 
     rank = sorted(combined.items(), key=lambda kv: -value(kv[1]))
     print("=" * 88)
@@ -365,6 +389,15 @@ def main():
     # the ATOMIC comments throughout this tree are about -- so this is not a theoretical path.
     # Matches the named sibling `cosmology_graph.main()` (cosmology_graph.py:238-239), which
     # given the same gated write and the same denial returns 1. Order a012b799a6c9.
+    #
+    # AND A FAILED ROSTER MERGE CARRIES THE SAME WAY (order a8eb06d38216). A run that printed a
+    # ranking holding six of twenty-one entities is not a successful run, and rc=0 is how a
+    # scheduler records it as one. Restated on the way out so it cannot be missed above the
+    # table, for the same reason the write verdict is.
+    if merge_failed:
+        print("INCOMPLETE ROSTER: %d merge(s) failed -- %s. Everything printed above is the "
+              "hand-built gods alone." % (len(merge_failed), "; ".join(merge_failed)))
+        return 1
     return 0 if write_ok else 1
 
 

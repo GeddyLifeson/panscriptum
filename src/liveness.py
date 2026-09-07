@@ -97,6 +97,22 @@ EXEMPT_PREFIXES = ("t_", "test_", "cmd_", "phase_", "check_", "drill_")
 # is how the reason stops matching the finding.
 EXEMPT_MODULES = {}
 
+# Classes that are legitimately never named from inside src/, with the reason.
+# SEPARATE FROM `EXEMPT` FOR THE SAME REASON `EXEMPT_MODULES` IS (order 962bc293ec32). The
+# dead-CLASS pass -- the third of the three -- was still filtering class names through `EXEMPT`
+# and `EXEMPT_PREFIXES`, which are tables of FUNCTION and METHOD names with a FUNCTION's reason
+# attached: main, __init__, do_GET, t_, cmd_, phase_. Measured over all 116 modules under src/
+# (deprecated/ included) there are 32 ClassDefs and not one matches any key or any prefix, so
+# that conjunct had never filtered a row in its life -- and had it ever matched by coincidence,
+# the reason recorded beside the exemption would have been "CLI entry point, called by
+# __main__" for a class nobody instantiates. This is the module whose whole subject is clauses
+# that cannot fire, and it had one.
+#
+# Empty is the correct starting content: nothing claims this exemption. Add an entry HERE,
+# never to `EXEMPT` -- the three passes need three different reasons, and one table serving all
+# of them is how the reason stops matching the finding.
+EXEMPT_CLASSES = {}
+
 
 def _modules():
     """Every `.py` under `src/`, SUBDIRECTORIES INCLUDED. -> (label, full path) pairs.
@@ -429,7 +445,10 @@ def scan():
         # dispatch table names it as a string. All four are already collected above. There is no
         # `self`/`cls` limb here: a class is not reached through an instance of itself.
         for cls, label, node in _classdefs(t):
-            if cls in EXEMPT or cls.startswith(EXEMPT_PREFIXES):
+            # AGAINST THE CLASS TABLE, NOT THE FUNCTION ONE (order 962bc293ec32). See
+            # EXEMPT_CLASSES. The finding count is unchanged by this -- the old conjunct
+            # matched nothing -- so it does not move drill.LIVENESS_CEILING.
+            if cls in EXEMPT_CLASSES:
                 continue
             if cls not in used and cls not in used_local.get(name, ()):
                 dead_class.append("%s:%d class %s" % (name, node.lineno, label))

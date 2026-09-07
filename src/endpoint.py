@@ -355,9 +355,23 @@ def main():
         by = {}
         for h, d in sorted(mem.items()):
             by.setdefault(d["mode"], []).append((h, d["path"]))
-        for mode in (MODE_API, MODE_RAW, MODE_DEAD):
+        # EVERY MODE IN THE CACHE, NOT THE THREE THIS TUPLE HAPPENS TO NAME (order df960819fdf8).
+        # `by` is built over EVERY row in ENDPOINTS.json and this loop then printed three of
+        # them, so any other mode key was collected and silently dropped -- with no residual
+        # count and no "and N in other modes" line -- under a flag whose own help string promises
+        # "show everything already known". Nothing is lost today, because `detect()` can only
+        # write those three; but MODE_HTML is a named constant in this same file, ENDPOINTS.json
+        # is hand-editable and is merged key-wise across processes by `_save()`, and a fourth
+        # mode added to `detect()` without being added to a hand-maintained tuple would vanish
+        # from the only listing there is. That is the mild form of the shape Hard Rule 0 names.
+        # The three known modes keep their order, and anything else follows under its own
+        # heading rather than disappearing.
+        known = (MODE_API, MODE_RAW, MODE_DEAD)
+        for mode in list(known) + sorted(m for m in by if m not in known):
             rows = by.get(mode) or []
-            print(f"\n{mode.upper()}  ({len(rows)})")
+            label = str(mode).upper() + ("" if mode in known else "  (mode not written by "
+                                                                 "detect() -- from the file)")
+            print(f"\n{label}  ({len(rows)})")
             for h, path in rows:
                 print(f"   {h:<40}{path or ''}")
         return 0

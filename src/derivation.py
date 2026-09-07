@@ -532,7 +532,7 @@ def provenance(name):
 
 # ============================================== MODULE-LEVEL CONSTANT SCAN (where numbers live)
 # MEASURED, NOT MAINTAINED (found run35, batch 6). This was a hand-typed list of 22 names
-# against the 113 .py files actually in src/ -- so 91 modules were never scanned for undeclared
+# against the .py files actually in src/ -- so most modules were never scanned for undeclared
 # constants, and a module written tomorrow would sit unscanned until somebody remembered to add
 # its name here. That is the exact "smaller universe wearing the same shape as the real one"
 # failure the module-level docstring itself warns against, applied to the docstring's own
@@ -540,7 +540,39 @@ def provenance(name):
 # a module -- so listing every `.py` file in this directory costs nothing extra and cannot pick
 # up a side effect. `main()`'s VERDICT line still comes from `check_graph()` alone, unaffected;
 # this only widens what the "where constants live" map beneath it can see.
-SCAN_MODULES = sorted(f[:-3] for f in os.listdir(HERE) if f.endswith(".py"))
+#
+# NO LONGER FLAT (order ca1ed2be8c51, closed 2026-09-06). `os.listdir(HERE)` read only the TOP
+# level of `src/`, so `src/deprecated/catalogue_local.py` -- a real module, and the same
+# directory `drill._src_py_files` and `sweep_plan.normalise_module` were both separately
+# corrected for -- was invisible to the "where constants live" map. A deprecated directory is
+# exactly where an undeclared constant would be least looked at, which makes it the wrong place
+# for the scanner to have a blind spot.
+#
+# LANDED AS A COORDINATED TWO-FILE CHANGE, and that is worth recording rather than implying.
+# `verify_math.py`'s own regression check for this constant (order f308a7cc0ac7) does NOT import
+# this list and compare it to itself -- it independently reconstructs the expectation from the
+# filesystem and asserts exact equality, which is the entire point of it and the reason it is
+# evidence rather than a tautology. That reconstruction was flat too, so the honest fix moves
+# BOTH walks together; fixing only this one turns that check red, and fixing it by importing
+# `SCAN_MODULES` there would convert a real check into one that cannot fail. The two
+# implementations are deliberately written in the same shape so a reader can compare them by eye.
+#
+# `__pycache__` is pruned because it holds no source. Names carry their relative path with
+# forward slashes (`deprecated/catalogue_local`), and `scan_constants_with_reason` joins that
+# onto HERE, which resolves on every platform this runs on.
+def _scan_modules():
+    """Every `.py` module under `src/`, subdirectories included. -> sorted [dotless rel names]."""
+    names = []
+    for root, dirs, files in os.walk(HERE):
+        dirs[:] = [d for d in dirs if d != "__pycache__"]
+        for f in files:
+            if f.endswith(".py"):
+                rel = os.path.relpath(os.path.join(root, f), HERE).replace(os.sep, "/")
+                names.append(rel[:-3])
+    return sorted(names)
+
+
+SCAN_MODULES = _scan_modules()
 
 
 def _target_names(t):
@@ -573,10 +605,12 @@ def scan_constants_with_reason(mod):
     the reader as a module that does not exist. (order 6baeeb468a24)
 
     The mislabel was total rather than occasional: `SCAN_MODULES` is built from `os.listdir(HERE)`
-    over the same directory this function then reads, so the file-not-found branch is unreachable
-    outside a race -- which means every `(absent)` anyone had ever seen on that map really meant
-    "this module will not parse". The parse failure was recorded, but only into the silence
-    ledger via `silence.note`, and the panel the person was actually looking at contradicted it.
+    over the same directory this function then reads (order ca1ed2be8c51 notes this listing is
+    still flat and misses `src/deprecated/`, left open this shift -- see the comment above
+    `SCAN_MODULES`), so the file-not-found branch is unreachable outside a race -- which means
+    every `(absent)` anyone had ever seen on that map really meant "this module will not parse".
+    The parse failure was recorded, but only into the silence ledger via `silence.note`, and the
+    panel the person was actually looking at contradicted it.
     A module that will not parse is a FINDING; a module that is not there is a RACE, and the two
     want different reactions from the reader.
 
@@ -605,9 +639,15 @@ def scan_constants_with_reason(mod):
             continue
         # `X: int` with no value is a declaration and carries no literals; it is still a name a
         # reviewer should see on the map.
+        # `bool` EXCLUDED (order ae1494dbc976). `bool` subclasses `int`, so `isinstance(s.value,
+        # (int, float))` counted `True`/`False` literals as numeric literals, inflating this
+        # advisory count -- the same root cause `magnitude.py`'s `_is_score` was fixed for this
+        # shift, one blast radius smaller here: an advisory number rather than a fabricated
+        # published score. Same convention: `not isinstance(s.value, bool)`.
         lits = 0 if node.value is None else sum(
             1 for s in ast.walk(node.value)
-            if isinstance(s, ast.Constant) and isinstance(s.value, (int, float)))
+            if isinstance(s, ast.Constant) and isinstance(s.value, (int, float))
+            and not isinstance(s.value, bool))
         for nm in targets:
             if nm.isupper():
                 names.append((nm, lits))
@@ -734,9 +774,16 @@ def main():
             print(f"   {m:20s} {len(cs):2d} constants, {sum(c[1] for c in cs):4d} literals")
     print()
     print("=" * 96)
-    print("VERDICT: " + ("LEDGER CLOSES" if not problems else f"{len(problems)} FAILURES"))
+    # A CONSTANT, PRINTED AS ONE (order dab60fe3c2b5). Execution reaches here only when
+    # `problems` is empty: the early return at the top of `main()` (added by order 90516d53d696,
+    # deliberately, to stop the non-terminating deepest-chain walk over a cyclic ledger) already
+    # returned 1 whenever `problems` was non-empty. So the `else` arm of this banner and the
+    # `1 if problems else 0` below it could not fire -- a check that cannot fail looked exactly
+    # like a check that passed, which is this module's own recurring subject. The early return
+    # is the one place the verdict is actually decided; this is not a second copy of that logic.
+    print("VERDICT: LEDGER CLOSES")
     print("=" * 96)
-    return 1 if problems else 0
+    return 0
 
 
 if __name__ == "__main__":

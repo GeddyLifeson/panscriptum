@@ -94,8 +94,15 @@ SRC_LOGS = os.path.join(HERE, "state", "escalations")
 # an OWNER escalation whose halt file never appeared is an OWNER-rung fact in its own right. It
 # is set by `escalate()` AFTER `_raise_halt` returns, so it is absent from the record the halt
 # file itself is distilled from -- see the `level >= OWNER` arm.
+#
+# `recorded` is admitted at the same two rungs and for the same reason (order cd76813c39bc): it
+# is `escalate()`'s answer to "did the janitor's rung actually take this down", set AFTER
+# `_append_log` returns, so like `halt_landed` it is absent from the line the log itself is
+# distilled from and present only where a record carrying it is briefed later. Admitting it on
+# purpose is the whitelist working as documented, not a leak.
 _FIELDS = {
-    JANITOR:    ("at", "level_name", "code", "what", "source", "who", "evidence", "halt_landed"),
+    JANITOR:    ("at", "level_name", "code", "what", "source", "who", "evidence", "halt_landed",
+                 "recorded"),
     OPERATOR:   ("at", "level_name", "code", "what", "source", "who"),
     SUPERVISOR: ("at", "level_name", "code", "what", "source"),
     SAFETY:     ("at", "level_name", "code", "what", "source"),
@@ -109,7 +116,8 @@ _FIELDS = {
     # infer OWNER from the `code` string, and a hand-written `--raise-halt` code does not
     # reliably read as a rung. Purely additive: a whitelist gains a field the record already
     # carries.
-    OWNER:      ("at", "level_name", "code", "what", "source", "evidence", "who", "halt_landed"),
+    OWNER:      ("at", "level_name", "code", "what", "source", "evidence", "who", "halt_landed",
+                 "recorded"),
 }
 
 
@@ -190,12 +198,24 @@ def _append_log(rec):
       2. state/escalations/<src>.log this source's own file -- its area of the park, distilled
                                      to what a person looking at THAT source needs
       3. state/failures.json         via health.record, where the existing tooling already looks
+
+    -> True only when EVERY append this record was owed actually LANDED. It used to answer for
+    the first one alone (order cd76813c39bc): `_append` is careful to return the truth, and the
+    per-source append's answer was dropped on the floor one line later. `state/escalations/<src>
+    .log` is the "area of the park" record this module's whole doctrine rests on, and its
+    verdict was not merely ignored by the caller -- it never left this frame. A locked `state/`
+    directory, a full disk or a Norton object lock on one of the two paths (all ordinary on this
+    machine) lost that half of the janitor's rung with nothing anywhere able to say so.
+
+    The two appends are BOTH attempted before the verdict is combined -- the per-source call is
+    written first in the `and` deliberately, because short-circuiting on a failed LOG write
+    would stop writing the very record this function exists to keep in more than one place.
     """
     ok = _append(LOG, brief(rec, JANITOR))
     src = rec.get("source")
     if src:
-        _append(os.path.join(SRC_LOGS, _safe_name(src) + ".log"),
-                brief(rec, rec.get("level", JANITOR)))
+        ok = _append(os.path.join(SRC_LOGS, _safe_name(src) + ".log"),
+                     brief(rec, rec.get("level", JANITOR))) and ok
     return ok
 
 
@@ -251,7 +271,25 @@ def escalate(level, code, what, evidence=None, source=None, who=None):
            "who": who or os.path.basename(sys.argv[0] or "?"),
            "evidence": evidence if evidence is None or isinstance(evidence, (dict, list))
                        else str(evidence)}
-    _append_log(rec)
+    # THE VERDICT TRAVELS, exactly as `halt_landed` does at OWNER and `stop_recorded` does at
+    # MANAGER (order cd76813c39bc). This was a bare `_append_log(rec)` -- no assignment, no
+    # branch, nothing placed on the record -- so the record handed back to whoever raised the
+    # alarm was byte-identical whether the alarm had been written down or lost. At rungs 1-4
+    # that is the whole enforcement: OPERATOR, SUPERVISOR and SAFETY do not raise a halt and do
+    # not write a state file, so if the append is lost the escalation leaves no trace a person
+    # can find, and the caller is told nothing.
+    #
+    # SAID ON stderr WHEN IT IS False, because by construction it cannot be said in the log --
+    # the log is the thing that just failed. Mirrors the HALT_NOT_RAISED corroboration line in
+    # the `level >= OWNER` arm below, which exists for the identical shape one rung up.
+    recorded = _append_log(rec)
+    rec["recorded"] = bool(recorded)
+    if not recorded:
+        sys.stderr.write(
+            "ESCALATION NOT RECORDED — %s at %s could not be appended to the janitor's log "
+            "(state/escalation.log and/or state/escalations/<source>.log). The alarm was "
+            "raised and there is no written trace of it: %s\n"
+            % (rec["code"], rec["level_name"], rec["what"]))
     try:
         import health
         # THE SUBJECT TRAVELS, so a REHEARSAL can be told from a FAULT (order 5bbbb65e7787).

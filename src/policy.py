@@ -80,6 +80,19 @@ OPS = {
 # sweep (batch 15).
 TYPES = {"str": str, "int": int, "float": float, "bool": bool, "list": list, "dict": dict}
 
+# THE OTHER SEVEN ARG-TAKING OPS, unvalidated at load the way `is_type` above already is (order
+# 43f43c0d8e60). `check_rule`'s own comment on the `is_type` clause names the exact confusion: a
+# malformed rule's KeyError/TypeError falls into the broad `except Exception` in `check_rule` and
+# is recorded as an ordinary rule FAILURE ON THE DOCUMENT, which sends the reader to the wrong
+# place -- a typo in a rule table reads as a corrupt corpus. Filed at INFO because all three live
+# tables (RECORD_RULES, EVIDENCE_RULES, COVERAGE_RULES) pass a correct `arg` today; kept for the
+# same reason TYPES's own comment gives for itself -- "a landmine for the next table."
+ARG_REQUIRED = {
+    "gte": (int, float), "lte": (int, float), "len_gte": (int, float),
+    "matches": (str, re.Pattern), "not_matches": (str, re.Pattern), "glob": (str,),
+    # in_range is checked structurally in check_rule -- its arg is a 2-sequence, not a type.
+}
+
 
 class BadRule(ValueError):
     """A rule that cannot be evaluated. Refused at load, never silently skipped."""
@@ -153,6 +166,17 @@ def check_rule(doc, rule):
     if op == "is_type" and rule.get("arg") not in TYPES:
         raise BadRule("rule %s uses unknown is_type arg %r (known: %s)"
                       % (rule["id"], rule.get("arg"), ", ".join(sorted(TYPES))))
+    # SAME TREATMENT, THE OTHER SEVEN OPS (order 43f43c0d8e60). Checked here, beside the
+    # `is_type` clause above, for the identical reason: an unevaluable rule is refused at load,
+    # like an unknown op, so a false verdict is never issued for one.
+    if op == "in_range":
+        _arg = rule.get("arg")
+        if not (isinstance(_arg, (list, tuple)) and len(_arg) == 2):
+            raise BadRule("rule %s op in_range needs a 2-element arg (got %r)"
+                          % (rule["id"], _arg))
+    elif op in ARG_REQUIRED and not isinstance(rule.get("arg"), ARG_REQUIRED[op]):
+        raise BadRule("rule %s op %s needs a %s arg (got %r)"
+                      % (rule["id"], op, ARG_REQUIRED[op], rule.get("arg")))
     value, found = resolve(doc, rule["path"])
     try:
         ok = bool(OPS[op](value, rule.get("arg")))
@@ -341,8 +365,22 @@ def main():
     cov = os.path.join(HERE, "data", "COVERAGE.json")
     cov_total = cov_read = 0
     if os.path.exists(cov):
-        with open(cov, encoding="utf-8") as f:
-            rows = json.load(f)
+        # SAME DISCIPLINE AS THE RECORD LOOP NINE LINES UP (order 05c705f41536). This was a bare
+        # `with open(cov) as f: rows = json.load(f)`, while the record loop was deliberately
+        # taught "A RECORD THAT COULD NOT BE READ IS A FINDING, NOT A GAP IN THE SAMPLE" (run
+        # #33 batch 15). A torn or truncated COVERAGE.json raised straight out of main(): the
+        # evidence sweep never started, report() was never called, and the previous run's
+        # state/policy_report.json stood as though it were current -- the module exiting on a
+        # traceback instead of either of the two documented exit codes. Caught, noted, and
+        # appended to the SAME `unreadable` list the record loop feeds, under its own subject,
+        # so the run continues and reports rather than dying silently mid-corpus.
+        try:
+            with open(cov, encoding="utf-8") as f:
+                rows = json.load(f)
+        except Exception as e:
+            silence.note("policy.py:coverage-unreadable")
+            unreadable.append(("data/COVERAGE.json", "%s: %s" % (type(e).__name__, e)))
+            rows = []
         cov_total = len(rows)
         if a.limit is not None:
             rows = rows[:a.limit]
@@ -382,7 +420,11 @@ def main():
                 # a gap in the sample. A cache file that cannot be parsed is one whose evidence
                 # nothing downstream can read either.
                 silence.note("policy.py:evidence-unreadable")
-                return (subject, "%s: %s" % (type(exc).__name__, str(exc)[:70]))
+                # UNCUT (order 491269a0f908). The record loop's twin was uncut at policy.py:339
+                # with the note "a parse error cut at 70 characters loses the offset and the
+                # context that say WHERE the record is torn, which is the entire actionable
+                # content of a JSONDecodeError" -- the same is true here.
+                return (subject, "%s: %s" % (type(exc).__name__, exc))
 
         if feats:
             with _cf.ThreadPoolExecutor(max_workers=max(1, a.evidence_workers)) as pool:
@@ -427,6 +469,13 @@ def main():
         "evidence_swept": not a.skip_evidence,
         "evidence_total": ev_total, "evidence_evaluated": ev_read,
         "evidence_passed": ev_passed, "evidence_unreadable": len(ev_unreadable),
+        # THE NAMES, NOT ONLY THE COUNT (order 491269a0f908). This block's own comment above
+        # claims "every failure, every vacuous pass and every unreadable file is named in full,
+        # here and in the report" -- true of the record sweep's `records_unreadable_detail`
+        # three lines up, and until now false of this one: the scope dict carried only an
+        # integer, and the names and parse errors existed solely in the stdout loop below,
+        # dropped when the process ends. Same shape as `records_unreadable_detail`, uncut.
+        "evidence_unreadable_detail": [{"file": s, "error": w} for s, w in ev_unreadable],
         "evidence_stored": len(ev_interesting),
         "evidence_note": ("only failing/vacuous evidence files are stored individually; "
                           "passes are counted" if not a.skip_evidence else
@@ -444,7 +493,9 @@ def main():
               "%d with a finding, %d unreadable"
               % (ev_read, ev_total, ev_passed, len(ev_interesting), len(ev_unreadable)))
         for subj, why in ev_unreadable:
-            print("  UNREAD %-40s %s" % (subj[:40], why))
+            # PAD, DO NOT CUT (order 491269a0f908) -- the record loop's twin was already changed
+            # to this at policy.py:~477.
+            print("  UNREAD %-40s %s" % (subj, why))
     if partial:
         skipped_rec = all_records[a.limit:]
         print("  PARTIAL: %d record(s) and %d coverage row(s) were NOT evaluated. They are not "
@@ -506,7 +557,13 @@ def main():
     # rules could not be applied to at all belongs there. Nothing that treats nonzero as bad
     # changes, and the direction is the safe one -- this can only turn a false clean into a
     # flag, never the reverse.
-    if unreadable:
+    #
+    # AND `ev_unreadable` HAS THE MATCHING GAP CLOSED (order 491269a0f908). Before this, a run in
+    # which every one of ~255,000 data/feats cache files failed to parse printed its lines and
+    # returned 0 -- an unevaluated FILE reported only to scrollback, one level below this same
+    # module's own EVIDENCE_RULES comment calling an unevaluated TABLE "documentation wearing the
+    # shape of a check." Folded in beside `unreadable` for the identical reason.
+    if unreadable or ev_unreadable:
         return 1
     if not landed:
         return 2

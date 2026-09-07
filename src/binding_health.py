@@ -93,6 +93,25 @@ class QuarantineUnreadable(RuntimeError):
     """
 
 
+def _preview(s, width):
+    """A field cut to a column width, WITH A MARKER saying it was cut. -> str.
+
+    THE DOCTRINE SETTLED NARROWER THAN THIS FILE'S OLD POSITION (order 2e41f1efbd85).
+    `quarantine()`'s comment authorises display cuts "at their own call sites, which is where the
+    house puts display cuts", and that was the house position when it was written. What
+    `suppressions._preview` (order 6160ef68b229) and `suppressions.py`'s path column (order
+    0a87f4dcd5a7) settled since is narrower: a display truncation is accepted BECAUSE it is
+    reversible, and refused WHEN NOTHING SAYS THE CUT HAPPENED. `--quarantined` is the view an
+    operator reads to decide whether a hold is still justified, and the reason is the only record
+    of why a host was closed off -- 60 characters of the 330-character reason a 429 produces is
+    its first clause.
+
+    Same shape and same marker as `suppressions._preview`, deliberately.
+    """
+    s = str(s or "")
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
+
+
 def _read_json(path):
     """-> (object, 'ok' | 'absent' | 'unreadable'). The distinction `_load` cannot make.
 
@@ -1248,14 +1267,18 @@ def main():
             return 0
         for h, r in sorted(q.items()):
             print("  %-34s %s  (x%s, retry after %s)"
-                  % (h, r.get("reason", "")[:60], r.get("times"),
+                  % (h, _preview(r.get("reason", ""), 60), r.get("times"),
                      time.strftime("%Y-%m-%d %H:%M", time.localtime(r.get("retry_after", 0)))))
         return 0
     if a.run:
         out, failed = run(limit=a.limit, only=a.host)
         for r in out:
             state = {True: "ok  ", False: "FAIL", None: "skip"}[r.get("healthy")]
-            print("  %s %-34s %s" % (state, r.get("host", "?")[:34], (r.get("reason") or "")[:60]))
+            # THE HOST IS NOT CUT AT ALL and the reason says when it is (order 2e41f1efbd85).
+            # A host name is an IDENTITY and this column has nothing to align against -- the
+            # reason follows it and is ragged anyway -- so the `[:34]` is removed outright
+            # rather than marked. The pad stays, so ordinary rows still line up.
+            print("  %s %-34s %s" % (state, r.get("host", "?"), _preview(r.get("reason"), 60)))
         print("\n%d host(s) checked, %d failed and quarantined" % (len(out), failed))
         return 1 if failed else 0
     ap.print_help()

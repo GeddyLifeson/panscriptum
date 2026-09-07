@@ -297,17 +297,45 @@ def inspect(path):
 def artifacts(workers=8, roots=None):
     """Every file in the project, opened and checked. No sampling anywhere."""
     from concurrent.futures import ThreadPoolExecutor
-    roots = roots or ["data", "src", "state", "output", "prompts", "reference",
-                      "registry_terminal", "handoff"]
+    # THE ROOTS ARE DISCOVERED, NOT ENUMERATED (order f231ee4e5424). The docstring above says
+    # "Every file in the project, opened and checked. No sampling anywhere." and the code did not
+    # do it: the roots were a hand-kept list of eight directories plus exactly five named root
+    # files. MEASURED against the live tree with this module's own SKIP_DIRS applied, artifacts()
+    # reached 296,560 files and 60 were never opened or even sized -- backup/ (29),
+    # .ruff_cache/ (20), site/ (2), .claude/ (1), .gitignore (1), and the seven root markdown
+    # ledgers BUGS.md, FOR_OWNER.md, HANDOFF.md, MAINTENANCE.md, NEXT_STEPS.md, STEP4_PLAN.md and
+    # WATCH.md, one each. docs/ was empty and so cost nothing yet, and was equally unlisted.
+    #
+    # THE SEVEN .md FILES ARE THE ONES THAT MATTER: they are the documents an operator actually
+    # reads, and this tier's whole job is saying which of about 296,000 files is damaged. A
+    # zero-byte or non-UTF-8 HANDOFF.md was reported by nothing.
+    #
+    # THIS MODULE'S OWN HEADER RECORDS THE SAME DEFECT BEING REPAIRED ONCE, one layer up:
+    # "THAT SENTENCE USED TO READ every file, opened, AND THE CODE DID NOT DO IT (order
+    # 19fc2fdda102)" -- that repair was to the EXTENSION list, and the ROOTS list was not
+    # visited. And `_effective_ext` refuses to commit exactly this shape in this same file: "an
+    # enumerated list would go stale silently, which is the shape this module exists to catch
+    # rather than commit."
+    #
+    # So the default is now the tree itself: every directory entry at the root that SKIP_DIRS
+    # does not exclude, walked; every file at the root, sized and checked. `roots` remains an
+    # explicit override for a caller that wants a subset. 60 more files is unmeasurable against
+    # 296,560.
     paths = []
-    for d in roots:
-        p = os.path.join(HERE, d)
-        if os.path.isdir(p):
-            paths += list(_walk(p))
-    for f in ("CLAUDE.md", "README.md", "STATUS.md", "config.yaml", "requirements.txt"):
-        p = os.path.join(HERE, f)
-        if os.path.exists(p):
-            paths.append(p)
+    if roots:
+        for d in roots:
+            p = os.path.join(HERE, d)
+            if os.path.isdir(p):
+                paths += list(_walk(p))
+    else:
+        with os.scandir(HERE) as it:
+            for de in sorted(it, key=lambda e: e.name):
+                if de.is_dir():
+                    if de.name in SKIP_DIRS:
+                        continue
+                    paths += list(_walk(de.path))
+                elif de.is_file():
+                    paths.append(de.path)
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
         recs = list(ex.map(inspect, paths))

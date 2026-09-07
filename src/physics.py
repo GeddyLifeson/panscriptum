@@ -47,8 +47,16 @@ import math
 import os
 import sys
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# NEITHER A `HERE` NOR A sys.path INSERT (order b24ab7ac275f). Both were boilerplate carried in
+# from the modules that need them: nothing in this file read `HERE`, and the sys.path line was
+# inert because this module imports only argparse, math, os and sys -- no module in the tree
+# imports physics for a path side effect (`grep -rn 'import physics' src/` finds anchors.py and
+# verify_math.py, both of which insert the path themselves before importing).
+#
+# WHY BOTHER, FOR TWO INERT LINES: this module exists BECAUSE constants had drifted away from the
+# modules that read them (see the header -- verify_math, anchors, ledger and address_space all
+# failing on constants that had moved out of feats.py). A constant with no reader, in the file
+# built to end that pattern, is the pattern being copied.
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):

@@ -179,11 +179,30 @@ def synthesise(c, rec):
         # whitespace itself, so the pre-strip is gone with the regex.
         band = PL.clean_band(got.get("magnitude"))
 
-        ev = (got.get("evidence") or "").strip()[:600]
+        # VALIDATE THE WHOLE STRING, TRUNCATE ONLY WHEN STORING -- the fourth instance of the
+        # drift this function already documents three of (order 5067df94c1d5). This read
+        # `ev = (got.get("evidence") or "").strip()[:600]` and then tested
+        # `PL.valid_scale_note(ev)`, while `pipeline.phase_synthesis` tests the UNCUT string and
+        # truncates only afterwards when it stores the field. So an evidence string longer than
+        # 600 characters whose scale-evidencing fragment sits past character 600 was ACCEPTED by
+        # the main phase and REFUSED here: the source shelved 'unassayed' by the very tool whose
+        # job is to rescue it, and whose `method` string below asserts "same prompt and same
+        # invariants as the main synthesis phase".
+        #
+        # DISTINCT FROM ORDER 1f9a54bede08, which names this same line: that order ruled the
+        # [:600]/[:900] cuts SHAPE PARITY with pipeline's identical ones and asked that both
+        # writers be changed together. This is not about the stored field's length -- it is that
+        # the two writers fed DIFFERENT STRINGS to the same gate. That stored-length question is
+        # untouched here and stays open.
+        #
+        # Closed the way the three prior drifts on this function were: by matching pipeline
+        # rather than restating it. The value written is unchanged.
+        _ev = (got.get("evidence") or "").strip()
         # The pipeline's own invariant: no feat, no band. A retry must not smuggle in a band
         # that the main phase would have refused.
-        if not PL.valid_scale_note(ev):
+        if not PL.valid_scale_note(_ev):
             band = "unassayed"
+        ev = _ev[:600]
 
         rank = int(band[1:]) if band != "unassayed" else -1
         if best is None or rank > best[0]:

@@ -304,6 +304,19 @@ def mine(source):
         chunks.append((cur, cur_pages))
 
     rp = record_path(source)
+    # THE OTHER ORDINARY WAY TO ARRIVE WITHOUT A CORPUS ROW (order 9da4543dc586). Mirrors the
+    # corpus guard four lines up (order 0c007141d39f) -- this module's own docstring at
+    # record_path calls it "the NEW-MATERIAL path -- the one place a source routinely arrives
+    # before it has a record", which is exactly the input that reaches this open() unguarded.
+    # `record_path` correctly returns the non-existent natural path when nothing matches (that
+    # is its contract for the --pdf half above, which creates the record); this read used to
+    # trust that path existed and let FileNotFoundError out as a bare traceback instead of the
+    # module's "MINE REFUSED: ..." / return 1 path main() already has for every other refusal
+    # here (`except ValueError` at main()'s --mine call).
+    if not os.path.exists(rp):
+        raise ValueError(
+            "no record at %s for source %r; create it, or name the source exactly as its "
+            "record is slugged (%s)" % (os.path.relpath(rp, HERE), source, slug(source)))
     with open(rp, encoding="utf-8") as f:
         rec = json.load(f)
 
@@ -323,6 +336,16 @@ def mine(source):
     # the two can be COMPARED and the disagreement named instead of being left for whoever
     # notices the counts differ.
     landed_found = state["found"]
+    # A CUMULATIVE COUNTER IS NOT THIS RUN'S WORK (order cf861246e83e). `state["found"]` is
+    # loaded from ingest_state.json above and therefore carries every previous run's total for
+    # this book, then keeps being incremented in place as THIS run merges more -- so at any
+    # point it reads as the book's lifetime total, not a per-run count. `started_at` fixes the
+    # value at entry so `state["found"] - started_at` is genuinely this run's own count; this
+    # module naps 300s per transport miss and tolerates 60 of them, so a resume is the NORMAL
+    # way this runs, not the exception, and the closing lines below used to report the lifetime
+    # total as if it were what THIS run merged -- flattering on every resumed run, which is most
+    # of them.
+    started_at = state["found"]
     while ci < len(chunks):
         text, chunk_pages = chunks[ci]
         got = _ask(SYSTEM, "PASSAGE (%s):\n\n%s" % (", ".join(chunk_pages), text), SCHEMA)
@@ -435,7 +458,9 @@ def mine(source):
         else:
             landed_found = state["found"]
         if (ci + 1) % 10 == 0 or fresh:
-            print("  chunk %d/%d  +%d new  (%d total this ingest)"
+            # "total for this book", not "this ingest" (order cf861246e83e's neighbouring fix):
+            # `state["found"]` is the lifetime total, and "this ingest" reads as "this run".
+            print("  chunk %d/%d  +%d new  (%d total for this book)"
                   % (ci + 1, len(chunks), len(fresh), state["found"]))
         ci += 1
     # SAY WHICH NUMBER IS WHICH (order 7100890382fc). Two counts exist the moment a cursor write
@@ -443,13 +468,16 @@ def mine(source):
     # Neither is wrong, but reading either as the other is, so the gap is stated rather than
     # left to be discovered by a reader comparing two runs' final lines.
     if landed_found != state["found"]:
-        print("  COUNTER BEHIND DISK: %d entries merged this run, %d recorded in "
-              "ingest_state.json (the last %d landed in the record but their cursor write was "
-              "denied). The RECORD is the truth here -- the entries are on disk either way and "
-              "the next run rebuilds `known` from the record, not from this counter."
-              % (state["found"], landed_found, state["found"] - landed_found))
+        print("  COUNTER BEHIND DISK: %d entries merged this run (%d total for this book), %d "
+              "recorded in ingest_state.json (the last %d landed in the record but their cursor "
+              "write was denied). The RECORD is the truth here -- the entries are on disk "
+              "either way and the next run rebuilds `known` from the record, not from this "
+              "counter."
+              % (state["found"] - started_at, state["found"], landed_found,
+                 state["found"] - landed_found))
     if ci >= len(chunks):
-        print("ingest complete: %d new entries merged" % state["found"])
+        print("ingest complete: %d new entries merged this run (%d total for this book)"
+              % (state["found"] - started_at, state["found"]))
         return True
     return False
 

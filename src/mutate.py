@@ -203,7 +203,18 @@ def active():
         return False, None
     except Exception:
         # An unreadable lock is treated as HELD. If this file exists at all, something claimed
-        # the right to corrupt the tree, and "I could not read the claim" is not permission.
+        # the right to corrupt the tree, and "I could not read the claim is not permission" is
+        # not permission.
+        return True, {"unreadable": True}
+    if not isinstance(rec, dict):
+        # VALID JSON THAT IS NOT A MAPPING (order 4e65c6aacf23) -- null, a bare number, a list,
+        # a string, reachable from a partial/interrupted write mid-json.dump, exactly the
+        # scenario `_lock_release` already reasons about elsewhere in this file. `json.load`
+        # succeeds here, so the `except Exception` above is never entered, and `rec.get("pid")`
+        # two lines down would raise an uncaught AttributeError straight out of `active()` --
+        # neither of the two states this function promises to return. Routed through the same
+        # fail-closed path the parse-failure case already uses: an unreadable CLAIM is not
+        # permission, and neither is a claim that parsed to the wrong shape.
         return True, {"unreadable": True}
     pid = rec.get("pid")
     if isinstance(pid, int) and not _pid_alive(pid):
@@ -257,7 +268,9 @@ def _lock_release(token=None):
     """Drop the lock, but only if it is still OURS.
 
     THE TOKEN WAS WRITTEN AND NEVER READ. `_lock_acquire` stamps a per-run token into the
-    record at :222 specifically so ownership can be established, and the release was a bare
+    record it writes (order fe0dd6e4844f: cited by symbol, not by line -- a line number drifts
+    with the next edit above it and this one already had, twice) specifically so ownership can
+    be established, and the release was a bare
     `os.remove(LOCK)`: in any overlap the session that finished first deleted the lock a
     still-running session believed it held, and `publish.py` -- whose refusal to push is the
     entire reason this lock exists after a deliberately-corrupted `prose_gate.py` reached
@@ -1392,10 +1405,19 @@ def sandbox():
     absent = [t for t in TARGETS if not os.path.isfile(os.path.join(root, "src", t))]
     if absent:
         shutil.rmtree(root, ignore_errors=True)
+        # TWO DIFFERENT CONDITIONS, REPORTED SEPARATELY (order 3460ab179aa9). This used to say
+        # "(%d module(s) could not be read)" % (len(missed) or 1) -- when a TARGET was absent
+        # from the sandbox but `missed` was empty (the file was never named by `os.walk(SRC)` at
+        # all, so no copy was even ATTEMPTED), the `or 1` fabricated a count and asserted a copy
+        # failure that never happened. Nothing failed to be read; the file was not there to list.
+        if missed:
+            reason = "%d module(s) could not be read" % len(missed)
+        else:
+            reason = "%s was not present in src/ when it was listed" % ", ".join(absent)
         raise RuntimeError(
             "the sandbox is missing %s -- the live tree was being written while it was copied "
-            "(%d module(s) could not be read). Nothing was mutated. Re-run when src/ is not "
-            "being edited." % (", ".join(absent), len(missed) or 1))
+            "(%s). Nothing was mutated. Re-run when src/ is not being edited."
+            % (", ".join(absent), reason))
     for shared in ("data", "prompts", "reference"):
         src_dir = os.path.join(HERE, shared)
         if os.path.isdir(src_dir):
@@ -1903,6 +1925,11 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
 
         not_attempted = []
         muts = _mutations(tree, text, skipped=not_attempted)
+        # PRE-SLICE TOTAL, CAPTURED BEFORE THE CUT (order 512864b65163). `"capped"` used to be
+        # derived AFTER the slice from `len(muts) == limit`, which is true whenever the module
+        # happens to produce EXACTLY `limit` mutants -- nothing was cut, and the result still
+        # said capped=True with no "out of what" for a programmatic reader to check it against.
+        mutants_attemptable = len(muts)
         if limit:
             # Explicitly reported, never silent. Hard Rule 0 forbids a cap that hides a smaller
             # universe; this one is an interactive convenience and it must say so in the result.
@@ -2150,7 +2177,8 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 # to the tool that measures coverage. Not truncated.
                 "not_attempted": [{"line": ln, "kind": k, "why": w}
                                   for ln, k, w in not_attempted],
-                "capped": bool(limit) and len(muts) == limit,
+                "capped": bool(limit) and mutants_attemptable > limit,
+                "mutants_attemptable": mutants_attemptable,
                 # DID THE BASELINE MOVE UNDER THIS RUN? Empty when it was re-photographed
                 # and never disagreed with itself, and `None` when it was never re-asked at
                 # all -- which are different claims and must not read the same. Each entry
@@ -2564,15 +2592,43 @@ def _session(a, targets):
                           "launch baseline; read its signature above)")
             # THE DRIFT, SAID OUT LOUD AND BESIDE THE SCORE, because a score is what gets
             # quoted and this is the fact that decides whether it means anything.
+            # TWO EVENT SHAPES GO INTO `baseline_drifts`, AND THIS LOOP KNEW ONLY ONE (order
+            # f4af474dfc49). `_refresh_baseline` appends either
+            #   {gates_that_moved, verdicts_now_in_doubt}          -- the signature MOVED, or
+            #   {refresh_unusable, kept_previous_baseline,
+            #    verdicts_since_last_good_baseline}                -- the refresh COULD NOT COMPLETE
+            # and this loop read `d["gates_that_moved"]` unconditionally, so the second shape
+            # raised KeyError and took the whole session report down with it -- after the
+            # expensive part was already done, replacing every remaining target's findings with a
+            # bare traceback. `--rebaseline-every` defaults to 1800s against a run measured in
+            # hours on a shared machine, so the unusable shape is not an edge case; the pass that
+            # ran on 2026-09-05 logged four drift events in one session.
+            #
+            # Both are now reported, and the unusable one is reported as the DIFFERENT thing it
+            # is: the previous baseline was KEPT, so those verdicts were judged against a
+            # signature that is still believed good, which is weaker than a confirmed drift and
+            # much better than a crash. Read with `unusable_gates`, whose whole argument is that a
+            # gate reaching no verdict must not be adopted as one.
             for d in (r.get("baseline_drifts") or []):
-                moved = ", ".join(sorted(d["gates_that_moved"]))
-                doubt = d["verdicts_now_in_doubt"]
-                kills = [v for v in doubt if v["verdict"] == "killed"]
-                print("  *** BASELINE DRIFTED on clean code (%s). %d verdict(s) were "
-                      "judged against the stale signature, %d of them KILLS -- those kills "
-                      "are NOT evidence of coverage. ***" % (moved, len(doubt), len(kills)))
+                if "gates_that_moved" in d:
+                    moved = ", ".join(sorted(d["gates_that_moved"]))
+                    doubt = d.get("verdicts_now_in_doubt") or []
+                    kills = [v for v in doubt if v.get("verdict") == "killed"]
+                    print("  *** BASELINE DRIFTED on clean code (%s). %d verdict(s) were "
+                          "judged against the stale signature, %d of them KILLS -- those kills "
+                          "are NOT evidence of coverage. ***" % (moved, len(doubt), len(kills)))
+                else:
+                    dead = ", ".join(sorted(d.get("refresh_unusable") or {}))
+                    doubt = d.get("verdicts_since_last_good_baseline") or []
+                    kills = [v for v in doubt if v.get("verdict") == "killed"]
+                    print("  *** A MID-RUN BASELINE REFRESH COULD NOT COMPLETE (%s). The "
+                          "PREVIOUS baseline was kept rather than adopting a signature no gate "
+                          "could take, so the %d verdict(s) since the last good baseline (%d "
+                          "KILLS) rest on a photograph that was never re-confirmed. ***"
+                          % (dead or "no gate named", len(doubt), len(kills)))
                 for v in kills:
-                    print("        in doubt: %s:%d %s" % (t, v["line"], v["mutation"]))
+                    print("        in doubt: %s:%d %s"
+                          % (t, v.get("line", -1), v.get("mutation", "?")))
             if r.get("baseline_drifts") == []:
                 print("  baseline re-photographed every %ds and never disagreed with "
                       "itself." % (a.rebaseline_every,))
@@ -2596,7 +2652,10 @@ def _session(a, targets):
                 # corrupting code underneath a standing halt. Nothing further at all.
                 rc, stopped_at = 5, i
             if r["capped"]:
-                print("  (capped at --limit %d; this is NOT the whole set)" % a.limit)
+                # "N of M" (order 512864b65163): `mutants_attemptable` is the pre-slice total,
+                # so a reader sees what was cut against, not just that a cut happened.
+                print("  (capped at --limit %d of %d attemptable; this is NOT the whole set)"
+                      % (a.limit, r["mutants_attemptable"]))
             # NEITHER KILLED NOR SURVIVED, AND SAID SO. A gate that timed out or errored on a
             # mutant used to be counted as a kill, which is the direction that hides holes.
             # KILLED BY THE CLOCK, WITH THE EVIDENCE ON THE SAME LINE. Inside the killed count

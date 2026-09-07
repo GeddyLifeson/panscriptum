@@ -151,7 +151,7 @@ def measure_bit_value(band):
     return None if L is None else L / 10.0
 
 
-def faculty_parity_weights(n_physical=8, n_faculty=3):
+def faculty_parity_weights(n_physical=None, n_faculty=None):
     """Weights implied by parity, with NO free parameter.
 
     If every axis is worth L_r/10 bits per point, then no axis can outrank another a priori: the
@@ -162,7 +162,22 @@ def faculty_parity_weights(n_physical=8, n_faculty=3):
     This is returned alongside -- not instead of -- the charter's declared weights, because
     replacing them is the owner's call. What is NOT the owner's call is whether zero was
     defensible. It was not.
+
+    n_physical/n_faculty DEFAULT FROM THE LIVE TABLES (order d79dd404fef2), not from restated
+    literals -- this is the module whose own header (above, order d444e7a90cff) forbids exactly
+    that: "name the live tables, never copy them, so the next re-weighting cannot strand this
+    paragraph a second time." `rigor.main()` prints this function's `uniform_weight` on the line
+    directly beneath `assay.FACULTY_WEIGHTS`; hardcoded 8+3 agreed with `len(assay.WEIGHTS)==11`
+    only because nobody had added or removed an axis yet. The explicit parameters stay available
+    so a caller can still ask the counterfactual question ("what if there were 12 physical
+    axes?") -- they just no longer double as the silent default.
     """
+    if n_physical is None or n_faculty is None:
+        import assay as A
+        if n_physical is None:
+            n_physical = len(A.CHARTER_PHYSICAL_WEIGHTS)
+        if n_faculty is None:
+            n_faculty = len(A.FACULTY_AXES)
     n = n_physical + n_faculty
     return {"uniform_weight": 1.0 / n, "n_axes": n,
             "argument": ("parity follows from the bit-equivalence; a non-uniform weight is a "
@@ -574,7 +589,11 @@ def adjudication_beta(n_laws_touched, n_regimes, n_parameters=0, param_precision
     k = max(1, min(n_laws_touched, M))
     n_regimes = max(1, n_regimes)
 
-    b_which = _log2_choose(M, k) if k < M else 0.0
+    # `if k < M else 0.0` deleted (order d021f0c7f821): _log2_choose already returns 0.0 for
+    # k >= n, and k is clamped to min(n_laws_touched, M) two lines up, so the ternary's else-arm
+    # could never differ from the call it was guarding. Do not also remove the guard inside
+    # _log2_choose -- that one is load-bearing for k <= 0 as well as k >= n.
+    b_which = _log2_choose(M, k)
     b_where = mdl_bits(n_regimes)
     b_much = n_parameters * param_precision_bits
     total = b_which + b_where + b_much
@@ -736,13 +755,35 @@ def gumbel_return_level(sample_max_bits, n_scored, n_entries, tail_index=1.0):
 
     The parameter is exposed precisely so the assumption can be argued with instead of smuggled.
     """
-    if n_scored <= 0 or n_entries <= n_scored or tail_index <= 0:
-        return {"correction_bits": 0.0, "corrected_bits": sample_max_bits, "tail_index": tail_index}
+    # SAME KEYS ON BOTH BRANCHES, AND A NAMED REASON (order 233cc167e4c0). Three different
+    # conditions used to fold into one silent `correction_bits: 0.0` with no 'basis' key -- a
+    # caller reading ['basis'] got a KeyError only on the branch it was least likely to have
+    # exercised. The three are not the same fact: n_scored <= 0 is nothing-read (an error);
+    # tail_index <= 0 is an inadmissible Pareto parameter (an error); n_entries <= n_scored is
+    # the read being COMPLETE -- a finding, and the good one, worded as one rather than as a
+    # refusal (ceiling_confidence, one function up, already goes to real trouble to distinguish
+    # exactly this case). Evaluated in the same order the original short-circuited `or` did, so
+    # a call where more than one condition holds still names the same one it always reported.
+    if n_scored <= 0:
+        reason = (f"n_scored={n_scored!r}: nothing has been read yet -- no order-statistic "
+                  "correction can be computed from zero samples")
+    elif tail_index <= 0:
+        reason = (f"tail_index={tail_index!r} is <= 0 -- the Pareto tail-index parameter is "
+                  "inadmissible; no correction can be computed under an invalid tail assumption")
+    elif n_entries <= n_scored:
+        reason = (f"n_scored has reached n_entries ({n_scored}/{n_entries}): the read is "
+                  "COMPLETE, so no order-statistic correction is due")
+    else:
+        reason = None
+    if reason is not None:
+        return {"correction_bits": 0.0, "corrected_bits": sample_max_bits,
+                "tail_index": tail_index, "basis": None, "reason": reason}
     corr = math.log2(n_entries / n_scored) / tail_index
     return {"correction_bits": round(corr, 2),
             "corrected_bits": round(sample_max_bits + corr, 2),
             "tail_index": tail_index,
-            "basis": "E[max of N] / E[max of n] under a Pareto(alpha) tail; stated, not assumed silently"}
+            "basis": "E[max of N] / E[max of n] under a Pareto(alpha) tail; stated, not assumed silently",
+            "reason": None}
 
 
 # ==================================================================================================
@@ -864,10 +905,36 @@ def main():
     # Said out loud because an unexplained omission from an audit table reads as an oversight,
     # and the one value not audited was also the one that used to contradict the ledger's stated
     # 8-to-128 range (now corrected there to 0-to-128).
-    for nm, laws, regimes, params, declared in [
-            ("coherence", 1, 2, 0, 8), ("thermodynamics", 1, 4, 1, 32),
-            ("energy", 2, 4, 1, 64), ("momentum", 2, 8, 2, 96),
-            ("intent", 3, 8, 3, 128)]:
+    #
+    # THE DECLARED COLUMN IS READ FROM chord_field.ADJUDICATIONS, NOT COPIED (order 7368cd63bd2c).
+    # This loop used to carry a hand-typed FIFTH element per row -- a second copy of exactly the
+    # beta_bits chord_field.py already declares -- so the audit could not see chord_field.py
+    # change: lower A3's beta_bits from 8 to 4 and this loop went on reporting 8 forever. The
+    # (name, laws, regimes, params) columns stay hand-curated here -- they are THIS module's
+    # reading of what each adjudication touches, and chord_field.py does not carry them -- only
+    # the number being audited must stop being a restatement. This also gives chord_field.py its
+    # first real importer/caller in the tree (see order 7e360eaec3a6).
+    import chord_field as CF
+    _AUDIT_ROWS = [
+        ("coherence", "A3_BEAM_COHERENCE", 1, 2, 0),
+        ("thermodynamics", "A6_THERMODYNAMICS", 1, 4, 1),
+        ("energy", "A1_ENERGY_CONSERVATION", 2, 4, 1),
+        ("momentum", "A2_MOMENTUM_CONSERVATION", 2, 8, 2),
+        ("intent", "A5_INTENT_COUPLING", 3, 8, 3),
+    ]
+    _EXCUSED_ADJUDICATIONS = {"A4_THE_EQUIVALENCE_PRINCIPLE"}     # priced at 0; see note above
+    # A SEVENTH ADJUDICATION CANNOT SILENTLY GO UNAUDITED (order 7368cd63bd2c, the remedy's
+    # second half). Every key in chord_field.ADJUDICATIONS must be either in _AUDIT_ROWS or in
+    # _EXCUSED_ADJUDICATIONS with a reason on record; anything else is named here rather than
+    # quietly excluded from the loop below the way A4 nearly was.
+    _audited_keys = {adj_key for _, adj_key, _, _, _ in _AUDIT_ROWS}
+    _unaccounted = sorted(set(CF.ADJUDICATIONS) - _audited_keys - _EXCUSED_ADJUDICATIONS)
+    if _unaccounted:
+        print(f"   WARNING: {', '.join(_unaccounted)} exists in chord_field.ADJUDICATIONS but is "
+              "neither audited above nor explicitly excused -- its declared beta_bits is going "
+              "unchecked against any MDL floor.")
+    for nm, adj_key, laws, regimes, params in _AUDIT_ROWS:
+        declared = CF.ADJUDICATIONS[adj_key]["beta_bits"]
         d = adjudication_beta(laws, regimes, params)
         floor = d["beta_floor_bits"]
         ratio = declared / floor if floor > 0 else float("inf")

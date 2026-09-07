@@ -213,12 +213,24 @@ def classify_source(rec, cap=None):
     # the denominator below is the whole field and `runners_up` is the whole field minus the
     # winner. See classify_text's note.
     ranked = classify_text(" ".join(parts))
-    if not ranked or ranked[0][1] == 0:
+    # NO `not ranked` DISJUNCT (order f646c1c5f1d0). `scores[g] += w * len(...)` above creates a
+    # Counter key for EVERY genre whether or not it matched, and `classify_text`'s `top` default
+    # is None, so `most_common(None)` always returns the whole field: measured,
+    # `classify_text("")` returns 11 entries, all zero, against len(GENRES) == 11. `ranked` can
+    # therefore never be empty, and a disjunct that cannot be true is the shape Hard Rule -1
+    # names -- "a check that cannot fail looks exactly like a check that passed". The zero test
+    # is the real one and it stays.
+    if ranked[0][1] == 0:
         return {"genre": "unclassified", "score": 0, "confidence": 0.0,
                 "register": DEFAULT["register"], "priors": DEFAULT["priors"],
-                "runners_up": ranked[1:], "genres_scored": len(ranked)}
+                "runners_up": ranked[1:], "genres_scored": len(ranked),
+                "genres_with_signal": 0}
     top, score = ranked[0]
-    total = sum(s for _, s in ranked) or 1
+    # NO `or 1` (same order). The line above has already returned when the top score is zero,
+    # and no cue weight in GENRES is negative, so this sum is always positive by the time it is
+    # reached. The guard was a dead branch standing where a reader would take it for a live
+    # division-by-zero defence.
+    total = sum(s for _, s in ranked)
     return {
         "genre": top,
         "score": score,
@@ -230,7 +242,18 @@ def classify_source(rec, cap=None):
         "priors": GENRES[top]["priors"],
         "runners_up": ranked[1:],
         # Stated so a reader can tell at a glance that the margin was taken over the full field.
+        #
+        # IT IS INVARIANT, AND THAT IS AN OPEN QUESTION FOR THE OWNER (order f646c1c5f1d0). Since
+        # the uncapping (order bc0b85ea353b) this is always len(GENRES) == 11 for every record,
+        # so it carries no per-record information and cannot distinguish one record from another
+        # -- the order proposes either dropping it or repurposing it. Neither is taken here,
+        # because it is a stored output field and removing or renaming one is a schema decision
+        # the owner should make, not a mechanical cleanup. What it still does honestly is act as
+        # a tripwire: if anything ever re-caps the field, this number stops reading 11.
         "genres_scored": len(ranked),
+        # The per-record fact the order asked for, ADDED beside it rather than replacing it, so
+        # the two readings cannot be confused: how many genres actually scored above zero.
+        "genres_with_signal": sum(1 for _, s in ranked if s > 0),
     }
 
 

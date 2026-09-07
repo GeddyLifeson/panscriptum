@@ -72,7 +72,12 @@ def _src_py_files():
 
 
 def modules():
-    """Every module in src/, newest-largest first. NO exclusions, deliberately.
+    """Every module in src/, LARGEST first. NO exclusions, deliberately.
+
+    Sorted purely by line count, descending -- there is no recency signal anywhere in this
+    function (order 019d1aae1df4; the docstring used to say "newest-largest first", which named
+    an ordering property this function does not have). A batch agent interrupted partway
+    through a comprehensive sweep is reading a size-ordered remainder, not a recency-ordered one.
 
     Not even this file, and not `verify_math.py` because it is "only tests" -- a check that is
     wrong is worse than a missing one, since it reports green forever. If a module is genuinely
@@ -156,11 +161,29 @@ def plan_path(run):
 
 
 def frozen_plan(run):
-    """The plan `run` was dispatched from, or None if it was never frozen.
+    """The plan `run` was dispatched from. -> (rec, reason).
 
-    Absent is honestly absent and returns None; UNREADABLE is noted rather than silently
-    treated as absent, because falling back to a recomputed plan is precisely the reshuffle
-    this exists to prevent, and doing it in silence would hide the one condition that matters.
+    `reason` is None exactly when `rec` is a genuinely usable frozen plan -- a dict carrying a
+    'batches' key. Every other outcome carries `rec=None` and names WHICH of three distinct
+    conditions applied (order 9508f9322b4c). These used to collapse into one bare None, which
+    made `freeze_plan` unable to tell "nobody has frozen a plan yet" from "a plan was frozen and
+    is now broken" -- and it matters, because only the first may license computing a fresh one.
+
+      "absent"           the file does not exist. THE ONLY reason that may license a fresh
+                         freeze; every other reason must be REFUSED, never silently recomputed.
+      "unreadable"       the file exists and will not parse or cannot be opened. Noted, with a
+                         stderr line -- both already present before this order.
+      "not_a_dict"       the file parses but is not a mapping (a bare JSON list, for instance --
+                         reachable through this module's own `--batches N --out PATH`, which
+                         writes exactly that shape). THIS USED TO LEAVE NO TRACE AT ALL: no
+                         note, no stderr, nothing -- `freeze_plan` fell straight through and
+                         silently recomputed and overwrote the file the run believed was frozen.
+      "missing_batches"  the file parses to a dict but carries no 'batches' key -- the "second,
+                         smaller mouth" of the same hole: `main()` used to raise KeyError on
+                         `plan_rec['batches']`, and `check_briefs` read `frozen.get('batches')
+                         or []`, quietly building an empty plan that reported every module in
+                         src/ as uncovered -- a verdict about the coordinator's briefs actually
+                         caused by the plan file, not by the briefs.
     """
     p = plan_path(run)
     # ABSENT IS ASKED, NOT CAUGHT, so there is no silent handler here to exempt.
@@ -180,7 +203,7 @@ def frozen_plan(run):
     # right, because a plan file disappearing out from under a live run is exactly the condition
     # worth hearing about, and the old handler swallowed it identically to an ordinary absence.
     if not os.path.exists(p):
-        return None
+        return None, "absent"
     try:
         with open(p, encoding="utf-8") as f:
             rec = json.load(f)
@@ -193,8 +216,34 @@ def frozen_plan(run):
         print("sweep_plan: %s EXISTS and could not be read, so the frozen plan for run=%s is "
               "unavailable. Recomputing would reshuffle the batches this run was dispatched "
               "from; fix or remove the file instead." % (p, run), file=_sys.stderr)
-        return None
-    return rec if isinstance(rec, dict) else None
+        return None, "unreadable"
+    if not isinstance(rec, dict):
+        # SILENT UNTIL NOW (order 9508f9322b4c). Reachable through this module's own CLI:
+        # `python src/sweep_plan.py --batches 16 --out PATH` writes a bare JSON LIST, and
+        # PATH pointed at plan_path(run) is the documented-looking way to keep a plan.
+        try:
+            import silence
+            silence.note("sweep_plan.py:frozen-plan-not-a-dict")
+        except Exception:
+            pass
+        print("sweep_plan: %s EXISTS and parses, but is not a JSON object (got %s), so the "
+              "frozen plan for run=%s is unusable. `--batches N --out PATH` writes a bare plan "
+              "LIST, not a frozen-plan record -- that is likely how this file got this shape. "
+              "Recomputing would reshuffle the batches this run was dispatched from; fix or "
+              "remove the file instead." % (p, type(rec).__name__, run), file=_sys.stderr)
+        return None, "not_a_dict"
+    if "batches" not in rec:
+        try:
+            import silence
+            silence.note("sweep_plan.py:frozen-plan-missing-batches")
+        except Exception:
+            pass
+        print("sweep_plan: %s EXISTS and is a JSON object, but carries no 'batches' key, so the "
+              "frozen plan for run=%s is unusable. Recomputing would reshuffle the batches this "
+              "run was dispatched from; fix or remove the file instead." % (p, run),
+              file=_sys.stderr)
+        return None, "missing_batches"
+    return rec, None
 
 
 def freeze_plan(run, n=16):
@@ -222,10 +271,24 @@ def freeze_plan(run, n=16):
     A REFUSED LANDING IS REPORTED, NOT ASSUMED. The record carries `frozen: False` when the
     write did not land, because a plan nobody can read back is not a frozen plan and the caller
     must not dispatch from it believing otherwise.
+
+    ONLY AN ABSENT PLAN FILE MAY LICENSE A FRESH FREEZE (order 9508f9322b4c). `frozen_plan`
+    used to collapse "the file is absent", "the file will not parse", and "the file parsed but
+    is not a dict" into one bare None, and this function tested only `if existing is not None`
+    -- so an unreadable or malformed plan file fell straight through to a full recompute, which
+    landed a NEW plan over `plan_path(run)` while printing, on the very next line, that the
+    plan for this run "is FROZEN". A frozen plan that can be silently replaced is not frozen.
+    Every reason but "absent" is now REFUSED here: nothing is computed, nothing is written, and
+    the caller gets a record with `frozen: False` and the reason named instead.
     """
-    existing = frozen_plan(run)
+    existing, reason = frozen_plan(run)
     if existing is not None:
         return existing
+    if reason != "absent":
+        # REFUSED, NOT RECOMPUTED. `fix or remove the file instead` was already printed by
+        # frozen_plan() above; this is the caller-facing half of the same refusal.
+        return {"run": str(run), "n": max(1, int(n)), "frozen": False,
+                "reason": reason, "path": plan_path(run)}
     table = modules()
     rec = {"run": str(run), "at": time.time(), "n": max(1, int(n)),
            "src_table_digest": _table_digest(table),
@@ -760,11 +823,22 @@ def check_briefs(assigned, n=16, run=None):
     # missed fault. The docstring above promises the comparison is "available BEFORE dispatch";
     # nothing made it mean the same thing afterwards. A frozen plan does, and it is the same
     # object the agents were dispatched from rather than a second computation of it.
-    frozen = frozen_plan(run) if run else None
+    frozen, frozen_reason = frozen_plan(run) if run else (None, None)
     if frozen is not None:
-        plan = {str(b["batch"]): list(b["modules"]) for b in (frozen.get("batches") or [])}
+        plan = {str(b["batch"]): list(b["modules"]) for b in frozen["batches"]}
         plan_source = "frozen plan for run=%s (%s)" % (run, plan_path(run))
         tree_moved = _table_digest(modules()) != frozen.get("src_table_digest")
+    elif frozen_reason and frozen_reason != "absent":
+        # THE FROZEN PLAN EXISTS AND IS BROKEN -- a different fact from "nobody ever froze one"
+        # (order 9508f9322b4c). Falling back to the live tree here compares the dispatch against
+        # batches nobody was actually given; that fallback stays (this is a pre-dispatch check,
+        # not a hard gate the way freeze_plan is), but the reason travels with the verdict
+        # instead of reading as "no frozen plan for this run".
+        plan = {str(b["batch"]): list(b["modules"]) for b in batches(n)}
+        plan_source = ("recomputed from the LIVE tree -- the frozen plan for run=%s is BROKEN "
+                       "(%s) at %s; this comparison may not reflect what agents were actually "
+                       "dispatched from" % (run, frozen_reason, plan_path(run)))
+        tree_moved = None
     else:
         plan = {str(b["batch"]): list(b["modules"]) for b in batches(n)}
         plan_source = ("recomputed from the LIVE tree -- no frozen plan"
@@ -832,6 +906,15 @@ def main():
         # JSON stays on stdout because that is what a redirect is FOR and what every existing
         # instruction pipes; moving the JSON instead would break every one of them.
         plan_rec = freeze_plan(a.run, a.batches) if a.run else None
+        if plan_rec is not None and "batches" not in plan_rec:
+            # REFUSED (order 9508f9322b4c): the plan file for this run exists and is unusable
+            # (frozen_plan named the reason and already printed it to stderr). A dispatch script
+            # must not proceed as though nothing had ever been frozen -- computing a plan here
+            # would be exactly the silent reshuffle-and-overwrite freeze_plan itself now refuses.
+            print("sweep_plan: REFUSING -- the plan file for run=%s exists and is unusable (%s) "
+                  "at %s. Fix or remove it before dispatching; nothing was computed or written."
+                  % (a.run, plan_rec.get("reason"), plan_rec.get("path")), file=_sys.stderr)
+            return 2
         plan = plan_rec["batches"] if plan_rec else batches(a.batches)
         if a.out:
             # THE REDIRECT MADE UNNECESSARY. Lands through the same helper every state file in

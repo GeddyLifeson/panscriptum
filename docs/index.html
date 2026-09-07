@@ -49,6 +49,7 @@ h2{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;
 .pill.dry{color:var(--bad);border-color:var(--bad)}
 .pill.low{color:var(--warn);border-color:var(--warn)}
 .pill.ok{color:var(--good);border-color:var(--good)}
+.pill.unknown{color:var(--ink-dim);border-color:var(--ink-dim)}
 table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11.5px}
 td{padding:5px 8px 5px 0;border-bottom:1px solid var(--rule);color:var(--ink-dim);
   font-variant-numeric:tabular-nums}
@@ -153,8 +154,8 @@ function panelQuota(d){const s=el('section');
   if(!d.quotas.length){s.appendChild(el('div','empty','No buckets reporting.'));return s}
   d.quotas.forEach(q=>{const b=el('div','bucket');
     const r=el('div','row');r.appendChild(el('span','label',q.bucket));
-    const st=q.unlimited?'ok':(q.worst<=0.001?'dry':q.worst<0.2?'low':'ok');
-    const txt=q.unlimited?'unlimited':(q.worst<=0.001?'exhausted':pct(q.worst)+' left');
+    const st=q.unlimited?'ok':(q.worst==null?'unknown':q.worst<=0.001?'dry':q.worst<0.2?'low':'ok');
+    const txt=q.unlimited?'unlimited':(q.worst==null?'no readable window':q.worst<=0.001?'exhausted':pct(q.worst)+' left');
     const p=el('span','pill '+st,txt);r.appendChild(p);b.appendChild(r);
     q.windows.forEach(w=>{const g=el('div','win');
       g.appendChild(el('div','n',w.name));g.appendChild(bar(w.frac,''));
@@ -262,6 +263,7 @@ function panelSafety(d){const s=el('section','wide');
   // The drill. A count with no age is a claim about an unknown moment.
   const dr=sf.drill;
   if(!dr){s.appendChild(el('div','empty','no safety drill has run yet'))}
+  else if(dr.unreadable){s.appendChild(el('div','empty','drill record UNREADABLE — cannot tell held from breached, not the same as never having run'))}
   else{
     const n=dr.nets||0,held=dr.held||0,br=(dr.breached||[]);
     const r=el('div','row');r.appendChild(el('span','label','safety drill'));
@@ -298,13 +300,17 @@ function panelSafety(d){const s=el('section','wide');
     // name never appears cannot be un-quarantined by anyone reading this page.
     Object.keys(qn).forEach(h=>s.appendChild(el('div','empty',h+': '+qn[h])));
   }
-  const esc=sf.escalation_recent||{};
-  const keys=Object.keys(esc);
-  if(keys.length){
-    const t=el('table');
-    t.appendChild((()=>{const tr=el('tr');tr.append(el('td','k','escalations, 24h'),
-      el('td',null,keys.map(k=>k+' '+esc[k]).join(' · ')));return tr})());
-    s.appendChild(t);
+  if(sf.escalation_unreadable){
+    s.appendChild(el('div','empty','escalation log UNREADABLE — not the same as an empty 24h'));
+  } else {
+    const esc=sf.escalation_recent||{};
+    const keys=Object.keys(esc);
+    if(keys.length){
+      const t=el('table');
+      t.appendChild((()=>{const tr=el('tr');tr.append(el('td','k','escalations, 24h'),
+        el('td',null,keys.map(k=>k+' '+esc[k]).join(' · ')));return tr})());
+      s.appendChild(t);
+    }
   }
   return s}
 

@@ -549,6 +549,30 @@ def check_api_paths():
     Fandom answers at /api.php and Wikipedia at /w/api.php. Using one for the other returns 404,
     which the transport swallows into None, which reads as 'no page'. That cost 5,590 entries
     across nineteen sources and looked exactly like an honest absence.
+
+    IT RETRIES, AND IT ASKS WHY (order f366f81f6ddc). This made ONE attempt per host family --
+    `retries=0` against `feats.api`'s default of 2 -- and did not pass `api`'s `outcome` dict,
+    so it could not see why None came back. Two consequences, pointing the same way.
+
+    A SPURIOUS RED WAS ONE PACKET AWAY. A DNS hiccup, a TLS handshake failure or a closed
+    connection returned None, which became a preflight problem, which is stamped into
+    state/preflight_last.json, which `workorders.sweep_detectors` turns into a filed MAJOR order
+    and which makes `health.py --preflight` exit 1 for the cycle. None of that path is a dry
+    run: the queue gained an order for a condition that had already cleared by the time anybody
+    read it. `check_caches` in this same file states the doctrine that violates -- "A permanent
+    red is not extra safety; it is how a preflight stops being read." -- and this machine's
+    documented TLS-interception problems make it a live exposure here rather than a theoretical
+    one. Retrying does not weaken the check: the 404 this check exists to catch is deterministic
+    and survives every retry, while the transient fault is exactly what a retry removes.
+
+    AND THE MESSAGE NO LONGER COLLAPSES TWO FAULTS WITH OPPOSITE REMEDIES. "fandom API
+    unreachable" was emitted identically for the wrong API path -- the 404 that cost 5,590
+    entries and is this check's entire stated purpose -- and for a transient network fault.
+    `api()` already separates them and its own docstring says that channel exists because
+    collapsing them "is NOT tolerable for a liveness probe"; this IS a liveness probe and it was
+    the caller throwing the distinction away. The class now rides in the detail, which lands
+    verbatim in the work order: `http-404` is actionable, `network` is a retry, and `unknown`
+    says the probe returned without stamping rather than reading as a clean negative.
     """
     out = []
     try:
@@ -566,9 +590,20 @@ def check_api_paths():
             continue
         fams.setdefault("wikipedia" if "wikipedia" in h else "fandom", h)
     for fam, host in fams.items():
-        d = F.api(host, {"action": "query", "meta": "siteinfo"}, retries=0)
+        # A FRESH dict PER HOST: `api()` clears whatever it is handed, but sharing one across
+        # the loop would leave the previous family's verdict standing on any path that returned
+        # without stamping, and this check's whole value is saying WHICH fault it found.
+        why = {}
+        d = F.api(host, {"action": "query", "meta": "siteinfo"}, outcome=why)
         if not d or "query" not in d:
-            out.append((f"{fam} API unreachable", host))
+            # `nonjson-or-no-query` is the arm `outcome` cannot name: `api()` stamps ok on a
+            # parsed 200, and a 200 whose JSON simply has no `query` key is this caller's own
+            # verdict rather than the transport's. Said plainly instead of borrowed from a
+            # channel that did not measure it.
+            klass = why.get("why") or "unknown"
+            if why.get("ok"):
+                klass = "answered without a `query` block"
+            out.append((f"{fam} API unreachable", f"{host} ({klass})"))
     return out
 
 

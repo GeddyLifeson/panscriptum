@@ -641,6 +641,80 @@ def _check_constants():
                     "inverted score -- when they cross."
                     % (_axis, _lower, _lo, _upper, _hi))
 
+    # AND THE SECOND FIVE-GRADE ATTESTATION TABLE, which had no check anywhere in the tree
+    # (orders 6d132aa1e8aa and 95404f8825f2, filed independently and reaching the same finding).
+    #
+    # `SIGMA_BY_ATTESTATION` is guarded twenty lines above. `ATTESTATION_FLOOR` -- the quadrature
+    # floor `interval_from_hands` adds, and the table `custodes.py` reads as `A.ATTESTATION_FLOOR`
+    # to derive ATTESTATION_QUALITY for all ten Custodes' evidential_part terms -- encodes the
+    # SAME proposition, "worse evidence, wider published interval", and only one of the two had
+    # to keep it. The two tables are not redundant statements of one fact: one sets a measurement
+    # sigma and the other a divergence floor, so they can and do drift apart independently.
+    #
+    # WHAT THE EXISTING COVER ACTUALLY REACHED, measured rather than assumed: drill.py exercises
+    # ATTESTATION_FLOOR at its two ENDPOINTS (Instrumented against Disputed) plus the
+    # unrecognised-grade case. A mid-table rearrangement that leaves both endpoints alone --
+    # swapping Transcribed 0.20 and Reconstructed 0.40 is the whole edit -- imports cleanly,
+    # passes that endpoint probe, and publishes a NARROWER bar for the worse-attested of the two
+    # grades. That is the "less knowledge, narrower bar" defect this file's own header names as
+    # the worst direction the library can be wrong in, on the table with no net under it.
+    # Measured green when written: 0.08 < 0.10 < 0.20 < 0.40 < 0.55, over the same `order`.
+    if set(ATTESTATION_FLOOR) != set(order):
+        raise AssayIntegrityError(
+            "ATTESTATION_FLOOR does not carry the charter's five grades: it has %s against %s. "
+            "`interval_from_hands` SUBSTITUTES ATTESTATION_FLOOR_UNRECOGNISED for any grade it "
+            "cannot find, so a renamed or dropped grade does not raise here -- it quietly "
+            "publishes every reading of that grade against a floor the charter never assigned "
+            "it." % (sorted(ATTESTATION_FLOOR), order))
+    _floors = [ATTESTATION_FLOOR[g] for g in order]
+    if _floors != sorted(_floors) or len(set(_floors)) != len(_floors):
+        raise AssayIntegrityError(
+            "attestation FLOORS are not strictly increasing: %s. This is the sigma table's own "
+            "invariant, asserted on the second table that encodes it: a worse-attested reading "
+            "must never publish a NARROWER interval than a better-attested one."
+            % dict(zip(order, _floors, strict=True)))
+    if ATTESTATION_FLOOR_UNRECOGNISED <= min(_floors):
+        raise AssayIntegrityError(
+            "ATTESTATION_FLOOR_UNRECOGNISED (%.2f) is at or below the BEST attestation floor "
+            "(%.2f) -- a grade the charter does not define would publish a bar as tight as, or "
+            "tighter than, an instrument reading. The substituted floor is what an unread grade "
+            "gets; it is not allowed to be a reward."
+            % (ATTESTATION_FLOOR_UNRECOGNISED, min(_floors)))
+
+    # THE INSTRUMENT'S OWN TWO TABLES, same shape and same reason (order 422ccc9f6eb4).
+    #
+    # INSTRUMENT_WINDOWS: `instrument()` refuses an anchor missing from this table with the
+    # message "anchor must be one of {LADDER}" -- so a rung that IS on the Ladder but absent
+    # here is refused by a sentence that names it as acceptable. anchors.py:427 is worse: it
+    # indexes INSTRUMENT_WINDOWS[b] for every b in LADDER with no guard at all, so the same
+    # divergence arrives as a KeyError raised from inside production code rather than as a
+    # refusal anybody can read. Measured green when written: the two key sets are equal.
+    _iw_off = sorted(b for b in INSTRUMENT_WINDOWS if b not in LADDER)
+    _iw_missing = [b for b in LADDER if b not in INSTRUMENT_WINDOWS]
+    if _iw_off or _iw_missing:
+        raise AssayIntegrityError(
+            "INSTRUMENT_WINDOWS and the Ladder disagree: %s sit in the windows table and not on "
+            "the Ladder, and %s sit on the Ladder with no window. `instrument()` refuses the "
+            "second kind while telling the caller the rung is acceptable, and anchors.py "
+            "indexes this table across the whole Ladder unguarded."
+            % (_iw_off or "no rungs", _iw_missing or "no rungs"))
+
+    # FACULTY_READS: a misspelt axis name here is not a refusal, it is a SILENT DROP. `instrument`
+    # does `axis_scores.get(axis)` per faculty; a name outside WEIGHTS simply returns None, the
+    # faculty prints None, and `faculty_status` records "unattested" -- which ASSERTS the subject
+    # was never observed exercising that faculty, when what actually happened is that the table
+    # names a Measure that does not exist. `_check_scores` cannot see it: it validates the
+    # CALLER's keys, and this is the table's own values. Constitution reads no single axis, so
+    # the two halves it means are named here explicitly rather than left implicit in the code.
+    _fr_axes = {v for v in FACULTY_READS.values() if v is not None} | {"continuity", "sustain"}
+    _fr_unknown = sorted(a for a in _fr_axes if a not in WEIGHTS)
+    if _fr_unknown:
+        raise AssayIntegrityError(
+            "FACULTY_READS names Measures that are not in WEIGHTS: %s. `instrument()` reads them "
+            "with `.get()`, so each one prints its faculty as unattested -- a claim that the "
+            "subject was never observed exercising it, made because a constant is misspelt."
+            % (_fr_unknown,))
+
 
 # The charter's own worked example, kept HERE beside the constants it calibrates rather than
 # only in the battery. Part Three's example predates Vol. X.6's three faculty axes, so they are
@@ -803,6 +877,28 @@ def _rho(a, b):
     return axis_correlation.rho(a, b, doc)
 
 
+def _attestation_sigma(attestation, sigma=None):
+    """-> (the dispersion this call will use, whether the GRADE was recognised).
+
+    Hoisted out of `_interval`'s first line (order 9a0588111549) so that the number the
+    arithmetic uses and the number the returned dict REPORTS are the same lookup rather than two
+    copies of one rule. `custodes.py` and this file have already paid once for a hand-copied
+    attestation table (order 6475cb78e185); a hand-copied attestation LOOKUP is the same debt.
+
+    `min()` rather than a bare lookup: an unknown grade must not be able to claim more certainty
+    than the ceiling, and a future edit to the table must not either. The clamp applies to a
+    per-call `sigma=` override too, which is the whole point of having it -- a caller sweeping
+    sigmas must not be able to buy certainty the table cannot.
+
+    RECOGNITION IS ABOUT THE GRADE, NOT ABOUT THE SIGMA IN FORCE. A caller that passes an
+    explicit `sigma=` has not thereby validated its `attestation=`, and the flag says so: the
+    grade is still recorded on the entry and still read by anyone sorting on it.
+    """
+    recognised = attestation in SIGMA_BY_ATTESTATION
+    raw = sigma if sigma is not None else SIGMA_BY_ATTESTATION.get(attestation, SIGMA_MAX)
+    return min(SIGMA_MAX, raw), recognised
+
+
 def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=None,
               weights=None, sigma=None):
     """Half-width of the honest error bar, in BAND units, by variance propagation.
@@ -819,12 +915,10 @@ def _interval(scores, used, nil, applicable, attestation, denom, hand_readings=N
     the first term; a contested one carries both, and the interval widens because the library
     genuinely does not know which reading is right rather than because any hand was sloppy.
     """
-    # min() rather than a bare lookup: an unknown attestation grade must not be able to claim
-    # more certainty than the ceiling, and a future edit to the table must not either. The
-    # clamp applies to a per-call `sigma=` override too, which is the whole point of having it:
-    # a caller sweeping sigmas must not be able to buy certainty the table cannot.
-    sigma = min(SIGMA_MAX,
-                sigma if sigma is not None else SIGMA_BY_ATTESTATION.get(attestation, SIGMA_MAX))
+    # ONE implementation of "which dispersion does this call actually use", because `assay()`
+    # now has to REPORT that answer as well as compute with it, and two copies of a lookup are
+    # two answers to it (order 9a0588111549).
+    sigma, _ = _attestation_sigma(attestation, sigma)
     # THE SAME WEIGHT TABLE THE COMPOSITE WAS BUILT FROM. `assay()` takes a `weights=` override
     # and deliberately keeps it local (`W`) so a per-call reweighting stays invisible to every
     # other caller -- but this function read the module-global WEIGHTS while being handed the
@@ -1008,6 +1102,9 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     coverage = wsum / denom
     interval, var_parts = _interval(scores, used, nil, applicable, attestation, denom,
                                     hand_readings=hand_readings, weights=W, sigma=sigma)
+    # The SAME lookup `_interval` just computed with, read back so the dict can report it. See
+    # the `attestation_recognised` block in the return below for why it has to be reported.
+    _att_sigma, _att_recognised = _attestation_sigma(attestation, sigma)
 
     # CEILING BEHAVIOUR. composite is in [0,10], so decimal reaches 1.00 when every scored axis
     # maxes -- and 1.00 is not a decimal within the band, it is the FLOOR OF THE NEXT ONE. Left
@@ -1099,6 +1196,44 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
         # which of the two arithmetics produced the bar printed above.
         "correlation_source": _rho_source(),
         "attestation": attestation,
+        # THE GRADE SPEAKS AT THIS LAYER TOO (order 9a0588111549).
+        #
+        # `attestation` was carried verbatim and nothing else. A lowercase "witnessed", a grade
+        # renamed in the charter, or an invented "Excellent" all fell through
+        # `SIGMA_BY_ATTESTATION.get(attestation, SIGMA_MAX)` onto the Disputed sigma and
+        # published a bar TWICE the width -- measured on the charter's own Kenshiro worksheet,
+        # ± 0.12 becomes ± 0.25 -- while the entry on disk said "witnessed". The entry and its
+        # bar then disagreed about the evidence and nothing in the dict reconciled them.
+        #
+        # WIDENING IS THE SAFE DIRECTION AND THAT IS NOT WHY IT WAS ACCEPTABLE. The interval IS
+        # the published claim about how much the library does not know (this file's preface: "a
+        # number, a method that produced the number, and an honest statement of how wrong the
+        # number might be"), and a bar that doubled because somebody typed a lowercase w is not
+        # a statement about evidence. The grade is also the ONE operand of `assay()` with no
+        # Layer 1: `_check_scores` refuses a score off the scale, `_check_weights` refuses a
+        # table that is not a table, and the grade multiplies straight into the answer unread.
+        #
+        # `interval_from_hands` two hundred lines below already does exactly this, and its own
+        # comment is the doctrine that makes the silence here a fault rather than a duplicate:
+        # two layers absorbing the same bad input the same way is one layer and a decoy, so both
+        # layers have to speak. ADDITIVE, and deliberately NOT a refusal -- whether an
+        # unrecognised grade should be refused at Layer 1 is a charter question and is not
+        # needed to close this. The fault was the silence, not the substitution.
+        "attestation_recognised": _att_recognised,
+        "attestation_sigma": round(_att_sigma, 4),
+        "attestation_source": (
+            ("grade %r is one of the charter's %d; measurement sigma %.4f"
+             % (attestation, len(SIGMA_BY_ATTESTATION), _att_sigma))
+            if _att_recognised else
+            ("UNRECOGNISED grade %r: not one of %s. The measurement sigma used here is the "
+             "substituted %.4f -- SIGMA_MAX, the widest grade the charter names -- so this "
+             "interval was widened BY SUBSTITUTION and not by anything measured about the "
+             "evidence. Read it as a grade nobody could read, not as disputed testimony."
+             % (attestation, sorted(SIGMA_BY_ATTESTATION), _att_sigma))
+        ) + ("" if sigma is None else
+             "; that sigma is a per-call sigma= override and NOT the grade's own table value "
+             "(%.4f), which this call did not use"
+             % (_attestation_sigma(attestation)[0],)),
         "epoch": epoch or "unstamped",
         "worksheet": worksheet,
         "promotion_watch": (value - LADDER.index(anchor)) >= 0.90,
@@ -1337,10 +1472,19 @@ ATTESTATION_FLOOR = {"Witnessed": 0.10, "Instrumented": 0.08, "Transcribed": 0.2
                      "Reconstructed": 0.40, "Disputed": 0.55}
 
 # The floor substituted for a grade outside the charter's five, hoisted out of the `.get()`
-# default it used to be so the refusal message can quote it (order 13a678071cbf). It sits BETWEEN
-# Reconstructed and Disputed on purpose -- an unrecognised grade is not good evidence -- but the
+# default it used to be so the refusal message can quote it (order 13a678071cbf). It sits above
+# the middle of the table on purpose -- an unrecognised grade is not good evidence -- but the
 # value was never the defect and must not be retuned as if it were: the defect was that nothing
 # in the returned interval said the grade had not been recognised.
+#
+# WHERE IT ACTUALLY SITS, corrected 2026-09-06 against the live table. This comment used to say
+# "BETWEEN Reconstructed and Disputed", and 0.30 is not: the floors are Instrumented 0.08,
+# Witnessed 0.10, Transcribed 0.20, Reconstructed 0.40, Disputed 0.55, so 0.30 sits between
+# TRANSCRIBED and RECONSTRUCTED. The prose is corrected rather than the constant, per that
+# order's own ruling that the value is not the defect -- but the two do not agree, and WHICH of
+# them the charter meant is a question for the owner, not a thing to settle by retuning a
+# published floor. `_check_constants` now asserts only the part that is unarguable: this floor
+# must not be tighter than the BEST recognised grade.
 ATTESTATION_FLOOR_UNRECOGNISED = 0.30
 
 
@@ -1377,7 +1521,34 @@ def interval_from_hands(readings, attestation="Transcribed"):
     floor = (ATTESTATION_FLOOR[attestation] if attestation_recognised
              else ATTESTATION_FLOOR_UNRECOGNISED)
 
+    # AND THE SIGNATURES ARE READ AGAINST THE HANDS THEY CLAIM TO BE (order 91a30aa88893).
+    #
+    # `HANDS` sat immediately above this function as prose that happens to be a dict: a grep for
+    # `A.HANDS` across src/ returned no reader anywhere, while THIS function's `readings`
+    # argument is keyed by exactly those four names and validated none of them. A caller passing
+    # {"AVARR": 7.41} got a perfectly ordinary interval computed over one signature with nothing
+    # saying the Hand was not recognised -- the same shape of silence as the attestation grade
+    # immediately above, in the same function, closed the same additive way.
+    #
+    # IT MATTERS MORE HERE THAN A TYPO USUALLY WOULD. This interval is not measurement noise: per
+    # Vol. 0.5 §2 it is the divergence between the ORDER'S CANONICAL PRIORS, and `HANDS` is the
+    # list of those priors. A signature from outside them is a reading whose prior is not on
+    # file, so the number it widens the bar by is not the quantity the field claims to publish.
+    #
+    # EVERY KEY IS JUDGED, including one whose value is None and therefore never reached `vals`.
+    # A misspelt Hand that filed nothing is still a caller who does not know the Hands' names,
+    # and the next reading they file will not be None. NOT a refusal: whether an unrecognised
+    # signature should be REJECTED is a charter question about who may sign, and it is not
+    # needed to close the silence.
+    unrecognised_hands = sorted(h for h in readings if h not in HANDS)
+
     interval = round(math.sqrt(half_spread ** 2 + floor ** 2), 2)
+    # WHAT THE EVIDENCE ALONE PRODUCED, recorded BEFORE the covering rule widens it (orders
+    # e4c8355cc7a0 and 623ac39b4d61). The quadrature interval above is the measurement; the loop
+    # below is a rule. Keeping only the sum of the two publishes a number without saying which
+    # of them made it, and `covers_all_signatures` cannot say -- see the note at that field.
+    _quadrature = interval
+    _covered_before = all(abs(v - centre) <= _quadrature for v in vals)
 
     # Constraint 1, enforced rather than hoped for.
     while any(abs(v - centre) > interval for v in vals):
@@ -1389,7 +1560,33 @@ def interval_from_hands(readings, attestation="Transcribed"):
         "signatures": {h: round(v, 2) for h, v in readings.items() if v is not None},
         "spread": round(max(vals) - min(vals), 2),
         "prior_divergence_share": round((half_spread ** 2) / (half_spread ** 2 + floor ** 2), 2),
+        # A GUARANTEE BEING PUBLISHED, NOT A CHECK BEING RUN -- and it must not be mistaken for
+        # verification (orders e4c8355cc7a0, 623ac39b4d61; custodes.py:539-551 already declares
+        # the identical shape in exactly these words, so the project has ruled on how to present
+        # it). The `while` loop twelve lines above terminates precisely when this expression is
+        # true, over the same `vals`, `centre` and `interval`, so this field CANNOT be False.
+        # Measured with a deliberately hostile input: interval_from_hands({"AVAR": 0.0,
+        # "QUILL": 30.0}, attestation="NONSENSE") publishes True at an interval of 15.0.
+        #
+        # KEPT, and kept as a computed expression rather than a literal True, because it becomes
+        # a live check the moment anything stops the loop covering -- a bound on the widening, a
+        # non-finite reading, a future centre that is not the mean. A check that cannot fail
+        # looks exactly like a check that passed, so the two fields below say which of the two
+        # this is. The mutation survivor at :1392 (`<=` flipped to `>`) is what exposed it:
+        # nothing in the battery ever read this field, so a token that inverts it on EVERY input
+        # -- it is not an equivalent mutant, it flips True to False for every non-empty
+        # `readings` -- changed nothing anybody was looking at.
         "covers_all_signatures": all(abs(v - centre) <= interval for v in vals),
+        # THE DATUM THAT IS ACTUALLY INFORMATION, and the one a reader of a published +/- needs:
+        # whether the EVIDENCE covered every signature, or whether the covering rule had to buy
+        # the coverage afterwards. `centre` is the MEAN and the spread is measured from the
+        # extremes, so a skewed set of readings genuinely fails the quadrature interval and the
+        # loop genuinely fires: {"AVAR": 0.0, "QUILL": 0.0, "MOTH": 30.0} is covered_before
+        # False with 5.00 added on top of a quadrature 15.00. This distinguishes an interval the
+        # evidence produced from one the rule produced, which the field above cannot.
+        "covered_before_widening": _covered_before,
+        "widening_added": round(interval - _quadrature, 2),
+        "quadrature_interval": _quadrature,
         "attestation": attestation,
         "attestation_recognised": attestation_recognised,
         "attestation_floor": floor,
@@ -1400,6 +1597,16 @@ def interval_from_hands(readings, attestation="Transcribed"):
             "substituted %.2f, so this interval is derived from a grade the charter does not "
             "define -- it is not a measurement against mid-quality evidence."
             % (attestation, sorted(ATTESTATION_FLOOR), ATTESTATION_FLOOR_UNRECOGNISED)),
+        "hands_recognised": not unrecognised_hands,
+        "unrecognised_hands": unrecognised_hands,
+        "hands_source": (
+            "every signature is one of the Order's %d canonical Hands" % len(HANDS)
+            if not unrecognised_hands else
+            "UNRECOGNISED signature(s) %s: not among %s. This interval measures the divergence "
+            "of the Order's canonical PRIORS (Vol. 0.5 §2), so a signature from outside them is "
+            "a reading whose prior is not on file -- the spread below is computed over it "
+            "regardless, and this says so rather than absorbing it."
+            % (unrecognised_hands, sorted(HANDS))),
         "note": ("the interval is prior divergence, not ignorance: commissioning more feats "
                  "will NOT narrow the share attributable to the Hands' differing priors "
                  "(Vol. 0.5, Erratum 10)"),

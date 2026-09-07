@@ -61,21 +61,32 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 
 CACHE = os.path.join(HERE, "data", "readfeats")
 AXES = list(A.WEIGHTS)
-# SIZED AGAINST THE CONTEXT, not guessed. num_ctx is 6144 tokens. The system prompt is ~400 and
-# the reply needs ~600, leaving ~5,100 for the passage. English wiki prose runs about 3.7
-# characters per token, so ~18,000 characters is the theoretical ceiling and 20,000 was OVER it.
+# SIZED AGAINST THE CONTEXT, not guessed -- BUT THE ARITHMETIC BELOW IS STALE (order a693102e217a).
+# It was written against num_ctx 6144 and said so three times; config.yaml:82 has held num_ctx:
+# 12288 for a while now, config()'s own `cfg.get("num_ctx", 6144)` fallback (this module, below)
+# only supplies 6144 when the config key is ABSENT, and pipeline.ask passes whatever config() returns
+# straight to Ollama. So the real window measured against the live config is roughly DOUBLE what
+# this header claims -- ~36,000 theoretical characters, not ~18,000 -- and nothing anywhere
+# would notice the two drifting apart: health.check_context_budget (health.py:446-466) grades
+# CHUNK against the CONFIG value directly, it does not check this comment.
+#
+# NOTHING IS BROKEN BY THE STALE NUMBER -- CHUNK stays well under either ceiling either way -- but
+# CHUNK's actual justification is the RECALL measurement a few lines down (:88-96 below), not this
+# arithmetic: sending more text per call does not error, it just finds fewer feats per character
+# sent, which is what actually rules out raising CHUNK to use the wider window.
 #
 # Ollama does not refuse an overlong prompt, it silently truncates -- so the tail of every chunk
 # was never read, feats living there were invisible, and any sentence the model half-recalled
 # from the cut portion failed the verbatim check and was counted a fabrication. The measured
 # 51% "fabrication" rate and the 600-second timeouts were both this.
 #
-# 10,000 leaves real headroom. It doubles the number of calls and each one is faster and
-# correct, which is the trade worth making.
-# THE GPU-SAFE UNIT. Ollama runs at num_ctx 6144, and English wiki prose is about 3.7
-# characters per token, so 10,000 characters is roughly 2,700 tokens of passage plus the system
-# prompt -- comfortably inside the window. Sending more does not error: Ollama truncates in
-# silence, which is what produced the "51% fabrication rate" that was really a cut-off passage.
+# 10,000 leaves real headroom under either ceiling. THE GPU-SAFE UNIT: 10,000 characters is
+# roughly 2,700 tokens of passage plus the system prompt -- comfortably inside the window at
+# either num_ctx value. Sending more does not error: Ollama truncates in silence, which is what
+# produced the "51% fabrication rate" that was really a cut-off passage. (The 360s/180s timeout
+# note further down in this module shares this same premise and is correspondingly conservative
+# rather than wrong -- it is sized for the 8B's real service time on a full CHUNK, not for the
+# stale token-budget arithmetic.)
 CHUNK = 10000
 
 # THE CLOUD UNIT — MEASURED, AND THE MEASUREMENT SAID NO.
@@ -262,8 +273,13 @@ _FELL_BACK = [0]
 # figure -- and that figure is the only thing that distinguishes a run quietly served entirely
 # from the slow path from a run that is merely slow, which is the reason the counter exists.
 _FELL_BACK_LOCK = threading.Lock()
-# Attempts through the pool before a chunk is handed to the local GPU. Each attempt claims a
-# different bucket, so three is three providers, not one provider three times.
+# Attempts through the pool's backoff ladder AFTER the GPU has already declined (order
+# a693102e217a). This comment used to say "before a chunk is handed to the local GPU" and "three
+# is three providers" -- both wrong against the live code: `_ask_ungated` tries the pool twice
+# quickly, THEN the GPU, and only starts this ladder if both of those declined (see the "two
+# quick attempts at the pool, then the GPU" comment block below), and the constant is 5, not
+# three. Each attempt still claims a different bucket, so five is five providers tried in this
+# ladder, not one provider tried five times -- it is just five tried after the GPU, not before it.
 CASCADE_TRIES = 5
 # Seconds to wait between pool attempts. A free tier's window is measured in seconds, not
 # minutes, so a short ladder recovers most declines without a worker sitting idle for long.
@@ -802,10 +818,14 @@ def read_entity(c, host, name, cap_chunks=None):
     # Filtering by mention costs one string search and turns 44 chunks into the two or three
     # that concern this entity. The entity's own page always passes, since its title is its name.
     keys = [w.lower() for w in re.split(r"[^A-Za-z0-9]+", name) if len(w) > 3] or [name.lower()]
-    # Sized for whichever transport will actually carry it. The GPU fallback re-splits an
-    # oversized passage rather than truncating it (see _ask), so a cloud-sized chunk is safe
-    # even on the rare call that ends up local.
-    size = CLOUD_CHUNK if _CASCADE_OK else CHUNK
+    # COLLAPSED TO CHUNK (order d9fbd60efd0f). This read `CLOUD_CHUNK if _CASCADE_OK else CHUNK`,
+    # which looked like a live transport policy switch but was not one: CLOUD_CHUNK == CHUNK
+    # (:111, see the recall measurement at :88-96 for why) since the cloud/local size split was
+    # retired, so both arms of that conditional always evaluated to the same number and
+    # `_CASCADE_OK` decided nothing here. CLOUD_CHUNK is kept defined, not deleted -- :88-96 is
+    # the record of the measurement that set it, and its name is where the next person will look
+    # before widening it again.
+    size = CHUNK
     chunks = []
     # Counted where the chunks are actually made, not reconstructed afterwards from a character
     # total. Order 7265801f9528: `skipped` used to be
@@ -1249,8 +1269,15 @@ def queue(all_entries=True):
             row = _queue_row(qcache, FF.CACHE, h, e["name"])
             if row is None:
                 continue
-            rows.append(dict(row, name=e["name"], host=h, source=r["source"],
-                             category=(e.get("category") or "?")[:20]))
+            # `source` AND `category` DROPPED (order aefd1a2c9343). queue() has exactly one
+            # caller, run(), and its work() reads only r["host"] / r["name"]; nothing anywhere
+            # else reads a row's "source" or "category" either (verified: grep across src/ for
+            # both keys turns up only this write site). `category` was additionally being cut at
+            # 20 characters on the way into a value nobody consumed -- a truncation with no
+            # reader. Rather than carry two dead, and one needlessly truncated, fields forward,
+            # they are simply not written; `e` and `r` are both still in scope here if a future
+            # caller genuinely needs one on the progress line.
+            rows.append(dict(row, name=e["name"], host=h))
     _save_qcache(qcache)
     return priority(rows)
 
@@ -1258,7 +1285,17 @@ def queue(all_entries=True):
 def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
     c = config()
     todo = queue(all_entries=all_entries)
+    # PARTIAL, AND SAID SO (order ef26ed6029e7). `queue()`'s ranking is deterministic across
+    # runs -- same evidence on disk in, same order out -- so this used to slice the ranked queue
+    # with no marker anywhere, no help text, and no count of what was excluded, unlike every
+    # sibling `--limit` in this codebase (scout.py names what is deferred and says it is reached
+    # "on a later cycle, never dropped"; policy.py and mutate.py both label the run PARTIAL and
+    # print the excluded count). Silent because a repeated bounded `--run --limit N` would read
+    # the exact same top-N entities every time -- the operator sees work happening and the tail
+    # is never reached. `deferred` is reported on the banner below.
+    deferred = 0
     if limit:
+        deferred = max(0, len(todo) - limit)
         todo = todo[:limit]
 
     done = {"n": 0, "feats": 0, "fab": 0, "chunks": 0, "skipped": 0, "unanswered": 0,
@@ -1284,11 +1321,25 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
                 done["errored"] += 1
                 done["last_error"] = "%s / %s" % (r.get("host"), r.get("name"))
             if out:
+                # ALL FIVE THROUGH .get() NOW (order cdf0d2367cba). `out` is very often not a
+                # record this run built -- read_entity returns the CACHED document unchanged
+                # whenever cachekey.load finds one, so `out` can be a record written by an older
+                # version of this module and served back unchanged for ever. Measured on the
+                # live cache: 28 of 2,341 documents under data/readfeats carry no `chunks_reused`
+                # key at all, proof that a record outliving a field addition is the NORMAL state
+                # of this cache, not a hypothetical. The four direct subscripts these used to be
+                # sat inside `with lock:` but outside any try/except, so the first field added to
+                # `out` after this line (or any legacy record predating an earlier one) would
+                # raise KeyError HERE -- after every entity in the pass had already been read and
+                # paid for -- and take down run()'s own closing report with it, reporting a
+                # completed pass as a crash. `chunks_unanswered` already used .get(); these four
+                # now match it, so a legacy record costs itself a zero in these counters rather
+                # than the whole pass its account of itself.
                 done["unanswered"] += out.get("chunks_unanswered", 0)
-                done["feats"] += len(out["feats"])
-                done["fab"] += out["fabricated_dropped"]
-                done["chunks"] += out["chunks_read"]
-                done["skipped"] += out["chunks_skipped"]
+                done["feats"] += len(out.get("feats", []))
+                done["fab"] += out.get("fabricated_dropped", 0)
+                done["chunks"] += out.get("chunks_read", 0)
+                done["skipped"] += out.get("chunks_skipped", 0)
             n = done["n"]
             if n % 5 == 0 or n == len(todo):
                 el = time.time() - t0
@@ -1342,7 +1393,9 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
     # pessimistic rather than flattering, which is the right direction for a number anyone is
     # going to plan a night around.
     global CHUNK_BUDGET
-    size = CLOUD_CHUNK if _CASCADE_OK else CHUNK
+    # COLLAPSED TO CHUNK (order d9fbd60efd0f); see the matching comment in read_entity for why
+    # `CLOUD_CHUNK if _CASCADE_OK else CHUNK` was inert at both sites.
+    size = CHUNK
     CHUNK_BUDGET = max(1, sum(r.get("chars", 0) for r in todo) // size)
     # WORKERS TRACK THE WIDTH OF THE POOL, not the width of the machine.
     #
@@ -1397,15 +1450,34 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
     # and a banner that disagrees with the run is this project's oldest failure shape.
     chunks_note = ("uncapped (--chunks %s ignored, Hard Rule 0)" % cap_chunks
                    if cap_chunks else "uncapped")
-    print("read: %d entries with pages, %d workers, chunks %s"
-          % (len(todo), workers, chunks_note), flush=True)
+    limit_note = ("   *** PARTIAL RUN (--limit %d; %d entries deferred to a later run -- the "
+                  "SAME top-%d, ranked deepest-evidence-first, every time this limit is used) ***"
+                  % (limit, deferred, limit) if limit else "")
+    print("read: %d entries with pages, %d workers, chunks %s%s"
+          % (len(todo), workers, chunks_note, limit_note), flush=True)
     with ThreadPoolExecutor(max_workers=workers) as ex:
         list(ex.map(work, todo))
     err_note = ("  0 entities errored" if not done["errored"] else
                 "  %d entities ERRORED (last: %s -- see silence ledger read.py:work-read-entity)"
                 % (done["errored"], done["last_error"]))
-    print("done in %.2fh  %d feats kept, %d fabrications dropped, %d chunks skipped%s"
-          % ((time.time() - t0) / 3600, done["feats"], done["fab"], done["skipped"], err_note))
+    # DONE['UNANSWERED'] BELONGS ON THE LINE AN OPERATOR OR A LOG SCRAPE KEEPS (order
+    # 05294ca33e1f). This used to print feats/fabrications/skipped and stop there -- the counter
+    # was maintained (above) and shown on the progress line, but never on the summary a run
+    # actually leaves behind. This module's own history is why that matters: 4,755 of 6,706
+    # chunks in one pass hit a benched GPU, returned None, and were counted as read (:872-875
+    # nearby); 1,168 of 1,235 chunks handed to the GPU in another were UNANSWERED and not cached
+    # (:530-540-area docstring) -- and a run in exactly that state still ended on a line reading
+    # "0 feats kept, 0 fabrications dropped, N chunks skipped" with no sign anything went wrong.
+    # Non-zero gets a plain statement of what it means: those passages were NOT cached, their
+    # entities' feats were not written, and the next pass is what retries them.
+    unanswered_note = (
+        "" if not done["unanswered"] else
+        "  %d chunks UNANSWERED and NOT cached -- their entities will be retried next pass"
+        % done["unanswered"])
+    print("done in %.2fh  %d feats kept, %d fabrications dropped, %d chunks skipped, "
+          "%d unanswered%s%s"
+          % ((time.time() - t0) / 3600, done["feats"], done["fab"], done["skipped"],
+             done["unanswered"], err_note, unanswered_note))
 
 
 def main():
@@ -1428,7 +1500,13 @@ def main():
     _ESC.assert_clear(os.path.basename(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", action="store_true")
-    ap.add_argument("--limit", type=int)
+    ap.add_argument("--limit", type=int,
+                    help="read only the first N of the ranked queue (deepest evidence first) "
+                         "this cycle. The ranking is deterministic, so a repeated bounded run "
+                         "reads the SAME top-N every time and the tail is never reached -- the "
+                         "run banner reports how many entries this defers. The standing "
+                         "production job never passes this (order ef26ed6029e7); use it for a "
+                         "deliberate spot check, not as a standing mode.")
     ap.add_argument("--workers", default="auto",
                     help="number, or 'auto' to match the count of usable remote buckets")
     ap.add_argument("--chunks", type=int, default=None,

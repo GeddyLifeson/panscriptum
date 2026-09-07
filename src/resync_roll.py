@@ -120,6 +120,19 @@ def main():
                 silence.note("resync_roll.py:duplicate-source")
                 dupes.setdefault(key, [by_source[key][1]]).append(fn)
             by_source[key] = (rec, fn)
+        else:
+            # THE LAST UNGUARDED SKIP IN THIS LOOP (order a130056c11dc). A record file that
+            # parses as an object but declares no `source` (missing, null, or empty) means the
+            # same thing to the reader as the two skips right above it -- a source this run did
+            # NOT check -- and it is the harder one to spot, because a half-written or
+            # hand-edited record is exactly the file most likely to be missing this field. Noted
+            # and folded into `unreadable` so the closing figures and the caveat that already
+            # enumerates `unreadable` do not silently print over it, and so the file is named
+            # where a person can open it -- the roll row it should have matched surfaces in
+            # `unmatched_rows` instead, which correctly says a source went unverified but wrongly
+            # points at a missing FILE when the file is present and its `source` line is not.
+            silence.note("resync_roll.py:record-without-source")
+            unreadable.append(fn)
 
     # `roll.py` is the single authority on what is in scope; imported once, above the loop.
     import roll as _roll
@@ -238,8 +251,12 @@ def main():
 
     verb = "Would fix" if dry else "Fixed"
     print(f"{verb} {len(changed)} roll entries out of sync with their record files:\n")
+    # UNCUT (Hard Rule 0, orders d4c18b4b8743 / e266d67b9d2c). `name[:44]` cut the source name
+    # with no marker; 11 of 215 live roll rows are longer than that. `:46s` still pads a SHORT
+    # name for alignment -- it does not truncate a long one -- so the column is ragged rather
+    # than wrong.
     for name, was, now, fn in sorted(changed, key=lambda x: -(x[2] - x[1])):
-        print(f"  {name[:44]:46s} {was:6d} -> {now:6d}   {fn}")
+        print(f"  {name:46s} {was:6d} -> {now:6d}   {fn}")
 
     if relabelled:
         # Its own list, because a status repair and a count repair are different findings: the
@@ -247,7 +264,11 @@ def main():
         print(f"\n{verb.lower()} {len(relabelled)} row(s) whose STATUS disagreed with their "
               f"count (the count itself may not have moved):")
         for name, was, now, n in sorted(relabelled):
-            print(f"  {name[:44]:46s} {str(was)[:14]:16s} -> {now:14s} (entry_count {n})")
+            # UNCUT NAME (Hard Rule 0, order d4c18b4b8743): unlike the table above, this one
+            # prints no filename, so a truncated name here left the reader with no identifier
+            # to open the record file by at all. `was` stays a short status word and keeps its
+            # own field width.
+            print(f"  {name:46s} {str(was)[:14]:16s} -> {now:14s} (entry_count {n})")
 
     # UNCAPPED, both of them, per Hard Rule 0: these are lists a person reads in order to act --
     # one needs the record file repaired, the other needs a record file to exist at all -- and a

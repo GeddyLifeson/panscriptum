@@ -274,19 +274,59 @@ def _wrote_to_the_ledger_vm(_flushed_vm, _in_memory_vm):
     return sorted(set(_flushed_vm) | set(_in_memory_vm))
 
 
+# WHY THIS ONE IS NOT A `silence.note()` (order d43a5a050c0f). The swallow below WAS bare: no
+# noted site and no declared exemption, the two forms this file states as doctrine three times
+# (:2358-2362 "Every other deliberate swallow in this tree records its site, and so does this
+# one", :5076-5079, and :7285-7293, whose inventory of every ExceptHandler here missed this one
+# because it is not a cleanup handler). It is the second form that is taken, and deliberately.
+#
+# THE FIRST FORM WOULD BE A TRAP HERE, AND IT CLOSES ON ITSELF. `silence.note` calls
+# `health.record`, `health.record` is REPLACED at the top of this section by `_spy_record_vm`,
+# and §20z asserts that nothing in this battery reaches the live ledger by any route. So a
+# `silence.note` on this path would mean: `state/failures.json` becomes unreadable -> this
+# battery writes a record about it INTO `state/failures.json` -> §20z reddens -> `mutate.py`
+# refuses to run on a red baseline and the whole mutation pass is cancelled. A torn file written
+# by a standing job would take the gate out, which is order c121db910a17's finding exactly
+# ("another program's honest fault must still not redden the battery") arriving through the one
+# door that was left unlabelled. The exemption is written down instead, which is what the
+# doctrine asks for and what `_raises()` above does for the same reason.
+#
+# AND THE SILENCE IS NO LONGER SILENT, which was the substantive half of the order. Every
+# unreadable read is remembered here and PRINTED beside §20z's ledger banner, so "the ledger did
+# not move" and "the ledger could not be read" stop looking identical -- the exact confusion
+# this witness's own introduction at :235-244 says it exists to prevent.
+_LEDGER_UNREADABLE_VM = []
+
+
 def _ledger_counts_vm():
-    """-> {class: count} from `state/failures.json` as it stands right now. {} if unreadable."""
+    """-> {class: count} from `state/failures.json` as it stands right now. {} if unreadable.
+
+    A {} answer is AMBIGUOUS by construction -- an empty ledger and an unreadable one give the
+    same dict -- so each unreadable read appends its reason to `_LEDGER_UNREADABLE_VM` and §20z
+    prints it. Deliberately still a measurement and not a verdict (order c121db910a17): this
+    library's standing jobs write to the same file while the battery runs, so a torn read is
+    somebody else's honest fault and must not redden anything.
+    """
+    _p_led_vm = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                             "state", "failures.json")
     try:
-        _p_led_vm = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                                 "state", "failures.json")
         with open(_p_led_vm, encoding="utf-8") as _f_led_vm:
             _d_led_vm = json.load(_f_led_vm)
-    except Exception:
+    except Exception as _e_led_vm:
+        # silence-exempt: NOTING HERE WOULD WRITE INTO THE LEDGER THIS FUNCTION FAILED TO READ,
+        # through the spy installed thirty lines above, and redden §20z -- which cancels the
+        # mutation pass. Recorded in `_LEDGER_UNREADABLE_VM` and printed at §20z instead, so the
+        # swallow has a site and a reader, without the battery filing another program's fault.
+        _LEDGER_UNREADABLE_VM.append("%s: %s" % (type(_e_led_vm).__name__, _e_led_vm))
         return {}
     if not isinstance(_d_led_vm, dict):
+        _LEDGER_UNREADABLE_VM.append("the file parsed but holds a %s, not an object"
+                                     % type(_d_led_vm).__name__)
         return {}
     _counts_vm = _d_led_vm.get("counts", _d_led_vm)
     if not isinstance(_counts_vm, dict):
+        _LEDGER_UNREADABLE_VM.append("`counts` is a %s, not an object"
+                                     % type(_counts_vm).__name__)
         return {}
     return {_k_led: _v_led for _k_led, _v_led in _counts_vm.items() if isinstance(_v_led, int)}
 
@@ -899,6 +939,20 @@ check("no two Custodes share a degree of freedom",
 check("the charter's three Hands are preserved, not replaced",
       all(n in CU.CUSTODES for n in ("Quill", "Moth", "Avar")), True)
 
+# NOTHING CONSULTED `table_faults()` UNTIL 2026-09-06 (orders 00a85c511b53 and d27e95a57233,
+# one finding filed twice). `_custos_reading` computes `evidential_part = tilt *
+# evidence_sensitivity * (1 - q)`, so an entry declaring `tilt == 0.0` beside a non-zero
+# `evidence_sensitivity` is frozen against attestation quality BY CONSTRUCTION, whatever the
+# table's own column says -- a property asserted in the table and enforced nowhere.
+# `custodes.table_faults()` has detected exactly that since order 39f19f7e646c and
+# `custodes.main()` exits non-zero on it, but neither the battery nor the drill asked, so a new
+# zero-tilt entry would have surfaced only by audit three sweeps later, which is how Threnody's
+# was found. The list is compared, not a boolean, so a red row NAMES the entry and its reason.
+check("no CUSTODES entry declares an evidence sensitivity its own tilt makes inert",
+      CU.table_faults(), [],
+      note="orders 00a85c511b53 / d27e95a57233 -- the drill carries the same consultation as "
+           "`no CUSTODES entry declares a sensitivity its own tilt makes inert`")
+
 # WRAPPED: this fixture supplies no vantage and no contest graph, so two Custodes abstain and
 # `custodes._abstained` notes each one -- once per process, hence only this first convene needs
 # it. Those two classes stood at 87 in the live ledger, three a run for thirty runs, describing
@@ -1454,7 +1508,19 @@ print("=" * 96)
 import sevenfold as SF       # noqa: E402
 import collections as _co    # noqa: E402
 
-_, _coords, _, _worlds = SF.build()      # sources and weights are not read by this section
+# WRAPPED, and not because anything here is supposed to fail. `SF.build()` reaches
+# `weave.load_index()`, which notes `weave.py:index-stale` whenever a file under `data/records/`
+# is newer than `ENTITY_INDEX.json` -- i.e. whenever the crawl has written anything since the
+# index was last rebuilt, which on this machine is most of the time. That is a fact about the
+# CORPUS, not a fault of this battery, and it was landing in `state/failures.json` on every run
+# and reddening §20z's two ledger rows with `verify_math.py:1457 -> silent:weave.py:index-stale`
+# (measured 2026-09-06, and invisible until then only because the battery was crashing at §20u
+# before §20z ran). §20z reddening cancels the whole mutation pass, so this is order
+# c121db910a17's shape exactly: a row's verdict must not turn on the state of somebody else's
+# artefact. Only the ECHO is dropped -- weave still prints the staleness to stderr, and every
+# value `build()` returns is asserted below unchanged.
+with _no_ledger_vm():
+    _, _coords, _, _worlds = SF.build()  # sources and weights are not read by this section
 
 def _branching(pool, tier_idx):
     t = SF.TIERS[tier_idx]
@@ -1486,7 +1552,74 @@ check("placement is measured, not declared: kin are shelved together",
 check("and a second deliberate join lands the same way",
       all(_coords["Call of Duty Zombies"][t] == _coords["all Black Ops"][t]
           for t in SF.SOURCE_TIERS), True)
-check("shelving is deterministic", SF.build()[1]["Alien"], _coords["Alien"])
+# f(x) == f(x) IS NOT A DETERMINISM TEST, and this file has ruled that three times already:
+# order 3f86c571da58 at §15 ("map_seed is a pure sha256 of its argument, so that comparison
+# cannot fail"), order fbdb7fe3bd4c ("Deterministic is a claim about repeating across loads ...
+# f(x) == f(x) tests neither") and order cc500a6cbf4b ("true even of a key built from hash(),
+# which Python randomises per process"). This row was the fourth: it compared `SF.build()` to
+# the `SF.build()` three lines above it, in one process, through one module object.
+#
+# IT IS NOT HYPOTHETICAL HERE. `shelve` builds `remaining = set(members)` (sevenfold.py:86) and
+# `sorted(set(cuts))` (:214), and §19n of this same battery records that hash-seed-dependent set
+# order really did rename 75 of 734 navtree nodes between two runs on identical inputs. A
+# shelfmark that moves between processes orphans every published address pointing at it, which
+# is the one fault a shelving-determinism row exists to catch.
+#
+# So it is asked three ways, each able to go red on its own:
+#
+#   1. ACROSS LOADS -- a second execution of sevenfold.py, a different module object with its
+#      own `UNSHELVED` dict, must reach the same shelf. An import-time seed, or a value cached
+#      into module state by the first build, diverges here instead of comparing equal to itself.
+#      (The `_asfresh` repair at §15 in this same file, applied to a second module.)
+#   2. AT THE TIE-BREAK ITSELF -- which is where the set actually bites, and which NEITHER of
+#      the loads above can see. Two module loads in one interpreter share PYTHONHASHSEED, so a
+#      set iterates identically in both and `max(remaining, key=<weight only>)` returns the same
+#      element to each: a permuted-input comparison, which was the first thing written here,
+#      turned out to be a row that CANNOT FAIL and was removed rather than kept. What does fail
+#      is a frozen expectation. `affinity_order` over an all-tied fixture must come back in
+#      strict descending NAME order, because `key=(weight, m)` makes the name the whole
+#      tie-break -- measured 2026-09-06 under PYTHONHASHSEED 0,1,2,3,4: the answer below in all
+#      five, against five different answers once the `, m` is removed.
+#   3. AND IN THE SOURCE, the way §19n pins navtree's identical `max(set(...), key=count)`
+#      repair -- because a frozen list can in principle be matched by an unlucky set order, and
+#      the rule itself cannot.
+_spec_sf = _ilu.spec_from_file_location("sevenfold__fresh",
+                                        os.path.join(_SRC_AS, "sevenfold.py"))
+_sffresh = _ilu.module_from_spec(_spec_sf)
+_spec_sf.loader.exec_module(_sffresh)
+with _no_ledger_vm():                    # same corpus-staleness echo as the build at §16's head
+    _coords_fresh = _sffresh.build()[1]
+check("shelving is deterministic ACROSS LOADS, not merely within one call",
+      _coords_fresh["Alien"], _coords["Alien"],
+      note="an independently exec'd copy of sevenfold.py, so this is a different `shelve`, a "
+           "different `UNSHELVED` and a different set of module globals -- not the same "
+           "function object asked twice, which is what this row used to be")
+check("and every source lands identically, not just the one this section names",
+      sorted(_s_sfd for _s_sfd in set(_coords) | set(_coords_fresh)
+             if _coords.get(_s_sfd) != _coords_fresh.get(_s_sfd)), [],
+      note="a single named source can agree by luck across two builds; 209 of them cannot")
+# EVERY PAIR BUT ONE IS TIED AT ZERO, so after the seeded pair every remaining step is decided
+# by the tie-break and nothing else. That is the fixture the row needs: on a graph with distinct
+# weights the tie-break never runs, and a check that never reaches the code it names is the
+# shape this whole section is about.
+_mem_sf = ["gamma", "alpha", "delta", "beta", "epsilon", "zeta", "eta", "theta"]
+_w_sf = {("alpha", "beta"): 5.0}
+check("the affinity ordering's tie-break is FIXED, so a shelf cannot move between processes",
+      SF.affinity_order(_mem_sf, _w_sf),
+      ["alpha", "beta", "zeta", "theta", "gamma", "eta", "epsilon", "delta"],
+      note="`affinity_order` walks `set(members)` with `max(..., key=(weight, name))`, and the "
+           "NAME is the whole tie-break: without it `max` keeps whichever the set yielded "
+           "first, and string set order is randomised per process. Frozen because that is the "
+           "only in-process way to see it -- two loads in one interpreter share PYTHONHASHSEED. "
+           "Verified 2026-09-06: this exact list under seeds 0-4, and five DIFFERENT lists "
+           "under the same five seeds once the tie-break is removed. §19n measured the same "
+           "fault renaming 75 of 734 navtree nodes on identical inputs")
+check("and the source still carries the rule, not just today's lucky ordering",
+      "key=lambda m: (weights.get((last, m), weights.get((m, last), 0.0)), m))"
+      in open(os.path.join(_SRC_AS, "sevenfold.py"), encoding="utf-8").read(), True,
+      note="§19n pins navtree's identical repair the same way and for the same reason: a "
+           "frozen list can in principle be satisfied by an unlucky set order on one run, and "
+           "the RULE cannot. Red the moment the `, m` is dropped, whatever the seed is")
 check("a source's mark stops at its own depth",
       "U-" not in SF.shelfmark(_coords["Alien"]), True,
       note="a source is a body of universes, not one; printing U- would invent a position")
@@ -1546,8 +1679,34 @@ check("the burg link routes THROUGH Azgaar, not around it",
       "azgaar" in BG.burg_link(12345, 1) and "burg=1" in BG.burg_link(12345, 1), True,
       note="Azgaar generates each burg's population and flags from the map seed and hands them "
            "to Watabou itself; a URL of our own would open a DIFFERENT city for the same burg")
-check("burg seeds are deterministic",
-      BG.burgs_for(424242, _f, limit=3)[2]["seed"], _bs[2]["seed"])
+# THE SIBLING OF §16's ROW, same shape, same repair (order 58ec389036d7). This read
+# `BG.burgs_for(...)[2]["seed"] == _bs[2]["seed"]` -- one module object asked twice inside one
+# process, which is satisfied by a seed cached in module state or drawn from an import-time RNG
+# just as well as by a derived one. Compared against an independently exec'd copy of burgs.py
+# instead, and pinned against a frozen value so the claim also spans PROCESSES: a burg seed is
+# what a published Watabou link is built from, so it moving between runs opens a different city
+# under an address already in print.
+_spec_bg = _ilu.spec_from_file_location("burgs__fresh", os.path.join(_SRC_AS, "burgs.py"))
+_bgfresh = _ilu.module_from_spec(_spec_bg)
+_spec_bg.loader.exec_module(_bgfresh)
+check("burg seeds are deterministic ACROSS LOADS, not merely within one call",
+      [_b_bgd["seed"] for _b_bgd in _bgfresh.burgs_for(424242, _f, limit=3)],
+      [_b_bgd["seed"] for _b_bgd in _bs[:3]],
+      note="a second execution of burgs.py -- a different function object with its own module "
+           "globals -- so a seed cached at import, or drawn from a module-level RNG, diverges "
+           "here instead of comparing equal to itself")
+check("and reproducible across RUNS, not merely across two loads in one run",
+      [_b_bgd["seed"] for _b_bgd in _bs[:3]], [1649997070, 51323635, 1199402608],
+      note="frozen literals, the same device §15 uses for `map_seed(1234567890123)`. Two loads "
+           "in ONE interpreter share PYTHONHASHSEED and a per-process RNG, so only a pin taken "
+           "outside this run can speak for the next one -- and `burgs_for` reads no data file, "
+           "so nothing but a change to the derivation can move these three numbers")
+check("the burg seed is DERIVED from the map seed, so a neighbouring world seeds a different "
+      "settlement",
+      BG.burgs_for(424242, _f, limit=1)[0]["seed"] != BG.burgs_for(424243, _f, limit=1)[0]["seed"],
+      True,
+      note="a constant, or anything not actually reading the map seed, satisfies both rows "
+           "above and dies on this one")
 check("an archipelago is mostly coastal, a highland mostly not",
       sum(b["coast"] for b in BG.burgs_for(7, dict(_f, landform="archipelago"), limit=200)) >
       sum(b["coast"] for b in BG.burgs_for(7, dict(_f, landform="highland"), limit=200)), True,
@@ -4189,7 +4348,25 @@ def _for_owner_landing_b19():
         return isinstance(n, _ast19.Name) and n.id == "FOR_OWNER"
 
     def _write_mode(c):
-        """The mode string of an open() call, positional or keyword; '' if not an open()."""
+        """-> the mode string of an `open()` call, positional or keyword, or None.
+
+        THREE ANSWERS, AND THE DOCSTRING USED TO CONFLATE TWO OF THEM (order db78428e0fa9). It
+        read "'' if not an open()", and the body returns None on that path -- so the sentence
+        that teaches the next reader the contract described a value this function never
+        produces. Both callers happen to guard with `m is not None and any(ch in m for ch in
+        "wax")`, and an empty string contains none of w/a/x either, so nothing behaves
+        differently today. That is the whole reason it is worth writing down rather than
+        shrugging at: a caller written against the documented contract -- `if m == ""` -- would
+        read every non-open() call in the file as an open() with no mode, and Hard Rule -1's
+        argument is that a comment is how the next reader learns what a function promises.
+
+            None   this Call is not an `open()` at all, or is an `open()` with no arguments.
+            ""     it IS an `open()`, and no mode was given -- which means "r", i.e. not a write.
+            "w"/"a"/"x"/...  the literal mode, whether it arrived positionally or as `mode=`.
+
+        The two states the callers must not confuse are the first and the second, and only the
+        first is None.
+        """
         if _cname(c) != "open" or not c.args:
             return None
         m = ""
@@ -5570,7 +5747,95 @@ check("but the name is EXACT, so it cannot swallow a genuine unknown",
 # nobody reconciles.
 #
 # So these assert BEHAVIOUR: the value is actually produced, and the row is actually emitted.
-_st20k = __import__("standards").check(__import__("dashboard").state())
+#
+# AND THE BEHAVIOUR THEY ASSERT IS THE WIRING, NOT THE WEATHER (order a93bd62a7c5f). All three
+# rows below used to run against the LIVE dashboard state, which meant they reddened whenever
+# `read.py` was not writing its log. `dashboard._read_row` appends the `corpus read` job dict
+# ONLY when `_tail_match(state/read_auto.log, RE_READ)` matches -- there is no else branch -- so
+# a fresh checkout, a rotated log, a truncated one, a reader SIGTERMed by
+# `foreman.kill_stalled_job` (which §20a documents as ROUTINE, measured at 42 minutes of
+# downtime in run #18) or one malformed tail line all removed the job, and with it the `dropped`
+# key, and with it the standard's only input. Three HIGH-adjacent rows then went red for a
+# reason no source edit can fix -- and a red baseline is what `mutate.py` refuses to run on, so
+# an idle reader silently cancelled the whole mutation pass. It passed on 2026-09-05 only
+# because `state/read_auto.log` happened to hold a matching line. That is weather.
+#
+# NOT A CASE FOR DELETING THE ROWS. §20k exists because this standard was ABSENT for its entire
+# life and absence read as green; that lesson stands unchanged. What was wrong is the TIER: the
+# question "is the reader up" was being asked by the instrument whose red baseline cancels
+# mutation runs. So the rows are driven against a SYNTHETIC reader log with numbers chosen here,
+# which measures the thing the note below already names by symbol -- RE_READ captures `dropped`,
+# `_read_row` keeps it, `standards` reads it -- and cannot be moved by whether a job is running.
+# The live state is still READ, and printed, so an operator is told; it is simply not a verdict.
+_dash20k = __import__("dashboard")
+_stmod20k = __import__("standards")
+
+# The fixture. Every number is distinct so a row cannot pass by reading the wrong group, and the
+# line is the shape read.py actually prints (§20k's own note quotes a real one).
+_FIX20k = ("2026-09-06 11:02:03  1000/2000 0.50 chunks/s feats 777 dropped 42 "
+           "chunks 100/500 (3 to GPU, 7 UNANSWERED, 0 requeued) eta 1.5h")
+_dir20k = _mkdtemp_vm()
+_log20k = os.path.join(_dir20k, "fixture_read.log")
+with open(_log20k, "w", encoding="utf-8") as _f20k:
+    _f20k.write("some earlier line with no numbers in it\n" + _FIX20k + "\n")
+
+
+class _LN20k:
+    """A stand-in for `lognames`, naming the fixture instead of the live reader log.
+
+    `_read_row` joins this onto `dashboard.STATE`; an absolute path wins that join, so the live
+    `state/` directory is never touched and nothing here depends on it existing.
+    """
+    READ = _log20k
+
+
+_jobs20k = []
+_dash20k._read_row(_jobs20k, _LN20k)
+check("dashboard._read_row emits a corpus-read row from a progress line",
+      [_j20k["name"] for _j20k in _jobs20k], ["corpus read"],
+      note="driven against a log written by this battery, so it answers about the WIRING and "
+           "not about whether read.py happens to be running -- which is what it used to answer")
+_row20k = (_jobs20k or [{}])[0]
+check("the reader's job dict carries the count the guard needs",
+      (_row20k.get("dropped"), isinstance(_row20k.get("dropped"), int)), (42, True),
+      note="RE_READ has captured `dropped` since it was written; _read_row parsed it and threw "
+           "it away one line later, and the fabrication guard had no input for its whole life. "
+           "42 is this file's own fixture value, so a `dropped` that stops being carried, or "
+           "starts carrying a different group, is named here rather than merely absent")
+check("and it carries the rest of the line to the right keys, so `dropped` is not right by luck",
+      (_row20k.get("done"), _row20k.get("total"), _row20k.get("eta_h")), (100, 500, 1.5),
+      note="every fixture number is distinct: a regex group swapped for its neighbour moves "
+           "one of these instead of going unnoticed")
+# [control] THE PROBE HAS TEETH. A reader log whose progress line has lost the `dropped` field
+# is the exact regression these rows exist for, and it must produce NO job dict rather than one
+# with a missing key -- which is what made the standard vanish rather than fail.
+_log20k_bad = os.path.join(_dir20k, "fixture_read_nodrop.log")
+with open(_log20k_bad, "w", encoding="utf-8") as _f20k2:
+    _f20k2.write(_FIX20k.replace("dropped 42 ", "") + "\n")
+
+
+class _LN20kBad:
+    READ = _log20k_bad
+
+
+_jobs20k_bad = []
+with _no_ledger_vm():        # the format mismatch notes its site; this rehearsal must not
+    _dash20k._read_row(_jobs20k_bad, _LN20kBad)
+check("[control] a progress line that has lost `dropped` produces no row at all",
+      _jobs20k_bad, [],
+      note="this is the failure shape run #28 found, reproduced: RE_READ stops matching, "
+           "_read_row appends nothing, and the fabrication standard loses its input entirely. "
+           "If this ever passes with a row in it, the two rows above have stopped testing "
+           "anything, because the fixture would satisfy them either way")
+
+# THE STANDARD, over a state whose reader row is the fixture above. Everything else in the state
+# is the live dashboard's, so no other standard changes its answer and none of them starts
+# noting -- only the one input under test is pinned.
+_live20k = _dash20k.state()
+_synth20k = dict(_live20k)
+_synth20k["jobs"] = [_j20k for _j20k in (_live20k.get("jobs") or [])
+                     if _j20k.get("name") != "corpus read"] + [_row20k]
+_st20k = _stmod20k.check(_synth20k)
 _names20k = {r["standard"] for r in _st20k}
 check("the fabrication guard emits a row at all",
       "sentences that survive the verbatim check" in _names20k, True,
@@ -5581,11 +5846,42 @@ check("and it is MEASURED, not merely present",
       note="UNMEASURED is an honest reading and a legitimate state, but if it persists the "
            "input wiring has broken again -- dashboard.RE_READ's `dropped` group through "
            "dashboard._read_row into the job dict")
-check("the reader's job dict carries the count the guard needs",
-      isinstance(([j for j in __import__("dashboard").state()["jobs"]
-                   if j["name"] == "corpus read"] or [{}])[0].get("dropped"), int), True,
-      note="RE_READ has captured `dropped` since it was written; _read_row parsed it and threw "
-           "it away one line later")
+check("and it reports the rate the fixture actually implies, not a number of its own",
+      str((_fab20k or [{}])[0].get("observed")), "5% rejected",
+      note="42 dropped against 777 kept is 5.1%. A guard that emitted a MEASURED row without "
+           "reading the input would satisfy the row above and die here")
+# [control] AND UNMEASURED IS STILL REACHABLE, which is the other half of "MEASURED, not merely
+# present": if the standard could no longer report UNMEASURED at all, the row above would be
+# green against a guard that had stopped looking.
+_blind20k = dict(_row20k)
+_blind20k.pop("dropped", None)
+_synth20k_blind = dict(_synth20k)
+_synth20k_blind["jobs"] = [_j20k for _j20k in _synth20k["jobs"]
+                           if _j20k.get("name") != "corpus read"] + [_blind20k]
+_fabblind20k = [r for r in _stmod20k.check(_synth20k_blind)
+                if r["standard"] == "sentences that survive the verbatim check"]
+check("[control] a job dict with no `dropped` makes the guard report UNMEASURED, and BREACH",
+      (str((_fabblind20k or [{}])[0].get("observed")).startswith("UNMEASURED"),
+       (_fabblind20k or [{}])[0].get("holds")), (True, False),
+      note="the state run #28 found, and the state order 8389720500a9 refused to let read as "
+           "green. Both halves: the reading is honest AND the row does not hold")
+
+# AND THE LIVE READER IS STILL LOOKED AT -- printed, never asserted, for the reason order
+# c121db910a17 gives. An operator reading this page should be told the reader is silent; the
+# gate should not be red about it.
+_livejobs20k = [_j20k for _j20k in (_live20k.get("jobs") or [])
+                if _j20k.get("name") == "corpus read"]
+# The live standards run is kept for the §20n row that asks whether an UNMEASURED reading can
+# read as green -- computed once here rather than a third time down there.
+_st20k_live = _stmod20k.check(_live20k)
+if _livejobs20k:
+    print("  INFO corpus reader IS writing a progress line: dropped=%r, %s"
+          % (_livejobs20k[0].get("dropped"), _livejobs20k[0].get("detail")))
+else:
+    print("  INFO corpus reader is writing NO progress line right now, so the LIVE fabrication "
+          "standard will read UNMEASURED until read.py writes one. Said out loud rather than "
+          "asserted: whether a standing job is up is not a fact about this library's code, and "
+          "the rows above test the wiring it would feed.")
 
 # ---------------------------------------------------------------- §20l the ledger re-asks
 # The unrecognised ledger re-ran its CLASSIFIER on read but never re-ran its UNWRAP, so a row
@@ -5756,8 +6052,17 @@ check("the newest FINISHED sweep proves its own completeness",
 # and FAILED the check -- the outcome the note below calls healthy in the same breath. The row
 # asserts "not green", so the filter asks for exactly that: UNMEASURED *and* holding. It passes
 # today for a real reason rather than by leaning on §20k's separate not-UNMEASURED assertion.
+#
+# AND IT IS ASKED OF THE ROW THAT IS ACTUALLY UNMEASURED (order a93bd62a7c5f). It read `_st20k`,
+# which since that order is computed over a FIXTURE state whose reader row carries a real
+# `dropped` -- so the guard there is always MEASURED, the filter always matched nothing, and
+# this row would have passed on any implementation whatsoever, including the run #29 one it
+# exists to refuse. `_fabblind20k` is §20k's blind-state control: the same standard over a job
+# dict with no `dropped`, which IS UNMEASURED. That is the only state where "does UNMEASURED
+# read as green" is a question with two possible answers, so it is the state to ask it in. The
+# live rows are folded in beside it, so a live UNMEASURED-and-holding still lands here too.
 check("an UNMEASURED fabrication guard does not read as green",
-      [str(r["observed"])[:60] for r in _st20k
+      [str(r["observed"]) for r in list(_fabblind20k) + _st20k_live
        if r["standard"] == "sentences that survive the verbatim check"
        and str(r["observed"]).startswith("UNMEASURED") and r["holds"]], [],
       note="run #29: `True if fab is None else ...` made the one state the row's own order "
@@ -6019,8 +6324,19 @@ def _src20p(name):
 # catalogued chapter out of the library and rewrites the index of them -- and it was the
 # one not wired to the plant-wide interlock. Being on this list is what keeps the wiring
 # from being removed again quietly: both rows below now cover it.
-_INTERLOCKED = ("dashboard.py", "feats.py", "foreman.py", "overnight.py", "overwatch.py",
-                "pipeline.py", "publish.py", "read.py", "withdraw_chapters.py")
+# `hostcheck.py` JOINED 2026-09-06, order 77950336e3aa. `--purge --go` empties `entries` in
+# every matching data/records/*.json and then os.remove()s every cached page under
+# data/feats/<host>/ and data/readfeats/<host>/ -- the only supporting evidence for the entries
+# being removed, deleted one way -- and `--repair`/`--adopt --go` rewrite WIKI_HOSTS.json, which
+# hostcheck.py's own header calls one of the two files not reconstructible from anything else on
+# disk. It is the same class as withdraw_chapters.py, which is already here, and it asked about
+# the halt nowhere at all. Its behavioural half is drilled by
+# `the_tool_that_deletes_mined_evidence_asks_about_the_halt`; this roster is what stops the
+# wiring being removed again quietly, which is the half a behavioural net cannot see. One
+# fail-closed guard, so it takes the `_EXPECT20p` default of 1, and `_assert_not_halted`'s
+# ImportError arm carries the REFUSING TO sentence the older row above wants.
+_INTERLOCKED = ("dashboard.py", "feats.py", "foreman.py", "hostcheck.py", "overnight.py",
+                "overwatch.py", "pipeline.py", "publish.py", "read.py", "withdraw_chapters.py")
 _failopen20p = []
 for _f20p in _INTERLOCKED:
     _t20p = _src20p(_f20p)
@@ -7964,17 +8280,108 @@ _b4_skip_suffix_checks()
 # ==================================================================================================
 print("[batch4] order adba96551729 -- verify_restore()'s only caller is still the sandbox copy")
 
+# TWO FAULTS, BOTH OF SHAPES THIS FILE REFUSES ELSEWHERE (order b4af486851af). It read:
+#
+#     call_idxs = [i for i, l in enumerate(lines) if "verify_restore(path)" in l
+#                  and not l.strip().startswith("def ")]
+#     check("mutate.verify_restore has exactly one CALL site", len(call_idxs), 1)
+#     if call_idxs:
+#         i = call_idxs[0]
+#         assign = next((l for l in reversed(lines[:i])
+#                        if l.strip().startswith("path = ")), "")
+#         check("that call site's `path` is built from the sandbox root, not SRC", ...)
+#
+#   1. THE SECOND ROW WAS CONDITIONAL, so the interesting failure DELETED it. Spell the call any
+#      other way -- `verify_restore(p)`, a line break between the name and the argument, a
+#      keyword argument -- and `call_idxs` is empty, the first row reddens, and the row that
+#      actually protects the live tree is not emitted at all. §20r retired exactly this
+#      construction (order c8704a41a70f, :6771-6779): "on the day it COULD evaluate False, the
+#      row would have VANISHED rather than failed, and an absent row is invisible to every count
+#      that audits this file."
+#   2. THE `path` IT READ WAS NOT SCOPED TO THE FUNCTION. `reversed(lines[:i])` walks backwards
+#      through the WHOLE MODULE and takes the first `path = ` it meets, wherever it lives -- so
+#      an unrelated `path = ` added anywhere above the call site silently redirects the
+#      assertion onto a different statement, in a different function, about different code. That
+#      is the enclosing-scope confusion `_own_nodes20p` and order 6a8444cad673 were each written
+#      to fix, and the helper was already in this file and unused by this section.
+#
+# Both rows were also literal substring scans over `inspect.getsource`, so a COMMENT containing
+# `verify_restore(path)` satisfied the first -- order 5a0c4196142f's class.
+#
+# So: ask the parse tree, resolve the argument inside the calling function's OWN scope, and emit
+# both rows unconditionally. "No call site found" is now a FAILURE that says so, not a silence.
 def _b4_verify_restore_checks():
     import mutate as AM
-    lines = _insp_b4.getsource(AM).splitlines()
-    call_idxs = [i for i, l in enumerate(lines)
-                 if "verify_restore(path)" in l and not l.strip().startswith("def ")]
-    check("mutate.verify_restore has exactly one CALL site", len(call_idxs), 1)
-    if call_idxs:
-        i = call_idxs[0]
-        assign = next((l for l in reversed(lines[:i]) if l.strip().startswith("path = ")), "")
-        check("that call site's `path` is built from the sandbox root, not SRC",
-              'os.path.join(root, "src", target)' in assign, True)
+    _tree_vr = _ast_mod.parse(_insp_b4.getsource(AM))
+    _fns_vr = [_n_vr for _n_vr in _ast_mod.walk(_tree_vr)
+               if isinstance(_n_vr, (_ast_mod.FunctionDef, _ast_mod.AsyncFunctionDef))]
+
+    # Every Call in the module, labelled with the def that OWNS it. `_own_nodes20p` stops at a
+    # nested `def`, so a call is attributed to the function that makes it rather than to
+    # whatever happens to enclose that function -- which is the whole point of using it here.
+    _owned_vr = {}
+    for _fn_vr in _fns_vr:
+        for _n_vr in _own_nodes20p(_fn_vr):
+            if isinstance(_n_vr, _ast_mod.Call):
+                _owned_vr[id(_n_vr)] = _fn_vr
+    _sites_vr = []
+    for _n_vr in _ast_mod.walk(_tree_vr):
+        if not isinstance(_n_vr, _ast_mod.Call):
+            continue
+        _f_vr = _n_vr.func
+        _nm_vr = (_f_vr.attr if isinstance(_f_vr, _ast_mod.Attribute)
+                  else getattr(_f_vr, "id", ""))
+        if _nm_vr == "verify_restore":
+            _sites_vr.append((_owned_vr.get(id(_n_vr)), _n_vr))
+    # The `def verify_restore(path)` statement is a FunctionDef, never a Call, so it cannot be
+    # counted here -- which is the substring scan's third fault removed rather than worked
+    # around with `not l.strip().startswith("def ")`.
+    check("mutate.verify_restore has exactly one CALL site",
+          len(_sites_vr), 1,
+          note="asked of the parse tree, so a comment or docstring quoting the call -- "
+               "including the one recording this very repair -- cannot satisfy it, and a call "
+               "spelled `verify_restore(p)` or split across lines still counts")
+
+    # UNCONDITIONAL. When there is no call site, this row reports that AS the failure rather
+    # than disappearing; when there are several it names every one.
+    _bad_vr = []
+    if not _sites_vr:
+        _bad_vr.append("no call site found at all -- nothing to check, which is the failure")
+    for _fn_vr, _c_vr in _sites_vr:
+        _where_vr = "%s (line %d)" % (_fn_vr.name if _fn_vr else "<module level>", _c_vr.lineno)
+        if not _c_vr.args:
+            _bad_vr.append("%s: called with no positional argument" % _where_vr)
+            continue
+        _arg_vr = _c_vr.args[0]
+        if not isinstance(_arg_vr, _ast_mod.Name):
+            _bad_vr.append("%s: argument is a %s, not a name this scan can resolve"
+                           % (_where_vr, type(_arg_vr).__name__))
+            continue
+        # THE ASSIGNMENT MUST LIVE IN THE SAME FUNCTION AS THE CALL. Nothing outside it is
+        # looked at, so a `path = ` anywhere else in mutate.py can no longer answer for this one.
+        _scope_nodes_vr = (list(_own_nodes20p(_fn_vr)) if _fn_vr
+                           else list(_ast_mod.walk(_tree_vr)))
+        _assigns_vr = [_n_vr for _n_vr in _scope_nodes_vr
+                       if isinstance(_n_vr, _ast_mod.Assign)
+                       and any(isinstance(_t_vr, _ast_mod.Name) and _t_vr.id == _arg_vr.id
+                               for _t_vr in _n_vr.targets)
+                       and _n_vr.lineno < _c_vr.lineno]
+        if not _assigns_vr:
+            _bad_vr.append("%s: `%s` is never assigned inside this function -- it comes from "
+                           "somewhere this scan cannot see" % (_where_vr, _arg_vr.id))
+            continue
+        _last_vr = max(_assigns_vr, key=lambda _n_vr: _n_vr.lineno)
+        _val_vr = _ast_mod.unparse(_last_vr.value)
+        if _val_vr != "os.path.join(root, 'src', target)":
+            _bad_vr.append("%s: `%s` is built as %s, not from the sandbox root"
+                           % (_where_vr, _arg_vr.id, _val_vr))
+    check("that call site's `path` is built from the sandbox root, not SRC", _bad_vr, [],
+          note="EMITTED WHATEVER HAPPENS, including when there is no call site to look at -- "
+               "the guarded version of this row vanished on exactly the day it would have had "
+               "something to say. The assignment is resolved inside the CALLING FUNCTION's own "
+               "scope and compared after `ast.unparse`, so quoting style cannot move the answer "
+               "and a `path = ` elsewhere in mutate.py cannot stand in for this one")
+
 
 _b4_verify_restore_checks()
 
@@ -8014,36 +8421,97 @@ _b4_overwatch_checks()
 # CLI-misuse exit code (rc=2, bad --select, empty stdout) and vulture into its "path not found"
 # case (rc=1, output that fails to parse as any real finding) and confirms neither reports RAN.
 #
-# ENVIRONMENT-DEPENDENT: skips (rather than failing) if ruff/vulture are not installed in the
-# interpreter's Scripts directory on the machine running this -- matches this module's own
-# "NOT INSTALLED is not a failure" doctrine. Confirmed RAN against the real installed tools in
-# this checkout on 2026-08-27.
+# IT USED TO SKIP, AND A SKIP IS GREEN BY ABSENCE (order ddae3747d37d). The body opened with
+#
+#     if not (exists(scripts/ruff.exe) and exists(scripts/vulture.exe)):
+#         print("   (skipped -- ...)"); return
+#
+# and NO check() row was emitted on that path. So on any run where either tool was not at that
+# exact path, the two assertions below did not read green -- they CEASED TO EXIST, and a run in
+# which they never ran is indistinguishable from a run in which they passed. That is §20k's
+# finding verbatim ("it did not read green; it was ABSENT, which on a page of green looks
+# identical", :5556-5588) and order c8704a41a70f's ("an absent row is invisible to every count
+# that audits this file"). It is a worse instance than either, because these two rows guard the
+# OUTSIDE opinion -- the one detector in this tree that cannot share a blind spot with the house
+# ones -- so their disappearance is exactly the blind spot they exist to prevent.
+#
+# THE GATE WAS ALSO NARROWER THAN THE CONDITION IT STOOD FOR. It read the Scripts directory of
+# whatever interpreter happened to be running the battery, while `secondopinion._exe` looks in
+# `_SCRIPTS`, then the bare Scripts path, then PATH. A machine with several pythons (this one
+# has) skipped silently even where the tools were installed and the module could find them.
+#
+# So: resolve through THE MODULE'S OWN RESOLVER, and ALWAYS emit both rows. An unresolvable tool
+# BREACHES rather than holding, which is the stricter of the two readings order ddae3747d37d
+# left open, taken for the reason order 5b85ab54b176 took it for the two local-model standards
+# at :7609 -- "an UNMEASURED reading on a breaching row is the honest outcome; an absent row is
+# green-by-absence". secondopinion.py's own doctrine is that an absent tool reports NOT
+# INSTALLED and never an empty pass; this is that doctrine applied to its wrapper.
+#
+# AND THE STUB IS GONE. It replaced `SO._exe` with `lambda name: <path>`, which stopped matching
+# the moment `_exe` grew its (path, reason) return (order 61d2d34d580a) -- `exe, reason =
+# _exe(...)` then raised ValueError and took the WHOLE BATTERY out at this line, verified
+# 2026-09-06: 980 rows in, no §20u, no §20z, RESULT printed only by the atexit hook. A stub that
+# re-spells a signature is a second copy of that signature with nobody reconciling the two. The
+# real resolver is called instead, so this section cannot go stale against it again.
 # ==================================================================================================
 print("[batch4] order 12694407d245 -- an installed-but-failing tool no longer reports RAN")
 
+_B4_SO_RUFF_ROW = "ruff runner reports a tool error (not RAN) on a bad --select"
+_B4_SO_VULT_ROW = "vulture runner reports a tool error (not RAN) on an unreadable path"
+
+
 def _b4_secondopinion_checks():
     import secondopinion as SO
-    scripts = _os_b4.path.join(_os_b4.path.dirname(SO.sys.executable), "Scripts")
-    ruff_exe = _os_b4.path.join(scripts, "ruff.exe")
-    vulture_exe = _os_b4.path.join(scripts, "vulture.exe")
-    if not (_os_b4.path.exists(ruff_exe) and _os_b4.path.exists(vulture_exe)):
-        print("   (skipped -- ruff/vulture not found at %s)" % scripts)
-        return
-    orig_exe, orig_rules = SO._exe, SO.RUFF_RULES
+    # WRAPPED: `_exe` probes candidates that may not exist and notes `secondopinion.py:_exe`
+    # when a spawn fails for any reason other than FileNotFoundError. That note is provoked by
+    # this probe, so its echo is kept out of the live ledger exactly as every other deliberately
+    # provoked guard in this file is -- the ANSWER is still asserted, only the echo is dropped.
+    with _no_ledger_vm():
+        _ruff_exe, _ruff_why = SO._exe("ruff")
+        _vult_exe, _vult_why = SO._exe("vulture")
+    _looked = "%s (then the bare name on PATH)" % SO._SCRIPTS
+    _unmeasured = ("a tool this row cannot resolve is a row that did not run. It BREACHES "
+                   "rather than vanishing, because these two guard the one opinion in this "
+                   "tree that was not written by the house -- and a skip there is the blind "
+                   "spot they exist to prevent. Install the tool, or rule on the skip; do not "
+                   "let it be silent")
+    _orig_rules = SO.RUFF_RULES
     try:
-        SO._exe = lambda name: _os_b4.path.join(scripts, name + ".exe")
-        SO.RUFF_RULES = "ZZZ999"    # a selector ruff refuses -> documented rc=2, empty stdout
-        status, _ = SO._ruff([_os_b4.path.join(SO.SRC, "ledger_guard.py")])
-        check("ruff runner reports a tool error (not RAN) on a bad --select",
-              status.startswith("RAN"), False)
-
-        status2, _ = SO._vulture([_os_b4.path.join(SO.SRC, "definitely_missing_module_xyz.py")])
-        check("vulture runner reports a tool error (not RAN) on an unreadable path",
-              status2.startswith("RAN"), False)
+        if _ruff_exe:
+            SO.RUFF_RULES = "ZZZ999"   # a selector ruff refuses -> documented rc=2, empty stdout
+            _st_b4so, _ = SO._ruff([_os_b4.path.join(SO.SRC, "ledger_guard.py")])
+            check(_B4_SO_RUFF_ROW, _st_b4so.startswith("RAN"), False,
+                  note="status was %r" % _st_b4so)
+        else:
+            check(_B4_SO_RUFF_ROW,
+                  "UNMEASURED -- ruff did not resolve (%s); looked in %s" % (_ruff_why, _looked),
+                  "ruff resolved and answered", note=_unmeasured)
     finally:
-        SO._exe, SO.RUFF_RULES = orig_exe, orig_rules
+        SO.RUFF_RULES = _orig_rules
+    if _vult_exe:
+        _st2_b4so, _ = SO._vulture(
+            [_os_b4.path.join(SO.SRC, "definitely_missing_module_xyz.py")])
+        check(_B4_SO_VULT_ROW, _st2_b4so.startswith("RAN"), False,
+              note="status was %r" % _st2_b4so)
+    else:
+        check(_B4_SO_VULT_ROW,
+              "UNMEASURED -- vulture did not resolve (%s); looked in %s" % (_vult_why, _looked),
+              "vulture resolved and answered", note=_unmeasured)
+
 
 _b4_secondopinion_checks()
+
+# AND THE COUNT IS PINNED, because "always emit a row" is a claim about a number and the two
+# branches above are written once each. Two rows, whichever branch each took: if a future edit
+# puts either of them back behind a `return`, this goes red naming the missing one rather than
+# letting the page get one line shorter.
+_b4so_emitted = [_r_b4so[0] for _r_b4so in PASS + FAIL
+                 if _r_b4so[0] in (_B4_SO_RUFF_ROW, _B4_SO_VULT_ROW)]
+check("both secondopinion rows are emitted whatever the toolchain looks like",
+      sorted(_b4so_emitted), sorted([_B4_SO_RUFF_ROW, _B4_SO_VULT_ROW]),
+      note="the skip this replaced returned before either check() call, so on a machine "
+           "without the tools this section contributed nothing and looked exactly like a "
+           "section that passed")
 
 
 # ==================================================================================================
@@ -8682,9 +9150,26 @@ check("health.py source text: the dead 'entries UNREACHABLE' branch is gone",
 # ============================================================ order f308a7cc0ac7 (derivation.py)
 import derivation as D  # noqa: E402
 
-_actual_py = sorted(f[:-3] for f in os.listdir(SRC) if f.endswith(".py"))
+# RECONSTRUCTED HERE, NOT IMPORTED, and now recursively -- order ca1ed2be8c51, 2026-09-06.
+# The whole value of this row is that it builds its expectation from the filesystem itself
+# instead of reading `D.SCAN_MODULES` and comparing it to itself, so it is evidence rather than
+# a tautology. That means the two walks have to be kept in step BY HAND, and this is the half
+# that was owed: `derivation.SCAN_MODULES` used a flat `os.listdir` and so did this, so the two
+# agreed while both were wrong about `src/deprecated/catalogue_local.py`. Written as a plain
+# `for` loop mirroring `derivation._scan_modules()`'s shape rather than as a comprehension with
+# a `dirs[:]` side effect buried in it, precisely so the two can be compared by eye.
+_actual_py = []
+for _root, _dirs, _files in os.walk(SRC):
+    _dirs[:] = [_d for _d in _dirs if _d != "__pycache__"]
+    for _f in _files:
+        if _f.endswith(".py"):
+            _actual_py.append(
+                os.path.relpath(os.path.join(_root, _f), SRC).replace(os.sep, "/")[:-3])
+_actual_py = sorted(_actual_py)
 check("derivation.SCAN_MODULES tracks every .py file in src/, not a hand-typed subset",
       D.SCAN_MODULES, _actual_py)
+check("derivation.SCAN_MODULES reaches subdirectories, not only the top level of src/",
+      "deprecated/catalogue_local" in D.SCAN_MODULES, True)
 check("derivation.SCAN_MODULES picks up a module absent from the old 22-name list",
       "health" in D.SCAN_MODULES and "completeness" in D.SCAN_MODULES, True)
 
@@ -8711,6 +9196,10 @@ check("catalogue_web.catalogue_composite tracks failed categories instead of sil
 
 # ============================================================ order 6885a5ff23e5
 #                                                                (withdraw_chapters.py)
+# THE `_ap36` RENAME BELOW IS HISTORY NOW -- order 2f0a734d8c15 removed the argparse import
+# this section used to carry, so there is no argparse binding here at all any more. Kept because
+# the reasoning is what stops the next writer reaching for `_ap` again, and because §20z's
+# rebind scan is a row rather than a remembered count.
 # `_ap36`, NOT `_ap` -- order 7916f7063ee0, and the same repair §19v made twice and §20u once.
 # `_ap` is bound at §19c to a SCRATCH ARTIFACT PATH (a str, `<tmp>/TIERS.json`, read through the
 # land_json fixture) and this line used to rebind it to the argparse MODULE. Those three earlier
@@ -8726,14 +9215,74 @@ check("catalogue_web.catalogue_composite tracks failed categories instead of sil
 # rows, against §2's convene result) and `_one20r`/`_two20r` (tuples that §20r subscripts,
 # against §19g's floats). Rebinding a name to the SAME module -- `_dt`, `_tf`, `_time`, `_PL`,
 # `_CP`, `_STx`, `_RD`, `BG`, `D` -- is harmless and was deliberately left alone.
-import argparse as _ap36, datetime as _dt  # noqa: E402
+#
+# THE ROW THAT USED TO STAND HERE NEVER TOUCHED ITS SUBJECT (order 2f0a734d8c15). It read:
+#
+#     _ap_probe = _ap36.ArgumentParser()
+#     _ap_probe.add_argument("--label", default=_dt.date.today().isoformat())
+#     check("withdraw_chapters --label no longer hardcodes 2026-08-25",
+#           _ap_probe.parse_args([]).label != "2026-08-25", True)
+#
+# -- a parser THIS FILE builds two lines earlier, with a default THIS FILE supplies. Nothing
+# named `withdraw_chapters` is imported anywhere in this battery, so what was actually asserted
+# is that today's date is not the string "2026-08-25": true when it was written, and the one
+# calendar day it could have failed on is in the past. Revert withdraw_chapters.py:176 to
+# `default="2026-08-25"` and the row stays green for ever. That is the class this file has
+# already repaired three times -- order 96c4be60fb92 (two `check(label, True, True)` rows),
+# order 8a6d86040d10, and order ff470a877ac5 ("this used to test A COPY OF THE ALGORITHM, not
+# the module") -- and it was still standing here.
+#
+# THE PARSE TREE IS ASKED INSTEAD, not the module, because importing withdraw_chapters to build
+# its parser would run its import-time work for a question that is answerable from the source.
+# The `default=` of its `--label` argument must be a CALL (today's date, computed per run), not
+# a string Constant (a pin baked in at edit time) -- which is the property the label claims, and
+# it now goes red against a reverted subject instead of against the calendar.
+import ast as _ast36  # noqa: E402
 
-_ap_probe = _ap36.ArgumentParser()
-_ap_probe.add_argument("--label", default=_dt.date.today().isoformat())
-check("withdraw_chapters --label no longer hardcodes 2026-08-25",
-      _ap_probe.parse_args([]).label != "2026-08-25", True,
-      note="regression guard: this check itself will need updating if the tool intentionally "
-           "pins a label again; the point is that TODAY's run and the module's default agree")
+_wc_path36 = os.path.join(SRC, "withdraw_chapters.py")
+with open(_wc_path36, encoding="utf-8") as _f_wc36:
+    _wc_tree36 = _ast36.parse(_f_wc36.read(), _wc_path36)
+
+
+def _label_defaults36(_tree36):
+    """-> [(lineno, the `default=` node)] for every `add_argument("--label", ...)` in the tree.
+
+    A list rather than the first hit: two parsers each declaring `--label` is a real thing a
+    tool can grow, and answering about only one of them is how a source scan starts agreeing
+    with a file it has stopped reading all of.
+    """
+    _out36 = []
+    for _n36 in _ast36.walk(_tree36):
+        if not isinstance(_n36, _ast36.Call):
+            continue
+        _fn36 = _n36.func
+        if getattr(_fn36, "attr", None) != "add_argument":
+            continue
+        if not (_n36.args and isinstance(_n36.args[0], _ast36.Constant)
+                and _n36.args[0].value == "--label"):
+            continue
+        _out36.append((_n36.lineno,
+                       next((_kw36.value for _kw36 in _n36.keywords if _kw36.arg == "default"),
+                            None)))
+    return _out36
+
+
+_wc_labels36 = _label_defaults36(_wc_tree36)
+check("withdraw_chapters.py declares a --label option at all",
+      len(_wc_labels36), 1,
+      note="0 means the option was renamed or removed and the row below would have had nothing "
+           "to judge -- which is how a source scan turns into green-by-absence. More than 1 "
+           "means a second parser grew one and this section is now answering about half of it")
+check("withdraw_chapters --label is computed per run, not a hardcoded date",
+      sorted("line %d: default=%s" % (_ln36, "<absent>" if _d36 is None
+                                      else "%r" % _d36.value if isinstance(_d36, _ast36.Constant)
+                                      else type(_d36).__name__)
+             for _ln36, _d36 in _wc_labels36 if not isinstance(_d36, _ast36.Call)),
+      [],
+      note="THE SUBJECT IS READ, not a copy of it: this walks withdraw_chapters.py's own parse "
+           "tree and demands the `default=` be a Call (`datetime.date.today().isoformat()`). "
+           "Restore the literal '2026-08-25' there and this names the line; the row it replaced "
+           "asserted only that TODAY is not that date, and could never fail again")
 
 
 # ============================================================ order e0c7891274ea (runguard.py)
@@ -8790,6 +9339,16 @@ check("cascade_bridge.py docstring names where real validation happens",
 # NOT `PR` (order a05eb35ebe4f, run #37). `PR` is bound to `profile` at §14 and used through
 # that section; rebinding it here to `propagation` was safe only because nothing calls the
 # profile helpers after this point. Same repair as the `_CBud` rename in §19v.
+#
+# AND THE LOOP VARIABLES ARE `_p1g`/`_p2g`, NOT `_a`/`_b` (order 44539ab9be89). This walked
+# `for _a, _b in _it.combinations(_names, 2)`, which is the eighth instance of the cross-type
+# module-level rebind enumerated above: `_a` is §15's PACKED ADDRESS INT (bound at the top of
+# that section and read by six of its rows) and `_b` is §11's SCORE DICT. Both were left holding
+# a source NAME here. As with the seven before it, the arrangement was correct only by the
+# accident that nothing reads either earlier binding after this point -- and the cost of being
+# wrong is not a failing row but a TypeError that truncates the battery, which `allsweep` grades
+# BROKEN rather than RED. The names below cannot collide with anything: they are unique to this
+# loop and say what they hold.
 import propagation as _PRg  # noqa: E402
 import itertools as _it  # noqa: E402
 
@@ -8798,10 +9357,10 @@ _names = list(_g)
 _l4d_dbz, _ = _PRg.shortest(_g, "Left 4 Dead", "Dragon Ball Z")
 _diam = 0.0
 _diam_pair = None
-for _a, _b in _it.combinations(_names, 2):
-    _d, _ = _PRg.shortest(_g, _a, _b)
+for _p1g, _p2g in _it.combinations(_names, 2):
+    _d, _ = _PRg.shortest(_g, _p1g, _p2g)
     if _d != float("inf") and _d > _diam:
-        _diam, _diam_pair = _d, (_a, _b)
+        _diam, _diam_pair = _d, (_p1g, _p2g)
 print(f"  INFO propagation graph: {len(_names)} shelves; L4D->DBZ={_l4d_dbz:.4f}; "
       f"true diameter={_diam:.4f} ({_diam_pair}); anchor YEARS_PER_UNIT_DISTANCE assumes "
       f"the far end of range is ~1.0 (L4D->DBZ). Ratio diameter/anchor-pair = "
@@ -8855,7 +9414,14 @@ for _p36 in _run35_files:
         _why36 = "the file's own harness exited with code %r" % getattr(_e36, "code", None)
     except Exception as _e36:
         silence.note("verify_math.py:S36-exec:" + _name36)
-        _loaded36, _why36 = False, "%s: %s" % (type(_e36).__name__, str(_e36)[:160])
+        # UNCUT (order 7a379f99fe80). This was `str(_e36)[:160]`. Every diagnostic in this
+        # section is the only account a reader gets of a run35 file that failed, and Hard Rule 0
+        # is not about rosters only: a silent cut on the one sentence explaining a FAILED row is
+        # the same act as a cut on a page list. §7 of this file settled the equivalent question
+        # for standards.py's `[:120]` join at :7541 ("which used to cut a source name mid-word")
+        # and the answer there was to print everything. A stack of ImportError text is long
+        # exactly when it is worth reading.
+        _loaded36, _why36 = False, "%s: %s" % (type(_e36).__name__, _e36)
     check("%s loads and runs" % _name36, _loaded36, True, note=_why36)
     if not _loaded36:
         continue
@@ -8869,7 +9435,8 @@ for _p36 in _run35_files:
             _fn36()
             _ok36, _detail36 = True, ""
         except Exception as _e36:
-            _ok36, _detail36 = False, "%s: %s" % (type(_e36).__name__, str(_e36)[:200])
+            # Uncut, for the reason above: an AssertionError's message IS the finding here.
+            _ok36, _detail36 = False, "%s: %s" % (type(_e36).__name__, _e36)
         check("%s :: %s" % (_name36, _fname36), _ok36, True, note=_detail36)
 
     # Shape two: a file that ran module-level checks into its own PASS/FAIL. Folded back in
@@ -8879,10 +9446,17 @@ for _p36 in _run35_files:
     if isinstance(_their_fail36, list) and isinstance(_their_pass36, list):
         check("%s :: its own harness recorded results" % _name36,
               len(_their_pass36) + len(_their_fail36) > 0, True)
+        # THE LABEL IS THE ONLY IDENTIFIER A FAILED LINE CARRIES, so cutting it at 70 characters
+        # produced failures that could not be looked up (order 7a379f99fe80). Two labels sharing
+        # a first 70 characters -- ordinary in a file whose rows are written as sentences --
+        # collapsed into the same line, and a reader grepping the run35 source for what they saw
+        # printed found nothing, because the string they were given does not exist anywhere. A
+        # truncation that is not marked is refused by house doctrine (`corpus_db._cell`, order
+        # 6160ef68b229) and an IDENTIFIER must not be truncated even marked. Printed whole.
         for _row36 in _their_fail36:
             _label36 = _row36[0] if isinstance(_row36, (list, tuple)) and _row36 else str(_row36)
-            check("%s :: %s" % (_name36, str(_label36)[:70]), False, True,
-                  note="reported failed by the file's own harness: %s" % str(_row36)[:200])
+            check("%s :: %s" % (_name36, _label36), False, True,
+                  note="reported failed by the file's own harness: %s" % (_row36,))
     elif not _fns36:
         check("%s defines checks this battery can run" % _name36, False, True,
               note="no check_* functions and no PASS/FAIL harness -- nothing here is being "
@@ -9409,6 +9983,22 @@ if _grew20z:
         print("    " + _g20z)
     print("  Standing jobs write here too, so this is evidence to read, not a verdict. The row")
     print("  below is the part that is unambiguously this process.")
+    print()
+# AND "NOTHING MOVED" IS DISTINGUISHED FROM "IT COULD NOT BE READ" (order d43a5a050c0f). Both
+# reads above answer {} on an unreadable ledger, so `_grew20z` is empty either way and the
+# banner printed nothing at all -- telling a reader the ledger held still when in fact nobody
+# looked at it. That is this witness's own stated failure mode, printed rather than asserted for
+# the same reason the banner above is: a torn file written by a standing job is not this
+# battery's fault. See `_ledger_counts_vm`'s exemption note for why it is not a ledger record.
+if _LEDGER_UNREADABLE_VM:
+    print()
+    print("  state/failures.json COULD NOT BE READ -- the movement banner above is silent")
+    print("  because nothing was measured, NOT because nothing moved:")
+    for _u20z in _LEDGER_UNREADABLE_VM:
+        print("    " + _u20z)
+    print("  A standing job writing this file mid-read is the ordinary cause and is nobody's")
+    print("  fault; a persistent one means the operational ledger is unreadable and standards,")
+    print("  the dashboard and foreman.triage_swallowed() are all reading it too.")
     print()
 check("nothing this battery did reached the ledger by a route the in-process spy cannot see",
       _wrote_to_the_ledger_vm(_FLUSHED_VM, _H_vm.LEDGER), [],

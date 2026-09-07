@@ -116,6 +116,16 @@ function discR(n,R){ return Math.min(NAV_R, 0.40*2*Math.PI*R/Math.max(1,n)); }
 // the circles on it stay one size. Below the floor the ring reverts to dots with the names set
 // outside, where there is as much room as the arc allows.
 const MIN_FIT=30;
+// ONE MARKED CUT, USED EVERYWHERE A NAME IS TRIMMED TO A RING (order d04244f63e71). Three sites
+// below cut names mid-word with a bare .slice() and no marker -- the nucleus title, the shell-2
+// ring labels, and the world labels -- beside a fourth in the same function that already did it
+// correctly with an ellipsis. This file also already carries a Hard Rule 0 correction at the
+// shelved-here roster (a slice-to-8 that hid 30 of node 6.6.6's 38 sources), so the discipline
+// was established here and these three were simply missed. They stay CUT rather than uncut --
+// they are ring labels inside a fixed drawing, and the full string is in the <title> tooltip
+// beside each one and in the aside panel -- but a cut that does not announce itself reads as a
+// shorter name rather than as a trimmed one.
+function trimmed(v,n){ const s=String(v==null?"":v); return s.length>n?s.slice(0,n-1)+"…":s; }
 function fitIn(len,r,cap){ return Math.min(cap,(2*r*0.86)/(Math.max(1,len)*0.52)); }
 // A ring holding n labels needs enough circumference to stack them: n lines of about 1.15em.
 // One universe carries 157 worlds, which on a fixed ring put every name across its neighbour's.
@@ -242,7 +252,7 @@ function draw(){
   if(rootKey===""){
     s+=`<text x="${CX}" y="${CY+11}" text-anchor="middle" fill="${css('--s0')}" font-family="${css('--serif')}" font-size="34">&#937;</text>`;
   }else{
-    s+=`<text x="${CX}" y="${CY+100}" text-anchor="middle" fill="${tierCol(root.node)}" font-family="${css('--serif')}" font-size="72" letter-spacing="4">${esc((root.node.name||rootKey).slice(0,24))}</text>`;
+    s+=`<text x="${CX}" y="${CY+100}" text-anchor="middle" fill="${tierCol(root.node)}" font-family="${css('--serif')}" font-size="72" letter-spacing="4">${esc(trimmed(root.node.name||rootKey,24))}</text>`;
     s+=`<text x="${CX}" y="${CY+205}" text-anchor="middle" fill="${css('--muted')}" font-family="${css('--mono')}" font-size="44">${LABEL[root.node.t]||root.node.t}</text>`;
   }
 
@@ -292,7 +302,7 @@ function draw(){
     const fs = 72;
     const room = (p.a1-p.a0)*p.r >= fs*1.15;
     if(p.depth===2 && room){
-      const nm=(p.node.name||k).slice(0,22);
+      const nm=trimmed(p.node.name||k,22);
       const lr = p.r+dotR(p.depth)+16;
       const lx=CX+lr*Math.cos(p.ang), ly=CY+lr*Math.sin(p.ang);
       const deg=p.ang*180/Math.PI, flip=(deg>90||deg<-90);
@@ -348,12 +358,15 @@ function draw(){
   const ws=root.node.w||[];
   if(ws.length){
     const m=ws.length, R=ringR(SHELL_R[OVERVIEW_DEPTH], m, 62), wr=discR(m,R);
-    const wn=ws.map(w=>(w.cat||w.d.split("::").pop()||"").slice(0,22));
+    // COMPUTED ONCE (order d04244f63e71). The same expression used to be written out twice --
+    // here for the measurement array and again inside the loop for the drawn label -- so the two
+    // could drift apart; `wn[i]` is now the one string both use.
+    const wn=ws.map(w=>trimmed(w.cat||w.d.split("::").pop()||"",22));
     const named=ringFits(wn,wr,52), wrFit=fitIn(wn.reduce((a,b)=>b.length>a?b.length:a,1),wr,52);
     ws.forEach((w,i)=>{
       const a=-Math.PI/2+2*Math.PI*i/m;
       const x=CX+R*Math.cos(a), y=CY+R*Math.sin(a);
-      const nm=(w.cat||w.d.split("::").pop()||"").slice(0,22);
+      const nm=wn[i];
       s+=`<line x1="${CX}" y1="${CY}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${css('--s5')}" stroke-width="0.8" opacity="0.42"/>`;
       s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(named?wr:NODE_R).toFixed(1)}" fill="#1d1a12" stroke="${css('--s5')}" stroke-width="${named?2.2:1.4}" class="n" data-w="${i}"><title>${esc(w.cat||w.d)}</title></circle>`;
       if(named){

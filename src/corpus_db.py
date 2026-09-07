@@ -701,8 +701,26 @@ CANNED = {
                 "FROM evidence GROUP BY host ORDER BY feats DESC",
     "refused": "SELECT host, COUNT(*) n FROM evidence WHERE refused>0 GROUP BY host "
                "ORDER BY n DESC",
+    # `AND cited IS NOT NULL` (order 8e5b951c1e2f). `cited` comes from data/COVERAGE.json in
+    # `rebuild()`, so a source with no COVERAGE row is inserted with `cited` NULL, `pct`
+    # evaluates to NULL, and SQLite orders NULL FIRST on ASC -- putting a source NOBODY MEASURED
+    # at the top of the list, as the worst-covered. That renders "nobody asked" in the same
+    # column, in the same order, as "asked and found almost nothing", which is the distinction
+    # this module's own SPINE_LOOKUP_FAILED and `unverified` handling exist to preserve, missing
+    # from the one canned query the comment above explicitly calls a WORK LIST.
+    #
+    # LATENT WHEN FILED, AND SAID PLAINLY: 6 of the 216 sources had no COVERAGE.json row and all
+    # six held 0 entries, so the `entries>=40` filter excluded them and the live head was 8
+    # genuine 0.0 percent rows. It becomes wrong the first time a source with 40 or more entries
+    # is catalogued before `coverage.measure()` has reached it -- the ordinary sequence, since
+    # the record is written by the crawl and COVERAGE.json by a separate pass.
+    #
+    # `unmeasured` is the second query the order asks for, so the excluded rows are NAMED rather
+    # than merely dropped from the work list: unmeasured is a real condition and it is the one
+    # that tells you to run coverage, not to go cataloguing.
     "worst_cited": "SELECT name, entries, cited, ROUND(100.0*cited/entries,1) pct "
-                   "FROM source WHERE entries>=40 ORDER BY pct ASC",
+                   "FROM source WHERE entries>=40 AND cited IS NOT NULL ORDER BY pct ASC",
+    "unmeasured": "SELECT name, entries FROM source WHERE cited IS NULL ORDER BY entries DESC",
 }
 
 

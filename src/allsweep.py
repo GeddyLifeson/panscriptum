@@ -854,7 +854,14 @@ def main():
             est[label.lower()] = rows
             for r in rows:
                 mark = "  FAULT" if _row_is_fault(r) else ""
-                print("   {:<50}{}{}".format(r["finding"][:50], str(r["detail"])[:58], mark))
+                # MARKED, NOT DROPPED (order 2461f532f411). These were `r["finding"][:50]` and
+                # `str(r["detail"])[:58]`, bare slices, twenty lines below the `art["bad"]` block
+                # whose comment settles the rule for exactly this shape: a reversible display cut
+                # on an aligned column whose whole row is one keystroke away in ALLSWEEP.json
+                # (here `est[tier]`) is marked rather than removed. Every condition that comment
+                # names holds for these two, and they were the ones it did not reach.
+                print("   {:<50}{}{}".format(_marked(r["finding"], 50),
+                                             _marked(r["detail"], 58), mark))
 
     print("\nRECONCILE — where the subsystems disagree")
     findings = reconcile()
@@ -957,8 +964,13 @@ def main():
     if est_faults:
         print("\nESTATE FAULTS — graded, and each one fails this sweep")
         for f in est_faults:
+            # MARKED, NOT DROPPED (order 2461f532f411). This is the worse of the two sites the
+            # order names: it prints under the heading "graded, and each one fails this sweep",
+            # i.e. the rows a person reads in order to ACT, and its detail column was cut harder
+            # (44 characters) than anything else in the file, silently. The full row is in
+            # ALLSWEEP.json under `estate_faults`, so the cut stays and now says so.
             print("   {:<10}{:<52}{}".format(
-                f["tier"].upper(), str(f["finding"])[:50], str(f["detail"])[:44]))
+                f["tier"].upper(), _marked(f["finding"], 50), _marked(f["detail"], 44)))
     print(f"\n{bad} subsystem(s) in a bad state.  {time.time() - t0:.0f}s.  -> {OUT}")
     print(f"   graded:   imports {len(broken)}   verifiers "
           f"{sum(1 for r in verifiers if r.get('failed'))}   "

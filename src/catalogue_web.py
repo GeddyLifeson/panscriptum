@@ -135,6 +135,20 @@ def _singular(s):
     return s
 
 
+def _note_bits(no_text, deduped):
+    """The run-log note for `catalogue()`, matching `catalogue_composite`'s `bits`/`note` shape
+    (order 8bd76479c64e adds the dedup half). "ok" when nothing was lost; otherwise the counts
+    that matter to whoever is reading `_one`'s log line, without repeating the full drop list
+    that already lives in the record's own provenance.
+    """
+    bits = []
+    if no_text:
+        bits.append(f"{no_text} titles returned no text")
+    if deduped:
+        bits.append(f"{len(deduped)} titles deduped against an existing entry")
+    return "ok" if not bits else "ok (" + "; ".join(bits) + ")"
+
+
 def load_roll():
     with open(ROLL, encoding="utf-8") as f:
         return json.load(f)
@@ -204,7 +218,7 @@ def catalogue_composite(source_name, verbose=True):
     stays auditable per-item.
     """
     spec = ws.COMPOSITE_SOURCES[source_name]
-    entries, seen = [], set()
+    entries, seen = [], {}
     failed_cats = []
     # A TITLE THAT CAME BACK WITHOUT TEXT IS NOT AN ENTITY WITH NO EVIDENCE. `page_texts` drops
     # every falsy result, and `page_text` returns the same "" whether all three of its section
@@ -214,6 +228,21 @@ def catalogue_composite(source_name, verbose=True):
     # `failed_cats` is: this module cannot tell the two apart from the outside, but it can refuse
     # to pretend the drops did not happen.
     no_text = 0
+    # DEDUPED, NOT DISCARDED (order 8bd76479c64e). `seen` maps key -> the title kept under it, so
+    # a collision can be reported as "X dropped in favour of Y" instead of vanishing. `key` used
+    # to strip the PARENTHETICAL before hashing, which on a MediaWiki wiki is the disambiguator --
+    # the field whose only job is to say two same-named pages are different entities. Measured:
+    # 430 live pairs on disk carry DIFFERENT disambiguators and collided under the old key (e.g.
+    # "Narrator (Battlefield 1)" / "Narrator (Battlefield V)", "Allies (World War I)" / "Allies
+    # (World War II)"). The disambiguator now stays in the key; two titles collapse here only when
+    # they are the same page name, modulo case and punctuation, appearing in more than one
+    # category of this source. That correctly still merges e.g. a page filed under both a deity
+    # and a monarch category. It also means a base name and its disambiguated sibling (e.g. "The
+    # Lich" vs "The Lich (character)", "Gunter" vs "Gunter (Orgalorg)") are NO LONGER auto-merged
+    # by default -- the order's own ruling is that whether those are one entity is a curatorial
+    # question, not one a regex should answer in silence. `deduped` names every drop and what it
+    # was dropped in favour of, so that curation can happen with the evidence in hand.
+    deduped = []
     for sub, cats in spec:
         got = 0
         for c in cats:
@@ -227,10 +256,13 @@ def catalogue_composite(source_name, verbose=True):
                 titles = ws.rank_by_size(sub, titles, top=None)   # rank, never truncate
             wanted = []
             for title in titles:
-                key = re.sub(r"[^a-z0-9]", "", re.sub(r"\([^)]*\)", "", title.lower()))
-                if not key or key in seen:
+                key = re.sub(r"[^a-z0-9]", "", title.lower())
+                if not key:
                     continue
-                seen.add(key)
+                if key in seen:
+                    deduped.append((title, seen[key]))
+                    continue
+                seen[key] = title
                 wanted.append(title)
             texts = ws.page_texts(sub, wanted)
             for title in wanted:
@@ -250,9 +282,6 @@ def catalogue_composite(source_name, verbose=True):
                 got += 1
         if verbose:
             print(f"      {sub:24s} {got:4d}", flush=True)
-    if not entries:
-        return None, "composite produced no entries"
-    wikis = ", ".join(s for s, _ in spec)
     # A FAILED SUB-CATEGORY IS NOT AN ABSENT ONE, and this path used to say nothing about the
     # difference. `catalogue()`'s single-wiki path lets `find_categories`/`category_members`
     # raise, so ANY transport failure fails the whole attempt honestly and the source stays
@@ -262,11 +291,24 @@ def catalogue_composite(source_name, verbose=True):
     # never actually read, indistinguishable from one where they came back genuinely empty. The
     # failures are now named in the provenance and the note, so a reader (and `_one`'s log line)
     # can tell "transcribed in full" from "transcribed except for these".
+    #
+    # BUILT BEFORE THE EMPTY-RESULT CHECK BELOW, NOT AFTER (order 26b0e8cb30a1). The all-failed
+    # case is exactly where the distinction between "every sub-wiki's transport failed" (retry,
+    # fix the network) and "the categories are genuinely empty" (fix the mapping, or drop the
+    # source) matters most, and it used to be the one place this function dropped it -- `bits`
+    # was built after `if not entries: return`, so the empty-result note said nothing that would
+    # tell the two apart, while a NON-empty result got the full breakdown.
     bits = []
     if failed_cats:
         bits.append(f"transport failed for {len(failed_cats)} categories")
     if no_text:
         bits.append(f"{no_text} titles returned no text")
+    if deduped:
+        bits.append(f"{len(deduped)} titles deduped against an existing entry")
+    if not entries:
+        return None, "composite produced no entries" + (
+            " (" + "; ".join(bits) + ")" if bits else "")
+    wikis = ", ".join(s for s, _ in spec)
     note = "ok" if not bits else "ok (" + "; ".join(bits) + ")"
     provenance = (
         f"Transcribed from the deity/pantheon categories of multiple franchise wikis "
@@ -289,6 +331,14 @@ def catalogue_composite(source_name, verbose=True):
             f"string for a failed fetch and for a page with no prose, so this count is the "
             f"UPPER bound on genuine absence and the upper bound on lost fetches alike -- it "
             f"is not a claim that those entities have no evidence."
+        )
+    if deduped:
+        pairs = "; ".join(f"{dropped} -> {kept}" for dropped, kept in deduped)
+        provenance += (
+            f" {len(deduped)} title{'' if len(deduped) == 1 else 's'} matched a page already "
+            f"kept (same title modulo case/punctuation, seen under more than one category of "
+            f"this source) and {'was' if len(deduped) == 1 else 'were'} not catalogued a "
+            f"second time -- dropped title -> kept title: {pairs}."
         )
     return {
         "source": source_name,
@@ -404,12 +454,17 @@ def catalogue(source_name, verbose=True):
                          + ". Hard Rule 0 forbids a per-source ceiling. Refusing to run rather "
                          "than silently publishing a smaller universe.")
 
-    entries, seen = [], set()
+    entries, seen = [], {}
     # See `catalogue_composite`: `page_texts` drops falsy results and `page_text` answers ""
     # for a page with no prose and for one whose three section fetches all raised. Dropping
     # those titles is right -- an entry with no description is not evidence -- but dropping
     # them SILENTLY made a partial fetch indistinguishable from a complete one.
     no_text = 0
+    # DEDUPED, NOT DISCARDED, and the disambiguator STAYS IN THE KEY (order 8bd76479c64e; see
+    # catalogue_composite's matching comment for the full measurement). `seen` maps key -> the
+    # title kept under it, so a within-source collision across canonical classes is reported as
+    # "X dropped in favour of Y" rather than vanishing silently.
+    deduped = []
     for canon, titles, first_cat in planned:
         # Rebind for THIS fetch unit -- the discovery loop above left `_short` on the last
         # canonical class that had categories, and the fetch progress heartbeat closed over
@@ -420,10 +475,13 @@ def catalogue(source_name, verbose=True):
         # discard anyway.
         wanted = []
         for title in titles:
-            key = re.sub(r"[^a-z0-9]", "", re.sub(r"\([^)]*\)", "", title.lower()))
-            if not key or key in seen:
+            key = re.sub(r"[^a-z0-9]", "", title.lower())
+            if not key:
                 continue
-            seen.add(key)
+            if key in seen:
+                deduped.append((title, seen[key]))
+                continue
+            seen[key] = title
             wanted.append(title)
 
         texts = ws.page_texts(sub, wanted,
@@ -482,6 +540,14 @@ def catalogue(source_name, verbose=True):
             f"string for a failed fetch and for a page with no prose, so this is not a claim "
             f"that those entities have no evidence -- only that this pass did not obtain any."
         )
+    if deduped:
+        pairs = "; ".join(f"{dropped} -> {kept}" for dropped, kept in deduped)
+        provenance += (
+            f" {len(deduped)} title{'' if len(deduped) == 1 else 's'} matched a page already "
+            f"kept (same title modulo case/punctuation, seen under more than one category or "
+            f"canonical class) and {'was' if len(deduped) == 1 else 'were'} not catalogued a "
+            f"second time -- dropped title -> kept title: {pairs}."
+        )
     return {
         "source": source_name,
         "mode": "web",
@@ -490,7 +556,7 @@ def catalogue(source_name, verbose=True):
         "status": "catalogued",
         "attestation": "Transcribed",
         "provenance": provenance,
-    }, ("ok" if not no_text else f"ok ({no_text} titles returned no text)")
+    }, _note_bits(no_text, deduped)
 
 
 def main():
@@ -556,7 +622,7 @@ def main():
                 hit += 1
             print(f"  {r['name'][:44]:46s} -> {str(sub or 'UNRESOLVED')[:24]:26s} {name or ''}")
         print(f"\n{hit}/{len(todo)} resolved. (dry run -- no pages fetched)")
-        return
+        return 0
 
     roll_by_name = {r["name"]: r for r in roll}
     # SOURCES IN PARALLEL. Each source is a different wiki, and per-host politeness lives in
@@ -634,7 +700,14 @@ def main():
         list(ex.map(_one, todo))
 
     print(f"Catalogued {tally['done']}/{len(todo)} sources ({tally['failed']} skipped).")
+    # ORDER 1e45fae97848: this used to have no `return` anywhere in main() and be called bare
+    # from `__main__`, so the process always exited 0 -- even when EVERY source in `todo` failed.
+    # foreman.run_catalogue_gap dispatches this script in the background via overnight.start(),
+    # and overnight.join() gates its "ok"/"rc={rc}" reporting on the subprocess returncode, so a
+    # pass that accomplished nothing was logged as "ok". Matches resync_roll.py / weave_index.py
+    # / grounding.py / binding_health.py in this tree.
+    return 1 if todo and tally["failed"] == len(todo) else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

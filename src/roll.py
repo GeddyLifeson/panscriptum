@@ -180,12 +180,26 @@ def update_rows(changes, attempts=8, path=None):
     missed = []
 
     def _apply(rows):
+        # `seen` IS "A ROW WAS FOUND", NOT "A ROW WAS CHANGED" (order 60cb4e0e3595). The
+        # `seen.add` used to sit inside `if ch:`, so a caller passing an EXISTING source name
+        # with an empty change dict got that row reported through `missed` as "no roll row is
+        # named X any more" -- while the row demonstrably existed and had simply been given
+        # nothing to change. Two different facts under one message, and it is the misleading
+        # direction: the caller is told the roll lost a row it still has.
+        #
+        # Not observed to trigger today. The one relevant caller in src/ is
+        # `catalogue_web.py`'s `roll.update_rows({...})`, whose per-source dicts always carry
+        # more fields than `name` (status, entry_count, ...), so no empty dict reaches here in
+        # practice. The logic is wrong independently of whether a live caller hits it, which is
+        # the same standard this module's own docstring applies to exclusion notes.
         seen = set()
         for row in rows:
-            ch = changes.get(row.get("name"))
-            if ch:
-                row.update(ch)
-                seen.add(row.get("name"))
+            name = row.get("name")
+            if name in changes:
+                seen.add(name)
+                ch = changes[name]
+                if ch:
+                    row.update(ch)
         missed[:] = sorted(n for n in changes if n not in seen)
         return rows
 

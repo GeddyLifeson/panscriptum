@@ -111,18 +111,33 @@ def _message(s, width=160):
 
 
 def _exe(name):
-    """-> a runnable path for a console script, or None. Checks the interpreter's own Scripts
-    directory before PATH, because on this machine that directory is not on PATH."""
+    """-> (path, None) if a console script ran, or (None, reason) if it did not.
+
+    Checks the interpreter's own Scripts directory before PATH, because on this machine that
+    directory is not on PATH.
+
+    THE REASON MATTERS. `FileNotFoundError` -- no candidate exists on disk -- is genuinely
+    "not installed". Everything else a spawn can raise (`TimeoutExpired` on a loaded machine,
+    `PermissionError`, an OSError from an AV hook -- Norton is documented in CLAUDE.md as
+    blocking executables on this machine) means the probe itself failed, which is a different
+    fact and needs a different remedy: reinstalling a tool that is already on disk does not fix
+    a spawn that timed out or was blocked. Both used to collapse into a single `None`. (order
+    61d2d34d580a)
+    """
+    reason = "no such file"
     for cand in (os.path.join(_SCRIPTS, name + ".exe"),
                  os.path.join(_SCRIPTS, name),
                  name):
         try:
             r = subprocess.run([cand, "--version"], capture_output=True, creationflags=_NO_WIN, timeout=30)
             if r.returncode == 0:
-                return cand
-        except Exception:
+                return cand, None
+        except FileNotFoundError:
+            continue
+        except Exception as e:
             silence.note("secondopinion.py:_exe")
-    return None
+            reason = ("%s: %s" % (type(e).__name__, e)) if str(e) else type(e).__name__
+    return None, reason
 
 
 # The rules worth running, and what each one is a second opinion ABOUT. A tool with no stated
@@ -240,9 +255,9 @@ NOT_FILED = {
 # `r.returncode` at all. Each now does, and treats anything outside the codes that mean "the tool
 # ran and told me its verdict" as a failure to report, not a clean pass. Order 12694407d245.
 def _ruff(paths):
-    exe = _exe("ruff")
+    exe, reason = _exe("ruff")
     if not exe:
-        return "NOT INSTALLED", []
+        return ("NOT INSTALLED" if reason == "no such file" else "UNASKABLE (%s)" % reason), []
     r = subprocess.run([exe, "check", "--output-format", "json",
                         "--select", RUFF_RULES, "--ignore", RUFF_IGNORE, *list(paths)],
                        capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
@@ -251,7 +266,7 @@ def _ruff(paths):
     # explanation went to stderr while stdout stayed empty.
     if r.returncode not in (0, 1):
         return ("TOOL ERROR (ruff rc=%d): %s"
-                % (r.returncode, (r.stderr or r.stdout or "?").strip()[:200])), []
+                % (r.returncode, _message((r.stderr or r.stdout or "?").strip(), width=200))), []
     try:
         rows = json.loads(r.stdout or "[]")
     except Exception:
@@ -273,9 +288,9 @@ def _vulture(paths, min_confidence=90):
     detector whose output is mostly noise gets ignored, which is the same as not having it.
     At 90 it reports only what it is sure of, which is the part `liveness.py` cannot see anyway.
     """
-    exe = _exe("vulture")
+    exe, reason = _exe("vulture")
     if not exe:
-        return "NOT INSTALLED", []
+        return ("NOT INSTALLED" if reason == "no such file" else "UNASKABLE (%s)" % reason), []
     r = subprocess.run([exe, *list(paths), "--min-confidence", str(min_confidence)],
                        capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
     # SPLIT ON `:<digits>:`, NOT ON THE FIRST COLON (sweep43-batch05). `line.split(":", 2)` reads
@@ -329,14 +344,14 @@ def _vulture(paths, min_confidence=90):
     # that produced zero USABLE lines is every line failing to parse, not a clean run.
     if r.returncode not in (0, 1, 3) or (r.returncode in (1, 3) and not out):
         return ("TOOL ERROR (vulture rc=%d): %s"
-                % (r.returncode, (r.stderr or r.stdout or "?").strip()[:200])), []
+                % (r.returncode, _message((r.stderr or r.stdout or "?").strip(), width=200))), []
     return "RAN", out
 
 
 def _detect_secrets(paths):
-    exe = _exe("detect-secrets")
+    exe, reason = _exe("detect-secrets")
     if not exe:
-        return "NOT INSTALLED", []
+        return ("NOT INSTALLED" if reason == "no such file" else "UNASKABLE (%s)" % reason), []
     r = subprocess.run([exe, "scan", *list(paths)],
                        capture_output=True, creationflags=_NO_WIN, text=True, timeout=600)
     # `scan` prints its JSON report on success and nothing at all on a CLI-usage error (a bad
@@ -345,7 +360,7 @@ def _detect_secrets(paths):
     # results" instead of reporting that the scan never happened.
     if r.returncode != 0:
         return ("TOOL ERROR (detect-secrets rc=%d): %s"
-                % (r.returncode, (r.stderr or r.stdout or "?").strip()[:200])), []
+                % (r.returncode, _message((r.stderr or r.stdout or "?").strip(), width=200))), []
     try:
         doc = json.loads(r.stdout or "{}")
     except Exception:
@@ -478,13 +493,21 @@ def file_orders(got, found_by="secondopinion"):
             ids.append(oid)
 
     for name in missing(got):
+        status = got[name]["status"]
+        # "NOT INSTALLED" means genuinely absent -- pip install fixes it. Anything else (now
+        # "UNASKABLE (<reason>)") means the probe itself failed, and a pip command sends the
+        # reader to reinstall a tool that is already on disk. (order 61d2d34d580a)
+        remedy = ("python -m pip install " + name if status == "NOT INSTALLED"
+                  else "the probe failed rather than found nothing missing (%s) -- "
+                       "investigate why the process could not be spawned, do not reinstall"
+                       % status)
         oid = workorders.file_order(
             code="SECONDOPINION_ABSENT_" + name.replace("-", "_").upper(),
             what=("the independent %s check could not run (%s) — its silence is NOT a pass"
-                  % (name, got[name]["status"])),
+                  % (name, status)),
             handler="RUN", severity="MINOR", where="src/secondopinion.py",
             found_by=found_by,
-            evidence={"remedy": "python -m pip install " + name})
+            evidence={"remedy": remedy})
         if oid:
             ids.append(oid)
     return ids

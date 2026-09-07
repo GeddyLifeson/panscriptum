@@ -203,7 +203,27 @@ def _is_skipped(name):
 # `prune_export` deletes the published copy on this same cycle rather than leaving eighteen
 # scripts standing in public for ever behind a rule that only stops the nineteenth.
 CODE_FREE_DIRS = ("handoff",)
-_CODE_EXT = (".py", ".pyw", ".pyi")
+# EVERY EXECUTABLE SHAPE, NOT JUST PYTHON'S (orders e7e00ffde6c5 and 749597eb95d4, sweep46
+# batches 9 and 1, which found this independently from opposite directions). This was
+# `(".py", ".pyw", ".pyi")`, and `_is_agent_scratch` exists to refuse SCRATCH CODE an agent left
+# under `handoff/` -- a judgment about WHERE a file is, not about which language it happens to be
+# written in. A `.sh`, `.ps1` or `.bat` dropped there by an agent synced to the export tree and
+# was pushed to the PUBLIC repo unchecked, for no reason other than that the tuple enumerated one
+# language's suffixes instead of describing the family.
+#
+# That is the same enumeration-versus-family mistake `gitignore_lines()`'s own docstring records
+# being repaired one function below (the hand-typed `*.presilence` against `_is_skipped`'s `.pre*`
+# shape, order e14c1f1c494e) -- and it matters here for the same structural reason: this ONE tuple
+# feeds both `_is_agent_scratch` (the copier) and `gitignore_lines()` (the export repo's
+# .gitignore), so the two cannot drift, and widening it closes both at once.
+#
+# MEASURED BEFORE WIDENING: no file of any of these types exists under `handoff/` today, so
+# nothing legitimate is newly refused; this closes a latent hole rather than changing what is
+# published now. Refusing more is the safe direction for a gate whose failure mode is a public
+# push. Data and prose under `handoff/` (.md, .txt, .json) are untouched -- they are what that
+# directory is FOR, and a scratch .txt left behind is a different fault with its own order.
+_CODE_EXT = (".py", ".pyw", ".pyi", ".sh", ".bash", ".zsh", ".ps1", ".psm1",
+             ".bat", ".cmd", ".js", ".mjs", ".cjs", ".rb", ".pl", ".php", ".vbs")
 
 
 def _is_agent_scratch(rel):
@@ -1795,8 +1815,36 @@ def main():
             print(str(held))
             rc = 1
         except Exception as e:
+            # PRINTED WHOLE, exactly as the PushHeld arm three lines above already is
+            # (order 685da15e27fa). This was `str(e)[:180]`, and every refusal `push()` raises
+            # is a plain RuntimeError, so all of them land here:
+            #
+            #   * "PUBLISH REFUSED - N credential-shaped value(s) are staged for the public
+            #     repo:" followed by ONE LINE PER LEAK
+            #   * "REFUSING TO PUSH: the ledger guard could not be imported"
+            #   * "REFUSING TO PUSH: the mutation interlock could not be imported"
+            #   * "REFUSING TO PUSH: a mutation run was active %s and had NOT declared itself
+            #     sandboxed"
+            #
+            # The first message's HEADER alone is about 72 characters, so 180 left room for
+            # roughly one leak line -- undoing, at the last step, the repair this same function
+            # documents at the escalation above: `leaks[:20]` and `leaks[:10]` were removed there
+            # precisely because "both the halt evidence and the message they will actually read
+            # told them about ten or twenty of them ... A remediation that is silently partial
+            # ends with a credential still in the public repo and every gate reporting green."
+            # The message they actually read is this one, and it was cut harder than the cut that
+            # order removed, and unmarked.
+            #
+            # IRREVERSIBLE, and this file already rules on that shape twice: `git()` keeps git's
+            # stderr WHOLE under order f5fdaab825a6 on the ground that "the subprocess has
+            # exited, r.stderr is the only copy", and PushHeld is printed whole for the same
+            # reason. Here the exception object is discarded after the print and
+            # `silence.note("publish.py:main")` records only a label, so the clipped half existed
+            # nowhere afterwards. The escalation evidence list does keep every leak, so the DATA
+            # survived; what was lost was the operator's only console copy at the moment a
+            # publish is refused for a credential. Nothing downstream aligns on this line.
             silence.note("publish.py:main")
-            print(f"publish failed: {type(e).__name__}: {str(e)[:180]}")
+            print(f"publish failed: {type(e).__name__}: {str(e)}")
             rc = 1
         if not a.loop:
             return rc

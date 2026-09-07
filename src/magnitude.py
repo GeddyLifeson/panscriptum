@@ -1583,7 +1583,32 @@ def calibrate():
                   f"{'(resumed)':>12}{'--':>7}{'--':>6}{'--':>5}  "
                   f"kept from this pass")
             continue
-        sc = SCOPE.scope_for(host) if host else None
+        # SCOPE MAY NOW REFUSE, AND A REFUSAL IS NOT "NO CEILING" (2026-09-06, alongside order
+        # 6e2dab4c3981). `scope.scope_for` used to answer an API failure with an honest-looking
+        # empty verdict and cache it for ever; it now raises `ProbeUnread` instead. This call site
+        # had no handler at all, while its sibling `host_ceiling` two hundred lines below has
+        # always wrapped both of its `scope_for` calls -- so the refusal would have propagated out
+        # of the BENCHMARKS loop and stopped a calibration pass mid-run.
+        #
+        # NOT SWALLOWED BACK INTO `cl = None`, which is the whole trap: `None` here means "this
+        # host has no ceiling", and scoring an entity against a ceiling that merely could not be
+        # READ is the fabricated verdict order 6e2dab4c3981 exists to end. The entity is recorded
+        # UNMEASURED instead, on the same row shape the no-score path already uses, so the pass
+        # continues, the fact is persisted into CHARTER_REGRESSION.json, and `_land(rows, False)`
+        # keeps the pass from being marked complete.
+        try:
+            sc = SCOPE.scope_for(host) if host else None
+        except SCOPE.ProbeUnread as e:
+            silence.note("magnitude.py:benchmark-scope-unread")
+            row = {"entity": name, "host": host, "published": val, "ci": ci, "band": band,
+                   "at": time.time(), "status": "SCOPE_UNMEASURED", "consistent": None,
+                   "reason": "the host's scope could not be read, so no ceiling could be "
+                             "established and this entity was NOT scored against one: %s" % e}
+            rows.append(row)
+            _land(rows, False)
+            print(f"{name:<20}{_published(band, val):>10}{'--':>12}{'--':>7}"
+                  f"{'--':>6}{'--':>5}  scope unread; not scored")
+            continue
         cl = (sc["scope"], sc["ceiling"]) if sc else None
         r = assay_entity(c, name, host, epoch=epoch, ceiling=cl)
         res = r.get("result")
@@ -1718,6 +1743,28 @@ def host_ceiling(host):
             row = SCOPE.scope_for(host)
             if row and row.get("ceiling"):
                 cl = (row.get("scope"), row["ceiling"])
+        except SCOPE.ProbeUnread:
+            # A REFUSAL IS NOT "THIS HOST HAS NO CEILING" (order 3eeedaafce1e, sweep46-batch08).
+            # `scope.scope_for` raises ProbeUnread specifically to say it could not read the
+            # scope -- the fix of order 6e2dab4c3981, which stopped scope.py caching an API
+            # failure as an honest empty verdict. The bare `except Exception` that used to stand
+            # here caught that refusal and turned it straight back into `cl = None`, which this
+            # function's own callers read as "no clamp". So the fabrication scope.py had just
+            # been repaired to stop was recreated one layer up.
+            #
+            # AND IT WAS CACHED, which is the half that made it permanent: `_SCOPE_CACHE[host]`
+            # was set to that None, so every later entity from the same host in the same process
+            # skipped the clamp too, without a second attempt and without anything recorded. A
+            # throttled host during a batch is not rare, and the clamp is the only outside check
+            # on the model's anchoring -- its docstring above records what happens without it
+            # (Jace Beleren at M10.77 against a published M2.88, Silver Surfer at M10.93).
+            #
+            # So: NOT cached, and re-raised. `run_batch.work()` already wraps this call in
+            # try/except and records the entity with an uncut reason, so the batch refuses that
+            # entity honestly and carries on, and the next host gets a fresh attempt. The `--one`
+            # hand-check path lets it surface, which is correct for a command a person is reading.
+            silence.note("magnitude.py:host_ceiling-unread")
+            raise
         except Exception:
             silence.note("magnitude.py:host_ceiling-live")
     _SCOPE_CACHE[host] = cl

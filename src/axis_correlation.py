@@ -150,11 +150,16 @@ def _scores_of(v):
     ax = v.get("axes")
     if isinstance(ax, dict):
         return {k: x["score"] for k, x in ax.items()
-                if isinstance(x, dict) and isinstance(x.get("score"), (int, float))}
+                if isinstance(x, dict) and isinstance(x.get("score"), (int, float))
+                and not isinstance(x.get("score"), bool)}
     res = v.get("result")
     sc = res.get("scores") if isinstance(res, dict) else None
     if isinstance(sc, dict):
-        return {k: x for k, x in sc.items() if isinstance(x, (int, float))}
+        # bool IS an int subclass in Python, so a stored JSON true/false would otherwise enter
+        # the covariance matrix as a fabricated 1.0/0.0. Same rule as magnitude.py:_is_score
+        # (order ca9b07305f99); not excluded by reordering, excluded explicitly.
+        return {k: x for k, x in sc.items()
+                if isinstance(x, (int, float)) and not isinstance(x, bool)}
     return {}
 
 
@@ -175,6 +180,10 @@ def observations():
     for rel in SOURCES:
         p = os.path.join(HERE, rel)
         if not os.path.exists(p):
+            # ABSENT is not the same event as UNREADABLE, but it is still a matrix that could
+            # be quietly degraded -- ledgered the same as the unreadable branch below rather
+            # than leaving no ledger row at all. (order 9861001e9137)
+            silence.note("axis_correlation.py:observations-absent")
             absent.append(rel)
             continue
         try:
@@ -256,6 +265,16 @@ def write(doc=None):
     doc["note"] = ("MEASURED, not decreed. Rebuild with `python src/axis_correlation.py "
                    "--write` whenever the number of entities with numeric axis scores grows. "
                    "rho = 0 is the one value this data rules out.")
+    # DEGRADED, NAMED ON THE FACE OF THE FILE. A matrix built from a PARTIAL read of SOURCES
+    # loads exactly like a complete one -- load() only rejects a wholly missing/pairs-less
+    # matrix -- so a reader of a published +/- (assay._rho_source() included) had no way to
+    # tell 45 entities read from all eight sources apart from 5 read from one. Stamped
+    # whenever sources_missing is a known, non-empty list; left absent (not False) when the
+    # caller supplied `rows` directly and sources_missing is None, i.e. unknown rather than
+    # clean. (order 9861001e9137)
+    missing = doc.get("sources_missing")
+    if missing:
+        doc["degraded"] = sorted(missing)
     if not silence.write_json(OUT, doc, indent=2, sort_keys=True):
         silence.note("axis_correlation.py:write-denied")
         return None
@@ -377,6 +396,15 @@ def main():
     doc = measure()
     print("AXIS CORRELATION — measured over %d entities carrying >=2 numeric axis scores"
           % doc["n_entities"])
+    # UNCAPPED (Hard Rule 0): a matrix built from a PARTIAL read of SOURCES loads exactly like
+    # a complete one everywhere downstream, so this is the one place a reader can tell 8-of-8
+    # sources apart from a degraded read. observations()'s own docstring: "the matrix could
+    # silently shrink ... while looking exactly as authoritative as before." (order 9861001e9137)
+    sr, sm = doc.get("sources_read"), doc.get("sources_missing")
+    if sr is not None or sm is not None:
+        print("   sources read: %s" % (", ".join(sr) if sr else "(none)"))
+        if sm:
+            print("   sources MISSING: %s" % ", ".join(sm))
     print("=" * 78)
     ranked = sorted(doc["pairs"].items(), key=lambda kv: -abs(kv[1]["r"]))
     limit = a.top if a.top is not None else len(ranked)

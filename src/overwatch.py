@@ -573,6 +573,19 @@ VERIFY_SCHEMA = {
 }
 
 
+def _told(v, width):
+    """A field cut for the model's window, WITH the model told what it did not get. -> str.
+
+    The shape `local_agent.TOOL_MSG_MAX` settles for tool output, applied to prompt fields: the
+    bound stays, because a context window is finite, and the reader is told the length it was
+    cut from so it can answer "unclear" rather than rule on a fragment it took for the whole.
+    """
+    s = str(v)
+    if len(s) <= width:
+        return s
+    return "%s [CUT: %d of %d characters shown]" % (s[:width], width, len(s))
+
+
 def verify_open(led, local=True, budget=6):
     """The CLOSER the findings lifecycle never had (owner, 2026-08-24: "fix the bug that
     persists stale work orders instead of removing them").
@@ -613,10 +626,18 @@ def verify_open(led, local=True, budget=6):
         b = min(len(lines), int(span[-1]) + 40)
         region = chr(10).join("%d: %s" % (i, ln)
                               for i, ln in enumerate(lines[a:b], a + 1))
+        # THE MODEL IS TOLD WHAT IT DID NOT GET (order 92a9017a5d14). These two were bare
+        # `[:400]` slices, so a model asked to rule refuted/confirmed/unclear could close a
+        # finding on half of what was filed while reading the half it got as the whole of it --
+        # and this file's own measurement under order 80519f08d9ac found 71 of 435 findings
+        # carrying an `actual` longer than 180 characters, the longest 966. The bound is KEPT,
+        # because the local model's window is this module's stated binding constraint; what
+        # changes is that the cut announces itself, which is the shape local_agent's
+        # TOOL_MSG_MAX comment settles ("the model is always told what it did not get").
         prompt = ("FINDING under re-check, filed against %s.%s:%s" % (
                       f.get("module"), f.get("symbol"), chr(10))
-                  + "CLAIM: " + str(f.get("claim"))[:400] + chr(10)
-                  + "OBSERVED THEN: " + str(f.get("actual"))[:400] + chr(10) + chr(10)
+                  + "CLAIM: " + _told(f.get("claim"), 400) + chr(10)
+                  + "OBSERVED THEN: " + _told(f.get("actual"), 400) + chr(10) + chr(10)
                   + "CURRENT CODE (lines %d-%d of %s.py):" % (a + 1, b, f.get("module"))
                   + chr(10) + region)
         got = _ask(VERIFY_SYSTEM, prompt, VERIFY_SCHEMA, local=local)
@@ -629,7 +650,15 @@ def verify_open(led, local=True, budget=6):
         f["last_verified"] = time.time()
         checked += 1
         verdict = got.get("verdict")
-        why = str(got.get("why") or "")[:300]
+        # NO CAP ON THE REASON A FINDING WAS CLOSED (order 92a9017a5d14). This was
+        # `str(got.get("why") or "")[:300]`, and `why` is not a console field: it is written
+        # into `f["verdict"]` two lines down, on a finding whose state is set to "closed" on the
+        # same branch, so it is the ONLY record of why an open finding was closed automatically.
+        # That is exactly the argument workorders.resolve makes about its own former `how[:400]`
+        # -- "it destroyed the one thing the paper trail exists to keep: WHY an order was
+        # closed" -- one module over, on the same object. There is no budget argument for a JSON
+        # field on disk.
+        why = str(got.get("why") or "")
         if verdict == "refuted":
             f["state"] = "closed"
             f["verdict"] = "auto-triage refuted: " + why

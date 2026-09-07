@@ -192,7 +192,7 @@ SIG_MEMO_SECONDS = 1.0
 _SIG_MEMO = {"at": None, "val": None}
 
 
-def _records_sig(fresh=False):
+def _records_sig():
     """(file count, newest mtime) over the records directory, or None if it cannot be stat'd.
 
     Shared by both caches below so they invalidate on exactly the same event. Pulled out
@@ -208,7 +208,16 @@ def _records_sig(fresh=False):
        the one enumeration that was happening anyway. Measured 14.3 ms -> 0.70 ms, and the
        signature is byte-identical -- this half trades away NOTHING.
 
-    2. A short memo, because 0.70 ms x 197,334 is still 2.3 minutes. `fresh=True` bypasses it.
+    2. A short memo, because 0.70 ms x 197,334 is still 2.3 minutes.
+
+    NO BYPASS PARAMETER (order dae0f99306db). This read `def _records_sig(fresh=False)` and
+    this line promised `fresh=True` as an escape hatch from the memo, and NOTHING ever passed
+    it -- the only two call sites in the tree, :111 and :288, are both bare. A documented
+    control with no caller reads to the next maintainer as an available lever, and the
+    paragraph below is the argument that no caller needs one: the hot callers iterate a record
+    list captured once, so a per-call bypass would only make an already-fictional freshness
+    more expensive. Removed rather than wired, for that reason. If a caller ever genuinely
+    needs an unmemoised signature, add the parameter back WITH that caller.
 
     On the window: it is deliberately shorter than the 2.34 s that `load_records()` needs to
     re-parse the corpus once something DOES change, so the memo can never be the dominant
@@ -220,7 +229,7 @@ def _records_sig(fresh=False):
     (`pipeline.write_record`), and no stage writes a record and re-reads it inside a second.
     """
     now = time.monotonic()
-    if not fresh and _SIG_MEMO["at"] is not None and now - _SIG_MEMO["at"] < SIG_MEMO_SECONDS:
+    if _SIG_MEMO["at"] is not None and now - _SIG_MEMO["at"] < SIG_MEMO_SECONDS:
         return _SIG_MEMO["val"]
     files, newest = [], 0
     unstattable = 0

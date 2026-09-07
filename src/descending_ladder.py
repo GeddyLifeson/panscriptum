@@ -38,15 +38,29 @@ import math
 
 # ---------------------------------------------------------------- real constants (SI, cited)
 PLANCK_LENGTH = 1.616255e-35   # m   (CODATA)
+# REFERENCE-ONLY (order 8dae7cda3e2e) -- exact-count grep across src/ finds no consumer of this
+# name anywhere, in this module or any other. Kept, not dropped, because it is a real CODATA
+# quantity a future rung or transit-time calculation in this module's stated job could plausibly
+# want; marked explicitly rather than left to look load-bearing by sitting beside the constants
+# that are. Whether descending_ladder.py gets a consumer at all is the OWNER order's call
+# (handoff/queue/OWNER.md:158), not decided here.
 PLANCK_TIME = 5.391247e-44     # s
 PLANCK_MASS = 2.176434e-8      # kg
-PLANCK_ENERGY = 1.956e9        # J   (= Planck mass x c^2)
 C_LIGHT = 2.99792458e8         # m/s
+# DERIVED, NOT DECLARED (order 8dae7cda3e2e, same class as G_NEWTON's own fix, order
+# 57acf43b339a, in this file). This was a hand-entered `1.956e9`, with a trailing comment
+# `(= Planck mass x c^2)` that was a correct derivation the code did not perform -- a second copy
+# of a derivable quantity, agreeing with PLANCK_MASS * C_LIGHT ** 2 to four figures (1.9561e9)
+# only because nobody had yet re-typed one side wrong. Now the comment is the code.
+PLANCK_ENERGY = PLANCK_MASS * C_LIGHT ** 2   # J
 HBAR = 1.054571817e-34         # J*s
 G_NEWTON = 6.67430e-11         # m^3 kg^-1 s^-2  (CODATA). Named here, not inlined (order
                                # 57acf43b339a) -- it was the one constant in this block missing,
                                # spelled out instead 95 lines down in schwarzschild_radius().
                                # scale_theories.py names the same value as G_NEWTON.
+# REFERENCE-ONLY (order 8dae7cda3e2e) -- same finding as PLANCK_TIME above: no consumer anywhere
+# in src/, kept as a real CODATA constant this module's job could plausibly want rather than
+# dropped, and marked so it does not look load-bearing by sitting beside the constants that are.
 BOLTZMANN = 1.380649e-23       # J/K
 NUCLEAR_DENSITY = 2.3e17       # kg/m^3, saturation density of nuclear matter.
                                # HOISTED HERE from below transgression_bits() (order
@@ -90,6 +104,15 @@ FOLD_RUNG = -15
 
 
 def rung_table():
+    """The fifteen descending rungs, keyed by rung number. -> {rung: {glyph, name, ...}}.
+
+    REFERENCE-ONLY (order 8dae7cda3e2e) -- exact-count grep finds no caller anywhere in src/,
+    including this module's own functions, which all read `DESCENDING` directly. Kept, not
+    dropped: it is the natural public accessor for the table this module builds, and this
+    module's own reporting is what has no caller yet (the OWNER order at
+    handoff/queue/OWNER.md:158, not decided here). Removing the one function shaped like an
+    accessor would not make the module more wired, only smaller.
+    """
     return {r[0]: {"glyph": r[1], "name": r[2], "length_m": r[3], "binding_J": r[4]}
             for r in DESCENDING}
 
@@ -112,7 +135,10 @@ def rung_for_length(metres):
     if metres <= 0:
         return None, None
     if metres < PLANCK_LENGTH:
-        return FOLD_RUNG, "Below the Fold"
+        # FOLD_GLYPH USED HERE (order 8dae7cda3e2e) -- previously defined and read nowhere; this
+        # is the one place in the module that writes a Fold address, so the glyph belongs in the
+        # string it names rather than only in prose above it.
+        return FOLD_RUNG, "%s Below the Fold" % FOLD_GLYPH
     if metres > DESCENDING[0][3]:
         return None, None
     best = DESCENDING[0]
@@ -167,7 +193,25 @@ def shrink_report(mass_kg, from_m, to_m):
     a violation of physics, it is a caller asking the wrong function, and the objections list is
     reserved for laws that had to be patched -- putting a caller's mistake in it would corrupt
     `mass_conserved_is_lawful`, which downstream reads as a statement about the fiction.
+
+    A NON-POSITIVE `to_m` IS THE SAME CLASS, and is now refused the same way (order cc52ba746849).
+    Unguarded, `to_m <= 0` fell straight into the `to_m < r_s` test below and was reported as a
+    BLACK HOLE objection -- the wrong finding about the wrong thing, and the one that sets
+    `mass_conserved_is_lawful` False, which this docstring already says is reserved for laws that
+    had to be patched. A caller passing a non-positive size made no physics claim at all;
+    `mass_conserved_is_lawful` is `None` here (lawfulness was never assessed, not "assessed and
+    failed") and the fault is named in `input_error`, keeping `objections` for laws.
     """
+    if to_m <= 0:
+        return {
+            "from_m": from_m, "to_m": to_m, "is_descent": None,
+            "target_rung": None, "target_rung_name": None,
+            "density_kg_m3": None, "confinement_energy_J": None,
+            "schwarzschild_radius_m": schwarzschild_radius(mass_kg),
+            "mass_conserved_is_lawful": None, "objections": [],
+            "input_error": "to_m must be positive (got %r) -- not a physics finding, a caller "
+                          "error" % (to_m,),
+        }
     rho = density_at_scale(mass_kg, to_m)
     conf = compton_confinement_energy(to_m, mass_kg)
     r_s = schwarzschild_radius(mass_kg)
@@ -189,6 +233,7 @@ def shrink_report(mass_kg, from_m, to_m):
         "schwarzschild_radius_m": r_s,
         "mass_conserved_is_lawful": not verdict,
         "objections": verdict,
+        "input_error": None,
     }
 
 
@@ -210,10 +255,22 @@ def transgression_bits(mass_kg, to_m):
     that is why neutron stars have a maximum mass and why nothing sits at 1e31 kg/m^3 and stays
     a man. So the patch is priced against the density overshoot, and against the Schwarzschild
     condition beyond it, since an object inside its own event horizon is not small but gone.
+
+    A NON-PHYSICAL TRAJECTORY IS REFUSED, NOT PRICED AT ZERO (order 2d6252e03485). `to_m <= 0`
+    and `mass_kg <= 0` are both refused with `None` -- the convention this function's own
+    neighbours already use for an argument outside the domain (`compton_confinement_energy` and
+    `density_at_scale` above both return `None` for exactly these arguments). Returning `0.0` for
+    garbage was byte-identical to the answer for a lawful mass-shedding shrink, so a caller could
+    read "we were handed nonsense" as "no law was broken" -- and a non-positive `mass_kg` was not
+    screened at all before this: it cleared the saturation test (`rho = 0.0`) and
+    `schwarzschild_radius(0) = 0.0`, which no positive `to_m` is below, so `beta = 0.0` again by a
+    second route.
     """
+    if to_m <= 0 or mass_kg <= 0:
+        return None
     rho = density_at_scale(mass_kg, to_m)
     if rho is None:
-        return 0.0
+        return None
 
     beta = 0.0
     if rho > NUCLEAR_DENSITY:

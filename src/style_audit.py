@@ -286,6 +286,30 @@ def main():
             ("the varied fixture splits into its three entries", b["entries"] == 3),
             ("a varied corpus repeats no shape", max(b["shapes"].values()) == 1),
             ("and trips no banned tell", not b["banned"]),
+            # THE TWO DETECTORS THE SELF-TEST NEVER REACHED (order 202f8429168b). The checks
+            # above assert only on `entries`, `shapes` and `banned`, while the GAMMA fixture is
+            # purpose-built to exercise both of these: it carries an em-dash ("it is a warning —
+            # and it stands as a testament") and a sentence constructed to trip TURN_ENDING
+            # ("...to the age. And so it remains."). Nothing asserted on either, so a regression
+            # in TURN_ENDING passed --self-test in silence.
+            #
+            # AND THIS FILE HAS ALREADY SHIPPED EXACTLY THAT REGRESSION. TURN_ENDING's own
+            # docstring records it: under re.M the pattern matched on every PARAGRAPH BREAK
+            # rather than only at the true end of a record, inflating the measured turn-ending
+            # rate from a true 0.2% to a reported 4.3% -- "over-reporting one is a fabricated
+            # pass mark", in this module's own words. That is the same lesson the shape
+            # detector's self-test comment above states ("a check whose result is printed and
+            # discarded cannot fail"), applied to a detector in the same file that the test
+            # simply never looked at.
+            #
+            # Asserted from BOTH directions, matching the shape checks: exact counts on the
+            # dirty fixture fail an over-collapse, and the varied fixture must come back clean,
+            # which fails an over-fire. `turn_endings == 1` is the exact count, not `> 0` -- a
+            # re.M-style regression would report 2 or more here and `> 0` would pass it.
+            ("GAMMA's turn ending is counted, and exactly once", a["turn_endings"] == 1),
+            ("GAMMA's em-dash is counted", a["em_per_entry"] > 0),
+            ("the varied fixture has no turn ending", b["turn_endings"] == 0),
+            ("and no em-dashes", b["em_per_entry"] == 0),
         ]
         print()
         for label, passed in checks:

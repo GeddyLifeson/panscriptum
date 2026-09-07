@@ -155,9 +155,15 @@ def quotas():
                 worst = min(worst, frac)
                 windows.append({"name": name, "left": left, "cap": cap,
                                 "frac": round(frac, 4)})
+            # `worst` only ever moves DOWN from its 1.0 seed, so a bucket whose `remaining`
+            # dict is empty or whose caps are all zero/absent -- no readable window at all --
+            # used to report "worst": 1.0, which the panel renders as a green "100% left" pill
+            # with nothing beneath it. On THE panel this module's own docstring calls the
+            # point, no data must never read as full. `None` here is a third answer, distinct
+            # from both "full" and "dry". (order e7ea68901bfe)
             out.append({"bucket": bucket, "model": m.id, "unlimited": False,
                         "windows": sorted(windows, key=lambda w: w["frac"]),
-                        "worst": round(worst, 4)})
+                        "worst": round(worst, 4) if windows else None})
     except Exception as e:
         silence.note("dashboard.py:quotas")
         out.append({"bucket": f"quota read failed: {type(e).__name__}", "windows": [],
@@ -212,7 +218,16 @@ def jobs():
     row as well.
     """
     out = []
-    import lognames as LN
+    try:
+        import lognames as LN
+    except Exception:
+        # THE SAME FAULT ISOLATION THE DOCSTRING ABOVE ALREADY CLAIMS FOR THE REST OF THIS
+        # FUNCTION, one import earlier. This sat OUTSIDE both try blocks below, so an
+        # unimportable lognames raised straight out of jobs() and out of state() -- exactly
+        # the page-blackout this function's own docstring says it exists to prevent.
+        # (order e7ea68901bfe)
+        silence.note("dashboard.py:jobs-lognames-import")
+        return out
     try:
         _read_row(out, LN)
     except Exception:
@@ -426,8 +441,17 @@ def movement(now_state):
             # file. Every five-second poll repeated it forever: the one corrupt shape that
             # wedged, in the repair whose own comment is "A CORRUPT HISTORY FILE MUST HEAL,
             # NOT WEDGE". Reproduced on a temp history before and after.
-            if not isinstance(hist, list) or not all(isinstance(h, dict) for h in hist):
-                raise ValueError("history is not a list of sample dicts")
+            # THE GUARD HAS TO COVER THE FIELDS THE ARITHMETIC BELOW ACTUALLY USES, not just
+            # the container and the element type. A dict whose `at` is a string (e.g. an ISO
+            # date instead of epoch seconds) passed the old `isinstance(h, dict)`-only guard,
+            # then raised comparing str to float inside the try below -- which returned []
+            # WITHOUT REACHING THE WRITE, so the one function that can replace HISTORY could
+            # never heal it: every later poll re-read the same bad file and re-raised the same
+            # way, forever. Strictly worse than the all-non-dict shape order 62286a6c018a fixed,
+            # which at least reset and healed. (order c003673cff01)
+            if not isinstance(hist, list) or not all(
+                    isinstance(h, dict) and isinstance(h.get("at"), (int, float)) for h in hist):
+                raise ValueError("history is not a list of sample dicts with numeric 'at'")
         except Exception:
             silence.note("dashboard.py:movement-corrupt-reset")
             hist = []
@@ -509,9 +533,18 @@ def movement(now_state):
     span = (row["at"] - base.get("at", row["at"])) / 60 if base else 0
     out = []
     for k, v in keys.items():
-        if v is None:
+        if v is None or not isinstance(v, (int, float)):
             continue
         was = base.get(k)
+        # A NON-NUMERIC STORED METRIC IS TREATED AS ABSENT, NOT SUBTRACTED FROM. This loop
+        # sits OUTSIDE the try/except above, so `v - was` raising (e.g. a history row whose
+        # metric value is a string) used to propagate straight out of movement(); state()
+        # calls movement() unguarded as its last act, so do_GET's /api/state handler answered
+        # an error for the WHOLE page, and every panel -- including the halt headline
+        # panelSafety renders first and loud -- went dark over one bad field in one sample.
+        # (order c003673cff01)
+        if was is not None and not isinstance(was, (int, float)):
+            was = None
         delta = None if was is None else v - was
         # A COUNTER THAT FELL IS NOT A COUNTER THAT MOVED.
         #
@@ -659,9 +692,18 @@ def safety():
                         "breached": d.get("breached") or [],
                         "liveness": d.get("liveness"), "liveness_ceiling": d.get("ceiling"),
                         "age_min": round((time.time() - os.path.getmtime(p)) / 60.0, 1)}
-    except Exception:
+    except FileNotFoundError:
         _ = "silence-exempt: no drill has run yet is a legitimate first state, and the panel "\
             "says so rather than pretending"
+    except Exception:
+        # ABSENT IS NOT THE SAME AS UNREADABLE (same rule as throughput() above, order
+        # ef7a5b8b56a5). The FileNotFoundError exemption above covers "no drill has run yet";
+        # a JSONDecodeError on a torn drill_last.json, a denial, a lock, an OSError on
+        # getmtime all used to render identically to that legitimate first state, so the panel
+        # that answers "did the nets hold" could not tell "never asked" from "could not read
+        # the answer". (order e7ea68901bfe)
+        silence.note("dashboard.py:safety-drill-unreadable")
+        out["drill"] = {"unreadable": True}
     try:
         p = os.path.join(HERE, "state", "escalation.log")
         cutoff = time.time() - 24 * 3600
@@ -675,8 +717,16 @@ def safety():
                 if (r.get("at") or 0) >= cutoff:
                     by[r.get("level_name") or "?"] = by.get(r.get("level_name") or "?", 0) + 1
         out["escalation_recent"] = by
-    except Exception:
+    except FileNotFoundError:
         _ = "silence-exempt: an empty escalation log is the good state"
+    except Exception:
+        # An UNREADABLE escalation log is not the good state and is not an empty one -- this
+        # is the ledger of everything the library has escalated in the last 24 hours, and a
+        # read failure used to be presented as a clean 24 hours (escalation_recent stayed
+        # None, same as the FileNotFoundError case, and the row simply did not render).
+        # (order e7ea68901bfe)
+        silence.note("dashboard.py:safety-escalation-unreadable")
+        out["escalation_unreadable"] = True
     return out
 
 
@@ -747,6 +797,7 @@ h2{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;
 .pill.dry{color:var(--bad);border-color:var(--bad)}
 .pill.low{color:var(--warn);border-color:var(--warn)}
 .pill.ok{color:var(--good);border-color:var(--good)}
+.pill.unknown{color:var(--ink-dim);border-color:var(--ink-dim)}
 table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11.5px}
 td{padding:5px 8px 5px 0;border-bottom:1px solid var(--rule);color:var(--ink-dim);
   font-variant-numeric:tabular-nums}
@@ -851,8 +902,8 @@ function panelQuota(d){const s=el('section');
   if(!d.quotas.length){s.appendChild(el('div','empty','No buckets reporting.'));return s}
   d.quotas.forEach(q=>{const b=el('div','bucket');
     const r=el('div','row');r.appendChild(el('span','label',q.bucket));
-    const st=q.unlimited?'ok':(q.worst<=0.001?'dry':q.worst<0.2?'low':'ok');
-    const txt=q.unlimited?'unlimited':(q.worst<=0.001?'exhausted':pct(q.worst)+' left');
+    const st=q.unlimited?'ok':(q.worst==null?'unknown':q.worst<=0.001?'dry':q.worst<0.2?'low':'ok');
+    const txt=q.unlimited?'unlimited':(q.worst==null?'no readable window':q.worst<=0.001?'exhausted':pct(q.worst)+' left');
     const p=el('span','pill '+st,txt);r.appendChild(p);b.appendChild(r);
     q.windows.forEach(w=>{const g=el('div','win');
       g.appendChild(el('div','n',w.name));g.appendChild(bar(w.frac,''));
@@ -960,6 +1011,7 @@ function panelSafety(d){const s=el('section','wide');
   // The drill. A count with no age is a claim about an unknown moment.
   const dr=sf.drill;
   if(!dr){s.appendChild(el('div','empty','no safety drill has run yet'))}
+  else if(dr.unreadable){s.appendChild(el('div','empty','drill record UNREADABLE — cannot tell held from breached, not the same as never having run'))}
   else{
     const n=dr.nets||0,held=dr.held||0,br=(dr.breached||[]);
     const r=el('div','row');r.appendChild(el('span','label','safety drill'));
@@ -996,13 +1048,17 @@ function panelSafety(d){const s=el('section','wide');
     // name never appears cannot be un-quarantined by anyone reading this page.
     Object.keys(qn).forEach(h=>s.appendChild(el('div','empty',h+': '+qn[h])));
   }
-  const esc=sf.escalation_recent||{};
-  const keys=Object.keys(esc);
-  if(keys.length){
-    const t=el('table');
-    t.appendChild((()=>{const tr=el('tr');tr.append(el('td','k','escalations, 24h'),
-      el('td',null,keys.map(k=>k+' '+esc[k]).join(' · ')));return tr})());
-    s.appendChild(t);
+  if(sf.escalation_unreadable){
+    s.appendChild(el('div','empty','escalation log UNREADABLE — not the same as an empty 24h'));
+  } else {
+    const esc=sf.escalation_recent||{};
+    const keys=Object.keys(esc);
+    if(keys.length){
+      const t=el('table');
+      t.appendChild((()=>{const tr=el('tr');tr.append(el('td','k','escalations, 24h'),
+        el('td',null,keys.map(k=>k+' '+esc[k]).join(' · ')));return tr})());
+      s.appendChild(t);
+    }
   }
   return s}
 

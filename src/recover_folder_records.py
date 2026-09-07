@@ -223,8 +223,10 @@ def main():
                 # one level up.
                 denied = True
                 continue
-            roll_entry["entry_count"] = len(entries)
-            roll_entry["status"] = "catalogued"
+            # roll_entry itself is not mutated here: persistence goes exclusively through
+            # roll_changes / roll.update_rows below, which re-reads the roll from disk and
+            # merges only these changes into it (order 9954fb56d0e3, mirroring the same fix
+            # in catalogue_codex.py under order 09f3105df988).
             roll_changes[name] = {"entry_count": len(entries), "status": "catalogued"}
         written.append((name, len(entries), os.path.basename(path)))
 

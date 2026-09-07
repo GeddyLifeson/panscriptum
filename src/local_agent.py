@@ -889,6 +889,28 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
                              "charter is the owner's, and shared state is landed via "
                              "silence.replace_retry." % (rel, _pfx)})
     original = open(full, encoding="utf-8").read()
+    # AN EMPTY FIND IS NOT A LOCATION (order f29382aa7911). `str.count("")` returns `len(s) + 1`,
+    # which is 1 for the empty string alone -- so against a ZERO-BYTE target the uniqueness test
+    # below PASSED, and `original.replace("", replace, 1)` twenty lines down is just `replace`.
+    # The model writes arbitrary content into a file without having read a single byte of it.
+    #
+    # NOT A GATE BYPASS, and the order says so plainly: an empty find still has to pass, in
+    # order, the module denylist, DENYLIST_PATHS, the WRITABLE_PREFIXES/WRITABLE_FILES allowlist
+    # on BOTH spellings, DENYLIST_PREFIXES, the blast-radius cap and every gate in `_gates()`,
+    # and the target must already EXIST (`os.path.isfile` above), so no new file is created.
+    # There is no zero-byte file on the writable surface today.
+    #
+    # WHAT IS LOST WITHOUT IT is the contract this tool's own description and the SYSTEM prompt
+    # both state: "call propose_patch with an EXACT unique find string copied verbatim from the
+    # file". That sentence is the whole reason a patch is EVIDENCE that the model read its
+    # target. `find_symbol`, `read_file` and this uniqueness test are the three things standing
+    # between this lane and a model editing what it has not looked at, and one of them had a
+    # hole exactly one byte wide. Refused BEFORE the count, with its own message, so the reason
+    # given is the real one rather than an arithmetic accident.
+    if not find:
+        return _settle({"applied": False,
+                "error": "an empty find string is not a location -- copy an exact, unique "
+                         "string verbatim from read_file and patch against that"})
     if original.count(find) != 1:
         return _settle({"applied": False,
                 "error": "find string occurs %d times; it must occur exactly once -- copy "

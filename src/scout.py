@@ -561,11 +561,44 @@ def sweep(limit=None, register=True):
     can see the far side of reads exactly like a complete list.
     """
     todo = hostless()
-    try:
-        seen = json.load(open(ATTEMPTS, encoding="utf-8")) if os.path.exists(ATTEMPTS) else {}
-    except Exception:
-        silence.note("scout.py:attempts-unreadable")
-        seen = {}                     # unreadable ledger -> everything reads as never attempted
+    # THE READ VERDICT TRAVELS BESIDE THE VALUE (order b8547f32bef0). This module states the
+    # "unreadable is not empty" rule three times -- `_mutate` ("an unreadable shared artifact is
+    # not an empty one") and `hostless()` twice ("wrong-shape is the same fact as unparseable")
+    # -- and then broke it on its own ledger read: an unreadable SCOUT_ATTEMPTS.json became
+    # `seen = {}` with only a silence.note.
+    #
+    # THE MILD CONSEQUENCE is that every source then sorts as never-attempted (0.0), so the
+    # ordering collapses back to the entry-count ordering this function's own docstring
+    # identifies as the pinning bug it was written to remove.
+    #
+    # THE SERIOUS ONE is `_unstamp` below. It exists to give a source back its place in the
+    # rotation when the model was never reached, and it restores the PRIOR value out of this
+    # same `seen`. With `seen == {}` every never-asked source takes the `pop` branch, so the
+    # prior timestamp -- which IS present in `seen_now`, because `_mutate` re-reads the CURRENT
+    # file -- is DELETED rather than restored. Those sources then read as never-attempted for
+    # ever and pin the front of the rotation, which is precisely what the stamp-before-the-work
+    # rule below exists to prevent.
+    #
+    # The window is narrow and real: `_mutate` refuses outright on an unreadable file, so the
+    # deletion needs a TRANSIENT read failure here followed by a readable file at `_mutate` time
+    # -- the ordinary Windows sharing violation every ATOMIC comment in this tree is about
+    # (binding_health records the same collision taking an assay worker down). "File does not
+    # exist" is NOT that case: it is the bootstrap, `os.path.exists` handles it, and popping a
+    # key nothing else wrote is harmless -- so it keeps `seen_ok = True`.
+    #
+    # The pair shape is `tiers._load_groundings`'s: (value, ok).
+    seen, seen_ok = {}, True
+    if os.path.exists(ATTEMPTS):
+        try:
+            seen = json.load(open(ATTEMPTS, encoding="utf-8"))
+            if not isinstance(seen, dict):
+                raise ValueError("SCOUT_ATTEMPTS.json is not an object")
+        except Exception as e:
+            silence.note("scout.py:attempts-unreadable")
+            seen, seen_ok = {}, False
+            print("scout: SCOUT_ATTEMPTS.json could not be read (%s). The rotation order below "
+                  "is the entry-count order, NOT last-attempted-first, and no stamp will be "
+                  "taken back this cycle." % type(e).__name__, file=sys.stderr)
     # Never-attempted sorts first (0.0), then longest-waiting, then largest -- the old
     # preference, kept as the TIE-BREAK it should always have been.
     order = sorted(todo, key=lambda s: (float(seen.get(s) or 0.0), -len(todo[s])))
@@ -664,7 +697,18 @@ def sweep(limit=None, register=True):
     # stub) means "this predates the distinction", and guessing on its behalf would put the
     # rotation back where this order found it.
     never_asked = [r["source"] for r in results if r.get("reached") is False]
-    if never_asked:
+    if never_asked and not seen_ok:
+        # THE UNSTAMP IS SKIPPED ENTIRELY WHEN THE PRE-READ FAILED (order b8547f32bef0). See the
+        # long note at the ATTEMPTS read. `seen` is empty because the file would not open, not
+        # because nothing was attempted, so `_unstamp` would DELETE each source's real prior
+        # timestamp instead of restoring it. Leaving the stamp standing costs one rotation slot;
+        # deleting a stamp costs the rotation.
+        print("   %d source(s) were NEVER ASKED, and their stamps are LEFT AS THEY ARE: the "
+              "attempts ledger could not be read at the start of this cycle, so there is no "
+              "prior value to restore and taking the stamp back would delete one. They lose "
+              "one rotation slot rather than their place in the rotation."
+              % len(never_asked))
+    elif never_asked:
         def _unstamp(seen_now):
             for src in never_asked:
                 if seen_now.get(src) != now:
@@ -678,11 +722,28 @@ def sweep(limit=None, register=True):
             silence.note("scout.py:attempts-unwritable")
         print(f"   {len(never_asked)} source(s) were NEVER ASKED (the model could not be "
               f"reached) and keep their place in the rotation")
-    try:
-        prev = json.load(open(LOG, encoding="utf-8")) if os.path.exists(LOG) else []
-    except Exception:
-        silence.note("scout.py:log-unreadable")
-        prev = []
+    # THE SHAPE IS CHECKED, NOT ONLY THE PARSE (order b8547f32bef0). The except covered
+    # unreadable and set `prev = []`, and nothing tested the SHAPE -- so a SCOUT.json holding a
+    # JSON object rather than a list reached `prev.append(...)` and raised AttributeError,
+    # uncaught, AFTER every fetch and every model call of the cycle had already been spent: the
+    # results were discarded and nothing was logged. The same sentence this file writes twice --
+    # "wrong-shape is the same fact as unparseable" -- covers it.
+    prev = []
+    if os.path.exists(LOG):
+        try:
+            prev = json.load(open(LOG, encoding="utf-8"))
+        except Exception:
+            silence.note("scout.py:log-unreadable")
+            prev = []
+        if not isinstance(prev, list):
+            silence.note("scout.py:log-wrong-shape")
+            print("scout: %s is not a JSON list, so this cycle's entry cannot be appended to it. "
+                  "The existing file is left untouched -- move it aside by hand rather than "
+                  "letting a log overwrite one." % os.path.basename(LOG), file=sys.stderr)
+            prev = None
+    if prev is None:
+        # Nothing is written, and the results are still returned: the cycle happened.
+        return results
     prev.append({"at": time.strftime("%Y-%m-%d %H:%M"), "results": results})
     # GATED, exactly as the `_mutate` call twenty lines above already is. `_land` returns
     # `silence.write_json`'s verdict -- whether the rename LANDED -- and this discarded it, so a

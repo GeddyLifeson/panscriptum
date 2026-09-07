@@ -99,7 +99,10 @@ def hosts_for(source, include_primary=True):
     out = []
     if include_primary:
         p = primary_host(source)
-        if p and not str(p).startswith("pages:"):
+        # "pages:" and "doc:" are both PROVENANCE SENTINELS, not real hosts -- the same
+        # convention completeness.SENTINELS and health.py/binding_health.py already filter.
+        # A "doc:" primary must not be handed back as something probeable or fetchable.
+        if p and not str(p).startswith(("pages:", "doc:")):
             out.append(p)
     for rec in (_load(EXTRA, {}).get(source) or []):
         h = rec.get("host") if isinstance(rec, dict) else rec
