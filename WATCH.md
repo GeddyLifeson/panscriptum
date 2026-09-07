@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 423  ·  last run 2026-09-07 15:00
+round 424  ·  last run 2026-09-07 16:05
 
 ## Structure
 
@@ -14,6 +14,8 @@ round 423  ·  last run 2026-09-07 15:00
 
 **12 open** (5 high). Newest first.
 
+- **wiki_source.py** `all_categories` — [HIGH] A FAILED WALK IS RETURNED AS THE ANSWER
+  - says: A FAILED WALK RAISES; IT IS NEVER RETURNED AS THE ANSWER, MEMOISED OR NOT
 - **verify_math.py** `path` — [HIGH] is read from the entire module, not the function's scope
   - says: is scoped to the function
 - **verify_math.py** `call_idxs` — [HIGH] was deleted due to a conditional check that no longer exists
@@ -22,8 +24,12 @@ round 423  ·  last run 2026-09-07 15:00
   - says: Between-hand dispersion is only defined for MORE THAN ONE reading
 - **verify_math.py** `_chunk_key` — [HIGH] produces the same key for entities reading the same passage
   - says: two entities reading the SAME passage get different cache keys
-- **verify_math.py** `check` — [HIGH] ignores tolerance when the want is an integer
-  - says: compares values with tolerance
+- **withdraw_chapters.py** `main` — [MEDIUM] Exits 1 if --go and any refusal condition is met, else 0
+  - says: Every refusal above was printed and discarded; exit 0 unconditionally
+- **withdraw_chapters.py** `silence.write_json` — [MEDIUM] The code writes a merged manifest that combines existing entries with new withdrawals, but the comment suggests it should keep the selection (withdrawn) rather than merge.
+  - says: The withdrawn catalog is the record of WHAT was withdrawn; keep it beside the files.
+- **withdraw_chapters.py** `claimed_raw` — [MEDIUM] a set of filenames from the catalog's raw_path entries
+  - says: Anything left in output/raw that the catalog never claimed -- the pilot's strays.
 - **weave.py** `pair_weights` — [MEDIUM] Summed idf of everything each source-pair shares, but with no cap on the contribution of each entity, which can lead to overcounting.
   - says: Summed idf of everything each source-pair shares.
 - **verify_math.py** `_ALL_SRC` — [MEDIUM] list of all .py files in the current directory (not necessarily the src directory)
@@ -32,12 +38,6 @@ round 423  ·  last run 2026-09-07 15:00
   - says: Run the real standards.check() over a synthetic throughput window.
 - **verify_math.py** `BG.HAMLET_FLOOR` — [MEDIUM] the value is re-spelt here instead of read from the module
   - says: the floor was RE-SPELT here rather than read, which is the "one spelling in one place" rule broken
-- **verify_math.py** `max` — [MEDIUM] the comparison falls through to exact equality, and the tolerance is silently discarded
-  - says: Auerbach 1913 / Zipf 1949; q = 1 is the classical rule. Integer populations, compared exactly -- no tolerance, because a tolerance on two ints is discarded
-- **tuning.py** `cloud_success_rate` — [MEDIUM] The function returns (None, 0) when there's an exception, which is not treated as a fault, but the docstring says it's never treated as a fault. However, the function's path is hardcoded, which may not be the intended location.
-  - says: The pool's MEASURED success rate over the recent past: (rate, calls).
-- **tiers.py** `deliberate_joins` — [MEDIUM] the names are cut with nothing marking it
-  - says: THE TWO SOURCE NAMES SAY WHEN THEY ARE CUT (orders 1d1ac500342d, fe99e57e1993). These were `a[:26]` and `b[:26]`, bare slices, on the panel titled "why a xenoverse is 'artificial'" -- the panel `deliberate_joins()`'s own docstring calls THE EVIDENCE. An earlier repair (order 9861c18b8485) uncapped the row count and the shared-evidence list on this very block and left the names themselves cut with nothing marking it.
 
 ---
 
