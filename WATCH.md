@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 424  ·  last run 2026-09-07 16:05
+round 425  ·  last run 2026-09-07 16:53
 
 ## Structure
 
@@ -12,8 +12,12 @@ round 424  ·  last run 2026-09-07 16:05
 
 ## What the model found in the code
 
-**12 open** (5 high). Newest first.
+**18 open** (6 high). Newest first.
 
+- **workorders.py** `resolve_code` — [HIGH] files when healthy, resolves when not
+  - says: resolves; NOT healthy files
+- **workorders.py** `resolve` — [HIGH] Closes an order by updating its resolution in the open file without removing it, and does not append to the paper trail as described.
+  - says: Close an order: REMOVE it from the open file, append it to the paper trail.
 - **wiki_source.py** `all_categories` — [HIGH] A FAILED WALK IS RETURNED AS THE ANSWER
   - says: A FAILED WALK RAISES; IT IS NEVER RETURNED AS THE ANSWER, MEMOISED OR NOT
 - **verify_math.py** `path` — [HIGH] is read from the entire module, not the function's scope
@@ -22,8 +26,22 @@ round 424  ·  last run 2026-09-07 16:05
   - says: finds the call site of verify_restore
 - **verify_math.py** `A._interval` — [HIGH] the code inverts the guard, which turns the one safe case into the crash case and vice versa
   - says: Between-hand dispersion is only defined for MORE THAN ONE reading
-- **verify_math.py** `_chunk_key` — [HIGH] produces the same key for entities reading the same passage
-  - says: two entities reading the SAME passage get different cache keys
+- **worldseed.py** `build_all` — [MEDIUM] build_all is not properly handling the case where the ONOMASTICON file is empty or malformed, leading to incorrect state in LAST_BUILD and potential misreporting of errors
+  - says: build_all is supposed to read and process the ONOMASTICON and CONTINUITY_GROUPS JSON files, handling errors and reporting issues
+- **workorders.py** `want` — [MEDIUM] want is checked against LADDER, but if invalid, it still proceeds to print the entire queue instead of refusing
+  - says: want not in LADDER causes a refusal message and return 2
+- **workorders.py** `shown` — [MEDIUM] shown is set to LADDER (show everything) by default, and only set to [want] if a.handler is valid
+  - says: An unknown rung REFUSES rather than falling back to "show everything"
+- **workorders.py** `BATTERY_CODES` — [MEDIUM] codes that the battery checks, but the battery does not check all codes
+  - says: codes that the battery checks
+- **workorders.py** `closed` — [MEDIUM] tracks closed codes, but the code is not closed when it should be
+  - says: tracks closed codes
+- **workorders.py** `resolve_code` — [MEDIUM] resolves a code to a resolution, but the code is not closed when it should be
+  - says: resolves a code to a resolution
+- **workorders.py** `filed.append` — [MEDIUM] appends to the filed list, which is then filtered by [f for f in filed if f] at the end of the function
+  - says: COUNTED, like every sibling section. This block's `filed` results used to be discarded, so `swept: N filed/refreshed` under-reported by exactly the number of binding orders -- and the None a REFUSED queue write returns went the same way, so a finding that never reached the file could not be told from one that did. Both directions are the same fault: a sweep reporting on work it did not verify. The `[f for f in filed if f]` at the end of this function drops the Nones.
+- **workorders.py** `filed` — [MEDIUM] defined in the same block
+  - says: used but never defined
 - **withdraw_chapters.py** `main` — [MEDIUM] Exits 1 if --go and any refusal condition is met, else 0
   - says: Every refusal above was printed and discarded; exit 0 unconditionally
 - **withdraw_chapters.py** `silence.write_json` — [MEDIUM] The code writes a merged manifest that combines existing entries with new withdrawals, but the comment suggests it should keep the selection (withdrawn) rather than merge.
@@ -32,12 +50,6 @@ round 424  ·  last run 2026-09-07 16:05
   - says: Anything left in output/raw that the catalog never claimed -- the pilot's strays.
 - **weave.py** `pair_weights` — [MEDIUM] Summed idf of everything each source-pair shares, but with no cap on the contribution of each entity, which can lead to overcounting.
   - says: Summed idf of everything each source-pair shares.
-- **verify_math.py** `_ALL_SRC` — [MEDIUM] list of all .py files in the current directory (not necessarily the src directory)
-  - says: list of all .py files in the src directory
-- **verify_math.py** `_pool19ai` — [MEDIUM] Returns a mock object when the standard is absent, but the code around it expects it to return a real standard or raise an error
-  - says: Run the real standards.check() over a synthetic throughput window.
-- **verify_math.py** `BG.HAMLET_FLOOR` — [MEDIUM] the value is re-spelt here instead of read from the module
-  - says: the floor was RE-SPELT here rather than read, which is the "one spelling in one place" rule broken
 
 ---
 
