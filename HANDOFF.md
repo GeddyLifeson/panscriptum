@@ -35,6 +35,10 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+### PUSHED
+
+Export commit **a39d377** (103 files synced, working tree clean). The agent-scratch gate was verified to hold across this very push: **28 .py files under handoff/ in the live tree, 0 in the export**, and 0 script-type files -- checked after the push rather than assumed from the widened tuple.
+
 ### THE BATTERY, AT CLOSE, ON A SETTLED TREE
 
 `drill` **443 nets attacked, 443 held, 0 BREACHED** (405 → 443) · `verify_math` **1159 passed, 0 FAILED** (1144 → 1159) · `allsweep` **0 subsystems bad** · `secondopinion` all three tools **RAN**, **0 secrets agreed by two independently-written scanners** · `liveness` 45 findings, **0 tautology, 0 phantom** · `health --preflight` all checks pass · `escalation --status` clear · `pyflakes` over all of `src/` clean · `corpus_db` rebuilt at open (216 sources, **282,822 entries**, 278,251 evidence rows) · `axis_correlation` **n_entities = 45, unchanged, so no `--write`** (same verdict as run #45).
