@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 401  ·  last run 2026-09-06 19:03
+round 402  ·  last run 2026-09-06 20:19
 
 ## Structure
 
@@ -12,22 +12,16 @@ round 401  ·  last run 2026-09-06 19:03
 
 ## What the model found in the code
 
-**11 open** (2 high). Newest first.
+**8 open** (1 high). Newest first.
 
 - **withdraw_chapters.py** `select` — [HIGH] the function `select` is called with `a.source` and `a.addr` but the code does not check if either selector matches anything in the catalog. The code only checks if the entire selection is empty, which is not the same as checking each selector independently. The comment suggests that each selector should be checked independently, but the code does not do that. The code only checks if the entire selection is empty, which is not the same as checking each selector independently. The comment suggests that each selector should be checked independently, but the code does not do that.
   - says: PER SELECTOR, NOT PER RUN (order c8ac7dbab3c5). This fired only when the WHOLE selection came back empty, so a mistyped `--addr` alongside any selector that DID match was silently ignored: the run withdrew the ones it understood, said nothing about the one it did not, and the operator read a clean report as confirmation that everything named had gone. Worse, the `unknown` list was built from `a.source` alone, so even on the empty branch -- the branch whose whole job is naming the typo -- an `--addr` typo was never named. Both selectors are now checked against the catalog independently, and ANY selector that matches nothing refuses the run. Matching is exact by design (see `select`), so an unmatched selector is a spelling; on the tool whose next step is irreversible, a spelling is a stop.
-- **foreman.py** `kill_stalled_job` — [HIGH] Kills stalled jobs, but the code comments indicate it should only kill jobs that are not in the standing set and not restartable, which is a contradiction.
-  - says: A job that is UP and writing nothing is worse than a job that is down.
 - **roll.py** `main` — [MEDIUM] returns 0
   - says: RETURNS THE REASON, NOT JUST THE NAME
 - **manifest_builder.py** `manifest_landed` — [MEDIUM] is the result of write_json
   - says: returns whether the rename LANDED
 - **manifest_builder.py** `feats_index.feats_for_source` — [MEDIUM] The code attempts to compute a budget for feats blocks but the actual issue is that the `feats_index.feats_for_source` call is not properly handling the case where the feats lookup fails, leading to an incorrect assumption about the presence of feats in the source.
   - says: DERIVED, NOT DECLARED (m46). `FEATS_BLOCK_CHARS` had no arithmetic relationship to `num_ctx`
-- **ledger_guard.py** `check_all` — [MEDIUM] only checks the structure and floors, not the entire ledger integrity
-  - says: check the relay's ledgers
-- **foreman.py** `refresh_coverage` — [MEDIUM] Returns a boolean indicating if the coverage script ran successfully, without capturing or reporting any output or error details.
-  - says: Re-measure cited/settled. Stale figures understate the library and mislead every other standard that reads them.
 - **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
   - says: searches for replacements for hosts that failed to hold their fiction
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
