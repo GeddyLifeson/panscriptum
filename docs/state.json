@@ -1,5 +1,5 @@
 {
- "at": "2026-09-07 05:55:47",
+ "at": "2026-09-07 06:06:06",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -227,16 +227,16 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
+     "name": "rpm",
      "left": 0,
-     "cap": 1000,
+     "cap": 15,
      "frac": 0.0
     },
     {
-     "name": "rpm",
-     "left": 15,
-     "cap": 15,
-     "frac": 1.0
+     "name": "rpd",
+     "left": 5,
+     "cap": 1000,
+     "frac": 0.005
     }
    ],
    "worst": 0.0
@@ -268,9 +268,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 46,
+     "left": 38,
      "cap": 250,
-     "frac": 0.184
+     "frac": 0.152
     },
     {
      "name": "rpm",
@@ -279,7 +279,7 @@
      "frac": 0.5
     }
    ],
-   "worst": 0.184
+   "worst": 0.152
   },
   {
    "bucket": "github:free",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 64647,
+     "left": 64180,
      "cap": 100000,
-     "frac": 0.6465
+     "frac": 0.6418
     },
     {
      "name": "rpm",
@@ -734,28 +734,28 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 52,
-  "per_hour": 208,
+  "calls": 58,
+  "per_hour": 232,
   "buckets": [
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 34,
-    "ok": 0
+    "calls": 22,
+    "ok": 1
+   },
+   {
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 17,
+    "ok": 17
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 8,
+    "calls": 10,
     "ok": 0
    },
    {
     "bucket": "ollama:qwen3:8b",
     "calls": 8,
     "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 1,
-    "ok": 1
    },
    {
     "bucket": "groq:groq/compound-mini",
@@ -768,12 +768,12 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 16608,
+   "done": 16627,
    "total": 407999,
-   "detail": "2,490/240,441 entities  \u00b7  78,827 feats  \u00b7  0.02 chunks/s",
+   "detail": "2,495/240,441 entities  \u00b7  78,906 feats  \u00b7  0.01 chunks/s",
    "warn": "241 unanswered",
-   "dropped": 17364,
-   "eta_h": 5261.4
+   "dropped": 17390,
+   "eta_h": 9895.9
   },
   {
    "name": "page roll",
@@ -795,10 +795,10 @@
   },
   "coverage": {
    "entries": 282822,
-   "cited": 25818,
+   "cited": 25820,
    "read": 215890,
-   "settled": 241708,
-   "feats": 131459,
+   "settled": 241710,
+   "feats": 131497,
    "age_h": 0.1
   },
   "phases": [
@@ -835,12 +835,12 @@
     "built": true
    }
   ],
-  "readfeats": 2442
+  "readfeats": 2444
  },
  "watch": {
-  "open": 23,
-  "high": 5,
-  "rounds": 412,
+  "open": 36,
+  "high": 10,
+  "rounds": 413,
   "findings": [
    {
     "module": "drill",
@@ -855,6 +855,12 @@
     "severity": "medium"
    },
    {
+    "module": "generate",
+    "symbol": "failures.pop",
+    "actual": "removes a failure entry from the failures list even if the chapter was successfully catalogued",
+    "severity": "high"
+   },
+   {
     "module": "drill",
     "symbol": "S.replace_if_unchanged",
     "actual": "The function returns (False, \"landed\") unconditionally, leading to incorrect logging of denied operations as successful.",
@@ -867,9 +873,39 @@
     "severity": "medium"
    },
    {
+    "module": "endpoint",
+    "symbol": "html_text",
+    "actual": "Defined in another module, but not imported here",
+    "severity": "high"
+   },
+   {
+    "module": "hostcheck",
+    "symbol": "purge-record",
+    "actual": "the function silently deletes files without recording the deletion",
+    "severity": "high"
+   },
+   {
+    "module": "generate",
+    "symbol": "failures",
+    "actual": "updates with getattr(e, \"lists\", {}) which may not include all failure details",
+    "severity": "medium"
+   },
+   {
+    "module": "generate",
+    "symbol": "floor",
+    "actual": "It is set to 0.35 and then converted to a float, but the code does not actually apply the floor check to the evidence.",
+    "severity": "medium"
+   },
+   {
     "module": "drill",
     "symbol": "a_pure_ladder_is_all_ladder",
     "actual": "The function returns a result where 'eta' is 1.0, but the comment suggests it should return 0.0 for a shape with no ladder in it. The actual result contradicts the claim.",
+    "severity": "high"
+   },
+   {
+    "module": "hostcheck",
+    "symbol": "candidates",
+    "actual": "Returns the same flat `grounded + spec` list it has always returned, but the comment says callers must use `candidates_split` to bound the tail.",
     "severity": "high"
    },
    {
@@ -879,10 +915,22 @@
     "severity": "medium"
    },
    {
+    "module": "genre",
+    "symbol": "classify_source",
+    "actual": "Truncates the entry list in stored order and changes the answer for 7 of 210 sources",
+    "severity": "high"
+   },
+   {
     "module": "drill",
     "symbol": "S.replace_if_unchanged",
     "actual": "The function unconditionally returns \"landed\" for denied operations, which is incorrect.",
     "severity": "high"
+   },
+   {
+    "module": "feats_index",
+    "symbol": "_norm",
+    "actual": "Folds a name to its comparable core, but does not strip parentheticals, contradicting a previous docstring claim that it did.",
+    "severity": "medium"
    },
    {
     "module": "foreman",
@@ -909,9 +957,21 @@
     "severity": "medium"
    },
    {
+    "module": "generate",
+    "symbol": "failures",
+    "actual": "is used to store failure details but does not prevent the run from continuing",
+    "severity": "medium"
+   },
+   {
     "module": "drill",
     "symbol": "LA._safe",
     "actual": "LA._safe is used to check a path that is supposed to be reachable, but the code indicates that the path is not reachable and the check is meant to verify that the path is accessible.",
+    "severity": "medium"
+   },
+   {
+    "module": "hostcheck",
+    "symbol": "relevance",
+    "actual": "Returns a rate based on a subset of titles, not the full set, and the denominator is not the total number of existing articles.",
     "severity": "medium"
    },
    {
@@ -933,16 +993,28 @@
     "severity": "medium"
    },
    {
+    "module": "generate",
+    "symbol": "floor",
+    "actual": "The code checks if the floor is ok, but the actual floor value is not used in any further checks.",
+    "severity": "medium"
+   },
+   {
     "module": "foreman",
     "symbol": "triage_swallowed",
     "actual": "Archives failures and sorts them, but the comment suggests it should name the top classes",
     "severity": "medium"
    },
    {
-    "module": "drill",
-    "symbol": "net",
-    "actual": "The code calls net with a function that attempts to create a junction, which is unrelated to the scenario described in the first net call",
-    "severity": "high"
+    "module": "health",
+    "symbol": "preflight",
+    "actual": "Writes a stamp file that may or may not be written, and returns the number of problems found",
+    "severity": "medium"
+   },
+   {
+    "module": "binding_health",
+    "symbol": "F.fetch",
+    "actual": "fetch host and list of titles",
+    "severity": "medium"
    },
    {
     "module": "entity_match",
@@ -979,6 +1051,12 @@
     "symbol": "hist",
     "actual": "is validated to be a list of dicts with numeric 'at' keys",
     "severity": "medium"
+   },
+   {
+    "module": "health",
+    "symbol": "excluded_dirs",
+    "actual": "A host is excused if any source on it is excluded",
+    "severity": "high"
    }
   ],
   "broken": [],
@@ -1189,43 +1267,43 @@
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1015,
+   "n": 1009,
    "p50": 2.0,
-   "p95": 9.8,
-   "ok_pct": 32,
+   "p95": 9.7,
+   "ok_pct": 33,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 187,
+   "n": 214,
    "p50": 4.7,
-   "p95": 334.5,
+   "p95": 229.6,
    "ok_pct": null,
-   "tps": 21.1
+   "tps": 21.5
   },
   {
    "tag": "assay-split",
-   "n": 116,
-   "p50": 81.1,
+   "n": 101,
+   "p50": 82.2,
    "p95": 354.5,
    "ok_pct": null,
-   "tps": 16.1
+   "tps": 16.0
   },
   {
    "tag": "ask",
-   "n": 86,
-   "p50": 95.0,
-   "p95": 359.5,
+   "n": 81,
+   "p50": 100.2,
+   "p95": 319.6,
    "ok_pct": null,
-   "tps": 16.5
+   "tps": 16.8
   },
   {
    "tag": "entrypass",
-   "n": 65,
+   "n": 66,
    "p50": 98.1,
    "p95": 473.0,
    "ok_pct": null,
-   "tps": 13.7
+   "tps": 13.8
   },
   {
    "tag": "assay-local",
@@ -1255,7 +1333,7 @@
    "breached": [],
    "liveness": 45,
    "liveness_ceiling": 52,
-   "age_min": 6.8
+   "age_min": 4.4
   },
   "escalation_recent": {
    "MANAGER": 601,
@@ -1290,7 +1368,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 208,
+   "observed": 232,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1326,7 +1404,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "2% ok of 52",
+   "observed": "31% ok of 58",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1335,7 +1413,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": false,
-   "observed": "local, 1 of 16 permits (3 answering; 2% ok over 52 calls; ollama up)",
+   "observed": "local, 1 of 16 permits (3 answering; 31% ok over 58 calls; ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1353,7 +1431,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "5261.4h",
+   "observed": "9895.9h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -1425,7 +1503,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 5,
+   "observed": 10,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1515,7 +1593,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 3 of 6 benchmarks done, started 0.3h ago -- pending: Naruto Uzumaki, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 4 of 6 benchmarks done, started 0.5h ago -- pending: Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1551,7 +1629,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "5.2h",
+   "observed": "5.3h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1578,7 +1656,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "read_auto (21 min, 687546 bytes)",
+   "observed": "pipeline_auto (21 min, 1192001 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1587,7 +1665,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x360, 0.3h old)",
+   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x360, 0.5h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1695,31 +1773,31 @@
  "movement": [
   {
    "metric": "cited",
-   "now": 25818,
-   "delta": 7,
+   "now": 25820,
+   "delta": 9,
    "minutes": 31,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "settled",
-   "now": 241708,
-   "delta": 20,
+   "now": 241710,
+   "delta": 22,
    "minutes": 31,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "feats",
-   "now": 131459,
-   "delta": 87,
+   "now": 131497,
+   "delta": 125,
    "minutes": 31,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "entities read",
-   "now": 2442,
+   "now": 2444,
    "delta": 4,
    "minutes": 31,
    "reset": false,
@@ -1727,8 +1805,8 @@
   },
   {
    "metric": "chunks",
-   "now": 16608,
-   "delta": 20,
+   "now": 16627,
+   "delta": 19,
    "minutes": 31,
    "reset": false,
    "stalled": false
@@ -1736,11 +1814,11 @@
   {
    "metric": "standards met",
    "now": 33,
-   "delta": 0,
+   "delta": 1,
    "minutes": 31,
    "reset": false,
-   "stalled": true
+   "stalled": false
   }
  ],
- "generated": "2026-09-07T05:55:59"
+ "generated": "2026-09-07T06:06:18"
 }
