@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 407  ·  last run 2026-09-07 00:11
+round 408  ·  last run 2026-09-07 00:54
 
 ## Structure
 
@@ -12,8 +12,14 @@ round 407  ·  last run 2026-09-07 00:11
 
 ## What the model found in the code
 
-**16 open** (5 high). Newest first.
+**19 open** (8 high). Newest first.
 
+- **catalogue_codex.py** `roll_landed` — [HIGH] the write to SWEEP_ROLL.json was denied
+  - says: the write to SWEEP_ROLL.json landed
+- **catalogue_codex.py** `parse_codex` — [HIGH] -> {title: {blurb: ..., contents: [...]}}
+  - says: -> {norm(name): [item, ...]} -- EVERY item under a key, never just the first to arrive.
+- **canon_backup.py** `prune` — [HIGH] Deletes all but the newest `keep` snapshots, but the code does not actually delete the snapshots; it only marks them as denied and prints a message.
+  - says: Delete all but the newest `keep` snapshots, and reap abandoned scratch files.
 - **axis_correlation.py** `rho` — [HIGH] returns 0.0 when doc is missing, which contradicts the claim that the default is the measured mean
   - says: THE DEFAULT IS THE MEASURED MEAN, NOT ZERO
 - **autostart.py** `threading` — [HIGH] not defined in this slice
@@ -24,6 +30,14 @@ round 407  ·  last run 2026-09-07 00:11
   - says: used for handling errors and logging
 - **autostart.py** `installed_state` — [HIGH] not defined in this slice
   - says: returns the state of the launcher
+- **catalogue_models.py** `sweep` — [MEDIUM] reports truncated stale model references
+  - says: reports stale model references
+- **catalog.py** `cmd_read` — [MEDIUM] returns 0 on hit, 1 on miss
+  - says: -> rc. A MISS IS rc=1 (order 3f4d2d058fdc). See main().
+- **catalog.py** `cmd_address` — [MEDIUM] returns 0 on hit, 1 on miss
+  - says: -> rc. A MISS IS rc=1 (order 3f4d2d058fdc). See main().
+- **canon_backup.py** `final` — [MEDIUM] the final name includes the stamp which is unique per snapshot
+  - says: THE NAMING CONVENTION STILL SORTS
 - **binding_health.py** `F.page_looks_real` — [MEDIUM] judge page as real document
   - says: judge page as real article
 - **binding_health.py** `F.fetch` — [MEDIUM] fetch host and list of titles
@@ -36,14 +50,6 @@ round 407  ·  last run 2026-09-07 00:11
   - says: THE SINGLE ROSTER, NOT A HAND-KEPT SUBSET OF IT. This used to be a six-item tuple typed out here, and it had already drifted from `ON.STANDING`: it named "feats.py" where the roster's own entry is "feats.py --roll" (a real fragment-with-argument, per `_cmd_is_running`'s own docstring, not a mention), and it had no entry at all for `pipeline`, which joined STANDING after this tuple was written -- so `--status` could print every job on ITS list green while pipeline.py was down. `ON.ALL_JOBS` is the roster its own comment in overnight.py says exists so nothing keeps a partial copy; `autostart.py`/`overnight.py` are skipped here because this report already named them above, as the launcher and supervisor lines.
 - **assay.py** `scores` — [MEDIUM] the key is present even when no axes were scored
   - says: A ROW WITHOUT THIS KEY IS "NOT RECORDED", NEVER ZERO
-- **assay.py** `moth_number` — [MEDIUM] the decimal is clamped to 0.0 or 0.99, but the dict does not always indicate which end it hit
-  - says: printed decimal is inside [0, 1) or the dict says which end it hit and why
-- **assay.py** `denom` — [MEDIUM] sum(W[k] for k in applicable) or 1.0 is used as a denominator, but the comment states it is a structural backstop and not a live path, yet it is still present in the code
-  - says: sum(W[k] for k in applicable) or 1.0
-- **assay.py** `_rho_doc` — [MEDIUM] The function does not actually guard against the matrix being missing; it only sets a fallback reason and does not prevent the use of the fallback value in subsequent computations.
-  - says: ON THE FALLBACK, AND WHAT ACTUALLY GUARDS IT (corrected 2026-08-26, order c00cab9d0412). If the matrix is missing this degrades to rho = 0 -- the independence assumption -- which is the WRONG answer, deliberately chosen: it is the only value that reproduces the library's historical numbers exactly, so a missing file degrades to "as it was before" rather than to some third behaviour nobody has seen.
-- **assay.py** `_rho_doc` — [MEDIUM] The function returns a dict, but it does not actually load the matrix; it only caches the result of a previous load and sets a fallback reason if the matrix is missing.
-  - says: The measured matrix, loaded once per process. -> dict, EMPTY when it is unavailable.
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
   - says: Two names may only be compared if their qualifiers agree.
 
