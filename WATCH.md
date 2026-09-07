@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 411  ·  last run 2026-09-07 03:30
+round 412  ·  last run 2026-09-07 04:55
 
 ## Structure
 
@@ -12,8 +12,12 @@ round 411  ·  last run 2026-09-07 03:30
 
 ## What the model found in the code
 
-**21 open** (7 high). Newest first.
+**33 open** (8 high). Newest first.
 
+- **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order and changes the answer for 7 of 210 sources
+  - says: Classify one source from its own catalogued entries.
+- **generate.py** `failures.pop` — [HIGH] removes a failure entry from the failures list even if the chapter was successfully catalogued
+  - says: A DEAD REFUSAL MUST NOT READ LIKE A LIVE ONE
 - **estate.py** `low` — [HIGH] low is a variable that is used but never defined in this file or its imports
   - says: low is a variable that is supposed to represent the combined lowercase text of the bottom three bands' descriptions
 - **endpoint.py** `html_text` — [HIGH] Defined in another module, but not imported here
@@ -26,8 +30,32 @@ round 411  ·  last run 2026-09-07 03:30
   - says: A denied rename must not come back describing itself as a landing.
 - **drill.py** `net` — [HIGH] The code calls net with a function that attempts to create a junction, which is unrelated to the scenario described in the first net call
   - says: The first net call claims to test a scenario where the local model may not write the prose gate or the module that pushes to the public
-- **corpus_db.py** `deletion_check` — [HIGH] report unavailable when missing key
-  - says: report deletions
+- **generate.py** `failures` — [MEDIUM] is used to store failure details but does not prevent the run from continuing
+  - says: REFUSES THE CHAPTER, DOES NOT ABORT THE RUN
+- **generate.py** `failures` — [MEDIUM] updates with getattr(e, "lists", {}) which may not include all failure details
+  - says: THE COMPLETE OFFENDER LISTS, WHERE A LATER READER CAN REACH THEM
+- **generate.py** `floor` — [MEDIUM] The code checks if the floor is ok, but the actual floor value is not used in any further checks.
+  - says: the evidence floor is misconfigured
+- **generate.py** `floor` — [MEDIUM] It is set to 0.35 and then converted to a float, but the code does not actually apply the floor check to the evidence.
+  - says: It gets the treatment the sibling condition twenty lines down already gets.
+- **foreman.py** `restart_ollama` — [MEDIUM] This function does not handle the case where the service is already running, which could lead to errors or failed restarts
+  - says: This function is supposed to restart Ollama
+- **foreman.py** `restart_ollama` — [MEDIUM] This function attempts to restart Ollama but does not actually check if the service is running before attempting to restart it, which could lead to unnecessary restarts
+  - says: This function is supposed to restart Ollama
+- **foreman.py** `kill_stalled` — [MEDIUM] killed stalled but not the ones that cannot be restarted
+  - says: killed stalled
+- **foreman.py** `restart_reader` — [MEDIUM] The function restart_reader() returns False when it cannot enumerate processes, but the code does not handle this case properly. It returns False, but the comment says that restarting is safe and that the function should return True if the reader is not progressing.
+  - says: The reader is not progressing. Restarting is safe: every entity is cached only when it was fully read, so nothing is lost and nothing is re-read that was finished.
+- **foreman.py** `triage_swallowed` — [MEDIUM] Archives failures and sorts them, but the comment suggests it should name the top classes
+  - says: A spike in swallowed failures means something upstream is failing and being tolerated.
+- **foreman.py** `rerun_roll` — [MEDIUM] Checks if the roll is running and returns a message, but the comment suggests it should report on the roll's status
+  - says: The page roll has not finished its pass. It is network-bound, so a stall is a host problem rather than a quota one -- and the supervisor restarts it next cycle anyway. This reports rather than acts, because two rolls at once is the failure the supervisor exists to prevent.
+- **foreman.py** `scout_hostless` — [MEDIUM] Counts sources that are both kept and registered, but the comment suggests it should verify URLs
+  - says: Ask the model where the sources with no host publish, and verify every answer.
+- **foreman.py** `adopt_hosts` — [MEDIUM] Attempts to adopt hosts by running a script and checks for adoption count
+  - says: Find a wiki for sources that have none. Entries with no host are uncitable forever.
+- **feats_index.py** `_norm` — [MEDIUM] Folds a name to its comparable core, but does not strip parentheticals, contradicting a previous docstring claim that it did.
+  - says: Fold a name to its comparable core. Case and punctuation differ freely between a wiki page title and the catalogue's entry name, and both are written by different passes. Alphanumerics only.
 - **escalation.py** `clear` — [MEDIUM] The code catches ValueError and PermissionError, but the comment suggests they are the same event, which may not be accurate.
   - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller, and the two refusals are the same event to a reader: the lift did not happen and here is why.
 - **escalation.py** `assert_clear` — [MEDIUM] raises an exception if the system is not halted, but the docstring says it's the interlock that makes the chain real and prevents the library from working while halted
@@ -48,10 +76,6 @@ round 411  ·  last run 2026-09-07 03:30
   - says: Overwatch — the standing sweep
 - **dashboard.py** `hist` — [MEDIUM] is validated to be a list of dicts with numeric 'at' keys
   - says: THE GUARD HAS TO COVER THE FIELDS THE ARITHMETIC BELOW ACTUALLY USES
-- **dashboard.py** `hist` — [MEDIUM] is reset to an empty list on any exception during loading
-  - says: A CORRUPT HISTORY FILE MUST HEAL, NOT WEDGE.
-- **dashboard.py** `movement` — [MEDIUM] Computes deltas against the oldest sample inside the window, but the comment suggests it should report changes over time, not just deltas.
-  - says: What has CHANGED, not what the level is.
 - **binding_health.py** `F.fetch` — [MEDIUM] fetch host and list of titles
   - says: fetch host and title
 - **entity_match.py** `qualifier_compatible` — [MEDIUM] Returns True if both qualifiers are None or their normalized forms are equal, but does not handle cases where one qualifier is None and the other is not.
