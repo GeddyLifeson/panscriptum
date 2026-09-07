@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 425  ·  last run 2026-09-07 16:53
+round 426  ·  last run 2026-09-07 17:25
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 425  ·  last run 2026-09-07 16:53
 
 ## What the model found in the code
 
-**18 open** (6 high). Newest first.
+**14 open** (3 high). Newest first.
 
 - **workorders.py** `resolve_code` — [HIGH] files when healthy, resolves when not
   - says: resolves; NOT healthy files
@@ -20,12 +20,6 @@ round 425  ·  last run 2026-09-07 16:53
   - says: Close an order: REMOVE it from the open file, append it to the paper trail.
 - **wiki_source.py** `all_categories` — [HIGH] A FAILED WALK IS RETURNED AS THE ANSWER
   - says: A FAILED WALK RAISES; IT IS NEVER RETURNED AS THE ANSWER, MEMOISED OR NOT
-- **verify_math.py** `path` — [HIGH] is read from the entire module, not the function's scope
-  - says: is scoped to the function
-- **verify_math.py** `call_idxs` — [HIGH] was deleted due to a conditional check that no longer exists
-  - says: finds the call site of verify_restore
-- **verify_math.py** `A._interval` — [HIGH] the code inverts the guard, which turns the one safe case into the crash case and vice versa
-  - says: Between-hand dispersion is only defined for MORE THAN ONE reading
 - **worldseed.py** `build_all` — [MEDIUM] build_all is not properly handling the case where the ONOMASTICON file is empty or malformed, leading to incorrect state in LAST_BUILD and potential misreporting of errors
   - says: build_all is supposed to read and process the ONOMASTICON and CONTINUITY_GROUPS JSON files, handling errors and reporting issues
 - **workorders.py** `want` — [MEDIUM] want is checked against LADDER, but if invalid, it still proceeds to print the entire queue instead of refusing
@@ -48,8 +42,6 @@ round 425  ·  last run 2026-09-07 16:53
   - says: The withdrawn catalog is the record of WHAT was withdrawn; keep it beside the files.
 - **withdraw_chapters.py** `claimed_raw` — [MEDIUM] a set of filenames from the catalog's raw_path entries
   - says: Anything left in output/raw that the catalog never claimed -- the pilot's strays.
-- **weave.py** `pair_weights` — [MEDIUM] Summed idf of everything each source-pair shares, but with no cap on the contribution of each entity, which can lead to overcounting.
-  - says: Summed idf of everything each source-pair shares.
 
 ---
 
