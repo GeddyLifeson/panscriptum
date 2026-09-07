@@ -1,21 +1,23 @@
 # OVERWATCH
 
-round 403  ·  last run 2026-09-06 20:49
+round 404  ·  last run 2026-09-06 21:29
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 298,036 inspected
+- files that will not parse: **0** of 298,036 inspected (deep scan as of round 403)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**5 open** (1 high). Newest first.
+**6 open** (0 high). Newest first.
 
-- **withdraw_chapters.py** `select` — [HIGH] the function `select` is called with `a.source` and `a.addr` but the code does not check if either selector matches anything in the catalog. The code only checks if the entire selection is empty, which is not the same as checking each selector independently. The comment suggests that each selector should be checked independently, but the code does not do that. The code only checks if the entire selection is empty, which is not the same as checking each selector independently. The comment suggests that each selector should be checked independently, but the code does not do that.
-  - says: PER SELECTOR, NOT PER RUN (order c8ac7dbab3c5). This fired only when the WHOLE selection came back empty, so a mistyped `--addr` alongside any selector that DID match was silently ignored: the run withdrew the ones it understood, said nothing about the one it did not, and the operator read a clean report as confirmation that everything named had gone. Worse, the `unknown` list was built from `a.source` alone, so even on the empty branch -- the branch whose whole job is naming the typo -- an `--addr` typo was never named. Both selectors are now checked against the catalog independently, and ANY selector that matches nothing refuses the run. Matching is exact by design (see `select`), so an unmatched selector is a spelling; on the tool whose next step is irreversible, a spelling is a stop.
+- **ingest_doc.py** `landed_found` — [MEDIUM] landed_found is initialized to state['found'], which may not have been written to disk and thus may not reflect the actual value on disk
+  - says: landed_found tracks the value that last actually landed
+- **ingest_doc.py** `state` — [MEDIUM] state is initialized to a default value if an exception occurs during loading, but the code does not handle specific exceptions like FileNotFoundError
+  - says: state is initialized to a default value if the file is not found
 - **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
   - says: searches for replacements for hosts that failed to hold their fiction
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
