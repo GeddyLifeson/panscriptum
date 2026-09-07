@@ -1,19 +1,21 @@
 # OVERWATCH
 
-round 414  ·  last run 2026-09-07 06:26
+round 415  ·  last run 2026-09-07 07:15
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 298,265 inspected (deep scan as of round 409)
+- files that will not parse: **0** of 298,873 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**35 open** (9 high). Newest first.
+**36 open** (9 high). Newest first.
 
+- **manifest_builder.py** `write_json` — [HIGH] discarded the verdict and printed "Wrote N jobs" regardless
+  - says: returns whether the rename LANDED
 - **ingest_doc.py** `state_p` — [HIGH] used but never defined in this file or its imports
   - says: path to ingest state file
 - **hostcheck.py** `purge-record` — [HIGH] the function silently deletes files without recording the deletion
@@ -30,8 +32,14 @@ round 414  ·  last run 2026-09-07 06:26
   - says: low is a variable that is supposed to represent the combined lowercase text of the bottom three bands' descriptions
 - **endpoint.py** `html_text` — [HIGH] Defined in another module, but not imported here
   - says: Extract text from HTML body
-- **drill.py** `a_pure_ladder_is_all_ladder` — [HIGH] The function returns a result where 'eta' is 1.0, but the comment suggests it should return 0.0 for a shape with no ladder in it. The actual result contradicts the claim.
-  - says: A STAR is EXACTLY representable: theta_a = 0.75, the three losers -0.25 each, reproducing every edge. eta must be 1.0 and the curl fraction 0.0. Under Jacobi this was 0.0 -- the answer for a shape with NO ladder in it at all, returned for a shape that is nothing but ladder.
+- **magnitude.py** `band_hits` — [MEDIUM] counts BAND MATCHES ONLY
+  - says: counts BAND MATCHES ONLY
+- **local_agent.py** `out` — [MEDIUM] a dictionary that is modified in multiple places, leading to potential confusion about its final state
+  - says: the final output dictionary
+- **local_agent.py** `timeout` — [MEDIUM] Set to 1800.0 if not provided, but the code also sets timeout to 420 in a comment that is not used
+  - says: Set to 1800.0 if not provided
+- **local_agent.py** `denied` — [MEDIUM] Matches on the module name if it's in the denylist, otherwise matches on the repo-relative path if it's in the denylist paths
+  - says: Match on the module name when there is one, and on the repo-relative path otherwise.
 - **ledger_guard.py** `verify_chain` — [MEDIUM] only checks part of the ledgers
   - says: check the relay's ledgers
 - **ledger_guard.py** `check_all` — [MEDIUM] only checks part of the ledgers
@@ -72,12 +80,6 @@ round 414  ·  last run 2026-09-07 06:26
   - says: EVERY entry point calls this before doing anything. The plant-wide interlock.
 - **escalation.py** `escalate` — [MEDIUM] Rung 4, made DURABLE. Stop one subsystem until a person resumes it. -> the record.
   - says: Rung 4, made DURABLE. Stop one subsystem until a person resumes it.
-- **drill.py** `CW._budget_left` — [MEDIUM] returns the budget and used counts, but the docstring says it's about spending and requiring it to run out
-  - says: Spend the budget against a scratch ledger and require it to RUN OUT, then refill.
-- **drill.py** `only_the_owner_rung_writes_a_halt` — [MEDIUM] the code checks for the existence of the halt file before escalating to OWNER, which may not have been created yet
-  - says: a halt file appears at OWNER and at no rung below it
-- **drill.py** `os.replace` — [MEDIUM] a stand-in that raises a PermissionError on the first attempt but allows subsequent calls
-  - says: the function that performs a file rename
 - **dashboard.py** `hist` — [MEDIUM] is validated to be a list of dicts with numeric 'at' keys
   - says: THE GUARD HAS TO COVER THE FIELDS THE ARITHMETIC BELOW ACTUALLY USES
 - **binding_health.py** `F.fetch` — [MEDIUM] fetch host and list of titles
