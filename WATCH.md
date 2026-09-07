@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 418  ·  last run 2026-09-07 10:11
+round 419  ·  last run 2026-09-07 12:00
 
 ## Structure
 
@@ -12,24 +12,24 @@ round 418  ·  last run 2026-09-07 10:11
 
 ## What the model found in the code
 
-**24 open** (8 high). Newest first.
+**21 open** (5 high). Newest first.
 
+- **retry_synthesis.py** `PL.ask_pool_first` — [HIGH] calls a different model than phase_synthesis
+  - says: calls the same transport as phase_synthesis
+- **render.py** `main` — [HIGH] returns 1 on success
+  - says: returns 0 on success
 - **read.py** `priority` — [HIGH] Sorted purely by own-page size
   - says: Depth first, because depth is what the model is actually better at.
 - **policy.py** `main` — [HIGH] not defined
   - says: entry point for the script
 - **overnight.py** `preflight` — [HIGH] Returns (n_failing_checks, blocking) even when health.py crashes or cannot be launched, which contradicts the claim that it returns only when there are corrupted source blocks.
   - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
-- **mutate.py** `indeterminate` — [HIGH] a list that is appended to but not written to disk
-  - says: the permanent record of the diff
-- **manifest_builder.py** `write_json` — [HIGH] discarded the verdict and printed "Wrote N jobs" regardless
-  - says: returns whether the rename LANDED
-- **hostcheck.py** `purge-record` — [HIGH] the function silently deletes files without recording the deletion
-  - says: the gap it leaves is a recorded finding rather than a silence
-- **health.py** `excluded_dirs` — [HIGH] A host is excused if any source on it is excluded
-  - says: A host is only excused when EVERY source on it is excluded
-- **generate.py** `failures.pop` — [HIGH] removes a failure entry from the failures list even if the chapter was successfully catalogued
-  - says: A DEAD REFUSAL MUST NOT READ LIKE A LIVE ONE
+- **retry_synthesis.py** `PL.write_record` — [MEDIUM] re-reads the file and MERGES, but the code around it suggests it should be used to derive a value rather than perform an action
+  - says: re-reads the file and MERGES, precisely so a stale in-memory copy cannot be published over a fresher disk one
+- **retry_synthesis.py** `PL.valid_scale_note` — [MEDIUM] validates a truncated string
+  - says: validates the whole string
+- **resync_roll.py** `by_source` — [MEDIUM] indexes by the normalized version of the source name
+  - says: index every record file by its declared `source`
 - **read.py** `workers` — [MEDIUM] workers = 2
   - says: workers = max(2, min(16, _n + 2)) if _CASCADE_OK else 2
 - **publish.py** `prune_export` — [MEDIUM] Returns None, but the code around it expects a count of removed files
@@ -56,12 +56,6 @@ round 418  ·  last run 2026-09-07 10:11
   - says: Launch a job without waiting for it.
 - **health.py** `preflight` — [MEDIUM] Writes a stamp file that may or may not be written, and returns the number of problems found
   - says: Run every preflight check. -> the number of problems found.
-- **foreman.py** `restart_ollama` — [MEDIUM] This function does not handle the case where the service is already running, which could lead to errors or failed restarts
-  - says: This function is supposed to restart Ollama
-- **foreman.py** `restart_ollama` — [MEDIUM] This function attempts to restart Ollama but does not actually check if the service is running before attempting to restart it, which could lead to unnecessary restarts
-  - says: This function is supposed to restart Ollama
-- **foreman.py** `kill_stalled` — [MEDIUM] killed stalled but not the ones that cannot be restarted
-  - says: killed stalled
 
 ---
 
