@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 412  ·  last run 2026-09-07 04:55
+round 413  ·  last run 2026-09-07 05:42
 
 ## Structure
 
@@ -12,8 +12,14 @@ round 412  ·  last run 2026-09-07 04:55
 
 ## What the model found in the code
 
-**33 open** (8 high). Newest first.
+**36 open** (10 high). Newest first.
 
+- **hostcheck.py** `purge-record` — [HIGH] the function silently deletes files without recording the deletion
+  - says: the gap it leaves is a recorded finding rather than a silence
+- **hostcheck.py** `candidates` — [HIGH] Returns the same flat `grounded + spec` list it has always returned, but the comment says callers must use `candidates_split` to bound the tail.
+  - says: Other hosts worth probing for this source, best first: grounded, then speculation.
+- **health.py** `excluded_dirs` — [HIGH] A host is excused if any source on it is excluded
+  - says: A host is only excused when EVERY source on it is excluded
 - **genre.py** `classify_source` — [HIGH] Truncates the entry list in stored order and changes the answer for 7 of 210 sources
   - says: Classify one source from its own catalogued entries.
 - **generate.py** `failures.pop` — [HIGH] removes a failure entry from the failures list even if the chapter was successfully catalogued
@@ -28,8 +34,10 @@ round 412  ·  last run 2026-09-07 04:55
   - says: The function should return the correct reason for a denied operation.
 - **drill.py** `S.replace_if_unchanged` — [HIGH] The function returns (False, "landed") unconditionally, leading to incorrect logging of denied operations as successful.
   - says: A denied rename must not come back describing itself as a landing.
-- **drill.py** `net` — [HIGH] The code calls net with a function that attempts to create a junction, which is unrelated to the scenario described in the first net call
-  - says: The first net call claims to test a scenario where the local model may not write the prose gate or the module that pushes to the public
+- **hostcheck.py** `relevance` — [MEDIUM] Returns a rate based on a subset of titles, not the full set, and the denominator is not the total number of existing articles.
+  - says: Of the articles that DO exist here, how many are about this fiction? -> (rate, n).
+- **health.py** `preflight` — [MEDIUM] Writes a stamp file that may or may not be written, and returns the number of problems found
+  - says: Run every preflight check. -> the number of problems found.
 - **generate.py** `failures` — [MEDIUM] is used to store failure details but does not prevent the run from continuing
   - says: REFUSES THE CHAPTER, DOES NOT ABORT THE RUN
 - **generate.py** `failures` — [MEDIUM] updates with getattr(e, "lists", {}) which may not include all failure details
@@ -72,8 +80,6 @@ round 412  ·  last run 2026-09-07 04:55
   - says: ``blast_reset()` clears the WHOLE budget, both halves of it.
 - **drill.py** `LA._safe` — [MEDIUM] LA._safe is used to check a path that is supposed to be reachable, but the code indicates that the path is not reachable and the check is meant to verify that the path is accessible.
   - says: An ordinary in-surface path must still be reachable: a gate that refuses everything passes every refusal test ever written.
-- **dashboard.py** `panelWatch` — [MEDIUM] displays swallowed failures but not all open findings
-  - says: Overwatch — the standing sweep
 - **dashboard.py** `hist` — [MEDIUM] is validated to be a list of dicts with numeric 'at' keys
   - says: THE GUARD HAS TO COVER THE FIELDS THE ARITHMETIC BELOW ACTUALLY USES
 - **binding_health.py** `F.fetch` — [MEDIUM] fetch host and list of titles
