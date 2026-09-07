@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 413  ·  last run 2026-09-07 05:42
+round 414  ·  last run 2026-09-07 06:26
 
 ## Structure
 
@@ -12,8 +12,10 @@ round 413  ·  last run 2026-09-07 05:42
 
 ## What the model found in the code
 
-**36 open** (10 high). Newest first.
+**35 open** (9 high). Newest first.
 
+- **ingest_doc.py** `state_p` — [HIGH] used but never defined in this file or its imports
+  - says: path to ingest state file
 - **hostcheck.py** `purge-record` — [HIGH] the function silently deletes files without recording the deletion
   - says: the gap it leaves is a recorded finding rather than a silence
 - **hostcheck.py** `candidates` — [HIGH] Returns the same flat `grounded + spec` list it has always returned, but the comment says callers must use `candidates_split` to bound the tail.
@@ -30,10 +32,10 @@ round 413  ·  last run 2026-09-07 05:42
   - says: Extract text from HTML body
 - **drill.py** `a_pure_ladder_is_all_ladder` — [HIGH] The function returns a result where 'eta' is 1.0, but the comment suggests it should return 0.0 for a shape with no ladder in it. The actual result contradicts the claim.
   - says: A STAR is EXACTLY representable: theta_a = 0.75, the three losers -0.25 each, reproducing every edge. eta must be 1.0 and the curl fraction 0.0. Under Jacobi this was 0.0 -- the answer for a shape with NO ladder in it at all, returned for a shape that is nothing but ladder.
-- **drill.py** `S.replace_if_unchanged` — [HIGH] The function unconditionally returns "landed" for denied operations, which is incorrect.
-  - says: The function should return the correct reason for a denied operation.
-- **drill.py** `S.replace_if_unchanged` — [HIGH] The function returns (False, "landed") unconditionally, leading to incorrect logging of denied operations as successful.
-  - says: A denied rename must not come back describing itself as a landing.
+- **ledger_guard.py** `verify_chain` — [MEDIUM] only checks part of the ledgers
+  - says: check the relay's ledgers
+- **ledger_guard.py** `check_all` — [MEDIUM] only checks part of the ledgers
+  - says: check the relay's ledgers
 - **hostcheck.py** `relevance` — [MEDIUM] Returns a rate based on a subset of titles, not the full set, and the denominator is not the total number of existing articles.
   - says: Of the articles that DO exist here, how many are about this fiction? -> (rate, n).
 - **health.py** `preflight` — [MEDIUM] Writes a stamp file that may or may not be written, and returns the number of problems found
@@ -76,10 +78,6 @@ round 413  ·  last run 2026-09-07 05:42
   - says: a halt file appears at OWNER and at no rung below it
 - **drill.py** `os.replace` — [MEDIUM] a stand-in that raises a PermissionError on the first attempt but allows subsequent calls
   - says: the function that performs a file rename
-- **drill.py** `the_cap_resets_per_run` — [MEDIUM] ``blast_reset()` only clears the `patches` counter, not the `files` set, and the test is designed to check this
-  - says: ``blast_reset()` clears the WHOLE budget, both halves of it.
-- **drill.py** `LA._safe` — [MEDIUM] LA._safe is used to check a path that is supposed to be reachable, but the code indicates that the path is not reachable and the check is meant to verify that the path is accessible.
-  - says: An ordinary in-surface path must still be reachable: a gate that refuses everything passes every refusal test ever written.
 - **dashboard.py** `hist` — [MEDIUM] is validated to be a list of dicts with numeric 'at' keys
   - says: THE GUARD HAS TO COVER THE FIELDS THE ARITHMETIC BELOW ACTUALLY USES
 - **binding_health.py** `F.fetch` — [MEDIUM] fetch host and list of titles
