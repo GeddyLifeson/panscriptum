@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 400  ·  last run 2026-09-06 18:05
+round 401  ·  last run 2026-09-06 19:03
 
 ## Structure
 
@@ -12,14 +12,12 @@ round 400  ·  last run 2026-09-06 18:05
 
 ## What the model found in the code
 
-**13 open** (3 high). Newest first.
+**11 open** (2 high). Newest first.
 
+- **withdraw_chapters.py** `select` — [HIGH] the function `select` is called with `a.source` and `a.addr` but the code does not check if either selector matches anything in the catalog. The code only checks if the entire selection is empty, which is not the same as checking each selector independently. The comment suggests that each selector should be checked independently, but the code does not do that. The code only checks if the entire selection is empty, which is not the same as checking each selector independently. The comment suggests that each selector should be checked independently, but the code does not do that.
+  - says: PER SELECTOR, NOT PER RUN (order c8ac7dbab3c5). This fired only when the WHOLE selection came back empty, so a mistyped `--addr` alongside any selector that DID match was silently ignored: the run withdrew the ones it understood, said nothing about the one it did not, and the operator read a clean report as confirmation that everything named had gone. Worse, the `unknown` list was built from `a.source` alone, so even on the empty branch -- the branch whose whole job is naming the typo -- an `--addr` typo was never named. Both selectors are now checked against the catalog independently, and ANY selector that matches nothing refuses the run. Matching is exact by design (see `select`), so an unmatched selector is a spelling; on the tool whose next step is irreversible, a spelling is a stop.
 - **foreman.py** `kill_stalled_job` — [HIGH] Kills stalled jobs, but the code comments indicate it should only kill jobs that are not in the standing set and not restartable, which is a contradiction.
   - says: A job that is UP and writing nothing is worse than a job that is down.
-- **verify_math.py** `check` — [HIGH] the success floor sits above the standard's 50% ok bar
-  - says: the success floor sits below the standard's 50% ok bar
-- **verify_math.py** `check` — [HIGH] the check is using a hardcoded payload to test the predicate instead of calling the actual function
-  - says: the token-flow probe counts tokens, not prose
 - **roll.py** `main` — [MEDIUM] returns 0
   - says: RETURNS THE REASON, NOT JUST THE NAME
 - **manifest_builder.py** `manifest_landed` — [MEDIUM] is the result of write_json
@@ -30,8 +28,6 @@ round 400  ·  last run 2026-09-06 18:05
   - says: check the relay's ledgers
 - **foreman.py** `refresh_coverage` — [MEDIUM] Returns a boolean indicating if the coverage script ran successfully, without capturing or reporting any output or error details.
   - says: Re-measure cited/settled. Stale figures understate the library and mislead every other standard that reads them.
-- **verify_math.py** `A.axis_score` — [MEDIUM] the guards were present, live, and never once asked to refuse anything
-  - says: quantity FIRST. Getting that wrong here raised a TypeError rather than quietly asserting nothing, which is the behaviour a check should have when its author is confused; a check that swallows its own misuse is worse than no check.
 - **hostcheck.py** `sweep` — [MEDIUM] searches for replacements for hosts that failed to hold their fiction but uses a flawed logic for selecting replacements
   - says: searches for replacements for hosts that failed to hold their fiction
 - **health.py** `reopen_stranded` — [MEDIUM] return value is used to determine exit code, but the code does not handle the case where it returns None
