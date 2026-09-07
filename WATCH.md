@@ -1,19 +1,27 @@
 # OVERWATCH
 
-round 420  ·  last run 2026-09-07 12:48
+round 421  ·  last run 2026-09-07 13:28
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 298,873 inspected (deep scan as of round 415)
+- files that will not parse: **0** of 299,182 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**18 open** (8 high). Newest first.
+**21 open** (11 high). Newest first.
 
+- **sevenfold.py** `main` — [HIGH] did not gate its own write
+  - says: gated writes
+- **secondopinion.py** `run` — [HIGH] is not defined in this slice
+  - says: -> a digest of the .py files in `roots`, or None if any of them could not be read.
+- **scout.py** `seen` — [HIGH] empty because the file would not open
+  - says: pre-read of attempts
+- **scout.py** `silence.replace_if_unchanged` — [HIGH] Refuses only when the TARGET is unreadable AS BYTES at write time, and a corrupt-but-readable file digests perfectly well.
+  - says: Refuse the write and say why; a caller told "not landed" retries or escalates, where a caller told "landed" over a wreck loses the file silently.
 - **rosetta.py** `silence.write_json` — [HIGH] overwrites without checking if the new mine is larger
   - says: DO NOT OVERWRITE A BIGGER MINE WITH A SMALLER ONE WITHOUT SAYING SO (order 6447bcc2f18c)
 - **rosetta.py** `kept` — [HIGH] kept counts rows before they are filtered by the 4-row floor
@@ -28,8 +36,12 @@ round 420  ·  last run 2026-09-07 12:48
   - says: returns 0 on success
 - **read.py** `priority` — [HIGH] Sorted purely by own-page size
   - says: Depth first, because depth is what the model is actually better at.
-- **overnight.py** `preflight` — [HIGH] Returns (n_failing_checks, blocking) even when health.py crashes or cannot be launched, which contradicts the claim that it returns only when there are corrupted source blocks.
-  - says: Returns (n_failing_checks, blocking). Only corrupted source blocks.
+- **secondopinion.py** `run` — [MEDIUM] Returns a dictionary with 'status' and 'findings' for each tool, but the 'status' field is not accurately reflecting whether the tool ran or not. For example, if a tool throws an exception, the status is set to 'ERRORED', but the findings are still empty. However, the docstring states that a tool that did not run has status 'NOT INSTALLED' and an empty finding list, and those two facts must always be read together.
+  - says: Ask all three. -> {tool: {'status': str, 'findings': [...]}}.
+- **scout.py** `never_asked` — [MEDIUM] sources that were never asked but their stamps are left as they are
+  - says: sources that were never asked
+- **scout.py** `tmp` — [MEDIUM] A temporary file path that is not unique across threads, leading to potential data loss in multi-threaded environments
+  - says: A temporary file path for writing the modified content
 - **scope.py** `best` — [MEDIUM] best is set to None if nothing clears the floor, which is then returned as None, implying no scope established
   - says: Nothing clears the floor means nothing was established, and that is a real answer.
 - **rosetta.py** `check` — [MEDIUM] check() is called with rosetta and assays, but the docstring refers to a bare-name lookup that scored 0 overlap on all eight standing scales, which is not directly related to the parameters passed to check()
@@ -44,12 +56,6 @@ round 420  ·  last run 2026-09-07 12:48
   - says: validates the whole string
 - **resync_roll.py** `by_source` — [MEDIUM] indexes by the normalized version of the source name
   - says: index every record file by its declared `source`
-- **policy.py** `evidence_unreadable_detail` — [MEDIUM] only the file names are included, but the error message is truncated to 40 characters
-  - says: every failure, every vacuous pass and every unreadable file is named in full, here and in the report
-- **overnight.py** `join` — [MEDIUM] join the roll process with a timeout
-  - says: absorb the new feats into ceilings and per-entry judgements
-- **overnight.py** `codewatch` — [MEDIUM] imported but not used
-  - says: BOUND TO A VALUE, NOT LEFT UNDEFINED
 
 ---
 

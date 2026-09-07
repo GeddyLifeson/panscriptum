@@ -291,7 +291,7 @@ def _probe(url, timeout=8):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
-    ap,add_argument("--probe", action="store_true",
+    ap.add_argument("--probe", action="store_true",
                      help="HEAD each FETCHED tier's external generator and report whether it "
                           "actually answers, rather than only formatting its URL (order "
                           "ea182ee53f5f)")
@@ -379,20 +379,20 @@ def main():
                 with contextlib.suppress(Exception):
                     os.remove(tmp)
                 silence.note("render.py:view-tmp")
-                denied.append("%s.svg (%s)") % (t, type(e).__name__)
+                denied.append("%s.svg (%s)" % (t, type(e).__name__))
                 continue
             if silence.replace_retry(tmp, p):
                 landed += 1
             else:
                 with contextlib.suppress(Exception):
                     os.remove(tmp)
-                denied.append("%s.svg (replace denied)") % t
+                denied.append("%s.svg (replace denied)" % t)
         if denied:
             # NOT "wrote N diagrams". A discarded write verdict is what makes a file that did not
             # change look exactly like one that did.
             print("WROTE %d of %d diagrams to output/views/ -- %d did NOT land: %s. The files "
-                  "named here are the PREVIOUS run's, or absent."%
-                  (landed, len(DRAWN), len(denied), ", ".join(denied)))
+                  "named here are the PREVIOUS run's, or absent."
+                  % (landed, len(DRAWN), len(denied), ", ".join(denied)))
             return 1
         print(f"wrote {landed} diagrams to output/views/")
     return 0
