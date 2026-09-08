@@ -1,6 +1,6 @@
 # Overnight run
 
-Last update: 2026-09-08 15:33:19  (cycle 1)
+Last update: 2026-09-08 15:46:36  (cycle 2)
 
 ## Citation coverage
 
@@ -14,11 +14,12 @@ Last update: 2026-09-08 15:33:19  (cycle 1)
 
 ## Cycles
 
-All 1 cycles this run.
+All 2 cycles this run.
 
 | cycle | time | cited | settled % | feats |
 |---|---|---:|---:|---:|
 | 1 | 15:33 | 26,032 | 85.72 | 135,726 |
+| 2 | 15:46 | 26,032 | 85.72 | 135,726 |
 
 ## Logs
 
