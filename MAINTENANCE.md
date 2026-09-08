@@ -143,6 +143,16 @@ about. Break it deliberately, confirm `drill.py` reports BREACHED, then fix it.
 - `/HANDOFF.md` — dated run journal, newest on top (deep history: `handoff/HANDOFF.md`).
 - `/BUGS.md` — open bugs by severity; resolved ones move to the paper-trail section with
   root cause + export-repo commit, never deleted.
+  - **MOVE-ON-RESOLVE IS A STANDING RULE (owner ruling 2026-09-08, question 18, order
+    `ca0a93856e2a`).** The run that resolves an entry MOVES it to `## Resolved (paper trail)`
+    **in the same commit**. Labelling an entry RESOLVED and leaving it in `## Open` is the one
+    thing this ledger may not do: to the next reader it is indistinguishable from an open fault,
+    and it is why `workorders.resolve` deletes an order on close rather than trusting anyone to
+    prune — that docstring cites this section by name. The rot was measured three times and grew
+    every time (108/56 on 2026-08-30, 134/75 on 2026-09-07, 141/82 on 2026-09-08); the ruling
+    authorised one measured bulk move (76 entries, 2026-09-08) and this rule so it cannot
+    re-accumulate. An entry that is only PARTLY resolved keeps its OPEN label and says which limb
+    is still live, so the two-condition filter cannot reach it.
 - `/NEXT_STEPS.md` — the priority queue for the next run, overwritten each run.
 - Commit = `PANSCRIPTUM_EXPORT="C:\Users\imarl\panscriptum-export" python src/publish.py
   --push` (descriptive messages are automatic). The working tree is not a git repo; the
@@ -178,6 +188,23 @@ about. Break it deliberately, confirm `drill.py` reports BREACHED, then fix it.
   Write/Edit tools or chr() constructions — the eaten-escape corruption has bitten 7+ times.
 - **Bounce rule**: a long-running job carries launch-time imports; after editing anything it
   imports, bounce it (all jobs are resumable; the keeper and supervisor restore them).
+- **A MODULE PARTITION DOES NOT PARTITION MEANING, AND THE BATTERY RUNS LAST** (owner ruling
+  2026-09-08, question 16, order `d8858a26e46e`). Written here rather than in `NEXT_STEPS.md`,
+  which is overwritten every run, because run #36 learned this and the lesson was filed somewhere
+  that does not survive.
+  - Run #36 split agent work BY TARGET MODULE so no two agents could edit one file. That part
+    worked: zero file collisions, zero orders closed by non-owners, both firsts. But **a check
+    and the thing it checks are one unit of work even when they are two files.** At 22:20 the
+    agent owning `policy.py` landed a correct fix; the drill net asserting the OLD behaviour lived
+    in `drill.py`, owned by a different agent; at 22:50 that agent ran the drill, the net went red
+    against the already-corrected `policy.py`, and **the drill halted the library for 32 minutes.**
+  - So: **put the nets about module X in the same partition as module X**, or stage behaviour
+    changes and merge them serially the way that shift already staged its new nets.
+  - And **sequence the battery after every agent has reported.** A gate reading a tree that is
+    still under concurrent edit is measuring a tree that does not exist. The companion half of the
+    same ruling has the drill re-read a breached net on a settled tree before halting, and name the
+    unsettled condition when `codewatch.quiet_seconds()` is still under 180 — but a run that
+    schedules the battery into the middle of its own edits is asking a fair gate an unfair question.
 - **Guardrails kept from the generic protocol**: no deletions without a flagged review cycle;
   no public-signature breaks (additive default-kwargs are fine, note them); no new
   dependencies unannounced; unusual-but-possibly-deliberate patterns become questions in

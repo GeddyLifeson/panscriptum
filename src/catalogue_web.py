@@ -51,12 +51,31 @@ RECORDS = os.path.join(HERE, "data/records")
 # principled, it kept a plausible spread of Persons and Places, and it produced a catalogue with
 # the same SHAPE as a complete one. Nothing downstream can tell the difference.
 MAX_PER_SOURCE = None
-# Hard Rule 0: kept only as a name other code may import. Nothing truncates by it any more.
+# THE TRIPWIRE FIRES AT IMPORT, NOT AFTER THE NETWORK WORK (order b248f8f706d3, owner ruling 19
+# of 2026-09-08). This raise used to sit at the foot of `catalogue()`, AFTER the whole
+# category-discovery and size-ranking pass -- which this same file measures in hours for a large
+# wiki (the Persons class of DC alone resolves to 360 categories, the first of which lists
+# 33,614 titles and takes about 3.8 minutes just to rank). A re-introduced ceiling would
+# therefore have been refused only once all of that had already been spent. Here it costs
+# nothing and fires before a single request is made. It is a tripwire against a FUTURE
+# re-introduction of the per-source ceiling, not a dead branch, and it is deliberately kept.
+# STILL OWED: a drill net pinning this constant to None, so the tripwire has Hard Rule -1's
+# PROVEN property. `drill.py` is owned by another agent; reported rather than written here.
+if MAX_PER_SOURCE is not None:
+    raise SystemExit("catalogue_web: MAX_PER_SOURCE was set to " + str(MAX_PER_SOURCE)
+                     + ". Hard Rule 0 forbids a per-source ceiling. Refusing to import rather "
+                     "than silently publishing a smaller universe.")
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
+# (order 47067a8f0ad5, owner ruling 1 of 2026-09-08: mark and keep, one line each, delete
+# nothing). `MAX_PER_CATEGORY` and `CATEGORY_SCAN_DEPTH` below both used to justify their own
+# survival as "kept only as a name other code may import" -- and that reason is not true of the
+# tree as it stands: grepped across all of src/, the only occurrences of either name are these
+# definitions and the comments about them. They are RETAINED as documentation of a removed cap,
+# with no importer, so the next sweep does not have to re-derive that nothing reads them.
 MAX_PER_CATEGORY = None
 # DEAD: the ranking-before-truncating mechanism this described no longer exists -- categories
 # are pulled with limit=None (see category_members below) and ranked with top=None, so there is
-# no "how deep to scan before ranking" question left to answer. Kept only as a name other code
-# may import, like MAX_PER_CATEGORY above; nothing reads it.
+# no "how deep to scan before ranking" question left to answer. Retained under the marker above.
 CATEGORY_SCAN_DEPTH = None
 # How often `catalogue()` may print a progress line. NOT a cap on anything -- it rate-limits
 # OUTPUT, never work, and each line still reports a real completed unit. It must stay well
@@ -410,7 +429,17 @@ def catalogue(source_name, verbose=True):
         if now - _beat_at[0] < PROGRESS_EVERY_S:
             return
         _beat_at[0] = now
-        print(f"      {source_name[:20]:22s} {what:24s} {done}/{total}", flush=True)
+        # UNCUT (Hard Rule 0, order fe99e57e1993). This was `source_name[:20]`, a bare slice on
+        # the identity this whole heartbeat exists to say is still alive -- an operator watching
+        # a long run for stall symptoms cannot tell "DMs Guild: Xanathar's Lost Notes to
+        # Everything" from "DMs Guild: Xanathar's Lost..." (a different, real roll source) by
+        # its first 20 characters, which is the exact failure mode this line is printed to
+        # prevent. Measured against the live 215-source roll (data/SWEEP_ROLL.json): 73 of 215
+        # names exceed 20 characters and 0 collide on their first 20 -- today; a 20-char cut is
+        # far more aggressive than the 44-char one already fixed on this same field elsewhere
+        # (feats.py, order b0e69b869473), so this was the more truncated of the two, not the
+        # less. `%-22s` still pads short names to keep the column aligned; only the cut is gone.
+        print(f"      {source_name:22s} {what:24s} {done}/{total}", flush=True)
 
     # gather candidate titles per canonical category
     planned = []
@@ -468,10 +497,10 @@ def catalogue(source_name, verbose=True):
     # answer to it is ordering, not truncation: every category is ranked by article size above,
     # so if a run is interrupted the richest material is already in hand and the tail is still
     # queued rather than discarded.
-    if MAX_PER_SOURCE is not None:
-        raise SystemExit("catalogue_web: MAX_PER_SOURCE was set to " + str(MAX_PER_SOURCE)
-                         + ". Hard Rule 0 forbids a per-source ceiling. Refusing to run rather "
-                         "than silently publishing a smaller universe.")
+    # THE MAX_PER_SOURCE TRIPWIRE THAT STOOD HERE NOW FIRES AT IMPORT TIME, immediately after
+    # the constant itself (order b248f8f706d3). It was moved, not removed: here it could only
+    # refuse after hours of category discovery and size ranking had already been spent on the
+    # network. See the raise beside `MAX_PER_SOURCE = None` above.
 
     entries, seen = [], {}
     # See `catalogue_composite`: `page_texts` drops falsy results and `page_text` answers ""
@@ -645,7 +674,17 @@ def main():
             sub, name = ws.resolve_wiki(r["name"])
             if sub:
                 hit += 1
-            print(f"  {r['name'][:44]:46s} -> {str(sub or 'UNRESOLVED')[:24]:26s} {name or ''}")
+            # UNCUT (Hard Rule 0, order fe99e57e1993). `r['name']` was `r['name'][:44]` -- the
+            # SAME 44-char cap on the SAME roll-name field already fixed in feats.py (order
+            # b0e69b869473) for measured collisions once a name exceeds it. Measured again here
+            # against the live 215-source roll: 11 names exceed 44 characters and 0 collide on
+            # their first 44 today, which is a report on the current roll, not a guarantee about
+            # the next one added to it -- exactly why feats.py's own fix left the cap off rather
+            # than raising the number. `str(sub or 'UNRESOLVED')` is left cut at 24: it names a
+            # RESOLVED wiki subdomain, not an operator-facing source identity, and measured
+            # against the same roll every resolved subdomain is under 24 characters today, so
+            # there is no live truncation to fix on that half of the line.
+            print(f"  {r['name']:46s} -> {str(sub or 'UNRESOLVED')[:24]:26s} {name or ''}")
         print(f"\n{hit}/{len(todo)} resolved. (dry run -- no pages fetched)")
         return 0
 

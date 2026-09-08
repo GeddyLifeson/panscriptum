@@ -49,6 +49,12 @@ patches. So a proposed patch must clear every one of these before it is kept:
     `allsweep.py --quick` reports no broken module -- NOT "no *new* broken module": no
         pre-patch baseline is taken, so a module already broken for unrelated reasons refuses
         every patch until it is fixed
+    every VERIFIER's CLI still works -- `_contracts_pass`, added under the owner ruling of
+        2026-09-08 (orders 850786a2fee4, 5c962f306e58). `--quick` skips the whole VERIFY tier,
+        so until this landed a patch that broke a verifier's command line or its exit-code
+        contract was graded "verified" by a gate that never ran one. It grades SHAPE only -- a
+        traceback, an argparse refusal, an rc outside {0,1} -- never a verifier's verdict, which
+        belongs to the full sweep
 
 Anything that fails, reverts. The backup is written before the patch and restored on any failure,
 including an exception in the checking itself. The bar is deliberately higher than a human's,
@@ -236,6 +242,24 @@ def reprove_pool():
             return False, "pool re-proved but POOL_PROOF.json write was DENIED; routing still " \
                           "reads the previous proof"
         CB._PROVEN[0] = None                      # force the next _alive() to re-read
+        # `did` MEANS "THE PROBLEM THIS STANDARD HAS WAS FIXED", NOT "A MEASUREMENT COMPLETED"
+        # (order 7ad10a229440, owner ruling 2026-09-08: "make did honest").
+        #
+        # This returned True whenever the proof was written -- "0 of 6 buckets answer" and
+        # "6 of 6" alike -- and `round_once` BREAKS its remedy list the first time a remedy
+        # returns did=True unless the remedy is marked `.always`. REMEDIES["the library's
+        # counters are moving"] is [reprove_pool, restart_reader], so a pool that answered
+        # NOTHING still reported did=True and `restart_reader` -- the remedy for the wedged
+        # reader that standard is actually about -- has never once run.
+        #
+        # Zero answering buckets is precisely the case where re-proving fixed nothing, so it now
+        # says so and the list continues to the next remedy. It is the same distinction
+        # `run_completeness_audit` is marked `.always` for: measuring is not an alternative to
+        # repairing. Nothing else changes -- the proof is still written, the router still
+        # re-reads it, and the sentence still carries the real count either way.
+        if not ok:
+            return False, (f"0 of {len(rows)} buckets answer -- the pool was re-proved and it "
+                           "fixed nothing; this standard is not satisfied by the measurement")
         return True, f"{len(ok)} of {len(rows)} buckets answer"
     except Exception as e:
         silence.note("foreman.py:reprove_pool")
@@ -516,7 +540,25 @@ def restart_reader():
     review found both branches returned without acting -- a remedy named restart that never
     restarted -- and the counters-flat stall it serves is precisely the case where the reader
     is alive, logging failures, and doing nothing. Down-and-absent still defers to the
-    supervisor, which is the only party allowed to start jobs."""
+    supervisor, which is the only party allowed to start jobs.
+
+    THERE IS DELIBERATELY NO `_restartable()` GATE HERE, AND THE ABSENCE IS A RULING, NOT AN
+    OMISSION (order d2e44a766769, owner ruling 2026-09-08 question 14). Its sibling
+    `kill_stalled_job` below carries one, under the heading "NEVER KILL WHAT YOU CANNOT
+    RESTART", and the obvious reading of the difference is that this site was missed. It was
+    put to the owner and refused: `_restartable` was False for `read.py --run` by construction,
+    so a gate here would have been a permanent no-op wearing the shape of a working remedy. The
+    remedy taken instead was to make the kill cheap -- `read.py --run` is in
+    `overnight.STANDING` as of 2026-09-08, so the keeper brings the reader back within 300s
+    rather than at the next main lap (42-44 minutes measured, four hours at worst). The safety
+    is therefore the ROSTER, not a branch in this function, and `drill._no_unrestartable_kill`
+    asserts exactly that: the fragment this function kills must be restartable, and
+    `_restartable` and `_restart_horizon` must agree about it.
+
+    So if a future reader is tempted to add the gate that "obviously" belongs here: the gate is
+    not the fix, and adding it re-creates a remedy that can never act. If the reader is ever
+    taken back out of STANDING, this function becomes an unrestartable kill again and the drill
+    net above is what will say so."""
     import re as _re
     import signal
     try:
@@ -1053,6 +1095,41 @@ def run_charter_regression():
 
 run_completeness_audit.always = True
 refresh_coverage.always = True
+# THE REMEDY FOR A WEDGED READER MUST NOT BE SKIPPED BY A REMEDY THAT CANNOT SEE ONE (order
+# 7ad10a229440, owner ruling 2026-09-08: "let reprove_pool return did=False when zero buckets
+# answer and mark restart_reader .always").
+#
+# `round_once` breaks its remedy list on the first did=True unless the remedy carries this mark.
+# REMEDIES["the library's counters are moving"] is [reprove_pool, restart_reader], and
+# reprove_pool returned did=True on ANY completed re-measurement -- so the second remedy never
+# ran, not once. Two changes, because the two failures are different: reprove_pool now says
+# did=False when NOTHING answers (its own half, made honest above), and this mark says that
+# restart_reader is not an ALTERNATIVE to re-proving the pool at all. A pool proof and a stalled
+# reader are orthogonal conditions; the counters-flat stall this serves is the case where the
+# reader is alive, logging failures and doing nothing, which no amount of re-proving detects.
+#
+# Safe to run when it is not needed, which is the bar `.always` sets: it bounces a reader only
+# when one is actually running under the `read.py --run` fragment, every entity is cached only
+# once fully read, and it fires only while the counters standard is ALREADY red -- the case
+# where the reader is alive and producing nothing, so what is lost is a unit that was not going
+# to finish. It also cannot loop: once the reader is down, the next round finds nothing to kill
+# and returns did=False.
+#
+# AND THE PRICE IS NOW PAID DOWN, WHICH IS THE OTHER HALF OF THE SAME RULING (landed 2026-09-08,
+# orders d2e44a766769 / 1014f88bea8e). `read.py --run` is IN `overnight.STANDING`, so a bounce
+# costs the keeper's 300s rather than a main lap of 42-44 minutes and four hours at worst.
+# Measured after the change: `_restartable("read.py --run")` is True and `_restart_horizon`
+# returns "...is STANDING, so the keeper restarts it within 300s", which is the sentence this
+# remedy prints in its own return string while it acts.
+#
+# THAT ORDER MATTERS AND IS WORTH KEEPING ON THE RECORD. `.always` was set FIRST, one shift
+# before the promotion, so for one shift this mark bought a remedy that had never run once, at
+# the old horizon. GATING the kill on `_restartable` was the obvious alternative and the owner
+# rejected it: `_restartable` was False for the reader BY CONSTRUCTION, so the gate would have
+# turned the remedy into a permanent no-op wearing the shape of a working one -- this project's
+# oldest failure mode, and the reason a check that cannot fail is treated here as worse than no
+# check. Making the restart cheap settles both halves instead of trading one for the other.
+restart_reader.always = True
 
 
 # standard name -> remedies to try, in order. A standard with no entry falls to the OWNER lane,
@@ -1306,11 +1383,101 @@ def regex_touched(before, after):
     return b != a
 
 
+# How long one verifier gets to show that its CLI still works. A row still running at the cap
+# has already answered the only question this pass asks -- it started, it parsed its argv, and
+# it is doing work -- so the cap is a bound on the pass, not a verdict about the row.
+CONTRACTS_ROW_SECONDS = 30
+
+
+def _contracts_pass():
+    """Every verifier's CLI, for EXIT-CODE SHAPE only. -> (ok, what).
+
+    THE LAST GATE IN FRONT OF A MODEL'S WRITES SKIPPED ALL TEN VERIFIERS (orders 850786a2fee4
+    and 5c962f306e58, owner ruling 2026-09-08: "add a contracts pass; close the identity hole;
+    keep drill out").
+
+    `_checks_pass` runs `allsweep.py --quick`, and `--quick` skips the VERIFY and ESTATE tiers
+    by design -- so a patch that breaks a verifier's CLI or its exit-code CONTRACT (as against
+    its internal logic, which verify_math separately pins) was graded "verified" by a gate that
+    never ran it. This repository's own history is the illustration: `rosetta.py --check`
+    carried exactly that class of regression for eleven runs. Hard Rule -1 requires the layers
+    to fail DIFFERENTLY, and for a verifier's CLI there was one layer and a decoy.
+
+    SHAPE, NOT VERDICT, and the distinction is the whole design. This pass fails a row that
+    exits with a traceback, that argparse refuses (rc=2 over its own documented argv), or that
+    exits outside the {0,1} vocabulary every verifier here speaks. It does NOT fail a row for
+    rc=1: `silence.py` and `audit.py` exit 1 BY CONTRACT when they have findings, and grading a
+    verdict here would make the model lane refuse every patch for whatever the library happens
+    to be reporting that hour -- an alarm that always sounds, which this project has already had
+    to walk back once. The verdicts belong to the full sweep, which runs on its own clock.
+
+    THE ROSTER IS ALLSWEEP'S, READ AS DATA. `allsweep.VERIFIERS` is the one table naming what a
+    verifier is and what its rc means; a second list here would be two hand-kept copies of one
+    mapping, which is how they come to disagree. An unreadable or empty roster REFUSES -- "I
+    could not find out what to check" has never been permission to keep a patch. When
+    `allsweep.py` gains the `--quick --contracts` mode the ruling describes, this function
+    becomes the call to it and the loop below goes away; the grading rule above is what has to
+    survive that move.
+
+    `verify_math.py` IS SKIPPED HERE, AND ONLY HERE, because `_checks_pass` has just run it in
+    full three lines up. Starting a second copy to kill it at 30 seconds would prove nothing the
+    complete run did not already prove, while doubling the heaviest job in the gate.
+
+    THE DRILL STAYS OUT, per the same ruling. verify_math.py:5504 records the standing rule that
+    verify_math and drill are not safe to run from an agent context, and drill has historically
+    written trial values of `prose_enabled` into the live config. A standing daemon firing the
+    drill on every kept patch is exactly what that rule forbids doing unasked.
+    """
+    try:
+        import allsweep as _AS
+        rows = list(getattr(_AS, "VERIFIERS", None) or [])
+    except Exception as e:
+        return False, ("the verifier roster could not be read (allsweep: %s: %s) -- refusing "
+                       "rather than keeping a patch nothing verified"
+                       % (type(e).__name__, str(e)[:80]))
+    if not rows:
+        return False, "allsweep.VERIFIERS is empty -- the contracts pass has nothing to run"
+    bad, ran, alive = [], 0, 0
+    for item in rows:
+        label, argv = item[0], item[1]
+        if os.path.basename(str(argv[0])) == "verify_math.py":
+            continue
+        try:
+            r = _run([os.path.join(SRC, argv[0]), *argv[1:]], timeout=CONTRACTS_ROW_SECONDS)
+        except subprocess.TimeoutExpired:
+            # STILL RUNNING IS A PASS FOR THIS QUESTION. The row started, took its arguments and
+            # is working; its verdict is the full sweep's business. (The child is killed by
+            # `subprocess.run` on the way out. Every verifier that writes lands its file through
+            # an atomic replace, so an interrupted one loses a scratch file, not a target.)
+            alive += 1
+            continue
+        except Exception as e:
+            bad.append("%s: could not be started (%s)" % (label, type(e).__name__))
+            continue
+        ran += 1
+        out = (r.stdout or "") + (r.stderr or "")
+        if "Traceback" in out:
+            bad.append("%s: exits with a traceback" % label)
+        elif r.returncode == 2 and "usage:" in out.lower():
+            bad.append("%s: argparse refused its own documented argv (rc=2)" % label)
+        elif r.returncode not in (0, 1):
+            bad.append("%s: rc=%s, outside the {0,1} exit contract" % (label, r.returncode))
+    if bad:
+        return False, ("the verifier contracts pass found %d broken CLI(s): %s"
+                       % (len(bad), "; ".join(bad)))
+    return True, ("verifier contracts pass: %d row(s) exited within %ds, %d still working at "
+                  "the cap, 0 broken" % (ran, CONTRACTS_ROW_SECONDS, alive))
+
+
 def _checks_pass(module):
     """Everything that must still be true after a patch.
 
     Deliberately more than "it parses". A patch that parses and breaks an import is exactly the
     kind of silent damage this project spends its life catching.
+
+    FOUR THINGS NOW, NOT THREE: the import, verify_math, `allsweep --quick`, and the verifier
+    CONTRACTS pass that `--quick` skips (`_contracts_pass`, orders 850786a2fee4 / 5c962f306e58).
+    The module docstring's list of three was accurate and is no longer complete.
     """
     r = _run(["-c", f"import sys; sys.path.insert(0, r'{SRC}'); import {module}"], timeout=300)
     if r.returncode != 0:
@@ -1361,7 +1528,10 @@ def _checks_pass(module):
                        "verifiers or estate)%s -- NOTE: no pre-patch baseline is taken, so "
                        "this may pre-date the patch rather than be caused by it"
                        % (r.returncode, (" [" + graded[-1] + "]") if graded else ""))
-    return True, "checks pass"
+    ok, what = _contracts_pass()
+    if not ok:
+        return False, what
+    return True, "checks pass (%s)" % what
 
 
 def attempt_patch(finding, dry=True):

@@ -269,12 +269,33 @@ def coin_name(seed, register):
     return name[0].upper() + name[1:].lower()
 
 
-def coin_well_formed(base, register, taken, max_tries=400):
-    """First well-formed, unused name for this seed. Deterministic: same input, same output."""
+def _digest_tail(base, length):
+    """A short, deterministic, letters-only tail derived from `base`. Not a name; a disambiguator.
+
+    Letters rather than hex so the result still reads as a designation rather than as a serial
+    number, and derived from `base` alone so it is reproducible: the same world coined twice gets
+    the same tail, which is the whole reason the register's walk is deterministic in the first
+    place.
+    """
+    h = hashlib.sha256(str(base).encode("utf-8")).digest()
+    return "".join(chr(ord("a") + (b % 26)) for b in h)[:length]
+
+
+def coin_well_formed_stamped(base, register, taken, max_tries=400):
+    """-> (name, coined_under). The name, AND which path produced it.
+
+    `coined_under` is "ordinary" for a name the register's own deterministic walk produced clean,
+    and "exhausted" for one that came out of the degraded last resort below. Callers that store a
+    designation store the stamp beside it, so a reader can tell afterwards which names came from
+    the path that had to force uniqueness (owner ruling 2026-09-08, "Answering unknown with a
+    plausible value", order 845dbaec182f).
+
+    `coin_well_formed` remains the one-value spelling for the callers that only want a name.
+    """
     for salt in range(max_tries):
         nm = coin_name(f"{base}|{salt}", register)
         if well_formed(nm) and nm.lower() not in taken:
-            return nm
+            return nm, "ordinary"
     # THE FALLBACK USED TO ABANDON BOTH INVARIANTS AT ONCE. It was a bare
     # `return coin_name(f"{base}|fallback", register)` -- no `well_formed` check and, worse, no
     # `taken` check, so the one path taken when naming is HARDEST returned a name that could be
@@ -286,11 +307,11 @@ def coin_well_formed(base, register, taken, max_tries=400):
     # walk into a wider salt space rather than inventing a different rule. Only the range grows.
     nm = coin_name(f"{base}|fallback", register)
     if well_formed(nm) and nm.lower() not in taken:
-        return nm
+        return nm, "ordinary"
     for salt in range(max_tries, max_tries * 25):
         nm = coin_name(f"{base}|{salt}", register)
         if well_formed(nm) and nm.lower() not in taken:
-            return nm
+            return nm, "ordinary"
     # Genuinely exhausted: 10,000 deterministic candidates and every one taken or malformed.
     # That is not a naming problem, it is a register that has run out of namespace, and it must
     # be LOUD rather than a quietly duplicated shelfmark. Recorded, then the caller still gets a
@@ -311,19 +332,65 @@ def coin_well_formed(base, register, taken, max_tries=400):
     #
     # The name is still returned either way. It is now returned with the collision named on
     # stderr, so the condition is diagnosable from a log rather than only reproducible.
-    nm = coin_name(f"{base}|fallback", register)
-    _bad = [] if well_formed(nm) else ["malformed"]
-    if nm.lower() in taken:
-        _bad.append("ALREADY TAKEN — this designation now names two things")
-    if _bad:
+    #
+    # AND IT NO LONGER RETURNS THE STRING IT JUST REJECTED (owner ruling 2026-09-08, "Answering
+    # unknown with a plausible value", option (b); order 845dbaec182f). `coin_name` is
+    # deterministic, so `coin_name(f"{base}|fallback", register)` here was BYTE-FOR-BYTE the same
+    # designation already computed and refused twenty-six lines up -- refused precisely because
+    # it failed `well_formed` or was already `taken`. The one exit taken when naming is hardest
+    # handed back a name known to be malformed, known to be a duplicate, or both, and reporting
+    # that on stderr made the fault diagnosable without making it stop. "Shelfmarks are unique"
+    # is one of the 39 standards, and a duplicate here silently reassigns already-published
+    # citations: two beings merged under one designation.
+    #
+    # The remedy the ruling chose is the one that keeps both invariants: the last resort must be
+    # PROVABLY UNIQUE rather than merely deterministic. A short letters-only digest of `base` is
+    # appended to the coined stem, which cannot collide with the stem it extends and is still
+    # reproducible from the same input; the tail grows a letter at a time in the astronomically
+    # unlikely event that even the extended form is taken. It may read less well than a coined
+    # name -- that is the stated price, and it is paid only on a register that has exhausted
+    # 10,000 candidates. RAISING was the option not taken: the paragraph above stands, refusing
+    # to name anything is the worse failure.
+    #
+    # `well_formed` is still ASKED and still reported, because the answer is a fact about the
+    # register that a reader wants; it is no longer allowed to be the reason a duplicate ships.
+    stem = coin_name(f"{base}|fallback", register)
+    nm = None
+    for _tail in range(3, 17):
+        cand = stem + _digest_tail(base, _tail)
+        if cand.lower() not in taken:
+            nm = cand
+            break
+    if nm is None:
+        # Unreachable short of a deliberate adversarial `taken`: fourteen distinct candidates,
+        # each a strict extension of the last, would all have to be standing already. Named
+        # rather than assumed away -- an unreachable branch that silently returns a duplicate is
+        # the shape this whole comment is about.
+        nm = stem + _digest_tail(base, 16)
+        silence.note("onomast.py:coin-exhausted-digest-exhausted")
+        print("onomast: register %r exhausted for base %r AND every digest extension of the "
+              "fallback stem is already taken. Returning %r, which duplicates a standing "
+              "designation. This register must be widened before the next naming pass."
+              % (register, base, nm), file=sys.stderr)
+    if not well_formed(nm):
         silence.note("onomast.py:coin-exhausted-fallback-unusable")
-        print("onomast: register %r exhausted for base %r; the fallback designation %r is %s. "
-              "It is being returned anyway (refusing to name is the worse failure) but this "
-              "register needs widening." % (register, base, nm, " and ".join(_bad)),
-              file=sys.stderr)
+        print("onomast: register %r exhausted for base %r; the last-resort designation %r is "
+              "malformed by this module's own phonotactics. It is being returned anyway "
+              "(refusing to name is the worse failure) but this register needs widening."
+              % (register, base, nm), file=sys.stderr)
     else:
         silence.note("onomast.py:coin-exhausted")
-    return nm
+    return nm, "exhausted"
+
+
+def coin_well_formed(base, register, taken, max_tries=400):
+    """First well-formed, unused name for this seed. Deterministic: same input, same output.
+
+    The name only. `coin_well_formed_stamped` is the same walk and also returns which path
+    produced it; callers that STORE a designation should use that one, so the degraded last
+    resort is visible on the record rather than only in the ledger.
+    """
+    return coin_well_formed_stamped(base, register, taken, max_tries)[0]
 
 
 # How a world's OWN character bends the register its source handed it.
@@ -375,6 +442,31 @@ def register_for(group_id, genre_register=None, features=None):
     Falls back to a hash of the group id ONLY when neither a genre nor features are known. That
     fallback used to be the whole function, and it produced the register that gave Alien and Doom
     the flowing elvish sound and denied Greek myth the classical one.
+
+    HELD, MARKED, AND NOT WIRED (order `ae25c89f0179` / twin `5d8533bc1ed6`; owner ruling
+    2026-09-08, "whole modules built and never wired in": **wire what closes a measured gap;
+    hold the rest, marked.** Only `hosts.py` and `render.py` were wired under that ruling; this
+    genre+feature blend is HELD, and the reason is on the record here rather than left for the
+    next sweep to re-derive.
+
+    The weighted-voting logic below (`FEATURE_SHIFT`/`GENRE_WEIGHT`/`FEATURE_WEIGHT`) is correct
+    and reachable from a direct call, but `name_worlds()` -- the only production caller -- still
+    passes `register_for(v["continuity_group"])`, one positional argument, so `genre_register`
+    and `features` default to `None` and the `if not genre_register and not features` branch
+    above fires on every real record. Measured against `data/RESOLVED_ENTITIES.json` (the sole
+    input to `name_worlds`): a sample record carries `canonical_name`, `continuity_group`, `key`,
+    `attestations`, `topics` and nothing that names a genre or a world feature. The gap is
+    structural, not a missed keyword -- there is no `source` field to look a genre up by and no
+    per-continuity-group feature record to bend it with.
+
+    Held rather than wired because closing it is a cross-module design decision, not a mechanical
+    one: WHICH classifier feeds it (`genre.py`'s per-*source* classification in `GENRES.json` is
+    keyed by source name, not by continuity group, and `RESOLVED_ENTITIES.json` records do not
+    carry their source) and WHERE a per-continuity-group world-feature record would come from are
+    both open, and neither file is one this pass may edit to invent an answer -- Hard Rule 1
+    forbids deciding a fact (which world has which climate/landform/condition/tech) that has not
+    been catalogued. Held rather than retired because the blend is correct, tested apparatus that
+    a future data-plumbing pass can wire in once `resolved` carries a source and a feature set.
     """
     if not genre_register and not features:
         return REGISTER_ORDER[int(hashlib.sha256(str(group_id).encode()).hexdigest(), 16)
@@ -518,11 +610,22 @@ def name_worlds(resolved):
         if len(items) < 2:
             continue                                   # unique already; leave it alone
         for cid, v in sorted(items, key=lambda t: t[0]):
+            # ONE POSITIONAL ARGUMENT, ON PURPOSE -- see register_for()'s "HELD, MARKED, AND NOT
+            # WIRED" note. `v` carries no genre or world-feature data to pass, so this is the
+            # hash-of-group-id fallback, held by owner ruling 2026-09-08 (order ae25c89f0179).
             reg = register_for(v["continuity_group"])
-            nm = coin_well_formed(f"{key}|{v['continuity_group']}", reg, taken)
+            nm, coined_under = coin_well_formed_stamped(
+                f"{key}|{v['continuity_group']}", reg, taken)
             taken.add(nm.lower())
             out[cid] = {
                 "catalogue_name": nm,
+                # WHICH PATH NAMED IT (owner ruling 2026-09-08, order 845dbaec182f).
+                # "ordinary" is the register's own deterministic walk; "exhausted" means the
+                # register ran out of namespace and the designation carries a forced digest
+                # tail. Stored rather than only counted, because a reader looking at a name
+                # that reads badly needs to be able to tell that it was forced, and a future
+                # widening of the register needs to know which names to re-coin.
+                "coined_under": coined_under,
                 "endonym": v["canonical_name"],
                 "register": reg,
                 "continuity_group": v["continuity_group"],

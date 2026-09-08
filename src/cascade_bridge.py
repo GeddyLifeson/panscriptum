@@ -46,6 +46,28 @@ import silence
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CASCADE = os.environ.get("CASCADE_HOME", r"C:\Users\imarl\cascade")
 
+# THE LOCAL ROSTER LIVES IN CASCADE'S CONFIG, NOT IN THIS TREE, AND IT NAMES MODELS THAT ARE NOT
+# INSTALLED (order 9fb8a6b10c1f, owner ruling 14 of 2026-09-08: "re-point cascade's local roster
+# at the resident qwen3:8b so a permanently red subsystem goes honest at zero cost").
+#
+# RE-MEASURED 2026-09-08, and unchanged since the order was filed. `<CASCADE_HOME>/config.json`
+# carries exactly three `ollama:local` entries -- `local-qwen3-30b`
+# (qwen3:30b-a3b-instruct-2507-q4_K_M), `local-qwen3-30b-q3` (the unsloth Q3_K_M GGUF of the
+# same) and `local-gemma3-12b` -- all three in the `coding` and `general` pools, and the daemon
+# at 127.0.0.1:11434 holds ONE model: `qwen3:8b`, 5.2GB. So every local bucket 404s, `allsweep`
+# grades this subsystem bad on every run, and the redness is a stale roster rather than anything
+# wrong in the library.
+#
+# THE REMEDY IS ONE FILE, AND IT IS NOT THIS ONE. It is three `id` fields in
+# `<CASCADE_HOME>/config.json` re-pointed at `qwen3:8b` (or two of the three entries removed and
+# the third re-pointed, since they are one GPU serving one request at a time -- see
+# `cloud_buckets` below on why counting them as width made sixteen workers slower than eight).
+# Written down HERE because this is the module that suffers the consequence and the module a
+# reader arrives at, and because Hard Rule -1 says a decision nobody can find has not been
+# ratified. Not applied by the maintenance run that recorded it: the file is outside this
+# repository, and this project does not reach outside its own tree to change another
+# program's configuration.
+
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
     raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
@@ -556,16 +578,64 @@ _TRANSIENT_WORDS = (
 )
 _TRANSIENT_CODES = re.compile(r"\b(408|409|425|429|500|502|503|504)\b")
 
-# KNOWN DORMANT GAP, LEFT OPEN ON PURPOSE (order af47010df391). At least one provider (Groq,
-# `rate_limit_exceeded`) uses this exact vocabulary -- "rate-limit", "rate_limit", "try again" --
-# for a PERMANENT per-request size refusal (a Limit/Requested pair on output tokens, where
-# Requested > Limit for the request as sent), not a temporary throttle. No cooldown clears that;
-# only a smaller request would, and this router never resizes one. Whether to (a) classify a
-# size refusal separately and exclude the bucket from oversized jobs, or (b) leave it, since one
-# permanently-refusing bucket may cost only a failover per call, is a design decision on this
-# subsystem's classification vocabulary and is DELIBERATELY NOT TAKEN here -- see the order for
-# the full reasoning, including why remedy (a) is not simply "reduce max_tokens" (no caller in
-# src/ sets one). This comment is documentation only; it does not change what matches below.
+# A SIZE REFUSAL IS NOT A THROTTLE, EVEN WHEN THE PROVIDER'S OWN WORDS SAY "RATE LIMIT" AND
+# "TRY AGAIN" (order af47010df391, resolved digest46/R2 as the narrow half of remedy (a)).
+#
+# Groq's OTPM refusal reads: "Request too large for model qwen/qwen3.6-27b ... on OUTPUT TOKENS
+# PER MINUTE (OTPM): Limit 1000, Requested 1045. The request's expected output tokens exceed the
+# enforced limit; reduce max_tokens ... and try again." Its own error code is
+# `rate_limit_exceeded`, so THREE `_TRANSIENT_WORDS` markers ("rate-limit", "rate_limit", "try
+# again") match, and the router cooled the bucket and retried the identical request forever --
+# no cooldown shrinks a request, so Requested stayed 1045 and Limit stayed 1000 every time.
+#
+# THE FULL REMEDY (A) IN THE ORDER -- give a size refusal its own class and exclude the bucket
+# from rotation for jobs whose expected output exceeds the learned limit -- IS NOT TAKEN HERE.
+# That needs the router to own an expected-output-size concept it does not have today (the order
+# is explicit: no caller in src/ sets `max_tokens`, so "reduce it" is not available), and CLAUDE.md
+# calls this file "the pipeline's most critical subsystem" for exactly the reason that a bigger
+# change here is the wrong place to improvise one under a narrow order. That is real remaining
+# work and belongs to whichever order takes up "the router learns per-bucket output ceilings",
+# not this one.
+#
+# WHAT THIS GUARD DOES is smaller and sufficient to close the misclassification: it keeps
+# `named_transient()` from answering True for this one signature, so the call no longer takes the
+# TIMED-COOLDOWN branch (cascade_bridge.py's `elif pinned and (exhausted or named_transient(err))`)
+# that assumes waiting helps. Nothing here matches `permanent_refusal`'s vocabulary either (no
+# 401/402, no billing words), so the call falls through to the existing "AN UNRECOGNISED FAILURE
+# IS A THING TO INVESTIGATE" branch a few hundred lines down -- which is the honest answer: this
+# file has no bespoke handling for a size refusal yet, and recording it as unrecognised is what
+# that branch exists for, rather than silently absorbing it under either existing label.
+#
+# THE GUARD REQUIRES THE NUMBERS, NOT JUST THE PHRASE. "request too large" alone is not enough --
+# a provider could in principle use those three words for a condition that DOES clear with time
+# (a burst limit phrased as a size limit), and matching the phrase bare would risk the opposite
+# mistake this order is about: something genuinely transient stops being retried. The Limit/
+# Requested PAIR, with Requested measured strictly greater than Limit, is the one part of Groq's
+# message that is arithmetically true regardless of vocabulary -- 1045 does not become <= 1000 by
+# waiting, whatever the provider calls the condition.
+_SIZE_REFUSAL = re.compile(
+    r"request too large.*?\blimit[:\s]+(\d+).*?\brequested[:\s]+(\d+)",
+    re.IGNORECASE | re.DOTALL,
+)
+
+
+def _size_refusal_permanent(err):
+    """True if `err` is a per-request size refusal no cooldown can clear (order af47010df391).
+
+    Needs BOTH the "request too large" phrasing AND a Limit/Requested pair with Requested
+    numerically greater than Limit -- the phrase alone is not trusted, because the arithmetic is
+    the only part of this that cannot lie about whether waiting would help.
+    """
+    m = _SIZE_REFUSAL.search(err or "")
+    if not m:
+        return False
+    try:
+        return int(m.group(2)) > int(m.group(1))
+    except ValueError:
+        # Matched the phrasing but not two clean integers -- fail closed to "not a proven size
+        # refusal" rather than guess, per this file's own standard that silence must not
+        # authorise anything. named_transient() falls back to the ordinary word/code match.
+        return False
 
 # `All 7 candidates failed: <label>, <label>, ...` -- the engine having walked a whole candidate
 # list and found none of it available. Measured 2026-08-25: 15 of the 23 aggregate rows in the
@@ -604,11 +674,89 @@ def named_transient(err):
     quietly inside a diagnostic would be exactly the kind of silent policy change this file's
     history argues against. Checked AFTER the permanent classifier, so a billing complaint that
     also says "try again" is still correctly benched.
+
+    CHECKED BEFORE THE WORD/CODE MATCH (order af47010df391): a per-request size refusal wears
+    this file's own transient vocabulary ("rate-limit", "rate_limit", "try again" -- see
+    `_SIZE_REFUSAL`'s comment) while being the one condition on this list waiting cannot fix, so
+    it must be excluded before the bare word scan would wrongly claim it.
     """
     e = (err or "").lower()
     if not e:
         return False
+    if _size_refusal_permanent(e):
+        return False
     return bool(_TRANSIENT_CODES.search(e)) or any(w in e for w in _TRANSIENT_WORDS)
+
+
+# THE PROVIDER TOLD US WHEN TO COME BACK, AND THE ROUTER THREW IT AWAY (order 2239a87c57f5,
+# owner ruling 22 of 2026-09-08: "honour the stated cooldown, recover the keys, log the proof
+# age").
+#
+# MEASURED: six consecutive `_ask_call` probes, THREE of them dispatched into
+# `groq:qwen/qwen3.6-27b` after that bucket had already answered "rate limited, retry in 499s".
+# Each such call returns None outright rather than failing over, so the pool reported about 50%
+# success while other buckets were answering perfectly well. The provider handed us 501s, 499s,
+# 99s and 40s and every one of them was discarded.
+#
+# THE RATIONALE THE OLD BEHAVIOUR RESTED ON IS FULLY PRESERVED. `named_transient`'s docstring
+# argues that a throttle must not be written into the UNRECOGNISED-FAILURE LEDGER -- a throttle
+# is not a mystery -- and that argument is about the LEDGER, which is a different question from
+# ROUTING. The bench taken below writes nothing to that ledger; it only stops the router walking
+# back into a door the provider has already said is shut for another eight minutes.
+#
+# A BENCH IS NOT AN AXING, so drill's `a provider on cooldown is kept, not axed` net is
+# untouched: that net asserts `permanent_refusal()` is False for 429 wordings, and this path
+# never reaches `permanent_refusal`. `_bury(bucket, seconds)` is a TIMED bench and `_clear()`
+# lifts it the moment the bucket answers again.
+#
+# THE WORDINGS ARE THE ONES THE PROVIDERS ACTUALLY SEND, in the order a real message tends to
+# put them: `6m59.9s` composites first, so the minutes are not read as a bare seconds figure.
+_RETRY_AFTER_PATTERNS = (
+    re.compile(r"(?:retry|try again|available)[^0-9]{0,24}?"
+               r"(?P<m>\d+(?:\.\d+)?)\s*m(?:in(?:ute)?s?)?\s*"
+               r"(?P<s>\d+(?:\.\d+)?)\s*s(?:ec(?:ond)?s?)?\b"),
+    re.compile(r"(?:retry|try again|available)[^0-9]{0,24}?"
+               r"(?P<s>\d+(?:\.\d+)?)\s*s(?:ec(?:ond)?s?)?\b"),
+    re.compile(r"(?:retry|try again|available)[^0-9]{0,24}?"
+               r"(?P<m>\d+(?:\.\d+)?)\s*m(?:in(?:ute)?s?)\b"),
+    re.compile(r"retry[-_ ]after[^0-9]{0,8}(?P<s>\d+(?:\.\d+)?)"),
+)
+
+# UPPER BOUND, because a misparse must cost less than the fault it is fixing. A bucket benched
+# on a garbage number is a bucket removed from a pool that is already the binding constraint --
+# m103's harm, which this file's history returns to repeatedly. Four hours matches AUTH_BENCH:
+# long enough to honour a real daily-quota reset that says so in seconds, short enough that a
+# quota which resets at midnight is back in rotation the same night.
+MAX_STATED_BENCH = AUTH_BENCH
+# LOWER BOUND. Providers sometimes say "retry in 0s" or "retry after 1", and a bench shorter
+# than the router's own first miss is indistinguishable from no bench at all.
+MIN_STATED_BENCH = FIRST_BENCH
+
+
+def retry_after_seconds(err):
+    """The cooldown a provider STATED, in seconds, clamped -- or None if it named none.
+
+    Reads the message only. It makes no routing decision by itself and writes nothing anywhere;
+    `_ask_call` decides what to do with the number, and it is separately testable offline for
+    exactly the reason `permanent_refusal` was hoisted out of that branch: the only way to check
+    a wording used to be to make a live cloud call and lose a claim finding out.
+    """
+    e = " ".join((err or "").lower().split())
+    if not e:
+        return None
+    for pat in _RETRY_AFTER_PATTERNS:
+        m = pat.search(e)
+        if not m:
+            continue
+        groups = m.groupdict()
+        secs = float(groups.get("s") or 0.0) + 60.0 * float(groups.get("m") or 0.0)
+        if secs <= 0:
+            # A STATED ZERO IS A STATEMENT, not an absence of one -- the provider is saying
+            # "now". Honoured as the floor rather than discarded, so the caller still learns
+            # that a cooldown was named.
+            return MIN_STATED_BENCH
+        return int(min(MAX_STATED_BENCH, max(MIN_STATED_BENCH, secs)))
+    return None
 
 
 # The provider answered, with nothing in it. Cascade's engine has two wordings for this one
@@ -1708,9 +1856,27 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                 # the most ordinary thing a free-tier pool says, it is tallied in the throughput
                 # panel and in `usage.outcome='rate_limited'`, and writing it into the
                 # unrecognised ledger buried the one genuine unknown under 121 known ones on the
-                # day the ledger was created. Named here, deliberately not benched -- see
-                # `named_transient`.
-                pass
+                # day the ledger was created. NOTHING IS WRITTEN TO THAT LEDGER HERE, and that
+                # rationale -- `named_transient`'s -- is untouched.
+                #
+                # WHAT IS NEW IS ROUTING, WHICH IS A DIFFERENT QUESTION (order 2239a87c57f5).
+                # If the provider stated when to come back, the router honours it instead of
+                # walking straight back into the same shut door: three of six measured probes
+                # were dispatched into a bucket that had just said "retry in 499s", each
+                # returning None rather than failing over, so the pool graded ~50% while other
+                # buckets were answering. The bench is TIMED and any success clears it
+                # (`_clear`), so a bucket is never axed on a throttle -- see
+                # `retry_after_seconds`, and drill's "a provider on cooldown is kept, not axed",
+                # which tests `permanent_refusal` and is not on this path.
+                #
+                # A POOL-WIDE EXHAUSTION NAMES NO PROVIDER, so it benches nobody: `exhausted`
+                # is a statement about capacity in that instant, and the pinned bucket may not
+                # even have been attempted (the ledger showed pin `groq:openai/gpt-oss-20b`
+                # against candidate label `Llama 3.3 70B (Groq)`). Benching on that evidence is
+                # exactly m103's harm reached by a new road.
+                _wait = None if exhausted else retry_after_seconds(err)
+                if _wait:
+                    _bury(pinned.bucket, _wait)
             elif pinned:
                 # AN UNRECOGNISED FAILURE IS A THING TO INVESTIGATE, NOT A THING TO ABSORB.
                 # Owner ruling 2026-08-25. Until now this branch simply fell through to

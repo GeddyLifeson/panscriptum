@@ -33,6 +33,40 @@ rather than another rung: you do not keep going down, you come out somewhere els
 This is the honest formalisation of the trope. It does not claim the Quantum Realm is real; it
 claims that IF a source attests a universe reached by descent, the address system can now write
 it down, and the energetics below say what such a descent costs.
+
+HELD, MARKED, AND NOT WIRED -- AND THE GAP ABOVE IS STILL OPEN
+--------------------------------------------------------------
+Order `66f96febdb3a`; owner ruling 2026-09-08, "whole modules built and never wired in":
+**wire what closes a measured gap; hold the rest, marked.** `render.py` was wired under that
+ruling (`publish.py:1346`, `import render as R`). `hosts.py` WAS NOT, and this sentence used to
+say it was -- measured 2026-09-08 during run #46: `import hosts`, `from hosts import`,
+`hosts_for(` and `SOURCE_HOSTS` all return zero hits anywhere in src/ outside `hosts.py` itself.
+Order `3fb312a72435` is still open for it and the wiring point is `feats.py`, which reads
+WIKI_HOSTS.json directly for one primary host instead of asking `hosts.hosts_for(source)`.
+Corrected rather than left standing, because a comment asserting a completed action that never
+happened is worse than no comment: the next reader takes it as settled and stops looking. THIS MODULE IS HELD, and the reason is on the record here rather than
+left for the next sweep to re-derive.
+
+Nothing in `src/` imports it and none of its seven public functions is ever called. Excluding
+this file, a grep for `descending_ladder|DESCENDING|rung_for_length|shrink_report|
+transgression_bits|rung_table|FOLD_RUNG|FOLD_GLYPH|compton_confinement_energy|density_at_scale|
+schwarzschild_radius` returns three lines: `derivation.py`'s `SCAN_MODULES` list, `anchors.py:43`
+telling a reader to "Use `transgression_bits()`" (which no code does), and a historical note in
+`secondopinion.py`. One prose pointer, one scan target, one memory.
+
+So READ THE FIRST SECTION OF THIS DOCSTRING AS STILL TRUE, not as history. Reach is still scored
+off `assay.py`'s own hand-written band table, which carries its own sub-planetary edges
+(`assay.py:74-75`) and never consults this file. The gap this module was written to close is
+still open. The arithmetic here is not the problem and has been checked -- the table is monotonic
+in length, `rung_for_length` guards its domain at both ends, and `PLANCK_ENERGY` agrees with
+m_P c^2 -- the problem is that a finished stage nothing dispatches to is indistinguishable from a
+stage that was never written (`pipeline.py:1538` says it in those words).
+
+Held rather than wired because connecting this to the Reach axis MOVES PUBLISHED MAGNITUDES:
+every sub-planetary Reach in the library would be re-scored against a different floor. That is a
+re-derivation with a snapshot and a before/after table, not a maintenance edit. Held rather than
+retired because the content is authored charter apparatus -- the fifteen rungs, the Fold, the
+confinement energetics -- and nothing is deleted.
 """
 import math
 
@@ -79,6 +113,38 @@ NUCLEAR_DENSITY = 2.3e17       # kg/m^3, saturation density of nuclear matter.
 # Each rung is a scale at which matter is BOUND into a coherent object -- the same criterion the
 # ascending rungs use (a planet, a system, a galaxy are all binding scales). The characteristic
 # length is the rung edge for Reach; the binding energy is the rung edge for Ruin.
+#
+# AND THE RUIN COLUMN IS U-SHAPED, WHICH THE SENTENCE ABOVE DOES NOT LEAD YOU TO EXPECT (order
+# 38c51153243c, owner ruling 2026-09-08). Stated here because the next reader will otherwise
+# file it as a bug, as one sweep already did.
+#
+# The LENGTH column is strictly monotonic in the rung index, so Reach orders cleanly and its
+# band edges behave the way "rung edge" implies. The BINDING column does not:
+#
+#     0 Cn 1e26 | -1 Rg 1e22 | -2 Ct 1e17 | -3 St 1e10 | -4 So 1e8 | -5 Og 1e5
+#    -6 Cl 1e-11 | -7 Or 1e-14 | -8 Mc 1e-17 | -9 Ml 8e-19 | -10 At 2.2e-18
+#   -11 Nu 1.3e-12 | -12 Nc 1.5e-10 | -13 Qk 1.6e-10 | -14 Pk 1.956e9
+#
+# It falls to a MINIMUM at Molecular (-9, 8e-19 J) and then RISES again by nearly thirty orders
+# of magnitude to the Planck rung. Two things about it are deliberate:
+#
+#   * THE SHAPE IS THE WORLD, NOT A SLIP. Binding energy per bound object genuinely is
+#     non-monotonic in scale. A cell really is easier to disrupt than a nucleus, and a covalent
+#     bond really is the cheapest thing on this ladder to break. A Ruin axis that says so is
+#     telling the truth; one that was forced monotonic to look tidy would not be.
+#   * THE Og -> Cl STEP IS THE REGIME CHANGE, NOT AN ERROR. Sixteen orders of magnitude across
+#     three orders of length, where every neighbouring step in the upper half is 1e2 to 1e3.
+#     That is where the column crosses from the mechanical disruption energy of a whole
+#     structure into the binding energy of a chemical object, and biology is where the crossing
+#     happens.
+#
+# THE CONSEQUENCE A SCORER MUST KNOW: because the column is U-shaped, `binding_J` alone does NOT
+# order the rungs, so it cannot be inverted into a rung the way a monotonic edge could. A Ruin
+# reading near 1e-11 J sits at rung -6 AND somewhere around rung -12, and nothing in the number
+# says which. Read the rung off LENGTH (`rung_for_length`, which is monotonic and domain-guarded
+# at both ends) and use `binding_J` as the energetic cost AT a rung already fixed -- never as a
+# lookup key back into the table. Nothing scores against this column today (see the held marker
+# in the module docstring), so no published Ruin depends on it either way.
 DESCENDING = [
     # rung, glyph, name,             length (m),  characteristic binding energy (J)
     (0,   "Cn", "Continental",        1.0e6,      1.0e26),   # continent-scale crust

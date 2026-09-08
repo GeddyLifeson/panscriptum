@@ -558,9 +558,11 @@ def audit(only=None, workers=6):
         # A ROW THAT COULD NOT BE MEASURED IS NOT A ROW WITH NOTHING IN IT. Returning None here
         # for an all-errors source deleted it from COMPLETENESS.json, and an absent row is read
         # downstream as "this source has no wiki presence" -- the opposite of "the wiki did not
-        # answer". Genuine absence (every probe answered, none of the categories exist) still
-        # returns None as before; only the no-answer case is promoted into `unreliable`, which
-        # is the bucket this module's own docstring built for exactly this.
+        # answer". Only the no-answer case was promoted into `unreliable`, which is the bucket
+        # this module's own docstring built for exactly this. AS OF ORDER d2da5914da94 THE
+        # SO-CALLED GENUINE-ABSENCE CASE IS PROMOTED TOO -- see the branch at the foot of this
+        # comment block -- so `work()` no longer returns None on any path, and nothing measured
+        # here is dropped from the file.
         #
         # 2026-08-24: the m3 fix demanded UNANIMITY (`failed < len(probes)`) and that was one
         # notch too narrow. Seven transport failures plus a single clean "no such category"
@@ -580,8 +582,39 @@ def audit(only=None, workers=6):
         # `persons / None` has no meaning to compute.
         if no_denominator:
             return _unmeasured(src, host, no_denominator)
+        # "GENUINE ABSENCE" WAS NEVER GENUINE ABSENCE (order d2da5914da94, owner ruling 17 of
+        # 2026-09-08: "say unknown out loud and name every refusal"). This branch returned None,
+        # and a None row is dropped from COMPLETENESS.json entirely -- against four separate
+        # comments in this same function arguing that "a source absent from COMPLETENESS.json is
+        # indistinguishable from a source with nothing missing" and that "an absent row is read
+        # downstream as 'this source has no wiki presence'".
+        #
+        # What this case actually is: every probe answered, and none of the eight CATEGORY_PROBES
+        # categories exists on this wiki. That is not a cast of zero. It is a cast whose size is
+        # UNKNOWN, for the same reason `no_denominator` one branch above is unknown -- and
+        # CATEGORY_PROBES missing a wiki's real category name is a live, measured failure mode,
+        # which is why the `cov > 1.0` branch below this exists at all: The Division catalogued
+        # 448 people against a probed category holding 314. So it takes the `_unmeasured` shape
+        # and says which question went unanswered, in the wording `no_denominator` already uses.
+        #
+        # NO DISPATCH CHANGES BY ITSELF: every consumer (foreman._catalogue_batch,
+        # catalogue_web --shortfall) skips rows carrying `unreliable`, so these sources go from
+        # absent-and-invisible to present-and-named without becoming work anybody is ordered to
+        # do on the strength of a number nobody has.
+        #
+        # ONE NET PINS THE OLD BEHAVIOUR AND MUST MOVE WITH THIS. verify_math.py section 19d
+        # asserts `genuine absence (every probe answered, no categories) -> row dropped` against
+        # `len(_CP.audit(workers=1)) == 0`; under this ruling the expected value is 1 and the
+        # row it now gets is `unreliable`. That file is owned elsewhere and is NOT edited from
+        # here -- flagged rather than quietly adjusted, because moving a net beside the change
+        # it would have caught is precisely the act this project's doctrine forbids.
         if not sizes and failed == 0:
-            return None
+            return _unmeasured(src, host, (
+                "no denominator possible: every category probe was answered and none of the "
+                "%d CATEGORY_PROBES categories exists on %s, so the size of its cast is "
+                "unknown rather than zero. A probe set that does not name this wiki's own "
+                "category is a known failure mode -- see the cov > 1.0 branch below."
+                % (len(probes), host)))
         best = max(sizes.values()) if sizes else None
         rec = byslug.get(str(src).lower()) or byslug.get(str(src).lower().replace("-", " "))
         got = (rec or {}).get("total")

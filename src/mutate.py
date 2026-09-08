@@ -128,6 +128,16 @@ GATES = FAST_GATES + CONFIRM_GATES
 # the PID and the start time; `active()` treats a lock whose process is gone as absent, and says
 # so rather than silently ignoring it.
 LOCK = os.path.join(HERE, "state", "MUTATION_ACTIVE.json")
+# REPORTED DEAD, NOT DELETED -- and RETAINED BY OWNER RULING, not by doctrine. Ruling 1 of
+# 2026-09-08, "Correct code that no caller ever reaches", option (a): mark and keep, delete
+# nothing. Closes order c72431056a14 (first reported at handoff/sweep34/AUDIT_batch16.md:57).
+# Measured by grep over src/ and handoff/: this constant, the `os.environ[...] =` at
+# `_hold_lock` and the `pop` beside it are the ONLY three references in the tree, so no gate
+# consults the variable and the distinction its comment describes is not currently available to
+# anything. It is kept because the WRITE is the half that has to exist first -- a reader can be
+# added to `escalation` or `drill` at any time and will find the token already in the
+# environment of every gate subprocess -- and because deleting it would delete the record of a
+# mechanism that was deliberately designed. `_hold_lock` states plainly that nothing reads it.
 _TOKEN_ENV = "PANSCRIPTUM_MUTATION_TOKEN"
 
 
@@ -343,9 +353,16 @@ def _hold_lock(targets):
         ("%s|%s" % (time.time(), tuple(targets))).encode("utf-8")).hexdigest()[:12])
     _lock_acquire(list(targets), token)
     _HELD = token
-    # Into the environment so the gate subprocesses spawned inside the sandbox inherit it and
-    # can tell "this tree is broken because WE are breaking it" from "this tree is broken and
-    # nobody is admitting to it" -- which is the distinction the drill got wrong the first time.
+    # Into the environment so the gate subprocesses spawned inside the sandbox inherit it. The
+    # distinction it was written for is "this tree is broken because WE are breaking it" against
+    # "this tree is broken and nobody is admitting to it" -- which is what the drill got wrong
+    # the first time.
+    #
+    # NOTHING READS IT YET, AND THAT IS SAID HERE RATHER THAN IMPLIED (order c72431056a14). A
+    # tree-wide grep finds no consumer of the variable or of `_TOKEN_ENV`, so the sentence above
+    # describes a mechanism that is half built: the token is published, and no gate asks for it.
+    # Retained under the owner ruling of 2026-09-08 (see `_TOKEN_ENV`); a gate that wants the
+    # distinction reads `os.environ.get(mutate._TOKEN_ENV)` and gets it for free.
     os.environ[_TOKEN_ENV] = token
     try:
         yield True
@@ -1098,6 +1115,15 @@ def unrule_equivalent(target, line, path=RULED_EQUIVALENT):
 
 
 SANDBOX_PREFIX = "panscriptum_mutate_"
+# THE NAME A SANDBOX WEARS WHILE IT IS BEING BUILT, AND IT MUST NOT START WITH SANDBOX_PREFIX
+# (order f9643582fd29, owner ruling 2026-09-08 "Gates reading a tree under concurrent edit").
+# `reap_orphans` matches on SANDBOX_PREFIX and nothing else, so a directory named under this
+# prefix is INVISIBLE to the reaper -- which is the whole point: the sandbox exists under a name
+# nothing reaps until its owner claim has been written into it, and is renamed in afterwards.
+# A value that started with SANDBOX_PREFIX would silently reopen the window this closes, and
+# `a sandbox under construction is invisible to the reaper` in drill.py is the net that refuses
+# it.
+BUILDING_PREFIX = "panscriptum_building_"
 ORPHAN_AGE_SECONDS = 6 * 3600
 
 
@@ -1152,6 +1178,32 @@ def _owner_pid(sandbox_root):
         silence.note("mutate.py:owner-claim-expired")
         return None
     return pid
+
+
+_TOUCH_REFUSED = False
+
+
+def _touch_root(sandbox_root):
+    """Keep a LIVE sandbox young enough that the age gate never considers it. Never raises.
+
+    THE SECOND HALF OF THE f9643582fd29 REMEDY, and on its own it would have saved both dead
+    passes. `reap_orphans` ages a sandbox on the mtime of its ROOT; a pass writes into
+    `root/src/*.py`, which does not touch `root`. So the root's mtime is frozen at creation and
+    a sixteen-hour pass spends ten of those hours looking exactly like an abandoned directory.
+    One `os.utime` per mutant is the cheapest possible way for a working sandbox to say so.
+
+    Never raises because this is hygiene, not a gate: a pass that cannot touch its own root is
+    still a valid pass, it is merely back to relying on the ownership check. Noted ONCE rather
+    than per mutant -- a note per mutant would put thousands of rows into the operational ledger
+    over one pass, which is the litter discipline `drill._deliberately_failing` exists for.
+    """
+    global _TOUCH_REFUSED
+    try:
+        os.utime(sandbox_root, None)
+    except OSError:
+        if not _TOUCH_REFUSED:
+            _TOUCH_REFUSED = True
+            silence.note("mutate.py:sandbox-touch")
 
 
 def _claim_sandbox(sandbox_root):
@@ -1235,13 +1287,34 @@ def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
         # not traverse a directory junction, but this is the one place in the project where
         # getting that wrong would delete `data/` -- 1.1 GB of mined corpus -- so the junctions
         # are removed explicitly first and the tree only then.
-        for shared in ("data", "prompts", "reference", os.path.join("output", "index")):
+        for shared in ("prompts", "reference", os.path.join("output", "index")):
             link = os.path.join(p, shared)
             try:
                 if os.path.isdir(link):
                     os.rmdir(link)          # unlinks a junction; fails on a real directory
             except OSError:
                 pass
+        # `data/` HOLDS MANY JUNCTIONS NOW, NOT ONE (order f40f701594a4): every top-level
+        # subdirectory under it -- `records/`, `feats/`, `chunkfeats/`, `readfeats/`, `docs/`,
+        # and anything added later -- is its own junction, while `data/` itself is now a real
+        # directory of hardlinked files, so the single `os.rmdir` above no longer unlinks
+        # anything there (a real, non-empty directory just fails `os.rmdir` into the `except`).
+        # Walked and unlinked individually for the same defense-in-depth reason as the block
+        # above -- proven UNNECESSARY by direct test this shift (`shutil.rmtree` does not
+        # traverse a Windows junction on this project's Python; a throwaway junction survived a
+        # `shutil.rmtree` of its container with its target untouched) -- kept anyway because this
+        # is the one place in the project where being wrong about that costs the live corpus.
+        _data_p = os.path.join(p, "data")
+        try:
+            for _name in os.listdir(_data_p):
+                _link = os.path.join(_data_p, _name)
+                try:
+                    if os.path.isdir(_link):
+                        os.rmdir(_link)
+                except OSError:
+                    pass
+        except OSError:
+            pass
         shutil.rmtree(p, ignore_errors=True)
         # ignore_errors=True means rmtree itself never raises -- the junction case in the
         # unlink loop just above (an unlinked-but-undeletable mount, permissions, a file still
@@ -1326,32 +1399,101 @@ def sandbox():
 
     So mutation now happens somewhere else entirely. `src/` and `state/` are COPIED -- the only
     two subtrees a gate can write to and have the write land in this throwaway tree instead of
-    the live one. `data/`, `prompts/`, `reference/` and `output/index` are JUNCTIONED, not
-    copied, because copying them costs gigabytes this runs too often to afford; a junction is a
-    portal, not a wall, so a write through one of the four lands on the LIVE tree exactly as if
-    the sandbox did not exist. **This is not a written guarantee, because a junction cannot back
+    the live one. `prompts/`, `reference/` and `output/index` are JUNCTIONED, not copied,
+    because copying them costs gigabytes this runs too often to afford; a junction is a portal,
+    not a wall, so a write through one of the three lands on the LIVE tree exactly as if the
+    sandbox did not exist. **This is not a written guarantee, because a junction cannot back
     one.** It holds today only because the gate commands in `GATES`/`FAST_GATES` happen not to
-    write to those four paths -- verified by reading them, not assumed -- and a future gate that
+    write to those three paths -- verified by reading them, not assumed -- and a future gate that
     does write there would corrupt the live tree with nothing here to say so. Order 6d7f88ffb76e.
+
+    `data/` USED TO BE A FOURTH JUNCTION AND IS NOT ANY MORE (order f40f701594a4). The read
+    direction of the same portal problem was never written down until a false kill proved it:
+    `verify_math` reads `data/TIERS.json` directly and 42 other modules it imports read
+    elsewhere under `data/`, so while the whole directory was one junction, a gate run inside
+    the sandbox was reading the LIVE, continuously-rewritten corpus -- and a mutant judged
+    against a baseline photographed hours earlier was being compared to a signature the tree had
+    since moved away from. Seven recorded baseline drifts (state/MUTANTS_SURVIVED.jsonl,
+    2026-09-06/07) share one shape -- verify_math flips 1159/0 to 1157/2 and back, 35-50 minutes
+    apart -- and name exactly the files a live crawl/pipeline rewrites continuously: TIERS.json,
+    COVERAGE.json, SHELFMARKS.json, ONOMASTICON.json, CHARACTER_SWEEP.json, FOREMAN.json. This is
+    the leading and, per order 58a00e909217's direct re-attack, the only surviving explanation
+    for the one CONFIRMED false kill on record: `escalation.py:409` was scored KILLED by a
+    16.3-hour run and SURVIVES cleanly when re-attacked in a fresh, short-lived sandbox.
+
+    Now every top-level FILE directly under `data/` is HARDLINKED at sandbox build time instead,
+    and every top-level DIRECTORY under it (`records/`, `feats/`, `chunkfeats/`, `readfeats/`,
+    `docs/`, and anything added later) is junctioned exactly as before -- `mklink /J` only takes
+    directories, so a per-file junction was never an option. A hardlink shares the live file's
+    disk blocks for free, but it is a SEPARATE directory entry, and every writer of a shared
+    `data/` file already goes through `silence.write_json`, which lands with
+    `os.replace(tmp, path)` (the 2026-08-25 sweep). An atomic replace over an existing name
+    detaches that name from its old file record and attaches it to the temp file's; a directory
+    entry that still points at the old record -- which is exactly what a hardlink taken before
+    the replace is -- keeps reading the pre-replace bytes. PROVEN this shift, not assumed:
+    reproduced directly against this project's own `silence.write_json` on a throwaway pair of
+    files -- the hardlink read the pre-write value, the live path read the post-write one. So
+    `<sandbox>/data/TIERS.json` is a snapshot frozen at the instant `sandbox()` ran, exactly like
+    a copy, without moving 274 MB (ENTITY_INDEX.json alone is 177 MB) to get one.
+
+    WHAT THIS DOES NOT COVER. A file inside a junctioned subdirectory -- `data/records/` chiefly
+    -- is still live, exactly as before; hardlinking 221 files there individually (and however
+    many tomorrow) would reopen the enumeration-drift risk order f40f701594a4 explicitly declined
+    to take on for a full read-set. Measured 2026-09-08: 4 of 221 `data/records/*.json` files had
+    moved in the preceding ~17 hours, against every one of the six top-level files above moving
+    within the last two hours -- an order of magnitude quieter, and not what any of the seven
+    recorded drift events named. This is a real residual gap, left open rather than hidden: it is
+    why the periodic `--rebaseline-every` re-photograph (the "cheap and honest interim" order
+    f40f701594a4 already had in place) stays, rather than being retired by this fix. A survivor
+    whose kill depends on `records/` content specifically is still worth a fresh re-attack before
+    it is trusted.
     """
     reap_orphans()
-    root = tempfile.mkdtemp(prefix="panscriptum_mutate_")
-    # ACCEPTED RISK, VERIFIED, NOT FIXED (order 404d0ccf9df5). There is a real, narrow window
-    # right here: `root` exists and matches SANDBOX_PREFIX before the next line writes its
-    # owner file, so a concurrent `reap_orphans(older_than=0)` landing in that exact gap would
-    # read `_owner_pid(root)` as None (no owner file yet) and delete it out from under this
-    # call. Re-audited rather than assumed: `reap_orphans()`'s own age gate is what closes this
-    # in every real run -- the default `ORPHAN_AGE_SECONDS` is six hours, so a directory whose
-    # mtime is microseconds old is always skipped by `getmtime(p) > cutoff` -- and an
-    # `older_than=0` call only exists in this codebase as a deliberately aggressive drill-net
-    # probe proving the reaper can reap at all (see the M46 comments on `reap_orphans` above),
-    # never in a nightly or scheduled path. Landing that probe inside this specific gap, on this
-    # specific machine's tempdir, is not something a lock is worth adding for: the fix that
-    # would close it cleanly -- publishing the directory under SANDBOX_PREFIX only after its
-    # owner file already exists inside it -- means restructuring `sandbox()`'s own claim
-    # sequence, which is exactly the sandbox/ownership machinery this project does not let an
-    # automated pass touch without a person reading the change. Left open on purpose.
-    _claim_sandbox(root)
+    # BUILT UNDER A NAME THE REAPER DOES NOT MATCH, AND RENAMED IN ONLY ONCE IT IS PROTECTED.
+    # Owner ruling 2026-09-08, "Gates reading a tree under concurrent edit", option (a); orders
+    # f9643582fd29 and 404d0ccf9df5.
+    #
+    # WHAT USED TO BE HERE, and it was recorded as an accepted risk rather than a defect: this
+    # was one `mkdtemp(prefix=SANDBOX_PREFIX)` followed by `_claim_sandbox(root)`, so for the
+    # width of one statement the directory matched the reaper's prefix and carried no owner
+    # file -- and `_owner_pid` on a missing claim answers None, which drops back to age-only
+    # behaviour. The note left here argued the age gate closed it in every real run, because a
+    # directory microseconds old is always skipped by `getmtime(p) > cutoff`.
+    #
+    # THE AGE GATE DOES NOT CLOSE IT, AND TWO PASSES DIED PROVING THAT. `reap_orphans` ages on
+    # the mtime of the sandbox ROOT, and a running pass writes into `root/src/*.py`, which
+    # updates `root/src` and NOT `root`. Measured directly: creating a file inside `root/src`
+    # leaves `root`'s mtime at its creation value. So six hours in, a pass that is actively
+    # working is indistinguishable from an abandoned one, and the ownership check -- which
+    # fails SAFE TO REAPING on an unreadable, malformed or absent claim -- is all that is left.
+    # The 2026-09-05 and 2026-09-07 `--target all` passes both reached their third target about
+    # 12.3 hours in, i.e. roughly 6.3 hours past the point at which their own sandbox became
+    # reapable by age, and both died with the identical FileNotFoundError on the sandbox's own
+    # `src/escalation.py`. `escalation.py` has still never been mutation tested.
+    #
+    # SO THE CLAIM SEQUENCE IS RESTRUCTURED, which is what that note said the clean fix was.
+    # The directory is created under `BUILDING_PREFIX`, which `reap_orphans` does not match at
+    # any age; the owner claim is written into it there; and only then is it renamed into a name
+    # the reaper can see. A rename is atomic within a filesystem, so there is no instant at
+    # which a reapable name exists without a claim inside it. The second half of the remedy --
+    # keeping the root's mtime fresh while a pass is live -- is `_touch_root`, called once per
+    # mutant in `_run_mutation`.
+    staging = tempfile.mkdtemp(prefix=BUILDING_PREFIX)
+    _claim_sandbox(staging)
+    root = os.path.join(os.path.dirname(staging),
+                        SANDBOX_PREFIX + os.path.basename(staging)[len(BUILDING_PREFIX):])
+    try:
+        os.rename(staging, root)
+    except OSError:
+        # A SANDBOX THE REAPER CANNOT SEE IS THE LEAK THIS REAPER EXISTS FOR, so a failed rename
+        # falls back to the old sequence rather than to running under an unreapable name. That
+        # reopens the narrow original window and is recorded when it happens; it is the lesser
+        # of the two, and it has no known cause on this machine (same directory, same
+        # filesystem, a name mkdtemp has just guaranteed is unique).
+        silence.note("mutate.py:sandbox-rename")
+        shutil.rmtree(staging, ignore_errors=True)
+        root = tempfile.mkdtemp(prefix=SANDBOX_PREFIX)
+        _claim_sandbox(root)
     os.makedirs(os.path.join(root, "src"))
     # THE COPY IS NOT ATOMIC AGAINST A TREE SOMEBODY IS EDITING. `os.listdir` names the modules
     # once and each is copied after that, so a file that is renamed, replaced or briefly removed
@@ -1418,10 +1560,38 @@ def sandbox():
             "the sandbox is missing %s -- the live tree was being written while it was copied "
             "(%s). Nothing was mutated. Re-run when src/ is not being edited."
             % (", ".join(absent), reason))
-    for shared in ("data", "prompts", "reference"):
+    for shared in ("prompts", "reference"):
         src_dir = os.path.join(HERE, shared)
         if os.path.isdir(src_dir):
             _junction(os.path.join(root, shared), src_dir)
+    # `data/` IS BUILT PER-ENTRY, NOT JUNCTIONED WHOLE (order f40f701594a4 -- see the class
+    # docstring for the mechanism and the measurement). Directories junction as before; files
+    # hardlink, which freezes each one at its pre-build content the same way a copy would
+    # (proven against `silence.write_json`'s atomic replace) for the cost of a directory entry
+    # instead of up to 177 MB (`ENTITY_INDEX.json`) of bytes.
+    _data_src = os.path.join(HERE, "data")
+    _data_dst = os.path.join(root, "data")
+    if os.path.isdir(_data_src):
+        os.makedirs(_data_dst, exist_ok=True)
+        for _name in os.listdir(_data_src):
+            _s = os.path.join(_data_src, _name)
+            _d = os.path.join(_data_dst, _name)
+            if os.path.isdir(_s):
+                _junction(_d, _s)
+                continue
+            try:
+                os.link(_s, _d)
+            except OSError:
+                # Cross-device (not expected -- both under HERE's drive), a reserved name, or
+                # the file was mid-replace at the exact instant of listing: rare, and a
+                # hardlink's whole advantage is cost, not correctness, so falling back to an
+                # actual copy is exactly as safe and just not as cheap. Noted so a run of
+                # nothing-but-fallbacks -- which would mean hardlinking silently stopped working
+                # -- stays visible instead of quietly costing the price this fix exists to avoid.
+                try:
+                    shutil.copy2(_s, _d)
+                except OSError:
+                    silence.note("mutate.py:sandbox-data-link-failed:" + _name)
     # STATE IS COPIED, NOT CREATED EMPTY, and the first attempt got this wrong in a way that
     # was quietly fatal: an empty `state/` made a sandboxed `drill.py` fail on missing files, so
     # the BASELINE was dirty for purely structural reasons and every mutant would have died at
@@ -1915,6 +2085,34 @@ def run(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
 def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, base=None,
                   confirm=CONFIRM_GATES, rebaseline_every=None, base_times=None):
     """The body of `run`, with the mutation lock already held. Do not call this directly."""
+    # A ROOT THAT IS THE LIVE TREE IS REFUSED (order a1aa2be36b7e, owner ruling 2026-09-08,
+    # "Gates reading a tree under concurrent edit": `_run_mutation` refuses a root equal to HERE).
+    #
+    # Nothing here compared `root` against the live tree, and `run(target, root=HERE)` would
+    # therefore write mutants into REAL `src/` once per mutant, for hours -- while all three of
+    # this module's guards reported success: `verify_restore` proves a round-trip on whatever
+    # file it is handed, `live_file_untouched` compares digests taken either side of a `finally`
+    # that restores the bytes, and `own_sandbox` is False so the `finally` correctly declines to
+    # rmtree -- which is the only thing that would have stood between this and deleting the
+    # repository.
+    #
+    # No caller does this today, verified: every real entry is `_session` with `root=sandbox()`,
+    # and the two drill nets that call `run()` stub `_run_mutation` out first. It is filed and
+    # fixed anyway because `run()`'s own docstring advertises itself to "the drill, a work-order
+    # reproduction, a future scheduler" -- three callers that do not exist yet and will pass
+    # `root` by keyword -- and because this module's whole architecture rests on the sentence
+    # "the live tree is never opened for writing", which was a property of the callers rather
+    # than of the code. Refused loudly, in the same shape as the missing-baseline refusal below.
+    if root is not None:
+        _abs = os.path.abspath(root)
+        if _abs == os.path.abspath(HERE) or os.path.abspath(os.path.join(_abs, "src")) == SRC:
+            raise RuntimeError(
+                "refusing to mutate %s with root=%s: that is the LIVE tree. Mutation writes "
+                "deliberately broken source once per mutant; in the live tree every other "
+                "process in this kit reads it, and this module's guards would all still report "
+                "success (the restore round-trips, the before/after digest matches across the "
+                "restoring finally, and own_sandbox=False stops the cleanup rmtree). Build a "
+                "throwaway root with sandbox() and pass that." % (target, root))
     # A MISSING BASELINE IS REFUSED, NOT DEFAULTED (order 91c1a581453d). This was
     # `base = {} if base is None else base`, and `run()`'s public signature defaults
     # `base=None`, so every caller entering through `run()` -- which its own docstring names as
@@ -2131,6 +2329,12 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 if rebaseline_every and (time.time() - last_base) >= rebaseline_every:
                     _refresh_baseline()
                     last_base = time.time()
+                # THE SANDBOX SAYS IT IS STILL ALIVE, ONCE PER MUTANT (order f9643582fd29). A
+                # write into `root/src/` does not refresh `root`'s own mtime, so without this a
+                # live pass ages into `reap_orphans`' six-hour window and any ordinary drill run
+                # -- `drill.py` calls `M.sandbox()`, which reaps at the default age -- can delete
+                # the tree this loop is mutating. Two `--target all` passes died exactly there.
+                _touch_root(root)
                 mutated = list(lines)
                 mutated[lineno - 1] = new_line
                 _write(path, "".join(mutated).encode("utf-8"))
@@ -2255,6 +2459,14 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
         # THE LIVE FILE MUST BE BYTE-IDENTICAL TO HOW WE FOUND IT. Not "should be" -- checked,
         # every run, because the whole class of incident this rewrite exists to end began with
         # a corrupted live file that nobody noticed until it was on GitHub.
+        #
+        # AND IT IS HONEST ABOUT WHOSE PROPERTY THIS IS (order 4f5fa3146cc4). Nothing between
+        # `live_before` and here opens the live path for writing, so a difference is never this
+        # process: it is another process editing `src/<target>.py` while this run held a
+        # snapshot of it, which makes the sandbox copy stale and this target's verdicts void.
+        # Two readings also cannot see any window BETWEEN them -- a file corrupted and restored
+        # in the gap compares equal -- so this is a check on the state at two instants, not a
+        # watch on the file. `_session` says both of those out loud where it reads the verdict.
         live_after = _digest(_read(live))
         return {"target": target, "mutants": len(muts), "killed": killed,
                 "survived": len(survivors), "survivors": survivors,
@@ -2786,16 +2998,47 @@ def _session(a, targets):
                 # sandbox this run has just declared unreliable.
                 rc, stopped_at = 4, i
             if not r["live_file_untouched"]:
-                # This must be impossible by construction -- the live path is never opened for
-                # writing. Checked anyway, and at OWNER level, because the incident that caused
-                # this rewrite was a corrupted live file reaching a public repo.
-                print("  *** THE LIVE FILE CHANGED DURING A SANDBOXED RUN. STOP. ***")
-                escalation.escalate(escalation.OWNER, "MUTATE_TOUCHED_LIVE_TREE",
-                                    "src/%s changed during a sandboxed mutation run" % t,
+                # A FOREIGN EDIT VOIDS THE RUN, NOT THE PARK. Owner ruling 2026-09-08, "Gates
+                # reading a tree under concurrent edit", option (a); order 4f5fa3146cc4.
+                #
+                # WHAT THIS ACTUALLY MEASURES, and it is not this process. `live_before` and
+                # `live_after` are digests of `src/<target>.py` in the LIVE tree, and nothing
+                # between them opens that path for writing -- every write goes to
+                # `root/src/<target>` inside the sandbox, and `_run_mutation` now refuses a root
+                # that IS the live tree. So a difference is a statement about EVERY OTHER
+                # PROCESS ON THE MACHINE: somebody edited this file while we held a snapshot of
+                # it. That invalidates the sandbox copy and this target's verdicts. It does not
+                # mean the library is unsafe, so it is not an OWNER halt -- which is what it used
+                # to raise, over the three files maintenance shifts edit most (assay.py,
+                # prose_gate.py, escalation.py), across a sixteen-hour window. One repair agent
+                # landing one line stopped the whole library over a file this run never touched.
+                # `tree_is_moving()` already treats a concurrent editor as an expected condition
+                # one screen away; this site treated the same fact as an emergency.
+                #
+                # AND THE SENTENCE NO LONGER CLAIMS WHAT THE CHECK CANNOT SEE. A before/after
+                # digest is blind to any window BETWEEN the two readings -- including the
+                # incident it commemorates, a `publish.py --loop` daemon shipping a corrupted
+                # `prose_gate.py` that was restored seconds later, which this comparison would
+                # have reported as untouched. Covering that window needs a different instrument
+                # (a digest per mutant, or a watcher on the live paths); what is fixed here is
+                # that the check stops claiming to cover it.
+                print("  *** THE LIVE COPY OF %s CHANGED WHILE THIS RUN HELD A SNAPSHOT OF IT."
+                      " ANOTHER PROCESS EDITED IT; THIS RUN'S VERDICTS FOR IT ARE VOID. ***" % t)
+                escalation.escalate(escalation.SUPERVISOR, "MUTATE_TOUCHED_LIVE_TREE",
+                                    "src/%s was edited by another process while this sandboxed "
+                                    "mutation run held a snapshot of it. The sandbox copy is "
+                                    "stale, so this run's verdicts for %s are void and the run "
+                                    "is aborted. This run never opened the live path for "
+                                    "writing; the edit is somebody else's, and it is a reason "
+                                    "to re-run on a settled tree, not a fault in the library. "
+                                    "NOTE: a before/after digest cannot see an edit that was "
+                                    "made and undone between the two readings, so this says "
+                                    "nothing about that window." % (t, t),
                                     evidence=r, source=t, who="mutate.py")
-                # OWNER writes the halt file, and this process must not keep deliberately
-                # corrupting code underneath a standing halt. Nothing further at all.
-                rc, stopped_at = 5, i
+                # The whole run shares one sandbox, taken from the tree that has just been shown
+                # to be moving, so the remaining targets are judged against a stale snapshot too.
+                # The run stops; the library does not.
+                rc, stopped_at = 4, i
             if r["capped"]:
                 # "N of M" (order 512864b65163): `mutants_attemptable` is the pre-slice total,
                 # so a reader sees what was cut against, not just that a cut happened.

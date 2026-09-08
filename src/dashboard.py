@@ -1175,7 +1175,40 @@ def main():
         raise SystemExit(
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
             "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
-    _ESC.assert_clear(os.path.basename(__file__))
+    # AND THE INSTRUMENT BUILT TO SHOW A HALT DOES NOT REFUSE TO START UNDER ONE (order
+    # aad11acb1183, owner ruling 2026-09-08, "The last checks before an irreversible outward
+    # act": every entry point that WRITES outside output/ and state/ asks, and read-only
+    # instruments do not).
+    #
+    # THE MEASURED ABSURDITY. This line raised SystemHalted BEFORE argparse, so under a standing
+    # halt `python src/dashboard.py --once` could not even parse its arguments, and any restart
+    # of the daemon made the halt invisible in the one place designed to shout about it. The
+    # page's own renderer says so eighty lines up -- "THE HALT IS THE HEADLINE ... a halt whose
+    # cause you have to go and find is a halt that stays up longer than it should" -- and the
+    # only reason the 8777 daemon showed the DRILL_BREACH at all was that it predated it. The
+    # remedy this instrument offered a person was to go and read `escalation.py --status`.
+    #
+    # THE CRITERION, NOT AN EXEMPTION FOR CONVENIENCE. This process writes `state/failures.json`
+    # (silence.note) and `state/CODEWATCH.json` (codewatch.stamp) and nothing else anywhere:
+    # every field on the page is READ from a file, which `state()`'s own docstring makes a
+    # standing property. It moves nothing, publishes nothing and mines nothing, so there is no
+    # act here for a halt to stand in front of. A future edit that makes this daemon write
+    # outside `output/` and `state/` puts it back on the other side of the rule and must restore
+    # the refusal.
+    #
+    # THE INTERLOCK IS STILL ASKED, AND IS NOT WEAKENED. The fail-closed import guard above is
+    # untouched: a missing or unparseable escalation chain still refuses to start, because "I
+    # cannot tell whether the library is halted" is a different answer from "it is halted and I
+    # am the meter for it". `assert_clear` is still called, its answer is still read, and the
+    # halt is now RENDERED -- on the console at startup and as the page's headline -- instead of
+    # being converted into an absent instrument.
+    try:
+        _ESC.assert_clear(os.path.basename(__file__))
+    except _ESC.SystemHalted as _halt:
+        print(str(_halt), flush=True)
+        print("dashboard.py is a READ-ONLY instrument and starts anyway, so the halt above is "
+              "visible on the page rather than only in state/HALT.json. Nothing else starts.",
+              flush=True)
     ap = argparse.ArgumentParser(description="every meter in this project, on one page")
     ap.add_argument("--port", type=int, default=8777)
     ap.add_argument("--once", action="store_true", help="print the state as JSON and exit")

@@ -81,10 +81,22 @@ def _looks_like_a_sentence(s):
         return True, "ends with sentence punctuation"
     if len(t.split()) > MAX_WORDS:
         return True, "longer than %d words" % MAX_WORDS
-    # "The Silence came through the description" has no terminal stop in some spans; a leading
-    # article plus a verb-ish tail is the other common emphasis shape. Only the plainest signal is
-    # used -- a lower-case first letter after an article -- because guessing at grammar here would
-    # be the resemblance-reasoning this module refuses to do anywhere.
+    # THERE IS NO THIRD RULE, AND THE COMMENT THAT CLAIMED ONE IS GONE (sweep of run #46).
+    # This spot carried three sentences describing a rule about "a leading article plus a
+    # verb-ish tail" and asserting that "only the plainest signal is used -- a lower-case first
+    # letter after an article". No such test was ever written here; the function has always
+    # returned False at this point. A reader auditing whether emphasis spans get through would
+    # have read that paragraph, believed a filter was standing, and moved on -- which is this
+    # project's oldest finding wearing prose instead of code: a check that cannot fail looks
+    # exactly like a check that passed, and a check that does not exist looks like both.
+    #
+    # The absent rule is also the RIGHT thing to be absent. Deciding "The Silence came through
+    # the description" is a sentence by inspecting its article and inferring a verb is grammar
+    # guessing, and this module refuses that class of reasoning everywhere else on purpose. The
+    # two rules above are mechanical -- terminal punctuation, word count -- and a span that slips
+    # past both is not smuggled anywhere: it becomes a CANDIDATE, and a candidate still has to
+    # equal a catalogued name exactly at the join. The cost of a false candidate is a row that
+    # resolves to nobody. The cost of a grammar heuristic is a thread built on resemblance.
     return False, None
 
 
@@ -133,7 +145,16 @@ def shelf_positions(text):
     rows, in_table = [], False
     for ln in text.splitlines():
         s = ln.strip()
-        if s.startswith("|") and "Shelf" in s and "stands at" in s.replace("Now ", ""):
+        # `"stands at"` IS TESTED AGAINST THE LINE ITSELF. This read
+        # `"stands at" in s.replace("Now ", "")`, which looked like it was normalising the header
+        # so the test could match -- and was doing nothing at all, because the header reads
+        # `| Shelf | Now stands at |` and "Now stands at" already CONTAINS "stands at". The
+        # replace could be deleted with no change in behaviour on any input, so it was not a
+        # normalisation step, it was a decoy: a future reader would have preserved it while
+        # editing the real condition, or trusted that some header variant depended on it. Removed
+        # rather than kept, on the same grounds this file refuses a grammar heuristic -- the
+        # dangerous line is not the one that is wrong, it is the one that cannot be wrong.
+        if s.startswith("|") and "Shelf" in s and "stands at" in s:
             in_table = True
             continue
         if in_table:

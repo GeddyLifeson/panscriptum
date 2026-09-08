@@ -85,6 +85,11 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cachekey                                                         # noqa: E402
 import silence                                                          # noqa: E402
+# THE HOUSE REMAINDER IDIOM (order 1cdc2f8cd2f3, owner ruling 2026-09-08). `style_audit._cut` is
+# the one spelling of "showing X of Y; N more not shown"; imported rather than re-copied so a
+# console cut in this file cannot drift out of agreement with the rest of the library's.
+# style_audit imports argparse/collections/glob/os/re/sys and `tells`, so this costs nothing.
+import style_audit as SA                                                # noqa: E402
 
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
@@ -350,9 +355,13 @@ def load(refresh=False, refresh_if_stale=True):
             print("identity: %s has no key for %d host director%s under data/feats (%s%s) -- "
                   "mining them now, because serving the cache as-is answers 'no continuity' "
                   "for every title on them and a wrong merge is not recoverable."
+                  # SAME RULING, SAME IDIOM (order 1cdc2f8cd2f3). The `[:6]` and the
+                  # `len(missing) - 6` were a second hand-kept pair; `SA._cut` derives the
+                  # remainder from the slice that was actually taken.
                   % (CACHE, len(missing), "y" if len(missing) == 1 else "ies",
-                     ", ".join(missing[:6]), "" if len(missing) <= 6 else
-                     ", and %d more" % (len(missing) - 6)),
+                     ", ".join(missing[:CONTINUITY_PREVIEW]) + " -- "
+                     + SA._cut(min(CONTINUITY_PREVIEW, len(missing)), len(missing),
+                               "host directories"), ""),
                   file=sys.stderr)
             inv.update(mine(hosts=missing))
             if not silence.write_json(CACHE, inv, indent=1, sort_keys=True):
@@ -449,6 +458,13 @@ def _inv_keys(host):
     """
     hand = (host or "").replace(".", "_").replace("-", "_")
     return [cachekey.host_dir(host), host, hand]
+
+
+# How many continuity designators the console preview shows before the remainder line takes
+# over. Named rather than repeated as a literal beside its own `-6` (order 1cdc2f8cd2f3): the
+# remainder is derived from the slice, so this is a display width and not a cap on the data --
+# every designator is still in `cont`, and the count printed beside the host is the whole one.
+CONTINUITY_PREVIEW = 6
 
 
 def continuities(host, inv=None):
@@ -712,12 +728,21 @@ def main():
         cont = continuities(host, inv)
         if cont:
             rows.append((host, cont))
+    # THE REMAINDER IS STRUCTURAL, NOT REMEMBERED (order 1cdc2f8cd2f3, owner ruling 2026-09-08:
+    # "every cut prints its remainder; nothing is silently short" -- Hard Rule 0 DOES reach
+    # console reports). This block hand-rolled its own `+N more` beside a `[:6]`, which is the
+    # shape that goes wrong the next time somebody edits one of the two numbers and not the
+    # other: the window and the remainder were two independent literals agreeing by hand.
+    # `style_audit._cut` is the house line for a ranking that had to be cut, and it derives the
+    # remainder from what was actually shown, so the two cannot disagree. The RANKING stays --
+    # ranking is allowed and encouraged; ranking-then-truncating-silently is what is not.
     for host, cont in sorted(rows, key=lambda kv: -len(kv[1])):
         top = sorted(cont.items(), key=lambda kv: -kv[1])
-        names = ", ".join(f"{d} ({n})" for d, n in top[:6])
-        more = f" +{len(top) - 6} more" if len(top) > 6 else ""
+        shown = top[:CONTINUITY_PREVIEW]
+        names = ", ".join(f"{d} ({n})" for d, n in shown)
         print(f"\n  {host}  — {len(cont)} continuities")
-        print(f"     {names}{more}")
+        print(f"     {names}")
+        print(f"     {SA._cut(len(shown), len(top), 'continuity designators')}")
     if not rows:
         print("\n  no continuity designators found yet — the feats cache is still filling.")
     return 0

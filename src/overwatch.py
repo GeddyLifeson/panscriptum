@@ -300,6 +300,24 @@ def _digest(path):
 # How far along a finding's life a state is. A terminal verdict outranks an open one, so whichever
 # writer reached the verdict wins the key -- in either direction, which is the point: the stale
 # writer is not always the one with less to say, it is only the one that must not overwrite blind.
+#
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
+# (order 464cc4e12fbc, ruled by the owner 2026-09-08: "mark and keep, one line each, delete
+# nothing"). The rows THIS module writes are only "open" (first sighting), "closed" (auto-triage
+# refuted verdict in verify_open()) and "retired" (the pointed-at file's digest changed), because
+# a "confirmed" verdict deliberately bumps `confirmed_n` and leaves the state open -- a defect
+# still present is still to be fixed. So "stale" and "confirmed" are unreachable from this
+# writer, which is what the order reported.
+#
+# THEY ARE KEPT ANYWAY, and the reason is on disk rather than hypothetical: data/OVERWATCH.json
+# holds 1,505 findings, of which 5 carry state "refuted" and 1 carries "stale" -- 6 rows written
+# by earlier spellings of this module that _merge_ledgers must still rank correctly today. Drop
+# the entries and `_progress` falls back to `.get(..., 0)`, i.e. those 6 rows would rank as OPEN
+# and a live open finding could then be overwritten by one of them. A ranking table is read by
+# the merge against WHATEVER a co-writer put on disk, not only against what this file emits, so
+# an unreachable key here is forward/backward compatibility, not dead weight. "confirmed" ranks
+# with "stale" at 1 -- above open, below terminal -- which is the honest place for a verdict that
+# adds evidence without ending the finding's life.
 _STATE_RANK = {"open": 0, "stale": 1, "confirmed": 1, "refuted": 2, "retired": 2, "closed": 2}
 
 

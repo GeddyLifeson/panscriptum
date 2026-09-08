@@ -158,11 +158,31 @@ def _flow_failure(exc, secs):
     model-calls order text, in a smaller box. Each branch below is a DIFFERENT machine state
     with a different first move: nothing listening (start it), the daemon answering an error
     (read its log), a generation that never returned (the wedge the standard was written for).
+
+    THE TIMEOUT BRANCH NAMES A CAUSE IT CANNOT PROVE (order 0b6fadca6d7d). It used to read
+    "queue is wedged" -- but `ollama_token_flow()` takes no lock and coordinates with no other
+    process before firing its live probe (see that function's docstring), so several callers
+    that each independently find the metrics ledger silent (a battery run overlapping a
+    dashboard poll, several mutation-sandbox subprocesses, `foreman.py` and `magnitude.py` all
+    polling `check()` around the same tick) can each fire their own concurrent generation
+    request against the SAME single-slot GPU runner. A caller reading this diagnosis has no way
+    to tell a genuinely wedged queue apart from ordinary self-induced contention between
+    simultaneous probes -- which is exactly the shape of the incident that prompted this audit
+    (two battery rows reddened and three mutation baselines corrupted on unmutated code from
+    overlapping probes, not a wedge). So a bare TimeoutError is reported as what was actually
+    observed -- no tokens flowed inside the deadline -- and NOT as a specific mechanism this
+    function cannot distinguish from its own concurrent self-contention. Adding the lock that
+    would let it tell the two apart is a separate, larger change (see the related open orders
+    named in this order's evidence); this fix only stops the message from asserting more than
+    the probe actually measured.
     """
     reason = getattr(exc, "reason", None)
     status = getattr(exc, "code", None)
     if isinstance(exc, TimeoutError) or isinstance(reason, TimeoutError):
-        return "generation TIMED OUT after %ss -- queue is wedged" % secs
+        return ("no tokens flowed within %ss -- this can be a genuinely wedged queue OR "
+                "ordinary contention from another caller's own probe overlapping this one "
+                "(no cross-process lock coordinates them); check for concurrent callers "
+                "before assuming a wedge" % secs)
     if isinstance(reason, ConnectionRefusedError):
         return "nothing listening on the ollama port -- the daemon is DOWN, not wedged"
     if status is not None:
@@ -183,6 +203,18 @@ def _flow_failure(exc, secs):
 
 def ollama_token_flow(ttl=300.0, timeout=300):
     """Does a generation actually COMPLETE? The third liveness lesson in two days.
+
+    COST, UP FRONT (order 0b6fadca6d7d): when the ledger below is silent, calling this fires a
+    REAL generation against the shared local GPU and can block for up to `timeout` seconds (a
+    300s default). A failure here writes into state/failures.json through
+    `silence.note("standards.py:token-flow")`, a ledger this project deliberately never
+    auto-clears. Every caller of `check()` -- `dashboard.py`'s poll loop, `publish.py --loop`,
+    `foreman.py`, `magnitude.py` -- reaches this function and pays that cost on any tick where
+    the metrics ledger has gone quiet, whether or not the caller wanted a live probe fired at
+    that moment. No lock coordinates separate callers against each other or against this
+    project's own mutation-sandbox subprocesses, so more than one of them can independently
+    decide the ledger is silent and fire concurrent probes at the same single-slot GPU runner
+    (see `_flow_failure`'s docstring for what that does to the diagnosis a timeout produces).
 
     The runner-process check above closed the first wedge (resident model, no runner). On the
     same day the inverse appeared: runner alive, model fully GPU-resident, /api/tags fine --
@@ -640,6 +672,13 @@ def provider_pool_denominator(pm):
 
 def check(state=None):
     """Measure every declared standard against the dashboard's own numbers.
+
+    NOT A PURE READ (order 0b6fadca6d7d): this also spawns a `tasklist` subprocess
+    (`ollama_runner_up`), opens a live TCP socket (`fandom_ipv4_reachable`), and -- when the
+    model_metrics ledger is silent -- fires a real generation against the shared local GPU with
+    up to a 300s wall-clock timeout (`ollama_token_flow`; see its docstring for the full cost
+    and the concurrency caveat). A caller expecting a bounded, side-effect-free read over
+    `state` should know that before treating this as one.
 
     Reading the same state dict the instrument panel reads is deliberate: a standard that
     computed its own figure could disagree with the panel, and then nobody knows which to
@@ -1123,11 +1162,35 @@ def check(state=None):
     # vanishes on a missing input is green by absence -- the exact defect batch 03 catalogued
     # across the data-file-backed standards in this file, and the one that hid this bug for its
     # whole life. UNMEASURED is a reading; silence is not.
+    #
+    # ...WITH ONE EXCEPTION, AND IT IS THE NOT-READ CASE (order 95f817b752ac, owner ruling
+    # 2026-09-08: "abstain where the instrument is down; raise where the fact is real"). Four
+    # readings can land here and they are not the same kind of thing:
+    #
+    #   the reader has logged no progress line yet   <- the INSTRUMENT IS DOWN. Not a fault.
+    #   the progress line carried no `dropped` count <- the RE_READ -> _read_row wiring is broken
+    #   kept + dropped is 0                          <- the reader is up and judging nothing
+    #   the progress line did not parse              <- the format changed under the reader
+    #
+    # The last three are genuine instrument faults and stay RED, unchanged. The first was going
+    # HIGH into the owner's decision file every supervisor round for a NORMAL state -- `read.py`
+    # is a main-lap job that is legitimately down between laps -- and, because "sentences that
+    # survive the verbatim check" has no entry in `foreman.REMEDIES`, that red row could not
+    # dispatch a cure. It could only occupy the page, which is the alarm-that-always-sounds this
+    # file's own MAX_JOB_SILENCE_MIN comment exists to refuse.
+    #
+    # It is routed to `_dropped` instead, which is EXACTLY the reasoning the sibling block
+    # thirty standards above already applies to the same absent job: recorded, countable in the
+    # "every standard could read its own input" aggregate, and reported by that aggregate as a
+    # MISS -- so absence still cannot read as health, which was the real fear behind keeping it
+    # red. `_dropped` under its own label rather than joining `corpus-read-standards`, because
+    # this standard is dispatched and remedied differently from those four and a reader
+    # cross-referencing the aggregate's `observed` should land on this block.
     fab = None
     why = ""
     read = jobs.get("corpus read")
     if not read:
-        why = "the reader has logged no progress line yet"
+        _dropped.append("fabrication-standard")
     else:
         det = read.get("detail") or ""
         try:
@@ -1143,28 +1206,32 @@ def check(state=None):
         except Exception:
             silence.note("standards.py:fabrication")
             why = "the reader's progress line did not parse"
-    out.append(_s(
-        "sentences that survive the verbatim check",
-        # UNMEASURED IS NOT GREEN. This read `True if fab is None else ...`, so the one state
-        # the order text below calls out by name -- "IF THIS READS UNMEASURED, TREAT THAT AS
-        # THE FINDING" -- was the state that satisfied the standard. The row and its own
-        # boolean said opposite things, and `work_orders()` reads the boolean, so the finding
-        # could never be dispatched. Run #28 fixed the standard's ABSENCE and left its
-        # emptiness green, one line under its own comment about green-by-absence; this is the
-        # same defect one layer in. A guard that cannot measure has not passed.
-        # (run #29, batch 03, reproduced.)
-        fab is not None and fab <= MAX_FABRICATION,
-        f"{fab:.0%} rejected" if fab is not None else "UNMEASURED -- %s" % why,
-        f"{MAX_FABRICATION:.0%}",
-        "The model is returning text that is not in the source. A rate this high means the "
-        "passage is being truncated before it arrives -- check the chunk size against the "
-        "model's context -- or that a weak fallback model is carrying the run. "
-        "IF THIS READS UNMEASURED, TREAT THAT AS THE FINDING: this standard silently did not "
-        "exist from the day it was written until run #28, because it read a job-dict key that "
-        "nothing sets, so an absent reading here is exactly the failure mode that hid it. "
-        "The input is `dropped` in `state/read_auto.log`, captured by `dashboard.RE_READ` and "
-        "carried into the job dict by `dashboard._read_row`.",
-        "high", "evidence"))
+        out.append(_s(
+            "sentences that survive the verbatim check",
+            # UNMEASURED IS NOT GREEN. This read `True if fab is None else ...`, so the one
+            # state the order text below calls out by name -- "IF THIS READS UNMEASURED, TREAT
+            # THAT AS THE FINDING" -- was the state that satisfied the standard. The row and
+            # its own boolean said opposite things, and `work_orders()` reads the boolean, so
+            # the finding could never be dispatched. Run #28 fixed the standard's ABSENCE and
+            # left its emptiness green, one line under its own comment about green-by-absence;
+            # this is the same defect one layer in. A guard that cannot measure has not passed.
+            # (run #29, batch 03, reproduced.)
+            #
+            # STILL TRUE OF ALL THREE READINGS THAT REACH HERE. The fourth -- the reader having
+            # logged nothing at all -- no longer reaches this line; see the block above. Every
+            # `why` that can be set below IS an instrument fault and every one of them breaches.
+            fab is not None and fab <= MAX_FABRICATION,
+            f"{fab:.0%} rejected" if fab is not None else "UNMEASURED -- %s" % why,
+            f"{MAX_FABRICATION:.0%}",
+            "The model is returning text that is not in the source. A rate this high means the "
+            "passage is being truncated before it arrives -- check the chunk size against the "
+            "model's context -- or that a weak fallback model is carrying the run. "
+            "IF THIS READS UNMEASURED, TREAT THAT AS THE FINDING: this standard silently did "
+            "not exist from the day it was written until run #28, because it read a job-dict "
+            "key that nothing sets, so an absent reading here is exactly the failure mode that "
+            "hid it. The input is `dropped` in `state/read_auto.log`, captured by "
+            "`dashboard.RE_READ` and carried into the job dict by `dashboard._read_row`.",
+            "high", "evidence"))
 
     try:
         with open(os.path.join(HERE, "data", "ROSTER_AUDIT.json"), encoding="utf-8") as f:
@@ -1899,23 +1966,47 @@ def check(state=None):
     # everything above read green. Only a completed generation proves a model server.
     try:
         flow, secs = ollama_token_flow()
-        if flow is not None:
-            out.append(_s(
-                "the local model produces tokens", flow,
-                # THE PROBE NAMES ITS OWN FAILURE. This slot used to assert "daemon up,
-                # generation TIMED OUT -- queue is wedged" whatever had actually gone wrong,
-                # so a refused connection or an HTTP error published a wedge diagnosis and the
-                # remedy below sent the reader to restart a daemon that was not running.
-                # `_flow_failure` distinguishes them; this prints what it found.
+        # `flow is None` USED TO DELETE THIS STANDARD ENTIRELY, with no `_dropped` entry either
+        # (order 74f1bc47da2a, owner ruling 2026-09-08 "Live machine state inside the battery").
+        # That is green-by-absence in its purest form: the reader saw neither a breach nor a
+        # standard, `declared != emitted` went red somewhere else with no explanation, and
+        # `work_orders()` dispatched off a row that was never appended. It is also the one drop
+        # path here that is NOT about the machine -- `ollama_token_flow` answers None only when
+        # it could not COMPOSE the request (config.yaml missing or unparseable, `yaml` refusing
+        # to import), which its own comment calls "a fact about THIS REPO and no fact at all
+        # about the daemon". So it must be loud, not absent. Same shape and same wording as the
+        # `ctx_verdict is None` arm forty lines above, which took this fix first.
+        if flow is None:
+            _flow_holds, _flow_reading = False, (
+                "UNMEASURED -- the generation probe was never SENT: config.yaml could not be "
+                "read or parsed, so the request could not be composed. This is a fault in this "
+                "repository, not in the daemon; see state/failures.json for the class "
+                "(standards.py:token-flow-unsent).")
+        else:
+            _flow_holds, _flow_reading = flow, (
                 ("probe completed in %ss" % secs) if flow
-                else str(secs or "the generation probe did not complete"),
-                "one tiny generation completes",
-                "Process presence and API reachability are proxies; on 2026-08-24 both read "
-                "healthy through a two-hour wedge in which zero tokens flowed. Read the detail "
-                "before acting: a WEDGE is cured by restarting ollama.exe (the tray app "
-                "respawns it) and nothing drains that queue on its own, but a daemon that is "
-                "DOWN or answering an HTTP error needs starting or reading, not restarting.",
-                "high", "machine"))
+                else str(secs or "the generation probe did not complete"))
+        out.append(_s(
+            "the local model produces tokens", _flow_holds,
+            # THE PROBE NAMES ITS OWN FAILURE. This slot used to assert "daemon up,
+            # generation TIMED OUT -- queue is wedged" whatever had actually gone wrong,
+            # so a refused connection or an HTTP error published a wedge diagnosis and the
+            # remedy below sent the reader to restart a daemon that was not running.
+            # `_flow_failure` distinguishes them; this prints what it found.
+            _flow_reading,
+            "one tiny generation completes",
+            "Process presence and API reachability are proxies; on 2026-08-24 both read "
+            "healthy through a two-hour wedge in which zero tokens flowed. Read the detail "
+            "before acting: a TIMEOUT (order 0b6fadca6d7d, this probe takes no lock) can be a "
+            "genuinely wedged queue, cured by restarting ollama.exe (the tray app respawns "
+            "it), OR ordinary contention from another caller's own probe firing at the same "
+            "time -- check for an overlapping dashboard poll, publish --loop tick, or "
+            "mutation-sandbox run BEFORE restarting anything, because restarting a daemon "
+            "that was only busy loses no wedge and costs a warm runner. A daemon that is "
+            "DOWN or answering an HTTP error needs starting or reading, not restarting. An "
+            "UNMEASURED reading here means the probe was never sent at all -- read it, it "
+            "names a fault in this repository rather than in the daemon.",
+            "high", "machine"))
     except Exception:
         silence.note("standards.py:token-flow-standard")
         _dropped.append("token-flow-standard")

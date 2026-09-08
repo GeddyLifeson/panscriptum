@@ -88,6 +88,16 @@ LEDGER = {
     "nuclear_density":    Q(MEASURED, "saturation density 2.3e17 kg/m^3"),
     "seconds_per_year":   Q(MEASURED, "Julian year 3.15576e7 s"),
     "material_strengths": Q(MEASURED, "engineering fracture and vaporisation enthalpies"),
+    # RULING 23 DOES NOT REACH THE MEASURED ROOTS, AND THAT IS THE RULING'S OWN LIMIT
+    # (owner ruling 2026-09-08). Every out-of-universe referent the library EMITS should
+    # name its in-universe counterpart instead -- a franchise by its shelf, a publication
+    # date by a date in AS, an edition by a recension. A MEASURED row is the one place
+    # that cannot apply: the citation IS the measurement's standing, and replacing it with
+    # an in-universe hand would leave a number nobody outside this repository could check
+    # -- which is Hard Rule 1 exactly, and Hard Rule 1 is not suspended by ruling 23. The
+    # Custodial register's sentence for these is that the Chronicle does not record by
+    # what hand they were counted; the ledger keeps the hand, because the ledger is what
+    # the Moth test is run against.
     "galaxy_count":       Q(MEASURED, "Lauer et al. 2021, New Horizons LORRI"),
     "planets_per_star":   Q(MEASURED, "Cassan et al. 2012, Nature"),
     "eta_earth":          Q(MEASURED, "Bryson et al. 2021 as upper anchor"),
@@ -263,12 +273,23 @@ LEDGER = {
                                  "else -- Vol 0.5's ontology turned on its own instrument"),
 
     # ------------------------------------------------- the college of Custodes (custodes.py)
+    # TEN PARENTS FOR TEN SEATS (order c9e6e50e792f, owner ruling 2026-09-08 "whatever is
+    # published wins; correct the side nothing rests on"). This list held NINE names under prose
+    # saying "ten", and its dependent `college_size` says "one Custos per degree of freedom" and
+    # "the count is derived, not chosen" -- while custodes.py seats TEN. Matching the nine to a
+    # Custos by content accounted for nine and left exactly one seat with no ledger counterpart:
+    # `applicability` (Cassia, "category error; she will strike an axis before she will score it
+    # badly"). The ledger already carried the quantity for it -- `applicability_mark`, below --
+    # and it simply was not listed here, so Cassia sat on a derivation of nine. The published
+    # College is the measurement and it seats ten; the parents list was the claim. It now names
+    # `applicability_mark` and the derived count and the seated count agree.
     "assay_dof":          Q(DERIVED, "the independent levers in the assay computation: ten "
                                      "survive the test that varying one alone moves the output "
                                      "and is not a function of the others",
                             ["log_scoring_rule", "attestation_grades", "aperture_doctrine",
                              "arrival_years", "chain_of_record", "parity_rate",
-                             "curl_fraction", "transgression_beta", "evt_ceiling"]),
+                             "curl_fraction", "transgression_beta", "evt_ceiling",
+                             "applicability_mark"]),
     "college_size":       Q(DERIVED, "one Custos per degree of freedom", ["assay_dof"],
                             note="the count is derived, not chosen: a direction with nobody "
                                  "standing in it is a direction nobody checks"),

@@ -205,8 +205,25 @@ def classify_source(rec, cap=None, floor=6):
     # A cosmogony is stated in a source's ORIGIN entries, not smeared across its whole catalogue.
     # Reading everything let incidental vocabulary outvote the actual creation account -- which is
     # how "recurring character" nearly made eternal recurrence the commonest cosmology in the
-    # omniverse. So the scan is targeted, and a source with no origin-bearing entry comes back
-    # UNGROUNDED by the honest route: no origin account is attested because none was written down.
+    # omniverse. So the scan is targeted, and a source with no origin-bearing entry AND no
+    # synthesis account comes back UNGROUNDED by the honest route: no origin account is attested
+    # because none was written down.
+    #
+    # WITH ONE STATED EXEMPTION: THE SYNTHESIS BLOB (owner ruling 2026-09-08, "Ledgers and
+    # sentences the code outgrew" -- "the grounding docstring given its synthesis-blob
+    # exemption"; order 98f18453deaf). The `_ORIGIN` filter below governs ENTRIES only; the
+    # synthesis rationale and evidence are appended unconditionally, and that is DELIBERATE. A
+    # synthesis rationale IS an origin account -- generally the most considered one in the
+    # record, written about the source as a whole -- and it does not carry the risk the filter
+    # exists for: incidental entry vocabulary outvoting the creation account. The exemption is
+    # written here, where the method is stated, rather than left to be inferred from where the
+    # `parts.append` sits relative to the loop.
+    #
+    # THE CONSEQUENCE, NAMED SO IT IS NOT A SURPRISE: a source with `origin_entries: 0` whose
+    # synthesis blob alone clears `floor` is CLASSIFIED, and its record then carries a positive
+    # grounding beside a zero origin-entry count. Measured across all 210 records when the ruling
+    # was made: zero sources are in that state. It becomes live only as synthesis blocks get
+    # richer, and the record is honest about it either way -- `origin_entries` is returned.
     parts, origin_entries = [], 0
     for e in rec.get("entries", []):
         blob = (e.get("name") or "") + " " + (e.get("description") or "")

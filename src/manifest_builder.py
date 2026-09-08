@@ -165,6 +165,14 @@ def chunk(lst, size):
 # site rather than a quietly wrong block size. The number itself stays because the paragraph
 # above it is a real measurement worth keeping; whether the constant should now be deleted
 # outright is a question for NEXT_STEPS, not a silent removal here.
+# REPORTED DEAD, NOT DELETED (order db36d589713e, owner ruling 2026-09-08: "mark and keep,
+# one line each, delete nothing"). THIS CONSTANT IS DOCUMENTATION AND IS READ BY NOTHING:
+# a tree-wide grep finds three occurrences of the name -- this line and two comments
+# (context_budget.py:20 and :366 below). The live budget comes from
+# `cfg.get("feats_block_chars")` or `context_budget.feats_block_budget(cfg)` further down.
+# The paragraph above is the measurement of record and the number is what that paragraph
+# is about, so the two stay together; the question the comment above deferred to
+# NEXT_STEPS -- whether to delete it outright -- is now answered, and the answer is no.
 FEATS_BLOCK_CHARS = 20000
 
 
@@ -348,8 +356,33 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
     # directly under the comment explaining that 39,862 mined feats once existed with no volume
     # able to print one. The note is kept for the ledger; the print is what reaches the operator
     # watching the build. Found by the run #33 sweep (batch 15).
+    # AND AN EMPTY LIST NOW SAYS *WHY* IT IS EMPTY (order c8dc624e4e02, owner ruling 2026-09-08).
+    # The comment above closed the case where `feats_index` RAISES. It did not close the case
+    # where `feats_index` returns normally with nothing in it, and that is the larger hole: a
+    # source that is not in WIKI_HOSTS.json at all has no host to mine, so `feats_for_source`
+    # returns a bare `[]` with no exception, no note and no print. Twelve sources are in exactly
+    # that state right now (`feats_index.binding_report()`: 197 bound, 6 pages, 1 doc, 12 unbound).
+    # Every one of them builds a volume with no Feats chapter and a build report that reads
+    # identically to a clean run -- which is the same Hard Rule 0 failure the paragraph above
+    # describes, reached by the quiet road instead of the loud one.
+    #
+    # `binding` is `feats_for_source`'s out-channel for that question and it was simply never
+    # passed here. It answers one of four kinds, and only ONE of them is a fault:
+    #   bound   -- the source has a host. An empty list means no attested feats. Say nothing.
+    #   pages   -- a legitimate sentinel; the source is read as pages, not mined per-host.
+    #   doc     -- likewise legitimate.
+    #   unbound -- the source is in no host map at all. Nothing was ever going to be found.
+    # Warning on `pages` or `doc` would be an alarm that always sounds, which this project's own
+    # doctrine calls furniture, so the print is gated on `unbound` alone.
+    _binding = {}
     try:
-        feat_rows = feats_index.feats_for_source(source_name, record)
+        feat_rows = feats_index.feats_for_source(source_name, record, binding=_binding)
+        if not feat_rows and _binding.get("kind") == "unbound":
+            print("WARNING: %s is bound to NO wiki host, so no feats could be mined for it -- "
+                  "this volume will carry no Feats chapter, which is NOT the same finding as a "
+                  "source with no attested feats" % source_name)
+            print("   the source is absent from data/WIKI_HOSTS.json; running "
+                  "src/feats_index.py prints a BINDING section naming every unbound source")
     except Exception as e:
         silence.note("manifest_builder.py:feats")
         # UNCUT (order bd3f737f4241). `str(e)[:110]` is the one thing distinguishing a BUG in

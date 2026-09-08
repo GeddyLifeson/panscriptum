@@ -172,6 +172,51 @@ ANCHORS["Yggdrasil"] = dict(
 )
 
 
+# AN ANCHOR IS READ AT ZERO REMOVE, AND THAT IS NOW A STATED CONVENTION RATHER THAN A GAP
+# (order bd673ceaaf31, owner ruling 2026-09-08: "pass distance=0.0 for Lumen as a stated
+# convention while Threnody stays abstained").
+#
+# WHAT WAS WRONG. `anchors.py` was the ONLY production caller of `custodes.convene()`, and it
+# passed neither `distance` nor `years_since`. `staleness_widening` returns 0.0 whenever either
+# is None -- so Lumen, whose whole dasein is "the world shows up as LIGHTCONE", contributed
+# exactly 0.0 to every real reading and the college published intervals as though every reading
+# were perfectly current. That 0.0 was a SENTINEL for "nobody told me", not a measurement, and
+# `convene()` reported it honestly as an abstention. The abstention was correct; what was wrong
+# was that the instrument's own calibration points had no vantage at all.
+#
+# WHY THESE TWO VALUES ARE A CONVENTION AND NOT AN INVENTED MEASUREMENT. The five ANCHORS are not
+# shelved entities observed from somewhere. They are the RULER -- the floor, standard and ceiling
+# the rest of the library is read against, published in the charter itself. Two consequences
+# follow from what an anchor IS, not from any estimate:
+#
+#   ANCHOR_DISTANCE = 0.0 -- an anchor is read AT ZERO REMOVE. There is no Concordance
+#       separation between the reader and the ruler in their hand; the instrument is not
+#       observed across a lightcone.
+#   ANCHOR_YEARS_SINCE -- derived, not chosen: `propagation.ascension_years(LADDER_HEIGHT)`, the
+#       time a claim needs to climb the whole Chain of Record. An anchor's content is not news;
+#       it is ratified to the apex by the time it is an anchor at all. Taking the quantity from
+#       `propagation` rather than typing a number means a re-derivation of the ascension schedule
+#       moves it instead of stranding a literal here.
+#
+# Together these make `staleness_widening` return a 0.0 IT COMPUTED (observed_mark reaches the
+# full LADDER_HEIGHT, so the unobserved share is zero) instead of the 0.0 it returns for a
+# question nobody asked. Measured before landing: the college interval at the standard anchor is
+# unchanged at 0.10 and `staleness_measured` flips False -> True, so no published number moves
+# and the abstention stops.
+#
+# THRENODY STAYS ABSTAINED, DELIBERATELY, AND MUST NOT BE GIVEN THE SAME TREATMENT. Her veto
+# needs `eta` from `resonance.hodge_decompose`, which needs a pairwise CONTEST FLOW graph
+# ("a beats b by this much"). No such data exists. `data/SHARED_STAGE_GRAPH.json` exists and
+# `resonance_strength` reads it, but it holds CO-ATTESTATION WEIGHT -- how much furniture two
+# shelves share -- which is a different quantity. Feeding it in as a flow would make the veto
+# fire, or not fire, on the wrong evidence, which is worse than a veto that never fires. There
+# is no honest input, so the college abstains and says so.
+def _anchor_vantage():
+    """`(distance, years_since)` for a calibration anchor. See the convention above."""
+    import propagation as P
+    return 0.0, P.ascension_years(P.LADDER_HEIGHT)
+
+
 def run():
     import custodes as CU
     import rigor as R
@@ -187,8 +232,9 @@ def run():
                             {k: v for k, v in a["scores"].items()
                              if isinstance(v, (int, float))},
                             worksheet="anchors.py")
+        _dist, _since = _anchor_vantage()
         col = CU.convene(a["anchor"], a["scores"], attestation=a["attestation"],
-                         worksheet="anchors.py")
+                         worksheet="anchors.py", distance=_dist, years_since=_since)
         rows.append((name, a, res, inst, col))
 
         print(f"\n{'-' * 100}")
@@ -204,7 +250,9 @@ def run():
             print(f"  INSTRUMENT {fac}   Grade {inst.get('transcendence_grade')}")
         print(f"  COLLEGE    ± {col.get('interval')}   "
               f"prior {col.get('prior_divergence_share')} / "
-              f"attestation {col.get('attestation_floor_share')}")
+              f"attestation {col.get('attestation_floor_share')}   "
+              f"staleness measured (Lumen) {col.get('staleness_measured')}   "
+              f"comparability measured (Threnody) {col.get('comparability_measured')}")
         bit = R.measure_bit_value(a["anchor"])
         print(f"  one axis point at {a['anchor']} = {bit:.2f} bits")
 
@@ -381,6 +429,77 @@ def run():
             continue
         _held, _detail = _test(*got)
         verdict(_label, _held, _detail)
+
+    # -- 4. THE COLLEGE AND THE BIT VALUE, GRADED (order 18d0fedabf13, owner ruling 2026-09-08:
+    # "grade the college's finite-interval, dispersive and bit-value properties but never the
+    # prior/attestation shares").
+    #
+    # `run()` computed `custodes.convene(...)` and `rigor.measure_bit_value(...)` at all five
+    # calibration points, printed both, and no verdict read either. This file's own __main__
+    # comment is "A CHECK WHOSE RESULT IS PRINTED AND DISCARDED CANNOT FAIL", and two whole
+    # sub-instruments were exercised five times a run and judged by nothing: a convene()
+    # returning a degenerate interval, or a measure_bit_value() with no resolution at a band,
+    # would print and this file would still exit 0.
+    #
+    # WHAT IS DELIBERATELY *NOT* GRADED, so nobody adds it later thinking it was an oversight:
+    #
+    #   * `prior_divergence_share + attestation_floor_share == 1`. They are defined as
+    #     COMPLEMENTS at their point of construction. Asserting they sum to one grades a
+    #     tautology, which is the exact opposite of the repair this section exists for -- a
+    #     check that cannot fail looks exactly like a check that passed.
+    #   * `covers_every_reading`. custodes.py documents it as "a GUARANTEE being published, not a
+    #     check being run ... true by construction for every possible input and cannot fail".
+    #     Same reason.
+    #   * measure_bit_value MONOTONIC across the Ladder. It is NOT monotonic and is not meant to
+    #     be: the value is `band_resolution(band)/10`, the width of the band the point sits in,
+    #     and the Ladder's band edges are not evenly spaced. Measured on the live tables --
+    #     M0 1.66, M1 1.66, M2 3.99, M3 2.77, M4 3.15, M5 3.04, M6 2.66, M7 3.65, M8 4.98,
+    #     M9 4.65, M10 4.65 -- so a monotonicity verdict would go red on a correct instrument.
+    #     The falsifiable claim the code DOES make is the one graded below.
+    _cols = [(name, col) for name, _a, _res, _inst, col in rows]
+
+    bad_interval = [(n, c.get("interval")) for n, c in _cols
+                    if not isinstance(c.get("interval"), (int, float))
+                    or isinstance(c.get("interval"), bool)
+                    or not (0.0 < float(c["interval"]) < float("inf"))]
+    verdict("the college measures a finite, non-zero interval at every anchor",
+            not bad_interval,
+            "; ".join("%s: interval=%r" % (n, v) for n, v in bad_interval)
+            or "  ".join("%s ±%.2f" % (n, c["interval"]) for n, c in _cols))
+
+    # A Custos marked dispersive whose widening was never derived is a real reachable state --
+    # custodes.py gives it its own key precisely because it is -- and it means the interval was
+    # published without the dispersion that standpoint exists to add.
+    unmechanised = [(n, c.get("dispersive_without_mechanism"))
+                    for n, c in _cols if c.get("dispersive_without_mechanism")]
+    verdict("no Custos is dispersive without a derived widening",
+            not unmechanised,
+            "; ".join("%s: %s" % (n, v) for n, v in unmechanised) or "none at any anchor")
+
+    # THE INSTRUMENT MUST HAVE RESOLUTION AT EVERY BAND, INCLUDING ITS OWN FLOOR. This is the
+    # fault `tempus.band_resolution` was split out of `rung_description_length` to fix: the
+    # cumulative quantity made L_r(M0) = 0, so at the floor every axis point was worth ZERO bits
+    # and the Skate Guy and the Sword could not be compared at all -- "an instrument with no
+    # resolution at its own floor is not an instrument", in that function's own words. Nothing
+    # tested it. A band whose edges ever collapse to equality returns log2(1) = 0 and lands here.
+    bad_bits = []
+    for _b in A.LADDER:
+        _v = R.measure_bit_value(_b)
+        if not isinstance(_v, (int, float)) or isinstance(_v, bool) or not _v > 0.0:
+            bad_bits.append((_b, _v))
+    verdict("one axis point is worth a positive number of bits at every band",
+            not bad_bits,
+            "; ".join("%s: %r" % (b, v) for b, v in bad_bits)
+            or "  ".join("%s %.2f" % (b, R.measure_bit_value(b)) for b in A.LADDER))
+
+    # LUMEN'S VANTAGE ACTUALLY REACHED THE COLLEGE (order bd673ceaaf31). The convention above is
+    # only worth stating if it arrives: if `_anchor_vantage()` or `convene()`'s signature ever
+    # drifts, this returns to the silent 0.0 it was, and the abstention note is printed to
+    # stderr where nothing grades it.
+    stale_unmeasured = [n for n, c in _cols if not c.get("staleness_measured")]
+    verdict("Lumen measured staleness at every anchor rather than abstaining",
+            not stale_unmeasured,
+            ", ".join(stale_unmeasured) or "measured at all five")
 
     ok = all(p for p, _l, _d in verdicts)
     for passed, label, detail in verdicts:

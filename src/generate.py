@@ -37,6 +37,70 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WRITE_CHUNK = 8
 
 
+# ===================== THINK-TAGS ARE STRIPPED AT THE TRANSPORT BOUNDARY =====================
+# OWNER RULING 2026-09-08, "The prose lane's model and layer four", option (a) -- settling
+# orders 342ccfafa4a4, 5bbd4b3376fe and 3859043e365e, which are three consequences of one fact.
+#
+# THE FACT: `config.yaml`'s own comment block requires the NON-THINKING instruct variant, and
+# gives the reason -- this module used to write `data["response"]` straight to disk with no
+# stripping. The configured model advertises the `thinking` capability to Ollama's /api/tags, so
+# the library was configured with exactly the variant its config forbids, for exactly the reason
+# the config gives. The owner ruled to keep the model and strip here rather than to swap it.
+#
+# THE THREE CONSEQUENCES, all closed by stripping in ONE place -- this one:
+#   * 342ccfafa4a4  reasoning text reaching disk inside a finished volume;
+#   * 5bbd4b3376fe  `_covered()` and `_deed_traced()` string-match against the WHOLE response, so
+#                   a model that PLANS by naming its entities ("now for Entity X...") satisfies
+#                   the coverage check from reasoning text alone, no retry fires, and layer 4 is
+#                   left standing alone -- Hard Rule -1's three independent layers collapsed to
+#                   one for exactly the failure class layer 3 exists to catch;
+#   * 3859043e365e  the output reserve `context_budget.assert_fits` carves out of `num_ctx` is
+#                   spent on reasoning tokens before the visible answer starts.
+#
+# WHY THE BOUNDARY AND NOT `_covered`: patching the coverage checks alone would leave the tags on
+# disk and the reserve squeezed, and would have to be repeated at every future reader. Stripping
+# where the response ENTERS this program means no downstream reader -- coverage, deed trace,
+# prose_gate, the raw file, the compressed blob -- can ever see a tag. It also survives a model
+# swap: a non-thinking model emits no tags and the strip is a no-op.
+#
+# `think: false` is sent alongside (see `call_ollama`) because it is free and it stops the tokens
+# being generated at all rather than only being discarded. The strip stays regardless: a flag the
+# server may ignore is not a guard, and this is the layer that does not depend on the server.
+_THINK_BLOCK = re.compile(
+    r"(?is)<\s*(think|thinking|reasoning|reflection|scratchpad)\s*>.*?<\s*/\s*\1\s*>")
+_THINK_CLOSE = re.compile(r"(?is)<\s*/\s*(?:think|thinking|reasoning|reflection|scratchpad)\s*>")
+_THINK_OPEN = re.compile(r"(?is)<\s*(?:think|thinking|reasoning|reflection|scratchpad)\s*>")
+
+
+def strip_think(text):
+    """Remove a thinking model's scratchpad from a response. -> the prose only.
+
+    Three shapes, in this order, because they overlap:
+
+      1. A COMPLETE `<think>...</think>` block, anywhere in the text. Removed outright.
+      2. A STRAY CLOSING tag with no opener. This is the common Ollama shape -- the opening tag
+         is consumed by the server and the response arrives as `...reasoning...</think>\\n\\nthe
+         answer`. Everything up to and including the LAST such close is reasoning and is dropped.
+      3. A STRAY OPENING tag with no close: the generation ended inside the scratchpad, so there
+         is no prose at all. Everything from the tag to the end is dropped, which leaves an empty
+         string -- and every caller below already refuses an empty response. That is the safe
+         direction: an answer that never left the scratchpad must read as nothing written, not as
+         a chapter.
+
+    FAILS TOWARDS THE EMPTY STRING on purpose. This function is not permitted to invent prose,
+    so where it cannot tell reasoning from answer it returns less, never more.
+    """
+    t = text or ""
+    t = _THINK_BLOCK.sub("", t)
+    closes = list(_THINK_CLOSE.finditer(t))
+    if closes:
+        t = t[closes[-1].end():]
+    m = _THINK_OPEN.search(t)
+    if m:
+        t = t[:m.start()]
+    return t.strip()
+
+
 def load_config():
     with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
         return yaml.safe_load(f)
@@ -229,6 +293,13 @@ def call_ollama(cfg, system_prompt, user_prompt, job_type="chapter"):
             # Hard Rule 0 exists to forbid, wearing a generation flag.
             "num_predict": -1,
         },
+        # THE CHEAP HALF OF THE THINK-TAG RULING (owner, 2026-09-08). `strip_think()` above is
+        # the guard; this is the request that stops the tokens being spent in the first place,
+        # which is what gives `context_budget`'s output reserve back to the answer (order
+        # 3859043e365e). It is sent unconditionally because a non-thinking model has nothing to
+        # turn off. The two are INDEPENDENT on purpose: a server that ignores this key, or a
+        # model that emits tags anyway, is still stripped at the boundary.
+        "think": False,
     }
     # PROSE IS THE FOREGROUND. This is the library's actual product; the corpus read, the roll,
     # the phases and the model lane are all in service of it, so they yield here rather than
@@ -236,11 +307,28 @@ def call_ollama(cfg, system_prompt, user_prompt, job_type="chapter"):
     # 0.057s and the same call queued behind the standing jobs took 28-35s. gpu_lane fails
     # open -- if arbitration breaks, the call still goes.
     import gpu_lane
-    with gpu_lane.lane("generate", priority=True):
-        resp = requests.post(url, json=payload, timeout=cfg.get("request_timeout", 600))
+
+    def _post():
+        with gpu_lane.lane("generate", priority=True):
+            return requests.post(url, json=payload, timeout=cfg.get("request_timeout", 600))
+
+    resp = _post()
+    # `think` IS REFUSED BY SOME OLLAMA BUILDS FOR A MODEL WITH NO THINKING CAPABILITY, with a
+    # 400 naming the key. Sending it must not become a new way for the prose lane to stop dead on
+    # a model swap -- the ruling calls it free, and a flag that costs a hard failure is not free.
+    # Dropped and retried ONCE, and the drop is recorded, so "we are not asking for think:false
+    # any more" is a fact in the ledger rather than an invisible degradation.
+    if resp.status_code == 400 and "think" in (resp.text or "").lower():
+        silence.note("generate.py:think-flag-refused")
+        payload.pop("think", None)
+        resp = _post()
     resp.raise_for_status()
     data = resp.json()
-    return data.get("response", "")
+    # THE TRANSPORT BOUNDARY. Nothing downstream of this line -- coverage, deed trace, the block
+    # validator, the raw file, the compressed blob -- can see a think-tag, because this is the
+    # only place the response enters the program. `data["thinking"]`, which a thinking model
+    # returns alongside, is deliberately NOT read: it is the scratchpad, not the answer.
+    return strip_think(data.get("response", ""))
 
 
 def _covered(name, text):
@@ -248,7 +336,14 @@ def _covered(name, text):
 
     Loose on purpose: the template renders names with markers and occasional reformatting, so
     an exact-substring miss on a real entry would retry work that was done. First and last
-    words of the name both appearing is the floor for 'this entry exists in the text'."""
+    words of the name both appearing is the floor for 'this entry exists in the text'.
+
+    `text` IS ALREADY THINK-STRIPPED and must stay that way (order 5bbd4b3376fe, owner ruling
+    2026-09-08). This is a substring test, so it cannot tell prose from a reasoning preamble: a
+    thinking model that plans by naming its entities satisfies it having written no entry at all,
+    which would report a chapter as covered and leave `prose_gate` as the only remaining layer.
+    The strip happens once, at `call_ollama`'s return, so every caller inherits it -- do not
+    reintroduce a path that hands this function a raw response."""
     t = text.lower()
     n = (name or "").lower().strip()
     if not n:
@@ -266,6 +361,10 @@ def _deed_traced(deed, text):
     in the Custodes' voice, so the sentence itself is reworded, but a distinctive proper noun or
     long term inside it survives. The longest alphabetic token of six characters or more is that
     probe. Short and common words are useless here -- "the" proves nothing.
+
+    `text` IS ALREADY THINK-STRIPPED, for the reason `_covered` gives: a model reasoning about
+    how to phrase a deed will use the deed's own rare words while reasoning, so an unstripped
+    response would trace a deed that never reached the prose (order 5bbd4b3376fe).
     """
     words = [w for w in re.split(r"[^A-Za-z]+", str(deed or "")) if len(w) >= 6]
     if not words:
@@ -326,7 +425,11 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
     Frontmatter is one call. A chapter is written WRITE_CHUNK entries at a time; each block's
     entries are verified present and a lacking block is retried once; an entry still missing
     after the retry raises, which files the job as a failure and leaves it pending for the
-    next run -- never a book quietly missing its own entries."""
+    next run -- never a book quietly missing its own entries.
+
+    Once a block has failed its retry the chapter is already refused, so the remaining blocks
+    are DERIVED rather than generated: their entries go on the record as unattempted and no
+    further model call is made for a job that will be discarded (order ec05033115d6)."""
     if job["type"] == "frontmatter":
         text = call_ollama(cfg, system_prompt, build_prompt(job, chapter_tpl, front_tpl))
         if not text.strip():
@@ -380,13 +483,40 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
 
     entries = job["entries"]
     groups = [entries[i:i + WRITE_CHUNK] for i in range(0, len(entries), WRITE_CHUNK)]
-    parts, missing = [], []
+    # A DOOMED CHAPTER STOPS PAYING THE GPU, AND STILL REPORTS IN FULL (owner ruling 2026-09-08,
+    # "The one GPU, the local rung, the keeper's remedies" -- "derive a doomed chapter's
+    # remaining lacking list without calling the GPU at all"; order ec05033115d6).
+    #
+    # THE TWO READINGS THE ORDER PUT, AND WHY NEITHER LOSES HERE. Reading A said keep going,
+    # because `ChapterRefused`'s whole point is carrying the FULL offender list rather than the
+    # first block's. Reading B said stop, because once a retried block has failed there is no
+    # reason to believe later blocks of the same chapter will do better, and each one is a full
+    # `call_ollama` through `gpu_lane` on a card at 99% utilisation for a job already thrown
+    # away. The remaining entries of an unwritten chapter are KNOWN WITHOUT ASKING THE MODEL --
+    # they are exactly the entries in the blocks not attempted -- so the complete list survives
+    # and the model calls do not. They are recorded under their own key rather than merged into
+    # `missing`, because "the model was asked and did not write it" and "the model was never
+    # asked" are different facts about a chapter and the next run reads both.
+    parts, missing, unattempted = [], [], []
     for gi, g in enumerate(groups):
+        if missing:
+            unattempted.extend(e.get("name", "?") for e in g)
+            continue
         sub = dict(job, entries=g)
-        if len(groups) > 1:
-            sub["chapter_label"] = (f"{job['chapter_label']} — writing block {gi + 1} of "
-                                    f"{len(groups)}")
         up = build_prompt(sub, chapter_tpl, front_tpl)
+        # THE BLOCK NUMBER IS A PRODUCTION DETAIL AND MUST NOT BECOME PART OF THE CHAPTER'S NAME
+        # (owner ruling 23, 2026-09-08, the in-universe substitution rule). This used to be
+        # written into `chapter_label`, which `chapter_prompt.txt` renders as the CHAPTER: header
+        # -- so the model was handed "Persons — writing block 2 of 3" as the chapter's own title,
+        # and a model that echoes its header prints the library's generation batching into a
+        # finished volume. A writing block is not a thing that exists in the Chronicle: there is
+        # no in-universe counterpart to name, so the honest substitution is to keep it out of the
+        # named text entirely and say it here, as an instruction, where it cannot be quoted.
+        if len(groups) > 1:
+            up += (f"\n\nPRODUCTION NOTE, NOT PART OF THE TEXT: this is portion {gi + 1} of "
+                   f"{len(groups)} of the same chapter. Never print the portion number, and "
+                   f"never let it into a heading — the chapter's name is exactly "
+                   f"\"{job['chapter_label']}\".")
         if gi:
             up += ("\n\nThis is a CONTINUATION block of the same chapter: do not write "
                    "another framing paragraph, continue directly with the next ◈ entry.")
@@ -412,6 +542,14 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         # it. A refusal is recoverable; a chapter filed as complete is not.
         import prose_gate as _PG
         _PG.assert_block_complete(text, len(g), f"block {gi + 1}/{len(groups)}")
+
+        # LAYER 4c — the Instrument section must EXIST (owner ruling 2026-09-08, order
+        # 6e6954f261e0). `assert_block_complete` above asks for Shelfmark/Class/Magnitude/
+        # Threads and a body; it has never asked for "▣ The Instrument", and 1,155 of the 1,268
+        # withdrawn entries lost exactly that -- a larger loss than the Threads loss the line
+        # above does catch. `unearned_instrument` below cannot stand in for it: that check
+        # catches a FABRICATED score when one is present, never the section's absence.
+        _PG.assert_instrument_present(text, f"block {gi + 1}/{len(groups)}")
 
         # LAYER 4b — an assay nobody earned. Hard Rule 3: band-only Magnitude, because the
         # decimals require a real worksheet against cited feats. An entity with no cited feat
@@ -443,8 +581,13 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         raise ChapterRefused(
             f"entries not written after retry: {', '.join(missing[:8])}"
             + (f" (+{len(missing) - 8} more, all of them under 'missing_entries')"
-               if len(missing) > 8 else ""),
-            missing_entries=missing)
+               if len(missing) > 8 else "")
+            + (f". A further {len(unattempted)} entr"
+               f"{'y was' if len(unattempted) == 1 else 'ies were'} not attempted at all: the "
+               f"chapter was already refused, so the remaining blocks were derived rather than "
+               f"generated (all of them under 'unattempted_entries')"
+               if unattempted else ""),
+            missing_entries=missing, unattempted_entries=unattempted)
     return "\n\n".join(parts)
 
 

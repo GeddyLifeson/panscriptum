@@ -6,19 +6,29 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ## Open
 
-> **MEASURED 2026-08-30 (run #39): 56 of the 108 labelled entries below say RESOLVED in their own
-> label and were never moved to the paper trail — 52% of this section, 1,687 lines of a 4,269-line
-> file. 52 are genuinely open.** This is the rot the header above forbids, and the rot
-> `workorders.resolve` cites *by name* as the reason it deletes an order on close rather than
-> trusting anyone to prune: "an order that is resolved but still listed is indistinguishable from
-> an open one to the next reader, which is exactly how BUGS.md's Open section rotted."
+> **MOVED 2026-09-08 (owner ruling 18a, order `ca0a93856e2a`). The Open section had rotted from
+> 108/56 on 2026-08-30 to 141 labelled entries of which 82 said RESOLVED in their own label — 58%,
+> 2,302 lines of a 5,143-line file. The one-at-a-time policy was losing to accretion, so the owner
+> ruled a MEASURED BULK MOVE, then move-on-resolve as a standing rule.**
 >
-> It was **not** bulk-moved, deliberately. Several entries carry PARTIALLY CLOSED notes — M38,
-> M16, M42, m105, m133, m134 among them — where one limb shut and another did not, and run #38's
-> reconciliation found ten of that kind. A regex that moved everything labelled RESOLVED would
-> move those too and silently close live faults. Order **ca0a93856e2a** carries the remedy: move
-> them one at a time, each verified against the source it cites, the way run #38 moved twenty and
-> deliberately left ten.
+> **76 entries moved** to `## Resolved (paper trail)`, under a heading naming this pass, each block
+> byte-identical to what stood here and grouped under the subheading it stood under. **Nothing was
+> deleted.** The filter was two conditions and nothing else: the entry's own label says RESOLVED,
+> **and** its body carries no PARTIAL / NOT FIXED / STILL LIVE qualifier.
+>
+> **Six were read by hand and deliberately LEFT here** — M79, m142/m143 and m137, which the
+> qualifier scan flagged; **M26**, whose own label says *kept here because the SHAPE recurs*;
+> **m125**, whose body says *what actually kills the reader is still unidentified … a live outage*;
+> and **m116**, which says *this fixes only the crash-reporting half* while the reconcile filter
+> still drops real findings. The six previously named as must-not-move — M38, M16, M42, m105, m133,
+> m134 — are all labelled OPEN and were never candidates.
+>
+> **After the pass: 65 labelled entries, 59 genuinely open, 1,333 lines.**
+>
+> **THE STANDING RULE, from the same ruling: the run that resolves an entry MOVES it in the same
+> commit.** An entry that says RESOLVED while sitting in `## Open` is indistinguishable from an open
+> one to the next reader — which is exactly why `workorders.resolve` deletes an order on close
+> rather than trusting anyone to prune, and it cites this section by name for the reason.
 
 ### Major
 
@@ -222,160 +232,14 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Resolved this run (paper trail, run #47 — 2026-09-07)
 
-- **[m184 — RESOLVED 2026-09-07, run #47] THE BATTERY COULD REDDEN ITSELF ON UNMUTATED CODE BY
-  FIRING A LIVE GPU PROBE.** Root cause: `verify_math` §19ai's `_pool19ai` drove the real
-  `standards.check()`, which reaches `ollama_token_flow()` — a genuine 300-second generation against
-  the local daemon whenever the metrics ledger is quiet, writing into the never-cleared failure
-  ledger on timeout. Measured going wrong: `1199 passed, 0 FAILED` → `1209 passed, 2 FAILED` on
-  unmutated source. Fixed by pinning `standards._TOKENFLOW` across the call, and then **guarded**,
-  because the pin's own control row proved only that the cache was restored (true in both worlds)
-  and the suppression rested on one default argument. The new row makes the transport the witness
-  and forbids `/api/generate` specifically — established by measuring both worlds rather than
-  assuming, after a first spelling that refused *all* network was found to redden a healthy tree.
-  Orders `eea629f6dc46` (closed) and `79d51aef8b71` (open, the wider dependency). See M72.
-- **[m185 — RESOLVED 2026-09-07, run #47] A DETECTOR WAS ASSERTING A CONSEQUENCE THE GATE HAD MADE
-  FALSE, AND RE-OPENED A CORRECTLY-CLOSED ORDER EVERY SWEEP.** `workorders.sweep handoff-scratch`
-  said 28 scratch scripts under `handoff/` were "copied to the PUBLIC repo on the next push". They
-  are not, and have not been since `CODE_FREE_DIRS`/`_is_agent_scratch` landed — the public export
-  holds **zero** files of any executable suffix under `handoff/`, measured. It also enumerated one
-  suffix (`.py`) while the gate refuses seventeen, so a `.sh`/`.ps1` there was invisible to the
-  detector built to find it. Now asks the gate directly (one definition feeding both the copier and
-  the check, so they cannot drift) and reports MINOR while every file is refused, MAJOR the moment
-  one is not, naming it. Order `a66423722e45`.
-- **[m186 — RESOLVED 2026-09-07, run #47] THE SILENCE AUDIT WAS STRUCTURALLY BLIND TO
-  `contextlib.suppress`.** It walked only `ast.ExceptHandler`, so 15 live suppress blocks across
-  five modules — the same act as `except X: pass`, spelled differently — contributed nothing to the
-  SILENT count in the module whose whole claim is to find "every handler in src/". The count moved
-  **232 → 247** because the undercount ended, not because anything regressed; verified before
-  landing that nothing grades pass/fail on that number. `--instrument` still rewrites except-handlers
-  only, deliberately: a `note()` inside a suppress body would fire on every clean pass, which is a
-  recorder that lies. Order `a1173f5608f5`.
-- **[m187 — RESOLVED 2026-09-07, run #47] `publish._unpushed` ANSWERED ANY GIT FAILURE WITH A
-  CONFIDENT ZERO.** Its `except RuntimeError:` arm returned `(0, "no commits on this branch yet")`
-  for every non-zero git exit, not just a genuinely unborn branch — so a real stranded commit could
-  read as "nothing to push" forever on a clean worktree, reproducing the "122 commits behind while
-  synced N files kept printing" shape this file's own history records. Now inspects git's text (the
-  real unborn-branch wordings were obtained by probing a fresh `git init`) and otherwise returns
-  `None` with git's diagnostic carried WHOLE, so `push()`'s existing "could not tell whether ahead"
-  warning fires instead of a false all-clear. Order `0224d12400d1`.
-- **[m188 — RESOLVED 2026-09-07, run #47] `foreman._retire` OVERWROTE `data/OVERWATCH.json` FROM A
-  STALE SNAPSHOT.** It did a raw read-modify-write, bypassing `overwatch.save()`'s merge-based
-  writer entirely, with no compare-and-swap — the existing guard only caught a *denied* replace, not
-  a write that LANDS on stale state and erases findings overwatch recorded concurrently. Now uses
-  `overwatch.load()`/`save()`, the machinery that already existed; no new locking invented. Proved
-  in a sandboxed ledger with a competing write injected between read and write: it now survives the
-  merge, where the old code erased it. Order `c95751a80633`.
-- **[m189 — RESOLVED 2026-09-07, run #47] THE PUBLISH-IMPORT DRILL NET COULD ONLY SEE ONE SPELLING
-  OF THE FAULT.** It selected handlers by the literal name `ImportError`, so `except
-  ModuleNotFoundError` — the exception Python actually raises for a missing module, and a
-  *subclass* — and a bare `except:` were never examined; both variants returned HELD against live
-  fixtures. Replaced with the house shape-based pattern from `_meta_ban_has_no_fall_through`, with
-  three measured departures from a verbatim copy (a walk would have breached correct code; the
-  looser terminator form let a known dead-`raise` fixture pass). **Watched RED five ways and GREEN
-  on the live file.** Order `46aa5a5eac38`.
-- **[m190 — RESOLVED 2026-09-07, run #47] TWO PROBE-LITTER NETS COULD BREACH ON A NEIGHBOUR AND
-  HALT THE LIBRARY.** Both byte-compared live shared ledgers across a window, so any standing job
-  calling `silence.note` in that window would breach the net and raise an OWNER halt — a false halt,
-  which this project's longest outage says is the expensive direction. The failures-ledger net no
-  longer opens `state/failures.json` at all (it installs a capturing stand-in over `health.record`
-  and requires zero calls, which is uncancellable); the order net compares only rows carrying the
-  reserved probe token. **Both are now strictly stronger in the masking direction too**, and both
-  were watched RED. Order `00f8ca4ab967`.
+*All seven entries — m184 through m190 — moved to `## Resolved (paper trail)` in the measured
+bulk pass of 2026-09-08 (order `ca0a93856e2a`, owner ruling 18a). Nothing was deleted.*
 
 ### Resolved this run (paper trail, run #44 — 2026-09-04)
 
 *Seven bugs, each fixed and each covered by a `drill.py` net that was **watched going red against
 the pre-fix code before being accepted as green**. Root cause first, then what the measurement
 actually showed. Export-repo commit: this run's `publish.py --push`.*
-
-- **[M73 — RESOLVED, run #44] `escalation.clear()` WAS AN UNLOCKED READ-MODIFY-WRITE ON THE ONE
-  FILE THAT MUST NEVER LOSE A FAULT.** Order `0f815b38363f`. Every other writer of
-  `state/HALT.json` — `_raise_halt`, `_write_stopped` — is compare-and-swapped for exactly this
-  reason; `clear()` was not. **Root cause:** read the record, merge the ruling, write the whole
-  thing back, with nothing between the three steps. A fault escalating to OWNER in that gap is
-  appended to `also` by `_land_halt` and then overwritten by a payload built from the record as it
-  stood *before* the append. **Measured pre-fix, driven end to end:** `also: []` — the concurrent
-  `ARRIVED_MID_LIFT` fault vanished with a **successful write**, `did=True`, `halted=False`, and
-  `HALT_CLEARED` was written to the ledger. Worse than the raise-side race it mirrors, because it
-  takes the halt *down* with it: the library resumes on a ruling written about facts that are no
-  longer what the file says. **Fix:** digest taken before the read (the `_raise_halt` ordering);
-  new `_land_clear` through a temp + `replace_if_unchanged` — never `write_json`, which retries a
-  denied rename and would land the stale payload just as happily; `_halt_identity` to tell a
-  transient refusal from a fault landing mid-lift; `_halt_file_cleared` as a readback, because
-  `replace_if_unchanged` cannot close the gap between its own digest read and the rename. A
-  transient refusal retries; **a digest mismatch deliberately does not** — re-merging a person's
-  ruling onto a record that has grown a fault they never read would sign their name to a decision
-  they did not make. Net: *"a fault that lands mid-lift refuses the lift instead of being
-  overwritten by it."*
-
-- **[M74 — RESOLVED, run #44] `binding_health --limit 0` CANARIED THE WHOLE ESTATE, AND A FILTER
-  THAT MATCHED NOTHING RE-STAMPED THE REPORT.** Orders `cd7492eec3bc` and `f1901d2178ba`, **taken
-  as one change** because fixing the first *arms* the second. **Root cause (first):** `--limit`
-  defaults to `None` with `type=int`, so `--limit 0` arrives as the integer `0` and `if limit:`
-  read it as "no limit given" — the falsy-zero slip already fixed in `burgs.py`. **Root cause
-  (second):** the whole-estate-empty guard was `not (only or limit) and not out`, so a *filtered*
-  pass that probed zero hosts skipped it and fell through to the whole-file merge path.
-  **Measured pre-fix on a three-host stub estate:** `run(limit=0)` canaried **all three**;
-  `run(only=["no-such-host"])` canaried **nothing** and still landed the report with `at` bumped
-  from `0` to now — the one field `workorders.sweep`'s binding detector and `allsweep`'s
-  reconciliation use to decide whether to trust the estate. **Fix:** one `filtered = bool(only) or
-  limit is not None`, computed once and used at all four sites that each previously re-asked
-  `only or limit`; `if limit is not None:`; and a new `BINDING_FILTER_MATCHED_NOTHING` refusal that
-  writes nothing and names the filter, how many of the bound hosts it selected, and why. Net: *"an
-  EMPTY filter canaries nothing and re-stamps nothing"*, four limbs, the fourth proving an ordinary
-  filtered pass still probes and merges.
-
-- **[M75 — RESOLVED, run #44] THE LOCAL MODEL COULD WRITE THE PROSE GATE AND THE MODULE THAT
-  PUSHES TO THE PUBLIC REPO.** Order `0434fc05eb95`. **Root cause:** `local_agent.DENYLIST` states
-  its own membership rule — "the thing that would have to be working to detect a bad patch, or the
-  thing doing the patching" — and omitted two modules that rule names, while `src/` sits on
-  `WRITABLE_PREFIXES`. The `DENYLIST_PREFIXES` comment says "config.yaml holds the prose gate",
-  which is true of the **flag** and false of the **enforcement**: the switch was denied and
-  `src/prose_gate.py` was not. **Measured pre-fix:** `_denied_target("src/prose_gate.py")` and
-  `_denied_target("src/publish.py")` both `False`. Nothing needed to touch the flag —
-  `overnight.py` has already demonstrated in this repository that reimplementing the check with
-  `bool()` makes `prose_enabled: "false"` *open* it, and the patch gates below only ask whether a
-  patch parses, lints, imports and leaves `verify_math` green. **Fix:** both added to the
-  denylist. Net asks the **live** `_denied_target` rather than the constant, and carries a control
-  arm proving ordinary repair targets stay writable. **Consequence flagged for the owner:** this
-  narrows the LOCAL rung; four `publish.py` orders were re-routed LOCAL → RUN. **And it was not in
-  effect until the daemons bounced** — `foreman` had been up 23 hours; killed and restarted, see
-  the handoff.
-
-- **[M76 — RESOLVED, run #44] THE CHARTER P8 META-LANGUAGE BAN FAILED **OPEN** ON AN `ImportError`
-  AND CHAPTERS WERE WRITTEN PAST IT.** Order `7c5e216850a8`. **Root cause:** `generate.py` had
-  `except ImportError: silence.note(...)` directly above `except Exception:`, and Python takes the
-  **first** matching clause — so an unimportable `pipeline` was caught there, noted, and fell
-  through **to the write**. Every chapter of such a run would be published with the ban never run,
-  while the run reported success. The arm three lines below already states the rule: *"a gate that
-  cannot run has not passed."* Not hypothetical: `pipeline.py` is large and frequently edited in
-  this same tree. **Fix:** the special case is removed so an `ImportError` reaches the fail-closed
-  arm like any other failure and the chapter is refused and filed; the `silence.note` is preserved
-  inside that arm because the detectors read it. **The net pins the property, not the spelling** —
-  *no handler on that `try` may fall through* — and was watched red against four reconstructions:
-  the exact pre-fix shape, a `ModuleNotFoundError` spelling, a bare `except:`, and the gate deleted
-  entirely.
-
-- **[M77 — RESOLVED, run #44] A BOOLEAN COULD BE PUBLISHED AS AN ASSAY SCORE.** Order
-  `ad7655372e8f`. **Root cause:** `bool` subclasses `int`, and all six numeric-score gates in
-  `magnitude.py` were `isinstance(x, (int, float))`. Scores arrive as JSON from a model, `true` is
-  valid JSON, and the value reaches the worksheet and then `A.assay()` — inside every published ±
-  in the library. Hard Rule 3's territory (*don't fake the Assay decimals*) reached by a
-  type-system accident rather than by anyone deciding anything. **Fix:** one `_is_score` predicate
-  at all six sites, written as a single helper so the rule cannot drift between them. **The net
-  pins both directions** and was watched red twice — against the pre-fix `isinstance`, *and*
-  against the tempting truthiness "fix", which would refuse a legitimate score of `0`.
-
-- **[M78 — RESOLVED, run #44] `autostart --status` REPORTED "I COULD NOT TELL" AS "NOT RUNNING".**
-  Order `bbc6dd725a9f`. **Root cause:** `overnight.running()` is tri-state and returns `None` when
-  `_proc_lines()` could not read the process table; its own docstring says callers must test
-  `is None` rather than lean on truthiness. The per-job loop leaned on truthiness. So the one
-  answer an operator acts on was produced by the one condition in which nobody knows anything —
-  the FAIL CLOSED property inverted — **ten lines below the same file's correct handling of the
-  same tri-state** for the supervisor line, which is how a reader learns the wrong one is
-  deliberate. **Fix:** the loop now keeps the tri-state in the supervisor line's own words. Net is
-  **driven**, not source-shaped: `running` stubbed to `None`, the real `--status` run with stdout
-  captured, every roster line required to say `UNKNOWN`.
 
 - **[M79 — RESOLVED, run #44] `binding_health`'s PARTIAL-MERGE WRITE WAS THE ONE `_land_cas` CALL
   WITH NO HANDLER.** Order `e64d54c00f5f`. **Root cause:** `_land_cas` deliberately **re-raises**
@@ -390,210 +254,10 @@ actually showed. Export-repo commit: this run's `publish.py --push`.*
 
 ### Resolved this run (paper trail, run #43 — 2026-09-03)
 
-- **[M70 — RESOLVED 2026-09-03, run #43] THE WORK-ORDER SWEEP'S DETECTOR LAYER RAN INVERTED, AND
-  THE SILENT DIRECTION WAS THE DANGEROUS ONE.** `workorders.sweep_detectors._fire(ok, ...)` read
-  `if not ok: resolve_code(...) else: file_order(...)`. Every one of its eleven call sites passes
-  a predicate that is TRUE when the thing it watches is HEALTHY — `not bad`, `chain_ok`,
-  `not hits`, `n <= _D.LIVENESS_CEILING`, `f is None`, `not stranded`, `not scratch`,
-  `not _ghosts`. So a clean tree FILED the order and a real fault CLOSED it, writing "detector
-  stopped firing" into the append-only paper trail as the resolution.
-  **Root cause:** the two branch bodies were the wrong way round. The module's own comment at the
-  `SECRET_STAGED` call site already stated the intended contract in one line — "`_fire(True, ...)`
-  RESOLVES" — while the code did the opposite, so prose and code had drifted apart with nothing
-  asserting either.
-  **How it presented:** three permanently-red BLOCKING orders that each reported ZERO problems
-  ("the ledger hash chain does not verify -- 0 problem(s)", "0 relay ledger(s) are not intact",
-  "0 credential-shaped value(s) staged for the PUBLIC repo"), `LIVENESS_RATCHET` calling
-  46-against-a-ceiling-of-52 a breach, and two battery orders whose `what` was the empty string
-  because `(f or {}).get("what", "")` has nothing to say when there is no fault. Those empty and
-  zero-valued fields are what a healthy detector's message looks like when it is composed anyway.
-  Verified against reality before any edit: `check_all()` `{}`, `verify_chain()` True/0 problems,
-  liveness 46.
-  **Why it mattered more than the noise:** the quiet arm. A genuinely broken ledger chain, or a
-  real credential staged for the public repo, would have RESOLVED its own BLOCKING order and said
-  nothing. And three BLOCKING orders that always stand are an alarm that always sounds, which
-  Hard Rule -1 calls furniture. Swapping the arms closed **nine** false orders on the next sweep
-  and immediately surfaced **three real faults the inversion had been auto-closing**:
-  `BATTERY_GRADED`, `CODEWATCH_BUDGET` and `PREFLIGHT_STALE`.
-  **Netted:** `drill.py`'s `sweep_fire_polarity` asserts on the SOURCE — running the sweep writes
-  the live queue and a net may not do that — that the true arm reaches `resolve_code` and only
-  that, and the false arm `file_order` and only that, with the parameter still named `ok` and the
-  test still a bare `if ok:`. Watched BREACHED against a re-inverted copy of the tree and HELD
-  against the live one. Battery at close: drill 389/389, verify_math 1130/0.
-
-- **[M71 — RESOLVED 2026-09-03, run #43] THE MANDATED MUTATION PASS WAS CANCELLED EVERY RUN BY A
-  FILE THE SANDBOX DID NOT COPY.** `mutate --target all` refused with `RED BASELINE TAKEN FROM A
-  TREE UNDER EDIT`; the single red row was §20z, `no probe anywhere in this battery writes into
-  the live failure ledger`, naming three escapes. The live tree was GREEN at the same moment
-  (1130/0) — only the sandbox was red.
-  **Root cause:** `sandbox()` copies `state/` selectively (`.json`, `.jsonl`, six named `.log`),
-  and `state/cascade_scratch.db` is none of those. All three escapes are that one missing file;
-  see the corrected M66 above for the mechanism. This is the FOURTH instance of a defect class
-  the sandbox code already documents three times in its own comments — a file the gates read is
-  absent, a check goes red in the baseline, and **a red baseline disables that check as a
-  detector for the whole run** because mutants are judged by difference from it. This instance
-  was worse than disabling a row: it took the entire pass down, silently, every run.
-  **Fix:** the database now travels into the sandbox, copied **by name** — derived from
-  `cascade_bridge.SCRATCH_DB` rather than spelled a second time, for the reason the log list is
-  derived from `lognames` — and **through SQLite's backup API**, not `shutil.copy2`, because
-  Cascade writes it while the sandbox is being built and a torn byte copy would restore the same
-  three escapes INTERMITTENTLY, which is harder to diagnose than a failure that happens every
-  time. Chosen by name over a blanket `.db` filter deliberately: that would also drag in
-  `state/corpus.db`, 78 MB of derived index nothing in the gate path reads, for 88.6 MB a run
-  instead of 14.6.
-  **Verified:** controlled A/B on the exact failing row — red baseline before, green baseline
-  after, the DB copy the only change; the copy lands intact in the sandbox (134,639 `usage` rows
-  readable); the pass then ran.
-
-- **[m178 — RESOLVED 2026-09-03, run #43] `cleanup.py --apply` WOULD HAVE DELETED AUTHORED
-  ENGLISH FROM THE CORPUS.** `_MARKUP[1]` stripped any `(anything, Word ? )` parenthetical
-  outright. Its sibling `_ruby_question_mark`, one list entry above it, was given a non-ASCII
-  guard after it deleted 55 real English question marks; this pattern never received that guard
-  and deletes the WHOLE aside rather than a stray `?`. **Root cause:** a remedy applied to one of
-  two adjacent instances of the same fault. **Fix:** the replacement is now the function
-  `_ruby_parenthetical`, which strips only when the match contains a non-ASCII character — the
-  identical remedy in the identical shape; the PATTERN is unchanged so it keeps its place on the
-  mangled-escape roster, which reads `_p.pattern`. **Measured over all 216 record files:** 1,191
-  matching sites, 1,188 genuine ruby annotations (still stripped, unaffected) and **3 pieces of
-  authored English that would have been destroyed with the sentence closing over the gap** —
-  `marvel.json` entries/7610 "(and, uh, Hawkeye?)", `transformers.json` entries/1178 "(odd for
-  someone who likes trees, no?)" and entries/3477 "(Strange, huh?)". **No data pass is needed:**
-  nothing on disk is damaged, `--apply` was never run, and the fix prevents future damage.
-
-- **[m179 — RESOLVED 2026-09-03, run #43] THE LEDGER TRUNCATION DETECTOR COULD NOT SEE A
-  DUPLICATED LINE.** `ledger_guard._lost_fraction` compared `{set} - {set}`, so a deleted line
-  counted as lost only if its exact text appeared NOWHERE else in the file. In a markdown ledger
-  duplicate lines are the texture, not an edge case: repeated headings, bare dates, `**Why:**`,
-  the same one-line verdict under twenty entries. **Measured:** `handoff/HANDOFF.md` holds 733
-  substantive lines and 700 distinct — **33 lines, 4.50% of the file, deletable for a measured
-  loss of exactly ZERO against a `MAX_LOST_FRACTION` of 0.05**, on the only gate `assert_intact()`
-  puts in front of `publish.push()`, and on the ledger whose own commentary records it already
-  losing 629 lines to the truncation class this module exists to catch. **Fix:** a `Counter`
-  multiset; `Counter - Counter` keeps only positive differences, which is exactly "how many copies
-  did the old file have that the new one does not". The property the set was chosen for survives —
-  `Counter` is unordered, so a reordering still measures 0.0, and a reflowed paragraph is a loss
-  under both spellings. **Netted** by `ledger_loss_counts_duplicate_lines`, watched BREACHED
-  against the old set diff. (For scale, the root `HANDOFF.md` sits at 1.12% and `BUGS.md` at
-  0.24%; `handoff/HANDOFF.md` was the exposed one.)
-
-- **[m180 — RESOLVED 2026-09-03, run #43] A REMEDY THAT DESTROYED EXACTLY WHAT IT WAS WRITTEN TO
-  PROTECT.** `foreman.clear_learned_caps` cleared rows matching `learned LIKE '%"rpm": 1%'`.
-  `LIKE '%...%'` is a substring test, so "1" matched the FIRST DIGIT of 10, 15, 19 and 100 — and
-  the function's own docstring names "documented caps of 10, 10 and 15" as the values the remedy
-  exists to restore. **Proven on a throwaway in-memory table:** against rows holding rpm
-  1, 1, 10, 15, 19, 100, 2 and an rpd-only row, the old predicate cleared SIX and the new
-  `json_valid(learned) and json_extract(learned, '$.rpm') = 1` clears the TWO genuine pins.
-  `json_valid` guards the extract and is deliberately a refusal rather than a fallback: a blob
-  that will not parse is not evidence of a stale cap, and clearing it would be destroying state on
-  a guess. Run against the live databases after the fix: 0 cleared, which is correct — all six
-  learned values currently sit at the floor of 2, so **no damage had occurred yet.**
-
-- **[m181 — RESOLVED 2026-09-03, run #43] THE REACHABILITY PRIMITIVE HAD `while/else` BACKWARDS IN
-  BOTH DIRECTIONS.** `drill._live_walk` is the instrument under roughly two dozen nets that say
-  "the call is made" rather than "the name appears". It knew that `if False:` runs its `else` and
-  `if True:` does not, and had both loop cases wrong: `while False:` terminates without a break so
-  its `else` RUNS (live code was being discarded as dead — a false BREACH), and `while True:` can
-  leave only by `break`/`return`/`raise`, all of which SKIP the `else` (**provably dead code was
-  being walked as reachable**). The second is the direction that matters: it is the same fault the
-  run #36 sweep used to make `_halt_is_not_breakage` report HELD against a fixture carrying its
-  tokens in a dead `if False:` block after a `break`, arriving through the loop spelling instead.
-  **Fix:** `while False:` contributes its `orelse` in `_live_stmts`; the `while True:` `orelse` is
-  skipped in `_live_walk`, because the loop BODY still has to be walked and only the else is
-  unreachable. **Scope confirmed independently: no `while ... else:` exists anywhere in `src/`
-  today**, so no net was returning a wrong verdict on this tree — latent infrastructure, repaired
-  before anything came to depend on it. **Netted** by `the reachability walker knows a loop has an
-  else, and when it runs`, watched BREACHED against a reconstruction of the old behaviour.
-  Regression check across the nets built on it: drill 389/389, verify_math 1130/0, liveness
-  unchanged at 46.
-
-- **[m182 — RESOLVED 2026-09-03, run #43] SIX SMALLER FIXES, EACH VERIFIED AGAINST SOURCE OR
-  DATA.** `coverage.measure()` read the three-writer host map with no handler at all while
-  `read.py` reads the same file behind a four-attempt retry — now guarded and **failing closed**,
-  because an empty map would report every entry as hostless and print a coverage figure that is
-  confidently wrong rather than absent (`444097b5796f`). `resync_roll` crashed the whole pass on a
-  record that parses but is not an object, one line past a handler covering only the parse
-  (`9dde97efb821`). `hosts._load` collapsed absent and corrupt into `{}` (`3ace1adc47ff`), and
-  `hosts.discover()` dropped a source whose probe RAISED without counting it anywhere — the same
-  fault fixed four lines above it for thin rosters and never applied to the arm beside it
-  (`9acd09b65d3a`). `canon_backup.restore()` landed with the module's last bare `os.replace`, on
-  the disaster-recovery path; now `replace_retry` **with its verdict checked**, since it never
-  raises by contract and ignoring its `False` would have been strictly worse than the bare call
-  (`c07bf65dd1c6`). `pipeline.ENTRY_REJECTION_COMPANIONS` was missing `subroom`, the one field
-  added after the mechanism was written (`0c0021372963`) — **honest correction to the finding's
-  implied severity: scanning all 282,822 entries found ZERO actual contradictions**, all 79
-  entries carrying `subroom_rejected` are in the intended state, and a first scan that reported 79
-  was wrong because `subroom_ok()` returns True for `unclassified` by an early return.
-
-- **[m183 — RESOLVED 2026-09-03, run #43] THREE HARD RULE 0 VIOLATIONS, ONE OF THEM THE STANDARD
-  THE OTHERS WERE MEASURED AGAINST.** `cleanup`'s `unwritten` roster was capped at 12 while the
-  comment twelve lines above cited it, by name, as the uncapped standard the five rosters were
-  being held to when `sweep42-batch03` uncapped them — **the exemplar was the last violation**
-  (`c352cf29e386`). `repass_bands`' SURVIVORS list was capped at 14: order `89fc2eaf23f1` had
-  fixed the LABEL and left the SLICE, and **a disclosed cut is still a smaller universe** — Hard
-  Rule 0 is not a disclosure rule, and the fully uncapped DEMOTED twin eleven lines below in the
-  same function is the evidence that fourteen was inertia, not policy (`600d25f5137e`); it now
-  prints all 402. And the queue listing's own `what[:70]` cut carried no marker, so a complete
-  one-line summary and the first 70 characters of a 3,500-character finding rendered identically —
-  marking it immediately revealed findings of 2,340 and 3,528 characters that every shift had been
-  reading as 70 (`2681c431ce1d`). Also `workorders --handler` was declared and never read, so it
-  printed the whole queue and accepted a misspelled rung in silence; it now filters and REFUSES an
-  unknown rung rather than falling back to the unfiltered list (`83660a321243`).
+*All eight entries — M70, M71 and m178 through m183 — moved to `## Resolved (paper trail)` in
+the measured bulk pass of 2026-09-08 (order `ca0a93856e2a`, owner ruling 18a). Nothing was deleted.*
 
 ### Resolved this run (paper trail, run #41 — 2026-09-02)
-
-- **[M63 — RESOLVED 2026-09-02, owner ruling (a)] THE CHAIN DAMAGE IS ACKNOWLEDGED, STILL
-  REPORTED, NEVER ERASED.** Order `be33a61be79f` closed on the owner's in-session choice.
-  `ledger_guard` gained `state/ledger_chain_acknowledged.json` -- one record naming links
-  947-949, both append-only ledgers, the order, the reason, who ruled and when. The named
-  shrinks are carried (returned by `verify_chain(with_acknowledged=True)`, printed by `main()`
-  every run and by `assert_intact()` every push); anything outside the range or ledger list
-  still fails; a malformed record is refused and acknowledges nothing. Chain untouched: 955
-  links verify. `assert_intact()` passes; publishing unblocked. Net: 'an acknowledged shrink is
-  carried, still reported, and covers nothing beyond its name', watched red two ways.
-  Root cause (a probe redirecting half of ledger_guard's paths) was fixed on 2026-09-01 and the
-  helper now covers `ACKNOWLEDGED` too.
-
-- **[m62b — RESOLVED run #41] `silence.append_line` WAS NEVER ATOMIC ON THIS PLATFORM.** m62
-  landed `append_line` on 2026-08-24 reasoning that one `os.write` to an `O_APPEND` descriptor is
-  a single syscall. That is a POSIX guarantee; the Windows CRT implements `_O_APPEND` as
-  seek-then-write, so two processes seek to the same end offset and the second lands **on** the
-  first. **Measured: eight processes × 400 sub-page JSON rows — 3,200 expected, 2,496 arrived,
-  704 destroyed outright, 3 torn**, in `state/model_metrics.jsonl`, the ledger
-  `standards.ollama_token_flow` grades from. Second defect in the same call: no `O_BINARY`, so the
-  CRT rewrote every LF to CRLF (104,810 against 3 bare LF), meaning the "one syscall of exactly
-  these bytes" comment described bytes that were not written. **Fixed** with an OS-level exclusive
-  lock on a `<path>.applock` sidecar (`msvcrt.locking` / `fcntl.flock`, released by the OS on
-  close or process death) plus explicit `O_BINARY`; bounded and best-effort, so a metrics failure
-  still never costs a model call. Live ledger repaired: 104,807 rows kept, 2 unrecoverable torn
-  fragments dropped, endings normalised. **Why nothing caught it, which is the more important
-  half:** `verify_math` §19ag checks `append_line` by writing 50 rows *from one process*, and
-  tearing is by definition what happens when there are two — the hazard the function exists for is
-  the one thing its own check cannot produce, and it passed every run for eight days. Net:
-  drill.py "a shared ledger keeps EVERY row when six processes append at once", watched red
-  against the pre-fix function and green after. Order `7c9a1797d70e`.
-
-- **[m66 — RESOLVED run #41] THE APPEND-ONLY GATE WAS INERT AND PRINTED `ok` FOR A DAY.** Order
-  `fc7f5b371e6e`. `ledger_guard.seal()` flattens `handoff/HANDOFF.md` to `handoff__HANDOFF.md`;
-  `_read_snapshot()` did not, so it opened a path the writer never writes, got `FileNotFoundError`,
-  and `check_since_snapshot` read None as "nothing sealed yet" and answered True. Enforcement on
-  that file was dead from the moment it joined `APPEND_ONLY` on 2026-08-31 — on the ledger whose
-  own commentary records it having already lost 629 lines, and which gates `publish.push()`.
-  Fixed with a shared `_snapshot_path()` used by writer and reader. Verified by watching it
-  refuse: unchanged → ok, honest append → ok, truncation to half its lines → False naming the
-  loss. Netted for every name in `APPEND_ONLY`, not just the one that was dark.
-
-- **[m67 — RESOLVED run #41] `gpu_lane` COULD STRAND ITS OWN SLOT POOL.** Order `763b56061157`.
-  `_read()` answers None to both "no such file" and "will not parse"; the reclaim guard read
-  `if rec is not None and _expired(...)`, filtering out the corrupt case before asking — so
-  `_expired`'s own "unreadable/corrupt: reclaim rather than strand" line was unreachable from its
-  one call site, and `os.open(O_EXCL)` then skipped the file for ever. `MAX_SLOTS` such files put
-  every model call in every standing job behind a pool that can never refill. **The obvious fix is
-  worse than the fault** — a zero-byte slot is also what a slot looks like between `O_EXCL`
-  creating it and the `json.dump` landing, so reclaiming on unreadability alone hands one slot to
-  two callers and oversubscribes the card silently. Fixed with `_unreadable_and_stale()` using
-  mtime as the fallback heartbeat against the same lease. Net attacks **both** directions and was
-  watched red against each.
-
 
 - **[M38 — OPEN, VERIFIED run #32] THE FAIL-CLOSED LAYER CAN FAIL OPEN.** `escalation.py:154-183`:
   `_raise_halt()` takes **no lock** and uses a non-disambiguated tmp filename, so two concurrent
@@ -679,11 +343,28 @@ actually showed. Export-repo commit: this run's `publish.py --push`.*
   lock, so the window in which any running job that imports that module gets the unvetted code is
   exactly as this entry measures it.
 
-- **[M44 — OPEN, and now also work order `07258ace3a09` (RUN, MAJOR), re-reproduced live by the run40 sweep on 2026-09-01: `spine_code_for("Alien Predator Doom Crossover") -> "II.N"`] `address.py:101-114` INVENTS ADDRESSES — HARD RULE 2, INSIDE
+- **[M44 — CLOSED, digest46 maintenance-2026-09-08, work order `07258ace3a09`.] `address.py:101-114` INVENTS ADDRESSES — HARD RULE 2, INSIDE
   THE MECHANISM THAT ENFORCES IT.** Live-confirmed: `spine_code_for("Alien Predator Doom
   Crossover")` returns `"II.N"` (Alien's code) instead of UNASSIGNED. Root cause is the coverage
   formula at `:110`, `overlap / min(len(target), len(name))`, which lets any single-word spine
   entry score 100%; the `>` tie-break then resolves by **JSON dict order** rather than refusing.
+  (This description is superseded below — the function was rewritten twice since it was
+  written, first to score by evidence length instead of dict order, then to add the
+  opens/closes-the-title exception this closure fixes.)
+
+  **CLOSED, 2026-09-08.** An earlier shift (maintenance-2026-09-05) had already fixed two of
+  the order's three live reproductions by teaching `_index_name_is_placed_like_a_title()`
+  (`address.py:172-214`) to refuse an opens/closes match when the remainder after stripping the
+  matched name still names ANOTHER catalogued work. The third reproduction,
+  `"Halo Fan Documentary About Nothing" -> II.F.4`, survived that fix because its remainder
+  ("fan documentary about nothing") names no other catalogued title. This shift closed the gap
+  with a measured remainder-shape rule rather than a name lookup: checked all 215 live roll
+  entries and found every genuine opens/closes match leaves a remainder of 0 or 1 token (41
+  exact single-token titles leave nothing; the 5 "Pantheon: <X>" entries leave exactly
+  "Pantheon"), so a remainder of 2+ tokens is now refused outright regardless of whether it
+  names a catalogued work. Verified: all three of the order's reproductions now return
+  UNASSIGNED, and all 215 live roll assignments are byte-identical before/after (0 diffs). See
+  `address.py:196-217` for the rule and its measurement.
 
 - **[M45 — OPEN, run #32] THE PARTITIONER IS A SNAPSHOT AND THE COMPLETENESS PROOF IS LIVE.**
   `binding_health.py` was created at 13:35, thirteen minutes after `sweep_plan --batches 16` ran,
@@ -736,120 +417,6 @@ actually showed. Export-repo commit: this run's `publish.py --push`.*
   excluding dead buckets from the success sample — are both routing-policy changes with the same
   blast radius that keeps M19 unruled. **NEXT_STEPS §1.**
 
-- **[M27 — RESOLVED, run #31] NINE PLANT-WIDE HALT INTERLOCKS FAILED **OPEN** ON A MISSING
-  `escalation.py`, AND NOTHING WOULD HAVE SAID SO.** Found run #31 by batch 12, verified by
-  measurement across all eight jobs. Every entry point carried
-  `try: import escalation as _ESC; _ESC.assert_clear(...) except ImportError: pass` — nine sites
-  in eight modules (`dashboard`, `feats`, `foreman`, `overnight` ×2, `overwatch`, `pipeline`,
-  `publish`, `read`). If `escalation.py` were deleted, renamed, or left with a syntax error, the
-  entire chain of command switched off **in silence** and every job carried on as though the
-  library were running clear.
-  **This is Hard Rule -1's own incident, generalised.** That incident began with an autonomous
-  run deleting a safety it had concluded was unnecessary; the interlock meant to make such a
-  thing survivable was itself deletable without a sound. FAIL CLOSED is one of the three
-  non-negotiable properties, and this violated it in nine places at once.
-  **Measured, not argued.** A probe blocked the `escalation` import and entered each job's
-  `main()` in a fresh subprocess. **Before: 0 held, 8 BREACHED** — every job started, `dashboard`
-  went as far as serving. **After: 8 held, 8 refused** with
-  `REFUSING TO START: the escalation chain (src/escalation.py) could not be imported`.
-  Pinned by `verify_math` §20p, which scans all eight files for the swallow and for the refusal.
-
-- **[M28 — RESOLVED, run #31] THE DRILL THAT PROVES THE PROSE GATE COULD OPEN THE PROSE GATE.**
-  Found run #31 by batch 11, verified at source and by execution. `drill._gates_agree` compared
-  the two gate implementations by **writing five trial values of `prose_enabled` into the LIVE
-  `config.yaml`** with a bare `open(real, "w")`, then restoring the original in a `finally`.
-  Three faults, and the third is the one that matters:
-  1. `open(w)` truncates before it fills, so a reader in the gap saw an empty or half-written gate.
-  2. **The supervisor runs the drill every cycle**, so the window recurred every cycle.
-  3. `finally` does not run when a process is killed — and the foreman SIGTERMs stalled jobs as
-     routine (M15). A kill inside that window leaves the written value on disk permanently.
-  **Which value matters, and it was measured rather than assumed.** Of the five trial values,
-  four (`"false"`, `"true"`, `1`, `"no"`) are refused by the strict gate, because a quoted string
-  is not `True`. The fifth, **`yes`, parses to boolean `True`** — so a kill in that one-in-five
-  window leaves `prose_enabled: true` on disk and **the prose gate genuinely OPEN**, with nobody
-  informed. The incident that gate exists to prevent is 145 unauthorised chapters.
-  **Fixed without a disk write at all**: `prose_gate.gate_open` already took a `cfg` mapping;
-  `overnight._prose_enabled` now takes one too (additive, mirrors its sibling exactly), so both
-  layers are asked about the same in-memory dict. New drill net
-  `and proving that never writes the owner's gate` reads config.yaml's bytes either side of the
-  comparison and requires them identical. Pinned by `verify_math` §20p, **asked of the AST** —
-  the first draft matched source text and went red against a docstring quoting the removed code.
-
-- **[M29 — RESOLVED, run #31] `publish.py` RETURNED EXIT CODE 0 WHEN THE CREDENTIAL SCANNER
-  REFUSED THE PUSH.** Found run #31 by batch 14, verified at source. `main()`'s `except Exception`
-  caught every failure the publish loop can have — including `push()`'s own
-  `RuntimeError("PUBLISH REFUSED: ...")`, raised when the pre-push scanner finds a credential-
-  shaped value staged for the **public** repo — printed a line, and then `return 0` on the
-  one-shot path. **A refused publish reported success to its caller, and that caller is every
-  maintenance run's final step.** The scanner did exactly its job on 2026-08-25 at 12:04
-  (`SECRET_IN_EXPORT`, two hits) and the exit code said nothing. Now tracks `rc` and returns it;
-  the `--loop` daemon still keeps retrying, which is correct for a daemon. Pinned by §20p.
-
-- **[M30 — RESOLVED, run #31] A DRILL NET RAISED AN OWNER HALT ON A COINCIDENCE, AND STOPPED THE
-  WHOLE LIBRARY.** The net `the live colliding pairs get separate verdicts` compared
-  `coverage.state_of()` for two name pairs that sanitise to one filename, and failed when the two
-  answers were **equal** and not `NO PAGE` — inferring "these share one document" from "these
-  report the same numbers". The state is a 3-tuple of small integers, so equality is ordinary
-  coincidence. **Measured live:** `Ten Towns` and `Ten-Towns` on `forgottenrealms.fandom.com`
-  both read `('READ', 0, 1)` while loading **two different files** —
-  `Ten_Towns__e84ad6558f.json` (entity `Ten Towns`) and `Ten_Towns.json` (entity `Ten-Towns`).
-  That is the M23 disambiguation working exactly as designed, and the net halted the library over
-  it at 12:33. An alarm that sounds when nothing is wrong is furniture, not a safety.
-  **Repaired by making it stricter about the right thing, never quieter**: it now asks for FILE
-  IDENTITY and OWNERSHIP — two names must resolve to two documents, and each document must carry
-  its own `entity` — neither of which a coincidence can satisfy. A companion net
-  `and a real collision would still be refused` stages the pre-M23 world in a scratch tree and
-  requires `load` to refuse to hand one entity's file to the other, so the loosening did not
-  create a check that cannot fail. Drill: **113 nets, 113 held.**
-
-- **[M31 — RESOLVED, run #31] THE SWEEP'S OWN COMPLETENESS PROOF WAS FROZEN ON RUN #29, BY A
-  HARDCODED LITERAL.** `verify_math`'s `the live sweep proves its own completeness` called
-  `sweep_plan.missing("run29")` — a run label written into the source. From run #30 onward it
-  answered a question about a sweep that had already finished: **no later sweep could move it**,
-  complete or skipped alike. It sat red through run #30 and half of #31 naming eight modules as
-  unaudited while the agents that read them were filing their reports.
-  **This is the third spelling of the same defect in three consecutive runs** — #28 found
-  `record()` losing an update, #29 found `missing()` asking *"was run N the LAST to read X?"*
-  instead of *"did run N read X?"*, and this is the instrument frozen on a past run. Standing
-  lesson 25 keeps being right: the sweep audits the sweep, and that is where the best finding
-  keeps being. New `sweep_plan.latest_run()` reads the newest shard and returns **None** when
-  nothing has ever swept, so the check FAILS rather than proving the completeness of a sweep that
-  never ran.
-
-- **[M32 — RESOLVED, run #31] THE SWEEP'S IMPORT TIER CALLED EIGHT JOBS BROKEN FOR OBEYING THE
-  HALT — AND WAS BLIND TO ITS OWN CORRUPTION GUARD.** Found run #31 by running the battery under
-  a live halt, converging with batch 15's independent reading of the same function.
-  `allsweep.check_import` runs each module with `--help` and separates "no CLI" from "cannot
-  import" by looking for the word `Traceback` in stderr. Two failures, opposite directions:
-  * With a halt standing, every job raises `SystemHalted` **on purpose**, which prints a
-    traceback — so allsweep reported **"8 subsystem(s) in a bad state"** over eight subsystems
-    doing precisely what they are built to do. This is the owner's own lesson of 2026-08-25 (*a
-    safety that stops work must be told apart from a fault that stops work*), which was applied
-    to `overnight.py` as M26 and **never carried to this file** — run #26's theme exactly.
-  * In the other direction, `if "Traceback" not in stderr: ok = True` graded **anything dying via
-    `raise SystemExit(msg)`** as importing cleanly — and every module in this tree carries a
-    `_BAD_CHARS` guard that raises exactly that way when a regex escape is eaten in transit. The
-    import tier could not see the project's oldest enemy.
-  Both fixed and both watched: the eight halt refusals now read `refused: the library is halted
-  (obeying the interlock)`, and a scratch module raising `SystemExit` is now **caught** where it
-  was previously graded green. Pinned by §20p, including a check that the sentence allsweep
-  matches on is the sentence `escalation.assert_clear` actually raises.
-
-- **[M33 — RESOLVED, run #31] `retry_synthesis` RE-SCORED FAILED SOURCES BY A WEAKER METHOD THAN
-  THEIR NEIGHBOURS, UNDER A DOCSTRING PROMISING IT DID NOT.** Found run #31 by batch 08,
-  re-confirming batch 03's earlier reading; verified at source. `synthesise()` built
-  `sorted(rec["entries"], key=-len(description))[:14]` — a single rank-then-truncate block that
-  **never consulted a mined feat** — while its docstring claimed *"byte-identical prompt
-  construction to phase_synthesis"*. `phase_synthesis` had been rewritten away from exactly that
-  construction under the owner's m13 ruling of 2026-08-24 (*FIX IT ALL*): every feat-bearing
-  entry nominated, fourteen per call, best band across blocks winning.
-  So the module whose entire purpose is rescuing sources that failed for an **infrastructure**
-  reason scored them by the method the library had already rejected — Hard-Rule-0-shaped, since a
-  source's true ceiling could rank fifteenth and fall outside the window while the run reported
-  success. **Fixed at the root rather than copied across**: the block rule and the prompt text now
-  live once, in `pipeline.synthesis_blocks` / `pipeline.synthesis_prompt`, and both callers read
-  them — because copying a fix is how m138/m139 happened. `save_side()` also moved off its
-  hand-rolled fixed-name tmp onto `silence.write_json`.
 - **[M26 — RESOLVED SAME DAY, kept here because the SHAPE recurs] A REMEDY CAUSED THE BREACH IT
   PREVENTS, TWICE IN ONE HOUR, AND THE SECOND ONE WAS THE NEW SAFETY LAYER ITSELF.**
   Found by the owner 2026-08-25, from the page: `read.py` dead since 10:59, all four library
@@ -1031,48 +598,6 @@ visited. In three of the four cases the sibling file carries a comment naming th
 while the unfixed file sits beside it, which is what makes this shape survivable: the fix looks
 done from every angle except the one nobody checked.*
 
-- **[m138 — MAJOR, RESOLVED] THE UNRECOGNISED LEDGER COULD NOT TELL CASE FROM MEANING, SO ONE
-  FAULT HELD TWO PERMANENT ROWS.** `every pool failure is recognised` was red. The ledger held
-  eight buckets each carrying `Every model in this pool is rate limited or unconfigured.` AND the
-  same sentence lowercased, as separate rows with separate counts. Root cause:
-  `cascade_bridge.py:873` did `err = (box.get("error") or "").lower()` while
-  `record_unrecognised` keyed on `bucket + "|" + text[:80]` — de-duplication on EXACT text — so a
-  change that started folding split every pre-existing row from its own successor.
-  **This is m132 one letter over.** m132 named the two engine wordings for "answered with
-  nothing" and stopped; the thing that needed fixing was the KEY, not the vocabulary. The key now
-  folds (`text[:80].lower()`) and the recorded text does not. Folding the text was separately
-  lossy: `record_unrecognised`'s whole premise is "enough text to classify it", and a provider's
-  complaint carries case-bearing `request_id` and `org_01KYDH…` identifiers a maintenance run may
-  have to quote back to the provider. `raw` and `err` are now two variables with two jobs.
-  Verified: two rows differing only in case now merge to one row with count 2, text verbatim.
-  Pinned by `verify_math` §22 (two checks).
-
-- **[m139 — MAJOR, RESOLVED] `endpoint.register()` OVERWROTE THE REGISTRY IT COULD NOT READ.**
-  `except Exception: d = {}` followed by a whole-file write, so ANY read failure — a torn file
-  from a concurrent writer (no lock, and the temp name was fixed so writers collided on it), a
-  Norton object-lock, a truncated tail — silently republished `SOURCE_PAGES.json` holding ONE
-  source and **erased every other source's registered pages**. Nothing restored them;
-  `source_pages()` would answer "none" for ever after, and a source with no wiki and no
-  registered pages is uncitable. **This is run #24's lesson 10 in a second file** — `write_record`
-  overwriting the disk copy it could not read, same sentence, different module. Absent (write
-  `{}`, correct) and unreadable (know nothing, refuse) are now distinguished, and the write goes
-  through `silence.write_json`.
-
-- **[m140/m141 — MAJOR, RESOLVED] `backfill.roster()` STOPPED LOOKING AT ≥40, AND CALLED A
-  TIMED-OUT WALK COMPLETE.** Two faults in one function, in the module whose entire purpose is
-  repairing missing casts.
-  - `if len(out) < 40:` gated the subcategory walk, so a wiki with 40 characters at the top level
-    and 6,000 under "Villains"/"Heroes"/"Kryptonians" returned the 40 and reported a complete
-    roster. A Hard Rule 0 cap wearing a threshold's clothing. **The inner `< 12` cap on the same
-    walk had already been found and fixed; the fix stopped one line short of the decision to loop
-    at all.** `seen` already de-duplicates, so walking unconditionally changes no result.
-  - `members()` did `d = F.api(host, q); if not d: return rows` — and `api()` answers `None` for a
-    timeout and for an absent page alike (open bug M16). A network failure mid-pagination returned
-    a roster stopping wherever the network died, unmarked, which `backfill_source` then wrote as
-    the source's complete cast. Now raises `RosterIncomplete`, a named class; the caller already
-    catches per source and prints the exception class, so the cost is one source's pass instead of
-    that source's missing characters, permanently.
-
 - **[m142/m143 — MAJOR, RESOLVED] `all_categories(hard_stop=6000)` TRUNCATED DC ALPHABETICALLY,
   UNDER A DOCSTRING SAYING IT DID NOT.** The docstring read *"`hard_stop` bounds the API walk, not
   the answer"*. `out` **is** the answer and `while len(out) < hard_stop` cut it. Measured run #26:
@@ -1085,114 +610,6 @@ done from every angle except the one nobody checked.*
   `find_categories` calls this once per canonical class, so one transient API error decided a
   wiki's size for all seven classes and the rest of the process. A failed or bounded walk is no
   longer cached.
-
-- **[m144 — MAJOR, RESOLVED] THE ONE MEMBER OF THE `shared_sample` FAMILY NEVER BROUGHT IN LINE.**
-  `cosmology_graph.py:86` did `if len(pair_shared[p]) < 8: pair_shared[p].append(name)`.
-  `weave.py:478` and `pipeline.py:1795` write the same key and **both carry the comment `# WHOLE
-  list -- Hard Rule 0, ruled 2026-08-24`**. `resonance.py:146` reads `shared_sample` back as the
-  pair's actual shared evidence, so a ninth shared entity did not exist to anything downstream.
-  Cap removed, key name kept exactly as the siblings keep it.
-
-- **[m145 — MINOR, RESOLVED] `catalogue_models.py:146` CAPPED THE FIELD YOU READ TO FIX THE
-  STANDARD.** `available_sample: r["models"][:8]`, persisted, in the record a person consults to
-  replace a retired model name — while `model IDs their providers still serve` sits red at 8
-  stale. If the provider's ninth model was the right substitute, nothing could see it.
-
-- **[m146 — MAJOR, RESOLVED] THE FOREMAN SAID "REVERTED" WHEN THE REVERT HAD ALSO FAILED, ON LIVE
-  SOURCE CODE.** `attempt_patch`'s outer handler tried `shutil.copy2(backup, path)`, swallowed a
-  failure via `silence.note`, and returned `{"why": f"reverted after {type(e).__name__}"}`
-  regardless. The worst place in the tree for an optimistic report: the file it could not restore
-  holds a model's unverified patch, the round prints a line saying the patch was rolled back, and
-  the next importer gets the patch. Now returns `reverted: False` and names the backup path to
-  restore by hand.
-
-- **[m147 — MAJOR, RESOLVED] THE MODEL-PATCH LANE ATTEMPTED THE TOP THREE FINDINGS FOR EVER.**
-  `sorted(open_f, ...)[:3]` with no rotation, so the fourth-ranked open finding was never
-  attempted in any round while three stayed open. Hard Rule 0's shape, and the same shape the
-  owner abolished in the sweep rotation on 2026-08-25. Ranking survives (high severity first);
-  the truncation does not. Each attempt now prints `(i/n)` so a long round announces itself rather
-  than going silent and looking wedged to `kill_stalled_job` — saying what is happening, not
-  weakening the detector, which is run #25's remedy pattern.
-
-- **[m148/m149 — MAJOR, RESOLVED] THE MOVEMENT PANEL COULD NOT REPAIR ITSELF, AND READ A FALLING
-  COUNTER AS PROGRESS.** `silent:dashboard.py:movement:JSONDecodeError` stood at **82 and
-  climbing**.
-  - The history read and write shared one `try`, so a torn `HISTORY` file threw on `json.load`,
-    **skipped the write that would have replaced it**, and returned `[]` — which the panel renders
-    as the cheerful "No history yet". Every five-second poll re-threw on the same bytes, so the
-    only code that writes the file could never repair it, and the one instrument that can see
-    "every counter flat while every job is up" was dark while reporting that it was merely new.
-    The load is now isolated and the file self-heals.
-  - `stalled` tested `delta == 0`, so a **negative** delta counted as movement. The page showed
-    `chunks` at **−3689** with `stalled: false`. Cause is benign — `read.py`'s `done["chunks"]` is
-    an in-process counter reset on launch and never persisted, so a reader restart makes the total
-    fall — but the reporting was not: a restart READ AS MOVEMENT, which is exactly the condition
-    `the library's counters are moving` exists to catch, so a restart could mask a real stall. Now
-    carries an explicit `reset` flag; the delta stays honest.
-
-- **[m150/m151/m152/m153 — RESOLVED] FOUR WRITES THE ATOMIC-WRITE SWEEPS MISSED.**
-  - `sweep.py:233` truncate-then-filled `CHARACTER_SWEEP.json` while `hostcheck.py`,
-    `magnitude.py` and `standards.py` read it live and unguarded — a half-written file parses as a
-    shorter cast list rather than failing. The standard `the character sweep is newer than the
-    catalogue` is red at 2.4h behind.
-  - `rosetta.py:364,377` wrote `ROSETTA.json` with a bare `open(...,"w")` in both `--mine` and the
-    **destructive** `--refine`. `scout.py`, `grounding.py` and `coverage.py` each carry a comment
-    naming the 2026-08-25 sweep that fixed this exact pattern; `rosetta.py` already imported
-    `silence` and never used it.
-  - `chain.py:115,191` built `OUT + ".tmp"` and `HARVEST_IDX + ".tmp"` — the renames were already
-    atomic and verdict-checked, but the temp NAMES were not unique, and `write_result` has two
-    documented concurrent callers (`chain.main`, `pipeline.phase_chain`). That is the collision
-    m100 closed at twelve sites; these two were missed.
-  - `hosts.add()` did a bare read-modify-write plus `os.replace` on shared `SOURCE_HOSTS` extras,
-    where an uncaught `PermissionError` took `discover()` down mid-walk. It also returned `False`
-    for a denied write and for a duplicate host alike — **a lost host looked like a known one.**
-
-- **[m154 — MAJOR, RESOLVED] CANDIDATE HOSTS WERE SCORED AGAINST AN ALPHABETICAL FIRST FORTY.**
-  `hosts.py:143` `names = list(by.get(source) or [])[:40]`, undocumented. This roster is the
-  evidence a candidate host is judged by, so a wiki holding the back half of a cast could not be
-  told from one holding none of it — the CLAUDE.md canonical violation applied to the decision of
-  where a source lives.
-
-- **[m155 — MAJOR, RESOLVED] `anchors.py` COMPUTED ITS INVARIANT, PRINTED IT, AND EXITED 0.**
-  `ok` was calculated, displayed, and discarded; `__main__` called `run()` and returned success
-  whatever it said. `allsweep` lists this module under "the instrument" and judges it by exit
-  code, so a violated floor→ceiling ordering read to every automated caller as a clean instrument.
-  Lesson 9, in the one script whose whole job is to fail when the assay drifts; `audit.py` gets it
-  right one file over. **It exits 1 today** — see the open owner question below.
-
-- **[m156 — MAJOR, RESOLVED] `allsweep` RAN FOUR TIERS AND GRADED TWO.** `lint_bad` was computed,
-  printed and dropped, so a real pyflakes undefined-name anywhere in `src/` left the integrity
-  suite exiting 0 — and `ALLSWEEP.json` had no `lint` key at all, so nothing could even read it
-  back. That includes the line `lint_bad` appends when pyflakes itself will not run: **the tier
-  announces it is BLIND, and being blind scored identically to being clean.** LINT now counts and
-  is persisted. RECONCILE deliberately still does not — see the reverted change in HANDOFF and
-  NEXT_STEPS §2.
-
-- **[m157 — MAJOR, RESOLVED] `retry_synthesis.do_merge()` WROTE RECORDS BEHIND THE TWO-WRITER
-  CONTRACT.** A bare temp plus `os.replace` straight onto `data/records/*.json`, bypassing
-  `pipeline.write_record` and therefore verify_math §18c's whole subject. Not merely procedural:
-  `write_record` re-reads and MERGES precisely so a stale in-memory copy cannot be published over
-  a fresher disk one, and this loop holds a `rec` taken before an unbounded number of model calls
-  — so on a source re-catalogued meanwhile it wrote the OLD entry list back whole, which is the
-  30,207-entries-to-1,051 revert `write_record`'s docstring names. The docstring's "run ONLY when
-  the pipeline is stopped" was a convention nothing enforced.
-
-- **[m158 — MINOR, RESOLVED] THE ONE RECORDER WHOSE OWN FAILURE WAS INVISIBLE.**
-  `record_unrecognised`'s outer `except: pass` never called `silence.note`, so the function built
-  to make failures visible was the single place whose failure left no mark anywhere — the ledger
-  could quietly stop recording and the page would read "none".
-
-- **[m159 — MAJOR, RESOLVED] THE `or True` DISARM GUARD MATCHED ONLY THE SINGLE-LINE SPELLING.**
-  §20i's needle is assembled at runtime to avoid matching its own source — correct, and not
-  enough. It searched the raw file text for a one-line spelling, while this file wraps the boolean
-  expression and the `True,` want-argument onto separate lines in dozens of checks (2201-2202,
-  2219-2220, 2911-2912, 3878-3879 among them). Disarming any of those was invisible to the one
-  guard whose entire purpose is to notice it — **lesson 12 inside the file that exists to fail.**
-  Now whitespace-normalised, with two alternate spellings, and — the part that matters — **the
-  guard is now exercised rather than declared**: two new checks feed it a disarmed check in the
-  wrapped spelling and require it to SEE that, then require it to leave an ordinary wrapped check
-  alone. Asserting that a detector says False over a clean file proves nothing; it read green for
-  nine runs doing exactly that.
 
 ### Minor-but-new (run #25 — the fourth whole-tree sweep)
 
@@ -1208,108 +625,6 @@ NEXT_STEPS §3.*
 Run #24's guards inverted on their error path; these never fire at all, are green on purpose,
 and every alternative spelling is a fresh hole. Three of the seven had already been "fixed"
 once, and the fix stopped one letter short.*
-
-- **[m126 — MAJOR, RESOLVED IN THIS RUN] THE ONLY UNGUARDED SUBPROCESS SPAWN IN THE TREE WAS
-  INSIDE `verify_math.py` ITSELF.** `verify_math.py:3034` spawned a real child on every run of
-  the suite with no `creationflags`, popping a console window on the owner's desktop — a direct
-  violation of the absolute no-console-windows rule. The suite runs from the foreman's patch
-  lane, from allsweep and from every maintenance pass, so this fired several times an hour.
-  Fixed with `CREATE_NO_WINDOW`, the same idiom the other 25 spawn sites use.
-
-- **[m127 — MAJOR, RESOLVED IN THIS RUN] AND THE CHECK THAT FORBIDS EXACTLY THAT COULD NOT SEE
-  IT.** §20e walks the AST rather than grepping, on purpose, and its comment argues the point
-  well: *"a count is not a guarantee, so this check does not count — it PARSES."* It then
-  identified the module with a literal string comparison, `_f20e.value.id == "subprocess"`.
-  `verify_math.py` does `import subprocess as _sp20a` and spawns through that alias, so the
-  check was structurally blind to the one violation in the tree — **and to the file it was
-  written in.** Widened to resolve import aliases and `from subprocess import ...` names, which
-  immediately surfaced **two further real violations**, both in `standards.py` via the same
-  `import subprocess as _sp` idiom:
-  - `standards.py:130` — a `tasklist` call.
-  - `standards.py:1109` — a **PowerShell** call.
-  `standards.check()` is what the dashboard polls every five seconds and what the foreman runs
-  every round, so these two were popping windows continuously under a green check. Both fixed.
-  Pinned by `verify_math` §20j, which now asserts the scan resolves aliases *and* from-imports.
-
-- **[m128 — MAJOR / SECURITY-ADJACENT, RESOLVED IN THIS RUN] THE FOURTH BYPASS OF THE LOCAL
-  MODEL'S WRITE GATE.** m113 case-folded the denylist. But `t_propose_patch` still derived
-  `modname` through a **case-sensitive** `full.endswith(".py")`, so `src/foreman.PY` — the same
-  file on NTFS, passing `os.path.isfile` — yielded `modname = None`, the folded denylist was
-  never consulted, `DENYLIST_PATHS` holds only `config.yaml` so nothing caught it on the path
-  side, and `_gates()` skipped the parse, lint and import checks for the same reason, leaving
-  only the whole-suite `verify_math` run. **8 of 28 adversarial candidates ADMITTED**,
-  reproduced before fixing, covering `foreman`, `silence`, `standards`, `verify_math` and
-  `local_agent`. The extension test is now folded at all three sites. Verified: all 8 denied,
-  the three earlier bypasses still denied, and `src/tells.py` still patchable. §20j pins all of
-  it. *(8.3 short names are disabled on this volume, confirmed with `dir /x`; symlink variants
-  were reasoned but not testable — none exist.)*
-
-- **[m129 — MAJOR, RESOLVED IN THIS RUN] THE CATALOGUE WAS NEVER ALLOWED TO FINISH, WHICH IS WHY
-  `every source is fully catalogued` SAT AT 17.2% WITH ITS BIGGEST SOURCES WORST.** DC 0.5%,
-  Thomas 1.2%, SpongeBob 1.7% — starvation's shape, not slowness'. The loop:
-  `--recatalogue --shortfall` orders work **largest gap first** and runs **three at once** (its
-  own comment: *"puts DC, Gundam and SpongeBob in flight together"*), so every pass opens with
-  the three biggest wikis → `catalogue()` printed **nothing** between the `wiki:` line and the
-  completion of a whole canonical class → **MEASURED live: DC's `Persons` class is 360
-  categories, the first listing 33,614 titles in 23.1s and taking ~3.8 min just to rank**, one
-  of 360, in one class of 7 → `MAX_JOB_SILENCE_MIN` is 15 → `kill_stalled_job` kills it as
-  wedged → `catalogue_web.py --recatalogue` is **not** in `STANDING`, so nothing restarts it
-  until the supervisor's main lap. **Killed three times in the visible foreman log alone.** A
-  sweep agent independently found DC's record still at exactly **377 entries, the old
-  `MAX_PER_SOURCE=320`-era number**; this is why.
-  **Note the irony:** removing the caps to obey Hard Rule 0 (`limit=None`, `top=None`, *"rank,
-  never truncate"*) is what made the job slow enough to look dead. The detector was never told.
-  **Fixed by saying what is happening, not by weakening the detector:** progress is emitted on
-  every **completed unit of work** (categories listed, ranking batches returned, pages fetched),
-  rate-limited to one line per 20s via `PROGRESS_EVERY_S`. `wiki_source.page_texts` and
-  `rank_by_size` gained an additive `progress=` callback for the two longest silent stretches.
-  **A wedged fetch completes nothing, so it still goes silent and is still killed.** Verified
-  live against DC and then in the real job. §20j pins the cadence against the stall threshold.
-
-- **[m130 — MAJOR, RESOLVED IN THIS RUN] `backfill.py` USED THE WRONG SIDE OF THE TWO-WRITER
-  CONTRACT AND SO DISCARDED EVERY CHARACTER IT ADDED.** It appends missing characters to
-  `r["entries"]` — its copy is the fresh authority — then called `pipeline.write_record`, which
-  is documented to keep the **DISK** entry list on drift because the *pipeline's* copy is the
-  stale side. The append itself guarantees a differing entry count, so drift was detected on
-  exactly the runs that had done work, the merge took disk as the base, and the additions were
-  dropped. A run that found nothing missing wrote correctly, so it never looked broken — **the
-  module's entire purpose was defeated on every run that had something to do.** Reproduced by
-  the sweep. Now `write_record_catalogue`, gated on the return; a denied write reports
-  `added: 0` rather than a phantom count.
-
-- **[m131 — RESOLVED IN THIS RUN] FOUR MORE CALLERS MARKED WORK DONE WITHOUT CHECKING WHETHER
-  THE WRITE LANDED.** Run #24 made both record writers refuse and return `False`; this is the
-  other half of that contract.
-  - `catalogue_aurora.py:143-146` and `catalogue_codex.py:194-197` — called
-    `write_record_catalogue`, discarded the verdict, then set `status = "catalogued"` with a
-    real `entry_count`. Work selection is `entry_count == 0`, so a source so marked is **never
-    revisited**: a denied write left the roll confidently claiming a record that is not on disk,
-    permanently. `catalogue_web.py` already gates this identical call with a comment explaining
-    exactly why; its siblings did not.
-  - `recover_folder_records.py:149-151` — same shape through `silence.write_json`.
-  - `repass_bands.py:78-80` — ignored `write_record`'s verdict and printed "APPLIED. N
-    rewritten" for files it never touched. Reproduced against a torn file.
-  All four now gated and loud. **This is four of the 32 `write_json` call sites that ignore the
-  return tree-wide — the four that then marked work as done. The rest are in NEXT_STEPS §3.**
-
-- **[m132 — RESOLVED IN THIS RUN] THE POOL HAD NO NAME FOR "THE PROVIDER ANSWERED WITH
-  NOTHING", AND SAID IT TWO WAYS.** Ruling 3 puts the unrecognised ledger first, so it was read
-  first: **13 rows against a handed-over baseline of 12**, and the extra was a genuinely new
-  shape — `groq:groq/compound-mini: no answer text produced`, a string that appears nowhere in
-  `src/`. Traced to Cascade's `engine.py:343`; its sibling `empty response` comes from
-  `engine.py:277`. **One fault, two wordings, and `record_unrecognised` de-duplicates on exact
-  text — so two permanent rows.** No predicate could name either.
-  Named as `cascade_bridge.empty_content`, matched **exactly** (`err.strip().lower() in (...)`),
-  never as a substring: a loose `"empty" in err` would turn naming a fault into a way of not
-  seeing faults, which is the one thing this ledger exists to prevent. Verified narrow —
-  `"empty response but the router also lost the pin"` is still an unknown. **Naming does not
-  bench**, exactly as `named_transient` does not; whether an empty completion should cost a
-  cooldown is the owner's open routing question. **13 rows → 12**, all now the single
-  deliberately-loud `All 1 candidates failed` shape.
-  *Also fixed while in there:* §20i's ledger fixture used `"empty response"` as *the genuine
-  unknown that must survive*, so naming the class made that check fail — correctly. The fixture
-  now carries a real unknown **and** two rows of the newly-named class, so it still asserts both
-  halves. Naming a fault must never quietly delete the assertion that unnamed faults stay visible.
 
 - **[m137 — RESOLVED IN THIS RUN] A HIGH-SEVERITY STANDARD DID NOT EMIT AT ALL, AND THE
   META-STANDARD REPORTED "ALL MEASURED".** Found in the closing diagnostic by diffing live
@@ -1409,84 +724,6 @@ get bug numbers**. The agents' other findings are credible, cited, and queued in
 That is run #23's "a check that cannot fail" sharpened — these checks could fail, and failing is
 exactly when they did the damage. Four of the eight are that shape.*
 
-- **[m118 — MAJOR, RESOLVED IN THIS RUN] THE UNRECOGNISED LEDGER NEVER RE-ASKED ITS OWN
-  QUESTION.** Ruling 3 makes the pool ledger the first job, so it was read first: **48 open rows**,
-  up from the 11 run #23 left, which looked like m109 regressing. It was not.
-  **"Unrecognised" is a statement about the CURRENT classifier, and nothing re-evaluated it.**
-  `unrecognised_open()` aged rows at 24h but never re-triaged, so every row written before a
-  classifier improvement stayed open forever — inside the window, red, unactionable. Measured:
-  **36 of 48 were throttles `named_transient`/`pool_exhausted` already understood**, burying the
-  one genuine unknown (`groq/compound-mini: empty response`) thirty-six rows deep.
-  **Fix:** filter on READ, using the same predicates the write side uses. Doing it on the read
-  side also makes the verdict independent of which process wrote the row and which classifier
-  version it had imported — `feats.py --roll` has been up since 19:03 the previous day with a
-  pre-m109 bridge, and a write-side-only fix would have left it refilling the ledger for hours.
-  **48 rows → 12**, of which 11 are the deliberately-loud `All 1 candidates failed` shape and 1
-  is the genuine unknown. Pinned by `verify_math` §20i.
-  *Not a bug, confirmed while in there:* the case-duplicated rows (`Every model…` beside
-  `every model…`) are m108→m109 fossils, not two writers — `cascade_bridge.py:822` lowercases
-  `err` before recording, so today's writes are uniformly lowercase.
-
-- **[m119 — MAJOR, RESOLVED IN THIS RUN] `write_record` OVERWROTE WHAT IT COULD NOT READ.**
-  `merged = rec` initialises to the **stale in-memory copy** and only becomes the disk-merged
-  version if the read succeeds. The `except Exception` swallowed the error and **fell through
-  into the write**, putting the pipeline's hours-old copy over the disk file whole — the exact
-  30,207-to-1,051 revert the docstring says the function was written to stop, performed by the
-  guard. **The trigger is the condition the merge exists for:** the read fails most readily when
-  the other writer is mid-write, because a torn or momentarily-empty file is a `JSONDecodeError`.
-  **Fix:** refuse and return `False`, which is this module's own idiom — `_landed()` already
-  argues a writer must SAY when it did not land so the caller leaves its unit open. Pinned by §20i.
-
-- **[m120 — MAJOR, RESOLVED IN THIS RUN] `write_record_catalogue`, THE SAME FALL-THROUGH POINTING
-  THE OTHER WAY.** Here `rec` is the authority for the entry list, so a swallowed read does not
-  revert the cast — it does something quieter and just as permanent. The merge is what carries
-  the disk copy's per-entry judgments forward and re-appends disk-only entries; skipping it
-  **drops every disk-only entry and blanks every judgment already made**, one screen below a
-  docstring promising "a merge never shrinks a cast". Same remedy. Pinned by §20i.
-
-- **[m121 — MAJOR / SECURITY-ADJACENT, RESOLVED IN THIS RUN] THE LOCAL MODEL'S WRITE GATE, A
-  THIRD ROAD IN: AN NTFS ALTERNATE DATA STREAM.** After m113 (case) and m114 (name prefix),
-  `src/foreman.py::$DATA` is the **same bytes** as the denied file — `os.path.isfile` says True
-  and the write lands in the real module — but the string does not end in `.py`, so `modname`
-  came out `None`, the module denylist could not match, and `DENYLIST_PATHS` was tested against a
-  name (`foreman.py::$DATA`) not in it either. **Reproduced on this machine before fixing.** For
-  `health`, `allsweep`, `estate` and `local_agent` the loss was total: `verify_math` does not
-  import those, so the parse/lint/import gates had nothing to say about them either.
-  **Fix in `_safe()`**, which every tool funnels through, and reframed — the test is no longer
-  "does this name look denied" but **"is this a plain name at all"**: a colon anywhere past the
-  drive letter is refused. Trailing dots and spaces turn out to be normalised away by `abspath`
-  before the denylist sees them, so `src/foreman.py.` correctly yields `modname == "foreman"` and
-  is denied on the ordinary path — asserted too, so it cannot silently stop being true. Verified
-  not to over-block (`src/tells.py` still patchable). Pinned by §20i.
-
-- **[m122 — MAJOR, RESOLVED IN THIS RUN] A CHECK DISARMED WITH AN ALWAYS-TRUE DISJUNCT, IN THE
-  FILE THAT EXISTS TO FAIL.** `verify_math.py:3086` read
-  `"import overnight" in _fm19._restart_horizon.__doc__ or True`. The docstring says "STANDING is
-  imported rather than copied" and has never contained that literal, so the assertion was
-  **false** — and instead of correcting it, an always-true disjunct had been added, with a note
-  conceding the real assertion was the two checks above. Now asserts against the **function
-  body**, which genuinely does `import overnight` and reads `_ON.STANDING`. A self-check that no
-  other check carries an always-true disjunct is pinned beside it — its needle assembled at
-  runtime, because as a literal it matched its own source line and failed forever, which is the
-  self-referential form of the bug it hunts.
-
-- **[m123 — MAJOR, RESOLVED IN THIS RUN] THE SUITE COULD BE SILENCED BY THE DEFECT IT WAS POINTED
-  AT.** `check()`'s float branch did `abs(got - want)` with no type guard. A non-numeric `got` —
-  the commonest way for code under test to be broken — raised `TypeError`, and **nothing wraps
-  this script**, so it escaped the whole run: every check after that point never executed and the
-  `RESULT` line never printed. A suite that reports nothing resembles a suite still running.
-  Now recorded as a failed check. Deliberately narrow: `bool` is an `int` subclass, so
-  bool-against-float keeps its old arithmetic verdict and **no previously-passing check changes
-  its answer** — confirmed against the 682-check baseline before the new section was added.
-
-- **[m124 — MINOR, RESOLVED IN THIS RUN] THE TEST HARNESS FILED ITS OWN PASSES AS PRODUCTION
-  FAULTS.** `_raises()` called `silence.note("verify_math.py:47")` on every **expected**
-  test-triggered exception, flowing into `state/failures.json` — the ledger the dashboard polls
-  and `standards` reads — where the "unexpected swallowed failures" standard counted them as
-  genuine unrecognised production faults, the probe key not being in its allowlist. **87 rows had
-  accumulated** (29 `ContextOverflow`, 58 `ValueError`) from that one line. The exception IS the
-  expected result there, and this file already adopts exactly that exemption elsewhere.
-
 - **[m125 — MAJOR, RESOLVED IN THIS RUN] `rc=<number>` IS NOT A DIAGNOSIS, AND THAT IS WHY
   `read.py`'s NEW CRASH SIGNATURE WENT UNREAD THREE TIMES.** The reader's exit history splits
   cleanly: **every exit up to 02:17 on 2026-08-25 was `rc=15`** (psutil's kill — a foreman
@@ -1510,80 +747,6 @@ and all 16 reports are on disk. Full detail in `handoff/sweep23/AUDIT_batch01..1
 run: **only findings I VERIFIED AT SOURCE MYSELF get bug numbers**. The agents' other findings are
 credible, cited, and queued in NEXT_STEPS §3 — not silently dropped.*
 
-- **[m109 — MAJOR, RESOLVED IN THIS RUN] THE UNRECOGNISED-FAILURE LEDGER HELD 122 KNOWN FAILURES
-  AND ONE UNKNOWN, BECAUSE THE CLASSIFIER HAD NO WORD FOR "BUSY".** Ruling 3 makes this the run's
-  first job, so the ledger was read first: **44 open rows, 122 occurrences, exactly one genuine
-  unknown** (`groq:groq/compound-mini: empty response`). Everything else was an ordinary throttle.
-  **Root cause:** `_ask_call`'s classification was binary — `permanent_words` → 4h bench, else
-  `record_unrecognised()`. There was no transient branch at all, so `Rate limit exceeded`, `429`,
-  `tokens per day (tpd): limit 200000` and Cohere's trial-key cap were all filed as mysteries.
-  m108 was a classifier that could never match; this is one that matched everything, and both
-  produce a page nobody can read.
-  **Fix:** `cascade_bridge.named_transient()` — phrase-matched, word-bounded on numeric codes,
-  checked AFTER the permanent classifier so a billing complaint that also says "try again" is
-  still benched. **Nothing is hidden:** a throttle is already counted in the throughput panel and
-  as `usage.outcome='rate_limited'` in Cascade's `usage` table, which is where `model calls per
-  hour` reads from. **44 rows → 11.** Pinned by `verify_math` §20h.
-
-- **[m110 — MAJOR, RESOLVED IN THIS RUN] THE m108 UNWRAP DESTROYED THE ONE FACT THE CLASSIFIER
-  NEEDED, AND COULD BENCH A BUCKET ON A NEIGHBOUR'S EVIDENCE.** Of the 23 rows surviving m109,
-  **15 named more than one candidate** (`All 11 candidates failed: ...`). For those,
-  `provider_error(pinned.bucket)` **cannot work by construction** — it reads the pinned bucket's
-  row, but a multi-candidate call is not necessarily an attempt on the pinned bucket. Proven from
-  the ledger itself: pin `groq:openai/gpt-oss-20b` against candidate label `Llama 3.3 70B (Groq)`.
-  **Fix, part one:** `pool_exhausted()` recognises a multi-candidate aggregate as a statement
-  about pool CAPACITY, not an unnameable provider fault. `All 1 candidates failed` deliberately
-  stays unrecognised — pin and attempt agree there, and that row shape is what exposed m108.
-  **Fix, part two, found by the sweep agent auditing this same session's code:** `pool_exhausted`
-  was being evaluated AFTER the unwrap, which destroys the text it reads — and worse, the unwrap
-  could pull a neighbouring bucket's `insufficient balance` into an aggregate and hand this bucket
-  a **four-hour bench for a call that failed because the pool was empty**. That is m103's harm
-  (shrinking the binding constraint) reached by a new road. Now decided on the RAW text before the
-  unwrap; a multi-candidate aggregate can never drive a bench. The same agent objected to
-  `"connection"` and `"capacity"` as bare substrings — `invalid connection string` is a config
-  fault, not a throttle — both are now phrases. Pinned by §20h.
-
-- **[m111 — MINOR, RESOLVED IN THIS RUN] `record_unrecognised()` USED THE PATTERN m100 RETIRED, IN
-  CODE WRITTEN THE SAME SESSION AS m100.** Hand-rolled `UNRECOGNISED + ".tmp"` + `replace_retry`.
-  `_UNREC_LOCK` is a `threading.Lock`, so it orders writers inside ONE process — but this file is
-  written from every process importing `cascade_bridge` (read, pipeline, feats, overwatch), and
-  those collide on the temp file itself. Converted to `silence.write_json`.
-
-- **[m112 — MAJOR, RESOLVED IN THIS RUN] A HIGH-SEVERITY STANDARD READ GREEN OFF A FIFTY-EIGHT-
-  HOUR-OLD SNAPSHOT.** `model IDs their providers still serve` did
-  `len(pm.get("stale") or [])` against `data/PROVIDER_MODELS.json` **with no age check**. The file
-  was stamped `2026-08-22 17:42` with `stale: []`, while `state/read_auto.log` showed the pool
-  removing **five model IDs with HTTP 404 (no such model) on every reader start**.
-  The project already ages `COVERAGE.json` before believing a coverage STALL. **This is the same
-  lesson from the more dangerous side:** a stale file producing a false ALARM gets investigated and
-  dismissed; a stale file producing a false ALL-CLEAR is never looked at again.
-  **Fix:** `MAX_PROVIDER_MODELS_AGE_H = 12`; the standard now reports `UNMEASURED` rather than
-  passing, with the refresh command in its order text. **Running that remedy found 8 stale Ollama
-  references, with `qwen3:8b` the only installed model** — matching the standing-model ruling. The
-  standard is now red on a real measurement. **The repair itself is m91 and is NOT in this repo**
-  (`C:\Users\imarl\cascade\config.json`). Pinned by §20h.
-
-- **[m113 — MAJOR/SECURITY-ADJACENT, RESOLVED IN THIS RUN] THE LOCAL MODEL'S WRITE GATE WAS
-  DEFEATED BY ONE CAPITAL LETTER.** `local_agent.py`'s `DENYLIST` — which stops the local model
-  patching `foreman`, `silence`, `standards`, `verify_math`, `health`, `allsweep`, `estate` and
-  `local_agent` itself — is a **case-sensitive set**, matched against `modname` derived from the
-  caller's own path string, on a **case-insensitive filesystem**. `path="src/Foreman.py"` passes
-  `os.path.isfile` (Windows resolves it to the real file), yields `modname == "Foreman"`, and
-  misses the set. **Reproduced on this machine before fixing.** Now folded on both sides; a
-  denylist that errs toward denying is safe, one that errs toward allowing is the whole failure.
-  Verified not to over-block (`src/tells.py` still patchable). Pinned by §20h.
-
-- **[m114 — MAJOR, RESOLVED IN THIS RUN] `local_agent._safe()` TREATED A PREFIX AS A DIRECTORY
-  BOUNDARY.** `full.startswith(HERE)` is true for any SIBLING whose name merely begins with this
-  project's — including `panscriptum-export`, the copy this module is forbidden to touch. Now
-  `full == HERE or full.startswith(HERE + os.sep)`. Pinned by §20h.
-
-- **[m115 — MINOR, RESOLVED IN THIS RUN] A FAILED REVERT REPORTED ITSELF AS A SUCCESSFUL ONE.**
-  `t_propose_patch()`'s exception path returned `"reverted": True` as a **literal**, emitted even
-  when the restoring write had just raised — so the one outcome that leaves a **half-patched module
-  on disk** was the outcome that claimed most confidently to have cleaned up. Now tracked, with an
-  `ALARM` key naming the file when the revert genuinely failed. Pinned by §20h.
-
 - **[m116 — MAJOR, RESOLVED IN THIS RUN] THE BUG QUEUE'S OWN REPORT RENDERED A CRASHED CHECK AS A
   CLEAN ONE.** `overwatch.structure()` records its failures in `struct["error"]` /
   `struct["estate_error"]`; `write_report()` **never read either key**. On a crash,
@@ -1594,12 +757,6 @@ credible, cited, and queued in NEXT_STEPS §3 — not silently dropped.*
   **NOTE: this fixes only the crash-reporting half.** The reconcile FILTER at `overwatch.py:326-343`
   still drops real findings — see NEXT_STEPS §3, it is the top unworked item.
 
-- **[m117 — MINOR, RESOLVED IN THIS RUN] SIX MORE OF THE m100 TAIL.** `genre.py` (read by
-  `navtree` and `profile`, whose loader turns a failed read into a silent blanket-default
-  catalogue — so a torn write here is invisible downstream), `navtree.py` (**no temp staging at
-  all**, while already importing `silence`), `sevenfold.py`, `pantheon.py`, `zfighters.py` (read by
-  `pantheon`), `halo.py`. Three now-unused `import json` lines removed with them; pyflakes clean.
-
 ### Minor-but-new (run #22b — the first whole-tree sweep)
 
 *All 95 modules were read line-by-line by 16 parallel agents; full reports live in
@@ -1607,80 +764,6 @@ credible, cited, and queued in NEXT_STEPS §3 — not silently dropped.*
 bug numbers below. The batch reports contain many more that are credible but unverified by me —
 they are the next run's work, not silently dropped.*
 
-- **[m100 — MAJOR, RESOLVED IN THIS RUN] EIGHTEEN SHARED-FILE WRITES ACROSS FOURTEEN MODULES WERE
-  TRUNCATE-THEN-FILL, NOT ATOMIC LANDINGS.** `open(path, "w")` + `json.dump` empties the target
-  before writing a byte. A reader in the gap sees an empty or half-written file; a crash in the
-  gap makes it permanent. **Four scripts** (`catalogue_aurora`, `catalogue_codex`,
-  `recover_folder_records`, `resync_roll`) were doing it to the SAME file,
-  `data/SWEEP_ROLL.json` — the hazard `resync_roll.py`'s own docstring described in prose.
-  Others hit `COVERAGE.json` (the library's headline figures), `SHELFMARKS.json`, `SCOPE.json`,
-  `TIERS.json`, `WIKI_HOSTS.json`, `PROVIDER_MODELS.json`, `SHARED_STAGE_GRAPH.json`,
-  `ONOMASTICON.json`, `GROUNDINGS.json`, `REFERENCE_ASSAYS.json`, `ENTITY_INDEX.json`,
-  `ALLSWEEP.json`, `catalog.json`/`failures.json`, and `WATCH.md`. Three sites in `weave.py`
-  were `json.dump(obj, open(path, "w"))` — truncating **and** leaking the handle.
-  **Root cause:** there was no shared correct way to do it. `catalogue_web.save_roll()` had the
-  atomic version and a comment saying an interrupted write "kills the next run of either script
-  outright"; its siblings never got it. **Fix:** new `silence.write_json()` — atomic, with a
-  **pid+thread-unique temp name**, which also closes the older `path + ".tmp"` collision race
-  where two writers of one path fight over the temp file itself. All 18 sites converted.
-  Pinned by 25 checks in `verify_math` **§20g**. Export commit `ea89738`.
-- **[m101 — MAJOR, RESOLVED IN THIS RUN] A HARD RULE 0 CAP LABELLED AS HARD RULE 0 COMPLIANCE.**
-  `weave.py:216` (and its idf twin at :170) capped the shared-entity evidence list at **8**:
-  ```python
-  if len(shared[p]) < 8:
-      shared[p].append(k)
-  ```
-  while BOTH consumers — `weave.py`'s writer and **`pipeline.py:1761`, the production path that
-  writes `data/RESONANCE_GRAPH.json`** — carried the comment `# WHOLE list -- Hard Rule 0, ruled
-  2026-08-24` directly above the truncated data. The comment recorded the owner's ruling; the
-  data had been cut eight entries earlier, in the live pipeline, ever since. **A cap wearing a
-  compliance label is the worst shape a cap can take, because the label is what stops anyone
-  looking.** Both builders uncapped. Export commit `ea89738`.
-- **[m102 — MAJOR, RESOLVED IN THIS RUN] THE PAID LANE, ERASED.** Owner ruling 2026-08-25: *"the
-  paid lane should be erased from the code."* Removed `PAID_PREFIX`, `PAID_LANE_RETIRED`,
-  `paid_lane_open()`, `_PAID_LOCK`, the burst-cap file read, the spend counter, and `foreman`'s
-  spend report. `widen_candidates()` lost its `paid_ok` parameter (public-signature change, the
-  gate's last handle). `verify_math` §19h was rewritten to assert an **absence** — the erased
-  names may not appear in `cascade_bridge.py` or `foreman.py` **even in comments**, which caught
-  three surviving references in my own tombstone prose on the first run. `state/PAID_BURST.json`
-  is deliberately kept, unread, as the sole record of the 598-call / ~$11.96 spend.
-  Export commits `080f4f7`, `ea89738`.
-- **[m103 — MINOR, RESOLVED IN THIS RUN] MY OWN 4-HOUR BENCH COULD FIRE ON A TRACE ID.** The
-  `permanent` classifier added earlier in run #22 matched `"401"/"402"/"403"` as bare substrings,
-  so a request id like `req_4403abc` would bench a **merely rate-limited** provider for four
-  hours — shrinking the pool that is the system's binding constraint, i.e. the exact opposite of
-  the bug the classifier was added to fix. Now `re.search(r"\b(401|402|403)\b", err)`; the prose
-  markers stay substrings. Found by the sweep auditing the same session's own work.
-- **[m104 — MINOR, RESOLVED IN THIS RUN] TWO BUGS IN `sweep_plan.py`, HOURS AFTER I WROTE IT.**
-  (a) `record()` did an unguarded read-modify-write on `SWEEP_COVERAGE.json` — the one function
-  whose entire purpose is to be called by sixteen concurrent batches; a lost update would make
-  `missing()` report a gap that never happened or hide one that did. Now locked and landed
-  atomically. (b) `modules()` turned an unreadable file into a **0-line module** with no note,
-  which sorts last, packs into a bin as free weight, and reads exactly like an empty stub — a
-  file silently dropped from a sweep whose whole purpose is that nothing is dropped. Now noted
-  and flagged `unreadable`.
-- **[m108 — MAJOR, RESOLVED IN THIS RUN] THE CLASSIFIER NEVER SAW A PROVIDER ERROR AT ALL, WHICH
-  IS WHY THE BENCH STILL DID NOT FIRE AFTER m98 WAS "FIXED".** Found within the hour by the
-  `every pool failure is recognised` standard added alongside it — the new standard went red on
-  its first publish and named its own cause. Cascade's engine does not hand this code the
-  provider's error; it hands back an AGGREGATE of its own: `All 1 candidates failed: GLM 4.7
-  Flash (Z.AI)`, or `Every model in this pool is rate limited or unconfigured`. Neither carries a
-  status code or any provider wording, so the permanent-refusal classifier repaired earlier the
-  same day was judging a string that can never match — **`zai:free` went on being re-claimed
-  forever while its real error, recorded in `bucket_state.last_error` at the same minute, read
-  "Insufficient balance or no resource package".** Repairing m98's WORDING was necessary and, on
-  its own, useless.
-  **Fix.** `cascade_bridge.provider_error()` reads the pinned bucket's own last error from
-  Cascade's scratch DB — read-only, single row, aged at 180s so a fossil cannot bench a live
-  provider, and total so a diagnostic cannot kill the call it is trying to explain. The
-  classifier unwraps before it judges, and the unrecognised ledger records the UNWRAPPED text so
-  what reaches the page is a complaint someone can act on rather than the engine's aggregate.
-  **Verified live against all six affected buckets:** `zai`, `cloudflare` and `hyperbolic` now
-  classify as 4-hour permanent; `groq`, `sambanova` and `cohere` correctly stay transient.
-  Pinned by 7 more checks in `verify_math` §20f. Export commit `e234107`.
-  **The lesson worth keeping:** the standard that found this was added in the same session as
-  the bug it exposed, and it fired on its first publish. Surfacing an unrecognised failure is
-  not bookkeeping — it is what turns "the pool is slow" into a named, fixable fault in an hour.
 - **[m105 — OPEN, VERIFIED, NOT FIXED] ~14 MORE NON-ATOMIC WRITES REMAIN (the m100 tail).**
   `build_terminal.py:572`, `burgs.py:227`, `genre.py:236`, `halo.py:170`, `module_index.py:75`,
   `navtree.py:260`, `overnight.py:462`, `pantheon.py:260`, `publish.py:262`, `render.py:245`,
@@ -2155,25 +1238,6 @@ said FIXED since run #20 and nobody had moved it.*
   Two readings fit the evidence and this run cannot separate them — (a) Fandom is blocking
   this machine's IPv4 address, the same shape it earned once before on 2026-08-23, or (b)
   something between here and Cloudflare's IPv4 edge is dropping SYNs. **Owner decision.**
-- **[m65 — RESOLVED `6fb290d`] THE CATALOGUE'S FANDOM GATE HAD BEEN ANSWERING "OUTAGE" ON EVERY
-  CALL IT EVER MADE, BECAUSE IT NEVER SENT A USER-AGENT.** Found run #14 while checking whether
-  M8's fix would cascade into any automated remedy — it did not, but the gate it led to was
-  broken in the opposite direction. `foreman._fandom_reachable` had been hardened that same
-  morning from a TCP connect to a real API call, on the correct reasoning that **a socket is
-  not an answer**. The rewrite called `urlopen` on a bare URL, so the request went out as
-  `Python-urllib/3.13` and MediaWiki replied **403 Forbidden in 0.13 seconds** — from fandom
-  **and from Wikipedia**, healthy or not. With the project's own `wiki_source.UA` the same two
-  URLs return **200**. So `run_catalogue_gap` deferred the catalogue **every foreman round**
-  while reporting "fandom.com is dropping connections (IP block or outage)".
-  **A gate that always says "outage" is not conservative, it is off** — and it is invisible,
-  because its false negative is phrased as a plausible diagnosis. Note the shape: the morning's
-  fix was right about the defect and introduced its exact inverse, which is why both are now
-  recorded in one docstring. Fixed to send `wiki_source.UA` and to ask
-  `standards.FANDOM_PROBE_HOST` (a content wiki) rather than `community.fandom.com`, which
-  cannot fail correctly. It now returns False in **16.1s** — the honest timeout — instead of
-  False in 0.13s. Pinned by verify_math **§19aa** (5 checks driven off a stub opener: the UA is
-  present and is not `python-urllib`, a 200 opens the gate, a 403 does not, and the URL names a
-  content host).
 ### Minor
 - **[m47] an exception inside the feats join silently becomes "this source has no feats."**
   `manifest_builder.py`'s Feats block wraps `feats_index.feats_for_source` in
@@ -5140,3 +4204,1019 @@ full detail in HANDOFF.md's run #2 entry:*
 - **chain.harvest re-parsed 56k files/900MB per cycle** — incremental mtime index; 3.1s warm
   (fc390a9). **weave_index.load_records re-parsed 63MB per dashboard poll** — signature cache
   (fc390a9). **13MB sweep parsed twice per batch** — once (fc390a9).
+
+### Moved from `## Open` by the measured bulk pass of 2026-09-08 (order `ca0a93856e2a`)
+
+*Owner ruling of 2026-09-08, question 18 ("Ledgers and sentences the code outgrew"),
+option (a): a measured bulk move, then move-on-resolve as a standing rule. Every entry
+below said RESOLVED in its own label while sitting in `## Open`, and carried no
+PARTIAL / NOT FIXED / STILL LIVE qualifier anywhere in its body. **Nothing was deleted and
+no entry text was edited** — each block is byte-identical to what stood in `## Open`, under
+the subheading it stood under. Six were read by hand and deliberately LEFT in `## Open`:
+M79, m142/m143 and m137 (the qualifier scan flagged them), M26 (its own label says *kept
+here because the SHAPE recurs*), m125 (*what actually kills the reader is still
+unidentified … a live outage*) and m116 (*this fixes only the crash-reporting half*).*
+
+#### From `### Resolved this run (paper trail, run #47 — 2026-09-07)`
+
+- **[m184 — RESOLVED 2026-09-07, run #47] THE BATTERY COULD REDDEN ITSELF ON UNMUTATED CODE BY
+  FIRING A LIVE GPU PROBE.** Root cause: `verify_math` §19ai's `_pool19ai` drove the real
+  `standards.check()`, which reaches `ollama_token_flow()` — a genuine 300-second generation against
+  the local daemon whenever the metrics ledger is quiet, writing into the never-cleared failure
+  ledger on timeout. Measured going wrong: `1199 passed, 0 FAILED` → `1209 passed, 2 FAILED` on
+  unmutated source. Fixed by pinning `standards._TOKENFLOW` across the call, and then **guarded**,
+  because the pin's own control row proved only that the cache was restored (true in both worlds)
+  and the suppression rested on one default argument. The new row makes the transport the witness
+  and forbids `/api/generate` specifically — established by measuring both worlds rather than
+  assuming, after a first spelling that refused *all* network was found to redden a healthy tree.
+  Orders `eea629f6dc46` (closed) and `79d51aef8b71` (open, the wider dependency). See M72.
+
+- **[m185 — RESOLVED 2026-09-07, run #47] A DETECTOR WAS ASSERTING A CONSEQUENCE THE GATE HAD MADE
+  FALSE, AND RE-OPENED A CORRECTLY-CLOSED ORDER EVERY SWEEP.** `workorders.sweep handoff-scratch`
+  said 28 scratch scripts under `handoff/` were "copied to the PUBLIC repo on the next push". They
+  are not, and have not been since `CODE_FREE_DIRS`/`_is_agent_scratch` landed — the public export
+  holds **zero** files of any executable suffix under `handoff/`, measured. It also enumerated one
+  suffix (`.py`) while the gate refuses seventeen, so a `.sh`/`.ps1` there was invisible to the
+  detector built to find it. Now asks the gate directly (one definition feeding both the copier and
+  the check, so they cannot drift) and reports MINOR while every file is refused, MAJOR the moment
+  one is not, naming it. Order `a66423722e45`.
+
+- **[m186 — RESOLVED 2026-09-07, run #47] THE SILENCE AUDIT WAS STRUCTURALLY BLIND TO
+  `contextlib.suppress`.** It walked only `ast.ExceptHandler`, so 15 live suppress blocks across
+  five modules — the same act as `except X: pass`, spelled differently — contributed nothing to the
+  SILENT count in the module whose whole claim is to find "every handler in src/". The count moved
+  **232 → 247** because the undercount ended, not because anything regressed; verified before
+  landing that nothing grades pass/fail on that number. `--instrument` still rewrites except-handlers
+  only, deliberately: a `note()` inside a suppress body would fire on every clean pass, which is a
+  recorder that lies. Order `a1173f5608f5`.
+
+- **[m187 — RESOLVED 2026-09-07, run #47] `publish._unpushed` ANSWERED ANY GIT FAILURE WITH A
+  CONFIDENT ZERO.** Its `except RuntimeError:` arm returned `(0, "no commits on this branch yet")`
+  for every non-zero git exit, not just a genuinely unborn branch — so a real stranded commit could
+  read as "nothing to push" forever on a clean worktree, reproducing the "122 commits behind while
+  synced N files kept printing" shape this file's own history records. Now inspects git's text (the
+  real unborn-branch wordings were obtained by probing a fresh `git init`) and otherwise returns
+  `None` with git's diagnostic carried WHOLE, so `push()`'s existing "could not tell whether ahead"
+  warning fires instead of a false all-clear. Order `0224d12400d1`.
+
+- **[m188 — RESOLVED 2026-09-07, run #47] `foreman._retire` OVERWROTE `data/OVERWATCH.json` FROM A
+  STALE SNAPSHOT.** It did a raw read-modify-write, bypassing `overwatch.save()`'s merge-based
+  writer entirely, with no compare-and-swap — the existing guard only caught a *denied* replace, not
+  a write that LANDS on stale state and erases findings overwatch recorded concurrently. Now uses
+  `overwatch.load()`/`save()`, the machinery that already existed; no new locking invented. Proved
+  in a sandboxed ledger with a competing write injected between read and write: it now survives the
+  merge, where the old code erased it. Order `c95751a80633`.
+
+- **[m189 — RESOLVED 2026-09-07, run #47] THE PUBLISH-IMPORT DRILL NET COULD ONLY SEE ONE SPELLING
+  OF THE FAULT.** It selected handlers by the literal name `ImportError`, so `except
+  ModuleNotFoundError` — the exception Python actually raises for a missing module, and a
+  *subclass* — and a bare `except:` were never examined; both variants returned HELD against live
+  fixtures. Replaced with the house shape-based pattern from `_meta_ban_has_no_fall_through`, with
+  three measured departures from a verbatim copy (a walk would have breached correct code; the
+  looser terminator form let a known dead-`raise` fixture pass). **Watched RED five ways and GREEN
+  on the live file.** Order `46aa5a5eac38`.
+
+- **[m190 — RESOLVED 2026-09-07, run #47] TWO PROBE-LITTER NETS COULD BREACH ON A NEIGHBOUR AND
+  HALT THE LIBRARY.** Both byte-compared live shared ledgers across a window, so any standing job
+  calling `silence.note` in that window would breach the net and raise an OWNER halt — a false halt,
+  which this project's longest outage says is the expensive direction. The failures-ledger net no
+  longer opens `state/failures.json` at all (it installs a capturing stand-in over `health.record`
+  and requires zero calls, which is uncancellable); the order net compares only rows carrying the
+  reserved probe token. **Both are now strictly stronger in the masking direction too**, and both
+  were watched RED. Order `00f8ca4ab967`.
+
+#### From `### Resolved this run (paper trail, run #44 — 2026-09-04)`
+
+- **[M73 — RESOLVED, run #44] `escalation.clear()` WAS AN UNLOCKED READ-MODIFY-WRITE ON THE ONE
+  FILE THAT MUST NEVER LOSE A FAULT.** Order `0f815b38363f`. Every other writer of
+  `state/HALT.json` — `_raise_halt`, `_write_stopped` — is compare-and-swapped for exactly this
+  reason; `clear()` was not. **Root cause:** read the record, merge the ruling, write the whole
+  thing back, with nothing between the three steps. A fault escalating to OWNER in that gap is
+  appended to `also` by `_land_halt` and then overwritten by a payload built from the record as it
+  stood *before* the append. **Measured pre-fix, driven end to end:** `also: []` — the concurrent
+  `ARRIVED_MID_LIFT` fault vanished with a **successful write**, `did=True`, `halted=False`, and
+  `HALT_CLEARED` was written to the ledger. Worse than the raise-side race it mirrors, because it
+  takes the halt *down* with it: the library resumes on a ruling written about facts that are no
+  longer what the file says. **Fix:** digest taken before the read (the `_raise_halt` ordering);
+  new `_land_clear` through a temp + `replace_if_unchanged` — never `write_json`, which retries a
+  denied rename and would land the stale payload just as happily; `_halt_identity` to tell a
+  transient refusal from a fault landing mid-lift; `_halt_file_cleared` as a readback, because
+  `replace_if_unchanged` cannot close the gap between its own digest read and the rename. A
+  transient refusal retries; **a digest mismatch deliberately does not** — re-merging a person's
+  ruling onto a record that has grown a fault they never read would sign their name to a decision
+  they did not make. Net: *"a fault that lands mid-lift refuses the lift instead of being
+  overwritten by it."*
+
+- **[M74 — RESOLVED, run #44] `binding_health --limit 0` CANARIED THE WHOLE ESTATE, AND A FILTER
+  THAT MATCHED NOTHING RE-STAMPED THE REPORT.** Orders `cd7492eec3bc` and `f1901d2178ba`, **taken
+  as one change** because fixing the first *arms* the second. **Root cause (first):** `--limit`
+  defaults to `None` with `type=int`, so `--limit 0` arrives as the integer `0` and `if limit:`
+  read it as "no limit given" — the falsy-zero slip already fixed in `burgs.py`. **Root cause
+  (second):** the whole-estate-empty guard was `not (only or limit) and not out`, so a *filtered*
+  pass that probed zero hosts skipped it and fell through to the whole-file merge path.
+  **Measured pre-fix on a three-host stub estate:** `run(limit=0)` canaried **all three**;
+  `run(only=["no-such-host"])` canaried **nothing** and still landed the report with `at` bumped
+  from `0` to now — the one field `workorders.sweep`'s binding detector and `allsweep`'s
+  reconciliation use to decide whether to trust the estate. **Fix:** one `filtered = bool(only) or
+  limit is not None`, computed once and used at all four sites that each previously re-asked
+  `only or limit`; `if limit is not None:`; and a new `BINDING_FILTER_MATCHED_NOTHING` refusal that
+  writes nothing and names the filter, how many of the bound hosts it selected, and why. Net: *"an
+  EMPTY filter canaries nothing and re-stamps nothing"*, four limbs, the fourth proving an ordinary
+  filtered pass still probes and merges.
+
+- **[M75 — RESOLVED, run #44] THE LOCAL MODEL COULD WRITE THE PROSE GATE AND THE MODULE THAT
+  PUSHES TO THE PUBLIC REPO.** Order `0434fc05eb95`. **Root cause:** `local_agent.DENYLIST` states
+  its own membership rule — "the thing that would have to be working to detect a bad patch, or the
+  thing doing the patching" — and omitted two modules that rule names, while `src/` sits on
+  `WRITABLE_PREFIXES`. The `DENYLIST_PREFIXES` comment says "config.yaml holds the prose gate",
+  which is true of the **flag** and false of the **enforcement**: the switch was denied and
+  `src/prose_gate.py` was not. **Measured pre-fix:** `_denied_target("src/prose_gate.py")` and
+  `_denied_target("src/publish.py")` both `False`. Nothing needed to touch the flag —
+  `overnight.py` has already demonstrated in this repository that reimplementing the check with
+  `bool()` makes `prose_enabled: "false"` *open* it, and the patch gates below only ask whether a
+  patch parses, lints, imports and leaves `verify_math` green. **Fix:** both added to the
+  denylist. Net asks the **live** `_denied_target` rather than the constant, and carries a control
+  arm proving ordinary repair targets stay writable. **Consequence flagged for the owner:** this
+  narrows the LOCAL rung; four `publish.py` orders were re-routed LOCAL → RUN. **And it was not in
+  effect until the daemons bounced** — `foreman` had been up 23 hours; killed and restarted, see
+  the handoff.
+
+- **[M76 — RESOLVED, run #44] THE CHARTER P8 META-LANGUAGE BAN FAILED **OPEN** ON AN `ImportError`
+  AND CHAPTERS WERE WRITTEN PAST IT.** Order `7c5e216850a8`. **Root cause:** `generate.py` had
+  `except ImportError: silence.note(...)` directly above `except Exception:`, and Python takes the
+  **first** matching clause — so an unimportable `pipeline` was caught there, noted, and fell
+  through **to the write**. Every chapter of such a run would be published with the ban never run,
+  while the run reported success. The arm three lines below already states the rule: *"a gate that
+  cannot run has not passed."* Not hypothetical: `pipeline.py` is large and frequently edited in
+  this same tree. **Fix:** the special case is removed so an `ImportError` reaches the fail-closed
+  arm like any other failure and the chapter is refused and filed; the `silence.note` is preserved
+  inside that arm because the detectors read it. **The net pins the property, not the spelling** —
+  *no handler on that `try` may fall through* — and was watched red against four reconstructions:
+  the exact pre-fix shape, a `ModuleNotFoundError` spelling, a bare `except:`, and the gate deleted
+  entirely.
+
+- **[M77 — RESOLVED, run #44] A BOOLEAN COULD BE PUBLISHED AS AN ASSAY SCORE.** Order
+  `ad7655372e8f`. **Root cause:** `bool` subclasses `int`, and all six numeric-score gates in
+  `magnitude.py` were `isinstance(x, (int, float))`. Scores arrive as JSON from a model, `true` is
+  valid JSON, and the value reaches the worksheet and then `A.assay()` — inside every published ±
+  in the library. Hard Rule 3's territory (*don't fake the Assay decimals*) reached by a
+  type-system accident rather than by anyone deciding anything. **Fix:** one `_is_score` predicate
+  at all six sites, written as a single helper so the rule cannot drift between them. **The net
+  pins both directions** and was watched red twice — against the pre-fix `isinstance`, *and*
+  against the tempting truthiness "fix", which would refuse a legitimate score of `0`.
+
+- **[M78 — RESOLVED, run #44] `autostart --status` REPORTED "I COULD NOT TELL" AS "NOT RUNNING".**
+  Order `bbc6dd725a9f`. **Root cause:** `overnight.running()` is tri-state and returns `None` when
+  `_proc_lines()` could not read the process table; its own docstring says callers must test
+  `is None` rather than lean on truthiness. The per-job loop leaned on truthiness. So the one
+  answer an operator acts on was produced by the one condition in which nobody knows anything —
+  the FAIL CLOSED property inverted — **ten lines below the same file's correct handling of the
+  same tri-state** for the supervisor line, which is how a reader learns the wrong one is
+  deliberate. **Fix:** the loop now keeps the tri-state in the supervisor line's own words. Net is
+  **driven**, not source-shaped: `running` stubbed to `None`, the real `--status` run with stdout
+  captured, every roster line required to say `UNKNOWN`.
+
+#### From `### Resolved this run (paper trail, run #43 — 2026-09-03)`
+
+- **[M70 — RESOLVED 2026-09-03, run #43] THE WORK-ORDER SWEEP'S DETECTOR LAYER RAN INVERTED, AND
+  THE SILENT DIRECTION WAS THE DANGEROUS ONE.** `workorders.sweep_detectors._fire(ok, ...)` read
+  `if not ok: resolve_code(...) else: file_order(...)`. Every one of its eleven call sites passes
+  a predicate that is TRUE when the thing it watches is HEALTHY — `not bad`, `chain_ok`,
+  `not hits`, `n <= _D.LIVENESS_CEILING`, `f is None`, `not stranded`, `not scratch`,
+  `not _ghosts`. So a clean tree FILED the order and a real fault CLOSED it, writing "detector
+  stopped firing" into the append-only paper trail as the resolution.
+  **Root cause:** the two branch bodies were the wrong way round. The module's own comment at the
+  `SECRET_STAGED` call site already stated the intended contract in one line — "`_fire(True, ...)`
+  RESOLVES" — while the code did the opposite, so prose and code had drifted apart with nothing
+  asserting either.
+  **How it presented:** three permanently-red BLOCKING orders that each reported ZERO problems
+  ("the ledger hash chain does not verify -- 0 problem(s)", "0 relay ledger(s) are not intact",
+  "0 credential-shaped value(s) staged for the PUBLIC repo"), `LIVENESS_RATCHET` calling
+  46-against-a-ceiling-of-52 a breach, and two battery orders whose `what` was the empty string
+  because `(f or {}).get("what", "")` has nothing to say when there is no fault. Those empty and
+  zero-valued fields are what a healthy detector's message looks like when it is composed anyway.
+  Verified against reality before any edit: `check_all()` `{}`, `verify_chain()` True/0 problems,
+  liveness 46.
+  **Why it mattered more than the noise:** the quiet arm. A genuinely broken ledger chain, or a
+  real credential staged for the public repo, would have RESOLVED its own BLOCKING order and said
+  nothing. And three BLOCKING orders that always stand are an alarm that always sounds, which
+  Hard Rule -1 calls furniture. Swapping the arms closed **nine** false orders on the next sweep
+  and immediately surfaced **three real faults the inversion had been auto-closing**:
+  `BATTERY_GRADED`, `CODEWATCH_BUDGET` and `PREFLIGHT_STALE`.
+  **Netted:** `drill.py`'s `sweep_fire_polarity` asserts on the SOURCE — running the sweep writes
+  the live queue and a net may not do that — that the true arm reaches `resolve_code` and only
+  that, and the false arm `file_order` and only that, with the parameter still named `ok` and the
+  test still a bare `if ok:`. Watched BREACHED against a re-inverted copy of the tree and HELD
+  against the live one. Battery at close: drill 389/389, verify_math 1130/0.
+
+- **[M71 — RESOLVED 2026-09-03, run #43] THE MANDATED MUTATION PASS WAS CANCELLED EVERY RUN BY A
+  FILE THE SANDBOX DID NOT COPY.** `mutate --target all` refused with `RED BASELINE TAKEN FROM A
+  TREE UNDER EDIT`; the single red row was §20z, `no probe anywhere in this battery writes into
+  the live failure ledger`, naming three escapes. The live tree was GREEN at the same moment
+  (1130/0) — only the sandbox was red.
+  **Root cause:** `sandbox()` copies `state/` selectively (`.json`, `.jsonl`, six named `.log`),
+  and `state/cascade_scratch.db` is none of those. All three escapes are that one missing file;
+  see the corrected M66 above for the mechanism. This is the FOURTH instance of a defect class
+  the sandbox code already documents three times in its own comments — a file the gates read is
+  absent, a check goes red in the baseline, and **a red baseline disables that check as a
+  detector for the whole run** because mutants are judged by difference from it. This instance
+  was worse than disabling a row: it took the entire pass down, silently, every run.
+  **Fix:** the database now travels into the sandbox, copied **by name** — derived from
+  `cascade_bridge.SCRATCH_DB` rather than spelled a second time, for the reason the log list is
+  derived from `lognames` — and **through SQLite's backup API**, not `shutil.copy2`, because
+  Cascade writes it while the sandbox is being built and a torn byte copy would restore the same
+  three escapes INTERMITTENTLY, which is harder to diagnose than a failure that happens every
+  time. Chosen by name over a blanket `.db` filter deliberately: that would also drag in
+  `state/corpus.db`, 78 MB of derived index nothing in the gate path reads, for 88.6 MB a run
+  instead of 14.6.
+  **Verified:** controlled A/B on the exact failing row — red baseline before, green baseline
+  after, the DB copy the only change; the copy lands intact in the sandbox (134,639 `usage` rows
+  readable); the pass then ran.
+
+- **[m178 — RESOLVED 2026-09-03, run #43] `cleanup.py --apply` WOULD HAVE DELETED AUTHORED
+  ENGLISH FROM THE CORPUS.** `_MARKUP[1]` stripped any `(anything, Word ? )` parenthetical
+  outright. Its sibling `_ruby_question_mark`, one list entry above it, was given a non-ASCII
+  guard after it deleted 55 real English question marks; this pattern never received that guard
+  and deletes the WHOLE aside rather than a stray `?`. **Root cause:** a remedy applied to one of
+  two adjacent instances of the same fault. **Fix:** the replacement is now the function
+  `_ruby_parenthetical`, which strips only when the match contains a non-ASCII character — the
+  identical remedy in the identical shape; the PATTERN is unchanged so it keeps its place on the
+  mangled-escape roster, which reads `_p.pattern`. **Measured over all 216 record files:** 1,191
+  matching sites, 1,188 genuine ruby annotations (still stripped, unaffected) and **3 pieces of
+  authored English that would have been destroyed with the sentence closing over the gap** —
+  `marvel.json` entries/7610 "(and, uh, Hawkeye?)", `transformers.json` entries/1178 "(odd for
+  someone who likes trees, no?)" and entries/3477 "(Strange, huh?)". **No data pass is needed:**
+  nothing on disk is damaged, `--apply` was never run, and the fix prevents future damage.
+
+- **[m179 — RESOLVED 2026-09-03, run #43] THE LEDGER TRUNCATION DETECTOR COULD NOT SEE A
+  DUPLICATED LINE.** `ledger_guard._lost_fraction` compared `{set} - {set}`, so a deleted line
+  counted as lost only if its exact text appeared NOWHERE else in the file. In a markdown ledger
+  duplicate lines are the texture, not an edge case: repeated headings, bare dates, `**Why:**`,
+  the same one-line verdict under twenty entries. **Measured:** `handoff/HANDOFF.md` holds 733
+  substantive lines and 700 distinct — **33 lines, 4.50% of the file, deletable for a measured
+  loss of exactly ZERO against a `MAX_LOST_FRACTION` of 0.05**, on the only gate `assert_intact()`
+  puts in front of `publish.push()`, and on the ledger whose own commentary records it already
+  losing 629 lines to the truncation class this module exists to catch. **Fix:** a `Counter`
+  multiset; `Counter - Counter` keeps only positive differences, which is exactly "how many copies
+  did the old file have that the new one does not". The property the set was chosen for survives —
+  `Counter` is unordered, so a reordering still measures 0.0, and a reflowed paragraph is a loss
+  under both spellings. **Netted** by `ledger_loss_counts_duplicate_lines`, watched BREACHED
+  against the old set diff. (For scale, the root `HANDOFF.md` sits at 1.12% and `BUGS.md` at
+  0.24%; `handoff/HANDOFF.md` was the exposed one.)
+
+- **[m180 — RESOLVED 2026-09-03, run #43] A REMEDY THAT DESTROYED EXACTLY WHAT IT WAS WRITTEN TO
+  PROTECT.** `foreman.clear_learned_caps` cleared rows matching `learned LIKE '%"rpm": 1%'`.
+  `LIKE '%...%'` is a substring test, so "1" matched the FIRST DIGIT of 10, 15, 19 and 100 — and
+  the function's own docstring names "documented caps of 10, 10 and 15" as the values the remedy
+  exists to restore. **Proven on a throwaway in-memory table:** against rows holding rpm
+  1, 1, 10, 15, 19, 100, 2 and an rpd-only row, the old predicate cleared SIX and the new
+  `json_valid(learned) and json_extract(learned, '$.rpm') = 1` clears the TWO genuine pins.
+  `json_valid` guards the extract and is deliberately a refusal rather than a fallback: a blob
+  that will not parse is not evidence of a stale cap, and clearing it would be destroying state on
+  a guess. Run against the live databases after the fix: 0 cleared, which is correct — all six
+  learned values currently sit at the floor of 2, so **no damage had occurred yet.**
+
+- **[m181 — RESOLVED 2026-09-03, run #43] THE REACHABILITY PRIMITIVE HAD `while/else` BACKWARDS IN
+  BOTH DIRECTIONS.** `drill._live_walk` is the instrument under roughly two dozen nets that say
+  "the call is made" rather than "the name appears". It knew that `if False:` runs its `else` and
+  `if True:` does not, and had both loop cases wrong: `while False:` terminates without a break so
+  its `else` RUNS (live code was being discarded as dead — a false BREACH), and `while True:` can
+  leave only by `break`/`return`/`raise`, all of which SKIP the `else` (**provably dead code was
+  being walked as reachable**). The second is the direction that matters: it is the same fault the
+  run #36 sweep used to make `_halt_is_not_breakage` report HELD against a fixture carrying its
+  tokens in a dead `if False:` block after a `break`, arriving through the loop spelling instead.
+  **Fix:** `while False:` contributes its `orelse` in `_live_stmts`; the `while True:` `orelse` is
+  skipped in `_live_walk`, because the loop BODY still has to be walked and only the else is
+  unreachable. **Scope confirmed independently: no `while ... else:` exists anywhere in `src/`
+  today**, so no net was returning a wrong verdict on this tree — latent infrastructure, repaired
+  before anything came to depend on it. **Netted** by `the reachability walker knows a loop has an
+  else, and when it runs`, watched BREACHED against a reconstruction of the old behaviour.
+  Regression check across the nets built on it: drill 389/389, verify_math 1130/0, liveness
+  unchanged at 46.
+
+- **[m182 — RESOLVED 2026-09-03, run #43] SIX SMALLER FIXES, EACH VERIFIED AGAINST SOURCE OR
+  DATA.** `coverage.measure()` read the three-writer host map with no handler at all while
+  `read.py` reads the same file behind a four-attempt retry — now guarded and **failing closed**,
+  because an empty map would report every entry as hostless and print a coverage figure that is
+  confidently wrong rather than absent (`444097b5796f`). `resync_roll` crashed the whole pass on a
+  record that parses but is not an object, one line past a handler covering only the parse
+  (`9dde97efb821`). `hosts._load` collapsed absent and corrupt into `{}` (`3ace1adc47ff`), and
+  `hosts.discover()` dropped a source whose probe RAISED without counting it anywhere — the same
+  fault fixed four lines above it for thin rosters and never applied to the arm beside it
+  (`9acd09b65d3a`). `canon_backup.restore()` landed with the module's last bare `os.replace`, on
+  the disaster-recovery path; now `replace_retry` **with its verdict checked**, since it never
+  raises by contract and ignoring its `False` would have been strictly worse than the bare call
+  (`c07bf65dd1c6`). `pipeline.ENTRY_REJECTION_COMPANIONS` was missing `subroom`, the one field
+  added after the mechanism was written (`0c0021372963`) — **honest correction to the finding's
+  implied severity: scanning all 282,822 entries found ZERO actual contradictions**, all 79
+  entries carrying `subroom_rejected` are in the intended state, and a first scan that reported 79
+  was wrong because `subroom_ok()` returns True for `unclassified` by an early return.
+
+- **[m183 — RESOLVED 2026-09-03, run #43] THREE HARD RULE 0 VIOLATIONS, ONE OF THEM THE STANDARD
+  THE OTHERS WERE MEASURED AGAINST.** `cleanup`'s `unwritten` roster was capped at 12 while the
+  comment twelve lines above cited it, by name, as the uncapped standard the five rosters were
+  being held to when `sweep42-batch03` uncapped them — **the exemplar was the last violation**
+  (`c352cf29e386`). `repass_bands`' SURVIVORS list was capped at 14: order `89fc2eaf23f1` had
+  fixed the LABEL and left the SLICE, and **a disclosed cut is still a smaller universe** — Hard
+  Rule 0 is not a disclosure rule, and the fully uncapped DEMOTED twin eleven lines below in the
+  same function is the evidence that fourteen was inertia, not policy (`600d25f5137e`); it now
+  prints all 402. And the queue listing's own `what[:70]` cut carried no marker, so a complete
+  one-line summary and the first 70 characters of a 3,500-character finding rendered identically —
+  marking it immediately revealed findings of 2,340 and 3,528 characters that every shift had been
+  reading as 70 (`2681c431ce1d`). Also `workorders --handler` was declared and never read, so it
+  printed the whole queue and accepted a misspelled rung in silence; it now filters and REFUSES an
+  unknown rung rather than falling back to the unfiltered list (`83660a321243`).
+
+#### From `### Resolved this run (paper trail, run #41 — 2026-09-02)`
+
+- **[M63 — RESOLVED 2026-09-02, owner ruling (a)] THE CHAIN DAMAGE IS ACKNOWLEDGED, STILL
+  REPORTED, NEVER ERASED.** Order `be33a61be79f` closed on the owner's in-session choice.
+  `ledger_guard` gained `state/ledger_chain_acknowledged.json` -- one record naming links
+  947-949, both append-only ledgers, the order, the reason, who ruled and when. The named
+  shrinks are carried (returned by `verify_chain(with_acknowledged=True)`, printed by `main()`
+  every run and by `assert_intact()` every push); anything outside the range or ledger list
+  still fails; a malformed record is refused and acknowledges nothing. Chain untouched: 955
+  links verify. `assert_intact()` passes; publishing unblocked. Net: 'an acknowledged shrink is
+  carried, still reported, and covers nothing beyond its name', watched red two ways.
+  Root cause (a probe redirecting half of ledger_guard's paths) was fixed on 2026-09-01 and the
+  helper now covers `ACKNOWLEDGED` too.
+
+- **[m62b — RESOLVED run #41] `silence.append_line` WAS NEVER ATOMIC ON THIS PLATFORM.** m62
+  landed `append_line` on 2026-08-24 reasoning that one `os.write` to an `O_APPEND` descriptor is
+  a single syscall. That is a POSIX guarantee; the Windows CRT implements `_O_APPEND` as
+  seek-then-write, so two processes seek to the same end offset and the second lands **on** the
+  first. **Measured: eight processes × 400 sub-page JSON rows — 3,200 expected, 2,496 arrived,
+  704 destroyed outright, 3 torn**, in `state/model_metrics.jsonl`, the ledger
+  `standards.ollama_token_flow` grades from. Second defect in the same call: no `O_BINARY`, so the
+  CRT rewrote every LF to CRLF (104,810 against 3 bare LF), meaning the "one syscall of exactly
+  these bytes" comment described bytes that were not written. **Fixed** with an OS-level exclusive
+  lock on a `<path>.applock` sidecar (`msvcrt.locking` / `fcntl.flock`, released by the OS on
+  close or process death) plus explicit `O_BINARY`; bounded and best-effort, so a metrics failure
+  still never costs a model call. Live ledger repaired: 104,807 rows kept, 2 unrecoverable torn
+  fragments dropped, endings normalised. **Why nothing caught it, which is the more important
+  half:** `verify_math` §19ag checks `append_line` by writing 50 rows *from one process*, and
+  tearing is by definition what happens when there are two — the hazard the function exists for is
+  the one thing its own check cannot produce, and it passed every run for eight days. Net:
+  drill.py "a shared ledger keeps EVERY row when six processes append at once", watched red
+  against the pre-fix function and green after. Order `7c9a1797d70e`.
+
+- **[m66 — RESOLVED run #41] THE APPEND-ONLY GATE WAS INERT AND PRINTED `ok` FOR A DAY.** Order
+  `fc7f5b371e6e`. `ledger_guard.seal()` flattens `handoff/HANDOFF.md` to `handoff__HANDOFF.md`;
+  `_read_snapshot()` did not, so it opened a path the writer never writes, got `FileNotFoundError`,
+  and `check_since_snapshot` read None as "nothing sealed yet" and answered True. Enforcement on
+  that file was dead from the moment it joined `APPEND_ONLY` on 2026-08-31 — on the ledger whose
+  own commentary records it having already lost 629 lines, and which gates `publish.push()`.
+  Fixed with a shared `_snapshot_path()` used by writer and reader. Verified by watching it
+  refuse: unchanged → ok, honest append → ok, truncation to half its lines → False naming the
+  loss. Netted for every name in `APPEND_ONLY`, not just the one that was dark.
+
+- **[m67 — RESOLVED run #41] `gpu_lane` COULD STRAND ITS OWN SLOT POOL.** Order `763b56061157`.
+  `_read()` answers None to both "no such file" and "will not parse"; the reclaim guard read
+  `if rec is not None and _expired(...)`, filtering out the corrupt case before asking — so
+  `_expired`'s own "unreadable/corrupt: reclaim rather than strand" line was unreachable from its
+  one call site, and `os.open(O_EXCL)` then skipped the file for ever. `MAX_SLOTS` such files put
+  every model call in every standing job behind a pool that can never refill. **The obvious fix is
+  worse than the fault** — a zero-byte slot is also what a slot looks like between `O_EXCL`
+  creating it and the `json.dump` landing, so reclaiming on unreadability alone hands one slot to
+  two callers and oversubscribes the card silently. Fixed with `_unreadable_and_stale()` using
+  mtime as the fallback heartbeat against the same lease. Net attacks **both** directions and was
+  watched red against each.
+
+#### From `### Major`
+
+- **[M27 — RESOLVED, run #31] NINE PLANT-WIDE HALT INTERLOCKS FAILED **OPEN** ON A MISSING
+  `escalation.py`, AND NOTHING WOULD HAVE SAID SO.** Found run #31 by batch 12, verified by
+  measurement across all eight jobs. Every entry point carried
+  `try: import escalation as _ESC; _ESC.assert_clear(...) except ImportError: pass` — nine sites
+  in eight modules (`dashboard`, `feats`, `foreman`, `overnight` ×2, `overwatch`, `pipeline`,
+  `publish`, `read`). If `escalation.py` were deleted, renamed, or left with a syntax error, the
+  entire chain of command switched off **in silence** and every job carried on as though the
+  library were running clear.
+  **This is Hard Rule -1's own incident, generalised.** That incident began with an autonomous
+  run deleting a safety it had concluded was unnecessary; the interlock meant to make such a
+  thing survivable was itself deletable without a sound. FAIL CLOSED is one of the three
+  non-negotiable properties, and this violated it in nine places at once.
+  **Measured, not argued.** A probe blocked the `escalation` import and entered each job's
+  `main()` in a fresh subprocess. **Before: 0 held, 8 BREACHED** — every job started, `dashboard`
+  went as far as serving. **After: 8 held, 8 refused** with
+  `REFUSING TO START: the escalation chain (src/escalation.py) could not be imported`.
+  Pinned by `verify_math` §20p, which scans all eight files for the swallow and for the refusal.
+
+- **[M28 — RESOLVED, run #31] THE DRILL THAT PROVES THE PROSE GATE COULD OPEN THE PROSE GATE.**
+  Found run #31 by batch 11, verified at source and by execution. `drill._gates_agree` compared
+  the two gate implementations by **writing five trial values of `prose_enabled` into the LIVE
+  `config.yaml`** with a bare `open(real, "w")`, then restoring the original in a `finally`.
+  Three faults, and the third is the one that matters:
+  1. `open(w)` truncates before it fills, so a reader in the gap saw an empty or half-written gate.
+  2. **The supervisor runs the drill every cycle**, so the window recurred every cycle.
+  3. `finally` does not run when a process is killed — and the foreman SIGTERMs stalled jobs as
+     routine (M15). A kill inside that window leaves the written value on disk permanently.
+  **Which value matters, and it was measured rather than assumed.** Of the five trial values,
+  four (`"false"`, `"true"`, `1`, `"no"`) are refused by the strict gate, because a quoted string
+  is not `True`. The fifth, **`yes`, parses to boolean `True`** — so a kill in that one-in-five
+  window leaves `prose_enabled: true` on disk and **the prose gate genuinely OPEN**, with nobody
+  informed. The incident that gate exists to prevent is 145 unauthorised chapters.
+  **Fixed without a disk write at all**: `prose_gate.gate_open` already took a `cfg` mapping;
+  `overnight._prose_enabled` now takes one too (additive, mirrors its sibling exactly), so both
+  layers are asked about the same in-memory dict. New drill net
+  `and proving that never writes the owner's gate` reads config.yaml's bytes either side of the
+  comparison and requires them identical. Pinned by `verify_math` §20p, **asked of the AST** —
+  the first draft matched source text and went red against a docstring quoting the removed code.
+
+- **[M29 — RESOLVED, run #31] `publish.py` RETURNED EXIT CODE 0 WHEN THE CREDENTIAL SCANNER
+  REFUSED THE PUSH.** Found run #31 by batch 14, verified at source. `main()`'s `except Exception`
+  caught every failure the publish loop can have — including `push()`'s own
+  `RuntimeError("PUBLISH REFUSED: ...")`, raised when the pre-push scanner finds a credential-
+  shaped value staged for the **public** repo — printed a line, and then `return 0` on the
+  one-shot path. **A refused publish reported success to its caller, and that caller is every
+  maintenance run's final step.** The scanner did exactly its job on 2026-08-25 at 12:04
+  (`SECRET_IN_EXPORT`, two hits) and the exit code said nothing. Now tracks `rc` and returns it;
+  the `--loop` daemon still keeps retrying, which is correct for a daemon. Pinned by §20p.
+
+- **[M30 — RESOLVED, run #31] A DRILL NET RAISED AN OWNER HALT ON A COINCIDENCE, AND STOPPED THE
+  WHOLE LIBRARY.** The net `the live colliding pairs get separate verdicts` compared
+  `coverage.state_of()` for two name pairs that sanitise to one filename, and failed when the two
+  answers were **equal** and not `NO PAGE` — inferring "these share one document" from "these
+  report the same numbers". The state is a 3-tuple of small integers, so equality is ordinary
+  coincidence. **Measured live:** `Ten Towns` and `Ten-Towns` on `forgottenrealms.fandom.com`
+  both read `('READ', 0, 1)` while loading **two different files** —
+  `Ten_Towns__e84ad6558f.json` (entity `Ten Towns`) and `Ten_Towns.json` (entity `Ten-Towns`).
+  That is the M23 disambiguation working exactly as designed, and the net halted the library over
+  it at 12:33. An alarm that sounds when nothing is wrong is furniture, not a safety.
+  **Repaired by making it stricter about the right thing, never quieter**: it now asks for FILE
+  IDENTITY and OWNERSHIP — two names must resolve to two documents, and each document must carry
+  its own `entity` — neither of which a coincidence can satisfy. A companion net
+  `and a real collision would still be refused` stages the pre-M23 world in a scratch tree and
+  requires `load` to refuse to hand one entity's file to the other, so the loosening did not
+  create a check that cannot fail. Drill: **113 nets, 113 held.**
+
+- **[M31 — RESOLVED, run #31] THE SWEEP'S OWN COMPLETENESS PROOF WAS FROZEN ON RUN #29, BY A
+  HARDCODED LITERAL.** `verify_math`'s `the live sweep proves its own completeness` called
+  `sweep_plan.missing("run29")` — a run label written into the source. From run #30 onward it
+  answered a question about a sweep that had already finished: **no later sweep could move it**,
+  complete or skipped alike. It sat red through run #30 and half of #31 naming eight modules as
+  unaudited while the agents that read them were filing their reports.
+  **This is the third spelling of the same defect in three consecutive runs** — #28 found
+  `record()` losing an update, #29 found `missing()` asking *"was run N the LAST to read X?"*
+  instead of *"did run N read X?"*, and this is the instrument frozen on a past run. Standing
+  lesson 25 keeps being right: the sweep audits the sweep, and that is where the best finding
+  keeps being. New `sweep_plan.latest_run()` reads the newest shard and returns **None** when
+  nothing has ever swept, so the check FAILS rather than proving the completeness of a sweep that
+  never ran.
+
+- **[M32 — RESOLVED, run #31] THE SWEEP'S IMPORT TIER CALLED EIGHT JOBS BROKEN FOR OBEYING THE
+  HALT — AND WAS BLIND TO ITS OWN CORRUPTION GUARD.** Found run #31 by running the battery under
+  a live halt, converging with batch 15's independent reading of the same function.
+  `allsweep.check_import` runs each module with `--help` and separates "no CLI" from "cannot
+  import" by looking for the word `Traceback` in stderr. Two failures, opposite directions:
+  * With a halt standing, every job raises `SystemHalted` **on purpose**, which prints a
+    traceback — so allsweep reported **"8 subsystem(s) in a bad state"** over eight subsystems
+    doing precisely what they are built to do. This is the owner's own lesson of 2026-08-25 (*a
+    safety that stops work must be told apart from a fault that stops work*), which was applied
+    to `overnight.py` as M26 and **never carried to this file** — run #26's theme exactly.
+  * In the other direction, `if "Traceback" not in stderr: ok = True` graded **anything dying via
+    `raise SystemExit(msg)`** as importing cleanly — and every module in this tree carries a
+    `_BAD_CHARS` guard that raises exactly that way when a regex escape is eaten in transit. The
+    import tier could not see the project's oldest enemy.
+  Both fixed and both watched: the eight halt refusals now read `refused: the library is halted
+  (obeying the interlock)`, and a scratch module raising `SystemExit` is now **caught** where it
+  was previously graded green. Pinned by §20p, including a check that the sentence allsweep
+  matches on is the sentence `escalation.assert_clear` actually raises.
+
+- **[M33 — RESOLVED, run #31] `retry_synthesis` RE-SCORED FAILED SOURCES BY A WEAKER METHOD THAN
+  THEIR NEIGHBOURS, UNDER A DOCSTRING PROMISING IT DID NOT.** Found run #31 by batch 08,
+  re-confirming batch 03's earlier reading; verified at source. `synthesise()` built
+  `sorted(rec["entries"], key=-len(description))[:14]` — a single rank-then-truncate block that
+  **never consulted a mined feat** — while its docstring claimed *"byte-identical prompt
+  construction to phase_synthesis"*. `phase_synthesis` had been rewritten away from exactly that
+  construction under the owner's m13 ruling of 2026-08-24 (*FIX IT ALL*): every feat-bearing
+  entry nominated, fourteen per call, best band across blocks winning.
+  So the module whose entire purpose is rescuing sources that failed for an **infrastructure**
+  reason scored them by the method the library had already rejected — Hard-Rule-0-shaped, since a
+  source's true ceiling could rank fifteenth and fall outside the window while the run reported
+  success. **Fixed at the root rather than copied across**: the block rule and the prompt text now
+  live once, in `pipeline.synthesis_blocks` / `pipeline.synthesis_prompt`, and both callers read
+  them — because copying a fix is how m138/m139 happened. `save_side()` also moved off its
+  hand-rolled fixed-name tmp onto `silence.write_json`.
+
+#### From `### Minor-but-new (run #26 — the fifth whole-tree sweep)`
+
+- **[m138 — MAJOR, RESOLVED] THE UNRECOGNISED LEDGER COULD NOT TELL CASE FROM MEANING, SO ONE
+  FAULT HELD TWO PERMANENT ROWS.** `every pool failure is recognised` was red. The ledger held
+  eight buckets each carrying `Every model in this pool is rate limited or unconfigured.` AND the
+  same sentence lowercased, as separate rows with separate counts. Root cause:
+  `cascade_bridge.py:873` did `err = (box.get("error") or "").lower()` while
+  `record_unrecognised` keyed on `bucket + "|" + text[:80]` — de-duplication on EXACT text — so a
+  change that started folding split every pre-existing row from its own successor.
+  **This is m132 one letter over.** m132 named the two engine wordings for "answered with
+  nothing" and stopped; the thing that needed fixing was the KEY, not the vocabulary. The key now
+  folds (`text[:80].lower()`) and the recorded text does not. Folding the text was separately
+  lossy: `record_unrecognised`'s whole premise is "enough text to classify it", and a provider's
+  complaint carries case-bearing `request_id` and `org_01KYDH…` identifiers a maintenance run may
+  have to quote back to the provider. `raw` and `err` are now two variables with two jobs.
+  Verified: two rows differing only in case now merge to one row with count 2, text verbatim.
+  Pinned by `verify_math` §22 (two checks).
+
+- **[m139 — MAJOR, RESOLVED] `endpoint.register()` OVERWROTE THE REGISTRY IT COULD NOT READ.**
+  `except Exception: d = {}` followed by a whole-file write, so ANY read failure — a torn file
+  from a concurrent writer (no lock, and the temp name was fixed so writers collided on it), a
+  Norton object-lock, a truncated tail — silently republished `SOURCE_PAGES.json` holding ONE
+  source and **erased every other source's registered pages**. Nothing restored them;
+  `source_pages()` would answer "none" for ever after, and a source with no wiki and no
+  registered pages is uncitable. **This is run #24's lesson 10 in a second file** — `write_record`
+  overwriting the disk copy it could not read, same sentence, different module. Absent (write
+  `{}`, correct) and unreadable (know nothing, refuse) are now distinguished, and the write goes
+  through `silence.write_json`.
+
+- **[m140/m141 — MAJOR, RESOLVED] `backfill.roster()` STOPPED LOOKING AT ≥40, AND CALLED A
+  TIMED-OUT WALK COMPLETE.** Two faults in one function, in the module whose entire purpose is
+  repairing missing casts.
+  - `if len(out) < 40:` gated the subcategory walk, so a wiki with 40 characters at the top level
+    and 6,000 under "Villains"/"Heroes"/"Kryptonians" returned the 40 and reported a complete
+    roster. A Hard Rule 0 cap wearing a threshold's clothing. **The inner `< 12` cap on the same
+    walk had already been found and fixed; the fix stopped one line short of the decision to loop
+    at all.** `seen` already de-duplicates, so walking unconditionally changes no result.
+  - `members()` did `d = F.api(host, q); if not d: return rows` — and `api()` answers `None` for a
+    timeout and for an absent page alike (open bug M16). A network failure mid-pagination returned
+    a roster stopping wherever the network died, unmarked, which `backfill_source` then wrote as
+    the source's complete cast. Now raises `RosterIncomplete`, a named class; the caller already
+    catches per source and prints the exception class, so the cost is one source's pass instead of
+    that source's missing characters, permanently.
+
+- **[m144 — MAJOR, RESOLVED] THE ONE MEMBER OF THE `shared_sample` FAMILY NEVER BROUGHT IN LINE.**
+  `cosmology_graph.py:86` did `if len(pair_shared[p]) < 8: pair_shared[p].append(name)`.
+  `weave.py:478` and `pipeline.py:1795` write the same key and **both carry the comment `# WHOLE
+  list -- Hard Rule 0, ruled 2026-08-24`**. `resonance.py:146` reads `shared_sample` back as the
+  pair's actual shared evidence, so a ninth shared entity did not exist to anything downstream.
+  Cap removed, key name kept exactly as the siblings keep it.
+
+- **[m145 — MINOR, RESOLVED] `catalogue_models.py:146` CAPPED THE FIELD YOU READ TO FIX THE
+  STANDARD.** `available_sample: r["models"][:8]`, persisted, in the record a person consults to
+  replace a retired model name — while `model IDs their providers still serve` sits red at 8
+  stale. If the provider's ninth model was the right substitute, nothing could see it.
+
+- **[m146 — MAJOR, RESOLVED] THE FOREMAN SAID "REVERTED" WHEN THE REVERT HAD ALSO FAILED, ON LIVE
+  SOURCE CODE.** `attempt_patch`'s outer handler tried `shutil.copy2(backup, path)`, swallowed a
+  failure via `silence.note`, and returned `{"why": f"reverted after {type(e).__name__}"}`
+  regardless. The worst place in the tree for an optimistic report: the file it could not restore
+  holds a model's unverified patch, the round prints a line saying the patch was rolled back, and
+  the next importer gets the patch. Now returns `reverted: False` and names the backup path to
+  restore by hand.
+
+- **[m147 — MAJOR, RESOLVED] THE MODEL-PATCH LANE ATTEMPTED THE TOP THREE FINDINGS FOR EVER.**
+  `sorted(open_f, ...)[:3]` with no rotation, so the fourth-ranked open finding was never
+  attempted in any round while three stayed open. Hard Rule 0's shape, and the same shape the
+  owner abolished in the sweep rotation on 2026-08-25. Ranking survives (high severity first);
+  the truncation does not. Each attempt now prints `(i/n)` so a long round announces itself rather
+  than going silent and looking wedged to `kill_stalled_job` — saying what is happening, not
+  weakening the detector, which is run #25's remedy pattern.
+
+- **[m148/m149 — MAJOR, RESOLVED] THE MOVEMENT PANEL COULD NOT REPAIR ITSELF, AND READ A FALLING
+  COUNTER AS PROGRESS.** `silent:dashboard.py:movement:JSONDecodeError` stood at **82 and
+  climbing**.
+  - The history read and write shared one `try`, so a torn `HISTORY` file threw on `json.load`,
+    **skipped the write that would have replaced it**, and returned `[]` — which the panel renders
+    as the cheerful "No history yet". Every five-second poll re-threw on the same bytes, so the
+    only code that writes the file could never repair it, and the one instrument that can see
+    "every counter flat while every job is up" was dark while reporting that it was merely new.
+    The load is now isolated and the file self-heals.
+  - `stalled` tested `delta == 0`, so a **negative** delta counted as movement. The page showed
+    `chunks` at **−3689** with `stalled: false`. Cause is benign — `read.py`'s `done["chunks"]` is
+    an in-process counter reset on launch and never persisted, so a reader restart makes the total
+    fall — but the reporting was not: a restart READ AS MOVEMENT, which is exactly the condition
+    `the library's counters are moving` exists to catch, so a restart could mask a real stall. Now
+    carries an explicit `reset` flag; the delta stays honest.
+
+- **[m150/m151/m152/m153 — RESOLVED] FOUR WRITES THE ATOMIC-WRITE SWEEPS MISSED.**
+  - `sweep.py:233` truncate-then-filled `CHARACTER_SWEEP.json` while `hostcheck.py`,
+    `magnitude.py` and `standards.py` read it live and unguarded — a half-written file parses as a
+    shorter cast list rather than failing. The standard `the character sweep is newer than the
+    catalogue` is red at 2.4h behind.
+  - `rosetta.py:364,377` wrote `ROSETTA.json` with a bare `open(...,"w")` in both `--mine` and the
+    **destructive** `--refine`. `scout.py`, `grounding.py` and `coverage.py` each carry a comment
+    naming the 2026-08-25 sweep that fixed this exact pattern; `rosetta.py` already imported
+    `silence` and never used it.
+  - `chain.py:115,191` built `OUT + ".tmp"` and `HARVEST_IDX + ".tmp"` — the renames were already
+    atomic and verdict-checked, but the temp NAMES were not unique, and `write_result` has two
+    documented concurrent callers (`chain.main`, `pipeline.phase_chain`). That is the collision
+    m100 closed at twelve sites; these two were missed.
+  - `hosts.add()` did a bare read-modify-write plus `os.replace` on shared `SOURCE_HOSTS` extras,
+    where an uncaught `PermissionError` took `discover()` down mid-walk. It also returned `False`
+    for a denied write and for a duplicate host alike — **a lost host looked like a known one.**
+
+- **[m154 — MAJOR, RESOLVED] CANDIDATE HOSTS WERE SCORED AGAINST AN ALPHABETICAL FIRST FORTY.**
+  `hosts.py:143` `names = list(by.get(source) or [])[:40]`, undocumented. This roster is the
+  evidence a candidate host is judged by, so a wiki holding the back half of a cast could not be
+  told from one holding none of it — the CLAUDE.md canonical violation applied to the decision of
+  where a source lives.
+
+- **[m155 — MAJOR, RESOLVED] `anchors.py` COMPUTED ITS INVARIANT, PRINTED IT, AND EXITED 0.**
+  `ok` was calculated, displayed, and discarded; `__main__` called `run()` and returned success
+  whatever it said. `allsweep` lists this module under "the instrument" and judges it by exit
+  code, so a violated floor→ceiling ordering read to every automated caller as a clean instrument.
+  Lesson 9, in the one script whose whole job is to fail when the assay drifts; `audit.py` gets it
+  right one file over. **It exits 1 today** — see the open owner question below.
+
+- **[m156 — MAJOR, RESOLVED] `allsweep` RAN FOUR TIERS AND GRADED TWO.** `lint_bad` was computed,
+  printed and dropped, so a real pyflakes undefined-name anywhere in `src/` left the integrity
+  suite exiting 0 — and `ALLSWEEP.json` had no `lint` key at all, so nothing could even read it
+  back. That includes the line `lint_bad` appends when pyflakes itself will not run: **the tier
+  announces it is BLIND, and being blind scored identically to being clean.** LINT now counts and
+  is persisted. RECONCILE deliberately still does not — see the reverted change in HANDOFF and
+  NEXT_STEPS §2.
+
+- **[m157 — MAJOR, RESOLVED] `retry_synthesis.do_merge()` WROTE RECORDS BEHIND THE TWO-WRITER
+  CONTRACT.** A bare temp plus `os.replace` straight onto `data/records/*.json`, bypassing
+  `pipeline.write_record` and therefore verify_math §18c's whole subject. Not merely procedural:
+  `write_record` re-reads and MERGES precisely so a stale in-memory copy cannot be published over
+  a fresher disk one, and this loop holds a `rec` taken before an unbounded number of model calls
+  — so on a source re-catalogued meanwhile it wrote the OLD entry list back whole, which is the
+  30,207-entries-to-1,051 revert `write_record`'s docstring names. The docstring's "run ONLY when
+  the pipeline is stopped" was a convention nothing enforced.
+
+- **[m158 — MINOR, RESOLVED] THE ONE RECORDER WHOSE OWN FAILURE WAS INVISIBLE.**
+  `record_unrecognised`'s outer `except: pass` never called `silence.note`, so the function built
+  to make failures visible was the single place whose failure left no mark anywhere — the ledger
+  could quietly stop recording and the page would read "none".
+
+- **[m159 — MAJOR, RESOLVED] THE `or True` DISARM GUARD MATCHED ONLY THE SINGLE-LINE SPELLING.**
+  §20i's needle is assembled at runtime to avoid matching its own source — correct, and not
+  enough. It searched the raw file text for a one-line spelling, while this file wraps the boolean
+  expression and the `True,` want-argument onto separate lines in dozens of checks (2201-2202,
+  2219-2220, 2911-2912, 3878-3879 among them). Disarming any of those was invisible to the one
+  guard whose entire purpose is to notice it — **lesson 12 inside the file that exists to fail.**
+  Now whitespace-normalised, with two alternate spellings, and — the part that matters — **the
+  guard is now exercised rather than declared**: two new checks feed it a disarmed check in the
+  wrapped spelling and require it to SEE that, then require it to leave an ordinary wrapped check
+  alone. Asserting that a detector says False over a clean file proves nothing; it read green for
+  nine runs doing exactly that.
+
+#### From `### Minor-but-new (run #25 — the fourth whole-tree sweep)`
+
+- **[m126 — MAJOR, RESOLVED IN THIS RUN] THE ONLY UNGUARDED SUBPROCESS SPAWN IN THE TREE WAS
+  INSIDE `verify_math.py` ITSELF.** `verify_math.py:3034` spawned a real child on every run of
+  the suite with no `creationflags`, popping a console window on the owner's desktop — a direct
+  violation of the absolute no-console-windows rule. The suite runs from the foreman's patch
+  lane, from allsweep and from every maintenance pass, so this fired several times an hour.
+  Fixed with `CREATE_NO_WINDOW`, the same idiom the other 25 spawn sites use.
+
+- **[m127 — MAJOR, RESOLVED IN THIS RUN] AND THE CHECK THAT FORBIDS EXACTLY THAT COULD NOT SEE
+  IT.** §20e walks the AST rather than grepping, on purpose, and its comment argues the point
+  well: *"a count is not a guarantee, so this check does not count — it PARSES."* It then
+  identified the module with a literal string comparison, `_f20e.value.id == "subprocess"`.
+  `verify_math.py` does `import subprocess as _sp20a` and spawns through that alias, so the
+  check was structurally blind to the one violation in the tree — **and to the file it was
+  written in.** Widened to resolve import aliases and `from subprocess import ...` names, which
+  immediately surfaced **two further real violations**, both in `standards.py` via the same
+  `import subprocess as _sp` idiom:
+  - `standards.py:130` — a `tasklist` call.
+  - `standards.py:1109` — a **PowerShell** call.
+  `standards.check()` is what the dashboard polls every five seconds and what the foreman runs
+  every round, so these two were popping windows continuously under a green check. Both fixed.
+  Pinned by `verify_math` §20j, which now asserts the scan resolves aliases *and* from-imports.
+
+- **[m128 — MAJOR / SECURITY-ADJACENT, RESOLVED IN THIS RUN] THE FOURTH BYPASS OF THE LOCAL
+  MODEL'S WRITE GATE.** m113 case-folded the denylist. But `t_propose_patch` still derived
+  `modname` through a **case-sensitive** `full.endswith(".py")`, so `src/foreman.PY` — the same
+  file on NTFS, passing `os.path.isfile` — yielded `modname = None`, the folded denylist was
+  never consulted, `DENYLIST_PATHS` holds only `config.yaml` so nothing caught it on the path
+  side, and `_gates()` skipped the parse, lint and import checks for the same reason, leaving
+  only the whole-suite `verify_math` run. **8 of 28 adversarial candidates ADMITTED**,
+  reproduced before fixing, covering `foreman`, `silence`, `standards`, `verify_math` and
+  `local_agent`. The extension test is now folded at all three sites. Verified: all 8 denied,
+  the three earlier bypasses still denied, and `src/tells.py` still patchable. §20j pins all of
+  it. *(8.3 short names are disabled on this volume, confirmed with `dir /x`; symlink variants
+  were reasoned but not testable — none exist.)*
+
+- **[m129 — MAJOR, RESOLVED IN THIS RUN] THE CATALOGUE WAS NEVER ALLOWED TO FINISH, WHICH IS WHY
+  `every source is fully catalogued` SAT AT 17.2% WITH ITS BIGGEST SOURCES WORST.** DC 0.5%,
+  Thomas 1.2%, SpongeBob 1.7% — starvation's shape, not slowness'. The loop:
+  `--recatalogue --shortfall` orders work **largest gap first** and runs **three at once** (its
+  own comment: *"puts DC, Gundam and SpongeBob in flight together"*), so every pass opens with
+  the three biggest wikis → `catalogue()` printed **nothing** between the `wiki:` line and the
+  completion of a whole canonical class → **MEASURED live: DC's `Persons` class is 360
+  categories, the first listing 33,614 titles in 23.1s and taking ~3.8 min just to rank**, one
+  of 360, in one class of 7 → `MAX_JOB_SILENCE_MIN` is 15 → `kill_stalled_job` kills it as
+  wedged → `catalogue_web.py --recatalogue` is **not** in `STANDING`, so nothing restarts it
+  until the supervisor's main lap. **Killed three times in the visible foreman log alone.** A
+  sweep agent independently found DC's record still at exactly **377 entries, the old
+  `MAX_PER_SOURCE=320`-era number**; this is why.
+  **Note the irony:** removing the caps to obey Hard Rule 0 (`limit=None`, `top=None`, *"rank,
+  never truncate"*) is what made the job slow enough to look dead. The detector was never told.
+  **Fixed by saying what is happening, not by weakening the detector:** progress is emitted on
+  every **completed unit of work** (categories listed, ranking batches returned, pages fetched),
+  rate-limited to one line per 20s via `PROGRESS_EVERY_S`. `wiki_source.page_texts` and
+  `rank_by_size` gained an additive `progress=` callback for the two longest silent stretches.
+  **A wedged fetch completes nothing, so it still goes silent and is still killed.** Verified
+  live against DC and then in the real job. §20j pins the cadence against the stall threshold.
+
+- **[m130 — MAJOR, RESOLVED IN THIS RUN] `backfill.py` USED THE WRONG SIDE OF THE TWO-WRITER
+  CONTRACT AND SO DISCARDED EVERY CHARACTER IT ADDED.** It appends missing characters to
+  `r["entries"]` — its copy is the fresh authority — then called `pipeline.write_record`, which
+  is documented to keep the **DISK** entry list on drift because the *pipeline's* copy is the
+  stale side. The append itself guarantees a differing entry count, so drift was detected on
+  exactly the runs that had done work, the merge took disk as the base, and the additions were
+  dropped. A run that found nothing missing wrote correctly, so it never looked broken — **the
+  module's entire purpose was defeated on every run that had something to do.** Reproduced by
+  the sweep. Now `write_record_catalogue`, gated on the return; a denied write reports
+  `added: 0` rather than a phantom count.
+
+- **[m131 — RESOLVED IN THIS RUN] FOUR MORE CALLERS MARKED WORK DONE WITHOUT CHECKING WHETHER
+  THE WRITE LANDED.** Run #24 made both record writers refuse and return `False`; this is the
+  other half of that contract.
+  - `catalogue_aurora.py:143-146` and `catalogue_codex.py:194-197` — called
+    `write_record_catalogue`, discarded the verdict, then set `status = "catalogued"` with a
+    real `entry_count`. Work selection is `entry_count == 0`, so a source so marked is **never
+    revisited**: a denied write left the roll confidently claiming a record that is not on disk,
+    permanently. `catalogue_web.py` already gates this identical call with a comment explaining
+    exactly why; its siblings did not.
+  - `recover_folder_records.py:149-151` — same shape through `silence.write_json`.
+  - `repass_bands.py:78-80` — ignored `write_record`'s verdict and printed "APPLIED. N
+    rewritten" for files it never touched. Reproduced against a torn file.
+  All four now gated and loud. **This is four of the 32 `write_json` call sites that ignore the
+  return tree-wide — the four that then marked work as done. The rest are in NEXT_STEPS §3.**
+
+- **[m132 — RESOLVED IN THIS RUN] THE POOL HAD NO NAME FOR "THE PROVIDER ANSWERED WITH
+  NOTHING", AND SAID IT TWO WAYS.** Ruling 3 puts the unrecognised ledger first, so it was read
+  first: **13 rows against a handed-over baseline of 12**, and the extra was a genuinely new
+  shape — `groq:groq/compound-mini: no answer text produced`, a string that appears nowhere in
+  `src/`. Traced to Cascade's `engine.py:343`; its sibling `empty response` comes from
+  `engine.py:277`. **One fault, two wordings, and `record_unrecognised` de-duplicates on exact
+  text — so two permanent rows.** No predicate could name either.
+  Named as `cascade_bridge.empty_content`, matched **exactly** (`err.strip().lower() in (...)`),
+  never as a substring: a loose `"empty" in err` would turn naming a fault into a way of not
+  seeing faults, which is the one thing this ledger exists to prevent. Verified narrow —
+  `"empty response but the router also lost the pin"` is still an unknown. **Naming does not
+  bench**, exactly as `named_transient` does not; whether an empty completion should cost a
+  cooldown is the owner's open routing question. **13 rows → 12**, all now the single
+  deliberately-loud `All 1 candidates failed` shape.
+  *Also fixed while in there:* §20i's ledger fixture used `"empty response"` as *the genuine
+  unknown that must survive*, so naming the class made that check fail — correctly. The fixture
+  now carries a real unknown **and** two rows of the newly-named class, so it still asserts both
+  halves. Naming a fault must never quietly delete the assertion that unnamed faults stay visible.
+
+#### From `### Minor-but-new (run #24 — the third whole-tree sweep)`
+
+- **[m118 — MAJOR, RESOLVED IN THIS RUN] THE UNRECOGNISED LEDGER NEVER RE-ASKED ITS OWN
+  QUESTION.** Ruling 3 makes the pool ledger the first job, so it was read first: **48 open rows**,
+  up from the 11 run #23 left, which looked like m109 regressing. It was not.
+  **"Unrecognised" is a statement about the CURRENT classifier, and nothing re-evaluated it.**
+  `unrecognised_open()` aged rows at 24h but never re-triaged, so every row written before a
+  classifier improvement stayed open forever — inside the window, red, unactionable. Measured:
+  **36 of 48 were throttles `named_transient`/`pool_exhausted` already understood**, burying the
+  one genuine unknown (`groq/compound-mini: empty response`) thirty-six rows deep.
+  **Fix:** filter on READ, using the same predicates the write side uses. Doing it on the read
+  side also makes the verdict independent of which process wrote the row and which classifier
+  version it had imported — `feats.py --roll` has been up since 19:03 the previous day with a
+  pre-m109 bridge, and a write-side-only fix would have left it refilling the ledger for hours.
+  **48 rows → 12**, of which 11 are the deliberately-loud `All 1 candidates failed` shape and 1
+  is the genuine unknown. Pinned by `verify_math` §20i.
+  *Not a bug, confirmed while in there:* the case-duplicated rows (`Every model…` beside
+  `every model…`) are m108→m109 fossils, not two writers — `cascade_bridge.py:822` lowercases
+  `err` before recording, so today's writes are uniformly lowercase.
+
+- **[m119 — MAJOR, RESOLVED IN THIS RUN] `write_record` OVERWROTE WHAT IT COULD NOT READ.**
+  `merged = rec` initialises to the **stale in-memory copy** and only becomes the disk-merged
+  version if the read succeeds. The `except Exception` swallowed the error and **fell through
+  into the write**, putting the pipeline's hours-old copy over the disk file whole — the exact
+  30,207-to-1,051 revert the docstring says the function was written to stop, performed by the
+  guard. **The trigger is the condition the merge exists for:** the read fails most readily when
+  the other writer is mid-write, because a torn or momentarily-empty file is a `JSONDecodeError`.
+  **Fix:** refuse and return `False`, which is this module's own idiom — `_landed()` already
+  argues a writer must SAY when it did not land so the caller leaves its unit open. Pinned by §20i.
+
+- **[m120 — MAJOR, RESOLVED IN THIS RUN] `write_record_catalogue`, THE SAME FALL-THROUGH POINTING
+  THE OTHER WAY.** Here `rec` is the authority for the entry list, so a swallowed read does not
+  revert the cast — it does something quieter and just as permanent. The merge is what carries
+  the disk copy's per-entry judgments forward and re-appends disk-only entries; skipping it
+  **drops every disk-only entry and blanks every judgment already made**, one screen below a
+  docstring promising "a merge never shrinks a cast". Same remedy. Pinned by §20i.
+
+- **[m121 — MAJOR / SECURITY-ADJACENT, RESOLVED IN THIS RUN] THE LOCAL MODEL'S WRITE GATE, A
+  THIRD ROAD IN: AN NTFS ALTERNATE DATA STREAM.** After m113 (case) and m114 (name prefix),
+  `src/foreman.py::$DATA` is the **same bytes** as the denied file — `os.path.isfile` says True
+  and the write lands in the real module — but the string does not end in `.py`, so `modname`
+  came out `None`, the module denylist could not match, and `DENYLIST_PATHS` was tested against a
+  name (`foreman.py::$DATA`) not in it either. **Reproduced on this machine before fixing.** For
+  `health`, `allsweep`, `estate` and `local_agent` the loss was total: `verify_math` does not
+  import those, so the parse/lint/import gates had nothing to say about them either.
+  **Fix in `_safe()`**, which every tool funnels through, and reframed — the test is no longer
+  "does this name look denied" but **"is this a plain name at all"**: a colon anywhere past the
+  drive letter is refused. Trailing dots and spaces turn out to be normalised away by `abspath`
+  before the denylist sees them, so `src/foreman.py.` correctly yields `modname == "foreman"` and
+  is denied on the ordinary path — asserted too, so it cannot silently stop being true. Verified
+  not to over-block (`src/tells.py` still patchable). Pinned by §20i.
+
+- **[m122 — MAJOR, RESOLVED IN THIS RUN] A CHECK DISARMED WITH AN ALWAYS-TRUE DISJUNCT, IN THE
+  FILE THAT EXISTS TO FAIL.** `verify_math.py:3086` read
+  `"import overnight" in _fm19._restart_horizon.__doc__ or True`. The docstring says "STANDING is
+  imported rather than copied" and has never contained that literal, so the assertion was
+  **false** — and instead of correcting it, an always-true disjunct had been added, with a note
+  conceding the real assertion was the two checks above. Now asserts against the **function
+  body**, which genuinely does `import overnight` and reads `_ON.STANDING`. A self-check that no
+  other check carries an always-true disjunct is pinned beside it — its needle assembled at
+  runtime, because as a literal it matched its own source line and failed forever, which is the
+  self-referential form of the bug it hunts.
+
+- **[m123 — MAJOR, RESOLVED IN THIS RUN] THE SUITE COULD BE SILENCED BY THE DEFECT IT WAS POINTED
+  AT.** `check()`'s float branch did `abs(got - want)` with no type guard. A non-numeric `got` —
+  the commonest way for code under test to be broken — raised `TypeError`, and **nothing wraps
+  this script**, so it escaped the whole run: every check after that point never executed and the
+  `RESULT` line never printed. A suite that reports nothing resembles a suite still running.
+  Now recorded as a failed check. Deliberately narrow: `bool` is an `int` subclass, so
+  bool-against-float keeps its old arithmetic verdict and **no previously-passing check changes
+  its answer** — confirmed against the 682-check baseline before the new section was added.
+
+- **[m124 — MINOR, RESOLVED IN THIS RUN] THE TEST HARNESS FILED ITS OWN PASSES AS PRODUCTION
+  FAULTS.** `_raises()` called `silence.note("verify_math.py:47")` on every **expected**
+  test-triggered exception, flowing into `state/failures.json` — the ledger the dashboard polls
+  and `standards` reads — where the "unexpected swallowed failures" standard counted them as
+  genuine unrecognised production faults, the probe key not being in its allowlist. **87 rows had
+  accumulated** (29 `ContextOverflow`, 58 `ValueError`) from that one line. The exception IS the
+  expected result there, and this file already adopts exactly that exemption elsewhere.
+
+#### From `### Minor-but-new (run #23 — the second whole-tree sweep)`
+
+- **[m109 — MAJOR, RESOLVED IN THIS RUN] THE UNRECOGNISED-FAILURE LEDGER HELD 122 KNOWN FAILURES
+  AND ONE UNKNOWN, BECAUSE THE CLASSIFIER HAD NO WORD FOR "BUSY".** Ruling 3 makes this the run's
+  first job, so the ledger was read first: **44 open rows, 122 occurrences, exactly one genuine
+  unknown** (`groq:groq/compound-mini: empty response`). Everything else was an ordinary throttle.
+  **Root cause:** `_ask_call`'s classification was binary — `permanent_words` → 4h bench, else
+  `record_unrecognised()`. There was no transient branch at all, so `Rate limit exceeded`, `429`,
+  `tokens per day (tpd): limit 200000` and Cohere's trial-key cap were all filed as mysteries.
+  m108 was a classifier that could never match; this is one that matched everything, and both
+  produce a page nobody can read.
+  **Fix:** `cascade_bridge.named_transient()` — phrase-matched, word-bounded on numeric codes,
+  checked AFTER the permanent classifier so a billing complaint that also says "try again" is
+  still benched. **Nothing is hidden:** a throttle is already counted in the throughput panel and
+  as `usage.outcome='rate_limited'` in Cascade's `usage` table, which is where `model calls per
+  hour` reads from. **44 rows → 11.** Pinned by `verify_math` §20h.
+
+- **[m110 — MAJOR, RESOLVED IN THIS RUN] THE m108 UNWRAP DESTROYED THE ONE FACT THE CLASSIFIER
+  NEEDED, AND COULD BENCH A BUCKET ON A NEIGHBOUR'S EVIDENCE.** Of the 23 rows surviving m109,
+  **15 named more than one candidate** (`All 11 candidates failed: ...`). For those,
+  `provider_error(pinned.bucket)` **cannot work by construction** — it reads the pinned bucket's
+  row, but a multi-candidate call is not necessarily an attempt on the pinned bucket. Proven from
+  the ledger itself: pin `groq:openai/gpt-oss-20b` against candidate label `Llama 3.3 70B (Groq)`.
+  **Fix, part one:** `pool_exhausted()` recognises a multi-candidate aggregate as a statement
+  about pool CAPACITY, not an unnameable provider fault. `All 1 candidates failed` deliberately
+  stays unrecognised — pin and attempt agree there, and that row shape is what exposed m108.
+  **Fix, part two, found by the sweep agent auditing this same session's code:** `pool_exhausted`
+  was being evaluated AFTER the unwrap, which destroys the text it reads — and worse, the unwrap
+  could pull a neighbouring bucket's `insufficient balance` into an aggregate and hand this bucket
+  a **four-hour bench for a call that failed because the pool was empty**. That is m103's harm
+  (shrinking the binding constraint) reached by a new road. Now decided on the RAW text before the
+  unwrap; a multi-candidate aggregate can never drive a bench. The same agent objected to
+  `"connection"` and `"capacity"` as bare substrings — `invalid connection string` is a config
+  fault, not a throttle — both are now phrases. Pinned by §20h.
+
+- **[m111 — MINOR, RESOLVED IN THIS RUN] `record_unrecognised()` USED THE PATTERN m100 RETIRED, IN
+  CODE WRITTEN THE SAME SESSION AS m100.** Hand-rolled `UNRECOGNISED + ".tmp"` + `replace_retry`.
+  `_UNREC_LOCK` is a `threading.Lock`, so it orders writers inside ONE process — but this file is
+  written from every process importing `cascade_bridge` (read, pipeline, feats, overwatch), and
+  those collide on the temp file itself. Converted to `silence.write_json`.
+
+- **[m112 — MAJOR, RESOLVED IN THIS RUN] A HIGH-SEVERITY STANDARD READ GREEN OFF A FIFTY-EIGHT-
+  HOUR-OLD SNAPSHOT.** `model IDs their providers still serve` did
+  `len(pm.get("stale") or [])` against `data/PROVIDER_MODELS.json` **with no age check**. The file
+  was stamped `2026-08-22 17:42` with `stale: []`, while `state/read_auto.log` showed the pool
+  removing **five model IDs with HTTP 404 (no such model) on every reader start**.
+  The project already ages `COVERAGE.json` before believing a coverage STALL. **This is the same
+  lesson from the more dangerous side:** a stale file producing a false ALARM gets investigated and
+  dismissed; a stale file producing a false ALL-CLEAR is never looked at again.
+  **Fix:** `MAX_PROVIDER_MODELS_AGE_H = 12`; the standard now reports `UNMEASURED` rather than
+  passing, with the refresh command in its order text. **Running that remedy found 8 stale Ollama
+  references, with `qwen3:8b` the only installed model** — matching the standing-model ruling. The
+  standard is now red on a real measurement. **The repair itself is m91 and is NOT in this repo**
+  (`C:\Users\imarl\cascade\config.json`). Pinned by §20h.
+
+- **[m113 — MAJOR/SECURITY-ADJACENT, RESOLVED IN THIS RUN] THE LOCAL MODEL'S WRITE GATE WAS
+  DEFEATED BY ONE CAPITAL LETTER.** `local_agent.py`'s `DENYLIST` — which stops the local model
+  patching `foreman`, `silence`, `standards`, `verify_math`, `health`, `allsweep`, `estate` and
+  `local_agent` itself — is a **case-sensitive set**, matched against `modname` derived from the
+  caller's own path string, on a **case-insensitive filesystem**. `path="src/Foreman.py"` passes
+  `os.path.isfile` (Windows resolves it to the real file), yields `modname == "Foreman"`, and
+  misses the set. **Reproduced on this machine before fixing.** Now folded on both sides; a
+  denylist that errs toward denying is safe, one that errs toward allowing is the whole failure.
+  Verified not to over-block (`src/tells.py` still patchable). Pinned by §20h.
+
+- **[m114 — MAJOR, RESOLVED IN THIS RUN] `local_agent._safe()` TREATED A PREFIX AS A DIRECTORY
+  BOUNDARY.** `full.startswith(HERE)` is true for any SIBLING whose name merely begins with this
+  project's — including `panscriptum-export`, the copy this module is forbidden to touch. Now
+  `full == HERE or full.startswith(HERE + os.sep)`. Pinned by §20h.
+
+- **[m115 — MINOR, RESOLVED IN THIS RUN] A FAILED REVERT REPORTED ITSELF AS A SUCCESSFUL ONE.**
+  `t_propose_patch()`'s exception path returned `"reverted": True` as a **literal**, emitted even
+  when the restoring write had just raised — so the one outcome that leaves a **half-patched module
+  on disk** was the outcome that claimed most confidently to have cleaned up. Now tracked, with an
+  `ALARM` key naming the file when the revert genuinely failed. Pinned by §20h.
+
+- **[m117 — MINOR, RESOLVED IN THIS RUN] SIX MORE OF THE m100 TAIL.** `genre.py` (read by
+  `navtree` and `profile`, whose loader turns a failed read into a silent blanket-default
+  catalogue — so a torn write here is invisible downstream), `navtree.py` (**no temp staging at
+  all**, while already importing `silence`), `sevenfold.py`, `pantheon.py`, `zfighters.py` (read by
+  `pantheon`), `halo.py`. Three now-unused `import json` lines removed with them; pyflakes clean.
+
+#### From `### Minor-but-new (run #22b — the first whole-tree sweep)`
+
+- **[m100 — MAJOR, RESOLVED IN THIS RUN] EIGHTEEN SHARED-FILE WRITES ACROSS FOURTEEN MODULES WERE
+  TRUNCATE-THEN-FILL, NOT ATOMIC LANDINGS.** `open(path, "w")` + `json.dump` empties the target
+  before writing a byte. A reader in the gap sees an empty or half-written file; a crash in the
+  gap makes it permanent. **Four scripts** (`catalogue_aurora`, `catalogue_codex`,
+  `recover_folder_records`, `resync_roll`) were doing it to the SAME file,
+  `data/SWEEP_ROLL.json` — the hazard `resync_roll.py`'s own docstring described in prose.
+  Others hit `COVERAGE.json` (the library's headline figures), `SHELFMARKS.json`, `SCOPE.json`,
+  `TIERS.json`, `WIKI_HOSTS.json`, `PROVIDER_MODELS.json`, `SHARED_STAGE_GRAPH.json`,
+  `ONOMASTICON.json`, `GROUNDINGS.json`, `REFERENCE_ASSAYS.json`, `ENTITY_INDEX.json`,
+  `ALLSWEEP.json`, `catalog.json`/`failures.json`, and `WATCH.md`. Three sites in `weave.py`
+  were `json.dump(obj, open(path, "w"))` — truncating **and** leaking the handle.
+  **Root cause:** there was no shared correct way to do it. `catalogue_web.save_roll()` had the
+  atomic version and a comment saying an interrupted write "kills the next run of either script
+  outright"; its siblings never got it. **Fix:** new `silence.write_json()` — atomic, with a
+  **pid+thread-unique temp name**, which also closes the older `path + ".tmp"` collision race
+  where two writers of one path fight over the temp file itself. All 18 sites converted.
+  Pinned by 25 checks in `verify_math` **§20g**. Export commit `ea89738`.
+
+- **[m101 — MAJOR, RESOLVED IN THIS RUN] A HARD RULE 0 CAP LABELLED AS HARD RULE 0 COMPLIANCE.**
+  `weave.py:216` (and its idf twin at :170) capped the shared-entity evidence list at **8**:
+  ```python
+  if len(shared[p]) < 8:
+      shared[p].append(k)
+  ```
+  while BOTH consumers — `weave.py`'s writer and **`pipeline.py:1761`, the production path that
+  writes `data/RESONANCE_GRAPH.json`** — carried the comment `# WHOLE list -- Hard Rule 0, ruled
+  2026-08-24` directly above the truncated data. The comment recorded the owner's ruling; the
+  data had been cut eight entries earlier, in the live pipeline, ever since. **A cap wearing a
+  compliance label is the worst shape a cap can take, because the label is what stops anyone
+  looking.** Both builders uncapped. Export commit `ea89738`.
+
+- **[m102 — MAJOR, RESOLVED IN THIS RUN] THE PAID LANE, ERASED.** Owner ruling 2026-08-25: *"the
+  paid lane should be erased from the code."* Removed `PAID_PREFIX`, `PAID_LANE_RETIRED`,
+  `paid_lane_open()`, `_PAID_LOCK`, the burst-cap file read, the spend counter, and `foreman`'s
+  spend report. `widen_candidates()` lost its `paid_ok` parameter (public-signature change, the
+  gate's last handle). `verify_math` §19h was rewritten to assert an **absence** — the erased
+  names may not appear in `cascade_bridge.py` or `foreman.py` **even in comments**, which caught
+  three surviving references in my own tombstone prose on the first run. `state/PAID_BURST.json`
+  is deliberately kept, unread, as the sole record of the 598-call / ~$11.96 spend.
+  Export commits `080f4f7`, `ea89738`.
+
+- **[m103 — MINOR, RESOLVED IN THIS RUN] MY OWN 4-HOUR BENCH COULD FIRE ON A TRACE ID.** The
+  `permanent` classifier added earlier in run #22 matched `"401"/"402"/"403"` as bare substrings,
+  so a request id like `req_4403abc` would bench a **merely rate-limited** provider for four
+  hours — shrinking the pool that is the system's binding constraint, i.e. the exact opposite of
+  the bug the classifier was added to fix. Now `re.search(r"\b(401|402|403)\b", err)`; the prose
+  markers stay substrings. Found by the sweep auditing the same session's own work.
+
+- **[m104 — MINOR, RESOLVED IN THIS RUN] TWO BUGS IN `sweep_plan.py`, HOURS AFTER I WROTE IT.**
+  (a) `record()` did an unguarded read-modify-write on `SWEEP_COVERAGE.json` — the one function
+  whose entire purpose is to be called by sixteen concurrent batches; a lost update would make
+  `missing()` report a gap that never happened or hide one that did. Now locked and landed
+  atomically. (b) `modules()` turned an unreadable file into a **0-line module** with no note,
+  which sorts last, packs into a bin as free weight, and reads exactly like an empty stub — a
+  file silently dropped from a sweep whose whole purpose is that nothing is dropped. Now noted
+  and flagged `unreadable`.
+
+- **[m108 — MAJOR, RESOLVED IN THIS RUN] THE CLASSIFIER NEVER SAW A PROVIDER ERROR AT ALL, WHICH
+  IS WHY THE BENCH STILL DID NOT FIRE AFTER m98 WAS "FIXED".** Found within the hour by the
+  `every pool failure is recognised` standard added alongside it — the new standard went red on
+  its first publish and named its own cause. Cascade's engine does not hand this code the
+  provider's error; it hands back an AGGREGATE of its own: `All 1 candidates failed: GLM 4.7
+  Flash (Z.AI)`, or `Every model in this pool is rate limited or unconfigured`. Neither carries a
+  status code or any provider wording, so the permanent-refusal classifier repaired earlier the
+  same day was judging a string that can never match — **`zai:free` went on being re-claimed
+  forever while its real error, recorded in `bucket_state.last_error` at the same minute, read
+  "Insufficient balance or no resource package".** Repairing m98's WORDING was necessary and, on
+  its own, useless.
+  **Fix.** `cascade_bridge.provider_error()` reads the pinned bucket's own last error from
+  Cascade's scratch DB — read-only, single row, aged at 180s so a fossil cannot bench a live
+  provider, and total so a diagnostic cannot kill the call it is trying to explain. The
+  classifier unwraps before it judges, and the unrecognised ledger records the UNWRAPPED text so
+  what reaches the page is a complaint someone can act on rather than the engine's aggregate.
+  **Verified live against all six affected buckets:** `zai`, `cloudflare` and `hyperbolic` now
+  classify as 4-hour permanent; `groq`, `sambanova` and `cohere` correctly stay transient.
+  Pinned by 7 more checks in `verify_math` §20f. Export commit `e234107`.
+  **The lesson worth keeping:** the standard that found this was added in the same session as
+  the bug it exposed, and it fired on its first publish. Surfacing an unrecognised failure is
+  not bookkeeping — it is what turns "the pool is slow" into a named, fixable fault in an hour.
+
+#### From `### Minor-but-new (run #18)`
+
+- **[m65 — RESOLVED `6fb290d`] THE CATALOGUE'S FANDOM GATE HAD BEEN ANSWERING "OUTAGE" ON EVERY
+  CALL IT EVER MADE, BECAUSE IT NEVER SENT A USER-AGENT.** Found run #14 while checking whether
+  M8's fix would cascade into any automated remedy — it did not, but the gate it led to was
+  broken in the opposite direction. `foreman._fandom_reachable` had been hardened that same
+  morning from a TCP connect to a real API call, on the correct reasoning that **a socket is
+  not an answer**. The rewrite called `urlopen` on a bare URL, so the request went out as
+  `Python-urllib/3.13` and MediaWiki replied **403 Forbidden in 0.13 seconds** — from fandom
+  **and from Wikipedia**, healthy or not. With the project's own `wiki_source.UA` the same two
+  URLs return **200**. So `run_catalogue_gap` deferred the catalogue **every foreman round**
+  while reporting "fandom.com is dropping connections (IP block or outage)".
+  **A gate that always says "outage" is not conservative, it is off** — and it is invisible,
+  because its false negative is phrased as a plausible diagnosis. Note the shape: the morning's
+  fix was right about the defect and introduced its exact inverse, which is why both are now
+  recorded in one docstring. Fixed to send `wiki_source.UA` and to ask
+  `standards.FANDOM_PROBE_HOST` (a content wiki) rather than `community.fandom.com`, which
+  cannot fail correctly. It now returns False in **16.1s** — the honest timeout — instead of
+  False in 0.13s. Pinned by verify_math **§19aa** (5 checks driven off a stub opener: the UA is
+  present and is not `python-urllib`, a 200 opens the gate, a 403 does not, and the URL names a
+  content host).

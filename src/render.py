@@ -346,47 +346,7 @@ def main():
               "-- their URLs were formatted, not contacted (pass --probe to check reachability)")
 
     if args.write:
-        # ATOMIC, AND THE VERDICT IS READ (order c738ca184269). This was a bare
-        # `open(p, "w") ... f.write(...)` per file -- a truncate-then-fill, with no check that
-        # the write succeeded at all. It is the defect class `worldseed.py`'s own --write path
-        # documents fixing ("The 2026-08-25 sweep found twelve such sites across ten modules and
-        # moved them onto silence.write_json ... every sibling cross-cycle artifact already goes
-        # that way"), and output/ is not exempt from it elsewhere either: `generate.py` writes
-        # output/raw chapter files through `silence.replace_retry(tmp, raw_path)`.
-        #
-        # `silence.write_json` does not apply -- these are SVG text, not JSON -- so this is the
-        # same tmp-name-with-pid + `replace_retry` pattern gpu_lane.py and sweep_plan.py use for
-        # per-file non-JSON writes, with the pid AND thread ident that silence.write_json's own
-        # comment gives the collision reason for.
-        #
-        # Exposure today is low and is stated rather than assumed: nothing in src/ or
-        # registry_terminal/ currently reads output/views/*.svg, so there is no known concurrent
-        # reader. It is fixed for consistency with the house convention and because that changes
-        # the moment anything starts serving these diagrams.
-        out = os.path.join(HERE, "output", "views")
-        os.makedirs(out, exist_ok=True)
-        landed, denied = 0, []
-        for t in DRAWN:
-            v = view(t, coord=sample, tree=tree)
-            p = os.path.join(out, f"{t}.svg")
-            tmp = "%s.%d.%d.tmp" % (p, os.getpid(), threading.get_ident())
-            try:
-                with open(tmp, "w", encoding="utf-8") as f:
-                    f.write(v["svg"])
-                    f.flush()
-                    os.fsync(f.fileno())
-            except Exception as e:
-                with contextlib.suppress(Exception):
-                    os.remove(tmp)
-                silence.note("render.py:view-tmp")
-                denied.append("%s.svg (%s)" % (t, type(e).__name__))
-                continue
-            if silence.replace_retry(tmp, p):
-                landed += 1
-            else:
-                with contextlib.suppress(Exception):
-                    os.remove(tmp)
-                denied.append("%s.svg (replace denied)" % t)
+        landed, denied = write_views(tree=tree, sample=sample)
         if denied:
             # NOT "wrote N diagrams". A discarded write verdict is what makes a file that did not
             # change look exactly like one that did.
@@ -396,6 +356,73 @@ def main():
             return 1
         print(f"wrote {landed} diagrams to output/views/")
     return 0
+
+
+def write_views(tree=None, sample=None):
+    """Draw every DRAWN tier into output/views/. -> (landed, [what did not land]).
+
+    A FUNCTION, NOT A BRANCH OF `main()` (order 707fefc17465, owner ruling 9 of 2026-09-08:
+    "wire what closes a measured gap; hold the rest, marked"). This module is the dispatcher for
+    all nine cosmology view tiers and NOTHING imported it -- the only mention anywhere in src/
+    was a comment in build_terminal.py:83 -- so the gap its own docstring describes closing (the
+    top five tiers "had addresses and no way to look at them") was closed only for whoever ran
+    it by hand. The ruling wired it into the publish cycle rather than retiring it; a cycle can
+    only call a function, so the writing half comes out of the argparse branch it was living in.
+    `main()` above is now one of its two callers and behaves exactly as before.
+    """
+    tree = tree if tree is not None else _tree()
+    if sample is None:
+        # THE COORDINATE MUST NAME A NODE, WHOLE. `children_of` refuses a partial coordinate --
+        # see its own guard -- so the sample is taken from the tree's charted worlds rather than
+        # assembled here, and an empty tree is an honest refusal instead of a diagram of
+        # everything pooled together under one label.
+        worlds = tree.get("worlds") or {}
+        if not worlds:
+            return 0, ["SEVENFOLD.json charts no worlds, so no coordinate names a node"]
+        sample = next(iter(worlds.values()))
+    # ATOMIC, AND THE VERDICT IS READ (order c738ca184269). This was a bare
+    # `open(p, "w") ... f.write(...)` per file -- a truncate-then-fill, with no check that
+    # the write succeeded at all. It is the defect class `worldseed.py`'s own --write path
+    # documents fixing ("The 2026-08-25 sweep found twelve such sites across ten modules and
+    # moved them onto silence.write_json ... every sibling cross-cycle artifact already goes
+    # that way"), and output/ is not exempt from it elsewhere either: `generate.py` writes
+    # output/raw chapter files through `silence.replace_retry(tmp, raw_path)`.
+    #
+    # `silence.write_json` does not apply -- these are SVG text, not JSON -- so this is the
+    # same tmp-name-with-pid + `replace_retry` pattern gpu_lane.py and sweep_plan.py use for
+    # per-file non-JSON writes, with the pid AND thread ident that silence.write_json's own
+    # comment gives the collision reason for.
+    #
+    # THERE IS A CONCURRENT READER NOW, or there will be: `publish.main()`'s cycle calls this
+    # function every round (order 707fefc17465), so the sentence that used to stand here --
+    # "nothing in src/ or registry_terminal/ currently reads output/views/*.svg, so there is no
+    # known concurrent reader" -- is the thing the wiring changed, and the atomic write is what
+    # makes the change safe rather than merely tidy.
+    out = os.path.join(HERE, "output", "views")
+    os.makedirs(out, exist_ok=True)
+    landed, denied = 0, []
+    for t in DRAWN:
+        v = view(t, coord=sample, tree=tree)
+        p = os.path.join(out, f"{t}.svg")
+        tmp = "%s.%d.%d.tmp" % (p, os.getpid(), threading.get_ident())
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                f.write(v["svg"])
+                f.flush()
+                os.fsync(f.fileno())
+        except Exception as e:
+            with contextlib.suppress(Exception):
+                os.remove(tmp)
+            silence.note("render.py:view-tmp")
+            denied.append("%s.svg (%s)" % (t, type(e).__name__))
+            continue
+        if silence.replace_retry(tmp, p):
+            landed += 1
+        else:
+            with contextlib.suppress(Exception):
+                os.remove(tmp)
+            denied.append("%s.svg (replace denied)" % t)
+    return landed, denied
 
 
 if __name__ == "__main__":

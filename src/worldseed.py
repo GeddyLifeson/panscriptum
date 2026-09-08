@@ -232,7 +232,16 @@ def to_options(designation, name, description, band="unassayed", register="class
         # Both remedies are content decisions, which is why neither is taken here: adding a
         # matcher would re-derive `era`, `size` and every downstream burg count for whichever
         # worlds it catches, and removing the entry would desync this module from the other
-        # three. Left for the owner.
+        # three.
+        #
+        # RULED 2026-09-08 (owner, question 1, "Mark and keep: one line each, delete nothing",
+        # order 40e98eed6870): the "primitive" key STAYS, unreachable and marked. It is not dead
+        # vocabulary -- genre.py's mythology prior, onomast's ("tech", "primitive") register shift
+        # and burgs.largest_city's 2,500-population tier all key on it -- so deleting it here
+        # would desync four modules to tidy one line. This marker exists so the next sweep reads
+        # a decision instead of re-filing the question; the twin unreachable keys in burgs.py
+        # (largest_city's "primitive", and "settled" in both condition tables) are the same
+        # ruling and are that module's to mark.
         "size": {"spacefaring": 90, "industrial": 70, "magical": 55,
                  "medieval": 45, "primitive": 35}.get(f["tech"], 50),
         "era": f["tech"],
@@ -271,6 +280,15 @@ def address(opt):
 # it encoded the derived profile while four fifths of it was decoration. Emitting a parameter that
 # is silently discarded is worse than omitting it: it invites the reader to believe the climate
 # they see was the climate we derived.
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
+# (the feats.py:1023 idiom) -- and now RULED so: owner ruling 2026-09-08, question 1, "Mark and
+# keep: one line each, delete nothing", order e68664e621bf. `URL_SETTABLE` is read by nothing;
+# `to_fmg_query` below builds its own dict literal, and the two have ALREADY DIVERGED -- the
+# function additionally emits `options`, which this tuple does not list. So the tuple is neither
+# authoritative (nothing enforces it) nor complete, and a reader beneath the measured comment
+# block above will take it for both. IT IS NOT THE AUTHORITATIVE LIST: `to_fmg_query`'s own `q`
+# is. Wiring the function to build FROM this tuple was the option NOT taken (that was 1(c),
+# "case by case: wire the four"); the constant is kept and marked instead.
 URL_SETTABLE = ("seed", "template", "width", "height")
 
 def to_fmg_query(opt, base="https://azgaar.github.io/Fantasy-Map-Generator/",
@@ -287,8 +305,17 @@ def to_fmg_query(opt, base="https://azgaar.github.io/Fantasy-Map-Generator/",
     return base + "?" + urllib.parse.urlencode(q)
 
 
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
+# (the feats.py:1023 idiom) -- and now RULED so: owner ruling 2026-09-08, question 1, "Mark and
+# keep: one line each, delete nothing", order c0384991bfc5. `unreachable_by_url` has ZERO callers
+# repo-wide; it is kept because it is the executable form of the finding the measured Azgaar test
+# table above records -- eight of ten emitted parameters were decoration -- and a reader asking
+# "what does the URL not carry" should be able to call it rather than re-derive it from a comment.
 def unreachable_by_url(opt):
-    """What the profile derives that a query string cannot deliver. Named, not hidden."""
+    """What the profile derives that a query string cannot deliver. Named, not hidden.
+
+    UNCALLED, DELIBERATELY KEPT -- see the retention marker above.
+    """
     return {k: v for k, v in opt.items()
             if k in ("temperature_equator", "temperature_pole", "precipitation",
                      "states", "cultures", "culture_set", "religions", "size")}

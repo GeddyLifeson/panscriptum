@@ -910,16 +910,78 @@ STANDING = [
     # `lognames.OWNER[PIPELINE]` matches the fragment `pipeline.py --run`, so a hand-run
     # `pipeline.py --status` no longer answers for the daemon. See order 08c1fd3932a4.
     ("pipeline", [os.path.join(SRC, "pipeline.py"), "--run"], LN.PIPELINE),
+    # THE READER, PROMOTED HERE ON 2026-09-08 (orders d2e44a766769 and 1014f88bea8e, owner
+    # ruling 2026-09-08 question 14: "put read.py --run into overnight.STANDING so the kill
+    # costs 300s instead of four hours"). It sat outside this list for a fortnight; the whole
+    # of why, and what it cost, is worth keeping.
+    #
+    # THE RULING. `foreman.restart_reader` SIGTERMs whatever runs under the fragment
+    # `read.py --run` with no `_restartable()` gate, and its own log line priced the kill while
+    # making it: "NOT in the keeper's STANDING set -- nothing restarts it until the supervisor's
+    # next MAIN LAP, 42-44 min typically and 4h at worst". On 2026-08-25 the reader was killed
+    # at 10:59, stayed dead, and every library counter went flat. GATING the kill was considered
+    # and rejected by the owner: `_restartable` was False for read.py BY CONSTRUCTION, so the
+    # gate would have turned the remedy into a permanent no-op wearing the shape of a working
+    # one -- this project's oldest failure mode. Making the restart cheap settles both halves,
+    # and `foreman.restart_reader.always` (order 7ad10a229440, same ruling) is what lets the
+    # remedy actually run now that it is cheap.
+    #
+    # WHY IT TOOK A SECOND SHIFT TO LAND. Adding this line flips
+    # `foreman._restartable("read.py --run")` to True, and three checks asserted the OPPOSITE as
+    # a FACT. A breached net halts the library by itself (Hard Rule -1), so landing this alone
+    # would have taken the library down on a FALSE red -- the nets reporting the absence of a
+    # property this change makes MORE true, not less. All three moved in the same commit:
+    #
+    #   drill.py  `_no_unrestartable_kill`   -- was `not F._restartable(read_frag)`; now asserts
+    #                                           the killer and the horizon AGREE with whatever
+    #                                           this roster holds, and drives the roster to
+    #                                           prove the answer is derived and not typed.
+    #   verify_math.py  section 20b          -- was `"NOT in the keeper's STANDING set" in
+    #                                           _restart_horizon(read_frag)`; now asserts the
+    #                                           300s keeper clause, plus two rows the old
+    #                                           single row did not carry.
+    #   drill.py  `daemons_actually_check_their_own_source` -- NOT named by either order, and
+    #                                           the one that would actually have gone red. It
+    #                                           derives its population from THIS list and
+    #                                           requires every member's `main` to call
+    #                                           `codewatch.stamp` and to reach
+    #                                           `codewatch.exit_if_stale` inside a loop. Measured
+    #                                           before the edit: read.py had neither. So read.py
+    #                                           got both, which also closes the read.py half of
+    #                                           order 2cb8756deb0a -- the two orders turn out to
+    #                                           be prerequisites of each other, because STANDING
+    #                                           membership is exactly what makes an rc=17 exit
+    #                                           affordable.
+    #
+    # AND `--loop 5` RATHER THAN THE BARE LINE THE ORDER WROTE. Order 1014f88bea8e specifies
+    # `["read.py", "--run", "--workers", "auto"]`, written before the codewatch prerequisite was
+    # known. `read.py --run` is a ONE-PASS job: the keeper alone would supply the standing
+    # behaviour by restarting it within 300s of each pass, but a one-pass main has nowhere to
+    # put the staleness check, and gaming that by hanging it off the `--one` print loop would be
+    # a check that cannot fire. `--loop` (default 0, i.e. every other caller is unchanged) gives
+    # the reader the same shape every other member of this list has, at the same 300s cadence
+    # the keeper re-asserts on. `_restartable` matches on `startswith(frag)` where frag is
+    # `lognames.OWNER[READ] == "read.py --run"`, so the extra arguments do not break the match --
+    # verified live, see the shift report.
+    ("read", [os.path.join(SRC, "read.py"), "--run", "--loop", "5",
+              "--workers", "auto"], LN.READ),
 ]
 
 # Every long-lived job the kit runs, as the command-line fragment that identifies it. The
-# keeper's STANDING set is the subset it can restart on its own; `read.py` and `feats.py
-# --roll` hang off this supervisor's hours-long main lap, and the supervisor and its launcher
-# sit above all of it. Anything asking "what should be up right now?" reads THIS, not a
-# hand-kept subset of it.
+# keeper's STANDING set is the subset it can restart on its own; `feats.py --roll` hangs off
+# this supervisor's hours-long main lap, and the supervisor and its launcher sit above all of
+# it. Anything asking "what should be up right now?" reads THIS, not a hand-kept subset of it.
+#
+# `read.py` IS NO LONGER NAMED IN THE TAIL, and its absence here is the load-bearing half of
+# the promotion above (orders d2e44a766769 / 1014f88bea8e). It joined STANDING on 2026-09-08,
+# so the comprehension supplies it; leaving the tail entry would have named it TWICE, and
+# verify_math section 19p requires this roster to name each job exactly once -- a duplicate
+# would make one running reader read as two to allsweep, autostart and the dashboard alike.
+# If the reader is ever taken back out of STANDING, "read.py" must return to this tail in the
+# same edit, or every "is it up?" check in the tree stops looking for the reader at all.
 ALL_JOBS = (["autostart.py", "overnight.py"]
             + [os.path.basename(args[0]) for _n, args, _l in STANDING]
-            + ["read.py", "feats.py --roll"])
+            + ["feats.py --roll"])
 
 
 def name_rc(rc):
@@ -1634,30 +1696,67 @@ def main():
         # buckets and genuinely run in parallel -- measured at 1,837 calls/hour against roughly
         # 440 locally. Cascade keeps local Ollama in the pool as an unlimited bucket, so if every
         # cloud meter runs dry the work falls back to the GPU instead of stopping.
+        #
+        # AND THE READER IS NOW A STANDING JOB (orders d2e44a766769 / 1014f88bea8e, 2026-09-08),
+        # so this call converges on the same arrangement `pipeline` had: once the keeper has a
+        # `read.py --run --loop 5` copy up, `run()`'s basename guard returns "already-running"
+        # here and the standing copy does the reading. THIS LINE IS DELIBERATELY KEPT. The
+        # reader is NOT in the hand-typed `start(...)` sequence at the top of the cycle (0a-0c),
+        # so on a fresh supervisor this is what first brings a reader up, and the keeper adopts
+        # it from there; and its "already-running" is what holds the idle counter at zero on a
+        # fast cycle, which is the job the removed serial `pipeline` stage below used to do.
+        # A cycle-top `start("read", ...)` alongside pipeline's was considered and NOT taken:
+        # it would stop this lap blocking on the reader at all, which collapses cycle time to
+        # the roll's and is a change to the supervisor's pacing that no order asked for.
         statuses.append(run("read", [os.path.join(SRC, "read.py"), "--run",
                                      "--workers", str(a.read_workers)],
                             LN.READ, timeout_h=a.read_hours))
         statuses.append(join(roll, timeout_h=4))
 
-        # 3. GPU: absorb the new feats into ceilings and per-entry judgements.
+        # 3. GPU: absorb the new feats into ceilings and per-entry judgements. THE STANDING
+        #    COPY DOES THIS. There is no serial stage here any more, and the removal is the
+        #    whole of order 5d14e90b5043 (filed sweep34-batch13, re-verified and left open by
+        #    the shifts of 2026-09-05 and 2026-09-08). What stood here was:
         #
-        # THIS DOES NOT ORDER ANYTHING, AND THE COMMENT HERE USED TO SAY IT DID -- "Runs after
-        # the reader so it sees the evidence the reader just produced". It cannot. `pipeline` is
-        # a member of STANDING, it is started BACKGROUNDED at the top of this same cycle
-        # (0c above), and the keeper re-asserts the whole standing set every 300s from wherever
-        # this cycle happens to be blocked. So by the time the reader returns, hours later, a
-        # copy has been running since before the reader began, and `run()`'s basename guard
-        # returns "already-running" without doing any work. The only window in which this line
-        # actually runs the stage is the <=300s gap between a standing copy exiting and the
-        # keeper noticing.
+        #        statuses.append(run("pipeline", [os.path.join(SRC, "pipeline.py"), "--run"],
+        #                            LN.PIPELINE, timeout_h=2))
         #
-        # LEFT IN PLACE PENDING AN OWNER RULING (run #36, order 5d14e90b5043), because deleting
-        # it is not neutral: its reliable "already-running" is what puts a job in `busy` below,
-        # and `busy` is what stops a fast cycle being counted toward IDLE_LIMIT and halting the
-        # supervisor. The choice is between the standing copy and the serial one; taking the
-        # serial one out without answering that also re-arms the idle halt.
-        statuses.append(run("pipeline", [os.path.join(SRC, "pipeline.py"), "--run"],
-                            LN.PIPELINE, timeout_h=2))
+        # WHY IT WENT. `pipeline` is a member of STANDING, it is started BACKGROUNDED at the top
+        # of this same cycle (0c above, an unconditional `start("pipeline", ...)`), and the
+        # keeper re-asserts the whole standing set every 300s from wherever this cycle happens
+        # to be blocked. So by the time the reader returned, hours later, a copy had been
+        # running since before the reader began and `run()`'s basename guard returned
+        # "already-running" without doing any work. The only window in which the line ran the
+        # stage at all was the <=300s gap between a standing copy exiting and the keeper
+        # noticing -- and in that window the keeper starts the same command 300s later anyway,
+        # backgrounded, so no work is lost by its going. Its original comment promised "runs
+        # after the reader so it sees the evidence the reader just produced", an ordering the
+        # code could not deliver; that half was corrected in run #36 and the line itself was
+        # left standing for a ruling.
+        #
+        # AND THE BLOCKER THAT HELD IT FOR THREE SHIFTS IS GONE, WHICH IS WHY THIS IS DECIDED
+        # NOW AND NOT PUNTED A FOURTH TIME. The objection was never that the stage did work; it
+        # was that its RELIABLE "already-running" is what puts an entry in `busy` below, and
+        # `busy` is what stops a fast cycle counting toward IDLE_LIMIT. Removing it therefore
+        # re-armed the idle halt, which is a change to a standing supervisor's safety
+        # arithmetic. In this same commit `read.py` joined STANDING (orders d2e44a766769 /
+        # 1014f88bea8e), so `run("read", ...)` two lines up now returns "already-running" in
+        # exactly the same circumstances and lands in exactly the same `busy` list. Walk the
+        # cases a fast cycle can be in:
+        #
+        #   * the standing reader is up  -> read returns "already-running"  -> busy, idle = 0.
+        #     Identical to the arrangement pipeline was providing.
+        #   * the reader was stopped at the MANAGER rung, or the process probe went blind
+        #     -> read returns "manager-stopped" / "probe-blind" -> busy, idle = 0. Same.
+        #   * the reader ran and DIED ON STARTUP, returning in seconds -> read returns
+        #     "rc=..." -> NOT busy -> the cycle counts toward IDLE_LIMIT.
+        #
+        # That last case is the one this changes, and it changes it in the direction the idle
+        # halt exists for: ten cycles once turned in five minutes because every job was dying on
+        # startup. The serial pipeline call was excusing exactly that cycle with a job that had
+        # nothing to do with the reader's failure. So this is not a relaxation traded for a
+        # deletion -- the counter gets STRICTER on the fault it was written for, and keeps every
+        # legitimate "already-running" excuse it had.
 
         canon_backup_cycle()
         # Beside the backup and for the same reason: a long job that belongs on a clock rather

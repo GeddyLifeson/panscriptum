@@ -130,6 +130,17 @@ def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS
     # the stored text is still there to widen back to; a stored cap destroys the only copy. This
     # is a JSON file on disk and nothing here needs a cap, so there is none. The display
     # truncations in `problems()` and `main()` are the reversible kind and stay.
+    #
+    # AND THE DAMAGED ROW IS GONE (order f5503302ce44, owner ruling 2026-09-08 "Evidence cut
+    # before it was stored"). Removing the cap protected the NEXT reason written; it could not
+    # restore that one, and the words after "this only sur" do not exist anywhere in the repo.
+    # A live secret-scanner exemption whose SCOPE CAVEAT is missing is unreviewable, and it stood
+    # unreviewable until expires_at 2027-02-21. The ruling: delete it so the finding reports
+    # again and is reviewed from scratch -- "never let a run invent a replacement sentence on the
+    # file that decides what a secret scanner may wave through". Deleted 2026-09-08 through
+    # `remove()`, which was added for it. `data/feats/bloons_fandom_com/Encrypted.json` is not
+    # in `publish.COPY_DIRS`, so nothing that was publishable becomes blocked by this; what
+    # changes is that the finding is visible to whoever reviews it next.
     rows.append({"detector": str(detector), "path": str(path_glob),
                  "reason": str(reason).strip(), "added_by": str(added_by),
                  "added_at": time.time(),
@@ -141,6 +152,52 @@ def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS
         raise IOError("SUPPRESSIONS.json could not be written (rename refused); the suppression "
                       "for %s on %s was NOT recorded -- try again" % (detector, path_glob))
     return rows[-1]
+
+
+def remove(detector, path_glob, by="owner", why=""):
+    """Delete one exemption so its detector reports the finding again. -> the row removed, or None.
+
+    THE OTHER HALF OF `add`, AND THE LIBRARY DID NOT HAVE IT (order f5503302ce44, owner ruling
+    2026-09-08 "Evidence cut before it was stored"). Every exemption on file is a detector
+    narrowed for a named case; the only sanctioned way to un-narrow one was to hand-edit the
+    JSON, which is exactly the class of edit this module exists to replace with data that
+    carries a reason.
+
+    WHY DELETING IS THE RIGHT ACT AND REWRITING IS NOT, in the case that prompted this. The
+    Bloons row's stored reason was cut at exactly 300 characters by a code cap that has since
+    been removed, ending mid-word at "...this only sur" -- and the words after that do not exist
+    anywhere in the repo. Its SCOPE CAVEAT is the one clause a reviewer needs to decide whether
+    the exemption is still narrow, and no run can honestly reconstruct it. The ruling: "never
+    let a run invent a replacement sentence on the file that decides what a secret scanner may
+    wave through". So the row goes, the finding reports again, and a person reviews it from
+    scratch. Deleting an exemption can only ever make a detector LOUDER, which is the safe
+    direction and the reason this needs no person check the way a halt lift does.
+
+    SAME FAIL-CLOSED DISCIPLINE AS `add`. An unreadable file refuses rather than landing a fresh
+    list over rows nobody has read, and a refused rename raises rather than reporting a removal
+    that did not happen -- the mirror of "REFUSED IS NOT ADDED", and the more dangerous
+    direction of the two: an operator who believes a detector has been re-armed when it has not
+    is trusting a scan that is still waved through.
+    """
+    rows, ok = _load()
+    if not ok:
+        raise IOError("SUPPRESSIONS.json exists but could not be read; refusing to remove a "
+                      "suppression from it -- every other row would be dropped by the write. "
+                      "Fix or restore the file first")
+    hit = next((r for r in rows
+                if r.get("detector") == detector and r.get("path") == path_glob), None)
+    if hit is None:
+        return None
+    kept = [r for r in rows if r is not hit]
+    if not _land(kept):
+        raise IOError("SUPPRESSIONS.json could not be written (rename refused); the suppression "
+                      "for %s on %s is STILL IN FORCE -- try again" % (detector, path_glob))
+    # The removal is announced where removals are read. `add()` needs no such line because the
+    # row it writes IS the record; a deletion leaves nothing behind to be found later.
+    silence.note("suppressions.py:removed")
+    sys.stderr.write("suppressions: REMOVED %s on %s (by %s)%s\n"
+                     % (detector, path_glob, by, (" — " + why) if why else ""))
+    return hit
 
 
 def active(detector=None):
@@ -179,6 +236,39 @@ def suppressed(detector, path):
     return None
 
 
+def _repo_listing():
+    """Every path under HERE, repo-relative with forward slashes. Directories included.
+
+    BUILT WITH `os.walk`, NOT `glob.glob('**/*')` (order 9adb8291c16c). Two faults in the one
+    expression this replaces, and they point opposite ways.
+
+    IT WAS INSIDE THE LOOP. `problems()` built the listing once PER WILDCARD ROW, so the entire
+    repository -- `data/records/`, `data/feats/`, `output/` and `.git` included -- was walked
+    again for every wildcard suppression on file, and `drill.py:2515` calls `problems()` every
+    cycle as a net. One listing answers every row.
+
+    AND `glob` IS BLIND TO DOTTED NAMES at every path component, so a suppression whose pattern
+    named a dotted path was reported DANGLING although the path exists -- a FALSE fault in the
+    one function whose whole job is telling a real fault from a silent pass. `os.walk` sees
+    them. Nothing is pruned here for the same reason: a listing that skips a directory reports
+    every suppression under it as dangling, which is the fault this replaces wearing a mask.
+
+    ONE `relpath` PER DIRECTORY, not per path. The tree under `HERE` is ~302,000 entries and
+    `os.path.relpath` is not cheap; composing each child's relative path from its parent's turns
+    302,000 calls into about 4,000 and takes the listing from ~3.1s to a fraction of it. The
+    walk itself was never the cost.
+    """
+    out = []
+    for dirpath, dirnames, filenames in os.walk(HERE):
+        rel = os.path.relpath(dirpath, HERE).replace(os.sep, "/")
+        prefix = "" if rel == "." else rel + "/"
+        for name in dirnames:
+            out.append(prefix + name)
+        for name in filenames:
+            out.append(prefix + name)
+    return out
+
+
 def problems():
     """-> [problems]. An expired or dangling suppression is a FAULT, not a silent pass.
 
@@ -187,8 +277,11 @@ def problems():
     nobody chose. Trivy and Prowler both validate this in CI for the same reason.
     """
     import fnmatch
-    import glob
     now = time.time()
+    # BUILT ONCE, AND LAZILY. Once because it was being rebuilt per row (see `_repo_listing`);
+    # lazily because the common case is no wildcard rows at all, and walking the whole repo to
+    # answer a question nobody asked is the same waste in the other direction.
+    listing = None
     out = []
     rows, ok = _load()
     if not ok:
@@ -202,8 +295,13 @@ def problems():
             continue
         pat = r.get("path", "")
         if any(ch in pat for ch in "*?["):
-            hits = [p for p in glob.glob(os.path.join(HERE, "**", "*"), recursive=True)
-                    if fnmatch.fnmatchcase(os.path.relpath(p, HERE).replace(os.sep, "/"), pat)]
+            if listing is None:
+                listing = _repo_listing()
+            # `fnmatchcase` is kept exactly as it was and is argued at :152-160: a suppression
+            # narrows a detector for a NAMED case, and a case nobody wrote down is not a named
+            # case, so a mis-cased pattern surfaces HERE as dangling rather than quietly
+            # covering files it was never reviewed against.
+            hits = [rel for rel in listing if fnmatch.fnmatchcase(rel, pat)]
             if not hits:
                 out.append("DANGLING: %s on %s matches nothing on disk"
                            % (r.get("detector"), pat))

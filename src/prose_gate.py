@@ -357,9 +357,25 @@ def cited_names_for(source, names):
     places. FAILS CLOSED: if the host map or the cache cannot be read, the answer is "nothing is
     cited", which makes every axis score unearned and refuses the block. That is the safe
     direction, because the failure being guarded is a fabricated measurement.
+
+    ON_CORRUPT TRACE (order 2ce520242de8). This was the only `cachekey.load` call site in the
+    tree that did not pass `on_corrupt` -- feats.py:1454, hostcheck.py:1374, pipeline.py:1399,
+    read.py:804 and sweep.py:184 all do. `cachekey.load` answers `(None, None)` for a file it
+    could not parse, exactly as it does for a file that is not there, so a TORN evidence record
+    read the same as an entity that was never mined: `unearned_instrument` names it and the
+    block is refused either way. THE GATE'S DECISION DOES NOT CHANGE HERE -- fail-closed is
+    correct for both cases and nothing is loosened. What was missing is the TRACE: without a
+    record, an operator reading "unearned instrument" could not tell an entity that genuinely
+    has no mined feats from one whose feats are on disk and torn, and the second is a
+    data-repair job, not a prose one. `silence.note` is imported lazily, matching `cachekey`'s
+    own lazy import two lines below -- this module otherwise imports only json/os/re, and a
+    torn-file trace is a side channel, not a gate decision: `silence.note` is deliberately total
+    (wraps its own body in try/except and never raises), so it cannot introduce a new failure
+    mode into a fail-closed layer, only a record of one that was already being fail-closed.
     """
     try:
         import cachekey
+        import silence
         with open(os.path.join(HERE, "data", "WIKI_HOSTS.json"), encoding="utf-8") as f:
             host = (json.load(f) or {}).get(source)
     except Exception:
@@ -373,13 +389,132 @@ def cited_names_for(source, names):
         for base in (os.path.join(HERE, "data", "readfeats"),
                      os.path.join(HERE, "data", "feats")):
             try:
-                doc, _fp = cachekey.load(base, host, n)
+                doc, _fp = cachekey.load(
+                    base, host, n,
+                    on_corrupt=lambda fp: silence.note("prose_gate.py:cited-evidence-unreadable"))
             except Exception:
                 doc = None
             if doc and (doc.get("feats") or []):
                 out.add(n)
                 break
     return out
+
+
+# ------------------------------------------------- layer 4c: the Instrument section must EXIST
+#
+# OWNER RULING 2026-09-08, "The prose lane's model and layer four", option (a): the gate is
+# widened to "require an Instrument marker keyed off entry class". Settles order 6e6954f261e0.
+#
+# WHAT WAS MISSING. `REQUIRED_PER_ENTRY` demands Shelfmark/Class/Magnitude/Threads and a body. It
+# has never asked for the "▣ The Instrument" section -- and Instrument-block loss is the WORSE of
+# the two symptoms this module's own docstring records from the 2026-08-25 incident: 1,155 of
+# 1,268 entries lost it, a 91% loss against the 71% Threads loss that IS checked. `section_
+# shortfall` scored a synthetic block with every Instrument section deleted at 10/10, and
+# `unearned_instrument` below cannot see it either, because that check catches a FABRICATED score
+# when one is present, never the section's total absence. So a chapter reproducing the incident's
+# own headline symptom passed every layer-4 check.
+#
+# KEYED OFF ENTRY CLASS, because the template does not ask every entry for the same thing. It
+# says: "This section applies to Persons, Gods, and Beasts; for Places, Vessels, Factions, and
+# Events, write 'Not applicable -- the Instrument measures beings, not [places/things/events].'"
+# So a being-class entry must carry a SCORED or explicitly uninstrumented section, a non-being
+# entry satisfies it with the template's own Not-applicable sentence, and an entry that carries
+# no Class at all is not charged here -- it has already failed `REQUIRED_PER_ENTRY` on Class, and
+# charging it twice for one fault would make the shortfall percentage lie about what is wrong.
+# A FEATS chapter writes no Entry Template at all and so has no Class lines: it is exempt by
+# construction rather than by an exception, which is what the ruling asks for.
+#
+# WHY THIS IS A SEPARATE FUNCTION AND NOT A FIFTH MEMBER OF `REQUIRED_PER_ENTRY`. The fixtures
+# that prove layer 4 works -- `drill.drill_train`'s `good` and `verify_math` §20x's `_good` --
+# are `Class: Person` entries carrying no Instrument section, and `SECTION_LOSS_FLOOR` is 0.0, so
+# folding this into the tuple would turn "a complete entry passes" RED in both, breaching the
+# drill and halting the library over a fixture rather than a defect. Those two modules are
+# outside this pass's edit scope. The check is therefore landed here in full and wired into the
+# live path by `generate.py` immediately after `assert_block_complete`, so it genuinely refuses a
+# block; what is owed is a fixture carrying an Instrument line plus a net and a verify_math row
+# pinning `assert_instrument_present`, WITHOUT which this layer is unproven (standing lesson 9).
+# That is recorded here so it is findable rather than remembered.
+
+# The classes the Entry Template scores. Everything else writes the Not-applicable sentence.
+INSTRUMENT_CLASSES = ("person", "god", "beast")
+
+# The section's own marker, its spelled-out heading, and the two honest bodies the template
+# allows. Any ONE of these is the section being present.
+_INSTRUMENT_MARK = re.compile(r"(?im)^[\s*_#>-]*(?:▣\s*)?(?:The\s+)?Instrument\b|▣")
+_INSTRUMENT_NOT_APPLICABLE = re.compile(r"(?i)\bnot applicable\b")
+_INSTRUMENT_UNINSTRUMENTED = re.compile(r"(?i)\buninstrumented\b")
+_CLASS_LINE = re.compile(r"(?im)^[\s*_#>-]*Class[\s*_]*:[\s*_]*([A-Za-z /]+)")
+# THE AXIS LABEL, NOT THE NUMBER. `_AXIS_RE` above requires a digit because its question is
+# "was a score printed"; this one's question is "was the section written", and the template
+# explicitly instructs an ungrounded axis to be printed as "--". Requiring a number here would
+# red the honest entry -- a being with a section full of "--" is the template being obeyed.
+_AXIS_LABEL = re.compile(
+    r"(?im)^[\s*_#>-]*(?:Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)"
+    r"[\s*_]*:")
+
+
+def _entry_class(block):
+    """-> the entry's declared Class in lower case, or None if it declares none."""
+    m = _CLASS_LINE.search(block or "")
+    if not m:
+        return None
+    return m.group(1).strip().strip("*_ ").lower()
+
+
+def instrument_shortfall(text):
+    """-> (present, required, missing_list) for the Instrument section alone.
+
+    Charged per entry that declares a Class, so a feats chapter (no Entry Template, no Class
+    lines) is required = 0 and cannot red. An entry declaring a being class must show the section
+    marker AND either an axis score, the template's 'uninstrumented -- no faculties on file', or
+    the Not-applicable sentence; a non-being entry needs the marker or the sentence.
+    """
+    missing = []
+    present = required = 0
+    for i, b in enumerate(_entry_blocks(text)):
+        cls = _entry_class(b)
+        if cls is None:
+            continue
+        required += 1
+        marked = bool(_INSTRUMENT_MARK.search(b))
+        scored = bool(_AXIS_LABEL.search(b))
+        excused = bool(_INSTRUMENT_NOT_APPLICABLE.search(b)
+                       or _INSTRUMENT_UNINSTRUMENTED.search(b))
+        being = any(c in cls for c in INSTRUMENT_CLASSES)
+        if marked and (scored or excused or not being):
+            present += 1
+        elif not being and excused:
+            present += 1
+        else:
+            missing.append(
+                "entry %d (Class: %s): no ▣ The Instrument section — 1,155 of 1,268 entries in "
+                "the withdrawn batch lost exactly this, and it was the largest single loss"
+                % (i + 1, cls))
+    return present, required, missing
+
+
+def assert_instrument_present(text, label=""):
+    """Raise unless every classed entry in this block carries its Instrument section.
+
+    -> the fraction present (1.0 when there is nothing to charge, e.g. a feats block).
+    """
+    present, required, missing = instrument_shortfall(text)
+    if not required:
+        return 1.0
+    if present < required:
+        _shown = missing[:6]
+        _rest = len(missing) - len(_shown)
+        raise ProseRefused(
+            "%s: %d of %d entries carry no Instrument section. The Instrument is the Custodial "
+            "measurement the Entry Template requires of every entry — scored for Persons, Gods "
+            "and Beasts, 'Not applicable' for Places, Vessels, Factions and Events — and its "
+            "total absence is the 2026-08-25 incident's own headline symptom, which no other "
+            "layer can see. Showing %d of %d: %s%s"
+            % (label or "block", required - present, required, len(_shown), len(missing),
+               "; ".join(_shown),
+               ("; ... and %d more — the complete list is instrument_shortfall()'s third return "
+                "value" % _rest) if _rest else ""))
+    return present / required
 
 
 def unearned_instrument(text, cited_names):

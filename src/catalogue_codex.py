@@ -68,6 +68,13 @@ TYPE_CATEGORY = {
     "racial trait": POWERS, "proficiency": POWERS, "language": POWERS,
     "feat feature": POWERS, "companion trait": POWERS, "background feature": POWERS,
     "dragonmark": POWERS, "magic school": POWERS, "rule": POWERS, "option": POWERS,
+    # `weapon property` (35 occurrences in the codex) was the third unmapped element type and
+    # fell through to the THINGS default, filing finesse, reach and versatile beside the swords
+    # they describe. A property is not an object: it is a rule about what a wielder may do,
+    # which is what `rule` and `proficiency` beside it already are. Mapped to POWERS under
+    # order 85cdecef25f8 (owner ruling 20 of 2026-09-08, "add the weapon property key to POWERS
+    # beside rule and proficiency").
+    "weapon property": POWERS,
     "grants": POWERS, "support": POWERS, "condition": POWERS, "level": POWERS,
     "ability score improvement": POWERS, "information": MEDIA, "source": MEDIA,
 }

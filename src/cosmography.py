@@ -130,9 +130,41 @@ KARDASHEV_MIX = {
 # small universes that re-run themselves" -- the Basement Loop, the Rot City of ANEURISM IV.
 # A universe departs from STANDARD only where its own text forbids the standard reading, per the
 # Continuity Rule's proviso ("unless its physics forbid it").
+# THE MULTIPLIERS ARE NOW DERIVED FROM THE DESCRIPTIONS BESIDE THEM (orders adaeaa7ad639 and
+# cdfeccbfbab0, owner ruling 2026-09-08: "whatever is published wins; correct the side nothing
+# rests on ... the cosmography multipliers are brought under their own descriptions").
+#
+# WHAT WAS WRONG. Each non-standard class was declared TWICE -- once in prose, once as a
+# multiplier on a standard universe -- and the two disagreed by orders of magnitude. POCKET at
+# 1e-9 computed 2.000e+02 galaxies, 2.0e10 stars and TWELVE galaxy-spanning Type III
+# civilisations inside "a closed loop, a demiplane, one stage and no sky". MINOR at 1e-6
+# computed 2.000e+05 galaxies inside "a single galaxy's worth, walled". Both figures were
+# measured from the live tables, not estimated. `SIZE_CLASS_MAX_GALAXIES` below caught it and
+# both classes have been REFUSING ever since, which is the guard working -- and a class that
+# advertises itself and then raises is not usable, so the contradiction had to be resolved and
+# only the owner could resolve it.
+#
+# WHICH SIDE MOVED, AND WHY. The prose is the published side: it is what the charter's II.N.3
+# exception class ("the small universes that re-run themselves" -- the Basement Loop, the Rot
+# City of ANEURISM IV) actually says these classes ARE, and `SIZE_CLASS_MAX_GALAXIES` was
+# already read off it. The multipliers rested on nothing -- every caller of `census()` in src/
+# passes the literal "STANDARD" (address_space.py, pipeline.py, verify_math.py), so no published
+# number moves. So the multipliers moved.
+#
+# AND THEY ARE READ OFF THE DESCRIPTIONS RATHER THAN CHOSEN, the same method
+# `SIZE_CLASS_MAX_GALAXIES` used:
+#   MINOR  -- "a single galaxy's worth, walled" is ONE galaxy, so the multiplier is one galaxy
+#             out of a standard universe's galaxies: 1 / GALAXIES_DEFAULT.
+#   POCKET -- "one stage and no sky" is a sky with no other stars in it, so it is ONE STAR's
+#             worth: one star out of a standard universe's stars.
+# Both track GALAXIES_DEFAULT and STARS_PER_GALAXY_MEAN, so a re-measurement of either moves
+# them instead of leaving a hand-copied literal behind -- which is how the 1e-9 and the 1e-6
+# came to disagree with their own descriptions in the first place.
 SIZE_CLASSES = {
-    "POCKET":   1e-9,   # DECLARED EXCEPTION: a closed loop, a demiplane, one stage and no sky
-    "MINOR":    1e-6,   # DECLARED EXCEPTION: a single galaxy's worth, walled
+    # a closed loop, a demiplane, one stage and no sky -> one star's worth
+    "POCKET":   1.0 / (GALAXIES_DEFAULT * STARS_PER_GALAXY_MEAN),
+    # a single galaxy's worth, walled -> one galaxy
+    "MINOR":    1.0 / GALAXIES_DEFAULT,
     "STANDARD": 1.0,    # THE DEFAULT AND THE RULE: one observable universe
 }
 DEFAULT_SIZE_CLASS = "STANDARD"
@@ -153,11 +185,14 @@ DEFAULT_SIZE_CLASS = "STANDARD"
 # because it IS the whole observable universe by owner ruling and has nothing to be checked
 # against.
 #
-# FOR THE OWNER, AND LEFT FOR THE OWNER: with SIZE_CLASSES as it stands, POCKET computes 2.0e2
-# galaxies and MINOR 2.0e5, so both now REFUSE. Which of the two declarations is wrong -- the
-# multiplier or the description -- is a charter ruling and not a maintenance decision, so it is
-# deliberately not made here. Until it is made, the census declines to return a universe that
-# contradicts its own category, which is precisely what `validate()` says it is for.
+# RULED 2026-09-08 (orders adaeaa7ad639, cdfeccbfbab0). This paragraph used to say the choice
+# between the multiplier and the description was a charter ruling and was deliberately not made
+# here. It has been made: the DESCRIPTIONS stand and the multipliers were brought under them,
+# derived above from GALAXIES_DEFAULT and STARS_PER_GALAXY_MEAN rather than retyped. POCKET now
+# computes well under one galaxy and MINOR exactly one, so neither refuses any more -- and these
+# ceilings are unchanged, so they are still the check that would catch it if a multiplier ever
+# drifted off its description again. The ceiling is a floor under the prose, not a consequence
+# of it: do not "simplify" it away because the classes currently pass.
 SIZE_CLASS_MAX_GALAXIES = {
     "POCKET":   1.0,
     "MINOR":    1.0,

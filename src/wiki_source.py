@@ -372,7 +372,53 @@ _ALLCATS = {}
 _ALLCATS_LOCK = threading.Lock()
 
 
-def all_categories(subdomain, min_pages=40, hard_stop=None):
+# THE CATEGORY-SIZE FLOOR, DECLARED (order 4d78c426afb3; owner ruling 2026-09-08, "Traffic on
+# the Fandom edge" -- *the 40-page MediaWiki category floor is declared and its dropped count
+# reported*). It was a bare default argument repeated at three call sites, and `find_categories`
+# -- the function `catalogue_web` actually calls -- promised in its docstring "Every category on
+# this wiki that holds subjects of the given canonical class" with no mention of it at all.
+#
+# THE FLOOR STANDS. The owner took reading A: a category holding fewer than forty pages on a
+# Fandom wiki is usually navigation cruft or a one-off grouping, the fixed CATEGORY_PROBES list
+# still catches the canonical names whatever their size, and the alternative -- asking `acmin=1`
+# -- multiplies the walk against a wiki farm that has IP-banned this machine once (see MIN_GAP's
+# comment above). What was NOT defensible is that nothing anywhere said the floor existed.
+#
+# AND IT IS ENFORCED SERVER-SIDE, WHICH IS WHY ITS DROP CANNOT BE COUNTED FOR FREE. `acmin` is a
+# parameter to the API, so the excluded categories never reach this process -- there is no local
+# list to notice is short, which is exactly what made this invisible in a way the two caps
+# already removed from this file (`hard_stop=6000`, `limit=6`) were not. `category_floor_report`
+# below reports what IS known -- the floor that was applied and how many categories cleared it,
+# per wiki -- and says out loud that the count below the floor is UNMEASURED rather than
+# printing a zero that would read as "nothing was dropped". Measuring it costs a second walk at
+# `min_pages=1` and is a deliberate act, not a sweep.
+CATEGORY_MIN_PAGES = 40
+
+# {(subdomain, min_pages): categories that cleared the floor}. Written by every walk, read by
+# `category_floor_report`. Not a cache -- `_ALLCATS` is the cache -- an ACCOUNT.
+_FLOOR_APPLIED = {}
+
+
+def category_floor_report():
+    """What the category-size floor did, per wiki. -> [{...}], worst-informed first.
+
+    `below_floor` IS ALWAYS None AND THAT IS THE POINT. The floor is applied by the MediaWiki API
+    through `acmin`, so the categories it excluded were never sent to us and cannot be counted
+    from anything this process holds. Reporting a 0 there would be answering *unknown* with a
+    plausible value, which the owner ruled against on 2026-09-08. To actually measure it, call
+    `all_categories(subdomain, min_pages=1)` beside the ordinary walk and difference the two --
+    deliberately, slowly, and not as part of a sweep.
+    """
+    return [{"subdomain": sub, "floor": floor, "categories_above_floor": n,
+             "below_floor": None,
+             "note": "the floor is applied server-side via the MediaWiki `acmin` parameter, so "
+                     "what it excluded never reached this process. Not zero -- UNMEASURED. "
+                     "all_categories(sub, min_pages=1) measures it, at the cost of a much "
+                     "longer walk against a host that has IP-banned this machine once."}
+            for (sub, floor), n in sorted(_FLOOR_APPLIED.items())]
+
+
+def all_categories(subdomain, min_pages=CATEGORY_MIN_PAGES, hard_stop=None):
     """[(size, name)] for every category on a wiki holding at least `min_pages` pages.
 
     CACHED PER (SUBDOMAIN, MIN_PAGES), and it has to be. `find_categories` calls this once for
@@ -439,15 +485,24 @@ def all_categories(subdomain, min_pages=40, hard_stop=None):
     if hard_stop is None:
         with _ALLCATS_LOCK:
             _ALLCATS[key] = out
+    # THE ACCOUNT, taken on the completed walk only -- a walk that raised above never gets here,
+    # so the report cannot describe a partial listing as a floor measurement.
+    with _ALLCATS_LOCK:
+        _FLOOR_APPLIED[(subdomain, min_pages)] = len(out)
     return out
 
 
-def discover_categories(subdomain, canonical_category, min_pages=40):
+def discover_categories(subdomain, canonical_category, min_pages=CATEGORY_MIN_PAGES):
     """Categories this wiki ACTUALLY has that match the canonical category's keywords.
 
     The fixed probe list assumes every wiki names things the way Marvel's does. Most do not, and
     when the guess misses, the source gets no category at all for that whole class -- or worse,
     falls through to something adjacent and wrong.
+
+    BOUNDED BELOW BY `min_pages`, which defaults to `CATEGORY_MIN_PAGES` (40) -- see that
+    constant for the floor's declaration and for why what it excludes cannot be counted from
+    here. A category holding fewer pages than the floor is never returned by the API, so it is
+    never matched against CATEGORY_KEYWORDS and never appears in this list.
     """
     keys = [k.lower() for k in CATEGORY_KEYWORDS[canonical_category]]
     hits = []
@@ -459,8 +514,21 @@ def discover_categories(subdomain, canonical_category, min_pages=40):
     return hits
 
 
-def find_categories(subdomain, canonical_category, limit=None, discover=True, min_pages=40):
-    """Every category on this wiki that holds subjects of the given canonical class.
+def find_categories(subdomain, canonical_category, limit=None, discover=True,
+                    min_pages=CATEGORY_MIN_PAGES):
+    """Every category on this wiki that holds subjects of the given canonical class AND AT LEAST
+    `min_pages` PAGES -- see `CATEGORY_MIN_PAGES`.
+
+    THE DOCSTRING NAMES THE FLOOR NOW (order 4d78c426afb3; owner ruling 2026-09-08). The first
+    sentence read "Every category on this wiki that holds subjects of the given canonical class",
+    unqualified, while the discovery half reaches the wiki through
+    `discover_categories(...) -> all_categories(subdomain, min_pages=40) -> _api(..., acmin=40)`.
+    `all_categories`' own docstring was honest about the floor; this one -- the function
+    `catalogue_web` actually calls -- claimed a completeness it does not deliver. The floor
+    stands by ruling; the claim does not.
+
+    The fixed `CATEGORY_PROBES` half below is NOT floored: a canonical category is probed by name
+    and returned whatever its size, which is what keeps a small wiki's real cast reachable.
 
     `limit` defaults to None. It was 6, which quietly discarded whatever a wiki held past its
     sixth matching category -- and since the probe list is ordered by guesswork rather than by

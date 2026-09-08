@@ -109,6 +109,12 @@ def main():
     empty = [r["name"] for r in roll if r.get("entry_count", 0) == 0]
 
     written, skipped_no_map, skipped_no_items, skipped_populated = [], [], [], []
+    # ROLL SOURCE -> [(register source, declared, yielded)] for every mapping that yielded fewer
+    # items than it declared (order 729c26e0e63c). Reported BY NAME beside the other buckets at
+    # the foot of this function, because -- per order aff81a1f1029, established for this very
+    # file -- these buckets prescribe DIFFERENT work and a count tells the reader neither which
+    # sources nor which remedy.
+    short_sources = {}
     # Set by either write gate below; carried out through main()'s return so a denied write is
     # a nonzero exit and not merely a printed line. See the two sites for the argument.
     denied = False
@@ -137,10 +143,36 @@ def main():
             continue
 
         entries = []
+        # THE DECLARED COUNT IS SPENT NOW, NOT UNPACKED AND DROPPED (order 729c26e0e63c, owner
+        # ruling 5 of 2026-09-08: "rank instead of displace; record every drop and re-ask" --
+        # the missing counters land in feats_index/manifest_builder and here).
+        #
+        # `_declared_count` came out of FOLDER_SOURCE_MAP.json, which this module's own header
+        # describes as the cloud session's mapping "WITH COUNTS ... curatorial work it already
+        # did", and it was read into a name with a leading underscore and never compared with
+        # anything. The number it should be compared against was on the very next line. So a
+        # mapping declaring 350 items against a register yielding 3 was transcribed in silence:
+        # the record landed, the roll row was stamped `status='catalogued'` with
+        # `entry_count: 3`, and because work selection everywhere in this pipeline is
+        # `entry_count == 0` the source was never revisited. A truncated catalogue
+        # indistinguishable from a complete one, arriving through a cross-check the data had
+        # already paid for.
+        shortfalls = []
         for register_source, _declared_count in mapped:
             if register_source in EXCLUDED_REGISTER_SOURCES:
                 continue
-            for item in by_source.get(register_source, []):
+            _got = by_source.get(register_source, [])
+            try:
+                _want = int(_declared_count)
+            except (TypeError, ValueError):
+                # A MAPPING THAT DECLARES NOTHING USABLE IS NOT A MAPPING THAT AGREES. It is a
+                # cross-check that could not be made, which is its own answer -- the same
+                # distinction this file draws between a denied write and a write that landed.
+                _want = None
+                shortfalls.append((register_source, None, len(_got)))
+            if _want is not None and len(_got) < _want:
+                shortfalls.append((register_source, _want, len(_got)))
+            for item in _got:
                 entries.append({
                     "name": item.get("name"),
                     "type": item.get("type", ""),
@@ -154,6 +186,12 @@ def main():
                     "category": "Mechanical/Named Content",
                     "register_source": register_source,
                 })
+
+        # RECORDED BEFORE THE EARLY EXIT BELOW, deliberately: a source that declared 350 and
+        # yielded nothing at all is the LOUDEST case of this fault, and putting the accumulator
+        # after the `continue` would have made it the one case that never gets reported.
+        if shortfalls:
+            short_sources[name] = list(shortfalls)
 
         if not entries:
             skipped_no_items.append(name)
@@ -197,16 +235,52 @@ def main():
             # inventing them would put a fabricated power ceiling into the volume frontmatter.
             "synthesis": None,
             "status": "catalogued",
+            # AND THE SHORTFALL IS WRITTEN INTO THE PROVENANCE (order 729c26e0e63c). This string
+            # already exists to say what the transcription is and is NOT; a register that
+            # yielded fewer items than the mapping declared is exactly that kind of statement,
+            # and it has to travel with the record rather than only across the console, because
+            # the record is what a later reader has.
             "provenance": ("Recovered locally from LOCAL_REGISTER.json via the cloud session's "
                            "FOLDER_SOURCE_MAP.json. Transcribed, not researched -- register "
-                           "descriptions are truncated at source."),
+                           "descriptions are truncated at source."
+                           + ("" if not shortfalls else
+                              " INCOMPLETE AGAINST ITS OWN MAPPING: "
+                              + "; ".join(
+                                  "%s declared %s, register yielded %d"
+                                  % (rs, "an unreadable count" if want is None else want, got)
+                                  for rs, want, got in shortfalls)
+                              + ". This record is a floor, not the whole of what was mapped.")),
         }
 
         if not args.dry_run:
-            # ATOMIC. NOTE FOR REVIEW: the two-writer contract says a RECORD should be written
-            # through `pipeline.write_record_catalogue`, not straight to disk at all. Making the
-            # write atomic is the safe half of that repair; routing this recovery tool through
-            # the catalogue writer changes its merge semantics and is flagged in NEXT_STEPS.
+            # ATOMIC, AND EXEMPT FROM THE RECORD-WRITER CONTRACT BY RULING -- THIS IS THE NOTE
+            # (order 9a44b1535851, owner ruling 10 of 2026-09-08: "leave recover_folder_records
+            # outside the catalogue writer with the exemption recorded in the two-writer note").
+            #
+            # THE CONTRACT. `pipeline.write_record_catalogue` is the project's only sanctioned
+            # record writer, and the reason is that it MERGES rather than replaces: the
+            # catalogue and the pipeline both write data/records/*.json, they write them WHOLE,
+            # and marvel.json once went from 1,051 entries to 30,207 in a single re-catalogue
+            # pass -- so landing a stale in-memory copy over that reverts twenty-nine thousand
+            # entries and the loss reads as "the re-catalogue never ran".
+            #
+            # WHY THIS TOOL IS THE EXCEPTION. Merging is the wrong semantics HERE. This is a
+            # folder-mechanical transcription of a register: it is not researched, its
+            # descriptions are truncated at source, and it carries `synthesis: None` because
+            # inventing a ceiling would be a fabricated power band in a volume's frontmatter.
+            # Folding it INTO an existing record would silently mix transcription with research
+            # under one provenance string, which is the one property this record exists to keep
+            # separable. So it does not merge -- it declines to write at all where a record
+            # already holds entries (see the `already` guard below), which is the fail-closed
+            # form of the same protection and is strictly more conservative than a merge.
+            #
+            # THE ROUTING GAP IS THEREFORE CLOSED BY RULING, NOT BY CODE, and this comment is
+            # where it is recorded. The order's own text noted that its predecessor said the
+            # deviation was "flagged in NEXT_STEPS" while NEXT_STEPS.md contained no mention of
+            # it -- and NEXT_STEPS.md is overwritten every run, so it was never a place a
+            # decision could live. It lives here, beside the write it governs.
+            #
+            # Making the write atomic was the safe half of the original repair and is unchanged.
             # GATE ON THE WRITE. `silence.write_json` returns False on a persistent lock and
             # this ignored it, then marked the roll row `catalogued` with a real `entry_count`
             # anyway -- so a write that never landed left the roll actively LYING about a record
@@ -270,6 +344,23 @@ def main():
     print(f"  {len(skipped_no_items):3d} mapped, but the register holds no items for them")
     for name in sorted(skipped_no_items):
         print(f"        {name}")
+
+    # THE CROSS-CHECK THE DATA ALREADY PAID FOR (order 729c26e0e63c). Named, never counted, for
+    # the reason the two buckets above are: this bucket prescribes its own third remedy -- fix
+    # the mapping, or fix the register -- and it is the one bucket whose members otherwise look
+    # like successes. Every source and every mapping is printed; there is no cut here.
+    if short_sources:
+        _total_lost = sum((want or 0) - got
+                          for rows in short_sources.values() for _, want, got in rows
+                          if want is not None and want > got)
+        print(f"\nSHORT AGAINST THEIR OWN MAPPING: {len(short_sources)} source(s), about "
+              f"{_total_lost:,} declared item(s) the register did not yield. These landed as "
+              f"records and were stamped 'catalogued', and work selection is entry_count == 0, "
+              f"so nothing will revisit them on its own:")
+        for name in sorted(short_sources):
+            for rs, want, got in short_sources[name]:
+                print("  %-42s %-30s declared %s, yielded %d"
+                      % (name, rs, "an unreadable count" if want is None else want, got))
 
     if skipped_populated:
         print(f"\nLeft alone: {len(skipped_populated)} record(s) already hold entries on disk. "

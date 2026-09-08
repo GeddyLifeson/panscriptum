@@ -161,6 +161,94 @@ def _parse(path):
         return None, "%s: %s" % (type(e).__name__, e)
 
 
+def _stem(s):
+    """Basename, extension-stripped: `deprecated/catalogue_local.py` -> `catalogue_local`.
+
+    `_modules()` labels a file by its path relative to `src/` (so a finding can name the file a
+    person has to open) while every REFERENCE to a module spells the bare name -- `import
+    catalogue_local`, or the string `"src/catalogue_local.py"`. Compared unstemmed the two can
+    never match. Used by the dead-module pass to compare `trees`' path-shaped keys against
+    import-shaped references, and by the receiver-aware attribute pass (`_credit_attrs`) to turn
+    an import alias's target (`resonance`, from `import resonance as R`) into the same key
+    `trees` is keyed by, so a resolved receiver can be looked up at all.
+    """
+    s = s.replace("\\", "/").rsplit("/", 1)[-1]
+    return s[:-3] if s.endswith(".py") else s
+
+
+def _scope_aliases(node):
+    """{local name -> module simple name} for imports made DIRECTLY in this scope. -> dict.
+
+    Stops at a nested `def`/`class`, exactly like `_self_attrs` stops at a nested `ClassDef` --
+    a function's own imports belong to IT, not to whatever encloses it, and the reverse: an
+    import three functions up must not leak into a sibling that never saw it. This is what lets
+    `_credit_attrs` tell `import roll as R` in one `drill.py` function apart from `import
+    resonance as R` in another, which a single module-wide alias map cannot -- see `_credit_attrs`
+    for the false positive that shape produces.
+    """
+    out = {}
+    stack = list(node.body) if hasattr(node, "body") else []
+    while stack:
+        n = stack.pop()
+        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            continue                    # its own scope, resolved when `_credit_attrs` enters it
+        if isinstance(n, ast.Import):
+            for al in n.names:
+                top = al.name.split(".")[0]
+                out[al.asname or top] = top
+        elif isinstance(n, ast.ImportFrom) and n.module:
+            # `from pkg import mod` can itself bind a MODULE name, alongside the far more common
+            # case of binding a plain symbol -- both already land in the receiver-blind `used`
+            # set via the ImportFrom pass in `scan()`, so registering a candidate here that turns
+            # out not to name a real module costs nothing: `_credit_attrs` only acts on an entry
+            # that matches something in `trees`.
+            for al in n.names:
+                out[al.asname or al.name] = al.name
+        stack.extend(ast.iter_child_nodes(n))
+    return out
+
+
+def _credit_attrs(node, aliases, module_names, used_by_module, used_global):
+    """Walk `node`, crediting every non-self/cls Attribute Load to the module its receiver
+    resolves to, or to the receiver-blind `used_global` bag when it does not resolve. -> None
+    (mutates `used_by_module` and `used_global`).
+
+    THE FAULT THIS REPLACES. `used.add(node.attr)` used to credit an attribute name globally,
+    from ANY receiver -- so `foo.report()` anywhere in the whole tree kept every module-level
+    `report()` in the project alive, the identical shape as the bare-name bug `used_local` was
+    built to fix one scope out. A NAIVE receiver-aware fix -- one alias map per MODULE instead
+    of per name -- is wrong in a different, worse way: `drill.py` has `import roll as R` inside
+    one function and `import resonance as R` inside another, and a module-wide map keeps
+    whichever it saw last, so it would credit `R.hodge_decompose()` (real, only ever called
+    where `R` is `resonance`) to the WRONG module and manufacture a false DEAD in `resonance.py`
+    -- the single worst outcome for a detector whose subject is checks that cannot fail. (Order
+    6c479972e838, owner ruling 2026-09-08.)
+
+    So `aliases` is rebuilt at every function/class boundary from that scope's OWN imports
+    layered on top of its parent's (`_scope_aliases`), and a receiver only resolves against the
+    map live at the exact point it is read -- `R.hodge_decompose()` inside the `resonance`-aliased
+    function resolves to `resonance`; the OTHER function's `R`, aliased to `roll`, never touches
+    `hodge_decompose` at all, so nothing there is even a candidate. Anything that does not
+    resolve -- an instance variable, a parameter, anything this syntax-only pass cannot type --
+    still lands in `used_global` exactly as before: the standing rule stays "err toward it is
+    used", narrowed only where the resolution is actually sound rather than merely convenient.
+    """
+    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        aliases = dict(aliases)
+        aliases.update(_scope_aliases(node))
+    elif isinstance(node, ast.Attribute):
+        if isinstance(node.value, ast.Name) and node.value.id in ("self", "cls"):
+            pass                         # scoped elsewhere, by `_self_attrs`/`scoped`
+        else:
+            target = aliases.get(node.value.id) if isinstance(node.value, ast.Name) else None
+            if target in module_names:
+                used_by_module.setdefault(target, set()).add(node.attr)
+            else:
+                used_global.add(node.attr)
+    for child in ast.iter_child_nodes(node):
+        _credit_attrs(child, aliases, module_names, used_by_module, used_global)
+
+
 def _self_attrs(node):
     """The names this class body reads off `self` or `cls`, EXCLUDING nested class bodies.
 
@@ -237,9 +325,12 @@ def _defs(tree, prefix=""):
     `used` set that hid `coverage._p()`: a floor being read as a total.
 
     A method is not harder to judge than a function, because Python resolves it the same way
-    the `used` set already models: `self.foo()` and `obj.foo()` are ATTRIBUTES, which are
-    collected globally, so any method reached through an instance anywhere in src/ counts as
-    used. What surfaces is the method nothing ever names.
+    the `used` set already models: `self.foo()` and `obj.foo()` are ATTRIBUTES. `self.foo()` is
+    scoped to its class and relatives (`scoped`, below). `obj.foo()` is scoped to the specific
+    module `obj` resolves to when that is knowable (`_credit_attrs`/`used_by_module`, order
+    6c479972e838) and falls back to a receiver-blind credit -- any method of that name, in any
+    module -- only where it is not. What surfaces is the method nothing ever names, by any route
+    this pass can trace.
 
     Nested classes recurse, and the label carries the dotted path so a report line names the
     class -- e.g. `foo.py:12 Bar.baz()` is answerable, `baz()` is not. (`entity_match.py`'s one
@@ -280,6 +371,65 @@ def scan():
     ALSO MEASURED AND EMPTY, recorded so it is not re-measured: a function whose only in-module
     reference is its own recursive call would likewise be credited as used. Zero instances in the
     tree today.
+
+    THE PHANTOM PASS IS DELIBERATELY MODULE-WIDE, AND THAT IS A KNOWN UNDER-REPORT (order
+    2e0ba4b02ec4, owner ruling 2026-09-08). Its `defined` set is ONE FLAT SET per module: every
+    FunctionDef, every Store name, every argument, every import and every except-handler name in
+    the file, with no per-function scoping. The sibling DEAD pass, by contrast, keeps three
+    scoped sets. So a guard naming a local that exists only in a DIFFERENT function is silently
+    credited as defined and goes unreported -- and that guard raises NameError on the branch
+    nobody takes, which is precisely the fault class this pass exists for.
+
+    IT STAYS THAT WAY, on purpose, and the reason is the direction of the error. A module-wide
+    set can only ever UNDER-report; it cannot invent a finding. This file's stated policy is to
+    err toward no false positive, because a detector whose output is mostly noise is ignored
+    within a day and an ignored detector is indistinguishable from an absent one -- the same
+    sentence the `__file__` exemption thirty lines below is written for. Scoping it per function
+    would raise the finding count, and this scan's count is RATCHETED by `drill.LIVENESS_CEILING`:
+    a sharpening would breach that net and halt the library over a detector that got better
+    rather than code that got worse, so it cannot be taken casually or alone. Recorded here
+    rather than left to be re-derived, because five sweeps have now found this and asked about it.
+
+    WHAT WOULD CHANGE IT: the new baseline measured and watched first, inside whatever headroom
+    `drill.LIVENESS_CEILING` has at the time, in the same change as the ceiling's own reasoning --
+    the template is order 6c479972e838's receiver-aware DEAD pass, below, which asked the same
+    question, landed inside three points of the four points of headroom it found on measurement,
+    and moved the ceiling not at all. Not a raise taken on the promise of a sharper detector.
+
+    THE RECEIVER-AWARE DEAD PASS HAS LANDED (order 6c479972e838, owner ruling 2026-09-08: "the
+    sharper liveness detector must land inside the existing headroom -- settle scale_theories
+    first -- with no ceiling move"). `used.add(node.attr)` used to credit an attribute name from
+    ANY receiver, so `foo.report()` anywhere in `src/` kept every module-level `report()` in the
+    project alive. `_credit_attrs` and `_scope_aliases` (module level, above) replace that: an
+    attribute whose receiver traces to a real `import` resolves to THAT module's own
+    `used_by_module` bucket, scoped per function so two functions that alias the same letter to
+    two different modules cannot cross-credit each other's methods; anything the syntax cannot
+    type still falls back to the old, receiver-blind `used` bag. See the DEAD and DEAD CLASS
+    passes below for exactly how the two sets are consulted together.
+
+    `scale_theories` was NOT settled first, which the ruling named as the likely prerequisite for
+    enough headroom -- and measurement showed it was not the blocking constraint after all:
+
+        findings before this pass                 48   (dead 39, dead_module 9, the rest zero)
+        drill.LIVENESS_CEILING                     52   -- four points of headroom
+        the receiver-aware pass, measured LANDED   +1   -- landing at 49, three points left
+
+    So the SIZE was never what held it, and the measurement above proves the point a different
+    way than expected: it holds with room to spare even without the prerequisite. What held it
+    was that the CHEAP version -- one alias map per module instead of per function -- is wrong,
+    and it would have shown as a false positive at `resonance.py:89 hodge_decompose()`: `drill.py`
+    really does call it, at `R.hodge_decompose(STAR)`, but `R` is bound to `roll` in one function
+    body and to `resonance` in another. A module-wide alias map keeps whichever import it saw
+    last and credits the attribute to the wrong module; scoping the map per function, exactly as
+    `_credit_attrs` does, is what makes `hodge_decompose()` resolve correctly and NOT appear in
+    the findings below -- checked directly, not assumed, because that was the entire risk the
+    order was held against.
+
+    The one new finding, `context_budget.py:276 report()`, is GENUINE: no caller of any spelling
+    exists in `src/`, confirmed by grep as well as by this pass. It was already suspected before
+    this landed (see the order's own text) and is left standing rather than filed by hand,
+    because the point of the order was the DETECTOR, and a hand-filed instance is what having no
+    instrument looks like.
     """
     trees, used, unparsed = {}, set(), []
     for name, path in _modules():
@@ -329,20 +479,40 @@ def scan():
     # methods in scope -- which is exactly why it is cheap to fix now rather than after one
     # appears. `self`/`cls` reads are collected PER CLASS by `_self_attrs` and credited to that
     # class, its ancestors and its descendants (a base's template method calls `self.step()` and
-    # a subclass implements it; both directions are real). Every other attribute stays global.
-    used_local, self_attr = {}, {}
+    # a subclass implements it; both directions are real).
+    #
+    # EVERY OTHER ATTRIBUTE USED TO STAY GLOBAL, RECEIVER-BLIND, and that is the false-negative
+    # surface order 6c479972e838 measured: `foo.report()` anywhere in `src/` kept every
+    # module-level `report()` alive, so a dead method could never be flagged so long as ANY
+    # module anywhere happened to define an attribute of that name. `_credit_attrs` (above)
+    # resolves what it safely can -- an attribute reached through a name traceable to a known
+    # import alias, scoped per function so two functions aliasing the same letter to different
+    # modules cannot cross-credit each other's dead code -- and falls back to the old,
+    # receiver-blind `used` bag for anything it cannot type, which is still most attribute
+    # accesses in this tree (instance attributes, parameters, loop variables). `module_names` is
+    # `trees`' own keys, stemmed the same way the dead-module pass already stems them, so a
+    # resolved receiver and a real module entry are compared in the same shape.
+    module_names = {_stem(n) for n in trees}
+    used_local, self_attr, used_by_module = {}, {}, {}
     for name, t in trees.items():
         local = set()
+        # SEEDED WITH THE MODULE'S OWN TOP-LEVEL IMPORTS, not `{}`. `_credit_attrs` treats a
+        # `FunctionDef`/`AsyncFunctionDef`/`ClassDef` as a scope boundary that layers its own
+        # imports over whatever it is handed, but the module itself -- an `ast.Module`, not any
+        # of those three node types -- never triggered that layering, so a function relying on
+        # its enclosing module's ordinary top-level `import X` (the overwhelmingly common case;
+        # a LOCAL re-import like `drill.py`'s `import resonance as R` is the exception this
+        # module's docstring uses as the worked example) resolved against an empty map and every
+        # such access fell back to `used_global` -- safe, but not the narrowing this order asks
+        # for. First measurement with this bug in place produced a flat 0-finding delta, which is
+        # what a receiver-aware pass that never resolves anything also looks like.
+        _credit_attrs(t, _scope_aliases(t), module_names, used_by_module, used)
         for node in ast.walk(t):
             if isinstance(node, ast.Name):
                 # LOAD only. A `for _p in ...` or `_p = 1` BINDS the name, it does not call
                 # anything, and counting bindings as calls is precisely what went wrong.
                 if isinstance(node.ctx, ast.Load):
                     local.add(node.id)
-            elif isinstance(node, ast.Attribute):
-                if isinstance(node.value, ast.Name) and node.value.id in ("self", "cls"):
-                    continue                              # scoped to its class, below
-                used.add(node.attr)                       # `mod.thing()` -- crosses modules
             elif isinstance(node, ast.ImportFrom):
                 for al in node.names:
                     used.add(al.name)                     # `from mod import thing`
@@ -403,16 +573,9 @@ def scan():
     # `trees` is keyed by FILENAME (`silence.py`) while every reference spells the module
     # (`import silence`). Compared without stemming, the two never match and this limb reports
     # the entire tree dead -- which is how it read on first measurement, and a limb that fires on
-    # everything is as useless as one that fires on nothing.
-    def _stem(s):
-        # BASENAME FIRST, because `_modules()` now walks subdirectories and labels them by
-        # relative path (`deprecated/catalogue_local.py`) while every reference to a module
-        # spells the bare name (`import catalogue_local`, or the string `src/catalogue_local.py`).
-        # Compared unstemmed the two can never match, which would report every module in a
-        # subdirectory as dead on the strength of its directory alone.
-        s = s.replace("\\", "/").rsplit("/", 1)[-1]
-        return s[:-3] if s.endswith(".py") else s
-
+    # everything is as useless as one that fires on nothing. `_stem` (module level, above --
+    # hoisted out of here so `_credit_attrs`'s `module_names` can share it instead of keeping a
+    # second copy that could drift) does the same basename-first stemming for both uses.
     referenced = set()
     for name, t in trees.items():
         me = _stem(name)
@@ -438,19 +601,22 @@ def scan():
     dead, dead_class, taut, phantom = [], [], [], []
     for name, t in trees.items():
         # --- DEAD CLASS: a ClassDef whose simple name is never referenced anywhere (see
-        # `_classdefs`). Resolved with the SAME three-way rule the function pass uses, because a
-        # class is reached by exactly the same routes a function is: `Refused(...)` and
-        # `except Refused:` and `class X(Refused)` are bare Name Loads in the defining module,
-        # `mod.Refused` is an attribute, `from mod import Refused` is a from-import, and a
-        # dispatch table names it as a string. All four are already collected above. There is no
-        # `self`/`cls` limb here: a class is not reached through an instance of itself.
+        # `_classdefs`). Resolved with the SAME rule the function pass uses, because a class is
+        # reached by exactly the same routes a function is: `Refused(...)` and `except Refused:`
+        # and `class X(Refused)` are bare Name Loads in the defining module, `mod.Refused` is an
+        # attribute (resolved, since order 6c479972e838, to `used_by_module[_stem(name)]` when
+        # the receiver traces to THIS module and to `used` when it does not), `from mod import
+        # Refused` is a from-import, and a dispatch table names it as a string. All are already
+        # collected above. There is no `self`/`cls` limb here: a class is not reached through an
+        # instance of itself.
         for cls, label, node in _classdefs(t):
             # AGAINST THE CLASS TABLE, NOT THE FUNCTION ONE (order 962bc293ec32). See
             # EXEMPT_CLASSES. The finding count is unchanged by this -- the old conjunct
             # matched nothing -- so it does not move drill.LIVENESS_CEILING.
             if cls in EXEMPT_CLASSES:
                 continue
-            if cls not in used and cls not in used_local.get(name, ()):
+            if (cls not in used and cls not in used_local.get(name, ())
+                    and cls not in used_by_module.get(_stem(name), ())):
                 dead_class.append("%s:%d class %s" % (name, node.lineno, label))
 
         # --- DEAD: module-level defs and METHODS nobody references (see `_defs`)
@@ -462,15 +628,23 @@ def scan():
             # minutes. A check nobody can afford to run is a check that does not run, which is
             # the very thing this module exists to find.
             #
-            # THREE SETS, not one: `used` is the cross-module surface (non-self attributes,
-            # from-imports, dispatch strings), `used_local[name]` is what this module itself
-            # loads by bare name, and `reachable` is what THIS CLASS AND ITS RELATIVES read off
-            # `self`/`cls`. A bare name in ANOTHER module cannot reach this function, and a
-            # `self.foo` in an UNRELATED class cannot reach this method.
+            # FOUR SETS, not one: `used` is the cross-module surface this pass CANNOT type an
+            # attribute's receiver for (unresolved attributes, from-imports, dispatch strings),
+            # `used_by_module[_stem(name)]` is the surface it COULD resolve a receiver for --
+            # an attribute reached through a name traceable to an import of THIS module,
+            # specifically, scoped per function (`_credit_attrs`) -- `used_local[name]` is what
+            # this module itself loads by bare name, and `reachable` is what THIS CLASS AND ITS
+            # RELATIVES read off `self`/`cls`. A bare name in ANOTHER module cannot reach this
+            # function, and a `self.foo` in an UNRELATED class cannot reach this method; as of
+            # order 6c479972e838, an attribute resolved to a DIFFERENT module cannot either --
+            # only `used` (unresolved) and `used_by_module[_stem(name)]` (resolved to THIS
+            # module) count now, where before every resolved-or-not attribute access counted for
+            # every module sharing that name.
             reachable = ()
             if "." in label:
                 reachable = scoped.get((name, label.rsplit(".", 1)[0]), ())
-            if fn not in used and fn not in used_local.get(name, ()) and fn not in reachable:
+            if (fn not in used and fn not in used_local.get(name, ())
+                    and fn not in reachable and fn not in used_by_module.get(_stem(name), ())):
                 dead.append("%s:%d %s()" % (name, node.lineno, label))
 
         # --- TAUTOLOGY: a comparison whose sides are the same expression

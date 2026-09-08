@@ -48,14 +48,20 @@ THE WIDTHS ARE DERIVED, NOT CHOSEN
 ----------------------------------
 Each field is exactly wide enough for the census the weave and cosmography.py resolved:
 
-    hyperverse  6        highest hyperverse index in TIERS.json, plus one
-    xenoverse   6        the cut above the metaverses
-    metaverse   8        resonance clusters -- multiverses joined by theme, law or recognition
-    multiverse  168      continuity groups the catalogue resolved
+    hyperverse  (live)   highest hyperverse index in TIERS.json, plus one
+    xenoverse   (live)   the cut above the metaverses
+    metaverse   (live)   resonance clusters -- multiverses joined by theme, law or recognition
+    multiverse  (live)   continuity groups the catalogue resolved
     universe    64       continuities per multiverse
     galaxy      2.0e11   Lauer et al. 2021
     star        1.0e8    dwarf-dominated mean per galaxy
     planet      1.6      Cassan et al. 2012
+
+THE FOUR UPPER POPULATIONS ARE NOT WRITTEN HERE, for the same reason the bit counts are not
+(order 60dc7c624c06, owner ruling 2026-09-08 "whatever is published wins"). They stood as
+6/6/8/168 in this table against a TIERS.json measuring 6/3/6/143 -- all four wrong, and wrong
+silently, because a docstring is a literal nothing re-derives. `tier_census()` renders the live
+counts from `_tier_counts()` and `main()` prints them; that is the only place to read them.
 
 The four upper tiers read their populations out of TIERS.json at import, so a re-charting moves
 them; the floor of two in FIELDS keeps every field at least one bit wide. Change the census and
@@ -113,15 +119,22 @@ def _continuities():
 #                                                                         -> a resonance cluster
 #
 # Those are not analogies. They are the definitions, and the weave's two graphs compute precisely
-# those two relations. The 6 clusters the resonance graph yields at its natural threshold are
-# metaverses; the 168 continuities are multiverses.
+# those two relations. The clusters the resonance graph yields at its natural threshold are
+# metaverses; the continuities are multiverses.
 # CHARTED 2026-08-20. Part Two left H and X as '?' because the distinction between the upper
 # tiers had been DEFINED but never operationalised -- there was no procedure that could look at two
 # universes and say which tier joined them. tiers.py is that procedure: the four definitions name
 # four strengths of connective evidence, and the resonance graph measures exactly that, so the
 # tiers are four cuts of one dendrogram taken at its plateaus.
 #
-#     168 multiverses -> 8 metaverses -> 6 xenoverses -> 1 hyperverse
+# THE CHARTING IS PRINTED, NOT TYPED (order 60dc7c624c06, owner ruling 2026-09-08). This comment
+# used to read "168 multiverses -> 8 metaverses -> 6 xenoverses -> 1 hyperverse", and by the time
+# anyone re-measured, TIERS.json held 143 -> 6 -> 3 -> 6: all four numbers wrong, in a sentence
+# whose whole job was to say the question marks had come out. The published side -- the 1,016
+# shelfmarks in data/SHELFMARKS.json, addressed against widths derived from `_tier_counts()` --
+# is the measurement and wins; this prose was the claim and rested on nothing. `tier_census()`
+# renders the live sentence from the same function the widths come from, so the two cannot
+# disagree again.
 #
 # Strictly nested, zero containment violations. The question marks come out.
 def _tier_counts():
@@ -134,11 +147,58 @@ def _tier_counts():
         return out
     except Exception:
         silence.note("address_space.py:tier-counts")
+        # NOT A CENSUS -- a width floor, and the ONLY hardcoded tier figures left in this file
+        # (order 60dc7c624c06). These are the discarded 1/6/8/168 prose numbers, kept here and
+        # nowhere else so that an unreadable TIERS.json still yields importable widths rather
+        # than a crash on import. They do NOT agree with the live charting and must never be
+        # quoted as it: if this arm fires, every address this run computes is drawn against
+        # different widths than the 1,016 standing in data/SHELFMARKS.json, and the run's
+        # shelfmarks should be discarded rather than published. `silence.note` above is the
+        # record that it fired.
         return dict(hyperverse=1, xenoverse=6, metaverse=8, multiverse=168)
 
 
 _TC = _tier_counts()
+
+# WIRED, NOT MERELY DECLARED (order 1eb00a84225e, owner ruling 2026-09-08). This name had a
+# comment describing the honest answer for an uncharted shelf and no reader anywhere in src/;
+# the order said it was "worth keeping only if it is wired into the missing-tier case", which is
+# order 642a95fe9f3c below. It now is: `charted_gaps()` tests tier values against it, and
+# `shelfmark()` prints the charter's own `?` for every field it names.
 UNADDRESSED = None      # a shelf in no hyperverse: it shares no entity with anything
+
+# The four tiers the weave charts. `universe`, `galaxy`, `star` and `planet` are hash draws and
+# are never blank, so they cannot be uncharted in this sense.
+CHARTED_FIELDS = ("hyperverse", "xenoverse", "metaverse", "multiverse")
+
+# What a blank prints as. Part Two's own worked Shelfmark uses it -- "Ω › H? › X? › Mt.ASC …" --
+# so this is the charter's notation and not a new one.
+BLANK = "?"
+
+
+def tier_census():
+    """The live upper-tier charting, as a sentence, read from `_tier_counts()`.
+
+    THE ONE PLACE THE FOUR TIER POPULATIONS ARE SAID OUT LOUD (order 60dc7c624c06, owner ruling
+    2026-09-08 "whatever is published wins; correct the side nothing rests on"). Three prose
+    sites in this module each carried "168 multiverses -> 8 metaverses -> 6 xenoverses -> 1
+    hyperverse" as typed literals. TIERS.json measured 143 -> 6 -> 3 -> 6. All four were wrong
+    and none of them could go stale loudly, because a comment is not evaluated. The widths, the
+    addresses and the 1,016 published shelfmarks all come from `_tier_counts()`; so, now, does
+    every sentence about them.
+    """
+    tc = _tier_counts()
+    return (f"{tc['multiverse']} multiverses -> {tc['metaverse']} metaverses -> "
+            f"{tc['xenoverse']} xenoverses -> {tc['hyperverse']} hyperverses")
+
+
+def charted_gaps(tiers):
+    """Which of the four charted tiers this source's row leaves UNADDRESSED.
+
+    Returns a tuple of field names, in FIELDS order. A name in it is a tier the weave never
+    charted for this shelf -- not a tier charted as zero.
+    """
+    return tuple(f for f in CHARTED_FIELDS if tiers.get(f, UNADDRESSED) is UNADDRESSED)
 
 
 def _bits(n):
@@ -155,8 +215,9 @@ def _bits(n):
 # are actually allocated.
 #
 # WHAT IS TRUE NOW. Hyperverse and xenoverse ARE fields, and they are fields because they became
-# MEASUREMENTS: the resonance dendrogram cut at its plateaus charts them (168 multiverses -> 8
-# metaverses -> 6 xenoverses -> 1 hyperverse, strictly nested), and `assign()` fills both from
+# MEASUREMENTS: the resonance dendrogram cut at its plateaus charts them (the live counts are
+# `tier_census()`'s sentence, strictly nested -- the four numbers that used to stand here were
+# all wrong by the time anyone re-measured; order 60dc7c624c06), and `assign()` fills both from
 # the source's own charted tier stack in TIERS.json rather than guessing. The old comment
 # described the world before tiers.py, when they were positions the charter declined to state
 # and a reserved bit really would have been an invitation to guess.
@@ -206,8 +267,12 @@ def unpack(addr):
     return {k: out[k] for k, _ in FIELDS}
 
 
-def shelfmark(addr):
+def shelfmark(addr, uncharted=()):
     """The charter's own notation, with H and X printed as the charted integers they now are.
+
+    `uncharted` names the tiers the weave never charted for this shelf -- pass
+    `charted_gaps(row)`, or use `assign_and_mark()`, which returns both halves together. Every
+    field named there prints Part Two's own `?` instead of the integer packed under it.
 
     THIS DOCSTRING SAID THE OPPOSITE FOR THREE SWEEPS. It claimed H and X print as '?' -- true of
     Part Two, and true of this function until tiers.py charted the upper tiers -- while the return
@@ -219,23 +284,47 @@ def shelfmark(addr):
     Part Two is explicit that the Custodes "considered guessing a form of lying", and the charter's
     worked citation for Son Goku prints H? and X? for exactly that reason. Nothing here guesses:
     the two tiers stopped being uncharted when the resonance dendrogram was cut at its plateaus
-    (168 multiverses -> 8 metaverses -> 6 xenoverses -> 1 hyperverse, strictly nested), so what
-    prints FOR H, X, Mt AND Mv is a measurement, not a filled-in blank. If TIERS.json is ever
-    absent, `assign()` falls back to tier zero, and the note in `main()` says so out loud rather
-    than letting a zero read as a survey.
+    (the live counts are `tier_census()`; the four numbers this paragraph used to carry were all
+    stale -- order 60dc7c624c06), so what prints FOR H, X, Mt AND Mv is a measurement, not a
+    filled-in blank -- WHERE THERE IS ONE.
+
+    AND WHERE THERE IS NOT, IT PRINTS A BLANK AND SAYS SO (order 642a95fe9f3c, owner ruling
+    2026-09-08 "answering unknown with a plausible value"). `assign()`'s `fit()` maps an
+    UNADDRESSED tier to the integer 0 because `pack()` takes integers and the packed address must
+    not move -- 1,016 addresses and their map seeds stand on it. But 0 is also a real charted
+    hyperverse, so a shelf the weave never reached used to print `H0` and read as a survey
+    result: 38 of 208 TIERS.json rows carry an uncharted hyperverse and xenoverse, 65 an
+    uncharted metaverse, and 16 of the 1,016 designations in data/SHELFMARKS.json are affected.
+    Pass `uncharted=charted_gaps(row)` and those fields print `?`. The address is unchanged; only
+    the claim the printed name makes about it is.
 
     AND THAT SENTENCE IS SCOPED TO THOSE FOUR ON PURPOSE (order 3891e4317946). It used to read
     "what prints is a measurement", unqualified, in the docstring of the function that formats
     the WHOLE line -- and half the line is drawn. The other four fields, U, G, the star and P,
     are hash draws from the designation: see `_HASHED_FIELDS` and `assign()`. Four charted, four
     drawn, and a reader must not take U-7 for a survey result.
+
+    THE STAR FIELD IS DELIBERATELY NOT PRINTED (order be9e9f089d62, owner ruling 2026-09-08
+    "seven-tier shelfmarks stand"). The address has EIGHT fields; this line prints seven. Part
+    Two's own worked Shelfmark -- quoted in this file above `_tier_counts()` -- carries seven
+    tiers below Ω and has no star tier, and the charter's notation governs. The consequence,
+    stated here so nobody derives it a fourth time: `shelfmark()` is NOT injective over
+    addresses. Two worlds around different stars in the same galaxy print the same name (proved
+    2026-08-29 with star=11 against star=999, all else equal). The 38-bit galaxy field is hash
+    drawn, so this is vanishingly unlikely in practice and all 1,016 rows standing in
+    data/SHELFMARKS.json have 1,016 distinct shelfmarks -- but `main()` counts collisions over
+    ADDRESSES and would not see this class if it arose. Adding a star tier would re-address every
+    printed shelfmark in the library, which the `_LEGACY_HASH_OFFSETS` floor below says needs an
+    owner's ruling; the owner ruled the other way, and no re-addressing was taken.
     """
     f = unpack(addr)
     # H is the GROUNDING TYPE -- which answer this cosmos gives to the First Argument. It printed
     # '?' through two earlier passes: first because the tier was undefined, then because a
     # pantheon-seeded reading left most fictions homeless. Neither is true any more.
-    return (f"Ω › H{f['hyperverse']} › X{f['xenoverse']} › Mt.{f['metaverse']} › "
-            f"Mv.{f['multiverse']} › U-{f['universe']} › G.{f['galaxy']:x} › P.{f['planet']}")
+    def v(field):
+        return BLANK if field in uncharted else f[field]
+    return (f"Ω › H{v('hyperverse')} › X{v('xenoverse')} › Mt.{v('metaverse')} › "
+            f"Mv.{v('multiverse')} › U-{f['universe']} › G.{f['galaxy']:x} › P.{f['planet']}")
 
 
 def citation_card(name, addr, band="unassayed", decimal=None, interval=None,
@@ -281,6 +370,16 @@ def seed_from_card(card):
     re-assaying a world would move its mountains -- a revision to the record would rewrite the
     world the record is about, which inverts the entire relationship between a library and its
     subject. Magnitudes are revisable; geography is not downstream of them.
+
+    THIS SEED IS GALAXY-RESOLUTION AND STAR-INSENSITIVE (order be9e9f089d62, owner ruling
+    2026-09-08). The only positional component of the identity half is `shelfmark`, and
+    `shelfmark()` prints seven of the address's eight fields -- the star is not in the charter's
+    notation, so it is not in this key. Two worlds around different stars in the same galaxy
+    therefore receive the SAME map seed and the same generated terrain from this path, while
+    `map_seed(addr)` -- the position-only seed the same module offers -- separates them. That is
+    a real behavioural difference between the two seeding paths, and it is written down here
+    because this docstring has already been wrong once (see :195-200) and the difference was in
+    neither of them.
     """
     ident = card["identity"]
     key = "|".join(str(ident.get(k) or "") for k in ("name", "endonym", "shelfmark"))
@@ -383,10 +482,16 @@ def assign(designation, tiers):
         # carries a negative -- and re-charting the census while a run holds the old widths
         # (order 60dc7c624c06) is precisely the circumstance in which the wrap used to fire.
         #
-        # THE `None` -> 0 ARM IS DELIBERATELY UNCHANGED. A tier that is MISSING being addressed
-        # at zero unmarked is a different fault and has its own open order (642a95fe9f3c); this
-        # is about a tier that is PRESENT and TOO LARGE. The local keeps the name `fit` so that
-        # order's citation still resolves.
+        # THE `None` -> 0 ARM IS STILL HERE, AND IS NO LONGER UNMARKED (order 642a95fe9f3c,
+        # owner ruling 2026-09-08). `pack()` takes integers, and the packed address must not
+        # move: 1,016 addresses and the map seeds derived from them stand on it, and
+        # re-addressing needs an owner's ruling per `_LEGACY_HASH_OFFSETS`. So the ZERO stays in
+        # the integer and the MARK moves to the printed name -- `charted_gaps()` says which
+        # tiers were UNADDRESSED and `shelfmark(addr, uncharted=...)` prints `?` for each.
+        # `assign_and_mark()` below returns the pair so a caller cannot take one without the
+        # other. This arm is about a tier that is MISSING; the modulo note above is about a tier
+        # that is PRESENT and TOO LARGE. The local keeps the name `fit` so both citations
+        # still resolve.
         return 0 if v is None else int(v)
 
     def drawn(field):
@@ -400,6 +505,19 @@ def assign(designation, tiers):
                 drawn("galaxy"),
                 drawn("star"),
                 drawn("planet"))
+
+
+def assign_and_mark(designation, tiers):
+    """`(address, shelfmark, uncharted)` -- the address, and the name that admits what is missing.
+
+    THE PAIR EXISTS SO A CALLER CANNOT TAKE ONE WITHOUT THE OTHER (order 642a95fe9f3c, owner
+    ruling 2026-09-08). `assign()` alone hands back an integer in which an uncharted tier is
+    indistinguishable from a charted zero, and every caller that then printed `shelfmark(addr)`
+    published the zero as a survey result. This is the honest entry point; prefer it.
+    """
+    uncharted = charted_gaps(tiers)
+    addr = assign(designation, tiers)
+    return addr, shelfmark(addr, uncharted), uncharted
 
 
 def main():
@@ -416,11 +534,30 @@ def main():
     # row labelled `xenoverse` printed "168 continuities resolved by the weave", which is the
     # multiverse's provenance, not the xenoverse's. A dict keyed by field name cannot mispair, and
     # the `?` default makes a field added without a citation visible instead of silently absent.
+    # RULING 23, IN-UNIVERSE SUBSTITUTION -- AND THE LIMIT IT CARRIES (owner ruling
+    # 2026-09-08). An out-of-universe referent is not deleted, it is REPLACED by the
+    # in-universe thing it points at: a franchise by its shelf, a publication date by a
+    # date in AS, an edition by a recension. The four upper rows already comply -- they
+    # cite the library's own instruments (tiers.py's dendrogram, the weave's resonance
+    # clusters), which is where those populations genuinely come from.
+    #
+    # THE THREE LOWER ROWS DO NOT, AND ARE LEFT AS THEY ARE ON PURPOSE. "Lauer et al.
+    # 2021", "dwarf-dominated mean stars per galaxy" and "Cassan et al. 2012, Nature" name
+    # measurements of THIS reality, and no in-universe counterpart for them can honestly be
+    # named -- the Concordance has no astronomer who counted these galaxies. Ruling 23's
+    # own limit governs: where no counterpart can honestly be named, the record SAYS SO
+    # rather than inventing one, and Hard Rule 1 is not suspended -- an honest silence
+    # outranks a fabricated in-universe fact. So this is the Custodial register's sentence
+    # about it: the Chronicle does not record by what hand these three were counted, and
+    # what stands here instead is the outside provenance, kept because a MEASURED root
+    # whose citation was replaced by a poetic one would be unverifiable by anyone.
+    # This is a maintenance console table, not chapter prose; the prose lane's own rule
+    # lives in prompts/system_style.txt and is unaffected either way.
     srcs = {
         "hyperverse": "tiers.py: the dendrogram closes at a single root",
         "xenoverse":  "tiers.py: the plateau above the metaverses",
         "metaverse":  "weave.py: resonance clusters at the natural threshold",
-        "multiverse": "168 continuities resolved by the weave",
+        "multiverse": "continuity groups resolved by the weave",
         "universe":   "continuities per multiverse",
         "galaxy":     "Lauer et al. 2021 (New Horizons LORRI)",
         "star":       "dwarf-dominated mean stars per galaxy",
@@ -429,6 +566,7 @@ def main():
     for name, n in FIELDS:
         print(f"{name:<14}{n:>14.3e}{WIDTHS[name]:>7}   {srcs.get(name, '?')}")
     print(f"{'TOTAL':<14}{'':>14}{TOTAL_BITS:>7}   = {math.ceil(TOTAL_BITS/8)} bytes per world")
+    print(f"\ncharting   : {tier_census()}   (live, from _tier_counts(); order 60dc7c624c06)")
     print(f"\naddressable: {CAPACITY:.3e}   census says {C.census('STANDARD')['exoplanets']*_continuities():.3e} exist")
     print(f"headroom   : {CAPACITY/(C.census('STANDARD')['exoplanets']*_continuities()):.1f}x")
 
@@ -474,21 +612,29 @@ def main():
         except Exception:
             silence.note("address_space.py:tiers")
             tiers = {}
-        addrs = {}
+        addrs, marks, gaps = {}, {}, {}
         for desig, w in ws.items():
             # A worldseed designation is "Source::World"; the tier stack is charted per SOURCE.
             src = desig.split("::")[0]
-            addrs[desig] = assign(desig, tiers.get(src) or {})
+            row = tiers.get(src) or {}
+            addrs[desig], marks[desig], gaps[desig] = assign_and_mark(desig, row)
         if not tiers:
             print("   (TIERS.json absent -- every world addressed at tier zero, which is a "
                   "placeholder and not a charting)")
         print(f"   worlds addressed : {len(addrs):,}")
         print(f"   collisions       : {len(addrs) - len(set(addrs.values()))}")
+        # THE BLANKS ARE COUNTED OUT LOUD (order 642a95fe9f3c, owner ruling 2026-09-08). A
+        # designation whose source row leaves a tier UNADDRESSED prints `?` in that position
+        # rather than the zero `fit()` packs. This line says how many, so the count is a
+        # measurement on the page and not something a reader has to notice in the listing.
+        blanked = sum(1 for g in gaps.values() if g)
+        print(f"   uncharted tiers  : {blanked:,} of {len(addrs):,} designations carry at least "
+              f"one tier the weave never charted; those print '{BLANK}', not a zero")
         # UNCUT (Hard Rule 0, sweep42-batch05). Six rows out of `len(addrs):,` with no marker,
         # and the designation itself cut at 44. The SHELFMARKS.json write below is uncapped, so
         # this was a preview disagreeing with the file it previews.
         for d, a in addrs.items():
-            print(f"     {d:<46}{shelfmark(a)}")
+            print(f"     {d:<46}{marks[d]}")
         out = os.path.join(HERE, "data", "SHELFMARKS.json")
         # ATOMIC: pipeline.py and standards.py both read SHELFMARKS.json.
         #
@@ -504,8 +650,10 @@ def main():
         # exit nonzero: the map is regenerable by re-running, but a shelfmark read as fresh
         # while it is stale is not recoverable by anything downstream. (run #37 sweep.)
         if not silence.write_json(out,
-                                  {d: {"address": a, "shelfmark": shelfmark(a),
-                                       "map_seed": map_seed(a)} for d, a in addrs.items()},
+                                  {d: dict({"address": a, "shelfmark": marks[d],
+                                            "map_seed": map_seed(a)},
+                                           **({"uncharted": list(gaps[d])} if gaps[d] else {}))
+                                   for d, a in addrs.items()},
                                   indent=2, ensure_ascii=False):
             # NO `silence.note` HERE, deliberately. `replace_retry` has already recorded
             # `replace-denied:SHELFMARKS.json` in the health ledger by the time it answers

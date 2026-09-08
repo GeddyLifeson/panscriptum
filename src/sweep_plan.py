@@ -475,7 +475,28 @@ def record(run, covered, batch=None):
         tmp = "%s.tmp" % p
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump({"run": run, "batch": batch, "at": now, "modules": covered,
-                       "unknown": _unknown}, f, indent=1)
+                       "unknown": _unknown,
+                       # THE ROSTER AS IT STOOD WHEN THIS BATCH RECORDED (order 497b8706b5df).
+                       # `missing()` compares a run's coverage against the roster as it stands
+                       # AT READ TIME, so a module created after the sweep began is reported
+                       # exactly like one the sweep skipped -- and run #46 hit that: `events.py`
+                       # was written mid-shift and the completeness row went red naming a module
+                       # no batch could have read, because it did not exist when the batches were
+                       # dispatched. The two cases need telling apart, and the tempting way to do
+                       # it -- compare the file's mtime against the run -- is exactly the kind of
+                       # check that cannot fail: a module genuinely skipped and later edited gets
+                       # a fresh mtime and would launder itself into "added since".
+                       #
+                       # So the roster is WRITTEN DOWN instead of inferred. A module absent from
+                       # every shard's roster for a run provably did not exist for that run; a
+                       # module present in the roster and absent from the coverage was SKIPPED,
+                       # and no later edit can change either answer. `missing()` is unchanged and
+                       # still returns both together -- the strict proof does not get to shrink.
+                       # `missing_detail()` is the one that splits them, and it refuses to guess:
+                       # a run whose shards carry no roster (every shard written before this
+                       # order, run #46 included) reports its whole gap as `undetermined`, never
+                       # as `added_since`. Which is why this order does NOT clear run #46's red.
+                       "roster": sorted(_known)}, f, indent=1)
         # replace_retry, not a bare os.replace -- the other two landings in this file already go
         # through it. `_read_shards()` in a sibling process globs and opens this very directory
         # on its own clock, and on Windows the rename is DENIED while any reader holds the
@@ -603,6 +624,14 @@ def record(run, covered, batch=None):
         return data
 
 
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
+# (order d411f780d347, ruled by the owner 2026-09-08: "mark and keep, one line each, delete
+# nothing"). `coverage_map` has ZERO callers repo-wide -- the only other hit is the docstring of
+# `covered_by` below, which names it to say why it deliberately does NOT use it. `main()`'s
+# `--coverage` arm reads the aggregate COVERAGE file directly instead. Wiring the CLI through
+# here was offered as option (c) and NOT taken: the two answers differ (newest-wins across runs
+# versus what a named run actually covered), so a mechanical swap would change what --coverage
+# reports. Kept because it is the one written statement of what the authoritative view is.
 def coverage_map():
     """The authoritative view: shards first, the aggregate file only where a shard is absent.
 
@@ -771,6 +800,82 @@ def missing(run):
     it silently skipped. A sweep that cannot answer this is a sweep nobody can trust."""
     seen = covered_by(run)
     return [m["module"] for m in modules() if m["module"] not in seen]
+
+
+def roster_of(run):
+    """The module roster as `run`'s own batches recorded it, unioned across shards.
+
+    Returns None -- not an empty set -- when NO shard for that run carries a `roster` field.
+    The distinction is the whole value of the function: an empty roster would mean "this run saw
+    no modules", which is a claim, whereas None means "this run never wrote down what it saw",
+    which is the honest state of every shard written before order 497b8706b5df. Callers must not
+    collapse the two, and `missing_detail` below is written so that None costs the run the
+    benefit of the doubt rather than granting it.
+    """
+    want, out, found = str(run), set(), False
+    try:
+        paths = sorted(glob.glob(os.path.join(SHARDS, "*.json")))
+    except Exception:
+        try:
+            import silence
+            silence.note("sweep_plan.py:shards-dir-unreadable")
+        except Exception:
+            pass
+        return None
+    for p in paths:
+        try:
+            with open(p, encoding="utf-8") as f:
+                rec = json.load(f)
+        except Exception:
+            try:
+                import silence
+                silence.note("sweep_plan.py:shard-unreadable")
+            except Exception:
+                pass
+            continue
+        if str(rec.get("run")) != want:
+            continue
+        r = rec.get("roster")
+        if isinstance(r, list):
+            found = True
+            out.update(str(x) for x in r)
+    return out if found else None
+
+
+def missing_detail(run):
+    """`missing(run)` split into WHY each module is missing. -> {skipped, added_since, undetermined}
+
+    `missing()` answers one question -- is this run's coverage complete against the tree as it
+    stands NOW -- and it stays exactly as strict as it was. This function answers the follow-up a
+    person actually has to act on, because the two causes need opposite responses:
+
+      * `skipped`      -- the module was in the roster the run's own batches wrote down, and no
+                          batch recorded reading it. A sweep that claims completeness while this
+                          is non-empty is broken. This is the one that must go red.
+      * `added_since`  -- the module is in the tree now and was in NO shard's roster for that run,
+                          so it provably did not exist when the batches were dispatched. Nothing
+                          could have read it. It is owed to the NEXT sweep, not to this one.
+      * `undetermined` -- the run wrote no roster at all, so which of the two above applies cannot
+                          be established from the record. Every module missing from such a run
+                          lands here.
+
+    THE `undetermined` BUCKET IS THE POINT, and it is deliberately not a third shade of "fine".
+    The easy implementation of this function compares each file's mtime against the run's stamp
+    and calls anything newer `added_since`. That is unfalsifiable in the direction that matters:
+    a module a batch genuinely skipped and somebody later edited gets a fresh mtime and launders
+    itself into the exonerating bucket, and the completeness proof would then be a check that
+    cannot fail -- this project's most-repeated finding, and the reason `sweep_plan` exists at
+    all. So nothing here is inferred from the filesystem. A run that did not write down its
+    roster does not get to claim its gaps were additions; the gap simply stays unexplained, and
+    a caller that treats `undetermined` as green is making that choice in the open.
+    """
+    gap = missing(run)
+    roster = roster_of(run)
+    if roster is None:
+        return {"skipped": [], "added_since": [], "undetermined": list(gap)}
+    return {"skipped": [m for m in gap if m in roster],
+            "added_since": [m for m in gap if m not in roster],
+            "undetermined": []}
 
 
 def _assignment(obj):

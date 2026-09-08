@@ -399,6 +399,43 @@ printing a table buys nothing, and open order `aad11acb1183` records the opposit
 dashboard, the one instrument built to DISPLAY a halt, refuses to start under one).
 A ruling that names the criterion would settle F2 and the eighty-odd other cases at once.
 
+### RULED — 2026-09-08, by the owner, on Q3 only. Order `d44b106ce7e3`.
+
+**Owner ruling of 2026-09-08, question 12, "The last checks before an irreversible outward act",
+option (a): *name the criterion, check beside the write, ratify the floor.* Q3 is settled; Q1 and
+Q2 were not put and are not settled by it.**
+
+**THE CRITERION, in the owner's ruling:**
+
+> **Every entry point which WRITES outside `output/` and `state/` asks. Read-only instruments do
+> not.**
+
+Reading B, sharpened into a line a reader can apply without re-deriving it. Three consequences the
+ruling states outright:
+
+1. **The dashboard renders the halt as its headline instead of refusing to start.** It is a
+   read-only instrument, and the one instrument built to DISPLAY a halt was the one refusing to
+   parse `--once` under one. That settles the counter-harm recorded in order `aad11acb1183`, which
+   this section cited as Reading B's evidence.
+2. **`withdraw_chapters` (F2) is on the asking side** — it moves files outside `output/` and
+   `state/` — so F2 stands as a real finding, not an artefact of an over-broad docstring.
+3. **`hostcheck._land_hosts` must re-call `_assert_not_halted` immediately before its
+   compare-and-swap**, because the entry-time check stands minutes to hours away from the write,
+   across a rate-limited probe of the whole roll, on the one file this project has confirmed it
+   cannot reconstruct. Filed separately as order `58cfc2b6dbc4`.
+
+**NOT DONE HERE, and it needs the module's owner:** `escalation.py`'s docstring at `assert_clear`
+still reads *"EVERY entry point calls this before doing anything"* — the sentence this question was
+about. It must be rewritten to state the criterion above. `src/escalation.py` was under another
+agent's edit lock on 2026-09-08 and was not touched by the run that recorded this ruling.
+
+**Q1 and Q2 REMAIN OPEN.** The ruling settles the entry-point criterion and, on the same subject,
+ratifies `MAX_LOST_FRACTION = 0.05` with the 4.50% `handoff/HANDOFF.md` duplicate-line measurement
+recorded as its input. It says nothing about whether stderr is a sufficient channel for
+`push()`'s unanswerable-uncertainty case (Q1), nor about whether `_FIELDS` withholding `who` from
+SUPERVISOR and SAFETY is intended (Q2). Both still want a ruling; neither should be read as
+answered by this one.
+
 ---
 
 ## 3. Checked and found clean (recorded so it is not re-measured)

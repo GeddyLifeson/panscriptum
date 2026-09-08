@@ -60,7 +60,8 @@ def _nesting_violations(t):
 
 def _raises(fn):
     # silence-exempt: THE EXCEPTION IS THE EXPECTED RESULT, SO NOTING IT FILES A PASS AS A FAULT.
-    # Until run #24 this called `silence.note("verify_math.py:47")`, which put every deliberately
+    # Until run #24 this called `silence.note()` with a LINE-NUMBERED label for this very
+    # function -- `verify_math.py:<its own line>` -- which put every deliberately
     # provoked exception into `state/failures.json` -- the highest-traffic shared ledger, which
     # the dashboard polls and `standards` reads. 87 rows (29 ContextOverflow, 58 ValueError) had
     # accumulated there from this one line, counted by the "unexpected swallowed failures"
@@ -206,8 +207,10 @@ def _at_vm(_obj_vm, _path_vm, _why_vm):
 # that forwards to the real recorder and remembers the battery line it came from; the row at the
 # very end of this file asserts that no unwrapped site is left. That is the ratchet: a new probe
 # that leaks names itself on the day it is written, instead of thirty runs later.
+import ast as _ast_vm           # noqa: E402
 import contextlib as _ctx_vm    # noqa: E402
 import health as _H_vm          # noqa: E402
+import re as _re_vm             # noqa: E402
 import traceback as _tb_vm      # noqa: E402
 
 _LEDGER_ESCAPES_VM = []
@@ -275,10 +278,19 @@ def _wrote_to_the_ledger_vm(_flushed_vm, _in_memory_vm):
 
 
 # WHY THIS ONE IS NOT A `silence.note()` (order d43a5a050c0f). The swallow below WAS bare: no
-# noted site and no declared exemption, the two forms this file states as doctrine three times
-# (:2358-2362 "Every other deliberate swallow in this tree records its site, and so does this
-# one", :5076-5079, and :7285-7293, whose inventory of every ExceptHandler here missed this one
-# because it is not a cleanup handler). It is the second form that is taken, and deliberately.
+# noted site and no declared exemption, the two forms this file states as doctrine three times --
+# at the `verify_math.py:unrecognised-probe-cleanup` handler ("Every other deliberate swallow in
+# this tree records its site, and so does this one"), at `verify_math.py:atomic-probe-cleanup`,
+# and at `verify_math.py:b2-instrument-cleanup`, whose inventory of every ExceptHandler here
+# missed this one because it is not a cleanup handler. It is the second form that is taken, and
+# deliberately.
+#
+# CITED BY NOTE-SITE LABEL, NOT BY LINE NUMBER (order 363c79272987): all three of the line
+# numbers this paragraph used to give had drifted, and this is the swallow-exemption inventory --
+# the paragraph a reader consults to decide whether a bare `except` in this tree is sanctioned
+# or a defect. Sending that reader to three unrelated passages is worse than sending them
+# nowhere. The `silence.note("verify_math.py:<site>")` label is unique in this file and survives
+# every insertion above it; §20ad reddens if a `:NNNN` self-citation appears here again.
 #
 # THE FIRST FORM WOULD BE A TRAP HERE, AND IT CLOSES ON ITSELF. `silence.note` calls
 # `health.record`, `health.record` is REPLACED at the top of this section by `_spy_record_vm`,
@@ -293,8 +305,9 @@ def _wrote_to_the_ledger_vm(_flushed_vm, _in_memory_vm):
 #
 # AND THE SILENCE IS NO LONGER SILENT, which was the substantive half of the order. Every
 # unreadable read is remembered here and PRINTED beside §20z's ledger banner, so "the ledger did
-# not move" and "the ledger could not be read" stop looking identical -- the exact confusion
-# this witness's own introduction at :235-244 says it exists to prevent.
+# not move" and "the ledger could not be read" stop looking identical -- the exact confusion the
+# `_spy_flush_vm` witness's own introduction ("AND THE SPY IS NOT THE ONLY WITNESS", order
+# 8aaddf34adf3) says it exists to prevent.
 _LEDGER_UNREADABLE_VM = []
 
 
@@ -379,10 +392,112 @@ def _no_ledger_vm():
 #     which is the whole point -- this is an exemption with a name on it, not a hole.
 _THIRD_PARTY_VM = []
 
+# THE SECOND NAMED DEPENDENCY: THIS MACHINE, AND THE NETWORK IT IS ON (orders 728d9e99e9ec and
+# 74f1bc47da2a, owner ruling 2026-09-08 "Live machine state inside the battery", option (a)).
+#
+# WHAT WAS MEASURED. `dashboard.state()` calls `standards.check()` itself (dashboard.py, the
+# `dashboard.py:standards` handler), so a battery run that reads the live panel eight times runs
+# `standards.check()` roughly FIFTEEN times -- and each one does a real `getaddrinfo` on
+# marvel.fandom.com, an Ollama generation on a 300-second deadline, a `tasklist` spawn and a
+# PowerShell `Get-CimInstance` on a 60-second deadline. Every read-failure path in those two
+# modules ends in `silence.note("standards.py:*")` / `silence.note("dashboard.py:*")`, which is
+# `health.record`, which is the spy at the top of this section, which is §20z. So roughly
+# seventy ways existed for another program's honest fault -- a busy GPU, an unreadable
+# state/ file a standing job was mid-write on, a machine loaded enough for a spawn to time
+# out -- to redden this battery's deepest coverage row. `mutate.py` refuses to run on a red
+# baseline: three 20-hour mutation passes were cancelled by exactly this.
+#
+# WHY A NAMED CLASS AND NOT A BLANKET SUPPRESSION. The blanket option was put to the owner and
+# REFUSED: wrapping these calls in `_no_ledger_vm()` would also suppress the echo of a GENUINE
+# library fault occurring during the call, which is the hole §20z exists to close. What is
+# granted here is an EXEMPTION WITH A NAME ON IT. Each class is spelled out; a wrapped site that
+# starts swallowing anything not on this list reddens §20z by name, and everything suppressed is
+# printed in the abstention banner at the end of the run. A reader is told the machine was down.
+#
+# WHAT IS DELIBERATELY *NOT* GRANTED, and must keep reddening, because it is a fact about this
+# repository rather than about the machine:
+#   standards.py:cfg-num-ctx, standards.py:cfg-model  -- config.yaml is version-controlled here
+#   standards.py:token-flow-unsent -- its own comment: "a fact about THIS REPO and no fact at
+#                                     all about the daemon"; the probe was never sent
+#   standards.py:style-prompt      -- prompts/system_style.txt against src/tells.py
+#   standards.py:self-check        -- standards.py reading its own source
+#   dashboard.py:safety-gate, :safety-step4, :safety-assay -- the prose gate, the step-4 gate
+#                                     and the Assay calibration are this library's own safeties
+#   dashboard.py:standards         -- `standards.check()` is written to be total; it raising
+#                                     whole is a defect in it, not an outage somewhere else
+_LIVE_STATE_VM = "live machine and network state"
+
 # The classes a probe reading Cascade's scratch DB is allowed to be unable to avoid. Anything
 # else swallowed inside `_third_party_vm` is this library's fault and must still be reported.
 _THIRD_PARTY_CLASSES_VM = {
     "cascade scratch DB": ("silent:cascade_bridge.py:provider-error",),
+    _LIVE_STATE_VM: (
+        # -- the local model: an Ollama daemon, its runner process, and the one GPU ------------
+        "silent:standards.py:ollama-runner",
+        "silent:standards.py:ollama-runner-standard",
+        "silent:standards.py:ollama-ps",
+        "silent:standards.py:token-flow",
+        "silent:standards.py:token-flow-standard",
+        # -- the network: DNS and a TCP connect to a content wiki -----------------------------
+        "silent:standards.py:fandom-v4-dns",
+        "silent:standards.py:fandom-v4-close",
+        "silent:standards.py:fandom-reachable",
+        # -- this machine: the process table, a PowerShell/WMI spawn, the disk ----------------
+        "silent:standards.py:duplicates",
+        "silent:standards.py:disk",
+        "silent:standards.py:jobs-alive",
+        "silent:standards.py:job-alive",
+        "silent:standards.py:job-advance",
+        "silent:standards.py:job-size",
+        "silent:overnight.py:proc-lines",
+        "silent:overnight.py:proc-lines-blind",
+        # -- artefacts the library's own STANDING JOBS rewrite while the battery runs ---------
+        #    (state/failures.json, state/dashboard_history.json, state/publish.log, the reader's
+        #     progress line, data/records/*.json, data/readfeats/**, and the phase outputs)
+        "silent:standards.py:ledger",
+        "silent:standards.py:counters-moving",
+        "silent:standards.py:publish-age",
+        "silent:standards.py:fabrication",
+        "silent:standards.py:reader-gate",
+        "silent:standards.py:unanswered-records",
+        "silent:standards.py:sweep-freshness",
+        "silent:standards.py:catalogue-coverage",
+        "silent:standards.py:allsweep",
+        "silent:standards.py:roster-purges",
+        "silent:standards.py:roster-audit",
+        "silent:standards.py:shelfmarks",
+        "silent:standards.py:shelf-ranks",
+        "silent:standards.py:reference-assays",
+        "silent:standards.py:charter-regression-load",
+        "silent:standards.py:charter-regression",
+        "silent:standards.py:unrecognised-pool",
+        "silent:standards.py:provider-models",
+        # -- the live panel: every dashboard read of an operational artefact ------------------
+        "silent:dashboard.py:num-parse",
+        "silent:dashboard.py:tail",
+        "silent:dashboard.py:model_status",
+        "silent:dashboard.py:quotas",
+        "silent:dashboard.py:throughput",
+        "silent:dashboard.py:throughput-no-db",
+        "silent:dashboard.py:jobs-lognames-import",
+        "silent:dashboard.py:jobs-read",
+        "silent:dashboard.py:jobs-roll",
+        "silent:dashboard.py:library-hosts",
+        "silent:dashboard.py:library-coverage",
+        "silent:dashboard.py:library-phases",
+        "silent:dashboard.py:library-readfeats",
+        "silent:dashboard.py:watch",
+        "silent:dashboard.py:failures",
+        "silent:dashboard.py:movement",
+        "silent:dashboard.py:movement-corrupt-reset",
+        "silent:dashboard.py:metrics",
+        "silent:dashboard.py:metrics-badline",
+        "silent:dashboard.py:safety-halt",
+        "silent:dashboard.py:safety-fetch",
+        "silent:dashboard.py:safety-drill-unreadable",
+        "silent:dashboard.py:safety-escalation-bad-line",
+        "silent:dashboard.py:safety-escalation-unreadable",
+    ),
 }
 
 
@@ -431,6 +546,42 @@ check("the ledger wrapper suppresses only what it wraps, and restores the record
       (_probe_calls_vm, _raised_vm), (["before", "after", "after-raise"], True),
       note="a wrapper that failed to restore would silence the LIVE ledger for the remainder "
            "of the run -- worse than the probe litter it exists to remove")
+
+# AND THE GRANT ITSELF IS RATCHETED, both ways (order 728d9e99e9ec). A named exemption is only
+# as honest as the names on it. Two ways it could rot silently:
+#   * a class listed here that no longer exists anywhere in standards/dashboard/overnight is a
+#     grant guarding nothing -- the same stale-exemption shape §20s already refuses for
+#     `_KNOWN_CONDITIONAL_STANDARDS_B1`;
+#   * a class listed here that is NOT named for one of those three modules would be this grant
+#     widening past the dependency it was written for, which is exactly the hole §20z exists to
+#     close -- the wrapper is scoped to the call, but the LIST is not scoped to anything but
+#     this row.
+# Read from source, not from a memory of what was written: the sites are `silence.note("...")`
+# literals and this reads them.
+_LIVE_SITES_VM = set()
+for _lm_vm in ("standards.py", "dashboard.py", "overnight.py"):
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), _lm_vm),
+              encoding="utf-8") as _lf_vm:
+        for _ln_vm in _lf_vm:
+            if _ln_vm.lstrip().startswith("#"):
+                continue                       # a comment quoting a site is not a site
+            _mm_vm = _re_vm.search(r'silence\.note\("([^"]+)"\)', _ln_vm)
+            if _mm_vm:
+                _LIVE_SITES_VM.add("silent:" + _mm_vm.group(1))
+check("every live-state class granted an abstention is a real note site in one of the three "
+      "modules the grant is written for",
+      sorted(_c_vm for _c_vm in _THIRD_PARTY_CLASSES_VM[_LIVE_STATE_VM]
+             if _c_vm not in _LIVE_SITES_VM), [],
+      note="found %d note sites across standards.py, dashboard.py and overnight.py; %d are "
+           "granted. A name here is either a site that has been renamed or deleted -- a grant "
+           "guarding nothing -- or a class from some OTHER module, which would be this "
+           "exemption quietly widening past the dependency it names"
+           % (len(_LIVE_SITES_VM), len(_THIRD_PARTY_CLASSES_VM[_LIVE_STATE_VM])))
+check("the live-state grant is a set, not a list with a name written twice",
+      len(set(_THIRD_PARTY_CLASSES_VM[_LIVE_STATE_VM])),
+      len(_THIRD_PARTY_CLASSES_VM[_LIVE_STATE_VM]),
+      note="a duplicated grant is harmless at runtime and is the tell that this list was edited "
+           "by hand twice for the same reason; it is cheaper to say so here than to re-read it")
 
 
 # --------------------------------------------------------------------------------------------
@@ -1513,7 +1664,10 @@ import collections as _co    # noqa: E402
 # is newer than `ENTITY_INDEX.json` -- i.e. whenever the crawl has written anything since the
 # index was last rebuilt, which on this machine is most of the time. That is a fact about the
 # CORPUS, not a fault of this battery, and it was landing in `state/failures.json` on every run
-# and reddening §20z's two ledger rows with `verify_math.py:1457 -> silent:weave.py:index-stale`
+# and reddening §20z's two ledger rows with an escape naming the `SF.build()` call below and
+# `silent:weave.py:index-stale`. (The escape line the spy actually printed carried a LINE NUMBER
+# for that call; it is named by symbol here instead, under order 363c79272987, because the
+# number had already drifted sixty-six lines and pointed at unrelated code.)
 # (measured 2026-09-06, and invisible until then only because the battery was crashing at §20u
 # before §20z ran). §20z reddening cancels the whole mutation pass, so this is order
 # c121db910a17's shape exactly: a row's verdict must not turn on the state of somebody else's
@@ -1646,11 +1800,13 @@ _bs = BG.burgs_for(424242, _f)
 #      because `int(P1/10)` is large for every seed the fixture produces: measured over seeds
 #      1/7/42/999/424242/123456, P1 runs 16,912-24,352 and P1/10 runs 1,691-2,435, so the clamp
 #      never engaged and the wrong number never showed. A roll whose head is under 400 would
-#      have made this row assert a floor the module does not have. :1287 and the batch6 row both
+#      have made this row assert a floor the module does not have. The row below labelled "the
+#      ranking runs down to the hamlet floor and stops", and the batch6 `_floor_ok` row, both
 #      read `BG.HAMLET_FLOOR` correctly; only this one re-spelt it.
 #   2. `max(int, int)` is an int, so `want` was an int, so `check()` never took its
 #      `isinstance(want, float)` branch and the comparison fell through to EXACT equality -- the
-#      `tol=1e-9` was silently discarded, exactly as at :346. Populations ARE integers, so exact
+#      `tol=1e-9` was silently discarded, exactly as on the relativistic-KE row at §1 (order
+#      97894a93eab5, "THE `tol=` HERE WAS SILENTLY DISCARDED"). Populations ARE integers, so exact
 #      is the honest comparison and the tolerance is simply removed rather than made real: a
 #      `tol=` that does nothing is a promise to the next reader that the code does not keep.
 check("the k-th burg holds P1/k, independently recomputed",
@@ -2135,9 +2291,50 @@ try:
     check("and it is marked unreliable, not scored", bool(_r19d[0]["unreliable"]) if _r19d else False, True)
     check("and it carries its failure count", _r19d[0]["probe_failures"] if _r19d else None, _nprobes - 1)
 
+    # SEQUENCED WITH OWNER RULING 17, NOT AROUND IT (2026-09-08, order d2da5914da94).
+    # This row asserted `len(_CP.audit(workers=1)) == 0` -- genuine absence deletes the row. The
+    # ruling changed what genuine absence MEANS: every probe answered and none of the eight
+    # CATEGORY_PROBES categories exists is not a cast of zero, it is a cast whose size is unknown,
+    # for the same reason a wiki with no MediaWiki API has no denominator. `completeness.audit()`
+    # now returns an `_unmeasured` row there instead of None, and `completeness.py` says so in the
+    # branch itself: "ONE NET PINS THE OLD BEHAVIOUR AND MUST MOVE WITH THIS ... That file is
+    # owned elsewhere and is NOT edited from here -- flagged rather than quietly adjusted, because
+    # moving a net beside the change it would have caught is precisely the act this project's
+    # doctrine forbids." This is that move, made from this side, deliberately and in the open.
+    #
+    # THE ROW GETS STRICTER, NOT LOOSER, and that is the part that matters. Changing 0 to 1 alone
+    # would be the weakest possible repair: ANY kept row satisfies it, including the scored row
+    # this branch exists to refuse, so the check would go green on precisely the regression it was
+    # written to catch. So three things are asserted instead of one -- the row is kept, it is
+    # marked unreliable rather than scored, and its stated reason is the one THIS branch gives
+    # (every probe answered, no category found) and not the raw-wikitext one from the branch
+    # above it, which also produces an unreliable row and would otherwise be indistinguishable.
+    #
+    # WHY NOT GIVE THE FIXTURE A DENOMINATOR AND KEEP EXPECTING 0: that was tried first and is
+    # recorded here because it is the plausible wrong answer. `audit()` returns from this branch
+    # BEFORE it reads any catalogue record -- the guard is `not sizes and failed == 0`, both facts
+    # about the probes -- so writing `Testsource.json` earlier changes nothing about this row. It
+    # would only have moved the fixture's setup around while the row went on asserting a
+    # behaviour the code no longer has.
     _CP.category_size_probe = _stub([_N] * _nprobes)
-    check("genuine absence (every probe answered, no categories) -> row dropped",
-          len(_CP.audit(workers=1)), 0)
+    _r19abs = _CP.audit(workers=1)
+    check("genuine absence (every probe answered, no categories) -> row KEPT, not dropped",
+          len(_r19abs), 1,
+          note="ruling 17: an absent row reads downstream as 'this source has no wiki presence', "
+               "which is the opposite of what was observed. Was 0 until 2026-09-08")
+    check("and it is marked unreliable rather than scored",
+          bool(_r19abs[0].get("unreliable")) if _r19abs else False, True)
+    check("and the reason names THIS branch, not the raw-wikitext one above it",
+          ("none of the" in str(_r19abs[0].get("unreliable"))
+           and "CATEGORY_PROBES categories exists" in str(_r19abs[0].get("unreliable")))
+          if _r19abs else False, True,
+          note="both branches return _unmeasured with a reason opening 'no denominator "
+               "possible', so without this the row cannot tell them apart and a mis-wired "
+               "probe loop falling through to the API-less branch would still read green")
+    check("and no coverage number is offered for a denominator nobody has",
+          _r19abs[0].get("coverage") if _r19abs else "no row", 0.0,
+          note="an unreliable row still carries 0.0 rather than a fabricated ratio; the "
+               "`unreliable` string is what stops every consumer reading it")
 
     # THE NUMERATOR HAS TO EXIST BEFORE THIS CAN ASK ABOUT THE DENOMINATOR, and until run #35 the
     # fixture never gave it one: `records/` was created EMPTY, so `Testsource` had no catalogue
@@ -2303,8 +2500,19 @@ _KEN = {"ruin": 2.1, "continuity": 4.8, "celerity": 6.5, "reach": 1.2, "transgre
 # Seven of the 25 sat in `band_for_quantity`, `null_instrument` and `interval_from_hands` -- the
 # three functions `vulture` independently reports as uncalled. They survive because they NEVER
 # RUN, which is the liveness ratchet's finding arriving by a completely different road, and it
-# sharpens it: dead code here is not merely untidy, it is UNVERIFIABLE. Those are left for the
-# owner's ruling on deletion rather than propped up with tests.
+# sharpens it: dead code here is not merely untidy, it is UNVERIFIABLE.
+#
+# THE RULING THIS PARAGRAPH WAS WAITING FOR HAS BEEN MADE, and this file had come apart from its
+# own stated policy in the meantime (order 7099a092abd3). The sentence here used to end "those
+# are left for the owner's ruling on deletion rather than propped up with tests" while section
+# 20r, added later, propped all three up with about fifteen rows -- a stated policy and a
+# practice pointing opposite ways, which is worse than either, because a later reader takes the
+# comment for the decision. Owner ruling 1 of 2026-09-08, "Correct code that no caller ever
+# reaches", option (a): MARK AND KEEP, delete nothing. Each of the three now carries a retention
+# marker in assay.py naming the order and the date, section 20r's rows STAND, and this paragraph
+# records the outcome instead of a deferral. Re-measured 2026-09-08 by AST scan over all 117
+# modules under src/ including deprecated/: all three still have zero callers outside
+# verify_math/drill/liveness/mutate/secondopinion, so the finding was not stale, only the answer.
 #
 # The eighteen below are reachable, and these are the ones that mattered most.
 
@@ -2361,8 +2569,21 @@ check("a non-positive quantity cannot become an axis score",
       A.axis_score(0.0, "M3", "ruin"), None)
 check("a missing quantity cannot become an axis score",
       A.axis_score(None, "M3", "ruin"), None)
-check("an unknown band cannot become an axis score",
-      A.axis_score(1e30, "NOT_A_BAND", "ruin"), None)
+# THE EXPECTATION MOVED WITH THE CODE, AND IT GOT STRICTER (order 9b3e59aeeb19). This row read
+# `A.axis_score(1e30, "NOT_A_BAND", "ruin") == None` -- which was satisfied by the SAME None the
+# four rows above assert for a missing or non-positive quantity, so a band off the Ladder was
+# indistinguishable from "there is no quantity to score". A band that does not exist is a CALLER
+# error, not a reading, and `axis_score` now refuses it the way `_check_scores` refuses a score
+# of 99.0. Asserting the raise is not a weaker net than asserting None: the old row passed
+# against a function that returned None for EVERYTHING, and this one cannot.
+try:
+    _ub = repr(A.axis_score(1e30, "NOT_A_BAND", "ruin"))
+except A.AssayIntegrityError as _e_ub:
+    _ub = "AssayIntegrityError" if "not a band on the Ladder" in str(_e_ub) else "WRONG MESSAGE"
+check("an unknown band is REFUSED, not scored and not silently None",
+      _ub, "AssayIntegrityError",
+      note="a band off the Ladder is a caller error absorbed as a reading -- the class "
+           "_check_scores' own docstring refuses in words")
 
 check("the charter's published Kenshiro interval is reproduced",
       A.assay("M3", _KEN, attestation="Witnessed", worksheet="charter Part Three")["interval"],
@@ -2456,6 +2677,41 @@ for _gone in ("PAID_PREFIX", "PAID_LANE_RETIRED", "paid_lane_open", "_PAID_LOCK"
 check("widen_candidates takes only the model list now",
       list(__import__("inspect").signature(_CB.widen_candidates).parameters), ["models"],
       note="the `paid_ok` parameter was the gate's last handle; it is gone with the gate")
+
+# THE SENTENCE HALF OF THE PAID-LANE GUARANTEE, MOVED HERE FROM A DRILL NET (order 7082658551dd,
+# closing the half of a34f10a87483 that `drill.py` could not close itself).
+#
+# `drill.there_is_no_paid_lane` used to end `and "THERE IS NO PAID LANE" in text`. A breached net
+# in that file escalates to OWNER and HALTS THE LIBRARY, so reflowing that paragraph in
+# cascade_bridge.py, changing its capitalisation, or moving the ruling into a docstring would
+# have stopped the park until a person ruled on it. The owner's ruling of 2026-09-08 ("Which
+# faults sound, and on which rung", option (a)) moved the sentence to a rung that fits it: a
+# missing SENTENCE is a FAILED row and a filed order, while a `paid` IDENTIFIER in that parse
+# tree is a lane that can spend money and stays an outage. The structural half is untouched and
+# is still a net.
+#
+# UNTIL THIS ROW EXISTED THE SENTENCE WAS PINNED BY NOTHING AT ALL -- which is the standing
+# hazard of moving a check between rungs, and the reason the drill's own docstring filed a work
+# order instead of leaving the move implicit. The ruling this sentence records is the one that
+# cost 598 calls against a 500 cap.
+#
+# THIS IS A PROSE ROW ON PURPOSE, and §20z at the end of this file names it as such rather than
+# exempting it silently: the SUBJECT here is the comment. Every other paid-lane row in this
+# section asks the code (an absent identifier, a signature, a behavioural candidate list), and
+# the structural question is asked of the parse tree by the drill. What cannot be asked of code
+# is whether the ruling is still written down where the person rebuilding the lane would read it.
+check("cascade_bridge still states the owner's ruling in the code it governs",
+      "THERE IS NO PAID LANE" in _cbsrc, True,
+      note="a FAILED row and a work order, deliberately, not a halt -- reflowing a paragraph "
+           "must not stop the library. If this reddens, the sentence was edited or moved: put "
+           "it back, or say in the resolution where the ruling now lives")
+check("and the structural half of the same guarantee is still a drill net",
+      "there is no paid lane to spend"
+      in open(os.path.join(_here19h, "drill.py"), encoding="utf-8").read(), True,
+      note="THE TWO HALVES WERE SPLIT ACROSS TWO FILES BY THE RULING, so each can now be "
+           "deleted without the other noticing. The sentence above is worthless if the net that "
+           "actually reads cascade_bridge's parse tree for a `paid` identifier has gone -- that "
+           "is the half that can spend money -- and nothing else in this battery would say so")
 for _fgone in ("PAID_BURST", "est_usd_per_call", "paid burst lane"):
     check("no paid-lane machinery survives in foreman: %r" % _fgone,
           _fgone in open(os.path.join(_here19h, "foreman.py"), encoding="utf-8").read(), False)
@@ -2910,8 +3166,8 @@ check("a clear majority still wins outright",
 check("a three-way tie is also fixed",
       _mode_stable(["a", "b", "c"]), "c")
 # AND A FROZEN EXPECTATION, because the four rows above are a hash-seed lottery (order
-# d5155cb101df, and §16 at :1574-1582 reached the same finding on the same idiom and repaired
-# it there without reaching this section).
+# d5155cb101df, and §16's "f(x) == f(x) IS NOT A DETERMINISM TEST" block reached the same
+# finding on the same idiom and repaired it there without reaching this section).
 #
 # MEASURED, NOT ARGUED. All four rows above were driven against the defect they name --
 # `_mode_stable` with the `, v` deleted -- under PYTHONHASHSEED 0,1,2,3,4,5,6,7,8,9,42,99,1234.
@@ -3072,7 +3328,12 @@ check("every job the keeper restarts is visible to the roster readers",
 check("the roster also carries the jobs the keeper does NOT restart",
       all(j in _ON.ALL_JOBS for j in ("read.py", "feats.py --roll", "overnight.py",
                                       "autostart.py")), True,
-      note="read.py and feats.py --roll hang off the supervisor's main lap, not the keeper")
+      note="feats.py --roll hangs off the supervisor's main lap, not the keeper; the supervisor "
+           "and its launcher sit above all of it. read.py is named here too but reaches this "
+           "roster through the STANDING comprehension as of 2026-09-08 (orders d2e44a766769 / "
+           "1014f88bea8e) rather than through the hand-written tail -- which is why the "
+           "names-each-job-exactly-once row below is the one that fails if the tail entry ever "
+           "comes back beside the roster entry")
 check("the roster names each job exactly once", len(set(_ON.ALL_JOBS)), len(_ON.ALL_JOBS))
 
 _allsweep_src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "allsweep.py"),
@@ -4069,7 +4330,15 @@ def _pool19ai(buckets):
     _STx._TOKENFLOW.update({"at": time.time(), "ok": True,
                             "s": "pinned by verify_math S19ai; no live probe from this battery"})
     try:
-        for row in _STx.check(st):
+        # ABSTAINS ON THE MACHINE, NOT ON THIS LIBRARY (order 728d9e99e9ec). The token-flow pin
+        # above stops the one probe that WRITES a manufactured finding; it does nothing about
+        # the other thirty-odd read-failure paths inside `check()`, every one of which notes
+        # into the live ledger and reddens §20z. Six rows below call this function, so an
+        # unreadable state/ file during any of them cancelled the mutation pass. The grant is
+        # named and every class it swallows is printed in §20z's abstention banner.
+        with _third_party_vm(_LIVE_STATE_VM):
+            _rows19ai = _STx.check(st)
+        for row in _rows19ai:
             if row["standard"] == "calls that succeed":
                 return row
         return _Absent19ai()
@@ -4178,10 +4447,39 @@ check("[control] the S19ai pin SUPPRESSES the live token-flow generation, proved
            "asks /api/generate. The second element pins that the call still did its real work "
            "while the transport was watched, so an empty roster cannot be bought by the call "
            "quietly not happening at all")
-check("the threshold itself is the one tuning.py already settled on",
-      _STx.MIN_CALLS_TO_JUDGE_RATE, _TUNx.MIN_CALLS_TO_JUDGE,
+# AND THE COMPARISON IS NOT AGAINST THE BINDING IT IS ASSIGNED FROM (order 5a0c4196142f, owner
+# ruling 2026-09-08). This row, and its twin in the §b3 block, read
+# `check(..., standards.MIN_CALLS_TO_JUDGE_RATE, tuning.MIN_CALLS_TO_JUDGE)` -- and
+# `standards.py:67` is literally `MIN_CALLS_TO_JUDGE_RATE = tuning.MIN_CALLS_TO_JUDGE`, so the
+# two sides were the same object by construction and the rows could not fail under any edit to
+# either file. That is the file's own standing lesson twice over: the previous repair here
+# (order 8a6d86040d10) removed a hardcoded `20` for exactly this reason and replaced it with a
+# comparison that is vacuous in a different way.
+#
+# THE THIRD, INDEPENDENT READING is tuning.py's own SOURCE. A number read from the parse tree
+# cannot be the same object as either runtime attribute, so the row has something to disagree
+# with: standards re-inlining a literal of its own goes red on the first element, and a runtime
+# value that has drifted from the declaration -- a later reassignment, an environment override,
+# a monkeypatch anywhere in the import chain -- goes red on the second. The SHAPE is pinned
+# separately by the source row in the §b3 block; this is the VALUE.
+_tun_src_vm = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "tuning.py"),
+                   encoding="utf-8").read()
+_MIN_CALLS_DECLARED_VM = [_n_t.value.value for _n_t in _ast_vm.walk(_ast_vm.parse(_tun_src_vm))
+                          if isinstance(_n_t, _ast_vm.Assign) and len(_n_t.targets) == 1
+                          and isinstance(_n_t.targets[0], _ast_vm.Name)
+                          and _n_t.targets[0].id == "MIN_CALLS_TO_JUDGE"
+                          and isinstance(_n_t.value, _ast_vm.Constant)]
+check("the threshold standards enforces is the number tuning.py's own source declares",
+      (_STx.MIN_CALLS_TO_JUDGE_RATE, _STx.MIN_CALLS_TO_JUDGE_RATE == _TUNx.MIN_CALLS_TO_JUDGE),
+      (_MIN_CALLS_DECLARED_VM[0] if len(_MIN_CALLS_DECLARED_VM) == 1 else _MIN_CALLS_DECLARED_VM,
+       True),
       note="tuning.MIN_CALLS_TO_JUDGE answers this same question for regime(); read from "
-           "tuning, never re-spelled here")
+           "tuning, never re-spelled here. tuning.py declares it %s. If the want side of this "
+           "row is a LIST rather than a number, tuning.py has stopped declaring the constant as "
+           "a single literal and this reading has to be rebuilt -- red is the right answer to "
+           "that, not a quiet fall back to comparing the constant with itself"
+           % (("as %r" % _MIN_CALLS_DECLARED_VM[0]) if len(_MIN_CALLS_DECLARED_VM) == 1
+              else "in %d places, or not as a literal at all" % len(_MIN_CALLS_DECLARED_VM)))
 # THE LABEL NOW MATCHES THE CHECK (run #36, order 8a6d86040d10). This compared against a
 # HARDCODED LITERAL 20 while claiming to test agreement with tuning.py, so raising
 # tuning.MIN_CALLS_TO_JUDGE would have left the row green -- a check that cannot fail wearing
@@ -4192,18 +4490,28 @@ check("the threshold itself is the one tuning.py already settled on",
 #
 # AND THE REPAIR MOVED IT FROM ONE NON-FAILING SHAPE TO ANOTHER (order c1d6ddfe148b).
 # standards.py:67 is, verbatim, `MIN_CALLS_TO_JUDGE_RATE = tuning.MIN_CALLS_TO_JUDGE`. The row
-# immediately above compares those two names, so it holds BY CONSTRUCTION while that line
-# stands -- and the source row in batch3 (:8026-8033) already asserts by regex that the line
-# stands. The batch3 row at :8023 asserts the same equality a second time and its own label
-# concedes the point ("same object/value by construction"). Two of the three rows on this
-# subject therefore cannot report anything, and one of them was already repaired once for
-# exactly that reason. NEITHER IS DELETED HERE -- what was missing is a row that can fail.
+# immediately above compares those two names, so THAT HALF of it holds BY CONSTRUCTION while
+# that line stands -- and the batch3 row labelled "[495390283745] the source assigns the
+# constant FROM tuning" already asserts by regex that the line stands. The batch3 row labelled
+# "[495390283745] the value standards.MIN_CALLS_TO_JUDGE_RATE carries is the one tuning.py
+# declares" asserts the same equality a second time. NEITHER IS DELETED HERE -- what was missing
+# is a row that can fail.
+#
+# CITED BY ROW LABEL, NOT BY LINE NUMBER, AND RE-READ WHILE DOING IT (order 363c79272987). The
+# three line numbers this paragraph carried were written on 2026-09-07 and had already drifted
+# past four hundred lines by 2026-09-08. Re-reading the two batch3 rows to find them turned up
+# something the numbers were hiding: both have since been given a THIRD reading -- the value
+# tuning.py's own parse tree declares (order 5a0c4196142f) -- so the flat claim that used to
+# stand here, that "two of the three rows on this subject cannot report anything", is now true
+# only of the `_STx... == _TUNx...` equality inside them and not of the rows. That correction is
+# exactly what a citation is for, and it is what a drifted number costs.
 #
 # WHAT WAS NEVER DRIVEN IS THE BOUNDARY. The constant's whole job is to decide where
 # `standards.check()` stops rendering a success percentage and says UNMEASURED instead
 # (standards.py:751). That cut is asked here directly, both sides of it, and then the constant
 # is swapped underneath the live function and the ANSWER is watched to move -- the device this
-# file already uses for the restart horizon at :4273-4301. A hand-inlined literal at the cut
+# file already uses for the restart horizon in `_horizon_derives_from_standing_b19`. A
+# hand-inlined literal at the cut
 # would leave both equality rows green and redden this one.
 _thr19ai = _STx.MIN_CALLS_TO_JUDGE_RATE
 check("a window sitting exactly ON the threshold is measured, not refused",
@@ -4435,9 +4743,41 @@ _read_frag19 = _ln19.OWNER[_ln19.READ]
 check("the reader is still identified by one contiguous lognames fragment",
       _read_frag19, "read.py --run",
       note="restart_reader matches THIS; if it changes, the killer and the launcher must move together")
-check("the restart horizon for the reader names the MAIN LAP, not the keeper",
-      "NOT in the keeper's STANDING set" in _fm19._restart_horizon(_read_frag19), True,
-      note="read.py is outside STANDING, so 'next cycle' is a lap -- the clause that hid M15's cost")
+# THE READER IS IN THE KEEPER'S STANDING SET AS OF 2026-09-08, AND THIS ROW SAID THE OPPOSITE.
+#
+# It read `"NOT in the keeper's STANDING set" in _restart_horizon(read_frag)`, expecting True,
+# with the note "read.py is outside STANDING, so 'next cycle' is a lap -- the clause that hid
+# M15's cost". That was a true measurement of the topology on the day it was written and a
+# POLICY PIN, not a mechanism pin: it asserted where the reader sits rather than that the horizon
+# tells the truth about wherever it sits. Owner ruling 2026-09-08 question 14 put `read.py --run`
+# INTO `overnight.STANDING` precisely so a remedy's kill costs 300s instead of the measured 42-44
+# minutes and once four hours (orders d2e44a766769, 1014f88bea8e), so the row would have gone red
+# ON THE FIX for the incident it was written from.
+#
+# Moved WITH the change and made stricter, per this file's own standard -- three rows where there
+# was one, and the two new ones are the properties the old row never asserted:
+#   1. the horizon now names the 300s keeper for the reader (the thing that actually changed);
+#   2. `_restartable` AGREES with it -- that is the one that matters, because
+#      `foreman.restart_reader` SIGTERMs this fragment with NO `_restartable()` gate, so the only
+#      thing between that remedy and the 2026-08-25 flat-counter outage is this answer being True;
+#   3. the reader is genuinely on the roster, asked of `overnight.STANDING` itself rather than of
+#      the sentence `_restart_horizon` returns, so a horizon that merely says the right words
+#      cannot answer for a roster that does not carry the job.
+# `_horizon_derives_from_standing_b19` below is unchanged and still drives the roster.
+check("the restart horizon for the reader now names the 300s keeper",
+      "STANDING, so the keeper restarts it within 300s"
+      in _fm19._restart_horizon(_read_frag19), True,
+      note="read.py joined overnight.STANDING on 2026-09-08 so that restart_reader's ungated "
+           "SIGTERM costs 300s, not the main lap; if this goes red the reader left the roster "
+           "and an unrestartable kill is live again")
+check("and the killer's own gate agrees with the horizon about the reader",
+      _fm19._restartable(_read_frag19), True,
+      note="restart_reader has no _restartable() gate -- gating it was rejected because the "
+           "gate would have been a permanent no-op -- so this answer being True IS the safety")
+check("and the reader is on the keeper's roster itself, not merely described as being",
+      any(os.path.basename(_a[0]) == "read.py" for _n, _a, _l in _ON.STANDING), True,
+      note="asked of overnight.STANDING, so a horizon saying the right words cannot stand in "
+           "for a roster that does not carry the job")
 check("the restart horizon for a STANDING job names the 300s keeper",
       "STANDING, so the keeper restarts it within 300s"
       in _fm19._restart_horizon(_ln19.OWNER[_ln19.PIPELINE]), True,
@@ -4779,6 +5119,83 @@ check("[control] the continuation scan tells resubmitting apart from merely read
            "evidence of truncation and truncates anyway -- and the old predicate returned True "
            "on it, because any subscript assignment anywhere in the loop satisfied it")
 
+# ---- `pages_read` HOLDS ONLY THE PAGES THAT PASSED THE GATE -----------------------------------
+#
+# ORDER 6d594a775899, owner ruling 2026-09-08, option (a). The evidence record used to count a
+# page that was REFUSED as not-the-article inside `pages_read` and `chars_read`: `evidence_for`
+# recorded refusals in `unreal` and `continue`d past them, but the refused titles stayed in
+# `pages`, and the record was written as `pages_read: sorted(pages)`. So an entity every one of
+# whose pages was a Cloudflare interstitial or a soft-404 was written down with a non-empty
+# `pages_read` and a large `chars_read` -- a failure wearing the costume of an absence, in the
+# schema that exists to keep those two apart. Measured when the order was filed: 119 records
+# under data/feats/ carried a refusal marker.
+#
+# THE SCHEMA CHANGE LANDED WITH NOTHING BEHIND IT, which is why these rows exist. `feats.py`
+# now writes four fields where it wrote two -- `pages_read`/`chars_read` gated,
+# `pages_fetched`/`chars_fetched` preserving the old numbers -- and a grep of src/ on 2026-09-08
+# found the order id in three COMMENTS in feats.py and in no net and no battery row anywhere. A
+# ruling with no instrument behind it is one refactor from being undone silently, and this one
+# is undone by a single character: `sorted(text)` back to `sorted(pages)`.
+#
+# DRIVEN, NOT GREPPED, and hermetic. `discover` and `fetch` are stood in for so no request is
+# made, `CACHE` is redirected to a scratch directory so the probe writes nothing into the live
+# evidence tree, and `cache=False` forces the mining path rather than a cache hit. What is NOT
+# stubbed is `page_looks_real` -- the gate under test -- so the refusal below is the real gate
+# refusing real block-page text, and the row moves if either the gate or the schema moves.
+import shutil as _sh19ft
+import tempfile as _tf19ft
+
+_good19ft = "'''Hero''' lifted a 500 ton boulder over his head and threw it 3 kilometres.\n" * 6
+_block19ft = ("Attention Required! | Cloudflare. Please enable cookies to continue. "
+              "Ray ID 8f2. " * 12)
+_scratch19ft = _tf19ft.mkdtemp(prefix="vm_feats_gate_")
+_saved19ft = (_FT.CACHE, _FT.discover, _FT.fetch)
+try:
+    _FT.CACHE = _scratch19ft
+    _FT.discover = lambda _h, _n, resolved=None: ["Hero", "Hero (blocked mirror)"]
+    _FT.fetch = lambda _h, _t, outcome=None: {"Hero": _good19ft,
+                                              "Hero (blocked mirror)": _block19ft}
+    _ev19ft = _FT.evidence_for("onepiece.fandom.com", "Hero", cache=False)
+finally:
+    _FT.CACHE, _FT.discover, _FT.fetch = _saved19ft
+    try:
+        _sh19ft.rmtree(_scratch19ft)
+    except OSError:
+        # Same reasoning as the §19h and §20g probe cleanups: this removes a scratch tree, so
+        # the cost of a failure is a leaked temp directory rather than a hidden fault -- but a
+        # deliberate swallow in this tree records its site.
+        silence.note("verify_math.py:feats-gate-probe-cleanup")
+
+check("a refused page is NOT counted as a page that was read",
+      (_ev19ft["pages_read"], sorted(_ev19ft["pages_refused"])),
+      (["Hero"], ["Hero (blocked mirror)"]),
+      note="THE BUG: `pages_read: sorted(pages)` listed every title that ARRIVED, so an entity "
+           "served nothing but block pages was recorded as read-and-silent. coverage.py reads "
+           "this field to decide CITED / READ / NO PAGE")
+check("and chars_read counts only the page that passed the gate",
+      (_ev19ft["chars_read"], _ev19ft["chars_read"] == len(_good19ft)), (len(_good19ft), True),
+      note="the second half of the same field: a wholly-blocked entity used to carry a large "
+           "chars_read, which is the number a reader uses to judge whether it was really looked "
+           "at. chars_read stays in SOURCE characters, deliberately -- summing the stripped "
+           "text would have moved this number for every record on disk, not only the refused")
+check("and the fetch log is preserved rather than deleted, under its own name",
+      (sorted(_ev19ft["pages_fetched"]),
+       _ev19ft["chars_fetched"] == len(_good19ft) + len(_block19ft)),
+      (["Hero", "Hero (blocked mirror)"], True),
+      note="option (a) of the ruling was chosen over (b) BECAUSE nothing is lost by it: what "
+           "arrived and what was the article are now separate questions on the record, and a "
+           "reader who wants the old number still has it")
+check("and the record says which schema it was written under",
+      _ev19ft["mined_under"].get("pages_read_gated"), True,
+      note="34,676 records on disk predate the ruling and their pages_read may include "
+           "refusals; without this marker a consumer cannot tell one kind of record from the "
+           "other, which is the same could-not-see-recorded-as-nothing-there this order is about")
+check("[control] the gate really did refuse that page, so the rows above are not vacuous",
+      (len(_ev19ft["pages_refused"]) == 1, len(_ev19ft["feats"]) > 0), (True, True),
+      note="if `page_looks_real` stopped refusing block-page text, every row above would read "
+           "green off a probe where nothing was ever refused -- and the feats count proves the "
+           "page that PASSED was really mined, so this is not a probe where nothing happened")
+
 print()
 print("22. §20c  THE REPAIRS OF RUN #20 — a log that misdated its own evidence, and three")
 print("          atomic writes that discarded the answer they asked for")
@@ -4833,7 +5250,14 @@ check("dashboard.py carries no stale line-number silence label",
       '"dashboard.py:336"' in _db20code, False,
       note="m81 drift: the label said 336 while sitting at 362")
 import dashboard as _D20
-_j20 = _D20.jobs()
+# WRAPPED, and this is the purely mechanical half of order 728d9e99e9ec. The row below asks one
+# question -- does `jobs()` still hand back a list -- and its verdict does not consult the ledger
+# at all. `jobs()` itself notes three classes (`jobs-lognames-import`, `jobs-read`, `jobs-roll`)
+# whenever the live reader log or the live roll is unreadable, and each of those was reddening
+# §20z, which cancels the mutation pass. Nothing under test is suppressed: only the echo, for
+# the duration of this one call, exactly as §16's `SF.build()` calls are.
+with _no_ledger_vm():
+    _j20 = _D20.jobs()
 check("dashboard.jobs() still returns a list of panels after the refactor",
       isinstance(_j20, list), True,
       note="the split into _read_row/_roll_row must not change the panel contract")
@@ -4915,9 +5339,97 @@ print("           M17 and m87 cite this one as §20e. §20e now names §25 (cons
 # that is asking about liveness rather than about duplication.
 import overnight as _on21
 
-_probe21 = _on21._proc_lines()
-check("the process probe returned a listing at all", bool(_probe21), True,
-      note="every check below is vacuous without one -- an empty probe makes running() say False")
+# THE THIRD ROW THAT DEPENDED ON WHO ELSE IS ON THE MACHINE (order 728d9e99e9ec, owner ruling
+# 2026-09-08). The two paragraphs below record that two sibling rows were removed from this
+# section for exactly this reason; this one was left standing and kept doing it. It read
+# `check("the process probe returned a listing at all", bool(_probe21), True)`, and
+# `_proc_lines()` returns None -- deliberately, that is its documented "I could not see" answer
+# -- whenever the PowerShell spawn raises or comes back empty, which is what a loaded machine
+# does. A 20-hour mutation pass IS a loaded machine, so this row went red precisely when it
+# cost the most, and a red baseline disables the whole battery as a detector.
+#
+# NOTHING IS DROPPED, AND THE ROW IS NOT SOFTENED INTO A TAUTOLOGY. What changes is WHOSE fact
+# it is about. The probe's CONTRACT is this library's code and is asserted: it must not raise,
+# it must answer `str` or `None` and nothing else, and a listing it does return must be in the
+# `pid|command line` shape `_in_this_tree` parses -- a probe that silently started returning a
+# list, or rows without the separator, would make `running()` answer False for every job while
+# looking perfectly healthy, which is the failure this whole section exists about. WHETHER the
+# spawn succeeded on this particular machine at this particular minute is printed, never
+# asserted, exactly as §20k prints the live reader without grading it.
+#
+# The call is wrapped because `_proc_lines` notes `overnight.py:proc-lines` /
+# `:proc-lines-blind` into the live ledger on that path, and that echo reddened §20z.
+with _no_ledger_vm():
+    try:
+        _probe21 = _on21._proc_lines()
+        _probe21_raised = None
+    except BaseException as _e21:              # noqa: BLE001 -- the raise IS the finding
+        _probe21, _probe21_raised = None, "%s: %s" % (type(_e21).__name__, _e21)
+# `isinstance` FIRST, deliberately: a probe that started returning a list is one of the faults
+# the contract row below exists to name, and splitting it here would raise at module level --
+# taking the RESULT line with it and turning one wrong row into an unusable gate, which is the
+# rule §19ai's vanished-standard control states in the same words.
+_rows21 = ([_r21 for _r21 in _probe21.splitlines() if _r21.strip()]
+           if isinstance(_probe21, str) else [])
+
+
+
+def _pid_rows21(_listing):
+    """-> how many rows of this listing carry an integer pid before the first `|`.
+
+    THE ROW COUNT IS NOT THE MEASURE, and the first version of this got it wrong by assuming it
+    was. A real command line can contain NEWLINES -- `python -c` with a multi-line script is on
+    this machine's process table right now -- so a listing legitimately contains continuation
+    rows with no separator at all. `running()` says so in its own words at the `except
+    ValueError` handler, which calls them "present on every call by construction" and carries a
+    silence exemption for them, after noting them filed 35,806 ledger entries in two hours.
+    What matters is that SOME row parses: a listing in which none does makes `running()` answer
+    False for every managed job while the probe looks perfectly healthy.
+    """
+    _n21 = 0
+    for _r21c in _listing:
+        _pid21, _, _ = _r21c.partition("|")
+        try:
+            int(_pid21.strip())
+        except ValueError:
+            continue
+        _n21 += 1
+    return _n21
+
+
+_parsed21 = _pid_rows21(_rows21)
+check("the process probe honours its contract: it does not raise, and answers a string or None",
+      (_probe21_raised, _probe21 is None or isinstance(_probe21, str)), (None, True),
+      note="`_proc_lines` is documented as TOTAL -- None is its 'I could not see' answer and "
+           "every caller reads it that way. A raise here reaches overnight.running(), "
+           "autostart.supervisor_alive() and standards' managed-job roster, none of which "
+           "catches it. Asked of the library; whether the spawn succeeded on this machine "
+           "tonight is printed below, not graded")
+check("and a listing it DOES return is in the pid|command-line shape running() parses",
+      bool(_rows21) and _parsed21 == 0, False,
+      note="`running()` splits each row on the first `|` and reads an integer pid; "
+           "`_in_this_tree` then takes the first whitespace token ending in .py. A listing in "
+           "which NO row parses resolves nothing, so running() answers False for every managed "
+           "job while the probe looks healthy -- green by malformation, which is this section's "
+           "own failure one level down. An ABSENT listing is not malformed and is not graded "
+           "here: that is the machine, and it is printed below. This run read %d parseable "
+           "row(s) of %d" % (_parsed21, len(_rows21)))
+check("[control] and the shape test has teeth -- a listing that lost its separators is caught",
+      (_pid_rows21(["1234|py.exe a.py", "  continuation of the line above"]),
+       _pid_rows21(["1234 py.exe a.py", "5678 py.exe b.py"]),
+       _pid_rows21([])),
+      (1, 0, 0),
+      note="three worlds the row above cannot tell apart on its own: a healthy listing that "
+           "happens to carry a continuation row (a `python -c` with newlines in it, which is on "
+           "this machine's process table now), a listing whose separator is gone, and no "
+           "listing at all. The middle one is the fault; the first is normal and cost the "
+           "ledger 35,806 entries in two hours the last time it was treated as one")
+print("  INFO the live process probe returned %s"
+      % ("%d row(s)" % len(_rows21) if _rows21 else
+         "NOTHING -- the PowerShell/WMI enumeration did not answer. Said out loud rather than "
+         "asserted: who else is on this machine is not a fact about this library, and it is "
+         "reliably true while a mutation pass is running. Every row below drives a SYNTHETIC "
+         "listing, so none of them is vacuous because of this"))
 # THE SUITE USED TO BE ITS OWN FIXTURE, and that made the battery's answer depend on things
 # that are not facts about the library. These two checks read THIS PROCESS's command line: one
 # asserted `running("verify_math.py")` is False (nobody ELSE is running it) and one asserted it
@@ -5120,6 +5632,10 @@ _unguarded20e = []
 _guarded20e = 0
 _osspawn20e = []
 _unparsed20e = []
+# THE ANTI-VACUITY GUARANTEE IS RECONCILED, NOT FLOORED (order 1e83e387cfc1). See the two rows
+# below `_silent_importers20e` for the whole argument; these two collect what they compare.
+_sp_importers20e = set()          # module -> it imports subprocess, by any spelling
+_recognised20e = {}               # module -> how many spawn calls this scan actually resolved
 for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
     try:
         _t20e = _ast20e.parse(open(_p20e, encoding="utf-8").read())
@@ -5161,6 +5677,9 @@ for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
             if _i20e.module in {"subprocess", "os"}:
                 for _a20e in _i20e.names:
                     _direct20e[_a20e.asname or _a20e.name] = (_i20e.module, _a20e.name)
+    if ("subprocess" in _alias20e.values()
+            or any(_m20ei == "subprocess" for _m20ei, _ in _direct20e.values())):
+        _sp_importers20e.add(os.path.basename(_p20e))
 
     for _n20e in _ast20e.walk(_t20e):
         if not isinstance(_n20e, _ast20e.Call):
@@ -5182,6 +5701,11 @@ for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
         if _mod20e == "os" and _fn20e in {"system", "popen", "startfile"}:
             _osspawn20e.append(_where20e)
         elif _mod20e == "subprocess" and _fn20e in _SPAWNERS20e:
+            # RECOGNISED, guarded or not: the reconciliation below asks whether the SCAN can
+            # still see this module's spawns at all, which is a different question from whether
+            # they carry the flag. An unguarded site is already reported by name one row down.
+            _recognised20e[os.path.basename(_p20e)] = (
+                _recognised20e.get(os.path.basename(_p20e), 0) + 1)
             if "creationflags" in _kw20e or "startupinfo" in _kw20e:
                 _guarded20e += 1
             else:
@@ -5193,9 +5717,59 @@ check("every subprocess spawn in src/ suppresses its console window",
 check("no os.system / os.popen / os.startfile anywhere in src/",
       _osspawn20e, [],
       note="these cannot suppress a window at all -- use subprocess with creationflags instead")
-check("the guard is actually finding the spawn sites (it has not silently matched nothing)",
-      _guarded20e >= 20, True,
-      note="a parser bug that found zero calls would pass the two checks above vacuously")
+# RECONCILED AGAINST THE DECLARED SET, NOT AGAINST A HARDCODED FLOOR (order 1e83e387cfc1).
+#
+# The row that stood here read `_guarded20e >= 20`, and the scan finds 44 recognised spawn sites
+# across 14 modules -- twenty-four of headroom. Twenty-four spawn sites could stop being seen by
+# this scan (an alias form it does not resolve, a call shape it does not walk, a wrapper module
+# that shells out through a helper) and the row would not move; and a genuine drop below 20
+# would report a COUNT and never name which module went unseen. That is the same instrument this
+# file RETIRED at §20j for the standards roster under order ba7b55d6465f, in the same words --
+# "a standard that never emits just lowers a number nobody reconciles ... even a genuine drop
+# below 40 would only report a COUNT, never which standard went missing". The argument transfers
+# unchanged; the floor was simply not revisited when its sibling was. It is retired rather than
+# kept beside the strong row, for §20j's stated reason: keeping the weak one costs a reader the
+# belief that the floor meant something.
+#
+# WHAT REPLACES IT. Every module in src/ that IMPORTS subprocess must contribute at least one
+# spawn this scan RECOGNISES, and the ones that do not are named. A module does not import
+# subprocess for the scenery -- the two spellings the scan already resolves are the two spellings
+# a module can use -- so a resolver that goes blind to a call shape now surfaces as "allsweep.py
+# imports subprocess and this scan sees no spawn in it", which is a sentence a reader can act on.
+#
+# AND THE IMPORTER SET IS ITSELF TAKEN TWICE, BY TWO INSTRUMENTS THAT DO NOT SHARE A FAILURE
+# MODE, because otherwise the reconciliation is circular: the importer set and the spawn count
+# would both be derived from the same alias walk, so a walk that resolved nothing would produce
+# an empty importer set, an empty silent set, and a green row -- which is precisely the vacuity
+# the retired floor was written against, rebuilt one level up. The second reading is a line-shaped
+# regex over comment-stripped source, which knows nothing about aliases, calls or the parse tree.
+# 14 modules on 2026-09-08 by both readings, with no disagreement in either direction.
+_sp_import_lines20e = set()
+_rx_sp20e = _re_vm.compile(r"^\s*(?:import\s+subprocess\b|from\s+subprocess\s+import\b)")
+for _p20ei in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
+    with open(_p20ei, encoding="utf-8") as _f20ei:
+        for _ln20ei in _f20ei:
+            if _rx_sp20e.match(_ln20ei.split("#", 1)[0]):
+                _sp_import_lines20e.add(os.path.basename(_p20ei))
+                break
+_silent_importers20e = sorted(_m20es for _m20es in _sp_importers20e
+                              if not _recognised20e.get(_m20es))
+check("every module that imports subprocess yields a spawn this scan can see",
+      _silent_importers20e, [],
+      note="ANTI-VACUITY BY RECONCILIATION, replacing a `>= 20` floor with 24 of headroom "
+           "(order 1e83e387cfc1). A name here means the console-window audit has gone blind to "
+           "that module's spawns -- so the two rows above are clearing it vacuously -- and it "
+           "says WHICH module rather than lowering a number. %d modules import subprocess; "
+           "%d spawn sites recognised across them, %d of them carrying the flag"
+           % (len(_sp_importers20e), sum(_recognised20e.values()), _guarded20e))
+check("and the importer set agrees with a reading that knows nothing about the parse tree",
+      sorted(_sp_importers20e ^ _sp_import_lines20e), [],
+      note="THE RECONCILIATION MUST NOT BE CIRCULAR. The row above compares two products of one "
+           "AST walk, so a walk that resolved nothing would give an empty importer set and an "
+           "empty answer. This second reading is a regex over comment-stripped lines and shares "
+           "no machinery with it. A name here is either a module whose import the AST pass "
+           "missed, or one it invented -- and an unparseable module lands here too, which is "
+           "the honest place for it")
 check("every module was readable by the console-window scan", _unparsed20e, [],
       note="a module this scan cannot parse is one it cannot clear; a spawn that forgot the flag "
            "could hide inside a broken file and all three checks above would read green because "
@@ -6024,11 +6598,19 @@ check("[control] a progress line that has lost `dropped` produces no row at all"
 # THE STANDARD, over a state whose reader row is the fixture above. Everything else in the state
 # is the live dashboard's, so no other standard changes its answer and none of them starts
 # noting -- only the one input under test is pinned.
-_live20k = _dash20k.state()
+# WRAPPED under the named live-state grant (order 728d9e99e9ec). `dashboard.state()` reads every
+# operational artefact on the machine AND calls `standards.check()` inside itself, so this one
+# line is roughly thirty read-failure paths into the live ledger; the three `check()` calls below
+# are as many again each. The rows themselves are unchanged and still answer about the wiring --
+# only the ledger echo of somebody else's outage is kept out of §20z, and it is printed by name
+# in the abstention banner rather than hidden.
+with _third_party_vm(_LIVE_STATE_VM):
+    _live20k = _dash20k.state()
 _synth20k = dict(_live20k)
 _synth20k["jobs"] = [_j20k for _j20k in (_live20k.get("jobs") or [])
                      if _j20k.get("name") != "corpus read"] + [_row20k]
-_st20k = _stmod20k.check(_synth20k)
+with _third_party_vm(_LIVE_STATE_VM):
+    _st20k = _stmod20k.check(_synth20k)
 _names20k = {r["standard"] for r in _st20k}
 check("the fabrication guard emits a row at all",
       "sentences that survive the verbatim check" in _names20k, True,
@@ -6051,7 +6633,9 @@ _blind20k.pop("dropped", None)
 _synth20k_blind = dict(_synth20k)
 _synth20k_blind["jobs"] = [_j20k for _j20k in _synth20k["jobs"]
                            if _j20k.get("name") != "corpus read"] + [_blind20k]
-_fabblind20k = [r for r in _stmod20k.check(_synth20k_blind)
+with _third_party_vm(_LIVE_STATE_VM):
+    _blindrows20k = _stmod20k.check(_synth20k_blind)
+_fabblind20k = [r for r in _blindrows20k
                 if r["standard"] == "sentences that survive the verbatim check"]
 check("[control] a job dict with no `dropped` makes the guard report UNMEASURED, and BREACH",
       (str((_fabblind20k or [{}])[0].get("observed")).startswith("UNMEASURED"),
@@ -6066,7 +6650,8 @@ _livejobs20k = [_j20k for _j20k in (_live20k.get("jobs") or [])
                 if _j20k.get("name") == "corpus read"]
 # The live standards run is kept for the §20n row that asks whether an UNMEASURED reading can
 # read as green -- computed once here rather than a third time down there.
-_st20k_live = _stmod20k.check(_live20k)
+with _third_party_vm(_LIVE_STATE_VM):
+    _st20k_live = _stmod20k.check(_live20k)
 if _livejobs20k:
     print("  INFO corpus reader IS writing a progress line: dropped=%r, %s"
           % (_livejobs20k[0].get("dropped"), _livejobs20k[0].get("detail")))
@@ -6331,9 +6916,26 @@ check("the supervisor's gate FAILS CLOSED on an unreadable config",
       True, note="the contract must be stated where the next reader will see it")
 
 # --- LAYER 2: the machine. The tool refuses on its own, whoever started it.
-check("generate.py refuses on its own authority",
-      "assert_gate_open" in _gen_src, True,
-      note="the supervisor gate governs only the supervisor; a hand-run must refuse too")
+# ASKED OF THE PARSE TREE, NOT OF THE FILE TEXT (order 5a0c4196142f, owner ruling 2026-09-08:
+# "the remaining raw-source pins are comment-stripped, with AST for the two that are the sole
+# evidence a safety is WIRED"). This row is one of those two. It was
+# `"assert_gate_open" in _gen_src`, a BARE IDENTIFIER over raw source, and every one of these
+# would have satisfied it while the gate did nothing: a comment saying the call was removed, the
+# import line with the call deleted, a docstring naming the function, a dead `_ = assert_gate_
+# open` binding. Only a CALL refuses a hand-run, so a call is what is asserted -- reported as the
+# list of call lines so a red row says "none" rather than "False".
+_gate_calls_vm = [_n_g.lineno for _n_g in _ast_vm.walk(_ast_vm.parse(_gen_src))
+                  if isinstance(_n_g, _ast_vm.Call)
+                  and ((isinstance(_n_g.func, _ast_vm.Attribute)
+                        and _n_g.func.attr == "assert_gate_open")
+                       or (isinstance(_n_g.func, _ast_vm.Name)
+                           and _n_g.func.id == "assert_gate_open"))]
+check("generate.py CALLS the gate on its own authority, not merely names it",
+      bool(_gate_calls_vm), True,
+      note="the supervisor gate governs only the supervisor; a hand-run must refuse too. "
+           "assert_gate_open() call site(s) in generate.py: %s"
+           % (", ".join("line %d" % _l_g for _l_g in _gate_calls_vm) or "NONE -- the tool no "
+              "longer refuses on its own authority, whatever the file still says about it"))
 check("an ABSENT flag is a closed gate", _PGate.gate_open({})[0], False,
       note="silence must never authorise a book")
 check("a non-True truthy value is a closed gate", _PGate.gate_open({"prose_enabled": "yes"})[0],
@@ -6679,11 +7281,17 @@ def _own_nodes20p(fn):
     `ast.walk` descends through nested `def`s, so a long function that merely CONTAINS two
     unrelated inner functions was credited with everything both of them do -- and this check
     fires on a CO-OCCURRENCE, so conflating two innocent siblings manufactures a guilty parent.
-    Measured 2026-08-28: `drill.drill_local_agent` (1349-...) was reported as writing the
-    owner's config because a lambda at :1461 names "config.yaml" as the LABEL of a net asserting
-    the agent cannot patch it, while a DIFFERENT nested net, `blast_cap_bites` (1475-1556),
-    opens `handoff/__drill_blast_probe__.md` for writing at :1506. Neither does the forbidden
-    thing; the enclosing scope was the only thing they shared.
+    Measured 2026-08-28: `drill.drill_local_agent` was reported as writing the owner's config
+    because the `net(a, "it cannot patch config.yaml", lambda: denied("config.yaml"), ...)` site
+    inside it names "config.yaml" as the LABEL of a net asserting the agent cannot patch it,
+    while a DIFFERENT nested net, `drill.blast_cap_bites`, opens
+    `handoff/__drill_blast_probe__.md` for writing. Neither does the forbidden thing; the
+    enclosing scope was the only thing they shared.
+
+    CITED BY SYMBOL SINCE ORDER 363c79272987, and the drift is the argument: this passage gave
+    `drill.py` line numbers 1349, 1461, 1475-1556 and 1506, and on 2026-09-08 those four had
+    become 3296, 3658, 3712 and 3738. Every one of them pointed at unrelated code, in a
+    docstring whose whole subject is a scan that was fooled by a coincidence of position.
 
     NOTHING IS LOST BY THIS NARROWING, which is why it is the right shape rather than a
     weakening: the caller's outer loop visits every nested `def` in its own right, so a nested
@@ -6781,11 +7389,96 @@ check("the drill still proves it left the gate alone",
       "_drill_never_writes_the_gate" in _drill20p, True,
       note="the attack that defeats the fix is reintroducing the write, so a net watches for it")
 
-_pub20p = _src20p("publish.py")
+# DRIVEN, NOT GREPPED (order 0a9943374fe6). This row read
+#     check("a refused publish does not return success",
+#           "return rc" in _pub20p and "rc = 1" in _pub20p, True)
+# against the whole of publish.py. Both needles are among the most generic strings a Python
+# file can contain, and `rc = 1` occurs three times in that file -- so the refusal path alone
+# could be changed back to `return 0` and ANY of the other two sites would keep this row green.
+# THE BEHAVIOUR ITSELF WAS AND IS CORRECT; the order says so explicitly and forbids "fixing"
+# publish.py. What was wrong was the instrument: a source-grep false-fails on a correct
+# rephrasing and passes on a wrong one, which is the spelling-versus-property class this file
+# has re-aimed at the parse tree or at the running code four separate times already
+# (`_atomic_landing19`, the `_via` dict guard, `_writes_the_config20p` above, and pipeline's
+# land_json verdicts).
+#
+# So the row now CALLS `publish.main()` and reads what it returns. Nothing in any string
+# anywhere can satisfy it, and it goes red exactly when the property breaks.
+#
+# WHAT IS STUBBED AND WHY EACH ONE, because a probe that stubs its own subject proves nothing:
+#   * `push` is the subject inverted -- it raises the RuntimeError("PUBLISH REFUSED ...") that
+#     `push()` really raises at publish.py's credential-scanner refusal, so the question asked
+#     is "does main() turn that raise into a non-zero rc".
+#   * `sync_tree` / `render_page` / `write` / `render_views` are the four steps main() runs
+#     BEFORE the push. They copy the whole tree into the export repo and rewrite its pages. A
+#     battery row may not do that, and they are not what is under test.
+#   * `_mutation_observation` reads the live mutation interlock; the reading is handed to the
+#     stubbed `push` and discarded.
+#   * `escalation.HALT_FILE` is redirected to a path that does not exist, so this row asks
+#     about publish's return code and not about whether the library happens to be halted while
+#     the battery runs. `assert_clear` re-reads the file at call time, which is what makes the
+#     redirect work (escalation.py says so at `_halt_lock`).
+# `main()`'s own `except Exception` ends in `silence.note("publish.py:main")`, so the drive is
+# wrapped in `_no_ledger_vm()` -- the rehearsal must not land in the ledger a person reads to
+# find real refusals. Scoped to the call, per the two rules at the top of this file.
+#
+# AND BOTH DIRECTIONS ARE DRIVEN. A row that only ever sees the failing case cannot tell a
+# main() that reports refusals correctly from one that returns 1 unconditionally, so the same
+# harness is run a second time with `push` landing, and 0 is asserted there. The plausible
+# wrong answer -- assert only the refusal -- would stay green if somebody made rc=1 the default.
+_pubmod20p = __import__("publish")
+
+
+def _publish_rc20p(_push20p):
+    """Run `publish.py --push` one-shot with `push` replaced, -> (main()'s rc, its stdout)."""
+    import contextlib as _cx20p
+    import escalation as _esc20p
+    import io as _io20p
+    import tempfile as _tf20p
+    _saved20p = {_n20p: getattr(_pubmod20p, _n20p) for _n20p in
+                 ("push", "sync_tree", "render_page", "write", "render_views",
+                  "_mutation_observation")}
+    _argv20p, _halt20p = sys.argv[:], _esc20p.HALT_FILE
+    _buf20p = _io20p.StringIO()
+    try:
+        _pubmod20p.push = _push20p
+        _pubmod20p.sync_tree = lambda *_a, **_k: 0
+        _pubmod20p.render_page = lambda *_a, **_k: None
+        _pubmod20p.write = lambda *_a, **_k: None
+        _pubmod20p.render_views = lambda *_a, **_k: None
+        _pubmod20p._mutation_observation = lambda *_a, **_k: (False, {})
+        _esc20p.HALT_FILE = os.path.join(_tf20p.gettempdir(),
+                                         "verify_math_S20p_no_such_halt.json")
+        sys.argv = ["publish.py", "--push"]
+        with _cx20p.redirect_stdout(_buf20p), _cx20p.redirect_stderr(_buf20p):
+            with _no_ledger_vm():
+                _rc20p = _pubmod20p.main()
+    finally:
+        for _n20p, _v20p in _saved20p.items():
+            setattr(_pubmod20p, _n20p, _v20p)
+        sys.argv, _esc20p.HALT_FILE = _argv20p, _halt20p
+    return _rc20p, _buf20p.getvalue()
+
+
+def _refuses20p(*_a20p, **_k20p):
+    raise RuntimeError("PUBLISH REFUSED -- probe: nothing was staged and nothing was pushed")
+
+
+_rc_refused20p, _out_refused20p = _publish_rc20p(_refuses20p)
+_rc_landed20p, _out_landed20p = _publish_rc20p(lambda *_a20p, **_k20p: True)
 check("a refused publish does not return success",
-      "return rc" in _pub20p and "rc = 1" in _pub20p, True,
+      (_rc_refused20p != 0, _rc_landed20p), (True, 0),
       note="THE BUG: `return 0` after catching PUBLISH REFUSED told every caller the push "
-           "succeeded while a live credential sat staged for the PUBLIC repo")
+           "succeeded while a live credential sat staged for the PUBLIC repo. Driven rather "
+           "than grepped since order 0a9943374fe6; the second half is the control, so an "
+           "unconditional rc=1 cannot read as a pass either")
+check("and the operator is told WHY it was refused, on stdout",
+      ("PUBLISH REFUSED -- probe" in _out_refused20p,
+       "PUBLISH REFUSED" in _out_landed20p), (True, False),
+      note="publish.main() prints the refusal WHOLE and no longer clips it to 180 characters "
+           "(order 685da15e27fa) -- the escalation keeps every leak, but this print is the "
+           "operator's only console copy at the moment a publish is refused for a credential. "
+           "A non-zero rc nobody can read the reason for is half the repair")
 
 # And the halt must stay distinguishable from a crash in the sweep's own IMPORT tier, which is
 # where run #31 found it reporting "8 subsystem(s) in a bad state" over eight jobs obeying it.
@@ -7031,10 +7724,59 @@ check("axis_score refuses a missing quantity", A.axis_score(None, "M3", "ruin"),
 check("axis_score refuses a non-positive quantity (log of it does not exist)",
       A.axis_score(-5.0, "M3", "ruin"), None)
 check("axis_score refuses zero", A.axis_score(0.0, "M3", "ruin"), None)
-check("axis_score refuses a band that is not on the Ladder",
-      A.axis_score(1e9, "M-not-a-band", "ruin"), None)
-check("axis_score refuses an axis the band edges do not carry",
-      A.axis_score(1e9, "M3", "no_such_axis_exists"), None)
+# FIVE CONDITIONS SHARED ONE ANSWER AND NOW DO NOT (orders 9b3e59aeeb19 and 1f0a100f754b).
+# The three rows above assert None and KEEP asserting None -- "not scorable from this quantity"
+# is the meaning None retains. The two rows below used to assert the SAME None for two CALLER
+# errors, which is the defect: a band off the Ladder and a Measure that does not exist were
+# indistinguishable from a missing quantity, and six of the eleven Measures (the non-energetic
+# ones) were permanently in that state. Each is now refused in its own voice, and each row
+# checks the MESSAGE as well as the type, because three different refusals that all raise
+# AssayIntegrityError are only distinguishable if something reads what they say.
+#
+# WHY THIS IS THE STRICTER NET AND NOT A RELAXED ONE: `check(..., None)` was passed by a
+# function that returned None for every input -- exactly the blanket refusal the positive
+# control below exists to exclude -- and these rows cannot be.
+def _axis_refusal(x, band, axis, needle):
+    try:
+        return "SCORED %r" % (A.axis_score(x, band, axis),)
+    except A.AssayIntegrityError as _e:
+        return "refused: " + needle if needle in str(_e) else "refused, WRONG MESSAGE: " + str(_e)
+
+
+check("axis_score REFUSES a band that is not on the Ladder",
+      _axis_refusal(1e9, "M-not-a-band", "ruin", "not a band on the Ladder"),
+      "refused: not a band on the Ladder")
+check("axis_score REFUSES a Measure that does not exist, with a did-you-mean",
+      _axis_refusal(1e9, "M3", "ruinn", "did you mean 'ruin'?"),
+      "refused: did you mean 'ruin'?",
+      note="a typo'd Measure used to answer None here and 9.9 on the top rung; neither is an "
+           "answer about a Measure that is not one")
+check("axis_score REFUSES an axis with no band floor anywhere",
+      _axis_refusal(1e9, "M3", "no_such_axis_exists", "is not one of the Measures"),
+      "refused: is not one of the Measures")
+# THE SIX NON-ENERGETIC MEASURES, which are the reason this order was filed. They are not
+# unscorable -- they are on OTHER scales, and anchors.py said so in a comment while axis_score
+# answered the None that means "no evidence". Every one is checked, not a sample: six axes that
+# are permanently in this state is six chances for one of them to be silently re-added to
+# BAND_EDGES or dropped from the dict.
+for _ne in sorted(A.NON_ENERGETIC_AXES):
+    check("axis_score REFUSES non-energetic %-14s and names its real scale" % _ne,
+          _axis_refusal(1e9, "M3", _ne, "NOT on the energy ladder"),
+          "refused: NOT on the energy ladder")
+check("...and the six are exactly the Measures with no band floor",
+      sorted(A.NON_ENERGETIC_AXES),
+      sorted(set(A.WEIGHTS) - set(A.BAND_EDGES["M0"])),
+      note="assay._check_constants raises at import if these two ever come apart; this row is "
+           "the second, independent statement of the same partition")
+# AND THE SAME DICT AS anchors.py's, WHICH STILL CARRIES A COPY. NON_ENERGETIC_AXES was hoisted
+# into assay.py under order 9b3e59aeeb19 because anchors imports assay and the reverse would
+# cycle; anchors.py was outside that shift's assigned modules, so its own copy still stands and
+# the one-line change it needs is `NON_ENERGETIC_AXES = A.NON_ENERGETIC_AXES`. Until that lands
+# there are two spellings of one fact in the tree, and this row is what stops the second one
+# drifting in silence. DELETE THIS ROW ONLY WHEN anchors.py READS assay's -- not before.
+check("the anchors copy of NON_ENERGETIC_AXES still agrees with assay's",
+      AN.NON_ENERGETIC_AXES, A.NON_ENERGETIC_AXES,
+      note="a known duplicate, held equal until anchors.py is allowed to import it")
 _ax_valid = A.axis_score(1e9, "M3", "ruin")
 # THE POSITIVE CONTROL WAS SATISFIED BY THE THING IT CONTROLS FOR (order dbc2937118da, run #37).
 # It read `_ax_valid is None or (0.0 <= _ax_valid <= 10.0)`, so an axis_score that returned None
@@ -7044,6 +7786,43 @@ _ax_valid = A.axis_score(1e9, "M3", "ruin")
 check("and it still SCORES a well-formed quantity (the refusals are not blanket)",
       isinstance(_ax_valid, float) and 0.0 <= _ax_valid <= 10.0, True,
       note="a guard that refuses everything passes every refusal test ever written")
+
+# ---- THE TOP RUNG, WHICH ANSWERED 9.9 BEFORE IT LOOKED ANYTHING UP (order 1f0a100f754b) ------
+#
+# M10 has no M11 above it, so `axis_score` short-circuits there. That branch used to be taken
+# BEFORE the band and axis were checked to exist, so on M10 -- and on M10 alone -- every refusal
+# the four rows above assert became the literal 9.9: the MAXIMUM reading the scale admits. A
+# could-not-measure published as the most confident value available, on the one rung where the
+# numbers are least checkable. Measured before the fix: axis_score(5.0, "M10", "acumen") -> 9.9,
+# axis_score(5.0, "M10", "ruinn") -> 9.9, axis_score(1e-9, "M10", "ruin") -> 9.9, while the same
+# two calls one rung down at M9 answered None.
+#
+# NOT THE SATURATION BUG. That an IN-RANGE M10 quantity saturates at 9.9 rather than scaling is
+# open M18, named in assay's AXIS_MAX comment, and these rows deliberately leave it standing:
+# the row below asserts 9.9 for a quantity above the M10 floor, which is the current behaviour
+# and not an endorsement of it. What is asserted is that the refusals are reached first, and
+# that the below-floor clamp works on the top rung exactly as on every other one.
+check("top rung: a Measure that does not exist is refused, not answered 9.9",
+      _axis_refusal(5.0, "M10", "ruinn", "did you mean 'ruin'?"),
+      "refused: did you mean 'ruin'?")
+check("top rung: a non-energetic Measure is refused, not answered 9.9",
+      _axis_refusal(5.0, "M10", "acumen", "NOT on the energy ladder"),
+      "refused: NOT on the energy ladder")
+check("top rung: a quantity BELOW M10's own floor clamps to 0.0, as on every other rung",
+      A.axis_score(1e-9, "M10", "ruin"), 0.0, tol=1e-12,
+      note="a firecracker anchored at M10 read 9.9 -- maximum Ruin -- until 2026-09-08")
+check("top rung: five joules is still below the M10 ruin floor and still clamps",
+      A.axis_score(5.0, "M10", "ruin"), 0.0, tol=1e-12)
+check("[control] top rung: a quantity ABOVE the M10 floor still saturates (open M18, untouched)",
+      A.axis_score(A.BAND_EDGES["M10"]["ruin"] * 10, "M10", "ruin"), 9.9, tol=1e-12,
+      note="if this row ever goes green at something other than 9.9, M18 has been worked on and "
+           "the comment above it needs rewriting -- it is a pin, not an approval")
+check("[control] the rung below still refuses the same two axes the same way",
+      (_axis_refusal(5.0, "M9", "acumen", "NOT on the energy ladder"),
+       _axis_refusal(5.0, "M9", "ruinn", "did you mean 'ruin'?")),
+      ("refused: NOT on the energy ladder", "refused: did you mean 'ruin'?"),
+      note="the whole defect was that M10 answered differently from M9; this holds them together")
+
 # AND THE MONOTONICITY LIMB OF THAT SAME GUARD, which nothing reached (order 23dbbcd656f3's
 # finding (a)). `axis_score` refuses on `not lo or not hi or hi <= lo`, and the four rows above
 # exercise a missing quantity, a non-positive quantity, an unknown band and an axis the edges do
@@ -7344,6 +8123,69 @@ check("and the source line says the interval was derived from a grade nobody cou
       note="widening is the safe direction and that is not why it is acceptable -- the bar is "
            "the published claim about what is not known, so a bar widened BY SUBSTITUTION has "
            "to say so or it is a statement about evidence that was never gathered")
+
+# ---- THE THIRD DOOR NOW HAS A LAYER 1 (order 50e8d8be9a9b) ----------------------------------
+#
+# `assay()` validates its scores with _check_scores and its weight table with _check_weights;
+# `instrument()` gained _check_scores under order 5f99aa19c059 because "a gate on one of two
+# doors is not a gate, it is a preference". `interval_from_hands` is the THIRD public entry
+# point that takes numbers from a caller and publishes a centre and a plus-or-minus from them,
+# and it validated them not at all. Measured before the fix:
+#   {"AVAR": nan, "QUILL": 3.0}  -> centre nan, interval nan, spread nan
+#   {"AVAR": inf, "QUILL": 3.0}  -> centre inf, interval inf, spread inf
+#   {"AVAR": "seven"}            -> TypeError raised from inside the arithmetic
+# An interval of nan is not a plus-or-minus: it is not a wide bar, it is an absent one printed
+# in the place a bar goes. The TypeError is the answer _check_weights' own docstring names as
+# the WRONG one -- it reports a line, not a fault.
+#
+# THE ONE SIGNAL THAT EXISTED WAS NOT A CHECK: `covers_all_signatures` came back False on a NaN
+# (every comparison with nan is False, so the widening loop exits at once) and that field is
+# documented at its own site as a GUARANTEE being published, not a check being run. It is
+# asserted below anyway, on a GOOD reading, so nobody re-derives the refusal from it.
+def _readings_refusal(readings, needle):
+    try:
+        _r = A.interval_from_hands(readings)
+        return "PUBLISHED centre %r interval %r" % (_r and _r.get("centre"),
+                                                    _r and _r.get("interval"))
+    except A.AssayIntegrityError as _e:
+        return "refused: " + needle if needle in str(_e) else "refused, WRONG MESSAGE: " + str(_e)
+
+
+_h0, _h1 = sorted(A.HANDS)[0], sorted(A.HANDS)[2]
+check("interval_from_hands REFUSES a NaN reading",
+      _readings_refusal({_h0: float("nan"), _h1: 3.0}, "not finite"), "refused: not finite",
+      note="published centre nan / interval nan until 2026-09-08")
+check("interval_from_hands REFUSES an infinite reading",
+      _readings_refusal({_h0: float("inf"), _h1: 3.0}, "not finite"), "refused: not finite")
+check("interval_from_hands REFUSES a reading that is not a number",
+      _readings_refusal({_h0: "seven"}, "not a number"), "refused: not a number",
+      note="a TypeError from inside the arithmetic names a line, not a fault")
+check("interval_from_hands REFUSES a bool dressed as a reading",
+      _readings_refusal({_h0: True}, "not a number"), "refused: not a number",
+      note="bool is an int subclass, so True arithmetically scores 1.0 -- the same trap "
+           "_check_scores and _check_weights both name explicitly")
+check("interval_from_hands REFUSES readings that are not a table at all",
+      _readings_refusal(None, "must be a {Hand: value} table"),
+      "refused: must be a {Hand: value} table")
+# THE REFUSALS ARE NOT BLANKET, and this control is the reason the four rows above mean
+# anything: a validator that refused every input would satisfy all of them.
+check("[control] a well-formed pair of readings still publishes an interval",
+      isinstance(A.interval_from_hands({_h0: 7.41, _h1: 7.90}), dict), True)
+check("[control] a Hand who filed NOTHING is still accepted, not refused as a bad number",
+      A.interval_from_hands({_h0: None, _h1: 3.0})["centre"], 3.0, tol=1e-9,
+      note="None is 'this Hand did not sign', which is a different fact from an unreadable "
+           "reading and must not be folded into it")
+# WHAT IS DELIBERATELY NOT REFUSED, pinned so the next reader does not take the absence for an
+# oversight. A reading of -3.0 or 400.0 passes: the Hands' values are LADDER index plus decimal,
+# so [0, 11) is PLAUSIBLE, and plausible is exactly the problem -- nothing in the charter is
+# quoted anywhere in this tree as fixing that range. Refusing on a range this code invented
+# would be decreeing a charter rule from inside the engine. The question is left OPEN for the
+# owner; this row records the current answer so a future ruling changes a red row rather than
+# arriving silently.
+check("[recorded, NOT endorsed] an off-Ladder MAGNITUDE is still published (charter question)",
+      A.interval_from_hands({_h0: 400.0, _h1: 401.0})["centre"], 400.5, tol=1e-9,
+      note="order 50e8d8be9a9b: the finite/numeric half needed no ruling and is closed; the "
+           "range half is the owner's and is deliberately not decided here")
 
 # The same grade, one layer up, in `assay()` -- which absorbed it the identical way until the
 # same pass. The two layers are checked separately on purpose: two layers absorbing one bad
@@ -7954,15 +8796,197 @@ check("[d9b895708c45] every _s() call site names its standard with a literal str
       note="a computed or f-string name would hide from the scan below entirely; line(s): "
            + ", ".join(str(x) for x in _unliteral_b1))
 
-_emitted_b1 = {r["standard"] for r in
-               __import__("standards").check(__import__("dashboard").state())}
+# WHICH DROP PATH EACH STANDARD SITS BEHIND, read from standards.py's own parse tree (order
+# 74f1bc47da2a). About twenty-nine `except: silence.note("standards.py:<site>")` handlers each
+# DELETE their standard's row when that standard's input read raises, and this row then goes red
+# naming the standard -- for a fact about the machine rather than about this library. It has
+# already happened and this file records it below: 46 declared / 43 emitted, caused by an
+# unrelated process exhausting the machine's ephemeral ports.
+#
+# THE CRITERION IS THE DROP PATH, NOT THE STANDARD'S NAME, and that distinction is the whole
+# ruling. Exempting a standard BY NAME -- widening `_KNOWN_CONDITIONAL_STANDARDS_B1` -- is how a
+# standard that stopped firing for a real reason becomes permanently invisible, the run #25
+# shape §20k was written about, and it was explicitly refused. What is asked instead is: did the
+# LIVE-TIER read-failure path this standard sits behind actually fire during THIS call? The
+# wrapper above hands back every class that was swallowed, so the question is answerable rather
+# than assumed, and it must be BOTH -- the class fired, and it is one of the machine- and
+# network-tier classes granted in `_THIRD_PARTY_CLASSES_VM`.
+#
+# So a standard that vanished with NO note behind it still reddens (an early return, a deleted
+# `out.append`, a name changed on one side only), and so does one whose drop path is
+# repository-tier -- `cfg-model`, `style-prompt`, `self-check` are deliberately not granted. A
+# control row below drives both directions.
+_notes_b1 = {}
+for _t_b1 in _ast_b1.walk(_ast_b1.parse(_standards_src_b1)):
+    if not (isinstance(_t_b1, _ast_b1.Try) and _t_b1.body):
+        continue
+    _cls_b1 = set()
+    for _h_b1 in _t_b1.handlers:
+        for _hn_b1 in _ast_b1.walk(_h_b1):
+            if (isinstance(_hn_b1, _ast_b1.Call)
+                    and isinstance(_hn_b1.func, _ast_b1.Attribute)
+                    and _hn_b1.func.attr == "note" and _hn_b1.args
+                    and isinstance(_hn_b1.args[0], _ast_b1.Constant)
+                    and isinstance(_hn_b1.args[0].value, str)):
+                _cls_b1.add("silent:" + _hn_b1.args[0].value)
+    if _cls_b1:
+        _notes_b1[(_t_b1.body[0].lineno, _t_b1.body[-1].end_lineno)] = _cls_b1
+
+_DROPPATH_B1 = {}
+for _n_b1d in _ast_b1.walk(_ast_b1.parse(_standards_src_b1)):
+    if (isinstance(_n_b1d, _ast_b1.Call) and isinstance(_n_b1d.func, _ast_b1.Name)
+            and _n_b1d.func.id == "_s" and _n_b1d.args
+            and isinstance(_n_b1d.args[0], _ast_b1.Constant)
+            and isinstance(_n_b1d.args[0].value, str)):
+        for (_lo_b1d, _hi_b1d), _cl_b1d in _notes_b1.items():
+            if _lo_b1d <= _n_b1d.lineno <= _hi_b1d:
+                _DROPPATH_B1.setdefault(_n_b1d.args[0].value, set()).update(_cl_b1d)
+
+# AND THE SECOND KIND OF EVIDENCE: standards.py's OWN drop register. About three of these
+# handlers record a `_dropped.append("<label>")` in an `else:` rather than an `except:` -- the
+# absent-reader and absent-roll blocks, and now the fabrication block (order 95f817b752ac) -- and
+# those have no silence class at all, because nothing raised: a main-lap job is simply down
+# between laps. `check()` ends with an aggregate standard, "every standard could read its own
+# input", whose `observed` is exactly that register, and which MISSES whenever it is non-empty.
+#
+# A DROP THAT IS ON THE RECORD IS NOT GREEN BY ABSENCE, which is the fault d9b895708c45 exists
+# for. It is reported, by name, on the standards page, where a person and `foreman.REMEDIES` can
+# both act on it -- the right rung. Reddening the BATTERY for it as well puts the same fact on
+# the one instrument whose red baseline cancels a 20-hour mutation pass, and buys nothing. What
+# still reddens here is a standard that disappeared and was NOT recorded anywhere: an early
+# return, a deleted `out.append`, a name changed on one side only.
+#
+# Which standards each label covers is DERIVED, never listed: a label appended inside an except
+# handler covers whatever the note class covers, and a label appended in a branch covers the
+# `_s()` names in the sibling branch of the same `if`.
+_COVERS_B1 = {}
+for _std_b1, _cls_b1s in _DROPPATH_B1.items():
+    for _c_b1s in _cls_b1s:
+        _COVERS_B1.setdefault(_c_b1s.split("standards.py:")[-1], set()).add(_std_b1)
+
+
+def _walk_kin_b1(_node, _anc):
+    """Yield (node, ancestors-outermost-first) over the whole tree."""
+    for _kid_b1 in _ast_b1.iter_child_nodes(_node):
+        yield _kid_b1, _anc
+        for _pair_b1 in _walk_kin_b1(_kid_b1, _anc + [_node]):
+            yield _pair_b1
+
+
+for _n_b1k, _anc_b1 in _walk_kin_b1(_ast_b1.parse(_standards_src_b1), []):
+    if not (isinstance(_n_b1k, _ast_b1.Call) and isinstance(_n_b1k.func, _ast_b1.Attribute)
+            and _n_b1k.func.attr == "append"
+            and isinstance(_n_b1k.func.value, _ast_b1.Name)
+            and _n_b1k.func.value.id == "_dropped"
+            and _n_b1k.args and isinstance(_n_b1k.args[0], _ast_b1.Constant)
+            and isinstance(_n_b1k.args[0].value, str)):
+        continue
+    if any(isinstance(_a_b1k, _ast_b1.ExceptHandler) for _a_b1k in _anc_b1):
+        continue                    # already covered through its note class, above
+    _if_b1 = next((_a_b1k for _a_b1k in reversed(_anc_b1)
+                   if isinstance(_a_b1k, _ast_b1.If)), None)
+    if _if_b1 is None:
+        continue
+    _COVERS_B1.setdefault(_n_b1k.args[0].value, set()).update(
+        _s_b1k.args[0].value for _s_b1k in _ast_b1.walk(_if_b1)
+        if isinstance(_s_b1k, _ast_b1.Call) and isinstance(_s_b1k.func, _ast_b1.Name)
+        and _s_b1k.func.id == "_s" and _s_b1k.args
+        and isinstance(_s_b1k.args[0], _ast_b1.Constant)
+        and isinstance(_s_b1k.args[0].value, str))
+
+# WRAPPED under the named live-state grant, and the suppressed classes are KEPT rather than
+# discarded, because they are the evidence the partition below rests on.
+with _third_party_vm(_LIVE_STATE_VM) as _live_seen_b1:
+    _rows_b1live = __import__("standards").check(__import__("dashboard").state())
+_emitted_b1 = {r["standard"] for r in _rows_b1live}
+_GRANTED_B1 = set(_THIRD_PARTY_CLASSES_VM[_LIVE_STATE_VM])
+_fired_b1 = set(_live_seen_b1) & _GRANTED_B1
+_agg_b1live = next((r for r in _rows_b1live
+                    if r["standard"] == "every standard could read its own input"), None)
+_recorded_b1 = set()
+if _agg_b1live is not None and str(_agg_b1live.get("observed")) not in ("none", "None"):
+    _recorded_b1 = {_x_b1.strip() for _x_b1 in str(_agg_b1live["observed"]).split(",")
+                    if _x_b1.strip()}
+_excused_b1 = {_s_b1r for _lab_b1 in _recorded_b1 for _s_b1r in _COVERS_B1.get(_lab_b1, ())}
+
+
+def _why_b1(_std):
+    """-> the sentence explaining why this missing standard abstains, or "" if it must redden."""
+    _live = _DROPPATH_B1.get(_std, set()) & _fired_b1
+    if _live:
+        return "%s could not be read during this call" % ", ".join(sorted(_live))
+    if _std in _excused_b1:
+        return ("standards.py recorded the drop itself; its own aggregate standard MISSES "
+                "naming %s" % ", ".join(sorted(_l_b1 for _l_b1 in _recorded_b1
+                                               if _std in _COVERS_B1.get(_l_b1, ()))))
+    return ""
+
+
 _missing_b1 = sorted(_declared_b1 - _emitted_b1 - _KNOWN_CONDITIONAL_STANDARDS_B1)
-check("[d9b895708c45] every standard standards.py declares actually emits a row (declared vs "
-      "emitted, not a hardcoded floor)",
-      _missing_b1, [],
-      note="declared=%d emitted=%d exempt=%d; missing and UNEXEMPTED: %s"
+_abstained_b1 = sorted("%s -- %s" % (_m_b1, _why_b1(_m_b1))
+                       for _m_b1 in _missing_b1 if _why_b1(_m_b1))
+_red_b1 = [_m_b1 for _m_b1 in _missing_b1 if not _why_b1(_m_b1)]
+if _abstained_b1:
+    print("  ABSTAINED on %d standard(s): each one either could not read a live input during "
+          "this call (the class is named and is on the machine- and network-tier grant), or was "
+          "recorded as dropped by standards.py itself, where its own aggregate standard reports "
+          "it. A standard missing for any OTHER reason is in the row below."
+          % len(_abstained_b1))
+    for _a_b1 in _abstained_b1:
+        print("    " + _a_b1)
+check("[d9b895708c45] every standard standards.py declares emits a row, or is on the record as "
+      "dropped -- no standard disappears unaccounted for",
+      _red_b1, [],
+      note="declared=%d emitted=%d exempt=%d abstained=%d; missing, UNEXEMPTED and explained by "
+           "NOTHING -- neither a live-tier drop path nor standards.py's own drop register: %s"
            % (len(_declared_b1), len(_emitted_b1), len(_KNOWN_CONDITIONAL_STANDARDS_B1),
-              ", ".join(_missing_b1) or "none"))
+              len(_abstained_b1), ", ".join(_red_b1) or "none"))
+check("[95f817b752ac] the aggregate that carries the drop register is itself emitted, so an "
+      "abstention above can never rest on a row that is not there",
+      _agg_b1live is not None, True,
+      note="THE LOAD-BEARING HALF. A dropped standard abstains here only because "
+           "`every standard could read its own input` reports it and MISSES. If that aggregate "
+           "ever stops being emitted, the register is empty, `_excused_b1` is empty, and every "
+           "recorded drop goes back to reddening this row -- fail-closed, which is the right "
+           "direction, and this row says so out loud rather than leaving it to be inferred")
+check("[74f1bc47da2a] every standard the scan found is reachable from a drop path it can name, "
+      "or from none at all -- no standard is abstained on a class that is not granted",
+      sorted(_c_b1 for _cs_b1 in _DROPPATH_B1.values() for _c_b1 in _cs_b1
+             if _c_b1 in _fired_b1 and _c_b1 not in _GRANTED_B1), [],
+      note="belt and braces on the partition above: `_fired_b1` is already intersected with the "
+           "grant, so a name here would mean the intersection stopped being applied")
+# [control] EVERY DIRECTION OF THE PARTITION, driven on synthetic inputs so it costs no live
+# call. The row above asserts an empty list, which is also what a partition that had started
+# excusing EVERYTHING returns -- so the four arms are driven here against a fixture where the
+# right answer is known and is not empty.
+_ctl_drop_b1 = {"behind a live read": {"silent:standards.py:disk"},
+                "behind a repo read": {"silent:standards.py:cfg-model"}}
+_ctl_covers_b1 = {"a-recorded-label": {"recorded as dropped"}}
+_ctl_fired_b1 = {"silent:standards.py:disk", "silent:standards.py:cfg-model"} & _GRANTED_B1
+_ctl_missing_b1 = ["behind a live read", "behind a repo read", "recorded as dropped",
+                   "behind nothing at all"]
+
+
+def _ctl_red_b1(_recorded):
+    _exc = {_s2 for _l2 in _recorded for _s2 in _ctl_covers_b1.get(_l2, ())}
+    return [_m for _m in _ctl_missing_b1
+            if not (_ctl_drop_b1.get(_m, set()) & _ctl_fired_b1) and _m not in _exc]
+
+
+check("[control] a live-tier drop path and a recorded drop both abstain; a repository-tier "
+      "path and a silent disappearance both still redden",
+      _ctl_red_b1({"a-recorded-label"}), ["behind a repo read", "behind nothing at all"],
+      note="`standards.py:disk` is granted and `standards.py:cfg-model` deliberately is not -- "
+           "config.yaml is version-controlled in this repository, so a config that will not "
+           "parse is this library's fault and must stay red. The last has no drop path and no "
+           "register entry at all, which is the shape an early return or a deleted "
+           "out.append() makes, and is the fault this row exists for")
+check("[control] and an EMPTY drop register excuses nothing -- the recorded arm fails closed",
+      _ctl_red_b1(set()),
+      ["behind a repo read", "recorded as dropped", "behind nothing at all"],
+      note="the day standards.py stops emitting its aggregate, `_recorded_b1` is empty and every "
+           "recorded drop must go back to reddening. Driven here rather than argued, because "
+           "the failure would otherwise look identical to a healthy run")
 check("[d9b895708c45] the conditional-standard exemption list has no stale entries",
       sorted(_KNOWN_CONDITIONAL_STANDARDS_B1 - _declared_b1), [],
       note="a name here that standards.py no longer declares is a stale exemption guarding "
@@ -8437,6 +9461,46 @@ check("[5b85ab54b176] every vanishing-standard except-handler still pairs silenc
       note="a name here means a future edit separated the note from the drop-tracking, which "
            "would silently reopen the green-by-absence hole this order closed")
 
+# THE THIRD LOCAL-MODEL STANDARD HAD THE SAME HOLE BY A DIFFERENT DOOR, and it was worse
+# (order 74f1bc47da2a). "the local model produces tokens" sat behind a bare `if flow is not
+# None:` inside its try -- so on that branch there was no row AND no `_dropped` entry either:
+# it did not even reach the "every standard could read its own input" aggregate. It is now
+# emitted on every branch, with an UNMEASURED reading that BREACHES when the probe could not be
+# composed, which is a fault in this repository (config.yaml) and not in the daemon.
+#
+# ASKED OF THE PARSE TREE, because the behavioural version costs a fifteenth live
+# `standards.check()` -- the exact expense the same ruling is removing. A conditional wrapped
+# back around this `_s()` call is the only way the hole reopens, and that is a structural fact
+# the tree answers for free. Reported as the LIST of offending gates so a red row names the line.
+_gated_b3 = []
+for _p_b3 in _ast_b3x.walk(_std_tree_b3):
+    if not isinstance(_p_b3, (_ast_b3x.If, _ast_b3x.While)):
+        continue
+    for _branch_b3 in (_p_b3.body, _p_b3.orelse):
+        for _cn_b3 in _branch_b3:
+            for _sn_b3 in _ast_b3x.walk(_cn_b3):
+                if (isinstance(_sn_b3, _ast_b3x.Call)
+                        and isinstance(_sn_b3.func, _ast_b3x.Name) and _sn_b3.func.id == "_s"
+                        and _sn_b3.args and isinstance(_sn_b3.args[0], _ast_b3x.Constant)
+                        and _sn_b3.args[0].value == "the local model produces tokens"):
+                    _gated_b3.append("line %d, gated by a branch at line %d"
+                                     % (_sn_b3.lineno, _p_b3.lineno))
+check("[74f1bc47da2a] the token-flow standard is emitted on every branch, so a probe that could "
+      "not be SENT breaches it instead of deleting it",
+      sorted(set(_gated_b3)), [],
+      note="the branch that used to guard it -- `if flow is not None:` -- produced neither a "
+           "row nor a `_dropped` entry, so the standard was invisible to the reader AND to the "
+           "aggregate that counts dropped standards. Green by absence with no trace at all, "
+           "which is one worse than the shape 5b85ab54b176 closed")
+check("[74f1bc47da2a] ...and it is still declared, so the row above is not vacuous",
+      any(isinstance(_n_b3v, _ast_b3x.Call) and isinstance(_n_b3v.func, _ast_b3x.Name)
+          and _n_b3v.func.id == "_s" and _n_b3v.args
+          and isinstance(_n_b3v.args[0], _ast_b3x.Constant)
+          and _n_b3v.args[0].value == "the local model produces tokens"
+          for _n_b3v in _ast_b3x.walk(_std_tree_b3)), True,
+      note="a standard deleted outright has no gated call site either, and would read green "
+           "above -- the same absence-is-green trap one level up")
+
 # Functional check: force ONE real input read to fail (COMPLETENESS.json, behind the
 # "every source is fully catalogued" standard) and confirm (a) that standard is absent from
 # `rows`, (b) the new aggregate standard reports it by name and MISSES, (c) the printed
@@ -8445,7 +9509,12 @@ check("[5b85ab54b176] every vanishing-standard except-handler still pairs silenc
 import standards as _STx_b3
 import dashboard as _Dx_b3
 
-_state_b3 = _Dx_b3.state()
+# WRAPPED under the named live-state grant (order 728d9e99e9ec). `state()` reads every
+# operational artefact on this machine and calls `standards.check()` inside itself; the ledger
+# echo of an artefact a standing job was mid-write on was reddening §20z and cancelling the
+# mutation pass. The rows below are unchanged.
+with _third_party_vm(_LIVE_STATE_VM):
+    _state_b3 = _Dx_b3.state()
 _real_open_b3 = open
 
 
@@ -8459,7 +9528,9 @@ import builtins as _bi_b3
 
 # Clean run FIRST (before anything is patched), so the comparison below isn't sensitive to
 # whatever this run's live, network- or clock-dependent standards happen to say.
-_clean_rows_b3 = _STx_b3.check(_state_b3)
+# WRAPPED under the named live-state grant, same reason as the `state()` call above.
+with _third_party_vm(_LIVE_STATE_VM):
+    _clean_rows_b3 = _STx_b3.check(_state_b3)
 _clean_names_b3 = {r["standard"] for r in _clean_rows_b3}
 
 _bi_b3.open = _breaking_open_b3
@@ -8485,16 +9556,34 @@ check("[5b85ab54b176] the aggregate standard exists, MISSES, and names the dropp
       note="observed=%r" % (_agg_b3["observed"] if _agg_b3 else "<no row>"))
 # Set difference rather than raw length: the aggregate standard is present in BOTH runs (it
 # only flips holds True/False), so a clean run and a one-standard-dropped run differ by exactly
-# the one standard that failed to read -- never by a shrinking, untraceable total. Set
-# comparison (rather than len() arithmetic) also can't be fooled by an unrelated standard
-# flapping between the two check() calls for live/network reasons.
+# the one standard that failed to read -- never by a shrinking, untraceable total.
+#
+# THE IMMUNITY THIS NOTE USED TO CLAIM IS NOT REAL, and saying so is the point (order
+# 74f1bc47da2a). It read: "Set comparison (rather than len() arithmetic) also can't be fooled by
+# an unrelated standard flapping between the two check() calls for live/network reasons." It
+# can, in exactly ONE direction, and that direction is the harmful one:
+#   * a standard that drops in the CLEAN run and returns in the broken one is invisible here --
+#     it leaves `_clean_names_b3` and so leaves the difference. Harmless.
+#   * a standard that emits in the CLEAN run and drops in the BROKEN one lands in
+#     `_clean_names_b3 - _names_b3` beside the deliberately-broken one, and this row goes RED
+#     for somebody else's outage. The PowerShell/WMI spawn, the fandom connect and the metrics
+#     ledger read all sit inside that window, and the machine is at its busiest during the
+#     20-hour mutation pass this row's redness would cancel.
+# The exposure is NARROWED but not closed: both calls now run under the named live-state grant,
+# which keeps the ledger echo out of §20z, and `_TOKENFLOW` is pinned by §19ai for the whole
+# process so the most expensive probe cannot fire twice. What is NOT done is making this row
+# tolerate a second difference -- that would be softening the one control proving 5b85ab54b176's
+# fix, and the honest reading of a red here is "read the pair of names, one of them is the
+# outage", which the note below now prints.
 check("[5b85ab54b176] exactly the broken standard -- and nothing else -- disappears; the "
       "aggregate standard is present, unaffected, in both runs",
       (_clean_names_b3 - _names_b3, "every standard could read its own input" in _clean_names_b3,
        "every standard could read its own input" in _names_b3),
       ({"every source is fully catalogued"}, True, True),
-      note="clean run standards=%d, broken run standards=%d" % (len(_clean_names_b3),
-                                                                 len(_names_b3)))
+      note="clean run standards=%d, broken run standards=%d. If this is red with an EXTRA name "
+           "in the first element, that name is a standard that flapped between the two calls "
+           "for a live reason -- read it before reading it as a regression"
+           % (len(_clean_names_b3), len(_names_b3)))
 
 
 # ==================================================================================================
@@ -8515,9 +9604,19 @@ print("[batch3] order 495390283745 -- MIN_CALLS_TO_JUDGE_RATE is derived from tu
 
 import tuning as _TUNx_b3
 
-check("[495390283745] standards.MIN_CALLS_TO_JUDGE_RATE is identically tuning.MIN_CALLS_TO_"
-      "JUDGE (same object/value by construction), not a coincidentally-equal literal",
-      _STx_b3.MIN_CALLS_TO_JUDGE_RATE, _TUNx_b3.MIN_CALLS_TO_JUDGE)
+check("[495390283745] the value standards.MIN_CALLS_TO_JUDGE_RATE carries is the one tuning.py "
+      "declares in its own source, and the two runtime attributes still agree",
+      (_STx_b3.MIN_CALLS_TO_JUDGE_RATE,
+       _STx_b3.MIN_CALLS_TO_JUDGE_RATE == _TUNx_b3.MIN_CALLS_TO_JUDGE),
+      (_MIN_CALLS_DECLARED_VM[0] if len(_MIN_CALLS_DECLARED_VM) == 1 else _MIN_CALLS_DECLARED_VM,
+       True),
+      note="THIS ROW USED TO BE UNABLE TO FAIL (order 5a0c4196142f). Its label said the two "
+           "were the same 'by construction' and its body then asserted that construction "
+           "against itself -- `standards.py:67` IS `MIN_CALLS_TO_JUDGE_RATE = "
+           "tuning.MIN_CALLS_TO_JUDGE`, so no edit to either file could redden it. The third "
+           "reading is tuning.py's parse tree, which is not either runtime attribute and can "
+           "therefore disagree with both. The SHAPE -- that the assignment is still a "
+           "derivation and not a re-inlined literal -- is the row immediately below")
 check("[495390283745] the source assigns the constant FROM tuning, so a future edit that "
       "reverts to a bare literal is caught here even if the two numbers still happen to match "
       "today",
@@ -8790,7 +9889,8 @@ print("[batch4] order adba96551729 -- verify_restore()'s only caller is still th
 #      other way -- `verify_restore(p)`, a line break between the name and the argument, a
 #      keyword argument -- and `call_idxs` is empty, the first row reddens, and the row that
 #      actually protects the live tree is not emitted at all. §20r retired exactly this
-#      construction (order c8704a41a70f, :6771-6779): "on the day it COULD evaluate False, the
+#      construction where the `if isinstance(_cal, dict):` wrapper used to stand around the
+#      calibration-margin row (order c8704a41a70f): "on the day it COULD evaluate False, the
 #      row would have VANISHED rather than failed, and an absent row is invisible to every count
 #      that audits this file."
 #   2. THE `path` IT READ WAS NOT SCOPED TO THE FUNCTION. `reversed(lines[:i])` walks backwards
@@ -8925,7 +10025,8 @@ _b4_overwatch_checks()
 # exact path, the two assertions below did not read green -- they CEASED TO EXIST, and a run in
 # which they never ran is indistinguishable from a run in which they passed. That is §20k's
 # finding verbatim ("it did not read green; it was ABSENT, which on a page of green looks
-# identical", :5556-5588) and order c8704a41a70f's ("an absent row is invisible to every count
+# identical", in §20k's "the guard that never ran" preamble) and order c8704a41a70f's ("an
+# absent row is invisible to every count
 # that audits this file"). It is a worse instance than either, because these two rows guard the
 # OUTSIDE opinion -- the one detector in this tree that cannot share a blind spot with the house
 # ones -- so their disappearance is exactly the blind spot they exist to prevent.
@@ -8938,7 +10039,8 @@ _b4_overwatch_checks()
 # So: resolve through THE MODULE'S OWN RESOLVER, and ALWAYS emit both rows. An unresolvable tool
 # BREACHES rather than holding, which is the stricter of the two readings order ddae3747d37d
 # left open, taken for the reason order 5b85ab54b176 took it for the two local-model standards
-# at :7609 -- "an UNMEASURED reading on a breaching row is the honest outcome; an absent row is
+# in the row labelled "[5b85ab54b176] the two local-model standards are emitted from OUTSIDE
+# every try" -- "an UNMEASURED reading on a breaching row is the honest outcome; an absent row is
 # green-by-absence". secondopinion.py's own doctrine is that an absent tool reports NOT
 # INSTALLED and never an empty pass; this is that doctrine applied to its wrapper.
 #
@@ -9007,6 +10109,44 @@ check("both secondopinion rows are emitted whatever the toolchain looks like",
       note="the skip this replaced returned before either check() call, so on a machine "
            "without the tools this section contributed nothing and looked exactly like a "
            "section that passed")
+
+# AND THE MODULE'S DOCSTRING NOW DESCRIBES THE MODULE (order 91cf746c651e, owner ruling
+# 2026-09-08). Its closing line said the module "escalates to JANITOR (record it), not to OWNER"
+# -- naming a CALL that has never existed here: no `import escalation`, no `escalate()` site
+# anywhere in the file, the recording done entirely by `silence.note`. The ruling settled which
+# half was wrong: the SEVERITY reading is right and the sentence was the defect, because adding
+# the call would import the very chain the surrounding paragraph explains why not to trigger,
+# and every fresh checkout lacking `ruff` or `detect-secrets` would file a chain event on the
+# rung that exists to carry signal.
+#
+# BOTH DIRECTIONS ARE PINNED, because either one alone rots. If a later edit wires escalate()
+# in, the docstring goes stale again in the opposite direction and the first row says so; if the
+# docstring loses the mechanism it names, the second says so. A sentence about behaviour and the
+# behaviour are two things and this is the only place they are compared.
+_so_src_vm = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "secondopinion.py"),
+                  encoding="utf-8").read()
+_so_tree_vm = _ast_vm.parse(_so_src_vm)
+_so_esc_vm = sorted(
+    "line %d" % _n_so.lineno for _n_so in _ast_vm.walk(_so_tree_vm)
+    if (isinstance(_n_so, (_ast_vm.Import, _ast_vm.ImportFrom))
+        and any("escalation" in (_a_so.name or "")
+                for _a_so in _n_so.names)) or (
+        isinstance(_n_so, _ast_vm.ImportFrom) and (_n_so.module or "") == "escalation") or (
+        isinstance(_n_so, _ast_vm.Call)
+        and ((isinstance(_n_so.func, _ast_vm.Attribute) and _n_so.func.attr == "escalate")
+             or (isinstance(_n_so.func, _ast_vm.Name) and _n_so.func.id == "escalate"))))
+check("secondopinion.py records rather than escalating, as its own paragraph argues it must",
+      _so_esc_vm, [],
+      note="fail-open is this module's ONE stated departure from house doctrine, and the reason "
+           "is written beside it: a linter missing from a fresh checkout is not evidence the "
+           "library is unsafe. A line here means the chain got wired in after all, and the "
+           "docstring's severity sentence has to be re-read rather than assumed")
+_so_doc_vm = _ast_vm.get_docstring(_so_tree_vm) or ""
+check("...and its docstring names the mechanism it actually uses",
+      ("JANITOR" in _so_doc_vm, "silence.note" in _so_doc_vm), (True, True),
+      note="the severity is the true half and is kept; `silence.note` is how it is recorded. A "
+           "docstring naming a call the module does not make sends the next reader looking for "
+           "wiring that was never there -- which is what this order was, twice, in two sweeps")
 
 
 # ==================================================================================================
@@ -9820,10 +10960,24 @@ finally:
 # ============================================================ order 3d74ba8262a9
 #                                                                (cascade_bridge.py)
 _cb_src = open(os.path.join(SRC, "cascade_bridge.py"), encoding="utf-8").read()
+# ASKED OF THE MODULE DOCSTRING ITSELF (order 5a0c4196142f). Both rows are about what
+# cascade_bridge SAYS, so reading the whole file was the wrong instrument in both directions:
+# the retracted claim could come back inside a function body or a comment and the first row
+# would stay green, and the second was satisfied by the identifier appearing anywhere at all --
+# it is why `'_pool_answer_usable' is in cascade_bridge.py only as prose` had to be carried as a
+# NAMED EXCEPTION in §20z's prose-backing scan for weeks. Asking `ast.get_docstring` is both
+# stronger and honest about what is being asserted, and it retires that exception.
+_cb_doc = _ast_vm.get_docstring(_ast_vm.parse(_cb_src)) or ""
 check("cascade_bridge.py no longer claims to validate against the schema in its own docstring",
-      "reply is parsed and VALIDATED here" not in _cb_src, True)
-check("cascade_bridge.py docstring names where real validation happens",
-      "_pool_answer_usable" in _cb_src, True)
+      "reply is parsed and VALIDATED here" in _cb_doc, False,
+      note="the claim was false: the reply is parsed here and validated in pipeline. A module "
+           "docstring that overstates what its module checks is how the next reader stops "
+           "looking for the real gate")
+check("cascade_bridge.py's DOCSTRING names where real validation happens",
+      "_pool_answer_usable" in _cb_doc, True,
+      note="the docstring is the whole subject of this row, so it is the docstring that is "
+           "read -- not the file, where an import, a call or a comment anywhere would have "
+           "satisfied it without the sentence being there at all")
 
 
 # ============================================================ order 9736a5a73b02 (propagation.py)
@@ -9896,6 +11050,90 @@ check("the run #35 LOCAL check files are still on disk",
       len(_run35_files), 6,
       note="six LOCAL batches wrote one each; a vanished file is coverage that silently left")
 
+# ---- AND EVERY OTHER PROPOSAL FILE IN THAT DIRECTORY IS ACCOUNTED FOR ------------------------
+# Order 28c1f58f5e8a, and the sentence that settles it is the order's own: whether the remaining
+# files SHOULD be adopted is curatorial, but "that they are silently unaccounted for is not".
+# The glob above sees `checks_L*.py` and nothing else, so six further files -- 59 authored checks
+# over 67 order ids -- sat in the same directory being neither run, nor spliced, nor refused.
+#
+# THEY ARE NOT ADOPTED HERE, and that is the ruling rather than an omission: the owner's decision
+# of 2026-09-08 on "Nets that cannot fail on the guard they name" took option (a), and the option
+# that would have adopted all twelve files was put and NOT taken. What was open was the
+# accounting, and this closes it -- the register below is the record, and it is CHECKED, so a
+# thirteenth file cannot appear in silence and a registered one cannot quietly leave.
+#
+# TRIAGED ONCE, 2026-09-08, so the register is a measurement and not an assumption: the six were
+# executed against the tree of that date in a scratch harness of this same shape, giving 53 pass
+# and 6 fail of 59. The six failures are all findings about OTHER modules (corpus_db, feats,
+# onomast, resync_roll, catalogue_web), which is exactly why adopting them wholesale into this
+# file was refused -- they would redden this battery for work that belongs on those modules'
+# own rungs, and a red baseline here disables the whole gate.
+_RUN35_SPLICED36 = ["checks_batch%d.py" % _i36 for _i36 in range(1, 7)]
+_RUN35_REGISTERED36 = {
+    "checks_F1.py": "13 checks; 9 of 13 held on 2026-09-08. The four failures are findings "
+                    "about corpus_db, feats, onomast and resync_roll, not about this battery",
+    "checks_M1.py": "6 checks, all 6 held on 2026-09-08",
+    "checks_M2.py": "16 checks; 14 of 16 held on 2026-09-08. Both failures are about "
+                    "catalogue_web and one of them no longer parses the file it reads",
+    "checks_M3.py": "9 checks, all 9 held on 2026-09-08",
+    "checks_M4.py": "7 checks, all 7 held on 2026-09-08",
+    "checks_SO.py": "8 checks, all 8 held on 2026-09-08",
+}
+_run35_all36 = {os.path.basename(_p36a)
+                for _p36a in _g36.glob(os.path.join(_RUN35_DIR, "checks_*.py"))}
+_run35_seen36 = ({os.path.basename(_p36b) for _p36b in _run35_files}
+                 | set(_RUN35_SPLICED36) | set(_RUN35_REGISTERED36))
+check("every proposal file under handoff/run35 is executed, spliced, or on the register",
+      sorted(_run35_all36 - _run35_seen36), [],
+      note="%d files on disk: %d executed by the loop below, %d spliced into sections 20s of "
+           "this file, %d registered as deliberately not run. A name here is a proposal file "
+           "nobody has decided about -- coverage that is neither taken nor refused, which is "
+           "the state this row exists to end"
+           % (len(_run35_all36), len(_run35_files), len(_RUN35_SPLICED36),
+              len(_RUN35_REGISTERED36)))
+check("and nothing on the register or the splice list has left the directory",
+      sorted((set(_RUN35_REGISTERED36) | set(_RUN35_SPLICED36)) - _run35_all36), [],
+      note="the other direction, and the one that rots quietly: a register entry naming a file "
+           "that is gone is a decision recorded about nothing, and it would make the row above "
+           "read green over a directory that had been emptied")
+# AND THE SPLICE IS PROVED, not asserted. `checks_batch1..6` are recorded above as SPLICED into
+# this file, which is a claim about this file's own body -- and the whole reason section 20u
+# exists is that a proposal file's contents can be believed present while being absent. Each
+# batch file's `check()` LABELS are read from its parse tree and looked for in this file's; a
+# splice that was reverted, or a batch file that has been rewritten since it was spliced, leaves
+# no label in common and is named here.
+def _labels36(_src36):
+    """-> the set of literal first arguments to `check()` in this source."""
+    return {_n36.args[0].value for _n36 in _ast_vm.walk(_ast_vm.parse(_src36))
+            if isinstance(_n36, _ast_vm.Call) and isinstance(_n36.func, _ast_vm.Name)
+            and _n36.func.id == "check" and _n36.args
+            and isinstance(_n36.args[0], _ast_vm.Constant)
+            and isinstance(_n36.args[0].value, str)}
+
+
+with open(os.path.abspath(__file__), encoding="utf-8") as _f36s:
+    _mylabels36 = _labels36(_f36s.read())
+_unspliced36 = []
+for _b36 in _RUN35_SPLICED36:
+    _bp36 = os.path.join(_RUN35_DIR, _b36)
+    try:
+        with open(_bp36, encoding="utf-8") as _bf36:
+            _their36 = _labels36(_bf36.read())
+    except Exception as _e36s:
+        _unspliced36.append("%s: %s: %s" % (_b36, type(_e36s).__name__, _e36s))
+        continue
+    if not _their36:
+        _unspliced36.append("%s: declares no check() label at all, so the splice cannot be "
+                            "proved from it" % _b36)
+    elif not (_their36 & _mylabels36):
+        _unspliced36.append("%s: not one of its %d labels appears in verify_math.py"
+                            % (_b36, len(_their36)))
+check("each batch file recorded as SPLICED still has labels standing in this file",
+      _unspliced36, [],
+      note="the splice is the only reason those six are not executed by the loop below. If one "
+           "was reverted, this file lost that batch's coverage and every other row would look "
+           "exactly the same")
+
 for _p36 in _run35_files:
     _name36 = os.path.basename(_p36)
     _ns36 = {"__name__": "__verify_math_run35__", "__file__": _p36}
@@ -9913,7 +11151,9 @@ for _p36 in _run35_files:
         # section is the only account a reader gets of a run35 file that failed, and Hard Rule 0
         # is not about rosters only: a silent cut on the one sentence explaining a FAILED row is
         # the same act as a cut on a page list. §7 of this file settled the equivalent question
-        # for standards.py's `[:120]` join at :7541 ("which used to cut a source name mid-word")
+        # for standards.py's `", ".join(_pending)[:120]` in the row labelled "[9d4d0c4e6c6a] the
+        # spine-code-amendment-pending join is no longer character-truncated" ("which used to
+        # cut a source name mid-word")
         # and the answer there was to print everything. A stack of ImportError text is long
         # exactly when it is worth reading.
         _loaded36, _why36 = False, "%s: %s" % (type(_e36).__name__, _e36)
@@ -10415,6 +11655,131 @@ check("the section headers were actually found and read", len(_tags20y) >= 55, T
            "blind without going red the day a section is legitimately retired")
 
 
+print()
+print("    §20ad  THIS FILE MAY NOT CITE ITSELF BY LINE NUMBER — a pointer that rots quietly")
+# ---- Section 20ad: no comment here points at this file by a line number ----------------------
+#
+# ORDER 363c79272987. This file cited ITSELF by `:NNNN` in sixteen places and EVERY ONE OF THEM
+# POINTED AT UNRELATED CODE when they were checked target by target on 2026-09-08. Three had
+# been written the previous day. The worst pair was in the swallow-exemption inventory near the
+# top of this file -- the paragraph a reader consults to decide whether a bare `except` in this
+# tree is sanctioned or a defect -- so the doctrine could not be looked up from the one place
+# that points at it.
+#
+# WHY THE SELF-CITATIONS ROT AND THE CROSS-MODULE ONES DO NOT. Spot-checked the same day:
+# `standards.py:751`, `standards.py:67`, `standards.py:1901`, `anchors.py:427`, `sevenfold.py:86`
+# and `assay.py:147-189` were all still accurate. They hold because they point at OTHER files,
+# which this file's own growth does not move. This one grows by roughly fifty rows a shift, and
+# every insertion above a citation invalidates it silently. Section 24 had already ruled on
+# exactly this ("CITED BY SYMBOL, NOT BY LINE", order a09a0e003c31) -- for a citation of
+# sweep.py. Thirteen citations of verify_math.py by verify_math.py were left standing, and three
+# more were written after the ruling. A rule that is not enforced is a rule that is decoration.
+#
+# SO THE THIRTEEN ARE NOW SYMBOLS -- a note-site label, a row label, a function name, a section
+# tag, a quoted header -- and this row stops a fourteenth arriving quietly.
+#
+# DELIBERATELY NOT DONE: re-pinning the numbers to today's lines. §20z's own `_prose_backed20z`
+# refuses that shape in as many words -- "a pinned line number turns this row red every time
+# anything above it grows by a line, which trains a reader to re-pin it without looking, and a
+# ratchet that is routinely re-pinned is a ratchet that is off."
+#
+# WHAT COUNTS AS A SELF-CITATION, and every exclusion here is a real construct present in this
+# file rather than a hypothetical:
+#   * `verify_math.py:NNNN` anywhere in prose is a self-citation outright. That is the spelling
+#     the S16 `SF.build` ledger-escape comment used, and it had drifted sixty-six lines.
+#   * a BARE `:NNNN` is a self-citation UNLESS some file has already been named in the same
+#     comment block or docstring, in which case it is read as a continuation of that citation --
+#     `sevenfold.py:86 ... and sorted(set(cuts)) (:214)`, `sweep.py:129 ... and ":160"`,
+#     `config.yaml's own comment at :125`. This is a deliberate FALSE-NEGATIVE: a block that
+#     names any file suppresses bare citations after it. The alternative -- flagging every
+#     continuation -- would make the row noisy enough to be re-pinned by hand, which is the
+#     failure mode above.
+#   * a `:NNNN` preceded by a word character is not a citation at all: the port
+#     `localhost:11434`, a pid in `killed stalled read_auto:42972`, a timestamp `[22:39:04]`.
+#   * a `:NNN` preceded by `[` is a byte cap in prose -- `str(_e36)[:160]`, `titles[:12]`,
+#     `", ".join(_pending)[:120]` -- and is §20z's subject, not this one's.
+#
+# IT READS PROSE ONLY, which is the mirror image of `_blank_prose20z` two sections down: a
+# citation lives in a comment or a docstring, and a slice in CODE is not a citation at all.
+def _self_cites20ad(_text20ad):
+    """-> ["line N: ..."] for every :NNNN in this file's prose that points at this file."""
+    import io as _io20ad
+    import tokenize as _tk20ad
+    _FILE20ad = _re_vm.compile(
+        r"[A-Za-z_][A-Za-z0-9_.-]*\.(?:py|md|json|jsonl|yaml|yml|txt|log|html|cfg|ini)\b")
+    _SELF20ad = _re_vm.compile(r"verify_math\.py:(\d{1,5})\b")
+    _BARE20ad = _re_vm.compile(r"(?<![\w\[.])[:](\d{2,5})\b")
+    _lines20ad = _text20ad.splitlines()
+    _blocks20ad, _run20ad = [], []
+    for _tk in _tk20ad.generate_tokens(_io20ad.StringIO(_text20ad).readline):
+        if _tk.type == _tk20ad.COMMENT:
+            if _run20ad and _tk.start[0] != _run20ad[-1][0] + 1:
+                _blocks20ad.append(_run20ad)
+                _run20ad = []
+            _run20ad.append((_tk.start[0], _tk.string))
+    if _run20ad:
+        _blocks20ad.append(_run20ad)
+    for _n20ad in _ast20p.walk(_ast20p.parse(_text20ad)):
+        if isinstance(_n20ad, (_ast20p.Module, _ast20p.FunctionDef, _ast20p.AsyncFunctionDef,
+                               _ast20p.ClassDef)):
+            _b20ad = _n20ad.body[0] if _n20ad.body else None
+            if (isinstance(_b20ad, _ast20p.Expr) and isinstance(_b20ad.value, _ast20p.Constant)
+                    and isinstance(_b20ad.value.value, str)):
+                _blocks20ad.append([(_l20ad, _lines20ad[_l20ad - 1])
+                                    for _l20ad in range(_b20ad.lineno, _b20ad.end_lineno + 1)])
+    _out20ad = []
+    for _blk20ad in _blocks20ad:
+        _named20ad = False
+        for _no20ad, _s20ad in _blk20ad:
+            for _m20ad in _SELF20ad.finditer(_s20ad):
+                _out20ad.append("line %d: verify_math.py:%s" % (_no20ad, _m20ad.group(1)))
+            # LEFT TO RIGHT, so a file named AFTER the citation on the same line does not
+            # retroactively excuse it -- which is how the `_own_nodes20p` docstring's four
+            # drifted drill.py numbers were found: the block mentioned config.yaml, but only
+            # further along than the citation it would have excused.
+            _hits20ad = sorted(
+                [(_m.start(), None) for _m in _FILE20ad.finditer(_s20ad)]
+                + [(_m.start(), _m.group(1)) for _m in _BARE20ad.finditer(_s20ad)])
+            for _pos20ad, _num20ad in _hits20ad:
+                if _num20ad is None:
+                    _named20ad = True
+                elif not _named20ad:
+                    _out20ad.append("line %d: :%s  in  %s"
+                                    % (_no20ad, _num20ad, " ".join(_s20ad.split())[:90]))
+    return _out20ad
+
+
+check("no comment or docstring in this file cites this file by line number",
+      _self_cites20ad(open(os.path.abspath(__file__), encoding="utf-8").read()), [],
+      note="ORDER 363c79272987: sixteen self-citations, sixteen pointing at unrelated code, "
+           "three of them written the day before they were checked. Cite by symbol -- a "
+           "`silence.note` label, a check() label, a function name, a §tag, a quoted sentence "
+           "-- and the citation survives every insertion above it. Do NOT close a red row here "
+           "by re-pinning the number")
+# AND THE SCAN IS PROVEN TO SEE, both ways, because an empty list is also what a detector that
+# matches nothing returns -- which is the finding this whole file is built around. Each fixture
+# is one construct that really occurs in this file today.
+_FIX20ad = {
+    "a bare self-citation": ("# the swallow doctrine at :2358-2362 says so\n", 1),
+    "an explicit one": ("# see verify_math.py:1457 for the escape line\n", 1),
+    "one in a docstring": ('def f():\n    """the device used at :4273-4301."""\n', 1),
+    "a continuation of another file's citation": (
+        "# sevenfold.py:86 builds `set(members)` and `sorted(set(cuts))` (:214)\n", 0),
+    "a byte cap in prose": ("# this was `str(_e36)[:160]`, and titles[:12] too\n", 0),
+    "a port and a pid": ("# http://localhost:11434/api/ps killed stalled read_auto:42972\n", 0),
+    "a timestamp": ("# the log line [22:39:04] was misdated by 38 minutes\n", 0),
+    "a slice in CODE, which is not prose at all": ("_x = _y[:220]\n", 0),
+    "a citation of another file": ("# standards.py:751 is the cut this row drives\n", 0),
+}
+check("[control] the self-citation scan flags exactly the citations it should",
+      sorted("%s:%d" % (_k20ad, len(_self_cites20ad(_v20ad[0])))
+             for _k20ad, _v20ad in _FIX20ad.items()),
+      sorted("%s:%d" % (_k20ad, _v20ad[1]) for _k20ad, _v20ad in _FIX20ad.items()),
+      note="a row asserting an empty list is indistinguishable from a scan that matches "
+           "nothing; these nine fixtures are the constructs actually present in this file, and "
+           "four of the five zeros are the false positives order 363c79272987 named in advance")
+
+
 # ---- Section 20z: the battery leaves nothing behind in the ledger a person reads -------------
 #
 # THE RATCHET FOR THE WRAPPER AT THE TOP OF THIS FILE. `_spy_record_vm` has been sitting on
@@ -10654,10 +12019,11 @@ check("[control] and the collision detector can actually find one",
 
 # ---- and no row promises a tolerance that check() will throw away ---------------------------
 #
-# ORDER 1036c659495d, and this row exists because a COMMENT used to hold this guarantee. At
-# :337 the file recorded "an AST scan of all 68 rows passing `tol=` found this was the only one
-# whose `want` was provably not a float", and re-running that scan two days later found a
-# second. A count written down once is a measurement that stops being taken.
+# ORDER 1036c659495d, and this row exists because a COMMENT used to hold this guarantee. The
+# comment on §1's relativistic-KE row (order 97894a93eab5) recorded "an AST scan of all 68 rows
+# passing `tol=` found this was the only one whose `want` was provably not a float", and
+# re-running that scan two days later found a second. A count written down once is a measurement
+# that stops being taken.
 #
 # THE DEFECT: `check()` only consults `tol` inside `if isinstance(want, float)`. Hand it an int
 # `want` and the comparison falls through to exact equality, so the tolerance is silently
@@ -10899,11 +12265,21 @@ _prose20z, _unres20z, _seen20zn, _declined20z = _prose_backed20z(
     open(os.path.join(_here19, "verify_math.py"), encoding="utf-8").read(), _src20p)
 check("no row proves a property of CODE by finding the words in a comment",
       _prose20z,
-      ["'_pool_answer_usable' is in cascade_bridge.py only as prose",
+      ["'THERE IS NO PAID LANE' is in cascade_bridge.py only as prose",
        "'get(\"TEMP\")' is in publish.py only as prose"],
-      note="TWO DELIBERATE EXCEPTIONS, NAMED RATHER THAN EXEMPTED, and both say so in their own "
-           "labels: §19aj asserts that the PAPER TRAIL survives its own comment-stripping guard, "
-           "and the §3d74ba8262a9 row is explicitly about what cascade_bridge's DOCSTRING says. "
+      note="TWO DELIBERATE EXCEPTIONS, NAMED RATHER THAN EXEMPTED, and each says so in its own "
+           "label. §19aj asserts that the PAPER TRAIL survives its own comment-stripping guard. "
+           "§19h's paid-lane sentence is prose BY CONSTRUCTION (order 7082658551dd): the owner "
+           "ruling of 2026-09-08 moved the comment-wording half of drill's "
+           "`there_is_no_paid_lane` off the halt rung and onto this one, precisely because a "
+           "reflowed paragraph must be a filed order and not an outage -- and a row whose "
+           "subject IS the comment cannot be satisfied by code. The structural half is still "
+           "asked of cascade_bridge's parse tree by the drill, and §19h asserts that net is "
+           "still there. "
+           "THE SECOND EXCEPTION WAS RETIRED under order 5a0c4196142f rather than carried -- the "
+           "§3d74ba8262a9 rows are about what cascade_bridge's DOCSTRING says, so they now read "
+           "`ast.get_docstring` instead of the whole file and are no longer substring rows at "
+           "all. A named exception that can be turned into a stronger question should be. "
            "Anything else appearing here is a row that would read green over deleted code")
 check("and the scan is looking at a real population, not at nothing",
       _seen20zn >= 30, True,
@@ -10965,6 +12341,138 @@ check("[control] and it reads an inline raw-source read rather than walking past
            "all three were skipped in silence and counted as nothing at all")
 
 _REACHED_THE_END_VM[0] = True
+
+print("    §20ae  A DRILL STAND-IN MAY NOT BE NARROWER THAN THE FUNCTION IT STANDS FOR")
+# THE CLASS THAT RAISED TWO HALTS IN ONE DAY (2026-09-08, run #46).
+#
+# A drill net proves something by replacing a real function with a stub -- `CK.load = stand_in`,
+# `BH.canary = ...`. The stub pins a signature. When the real function later grows a parameter,
+# the stub does not, and the net breaches ON A CORRECT EDIT to the code it guards. That is worse
+# than a net that merely fails: it fails in the direction that punishes the fix, and the person
+# who hits it learns the net is noise.
+#
+#   halt #2  `binding_health.canary` gained `available=`; drill's stub stayed pinned. SEVEN nets
+#            in the halt-lifting area went down at once.
+#   halt #3  `cachekey.load(base, host, name, on_corrupt=None)` was given the `on_corrupt=` trace
+#            every other call site already had. `_cited_names_for_can_credit_a_name`'s stand-in
+#            took three positional arguments. Worse than a plain TypeError: `cited_names_for`
+#            SWALLOWS loader exceptions into "not cited", so the failure arrived disguised as an
+#            always-empty cited set -- the exact AUDIT DEFEAT 5 shape that net exists to catch.
+#
+# Both were found by a net firing, hours apart, on separate agents' correct work. This asks the
+# question directly instead of waiting for the third one.
+#
+# ARITY, NOT NAMES, and that distinction was measured rather than assumed. Comparing parameter
+# NAMES reports twelve hits on this tree and eleven are noise: a stub that calls its first
+# argument `r` where the real function calls it `rec` accepts exactly the same positional call,
+# and every stand-in here is installed for positional use. What actually broke twice is that the
+# stub had FEWER SLOTS than the real function. Keyword-only parameters are collected separately
+# as a weak signal -- `os.replace`'s `src_dir_fd` is keyword-only and nothing in this tree has
+# ever passed it, so reddening on it would be an alarm that always sounds.
+#
+# ALIASES RESOLVE BY NEAREST PRECEDING BINDING, which is not a detail. `SC` is bound TWICE in
+# drill.py -- `import scope as SC` and, three thousand lines later, `import scout as SC`, both
+# function-local. A single alias map keeps whichever was walked last, `getattr` then fails, and
+# twelve sites report as UNRESOLVABLE. An unresolvable site is a blind spot wearing the costume
+# of a clean scan, so the count of them is asserted at zero beside the count of faults. A scan
+# that cannot see a site cannot vouch for it.
+import ast as _ast20ae          # noqa: E402
+import inspect as _insp20ae     # noqa: E402
+import importlib as _imp20ae    # noqa: E402
+
+_ae_pos = (_insp20ae.Parameter.POSITIONAL_ONLY, _insp20ae.Parameter.POSITIONAL_OR_KEYWORD)
+
+
+def _stub_sig20ae(a):
+    return ([x.arg for x in (list(getattr(a, "posonlyargs", [])) + list(a.args))],
+            a.kwarg is not None, [x.arg for x in a.kwonlyargs])
+
+
+def _standins20ae(src_text):
+    """-> (arity faults, weak keyword-only notes, unresolvable sites). Pure; no import of drill."""
+    tree = _ast20ae.parse(src_text)
+    binds = sorted((n.lineno, al.asname or al.name.split(".")[0], al.name)
+                   for n in _ast20ae.walk(tree) if isinstance(n, _ast20ae.Import) for al in n.names)
+    defs = {}
+    for n in _ast20ae.walk(tree):
+        if isinstance(n, (_ast20ae.FunctionDef, _ast20ae.AsyncFunctionDef)):
+            defs.setdefault(n.name, []).append(n)
+    bad, weak, unresolved = [], [], []
+    for n in _ast20ae.walk(tree):
+        if not (isinstance(n, _ast20ae.Assign) and len(n.targets) == 1):
+            continue
+        t = n.targets[0]
+        if not (isinstance(t, _ast20ae.Attribute) and isinstance(t.value, _ast20ae.Name)):
+            continue
+        modname = None
+        for ln, al, mod in binds:
+            if al == t.value.id and ln <= n.lineno:
+                modname = mod
+        if modname is None:
+            continue
+        try:
+            real = getattr(_imp20ae.import_module(modname), t.attr)
+            if not callable(real):
+                continue
+            rsig = _insp20ae.signature(real)
+        except Exception:
+            unresolved.append("%s.%s@%d" % (t.value.id, t.attr, n.lineno))
+            continue
+        v = n.value
+        if isinstance(v, _ast20ae.Lambda):
+            spos, skw, skwonly = _stub_sig20ae(v.args)
+        elif isinstance(v, _ast20ae.Name) and v.id in defs:
+            cands = [d for d in defs[v.id] if d.lineno < n.lineno]
+            if not cands:
+                unresolved.append("%s.%s@%d" % (t.value.id, t.attr, n.lineno))
+                continue
+            spos, skw, skwonly = _stub_sig20ae(max(cands, key=lambda d: d.lineno).args)
+        else:
+            continue
+        if skw:
+            continue
+        rpos = [k for k, p in rsig.parameters.items() if p.kind in _ae_pos]
+        if len(spos) < len(rpos):
+            bad.append("%s.%s@%d takes %d for %d (%s)"
+                       % (t.value.id, t.attr, n.lineno, len(spos), len(rpos),
+                          ", ".join(rpos[len(spos):])))
+        for k, p in rsig.parameters.items():
+            if p.kind is _insp20ae.Parameter.KEYWORD_ONLY and k not in set(skwonly) | set(spos):
+                weak.append("%s.%s@%d:%s" % (t.value.id, t.attr, n.lineno, k))
+    return bad, weak, unresolved
+
+
+_drill20ae = _src20p("drill.py")
+_bad20ae, _weak20ae, _unres20ae = _standins20ae(_drill20ae)
+check("no drill stand-in takes fewer arguments than the function it replaces", _bad20ae, [],
+      note="a stub narrower than its subject breaches on a CORRECT edit to the guarded code; "
+           "the remedy is **kw on the stub, never narrowing the real function")
+check("and every stand-in site was actually resolvable, so the scan vouches for all of them",
+      _unres20ae, [],
+      note="an unresolvable site is a blind spot, not a pass. Twelve read as unresolvable until "
+           "aliases were scoped to the nearest preceding import -- drill.py binds SC to both "
+           "scope and scout")
+check("the scan is looking at a real population, not at nothing",
+      len(_standins20ae(_drill20ae)[0]) == 0 and _drill20ae.count("CK.load = ") >= 1, True,
+      note="guards against the walk silently matching no assignment at all, which would make "
+           "both rows above pass on an empty set for ever")
+# CONTROL. The rows above assert an empty list, so they are exactly the shape that passes when the
+# detector is dead. A stub is planted that IS narrower than its subject, and the scan must find it.
+_ctrl20ae = ("import cachekey\n"
+             "def _s(base, host, name):\n"
+             "    return None, None\n"
+             "cachekey.load = _s\n")
+_cbad20ae, _, _cun20ae = _standins20ae(_ctrl20ae)
+check("[control] a planted narrow stand-in IS caught", len(_cbad20ae), 1,
+      note="cachekey.load is (base, host, name, on_corrupt=None); the plant takes three. This is "
+           "halt #3 reduced to four lines")
+check("[control] and a stand-in with **kw is NOT reported",
+      _standins20ae(_ctrl20ae.replace("def _s(base, host, name):",
+                                      "def _s(base, host, name, **kw):"))[0], [],
+      note="the remedy must read as clean, or the row would push people toward narrowing the "
+           "real function instead")
+
+
 _print_result_vm()
 if FAIL:
     sys.exit(1)

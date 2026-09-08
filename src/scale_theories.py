@@ -17,9 +17,50 @@ each candidate codification, price it, and see which the attested feats actually
 Each theory below is stated as physics, priced in exception bits, and -- the part that matters --
 made FALSIFIABLE: each predicts something different about growth, momentum, and what happens
 when the shrinker punches something.
+
+HELD FOR A FUTURE PHASE, MARKED, AND NOT WIRED
+----------------------------------------------
+Order `01695fe3ef26`; owner ruling 2026-09-08, "whole modules built and never wired in":
+**wire what closes a measured gap; hold the rest, marked.** `render.py` was wired under that
+ruling (`publish.py:1346`, `import render as R`). `hosts.py` WAS NOT, and this sentence used to
+say it was -- measured 2026-09-08 during run #46: `import hosts`, `from hosts import`,
+`hosts_for(` and `SOURCE_HOSTS` all return zero hits anywhere in src/ outside `hosts.py` itself.
+Order `3fb312a72435` is still open for it and the wiring point is `feats.py`, which reads
+WIKI_HOSTS.json directly for one primary host instead of asking `hosts.hosts_for(source)`.
+Corrected rather than left standing, because a comment asserting a completed action that never
+happened is worse than no comment: the next reader takes it as settled and stops looking. THE FOUR PRICED CODIFICATIONS IN `THEORIES` ARE HELD, and the reason is
+recorded here so the next sweep re-finds a decision rather than an open question.
+
+Nothing in `src/` imports this module. Its only mention anywhere is its own name inside
+`derivation.SCAN_MODULES`, and `liveness.py` lists it as NEVER REACHED: `bulk_export_beta`,
+`growth_strike`, `penetration_pressure` and `surviving_theory` all have zero callers.
+
+Held rather than retired because `THEORIES` is AUTHORED CONTENT -- four candidate codifications
+of 𝔇, each priced in exception bits and each carrying its own falsifier -- and deleting the
+module would lose the authorship, not just the code. Held rather than wired because wiring it
+means deciding what prices Transgression for a size-changer, which moves a published axis; that
+is a phase of its own with a snapshot and a before/after table, not a maintenance edit. Nothing
+is deleted.
+
+THE FIVE PHYSICAL CONSTANTS BELOW STAY DECLARED HERE (order `a78d5cd748b2`, same ruling). They
+are read by nothing -- not by the four functions, not outside this file -- and the audit that
+found them proposed importing them from a canonical home instead. THERE IS NO CANONICAL HOME AND
+THAT IS DELIBERATE: `chord_field.py` and `descending_ladder.py` each declare their own copies,
+and `chord_field.py`'s own comment records the house precedent as the OPPOSITE of centralising
+-- each file keeps only the constants it uses, because a second source of truth is the drift
+hazard, not the cure for it. The owner ruled these onto that precedent. So they are not
+centralised, and they are not deleted either: `descending_ladder.py:49` carries a comment
+cross-referencing "scale_theories.py names the same value as G_NEWTON", and removing them would
+silently make an existing comment false -- that cross-reference is part of how the duplication
+was meant to stay VISIBLE rather than being tidied out of sight. They are reference values for
+this module's own physics, marked as unread, and they wait on the same phase the functions do.
 """
 import math
 
+# REFERENCE-ONLY, HELD, NOT CENTRALISED (order a78d5cd748b2, owner ruling 2026-09-08 -- the
+# chord_field precedent; see the module docstring above for why this is not a duplication to be
+# fixed by importing). Each of the five occurs exactly once in this file, which is its own
+# declaration, and nothing in src/ reads any of them.
 C_LIGHT = 2.99792458e8
 G_NEWTON = 6.67430e-11
 HBAR = 1.054571817e-34

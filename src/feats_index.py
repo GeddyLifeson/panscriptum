@@ -255,8 +255,79 @@ def index_faults(root=READFEATS):
                     "collided_keys": []})
 
 
-def feats_for_source(source_name, record):
+# HOW OFTEN THE UNBOUND CASE HAS BEEN ANSWERED WITH AN EMPTY LIST, per source, and what kind of
+# source it was (order c8dc624e4e02; owner ruling 2026-09-08, "Filters that quietly remove
+# entities from the roll" -- *the missing counters land in feats_index/manifest_builder and
+# recover_folder_records*). A count nobody prints is not a count, so `binding_report()` below is
+# what a caller prints; the counter is what makes it possible to print at all.
+_UNBOUND_ASKED = {}
+
+
+def source_binding(source_name, hosts=None):
+    """Why does this source have no host? -> "bound" | "pages" | "doc" | "unbound".
+
+    THE ANSWER `feats_for_source` COULD NOT GIVE. It returned a bare `[]` for a source with no
+    host binding, which is the exact conflation the surrounding code was written to forbid:
+    `host_to_sources` was deliberately taught to RAISE rather than return {} so that an
+    unreadable WIKI_HOSTS.json "could not produce the identical observable result to *this source
+    genuinely has no attested feats*" -- and `if not hosts: return []` produced that identical
+    observable result for a source that is simply not IN WIKI_HOSTS.json. The guard one level up
+    in `manifest_builder` only prints its WARNING on an EXCEPTION, so nothing distinguished the
+    two cases at the one call site that matters: the volume was built with no Feats chapter and
+    the build report read like a clean run.
+
+    MEASURED 2026-08-30: 216 record files on disk, 198 sources bound to a host, 18 UNBOUND -- of
+    which five are legitimate `pages:` sentinels (owner-supplied books that correctly have no
+    wiki: A Plethora of Paladins; Guildmasters' Guide to Ravnica; KibblesTasty; all Creeper
+    World; the Sex Worker background) and THIRTEEN are simply not recorded. The two answers must
+    not sound alike: "not a wiki source" is correct by design and should raise no alarm, while
+    "not recorded" is a data gap somebody has to close.
+    """
+    hosts = hosts if hosts is not None else host_to_sources()
+    for h, srcs in (hosts or {}).items():
+        if source_name in srcs:
+            if str(h).startswith("pages:"):
+                return "pages"
+            if str(h).startswith("doc:"):
+                return "doc"
+            return "bound"
+    # `host_to_sources` strips the `pages:` sentinels, so a source bound to one is not in the map
+    # at all and would otherwise read as unrecorded. Asked of the raw file, which is the only
+    # place that distinction survives.
+    try:
+        with open(WIKI_HOSTS, encoding="utf-8") as f:
+            raw = json.load(f)
+    except Exception:
+        # UNREADABLE IS NOT UNBOUND. `host_to_sources` above already raises on this file, so
+        # reaching here means it read once and will not read again -- a fault about the FILE,
+        # never a verdict about the source.
+        silence.note("feats_index.py:source-binding-hosts")
+        return "unknown"
+    h = (raw or {}).get(source_name)
+    if not h:
+        return "unbound"
+    return "pages" if str(h).startswith("pages:") else (
+        "doc" if str(h).startswith("doc:") else "bound")
+
+
+def unbound_asked():
+    """-> {source: kind} for every source `feats_for_source` answered [] for want of a host.
+
+    Printed by whoever built the manifest. Nothing is inferred from an empty dict: a caller that
+    never asked and a run where every source was bound produce the same empty map, which is why
+    the report line belongs beside the build's own totals rather than here.
+    """
+    return dict(_UNBOUND_ASKED)
+
+
+def feats_for_source(source_name, record, binding=None):
     """Every mined feat belonging to this source's cast, entity by entity.
+
+    `binding` IS AN OUT-CHANNEL FOR *WHY* THE LIST IS EMPTY (order c8dc624e4e02; owner ruling
+    2026-09-08). Pass a dict and it is stamped with `{"kind": ...}` from `source_binding` -- see
+    that function for the whole argument. The return value is unchanged so no caller breaks, and
+    a caller that does not pass one is counted in `unbound_asked()` regardless, so the condition
+    cannot go unrecorded merely because nobody was listening.
 
     `record` is the source's catalogue record (the thing `pipeline.records()` yields), because
     the match is against its ENTRY NAMES -- that is what makes the join survive a source whose
@@ -272,9 +343,18 @@ def feats_for_source(source_name, record):
     if a generation run is interrupted the best-evidenced entities have already been written.
     """
     idx = load_index()
-    hosts = [h for h, srcs in host_to_sources().items() if source_name in srcs]
+    host_map = host_to_sources()
+    hosts = [h for h, srcs in host_map.items() if source_name in srcs]
     if not hosts:
+        kind = source_binding(source_name, host_map)
+        if binding is not None:
+            binding.clear()
+            binding.update({"kind": kind, "hosts": []})
+        _UNBOUND_ASKED[source_name] = kind
         return []
+    if binding is not None:
+        binding.clear()
+        binding.update({"kind": "bound", "hosts": sorted(hosts)})
     # THE LOSER OF A WITHIN-SOURCE NAME COLLISION IS RECORDED (order 04a3f79b7f55). This was a
     # bare `entries_by_norm.setdefault(...)`: two entries of ONE source whose names fold to the
     # same `_norm` key resolved to whichever was listed first in `record['entries']`, and the
@@ -329,6 +409,37 @@ def feats_for_source(source_name, record):
             })
     out.sort(key=lambda r: (-r["feat_count"], r["entity"]))
     return out
+
+
+def binding_report(records_dir=None):
+    """Every catalogued source classified by WHY it has (or has not) a wiki host.
+
+    -> {"bound": [...], "pages": [...], "doc": [...], "unbound": [...], "unknown": [...]}
+
+    THE COUNTER THAT WAS MISSING (order c8dc624e4e02; owner ruling 2026-09-08). `audit()` finds
+    the condition from the other end -- a feats record on an unbound host lands in
+    `stranded_hosts` and prints NOT IN WIKI_HOSTS -- but that only sees hosts we have already
+    MINED. A source that was never mined because it was never bound leaves no feats record at
+    all, so it appears in no report anywhere, and the volume is built with no Feats chapter over
+    a clean-looking run. This asks the question from the catalogue's side, where the absence is.
+
+    UNCAPPED AND NAMED. Every source is listed, because "13 unrecorded" tells a curator nothing
+    about which thirteen, and binding them is a data question somebody has to actually do.
+    """
+    import glob
+    root = records_dir or os.path.join(HERE, "data", "records")
+    hosts = host_to_sources()
+    out = {"bound": [], "pages": [], "doc": [], "unbound": [], "unknown": []}
+    for q in sorted(glob.glob(os.path.join(root, "*.json"))):
+        try:
+            with open(q, encoding="utf-8") as f:
+                src = json.load(f).get("source")
+        except Exception:
+            silence.note("feats_index.py:binding-report-record")
+            continue
+        if src:
+            out.setdefault(source_binding(src, hosts), []).append(src)
+    return {k: sorted(set(v)) for k, v in out.items()}
 
 
 def audit():
@@ -428,6 +539,24 @@ def main():
     for k in a["entry_collision_pairs"]:
         print(f"      {k}")
     print(f"  entities catalogued in more than one source on the same host: {a['shared']:,}")
+    # THE SOURCES THAT CANNOT REACH A FEATS CHAPTER AT ALL, asked from the catalogue's side.
+    # See `binding_report`. `pages:`/`doc:` sources are correct by design and are named as such
+    # rather than counted as a fault; the unrecorded ones are the worklist.
+    b = binding_report()
+    print("\nBINDING — can a source reach a wiki at all?")
+    print(f"  bound to a wiki host : {len(b['bound']):,}")
+    print(f"  owner-supplied pages : {len(b['pages']):,}  (correct by design -- no wiki exists)")
+    print(f"  ingested documents   : {len(b['doc']):,}  (correct by design -- no wiki exists)")
+    print(f"  NOT RECORDED         : {len(b['unbound']):,}  (feats_for_source answers [] for "
+          f"these, which is indistinguishable downstream from 'this source has no attested "
+          f"feats'. Binding them is a data question, not a code one.)")
+    for src in b["unbound"]:
+        print(f"      {src}")
+    if b["unknown"]:
+        print(f"  COULD NOT TELL       : {len(b['unknown']):,}  (WIKI_HOSTS.json would not read "
+              f"on the second ask -- a fault about the FILE, never a verdict about the source)")
+        for src in b["unknown"]:
+            print(f"      {src}")
     if a["stranded_hosts"]:
         print("\nSTRANDED BY HOST — a mined deed no volume will print. The host below is the one")
         print("the RECORD states, not one derived from its directory name, so `NOT IN WIKI_HOSTS`")

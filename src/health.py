@@ -771,13 +771,42 @@ def check_caches():
         silence.note("health.py:excluded-hosts-unreadable")
         excluded_dirs = set()
     excused = []
+    small_and_empty = []
     for base in ("feats", "readfeats"):
         root = os.path.join(HERE, "data", base)
         if not os.path.isdir(root):
             continue
         for host in sorted(os.listdir(root)):
             files = glob.glob(os.path.join(root, host, "*.json"))
-            if len(files) < 25:
+            # THE 25-FILE FLOOR, DEFENDED, AND NO LONGER AN EXEMPTION (order e296ea51a1d9, owner
+            # ruling 2026-09-08 "Answering unknown with a plausible value": "health emits a
+            # weaker small-and-empty note below 25 files").
+            #
+            # WHAT THE NUMBER IS FOR. This detector's claim is about a WHOLE DIRECTORY -- "an
+            # entire host directory of empty entries is the 404 signature" -- and that is a
+            # statistical claim. Three empty entries out of three is what a brand-new host looks
+            # like after its first three fetches, and calling it systematically broken on that
+            # evidence is the false red this file's own doctrine forbids: "a permanent red is
+            # not extra safety; it is how a preflight stops being read." 25 is the floor at
+            # which "all of them" stops being an accident. It was the one numeric threshold in
+            # this heavily-commented file with no comment defending it, which is why a sweep
+            # asked; this paragraph is the answer.
+            #
+            # WHAT WAS WRONG WITH `continue`. It made the floor an EXEMPTION rather than a
+            # confidence bound. A small, newly-added host 404ing on every single request -- the
+            # exact failure class this module exists to catch, and the Wikipedia case in the
+            # module docstring is 5,590 entries that looked like honest absences -- produced NO
+            # OUTPUT AT ALL until its cache reached 25 files, and a host that 404s on everything
+            # never reaches 25 files. It stayed invisible for precisely as long as it stayed
+            # broken. That is answering unknown with a clean bill.
+            #
+            # So the directory is still measured; only the VERDICT is weaker. Below the floor an
+            # all-empty directory prints as a note and is not counted as a problem the preflight
+            # is asking anyone to fix -- the same discipline as `excused` below -- so a small
+            # broken host is visible from its very first empty entry without a red anybody would
+            # learn to ignore.
+            small = len(files) < 25
+            if not files:
                 continue
             # SIZE, NOT PARSE. Preflight runs at the head of every supervisor cycle, and
             # parsing records for each of 147 hosts meant reading gigabytes of page text to
@@ -816,8 +845,18 @@ def check_caches():
                     excused.append(f"{base}/{host} ({n}, source excluded from the roll)")
                 elif host in quarantined:
                     excused.append(f"{base}/{host} ({n})")
+                elif small:
+                    # THE WEAKER SIGNAL. Said out loud, not counted as a fault: `n` entries is
+                    # too few to call the whole directory broken, and too many to say nothing
+                    # about. Named so a person watching a new host come up can see it going
+                    # wrong on the first pass instead of on the twenty-fifth.
+                    small_and_empty.append(f"{base}/{host} ({n})")
                 else:
                     out.append((f"{base}/{host}", f"all {n} entries empty"))
+    if small_and_empty:
+        print("  info  small caches with NOTHING in them (under the 25-file floor, so not "
+              "counted as a fault -- but a new host that 404s on everything looks exactly like "
+              "this): " + ", ".join(sorted(small_and_empty)))
     if excused:
         # PRINTED, NOT RETURNED -- the same discipline as the re-judgement queue below: visible
         # every run, but not counted as a problem the preflight is asking anyone to act on.

@@ -165,6 +165,12 @@ COPY_FILES = ("CLAUDE.md", "README.md", "config.yaml", "requirements.txt",
 # the export carries) and no COPY_DIRS root has ever begun with one — so the dot rule is a SHAPE,
 # not an enumeration, and a new dot-directory GitHub invents next year is safe the first time.
 EXPORT_OWN_DIRS = ("docs",)
+# AND THE SAME QUESTION FOR ROOT FILES (order 3d2d9b87cc10). `.is-export-copy` is written by
+# `sync_tree` itself and `.gitignore` is the export repo's own; both begin with a dot, and so
+# does every piece of repo and forge machinery, so the dot rule below is a SHAPE here too rather
+# than an enumeration. This tuple exists for a NON-dot file the export ever comes to own; it is
+# empty today and that is the honest state, not an oversight.
+EXPORT_OWN_FILES = ()
 # Backups and scratch copies never travel. The .pre* family is session backups of live modules
 # -- seven of them were sitting in src/ and being published to the PUBLIC repo because this
 # tuple only knew about two suffixes. The fix at the time was to enumerate the seven names, which
@@ -1193,6 +1199,51 @@ def sync_tree():
     _write_text_atomic(os.path.join(SITE, ".is-export-copy"),
                         "Published copy of the Panscriptum. The project lives elsewhere."
                         + chr(10))
+    # THE ROOT FILES NOBODY COPIES ANY MORE (order 3d2d9b87cc10, owner ruling 12 of 2026-09-08:
+    # "give sync_tree a root-file sweep so FOR_OWNER.md and every future root file can actually
+    # be withdrawn").
+    #
+    # THE HOLE. The withdrawal loop above iterates `COPY_FILES`, so it can only ever withdraw a
+    # name that is STILL IN the tuple and has left the live project. A root file REMOVED from
+    # COPY_FILES becomes unreachable by exactly the argument order f2271d9ee843 made for
+    # directories: the list of things that may be withdrawn is the list of things that are
+    # copied. `prune_export` deliberately does not cover root files -- its own comment puts them
+    # out of scope, "the root marker files are ours" -- so nothing did.
+    #
+    # STANDING, NOT HYPOTHETICAL: `FOR_OWNER.md` is tracked in the export repo root and is not
+    # in COPY_FILES, so it has been published, frozen at whatever it said when it was last
+    # copied, with no cycle able to refresh it or withdraw it. The ruling chose withdrawal over
+    # adding it to COPY_FILES, so this sweep takes it.
+    #
+    # AFTER THE MARKER WRITE, deliberately, and behind the same `_may_delete_in_export` gate as
+    # every other delete in this module: a misresolved SITE must read as nothing to do rather
+    # than as permission to delete out of a live tree.
+    root_withdrawn = []
+    if _may_delete_in_export():
+        try:
+            root_entries = sorted(os.listdir(SITE))
+        except OSError:
+            # Nothing is withdrawn on the word of a failed read -- the rule `_live_root_state`
+            # and `prune_export` both enforce, for the same reason.
+            silence.note("publish.py:export-root-unreadable")
+            root_entries = []
+        for name in root_entries:
+            if name.startswith(".") or name in COPY_FILES or name in EXPORT_OWN_FILES:
+                continue
+            stale = os.path.join(SITE, name)
+            if not os.path.isfile(stale):
+                continue                       # directories are `prune_export`'s half
+            try:
+                os.remove(stale)
+                root_withdrawn.append(name)
+            except OSError:
+                silence.note("publish.py:prune-remove")
+    if root_withdrawn:
+        # SAID OUT LOUD AND NAMED, like every other withdrawal here: a file leaving the PUBLIC
+        # repo is a bigger event than a file entering it.
+        print("withdrew %d root file(s) no longer named in COPY_FILES: %s -- they are not "
+              "published, so the export copy is not refreshed either."
+              % (len(root_withdrawn), ", ".join(root_withdrawn)))
     pruned = prune_export(wanted, held=held)
     if pruned:
         # SAY IT. A file leaving the public repo is a bigger event than a file entering it,
@@ -1267,6 +1318,47 @@ def _swap(html, old, new, what):
             "an endpoint that does not exist on GitHub Pages. dashboard.py has been re-quoted or "
             "reformatted; update the literal here to match it." % (what, old))
     return out
+
+
+def render_views():
+    """Redraw the five DRAWN cosmology tiers into output/views/. -> landed count.
+
+    THE WIRING ORDER 707fefc17465 ASKED FOR (owner ruling 9 of 2026-09-08: "wire what closes a
+    measured gap; hold the rest, marked"). `render.py` is the dispatcher for all nine cosmology
+    view tiers -- view(), galaxy_view, system_view, planet_view, burg_view, containment_svg,
+    children_of -- and NOTHING in the tree imported it or ran it: the only mention anywhere in
+    src/ was a comment in build_terminal.py:83, it is absent from lognames.OWNER, and no job
+    `overnight.py` starts names it. Its own docstring frames it as closing a real gap ("the top
+    five had addresses and no way to look at them") and that closure was reachable by hand and
+    by nothing else. This is the cycle it now has.
+
+    HERE RATHER THAN ANYWHERE ELSE because the diagrams are drawn from data/SEVENFOLD.json and
+    the publish cycle is the thing that runs after the tree has settled and before anybody looks
+    at it. It costs one JSON read and five in-memory SVGs; nothing is fetched.
+
+    IT CANNOT STOP A PUBLISH. A view that fails to draw is a diagram missing from
+    `output/views/`, which is not published at all -- `output/` is in neither COPY_DIRS nor
+    COPY_FILES -- so letting it raise here would put a cosmetic redraw in front of the ledgers,
+    the halt state and the push. It is caught, noted and SAID, never swallowed: a failure that
+    prints nothing is the shape this project keeps finding at the bottom of its worst incidents.
+    """
+    try:
+        import render as R
+        landed, denied = R.write_views()
+    except Exception as e:
+        silence.note("publish.py:render-views")
+        print("publish: the cosmology views were NOT redrawn this cycle (%s: %s). Nothing "
+              "published depends on them -- output/ does not travel -- so the cycle continues; "
+              "output/views/ holds the PREVIOUS run's diagrams, or none."
+              % (type(e).__name__, e), file=sys.stderr)
+        return 0
+    if denied:
+        # NAMED, NOT COUNTED, and on stderr, for the reason every other withdrawal and refusal
+        # in this module is: a file that did not change looks exactly like one that did.
+        print("publish: %d of %d cosmology view(s) did NOT land: %s. Those files are the "
+              "PREVIOUS run's, or absent." % (len(denied), landed + len(denied),
+                                              ", ".join(denied)), file=sys.stderr)
+    return landed
 
 
 def render_page():
@@ -1820,6 +1912,7 @@ def main():
             n = sync_tree()
             render_page()
             write()
+            render_views()
             # Name the destination every cycle. The loop reported "synced 14 files, wrote
             # docs/state.json" four times an hour for an unknown number of days while writing
             # into a temp-directory clone nobody knew existed (see SITE above). A line that

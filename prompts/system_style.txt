@@ -108,11 +108,11 @@ GROUND RULES, NON-NEGOTIABLE:
      whispered in hushed, whispers of
 
    Never these sentence shapes:
-     X is not Y; it is Z, a far cry from, against the backdrop, at its core / heart,
-     double-edged sword, from X to Y, here then is, in stark contrast, interplay between,
-     it's not X, it's Y, little is known save, more than just, no small feat,
-     not merely X but Y, not only ... but also, one thing is certain, paints a picture,
-     plays a X role, remains to this day, rule of three, serves as a, sheds light,
+     X is not Y; it is Z, X, Y and Z alike, a far cry from, against the backdrop,
+     at its core / heart, double-edged sword, from X to Y, here then is, in stark contrast,
+     interplay between, it's not X, it's Y, little is known save, more than just,
+     no small feat, not merely X but Y, not only ... but also, one thing is certain,
+     paints a picture, plays a X role, remains to this day, serves as a, sheds light,
      speaks volumes, stands as a testament, stands the test of time, the record notes,
      weaves together, what survives, whatever else may be said, whether you're,
      which is the point

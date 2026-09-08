@@ -141,6 +141,16 @@ TOPICS = ["Persons", "Places", "Factions", "Weapons", "Relics",
 # 7,909 topics to match their categories -- moving 1,459 entities out of Powers A-Z into Media
 # A-Z, among others -- and it was reverted. Do not re-derive this: they are three axes.
 #
+# OWNER RULING 2026-09-08, ruling 10 ("Stored files a fixed writer would now compute
+# differently"), option (a), relocated here so the decision is findable at the code it governs
+# (order b186bc4dad8f): the three axes STAND as three, and the ruling additionally commissions a
+# REGRESSION NET so the topic rewrite cannot recur. That net belongs in drill.py and is NOT yet
+# written; until it is, this comment and the classifier schema below -- which asks the model for
+# `category` AND `topic` separately, for the same entry, in the same call, and would be pointless
+# if they were one label -- are the only things standing between the corpus and a second rewrite.
+# The test any future run should apply before "simplifying" these fields is exactly that schema:
+# two questions were asked because there are two questions.
+#
 # WHY `Vessels & Things` NEEDED THIS MOST. It holds 42,485 entries, half of them typed literally
 # `Item`, and its only finer labels came from `topic`'s Weapons/Relics -- which are SERIES, not
 # shelves. Measured: of 14,984 entries whose topic said `Weapons`, only 1,191 had a `type` of
@@ -362,30 +372,60 @@ def _metric(row):
         silence.note("pipeline.py:metric")
 
 
-_PHASE_POOL = {"at": 0.0, "n": 0}
+_PHASE_POOL = {"at": 0.0, "n": 0, "caption": ""}
 
 
 def _pool_answering(ttl=120):
     """How many cloud buckets actually answer, from the proof -- never from headroom.
 
-    DELEGATED to `tuning._answering_buckets`, not reimplemented (order 54cd47a337dc). This used
-    to re-open POOL_PROOF.json and count `verdict == "answers"` on its own, with no notion of
-    the proof's age -- so an arbitrarily old proof was trusted as current, while tuning's copy of
-    the identical count already compared the file's mtime against `PROOF_STALE_SECONDS`. Two
-    spellings of one fact is exactly the shape `ask_pool_first` was already fixed for on the
-    THRESHOLD thirty lines below; this closes it for the COUNT too. Falls back to 0 if tuning
-    cannot be imported, same failure mode as before.
+    DELEGATED to `tuning._answering_buckets`, not reimplemented (order 54cd47a337dc), which
+    removed a duplicate spelling of the count and is a real gain.
+
+    WHAT THAT DELEGATION DOES NOT DO, stated plainly because this docstring used to claim the
+    opposite and that claim is precisely what stops anyone checking (order b813fc5a37e2). It read
+    that the hand-rolled version had "no notion of the proof's age ... while tuning's copy of the
+    identical count already compared the file's mtime against `PROOF_STALE_SECONDS`". Read against
+    the source, tuning compares the mtime and then returns the count UNCHANGED: a stale proof gets
+    a different CAPTION, never a different number, and `tuning.PROOF_STALE_SECONDS`' own comment
+    says so -- "annotated as stale but still counted at full strength". Whether a stale proof
+    should be DISCOUNTED is a live question tuning deliberately declines to settle, and this
+    function is not the place to settle it either.
+
+    So the age is NOT handled here; it is REPORTED here. OWNER RULING 2026-09-08, ruling 22 ("Free
+    cloud pool: keys, cooldowns, stale proofs"), option (a) -- honour the stated cooldown, recover
+    the keys, LOG THE PROOF AGE. The second return value used to be dropped on the floor
+    (`_PHASE_POOL["n"], _ = ...`); it is now captured and written to state/pipeline.log on every
+    refresh, so a cloud route taken on an eight-hour-old proof says so in the log rather than
+    reading exactly like one taken on a fresh one. The gate at `ask_pool_first` sits ON its
+    threshold (measured 2026-08-30: 3 answering against CLOUD_MIN_BUCKETS 3), so the difference
+    between a fresh 3 and a stale 3 is the entire routing decision and it must be legible.
+
+    Falls back to 0 if tuning cannot be imported, same failure mode as before.
     """
     now = time.time()
     if now - _PHASE_POOL["at"] > ttl:
         try:
             import tuning as _T
-            _PHASE_POOL["n"], _ = _T._answering_buckets()
+            _PHASE_POOL["n"], _PHASE_POOL["caption"] = _T._answering_buckets()
         except Exception:
             silence.note("pipeline.py:pool-proof")
             _PHASE_POOL["n"] = 0
+            _PHASE_POOL["caption"] = "pool proof could not be read at all"
         _PHASE_POOL["at"] = now
+        # Once per TTL, not once per call: the caption is the only place the proof's AGE reaches
+        # a human, and a routing decision whose input is invisible is a decision nobody can audit.
+        log("pool proof: %s" % (_PHASE_POOL["caption"] or "no caption"))
     return _PHASE_POOL["n"]
+
+
+def pool_proof_caption():
+    """The caption behind the last pool count -- including how old the proof was.
+
+    Read by `ask_pool_first`'s fall-through line. Kept as one named accessor rather than four
+    reads of `_PHASE_POOL["caption"]`, so a later change to how staleness is described has one
+    site. Returns "" before the first `_pool_answering()` of a run.
+    """
+    return _PHASE_POOL.get("caption") or ""
 
 
 def _pool_answer_usable(got, schema, accept):
@@ -461,8 +501,12 @@ def ask_pool_first(c, system, prompt, schema, timeout=None, num_ctx=None, tag=""
                 # use. Say so, because it is invisible otherwise: the batch just scores zero and
                 # the log blames the model. Then fall through to the local arm, which is the
                 # entire point of a cloud-FIRST helper.
+                # AND THE PROOF THAT ROUTED IT HERE IS NAMED (order b813fc5a37e2). "The pool
+                # answered badly" and "the pool answered badly and the proof licensing the
+                # attempt was eight hours old" are different findings, and only the second one
+                # says where to look.
                 log(f"    pool answered {tag or 'call'} with an unusable shape; "
-                    f"falling back to local")
+                    f"falling back to local [proof: {pool_proof_caption() or 'unknown'}]")
         except Exception:
             silence.note("pipeline.py:phase-pool")
     return ask(c, system, prompt, schema, timeout=timeout, num_ctx=num_ctx, tag=tag)
@@ -1475,8 +1519,25 @@ def synthesis_blocks(rec):
     # with 900 entries becomes 65 nomination calls instead of 1. That is real spend on a
     # constrained pool, and it is the correct spend -- the alternative is a ceiling chosen from
     # the first fourteen paragraphs and published as though the whole source had been read.
+    # AND THE `or` IS NOW A `+`. OWNER RULING 2026-09-08, ruling 5 ("Filters that quietly
+    # remove entities from the roll"), option (a): RANK INSTEAD OF DISPLACE, record every drop and
+    # re-ask. Closes orders 5c8a7bc883e7 and 6fc71f8ab76e.
+    #
+    # `or` SHORT-CIRCUITS, and that is the whole defect: the moment ONE entry anywhere in a source
+    # had a mined feat, `rest` was never evaluated and every feat-less sibling was dropped from
+    # ceiling nomination entirely. Measured: tales-from-the-yawning-portal nominated from 8 of its
+    # 54 entries, kbp-unlikely-heroes from 2 of 55. That is the identical act the 2026-08-25
+    # ruling directly above forbade -- a smaller universe wearing the same shape as the real one
+    # -- expressed as an `or` rather than as a slice, and it contradicts that ruling's own stated
+    # premise that a lead paragraph CAN carry a ceiling feat. If the premise holds, dropping 46
+    # lead paragraphs because 8 siblings were mined is exactly what was ruled out.
+    #
+    # `+` keeps every part of the ranking the owner did allow: feat-bearing blocks still come
+    # FIRST, sorted by feat count, so an interrupted run has seen the richest evidence; the
+    # feat-less tail follows, longest description first. Nothing is excluded, and a source with no
+    # mined feats at all is unaffected -- `with_feats` is empty and the expression is the old one.
     blocks = ([with_feats[i:i + 14] for i in range(0, len(with_feats), 14)]
-              or [rest[i:i + 14] for i in range(0, len(rest), 14)])
+              + [rest[i:i + 14] for i in range(0, len(rest), 14)])
     return (blocks, feats_for)
 
 
@@ -1539,6 +1600,41 @@ def synthesis_prompt(src, sample, feats_for, ci, nchunks, total):
             "\n\nIdentify the power ceiling and magnitude band for this source.")
 
 
+def _unassayable_verdict_is_stale(rec):
+    """Has this source's cast GROWN since it was honestly found unassayable? -> bool.
+
+    OWNER RULING 2026-09-08, ruling 5, option (a): record every drop and RE-ASK. Order
+    a3d518d078c3 measured what the missing re-ask cost: `done.synthesis` held 186 keys, 49 records
+    carried no `ceiling_entity`, and 44 of those 49 were already in `done.synthesis` -- Overwatch
+    (259 entries), the FFXIV/Eorzea conversion (685), Ghost Recon (808) among them -- each with a
+    PRESENT synthesis block reading `provisional_magnitude: "unassayed"`, `ceiling_entity: ""`.
+    The `todo` filter had been rewritten to select on `ceiling_entity` precisely so failure would
+    stop being permanent, and the done-keys test one line later restored the permanence exactly.
+
+    THE FIX IS NOT TO DROP THE DONE-KEYS TEST. That would re-nominate every genuinely feat-less
+    source on every pass -- real spend on a constrained pool, and the reason the gate exists. It
+    is to make phase 1's gate say what `batch_settled` already makes phase 2's gate say: the key
+    is recorded AND the work still stands. So the negative verdict is written down explicitly,
+    with the cast it was reached against, and a source is re-admitted only when that cast has
+    GROWN. "The model read 259 entries and honestly found no feat" is a correct answer under
+    SYNTH_SYSTEM's hard rule 3 and stays closed; "the model read 14 entries in April and the
+    source has 259 now" is the population the owner ruled is worth re-nominating.
+
+    A source with NO recorded verdict is re-admitted once. That is the 44 above: their blocks were
+    written before this stamp existed, so the library holds no evidence of what cast they were
+    judged against, and an unrecorded measurement is not a measurement. They are re-asked once and
+    then carry a verdict like everyone else -- a bounded, deliberate re-nomination pass, not a
+    standing re-spend.
+    """
+    syn = rec.get("synthesis") or {}
+    if not syn.get("unassayable"):
+        return True
+    was = syn.get("unassayable_cast_size")
+    if not isinstance(was, int):
+        return True
+    return len(rec.get("entries") or []) > was
+
+
 def phase_synthesis(c, st):
     """Per-source ceiling + band. ~186 units, roughly 45s each."""
     # A source that FAILED still had a synthesis block written, with empty fields. Filtering on
@@ -1555,10 +1651,20 @@ def phase_synthesis(c, st):
     log(f"phase 1 synthesis: {len(todo)} sources need a ceiling")
     done_keys = st["done"].setdefault("synthesis", [])
 
+    readmitted = 0
     for path, rec in todo:
         src = rec["source"]
         if src in done_keys:
-            continue
+            # MEMBERSHIP ALONE IS NOT THE GATE ANY MORE. See `_unassayable_verdict_is_stale`
+            # (order a3d518d078c3, owner ruling 2026-09-08 ruling 5(a)).
+            if not _unassayable_verdict_is_stale(rec):
+                continue
+            readmitted += 1
+            log("  re-nominating %s: unassayable verdict was reached against %s entries, "
+                "the cast now holds %d"
+                % (src[:44], (rec.get("synthesis") or {}).get("unassayable_cast_size", "an "
+                                                              "unrecorded number of"),
+                   len(rec.get("entries") or [])))
         # Feed the entries most likely to carry a feat: longest descriptions first.
         #
         # Sized deliberately. Was 22 entries x 420 chars = ~2,300 input tokens; the ceiling
@@ -1613,8 +1719,9 @@ def phase_synthesis(c, st):
             continue
         got, band = best[1], best[2]
 
+        _ceiling = (got.get("ceiling_entity") or "").strip()
         rec["synthesis"] = {
-            "ceiling_entity": (got.get("ceiling_entity") or "").strip(),
+            "ceiling_entity": _ceiling,
             "provisional_magnitude": band,
             "evidence": _stored_cut((got.get("evidence") or "").strip(), 600),
             "rationale": _stored_cut((got.get("rationale") or "").strip(), 900),
@@ -1624,12 +1731,23 @@ def phase_synthesis(c, st):
                        "real Assay pass must confirm."),
             "assessed_at": datetime.datetime.now().isoformat(timespec="seconds"),
         }
+        # THE NEGATIVE VERDICT IS WRITTEN DOWN, WITH WHAT IT WAS REACHED AGAINST (order
+        # a3d518d078c3). An empty ceiling used to be recorded only as an absence, and an absence
+        # cannot say whether the model refused a full cast or was shown fourteen entries in April.
+        # Written here rather than inferred later, because it is the input to the re-ask above.
+        if not _ceiling:
+            rec["synthesis"]["unassayable"] = True
+            rec["synthesis"]["unassayable_cast_size"] = len(rec.get("entries") or [])
+            rec["synthesis"]["unassayable_digest"] = _entry_digest(rec)
         if not write_record(path, rec):
             # The synthesis exists only in memory; recording it done would lose it silently.
             st["failed"].setdefault("synthesis", {})[src] = "write denied"
             save_state(st)
             continue
-        done_keys.append(src)
+        # A re-admitted source is already on the list; appending it twice would make the
+        # done-keys file grow without bound across re-nomination passes.
+        if src not in done_keys:
+            done_keys.append(src)
         # A later attempt succeeded, so the earlier failure is no longer true. Without this the
         # failed-set becomes a permanent record of every transient ollama hiccup, and a run that
         # fully recovered still reports twelve casualties -- which is how a healthy pipeline gets
@@ -1640,6 +1758,9 @@ def phase_synthesis(c, st):
         log(f"  {src[:44]:46s} {band:10s} {rec['synthesis']['ceiling_entity'][:34]}")
         update_handoff(st)
 
+    if readmitted:
+        log("phase 1 synthesis: %d source(s) were re-nominated because their cast had grown "
+            "since an unassayable verdict, or carried no recorded verdict at all" % readmitted)
     return True
 
 
@@ -2863,16 +2984,27 @@ def phase_write(c, st):
     # which reads as a property of the sources and was a property of the call.
     cfg = MB.load_config()
     roll = {r.get("source") or r.get("name"): r for r in (MB.load_roll(cfg) or [])}
-    jobs, refused = [], []
+    jobs, refused, empty = [], [], []
     for src in names:
         try:
             rec = MB.load_record(cfg, src)
             spine = MB.spine_code_for(src) or MB.provisional_spine(src)
-            jobs += MB.build_jobs_for_source(cfg, roll.get(src) or {"source": src},
-                                             rec, spine) or []
+            made = MB.build_jobs_for_source(cfg, roll.get(src) or {"source": src},
+                                            rec, spine) or []
         except Exception as e:
             silence.note("pipeline.py:phase_write-jobs")
             refused.append("%s (%s)" % (src, type(e).__name__))
+            continue
+        # READY, AND NOTHING TO BUILD, IS ITS OWN FACT AND IS NOW COUNTED (order c391a1f77e42,
+        # owner ruling 2026-09-08 ruling 17(a): say unknown out loud and name every refusal).
+        # `build_jobs_for_source` returns an EMPTY LIST with no exception for a record whose
+        # `entries` list is empty, so such a source lands in neither `jobs` nor `refused` and
+        # leaves no trace at all. The phase still CLOSES on it -- that is settled the other way
+        # and has a net on it -- but closing silently and closing having said how many ready
+        # sources held nothing are different acts, and only the second is auditable.
+        if not made:
+            empty.append(src)
+        jobs += made
     log("  manifest: %d job(s) across %d source(s), %d source(s) would not build"
         % (len(jobs), len(names), len(refused)))
     # UNCAPPED, per Hard Rule 0. This read `refused[:5]`, and a refusal roster is a roster: the
@@ -2884,6 +3016,15 @@ def phase_write(c, st):
     # to name which sources. (run #33)
     for r in refused:
         log("    refused: %s" % r)
+    if empty:
+        log("  %d ready source(s) built no job at all -- COVERAGE.json calls them settled enough "
+            "to write about and their record holds no entries. Phase 8 still closes on this (a "
+            "source with nothing in it is nothing to build, not a failure to build), but the "
+            "count is not silent:" % len(empty))
+        # UNCAPPED, per Hard Rule 0 and for the same reason the refusal roster above is: a
+        # worklist printed as a number is a worklist nobody can act on.
+        for srcname in empty:
+            log("    ready but empty: %s" % srcname)
     landed = []
     if jobs:
         out = os.path.join(HERE, "output", "index", "manifest.json")
@@ -3109,7 +3250,11 @@ def main():
     if args.status:
         update_handoff(st)
         print(open(HANDOFF, encoding="utf-8").read())
-        return
+        # EXPLICIT 0 (order 1f8e0f1bfb26). `--status` only ever reports; it cannot fail, so this
+        # was always going to be a clean exit -- but a bare `return` and a genuine success used to
+        # be the same process exit code as a crash, because nothing below turned `main()`'s return
+        # value into one. See the note at the bottom of this function for the rest of the fix.
+        return 0
 
     if st.get("started") is None:
         st["started"] = datetime.datetime.now().isoformat(timespec="seconds")
@@ -3148,7 +3293,9 @@ def main():
         log("  to run the ladder again over newly catalogued sources, reset the pointer"
             " deliberately (--phase N) rather than leaving this to look like work.")
         update_handoff(st)
-        return
+        # EXPLICIT 0 (order 1f8e0f1bfb26) -- this IS the clean finish the comment above already
+        # describes; see the note at the bottom of this function for why the value now matters.
+        return 0
 
     # THE POINTER FOLLOWS THE WORK, NOT THE LOOP COUNTER. `st["phase"] = ph + 1` used to run
     # unconditionally at the bottom of this loop, including for the phases that deliberately
@@ -3189,13 +3336,23 @@ def main():
         try:
             ok = fn(c, st)
         except KeyboardInterrupt:
+            # RETURN 1, NOT A BARE `return` (order 1f8e0f1bfb26). See the note at the bottom of
+            # this function: a bare `return` here is `None`, which every existing call site turns
+            # into process exit 0 -- the same signal a fully-successful run produces. State is
+            # genuinely saved and safe to resume, but the run did NOT finish, and
+            # `overnight.py:run()` reads `p.returncode` directly to decide whether a cycle is
+            # clean. 1, not a SIGINT-style 130: this is a caught, handled interruption with state
+            # already landed, not the process dying to the signal.
             log("interrupted -- state saved, safe to resume")
             save_state(st)
-            return
+            return 1
         except Exception:
+            # RETURN 1 (order 1f8e0f1bfb26), same reasoning. This is the crash path the order was
+            # filed over: "PHASE CRASHED" was already logged with the full traceback and then
+            # swallowed into an exit code identical to a clean run's.
             log("PHASE CRASHED:\n" + traceback.format_exc())
             save_state(st)
-            return
+            return 1
         # FAIL CLOSED ON THE VERDICT. Anything that is not an explicit True counts as "did not
         # finish": a phase that forgets to report leaves the pointer where it is and gets redone,
         # which costs a cycle. The other direction cost eight phases' worth of silent no-ops.
@@ -3223,12 +3380,37 @@ def main():
         log(f"runner exiting with phase {stalled} ({PHASES[stalled-1]}) STILL OPEN "
             f"-- the pointer stays at {st.get('phase')} so the next run redoes it "
             f"(open: {', '.join(open_now)})")
-        return
+        # RETURN 1 (order 1f8e0f1bfb26). A stalled phase is exactly the condition
+        # `overnight.py:run()` needs to see in `p.returncode` -- it launches this file as a
+        # subprocess (`[pipeline.py, "--run"]`, at overnight.py:911,1600,1650-1651) and folds
+        # `p.returncode` straight into the cycle's health summary ("ok" iff returncode == 0). A
+        # bare `return` here used to make a mid-ladder stall READ AS "ok", identically to a cycle
+        # that finished every phase -- the same fault class order e8466cd6ed14 already fixed at
+        # onomast.py:569-573, reference.py:363-373, genre.py:327-331, sevenfold.py:412-415 and
+        # wh40k.py:289-293, just not caught here because that sweep never visited pipeline.py.
+        return 1
+    # EXPLICIT 0. Every phase this run touched reported True (or the ladder stopped cleanly on an
+    # unimplemented phase, via the `break` above) and nothing stalled -- a genuine clean finish,
+    # and now the only path through this function that returns 0.
     log("runner exiting")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    # `sys.exit(main())` (order 1f8e0f1bfb26), not a bare `main()`. Every failure path above logs
+    # plainly ("PHASE CRASHED", "interrupted", "STILL OPEN") and then, until this line, returned
+    # `None` regardless -- so the OS process exit code was 0 whether the run crashed, was
+    # interrupted mid-phase, or finished a mid-ladder stall left open. `overnight.py:run()`
+    # launches this exact invocation as a subprocess and reads `p.returncode` directly into its
+    # own health summary (overnight.py:602-660), so a crashed or stalled cycle was reporting
+    # "ok" -- indistinguishable, at the one place a supervisor actually checks, from a cycle that
+    # did all its work. Every other narrow guard in this function already used `raise SystemExit`
+    # (the bad-control-char self-check, the missing-escalation-chain guard, the --phase
+    # out-of-range guard, the pointer-past-end-with-open-phases guard) and those still work
+    # unchanged -- `sys.exit()` on a raised SystemExit just re-raises it, it does not need the
+    # int `main()` returns. This is the same shape order e8466cd6ed14 already gave five sibling
+    # modules; pipeline.py's own main() was the one that sweep never reached.
+    sys.exit(main())
 
 
 # ------------------------------------------------------------------ P8: the meta-language ban

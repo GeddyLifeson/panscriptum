@@ -102,7 +102,13 @@ longest outage came from a watcher reading jobs-exiting-on-purpose as jobs-crash
   * **FAIL CLOSED** — every layer answers "I don't know" with STOP. An unreadable config, a
     missing COVERAGE.json, an unparseable block, a corrupt halt file: all refuse. Silence must
     never authorise anything.
-  * **PROVEN** — `python src/drill.py` attacks all 57 nets and reports HELD or BREACHED for each.
+  * **PROVEN** — `python src/drill.py` attacks **every net** and reports HELD or BREACHED for each.
+    (It says *every*, deliberately, and not a number. This line read "all 57 nets" from run #14
+    until 2026-09-08 while the real figure went 269 → 394 → 433 → 455 `net(` call sites, higher
+    still at runtime because two sites stand inside `for` loops. A count in doctrine goes stale
+    weekly and then gets reasoned from: `drill.py` still argues "WHY 57 NETS MISSED IT" off the
+    figure this sentence used to carry. Corrected under the owner ruling of 2026-09-08, question
+    18, order `864a626a258e`.)
     A guard nobody has watched *refuse* is a guard nobody has evidence about. The supervisor runs
     this every cycle, before any stage starts, and a BREACHED net halts the library by itself.
 

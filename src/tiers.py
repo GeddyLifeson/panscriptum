@@ -32,8 +32,17 @@ tiers are four CUTS of one dendrogram, and the only question was where the cuts 
 They fall at the plateaus, which is what a plateau in a clustering is for -- a range of thresholds
 over which the structure does not change is structure that is really there:
 
-    threshold 100    8 clusters   METAVERSE   strong resonance; shared theme and law
-    threshold  50    6 clusters   XENOVERSE   held together by deliberate joins
+    threshold 100    METAVERSE   strong resonance; shared theme and law
+    threshold  50    XENOVERSE   held together by deliberate joins
+
+THE CLUSTER COUNTS ARE NOT WRITTEN HERE (order 789f99f2a65f, owner ruling 2026-09-08: correct
+the stale sentences in place). This table used to carry "8 clusters" and "6 clusters" and the
+line below used to carry "168 multiverses -> 8 metaverses -> 6 xenoverses". By the time anyone
+re-measured, the live chart was 143 -> 6 -> 3 -- every number wrong, in the paragraph that
+explains where the cuts fall. The counts fall out of the cut and move whenever the corpus does;
+`main()`'s NESTING block prints them from `CUTS` on every run, and `data/TIERS.json` is the
+written record. The THRESHOLDS stay, because those are declared and are the actual content of
+this paragraph.
 
 and NO cut for the hyperverse FROM THIS GRAPH -- that is, from the resonance/link graph this
 module builds itself. That link-graph hyperverse is declined rather than charted, and declining
@@ -44,10 +53,11 @@ HYPERVERSE -- grounding type" further down and `chart()`'s `hyperverse`/`hyperve
 fields. Two different procedures answer to the same tier name; do not read a claim in this
 section as describing the published one.
 
-with the multiverse below them all at 168, taken from complete linkage rather than a threshold
+with the multiverse below them all, taken from complete linkage rather than a threshold
 because a shared ORIGIN is an all-pairs condition, not a reachability one.
 
-    168 multiverses  ->  8 metaverses  ->  6 xenoverses  ->  H (link-graph) declined
+    multiverses  ->  metaverses  ->  xenoverses  ->  H (link-graph) declined,
+                                                     H (grounding-derived) charted and published
     H (grounding-derived, per xenoverse) IS published -- see xenoverse_grounding() below
 
 WHAT MAKES A XENOVERSE ARTIFICIAL

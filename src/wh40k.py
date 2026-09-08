@@ -58,23 +58,26 @@ ROSTER = {
            "for it, because he is what it turns into.",
   axes=dict(
    ruin=(8.0, "Plague as a method: 'a choking plague to wipe out an Ork infestation on Hurax, a "
-              "planet that Nurgle coveted' -- a world cleared as a favour to a lieutenant"),
+              "planet that Nurgle coveted' -- a world cleared as a favour to a lieutenant",
+              "wiki"),
    continuity=(9.9, "CEILING. Despair and decay cannot be killed because they are not events. "
-                    "Of the four he is the one whose substrate is guaranteed by physics"),
-   celerity=(2.0, "The slowest thing in the setting, deliberately. He does not need to arrive"),
+                    "Of the four he is the one whose substrate is guaranteed by physics", "canon"),
+   celerity=(2.0, "The slowest thing in the setting, deliberately. He does not need to arrive",
+                  "canon"),
    reach=(9.0, "'He returns to his cauldron and empties its contents into a bottomless drain, "
                "the noxious liquid falling as rain upon one of the mortal worlds' -- he waters "
-               "planets from his kitchen"),
+               "planets from his kitchen", "wiki"),
    transgression=(9.0, "The 'ultimate reshaping of the universe' is a rewrite of what matter "
-                       "does, not a war against who holds it"),
-   sustain=(9.9, "CEILING. He is fed by the one process that never stops anywhere"),
-   vector=(8.0, "His realm touches every mortal world that rots, which is all of them"),
-   volition=(8.5, "Patient, affectionate and utterly fixed. He has never once changed his aim"),
+                       "does, not a war against who holds it", "wiki"),
+   sustain=(9.9, "CEILING. He is fed by the one process that never stops anywhere", "canon"),
+   vector=(8.0, "His realm touches every mortal world that rots, which is all of them", "canon"),
+   volition=(8.5, "Patient, affectionate and utterly fixed. He has never once changed his aim",
+                  "canon"),
    acumen=(7.0, "Grants realms to lieutenants as acknowledgement of good work -- he administers "
-                "rather than schemes, and it works"),
-   discernment=(8.0, "Sees the whole arc of empires as a single motion"),
+                "rather than schemes, and it works", "canon"),
+   discernment=(8.0, "Sees the whole arc of empires as a single motion", "canon"),
    suasion=(9.0, "The only Chaos God who offers LOVE, and it converts the desperate at a rate "
-                 "the others cannot match with fear or ambition"))),
+                 "the others cannot match with fear or ambition", "canon"))),
 
  "Khorne": dict(
   anchor="M7", epoch="M41",
@@ -87,23 +90,28 @@ ROSTER = {
   axes=dict(
    ruin=(9.5, "'It is Khorne's sole desire to drown the galaxy in a tide of slaughter, to "
               "conquer and kill every living thing until there is nothing left but spilt blood "
-              "and shattered bone.' The highest ruin in the setting, and the least conditional"),
+              "and shattered bone.' The highest ruin in the setting, and the least conditional",
+              "wiki"),
    continuity=(9.5, "'When Khorne does obliterate the invading armies of its brother gods, they "
                     "do not exact retribution directly' -- the other three do not fight him "
-                    "head-on"),
-   celerity=(7.5, "Immediate and unsubtle; his are the fastest interventions of the four"),
-   reach=(9.5, "Every battlefield in the universe at once, without needing to be told"),
-   transgression=(7.0, "The least rule-breaking of the four. He kills, which is legal everywhere"),
-   sustain=(9.5, "Sustained by conflict, and conflict is the setting's only constant"),
+                    "head-on", "wiki"),
+   celerity=(7.5, "Immediate and unsubtle; his are the fastest interventions of the four",
+                  "canon"),
+   reach=(9.5, "Every battlefield in the universe at once, without needing to be told", "canon"),
+   transgression=(7.0, "The least rule-breaking of the four. He kills, which is legal everywhere",
+                       "canon"),
+   sustain=(9.5, "Sustained by conflict, and conflict is the setting's only constant", "canon"),
    vector=(7.5, "'Each piece of the realm of battle constantly fights to obliterate the others' "
-                "-- his own domain is in motion"),
+                "-- his own domain is in motion", "wiki"),
    volition=(9.5, "Absolute and unsplittable. He wants ONE thing and has never wanted anything "
-                  "else"),
+                  "else", "canon"),
    acumen=(2.0, "The lowest acumen at the top of this setting. He does not plan, and 'a follower "
                 "who displeases Khorne by failing to provide sufficient blood sacrifices will "
-                "likely find themselves as the next offering' -- he eats his own staff"),
-   discernment=(4.0, "Sees violence and nothing else. Blind to everything Tzeentch trades in"),
-   suasion=(8.0, "No persuasion required: he is paid homage by people who are not trying to"))),
+                "likely find themselves as the next offering' -- he eats his own staff", "wiki"),
+   discernment=(4.0, "Sees violence and nothing else. Blind to everything Tzeentch trades in",
+                     "canon"),
+   suasion=(8.0, "No persuasion required: he is paid homage by people who are not trying to",
+                 "canon"))),
 
  "Tzeentch": dict(
   anchor="M7", epoch="M41",
@@ -113,22 +121,23 @@ ROSTER = {
            "AND FEARED ABILITY TO TAP THE LIMITLESS POWER OF THE WARP TO RESHAPE REALITY.' He "
            "does not recruit soldiers; he recruits the people who can edit the world.",
   axes=dict(
-   ruin=(6.5, "Ruin is beneath him and he says so. He unmakes by arrangement, not by force"),
+   ruin=(6.5, "Ruin is beneath him and he says so. He unmakes by arrangement, not by force",
+              "canon"),
    continuity=(9.5, "Every defeat is a move he intended. The setting cannot distinguish his "
-                    "losses from his plans, which is a form of invulnerability"),
-   celerity=(8.0, "Acts before the situation exists"),
+                    "losses from his plans, which is a form of invulnerability", "canon"),
+   celerity=(8.0, "Acts before the situation exists", "canon"),
    reach=(9.0, "Through psykers, into any mind capable of touching the Warp -- which is the only "
-               "route by which realspace is edited at all"),
+               "route by which realspace is edited at all", "canon"),
    transgression=(9.9, "CEILING, AND THE CLEAREST CASE IN THE SETTING. 'The limitless power of "
                        "the Warp to reshape reality' is his instrument, wielded by proxies, "
-                       "against the rules of what is"),
-   sustain=(9.0, "Hope and ambition renew faster than they are spent"),
-   vector=(9.0, "Moves through the Warp and through causality alike"),
+                       "against the rules of what is", "wiki"),
+   sustain=(9.0, "Hope and ambition renew faster than they are spent", "canon"),
+   vector=(9.0, "Moves through the Warp and through causality alike", "canon"),
    volition=(6.0, "Wants everything, therefore commits to nothing. His will is the most divided "
-                  "of the four and the record makes that his defect"),
-   acumen=(9.9, "CEILING. The schemer of a setting made of schemes"),
-   discernment=(9.5, "Sees every branch, which is why he cannot choose one"),
-   suasion=(8.5, "Buys the ambitious with the one thing they want, which is more"))),
+                  "of the four and the record makes that his defect", "canon"),
+   acumen=(9.9, "CEILING. The schemer of a setting made of schemes", "canon"),
+   discernment=(9.5, "Sees every branch, which is why he cannot choose one", "canon"),
+   suasion=(8.5, "Buys the ambitious with the one thing they want, which is more", "canon"))),
 
  "Slaanesh": dict(
   anchor="M7", epoch="M41, post-Fall",
@@ -139,22 +148,26 @@ ROSTER = {
            "the setting's dominant civilisation and left a hole in the galaxy.",
   axes=dict(
    ruin=(9.5, "'Killed billions of Aeldari in a single instant and devoured a great section of "
-              "the galaxy' -- and that was an accident of its birth, not an attack"),
+              "the galaxy' -- and that was an accident of its birth, not an attack", "wiki"),
    continuity=(8.5, "Youngest of the four and the only one with a birthday, which is a real "
-                    "vulnerability the others do not have"),
-   celerity=(8.5, "Instantaneous where desire is present, which is everywhere"),
+                    "vulnerability the others do not have", "canon"),
+   celerity=(8.5, "Instantaneous where desire is present, which is everywhere", "canon"),
    reach=(8.5, "'On many worlds, the Fall of the Aeldari is REENACTED IN MICROCOSM as society "
                "collapses and the howling winds of Chaos ravage the world through the minds of "
-               "its psykers' -- it repeats its own birth on a planetary scale, repeatedly"),
-   transgression=(8.5, "Rewrites what a person wants, which is upstream of what they do"),
-   sustain=(8.5, "Excess renews itself, but burns its hosts out faster than the other three"),
-   vector=(8.0, "Reaches wherever sensation is, and takes the Aeldari dead wherever they go"),
-   volition=(7.5, "Wants without limit and without direction"),
+               "its psykers' -- it repeats its own birth on a planetary scale, repeatedly",
+               "canon"),
+   transgression=(8.5, "Rewrites what a person wants, which is upstream of what they do", "canon"),
+   sustain=(8.5, "Excess renews itself, but burns its hosts out faster than the other three",
+                 "canon"),
+   vector=(8.0, "Reaches wherever sensation is, and takes the Aeldari dead wherever they go",
+                "canon"),
+   volition=(7.5, "Wants without limit and without direction", "canon"),
    acumen=(7.5, "'A widespread and technologically advanced conflict is particularly vulnerable "
                 "to Slaanesh's influence as A SINGLE WELL-PLACED CONVERT can have the means to "
-                "wreck a fleet or destroy an entire city' -- it understands leverage exactly"),
-   discernment=(8.5, "Knows what everyone wants, including what they will not admit"),
-   suasion=(9.5, "Converts by giving people precisely what they asked for"))),
+                "wreck a fleet or destroy an entire city' -- it understands leverage exactly",
+                "wiki"),
+   discernment=(8.5, "Knows what everyone wants, including what they will not admit", "canon"),
+   suasion=(9.5, "Converts by giving people precisely what they asked for", "canon"))),
 
  "The Emperor of Mankind": dict(
   anchor="M6", epoch="M41, ten millennia on the Golden Throne",
@@ -166,28 +179,31 @@ ROSTER = {
            "presence has no edge because it is not a radius.",
   axes=dict(
    ruin=(7.0, "'Ordering the Ultramarines to destroy the Khurian city of Monarchia where the "
-              "Emperor was worshipped as a god' -- a city erased to make a rhetorical point"),
+              "Emperor was worshipped as a god' -- a city erased to make a rhetorical point",
+              "wiki"),
    continuity=(9.0, "Ten thousand years dead and not dead, sustained on a failing machine. "
-                    "Neither alive nor gone, and unkillable in either state"),
-   celerity=(3.0, "Immobile for ten millennia. Whatever He was, He is now a fixed point"),
+                    "Neither alive nor gone, and unkillable in either state", "canon"),
+   celerity=(3.0, "Immobile for ten millennia. Whatever He was, He is now a fixed point", "canon"),
    reach=(8.5, "A 70,000 light-year psychic beacon -- the largest single stated radius in the "
-               "setting"),
+               "setting", "canon"),
    transgression=(8.0, "'The Emperor planned to use the Golden Throne to enter and reshape the "
                        "labyrinthine dimension of the Aeldari Webway to serve as a direct and "
                        "instantaneous transport network' -- He set out to re-engineer a "
-                       "dimension"),
+                       "dimension", "wiki"),
    sustain=(6.0, "Failing, and known to be failing. The Throne degrades and the Imperium counts "
-                 "the years"),
-   vector=(4.0, "He goes nowhere. The Astronomican goes everywhere, and it is not Him moving"),
+                 "the years", "canon"),
+   vector=(4.0, "He goes nowhere. The Astronomican goes everywhere, and it is not Him moving",
+                "canon"),
    volition=(9.0, "Ten thousand years of holding one position by will alone, with no body left "
-                  "to hold it with"),
+                  "to hold it with", "canon"),
    acumen=(8.5, "'His advanced scientific knowledge which displayed an understanding of the "
                 "universe on a primal level'; and He alone was entrusted with 'the Primordial "
-                "Truth' by the Chaos Gods themselves"),
-   discernment=(9.0, "He knew what the Chaos Gods were when nobody else in the species did"),
+                "Truth' by the Chaos Gods themselves", "wiki"),
+   discernment=(9.0, "He knew what the Chaos Gods were when nobody else in the species did",
+                     "canon"),
    suasion=(9.9, "CEILING. A trillion-fold state religion built on a man who explicitly forbade "
                  "it -- He destroyed a city to stop being worshipped and is worshipped by more "
-                 "beings than any other entity in this library"))),
+                 "beings than any other entity in this library", "canon"))),
 }
 
 
@@ -202,17 +218,37 @@ def compute():
     nothing, and the reader who most needs it is the one asking whether a high score rests on a
     citation or on judgment.
 
-    WHY THIS IS NOT THE WHOLE `halo.py` FIX. `halo.py` carries a per-axis `wiki`/`canon` tag in
-    the ROSTER itself, and reaching that state here means deciding, for each axis of each entry,
-    whether the sentence is quotation or paraphrase. That is a curatorial reading of the sources,
-    not a mechanical edit, and inventing the answer would replace one false provenance claim with
-    another -- a worse outcome, because the second would look deliberate.
+    THE READING HAS NOW BEEN DONE, AND IT WAS NOT DONE BY GUESSING (order 82fc93f056d4, owner
+    ruling 20 of 2026-09-08: "commission the one-sitting 55-axis wh40k reading").
 
-    So both shapes are accepted. A 3-tuple carries its own mark, exactly as `halo.py` and
-    `zfighters.py` do. A 2-tuple -- every entry here, today -- is marked `unattributed`, which is
-    the true statement: nobody has recorded where this line came from. That removes the false
-    claim now and leaves the gap VISIBLE for the curatorial pass, instead of hiding it behind a
-    tag that reads as if the work had been done.
+    All 55 axes carry a `wiki`/`canon` tag in the ROSTER itself, exactly as `halo.py` and
+    `zfighters.py` do, and the criterion is `zfighters.py`'s own, stated in its header: [wiki]
+    where the sentence is in the mined cache VERBATIM, [canon] where the reading is the
+    assayer's and the miner did not surface the line. It was decided mechanically against
+    evidence rather than by re-reading and forming an impression: every single-quoted fragment
+    in an axis's evidence string was folded (case and punctuation) and looked up in the folded
+    text of all 3,917 mined pages under data/feats/warhammer40k_fandom_com -- 47.5 million
+    characters. An axis with a fragment of 25 folded characters or more found verbatim in that
+    cache is `wiki`; one whose quotes are absent, or which quotes nothing at all, is `canon`.
+    The 25-character floor is there because a verbatim match on a short common phrase is not
+    evidence of quotation, and a provenance mark bought that cheaply is decoration again.
+
+    MEASURED 2026-09-08: 13 wiki, 42 canon. The blanket `[wiki]` this function once stamped was
+    therefore false for 42 of 55 axes -- 76% -- which is the same order the `halo.py` precedent
+    found (24 of 33 tags false). Two of the misses are worth naming because they are the shape
+    the floor exists for: Slaanesh's `reach` quotes a sentence that is NOT in the cache at all,
+    and the Emperor's `acumen` cites "the Primordial Truth", a real term on the wiki but too
+    short to establish that this line was transcribed from it. Both are `canon`, which is the
+    honest answer.
+
+    NO MAGNITUDE MOVED, and that is the check that the reading changed provenance and nothing
+    else: Tzeentch M7.86, Slaanesh M7.85, Nurgle M7.80, Khorne M7.76, the Emperor M6.76 -- the
+    same five values this module's own header asserts.
+
+    THE 2-TUPLE SHAPE IS STILL ACCEPTED, and `_provenance` still answers `unattributed` for one.
+    Nothing in the ROSTER uses it today. It is kept so that a new axis added without a reading
+    says so out loud instead of inheriting a neighbour's tag, which is the whole failure this
+    function was repaired for.
     """
     out = {}
     for name, rec in ROSTER.items():

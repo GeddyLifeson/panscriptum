@@ -194,6 +194,31 @@ def spine_code_for(source_name: str) -> str:
         else:
             return False
         remainder_tokens = remainder.split()
+
+        # THE REMAINDER'S SHAPE IS THE SECOND HALF OF THIS FIX, MEASURED LIVE (order
+        # 07258ace3a09, maintenance-2026-09-08). The catalogued-work check below closed two of
+        # the order's three reproductions ("Alien Predator Doom Crossover", "Doom Marines vs
+        # Aliens Anthology") but not the third: "Halo Fan Documentary About Nothing" opens with
+        # "Halo" and its remainder -- "fan documentary about nothing" -- names no OTHER
+        # catalogued work, so nothing below refuses it and it still returned II.F.4 for an
+        # invented documentary title.
+        #
+        # Measured against the live roll (215 entries) and the whole index (220 entries): every
+        # genuine opens/closes match on the real data leaves a remainder of 0 or 1 token -- the
+        # 41 exact single-token titles ("Alien", "Doom", "Halo", "DC", ...) leave nothing, and
+        # the 5 "Pantheon: <X>" entries leave exactly the one word "Pantheon". Nothing on the
+        # live roll needs, or has ever needed, more than one qualifier word to legitimately
+        # extend a catalogued single-token title into its roll spelling. So a remainder longer
+        # than one token is refused outright here -- not because its words are necessarily
+        # "another catalogued work" (an invented documentary title need not use one), but because
+        # the untested shape (2+ stray words) has no live precedent, and Hard Rule 2 says an
+        # untested case defaults to UNASSIGNED, not to a guess that it's harmless filler.
+        # Verified: this changes no assignment across all 215 roll entries (still 215/215
+        # identical before/after) and turns the third reproduction from II.F.4 to UNASSIGNED.
+        # Re-measure before loosening this past one token.
+        if len(remainder_tokens) > 1:
+            return False
+
         for other_name, w_other in _worded_index:
             if w_other == w_name or not w_other.strip():
                 continue
@@ -361,10 +386,26 @@ def chapter_slug(category_label: str) -> str:
     return CHAPTER_SLUGS.get(category_label, slugify(category_label))
 
 
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically
+# deletable (order 4e92365b54f6, owner ruling 2026-09-08: "mark and keep, one line each,
+# delete nothing" -- option (c), "wire the four that hand out wrong answers", was offered
+# and NOT taken). Zero callers in src/; the only other occurrence is this module's own
+# __main__ demo below. READ THE WARNING IN THE DOCSTRING BEFORE CALLING IT.
 def build_address(source_name: str, chapter_label: str, page_range: str | None = None) -> str:
     """
     The address used for generated chapter files: <SpineCode>/<Chapter>[#PageRange]
     e.g. II.A.3/Persons#1-30  (One Piece, Persons chapter, entries 1-30)
+
+    DEAD, AND STALE: THIS RETURNS THE PRE-VOLUME ADDRESS FORM, WHICH COLLIDES.
+    `manifest_builder.main()` deliberately does NOT use the bare `spine_code_for` result.
+    It builds `volume_code[name]` first, precisely because a Series legitimately holds
+    several sources, and its own comment records the measurement that forced the repair:
+    303 duplicate addresses across 916 of 3,502 jobs. This function still hands out the
+    colliding form, so a future caller reaching for the module's named address builder
+    gets back the exact bug the manifest path was repaired to avoid. Kept under the
+    ruling above and marked rather than wired: routing it through the volume map is a
+    public-function decision with a curatorial half (which Series a source sits in is the
+    owner's call, Hard Rule 2), not a mechanical repair. Use the manifest path.
 
     `page_range` and `chapter_label_for`'s `mode` are spelled `str | None` rather than the bare
     `str` they carried before: both default to None and both are called with None in the tree, so

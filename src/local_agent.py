@@ -208,6 +208,31 @@ MAX_PATCHES_PER_RUN = 24
 _BLAST = {"files": set(), "patches": 0}
 
 
+def _clip(s, width):
+    """A console window that SAYS it is a window. -> str.
+
+    NOTHING SILENTLY SHORT ON A CONSOLE LINE EITHER (order cca253138a62, owner ruling
+    2026-09-08, "Does Hard Rule 0 reach console output": every cut prints its remainder).
+
+    `run()`'s per-tool-call trace printed `json.dumps(args)[:90]` and `json.dumps(res)[:110]`
+    with no marker, and this file has already paid for that once: the ALARM comment in
+    `t_propose_patch` records that a FAILED REVERT was invisible to a person watching a run
+    because `applied`, `reverted` and 120 characters of `error` pushed `ALARM` past the 110-char
+    cut every time. The durable channels were repaired and the verdict is now printed first and
+    unconditionally, so nothing load-bearing rides this line any more -- but it is still what
+    decides what a person watching the run SEES, and this file labels its other windows honestly
+    (`t_run_check`'s `truncated` + `note`, and `main()`'s "full result: %d characters").
+
+    Not `style_audit._cut`, deliberately: that idiom counts ITEMS of a ranking ("showing 8 of
+    412 openers"), and a slice of a JSON blob has no items -- the honest remainder here is the
+    characters withheld, which is the shape `main()` already uses one screen down.
+    """
+    s = str(s)
+    if len(s) <= width:
+        return s
+    return "%s%s(+%d chars)" % (s[:width], chr(8230), len(s) - width)
+
+
 def _blast_ok(full):
     """-> (ok, reason). Count this write against the run's budget."""
     _BLAST["patches"] += 1
@@ -519,6 +544,65 @@ def _denied_region(rel):
     return any(rel.startswith(p.lower()) for p in DENYLIST_PREFIXES)
 
 
+def _protected_identities():
+    """{(st_dev, st_ino): label} for every denylisted MODULE and PATH that exists on disk.
+
+    BYPASS CLASS EIGHT: A HARD LINK NEEDS NO RESOLUTION STEP, SO `realpath` CANNOT SEE IT
+    (order 556c1b8fda9f, ruled by the owner 2026-09-08: "close the identity hole").
+
+    Every bypass this file has closed so far is the same sentence -- a gate keyed on a STRING
+    while the filesystem resolves a DIFFERENT string to the same object -- and every fix has
+    worked by asking the filesystem to resolve the string and then re-asking the gate. A hard
+    link defeats that method outright, because there is nothing to resolve: verified on this
+    machine with `mklink /H`, a write through the link mutates the SAME file record as its
+    target, and `os.path.realpath()` returns the linked path AS WRITTEN, unchanged. So
+    `rel_written == rel_real` in `_safe`, the junction branch never fires, and the protected
+    module's real name never appears in any spelling the string gates can test.
+
+    The only thing two names for one file share is the file ITSELF, so that is what is compared:
+    `st_dev` + `st_ino`, which on Windows are the volume serial number and the file index, i.e.
+    the identity NTFS itself uses. `handoff/notes.py` hard-linked onto `src/foreman.py` reads as
+    a plain, allowed, in-surface path by every string rule and as `foreman.py` by this one.
+
+    MODULES AND PATHS ONLY, never the DENYLIST_PREFIXES regions, and that is a deliberate
+    boundary rather than an oversight: `data/records/` alone holds hundreds of thousands of
+    files and `state/` is written continuously, so building an identity set for a region would
+    mean an unbounded `os.walk` on the write path -- a gate slow enough to be turned off is not
+    a gate. The regions keep their prefix rule on both spellings, which is what they had before.
+
+    Rebuilt on every call rather than cached. It is at most a couple of dozen `stat`s on a path
+    nothing hot ever takes, and an identity is exactly the thing an atomic `os.replace` changes
+    underneath a cache -- a stale identity map would answer "not protected" about the live file.
+    """
+    out = {}
+    cands = [(os.path.join(HERE, "src", m + ".py"), m) for m in DENYLIST]
+    cands += [(os.path.join(HERE, p.replace("/", os.sep)), p) for p in DENYLIST_PATHS]
+    for full, label in cands:
+        try:
+            st = os.stat(full)
+        except Exception:
+            # A denylisted module that is not on disk protects nothing and is not an error --
+            # `DENYLIST` names modules, and not every name has to be a file here.
+            continue
+        # st_ino == 0 means the filesystem did not give us an identity. Comparing on (dev, 0)
+        # would collide every such file with every other, which is a gate that fires on the
+        # wrong things; the string rules still stand for these.
+        if getattr(st, "st_ino", 0):
+            out[(st.st_dev, st.st_ino)] = label
+    return out
+
+
+def _identity_denied(full):
+    """Is `full` the SAME FILE as a denylisted module or path, under any name? -> label or None."""
+    try:
+        st = os.stat(full)
+    except Exception:
+        return None
+    if not getattr(st, "st_ino", 0):
+        return None
+    return _protected_identities().get((st.st_dev, st.st_ino))
+
+
 def _denied_target(rel):
     """Is this project-relative path protected, by ANY of the three rules? -> bool.
 
@@ -540,6 +624,12 @@ def _denied_target(rel):
     if base.endswith(".py") and base[:-3] in {d.lower() for d in DENYLIST}:
         return True
     if rel_l in {p.lower() for p in DENYLIST_PATHS}:
+        return True
+    # AND THE SAME QUESTION ASKED OF THE FILE RATHER THAN OF ITS NAME (order 556c1b8fda9f).
+    # Every rule above is a rule about a string; a hard link gives a protected file a second
+    # string that none of them matches and that `realpath` does not rewrite. See
+    # `_protected_identities`.
+    if _identity_denied(os.path.join(HERE, rel.replace("/", os.sep))):
         return True
     return _denied_region(rel)
 
@@ -839,6 +929,20 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
         return _settle({"applied": False, "error": str(denied) + " is on the denylist -- the "
                                                                  "checking machinery may not "
                                                                  "edit itself"})
+    # THE DENYLIST ASKED OF THE FILE, NOT OF ITS NAME (order 556c1b8fda9f, owner ruling
+    # 2026-09-08). The three tests above and the two spellings below are all tests on STRINGS.
+    # A hard link is a second name for the same file record with nothing to resolve, so
+    # `handoff/notes.py` linked onto `src/foreman.py` satisfies every one of them and `open(...,
+    # "w")` then rewrites the real `foreman.py`. `_identity_denied` compares st_dev + st_ino
+    # against every denylisted module and path that exists on disk, which is the one property
+    # two names for one file cannot disagree about. Refused with the same standing as the name
+    # match, and named for what it IS rather than for what it was called.
+    _ident = _identity_denied(full)
+    if _ident:
+        return _settle({"applied": False,
+                "error": "%s is the same file as %s, which is on the denylist -- the checking "
+                         "machinery may not edit itself, under any name it is given"
+                         % (rel, _ident)})
     _rel_l = rel.lower()
     # THE ALLOWLIST FAILS CLOSED, which is why it is here rather than last. A path outside the
     # agent's working surface is refused without any further question -- no denylist entry
@@ -1018,6 +1122,50 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
         return _settle(out)
 
 
+# WHAT THE ONE CARD WAS DOING WHILE THIS RUN RAN (order bffc372a96d2, owner ruling 2026-09-08,
+# "The one GPU, the local rung, the keeper's remedies").
+#
+# The rung was measured as unavailable rather than incapable: a trivial task ran >15 minutes,
+# wrote nothing and exited 0 while `/api/generate` answered "server busy, maximum pending
+# requests exceeded" and `/api/ps` showed qwen3:8b fully resident -- the model UP and the queue
+# SATURATED by the library's own read/feats/pipeline/overnight jobs. The proposed remedy, to
+# refuse immediately on a 503, was MEASURED AND REJECTED (order 171ade4c7d27): the same
+# saturated queue produced a real answer in 5m52s because the backoff ladder below waited it
+# out, so refusing fast would turn a slow success into a fast failure exactly when the free rung
+# is most worth having. NOTHING HERE REFUSES, therefore, and nothing here is a gate.
+#
+# What was missing is the MEASUREMENT. "The rung is slow under contention" was a thing shifts
+# rediscovered by feel, once per shift, with no number attached. These counters make every run
+# say what it waited for: how many times the queue turned it away, how many seconds it slept,
+# and whether the card was already claimed by foreground work when it started. That is the
+# honest input to the ruling's "re-measure LOCAL for one shift before re-rating anything", and
+# it costs one dict.
+_LANE = {"http_503": 0, "backoff_s": 0.0, "foreground_at_start": None, "calls": 0}
+
+
+def _lane_reset():
+    _LANE.update({"http_503": 0, "backoff_s": 0.0, "foreground_at_start": None, "calls": 0})
+    try:
+        import gpu_lane
+        _LANE["foreground_at_start"] = bool(gpu_lane.foreground_active())
+    except Exception:
+        # An unreadable lane is not a reason to refuse work; it is a reason to say we do not
+        # know, which None already says. Noted rather than swallowed.
+        silence.note("local_agent.py:lane-state")
+
+
+def _lane_report():
+    """What this run met on the shared card. -> dict (a measurement, never a verdict)."""
+    r = dict(_LANE)
+    if r["http_503"]:
+        r["note"] = ("the GPU queue turned this run away %d time(s) and it waited %.0fs for a "
+                     "slot -- the rung was contended, not idle"
+                     % (r["http_503"], r["backoff_s"]))
+    elif r["foreground_at_start"]:
+        r["note"] = "the card carried a foreground claim when this run started"
+    return r
+
+
 def _chat(model, messages, host, timeout=None):
     # num_ctx FROM CONFIG, not a literal. This read 8192 while config.yaml serves 12288, so
     # every local-agent task named a window the daemon did not have resident and paid for a
@@ -1062,6 +1210,7 @@ def _chat(model, messages, host, timeout=None):
     # local fallbacks keep the queue full for minutes at a stretch. Waiting out a few rounds
     # is what every other patient consumer here does; a real outage still surfaces.
     import gpu_lane
+    _LANE["calls"] += 1
     for attempt in range(4):
         try:
             # Background: the model lane is repair work, and it must never make the library's
@@ -1072,7 +1221,10 @@ def _chat(model, messages, host, timeout=None):
         except urllib.error.HTTPError as e:
             if e.code != 503 or attempt == 3:
                 raise
-            time.sleep(60 * (attempt + 1))
+            _LANE["http_503"] += 1
+            _wait = 60 * (attempt + 1)
+            _LANE["backoff_s"] += _wait
+            time.sleep(_wait)
 
 
 def _tool_message(res, limit=TOOL_MSG_MAX):
@@ -1153,7 +1305,7 @@ def _tool_message(res, limit=TOOL_MSG_MAX):
     return dumped({"error": "tool result could not be reduced to %d characters" % limit})
 
 
-def _achievement(patches, apply, answer=None):
+def _achievement(patches, apply, answer=None, unpaged=None):
     """-> {'attempted', 'landed', 'achievement'}: what this run actually DID to the repo.
 
     OK USED TO MEAN "THE MODEL STOPPED TALKING WITHOUT BREAKING ANYTHING", which is the one
@@ -1182,6 +1334,21 @@ def _achievement(patches, apply, answer=None):
     `answer=None` means the caller did not say, and is left alone: the drill's fixtures put
     patch lists to this function without one, and widening their meaning is not this guard's
     job.
+
+    ...AND ONE MORE STEP OVER: AN ANSWER WRITTEN OVER A SLICE THE RUN NEVER PAGED PAST
+    (`unpaged`, order 171ade4c7d27, owner ruling 2026-09-08). Measured 2026-09-03 on a real
+    task: the model read a truncated slice of `src/policy.py`, did not use the
+    `chars_after_slice` / `total_chars` keys `t_read_file` provides for exactly that purpose,
+    and reported failure IN PROSE -- "the exact number of lines cannot be determined from the
+    provided slice" -- while the envelope said ok:true, produced_nothing:false, rc=0. Every
+    caller here gates on the exit code, so an order routed to LOCAL closes on a non-answer.
+
+    THE PREDICATE IS MECHANICAL, NOT A READING OF THE PROSE, and that is the whole design.
+    "Detect that the model said it could not" is a heuristic, and a heuristic on this path is
+    how a gate gets loosened. `unpaged` is set by `run()` only when the LAST tool result was a
+    read whose `chars_after_slice` was non-zero AND no tool was called after it -- the file
+    itself said material was left, and the run declined to fetch it. It is consulted only when
+    NO patch was attempted, so a run that actually changed something is never failed by it.
     """
     attempted = len(patches)
     key = "staged" if not apply else "applied"
@@ -1189,6 +1356,14 @@ def _achievement(patches, apply, answer=None):
     if not attempted and answer is not None and not str(answer).strip():
         say = ("no patch was attempted AND the answer is empty -- this run produced nothing at "
                "all. Do not record it as work done.")
+    elif not attempted and unpaged:
+        say = ("no patch was attempted and the answer was written over a TRUNCATED slice the "
+               "run never paged past: %s was read from offset %d and %d character(s) of it "
+               "were never fetched, and no tool was called afterwards. The file carries the "
+               "`chars_after_slice` / `total_chars` keys for exactly this -- read on with "
+               "read_file(offset=...) before answering. Do not record this as work done."
+               % (unpaged.get("path"), unpaged.get("offset") or 0,
+                  unpaged.get("chars_after_slice") or 0))
     elif not attempted:
         say = "no patch was attempted (answer-only run) -- nothing was written"
     elif landed:
@@ -1199,8 +1374,9 @@ def _achievement(patches, apply, answer=None):
                "This run changed nothing; do not record it as work done."
                % (attempted, "staged" if not apply else "landed"))
     return {"attempted": attempted, "landed": landed, "achievement": say,
-            "produced_nothing": bool(not attempted and answer is not None
-                                     and not str(answer).strip())}
+            "produced_nothing": bool(not attempted
+                                     and ((answer is not None and not str(answer).strip())
+                                          or bool(unpaged)))}
 
 
 def run(task, model=None, apply=True, quiet=False):
@@ -1222,6 +1398,9 @@ def run(task, model=None, apply=True, quiet=False):
     # Each invocation gets a fresh blast budget; the cap bounds ONE run, not the life of
     # the process.
     blast_reset()
+    # ...and a fresh contention record, read BEFORE the first call so "was the card already
+    # busy" is answered about the moment this run was dispatched (order bffc372a96d2).
+    _lane_reset()
     import yaml
     cfg = yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
     model = model or cfg.get("model")
@@ -1229,6 +1408,11 @@ def run(task, model=None, apply=True, quiet=False):
     messages = [{"role": "system", "content": SYSTEM},
                 {"role": "user", "content": task}]
     patches, tool_calls_seen = [], 0
+    # THE LAST READ THAT SAID THERE WAS MORE, still standing at the moment the model stopped
+    # calling tools (order 171ade4c7d27). Set from the tool RESULT's own `chars_after_slice`,
+    # cleared the instant any further tool call is dispatched -- so what survives to the answer
+    # branch is exactly "the file said material was left, and the run never went back for it".
+    unpaged = None
     # A FAILED REVERT MUST REACH THE EXIT CODE. `t_propose_patch` raises the durable alarms for
     # this case -- a SAFETY escalation and a `silence.note` -- but this function's verdict never
     # heard about it: `ok` was True whenever the model produced an answer, and `main()` returns
@@ -1246,7 +1430,7 @@ def run(task, model=None, apply=True, quiet=False):
             msg = _chat(model, messages, host)
         except Exception as e:
             return {"ok": False, "error": "transport: " + type(e).__name__ + " "
-                    + str(e)[:120], "patches": patches}
+                    + str(e)[:120], "patches": patches, "lane": _lane_report()}
         calls = msg.get("tool_calls") or []
         if not calls:
             answer = (msg.get("content") or "").strip()
@@ -1258,8 +1442,9 @@ def run(task, model=None, apply=True, quiet=False):
                         "this card: %s" % (model, "; ".join(TOOL_CAPABLE)),
                         "patches": patches}
             out = {"ok": not unreverted, "answer": answer, "turns": turn + 1,
-                   "tool_calls": tool_calls_seen, "patches": patches}
-            got = _achievement(patches, apply, answer=answer)
+                   "tool_calls": tool_calls_seen, "patches": patches,
+                   "lane": _lane_report()}
+            got = _achievement(patches, apply, answer=answer, unpaged=unpaged)
             out.update(got)
             if got["attempted"] and not got["landed"]:
                 # TRIED AND LANDED NOTHING IS NOT SUCCESS. See the note on _achievement.
@@ -1279,6 +1464,12 @@ def run(task, model=None, apply=True, quiet=False):
         messages.append(msg)
         for c in calls:
             tool_calls_seen += 1
+            # A FURTHER TOOL CALL IS THE RUN GOING BACK FOR MORE, whatever it asks for, so the
+            # unpaged flag is cleared here rather than only on a matching re-read: the predicate
+            # this feeds is "zero tool calls after a truncated slice", which is the narrow,
+            # mechanical shape the ruling named, and widening it to "did not page THIS file"
+            # would start guessing at intent.
+            unpaged = None
             fn = (c.get("function") or {}).get("name")
             args = (c.get("function") or {}).get("arguments") or {}
             if isinstance(args, str):
@@ -1305,9 +1496,13 @@ def run(task, model=None, apply=True, quiet=False):
                     res = {"error": "no such tool: " + str(fn)}
             except TypeError as e:
                 res = {"error": "bad arguments for %s: %s" % (fn, str(e)[:160])}
+            if isinstance(res, dict) and (res.get("chars_after_slice") or 0) > 0:
+                unpaged = {"path": res.get("path"), "offset": res.get("offset") or 0,
+                           "chars_after_slice": res.get("chars_after_slice"),
+                           "total_chars": res.get("total_chars")}
             if not quiet:
-                print("  [%s] %s -> %s" % (fn, json.dumps(args)[:90],
-                                           json.dumps(res)[:110]), flush=True)
+                print("  [%s] %s -> %s" % (fn, _clip(json.dumps(args), 90),
+                                           _clip(json.dumps(res), 110)), flush=True)
             # `json.dumps(res)[:SLICE]` here cut the ENVELOPE, not the payload -- see
             # `_tool_message` and TOOL_MSG_MAX. Every tool message this loop appends now
             # parses as JSON and names whatever it left out.
@@ -1359,6 +1554,10 @@ def main():
     print("ok:          %s" % out.get("ok"))
     if out.get("achievement"):
         print("achievement: %s" % out["achievement"])
+    # WHAT THE CARD WAS DOING, beside the verdict rather than buried in the dump (order
+    # bffc372a96d2): the whole finding was that a contended rung looks like an incompetent one.
+    if isinstance(out.get("lane"), dict) and out["lane"].get("note"):
+        print("lane:        %s" % out["lane"]["note"])
     if out.get("error"):
         print("error:       %s" % out["error"])
     if out.get("ALARM"):

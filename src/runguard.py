@@ -49,24 +49,65 @@ GUARD = os.path.join(HERE, "state", "MAINTENANCE_RUN.json")
 STALE_AFTER_S = 15 * 60
 
 
-def read(path=GUARD):
-    """The current record, or None if there is no readable one.
+def read_verdict(path=GUARD):
+    """The current record AND whether the file was intact. -> (record_or_None, fault_or_None).
 
-    Absent and torn are deliberately NOT distinguished here the way `health` distinguishes them,
-    because for this file the response is the same: an unreadable guard cannot prove a
-    predecessor is live, and refusing to run on a corrupt guard would wedge the pass permanently
-    on a file nothing else repairs.
+    ABSENT AND TORN ARE NOW DISTINGUISHED, and the ANSWER to each is still the same (order
+    70f66fbd98aa, owner ruling 2026-09-08 "Which faults sound, and on which rung"). This module
+    fails OPEN on a corrupt guard on purpose -- `read()`'s docstring has always said so: "an
+    unreadable guard cannot prove a predecessor is live, and refusing to run on a corrupt guard
+    would wedge the pass permanently on a file nothing else repairs". That is a real, deliberate
+    departure from Hard Rule -1's FAIL CLOSED mandate, and sweep43-batch11 was right that it had
+    never been put to the owner. It has now been, and the ruling KEPT the fail-open behaviour and
+    took away its silence: "have runguard escalate on a corrupt guard while still allowing the
+    claim, so the authorisation stops being silent."
+
+    So nothing about what runs changes. What changes is that the fault now leaves a record: an
+    absent guard returns `(None, None)` -- honestly nothing, the normal state before the very
+    first run -- while a torn one returns `(None, "<what is wrong with it>")`, and `claim()`
+    raises that at SAFETY before proceeding. A pass that ran with the overlap invariant
+    unenforceable can then be found in the record afterwards, which is the whole difference
+    between a known exception and an unnoticed one.
+
+    THREE FAULTS, NOT ONE. Unparseable, wrong-shape (a list, a string, a number: the file does
+    not say what it is supposed to say, which is the same fact as unparseable and gets the same
+    answer -- `escalation._read_stopped` draws exactly this line one module over), and a present,
+    unfinished record whose `heartbeat` is missing or not a number, which is the arm
+    `holder_is_live` answers False to. That last one is the most dangerous of the three, because
+    it is the one a reader is least likely to notice: the file parses, it has an agent name, and
+    it silently cannot prove liveness either way.
     """
     try:
         with open(path, encoding="utf-8") as f:
             rec = json.load(f)
-        return rec if isinstance(rec, dict) else None
     except FileNotFoundError:
         _ = "silence-exempt: no guard file is the normal state before the very first run"
-        return None
-    except Exception:
+        return None, None
+    except Exception as e:
         silence.note("runguard.read")
-        return None
+        return None, ("%s exists but could not be read as JSON (%s: %s)"
+                      % (path, type(e).__name__, e))
+    if not isinstance(rec, dict):
+        silence.note("runguard.read")
+        return None, ("%s parsed as %s, not an object, so it cannot say whether a predecessor "
+                      "is live" % (path, type(rec).__name__))
+    if not rec.get("done") and not isinstance(rec.get("heartbeat"), (int, float)):
+        return rec, ("%s holds an UNFINISHED record for %r with no numeric heartbeat, so "
+                     "liveness cannot be established from it either way"
+                     % (path, rec.get("agent", "?")))
+    return rec, None
+
+
+def read(path=GUARD):
+    """The current record, or None if there is no readable one.
+
+    The two-valued form every existing caller wants: `codewatch._maintenance_run_live` and
+    `holder_is_live` ask whether there is a live predecessor, and for that question an absent
+    guard and a torn one still mean the same thing. `read_verdict` above is where the difference
+    is available to a caller that is about to AUTHORISE something on the answer.
+    """
+    rec, _fault = read_verdict(path)
+    return rec
 
 
 def _land_claim(rec, path, expected_digest):
@@ -141,6 +182,13 @@ def holder_is_live(rec, now=None):
 
     True only for an unfinished record with a fresh heartbeat. `done: true`, a stale heartbeat
     and a missing record all read the same way to a would-be successor: go ahead.
+
+    A MISSING OR NON-NUMERIC `heartbeat` ALSO READS AS "not live", and that arm is the fail-open
+    one the owner ruled on 2026-09-08 (order 70f66fbd98aa): unknown liveness lets the next claim
+    through. The behaviour is unchanged and deliberate. It is no longer SILENT -- `read_verdict`
+    names that record as a fault and `claim()` escalates it at SAFETY before proceeding -- so
+    the answer this function gives on an unreadable record is now one somebody can find
+    afterwards rather than one only the code knows about.
     """
     if not rec or rec.get("done"):
         return False
@@ -165,7 +213,38 @@ def claim(agent, path=GUARD, note=None):
     # hold the NEWER digest while reasoning about the older content, and the swap would happily
     # let us overwrite a claim we never saw.
     expected = silence.digest_of(path)
-    prior = read(path)
+    prior, fault = read_verdict(path)
+    # THE FAIL-OPEN IS ANNOUNCED, NOT SILENT (order 70f66fbd98aa, owner ruling 2026-09-08).
+    # `claim()` is the call that decides whether work happens at all, so it is the one place
+    # where "the guard could not be read" is an AUTHORISATION rather than an observation -- and
+    # it was being granted with nothing written down anywhere. The claim still proceeds, exactly
+    # as the ruling directs and as this module's own docstring has always argued: refusing here
+    # would wedge the maintenance pass permanently on a file nothing else repairs, and a wedged
+    # pass is the failure that gets a guard deleted. What it no longer does is proceed quietly.
+    #
+    # SAFETY, not MANAGER. Rung 4 stops the subsystem, which is precisely what the ruling says
+    # must NOT happen; rung 3 fails the BATTERY -- "no run may claim success while this stands"
+    # -- which is the honest reading: the pass may run, and it may not come back saying the
+    # overlap invariant held, because for this run it could not be checked. Rung 0 would have
+    # been the same silence in a different file.
+    #
+    # DEFENSIVE, like every other escalate() call on an error path in this tree. A missing or
+    # broken escalation chain must not turn a readable-guard problem into a traceback at the top
+    # of a maintenance run; `silence.note` keeps the janitor's copy either way.
+    if fault:
+        try:
+            import escalation as _ESC
+            _ESC.escalate(_ESC.SAFETY, "RUNGUARD_CORRUPT_GUARD_RECORD",
+                          "the overlap guard could not be read, so this claim by %r proceeds "
+                          "WITHOUT the one invariant runguard exists to hold (bug m27: two "
+                          "maintenance runs overlapping, one clobbering the other's work). %s"
+                          % (agent, fault),
+                          evidence={"guard": path, "fault": fault, "agent": agent,
+                                    "claim_allowed": True},
+                          source="runguard", who=str(agent))
+        except Exception:
+            silence.note("runguard.corrupt-guard-escalate")
+        sys.stderr.write("runguard: PROCEEDING ON AN UNREADABLE GUARD — %s\n" % fault)
     if holder_is_live(prior):
         age = time.time() - prior.get("heartbeat", 0)
         return False, ("live predecessor %r, heartbeat %.1f min old"

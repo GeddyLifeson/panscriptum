@@ -40,6 +40,7 @@ autonomous run may RAISE a halt; only a person may lift one. That asymmetry is t
 the last incident was caused by an automated agent removing a safety it had concluded was
 unnecessary.
 """
+import contextlib
 import hashlib
 import json
 import os
@@ -255,6 +256,21 @@ def escalate(level, code, what, evidence=None, source=None, who=None):
             _bad_level, level = level, MANAGER
         else:
             level = _named
+    # A NON-INTEGRAL FLOAT IS AN UNRECOGNISED LEVEL TOO, and `int()` was silently ROUNDING IT
+    # DOWN INSTEAD (order 762256b4b844, owner ruling 2026-09-08 "Who may lift a halt or a
+    # subsystem stop"). Every other malformed input above and below this line lands at MANAGER
+    # with `unrecognised_level` in the evidence -- a bad string, None, an out-of-range int -- so
+    # the caller can see what they typed. A float walked straight past all of it, because
+    # `int(2.7)` does not raise: it returns 2, and `escalate(2.7, ...)` became a QUIET
+    # `escalate(OPERATOR, ...)`, one rung of a six-rung chain chosen by a truncation nobody was
+    # told about. That is the exact shape this whole block exists to refuse.
+    #
+    # `is_integer()` IS HONOURED, so `escalate(3.0, ...)` still means SAFETY. 3.0 names a rung
+    # exactly; 2.7 does not name one at all, and the difference is not a matter of taste. Only
+    # `float` is asked -- `bool` is an `int` subclass and `True` is rung 1 by the same arithmetic
+    # every other integral caller uses, so nothing here changes for it.
+    if isinstance(level, float) and not level.is_integer():
+        _bad_level, level = repr(level), MANAGER
     try:
         level = int(level)
     except (TypeError, ValueError):
@@ -357,6 +373,82 @@ def escalate(level, code, what, evidence=None, source=None, who=None):
 
 # --------------------------------------------------------------------------- the halt
 
+# How long a halt lock file may sit untouched before the next writer treats it as abandoned and
+# steals it. A halt write is a handful of milliseconds of JSON plus a rename; anything holding
+# the lock for a minute is a process that died between the create and the remove, and a halt
+# that cannot be raised because a dead process left a file behind is the worst outcome this
+# module has. Same staleness idiom as `codewatch.LOCK_STALE_SECONDS` and `mutate`'s run lock.
+HALT_LOCK_STALE_SECONDS = 60.0
+
+# How long a writer waits for the lock before giving up and raising the halt UNLOCKED. Deliberately
+# short: the lock is an optimisation on the compare-and-swap, never a precondition for it.
+HALT_LOCK_ATTEMPTS = 40
+HALT_LOCK_WAIT = 0.05
+
+
+@contextlib.contextmanager
+def _halt_lock():
+    """Serialise the read-modify-write of the halt file across processes. FAILS OPEN.
+
+    WHY (order 97cc0dc43ca7, owner ruling 2026-09-08 "The last checks before an irreversible
+    outward act"). `_raise_halt` is compare-and-swapped and verified by read-back, and that
+    measured a 25x improvement -- two concurrent first halts lost a fault in 1 trial of 25 where
+    the unguarded version lost one in 25 of 25 -- but it did not close the race.
+    `silence.replace_if_unchanged` re-reads its digest immediately before `os.replace`, and that
+    pair is not atomic, so a writer can still land inside the window; the retry is bounded at
+    STOP_CAS_ATTEMPTS, which four contending writers can exhaust. `O_CREAT|O_EXCL` is atomic on
+    Windows and POSIX alike, so creating the lock file IS the mutual exclusion, with no
+    check-then-act window for two processes to both win.
+
+    AND IT FAILS **OPEN**, WHICH IS THE WHOLE DESIGN DECISION AND NOT AN OVERSIGHT. Every other
+    layer in this module answers "I don't know" with STOP. This one must not, and the owner's
+    ruling says so in as many words: fail-closed halt-write locking was considered and REJECTED
+    as weakening a safety. A halt that cannot be raised because a lock file is stuck is far worse
+    than a lost corroboration entry -- the corroboration is an `also` line, the halt is the
+    library stopping. So if the lock cannot be taken inside the budget the write proceeds
+    UNLOCKED, exactly as it did before this function existed, and the failure is noted.
+    The lock only ever REMOVES a race; it can never add a refusal.
+
+    Keyed off `HALT_FILE` AT CALL TIME, not at import, so a probe that redirects `HALT_FILE` to
+    a scratch directory gets a scratch lock with it and never contends with the live library.
+    """
+    lock = HALT_FILE + ".lock"
+    held = False
+    for _ in range(HALT_LOCK_ATTEMPTS):
+        try:
+            os.makedirs(os.path.dirname(lock), exist_ok=True)
+            os.close(os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY))
+            held = True
+            break
+        except FileExistsError:
+            # STALENESS STEAL. A lock whose file has not been touched inside the window is a
+            # lock nobody is holding: the process that made it died between the create and the
+            # remove. Steal it and try again rather than wait out a corpse.
+            try:
+                if time.time() - os.path.getmtime(lock) > HALT_LOCK_STALE_SECONDS:
+                    os.remove(lock)
+                    continue
+            except OSError:
+                pass
+            time.sleep(HALT_LOCK_WAIT)
+        except OSError:
+            # The lock could not be created for a reason that is not contention -- a read-only
+            # or missing state/ directory, an object lock. Nothing to wait for. Fail open now.
+            break
+    if not held:
+        silence.note("escalation.py:halt-lock-not-taken")
+        sys.stderr.write(
+            "HALT LOCK NOT TAKEN (%s) — raising the halt UNLOCKED rather than not raising it. "
+            "A corroborating fault may be lost to a concurrent writer; the halt itself is "
+            "not.\n" % lock)
+        yield False
+        return
+    try:
+        yield True
+    finally:
+        with contextlib.suppress(OSError):
+            os.remove(lock)
+
 
 def _raise_halt(rec):
     """Write the halt. Whole-file, atomic, and never overwritten once standing.
@@ -393,25 +485,34 @@ def _raise_halt(rec):
     # STOP_CAS_ATTEMPTS. A digest mismatch means somebody landed first and the next pass appends
     # to their `also`; a transient denial means a reader was holding the file and the next pass
     # may get it. Both want another attempt, and after five neither is transient any more.
+    #
+    # AND THE WHOLE LOOP RUNS UNDER AN EXCLUSIVE-CREATE LOCK (order 97cc0dc43ca7, owner ruling
+    # 2026-09-08). The compare-and-swap narrows the lost-fault race by 25x and cannot close it,
+    # for the reason spelled out in `_halt_lock`. The lock closes it by making the read, the
+    # merge and the rename one section that only one writer is inside. It FAILS OPEN: when it
+    # cannot be taken, `_halt_lock` yields False and every line below runs exactly as it did
+    # before, because a halt that a stuck lock file can prevent is not a halt.
     landed, why = False, "not attempted"
-    for _attempt in range(STOP_CAS_ATTEMPTS):
-        expected = silence.digest_of(HALT_FILE)
-        landed, why = _land_halt(rec, expected)
-        if landed and _halt_file_records(rec):
-            return True
-        # READ BACK, AND DO NOT TRUST `landed` ALONE. The compare-and-swap NARROWS this race and
-        # cannot close it: `replace_if_unchanged` re-reads the digest immediately before its own
-        # `os.replace`, so there is still a window between that read and the rename in which
-        # another writer can land. Two threads released together from a barrier hit it, and BOTH
-        # reported `halt_landed: True` while the file held only one of their faults -- which is
-        # the original defect wearing the fix's clothes, and strictly worse than the defect
-        # because now there is a verdict saying it did not happen.
-        #
-        # Verifying convergence is what actually closes it. If our fault is not in the file we
-        # just wrote, somebody landed over us; go round, and this pass reads THEIR halt and
-        # appends ours to its `also`. That terminates: each pass either finds our record or finds
-        # a newer halt to attach it to, and the loop is bounded.
-        landed = False
+    with _halt_lock():
+        for _attempt in range(STOP_CAS_ATTEMPTS):
+            expected = silence.digest_of(HALT_FILE)
+            landed, why = _land_halt(rec, expected)
+            if landed and _halt_file_records(rec):
+                return True
+            # READ BACK, AND DO NOT TRUST `landed` ALONE. The compare-and-swap NARROWS this
+            # race and cannot close it: `replace_if_unchanged` re-reads the digest immediately
+            # before its own `os.replace`, so there is still a window between that read and the
+            # rename in which another writer can land. Two threads released together from a
+            # barrier hit it, and BOTH
+            # reported `halt_landed: True` while the file held only one of their faults -- which is
+            # the original defect wearing the fix's clothes, and strictly worse than the defect
+            # because now there is a verdict saying it did not happen.
+            #
+            # Verifying convergence is what actually closes it. If our fault is not in the file we
+            # just wrote, somebody landed over us; go round, and this pass reads THEIR halt and
+            # appends ours to its `also`. That terminates: each pass either finds our record
+            # or finds a newer halt to attach it to, and the loop is bounded.
+            landed = False
     # ONLY NOW IS IT LOUD. `_land_halt` is silent about a single refused attempt on purpose --
     # printing "CANNOT WRITE HALT FILE" for the intermediate pass of a working compare-and-swap
     # would be an alarm about the mechanism succeeding.
@@ -541,6 +642,13 @@ def status():
 
 
 STOPPED = os.path.join(HERE, "state", "STOPPED.json")
+
+# THE LIBRARY'S REAL STOP LEDGER, remembered at import so a redirection can be RECOGNISED.
+# `drill._esc_sandbox` points `STOPPED` at a scratch directory before it drives this module, and
+# `_a_probe_release` below uses the difference to tell a probe cleaning up after itself from a
+# real rung-4 stop being lifted. Captured here rather than recomputed, because the whole value of
+# the comparison is that it names the path this process STARTED with.
+_REAL_STOPPED = STOPPED
 
 # How many times a read-modify-write over STOPPED.json may re-read and swap again before it is
 # reported as unrecordable. Same number as `binding_health.CAS_ATTEMPTS`, which guards the same
@@ -767,8 +875,51 @@ def subsystem_stopped(name):
     return True, "%s (by %s)" % (hit.get("reason", "no reason recorded"), hit.get("by", "?"))
 
 
+def _a_probe_release(name):
+    """Is this resume a DRILL PROBE cleaning up after itself, rather than a real rung-4 lift?
+
+    THE PRIVATE, TEST-ONLY RELEASE PATH the owner's ruling of 2026-09-08 asked for, "so drill's
+    three probes do not leave orphaned stops". The person check directly above is the real
+    guard; this is the narrow, structural exemption from it, and it is deliberately not a flag a
+    caller can set, because a flag is a guard anybody can switch off by passing True.
+
+    TWO CONDITIONS, EITHER OF WHICH MAKES THIS PROVABLY NOT A REAL SUBSYSTEM:
+
+      1. THE LEDGER IS NOT THE LIBRARY'S. `drill._esc_sandbox` points `STOPPED` at a scratch
+         directory before driving this module, so a resume against a redirected ledger cannot
+         lift anything the library is running on -- there is nothing on the other end of it.
+
+      2. THE NAME CARRIES THE HOUSE SELF-TEST MARKER. `__drill_rung4__`, `__drill_rung4b__` and
+         `__drill_litter_probe__` are reserved synthetic subjects; `health.py:73-74` already
+         names `stop_subsystem`/`resume_subsystem` against exactly these as the case its
+         self-test ledger exists for. The marker is BORROWED from `health.SELFTEST_SUBJECT`
+         rather than re-spelled here: two hand-kept copies of one pattern is how they come to
+         disagree, and this one decides whether a guard applies.
+
+    FAILS CLOSED. If `health` cannot be imported the answer is False -- not a probe -- so the
+    person check applies in full. An exemption that survives its own evidence going missing is
+    not an exemption, it is a hole.
+    """
+    if STOPPED != _REAL_STOPPED:
+        return True
+    try:
+        import health as _H
+        return bool(_H.is_selftest(str(name)))
+    except Exception:
+        silence.note("escalation.py:probe-release-marker")
+        return False
+
+
 def resume_subsystem(name, ruling, by="?"):
-    """Re-open one subsystem. Demands a written ruling, as `clear` does -- but a LONGER one. -> bool.
+    """Re-open one subsystem. A PERSON ONLY, and a written ruling -- a LONGER one than `clear`
+    demands. -> bool.
+
+    THE PERSON CHECK LANDED 2026-09-08 (order ddb5eadd8934, owner ruling "Who may lift a halt or
+    a subsystem stop"). Until then this bar was twenty characters of anything and nothing else,
+    so any autonomous run could re-open a rung-4 stop -- see `resume_subsystem_verdict`, which is
+    where the refusal is spelled. A person resumes one with:
+
+        python src/escalation.py --resume <subsystem> --ruling "<what you decided and why>"
 
     THE TWO BARS ARE NOT THE SAME AND THIS DOCSTRING USED TO SAY THEY WERE (order 8b1b81bcfee4,
     reported by sweep44-batch14). It read "exactly as `clear` does", while
@@ -810,6 +961,29 @@ def resume_subsystem_verdict(name, ruling, by="?"):
     """
     if not (ruling or "").strip() or len(str(ruling).strip()) < 20:
         raise ValueError("resuming a stopped subsystem needs a written ruling, not a shrug")
+    # AND A PERSON, EXACTLY AS `clear` DEMANDS ONE (order ddb5eadd8934, owner ruling 2026-09-08
+    # "Who may lift a halt or a subsystem stop"). `stop_subsystem`'s docstring has said in
+    # capitals since the day it was written that the resume is "deliberately STICKY:
+    # `resume_subsystem` demands a written ruling, EXACTLY AS `clear` DOES, because the thing
+    # that undid the last one was an automated actor with good intentions and a restart timer".
+    # It did not do exactly what `clear` does: the half that stops an automated actor was
+    # absent, so any autonomous run could re-open a rung-4 stop with twenty characters of
+    # anything -- and the incident that sentence cites (catalogue_web --recatalogue stopped at
+    # 22:5x for nulling synthesis blocks, restarted by the keeper at 23:21) is precisely that
+    # class of actor. The docstring is now true.
+    #
+    # THE REFUSAL ORDER IS PART OF THE CONTRACT. The written-ruling check runs FIRST and this
+    # runs second, matching `clear()` for the same reason `clear()` gives: `drill.py` proves the
+    # written-ruling rule by calling `resume_subsystem(name, "ok")` and requiring a ValueError,
+    # and a person check ahead of it would answer that probe with the wrong refusal and leave
+    # the ruling rule untested.
+    if not _a_probe_release(name) and not _by_a_person_at_the_cli():
+        raise PermissionError(
+            "a stopped subsystem may not be re-opened programmatically. An autonomous run may "
+            "STOP a subsystem; only a person may resume one, and that asymmetry is the same one "
+            "the halt rests on. Resume it by hand:\n"
+            "    python src/escalation.py --resume <subsystem> "
+            "--ruling \"<what you decided and why>\"")
     # THE WRITE'S VERDICT IS READ, NOT ASSUMED (order 4f290dae34ef). This was a bare
     # `_write_stopped(doc)` with no guard at all, so the ordinary Windows rename denial came out
     # of here as an uncaught PermissionError -- after `doc.pop`, so the operator got a traceback
@@ -882,6 +1056,56 @@ def resume_subsystem_verdict(name, ruling, by="?"):
     return True, "%s resumed: %s" % (name, ruling)
 
 
+# NO CALLER YET, AND KEPT ON PURPOSE -- the `feats.py` "REPORTED DEAD, NOT DELETED" idiom, under
+# the owner ruling of 2026-09-08, question 1 ("Mark and keep: one line each, delete nothing").
+# `refuse_unit` and `refuse_source` below are the sanctioned raisers `Refused` did not have. The
+# four per-unit / per-source refusal sites that should route through them today live in modules
+# this brief does not own -- `binding_health.py:291,416,419`, `foreman.py:659`,
+# `thread_integrity.py:678` -- so the raisers land here and the adoption is owed by those
+# modules. Do not delete these because nothing calls them: an uncalled raiser is one import away
+# from being the whole point, and the state the ruling forbids is the OTHER one, a named safety
+# with no site that can ever produce it. (order da15f582b2ea, 2026-09-08)
+def refuse_unit(code, what, evidence=None, source=None, who=None):
+    """Rung 1. Record it, then REFUSE THIS UNIT of work by raising `Refused`. Never returns.
+
+    THE ONE SPELLING FOR AN OPERATOR REFUSAL (order da15f582b2ea, owner ruling 2026-09-08 "Who
+    may lift a halt or a subsystem stop": "the existing per-unit and per-source refusals route
+    through `escalation.Refused` so the chain has one spelling").
+
+    WHAT WAS WRONG. `class Refused` has been declared at the top of this file since the chain was
+    written -- "an OPERATOR- or SUPERVISOR-level stop: this unit or this source, not the library"
+    -- and NOTHING in the tree raised it, caught it, imported it or named it. Its sibling
+    `SystemHalted` is raised here and caught in `verify_math`; `prose_gate` declares and raises
+    its own `ProseRefused`. So the two rungs of Hard Rule -1's chain that stop a UNIT and a
+    SOURCE had a named exception type with no site that could ever produce one: a safety that
+    exists in a file rather than in effect, which is the fourth property CLAUDE.md names. It was
+    surfaced by `liveness.scan()`'s dead-class pass as the single finding across the whole tree.
+
+    WHY IT RAISES RATHER THAN RETURNING. `escalate()` deliberately does not decide control flow
+    for rungs 1-4 -- "a guard that both detects and unwinds is hard to test" -- and that stays
+    true of `escalate`. This is the other half, for the callers that DO want to unwind: the
+    record and the raise in one call, so a refusal cannot be recorded and then walked past.
+    """
+    escalate(OPERATOR, code, what, evidence=evidence, source=source, who=who)
+    raise Refused("OPERATOR refusal — %s: %s" % (code, what))
+
+
+def refuse_source(source, code, what, evidence=None, who=None):
+    """Rung 2. Record it, then CLOSE THIS SOURCE'S AREA by raising `Refused`. Never returns.
+
+    The per-source sibling of `refuse_unit`, and the reason the distinction is worth two
+    functions rather than a level argument: "every source is its own area of the park". A fault
+    in one source must never close the library, and a caller reaching for a refusal at the moment
+    something has gone wrong should not also have to pick a rung number correctly.
+
+    `source` is FIRST and required, because a SUPERVISOR escalation without one is not a
+    per-source refusal at all -- it is an unattributed alarm, and `_append_log` would have
+    nowhere to write the area's own history.
+    """
+    escalate(SUPERVISOR, code, what, evidence=evidence, source=source, who=who)
+    raise Refused("SUPERVISOR refusal — %s (%s): %s" % (code, source, what))
+
+
 def assert_clear(who="?"):
     """EVERY entry point calls this before doing anything. The plant-wide interlock.
 
@@ -932,7 +1156,7 @@ def _by_a_person_at_the_cli():
             and os.path.abspath(f.f_code.co_filename) == here)
 
 
-def clear(ruling, by="owner"):
+def clear(ruling, by=None):
     """Lift the halt. A PERSON ONLY, and refused at run time if the caller is not one.
 
     Demands a written ruling because the halt exists to buy a decision, and a halt lifted with
@@ -953,6 +1177,31 @@ def clear(ruling, by="owner"):
             "chain exists for was an automated agent removing a safety it had concluded was "
             "unnecessary. Lift it by hand:\n"
             "    python src/escalation.py --clear --ruling \"<what you decided and why>\"")
+    # AND IT MUST BE SIGNED (order c614f7c145fc, owner ruling 2026-09-08 "Who may lift a halt or
+    # a subsystem stop"). `by` defaulted to "owner" here and `--by` defaulted to "owner-cli" in
+    # `main()`, and neither is evidence that a person ruled -- they are labels the CLI supplies
+    # when nobody says otherwise. It has now happened TWICE: a halt lifted at 00:55 on a
+    # scheduled run with nobody present, recorded as `owner-cli`, the first time with the publish
+    # daemon resuming behind it. The only reason the second one reads as
+    # `scheduled-maintenance-2026-09-05-daily` is that the actor VOLUNTEERED it.
+    #
+    # A default that reads as a person is worse than no attribution at all, because the ledger
+    # then carries a positive false statement about who decided. So there is no default: the
+    # caller says who, or the halt stays up. This is the one thing code CAN ask -- the runtime
+    # guard above asks whether this file is the program being run, which is as close to "is
+    # there a person here" as a process can get, and it cannot ask whose hands are on the
+    # keyboard. What it can refuse is an unsigned ruling.
+    #
+    # AFTER THE PERSON CHECK, DELIBERATELY. `drill.py` proves the programmatic refusal by
+    # calling `ESC.clear(r)` through four spellings with no `by` at all and requiring
+    # PermissionError from every one; an attribution check ahead of it would answer those probes
+    # with a ValueError and leave the asymmetry the whole chain rests on untested.
+    if not str(by or "").strip():
+        raise ValueError(
+            "a halt lift must be SIGNED: pass --by with who is lifting it. There is no default, "
+            "because the old one (\"owner-cli\") reads as a person and was twice recorded for a "
+            "scheduled run with nobody present. An automated run lifting a halt under the "
+            "self-caused clause must sign its own name.")
     # COMPARE-AND-SWAPPED, for the same reason `_raise_halt` and `_write_stopped` are, and this
     # was the last writer of `state/HALT.json` that was not (order 0f815b38363f). The read below,
     # the merge under it and the write at the bottom were three separate steps with nothing
@@ -1080,13 +1329,46 @@ def main():
     # record's ability to be honest when the caller volunteers the truth, so an automated run
     # that lifts a halt under the self-caused clause can sign its own name instead of wearing
     # the owner's. The default is unchanged, so a person at a terminal still records as before.
-    ap.add_argument("--by", default="owner-cli",
-                    help="who is lifting it. An automated run MUST pass its own name rather "
-                         "than leaving the owner-cli default, which reads as a person.")
+    # AND THERE IS NO LONGER A DEFAULT (order c614f7c145fc, owner ruling 2026-09-08). The
+    # paragraph above records why the hardcoded `owner-cli` was wrong; the ruling closes the
+    # remaining half of it, which is that a DEFAULT of "owner-cli" is the same false statement
+    # the hardcoding was. `clear()` refuses an unsigned lift, so this is `None` and the refusal
+    # is spelled once, in the function, where a programmatic caller meets it too.
+    ap.add_argument("--by", default=None,
+                    help="who is lifting it or resuming it. REQUIRED for --clear: there is no "
+                         "default, because a default reads as a person. An automated run must "
+                         "pass its own name.")
+    # THE PERSON-FACING RESUME, AND UNTIL NOW THERE WAS NONE (order ddb5eadd8934, owner ruling
+    # 2026-09-08). `resume_subsystem` lifts a MANAGER stop -- rung 4, "stop the SUBSYSTEM" -- and
+    # this parser offered --status, --clear, --ruling and --raise-halt and no way to do it. So
+    # the only callers of the sanctioned API were programs, which is precisely the class of actor
+    # the stop exists to hold, and a person who wanted to resume one had to write Python.
+    ap.add_argument("--resume", default="",
+                    help="NAME — re-open one subsystem stopped at rung 4. Needs --ruling (20 "
+                         "characters or more) and, like --clear, is refused to any caller that "
+                         "is not this file being run by hand.")
     ap.add_argument("--raise-halt", dest="raise_halt", default="",
                     help="code:what — raise a halt by hand (testing, or a person stopping the "
                          "library deliberately)")
     a = ap.parse_args()
+    if a.resume:
+        # CALLED THROUGH `resume_subsystem_verdict`, NOT THROUGH THE `resume_subsystem` WRAPPER,
+        # and the reason is the person check itself. `_by_a_person_at_the_cli` asks whether the
+        # IMMEDIATE caller is this file's own `main()` -- `sys._getframe(2)` -- so going through
+        # the one-line wrapper would put `resume_subsystem` in that frame and refuse the person
+        # standing at the terminal. The verdict form is also the one that tells "was never
+        # stopped" apart from "the write did not land", which is exactly what an operator needs
+        # printed back at them here.
+        try:
+            # `"cli"` when nobody signed, NOT `"owner-cli"`: the same distinction `--raise-halt`
+            # already draws with `who="cli"`. It names the CHANNEL, which is a fact, rather than
+            # a person, which would be the false statement the `--by` default was removed for.
+            ok, reason = resume_subsystem_verdict(a.resume, a.ruling, by=(a.by or "cli"))
+        except (ValueError, PermissionError) as e:
+            print("refused: %s" % e)
+            return 2
+        print(("resumed: " if ok else "not resumed: ") + reason)
+        return 0 if ok else 1
     if a.raise_halt:
         code, _, what = a.raise_halt.partition(":")
         # THE LANDING VERDICT IS NOT THROWN AWAY HERE EITHER (order a1addbdff907). This was

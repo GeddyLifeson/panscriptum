@@ -202,7 +202,23 @@ def synthesise(c, rec):
         # that the main phase would have refused.
         if not PL.valid_scale_note(_ev):
             band = "unassayed"
-        ev = _ev[:600]
+        # THE CUT DECLARES ITSELF (order 1f9a54bede08, owner ruling 21 of 2026-09-08: "evidence
+        # cut before it was stored -- preserve the rest, mark the remaining cuts, append the
+        # house marker plus the original character count").
+        #
+        # This was a bare `_ev[:600]`, and it is STORED DATA: `--merge` writes it into
+        # data/records/*.json, and it is the string a later reader checks a band claim against.
+        # A value cut at exactly 600 characters reads as a COMPLETE value with nothing
+        # distinguishing it from one that simply ended there.
+        #
+        # TAKEN FROM `pipeline`, NOT RESTATED -- the fifth time this function has closed a drift
+        # that way, and the order that filed this one asked for exactly that: it ruled the
+        # [:600]/[:900] cuts SHAPE PARITY with pipeline's identical ones and said the remedy
+        # belongs to both writers together, because changing only one reintroduces the drift the
+        # surrounding comments were all written about. `pipeline._stored_cut` carries the house
+        # idiom (`... (+N chars)`) under order 19c507a16430; calling it is what keeps the two in
+        # step through the NEXT change to it as well.
+        ev = PL._stored_cut(_ev, 600)
 
         rank = int(band[1:]) if band != "unassayed" else -1
         if best is None or rank > best[0]:
@@ -216,7 +232,9 @@ def synthesise(c, rec):
         "ceiling_entity": (got.get("ceiling_entity") or "").strip(),
         "provisional_magnitude": band,
         "evidence": ev,
-        "rationale": (got.get("rationale") or "").strip()[:900],
+        # THE SAME MARKED CUT AS `evidence` ABOVE, and through the same shared helper
+        # (order 1f9a54bede08). pipeline.py:1727 stores its `rationale` the identical way.
+        "rationale": PL._stored_cut((got.get("rationale") or "").strip(), 900),
         "method": ("Band-only nomination by local model over the source's own catalogued "
                    "entries; retried after an infrastructure failure, same prompt and same "
                    "invariants as the main synthesis phase."),

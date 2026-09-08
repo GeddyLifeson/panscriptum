@@ -32,6 +32,35 @@ The Aperture Doctrine mandates that every LOCAL entry close with a Position Para
 wider flows -- *"what it would fetch at the Freeport."* Without a conversion table that clause
 cannot be written. With one, every mundane object in the catalogue acquires a thread to the
 omniverse, and a cloak in a village becomes a thing with a price in a market it has never heard of.
+
+HELD FOR A FUTURE PHASE, BY OWNER RULING, WITH THE REASON ON THE RECORD
+----------------------------------------------------------------------
+Ruling 9 of 2026-09-08, "Whole modules built and never wired in", option (a): *wire what closes a
+measured gap; hold the rest, marked.* This module is HELD, not retired and not wired. Order
+`3fb9fc6b9999`.
+
+THE MEASUREMENT IT IS HELD AGAINST. This file is finished, self-consistent and arithmetically
+exercised (`verify_math.py:266-284` drives `to_standards`, `from_standards`, `cross_rate`,
+`work_value` and `assay_to_standards`), and it has **no caller in the generation pipeline at all**:
+the only import of it anywhere in the tree is that battery. `manifest_builder.py`, `generate.py`,
+`prose_gate.py` and every `catalogue_*.py` never import it, and `prompts/` carries no currency or
+glyph reference, so the Position Paragraph's *"what it would fetch at the Freeport"* clause has no
+wiring on the prose side to receive a price even if one were computed.
+
+WHY HELD RATHER THAN WIRED. The two modules the same ruling WIRED -- `hosts.py` and `render.py` --
+each close a gap that has been measured in the data: 94 verified extra host records going unread,
+and a publish cycle with no render step. This one does not. Its consumer is the prose lane, and
+`prose_enabled` is shut and owner-held; wiring a currency into a generator that is not permitted to
+generate would put a live dependency in front of a closed gate and prove nothing about it.
+
+WHY NOT RETIRED. It is charter apparatus, not stray code: I.9 asserts the omniversal economy in the
+published charter, and deleting the only implementation of a published assertion makes the library
+smaller in exactly the shape Hard Rule 0 forbids. It is kept whole so that the phase which opens
+the prose lane finds it built rather than needing to rebuild it.
+
+WHAT WOULD MOVE IT OUT OF HELD. A Position Paragraph in `prompts/` that has somewhere to put a
+price, and an entry class that carries a priced object. Until then, nothing here is dead by
+accident -- it is dead on purpose, and this paragraph is the record of whose purpose.
 """
 import math
 
@@ -42,6 +71,14 @@ import math
 from physics import MATERIAL       # noqa: E402
 
 JOULES_PER_STANDARD = MATERIAL["rock"]["pulv"]     # 2.14e8 J -- the same figure the feat ladder prices
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically
+# deletable (order 1a9c237dda4d, owner ruling 2026-09-08: "mark and keep, one line each,
+# delete nothing"). ZERO readers repo-wide, grepped across every .py including
+# verify_math.py and drill.py -- and it is the EXCEPTION in this file, whose other public
+# symbols (to_standards, from_standards, cross_rate, work_value, assay_to_standards) are
+# all read by the battery. Retained as reference data awaiting a consumer: it is the
+# printed sign of the unit this whole module is denominated in, and a module that prices
+# things and cannot name its own currency mark is missing a part, not carrying a spare.
 STANDARD_GLYPH = "§"
 
 
@@ -68,6 +105,11 @@ CURRENCIES = {
 
 # Condensates -- the material Chord (W.7). These are what the wars are actually fought over, and
 # the Standard exists mostly to price them.
+# REPORTED DEAD, NOT DELETED (order 1a9c237dda4d, owner ruling 2026-09-08). No reader
+# anywhere in the repository. Retained as DOCTRINAL REFERENCE DATA and not as leftovers:
+# this table encodes the material Chord (W.7) with a priced anchor and a reasoned sentence
+# per condensate, which is authored charter content -- an audit must not delete it on its
+# own judgement just because nothing imports it yet.
 CONDENSATES = {
     "senzu bean":     (4.2e5,  "restores a combatant to peak from near-death: prices the "
                                "Continuity axis directly, which is why the Corridor is the "
@@ -84,6 +126,12 @@ CONDENSATES = {
 }
 
 
+# REPORTED DEAD, NOT DELETED (order 1a9c237dda4d, owner ruling 2026-09-08). Added by order
+# e9167885aef6 explicitly "for a caller that wants to say WHY", and no such caller has
+# arrived: the only other occurrences of the name are the two docstrings below pointing at
+# it. Kept because it encodes a considered distinction -- an UNLISTED currency against a
+# deliberately non-convertible one -- that `to_standards`/`from_standards` structurally
+# cannot express, so deleting it would delete the distinction and not merely the function.
 def currency_status(currency):
     """-> (listed, reason). Is `currency` a code this table even knows, and why can't it price?
 

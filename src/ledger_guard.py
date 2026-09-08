@@ -188,6 +188,36 @@ SNAPSHOT_DIR = os.path.join(HERE, "state", "ledger_snapshot")
 # removes a handful of lines out of thousands; a run that lost its history removes most of them.
 # Set high enough that ordinary hand-editing cannot reach it, because this refuses a PUSH and a
 # safety that stops the operator doing ordinary work is a safety that gets deleted.
+#
+# RATIFIED BY THE OWNER, 2026-09-08 (order 27f823fd6ed5, ruling "The last checks before an
+# irreversible outward act": "ratify 0.05 as your own ruling with the 4.50% measurement recorded
+# as its input"). Until that ruling this was the one value in a tamper-evident guard that was set
+# by TASTE -- a judgement call by the agent that wrote it, in the last gate standing between a
+# run and the public repo -- and sweep36-batch11 was right to say a number nobody had ruled on
+# cannot be evidence. It is a ruling now, and this comment is where it is findable.
+#
+# THE MEASUREMENT THAT IS ITS INPUT, so the floor is answerable rather than merely chosen.
+# `handoff/HANDOFF.md` holds 733 substantive lines of which only 700 are DISTINCT. Under the set
+# diff that `_lost_fraction` used before sweep43-batch05, those 33 duplicate lines -- 4.50% of
+# the file -- could each have been deleted and measured as EXACTLY ZERO loss. So the margin
+# between "invisible to this gate" and "refused by it" was HALF A PERCENTAGE POINT, on the only
+# ledger whose own commentary records it already losing 629 lines to the truncation class this
+# module exists to catch. That is the number 0.05 has to sit above, and it does -- by 0.5 points,
+# which is thin and is now written down as thin rather than assumed comfortable.
+#
+# WHY IT IS NOT LOWERED ON THE STRENGTH OF THAT. The multiset fix closed the hole the 4.50%
+# measured: those 33 lines are no longer free deletions, so the gap is a historical artefact of
+# the OLD measure rather than a live exposure. Lowering the floor now would trade a closed hole
+# for the failure this comment's second paragraph names -- a gate that refuses ordinary hand
+# editing is a gate somebody removes -- and this project has already lost one guard that way.
+# What the ruling buys is that the number is a decision on the record with its input beside it,
+# so the next reader can re-open it with better evidence instead of re-deriving the question.
+#
+# WHAT IT STILL CANNOT DO, said plainly because the order was filed about exactly this: a
+# fractional floor cannot tell an accidental typo-fix in old ledger text from a deliberate small
+# falsification of it. Nothing here can. It bounds VOLUME, not intent, and the hash chain beside
+# it (`seal`/`verify_chain`) is what makes an edit visible at all. This is a truncation detector
+# that has been ruled on, not a tamper detector that has been solved.
 MAX_LOST_FRACTION = 0.05
 
 
@@ -334,6 +364,65 @@ def seal():
             except OSError:
                 # Never written, or already renamed away. Nothing to clean and nothing to say.
                 pass
+
+        # THE FLOOR, RATCHETED UPWARD ONLY -- never rewritten to something with LESS substance
+        # than it already holds (order 284db4af1db6, LEDGER_GUARD_SNAPSHOT_REBASELINE_COMPOUNDS_
+        # LOSS). The snapshot just written above is overwritten on every seal, by design: it is
+        # the baseline `check_since_snapshot` needs to tell a person's ordinary edit from a
+        # truncation of THIS push. But it means the 5% MAX_LOST_FRACTION is spendable AGAIN at
+        # every seal, against a baseline that just moved to wherever the last push left it -- so a
+        # sequence of pushes that each lose ~4% of a ledger, each individually indistinguishable
+        # from the legitimate typo-fix case the tolerance exists to protect, passes every check
+        # forever, and the true loss since the file was last whole is never measured anywhere.
+        # `verify_chain()`'s SHRANK test does not catch it either: it only ever compares a link
+        # against its immediate PREDECESSOR, the same one-step blindness.
+        #
+        # The floor closes that by keeping a SEPARATE copy that only moves forward: it is
+        # replaced with the live text only when the live text has at least as much substantive
+        # content (by the same `_substantive_lines` count `_lost_fraction` measures loss with) as
+        # the floor already holds. A push that loses content, however small, leaves the floor
+        # exactly where it was. `check_since_floor()` below then measures every push against that
+        # never-lowered peak, with the same MAX_LOST_FRACTION -- reusing the number rather than
+        # inventing a second, unruled threshold, since 0.05 is already the figure this project's
+        # own doctrine measured and settled on for how much of a ledger a single edit may
+        # plausibly lose (see the ruling above `MAX_LOST_FRACTION`). Once compounding losses
+        # that individually passed `check_since_snapshot` add up to more than 5% of the peak, this
+        # check trips where the resetting one cannot -- a second layer with a DIFFERENT failure
+        # mode from the first, per Hard Rule -1's INDEPENDENT requirement.
+        #
+        # WHAT THIS DOES NOT SOLVE, on purpose: it cannot tell a genuine multi-push typo-fix
+        # spree from a genuine slow truncation any better than `_lost_fraction` already can --
+        # that is the still-open, narrower question in order 27f823fd6ed5 about a SINGLE check's
+        # ambiguity, and this fix does not touch it. What this closes is that the SAME ambiguous
+        # 5% was silently spendable an unlimited number of times against a baseline that kept
+        # resetting under it; now it is spendable once against the peak before this layer refuses.
+        #
+        # BOOTSTRAPPED ONCE, like `_read_snapshot`'s "no sealed snapshot yet": if no floor exists
+        # yet (a fresh project, or the first seal after this fix landed), the current text becomes
+        # the starting floor rather than refusing outright -- there is no earlier peak on disk to
+        # compare against, and a check that cannot ever pass on its first run is not a check
+        # anyone will keep. This cannot recover substance already lost to compounding BEFORE this
+        # fix existed, because no fuller-history copy of these ledgers is retained anywhere in
+        # this module; it closes the hole going forward, measured from today's peak.
+        try:
+            floor_text = _read_floor_snapshot(n)
+            if floor_text is None or (sum(_substantive_lines(text).values())
+                                       >= sum(_substantive_lines(floor_text).values())):
+                ftmp = os.path.join(SNAPSHOT_DIR,
+                                    "%s.floor.%d.%d.tmp" % (flat, os.getpid(),
+                                                             threading.get_ident()))
+                os.makedirs(SNAPSHOT_DIR, exist_ok=True)
+                with open(ftmp, "w", encoding="utf-8") as f:
+                    f.write(text)
+                os.replace(ftmp, _floor_snapshot_path(n))
+        except Exception:
+            silence.note("ledger_guard.py:floor-snapshot")
+            try:
+                os.unlink(ftmp)
+            except (OSError, NameError):
+                # Never written (NameError if the failure was before `ftmp` was even built), or
+                # already renamed away. Nothing to clean and nothing to say.
+                pass
     return rec
 
 
@@ -369,6 +458,23 @@ def _read_snapshot(name):
         return None
 
 
+def _floor_snapshot_path(name):
+    """Where the RATCHETED high-water-mark copy of `name` lives -- distinct from `_snapshot_path`.
+
+    Order 284db4af1db6. Same directory, same flattening, `.floor` on the end so the two never
+    collide and a directory listing shows the pair for each guarded name together.
+    """
+    return _snapshot_path(name) + ".floor"
+
+
+def _read_floor_snapshot(name):
+    try:
+        with open(_floor_snapshot_path(name), encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        return None
+
+
 def _lost_fraction(old, new):
     """How much of `old`'s substance is missing from `new`. -> float in [0, 1].
 
@@ -398,17 +504,26 @@ def _lost_fraction(old, new):
 
     Netted by `drill.py`'s `ledger_loss_counts_duplicate_lines`.
     """
-    from collections import Counter
-
-    def body(t):
-        return Counter(ln.strip() for ln in (t or "").splitlines()
-                       if ln.strip() and set(ln.strip()) - set("-=*_# "))
-    was = body(old)
+    was = _substantive_lines(old)
     if not was:
         return 0.0
     # `Counter - Counter` keeps only POSITIVE differences, which is exactly "how many copies of
     # this line did `old` have that `new` does not".
-    return sum((was - body(new)).values()) / sum(was.values())
+    return sum((was - _substantive_lines(new)).values()) / sum(was.values())
+
+
+def _substantive_lines(text):
+    """-> a Counter of `text`'s lines that carry history (not blank, not rule-only).
+
+    FACTORED OUT OF `_lost_fraction` (order 284db4af1db6) so `seal()`'s floor-ratchet below can
+    ask "how much substance does this text hold" with the exact same definition `_lost_fraction`
+    uses to ask "how much of it is gone" -- two numbers computed by two different expressions of
+    the same rule are two things that can drift apart silently. The body of this function is
+    unchanged from what `_lost_fraction` used to compute inline.
+    """
+    from collections import Counter
+    return Counter(ln.strip() for ln in (text or "").splitlines()
+                   if ln.strip() and set(ln.strip()) - set("-=*_# "))
 
 
 def check_since_snapshot(name):
@@ -455,6 +570,55 @@ def check_since_snapshot(name):
                    "not an edit. The sealed copy is %s; compare it before writing anything else, "
                    "because the live file is no longer the history."
                    % (name, lost * 100, os.path.join(SNAPSHOT_DIR, name)))
+
+
+def check_since_floor(name):
+    """-> (ok, reason). Has this ledger lost more than MAX_LOST_FRACTION since its HIGHEST-EVER
+    recorded state -- not just since the last seal?
+
+    THE COMPOUNDING HOLE `check_since_snapshot` CANNOT SEE (order 284db4af1db6,
+    LEDGER_GUARD_SNAPSHOT_REBASELINE_COMPOUNDS_LOSS). `seal()` overwrites `_snapshot_path(name)`
+    with the ledger's current content on every successful push, so `check_since_snapshot` only
+    ever compares against the MOST RECENT seal. A sequence of pushes that each lose ~4% of a
+    ledger -- each individually indistinguishable from the legitimate typo-fix/re-wrap case
+    `MAX_LOST_FRACTION` exists to protect -- passes every single one of those checks, because the
+    baseline it is measured against silently re-sets to the just-reduced content each time. Ten
+    such pushes lose more than a third of the file's substance while every check along the way
+    reported "ok, edited rather than truncated". Nothing else in this module catches it either:
+    `verify_chain()`'s SHRANK test only ever compares a link against its immediate predecessor,
+    the same one-step blindness in a different mechanism.
+
+    This asks the question the other check cannot: is `name` still within `MAX_LOST_FRACTION` of
+    the MOST SUBSTANTIAL version of itself this project has ever sealed? `seal()` maintains that
+    peak separately (`_floor_snapshot_path`), ratcheted forward only -- never rewritten to hold
+    less than it already does -- so a run of small, individually-tolerated losses cannot lower
+    the bar they are being measured against. This is a SEPARATE failure mode from
+    `check_since_snapshot`'s (compounding-over-many-pushes vs. a single push), so the two are
+    independent per Hard Rule -1 rather than one check wearing two names.
+
+    STILL NOT A TAMPER DETECTOR, same as its sibling: a fractional floor cannot tell an
+    accidental typo-fix in old text from a deliberate small falsification of it (that is order
+    27f823fd6ed5's still-open, narrower question, about a SINGLE check's ambiguity, and this
+    function does not resolve it). What this closes is that the ambiguous 5% margin was
+    previously spendable an UNLIMITED number of times against a baseline that kept resetting
+    under it; now it is spendable once against the historical peak before this layer refuses.
+    """
+    floor = _read_floor_snapshot(name)
+    if floor is None:
+        return True, "no floor snapshot of %s yet -- this run makes the first one" % name
+    new = _read(name)
+    if new is None:
+        return False, ("%s existed at the last seal and is GONE now -- the relay's history was "
+                       "deleted, not edited" % name)
+    lost = _lost_fraction(floor, new)
+    if lost <= MAX_LOST_FRACTION:
+        return True, ("%s is within %.0f%% of its all-time recorded peak (%.1f%% lost)"
+                      % (name, MAX_LOST_FRACTION * 100, lost * 100))
+    return False, ("%s has LOST %.0f%% of its lines against its all-time recorded peak, not just "
+                   "the last seal -- individually-tolerated losses across multiple pushes have "
+                   "compounded past the %.0f%% truncation floor. The floor copy is %s; compare it "
+                   "before writing anything else."
+                   % (name, lost * 100, MAX_LOST_FRACTION * 100, _floor_snapshot_path(name)))
 
 
 def read_chain():
@@ -707,6 +871,15 @@ def assert_intact():
         ok, why = check_since_snapshot(name)
         if not ok:
             raise LedgerViolation(why)
+        # SEPARATE FAILURE MODE, SAME LOOP (order 284db4af1db6). `check_since_snapshot` above
+        # only ever compares against the seal this run is ABOUT to replace -- it cannot see loss
+        # that compounded across several earlier pushes, each individually under the tolerance.
+        # `check_since_floor` compares against the never-lowered all-time peak instead. Both run
+        # before `seal()` below moves either baseline forward, for the same reason: a check must
+        # see the state as it stood BEFORE this run's own seal, not after.
+        ok, why = check_since_floor(name)
+        if not ok:
+            raise LedgerViolation(why)
     # `seal()` returns None on any write failure (disk full, permissions, the state/ directory
     # gone) with no exception raised. A bare call here used to discard that -- `verify_chain`
     # would keep passing on every later run, because the existing links still verify against
@@ -721,24 +894,31 @@ def assert_intact():
 
 
 def main():
-    """The CLI. RUNS ALL THREE MECHANISMS, because it says all three passed.
+    """The CLI. RUNS EVERY MECHANISM `assert_intact()` runs, because it says they all passed.
 
     ORDER 418e83501f0f. This called `check_all()` and, on an empty result, printed "ledgers: all
     intact" and returned 0 -- having run ONE of the three mechanisms this module's docstring
-    enumerates. It never called `verify_chain()` and never called `check_since_snapshot()`, and
-    the second of those was added on 2026-08-27 specifically because `check_all()`'s byte floor
-    and `verify_chain()`'s SHRANK test are BOTH size tests and a truncate-then-append preserves
-    size. So a broken hash chain, or a HANDOFF.md truncated to its header and regrown, printed
-    "all intact" and exited 0 out of the module whose entire subject is that failure.
-    `assert_intact()` does run all three, but it is reached only from `publish.push()`; the CLI
-    is the surface a person uses to ASK, and it was the one answering from the least evidence.
+    enumerated at the time. It never called `verify_chain()` and never called
+    `check_since_snapshot()`, and the second of those was added on 2026-08-27 specifically
+    because `check_all()`'s byte floor and `verify_chain()`'s SHRANK test are BOTH size tests and
+    a truncate-then-append preserves size. So a broken hash chain, or a HANDOFF.md truncated to
+    its header and regrown, printed "all intact" and exited 0 out of the module whose entire
+    subject is that failure. `assert_intact()` runs all of them, but it is reached only from
+    `publish.push()`; the CLI is the surface a person uses to ASK, and it was the one answering
+    from the least evidence.
+
+    A FOURTH JOINED 2026-09-08 (order 284db4af1db6): `check_since_floor()`, alongside
+    `check_since_snapshot()`, catches loss that compounds across many separately-tolerated
+    pushes rather than any single one. Same discipline applies -- the CLI must run whatever
+    `assert_intact()` runs, or this surface goes back to answering from less evidence than the
+    gate that actually blocks a push.
 
     Deliberately does NOT seal. `assert_intact()` seals because it is the gate on a write that is
     about to happen; a question asked from the command line must not change the state it is
     asking about, or every `--check` would move the baseline the next one compares against.
 
     Each mechanism reports separately, pass or fail. A single "all intact" line is what let the
-    gap hide: three verdicts collapsed into one sentence cannot be audited against the code.
+    gap hide: verdicts collapsed into one sentence cannot be audited against the code.
     """
     import argparse
     ap = argparse.ArgumentParser(description="check the relay's ledgers")
@@ -796,13 +976,30 @@ def main():
     if seal_failed:
         failures += 1
 
+    # THE FOURTH MECHANISM (order 284db4af1db6). SAME SHAPE AS THE LOOP ABOVE, on purpose --
+    # "one mechanism, whatever its length" applies here exactly as it does to SINCE LAST SEAL,
+    # and the closing line below is updated from "three" to "four" in the same edit so this
+    # module does not reproduce the miscounted-mechanisms bug its own comment two loops up
+    # (order b1623ff4a677) already spent a paragraph explaining.
+    floor_failed = []
+    for name in APPEND_ONLY:
+        ok, why = check_since_floor(name)
+        if ok:
+            print("SINCE PEAK       : ok  %s -- %s" % (name, why))
+        else:
+            floor_failed.append(name)
+            print("SINCE PEAK       : FAILED  %s -- %s" % (name, why))
+    if floor_failed:
+        failures += 1
+
     if not failures:
         print("\nledgers: all intact")
     else:
-        # Names the ledgers behind the one mechanism, so folding the loop into a single verdict
-        # loses no detail: the count is now of mechanisms and the sentence says mechanisms.
+        # Names the ledgers behind each looped mechanism, so folding either loop into a single
+        # verdict loses no detail: the count is of mechanisms and the sentence says mechanisms.
         detail = ("  (since-last-seal: %s)" % ", ".join(seal_failed)) if seal_failed else ""
-        print("\nledgers: %d of the three mechanisms reported a fault%s" % (failures, detail))
+        detail += ("  (since-peak: %s)" % ", ".join(floor_failed)) if floor_failed else ""
+        print("\nledgers: %d of the four mechanisms reported a fault%s" % (failures, detail))
     return 1 if failures else 0
 
 

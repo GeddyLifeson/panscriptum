@@ -47,6 +47,13 @@ import silence                                                           # noqa:
 # Each genre: the vocabulary that identifies it, the naming register it implies, and the priors an
 # unattested world axis should draw from. Weights let a strong signal ("xenomorph") outrank a weak
 # one ("ship").
+# THE `priors` FIELD IS REPORTED UNREAD, NOT DELETED (owner ruling 2026-09-08, question 1,
+# "Mark and keep: one line each, delete nothing", order 40e98eed6870). Nothing outside this
+# module reads `priors` -- grep -rn "priors" src/ -- so the wider era/condition vocabulary it
+# carries ("condition": "settled", "tech": "primitive") reaches no consumer, and worldseed's
+# TECH/CONDITION tables cannot produce either value on any path. The vocabulary is kept on both
+# sides so a future matcher does not have to reinvent it; the mismatch is marked here and at
+# worldseed.py's `size` table rather than silently tidied away on one side.
 GENRES = {
     "mythology": dict(
         register="classical", cues={

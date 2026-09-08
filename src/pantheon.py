@@ -278,6 +278,28 @@ def main():
                         # crashes on the marker is a worse answer than the silence it replaced.
                         if k.startswith("_"):
                             if k == "_incomplete" and v:
+                                # AND IT COUNTS TOWARD merge_failed, so the rc and the console
+                                # agree (order 9fcbe25a473b, owner ruling 13 of 2026-09-08:
+                                # "abstain where the instrument is down; raise where the fact is
+                                # real" -- a named entity provably absent from the ranking is a
+                                # real fact, not an instrument that could not measure).
+                                #
+                                # This branch used to print and `continue`, with no append and
+                                # no `silence.note`, so the closing `return 1 if merge_failed
+                                # else ...` was blind to it: a run that is verifiably missing a
+                                # named fighter returned a clean rc=0 with no ledger trace and
+                                # one console line nobody scheduled is reading. The branch four
+                                # lines below -- the TOTAL merge failure -- was repaired under
+                                # order a8eb06d38216 on the stated principle that "a run that
+                                # printed a ranking holding six of twenty-one entities is not a
+                                # successful run, and rc=0 is how a scheduler records it as
+                                # one". That principle does not stop applying because the loss
+                                # is one entity instead of fifteen; this was an unfinished
+                                # repair, not a deliberate distinction.
+                                merge_failed.append(
+                                    "%s carried in without %s (partial roster)"
+                                    % (path, ", ".join(map(str, v))))
+                                silence.note("pantheon.py:merge-incomplete")
                                 print("  NOTE: %s is missing %s -- the ranking below is "
                                       "incomplete." % (path, ", ".join(map(str, v))))
                             continue
@@ -395,8 +417,13 @@ def main():
     # scheduler records it as one. Restated on the way out so it cannot be missed above the
     # table, for the same reason the write verdict is.
     if merge_failed:
-        print("INCOMPLETE ROSTER: %d merge(s) failed -- %s. Everything printed above is the "
-              "hand-built gods alone." % (len(merge_failed), "; ".join(merge_failed)))
+        # THE SENTENCE NAMES WHICH LOSS IT IS (order 9fcbe25a473b). Two shapes reach this list
+        # now -- a merge that could not be read at all, which leaves the hand-built gods alone,
+        # and a roster that came in short a named entity -- and the old wording asserted the
+        # first for both, which would have been a false statement about the table above it.
+        print("INCOMPLETE ROSTER: %d merge fault(s) -- %s. The ranking above is short of at "
+              "least one entity that belongs in it."
+              % (len(merge_failed), "; ".join(merge_failed)))
         return 1
     return 0 if write_ok else 1
 

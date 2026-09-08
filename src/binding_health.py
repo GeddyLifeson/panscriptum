@@ -41,6 +41,7 @@ import json
 import os
 import re
 import sys
+import threading
 import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -522,6 +523,45 @@ def _fetch_chars(host, title):
     return len(text.strip()), None
 
 
+def _spread(seq, want):
+    """`want` items taken EVENLY ACROSS `seq`, not off its front. Order is preserved.
+
+    THE BOUND IS NOT THE PROBLEM; TAKING THE ALPHABETICAL HEAD IS (order 14a73de63099; owner
+    ruling 2026-09-08, "Wrong wikis, wrong titles, unmined entities" -- *binding_health reports
+    "8 of N" and spreads its candidate pick instead of taking the alphabetical front*).
+
+    `known_present_titles` walks the catalogue in file order and then entry order, so a bound of
+    eight took the eight alphabetically-first entries of the first bound source: eight artificer
+    FEATURES out of eberron's 212-entry catalogue, eight real-world ADMIRALS out of warthunder's.
+    A wiki that files features under a different scheme, or that has no page for any of the first
+    eight names, is then convicted on a sample that was never representative of anything but the
+    alphabet -- and a quarantine stops mining, so a false one is not cosmetic. A spread of the
+    same size costs exactly the same eight requests and asks a question about the catalogue
+    instead of about its first page.
+
+    NOT A CAP THAT HIDES ITS REMAINDER: every caller of this reports the total alongside, which
+    is the other half of the same order.
+    """
+    seq = list(seq or [])
+    n = len(seq)
+    if want <= 0 or n == 0:
+        return []
+    if n <= want:
+        return seq
+    if want == 1:
+        return [seq[0]]
+    # First and last inclusive, evenly stepped between. Distinct by construction while n > want.
+    picked, out = set(), []
+    for i in range(want):
+        # `+ 0.5` rather than `round`, which is banker's rounding in Python 3 and turns an
+        # even step into an uneven one at every half.
+        j = int(i * (n - 1) / float(want - 1) + 0.5)
+        if j not in picked:
+            picked.add(j)
+            out.append(seq[j])
+    return out
+
+
 def _candidate_titles(title):
     """One title or many -> the bounded list this probe will actually attempt.
 
@@ -531,11 +571,15 @@ def _candidate_titles(title):
     `PRESENT_CANDIDATES` bound, which lived only in the prober. `known_present_titles` already
     returns a list; a bare string is still accepted because `known_present_title` (singular) and
     the drill's stand-ins both hand one over.
+
+    SPREAD, NOT FRONT-CUT (order 14a73de63099). This was `[:PRESENT_CANDIDATES]`, which took the
+    alphabetical head of whatever it was handed. See `_spread`.
     """
-    return ([title] if isinstance(title, str) else list(title or []))[:PRESENT_CANDIDATES]
+    return _spread([title] if isinstance(title, str) else list(title or []),
+                   PRESENT_CANDIDATES)
 
 
-def _probe_present(host, title):
+def _probe_present(host, title, available=None):
     """Does this host still resolve a title we know it holds? -> (ok, detail).
 
     NO `timeout` PARAMETER. This declared `timeout=25`, passed it to nothing, and thereby
@@ -566,8 +610,30 @@ def _probe_present(host, title):
     The failure branch IS bounded, at `PRESENT_CANDIDATES`, and that bound is reported in the
     detail rather than left implicit: a host is called dead only after that many known titles
     all came back empty, and the reader can see how many were asked.
+
+    AND NOW AGAINST HOW MANY THERE WERE -- "8 of N" (order 14a73de63099; owner ruling
+    2026-09-08). The bound above is defensible as a probe budget and is kept; what was NOT
+    defensible is that the number a person uses to judge a possible FALSE QUARANTINE was printed
+    with no denominator. "8 of 8 catalogued titles missed" and "8 of 4,000 missed" are very
+    different verdicts about a host, and the detail said only "8". `available` is the count of
+    candidate titles that existed to choose from -- a free by-product of the same catalogue scan,
+    no extra request -- and it is passed in rather than recomputed so the report and the probe
+    cannot disagree about it.
+
+    AN UNPASSED `available` IS NAMED AS UNMEASURED, NOT SUBSTITUTED WITH `len(candidates)`
+    (owner ruling 2026-09-08, "Answering unknown with a plausible value"). Filling the
+    denominator in from the numerator would print "8 of 8" for every host in the estate, which
+    is a plausible-looking value for a thing nobody counted, and it is the exact reading the
+    order says a person must not be handed.
     """
     candidates = _candidate_titles(title)
+    if available is None:
+        _of = "of an uncounted catalogue"
+    elif available > len(candidates):
+        _of = ("of %d catalogued, spread across the catalogue rather than taken from "
+               "its front" % available)
+    else:
+        _of = "of %d catalogued -- the whole catalogue for this host" % available
     tried, errors = [], []
     for t in candidates:
         n, err = _fetch_chars(host, t)
@@ -596,8 +662,8 @@ def _probe_present(host, title):
         # total this call planned to attempt (bounded at PRESENT_CANDIDATES), which is the
         # number the docstring above actually promises: "the reader can see how many were
         # asked." (order f282ba72f742)
-        return True, "%d chars from %r (candidate %d of %d tried)" % (
-            n, t, len(tried), len(candidates))
+        return True, "%d chars from %r (candidate %d of %d tried, %s)" % (
+            n, t, len(tried), len(candidates), _of)
     if not tried:
         return False, "no catalogued title to probe with"
     if errors and len(errors) == len(tried):
@@ -613,8 +679,9 @@ def _probe_present(host, title):
     # reader can see how many were asked"; the list is what makes that actionable. The list
     # cannot run away: `_candidate_titles` bounds it at PRESENT_CANDIDATES before the probe
     # starts. (order d6ca84486153)
-    return False, ("%d known-present title(s) all returned nothing or too little to be a page "
-                   "(tried: %s)" % (len(tried), ", ".join(repr(t) for t in tried)))
+    return False, ("%d known-present title(s) %s all returned nothing or too little to be a "
+                   "page (tried: %s)"
+                   % (len(tried), _of, ", ".join(repr(t) for t in tried)))
 
 
 # The exact wording `feats.page_looks_real` refuses a BLOCK PAGE with, matched as a substring
@@ -899,8 +966,14 @@ def verdict(ok_present, ok_absent, ok_reachable, det_p="", det_a="", det_r=""):
     return False, "host unreachable: %s (present probe: %s)" % (det_r, det_p)
 
 
-def canary(host, present_title, sources=None):
+def canary(host, present_title, sources=None, available=None):
     """All three probes for one host, plus its identity when the titles failed. -> record.
+
+    `available` is the count of candidate titles that EXISTED to choose from, from
+    `known_present_titles`' out-channel. It is threaded through rather than recomputed so the
+    stored row, the console line and the probe's own detail cannot disagree about the
+    denominator -- the same argument `_candidate_titles` was written for one level down. Absent,
+    `_probe_present` says so rather than substituting the numerator (order 14a73de63099).
 
     The verdict is deliberately THREE-VALUED. `healthy` is True when the host serves what we
     know it holds and correctly refuses what nobody holds; False when the host itself is at
@@ -909,7 +982,7 @@ def canary(host, present_title, sources=None):
     host. `run()` quarantines only on False, because a quarantine stops mining and mining a live
     wiki is still correct even when this particular probe could not find a page.
     """
-    ok_p, det_p = _probe_present(host, present_title)
+    ok_p, det_p = _probe_present(host, present_title, available=available)
     ok_a, det_a = _probe_absent(host)
     ok_r, det_r = (True, "not probed -- the known-present title resolved") if ok_p \
         else _probe_reachable(host)
@@ -921,7 +994,11 @@ def canary(host, present_title, sources=None):
            # PRESENT_CANDIDATES of them. Nothing read it as a string yet, which is exactly the
            # window in which to fix it: stored data whose name lies about its type is how a
            # future consumer inherits a bug nothing announces. (order cdcb11e3d7fa)
+           # `available` IS STORED BESIDE THE TITLES, so the "8 of N" a reader saw on the
+           # console survives into the report that outlives the run (order 14a73de63099). `None`
+           # means nobody counted -- never zero, which would read as a host with no catalogue.
            "present": {"titles": _candidate_titles(present_title),
+                       "available": available,
                        "ok": ok_p, "detail": det_p},
            "absent": {"title": ABSENT_PROBE, "ok": ok_a, "detail": det_a},
            "reachable": {"ok": ok_r, "detail": det_r},
@@ -953,39 +1030,108 @@ def _title_variants(name):
     return out
 
 
-def known_present_titles(host, hosts_map=None, records_dir=None, want=None):
-    """Ordered candidate titles this host is believed to hold. See `_probe_present` for why a
-    single title is not enough to convict a host."""
+# WHICH RECORD FILE HOLDS WHICH SOURCE, so a candidate scan opens the two files it needs rather
+# than the 216 it does not (order 14a73de63099, added while removing that function's early exit).
+#
+# `known_present_titles` used to `json.load` every record file in alphabetical order until it had
+# eight titles, which on a 296 MB corpus means it parsed roughly half of it PER HOST, and `run()`
+# asks about ~134 hosts. Dropping the early exit -- which the "8 of N" half of the order requires,
+# since a count of what was available cannot be taken from a walk that stopped early -- would have
+# made that the whole corpus every time. So the walk is now indexed: one pass reads each file's
+# `source` field, and every later question opens only the files bound to the host it asks about.
+#
+# INVALIDATED BY THE FILES THEMSELVES, not by a timer. The signature is every path with its mtime
+# and size, so a re-catalogued record rebuilds the index and a stale one cannot be served. Two
+# writers of `data/records/` is the normal situation here.
+_RECINDEX = {}
+_RECINDEX_LOCK = threading.Lock()
+
+
+def _records_by_source(records_dir):
+    """{source: [path, ...]} for every readable record file under `records_dir`."""
     import glob
+    paths = sorted(glob.glob(os.path.join(records_dir, "*.json")))
+    sig = []
+    for q in paths:
+        try:
+            st = os.stat(q)
+            sig.append((q, st.st_mtime, st.st_size))
+        except OSError:
+            silence.note("binding_health.py:candidate-record-stat")
+    sig = tuple(sig)
+    with _RECINDEX_LOCK:
+        hit = _RECINDEX.get(records_dir)
+        if hit and hit[0] == sig:
+            return hit[1]
+    idx = {}
+    for q, _m, _s in sig:
+        try:
+            with open(q, encoding="utf-8") as f:
+                rec = json.load(f)
+        except Exception:
+            # RECORDED, NOT MERELY SKIPPED. A record this cannot read is one fewer candidate
+            # title, and a host with no candidates left is called dead for a fault that is
+            # entirely on this side of the network -- the false-quarantine failure
+            # `_probe_present` documents, arriving through the file reader instead of the probe.
+            silence.note("binding_health.py:candidate-record")
+            continue
+        src = rec.get("source")
+        if src:
+            idx.setdefault(src, []).append(q)
+    with _RECINDEX_LOCK:
+        _RECINDEX[records_dir] = (sig, idx)
+    return idx
+
+
+def known_present_titles(host, hosts_map=None, records_dir=None, want=None, available=None):
+    """Ordered candidate titles this host is believed to hold. See `_probe_present` for why a
+    single title is not enough to convict a host.
+
+    SPREAD ACROSS THE CATALOGUE, AND THE CATALOGUE IS COUNTED (order 14a73de63099; owner ruling
+    2026-09-08). This returned as soon as it had `want` titles, so what came back was the
+    alphabetical head of the first bound source's entry list -- eight artificer features against
+    eberron's 212-entry catalogue, eight real-world admirals against warthunder's -- and it could
+    say nothing at all about how many candidates existed beyond that point. Both halves are the
+    same defect: a bound is legitimate, an UNMARKED bound on the number a person uses to judge a
+    possible false quarantine is not.
+
+    The whole candidate list is now built and then `_spread` over, which costs no extra request
+    (this is local disk, and `_records_by_source` keeps it from costing extra reads either) and
+    changes the eight that are tried from a sample of the alphabet into a sample of the
+    catalogue.
+
+    `available` is the out-channel, in the same idiom as `feats.api`'s `outcome`: pass a dict and
+    it is stamped with `total` (candidates that existed) and `returned` (candidates handed back).
+    `_probe_present` refuses to invent that denominator when nobody passes one -- see its own
+    docstring -- so the channel being optional never turns into a made-up number.
+    """
     want = PRESENT_CANDIDATES if want is None else want
+    if available is not None:
+        available.clear()
+        available.update({"total": 0, "returned": 0})
     hosts_map = hosts_map if hosts_map is not None else _load(
         os.path.join(HERE, "data", "WIKI_HOSTS.json"), {})
     sources = [s for s, h in (hosts_map or {}).items() if h == host]
     if not sources:
         return []
-    want_src = set(sources)
-    out, seen = [], set()
-    for p in sorted(glob.glob(os.path.join(records_dir or os.path.join(HERE, "data", "records"),
-                                           "*.json"))):
-        try:
-            with open(p, encoding="utf-8") as f:
-                rec = json.load(f)
-        except Exception:
-            # RECORDED, NOT MERELY SKIPPED. A record this cannot read is one fewer candidate
-            # title, and a host with no candidates left is called dead for a fault that is
-            # entirely on this side of the network -- the false-quarantine failure `_probe_present`
-            # documents, arriving through the file reader instead of the probe.
-            silence.note("binding_health.py:candidate-record")
-            continue
-        if rec.get("source") not in want_src:
-            continue
-        for e in (rec.get("entries") or []):
-            for t in _title_variants((e or {}).get("name")):
-                if len(t) > 3 and t not in seen:
-                    seen.add(t)
-                    out.append(t)
-                    if len(out) >= want:
-                        return out
+    idx = _records_by_source(records_dir or os.path.join(HERE, "data", "records"))
+    every, seen = [], set()
+    for src in sorted(sources):
+        for q in idx.get(src, []):
+            try:
+                with open(q, encoding="utf-8") as f:
+                    rec = json.load(f)
+            except Exception:
+                silence.note("binding_health.py:candidate-record")
+                continue
+            for e in (rec.get("entries") or []):
+                for t in _title_variants((e or {}).get("name")):
+                    if len(t) > 3 and t not in seen:
+                        seen.add(t)
+                        every.append(t)
+    out = _spread(every, want)
+    if available is not None:
+        available.update({"total": len(every), "returned": len(out)})
     return out
 
 
@@ -1070,7 +1216,8 @@ def run(limit=None, only=None):
         hosts = hosts[:limit]
     out, failed = [], 0
     for h in hosts:
-        title = known_present_titles(h, hosts_map)
+        _avail = {}
+        title = known_present_titles(h, hosts_map, available=_avail)
         if not title:
             # THE STANDING QUARANTINE IS NAMED HERE, because this `continue` jumps past the whole
             # quarantine/release cascade below and nothing else in the report ever mentions it.
@@ -1110,7 +1257,7 @@ def run(limit=None, only=None):
                         "reason": "no catalogued entry to probe with" + held_note})
             continue
         try:
-            rec = canary(h, title, sources=bound_to.get(h))
+            rec = canary(h, title, sources=bound_to.get(h), available=_avail.get("total"))
         except Exception as e:
             # ERROR-RESILIENT BY CONSTRUCTION (maigret's self-check does the same): one host
             # raising must not cost the other 199 their check.
@@ -1119,7 +1266,31 @@ def run(limit=None, only=None):
         out.append(rec)
         if rec.get("healthy") is False:
             failed += 1
-            quarantine(h, rec.get("reason") or "canary failed")
+            # THE WRITE'S VERDICT IS CAPTURED, NOT DISCARDED (order 61c763a60779; owner ruling
+            # 2026-09-08, "Which faults sound, and on which rung" -- *capture the quarantine and
+            # unfit write verdicts into the stored rows*). This was a bare statement, so the
+            # `landed` key `quarantine()` sets at :392 to say whether HOST_QUARANTINE.json
+            # actually took the write went on the floor. Both sibling branches immediately below
+            # already capture `release()`'s verdict into `rec['released']`, and
+            # `_report_not_released`'s docstring is an argument about exactly why a discarded
+            # write verdict here is intolerable -- the same fault pointing the other way.
+            #
+            # Two things were wrong and both are fixed here: the stored row for a FAILED host
+            # carried no `quarantined` field at all (while the no-title branch above carries
+            # one), so a reader could not tell a host that was HELD from one whose hold was
+            # REFUSED; and `main()`'s summary counted hosts whose canary said False rather than
+            # hosts actually quarantined. This is not a lost alarm -- `quarantine()` raises
+            # HOST_QUARANTINE_NOT_RECORDED itself -- it is a report and a console line asserting
+            # an action that may not have happened.
+            #
+            # THE KEY CARRIES TWO MEANINGS IN THIS REPORT AND THE PAIRING IS WHAT SEPARATES
+            # THEM. On a row whose `healthy` is None because the host had no catalogued title,
+            # `quarantined` is a DISPLAY of whether a hold is already standing (and may be None
+            # for "the file would not open"). Here, on a row whose `healthy` is False, it is
+            # THIS pass's write verdict. Anything counting holds taken by a pass must ask for
+            # both -- `healthy is False and quarantined is True` -- which is what `main()` does.
+            rec["quarantined"] = bool((quarantine(h, rec.get("reason") or "canary failed")
+                                       or {}).get("landed"))
         elif rec.get("healthy") is True and is_quarantined(h):
             # THE VERDICT IS CAPTURED, not dropped. `release()` returns "NOT RELEASED: ..." when
             # the swap never landed, and this was a bare statement, so a host that stayed
@@ -1273,13 +1444,28 @@ def main():
                          "the first question to ask when a live host fails its canary")
     a = ap.parse_args()
     if a.titles:
-        cands = known_present_titles(a.titles)
+        # "8 OF N", HERE MOST OF ALL (order 14a73de63099). `--titles`' own help text calls this
+        # the first question to ask when a live host fails its canary, and the person asking it
+        # is deciding whether a quarantine is FALSE. Eight misses out of eight catalogued titles
+        # and eight out of four thousand are different verdicts about a host, and this printed
+        # the same eight rows for both.
+        avail = {}
+        cands = known_present_titles(a.titles, available=avail)
         print("primary : %r" % (known_present_title(a.titles),))
         if not cands:
             print("no catalogued entry to probe with -- this host cannot be canaried")
             return 1
+        total = avail.get("total", 0)
+        print("candidates: %d of %d catalogued title(s) for this host, SPREAD across the "
+              "catalogue rather than taken from its alphabetical front (bound: "
+              "PRESENT_CANDIDATES=%d)" % (len(cands), total, PRESENT_CANDIDATES))
         for i, t in enumerate(cands, 1):
             print("  %2d. %r" % (i, t))
+        if total > len(cands):
+            print("  ... and %d more catalogued title(s) not probed -- the bound is a probe "
+                  "budget (one network call per candidate against a host we are already "
+                  "rate-limited by), not a claim that the rest do not exist"
+                  % (total - len(cands)))
         return 0
     if a.quarantined:
         try:
@@ -1307,7 +1493,22 @@ def main():
             # reason follows it and is ragged anyway -- so the `[:34]` is removed outright
             # rather than marked. The pad stays, so ordinary rows still line up.
             print("  %s %-34s %s" % (state, r.get("host", "?"), _preview(r.get("reason"), 60)))
-        print("\n%d host(s) checked, %d failed and quarantined" % (len(out), failed))
+        # THE CONSOLE CANNOT CLAIM A QUARANTINE THE FILE DOES NOT HOLD (order 61c763a60779;
+        # owner ruling 2026-09-08). This read "%d failed and quarantined" off `failed`, which
+        # counts hosts whose CANARY said False -- not hosts actually held. A refused rename
+        # leaves the host unquarantined and still being mined, and this line asserted otherwise.
+        # The count now comes from the write verdict stored on the row (see `run()`), and the
+        # two numbers are printed separately when they disagree, because a hold that did not
+        # land is the actionable finding rather than a rounding error.
+        _held = sum(1 for r in out
+                    if r.get("healthy") is False and r.get("quarantined") is True)
+        if _held == failed:
+            print("\n%d host(s) checked, %d failed and quarantined" % (len(out), failed))
+        else:
+            print("\n%d host(s) checked, %d failed, of which %d were actually quarantined -- "
+                  "%d hold(s) did NOT land (the rename was refused), so those hosts are still "
+                  "being mined and HOST_QUARANTINE_NOT_RECORDED was raised for each"
+                  % (len(out), failed, _held, failed - _held))
         return 1 if failed else 0
     ap.print_help()
     return 0

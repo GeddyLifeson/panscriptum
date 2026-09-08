@@ -38,6 +38,7 @@ def main():
     demoted_sources = []
     kept_entries = []
     cleared_notes = 0
+    preserved_notes = 0
     touched = []
     denied = []
 
@@ -70,10 +71,35 @@ def main():
                         e["magnitude"] = "unassayed"
                         changed = True
             # A note that no longer evidences scale should not sit in the record claiming to.
+            #
+            # BUT IT IS PRESERVED, NOT DESTROYED. OWNER RULING 2026-09-08, ruling 21 ("Evidence
+            # cut before it was stored"), option (a): re-review the waiver, PRESERVE THE REST,
+            # mark the remaining cuts. Closes order 4398d76f822f.
+            #
+            # This line used to be `e["scale_note"] = ""` and nothing else, so a note the
+            # corrected gate refused left no trace anywhere. `pipeline.phase_entrypass` handles
+            # the identical event the opposite way, and the comment above it records what the
+            # first version of THAT line cost: 51,611 entries left holding an empty string and
+            # about 46,000 candidate feats destroyed. The cost is not only the feats -- with the
+            # raw text gone the rejection rate becomes unauditable, and there is then no way to
+            # tell a gate correctly refusing biography from one that is simply too tight, which
+            # is exactly the question that matters before a Magnitude pass. `--apply` is the
+            # corpus-wide run, so this module is precisely where that loss would be largest.
+            #
+            # THE COMPANION IS SET, NOT LEFT ABSENT, and that is load-bearing rather than
+            # tidiness: `pipeline.ENTRY_REJECTION_COMPANIONS` makes `write_record` POP a
+            # disk-side `scale_note_rejected` whenever the in-memory entry carries `scale_note`
+            # and lacks the rejection key. Clearing the note without setting the companion would
+            # therefore hand the writer an entry that reads as "the earlier rejection no longer
+            # stands" and delete a concurrent writer's preserved text. `_stored_cut` is used
+            # rather than a bare `sn[:500]` so a note longer than the bound declares its own cut
+            # and its size, field for field with pipeline's own spelling.
             if sn and not PL.valid_scale_note(sn):
                 cleared_notes += 1
                 if args.apply:
+                    e["scale_note_rejected"] = PL._stored_cut(sn, 500)
                     e["scale_note"] = ""
+                    preserved_notes += 1
                     changed = True
 
         if changed:
@@ -106,6 +132,13 @@ def main():
     print("\nSOURCE CEILINGS")
     print(f"  demoted to unassayed: {len(demoted_sources):,} of {len(recs):,}")
     print(f"\nscale notes cleared (no longer evidence): {cleared_notes:,}")
+    # HOW MUCH EVIDENCE WAS RETAINED, beside how much was refused. A run that reports only its
+    # refusals reads as a run that destroyed them, which is the reading this module earned.
+    if args.apply:
+        print(f"  ...of which preserved in scale_note_rejected  : {preserved_notes:,}")
+    else:
+        print(f"  ...would be preserved in scale_note_rejected  : {cleared_notes:,} "
+              f"(nothing is written without --apply)")
 
     # THE HEADING SAID "every one of these" OVER A SLICE OF FOURTEEN (order 89fc2eaf23f1). That
     # is Hard Rule 0's exact shape -- a smaller universe wearing the same shape as the real one,

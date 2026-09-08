@@ -17,6 +17,145 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-08 (scheduled maintenance, continued) — RUN #46b: TWENTY-TWO OWNER RULINGS EXECUTED, TWO HALTS RAISED AND LIFTED ON THE SAME DEFECT CLASS, AND THE LIBRARY WAS DOWN ALL DAY FOR THE RIGHT REASON
+
+**The queue went 182 open to 45.** Eight agents worked disjoint module sets in parallel; the
+module ownership was cut deliberately so two of them could not meet in one file, after run #46's
+first half learned what happens when they do.
+
+**THE LIBRARY WAS HALTED FROM ROUGHLY 12:35 UNTIL 18:02, AND THE CHAIN WAS RIGHT TO DO IT.**
+`overnight.py` calls `escalation.assert_clear()` before cycle 1, so with a halt standing the
+supervisor refused to start — hourly, all day. `autostart.py --watch` tried three times an hour,
+then said, every hour: *"supervisor is down and 3 start(s) in the last hour did not fix it; NOT
+starting another. This is deeper than a crash and needs a person -- respawning past this point is
+the loop, not the cure."* That is the keeper declining to turn a fault into a respawn loop, and
+the correct diagnosis was one level up: the halt, not the supervisor. `dashboard`, `pipeline` and
+`publish` were down for the same reason. Lifting the halt was the cure; the supervisor came back
+on the first attempt afterwards and is on cycle 1 as of 18:02:58.
+
+**TWO HALTS, ONE DEFECT CLASS, HOURS APART, ON TWO DIFFERENT AGENTS' CORRECT WORK.** A drill net
+proves things by replacing a real function with a stub. The stub pins a signature. When the real
+function grows a parameter, the stub does not — and the net then breaches **on the fix**, which is
+worse than failing, because it punishes correct work and teaches whoever hits it that the net is
+noise.
+
+  * **Halt #2** — owner ruling 15 made `--by` mandatory on `escalation.clear()`; six drill nets in
+    the halt-lifting area still called it unsigned. Independently, `binding_health.canary` gained
+    an `available=` keyword while drill's stub stayed pinned. Seven nets down at once.
+  * **Halt #3** — `cachekey.load` is `load(base, host, name, on_corrupt=None)`. Order
+    `2ce520242de8` correctly gave `prose_gate.cited_names_for` the `on_corrupt=` trace five other
+    call sites already had. The net's stand-in took three positional arguments. **And the failure
+    arrived in disguise:** `cited_names_for` deliberately swallows loader exceptions into "not
+    cited" — the net relies on that — so the `TypeError` surfaced not as a signature error but as
+    an always-empty cited set, which is AUDIT DEFEAT 5 restored verbatim. The net could not tell
+    its own broken fixture from the defect it hunts.
+
+Both were found by a net firing rather than by anyone asking. So the class was closed rather than
+the instances: **every stand-in in `drill.py` was measured — 94 sites, 0 unresolvable, 0 arity
+mismatches** — and the scan is now `verify_math` **§20ae**, run every battery, with two controls
+(a planted three-argument stub against `cachekey.load` must be caught; the same stub with `**kw`
+must read clean, so the row cannot push anyone toward narrowing the real function instead).
+
+Three things that scan taught, all recorded in the check itself. **Compare arity, not names** —
+comparing parameter names reports twelve hits and eleven are noise, because a stub calling its
+first argument `r` where the real function calls it `rec` accepts the identical positional call.
+**Resolve aliases to the nearest preceding import** — `drill.py` binds `SC` to `scope` in one
+function and to `scout` three thousand lines later, and a single alias map made twelve sites
+report as unresolvable. **And assert the unresolvable count at zero beside the fault count**,
+because an unresolvable site is a blind spot wearing the costume of a clean scan.
+
+### The defects that were live, not tidying
+
+  * **`ledger_guard.check_since_snapshot()` rebaselined, so sub-threshold losses never
+    accumulated.** Ten simulated ~4% losses passed **every single time**. A new ratchet-only floor
+    snapshot and `check_since_floor()` caught it on push 2 at 8% cumulative. Unbounded compounding
+    loss behind a guard that could not fail.
+  * **`assay.axis_score` checked the top-rung branch before the lookups**, so at M10 every refusal
+    returned the literal `9.9` — the maximum reading the scale admits. A firecracker at M10 scored
+    maximum Ruin. Measured before touching it: none of the 507 records in `ASSAYS.json` anchors at
+    M10, so no published number moves.
+  * **`pipeline.main()` exited 0 on every outcome** — crash, stall, interrupt alike — because every
+    path ended in a bare `return` and `__main__` never wrapped it in `sys.exit()`. `overnight.run()`
+    reads that returncode straight into its cycle health summary, so every crashed pipeline run has
+    been reporting "ok". Now measured across five paths.
+  * **`mutate.sandbox()` junctioned all of `data/` as one unit**, so gates running inside a mutation
+    sandbox read the live, continuously-rewritten corpus instead of a frozen snapshot — the
+    mechanism behind seven recorded baseline drifts and the one confirmed false kill at
+    `escalation.py:409`. Fixed by hardlinking top-level files, proven rather than assumed against
+    the project's own atomic writer. **This is a SECOND, independent cause** beside the ageing-into-
+    reapability one measured earlier in this run; both were real.
+  * **`hostcheck.score()` rounded an unknown baseline to a confident `0.0`**, contradicting both the
+    comment two lines above it and `null_rate()`'s own documented "None is not zero" contract.
+  * **`liveness.py` credited any `obj.attr` globally regardless of receiver**, hiding real dead code
+    behind any same-named attribute anywhere in the tree.
+  * **A Groq per-request size refusal wore three `_TRANSIENT_WORDS` markers** and was cooled and
+    retried forever, though no cooldown ever shrinks a request. The new guard trusts **arithmetic,
+    not vocabulary**: it requires the phrasing *and* a Limit/Requested pair with Requested larger.
+  * **Twelve sources bound to no wiki host built volumes silently**, with no Feats chapter and a
+    build report identical to a clean run. `manifest_builder.py` now passes the `binding=`
+    out-channel and warns on `unbound` only — the 6 `pages` and 1 `doc` sources are correct by
+    design, and warning on those would be an alarm that always sounds.
+
+### Two hosts were mining the wrong universe into the catalogue
+
+`prime.fandom.com` is bound to a MOBA and serves the **Prime Hydration drink** wiki (301, sitename
+*Prime Hydration Wiki*); of its 19 cached feats files the one carrying text is
+`Logan_Paul_Person_.json`, and Logan Paul is the drink's founder. `starrealms.fandom.com` serves
+**The Brain World Wikia**: 68 files, 56 carrying text, **52,443 characters** filed under Star
+Realms. In both cases the catalogued entry names are genuine and only the host is wrong.
+
+Both hosts are now **quarantined**, which stops further mining and does nothing about what is
+already on disk. Rebinding would not help either — the correct Prime host holds no article for any
+catalogued item, and Star Realms appears to have no fandom wiki at all — so what happens to the
+cached feats is filed for the owner (`c9666b0bd8d9`) rather than decided here. Deleting mined data
+is irreversible.
+
+### Refusals worth as much as the fixes
+
+Six orders were left open on purpose. `address.py` was fixed **without inventing a single spine
+code** — false-positive matches now become UNASSIGNED, the Hard Rule 2 -safe direction, with 0 diffs
+across all 215 roll assignments. The assay reading range was left to the owner because nothing in
+the charter is quoted in this tree as fixing `[0, 11)`, and deciding it inside the engine would be
+decreeing a charter rule; `400.0` still publishes and both gates *assert* that, so a future ruling
+arrives as a red row. A binding threshold was left alone because moving it flips three legitimately
+CONFIRMED hosts to false negatives. A `genre.py` order was left open because `genre.py:253` cites
+that order id by name and closing it would orphan the citation. `thread_integrity`'s dangling-verdict
+question was declined for the **third** shift running, with a third dated note, because nothing had
+changed its premises.
+
+### A false claim, and a probe that lied
+
+`descending_ladder.py:40` and `scale_theories.py:24` both asserted as settled fact that *"Only
+hosts.py and render.py were wired under that ruling."* Measured: `render` **is** wired
+(`publish.py:1346`); `hosts` is wired **nowhere**. Corrected in both, naming the still-open order
+and the wiring point. A comment asserting a completed action that never happened is worse than no
+comment — the next reader takes it as settled and stops looking. The same shape turned up inside
+`events.py`, where a paragraph described a third sentence-detection rule that was never written,
+and beside it a string replace in the shelf-table header test that cannot change the outcome on any
+input (proved: the shelf count is 31 either way).
+
+And one the shift owns: **`os.kill(pid, 0)` reported two live, actively-working processes as gone.**
+Both were running the whole time; `Get-CimInstance Win32_Process` listed them plus five more
+panscriptum processes the first probe missed entirely. It nearly closed order `3dc2832846bc` on the
+finding that two jobs were dead while they were advancing. Filed as `b9044b16c8e9` for a tree-wide
+audit, because it was found by being wrong rather than by looking.
+
+### Housekeeping
+
+`data/ENTITY_INDEX.json` rebuilt: staleness **234.9h → 0.0h**, 216 records current, 8,322
+cross-attested weave candidates. Its order stays **open** — it says the index is never rebuilt
+*automatically*, and running it once by hand does not make that untrue.
+
+The failure ledger was baselined before the fan-out and diffed after: **no probe litter.** The six
+classes that grew are the live `read.py` and `feats.py` daemons mining (`endpoint.py:fetch_raw-absent`
+alone took +146), and the one new class is the legitimate record of halt #3. Both gates proved this
+independently — the battery's in-process spy and the drill's ledger witness both held. One agent
+found and cleaned its own litter unprompted.
+
+**Gates at close: battery 1272 passed / 0 FAILED. Drill 457 attacked / 457 held / 0 BREACHED.**
+
+---
+
 ## 2026-09-06/07 (scheduled maintenance, daily) — RUN #46: TWELVE PROBE-LITTER SITES, A MUTATION PASS THAT DIED, AND THE WHOLE TREE SWEPT AGAIN
 
 ### FOR THE OWNER — READ THESE SIX

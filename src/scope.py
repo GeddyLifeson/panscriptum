@@ -198,6 +198,29 @@ def _stamp(rec):
 
 
 def build(hosts, force=False):
+    """Probe every host whose stored record is older than the contract, and land the result.
+
+    THE 28 INVENTED CEILINGS WERE WITHDRAWN ON 2026-09-08, WITHOUT A SINGLE REQUEST
+    (order 481ef92af785, owner ruling 10: "re-derive all of it, with a snapshot and a
+    before/after table").
+
+    The repaired `scope_for()` answers None when no tier reaches MIN_MENTIONS, and the counts
+    every stored row holds are already on disk -- so for a row whose counts do not clear the
+    floor, the value the fixed writer WOULD compute is knowable offline, exactly. It is None.
+    Twenty-eight rows held a ceiling the removed argmax-below-the-floor branch invented, worst
+    of them `tales.fandom.com` at M7 on ONE mention; every one of them was clamping published
+    Magnitudes through `magnitude.host_ceiling`. They now read `ceiling: None` and carry a
+    `rederived` sentence saying so.
+
+    THEY WERE NOT STAMPED, deliberately. No probe happened, so writing `probe_version` would
+    retire them from this function's `todo` and make a paper correction look like a measurement.
+    They are still first in line for the next real build.
+
+    THE RE-PROBE IS STILL OWED and is a live crawl on the Fandom edge -- 155 hosts, four
+    searches each at srlimit=500, then a fetch over every returned title -- which is why it was
+    not started by the run that did the withdrawal. Snapshot, before/after table and the cost
+    are in `handoff/REDERIVE_20260908_scope_wh40k.md`.
+    """
     out = {}
     if os.path.exists(OUT):
         out = json.load(open(OUT, encoding="utf-8"))
@@ -256,8 +279,16 @@ def build(hosts, force=False):
     return out, ok
 
 
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
+# (order de43fe54feb7, owner ruling 1 of 2026-09-08: mark and keep, one line each, delete
+# nothing). `ceiling_for` has ZERO callers repo-wide -- `grep -rn ceiling_for src/ docs/ *.md`
+# returns only this def line and prior audit reports, and it has been reported so in sweeps 23,
+# 26, 30, 32 and 34. The LIVE path to the same data is `magnitude.host_ceiling`
+# (magnitude.py:942), which reads SCOPE.json directly and reimplements the live-probe fallback.
+# Kept because this is the spelling that reads the file through its owning module rather than
+# reaching across into it, and because deleting a public function is a curatorial act.
 def ceiling_for(source, hosts=None, cache=None):
-    """The Magnitude ceiling a source's own scope supports, or None."""
+    """The Magnitude ceiling a source's own scope supports, or None. NO CALLERS -- see above."""
     if cache is None:
         cache = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
     if hosts is None:

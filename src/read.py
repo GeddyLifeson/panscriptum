@@ -1133,6 +1133,13 @@ def _save_qcache(d):
 # for the same reason `_chunk_key` uses it: it cannot occur in a Windows path or in an entity
 # name, so the key cannot be ambiguous about where one half ends.
 _QK = chr(31)
+# BUMPED WHEN THE MEANING OF A MEMOISED ROW CHANGES (order fc08e056e1ab). `qcache` is keyed on
+# the file's mtime and size, which detects a record the roll rewrote and cannot possibly detect a
+# change in how THIS function reads an unchanged record. Without this, every own-page score
+# computed under the raw strip/lower comparison would be served from the memo for ever and the
+# fix would not be in effect -- the same "a fix whose effect is cached away is not in effect"
+# that `feats.mined_under_superseded_gate` exists for, arriving through the ranking cache.
+_QROW_RULE = "norm_q-own-page-v2"
 
 
 def _queue_row(qcache, base, host, name):
@@ -1182,7 +1189,7 @@ def _queue_row(qcache, base, host, name):
         except OSError:
             silence.note("read.py:queue-stat")
             continue
-        key = path + _QK + name
+        key = path + _QK + name + _QK + _QROW_RULE
         memo = qcache.get(key)
         if memo and memo.get("mtime") == st.st_mtime and memo.get("size") == st.st_size:
             if memo.get("skip") == "notmine":
@@ -1204,9 +1211,39 @@ def _queue_row(qcache, base, host, name):
             return None
         # An entity's OWN page is the part of its evidence that is actually about it. The rest
         # is whatever shared index its name appeared in, and that is where the cost hides.
+        #
+        # THROUGH `_norm_q`, THE SAME COMPARISON `read_entity` MAKES (order fc08e056e1ab; owner
+        # ruling 2026-09-08, "Filters that quietly remove entities from the roll" -- *_queue_row
+        # routes through _norm_q so one rule has one implementation*).
+        #
+        # There were two different tests in this file for "is this page the entity's own page",
+        # and they disagreed. `read_entity` -- the function that actually mines the feats --
+        # compares through `_norm_q`, which folds curly quotes, en/em dashes, ellipses and
+        # non-breaking spaces and collapses whitespace before lowercasing (read.py:856). This
+        # did a raw strip/lower with no folding at all. For an entity whose wiki title differs
+        # from its catalogued name ONLY by that punctuation -- the exact class `_norm_q` exists
+        # to fold -- `read_entity` correctly treated the page as the own page while this scored
+        # `own=0` for the same entity, and `priority()` sorts the whole read queue on that flag:
+        # `have_page` is `own > 0`, so a misscored entity falls out of the deep/light interleave
+        # entirely and is ranked behind entities of genuinely lower depth.
+        #
+        # NOTHING WAS DROPPED, AND THAT IS WHY THIS IS MINOR RATHER THAN EVIDENCE LOSS -- the
+        # Hard Rule 0 fix to `priority()` means every entity is still read eventually. What it
+        # cost is that an interrupted run systematically read a deep entity's evidence later
+        # than it should, for exactly the entities this file's stated design intent
+        # ("entities that already show evidence, deepest first") is built around. Measured live
+        # over 3,000 cached records: about 0.2% carry a title of this class.
+        #
+        # THE COST ARGUMENT FOR THE RAW FORM DOES NOT SURVIVE THE MEMO. `_queue_row`'s own
+        # docstring is about how expensive this scan is over the full evidence index -- but the
+        # memo above means this loop runs once per record per REWRITE, not once per pass, and
+        # `_norm_q` is a `str.translate` and a `split`/`join` over a title. The comparison is now
+        # made in one place with one rule, which is the only way the ranking signal and the
+        # mining signal cannot disagree again.
         own = 0
+        _want = _norm_q(name).lower()
         for t, body in (ev.get("text") or {}).items():
-            if t.strip().lower() == name.strip().lower():
+            if _norm_q(t).lower() == _want:
                 own = len(body)
                 break
         row = {"chars": ev.get("chars_read", 0), "own": own,
@@ -1539,6 +1576,25 @@ def main():
                          "cache as a finished record. Accepted so existing command lines still "
                          "run; a value logs read.py:cap-chunks-ignored")
     ap.add_argument("--persons-only", action="store_true")
+    # THE STANDING READER'S LOOP (order d2e44a766769 / 1014f88bea8e, owner ruling 2026-09-08
+    # question 14). `read.py --run` is now a member of `overnight.STANDING`, which is what makes
+    # `foreman.restart_reader`'s ungated SIGTERM cost 300s instead of the measured 42-44 minutes
+    # and once four hours. A STANDING job is one the keeper re-asserts, so it is expected to be
+    # up continuously; the keeper alone would supply that by restarting this process within 300s
+    # of every pass, and an internal loop is the same arrangement without the process churn --
+    # and, unlike a bare restart, it gives the staleness check below somewhere to stand.
+    #
+    # DEFAULT 0 = ONE PASS, WHICH IS EXACTLY TODAY'S BEHAVIOUR. Every existing command line --
+    # the supervisor's own serial `run("read", ...)` stage, `allsweep`, a hand-run pass -- passes
+    # no `--loop` and is unchanged. Only the STANDING entry passes one. Making the loop
+    # unconditional was considered and rejected: the serial stage is AWAITED with an hours-long
+    # timeout, so an always-looping `--run` would wedge that lap until the cap rather than
+    # returning, and a flag whose absence preserves the old behaviour is the only version of this
+    # that cannot surprise a caller that was not read.
+    ap.add_argument("--loop", type=float, default=0,
+                    help="keep reading, minutes apart, checking between passes whether src/ has "
+                         "changed under this process (rc=17). Used by overnight.STANDING; a "
+                         "one-shot pass is still the default and is what every other caller gets")
     ap.add_argument("--transport", choices=("auto", "cascade", "ollama"), default="auto")
     ap.add_argument("--one", nargs=2, metavar=("HOST", "ENTITY"))
     a = ap.parse_args()
@@ -1567,12 +1623,45 @@ def main():
         w = a.workers
         if isinstance(w, str) and w.strip().isdigit():
             w = int(w)
-        ok = run(limit=a.limit, workers=w, cap_chunks=a.chunks,
-                 all_entries=not a.persons_only)
-        # PROPAGATED, NOT DISCARDED (order 33a5847cbead). See the comment on `run()`'s own
-        # return above: `ok` is False when this pass errored on every entity it touched, and
-        # `overnight.py:run()` is a real consumer of this process's returncode.
-        return 0 if ok else 1
+        # A RUNNING PROCESS IS A PHOTOGRAPH OF THE CODE IT STARTED WITH (CLAUDE.md Hard Rule -1,
+        # fourth property; orders 2cb8756deb0a and 1014f88bea8e).
+        #
+        # This job had no codewatch call site at all, and until this shift it could not have had
+        # one: `exit_if_stale` EXITS with rc=17, and the contract that makes that safe is the
+        # keeper restarting the job within five minutes on the current code. Outside
+        # `overnight.STANDING` a job calling it would simply die, and the reader is awaited by
+        # the supervisor's hours-long main lap, so an rc=17 mid-crawl aborted that lap and the
+        # crawl resumed hours later. That was the whole of order 2cb8756deb0a's objection, and
+        # promoting the reader into STANDING in this same commit is what removes it.
+        #
+        # MEASURED, and it is why this is not cosmetic: recorded reader passes in
+        # `state/overnight.log` ran 39, 41, 44, 57, 58, 61, 66, 91, 124 and 490 minutes. A fix
+        # landed at 19:00 was not in this process at 03:00, for any of those windows.
+        #
+        # THE CHECK IS BETWEEN PASSES, NOT INSIDE ONE, AND THE OBVIOUS ALTERNATIVE IS BROKEN.
+        # The tempting site is `work()`, the per-entity function, because it runs thousands of
+        # times inside one long pass and would bound staleness at one entity instead of one pass.
+        # It cannot go there: `work` executes on ThreadPoolExecutor worker threads, and
+        # `exit_if_stale` signals by raising SystemExit -- which in a non-main thread ends that
+        # ONE future and does not exit the process. The check would be a check that cannot fire,
+        # which is this codebase's single most-repeated defect, wearing the shape of the fix.
+        # Bounding it further needs the main thread to stop blocking in `ex.map`, which is a
+        # rewrite of the reader's hot path and is not bought by this order.
+        import codewatch
+        codewatch.stamp("read")
+        while True:
+            ok = run(limit=a.limit, workers=w, cap_chunks=a.chunks,
+                     all_entries=not a.persons_only)
+            if not a.loop:
+                # PROPAGATED, NOT DISCARDED (order 33a5847cbead). See the comment on `run()`'s
+                # own return above: `ok` is False when this pass errored on every entity it
+                # touched, and `overnight.py:run()` is a real consumer of this process's
+                # returncode. The one-shot path returns here and never reaches the staleness
+                # exit below, so a hand-run or supervisor-serial pass still ends on 0/1 and
+                # never on 17.
+                return 0 if ok else 1
+            codewatch.exit_if_stale("read")
+            time.sleep(max(0.0, a.loop) * 60)
     ap.print_help()
     return 0
 

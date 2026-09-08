@@ -78,6 +78,15 @@ def cache_path(host, name):
     return cachekey.natural_path(F.CACHE, host, name)
 
 
+# REPORTED DEAD, NOT DELETED -- and RETAINED BY OWNER RULING, not by doctrine. Ruling 1 of
+# 2026-09-08, "Correct code that no caller ever reaches", option (a): mark and keep, delete
+# nothing. Closes order 2b695c192470. Measured 2026-09-08 by grep over src/ (including
+# deprecated/): `sweep.load` has no caller anywhere; the only references are verify_math's own
+# probes at 3358/3368/3374, and the battery is NOT counted as a reader. `sweep()`'s live read is
+# `cachekey.load` at :160. Kept because it is the one place the FileNotFoundError-is-normal
+# reasoning below is written down, and because deleting it would take that reasoning with it.
+# The docstring's stale claim about "the only call site (`:129`)" -- which named neither
+# `def sweep():` at :129 nor `cachekey.load` at :160 -- is corrected in the body.
 def load(path):
     """Read one evidence cache file, or None if there isn't one yet.
 

@@ -98,6 +98,113 @@ _START = {"digest": None, "at": None}
 _PENDING = {"digest": None, "first_seen": None, "differing_since": None, "said_at": 0.0}
 
 
+# ---------------------------------------------------------------------------------------------
+# WHICH JOBS ARE NOT COVERED BY ANY OF THIS, AND WHY. (order 2cb8756deb0a, 2026-09-08)
+#
+# `exit_if_stale` EXITS the process, and the only thing that makes that safe is something
+# restarting it promptly on the new code. That is `overnight.py`'s keeper, and its population is
+# `overnight.STANDING` -- so STANDING membership is not a convenient population for the staleness
+# contract, it IS the contract. `drill.drill_codewatch.daemons_actually_check_their_own_source`
+# derives its roster from that list and requires every member to call `stamp` and to reach
+# `exit_if_stale` inside a loop in `main`.
+#
+# The order that produced this block asked the obvious next question: what about the long-lived
+# jobs OUTSIDE that list? Four were named. The answer per job is a different answer, and an
+# exemption with no reason attached is indistinguishable from an oversight -- which is this
+# project's whole subject. So the exemptions are DATA, with the reason, and `coverage()` below
+# reads the live rosters so that a long-lived job nobody has decided about shows up as
+# UNACCOUNTED rather than as nothing at all.
+#
+# THIS IS A REGISTER, NOT A GUARD. It exits nothing and refuses nothing; it exists so the next
+# person reads a decision instead of an absence. `main()` prints it.
+EXEMPT = {
+    "feats.py": (
+        "THE CRAWL. `feats.py --roll` runs 12-hour laps off the supervisor's main lap and is "
+        "AWAITED there with an hours-long timeout, so an rc=17 taken mid-crawl aborts that lap "
+        "and the crawl resumes only on the next one, hours later. Whether staleness safety is "
+        "worth that price is an operations ruling and not a code change; nobody has made it. "
+        "Until then the crawl runs whatever code it started with, and the window is a lap."),
+    "autostart.py": (
+        "THE WATCHDOG, AND EXITING WOULD BE STRICTLY WORSE. It is the longest-lived process in "
+        "the kit -- started by the Startup .vbs at logon -- and NOTHING restarts the .vbs. An "
+        "rc=17 here would convert 'running old code' into 'not running', leaving the supervisor "
+        "unwatched until the next logon. So `autostart.watch` calls `stale()` and SAYS SO in its "
+        "log, rate-limited, instead of `exit_if_stale()`. The visibility half is closed; the "
+        "exit half is refused on purpose. (order bee9d16f4174)"),
+    "hostcheck.py": (
+        "NOT A DAEMON. One-shot: it has no loop in `main` and exits when its pass is done, so "
+        "every invocation is a fresh process reading current source. There is no staleness "
+        "window to close. It is listed here only because the order that filed this block named "
+        "it, and 'we looked and there was nothing to do' is a different fact from 'nobody "
+        "looked'."),
+    "magnitude.py": (
+        "NOT A DAEMON EITHER, and the same reasoning -- no loop in `main`. `--calibrate` can "
+        "run for a long time, which is why it reads as long-lived in a process table, but it is "
+        "one batch that ends. An rc=17 mid-calibration would discard that batch and nothing "
+        "would restart it, which is the worse trade of the two."),
+}
+
+# Jobs that ARE covered and are not in STANDING, so `coverage()` does not report them as gaps.
+# `overnight.py` is the supervisor: it calls `stamp` and `exit_if_stale` per lap, and the thing
+# that restarts it is `autostart.watch`, one rung up. That is a real restart contract, just not
+# the keeper's -- which is exactly why it has to be written down somewhere rather than inferred
+# from the roster.
+COVERED_ELSEWHERE = {
+    "overnight.py": (
+        "THE SUPERVISOR. Calls `stamp` at startup and `exit_if_stale` once per cycle; "
+        "`autostart.py --watch` is what restarts it, within its own check interval, so the "
+        "rc=17 contract holds through a different restarter than the keeper."),
+}
+
+
+def coverage():
+    """Who is long-lived, who checks their own source, and who has neither. -> list of rows.
+
+    DERIVED FROM THE LIVE ROSTERS, for the reason `overnight.STANDING` is module-level in the
+    first place: three hand-kept partial copies of the job list once made a nine-job tree report
+    as four. `overnight.ALL_JOBS` is the population of long-lived jobs and `overnight.STANDING`
+    is the subset the keeper restarts. A job that is in neither `STANDING` nor `EXEMPT` nor
+    `COVERED_ELSEWHERE` comes back as UNACCOUNTED, which is the state this function exists to
+    make visible: a new daemon added next quarter is a silent gap under any hand-typed list and
+    a named row under this one.
+
+    Returns `(job, state, why)` rows. It asserts nothing and stops nothing -- see the EXEMPT
+    header. Reading it is `main()`'s job and a person's.
+    """
+    try:
+        import overnight as _ON
+        standing = {os.path.basename(a[0]) for _n, a, _l in _ON.STANDING}
+        all_jobs = list(_ON.ALL_JOBS)
+    except Exception:
+        silence.note("codewatch.py:coverage-roster")
+        # FAIL LOUD RATHER THAN EMPTY. An unreadable roster must not come back as "no gaps".
+        return [("<roster>", "UNREADABLE",
+                 "overnight.STANDING/ALL_JOBS could not be read, so this report is not a "
+                 "measurement of anything")]
+    rows = []
+    for job in all_jobs:
+        # ALL_JOBS carries command-line fragments ("feats.py --roll"), not bare basenames.
+        name = job.split()[0]
+        if name in standing:
+            rows.append((job, "KEEPER",
+                         "in overnight.STANDING; the keeper restarts it within 300s, which is "
+                         "what makes exit_if_stale's rc=17 affordable"))
+        elif name in COVERED_ELSEWHERE:
+            rows.append((job, "COVERED", COVERED_ELSEWHERE[name]))
+        elif name in EXEMPT:
+            rows.append((job, "EXEMPT", EXEMPT[name]))
+        else:
+            rows.append((job, "UNACCOUNTED",
+                         "long-lived, not restarted by the keeper, and no exemption recorded. "
+                         "Decide: wire it, or write the reason into codewatch.EXEMPT."))
+    # Named in the order but not on any roster -- they are one-shot tools, and saying so is the
+    # point (see their entries). Reported last so the roster rows stay the headline.
+    for name in sorted(EXEMPT):
+        if name not in {j.split()[0] for j in all_jobs}:
+            rows.append((name, "NOT A JOB", EXEMPT[name]))
+    return rows
+
+
 def fingerprint(root=None):
     """-> a digest of every .py in src/, or None if it cannot be taken.
 
@@ -597,10 +704,21 @@ def _maintenance_run_live():
     out what is writing to src/" -- so a report that cannot tell them apart sends every reader
     to the wrong place half the time.
 
-    ASKED ONLY TO DESCRIBE, NEVER TO DECIDE. Nothing below this changes what restarts or what
-    the budget allows on the strength of this answer. Whether a live shift should suppress
-    restarts outright, or spend from a separate budget, is a real question and an owner's to
-    rule on; it is deliberately not settled here by a helper quietly changing the rules.
+    ASKED ONLY TO DESCRIBE, NEVER TO DECIDE, AND AS OF 2026-09-08 THAT IS TRUE. Nothing below
+    this changes what restarts, what the budget allows, OR WHAT RUNG AN ALARM SOUNDS AT on the
+    strength of this answer. Whether a live shift should suppress restarts outright, or spend
+    from a separate budget, is a real question and an owner's to rule on; it is deliberately not
+    settled here by a helper quietly changing the rules.
+
+    IT USED TO DECIDE THE RUNG (order 13aee150e0dc, sweep45-batch16, closed by the owner ruling
+    of 2026-09-08 "Who may lift a halt or a subsystem stop"). This sentence said ONLY TO
+    DESCRIBE in capitals while `_report_if_never_settling` four functions down used the boolean
+    to pick between `escalation.JANITOR` and `MANAGER` -- so a heartbeating lock file demoted
+    the one alarm that says "something is rewriting src/ that nobody asked for" by FOUR RUNGS,
+    from "stop the subsystem" to "record it, no authority to stop anything". Any writer of
+    `state/MAINTENANCE_RUN.json` got that for free, a crashed run that left `done:false` with a
+    fresh heartbeat included. The distinction was always worth drawing; it was the RANK that was
+    the wrong place to draw it in, and it now travels in the message and the evidence instead.
 
     `runguard` owns this file and `holder_is_live` is its own definition of a live holder
     (unfinished, with a heartbeat inside its staleness limit), so this borrows the judgement
@@ -644,13 +762,24 @@ def _report_if_never_settling(who, why):
     and this does not touch it, nor spend a slot, nor raise BUDGET_PER_HOUR. Lag that nobody can
     see is the defect; lag that is written down is the ruling working.
 
-    The rank is the shift-versus-pathology distinction, and it is the only thing the run guard
-    is consulted for: a live maintenance shift rewriting `src/` on purpose is EXPECTED and is
-    recorded at JANITOR, and the same silence with nothing holding the guard means something is
-    rewriting the tree that nobody asked for -- MANAGER, matching CODEWATCH_BUDGET, because the
-    consequence is the one CODEWATCH_BUDGET describes: this job is running stale code and will
-    go on doing so. Rate-limited to once per alarm window per process, so a shift that runs for
-    hours produces a handful of lines rather than one per poll.
+    THE RANK IS MANAGER, UNCONDITIONALLY (order 13aee150e0dc, owner ruling 2026-09-08). It used
+    to be the shift-versus-pathology distinction: JANITOR while a maintenance run was
+    heartbeating `state/MAINTENANCE_RUN.json`, MANAGER otherwise. That let A FILE ON DISK choose
+    the rung of the one alarm that says a daemon is running code nobody can account for, and
+    move it four rungs -- from "stop the SUBSYSTEM" to "record it, no authority to stop
+    anything" -- for as long as anything kept that file warm. The consequence is identical
+    either way, and it is the one CODEWATCH_BUDGET describes: this job is running stale code and
+    will go on doing so. An expected cause does not make a stale daemon less stale.
+
+    THE DISTINCTION IS NOT LOST, IT IS MOVED to where it already travelled: the message text and
+    the evidence dict, which has carried `maintenance_run_live` since this function was written,
+    and the code -- CODEWATCH_STALE_THROUGH_SHIFT against CODEWATCH_NEVER_SETTLES -- which
+    DESCRIBES rather than ranks. A person reading either one can still tell "expected, it will
+    be bounced at the end of the shift" from "find out what is writing to src/". What they can
+    no longer do is miss it because a lock file filed it at rung zero.
+
+    Rate-limited to once per alarm window per process, so a shift that runs for hours produces a
+    handful of lines rather than one per poll.
     """
     since = _PENDING.get("differing_since")
     if not since:
@@ -672,7 +801,8 @@ def _report_if_never_settling(who, why):
     try:
         import escalation
         escalation.escalate(
-            escalation.JANITOR if shift else "MANAGER",
+            # MANAGER EITHER WAY -- see the docstring. The run guard describes; it does not rank.
+            escalation.MANAGER,
             "CODEWATCH_STALE_THROUGH_SHIFT" if shift else "CODEWATCH_NEVER_SETTLES",
             msg, evidence={"job": who, "stale_hours": round(held / 3600.0, 2),
                            "stable_seconds": STABLE_SECONDS, "maintenance_run_live": shift,
@@ -756,7 +886,30 @@ def main():
         print("  %-16s %d restart(s) in the last hour (budget %d)"
               % (who, len(_recent_restarts(doc, who)), BUDGET_PER_HOUR))
     print("\n  rc=%d means 'my code changed, restart me'. It is not a crash." % RC_STALE)
+    print()
+    print("  WHO IS COVERED BY THIS, AND WHO IS NOT (order 2cb8756deb0a)")
+    print("  " + "-" * 74)
+    for job, state, why in coverage():
+        print("  %-18s %s" % (job, state))
+        # UNCUT (Hard Rule 0). The reason is the whole reason the row exists; wrapping it at a
+        # column would be the same act as capping a roster.
+        for line in _wrap(why, 70):
+            print("      " + line)
     return 0
+
+
+def _wrap(text, width):
+    """Wrap without truncating. -> list of lines."""
+    words, line, out = text.split(), "", []
+    for w in words:
+        if line and len(line) + 1 + len(w) > width:
+            out.append(line)
+            line = w
+        else:
+            line = (line + " " + w) if line else w
+    if line:
+        out.append(line)
+    return out
 
 
 if __name__ == "__main__":

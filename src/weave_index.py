@@ -46,6 +46,11 @@ _STRIP = re.compile(
     r"emperor|empress|god|goddess|great|grand)\s+", re.I)
 
 # Names too generic to be evidence of anything. A collision on these is meaningless.
+#
+# APPLIED AT THE MATCHING STEP ONLY -- `main()`'s candidate loop -- never in `build()`
+# (order 8f50f37255b5). It used to strike the entry out of ENTITY_INDEX.json itself, which is
+# a different and much larger claim: that no entity in the omniverse is named Father, God or
+# King. Fullmetal Alchemist's is.
 _STOPNAMES = {
     "narrator", "protagonist", "player", "hero", "villain", "boss", "enemy", "soldier",
     "guard", "citizen", "merchant", "priest", "knight", "warrior", "mage", "wizard",
@@ -269,11 +274,32 @@ def _records_sig():
                 files.append(de.path)
                 if m > newest:
                     newest = m
+    except FileNotFoundError:
+        # GENUINELY ABSENT is the one case that may still read as an empty corpus. The directory
+        # is not there; that is a fact about the tree, not a failure to learn one, and callers
+        # depend on an empty corpus being a stable answer.
+        _ = "silence-exempt: a records dir that does not exist is honestly an empty corpus"
     except OSError:
-        # A missing or unreadable directory. `glob` returned [] here rather than raising, and
-        # the old `max(..., default=0)` then made that a real, cacheable (0, 0) signature.
-        # Preserved exactly: callers depend on an empty corpus being a stable answer.
-        _ = "silence-exempt: an unreadable records dir reads as an empty corpus, as it always did"
+        # UNREADABLE IS NOT EMPTY (order 5f1dc97d5216, owner ruling 17 of 2026-09-08: "say
+        # unknown out loud and name every refusal").
+        #
+        # This branch caught every OSError and fell through to `val = (files, ... (len(files),
+        # newest))` with files=[] and unstattable=0 -- the CLEAN, CACHEABLE signature (0, 0). So
+        # a Norton lock, an offline mount or a permissions blip on data/records was
+        # indistinguishable from "the records directory is genuinely empty", and
+        # `weave_index.py --write` running inside that window computes index={} and
+        # candidates={} from zero records and WRITES THEM over data/ENTITY_INDEX.json and
+        # data/WEAVE_CANDIDATES.json -- the files weave.py, cosmology_graph.py and
+        # thread_integrity.py read as the whole entity population. That is the same shape as the
+        # catalogue_web synthesis-nulling incident that reached MANAGER rung.
+        #
+        # The PER-FILE handler eight lines above was hardened for exactly this failure class
+        # (order f70e87058f66) and this coarser one was not, so the same event was fail-closed
+        # at file granularity and fail-open at directory granularity inside one function.
+        # `unstattable` is bumped, which forces `sig=None` below, which is what `load_records`
+        # and `designations` already read as "this pass was not clean, do not cache it".
+        silence.note("weave_index.py:records-dir-unreadable")
+        unstattable += 1
     files.sort()
     # A pass that could not stat every entry hands back a None signature -- the whole readable
     # file list, and an honest "do not treat this pass as clean".
@@ -358,15 +384,19 @@ def build():
             # merge them -- the direction this module's own header calls the expensive one.
             # It is counted and printed instead of being dropped silently.
             #
-            # _STOPNAMES is UNTOUCHED and deliberately so: that half is order 8f50f37255b5,
-            # which sits at OWNER because whether Fullmetal Alchemist's 'Father' is an entity of
-            # the library is a curatorial call, not a maintenance one. Its casualties are now
-            # counted here so the ruling can be made against a number.
+            # _STOPNAMES IS GONE FROM HERE TOO (order 8f50f37255b5, owner ruling 5 of
+            # 2026-09-08: "rank instead of displace; record every drop and re-ask"). It is the
+            # same shape as the len<3 rule above and was cured the same way: a MATCHING rule
+            # that was striking entries out of the STORED index. A collision on "father" is
+            # meaningless as cross-source evidence, which is a statement about candidates -- but
+            # Fullmetal Alchemist's character is literally NAMED Father, and while this test
+            # stood here he did not exist to `weave.load_index`, `cosmology_graph` or
+            # `thread_integrity`, all three of which read ENTITY_INDEX.json as the whole entity
+            # population. The index now holds every named entity; the stopname test lives in
+            # `main()`'s candidate loop, where matching actually happens, and its casualties are
+            # counted and printed there.
             if not key:
                 excluded["name folds to an empty key"] += 1
-                continue
-            if key in _STOPNAMES:
-                excluded["_STOPNAMES (order 8f50f37255b5, at OWNER)"] += 1
                 continue
             index[key].append({
                 "source": src,
@@ -506,7 +536,20 @@ def main():
     # one source are that source's own duplication problem, not an omniverse identity.
     candidates = {}
     short_keys = short_hits = 0
+    stop_keys = stop_hits = 0
     for key, hits in index.items():
+        # THE STOPNAME RULE, MOVED HERE FROM `build` (order 8f50f37255b5, owner ruling 5 of
+        # 2026-09-08). "father", "god", "king" and the rest of `_STOPNAMES` collide with every
+        # other generic name in the omniverse, so a collision on one is not evidence of an
+        # omniverse identity -- but that is a statement about MATCHING, and while the test stood
+        # in `build` it decided that Fullmetal Alchemist's Father did not exist at all. Applied
+        # here, the entity keeps its place in ENTITY_INDEX.json (and therefore in
+        # `weave.load_index`'s population and idf table) and only stays out of the candidate
+        # list. Counted and printed below, like the short keys, rather than dropped in silence.
+        if key in _STOPNAMES:
+            stop_keys += 1
+            stop_hits += len(hits)
+            continue
         # THE SHORT-KEY RULE, MOVED HERE FROM `build` (order e959f566275d). "X" and "Vi" collide
         # with every other two-letter name in the omniverse, so they are useless as MATCHING
         # evidence -- which is a statement about candidates, not about whether the entity exists.
@@ -540,6 +583,9 @@ def main():
     print(f"indexed, not matched: {short_keys:,} keys / {short_hits:,} attestations with a "
           f"normalised key shorter than {MIN_MATCH_KEY} chars — in ENTITY_INDEX.json, held out "
           f"of candidates only")
+    print(f"indexed, not matched: {stop_keys:,} keys / {stop_hits:,} attestations on a generic "
+          f"name in _STOPNAMES — in ENTITY_INDEX.json, held out of candidates only "
+          f"(order 8f50f37255b5)")
     print()
 
     spread = collections.Counter(len({h['source'] for h in v}) for v in candidates.values())

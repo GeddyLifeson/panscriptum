@@ -192,6 +192,17 @@ UNESTIMABLE = "unestimable"
 
 # Reference energies, for converting described feats into joules. Every one is a real physical
 # quantity, which is the entire point: they mean the same thing in every fiction.
+#
+# REPORTED DEAD, NOT DELETED -- and now RETAINED BY OWNER RULING rather than by house doctrine
+# alone. Ruling 1 of 2026-09-08, "Correct code that no caller ever reaches", option (a): mark and
+# keep, delete nothing. Closes order 12c457975677. This table has ZERO readers repo-wide -- a
+# grep across every .py and .md in the tree returns only the definition line -- and it is kept as
+# DOCUMENTARY, in the same sense `HANDS` below is prose-in-a-dict: a reference for the human
+# Assay worksheet and for the band edges calibrated against it, never an input to any code path.
+# It is deliberately NOT a second spelling of `magnitude.py`'s live unit table: that one parses
+# UNITS out of prose ("kiloton" -> 4.184e12) and this one names WHOLE FEATS, so the overlap in a
+# couple of values is two instruments agreeing about physics, not one fact written twice. If a
+# converter is ever wired, `magnitude.py` is the natural consumer and this comment goes with it.
 REFERENCE_JOULES = {
     "punch_human": 1.4e2,
     "rifle_round": 3.0e3,
@@ -210,6 +221,42 @@ REFERENCE_JOULES = {
 }
 
 
+# --------------------------------------------- the six Measures that are NOT on the energy ladder
+#
+# HOISTED HERE FROM anchors.py:41 UNDER ORDER 9b3e59aeeb19. BAND_EDGES carries floors for five
+# axes (ruin, reach, celerity, sustain, continuity). The other six Measures in WEIGHTS have none
+# and never will, because they are not energetic quantities -- they are on OTHER existing scales.
+# `axis_score` answered all six with a bare None, which is the SAME None it answers for "no
+# quantity was supplied", so "this quantity cannot be scored" and "this Measure is not scored
+# from a quantity at all, ever" were one answer and an assessor could not tell which they held.
+#
+# anchors.py already knew this and said so in a COMMENT ("The six axes with no entry in
+# BAND_EDGES are not unscalable -- they are on OTHER existing scales, which was true all along
+# and written down nowhere"), then worked around it. Guidance that lives beside one caller is
+# guidance every other caller does not get, so it moves to where the refusal happens.
+#
+# THE IMPORT DIRECTION WAS CHECKED BEFORE THE MOVE, exactly as the order asked. anchors.py:34
+# does `import assay as A`, so `assay` importing `anchors` would cycle. The dict therefore comes
+# DOWN into assay and anchors reads it back -- the move order 6475cb78e185 made for
+# ATTESTATION_FLOOR, for the same reason.
+#
+# CROSS-FILE DEBT, LEFT UNPAID DELIBERATELY AND MADE LOUD. anchors.py is outside this shift's
+# assigned module set, so its own copy still stands there; the one-line change it needs is
+# `NON_ENERGETIC_AXES = A.NON_ENERGETIC_AXES`. Two spellings of one fact is the shape this tree
+# keeps getting hurt by, so verify_math holds the two dicts EQUAL and reds if either side moves.
+# A duplicate that announces itself is survivable. A silent one is not.
+NON_ENERGETIC_AXES = {
+    "transgression": "bits of exception length (X.2 §4, Rissanen). Use transgression_bits().",
+    "volition":      "theta, the Bradley-Terry latent strength (Part Three). Identified only on a "
+                     "strongly connected contest graph (Ford 1957).",
+    "acumen":        "bits per epoch of prediction-planning advantage (X.6 §3).",
+    "discernment":   "bits per epoch of veridical perception (X.6 §3).",
+    "suasion":       "bits per epoch of credible influence (X.6 §3).",
+    "vector":        "RUNGS TRAVERSABLE of the 17-rung Ladder (I.9: 'cross-rung travel Goku "
+                     "cannot follow'). Scored by attestation footprint.",
+}
+
+
 def axis_score(x, band, axis):
     """X.2 §4 scoring rule: s(x) = 10 * clamp((ln x - ln x_r) / (ln x_{r+1} - ln x_r)).
 
@@ -217,20 +264,101 @@ def axis_score(x, band, axis):
     value below the band floor scores ~0 even for a legitimately anchored agent (the clamp that
     forced Erratum 1, where Kenshiro's attested output sat below the M3 floor and a hand-scored
     Ruin of 2.1 could not be sustained).
+
+    FIVE CONDITIONS USED TO SHARE ONE ANSWER, and they are separated here (orders 9b3e59aeeb19
+    and 1f0a100f754b, worked together because they are one convention applied at two of its
+    sites). A caller who got None could not tell which of these had happened:
+
+      RAISES  the band is not on the Ladder. That is a CALLER ERROR being absorbed as a
+              reading, which is the class `_check_scores`' own docstring refuses in words, and
+              `assay()` already raises for an anchor off the Ladder -- the two doors now agree.
+      RAISES  the axis is one of the six NON_ENERGETIC_AXES. Not unscorable: scored elsewhere,
+              and the message names the scale it lives on rather than leaving an assessor to
+              read None as "no evidence".
+      RAISES  the axis is not a Measure at all -- a typo. `_check_scores` refuses these with a
+              did-you-mean and so does this door; a misspelt Measure that returns a NUMBER is
+              the worst of the three outcomes and it was the live one (see the top rung below).
+      None    x is None, or x <= 0. Genuinely not scorable FROM THIS QUANTITY: the log does not
+              exist. This is the meaning None keeps.
+      None    the band's floor/ceiling pair is degenerate or half-defined (hi missing, hi <= lo).
+              A table fault, not a caller fault; `_check_constants` refuses it at import, so
+              this can only be seen mid-edit.
+
+    THE TOP RUNG. M10 has no M11 above it, so there is no ceiling to scale into and the upper
+    half of the scale saturates -- that saturation is the known open M18, named in the AXIS_MAX
+    comment, and it is NOT touched here. What is fixed is that the branch used to be taken
+    BEFORE the band/axis lookups ran, so on M10 alone every one of the refusals above returned
+    9.9 instead: `axis_score(5.0, "M10", "acumen")` (a floorless axis), `axis_score(5.0, "M10",
+    "ruinn")` (a misspelling) and `axis_score(1e-9, "M10", "ruin")` (a firecracker) all published
+    the MAXIMUM reading the scale admits. A could-not-measure returned as the most confident
+    value available is this project's worst failure shape, and it was reachable on the one rung
+    where the numbers matter most.
+
+    THE BELOW-FLOOR CLAMP APPLIES ON THE TOP RUNG TOO. A quantity under M10's own floor clamps
+    to 0.0 there exactly as it does on every other rung -- only the scale's upper half is
+    missing at M10, not its lower. The plausible wrong answer, and the one that stood until now,
+    is to return 9.9 unconditionally because "there is no ceiling"; the other plausible wrong
+    answer is to invent an M11 row to divide by, which would be a fabricated edge published as
+    a measurement. MEASURED BEFORE CHANGING IT: no record in data/ASSAYS.json anchors at M10
+    (507 records: 221 unanchored, then M3 111, M1 100, M2 23, M4 20, M6 19, M0 6, M7 4, M8 2,
+    M5 1), so this branch has never once fired in production and no published number moves.
     """
-    if x is None or x <= 0 or band not in BAND_EDGES:
+    # THE LOOKUPS COME FIRST, and that ordering IS the fix. Structural faults (a band or an axis
+    # that does not exist) are the caller's, and they are decided before anything about `x`,
+    # because a bad band with a good quantity is still a bad band.
+    if band not in BAND_EDGES:
+        raise AssayIntegrityError(
+            "axis_score: %r is not a band on the Ladder. The Ladder is %s. A band off it is a "
+            "caller error, and it is refused rather than scored, because the alternative is a "
+            "data error wearing the shape of a reading -- the same ground `_check_scores` "
+            "refuses a score of 99.0 on." % (band, ", ".join(LADDER)))
+    if axis not in BAND_EDGES[band]:
+        if axis in NON_ENERGETIC_AXES:
+            raise AssayIntegrityError(
+                "axis_score: %r is a real Measure but it is NOT on the energy ladder, so no "
+                "band floor exists for it on any rung and none ever will. It is scored on its "
+                "own scale: %s Refused rather than answered None, because None here reads as "
+                "'no evidence' and this is 'wrong instrument'."
+                % (axis, NON_ENERGETIC_AXES[axis]))
+        near = difflib.get_close_matches(str(axis), sorted(WEIGHTS), n=1, cutoff=0.6)
+        raise AssayIntegrityError(
+            "axis_score: %r is not one of the Measures%s. The Measures in force are: %s -- of "
+            "which %s carry band floors and are scorable from a quantity, and the other six are "
+            "on their own scales. A misspelt Measure is refused rather than scored, because it "
+            "used to return 9.9 on the top rung and None everywhere else, and neither is an "
+            "answer about a Measure that does not exist."
+            % (axis, (" (did you mean %r?)" % near[0]) if near else "",
+               ", ".join(sorted(WEIGHTS)), ", ".join(sorted(BAND_EDGES[LADDER[0]]))))
+
+    # Only now the quantity. None and <= 0 keep their meaning: not scorable FROM THIS QUANTITY.
+    if x is None or x <= 0:
+        return None
+
+    lo = BAND_EDGES[band][axis]
+    if not lo:
+        # A floor of zero has no logarithm. Unreachable through the published table
+        # (`_check_constants` refuses it at import) and kept because a half-edited table exists
+        # for the duration of an edit, which is precisely when this function is asked to publish.
         return None
     i = LADDER.index(band)
     if i + 1 >= len(LADDER):
-        return 9.9
-    lo = BAND_EDGES[band].get(axis)
+        # Top rung, and now reached only for a REAL axis on a REAL band. See the docstring.
+        return 9.9 if x >= lo else 0.0
     hi = BAND_EDGES[LADDER[i + 1]].get(axis)
-    if not lo or not hi or hi <= lo:
+    if not hi or hi <= lo:
         return None
     frac = (math.log(x) - math.log(lo)) / (math.log(hi) - math.log(lo))
     return round(10.0 * max(0.0, min(1.0, frac)), 2)
 
 
+# REPORTED DEAD, NOT DELETED -- and RETAINED BY OWNER RULING, not by doctrine. Ruling 1 of
+# 2026-09-08, "Correct code that no caller ever reaches", option (a): mark and keep, delete
+# nothing. Closes order 7099a092abd3. Measured by AST scan over all 116 modules under src/
+# INCLUDING deprecated/, counting a caller only OUTSIDE verify_math/drill/liveness/mutate/
+# secondopinion: `band_for_quantity` has 6 call sites and 0 production ones.
+# Kept as charter apparatus -- Part Three's ladder read backwards, for the worksheet -- and
+# the battery rows that measure it stand. The battery is NOT counted as a reader here, which
+# is the counting mistake open order 1a9c237dda4d made and this order corrects
 def band_for_quantity(x, axis="ruin"):
     """Which rung's floor does this quantity clear? A helper for sanity checks, NOT the Anchor.
 
@@ -576,6 +704,71 @@ def _check_weights(weights):
             "a fault.")
 
 
+def _check_readings(readings):
+    """LAYER 1, THE THIRD DOOR: the Hands' readings `interval_from_hands` publishes a centre and
+    an interval from. Raises AssayIntegrityError.
+
+    WHY THIS EXISTS AT ALL (order 50e8d8be9a9b, filed as a question and answered in its
+    unarguable half). `assay()` validates its scores with `_check_scores` and its weight table
+    with `_check_weights`; `instrument()` gained `_check_scores` under order 5f99aa19c059 on the
+    stated ground that "a gate on one of two doors is not a gate, it is a preference".
+    `interval_from_hands` is the THIRD public entry point that takes numbers from a caller and
+    PUBLISHES a centre and a plus-or-minus from them, and it validated them not at all.
+    Reproduced against the live module before this was written:
+
+        interval_from_hands({"AVAR": nan,  "QUILL": 3.0}) -> centre nan, interval nan
+        interval_from_hands({"AVAR": inf,  "QUILL": 3.0}) -> centre inf, interval inf
+        interval_from_hands({"AVAR": "seven"})            -> TypeError from inside the arithmetic
+
+    An interval of nan is not a plus-or-minus. This module's entire subject is that a number
+    goes out with an honest statement of how wrong it might be, and nan is the one value that
+    cannot make that statement -- it is not wide, it is absent, and it prints as a bar. The
+    TypeError is the answer `_check_weights`' own docstring names as the wrong one: it reports a
+    LINE, not a fault, so the caller is told the instrument broke rather than that their reading
+    was not a number.
+
+    THE ONE SIGNAL THAT DID EXIST WAS NOT A CHECK. `covers_all_signatures` comes back False on a
+    NaN (every comparison against nan is False, so the widening loop exits immediately), and it
+    is documented at its own field as a GUARANTEE being published rather than a check being run.
+    Nobody is meant to read it as a refusal, and a guarantee that silently becomes the only
+    warning in the dict is exactly the shape "a check that cannot fail looks like a check that
+    passed" takes when it happens in reverse.
+
+    WHAT IS DELIBERATELY *NOT* REFUSED, and it is the larger half of the order. A reading of
+    -3.0, or of 400.0, is passed straight through. The Hands' values are LADDER index plus
+    decimal, so a range of roughly [0, 11) is plausible -- and plausible is the whole problem:
+    nothing in the charter is quoted anywhere in this tree as fixing that range, and Vol. 0.5 §2
+    describes these as the Order's canonical priors without bounding them. Refusing 400.0 on a
+    range this module invented would be decreeing a charter rule from inside the code, which is
+    the move Part Three's own preface refuses. That question is left OPEN for the owner; when it
+    is ruled, the bound belongs in this function beside the finiteness check, not in a second
+    place. The finite/numeric half needs no ruling to be true.
+    """
+    if not isinstance(readings, dict):
+        raise AssayIntegrityError(
+            "readings must be a {Hand: value} table; got %r. This function publishes a centre "
+            "and an interval derived from named signatories, so an unnamed pile of numbers is "
+            "not a smaller version of that input -- it is a different one." % (readings,))
+    bad = []
+    for k, v in readings.items():
+        if v is None:
+            # A Hand that filed NOTHING. Already meaningful downstream: it is skipped by `vals`
+            # and still judged against HANDS, so a misspelt Hand who filed nothing is still named.
+            continue
+        if isinstance(v, bool) or not isinstance(v, (int, float)):
+            bad.append("%s=%r (not a number)" % (k, v))
+        elif not math.isfinite(float(v)):
+            bad.append("%s=%r (not finite)" % (k, v))
+    if bad:
+        raise AssayIntegrityError(
+            "Hand readings are not numbers this instrument can publish an interval from: "
+            + "; ".join(sorted(bad))
+            + ". A non-finite reading produces a non-finite centre AND a non-finite interval, "
+              "which prints as a measurement carrying an error bar while carrying neither. It "
+              "is refused rather than absorbed, for the same reason a score of 99.0 is: the "
+              "alternative is a data error wearing the shape of a reading.")
+
+
 def _check_constants():
     """The sigma table's invariants, verified AT IMPORT so a broken instrument cannot load.
 
@@ -723,6 +916,40 @@ def _check_constants():
             "with `.get()`, so each one prints its faculty as unattested -- a claim that the "
             "subject was never observed exercising it, made because a constant is misspelt."
             % (_fr_unknown,))
+
+    # AND THE PARTITION THE THREE TABLES NOW HAVE TO AGREE ON (order 9b3e59aeeb19).
+    #
+    # `axis_score` sorts an axis into exactly three outcomes: it has a band floor and is scored;
+    # it is in NON_ENERGETIC_AXES and is refused BY NAME with the scale it really lives on; or it
+    # is neither and is refused as a typo, with a did-you-mean. That third branch is only honest
+    # while every Measure in force falls in one of the first two. Add a twelfth Measure to
+    # WEIGHTS without a floor and without a line here, and `axis_score` reports a REAL Measure as
+    # a misspelling -- which is the same class of wrong answer this order was filed about, just
+    # pointing the other way. Overlap is the other failure: an axis in BOTH tables takes the
+    # scored branch and its NON_ENERGETIC_AXES entry becomes text nothing can reach.
+    #
+    # Measured green when written: 11 Measures = 5 with floors (continuity, celerity, reach,
+    # ruin, sustain) + 6 without (acumen, discernment, suasion, transgression, vector, volition),
+    # disjoint, exhaustive.
+    _edge_axes = set(BAND_EDGES[LADDER[0]])
+    _both = sorted(_edge_axes & set(NON_ENERGETIC_AXES))
+    if _both:
+        raise AssayIntegrityError(
+            "these axes are in BOTH BAND_EDGES and NON_ENERGETIC_AXES: %s. `axis_score` takes "
+            "the band-floor branch, so the scale named for them in NON_ENERGETIC_AXES is text "
+            "no caller can ever be shown." % (_both,))
+    _unsorted = sorted(set(WEIGHTS) - _edge_axes - set(NON_ENERGETIC_AXES))
+    if _unsorted:
+        raise AssayIntegrityError(
+            "these Measures are in WEIGHTS but sit in neither BAND_EDGES nor "
+            "NON_ENERGETIC_AXES: %s. `axis_score` cannot tell them from a typo and refuses them "
+            "as one, so a real Measure is reported to its caller as a misspelling." % (_unsorted,))
+    _orphan = sorted(set(NON_ENERGETIC_AXES) - set(WEIGHTS))
+    if _orphan:
+        raise AssayIntegrityError(
+            "NON_ENERGETIC_AXES names axes that are not Measures in force: %s. Their scales are "
+            "documented and nothing weights them, so the dict is describing a Measure the "
+            "composite does not have." % (_orphan,))
 
 
 # The charter's own worked example, kept HERE beside the constants it calibrates rather than
@@ -1400,6 +1627,13 @@ def instrument(anchor, axis_scores, worksheet=None):
             "worksheet": worksheet}
 
 
+# REPORTED DEAD, NOT DELETED -- and RETAINED BY OWNER RULING, not by doctrine. Ruling 1 of
+# 2026-09-08, "Correct code that no caller ever reaches", option (a): mark and keep, delete
+# nothing. Closes order 7099a092abd3. Measured by AST scan over all 116 modules under src/
+# INCLUDING deprecated/, counting a caller only OUTSIDE verify_math/drill/liveness/mutate/
+# secondopinion: `null_instrument` has 2 call sites and 0 production ones.
+# Kept because it is Theorem 3(ii) itself: the computed null a degenerate agent is owed. An
+# instrument that cannot state its own null is an instrument that answers everything
 def null_instrument(reason="strategy set is a singleton"):
     """Theorem 3(ii): the computed null for a degenerate agent (a relic, not a being)."""
     return {"printout": "Not applicable — the Instrument measures beings, and this Record's "
@@ -1518,9 +1752,31 @@ ATTESTATION_FLOOR = {"Witnessed": 0.10, "Instrumented": 0.08, "Transcribed": 0.2
 # them the charter meant is a question for the owner, not a thing to settle by retuning a
 # published floor. `_check_constants` now asserts only the part that is unarguable: this floor
 # must not be tighter than the BEST recognised grade.
+#
+# AND THE OWNER HAS NOW RULED. Ruling 4 of 2026-09-08, "Charter prose against the measured values
+# on disk", option (a) -- whatever is PUBLISHED wins, and the side nothing rests on is the side
+# that gets corrected. ATTESTATION_FLOOR_UNRECOGNISED STAYS AT 0.30. The prose was the side
+# nothing rests on and was corrected on 2026-09-06; the constant is published through
+# `custodes._ATT_BASE` into every Custos' evidential part on every reading that carries an
+# unrecognised grade, so retuning it would move numbers already on the shelf to settle a
+# disagreement about a comment. Closes order bc4156603071. The question is answered, not merely
+# recorded: 0.30 is the floor, sitting between Transcribed and Reconstructed, and the earlier
+# prose that placed it between Reconstructed and Disputed was simply describing an older table.
 ATTESTATION_FLOOR_UNRECOGNISED = 0.30
 
 
+# REPORTED DEAD, NOT DELETED -- and RETAINED BY OWNER RULING, not by doctrine. Ruling 1 of
+# 2026-09-08, "Correct code that no caller ever reaches", option (a): mark and keep, delete
+# nothing. Closes order 7099a092abd3. Measured by AST scan over all 116 modules under src/
+# INCLUDING deprecated/, counting a caller only OUTSIDE verify_math/drill/liveness/mutate/
+# secondopinion: `interval_from_hands` has 0 production callers. The battery-side count is
+# deliberately NOT pinned here -- it read "8" when the order was filed, "13" when the ruling was
+# written and 25 on 2026-09-08 after order 50e8d8be9a9b added the refusal rows, and a count in a
+# comment goes stale and then gets reasoned from (the correction made under the owner ruling of
+# 2026-09-08, question 18, order 864a626a258e). What is load-bearing is the ZERO, and it is
+# re-measurable by the method named above. Kept because it is where the PUBLISHED +/- comes from the day
+# a Custodial Assay pass is commissioned; deleting the derivation of the interval because no
+# caller has needed it yet would retire the charter, not dead code
 def interval_from_hands(readings, attestation="Transcribed"):
     """Derive the published +/- from the Hands' divergence. Vol. 0.5 §2, Theorem 4.
 
@@ -1537,6 +1793,10 @@ def interval_from_hands(readings, attestation="Transcribed"):
     The attestation floor is added in quadrature because evidence-quality noise and prior
     divergence are independent sources of variance (X.2 §7 separates them explicitly).
     """
+    # THE THIRD DOOR IS NOW GATED (order 50e8d8be9a9b). Before the readings are touched, not
+    # after: a nan reaching `centre` cannot be undone downstream, because every comparison it
+    # meets answers False and the widening loop that enforces coverage exits on its first test.
+    _check_readings(readings)
     vals = [v for v in readings.values() if v is not None]
     if not vals:
         return None

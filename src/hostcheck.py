@@ -177,6 +177,27 @@ def _land_hosts(merge, label):
         # cannot rebuild, a write with no content behind it is pure exposure. Both callers guard
         # this already; the guard belongs here, where it cannot be forgotten by the third one.
         return True, "nothing to merge"
+    # THE HALT IS ASKED AGAIN HERE, BESIDE THE WRITE (owner ruling 2026-09-08, "The last checks
+    # before an irreversible outward act": "re-call `_assert_not_halted` immediately before
+    # `_land_hosts`' compare-and-swap").
+    #
+    # WHY ONCE AT THE ENTRY POINT IS NOT ENOUGH, and this is the specific case the ruling names.
+    # `sweep(--repair)` and `adopt()` each call `_assert_not_halted` at the top and then go and
+    # PROBE THE NETWORK -- `adopt` fans every hostless source over eight threads, which is
+    # minutes and routinely much longer. The compare-and-swap below then rewrites
+    # `WIKI_HOSTS.json`, which this same module calls one of the two files confirmed not
+    # reconstructible from anything else on disk, on evidence gathered across that whole window.
+    # A halt raised at any point during it -- by another job finding a library-wide invariant
+    # broken, which is the only thing that raises one -- was never seen: the interlock had
+    # already fired, minutes to hours earlier, and nothing asked again. The write landed anyway.
+    #
+    # A halt says the state this decision was made FROM is untrustworthy. That is exactly as true
+    # at the moment of the write as it was at the entry, and the write is the irreversible half.
+    #
+    # ONCE, NOT PER ATTEMPT. The eight retries below span milliseconds and re-read the same halt
+    # file; asking inside the loop would be eight reads of one answer. The window this closes is
+    # the long one, between the entry check and here.
+    _assert_not_halted("_land_hosts(%s)" % label)
     last_why = "not attempted"
     for attempt in range(HOST_MERGE_ATTEMPTS):
         # Digest BEFORE the read: anything landing between the two then fails the swap rather
@@ -764,7 +785,23 @@ def score(host, names, source, by=None):
     # `null_rate` now answers an UNMEASURED control with None rather than with the flattering
     # 0.0 it used to. There is no lift without a baseline, so None propagates all the way to the
     # verdict instead of being defaulted here -- defaulting it is the whole defect.
-    base = null_rate(host, by=by, exclude=source) if by else 0.0
+    #
+    # THE `if by` GUARD ITSELF WAS THE SAME DEFECT, ONE STEP UP (order 6212a1c93269). A falsy
+    # `by` -- None, or an empty dict -- used to fall to a bare `0.0`: a CONFIDENT, UNEARNED
+    # baseline for the exact "unmeasured control" case this comment says must never be defaulted.
+    # `null_rate(host, by=None, ...)` already answers this correctly on its own (`(by or {}).items()`
+    # over an empty/absent map yields no foreign sample, `len(foreign) < MIN_PROBE` fires, and it
+    # returns None) -- the `if by else 0.0` short-circuit was routing AROUND that honest answer to
+    # hand back a flattering zero instead. VERIFIED NOT LIVE TODAY: every current caller
+    # (sweep()/adopt()/hosts.py:discover()/drill's pinned score() net) always passes a non-empty
+    # `by`, so this was a landmine for the next positional or by-omitted caller, not an active
+    # bug -- but a landmine that reintroduces "unmeasured control read as a flattering zero" is
+    # exactly the class of fault this file's own history (the warhammer40k.fandom.com
+    # mis-unassignment, named in null_rate's own docstring) says to close on sight. STRICTER, not
+    # looser: `base=None` for a falsy `by` now takes the ALREADY-EXISTING `elif base is None:`
+    # branch below ("UNREACHABLE -- the control could not be measured"), so a caller that cannot
+    # supply a roster map gets an honest non-verdict instead of an invented pass/fail.
+    base = null_rate(host, by=by, exclude=source) if by else None
     r["baseline"] = None if base is None else round(base, 3)
     rate = r.get("rate")
     r["lift"] = None if (rate is None or base is None) else round(rate - base, 3)
@@ -1037,6 +1074,33 @@ def sweep(only=None, repair=False, workers=8):
             # count is computed once here so the message below can never be zero: if it is zero
             # there is no write to report on, landed or denied.
             n_reject = sum(1 for v in fixed.values() if v is None)
+            # AND EACH ROW SAYS WHICH STATE IT WAS WRITTEN IN (order 79da6c08c536, owner ruling
+            # 2026-09-08 "Which faults sound, and on which rung": "capture the quarantine and
+            # unfit write verdicts into the stored rows").
+            #
+            # `_land_hosts` above can come back (False, why) -- NOTHING removed from and nothing
+            # added to WIKI_HOSTS.json -- and this write runs regardless, which is right: the
+            # rejection is a MEASUREMENT and losing a finding to an unrelated denied replace is
+            # the opposite of what order 1b15acd3f7b2 was filed to fix. What was wrong is that
+            # the row could not SAY so. A source went on file as "rejected, host X was the wrong
+            # fiction" while still carrying host X in the live map, and nothing in
+            # HOST_UNFIT.json recorded which of those two worlds it was written in -- the mirror
+            # image of the gap-reads-as-a-gap property this file exists for.
+            #
+            # STAMPED, NOT GATED, and only on the rows THIS pass rejected: an older row carries
+            # the verdict of the pass that wrote it, and re-stamping it with today's would be a
+            # claim about a write that never touched it. Nothing in src/ reads this file -- it is
+            # a record for a human reader, which is exactly why the row has to carry its own
+            # provenance rather than relying on a stderr line the reader will not have.
+            for _k, _v in fixed.items():
+                if _v is None and _k in unfit:
+                    unfit[_k]["host_map_landed"] = bool(landed)
+                    unfit[_k]["host_map_note"] = (
+                        "WIKI_HOSTS.json was updated in the same pass, so this source no longer "
+                        "carries the rejected host" if landed else
+                        "WIKI_HOSTS.json was NOT updated (%s), so this source may STILL carry "
+                        "the rejected host; the rejection is recorded, the removal is not"
+                        % why)
             unfit_landed = _land(UNFIT, unfit) if n_reject else None
             if landed:
                 print(f"\nWIKI_HOSTS.json updated: {sum(1 for v in fixed.values() if v)} "

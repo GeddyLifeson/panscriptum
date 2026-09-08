@@ -418,8 +418,19 @@ def charter():
                     # by that decision. Reported every run so the number stays visible; red
                     # would make the battery sound an alarm at a condition nobody may clear
                     # without the owner.
+                    # EVERY NAME, NOT FOUR (orders 189532cbf41a and 3dd5b6caef38, owner
+                    # ruling 19 of 2026-09-08: "every cut prints its remainder; nothing is
+                    # silently short", and this particular list is printed IN FULL because
+                    # it is the owner's worklist). This read `", ".join(un[:4])` under an
+                    # "e.g." label: thirty-three sources measured, four named, and the one
+                    # artefact that would have carried the rest --
+                    # `output/index/unassigned_sources.md` -- has said "None." since
+                    # 2026-08-27. So the `[:4]` was the only thing standing between the
+                    # owner and the exact worklist Hard Rule 2 reserves to them. Thirty-three
+                    # names is nothing to print. Still NOT graded a fault, for the reason
+                    # below.
                     note("catalogued sources with NO charter spine code",
-                         f"{len(un)} — e.g. " + ", ".join(un[:4]))
+                         f"{len(un)} — " + ", ".join(un))
             except Exception as e:
                 note("records unreadable — could not compare them against the spine codes",
                      _brief(e, 80), bad=True)

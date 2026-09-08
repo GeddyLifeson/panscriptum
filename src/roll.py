@@ -257,13 +257,42 @@ def exclude(name, note, rows=None):
     # in scope on disk, exactly the trap this module's own header exists to close. Return what
     # actually happened.
     #
-    # DELIBERATELY NOT ON `mutate()` ABOVE, and this is the one roll writer that is not (order
-    # f818a77293fc). The lost update `mutate` closes is a LONG window -- a cataloguer reads the
-    # roll, works for minutes, lands a stale whole document. This function loads and lands in
-    # the same breath and has no callers anywhere in src/: it is a hand-run curatorial act by
-    # one person. Moving it is still the right end state, but the live battery pins this exact
-    # call as a source string (handoff/run35/checks_L4.py, order b3da16ddfe64) and rewriting a
-    # check to fit a refactor is a shift-level decision, not a maintenance one.
+    # STILL NOT ON `mutate()` ABOVE, AND THIS IS THE LAST ROLL WRITER THAT IS NOT (order
+    # c9146abf92df; the other six went onto the compare-and-swap under order f818a77293fc).
+    # The lost update `mutate` closes is a LONG window -- a cataloguer reads the roll, works for
+    # minutes, lands a stale whole document. This function loads and lands in the same breath
+    # and has no callers anywhere in src/ (verified again 2026-09-08: the only `R.exclude(...)`
+    # call sites in the tree are inside `drill._rows_kwarg_does_not_write_the_real_roll`, which
+    # repoints `roll.ROLL` at a throwaway file first). So its window is the smallest of the
+    # seven -- but it is not zero, it is a writer of the same file, and the field it writes is
+    # the one field this module exists to protect.
+    #
+    # THE BLOCKER, MEASURED THIS SHIFT AND STILL OUTSIDE ANY ONE MAINTENANCE SHIFT'S REACH.
+    # `handoff/run35/checks_L4.py` (order b3da16ddfe64) pins the LITERAL TEXT of the call below
+    # as a source string, and `verify_math` section 20u executes every `handoff/run35/checks_L*.py`
+    # as part of the live battery. Moving the call turns that row red.
+    #
+    # AND THE PART THAT IS WORTH WRITING DOWN, BECAUSE IT IS A TRAP FOR WHOEVER LANDS THIS.
+    # That check reads roll.py's WHOLE SOURCE -- `_roll_src = open(...).read()`, with no comment
+    # stripping, unlike the `_fm19code` / `_on20code` idiom the same battery uses elsewhere. So
+    # the call could be moved and the row kept green by leaving the literal sitting in a comment.
+    # That would be the forbidden act: a check answered by prose ABOUT the code rather than by
+    # the code, which is the defect this tree has corrected in `verify_math` §19p, §20b and
+    # §20aj and in three drill nets. Nobody should take that route, and the reason it is named
+    # here is that it is the route somebody will find.
+    #
+    # THE PROPERTY THE CHECK MEANS is that roll.py's roll writer passes `ensure_ascii=False`,
+    # matching its siblings -- and `mutate` already satisfies it (`json.dump(out, f, indent=2,
+    # ensure_ascii=False)`, this file, in the staging write). Restating the assertion against
+    # that property, in checks_L4.py, is the prerequisite; then this becomes
+    #
+    #     landed, why = update_rows({name: {"status": OUT_OF_SCOPE, "note": note}}, path=ROLL)
+    #
+    # with the `changed`/raise-on-unmatched logic moved inside the `apply` closure so it reads
+    # the FRESH rows rather than this function's older copy -- which is the actual bug, not a
+    # detail of the port. Left undone deliberately: this shift owns roll.py and does not own
+    # checks_L4.py, and landing half of a two-file change would swap a small lost-update window
+    # for a red battery.
     return silence.write_json(ROLL, rows, indent=2, ensure_ascii=False)
 
 

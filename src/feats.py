@@ -72,13 +72,31 @@ BATCH = 40                      # MediaWiki accepts 50 titles per query; 40 leav
 # twenty-three times a second. The limit that matters is per host: workers on different sources
 # are on different wikis and do not queue behind each other, while two workers on the same wiki
 # take turns.
+#
+# AND "PER HOST" WAS THE WRONG UNIT, MEASURED (order 959b98f38a63, owner ruling 2026-09-08,
+# "Traffic on the Fandom edge"). These dicts were keyed on the NETLOC, so marvel.fandom.com,
+# naruto.fandom.com, onepiece.fandom.com and nine more each believed it was the only caller and
+# each paced itself at one request per 0.34s -- while all twelve of them resolve to ONE Fandom
+# edge, which was therefore taking roughly 35 requests a second from a crawl that thought it was
+# asking for 2.9. The hosts were not banning us; we were out-requesting them, and every one of
+# the six standing HOST_QUARANTINED orders (marvel, naruto, onepiece, dragonball, mtg, dandwiki)
+# was a symptom of this one setting. The key is now the REGISTRABLE DOMAIN, so every subdomain
+# of one edge shares one pacer and the aggregate rate is the rate the pacer says it is.
+#
+# `_BACKOFF` and `_STRIKE` below are deliberately NOT re-keyed. A 429 is evidence about the edge,
+# but a QUARANTINE is a verdict about a HOST -- binding_health quarantines, escalates and
+# releases per host, and folding the strike counter onto the domain would hand off all twelve
+# Fandom wikis the first time one of them was busy. So the strike ledger stays per host and
+# `_throttle` reads the SLOWEST multiplier on the domain, which is the conservative direction:
+# the shared edge is paced at the rate its unhappiest subdomain is asking for.
 _HOST_LOCKS = collections.defaultdict(threading.Lock)
 _HOST_LAST = {}
 _RATE_LIMITED = {}
 # GUARDS THE READ-MODIFY-WRITE ON `_RATE_LIMITED` AND `_CAP_BOUND` BELOW, NOT PACING.
 #
-# `_HOST_LOCKS[host]` is taken and released inside `_throttle`/`note_throttled` for spacing
-# requests to one host; it was never held around the `dict[key] = dict.get(key, 0) + 1` updates
+# `_HOST_LOCKS[registrable_domain(host)]` is taken and released inside
+# `_throttle`/`note_throttled` for spacing requests to one EDGE; it was never held around
+# the `dict[key] = dict.get(key, 0) + 1` updates
 # to these two dicts, and `roll()` runs 8 workers by default (`overnight.py` launches it with
 # `--workers 12`), so concurrent increments lost updates the same way an unlocked counter always
 # does. `_CAP_BOUND` in particular is keyed by "aplimit"/"srlimit", not by host, so a per-host
@@ -105,6 +123,46 @@ def _pause_for(host):
         if frag in host:
             return val
     return PAUSE
+
+
+# Two-label public suffixes this roll's hosts can plausibly sit under. Deliberately a SHORT,
+# NAMED list rather than a vendored public-suffix database: the list below is what the
+# Acquisitions Roll actually meets, and the failure mode of an unknown one is stated below and
+# is the safe direction.
+_TWO_LABEL_SUFFIXES = frozenset((
+    "co.uk", "org.uk", "ac.uk", "me.uk", "com.au", "net.au", "org.au", "co.nz", "co.za",
+    "co.jp", "or.jp", "ne.jp", "co.kr", "com.br", "com.cn", "com.mx", "com.tr", "com.ar",
+))
+
+
+def registrable_domain(host):
+    """The domain a remote EDGE belongs to -- the unit a rate limit is actually enforced on.
+
+    `marvel.fandom.com`, `naruto.fandom.com` and `dc.fandom.com` are three names for one server
+    estate and one throttle. `en.wikipedia.org` and `commons.wikimedia.org` are two estates.
+    Pacing on the netloc treats the first case as three independent budgets, which is the
+    measured cause of the six standing host quarantines (see `_HOST_LOCKS` above).
+
+    ERRS TOWARD SHARING, NEVER TOWARD SPLITTING. An unrecognised multi-label public suffix --
+    say a wiki at `example.co.jp` were the suffix missing from `_TWO_LABEL_SUFFIXES` -- collapses
+    to `co.jp`, so unrelated hosts would share one pacer and the crawl would run SLOWER than it
+    needs to. The opposite error, splitting one edge into many pacers, is the one that gets this
+    machine IP-banned, and it is the one this function is written to make impossible.
+
+    The `pages:` and `doc:` sentinels are not hosts at all and are returned unchanged: nothing
+    reaches the network for them, and giving them a made-up domain would silently queue five
+    unrelated homebrew sources behind one pacer.
+    """
+    h = (host or "").strip().lower()
+    if not h or h.startswith(("pages:", "doc:")):
+        return h
+    h = h.split("/")[0].split(":")[0].rstrip(".")
+    labels = [p for p in h.split(".") if p]
+    if len(labels) <= 2:
+        return ".".join(labels)
+    if ".".join(labels[-2:]) in _TWO_LABEL_SUFFIXES:
+        return ".".join(labels[-3:])
+    return ".".join(labels[-2:])
 
 
 # ADAPTIVE BACKOFF STATE, per host. A fixed pause is a guess about a remote server's mood; this
@@ -141,15 +199,27 @@ def _throttle(host):
     HTTPErrors in one adoption pass, after which every pantheon and astrology source read as
     "no wiki holds this fiction" when the truth was "we were being throttled". A 429 that reads
     as an absence is the project's signature failure arriving over the network.
+
+    THE LOCK IS TAKEN ON THE REGISTRABLE DOMAIN, NOT THE NETLOC (owner ruling 2026-09-08,
+    "Traffic on the Fandom edge"; orders 959b98f38a63, 5be28f56946c). See `_HOST_LOCKS` for the
+    measurement. The pause is the SLOWEST any subdomain of this edge is currently asking for,
+    because a shared edge that has told one of its wikis to slow down has told the crawl.
     """
-    with _HOST_LOCKS[host]:
-        base = _pause_for(host)
+    dom = registrable_domain(host)
+    with _HOST_LOCKS[dom]:
+        base = _pause_for(dom)
+        # The strike ledger is per host (see `_HOST_LOCKS`); the pace is per edge. `_BACKOFF`
+        # only ever gains a key from `note_throttled`, so this scan is over the hosts that have
+        # actually been throttled -- a handful, not the roll.
         mult = _BACKOFF.get(host, 1.0)
-        last = _HOST_LAST.get(host, 0.0)
+        for h, m in _BACKOFF.items():
+            if m > mult and registrable_domain(h) == dom:
+                mult = m
+        last = _HOST_LAST.get(dom, 0.0)
         wait = (base * mult) - (time.time() - last)
         if wait > 0:
             time.sleep(wait)
-        _HOST_LAST[host] = time.time()
+        _HOST_LAST[dom] = time.time()
 
 
 def note_throttled(host):
@@ -157,8 +227,14 @@ def note_throttled(host):
 
     RAISED ON THE FIRST SIGN, not after a threshold: the cost of slowing down one host slightly
     too early is nothing, and the cost of finding out too late is a source that reads as empty.
+
+    THE LOCK IS THE EDGE'S, THE LEDGER IS THE HOST'S. `_HOST_LOCKS` is keyed on the registrable
+    domain since the 2026-09-08 ruling, so this takes the same lock `_throttle` takes for the
+    same edge -- which is what it always meant to do, and is now true across subdomains as well
+    as within one. What is COUNTED here stays per host: see `_HOST_LOCKS` for why a strike
+    ledger must not be folded onto the domain.
     """
-    with _HOST_LOCKS[host]:
+    with _HOST_LOCKS[registrable_domain(host)]:
         _BACKOFF[host] = min(BACKOFF_MAX, _BACKOFF.get(host, 1.0) * BACKOFF_GROWTH)
         _STRIKE[host] = _STRIKE.get(host, 0) + 1
         strikes, mult = _STRIKE[host], _BACKOFF[host]
@@ -166,6 +242,17 @@ def note_throttled(host):
         # HAND OFF RATHER THAN HAMMER. Past this point "busy" is a less likely reading than
         # "blocked", and continuing to spend requests on it costs the whole pool's politeness
         # budget. binding_health records the reason and retries on a slow cadence.
+        #
+        # AND THE HAND-OFF IS NOW A BRAKE, WHICH THIS COMMENT USED TO CLAIM WITHOUT IT BEING
+        # TRUE (order 5be28f56946c; owner ruling 2026-09-08). Nothing on the fetch path asked
+        # `is_quarantined` -- the only call in this file was the double-quarantine guard three
+        # lines below -- so a host crossed three strikes, was "handed off", and the same twelve
+        # workers went on queueing on it at the 32x ceiling for the rest of the run. That is how
+        # marvel.fandom.com reached SEVENTY-FIVE consecutive throttles: if the hand-off braked
+        # anything, the counter could not pass three by more than one worker's in-flight
+        # requests. `roll()` now consults `quarantine_view()` before it spends a request on a
+        # host and DEFERS that host's entities to the end of the roll. Deferred, never dropped:
+        # dropping them would be a smaller universe in the same shape Hard Rule 0 forbids.
         try:
             import binding_health as BH
             if not BH.is_quarantined(host):
@@ -177,8 +264,11 @@ def note_throttled(host):
 
 
 def note_ok(host):
-    """Call on a clean response. Decays the backoff and clears the strike run."""
-    with _HOST_LOCKS[host]:
+    """Call on a clean response. Decays the backoff and clears the strike run.
+
+    Same lock as `_throttle` and `note_throttled` -- the edge's -- and the same per-host ledger.
+    """
+    with _HOST_LOCKS[registrable_domain(host)]:
         cur = _BACKOFF.get(host, 1.0)
         if cur > 1.0:
             _BACKOFF[host] = max(1.0, cur * BACKOFF_DECAY)
@@ -188,6 +278,48 @@ def note_ok(host):
 def backoff_state():
     """-> {host: multiplier} for hosts currently slowed. Reported, never silent."""
     return {h: round(m, 2) for h, m in _BACKOFF.items() if m > 1.0}
+
+
+# THE QUARANTINE, READ ONCE A MINUTE INSTEAD OF ONCE AN ENTITY (order 5be28f56946c).
+#
+# `binding_health.is_quarantined` opens and parses HOST_QUARANTINE.json on every call, and the
+# roll asks the question once per entity across a corpus of 276,218 of them. A cached view is
+# what makes consulting it affordable at all; the TTL is what stops a quarantine raised mid-roll
+# taking until the next run to bite.
+_QVIEW = {"at": 0.0, "held": frozenset(), "unreadable": False, "reads": 0}
+_QVIEW_LOCK = threading.Lock()
+QUARANTINE_TTL_S = 60.0
+
+
+def quarantine_view(now=None):
+    """-> (held hosts, could_not_read). The quarantine as the fetch path should see it.
+
+    THE UNREADABLE CASE IS REPORTED, NOT GUESSED (owner ruling 2026-09-08, "Answering unknown
+    with a plausible value"). `binding_health.quarantined(strict=True)` raises when the file
+    exists and will not parse, and this does NOT round that to "nothing is held" and move on
+    silently: the flag rides out with the answer, `roll()` prints it in the summary, and the
+    reader is told how many entities were fetched without the question having been answerable.
+
+    It does not DEFER on an unreadable file, and that is the argued half. Deferring is not a
+    drop, so deferring everything would be safe for the universe -- but it would move the whole
+    roll to its slow tail pass on a single unparseable file, which is an outage rather than a
+    brake. The honest reading is that we do not know a host is held, so we proceed and say so.
+    """
+    now = time.time() if now is None else now
+    with _QVIEW_LOCK:
+        if now - _QVIEW["at"] < QUARANTINE_TTL_S:
+            return _QVIEW["held"], _QVIEW["unreadable"]
+        held, bad = frozenset(), False
+        try:
+            import binding_health as BH
+            held = frozenset(BH.quarantined(strict=True))
+        except Exception:
+            # Includes `QuarantineUnreadable`. Named as unknown rather than as an empty hold.
+            silence.note("feats.py:quarantine-view")
+            held, bad = frozenset(), True
+        _QVIEW.update({"at": now, "held": held, "unreadable": bad,
+                       "reads": _QVIEW["reads"] + 1})
+        return held, bad
 
 
 # Text that a real wiki article carries and a block page does not. Deliberately weak signals
@@ -473,6 +605,167 @@ def mined_under_old_marker_layer(doc, host):
     return any("carries a refusal marker" in str(v) for v in refused.values())
 
 
+# HOSTS WHOSE EMPTY-RATE IS ANOMALOUS AGAINST THE dc.fandom.com CONTROL (order ef4ca9edd61f;
+# owner ruling 2026-09-08, "Traffic on the Fandom edge": *only* hosts whose empty-rate is
+# anomalous against dc's 8.6% control are re-mined).
+#
+# 34,676 records already on disk carry `pages_read=[]` with `pages_refused={}` and NO transport
+# stamp, because the stamp did not exist when they were written. They cannot be classified after
+# the fact -- that inability IS the finding -- so clearing them means re-mining them, which is
+# network spend against hosts that are already throttling us. The ruling draws the line at the
+# control: dc.fandom.com sits at 8.6% empty over 55,565 files on the same wiki farm as
+# marvel.fandom.com at 25.6%, so a host near the control is showing the corpus's ordinary rate
+# of genuinely page-less entities and re-mining it would buy nothing at real cost.
+#
+# THE LIST IS MEASURED, NEVER GUESSED, AND ITS ABSENCE IS A REFUSAL RATHER THAN AN EMPTY SET
+# DRESSED AS A MEASUREMENT. `feats.py --empty-rates` walks the whole cache off local disk (no
+# network) and writes the file; until it has been run, `anomalous_empty_hosts()` reports that
+# nothing has been measured and NO legacy record is re-mined. Failing toward not re-mining is
+# the conservative direction here: the cost of waiting is that some records stay unclassified,
+# and the cost of guessing is a corpus-wide re-crawl of a wiki farm that has IP-banned this
+# machine once.
+EMPTY_RATE_CONTROL = 0.086            # dc.fandom.com, 4,802 empty of 55,565 files
+EMPTY_RATE_ANOMALY = 2.0              # x the control before a host counts as anomalous
+EMPTY_RATES = os.path.join(HERE, "data", "FEATS_EMPTY_RATES.json")
+
+
+def anomalous_empty_hosts(path=None):
+    """-> (set of hosts, measured?). The hosts the ruling admits for a legacy re-mine.
+
+    The second element is the honest half: `(set(), False)` means NOBODY HAS MEASURED, which is
+    a different fact from "no host is anomalous" and must not be rounded to it. Callers act only
+    on `(hosts, True)`.
+    """
+    try:
+        with open(path or EMPTY_RATES, encoding="utf-8") as f:
+            doc = json.load(f)
+    except FileNotFoundError:
+        return set(), False
+    except Exception:
+        # Unreadable is not empty -- the same rule `binding_health.quarantined` keeps.
+        silence.note("feats.py:empty-rates-unreadable")
+        return set(), False
+    rows = (doc or {}).get("hosts") or {}
+    if not isinstance(rows, dict) or not rows:
+        return set(), False
+    out = set()
+    for h, r in rows.items():
+        try:
+            rate = float((r or {}).get("empty_rate"))
+        except (TypeError, ValueError):
+            continue
+        if rate >= EMPTY_RATE_CONTROL * EMPTY_RATE_ANOMALY:
+            out.add(h)
+    return out, True
+
+
+def mined_under_failed_transport(doc, host):
+    """-> did this record's fetch FAIL, leaving an absence that is not evidence of absence?
+
+    THE FOURTH SIBLING, and the one the module's own docstring has been describing all along:
+    "1,364 swallowed HTTPErrors ... after which every pantheon and astrology source read as no
+    wiki holds this fiction", reproduced one layer down, at rest, in the cache. `evidence_for`
+    writes its record unconditionally, and when `api()` converted a 429-that-exhausted-retries,
+    a non-JSON 200 from a WAF or a network fault into a bare `None`, `fetch()` returned `{}` and
+    the record was written with everything empty -- byte-identical to the record a genuinely
+    page-less entity produces, because `pages_refused` only ever holds pages that ARRIVED.
+    `cachekey.load` then served that for ever: the three predicates above cannot reject it
+    (`mined_under_superseded_gate` returns False for any `reads_as_wiki` host and
+    `mined_without_name_matching` is scoped to `pages:`), so a throttled fetch became a permanent
+    honest absence.
+
+    TWO ARMS, AND THE SECOND IS THE ONE THE OWNER RULED ON.
+
+    (a) STAMPED records. `fetch()` now carries `api()`'s outcome out and `evidence_for` stores it
+        in `mined_under.transport`. A stamped record whose transport was not ok and which
+        obtained nothing is a MISS and is re-asked. This costs nothing today and cannot loop: a
+        re-mine that succeeds stamps "ok"; one that fails again re-stamps the failure, which is
+        the correct behaviour for a host that is still refusing us, and the roll's own deferral
+        keeps that from being a hammer. "http-404" is NOT a failure here -- it is this file's one
+        clean negative, the host answering that there is nothing there.
+
+    (b) LEGACY records, written before the stamp existed. These are re-mined ONLY on a host the
+        measurement says is anomalous against the dc control -- see `anomalous_empty_hosts`. With
+        no measurement on disk, none of them is re-mined and nothing pretends otherwise.
+    """
+    d = doc or {}
+    if d.get("pages_read") or d.get("pages_fetched") or (d.get("pages_refused") or {}):
+        # Something arrived. This is not the empty-with-no-reason shape.
+        return False
+    tr = ((d.get("mined_under") or {}).get("transport")) or None
+    if tr:
+        why = str(tr.get("why") or "unknown")
+        return bool(tr.get("failed")) or why not in ("ok", "http-404", "raw-transport")
+    hosts, measured = anomalous_empty_hosts()
+    return bool(measured and host in hosts)
+
+
+def empty_rates(cache=None):
+    """Walk the whole feats cache off LOCAL DISK and report each host's unexplainable-empty rate.
+
+    No network, nothing sampled, no cap: every file under `data/feats/` is opened. This is the
+    measurement the owner's ruling rests on -- "only hosts whose empty-rate is anomalous against
+    dc's 8.6% control are re-mined" -- and it is deliberately a separate, explicit pass rather
+    than something a roll does on the way past, because its output authorises network spend.
+
+    An "unexplainable empty" is a record that obtained NO page and recorded NO refusal and
+    carries NO transport stamp: the exact shape that cannot say whether it was blocked or
+    genuinely blank. Records written since the stamp landed are counted separately, because they
+    CAN say, and folding them in would make the rate drift as the cache turns over.
+    """
+    root = cache or CACHE
+    rows = {}
+    # THE ROW IS KEYED ON THE HOST THE RECORD ITSELF STATES, NOT ON THE DIRECTORY NAME.
+    # `cachekey` sanitises a host into a path segment -- `marvel.fandom.com` becomes
+    # `marvel_fandom_com` -- and `mined_under_failed_transport` is handed the REAL host string by
+    # `evidence_for`. Keying this on the directory would produce a file whose every key missed,
+    # so the anomaly list would silently match nothing and read as "no host is anomalous". That
+    # is the shape this whole order is about: a smaller answer wearing the right shape.
+    for seg in sorted(os.listdir(root)) if os.path.isdir(root) else []:
+        hdir = os.path.join(root, seg)
+        if not os.path.isdir(hdir):
+            continue
+        n = empty = stamped = unreadable = 0
+        host = None
+        for fn in os.listdir(hdir):
+            if not fn.endswith(".json"):
+                continue
+            n += 1
+            try:
+                with open(os.path.join(hdir, fn), encoding="utf-8") as f:
+                    d = json.load(f)
+            except Exception:
+                unreadable += 1
+                continue
+            if host is None and d.get("host"):
+                host = d["host"]
+            if ((d.get("mined_under") or {}).get("transport")):
+                stamped += 1
+                continue
+            if not (d.get("pages_read") or d.get("pages_fetched")
+                    or (d.get("pages_refused") or {})):
+                empty += 1
+        if n:
+            row = {"files": n, "unexplainable_empty": empty,
+                   "empty_rate": round(empty / float(n), 4),
+                   "carries_transport_stamp": stamped, "unreadable": unreadable,
+                   "directory": seg}
+            if host is None:
+                # Every record in this directory was unreadable, so the host it belongs to is
+                # not known from here. Recorded under the directory name WITH the ambiguity
+                # marked, rather than guessed by un-sanitising the segment -- that mapping is
+                # lossy in both directions.
+                row["host_from_directory_name_only"] = True
+                host = seg
+            rows[host] = row
+    return {"at": time.time(), "control": EMPTY_RATE_CONTROL,
+            "anomaly_multiple": EMPTY_RATE_ANOMALY,
+            "note": "empty_rate counts records with no page, no refusal and no transport stamp. "
+                    "A host at or above control x anomaly_multiple is admitted for re-mining "
+                    "under the owner ruling of 2026-09-08; every other host is left alone.",
+            "hosts": rows}
+
+
 
 # A regex escape arriving as a literal control character matches nothing and fails SILENTLY.
 # A word-boundary escape written through a shell heredoc has arrived here as a 0x08 backspace
@@ -652,9 +945,20 @@ def alive_verdict(host):
     return (False if why == "http-404" else None), why
 
 
+# RETAINED, NOT DELETED: `alive` -- uncalled repo-wide, kept under the owner ruling of
+# 2026-09-08 ("Correct code that no caller ever reaches", orders 665e3609bc82, f27d210d4fea:
+# mark and keep, one line each, delete nothing). The order proposed deleting it as a trap
+# standing open -- a wrapper whose only function is to be the wrong thing to call -- and the
+# ruling declines deletion; the trap is defused by saying so here and in the docstring instead.
 def alive(host):
     """Unchanged contract: True only when the wiki answered. See `alive_verdict` for the third
-    answer, which every caller that CACHES a negative must ask for instead of this."""
+    answer, which every caller that CACHES a negative must ask for instead of this.
+
+    THERE ARE NO CALLERS, AND YOU PROBABLY WANT `alive_verdict`. `resolve_hosts` calls that one
+    directly (this file's own live path), because collapsing three answers to two is how a
+    swallowed timeout became "this source has no wiki" and was cached permanently -- order
+    64e4db060ad6, the incident this wrapper is the surviving shape of.
+    """
     return alive_verdict(host)[0] is True
 
 
@@ -950,7 +1254,7 @@ def _api_list_all(host, params, cap_key, extract):
         q.update({k: str(v) for k, v in cont.items()})
 
 
-def discover(host, name, extra=None):
+def discover(host, name, extra=None, resolved=None):
     """Titles worth reading for one entity: its own page, its evidence subpages, and any page
     whose title names both the entity and an evidence word.
 
@@ -962,7 +1266,27 @@ def discover(host, name, extra=None):
     qualifying evidence pages was read as an entity with 25 and looked complete. Ranking is
     kept -- richest first still means an interrupted run got the best material -- and the
     truncation is gone. The parameter survives so no caller breaks, but a numeric value is now
-    refused loudly rather than honoured silently."""
+    refused loudly rather than honoured silently.
+
+    THE RANKED RESOLVED TITLE IS ASKED FOR AND ADDED BESIDE THE RAW NAME (orders 4f308dbd9d2c,
+    14a73de63099, f27d210d4fea; owner ruling 2026-09-08, "Wrong wikis, wrong titles, unmined
+    entities"). `resolve_title` was written against a measured defect -- its own docstring:
+    17,148 entries mined to nothing because the catalogue name is not the wiki's page title,
+    "Hulk (Bruce Banner)" where the wiki says "Hulk" -- and until this ruling it had ZERO callers
+    anywhere in the tree, so the loss it describes was, per the call graph, entirely unmitigated.
+
+    BESIDE, NEVER INSTEAD. That is the whole shape of the ruling and it is what makes wiring a
+    ranked guess safe: the raw catalogue name is still asked for first, so a resolution that is
+    WRONG costs one extra page in a batched fetch, while a resolution that is RIGHT recovers an
+    entity that mined to nothing. Replacing the raw name would have made a bad resolution a
+    misattribution instead -- attributing one entity's feats to another, which `resolve_title`'s
+    own docstring calls worse than an honest blank.
+
+    `resolved` is an optional out-channel in the same idiom as `api()`'s `outcome`: pass a dict
+    and it is stamped with the title that was resolved (or None) and whether it differed from the
+    raw name. `evidence_for` stamps that into the record's `mined_under`, because a re-mine after
+    this change that leaves no mark on the record is a fix that gets cached away and is never in
+    effect -- exactly what `mined_under_superseded_gate`'s docstring describes."""
     if extra is not None:
         raise SystemExit("feats.discover: `extra` was a cap on a ranked page list and is "
                          "refused under Hard Rule 0. Pass None (the default); the list is "
@@ -973,6 +1297,10 @@ def discover(host, name, extra=None):
         if t and t not in seen:
             seen.add(t)
             titles.append(t)
+
+    if resolved is not None:
+        resolved.clear()
+        resolved.update({"title": None, "differs": False, "asked": False})
 
     add(name)
     # A RAW-ONLY HOST HAS NO SEARCH, AND THAT IS A LIMIT, NOT A FAILURE.
@@ -985,19 +1313,47 @@ def discover(host, name, extra=None):
     # title and letting the caller assume the wiki was searched.
     import endpoint as EP
     if EP.detect(host)["mode"] == EP.MODE_RAW:
+        # A raw-only host has no search, so there is nothing for `resolve_title` to rank over.
+        # Said out loud in the out-channel rather than left reading as "resolved to nothing".
+        if resolved is not None:
+            resolved["why"] = "no API on this host: nothing to rank a title over"
         return titles
+    # THE RANKED RESOLVED TITLE, BESIDE THE RAW NAME. One extra search per entity, which is the
+    # cost the ruling named and accepted. `resolve_title` returns None rather than a weak guess:
+    # a title that merely CONTAINS the name loses, and a title the name does not open is refused
+    # outright, which is what stops "Little Horn" being mined as "Little Steve".
+    rtitle = None
+    try:
+        rtitle = resolve_title(host, name)
+    except Exception:
+        silence.note("feats.py:discover-resolve-title")
+    if resolved is not None:
+        resolved.update({"title": rtitle, "asked": True,
+                         "differs": bool(rtitle) and _tnorm(rtitle) != _tnorm(name)})
+    if rtitle:
+        add(rtitle)
     # The subpage convention, asked for directly — cheaper and more precise than searching.
     # 500 and 50 below are the API's per-REQUEST maxima, not a cap on the answer: `_api_list_all`
     # follows `continue` until the wiki says there is no more, so asking for the largest legal
     # page merely means fewer round trips for the same complete list.
-    ap_rows = _api_list_all(
-        host, {"action": "query", "list": "allpages",
-               "apprefix": f"{name}/", "aplimit": "500"},
-        "aplimit",
-        lambda d: d.get("query", {}).get("allpages", []) or [])
-    for row in ap_rows:
-        if _EVIDENCE_TITLE.search(row["title"]):
-            add(row["title"])
+    #
+    # WALKED UNDER BOTH SPELLINGS WHEN THEY DIFFER. The subpage convention hangs the evidence
+    # pages off the ARTICLE's title -- "Hulk/Powers", not "Hulk (Bruce Banner)/Powers" -- so a
+    # prefix walk under the catalogue name alone finds nothing for precisely the entities
+    # `resolve_title` exists to rescue. Both prefixes are asked for rather than the resolved one
+    # substituted, for the same reason the title is added beside rather than instead: some wikis
+    # really do file the disambiguated form, and dropping that walk would trade one blind spot
+    # for another.
+    prefixes = [name] + ([rtitle] if rtitle and _tnorm(rtitle) != _tnorm(name) else [])
+    for pref in prefixes:
+        ap_rows = _api_list_all(
+            host, {"action": "query", "list": "allpages",
+                   "apprefix": f"{pref}/", "aplimit": "500"},
+            "aplimit",
+            lambda d: d.get("query", {}).get("allpages", []) or [])
+        for row in ap_rows:
+            if _EVIDENCE_TITLE.search(row["title"]):
+                add(row["title"])
 
     # Then search, keeping only hits that name the entity — otherwise a search for a common
     # name drags in every unrelated power page on the wiki.
@@ -1006,10 +1362,17 @@ def discover(host, name, extra=None):
                "srsearch": f"{name} power abilities strength feats"},
         "srlimit",
         lambda d: d.get("query", {}).get("search", []) or [])
-    key = name.lower().split()[0] if name.split() else name.lower()
+    # THE FILTER KEY ACCEPTS EITHER SPELLING. It was the first word of the catalogue name alone,
+    # so an entity whose article is filed under a different leading word ("Hulk" for "Bruce
+    # Banner") had every one of its evidence hits filtered out even after the resolution
+    # succeeded. Both keys are tried; nothing is loosened beyond that.
+    keys = {name.lower().split()[0] if name.split() else name.lower()}
+    if rtitle and rtitle.split():
+        keys.add(rtitle.lower().split()[0])
     hits = [(row.get("size", 0), row["title"])
             for row in sr_rows
-            if key in row["title"].lower() and _EVIDENCE_TITLE.search(row["title"])]
+            if any(k in row["title"].lower() for k in keys)
+            and _EVIDENCE_TITLE.search(row["title"])]
     for _, t in sorted(hits, reverse=True):
         add(t)
     return titles
@@ -1020,16 +1383,21 @@ def _tnorm(t):
     return re.sub(r"[^a-z0-9]+", "", (t or "").lower())
 
 
-# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
-# (order 25ec11447b4c, applied here as it was to `axis_evidence` above by order c54bb7d84622).
-# `_page_exists` and `resolve_title` below have ZERO callers repo-wide -- grepped across every
-# .py file in the tree, not just src/. `resolve_title`'s own docstring describes a real, measured
-# problem (17,148 entries mined to nothing because the catalogue name is not the wiki's page
-# title) that this function was written to fix, and it reads as load-bearing machinery for
-# exactly that reason -- but nothing in `discover()`/`evidence_for()` or anywhere else calls it,
-# so the 17,148-entry problem it describes is still unaddressed by any code path that runs.
-# Neither wired in nor deleted here: which of those is right is a design call for whoever owns
-# the title-lookup path, not a mechanical fix.
+# `resolve_title` IS NOW WIRED IN. The paragraph that stood here reported both of these as dead
+# and left the choice to whoever owned the title-lookup path. The owner ruled on 2026-09-08
+# ("Wrong wikis, wrong titles, unmined entities", orders 4f308dbd9d2c, f27d210d4fea, 14a73de63099):
+# `discover()` adds the ranked resolved title BESIDE the raw name with a `mined_under` stamp, so a
+# wrong resolution costs one extra fetch rather than a misattribution. See `discover`'s docstring
+# for the shape and the argument.
+#
+# RETAINED, NOT DELETED: `_page_exists` -- uncalled, kept under the owner ruling of 2026-09-08
+# ("Correct code that no caller ever reaches", order 665e3609bc82: mark and keep, one line each,
+# delete nothing). It is the natural companion to `resolve_title` and was not wired with it for a
+# measured reason: `discover` adds the resolved title BESIDE the raw name, so a title that does
+# not exist costs one absent page inside an already-batched `fetch` -- while a `_page_exists`
+# probe would cost one EXTRA request per entity across the whole 276,218-entity roll to learn the
+# same thing. It stays because the confirm-before-add design is the right one the moment a caller
+# wants a resolution used INSTEAD of a name rather than beside it.
 def _page_exists(host, title):
     d = api(host, {"action": "query", "titles": title, "prop": "info", "redirects": "1"})
     for pg in (d or {}).get("query", {}).get("pages", []):
@@ -1094,24 +1462,60 @@ def resolve_title(host, name):
     return best
 
 
-def fetch(host, titles):
+def fetch(host, titles, outcome=None):
     """{title: wikitext} for up to any number of titles, batched where batching is possible.
 
     A wiki that closed its API is not a wiki that cannot be read. D&D Wiki -- which holds the
     homebrew shelf this library has the most sources for -- returns 403 on every `api.php`
     action and serves `index.php?action=raw` to anyone. One title per request instead of fifty
     is slower; it is not nothing, and the difference is several thousand entries.
+
+    `outcome` CARRIES *WHY* NOTHING CAME BACK, in the same idiom as `api()`'s own channel
+    (orders ef4ca9edd61f, 64e4db060ad6; owner ruling 2026-09-08). MEASURED OVER THE WHOLE CACHE,
+    all 275,029 files and nothing sampled: 34,676 records (12.6%) carry `pages_read=[]` with
+    `pages_refused={}` -- nothing arrived at all and no reason is recorded anywhere on the
+    record. They concentrate on exactly the host that was being throttled seventy-five times
+    consecutively (marvel.fandom.com, 25.6% of its files, against dc.fandom.com's 8.6% on the
+    same wiki farm), which is consistent with throttling being written to disk as absence and
+    cannot be made into proof BECAUSE THE RECORD DOES NOT SAY. `api()` computes exactly this
+    distinction and threw it away at the return; this threads it out.
+
+    Pass a dict and it is stamped with `{"batches", "failed", "why"}` -- `why` being the FIRST
+    non-ok reason any batch reported, from `api()`'s own vocabulary ("throttled", "http-404",
+    "nonjson", "network", "no-api", "http-<code>"). A run where every batch answered stamps
+    `why: "ok"`. The RAW transport has no such channel to offer and says so rather than
+    inventing one: it reports "raw-transport", which is an honest *unknown*, not a clean bill.
     """
     import endpoint as EP
+    if outcome is not None:
+        outcome.clear()
+        outcome.update({"batches": 0, "failed": 0, "why": "unknown"})
     if EP.detect(host)["mode"] == EP.MODE_RAW:
-        return EP.fetch_raw(host, titles)
+        got = EP.fetch_raw(host, titles)
+        if outcome is not None:
+            # NOT "ok". `endpoint.fetch_raw` reports no per-request outcome, so the honest
+            # answer here is that this transport does not say -- which is a different fact from
+            # every page having arrived, and rounding it to "ok" would put a clean stamp on the
+            # one path that cannot support one.
+            outcome.update({"batches": 1, "failed": 0, "why": "raw-transport"})
+        return got
     out = {}
     for i in range(0, len(titles), BATCH):
         chunk = titles[i:i + BATCH]
         # redirects=1 matters more than it looks: `Kenshiro` on the Hokuto wiki is a redirect,
         # and without this the miner read 22 characters and reported the entity had no feats.
+        _oc = {}
         d = api(host, {"action": "query", "prop": "revisions", "rvprop": "content",
-                       "rvslots": "main", "redirects": "1", "titles": "|".join(chunk)})
+                       "rvslots": "main", "redirects": "1", "titles": "|".join(chunk)},
+                outcome=_oc)
+        if outcome is not None:
+            outcome["batches"] += 1
+            if not _oc.get("ok"):
+                outcome["failed"] += 1
+                if outcome["why"] in ("unknown", "ok"):
+                    outcome["why"] = _oc.get("why") or "unknown"
+            elif outcome["why"] == "unknown":
+                outcome["why"] = "ok"
         for p in (d or {}).get("query", {}).get("pages", []):
             if p.get("missing") or "revisions" not in p:
                 continue
@@ -1305,8 +1709,45 @@ _QUANTITY = re.compile(
     # is a judgment for whoever owns the assay and NOT a maintenance fix: "a power level of
     # 5,000" attributed to the wrong subject is worse evidence than no quantity at all, and
     # this pattern has no subject-resolution to lean on. Nothing is changed here on that basis.
+    #
+    # AND `mach` HAS THE IDENTICAL PROBLEM, which this paragraph used to be silent about (order
+    # 3b9812ae8ab7). English writes the Mach number UNIT FIRST -- "Mach 5", not "5 mach" -- and
+    # measured over the same whole cache the unit-first form occurs 210 times against 33 minable
+    # here, 86% unreachable. It is the same defect at a hundredth of the volume, so the reader of
+    # this paragraph is no longer told the problem is confined to one alternative. Unlike `power
+    # level` it HAS been acted on: see `_QUANTITY_UNIT_FIRST` below the pattern, added under the
+    # owner ruling of 2026-09-08 as a bounded test, with the argument for why the deferral above
+    # is weakest for this one alternative and strongest for `power level`.
     r"kili|power\s*level|degrees?|kelvin|celsius|mach|times\s+the\s+speed\s+of\s+light)\b",
     re.I)
+
+# THE UNIT-FIRST ALTERNATIVE, BOUNDED TO MACH (order 3b9812ae8ab7; owner ruling 2026-09-08,
+# "Which measurement passes get commissioned now": *add the unit-first Mach alternative as a
+# bounded test at 210 unminable against 33 minable, before anyone touches power level's 11,622
+# mentions*).
+#
+# `_QUANTITY` above is anchored on a LEADING figure, so every alternative in its unit list can
+# only ever match "<number> <unit>". English writes the Mach number the other way round -- "Mach
+# 5", not "5 mach". MEASURED ACROSS THE WHOLE FEATS CACHE, all 275,029 files, nothing sampled:
+# the unit-first form occurs 210 times and the minable number-first form 33, so 86% of the Mach
+# evidence in the corpus was unreachable, for the identical structural reason as `power level`.
+#
+# WHY THIS ONE AND NOT `power level`. The existing note inside `_QUANTITY` defers the general
+# question with a real argument: a quantity attributed to the wrong subject is worse evidence
+# than no quantity at all, and this pattern has no subject-resolution to lean on. That argument
+# is at its WEAKEST here and at its strongest for power level. "Mach 5" is a single unambiguous
+# token: the unit name and the figure are adjacent, in that order, with nothing between them for
+# a wrong subject to hide in. "a power level of 5,000" is a prepositional phrase whose subject is
+# wherever the sentence put it, and it carries 11,622 mentions rather than 210 -- so the bounded
+# test is deliberately the small, safe one, and the big one stays deferred exactly as the note
+# says. If the 210 turn out to attribute badly, the blast radius is 210 quantities.
+#
+# SEPARATE PATTERN RATHER THAN A SECOND ALTERNATIVE INSIDE `_QUANTITY`. `mine()` reads groups 1
+# to 4 of that regex by number -- mantissa, decimal exponent, superscript exponent, unit -- and
+# splicing a differently-shaped alternative into it would renumber them, which is how an
+# exponent gets silently dropped and an axis moves by orders of magnitude (see the group-2
+# comment in `mine`). This keeps one shape per pattern.
+_QUANTITY_UNIT_FIRST = re.compile(r"\b(mach)\s*(\d[\d,\.]*)\b", re.I)
 
 
 def mine(text, page):
@@ -1367,6 +1808,13 @@ def mine(text, page):
                 val = "%se%s" % (val.replace(",", ""), exp)
             quants.append({"value": val, "unit": m.group(4), "exponent": exp, "sentence": s,
                            "page": page})
+        # THE UNIT-FIRST FORM, same record shape so nothing downstream has to know which pattern
+        # found it. `unit_first` is stamped so the 210 this recovers stay separable from the 33
+        # the leading-figure pattern already reached -- the ruling commissioned this as a BOUNDED
+        # TEST, and a test whose results cannot be told apart from the control is not one.
+        for m in _QUANTITY_UNIT_FIRST.finditer(s):
+            quants.append({"value": m.group(2), "unit": m.group(1).lower(), "exponent": "",
+                           "sentence": s, "page": page, "unit_first": True})
     return kept, rejected, quants
 
 
@@ -1474,6 +1922,9 @@ def _axis_independent_gates(sentence):
 # second copy of it, so that a future tuning of the gate cannot leave the two disagreeing in
 # silence: there is now one definition of the axis-independent part and one of the axis part,
 # and this function is composed of both. (order 73aacce08418)
+#
+# RETAINED, NOT DELETED, under the owner ruling of 2026-09-08 ("Correct code that no caller ever
+# reaches", order 665e3609bc82: mark and keep, one line each, delete nothing).
 def axis_evidence(sentence, axis):
     """Does this sentence evidence THIS axis, with the subject as the doer?"""
     return _axis_independent_gates(sentence) and bool(_AXIS_ACT_RE[axis].search(sentence))
@@ -1557,10 +2008,13 @@ def evidence_for(host, name, cache=True):
         doc, _fp = cachekey.load(CACHE, host, name, on_corrupt=_corrupt)
         if doc is not None and (mined_under_superseded_gate(doc, host)
                                 or mined_without_name_matching(doc, host)
-                                or mined_under_old_marker_layer(doc, host)):
-            # Mined by a gate or an arm that has since been corrected for this corpus. Returning
-            # it would make the correction invisible -- see `mined_under_superseded_gate`,
-            # `mined_without_name_matching` and `mined_under_old_marker_layer`. Fall through and
+                                or mined_under_old_marker_layer(doc, host)
+                                or mined_under_failed_transport(doc, host)):
+            # Mined by a gate or an arm that has since been corrected for this corpus, or --
+            # `mined_under_failed_transport` -- not mined at all, because the fetch was refused
+            # and the record could not say so. Returning either would make the correction
+            # invisible: see `mined_under_superseded_gate`, `mined_without_name_matching`,
+            # `mined_under_old_marker_layer` and `mined_under_failed_transport`. Fall through and
             # re-mine; for a `doc:` host that reads the book off disk and costs no request, and
             # for a `pages:` host it costs one fetch per registered URL per process, not one per
             # entity (`_source_pages_text`).
@@ -1615,6 +2069,12 @@ def evidence_for(host, name, cache=True):
     # transport is `MODE_API` -- `fetch()` re-derives the same mode internally, so the two can
     # never disagree about which arm a given `titles` batch actually went down.
     api_parsed = False
+    # THE TWO CHANNELS THE RECORD USED TO BE UNABLE TO CARRY (orders ef4ca9edd61f, 4f308dbd9d2c).
+    # `transport` is why the fetch answered as it did; `resolved` is the ranked title the pages
+    # were also asked for under. Both are stamped into `mined_under` below. Only the wiki arm
+    # fills them -- the two name-matched corpora reach no transport and resolve no title -- and
+    # their default shape says so rather than reading as a clean fetch that resolved nothing.
+    transport, resolved = {}, {}
     if plain:
         dp = os.path.join(HERE, "data", "docs", host[4:], "pages.json")
         with open(dp, encoding="utf-8") as f:
@@ -1650,8 +2110,8 @@ def evidence_for(host, name, cache=True):
             titles = sorted(pages)
             attribution = "name-match"
         else:
-            titles = discover(host, name)
-            pages = fetch(host, titles)
+            titles = discover(host, name, resolved=resolved)
+            pages = fetch(host, titles, outcome=transport)
             attribution = "title-lookup"
             # MODE_RAW returns the body UNPARSED (`index.php?action=raw`), exactly like the
             # HTML/`pages:` corpora above -- a block page can arrive down that transport and
@@ -1695,8 +2155,27 @@ def evidence_for(host, name, cache=True):
     # 97,519 characters yielded a single feat. Keeping the text makes every later tuning pass a
     # local re-mine over cached files instead of another 48,866 fetches, which is the difference
     # between iterating on the gate in seconds and iterating on it in days.
-    out = {"entity": name, "host": host, "pages_read": sorted(pages),
-           "chars_read": sum(len(v) for v in pages.values()),
+    # `pages_read` HOLDS ONLY THE PAGES THAT PASSED THE GATE (order 6d594a775899; owner ruling
+    # 2026-09-08). It was `sorted(pages)` -- every title that ARRIVED, refusals included -- so an
+    # entity every one of whose pages was a Cloudflare interstitial or a soft-404 was recorded
+    # with a non-empty `pages_read` and a large `chars_read`. Inside this file that was handled
+    # (`roll()` counts `refused` separately); one layer up it was not, and `coverage.py`'s
+    # three-way status read a wholly-blocked entity as READ with zero feats -- read-and-silent,
+    # which is exactly "a failure wearing the costume of an absence" restored at the consumer.
+    #
+    # `pages_fetched` AND `chars_fetched` PRESERVE THE OLD NUMBERS, so nothing is lost and a
+    # reader who wants the fetch log still has it. The two questions are now separable on the
+    # record: what arrived, and what was the article. `text` was always gate-passing-only, so
+    # `pages_read` and `chars_read` are now the fields that agree with it.
+    # `chars_read` STAYS IN THE SAME UNITS IT WAS ALWAYS IN -- the SOURCE characters of the pages
+    # that passed, not the stripped ones. `text` holds `strip_wikitext`ed prose on a wiki, so
+    # summing that would have moved this number for every record on disk rather than only for the
+    # refused ones, which is not what the order was about and would have made the before/after
+    # unreadable.
+    out = {"entity": name, "host": host, "pages_read": sorted(text),
+           "chars_read": sum(len(pages[t]) for t in text),
+           "pages_fetched": sorted(pages),
+           "chars_fetched": sum(len(v) for v in pages.values()),
            "feats": feats, "quantities": quants, "gate_rejected": rej, "text": text,
            # Pages that arrived but were NOT the article. Kept on the record so a later reader
            # can tell "this entity has no evidence" from "we were served a block page" -- the
@@ -1711,8 +2190,23 @@ def evidence_for(host, name, cache=True):
            # mark. `stripper` says the wikitext stripper ran over this page text;
            # `attribution` says how the pages were decided to be this entity's -- "name-match"
            # for the two corpora with no title lookup, "title-lookup" for a wiki.
+           # `transport` and `resolved_title` ARE THE TWO FACTS THE RECORD COULD NOT STATE.
+           # `transport` is `fetch()`'s outcome channel -- "ok", "throttled", "http-404",
+           # "nonjson", "network", "no-api", "raw-transport" -- so an entity whose fetch was
+           # REFUSED is no longer byte-identical to one that genuinely has no pages, and
+           # `mined_under_failed_transport` below can re-ask it instead of the cache serving a
+           # throttled miss as an honest absence for ever. `resolved_title` says which name the
+           # pages were also asked for under, so the re-mine that this ruling causes is VISIBLE
+           # on the record rather than cached away invisibly.
+           # `pages_read_gated` marks the schema change above, so a reader can tell a record
+           # whose `pages_read` excludes refusals from one written before the ruling. It is NOT
+           # a marker-layer bump: bumping that would re-mine all 275,029 files against hosts
+           # that are already throttling us, and the ruling limits re-mining to anomalous hosts.
            "mined_under": {"stripper": bool(wiki_source), "attribution": attribution,
-                          "marker_layer": _MARKER_LAYER_VERSION},
+                          "marker_layer": _MARKER_LAYER_VERSION,
+                          "pages_read_gated": True,
+                          "transport": dict(transport) or None,
+                          "resolved_title": (resolved or {}).get("title")},
            # PROVENANCE: a digest of the exact page text these feats were mined from. Lets a
            # later pass ask whether a citation is still PROVEN, or merely was once -- a source
            # page can be edited or deleted after mining, and the evidence file would otherwise
@@ -1766,6 +2260,9 @@ def remine(path):
     # the file is unchanged, and the point of re-mining is that the gate has been corrected --
     # a correction that silently does not land makes the old gate's verdict permanent.
     # It has no callers yet, so nothing today has a handler to break; a future one is told.
+    #
+    # RETAINED, NOT DELETED, under the owner ruling of 2026-09-08 ("Correct code that no caller
+    # ever reaches", order 665e3609bc82: mark and keep, one line each, delete nothing).
     if not silence.write_json(path, ev, indent=1, ensure_ascii=False):
         silence.note("feats.py:remine-write-denied")
         raise OSError("re-mined evidence could not be landed over %s (replace denied after "
@@ -1840,12 +2337,32 @@ def roll(records, hosts, workers=8, limit=None, only=None):
     # absences, restored one layer up. Counted here and printed below, on the file's own rule
     # that a measurement nobody prints is not a measurement.
     done = {"n": 0, "feats": 0, "quant": 0, "pages": 0, "chars": 0, "empty": 0, "errored": 0,
-            "refused": 0, "refused_entities": 0}
+            "refused": 0, "refused_entities": 0,
+            # DEFERRED, NOT DROPPED (order 5be28f56946c; owner ruling 2026-09-08). Counted so
+            # the deferral can never be the silent exclusion it exists to replace.
+            "deferred": 0, "deferred_hosts": 0, "quarantine_unreadable": 0}
     lock = threading.Lock()
     t0 = time.time()
+    deferred = []
+    total = len(jobs)
 
-    def work(job):
+    def work(job, honour_quarantine=True):
         h, src, name = job
+        if honour_quarantine:
+            # THE BRAKE THE HAND-OFF ALWAYS CLAIMED TO BE. `note_throttled` quarantines a host
+            # after THROTTLE_STRIKES consecutive 429s and its comment says the crawl stops
+            # spending requests on it; until the 2026-09-08 ruling nothing on the fetch path
+            # asked, so twelve workers went on queueing at the 32x ceiling. Asked here, once per
+            # entity, off a view refreshed at most once a minute.
+            held, unreadable = quarantine_view()
+            if unreadable:
+                with lock:
+                    done["quarantine_unreadable"] += 1
+            elif h in held:
+                with lock:
+                    deferred.append(job)
+                    done["deferred"] += 1
+                return
         errored = False
         try:
             ev = evidence_for(h, name)
@@ -1869,22 +2386,46 @@ def roll(records, hosts, workers=8, limit=None, only=None):
                 if nref:
                     done["refused"] += nref
                     done["refused_entities"] += 1
-                if not ev["pages_read"]:
+                # `pages_fetched` IS THE QUESTION HERE, NOT `pages_read` (order 6d594a775899).
+                # `pages_read` now holds only the pages that PASSED the gate, so an entity every
+                # one of whose pages was a block page would have been counted `empty` -- "we
+                # found no page" -- when the truth is that pages arrived and were refused, which
+                # `refused` already says. `empty` keeps its own meaning: nothing arrived at all.
+                # `.get` with a fallback so records predating the split still answer.
+                arrived = ev.get("pages_fetched")
+                if arrived is None:
+                    arrived = ev["pages_read"] or list((ev.get("pages_refused") or {}))
+                if not arrived:
                     done["empty"] += 1
             n = done["n"]
-            if n % 200 == 0 or n == len(jobs):
+            if n % 200 == 0 or n == total:
                 el = time.time() - t0
                 rate = n / max(el, 1e-9)
-                print(f"  {n:>6,}/{len(jobs):,}  {rate:>5.1f}/s  "
+                print(f"  {n:>6,}/{total:,}  {rate:>5.1f}/s  "
                       f"feats {done['feats']:,}  quantities {done['quant']:,}  "
                       f"pages {done['pages']:,}  {done['chars']/1e6:.0f}M chars  "
-                      f"eta {(len(jobs)-n)/max(rate,1e-9)/3600:.1f}h", flush=True)
+                      f"eta {(total-n)/max(rate,1e-9)/3600:.1f}h", flush=True)
 
     from concurrent.futures import ThreadPoolExecutor
     print(f"roll: {len(jobs):,} entities across "
           f"{len({j[0] for j in jobs})} wikis, {workers} workers", flush=True)
     with ThreadPoolExecutor(max_workers=workers) as ex:
         list(ex.map(work, jobs))
+    # THE DEFERRED TAIL. A quarantined host's entities are mined at the END of the roll and on ONE
+    # worker, which is the "slow cadence" `note_throttled`'s hand-off comment promises: the
+    # per-domain pacer plus the host's own backoff multiplier still apply, so this tail runs at
+    # whatever rate the edge has been asking for. They are mined REGARDLESS of whether the host is
+    # still held, because the alternative is dropping them, and a dropped roster is a smaller
+    # universe in the same shape Hard Rule 0 forbids -- the quarantine's job is to move the
+    # traffic off the hot path, not to decide that an entity does not exist.
+    if deferred:
+        done["deferred_hosts"] = len({j[0] for j in deferred})
+        print(f"\n  DEFERRED TAIL: {len(deferred):,} entities across "
+              f"{done['deferred_hosts']} quarantined host(s), mined now on ONE worker at the "
+              f"pace their edge is asking for. Deferred, never dropped.", flush=True)
+        total = done["n"] + len(deferred)
+        for job in deferred:
+            work(job, honour_quarantine=False)
     print(f"\ndone in {(time.time()-t0)/3600:.2f}h  "
           f"{done['feats']:,} feats, {done['quant']:,} quantities, "
           f"{done['empty']:,} entities with no page, "
@@ -1899,6 +2440,18 @@ def roll(records, hosts, workers=8, limit=None, only=None):
               f"-- these arrived and were NOT the article; they are not evidence of absence")
     else:
         print("  pages refused: none (every page that arrived looked like the article)")
+    if done["deferred"]:
+        print(f"  entities DEFERRED to the tail for a quarantined host: {done['deferred']:,} "
+              f"across {done['deferred_hosts']} host(s) -- they were mined last and slowly, not "
+              f"skipped; their feats ARE in the totals above")
+    else:
+        print("  entities deferred for a quarantined host: none")
+    if done["quarantine_unreadable"]:
+        print(f"  QUARANTINE NOT CONSULTABLE for {done['quarantine_unreadable']:,} of the "
+              f"entities walked: data/HOST_QUARANTINE.json exists and would not parse, so those "
+              f"fetches went out without the hand-off being able to brake them. This is NOT "
+              f"'no host was quarantined' -- it is 'we could not tell', and it is printed rather "
+              f"than rounded to the friendlier of the two answers.")
     if _UNCACHED:
         tot = sum(_UNCACHED.values())
         print(f"  evidence that did NOT reach disk: {tot:,} entit"
@@ -1972,9 +2525,28 @@ def roll(records, hosts, workers=8, limit=None, only=None):
 
 def _show(ev):
     print(f"  {ev['entity']}  @ {ev['host']}")
-    print(f"    pages   : {len(ev['pages_read'])}  ({ev['chars_read']:,} chars)")
+    # BOTH NUMBERS, because they are now different questions (order 6d594a775899): `pages_read`
+    # is what passed the gate and `pages_fetched` is what arrived. A display showing only the
+    # first would say "0 pages" for an entity served nothing but block pages, which is the exact
+    # reading `pages_refused` exists to prevent.
+    _fetched = ev.get("pages_fetched")
+    print(f"    pages   : {len(ev['pages_read'])} read  ({ev['chars_read']:,} chars)"
+          + (f", {len(_fetched)} fetched ({ev.get('chars_fetched', 0):,} chars)"
+             if _fetched is not None else
+             "   [this record predates the read/fetched split; its pages_read may include "
+             "refusals]"))
     for t in ev["pages_read"]:
         print(f"              {t}")
+    # THE TRANSPORT, WHEN THE RECORD CAN SAY. An entity with nothing at all is the shape this
+    # whole channel was added for, and the one moment a person is looking at `--probe` output is
+    # the moment they need to know whether the fetch was refused or the wiki was simply empty.
+    _tr = (ev.get("mined_under") or {}).get("transport")
+    if _tr:
+        print(f"    fetch   : {_tr.get('why')}  "
+              f"({_tr.get('failed', 0)} of {_tr.get('batches', 0)} batch(es) failed)")
+    elif not ev["pages_read"] and not (ev.get("pages_refused") or {}):
+        print("    fetch   : NOT RECORDED -- this record predates the transport stamp, so it "
+              "cannot say whether the fetch was refused or the entity has no pages")
     print(f"    feats   : {len(ev['feats'])}   quantities: {len(ev['quantities'])}"
           f"   held-back: {len(ev['gate_rejected'])}"
           f"   refused: {len(ev.get('pages_refused') or {})}")
@@ -2053,7 +2625,35 @@ def main():
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--limit", type=int)
     ap.add_argument("--only", help="restrict the roll to sources containing this string")
+    ap.add_argument("--empty-rates", action="store_true",
+                    help="measure each host's unexplainable-empty rate over the whole local "
+                         "cache (no network) and write data/FEATS_EMPTY_RATES.json -- the "
+                         "measurement the 2026-09-08 ruling's re-mine list is taken from")
     a = ap.parse_args()
+
+    if a.empty_rates:
+        doc = empty_rates()
+        rows = doc["hosts"]
+        floor = EMPTY_RATE_CONTROL * EMPTY_RATE_ANOMALY
+        # RANKED, NEVER TRUNCATED -- every host prints, worst rate first (Hard Rule 0).
+        for h, r in sorted(rows.items(), key=lambda kv: -kv[1]["empty_rate"]):
+            print(f"  {'ANOMALOUS' if r['empty_rate'] >= floor else '   ok    '}  "
+                  f"{r['empty_rate']:>7.2%}  {r['unexplainable_empty']:>7,} of {r['files']:>7,}"
+                  f"  stamped {r['carries_transport_stamp']:>7,}"
+                  f"  unreadable {r['unreadable']:>5,}  {h}")
+        n_anom = sum(1 for r in rows.values() if r["empty_rate"] >= floor)
+        print(f"\n{len(rows)} host(s) measured, {n_anom} anomalous against the "
+              f"{EMPTY_RATE_CONTROL:.1%} dc.fandom.com control at x{EMPTY_RATE_ANOMALY:g}. "
+              f"Only those are admitted for a legacy re-mine.")
+        if not silence.write_json(EMPTY_RATES, doc, indent=1, ensure_ascii=False):
+            # The measurement is the product. A run that measured and could not land it has not
+            # authorised anything, and must not exit as though it had.
+            print("\nMEASUREMENT NOT WRITTEN: %s could not be replaced, so nothing on disk "
+                  "authorises a re-mine and `anomalous_empty_hosts()` still reports UNMEASURED."
+                  % EMPTY_RATES)
+            return 1
+        print("wrote %s" % EMPTY_RATES)
+        return 0
 
     if a.hosts:
         h = resolve_hosts(P.records())

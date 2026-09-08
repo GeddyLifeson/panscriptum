@@ -194,7 +194,18 @@ def total_vram_gb():
 
 
 def resident(model_entry, budget_gb):
-    """Does this model fit ENTIRELY on the card, weights + context, per the ruling?"""
+    """Does this model fit ENTIRELY on the card, weights + context, per the ruling?
+
+    WHICH BUDGET THIS ANSWERS, said out loud (order 2f38b3e5258d, owner ruling 18 of
+    2026-09-08). `budget_gb` is the card's TOTAL capacity -- `total_vram_gb()` -- so this is
+    the question "does this model belong on this GPU at all", asked once and independent of
+    whatever else happens to be resident this minute. `fit_note()` below answers the OTHER
+    question, against FREE VRAM: "will it stay on the card right now". Both can be true at
+    once, and a model this function calls usable can legitimately have `fit_note()` print WILL
+    OFFLOAD -- that is two different questions agreeing, not a contradiction. On a shared GPU a
+    caller generally wants both; what was not defensible was that neither function said which
+    one it was answering.
+    """
     return weight_gb(model_entry) + KV_GB <= budget_gb
 
 
@@ -249,6 +260,12 @@ def weight_gb(model_entry):
 
 def fit_note(model_entry, vram_gb, num_ctx_gb=KV_GB):
     """Plain-language warning about whether this model will actually stay on the GPU.
+
+    WHICH BUDGET THIS ANSWERS, said out loud (order 2f38b3e5258d, owner ruling 18 of
+    2026-09-08). `vram_gb` is FREE VRAM -- `free_vram_gb()` -- so this is the RIGHT-NOW
+    question, and its verdict moves as the desktop takes and releases memory. `resident()`
+    above answers the standing question against the card's TOTAL capacity. Neither is wrong
+    when they disagree; they are not asking the same thing.
 
     OWNER RULING 2026-08-24 retired the MoE tolerance this used to carve out here: the 30B MoE
     ran at 19.0GB resident with 8.4GB on the card, over half offloaded, and a single phase call

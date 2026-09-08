@@ -68,7 +68,19 @@ It is deliberately FAIL-OPEN rather than fail-closed, and that is the one place 
 departs from house doctrine, for a stated reason: a linter missing from a fresh checkout is not
 evidence that the library is unsafe, and halting the park because an optional second opinion is
 unavailable would make a safety indistinguishable from a fault — which is the exact confusion
-that caused this project's longest outage. It escalates to JANITOR (record it), not to OWNER.
+that caused this project's longest outage. An absent second opinion is a JANITOR-LEVEL MATTER —
+record it, stop nothing — and it is recorded via `silence.note`, not by calling
+`escalation.escalate()`.
+
+    THE WORDING MATTERS AND IT USED TO BE WRONG (order 91cf746c651e, owner ruling 2026-09-08).
+    This sentence read "It escalates to JANITOR (record it), not to OWNER", which names a CALL
+    this module has never made: there is no `import escalation` anywhere in this file and no
+    escalate() call site. A reader checking whether the chain is wired here found nothing and
+    had to work out whether the wiring was missing or the sentence was. It was the sentence.
+    The severity is the true half and it is kept; the mechanism is now named accurately.
+    Adding the call would also contradict the paragraph it sits in — it would import the very
+    chain that paragraph explains why not to trigger, and every fresh checkout without `ruff`
+    or `detect-secrets` would file a chain event on the rung that is supposed to be signal.
 """
 import argparse
 import json

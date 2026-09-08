@@ -68,6 +68,16 @@ import math
 # propagation.arrival_years(). What remains here are the DEGENERATE cases, which are not rates at
 # all -- they are shelves where the concept of a rate fails, and each is already named in the
 # charter rather than invented here.
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically
+# deletable (order 0291835411d9, owner ruling 2026-09-08: "mark and keep, one line each,
+# delete nothing"). NOT ACTUALLY DEAD ANY MORE, and the correction is the point of the
+# marker: the order was filed when a grep found only this definition, and the battery has
+# since gained a reader -- verify_math.py:861 walks `DEGENERATE_TIME.values()`. It has one
+# battery reader and no production caller. THE DRIFT THE ORDER NAMED IS REAL AND STANDS:
+# `loop_report()` below re-states the Basement Loop and the Rot City in its own prose
+# rather than reading them from this table, so one fact has two copies. Not repaired here
+# -- `loop_report` takes no shelf argument, so reading the table would change its
+# signature, which is a wiring decision and not a marker. Its docstring now points here.
 DEGENERATE_TIME = {
     "the Basement Loop": ("CLOSED", "returns to its own start; no net reference time elapses, "
                                     "however much is locally experienced (II.N.3)"),
@@ -125,6 +135,14 @@ def is_present_at(event_mark, observer_rung):
     return event_mark >= observer_rung
 
 
+# REPORTED DEAD, NOT DELETED (order 1a9c237dda4d, owner ruling 2026-09-08). No reader
+# anywhere in the repository, and it is the exception in this file: every other public
+# symbol here is read by the battery or the pipeline (DEGENERATE_TIME, contemporaneous,
+# is_present_at, retrocausality_beta, band_resolution, rung_description_length,
+# prescience_horizon_bits, apparent_lag_years). Retained as reference data awaiting a
+# consumer rather than dropped under this file's own SECONDS_PER_YEAR/C_LIGHT precedent:
+# that precedent removed unread CONSTANTS duplicated elsewhere, and this is the Chronicle's
+# own table of what "now" means per rung, which exists nowhere else in the tree.
 def concordance_now(observer_rung=17):
     """What 'now' means for an observer at a given rung. The Chronicle's table, explained."""
     return {
@@ -141,6 +159,11 @@ def concordance_now(observer_rung=17):
 
 def loop_report(local_years_experienced, iterations=None):
     """A closed timelike shelf: the Basement, the Rot City.
+
+    THOSE TWO NAMES ARE A SECOND COPY OF `DEGENERATE_TIME` ABOVE, which is the table of
+    record for which shelves are degenerate and why (order 0291835411d9). This function
+    takes no shelf argument, so it cannot read the table; read the table, not this
+    sentence, for the roll of closed shelves.
 
     Net reference time elapsed is ZERO however much is locally experienced -- which is the honest
     statement of what a loop is, and it has a hard consequence the charter should carry: a looped

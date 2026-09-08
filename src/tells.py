@@ -16,7 +16,9 @@ Three kinds, and they fail differently.
   LEXICAL     single words that machine prose reaches for far past their natural rate: delve,
               tapestry, myriad, meticulous, seamless, vibrant, testament, realm, boasts.
   STRUCTURAL  sentence shapes used as a reveal: "not merely X but Y", "It's not that X, it's Y",
-              rule-of-three lists, "not only ... but also".
+              "X, Y and Z alike", "not only ... but also". (That third one was called
+              "rule-of-three lists" until 2026-09-08; the pattern has always required the
+              closing "alike"/"all"/"together" and the label now says so -- see its entry.)
   DISCOURSE   connective furniture that announces the machine: "That said", "It is worth noting",
               "In conclusion", "Ultimately", "Moreover" as a paragraph opener.
 
@@ -94,7 +96,21 @@ STRUCTURAL = {
     "serves as a": r"\bserves? as a\b",
     "plays a X role": r"\bplays? a (?:crucial|vital|pivotal|key|significant|central) role\b",
     "at its core / heart": r"\bat (?:its|the) (?:core|heart)\b",
-    "rule of three": r"\b\w+, \w+,? and \w+ (?:alike|all|together)\b",
+    # RENAMED FROM "rule of three" BY OWNER RULING 2026-09-08 ("The prose lane's model and layer
+    # four", option (a), order 382d3a1c387c), which chose the reading that the PATTERN is right
+    # and the LABEL was over-promising -- the same deliberate asymmetry the "not merely" entry
+    # above is defended for, and the same remedy: say what it catches.
+    #
+    # The pattern only fires on a three-item list CLOSED by "alike", "all" or "together"
+    # ("swords, spears and axes alike"). A bare rule-of-three list -- "it was cold, silent and
+    # very old" -- does not match, and must not: an unqualified three-item-list pattern fires on
+    # ordinary English constantly, starting with this library's own "Persons, Places and Powers".
+    # The label mattered because `prompt_section()` hands it to the model VERBATIM as a thing
+    # never to write, so the instruction and the checker were describing different scopes in the
+    # one file whose premise is that they cannot. Widening the pattern was the option NOT taken;
+    # it would need its false-positive rate measured against the corpus first, the way the "not
+    # just" completion was.
+    "X, Y and Z alike": r"\b\w+, \w+,? and \w+ (?:alike|all|together)\b",
     "whether you're": r"\bwhether (?:you|one)['’]?(?:re| are)\b",
     "from X to Y": r"\bfrom \w+ to \w+, \b",
     "little is known save": r"little is known (?:of|about) .{0,40}(?:save|except|beyond)\b",
