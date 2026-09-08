@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 435  ·  last run 2026-09-08 00:40
+round 436  ·  last run 2026-09-08 02:41
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 435  ·  last run 2026-09-08 00:40
 
 ## What the model found in the code
 
-**32 open** (14 high). Newest first.
+**31 open** (12 high). Newest first.
 
 - **entity_match.py** `candidates` — [HIGH] Returns a list of {name, score, reason} sorted best-first, but the function's return shape is inconsistent between early exits and the normal path, returning a dict for the normal path and a list for early exits, which can cause AttributeErrors when accessing keys like 'blocked_by_qualifier' on lists.
   - says: Rank every compatible catalogue entry for `name`.
@@ -38,10 +38,12 @@ round 435  ·  last run 2026-09-08 00:40
   - says: every alphanumeric becomes '_' and every source's log collapses into one file named for none of them
 - **drill.py** `catalog_matches_disk` — [HIGH] only checks the catalog to disk direction
   - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
-- **cascade_bridge.py** `_tried_add` — [HIGH] called without being defined in this file or its imports
-  - says: THE WIDEN PATH NAMES ITS BUCKET TOO (order d5012fbc73c1). The tagged-pool claim loop above calls `_tried_add(cand.bucket)`; this branch reserved, pinned and returned without it, so `_tried()` was empty for every widened call and `ask()`'s metric row wrote `
-- **canon_backup.py** `verify` — [HIGH] appends notes about changed, added, and gone files but does not verify the archive's integrity
-  - says: is the archive itself still intact and readable, AND WHICH CANONICAL FILES HAVE CHANGED since it was taken
+- **foreman.py** `unrestartable` — [MEDIUM] unrestartable jobs are not escalated
+  - says: A stalled job nothing would restart is escalated, not silently left
+- **foreman.py** `kill_stalled` — [MEDIUM] killed stalled and unrestartable jobs
+  - says: killed stalled
+- **foreman.py** `silence.write_json` — [MEDIUM] write_json is called with the wrong parameters
+  - says: write_json
 - **drill.py** `GL._take_slot` — [MEDIUM] None from `_take_slot` means GO NOW; False means wait. -> bool.
   - says: None from `_take_slot` means GO NOW; False means wait. -> bool.
 - **drill.py** `the_floor_never_rises_to_go_green` — [MEDIUM] The function tests for a floor that is never raised, but the test case includes a deliberately unparseable floor file which causes `_floor_verdict` to raise an exception, and the function does not handle this exception properly, leading to an incorrect test result.
@@ -74,10 +76,6 @@ round 435  ·  last run 2026-09-08 00:40
   - says: the raw join would look for the un-truncated name, miss the record this module itself wrote under the cap, and write a SECOND one beside it
 - **cascade_bridge.py** `selftest` — [MEDIUM] the code does instead
   - says: the code says it does
-- **cascade_bridge.py** `served` — [MEDIUM] the `served` dict the caller reads still says "answered" with no error text and the reply itself discarded
-  - says: the caller reads still says "answered" with no error text
-- **binding_health.py** `known_present_titles` — [MEDIUM] not defined in this file or its imports
-  - says: returns candidate titles for a host
 
 ---
 
