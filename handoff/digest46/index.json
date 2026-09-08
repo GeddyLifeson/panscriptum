@@ -1,0 +1,1796 @@
+{
+ "44c420f80448": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Sweep batch plan reshuffles mid-run and falsifies the coverage ledger",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "b86d79c574e3"
+  ]
+ },
+ "b86d79c574e3": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Same batch-instability finding, filed independently by sweep39 batch 9",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "44c420f80448"
+  ]
+ },
+ "dc9ffadae765": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "Work-order evidence cites line numbers nothing has ever checked",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "fbc0930ae309": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Proving a behavioural drill net works currently costs a library outage",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "850786a2fee4"
+  ]
+ },
+ "3859043e365e": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Generate's output reserve does not account for a reasoning model's thinking tokens",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "51f0be4252e6": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Escalation fail-open regex matches a shape that exists in no file",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "3e11c452ff67"
+  ]
+ },
+ "24155b641dfa": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Bloons secret-scan waiver lost its scope caveat to a 300-character cap",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "f5503302ce44"
+  ]
+ },
+ "850786a2fee4": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "No drill net fires before a model-authored patch to live source is kept",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "fbc0930ae309"
+  ]
+ },
+ "1a9c237dda4d": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Four public symbols in ledger.py and tempus.py with no reader anywhere",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "3fb312a72435",
+   "946153deafe9"
+  ]
+ },
+ "3fb312a72435": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "hosts.py fixes the single-host cap and nothing in the pipeline calls it",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "1a9c237dda4d",
+   "946153deafe9"
+  ]
+ },
+ "f5503302ce44": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Suppression reason still truncated on disk after the code cap was removed",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "24155b641dfa"
+  ]
+ },
+ "cefcad5fc513": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Step-4 enforcer assert_step4_open has no caller and is unwired",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "0a9943374fe6": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "Publish-refusal check greps two of the most generic strings in Python",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "3e11c452ff67": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "\"REFUSING TO\" substring row shares a failure mode with the dead regex",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "51f0be4252e6"
+  ]
+ },
+ "8350f7a183d1": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "alive_verdict answers \"undetermined, because everything was fine\"",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "d3acbb793ef2": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Cascade pin path can dispatch a live call to the local GPU",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "e038ec1759a9": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "pick_model prints two different VRAM budgets in one table",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "946153deafe9": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "completeness.category_size has no caller and claimed callers it did not have",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "1a9c237dda4d"
+  ]
+ },
+ "27f823fd6ed5": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Ledger-guard 5% loss tolerance is set by taste, not measurement",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "342ccfafa4a4": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "configured model is a thinking variant the config forbids",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "9b54659bc403"
+  ]
+ },
+ "5be28f56946c": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "quarantine handoff brakes nothing; comment claims it does",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "959b98f38a63"
+  ]
+ },
+ "4f5fa3146cc4": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "foreign edit during a mutation run halts the whole library",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "c614f7c145fc": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "a halt was lifted by an automated actor, not a person",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "6fc71f8ab76e": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "feat-less entries never nominated once a source has any feats",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "1cdc2f8cd2f3": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "does Hard Rule 0 reach announced console truncation",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "e68664e621bf": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "URL_SETTABLE is read by nothing and has already diverged",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "de43fe54feb7": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "scope.ceiling_for has no callers anywhere in the tree",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "e68664e621bf"
+  ]
+ },
+ "8fb33a0204c4": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "the printed shelfmark omits the star field entirely",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "845dbaec182f": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "coin_well_formed's exhausted exit returns a rejected name",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "c8dc624e4e02": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "unbound host and no-feats give one indistinguishable answer",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "85cdecef25f8": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "'weapon property' unmapped in the codex type taxonomy",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "4398d76f822f": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "repass_bands --apply destroys rejected scale_note text",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "556c1b8fda9f": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "NTFS hard links bypass the propose_patch denylist",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "9b3e59aeeb19": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "axis_score returns one None for five different conditions",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "b248f8f706d3": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "Hard Rule 0 tripwire fires only after hours of network work",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "9adb8291c16c": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "suppressions.problems() re-walks the whole repo per row",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "f90795d5c6bd": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "codewatch.stamp ignores its who argument",
+  "live": false,
+  "rer": true,
+  "unblocks": []
+ },
+ "0b1cda11f4a2": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "feats.axis_evidence is dead code duplicating the live gate",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "d47ea56cca29": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "the one unjudged assay mutant is a non-terminating loop",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "f6c52ef7657f": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Foreign semsearch daemon exhausts the machine's ephemeral ports",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "28f79d511879",
+   "d2583f4c8b36"
+  ]
+ },
+ "74f1bc47da2a": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Battery rows still redden on live network, not on this code",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "23dbbcd656f3"
+  ]
+ },
+ "b57e23204f66": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "What rho() returns when the axis matrix is unreadable",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "01695fe3ef26": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Keep scale_theories' four priced codifications, or delete the module",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "6c479972e838"
+  ]
+ },
+ "c9e6e50e792f": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "assay_dof lists nine parents while its own prose says ten",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "28f79d511879": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "The machine has run out of TCP ports (the 40x magnitude filing)",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "f6c52ef7657f",
+   "d2583f4c8b36"
+  ]
+ },
+ "19791681f257": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Survivor rows alias one red-gate list that is rewritten mid-run",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "95f80c0ea860": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "tiers report denies the hyperverse it publishes on the next page",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "c2bbe43e0f2d": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "A source with zero slug candidates gets a clean \"no wiki\" negative",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "d2583f4c8b36": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "The local rung was unworkable because a game held the GPU",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "f6c52ef7657f",
+   "28f79d511879"
+  ]
+ },
+ "b186bc4dad8f": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "category, topic and subroom are three axes; what about the unrestored rows",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "3d2d9b87cc10": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Should FOR_OWNER.md be published, or withdrawn from the export",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "f2271d9ee843"
+  ]
+ },
+ "91cf746c651e": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Does secondopinion's \"escalates to JANITOR\" name a call or a severity",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "464cc4e12fbc": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Dead entries in overwatch's _STATE_RANK, or legacy compatibility",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "14a73de63099": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "\"8 known-present titles\" reads as the whole catalogue",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "aecffd7eea57"
+  ]
+ },
+ "6c479972e838": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Receiver-aware dead-code detection needs the ratchet moved with it",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "01695fe3ef26"
+  ]
+ },
+ "28c1f58f5e8a": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Six run35 proposal files with 59 checks were never adopted",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "aecffd7eea57": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "eberron.fandom.com is correctly bound but no catalogued title resolved",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "14a73de63099"
+  ]
+ },
+ "1b7f14efce8e": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "prime.fandom.com is bound to a source it has nothing to do with",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "ef8940b363b3": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Codex section substring fallback is not most-specific-wins",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "18f7673b77ce": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "clean_ceiling's prefix match picks the shortest with no ambiguity check",
+  "live": false,
+  "rer": true,
+  "unblocks": []
+ },
+ "bd673ceaaf31": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Wire Lumen's staleness and Threnody's veto, or rule them abstained",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "2af7ca515157",
+   "f467f662be4b"
+  ]
+ },
+ "7ad10a229440": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Does reprove_pool's success block restart_reader from ever running",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "d2e44a766769"
+  ]
+ },
+ "0c1670811107": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "Corroboration of a coverage-stamp fault that has since been fixed",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "44c420f80448"
+  ]
+ },
+ "7e360eaec3a6": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Keep or delete chord_field's six uncalled physics functions",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "b813fc5a37e2": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Cloud routing gate ignores the pool-proof age it claims to check",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "5f1dc97d5216": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Unreadable records directory reads as a clean empty corpus",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "dc501e776a2b": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "rigor certifies a nan matrix as maximally consistent",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "7716ac4884cc": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "Six pipeline.py line cross-references now point at the wrong lines",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "c391a1f77e42": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Does phase 8 close when every ready source has zero entries",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "97d5b256fbdc"
+  ]
+ },
+ "ae25c89f0179": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Genre-aware naming register is structurally unreachable",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "2eabb417f58f": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "A drill net that cannot fail on the dedupe guard it names",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "a5de2dcb9447"
+  ]
+ },
+ "f84cb75edcfe": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Prime World Equipment is bound to the hydration-drink wiki",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "423e35500033": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "Empty provenance manufactures a probe out of nothing",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "f27d210d4fea": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "Dead alive() and _page_exists() in feats.py, filed four times over",
+  "live": true,
+  "rer": true,
+  "unblocks": [
+   "c54bb7d84622",
+   "665e3609bc82",
+   "4f308dbd9d2c"
+  ]
+ },
+ "585fcd3774b8": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Bone (Jeff Smith) has no roll row; 86 entries invisible",
+  "live": false,
+  "rer": true,
+  "unblocks": []
+ },
+ "762256b4b844": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Should escalate() reject a non-integral float level",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "541384445ec3": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "Grounding distribution log capped at exactly the population size",
+  "live": true,
+  "rer": true,
+  "unblocks": [
+   "3dd5b6caef38"
+  ]
+ },
+ "ee0e5bef7dab": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Bulk-delete the leaked %TEMP% scratch directories",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "3dd5b6caef38": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Does Hard Rule 0 reach announced console illustration lists",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "541384445ec3"
+  ]
+ },
+ "5a0c4196142f": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Should source-substring checks ask the parse tree instead of the text",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "4e7f1e47d0a0": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Keeper restarted a job a run had stopped",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "4c1eaa9df7fa"
+  ]
+ },
+ "71ae3fa7e55e": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Should a breach read mid-edit halt the library",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "690db2bf4f1d"
+  ]
+ },
+ "9a44b1535851": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Recovery tool writes records outside the record writer",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "be9e9f089d62": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Shelfmark omits the star, so names can collide",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "789f99f2a65f"
+  ]
+ },
+ "8c354f6c9780": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Twin watchdog failed open silently at boot",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "8d8ba5377fb6": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Ceiling prompt showed 3 of 33 mined feats",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "ca0a93856e2a": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "BUGS.md Open section is majority-resolved entries",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "d8858a26e46e": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "A module partition does not partition meaning",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "71ae3fa7e55e"
+  ]
+ },
+ "382d3a1c387c": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Rule-of-three tell is narrower than the label it ships",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "692f693c3900"
+  ]
+ },
+ "6e6954f261e0": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Prose gate never checks the Instrument section exists",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "3b9812ae8ab7": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Mach is written unit-first, so 86% is unminable",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "3fb9fc6b9999": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "ledger.py (De Pretio) has no caller in the pipeline",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "79da6c08c536": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Rejections filed even when the host-map write was refused",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "e8622cf0d047": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "`why=None` reverts a good patch with a wrong error",
+  "live": true,
+  "rer": true,
+  "unblocks": [
+   "cca253138a62"
+  ]
+ },
+ "789f99f2a65f": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "tiers.py prints \"hyperverse DECLINED\" while assigning one",
+  "live": true,
+  "rer": true,
+  "unblocks": [
+   "be9e9f089d62"
+  ]
+ },
+ "5c8a7bc883e7": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "One feat-bearing entry excludes the whole rest of the cast",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "cca253138a62": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "Console tool trace cuts args and results unmarked",
+  "live": true,
+  "rer": true,
+  "unblocks": [
+   "e8622cf0d047"
+  ]
+ },
+ "2e0ba4b02ec4": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Phantom pass builds its `defined` set module-wide",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "2f38b3e5258d": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "resident() and fit_note() measure different VRAM budgets",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "692f693c3900": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Duplicate of the rule-of-three scope question",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "382d3a1c387c"
+  ]
+ },
+ "895a99602bf0": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "What stops a thirteenth probe-litter site appearing",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "247b173c78ee",
+   "31a946e96c69",
+   "630fe4529c51",
+   "b53dd5b3f76f"
+  ]
+ },
+ "66f96febdb3a": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "descending_ladder has no consumers; the gap it names is open",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "707fefc17465"
+  ]
+ },
+ "959b98f38a63": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Fandom throttling is our own aggregate rate, not a ban",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "befb174bca20",
+   "ad80146c36dc",
+   "d7404ad383f1",
+   "3dc2832846bc"
+  ]
+ },
+ "92fd876c2f0e": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Two rho-fallback checks that cannot run in normal operation",
+  "live": false,
+  "rer": true,
+  "unblocks": [
+   "23dbbcd656f3"
+  ]
+ },
+ "4d78c426afb3": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "MediaWiki category floor of 40 pages is undeclared",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "bffc372a96d2": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "The LOCAL rung is starved by the library's own daemons",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "9b54659bc403"
+  ]
+ },
+ "fc08e056e1ab": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Two disagreeing tests for \"is this the entity's own page\"",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "9fcbe25a473b": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "pantheon prints an incomplete roster but returns rc=0",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "a8eb06d38216"
+  ]
+ },
+ "cdfeccbfbab0": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Two of three universe size classes refuse to produce a census",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "9e300162f4df": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "Composite catalogue hardcodes type \"Deity\" for every entry",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "d2da5914da94": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "A source with no probeable categories is dropped, not marked unmeasured",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "70f66fbd98aa": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "runguard fails OPEN on a corrupt guard, against Hard Rule -1",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "189532cbf41a": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Spine-gap report shows 4 of 33 unassigned sources",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "eb681053b234": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "pyflakes gate ran with no encoding contract",
+  "live": false,
+  "rer": true,
+  "unblocks": []
+ },
+ "2c8e55f8f3f7": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "An unrankable tier ranks as the lowest real tier",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "5c962f306e58": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "The model-patch gate skips the entire VERIFY tier",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "864a626a258e": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "CLAUDE.md's \"all 57 nets\" is stale by an order of magnitude",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "efd2b537f26d": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "warthunder's catalogued entry names are not article titles",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "f2b06f8c9476": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Synthesis prompt cut each entity's feats to the first three",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "8f50f37255b5": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "_STOPNAMES deletes real named entities from the entity index",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "f9643582fd29": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Close the sandbox claim window or accept the race",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "7099a092abd3": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Thirteen public functions the battery alone calls",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "0291835411d9",
+   "665e3609bc82",
+   "db36d589713e",
+   "da15f582b2ea"
+  ]
+ },
+ "ef4ca9edd61f": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Re-mine 34,850 records that cannot say why they are empty",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "6d594a775899"
+  ]
+ },
+ "88a5f9192e1b": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "cachekey.owns ignores the host dimension",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "13aee150e0dc": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "A lock file moves a stale-code alarm four rungs down",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "505177847f43": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Foreign process starving the free local labour rung",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "38c51153243c": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Is the Ruin band edge meant to be U-shaped?",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "4f308dbd9d2c": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Switch on title resolution, or declare it off",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "665e3609bc82",
+   "0fbaba6e1070"
+  ]
+ },
+ "6d594a775899": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Does pages_read mean fetched or read?",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "ef4ca9edd61f"
+  ]
+ },
+ "665e3609bc82": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Four uncalled functions in feats.py",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "4f308dbd9d2c",
+   "7099a092abd3"
+  ]
+ },
+ "76ab006d84b8": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "band_for_quantity answers M0 on an axis it cannot measure",
+  "live": true,
+  "rer": true,
+  "unblocks": [
+   "7099a092abd3"
+  ]
+ },
+ "fa86e8b92150": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "mine() drops uninteresting rejections to no counter",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "ecc355769a41": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "Stored exception text cut at 120 chars, unmarked",
+  "live": true,
+  "rer": true,
+  "unblocks": [
+   "19c507a16430"
+  ]
+ },
+ "19c507a16430": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "Unmarked store-time cuts in the records",
+  "live": true,
+  "rer": true,
+  "unblocks": [
+   "ecc355769a41"
+  ]
+ },
+ "da15f582b2ea": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "A declared safety with no site that can raise it",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "58cfc2b6dbc4": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Re-check the halt beside the write, not only at entry",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "db36d589713e": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "A constant nothing reads, deferred to you by name",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "7099a092abd3"
+  ]
+ },
+ "0291835411d9": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "tempus.DEGENERATE_TIME, and its prose duplicate",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "7099a092abd3"
+  ]
+ },
+ "0fbaba6e1070": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "ANEURISM IV mines to nothing and no bot can fix it",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "4f308dbd9d2c"
+  ]
+ },
+ "47c8def059e3": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Console truncation in cosmology_graph",
+  "live": false,
+  "rer": true,
+  "unblocks": []
+ },
+ "82fc93f056d4": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "read 55 wh40k axes and tag each wiki or canon",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "a8464e348c5e": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "read pass stall: both 2026-08-27 causes are gone",
+  "live": false,
+  "rer": true,
+  "unblocks": [
+   "9fb8a6b10c1f"
+  ]
+ },
+ "b317ba3a4f36": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "re-derive GENRES.json confidences, moving 63 published flags",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "d2e44a766769": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "gate restart_reader's kill on restartability, or adopt read.py",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "f27c121c6cb7": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "re-catalogue stored entry types while the prose gate is shut",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "97cc0dc43ca7": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "lock the halt write, and decide fail-open vs fail-closed",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "18d0fedabf13": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "pick which college and bit-value properties anchors grades",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "a1aa2be36b7e": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "refuse a mutation root that is the live tree",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "570525d35825": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "MODE_HTML constant no resolver can return",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "9fb8a6b10c1f": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "cascade has no reachable model and grades broken every run",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "a8464e348c5e"
+  ]
+ },
+ "ddb5eadd8934": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "should lifting a rung-4 stop require a person",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "f07b7d538ed1": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Star Realms host misbound (truncated duplicate)",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "2d6bef2aef03"
+  ]
+ },
+ "729c26e0e63c": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "declared count unpacked and never compared",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "e637c67ab438": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "weave.null_threshold was unreported dead code",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "c0384991bfc5"
+  ]
+ },
+ "61c763a60779": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "quarantine write verdict discarded, console asserts it anyway",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "e296ea51a1d9": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "the 25-file floor that hides small broken caches",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "1f9a54bede08": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "mark or remove the 600/900-char cuts in both writers",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "2d8b96343896": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "is the drill:4256 citation a quotation or a pointer",
+  "live": false,
+  "rer": true,
+  "unblocks": []
+ },
+ "2d6bef2aef03": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Star Realms is bound to a wiki that serves something else",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "f07b7d538ed1"
+  ]
+ },
+ "c0384991bfc5": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "worldseed.unreachable_by_url has no callers",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "e637c67ab438"
+  ]
+ },
+ "572918512dbc": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Refusal-marker layer refuses real articles on the API transport",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "a3d518d078c3": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Forty-four sources stranded by a done-keys gate the todo filter fixed",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "b1f561587b19": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Extra-entry penalty in the prose gate: fixed, verified twice",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "642a95fe9f3c": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "A missing tier is published as charted tier zero",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "60dc7c624c06"
+  ]
+ },
+ "95f817b752ac": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Fabrication standard reports red when its reader is merely down",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "d411f780d347": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "coverage_map() has no callers and the CLI bypasses it",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "4e92365b54f6",
+   "707fefc17465",
+   "c72431056a14"
+  ]
+ },
+ "7ebac78494e8": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Four cloud buckets: the DNS diagnosis is disproven",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "88982cef258d"
+  ]
+ },
+ "4e92365b54f6": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "build_address() is dead and returns the colliding pre-volume form",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "d411f780d347",
+   "707fefc17465",
+   "c72431056a14"
+  ]
+ },
+ "707fefc17465": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "render.py, all nine cosmology view tiers, reachable only by hand",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "d411f780d347",
+   "4e92365b54f6",
+   "c72431056a14"
+  ]
+ },
+ "a34f10a87483": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "A drill net that halts the library over the wording of a comment",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "98f18453deaf": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Synthesis blob bypasses the origin-entry filter in grounding",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "2239a87c57f5": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Router discards the provider's own retry-after and redispatches",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "88982cef258d"
+  ]
+ },
+ "33000660ddac": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "feats --roll exit code: fixed, counters now reach rc",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "481ef92af785": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Invented scope ceilings still clamping every published Magnitude",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "1e83e387cfc1": {
+  "sev": "MINOR",
+  "rung": "SESSION",
+  "title": "Spawn-site anti-vacuity floor has 14 of headroom",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "c72431056a14": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "Mutation token env var documents a safety nothing implements",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "d411f780d347",
+   "4e92365b54f6",
+   "707fefc17465"
+  ]
+ },
+ "88982cef258d": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Free cloud tiers are spent; recorded so nobody re-diagnoses it",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "aad11acb1183": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "The dashboard refuses to start while a halt stands",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "60dc7c624c06": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "TIERS.json contradicts the address prose on all four tier counts",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "642a95fe9f3c"
+  ]
+ },
+ "732f68f640cf": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "coverage --show-best cap: disclosed and ruled on in code",
+  "live": false,
+  "rer": false,
+  "unblocks": []
+ },
+ "728d9e99e9ec": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "Six unwrapped live-state calls redden \u00a720z and cancel mutation passes",
+  "live": true,
+  "rer": true,
+  "unblocks": [
+   "74f1bc47da2a",
+   "895a99602bf0"
+  ]
+ },
+ "40e98eed6870": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Era and condition vocabulary worldseed can never emit",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "ad681057369a"
+  ]
+ },
+ "3eff62be6cc3": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "GROUNDINGS.json still publishes pre-fix inflated confidences",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "d44b106ce7e3": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "Three rulings owed: publish stderr, escalation 'who', assert_clear scope",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "aad11acb1183"
+  ]
+ },
+ "b9584c782d95": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "feats --roll silently drops sources with no resolved host",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "171ade4c7d27": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "local_agent reports rc=0 and ok=true for a prose non-answer",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "adaeaa7ad639": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Cosmography size-class multipliers contradict their own descriptions",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "be783948fd66"
+  ]
+ },
+ "4e37d5e59b09": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Local rung closed by a pinned llama-server; recorded mechanism refuted",
+  "live": false,
+  "rer": false,
+  "unblocks": [
+   "a8464e348c5e",
+   "505177847f43"
+  ]
+ },
+ "5bbd4b3376fe": {
+  "sev": "MAJOR",
+  "rung": "OWNER",
+  "title": "Coverage checks string-match against un-stripped thinking text",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "342ccfafa4a4",
+   "3859043e365e"
+  ]
+ },
+ "e8466cd6ed14": {
+  "sev": "MAJOR",
+  "rung": "SESSION",
+  "title": "chain.main() exits 0 over a CHAIN.json that was never written",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "bc4156603071": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "Where on the attestation scale an unrecognised grade belongs",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "a78d5cd748b2": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Five dead physical constants in a module nothing reaches",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "707fefc17465"
+  ]
+ },
+ "68459d3e739b": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "Franchise rank-agreement rests on a single franchise",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "0bba50a6d76b"
+  ]
+ },
+ "ec05033115d6": {
+  "sev": "INFO",
+  "rung": "OWNER",
+  "title": "generate_job keeps calling the GPU for a chapter already doomed",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "12c457975677": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "assay.REFERENCE_JOULES is a 14-entry table nothing reads",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "47067a8f0ad5",
+   "1eb00a84225e"
+  ]
+ },
+ "47067a8f0ad5": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "catalogue_web constants justified by an importer that does not exist",
+  "live": true,
+  "rer": false,
+  "unblocks": [
+   "12c457975677",
+   "1eb00a84225e"
+  ]
+ },
+ "85a6b7b9e2c8": {
+  "sev": "INFO",
+  "rung": "SESSION",
+  "title": "pick_model claims MoE markers disqualify; the gate is size only",
+  "live": true,
+  "rer": true,
+  "unblocks": []
+ },
+ "2b695c192470": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "sweep.load has no caller anywhere in src/",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "1eb00a84225e": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "address_space.UNADDRESSED is a name for a decision nobody takes",
+  "live": true,
+  "rer": false,
+  "unblocks": []
+ },
+ "372d4a8c8d46": {
+  "sev": "MINOR",
+  "rung": "OWNER",
+  "title": "runguard compare-and-swap check-then-act window",
+  "live": false,
+  "rer": true,
+  "unblocks": []
+ }
+}
