@@ -1074,12 +1074,27 @@ def run(limit=None, only=None):
             # by itself after RETRY_AFTER_S. What was genuinely missing was the CONNECTION, and
             # that is what is added: the row now says the host is held and unprobeable, which is
             # the pair of facts a person needs to act on.
-            held = is_quarantined(h)
+            # DISPLAY, NOT A WRITE DECISION -- `is_quarantined`'s own docstring names its two
+            # callers (below, at :1095 and :1100) as ones that ask it only to decide whether to
+            # WRITE, both of which fail closed on their own path when the answer is a guess.
+            # This call site only feeds a REPORT FIELD, so `is_quarantined`'s silent False on an
+            # unreadable HOST_QUARANTINE.json used to come back here as a confident
+            # "quarantined: false" and a clean reason string, over a host that may actually be
+            # held -- a could-not-measure recorded as a genuine negative. Reads strict instead
+            # and records the ambiguity as its own value (`None`) rather than the friendlier of
+            # the two answers. (order 7d9847374cb9)
+            try:
+                held = h in quarantined(strict=True)
+                held_note = (" -- and this host is QUARANTINED, so the hold cannot be "
+                             "re-evidenced or lifted until it has a title to probe with"
+                             if held else "")
+            except QuarantineUnreadable:
+                held = None
+                held_note = (" -- and whether this host is quarantined is UNKNOWN: "
+                              "HOST_QUARANTINE.json could not be read this run, which is not "
+                              "the same fact as an unheld host")
             out.append({"host": h, "healthy": None, "at": time.time(), "quarantined": held,
-                        "reason": "no catalogued entry to probe with"
-                                  + (" -- and this host is QUARANTINED, so the hold cannot be "
-                                     "re-evidenced or lifted until it has a title to probe with"
-                                     if held else "")})
+                        "reason": "no catalogued entry to probe with" + held_note})
             continue
         try:
             rec = canary(h, title, sources=bound_to.get(h))

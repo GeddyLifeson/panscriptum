@@ -2690,6 +2690,7 @@ def phase_shelve(c, st):
 
     promoted = []
     shelved, unspined = {}, set()
+    walked = 0
     for r in WI.load_records():
         src = r["source"]
         spine = spine_of(src)
@@ -2711,12 +2712,29 @@ def phase_shelve(c, st):
         ranks[src] = {"rank": now, "entries": n, "rank_at_code": at_code,
                       "code_amendment_pending": AD.tier_rank(now) > AD.tier_rank(at_code),
                       "spine": spine}
+        # `name` IS NOT A PER-ENTRY IDENTITY IN THIS CORPUS (order d17a7463a5fd, and the same
+        # finding as the fold documented at write_record above): '2112 (Rush)' alone carries two
+        # entries called 'The Guitar'. Keying the shelf dict on `src::name` therefore let every
+        # duplicate but the last overwrite its predecessors -- 935 measured rows across 65 records
+        # left SHELVES.json with no spine code, no rank and no shelfmark, and no marker of their
+        # absence. The key now carries the entry's OCCURRENCE ORDINAL within its name group
+        # (1-based, stable because the record is read in list order), so every walked entry gets
+        # its own row.
+        #
+        # The SHELFMARK lookup deliberately keeps the UNSUFFIXED key: data/SHELFMARKS.json is
+        # keyed `source::name` by address_space, so widening the shelf key must not widen the
+        # key we ask that file with. Duplicates of a name share their name's shelfmark, which is
+        # the honest reading -- the shelfmark is addressed to the name, not to the occurrence.
+        seen_names = collections.Counter()
         for e in r.get("entries", []):
-            key = "%s::%s" % (src, e.get("name"))
+            walked += 1
+            mkey = "%s::%s" % (src, e.get("name"))
+            seen_names[mkey] += 1
+            key = "%s::%d" % (mkey, seen_names[mkey])
             shelved[key] = {"source": src, "name": e.get("name"),
                             "category": e.get("category"), "spine": spine,
                             "tier": tiersd.get(src), "rank": now,
-                            "shelfmark": (marks.get(key) or {}).get("shelfmark")}
+                            "shelfmark": (marks.get(mkey) or {}).get("shelfmark")}
 
     landed = [land_json(ranks_p, ranks)]
     if promoted:
@@ -2726,8 +2744,18 @@ def phase_shelve(c, st):
     if pending:
         log("phase 7 shelve: %d source(s) have OUTGROWN THEIR SPINE CODE and need the charter's "
             "Acquisitions Index amended by hand -- %s" % (len(pending), ", ".join(sorted(pending))))
-    log("phase 7 shelve: %d entries placed, %d source(s) with no charter spine code"
-        % (len(shelved), len(unspined)))
+    # WALKED AND WRITTEN ARE REPORTED SEPARATELY, and they are two different measurements. This
+    # line used to print `len(shelved)` alone, which is the POST-KEY figure: arithmetically
+    # consistent with itself while understating the corpus by every row a collision had eaten,
+    # so the loss had no signal anywhere. They should now be equal; if they ever disagree again,
+    # the key has started collapsing rows and the line says so instead of reporting the survivors
+    # as the count of work done.
+    log("phase 7 shelve: %d entries walked, %d shelf rows written, %d source(s) with no charter "
+        "spine code" % (walked, len(shelved), len(unspined)))
+    if walked != len(shelved):
+        log("phase 7 shelve: SHELF KEY IS COLLAPSING ROWS -- %d walked entries produced only %d "
+            "rows; %d entries are absent from SHELVES.json with no marker"
+            % (walked, len(shelved), walked - len(shelved)))
     landed.append(land_json(os.path.join(HERE, "data/SHELVES.json"),
                             {"entries": shelved, "unspined": sorted(unspined)}))
     ok = gate_done(st, "shelve", landed)
@@ -2886,10 +2914,32 @@ def phase_weave(c, st):
     occ, idf, sources, N = W.idf_table(index)
     sur, names = W.name_surprisal(index)
     w, shared = W.surprisal_pair_weights(occ, sur)
-    thr = W.null_threshold_surprisal(occ, sur, sources, trials=12)
+    # FAIL CLOSED WITH A NAMED REFUSAL, NOT A GENERIC CRASH (order bfafac3e1c5e). Both calls
+    # below can RAISE when their measurement cannot be made (order 12aca83cab86):
+    # `NullThresholdUnmeasured` from an empty corpus after mechanic-filtering, and a bare
+    # ValueError from `components()` on a non-positive threshold (which can happen even on a
+    # SUCCESSFUL measurement, since 0.0 is a legitimate measured median). Uncaught, either one
+    # used to fall through to main()'s generic `except Exception: log("PHASE CRASHED...")` --
+    # which does fail closed (no artifact lands, the phase stays open) but surfaces as an
+    # unexplained traceback where weave.py's own CLI, given the identical condition, already
+    # prints a clean "REFUSED: ..." explanation. Mirrored here so an operator reading the
+    # pipeline log sees the same anticipated refusal weave.py's main() would have shown, and
+    # `return False` takes the phase down the existing "LEFT OPEN, did not report completion"
+    # path -- nothing has been written to `landed` yet, so there is nothing to unwind.
+    try:
+        thr = W.null_threshold_surprisal(occ, sur, sources, trials=12)
+    except W.NullThresholdUnmeasured as e:
+        log(f"  REFUSED: permutation threshold could not be measured -- {e}")
+        silence.note("pipeline.py:phase_weave-threshold-unmeasured")
+        return False
     log(f"  permutation threshold {thr:.1f} over {len(w):,} shelf-pairs")
 
-    groups = W.components(sources, w, thr)
+    try:
+        groups = W.components(sources, w, thr)
+    except ValueError as e:
+        log(f"  REFUSED: {e}")
+        silence.note("pipeline.py:phase_weave-components-refused")
+        return False
     resolved, homonyms = W.resolve(index, groups)
     res = W.resonance_graph(w, sources)
     log(f"  {len(groups)} continuities | {homonyms:,} homonyms kept apart | "

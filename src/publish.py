@@ -756,8 +756,26 @@ def _unpushed():
     # IS the unpushed set. A repo with no commits at all answers zero, not unknown.
     try:
         local = git("rev-list", "--count", "HEAD")
-    except RuntimeError:
-        return 0, "no commits on this branch yet"
+    except RuntimeError as e:
+        # A CONFIDENT ZERO ONLY WHERE GIT ACTUALLY SAID THE BRANCH IS UNBORN (order 0224d12400d1).
+        # `git()` raises on EVERY non-zero exit -- a locked .git, an unreadable object store, a
+        # transient filesystem failure -- and answering all of them with the cheerful, specific
+        # "no commits on this branch yet" hands `push()` an `ahead` of 0, which it reads as a
+        # PROVEN no-op and returns on without a word. That is this function's own failure shape
+        # inverted: a stranded commit reported as nothing to send, for ever, on every clean-
+        # worktree cycle. Only the unborn-HEAD diagnostic is a true zero; every other failure is
+        # the unanswered case the docstring above promises as None, so the caller's "could not
+        # tell whether ... ahead" warning fires instead of a false all-clear. Same shape as the
+        # origin/main arm above, which already reports what git said rather than guessing why.
+        low = str(e).lower()
+        if any(m in low for m in ("unknown revision", "bad revision", "bad default revision",
+                                  "does not have any commits yet")):
+            return 0, "no commits on this branch yet"
+        # WHOLE, not clipped: this is the one path where the reader is being told that the
+        # question could not be answered, and git's own diagnostic is the only evidence of why
+        # -- the same reasoning `git()` records above its `raise` (order f5fdaab825a6). The
+        # origin/main arm's `[:80]` is left alone; it sits on a path that still returns a count.
+        return None, "could not count local commits (%s)" % e
     try:
         c = int(local.strip())
     except ValueError:

@@ -1478,6 +1478,15 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
           "%d unanswered%s%s"
           % ((time.time() - t0) / 3600, done["feats"], done["fab"], done["skipped"],
              done["unanswered"], err_note, unanswered_note))
+    # THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT (order 33a5847cbead, same shape
+    # navtree.py was corrected for under order 3726ed72236c). `done['errored']` was tracked
+    # through the whole pass and printed on the line above via `err_note`, but nothing about it
+    # reached the caller: `main()`'s --run branch used to `return 0` unconditionally, so a pass
+    # in which EVERY entity's `read_entity` call raised still exited 0. `overnight.py:run()`
+    # branches on this child's returncode specifically (`if p.returncode != 0: tail(...)`), so a
+    # totally failed reading pass was indistinguishable, at the one layer built to notice such
+    # things, from a completely healthy one.
+    return done["errored"] == 0
 
 
 def main():
@@ -1543,9 +1552,12 @@ def main():
         w = a.workers
         if isinstance(w, str) and w.strip().isdigit():
             w = int(w)
-        run(limit=a.limit, workers=w, cap_chunks=a.chunks,
-            all_entries=not a.persons_only)
-        return 0
+        ok = run(limit=a.limit, workers=w, cap_chunks=a.chunks,
+                 all_entries=not a.persons_only)
+        # PROPAGATED, NOT DISCARDED (order 33a5847cbead). See the comment on `run()`'s own
+        # return above: `ok` is False when this pass errored on every entity it touched, and
+        # `overnight.py:run()` is a real consumer of this process's returncode.
+        return 0 if ok else 1
     ap.print_help()
     return 0
 

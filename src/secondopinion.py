@@ -646,7 +646,12 @@ def report(paths=None):
     if absent:
         print("  ABSENT: %s — install before treating this page as a second opinion."
               % ", ".join(absent))
-    return got
+    # `_torn` USED TO BE PRINTED AND THROWN AWAY (order dd673cc2f348). `main()`'s --file-orders
+    # path called `file_orders(got)` on the very `got` this function had just determined might
+    # not be a verdict -- the stated precondition ("re-run when the tree is quiet before filing
+    # anything from it") was advice to a human, enforced nowhere. Returned now so a caller can
+    # actually gate on it, the way the printed line already tells a reader to.
+    return got, _torn
 
 
 def main():
@@ -654,8 +659,19 @@ def main():
     ap.add_argument("--file-orders", action="store_true",
                     help="file what the outside tools found as work orders")
     a = ap.parse_args()
-    got = report()
+    got, torn = report()
     if a.file_orders:
+        if torn:
+            # REFUSED, NOT FILED (order dd673cc2f348). Reproduced 2026-08-29: three runs minutes
+            # apart on a src/ that held no secret gave secrets 0, 1, 0 because another agent was
+            # mid-write -- which under --file-orders, before this gate existed, would have
+            # queued a SECONDOPINION_detect-secrets order for a secret that was never really in
+            # the tree. `report()` already prints exactly this explanation; refusing here is the
+            # part that used to be missing.
+            print("\nREFUSING --file-orders: THE TREE CHANGED UNDERNEATH THIS SCAN (or could "
+                  "not be fingerprinted) -- see the line above. NO NUMBER ON THIS PAGE IS A "
+                  "VERDICT. Re-run when the tree is quiet before filing anything from it.")
+            return 1
         ids = file_orders(got)
         print("\nfiled %d work order(s)" % len(ids))
     return 0

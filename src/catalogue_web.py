@@ -706,7 +706,15 @@ def main():
     # and overnight.join() gates its "ok"/"rc={rc}" reporting on the subprocess returncode, so a
     # pass that accomplished nothing was logged as "ok". Matches resync_roll.py / weave_index.py
     # / grounding.py / binding_health.py in this tree.
-    return 1 if todo and tally["failed"] == len(todo) else 0
+    #
+    # AND A PARTIAL FAILURE REPORTS THE SAME AS A CLEAN RUN, WHICH THAT FIX DID NOT REACH (order
+    # ea1a063d75d6). `tally["failed"] == len(todo)` only catches the all-failed case; 40
+    # catalogued against 60 failed left this at 0 -- the exact "ok" signal overnight.join() gates
+    # on, for a run at 60% failure. The per-source failures are still visible in the log
+    # ("-> SKIPPED ...") and the failed sources stay eligible for the next default run (they keep
+    # entry_count==0), so nothing here is a new DATA loss -- only the aggregate exit code that
+    # was blind to any failure short of total.
+    return 1 if todo and tally["failed"] else 0
 
 
 if __name__ == "__main__":

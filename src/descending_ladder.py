@@ -201,16 +201,24 @@ def shrink_report(mass_kg, from_m, to_m):
     had to be patched. A caller passing a non-positive size made no physics claim at all;
     `mass_conserved_is_lawful` is `None` here (lawfulness was never assessed, not "assessed and
     failed") and the fault is named in `input_error`, keeping `objections` for laws.
+
+    A NON-POSITIVE `mass_kg` IS THE SAME CLASS AGAIN (order 3465775cc2ca), and this function's
+    own sibling `transgression_bits()` was fixed for exactly this input first. Unguarded,
+    `mass_kg <= 0` cleared both objection checks by the identical two routes that function's
+    docstring names: `density_at_scale` returns a non-positive or zero `rho` that never exceeds
+    `NUCLEAR_DENSITY`, and `schwarzschild_radius(mass_kg<=0)` returns a non-positive `r_s` that no
+    positive `to_m` falls below -- so `mass_conserved_is_lawful` came back `True`, a confident,
+    real-looking lawful verdict for a trajectory that never made a physics claim at all.
     """
-    if to_m <= 0:
+    if to_m <= 0 or mass_kg <= 0:
         return {
             "from_m": from_m, "to_m": to_m, "is_descent": None,
             "target_rung": None, "target_rung_name": None,
             "density_kg_m3": None, "confinement_energy_J": None,
-            "schwarzschild_radius_m": schwarzschild_radius(mass_kg),
+            "schwarzschild_radius_m": schwarzschild_radius(mass_kg) if mass_kg > 0 else None,
             "mass_conserved_is_lawful": None, "objections": [],
-            "input_error": "to_m must be positive (got %r) -- not a physics finding, a caller "
-                          "error" % (to_m,),
+            "input_error": "to_m and mass_kg must both be positive (got to_m=%r, mass_kg=%r) -- "
+                          "not a physics finding, a caller error" % (to_m, mass_kg),
         }
     rho = density_at_scale(mass_kg, to_m)
     conf = compton_confinement_energy(to_m, mass_kg)

@@ -219,11 +219,30 @@ def record_path(source):
 
 
 def _ask(system, prompt, schema):
-    """Pool first, local second — the house transport order."""
+    """Pool first, local second — the house transport order.
+
+    SHAPE-CHECKED, NOT JUST NON-NONE (order 08c9ee5fb3bd). This used to return whatever
+    `CB.ask()` handed back on the sole test `got is not None`. cascade_bridge.py's own
+    STRUCTURED OUTPUT section says SCHEMA is a REQUEST to a cloud model, not a constraint the
+    way Ollama's format= is for the local arm below -- a pool model that ignores it can hand
+    back a bare list, bool or number (mine()'s `got.get("entries")` then crashes with an
+    uncaught AttributeError, since main()'s `except ValueError` around the --mine call does not
+    catch it), or a well-formed dict simply missing "entries" (which SCHEMA marks required) --
+    and that second case used to sail through as if the passage had genuinely named nothing,
+    with no counter distinguishing a malformed reply from a genuinely empty one.
+    `pipeline._pool_answer_usable` is the house fix for exactly this gap (it is
+    `ask_pool_first`'s own cloud-acceptance test): not a dict, or missing a required key, and
+    it is rejected here before mine() ever sees it. A rejection falls through to the local arm
+    below -- the same second chance `ask_pool_first` already gives phase calls -- and if that
+    also comes up empty, `_ask` returns None, which mine() already naps 300s and retries
+    against (counted via `misses`), exactly as it does for a transport that returned nothing
+    at all.
+    """
     try:
         import cascade_bridge as CB
+        import pipeline as P
         got = CB.ask(system, prompt, schema)
-        if got is not None:
+        if P._pool_answer_usable(got, schema, None):
             return got
     except Exception:
         silence.note("ingest_doc.py:ask-cascade")
@@ -346,6 +365,14 @@ def mine(source):
     # total as if it were what THIS run merged -- flattering on every resumed run, which is most
     # of them.
     started_at = state["found"]
+    # A CATEGORY THAT MISSES THE ENUM IS COUNTED, NOT GUESSED PAST IN SILENCE (order
+    # e049b82ab858). SCHEMA marks `category` required with an exact enum, but only the local
+    # Ollama arm actually constrains generation to it (pipeline.ask's format=); the pool path
+    # extracts JSON loosely, so a shortened or reworded category string ("Factions" for the
+    # long enum spelling) fails the membership test below without raising. That used to fall
+    # straight into CATEGORIES[0] with nothing anywhere saying so -- a Faction, Place, Vessel,
+    # Event, Media item or Power/System misfiled into Persons, with no signal it happened.
+    bad_category = 0
     while ci < len(chunks):
         text, chunk_pages = chunks[ci]
         got = _ask(SYSTEM, "PASSAGE (%s):\n\n%s" % (", ".join(chunk_pages), text), SCHEMA)
@@ -373,6 +400,9 @@ def mine(source):
             if k in known:
                 continue
             known.add(k)
+            raw_cat = e.get("category")
+            if raw_cat not in CATEGORIES:
+                bad_category += 1
             fresh.append({
                 "name": e["name"].strip(), "type": (e.get("type") or "").strip(),
                 # NO [:2000] (order baf4a18d1f1a, HARD RULE 0). This module's own docstring
@@ -387,8 +417,12 @@ def mine(source):
                 # per-entry ceiling is ever wanted it must be a REFUSAL with the length stated.
                 "description": (e.get("description") or "").strip(),
                 "scale_note": (e.get("scale_note") or "").strip(),
-                "category": e.get("category") if e.get("category") in CATEGORIES
-                else CATEGORIES[0],
+                # STILL DEFAULTS TO CATEGORIES[0] (order e049b82ab858 counts this, it does not
+                # remove the default): some category must be written, and Persons is this
+                # module's own established fallback, not a claim about where the entry
+                # actually belongs. `bad_category` above is what makes the substitution
+                # visible instead of silent.
+                "category": raw_cat if raw_cat in CATEGORIES else CATEGORIES[0],
                 "wiki_page": "", "attestation": "Transcribed", "magnitude": "unassayed",
                 "doc_pages": chunk_pages,
                 "origin_work": source,
@@ -475,6 +509,14 @@ def mine(source):
               "counter."
               % (state["found"] - started_at, state["found"], landed_found,
                  state["found"] - landed_found))
+    if bad_category:
+        # Counted, not silent (order e049b82ab858) -- these landed under CATEGORIES[0]
+        # (Persons) because the model's category string did not match the enum, not because
+        # it was necessarily one. Worth a spot-check against `doc_pages` before trusting the
+        # section a book's non-Person entries landed in.
+        print("  %d entr%s filed under CATEGORIES[0] because the model's category did not "
+              "match the enum -- spot-check these against their doc_pages"
+              % (bad_category, "y" if bad_category == 1 else "ies"))
     if ci >= len(chunks):
         print("ingest complete: %d new entries merged this run (%d total for this book)"
               % (state["found"] - started_at, state["found"]))

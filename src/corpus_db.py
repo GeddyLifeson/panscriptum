@@ -66,6 +66,16 @@ DB = os.path.join(HERE, "state", "corpus.db")
 # `rebuild()`. Deliberately not a code shape: nothing can mistake it for a spine code.
 SPINE_LOOKUP_FAILED = "LOOKUP FAILED"
 
+# AND THE SAME THIRD STATE FOR THE `host` COLUMN (order dfa24eb10b9f). NULL in `host` means the
+# source genuinely has no wiki host in data/WIKI_HOSTS.json, which the `hostless` canned query
+# presents as a work list. This value means WIKI_HOSTS.json itself could not be read -- missing,
+# unparseable, locked, or caught mid-replace -- so no source could be looked up at all. Spelled
+# the same way, one unreadable file made the ENTIRE roll report as hostless, indistinguishable
+# from a real finding, which is precisely the false whole-roll backlog SPINE_LOOKUP_FAILED was
+# introduced for. Same literal as SPINE_LOOKUP_FAILED and deliberately so: it is not a host name,
+# nothing can mistake it for one, and the two read identically in a result table.
+HOST_LOOKUP_FAILED = "LOOKUP FAILED"
+
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT);
 CREATE TABLE IF NOT EXISTS source (
@@ -136,19 +146,35 @@ def rebuild(include_evidence=True, evidence_limit=None):
     con = connect(tmp)
     con.executescript(SCHEMA)
 
-    hosts = {}
+    # A WHOLE-FILE READ FAILURE IS NOT A MEASUREMENT (order dfa24eb10b9f). Both of these fell
+    # back to `{}` on ANY failure and left nothing behind but a `silence.note` -- no meta row, no
+    # WARNING in --rebuild's output, no value in the affected columns saying which of the two
+    # things had happened. The consequence is the one this function was already fixed for once,
+    # on the spine resolver (order 25266fa8c2dc): if WIKI_HOSTS.json will not parse, `hosts.get`
+    # answers None for every source, `host` is NULL on all 216+ rows, and the `hostless` canned
+    # query reports the WHOLE CATALOGUE as having no wiki -- a curatorial backlog that was never
+    # measured, wearing the shape of one that was. COVERAGE.json is symmetrical and worse in both
+    # directions: `unmeasured` (cited IS NULL) then names the entire roll, and `worst_cited`
+    # (cited IS NOT NULL) returns NOTHING AT ALL, which reads as an all-clear.
+    #
+    # `hosts_failed` / `cov_failed` hold the exception name, and are the reason rather than a
+    # boolean because "the file is not there yet" and "the file is corrupt" are different jobs
+    # for whoever reads the warning.
+    hosts, hosts_failed = {}, None
     try:
         with open(os.path.join(HERE, "data", "WIKI_HOSTS.json"), encoding="utf-8") as f:
             hosts = json.load(f) or {}
-    except Exception:
+    except Exception as e:
         silence.note("corpus_db.py:hosts")
+        hosts_failed = type(e).__name__
 
-    cov = {}
+    cov, cov_failed = {}, None
     try:
         with open(os.path.join(HERE, "data", "COVERAGE.json"), encoding="utf-8") as f:
             cov = {r.get("source"): r for r in json.load(f)}
-    except Exception:
+    except Exception as e:
         silence.note("corpus_db.py:coverage")
+        cov_failed = type(e).__name__
 
     # THE RESOLVER, NOT THE RAW TABLE. This module first read CHARTER_SPINE_CODES.json into a
     # dict and looked sources up in it directly, and the derived index promptly reported **36
@@ -233,9 +259,17 @@ def rebuild(include_evidence=True, evidence_limit=None):
                 else:
                     if code == "UNASSIGNED":
                         code = None    # NULL means unshelved, and only the resolver may say so
+        # THE HOST COLUMN CARRIES THE SENTINEL; THE COVERAGE COLUMNS CANNOT, and that asymmetry
+        # is deliberate. `host` is TEXT, so HOST_LOOKUP_FAILED sits in it and keeps `hostless`
+        # (host IS NULL) honest. `cited`/`read`/... are counted and divided by (`worst_cited`
+        # computes 100.0*cited/entries), and SQLite coerces a text value there to 0 -- a sentinel
+        # would put every source at the head of the worst-cited work list at 0.0%, which is a
+        # louder lie than the NULL. So a COVERAGE.json read failure is carried in `meta` and in
+        # the banner over every result instead; see the meta rows and `_freshness_banner()`.
         con.execute(
             "INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?)",
-            (src, hosts.get(src), code, len(rec.get("entries") or []),
+            (src, HOST_LOOKUP_FAILED if hosts_failed else hosts.get(src),
+             code, len(rec.get("entries") or []),
              c.get("cited"), c.get("read"), c.get("no_page"),
              c.get("not_attempted"), c.get("no_host")))
         n_src += 1
@@ -324,6 +358,20 @@ def rebuild(include_evidence=True, evidence_limit=None):
     # to find out that some of these rows are an absence of an answer, not an answer.
     con.execute("INSERT OR REPLACE INTO meta VALUES ('spine_lookup_failures', ?)",
                 (str(len(spine_failures)),))
+    # AND THE TWO LOOKUP FILES (order dfa24eb10b9f). Empty string means "asked, and the file read
+    # fine"; a value means the read failed and names how. Both travel with the index for the same
+    # reason as the three rows above -- the person querying this database weeks later never saw
+    # the rebuild's stdout, and `host IS NULL` / `cited IS NULL` cannot tell them apart on their
+    # own. The companion `*_failures` counts say how many source rows the failure reached, which
+    # is every row built in this pass, because the failure is whole-file.
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('host_lookup_failed', ?)",
+                (hosts_failed or "",))
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('host_lookup_failures', ?)",
+                (str(n_src if hosts_failed else 0),))
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('coverage_lookup_failed', ?)",
+                (cov_failed or "",))
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('coverage_lookup_failures', ?)",
+                (str(n_src if cov_failed else 0),))
     # THE OTHER HALF OF THE FRESHNESS COMPARISON (order bf729d9664b1). See `record_files` above
     # and the deletion arm of `freshness()`. Stored as a JSON list rather than a count so the
     # missing names can be NAMED when one goes: a count would say "one fewer" and leave the
@@ -354,6 +402,10 @@ def rebuild(include_evidence=True, evidence_limit=None):
             "unreadable_records": unreadable_records,
             "unreadable_evidence": unreadable_evidence,
             "spine_failures": spine_failures,
+            # The reason, or None. `main()` turns each into a WARNING naming the file and how
+            # many rows it reached -- the same treatment unreadable records and evidence get.
+            "host_lookup_failed": hosts_failed,
+            "coverage_lookup_failed": cov_failed,
             "evidence_included": bool(include_evidence)}
 
 
@@ -447,7 +499,12 @@ def freshness():
            # `deletion_check` is "compared" when this index recorded the record basenames it was
            # built from and they have been checked, and "unavailable" when it could not be asked
            # -- which is a different claim from "nothing was deleted" and must never read as one.
-           "deletion_check": "unavailable", "deleted_records": []}
+           "deletion_check": "unavailable", "deleted_records": [],
+           # THE LOOKUP-FILE CAVEATS, ON EVERY RETURN PATH for the same reason `deletion_check`
+           # is (order dfa24eb10b9f). None means the index could not be asked -- it predates the
+           # check, or is unreadable -- which is a different claim from "" (asked, both files
+           # read fine) and must never read as one.
+           "host_lookup_failed": None, "coverage_lookup_failed": None}
     if not os.path.exists(DB):
         return out
     try:
@@ -457,12 +514,15 @@ def freshness():
         # the only consumer was `main()`'s own return dict, in the same process that had just
         # built the database. See the banner for what the unread caveat cost. (order b66146e38fb5)
         cols, rows = query("SELECT key, value FROM meta "
-                           "WHERE key IN ('built_at', 'evidence_included', 'record_files')")
+                           "WHERE key IN ('built_at', 'evidence_included', 'record_files', "
+                           "'host_lookup_failed', 'coverage_lookup_failed')")
     except Exception:
         out["reason"] = "index unreadable"
         return out
     meta = {k: v for k, v in rows}
     out["evidence_included"] = meta.get("evidence_included")
+    out["host_lookup_failed"] = meta.get("host_lookup_failed")
+    out["coverage_lookup_failed"] = meta.get("coverage_lookup_failed")
     if "built_at" not in meta:
         out["reason"] = "index does not record when it was built"
         return out
@@ -592,6 +652,30 @@ def _freshness_banner():
         caveat = ("  [ EVIDENCE NOT SCANNED — this index was built with --no-evidence. The "
                   "evidence table is EMPTY BECAUSE IT WAS NOT READ, which is not the same as a "
                   "corpus with no evidence in it. --rebuild without --no-evidence. ]\n")
+    # AND THE CAVEAT THAT SAYS THE COLUMNS ARE NOT ANSWERING (order dfa24eb10b9f). If
+    # WIKI_HOSTS.json or COVERAGE.json could not be read at build time, `host`/`cited` are absent
+    # for EVERY source, and `hostless`, `unmeasured` and `worst_cited` then present a whole-roll
+    # finding that was never measured -- or, in worst_cited's case, an empty result that reads as
+    # an all-clear. Prepended like the evidence caveat, and for the same reason: it is a
+    # different kind of wrong from being behind, and the reader must not have to go looking.
+    # The word STALE is deliberately absent -- drill's `stale_index_says_so_where_the_numbers_are`
+    # net reads this line for it, and this condition is not staleness.
+    _lf = [(n, v) for n, v in (("data/WIKI_HOSTS.json", f.get("host_lookup_failed")),
+                               ("data/COVERAGE.json", f.get("coverage_lookup_failed"))) if v]
+    if _lf:
+        caveat += ("  [ LOOKUP FILE UNREADABLE — %s could not be read when this index was built. "
+                   "The columns it fills are EMPTY BECAUSE NOTHING COULD BE LOOKED UP, for every "
+                   "source, which is not the same as a source having no host or no coverage. "
+                   "Fix the file and --rebuild. ]\n"
+                   % "; ".join("%s (%s)" % (n, v) for n, v in _lf))
+    elif (f["age_seconds"] is not None
+          and (f.get("host_lookup_failed") is None or f.get("coverage_lookup_failed") is None)):
+        # An index built before these meta rows existed cannot be asked, and an unanswered
+        # question must not print as an all-clear -- the same ruling as `deletion_check` above.
+        # Not said when there is no index at all: the line below already says that louder.
+        caveat += ("  [ this index predates the lookup-file check and cannot say whether "
+                   "WIKI_HOSTS.json / COVERAGE.json were readable when it was built. --rebuild "
+                   "to enable it. ]\n")
     if f["age_seconds"] is None:
         # THE REASON `freshness()` COMPUTED, not a guess. This line said "NO INDEX -- run
         # --rebuild" for all three of its causes, so an index that was present but LOCKED or
@@ -691,6 +775,9 @@ CANNED = {
                 "FROM source ORDER BY entries DESC",
     "unaddressed": "SELECT name, entries FROM source WHERE spine IS NULL "
                    "ORDER BY entries DESC",
+    # `host IS NULL` is the work list of sources with no wiki. A source whose host could not be
+    # LOOKED UP carries HOST_LOOKUP_FAILED instead of NULL and is therefore absent from it, which
+    # is the whole point of that sentinel -- see `rebuild()`. (order dfa24eb10b9f)
     "hostless": "SELECT name, entries FROM source WHERE host IS NULL ORDER BY entries DESC",
     "categories": "SELECT category, COUNT(*) n FROM entry GROUP BY category ORDER BY n DESC",
     "types": "SELECT type, COUNT(*) n FROM entry WHERE type IS NOT NULL "
@@ -857,6 +944,26 @@ def main():
                   % (len(got["spine_failures"]), SPINE_LOOKUP_FAILED))
             for name in got["spine_failures"]:
                 print("      " + name)
+        # AND THE TWO LOOKUP FILES THE `source` TABLE IS BUILT AGAINST (order dfa24eb10b9f).
+        # Same treatment as the three warnings above, because it is the same failure: a file that
+        # could not be read leaves a column empty for EVERY source, and an empty column reads as
+        # a measurement. `hostless` would name the whole catalogue; `unmeasured` likewise; and
+        # `worst_cited` would return no rows at all, which is the version that reads as good news.
+        if got["host_lookup_failed"]:
+            print("  WARNING: data/WIKI_HOSTS.json COULD NOT BE READ (%s), so NO source's host "
+                  "could be looked up. All %d source rows carry '%s' in the host column, which "
+                  "is NOT the same as having no wiki -- '--canned hostless' would otherwise have "
+                  "named the entire catalogue. Recorded as meta.host_lookup_failed."
+                  % (got["host_lookup_failed"], got["sources"], HOST_LOOKUP_FAILED))
+        if got["coverage_lookup_failed"]:
+            print("  WARNING: data/COVERAGE.json COULD NOT BE READ (%s), so NO source's coverage "
+                  "could be looked up. All %d source rows have NULL cited/read/no_page counts "
+                  "because NOTHING WAS ASKED, not because nothing was measured: '--canned "
+                  "unmeasured' will name the whole roll and '--canned worst_cited' will return "
+                  "NOTHING, which reads as an all-clear. These columns are numeric and cannot "
+                  "carry a sentinel without corrupting the percentages, so the caveat lives in "
+                  "meta.coverage_lookup_failed and in the banner over every result."
+                  % (got["coverage_lookup_failed"], got["sources"]))
         if before:
             print("  closed a gap of %d entries the index was missing" % before)
         print("  -> %s (%.1f MB)" % (DB, os.path.getsize(DB) / 1e6))
@@ -895,6 +1002,21 @@ def main():
             print("corpus.db built %.1f min ago" % (f["age_seconds"] / 60))
         print("\ncanned queries: " + ", ".join(sorted(CANNED)))
         return 0
+    # NOT USABLE, GUARDED HERE TOO (order 7e81ccefa1c6). The `if not sql:` branch above already
+    # asks `freshness()` and refuses cleanly when corpus.db cannot be read; this branch -- an
+    # actual --sql/--canned query -- skipped straight to `query(sql)`, which opens the database
+    # via `connect(readonly=True)` (`sqlite3.connect('file:...?mode=ro', uri=True)`) and lets
+    # SQLite raise `OperationalError: unable to open database file` uncaught when the target does
+    # not exist in read-only URI mode. Very likely the FIRST command a fresh checkout's user runs
+    # (`--canned coverage` before ever running `--rebuild`), and the one call site in this
+    # otherwise fastidiously self-documenting module that lacked the guard its own neighbouring
+    # branch already applies.
+    f = freshness()
+    if f["age_seconds"] is None:
+        print("corpus.db NOT USABLE -- %s (%s)"
+              % (f["reason"], "the file is not on disk" if not os.path.exists(DB)
+                 else "the file IS on disk at " + DB))
+        return 1
     cols, rows = query(sql)
     print(_freshness_banner())
     print("  " + " | ".join(str(c) for c in cols))

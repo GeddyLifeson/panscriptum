@@ -2219,16 +2219,31 @@ def main():
     ap.add_argument("--json", action="store_true", help="emit the verdicts as JSON")
     ap.add_argument("--orders", action="store_true", help="only the breaches")
     a = ap.parse_args()
-    if a.json:
-        print(json.dumps(check(), indent=1))
-        return 0
-    if a.orders:
-        for r in work_orders():
-            print(f"[{r['severity'].upper()}] {r['standard']}: {r['observed']} "
-                  f"(floor {r['floor']})")
-            for chunk in _wrap(r["order"], 92):
-                print("   " + chunk)
-        return 0
+    if a.json or a.orders:
+        # THE SAME EXIT CONVENTION ON EVERY PATH (order 92fdcb9a8310). Both of these branches
+        # ended `return 0` no matter what they had just printed, while the default path below
+        # ends `return 1 if work_orders(state) else 0` -- the convention this file's own module
+        # docstring exists to establish. `--orders` is the entry point NAMED for the actionable
+        # list, and it is the one a scheduler or a wrapper script would gate on: it printed
+        # HIGH-severity breaches to stdout and told the shell everything was fine. The boolean
+        # was never missing, only discarded; this branch now computes it the same way, from the
+        # same rows it prints.
+        #
+        # ONE STATE, for the reason spelled out below: `check()` and `work_orders()` each build
+        # their own `dashboard.state()` when handed None, so asking both without one would run
+        # every live probe twice and let the two passes disagree.
+        import dashboard as D
+        state = D.state()
+        bad = work_orders(state)
+        if a.json:
+            print(json.dumps(check(state), indent=1))
+        else:
+            for r in bad:
+                print(f"[{r['severity'].upper()}] {r['standard']}: {r['observed']} "
+                      f"(floor {r['floor']})")
+                for chunk in _wrap(r["order"], 92):
+                    print("   " + chunk)
+        return 1 if bad else 0
     # ONE STATE, NOT TWO. `report()` and `work_orders()` each call `check(state=None)`, and
     # `check()` builds its own `dashboard.state()` whenever state is None -- so the plain-report
     # path below ran every live probe TWICE per invocation (DNS+TCP per address at 8s timeout,

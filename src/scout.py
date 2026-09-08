@@ -728,14 +728,31 @@ def sweep(limit=None, register=True):
     # uncaught, AFTER every fetch and every model call of the cycle had already been spent: the
     # results were discarded and nothing was logged. The same sentence this file writes twice --
     # "wrong-shape is the same fact as unparseable" -- covers it.
+    #
+    # AND UNREADABLE IS NOT EMPTY EITHER (order 4e5df284d5fc). That fix extended the discipline
+    # to the wrong-shape branch only: the except still set `prev = []`, which PASSES the
+    # `isinstance(prev, list)` test three lines below and is indistinguishable from "SCOUT.json
+    # never existed". So one transient read failure -- the ordinary Windows sharing violation
+    # every ATOMIC comment in this tree is about -- fell through to `prev.append(...)` and the
+    # unconditional whole-file `_land` below, truncating up to LOG_CYCLES archived cycles down
+    # to this one, permanently and with nothing said. The roll-off cannot save them: it archives
+    # only what is in the CURRENT (already truncated) list. Both failures now refuse to write,
+    # and each says which one happened -- "could not be read" and "parsed but is not a list"
+    # are two different facts about the file, and the wrong-shape wording would be a lie about
+    # a file nobody managed to parse at all.
     prev = []
     if os.path.exists(LOG):
         try:
             prev = json.load(open(LOG, encoding="utf-8"))
-        except Exception:
+        except Exception as e:
             silence.note("scout.py:log-unreadable")
-            prev = []
-        if not isinstance(prev, list):
+            print("scout: %s could not be READ (%s), so this cycle's entry cannot be appended "
+                  "to it. The existing file is left untouched -- an unreadable log is not an "
+                  "empty one, and writing this cycle over it would discard every archived "
+                  "cycle it holds." % (os.path.basename(LOG), type(e).__name__),
+                  file=sys.stderr)
+            prev = None
+        if prev is not None and not isinstance(prev, list):
             silence.note("scout.py:log-wrong-shape")
             print("scout: %s is not a JSON list, so this cycle's entry cannot be appended to it. "
                   "The existing file is left untouched -- move it aside by hand rather than "

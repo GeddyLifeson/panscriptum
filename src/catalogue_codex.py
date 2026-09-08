@@ -117,12 +117,25 @@ def record_path(source_name, records_dir=RECORDS):
 
 
 def parse_codex():
-    """-> {section_title: {"blurb": str, "contents": [(type, name), ...]}}"""
+    """-> {section_title: {"blurb": str, "contents": [(type, name), ...]}}
+
+    THE MANIFEST'S OWN DECLARED COUNT IS CROSS-CHECKED, NOT JUST TRUSTED (order f1d5165b188b).
+    Each manifest line names its own element count -- the '(41)' in 'Magic Item (41): ...' -- and
+    until now nothing compared it against how many names actually followed the colon; only
+    group(1) (type) and group(3) (names) were ever read. A manifest line truncated by a
+    line-wrap, an encoding hiccup, or a hand-edit that drops a trailing name would parse as a
+    shorter-than-declared and silently COMPLETE list -- exactly the silent-truncation shape this
+    module already measures and reports uncapped for section-title clashes, ambiguous section
+    bindings, ambiguous register descriptions and duplicate elements. Verified 2026-09-07 against
+    the live codex: 0 mismatches across 281 manifest lines, so this is a dormant guard today, not
+    a live loss.
+    """
     with open(CODEX, encoding="utf-8") as f:
         text = f.read()
     part2 = text[text.index("## PART TWO"):]
     blocks = re.split(r"^###+\s*#*\s*", part2, flags=re.M)[1:]
     out = {}
+    manifest_mismatches = []
     for b in blocks:
         lines = b.splitlines()
         if not lines:
@@ -134,11 +147,23 @@ def parse_codex():
         contents = []
         for m in re.finditer(r"^\s{2,}(.+?)\s*\((\d+)\):\s*(.+?)$", body, re.M):
             etype = m.group(1).strip()
-            for name in m.group(3).split(";"):
-                name = name.strip()
-                if name:
-                    contents.append((etype, name))
+            declared = int(m.group(2))
+            names = [n.strip() for n in m.group(3).split(";") if n.strip()]
+            if len(names) != declared:
+                manifest_mismatches.append(
+                    "%s / %s: declared %d, parsed %d" % (title, etype, declared, len(names)))
+            for name in names:
+                contents.append((etype, name))
         out[title] = {"blurb": blurb, "contents": contents}
+    if manifest_mismatches:
+        # Uncapped, same as this file's other collision reports below in main() -- printed here
+        # because the declared count is only ever visible at parse time.
+        print("  CODEX MANIFEST COUNT MISMATCH -- %d line(s) whose declared '(<n>)' count does "
+              "not match the number of names actually parsed after the colon:"
+              % len(manifest_mismatches))
+        for line in manifest_mismatches:
+            print("      %s" % line)
+        print("", flush=True)
     return out
 
 
@@ -209,6 +234,14 @@ def main():
     # already taken in that section, i.e. a genuine repeat rather than a type collision.
     # (order f4f3c1d15915)
     dupe_elements = {}
+    # etype (as printed in the manifest) -> occurrence count, for element types NOT present in
+    # TYPE_CATEGORY (order cac0c6466cfc). Every OTHER collision class in this file -- norm_clashes,
+    # ambiguous, reg_ambiguous, dupe_elements -- is counted, printed uncapped, and surfaced before
+    # the write summary; `TYPE_CATEGORY.get(etype.lower(), THINGS)` had no such mechanism, so a
+    # new or currently-unmapped type was silently miscategorised with zero signal. The element is
+    # still catalogued (filed under THINGS by the .get() default) -- nothing here is dropped, only
+    # unreported.
+    unmapped_types = {}
     for r in roll:
         if r.get("entry_count", 0) > 0:
             continue
@@ -282,6 +315,8 @@ def main():
                 dupe_elements.setdefault(title, []).append("%s: %s" % (etype, name))
                 continue
             seen.add(pair)
+            if etype.lower() not in TYPE_CATEGORY:
+                unmapped_types[etype] = unmapped_types.get(etype, 0) + 1
             hits = register.get(key) or []
             # Prefer the register's transcribed text; fall back to naming the type and the
             # source honestly rather than inventing a description.
@@ -369,6 +404,18 @@ def main():
               % (_n, len(dupe_elements)))
         for _t, _items in sorted(dupe_elements.items()):
             print("      %s: %s" % (_t, "; ".join(_items)))
+        print("", flush=True)
+
+    if unmapped_types:
+        # Uncapped, and before the write report for the same reason the three lists above are:
+        # this is what a person reads to go add a mapping to TYPE_CATEGORY. Every element named
+        # here IS still catalogued -- filed under THINGS by the .get() default -- so nothing is
+        # dropped; only the CATEGORY is a guess until the table is extended. (order cac0c6466cfc)
+        _n = sum(unmapped_types.values())
+        print("  UNMAPPED ELEMENT TYPES FILED UNDER THINGS BY DEFAULT -- %d element(s) across "
+              "%d distinct type(s) absent from TYPE_CATEGORY:" % (_n, len(unmapped_types)))
+        for _t, _c in sorted(unmapped_types.items()):
+            print("      %s: %d" % (_t, _c))
         print("", flush=True)
 
     denied = []

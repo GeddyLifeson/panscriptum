@@ -77,17 +77,39 @@ def _charter_codes():
     """Every spine code the owner-extended Acquisitions Index knows. -> set of str.
 
     A childless Set is still an address a thread may lawfully point at, so the address space is
-    the charter index UNION the codes the graph itself assigns; a code in neither is nothing."""
+    the charter index UNION the codes the graph itself assigns; a code in neither is nothing.
+
+    ABSENT AND CORRUPT ARE NOT THE SAME FACT (order d56c041a8f4d), and used to collapse to the
+    identical empty set with nothing but an internal `silence.note` telling them apart -- the
+    opposite of the fail-closed doctrine `escalation._read_halt_raw` and `suppressions._load`
+    already apply to their own loads. A present-but-unreadable-or-wrong-shape
+    `CHARTER_SPINE_CODES.json` silently narrows the address space `load_thread_graph()` checks
+    thread targets against, which can manufacture false THREAD_UNRESOLVABLE escalations against
+    threads that legitimately point at a childless charter Set with no source of its own yet --
+    a corrupt charter file reading as a real weave defect. Absent stays silent (the ordinary
+    pre-charter-load state); present-but-corrupt now also prints and records at JANITOR (see
+    `_charter_codes_corrupt` -- record only, nothing here should itself refuse anything, since
+    this fails toward caution rather than toward silently passing bad data)."""
     try:
         with open(SPINE_CODES, encoding="utf-8") as f:
             raw = json.load(f)
     except FileNotFoundError:
         return set()
-    except Exception:
-        silence.note("thread_integrity.py:spine-codes-unreadable")
+    except Exception as exc:
+        _charter_codes_corrupt("could not be read as JSON (%s: %s)" % (type(exc).__name__, exc))
+        return set()
+    if not isinstance(raw, (dict, list)):
+        # PARSES FINE, WRONG SHAPE -- A THIRD SILENT-EMPTY CASE the exception handler above
+        # never caught, because `json.load` did not raise. `vals` used to fall through to `[]`
+        # for anything that was neither a dict nor a list (a bare string, number or null), so a
+        # charter file that parsed but was not codes at all returned the same unremarked empty
+        # set as a legitimately absent one. Named the same way as an unreadable file, because to
+        # a caller it is the identical fact: the charter did not deliver an address space.
+        _charter_codes_corrupt("parsed but is a %s, not a mapping or a list"
+                               % type(raw).__name__)
         return set()
     out = set()
-    vals = raw.values() if isinstance(raw, dict) else (raw if isinstance(raw, list) else [])
+    vals = raw.values() if isinstance(raw, dict) else raw
     for v in vals:
         if isinstance(v, str):
             out.add(v)
@@ -96,6 +118,29 @@ def _charter_codes():
                 if isinstance(v.get(k), str):
                     out.add(v[k])
     return out
+
+
+def _charter_codes_corrupt(detail):
+    """Record and surface a present-but-unreadable-or-wrong-shape CHARTER_SPINE_CODES.json.
+
+    Split out of `_charter_codes()` so both its failure paths (an exception on read/parse, and a
+    shape that parses but is neither a mapping nor a list) say the same thing the same way.
+    JANITOR only -- this narrows an address space rather than passing bad data through, so it is
+    not the top-priority fails-open shape, but it is a silent measurement corruption feeding a
+    release-gate module (STEP4_PLAN.md Sec8) and deserves a trail a person can follow back to it."""
+    silence.note("thread_integrity.py:spine-codes-unreadable")
+    print("CHARTER SPINE CODES UNREADABLE: data/CHARTER_SPINE_CODES.json exists and %s -- "
+          "treated as zero additional charter addresses. This is NOT the same fact as no "
+          "charter file existing yet, and it can manufacture false THREAD_UNRESOLVABLE findings "
+          "against threads that legitimately point at a childless charter Set with no source of "
+          "its own yet." % detail)
+    try:
+        import escalation as _ESC
+        _ESC.escalate(_ESC.JANITOR, "CHARTER_CODES_CORRUPT",
+                      "data/CHARTER_SPINE_CODES.json exists and %s" % detail,
+                      who="thread_integrity.py")
+    except Exception:
+        silence.note("thread_integrity.py:charter-codes-corrupt-escalation")
 
 
 def load_thread_graph(path=None):
@@ -271,8 +316,13 @@ def implied_threads(candidates_path=None):
     return pairs
 
 
-def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents=None):
+def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents=None, names=None):
     """Sort threads into the classes -- honestly about which are measurable TODAY.
+
+    `names` (optional): the key -> original-name map `load_entities()` returns alongside
+    `ents`. When supplied, DANGLING and PARTIALLY-DANGLING detail rows carry the readable
+    names of the entities that drifted, not just a gone/total count (order 0058f581b42b).
+    Omit it (as verify_math.py's direct calls do) and the raw keys are used instead.
 
     THE 2026-08-24 CORRECTION (BUGS m12, owner: FIX IT ALL). `implied_threads` builds its
     pair map SYMMETRICALLY by construction -- both (a,b) and (b,a) exist for every shared
@@ -302,14 +352,26 @@ def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents
     detail = collections.defaultdict(list)
     seen = set()
     for (a, b), shared in pairs.items():
-        if (b, a) in seen or (a, b) in seen:
+        # `pairs` is always a dict (`implied_threads` is its only producer), so each (a, b)
+        # key is visited exactly once and `seen` only ever holds keys already visited --
+        # `(a, b) in seen` could therefore never be true. Dropped per order 9038da917a70;
+        # `(b, a) in seen` is the one doing real work, catching the mirror direction
+        # `implied_threads` also emits for the same shared entity.
+        if (b, a) in seen:
             continue
         seen.add((a, b))
         if ents is not None:
             gone = [k for k in shared if k not in ents.get(a, ()) or k not in ents.get(b, ())]
             if gone and len(gone) == len(shared):
                 out["DANGLING"] += 1
-                detail["DANGLING"].append((a, b, len(gone), len(shared)))
+                # Readable names, not just a count (order 0058f581b42b). `names` used to be
+                # built by `load_entities` and read only as `len(names)` in main() -- every
+                # original name retained and thrown away, while the DANGLING/PARTIALLY-DANGLING
+                # rows printed a gone/total ratio with no way to learn WHICH entities drifted.
+                # Falls back to the raw key when `names` is not supplied (verify_math.py's
+                # direct calls, and any future caller that has no name map to hand).
+                gone_names = [names.get(k, k) for k in gone] if names else list(gone)
+                detail["DANGLING"].append((a, b, len(gone), len(shared), gone_names))
                 continue
             if gone:
                 # BUGS 2b4e0f497aac. Drift was only reported when EVERY shared key had gone,
@@ -320,7 +382,8 @@ def classify(pairs, distance_fn=None, event_age_years=300.0, recorded=None, ents
                 # wholly dangling would be the opposite error. Exclusive, like DANGLING, so
                 # the classes still partition the pairs and the percentages still sum.
                 out["PARTIALLY-DANGLING"] += 1
-                detail["PARTIALLY-DANGLING"].append((a, b, len(gone), len(shared)))
+                gone_names = [names.get(k, k) for k in gone] if names else list(gone)
+                detail["PARTIALLY-DANGLING"].append((a, b, len(gone), len(shared), gone_names))
                 continue
         if recorded is None:
             out["IMPLIED-UNRECORDED"] += 1
@@ -465,7 +528,7 @@ def main():
         return 1
     recorded = graph[0] if graph else None
     unresolvable = graph[1] if graph else []
-    counts, detail = classify(pairs, dist, args.age, recorded=recorded, ents=ents)
+    counts, detail = classify(pairs, dist, args.age, recorded=recorded, ents=ents, names=names)
     total = sum(counts.values())
     print("THREAD INTEGRITY")
     if graph is None:
@@ -505,16 +568,20 @@ def main():
         print(f"  DANGLING (every shared entity gone from the live records -- the thread points "
               f"at nothing) -- all {len(rows):,}, largest first:")
         wa = _namecol(rows)
-        for a, b, n, tot in rows:
+        for a, b, n, tot, gone in rows:
             print(f"     {n:4d}/{tot:<5d} gone     {a:{wa}s} <-> {b}")
+            # Which entities, not just how many (order 0058f581b42b) -- uncapped, per Hard
+            # Rule 0, same as every other listing in this function.
+            print(f"         gone: {', '.join(gone)}")
         print()
     if detail["PARTIALLY-DANGLING"]:
         rows = sorted(detail["PARTIALLY-DANGLING"], key=lambda x: -x[2])
         print(f"  partial weave drift (obligation still real, some shared entities gone) "
               f"-- all {len(rows):,}, most-drifted first:")
         wa = _namecol(rows)
-        for a, b, n, tot in rows:
+        for a, b, n, tot, gone in rows:
             print(f"     {n:4d}/{tot:<5d} drifted  {a:{wa}s} <-> {b}")
+            print(f"         drifted: {', '.join(gone)}")
         print()
     if detail["RECIPROCAL"]:
         rows = sorted(detail["RECIPROCAL"], key=lambda x: -x[2])

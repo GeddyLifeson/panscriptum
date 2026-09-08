@@ -2909,6 +2909,37 @@ check("a clear majority still wins outright",
       note="the tie-break must not become a lexicographic sort that ignores the counts")
 check("a three-way tie is also fixed",
       _mode_stable(["a", "b", "c"]), "c")
+# AND A FROZEN EXPECTATION, because the four rows above are a hash-seed lottery (order
+# d5155cb101df, and §16 at :1574-1582 reached the same finding on the same idiom and repaired
+# it there without reaching this section).
+#
+# MEASURED, NOT ARGUED. All four rows above were driven against the defect they name --
+# `_mode_stable` with the `, v` deleted -- under PYTHONHASHSEED 0,1,2,3,4,5,6,7,8,9,42,99,1234.
+# Green under the defect means the row did not catch it: the permuted-input comparison was green
+# on 12 seeds of 13 (two module loads in one interpreter share PYTHONHASHSEED, so the set
+# iterates identically on both sides of that `==` -- exactly what §16 removed a row for), and
+# the two frozen rows on 5 of 13 each. On seeds 0, 3 and 5 -- roughly one
+# run in four -- ALL FOUR were green against the defect at once, and PYTHONHASHSEED is unset in
+# production, so that is a fresh lottery every run. What actually held this section was the
+# source row below, which is deterministic; the four behavioural rows above are kept because
+# each states a property worth stating, but they are not what catches a revert.
+#
+# NOTHING IS REMOVED. What is added is the §16 device: an ALL-TIED fixture of distinctly-named
+# values, so the name IS the whole tie-break and the answer is pinned rather than compared to a
+# permutation of itself. Three fixtures rather than one because a single frozen name can be
+# matched by an unlucky set order (one seed in eight here); three independent ones cannot.
+# Verified 2026-09-07: this exact triple under all thirteen seeds above, and a DIFFERENT triple
+# under every one of the thirteen once the `, v` is dropped -- 13 of 13, against the 1 of 13 the
+# permuted-input row manages.
+_tied19n = (_mode_stable(["gamma", "alpha", "delta", "beta", "epsilon", "zeta", "eta", "theta"]),
+            _mode_stable(["iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi"]),
+            _mode_stable(["rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"]))
+check("an all-tied fixture resolves to a FROZEN answer, not merely a self-consistent one",
+      _tied19n, ("zeta", "xi", "upsilon"),
+      note="every value appears once, so the counts decide nothing and `, v` decides "
+           "everything: without it `max` keeps whichever the SET yielded first and this triple "
+           "moves with PYTHONHASHSEED. Frozen because that is the only in-process way to see "
+           "it, which is the same reason §16 froze `affinity_order`'s ordering at :1605")
 check("the real navtree helper carries the same rule",
       "key=lambda r: (regs.count(r), r)" in
       open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "navtree.py"),
@@ -3999,16 +4030,52 @@ class _Absent19ai(dict):
         return _ABSENT19AI
 
 
+_flow_before19ai = dict(_STx._TOKENFLOW)
+
+
 def _pool19ai(buckets):
-    """Run the real standards.check() over a synthetic throughput window."""
+    """Run the real standards.check() over a synthetic throughput window.
+
+    THE LIVE TOKEN-FLOW PROBE IS PINNED FOR THE DURATION OF THE CALL, and this is not tidiness.
+    `standards.check()` calls `ollama_token_flow()` (standards.py:1901). When the metrics ledger
+    has been quiet for fifteen minutes that function stops reading and PROBES: a real generation
+    sent to the local daemon on a 300-second deadline, and on failure `silence.note(
+    "standards.py:token-flow")` -- a write into the LIVE failure ledger, which per order
+    842025c83c3c is deliberately never cleared, so the record is permanent.
+
+    Two rows at the end of this battery forbid precisely that ("no probe anywhere in this
+    battery writes into the live failure ledger", and the stronger LEDGER-side row above it),
+    and they are right to: a rehearsal recorded in the ledger a person reads to find real faults
+    manufactures the exact signal it exists to prove the library can raise.
+
+    MEASURED, NOT SUPPOSED (2026-09-07). On a machine busy enough for the probe to time out,
+    this file went from `1199 passed, 0 FAILED` to `1209 passed, 2 FAILED` with a fabricated
+    `silent:standards.py:token-flow:TimeoutError` written to disk -- the battery reddening on
+    UNMUTATED code because another process was using the GPU. That is the condition that makes a
+    mutation pass unjudgeable (a gate red in the baseline matches every mutant and kills none,
+    order 23dbbcd656f3), and it cost that pass its whole survivor list.
+
+    The pin is safe here because this section is about the success-RATE arithmetic and reads
+    exactly one standard, `calls that succeed`, which does not consult token flow. The probe
+    itself is tested where it belongs, in §19ab, which drives `ollama_token_flow` directly
+    against a redirected HERE. The real cache is restored in a `finally` and a control row below
+    asserts it came back unchanged.
+    """
     st = {"throughput": {"window_min": 15, "buckets": buckets,
                          "calls": sum(b["calls"] for b in buckets),
                          "per_hour": sum(b["calls"] for b in buckets) * 4},
           "quotas": [], "jobs": [], "library": {}, "watch": {}}
-    for row in _STx.check(st):
-        if row["standard"] == "calls that succeed":
-            return row
-    return _Absent19ai()
+    _flow_held19ai = dict(_STx._TOKENFLOW)
+    _STx._TOKENFLOW.update({"at": time.time(), "ok": True,
+                            "s": "pinned by verify_math S19ai; no live probe from this battery"})
+    try:
+        for row in _STx.check(st):
+            if row["standard"] == "calls that succeed":
+                return row
+        return _Absent19ai()
+    finally:
+        _STx._TOKENFLOW.clear()
+        _STx._TOKENFLOW.update(_flow_held19ai)
 
 
 _dead19ai = _pool19ai([])
@@ -4051,6 +4118,66 @@ check("[control] a vanished standard reddens those rows instead of raising at mo
       note="the middle element is the one that matters: the dead-pool rows assert `UNMEASURED` "
            "is in the observed text, and a sentinel that happened to contain that word would "
            "let them read green over a standard that no longer exists")
+# AND THE PIN IS PROVED TO SUPPRESS, NOT ASSUMED (order eea629f6dc46, found by sweep47-batch02
+# hours after the pin landed). `_pool19ai` pins `standards._TOKENFLOW` so the live token-flow
+# probe cannot fire from inside this battery. The control row above proves the real cache came
+# BACK; it does not prove that no probe went OUT -- the `finally` clobbers a live probe's own
+# write, so the cache looks identical in both worlds. And the suppression rests on ONE DEFAULT
+# ARGUMENT: `standards.check()` calls `ollama_token_flow()` with no ttl, so the pinned `at` sits
+# inside the 300s window and the cached value is returned instead of a generation being sent.
+# Respell that one call `ollama_token_flow(ttl=0)` -- the exact spelling §19ab uses against the
+# same function eleven hundred lines earlier -- and the pin becomes a no-op with every §19ai row
+# still green. A guard whose failure is invisible to the rows it guards is the shape this file
+# exists to refuse.
+#
+# So the TRANSPORT is the witness. `urlopen` is replaced by something that RECORDS being called
+# and then refuses, which is the one observation that distinguishes the two worlds: if the pin
+# holds it is never reached and the roster stays empty; if the pin ever stops suppressing, this
+# row goes red and NAMES the url that escaped. That matters beyond tidiness -- an escaped probe
+# is a 300-second live generation whose timeout reddens this battery on unmutated code and
+# writes a fabricated `silent:standards.py:token-flow` into the never-cleared failure ledger,
+# which is what made three mutation passes unjudgeable (orders 79d51aef8b71, f40f701594a4).
+# MEASURED BEFORE IT WAS WRITTEN, and the first spelling of this row was WRONG. A transport that
+# refused EVERYTHING recorded two calls even with the pin holding -- `standards.check()` also asks
+# `/api/tags` and `/api/ps`, which are cheap liveness questions and not the probe. Blocking those
+# would have reddened this battery and, worse, driven their failures into the live ledger: this
+# row would have manufactured the exact signal §19ai exists to prevent. The two worlds were then
+# measured directly, with `silence.note` stubbed and `standards.HERE` redirected so nothing landed:
+#     pinned   -> http://localhost:11434/api/tags , /api/ps
+#     unpinned -> /api/ps , http://localhost:11434/api/generate
+# `/api/generate` is the 300-second generation, and it is the ONE call that separates the two.
+# So that endpoint, not "any network at all", is what this row forbids.
+_probe_calls19ai = []
+_realopen19ai = _ur19ab.urlopen
+
+
+def _watch_open19ai(req, *a19ai, **kw19ai):
+    """Pass the cheap liveness calls through; record and refuse a token-flow GENERATION.
+
+    Deliberately transparent in the healthy case: if the pin holds, nothing is refused and this
+    wrapper changes neither the battery's behaviour nor the ledger. It only ever fires when the
+    thing it is watching for has already gone wrong.
+    """
+    _u19ai = req if isinstance(req, str) else (getattr(req, "full_url", None) or "")
+    if "/api/generate" in _u19ai:
+        _probe_calls19ai.append(_u19ai)
+        raise RuntimeError("verify_math S19ai: a live generation escaped the pin: " + _u19ai)
+    return _realopen19ai(req, *a19ai, **kw19ai)
+
+
+try:
+    _ur19ab.urlopen = _watch_open19ai
+    _pinned19ai = _pool19ai([{"calls": 100, "ok": 90}])
+finally:
+    _ur19ab.urlopen = _realopen19ai
+check("[control] the S19ai pin SUPPRESSES the live token-flow generation, proved by a transport "
+      "that records the url rather than by the cache coming back",
+      (_probe_calls19ai, _pinned19ai["holds"]), ([], True),
+      note="PROVED TO DISCRIMINATE, not assumed: with standards.HERE redirected at a tree with no "
+           "metrics ledger, the pinned world asks /api/tags and /api/ps and the UNPINNED world "
+           "asks /api/generate. The second element pins that the call still did its real work "
+           "while the transport was watched, so an empty roster cannot be bought by the call "
+           "quietly not happening at all")
 check("the threshold itself is the one tuning.py already settled on",
       _STx.MIN_CALLS_TO_JUDGE_RATE, _TUNx.MIN_CALLS_TO_JUDGE,
       note="tuning.MIN_CALLS_TO_JUDGE answers this same question for regime(); read from "
@@ -4062,6 +4189,72 @@ check("the threshold itself is the one tuning.py already settled on",
 # defect further down (order 495390283745, which fixed standards.py to derive the constant and
 # left a PROPOSED EDIT for this site that was never applied); applying a fix everywhere except
 # the site the order names is how a repaired defect survives its own repair.
+#
+# AND THE REPAIR MOVED IT FROM ONE NON-FAILING SHAPE TO ANOTHER (order c1d6ddfe148b).
+# standards.py:67 is, verbatim, `MIN_CALLS_TO_JUDGE_RATE = tuning.MIN_CALLS_TO_JUDGE`. The row
+# immediately above compares those two names, so it holds BY CONSTRUCTION while that line
+# stands -- and the source row in batch3 (:8026-8033) already asserts by regex that the line
+# stands. The batch3 row at :8023 asserts the same equality a second time and its own label
+# concedes the point ("same object/value by construction"). Two of the three rows on this
+# subject therefore cannot report anything, and one of them was already repaired once for
+# exactly that reason. NEITHER IS DELETED HERE -- what was missing is a row that can fail.
+#
+# WHAT WAS NEVER DRIVEN IS THE BOUNDARY. The constant's whole job is to decide where
+# `standards.check()` stops rendering a success percentage and says UNMEASURED instead
+# (standards.py:751). That cut is asked here directly, both sides of it, and then the constant
+# is swapped underneath the live function and the ANSWER is watched to move -- the device this
+# file already uses for the restart horizon at :4273-4301. A hand-inlined literal at the cut
+# would leave both equality rows green and redden this one.
+_thr19ai = _STx.MIN_CALLS_TO_JUDGE_RATE
+check("a window sitting exactly ON the threshold is measured, not refused",
+      "UNMEASURED" in str(_pool19ai([{"calls": _thr19ai, "ok": _thr19ai}])["observed"]), False,
+      note="the comparison is `calls < MIN_CALLS_TO_JUDGE_RATE`, so the threshold itself is the "
+           "first measurable window; an off-by-one here throws away a legitimate sample")
+check("and one call below it is refused as too thin",
+      "UNMEASURED" in str(_pool19ai([{"calls": _thr19ai - 1,
+                                      "ok": _thr19ai - 1}])["observed"]), True)
+_saved_thr19ai = _STx.MIN_CALLS_TO_JUDGE_RATE
+try:
+    _STx.MIN_CALLS_TO_JUDGE_RATE = _thr19ai + 10
+    _moved19ai = "UNMEASURED" in str(
+        _pool19ai([{"calls": _thr19ai, "ok": _thr19ai}])["observed"])
+finally:
+    _STx.MIN_CALLS_TO_JUDGE_RATE = _saved_thr19ai
+check("and the boundary MOVES WITH THE CONSTANT: the same window is refused once the "
+      "threshold is raised over it", _moved19ai, True,
+      note="a literal spelled at standards.py:751 instead of the constant leaves the two "
+           "equality rows perfectly green and this row red -- which is the whole point")
+# AND THE OTHER END OF THE SAME WIRE. The row above holds standards.py:751 to the constant; this
+# holds standards.py:67 to tuning, BEHAVIOURALLY rather than by grep. The binding is evaluated
+# at import, so the only way to see a re-inlined literal there is to import the module again
+# with tuning's constant moved -- the `_asfresh` device from §15 and §16, applied to a third
+# module. The fresh copy is thrown away; the live `_STx` every row above uses is untouched.
+_spec_st19ai = _ilu.spec_from_file_location("standards__fresh19ai",
+                                            os.path.join(_SRC_AS, "standards.py"))
+_stfresh19ai = _ilu.module_from_spec(_spec_st19ai)
+_saved_tun19ai = _TUNx.MIN_CALLS_TO_JUDGE
+try:
+    _TUNx.MIN_CALLS_TO_JUDGE = _saved_tun19ai + 7
+    _spec_st19ai.loader.exec_module(_stfresh19ai)
+    _derived19ai = _stfresh19ai.MIN_CALLS_TO_JUDGE_RATE
+finally:
+    _TUNx.MIN_CALLS_TO_JUDGE = _saved_tun19ai
+check("a fresh load of standards.py takes the threshold FROM tuning at import time",
+      _derived19ai, _saved_tun19ai + 7,
+      note="+7 is arbitrary and that is the point: the answer has to follow tuning wherever it "
+           "goes. A re-inlined literal at standards.py:67 returns the old number here while "
+           "every equality row in this file stays green, because both names would still agree "
+           "on the day the literal was written")
+check("[control] and the live module was left exactly as it was found",
+      (_STx.MIN_CALLS_TO_JUDGE_RATE, _TUNx.MIN_CALLS_TO_JUDGE),
+      (_saved_thr19ai, _saved_tun19ai),
+      note="two constants were swapped under running code above; a restore that missed would "
+           "quietly re-tune every row after this point")
+check("[control] and the token-flow cache this section pins is put back as it was found",
+      _STx._TOKENFLOW, _flow_before19ai,
+      note="`_pool19ai` pins it so the battery cannot fire a live 300s generation probe and "
+           "write a manufactured silence into the ledger; a pin left standing would make every "
+           "later reader of that cache believe a probe succeeded that never ran")
 
 
 # ---- Section 19aj: the export repo is never resolved into a temp directory -----------------
@@ -6851,6 +7044,41 @@ _ax_valid = A.axis_score(1e9, "M3", "ruin")
 check("and it still SCORES a well-formed quantity (the refusals are not blanket)",
       isinstance(_ax_valid, float) and 0.0 <= _ax_valid <= 10.0, True,
       note="a guard that refuses everything passes every refusal test ever written")
+# AND THE MONOTONICITY LIMB OF THAT SAME GUARD, which nothing reached (order 23dbbcd656f3's
+# finding (a)). `axis_score` refuses on `not lo or not hi or hi <= lo`, and the four rows above
+# exercise a missing quantity, a non-positive quantity, an unknown band and an axis the edges do
+# not carry -- every limb except `hi <= lo`. So the limb that matters most had no row: `frac`
+# divides by `log(hi) - log(lo)`, which is ZERO when the two floors are equal and NEGATIVE when
+# they cross, and a negative denominator does not raise -- it returns a confidently INVERTED
+# score, the largest quantities reading lowest, with nothing on the entry saying so.
+#
+# `_check_constants` refuses a BAND_EDGES table that crosses, so this state cannot survive an
+# import; it can and does exist for the duration of an edit, and `axis_score` is the thing that
+# would publish from it. The edges are put back immediately.
+_bx_lo, _bx_hi = A.LADDER[3], A.LADDER[4]
+_bx_saved = dict(A.BAND_EDGES[_bx_hi])
+try:
+    A.BAND_EDGES[_bx_hi]["ruin"] = A.BAND_EDGES[_bx_lo]["ruin"] / 10.0
+    _bx_crossed = A.axis_score(A.BAND_EDGES[_bx_lo]["ruin"] * 2.0, _bx_lo, "ruin")
+    A.BAND_EDGES[_bx_hi]["ruin"] = A.BAND_EDGES[_bx_lo]["ruin"]
+    _bx_equal = A.axis_score(A.BAND_EDGES[_bx_lo]["ruin"] * 2.0, _bx_lo, "ruin")
+finally:
+    A.BAND_EDGES[_bx_hi].clear()
+    A.BAND_EDGES[_bx_hi].update(_bx_saved)
+check("axis_score refuses a band whose ceiling sits BELOW its own floor", _bx_crossed, None,
+      note="a crossed pair does not raise, it inverts: the denominator goes negative and the "
+           "biggest quantities score lowest, which is the one way this function can be wrong "
+           "and still look like it worked")
+check("and refuses a band whose ceiling EQUALS its floor", _bx_equal, None,
+      note="zero denominator; without the guard this is a ZeroDivisionError raised from inside "
+           "a published assay")
+check("[control] the edges were put back: the same call scores the same as before the swap",
+      A.axis_score(1e9, "M3", "ruin"), _ax_valid,
+      note="two rows above ran with BAND_EDGES deliberately broken; a restore that missed would "
+           "quietly re-scale every axis_score in every row after this point")
+check("[control] and an in-band quantity still SCORES, so the two rows above are not a blanket "
+      "refusal", isinstance(A.axis_score(A.BAND_EDGES[_bx_lo]["ruin"] * 2.0, _bx_lo, "ruin"),
+                            float), True)
 
 # ---- band_for_quantity: L244 (`<=` -> `>`) and L248 (`>=` -> `<`) --------------------------
 check("band_for_quantity refuses a missing quantity", A.band_for_quantity(None, "ruin"), None)
@@ -6932,6 +7160,77 @@ check("[control] and a checker that cannot run reports itself rather than borrow
       note="an unorderable value makes `_check_constants` raise something that is NOT an "
            "AssayIntegrityError -- the exact case the old boolean folded into 'accepted'")
 
+# ---- INSTRUMENT_WINDOWS against the Ladder: L700 (`or` -> `and`, on BOTH operands) ----------
+#
+# `_check_constants` refuses a windows table that has drifted off the Ladder, and the refusal
+# NAMES the rungs on each side. Each half is spelled `<list> or "no rungs"`, the `or` turning an
+# empty list into words so the innocent half reads as a sentence instead of as `[]`. mutate
+# flipped both of those tokens to `and` (2026-09-04) and neither variant was noticed, because
+# nothing in the battery had ever made the two tables disagree: the raise was written, read, and
+# never once executed. It is NOT an equivalent mutation and the damage is specific -- `[] and
+# "no rungs"` is `[]`, and `['M5'] and "no rungs"` is "no rungs" -- so the GUILTY half loses the
+# rung it exists to name and prints the innocent half's wording, while the innocent half prints
+# an empty list. A curator is told the tables disagree and refused the one fact that would fix
+# it, and anchors.py:427 indexes this table across the whole Ladder unguarded, so the divergence
+# arrives in production as a bare KeyError if this refusal does not land first.
+#
+# BOTH HALVES ARE ASSERTED ON BOTH FIXTURES, which is what kills both variants: the missing-rung
+# fixture catches `_iw_missing and`, the off-Ladder fixture catches `_iw_off and`, and each
+# fixture's other half proves the "no rungs" wording is still reached rather than an empty list.
+# The rung is taken FROM the live Ladder rather than spelled here, so a Ladder that changes
+# reaches this fixture instead of leaving it testing a rung that no longer exists.
+_iw_saved = dict(A.INSTRUMENT_WINDOWS)
+_iw_pick = A.LADDER[len(A.LADDER) // 2]
+_iw_alien = "M-not-a-rung"
+
+
+def _iw_verdict(table):
+    """What did `_check_constants` DO with this windows table? -> str, refusal text included.
+
+    TRI-STATE for the same reason `_sigma_table_verdict` above is, and it matters more here:
+    these rows read the refusal's TEXT, so a `_check_constants` that raised KeyError partway
+    through must report itself by name rather than be mistaken for a refusal that said nothing.
+    """
+    A.INSTRUMENT_WINDOWS.clear()
+    A.INSTRUMENT_WINDOWS.update(table)
+    try:
+        A._check_constants()
+        return "ACCEPTED"
+    except A.AssayIntegrityError as _e_iw:
+        return "REFUSED " + str(_e_iw)
+    except Exception as _e_iw:
+        return "RAISED " + type(_e_iw).__name__
+    finally:
+        A.INSTRUMENT_WINDOWS.clear()
+        A.INSTRUMENT_WINDOWS.update(_iw_saved)
+
+
+_iw_gone = {_b_iw: _w_iw for _b_iw, _w_iw in _iw_saved.items() if _b_iw != _iw_pick}
+_iw_msg_gone = _iw_verdict(_iw_gone)
+check("a Ladder rung with NO instrument window is refused",
+      _iw_msg_gone.startswith("REFUSED "), True,
+      note="anchors.py indexes INSTRUMENT_WINDOWS across the whole Ladder with no guard, so "
+           "this divergence reaches production as a KeyError if it is not refused here")
+check("and the refusal NAMES the rung that lost its window",
+      "[%r] sit on the Ladder with no window" % _iw_pick in _iw_msg_gone, True,
+      note="L700 flipped `_iw_missing or \"no rungs\"` to `and`, which swaps the rung list for "
+           "the words reserved for the case where that half is CLEAN")
+check("while the half with no fault says so in words rather than as an empty list",
+      "no rungs sit in the windows table" in _iw_msg_gone, True)
+_iw_extra = dict(_iw_saved)
+_iw_extra[_iw_alien] = _iw_saved[_iw_pick]
+_iw_msg_extra = _iw_verdict(_iw_extra)
+check("a window for a rung that is NOT on the Ladder is refused",
+      _iw_msg_extra.startswith("REFUSED "), True)
+check("and the refusal NAMES the off-Ladder rung",
+      "[%r] sit in the windows table" % _iw_alien in _iw_msg_extra, True,
+      note="the other operand of the same mutation: `_iw_off or \"no rungs\"` -> `and`")
+check("while the clean half says so in words there too",
+      "no rungs sit on the Ladder with no window" in _iw_msg_extra, True)
+check("and the real windows table passes its own check", _iw_verdict(_iw_saved), "ACCEPTED",
+      note="ACCEPTED, not 'did not refuse'. Without this two-sided control a checker that "
+           "refused every table would satisfy all six rows above")
+
 # ---- the Hands' interval: L1078, L1089, L1098 ----------------------------------------------
 # interval_from_hands is where the published +/- comes from, and NOTHING in the battery called
 # it. L1078 dropped the `not` from the empty-readings guard; L1089 inverted the widening loop
@@ -6958,6 +7257,129 @@ check("and widening never narrows: the bar is at least the half-spread",
                             - min(_wide["signatures"].values())) / 2.0 - 1e-9, True)
 check("the spread is published alongside the centre (Absolute 3: never silently average)",
       _wide["spread"], 7.0, tol=1e-9)
+
+# ---- the transparency fields, which had the declaration and the datum but no net -----------
+#
+# `covers_all_signatures` five rows up got both halves of its repair: it was turned from a
+# guarantee dressed as a check into a declared guarantee PLUS a real datum, and it was given
+# rows here -- one asserting the field, one re-deriving it independently ("measured, not
+# asserted"). The nine transparency fields added alongside it in the same pass, for the same
+# reason (make an unrecognised grade or Hand SPEAK rather than be silently absorbed), got the
+# declaration and the datum and nothing else: a grep of this file for attestation_recognised,
+# attestation_sigma, attestation_source, hands_recognised, unrecognised_hands,
+# covered_before_widening, widening_added and quadrature_interval returned ZERO hits before
+# these rows (order 85873effe631).
+#
+# THAT IS THE WORST PLACE IN THE MODULE FOR A CHECK TO BE MISSING, because these fields exist
+# for the sole purpose of surfacing a bad reading. A mutation that inverted
+# `attestation_recognised`, swapped which floor an unrecognised grade substitutes, computed
+# `unrecognised_hands` with `in HANDS` instead of `not in`, or broke the pre-widening
+# comparison, would leave every published +/- looking exactly as it does now while the field
+# that was supposed to say "nobody could read this grade" quietly said the opposite. This
+# file's own header: an error in this module is an error in every published +/- in the library.
+#
+# EVERY ROW IS A PAIR. A field whose recognised case alone is asserted is satisfied by a
+# constant, which is the failure this whole file is against.
+
+# The Hands. `_iv` above is signed by two real Hands; the fixture below misspells one of them.
+_h_real = sorted(A.HANDS)[0]
+_h_fake = _h_real + "R"
+check("a reading signed by real Hands reports them RECOGNISED", _iv["hands_recognised"], True)
+check("and names none of them as unrecognised", _iv["unrecognised_hands"], [])
+_iv_bad = A.interval_from_hands({_h_fake: 7.41, sorted(A.HANDS)[2]: 7.90},
+                                attestation="Transcribed")
+check("a signature from outside the Order's Hands is NOT recognised",
+      _iv_bad["hands_recognised"], False)
+check("and the unrecognised signature is NAMED, not merely counted",
+      _iv_bad["unrecognised_hands"], [_h_fake],
+      note="`not in HANDS` inverted to `in HANDS` swaps these two rows and nothing else in the "
+           "battery would have moved; the interval itself is identical either way")
+check("and the source line says the prior is not on file rather than absorbing it",
+      "UNRECOGNISED signature(s)" in _iv_bad["hands_source"], True)
+# EVERY KEY IS JUDGED, including one whose value is None and so never reached `vals` -- the
+# function's own comment makes that a deliberate property, and a `readings` filtered to the
+# signed values before this test would silently lose it.
+check("a misspelt Hand that filed NOTHING is still an unrecognised signature",
+      A.interval_from_hands({sorted(A.HANDS)[0]: 7.41, _h_fake: None},
+                            attestation="Transcribed")["unrecognised_hands"], [_h_fake])
+
+# The widening. `_iv` is tight enough that the quadrature interval already covers; `_wide` and
+# the skewed fixture below are not, so the covering loop genuinely fires.
+check("a tight reading is covered by the EVIDENCE, before any widening",
+      _iv["covered_before_widening"], True)
+check("and nothing was added on top of the quadrature interval", _iv["widening_added"], 0.0,
+      tol=1e-9)
+check("so the published interval IS the quadrature interval there",
+      _iv["interval"], _iv["quadrature_interval"], tol=1e-9)
+# The centre is the MEAN and the spread is measured from the extremes, so a skewed set fails
+# the quadrature interval even though the same readings under a symmetric spread would not.
+_skew = A.interval_from_hands({sorted(A.HANDS)[0]: 0.0, sorted(A.HANDS)[2]: 0.0,
+                               sorted(A.HANDS)[1]: 30.0}, attestation="Transcribed")
+check("a SKEWED reading is not covered by the evidence alone",
+      _skew["covered_before_widening"], False,
+      note="this is the datum `covers_all_signatures` cannot carry: that field is True on both "
+           "fixtures by construction, and only these two say which of them the rule bought")
+check("and the covering rule's contribution is published as its own number",
+      _skew["widening_added"] > 0.0, True)
+check("which is exactly the gap between the measurement and the published bar",
+      _skew["interval"] - _skew["quadrature_interval"], _skew["widening_added"], tol=1e-9)
+check("[control] and the two fixtures are indistinguishable on covers_all_signatures",
+      (_iv["covers_all_signatures"], _skew["covers_all_signatures"]), (True, True),
+      note="the field that cannot be False, shown to be the same on both -- which is why the "
+           "three rows above it had to exist")
+
+# The grade, at the Hands' layer. Derived from the live table, never re-spelled.
+check("a charter grade is RECOGNISED by interval_from_hands",
+      _iv["attestation_recognised"], True)
+check("and it is scored against the charter's own floor for that grade",
+      _iv["attestation_floor"], A.ATTESTATION_FLOOR["Transcribed"], tol=1e-9)
+_iv_nog = A.interval_from_hands({sorted(A.HANDS)[0]: 7.41, sorted(A.HANDS)[2]: 7.90},
+                                attestation="a grade the charter does not define")
+check("a grade the charter never named is NOT recognised", _iv_nog["attestation_recognised"],
+      False)
+check("and the floor it fell back on is the SUBSTITUTED one, not a charter floor",
+      _iv_nog["attestation_floor"], A.ATTESTATION_FLOOR_UNRECOGNISED, tol=1e-9)
+check("and the source line says the interval was derived from a grade nobody could read",
+      "UNRECOGNISED grade" in _iv_nog["attestation_source"], True,
+      note="widening is the safe direction and that is not why it is acceptable -- the bar is "
+           "the published claim about what is not known, so a bar widened BY SUBSTITUTION has "
+           "to say so or it is a statement about evidence that was never gathered")
+
+# The same grade, one layer up, in `assay()` -- which absorbed it the identical way until the
+# same pass. The two layers are checked separately on purpose: two layers absorbing one bad
+# input the same way is one layer and a decoy, and that is only visible if both are driven.
+_as_good = A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed", worksheet="w")
+_as_bad = A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed".lower(),
+                  worksheet="w")
+check("assay() recognises a charter grade", _as_good["attestation_recognised"], True)
+check("and reports the measurement sigma the table assigns it",
+      _as_good["attestation_sigma"], round(A.SIGMA_BY_ATTESTATION["Witnessed"], 4), tol=1e-9)
+check("a LOWERCASE grade is not recognised -- the fault that was actually measured",
+      _as_bad["attestation_recognised"], False,
+      note="a lowercase w on the charter's own Kenshiro worksheet; the entry on disk said "
+           "'witnessed' while its bar had doubled, and nothing in the dict reconciled them")
+check("and the sigma it silently fell onto is SIGMA_MAX, the widest grade the charter names",
+      _as_bad["attestation_sigma"], round(A.SIGMA_MAX, 4), tol=1e-9)
+check("so the published bar really does widen by SUBSTITUTION, measurably",
+      _as_bad["interval"] > _as_good["interval"], True)
+check("and the source line names the substitution rather than reading as disputed testimony",
+      ("UNRECOGNISED grade" in _as_bad["attestation_source"]
+       and "SIGMA_MAX" in _as_bad["attestation_source"]), True)
+check("[control] while a recognised grade's source line makes no such claim",
+      "UNRECOGNISED" in _as_good["attestation_source"], False)
+# The third state of that field: a per-call sigma= override, which is neither the grade's table
+# value nor a substitution, and which the source line must not let a reader confuse for either.
+_as_ovr = A.assay("M3", dict(A.CHARTER_KENSHIRO), attestation="Witnessed", worksheet="w",
+                  sigma=round(A.SIGMA_BY_ATTESTATION["Witnessed"] / 2.0, 4))
+check("a per-call sigma= override is reported as the sigma actually used",
+      _as_ovr["attestation_sigma"], round(A.SIGMA_BY_ATTESTATION["Witnessed"] / 2.0, 4),
+      tol=1e-9)
+check("and the source line says it is an override and names the table value NOT used",
+      ("per-call sigma= override" in _as_ovr["attestation_source"]
+       and ("%.4f" % A.SIGMA_BY_ATTESTATION["Witnessed"]) in _as_ovr["attestation_source"]),
+      True,
+      note="the grade is still recognised here, so without this row an override and a table "
+           "reading are the same dict")
 
 # ---- the regress test: L1015, L1018, L1025, L1029, L1034, L1035 ----------------------------
 # Six mutations, all in the three verdict dicts, all flipping `assayable` or `omega_eligible`.
@@ -7018,6 +7440,79 @@ if _stamp.startswith("FALLBACK"):
                "and refused to say why")
 else:
     check("a MEASURED stamp means the matrix actually loaded", bool(A._rho_doc()), True)
+
+# AND NOW UNCONDITIONALLY, because the two rows above are an if/else on the ENVIRONMENT (order
+# 23dbbcd656f3's findings (b) and (c)). While data/AXIS_CORRELATION.json loads -- the normal
+# case, and the case on this machine -- the stamp reads "measured:" and the FALLBACK row never
+# executes. A check that cannot run in the configuration the library actually runs in looks
+# exactly like a check that passed, which is the fault this whole file exists against, and it
+# is why L662's `(RHO_FALLBACK_REASON or "")` -> `and ""` survived a mutation pass: the row
+# written for it was sitting in the branch that was not taken.
+#
+# So the fallback state is CONSTRUCTED rather than waited for. Both are put back in a `finally`,
+# and the row after them proves the restore landed -- the cache is process-wide and every
+# interval computed after this point reads it.
+_rho_saved_cache = A._RHO_CACHE[0]
+_rho_saved_why = A.RHO_FALLBACK_REASON
+_rho_cause20r = "a cause constructed by verify_math.py, never a real one"
+try:
+    A._RHO_CACHE[0] = {}
+    A.RHO_FALLBACK_REASON = _rho_cause20r
+    _stamp_fb20r = A._rho_source()
+    A.RHO_FALLBACK_REASON = None
+    _stamp_mute20r = A._rho_source()
+finally:
+    A._RHO_CACHE[0] = _rho_saved_cache
+    A.RHO_FALLBACK_REASON = _rho_saved_why
+check("an EMPTY matrix reaches the fallback stamp whatever this machine has on disk",
+      _stamp_fb20r.startswith("FALLBACK rho=0, independence ASSERTED not measured"), True)
+check("and the fallback stamp CARRIES its cause rather than trailing off",
+      _rho_cause20r in _stamp_fb20r, True,
+      note="L662 turned `(RHO_FALLBACK_REASON or \"\")` into `and \"\"`, so the stamp announced "
+           "that the bar was a fallback and then refused to say why -- and the row written for "
+           "it only ran on a machine where the matrix was already missing")
+check("and a fallback with no cause on file still returns a stamp rather than raising",
+      isinstance(_stamp_mute20r, str), True,
+      note="the `or \"\"` is also what keeps `str + None` from raising out of the middle of a "
+           "published assay")
+
+# THE LOADER'S OWN ABSENT-FILE BRANCH, same shape and never arranged by the battery either.
+# `_rho_doc` sets the cause under `if not doc:`; drop that `not` and the cause is recorded on
+# the SUCCESS path while a genuinely empty matrix falls back in total silence -- the one thing
+# the function's docstring promises cannot happen ("It cannot fire unnoticed"). Observable only
+# with the file absent, so the load is made to return nothing instead.
+import io as _io20r                                                      # noqa: E402
+
+_axc20r = sys.modules.get("axis_correlation")
+if _axc20r is None:                      # not yet imported in this process; _rho_doc imports it
+    import axis_correlation as _axc20r   # noqa: E402
+_real_load20r = _axc20r.load
+_err20r = _io20r.StringIO()
+try:
+    _axc20r.load = lambda: {}
+    A._RHO_CACHE[0] = None
+    A.RHO_FALLBACK_REASON = None
+    with _ctx_vm.redirect_stderr(_err20r):
+        _doc20r = A._rho_doc()
+    _why20r = A.RHO_FALLBACK_REASON
+finally:
+    _axc20r.load = _real_load20r
+    A._RHO_CACHE[0] = _rho_saved_cache
+    A.RHO_FALLBACK_REASON = _rho_saved_why
+check("a matrix that loads EMPTY is cached as an empty doc, not as None", _doc20r, {},
+      note="None would re-run the load on every call and re-announce on every interval")
+check("and the loader RECORDS why rather than degrading in silence", bool(_why20r), True,
+      note="dropping the `not` from `if not doc:` moves the cause onto the success path; the "
+           "library then publishes too-narrow bars with a blank provenance stamp")
+check("and the cause names the empty load specifically",
+      "load() returned nothing" in str(_why20r), True)
+check("and it ANNOUNCES to stderr as well -- the docstring's 'it cannot fire unnoticed'",
+      "ASSERTS THE MEASURES ARE INDEPENDENT" in _err20r.getvalue(), True)
+check("[control] and the process-wide cache was put back as it was found",
+      (A._RHO_CACHE[0], A.RHO_FALLBACK_REASON, A._rho_source()),
+      (_rho_saved_cache, _rho_saved_why, _stamp),
+      note="every interval computed after this point reads that cache; a restore that missed "
+           "would silently switch the rest of the battery onto the independence assumption")
 
 # ---- promotion_watch and the ceiling: L918 (`>=` -> `<`), L861 (False -> True) -------------
 # `promotion_watch` is the flag that tells a curator an entry may belong one rung up. It is a

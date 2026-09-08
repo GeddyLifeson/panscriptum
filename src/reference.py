@@ -230,6 +230,7 @@ RUNGS = ("H.", "X.", "Mt.", "Mv.", "U-", "G.", "P.")
 
 
 def shelfmark(rec):
+    nav_unreadable = False
     try:
         nav = json.load(open(os.path.join(HERE, "data", "NAVTREE.json"), encoding="utf-8"))
         parts = rec["tier_key"].split(".")
@@ -244,6 +245,7 @@ def shelfmark(rec):
         # converted sites for the same fix).
         silence.note("reference.py:shelfmark-navtree")
         upper = ["?", "?", "?"]
+        nav_unreadable = True
     lower = list(rec.get("lower_rungs", ["?", "?", "?", "?"]))
     # RUNGS names exactly 7 cosmological rungs (H, X, Mt, Mv, U-, G, P). This assumed upper is
     # always 3 long and lower always 4 -- true for the three hardcoded entries below, but a
@@ -257,7 +259,17 @@ def shelfmark(rec):
         upper = upper[:len(RUNGS)]
     marks = [f"{RUNGS[i]}{v}" for i, v in enumerate(upper)]
     marks += [f"{RUNGS[len(upper) + i]}{v}" for i, v in enumerate(lower)]
-    return "Ω › " + " › ".join(marks)
+    mark = "Ω › " + " › ".join(marks)
+    if nav_unreadable:
+        # A COULD-NOT-READ IS NOT A GENUINELY-UNKNOWN RUNG (order 1d8e99b28613). Both used to
+        # print as the identical three '?' marks -- the charter's own convention for "this rung
+        # is not yet known" -- so the FORMAL CITATION a person actually reads carried no way to
+        # tell "the fiction never names this rung" from "data/NAVTREE.json could not be read
+        # this run". `silence.note` above already records the fault internally; this marks the
+        # artefact itself, per Hard Rule -1's opening principle (a could-not-measure recorded
+        # identically to a confident value).
+        mark += "  [NAVTREE UNREADABLE THIS RUN -- upper rungs unmeasured, not genuinely unknown]"
+    return mark
 
 
 def citation(rec, res):

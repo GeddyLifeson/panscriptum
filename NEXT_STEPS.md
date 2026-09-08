@@ -3,170 +3,160 @@
 *Overwritten each run. The permanent record is `HANDOFF.md`; the live queue is
 `state/workorders.json` via `python src/workorders.py --sweep`.*
 
-Written by run #46, 2026-09-07. **Queue at close: 293 open** (LOCAL 42 · RUN 47 · OWNER 137 ·
-SESSION 63 · BOTS 4), down from 406 at open. **172 closed, 52 filed.** The queue did not empty and
-was never going to: the comprehensive sweep read 116 modules and filed what it found, which is the
-sweep working. **The workable rung is 94 and every id is listed in §1 below**, so you start from my
-position rather than rediscovering it.
+Written by run #47, 2026-09-07 (daily). **Queue at close: 251 open** (OWNER 140 · SESSION 68 ·
+RUN 26 · LOCAL 15 · BOTS 2), down from 295 at open. **100 closed, and the workable rung went
+from 95 to 43.** Every "already fixed" claim was re-verified against source before its order was
+resolved — several survived that check, and several were corrected by it.
+
+**The battery is GREEN on a settled tree:** `verify_math` 1213 passed / 0 FAILED, `drill` 443
+nets / 443 held / 0 BREACHED, `allsweep` 0 subsystems bad, `health --preflight` all pass,
+`secondopinion` all three tools RAN with 0 secrets agreed by two scanners, `liveness` 45 findings
+with 0 tautology and 0 phantom, `axis_correlation` n=45 unchanged, `pyflakes` clean.
+**No halt was raised or lifted; `escalation --status` read clear at open and at close.**
 
 ---
 
-## 0. READ THE MUTATION LOG FIRST — AND KNOW THAT THE LAST ONE DIED
+## 0. READ THE MUTATION LOG FIRST — IT WAS STILL RUNNING WHEN THIS SHIFT CLOSED
 
-`state/mutate_20260907.log` is the pass this run launched. **Read it before anything else.**
-
-The run #45 pass (`state/mutate_20260905b.log`) **did not finish**. It completed two targets and
-then died on the third:
+`state/mutate_20260907.log` is the pass run #46 launched. **It is NOT a completed pass.**
 
 | target | result |
 |---|---|
-| `assay.py` | 124 mutants, **122 killed, 2 SURVIVED**, 0 indeterminate (25,503s) |
-| `prose_gate.py` | 62 mutants, **62 killed, 0 SURVIVED**, 0 indeterminate (18,632s) |
-| `escalation.py` | **NO RESULT — the pass died here** |
+| `assay.py` | 143 mutants, 138 killed, **5 SURVIVED**, 0 indeterminate (25,601s) |
+| `prose_gate.py` | 62 mutants, **62 killed, 0 SURVIVED**, 0 indeterminate (18,539s) |
+| `escalation.py` | **NO RESULT — still running after ~23 hours on this target** |
 
-It died at 23:20:47 with `FileNotFoundError` on **its own sandbox's** `escalation.py`. A pass killed
-partway is not a pass with fewer survivors; a third of the mandate is missing. Full analysis is in
-order **`f9643582fd29` (OWNER)**, including the hypothesis I **disproved by experiment** (a
-10-hour-old sandbox with a live owner pid SURVIVES a full drill run — ownership beats age, as
-designed) and the mechanism that does fit (`sandbox()`'s documented mkdtemp/claim window, order
-`404d0ccf9df5`, whose stated mitigation is the 6h age gate that `older_than=0` removes).
+The process was alive and its sandbox verifiably advancing at close. **This is the same target the
+run #45 pass died on** (`f9643582fd29`, OWNER). Find out which happened before anything else. A pass
+killed partway is not a pass with fewer survivors. **Do not start a second pass while one is live.**
 
-Two things about the new pass:
+Four of the five `assay.py` survivors were triaged this shift (one real coverage hole closed with
+seven proved rows, two proved equivalent, one already killed by a battery that had been disabled
+when it was scored). **One follow-up is owed:** run
+`python src/mutate.py --rule-equivalent assay.py:675` when no pass is in flight, or the next pass
+re-files an equivalence that has already been proved.
 
-- **The baseline is the cleanest this project has recorded**: `import rc=0`, `verify_math` **1159
-  passed, 0 FAILED**, `drill` **443 nets, 443 held, 0 BREACHED**. All three green, and stronger
-  than run #45's (405 nets, 1156 checks).
-- **`_session`'s KeyError abort is fixed** (order `f4af474dfc49`, M75). It would otherwise very
-  likely have taken this pass down too — that is why a maintenance run took a SESSION-rung order.
+---
 
-**Do not run `drill.py` while a mutation pass is live.** Both drill reap nets are now contained
-(they redirect `tempfile.tempdir`, so they cannot see a real sandbox), but the window in
-`sandbox()` itself is still open and is reachable from any `older_than=0` caller.
+## 1. THE WORKABLE QUEUE — 43 IDS, ALL OF THEM, SO YOU START FROM MY POSITION
 
-## 1. THE WORKABLE QUEUE — 94 ORDERS, EVERY ID
+### RUN (26)
 
-Nothing here is sampled. Work them cheapest-handler-first as always.
+| id | sev | code | where |
+|---|---|---|---|
+| `07258ace3a09` | MAJOR | ADDRESS_SPINE_CODE_INVENTED_FOR_CROSSOVER_TITLE | src/address.py:151-169 (_index_name_is_placed_like_a |
+| `23dbbcd656f3` | MAJOR | ASSAY_MUTATION_SURVIVORS_TRIAGED_MOST_ARE_ARTEFACTS | src/assay.py (10 survivors), src/verify_math.py (con |
+| `af47010df391` | MAJOR | CASCADE_SIZE_REFUSAL_READ_AS_THROTTLE | src/cascade_bridge.py:542-550 (_TRANSIENT_WORDS / _T |
+| `eb4801a30501` | MAJOR | CODEWATCH_BUDGET | dashboard |
+| `2cb8756deb0a` | MAJOR | CODEWATCH_UNCOVERED_JOBS_OUTSIDE_THE_KEEPER | src/read.py, src/feats.py, src/autostart.py, src/ove |
+| `75c4171c2e93` | MAJOR | DRILL_EXITS_ZERO_WHEN_ITS_OWN_VERDICT_DID_NOT_LAND | src/drill.py |
+| `d1709d8e757d` | MAJOR | ENTITY_INDEX_NEVER_REBUILT_STALENESS_ANNOUNCED_BUT_UNACTED | data/ENTITY_INDEX.json; src/weave_index.py (the buil |
+| `b0a931a92419` | MAJOR | HEALTH_LEDGER_WRONG_SHAPE_IS_NOT_CORRUPT_TO_ANY_READER | src/health.py:_flush_ledger, _flush_samples, _read_l |
+| `2461a04d8849` | MAJOR | MUTATE_BASELINE_DOES_NOT_NAME_ITS_RED_ROWS | src/mutate.py baseline() / red_gates() / main()'s re |
+| `58a00e909217` | MAJOR | MUTATION_LONG_RUN_SCORED_AN_UNKILLABLE_MUTANT_AS_KILLED | src/mutate.py (differential judging over a long run; |
+| `8950aa8d3f62` | MAJOR | NO_DETECTOR_MEASURES_GATE_REACHABILITY | src/liveness.py (the detector that does not exist);  |
+| `30854f11f322` | MAJOR | SWEEP35_FINDING | binding_health.py:310-355 |
+| `ca4f97d6b64d` | MAJOR | UNPUSHED_DETAIL_CLIPPED | src/publish.py:706-750 (_unpushed) |
+| `79d51aef8b71` | MAJOR | VERIFY_MATH_HAS_A_LIVE_GPU_DEPENDENCY | src/verify_math.py -- a live Ollama connection held  |
+| `a66423722e45` | MINOR | AGENT_SCRATCH_IN_PUBLISHED_TREE | handoff/ as a COPY_DIRS root vs where agents write w |
+| `a5de2dcb9447` | MINOR | DRILL_NO_CAPS_NETS_DRIVE_THE_WRONG_BRANCH | src/drill.py:1497 |
+| `e114b2d0fe48` | MINOR | FIXED_ORDERS_LEFT_OPEN_AT_SHIFT_END | the resolve step at the end of a maintenance shift;  |
+| `e045c3218e85` | MINOR | HEALTH_API_PROBE_CALLS_ONE_ARBITRARY_HOST_THE_FAMILY | src/health.py:check_api_paths (the fams bucket) |
+| `406a61029dca` | MINOR | QUESTION_IDEMPOTENCY_NET_SWALLOWS_AN_UNREADABLE_RECORD | src/drill.py |
+| `3e65d8657462` | MINOR | QUESTION_TWINS_NET_GRADES_A_PROBE_IT_COULD_NOT_STAGE | src/drill.py |
+| `c9146abf92df` | MINOR | ROLL_LOST_UPDATE_REMAINING_WRITERS | src/foreman.py:189 and src/roll.py:127 (exclude) |
+| `5ed00985ce04` | MINOR | STALE_CITATION_OVERNIGHT | src/overnight.py: running() docstring (~line 201), i |
+| `5d14e90b5043` | MINOR | SWEEP34_FINDING | src/overnight.py:842 |
+| `a724ec57e0d5` | MINOR | TI_DANGLING_VERDICT_STOPS_SHORT_OF_THE_LADDER | src/thread_integrity.py:339-345; src/allsweep.py:181 |
+| `2f07cbd3241d` | MINOR | WITHDRAW_CHAPTERS_STRAY_SWEEP_NET_STILL_OWED | handoff/nets_20260906/longtail.py NET 3 (staged, not |
+| `ad681057369a` | MINOR | WORLDSEED_UNREACHABLE_PRIMITIVE_TIER | src/worldseed.py size lookup |
 
-**MAJOR (26)** — start here:
-```
-05294ca33e1f 06b7f22484df 07258ace3a09 08c9ee5fb3bd 0922effae314 12c9a84b3b10 1e45fae97848
-23dbbcd656f3 2461a04d8849 2cb8756deb0a 30854f11f322 4e5df284d5fc 58a00e909217 5b79deaaace9
-77950336e3aa 85873effe631 8bd76479c64e a67d4b81f963 af47010df391 ca4f97d6b64d ced15f4f9d1f
-d1113e987407 d17a7463a5fd dfa24eb10b9f eb4801a30501 fb5ac415e249
-```
-**MINOR (53)**:
-```
-036d9ca295ad 0c7592915a48 10dbef1a47d2 1d54acf05414 26b0e8cb30a1 2caa35dc6a30 2f07cbd3241d
-3465775cc2ca 3dc2832846bc 475a06c19374 4ed4041c3b78 5156478c4583 5d14e90b5043 5ed00985ce04
-690db2bf4f1d 70f5e5150f8b 749597eb95d4 76e870e21631 82adeee9b7ee 929622118156 9586cdf72b82
-9b54659bc403 9da4543dc586 a5de2dcb9447 a66423722e45 a693102e217a a724ec57e0d5 ad681057369a
-ad80146c36dc aefd1a2c9343 befb174bca20 bfafac3e1c5e c1d6ddfe148b c22c8b1f426c c54bb7d84622
-c9146abf92df cdf0d2367cba cf861246e83e d015e0a139a8 d27e95a57233 d5155cb101df d56c041a8f4d
-d7404ad383f1 d9fbd60efd0f e049b82ab858 e866d1520c16 ea1a063d75d6 ef26ed6029e7 f19f4a2b00f4
-f5ffb9979a07 fe3dc98ca42e fe99e57e1993 ffdaa9aa7288
-```
-**INFO (15)**:
-```
-0058f581b42b 00a85c511b53 018727423a09 371140b9fb9d 57ab902a45ae 5c8c8b99e655 6273d7103222
-764e283cdf00 83bf7498d135 9038da917a70 91bb70c85e31 93e73e0c59a6 e45618de083f ee382241ff8c
-f646c1c5f1d0
-```
+### LOCAL (15)
 
-### The sharpest of them, with why
+Note: the LOCAL rung produced **zero** completed orders this shift — the GPU was saturated
+(`OLLAMA_NUM_PARALLEL=1`, `/api/generate` returning "maximum pending requests exceeded" at 96%
+utilisation) and `local_agent` yields to the library's own calls by design. Five of these are
+self-closing `CODEWATCH_RESTART` records. **Check whether the card is free before dispatching here**,
+and carry the work in a Claude lane if it is not.
 
-- **`728d9e99e9ec`** (SESSION) and **`c1d6ddfe148b`**/**`d5155cb101df`** (RUN) — **this is the
-  answer to the baseline-drift question that has dogged three mutation passes.** Six unwrapped live
-  calls in `verify_math` write into `state/failures.json`, reddening §20z; a red baseline **cancels
-  the whole mutation pass**. Worse, `dashboard.state()` calls `standards.check()` internally, so
-  `standards.check()` runs **~15× per battery run**, each doing a real DNS+TCP connect, an Ollama
-  generate with `timeout=300`, and a PowerShell spawn. That is also the non-determinism: `:4726`
-  asserts on a live process-table enumeration that returns `None` on a loaded machine — i.e.
-  exactly when a 20-hour pass is running. **Fixing this makes the battery deterministic and the
-  next mutation pass trustworthy.** I did not take it because it is substantial surgery on the
-  battery itself and the pass was already relaunched.
-- **`2eabb417f58f`** (SESSION) — a drill net that **cannot fail**: `drill_codex_dedupe_is_typed`
-  rebuilds the dedupe key itself and never enters `catalogue_codex`. Reverting the real fix leaves
-  it green. Its sibling `2f07cbd3241d` is the staged withdraw_chapters net held back for the same
-  reason. These are the highest-value class in the tree.
-- **`dfa24eb10b9f`** (RUN) — `corpus_db.rebuild()` falls back to `{}` on a WIKI_HOSTS/COVERAGE read
-  failure, which would make the **entire** catalogue read as hostless/unmeasured. The same function
-  already fixed this for its spine resolver and left the two siblings.
-- **`d1113e987407`** (RUN) — a source whose cleaned name is ≤2 chars (measured: only "DC") gets
-  `known[src]=None` cached with **zero probes ever made**.
-- **`5b79deaaace9`** (RUN) — `overwatch`'s filter silently drops all seven *"reconciliation
-  failed"* rows from `WATCH.md`, the one file this project calls the only thing a person reads to
-  learn what that job found. "A check that crashed is not a check that passed", left unguarded one
-  tier down from where the same file already guards it.
-- **`85873effe631`** (RUN) — the nine transparency fields added to `assay.py` this shift have
-  **zero** coverage in `verify_math`, unlike their sibling `covers_all_signatures`.
-- **`0922effae314`** (LOCAL) — `axis_correlation`'s `degraded` flag is **write-only**: a matrix
-  built from 1-of-8 source files publishes as "measured" identically to a complete one, inside
-  every published ±.
+| id | sev | code | where |
+|---|---|---|---|
+| `69c7f940635a` | MAJOR | READ_CLOUD_ANSWER_ACCEPTED_WITH_NO_SHAPE_CHECK | src/read.py:_ask_ungated (cascade_bridge.ask call si |
+| `c22c8b1f426c` | MINOR | COSMOGRAPHY_CENSUS_RAISES_FOR_TWO_OF_THREE_SCALES | src/cosmography.py:151-160 |
+| `70f5e5150f8b` | MINOR | FEATS_INDEX_EXCEPTION_TEXT_CUT_WITH_NO_MARKER | src/feats_index.py:164 (host_to_sources) |
+| `4ed4041c3b78` | MINOR | LIMIT_ZERO_READ_AS_NO_LIMIT_THREE_MORE | src/generate.py:589, src/catalogue_web.py:545, src/f |
+| `3e576b1a29ad` | MINOR | PROFILE_ENCODE_CRASHES_ON_DECIMAL_BAND | profile.py:encode, profile.py:BANDS, worldseed.py:to |
+| `ed58a1a87da0` | MINOR | ROLL_ORDER_CITATION_DRIFTED_C9146 | src/roll.py:267 (exclude), miscited as :127 in order |
+| `e866d1520c16` | MINOR | STALE_CITATION_TIERS | src/tiers.py: deliberate_joins() docstring (~line 32 |
+| `fe99e57e1993` | MINOR | UNMARKED_NAME_CUTS_SWEEP44 | src/backfill.py:364; src/catalogue_web.py:557,344; s |
+| `1ba189fabcaa` | MINOR | WORKORDERS_REROUTE_NOOP_REPORTS_AS_SUCCESS | src/workorders.py:reroute, workorders.py:main (the - |
+| `d88f8c7f5734` | INFO | CHARTER_CODES_CORRUPT |  |
+| `018727423a09` | INFO | CODEWATCH_RESTART | dashboard |
+| `91bb70c85e31` | INFO | CODEWATCH_RESTART | publish |
+| `764e283cdf00` | INFO | CODEWATCH_RESTART | overnight |
+| `ee382241ff8c` | INFO | CODEWATCH_RESTART | overwatch |
+| `e45618de083f` | INFO | CODEWATCH_RESTART | foreman |
 
-## 2. FOR THE OWNER — 137 OWNER + 63 SESSION, AND SIX ARE NEW
+### BOTS (2)
 
-The run #45 digest (`handoff/OWNER_DIGEST_20260905.md`) still stands for the older ones; **I did
-not decide any of them.** New this shift, in order of consequence:
+| id | sev | code | where |
+|---|---|---|---|
+| `2da53c3e192f` | MINOR | HOST_QUARANTINED | www.dandwiki.com |
+| `3dc2832846bc` | MINOR | STALLED_UNRESTARTABLE |  |
 
-1. **`f9643582fd29`** — the dead mutation pass (§0). Includes the mechanical remedy sweep46-batch04
-   worked out: build the sandbox under a name that does **not** match `SANDBOX_PREFIX` and rename it
-   into place only after the owner file is written, making it invisible to the reaper's prefix
-   filter until it is already protected. That changes the reaper's contract, so it is yours.
-2. **`895a99602bf0`** — what stops a *thirteenth* probe-litter site. Twelve are fixed; **four were
-   found only by measurement**, and one was created by this very run while fixing the others. Three
-   options with a recommendation. **Do not let it be closed by someone wrapping a thirteenth site.**
-   Note the correction inside it: this order's own first draft recommended a drill-scoped remedy,
-   which was wrong, because the ninth site was in `verify_math`.
-3. **`58cfc2b6dbc4`** — `hostcheck`'s halt check fires at function entry, but the destructive write
-   to the non-reconstructible `WIKI_HOSTS.json` happens only after a rate-limited network probe over
-   the whole roll. A halt raised mid-probe is never re-checked before the write lands.
-4. **`9fcbe25a473b`** — `pantheon`'s roster-gap marker prints a note but does not fail the run,
-   beside a sibling total-failure case that was explicitly fixed to do exactly that. Looks like an
-   incomplete repair rather than a decision, but it is a curatorial call.
-5. **`5bbd4b3376fe`** — `generate.py`'s coverage checks string-match against the **whole** model
-   response, which carries no think-tag stripping. A thinking model narrating its plan can satisfy
-   them from reasoning text alone. Harmless only while `prose_enabled` is shut — and the configured
-   model **is** a thinking variant (`342ccfafa4a4`, still open, still the sharpest thing on your
-   list).
-6. **`12c9a84b3b10`** — `local_agent.DENYLIST` does not cover `deprecated/catalogue_local.py`, whose
-   entire safety is a textual refusal, so the model it was quarantined against could patch it out
-   and pass every gate.
+---
 
-## 3. THINGS THAT ARE TRUE AND WILL WASTE YOUR TIME IF YOU FORGET THEM
+## 2. THE FIVE I WOULD DO FIRST, AND WHY
 
-- **Do not run a gate against a tree under edit.** It produced **three** false reds this shift
-  (`verify_math` 980/1, then 979/2, then a `SCAN_MODULES` mismatch), each costing an investigation;
-  tracebacks pointed at comment text because the file changed under the run. Two agents hit it
-  independently. This is the mechanism that cost run #45 a halt. Queued as `71ae3fa7e55e` (OWNER);
-  the mechanical half is `690db2bf4f1d` (RUN) — `mutate` infers "src/ is being edited" from the
-  **maintenance guard's heartbeat**, which is wrong in both directions, while `codewatch` already
-  computes the exact signal (a `src/` fingerprint).
-- **The shell-injection mechanism bit three more times today.** Two sweep agents had order prose
-  mangled by backtick command substitution while filing via `python -c`; both caught it by reading
-  the stored record back and refiled from script files. **Then it bit me**, writing resolutions
-  through a heredoc. `1c99df1f69c1` is closed and there is nothing left to patch in-repo — the
-  remedy is the **wording of the session brief a coordinator writes**, and this run found the gap in
-  its own brief: it told agents to use `--how-file` for **resolutions** and said nothing about
-  `file_order` **prose**. Whoever writes the next brief should cover both. Use the Write tool and
-  `--how-file`; never a heredoc, never argv.
-- **An order left open behind a landed fix is re-diagnosed by every later sweep.** `de0681cb9edc`
-  survived its own remedy this shift because the agent that fixed it never ran `--resolve`; I caught
-  it only by re-checking the MAJOR list against source. If you fix it, close it.
-- **`file_order`'s id is `order_id(code, where)`.** Widening `where` on a refile **mints a new
-  order** rather than refreshing — it produced a duplicate I had to close by hand. Filed as
-  `fb5ac415e249` (RUN, MAJOR): the behaviour is intended but undiscoverable.
-- **`dashboard` spent its whole restart budget (4/4)** while twelve agents churned `src/`, so it ran
-  stale on purpose for a period. That is the budget working (lag beats thrash), and it does reach a
-  person via `escalation`. Expect it during any large fan-out.
+1. **`d1709d8e757d` — `data/ENTITY_INDEX.json` is 9 days stale at 177 MB and NOTHING rebuilds it.**
+   210 of 216 record files have been modified under it. `verify_math` announces this twice a run and
+   no process acts on it; continuity groups, resolved entities and the resonance graph are all
+   computed from it. I did not rebuild it — the cost is unmeasured and the GPU was contended.
+   Measure the rebuild on a quiet machine, then put the scheduling question to the owner.
+2. **`8950aa8d3f62` — nothing measures which lines a gate can actually reach.** This is the general
+   fact underneath the mutation survivors. Run the battery under coverage, report unreached lines in
+   the safety modules as a **roster, never a percentage** (Hard Rule 0), and expect a legitimate
+   declared residue.
+3. **`79d51aef8b71` and `f40f701594a4` — the two baseline-drift mechanisms.** One is fixed and now
+   guarded; the other (the junctioned `data/` in the mutation sandbox) is not. **Do not close either
+   on one quiet run** — the 09-07 `prose_gate.py` target logged zero drift over 18,539s while
+   `assay.py` logged two events in 25,601s.
+4. **`406a61029dca` and `3e65d8657462` — two drill QUESTIONS, each with a reading already written.**
+   Both were deliberately NOT landed because **both change when the library HALTS.** They want a
+   ruling. "A safety that stops work is not a fault that stops work."
+5. **`2f07cbd3241d` — the withdraw_chapters net is still owed**, still staged and unlanded at
+   `handoff/nets_20260906/longtail.py`. Whoever takes it must watch it go RED against a broken
+   `withdraw_chapters` before landing it. **Do not move that file out of the tree first.**
 
-## 4. THE SWEEP
+---
 
-**Sweep46 is complete and its coverage is falsifiable: 16 batches, 116 modules, 102,408 lines,
-`sweep_plan.missing('run46') == 0`.** The plan was frozen at `state/sweep_plan/run46.json` *before*
-dispatch, and each agent recorded its own coverage, because the agent is the only thing that knows
-what it actually read. Audits: `handoff/sweep46/AUDIT_batch01.md` … `AUDIT_batch16.md`.
+## 3. FOR THE OWNER — DECISIONS ONLY A PERSON CAN MAKE
 
-Batches 3, 11 and parts of 5/6/13 came back unusually clean and said so — several modules are now
-heavily pre-audited and the honest finding was "already tracked, verified against current source,
-not re-filed". That is worth as much as a new order and should not be read as a batch doing less
-work.
+- **`f19f4a2b00f4` (re-routed RUN → OWNER this shift, after four shifts each re-derived it).** The
+  technical blocker is gone: `PIPELINE_STATE.json` held still across a 22.4-minute window. 28
+  `done.entrypass` keys record real work over 531 entries later purged for being mined off the wrong
+  wiki. **Delete them, move them to a `done.entrypass_purged` block, or leave them?** Nothing was
+  written. A second question rides along: both purged records still say status `catalogued` while
+  `SWEEP_ROLL.json` says `uncatalogued`.
+- **The GPU is over-subscribed by two standing instructions that are individually right.** "All three
+  mutation targets every shift" and "route everything possible to the free local model" cannot both
+  hold on one single-slot card that a multi-hour pass occupies. Recorded on `79d51aef8b71`.
+- **`f646c1c5f1d0` (re-routed LOCAL → OWNER).** Its mechanical half is fixed; what remains is whether
+  `genres_scored` — a field that is invariant by construction — should be dropped, renamed, or kept
+  as a deliberate denominator.
+
+---
+
+## 4. HOUSEKEEPING THAT IS NOT A FAULT
+
+- The **binding-health canary was refreshed** (11.0 days → current): 134 hosts checked, 1 failed and
+  quarantined (`www.dandwiki.com`). `health --preflight` independently reports the matching empty
+  cache and correctly attributes it to binding_health.
+- **`foreman` exiting rc=17 is deliberate** — it is picking up changed source, and the keeper restarts
+  it. `codewatch` showed restarts within budget all shift. Do not read it as a crash.
+- The **corpus entry count did not move** (282,822 at both rebuilds) and that is expected: entries come
+  from catalogue passes, evidence and feats come from reading, and reading rose all shift. The
+  remaining uncatalogued sources are blocked on hostless-source questions at the OWNER rung.
+- **`silence`'s SILENT count moved 232 → 247** on purpose: the audit now sees `contextlib.suppress`
+  blocks, which are the same act as `except: pass` spelled differently and were invisible to it. The
+  count rose because the undercount ended, not because anything regressed.

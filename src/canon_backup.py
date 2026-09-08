@@ -362,7 +362,16 @@ def verify(path=None):
     if broken:
         return False, ["archive corrupt at member %s" % broken]
     live = {rel: digest(p) for rel, p in members(strict=False)}
-    changed = [r for r, d in live.items() if recorded.get(r) and d != recorded[r]]
+    # UNREADABLE IS NOT CHANGED (order f5ffb9979a07). `digest()` returns `None`, not a raised
+    # exception, for a live file it could not read -- its own docstring says that "must be
+    # distinguishable from a file that hashed to something, which is why the caller checks for
+    # None explicitly" -- but this comparison never did: `d != recorded[r]` is True for `d is
+    # None` exactly as it is for a real mismatch, so a routine file-lock (a reader or writer
+    # holding the canonical file open, a transient permission error) was reported as "changed
+    # since the snapshot", i.e. data drift, rather than as what it actually was. Split out first
+    # so `changed` only ever means a real digest mismatch.
+    unreadable = sorted(r for r in live if live[r] is None and r in recorded)
+    changed = [r for r, d in live.items() if recorded.get(r) and d is not None and d != recorded[r]]
     added = [r for r in live if r not in recorded]
     gone = [r for r in recorded if r not in live]
     notes.append("archive intact, %d members" % len(recorded))
@@ -382,6 +391,13 @@ def verify(path=None):
                      % (len(changed), ", ".join(sorted(changed))))
     else:
         notes.append("0 canonical files changed since the snapshot")
+    if unreadable:
+        # UNCAPPED, same reasoning as `gone` above -- the set is bounded by the canonical
+        # inventory. Named separately from `changed` so a routine file-lock traces back to
+        # itself instead of reading as data drift.
+        notes.append("%d canonical files could NOT be read to verify (a reader or writer may "
+                     "be holding them open; this is not the same finding as CHANGED): %s"
+                     % (len(unreadable), ", ".join(unreadable)))
     if added:
         notes.append("%d canonical files are new since the snapshot: %s"
                      % (len(added), ", ".join(sorted(added))))

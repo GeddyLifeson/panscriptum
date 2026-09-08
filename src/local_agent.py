@@ -146,6 +146,19 @@ DENYLIST_PREFIXES = (
     "output/index/",              # the catalog and manifest, written by their own tools
     "state/",                     # shared run state, landed via silence.replace_retry
     ".git/",
+    # QUARANTINED MODULES WHOSE ONLY SAFETY IS A TEXTUAL REFUSAL, added 2026-09-07 (order
+    # 12c9a84b3b10). `src/deprecated/catalogue_local.py` refuses to run at import time -- an
+    # unconditional `raise SystemExit(_REFUSAL)` above `if __name__ == "__main__"` -- but that
+    # refusal is six lines a patch could delete while looking like dead-code cleanup, and
+    # nothing on the DENYLIST above named the file: it is neither the machinery that judges a
+    # patch nor the machinery doing the patching, the rule this list otherwise states. Deleting
+    # the refusal would re-enable a THIRD writer against `data/records/`'s two-writer contract
+    # (a bare `open()` + `json.dump`, bypassing `pipeline.write_record_catalogue`) and a
+    # non-atomic rewrite of `data/SWEEP_ROLL.json` mid-loop -- exactly the two hazards
+    # `data/records/` and `state/` above already exist to block, just reached through a
+    # different door. A REGION rather than one module name, so any future stub parked in this
+    # same quarantine inherits the same protection without a second finding.
+    "src/deprecated/",
 )
 
 # THE ALLOWLIST, AND WHY IT EXISTS ALONGSIDE THE DENYLIST RATHER THAN INSTEAD OF IT.

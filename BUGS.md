@@ -48,6 +48,43 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   survivor. **Until then, do not close a `MUTANT_SURVIVED_*` order on a later run's word, and do
   not quote a kill score as coverage.** Order `58a00e909217`.
 
+  - **CONFIRMED 2026-09-07 (run #47), AND A SECOND MECHANISM FOUND BESIDE IT. The "leading
+    hypothesis, unproven" above is now PROVEN, and it was not the whole story.**
+    - **The junction hypothesis is confirmed by measurement, read-only, on the running pass's own
+      sandbox.** `os.path.realpath(<sandbox>/data)` resolves to the LIVE
+      `C:\Users\imarl\panscriptum-library-kit\data`; `<sandbox>/src` and `<sandbox>/state`
+      resolve INSIDE the sandbox. `<sandbox>/data/COVERAGE.json` carries an mtime **seventeen hours
+      after that sandbox was built**. So `src/` and `state/` are frozen and cannot move, and of the
+      four junctioned paths only `data/` moves at all — `prompts/`, `reference/` and `output/index`
+      had not changed in days. **43 of the 89 modules `verify_math` imports touch `data/`.** Filed
+      as order `f40f701594a4`. NOT fixed: rewriting `sandbox()` under a live pass is the hazard that
+      file documents, and `data/` is >200 MB with `ENTITY_INDEX.json` alone at 177 MB, so the repair
+      needs the read set enumerated first.
+    - **AND A SECOND MECHANISM, WHICH IS NOW FIXED: `verify_math` was not hermetic with respect to
+      the GPU.** Section 19ai's `_pool19ai` ran the real `standards.check()`, which calls
+      `ollama_token_flow()` — on a quiet metrics ledger that fires a **real generation on a
+      300-second deadline** and, on timeout, writes `silent:standards.py:token-flow` into the
+      never-cleared failure ledger. Caught in the act under load: `1199 passed, 0 FAILED` →
+      `1209 passed, 2 FAILED` on **unmutated** code. That matches the recorded drift signature
+      exactly — seven pairs in `state/MUTANTS_SURVIVED.jsonl` across 09-06/09-07, all `verify_math`
+      and only `verify_math`, always `1159/0 → 1157/2 → green again 35–50 minutes later`, exactly
+      two rows, both directions. Fixed by pinning `standards._TOKENFLOW` across the call.
+    - **The fix shipped unguarded and that was caught the same shift.** Its control row asserted the
+      cache came BACK, which is true in both worlds; and suppression rested on one default argument
+      (`ollama_token_flow()` with no ttl), so respelling that single call `ttl=0` would have made
+      the pin a no-op **with every §19ai row still green**. A row was added that makes the TRANSPORT
+      the witness, and it was **measured before it was written** — a transport refusing everything
+      recorded two calls even with the pin holding, because `check()` also asks `/api/tags` and
+      `/api/ps`. Measured in both worlds: pinned → `/api/tags`, `/api/ps`; unpinned → `/api/ps`,
+      **`/api/generate`**. The row now forbids that one endpoint, passes the cheap calls through,
+      and names any url that escapes. Order `eea629f6dc46`, closed.
+    - **The instrument that will settle which mechanism caused which drift now exists.**
+      `_refresh_baseline` was calling `baseline()` without `rows_out`, so every recorded drift
+      carried counts and nothing else. Fixed: the drift event now carries `rows_now` and `_session`
+      prints the failing row ids with was→now. **The next drift event will NAME the two rows.**
+    - **`escalation.py:409` is still unconfirmed by a full pass.** The 2026-09-07 pass was still
+      running on the `escalation.py` target when run #47 closed, ~23 hours in. This entry stays OPEN
+      until that pass reports.
 - **[M73 — OPEN, RAISED 2026-09-04, run #43] "UNREACHABLE WITH TODAY'S DATA" WAS MISTAKEN FOR
   "EQUIVALENT", TWICE, BY TWO DIFFERENT RUNS.** Order `d9c8aab72a2c` (2026-09-02) ruled the first
   `assay.py:228` survivor — `if not lo and not hi or hi <= lo:` — "a genuinely equivalent mutant,
@@ -127,6 +164,26 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
     so it is an owner judgment rather than a quick predicate — filed as order `171ade4c7d27`.
     **The starvation and scheduling question this entry raises is untouched and stands.**
 
+  - **RE-MEASURED 2026-09-07 (run #47), AND THE RUNG PRODUCED NOTHING — with a second, distinct
+    cause beside the saturation.** 28 orders were dispatched to `local_agent` on files no Claude
+    lane owned. **Zero completed.** The first ran **1,268 seconds** and its patch was **REFUSED BY
+    THE WRITE GATE for a find-string that occurred zero times** — a hallucinated edit, correctly
+    refused. It was also working an order (`1e45fae97848`) that turned out to be **already fixed**,
+    so the rung spent twenty-one minutes on work that did not exist. Conditions confirmed unchanged:
+    `OLLAMA_NUM_PARALLEL=1` with the runner started `-np 1`, `/api/generate` answering `maximum
+    pending requests exceeded`, GPU at **96% utilisation, 8281/10240 MiB resident** — saturated, not
+    wedged (checked before nearly bouncing it on a wrong diagnosis).
+  - **The contention is not only the crawl, and that is new.** `netstat` named the live clients as
+    `local_agent` **and two `verify_math` processes**, both blocked on the GPU mid-run — one of them
+    the mutation pass's own gate, which runs `verify_math` ~146 times over many hours. So the
+    library's mandated §3b mutation work is itself one of the parties starving the free rung. **Two
+    standing owner instructions are individually right and jointly unsatisfiable on one single-slot
+    card**: "all three mutation targets every shift" and "route everything possible to the free
+    local model". Which one yields is a scheduling decision, recorded on order `79d51aef8b71`.
+  - **What run #47 did instead**, rather than reporting a rung that did no work as a completed
+    routing: the LOCAL orders were carried in three Claude lanes on disjoint files. **LOCAL fell
+    43 → 15.** That is a workaround, not a fix, and it spends exactly the budget the rung exists to
+    preserve.
 - **[M68 — OPEN, RAISED 2026-09-02] PROVING A BEHAVIOURAL NET COSTS AN OUTAGE.** The hard rules
   require a new guard's attack be watched going red once. Source-shape nets have `_SRC_OVERRIDE`
   for exactly that; **behavioural nets have no equivalent**, so the only way to demonstrate the
@@ -162,6 +219,68 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   a batch could claim coverage it does not have and `missing()` would agree. Confirmed live: one
   shard held `catalogue_local.py`, which `sweep_plan` spells `deprecated/catalogue_local.py`, and
   nothing noticed. Shards were normalised onto names `sweep_plan` itself emits and only those.
+
+### Resolved this run (paper trail, run #47 — 2026-09-07)
+
+- **[m184 — RESOLVED 2026-09-07, run #47] THE BATTERY COULD REDDEN ITSELF ON UNMUTATED CODE BY
+  FIRING A LIVE GPU PROBE.** Root cause: `verify_math` §19ai's `_pool19ai` drove the real
+  `standards.check()`, which reaches `ollama_token_flow()` — a genuine 300-second generation against
+  the local daemon whenever the metrics ledger is quiet, writing into the never-cleared failure
+  ledger on timeout. Measured going wrong: `1199 passed, 0 FAILED` → `1209 passed, 2 FAILED` on
+  unmutated source. Fixed by pinning `standards._TOKENFLOW` across the call, and then **guarded**,
+  because the pin's own control row proved only that the cache was restored (true in both worlds)
+  and the suppression rested on one default argument. The new row makes the transport the witness
+  and forbids `/api/generate` specifically — established by measuring both worlds rather than
+  assuming, after a first spelling that refused *all* network was found to redden a healthy tree.
+  Orders `eea629f6dc46` (closed) and `79d51aef8b71` (open, the wider dependency). See M72.
+- **[m185 — RESOLVED 2026-09-07, run #47] A DETECTOR WAS ASSERTING A CONSEQUENCE THE GATE HAD MADE
+  FALSE, AND RE-OPENED A CORRECTLY-CLOSED ORDER EVERY SWEEP.** `workorders.sweep handoff-scratch`
+  said 28 scratch scripts under `handoff/` were "copied to the PUBLIC repo on the next push". They
+  are not, and have not been since `CODE_FREE_DIRS`/`_is_agent_scratch` landed — the public export
+  holds **zero** files of any executable suffix under `handoff/`, measured. It also enumerated one
+  suffix (`.py`) while the gate refuses seventeen, so a `.sh`/`.ps1` there was invisible to the
+  detector built to find it. Now asks the gate directly (one definition feeding both the copier and
+  the check, so they cannot drift) and reports MINOR while every file is refused, MAJOR the moment
+  one is not, naming it. Order `a66423722e45`.
+- **[m186 — RESOLVED 2026-09-07, run #47] THE SILENCE AUDIT WAS STRUCTURALLY BLIND TO
+  `contextlib.suppress`.** It walked only `ast.ExceptHandler`, so 15 live suppress blocks across
+  five modules — the same act as `except X: pass`, spelled differently — contributed nothing to the
+  SILENT count in the module whose whole claim is to find "every handler in src/". The count moved
+  **232 → 247** because the undercount ended, not because anything regressed; verified before
+  landing that nothing grades pass/fail on that number. `--instrument` still rewrites except-handlers
+  only, deliberately: a `note()` inside a suppress body would fire on every clean pass, which is a
+  recorder that lies. Order `a1173f5608f5`.
+- **[m187 — RESOLVED 2026-09-07, run #47] `publish._unpushed` ANSWERED ANY GIT FAILURE WITH A
+  CONFIDENT ZERO.** Its `except RuntimeError:` arm returned `(0, "no commits on this branch yet")`
+  for every non-zero git exit, not just a genuinely unborn branch — so a real stranded commit could
+  read as "nothing to push" forever on a clean worktree, reproducing the "122 commits behind while
+  synced N files kept printing" shape this file's own history records. Now inspects git's text (the
+  real unborn-branch wordings were obtained by probing a fresh `git init`) and otherwise returns
+  `None` with git's diagnostic carried WHOLE, so `push()`'s existing "could not tell whether ahead"
+  warning fires instead of a false all-clear. Order `0224d12400d1`.
+- **[m188 — RESOLVED 2026-09-07, run #47] `foreman._retire` OVERWROTE `data/OVERWATCH.json` FROM A
+  STALE SNAPSHOT.** It did a raw read-modify-write, bypassing `overwatch.save()`'s merge-based
+  writer entirely, with no compare-and-swap — the existing guard only caught a *denied* replace, not
+  a write that LANDS on stale state and erases findings overwatch recorded concurrently. Now uses
+  `overwatch.load()`/`save()`, the machinery that already existed; no new locking invented. Proved
+  in a sandboxed ledger with a competing write injected between read and write: it now survives the
+  merge, where the old code erased it. Order `c95751a80633`.
+- **[m189 — RESOLVED 2026-09-07, run #47] THE PUBLISH-IMPORT DRILL NET COULD ONLY SEE ONE SPELLING
+  OF THE FAULT.** It selected handlers by the literal name `ImportError`, so `except
+  ModuleNotFoundError` — the exception Python actually raises for a missing module, and a
+  *subclass* — and a bare `except:` were never examined; both variants returned HELD against live
+  fixtures. Replaced with the house shape-based pattern from `_meta_ban_has_no_fall_through`, with
+  three measured departures from a verbatim copy (a walk would have breached correct code; the
+  looser terminator form let a known dead-`raise` fixture pass). **Watched RED five ways and GREEN
+  on the live file.** Order `46aa5a5eac38`.
+- **[m190 — RESOLVED 2026-09-07, run #47] TWO PROBE-LITTER NETS COULD BREACH ON A NEIGHBOUR AND
+  HALT THE LIBRARY.** Both byte-compared live shared ledgers across a window, so any standing job
+  calling `silence.note` in that window would breach the net and raise an OWNER halt — a false halt,
+  which this project's longest outage says is the expensive direction. The failures-ledger net no
+  longer opens `state/failures.json` at all (it installs a capturing stand-in over `health.record`
+  and requires zero calls, which is uncancellable); the order net compares only rows carrying the
+  reserved probe token. **Both are now strictly stronger in the masking direction too**, and both
+  were watched RED. Order `00f8ca4ab967`.
 
 ### Resolved this run (paper trail, run #44 — 2026-09-04)
 

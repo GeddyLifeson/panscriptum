@@ -185,6 +185,14 @@ def similarity(a, b):
 STRONG = 0.90
 # Below this, it is noise. Between the two is a reviewable middle.
 WEAK = 0.72
+# RATCHETED AT IMPORT, NOT LEFT TO CONVENTION (order 6273d7103222). `candidates()` uses these two
+# thresholds to decide whether a candidate is considered at all (`s >= WEAK`) and how it is
+# labelled (`STRONG if s >= STRONG else WEAK`); nothing previously asserted `WEAK < STRONG`. If a
+# future edit ever moved STRONG below WEAK, every candidate clearing the WEAK floor would also
+# clear STRONG and be labelled STRONG -- silently inflating confidence in a module whose entire
+# purpose is refusing over-confident identity merges. Dormant today (the live values are
+# correctly ordered); this just makes a future misordering fail loudly instead of silently.
+assert 0.0 < WEAK < STRONG <= 1.0, "entity_match: STRONG/WEAK threshold ordering is broken"
 
 
 # --------------------------------------------------------------------------- the match
@@ -210,12 +218,18 @@ def candidates(name, pool, limit=None):
     # KeyError on an empty name or an empty pool -- the two inputs most likely to arrive from
     # real data. Latent today only because nothing calls this module yet (see the header), and
     # the cheapest possible moment to fix a contract is before it has callers.
+    #
+    # THE FIX ITSELF SUPPLIED THE WRONG SHAPE (order 21f729df8884). `[]` is a LIST; the normal
+    # path returns `dict(rejected)`, a DICT. So the KeyError this comment describes became an
+    # AttributeError on the same two inputs instead -- `.get(MatchReason.QUALIFIER_CONFLICT, 0)`
+    # raises on a list. Both `[]` and `{}` are falsy, so `if r["blocked_by_qualifier"]:` happened
+    # to work either way and hid it. `{}` is the correct empty value for this key.
     if not (name or "").strip():
         return {"query": name, "reason": MatchReason.EMPTY_NAME, "matches": [],
-                "truncated": False, "considered": len(names), "blocked_by_qualifier": []}
+                "truncated": False, "considered": len(names), "blocked_by_qualifier": {}}
     if not names:
         return {"query": name, "reason": MatchReason.NO_POOL, "matches": [],
-                "truncated": False, "considered": 0, "blocked_by_qualifier": []}
+                "truncated": False, "considered": 0, "blocked_by_qualifier": {}}
 
     rejected = Counter()
     scored = []

@@ -104,6 +104,24 @@ def main():
     # printout because their remedies differ -- fix the list, versus re-run when the readers are
     # quiet.
     stale_names = []
+    # NO GROUP MAY CLAIM THE SAME MODULE TWICE (order 8ab3ce3fc1eb). The stale-name check just
+    # below only verifies a named module still EXISTS in src/; it says nothing about a name being
+    # claimed by two different stage groups. If that ever happened, the module would render
+    # silently under two different '## <stage>' headings -- no error, no stderr line, rc=0 -- the
+    # exact "hand-kept table drifting silently" shape this file's own docstring exists to argue
+    # against. No live occurrence today: checked all six GROUPS lists, no name repeats.
+    seen_in = {}
+    dupe_names = []
+    for title, names in GROUPS:
+        for n in names:
+            first_title = seen_in.setdefault(n, title)
+            if first_title != title:
+                dupe_names.append((n, first_title, title))
+    if dupe_names:
+        print("module_index: GROUPS claims the same module in more than one stage: " +
+              ", ".join(f"{n!r} in {t1!r} and {t2!r}" for n, t1, t2 in dupe_names) +
+              " -- fix the hand-kept list", file=sys.stderr)
+        silence.note("module_index.py:duplicate-group-name")
     for title, names in GROUPS:
         stale = [n for n in names if n not in mods]
         if stale:
@@ -155,6 +173,17 @@ def main():
         sys.stderr.write("module_index: the page was written, but GROUPS names %d module(s) "
                          "that are not in src/: %s -- fix the hand-kept list.%s"
                          % (len(stale_names), ", ".join(stale_names), chr(10)))
+        return 1
+    if dupe_names:
+        # SAME TREATMENT AS THE STALE-NAME VERDICT ABOVE, AND FOR THE SAME REASON (order
+        # 8ab3ce3fc1eb): the page is still the current, correctly-rendered one (a module claimed
+        # twice just repeats under two headings, it does not corrupt either), but GROUPS itself
+        # is wrong and a silent rc=0 is how that stays wrong.
+        sys.stderr.write("module_index: the page was written, but GROUPS claims %d module(s) "
+                         "in more than one stage: %s -- fix the hand-kept list.%s"
+                         % (len(dupe_names),
+                            ", ".join(f"{n!r} in {t1!r} and {t2!r}" for n, t1, t2 in dupe_names),
+                            chr(10)))
         return 1
     return 0
 

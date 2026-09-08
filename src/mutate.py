@@ -1751,7 +1751,7 @@ def red_gates(base):
 
 
 def tree_is_moving(now=None):
-    """Is a maintenance shift part-way through editing src/ right now? -> (bool, why).
+    """Is src/ actually being rewritten right now? -> (bool, why).
 
     THE BASELINE IS A PHOTOGRAPH OF A TREE THAT MAY BE MOVING, AND THAT COST A SHIFT ITS RUN.
     On 2026-08-29 a mutation pass was launched the moment `drill.py` was released, while a
@@ -1768,26 +1768,82 @@ def tree_is_moving(now=None):
     apart, and the provocation outlasted both readings. Reproducible-over-seconds is not
     stable-for-the-hours the run will take.
 
-    THE QUESTION IS ALREADY ANSWERED ELSEWHERE, so this asks it rather than inventing a second
-    guard: `publish.maintenance_shift_live()` reads `state/MAINTENANCE_RUN.json` and reports
-    whether a shift is mid-edit, treating a stale heartbeat as a crashed run.
+    THIS ASKED THE WRONG QUESTION FOR NINE DAYS, AND ORDER 690db2bf4f1d IS THE CORRECTION. It
+    read `publish.maintenance_shift_live()` -- "does a maintenance run hold the guard with a
+    live heartbeat" -- and reported the answer as "src/ is being edited right now". Those are
+    different propositions and the proxy is wrong in BOTH directions:
+
+      * FALSE POSITIVE, observed on the 2026-09-07 launch (state/mutate_20260907.log). The
+        banner said "its heartbeat is 35s old, so src/ is being edited right now" while src/
+        had been untouched for minutes and stayed untouched for the rest of the shift -- the
+        run holding the guard had finished editing and was running a read-only 16-batch audit.
+        The baseline it was disparaging was the cleanest this project has recorded (import
+        rc=0, verify_math 1159/0, drill 442/442). A caveat that is usually wrong is a caveat
+        people learn to skip, and this one rides on a ~20-hour artefact.
+      * FALSE NEGATIVE, the more dangerous half. ONLY maintenance runs take that guard. A
+        person editing by hand, an interactive session, `local_agent.py --patch` on its own
+        schedule, or a foreman remedy all move src/ without ever touching
+        MAINTENANCE_RUN.json, and every one of them read as a quiet tree.
+
+    SO IT ASKS THE FILESYSTEM, WHICH IS THE EXACT SIGNAL AND WAS ALREADY BUILT.
+    `codewatch.quiet_seconds()` is the newest write time under src/ -- the same primitive the
+    rc=17 staleness contract rests on -- and `codewatch.STABLE_SECONDS` is that module's own
+    settle window, borrowed rather than re-spelled so the two cannot come to disagree about how
+    long "settled" is. Wall time, not polls: a write cannot happen between two readings and be
+    missed, because the filesystem records it whether or not anybody was looking. This catches
+    every writer rather than only maintenance runs, and it stays quiet when a maintenance run
+    holds the guard without writing.
+
+    THE HEARTBEAT IS STILL READ, AND ONLY TO DESCRIBE. Whether src/ is moving because a shift
+    is doing it on purpose or because something pathological is writing there needs opposite
+    responses from a person, and a warning that cannot tell them apart sends half its readers
+    to the wrong place. `codewatch._maintenance_run_live` is the precedent for exactly this
+    split -- asked to describe, never to decide -- and it is followed here deliberately.
+
+    `now` IS KEPT AND STILL MEANS WHAT IT MEANT: it is passed to the maintenance reading, which
+    is the only part of this answer that has a clock to fake. The mtime half is taken from the
+    filesystem at the moment of asking and has no injectable now, which is the point of it.
 
     FAILS CLOSED, AND THAT IS THE OPPOSITE OF PUBLISH'S RULE FOR THE SAME READING. `publish`
     must fail OPEN because a wedged publisher is worse than one bad cycle. Here the asymmetry
     runs the other way: a mutation pass costs hours and produces a number people act on, and
-    wasting the hours is cheaper than trusting the number. Note this only ever REFUSES in
-    combination with a red baseline, so a failure to read the guard cannot block a run on a
+    wasting the hours is cheaper than trusting the number. An unreadable src/ is itself the
+    signature of a file being written this instant -- `quiet_seconds` returns None rather than
+    timing the settle from whichever files happened to be readable -- so "cannot tell" and "is
+    moving" are the same answer here on the merits, not merely by policy. Note this only ever
+    REFUSES in combination with a red baseline, so a failure to read cannot block a run on a
     healthy tree.
     """
+    # ASKED FIRST AND USED ONLY AS PROSE. Nothing below branches on `_swhy`; it is appended to
+    # whichever verdict the filesystem gives.
     try:
         # Imported here, not at module scope: `publish` imports `mutate` (for `active()`), so a
         # top-level import would be a cycle.
         import publish as _pub
-        return _pub.maintenance_shift_live(now=now)
+        _swhy = _pub.maintenance_shift_live(now=now)[1]
     except Exception as e:
         silence.note("mutate.py:maintenance-guard-unreadable")
-        return True, ("could not ask publish.maintenance_shift_live (%s); assuming the tree is "
-                      "being edited" % type(e).__name__)
+        _swhy = ("the maintenance guard could not be read (%s), so nothing can be said about a "
+                 "live shift" % type(e).__name__)
+    try:
+        import codewatch as _cw
+        quiet = _cw.quiet_seconds()
+        settle = _cw.STABLE_SECONDS
+        fp = _cw.fingerprint()
+    except Exception as e:
+        silence.note("mutate.py:codewatch-unreadable")
+        return True, ("could not fingerprint src/ through codewatch (%s); assuming the tree is "
+                      "being edited -- %s" % (type(e).__name__, _swhy))
+    if quiet is None:
+        return True, ("src/ could not be timed -- a file that cannot be read is very likely "
+                      "being written this instant, which is what `quiet_seconds` refuses to "
+                      "average away -- %s" % _swhy)
+    if quiet < settle:
+        return True, ("src/ was last written %.0fs ago, inside codewatch's %ds settle window, "
+                      "so the sandbox copy this baseline was taken from may be a half-edited "
+                      "tree (fingerprint %s) -- %s" % (quiet, settle, fp or "unreadable", _swhy))
+    return False, ("src/ has not been written for %.0fs, past codewatch's %ds settle window "
+                   "(fingerprint %s) -- %s" % (quiet, settle, fp or "unreadable", _swhy))
 
 
 def could_not_judge(sig):
@@ -1983,7 +2039,23 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
             # a stale timing would let a busy machine's timeout read as a hang, which is the
             # false-kill direction this whole feature exists to avoid producing more of.
             fresh_times = {}
-            fresh = baseline(root, gates=tuple(gates) + tuple(confirm), times_out=fresh_times)
+            # AND THE ROW IDENTITIES BEHIND THE FRESH SIGNATURE (order 2461a04d8849). The LAUNCH
+            # baseline has named its red rows since that order landed; this re-photograph did
+            # not, so a MID-RUN red was reported by SIGNATURE ALONE -- the exact defect the order
+            # is about, arriving through the one door the fix was not standing at.
+            #
+            # Measured on the runs of 2026-09-06 and 2026-09-07: seven drift events, EVERY one
+            # of them the same shape -- `rc=0|RESULT: 1159 passed, 0 FAILED` moving to
+            # `rc=1|RESULT: 1157 passed, 2 FAILED` and back to green within the hour, the same
+            # two rows each time. `state/MUTANTS_SURVIVED.jsonl` holds the counts and nothing
+            # else, so which two rows they were could not be learned from any artefact on disk;
+            # the only way to find out was to reproduce a ~20-hour run. That is the same cost
+            # `_row_ids` was written to remove, and it matters more here than at launch, because
+            # a drift on a junctioned `data/` is the leading explanation for the confirmed false
+            # kill of 2026-09-03 (order 58a00e909217) and naming the rows is what would settle it.
+            fresh_rows = {}
+            fresh = baseline(root, gates=tuple(gates) + tuple(confirm),
+                             rows_out=fresh_rows, times_out=fresh_times)
             # A REFRESH THAT COULD NOT COMPLETE IS NOT A NEW BASELINE (sweep 44, batch 5 found
             # this in the first version of this function, hours after it was written). The launch
             # baseline is guarded by `unusable_gates` and this one was not -- so a gate that
@@ -2023,8 +2095,13 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 # THE WINDOW IS NAMED, NOT JUST THE EVENT. A drift with no list of what was
                 # judged under the stale signature is a warning nobody can act on; with the
                 # list, every verdict it casts doubt over can be re-attacked by name.
+                # `rows_now` IS THE IDENTITY OF WHAT IS RED AFTER THE MOVE, not merely the count
+                # (order 2461a04d8849). Empty when the gate came back green -- a drift that
+                # RESOLVES is as real an event as one that breaks, and both are recorded -- so an
+                # empty list here means "nothing red now", never "not looked at".
                 ev = {"at": time.time(), "gates_that_moved":
-                      {g: {"was": w, "now": n} for g, (w, n) in moved.items()},
+                      {g: {"was": w, "now": n, "rows_now": fresh_rows.get(g) or []}
+                       for g, (w, n) in moved.items()},
                       "verdicts_now_in_doubt": list(judged_since)}
                 drifted.append(ev)
                 # TO DISK THE MOMENT IT IS FOUND, for the reason `_journal`'s own docstring
@@ -2408,6 +2485,27 @@ def _session(a, targets):
     global _TREE_WAS_MOVING
     root = sandbox()
     print("sandbox: %s" % root)
+    # THE FINGERPRINT OF THE SOURCE THIS RUN IS ABOUT (order 690db2bf4f1d). Taken the instant
+    # after `sandbox()` has finished copying src/, so it names the code the gates will actually
+    # judge, and re-taken at the end so a move can be reported FROM and TO rather than as a
+    # heartbeat-shaped guess. `codewatch.fingerprint` is the same digest the rc=17 staleness
+    # contract rests on; None means it could not be taken and is reported as that, never as
+    # "unchanged".
+    #
+    # AND THE THING THIS CANNOT MEAN, said plainly because the obvious reading is wrong.
+    # `sandbox()` COPIES src/, and every gate runs against that copy -- so live src/ moving
+    # after the copy cannot shift a single gate signature, and this is NOT a baseline-validity
+    # check. `tree_is_moving()` is the baseline-validity check, and it now asks the load-bearing
+    # question (was src/ settled when the copy was taken). What a moved fingerprint here means
+    # is weaker and still worth printing: the survivor list below is about a src/ that no longer
+    # exists in the tree, so any line number in it may already have moved.
+    try:
+        import codewatch as _cw_fp
+        _src_fp_at_launch = _cw_fp.fingerprint()
+    except Exception:
+        silence.note("mutate.py:codewatch-unreadable")
+        _src_fp_at_launch = None
+    print("src/ fingerprint at launch: %s" % (_src_fp_at_launch or "UNREADABLE"))
     try:
         # THE BASELINE, FIRST, AND IT IS A HARD REFUSAL. Without this the first real run was
         # worthless in a way that looked perfect: `verify_math` was reporting one honest
@@ -2617,6 +2715,17 @@ def _session(a, targets):
                     print("  *** BASELINE DRIFTED on clean code (%s). %d verdict(s) were "
                           "judged against the stale signature, %d of them KILLS -- those kills "
                           "are NOT evidence of coverage. ***" % (moved, len(doubt), len(kills)))
+                    # WHICH ROWS ARE RED ON THE OTHER SIDE OF THE MOVE, NAMED (order
+                    # 2461a04d8849). "1159 passed, 0 FAILED" becoming "1157 passed, 2 FAILED"
+                    # says a photograph moved and nothing about WHY, and the why is what decides
+                    # whether this run is measuring the library or the live tree its sandbox
+                    # junctions data/ out to. Journal rows written before this landed carry no
+                    # `rows_now`; they print nothing rather than an empty claim.
+                    for _g, _gd in sorted((d.get("gates_that_moved") or {}).items()):
+                        print("        %s: %s  ->  %s"
+                              % (_g, str(_gd.get("was"))[:60], str(_gd.get("now"))[:60]))
+                        for _rid in _gd.get("rows_now") or []:
+                            print("           red after the drift: %s" % _rid)
                 else:
                     dead = ", ".join(sorted(d.get("refresh_unusable") or {}))
                     doubt = d.get("verdicts_since_last_good_baseline") or []
@@ -2722,6 +2831,31 @@ def _session(a, targets):
             print("    Exit code %d. The survivor list above covers %d of %d targets and is"
                   " NOT a coverage number for this library."
                   % (rc, stopped_at + 1, len(targets)))
+        # DID THE SOURCE MOVE UNDER THE RUN? (order 690db2bf4f1d). Said FROM and TO, or said to
+        # be unreadable -- never inferred from whether somebody was holding the maintenance
+        # guard, which is the proxy that produced a caveat on the cleanest baseline this project
+        # has recorded. See the launch fingerprint above for what a move here does and does not
+        # mean: the gates judged the sandbox COPY, so this cannot invalidate a verdict; it says
+        # the findings are about source that has since been rewritten.
+        try:
+            import codewatch as _cw_fp2
+            _src_fp_at_end = _cw_fp2.fingerprint()
+        except Exception:
+            silence.note("mutate.py:codewatch-unreadable")
+            _src_fp_at_end = None
+        if _src_fp_at_launch is None or _src_fp_at_end is None:
+            print("\nsrc/ fingerprint: %s at launch, %s now -- one of the two could not be"
+                  " taken, so whether the source moved under this run is UNKNOWN, not 'no'."
+                  % (_src_fp_at_launch or "UNREADABLE", _src_fp_at_end or "UNREADABLE"))
+        elif _src_fp_at_end != _src_fp_at_launch:
+            print("\n*** src/ MOVED UNDER THIS RUN: fingerprint %s at launch, %s now. The"
+                  " sandbox holds the launch copy, so every verdict above is a verdict about"
+                  " the FIRST of those two trees. Line numbers in the survivor list may no"
+                  " longer point where they did. ***"
+                  % (_src_fp_at_launch, _src_fp_at_end))
+        else:
+            print("\nsrc/ fingerprint %s, unchanged from launch to finish."
+                  % _src_fp_at_launch)
         print("\ntotal %.0fs" % total_s)
         return rc
     finally:

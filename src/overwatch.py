@@ -401,10 +401,23 @@ def structure(deep=True):
             imports = list(ex.map(A.check_import, mods))
         out["broken_modules"] = [r["module"] + ": " + r["detail"]
                                  for r in imports if not r["ok"]]
+        # THIS FILTER'S OWN CRITERIA ARE A STANDING QUESTION (order 5b79deaaace9): whether it
+        # means to show only the loud/uppercase-flagged rows, or some other, narrower scope, is
+        # not decided here -- guessing would be curatorial, and this project treats a filter
+        # nobody can explain as worse than an honest question. NOT left ambiguous, though: every
+        # one of `reconcile()`'s SEVEN "...reconciliation failed" / "process check failed" rows
+        # (the `except Exception` handler at the bottom of each of its sub-blocks) was being
+        # dropped by every reading of the filter above, uppercase or not -- so a reconcile CHECK
+        # THAT COULD NOT RUN left no trace in WATCH.md, which is precisely the "a check that
+        # crashed is not a check that passed" failure `write_report` already guards against, two
+        # tiers up, for `struct["error"]`/`struct["estate_error"]`. Every one of these seven
+        # `kind` strings ends in the literal word "failed" and nothing else `reconcile()` files
+        # does, so the added clause is exact, not a heuristic.
         out["reconcile"] = [r for r in A.reconcile()
                             if r["finding"].isupper() or "no host" in r["finding"]
                             or "never catalogued" in r["finding"]
-                            or "MORE THAN ONE" in r["finding"]]
+                            or "MORE THAN ONE" in r["finding"]
+                            or r["finding"].endswith("failed")]
     except Exception as e:
         silence.note("overwatch.py:structure-import-reconcile")
         # WHOLE, BECAUSE THIS STRING IS THE ENTIRE EXPLANATION. `write_report` does not print

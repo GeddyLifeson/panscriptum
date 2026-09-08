@@ -708,14 +708,32 @@ def safety():
         p = os.path.join(HERE, "state", "escalation.log")
         cutoff = time.time() - 24 * 3600
         by = {}
+        bad_lines = 0
         with open(p, encoding="utf-8") as f:
             for ln in f:
                 try:
                     r = json.loads(ln)
                 except Exception:
+                    # ONE BAD ROW MUST COST ONE ROW, NOT THE WHOLE PANEL (order
+                    # ffdaa9aa7288) -- this is the one place in this function that dropped
+                    # the discipline the rest of it is explicit about: a bare `continue`
+                    # with no `silence.note`. Counted below and noted once per read rather
+                    # than once per line, so a torn log does not flood the ledger.
+                    bad_lines += 1
+                    continue
+                if not isinstance(r, dict):
+                    # A line that parses as valid JSON but is not a dict (a bare number or
+                    # string some future writer logs) used to raise AttributeError on the
+                    # `.get()` calls below, UNCAUGHT here, and propagate to the outer except
+                    # -- which marks the entire 24-hour ledger 'UNREADABLE' over one
+                    # malformed row. Same fix as the bare `continue` above: skip the one row.
+                    bad_lines += 1
                     continue
                 if (r.get("at") or 0) >= cutoff:
                     by[r.get("level_name") or "?"] = by.get(r.get("level_name") or "?", 0) + 1
+        if bad_lines:
+            silence.note("dashboard.py:safety-escalation-bad-line")
+            out["escalation_bad_lines"] = bad_lines
         out["escalation_recent"] = by
     except FileNotFoundError:
         _ = "silence-exempt: an empty escalation log is the good state"

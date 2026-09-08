@@ -40,7 +40,11 @@ It does not forbid catching exceptions. Some of them are correct: a wiki page th
 should not stop a roll of 54,000. What it forbids is catching one SILENTLY.
 
     swallow(kind)    a context manager that records the failure and continues
-    audit()          finds every handler in src/ that still returns without recording
+    audit()          finds every catch site in src/ that still returns without recording --
+                     `except` handlers AND `with contextlib.suppress(...)` blocks, which are the
+                     same act spelled two ways and were counted as one for far too long
+                     (order a1173f5608f5). `--instrument` rewrites the handlers only; a suppress
+                     block cannot be given a recorder, so it is reported and left alone.
 
 The rule the audit enforces: a failure may be tolerated, but never unobserved. Once every
 handler reports, `health.py --failures` shows 5,590 Wikipedia 404s as a wall of identical
@@ -205,6 +209,53 @@ def _handler_is_observed(node):
         for stmt in node.body for n in ast.walk(stmt))
 
 
+def _suppressed_names(expr):
+    """`contextlib.suppress(OSError)` -> "OSError". Anything else -> None.
+
+    THE OTHER SPELLING OF THE SAME DEFECT (order a1173f5608f5). `with contextlib.suppress(X):`
+    is `except X: pass` written differently -- it catches, it discards, it continues -- and this
+    audit walked `ast.ExceptHandler` alone, so sixteen such blocks across five modules were not
+    merely classified generously, they were STRUCTURALLY INVISIBLE: no row, no line number, no
+    contribution to the total `main()` prints as if it were the whole population of catch sites.
+    An uncounted catch site reads in that total exactly like a catch site that is not there,
+    which is this module's own subject turned on this module for the second time (`_src_py_files`
+    was the first, order d7620dd893fa).
+
+    Both spellings of the call are matched -- `contextlib.suppress(...)` and a bare `suppress(...)`
+    from `from contextlib import suppress` -- because the audit REPORTS and does not rewrite, so
+    the safe direction for a name collision is to name one row too many rather than to miss one.
+    """
+    if not isinstance(expr, ast.Call):
+        return None
+    f = expr.func
+    if not ((isinstance(f, ast.Attribute) and f.attr == "suppress")
+            or (isinstance(f, ast.Name) and f.id == "suppress")):
+        return None
+    return ", ".join(getattr(a, "id", None) or getattr(a, "attr", None) or "?"
+                     for a in expr.args) or "bare"
+
+
+def _suppress_is_declared(node):
+    """Does this `with suppress(...)` block carry the project's written exemption? -> bool.
+
+    `_handler_is_observed` MUST NOT BE REUSED HERE, and the reason is the whole difference
+    between the two shapes. An `except` body runs ONLY after the failure, so a `print` or a
+    `note()` in it is evidence about that failure. A `suppress` body runs BEFORE it and stops at
+    it -- nothing in the block can execute after the exception, so no statement inside one is
+    ever a record of what was swallowed. Grading these by "does the body mention a recorder"
+    would hand back the same undercount in a subtler wrapper: a block that happens to print
+    something on its way to the failure would classify itself observed.
+
+    So a suppress block is SILENT unless a person has declared it deliberate, using the same
+    `_ = "silence-exempt: ..."` marker the rest of the tree already uses for the handlers whose
+    absence of a record is the correct answer (a release path where "already gone IS released").
+    That is a declaration rather than a record, which is exactly what these sites can offer.
+    """
+    return any(isinstance(n, ast.Constant) and isinstance(n.value, str)
+               and "silence-exempt" in n.value
+               for stmt in node.body for n in ast.walk(stmt))
+
+
 def _src_py_files(root):
     """Every `.py` under `root`, SUBDIRECTORIES INCLUDED. -> sorted [(label, full path)].
 
@@ -259,6 +310,21 @@ def _handlers(path, label=None):
         return []
     out = []
     for node in ast.walk(tree):
+        # `with contextlib.suppress(X):` FIRST -- it is a catch site with no ExceptHandler node,
+        # so the walk below could never see it. See `_suppressed_names`. It is reported and
+        # counted here; `instrument()` deliberately does NOT rewrite one, because a `note()`
+        # inserted into a suppress body would fire on the way IN, whether or not anything was
+        # ever swallowed, which is a recorder that lies rather than a recorder that is missing.
+        if isinstance(node, (ast.With, ast.AsyncWith)):
+            for item in node.items:
+                names = _suppressed_names(item.context_expr)
+                if names is None:
+                    continue
+                out.append({"file": label,
+                            "line": getattr(item.context_expr, "lineno", node.lineno),
+                            "type": "suppress(%s)" % names,
+                            "silent": not _suppress_is_declared(node)})
+            continue
         if not isinstance(node, ast.ExceptHandler):
             continue
         # A handler that re-raises, logs, or carries the exception into its own return value
@@ -299,7 +365,12 @@ def main():
     rows = audit()
     silent = [r for r in rows if r["silent"]]
     print("=" * 78)
-    print(f"SILENCE AUDIT — {len(rows)} exception handlers in src/")
+    # NAMED FOR WHAT IT ACTUALLY COUNTS (order a1173f5608f5). This said "exception handlers",
+    # which was true of the walk and false of the claim: the rows now include every
+    # `with contextlib.suppress(...)` block too, and calling those handlers would be the same
+    # kind of small lie as leaving them out was.
+    print(f"SILENCE AUDIT — {len(rows)} catch sites in src/ (except handlers and "
+          f"contextlib.suppress blocks)")
     print("=" * 78)
     print(f"\n  observed (record, log, or re-raise) : {len(rows) - len(silent)}")
     print(f"  SILENT (swallow and continue)       : {len(silent)}")
@@ -980,7 +1051,15 @@ def instrument(root=None, dry=False):
         for node in ast.walk(tree):
             if not isinstance(node, ast.ExceptHandler):
                 continue
-            # THE SAME JUDGMENT `audit()` MAKES, because it is now literally the same function.
+            # AND `with contextlib.suppress(...)` IS COUNTED BY `audit()` BUT NOT REWRITTEN HERE
+            # -- a deliberate asymmetry, not the old blind spot growing back (order a1173f5608f5).
+            # A `note()` spliced into a suppress body would run on the way IN, before anything
+            # could fail, so every such block would report a swallowed failure on every clean
+            # pass. There is nowhere inside one to put a recorder that tells the truth; the audit
+            # therefore names them and leaves the remedy to a person.
+            #
+            # THE SAME JUDGMENT `audit()` MAKES on an `except`, because it is literally the same
+            # function.
             # This carried its own copy of the token list and the two drifted twice: it omitted
             # "silence", so it read `_ = "silence-exempt: ..."` (this project's documented
             # exemption marker -- chain.py carries two of them, and it is not the only file) as

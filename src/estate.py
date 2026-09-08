@@ -658,8 +658,28 @@ def external():
             # measurement.
             if not want:
                 note("config.yaml names no model", "no 'model' key set", bad=True)
-            elif want not in names:
-                note("config.yaml NAMES A MODEL OLLAMA DOES NOT HAVE", want, bad=True)
+            else:
+                # THE `:latest` FOLD, TAKEN FROM THE ONE PLACE THAT DEFINES IT (order
+                # b11f5e878a6f). This was a plain `want not in names`, and Ollama spells an
+                # unqualified tag with an explicit `:latest` -- so a config saying `qwen3`
+                # against a resident `qwen3:latest` is ONE model reported as a missing one,
+                # bad=True, reddening the sweep over a naming convention. `standards.py` was
+                # measured wrong the same way and grew `model_matches()` for it; that function
+                # is called here rather than restated, because two spellings of one rule
+                # written in two files are two rules that will disagree eventually. Today's
+                # config names the fully-qualified `qwen3:8b`, so this changes no live row --
+                # it is the next unqualified tag that this is for.
+                try:
+                    import standards
+                    have = any(standards.model_matches(n, want) for n in names)
+                except Exception as e:
+                    # THE COMPARISON COULD NOT BE MADE, which is not the same event as the
+                    # model being absent, and must not wear its message -- the four-rows rule
+                    # this block was already split for, one condition further down.
+                    note("model-name check could not run", _brief(e, 70), bad=True)
+                    have = None
+                if have is False:
+                    note("config.yaml NAMES A MODEL OLLAMA DOES NOT HAVE", want, bad=True)
     except Exception as e:
         # GRADED RED, and it will redden the sweep whenever the daemon is down. That is the
         # intended reading: this project's model calls all land here, and an unreachable Ollama

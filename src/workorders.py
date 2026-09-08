@@ -153,6 +153,14 @@ def shell_active(text):
 # never silence.
 PREFLIGHT_MAX_AGE = 6 * 3600
 ALLSWEEP_MAX_AGE = 24 * 3600
+# BINDING_HEALTH.json is the battery's third such artifact and had no ceiling at all (order
+# ced15f4f9d1f): the binding-suspect section below read it as current truth to file AND close
+# BINDING_SUSPECT / BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES / BINDING_HOST_SERVES_ANOTHER_WIKI
+# with no check on how old it was. Set wide (a week) because, unlike the battery's two
+# artifacts, nothing schedules `binding_health --run` on a cadence -- it is a ~200-page job
+# against hosts already rate-limited once, so an operator runs it by hand. A tight ceiling here
+# would just make BINDING_HEALTH_STALE permanent furniture instead of catching genuine neglect.
+BINDING_HEALTH_MAX_AGE = 7 * 24 * 3600
 
 # Every code this tier owns, each pinned to the `where` it files under. Named once so
 # `sweep_detectors` can close each one when its detector goes quiet, rather than leaving orders
@@ -451,6 +459,17 @@ def order_id(code, where=""):
     UPDATE one order, not file a second. A queue that grows one entry per cycle per fault is how
     a detector becomes noise -- and noise is switched off, which is how a project ends up with
     detectors nobody reads.
+
+    `where` IS PART OF THE IDENTITY, NOT DECORATION (order fb5ac415e249). Two filings meant to
+    track ONE fault must pass the SAME `where`, byte-for-byte, every time -- widening it, adding
+    detail to it, or reformatting it between filings mints a SECOND, PERMANENTLY SEPARATE order.
+    Nothing detects this: the old order is never resolved (closing needs `resolve_code(code,
+    where=<the old string>)`, and nothing calls it with a string nobody kept), so it sits open
+    forever beside the new one, and no check anywhere flags a `code` open under more than one
+    `where` as worth a second look (see `where_split_by_code` for a report that does, and note
+    its own warning that this is NOT a case for auto-merging). If a caller's `where` is composed
+    rather than a fixed literal, hold that composition stable across every filing/closing pair
+    for the fault it names.
     """
     return hashlib.sha1(("%s|%s" % (code, where)).encode("utf-8")).hexdigest()[:12]
 
@@ -461,6 +480,13 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
     Refreshing rather than duplicating also gives the thing a queue most needs and rarely has: a
     `seen` count and a `first_seen`, so "this has been failing for six hours" is a fact rather
     than an impression.
+
+    `where` MUST BE THE SAME STRING EVERY TIME A CALLER MEANS "the same fault as last time"
+    (order fb5ac415e249 -- see `order_id`'s docstring for the full contract). This function has
+    no way to tell "a fault got more specific" from "a fault moved" from "a second, different
+    fault" -- a changed `where` always reads as the third one, which refreshes nothing and opens
+    a new order beside whatever was filed under the old `where`, permanently, since nothing here
+    or in `resolve_code` would ever be asked to close that old string again.
     """
     handler = str(handler or "").upper()
     severity = str(severity or "").upper()
@@ -469,6 +495,35 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
                        "order nobody works" % (handler, LADDER))
     if severity not in SEVERITY:
         raise BadOrder("severity %r is not one of %s" % (severity, SEVERITY))
+
+    # A LOCAL ORDER ADDRESSED TO A DENIED TARGET IS FIXED AT THE DOOR, NOT LEFT FOR A DETECTOR
+    # TO NOTICE LATER (order 9b54659bc403). Until this, `sweep_detectors`'s
+    # ORDER_ADDRESSED_TO_A_RUNG_THAT_CANNOT_REACH_IT caught the fault only AFTER an order was
+    # already filed, so an operator still had to hand-fix each one (`workorders._mutate`, as
+    # done three separate times on record: 2026-08-30, 2026-09-01, and again this shift). Every
+    # `.py` target named in `where` is asked of `local_agent._denied_target` -- THE SAME
+    # PREDICATE `t_propose_patch` itself asks, not a second copy of the module denylist, per the
+    # order's own remedy -- and if EVERY target is denied, the order is filed at RUN instead,
+    # with a note saying why. SILENT RE-ADDRESS, not a refusal: raising here would mean a
+    # detector's own finding about a supervisor module could not be filed at all, which is worse
+    # than filing it one rung higher than asked. `where` naming NO `.py` file is left alone,
+    # exactly as the post-hoc detector already does -- guessing from prose would invent
+    # findings, and this only reads the declared target.
+    if handler == "LOCAL":
+        try:
+            import local_agent as _LA
+            targets = sorted(set(m for m, _ in WHERE_TARGET.findall(str(where or ""))))
+            if targets and all(_LA._denied_target(t) for t in targets):
+                found_by = "%s | workorders.file_order: filed at RUN, not LOCAL -- `where` " \
+                           "names %s, entirely on local_agent's write denylist, so LOCAL is " \
+                           "structurally forbidden to act on it (order 9b54659bc403)" \
+                           % (found_by or "", ", ".join(targets))
+                handler = "RUN"
+        except Exception:
+            # Cannot tell whether the target is denied -- file as addressed. The post-hoc
+            # detector still catches this on the next sweep if `local_agent` stays unreachable.
+            pass
+
     oid = order_id(code, where)
     now = time.time()
 
@@ -637,6 +692,72 @@ def resolve(oid, how, by="", synthetic=False):
     return rec
 
 
+def reroute(oid, handler, why, by=""):
+    """Move one OPEN order to a different rung, in place. -> the order, or None.
+
+    THE MISSING THIRD DISPOSITION (order 9b54659bc403, and the mirror-image case found from the
+    RUN side, order f19f4a2b00f4). Before this, an order had exactly two fates: sit open on the
+    rung it was filed to, or `resolve()` it -- which DELETES it to the closed log. Neither of
+    those is "move it to the rung that can actually act on it", so a MISROUTED order had no
+    honest disposition at all: addressed too LOW (LOCAL, when `where` names a target on
+    `local_agent.DENYLIST` -- see `sweep_detectors`'s `ORDER_ADDRESSED_TO_A_RUNG_THAT_CANNOT_
+    REACH_IT`) or too HIGH (RUN, when the order's own text says it cannot be honestly closed
+    before an OWNER rules on a curatorial question). This module's own doctrine already says an
+    order "names the LOWEST rung that can honestly close it. Naming a rung too high wastes the
+    expensive ones; naming it too low means it bounces" -- and until now nothing implemented the
+    bounce, so three separate shifts re-measured the same two misrouted orders from scratch
+    rather than moving them once.
+
+    HISTORY IS PRESERVED, DELIBERATELY. `id`, `code`, `where`, `evidence`, `first_seen` and
+    `seen` are untouched: rerouting is not refiling. An order six shifts old must still read as
+    six shifts old on the rung that can act on it -- resetting any of those would turn
+    accumulated re-measurement into a fresh-looking order and restart the exact treadmill this
+    function exists to stop.
+
+    WHO AND WHY ARE RECORDED, THE WAY `resolve()` DEMANDS `--how` -- same argument: a handler
+    change with no reason on record is indistinguishable from a second misrouting. Appended to
+    `found_by` rather than replacing it, matching how `file_order`'s own refresh accumulates
+    rather than overwrites.
+
+    Deliberately narrow: this only ever changes `handler`. It does not touch `severity`, does
+    not re-run any detector, and does not decide FOR the caller which rung is right -- that
+    judgment (denylist-checking for LOCAL, curatorial-question-spotting for RUN) is exactly the
+    "owner's call" order 9b54659bc403 left open, and is not made here.
+    """
+    handler = str(handler or "").upper()
+    if handler not in LADDER:
+        raise BadOrder("handler %r is not one of %s" % (handler, LADDER))
+    why = str(why or "").strip()
+    if not why:
+        raise BadOrder("a reason is required to reroute %s. A handler change with no reason "
+                       "recorded is indistinguishable from a second misrouting." % oid)
+
+    def _change(d):
+        # Pure in `d`, like every other mutator here: `_mutate` may re-apply this against a
+        # fresh copy after a stale-write refusal, so the old handler is read fresh each time
+        # rather than captured once outside this closure.
+        rec = d.get(oid)
+        if rec is None:
+            return None
+        old = rec.get("handler")
+        if old == handler:
+            return rec              # already on that rung; nothing to change, nothing to record
+        rec["handler"] = handler
+        rec["found_by"] = "%s | rerouted %s -> %s by %s: %s" % (
+            rec.get("found_by") or "", old, handler, by or "?", why)
+        return rec
+
+    landed, rec = _mutate(_change)
+    if not landed:
+        sys.stderr.write("workorders: ORDER NOT REROUTED (%s) -- the queue write did not land "
+                         "after retries. The order is UNCHANGED, still on its original rung.\n"
+                         % oid)
+        return None
+    if rec is None:
+        return None                 # no such open order: nothing to reroute
+    return rec
+
+
 def resolve_code(code, how, where="", by="", synthetic=False):
     """Close by fault identity rather than by id -- what a detector does when it stops firing.
 
@@ -729,6 +850,33 @@ def twins(rows=None):
                                if len(set(v)) > 1},
         "file_clusters": {k: sorted(v) for k, v in sorted(by_file.items()) if len(set(v)) > 1},
     }
+
+
+def where_split_by_code(rows=None):
+    """Open orders whose `code` currently holds MORE THAN ONE distinct `where`. -> {code: [where]}
+
+    THE OTHER HALF OF THE `where`-IDENTITY CONTRACT (order fb5ac415e249). `order_id` closes
+    exactly one `where` at a time by design -- `resolve_code(code, ..., where=W)` only ever
+    matches `order_id(code, W)` -- so a code legitimately holding several open orders at once
+    (HOST_QUARANTINED: one per host) is NOT a fault. What this catches is the case nothing else
+    watches for: a caller who widened, reformatted, or added detail to `where` between two
+    filings it considered the SAME fault mints a permanently separate order, and the old one
+    never closes because nothing calls `resolve_code` with the old string again.
+
+    A REPORT, NEVER AN AUTO-MERGE. Collapsing two `where`s under one code because they look
+    alike would close live, distinct work -- HOST_QUARANTINED is proof a code can hold many
+    genuinely different open orders at once -- which is exactly the mistake `twins()`'s own
+    docstring already warns against for file-level duplicates, one level up. This only lists the
+    candidates; an operator reads each pair and decides.
+
+    NO CAPS: every code and every one of its `where`s is returned, not a sample.
+    """
+    rows = open_orders() if rows is None else list(rows)
+    by_code = {}
+    for r in rows:
+        by_code.setdefault(str((r or {}).get("code")), set()).add(str((r or {}).get("where")
+                                                                       or ""))
+    return {code: sorted(wheres) for code, wheres in sorted(by_code.items()) if len(wheres) > 1}
 
 
 def for_ladder():
@@ -1117,6 +1265,23 @@ def sweep_detectors():
         # this section's own `except Exception: _detector("binding-suspect", False)` below, which
         # files it under DETECTOR_FAILED with the traceback, instead of reporting a corrupt
         # canary record as an area with nothing wrong in it.
+        #
+        # A STALENESS CEILING, MIRRORING THE BATTERY'S TWO (order ced15f4f9d1f). This canary
+        # stamps every report with `"at": time.time()` but nothing read it, so a hand-run report
+        # could age indefinitely while this section kept filing and closing curatorial orders off
+        # it as if it were fresh. An absent report (fresh tree, never run) is the ordinary,
+        # honest-empty case above and is not itself staleness; a report that HAS a timestamp
+        # older than the ceiling is. This does not gate the filing/closing below -- same as
+        # PREFLIGHT_STALE and BATTERY_STALE, which fire alongside their sibling checks rather
+        # than suppressing them -- it only makes the age visible.
+        if rec:
+            bh_age = time.time() - float(rec.get("at") or 0)
+            _fire(bh_age <= BINDING_HEALTH_MAX_AGE, "BINDING_HEALTH_STALE",
+                  "the binding-health canary is %.1f days old (ceiling %.0fd) -- stale is not "
+                  "green, and this section files/closes curatorial orders off this report as if "
+                  "it were current" % (bh_age / 86400.0, BINDING_HEALTH_MAX_AGE / 86400.0),
+                  "BOTS", "MINOR", where="data/BINDING_HEALTH.json",
+                  found_by="binding_health.canary-age")
         suspect = [h for h in (rec.get("hosts") or [])
                    if h.get("healthy") is None and "no catalogued title resolved"
                    in str(h.get("reason") or "")]
@@ -1363,36 +1528,85 @@ def sweep_detectors():
     # The list is capped in `what` and COMPLETE in `evidence`, the STRANDED_SYNTHESIS shape: a
     # summary line may be short if the full list is one field away, and this one names how many
     # it did not print.
+    # THIS DETECTOR ASSERTED A CONSEQUENCE THE GATE HAD ALREADY MADE FALSE (found 2026-09-07,
+    # while its own order was being closed). Two faults, and the second is the serious one.
+    #
+    # (1) IT ENUMERATED ONE SUFFIX. It scanned for `.py` while `publish._CODE_EXT` refuses
+    # seventeen, so a `.sh`, `.ps1` or `.bat` left under `handoff/` was invisible to the detector
+    # that exists to find exactly that. This is the enumeration-versus-family mistake `publish.py`
+    # already records fixing twice (`SKIP_SUFFIX`/`_is_skipped`, then `_CODE_EXT` itself).
+    #
+    # (2) IT SAID THE FILES REACH THE PUBLIC REPO. They do not, and have not since
+    # `CODE_FREE_DIRS`/`_is_agent_scratch` landed: the gate refuses them and `prune_export` has
+    # already withdrawn the copies that were there (measured 2026-09-07 -- the export holds ZERO
+    # files of any executable suffix under `handoff/`). A detector whose finding is true and whose
+    # stated consequence is false is worse than a silent one: it re-opened a correctly-closed
+    # order every sweep, and it did so with a sentence that would send the next reader hunting a
+    # leak that cannot happen.
+    #
+    # So the detector now ASKS THE GATE rather than restating a belief about it. One definition,
+    # `publish._is_agent_scratch`, feeding both the copier and this check, which is the same
+    # reason `_CODE_EXT` feeds both the copier and `gitignore_lines()`. The finding survives --
+    # agent scratch in the tree is still the path fault behind the 2026-08-28 SECRET_IN_EXPORT
+    # halt and still wants moving -- but it is now reported at the severity the gate's answer
+    # earns, and a file the gate does NOT refuse escalates instead of reading like the rest.
     try:
+        try:
+            import publish as _pub_hs
+            _exts_hs = tuple(_pub_hs._CODE_EXT)
+            _refused_hs = _pub_hs._is_agent_scratch
+        except Exception:
+            _pub_hs, _exts_hs, _refused_hs = None, (".py",), None
         scratch = []
         _hoff = os.path.join(HERE, "handoff")
         for _root, _dirs, _files in os.walk(_hoff):
             _dirs[:] = [d for d in _dirs if d != "__pycache__"]
             for _f in _files:
-                if _f.endswith(".py"):
+                if _f.endswith(_exts_hs):
                     scratch.append(os.path.relpath(os.path.join(_root, _f),
                                                    HERE).replace(os.sep, "/"))
         scratch.sort()
+        # FAIL TOWARDS SAYING MORE: if publish cannot be asked, the answer is UNKNOWN and is
+        # reported as if the files do reach the repo, never as if they do not.
+        if _refused_hs is None:
+            _escapes_hs = list(scratch)
+            _gate_hs = ("publish.py could NOT be imported to ask whether these are refused, so "
+                        "whether they reach the public repo is UNKNOWN -- treated here as if "
+                        "they do")
+        else:
+            _escapes_hs = [p for p in scratch if not _refused_hs(p)]
+            _gate_hs = (("publish REFUSES all %d of them (CODE_FREE_DIRS/_is_agent_scratch) and "
+                         "prune_export withdraws any already published, so none of them reaches "
+                         "the PUBLIC repo -- this is untidiness in the working tree, not a leak"
+                         % len(scratch)) if not _escapes_hs else
+                        ("%d of them are NOT refused by publish and WOULD be copied to the "
+                         "PUBLIC repo on the next push: %s"
+                         % (len(_escapes_hs), ", ".join(_escapes_hs))))
         _shown = ", ".join(scratch[:12]) + (" (+%d more, all of them in `evidence`)"
                                             % (len(scratch) - 12) if len(scratch) > 12 else "")
         _fire(
             not scratch,
             "AGENT_SCRATCH_IN_PUBLISHED_TREE",
-            ("%d .py file(s) sit under handoff/, which is a publish.COPY_DIRS root -- so every "
-             "one of them is copied to the PUBLIC repo on the next push: %s. These are agent "
-             "working files, not part of the record: handoff/ takes AUDITS (.md) and queue "
-             "state (.json). This is the path fault behind the 2026-08-28 SECRET_IN_EXPORT halt, "
-             "where a sweep agent asked to demonstrate that the secret scanner catches "
-             "credentials wrote the fixtures down in a script in this directory. Nothing leaked; "
-             "the gate refused the push, which is the gate working. REMEDY, either or both: move "
-             "each script out of the published tree to the session scratchpad, and make every "
-             "sweep brief name a scratch location outside the repo before it names handoff/."
-             % (len(scratch), _shown)),
-            "RUN", "MINOR",
+            ("%d executable-suffix file(s) sit under handoff/, which is a publish.COPY_DIRS "
+             "root: %s. %s. These are agent working files, not part of the record: handoff/ "
+             "takes AUDITS (.md) and queue state (.json). This is the path fault behind the "
+             "2026-08-28 SECRET_IN_EXPORT halt, where a sweep agent asked to demonstrate that "
+             "the secret scanner catches credentials wrote the fixtures down in a script in "
+             "this directory. Nothing leaked; the gate refused the push, which is the gate "
+             "working -- and the gate should not have had to. REMEDY, either or both: move each "
+             "script out of the published tree to the session scratchpad, and make every sweep "
+             "brief name a scratch location outside the repo before it names handoff/. Before "
+             "moving anything, check what still depends on it: handoff/nets_20260906/longtail.py "
+             "is the staged net open order 2f07cbd3241d is owed."
+             % (len(scratch), _shown, _gate_hs)),
+            "RUN", "MAJOR" if _escapes_hs else "MINOR",
             where="handoff/ as a COPY_DIRS root vs where agents write working files",
-            evidence={"proof": "os.walk(handoff/) -> %d .py file(s), __pycache__ excluded: %s"
-                               % (len(scratch), ", ".join(scratch)),
-                      "copy_dirs": "publish.COPY_DIRS includes 'handoff'"},
+            evidence={"proof": "os.walk(handoff/) -> %d file(s) of an executable suffix, "
+                               "__pycache__ excluded: %s" % (len(scratch), ", ".join(scratch)),
+                      "copy_dirs": "publish.COPY_DIRS includes 'handoff'",
+                      "suffixes_asked_for": list(_exts_hs),
+                      "gate_verdict": _gate_hs,
+                      "would_reach_the_public_repo": _escapes_hs},
             found_by="workorders.sweep handoff-scratch")
         _detector("handoff-scratch", True)
     except Exception:
@@ -1556,15 +1770,56 @@ def sweep_detectors():
     return [f for f in filed if f], closed
 
 
+def _side_channel_text(value, value_file):
+    """Read a required piece of free text from a `--flag`/`--flag-file` pair. -> (text, via_argv,
+    refusal), where `refusal` is `(message, exit_code)` on failure and `None` on success.
+
+    SHARED BY --resolve's --how AND --reroute's --how (order 9b54659bc403's `reroute()` needed
+    the identical safe channel `resolve()` already had -- a reason recorded without ever
+    becoming a shell argument). Extracted rather than copied a second time: on 2026-09-01 a
+    remedy field passed as a Bash argument was not mangled but EXECUTED (see SHELL_ACTIVE
+    above), and that lesson belongs in one place, not one for every command that takes prose.
+    Both channels are still accepted; only the file/stdin one is safe, and callers must still
+    run `shell_active` themselves on a `via_argv=True` result, exactly as before.
+    """
+    text, via_argv = value, True
+    if value_file:
+        if value:
+            return None, True, ("refused: the plain flag and its -file form both name the "
+                                 "text, and they disagree by construction. Pass one.", 2)
+        via_argv = False
+        try:
+            if value_file == "-":
+                text = sys.stdin.read()
+            else:
+                with open(value_file, encoding="utf-8") as f:
+                    text = f.read()
+        except Exception as exc:
+            return None, False, ("refused: %s could not be read (%s: %s). NOTHING WAS DONE."
+                                 % (value_file, type(exc).__name__, exc), 2)
+    elif value == "-":
+        via_argv = False
+        try:
+            text = sys.stdin.read()
+        except Exception as exc:
+            return None, False, ("refused: '-' could not be read from stdin (%s: %s). NOTHING "
+                                 "WAS DONE." % (type(exc).__name__, exc), 2)
+    return text, via_argv, None
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--sweep", action="store_true", help="run the detectors and file/close")
     ap.add_argument("--resolve", help="order id to close")
+    ap.add_argument("--reroute", help="order id to move to a different rung (--to), keeping "
+                                      "its id/first_seen/seen/evidence -- see reroute()")
+    ap.add_argument("--to", help="the rung --reroute's order should move to")
     ap.add_argument("--how", default="",
-                    help="resolution text (required with --resolve). '-' reads it from stdin. "
-                         "Passing prose here makes it a SHELL ARGUMENT -- see --how-file")
+                    help="resolution text for --resolve, or the reason for --reroute. '-' "
+                         "reads it from stdin. Passing prose here makes it a SHELL ARGUMENT -- "
+                         "see --how-file")
     ap.add_argument("--how-file", metavar="PATH",
-                    help="read the resolution from PATH ('-' for stdin) instead of from the "
+                    help="read the --how text from PATH ('-' for stdin) instead of from the "
                          "command line. THE SAFE CHANNEL: the text never becomes a shell "
                          "argument, so nothing in it can be substituted, eaten or EXECUTED")
     ap.add_argument("--twins", action="store_true",
@@ -1574,37 +1829,15 @@ def main():
     a = ap.parse_args()
 
     if a.resolve:
-        # THE TEXT COMES FROM A FILE OR STDIN IF THE CALLER LETS IT (order 1c99df1f69c1). A
-        # remedy field passed as a Bash argument on 2026-09-01 was not mangled but EXECUTED; see
-        # SHELL_ACTIVE above for the incident and for why the guard is here as well as here-is-
-        # a-better-channel. Both channels are accepted, one of them is safe, and the unsafe one
-        # now says so out loud rather than being the only door.
-        how = a.how
-        via_argv = True
-        if a.how_file:
-            if a.how:
-                print("refused: --how and --how-file both name the resolution text, and they "
-                      "disagree by construction. Pass one.")
-                return 2
-            via_argv = False
-            try:
-                if a.how_file == "-":
-                    how = sys.stdin.read()
-                else:
-                    with open(a.how_file, encoding="utf-8") as f:
-                        how = f.read()
-            except Exception as exc:
-                print("refused: --how-file %s could not be read (%s: %s). NOTHING WAS CLOSED."
-                      % (a.how_file, type(exc).__name__, exc))
-                return 2
-        elif a.how == "-":
-            via_argv = False
-            try:
-                how = sys.stdin.read()
-            except Exception as exc:
-                print("refused: --how - could not be read from stdin (%s: %s). NOTHING WAS "
-                      "CLOSED." % (type(exc).__name__, exc))
-                return 2
+        # THE TEXT COMES FROM A FILE OR STDIN IF THE CALLER LETS IT (order 1c99df1f69c1). See
+        # `_side_channel_text` for the incident and for why the guard is here as well as
+        # here-is-a-better-channel. Both channels are accepted, one of them is safe, and the
+        # unsafe one now says so out loud rather than being the only door.
+        how, via_argv, refusal = _side_channel_text(a.how, a.how_file)
+        if refusal:
+            msg, code = refusal
+            print(msg.replace("NOTHING WAS DONE", "NOTHING WAS CLOSED"))
+            return code
         if not how.strip():
             print("refused: --how is required. A closed order with no resolution recorded is "
                   "indistinguishable from one that was deleted to tidy the queue.")
@@ -1654,6 +1887,57 @@ def main():
         print("no such open order: %s" % a.resolve)
         return 1
 
+    if a.reroute:
+        # THE THIRD DISPOSITION (order 9b54659bc403 / f19f4a2b00f4): move an order to a
+        # different rung without deleting it to the closed log the way --resolve does. See
+        # `reroute()`'s docstring for why history is preserved and a reason is demanded exactly
+        # as --resolve demands --how.
+        if not a.to:
+            print("refused: --reroute requires --to RUNG")
+            return 2
+        to = a.to.strip().upper()
+        if to not in LADDER:
+            print("refused: --to %r names no rung. The ladder is %s." % (a.to, ", ".join(LADDER)))
+            return 2
+        why, via_argv, refusal = _side_channel_text(a.how, a.how_file)
+        if refusal:
+            msg, code = refusal
+            print(msg.replace("NOTHING WAS DONE", "NOTHING WAS REROUTED"))
+            return code
+        if not why.strip():
+            print("refused: --how is required. A handler change with no reason recorded is "
+                  "indistinguishable from a second misrouting.")
+            return 2
+        if via_argv:
+            hazards = shell_active(why)
+            if hazards:
+                sys.stderr.write(
+                    "workorders: the reroute reason arrived as a SHELL ARGUMENT and contains "
+                    "%d construct(s) a shell acts on: %s. The order is being rerouted with the "
+                    "text as received. Use --how-file PATH (or --how -) so the next one cannot "
+                    "be touched.\n" % (len(hazards), "; ".join(hazards)))
+        rec = reroute(a.reroute, to, why, by="cli")
+        if rec:
+            print("rerouted %s -> %s" % (a.reroute, to))
+            return 0
+        # SAME CARE AS --resolve: a lost write is not "no such order". `reroute()` already
+        # wrote the "not landed" stderr line; this only tells the two remaining cases apart.
+        try:
+            still_open = a.reroute in (_load() or {})
+        except QueueUnreadable as gone:
+            sys.stderr.write("workorders: %s\n" % gone)
+            print("NOT REROUTED, and whether %s is still open CANNOT BE ESTABLISHED: the queue "
+                  "file could not be parsed. Do not re-run until it is fixed or restored."
+                  % a.reroute)
+            return 2
+        if still_open:
+            print("NOT REROUTED -- the write did not land after retries (see stderr). Order %s "
+                  "is unchanged, still on its original rung. RETRY the same command."
+                  % a.reroute)
+            return 3
+        print("no such open order: %s" % a.reroute)
+        return 1
+
     if a.twins:
         rep = twins()
         print("%d open order(s); %d name a .py file in `where`, %d name none"
@@ -1678,6 +1962,17 @@ def main():
             print("  " + ", ".join(rep["no_file_in_where"]))
         print("\nCANDIDATES, NOT A VERDICT: two orders on one file are usually two faults. "
               "Verify each against source before closing either.")
+        wsplit = where_split_by_code()
+        if wsplit:
+            print("\nONE `code`, MORE THAN ONE OPEN `where` (%d code(s)) -- some of these are "
+                  "by design (HOST_QUARANTINED: one per host); others are a `where` that was "
+                  "widened or reformatted between two filings of what was meant as one fault, "
+                  "leaving the old string open forever beside the new one" % len(wsplit))
+            print("-" * 78)
+            for code, wheres in wsplit.items():
+                print("  %-40s %d where(s): %s" % (code, len(wheres), ", ".join(wheres)))
+            print("\nCANDIDATES, NOT A VERDICT: never auto-merge on this. See "
+                  "where_split_by_code's docstring.")
         return 0
 
     if a.sweep:

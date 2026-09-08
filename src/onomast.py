@@ -242,7 +242,16 @@ def coin_name(seed, register):
 
     def pick(lst, avoid=None):
         # Never draw the morpheme just used: repetition is what made the ugly names ugly.
-        opts = [x for x in lst if x != avoid] or lst
+        opts = [x for x in lst if x != avoid]
+        if not opts:
+            # Only reachable when this REGISTERS[...] slot has exactly one entry and it
+            # equals `avoid` -- every slot has >=4 entries today, verified directly against
+            # REGISTERS (order 371140b9fb9d). Falling back to the unfiltered list here means
+            # the "never repeat" guarantee above silently breaks, so the break is counted
+            # rather than swallowed: a future edit that trims a slot to one entry shows up
+            # here instead of producing an occasional repeated morpheme nobody traces back.
+            silence.note("onomast.py:pick-fallback-avoid-unavoidable")
+            opts = lst
         return opts[next(s) % len(opts)]
 
     syllables = 2 + (next(s) % 2)
@@ -545,9 +554,23 @@ def name_worlds(resolved):
     # is still in `resolved`. Both are still carried forward and both still seed `taken` above
     # (the seeding rule reads `naming`, not this flag), so the reservation that order 9309a040f208
     # exists for is untouched -- a third run still cannot reissue a standing name to another world.
-    merged = {cid: {**rec, "retired": cid not in resolved}
-              for cid, rec in prior.items()
-              if isinstance(rec, dict) and rec.get("catalogue_name") and cid not in out}
+    merged = {}
+    for cid, rec in prior.items():
+        if cid in out:
+            continue
+        if not (isinstance(rec, dict) and rec.get("catalogue_name")):
+            if isinstance(rec, dict):
+                # A prior record that PARSES (load_onomasticon succeeded) but is a dict with
+                # no truthy catalogue_name -- a hand-edited entry, or one written before some
+                # future schema change -- used to vanish from `merged` right here with nothing
+                # anywhere saying so: not carried forward, not marked retired, no note, no
+                # print. Not reachable by either current writer (both build every record in
+                # this function, which always sets catalogue_name), so this only bites a
+                # hand-edited or externally-written ONOMASTICON.json -- but when it does, the
+                # drop is now visible instead of a silent shrink. (Order 2caa35dc6a30.)
+                silence.note("onomast.py:merge-dropped-unschemad-prior")
+            continue
+        merged[cid] = {**rec, "retired": cid not in resolved}
     merged.update(out)
     return merged
 

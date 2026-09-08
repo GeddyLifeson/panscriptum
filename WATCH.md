@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 431  ·  last run 2026-09-07 21:57
+round 432  ·  last run 2026-09-07 22:23
 
 ## Structure
 
@@ -12,7 +12,14 @@ round 431  ·  last run 2026-09-07 21:57
 
 ## What the model found in the code
 
-Nothing open. Every finding so far has been fixed or was retired when the code it pointed at changed.
+**3 open** (1 high). Newest first.
+
+- **standards.py** `work_orders` — [HIGH] returns 1 if bad else 0, but the comment says it should return 0 no matter what
+  - says: THE SAME EXIT CONVENTION ON EVERY PATH (order 92fdcb9a8310). Both of these branches end `return 0` no matter what they had just printed, while the default path below ends `return 1 if work_orders(state) else 0` -- the convention this file's own module docstring exists to establish.
+- **standards.py** `probe` — [MEDIUM] sum of values for keys containing specific strings
+  - says: counted every swallowed exception
+- **gpu_lane.py** `ignore_pid` — [MEDIUM] Is any foreground claim outstanding, ignoring the specified PID
+  - says: Is any LIVE foreground claim outstanding?
 
 ---
 

@@ -1485,28 +1485,40 @@ def attempt_patch(finding, dry=True):
 
 def _retire(finding):
     """Close a finding the model lane can never act on, so it stops blocking its standard."""
-    path = os.path.join(HERE, "data", "OVERWATCH.json")
     try:
-        with open(path, encoding="utf-8") as f:
-            led = json.load(f)
+        # THROUGH THE OWNER OF THE FILE, NOT AROUND IT (order c95751a80633). This read the
+        # ledger with a bare `json.load` and landed the whole snapshot back with
+        # `silence.write_json` -- atomic, but not RECONCILED. overwatch.py runs as a standing
+        # `--loop` job and saves after every module it reviews, so a finding it recorded
+        # between this read and this write was silently erased by a write that SUCCEEDED. The
+        # return-value check added in run #19 could never see that: it reports a DENIED
+        # replace, and this failure is a granted one.
+        #
+        # overwatch.save() already solves it, and was hardened for exactly this shared-file
+        # shape (m40): it re-digests the ledger, and if disk moved under us it MERGES via
+        # _merge_ledgers rather than replacing -- safe because nothing in overwatch ever
+        # deletes a finding, so the union loses nothing either writer knew. A retirement is a
+        # state change that ranks ahead of `open` in `_progress`, so it survives the merge.
+        # overwatch.load() is the matching half: it stamps the staleness digest this process
+        # is reconciled against, and it owns the damaged-ledger path (preserve the wreck,
+        # refuse to save over it) that the hand-rolled read here had no notion of.
+        import overwatch
+        led = overwatch.load()
+        retired = 0
         for fid, v in (led.get("findings") or {}).items():
             if (v.get("module") == finding.get("module")
                     and v.get("symbol") == finding.get("symbol")
                     and v.get("state") == "open"):
                 v["state"] = "retired"
                 v["retired_why"] = finding.get("why", "unactionable")
-        # Atomic, and the read-modify-write held as tight as possible: overwatch owns this
-        # file and persists after every module it reviews; a torn or stale write here would
-        # silently discard its newest finding (2026-08-23 audit, finding 2).
-        # CHECK THE RETURN THIS COMMENT ALREADY WARNS ABOUT (run #19). The paragraph above
-        # names the exact hazard -- a torn or stale write here silently discards overwatch's
-        # newest finding -- and then discarded the boolean that reports it. A denied rename
-        # meant the finding was never actually retired and the standard it blocks stayed red
-        # for reasons nobody could see. Same omission as triage_swallowed's, same file.
-        # Through `silence.write_json` since order 99b1ae2c580c: the hand-rolled `path + ".tmp"`
-        # was a fixed scratch name, and overwatch.py writes this same target with the safe
-        # helper -- the collision this closes is foreman against a second foreman.
-        if not silence.write_json(path, led, indent=1, sort_keys=True):
+                retired += 1
+        if not retired:
+            return          # nothing matched; do not write the ledger to say so
+        # CHECK THE RETURN THIS COMMENT ALREADY WARNS ABOUT (run #19). A denied replace means
+        # the finding was never actually retired and the standard it blocks stays red for
+        # reasons nobody could see. overwatch.save() prints the denial itself and returns the
+        # same verdict `silence.write_json` gave, so the gate below is unchanged.
+        if not overwatch.save(led):
             silence.note("foreman.py:_retire-denied")
     except Exception:
         silence.note("foreman.py:_retire")

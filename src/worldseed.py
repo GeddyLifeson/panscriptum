@@ -179,15 +179,26 @@ def to_options(designation, name, description, band="unassayed", register="class
     # than clamped in silence: out of range means the caller handed this something it does not
     # understand, and that is a finding, not a rounding.
     tier = 0
+    # band_provenance mirrors the four feature axes' "attested"/"seeded" tag (order
+    # 475a06c19374): the OUT-OF-RANGE arm already clamped tier to 10 AND recorded the
+    # anomaly, but the UNPARSED arm left tier at its initial 0 -- identical to a genuinely
+    # unassayed world -- with nothing in the returned struct telling the two apart. A
+    # consumer holding a single `opt` dict could not distinguish "this world is really
+    # unassayed" from "this world's band string failed to parse", so states/cultures/
+    # religions/size all got computed from a real-looking tier=0 either way.
+    band_provenance = "unassayed"
     if band not in ("unassayed", None):
         m = re.search(r"M\s*(\d+)", str(band))
         if not m:
             silence.note("worldseed.py:band-unparsed")
+            band_provenance = "unparsed"
         elif int(m.group(1)) > 10:
             silence.note("worldseed.py:band-out-of-range")
             tier = 10
+            band_provenance = "out_of_range"
         else:
             tier = int(m.group(1))
+            band_provenance = "ok"
     states = min(40, 6 + tier * 3 + (4 if f["condition"] == "wartorn" else 0))
     if f["condition"] == "ruined":
         states = max(2, states // 3)          # ruin means fewer standing polities, not none
@@ -229,6 +240,7 @@ def to_options(designation, name, description, band="unassayed", register="class
         "provenance": f["_provenance"],
         "attested_axes": f["_attested_axes"],
         "band": band,
+        "band_provenance": band_provenance,
         "continuity_group": continuity,
     }
 

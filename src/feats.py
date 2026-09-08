@@ -718,7 +718,26 @@ def resolve_hosts(records, verify=True):
         # consumer (`hosts.get(src)`), so nothing downstream changes, but the next run asks
         # again instead of inheriting a verdict nobody ever reached.
         undetermined = []
-        for slug in _slugs(src):
+        # AND NO CANDIDATE AT ALL IS NOT A NEGATIVE EITHER (order d1113e987407). `_slugs` drops
+        # every candidate of two characters or fewer, so a source whose cleaned name is that
+        # short produces NO slug -- and the for/else below then ran its else clause with
+        # `undetermined` still empty, because the loop body had executed zero times, and cached
+        # `known[src] = None`: a settled "this source has no wiki" reached without one probe
+        # being attempted. Same fault as the paragraph above, arriving through an empty candidate
+        # list instead of a failed probe, and strictly worse -- a probed-and-failed source is
+        # re-asked next run, while this one returns [] on every run and can never self-correct.
+        # Measured over data/SWEEP_ROLL.json (215 sources) exactly one name does it, `DC`, and
+        # it is dormant only because WIKI_HOSTS.json already carries dc.fandom.com from before
+        # this filter existed, which the `known.get(src)` guard skips. An UNASKABLE source is
+        # unmeasured, not absent: it goes in `unprobed`, is printed by name, and is left out of
+        # the map, so a rebuild of WIKI_HOSTS.json cannot silently invent the verdict.
+        cands = _slugs(src)
+        if not cands:
+            unprobed[src] = ["(no candidate slug -- the cleaned name is too short to guess a "
+                             "host from; needs a _HOST_OVERRIDES or _SLUG_FIXES entry)"]
+            known.pop(src, None)
+            continue
+        for slug in cands:
             h = f"{slug}.fandom.com"
             verdict, why = alive_verdict(h)
             if verdict is True:
@@ -922,6 +941,16 @@ def _tnorm(t):
     return re.sub(r"[^a-z0-9]+", "", (t or "").lower())
 
 
+# REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
+# (order 25ec11447b4c, applied here as it was to `axis_evidence` above by order c54bb7d84622).
+# `_page_exists` and `resolve_title` below have ZERO callers repo-wide -- grepped across every
+# .py file in the tree, not just src/. `resolve_title`'s own docstring describes a real, measured
+# problem (17,148 entries mined to nothing because the catalogue name is not the wiki's page
+# title) that this function was written to fix, and it reads as load-bearing machinery for
+# exactly that reason -- but nothing in `discover()`/`evidence_for()` or anywhere else calls it,
+# so the 17,148-entry problem it describes is still unaddressed by any code path that runs.
+# Neither wired in nor deleted here: which of those is right is a design call for whoever owns
+# the title-lookup path, not a mechanical fix.
 def _page_exists(host, title):
     d = api(host, {"action": "query", "titles": title, "prop": "info", "redirects": "1"})
     for pg in (d or {}).get("query", {}).get("pages", []):
@@ -1666,7 +1695,13 @@ def roll(records, hosts, workers=8, limit=None, only=None):
         for q in queues:
             if q:
                 jobs.append(q.pop())
-    if limit:
+    # `is not None`, not truthiness (order 4ed4041c3b78): `--limit 0` is a value the operator
+    # gave, and `if limit:` read it as "no limit given" -- the same falsy-zero slip fixed in
+    # binding_health.py (orders cd7492eec3bc, f1901d2178ba) and burgs.py. An empty `jobs` list
+    # here is safe: the loop below, the progress print and the summary counters all handle
+    # zero jobs correctly (`ex.map` over an empty iterable does nothing; every rate/eta
+    # computation already guards its denominator).
+    if limit is not None:
         jobs = jobs[:limit]
 
     # `errored` is counted separately from `empty` (run #19). Before it existed, an entity whose

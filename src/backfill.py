@@ -67,10 +67,14 @@ _NOT_A_CHARACTER = re.compile(
 def roster(host, limit=None):
     """Every character page on a wiki, from Category:Characters and one level of subcategory.
 
-    The limit is deliberately far above any real roster. Category listings come back in
-    alphabetical order, so a low cap truncates the alphabet rather than sampling it: at 600,
-    Dragon Ball returned A through G and Goku fell outside the window, which reproduced the exact
-    defect this file repairs. Enumerate everything, then rank.
+    UNLIMITED BY DEFAULT (order 5c8c8b99e655 corrects this docstring to say so -- it used to
+    describe a design this function no longer has). `limit` exists only for a caller who
+    explicitly wants a bounded probe; `backfill_source`, the only caller, never passes one, so
+    on the path this module actually runs the category listing is walked to its end every time.
+    The reason the default is None rather than some generous-looking number: category listings
+    come back in alphabetical order, so ANY cap truncates the alphabet rather than sampling it
+    -- at limit=600, Dragon Ball returned A through G and Goku fell outside the window, which
+    reproduced the exact defect this file repairs. Enumerate everything, then rank.
     """
     seen, out = set(), []
 
@@ -144,12 +148,25 @@ def lead(wikitext, chars=420):
             continue
         cut = block[:chars]
         dot = cut.rfind(". ")
-        return (cut[:dot + 1] if dot > 120 else cut).strip()
+        if dot > 120:
+            return cut[:dot + 1].strip()
+        # UNMARKED MID-WORD CUT, MARKED (order 9586cdf72b82). No '. ' past index 120 in the
+        # window used to return the raw slice as-is -- cut wherever `chars` fell, possibly
+        # mid-word, with nothing on the stored string saying so, and this becomes
+        # entry['description'] on disk. secondopinion._message settled the house answer for
+        # this shape (chr(8230) when a cut isn't marked); the difference here is that this is
+        # stored, not displayed, and the marker is only warranted when `chars` actually cut
+        # something off -- a block shorter than `chars` comes back whole and is not truncated
+        # merely because it also lacks a sentence break.
+        return (cut + chr(8230)).strip() if len(block) > chars else cut.strip()
     # Fall back to the old behaviour rather than returning nothing.
     t = re.sub(r"\s+", " ", t).strip()
     cut = t[:chars]
     dot = cut.rfind(". ")
-    return (cut[:dot + 1] if dot > 120 else cut).strip()
+    if dot > 120:
+        return cut[:dot + 1].strip()
+    # Same marker, same condition, on the fallback path (order 9586cdf72b82).
+    return (cut + chr(8230)).strip() if len(t) > chars else cut.strip()
 
 
 def audit(records, hosts):
@@ -167,7 +184,15 @@ def audit(records, hosts):
 
 
 def backfill_source(source, records, hosts, cap=None, dry=False):
-    rec = next((p, r) for p, r in records if r["source"] == source)
+    # DEFAULTED, NOT A BARE StopIteration (order 929622118156). The `--all` path wraps every
+    # call to this function in try/except (Hard Rule -1: a source is its own area of the park),
+    # but the explicit `--source name [name ...]` CLI path does not, so one typo'd name used to
+    # kill the whole invocation and run none of the sources listed after it -- scout.py's own
+    # analogous lookup (scout.py:793-795) already defaults to None and degrades gracefully.
+    # Same shape as the "no wiki host" refusal two lines down.
+    rec = next(((p, r) for p, r in records if r["source"] == source), None)
+    if rec is None:
+        return {"source": source, "error": "no such source"}
     path, r = rec
     host = hosts.get(source)
     if not host:

@@ -855,8 +855,23 @@ def _rho_source():
     never sees it, and the entry outlives the run. A reader of one published number can tell
     from the number itself whether its bar was computed against measured correlations or
     against the independence assumption.
+
+    DEGRADED IS NAMED HERE TOO, NOT JUST MEASURED-VS-FALLBACK (order 0922effae314).
+    `axis_correlation.write()` stamps `doc["degraded"]` on the JSON whenever the matrix was
+    built from a PARTIAL read of SOURCES; `load()` (axis_correlation.py:284-292) returns that
+    dict UNCHANGED, so the key survives into `_rho_doc()`'s cache with nothing needed to change
+    in axis_correlation.py itself. Before this, a matrix built from 1 of 8 sources produced the
+    identical "measured: data/AXIS_CORRELATION.json" string as one built from all 8 -- a
+    partially-measured value presented with the same confidence as a fully-measured one, which
+    is exactly what Hard Rule -1 exists to forbid. This changes no number: a complete matrix
+    (today's: n_entities=45, 8/8 sources, no `degraded` key) reports exactly as before.
     """
-    if _rho_doc():
+    doc = _rho_doc()
+    if doc:
+        degraded = doc.get("degraded")
+        if degraded:
+            return ("measured: data/AXIS_CORRELATION.json -- DEGRADED, missing source(s): "
+                     + ", ".join(degraded))
         return "measured: data/AXIS_CORRELATION.json"
     return "FALLBACK rho=0, independence ASSERTED not measured -- " + (RHO_FALLBACK_REASON or "")
 
@@ -1114,6 +1129,15 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     # Promotion is a curatorial act, not an arithmetic one (Part Three flags it via
     # promotion_watch), so this does NOT auto-promote. It clamps the printed decimal and says
     # which case it is.
+    #
+    # THE GUARD'S THRESHOLD MATCHES THE DISPLAY'S ROUNDING, NOT THE BAND'S OWN EDGE (order
+    # 2a0d854b0b68). `moth_number` below builds its decimal field from `round(_dec * 100)`, and
+    # ANY `_dec` in [0.995, 1.0) rounds to 100 there while failing a `_dec >= 1.0` guard --
+    # reproducing the exact "M10.100" broken-ruler notation this comment says was fixed. AXIS_MAX
+    # is 10.0 (not 9.9, despite the informal "0-9.9 axis" phrasing elsewhere), so several axes
+    # scored 9.9-10.0 under skewed weights land a composite in that gap on in-range scores alone.
+    # The clamp now fires at the same point the display would otherwise overflow, so the two
+    # thresholds guard the same output instead of two different ones.
     # AND FLOOR BEHAVIOUR, which was missing (order 8b74d2b4f569). The reasoning above clamps the
     # TOP of the notation and says nothing about the bottom, and a decimal below 0.00 is the same
     # broken ruler read the other way round: it printed `𝔄 M3.-90 ± 0.53`, a Moth Number whose
@@ -1130,7 +1154,7 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     # end of a scale is not a clamp, it is a half-checked instrument.
     _dec = value - LADDER.index(anchor)
     _ceiling = _promote = _floor = _demote = False
-    if _dec >= 1.0:
+    if _dec >= 0.995:
         if anchor == LADDER[-1]:
             _ceiling = True          # the Ladder has no rung above this; saturation is the answer
         else:

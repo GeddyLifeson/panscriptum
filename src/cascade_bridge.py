@@ -896,7 +896,18 @@ def record_unrecognised(bucket, err):
         # different failure and must never again be able to look like one. Folding here cannot
         # hide anything: `text` -- the thing a person reads and classifies -- is stored verbatim,
         # and two genuinely different errors do not become one by differing in case alone.
-        key = bucket + "|" + text[:80].lower()
+        #
+        # THE KEY IS THE FULL (ALREADY-300-CAPPED) TEXT, NOT A FURTHER 80-CHARACTER PREFIX OF IT
+        # (order 10dbef1a47d2). `r["error"] = text` below unconditionally overwrites on a key
+        # match, so two DISTINCT provider complaints sharing their first 80 characters -- plausible,
+        # since many provider error strings share a long common preamble before diverging into the
+        # actual disposition -- used to collapse into one row, with only the count reflecting both
+        # occurrences and whichever text arrived last the only one anyone would ever read. Fourth
+        # time this project has fixed exact this shape of key (chain.py's harvest() keyed on
+        # `sentence[:120]` until m37: "an identity key may not be a truncation... colliding is the
+        # ordinary shape of wiki prose, which front-loads the subject") -- same reasoning, this
+        # ledger's own text.
+        key = bucket + "|" + text.lower()
         now = time.time()
         # COMPARE-AND-SWAP, NOT A SNAPSHOT WRITE (order 853aa8990132).
         #

@@ -293,6 +293,19 @@ def _project_pipeline():
     return PL
 
 
+def _cut(s, width):
+    """A display name cut to `width`, MARKED when it does not fit (order 3363994a27b1).
+
+    Same shape as `corpus_db._cell`, and `binding_health.py` / `tiers.py` / `allsweep.py`'s
+    identical truncators -- the two console tables in `main()` below sliced source names with a
+    bare `s[:30]` / `s[:26]`, the same UNMARKED_NAME_CUTS_SWEEP44 fault already fixed elsewhere in
+    this tree, at a location that fix never reached. Console/diagnostic display only:
+    GENRES.json itself is keyed on the full untruncated name and is unaffected either way.
+    """
+    s = str(s)
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
@@ -320,7 +333,7 @@ def main():
           f"{len(low)} of {len(out)}")
     for s, v in low:
         ru = ", ".join(f"{g}:{n}" for g, n in v["runners_up"] if n)
-        print(f"   {s[:30]:<32}{v['genre']:<18}{v['confidence']:.2f}   vs {ru or '(nothing else scored)'}")
+        print(f"   {_cut(s, 30):<32}{v['genre']:<18}{v['confidence']:.2f}   vs {ru or '(nothing else scored)'}")
 
     print("\n" + "-" * 100)
     print("THE CASES THE HASH GOT WRONG")
@@ -330,7 +343,7 @@ def main():
               "JoJo's Bizarre Adventure"):
         if s in out:
             v = out[s]
-            print(f"   {s[:26]:<28}{v['genre']:<18}-> register {v['register']:<11}"
+            print(f"   {_cut(s, 26):<28}{v['genre']:<18}-> register {v['register']:<11}"
                   f"(conf {v['confidence']:.2f})")
 
     if args.write:
