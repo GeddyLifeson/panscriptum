@@ -1,11 +1,11 @@
 # OVERWATCH
 
-round 438  ·  last run 2026-09-08 04:37
+round 439  ·  last run 2026-09-08 05:16
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 299,507 inspected (deep scan as of round 433)
+- files that will not parse: **0** of 300,109 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
@@ -14,6 +14,8 @@ round 438  ·  last run 2026-09-08 04:37
 
 **39 open** (15 high). Newest first.
 
+- **secondopinion.py** `mine_says` — [HIGH] mine_says is not defined in the provided code, and the code uses a different approach to get the secrets count
+  - says: mine_says(paths) is called to get the secrets count
 - **publish.py** `prune_export` — [HIGH] Deletes files and directories in the export copy when they are not in the wanted set
   - says: Refuses to delete a live tree, but the code does not actually refuse to delete anything
 - **onomast.py** `load_onomasticon` — [HIGH] Returns an empty dict on FileNotFoundError and on unreadable files, overwriting existing data instead of refusing to overwrite.
@@ -42,8 +44,12 @@ round 438  ·  last run 2026-09-08 04:37
   - says: a short name is not given a digest it does not need
 - **drill.py** `ESC._safe_name` — [HIGH] it renames every existing log on disk and stops disambiguating the names that actually collide
   - says: every alphanumeric becomes '_' and every source's log collapses into one file named for none of them
-- **drill.py** `catalog_matches_disk` — [HIGH] only checks the catalog to disk direction
-  - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
+- **read.py** `run` — [MEDIUM] ok is False when this pass errored on every entity it touched
+  - says: ok is False when this pass errored on every entity it touched
+- **read.py** `_ask_ungated` — [MEDIUM] Is called directly in some cases, bypassing the gate, which may lead to incorrect resource management.
+  - says: The transport ladder itself. Call _ask, not this, unless you are the gate.
+- **read.py** `_ask` — [MEDIUM] Always uses the adaptive gate, but the gate's logic may not correctly handle the local transport due to the way _card_gate is used.
+  - says: One structured call, by whichever transport is available -- through the adaptive gate.
 - **publish.py** `push` — [MEDIUM] push() raises PushHeld when a push is held, which is caught in an except block that prints the error and sets rc=1. However, the comment block claims that push() has only two return values (landed or no change) and that the third outcome (committed but held) comes out as PushHeld. This is correct, but the comment block's wording is misleading because it implies that push() returns values, whereas in reality, push() raises exceptions. The comment block's claim is about return values, but the actual behavior is about exception raising. This is a defect of fact because the code's behavior contradicts the comment's claim.
   - says: push() now has only two RETURN values, and both are honest ones: it landed, or there was nothing to land. The third outcome -- committed but held -- comes out as `PushHeld` and is caught below, where it prints and sets rc=1, because a held push reported as "no change to push" with rc=0 is this comment block's own rule broken one line further down the function.
 - **publish.py** `porcelain` — [MEDIUM] porcelain
@@ -84,12 +90,6 @@ round 438  ·  last run 2026-09-08 04:37
   - says: a halt that was raised reads back as standing
 - **drill.py** `a_waf_rejection_is_not_an_account_fault` — [MEDIUM] returns True if both 'HTTP 403 error code: 1010' and '403 Just a Moment... cloudflare' are not permanent refusals
   - says: checks if Cloudflare rejections are not considered account faults
-- **drill.py** `cooldowns_stay_in_the_pool` — [MEDIUM] returns False if any of the error messages are permanent refusals, else True
-  - says: checks if any of the given error messages are permanent refusals
-- **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] checks for overflow (sum > entries) but not underflow (sum < entries)
-  - says: No source's states may sum PAST its own entry count. One direction, and only one.
-- **drill.py** `sweep_fire_polarity` — [MEDIUM] the function checks that the `ok` parameter is the healthy predicate and that the `if ok:` branch calls `resolve_code` and the `else` branch calls `file_order`
-  - says: THE ARMS OF `_fire` MUST NOT BE THE OTHER WAY ROUND.
 - **descending_ladder.py** `rung_for_length` — [MEDIUM] Returns (rung, name) for sizes within the DESCENDING range, but returns (None, None) for sizes above the range, and a Fold name for sizes below the Planck length. However, the function's docstring states that the domain is bounded at both ends and out-of-domain is answered with (None, None) at both ends, but the function returns a Fold name for sizes below the Planck length, which is not explicitly mentioned in the docstring.
   - says: Which descending rung does a given size belong to? Returns (rung, name).
 
