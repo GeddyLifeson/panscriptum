@@ -1,23 +1,23 @@
 # OVERWATCH
 
-round 427  ·  last run 2026-09-07 18:45
+round 428  ·  last run 2026-09-07 19:51
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 299,328 inspected
+- files that will not parse: **0** of 299,328 inspected (deep scan as of round 427)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 - NOT RUNNING: **0** autostart.py
 
 ## What the model found in the code
 
-**10 open** (2 high). Newest first.
+**8 open** (0 high). Newest first.
 
-- **workorders.py** `resolve_code` — [HIGH] files when healthy, resolves when not
-  - says: resolves; NOT healthy files
-- **workorders.py** `resolve` — [HIGH] Closes an order by updating its resolution in the open file without removing it, and does not append to the paper trail as described.
-  - says: Close an order: REMOVE it from the open file, append it to the paper trail.
+- **prose_gate.py** `floor_ok` — [MEDIUM] Checks if the floor is a number and within (0, 1], but does not validate that the floor is greater than 0.0
+  - says: Is this a usable evidence floor? Asked in ONE place, by both layers.
+- **handbuilt.py** `score_str` — [MEDIUM] score_str is assigned a value based on the type of 'score', but the comment indicates that 'score' can be a sentinel (string) and that formatting it as a float could raise an error. However, the code does not handle the case where 'score' is a string, and the comment suggests that this is a known issue.
+  - says: A SCORE CAN BE A SENTINEL, NOT A NUMBER. Zalama's ruin, continuity, celerity, vector, volition and discernment are all the string "unestimable" (:184-203), and `%5.1f` on a string raises TypeError -- which killed `--full` on the one sheet the module documents as its most instructive, because the JSON write above already landed and nothing downstream of it was checked again.
 - **worldseed.py** `build_all` — [MEDIUM] build_all is not properly handling the case where the ONOMASTICON file is empty or malformed, leading to incorrect state in LAST_BUILD and potential misreporting of errors
   - says: build_all is supposed to read and process the ONOMASTICON and CONTINUITY_GROUPS JSON files, handling errors and reporting issues
 - **workorders.py** `want` — [MEDIUM] want is checked against LADDER, but if invalid, it still proceeds to print the entire queue instead of refusing
@@ -30,10 +30,6 @@ round 427  ·  last run 2026-09-07 18:45
   - says: tracks closed codes
 - **workorders.py** `resolve_code` — [MEDIUM] resolves a code to a resolution, but the code is not closed when it should be
   - says: resolves a code to a resolution
-- **workorders.py** `filed.append` — [MEDIUM] appends to the filed list, which is then filtered by [f for f in filed if f] at the end of the function
-  - says: COUNTED, like every sibling section. This block's `filed` results used to be discarded, so `swept: N filed/refreshed` under-reported by exactly the number of binding orders -- and the None a REFUSED queue write returns went the same way, so a finding that never reached the file could not be told from one that did. Both directions are the same fault: a sweep reporting on work it did not verify. The `[f for f in filed if f]` at the end of this function drops the Nones.
-- **workorders.py** `filed` — [MEDIUM] defined in the same block
-  - says: used but never defined
 
 ---
 
