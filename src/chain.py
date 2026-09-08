@@ -153,6 +153,30 @@ def write_result(edges, res, unmatched=None, unanswered=None):
     return out
 
 
+def landed(out):
+    """Did the document `write_result` just built actually reach disk this cycle? -> bool.
+
+    ORDER e8466cd6ed14. `write_result` hands back the DATA it tried to write, unconditionally,
+    whatever the disk said -- the rename it attempts can be denied, and a denial is only ever
+    printed to stderr above. `pipeline.phase_chain` already asked the disk instead of trusting
+    the writer (its own `_chain_landed`, since narrowed to call this); `chain.main()` did not,
+    so a denied replace there printed its normal success line and exited 0 over last cycle's
+    fit. Factored here, once, so both callers share the one implementation rather than each
+    carrying its own copy.
+
+    Compared through a json round-trip because `out` holds tuples (`unmatched` comes from
+    `Counter.most_common`) that come back from the file as lists; a bare tuple/list mismatch
+    would report a landed write as denied.
+    """
+    try:
+        with open(OUT, encoding="utf-8") as f:
+            on_disk = json.load(f)
+    except Exception:
+        silence.note("chain.py:artifact-unreadable")
+        return False
+    return on_disk == json.loads(json.dumps(out))
+
+
 HARVEST_IDX = os.path.join(HERE, "state", "chain_harvest_idx.json")
 
 
@@ -664,8 +688,21 @@ def adjudicate_mutuals(edges, prov):
         UNPROBED stays as it was -- a side counts as unprobed only if EVERY one of its sentences
         failed to probe, because one sentence that answered means the run learned something.
         """
+        # ORDER 423e35500033: this was `prov.get(e) or [{}]`. An edge with NO provenance at all
+        # iterated ONCE over an empty dict and probed the empty string, which -- had the probe
+        # returned without raising ProbeUnavailable -- would have set `probed = True` and filed
+        # a pair with no provenance as a GENUINE DISAGREEMENT rather than as unprobed, exactly
+        # the conflation this function's own docstring says must never happen ("nobody asked" is
+        # not evidence the record disagrees with itself). Checked against both real callers
+        # (chain.main and pipeline.phase_chain): both build `edges` and `prov` from the SAME
+        # `extract()` call, whose locked block appends to `prov[e]` in the same critical section
+        # that increments `edges[e]`, so `len(prov[e]) == edges[e]` always holds today and this
+        # branch is unreachable on either path. `or []` costs nothing on that path (the loop
+        # below simply does not run) and is the honest answer if a future caller ever builds the
+        # two structures separately: no provenance is by definition unprobed, not a manufactured
+        # probe of an empty string.
         eps, probed = [], False
-        for row in (prov.get(e) or [{}]):
+        for row in (prov.get(e) or []):
             try:
                 ep = ID.epoch_of((row or {}).get("sentence", ""), strict=True)
             except ID.ProbeUnavailable:
@@ -804,10 +841,16 @@ def main():
         # discarded it. `fit_error` likewise could never be populated from the CLI, because
         # `main()` returned before writing on the only path that sets it.
         #
-        # rc stays 1: refusing is a result, and it is not a success.
+        # rc stays 1: refusing is a result, and it is not a success -- REGARDLESS of whether the
+        # write below lands, so the check here (order e8466cd6ed14) changes only what is printed,
+        # never the rc, on this one path.
         print(res["error"])
-        write_result(edges, res, unmatched)
-        print(f"-> {OUT}   (edges kept; the graph is the result)")
+        _doc = write_result(edges, res, unmatched)
+        if landed(_doc):
+            print(f"-> {OUT}   (edges kept; the graph is the result)")
+        else:
+            print(f"-> {OUT}   WRITE DENIED -- CHAIN.json still holds the PREVIOUS cycle's fit, "
+                  f"not this refusal", file=sys.stderr)
         return 1
     comps = res.get("components") or []
     print(f"\nentrants: {len(res['names']):,}")
@@ -830,7 +873,11 @@ def main():
         print()
         print("Re-run with --prior 0.5 for regularised strengths. They exist for every entrant,")
         print("but order ACROSS components by the prior's assumption rather than by evidence.")
-        write_result(edges, res, unmatched)
+        _doc = write_result(edges, res, unmatched)
+        if not landed(_doc):
+            print(f"-> {OUT}   WRITE DENIED -- CHAIN.json still holds the PREVIOUS cycle's fit",
+                  file=sys.stderr)
+            return 1
         print(f"-> {OUT}   (edges kept; the graph is the result)")
         return 0
     order = sorted(zip(res["names"], res["strengths"], strict=True), key=lambda kv: -kv[1])
@@ -849,7 +896,11 @@ def main():
     for n, s in inside[:14]:
         print(f"   {s:.5f}  {n}")
 
-    write_result(edges, res, unmatched)
+    _doc = write_result(edges, res, unmatched)
+    if not landed(_doc):
+        print(f"\n-> {OUT}   WRITE DENIED -- CHAIN.json still holds the PREVIOUS cycle's fit",
+              file=sys.stderr)
+        return 1
     print(f"\n-> {OUT}")
     return 0
 

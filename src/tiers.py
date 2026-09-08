@@ -35,13 +35,20 @@ over which the structure does not change is structure that is really there:
     threshold 100    8 clusters   METAVERSE   strong resonance; shared theme and law
     threshold  50    6 clusters   XENOVERSE   held together by deliberate joins
 
-and NO cut for the hyperverse, for reasons set out below -- that tier is declined rather than
-charted, and declining it is itself the result.
+and NO cut for the hyperverse FROM THIS GRAPH -- that is, from the resonance/link graph this
+module builds itself. That link-graph hyperverse is declined rather than charted, and declining
+it is itself the result; see "THE HYPERVERSE CANNOT BE CHARTED FROM INSIDE ONE" below, which is
+about THIS graph and only this graph. A SEPARATE, grounding-derived hyperverse -- one vote per
+xenoverse, pooled from grounding.py -- IS charted and IS published on every shelf; see "THE
+HYPERVERSE -- grounding type" further down and `chart()`'s `hyperverse`/`hyperverse_type`
+fields. Two different procedures answer to the same tier name; do not read a claim in this
+section as describing the published one.
 
 with the multiverse below them all at 168, taken from complete linkage rather than a threshold
 because a shared ORIGIN is an all-pairs condition, not a reachability one.
 
-    168 multiverses  ->  8 metaverses  ->  6 xenoverses  ->  H declined
+    168 multiverses  ->  8 metaverses  ->  6 xenoverses  ->  H (link-graph) declined
+    H (grounding-derived, per xenoverse) IS published -- see xenoverse_grounding() below
 
 WHAT MAKES A XENOVERSE ARTIFICIAL
 ---------------------------------
@@ -61,8 +68,17 @@ Two links stand an order of magnitude above every other. Nothing statistical pro
 universes were joined because somebody joined them. That is "by builders, or by declaration",
 observable, and it is what holds a xenoverse together where mere resonance would not.
 
-THE HYPERVERSE CANNOT BE CHARTED FROM INSIDE ONE
-------------------------------------------------
+THE HYPERVERSE CANNOT BE CHARTED FROM INSIDE ONE (link-graph attempt -- NOT the published H)
+-----------------------------------------------------------------------------------------------
+Everything in this section is about a SPECIFIC, abandoned attempt: charting the hyperverse as a
+cut of this module's own resonance/link graph, the same graph the multiverse/metaverse/xenoverse
+cuts come from. That attempt failed for principled reasons, set out below, and was never
+finished. It is NOT the grounding-derived hyperverse that `xenoverse_grounding()` computes and
+`chart()` publishes on every shelf further down this file -- that one answers a different
+question (what cosmogony does a xenoverse's own membership argue for) from different evidence
+(grounding.py's per-source votes), and it is not subject to the undetectability argument below,
+which is specific to a graph measured from shared entities.
+
 A first pass reported one hyperverse holding 196 of 209 shelves and called that a finding. It was
 not. Three things had to be checked before that number meant anything, and all three failed:
 
@@ -87,10 +103,12 @@ Which is the charter's own definition arriving from the other direction. A struc
 "survives only as myth" is precisely one for which no shared evidence exists -- so the tier is not
 merely unmeasured, it is unmeasurable by any procedure of this kind, from within.
 
-So H stays '?', and the question mark now means something sharper than it did. It was an open
-question; it is now a REPORTED LIMIT. X is charted, because deliberate joins stand an order of
-magnitude above the noise and can be seen. H is declined, because the evidence that would chart it
-is the evidence a hyperverse is defined by not having.
+So the LINK-GRAPH H stays '?', and the question mark now means something sharper than it did. It
+was an open question; it is now a REPORTED LIMIT. X is charted, because deliberate joins stand an
+order of magnitude above the noise and can be seen. The link-graph H is declined, because the
+evidence that would chart it is the evidence a hyperverse is defined by not having. THE
+GROUNDING-DERIVED H IS A DIFFERENT MEASUREMENT AND IS NOT DECLINED -- it is charted per xenoverse
+by `xenoverse_grounding()` and published on every shelf that sits in a xenoverse; see below.
 
 The 13 unaddressed shelves are the honest residue: they share nothing with anything, which is what
 a fragment of another hyperverse would look like from here, and also what a self-contained fiction
@@ -128,9 +146,11 @@ MULTIVERSE_THRESHOLD = 102.3        # the weave's permutation threshold, complet
 CUTS = [
     ("metaverse",  100.0, "strong resonance: shared theme, law, mutual recognition"),
     ("xenoverse",   50.0, "artificial joins: a deliberate crossover holds the group together"),
-    # hyperverse is NOT a cut. See the note above: at any threshold low enough to group
-    # xenoverses, the links are coincidental common nouns, and a hyperverse sharing no entities
-    # with ours is undetectable in principle. Declining to chart it is the finding.
+    # hyperverse is NOT a cut of THIS graph. See the note above: at any threshold low enough to
+    # group xenoverses, the links are coincidental common nouns, and a hyperverse sharing no
+    # entities with ours is undetectable in principle. Declining to chart the LINK-GRAPH
+    # hyperverse is the finding -- it does not mean no hyperverse is published: see
+    # xenoverse_grounding() and "THE HYPERVERSE -- grounding type" below for the one that is.
 ]
 assert all(a[1] > b[1] for a, b in itertools.pairwise(CUTS)), "cuts must loosen downward"
 assert CUTS[0][1] <= MULTIVERSE_THRESHOLD, "multiverse must be tighter than metaverse"
@@ -150,7 +170,10 @@ DELIBERATE_JOIN = 2000.0    # above the cliff: no statistical process makes a li
 # myth is not its own hyperverse, it is a DEMIURGIC one, filed beside every other cosmos that had
 # a maker shape pre-existing stuff.
 #
-# The hyperverse therefore comes from grounding.py and from nowhere else.
+# The hyperverse therefore comes from grounding.py and from nowhere else. This IS the hyperverse
+# `chart()` publishes on every shelf and `main()` reports below -- a different measurement from
+# the link-graph attempt described atop this module, which stays declined for the reasons given
+# there (this section's grounding-derived answer is not subject to that argument).
 
 
 def hyperverse_of(source, groundings=None):
@@ -322,12 +345,19 @@ def deliberate_joins(w, shared):
     """The links no statistical process explains -- the evidence a xenoverse is artificial.
 
     THE WHOLE SHARED LIST. This returned `shared.get((a, b), [])[:3]`, which is the fourth
-    member of a family the owner ruled on 2026-08-24: `weave.py:519` and `pipeline.py:2401`
-    both carry `# WHOLE list -- Hard Rule 0, ruled 2026-08-24` on this same shared-evidence key,
-    and `cosmology_graph.py:209` was brought in line in run #26 (m144) after keeping an `< 8`
-    cap on it. This one was never visited. (All three citations were stale and were re-checked
-    against the live files on 2026-09-01: they had read :478, :1795 and :86, and :86 in
-    particular had drifted onto an unrelated constant, `UBIQUITOUS_CUTOFF`.)
+    member of a family the owner ruled on 2026-08-24: `weave.py`'s `main()` (the OUT_GRAPH write)
+    and `pipeline.py`'s `phase_weave()` (the RESONANCE_GRAPH.json write) both carry `# WHOLE list
+    -- Hard Rule 0, ruled 2026-08-24` on this same shared-evidence key, and `cosmology_graph.py`'s
+    `build_graph()` was brought in line in run #26 (m144) after keeping an `< 8` cap on it. This
+    one was never visited.
+
+    CITED BY SYMBOL, NOT LINE NUMBER (order e866d1520c16). This docstring named line numbers for
+    all three siblings and was hand-refreshed once, on 2026-09-01, replacing an earlier stale set
+    (:478, :1795, :86 -- :86 had drifted onto an unrelated constant, `UBIQUITOUS_CUTOFF`). The
+    refresh (:519, :2401, :209) had ALREADY drifted again by 2026-09-07, less than a week later --
+    the live sites are inside `main()`, `phase_weave()` and `build_graph()` respectively, wherever
+    that lands this shift. A line number in this file rots the moment the cited file changes
+    above it; a function name does not move when code is added around it.
 
     It matters more here than the key name suggests. The function's own docstring calls this
     list THE EVIDENCE that a xenoverse is artificial, and its only caller prints it as the
@@ -371,7 +401,17 @@ def main():
     # declined, which is now true of every shelf by design.
     linked = {x for pair in w for x in pair}
     unaddressed = [s for s in srcs if s not in linked]
-    print(f"\nhyperverse: DECLINED for all {len(srcs)} shelves — uncharted by cause, not omission")
+    # TWO HYPERVERSE MEASUREMENTS, REPORTED SEPARATELY (order 95f80c0ea860). This line used to
+    # say "DECLINED for all N shelves" for every run, which was true of the link-graph attempt
+    # (see the module docstring) and false of the grounding-derived hyperverse this same chart()
+    # call just filled into `charted[s]['hyperverse']` a few lines above -- the SAMPLE STACKS
+    # block below then printed a concrete H number on the very same page, contradicting this
+    # line outright. Both halves are real; report both.
+    with_h = sum(1 for s in srcs if charted[s]["hyperverse"] is not None)
+    print(f"\nhyperverse (grounding-derived, per xenoverse): {with_h} of {len(srcs)} shelves "
+          f"carry one; {len(srcs) - with_h} carry none because they sit in no xenoverse")
+    print(f"hyperverse (link-graph, this module's own resonance cut): DECLINED for all "
+          f"{len(srcs)} shelves — uncharted by cause, not omission; see the module docstring")
     print(f"unaddressed (share no entity with anything at all): {len(unaddressed)}")
     for s in unaddressed:
         print(f"   {s}")

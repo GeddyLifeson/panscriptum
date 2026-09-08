@@ -241,6 +241,32 @@ baseline does, and the baseline may only ratchet down (§8, "no phase may lower 
 green"); a drill net and a battery row for each. **4.3 through 4.5 remain unauthorised** and
 need their own ruling. The prose gate is untouched and stays closed.
 
+**G. Phase 4.3 — AUTHORISED 2026-09-08, by the owner, in session.** Ruled after 4.2 was confirmed
+complete and green in that day's battery: the graph is wired into `thread_integrity.classify`
+(`verify_math` asserts *"the verifier is no longer blind: RECIPROCAL is reachable against the live
+graph"*, a class that was structurally unreachable while every caller passed `recorded=None`),
+DANGLING = 0 stands as a release gate with OWNER on a corrupt `THREADS.json` and SUPERVISOR per
+source, and the ASYMMETRIC-SUSPECT floor ratchets down only. `data/THREADS.json` stands at
+**1,508,653 threads over 282,822 entries, 0 dangling, 0 self-loops, 0 sources with zero threads**.
+
+The owner's words: *"get 4.3 started too."*
+
+**Scope of G, and only this:** T3, the Chronicle join. Parse the Chronica Annex's event spine into
+`data/EVENTS.json` with **stable event codes**, and join entries to it. **THE ONE HARD CONSTRAINT,
+which is §6's named worst case and is not negotiable: T3 JOINS ON EVENT PARTICIPATION, NEVER ON
+NAME SIMILARITY.** If a thread's only evidence is that two names resemble each other, it is not a
+thread — joining "Wally West (New Earth)" to "Wally West (Prime Earth)" is a *continuity* claim,
+and 240 mined deeds are already stranded on exactly that question. Every T3 emitted must name the
+event it rests on. Hard Rule 0 applies in full: no `[:n]` anywhere in the pass; if an entry has
+forty lawful threads it carries forty. An entry with zero threads after T1 remains impossible by
+construction, so zero still means the pass did not run for that entry and is an OPERATOR-level
+refusal, never a blank. `thread_integrity` re-checks afterwards and DANGLING = 0 continues to be a
+release gate, not a metric — a T3 address that does not resolve *now* is not emitted.
+
+**4.4 and 4.5 remain UNAUTHORISED** and need their own ruling: T4 (Law citations, which belongs
+with generation) and re-opening the prose gate per source. **`prose_enabled` is untouched and
+stays closed**, and nothing in this ruling authorises a single generated chapter.
+
 ---
 
 ## 7b. The original questions, kept for the record

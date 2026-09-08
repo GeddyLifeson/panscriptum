@@ -963,7 +963,16 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
             with open(full, "w", encoding="utf-8") as f:
                 f.write(backup)
             return _settle({"applied": False, "reverted": True, "gate": fail})
-        return _settle({"applied": True, "why": why[:200]})
+        # `(why or "")[:200]`, NOT `why[:200]` (order e8622cf0d047). `run()` dispatches this
+        # function with `t_propose_patch(apply=apply, log=patches, **args)` where `args` is
+        # decoded from the MODEL's own JSON, so `{"why": null}` binds `why=None` and overrides
+        # this function's own `why=""` default -- and `why[:200]` on `None` raises TypeError
+        # INSIDE this try, after the patch has already been written and has already passed
+        # `_gates`. The `except Exception` below then reverts a patch that parsed, linted,
+        # imported and left verify_math at 0 FAILED, and reports a TypeError naming nothing the
+        # model can act on -- an argument-shape fault wearing the message of an apply/revert
+        # fault. Safe direction (nothing stays on disk), wrong report; this is the one-line fix.
+        return _settle({"applied": True, "why": (why or "")[:200]})
     except Exception as e:
         silence.note("local_agent.py:apply")
         # A REVERT THAT FAILED MUST NOT REPORT ITSELF AS A REVERT. Found 2026-08-25 (run #23).

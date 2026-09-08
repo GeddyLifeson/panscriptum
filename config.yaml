@@ -140,6 +140,14 @@ prose_min_cited_fraction: 0.35
 # regression floor -- is authorised. 4.3-4.5 are still NOT. Ruled on measurement: 1,508,653
 # threads, 0 unaddressed, 0 resolving to no address. This flag's VALUE is unchanged.
 # The prose gate is untouched and stays closed.
+# SCOPE WIDENED AGAIN 2026-09-08 BY THE OWNER, in session, recorded as STEP4_PLAN.md section 7G:
+# Phase 4.3 -- T3, the Chronicle join: parse the event spine into data/EVENTS.json with stable
+# codes and join entries to it -- is authorised. Ruled after 4.2 was confirmed complete and green
+# in that day's battery (drill 447/447, verify_math 1213/0). THE ONE HARD CONSTRAINT CARRIED WITH
+# IT, from the plan's own section 6: T3 joins on EVENT PARTICIPATION, NEVER on name similarity --
+# a thread whose only evidence is that two names resemble each other is not a thread.
+# 4.4 and 4.5 are still NOT authorised. This flag's VALUE is unchanged, again.
+# The prose gate is untouched and stays closed. Nothing here authorises a generated chapter.
 step4_enabled: true
 
 # how many source entries to fold into a single chapter-generation call. Big chapters (e.g.

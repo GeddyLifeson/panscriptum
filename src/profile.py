@@ -127,7 +127,30 @@ def encode(address, genre, register, features, band="unassayed", attested=0):
     a = _b32(address)
     g = GENRE_CODE.get(genre, "un") + REG_CODE.get(register, "c")
     f = "".join(B32[[n for n, _ in tbl].index(features[axis])] for axis, tbl in AXES)
-    b = "u" if band in (None, "unassayed") else B32[BANDS.index(band)]
+    if band in (None, "unassayed"):
+        b = "u"
+    else:
+        # DECIMAL BANDS DO NOT CRASH THIS EITHER (order 3e576b1a29ad). `BANDS.index(band)`
+        # only recognised the bare "M<int>" strings BANDS itself lists, so the charter's own
+        # published Assay notation (Part Three, "M3.52 +/- 0.12") raised ValueError here the
+        # moment a real Assay pass produced one -- taking down build_all() and every caller
+        # (navtree.py, burgs.py, render.py, sevenfold.py, verify_math.py). worldseed.to_options()
+        # already parses this SAME field the same way for the same reason (worldseed.py:190-201):
+        # read the integer head, clamp to the declared M0-M10 range, and record what happened
+        # rather than raise. This module's own encoding is deliberately coarse (band-only, per
+        # CLAUDE.md Hard Rule 3), so an unparseable or out-of-range decimal band degrades to
+        # "unassayed" here -- the fractional precision was never going to survive the round trip
+        # anyway.
+        m = re.search(r"M\s*(\d+)", str(band))
+        if not m:
+            silence.note("profile.py:band-unparsed")
+            b = "u"
+        else:
+            tier = int(m.group(1))
+            if tier > 10:
+                silence.note("profile.py:band-out-of-range")
+                tier = 10
+            b = B32[tier]
     return f"PS-{a}-{g}-{f}-{b}{attested}"
 
 

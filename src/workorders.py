@@ -693,7 +693,20 @@ def resolve(oid, how, by="", synthetic=False):
 
 
 def reroute(oid, handler, why, by=""):
-    """Move one OPEN order to a different rung, in place. -> the order, or None.
+    """Move one OPEN order to a different rung, in place. -> (order or None, moved: bool or None).
+
+    `moved` IS THE FIX FOR ORDER 1ba189fabcaa: a call naming the rung the order is ALREADY ON
+    used to return the same truthy record a real move does, so `main()`'s "rerouted X -> Y" line
+    could not be told apart from a no-op that changed nothing on disk and left nothing in
+    `found_by`. Now the three cases are honestly distinguishable by the caller:
+
+        (rec, True)   -- actually moved to a new rung, found_by updated
+        (rec, False)  -- already on that rung; nothing changed, but the redundant call is still
+                         appended to found_by so it is on the audit trail
+        (None, None)  -- the write did not land, OR no such open order (see the not-landed
+                         stderr line and `resolve()`'s own "did it land, then did it exist"
+                         ordering -- this function's callers already re-check `_load()` to tell
+                         those two apart, exactly as `resolve()`'s callers do)
 
     THE MISSING THIRD DISPOSITION (order 9b54659bc403, and the mirror-image case found from the
     RUN side, order f19f4a2b00f4). Before this, an order had exactly two fates: sit open on the
@@ -741,21 +754,29 @@ def reroute(oid, handler, why, by=""):
             return None
         old = rec.get("handler")
         if old == handler:
-            return rec              # already on that rung; nothing to change, nothing to record
+            # ALREADY ON THAT RUNG -- STILL RECORDED, NOT SILENTLY DROPPED (order 1ba189fabcaa).
+            # Nothing about the order changes except this note: a caller re-issuing the same
+            # --reroute call (its own analysis stale, or two lanes agreeing on nothing new)
+            # leaves a trace that the call happened and found no move to make, instead of
+            # vanishing into a "rerouted" line indistinguishable from a real one.
+            rec["found_by"] = "%s | reroute to %s requested by %s, already there: %s" % (
+                rec.get("found_by") or "", handler, by or "?", why)
+            return rec, False
         rec["handler"] = handler
         rec["found_by"] = "%s | rerouted %s -> %s by %s: %s" % (
             rec.get("found_by") or "", old, handler, by or "?", why)
-        return rec
+        return rec, True
 
-    landed, rec = _mutate(_change)
+    landed, result = _mutate(_change)
     if not landed:
         sys.stderr.write("workorders: ORDER NOT REROUTED (%s) -- the queue write did not land "
                          "after retries. The order is UNCHANGED, still on its original rung.\n"
                          % oid)
-        return None
-    if rec is None:
-        return None                 # no such open order: nothing to reroute
-    return rec
+        return None, None
+    if result is None:
+        return None, None           # no such open order: nothing to reroute
+    rec, moved = result
+    return rec, moved
 
 
 def resolve_code(code, how, where="", by="", synthetic=False):
@@ -1916,9 +1937,16 @@ def main():
                     "%d construct(s) a shell acts on: %s. The order is being rerouted with the "
                     "text as received. Use --how-file PATH (or --how -) so the next one cannot "
                     "be touched.\n" % (len(hazards), "; ".join(hazards)))
-        rec = reroute(a.reroute, to, why, by="cli")
-        if rec:
-            print("rerouted %s -> %s" % (a.reroute, to))
+        rec, moved = reroute(a.reroute, to, why, by="cli")
+        if rec is not None:
+            # HONEST ABOUT WHICH OF THE TWO HAPPENED (order 1ba189fabcaa). A no-op call used to
+            # print the identical "rerouted X -> Y" line a real move does, so nothing on stdout,
+            # in found_by, or in reroute()'s own return value told a caller "this just moved"
+            # apart from "this was already there and nothing happened".
+            if moved:
+                print("rerouted %s -> %s" % (a.reroute, to))
+            else:
+                print("already on %s; nothing rerouted (%s)" % (to, a.reroute))
             return 0
         # SAME CARE AS --resolve: a lost write is not "no such order". `reroute()` already
         # wrote the "not landed" stderr line; this only tells the two remaining cases apart.

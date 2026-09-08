@@ -556,6 +556,17 @@ _TRANSIENT_WORDS = (
 )
 _TRANSIENT_CODES = re.compile(r"\b(408|409|425|429|500|502|503|504)\b")
 
+# KNOWN DORMANT GAP, LEFT OPEN ON PURPOSE (order af47010df391). At least one provider (Groq,
+# `rate_limit_exceeded`) uses this exact vocabulary -- "rate-limit", "rate_limit", "try again" --
+# for a PERMANENT per-request size refusal (a Limit/Requested pair on output tokens, where
+# Requested > Limit for the request as sent), not a temporary throttle. No cooldown clears that;
+# only a smaller request would, and this router never resizes one. Whether to (a) classify a
+# size refusal separately and exclude the bucket from oversized jobs, or (b) leave it, since one
+# permanently-refusing bucket may cost only a failover per call, is a design decision on this
+# subsystem's classification vocabulary and is DELIBERATELY NOT TAKEN here -- see the order for
+# the full reasoning, including why remedy (a) is not simply "reduce max_tokens" (no caller in
+# src/ sets one). This comment is documentation only; it does not change what matches below.
+
 # `All 7 candidates failed: <label>, <label>, ...` -- the engine having walked a whole candidate
 # list and found none of it available. Measured 2026-08-25: 15 of the 23 aggregate rows in the
 # ledger named MORE THAN ONE candidate, and for those the unwrap cannot work by construction --
@@ -1362,6 +1373,21 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             if served is not None:
                 served["outcome"] = "no such model"
                 served["error"] = "pinned model id %r is not in the router's model list" % (pin,)
+            return None
+        if pinned.bucket.startswith(LOCAL_PREFIX):
+            # MIRRORS THE NON-PIN CLAIM LOOP'S EXCLUSION BELOW (order d3acbb793ef2). That loop
+            # skips any candidate whose bucket is a local ollama model -- see "THE ROUTER NEVER
+            # HANDS OUT A LOCAL BUCKET" a few lines down -- but this pin path had no equivalent
+            # check, so a caller pinning a local bucket by id (try_disabled() does exactly this
+            # for any disabled model with prov.get('local') set, admitting it the same way it
+            # admits a disabled cloud model) would dispatch a live call straight to the local
+            # GPU, the one thing this router's own commentary states as an absolute invariant
+            # never to do. Refused the same shape as the "no such model" case above, since a
+            # pin resolving to a local bucket is not a request this function can honestly serve.
+            if served is not None:
+                served["outcome"] = "refused: local bucket"
+                served["error"] = ("pinned model id %r resolves to local bucket %r; this router "
+                                    "never dispatches to the local GPU" % (pin, pinned.bucket))
             return None
         _ROUTER.reserve(pinned)
         # SYMMETRY WITH THE OTHER TWO RESERVE SITES (order d5012fbc73c1). Nothing is lost today

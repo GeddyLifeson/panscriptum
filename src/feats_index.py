@@ -157,11 +157,16 @@ def host_to_sources(path=WIKI_HOSTS):
             wh = json.load(f)
     except Exception as e:
         silence.note("feats_index.host_to_sources")
+        # UNCUT (order 70f5e5150f8b). A hard [:110] slice on the underlying exception text is
+        # Hard Rule 0's exact shape on a stored/reported diagnostic -- the same one already
+        # repaired at standards.py:174-181 and catalogue_models.py's provider_pool_denominator
+        # [:40] cut (order 6d354a508b96). Whitespace is collapsed instead of sliced, so a long
+        # or multi-line OS/JSON error still prints as one row without losing its tail.
         raise RuntimeError(
             "feats_index.host_to_sources(): %s could not be read (%s: %s) -- the source->host "
             "binding is the whole join, so every feats lookup would silently return nothing. "
             "This is NOT the same finding as a source with no attested feats."
-            % (path, type(e).__name__, str(e)[:110])) from e
+            % (path, type(e).__name__, " ".join(str(e).split()))) from e
     for src, host in (wh or {}).items():
         if isinstance(host, str) and host and not host.startswith(_PAGES_SENTINEL):
             out[host.lower()].append(src)

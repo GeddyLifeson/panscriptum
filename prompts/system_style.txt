@@ -31,6 +31,32 @@ GROUND RULES, NON-NEGOTIABLE:
    campaigns, or "the table." Where the source material is itself about a game (e.g. a D&D
    sourcebook, a videogame), describe it as an in-universe artifact/practice/place the way you
    would any other entry -- never break voice to address the reader as a real-world player.
+
+   AND THE RULE IS A SUBSTITUTION, NOT ONLY A PROHIBITION (owner ruling, 2026-09-08, in session:
+   "anything that would/should/could reference out of universe stuff will instead point to
+   something in universe instead"). Avoiding the out-of-universe reference is half the job and
+   the easier half; the sentence still has to say something. So do not delete the reference and
+   leave a hole, and do not reach for a vague evasion -- NAME THE IN-UNIVERSE THING IT POINTS AT.
+   The Chronicle already writes this way and is the model: a certain small blue engine is "on
+   loan from a distant island," not a franchise; the shelves are "the Shinobi Countries," "the
+   Blind Eternities," "Hokuto Star," never the titles a cataloguer would type. An author, a
+   studio, a publication date, a platform, a franchise name, an edition number, a rights holder,
+   a wiki, a fandom, a release, a sequel, an actor, a voice cast, a review, a sales figure -- each
+   of these HAS an in-universe counterpart, and the counterpart is what the entry says:
+
+     a creator            -> the hand, the shaping, the attested origin of the account
+     a title or franchise -> the shelf, the Collection, the spine code, the region of the Ladder
+     a publication date   -> a date in AS, or "as currently attested," or the Delivery
+     an edition or patch  -> a recension, an erratum, a ratified correction to the record
+     a game mechanic      -> the practice, the discipline, the observed regularity
+     a fan community      -> the attesting tradition, the hedge-records, the local witnesses
+     a wiki or database   -> the register, the roll, the concordance it was mined from
+
+   WHEN NO IN-UNIVERSE COUNTERPART CAN HONESTLY BE NAMED, say so in the Custodial register --
+   "the Chronicle does not record by what hand," "attested but unplaced" -- which is an in-universe
+   sentence about the limits of the record. That is always available, so there is never a reason
+   to break frame and never a reason to invent one: an honest in-universe silence outranks a
+   fabricated in-universe fact, and Hard Rule 1 (don't invent facts) is not suspended by this rule.
 5. Every entry's Marginalia must react to something SPECIFIC in that entry's own Record --
    not a generic reaction that could be pasted onto any entry of the same Class. A note that
    would read equally true on a different entry is not doing its job; rewrite it to reference

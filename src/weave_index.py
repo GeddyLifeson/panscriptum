@@ -396,12 +396,109 @@ def build():
     return recs, index, total, excluded
 
 
+STALE_HOURS = 48.0
+
+
+def staleness():
+    """How stale is data/ENTITY_INDEX.json against data/records/, right now? -> dict.
+
+    ORDER d1709d8e757d. `verify_math` already ANNOUNCES this -- twice a run -- and nothing ACTS
+    on it: grep for 'weave_index' over src/overnight.py and src/foreman.py returns nothing, so
+    no daemon schedules a rebuild and the age can only ever grow. This module cannot fix that by
+    itself (overnight.STANDING and the foreman remedies are not files this order's rung may
+    edit), so it takes the other branch the order allows: THE STALENESS NOW ESCALATES. Any
+    invocation of this module -- `main()` below, in report mode or --write, run by hand or by
+    whatever eventually schedules it -- files or refreshes a real work order on the RUN rung
+    once the index is stale past STALE_HOURS, so the finding lands somewhere the handler ladder
+    can see and act on rather than only ever being printed to a terminal nobody is watching.
+
+    Measured cheap: a second directory enumeration, same shape as `_records_sig`'s own, taken
+    only when the coarse check below already says the index might be stale -- so the common
+    fresh case costs one `getmtime` and nothing else.
+    """
+    try:
+        idx_mtime = os.path.getmtime(OUT_INDEX)
+    except OSError:
+        return {"exists": False, "age_hours": None, "modified_since": None,
+                "total_records": None, "stale": True,
+                "reason": "%s does not exist" % os.path.basename(OUT_INDEX)}
+    files, sig = _records_sig()
+    newest = sig[1] if sig else None
+    age_hours = (time.time() - idx_mtime) / 3600.0
+    coarse_stale = (newest is not None and newest > idx_mtime) or age_hours > STALE_HOURS
+    modified_since = None
+    if coarse_stale and files:
+        modified_since = 0
+        for p in files:
+            try:
+                if os.path.getmtime(p) > idx_mtime:
+                    modified_since += 1
+            except OSError:
+                continue
+    return {"exists": True, "age_hours": age_hours, "modified_since": modified_since,
+            "total_records": len(files) if files else 0,
+            "stale": bool(coarse_stale and age_hours > STALE_HOURS),
+            "reason": None}
+
+
+def escalate_if_stale():
+    """File (or refresh) a RUN-rung work order when ENTITY_INDEX.json is stale. -> the order or None.
+
+    Refreshing rather than duplicating: `workorders.file_order` is content-addressed on
+    (code, where), so calling this every run does not grow the queue -- it keeps ONE order's
+    `last_seen`/`seen` current, which is the mechanism the whole work-order system is built
+    around (see workorders.py's own module docstring). Deliberately does not attempt the
+    rebuild itself: this function may run from a report-mode call that no caller has asked to
+    write anything, and a rebuild is real disk and CPU work that a staleness CHECK should never
+    trigger as a side effect.
+    """
+    st = staleness()
+    if not st["stale"]:
+        return None
+    import workorders as WO
+    what = (
+        "data/ENTITY_INDEX.json is %s -- %.1f hours old%s. Continuity groups, resolved "
+        "entities and the resonance graph are computed from this index, so published "
+        "artefacts derived from it are a snapshot of a partial corpus. Nothing schedules a "
+        "rebuild (weave_index is absent from overnight.STANDING and from every foreman "
+        "remedy, verified by grep); running `python src/weave_index.py --write` rebuilds it. "
+        "The build is pure Python over data/records (no model, no GPU) -- REMEDY: either wire "
+        "this module into a standing job, or run the rebuild by hand and confirm cost against "
+        "the actual corpus size before scheduling it standing."
+        % (("missing" if not st["exists"] else "stale"), st["age_hours"] or 0.0,
+           ("" if st["modified_since"] is None else
+            " (%d of %d record files modified since the last build)"
+            % (st["modified_since"], st["total_records"])))
+    )
+    return WO.file_order(
+        code="ENTITY_INDEX_NEVER_REBUILT_STALENESS_ANNOUNCED_BUT_UNACTED",
+        what=what, handler="RUN", severity="MAJOR",
+        # BYTE-FOR-BYTE THE SAME `where` THE ORIGINAL ORDER d1709d8e757d WAS FILED WITH.
+        # `order_id` hashes (code, where) together, and its own docstring is explicit that
+        # widening or reformatting `where` between filings "mints a SECOND, PERMANENTLY
+        # SEPARATE order" rather than refreshing the one already open -- exactly what this
+        # function exists to avoid doing every time it runs.
+        where=("data/ENTITY_INDEX.json; src/weave_index.py (the builder); src/overnight.py "
+               "STANDING and src/foreman.py remedies (neither schedules it)"),
+        evidence={"age_hours": st["age_hours"], "modified_since": st["modified_since"],
+                  "total_records": st["total_records"]},
+        found_by="weave_index.staleness (order d1709d8e757d)")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--min-sources", type=int, default=2,
                     help="a candidate needs this many DISTINCT sources")
     args = ap.parse_args()
+
+    # THE ESCALATION HALF OF ORDER d1709d8e757d, checked before the (possibly expensive) build
+    # below so a report-only invocation still files the finding. Refresh-not-duplicate, so
+    # running this by hand or in a loop never grows the queue.
+    _order = escalate_if_stale()
+    if _order is not None:
+        print(f"ENTITY_INDEX.json is stale -- filed/refreshed work order "
+              f"{_order.get('id')} on the {_order.get('handler')} rung")
 
     recs, index, total, excluded = build()
 

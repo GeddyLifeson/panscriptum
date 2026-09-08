@@ -22,6 +22,7 @@ import hashlib
 import json
 import os
 import re
+import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _SPINE_CODES = None
@@ -446,9 +447,16 @@ def tier_for(entry_count):
 
 
 def tier_rank(tier):
-    """Ordinal position of a tier, so two tiers can be compared."""
+    """Ordinal position of a tier, so two tiers can be compared. None for an unranked tier.
+
+    ORDER 2c8e55f8f3f7: this used to return 0 -- the SAME rank as "volume", the bottom of the
+    real ladder -- for ANY tier not in TIER_FLOORS, so a corrupt or renamed tier value (e.g.
+    "KINGDOM") was indistinguishable from a legitimate 'volume' and `promote()` preserved it
+    forever. An unrankable value is not a rank at all; None says so and lets the caller decide,
+    rather than quietly lying that it already sits at the floor.
+    """
     order = [n for n, _ in TIER_FLOORS]
-    return order.index(tier) if tier in order else 0
+    return order.index(tier) if tier in order else None
 
 
 def promote(current, entry_count):
@@ -461,11 +469,23 @@ def promote(current, entry_count):
     downward on bad data, and every cross-reference already pointing at the old code would break
     for a reason nobody could see. Growing is real; shrinking is usually a broken read.
 
-    Returns the tier to use. `current` may be None for a source not yet ranked."""
+    Returns the tier to use. `current` may be None for a source not yet ranked, and is now
+    treated identically when it names a tier `tier_rank` cannot place at all (order
+    2c8e55f8f3f7) -- an unrecognised `current` is repaired UP to whatever the count actually
+    earns, the same as no current at all, rather than preserved indefinitely because it happened
+    to compare equal to the bottom rung. The repair is noted, because a silent repair of a
+    corrupt address is only half better than silently keeping it."""
     earned = tier_for(entry_count)
     if not current:
         return earned
-    return earned if tier_rank(earned) > tier_rank(current) else current
+    rank = tier_rank(current)
+    if rank is None:
+        sys.stderr.write(
+            "address.promote: unrecognised current tier %r for a source with %r entries -- "
+            "repairing to the tier the count earns (%r) rather than preserving an unrankable "
+            "value (order 2c8e55f8f3f7)\n" % (current, entry_count, earned))
+        return earned
+    return earned if tier_rank(earned) > rank else current
 
 
 if __name__ == "__main__":

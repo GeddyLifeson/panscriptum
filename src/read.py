@@ -468,8 +468,20 @@ def _ask_ungated(c, system, prompt, schema):
                 try:
                     import cascade_bridge as CB
                     got = CB.ask(system, prompt, schema)
-                    if got is not None:
+                    # SHAPE-CHECKED, NOT JUST NON-NONE (order 69c7f940635a). `schema` is a
+                    # REQUEST to a cloud model, not a constraint the way `format=` is for the
+                    # local arm -- cascade_bridge's own docstring says a cloud model "can return
+                    # perfectly well-formed JSON of entirely the wrong shape and this layer has
+                    # no way to tell." A well-formed answer missing the 'feats' key used to pass
+                    # `got is not None`, get permanently cached by `_chunk_put` as zero feats for
+                    # that chunk, and read downstream as an entity honestly filed with none --
+                    # this module's own named signature failure, arriving through the one call
+                    # path never checked for it. `P._pool_answer_usable` is the house fix for
+                    # exactly this gap; `ingest_doc.py` already uses it the same way.
+                    if P._pool_answer_usable(got, schema, None):
                         return got
+                    if got is not None:
+                        silence.note("read.py:ask-quick-pool-unusable-shape")
                 except Exception:
                     silence.note("read.py:ask-quick-pool")
             if _TRANSPORT != "cascade" and _GPU_DOWN_UNTIL[0] <= time.time():
@@ -485,8 +497,11 @@ def _ask_ungated(c, system, prompt, schema):
                 try:
                     import cascade_bridge as CB
                     got = CB.ask(system, prompt, schema)
-                    if got is not None:
+                    # See the quick-pool loop above (order 69c7f940635a) -- same gap, same fix.
+                    if P._pool_answer_usable(got, schema, None):
                         return got
+                    if got is not None:
+                        silence.note("read.py:ask-backoff-ladder-unusable-shape")
                 except Exception:
                     silence.note("read.py:ask-backoff-ladder")
                 delay = BACKOFF[min(attempt, len(BACKOFF) - 1)]
@@ -1181,7 +1196,7 @@ def _queue_row(qcache, base, host, name):
         except Exception:
             silence.note("read.py:queue-evidence-read")
             continue
-        if not cachekey.owns(ev, name):
+        if not cachekey.owns(ev, name, host):
             qcache[key] = {"mtime": st.st_mtime, "size": st.st_size, "skip": "notmine"}
             continue
         if not ev.get("text"):

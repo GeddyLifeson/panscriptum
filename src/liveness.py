@@ -575,10 +575,264 @@ def scan():
             "unparsed": sorted(set(unparsed))}
 
 
+# ================================================================================================
+# GATE REACHABILITY (order 8950aa8d3f62) -- THE DETECTOR THAT DID NOT EXIST.
+#
+# `scan()` above finds the mechanical SOURCE shapes of "a check that cannot fail looks exactly
+# like a check that passed" -- dead code, tautologies, phantom guards. It has nothing to say
+# about a different shape of the same failure: code that is neither dead nor tautological, that a
+# person genuinely reaches, but that NO CHECK IN THE BATTERY can ever execute -- so a mutation
+# dropped anywhere inside it is unkillable by construction, and nothing says so.
+#
+# Demonstrated on `escalation.clear()` while working order a67d4b81f963: `clear()` validates its
+# ruling (reachable, tested) and then calls `_by_a_person_at_the_cli()`, which returns False for
+# ANY programmatic caller -- correctly, that is the whole point of CLAUDE.md Hard Rule -1's "you
+# may RAISE a halt, you may not LIFT one" -- so `clear()`'s own halt-lifting tail, and
+# `_land_clear()` entirely, run only when a person types `python src/escalation.py --clear` by
+# hand. No battery row can ever exercise those lines.
+#
+# THE SMALLEST HONEST VERSION, per the order's own fallback instruction ("if a full detector is
+# too large, land the smallest honest version and say what it does not yet cover"):
+#
+#   * ONE RUNNER -- `verify_math.py`, the one check this project's own house rules let an
+#     agent outside the drill's own shift actually run. `drill.py`'s 57 nets are NOT included:
+#     running them is restricted to the agent that owns the drill, and this must not become a
+#     second, informal way to invoke it. A line reached only through drill.py will show here as
+#     unreached even though the battery AS A WHOLE does reach it -- a real gap in THIS PASS, not
+#     a claim that the line is actually dead, and `main()`'s report names the gap every time.
+#   * ONE MODULE FAMILY TO START -- `GATE_MODULES` below, seeded with the module the order was
+#     demonstrated on. Widening it to the rest of the safety-critical tree is exactly the kind
+#     of extension this detector is built to take without a rewrite; it is not done here because
+#     doing it without measuring each result first would be inventing findings, not reporting
+#     them.
+#
+# REPORTED AS A ROSTER, NEVER A PERCENTAGE (Hard Rule 0). A coverage number is exactly the shape
+# of a truncation -- "94% reached" silently discards the 6%, the same way `roster(limit=N)`
+# discarded everything past the cutoff. The finding is the LIST of unreached line numbers, in
+# full, every time.
+#
+# A LEGITIMATE RESIDUE IS EXPECTED, AND MUST BE DECLARED, NOT SILENCED. `escalation.clear()`'s
+# CLI-only tail is correctly unreachable by any automated check; a detector that reported it as a
+# fresh finding every run would train whoever reads this to stop reading it, which is its own
+# route back to "a check nobody watches fail". So the precedent `state/MUTANTS_SURVIVED.jsonl`
+# already sets for a ruled-equivalent mutant is followed here: `DECLARED_UNREACHABLE` names the
+# specific functions ruled unreachable and WHY, and the report separates "declared" from
+# "undeclared" -- undeclared is the only list that should ever surprise a reader.
+#
+# DECLARED BY FUNCTION NAME, NOT BY LINE NUMBER -- this project's own recurring lesson (orders
+# 5ed00985ce04, ed58a1a87da0, and `summary()`'s own docstring above: "a citation with a short
+# shelf life"). A line-number entry here would rot the moment somebody edited an earlier function
+# in the same file; a name is resolved fresh, by AST, every time this runs.
+GATE_MODULES = ("escalation.py",)
+
+DECLARED_UNREACHABLE = {
+    "escalation.py": {
+        "_land_clear": "called only from clear()'s tail, itself gated on "
+                        "_by_a_person_at_the_cli() returning True -- reachable solely by a "
+                        "person typing `python src/escalation.py --clear`, by design "
+                        "(CLAUDE.md Hard Rule -1, 'you may RAISE a halt, you may not LIFT one')",
+    },
+}
+
+
+def _function_line_ranges(path):
+    """Every `def` in `path`, module-level or method. -> {name: (first_line, last_line)}.
+
+    Separate bookkeeping from `_defs` above on purpose: that pass answers "who calls this",
+    this answers "which lines belong to this", and `end_lineno` (stdlib `ast`, present since the
+    3.8 floor this project already assumes) gives the span directly with nothing re-derived from
+    a sibling's start line.
+    """
+    tree, _reason = _parse(path)
+    if tree is None:
+        return {}
+    out = {}
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            out[node.name] = (node.lineno, getattr(node, "end_lineno", None) or node.lineno)
+    return out
+
+
+def reachability(modules=GATE_MODULES, runner="verify_math.py", timeout_s=1800):
+    """Which executable lines of `modules` no check in `runner` ever ran. -> a report dict.
+
+    -> {"measured_against": runner,
+        "modules": {mod: {"executable_lines": int, "unreached": [line, ...],
+                           "unreached_undeclared": [line, ...],
+                           "declared_unreachable_functions": [name, ...]}
+                     or {"error": str}}}
+       or {"error": str} if nothing could be measured at all.
+
+    RUNS `runner` FOR REAL, UNDER COVERAGE, AS A SUBPROCESS -- this does not statically guess
+    reachability the way `scan()`'s DEAD pass does (a name never appearing anywhere is a good
+    proxy for "no caller"; a name appearing in a check that itself never reaches the branch in
+    question is not, and only actually running the check answers that). A subprocess, not an
+    EVERY STEP RUNS AS A SUBPROCESS, INCLUDING THE ANALYSIS -- not just the measurement. The
+    obvious design imports the `coverage` package in-process (`import coverage;
+    coverage.Coverage(data_file=...).analysis2(path)`) and that was the first version of this
+    function; it failed with `AttributeError: module 'coverage' has no attribute 'Coverage'`
+    the first time it was actually run, because THIS PROJECT ALREADY HAS ITS OWN
+    `src/coverage.py`. `liveness.py` runs as `python src/liveness.py`, which puts `src/` at the
+    front of `sys.path`, so `import coverage` silently resolves to the wrong module -- not an
+    ImportError, a WRONG ANSWER, which is worse: the very `try/except ImportError` meant to fail
+    this closed if the real package were missing would not even have caught it, since the import
+    would have "succeeded" against the shadow. Two more subprocesses -- `coverage --version` to
+    prove the REAL package answers before trusting anything, and `coverage json` to do the
+    analysis -- avoid the collision entirely, because a subprocess launched with the repo ROOT
+    as its cwd (which has no `coverage.py` of its own; only `src/` does) resolves `import
+    coverage` correctly. Also sidesteps the second reason importing `runner` in-process would be
+    wrong: it is a top-level script that calls `sys.exit()` on completion (see its own tail),
+    which would exit THIS process too.
+
+    FAILS CLOSED, NEVER SILENTLY INTO A CLEAN-LOOKING RESULT (the standing lesson this whole
+    detector exists to serve, turned on itself). If the real `coverage` package cannot be
+    reached, the runner is missing, a subprocess times out, or the run exits without ever
+    writing a data file, this returns `{"error": ...}` -- never an empty `unreached` list, which
+    would read as "everything is reached" when the true answer is "nothing was measured". A
+    `runner` exit code that is merely nonzero is NOT treated as a measurement failure:
+    `verify_math.py` exits nonzero on a FAILED check, which is a finding about the library, not
+    about whether coverage collection worked, and the data file existing is the actual signal
+    that it ran to completion.
+    """
+    import json as _json
+    import shutil
+    import subprocess
+    import sys as _sys
+    import tempfile
+
+    # EVERY CHILD SPAWNED HERE IS WINDOWLESS. `verify_math`'s "every subprocess spawn in src/
+    # suppresses its console window" row is absolute, and it caught all three of these the day
+    # they were written (2026-09-08): a missed kwarg is a black console window flashing on the
+    # owner's desktop, and this detector may run under a scheduled pass with nobody at the
+    # machine. Same spelling as `secondopinion._NO_WIN`, and `getattr` because the flag exists
+    # only on Windows.
+    _NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
+    # PROVE THE REAL PACKAGE ANSWERS BEFORE TRUSTING ANYTHING FROM IT (see the shadowing note
+    # above). Run with cwd=HERE (the repo ROOT, which has no coverage.py of its own) rather than
+    # SRC, so this subprocess's `import coverage` cannot hit the same shadow the in-process
+    # version did.
+    try:
+        probe = subprocess.run([_sys.executable, "-m", "coverage", "--version"],
+                               cwd=HERE, capture_output=True, text=True, timeout=30,
+                               creationflags=_NO_WIN)
+    except Exception as e:
+        probe = None
+        probe_error = "%s: %s" % (type(e).__name__, e)
+    if probe is None or probe.returncode != 0:
+        detail = probe_error if probe is None else (probe.stderr or probe.stdout or "").strip()
+        return {"error": "the `coverage` package could not be reached as `python -m coverage` "
+                          "-- gate reachability was NOT measured. A missing instrument, not a "
+                          "clean result: this must not be read as \"nothing unreached\". (%s)"
+                          % detail[:200]}
+
+    target = os.path.join(SRC, runner)
+    if not os.path.exists(target):
+        return {"error": "runner %r not found under src/ -- nothing was measured" % runner}
+    include = ",".join(os.path.join(SRC, m) for m in modules)
+    tmpdir = tempfile.mkdtemp(prefix="liveness_reachability_")
+    datafile = os.path.join(tmpdir, "gate.coverage")
+    jsonfile = os.path.join(tmpdir, "gate.json")
+    try:
+        cmd = [_sys.executable, "-m", "coverage", "run", "--data-file", datafile,
+               "--include", include, target]
+        try:
+            proc = subprocess.run(cmd, cwd=HERE, capture_output=True, text=True,
+                                  timeout=timeout_s, creationflags=_NO_WIN)
+        except subprocess.TimeoutExpired:
+            return {"error": "coverage run of %s did not finish inside %ds -- gate "
+                              "reachability NOT measured this pass" % (runner, timeout_s)}
+        except Exception as e:
+            return {"error": "could not run %s under coverage: %s: %s"
+                              % (runner, type(e).__name__, e)}
+        if not os.path.exists(datafile):
+            return {"error": "coverage produced no data file -- %s did not run to completion "
+                              "(exit %r, stderr tail: %r); gate reachability NOT measured this "
+                              "pass" % (runner, proc.returncode, (proc.stderr or "")[-300:])}
+        jcmd = [_sys.executable, "-m", "coverage", "json", "--data-file", datafile,
+               "--include", include, "-o", jsonfile, "-q"]
+        jproc = subprocess.run(jcmd, cwd=HERE, capture_output=True, text=True, timeout=120,
+                               creationflags=_NO_WIN)
+        if not os.path.exists(jsonfile):
+            return {"error": "coverage could not produce a JSON report (exit %r): %s"
+                              % (jproc.returncode, (jproc.stderr or "")[-300:])}
+        with open(jsonfile, encoding="utf-8") as f:
+            report = _json.load(f)
+        files = report.get("files") or {}
+        # MATCHED BY ABSOLUTE PATH, NOT BY THE RAW KEY STRING -- `coverage json`'s file keys are
+        # relative to the cwd it was RUN with (here, HERE), and this function's own callers may
+        # reasonably pass a differently-cased or differently-rooted path. Resolving both sides to
+        # an absolute, case-normalised path is the same discipline `_in_src` in local_agent.py
+        # uses for the identical reason: ask where the file IS, not what it is called.
+        by_abspath = {os.path.normcase(os.path.abspath(os.path.join(HERE, k))): v
+                     for k, v in files.items()}
+        out = {"measured_against": runner, "modules": {}}
+        for m in modules:
+            path = os.path.join(SRC, m)
+            info = by_abspath.get(os.path.normcase(os.path.abspath(path)))
+            if info is None:
+                out["modules"][m] = {"error": "not present in the coverage report -- the "
+                                               "runner may never have imported this module at "
+                                               "all this pass"}
+                continue
+            missing_sorted = sorted(info.get("missing_lines") or [])
+            executed = info.get("executed_lines") or []
+            ranges = _function_line_ranges(path)
+            declared_fns = DECLARED_UNREACHABLE.get(m, {})
+            declared_lines = set()
+            for fn_name in declared_fns:
+                span = ranges.get(fn_name)
+                if span:
+                    declared_lines.update(range(span[0], span[1] + 1))
+            undeclared = [ln for ln in missing_sorted if ln not in declared_lines]
+            out["modules"][m] = {
+                "executable_lines": len(executed) + len(missing_sorted),
+                "unreached": missing_sorted,
+                "unreached_undeclared": undeclared,
+                "declared_unreachable_functions": sorted(declared_fns),
+            }
+        return out
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--quiet", action="store_true", help="counts only")
+    ap.add_argument("--reachability", action="store_true",
+                     help="measure which lines of GATE_MODULES no check in verify_math.py ever "
+                          "reaches (order 8950aa8d3f62). SLOW -- runs verify_math.py under "
+                          "coverage as a subprocess. Opt-in and separate from the scan above: "
+                          "that pass is static and fast, this one actually executes the battery "
+                          "and its report says by name what it does not yet cover (drill.py's "
+                          "nets, and any module not yet in GATE_MODULES).")
     a = ap.parse_args()
+    if a.reachability:
+        print("gate reachability  (order 8950aa8d3f62 -- measured against verify_math.py only; "
+              "drill.py's nets are NOT included here, see reachability()'s docstring)")
+        print("-" * 78)
+        rep = reachability()
+        if "error" in rep:
+            print("   NOT MEASURED: %s" % rep["error"])
+        else:
+            for m, info in rep["modules"].items():
+                if "error" in info:
+                    print("   %s: NOT MEASURED (%s)" % (m, info["error"]))
+                    continue
+                print("   %s -- %d executable line(s), %d unreached, %d of those UNDECLARED"
+                      % (m, info["executable_lines"], len(info["unreached"]),
+                         len(info["unreached_undeclared"])))
+                if info["declared_unreachable_functions"]:
+                    print("      declared unreachable (ruled, not a gap): %s"
+                          % ", ".join(info["declared_unreachable_functions"]))
+                if info["unreached_undeclared"]:
+                    print("      UNDECLARED -- no check reaches these lines and nobody has "
+                          "ruled on why (the roster, in full, never a count alone):")
+                    for ln in info["unreached_undeclared"]:
+                        print("        line %d" % ln)
+                else:
+                    print("      no undeclared residue")
+        return 0
     r = scan()
     total = sum(len(v) for v in r.values())
     # THE ITEMISATION IS DERIVED FROM THIS TUPLE, and the summary below is derived from the

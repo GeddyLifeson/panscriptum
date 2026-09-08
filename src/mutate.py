@@ -1962,6 +1962,10 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
     # travelling WITH it, not only printed once at launch. `red_gates` is a pure read of `base`
     # (no subprocess call), so recomputing it here costs nothing.
     red_at_baseline = [g for g, _s in red_gates({g: base[g] for g in wanted})]
+    # THE LAUNCH PHOTOGRAPH, KEPT SEPARATELY, because `red_at_baseline` is updated in place by
+    # `_refresh_baseline` and therefore stops being the launch reading the first time the
+    # baseline is re-taken (order 19791681f257). Two different claims were sharing one name.
+    red_at_launch = list(red_at_baseline)
     own_sandbox = root is None
     root = root or sandbox()
     path = os.path.join(root, "src", target)
@@ -2218,16 +2222,33 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                     # `tree_was_moving` (which `_journal` stamps on itself) -- so a survivor read
                     # days later shows which detectors were down when it was scored, not only
                     # that some were.
+                    #
+                    # AND IT IS A COPY, NOT THE LIST ITSELF (order 19791681f257). Every survivor
+                    # row used to store the SAME `red_at_baseline` object, and `_refresh_baseline`
+                    # updates that object IN PLACE (`red_at_baseline[:] = ...`, and deliberately
+                    # so -- see the comment there). The two together meant the "these detectors
+                    # were down" caveat on a survivor found at hour two was silently replaced by
+                    # the reading taken at hour fifteen, in the row `file_orders` pastes verbatim
+                    # into a permanent work order. The in-place update is correct and stays: it
+                    # is what keeps the NEXT survivor's copy current, and it is only correct once
+                    # the earlier rows have stopped aliasing it.
+                    #
+                    # The JOURNAL was never affected -- `_journal` json.dumps the row
+                    # immediately, so MUTANTS_SURVIVED.jsonl always held a correct snapshot --
+                    # and that is the proof of the diagnosis rather than an aside: where the
+                    # JSONL and the work order disagreed, the JSONL was right and the ORDER was
+                    # wrong, which is the worse way round, since the order is what a RUN handler
+                    # reads. It copies too, for symmetry with the row it mirrors.
                     _journal(target, {"line": lineno, "mutation": desc,
                                       "was": old_line.strip(),
                                       "became": new_line.strip(),
                                       "confirmed": bool(confirm),
-                                      "red_gates_disabled": red_at_baseline})
+                                      "red_gates_disabled": list(red_at_baseline)})
                     survivors.append({"line": lineno, "mutation": desc,
                                       "was": old_line.strip(),
                                       "became": new_line.strip(),
                                       "confirmed": bool(confirm),
-                                      "red_gates_disabled": red_at_baseline})
+                                      "red_gates_disabled": list(red_at_baseline)})
         finally:
             _write(path, original)
 
@@ -2241,7 +2262,17 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 # already red in `base` matches every mutant and cannot judge one. Empty on a
                 # clean baseline; named here (not just printed once by `_session`) so a caller
                 # reading this dict, rather than the console, can see the same fact.
-                "red_gates_disabled": red_at_baseline,
+                #
+                # AND IT NOW SAYS WHICH PHOTOGRAPH IT DESCRIBES (order 19791681f257). One key
+                # named `red_gates_disabled` carried two different claims depending on when it
+                # was read: `red_at_baseline` is updated in place by `_refresh_baseline`, so at
+                # the end of a sixteen-hour run this is the LAST reading, not the launch one,
+                # and it is not the same claim as the per-survivor field of that name (each of
+                # which is now a copy taken when its own verdict was reached). Both are stated,
+                # each under a name that says what it is, and both are copies so that nothing
+                # rewrites them afterwards.
+                "red_gates_disabled_at_end": list(red_at_baseline),
+                "red_gates_disabled_at_launch": red_at_launch,
                 # JUDGED, NOT SCORED. `killed + survived + indeterminate == mutants`, and the
                 # third term is the one that used to be silently folded into the first.
                 "indeterminate": len(indeterminate), "indeterminates": indeterminate,
@@ -2679,7 +2710,12 @@ def _session(a, targets):
             # individual FAILED/BREACHED rows behind each red signature -- the difference between
             # "verify_math is red" and knowing the five red rows were sandbox omissions rather
             # than library defects, which once cost a shift a hand-built sandbox to learn.
-            for _g in (r.get("red_gates_disabled") or []):
+            # AT LAUNCH, because `base_rows` beside it is the LAUNCH baseline's row list and
+            # pairing an end-of-run gate list with launch-time rows would print two different
+            # photographs as one sentence (order 19791681f257). A gate that went red only
+            # part-way through arrives through the drift lines immediately below, which is where
+            # a mid-run change belongs.
+            for _g in (r.get("red_gates_disabled_at_launch") or []):
                 _rows = base_rows.get(_g) or []
                 print("  *** %s WAS RED AT THE BASELINE AND KILLED NOTHING. The %d killed above "
                       "are killed by the REMAINING gates only. ***" % (_g, r["killed"]))

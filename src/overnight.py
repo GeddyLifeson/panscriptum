@@ -198,7 +198,7 @@ def running(fragment, include_self=False):
 
     That is not hypothetical; it was live for an unknown length of time and found on 2026-08-25
     (run #21) by reading the same standard off two renderers at one moment. `publish.py` computes
-    the published page in its own process (`publish.py:168-172`), so the public panel said
+    the published page in its own process (`publish.py:render_page()`, ~line 1266), so the public panel said
     `publish.py,read.py` were down; `dashboard.py` computes the local page in ITS process, so at
     the same instant the local panel said `dashboard.py,read.py`. `allsweep.py`, a third and
     neutral process, saw both up. Each renderer was deleting itself from its own roster.
@@ -456,7 +456,8 @@ def identity_refresh_cycle():
     the module's own docstring calls unrecoverable. What that repair cannot see is a host that
     was already indexed and whose feats cache has since GROWN: a continuity first appearing in
     titles mined after the last full pass stays invisible until somebody runs `--refresh` by
-    hand, and nothing scheduled one. `allsweep.py:170` is the only automated caller and passes
+    hand, and nothing scheduled one. `allsweep.py`'s `Verifier("continuity inventory",
+    ["identity.py"], RC_BROKEN)` (~line 248) is the only automated caller and passes
     no `--refresh`.
 
     The reason it could not simply go on that row is arithmetic: 992 seconds for a whole-tree
@@ -1311,8 +1312,9 @@ def main():
     # THE KEEPER RELATIONSHIP rc=17 REQUIRES EXISTS HERE, which is what makes this safe and is
     # why this file is the one gap of the six the order names that can be closed today. It is
     # NOT overnight's own 300-second keeper thread -- that dies with this process -- it is
-    # `autostart.py --watch`, which polls `supervisor_alive()` and calls `start_supervisor()`
-    # whenever no supervisor is up (autostart.py:389-420). Two budgets now bound that loop and
+    # `autostart.py --watch`, which polls `supervisor_alive()` (called at autostart.py:435) and
+    # calls `start_supervisor()` (called at autostart.py:463) whenever no supervisor is up.
+    # Two budgets now bound that loop and
     # neither is changed here: `codewatch.BUDGET_PER_HOUR` refuses the rc=17 exit itself, and
     # `autostart.MAX_STARTS_PER_HOUR` (3) caps how many times the watchdog will restart a
     # supervisor in an hour -- so a source-change restart now spends from the same budget as a
@@ -1324,7 +1326,7 @@ def main():
         codewatch.stamp("overnight")
     except Exception:
         # BOUND TO A VALUE, NOT LEFT UNDEFINED (order 7d08eb10c1a7, same shape as
-        # autostart.py:402-407). The per-lap check below now guards on `codewatch is not None`
+        # autostart.py:424-428). The per-lap check below now guards on `codewatch is not None`
         # instead of catching NameError -- an `except NameError` also swallows a NameError
         # raised INSIDE codewatch.exit_if_stale, which is not hypothetical here since
         # foreman.py runs with --patch and can auto-edit modules in src/.

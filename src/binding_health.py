@@ -502,7 +502,13 @@ def _fetch_chars(host, title):
         import feats as F
         got = F.fetch(host, [title])
     except Exception as e:
-        return 0, "%s: %s" % (type(e).__name__, str(e)[:120])
+        # THE EXCEPTION TEXT IS STORED WHOLE (order ecc355769a41, same fix as quarantine()'s
+        # `str(reason)[:300]` removal at d6ca84486153 one level down). This flows into
+        # `data/BINDING_HEALTH.json:hosts[].present.detail` and, via `verdict()`, into
+        # `data/HOST_QUARANTINE.json:<host>.reason` -- a STORED field, not a printed one, so a
+        # hard slice here is Hard Rule 0's exact shape. Display-side truncation, if ever wanted,
+        # belongs at the renderer that prints it, the same rule the precedent fix already drew.
+        return 0, "%s: %s" % (type(e).__name__, str(e))
     if not got:
         return 0, None
     text = " ".join(str(v) for v in got.values()) if isinstance(got, dict) else str(got)
@@ -708,7 +714,11 @@ def _probe_reachable(host):
         import feats as F
         d = F.api(host, {"action": "query", "meta": "siteinfo"}, retries=0)
     except Exception as e:
-        return False, "%s: %s" % (type(e).__name__, str(e)[:120])
+        # STORED WHOLE (order ecc355769a41). This flows into
+        # `data/BINDING_HEALTH.json:hosts[].reachable.detail` and, via `verdict()`, into
+        # `data/HOST_QUARANTINE.json:<host>.reason` -- see the sibling fix and precedent noted
+        # at `_fetch_chars`'s except-arm above.
+        return False, "%s: %s" % (type(e).__name__, str(e))
     if not isinstance(d, dict) or "query" not in d:
         return False, "siteinfo returned nothing usable -- the API is not answering"
     return True, "siteinfo answered"
@@ -842,7 +852,10 @@ def _probe_identity(host):
         d = F.api(host, {"action": "query", "meta": "siteinfo", "siprop": "general"},
                   retries=0)
     except Exception as e:
-        return None, "%s: %s" % (type(e).__name__, str(e)[:120])
+        # STORED WHOLE (order ecc355769a41). This flows into
+        # `data/BINDING_HEALTH.json:hosts[].binding.probe` -- see the sibling fix and precedent
+        # noted at `_fetch_chars`'s except-arm above.
+        return None, "%s: %s" % (type(e).__name__, str(e))
     g = ((d or {}).get("query") or {}).get("general") or {}
     name = g.get("sitename")
     return name, ("sitename %r" % name if name else "siteinfo carried no sitename")

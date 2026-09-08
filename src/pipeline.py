@@ -216,6 +216,23 @@ def ceiling_band(value):
     m = re.match(r"^(M(?:10|[0-9]))\b", str(value or "").strip())
     return m.group(1) if m else None
 
+
+def _stored_cut(text, n):
+    """Cut TEXT to N chars for STORAGE, marking it when a cut actually happened.
+
+    These five fields (order 19c507a16430) are not display caps -- they are written into
+    data/records/*.json and read back by repass_bands.py, audit.py and the assay path, so a
+    value cut at the bound reads as a COMPLETE value with nothing distinguishing it from one
+    that simply ended there. policy._observed carries the same idiom for the same reason: the
+    bound stays (an unbounded field is a state file nobody can open), but the cut declares
+    itself and its size, exactly as policy.OBSERVED_CHARS does.
+    """
+    s = text if text is not None else ""
+    if len(s) <= n:
+        return s
+    return s[:n] + ("... (+%d chars)" % (len(s) - n))
+
+
 CATEGORIES = [
     "Persons (named individual characters, real or fictional)",
     "Places & Locations (worlds, regions, cities, planes, ships-as-places)",
@@ -601,8 +618,9 @@ def _remember_top_keys(path, rec):
 # is the reverted-exclusion cycle `batch_settled`'s docstring says was closed after the 149-entry
 # incident, surviving in the writer. Measured across data/records/ before this fix: 111 entries
 # carry `excluded` and 111 of those also carry `catalogued: True`, and `topic_rejected` -- which
-# `phase_entrypass` writes at pipeline.py:1552 -- appears 0 times in 282,822 entries.
-# (order 4866dfb2d9fc)
+# `phase_entrypass`'s topic branch writes -- appears 0 times in 282,822 entries.
+# (order 4866dfb2d9fc; cited by name rather than line per order 7716ac4884cc -- a line number
+# here has already gone stale twice)
 MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected", "subroom",
                        "subroom_rejected",
                        "magnitude", "topic", "catalogued",
@@ -614,8 +632,9 @@ MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected", "subroom
 # PRESENCE-gated (`if fld in se`), so it can SET a field and can never CLEAR one -- and that is
 # the right default, because `_merge_top_keys` rules that a key the caller did not write means
 # unauthored, not deleted. But `phase_entrypass` clears exactly two keys DELIBERATELY: it pops
-# `scale_note_rejected` when the note validates (:1532) and `topic_rejected` when the topic is in
-# TOPICS (:1573), and both pops mean "the earlier rejection no longer stands". Neither could
+# `scale_note_rejected` when the note validates (in phase_entrypass's scale_note branch) and
+# `topic_rejected` when the topic is in TOPICS (in phase_entrypass's topic branch), and both
+# pops mean "the earlier rejection no longer stands". Neither could
 # reach the disk copy, so an entry carried a record that its topic was REJECTED sitting beside
 # the corrected topic that supersedes it -- two contradictory claims about one judgment, and the
 # blast radius grows with every reopened batch. So these two travel as COMPANIONS of the field
@@ -1597,8 +1616,8 @@ def phase_synthesis(c, st):
         rec["synthesis"] = {
             "ceiling_entity": (got.get("ceiling_entity") or "").strip(),
             "provisional_magnitude": band,
-            "evidence": (got.get("evidence") or "").strip()[:600],
-            "rationale": (got.get("rationale") or "").strip()[:900],
+            "evidence": _stored_cut((got.get("evidence") or "").strip(), 600),
+            "rationale": _stored_cut((got.get("rationale") or "").strip(), 900),
             "method": ("Band-only nomination by local model over the source's own catalogued "
                        "text. NOT a Custodial Assay: no nine-measure worksheet, no decimal, "
                        "no confidence interval. Treat as a provisional shelving hint that a "
@@ -2024,9 +2043,9 @@ def phase_entrypass(c, st):
                 # exactly the question that matters before a Magnitude pass.
                 raw = (res.get("scale_note") or "").strip()
                 sn = valid_scale_note(raw)
-                batch[i]["scale_note"] = sn[:500]
+                batch[i]["scale_note"] = _stored_cut(sn, 500)
                 if raw and not sn:
-                    batch[i]["scale_note_rejected"] = raw[:500]
+                    batch[i]["scale_note_rejected"] = _stored_cut(raw, 500)
                 else:
                     batch[i].pop("scale_note_rejected", None)
 
@@ -2073,7 +2092,7 @@ def phase_entrypass(c, st):
                 else:
                     batch[i]["topic"] = "unclassified"
                     if topic:
-                        batch[i]["topic_rejected"] = topic[:120]
+                        batch[i]["topic_rejected"] = _stored_cut(topic, 120)
                 # The same shape for `subroom`, and CHECKED AGAINST THE ROOM rather than only
                 # against the vocabulary: `Wars` is a shelf in Events and nowhere else, so a
                 # `Wars` written under Vessels & Things is a rejection, not an acceptance.
@@ -2298,14 +2317,20 @@ def _chain_landed(CH, out):
     closed at the twelve `land_json` sites, surviving at the thirteenth. Found by the run #33
     sweep.
 
-    ASKED OF THE DISK, NOT OF THE WRITER, because the writer is not the one that can be wrong
-    here -- the rename is. `write_result` hands back the document it built, so reading the file
-    and comparing it to that document answers the only question that matters: is what is on
-    disk this cycle's fit or last cycle's? Compared through a json round-trip because the
-    document holds tuples (`unmatched` comes from `Counter.most_common`) that come back from
-    the file as lists, and a tuple/list mismatch would report a landed write as denied. The
-    file is a few kilobytes; this costs nothing once per run.
+    SHARES `chain.landed()` (order e8466cd6ed14) rather than carrying a second copy of the
+    comparison: `chain.main()` had no equivalent check at all and a denied rename there printed
+    its normal success line and exited 0 over last cycle's fit, so the body that used to live
+    only here now lives in chain.py and both real callers use it.
+
+    FALLS BACK to the inline comparison when `CH` does not carry `.landed` -- drill.py's phase-4
+    net drives this function against a bare stand-in module (`stub.OUT`, `stub.write_result`,
+    no `stub.landed`) precisely so it can control what is "on disk" without touching the real
+    filesystem; requiring `.landed` unconditionally would raise AttributeError inside a net this
+    file does not own and cannot edit. `CH` is a real `chain` module on every non-drill path, so
+    this fallback is never taken there.
     """
+    if hasattr(CH, "landed"):
+        return CH.landed(out)
     try:
         with open(CH.OUT, encoding="utf-8") as f:
             on_disk = json.load(f)
@@ -2370,8 +2395,10 @@ def phase_cosmology(c, st):
     population arithmetic; `address_space` turns a tier stack into a real address, `TOTAL_BITS` wide -- no
     number transcribed here, because the upper-tier widths are read out of TIERS.json at import
     and a re-charting moves them without touching this file (address_space.py says so at length,
-    having gone stale twice; profile.py:20 was carrying a third stale copy, 89 against a live 88,
-    when this was written). Four
+    having gone stale twice; profile.py's world-profile docstring was carrying a third stale
+    copy, 89 against a live 88, when this was written -- cited by name rather than line, order
+    7716ac4884cc, because the line number had already gone stale once by the time it was
+    checked). Four
     finished modules and no phase, so none of it ever ran inside the pipeline.
 
     What comes out is the shelving skeleton: which universe a thing is in, as a number the Ladder
@@ -2424,7 +2451,10 @@ def phase_cosmology(c, st):
             return v.get("type") or v.get("grounding") or "ungrounded"
         return str(v)
     kinds = collections.Counter(_kind(v) for v in grounds.values())
-    log("  grounding: " + ", ".join("%s %d" % (k, n) for k, n in kinds.most_common(6)))
+    # No cap: the population here is bounded by grounding.GROUNDINGS + UNGROUNDED (currently 6
+    # kinds), not by the data, so a fixed most_common(N) has zero margin the day a kind is added
+    # (order 541384445ec3) and there is no reason for a bound at all.
+    log("  grounding: " + ", ".join("%s %d" % (k, n) for k, n in kinds.most_common()))
     landed = [land_json(os.path.join(HERE, "data/GROUNDINGS.json"), grounds)]
 
     # chart() returns a tuple; the first element is the per-source tier stack. Unpacking by
@@ -2442,8 +2472,9 @@ def phase_cosmology(c, st):
         % (cen["exoplanets"], cen["habitable_zone_rocky"], cen["civilizations_extant"]))
     landed.append(land_json(os.path.join(HERE, "data/CENSUS.json"), cen))
 
-    # ABSENT AND CORRUPT ARE DIFFERENT ANSWERS -- the ruling phases 6 and 7 carry (:1948 and
-    # :2054) and phase 5 never got. One `except Exception` made an unparseable WORLDSEEDS.json
+    # ABSENT AND CORRUPT ARE DIFFERENT ANSWERS -- the ruling phase_history (phase 6) and
+    # phase_shelve (phase 7) carry, and phase 5 never got. One `except Exception` made an
+    # unparseable WORLDSEEDS.json
     # read as an empty seed set, and the SHELFMARKS.json write below is UNCONDITIONAL: `{}` went
     # over a file holding 1,016 world shelfmarks, `land_json` returned True, and `gate_done` saw
     # all-True and closed phase 5 permanently. Phase 7's `_phase_input` does not catch the
@@ -2709,8 +2740,14 @@ def phase_shelve(c, st):
         at_code = prior.get("rank_at_code") or (was or now)
         if now != was:
             promoted.append("%s %s->%s (%d entries)" % (src, was or "-", now, n))
+        # `tier_rank` now returns None rather than a false 0 for a tier it cannot place (order
+        # 2c8e55f8f3f7) -- `now` is always a real tier (AD.promote only ever returns one), but a
+        # persisted `rank_at_code` could in principle be corrupt, and None > int raises where 0
+        # silently compared. Treat an unplaceable at_code as "amendment pending" (the honest
+        # answer -- the gap cannot be measured as closed) rather than let the phase crash on it.
+        _now_rank, _at_rank = AD.tier_rank(now), AD.tier_rank(at_code)
         ranks[src] = {"rank": now, "entries": n, "rank_at_code": at_code,
-                      "code_amendment_pending": AD.tier_rank(now) > AD.tier_rank(at_code),
+                      "code_amendment_pending": (_at_rank is None or _now_rank > _at_rank),
                       "spine": spine}
         # `name` IS NOT A PER-ENTRY IDENTITY IN THIS CORPUS (order d17a7463a5fd, and the same
         # finding as the fold documented at write_record above): '2112 (Rush)' alone carries two

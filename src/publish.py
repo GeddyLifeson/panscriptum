@@ -746,7 +746,13 @@ def _unpushed():
     try:
         n = git("rev-list", "--count", "origin/main..HEAD")
     except RuntimeError as e:
-        detail = "no origin/main to compare against (%s)" % str(e)[:80]
+        # WHOLE, NOT CLIPPED (order ca4f97d6b64d). This was `str(e)[:80]`, silently -- the one
+        # place `git()`'s own RuntimeError message, which order f5fdaab825a6 fixed `git()` itself
+        # to keep whole, got clipped again one call up. `e` goes out of scope after this except
+        # block, so that clipped copy was the only one that survived: `detail` flows into
+        # `PushHeld`'s message text at both its call sites in push(), and PushHeld is the
+        # exception this same file goes to great lengths to print WHOLE for exactly this reason.
+        detail = "no origin/main to compare against (%s)" % str(e)
     else:
         try:
             return int(n.strip()), "origin/main..HEAD"

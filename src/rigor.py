@@ -193,6 +193,55 @@ SAATY_RI = {1: 0.0, 2: 0.0, 3: 0.58, 4: 0.90, 5: 1.12, 6: 1.24, 7: 1.32, 8: 1.41
             9: 1.45, 10: 1.49, 11: 1.51, 12: 1.48, 13: 1.56, 14: 1.57, 15: 1.59}
 
 
+class RigorIntegrityError(ValueError):
+    """The instrument is not fit to publish a number. Never caught and continued past.
+
+    Same voice as assay.AssayIntegrityError, and the same argument: a clamp or a silent fallback
+    would turn a bad input into a plausible-looking reading, which is the exact failure this
+    project keeps arriving at from new directions.
+    """
+
+
+def _validate_reciprocal_matrix(A, fn_name):
+    """Refuse anything that is not a genuinely positive reciprocal matrix. -> the array, checked.
+
+    ORDER dc501e776a2b. Neither `perron_weights` nor `logrank_weights` checked their input
+    against the ONE precondition both their docstrings state -- "a positive reciprocal matrix"
+    -- so a matrix that was neither (measured live: [[1,3,0],[1/3,1,3],[0,1/3,1]], a zero entry
+    makes it non-reciprocal at that pair) produced `logrank_weights = [nan nan nan]`, a negative
+    CR, and `theorem_1_check`'s own `both_say_consistent = True` -- the strongest verdict the
+    module can give, computed from arithmetic that touched a NaN. Refusing here is the same
+    argument assay._check_scores makes for raising rather than clamping: a bad input dressed up
+    as a valid answer is the fabrication this project cares most about, and Saaty's own theorem
+    (lambda_max >= n for a genuine positive reciprocal matrix) is what makes the negative CR this
+    module actually computed a SIGNAL that the precondition failed, not evidence of consistency.
+    """
+    A = np.asarray(A, dtype=float)
+    if A.ndim != 2 or A.shape[0] != A.shape[1]:
+        raise RigorIntegrityError(
+            "%s: not a square matrix (shape %r). A pairwise-comparison matrix compares every "
+            "entrant against every other, which is only defined for a square table."
+            % (fn_name, A.shape))
+    if not np.all(np.isfinite(A)):
+        raise RigorIntegrityError(
+            "%s: matrix contains a non-finite entry (nan or inf). Refused rather than carried "
+            "through the arithmetic, where a nan silently becomes a nan weight and -- through "
+            "`total > 0` fallbacks elsewhere -- can read back as a PERFECT score." % fn_name)
+    if not np.all(A > 0):
+        _bad = np.argwhere(A <= 0)
+        raise RigorIntegrityError(
+            "%s: matrix has a non-positive entry at %s (value %r). Every entry of a reciprocal "
+            "comparison matrix must be strictly positive -- a zero or negative judgment is not "
+            "on the scale AHP compares, it is a data error." % (fn_name, _bad.tolist(), A[tuple(_bad[0])]))
+    if not np.allclose(A * A.T, 1.0, atol=1e-9):
+        raise RigorIntegrityError(
+            "%s: matrix is not reciprocal (A_ij * A_ji != 1 somewhere, beyond 1e-9 tolerance). "
+            "A_ji is defined to be 1/A_ij for a pairwise comparison; a table that does not "
+            "satisfy that was not built from ratio judgments and cannot be commensurated as one."
+            % fn_name)
+    return A
+
+
 def perron_weights(A):
     """AHP: the principal (Perron) eigenvector of a positive reciprocal matrix.
 
@@ -202,8 +251,11 @@ def perron_weights(A):
 
     Returns weights, lambda_max, CI, CR. CR < 0.10 is Saaty's conventional bar for "the judgments
     are coherent enough to scalarize."
+
+    Raises RigorIntegrityError rather than returning if `A` is not a positive reciprocal matrix
+    (order dc501e776a2b) -- see `_validate_reciprocal_matrix`.
     """
-    A = np.asarray(A, dtype=float)
+    A = _validate_reciprocal_matrix(A, "perron_weights")
     n = A.shape[0]
     vals, vecs = np.linalg.eig(A)
     k = int(np.argmax(vals.real))
@@ -213,8 +265,14 @@ def perron_weights(A):
     ci = (lam - n) / (n - 1) if n > 1 else 0.0
     ri = SAATY_RI.get(n, 1.6)
     cr = (ci / ri) if ri > 0 else 0.0
+    # TWO-SIDED (order dc501e776a2b): this was `bool(cr < 0.10)`, which answers True for a
+    # NEGATIVE cr as readily as a small positive one. For a genuine positive reciprocal matrix
+    # Saaty puts lambda_max >= n, so cr < 0 cannot happen honestly -- but it is exactly the
+    # signal a caller that reached this far with a bad matrix anyway (a future change to the
+    # validator above, a caller that bypasses it) would produce, and a one-sided test reads that
+    # signal as maximally coherent instead of as the contradiction it is.
     return {"weights": w, "lambda_max": lam, "CI": ci, "CR": cr,
-            "coherent": bool(cr < 0.10)}
+            "coherent": bool(abs(cr) < 0.10)}
 
 
 def logrank_weights(A):
@@ -226,8 +284,14 @@ def logrank_weights(A):
 
     This is the geometric-mean (logarithmic least squares) solution of AHP, and it is the bridge
     that makes Theorem 1 true.
+
+    Raises RigorIntegrityError rather than returning if `A` is not a positive reciprocal matrix
+    (order dc501e776a2b) -- see `_validate_reciprocal_matrix`. `eta` is None, not 1.0, when there
+    is no flow to decompose (both `grad_sq` and `res_sq` are exactly zero, which validation makes
+    the only remaining way `total` can fail to be positive: an all-ones matrix, i.e. a caller who
+    declared every entrant tied).
     """
-    A = np.asarray(A, dtype=float)
+    A = _validate_reciprocal_matrix(A, "logrank_weights")
     F = np.log(A)
     F = 0.5 * (F - F.T)                     # enforce exact antisymmetry
     theta = F.mean(axis=1)                  # closed form: row mean of the log matrix
@@ -236,10 +300,17 @@ def logrank_weights(A):
     grad_sq = float((G ** 2).sum())
     res_sq = float(((F - G) ** 2).sum())
     total = grad_sq + res_sq
-    eta = (grad_sq / total) if total > 0 else 1.0
+    # NO LONGER `1.0 else`. That fallback made "nothing to measure" read identically to
+    # "measured, perfectly consistent" -- the same conflation resonance.hodge_decompose's
+    # docstring draws a line under between an empty edge set and a perfectly consistent ladder.
+    # With the input now validated, `total == 0` can only mean the log-flow itself is exactly
+    # zero (every ratio is 1, i.e. a declared tie throughout), not a nan swallowing the sum.
+    eta = (grad_sq / total) if total > 0 else None
+    eta_reason = None if eta is not None else "no flow to decompose (log A is exactly zero)"
     w = np.exp(theta)
     w = w / w.sum()
-    return {"weights": w, "eta": eta, "curl_fraction": 1.0 - eta,
+    return {"weights": w, "eta": eta, "eta_reason": eta_reason,
+            "curl_fraction": (1.0 - eta) if eta is not None else None,
             "grad_sq": grad_sq, "residual_sq": res_sq}
 
 
@@ -274,13 +345,23 @@ def theorem_1_check(A):
     p = perron_weights(A)
     lr = logrank_weights(A)
     agree = float(np.max(np.abs(p["weights"] - lr["weights"])))
+    cf = lr["curl_fraction"]
+    # TWO-SIDED, AND NONE-AWARE (order dc501e776a2b). `p["CR"] < 1e-9` answered True for a
+    # NEGATIVE CR -- the exact signal (Saaty 1977: lambda_max >= n for a genuine positive
+    # reciprocal matrix) that the input was not one, read backwards as maximal consistency. Both
+    # sides are now `abs(...) < 1e-9`. And `curl_fraction` can now be None (logrank_weights found
+    # no flow to decompose, e.g. every entrant declared tied) rather than a poisoned nan; a
+    # verdict cannot be reached without it, so `both_say_consistent` is False rather than raising
+    # or silently treating "unmeasured" as "measured zero".
     return {
         "perron_weights": p["weights"], "logrank_weights": lr["weights"],
         "max_weight_disagreement": agree,
-        "CR": p["CR"], "eta": lr["eta"], "curl_fraction": lr["curl_fraction"],
-        "both_say_consistent": bool(p["CR"] < 1e-9 and lr["curl_fraction"] < 1e-9),
+        "CR": p["CR"], "eta": lr["eta"], "curl_fraction": cf,
+        "both_say_consistent": bool(cf is not None and abs(p["CR"]) < 1e-9 and abs(cf) < 1e-9),
         "reading": ("CR and the curl fraction rise and fall together: both are the share of the "
-                    "relation that no single ladder can carry"),
+                    "relation that no single ladder can carry" if cf is not None else
+                    "logrank_weights found no flow to decompose (%s); no curl-based verdict is "
+                    "available for this input" % lr.get("eta_reason")),
     }
 
 

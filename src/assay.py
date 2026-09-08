@@ -243,6 +243,15 @@ def band_for_quantity(x, axis="ruin"):
     """
     if x is None or x <= 0:
         return None
+    # THE SAME INITIALISER FAULT cosmography.kardashev_to_magnitude WAS REPAIRED FOR under order
+    # be783948fd66 (order 76ab006d84b8): `out` starts at "M0" and the loop below only ever
+    # RAISES it, so an axis this ladder does not measure at all -- BAND_EDGES.get(axis, math.inf)
+    # never matches, because inf is never <= a positive x -- leaves the "M0" initialiser standing
+    # untouched, and that reads as "reaches M0" rather than "this axis is not on the ladder".
+    # BAND_EDGES carries floors for five axes (ruin, reach, celerity, sustain, continuity); the
+    # other six Measures in WEIGHTS have none. Refuse before the loop rather than let it lie.
+    if axis not in BAND_EDGES[LADDER[0]]:
+        return None
     out = "M0"
     for b in LADDER:
         if x >= BAND_EDGES[b].get(axis, math.inf):

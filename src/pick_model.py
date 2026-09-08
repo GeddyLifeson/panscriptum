@@ -79,8 +79,10 @@ KNOWN_WEIGHT_GB = {
 
 # Families that are mixture-of-experts: only a small fraction of parameters is active per
 # token, so spilling layers to system RAM costs far less than it does for a dense model of the
-# same file size. STILL DISQUALIFYING under the residency mandate below -- the tolerance this
-# marker used to buy is what produced 40-minute single calls.
+# same file size. That tolerance no longer buys anything under the residency mandate below: an
+# MoE model is refused by the size gate exactly like a dense one (order 85a6b7b9e2c8 -- this
+# list is NOT consulted by `resident()`, which is weight_gb + KV_GB <= budget_gb regardless of
+# family). This list now only picks the wording ("MoE" vs "dense") in fit_note's warning below.
 MOE_MARKERS = ["a3b", "a22b", "gpt-oss", "mixtral"]
 
 # OWNER RULING 2026-08-24: GPU-ONLY, AND STICK TO IT. The 30B MoE ran at 19.0GB resident with
@@ -175,7 +177,9 @@ def is_instruct_tuned(model_entry):
 def total_vram_gb():
     """The card's total VRAM in GB, or None. The residency gate sizes against TOTAL minus a
     reserve, not against free -- free varies with whatever the desktop holds this minute, and
-    the mandate is about the model class, not the moment."""
+    the mandate is about the model class, not the moment. This is the "BY CLASS" budget (order
+    e038ec1759a9): it decides whether a model is admitted at all, and is a different number from
+    `free_vram_gb()` below, which decides only whether it fits RIGHT NOW."""
     import subprocess
     try:
         out = subprocess.run(
@@ -199,7 +203,9 @@ def free_vram_gb():
 
     Deliberately reads *free* rather than total: on this machine the Windows desktop
     (Wallpaper Engine, browsers, Discord, Steam, ...) was holding 2.3GB of a 10GB card, so
-    total capacity is a misleading number to size a model against.
+    total capacity is a misleading number to size a model against. This is the "RIGHT NOW"
+    budget (order e038ec1759a9): it feeds `fit_note()`'s offload warning, a different number
+    from `total_vram_gb()` above, which alone decides the residency gate's verdict.
     """
     import subprocess
     try:
@@ -248,13 +254,16 @@ def fit_note(model_entry, vram_gb, num_ctx_gb=KV_GB):
     ran at 19.0GB resident with 8.4GB on the card, over half offloaded, and a single phase call
     sat for 40 minutes. "MoE spills cheaply" was true only relative to a dense spill and still
     catastrophic in absolute terms, so a model that would offload gets the same warning
-    regardless of family -- see MOE_MARKERS above, which is now STILL DISQUALIFYING.
+    regardless of family -- see MOE_MARKERS above, which no longer buys any tolerance here or in
+    `resident()`'s gate; it now only labels the warning text below "MoE" vs "dense" (order
+    85a6b7b9e2c8).
     """
     need = weight_gb(model_entry) + num_ctx_gb
     if need <= vram_gb:
-        return "fits in VRAM"
+        return "fits in VRAM right now (free)"
     kind = "MoE" if is_moe(model_entry.get("name", "")) else "dense"
-    return (f"WILL OFFLOAD: needs ~{need:.1f}GB vs {vram_gb:.1f}GB free, and it's {kind} -- "
+    return (f"WILL OFFLOAD: needs ~{need:.1f}GB vs {vram_gb:.1f}GB free right now, and it's "
+            f"{kind} -- "
             f"expect a large speed penalty either way")
 
 
@@ -360,7 +369,7 @@ def main():
         print("REFUSED under the GPU-only residency ruling (2026-08-24) -- would offload:")
         for sc, m in refused:
             print(f"   {m['name']:<55} ~{weight_gb(m) + KV_GB:.1f}GB needed vs "
-                  f"{_budget_note()} budget")
+                  f"{_budget_note()} budget (by class: total - reserve)")
         print("")
     for s, m in scored:
         tier = family_tier(m["name"])

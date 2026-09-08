@@ -25,8 +25,11 @@ The material exists elsewhere. Three findings from probing it:
 What comes out is a per-entity evidence file: gate-passing feat sentences and extracted physical
 quantities, each carrying the page it came from, so the worksheet line can cite it. Nothing here
 scores anything — scoring is `magnitude.py` against `assay.py`. This only gathers, and it keeps
-everything it gathers, including what the gate turned down, because the previous pass discarded
-its rejections and left the rejection rate unauditable.
+what the gate turned down when the rejection is itself interesting — carries a quantity, or a
+ruin verb — because the previous pass discarded its rejections and left the rejection rate
+unauditable. Everything else the gate turns down is COUNTED, not kept, in `_UNIT_DROPS["mine"]
+["gate_failed_unrecorded"]` (order fa86e8b92150) — the rejection rate this promises is auditable
+is a rate over that full denominator, not just the interesting subset.
 """
 import argparse
 import collections
@@ -193,14 +196,29 @@ def backoff_state():
 _WIKI_MARKERS = ("[[", "{{", "==", "categor", "reflist", "infobox", "cite ", "'''")
 # Phrases that mean "you are being refused", whatever HTTP status accompanies them. A WAF often
 # answers 200 with an interstitial, which is the case a status check cannot see.
-_REFUSAL_MARKERS = ("enable javascript", "checking your browser", "cloudflare",
-                    "access denied", "are you a robot", "captcha", "rate limit",
-                    "too many requests", "ddos-guard", "request blocked",
-                    "temporarily unavailable")
+#
+# SPLIT INTO TWO TIERS (order 572918512dbc). These four cannot be a real article's own words in
+# ordinary use -- a page is never itself the Cloudflare or DDoS-Guard chrome around it -- so a
+# hit is sufficient alone, unchanged from before.
+_REFUSAL_MARKERS_SUFFICIENT = ("cloudflare", "ddos-guard", "request blocked", "are you a robot")
+# These are AMBIGUOUS: a real article can legitimately contain them (the Doom UAC announcer's
+# canonical line IS "Access denied"; an article about CAPTCHAs or rate limiting says those
+# words). Measured whole-corpus, every one of 119 refusals on this tier sat on a MODE_API host
+# where the marker layer has zero true-positive capability to begin with (see `parsed=True`
+# below) -- but even off that transport an ambiguous hit alone is not proof, so it now requires
+# the ABSENCE of positive wiki-markup evidence to count: a body that clears the third layer too
+# is an article about the phrase, not the phrase.
+_REFUSAL_MARKERS_AMBIGUOUS = ("enable javascript", "checking your browser", "access denied",
+                              "captcha", "rate limit", "too many requests",
+                              "temporarily unavailable")
 MIN_REAL_PAGE_CHARS = 200
+# `mined_under.marker_layer` stamp -- bump this when the marker layer's judgement changes shape,
+# so `mined_under_old_marker_layer` can tell a record mined under an earlier rule from one mined
+# under this one. See that function.
+_MARKER_LAYER_VERSION = 2
 
 
-def page_looks_real(text, *, wiki=True):
+def page_looks_real(text, *, wiki=True, parsed=False):
     """-> (ok, why). Is this the article, or something wearing its URL?
 
     NO `title` PARAMETER, AND DELIBERATELY NOT. This took `title=""` between `text` and `wiki`
@@ -230,6 +248,18 @@ def page_looks_real(text, *, wiki=True):
     sit in front of the expensive model call without costing anything (nuclei's fingerprint-gate
     idea -- a cheap check gates an expensive one).
 
+    `parsed=True` SKIPS THE MARKER LAYER ENTIRELY (order 572918512dbc). Set it only when `text`
+    was extracted from a response that already parsed as JSON -- `api()`'s MediaWiki
+    prop=revisions content is the one caller with this shape. A WAF interstitial, a login wall
+    or a rate-limit page fails `json.loads` and is caught separately, inside `api()`, as
+    'nonjson' -- it cannot arrive here at all on that transport. So on a parsed-JSON body every
+    marker hit is necessarily a false positive matching the ARTICLE's own words, not a block
+    page: measured whole-corpus, 119 records refused this way, every one on a MODE_API host,
+    several of them 20,000+ characters of real wikitext (doom/UAC_announcer's canonical line IS
+    "Access denied"). The length floor and the wiki-markup layer still apply -- only the marker
+    layer is skipped, and only for callers holding text that could not physically be a block
+    page. MODE_RAW and the HTML/`pages:` corpora return an UNPARSED body and keep the default.
+
     `wiki=False` DROPS THE THIRD LAYER ONLY, and it exists because the third layer turned this
     guard against the two corpora that are not wikis. Measured on the one owner-ingested book on
     disk (`data/docs/arcanum-worlds-odyssey-of-the-dragonlords`): 443 pages in, 3 through the
@@ -246,10 +276,17 @@ def page_looks_real(text, *, wiki=True):
         return False, ("only %d chars -- too thin to be an article, and an empty fetch must not "
                        "read as an empty subject" % len(t.strip()))
     low = t.lower()
-    for m in _REFUSAL_MARKERS:
-        if m in low:
-            return False, ("carries a refusal marker (%r) -- this is a block page, not the "
-                           "article, whatever status it arrived with" % m)
+    if not parsed:
+        for m in _REFUSAL_MARKERS_SUFFICIENT:
+            if m in low:
+                return False, ("carries a refusal marker (%r) -- this is a block page, not the "
+                               "article, whatever status it arrived with" % m)
+        markup_present = wiki and any(m in low for m in _WIKI_MARKERS)
+        for m in _REFUSAL_MARKERS_AMBIGUOUS:
+            if m in low and not markup_present:
+                return False, ("carries a refusal marker (%r) with no corroborating wiki markup "
+                               "-- this is a block page, not the article, whatever status it "
+                               "arrived with" % m)
     if wiki and not any(m in low for m in _WIKI_MARKERS):
         return False, ("no wiki markup found at all -- not an article page")
     return True, "%d chars, %s" % (len(t.strip()),
@@ -294,7 +331,7 @@ _UNCACHED = {}
 #
 # The numbers are only counted here. What to DO about the ceiling is the order's open question
 # and the owner's; this makes the answer measurable instead of invisible.
-_UNIT_DROPS = {"mine": {"seen": 0, "short": 0, "long": 0},
+_UNIT_DROPS = {"mine": {"seen": 0, "short": 0, "long": 0, "gate_failed_unrecorded": 0},
                "by_axis": {"seen": 0, "short": 0, "long": 0}}
 
 # The longest unit dropped by the ceiling, per gate, so the reader can see whether the material
@@ -403,6 +440,37 @@ def mined_without_name_matching(doc, host):
     if not (host and host.startswith("pages:")) or reads_as_wiki(host):
         return False
     return ((doc or {}).get("mined_under") or {}).get("attribution") != "name-match"
+
+
+def mined_under_old_marker_layer(doc, host):
+    """-> was this cached record refused by the pre-transport-gating marker layer? (572918512dbc)
+
+    THE THIRD SIBLING, same shape as the two above: `page_looks_real`'s refusal-marker layer used
+    to run unconditionally, including on `title-lookup` pages pulled out of `api()`'s
+    already-parsed JSON -- a transport a block page cannot physically reach, because it fails
+    `json.loads` and is caught separately as 'nonjson'. Every marker hit recorded there was
+    therefore a false positive: measured whole-corpus, 119 article-sized real pages filed as
+    refusals, all on MODE_API Fandom hosts. `page_looks_real` now takes `parsed=True` on that
+    transport and skips the marker layer entirely -- but the 119 records are already on disk with
+    zero feats and a refusal that reads as an honest diagnosis, and `A FIX WHOSE EFFECT IS CACHED
+    AWAY IS NOT IN EFFECT` (see `mined_under_superseded_gate`, this file's own precedent for that
+    exact sentence).
+
+    STRUCTURAL, not string-matched on its own: a record's `mined_under.marker_layer` says which
+    version of the marker layer produced it, the same way `stripper`/`attribution` say which
+    version of the other two arms did. Anything below `_MARKER_LAYER_VERSION` predates this fix.
+    Scoped to `title-lookup` records that actually carry a marker refusal on a host whose CURRENT
+    transport is `MODE_API` -- a record with no such refusal, or one on `MODE_RAW`/a non-wiki
+    corpus, was never touched by the bug and re-mining it would buy nothing.
+    """
+    mu = (doc or {}).get("mined_under") or {}
+    if mu.get("attribution") != "title-lookup" or mu.get("marker_layer", 1) >= _MARKER_LAYER_VERSION:
+        return False
+    import endpoint as EP
+    if EP.detect(host)["mode"] != EP.MODE_API:
+        return False
+    refused = (doc or {}).get("pages_refused") or {}
+    return any("carries a refusal marker" in str(v) for v in refused.values())
 
 
 
@@ -564,8 +632,19 @@ def alive_verdict(host):
     is indistinguishable from a genuine absence to every later reader, and to the code.
     """
     out = {}
-    if api(host, {"action": "query", "meta": "siteinfo"}, retries=0, outcome=out):
-        return True, "siteinfo answered"
+    parsed = api(host, {"action": "query", "meta": "siteinfo"}, retries=0, outcome=out)
+    # TEST `out['ok']`, NOT THE PARSED BODY'S TRUTHINESS (order 8350f7a183d1). `api()` stamps
+    # {"ok": True, "why": "ok"} on ANY successful 200-and-parsed response, including one whose
+    # body is `{}`, `[]` or `null` -- which is falsy, so `if api(...)` used to fall through to
+    # the failure branch below with `why` still "ok", and the caller-facing verdict came out as
+    # (None, "ok") -- "undetermined, because everything was fine". The behaviour was safe (an
+    # undetermined verdict re-probes rather than caching a negative), but the REASON STRING was
+    # not actionable and not true, and it is what `resolve_hosts` prints for an operator to act
+    # on. An empty-but-successfully-parsed body now gets its own explicit reason instead.
+    if out.get("ok"):
+        if parsed:
+            return True, "siteinfo answered"
+        return None, "empty-body"
     why = out.get("why") or "unknown"
     # Only an explicit 404 is treated as settled. Everything else -- including "no-api", which
     # `endpoint.detect()` reaches by probing and can therefore reach by failing -- leaves the
@@ -1232,7 +1311,9 @@ _QUANTITY = re.compile(
 
 def mine(text, page):
     """Sentences that clear the evidence gate, plus any physical quantities, each tagged with
-    the page it came from. Rejections are kept — see the module docstring."""
+    the page it came from. INTERESTING rejections are kept — see the module docstring; every
+    other rejection is counted, not kept, in `_UNIT_DROPS["mine"]["gate_failed_unrecorded"]`
+    (order fa86e8b92150) — see that counter's comment."""
     kept, rejected, quants = [], [], []
     # `_units` applies the identical `20 < len(s) < 400` gate this loop carried inline, and
     # COUNTS what it drops -- see `_UNIT_DROPS`. (order eacc5444288c)
@@ -1241,6 +1322,18 @@ def mine(text, page):
             kept.append({"feat": s, "page": page})
         elif _QUANTITY.search(s) or re.search(r"\b(destroy|obliterat|shatter|surviv)", s, re.I):
             rejected.append({"text": s, "page": page})
+        else:
+            # THE DROP THAT USED TO REACH NOTHING (order fa86e8b92150). Not `feats`, not
+            # `gate_rejected`, not `quantities`, and not roll()'s summary -- a unit that fails
+            # `valid_scale_note` and carries neither a quantity nor one of the four ruin verbs
+            # above vanished with no trace anywhere, contradicting this module's own docstring
+            # promise to keep the rejection rate auditable. Counted here, the same shape as the
+            # length filter's own `_UNIT_DROPS` tally one function up (order eacc5444288c), and
+            # printed in roll()'s summary beside it. NOT added to `rejected` itself: that would
+            # multiply per-entity file size for no evidentiary gain the docstring asks for --
+            # the count is what answers the auditability question.
+            with _COUNTS_LOCK:
+                _UNIT_DROPS["mine"]["gate_failed_unrecorded"] += 1
         for m in _QUANTITY.finditer(s):
             # The FULL sentence is stored, not a 220-char prefix (run #19). This field is not a
             # display string: `magnitude.py` copies it verbatim into the permanent instrument-tier
@@ -1463,12 +1556,14 @@ def evidence_for(host, name, cache=True):
     if cache:
         doc, _fp = cachekey.load(CACHE, host, name, on_corrupt=_corrupt)
         if doc is not None and (mined_under_superseded_gate(doc, host)
-                                or mined_without_name_matching(doc, host)):
+                                or mined_without_name_matching(doc, host)
+                                or mined_under_old_marker_layer(doc, host)):
             # Mined by a gate or an arm that has since been corrected for this corpus. Returning
-            # it would make the correction invisible -- see `mined_under_superseded_gate` and
-            # `mined_without_name_matching`. Fall through and re-mine; for a `doc:` host that
-            # reads the book off disk and costs no request, and for a `pages:` host it costs one
-            # fetch per registered URL per process, not one per entity (`_source_pages_text`).
+            # it would make the correction invisible -- see `mined_under_superseded_gate`,
+            # `mined_without_name_matching` and `mined_under_old_marker_layer`. Fall through and
+            # re-mine; for a `doc:` host that reads the book off disk and costs no request, and
+            # for a `pages:` host it costs one fetch per registered URL per process, not one per
+            # entity (`_source_pages_text`).
             with _COUNTS_LOCK:
                 _STALE_GATE[host] = _STALE_GATE.get(host, 0) + 1
             doc = None
@@ -1514,6 +1609,12 @@ def evidence_for(host, name, cache=True):
         tl = t.lower()
         return low in tl or (bool(words) and words[0] in tl and words[-1] in tl)
 
+    # WHETHER `pages` HOLDS ALREADY-PARSED-JSON CONTENT (order 572918512dbc), so the marker
+    # layer in `page_looks_real` can be told a block page could not physically have arrived.
+    # Only the `title-lookup` arm below can set this True, and only when this host's CURRENT
+    # transport is `MODE_API` -- `fetch()` re-derives the same mode internally, so the two can
+    # never disagree about which arm a given `titles` batch actually went down.
+    api_parsed = False
     if plain:
         dp = os.path.join(HERE, "data", "docs", host[4:], "pages.json")
         with open(dp, encoding="utf-8") as f:
@@ -1552,6 +1653,11 @@ def evidence_for(host, name, cache=True):
             titles = discover(host, name)
             pages = fetch(host, titles)
             attribution = "title-lookup"
+            # MODE_RAW returns the body UNPARSED (`index.php?action=raw`), exactly like the
+            # HTML/`pages:` corpora above -- a block page can arrive down that transport and
+            # the marker layer must keep checking it. Only MODE_API pages come out of `api()`'s
+            # already-parsed JSON, where a block page fails `json.loads` and never reaches here.
+            api_parsed = EP.detect(host)["mode"] == EP.MODE_API
     feats, rej, quants, text = [], [], [], {}
     unreal = {}
     for t, wt in pages.items():
@@ -1574,7 +1680,7 @@ def evidence_for(host, name, cache=True):
         # interstitial is a real document that mines to zero feats, and "zero feats" is
         # indistinguishable from an honest absence once it is written to the cache. Recorded
         # rather than dropped: the whole point is that the reason is visible afterwards.
-        ok, why = page_looks_real(wt, wiki=wiki_source)
+        ok, why = page_looks_real(wt, wiki=wiki_source, parsed=api_parsed)
         if not ok:
             unreal[t] = why
             continue
@@ -1605,7 +1711,8 @@ def evidence_for(host, name, cache=True):
            # mark. `stripper` says the wikitext stripper ran over this page text;
            # `attribution` says how the pages were decided to be this entity's -- "name-match"
            # for the two corpora with no title lookup, "title-lookup" for a wiki.
-           "mined_under": {"stripper": bool(wiki_source), "attribution": attribution},
+           "mined_under": {"stripper": bool(wiki_source), "attribution": attribution,
+                          "marker_layer": _MARKER_LAYER_VERSION},
            # PROVENANCE: a digest of the exact page text these feats were mined from. Lets a
            # later pass ask whether a citation is still PROVEN, or merely was once -- a source
            # page can be edited or deleted after mining, and the evidence file would otherwise
@@ -1677,9 +1784,24 @@ def roll(records, hosts, workers=8, limit=None, only=None):
     Everything is cached to disk on write, so a killed run resumes for free.
     """
     jobs = []
+    # HOSTLESS SOURCES, COUNTED (order b9584c782d95). Every OTHER way an entity fails to be mined
+    # in this file is measured and printed in the summary below -- _RATE_LIMITED, _CAP_BOUND,
+    # _STALE_GATE, _UNCACHED, the length-filter drops, the refused-page tally -- and a source with
+    # no resolved host was the one exclusion this accounting never named. `resolve_hosts(recs,
+    # verify=False)` (what --roll calls) leaves a source out of its returned map entirely when it
+    # has no cached host, override, or corpus-derived guess, so `hosts.get(...)` answers None and
+    # this loop used to just `continue` -- dropping every entity of that source from the universe
+    # with nothing anywhere to show it happened. Kept SEPARATE from the `only` filter just below:
+    # that is an operator-requested narrowing, not a silent exclusion, and folding the two into
+    # one count would hide the involuntary one behind the deliberate one.
+    hostless_sources, hostless_entities = set(), 0
     for _, r in records:
         h = hosts.get(r["source"])
-        if not h or (only and only not in r["source"]):
+        if not h:
+            hostless_sources.add(r["source"])
+            hostless_entities += len(r["entries"])
+            continue
+        if only and only not in r["source"]:
             continue
         for e in r["entries"]:
             jobs.append((h, r["source"], e["name"]))
@@ -1817,6 +1939,14 @@ def roll(records, hosts, workers=8, limit=None, only=None):
               f"{_t['long']:,} dropped at 400+ chars "
               f"({100.0 * _t['long'] / _t['seen']:.2f}%, "
               f"longest {_UNIT_LONGEST[_gate]:,} chars)")
+        if "gate_failed_unrecorded" in _t:
+            # The rejection this module's own docstring promises is auditable -- units that
+            # cleared the length filter but neither passed the evidence gate nor carried an
+            # interesting rejection (a quantity or a ruin verb). Order fa86e8b92150: until now
+            # this drop reached no counter at all. Printed even at zero for the same reason the
+            # length filter above is.
+            print(f"    gate-failed and UNRECORDED (no quantity, no ruin verb): "
+                  f"{_t['gate_failed_unrecorded']:,}")
     if _UNIT_DROPS["mine"]["long"] or _UNIT_DROPS["by_axis"]["long"]:
         print("    (the 400-char ceiling is an upper bound on EVIDENCE, not noise control like "
               "the 20-char floor -- an over-long unit is discarded before the evidence gate "
@@ -1827,6 +1957,14 @@ def roll(records, hosts, workers=8, limit=None, only=None):
         ranked = sorted(_RATE_LIMITED.items(), key=lambda kv: -kv[1])   # ranked, never truncated
         print(f"  429s absorbed: {tot:,} across {len(_RATE_LIMITED)} host(s), busiest first: "
               + ", ".join(f"{h} x{n:,}" for h, n in ranked))
+    if hostless_sources:
+        print(f"  sources with NO RESOLVED HOST: {len(hostless_sources):,} source(s), "
+              f"{hostless_entities:,} entities excluded from this roll entirely -- "
+              + ", ".join(sorted(hostless_sources))
+              + "  (resolve_hosts had no cached host, override, or corpus-derived guess for "
+                "these; not mined, not counted anywhere above, and not evidence of absence)")
+    else:
+        print("  sources with no resolved host: none (every source in this roll had one)")
     return done
 
 

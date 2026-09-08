@@ -94,15 +94,35 @@ def candidate_paths(base, host, name):
     return [natural_path(base, host, name), disambiguated_path(base, host, name)]
 
 
-def owns(doc, name):
+def owns(doc, name, host=None):
     """Is this parsed cache document actually THIS entity's?
 
     The stored `entity` is the exact, unsanitised name, so it is the only field that can tell
     `Magic 8 Ball` from `Magic 8-Ball` once the filename has folded them together. Measured at
     fix time: all 86,288 files on disk carry it, so a missing key means a file this scheme did
     not write, and is not trusted.
+
+    `host` IS NOW CHECKED TOO, WHEN THE CALLER HAS ONE (order 88a5f9192e1b). `host_dir()` applies
+    the SAME lossy sanitise-and-cap transform that produced the founding name collision this
+    module exists to fix -- `_SANITISE.sub('_', host or '')[:HOST_CAP]`, identical in shape to
+    `name_stem`'s `[:NAME_CAP]` -- so two DIFFERENT host strings that fold onto the same
+    `host_dir()` (a punctuation-only difference, or agreement on their first 40 sanitised
+    characters) could hand `load()` for host A back host B's cache file for an entity of the same
+    name, and a name-only check would say yes. MEASURED before adding this check: every record
+    every entity-mining call site writes already carries a `host` key (`feats.evidence_for`'s
+    `out` dict includes it beside `entity`), and of all 276,218 cache files on disk, exactly ONE
+    lacks it -- so this costs one re-mine, not a mass one, and the spend question that held this
+    open dissolved on the count.
+
+    `host=None` (the default) SKIPS THE CHECK -- an entity-only test, unchanged from before, for
+    the callers that have not been updated to pass one. Never a host check with nothing to
+    compare against.
     """
-    return isinstance(doc, dict) and doc.get("entity") == name
+    if not isinstance(doc, dict) or doc.get("entity") != name:
+        return False
+    if host is not None and doc.get("host") != host:
+        return False
+    return True
 
 
 def load(base, host, name, on_corrupt=None):
@@ -122,7 +142,7 @@ def load(base, host, name, on_corrupt=None):
             if on_corrupt:
                 on_corrupt(fp)
             continue
-        if owns(doc, name):
+        if owns(doc, name, host):
             return doc, fp
     return None, None
 
@@ -188,6 +208,6 @@ def write_path(base, host, name):
             doc = json.load(f)
     except Exception:
         return nat            # unreadable: this entity may as well re-earn the slot
-    if owns(doc, name):
+    if owns(doc, name, host):
         return nat
     return disambiguated_path(base, host, name)

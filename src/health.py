@@ -282,6 +282,16 @@ def _flush_ledger(taken, path=None, ledger=None):
             try:
                 with open(path, encoding="utf-8") as f:
                     prev = json.load(f)
+                # A WRONG-SHAPED LEDGER IS NOT CORRUPT TO json.load, ONLY TO EVERY READER OF IT
+                # (order b0a931a92419). A document that PARSES but is not a dict -- e.g. a JSON
+                # list -- sailed past this except block untouched and then raised AttributeError
+                # at `prev.get(k, 0)` below, OUTSIDE this try, where nothing here catches it.
+                # Raising here folds that shape failure into the same preserve-as-.corrupt path
+                # a parse failure already gets, instead of leaving it to whichever caller happens
+                # to be above this on the stack (here, `silence.note`'s blanket `except Exception:
+                # pass`, which drops it on the floor and never flushes again).
+                if not isinstance(prev, dict):
+                    raise ValueError("ledger is not a dict (got %s)" % type(prev).__name__)
             except Exception as e:
                 # An unreadable ledger must not be quietly replaced by an empty one -- that would
                 # make the failure-recorder itself the sixteenth instance of the defect it exists
@@ -382,6 +392,16 @@ def _flush_samples(taken_s):
                 try:
                     with open(SAMPLES_PATH, encoding="utf-8") as f:
                         old = json.load(f)
+                    # SAME WRONG-SHAPE HOLE AS THE LEDGER'S (order b0a931a92419): a document that
+                    # PARSES but is not a dict -- e.g. a JSON list -- sailed past this except
+                    # block, then raised AttributeError at `old.get(k)` below, caught by the
+                    # blanket `except Exception: pass` at the bottom of this function and dropped
+                    # silently forever, with no .corrupt preserved and nothing said anywhere.
+                    # Raising here routes it through the same preserve-and-restart branch a parse
+                    # failure already gets.
+                    if not isinstance(old, dict):
+                        raise ValueError("samples file is not a dict (got %s)"
+                                          % type(old).__name__)
                 except Exception as e:
                     # THE SELF-HEALING PATH THE COMMENT BELOW HAS BEEN ASKING FOR SINCE IT WAS
                     # WRITTEN. It described this exact hole -- a torn SAMPLES_PATH sends every
@@ -497,7 +517,16 @@ def _read_ledger(path):
     if os.path.exists(path):
         try:
             with open(path, encoding="utf-8") as f:
-                return json.load(f)
+                doc = json.load(f)
+            # A WRONG-SHAPED LEDGER IS NOT CORRUPT TO ANY READER (order b0a931a92419) unless
+            # something here says so. A document that PARSES but is not a dict -- e.g. a JSON
+            # list -- used to be returned as-is, so `main(--failures)` died on `.items()` instead
+            # of reporting anything, exactly the failure this function's own docstring says
+            # `flush()` was already fixed for. Raising here answers it the same way a parse
+            # failure already is: the {"ledger:unreadable": 1} row below, not a crash.
+            if not isinstance(doc, dict):
+                raise ValueError("ledger is not a dict (got %s)" % type(doc).__name__)
+            return doc
         except Exception as e:
             silence.note("health.py:summary")
             print(f"health: {os.path.basename(path)} unreadable ({type(e).__name__}) -- "
@@ -588,8 +617,54 @@ def check_api_paths():
         # member" produced a false API-unreachable alarm on every preflight (found 2026-08-23).
         if h.startswith("pages:") or h.startswith("doc:"):
             continue
-        fams.setdefault("wikipedia" if "wikipedia" in h else "fandom", h)
-    for fam, host in fams.items():
+        # KEYED ON THE REGISTERED DOMAIN, NOT ON A wikipedia/else SPLIT (order e045c3218e85).
+        # The old split put every non-Wikipedia host into ONE "fandom" bucket, so whichever host
+        # dict order put there first became the sole representative probed for all of them. Two
+        # of today's 134 hosts are neither wikipedia.org nor fandom.com -- rimworldwiki.com and
+        # www.dandwiki.com -- and dandwiki answers 403 to anyone not logged in, the exact host
+        # `check_caches` twenty lines below excuses BY NAME so it cannot sit permanently red
+        # ("A permanent red is not extra safety; it is how a preflight stops being read."). If
+        # dict order ever put dandwiki first, its unrelated 403 would have stood in for 131
+        # unrelated wikis and filed a MAJOR order every cycle nothing about them justified. The
+        # registered domain -- the last two dot-separated labels -- is the real family boundary:
+        # every `*.fandom.com` host still buckets together as one family, and a host that is on
+        # neither fandom.com nor wikipedia.org gets its own family of one instead of borrowing
+        # someone else's.
+        labels = h.split(".")
+        domain = ".".join(labels[-2:]) if len(labels) >= 2 else h
+        fams.setdefault(domain, [])
+        fams[domain].append(h)
+    # A QUARANTINED HOST IS NOT PROBED FOR ITS FAMILY, AND A WHOLLY QUARANTINED FAMILY IS NOT
+    # PROBED AT ALL (2026-09-08). The per-domain bucketing directly above is right, and it
+    # immediately produced the permanent red its own comment warns about: dandwiki became a
+    # family of one, dandwiki is quarantined and answers nothing, so `--preflight` sat red every
+    # cycle over a host the library has deliberately stopped talking to. `check_caches` fifty
+    # lines below already states the rule this needs -- "A QUARANTINED HOST IS NOT REPORTED AGAIN
+    # HERE. binding_health already holds the fault, and workorders files one HOST_QUARANTINED
+    # order" -- and there IS such an order open for it right now. Re-reporting it here is a
+    # second alarm for one condition, which is how "A permanent red is not extra safety; it is
+    # how a preflight stops being read" comes true.
+    #
+    # NOT AN EXCUSE BY NAME, deliberately: a hardcoded host list rots the moment the next host is
+    # quarantined. This asks the live quarantine record, so the abstention lasts exactly as long
+    # as the quarantine does and the probe resumes by itself.
+    #
+    # FAIL LOUD ON DOUBT, the same direction the sibling takes: if the quarantine record cannot
+    # be read we do not know that any host is excused, so nothing is excused and every family is
+    # probed as before -- noisier, never quieter.
+    try:
+        import binding_health as _BH
+        quarantined = set(_BH.quarantined() or ())
+    except Exception:
+        silence.note("health.py:api-paths-quarantine-unreadable")
+        quarantined = set()
+    picked = {}
+    for fam, members in fams.items():
+        free = [h for h in members if h not in quarantined]
+        if free:
+            picked[fam] = free[0]          # probe a host we are actually still talking to
+        # else: every member is quarantined -- binding_health holds that fault, not this check
+    for fam, host in picked.items():
         # A FRESH dict PER HOST: `api()` clears whatever it is handed, but sharing one across
         # the loop would leave the previous family's verdict standing on any path that returned
         # without stamping, and this check's whole value is saying WHICH fault it found.
@@ -603,7 +678,14 @@ def check_api_paths():
             klass = why.get("why") or "unknown"
             if why.get("ok"):
                 klass = "answered without a `query` block"
-            out.append((f"{fam} API unreachable", f"{host} ({klass})"))
+            # NAMES THE HOST ACTUALLY ASKED, AND CLAIMS ONLY THAT ONE PROBE DID NOT ANSWER --
+            # not that the family is unreachable (order e045c3218e85). `completeness.
+            # host_reachable`'s own comment says why one host's answer is not evidence about its
+            # family: "The block is per-tenant ... The farm being up says nothing about the
+            # tenant." One arbitrary host per family remains the right STAND-IN for the
+            # /api.php-vs-/w/api.php path fault this check exists to catch -- it is not a
+            # reachability claim over the other members.
+            out.append((f"{fam}: probed host did not answer", f"{host} ({klass})"))
     return out
 
 

@@ -2045,12 +2045,32 @@ def drill_cache():
         with tempfile.TemporaryDirectory() as base:
             nat = CK.natural_path(base, host, x)
             os.makedirs(os.path.dirname(nat), exist_ok=True)
+            # THE FIXTURE CARRIES `host` BECAUSE REAL DOCUMENTS DO (2026-09-08). `owns()` gained a
+            # host check under order 88a5f9192e1b, and `load()` passes the host straight into it,
+            # so a fixture without the key stopped being a realistic cache document and started
+            # being an unwritable one: `fx` came back None and this net BREACHED on its POSITIVE
+            # half -- x could not load its own file -- while reading as though the collision guard
+            # had failed. It halted the library at 08:23:51 that morning. Measured at the time the
+            # check landed: of 276,218 files on disk exactly ONE lacks `host`, so the production
+            # writers were never the problem and the check is correct; this fixture was simply
+            # older than the contract it stands in for.
             with open(nat, "w", encoding="utf-8") as f:
-                json.dump({"entity": x, "feats": []}, f)
+                json.dump({"entity": x, "host": host, "feats": []}, f)
             dx, fx = CK.load(base, host, x)
             dy, fy = CK.load(base, host, y)
-            # x owns it; y must get nothing rather than x's evidence.
-            return fx is not None and dy is None and fy is None
+            if not (fx is not None and dy is None and fy is None):
+                return False        # x owns it; y must get nothing rather than x's evidence
+            # AND THE HOST HALF, which had no net of its own until this breach exposed the gap.
+            # `host_dir()` applies the same lossy sanitise-and-cap that produced the founding name
+            # collision, so two different host strings can fold onto one directory; a document
+            # naming a DIFFERENT host must be refused rather than handed over on the name alone.
+            z = "Icewind Dale"
+            natz = CK.natural_path(base, host, z)
+            os.makedirs(os.path.dirname(natz), exist_ok=True)
+            with open(natz, "w", encoding="utf-8") as f:
+                json.dump({"entity": z, "host": "someother.fandom.com", "feats": []}, f)
+            dz, fz = CK.load(base, host, z)
+            return dz is None and fz is None
     net(a, "the live colliding pairs get separate verdicts", live_reads_are_separated,
         "measured against the real corpus, not a fixture")
     net(a, "and a real collision would still be refused", _collision_would_still_be_caught,
@@ -7722,6 +7742,84 @@ def drill_inspector():
         "both loop cases were inverted: a `while True:` else was walked as live code, which is "
         "the fault that let a dead fixture make a net report HELD")
 
+    def _a_verdict_that_did_not_land_returns_nonzero():
+        """THE INSPECTOR INSPECTS ITSELF: this file's exit code must agree with its own verdict.
+
+        `main()` writes `state/drill_last.json`, reads whether the write landed, and used to
+        print a warning and `return 0` anyway. The warning reached nobody, and that is measured
+        rather than supposed: `overnight.safety_drill()` captures this stdout and logs only
+        `[x for x in stdout if x.startswith("DRILL:")][-1]`, so a plain `WARNING:` line under the
+        summary is discarded, `rc == 0` is recorded as a clean inspection, and
+        `workorders.sweep_detectors` and `dashboard.safety` go on grading the PREVIOUS run's file
+        as current. `main()`'s own words for that shape are "the green check that never ran, with
+        a longer fuse". Order 75c4171c2e93; the exit code is now 3.
+
+        DRIVEN, NOT DESCRIBED. This calls the REAL `main()` -- real argument parsing, the real
+        `silence.write_json` stamp, the real summary line, the real `return` -- with the area
+        list replaced by one trivial area so it costs a second rather than five minutes. That is
+        why `main()` takes `areas` at all. A net that re-spelled the rule beside the function
+        ("if not landed: 3") would pass forever no matter what `main()` did, which is the exact
+        shape order 2f07cbd3241d was filed about one net over.
+
+        BOTH DIRECTIONS, because a `main()` that returned 3 unconditionally would satisfy the
+        first half while telling nobody anything. With `HERE` pointing at a tree whose `state`
+        entry is a FILE, the stamp cannot be written and the code must be non-zero AND the
+        summary line must say so; with `HERE` pointing at a sound tree, the same call must land
+        the file and return 0.
+
+        Nothing outside the two temporary directories is touched: `HERE`, `RESULTS` and
+        `sys.argv` are saved and restored, stdout is captured, and the deliberately failing
+        drive is wrapped in `_deliberately_failing` so its `silence.note("drill.py:stamp")` does
+        not litter `state/failures.json` -- the discipline the twelve existing sites keep.
+        """
+        import io as _io
+
+        def _probe_area():
+            net("DRILL SELF-TEST — a probe area, not a safety layer",
+                "the probe area ran", lambda: True,
+                "this area exists only so main() can be driven cheaply; it is never in the "
+                "production area list")
+
+        def _drive(root):
+            saved = (globals()["HERE"], globals()["RESULTS"], sys.argv)
+            buf = _io.StringIO()
+            try:
+                globals()["HERE"] = root
+                globals()["RESULTS"] = []
+                sys.argv = ["drill.py"]
+                with contextlib.redirect_stdout(buf):
+                    rc = main(areas=(_probe_area,))
+            finally:
+                globals()["HERE"], globals()["RESULTS"], sys.argv = saved
+            return rc, buf.getvalue()
+
+        blocked = tempfile.mkdtemp(prefix="drillrc_blocked_")
+        sound = tempfile.mkdtemp(prefix="drillrc_sound_")
+        try:
+            # `state` as a FILE: `silence.write_json`'s `os.makedirs` raises on it, which is the
+            # ordinary shape of a stamp that cannot land (a full disk, a denied directory).
+            with open(os.path.join(blocked, "state"), "w", encoding="utf-8") as fh:
+                fh.write("not a directory")
+            rc_bad, out_bad = _deliberately_failing(lambda: _drive(blocked))
+            summary = [x for x in out_bad.splitlines() if x.startswith("DRILL:")]
+            said_so = bool(summary) and "DID NOT LAND" in summary[-1]
+            landed_file = os.path.join(blocked, "state", "drill_last.json")
+            rc_ok, out_ok = _drive(sound)
+            stamped = os.path.isfile(os.path.join(sound, "state", "drill_last.json"))
+            ok_summary = [x for x in out_ok.splitlines() if x.startswith("DRILL:")]
+            ok_quiet = bool(ok_summary) and "DID NOT LAND" not in ok_summary[-1]
+        finally:
+            shutil.rmtree(blocked, ignore_errors=True)
+            shutil.rmtree(sound, ignore_errors=True)
+        return (rc_bad != 0 and said_so and not os.path.isfile(landed_file)
+                and rc_ok == 0 and stamped and ok_quiet)
+    net(a, "a drill whose own verdict did not land returns a NON-ZERO code",
+        _a_verdict_that_did_not_land_returns_nonzero,
+        "order 75c4171c2e93: the warning was printed on a stdout whose only logged line is the "
+        "`DRILL:` summary, and `return 0` told every watching script the inspection was clean "
+        "while the dashboard and the work-order sweep graded the PREVIOUS run as current -- a "
+        "gate whose exit code can disagree with its own verdict is what this file exists against")
+
 
 def _twins_ignores_a_foreign_tree():
     """A namesake in ANOTHER checkout is not a twin of this tree's module.
@@ -7749,12 +7847,50 @@ def _twins_ignores_a_foreign_tree():
     the sandbox actually runs, since resolving a relative script against the CHILD's cwd rather
     than ours is the half that has to be right. The child is killed in the `finally` and nothing
     is written outside the temp directory.
+
+    A PROBE THAT COULD NOT BE STAGED IS NOT AN ALARM (order 3e65d8657462). This ended in a bare
+    `seen and ...`, so FOUR quite different outcomes were graded identically -- and a False here
+    is a breached net, which `main()` escalates to OWNER and which halts the library:
+
+      * the OBSERVER is absent. `twins()` returns [] when `psutil` is not importable, by its own
+        stated fail-open design, so `seen` could never become True and this net would halt the
+        library over a missing dependency rather than over anything `codewatch` did.
+      * the PROBE never started. A `Popen` that raises is recorded by `net()` as a breach too.
+      * the PROBE died before it could be looked at -- an interpreter that could not start, a
+        scanner holding the file, a kill from outside.
+      * the probe was alive and `twins()` did not see it. THIS one is a real finding.
+
+    Only the last is evidence about the code under test. This file has ruled on that distinction
+    twice and at length -- `_junction_out_of_the_writable_surface` (order ef0b67732a3b, "an
+    unstageable junction is NOTED and returns True, which is a measurement declining to be taken
+    rather than an alarm") and `datasette_config_is_generated_not_copied` (order 5eea5c20db8a, "a
+    path that could not be written is a measurement that did not happen, and a measurement that
+    did not happen must not be graded either way") -- and it is the same live-process-table
+    dependence that `twin_detection_does_not_match_bystanders` was rewritten to remove from the
+    net beside this one, after that one halted the library twice.
+
+    NOTHING IS WEAKENED, and the difference matters because this file is built against absence
+    read as clean. What changed is not the deadline but WHAT IS ASKED AT IT: a child that is
+    still ALIVE when the twenty seconds run out and that `twins()` never reported is graded False
+    exactly as before -- the process exists, the observer is present, and the thing under test
+    looked straight at it and found nothing. The positive half is still required before the
+    negative half is believed. Only the arms where there was no attack to deliver are noted
+    instead of alarmed.
     """
     import shutil
     import subprocess
     import time as _t
+    import silence as _si
     import codewatch as CW
     needle = "verify_math"
+    try:
+        import psutil                    # the observer `twins()` needs; absent => it finds none
+        _observer = psutil.__name__
+    except Exception:
+        _observer = None
+    if not _observer:
+        _si.note("drill.py:twins-probe-unstageable:no-psutil")
+        return True
     d = tempfile.mkdtemp(prefix="drilltwin_")
     child = None
     real_src = CW.SRC
@@ -7763,10 +7899,14 @@ def _twins_ignores_a_foreign_tree():
         os.makedirs(sandbox)
         with open(os.path.join(sandbox, needle + ".py"), "w", encoding="utf-8") as f:
             f.write("import time\ntime.sleep(45)\n")
-        child = subprocess.Popen(
-            [sys.executable, os.path.join("src", needle + ".py")], cwd=d,
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        try:
+            child = subprocess.Popen(
+                [sys.executable, os.path.join("src", needle + ".py")], cwd=d,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        except OSError:
+            _si.note("drill.py:twins-probe-unstageable:no-child")
+            return True                   # no child, no attack, nothing to grade
         # Wait for the child to be visible AS A TWIN OF ITS OWN TREE. Polling on the positive
         # case rather than on a fixed sleep means the negative case below cannot pass merely
         # because the process table had not caught up yet -- which would be a net that holds by
@@ -7777,9 +7917,16 @@ def _twins_ignores_a_foreign_tree():
             if child.pid in CW.twins(needle):
                 seen = True
                 break
+            if child.poll() is not None:
+                break                     # it exited; there is no longer a process to find
             _t.sleep(0.2)
         CW.SRC = real_src
-        return seen and child.pid not in CW.twins(needle)
+        if not seen:
+            if child.poll() is not None:
+                _si.note("drill.py:twins-probe-unstageable:child-gone")
+                return True
+            return False                  # ALIVE and unseen: that IS evidence about `twins()`
+        return child.pid not in CW.twins(needle)
     finally:
         CW.SRC = real_src
         if child is not None:
@@ -11921,13 +12068,38 @@ def drill_recorders_and_lane():
     # idempotency check is exactly the shape this project refuses. It costs about thirty-five
     # seconds of the battery and writes nothing.
     def drill_clean_description_is_idempotent():
+        """A fixed point on EVERY catalogued description, and a record it could not read is one
+        it did not check.
+
+        THE SWALLOWED READ (order 406a61029dca). This carried `except Exception: continue` under
+        the comment "an unreadable record is estate.py's finding, not this net's" -- and that
+        deferral is the one thing a net making a WHOLE-CORPUS claim may not do. The claim printed
+        beside it is "clean_description reaches a fixed point on every catalogued description";
+        a record that could not be opened contributed no description, so a corpus that had gone
+        unreadable arrived here as a corpus with nothing to check and the net returned True. That
+        is absence read as clean, inside the check whose whole value is that it is not a sample.
+        Deferring to `estate.py` also puts two layers on one failure mode, which Hard Rule -1
+        forbids by name: this net would go green BECAUSE something was wrong.
+
+        TWO NETS IN THIS FILE WERE ALREADY REPAIRED AWAY FROM EXACTLY THIS SHAPE, with the same
+        remedy, and this one was simply written later and did not carry it across:
+        `_policy_corpus_clean` ("a bare `except Exception: continue` scored an unreadable or
+        unparseable record as clean ... it now fails the net, and it is the ONLY thing that can
+        fail it that is not a rule verdict") and `excluded_sources_keep_their_records` (order
+        a531ac23d07c). So: counted, and failed on a non-zero count -- and, as in both siblings,
+        the count is the only thing that can fail this net which is not an idempotency verdict,
+        so a reader of the breach cannot confuse the two. Measured while landing this: 216
+        records, 0 unreadable.
+        """
         import json as _json, os as _os, cleanup as _C
         recs = _os.path.join(HERE, "data", "records")
+        unreadable = 0
         for fn in sorted(f for f in _os.listdir(recs) if f.endswith(".json")):
             try:
                 d = _json.load(open(_os.path.join(recs, fn), encoding="utf-8"))
             except Exception:
-                continue          # an unreadable record is estate.py's finding, not this net's
+                unreadable += 1
+                continue
             ents = d.get("entries") or []
             if isinstance(ents, dict):
                 ents = list(ents.values())
@@ -11940,7 +12112,7 @@ def drill_recorders_and_lane():
                 once = _C.clean_description(desc)
                 if _C.clean_description(once) != once:
                     return False
-        return True
+        return unreadable == 0
 
     net(a, "clean_description reaches a fixed point on every catalogued description",
         drill_clean_description_is_idempotent,
@@ -11961,6 +12133,87 @@ def drill_recorders_and_lane():
         drill_codex_dedupe_is_typed,
         "a Dragonmark and a Race Variant of the same name must not collapse to one "
         "catalogue entry")
+
+    # ------------------------------------------------------------------------------------------
+    # AND THE THIRTY-EIGHTH NET FROM THAT MERGE, WHICH WAS HELD BACK ON PURPOSE (order
+    # 2f07cbd3241d). Thirty-seven of the thirty-eight staged nets landed on 2026-09-06; this one
+    # did not, and the reason is the whole of why it is being written again rather than pasted.
+    # As staged in `handoff/nets_20260906/longtail.py` it never imported `withdraw_chapters` at
+    # all: it rebuilt the module's claim rule inline over two hardcoded literals and asserted
+    # `len(...) == 1`. It passed then and it would pass for ever, whatever happened to the module
+    # it was named after, because nothing connected the two. Landing it would have raised the net
+    # COUNT by one -- the number a person reads -- and the coverage by nothing, which is worse
+    # than not landing it. The fragment's own note sketched the stronger form and said it needed
+    # a `HERE`-redirection helper nobody had staged; drill.py already redirects module constants
+    # like this several times over (`_ledger_redirected`, the codewatch nets repointing LEDGER
+    # and LEDGER_LOCK, `_esc_sandbox`), so it was a known shape and not new ground.
+    def withdraw_dry_run_does_not_count_catalogued_chapters_as_strays():
+        """THE MODULE IS DRIVEN, not its claim rule re-spelled beside it (orders ba5683e9506a,
+        2f07cbd3241d).
+
+        `withdraw_chapters`' stray sweep is introduced as "anything left in output/raw that the
+        catalog never claimed" and for a long time implemented no such test: it walked every file
+        in output/raw and took it. The only thing keeping catalogued chapters out of the count
+        was an implicit ordering assumption -- that the loop above had already MOVED them -- and
+        it is false in the dry run ALWAYS, because `shutil.move` sits inside `if a.go` and
+        `extra += 1` did not. So the preview a person reads before authorising an irreversible
+        move reported an archive swallowing every catalogued chapter, none of which `--go` would
+        have touched as a stray.
+
+        WHAT IS ACTUALLY EXERCISED: a scratch `HERE` whose output/raw holds one chapter the
+        catalog claims and one genuine leftover, `withdraw_chapters.main()` called for real with
+        no `--go`, and the numbers taken off the module's OWN report line. `_esc_sandbox()`
+        supplies the escalation redirection that lets `main()`'s `assert_clear` interlock run
+        against scratch rather than against the live halt -- the interlock is left in place, not
+        stubbed out.
+
+        BOTH DIRECTIONS, because a sweep that counted nothing would satisfy the first half while
+        protecting nobody: the genuine stray must still be counted as one, the claimed chapter
+        must be reported on its own line as claimed, and -- this being a dry run -- both files
+        must still be on disk afterwards.
+
+        WATCHED GOING RED before landing (2026-09-08), against a COPY of the module with the
+        `if f in claimed_raw: skipped_claimed += 1; continue` skip deleted: the same fixture then
+        reports 2 unclaimed instead of 1 and this net returns False.
+        """
+        import io as _io
+        import withdraw_chapters as WC
+        d_, _filed, restore = _esc_sandbox()
+        root = tempfile.mkdtemp(prefix="drill_withdraw_")
+        saved = (WC.HERE, WC.CATALOG, sys.argv)
+        try:
+            raw = os.path.join(root, "output", "raw")
+            os.makedirs(raw)
+            os.makedirs(os.path.join(root, "output", "index"))
+            for name in ("II.A.1__Persons.md", "leftover_pilot.md"):
+                with open(os.path.join(raw, name), "w", encoding="utf-8") as fh:
+                    fh.write("# a chapter\n")
+            WC.HERE = root
+            WC.CATALOG = os.path.join(root, "output", "index", "catalog.json")
+            with open(WC.CATALOG, "w", encoding="utf-8") as fh:
+                json.dump({"II.A.1/Persons": {"source_name": "A Probe Source",
+                                              "raw_path": "output/raw/II.A.1__Persons.md"}}, fh)
+            sys.argv = ["withdraw_chapters.py"]          # no --go: this is the preview
+            buf = _io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = WC.main()
+            out = buf.getvalue()
+            still_there = sorted(os.listdir(raw))
+        finally:
+            WC.HERE, WC.CATALOG, sys.argv = saved
+            restore()
+            shutil.rmtree(root, ignore_errors=True)
+        m = re.search(r"raw paths moved\s*:\s*(\d+)\s*\(\+(\d+) unclaimed by the catalog\)", out)
+        if not m:
+            return False                  # the report line this net reads has been renamed
+        return (rc == 0 and m.group(2) == "1"
+                and "1 file(s) in output/raw are CLAIMED by the catalog" in out
+                and still_there == ["II.A.1__Persons.md", "leftover_pilot.md"])
+    net(a, "the withdraw preview counts only files the catalog does not claim",
+        withdraw_dry_run_does_not_count_catalogued_chapters_as_strays,
+        "without the claim set the dry run counts every catalogued chapter as a stray, so the "
+        "screen an operator reads before authorising an irreversible move describes an archive "
+        "that --go will not create; the dry-run and --go counts must be the same number")
 
 
 def drill_mutation():
@@ -12470,6 +12723,165 @@ def drill_mutation():
     net(a, "a gate that cannot complete on clean code is refused, not averaged in",
         a_gate_that_cannot_finish_is_refused,
         "TIMEOUT == TIMEOUT reports every mutant as surviving and looks like a finished run")
+
+    def a_sandbox_missing_a_gate_document_names_the_rows_it_lost():
+        """THE NET ORDER 21ae41adc29c ASKED FOR AND NEVER GOT (carried by order 2461a04d8849).
+
+        THE INCIDENT IT IS ABOUT. A launch refused with, in full,
+            verify_math    rc=1|RESULT: 1055 passed, 5 FAILED
+        and that string was the whole of what the run said. Learning WHICH five rows were red
+        took building a sandbox by hand, running verify_math inside it and diffing against the
+        live tree -- and only then was it visible that all five were the sandbox missing
+        `state/sweep_shards/` and six dashboard logs, not defects in the library. Those five had
+        been red, and therefore DISABLED AS DETECTORS, in every mutation run this project had
+        ever made. A gate document that a sandbox failed to copy is exactly how a detector gets
+        switched off without anybody being told.
+
+        DRIVEN END TO END, for real, and cheap: a scratch tree, a two-line "gate" that reads a
+        gate DOCUMENT and prints a `FAILED <row>` line with rc=1 when the document is not there,
+        and `mutate.baseline()` run over it twice -- once with the document present, once with it
+        removed. `_gate_result` really spawns it, `_row_ids` really parses it, `red_gates` really
+        classifies it. Nothing here re-spells mutate's rules beside it.
+
+        WHY THE ASSERTION IS "NAMED" AND NOT "REFUSED", which is a correction to the order's own
+        wording rather than a softening of it. `mutate` deliberately does NOT refuse a red
+        baseline on a quiet tree -- order 90a5d3d6b96f settled that, because "green or refuse"
+        means "never runs" and this project carries a standing honest red most days. What it must
+        never do is proceed in SILENCE, and the fix that order asked for was the row identities.
+        So this asserts what the module actually promises: the gate is classified red, and the
+        individual row behind the count is named. The refusal arms are the neighbouring net's
+        subject (`unusable_gates`) and are unchanged.
+
+        BOTH DIRECTIONS. With the document present the same gate must come back rc=0, out of
+        `red_gates`, and with an EMPTY row list -- a `_row_ids` that returned rows for a clean
+        run, or a `red_gates` that named every gate, would satisfy the missing-document half
+        while meaning nothing.
+        """
+        import mutate as M
+        root = tempfile.mkdtemp(prefix="drill_gatedoc_")
+        try:
+            os.makedirs(os.path.join(root, "state"))
+            doc = os.path.join(root, "state", "GATE_DOCUMENT.json")
+            with open(doc, "w", encoding="utf-8") as fh:
+                json.dump({"shards": 155}, fh)
+            gate = os.path.join(root, "gate.py")
+            with open(gate, "w", encoding="utf-8") as fh:
+                fh.write(
+                    "import os, sys\n"
+                    "p = os.path.join('state', 'GATE_DOCUMENT.json')\n"
+                    "if os.path.isfile(p):\n"
+                    "    print('RESULT: 2 passed, 0 FAILED')\n"
+                    "    sys.exit(0)\n"
+                    "print('  FAILED the sweep coverage ledger names a FINISHED run at all: "
+                    "got 0, want >=1')\n"
+                    "print('RESULT: 1 passed, 1 FAILED')\n"
+                    "sys.exit(1)\n")
+            gates = (("gatecheck", [sys.executable, gate]),)
+
+            whole_rows = {}
+            whole = M.baseline(root, gates=gates, rows_out=whole_rows)
+            whole_ok = (whole["gatecheck"].startswith("rc=0|")
+                        and not M.red_gates(whole)
+                        and whole_rows.get("gatecheck") == [])
+
+            os.unlink(doc)                       # the sandbox lost one gate document
+            lost_rows = {}
+            lost = M.baseline(root, gates=gates, rows_out=lost_rows)
+            named = [n for n, _s in M.red_gates(lost)]
+            rows = lost_rows.get("gatecheck") or []
+        finally:
+            shutil.rmtree(root, ignore_errors=True)
+        return (whole_ok and named == ["gatecheck"] and len(rows) == 1
+                and "the sweep coverage ledger names a FINISHED run" in rows[0]
+                and "1 FAILED" in lost["gatecheck"])
+    def a_baseline_that_moves_mid_run_is_recorded_and_the_caveats_do_not_move_with_it():
+        """THE SIXTEEN-HOUR PHOTOGRAPH, AND THE TWO THINGS THAT MUST HAPPEN WHEN IT MOVES.
+
+        `mutate` judges every mutant by DIFFERENCE from a baseline signature. That is sound for a
+        run of seconds and an assumption for a run of hours, and on 2026-09-03 the assumption
+        broke in the expensive direction: a 16.3-hour pass scored `escalation.py:409` as KILLED
+        when re-attacking it directly in a fresh sandbox proves it cannot be detected by anything
+        (order 58a00e909217 -- a confirmed FALSE KILL, which hides a gap in the battery and
+        reports it as covered). The remedy landed as `--rebaseline-every`, defaulting to 1800s:
+        re-photograph the gates on RESTORED code through the run and record it when the signature
+        has moved. NOTHING ANYWHERE WATCHED THAT INSTRUMENT, which by this project's own standing
+        rule means it was not yet evidence of anything -- the same state as the fix it was for.
+
+        AND THE SECOND HALF IS ORDER 19791681f257, because it is the same drive. The in-place
+        refresh (`red_at_baseline[:] = ...`) is what keeps the NEXT survivor's "these detectors
+        were down" caveat current -- and while every survivor row stored that same list OBJECT,
+        it also silently rewrote the caveat on survivors scored HOURS EARLIER. The caveat on a
+        survivor found at hour two became a statement about a photograph taken at hour fifteen,
+        in the row `file_orders` pastes verbatim into a permanent work order. So: the first
+        survivor was scored while the gate was red and must still say so afterwards, and the
+        second was scored after it cleared and must say THAT. One drive, both properties.
+
+        DRIVEN, WITH A REAL GATE. The gate is a script that counts its own invocations and goes
+        green part-way through -- which is exactly the self-healing shape the drift record shows
+        (seven pairs across 2026-09-06/07, red and green again within the hour) -- so
+        `_gate_result` really spawns it and `_row_ids` really parses it. `JOURNAL` is redirected
+        into the scratch tree; the live `state/MUTANTS_SURVIVED.jsonl` is not touched. `root` is
+        supplied, so `sandbox()` is never called and nothing is reaped.
+        """
+        import mutate as M
+        root = tempfile.mkdtemp(prefix="drill_drift_")
+        saved_journal = M.JOURNAL
+        try:
+            os.makedirs(os.path.join(root, "src"))
+            os.makedirs(os.path.join(root, "state"))
+            M.JOURNAL = os.path.join(root, "state", "MUTANTS_SURVIVED.jsonl")
+            target = "compress_store.py"
+            shutil.copy2(os.path.join(_srcdir(), target), os.path.join(root, "src", target))
+            gate = os.path.join(root, "gate.py")
+            with open(gate, "w", encoding="utf-8") as fh:
+                fh.write(
+                    "import os, sys\n"
+                    "c = os.path.join('state', 'COUNT')\n"
+                    "n = int(open(c).read()) if os.path.isfile(c) else 0\n"
+                    "n += 1\n"
+                    "open(c, 'w').write(str(n))\n"
+                    "if n <= 3:\n"
+                    "    print('  FAILED a row that is red until the tree settles: got 1, want 0')\n"
+                    "    print('RESULT: 1 passed, 1 FAILED')\n"
+                    "    sys.exit(1)\n"
+                    "print('RESULT: 2 passed, 0 FAILED')\n"
+                    "sys.exit(0)\n")
+            gates = (("gatecheck", [sys.executable, gate]),)
+            base = M.baseline(root, gates=gates)                     # reading 1: red
+            res = M._run_mutation(target, limit=2, gates=gates, confirm=(), root=root,
+                                  base=base, rebaseline_every=1e-9,
+                                  base_times={"gatecheck": {"seconds": 1, "timeout": 1200,
+                                                            "completed": True}})
+        finally:
+            M.JOURNAL = saved_journal
+            shutil.rmtree(root, ignore_errors=True)
+        drifts = res.get("baseline_drifts") or []
+        moved = drifts[0].get("gates_that_moved", {}) if drifts else {}
+        rows = [s.get("red_gates_disabled") for s in res["survivors"]]
+        return (len(drifts) == 1                       # the move was RECORDED, not absorbed
+                and list(moved) == ["gatecheck"]
+                and "1 FAILED" in str(moved["gatecheck"].get("was"))
+                and "0 FAILED" in str(moved["gatecheck"].get("now"))
+                and res["survived"] == 2
+                # scored while the gate was red -- and it still says so after the refresh
+                and rows[0] == ["gatecheck"]
+                # scored after it cleared -- and it does NOT inherit the earlier caveat
+                and rows[1] == []
+                and res.get("red_gates_disabled_at_launch") == ["gatecheck"]
+                and res.get("red_gates_disabled_at_end") == [])
+    net(a, "a baseline that moves mid-run is recorded, and it does not rewrite earlier caveats",
+        a_baseline_that_moves_mid_run_is_recorded_and_the_caveats_do_not_move_with_it,
+        "orders 58a00e909217 / 19791681f257: a single photograph over a 16-hour run produced a "
+        "confirmed FALSE KILL, and the refresh that fixes it updated the disabled-detector "
+        "caveat IN PLACE on every survivor row already written -- so an early survivor's caveat "
+        "described a reading taken hours after it was scored, in the text of a permanent order")
+
+    net(a, "a gate that went red for a MISSING DOCUMENT is named down to the failing row",
+        a_sandbox_missing_a_gate_document_names_the_rows_it_lost,
+        "orders 21ae41adc29c / 2461a04d8849: a red baseline reported by SIGNATURE ALONE cost a "
+        "shift a hand-built sandbox to learn that all five red rows were the sandbox's own "
+        "omissions -- five detectors switched off in every mutation run ever made, and nothing "
+        "anywhere said which five")
 
     def publish_asks_before_pushing(src=None):
         """The step whose failure is IRREVERSIBLE and OUTWARD-FACING. Verified by reading the
@@ -13783,13 +14195,24 @@ def drill_agent_scratch_gate():
         "exactly like a file that was never copied")
 
 
-def main():
+def main(areas=None):
+    """Attack every net, land the verdict, and RETURN A CODE THAT AGREES WITH IT.
+
+    `areas` EXISTS SO THIS FUNCTION CAN BE DRIVEN (order 75c4171c2e93). The area list below is
+    the production one and is what every real caller gets; a net that needs to watch THIS
+    function's own reporting -- rather than a re-spelling of its rule sitting beside it -- passes
+    a single trivial area so the run is cheap, and everything else about the call is real: the
+    real argument parsing, the real stamp write through `silence.write_json`, the real summary
+    line, the real `return`. `_a_verdict_that_did_not_land_returns_nonzero` is that net. Nothing
+    in the production path passes this argument, and `__main__` below does not.
+    """
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--to-halt", action="store_true",
                     help="finish by raising a REAL halt so the top rung is observed firing")
     a = ap.parse_args()
 
-    for fn in (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
+    for fn in (areas if areas is not None else
+              (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
                drill_done_keys, drill_profile,
                drill_snapshot, drill_stale_writer, drill_policy, drill_binding_identity,
@@ -13807,7 +14230,7 @@ def main():
                # is an area whose nets never run, which is the quietest way to lose a net.
                drill_identity_dashboard, drill_hostcheck, drill_weave_plan,
                drill_agent_scratch_gate,
-               drill_outside):
+               drill_outside)):
         # AN AREA THAT DIES IS A BREACH OF THAT AREA, NOT THE END OF THE RUN (order
         # 5c87268a388c, run #37).
         #
@@ -13876,11 +14299,43 @@ def main():
     # second mark to the gate signature `mutate.baseline()` builds from these lines, and mutate
     # grades by DIFFERENCE from a baseline. One line, both facts, no new mark, no new exit code.
     #
-    # THE EXIT CODE IS STILL 0 IN THIS CASE, AND THAT HALF IS NOT FIXED HERE. `overnight`,
-    # `foreman` and `mutate`'s `drill` gate all branch on this rc, `overnight.name_rc` has to
-    # name any new one, and mutate's gate has to be checked against it before it is introduced --
-    # which is why the order is addressed to RUN and why this shift landed only the half that
-    # cannot break a caller.
+    # AND THE EXIT CODE NOW AGREES WITH THE VERDICT TOO -- rc=3, added 2026-09-08, closing the
+    # half order 75c4171c2e93 left standing. A gate whose exit code can disagree with its own
+    # verdict is the shape this whole file exists to prevent, and `drill.py` already enforces
+    # exactly this property on another module: `a_hand_raised_halt_that_did_not_land_returns_
+    # nonzero` exists for order a1addbdff907, "a person who deliberately halted the library was
+    # told on stdout that they had, with a success rc for any script watching, whether or not the
+    # file ever appeared". The same sentence was true of this file about itself.
+    #
+    # EVERY CALLER THAT BRANCHES ON THIS RC WAS READ BEFORE THE CODE WAS INTRODUCED, which is
+    # what the order asked for and why it was addressed to RUN:
+    #
+    #   * `overnight.safety_drill()` already has the right arm for it: `if r.returncode not in
+    #     (0, 1)` notes `overnight.py:drill-did-not-complete` and logs "the nets were NOT
+    #     inspected this cycle" (order b66a8b1acf50, which added it for exactly this class of
+    #     unnamed code). That sentence overstates the fault slightly -- the nets WERE inspected,
+    #     it is the verdict that did not land -- but it errs towards refusing to call the cycle
+    #     clean, which is the safe direction, and it replaces the previous outcome of the cycle
+    #     being logged as a normal pass. `overnight.name_rc` does NOT yet name 3, so the log will
+    #     say `rc=3` with no diagnosis; that file is not this one's to edit and the gap is
+    #     reported with this change rather than left silent.
+    #   * `overnight`'s only other use is `drill_rc != 1`, the prose interlock for `generate.py`,
+    #     which is unaffected: a verdict that did not land is not a breach and must not read as
+    #     one.
+    #   * `mutate`'s `drill` gate folds rc into the gate SIGNATURE it judges mutants by
+    #     difference from. rc=3 in a baseline is classified by `mutate.red_gates` (anything not
+    #     starting `rc=0|`), so the run says "RED IN THE BASELINE ... THESE GATES ARE DISABLED:
+    #     drill" and names it -- which is the true statement, since a drill that cannot land its
+    #     verdict cannot be believed about a mutant either. No new handling is needed there, and
+    #     nothing silently changes: the alternative was a sandbox whose stamp failed reporting
+    #     rc=0 and disabling nothing.
+    #   * `foreman` does not run `drill.py` at all (foreman.py:115 records the decision not to).
+    #   * `workorders.sweep_detectors` and `dashboard.safety` read the FILE, not the rc, and are
+    #     the readers this whole paragraph is about protecting.
+    #
+    # A BREACH STILL OUTRANKS IT. `return 1` below is reached first, so a run that both breached
+    # and failed to stamp reports the breach -- the more severe fact, and the one that halts the
+    # library. rc=3 is the code for "nothing refused, and you still cannot trust the file".
     #
     # THE VERDICT, ON DISK, WITH A TIME ON IT AND THE CODE IT WAS ABOUT.
     #
@@ -14005,6 +14460,12 @@ def main():
         print("The park is stopped. Restart it with:")
         print('  python src/escalation.py --clear --ruling "<your ruling>"')
         return 2
+
+    if not landed:
+        # THE RETURN CODE, NOT ONLY THE SENTENCE (order 75c4171c2e93). See the long paragraph
+        # above the stamp for every caller that reads this and what each of them does with a 3.
+        # Reached only when nothing breached and no halt was asked for, so it never masks either.
+        return 3
     return 0
 
 

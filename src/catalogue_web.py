@@ -220,6 +220,13 @@ def catalogue_composite(source_name, verbose=True):
     spec = ws.COMPOSITE_SOURCES[source_name]
     entries, seen = [], {}
     failed_cats = []
+    # THE CATEGORY A TITLE ACTUALLY CAME FROM, same shape as catalogue()'s `first_cat` (order
+    # 6eb20e8d3565) and repairing the same defect here (order 9e300162f4df): every entry below
+    # used to be typed the literal 'Deity' regardless of which of `cats` it was a member of.
+    # `setdefault` keeps the FIRST category a title was found in, across every sub-wiki and
+    # category in this source's spec -- matching `seen`'s dedup scope, since a title merged
+    # across sub-wikis by `seen` should keep the provenance it was first seen under.
+    first_cat = {}
     # A TITLE THAT CAME BACK WITHOUT TEXT IS NOT AN ENTITY WITH NO EVIDENCE. `page_texts` drops
     # every falsy result, and `page_text` returns the same "" whether all three of its section
     # fetches raised (timeout, 429) or the page genuinely has no prose -- so a dropped title used
@@ -247,11 +254,17 @@ def catalogue_composite(source_name, verbose=True):
         got = 0
         for c in cats:
             try:
-                titles = ws.clean_titles(ws.category_members(sub, c, limit=None))
+                raw_titles = ws.category_members(sub, c, limit=None)
             except Exception:
                 silence.note("catalogue_web.py:composite-category-members")
                 failed_cats.append(f"{sub}:{c}")
                 continue
+            # Keyed on the RAW title, before cleaning -- same reasoning as catalogue()'s
+            # discovery loop: nothing normalises these strings between here and `wanted` below,
+            # so nothing can drift the key out from under the map.
+            for _t in raw_titles:
+                first_cat.setdefault(_t, c)
+            titles = ws.clean_titles(raw_titles)
             if len(titles) > 40:
                 titles = ws.rank_by_size(sub, titles, top=None)   # rank, never truncate
             wanted = []
@@ -272,7 +285,13 @@ def catalogue_composite(source_name, verbose=True):
                     continue
                 entries.append({
                     "name": title,
-                    "type": "Deity",
+                    # THE CATEGORY THIS TITLE ACTUALLY CAME FROM (order 9e300162f4df), not the
+                    # literal 'Deity' for every entry from every sub-wiki and every category.
+                    # 'Deity' stays only as the fallback for a title whose provenance was
+                    # dropped by cleaning or ranking -- the same fallback shape catalogue() uses
+                    # for its own canonical class. _singular(), never .rstrip("s") (order
+                    # 0a5019b2527e's reasoning applies identically here).
+                    "type": _singular(first_cat.get(title) or "Deity"),
                     "description": text,
                     "scale_note": "",
                     "category": "Persons (named individual characters, real or fictional)",
@@ -608,7 +627,13 @@ def main():
     if args.only:
         wanted = [n.strip().lower() for n in args.only.split(",")]
         todo = [r for r in todo if any(w in r["name"].lower() for w in wanted)]
-    if args.limit:
+    # `is not None`, not truthiness (order 4ed4041c3b78): `--limit 0` is a value the operator
+    # gave, and `if args.limit:` read it as "no limit given" -- the same falsy-zero slip fixed
+    # the same shift in generate.py and feats.py.roll(), and earlier in binding_health.py and
+    # burgs.py. An empty `todo` here is safe: the dry-run loop and the threaded roll below both
+    # iterate `todo` (nothing, for an empty list) and the only length used downstream is
+    # `len(todo)` itself for the progress print, never a denominator.
+    if args.limit is not None:
         todo = todo[: args.limit]
 
     print(f"{len(todo)} sources to catalogue from wiki sources "
