@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 430  ·  last run 2026-09-07 20:49
+round 431  ·  last run 2026-09-07 21:57
 
 ## Structure
 
@@ -12,16 +12,7 @@ round 430  ·  last run 2026-09-07 20:49
 
 ## What the model found in the code
 
-**4 open** (1 high). Newest first.
-
-- **onomast.py** `well_formed` — [HIGH] Implements seven constraints, but the docstring claims it was meant to implement four with three added later, and the docstring's summary undercounts the function by three
-  - says: Is this a name a Custos could say aloud and write down twice the same way?
-- **onomast.py** `merged` — [MEDIUM] overwrites records from prior with out
-  - says: APPEND-ONLY. Carried-forward records first...
-- **cascade_bridge.py** `reason` — [MEDIUM] The `reason` variable is assigned values like 'model disabled in config' and 'the serving model ... could not be mapped to a bucket', but the comment suggests it should carry the provider's own disposition from `served[
-  - says: reason puts it in the file
-- **cascade_bridge.py** `verdict` — [MEDIUM] The `verdict` variable is assigned values like 'answers' and 'no answer', which are part of the old vocabulary, but the code also assigns it values like 'model disabled' and 'no API key / provider disabled', which are not part of the original vocabulary described in the docstring.
-  - says: verdict keeps its exact old vocabulary
+Nothing open. Every finding so far has been fixed or was retired when the code it pointed at changed.
 
 ---
 
