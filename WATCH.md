@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 436  ·  last run 2026-09-08 02:41
+round 437  ·  last run 2026-09-08 03:28
 
 ## Structure
 
@@ -12,7 +12,7 @@ round 436  ·  last run 2026-09-08 02:41
 
 ## What the model found in the code
 
-**31 open** (12 high). Newest first.
+**34 open** (12 high). Newest first.
 
 - **entity_match.py** `candidates` — [HIGH] Returns a list of {name, score, reason} sorted best-first, but the function's return shape is inconsistent between early exits and the normal path, returning a dict for the normal path and a list for early exits, which can cause AttributeErrors when accessing keys like 'blocked_by_qualifier' on lists.
   - says: Rank every compatible catalogue entry for `name`.
@@ -38,6 +38,18 @@ round 436  ·  last run 2026-09-08 02:41
   - says: every alphanumeric becomes '_' and every source's log collapses into one file named for none of them
 - **drill.py** `catalog_matches_disk` — [HIGH] only checks the catalog to disk direction
   - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
+- **mutate.py** `run` — [MEDIUM] execute a target and return results
+  - says: run a target
+- **mutate.py** `could_not_judge` — [MEDIUM] returns True if the signature starts with 'TIMEOUT' or 'ERROR:'
+  - says: -> True if this signature means the gate never reached a verdict, on clean code OR on a mutant.
+- **local_agent.py** `out` — [MEDIUM] overwritten by the loop's final return
+  - says: the final output of the loop
+- **local_agent.py** `t_find_symbol` — [MEDIUM] Returns a list of hits with file, line, and kind, but does not provide uniqueness verdict or enclosing class information as claimed.
+  - says: Every definition of `name`, with its enclosing class and a uniqueness verdict.
+- **ingest_doc.py** `bad_category` — [MEDIUM] bad_category is a counter for invalid categories, not a mechanism for substitution
+  - says: bad_category is what makes the substitution visible instead of silent
+- **ingest_doc.py** `write_record_catalogue` — [MEDIUM] write_record_catalogue is used for writing to the catalogue, not for merging records
+  - says: write_record's disk-wins merge DISCARDED the first 14 entities this module ever found
 - **foreman.py** `unrestartable` — [MEDIUM] unrestartable jobs are not escalated
   - says: A stalled job nothing would restart is escalated, not silently left
 - **foreman.py** `kill_stalled` — [MEDIUM] killed stalled and unrestartable jobs
@@ -70,12 +82,6 @@ round 436  ·  last run 2026-09-08 02:41
   - says: Remove the probe whether or not it ever became usable. -> None.
 - **descending_ladder.py** `rung_for_length` — [MEDIUM] Returns (rung, name) for sizes within the DESCENDING range, but returns (None, None) for sizes above the range, and a Fold name for sizes below the Planck length. However, the function's docstring states that the domain is bounded at both ends and out-of-domain is answered with (None, None) at both ends, but the function returns a Fold name for sizes below the Planck length, which is not explicitly mentioned in the docstring.
   - says: Which descending rung does a given size belong to? Returns (rung, name).
-- **dashboard.py** `movement` — [MEDIUM] computes deltas against the oldest sample inside the window, but the comment indicates it should report unmeasured values as zero and handle missing data properly
-  - says: What has CHANGED, not what the level is.
-- **catalogue_web.py** `record_path` — [MEDIUM] record_path is used to write the record, but the actual implementation is not shown in the provided code snippet
-  - says: the raw join would look for the un-truncated name, miss the record this module itself wrote under the cap, and write a SECOND one beside it
-- **cascade_bridge.py** `selftest` — [MEDIUM] the code does instead
-  - says: the code says it does
 
 ---
 
