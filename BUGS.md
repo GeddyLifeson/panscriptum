@@ -5220,3 +5220,99 @@ unidentified … a live outage*) and m116 (*this fixes only the crash-reporting 
   False in 0.13s. Pinned by verify_math **§19aa** (5 checks driven off a stub opener: the UA is
   present and is not `python-urllib`, a 200 opens the gate, a 403 does not, and the URL names a
   content host).
+
+- **[M80 — FIXED, and the CLASS closed with it] A DRILL STAND-IN PINNED NARROWER THAN THE
+  FUNCTION IT REPLACES BREACHES ON THE *FIX*, NOT ON THE DEFECT — TWICE IN ONE DAY.** A net proves
+  something by swapping a real function for a stub. The stub freezes a signature. When the real
+  function later grows a parameter, the stub does not, and the net fails **against correct work**.
+  That is worse than a net that merely fails: it punishes the person who fixed something and
+  teaches them the net is noise. **Halt #2:** `binding_health.canary` gained `available=` while
+  drill's stub stayed pinned, and ruling 15 made `--by` mandatory on `escalation.clear()` while six
+  nets still called it unsigned — seven nets down at once, all in the halt-lifting area. **Halt
+  #3:** `cachekey.load` is `load(base, host, name, on_corrupt=None)`; order `2ce520242de8`
+  correctly gave `prose_gate.cited_names_for` the `on_corrupt=` trace five other call sites already
+  had; the stand-in took three positional arguments. **And the failure came disguised** —
+  `cited_names_for` deliberately swallows loader exceptions into "not cited", which is what makes a
+  raise inside the stub safe as a probe, so the `TypeError` surfaced as an *always-empty cited set*:
+  AUDIT DEFEAT 5 restored verbatim, the exact condition that net exists to catch, manufactured by
+  the net's own scaffolding. A net cannot tell its broken fixture from its quarry. Both were found
+  by a net firing, hours apart, on two different agents' work — so the class was closed rather than
+  the instances: **94 stand-in sites measured, 0 unresolvable, 0 arity mismatches**, now standing as
+  `verify_math` **§20ae** with two controls (a planted three-argument stub against `cachekey.load`
+  must be caught — halt #3 in four lines — and the same stub with `**kw` must read clean, so the row
+  cannot push anyone toward narrowing the real function). Three measured lessons live in the check:
+  compare **arity, not names** (names report 12 hits, 11 of them noise); resolve aliases to the
+  **nearest preceding import** (`drill.py` binds `SC` to both `scope` and `scout`, and one global
+  map made 12 sites unresolvable); and **assert the unresolvable count at zero** beside the fault
+  count, because a scan that cannot see a site cannot vouch for it.
+
+- **[M81 — FIXED] `ledger_guard` REBASELINED ITS OWN BASELINE, SO REPEATED SUB-THRESHOLD LOSSES
+  NEVER ADDED UP.** `check_since_snapshot()` compares against a baseline it then resets, so every
+  individual loss is measured against the diminished tree that the previous loss produced. Ten
+  simulated ~4%-per-push losses passed **every single time**. A second, independent ratchet-only
+  *floor* snapshot and `check_since_floor()` — wired into `assert_intact()` and the CLI — caught it
+  on push 2 at 8% cumulative. The shape is the one this project keeps finding: nothing failed, at
+  any point, while an unbounded amount was lost.
+
+- **[M82 — FIXED] EVERY REFUSAL AT THE TOP OF THE LADDER SCORED THE MAXIMUM THE SCALE ADMITS.**
+  `assay.axis_score`'s `i + 1 >= len(LADDER)` branch sat *before* the lookups, so at M10 — and only
+  at M10 — every refusal returned the literal `9.9`. A firecracker anchored at M10 read maximum
+  Ruin. Lookups now run first and the below-floor clamp applies on the top rung too. Measured
+  before changing any scoring behaviour: **no record in `data/ASSAYS.json` anchors at M10** (507
+  records; M3 111, M1 100, M2 23, M4 20, M6 19, M0 6, M7 4, M8 2, M5 1, 221 unanchored), so no
+  published number moves. The separate in-range saturation is untouched and now explicitly pinned
+  "recorded, not endorsed".
+
+- **[M83 — FIXED] THE PIPELINE EXITED 0 WHEN IT CRASHED, AND THE SUPERVISOR BELIEVED IT.**
+  `pipeline.main()`'s crash, interrupt and stalled paths all ended in a bare `return`, and
+  `if __name__ == "__main__":` called `main()` without `sys.exit()`. `overnight.run()` reads
+  `p.returncode` straight into its cycle health summary — so a crashed pipeline, an interrupted
+  one and a mid-ladder stall all reported **ok**. Every return now carries an int and the bottom is
+  `sys.exit(main())`; measured on drill's own rig across clean finish, stall, crash,
+  KeyboardInterrupt and `--status`.
+
+- **[M84 — FIXED] MUTATION SANDBOXES READ THE *LIVE* CORPUS, SO THE BASELINE MOVED UNDER THE
+  EXPERIMENT.** `mutate.sandbox()` junctioned all of `data/` as a single unit, and the gates run
+  inside a sandbox read files like `data/TIERS.json` directly — from the live tree, which other
+  jobs rewrite continuously. That is the mechanism behind seven recorded baseline drifts and the
+  one confirmed false kill at `escalation.py:409`. Fixed by hardlinking every top-level *file*
+  under `data/` at build time while still junctioning directories; the freeze was **proven, not
+  assumed** — `silence.write_json`'s atomic `os.replace` detaches the old inode, so a hardlink
+  taken beforehand behaves exactly like a copy, reproduced against the project's own writer. Note
+  this is a **second, independent cause** beside the ageing-into-reapability one measured earlier
+  in run #46; both were real, and fixing either alone would have left the passes dying.
+
+- **[M85 — FIXED] AN UNKNOWN BASELINE WAS ROUNDED TO A CONFIDENT ZERO.** `hostcheck.score()` read
+  `base = null_rate(...) if by else 0.0`, handing back a scored 0.0 for a falsy `by` — directly
+  against the comment two lines above it and against `null_rate()`'s own documented contract that
+  *None is not zero*. Now `else None`, routing into the already-existing `elif base is None:`
+  UNREACHABLE path. No new branch was needed; the honest answer already had somewhere to go.
+
+- **[M86 — FIXED] TWELVE SOURCES WITH NO WIKI AT ALL BUILT VOLUMES THAT LOOKED CLEAN.**
+  `feats_index.feats_for_source` returns `[]` for a source absent from `WIKI_HOSTS.json` — no
+  exception, no note, no print — so `manifest_builder` emitted a volume with no Feats chapter and a
+  build report indistinguishable from a legitimate run. The `binding=` out-channel existed and was
+  never passed. Now passed, and gated on `kind == "unbound"` **alone**: the 6 `pages` and 1 `doc`
+  sources are correct by design, and warning on them would be an alarm that always sounds. Current
+  reading: 197 bound, 6 pages, 1 doc, 12 unbound.
+
+- **[M87 — CORRECTED] TWO MODULES ASSERTED, AS SETTLED FACT, WORK THAT WAS NEVER DONE.**
+  `descending_ladder.py:40` and `scale_theories.py:24` both read *"Only `hosts.py` and `render.py`
+  were wired under that ruling."* Measured 2026-09-08: `render` **is** wired (`publish.py:1346`);
+  `hosts` is wired **nowhere** — `import hosts`, `from hosts import`, `hosts_for(` and
+  `SOURCE_HOSTS` all return zero hits outside `hosts.py` itself. Both corrected to state what is
+  true, to name order `3fb312a72435` as still open, and to name `feats.py` as the wiring point. A
+  comment asserting a completed action that never happened is worse than no comment: the next
+  reader takes it as settled and stops looking. The same shape was found the same day inside
+  `events.py` — a paragraph describing a third sentence-detection rule that was never written, and
+  beside it a `.replace("Now ", "")` in the shelf-table header test that cannot change the outcome
+  on any input (proved: the shelf-position count is 31 with or without it).
+
+- **[M88 — FILED, NOT FIXED] `os.kill(pid, 0)` IS NOT A LIVENESS PROBE ON THIS MACHINE.** It
+  reported two live, actively-working processes as gone. Both were running the whole time;
+  `Get-CimInstance Win32_Process` listed them, plus five more panscriptum processes the `os.kill`
+  sweep had missed entirely. It nearly closed order `3dc2832846bc` on the finding that two jobs
+  were dead while they were advancing — a probe that answers "dead" for a living process is
+  indistinguishable from one that is right, and every consumer downstream reads the wrong answer
+  with full confidence. Filed as `b9044b16c8e9` for a tree-wide audit rather than fixed in place,
+  because it was found by *being wrong* rather than by looking, so the true extent is unknown.
