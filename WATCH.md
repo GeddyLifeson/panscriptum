@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 437  ·  last run 2026-09-08 03:28
+round 438  ·  last run 2026-09-08 04:37
 
 ## Structure
 
@@ -12,8 +12,14 @@ round 437  ·  last run 2026-09-08 03:28
 
 ## What the model found in the code
 
-**34 open** (12 high). Newest first.
+**39 open** (15 high). Newest first.
 
+- **publish.py** `prune_export` — [HIGH] Deletes files and directories in the export copy when they are not in the wanted set
+  - says: Refuses to delete a live tree, but the code does not actually refuse to delete anything
+- **onomast.py** `load_onomasticon` — [HIGH] Returns an empty dict on FileNotFoundError and on unreadable files, overwriting existing data instead of refusing to overwrite.
+  - says: Load the onomasticon from a file, returning the content or an empty dict on error.
+- **onomast.py** `well_formed` — [HIGH] Implements seven constraints, but the docstring claims the function was meant to have four constraints and incorrectly attributes three of the four to the wrong constraints
+  - says: Is this a name a Custos could say aloud and write down twice the same way?
 - **entity_match.py** `candidates` — [HIGH] Returns a list of {name, score, reason} sorted best-first, but the function's return shape is inconsistent between early exits and the normal path, returning a dict for the normal path and a list for early exits, which can cause AttributeErrors when accessing keys like 'blocked_by_qualifier' on lists.
   - says: Rank every compatible catalogue entry for `name`.
 - **drill.py** `axis_score` — [HIGH] returns a number when hi == lo
@@ -38,6 +44,18 @@ round 437  ·  last run 2026-09-08 03:28
   - says: every alphanumeric becomes '_' and every source's log collapses into one file named for none of them
 - **drill.py** `catalog_matches_disk` — [HIGH] only checks the catalog to disk direction
   - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
+- **publish.py** `push` — [MEDIUM] push() raises PushHeld when a push is held, which is caught in an except block that prints the error and sets rc=1. However, the comment block claims that push() has only two return values (landed or no change) and that the third outcome (committed but held) comes out as PushHeld. This is correct, but the comment block's wording is misleading because it implies that push() returns values, whereas in reality, push() raises exceptions. The comment block's claim is about return values, but the actual behavior is about exception raising. This is a defect of fact because the code's behavior contradicts the comment's claim.
+  - says: push() now has only two RETURN values, and both are honest ones: it landed, or there was nothing to land. The third outcome -- committed but held -- comes out as `PushHeld` and is caught below, where it prints and sets rc=1, because a held push reported as "no change to push" with rc=0 is this comment block's own rule broken one line further down the function.
+- **publish.py** `porcelain` — [MEDIUM] porcelain
+  - says: porcelain
+- **publish.py** `git` — [MEDIUM] git
+  - says: git
+- **publish.py** `leaks` — [MEDIUM] leaks includes suppressed findings by checking if not str(h[2]).startswith('SUPPRESSED')
+  - says: Suppressed findings are REPORTED by the scanner and excluded from the refusal
+- **pipeline.py** `gate_done` — [MEDIUM] marks phase 8 done on `all([]) == True` having built nothing
+  - says: A THIRD ARM WAS ADDED HERE ON 2026-09-01 AND REVERTED THE SAME SHIFT. Recorded so the next reader does not re-derive it a third time.
+- **overwatch.py** `codewatch.exit_if_stale` — [MEDIUM] Exits with rc=17 if the process is stale
+  - says: Exits with rc=17 on purpose
 - **mutate.py** `run` — [MEDIUM] execute a target and return results
   - says: run a target
 - **mutate.py** `could_not_judge` — [MEDIUM] returns True if the signature starts with 'TIMEOUT' or 'ERROR:'
@@ -72,14 +90,6 @@ round 437  ·  last run 2026-09-08 03:28
   - says: No source's states may sum PAST its own entry count. One direction, and only one.
 - **drill.py** `sweep_fire_polarity` — [MEDIUM] the function checks that the `ok` parameter is the healthy predicate and that the `if ok:` branch calls `resolve_code` and the `else` branch calls `file_order`
   - says: THE ARMS OF `_fire` MUST NOT BE THE OTHER WAY ROUND.
-- **drill.py** `S.replace_if_unchanged` — [MEDIUM] the function is used to replace a file and simulate a denial scenario where the code expects a specific error message
-  - says: the function is used to replace a file only if it is unchanged
-- **drill.py** `_deliberately_failing` — [MEDIUM] the function is used to simulate a failure scenario where the code expects a specific error message
-  - says: the function is used to trigger a deliberate failure
-- **drill.py** `the_cap_resets_per_run` — [MEDIUM] only checks if 'patches' is zero and 'files' is empty, but 'files' is never actually checked
-  - says: blast_reset() clears the WHOLE budget, both halves of it.
-- **drill.py** `unstage` — [MEDIUM] Does not remove the probe if the link is not found, and may leave behind files if the OS error is not handled properly
-  - says: Remove the probe whether or not it ever became usable. -> None.
 - **descending_ladder.py** `rung_for_length` — [MEDIUM] Returns (rung, name) for sizes within the DESCENDING range, but returns (None, None) for sizes above the range, and a Fold name for sizes below the Planck length. However, the function's docstring states that the domain is bounded at both ends and out-of-domain is answered with (None, None) at both ends, but the function returns a Fold name for sizes below the Planck length, which is not explicitly mentioned in the docstring.
   - says: Which descending rung does a given size belong to? Returns (rung, name).
 
