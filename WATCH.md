@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 459  ·  last run 2026-09-09 15:07
+round 460  ·  last run 2026-09-09 15:41
 
 ## Structure
 
@@ -8,12 +8,15 @@ round 459  ·  last run 2026-09-09 15:07
 - files that will not parse: **0** of 302,102 inspected (deep scan as of round 457)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
-- NOT RUNNING: **0** dashboard.py
 
 ## What the model found in the code
 
-**34 open** (12 high). Newest first.
+**40 open** (14 high). Newest first.
 
+- **worldseed.py** `to_fmg_query` — [HIGH] Constructs a query string with parameters that are not all the ones the generator actually honours
+  - says: Render for Azgaar, emitting ONLY what that generator actually honours.
+- **worldseed.py** `URL_SETTABLE` — [HIGH] A tuple of parameters that the function to_fmg_query does not use, and which are not authoritative or complete
+  - says: What the profile derives that a query string cannot deliver. Named, not hidden.
 - **verify_math.py** `_STx.MIN_CALLS_TO_JUDGE_RATE` — [HIGH] the value standards.MIN_CALLS_TO_JUDGE_RATE is a hardcoded literal 20
   - says: the value standards.MIN_CALLS_TO_JUDGE_RATE carries is the one tuning.py declares
 - **verify_math.py** `_MIN_CALLS_DECLARED_VM` — [HIGH] the threshold standards enforces is a hardcoded literal 20
@@ -38,6 +41,24 @@ round 459  ·  last run 2026-09-09 15:07
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **worldseed.py** `write_json` — [MEDIUM] returns False on a denied replace
+  - says: A DENIED WRITE FAILS THE EXIT CODE
+- **worldseed.py** `build_all` — [MEDIUM] prints distributions even if inputs were not fully read
+  - says: handles the case where inputs are not fully read
+- **worldseed.py** `build_all` — [MEDIUM] appends entries to the output list before checking the limit condition
+  - says: processes entries and filters them based on criteria
+- **worldseed.py** `build_all` — [MEDIUM] returns immediately when the output list reaches the limit
+  - says: limits the output to a specified number of entries
+- **workorders.py** `shell_active` — [MEDIUM] the reroute reason arrived as a SHELL ARGUMENT and contains %d construct(s) a shell acts on, but the code is not using the result of shell_active
+  - says: the reroute reason arrived as a SHELL ARGUMENT and contains %d construct(s) a shell acts on
+- **workorders.py** `how` — [MEDIUM] the --how argument is read from the command line, and the --how-file argument is used to read from a file or stdin. However, the code uses _side_channel_text to handle both channels, which is supposed to manage the safe channel. The variable 'how' is assigned the result of _side_channel_text, which may not be the same as the command line argument.
+  - says: read the --how text from PATH ('-' for stdin) instead of from the command line. THE SAFE CHANNEL: the text never becomes a shell argument, so nothing in it can be substituted, eaten or EXECUTED
+- **workorders.py** `raw` — [MEDIUM] is assigned a list based on the existence of the export tree, not the actual scan results
+  - says: contains the results of the scan for secrets
+- **workorders.py** `scanned` — [MEDIUM] is set to the result of os.path.isdir(P.SITE), which is a boolean
+  - says: determines if the export tree exists
+- **workorders.py** `_fire` — [MEDIUM] the code does something else
+  - says: the code says it does
 - **scope.py** `ceiling_for` — [MEDIUM] The function is called by `magnitude.host_ceiling` (magnitude.py:942) and is used to retrieve the ceiling from the SCOPE.json file.
   - says: The Magnitude ceiling a source's own scope supports, or None. NO CALLERS -- see above.
 - **verify_math.py** `check` — [MEDIUM] is used to check a condition that is already known to be true
@@ -72,16 +93,6 @@ round 459  ·  last run 2026-09-09 15:07
   - says: returns got and _torn
 - **rigor.py** `mathematical_resonance` — [MEDIUM] used without definition in code
   - says: returns a dictionary with mathematical quantities and relations
-- **rigor.py** `gumbel_return_level` — [MEDIUM] used without definition in code
-  - says: calculates the return level for Gumbel distribution
-- **rigor.py** `prob_at_least_one` — [MEDIUM] used without definition in the code
-  - says: calculates the probability of at least one occurrence
-- **rigor.py** `lognormal_product` — [MEDIUM] used without definition in the code
-  - says: computes the product of log-normal distributions
-- **rigor.py** `load_bearing` — [MEDIUM] sorted(fanout.items(), key=lambda kv: -kv[1])
-  - says: Ranked, never truncated (Hard Rule 0). The sole consumer slices for display; a RETURNED field that stops at eight decides on the ledger's behalf that the ninth load-bearing quantity is not load-bearing.
-- **publish.py** `_is_agent_scratch` — [MEDIUM] The function does not check if the root is a directory, which could lead to false positives if the root is a directory but not a file.
-  - says: The root itself is never a file, so a bare `handoff` cannot match.
 
 ---
 
