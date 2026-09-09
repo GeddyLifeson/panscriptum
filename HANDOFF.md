@@ -10004,3 +10004,42 @@ them:
 4. **Do not touch** `f646c1c5f1d0`, `30854f11f322`, `a724ec57e0d5`, `d1709d8e757d` or `a66423722e45`
    without reading their shift notes — all five are open on purpose and two of them now carry
    corrections written this shift.
+
+## CORRECTION TO RUN #48, WRITTEN 2026-09-09 — THE MUTATION PASS DID NOT SURVIVE THE NIGHT
+
+Run #48 closed saying the pass was *"still running"* and told the next run to read
+`state/mutate_20260908.log` for a survivor count. **That is wrong and this corrects it.** The
+entry above is left standing as written — it is what was believed at 23:35 and the ledger is
+append-only — but do not act on its item 3.
+
+**MEASURED 2026-09-09 10:30.** No process is running `mutate.py`. `state/mutate_20260908.log` is
+**1,369 bytes, mtime 23:03**, and holds only the baseline — the same content it held when run #48
+closed. The sandbox `panscriptum_mutate_tuifea_4` has been cleaned up. **Zero mutants were judged
+and no `MUTANT_*` order was filed.** The background wrapper reported **exit code 4**.
+
+**THIS IS THE FOURTH CONSECUTIVE MUTATION PASS TO PRODUCE NO RESULTS** (2026-09-03 completed but
+carried a confirmed false kill; 09-05, 09-06 and 09-07 died in flight; this one died before
+judging anything). `escalation.py` has still never received a mutation result.
+
+**WHAT EXIT 4 MEANS, AND WHY I AM NOT YET ASSERTING IT IS THE CAUSE.** `mutate.py:2803` returns 4
+from one branch only — `unusable_gates(base)` finding a gate that could not complete on clean
+code, under the banner *"A gate that cannot finish on unmutated code cannot judge a mutant. Every
+comparison against it would read TIMEOUT == TIMEOUT and report the whole set as surviving, which
+looks exactly like a finished run."* That is the safety refusing, not a crash. **But that banner
+is absent from the log**, and the log's own baseline shows all three gates completing well inside
+their limits (import 1s, `verify_math` 177s, `drill` 134s, each against a 1200s ceiling with
+"enough room" recorded). So either the refusal fired later, on a second run of the gates that the
+`--check-flaky`-shaped re-measure performs, and its output was lost; or the 4 came from somewhere
+other than that branch. **Not diagnosed. Do not record a cause that has not been demonstrated.**
+
+**ONE MISTAKE OF MINE, RECORDED BECAUSE IT IS THIS PROJECT'S OWN FAVOURITE DEFECT.** My first
+check for a live pass filtered process command lines for the string `mutate` — and matched the
+probe's own command line, which contains that word in its filter. I reported a mutation process
+alive when none was. That is `codewatch.twins()`'s original bug, the `pyflakes src/codewatch.py`
+bug, and order `d9328fe1ee38`'s bug, committed a fourth time by the run that had just filed the
+third. Re-measured against `mutate.py` as a **script token** rather than as a word: none running.
+
+**WHAT THE NEXT RUN SHOULD DO.** Not relaunch it blindly a fifth time. Four failures with no
+results is itself the finding, and the instrument should be fixed before it is used again — start
+by capturing the pass's stdout unbuffered so the refusal banner cannot be lost, then reproduce
+the exit-4 path deliberately.

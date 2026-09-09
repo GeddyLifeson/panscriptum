@@ -19,10 +19,19 @@ owed**.
 
 ## 0. DO THESE THREE THINGS FIRST, IN THIS ORDER
 
-**1. READ `state/mutate_20260908.log`.** The pass was launched 22:57 on all three targets and was
-still running at close. **There is no survivor count and this run does not have one.** A pass that
-was killed halfway is not a pass with fewer survivors — if it died, say so and relaunch; if it
-finished, the survivors are the most valuable thing on this page.
+**1. ~~READ `state/mutate_20260908.log`~~ — CORRECTED 2026-09-09: THE PASS DIED AND THERE IS
+NOTHING IN IT.** Measured 10:30 the next morning: no process running `mutate.py`, log still
+**1,369 bytes / mtime 23:03** holding only the baseline, sandbox cleaned up, **zero mutants judged,
+no `MUTANT_*` order filed**. The wrapper reported **exit code 4** — which in `mutate.py:2803` is
+the *"a gate could not complete on clean code, refusing to mutate"* safety, except that banner is
+absent from the log and the baseline shows all three gates finishing well inside their limits. **So
+the cause is NOT diagnosed; do not record one that has not been demonstrated.**
+
+**This is the fourth consecutive pass to produce no results**, and `escalation.py` has still never
+received a mutation result. **Do not relaunch it blindly a fifth time** — four failures with no
+results is itself the finding. Fix the instrument first: capture the pass's stdout unbuffered so a
+refusal banner cannot be lost, then reproduce the exit-4 path deliberately. Full correction is
+appended to `HANDOFF.md` under *CORRECTION TO RUN #48*.
 
 **2. WORK THE RUN RUNG BEFORE LAUNCHING ANYTHING LONG.** This is the sequencing lesson of run #48 and
 it cost the whole shift's RUN work — see §1.
