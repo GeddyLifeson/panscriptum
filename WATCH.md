@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 452  ·  last run 2026-09-09 03:02
+round 453  ·  last run 2026-09-09 09:32
 
 ## Structure
 
@@ -11,44 +11,52 @@ round 452  ·  last run 2026-09-09 03:02
 
 ## What the model found in the code
 
-**30 open** (18 high). Newest first.
+**34 open** (15 high). Newest first.
 
-- **pick_model.py** `vram_gb` — [HIGH] is None
-  - says: is not None
+- **publish.py** `sync_tree` — [HIGH] Copies files and directories, including whole-tree copies when directories are present
+  - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
+- **publish.py** `held` — [HIGH] the set of COPY_DIRS roots that were removed from COPY_DIRS
+  - says: the set of COPY_DIRS roots sync_tree could not enumerate in the live project
+- **publish.py** `_is_agent_scratch` — [HIGH] Checks if a file is in a CODE_FREE_DIRS directory and has an extension in _CODE_EXT, but the logic is inverted. It should return True for files that are not in CODE_FREE_DIRS or do not have the extensions in _CODE_EXT.
+  - says: True for a file `sync_tree` must never publish because of WHERE it is rather than what it is called: source code under a `CODE_FREE_DIRS` root.
+- **pipeline.py** `synthesis_blocks` — [HIGH] The function returns a list of blocks with either mined feats or description-based entries, but the key defect is the use of `+` which combines two lists, leading to a situation where the `or` operator was previously used, which caused some entries to be excluded. The function's actual behavior is to include all entries, but the original intention was to have a ranked truncation, which is not the case here.
+  - says: The nomination blocks for one source, and the mined feat text behind them.
+- **pipeline.py** `write_record` — [HIGH] Writes the pipeline's in-memory copy over the disk file when there's no drift, silently overwriting any changes made by other writers
+  - says: Write a record back WITHOUT clobbering a concurrent writer's work.
 - **overnight.py** `_cmd_is_running` — [HIGH] Checks if the fragment is a substring, not if the command line indicates the fragment is being executed.
   - says: Does this command line show `fragment` BEING RUN, rather than merely mentioned?
 - **overnight.py** `_cmd_tokens` — [HIGH] Returns split tokens of a command line, not checking if the script is in the current checkout.
   - says: Is the script on this command line THIS checkout's copy? -> bool.
-- **onomast.py** `coin_well_formed` — [HIGH] Returns the first well-formed name from a function that may return a malformed name, and does not ensure uniqueness across the register
-  - says: First well-formed, unused name for this seed. Deterministic: same input, same output.
 - **mutate.py** `_lock_release` — [HIGH] Removes the lock file unconditionally, but the function is named and documented as releasing the lock.
   - says: Drop the lock, but only if it is still OURS.
 - **mutate.py** `_lock_acquire` — [HIGH] Acquires the lock and writes a token to it, but the function is named and documented as releasing the lock.
   - says: Drop the lock, but only if it is still OURS.
 - **manifest_builder.py** `pack_feats` — [HIGH] is used without being defined in the current scope
   - says: DERIVED, NOT DECLARED (m46). `FEATS_BLOCK_CHARS` had no arithmetic relationship to `num_ctx`
-- **local_agent.py** `out` — [HIGH] Shrink whichever field is carrying the bulk, largest first, until the envelope fits (no issue)
-  - says: Shrink whichever field is carrying the bulk, largest first, until the envelope fits.
-- **local_agent.py** `dumped` — [HIGH] return json.dumps(d) (no issue)
-  - says: return json.dumps(d)
 - **local_agent.py** `num_ctx` — [HIGH] hardcoded to 8192
   - says: num_ctx from config.yaml
-- **local_agent.py** `timeout` — [HIGH] hardcoded to 1800.0
-  - says: timeout from config.yaml
 - **local_agent.py** `rel_written` — [HIGH] Used to compare the resolved path against the written path to detect hard links, but the comment says it's for checking protected regions.
   - says: Is this project-relative path inside a protected REGION? -> bool (prefix rule only).
 - **hostcheck.py** `rate` — [HIGH] rate is set to 0.0 if None
   - says: A CONTROL THAT DID NOT MEASURE IS `None`, NOT ZERO
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] the code returns 1 if the return value is None, else 0, which is the opposite of what was intended
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
-- **health.py** `summary` — [HIGH] The failure ledger as it stands. -> {class: count} (but the function is empty and does nothing).
-  - says: The failure ledger as it stands. -> {class: count}.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
-- **generate.py** `pipeline` — [HIGH] not imported or used in the code
-  - says: enforces meta-language bans
-- **generate.py** `generate_job` — [HIGH] does not handle meta-language bans or import errors
-  - says: generates a job's content
+- **publish.py** `silence.write_json` — [MEDIUM] Writes to a fixed temp file name
+  - says: Names the temp file after the writer
+- **publish.py** `render_views` — [MEDIUM] Returns 0 on failure, but the docstring says it returns the landed count.
+  - says: Redraw the five DRAWN cosmology tiers into output/views/. -> landed count.
+- **publish.py** `_is_compiled` — [MEDIUM] Returns True for `.pyc`/`.pyo` files, but also for paths containing `__pycache__` even when the file is not a `.pyc`/`.pyo`
+  - says: True for compiled bytecode: any `__pycache__` path component, or a `.pyc`/`.pyo` file.
+- **publish.py** `scrub_text` — [MEDIUM] Scrubbing multi-line strings by line, but the code checks for the FIXTURE_MARKER in the entire string, not per line, allowing a single marker to blank the scrub for every line that value carried, including a line with a live credential and no marker of its own.
+  - says: Both locks, applied to one string. Named and public so the DRILL can attack it.
+- **pipeline.py** `phases` — [MEDIUM] phases is assigned a list of phases based on args.phase or st['phase'], but the code later checks if phases is empty and handles it with specific logging and exit codes. However, the claim is about the runner needing to identify an empty work list, which is addressed in the code. The actual behavior aligns with the claim, so no defect of fact is found here.
+  - says: A RUNNER WITH AN EMPTY WORK LIST MUST SAY WHICH KIND OF EMPTY IT IS.
+- **pipeline.py** `T.chart` — [MEDIUM] chart() returns a tuple; the first element is the per-source tier stack
+  - says: chart() returns a tuple; the first element is the per-source tier stack
+- **pipeline.py** `ask_pool_first` — [MEDIUM] Cloud pool first, local second -- for the PHASES' own judgment calls. However, the function does not actually enforce the cloud-first logic as described. It checks if the pool answering is >= _min_buckets, but the actual routing decision is made based on the pool proof's age and caption, which is not directly related to the cloud-first logic. The function's actual behavior is more about handling the cloud answer's usability and falling back to local if needed, rather than strictly enforcing the cloud-first approach as the comment suggests.
+  - says: Cloud pool first, local second -- for the PHASES' own judgment calls.
 - **overnight.py** `blocking` — [MEDIUM] is set to True if the output contains the string 'FAIL  ' + _control_label
   - says: is set to True if the output contains the blocking check's failure message
 - **mutate.py** `judged_since` — [MEDIUM] list of mutants judged under current baseline
