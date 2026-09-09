@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 453  ·  last run 2026-09-09 09:32
+round 454  ·  last run 2026-09-09 10:51
 
 ## Structure
 
@@ -11,8 +11,10 @@ round 453  ·  last run 2026-09-09 09:32
 
 ## What the model found in the code
 
-**34 open** (15 high). Newest first.
+**35 open** (15 high). Newest first.
 
+- **read.py** `return done["errored"] == 0` — [HIGH] returns 0 if no errors occurred, but the exit code should reflect whether any errors occurred
+  - says: THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT
 - **publish.py** `sync_tree` — [HIGH] Copies files and directories, including whole-tree copies when directories are present
   - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
 - **publish.py** `held` — [HIGH] the set of COPY_DIRS roots that were removed from COPY_DIRS
@@ -37,12 +39,16 @@ round 453  ·  last run 2026-09-09 09:32
   - says: num_ctx from config.yaml
 - **local_agent.py** `rel_written` — [HIGH] Used to compare the resolved path against the written path to detect hard links, but the comment says it's for checking protected regions.
   - says: Is this project-relative path inside a protected REGION? -> bool (prefix rule only).
-- **hostcheck.py** `rate` — [HIGH] rate is set to 0.0 if None
-  - says: A CONTROL THAT DID NOT MEASURE IS `None`, NOT ZERO
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] the code returns 1 if the return value is None, else 0, which is the opposite of what was intended
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **recover_folder_records.py** `shortfalls` — [MEDIUM] It is appended to the provenance string only if there are shortfalls.
+  - says: The shortfall is written into the provenance.
+- **recover_folder_records.py** `shortfalls` — [MEDIUM] It is a cross-check that could not be made, which is its own answer -- the same distinction this file draws between a denied write and a write that landed.
+  - says: A mapping that declares nothing usable is not a mapping that agrees.
+- **read.py** `qcache` — [MEDIUM] filtering entries with _QK in key but not in value
+  - says: filtering entries with _QK in key
 - **publish.py** `silence.write_json` — [MEDIUM] Writes to a fixed temp file name
   - says: Names the temp file after the writer
 - **publish.py** `render_views` — [MEDIUM] Returns 0 on failure, but the docstring says it returns the landed count.
@@ -77,10 +83,6 @@ round 453  ·  last run 2026-09-09 09:32
   - says: THE SINCE-LAST-SEAL LOOP IS ONE MECHANISM...
 - **ledger.py** `to_standards` — [MEDIUM] Converts a local sum into Standards, but returns None when the currency is not convertible, which is the same behavior as the docstring claims, but the function does not use the `currency_status` function as the docstring suggests.
   - says: Convert a local sum into Standards. None where the currency is not convertible -- for UNLISTED vs. deliberately non-convertible, see `currency_status`.
-- **hostcheck.py** `adopt` — [MEDIUM] Find a host for every catalogued source that has none, but the function's logic may have issues with how it processes candidates and scores hosts.
-  - says: Find a host for every catalogued source that has none.
-- **health.py** `reopen_stranded` — [MEDIUM] Reopens batches that contain entries not yet settled (i.e., not catalogued or excluded), but the code's comment indicates that the old test (checking only for uncatalogued entries) was incorrect and that the current test using `entry_settled` is the correct one. However, the code's logic may still be re-opening batches that should not be re-opened due to the change in the test condition.
-  - says: Re-open entry batches marked done that still contain uncatalogued entries.
 
 ---
 

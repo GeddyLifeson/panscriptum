@@ -525,7 +525,7 @@ def _is_compiled(path):
     parts = [p for p in path.replace("/", os.sep).split(os.sep) if p]
     if not parts:
         return False
-    return "__pycache__" in parts or parts[-1].endswith((".pyc", ".pyo"))
+    return "__pycache__" in parts or parts[-1].endswith(('.pyc', '.pyo'))
 
 
 def scan_for_secrets(root, max_bytes=2_000_000, only=None):
