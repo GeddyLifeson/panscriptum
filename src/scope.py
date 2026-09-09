@@ -300,7 +300,7 @@ def ceiling_for(source, hosts=None, cache=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--build", action="store_true")
-    ap.add_argument("--rebuild", action="store_true",
+    ap. add_argument("--rebuild", action="store_true",
                     help="re-probe every non-Wikipedia host, ignoring the stored PROBE_VERSION")
     ap.add_argument("--probe", metavar="HOST",
                     help="print one host's scope answer without writing it")
