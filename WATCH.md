@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 460  ·  last run 2026-09-09 15:41
+round 461  ·  last run 2026-09-09 16:10
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 460  ·  last run 2026-09-09 15:41
 
 ## What the model found in the code
 
-**40 open** (14 high). Newest first.
+**38 open** (13 high). Newest first.
 
 - **worldseed.py** `to_fmg_query` — [HIGH] Constructs a query string with parameters that are not all the ones the generator actually honours
   - says: Render for Azgaar, emitting ONLY what that generator actually honours.
@@ -33,14 +33,14 @@ round 460  ·  last run 2026-09-09 15:41
   - says: The model is returning text that is not in the source. A rate this high means the passage is being truncated before it arrives -- check the chunk size against the model's context -- or that a weak fallback model is carrying the run. IF THIS READS UNMEASURED, TREAT THAT AS THE FINDING: this standard silently did not exist from the day it was written until run #28, because it read a job-dict key that nothing sets, so an absent reading here is exactly the failure mode that
 - **standards.py** `out` — [HIGH] not modified in this code slice
   - says: receives messages to be output
-- **standards.py** `fandom_ipv4_reachable` — [HIGH] Attempts to connect to 'community.fandom.com' which resolves to IPv6 addresses, making the probe ineffective for testing IPv4 connectivity
-  - says: Can this machine open a TCP connection to fandom's edge OVER IPv4?
 - **read.py** `return done["errored"] == 0` — [HIGH] returns 0 if no errors occurred, but the exit code should reflect whether any errors occurred
   - says: THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] the code returns 1 if the return value is None, else 0, which is the opposite of what was intended
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **navtree.py** `silence.write_json` — [MEDIUM] write_json is called but the code does not handle the case where the write is denied, leading to incorrect behavior as the code does not properly handle the failure case
+  - says: write_json
 - **worldseed.py** `write_json` — [MEDIUM] returns False on a denied replace
   - says: A DENIED WRITE FAILS THE EXIT CODE
 - **worldseed.py** `build_all` — [MEDIUM] prints distributions even if inputs were not fully read
@@ -89,10 +89,6 @@ round 460  ·  last run 2026-09-09 15:41
   - says: one instance of each job
 - **standards.py** `job_stamp` — [MEDIUM] the function is called with p (previous job data), size (current log size), and now (current time), and returns held (whether the job is stalled) and stamp (the last modification time of the log file). However, the comment suggests that the function should calculate the time since the last modification, but the function's actual behavior is to carry forward the last known modification time if the size hasn't changed, which may not accurately reflect the job's actual silence period.
   - says: WHEN DID IT LAST MOVE, not when did this check last run. `at` was re-stamped to `now` on every pass, so `quiet_min` measured the interval between two consecutive standards runs -- a few minutes, always -- and could not reach the 15-minute floor no matter how long a job had actually been silent. The standard this file's own docstring calls "the failure this whole library is built to refuse" was therefore structurally unable to fire, for any job, and had been reporting "all advancing" by construction. Carrying the stamp forward while the size holds is what makes the number mean silence.
-- **secondopinion.py** `report` — [MEDIUM] returns got and _torn
-  - says: returns got and _torn
-- **rigor.py** `mathematical_resonance` — [MEDIUM] used without definition in code
-  - says: returns a dictionary with mathematical quantities and relations
 
 ---
 
