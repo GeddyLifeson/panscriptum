@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 455  ·  last run 2026-09-09 12:36
+round 456  ·  last run 2026-09-09 13:06
 
 ## Structure
 
@@ -11,8 +11,14 @@ round 455  ·  last run 2026-09-09 12:36
 
 ## What the model found in the code
 
-**29 open** (13 high). Newest first.
+**31 open** (12 high). Newest first.
 
+- **scope.py** `main` — [HIGH] returns 0 only when ap.print_help() is called
+  - says: return 0 on both branches
+- **scope.py** `scope_for` — [HIGH] returns a scope with a ceiling when no tier reaches MIN_MENTIONS
+  - says: returns None when no tier reaches MIN_MENTIONS
+- **runguard.py** `claim` — [HIGH] Proceeds with claim even if the guard could not be read, which is an AUTHORISATION rather than an observation, and does not refuse as the docstring says it should.
+  - says: Take the guard for `agent`, or refuse. Returns (ok, reason). On refusal the caller must write nothing and stop -- landing on a live predecessor is the NORMAL outcome of a cadence that fires more often than a run takes, and exiting immediately is the correct result rather than a failure.
 - **retry_synthesis.py** `PL.clean_band` — [HIGH] acceptance is forgiving, clamping is strict
   - says: acceptance is strict, clamping is forgiving
 - **publish.py** `_is_compiled` — [HIGH] Returns True for `.pyc`/`.pyo` files, but also for any file in a `__pycache__` directory, even if it's not a `.pyc`/`.pyo` file.
@@ -27,18 +33,16 @@ round 455  ·  last run 2026-09-09 12:36
   - says: Write a record back WITHOUT clobbering a concurrent writer's work.
 - **overnight.py** `_cmd_is_running` — [HIGH] Checks if the fragment is a substring, not if the command line indicates the fragment is being executed.
   - says: Does this command line show `fragment` BEING RUN, rather than merely mentioned?
-- **overnight.py** `_cmd_tokens` — [HIGH] Returns split tokens of a command line, not checking if the script is in the current checkout.
-  - says: Is the script on this command line THIS checkout's copy? -> bool.
-- **mutate.py** `_lock_release` — [HIGH] Removes the lock file unconditionally, but the function is named and documented as releasing the lock.
-  - says: Drop the lock, but only if it is still OURS.
-- **mutate.py** `_lock_acquire` — [HIGH] Acquires the lock and writes a token to it, but the function is named and documented as releasing the lock.
-  - says: Drop the lock, but only if it is still OURS.
-- **manifest_builder.py** `pack_feats` — [HIGH] is used without being defined in the current scope
-  - says: DERIVED, NOT DECLARED (m46). `FEATS_BLOCK_CHARS` had no arithmetic relationship to `num_ctx`
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] the code returns 1 if the return value is None, else 0, which is the opposite of what was intended
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **secondopinion.py** `report` — [MEDIUM] returns got and _torn
+  - says: returns got and _torn
+- **secondopinion.py** `liveness.scan()` — [MEDIUM] is called without any root
+  - says: takes NO root
+- **scope.py** `ceiling_for` — [MEDIUM] Returns the ceiling for a source's scope, but the function is marked as having no callers and is kept for historical reasons.
+  - says: The Magnitude ceiling a source's own scope supports, or None. NO CALLERS -- see above.
 - **roll.py** `apply` — [MEDIUM] Apply changes to rows by updating fields, but does not handle the case where a source name is not present in the roll (i.e., unmatched names)
   - says: Apply `{source_name: {field: value, ...}}` to the roll, key-wise.
 - **rigor.py** `mathematical_resonance` — [MEDIUM] used without definition in code
