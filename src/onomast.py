@@ -445,9 +445,16 @@ def register_for(group_id, genre_register=None, features=None):
 
     HELD, MARKED, AND NOT WIRED (order `ae25c89f0179` / twin `5d8533bc1ed6`; owner ruling
     2026-09-08, "whole modules built and never wired in": **wire what closes a measured gap;
-    hold the rest, marked.** Only `hosts.py` and `render.py` were wired under that ruling; this
-    genre+feature blend is HELD, and the reason is on the record here rather than left for the
-    next sweep to re-derive.
+    hold the rest, marked.** `render.py` was wired under that ruling (`publish.py`, `import render
+    as R`); `hosts.py` WAS NOT, and this sentence used to say it was. Measured 2026-09-08 during
+    run #46b: `import hosts`, `from hosts import`, `hosts_for(` and `SOURCE_HOSTS` all return zero
+    hits anywhere in src/ outside `hosts.py` itself, and order `3fb312a72435` is still open for it.
+    This correction was made by a DRILL NET rather than by hand -- the same false sentence stood in
+    `descending_ladder.py` and `scale_theories.py`, both were corrected by hand, and this third
+    copy was missed until `_a_module_claimed_wired_is_actually_imported` was written and found it
+    within a minute. That is the argument for netting a class instead of fixing its instances,
+    made by the class itself. This genre+feature blend is HELD, and the reason is on the record
+    here rather than left for the next sweep to re-derive.
 
     The weighted-voting logic below (`FEATURE_SHIFT`/`GENRE_WEIGHT`/`FEATURE_WEIGHT`) is correct
     and reachable from a direct call, but `name_worlds()` -- the only production caller -- still

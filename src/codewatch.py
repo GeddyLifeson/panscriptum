@@ -878,13 +878,50 @@ def main():
     print("=" * 78)
     print("  current src/ fingerprint : %s" % fingerprint())
     doc = _read_ledger()
-    if not doc:
-        print("  no source-change restarts recorded")
-    for who in sorted(doc):
-        # The third copy of the rolling-hour filter used to live here too. Same helper as the
-        # enforcement path, so the number a person reads is the number the budget spends.
-        print("  %-16s %d restart(s) in the last hour (budget %d)"
-              % (who, len(_recent_restarts(doc, who)), BUDGET_PER_HOUR))
+    # DRIVEN BY WHO SHOULD BE WATCHED, NOT BY WHO HAPPENS TO HAVE RESTARTED (order
+    # b67c5d98c91f). This block used to be `for who in sorted(doc)` over the RESTART LEDGER, so a
+    # covered job that had never taken an rc=17 restart had no key, got no line, and was neither
+    # reported stale nor reported fresh -- it was absent, and an absent row reads as nothing to
+    # say. Measured on 2026-09-08: the ledger held dashboard, foreman, overnight, overwatch and
+    # publish, while `coverage()` called seven jobs KEEPER or COVERED. `pipeline` and `read` were
+    # therefore asserted covered by one half of this module and unmentionable by the other, and
+    # `pipeline.py --run` (pid 21384, started 18:05:12) was at that moment four hours into a
+    # phase running code from before the 21:58:18 write, with `stale()` returning True for it and
+    # nothing anywhere able to say so. The two rosters could disagree precisely because only one
+    # of them was ever printed.
+    #
+    # UNION, NOT REPLACEMENT. Every ledger key is still listed even if it is on no roster -- a job
+    # that was renamed or retired still has recorded history and dropping those rows to tidy the
+    # report would be the same act as capping a roster (Hard Rule 0). What is added is the other
+    # direction: a covered job with no ledger key now says so in a sentence.
+    # NORMALISED TO THE LEDGER'S OWN SPELLING, and this is not cosmetic. `coverage()` names jobs
+    # from `overnight.ALL_JOBS`, which carries command-line fragments with the suffix on
+    # ("dashboard.py", "feats.py --roll"), while the ledger is keyed by the `who` string each job
+    # passes to `stamp()`/`exit_if_stale()` ("dashboard", "read"). Comparing the two raw prints
+    # every covered job TWICE -- once from the ledger and once as a never-restarted stranger --
+    # which is a worse report than the one this replaced, because it invents a missing job for
+    # every healthy one.
+    reportable = {job.split()[0][:-3] if job.split()[0].endswith(".py") else job.split()[0]
+                  for job, state, _why in coverage()
+                  if state in ("KEEPER", "COVERED")}
+    rows = sorted(reportable | set(doc))
+    if not rows:
+        print("  no source-change restarts recorded, and no covered job to report")
+    for who in rows:
+        if who in doc:
+            # The third copy of the rolling-hour filter used to live here too. Same helper as the
+            # enforcement path, so the number a person reads is the number the budget spends.
+            print("  %-16s %d restart(s) in the last hour (budget %d)"
+                  % (who, len(_recent_restarts(doc, who)), BUDGET_PER_HOUR))
+        else:
+            # NOT "0 restarts". Zero-this-hour and never-at-all are different facts and the
+            # second one is the one worth reading: a covered job that has never once restarted
+            # for a source change either has genuinely never seen one, or is not reaching
+            # `exit_if_stale` to find out. This line does not claim which -- it says the ledger
+            # is silent about it, which is exactly what is known.
+            print("  %-16s no source-change restart ever recorded (covered, budget %d) — "
+                  "either it has never seen one, or it is not reaching exit_if_stale"
+                  % (who, BUDGET_PER_HOUR))
     print("\n  rc=%d means 'my code changed, restart me'. It is not a crash." % RC_STALE)
     print()
     print("  WHO IS COVERED BY THIS, AND WHO IS NOT (order 2cb8756deb0a)")

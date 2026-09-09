@@ -11749,6 +11749,62 @@ def drill_codewatch():
         "a budget whose accounting can fail unnoticed is not a budget; the cap was absent "
         "exactly when the file was busy, which is exactly when daemons are restarting")
 
+    def a_covered_job_that_never_restarted_is_still_named_in_the_report():
+        """THE REPORT USED TO BE DRIVEN BY THE LEDGER, SO SILENCE LOOKED LIKE HEALTH (order
+        b67c5d98c91f).
+
+        `main()`'s per-job block was `for who in sorted(_read_ledger())` -- the jobs that have
+        RESTARTED. A covered job that had never taken an rc=17 restart had no key, so it got no
+        line at all: not stale, not fresh, not unknown. Absent. Measured 2026-09-08, the ledger
+        held five jobs while `coverage()` called seven KEEPER or COVERED, and the two it could
+        not mention were `pipeline` and `read` -- one of which was at that moment four hours into
+        a phase running pre-change code, with `stale()` returning True for it and every report
+        showing nothing wrong.
+
+        THE ATTACK IS AN EMPTY LEDGER, which is the strongest form of the fault: no job has
+        restarted, so a ledger-driven report can name NOBODY, while the correct report must still
+        name every covered job. That is the whole difference between the two implementations and
+        it is what this drives.
+
+        AND IT CARRIES ITS OWN CONTROL, because without one this net cannot fail. `main()` also
+        prints the full `coverage()` block further down, and THAT block names every job in the
+        tree -- so a naive `name in output` would pass against the old code too, on text from a
+        different section, which is this codebase's most-repeated defect wearing the shape of the
+        fix. The output is therefore sliced at the `rc=N means` line that separates the two
+        sections, and the control requires a NOT-A-JOB name (`hostcheck`, which appears only in
+        the coverage block) to be absent from that slice. If the slice ever stops working, the
+        control fails and this net goes red rather than passing on the wrong text.
+        """
+        import contextlib
+        import io
+        import codewatch as CW
+        real, real_lock, real_argv = CW.LEDGER, CW.LEDGER_LOCK, sys.argv
+        d = tempfile.mkdtemp(prefix="drill_codewatch_report_")
+        try:
+            CW.LEDGER = os.path.join(d, "CODEWATCH.json")     # absent -> _read_ledger() == {}
+            CW.LEDGER_LOCK = CW.LEDGER + ".lock"
+            covered = {j.split()[0][:-3] if j.split()[0].endswith(".py") else j.split()[0]
+                       for j, s, _w in CW.coverage() if s in ("KEEPER", "COVERED")}
+            if not covered:
+                return False        # an empty roster must never read as a clean pass
+            sys.argv = ["codewatch.py"]
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                CW.main()
+            out = buf.getvalue()
+            head = out.split("rc=%d means" % CW.RC_STALE)[0]
+            if "hostcheck" in head:
+                return False        # the slice is not isolating the per-job block; see above
+            return all(name in head for name in covered)
+        finally:
+            CW.LEDGER, CW.LEDGER_LOCK, sys.argv = real, real_lock, real_argv
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "every job coverage() calls covered is named in the report, restarts or not",
+        a_covered_job_that_never_restarted_is_still_named_in_the_report,
+        "a covered job with an empty ledger was printed nowhere, so a daemon four hours into "
+        "stale code and a daemon that had simply never needed a restart produced the identical "
+        "report: no line")
+
     def twin_detection_does_not_match_bystanders():
         """THE ONE THAT WOULD HAVE CAUSED THE OUTAGE IT PREVENTS, and that then went on to cause
         two outages of its own before it was written correctly.
@@ -11987,6 +12043,332 @@ def drill_defect_classes():
         "this exact confusion breached _no_programmatic_clear against correct code this "
         "morning, and a breach there halts the library")
 
+    # THREE MORE CLASSES, ADDED 2026-09-08 AFTER RUN #46b FOUND EACH OF THEM IN PROSE FIRST.
+    # Every one had been written down -- in a comment, a work order, or a battery row -- and
+    # written down is not the same as PROVEN. The owner's instruction was blunt and correct:
+    # clearly there need to be drills for that stuff too. A guard nobody has watched refuse is a
+    # guard nobody has evidence about, and that sentence is in this project's own doctrine.
+    net(a, "every liveness probe in src/ answers DEAD for a pid that does not exist",
+        _liveness_probes_answer_correctly,
+        "os.kill(pid, 0) does NOT raise ESRCH on this machine -- errno 22 / winerror 87 -- so a "
+        "probe checking only ProcessLookupError calls every dead process alive, and the "
+        "remedies it feeds are the destructive ones: reclaim the lease, reap the sandbox, take "
+        "the job's work away. A stranded GPU slot for a full 900s lease is how it was found")
+    net(a, "and no NEW module starts using the bare kill-0 idiom unnoticed",
+        _no_new_bare_kill0_probe,
+        "the behavioural net above can only drive probes somebody remembered to name; this one "
+        "notices the idiom ARRIVING, so the two fail in different directions")
+    net(a, "[control] the kill-0 ratchet catches an arrival and is not fooled by prose about one",
+        _the_kill0_scan_reads_both_answers,
+        "the ratchet asserts set equality, which passes just as happily when the matcher is dead")
+    net(a, "a module a comment claims WAS WIRED is actually imported by something",
+        _a_module_claimed_wired_is_actually_imported,
+        "three modules carried 'Only hosts.py and render.py were wired' as settled fact while "
+        "hosts.py was imported NOWHERE. A comment asserting a completed action is load-bearing: "
+        "the next reader takes it as settled and stops looking. Writing this net found the third "
+        "copy, which two hand-corrections had missed")
+    net(a, "[control] the wired-claim scan reads a false claim, a true one, and a self-import",
+        _the_wired_claim_scan_reads_both_answers,
+        "the live row asserts an empty list, so it would read green for ever if the regex "
+        "stopped matching anything at all")
+    net(a, "a daemon that can never settle is REPORTED, not silently left on stale code",
+        _a_never_settling_daemon_is_reported_not_silent,
+        "the settling branch used to return a bare False, so a job whose source keeps moving "
+        "never restarts, never spends budget, and reports a FULL budget -- healthy-looking "
+        "precisely because the fault is happening. Four daemons sat a day on stale code under "
+        "that reading; foreman sat 1.6 hours under it during this very run")
+
+
+_KNOWN_KILL0_SITES = {
+    # Every place in src/ allowed to reach the POSIX `os.kill(pid, 0)` idiom, with WHY each is
+    # safe. Both were already correct before run #46b went looking; this set is a ratchet, not an
+    # accusation. A NEW entry here is a deliberate act that has to be argued for in the diff.
+    "gpu_lane.py": "reached only after the kernel32 OpenProcess path returns nothing; "
+                   "ProcessLookupError and PermissionError are both handled, and verify_math "
+                   "section 19u drives _alive(999999) and requires False",
+    "mutate.py": "psutil first, then _pid_alive_windows on os.name == 'nt'; the bare idiom is "
+                 "the POSIX-only leg, where it is exact",
+}
+
+
+def _liveness_probes_answer_correctly():
+    """Every liveness probe in src/ says DEAD for a pid that does not exist, and ALIVE for ours.
+
+    THE SPELLING IS NOT THE FAULT; THE ANSWER IS. Run #46b filed an order claiming any use of
+    `os.kill(pid, 0)` in src/ was the defect, and that order was WRONG -- both live call sites
+    were already correct, already defended, and already pinned by a battery row written in
+    August. What actually happened is that the shift used the bare idiom in a throwaway script
+    of its own, got "dead" for two processes that were alive and working, and generalised from
+    its own mistake to the tree's code without reading it.
+
+    So this asks the question that matters. `os.kill(pid, 0)` against a nonexistent pid does NOT
+    raise ESRCH on this machine -- measured 2026-08-24, it raises errno 22 / winerror 87 -- so a
+    probe that checks for ProcessLookupError alone answers "alive" for every dead process. That
+    is the shape: nothing raises, nothing looks wrong, and every consumer downstream acts on the
+    wrong answer with full confidence. The remedies it feeds are the destructive ones -- reclaim
+    the lease, reap the sandbox, take the job's work away -- so a probe that is wrong in this
+    direction strands a GPU slot for its full 900-second lease, which is how it was found.
+
+    Behavioural, hermetic and cheap: two pids, no network, no processes started or signalled.
+    """
+    import gpu_lane as _GL
+    import mutate as _M
+    probes = [("gpu_lane._alive", _GL._alive),
+              ("mutate._pid_alive", _M._pid_alive),
+              ("mutate._pid_alive_windows", _M._pid_alive_windows)]
+    mine = os.getpid()
+    for _name, fn in probes:
+        try:
+            if fn(999999) is not False or fn(mine) is not True:
+                return False
+        except Exception:
+            return False
+    return True
+
+
+def _no_new_bare_kill0_probe():
+    """The set of modules reaching `os.kill(pid, 0)` is exactly the two that have earned it.
+
+    A RATCHET, deliberately, and not a ban. The behavioural net above is the real guarantee, but
+    it can only drive probes somebody remembered to add to it; a new module that grows its own
+    pid check is invisible to it until it is named. This one notices the *arrival* of the idiom
+    rather than its correctness, so the two nets fail in different directions and do not share a
+    blind spot. Adding a module here is fine -- it just cannot happen silently, and whoever adds
+    it writes down why it is safe on this platform.
+
+    IT PARSES RATHER THAN GREPS, and the first version did not -- which cost exactly the mistake
+    the net two rows up exists to name. A regex over comment-stripped source reported FOUR
+    modules: `gpu_lane.py` and `mutate.py`, which really do call it, plus `verify_math.py`, whose
+    section 19u carries the idiom inside a `note=` STRING explaining that it is wrong on Windows,
+    plus `drill.py` itself, whose control fixture below contains it as a string literal. Stripping
+    comments is not enough, because a string is not a comment and prose lives in both. So the
+    scan walks the AST and matches a CALL -- `os.kill(anything, 0)` as an actual call node with a
+    literal zero -- which no amount of prose about the idiom can imitate. A discussion of a fault
+    is not the fault; this file has breached against correct code over that distinction before.
+    """
+    import ast as _ast
+    found = set()
+    _src = os.path.dirname(os.path.abspath(__file__))
+    for label, path in _src_py_files(_src):
+        with open(path, encoding="utf-8", errors="replace") as f:
+            try:
+                tree = _ast.parse(f.read())
+            except SyntaxError:
+                return False          # a module that will not parse is not a module we can vouch for
+        for node in _ast.walk(tree):
+            if (isinstance(node, _ast.Call)
+                    and isinstance(node.func, _ast.Attribute) and node.func.attr == "kill"
+                    and isinstance(node.func.value, _ast.Name) and node.func.value.id == "os"
+                    and len(node.args) == 2
+                    and isinstance(node.args[1], _ast.Constant) and node.args[1].value == 0):
+                found.add(label)
+    return found == set(_KNOWN_KILL0_SITES)
+
+
+def _the_kill0_scan_reads_both_answers():
+    """[control] the ratchet catches a real call and is not fooled by prose about one.
+
+    THE FIXTURES ARE ASSEMBLED, NOT WRITTEN OUT, and that is not fussiness. Spelling the idiom
+    literally here would put it in `drill.py`'s own source, where the ratchet above would find it
+    and this file would trip its own net -- which is precisely what happened on the first run.
+    Building the strings keeps `drill.py` genuinely free of the call, so the ratchet needs no
+    exemption for itself, and an exemption is the thing that would eventually hide a real one.
+    """
+    import ast as _ast
+    k = "os.%s(pid, %d)" % ("kill", 0)
+
+    def calls(text):
+        for node in _ast.walk(_ast.parse(text)):
+            if (isinstance(node, _ast.Call)
+                    and isinstance(node.func, _ast.Attribute) and node.func.attr == "kill"
+                    and isinstance(node.func.value, _ast.Name) and node.func.value.id == "os"
+                    and len(node.args) == 2
+                    and isinstance(node.args[1], _ast.Constant) and node.args[1].value == 0):
+                return True
+        return False
+
+    return (calls(k)                                     # the real call
+            and not calls("# never use " + k + " here")  # the same words, in a comment
+            and not calls('note = "' + k + ' is wrong on Windows"')   # and in a string
+            and not calls("os.%s(pid, signal.SIGTERM)" % "kill"))    # a real signal is fine
+
+
+def _a_module_claimed_wired_is_actually_imported():
+    """A comment saying a module WAS WIRED must be true of the tree the comment sits in.
+
+    FOUND FALSE IN THREE MODULES ON 2026-09-08, and the third is the reason this is a net. Under
+    the owner ruling "wire what closes a measured gap; hold the rest, marked", three files came to
+    carry a sentence naming hosts and render as the two modules wired under it. Render is wired --
+    `publish.py` imports it. Hosts is wired NOWHERE: `import hosts`, `from hosts import`,
+    `hosts_for(` and `SOURCE_HOSTS` all return zero hits outside the module itself, while the
+    order for it stayed open the whole time.
+
+    THIS PARAGRAPH DELIBERATELY DOES NOT QUOTE THE SENTENCE. Writing it out verbatim would make
+    `drill.py` itself a claimant, the scan below would find the claim here and the module unwired,
+    and this file would trip its own net -- which is exactly what the first draft did. Naming the
+    modules in prose instead keeps the checker out of the population it checks, without needing an
+    exemption. An exemption is the thing that would eventually hide a real one.
+
+    Two of the three were corrected by hand. WRITING THIS NET FOUND THE THIRD, in `onomast.py`,
+    which the hand-correction had missed -- which is the entire argument for netting a class
+    instead of fixing its instances, made by the class itself within a minute of being netted.
+
+    WHY THIS SHAPE IS WORSE THAN AN ORDINARY STALE COMMENT. A comment asserting a COMPLETED
+    ACTION is load-bearing: the next reader takes it as settled and stops looking. That is
+    exactly what a "hold the rest, marked" ruling depends on people not doing, and it is the
+    prose form of this project's standing lesson -- a claim nobody checks looks exactly like a
+    claim that was checked.
+
+    NARROW ON PURPOSE. Only modules named inside a `was wired` / `were wired` sentence are held
+    to account, and the only question asked is whether some OTHER module in src/ imports them. A
+    module merely mentioned, held, discussed or proposed is not touched, because a net that tried
+    to police every comment would be an alarm that always sounds -- and this file's own doctrine
+    says an alarm that always sounds is furniture.
+    """
+    _src = os.path.dirname(os.path.abspath(__file__))
+    return _unwired_claims({label: open(p, encoding="utf-8", errors="replace").read()
+                            for label, p in _src_py_files(_src)}) == []
+
+
+def _unwired_claims(texts):
+    """-> sorted module names claimed as wired that nothing in `texts` imports. Pure."""
+    import re as _re
+    claimed = set()
+    for txt in texts.values():
+        for m in _re.finditer(r"\bw(?:as|ere) wired\b", txt):
+            # THE WINDOW IS SLICED, NOT MATCHED, AND THE CONTROL IS WHY (run #46b, 2026-09-08).
+            # This began as the lookbehind `([^.\n]{0,160}?)\bw(?:as|ere) wired\b`, which excluded
+            # the period -- so it could never span "`hosts.py`", because a module name CONTAINS a
+            # period. The group only ever captured the fragment after the last dot, no backticked
+            # name was ever found, `claimed` came back empty, and the live row would have passed
+            # on an empty set FOR EVER while the false claim it was written for sat three modules
+            # away. Nothing about the live tree would have shown this: an empty result and a clean
+            # result are the same green.
+            #
+            # `_the_wired_claim_scan_reads_both_answers` caught it on the first run -- the
+            # synthetic liar returned [] instead of ["hosts"]. That is the entire reason the
+            # control is a separate net over synthetic trees rather than an assumption about the
+            # regex, and it is worth remembering the next time a control looks like ceremony.
+            window = txt[max(0, m.start() - 160):m.start()]
+            claimed.update(_re.findall(r"`([a-z_][a-z0-9_]*)\.py`", window))
+    out = []
+    for name in sorted(claimed):
+        wired = False
+        for label, txt in texts.items():
+            if label == name + ".py":          # a module importing ITSELF proves nothing
+                continue
+            body = "\n".join(ln.split("#", 1)[0] for ln in txt.splitlines())
+            if _re.search(r"^\s*(?:import\s+%s\b|from\s+%s\s+import\b)" % (name, name),
+                          body, _re.M):
+                wired = True
+                break
+        if not wired:
+            out.append(name)
+    return out
+
+
+def _the_wired_claim_scan_reads_both_answers():
+    """[control] the claim scan finds a false claim, clears a true one, and refuses a self-import.
+
+    Driven over synthetic trees rather than the live one, because the row it guards asserts an
+    EMPTY list -- the shape that passes when the detector is dead. If the regex stopped matching
+    anything at all, the live row would go on reading green for ever.
+    """
+    # ASSEMBLED, for the same reason the kill-0 control assembles its fixtures: writing the
+    # sentence out verbatim would make THIS file carry the claim, the live scan would find
+    # `drill.py` claiming hosts is wired, and the checker would land in the population it checks.
+    # It did exactly that on the first run. Built at runtime, the source holds no claim at all.
+    claim = "# Only `%s.py` and `%s.py` %s under that ruling.\n" % ("hosts", "render", "were wired")
+    liar = {"claimer.py": claim, "user.py": "import render\n",
+            "hosts.py": "X = 1\n", "render.py": "Y = 2\n"}
+    honest = {"claimer.py": claim, "user.py": "import render\nimport hosts\n",
+              "hosts.py": "X = 1\n", "render.py": "Y = 2\n"}
+    selfish = {"claimer.py": claim, "user.py": "import render\n",
+               "hosts.py": "import hosts\n", "render.py": "Y = 2\n"}
+    prose = {"claimer.py": claim, "user.py": "# import hosts\nimport render\n",
+             "hosts.py": "X = 1\n", "render.py": "Y = 2\n"}
+    return (_unwired_claims(liar) == ["hosts"]
+            and _unwired_claims(honest) == []
+            and _unwired_claims(selfish) == ["hosts"]
+            and _unwired_claims(prose) == ["hosts"])
+
+
+def _a_never_settling_daemon_is_reported_not_silent():
+    """A daemon that can NEVER settle must say so, instead of reading as an untouched budget.
+
+    THE PUREST FORM OF THIS PROJECT'S STANDING LESSON, and it has now happened twice.
+    `codewatch.stale()` refuses to restart a job while `src/` is still moving, which is correct --
+    restarting into a half-applied edit is worse than lag. But the settling branch returned a
+    bare False, indistinguishable from "nothing changed". So a daemon whose source keeps moving
+    never restarts, never claims a slot, never spends budget, and therefore reports
+    `0 restart(s) in the last hour (budget 4)`. An untouched budget reads as nothing to report.
+
+    2026-09-05: ten agents edited src/ for forty-five minutes, `quiet_seconds()` sat at 8-19s
+    against STABLE_SECONDS=180, and four daemons had been on pre-shift code for a DAY while the
+    report designed to show exactly that showed a clean bill of health. 2026-09-08, run #46b:
+    `foreman` ran code that did not match src/ for 1.6 hours, for the same reason.
+
+    Nothing failed. Every component did what it was told. The one number anybody looked at was
+    healthy BECAUSE the fault was happening -- the budget is full precisely when no restart has
+    been possible. A guard whose only vocabulary is the budget cannot say this.
+
+    BOTH DIRECTIONS, and the rate limit too, because a reporter that shouts every poll gets muted
+    by whoever reads the log and is then exactly as useful as silence. Hermetic: `_PENDING` is
+    the module's own bookkeeping and is restored, and `escalation.escalate` is captured so
+    nothing reaches the live ledger.
+    """
+    import codewatch as CW
+    import contextlib as _ctx
+    import escalation as _E
+    import io as _io
+    keep_pending, keep_esc = dict(CW._PENDING), _E.escalate
+    calls = []
+    try:
+        _E.escalate = lambda *a, **k: calls.append((a, k))
+
+        # 1. Nothing differs -> silent. The control: this must NOT be a reporter that always fires.
+        CW._PENDING.clear()
+        if CW._report_if_never_settling("drill-job", "unchanged") is not False or calls:
+            return False
+
+        # 2. Differing for longer than the alarm window -> reported AND escalated.
+        CW._PENDING.clear()
+        CW._PENDING["differing_since"] = time.time() - CW.SETTLE_ALARM_SECONDS * 2
+        CW._PENDING["said_at"] = 0.0
+        # STDOUT IS CAPTURED -- not because the print is unwanted, it is part of the behaviour
+        # under test, but because it is INDISTINGUISHABLE from a real daemon alarm. A drill that
+        # prints a convincing "[codewatch] foreman has been running stale code for 2.0 hours"
+        # line teaches whoever reads the log to discount the real one, which is the same
+        # furniture-alarm failure this file nets elsewhere. The line is still asserted on.
+        _buf = _io.StringIO()
+        with _ctx.redirect_stdout(_buf):
+            _said = CW._report_if_never_settling("drill-job", "changed, settling (9s of 180s)")
+        if _said is not True or "drill-job" not in _buf.getvalue():
+            return False
+        if len(calls) != 1 or calls[0][0][0] != _E.MANAGER:
+            return False
+        ev = calls[0][1].get("evidence") or {}
+        if ev.get("job") != "drill-job" or "stale_hours" not in ev:
+            return False
+
+        # 3. Differing, but NOT yet for the alarm window -> silent. A daemon mid-edit is normal.
+        CW._PENDING.clear()
+        CW._PENDING["differing_since"] = time.time() - 5
+        if CW._report_if_never_settling("drill-job", "changed, settling") is not False:
+            return False
+
+        # 4. Rate limit: having just spoken, it does not speak again on the next poll.
+        CW._PENDING.clear()
+        CW._PENDING["differing_since"] = time.time() - CW.SETTLE_ALARM_SECONDS * 2
+        CW._PENDING["said_at"] = time.time()
+        return (CW._report_if_never_settling("drill-job", "changed, settling") is False
+                and len(calls) == 1)
+    except Exception:
+        return False
+    finally:
+        _E.escalate = keep_esc
+        CW._PENDING.clear()
+        CW._PENDING.update(keep_pending)
 
 # ============================================================== THE WORK-LIST (Hard Rule 0)
 
