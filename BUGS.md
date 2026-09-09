@@ -32,6 +32,57 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
+- **[M89 — OPEN, RAISED 2026-09-08, run #48] A RUNG-4 STOP CAN BE LIFTED WITH NO PERSON, BY
+  CHOOSING THE SUBSYSTEM'S NAME.** `resume_subsystem` is the one operation CLAUDE.md reserves to a
+  person — *"An autonomous run may STOP a subsystem; only a person may resume one, and that
+  asymmetry is the same one the halt rests on."* The person check is `_by_a_person_at_the_cli()`,
+  which inspects the call stack and cannot be spoofed. The exemption beside it,
+  `_a_probe_release(name)`, exists so drill's three probes can clean up after themselves and its
+  docstring names exactly three reserved subjects — but it decides membership with
+  `health.SELFTEST_SUBJECT.search()`, an **unanchored** regex (`__drill[A-Za-z0-9_]*__`) borrowed
+  from the failure ledger, where a permissive match costs nothing and is correct.
+  **Measured by calling the predicate directly** (nothing stopped, resumed or written; the real
+  `STOPPED` ledger confirmed in place so the sandbox arm did not apply):
+  `__drill_rung4__` → exempt (intended); `payments__drill_x__`, `nightly-publish__drilled__`,
+  `marvel__drill__`, `the-whole-library__drill_a__` → **all exempt**; `publish`, `read`,
+  `Song of Syx`, `drill`, `__drill` → correctly refused. At `escalation.py:980` the refusal is
+  `if not _a_probe_release(name) and not _by_a_person_at_the_cli()`, so the exemption
+  short-circuits the person check entirely. **NOT EXPLOITED TODAY** — no production caller of
+  `stop_subsystem` exists outside drill's self-tests — so this is filed on the SHAPE: a gate whose
+  strength depends on nobody choosing an awkward name is not a gate. **Remedy:** equality against
+  the three reserved names (export them as a frozenset from `health` beside the regex, keeping the
+  docstring's correct insistence that the pattern not be re-spelled in two places), or `fullmatch`
+  at this call site only; `health.is_selftest` keeps `.search()` for the ledger, where it is right.
+  **Then watch it refuse**: a resume against `payments__drill_x__` must raise PermissionError AND a
+  resume against `__drill_rung4__` must still be permitted — both directions, because a fix that
+  refuses everything breaks drill's cleanup and would pass a one-sided test. Order `3f6bc55e526f`.
+
+- **[M90 — OPEN, RAISED 2026-09-08, run #48] FOUR MORE INSTRUMENTS THAT CANNOT SEE THE WORK, PLUS
+  THE ONE ALREADY ON FILE — THIS IS NOW THE MOST-REPEATED DEFECT IN THE TREE.** Order
+  `b9044b16c8e9` records `os.kill(pid, 0)` calling two live, actively-working processes dead on this
+  machine. Run #48 found four siblings in four unrelated modules, each by disagreeing with the
+  filesystem or the process table rather than by reading code:
+  - **`d4392c590b87` — FIXED, see the paper trail.** `overnight.running()` was blind to a quoted
+    script path, so `autostart.py` — the watchdog — read as NOT RUNNING while alive since 08-31.
+  - **`d9328fe1ee38`** — the *"every running job is advancing"* standard measures LOG FILE SIZE.
+    `roll_auto.log` had held **82.4 min** against a 15-min threshold while the crawl wrote a
+    catalogue entry **1.1 min** earlier; it is in 32x throttle backoff, not stalled. The consumer,
+    `foreman.kill_stalled_job`, is licensed to SIGTERM what this names and spared the crawl only
+    because *"nothing would bring them back promptly"* — luck, not a check.
+  - **`b67c5d98c91f` — report FIXED and a net added; the detection-latency half remains.**
+    `codewatch.main()` listed only jobs with a restart-ledger key, so `pipeline` and `read` — both
+    called KEEPER by `coverage()` — appeared nowhere, while `pipeline.py --run` sat four hours into
+    a phase on pre-change code with `stale()` returning True for it.
+  - **`6e0047258461`** — `allsweep`'s RECONCILE probe checks neither `returncode` nor empty stdout,
+    so a blind probe reports all nine jobs NOT RUNNING. The tri-state fix already exists in the
+    module it imports (`overnight._proc_lines`, order `1d556b6ef535`).
+  - **`d8c888dd28c2`** — and the mirror image: `_cmd_is_running` false-**positives** on
+    `python -c`, which makes a daemon *refuse to start*. A live `-c` command line exists at
+    `local_agent.py:421-424`.
+  **The lesson, and it is the transferable part:** when an instrument says work is not happening,
+  go and look at what the work actually writes. Every one of these was invisible to code review and
+  obvious the moment a second witness was consulted.
+
 - **[M72 — OPEN, RAISED 2026-09-04, run #43] A SIXTEEN-HOUR MUTATION RUN SCORED AN UNKILLABLE
   MUTANT AS KILLED, SO A 100% SCORE IS NOT A COVERAGE FIGURE.** The 2026-09-03 pass reported 299
   mutants, 298 killed, **0 SURVIVED**, 1 indeterminate (58,709s). Settled by experiment rather than
@@ -1391,6 +1442,35 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+### Resolved by run #48 (2026-09-08 daily maintenance)
+
+- **[M89r — RESOLVED 2026-09-08, run #48] `overnight.running()` REPORTED THE WATCHDOG AS DOWN
+  BECAUSE ITS LAUNCHER QUOTES THE PATH.** **Root cause:** `_in_this_tree` and `_cmd_is_running` both
+  tokenised the command line with a bare `cmd.replace("\\","/").split()`. The Startup `.vbs`
+  launches as `"C:/.../pythonw.exe"  -u "C:/.../src/autostart.py" --watch`, so the script token ends
+  in a double-quote rather than in `.py` and every `endswith(".py")` test walked past it —
+  `_in_this_tree` returned False for want of a script and `_cmd_is_running` fell out of its
+  `for/else`. Nothing raised and nothing logged. **Enumerated over every live process in the tree:**
+  nine running, exactly one with a quoting launcher, and exactly that one unresolvable —
+  `autostart.py`, up since 2026-08-31, the one job nothing else restarts. `allsweep`'s roster had
+  been printing NOT RUNNING against it. **The dangerous half was not the false row:** `running()` is
+  the singleton guard for every spawn site in `overnight.py` and fails open by saying "not running",
+  so any quoted launch is a duplicate guard silently off — the 2026-08-25 incident where two
+  `publish.py` daemons seventeen seconds apart wrote into one export repo. **Fix:** one shared
+  quote-aware tokeniser, `overnight._cmd_tokens`, used by both functions — they carried the same
+  defect, and repairing either alone left `running()` still wrong through the other (verified by
+  fixing `_in_this_tree` first and watching `running("autostart.py")` stay False). `shlex` on the
+  slash-normalised string, so posix mode is safe once the backslashes are gone; handles paths
+  containing spaces, which the old split could never have resolved either; an unbalanced quote falls
+  back to the old behaviour rather than blinding the probe. **Proof, both directions:** six
+  `verify_math` rows beside the existing `dcdd1fa96864` guards for this same matcher, driven against
+  the old tokeniser by monkeypatching `_cmd_tokens` back — the quoted-launch row goes **RED on old,
+  PASS on new**, while **both controls (`python -m`, and a `grep` naming the file) stayed green in
+  both directions**, which is what shows quote-awareness did not reopen the mention-vs-run hole those
+  guards exist for. After the fix all nine live processes resolve and no unquoted job changed its
+  answer. Order `d4392c590b87`, filed and closed the same shift. **Not committed to the export repo
+  as a separate change** — it rides in run #48's publish.
 
 - **[M71 — RESOLVED 2026-09-06, scheduled maintenance run #46] THE TWIN OF M70: `write_record_catalogue`
   KEYED ITS MERGE ON ENTRY NAME AND LOST TWO WAYS, SILENTLY, WHILE RETURNING `True`.** M70 removed

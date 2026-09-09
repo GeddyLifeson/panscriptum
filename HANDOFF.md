@@ -9727,3 +9727,280 @@ value first, in my reading:
 a written proof, but the proof is not in the ruled-equivalent registry because the lane that made it
 was forbidden to run `mutate.py`. Run `python src/mutate.py --rule-equivalent assay.py:675` when no
 pass is in flight, or the next pass re-files it.
+
+# RUN #48 — 2026-09-08 (daily) — FOUR INSTRUMENTS THAT COULD NOT SEE THE WORK, AND ONE GATE KEYED ON A NAME THE CALLER PICKS
+
+## FOR THE OWNER — READ THIS PART
+
+**1. A ONE-LINE AUTHORISATION HOLE, FOUND AND NOT FIXED (`3f6bc55e526f`, MAJOR).** `resume_subsystem`
+lifts a rung-4 MANAGER stop and only a person may do it. The exemption that lets drill's probes clean
+up after themselves, `_a_probe_release`, decides "is this a probe?" with
+`health.SELFTEST_SUBJECT.search()` — an **unanchored** regex borrowed from the failure ledger, where
+being permissive costs nothing. Measured by calling the predicate directly (nothing was stopped,
+resumed, or written):
+
+    __drill_rung4__               exempt = True    (intended)
+    payments__drill_x__           exempt = True    <-- NOT a reserved subject
+    nightly-publish__drilled__    exempt = True    <-- NOT a reserved subject
+    publish / read / Song of Syx  exempt = False   (correct)
+
+Any automated caller that names its subsystem to *contain* `__drill<alnum>*__` resumes a real stop
+with no person and no CLI. **Not exploited today** — no production caller of `stop_subsystem` exists
+outside drill's own self-tests — so this is filed on the shape, which is the thing this project files
+on. The fix is equality against the three reserved names rather than a substring search; the
+docstring's own reasoning (don't re-spell the pattern) stays intact.
+
+**2. THE INSTRUCTIONS CONFLICT, AND IT COST THIS SHIFT THE RUN RUNG. A ruling would help.** §3b says
+launch the mutation pass early, before §4, because it runs for hours. Editing `src/` during a pass is
+the confirmed cause of the baseline drift that killed three previous passes. Those two together mean
+**that once mutation is launched, no RUN-rung code order can be worked for the rest of the shift.** I
+launched at 22:57 and the RUN rung — 30 orders — has been frozen since. §2 says drain the queue until
+empty; §3b guarantees it cannot be drained. My reading is that the intended order (§2 fully, *then*
+§3, *then* §3b) resolves it, and that I got the sequencing wrong by launching before the queue was
+worked rather than after — see MISTAKES below. But the file's own words are "launch as soon as the
+battery is green and BEFORE you start §4", and a shift that follows them literally freezes its own
+main rung. **Worth one line of ruling: drain RUN first and launch mutation last, or keep the early
+launch and accept that RUN-rung work is a different shift's job.**
+
+**3. THE MUTATION PASS IS STILL RUNNING AS THIS CLOSES. THERE IS NO SURVIVOR COUNT.** Launched 22:57
+on all three targets (`assay.py`, `prose_gate.py`, `escalation.py`, 146 mutations). At 23:28 it is
+alive (pid 76376 plus a sandbox child) and `state/mutate_20260908.log` still holds only the baseline.
+**Do not read this as a pass with zero survivors.** Read the log before doing anything else; the
+survivor count is the one number this run owes and did not deliver.
+
+One caveat on that baseline, recorded so it is judged rather than assumed: mutate's own banner warns
+the tree was written 88s before the snapshot, inside codewatch's 180s settle window. **I think the
+baseline is sound** — its gates reproduced exactly the figures I had measured minutes earlier
+(`verify_math` 1278/0, `drill` 464/464), which is what a complete, consistent snapshot looks like —
+but that is a judgment and the banner is right to flag it.
+
+**4. THE PREDECESSOR NEVER CLOSED ITS SHIFT, AND ITS HANDOFF ENTRY IS MISSING.** `MAINTENANCE_RUN.json`
+held `done:false` with the guard still claimed by run #46b. Its heartbeat froze at **22:01:50** and I
+sampled it four times over fifteen minutes without it moving; the daemons kept filing orders at 22:01,
+22:02 and 22:04 *after* it stopped, so the machine was fine and the agent was not. I waited out the
+full 15-minute staleness threshold before claiming the guard rather than assuming. **Run #46b did write
+`NEXT_STEPS.md` but never appended its `HANDOFF.md` entry** — the newest entry before this one is RUN
+#47 dated 2026-09-07, so 2026-09-08's first shift has no permanent record beyond `NEXT_STEPS.md` and
+its work orders. That gap is not recoverable by me; I was not there.
+
+**5. TEN MORE ORDERS I COULD NOT CLOSE, ALL RUN-RUNG CODE, ALL BLOCKED BY (2).** Exact ids so the next
+run starts from my position: `3f6bc55e526f`, `71a9b380cb03`, `9e884802918e`, `194dc5f6d24f`,
+`72e33d06d4eb`, `87d2ef35a516`, `6e0047258461`, `d8c888dd28c2`, `1d55458779fd`, `5448a236b884`,
+`acea8b00848e`, `86b8dd723f90`. Every one is filed with the verification already done and the remedy
+already written — they need editing, not investigating.
+
+---
+
+## THE HEADLINE: FOUR INSTRUMENTS, ONE FAULT
+
+This shift found the same defect four times in four unrelated modules, and the pattern is worth more
+than any of the instances: **an instrument that cannot see the work asserts the work is not happening.**
+Order `b9044b16c8e9` already recorded `os.kill(pid, 0)` calling two live processes dead on this
+machine. Add:
+
+* **`overnight.running()` was blind to a QUOTED script path** (`d4392c590b87`, **fixed and closed**).
+  Of nine live processes under the kit, exactly one had a quoting launcher — `autostart.py`, launched
+  by the Startup `.vbs` — and it was exactly the one that could not be resolved. A bare
+  `cmd.replace("\\","/").split()` makes the token end in `"` rather than `.py`, so every
+  `endswith(".py")` test walked past it. `allsweep`'s roster has been printing **NOT RUNNING
+  autostart.py** against a process alive since 2026-08-31, and autostart is THE WATCHDOG — the one job
+  nothing else restarts. The false row is the lesser half: `running()` is the singleton guard for every
+  spawn site in `overnight.py` and fails open by saying "not running", so **any quoted launch is a
+  duplicate guard silently off** — the 2026-08-25 two-publish-daemons incident.
+* **The "every running job is advancing" standard watches the LOG, not the work** (`d9328fe1ee38`).
+  `roll_auto.log` had held for **82.4 minutes** against a 15-minute threshold while the crawl wrote a
+  catalogue entry **1.1 minutes** earlier. It is not stalled; it is in 32x throttle backoff on
+  marvel.fandom.com and logging rarely. The consumer is `foreman.kill_stalled_job`, which is licensed
+  to SIGTERM what this standard names — and it spared the crawl only because *"nothing would bring them
+  back promptly"*, which is luck, not a check.
+* **`codewatch`'s report was driven by the restart LEDGER**, so a covered job that had never restarted
+  appeared nowhere (`b67c5d98c91f`, **report fixed, net added**). The ledger held five jobs;
+  `coverage()` called seven KEEPER-or-COVERED. The two it could not mention were `pipeline` and `read`
+  — and `pipeline.py --run` (pid 21384, started 18:05:12) was at that moment **four hours into a phase
+  running pre-change code**, with `stale()` returning True for it and nothing anywhere able to say so.
+  I reproduced `stale()` from that process's exact position rather than inferring it.
+* **`allsweep`'s process probe has no tri-state** (`6e0047258461`). It re-runs the PowerShell
+  enumeration itself and checks neither `returncode` nor empty stdout, so a blind probe reports all
+  nine jobs NOT RUNNING. The fix exists ten lines away in the module it already imports:
+  `overnight._proc_lines` returns None for "could not see" (order `1d556b6ef535`).
+
+Each of these was found by *disagreeing with the filesystem or the process table* rather than by
+reading code. That is the technique to carry forward: when an instrument says a thing is not
+happening, go and look at what the thing actually writes.
+
+## WHAT WAS FIXED, AND WATCHED TO REFUSE
+
+Both fixes were landed **before** the mutation pass launched, and both were proven in both directions
+rather than merely observed to pass.
+
+* **`codewatch.main()` now reports from `coverage()`, not from the ledger** — union with the ledger
+  keys, so a renamed or retired job keeps its recorded history (Hard Rule 0: no row dropped to tidy a
+  report). A covered job with no ledger key now prints *"no source-change restart ever recorded"*
+  rather than nothing. `pipeline` and `read` appear in that report for the first time. One tokenising
+  bug of my own on the way: `coverage()` names jobs `dashboard.py` while the ledger keys are
+  `dashboard`, so my first version printed every healthy job twice — caught before landing.
+* **New drill net**: *"every job coverage() calls covered is named in the report, restarts or not."*
+  Driven with an EMPTY ledger, which is the strongest form of the fault. **It carries its own control**
+  — `main()` also prints the full coverage block naming every job, so a naive `name in output` would
+  have passed against the old code on text from a different section, which is this codebase's most
+  repeated defect wearing the shape of the fix. The output is sliced at the `rc=N means` line and the
+  control requires a NOT-A-JOB name (`hostcheck`) to be **absent** from that slice.
+* **`overnight._cmd_tokens`**, one quote-aware tokeniser shared by `_in_this_tree` and
+  `_cmd_is_running`. Both carried the identical bare split, so fixing one alone left `running()` still
+  wrong through the other — verified by fixing `_in_this_tree` first and watching
+  `running("autostart.py")` stay False. Uses `shlex` on the slash-normalised string (posix mode is safe
+  once the backslashes are gone) and handles paths containing spaces, which the old split could never
+  have resolved either; an unbalanced quote falls back to the old behaviour rather than blinding the
+  probe.
+* **Six new `verify_math` rows**, beside the existing `dcdd1fa96864` guards for this same matcher.
+  Proven by monkeypatching `_cmd_tokens` back to the bare split: the quoted-launch row goes **RED on
+  the old tokeniser and PASS on the new**, while **both controls stayed green in both directions** —
+  which is what shows quote-awareness did not reopen the mention-vs-run hole those guards exist for. A
+  tokeniser that merely accepted more would have flipped them.
+
+## THE BATTERY — GREEN, AND MEASURED BEFORE THE MUTATION PASS TOOK ITS BASELINE
+
+`verify_math` **1278 passed / 0 FAILED** (1272 before my six rows) · `drill` **464 nets, 464 held, 0
+BREACHED** · `pyflakes` clean over all of `src/` · `health --preflight` all pass · `allsweep` 1
+subsystem bad (`cascade_bridge`, the known dead-pool condition, `9fb8a6b10c1f`, OWNER) · `silence`
+1069 notes · `liveness` 49 findings (0 tautology, 0 phantom, 40 dead, 9 dead module) · `escalation
+--status` clear · `corpus_db --rebuild` **216 sources, 282,822 entries, 279,553 evidence rows** in
+132s.
+
+**`secondopinion` ran and all three tools were actually installed** — `ruff` 1283 findings (252 of
+them house-style divergences with a written reason), `vulture` 2, `detect-secrets` **0**. Two
+independently-written scanners both find no secret, which is worth more than either saying it alone.
+**No committed secrets.**
+
+`axis_correlation`: **45 entities, mean r = +0.3193, 55 pairs** — byte-identical to the stored
+`data/AXIS_CORRELATION.json`. `n_entities` has **not** grown, so **no `--write` was owed** and none was
+made.
+
+**No src/ edit has been made since that battery run**, so those figures still describe the tree as it
+stands. I deliberately did NOT re-run `verify_math` or `drill` at close: order `c349a51ee2c5` records
+that neither is safe to run concurrently with a mutation pass in flight, and a re-run for the sake of
+a tidier handoff line would have risked the night's results for nothing.
+
+## THE COMPREHENSIVE SWEEP — RUN48, COMPLETE
+
+**16 batches, 117 modules, `sweep_plan.missing('run48')` == 0, all sixteen `AUDIT_batchNN.md` on
+disk.** Every agent recorded its own coverage, because the agent is the only thing that knows it
+actually read the file. Plan frozen before dispatch.
+
+Every finding below was **re-verified against the live source by me**, not taken on the agent's word —
+audits here are wrong in both directions, and order `e114b2d0fe48` records what a confident wrong
+finding costs. Where I could not verify a claim independently I filed it as a QUESTION rather than a
+defect.
+
+**Filed MAJOR, all verified:** `3f6bc55e526f` (the resume exemption, above) · `71a9b380cb03` —
+**feats.py:698's http-404 exemption is unreachable**: a 404 sets `ok=False`, so `fetch()` increments
+`failed`, so `bool(tr.get("failed"))` short-circuits True and the allowlist naming "http-404" is never
+evaluated. Every genuinely-absent entity is re-mined for ever, against the hosts already at 8x–32x
+backoff · `9e884802918e` — **`weave_index` staleness is `(A or B) and B`, which is `B`**: the mtime
+signal is algebraically dead, checked over all four cases · `194dc5f6d24f` — **"corpus read is
+progressing" measures a cumulative counter**, so after the first chunk this HIGH standard can never go
+red; the sibling of `d9328fe1ee38` one function over, one over-firing and one under-firing ·
+`72e33d06d4eb` — **overwatch's merge tie-break compares `strftime` against `time.time()`**, so
+"2026-…" always beats "1788…" and *retired* always outranks *closed* regardless of recency, discarding
+the reason a finding was closed · `87d2ef35a516` — **`health.reopen_stranded` blind-writes
+PIPELINE_STATE.json**, and the comment directly above the write is entirely about two concurrent
+writers: somebody fixed the torn-file half and left the lost-update half · `6e0047258461` (allsweep,
+above) · `d8c888dd28c2` — **`_cmd_is_running` false-positives on `python -c`**, the opposite direction
+from my own fix and the dangerous one, since a false positive makes a daemon refuse to start; a live
+`-c` command line exists at `local_agent.py:421-424` · `1d55458779fd` — **`coverage.py` documents
+UNREACHABLE, "the only state that is purely a defect", and the string appears exactly once in the file:
+in that docstring** · `5448a236b884` — an unparseable model reply is the one pool failure that neither
+benches the bucket nor reaches the unrecognised ledger, and on the hot path `served` is not even passed
+· `acea8b00848e` — **`ingest_doc.py` writes both files this project calls unreconstructible with zero
+escalation references and zero drill coverage**; hostcheck.py's own docstring describes having been in
+exactly this condition, and order `77950336e3aa` is the worked fix one file over · `86b8dd723f90` —
+`binding_health` never passes `outcome=`, so a throttled fetch and a genuinely absent page both return
+`(0, None)` — in a module whose verdicts quarantine hosts, while six hosts are in backoff right now.
+
+**Filed gathered, because they are one rule and many sites:** `89503c58409f` — **50 rotted line
+citations across 33 modules**, uncapped roster in the order. The load-bearing row is
+`verify_math.py:11720-11723`, which argues cross-module citations do *not* rot "because they point at
+OTHER files, which this file's own growth does not move" — and three of its six supporting examples
+have since drifted, because the other files grew. The doctrine is refuted by its own evidence. Two
+citations point at the wrong *file* entirely and one is a copy of the other, so a wrong citation has
+already propagated by being trusted. Sibling of `dc9ffadae765` (the same rot in the queue's own proof
+text). Also `215f9e7b86ff` (unmarked cuts, Hard Rule 0), `3610ec65ebd3` (SCOPE.json read-modify-write)
+and `5d0fa30e4b09` (twelve open QUESTIONS, gathered rather than filed separately so a later shift does
+not pay `e114b2d0fe48`'s cost twelve times).
+
+## THE QUEUE — 47 AT OPEN, 65 AT CLOSE
+
+**Closed 5** (four rc=17 restart notices, verified from the process table rather than from
+`os.kill(pid,0)` — see `b9044b16c8e9` — plus the quoted-path order I fixed). **Filed 17.**
+
+**The queue grew, and that is the correct outcome of a real sweep**, not a failure of one: 117 modules
+were read in full and the findings are what reading them produced. The alternative number — a smaller
+queue — would have been bought by not looking. What *is* a failure is that thirty RUN-rung orders sit
+open with their verification already done, and the reason is item (2) at the top.
+
+Two orders were re-measured and given corrected shift notes rather than closed, so nobody re-derives
+them:
+
+* **`d1709d8e757d`** — its text says ENTITY_INDEX.json is "235.2 hours old, 210 of 216 records
+  modified". Measured today: **5.3 hours old, 1 of 216 modified**. The predecessor rebuilt it. The
+  order stays open because its finding is that **nothing schedules a rebuild**, which is still true —
+  re-verified against `overnight.STANDING`.
+* **`a66423722e45`** — **its remedy as written would red the battery.** It says to move 28 scripts out
+  of `handoff/`. Twelve of them are load-bearing: `verify_math` §20u **executes** the six
+  `handoff/run35/checks_L*.py` in their own namespaces and asserts all six are still on disk ("a
+  vanished file is coverage that silently left"), and six more are held in a checked register under
+  order `28c1f58f5e8a`. Only the ten under `nets_20260906/` are real scratch, and one of those is the
+  staged net order `2f07cbd3241d` is owed. **This also re-confirms `c9146abf92df`'s blocker is current
+  and not stale.**
+
+## MISTAKES THIS RUN MADE, AND WHAT THEY COST
+
+* **I launched the mutation pass before working the RUN rung.** §3b's "launch it early" is about not
+  waiting on it; it is not a licence to launch before the queue work that the launch will block. The
+  cost is thirty RUN-rung orders left open with the analysis already paid for. **The next run should
+  work RUN-rung code orders first and launch mutation last** — the pass runs unattended either way, and
+  nothing about it needs the shift to still be awake.
+* **I spent a large part of the early shift on one thread.** Chasing why `pipeline` had not bounced
+  took several rounds — including a bootstrap hypothesis (that the process predated the codewatch call
+  site) that mtimes disproved. It ended in a real MAJOR finding, so it paid, but I did not know that
+  when I started and I did not time-box it.
+* **My first `codewatch` report fix printed every healthy job twice**, from comparing `coverage()`'s
+  `dashboard.py` against the ledger's `dashboard`. Caught by looking at the output before moving on
+  rather than by any check — which is itself the argument for the net that now exists.
+* **One shell-escaping failure**, exactly the hazard this project already has a rule about: I put a
+  Windows path with backslashes into a `python -c` argument and got a `SyntaxError` from mangled
+  escapes. Rewrote it as a file. The rule is right and I broke it anyway.
+
+## HOUSEKEEPING, RECORDED SO IT IS NOT MISTAKEN FOR A FAULT
+
+* **Four daemons restarted rc=17 during this shift and that is the safety working**: dashboard 22:06,
+  publish 22:06, overnight 22:04, foreman 22:19, each 1 restart against a budget of 4, each verified
+  from the process table as having started *after* the last `src/` write. My own edits to
+  `codewatch.py`, `drill.py`, `overnight.py` and `verify_math.py` moved the fingerprint again and
+  bounced them a second time — which is why `allsweep` caught `publish` and `overnight` mid-restart and
+  printed NOT RUNNING for them at 22:41. Those two rows were honest reporting of a real moment, not the
+  autostart bug.
+* **`pipeline.py --run` (pid 21384) was still on 18:05 code at close.** I deliberately did not kill it:
+  it is mid-phase doing real work, an rc=17 there costs the phase, and "restart the thing I do not
+  fully understand yet" is the move this project's doctrine is most consistently against. It bounces at
+  its next phase boundary. What is filed (`b67c5d98c91f`) is that nobody would have known.
+* **The crawl is alive and is not stalled**, whatever `roll_auto` says: 276,911 feats files on disk and
+  one written 1.1 minutes before I looked.
+* **No probe litter**: the sixteen sweep agents were briefed to write only `.md` audits under
+  `handoff/sweep48/` and to keep everything else in the session scratchpad. Re-measured at close —
+  `handoff/` still holds exactly the same 28 executable-suffix files it held at open, zero new.
+
+## WHERE THE NEXT RUN STARTS
+
+1. **Read `state/mutate_20260908.log` before anything else.** Survivor count is owed and unknown.
+2. **Work the RUN rung, and do it before launching anything long.** Twelve ids are listed at the top of
+   this entry, each with its verification and remedy already written. Highest value first in my reading:
+   `3f6bc55e526f` (the authorisation hole), `71a9b380cb03` (unreachable 404 exemption — and note
+   `1d55458779fd` and `86b8dd723f90` both depend on its definition of a clean negative, so land it
+   first), `d8c888dd28c2` and `6e0047258461` (the two remaining process-probe faults),
+   `87d2ef35a516` (the PIPELINE_STATE lost update).
+3. **Then the gathered ones**: `89503c58409f`'s 50 citations are mechanical but need a symbol chosen per
+   site; `215f9e7b86ff`'s unmarked cuts each have a marking helper already present in their own file.
+4. **Do not touch** `f646c1c5f1d0`, `30854f11f322`, `a724ec57e0d5`, `d1709d8e757d` or `a66423722e45`
+   without reading their shift notes — all five are open on purpose and two of them now carry
+   corrections written this shift.
