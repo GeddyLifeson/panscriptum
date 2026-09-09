@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 454  ·  last run 2026-09-09 10:51
+round 455  ·  last run 2026-09-09 12:36
 
 ## Structure
 
@@ -11,16 +11,16 @@ round 454  ·  last run 2026-09-09 10:51
 
 ## What the model found in the code
 
-**35 open** (15 high). Newest first.
+**29 open** (13 high). Newest first.
 
+- **retry_synthesis.py** `PL.clean_band` — [HIGH] acceptance is forgiving, clamping is strict
+  - says: acceptance is strict, clamping is forgiving
+- **publish.py** `_is_compiled` — [HIGH] Returns True for `.pyc`/`.pyo` files, but also for any file in a `__pycache__` directory, even if it's not a `.pyc`/`.pyo` file.
+  - says: True for compiled bytecode: any `__pycache__` path component, or a `.pyc`/`.pyo` file.
+- **publish.py** `scrub_text` — [HIGH] Scrubbing multi-line strings by checking for the FIXTURE_MARKER in the entire string, not per line
+  - says: Both locks, applied to one string. Named and public so the DRILL can attack it.
 - **read.py** `return done["errored"] == 0` — [HIGH] returns 0 if no errors occurred, but the exit code should reflect whether any errors occurred
   - says: THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT
-- **publish.py** `sync_tree` — [HIGH] Copies files and directories, including whole-tree copies when directories are present
-  - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
-- **publish.py** `held` — [HIGH] the set of COPY_DIRS roots that were removed from COPY_DIRS
-  - says: the set of COPY_DIRS roots sync_tree could not enumerate in the live project
-- **publish.py** `_is_agent_scratch` — [HIGH] Checks if a file is in a CODE_FREE_DIRS directory and has an extension in _CODE_EXT, but the logic is inverted. It should return True for files that are not in CODE_FREE_DIRS or do not have the extensions in _CODE_EXT.
-  - says: True for a file `sync_tree` must never publish because of WHERE it is rather than what it is called: source code under a `CODE_FREE_DIRS` root.
 - **pipeline.py** `synthesis_blocks` — [HIGH] The function returns a list of blocks with either mined feats or description-based entries, but the key defect is the use of `+` which combines two lists, leading to a situation where the `or` operator was previously used, which caused some entries to be excluded. The function's actual behavior is to include all entries, but the original intention was to have a ranked truncation, which is not the case here.
   - says: The nomination blocks for one source, and the mined feat text behind them.
 - **pipeline.py** `write_record` — [HIGH] Writes the pipeline's in-memory copy over the disk file when there's no drift, silently overwriting any changes made by other writers
@@ -35,54 +35,42 @@ round 454  ·  last run 2026-09-09 10:51
   - says: Drop the lock, but only if it is still OURS.
 - **manifest_builder.py** `pack_feats` — [HIGH] is used without being defined in the current scope
   - says: DERIVED, NOT DECLARED (m46). `FEATS_BLOCK_CHARS` had no arithmetic relationship to `num_ctx`
-- **local_agent.py** `num_ctx` — [HIGH] hardcoded to 8192
-  - says: num_ctx from config.yaml
-- **local_agent.py** `rel_written` — [HIGH] Used to compare the resolved path against the written path to detect hard links, but the comment says it's for checking protected regions.
-  - says: Is this project-relative path inside a protected REGION? -> bool (prefix rule only).
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] the code returns 1 if the return value is None, else 0, which is the opposite of what was intended
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **roll.py** `apply` — [MEDIUM] Apply changes to rows by updating fields, but does not handle the case where a source name is not present in the roll (i.e., unmatched names)
+  - says: Apply `{source_name: {field: value, ...}}` to the roll, key-wise.
+- **rigor.py** `mathematical_resonance` — [MEDIUM] used without definition in code
+  - says: returns a dictionary with mathematical quantities and relations
+- **rigor.py** `ceiling_confidence` — [MEDIUM] used without definition in code
+  - says: computes confidence in a ceiling
+- **rigor.py** `gumbel_return_level` — [MEDIUM] used without definition in code
+  - says: calculates the return level for Gumbel distribution
+- **rigor.py** `prob_at_least_one` — [MEDIUM] used without definition in the code
+  - says: calculates the probability of at least one occurrence
+- **rigor.py** `lognormal_product` — [MEDIUM] used without definition in the code
+  - says: computes the product of log-normal distributions
+- **rigor.py** `load_bearing` — [MEDIUM] sorted(fanout.items(), key=lambda kv: -kv[1])
+  - says: Ranked, never truncated (Hard Rule 0). The sole consumer slices for display; a RETURNED field that stops at eight decides on the ledger's behalf that the ninth load-bearing quantity is not load-bearing.
+- **retry_synthesis.py** `do_merge` — [MEDIUM] Returns 0 or 1 based on merge status, but the docstring says it should run only when the pipeline is stopped
+  - says: Fold the side file into the records. Run ONLY when the pipeline is stopped.
+- **publish.py** `push` — [MEDIUM] raises PushHeld and other exceptions that are caught and handled elsewhere
+  - says: has only two RETURN values, and both are honest ones: it landed, or there was nothing to land.
+- **publish.py** `_is_agent_scratch` — [MEDIUM] The function does not check if the root is a directory, which could lead to false positives if the root is a directory but not a file.
+  - says: The root itself is never a file, so a bare `handoff` cannot match.
+- **publish.py** `_is_agent_scratch` — [MEDIUM] Returns True if the file is in a CODE_FREE_DIRS directory and has an extension in _CODE_EXT, but does not check if the file is actually a file (i.e., not a directory).
+  - says: True for a file `sync_tree` must never publish because of WHERE it is rather than what it is called: source code under a `CODE_FREE_DIRS` root.
 - **recover_folder_records.py** `shortfalls` — [MEDIUM] It is appended to the provenance string only if there are shortfalls.
   - says: The shortfall is written into the provenance.
 - **recover_folder_records.py** `shortfalls` — [MEDIUM] It is a cross-check that could not be made, which is its own answer -- the same distinction this file draws between a denied write and a write that landed.
   - says: A mapping that declares nothing usable is not a mapping that agrees.
 - **read.py** `qcache` — [MEDIUM] filtering entries with _QK in key but not in value
   - says: filtering entries with _QK in key
-- **publish.py** `silence.write_json` — [MEDIUM] Writes to a fixed temp file name
-  - says: Names the temp file after the writer
-- **publish.py** `render_views` — [MEDIUM] Returns 0 on failure, but the docstring says it returns the landed count.
-  - says: Redraw the five DRAWN cosmology tiers into output/views/. -> landed count.
-- **publish.py** `_is_compiled` — [MEDIUM] Returns True for `.pyc`/`.pyo` files, but also for paths containing `__pycache__` even when the file is not a `.pyc`/`.pyo`
-  - says: True for compiled bytecode: any `__pycache__` path component, or a `.pyc`/`.pyo` file.
-- **publish.py** `scrub_text` — [MEDIUM] Scrubbing multi-line strings by line, but the code checks for the FIXTURE_MARKER in the entire string, not per line, allowing a single marker to blank the scrub for every line that value carried, including a line with a live credential and no marker of its own.
-  - says: Both locks, applied to one string. Named and public so the DRILL can attack it.
-- **pipeline.py** `phases` — [MEDIUM] phases is assigned a list of phases based on args.phase or st['phase'], but the code later checks if phases is empty and handles it with specific logging and exit codes. However, the claim is about the runner needing to identify an empty work list, which is addressed in the code. The actual behavior aligns with the claim, so no defect of fact is found here.
-  - says: A RUNNER WITH AN EMPTY WORK LIST MUST SAY WHICH KIND OF EMPTY IT IS.
-- **pipeline.py** `T.chart` — [MEDIUM] chart() returns a tuple; the first element is the per-source tier stack
-  - says: chart() returns a tuple; the first element is the per-source tier stack
 - **pipeline.py** `ask_pool_first` — [MEDIUM] Cloud pool first, local second -- for the PHASES' own judgment calls. However, the function does not actually enforce the cloud-first logic as described. It checks if the pool answering is >= _min_buckets, but the actual routing decision is made based on the pool proof's age and caption, which is not directly related to the cloud-first logic. The function's actual behavior is more about handling the cloud answer's usability and falling back to local if needed, rather than strictly enforcing the cloud-first approach as the comment suggests.
   - says: Cloud pool first, local second -- for the PHASES' own judgment calls.
 - **overnight.py** `blocking` — [MEDIUM] is set to True if the output contains the string 'FAIL  ' + _control_label
   - says: is set to True if the output contains the blocking check's failure message
-- **mutate.py** `judged_since` — [MEDIUM] list of mutants judged under current baseline
-  - says: record of verdicts cast doubt over
-- **mutate.py** `killed` — [MEDIUM] count of mutants that were killed
-  - says: count of mutants that were killed
-- **mutate.py** `indeterminate` — [MEDIUM] a list of mutants that were judged as indeterminate
-  - says: the permanent record of the diff
-- **mutate.py** `hang_confirms_a_kill` — [MEDIUM] The function checks if the mutant's timeout is evidence of a hang, but the code's logic is flawed in how it interprets the baseline and fresh times, potentially leading to incorrect conclusions about the mutation.
-  - says: A mutant timed out on `gname`. Was that the MUTATION hanging, or the machine? -> (bool, why).
-- **manifest_builder.py** `silence.replace_retry` — [MEDIUM] The function is used to replace the temporary report file with the final one, but the comment suggests it's meant to handle the report writing process with retries and error handling, which is not fully implemented.
-  - says: Land it through a pid+thread temp and silence.replace_retry, and report the verdict on the same footing as the manifest write instead of assuming it.
-- **local_agent.py** `modname` — [MEDIUM] module name with the wrong syntax
-  - says: module name
-- **local_agent.py** `hits` — [MEDIUM] list of matches with line numbers
-  - says: list of matches
-- **ledger_guard.py** `check_since_snapshot` — [MEDIUM] checks since the last seal, but the comment says it's the since-last-seal loop
-  - says: THE SINCE-LAST-SEAL LOOP IS ONE MECHANISM...
-- **ledger.py** `to_standards` — [MEDIUM] Converts a local sum into Standards, but returns None when the currency is not convertible, which is the same behavior as the docstring claims, but the function does not use the `currency_status` function as the docstring suggests.
-  - says: Convert a local sum into Standards. None where the currency is not convertible -- for UNLISTED vs. deliberately non-convertible, see `currency_status`.
 
 ---
 
