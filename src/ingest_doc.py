@@ -36,6 +36,46 @@ DOCS = os.path.join(HERE, "data", "docs")
 HOSTS = os.path.join(HERE, "data", "WIKI_HOSTS.json")
 RECORDS = os.path.join(HERE, "data", "records")
 
+
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before anything in this module WRITES.
+
+    Order acea8b00848e, and the precedent is exact -- this is `hostcheck._assert_not_halted`
+    transcribed, because that module's own docstring describes having been in precisely this
+    condition: "ZERO references to `escalation` and was on no roster". Measured 2026-09-09 before
+    this landed: `grep -c "escalation\\|assert_clear" src/ingest_doc.py` returned 0, and
+    `grep -c ingest_doc src/drill.py` returned 0 as well -- no halt check and no net.
+
+    WHAT THIS MODULE WRITES. `register()` rewrites `data/WIKI_HOSTS.json`, and `mine()` writes
+    `data/records/*.json` through `pipeline.write_record_catalogue`. Those are the two files this
+    project's own doctrine calls not reconstructible from anything else on disk. Every other
+    writer in the tree asks the halt first; this one did not, so a standing OWNER halt -- which
+    means "nothing starts until a person rules on it" -- did not stop it writing them.
+
+    WHY A HALT SPECIFICALLY, and it is `hostcheck`'s reasoning unchanged: a halt says a
+    library-wide invariant is broken and nothing may proceed on uncertain ground. Every decision
+    this module makes is made FROM that suspect state -- `register` reads `WIKI_HOSTS.json` to
+    decide what to repoint, and `mine` writes entries the whole pipeline then treats as
+    catalogued.
+
+    DELIBERATELY NARROW: the WRITING paths only. Extraction and any dry inspection are
+    MEASUREMENTS, and this project has ruled that a measurement which cannot be retaken is
+    abandoned rather than deferred. Whether the whole module should be gated is an owner
+    question, not one this module may settle.
+
+    FAIL CLOSED ON THE IMPORT, and NOT as `except ImportError: pass` -- that spelling is the
+    original incident, in which a deleted `escalation.py` switched the plant-wide halt off in
+    eight jobs at once, quietly.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    _ESC.assert_clear("ingest_doc.py %s" % what)
+
+
 CHUNK = 9000            # characters per extraction call — the same altitude read.py mines at
 CATEGORIES = [
     "Persons (named individual characters, real or fictional)",
@@ -134,6 +174,10 @@ def register(source):
     so `main()` printed `host=doc:<slug>` for a binding that existed only in this process. A
     host binding nothing else can see is the same as no binding at all.
     """
+    # WRITES data/WIKI_HOSTS.json -- one of the two files this project calls not reconstructible
+    # from anything else on disk. Asked BEFORE the read, so a halt refuses before this decides
+    # anything from state the halt says is untrustworthy. (order acea8b00848e)
+    _assert_not_halted("register")
     with open(HOSTS, encoding="utf-8") as f:
         hosts = json.load(f)
     cur = hosts.get(source)
@@ -259,6 +303,9 @@ def _ask(system, prompt, schema):
 
 def mine(source):
     """The uncapped entity pass, chunk by chunk, merged as it goes."""
+    # WRITES data/records/*.json through pipeline.write_record_catalogue -- the other of the two
+    # unreconstructible files. (order acea8b00848e)
+    _assert_not_halted("mine")
     import pipeline as P
     d = os.path.join(DOCS, slug(source))
     corpus = os.path.join(d, "pages.json")

@@ -10043,3 +10043,149 @@ third. Re-measured against `mutate.py` as a **script token** rather than as a wo
 results is itself the finding, and the instrument should be fixed before it is used again — start
 by capturing the pass's stdout unbuffered so the refusal banner cannot be lost, then reproduce
 the exit-4 path deliberately.
+
+# RUN #49 — 2026-09-09 (owner-directed) — EIGHT FIXES, AND A CORRECTION TO MY OWN CORRECTION
+
+Owner instruction: *"do what you recommend for the rest of what needs to be sorted out or
+rectified."* Read as the engineering backlog — **not** as sign-off on the Phase 4.3 shelf mapping,
+which stays unwritten pending a curatorial ruling. See §5.
+
+## 0. A FALSE CLAIM I PUBLISHED THIS MORNING, CORRECTED
+
+The *CORRECTION TO RUN #48* entry directly above says **"`escalation.py` has still never received
+a mutation result."** **That is wrong.** I inherited the phrasing from run #46b's NEXT_STEPS and
+republished it without checking it.
+
+Measured: **176 closed `MUTANT_*` work orders, 99 of them naming `escalation.py`** —
+`MUTANT_SURVIVED_ESCALATION_L579`, `_L220`, `_L770`, `_L812`, `_L712`, `_L685` and so on. And the
+**2026-09-04 pass completed all three targets**: 119 + 62 + 128 mutants over 72,310s, with
+`escalation.py` scoring **128 mutants, 115 killed, 13 SURVIVED**, filing 13 orders. Its baseline
+was re-photographed every 3600s and *"never disagreed with itself"* across all three targets.
+
+That pass also reports **`escalation.py:409  False -> True  SURVIVED`** — the exact verdict order
+`58a00e909217` says it is waiting on. I have **not** closed that order: it asks for confirmation
+under a non-drifting sandbox, the 09-04 sandbox predates the hardlink fix, and the order's own
+instruction is not to close it on reasoning. But whoever picks it up should know the evidence
+exists and is stronger than the order's text implies.
+
+**The instrument is not useless. It has worked, recently, and produced most of what is in the
+closed queue.** What is broken is that passes stopped surviving — which is §1.
+
+## 1. WHY THE PASS KEEPS DYING — DIAGNOSED, PARTLY (`d2d4ff880570`, filed)
+
+Three independent facts, each measured:
+
+* **`mutate.py` is on NO roster** — neither `overnight.STANDING` nor `overnight.ALL_JOBS`. Nothing
+  keeps it alive, nothing restarts it, and `codewatch.coverage()` cannot even report it as a gap
+  because a job absent from `ALL_JOBS` is absent from the report.
+* **It does not detach** — no `DETACHED_PROCESS`, no `CREATE_NEW_PROCESS_GROUP`. `autostart.py`
+  does a detached spawn one file over, so the precedent exists.
+* **A completed pass takes ~20 hours** (09-04 logged `total 72310s`). A shift lives about one.
+
+**Run #48's pass died with no Python-level error.** Its log stops at the last line printed before
+the target loop, and `run()` prints nothing until a target *completes* — so it died inside target
+1 of 3. No traceback, sandbox cleaned up, wrapper reported exit 4. **The only `return 4` in
+mutate.py fires *before* a banner that IS in the log, and its message is absent** — so the 4 did
+not come from mutate. A twenty-hour job left **1,369 bytes** of evidence.
+
+**WHAT I DID NOT DETERMINE, said plainly.** Two earlier passes (09-05b, 09-07) died differently —
+`FileNotFoundError` on their own sandbox path, mid-run. The obvious suspect is the reaper, and **I
+investigated and cleared it rather than filing a satisfying guess**: `reap_orphans` exempts a
+sandbox whose owner pid is alive at *any* age, and `_pid_alive` uses `psutil.pid_exists` with a
+ctypes `OpenProcess` fallback — **not** the `os.kill(pid, 0)` idiom that order `b9044b16c8e9`
+records misreporting live processes here. The ownership guard looks sound. That cause is
+**undetermined**, and the order says so.
+
+## 2. EIGHT ORDERS CLOSED, EACH PROVEN IN BOTH DIRECTIONS
+
+Every fix was driven against the code as it stood *and* as it now stands, because a net that has
+only been seen to pass has proved nothing.
+
+* **`3f6bc55e526f` — a rung-4 stop could be lifted with no person, by choosing a name.**
+  `_a_probe_release` asked `health.is_selftest`, an unanchored `re.search`. Now
+  `health.SELFTEST_RESUME_SUBJECTS`, a frozenset of the three synthetic subjects, compared by
+  **equality**. `payments__drill_x__` and friends now refused; the three real probes still work,
+  which the two nets above them depend on. `is_selftest` keeps its permissive pattern for the
+  ledger, where it is correct.
+* **`71a9b380cb03` — the http-404 exemption was unreachable.** A 404 sets `ok=False`, so `fetch()`
+  incremented `failed`, so `bool(failed)` short-circuited and the allowlist naming "http-404" was
+  never evaluated: every genuinely absent entity re-mined for ever, against the hosts already at
+  8×–32× backoff. **The naive fix is wrong** — `why` holds only the *first* non-ok reason, so a
+  batch that 404s then throttles would have had its throttled page turned into a permanent false
+  absence. `fetch()` now counts `failed_dirty` per batch. **Monotone on disk**: 272,004+ existing
+  records have no such key and keep the original expression byte-for-byte.
+* **`d8c888dd28c2` — `python -c` counted as running the .py on its line.** The mirror of
+  yesterday's quoted-path bug and the *dangerous* direction: `running()` is the singleton guard,
+  so a false positive makes the supervisor **refuse to start a stage, silently**. A live trigger
+  exists at `local_agent.py:421-424`.
+* **`6e0047258461` — allsweep's roster accused every job when blind.** It re-implemented the
+  process enumeration without checking `returncode` or empty stdout. Now calls
+  `overnight._proc_lines()`, which is tri-state, and reports **UNMEASURABLE** once instead of nine
+  NOT RUNNING rows. Proven by stubbing the probe.
+* **`72e33d06d4eb` — the ledger tie-break compared a date string to an epoch string**, so *retired*
+  beat *closed* always and a closed record carrying its reason could be replaced by a reasonless
+  stub. New `_finished_at()` normalises both to epoch seconds; unparseable sorts oldest so a
+  malformed stamp can never displace a good one.
+* **`9e884802918e` — a staleness signal that was algebraically dead**, `(A or B) and B ≡ B`.
+  **My first fix was wrong and is worth reading**: setting `stale = coarse_stale` made it fire on
+  *any* record newer than the index — measured, 1 of 216 against a 23.9h index — i.e. essentially
+  always, which is the alarm-that-always-sounds CLAUDE.md equates with escalating nothing, feeding
+  a real order-filing consumer. Caught by running it and reading the output. What landed: `stale`
+  keeps its actionable meaning, A becomes `behind` — reported, no longer discarded. The threshold
+  question is filed for you as `2cb442afd901`.
+* **`87d2ef35a516` — `health.reopen_stranded` reverted the pipeline's pointer.** Loaded the state,
+  walked 216 record files, landed the whole object back — discarding any `save_state()` in between,
+  including `phase`, `done` and `units_done`. **The near miss is the lesson**: the comment directly
+  above that write is entirely about two concurrent writers and records the *torn-file* half being
+  fixed in run36. Now re-reads the raw text and **refuses** rather than merging — a hand-invoked,
+  re-runnable repair should cost one re-run, not a silent revert.
+* **`acea8b00848e` — `ingest_doc.py` wrote both unreconstructible files with no halt check and no
+  net** (0 `escalation` references, 0 mentions in drill.py). `hostcheck._assert_not_halted`
+  transcribed into `register()` and `mine()`, plus the third net in that class — and its last line
+  removes the halt and requires `register()` to get *past* the gate, because a net that only ever
+  sees a refusal cannot tell the gate from the weather.
+
+## 3. THE BATTERY, AND THE QUEUE
+
+`verify_math` **1282 passed / 0 FAILED** (1278 at run #48's close; +4 from the `-c` rows) ·
+`drill` **467 nets / 467 held / 0 BREACHED** (466, +1) · `pyflakes` clean over `src/` ·
+`secondopinion` all three tools RAN, **0 secrets, two independent scanners agreeing** ·
+`escalation --status` clear.
+
+`health --preflight` reports **1 FAIL — `dandwiki.com` not answering its API**. That is the
+standing BOTS order `2da53c3e192f`, an external host, unrelated to this run.
+
+**Queue 60 → 51.** Eight closed by hand, nine more closed by the sweep itself as throttled hosts
+recovered (BOTS 9 → 1), two filed (`d2d4ff880570`, `2cb442afd901`).
+
+## 4. TWO MISTAKES, BOTH MINE
+
+* **I ran a mutating repair tool against live state.** Testing `87d2ef35a516`'s guard, I
+  monkeypatched `open` to simulate a concurrent write; it failed to intercept, so
+  `reopen_stranded(dry=False)` executed for real against `PIPELINE_STATE.json` and wrote. Restored
+  immediately, byte-equality verified, `state consistency` reads ok, phase 2 / units_done 13163 /
+  10,974 entrypass keys intact. But the pipeline was live, so there was a window of seconds in
+  which it could have read a state with those batches re-opened — the consequence being redundant
+  re-work, which is what `--reopen` does on purpose, not corruption. **The test that now stands
+  runs entirely in a temp tree with `HERE` repointed.** Do not test a mutating repair against live
+  state.
+* **I matched my own probe three times.** Checking whether `mutate.py` was running, I grepped
+  command lines for the string `mutate` — which appears in the probe's own `-c` source, so it
+  found itself and reported a live pass twice. That is `codewatch.twins()`'s founding bug and order
+  `d9328fe1ee38`'s bug, committed by the run that had just filed the third instance. The
+  scratch helper now asks for the **script token**, excludes its own pid, and refuses `-c`/`-m` —
+  the same rule I had just landed in `_cmd_is_running`.
+
+## 5. WHAT IS WAITING ON YOU
+
+**`handoff/phase43/SHELF_MAPPING_PROPOSAL.md` — 31 rows, unsigned.** 26 proposed DIRECT, reaching
+**81,581 entries** against the 3 threads the thin leg yields today; 2 need only their extent set
+(**Great Wheel**, **Ludic Spheres**); 3 refused outright because the evidence names nothing
+(**Masked Multiverses**, **Rot City**, **The One War** — and "maps to no source" is a legitimate
+answer for the last). Every proposed source was checked to exist on the roll by exact name; that
+check refused my first attempt at *Magic: The Gathering* for a hyphen where the roll uses an em
+dash. **Nothing has been written to the spine and nothing will be until you strike, edit or
+confirm rows.**
+
+Also open for you: `2cb442afd901` (what fraction of a moved corpus should raise the index order),
+and the five long-standing owner questions listed in NEXT_STEPS §4.

@@ -9621,6 +9621,65 @@ def drill_escalation_behaviour():
         "purge --go deletes the only copy of the evidence for the entries it removes, and every "
         "decision it makes is made from the state a halt says is untrustworthy")
 
+    # THE THIRD TOOL IN THAT CLASS, and it was found by asking the same question of the rest of
+    # the tree (order acea8b00848e, run #49). `ingest_doc.py` had ZERO references to `escalation`
+    # and ZERO mentions in this file -- no halt check and no net -- while `register()` rewrites
+    # data/WIKI_HOSTS.json and `mine()` writes data/records/*.json, which are the same two
+    # unreconstructible files the net above is about. Same shape, same reasoning, same structure.
+    def the_document_ingester_asks_about_the_halt():
+        """`ingest_doc.register()` repoints WIKI_HOSTS.json and `ingest_doc.mine()` writes
+        data/records/*.json through pipeline.write_record_catalogue. Both were ungated: a
+        standing OWNER halt -- which means nothing starts until a person rules on it -- did not
+        stop either of them writing a file this project calls not reconstructible.
+
+        THE SECOND LINE OF DEFENCE IS THE SAME ONE THE NET ABOVE USES: with the gate removed,
+        neither call can actually move anything, because HOSTS points into the temp tree and the
+        record writer is stubbed. The net is about whether the QUESTION is asked, and a net that
+        needed the real write to be dangerous in order to prove that would be a net nobody could
+        run twice."""
+        import ingest_doc as ID
+        d = tempfile.mkdtemp(prefix="drill_ingest_halt_")
+        saved_halt = ESC.HALT_FILE
+        saved_hosts = ID.HOSTS
+        try:
+            ESC.HALT_FILE = os.path.join(d, "HALT.json")
+            with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
+                           "cleared": False}, f)
+            if not ESC.status()[0]:
+                return False                  # the synthetic halt must actually stand
+            ID.HOSTS = os.path.join(d, "WIKI_HOSTS.json")
+            with open(ID.HOSTS, "w", encoding="utf-8") as f:
+                json.dump({}, f)
+
+            def refuses(fn):
+                try:
+                    fn()
+                except ESC.SystemHalted:
+                    return True
+                except Exception:
+                    return False          # any OTHER error means the halt was not what stopped it
+                return False
+
+            if not refuses(lambda: ID.register("__drill_source__")):
+                return False
+            if not refuses(lambda: ID.mine("__drill_source__")):
+                return False
+            # AND THE HALT IS WHAT DID IT. With the halt gone, `register` must get PAST the gate
+            # -- it will fail later for its own reasons against a temp tree, and that is the
+            # point: a net that only ever sees a refusal cannot tell the gate from the weather.
+            os.remove(ESC.HALT_FILE)
+            return not refuses(lambda: ID.register("__drill_source__"))
+        finally:
+            ESC.HALT_FILE = saved_halt
+            ID.HOSTS = saved_hosts
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "the document ingester asks about the halt before it writes",
+        the_document_ingester_asks_about_the_halt,
+        "register() repoints WIKI_HOSTS.json and mine() writes data/records/*.json -- the two "
+        "files this project calls not reconstructible -- and neither asked whether the library "
+        "was halted")
+
     # ------------------------------------------------------------------ clear(), the asymmetry
     #
     # An autonomous run may RAISE a halt; only a person may lift one. `_no_programmatic_clear`

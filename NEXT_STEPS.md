@@ -3,169 +3,148 @@
 *Overwritten each run. The permanent record is `HANDOFF.md`; the live queue is
 `state/workorders.json` via `python src/workorders.py --sweep`.*
 
-Written by run #48, 2026-09-08 (daily). **Queue at close: 65 open** (RUN 30 · OWNER 19 · BOTS 9 ·
-LOCAL 5 · SESSION 2), up from **47** at open. 17 filed, 5 closed. **The queue grew because 117
-modules were read in full and that is what reading them produced** — the smaller number would have
-been bought by not looking.
+Written by run #49 (owner-directed), 2026-09-09. **Queue at close: 51 open** (RUN 22 · OWNER 20 ·
+LOCAL 6 · SESSION 2 · BOTS 1), down from **65**. Eight RUN orders closed by hand, nine more closed
+by the sweep as throttled hosts recovered, two filed.
 
-**Gates GREEN, measured before the mutation pass took its baseline and unchanged since (no `src/`
-edit after it):** `verify_math` **1278 passed / 0 FAILED**, `drill` **464 nets / 464 held / 0
-BREACHED**, `pyflakes` clean over `src/`, `health --preflight` all pass, `secondopinion` all three
-tools installed and **0 secrets** from two independent scanners, `escalation --status` clear.
-`axis_correlation` 45 entities / mean r +0.3193 — identical to the stored matrix, **no `--write`
-owed**.
+**Gates GREEN:** `verify_math` **1282 passed / 0 FAILED**, `drill` **467 nets / 467 held / 0
+BREACHED**, `pyflakes` clean over `src/`, `secondopinion` all three tools RAN with **0 secrets**
+agreed by two independent scanners, `escalation --status` clear. `health --preflight` shows one
+FAIL — `dandwiki.com` not answering its API, the standing BOTS order `2da53c3e192f`, an external
+host.
 
 ---
 
-## 0. DO THESE THREE THINGS FIRST, IN THIS ORDER
+## 0. THREE THINGS BEFORE ANYTHING ELSE
 
-**1. ~~READ `state/mutate_20260908.log`~~ — CORRECTED 2026-09-09: THE PASS DIED AND THERE IS
-NOTHING IN IT.** Measured 10:30 the next morning: no process running `mutate.py`, log still
-**1,369 bytes / mtime 23:03** holding only the baseline, sandbox cleaned up, **zero mutants judged,
-no `MUTANT_*` order filed**. The wrapper reported **exit code 4** — which in `mutate.py:2803` is
-the *"a gate could not complete on clean code, refusing to mutate"* safety, except that banner is
-absent from the log and the baseline shows all three gates finishing well inside their limits. **So
-the cause is NOT diagnosed; do not record one that has not been demonstrated.**
+**1. A CORRECTION YOU MAY HAVE INHERITED.** If you read anywhere that *"`escalation.py` has never
+received a mutation result"* — including in run #48's own correction entry — **it is false.** There
+are **176 closed `MUTANT_*` orders, 99 naming `escalation.py`**, and the **2026-09-04 pass
+completed all three targets** (309 mutants, 72,310s, 13 orders filed). That pass also reports
+`escalation.py:409 False -> True SURVIVED`, which is the verdict order `58a00e909217` is waiting
+on — read it before re-deriving anything.
 
-**This is the fourth consecutive pass to produce no results**, and `escalation.py` has still never
-received a mutation result. **Do not relaunch it blindly a fifth time** — four failures with no
-results is itself the finding. Fix the instrument first: capture the pass's stdout unbuffered so a
-refusal banner cannot be lost, then reproduce the exit-4 path deliberately. Full correction is
-appended to `HANDOFF.md` under *CORRECTION TO RUN #48*.
+**2. DO NOT RELAUNCH THE MUTATION PASS BLINDLY.** See §1. It is not a broken instrument; it is a
+twenty-hour job spawned as a child of a one-hour shift.
 
-**2. WORK THE RUN RUNG BEFORE LAUNCHING ANYTHING LONG.** This is the sequencing lesson of run #48 and
-it cost the whole shift's RUN work — see §1.
-
-**3. Check `state/HALT.json` before anything else if the library looks down.** (Standing advice from
-run #46b; still the right first move.)
+**3. THE PHASE 4.3 SHELF MAPPING IS WAITING ON THE OWNER, NOT ON WORK.**
+`handoff/phase43/SHELF_MAPPING_PROPOSAL.md`, 31 rows, unsigned. Do not write any of it to the
+spine. See §5.
 
 ---
 
-## 1. THE SEQUENCING CONFLICT — A ONE-LINE OWNER RULING WOULD SETTLE IT
+## 1. THE MUTATION PASS — `d2d4ff880570`, AND WHAT IS STILL UNKNOWN
 
-§3b says launch the mutation pass early, *before* §4, because it runs for hours. Editing `src/`
-during a pass is the confirmed cause of the baseline drift that killed three previous passes
-(`79d51aef8b71`, `f40f701594a4`). **Together those mean that from the moment mutation launches, no
-RUN-rung code order can be worked for the rest of the shift.** §2 says drain the queue until empty;
-§3b guarantees it cannot be.
+**Diagnosed:** `mutate.py` is in neither `overnight.STANDING` nor `ALL_JOBS`, does not detach (no
+`DETACHED_PROCESS`/`CREATE_NEW_PROCESS_GROUP`), and a completed pass takes ~20h against a shift
+that lives ~1h. Run #48's pass died inside target 1 with **no traceback**, and the exit 4 it
+reported **cannot have come from mutate** — the only `return 4` fires before a banner that IS in
+the log, and its message is absent. A twenty-hour job left 1,369 bytes of evidence.
 
-Run #48 launched at 22:57 and froze its own main rung for the remainder. **The mistake was mine** —
-§2 comes before §3 and §3b in the file's own ordering, and I should have drained RUN first — but the
-file's literal words ("as soon as the battery is green and BEFORE you start §4") point the other way,
-and a shift that follows them literally will make the same mistake.
+**Remedy, in order:** (a) a `--detach` flag re-spawning itself detached, using `autostart.py`'s
+spawn as the working precedent; (b) put it on a roster or record in `codewatch.EXEMPT` why not —
+today it is neither covered nor exempted, and `coverage()` cannot report a job absent from
+`ALL_JOBS`; (c) capture its output **unbuffered**, because the most expensive thing about the
+09-08 failure is that the evidence did not survive the kill.
 
-**Until a ruling: drain the RUN rung first, launch mutation last.** The pass runs unattended either
-way; nothing about it needs the shift to still be awake.
+**STILL UNKNOWN, and do not close the order believing otherwise:** the 09-05b and 09-07 passes died
+differently — `FileNotFoundError` on their own sandbox path, mid-run. **The reaper was investigated
+and cleared**: `reap_orphans` exempts a live owner pid at any age, and `_pid_alive` uses
+`psutil.pid_exists` with a ctypes `OpenProcess` fallback, **not** the `os.kill(pid,0)` idiom of
+order `b9044b16c8e9`. That cause needs reproducing, not guessing.
 
----
-
-## 2. THE RUN RUNG — TWELVE ORDERS, ALL VERIFIED, ALL READY TO EDIT
-
-Every one was re-verified against live source by run #48. **These need editing, not investigating.**
-Highest value first, in my reading:
-
-1. **`3f6bc55e526f` — a rung-4 stop can be lifted with no person, by choosing the subsystem's name.**
-   `_a_probe_release` decides "is this a drill probe?" with an **unanchored** `re.search` borrowed
-   from the failure ledger, so `payments__drill_x__` and `nightly-publish__drilled__` both win the
-   exemption and skip `_by_a_person_at_the_cli()`. Not exploited today (no production caller of
-   `stop_subsystem`), filed on the shape. Fix by **equality** against the three reserved names.
-   **Watch it refuse in both directions** — a fix that refuses everything breaks drill's own cleanup.
-2. **`71a9b380cb03` — `feats.py:698`'s http-404 exemption is unreachable.** A 404 sets `ok=False`,
-   so `fetch()` increments `failed`, so `bool(tr.get("failed"))` short-circuits True and the
-   allowlist naming "http-404" is never evaluated. Every genuinely-absent entity is re-mined for
-   ever, against the hosts already at 8x–32x backoff. **LAND THIS ONE FIRST**: `1d55458779fd` and
-   `86b8dd723f90` both depend on what counts as a clean negative, and will inherit this boundary if
-   it is still wrong. Note the complication in the order: `why` records only the FIRST non-ok reason,
-   so a mixed 404+throttled batch needs more than a reordered `or`.
-3. **`d8c888dd28c2` and `6e0047258461` — the two remaining process-probe faults.** `-c` false-
-   *positives* in `_cmd_is_running` (a daemon then refuses to start — the silent direction), and
-   `allsweep`'s probe has no tri-state. Both fixes already exist elsewhere in the tree
-   (`codewatch.runs_script`, `overnight._proc_lines`). **Consider making `overnight._cmd_is_running`
-   and `codewatch.runs_script` one implementation** — they are provably two copies of one rule that
-   disagree, and this is the fourth time that family has drifted.
-4. **`87d2ef35a516` — `health.reopen_stranded` blind-writes PIPELINE_STATE.json.** Reads once, lands
-   the whole document, no compare-and-swap, while its own docstring says it runs when a pipeline may
-   be live. The comment directly above the write is entirely about two concurrent writers: the
-   torn-file half was fixed, the lost-update half was not. Same shape as `c9146abf92df`;
-   `roll.mutate` is the pattern.
-5. **`9e884802918e`, `194dc5f6d24f`, `72e33d06d4eb`** — a dead boolean (`(A or B) and B` ≡ `B`), a
-   HIGH standard that latches true after the first chunk, and a tie-break comparing `strftime`
-   against `time.time()`. All three are small, all three are verified.
-6. **`acea8b00848e`** — `ingest_doc.py` writes both unreconstructible files with **zero** escalation
-   references and **zero** drill coverage. The fix is a transcription of what `hostcheck.py` already
-   has (order `77950336e3aa`: `_assert_not_halted`, the `_INTERLOCKED` list, a net at
-   `drill.py:8531-8595`).
-7. **`5448a236b884`, `1d55458779fd`, `86b8dd723f90`** — the unparseable-reply gap, `coverage.py`'s
-   documented-but-unproducible UNREACHABLE state, and `binding_health`'s throttle/absence conflation.
-
-**Then the gathered ones:** `89503c58409f` (50 rotted citations across 33 modules — mechanical, but a
-symbol must be chosen per site) and `215f9e7b86ff` (unmarked cuts; each site's marking helper already
-exists in its own file).
+**AND THE SEQUENCING RULE STANDS UNTIL (a) LANDS:** editing `src/` voids a pass's baseline, so
+launch it as the **last** act of a shift, never an early one.
 
 ---
 
-## 3. STILL OPEN ON PURPOSE — READ THE SHIFT NOTES BEFORE TOUCHING
+## 2. THE RUN RUNG — 22 LEFT, THE VERIFIED ONES FIRST
 
-* **`a66423722e45` — ITS REMEDY AS WRITTEN WOULD RED THE BATTERY.** It says to move 28 scripts out of
-  `handoff/`. **Twelve are load-bearing:** `verify_math` §20u *executes* the six
-  `handoff/run35/checks_L*.py` in their own namespaces and asserts all six are still on disk ("a
-  vanished file is coverage that silently left"), and six more sit in a checked register under
-  `28c1f58f5e8a`. Only the ten under `nets_20260906/` are real scratch, and one of those is the
-  staged net `2f07cbd3241d` is owed. Corrected note attached this shift.
-* **`c9146abf92df`** — the `roll.exclude()` lost-update door. **Blocker re-verified as current, not
-  stale:** `checks_L4.py` pins the literal call text and §20u does execute it. `b3da16ddfe64`
-  (restate that assertion as a property) is the genuine prerequisite.
-* **`d1709d8e757d`** — text says 235.2h stale / 210 of 216 modified; **measured today: 5.3h, 1 of
-  216**. The predecessor rebuilt it. Stays open because *nothing schedules a rebuild* — still true.
-  Prerequisite nobody names: promoting a job into `overnight.STANDING` needs a `codewatch.stamp` and
-  `exit_if_stale` first, or `drill_codewatch` breaches silently.
-* **`f646c1c5f1d0`** — `genre.py:253` cites this id by name; closing it orphans the citation.
-* **`30854f11f322`** — any threshold change flips three legitimately CONFIRMED hosts to false
-  negatives.
-* **`a724ec57e0d5`** — declined by four shifts now, each with a dated note. Do not decide it
-  unilaterally on the fifth.
-* **`5d0fa30e4b09`** — twelve QUESTIONS from sweep 48, gathered deliberately. Two are load-bearing:
-  `codewatch.fingerprint()` does not descend into `src/deprecated/` (nil consequence *today*, but it
-  is what every rc=17 decision rests on), and line-based mutation attribution into a docstring-heavy
-  file remaps silently after any edit — which bears directly on reading the current pass's results.
+These four were filed by run #48's sweep with the verification already done and are unblocked now
+that the 404 definition is correct:
+
+1. **`86b8dd723f90`** — `binding_health` never passes `outcome=` to `feats.fetch`, so a throttled
+   fetch and a genuinely absent page both return `(0, None)` — in the module whose verdicts
+   quarantine hosts. **Now unblocked**: `feats.CLEAN_NEGATIVES` and `failed_dirty` exist, so a
+   third "could not tell" answer can be built on a correct definition.
+2. **`1d55458779fd`** — `coverage.py` documents `UNREACHABLE`, *"the only state that is purely a
+   defect"*, and the string appears exactly once in the file: in that docstring. Also unblocked by
+   the same fix; land it **after** checking `86b8dd723f90`'s shape so the two agree.
+3. **`5448a236b884`** — an unparseable model reply is the one pool failure that neither benches the
+   bucket nor reaches the unrecognised ledger, and on the hot path `served` is not even passed.
+4. **`194dc5f6d24f`** — *"corpus read is progressing"* measures a **cumulative** counter, so after
+   the first chunk this HIGH standard can never go red. **Not attempted this run**: the honest fix
+   is a delta, using the `job_stamp`/`JOB_WATCH` machinery that `standards.py` already has for its
+   sibling standard, and it is more than a line. Note it composes with `d9328fe1ee38`'s remedy
+   rather than competing.
+
+Then the gathered ones: **`89503c58409f`** (50 rotted line citations across 33 modules — the
+load-bearing row is `verify_math.py:11720-11723`, whose argument that cross-module citations do not
+rot is refuted by three of its own six examples) and **`215f9e7b86ff`** (unmarked cuts; each site's
+marking helper already exists in its own file).
+
+**Two structural recommendations that came out of this run's fixes and are worth their own orders:**
+
+* **Merge `overnight._cmd_is_running` and `codewatch.runs_script`.** They are two spellings of one
+  rule that have now drifted apart **four** times (`codewatch.twins` twice, the allsweep roster,
+  and the `-c` gap fixed today). Do it carefully — different signatures, different callers, and a
+  shared helper becoming a shared bug is the obvious failure.
+* **Cheap structural nets** for two fixes landed today that got none: that `allsweep.reconcile`
+  contains no second process enumeration, and that `health.reopen_stranded` re-reads between its
+  load and its land. Both are AST-shaped and cost nothing per battery run, unlike behavioural nets
+  that would walk the corpus.
 
 ---
 
-## 4. FOR THE OWNER — SIX THINGS ONLY A PERSON CAN DECIDE
+## 3. STILL OPEN ON PURPOSE — READ THE SHIFT NOTES FIRST
 
-Unchanged from run #46b unless noted:
+* **`a66423722e45`** — **its remedy as written would red the battery.** `verify_math` §20u
+  *executes* the six `handoff/run35/checks_L*.py` and asserts all six are still on disk; six more
+  are held in a checked register. Only the ten under `nets_20260906/` are real scratch, one of
+  which is the staged net `2f07cbd3241d` is owed.
+* **`c9146abf92df`** — the `roll.exclude()` lost-update door. Blocker re-verified as **current**:
+  `checks_L4.py` pins the literal call text and §20u does execute it. `b3da16ddfe64` is the real
+  prerequisite.
+* **`d1709d8e757d`** — nothing schedules an index rebuild. Still true. Its *numbers* are stale;
+  the shift note carries the current ones.
+* **`58a00e909217`** — see §0.1. Evidence for it exists in the 09-04 log; the order asks for a
+  non-drifting sandbox, so read both before ruling.
+* **`f646c1c5f1d0`**, **`30854f11f322`**, **`a724ec57e0d5`**, **`5d0fa30e4b09`** — unchanged, each
+  with a dated reason.
+
+---
+
+## 4. FOR THE OWNER
 
 1. **`c9666b0bd8d9`** — two hosts mined the wrong universe into the catalogue and it is still on
-   disk (`starrealms.fandom.com` serves *The Brain World Wikia*, 52,443 chars; `prime.fandom.com`
-   serves the Prime Hydration drink wiki). Both quarantined. **Purge, mark contaminated in place, or
-   leave the quarantine as the only guard?**
+   disk. Purge, mark contaminated, or leave the quarantine as the only guard?
 2. **`50e8d8be9a9b`** — what range may a Hand's reading take? `400.0` still publishes and both the
-   battery and the drill assert that it does, so a ruling arrives as a red row rather than silence.
-3. **`c39a2c0e1bef`** — the T3 shelf concordance mapping needs an owner-authored table; it cannot be
-   inferred without becoming resemblance-matching, which §6 forbids.
-4. **`f7d7769075c0`** — should a designed rc=17 restart raise an owner-visible order? Four fired this
-   shift, all within budget, all the safety working. **Run #48 closed those four instances** (the
-   restarts completed and were verified from the process table) **without touching the policy** — the
-   instance is finished, the question is not.
-5. **`88982cef258d`** — two free-tier API keys need re-issuing; `58a00e909217` is blocked behind it.
-6. **NEW — the sequencing conflict in §1.** One line settles whether mutation launches first or last.
+   battery and the drill assert that it does.
+3. **`c39a2c0e1bef`** — Phase 4.3's rich join. **The proposal in §5 is the answer to this one.**
+4. **`f7d7769075c0`** — should a designed rc=17 restart raise an owner-visible order?
+5. **`88982cef258d`** — two free-tier API keys need re-issuing; `58a00e909217`'s cloud lane is
+   blocked behind it.
+6. **`2cb442afd901` — NEW.** What fraction of the corpus moving should make the entity index
+   "stale"? `behind` and `modified_since` are now recorded on every call, so a few days of readings
+   give the real distribution before you pick a number.
+7. **The sequencing ruling** from run #48 §1 — drain RUN first and launch mutation last, or keep
+   the early launch and accept RUN-rung work is a different shift's job. Remedy (a) in §1 would
+   dissolve the question entirely.
 
 ---
 
-## 5. HOUSEKEEPING VERIFIED AT CLOSE
+## 5. PHASE 4.3 — THE MAPPING IS DRAFTED AND UNSIGNED
 
-`escalation --status` clear. Supervisor, dashboard, publish, foreman, overwatch, read and the crawl
-all alive; `autostart.py` alive since 2026-08-31 **and now correctly reported as such**.
+`handoff/phase43/SHELF_MAPPING_PROPOSAL.md`. **26 DIRECT** rows reaching **81,581 entries**,
+against the **3** threads the thin leg yields today. **2 JUDGMENT** (Great Wheel — the D&D shelf is
+~40 roll entries and which the row governs is a scoping call; Ludic Spheres — three of four clauses
+resolve, *"arenas in service"* fits Rocket League and ARMS equally). **3 REFUSED** (Masked
+Multiverses, Rot City, The One War — the evidence names nothing, and for the last, "maps to no
+source" is a legitimate ruling).
 
-* **`pipeline.py --run` (pid 21384) was still on 18:05 code at close** and was deliberately not
-  killed — mid-phase, doing real work, and an rc=17 there costs the phase. It bounces at its next
-  phase boundary. What is filed (`b67c5d98c91f`) is that nobody would have known.
-* **The crawl is not stalled** whatever `roll_auto` says: 276,911 feats files, one written 1.1 min
-  before close. Six hosts are in throttle backoff (marvel 32x, onepiece 13x, four at 8x); those BOTS
-  orders resolve themselves as the hosts recover.
-* **No probe litter.** `handoff/` holds exactly the same 28 executable-suffix files it held at open —
-  the sixteen sweep agents wrote only `.md` audits under `handoff/sweep48/`, everything else to the
-  session scratchpad.
-* **`state/MAINTENANCE_RUN.json` is deliberately NOT ticked by a background thread.** Run #46b's
-  heartbeat froze the moment its agent stopped, and that is exactly what let run #48 detect the death
-  correctly instead of waiting on a corpse. Keep it stamped inline.
+Every row is licensed by the Chronicle's own `stands_at` sentence naming canon particulars — Moro
+and Granolah, the Omenpaths, the Crucible, Era Indomitus — **never by a shelf name resembling a
+source**, which §7G forbids. Every proposed source was checked to exist on the roll by exact name.
+
+**Nothing is written to the spine and nothing should be until rows are confirmed.** 4.4 and 4.5
+remain UNAUTHORISED; `prose_enabled` is untouched.
