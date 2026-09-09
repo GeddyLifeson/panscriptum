@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 449  ·  last run 2026-09-09 00:41
+round 450  ·  last run 2026-09-09 01:08
 
 ## Structure
 
@@ -25,6 +25,14 @@ round 449  ·  last run 2026-09-09 00:41
   - says: enforces meta-language bans
 - **generate.py** `generate_job` — [HIGH] does not handle meta-language bans or import errors
   - says: generates a job's content
+- **ledger_guard.py** `check_since_floor` — [MEDIUM] checks since the floor, but the comment says it's the fourth mechanism
+  - says: THE FOURTH MECHANISM (order 284db4af1db6). SAME SHAPE AS THE LOOP ABOVE...
+- **ledger_guard.py** `check_since_snapshot` — [MEDIUM] checks since the last seal, but the comment says it's the since-last-seal loop
+  - says: THE SINCE-LAST-SEAL LOOP IS ONE MECHANISM...
+- **ledger.py** `from_standards` — [MEDIUM] The inverse of `to_standards`, but like `to_standards`, it does not use the `currency_status` function as the docstring suggests.
+  - says: The inverse of `to_standards`. None where the currency is not convertible -- for UNLISTED vs. deliberately non-convertible, see `currency_status`.
+- **ledger.py** `to_standards` — [MEDIUM] Converts a local sum into Standards, but returns None when the currency is not convertible, which is the same behavior as the docstring claims, but the function does not use the `currency_status` function as the docstring suggests.
+  - says: Convert a local sum into Standards. None where the currency is not convertible -- for UNLISTED vs. deliberately non-convertible, see `currency_status`.
 - **hostcheck.py** `adopt` — [MEDIUM] Find a host for every catalogued source that has none, but the function's logic may have issues with how it processes candidates and scores hosts.
   - says: Find a host for every catalogued source that has none.
 - **hostcheck.py** `score` — [MEDIUM] The function returns a dictionary with a verdict, but the actual calculation of the lift and verdicts may not align with the claim of measuring 'above its own baseline' due to the handling of base and rate values.
@@ -49,14 +57,6 @@ round 449  ·  last run 2026-09-09 00:41
   - says: an area whose nets never run, which is the quietest way to lose a net.
 - **drill.py** `drill_identity_dashboard` — [MEDIUM] an area whose probes the ledger witness cannot watch, which is the shape a net quietly becomes unable to fail in. New areas go ABOVE this line.
   - says: an area whose nets never run, which is the quietest way to lose a net.
-- **drill.py** `a_control_too_thin_to_be_one_is_not_a_baseline` — [MEDIUM] An incomplete function that is cut off and does not perform any action.
-  - says: A function that describes the behavior of a control that is too thin to be a baseline.
-- **drill.py** `zero_readable_bodies_is_the_thinnest_evidence_and_buys_the_least` — [MEDIUM] A function that runs tests by modifying the hostcheck module's functions and restoring them afterward.
-  - says: A function that describes the behavior of zero readable bodies and how it affects the host verdict.
-- **drill.py** `drill_hostcheck` — [MEDIUM] A function that runs tests and modifies the hostcheck module's behavior for testing purposes.
-  - says: The host verdict, and the baseline every lift in the module is computed against.
-- **drill.py** `PL.gate_done(st, "write", [True, True])` — [MEDIUM] the marker itself, and the gate that calls it are both unguarded
-  - says: the marker itself, and the gate that calls it
 
 ---
 
