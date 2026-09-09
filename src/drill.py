@@ -7165,6 +7165,61 @@ def _throttle_hands_off():
     return early == [] and len(handed) == 1 and handed[0][0] == h
 
 
+def _a_clean_404_is_not_re_mined_but_a_throttle_beside_it_still_is():
+    """The one clean negative this file names must actually be reachable (order 71a9b380cb03).
+
+    `mined_under_failed_transport`'s docstring has always promised that "http-404" is NOT a
+    failure -- "it is this file's one clean negative, the host answering that there is nothing
+    there". The code could not deliver it. The test was
+
+        bool(tr.get("failed")) or why not in ("ok", "http-404", "raw-transport")
+
+    and a 404 stamps ok=False, which makes `fetch()` increment `failed`, so the left operand was
+    always True for a real 404, `or` short-circuited, and the tuple naming "http-404" was never
+    evaluated. Every genuinely absent entity was re-mined on every load, for ever, and the bill
+    landed on the hosts already in deep throttle backoff.
+
+    THE SECOND HALF IS WHY THIS IS NOT A ONE-LINE FLIP. `why` records only the FIRST non-ok
+    reason, so a batch that 404s and then throttles reports why="http-404" with a throttled page
+    hiding inside it. Forgiving on `why` alone would convert that page into a permanent false
+    absence -- the precise harm the function exists to prevent. `fetch()` therefore counts the
+    failures that are NOT clean negatives separately, and the mixed case below is the row that
+    would catch a naive fix.
+
+    AND LEGACY RECORDS MUST NOT MOVE. 272,004+ evidence records were stamped before
+    `failed_dirty` existed. For those the original expression stands, so nothing already on disk
+    starts being trusted on evidence it never carried -- asserted here, because a fix that
+    quietly re-judges the corpus is a bigger event than the one it fixes.
+
+    PURE: synthetic records only. No host is contacted and nothing is mined.
+    """
+    import feats as F
+
+    def rec(**tr):
+        return {"pages_read": [], "pages_fetched": [], "pages_refused": {},
+                "mined_under": {"transport": tr}}
+
+    cases = [
+        # newly stamped: the exemption is reachable
+        (rec(batches=3, failed=3, failed_dirty=0, why="http-404"), False),
+        (rec(batches=1, failed=0, failed_dirty=0, why="ok"), False),
+        (rec(batches=1, failed=0, failed_dirty=0, why="raw-transport"), False),
+        # newly stamped: a real transport fault still re-mines
+        (rec(batches=3, failed=3, failed_dirty=3, why="throttled"), True),
+        (rec(batches=2, failed=2, failed_dirty=2, why="nonjson"), True),
+        # THE MIXED BATCH -- 404 first, throttle second. Must still re-mine.
+        (rec(batches=3, failed=2, failed_dirty=1, why="http-404"), True),
+        # legacy, no failed_dirty key: verdicts exactly as before the fix
+        (rec(batches=3, failed=3, why="http-404"), True),
+        (rec(batches=3, failed=3, why="throttled"), True),
+        (rec(batches=1, failed=0, why="ok"), False),
+    ]
+    for doc, want in cases:
+        if bool(F.mined_under_failed_transport(doc, "marvel.fandom.com")) is not want:
+            return False
+    return True
+
+
 def _quarantine_reports_the_disk_not_the_intention():
     """The escalation must describe what is ON DISK, not what the caller meant to write.
 
@@ -7315,6 +7370,10 @@ def drill_fetch():
         "case in the ledger that was never opened on disk")
     net(a, "the backoff has a ceiling -- slowed, never stopped", _backoff_stops_at_its_ceiling,
         "an unbounded backoff is an outage that reports itself as politeness")
+    net(a, "a clean 404 is accepted as an absence, and a throttle beside it is still re-mined",
+        _a_clean_404_is_not_re_mined_but_a_throttle_beside_it_still_is,
+        "the http-404 exemption was unreachable behind a short-circuit, so every genuinely "
+        "absent entity was re-mined for ever against the hosts least able to afford it")
 
     # A TRANSPORT FAILURE READ AS AN EMPTY ANSWER, in three more places (orders
     # de0681cb9edc and 6e2dab4c3981, landed 2026-09-06 from
@@ -8765,6 +8824,48 @@ def drill_rung_four():
     net(a, "re-opening a stopped subsystem demands a written ruling",
         resuming_demands_a_written_ruling,
         "the thing that undid the last stop was an automated actor with a restart timer")
+
+    def the_person_check_is_not_defeated_by_choosing_a_name():
+        """THE EXEMPTION FROM THE PERSON CHECK IS AN EXACT SET, NOT A SUBSTRING (order
+        3f6bc55e526f).
+
+        `resume_subsystem` lifts a rung-4 MANAGER stop and CLAUDE.md reserves that to a person:
+        an autonomous run may STOP a subsystem, only a person may resume one. `_a_probe_release`
+        is the narrow exemption that lets drill's three probes clean up after themselves.
+
+        It used to ask `health.is_selftest`, an UNANCHORED `re.search` for
+        `__drill[A-Za-z0-9_]*__`. That is the right question for the failure ledger and the wrong
+        one here, because here it decides whether a person is required. Measured before the fix:
+        `payments__drill_x__`, `nightly-publish__drilled__` and `marvel__drill__` all won the
+        exemption, so any automated caller could resume a real stop by choosing what to call its
+        subsystem.
+
+        DRIVEN AS A PURE PREDICATE, AND IT HAS TO BE. `_a_probe_release` returns True for ANY
+        name when `STOPPED` is redirected, which is condition (1) of its own contract -- so a
+        probe run inside `_esc_sandbox` would find every name exempt and this net would be unable
+        to fail. It therefore asks the predicate directly, against the REAL ledger, and asserts
+        that the real ledger is in place first so the sandbox arm cannot silently be the thing
+        answering. Nothing is stopped, resumed, or written: this reads no file and takes no lock.
+
+        BOTH DIRECTIONS. A fix that simply refused everything would break drill's own cleanup --
+        the two probes above depend on this exemption to release their synthetic stops -- and
+        would pass a one-sided test, so the three reserved subjects are required to still work.
+        """
+        import escalation as E
+        import health as H
+        if E.STOPPED != E._REAL_STOPPED:
+            return False          # sandboxed: the name arm is not what is answering. Not a pass.
+        for good in H.SELFTEST_RESUME_SUBJECTS:
+            if not E._a_probe_release(good):
+                return False      # drill's own probes could no longer clean up
+        for bad in ("payments__drill_x__", "nightly-publish__drilled__", "marvel__drill__",
+                    "the-whole-library__drill_a__", "__drill", "drill", "publish"):
+            if E._a_probe_release(bad):
+                return False      # a caller-chosen name skipped the person check
+        return True
+    net(a, "the person check on a resume is not defeated by choosing the subsystem's name",
+        the_person_check_is_not_defeated_by_choosing_a_name,
+        "an unanchored marker match let payments__drill_x__ lift a rung-4 stop with no person")
 
     def a_probe_leaves_no_order_behind():
         """The battery must be able to run on a live library without decorating its queue.

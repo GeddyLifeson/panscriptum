@@ -96,6 +96,44 @@ SELFTEST_LEDGER_PATH = os.path.join(HERE, "state", "failures_selftest.json")
 _SELFTEST = collections.Counter()
 SELFTEST_SUBJECT = re.compile(r"__drill[A-Za-z0-9_]*__")
 
+# THE THREE SUBJECTS THAT MAY SKIP A PERSON CHECK, AND THEY ARE A SET RATHER THAN A PATTERN.
+#
+# `SELFTEST_SUBJECT` above is a permissive `re.search`, and for the failure ledger that is
+# correct: it answers "is this row a detector rehearsing itself?", where matching a little too
+# much costs nothing but a row filed in the rehearsal ledger instead of the real one. Seventeen
+# distinct `__drill*__` markers are in use across the tree and the pattern is meant to cover all
+# of them without anybody maintaining a list.
+#
+# `escalation._a_probe_release` borrowed that same pattern to answer a completely different
+# question -- "may this caller lift a rung-4 MANAGER stop WITHOUT a person?" -- and there a
+# permissive match is the whole gate. Measured 2026-09-08 (order 3f6bc55e526f): because the
+# match is an unanchored `.search()`, `payments__drill_x__`, `nightly-publish__drilled__` and
+# `marvel__drill__` all won the exemption, so any automated caller could resume a real stop by
+# choosing what to call its subsystem. CLAUDE.md reserves that act to a person: "An autonomous
+# run may STOP a subsystem; only a person may resume one, and that asymmetry is the same one the
+# halt rests on."
+#
+# Only these three synthetic subjects ever reach `resume_subsystem` -- verified by enumerating
+# every `__drill*__` literal in src/: the other fourteen belong to probes that never resume
+# anything. So the authorisation question gets an EXACT SET and the ledger question keeps its
+# pattern. The two live side by side here, rather than the set being re-spelled in
+# `escalation.py`, for the reason that module's own docstring gives: two hand-kept copies of one
+# marker is how they come to disagree, and this one decides whether a guard applies.
+SELFTEST_RESUME_SUBJECTS = frozenset({
+    "__drill_rung4__",
+    "__drill_rung4b__",
+    "__drill_litter_probe__",
+})
+
+
+def is_resume_probe(name):
+    """Is `name` one of the three synthetic subjects allowed to resume without a person? -> bool.
+
+    EQUALITY, NOT A SUBSTRING. See `SELFTEST_RESUME_SUBJECTS`. A name that merely CONTAINS a
+    drill marker is not one of these, which is the entire point of the function.
+    """
+    return str(name) in SELFTEST_RESUME_SUBJECTS
+
 
 def is_selftest(key, subject=None):
     """Is this record a detector rehearsing itself, rather than a fault? -> bool."""

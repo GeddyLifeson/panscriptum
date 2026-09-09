@@ -889,12 +889,25 @@ def _a_probe_release(name):
          directory before driving this module, so a resume against a redirected ledger cannot
          lift anything the library is running on -- there is nothing on the other end of it.
 
-      2. THE NAME CARRIES THE HOUSE SELF-TEST MARKER. `__drill_rung4__`, `__drill_rung4b__` and
-         `__drill_litter_probe__` are reserved synthetic subjects; `health.py:73-74` already
-         names `stop_subsystem`/`resume_subsystem` against exactly these as the case its
-         self-test ledger exists for. The marker is BORROWED from `health.SELFTEST_SUBJECT`
-         rather than re-spelled here: two hand-kept copies of one pattern is how they come to
-         disagree, and this one decides whether a guard applies.
+      2. THE NAME IS ONE OF THE THREE RESERVED SYNTHETIC SUBJECTS. `__drill_rung4__`,
+         `__drill_rung4b__` and `__drill_litter_probe__`; `health.py` already names
+         `stop_subsystem`/`resume_subsystem` against exactly these as the case its self-test
+         ledger exists for. The set is BORROWED from `health.SELFTEST_RESUME_SUBJECTS` rather
+         than re-spelled here: two hand-kept copies of one marker is how they come to disagree,
+         and this one decides whether a guard applies.
+
+         BY EQUALITY, AND IT HAD TO BECOME SO (order 3f6bc55e526f, fixed 2026-09-09). This used
+         to call `health.is_selftest`, whose pattern is an UNANCHORED `re.search` for
+         `__drill[A-Za-z0-9_]*__`. That is the right question for the failure ledger, where it
+         asks "is this row a detector rehearsing itself?" and matching a little too much costs
+         nothing. It is the wrong question here, where it decides whether A PERSON IS REQUIRED.
+         Measured before the fix, by calling this predicate directly: `__drill_rung4__` was
+         exempt as intended, and so were `payments__drill_x__`, `nightly-publish__drilled__`,
+         `marvel__drill__` and `the-whole-library__drill_a__` -- so any automated caller could
+         resume a real rung-4 stop simply by choosing what to call its subsystem. Not exploited
+         (no production caller of `stop_subsystem` exists outside drill's own self-tests), and
+         fixed on the shape: a gate whose strength depends on nobody picking an awkward name is
+         not a gate.
 
     FAILS CLOSED. If `health` cannot be imported the answer is False -- not a probe -- so the
     person check applies in full. An exemption that survives its own evidence going missing is
@@ -904,7 +917,7 @@ def _a_probe_release(name):
         return True
     try:
         import health as _H
-        return bool(_H.is_selftest(str(name)))
+        return bool(_H.is_resume_probe(name))
     except Exception:
         silence.note("escalation.py:probe-release-marker")
         return False

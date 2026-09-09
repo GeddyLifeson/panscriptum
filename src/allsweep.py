@@ -607,12 +607,40 @@ def reconcile():
 
     # --- what is actually running right now ------------------------------------------------
     try:
-        r = subprocess.run(["powershell", "-NoProfile", "-Command",
-                            "Get-CimInstance Win32_Process -Filter \"Name like '%python%'\" | "
-                            "ForEach-Object { $_.CommandLine }"],
-                           capture_output=True, text=True, timeout=120,
-                           encoding="utf-8", errors="replace", creationflags=_NO_WIN)
-        live = [ln.strip() for ln in (r.stdout or "").splitlines() if ln.strip()]
+        # THE ENUMERATION COMES FROM `overnight`, NOT FROM A SECOND COPY HERE (order
+        # 6e0047258461, fixed 2026-09-09). This used to run its own PowerShell query and then do
+        #
+        #     live = [ln.strip() for ln in (r.stdout or "").splitlines() if ln.strip()]
+        #
+        # without ever inspecting `r.returncode` and without distinguishing empty stdout from a
+        # successful listing of nothing. If PowerShell failed, was blocked, or timed out into an
+        # empty result, `live` was `[]`, every job scored 0, and this panel printed
+        # "NOT RUNNING" for all nine -- a confident negative produced by the one condition in
+        # which nothing is known. This roster is what a person reads to decide a job has died.
+        #
+        # `overnight._proc_lines()` was hardened for exactly this under order 1d556b6ef535 and
+        # returns TRI-STATE: None means "I could not see". Its docstring gives the proof that an
+        # empty listing is also unknown -- the filter is python.exe/pythonw.exe and the CALLER is
+        # one of those, so a probe that worked cannot come back with zero rows. It is also
+        # already cached with a TTL and already passes CREATE_NO_WINDOW.
+        #
+        # The comment below this one has argued since run #34 that keeping one spelling of a rule
+        # in two places is how the two come to disagree, and this function then kept a second
+        # spelling of the enumeration anyway. Both halves of that lesson now apply.
+        import overnight as _ON
+        _out = _ON._proc_lines()
+        if _out is None:
+            # "I could not look" and "I looked and saw nothing" must not print the same line.
+            note("process check UNMEASURABLE",
+                 "the process table could not be read, so no job's state is known "
+                 "(overnight._proc_lines returned None)")
+            # RETURN, not raise. The enclosing `except` below would catch a raise and add a
+            # second, differently-worded row for one event -- and "process check failed" is the
+            # wrong words for a probe that answered honestly that it could not see. This is the
+            # last block in the function, so returning here costs nothing that follows.
+            return out
+        live = [ln.partition("|")[2].strip() for ln in _out.splitlines()
+                if ln.strip() and ln.partition("|")[2].strip()]
         # The roster comes from overnight.ALL_JOBS, not from a copy kept here. The four-job
         # tuple this replaced omitted dashboard, publish, foreman, overwatch and autostart, so
         # the sweep reported "4 running" against a process table holding nine -- for four runs

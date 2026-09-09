@@ -659,6 +659,18 @@ def anomalous_empty_hosts(path=None):
     return out, True
 
 
+# THE REASONS THAT ARE NOT A TRANSPORT FAILURE, named once instead of twice (order 71a9b380cb03).
+# `fetch()` counts them and `mined_under_failed_transport` forgives them, and those two lists
+# drifting apart is precisely how the forgiveness below became unreachable.
+#   "ok"            every batch answered.
+#   "http-404"      the host answered that there is nothing there. This file's one clean
+#                   negative, and the whole reason this tuple exists.
+#   "raw-transport" the raw transport has no per-request channel, so this is an honest UNKNOWN
+#                   rather than a clean bill -- kept here because re-mining every raw-transport
+#                   record for ever is not what the arm below was written to do either.
+CLEAN_NEGATIVES = ("ok", "http-404", "raw-transport")
+
+
 def mined_under_failed_transport(doc, host):
     """-> did this record's fetch FAIL, leaving an absence that is not evidence of absence?
 
@@ -695,7 +707,31 @@ def mined_under_failed_transport(doc, host):
     tr = ((d.get("mined_under") or {}).get("transport")) or None
     if tr:
         why = str(tr.get("why") or "unknown")
-        return bool(tr.get("failed")) or why not in ("ok", "http-404", "raw-transport")
+        # THE 404 EXEMPTION USED TO BE UNREACHABLE, AND THE DOCSTRING ABOVE PROMISED IT
+        # (order 71a9b380cb03). The line was:
+        #
+        #     return bool(tr.get("failed")) or why not in ("ok", "http-404", "raw-transport")
+        #
+        # A 404 calls `_stamp(False, "http-404")`, which sets ok=False, which makes `fetch()`
+        # increment `failed` -- so for any real 404 the LEFT operand is True, `or`
+        # short-circuits, and the tuple naming "http-404" is never evaluated. Every genuinely
+        # absent entity was therefore re-mined on every load, for ever, and the cost landed on
+        # the hosts already in deep throttle backoff, which is where the requests are dearest.
+        #
+        # `failed` cannot answer this on its own because it counts EVERY non-ok batch. `why` is
+        # only the FIRST non-ok reason, so a batch that 404s and then throttles reports
+        # why="http-404" while a throttled page hides inside it -- forgiving on `why` alone
+        # would turn that page into a permanent false absence, which is the exact harm this
+        # function exists to prevent. So `fetch()` now counts the failures that are NOT clean
+        # negatives separately, and that is the number this asks.
+        #
+        # MONOTONE ON WHAT IS ALREADY ON DISK. A record stamped before `failed_dirty` existed
+        # has no such key, and for those the ORIGINAL expression stands unchanged -- so no
+        # record already written starts being trusted today on evidence it never carried. New
+        # stamps get the distinction; old ones keep the conservative re-mine.
+        if "failed_dirty" in tr:
+            return bool(tr.get("failed_dirty")) or why not in CLEAN_NEGATIVES
+        return bool(tr.get("failed")) or why not in CLEAN_NEGATIVES
     hosts, measured = anomalous_empty_hosts()
     return bool(measured and host in hosts)
 
@@ -1489,7 +1525,12 @@ def fetch(host, titles, outcome=None):
     import endpoint as EP
     if outcome is not None:
         outcome.clear()
-        outcome.update({"batches": 0, "failed": 0, "why": "unknown"})
+        # `failed_dirty` counts the failures that are NOT clean negatives -- see
+        # CLEAN_NEGATIVES and `mined_under_failed_transport`. Its PRESENCE is what
+        # tells a reader this record was stamped by a writer that knew the
+        # difference, so it is always initialised, never conditionally added.
+        outcome.update({"batches": 0, "failed": 0, "failed_dirty": 0,
+                        "why": "unknown"})
     if EP.detect(host)["mode"] == EP.MODE_RAW:
         got = EP.fetch_raw(host, titles)
         if outcome is not None:
@@ -1497,7 +1538,8 @@ def fetch(host, titles, outcome=None):
             # answer here is that this transport does not say -- which is a different fact from
             # every page having arrived, and rounding it to "ok" would put a clean stamp on the
             # one path that cannot support one.
-            outcome.update({"batches": 1, "failed": 0, "why": "raw-transport"})
+            outcome.update({"batches": 1, "failed": 0, "failed_dirty": 0,
+                            "why": "raw-transport"})
         return got
     out = {}
     for i in range(0, len(titles), BATCH):
@@ -1512,8 +1554,16 @@ def fetch(host, titles, outcome=None):
             outcome["batches"] += 1
             if not _oc.get("ok"):
                 outcome["failed"] += 1
+                _w = _oc.get("why") or "unknown"
+                # COUNTED PER BATCH, not derived from `why` at the end. `why` keeps only the
+                # FIRST non-ok reason, so a pass that 404s and then throttles would look wholly
+                # clean to anyone reading `why` alone. This counter is what lets
+                # `mined_under_failed_transport` forgive a real 404 without also forgiving the
+                # throttled page sitting beside it in the same batch. (order 71a9b380cb03)
+                if _w not in CLEAN_NEGATIVES:
+                    outcome["failed_dirty"] = outcome.get("failed_dirty", 0) + 1
                 if outcome["why"] in ("unknown", "ok"):
-                    outcome["why"] = _oc.get("why") or "unknown"
+                    outcome["why"] = _w
             elif outcome["why"] == "unknown":
                 outcome["why"] = "ok"
         for p in (d or {}).get("query", {}).get("pages", []):

@@ -398,9 +398,27 @@ def _cmd_is_running(fragment, cmd):
     # than conservative: `-m` genuinely means no .py on that line is being run as a
     # script, and every caller here -- allsweep's roster, `codewatch.twins`,
     # `autostart.supervisor_alive` -- is asking about scripts.
+    #
+    # `-c` IS THE SAME SHAPE AND WAS MISSED (order d8c888dd28c2, fixed 2026-09-09). `python -c
+    # "<code>" <path>` runs a LITERAL, and any `.py` after it -- in the code string or in the
+    # arguments -- is not the script either. Measured before the fix:
+    #     _cmd_is_running("roll.py", 'python.exe -c pass roll.py')  ->  True
+    # and a matching command line is live in this tree: `local_agent.py:421-424` runs the foreman
+    # patch lane's "does it parse" gate as exactly that.
+    #
+    # AND THIS DIRECTION IS THE DANGEROUS ONE. The quoted-path defect fixed the same week (order
+    # d4392c590b87) was a false NEGATIVE -- a live job reading as down, which fails open and at
+    # worst starts a duplicate. This is a false POSITIVE, and `running()` is the singleton guard
+    # every spawn site in this file consults, so a job whose name happens to appear on a `-c`
+    # command line is a job the supervisor REFUSES TO START. A stage that silently does not run
+    # is worse than one that runs twice, because nothing reports it.
+    #
+    # `codewatch.runs_script` already handled `-c` and a drill fixture asserted it, so these two
+    # spellings of one rule had drifted apart -- the fourth time this predicate family has done
+    # that. Worth merging them; see the order.
     script = None
     for i, tok in enumerate(toks[1:], start=1):
-        if tok == "-m":
+        if tok in ("-m", "-c"):
             return False
         if tok.endswith(".py"):
             script = tok

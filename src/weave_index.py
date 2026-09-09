@@ -465,10 +465,58 @@ def staleness():
                     modified_since += 1
             except OSError:
                 continue
+    # THE VERDICT IS `coarse_stale`, NOT `coarse_stale and age_hours > STALE_HOURS` (order
+    # 9e884802918e, fixed 2026-09-09). Writing A for "a record is newer than the index" and B for
+    # "the index is simply old", `coarse_stale` is `A or B` and the verdict was `(A or B) and B`,
+    # which reduces to `B`. All four cases:
+    #
+    #     A=F B=F -> F   (B alone: F)   same
+    #     A=T B=F -> F   (B alone: F)   same   <-- A discarded HERE, and this is the whole fault
+    #     A=F B=T -> T   (B alone: T)   same
+    #     A=T B=T -> T   (B alone: T)   same
+    #
+    # So the mtime signal -- the one that actually knows the corpus moved -- was computed, was
+    # used to gate the expensive `modified_since` count, and was then absorbed. A corpus heavily
+    # rewritten INSIDE the STALE_HOURS window was never reported stale, which is precisely the
+    # condition the mtime signal exists to catch: this crawl catalogues tens of thousands of
+    # entries a day, and one measured rebuild had closed a gap of 65,362 entries.
+    #
+    # THE SIGNAL IS REPORTED, NOT PROMOTED INTO THE ALARM -- and the first attempt at this fix
+    # got that wrong, so the reasoning is written down. Setting `stale = coarse_stale` makes A
+    # decide the verdict, and A is true whenever ANY record is newer than the index. The crawl
+    # writes records continuously: measured at the moment of the fix, 1 of 216 records was newer
+    # against an index only 23.9h old, well inside STALE_HOURS. So that version reported STALE
+    # essentially always, which is the alarm-that-always-sounds CLAUDE.md names as the same
+    # failure as escalating nothing -- and `escalate_if_stale` is a real consumer that files a
+    # work order off this verdict.
+    #
+    # So `stale` keeps the ACTIONABLE meaning it had -- the index is old enough to be worth
+    # rebuilding -- and A becomes `behind`, its own reported field, plus a `reason` that names
+    # which signal fired. A is no longer computed and thrown away, which was the defect; it is
+    # simply not the thing that raises the order.
+    #
+    # WHAT IS LEFT FOR A RULING, and it is a threshold and therefore not mine to invent: the
+    # honest middle version is "stale when the index is old OR when ENOUGH of the corpus has
+    # moved", where enough is some fraction of `total_records`. That would let a heavily
+    # rewritten corpus raise the order early, which is the case the mtime signal was put there
+    # for. Nobody has set that fraction, and picking one here would be decreeing a policy inside
+    # a detector. `behind` and `modified_since` are both reported so whoever rules on it can see
+    # the distribution first.
+    behind = bool(newest is not None and newest > idx_mtime)
+    stale = bool(age_hours > STALE_HOURS)
+    if stale and behind:
+        why = ("the index is %.1fh old (limit %.1fh) and %d of %d record(s) are newer than it"
+               % (age_hours, STALE_HOURS, modified_since or 0, len(files) if files else 0))
+    elif stale:
+        why = "the index is %.1fh old (limit %.1fh)" % (age_hours, STALE_HOURS)
+    elif behind:
+        why = None      # not stale; `behind` carries it, and a reason here would read as a fault
+    else:
+        why = None
     return {"exists": True, "age_hours": age_hours, "modified_since": modified_since,
             "total_records": len(files) if files else 0,
-            "stale": bool(coarse_stale and age_hours > STALE_HOURS),
-            "reason": None}
+            "stale": stale, "behind": behind,
+            "reason": why}
 
 
 def escalate_if_stale():

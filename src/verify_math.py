@@ -9818,6 +9818,38 @@ check("[run48] an UNBALANCED quote degrades to the old whitespace split rather t
       _ONx_b3._cmd_tokens('python "C:/x/src/read.py --run'),
       ["python", '"C:/x/src/read.py', "--run"])
 
+# ==================================================================================================
+# `python -c` IS NOT RUNNING THE .py ON ITS COMMAND LINE (run #49, order d8c888dd28c2).
+#
+# `_cmd_is_running` special-cased `-m` and explained at length why -- the interpreter is running a
+# MODULE, so any .py after it is that module's argument. `-c` is the same shape and was missed, so
+#     _cmd_is_running("roll.py", 'python.exe -c pass roll.py')  ->  True
+# and a matching command line is live in this tree at local_agent.py:421-424, the foreman patch
+# lane's "does it parse" gate.
+#
+# THIS DIRECTION IS THE DANGEROUS ONE, which is why it gets rows of its own rather than riding on
+# the quoted-path set above. That was a false NEGATIVE (a live job reading as down, fail-open, at
+# worst a duplicate). This is a false POSITIVE, and `running()` is the singleton guard for every
+# spawn site in overnight.py -- so a job whose name appears on a `-c` line is a job the supervisor
+# REFUSES TO START, silently.
+# ==================================================================================================
+
+check("[run49] `python -c` does not count as running a .py named on the same line",
+      _ONx_b3._cmd_is_running("roll.py", "python.exe -c pass roll.py"),
+      False,
+      note="if this goes red, a parser or a one-liner mentioning a daemon's file makes the "
+           "supervisor refuse to start that daemon, and nothing reports the stage that did not run")
+check("[run49] ...and `-m` is still refused (the fix did not replace one branch with the other)",
+      _ONx_b3._cmd_is_running("roll.py", "python.exe -m pyflakes roll.py"),
+      False)
+check("[run49] ...and a real script invocation still counts",
+      _ONx_b3._cmd_is_running("roll.py", "python.exe src/roll.py --go"),
+      True)
+check("[run49] ...and the quoted launch fixed the day before still counts, so the two repairs "
+      "to this one predicate do not undo each other",
+      _ONx_b3._cmd_is_running("roll.py", '"C:/x/pythonw.exe"  -u "C:/y/src/roll.py" --go'),
+      True)
+
 # ------------------------------------------------------------------------------------------
 # ---- run35 batch4 ----
 """

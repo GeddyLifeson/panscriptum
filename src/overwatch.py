@@ -321,11 +321,61 @@ def _digest(path):
 _STATE_RANK = {"open": 0, "stale": 1, "confirmed": 1, "refuted": 2, "retired": 2, "closed": 2}
 
 
+def _finished_at(f):
+    """When did this finding finish? -> epoch seconds, 0.0 when it cannot be told.
+
+    ONE SCALE, BECAUSE THE TWO FIELDS ARE WRITTEN IN DIFFERENT VOCABULARIES (order 72e33d06d4eb,
+    fixed 2026-09-09). `_progress` used to tie-break on
+
+        str(f.get("retired_at") or f.get("closed_at") or "")
+
+    and those are not the same kind of thing:
+
+        overwatch.py  f["closed_at"]  = time.time()                    -> "1788926..."
+        overwatch.py  f["retired_at"] = led["last_run"]                -> "2026-09-08 23:14"
+        overwatch.py  led["last_run"] = time.strftime("%Y-%m-%d %H:%M")
+
+    Compared as STRINGS, every current date begins "2" and every current epoch begins "1", so
+    "2026-..." > "1788..." always. `refuted`, `retired` and `closed` all rank 2, so that string
+    decided between them -- and RETIRED therefore beat CLOSED every time, regardless of which
+    actually happened last. The comparison was not measuring time at all.
+
+    IT SURVIVED READING BECAUSE THE INTENT IS VISIBLE AND CORRECT. The comment at :341 says
+    `last_run` values are "zero-padded 'YYYY-MM-DD HH:MM', so that is time order" -- true of one
+    `last_run` against another, and untrue the moment the same slot can also hold `time.time()`.
+
+    WHAT IT COST. `_merge_ledgers` exists because two writers touch this ledger and its own
+    docstring calls that collision routine; on a collision the loser is discarded. So a
+    "closed: auto-triage refuted: <reason>" record -- which carries WHY a finding was closed --
+    could be silently replaced by a bare retired stub carrying none.
+
+    UNPARSEABLE SORTS OLDEST, deliberately. A record whose stamp cannot be read never wins a
+    tie-break, so a malformed value cannot displace a good one; the finding itself survives
+    either way, because the winner still holds it.
+    """
+    v = f.get("retired_at") or f.get("closed_at")
+    if v is None:
+        return 0.0
+    if isinstance(v, (int, float)):
+        return float(v)
+    s = str(v).strip()
+    try:
+        return float(s)                       # an epoch that was stored as a string
+    except ValueError:
+        pass
+    for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"):
+        try:
+            return time.mktime(time.strptime(s, fmt))
+        except ValueError:
+            continue
+    return 0.0
+
+
 def _progress(f):
     if not isinstance(f, dict):
-        return (-1, "", 0)
+        return (-1, 0.0, 0)
     return (_STATE_RANK.get(str(f.get("state", "")).lower(), 0),
-            str(f.get("retired_at") or f.get("closed_at") or ""),
+            _finished_at(f),
             len(f))
 
 
