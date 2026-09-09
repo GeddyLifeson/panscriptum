@@ -1030,7 +1030,14 @@ def reopen_stranded(dry=True):
     path = os.path.join(HERE, "state", "PIPELINE_STATE.json")
     try:
         with open(path, encoding="utf-8") as f:
-            st = json.load(f)
+            # THE RAW TEXT IS KEPT, not just the parsed object, so the drift check further down
+            # can compare bytes rather than re-serialising and hoping key order survives. If
+            # nothing wrote the file in between, the text is identical; if anything did, it is
+            # not. Refusing on a rewrite that happened to produce identical semantics is
+            # possible in principle, harmless in practice, and costs one re-run of a repair tool
+            # that re-derives itself. (order 87d2ef35a516)
+            st_text = f.read()
+        st = json.loads(st_text)
     except Exception as e:
         # Say which of the two it is. This tool's whole job is repairing PIPELINE_STATE.json, so
         # "cannot read it" is the one message it must never deliver as a bare traceback -- and an
@@ -1085,6 +1092,46 @@ def reopen_stranded(dry=True):
     for k in reopen:
         print("   " + k)
     if not dry:
+        # RE-READ AND REFUSE IF IT MOVED (order 87d2ef35a516, fixed 2026-09-09).
+        #
+        # Everything below this point was already careful about the WRITE -- see the comment
+        # under it, which is entirely about two concurrent writers of this file and records the
+        # temp-name collision being fixed in run36. What it did not address is the LOST UPDATE:
+        # `st` was loaded at the top of this function, minutes of `P.records()` walking ago, and
+        # landing it whole discards anything `pipeline.save_state()` wrote in between. The file
+        # is always complete and consistent and silently one or more phases behind.
+        #
+        # THAT IS NOT A THEORETICAL WINDOW. This function's own docstring says it "is invoked
+        # precisely when a pipeline may be live", pipeline.py separately records concurrent
+        # writers to this file having already caused data loss once (2026-08-21), and the phase
+        # boundaries that write it were observed at 21:59, 22:04 and 22:17 on a single evening --
+        # one every five to thirteen minutes.
+        #
+        # AND THE FIELDS THAT REVERT ARE THE POINTER. `st["phase"]`, `st["done"]` and
+        # `st["units_done"]` all go back to what this function loaded, so the pipeline redoes
+        # work it had already reported complete, and `done` is what `gate_done` and the resume
+        # point are computed from.
+        #
+        # REFUSE RATHER THAN MERGE, deliberately. A key-wise compare-and-swap (roll.mutate's
+        # shape) is the richer fix, but this is a hand-invoked repair tool that is safely
+        # re-runnable, and a refused repair costs one re-run while a wrong merge costs a silent
+        # revert. Refusing is also the honest answer to "somebody else changed this while I was
+        # deciding what to change" for a tool whose whole job is deciding what to change.
+        try:
+            with open(path, encoding="utf-8") as f:
+                fresh_text = f.read()
+        except Exception as e:
+            print(f"health: PIPELINE_STATE.json became unreadable while this repair was being "
+                  f"computed ({type(e).__name__}: {e}); nothing re-opened", file=sys.stderr)
+            return None
+        if fresh_text != st_text:
+            print("health: PIPELINE_STATE.json CHANGED while this repair was being computed -- "
+                  "another writer (pipeline.save_state at a phase boundary) landed in the "
+                  "meantime. NOTHING re-opened, because writing now would discard that work: "
+                  "phase, done and units_done would all revert to what this run loaded. "
+                  "Re-run --reopen --go; the repair is re-runnable and re-derives itself.",
+                  file=sys.stderr)
+            return None
         st["done"]["entrypass"] = [k for k in done if k not in set(reopen)]
         # PIPELINE_STATE.json is the file pipeline.py owns and writes ONLY through
         # silence.replace_retry ("atomic writes; safe to kill the process"). This repair tool
