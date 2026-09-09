@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 458  ·  last run 2026-09-09 14:18
+round 459  ·  last run 2026-09-09 15:07
 
 ## Structure
 
@@ -8,10 +8,11 @@ round 458  ·  last run 2026-09-09 14:18
 - files that will not parse: **0** of 302,102 inspected (deep scan as of round 457)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
+- NOT RUNNING: **0** dashboard.py
 
 ## What the model found in the code
 
-**43 open** (18 high). Newest first.
+**34 open** (12 high). Newest first.
 
 - **verify_math.py** `_STx.MIN_CALLS_TO_JUDGE_RATE` — [HIGH] the value standards.MIN_CALLS_TO_JUDGE_RATE is a hardcoded literal 20
   - says: the value standards.MIN_CALLS_TO_JUDGE_RATE carries is the one tuning.py declares
@@ -31,24 +32,14 @@ round 458  ·  last run 2026-09-09 14:18
   - says: receives messages to be output
 - **standards.py** `fandom_ipv4_reachable` — [HIGH] Attempts to connect to 'community.fandom.com' which resolves to IPv6 addresses, making the probe ineffective for testing IPv4 connectivity
   - says: Can this machine open a TCP connection to fandom's edge OVER IPv4?
-- **scope.py** `main` — [HIGH] returns 0 only when ap.print_help() is called
-  - says: return 0 on both branches
-- **scope.py** `scope_for` — [HIGH] returns a scope with a ceiling when no tier reaches MIN_MENTIONS
-  - says: returns None when no tier reaches MIN_MENTIONS
-- **runguard.py** `claim` — [HIGH] Proceeds with claim even if the guard could not be read, which is an AUTHORISATION rather than an observation, and does not refuse as the docstring says it should.
-  - says: Take the guard for `agent`, or refuse. Returns (ok, reason). On refusal the caller must write nothing and stop -- landing on a live predecessor is the NORMAL outcome of a cadence that fires more often than a run takes, and exiting immediately is the correct result rather than a failure.
-- **retry_synthesis.py** `PL.clean_band` — [HIGH] acceptance is forgiving, clamping is strict
-  - says: acceptance is strict, clamping is forgiving
-- **publish.py** `_is_compiled` — [HIGH] Returns True for `.pyc`/`.pyo` files, but also for any file in a `__pycache__` directory, even if it's not a `.pyc`/`.pyo` file.
-  - says: True for compiled bytecode: any `__pycache__` path component, or a `.pyc`/`.pyo` file.
-- **publish.py** `scrub_text` — [HIGH] Scrubbing multi-line strings by checking for the FIXTURE_MARKER in the entire string, not per line
-  - says: Both locks, applied to one string. Named and public so the DRILL can attack it.
 - **read.py** `return done["errored"] == 0` — [HIGH] returns 0 if no errors occurred, but the exit code should reflect whether any errors occurred
   - says: THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] the code returns 1 if the return value is None, else 0, which is the opposite of what was intended
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **scope.py** `ceiling_for` — [MEDIUM] The function is called by `magnitude.host_ceiling` (magnitude.py:942) and is used to retrieve the ceiling from the SCOPE.json file.
+  - says: The Magnitude ceiling a source's own scope supports, or None. NO CALLERS -- see above.
 - **verify_math.py** `check` — [MEDIUM] is used to check a condition that is already known to be true
   - says: asserts that the code meets a certain condition
 - **verify_math.py** `check` — [MEDIUM] checks if the status starts with 'RAN' but the expected value is False
@@ -79,8 +70,6 @@ round 458  ·  last run 2026-09-09 14:18
   - says: WHEN DID IT LAST MOVE, not when did this check last run. `at` was re-stamped to `now` on every pass, so `quiet_min` measured the interval between two consecutive standards runs -- a few minutes, always -- and could not reach the 15-minute floor no matter how long a job had actually been silent. The standard this file's own docstring calls "the failure this whole library is built to refuse" was therefore structurally unable to fire, for any job, and had been reporting "all advancing" by construction. Carrying the stamp forward while the size holds is what makes the number mean silence.
 - **secondopinion.py** `report` — [MEDIUM] returns got and _torn
   - says: returns got and _torn
-- **scope.py** `ceiling_for` — [MEDIUM] Returns the ceiling for a source's scope, but the function is marked as having no callers and is kept for historical reasons.
-  - says: The Magnitude ceiling a source's own scope supports, or None. NO CALLERS -- see above.
 - **rigor.py** `mathematical_resonance` — [MEDIUM] used without definition in code
   - says: returns a dictionary with mathematical quantities and relations
 - **rigor.py** `gumbel_return_level` — [MEDIUM] used without definition in code
@@ -93,12 +82,6 @@ round 458  ·  last run 2026-09-09 14:18
   - says: Ranked, never truncated (Hard Rule 0). The sole consumer slices for display; a RETURNED field that stops at eight decides on the ledger's behalf that the ninth load-bearing quantity is not load-bearing.
 - **publish.py** `_is_agent_scratch` — [MEDIUM] The function does not check if the root is a directory, which could lead to false positives if the root is a directory but not a file.
   - says: The root itself is never a file, so a bare `handoff` cannot match.
-- **publish.py** `_is_agent_scratch` — [MEDIUM] Returns True if the file is in a CODE_FREE_DIRS directory and has an extension in _CODE_EXT, but does not check if the file is actually a file (i.e., not a directory).
-  - says: True for a file `sync_tree` must never publish because of WHERE it is rather than what it is called: source code under a `CODE_FREE_DIRS` root.
-- **recover_folder_records.py** `shortfalls` — [MEDIUM] It is appended to the provenance string only if there are shortfalls.
-  - says: The shortfall is written into the provenance.
-- **recover_folder_records.py** `shortfalls` — [MEDIUM] It is a cross-check that could not be made, which is its own answer -- the same distinction this file draws between a denied write and a write that landed.
-  - says: A mapping that declares nothing usable is not a mapping that agrees.
 
 ---
 
