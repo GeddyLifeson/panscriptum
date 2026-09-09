@@ -36,6 +36,7 @@ import contextlib
 import datetime
 import json
 import os
+import shlex
 import subprocess
 _NO_WIN = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
@@ -255,6 +256,43 @@ def running(fragment, include_self=False):
     return False
 
 
+def _cmd_tokens(cmd):
+    """Split a Windows command line into tokens, honouring quotes. -> list[str], PURE.
+
+    ONE TOKENISER FOR THE TWO FUNCTIONS THAT ASK "what script is this process running", because
+    they carried the same bare `cmd.replace("\\\\", "/").split()` and therefore the same defect,
+    and repairing either alone would have left `running()` still wrong through the other.
+
+    A QUOTED PATH USED TO DEFEAT BOTH. The Startup `.vbs` launches with the paths quoted:
+
+        "C:/.../pythonw.exe"  -u "C:/.../src/autostart.py" --watch
+
+    A whitespace split makes the script token `"C:/.../src/autostart.py"` -- ending in a quote,
+    not in `.py` -- so every `tok.endswith(".py")` test walked straight past it. `_in_this_tree`
+    returned False for want of a script and `_cmd_is_running` fell out of its `for/else`, so
+    `running()` reported a live job as NOT RUNNING with nothing raised and nothing logged.
+    Measured 2026-09-08: of nine live processes in this tree, `autostart.py` was the only one
+    with a quoting launcher and the only one that could not be resolved.
+
+    AND `running()` IS THE SINGLETON GUARD, which is the half that is dangerous rather than
+    merely wrong. It fails open by saying "not running", so a daemon launched with a quoted path
+    is a daemon whose duplicate guard is off -- the 2026-08-25 incident, where two `publish.py`
+    daemons seventeen seconds apart wrote into one export repo.
+
+    `shlex` on the SLASH-NORMALISED string, so posix mode is safe: the backslashes posix mode
+    would otherwise eat as escapes are already gone, and quoting is then handled properly --
+    including a path containing spaces, which the old split could never have resolved either.
+    An unbalanced quote raises `ValueError` rather than truncating silently, and falls back to
+    the old behaviour so a malformed line degrades to what it did before rather than blinding
+    the probe.
+    """
+    norm = cmd.replace("\\", "/")
+    try:
+        return shlex.split(norm, posix=True)
+    except ValueError:
+        return norm.split()
+
+
 def _in_this_tree(pid, cmd):
     """Is the script on this command line THIS checkout's copy? -> bool.
 
@@ -264,7 +302,31 @@ def _in_this_tree(pid, cmd):
     other direction is a job that refuses to run for ever because of a process in a directory it
     has nothing to do with. That failure has already cost this project one outage.
     """
-    toks = cmd.replace("\\", "/").split()
+    # QUOTE-AWARE, AND IT HAD TO BECOME SO (order filed 2026-09-08, run #48). This was
+    # `cmd.replace("\\", "/").split()`, a bare whitespace split, and a QUOTED script path
+    # therefore produced a token ending in `"` rather than in `.py`. `next(... endswith(".py"))`
+    # then found nothing, `script` came back None, and this function returned False -- so a
+    # perfectly healthy job was reported as NOT RUNNING, for ever, with no error anywhere.
+    #
+    # MEASURED, and it was live: `autostart.py` is launched by the Startup `.vbs` as
+    #   "C:/.../pythonw.exe"  -u "C:/.../src/autostart.py" --watch
+    # and it is the ONLY job on this machine whose launcher quotes the path. It was the only one
+    # of the nine live processes this function could not resolve; every unquoted sibling
+    # resolved correctly. `allsweep`'s roster has been printing "NOT RUNNING autostart.py"
+    # against a process that has been up since 2026-08-31 -- and autostart is THE WATCHDOG, the
+    # one job nothing else restarts.
+    #
+    # THE GENERAL FAULT IS THE DANGEROUS HALF, not the false row. `running()` is the SINGLETON
+    # GUARD every spawn site in this file consults, and it fails open by saying "not running".
+    # So any daemon launched with a quoted path is a daemon whose duplicate guard is silently
+    # off -- which is precisely the 2026-08-25 incident, where two `publish.py` daemons
+    # seventeen seconds apart wrote into one export repo. The launcher that quotes is the
+    # Startup `.vbs`, i.e. the path every job takes at logon.
+    #
+    # THE TOKENISER IS SHARED WITH `_cmd_is_running` ON PURPOSE -- see `_cmd_tokens`. Both
+    # functions had this identical bare split, so a quoted command line defeated BOTH, and
+    # fixing one would have left `running()` still answering False through the other.
+    toks = _cmd_tokens(cmd)
     script = next((t for t in toks if t.endswith(".py")), None)
     if not script:
         return False
@@ -309,7 +371,10 @@ def _cmd_is_running(fragment, cmd):
     """
     parts = fragment.split()
     want, want_args = parts[0], parts[1:]
-    toks = cmd.replace("\\", "/").split()
+    # QUOTE-AWARE, AND SHARED WITH `_in_this_tree` -- see `_cmd_tokens`. The bare split this
+    # replaced could not see a script whose path was quoted, so the `for/else` below fell
+    # through to "nothing is being RUN here" for a job that plainly was.
+    toks = _cmd_tokens(cmd)
     if not toks:
         return False
     # THE INTERPRETER MUST BE PYTHON, which is what separates running a script from reading one.

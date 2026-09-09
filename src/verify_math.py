@@ -9767,6 +9767,57 @@ check("[dcdd1fa96864] ...and DOES still match a running sweep.py itself (the mat
                               "python C:/Users/imarl/panscriptum-library-kit/src/sweep.py"),
       True)
 
+# ==================================================================================================
+# A QUOTED SCRIPT PATH MADE A LIVE JOB READ AS NOT RUNNING (run #48, 2026-09-08).
+#
+# `_in_this_tree` and `_cmd_is_running` both tokenised with a bare `cmd.replace("\\","/").split()`,
+# so the Startup .vbs's quoted launch produced a script token ending in `"` rather than `.py` and
+# every `endswith(".py")` test walked past it. `autostart.py` -- THE WATCHDOG, up since 2026-08-31
+# and the one job nothing else restarts -- was the only live process on this machine with a
+# quoting launcher, and the only one `running()` could not resolve. allsweep's roster had been
+# printing "NOT RUNNING autostart.py" against it.
+#
+# The dangerous half is not the false row: `running()` is the SINGLETON GUARD for every spawn site
+# in overnight.py and it fails open by saying "not running", so a quoted launch is a duplicate
+# guard that is silently off -- the 2026-08-25 two-publish-daemons incident.
+#
+# Both directions, because a tokeniser that accepted everything would pass a one-sided test and
+# would reinstate the mention-vs-run bug these rows exist to guard.
+# ==================================================================================================
+
+_VBS_QUOTED_b3 = ('"C:/Users/imarl/miniconda3/pythonw.exe"  -u '
+                  '"C:/Users/imarl/panscriptum-library-kit/src/autostart.py" --watch')
+
+check("[run48] a QUOTED script path is still recognised as that script running "
+      "(the Startup .vbs launch shape)",
+      _ONx_b3._cmd_is_running("autostart.py", _VBS_QUOTED_b3),
+      True,
+      note="if this goes red, overnight.running() reports the watchdog as down again and every "
+           "singleton guard on a quoted launch is off")
+check("[run48] ...and the unquoted shape is unaffected (the fix did not trade one for the other)",
+      _ONx_b3._cmd_is_running("autostart.py",
+                              "python C:/Users/imarl/panscriptum-library-kit/src/autostart.py"),
+      True)
+check("[run48] [control] a QUOTED path under `python -m` is still NOT a script running "
+      "(quote-awareness must not reopen the mention-vs-run hole)",
+      _ONx_b3._cmd_is_running(
+          "codewatch.py",
+          'python -m pyflakes "C:/Users/imarl/panscriptum-library-kit/src/codewatch.py"'),
+      False)
+check("[run48] [control] a QUOTED path named by a non-python reader is still NOT it running",
+      _ONx_b3._cmd_is_running(
+          "autostart.py",
+          'grep -rn "C:/Users/imarl/panscriptum-library-kit/src/autostart.py"'),
+      False)
+check("[run48] the shared tokeniser resolves a quoted path CONTAINING SPACES, which the bare "
+      "split could never have done either",
+      _ONx_b3._cmd_tokens('"C:/Program Files/py.exe" -u "C:/a b/src/read.py" --run'),
+      ["C:/Program Files/py.exe", "-u", "C:/a b/src/read.py", "--run"])
+check("[run48] an UNBALANCED quote degrades to the old whitespace split rather than blinding "
+      "the probe",
+      _ONx_b3._cmd_tokens('python "C:/x/src/read.py --run'),
+      ["python", '"C:/x/src/read.py', "--run"])
+
 # ------------------------------------------------------------------------------------------
 # ---- run35 batch4 ----
 """
