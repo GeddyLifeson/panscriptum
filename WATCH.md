@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 448  ·  last run 2026-09-08 22:18
+round 449  ·  last run 2026-09-09 00:41
 
 ## Structure
 
@@ -8,17 +8,29 @@ round 448  ·  last run 2026-09-08 22:18
 - files that will not parse: **0** of 301,105 inspected (deep scan as of round 445)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
-- NOT RUNNING: **0** autostart.py
-- NOT RUNNING: **0** foreman.py
 
 ## What the model found in the code
 
-**19 open** (2 high). Newest first.
+**22 open** (6 high). Newest first.
 
+- **hostcheck.py** `rate` — [HIGH] rate is set to 0.0 if None
+  - says: A CONTROL THAT DID NOT MEASURE IS `None`, NOT ZERO
+- **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] the code returns 1 if the return value is None, else 0, which is the opposite of what was intended
+  - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
+- **health.py** `summary` — [HIGH] The failure ledger as it stands. -> {class: count} (but the function is empty and does nothing).
+  - says: The failure ledger as it stands. -> {class: count}.
+- **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
+  - says: uses to mean "this run did not do what it was asked"
 - **generate.py** `pipeline` — [HIGH] not imported or used in the code
   - says: enforces meta-language bans
 - **generate.py** `generate_job` — [HIGH] does not handle meta-language bans or import errors
   - says: generates a job's content
+- **hostcheck.py** `adopt` — [MEDIUM] Find a host for every catalogued source that has none, but the function's logic may have issues with how it processes candidates and scores hosts.
+  - says: Find a host for every catalogued source that has none.
+- **hostcheck.py** `score` — [MEDIUM] The function returns a dictionary with a verdict, but the actual calculation of the lift and verdicts may not align with the claim of measuring 'above its own baseline' due to the handling of base and rate values.
+  - says: One host, fully judged: how much of this roster it holds, ABOVE ITS OWN BASELINE.
+- **health.py** `reopen_stranded` — [MEDIUM] Reopens batches that contain entries not yet settled (i.e., not catalogued or excluded), but the code's comment indicates that the old test (checking only for uncatalogued entries) was incorrect and that the current test using `entry_settled` is the correct one. However, the code's logic may still be re-opening batches that should not be re-opened due to the change in the test condition.
+  - says: Re-open entry batches marked done that still contain uncatalogued entries.
 - **generate.py** `floor` — [MEDIUM] the evidence floor is set to 0.35
   - says: the evidence floor is misconfigured
 - **foreman.py** `kill_stalled_job` — [MEDIUM] kills stalled jobs that can be restarted, but fails to kill those that cannot be restarted
@@ -45,14 +57,6 @@ round 448  ·  last run 2026-09-08 22:18
   - says: The host verdict, and the baseline every lift in the module is computed against.
 - **drill.py** `PL.gate_done(st, "write", [True, True])` — [MEDIUM] the marker itself, and the gate that calls it are both unguarded
   - says: the marker itself, and the gate that calls it
-- **drill.py** `PL.mark_done(st, "weave")` — [MEDIUM] the marker itself, and the gate that calls it are both unguarded
-  - says: the marker itself, and the gate that calls it
-- **drill.py** `st.get("phase") == 4` — [MEDIUM] the resume point advances past the open work
-  - says: the resume point stays behind the open work
-- **drill.py** `the_gate_and_the_public_door_are_denied` — [MEDIUM] The function's logic is based on checking denied and still_open, but the comment suggests it's supposed to check if the gate and public door are denied, which may not align with the actual return value.
-  - says: NOT A STRING BYPASS -- the first six attacks in this area were all 'a name the filesystem resolves differently'.
-- **drill.py** `the_gate_and_the_public_door_are_denied` — [MEDIUM] The function checks if both 'src/prose_gate.py' and 'src/publish.py' are denied, but the logic is inverted in the return statement (returns denied and still_open instead of denied and not still_open).
-  - says: The local model may not write the prose gate, nor the module that pushes to the public.
 
 ---
 
