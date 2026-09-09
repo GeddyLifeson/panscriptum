@@ -1,18 +1,24 @@
 # OVERWATCH
 
-round 456  ·  last run 2026-09-09 13:06
+round 457  ·  last run 2026-09-09 13:29
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 301,397 inspected (deep scan as of round 451)
+- files that will not parse: **0** of 302,102 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**31 open** (12 high). Newest first.
+**36 open** (14 high). Newest first.
 
+- **standards.py** `fab is not None and fab <= MAX_FABRICATION` — [HIGH] The condition is checking if fab is not None and fab is less than or equal to MAX_FABRICATION, but the comment indicates that UNMEASURED (fab is None) should be treated as a finding. The code is not correctly handling the UNMEASURED case as described in the comment.
+  - says: The model is returning text that is not in the source. A rate this high means the passage is being truncated before it arrives -- check the chunk size against the model's context -- or that a weak fallback model is carrying the run. IF THIS READS UNMEASURED, TREAT THAT AS THE FINDING: this standard silently did not exist from the day it was written until run #28, because it read a job-dict key that nothing sets, so an absent reading here is exactly the failure mode that
+- **standards.py** `out` — [HIGH] not modified in this code slice
+  - says: receives messages to be output
+- **standards.py** `fandom_ipv4_reachable` — [HIGH] Attempts to connect to 'community.fandom.com' which resolves to IPv6 addresses, making the probe ineffective for testing IPv4 connectivity
+  - says: Can this machine open a TCP connection to fandom's edge OVER IPv4?
 - **scope.py** `main` — [HIGH] returns 0 only when ap.print_help() is called
   - says: return 0 on both branches
 - **scope.py** `scope_for` — [HIGH] returns a scope with a ceiling when no tier reaches MIN_MENTIONS
@@ -31,12 +37,20 @@ round 456  ·  last run 2026-09-09 13:06
   - says: The nomination blocks for one source, and the mined feat text behind them.
 - **pipeline.py** `write_record` — [HIGH] Writes the pipeline's in-memory copy over the disk file when there's no drift, silently overwriting any changes made by other writers
   - says: Write a record back WITHOUT clobbering a concurrent writer's work.
-- **overnight.py** `_cmd_is_running` — [HIGH] Checks if the fragment is a substring, not if the command line indicates the fragment is being executed.
-  - says: Does this command line show `fragment` BEING RUN, rather than merely mentioned?
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [HIGH] the code returns 1 if the return value is None, else 0, which is the opposite of what was intended
   - says: THE VERDICT IS THE EXIT CODE (sweep42-batch10). This discarded `reopen_stranded()`'s return value and returned 0 unconditionally, so a repair that could not read or write PIPELINE_STATE.json reported success to whatever ran it -- the check-that-cannot-fail shape, on a repair. It is invoked from scripts, which have nothing else to read.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **sweep_plan.py** `plan_rec` — [MEDIUM] freeze_plan(a.run, a.batches) is called but the result is not used if a.run is False
+  - says: freeze_plan(a.run, a.batches)
+- **sweep_plan.py** `silence.write_json` — [MEDIUM] write_json is called but the exception is caught and a fallback is used, which may not properly handle the error
+  - says: write_json is used to write the data to the COVERAGE file
+- **standards.py** `work_orders` — [MEDIUM] returns 1 if bad else 0
+  - says: the SAME EXIT CONVENTION ON EVERY PATH
+- **standards.py** `_dup` — [MEDIUM] counts duplicates of job names in process lines
+  - says: one instance of each job
+- **standards.py** `job_stamp` — [MEDIUM] the function is called with p (previous job data), size (current log size), and now (current time), and returns held (whether the job is stalled) and stamp (the last modification time of the log file). However, the comment suggests that the function should calculate the time since the last modification, but the function's actual behavior is to carry forward the last known modification time if the size hasn't changed, which may not accurately reflect the job's actual silence period.
+  - says: WHEN DID IT LAST MOVE, not when did this check last run. `at` was re-stamped to `now` on every pass, so `quiet_min` measured the interval between two consecutive standards runs -- a few minutes, always -- and could not reach the 15-minute floor no matter how long a job had actually been silent. The standard this file's own docstring calls "the failure this whole library is built to refuse" was therefore structurally unable to fire, for any job, and had been reporting "all advancing" by construction. Carrying the stamp forward while the size holds is what makes the number mean silence.
 - **secondopinion.py** `report` — [MEDIUM] returns got and _torn
   - says: returns got and _torn
 - **secondopinion.py** `liveness.scan()` — [MEDIUM] is called without any root
@@ -71,10 +85,6 @@ round 456  ·  last run 2026-09-09 13:06
   - says: A mapping that declares nothing usable is not a mapping that agrees.
 - **read.py** `qcache` — [MEDIUM] filtering entries with _QK in key but not in value
   - says: filtering entries with _QK in key
-- **pipeline.py** `ask_pool_first` — [MEDIUM] Cloud pool first, local second -- for the PHASES' own judgment calls. However, the function does not actually enforce the cloud-first logic as described. It checks if the pool answering is >= _min_buckets, but the actual routing decision is made based on the pool proof's age and caption, which is not directly related to the cloud-first logic. The function's actual behavior is more about handling the cloud answer's usability and falling back to local if needed, rather than strictly enforcing the cloud-first approach as the comment suggests.
-  - says: Cloud pool first, local second -- for the PHASES' own judgment calls.
-- **overnight.py** `blocking` — [MEDIUM] is set to True if the output contains the string 'FAIL  ' + _control_label
-  - says: is set to True if the output contains the blocking check's failure message
 
 ---
 
