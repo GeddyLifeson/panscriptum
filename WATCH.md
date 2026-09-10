@@ -1,18 +1,24 @@
 # OVERWATCH
 
-round 475  ·  last run 2026-09-10 07:28
+round 476  ·  last run 2026-09-10 08:45
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 302,734 inspected
+- files that will not parse: **0** of 302,734 inspected (deep scan as of round 475)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**67 open** (32 high). Newest first.
+**78 open** (34 high). Newest first.
 
+- **verify_math.py** `_flowok19ab` — [HIGH] the check passed whatever that function actually did, INCLUDING the response-only predicate it exists to refuse
+  - says: the exact payload measured on 2026-08-24 -- eval_count 8, thinking non-empty, response empty -- put through standards.ollama_token_flow itself rather than through a copy of its predicate written here. The old predicate returns False on this payload and reports a healthy truncated generation as a dead daemon
+- **verify_math.py** `max` — [HIGH] clamped to HAMLET_FLOOR, which is 40, but the code never used the floor
+  - says: the k-th burg holds P1/k, independently recomputed
+- **tiers.py** `write_json` — [HIGH] The code prints an unconditional 'wrote' message regardless of the write_json return value, which contradicts the claim that it discards the verdict.
+  - says: GATED, like scope.py's build(): write_json returns whether the rename LANDED, and printing an unconditional "wrote" line discarded that verdict -- a denied replace still reported success about a file that, this round, did not change at all.
 - **standards.py** `flow` — [HIGH] the local model produces tokens
   - says: the local model produces tokens
 - **standards.py** `CHARTER_REGRESSION_MAX_AGE_H` — [HIGH] the value is hardcoded as a literal '26h' in the comment, but the code uses the variable CHARTER_REGRESSION_MAX_AGE_H
@@ -73,10 +79,30 @@ round 475  ·  last run 2026-09-10 07:28
   - says: is called with the resolved path
 - **canon_backup.py** `silence.replace_retry` — [HIGH] the function is called and the result is checked, but the code raises an exception when the result is False, which contradicts the contract that `replace_retry` never raises
   - says: THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by contract; it reports False.
-- **descending_ladder.py** `beta` — [HIGH] beta is initialized to 0.0 but the code does not actually modify it in the if conditions
-  - says: beta is initialized to 0.0 and then modified based on conditions
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **worldseed.py** `limit` — [MEDIUM] limit=0 is treated as no limit, but the code returns an empty list when limit is 0
+  - says: limit is intended to be a maximum number of entries to return
+- **worldseed.py** `build_all` — [MEDIUM] build_all(limit=0) returns an empty list due to the limit check
+  - says: build_all(limit=0) is intended to return all entries without limit
+- **whoruns.py** `running` — [MEDIUM] returns None when the process table could not be read
+  - says: count a same-named script running out of ANY tree
+- **verify_math.py** `check` — [MEDIUM] the code does something else
+  - says: the code says it does
+- **verify_math.py** `_restart_horizon` — [MEDIUM] the reader is in the keeper's STANDING set
+  - says: the reader is still identified by one contiguous lognames fragment
+- **verify_math.py** `_flowsecs19ab` — [MEDIUM] the fast path returns True on a warm metrics row without ever evaluating the predicate
+  - says: the fast path returns True on a warm metrics row without ever evaluating the predicate; without this pin the check above could read green off a stale tps and would survive the predicate being deleted outright
+- **verify_math.py** `A.axis_score` — [MEDIUM] returns None for missing quantities but raises an error for unknown bands
+  - says: a missing quantity cannot become an axis score
+- **verify_math.py** `A.axis_score` — [MEDIUM] returns None for non-positive quantities but raises an error for unknown bands
+  - says: a non-positive quantity cannot become an axis score
+- **verify_math.py** `max` — [MEDIUM] the tolerance is silently discarded as the code compares integers exactly
+  - says: the k-th burg holds P1/k, independently recomputed
+- **tiers.py** `split_sources` — [MEDIUM] a list of sources whose lower group is split across two higher ones
+  - says: RELABELLED. The scan `break`s after the first offending (lo, hi) pair for a source, so it has always counted SOURCES with at least one violation -- never violations. The old label said the second and the number said the first.
+- **tiers.py** `monotone` — [MEDIUM] a boolean indicating whether the counts are in non-increasing order
+  - says: ITS OWN NAME. This was `ok`, and `ok` is REASSIGNED at the write below to the verdict of silence.write_json -- so the nesting answer was unreadable by the time anything looked, and `return 0 if ok else 1` reported the WRITE, never the chart. Two verdicts, two names.
 - **standards.py** `scoreable` — [MEDIUM] count of rows that can be scored
   - says: count of scoreable rows
 - **standards.py** `inside` — [MEDIUM] count of references matching the charter interval with a tolerance
@@ -143,10 +169,6 @@ round 475  ·  last run 2026-09-10 07:28
   - says: A remedy never kills a job nothing would restart
 - **drill.py** `_empty` — [MEDIUM] The function writes an empty config.yaml and checks if the gates refuse it for the wrong reason
   - says: The gates must READ config.yaml, not merely survive opening it.
-- **cascade_bridge.py** `ask` — [MEDIUM] ask is called with max_attempts=1 but the comment suggests it's to prevent neighbor buckets from answering, but the code allows neighbor buckets to answer because the max_attempts=1 is not sufficient to prevent it
-  - says: ask is called with max_attempts=1 to prevent neighbor buckets from answering
-- **cascade_bridge.py** `_reset` — [MEDIUM] reset the strike count for a bucket if it exists
-  - says: reset the strike count for a bucket
 
 ---
 
