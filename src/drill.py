@@ -6683,9 +6683,19 @@ def _scope_lands_key_wise(tmp=None):
         return False
 
     # AN UNREADABLE TABLE IS NOT WRITTEN OVER -- a failed read is not evidence of contents.
+    #
+    # WRAPPED IN `_deliberately_failing`, AND THIS NET IS WHY THAT WRAPPER EXISTS. Both refusals
+    # below are SUPPOSED to fail, and `scope.mutate` reports each through `silence.note` --
+    # `scope.py:mutate-unreadable` and `scope.py:mutate-nondict` -- which reaches `health.record`
+    # and lands in `state/failures.json`, the operational ledger a person reads to find out what
+    # is wrong with the library, and which is deliberately never cleared. Unwrapped, this net
+    # HALTED THE LIBRARY on the run that introduced it (2026-09-09): two nets breached, correctly,
+    # naming these exact two sites. A rehearsal must not manufacture the signal it exists to prove
+    # the library can raise. Scoped to the two calls that are meant to refuse and nothing else.
     with open(p, "w", encoding="utf-8") as f:
         f.write("{ not json")
-    landed, _why = SC.mutate(lambda c: c.update({"delta": {}}), path=p)
+    landed, _why = _deliberately_failing(
+        lambda: SC.mutate(lambda c: c.update({"delta": {}}), path=p))
     if landed:
         return False
     with open(p, encoding="utf-8") as f:
@@ -6694,7 +6704,8 @@ def _scope_lands_key_wise(tmp=None):
 
     # A LIST WHERE AN OBJECT BELONGS IS ALSO REFUSED.
     put(["not", "an", "object"])
-    landed, _why = SC.mutate(lambda c: c.update({"delta": {}}), path=p)
+    landed, _why = _deliberately_failing(
+        lambda: SC.mutate(lambda c: c.update({"delta": {}}), path=p))
     if landed:
         return False
 
@@ -15012,6 +15023,94 @@ def drill_mutation():
         "that could suppress the drill by declaring itself busy is the 2026-08-25 incident "
         "wearing a maintenance badge")
 
+    def a_halt_carries_the_message_that_names_the_fault():
+        """Order 2cf4993b3a3f: the halt must keep the breach's OWN words, and keep the rows.
+
+        A net with something to say raises rather than returning False, so that the breach line
+        names the site -- THE LEDGER WITNESS's two nets raise "N probe site(s) in this battery
+        reached health.record: drill.py:LINE -> key", and `_spy_record` computes those addresses
+        for no other purpose. `net()` keeps the message in RESULTS[i]["error"] and the halt used
+        to drop it, so HALT.json held net TITLES and nothing else. On 2026-09-09 that cost a
+        maintenance run the ability to rule on a standing halt at all: the address had been
+        recorded, kept for eight minutes, and deleted.
+
+        DELETED BY THE NEXT DRILL, which is the second half. `state/drill_last.json` is a
+        truncate-and-refill of one file and a daemon here re-runs the drill about every ten
+        minutes, so the breaching rows outlive the halt by minutes while the run that must rule
+        on it arrives hours later -- by schedule, not by luck.
+
+        BOTH HALVES ARE PINNED, because either alone still loses the evidence: an escalation
+        that names the sites but keeps no rows cannot say what else was red at the time, and a
+        kept file nobody is pointed at from HALT.json is a file nobody opens. Asked of the parse
+        tree, scoped to the reachable `if breached:` branch of `main()` -- a dead branch
+        carrying the right calls would otherwise answer for a live one that still drops it.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "drill.py"))
+        main_fn = _defn(tree, "main")
+        if main_fn is None:
+            return False
+        branch = None
+        for n in _live_walk(main_fn):
+            if (isinstance(n, ast.If) and isinstance(n.test, ast.Name)
+                    and n.test.id == "breached"):
+                branch = n
+        if branch is None:
+            return False
+        live = _live_stmt_walk(_live_stmts(branch.body))
+
+        # 1. THE RAISE CARRIES THE ERROR TEXT. The evidence keyword must reach an `error` read
+        #    off the breached rows -- not merely mention the word somewhere in the branch.
+        halts = [c for c in live
+                 if isinstance(c, ast.Call)
+                 and _spelled(_spellings_of_call(tree, c), "escalation.escalate")
+                 and any(isinstance(x, ast.Constant) and x.value == "DRILL_BREACH"
+                         for x in ast.walk(c))]
+        if not halts:
+            return False
+        for call in halts:
+            ev = [k.value for k in call.keywords if k.arg == "evidence"]
+            if not ev:
+                return False
+            # the evidence has to REACH an "error" subscript, through a name bound in this
+            # branch if need be -- `{"why": _why}` is the shape, and `_why` is built above it.
+            names = {x.id for x in ast.walk(ev[0]) if isinstance(x, ast.Name)}
+            reached = list(ast.walk(ev[0]))
+            for stmt in live:
+                if (isinstance(stmt, ast.Assign)
+                        and any(isinstance(t, ast.Name) and t.id in names for t in stmt.targets)):
+                    reached.extend(ast.walk(stmt.value))
+            if not any(isinstance(x, ast.Constant) and x.value == "error" for x in reached):
+                return False
+
+        # 2. THE ROWS ARE KEPT UNDER A NAME THE NEXT RUN DOES NOT TOUCH, and the halt is told
+        #    where. A write to `drill_last.json` is the file being overwritten, not a copy of it.
+        kept = [c for c in live
+                if isinstance(c, ast.Call)
+                and _spelled(_spellings_of_call(tree, c), "silence.write_json")
+                and any(isinstance(x, ast.Constant) and isinstance(x.value, str)
+                        and "drill_breach_" in x.value for x in ast.walk(c))]
+        if not kept:
+            # the path may be built into a name above the call; follow one hop, as above
+            holders = {t.id for stmt in live if isinstance(stmt, ast.Assign)
+                       for t in stmt.targets if isinstance(t, ast.Name)
+                       and any(isinstance(x, ast.Constant) and isinstance(x.value, str)
+                               and "drill_breach_" in x.value for x in ast.walk(stmt.value))}
+            kept = [c for c in live
+                    if isinstance(c, ast.Call)
+                    and _spelled(_spellings_of_call(tree, c), "silence.write_json")
+                    and any(isinstance(x, ast.Name) and x.id in holders
+                            for x in ast.walk(c))]
+            if not kept:
+                return False
+        return True
+    net(a, "a halt keeps the breach's own message and the rows behind it",
+        a_halt_carries_the_message_that_names_the_fault,
+        "order 2cf4993b3a3f: the two nets that name their leaking site raise on purpose, the "
+        "halt recorded only their titles, and state/drill_last.json -- the one copy of the rows "
+        "-- was overwritten by a green verdict eight minutes later, so a standing halt could "
+        "not be ruled on at all")
+
 
 def drill_scope():
     """An owner exclusion must actually exclude — the status that did nothing for five days.
@@ -16761,14 +16860,72 @@ def main(areas=None):
         # 71ae3fa7e55e). A person ruling on this halt has to know whether the tree was still
         # when it was proved. `mutate.py` names its own unstable window at the top of its log
         # for exactly this reason; the halt file is where the equivalent sentence belongs here.
+        # AND THE HALT CARRIES THE MESSAGE THAT NAMES THE FAULT, NOT ONLY THE NET'S TITLE
+        # (order 2cf4993b3a3f, filed 2026-09-09 by the run that could not rule on the halt
+        # raised eight minutes earlier).
+        #
+        # A net that has something to say raises rather than returning False, precisely so the
+        # breach line names the site: THE LEDGER WITNESS's two nets raise "N probe site(s) in
+        # this battery reached health.record: drill.py:LINE -> key; ..." and `_spy_record`
+        # builds those addresses for no other purpose. `net()` keeps that message in
+        # RESULTS[i]["error"]. Until this, the escalation dropped it -- so HALT.json, the file a
+        # person reads to rule on whether the library may start again, held net TITLES and
+        # nothing else, and the address was thrown away at the one moment it mattered.
+        #
+        # UNCAPPED, per Hard Rule 0. An escalation `what` and its evidence are not
+        # size-constrained, and this is the file whose own `drill_no_caps` net enforces that
+        # rule on everybody else.
+        _why = [{"area": r.get("area"), "net": r["net"], "error": r.get("error"),
+                 "reread": r.get("reread")} for r in breached]
+        # THE VERDICT ITSELF, COPIED OUT OF THE WAY OF THE NEXT RUN. `state/drill_last.json` is
+        # a truncate-and-refill of ONE file, and a daemon on this machine runs this drill about
+        # every ten minutes: the 23:23 breached verdict was overwritten by a green 475/475
+        # verdict at 23:31. Eight minutes. The maintenance run that has to rule on a halt
+        # arrives after that window has closed BY SCHEDULE, not by bad luck, so the breaching
+        # rows are kept under their own name, which nothing overwrites.
+        #
+        # RECOVERED ROWS TOO. A net that read False once and held on the re-read did not halt
+        # anything, but it is the evidence for "this net is flaky", and that reading exists
+        # nowhere else once `drill_last.json` turns over.
+        _kept = os.path.join(HERE, "state", "drill_breach_%d.json" % int(time.time()))
+        try:
+            import silence as _S
+            _S.write_json(_kept, {"at": time.time(), "re_read": settle_note,
+                                  "breached": _why,
+                                  "recovered_on_the_re_read":
+                                      [{"area": r.get("area"), "net": r["net"],
+                                        "error": r.get("error"), "reread": r.get("reread")}
+                                       for r in recovered],
+                                  "results": RESULTS}, indent=1, ensure_ascii=False)
+            print("\nThe breaching verdict is kept at %s -- state/drill_last.json will be "
+                  "overwritten by the next drill run." % _kept)
+        except Exception:
+            # SAID OUT LOUD. A halt whose evidence did not land is the fault this order is
+            # about, so it must not be swallowed into a counter.
+            print("\nWARNING: could not keep a copy of the breaching verdict at %s. The rows "
+                  "below are the only record once the next drill overwrites "
+                  "state/drill_last.json." % _kept)
+            try:
+                import silence as _S2
+                _S2.note("drill.py:breach-copy")
+            except Exception:
+                pass
         ESC.escalate(ESC.OWNER, "DRILL_BREACH",
                      "%d safety net(s) did not hold, and did not hold on a second reading "
                      "either (%s): %s"
                      % (len(breached), settle_note, "; ".join(r["net"] for r in breached)),
                      evidence={"breached": [r["net"] for r in breached],
                                "re_read": settle_note,
-                               "recovered_on_the_re_read": [r["net"] for r in recovered]},
+                               "recovered_on_the_re_read": [r["net"] for r in recovered],
+                               "why": _why,
+                               "kept_at": _kept},
                      who="drill.py")
+        # EVERY BREACHED NET'S OWN MESSAGE, ON STDOUT, IN THE SAME RUN. `mutate.py` reads this
+        # stream, and a person reading a console scrollback should not have to open a JSON file
+        # to find out what refused.
+        for _r in breached:
+            if _r.get("error"):
+                print("  %s — %s" % (_r["net"], _r["error"]))
         print("\nA net did not hold, so the library has been HALTED. Clear it with:")
         print('  python src/escalation.py --clear --ruling "<what you decided>"')
         return 1
