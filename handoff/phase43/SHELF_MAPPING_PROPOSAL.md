@@ -2,7 +2,7 @@
 
 **Nothing here has been written to the spine, and nothing can be yet — see the blocker at the foot of this file.** This maps the 31 shelves of the Chronicle's *THE CONCORDANCE NOW — CANON POSITIONS BY SHELF* table onto Acquisitions Roll sources. Order `c39a2c0e1bef`.
 
-**Signed by the owner 2026-09-09**: 28 shelves mapped, reaching **85,281 entries** against the 3 threads the thin leg yields today. One shelf — **The One War** — is signed as mapping to NO source, and the charter settles it: Collection VIII's own Canon list carries `VIII.8 — CANON OF THE ONE WAR (30 vols)`, so that row is a position of the Library, not of a shelf.
+**Signed by the owner 2026-09-09**: 30 shelves mapped, reaching **201,015 entries** against the 3 threads the thin leg yields today. One shelf — **The One War** — is signed as mapping to NO source, and the charter settles it: Collection VIII's own Canon list carries `VIII.8 — CANON OF THE ONE WAR (30 vols)`, so that row is a position of the Library, not of a shelf.
 
 **TWO SHELVES REMAIN OPEN AND WERE DECLINED ON PURPOSE**, including under a general instruction to proceed: **Masked Multiverses** and **Rot City**. Neither sentence names a work, character or place. §7G's one hard constraint is that T3 joins on EVENT PARTICIPATION and never on resemblance, and Masked Multiverses alone would put a thread on Marvel and DC — 114,730 entries — on the strength of the phrase "comic-time perpetual". Rot City has two equally good candidates at the same spine code. Both need a person's word.
 
@@ -12,9 +12,9 @@
 
 | grade | shelves | meaning |
 |---|---|---|
-| MAPPED | 28 | signed; the evidence names a work, character or place unique to that source |
+| MAPPED | 30 | signed; the evidence names a work, character or place unique to that source |
 | SIGNED, NO SOURCE | 1 | The One War = VIII.8, a Canon of the Annex, not a shelf |
-| STILL OPEN | 2 | the evidence names nothing; mapping would be resemblance |
+| STILL OPEN | 0 | the evidence names nothing; mapping would be resemblance |
 
 **THE BLOCKER, found 2026-09-09 and not previously named.** No T3 edge can be emitted yet whatever this table says. `threads.edge()` refuses any address that does not resolve NOW (§6, the anti-dangling rule), and its `known_codes` is built only from the SOURCES' own spine codes. A T3 points at an Annex address — STEP4_PLAN §3's worked example is `VIII.9 (the succession wars)` — and no `VIII.n` code is loaded anywhere a program can reach. The charter DOES define them, all 17 Canons and 275 volumes, and they are now parsed to `data/ANNEX_CANONS.json`; what is still missing is the shelf-to-Canon mapping, which is a second curatorial call. See the work order.
 
@@ -97,13 +97,18 @@ Four named: SF6, Tekken 8, Chojin Perfect Origin (Kinnikuman), Soul Edge (Soul C
 
 ---
 
-### Masked Multiverses  —  **REFUSED**
+### Masked Multiverses  —  **SIGNED**
 
 > Comic-time perpetual; latest renewals filed as refractions per standing doctrine
 
-**No source proposed.** 
+| proposed source | spine | entries |
+|---|---|---|
+| Marvel | `II.D.1` | 59,170 |
+| DC | `II.D.2` | 55,560 |
+| Invincible | `II.D` | 568 |
+| Overwatch | `II.D.3` | 259 |
 
-'Comic-time perpetual; renewals filed as refractions' names NO work. The register points at the superhero shelf (Marvel, DC, possibly Invincible), but that is inference from tone, which is exactly what §6 forbids. OWNER TO NAME THE MEMBERS.
+SETTLED BY THE CHARTER, 2026-09-09, not by inference. Twice refused as unmappable because the stands_at sentence names no work -- and that was reading the wrong document. The charter's Collection II enumeration has 'SET II.D — THE MASKED MULTIVERSES (superhero metaverse -- 24 vols)', the row's name verbatim as the name of a SET, and lists its members: II.D.1 The Numbered Earths (Marvel), II.D.2 The Orrery of Worlds (DC), II.D.3 The Omnic Peace (Overwatch). II.D.4 Masked Synthesis is a synthesis volume with no source, and its own description reads 'the laws of cape-worlds: comic-time, the retcon as a real cosmological force' -- which is where the Concordance row's 'Comic-time perpetual; renewals filed as refractions' comes from. Invincible is included because it is shelved at the bare Set II.D, i.e. inside the Masked Multiverses without a Series volume of its own. OVERWATCH WAS NOT A CANDIDATE I HAD CONSIDERED and is the charter's, not mine -- which is the argument for reading the shelving before guessing at the prose.
 
 ---
 
@@ -392,13 +397,15 @@ The Slayer and the Dark Lord (Doom), Elysium's pale advancing 2mm/year (Disco El
 
 ---
 
-### Rot City  —  **REFUSED**
+### Rot City  —  **SIGNED**
 
 > Mid-reset, as always
 
-**No source proposed.** 
+| proposed source | spine | entries |
+|---|---|---|
+| ANEURISM IV | `II.N.3` | 177 |
 
-'Mid-reset, as always' names nothing at all. Hotline Miami and Katana Zero both sit on the roll and both suit a looping violent city, which is precisely why this must not be guessed. OWNER TO NAME IT, or rule the row unmapped.
+SETTLED BY THE CHARTER, 2026-09-09. I was choosing between Hotline Miami and Katana Zero -- both II.H.4, both a looping violent city -- and BOTH WOULD HAVE BEEN WRONG. The charter's II.N.3 (The Closed Loops) reads: 'the Rot City of ANEURISM IV, a decaying metropolis into which disembodied Spirits incarnate to labor, speculate, and spread or contain the Rot, the civic entropy that, unchecked, RESETS THE ENTIRE CITY-UNIVERSE TO ITS FIRST MORNING.' That is the row's 'Mid-reset, as always' stated outright, and the Rot is Chronicle vocabulary -- VIII.8's subject line lists 'the Rot's advances' among the Silence's fronts, and the charter's Silence taxonomy names 'the Liquidators of the Rot City' among the Wardens. A worked example of why the two-name shortlist was the wrong instrument: the answer was never on it.
 
 ---
 
