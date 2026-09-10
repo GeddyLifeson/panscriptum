@@ -233,12 +233,12 @@ def synthesise(c, rec):
         "provisional_magnitude": band,
         "evidence": ev,
         # THE SAME MARKED CUT AS `evidence` ABOVE, and through the same shared helper
-        # (order 1f9a54bede08). pipeline.py:1727 stores its `rationale` the identical way.
+        # (order 1f9a54bede08). `pipeline.phase_synthesis()` stores its `rationale` the same way.
         "rationale": PL._stored_cut((got.get("rationale") or "").strip(), 900),
         "method": ("Band-only nomination by local model over the source's own catalogued "
                    "entries; retried after an infrastructure failure, same prompt and same "
                    "invariants as the main synthesis phase."),
-        # SAME SHAPE AS pipeline.py:1157, not merely the same contents (order 46e3b6918dce).
+        # SAME SHAPE AS `pipeline.phase_synthesis()`, not merely the same contents (46e3b6918dce).
         # `--merge` folds this dict straight into data/records/, so a missing key here means a
         # synthesis block shaped unlike every other one in the corpus. Nothing in src/ reads
         # `assessed_at` today, which is why this was shape drift rather than a live fault --

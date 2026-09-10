@@ -862,7 +862,19 @@ def _gates(full, modname):
     if not m:
         return "verify_math produced no readable result line"
     if m.group(1) != "0":
-        return "verify_math regressed (%s failing)" % m.group(1)
+        # "REGRESSED" WAS A CLAIM ABOUT CAUSATION THAT THIS GATE CANNOT MAKE. There is no
+        # before-and-after here: the bar is ABSOLUTE ZERO, deliberately, because this is the last
+        # gate on the only lane where a model writes into `src/`. So a row that was already
+        # failing when the run started -- broken by a human edit, another agent, or an unrelated
+        # half-finished change -- reverts every patch this lane proposes and reports each one as a
+        # regression it caused. On 2026-09-09 that sent a maintenance run hunting a one-line
+        # comment edit for a failure that a different file three hours earlier had introduced.
+        # The revert is still right; only the attribution was wrong. Say what is actually known.
+        return ("verify_math does not pass on this tree (%s row(s) failing) -- this patch was "
+                "REVERTED, but the bar here is absolute zero and no before/after was taken, so "
+                "the failing row may predate this patch entirely. Run "
+                "`python src/verify_math.py` and read which rows fail before blaming the edit."
+                % m.group(1))
     return None
 
 

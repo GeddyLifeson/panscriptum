@@ -55,12 +55,12 @@ telling a reader to "Use `transgression_bits()`" (which no code does), and a his
 `secondopinion.py`. One prose pointer, one scan target, one memory.
 
 So READ THE FIRST SECTION OF THIS DOCSTRING AS STILL TRUE, not as history. Reach is still scored
-off `assay.py`'s own hand-written band table, which carries its own sub-planetary edges
-(`assay.py:74-75`) and never consults this file. The gap this module was written to close is
-still open. The arithmetic here is not the problem and has been checked -- the table is monotonic
-in length, `rung_for_length` guards its domain at both ends, and `PLANCK_ENERGY` agrees with
-m_P c^2 -- the problem is that a finished stage nothing dispatches to is indistinguishable from a
-stage that was never written (`pipeline.py:1538` says it in those words).
+off `assay.py`'s own hand-written band table, which carries its own sub-planetary edges (in
+`assay.BAND_EDGES`) and never consults this file. The gap this module was written to close is still
+open. The arithmetic here is not the problem and has been checked -- the table is monotonic in
+length, `rung_for_length` guards its domain at both ends, and `PLANCK_ENERGY` agrees with m_P c^2
+-- the problem is that a finished stage nothing dispatches to is indistinguishable from a stage
+that was never written (`pipeline.py:phase_chain()` says it in those words).
 
 Held rather than wired because connecting this to the Reach axis MOVES PUBLISHED MAGNITUDES:
 every sub-planetary Reach in the library would be re-scored against a different floor. That is a

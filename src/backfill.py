@@ -188,7 +188,7 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     # call to this function in try/except (Hard Rule -1: a source is its own area of the park),
     # but the explicit `--source name [name ...]` CLI path does not, so one typo'd name used to
     # kill the whole invocation and run none of the sources listed after it -- scout.py's own
-    # analogous lookup (scout.py:793-795) already defaults to None and degrades gracefully.
+    # analogous lookup (`scout.py:main()`) already defaults to None and degrades gracefully.
     # Same shape as the "no wiki host" refusal two lines down.
     rec = next(((p, r) for p, r in records if r["source"] == source), None)
     if rec is None:

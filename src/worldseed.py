@@ -281,13 +281,13 @@ def address(opt):
 # is silently discarded is worse than omitting it: it invites the reader to believe the climate
 # they see was the climate we derived.
 # REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
-# (the feats.py:1023 idiom) -- and now RULED so: owner ruling 2026-09-08, question 1, "Mark and
-# keep: one line each, delete nothing", order e68664e621bf. `URL_SETTABLE` is read by nothing;
-# `to_fmg_query` below builds its own dict literal, and the two have ALREADY DIVERGED -- the
-# function additionally emits `options`, which this tuple does not list. So the tuple is neither
-# authoritative (nothing enforces it) nor complete, and a reader beneath the measured comment
-# block above will take it for both. IT IS NOT THE AUTHORITATIVE LIST: `to_fmg_query`'s own `q`
-# is. Wiring the function to build FROM this tuple was the option NOT taken (that was 1(c),
+# (the `feats.axis_evidence` idiom) -- and now RULED so: owner ruling 2026-09-08, question
+# 1, "Mark and keep: one line each, delete nothing", order e68664e621bf. `URL_SETTABLE` is read by
+# nothing; `to_fmg_query` below builds its own dict literal, and the two have ALREADY DIVERGED --
+# the function additionally emits `options`, which this tuple does not list. So the tuple is
+# neither authoritative (nothing enforces it) nor complete, and a reader beneath the measured
+# comment block above will take it for both. IT IS NOT THE AUTHORITATIVE LIST: `to_fmg_query`'s own
+# `q` is. Wiring the function to build FROM this tuple was the option NOT taken (that was 1(c),
 # "case by case: wire the four"); the constant is kept and marked instead.
 URL_SETTABLE = ("seed", "template", "width", "height")
 
@@ -306,11 +306,12 @@ def to_fmg_query(opt, base="https://azgaar.github.io/Fantasy-Map-Generator/",
 
 
 # REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
-# (the feats.py:1023 idiom) -- and now RULED so: owner ruling 2026-09-08, question 1, "Mark and
-# keep: one line each, delete nothing", order c0384991bfc5. `unreachable_by_url` has ZERO callers
-# repo-wide; it is kept because it is the executable form of the finding the measured Azgaar test
-# table above records -- eight of ten emitted parameters were decoration -- and a reader asking
-# "what does the URL not carry" should be able to call it rather than re-derive it from a comment.
+# (the `feats.axis_evidence` idiom) -- and now RULED so: owner ruling 2026-09-08, question
+# 1, "Mark and keep: one line each, delete nothing", order c0384991bfc5. `unreachable_by_url` has
+# ZERO callers repo-wide; it is kept because it is the executable form of the finding the measured
+# Azgaar test table above records -- eight of ten emitted parameters were decoration -- and a
+# reader asking "what does the URL not carry" should be able to call it rather than re-derive it
+# from a comment.
 def unreachable_by_url(opt):
     """What the profile derives that a query string cannot deliver. Named, not hidden.
 

@@ -92,8 +92,16 @@ def running(want, exclude_self=True):
 def main():
     ap = argparse.ArgumentParser(description="who is RUNNING this script (not merely naming it)")
     ap.add_argument("script", help="e.g. mutate.py, local_agent.py, src/read.py")
+    # THE EXIT CODES FOLLOW grep, AND THAT IS A TRAP WORTH NAMING IN THE HELP ITSELF. 0 means
+    # SOMETHING IS RUNNING, not "all clear" -- and within an hour of writing this tool I read a
+    # `--quiet` exit of 0 as "the agent has finished", edited the file it was still working on,
+    # and had my rewrap overwritten by its next patch. grep's convention is the right one to
+    # keep (0 = found), so the help says out loud which way round it is.
     ap.add_argument("--quiet", action="store_true",
-                    help="exit status only: 0 some, 1 none, 2 unreadable process table")
+                    help="exit status only, grep-style: 0 = AT LEAST ONE IS RUNNING, "
+                         "1 = none running, 2 = the process table could not be read. "
+                         "To block until a script finishes: "
+                         "`until ! whoruns.py X.py --quiet; do sleep 20; done`")
     a = ap.parse_args()
     hits = running(a.script)
     if hits is None:
