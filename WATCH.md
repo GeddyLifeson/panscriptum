@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 478  ·  last run 2026-09-10 10:34
+round 479  ·  last run 2026-09-10 11:20
 
 ## Structure
 
@@ -11,22 +11,20 @@ round 478  ·  last run 2026-09-10 10:34
 
 ## What the model found in the code
 
-**81 open** (37 high). Newest first.
+**48 open** (22 high). Newest first.
 
+- **compress_store.py** `load` — [HIGH] Reads a stored blob back without verifying it against the address it is filed under, and does not check the hash of the decompressed text.
+  - says: Read a stored blob back, VERIFYING it against the address it is filed under.
+- **withdraw_chapters.py** `main` — [HIGH] exits 1 when a.go is True and any of several conditions are met
+  - says: exits 0 unconditionally
 - **tuning.py** `cloud_success_rate` — [HIGH] The function reads from `state/cascade_scratch.db`'s `usage` table, but the path is hardcoded to a specific location, which may not be the correct one if SCRATCH_DB is repointed.
   - says: The pool's MEASURED success rate over the recent past: (rate, calls).
-- **sevenfold.py** `write_json` — [HIGH] discards verdict
-  - says: gated write
-- **rosetta.py** `silence.write_json` — [HIGH] overwrites without checking the size
-  - says: DO NOT OVERWRITE A BIGGER MINE WITH A SMALLER ONE WITHOUT SAYING SO (order 6447bcc2f18c)
 - **rosetta.py** `stand_rows` — [HIGH] does not parse Stand parameters as described, but instead is a placeholder for a parser that was never implemented
   - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
 - **verify_math.py** `_flowok19ab` — [HIGH] the check passed whatever that function actually did, INCLUDING the response-only predicate it exists to refuse
   - says: the exact payload measured on 2026-08-24 -- eval_count 8, thinking non-empty, response empty -- put through standards.ollama_token_flow itself rather than through a copy of its predicate written here. The old predicate returns False on this payload and reports a healthy truncated generation as a dead daemon
 - **verify_math.py** `max` — [HIGH] clamped to HAMLET_FLOOR, which is 40, but the code never used the floor
   - says: the k-th burg holds P1/k, independently recomputed
-- **tiers.py** `write_json` — [HIGH] The code prints an unconditional 'wrote' message regardless of the write_json return value, which contradicts the claim that it discards the verdict.
-  - says: GATED, like scope.py's build(): write_json returns whether the rename LANDED, and printing an unconditional "wrote" line discarded that verdict -- a denied replace still reported success about a file that, this round, did not change at all.
 - **standards.py** `flow` — [HIGH] the local model produces tokens
   - says: the local model produces tokens
 - **standards.py** `CHARTER_REGRESSION_MAX_AGE_H` — [HIGH] the value is hardcoded as a literal '26h' in the comment, but the code uses the variable CHARTER_REGRESSION_MAX_AGE_H
@@ -45,28 +43,8 @@ round 478  ·  last run 2026-09-10 10:34
   - says: Drop the lock, but only if it is still OURS.
 - **chain.py** `main` — [HIGH] the main function is not defined in this slice
   - says: the main function
-- **pipeline.py** `build_jobs_for_source` — [HIGH] The function is called with only two arguments, but the comment claims it should be called with four, leading to incorrect behavior where sources are marked as refusing to build when they actually have no entries.
-  - says: The real signature is build_jobs_for_source(cfg, roll_entry, record, spine) -- four arguments, in that order. Calling it with two produced "117 sources would not build", which reads as a property of the sources and was a property of the call.
-- **pipeline.py** `rest` — [HIGH] the rest of the entries are added to the nomination blocks
-  - says: the description-only fallback stays a single ranked block
 - **local_agent.py** `t_propose_patch` — [HIGH] appends to `unreverted` but does not raise an alarm or note
   - says: raises the durable alarms for this case -- a SAFETY escalation and a `silence.note`
-- **local_agent.py** `_rel_l` — [HIGH] The code converts the relative path to lowercase, making the comparison case-insensitive, which contradicts the claim that the denylist is case-sensitive.
-  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
-- **local_agent.py** `_mod_l` — [HIGH] The code converts the module name to lowercase, making the comparison case-insensitive, which contradicts the claim that the denylist is case-sensitive.
-  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
-- **local_agent.py** `_deny_paths` — [HIGH] The code converts the denylist paths to lowercase, making the deny, which contradicts the claim that the denylist is case-sensitive.
-  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
-- **local_agent.py** `_deny` — [HIGH] The code converts the denylist to lowercase, making the denylist case-insensitive, which contradicts the claim that the denylist is case-sensitive.
-  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
-- **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] The regex looks for 'mach' followed by a number, but the comment says it's for number-first forms
-  - says: Matches unit-first forms like '5 mach'
-- **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] Matches 'mach 5' (unit-first) but the comment says it's for number-first forms
-  - says: Matches unit-first forms like '5 mach'
-- **feats.py** `known` — [HIGH] A CLEAN NEGATIVE IS CACHED AS A NULL
-  - says: A CLEAN NEGATIVE MAY BE CACHED
-- **feats.py** `known` — [HIGH] A NULL IS CACHED AS A FAILURE AND IS A NEGATIVE
-  - says: A NULL IS A CACHED FAILURE, NOT AN ANSWER
 - **feats.py** `mined_under_failed_transport` — [HIGH] returns False for 404 responses, which is the opposite of what the docstring claims
   - says: -> did this record's fetch FAIL, leaving an absence that is not evidence of absence?
 - **events.py** `shelf_positions` — [HIGH] Joins shelf names with their positions by parsing lines containing 'Shelf' and 'stands at' and extracting the shelf and its position.
@@ -79,30 +57,12 @@ round 478  ·  last run 2026-09-10 10:34
   - says: keeps what the rung needs and drops the rest
 - **drill.py** `drill_probe_honesty` — [HIGH] The probe incorrectly certifies hosts as healthy even when they should be considered unreachable or faulty.
   - says: The probe returns True on every exception, certifying hosts it never tested
-- **drill.py** `drill_probe_honesty` — [HIGH] The function returns True for all exceptions, including those that should indicate a host is unreachable or faulty.
-  - says: A probe that could not run must not be counted as a probe that passed.
-- **drill.py** `catalog_matches_disk` — [HIGH] Only checks that chapters in the catalog exist on disk (catalog -> disk), but not that chapters on disk are in the catalog (disk -> catalog)
-  - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
-- **canon_backup.py** `silence.replace_retry` — [HIGH] the function is called and the result is checked, but the code raises an exception when the result is False, which contradicts the contract that `replace_retry` never raises
-  - says: THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by contract; it reports False.
-- **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
-  - says: uses to mean "this run did not do what it was asked"
 - **rosetta.py** `check` — [MEDIUM] check() is called with rosetta and assays, but the code does not show how check() is implemented or its actual behavior.
   - says: check() is supposed to match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
-- **resync_roll.py** `dupes` — [MEDIUM] stores duplicate filenames under normalized keys
-  - says: index every record file by its declared `source`
 - **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0 (shelf hasn't heard yet) and 0 when lag >= 0 (shelf has heard, but the function returns 0 in both cases, which contradicts the docstring's explanation that it should return the rung when the shelf has heard.)
   - says: The ascension mark a DISTANT shelf should currently see. The field an entry must print when it claims a neighbour has not heard.
 - **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0, which is when the distant shelf hasn't heard yet, but the docstring says it should return 0 when the shelf has heard nothing (which is when lag >= 0). The function's logic is inverted relative to its docstring's explanation.
   - says: The field an entry must print when it claims a neighbour has not heard.
-- **policy.py** `evidence_unreadable_detail` — [MEDIUM] only the file names are included, but the error details are truncated
-  - says: every failure, every vacuous pass and every unreadable file is named in full, here and in the report
-- **policy.py** `ap.add_argument("--limit", ...)` — [MEDIUM] default is no limit, the whole corpus
-  - says: evaluate only the first N of each set
-- **policy.py** `--limit` — [MEDIUM] default is no limit, the whole corpus
-  - says: evaluate only the first N of each set
-- **worldseed.py** `limit` — [MEDIUM] limit=0 is treated as no limit, but the code returns an empty list when limit is 0
-  - says: limit is intended to be a maximum number of entries to return
 - **worldseed.py** `build_all` — [MEDIUM] build_all(limit=0) returns an empty list due to the limit check
   - says: build_all(limit=0) is intended to return all entries without limit
 - **whoruns.py** `running` — [MEDIUM] returns None when the process table could not be read
@@ -119,10 +79,6 @@ round 478  ·  last run 2026-09-10 10:34
   - says: a non-positive quantity cannot become an axis score
 - **verify_math.py** `max` — [MEDIUM] the tolerance is silently discarded as the code compares integers exactly
   - says: the k-th burg holds P1/k, independently recomputed
-- **tiers.py** `split_sources` — [MEDIUM] a list of sources whose lower group is split across two higher ones
-  - says: RELABELLED. The scan `break`s after the first offending (lo, hi) pair for a source, so it has always counted SOURCES with at least one violation -- never violations. The old label said the second and the number said the first.
-- **tiers.py** `monotone` — [MEDIUM] a boolean indicating whether the counts are in non-increasing order
-  - says: ITS OWN NAME. This was `ok`, and `ok` is REASSIGNED at the write below to the verdict of silence.write_json -- so the nesting answer was unreadable by the time anything looked, and `return 0 if ok else 1` reported the WRITE, never the chart. Two verdicts, two names.
 - **standards.py** `scoreable` — [MEDIUM] count of rows that can be scored
   - says: count of scoreable rows
 - **standards.py** `inside` — [MEDIUM] count of references matching the charter interval with a tolerance
@@ -131,22 +87,8 @@ round 478  ·  last run 2026-09-10 10:34
   - says: Cached on a 2-minute clock
 - **standards.py** `_dropped` — [MEDIUM] appended to when a failure occurs, but the code around it says it should be used when a measurement is not taken
   - says: the mechanism for "unmeasurable"
-- **mutate.py** `judged_since` — [MEDIUM] record of verdicts cast by the current baseline
-  - says: record of verdicts cast by the current baseline
-- **mutate.py** `owner` — [MEDIUM] Return the owner's PID if it exists, otherwise None
-  - says: Record this process as the sandbox's owner. Never raises.
 - **mutate.py** `suppressed_on_record` — [MEDIUM] filters for ruled_equivalent but not revoked
   - says: every survivor a standing ruling kept out of the queue
-- **ingest_doc.py** `fresh` — [MEDIUM] fresh entries with potential category issues
-  - says: fresh entries
-- **ingest_doc.py** `misses` — [MEDIUM] count of misses leading to stop
-  - says: count of misses
-- **ingest_doc.py** `rec` — [MEDIUM] record data loaded from file
-  - says: record data
-- **ingest_doc.py** `chunks` — [MEDIUM] list of chunks with labels and text
-  - says: list of chunks to process
-- **ingest_doc.py** `cur_pages` — [MEDIUM] current labels being tracked
-  - says: current pages being tracked
 - **feats_index.py** `load_index` — [MEDIUM] WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
   - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
 - **feats_index.py** `host_to_sources` — [MEDIUM] RAISES an exception when the host file cannot be read
@@ -159,10 +101,6 @@ round 478  ·  last run 2026-09-10 10:34
   - says: parse, lint, import, whole-suite
 - **local_agent.py** `_scan` — [MEDIUM] scan a file but ignore line numbers and content
   - says: scan a file for regex matches
-- **local_agent.py** `rel_real` — [MEDIUM] compares the normalized case of the relative paths, but the check for denied target is based on the resolved path's region and paths, not the original string-based path.
-  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
-- **local_agent.py** `rel_written` — [MEDIUM] compares the normalized case of the relative paths, but the check for denied target is based on the resolved path's region and paths, not the original string-based path.
-  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
 - **codewatch.py** `reportable` — [MEDIUM] a set of jobs derived from coverage() with a split on job names
   - says: a set of reportable jobs
 - **drill.py** `index_spine_agrees_with_the_resolver` — [MEDIUM] The function checks if the stored spine code matches the real spine code, but the comment suggests it should verify that the index's spine column is derived through the same resolver code as `address.spine_code_for()`
@@ -171,10 +109,6 @@ round 478  ·  last run 2026-09-10 10:34
   - says: Spend the budget against a scratch ledger and require it to RUN OUT, then refill.
 - **drill.py** `ESC._safe_name` — [MEDIUM] suffixes every short name and truncates no long one
   - says: sanitises source names
-- **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] The code checks for overflow (sum exceeding entry count) but the docstring and comment mention a correction that the code does not implement
-  - says: No source's states may sum PAST its own entry count. One direction, and only one.
-- **drill.py** `PL.write_record` — [MEDIUM] returns False instead of denying the write
-  - says: a write that is denied
 
 ---
 
