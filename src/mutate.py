@@ -2638,9 +2638,60 @@ def main():
                     help="who made the ruling given with --rule-equivalent")
     ap.add_argument("--unrule", metavar="TARGET.py:LINE",
                     help="withdraw a standing ruling so the mutant is filed as work again")
+    ap.add_argument("--detach", action="store_true",
+                    help="re-spawn this exact run detached from the shell and return at once")
+    ap.add_argument("--log", metavar="PATH",
+                    help="where a --detach child writes; defaults to state/mutate_<date>.log")
     ap.add_argument("--list-ruled", action="store_true",
                     help="print every standing ruling and every occasion one was applied")
     a = ap.parse_args()
+
+    # A TWENTY-HOUR JOB MUST NOT BE A CHILD OF A ONE-HOUR SHIFT (order d2d4ff880570).
+    #
+    # A completed pass takes about twenty hours -- the 2026-09-04 run logged 72,310s across its
+    # three targets. A maintenance shift lives about one. `mutate.py` is in neither
+    # `overnight.STANDING` nor `ALL_JOBS`, so nothing keeps it alive and nothing restarts it, and
+    # it did not detach: it was simply spawned by whatever shell launched it. The 2026-09-08 pass
+    # died inside target 1 of 3 with NO Python-level error and no traceback, and the exit code it
+    # reported cannot have come from this module -- the only `return 4` fires before a banner
+    # that IS in the log. The reading that fits is that it was killed with its launcher.
+    #
+    # So: re-spawn ourselves detached and return at once. The parent shift can then end without
+    # taking the pass with it.
+    #
+    # `-u`, AND THAT IS NOT A DETAIL. The most expensive thing about the 09-08 failure is that a
+    # twenty-hour job left 1,369 bytes of evidence: whatever it was about to say died in a
+    # buffer with it. Unbuffered means the log is true up to the instant of death, which is the
+    # difference between diagnosing the next failure and guessing at it again.
+    #
+    # BEFORE THE HALT CHECK ON PURPOSE, like the registry commands below: this spawns and exits,
+    # and the CHILD does the halt check for real. Doing it twice would refuse a detach while a
+    # halt stands and then refuse the run anyway, reporting the wrong one of the two.
+    if a.detach:
+        if os.name != "nt":
+            print("--detach is implemented for Windows only on this machine; run without it "
+                  "and use the shell's own backgrounding.")
+            return 2
+        log_path = a.log or os.path.join(
+            HERE, "state", "mutate_%s.log" % time.strftime("%Y%m%d"))
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        argv = [sys.executable, "-u", os.path.abspath(__file__)]
+        for tok in sys.argv[1:]:
+            if tok not in ("--detach",):
+                argv.append(tok)
+        env = dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONUNBUFFERED="1")
+        flags = getattr(subprocess, "CREATE_NO_WINDOW", 0) | subprocess.DETACHED_PROCESS             | subprocess.CREATE_NEW_PROCESS_GROUP
+        fh = open(log_path, "a", encoding="utf-8")
+        try:
+            child = subprocess.Popen(argv, cwd=HERE, env=env, stdout=fh, stderr=fh,
+                                     creationflags=flags, close_fds=True)
+        finally:
+            # The child holds its own duplicate of the handle; the parent's copy would only sit
+            # open. Same reasoning as autostart._spawn_supervisor's finally.
+            fh.close()
+        print("detached: pid %d, writing %s" % (child.pid, log_path))
+        print("it survives this shell. Read the log; do not relaunch while it is alive.")
+        return 0
 
     # THE REGISTRY COMMANDS RUN BEFORE THE HALT CHECK AND TAKE NO LOCK, because none of them
     # mutates anything: they read and write one small JSON file of human rulings. Refusing to let

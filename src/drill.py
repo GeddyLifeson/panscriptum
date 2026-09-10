@@ -6439,6 +6439,53 @@ def _meta_ban_has_no_fall_through(src=None):
     return True
 
 
+def _throttle_is_not_an_absence(tmp=None):
+    """A silently-throttled probe must not read as "this page does not exist" (order 86b8dd723f90).
+
+    `binding_health._fetch_chars` called `feats.fetch(host, [title])` WITHOUT the `outcome=` dict
+    that fetch offers, so a fetch that returned nothing because the host was throttling us and a
+    fetch that returned nothing because the page genuinely is not there both arrived as a falsy
+    `got` and both returned `(0, None)`. That is the conflation this module exists to detect,
+    happening inside the module that exists to detect it -- and its verdicts quarantine hosts.
+
+    SIX HOSTS WERE IN DEEP BACKOFF when this was found (marvel at 32x, onepiece 13x, four more at
+    8x), which is exactly the condition that produces a silent empty fetch.
+
+    DRIVEN AGAINST A STUBBED `feats.fetch`, both directions, because a fix that called EVERY empty
+    fetch a problem would be just as wrong: a genuine http-404 is this file's one clean negative
+    and must still read as an honest absence. The clean set is `feats.CLEAN_NEGATIVES`, imported
+    rather than re-spelled -- two hand-kept copies of that list is how the 404 exemption became
+    unreachable in the first place (order 71a9b380cb03).
+
+    No host is contacted.
+    """
+    import binding_health as BH
+    import feats as F
+    real = F.fetch
+    try:
+        def stub_for(why):
+            def stub(host, titles, outcome=None, **kw):
+                if outcome is not None:
+                    outcome.clear()
+                    outcome.update({"batches": 1, "failed": 1, "failed_dirty": 0, "why": why})
+                return {}
+            return stub
+
+        for why in ("throttled", "nonjson", "network"):
+            F.fetch = stub_for(why)
+            _n, err = BH._fetch_chars("marvel.fandom.com", "AnyTitle")
+            if err is None:
+                return False          # a throttle read as an honest absence
+        for why in F.CLEAN_NEGATIVES:
+            F.fetch = stub_for(why)
+            _n, err = BH._fetch_chars("marvel.fandom.com", "AnyTitle")
+            if err is not None:
+                return False          # a clean negative read as a fault
+        return True
+    finally:
+        F.fetch = real
+
+
 def _binding_health_filters(tmp=None):
     """`--limit 0` must select NOTHING, and a filter that matched nothing must not re-stamp.
 
@@ -6831,6 +6878,10 @@ def drill_binding_identity():
         "`except ImportError: note()` above the fail-closed arm caught an unimportable "
         "`pipeline` FIRST and fell through, so the gate was off and the chapter was published "
         "-- for every chapter of the run, while the run reported success")
+    net(a, "a throttled probe is a problem, and a genuine 404 is still an honest absence",
+        _throttle_is_not_an_absence,
+        "without the outcome channel a throttled fetch and a page that does not exist both "
+        "returned (0, None) -- in the one module whose verdicts quarantine a host")
     net(a, "an EMPTY filter canaries nothing and re-stamps nothing",
         _binding_health_filters,
         "`--limit 0` read as 'no limit' answers a request for nothing by canarying the whole "

@@ -501,7 +501,19 @@ def _fetch_chars(host, title):
     """
     try:
         import feats as F
-        got = F.fetch(host, [title])
+        # THE OUTCOME CHANNEL, WHICH THIS MODULE WAS NOT ASKING FOR (order 86b8dd723f90).
+        #
+        # `F.fetch` takes an `outcome` dict and stamps it {batches, failed, failed_dirty, why} --
+        # `why` naming the transport's own reason ("throttled", "http-404", "nonjson",
+        # "network"). Without it a fetch that came back empty because the host is THROTTLING US
+        # and a fetch that came back empty because the page genuinely does not exist both arrive
+        # here as a falsy `got` and both return (0, None). That is the exact conflation this
+        # module exists to notice, inside the module that exists to notice it: six hosts are in
+        # deep backoff as this lands (marvel 32x, onepiece 13x, four more at 8x), which is
+        # precisely when a silent empty fetch is most likely and when a wrong verdict quarantines
+        # a host that was answering fine yesterday.
+        _oc = {}
+        got = F.fetch(host, [title], outcome=_oc)
     except Exception as e:
         # THE EXCEPTION TEXT IS STORED WHOLE (order ecc355769a41, same fix as quarantine()'s
         # `str(reason)[:300]` removal at d6ca84486153 one level down). This flows into
@@ -511,6 +523,21 @@ def _fetch_chars(host, title):
         # belongs at the renderer that prints it, the same rule the precedent fix already drew.
         return 0, "%s: %s" % (type(e).__name__, str(e))
     if not got:
+        # A THIRD ANSWER, AND THE MODULE ALREADY HAD THE VOCABULARY FOR IT. Its own comment at
+        # the `errors` branch says "errored" and "nothing resolved" are kept apart because "those
+        # two have opposite consequences"; this adds the third case that was being folded into
+        # the second. An empty fetch whose transport reason is NOT a clean negative is not
+        # evidence of absence -- it is evidence of nothing at all, and it is returned as a
+        # PROBLEM so the caller counts it among `errors` rather than among honest silences.
+        #
+        # `feats.CLEAN_NEGATIVES` is the single definition of what counts as the host genuinely
+        # answering "nothing there" -- ok, http-404, raw-transport. It is imported rather than
+        # re-spelled, because two hand-kept copies of that list is how the 404 exemption in
+        # `mined_under_failed_transport` became unreachable in the first place (order
+        # 71a9b380cb03).
+        _why = str(_oc.get("why") or "unknown")
+        if _why not in F.CLEAN_NEGATIVES:
+            return 0, "transport did not answer cleanly: %s" % _why
         return 0, None
     text = " ".join(str(v) for v in got.values()) if isinstance(got, dict) else str(got)
     # NO TITLE IS PASSED: `page_looks_real` never read the one this handed it, and the check a

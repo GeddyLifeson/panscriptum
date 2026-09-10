@@ -137,7 +137,7 @@ def rebuild(include_evidence=True, evidence_limit=None):
     # second one's first act was to unlink the file the first was still writing into, and
     # whichever finished last landed a half-built index over a whole one. The project states
     # this rule in `silence.write_json`'s docstring (silence.py:358-361) and restates it in
-    # `module_index.py:88-90`; this was the site that did not obey it. With a unique name the
+    # `module_index.py`; this was the site that did not obey it. With a unique name the
     # pre-delete can only ever remove THIS process's own leftovers.
     tmp = "%s.%d.%d.tmp" % (DB, os.getpid(), threading.get_ident())
     for p in (tmp, tmp + "-journal"):
@@ -859,7 +859,7 @@ def datasette_metadata(path=None):
     }
     # ATOMIC: a running `datasette` process reads this file live; a bare open("w") is a
     # truncate-then-fill a mid-read server can see half-written (silence.write_json,
-    # silence.py:358-364; same class as the other write sites in this module).
+    # silence.write_json; same class as the other write sites in this module).
     if not silence.write_json(path, doc, indent=2):
         silence.note("corpus_db.py:datasette-metadata-denied")
         return None

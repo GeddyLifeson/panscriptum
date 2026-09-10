@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 466  ·  last run 2026-09-09 19:37
+round 467  ·  last run 2026-09-09 20:43
 
 ## Structure
 
@@ -13,6 +13,10 @@ round 466  ·  last run 2026-09-09 19:37
 
 **38 open** (14 high). Newest first.
 
+- **magnitude.py** `verify` — [HIGH] Applies guards 1-3 but also handles status scores and fabricates provenance for empty citations
+  - says: Apply guards 1-3. Returns (scores, worksheet, rejections).
+- **endpoint.py** `register` — [HIGH] Attempts to write a temporary file without proper atomic operations, leading to potential data loss or corruption due to concurrent writes.
+  - says: Record where a source's material actually lives.
 - **drill.py** `ESC.escalate` — [HIGH] The escalate call is missing the 'what' argument, which is required to name the specific breached nets in the halt sentence.
   - says: A BREACHED NET IS ITSELF AN OWNER-LEVEL EVENT. THE HALT SENTENCE NAMES EVERY BREACHED NET
 - **drill.py** `drill_hostcheck` — [HIGH] A function that returns a boolean indicating if an escalation log is unreadable
@@ -33,14 +37,14 @@ round 466  ·  last run 2026-09-09 19:37
   - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller
 - **escalation.py** `resume_subsystem_verdict` — [HIGH] Enforces a 20-character minimum for the ruling, which is different from `clear`'s 12-character requirement
   - says: Re-open one subsystem. -> (bool, reason). The three-valued sibling of `resume_subsystem`.
-- **escalation.py** `subsystem_stopped` — [HIGH] is called but not used in the code path where it's needed to close the order
-  - says: re-checks if a subsystem is stopped by reading the file
-- **escalation.py** `escalate` — [HIGH] Escalates to a rung that cannot enforce itself, leading to no action taken
-  - says: Rung 4, made DURABLE. Stop one subsystem until a person resumes it.
 - **read.py** `return done["errored"] == 0` — [HIGH] returns 0 if no errors occurred, but the exit code should reflect whether any errors occurred
   - says: THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **physics.py** `joules_for` — [MEDIUM] Energy to do `mode` to `volume_m3` of `material` with a default material of 'rock' and mode of 'pulv'.
+  - says: Energy to do `mode` to `volume_m3` of `material`.
+- **hosts.py** `discover` — [MEDIUM] Only keeps hosts that score well on LIFT, and discards others
+  - says: Find every ADDITIONAL host each source can be read from, and keep all that hold.
 - **verify_math.py** `phase_cosmology` — [MEDIUM] phase 5 does not refuse, but instead returns (False, False) as per the code
   - says: phase 5 REFUSES an unparseable WORLDSEEDS.json instead of re-addressing from nothing
 - **verify_math.py** `verify_restore` — [MEDIUM] the function's call site is checked to ensure it uses the sandbox copy
@@ -85,10 +89,6 @@ round 466  ·  last run 2026-09-09 19:37
   - says: clears a halt by writing a ruling to the halt file
 - **escalation.py** `clear` — [MEDIUM] Lifts the halt if the caller is not a person, but the code checks for a person before allowing the lift
   - says: Lift the halt. A PERSON ONLY, and refused at run time if the caller is not one.
-- **escalation.py** `WO.file_order` — [MEDIUM] only escalations with level >= JANITOR are converted to work orders
-  - says: EVERY ESCALATION BECOMES A WORK ORDER
-- **allsweep.py** `bad` — [MEDIUM] counts LINT, RECONCILE, ESTATE, VERIFY, and adds 1 for report failure, but the comment says it should count only LINT, ESTATE, VERIFY, and report failure
-  - says: sum of bad subsystems including LINT, RECONCILE, ESTATE, VERIFY, and report write failure
 
 ---
 

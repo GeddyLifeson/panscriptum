@@ -350,7 +350,7 @@ def main():
         w0 = worlds[0]
         print("\n" + "-" * 100)
         # NOT `[:60]`. The designation is the world's IDENTITY -- and not even a unique one, see
-        # the collision note at :300 -- so cutting it is cutting the one field that says WHICH
+        # the collision note above -- so cutting it is cutting the one field that says WHICH
         # world the table below describes, on a header line where nothing needs aligning.
         # `suppressions.main()` made the same ruling about its own path column: "A column that
         # stretches is a worse-looking table and a truthful one." (order 0a87f4dcd5a7)
