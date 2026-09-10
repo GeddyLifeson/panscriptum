@@ -263,9 +263,39 @@ construction, so zero still means the pass did not run for that entry and is an 
 refusal, never a blank. `thread_integrity` re-checks afterwards and DANGLING = 0 continues to be a
 release gate, not a metric — a T3 address that does not resolve *now* is not emitted.
 
-**4.4 and 4.5 remain UNAUTHORISED** and need their own ruling: T4 (Law citations, which belongs
-with generation) and re-opening the prose gate per source. **`prose_enabled` is untouched and
-stays closed**, and nothing in this ruling authorises a single generated chapter.
+**H. Phase 4.4 — AUTHORISED 2026-09-09, by the owner, in session.** Ruled after 4.3 landed and
+the catalogue expansion that followed it. The owner's words, in order: *"CONTINUE WITH 4.3 AND
+WHEN IT'S FINISHED DO PHASE 4.4 AFTER YOU'VE PROPERLY EXPANDED EVERYTHING PROPERLY"*, then
+*"DO THE EXPANSION THEN 4.4"*.
+
+**Scope of H, and only this:** T4, the Law citation. Per the Doctrine of Derivation's binding
+rule — *"every claim in every Digest volume must cite either a Law (by Part or spine code) or a
+Deed (by event-code)"* — T4 is the Law half; T3 already carries the Deed half.
+
+**WHAT THIS RULING DOES NOT AUTHORISE, and the boundary is the same one §7G drew:**
+
+* **4.5 is NOT authorised.** Re-opening the prose gate per source was not asked for and is not
+  granted here. `prose_enabled` stays **false** and untouched.
+* **T5 remains owner-authored only** by §7B. Unchanged.
+* **The Assay is not licensed by this.** Hard Rule 3 stands: no run may fake an Assay decimal.
+  T4 CITES the Law that governs a claim; it never computes one.
+
+**THE HONEST LIMIT ON WHAT 4.4 CAN DELIVER TODAY, recorded at the time of the ruling rather than
+discovered later.** §7G's own words were that T4 "belongs with generation rather than before it",
+and that is still true: a Law citation attaches to *a factual claim in The Record*, and The Record
+is generated prose, which is gated. So 4.4 splits in two:
+
+  * **BUILDABLE NOW** — the Law ADDRESS SPACE, and T4 for the claims the *catalogue* already
+    makes rather than the prose. Exactly one such claim class exists: an entry asserting a
+    **Magnitude band**. Measured at the time of this ruling: **447 of 282,711 entries** carry a
+    real band; 217,816 are `unassayed` and 64,448 carry none. That is the true population and it
+    is small because the Assay has not been run, not because the join is weak.
+  * **WAITS FOR GENERATION** — per-claim citation over The Record's sentences. That is 4.5-
+    adjacent by construction and is NOT attempted.
+
+A thin T4 that is honestly thin is the correct outcome here. Inflating it by citing a Law for
+every entry regardless of whether it makes a claim would be decoration, which is precisely what
+the Doctrine of Derivation calls a Digest sentence with neither citation.
 
 ---
 

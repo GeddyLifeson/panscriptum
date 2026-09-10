@@ -121,8 +121,15 @@ PHASES = ["synthesis", "entrypass", "weave", "chain", "cosmology", "history", "s
 # attested use is combat it files under Weapons regardless of how sacred or historically
 # significant it is, so that a holy sword sits beside ordinary blades rather than being
 # separated from them. Relics is therefore the NON-weapon significant-object series.
+#
+# PEOPLES ADDED 2026-09-09 (order 6c7495ee66be). The Encyclopedia had a series for the
+# individual (Persons A-Z) and none for the KIND, so a species had nowhere to be written up --
+# the same gap `category` had, one axis over. Collection IV shelves creatures by MAGNITUDE (a
+# threat axis, "so a DM can open exactly one book for the tier they're running") and Collection V
+# is individuals; neither is an ethnography. Appended, not inserted, for the same index-safety
+# reason CATEGORIES is.
 TOPICS = ["Persons", "Places", "Factions", "Weapons", "Relics",
-          "Powers", "Events", "Wars", "Media"]
+          "Powers", "Events", "Wars", "Media", "Peoples"]
 
 # SUBROOMS -- the finer room INSIDE a catalogue `category`. A THIRD AXIS, added 2026-09-01 by
 # owner ruling, and it is worth being exact about why it is not either of the other two.
@@ -1795,6 +1802,12 @@ For each entry return:
     One member of that kind is 1: Urdnot Wrex, a Krogan warlord. A people is not a place
     even when it shares a name with its homeworld, and not a faction unless the entry is
     about an organisation rather than a kind of being.
+  * `physiology` - ONLY for a Peoples & Species entry (category 8), and ONLY what the supplied
+    description actually states: what they are made of, how long they live, whether they eat,
+    breathe, sleep, age or reproduce, and what kills them. One clause each, no invention. A
+    crystalline people that does not age is exactly the kind of fact this field exists for.
+    Return "" for every entry that is not a people, and "" for a people whose description
+    states none of it. Do NOT import what you know about the species from elsewhere.
   * `scale_note` - a demonstrated feat of power or scale, ONLY if the supplied description
     actually states one (destruction caused, distance crossed, beings overcome). Quote or
     closely paraphrase the description. If the description shows no feat, return "".
@@ -1873,14 +1886,26 @@ ENTRY_SCHEMA = {
                     "magnitude": {"type": "string"},
                     "topic": {"type": "string", "enum": [
                         "Persons", "Places", "Factions", "Weapons", "Relics",
-                        "Powers", "Events", "Wars", "Media"]},
+                        "Powers", "Events", "Wars", "Media", "Peoples"]},
+                    # REQUIRED WITH AN EXPLICIT "", following this schema's own rule for
+                    # `subroom` below: "An absent key is the one shape that cannot be counted
+                    # (BUGS m14)". A physiology nobody recorded and one that does not apply must
+                    # be distinguishable, and only an always-present field can do that.
+                    #
+                    # THE FIELD THE LIBRARY DID NOT HAVE (order 6c7495ee66be). Every entry
+                    # carried WHERE it is (Shelfmark), HOW POWERFUL it is (Magnitude) and HOW
+                    # WELL EVIDENCED it is (Attestation) -- and nothing recording what it is
+                    # MADE OF. The Nine Measures are capability axes, so even the Assay is
+                    # orthogonal to it. Asked only of a people, because that is where it is
+                    # answerable from a catalogue description and where it was missed.
+                    "physiology": {"type": "string"},
                     # REQUIRED, with an explicit "none" rather than optional. An absent key is
                     # the one shape that cannot be counted (BUGS m14); "none" is a real answer
                     # and the correct one for most entries.
                     "subroom": {"type": "string", "enum": list(SUBROOM_VALUES) + ["none"]},
                 },
                 "required": ["index", "category", "scale_note", "magnitude", "topic",
-                             "subroom"],
+                             "subroom", "physiology"],
             },
         }
     },
