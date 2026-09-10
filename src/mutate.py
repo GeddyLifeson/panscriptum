@@ -968,7 +968,7 @@ def suppressed_on_record(target=None):
     mutant is written here with the ruling that suppressed it and the id that would un-suppress
     it. A ruling can be wrong; this is how the next reader sees the ones being applied.
     """
-    return [r for r in journal_rows(target) if r.get("ruled_equivalent")]
+    return [r for r in journal_rows(target) if r.get("ruled_equivalent") and not r.get("revoked")]
 
 
 def ruled_equivalent(path=RULED_EQUIVALENT):
