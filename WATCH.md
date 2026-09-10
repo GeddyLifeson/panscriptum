@@ -1,17 +1,17 @@
 # OVERWATCH
 
-round 480  ·  last run 2026-09-10 11:55
+round 481  ·  last run 2026-09-10 12:36
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 302,734 inspected (deep scan as of round 475)
+- files that will not parse: **0** of 302,961 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**44 open** (19 high). Newest first.
+**40 open** (17 high). Newest first.
 
 - **compress_store.py** `load` — [HIGH] Reads a stored blob back without verifying it against the address it is filed under, and does not check the hash of the decompressed text.
   - says: Read a stored blob back, VERIFYING it against the address it is filed under.
@@ -47,10 +47,6 @@ round 480  ·  last run 2026-09-10 11:55
   - says: raises the durable alarms for this case -- a SAFETY escalation and a `silence.note`
 - **feats.py** `mined_under_failed_transport` — [HIGH] returns False for 404 responses, which is the opposite of what the docstring claims
   - says: -> did this record's fetch FAIL, leaving an absence that is not evidence of absence?
-- **events.py** `shelf_positions` — [HIGH] Joins shelf names with their positions by parsing lines containing 'Shelf' and 'stands at' and extracting the shelf and its position.
-  - says: Parsed but NOT joined here. Whether a shelf name corresponds to a source on the Acquisitions Roll is `threads.py`'s question, answered by the address resolver, never by this module.
-- **drill.py** `landed` — [HIGH] the verdict did not land, but the code proceeds as if it did
-  - says: the verdict landed in state/drill_last.json
 - **rosetta.py** `check` — [MEDIUM] check() is called with rosetta and assays, but the code does not show how check() is implemented or its actual behavior.
   - says: check() is supposed to match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
 - **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0 (shelf hasn't heard yet) and 0 when lag >= 0 (shelf has heard, but the function returns 0 in both cases, which contradicts the docstring's explanation that it should return the rung when the shelf has heard.)
@@ -97,10 +93,6 @@ round 480  ·  last run 2026-09-10 11:55
   - says: scan a file for regex matches
 - **codewatch.py** `reportable` — [MEDIUM] a set of jobs derived from coverage() with a split on job names
   - says: a set of reportable jobs
-- **drill.py** `index_spine_agrees_with_the_resolver` — [MEDIUM] The function checks if the stored spine code matches the real spine code, but the comment suggests it should verify that the index's spine column is derived through the same resolver code as `address.spine_code_for()`
-  - says: THE ONE THAT ALREADY COST A FALSE ALARM. The index's `spine` column must come from `address.sp,ine_code_for()`, not from a simpler reimplementation of it.
-- **drill.py** `CW._budget_left` — [MEDIUM] is used to check if the budget is exhausted, but the docstring indicates that the budget-exhausted branch is the only safe one to drive, and the actual code may not be correctly implementing this logic
-  - says: Spend the budget against a scratch ledger and require it to RUN OUT, then refill.
 
 ---
 
