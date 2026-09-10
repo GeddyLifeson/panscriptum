@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 471  ·  last run 2026-09-10 02:33
+round 472  ·  last run 2026-09-10 03:05
 
 ## Structure
 
@@ -11,8 +11,24 @@ round 471  ·  last run 2026-09-10 02:33
 
 ## What the model found in the code
 
-**54 open** (24 high). Newest first.
+**82 open** (29 high). Newest first.
 
+- **pipeline.py** `build_jobs_for_source` — [HIGH] The function is called with only two arguments, but the comment claims it should be called with four, leading to incorrect behavior where sources are marked as refusing to build when they actually have no entries.
+  - says: The real signature is build_jobs_for_source(cfg, roll_entry, record, spine) -- four arguments, in that order. Calling it with two produced "117 sources would not build", which reads as a property of the sources and was a property of the call.
+- **pipeline.py** `rest` — [HIGH] the rest of the entries are added to the nomination blocks
+  - says: the description-only fallback stays a single ranked block
+- **mutate.py** `owner` — [HIGH] Return the owner's PID of a sandbox, not record it
+  - says: Record this process as the sandbox's owner. Never raises.
+- **local_agent.py** `t_propose_patch` — [HIGH] appends to `unreverted` but does not raise an alarm or note
+  - says: raises the durable alarms for this case -- a SAFETY escalation and a `silence.note`
+- **local_agent.py** `_rel_l` — [HIGH] The code converts the relative path to lowercase, making the comparison case-insensitive, which contradicts the claim that the denylist is case-sensitive.
+  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
+- **local_agent.py** `_mod_l` — [HIGH] The code converts the module name to lowercase, making the comparison case-insensitive, which contradicts the claim that the denylist is case-sensitive.
+  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
+- **local_agent.py** `_deny_paths` — [HIGH] The code converts the denylist paths to lowercase, making the deny, which contradicts the claim that the denylist is case-sensitive.
+  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
+- **local_agent.py** `_deny` — [HIGH] The code converts the denylist to lowercase, making the denylist case-insensitive, which contradicts the claim that the denylist is case-sensitive.
+  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
 - **feats_index.py** `host_to_sources` — [HIGH] returns an empty map and does not raise an exception
   - says: RAISES rather than returning an empty map when the host file cannot be read
 - **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] The regex looks for 'mach' followed by a number, but the comment says it's for number-first forms
@@ -53,14 +69,56 @@ round 471  ·  last run 2026-09-10 02:33
   - says: Rebuild the index from the canonical JSON. -> counts.
 - **binding_health.py** `run` — [HIGH] Returns an empty list and 0 on an empty or unreadable hosts map, which contradicts the claim that it canary every bound host.
   - says: Canary every bound host. Error-resilient: one bad host never aborts the sweep.
-- **magnitude.py** `verify` — [HIGH] Applies guards 1-3 but also handles status scores and fabricates provenance for empty citations
-  - says: Apply guards 1-3. Returns (scores, worksheet, rejections).
-- **endpoint.py** `register` — [HIGH] Attempts to write a temporary file without proper atomic operations, leading to potential data loss or corruption due to concurrent writes.
-  - says: Record where a source's material actually lives.
-- **overnight.py** `snap` — [HIGH] snap is updated with cycle and at information even when there's an error
-  - says: A crashed snapshot carries ONLY an "error" key
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **pipeline.py** `return 0` — [MEDIUM] returns 0 when the pointer is past the last phase and every phase has a completion marker, but the comment suggests this is the clean finish, which may not be the case
+  - says: EXPLICIT 0 (order 1f8e0f1bfb26) -- this IS the clean finish the comment above already describes; see the note at the bottom of this function for why the value now matters.
+- **pipeline.py** `land_json` — [MEDIUM] land_json is used to land JSON data but the code around it suggests it should be derived
+  - says: land_json is used to land JSON data
+- **pipeline.py** `batch_settled` — [MEDIUM] the function is called but its purpose is not clear from the code
+  - says: what the write-gate comment below already priced and accepted.
+- **mutate.py** `a.rule_equivalent` — [MEDIUM] requires --ruling to be provided
+  - says: record that the survivor at this site has been read and ruled a genuinely equivalent mutation
+- **mutate.py** `judged_since` — [MEDIUM] list of mutants with their verdicts
+  - says: record of verdicts cast doubt over
+- **mutate.py** `unusable_gates` — [MEDIUM] Discards a refresh that could not complete, but does not update the baseline
+  - says: A refresh that could not complete is not a new baseline
+- **mutate.py** `run` — [MEDIUM] Acquires a lock and calls _run_mutation, which is the body of run
+  - says: Mutate one module IN A SANDBOX and report which mutants survived.
+- **mutate.py** `hang_confirms_a_kill` — [MEDIUM] The function returns False when the mutant's timeout is not evidence of a hang, but the function's claim is that it determines whether the timeout indicates a hang. However, the function's logic is designed to return False in cases where the timeout is not conclusive, which aligns with the claim that it does not simply score every timeout as a kill. The function's actual behavior is to return False when the timeout is not evidence of a hang, which is consistent with the claim that it does not simply score every timeout as a kill. The function's claim is that it determines whether the timeout indicates a hang, and the actual behavior is to return False when the timeout is not evidence of a hang, which is consistent with the claim. The function's claim is that it determines whether the, and the actual behavior is to return False when the timeout is not evidence of a hang, which is consistent with the claim.
+  - says: A mutant timed out on `gname`. Was that the MUTATION hanging, or the machine? -> (bool, why).
+- **mutate.py** `suppressed_on_record` — [MEDIUM] filters for 'ruled_equivalent' but does not check if the ruling is still valid
+  - says: every survivor a standing ruling kept out of the queue
+- **mutate.py** `survivors_on_record` — [MEDIUM] includes baseline drift events and ruled-equivalent suppressions
+  - says: FILTERED TO ACTUAL SURVIVORS
+- **local_agent.py** `gpu_lane.lane` — [MEDIUM] the code is using the lane to make a call to an external URL, which could potentially cause the prose calls to queue behind it
+  - says: the model lane is repair work, and it must never make the library's own prose calls queue behind it
+- **local_agent.py** `modname` — [MEDIUM] modname is assigned a value based on the filename, but the code later uses it in a case-insensitive comparison with the denylist, which may not be correct for non-python files.
+  - says: The denylist has to be answerable for NON-python files too. Match on the module name when there is one, and on the repo-relative path otherwise.
+- **local_agent.py** `_gates` — [MEDIUM] parse, lint, import, but not whole-suite
+  - says: parse, lint, import, whole-suite
+- **local_agent.py** `_scan` — [MEDIUM] scan a file but ignore line numbers and content
+  - says: scan a file for regex matches
+- **local_agent.py** `rel_real` — [MEDIUM] compares the normalized case of the relative paths, but the check for denied target is based on the resolved path's region and paths, not the original string-based path.
+  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
+- **local_agent.py** `rel_written` — [MEDIUM] compares the normalized case of the relative paths, but the check for denied target is based on the resolved path's region and paths, not the original string-based path.
+  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
+- **ingest_doc.py** `mine` — [MEDIUM] returns True only when every chunk was processed, and False on both of its early stops
+  - says: run the entity pass (resumable)
+- **ingest_doc.py** `bad_category` — [MEDIUM] count of entries with invalid categories
+  - says: count of bad categories
+- **ingest_doc.py** `started_at` — [MEDIUM] initial value of found counter
+  - says: start time
+- **ingest_doc.py** `misses` — [MEDIUM] count of consecutive misses
+  - says: count of misses
+- **ingest_doc.py** `known` — [MEDIUM] set of keys for known entries
+  - says: known entries
+- **ingest_doc.py** `chunks` — [MEDIUM] list of tuples containing chunk text and page labels
+  - says: list of chunks to be processed
+- **ingest_doc.py** `cur_pages` — [MEDIUM] list of labels for current chunk
+  - says: current pages being built
+- **ingest_doc.py** `cur` — [MEDIUM] accumulated text with labels
+  - says: current chunk being built
 - **feats_index.py** `entries_by_norm` — [MEDIUM] used downstream when the feats prose is generated -- is taken from the correct one of two same-named catalogue entries.
   - says: description and magnitude used downstream when the feats prose is generated -- is taken from the wrong one of two same-named catalogue entries.
 - **feats_index.py** `index_faults` — [MEDIUM] Builds the index if it has not been built, but the function does not handle the case where the index is built but has faults.
@@ -119,8 +177,6 @@ round 471  ·  last run 2026-09-10 02:33
   - says: bound
 - **physics.py** `joules_for` — [MEDIUM] Energy to do `mode` to `volume_m3` of `material` with a default material of 'rock' and mode of 'pulv'.
   - says: Energy to do `mode` to `volume_m3` of `material`.
-- **hosts.py** `discover` — [MEDIUM] Only keeps hosts that score well on LIFT, and discards others
-  - says: Find every ADDITIONAL host each source can be read from, and keep all that hold.
 
 ---
 
