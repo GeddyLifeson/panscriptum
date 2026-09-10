@@ -297,7 +297,7 @@ def problems():
         if any(ch in pat for ch in "*?["):
             if listing is None:
                 listing = _repo_listing()
-            # `fnmatchcase` is kept exactly as it was and is argued at :152-160: a suppression
+            # `fnmatchcase` is kept exactly as it was and is argued in `suppressed()`'s docstring: a suppression
             # narrows a detector for a NAMED case, and a case nobody wrote down is not a named
             # case, so a mis-cased pattern surfaces HERE as dangling rather than quietly
             # covering files it was never reviewed against.

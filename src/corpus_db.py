@@ -136,7 +136,7 @@ def rebuild(include_evidence=True, evidence_limit=None):
     # below meant two concurrent rebuilds destroyed each other's in-progress database: the
     # second one's first act was to unlink the file the first was still writing into, and
     # whichever finished last landed a half-built index over a whole one. The project states
-    # this rule in `silence.write_json`'s docstring (silence.py:358-361) and restates it in
+    # this rule in `silence.write_json`'s docstring and restates it in
     # `module_index.py`; this was the site that did not obey it. With a unique name the
     # pre-delete can only ever remove THIS process's own leftovers.
     tmp = "%s.%d.%d.tmp" % (DB, os.getpid(), threading.get_ident())

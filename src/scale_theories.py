@@ -49,7 +49,7 @@ THAT IS DELIBERATE: `chord_field.py` and `descending_ladder.py` each declare the
 and `chord_field.py`'s own comment records the house precedent as the OPPOSITE of centralising
 -- each file keeps only the constants it uses, because a second source of truth is the drift
 hazard, not the cure for it. The owner ruled these onto that precedent. So they are not
-centralised, and they are not deleted either: `descending_ladder.py:49` carries a comment
+centralised, and they are not deleted either: `descending_ladder.py` carries a comment
 cross-referencing "scale_theories.py names the same value as G_NEWTON", and removing them would
 silently make an existing comment false -- that cross-reference is part of how the duplication
 was meant to stay VISIBLE rather than being tidied out of sight. They are reference values for
