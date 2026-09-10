@@ -348,7 +348,8 @@ def mutate(apply, attempts=8, path=None):
                                "these rows cost a live crawl" % os.path.basename(path))
             if not isinstance(cache, dict):
                 silence.note("scope.py:mutate-nondict")
-                return False, "%s is not an object; refusing to overwrite it" % os.path.basename(path)
+                return False, ("%s is not an object; refusing to overwrite it"
+                               % os.path.basename(path))
         out = apply(cache)
         if out is None:
             out = cache

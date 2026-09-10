@@ -244,6 +244,22 @@ _DEAD_LOCK = threading.Lock()
 # success clears the record entirely, because a provider that just answered is not down.
 FIRST_BENCH = 60
 MAX_BENCH = 900
+
+# CONSECUTIVE UNPARSEABLE REPLIES PER BUCKET, and the number is a judgment written down rather
+# than a reflex (order 5448a236b884). A bucket whose reply would not parse has failed the call --
+# but ONE malformed reply is not proof the bucket is bad: a single truncated fence, one apology,
+# one stray sentence before the JSON. Benching on the first would take a working provider out of
+# rotation on a fluke, and this pool has been measured running at 64 calls/hour against a floor of
+# 900, so its capacity is not something to spend on false positives.
+#
+# THREE, AND THE COUNTER RESETS ON ANY PARSEABLE REPLY. Three consecutive failures from one bucket
+# is a provider that is reliably producing nothing usable -- prose instead of JSON, a schema it
+# cannot follow, an output cap it keeps hitting -- and leaving that in rotation burns the rate
+# budget on a bucket that will fail again immediately. The reset is what keeps the rule about
+# RELIABLY unusable rather than merely unlucky: a bucket that works and occasionally stumbles
+# never reaches three in a row.
+UNPARSEABLE_STRIKES_BEFORE_BENCH = 3
+_UNPARSEABLE = {}
 # A dead key is not a busy provider. Long enough to stop costing claims, short enough that a
 # key fixed this afternoon is back in rotation this evening.
 AUTH_BENCH = 4 * 3600
@@ -1959,12 +1975,57 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         #
         # The reply is recorded UNTRUNCATED. It is the evidence, this is the only place it
         # exists, and Hard Rule 0 applies to the diagnostic as much as to the report.
+        # AND NOW IT REACHES THE BENCH AND THE LEDGER, WHICH `served` NEVER COULD (order
+        # 5448a236b884). Everything above is written into `served`, and `served` IS OPTIONAL --
+        # the ordinary production caller, `pipeline.ask_pool_first`, does not pass it. So on the
+        # path that actually runs, all of that careful recording went into nothing and the only
+        # surviving trace was the `silence.note` counter below: a number, with no bucket name, no
+        # error text and no reply. The branch was right about what it did and silent about where.
+        #
+        # EVERY OTHER TERMINAL FAILURE IN THIS FILE REACHES `_bury` OR `record_unrecognised` --
+        # deadline, permanent refusal, transient and generic-unrecognised all do. This one, the
+        # only failure class that is entirely the MODEL's own fault rather than the account's or
+        # the network's, reached neither.
+        _bucket = (_bucket_of(box["answered_id"] or box["answered"]) or "") if answered else ""
+        # THE LEDGER EVERY TIME, THE BENCH ONLY ON THE THIRD. `record_unrecognised` is what
+        # `standards` reads and turns red, and the owner ruling of 2026-08-25 is that an
+        # unrecognised failure is investigated ON SIGHT -- so it must see the FIRST one, not the
+        # third. Benching is the routing consequence and carries its own threshold. Two different
+        # questions, answered separately.
+        #
+        # AND AN UNRESOLVABLE BUCKET STILL REACHES THE LEDGER. `_bucket_of` returns "" when
+        # nothing matches, and gating the whole block on a truthy bucket would send exactly that
+        # case back down the invisible path this order is about -- the reply text is the evidence
+        # and there is no other copy of it. It goes in under a named sentinel instead, which is
+        # ALSO a finding: a call that answered and whose bucket cannot be resolved means the
+        # engine's `model` event and the router's keys disagree, and that is worth seeing.
+        _key = _bucket or "<bucket unresolved>"
+        with _DEAD_LOCK:
+            _strikes = _UNPARSEABLE.get(_key, 0) + 1
+            _UNPARSEABLE[_key] = _strikes
+        record_unrecognised(_key, "unparseable reply (%d consecutive from this bucket): %s"
+                            % (_strikes, _reply))
+        # ONLY A REAL BUCKET CAN BE BENCHED. `_bury("")` would put a cooldown on a key no
+        # selector ever asks about -- a bench that looks applied and stops nothing.
+        if _bucket and _strikes >= UNPARSEABLE_STRIKES_BEFORE_BENCH:
+            _bury(_bucket)
+            silence.note("cascade_bridge.py:unparseable-bench")
         if served is not None:
             served["outcome"] = "unparseable reply"
             served["error"] = ("model answered but the reply is not JSON matching the schema; "
                                "raw reply follows: " + _reply)
         silence.note("cascade_bridge.py:unparseable-reply")
         return None
+    # THE RESET, AND WITHOUT IT THE THRESHOLD MEANS SOMETHING ELSE. `_UNPARSEABLE` counts
+    # CONSECUTIVE failures; a cumulative count would bench any long-lived bucket eventually,
+    # whatever its success rate, which is the latching-counter fault this project has now filed
+    # against `standards`' progress row as well. A parseable reply proves the bucket can follow
+    # the schema, so its strike count goes back to zero.
+    if answered:
+        _reset = _bucket_of(box["answered_id"] or box["answered"])
+        if _reset and _UNPARSEABLE.get(_reset):
+            with _DEAD_LOCK:
+                _UNPARSEABLE.pop(_reset, None)
     if isinstance(got, dict):
         got["_via"] = answered or "cascade"
     return got

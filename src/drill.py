@@ -6509,6 +6509,136 @@ def _throttle_is_not_an_absence(tmp=None):
         F.fetch = real
 
 
+def _unparseable_reply_is_benched_and_ledgered(tmp=None):
+    """The one failure that is the MODEL's own fault must reach the bench and the page (5448a236b884).
+
+    `cascade_bridge`'s unparseable-reply branch corrected `served["outcome"]` from "answered" to
+    "unparseable reply", recorded the raw reply untruncated as evidence, called `silence.note`, and
+    returned None. It called NEITHER `_bury` nor `record_unrecognised` -- while deadline, permanent
+    refusal, transient and generic-unrecognised, every other terminal class in that file, reach one
+    of the two.
+
+    AND `served` IS OPTIONAL, WHICH IS WHAT HID IT. The ordinary production caller,
+    `pipeline.ask_pool_first`, does not pass `served=`. So on the path that actually runs, all of
+    that careful recording went into nothing and the only surviving trace was a counter with no
+    bucket name, no error text and no reply. A bucket answering every call with prose stayed in
+    rotation, was selected again immediately, and failed the same way -- on a pool measured running
+    at 64 calls/hour against a floor of 900.
+
+    TWO QUESTIONS, GRADED SEPARATELY, because the fix answers them separately. The LEDGER must see
+    the FIRST failure: the owner ruling of 2026-08-25 is that an unrecognised failure is
+    investigated on sight, and `record_unrecognised` is what `standards` reads and turns red. The
+    BENCH waits for the third: one malformed reply is not proof a bucket is bad, and taking a
+    working provider out of rotation on a fluke spends capacity this pool does not have.
+
+    AND THE COUNT IS CONSECUTIVE, WHICH THE RESET IS THE WHOLE OF. A cumulative count would bench
+    any long-lived bucket eventually whatever its success rate -- the latching-counter fault filed
+    the same day against `standards`' own progress row. A bucket that stumbles twice and then
+    answers must never reach the threshold.
+
+    Asked of the PARSE TREE for the wiring and DRIVEN for the rule. The wiring half is asked
+    structurally because a call that is merely present somewhere in the file proves nothing about
+    the branch that needs it -- this is the shape `_run_marks_a_landless_run_failed` already uses.
+    Nothing is sent to any provider.
+    """
+    import ast as _ast
+    import cascade_bridge as CB
+
+    # ---- the wiring, from the source of the branch itself ----------------------------------
+    # FOUND BY ITS OWN silence.note MARKER, not by a substring of its prose. The first version of
+    # this net looked for an `If` containing the text "unparseable reply" while EXCLUDING
+    # "_extract_json" -- and the real branch's comment explains itself by naming `_extract_json`,
+    # so the finder skipped the only node that mattered and the net reported False against
+    # correct code. A net that cannot find its subject fails in the direction that looks like a
+    # defect, which is the more expensive direction.
+    src = open(os.path.join(HERE, "src", "cascade_bridge.py"), encoding="utf-8").read()
+    tree = _ast.parse(src)
+    MARK = "cascade_bridge.py:unparseable-reply"
+    branch = None
+    for node in _ast.walk(tree):
+        if not isinstance(node, _ast.If):
+            continue
+        if any(isinstance(c, _ast.Constant) and c.value == MARK for c in _ast.walk(node)):
+            # the INNERMOST such If is the branch; an enclosing one would also match
+            if branch is None or node.lineno > branch.lineno:
+                branch = node
+    if branch is None:
+        return False                      # the branch cannot be found at all
+    called = {n.func.id for n in _ast.walk(branch)
+              if isinstance(n, _ast.Call) and isinstance(n.func, _ast.Name)}
+    if "record_unrecognised" not in called or "_bury" not in called:
+        return False                      # back to reaching neither
+
+    # AND THE RESET MUST EXIST IN THE FILE, OUTSIDE THIS BRANCH. The consecutive rule is only
+    # consecutive because something clears the count on a parseable reply, and that clearing sits
+    # on the success path where this net cannot reach it without a live engine. So it is asserted
+    # STRUCTURALLY: a `_UNPARSEABLE.pop` somewhere that is not inside the failure branch. Without
+    # it the counter is cumulative and any long-lived bucket benches eventually whatever its
+    # success rate -- the latching-counter fault, which is exactly what the driven half below
+    # cannot see, because the drive supplies its own reset.
+    inside = {id(n) for n in _ast.walk(branch)}
+    resets = [n for n in _ast.walk(tree)
+              if isinstance(n, _ast.Call) and isinstance(n.func, _ast.Attribute)
+              and n.func.attr == "pop" and isinstance(n.func.value, _ast.Name)
+              and n.func.value.id == "_UNPARSEABLE" and id(n) not in inside]
+    if not resets:
+        return False                      # a cumulative counter wearing a threshold
+
+    # ---- the rule, driven ------------------------------------------------------------------
+    if CB.UNPARSEABLE_STRIKES_BEFORE_BENCH < 2:
+        return False                      # benching on the first reply is the fluke fault
+    seen = []
+    real_rec, real_bury = CB.record_unrecognised, CB._bury
+    try:
+        CB.record_unrecognised = lambda bucket, err: seen.append(bucket)
+        buried = []
+        CB._bury = lambda bucket, seconds=None: buried.append(bucket)
+        with CB._DEAD_LOCK:
+            CB._UNPARSEABLE.clear()
+
+        def fail(bucket):
+            key = bucket or "<bucket unresolved>"
+            with CB._DEAD_LOCK:
+                n = CB._UNPARSEABLE.get(key, 0) + 1
+                CB._UNPARSEABLE[key] = n
+            CB.record_unrecognised(key, "x")
+            if bucket and n >= CB.UNPARSEABLE_STRIKES_BEFORE_BENCH:
+                CB._bury(bucket)
+
+        # the ledger sees the first, the bench waits for the threshold
+        fail("b")
+        if not seen or buried:
+            return False
+        for _ in range(CB.UNPARSEABLE_STRIKES_BEFORE_BENCH - 1):
+            fail("b")
+        if not buried:
+            return False
+
+        # a stumble followed by a success never reaches the threshold
+        with CB._DEAD_LOCK:
+            CB._UNPARSEABLE.clear()
+        buried[:] = []
+        for _ in range(CB.UNPARSEABLE_STRIKES_BEFORE_BENCH - 1):
+            fail("c")
+        with CB._DEAD_LOCK:
+            CB._UNPARSEABLE.pop("c", None)          # a parseable reply
+        for _ in range(CB.UNPARSEABLE_STRIKES_BEFORE_BENCH - 1):
+            fail("c")
+        if buried:
+            return False
+
+        # an unresolvable bucket still reaches the ledger and is never benched
+        buried[:] = []
+        before = len(seen)
+        for _ in range(CB.UNPARSEABLE_STRIKES_BEFORE_BENCH + 1):
+            fail("")
+        return len(seen) > before and not buried
+    finally:
+        CB.record_unrecognised, CB._bury = real_rec, real_bury
+        with CB._DEAD_LOCK:
+            CB._UNPARSEABLE.clear()
+
+
 def _scope_lands_key_wise(tmp=None):
     """SCOPE.json must not be landed as a whole document read hours earlier (order 3610ec65ebd3).
 
@@ -7134,6 +7264,11 @@ def drill_binding_identity():
         _throttle_is_not_an_absence,
         "without the outcome channel a throttled fetch and a page that does not exist both "
         "returned (0, None) -- in the one module whose verdicts quarantine a host")
+    net(a, "an unparseable reply benches the bucket and reaches the page",
+        _unparseable_reply_is_benched_and_ledgered,
+        "the one failure that is the model's own fault reached neither the bench nor the "
+        "ledger, and everything it did record went into an OPTIONAL dict the production caller "
+        "does not pass")
     net(a, "a scope probe lands its own hosts, never the whole table it read",
         _scope_lands_key_wise,
         "SCOPE.json was read, then up to 155 wikis were crawled, then this run's copy of the "

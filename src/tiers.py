@@ -383,9 +383,10 @@ def main():
     # FAIL CLOSED, AND BEFORE THE EXPENSIVE PART. An unreadable GROUNDINGS.json used to be
     # absorbed silently and published: every shelf came out `hyperverse: 5`,
     # `hyperverse_type: 'ungrounded'`, and main() printed "wrote <path>" over the top of a good
-    # TIERS.json. That file is read by address_space AT IMPORT (address_space.py:129 and again
-    # in its main), so the bad write silently re-charts the top of the Ladder of Being. Checked
-    # here rather than after chart() so a bad input costs no graph build.
+    # TIERS.json. That file is read by address_space AT IMPORT (its module-level
+    # `_TC = _tier_counts()`, and again in its main), so the bad write silently re-charts the top
+    # of the Ladder of Being. Checked here rather than after chart() so a bad input costs no
+    # graph build.
     _g, readable = _load_groundings()
     if not readable:
         print("REFUSING TO CHART: data/GROUNDINGS.json is absent or will not parse.")
