@@ -6486,6 +6486,57 @@ def _throttle_is_not_an_absence(tmp=None):
         F.fetch = real
 
 
+def _coverage_reaches_unreachable(tmp=None):
+    """coverage.py must be able to PRODUCE the state its own docstring calls purely a defect.
+
+    THE FAULT WAS A DOCUMENTED STATE WITH NO IMPLEMENTATION (order 1d55458779fd). The module
+    docstring listed UNREACHABLE -- "a host exists but the fetch failed -- the only state that is
+    purely a defect" -- and the string occurred EXACTLY ONCE in the whole file, in that sentence.
+    `_state_of_file` could return only CITED, READ, NO PAGE and NOT ATTEMPTED, `report()` had no
+    row for it, and nothing here exercised it. So every failed fetch was published as NO PAGE,
+    which the report renders as "asked; the wiki has no such article": a positive claim about the
+    WORLD, made on the evidence of our own transport breaking. A state that cannot occur is a
+    check that cannot fail, which is this project's oldest lesson, and it had been sitting inside
+    the file whose stated purpose is keeping READ and NO PAGE apart.
+
+    BOTH DIRECTIONS, AND THE SECOND IS THE ONE THAT KEEPS THIS HONEST. A fix that called every
+    empty record UNREACHABLE would be the same error inverted -- it would accuse the transport for
+    every genuinely page-less entity in the corpus, and 34,676 records predate the transport stamp
+    entirely. So a clean negative, and an unstamped legacy record, must both still read NO PAGE.
+
+    AND THE PRECEDENCE IS GRADED, not just the classifier: NO PAGE outranks UNREACHABLE, because
+    a wiki that answered beats a fetch of ours that broke; UNREACHABLE outranks NOT ATTEMPTED,
+    because we DID ask, and reporting a broken fetch as never-fetched is the 30,102-Marvel-entry
+    conflation running the other way.
+
+    Nothing is read from disk and no host is contacted.
+    """
+    import coverage as CV
+    import feats as F
+    for why in ("throttled", "nonjson", "network"):
+        if CV._empty_state({"mined_under": {"transport": {"why": why}}}) != "UNREACHABLE":
+            return False              # our own failure published as a fact about the wiki
+    for why in F.CLEAN_NEGATIVES:
+        if CV._empty_state({"mined_under": {"transport": {"why": why}}}) != "NO PAGE":
+            return False              # a genuine absence accused of being a transport fault
+    if CV._empty_state({}) != "NO PAGE":
+        return False                  # an unstamped legacy record cannot be classified
+    if "UNREACHABLE" not in (CV.report.__doc__ or "") and "UNREACHABLE" not in _cv_report_src():
+        return False                  # producible but unreportable is the same fault one layer on
+    return True
+
+
+def _cv_report_src():
+    """The source text of coverage.report, so the net above can ask whether it prints the row."""
+    import inspect
+
+    import coverage as CV
+    try:
+        return inspect.getsource(CV.report)
+    except OSError:
+        return ""
+
+
 def _binding_health_filters(tmp=None):
     """`--limit 0` must select NOTHING, and a filter that matched nothing must not re-stamp.
 
@@ -6882,6 +6933,11 @@ def drill_binding_identity():
         _throttle_is_not_an_absence,
         "without the outcome channel a throttled fetch and a page that does not exist both "
         "returned (0, None) -- in the one module whose verdicts quarantine a host")
+    net(a, "coverage can actually produce the state it calls purely a defect",
+        _coverage_reaches_unreachable,
+        "UNREACHABLE was documented for months and implemented nowhere, so every failed fetch "
+        "was published as `the wiki has no such article` -- a claim about the world made on the "
+        "evidence of our own transport breaking")
     net(a, "an EMPTY filter canaries nothing and re-stamps nothing",
         _binding_health_filters,
         "`--limit 0` read as 'no limit' answers a request for nothing by canarying the whole "
@@ -8246,8 +8302,13 @@ def drill_inspector():
         for r in rows:
             if not isinstance(r, dict):
                 continue
+            # SIX COLUMNS NOW, and adding the sixth is the whole reason this line is worth
+            # re-reading. `unreachable` (order 1d55458779fd) takes its entries FROM `no_page`, so
+            # the sum did not change and this net would NOT have gone red -- it would have
+            # stopped covering a bucket, silently, which is precisely the fault recorded three
+            # paragraphs up as "a docstring naming a fifth column the code did not read".
             parts = sum(r.get(k, 0) for k in
-                        ("cited", "read", "no_page", "no_host", "not_attempted"))
+                        ("cited", "read", "no_page", "no_host", "not_attempted", "unreachable"))
             if parts > r.get("entries", 0):
                 return False
         return True

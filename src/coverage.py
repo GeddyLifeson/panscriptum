@@ -127,7 +127,14 @@ def state_of(host, name):
             if st_np is None:
                 continue
             st, nf, np = st_np
-            # STRICT PRECEDENCE: CITED > READ > NO PAGE > NOT ATTEMPTED. The first version of
+            # STRICT PRECEDENCE: CITED > READ > NO PAGE > UNREACHABLE > NOT ATTEMPTED, and the
+            # place UNREACHABLE was inserted is an argument rather than an ordering (order
+            # 1d55458779fd). It sits BELOW NO PAGE because NO PAGE is a real answer from the
+            # wiki and a defect of ours must never mask one: if one candidate path was told
+            # there is no such article and another simply failed, the wiki has answered. It sits
+            # ABOVE NOT ATTEMPTED because we DID ask, and reporting an entity as never-fetched
+            # when a fetch broke is the 30,102-Marvel-entry lie below in the other direction.
+            # The first version of
             # this loop only ever promoted to READ, so a cache file with zero pages -- a genuine
             # "we asked and the wiki has nothing" -- fell through and was reported as NOT
             # ATTEMPTED. The whole point of splitting the two states is lost if one of them can
@@ -139,9 +146,50 @@ def state_of(host, name):
                 return "CITED", nf, np
             if st == "READ":
                 best = ("READ", 0, np)
-            elif st == "NO PAGE" and best[0] == "NOT ATTEMPTED":
+            elif st == "NO PAGE" and best[0] in ("NOT ATTEMPTED", "UNREACHABLE"):
                 best = ("NO PAGE", 0, 0)
+            elif st == "UNREACHABLE" and best[0] == "NOT ATTEMPTED":
+                best = ("UNREACHABLE", 0, 0)
     return best
+
+
+def _empty_state(d):
+    """Nothing was mined and nothing was read. Is that the WIKI's answer, or OUR failure?
+
+    UNREACHABLE WAS DOCUMENTED FOR MONTHS AND IMPLEMENTED NOWHERE (order 1d55458779fd). This
+    module's docstring called it "the only state that is purely a defect", and the string
+    occurred exactly once in the file -- in that sentence. Every failed fetch therefore came out
+    as NO PAGE, which is a POSITIVE CLAIM ABOUT THE WIKI ("asked; the wiki has no such article"),
+    published on the strength of our own transport breaking. That is the READ/NO PAGE conflation
+    this file exists to prevent, one state further down.
+
+    THE EVIDENCE WAS ALREADY ON DISK AND THIS ASKS IT THE SAME QUESTION `feats` DOES.
+    `evidence_for` stamps `mined_under.transport` with the outcome `api()` reported, and
+    `feats.CLEAN_NEGATIVES` names the reasons that are NOT a transport failure. Imported, never
+    re-spelled: two hand-kept copies of that tuple is how the http-404 exemption in
+    `mined_under_failed_transport` became unreachable (order 71a9b380cb03), and this order says
+    in its own text that it must land AFTER that fix or inherit the same wrong boundary.
+
+    A LEGACY RECORD WITH NO STAMP STAYS NO PAGE, and that is deliberate rather than tidy. 34,676
+    records on disk were written before the stamp existed and cannot be classified after the
+    fact -- `feats` records that inability as a finding. Guessing UNREACHABLE for them would
+    invent a defect; guessing NO PAGE for them is the status quo, which is at least the number
+    every previous report quoted. What changes here is only what a STAMPED failure reports.
+
+    NOT USED: `pages_refused`. The order's remedy text offers it as a second signal, and it is
+    the wrong one -- `feats.mined_under_failed_transport`'s own docstring says `pages_refused`
+    "only ever holds pages that ARRIVED", so a non-empty one is evidence the transport WORKED.
+    An entity whose every page arrived and was refused on name-matching is mis-stated as NO PAGE
+    today, but it is neither CITED, READ nor UNREACHABLE, and it is the separate known fault at
+    the `st =` line above. Sending it here would have closed this order by mislabelling that one.
+    """
+    tr = ((d.get("mined_under") or {}).get("transport")) or None
+    if not tr:
+        return "NO PAGE"
+    why = str(tr.get("why") or "unknown")
+    if why in F.CLEAN_NEGATIVES:
+        return "NO PAGE"
+    return "UNREACHABLE"
 
 
 def _state_of_file(fp, name, cache):
@@ -176,7 +224,7 @@ def _state_of_file(fp, name, cache):
         return None
     pages = d.get("pages_read") or d.get("pages") or []
     feats = d.get("feats") or []
-    st = "CITED" if feats else ("READ" if pages else "NO PAGE")
+    st = "CITED" if feats else ("READ" if pages else _empty_state(d))
     nf, np = len(feats), len(pages)
     cache[rel] = [mt, st, nf, np]
     _SO["dirty"] += 1
@@ -230,6 +278,14 @@ def measure():
                      "cited": c["CITED"], "read": c["READ"],
                      "no_page": c["NO PAGE"], "no_host": c["NO HOST"],
                      "not_attempted": c["NOT ATTEMPTED"],
+                     # SIXTH COLUMN, AND EVERY SUMMER OF THESE HAD TO BE FOUND FIRST (order
+                     # 1d55458779fd). `drill`'s "coverage's own states never exceed its entry
+                     # count" net and `corpus_db`'s sources table both enumerate the state
+                     # columns by hand; UNREACHABLE takes its entries FROM no_page, so the sum
+                     # is unchanged and neither would have gone red -- they would simply have
+                     # stopped seeing a bucket, which is the fault that net's own docstring
+                     # records itself committing once already.
+                     "unreachable": c["UNREACHABLE"],
                      "feats": feats,
                      "coverage": c["CITED"] / max(n, 1),
                      "settled": (c["CITED"] + c["READ"]) / max(n, 1)})
@@ -243,6 +299,9 @@ def report(rows, show=None, show_best=10):
     read = sum(r["read"] for r in rows)
     nopage = sum(r["no_page"] for r in rows)
     untried = sum(r.get("not_attempted", 0) for r in rows)
+    # `.get` WITH A DEFAULT, like `not_attempted` beside it: every COVERAGE.json written before
+    # this column existed is still readable, and reads as zero rather than raising.
+    unreach = sum(r.get("unreachable", 0) for r in rows)
     nohost = sum(r["no_host"] for r in rows)
     feats = sum(r["feats"] for r in rows)
     d = max(n, 1)  # SWEEP34 6cf2a6486075: measure() guards every division with max(n, 1) --
@@ -258,6 +317,7 @@ def report(rows, show=None, show_best=10):
     print(f"  READ        {read:>8,}  {read/d:>6.1%}   pages read, honestly no feat")
     print(f"  NO PAGE     {nopage:>8,}  {nopage/d:>6.1%}   asked; the wiki has no such article")
     print(f"  NOT TRIED   {untried:>8,}  {untried/d:>6.1%}   nothing has ever fetched this")
+    print(f"  UNREACHABLE {unreach:>8,}  {unreach/d:>6.1%}   a host exists; OUR fetch failed")
     print(f"  NO HOST     {nohost:>8,}  {nohost/d:>6.1%}   source has no wiki")
     print(f"  {'-'*46}")
     print(f"  SETTLED     {cited+read:>8,}  {(cited+read)/d:>6.1%}   "

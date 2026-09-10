@@ -27,6 +27,7 @@ unsupervised is the documented hazard, not a convenience.
 """
 import argparse
 import ast
+import io
 import json
 import os
 import re
@@ -1538,12 +1539,35 @@ def run(task, model=None, apply=True, quiet=False):
 
 def main():
     ap = argparse.ArgumentParser(description="the GPU model, with gated hands on the repo")
-    ap.add_argument("--task", required=True)
+    # --task-file EXISTS BECAUSE --task IS A SHELL ARGUMENT, AND THIS AGENT'S TASKS ARE PROSE
+    # ABOUT CODE. A task naming a symbol the house way -- in backticks -- gets that symbol
+    # COMMAND-SUBSTITUTED before argparse ever sees it: on 2026-09-09 a task mentioning
+    # `fnmatchcase` reached this process as an empty string, the shell having tried to run it,
+    # and the edit it produced was silently missing the name it was about. The failure is
+    # silent in the direction that matters, because what arrives is a shorter task that still
+    # reads like a sentence. A file is read as bytes by this process and no shell touches it.
+    src = ap.add_mutually_exclusive_group(required=True)
+    src.add_argument("--task")
+    src.add_argument("--task-file", help="read the task from this UTF-8 file, no shell in the "
+                                        "path -- prefer this whenever the task names a symbol")
     ap.add_argument("--model", help="override config.yaml's model")
     ap.add_argument("--no-apply", action="store_true",
                     help="stage patches for the audit trail, write nothing")
     a = ap.parse_args()
-    out = run(a.task, model=a.model, apply=not a.no_apply)
+    if a.task_file:
+        # FAIL CLOSED (Hard Rule -1): an unreadable or empty task file refuses rather than
+        # handing the model an empty instruction, which it would answer with something.
+        try:
+            task = io.open(a.task_file, encoding="utf-8").read()
+        except OSError as exc:
+            print("REFUSING: could not read --task-file %s: %s" % (a.task_file, exc))
+            return 1
+        if not task.strip():
+            print("REFUSING: --task-file %s is empty; an empty task is not a task" % a.task_file)
+            return 1
+    else:
+        task = a.task
+    out = run(task, model=a.model, apply=not a.no_apply)
     # THE VERDICT FIRST, UNCONDITIONALLY, AND NEVER INSIDE THE CUT (order db8460375fdc).
     # `out['patches']` holds up to MAX_PATCHES_PER_RUN=24 audit entries carrying why/find/
     # replace text, and it is inserted BEFORE `achievement`, `error` and `ALARM` -- so on a

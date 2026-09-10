@@ -80,7 +80,16 @@ SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT);
 CREATE TABLE IF NOT EXISTS source (
     name TEXT PRIMARY KEY, host TEXT, spine TEXT, entries INTEGER,
-    cited INTEGER, read INTEGER, no_page INTEGER, not_attempted INTEGER, no_host INTEGER
+    cited INTEGER, read INTEGER, no_page INTEGER, not_attempted INTEGER, no_host INTEGER,
+    -- UNREACHABLE joined the state set on 2026-09-09 (order 1d55458779fd): a host exists and
+    -- OUR fetch failed, split out of no_page, which had been asserting the wiki has no such
+    -- article on the strength of our own transport breaking. Added here rather than left out
+    -- because this index is the thing people run `--canned coverage` against, and a bucket the
+    -- index cannot see is a bucket nobody queries. CREATE TABLE IF NOT EXISTS does NOT alter an
+    -- existing table, so a database built before today keeps the old five columns and the
+    -- INSERT below would fail on arity -- which is exactly why `--rebuild` is whole-file and
+    -- never incremental (see the module docstring). Rebuild after pulling this change.
+    unreachable INTEGER
 );
 CREATE TABLE IF NOT EXISTS entry (
     source TEXT, name TEXT, category TEXT, type TEXT,
@@ -267,11 +276,11 @@ def rebuild(include_evidence=True, evidence_limit=None):
         # louder lie than the NULL. So a COVERAGE.json read failure is carried in `meta` and in
         # the banner over every result instead; see the meta rows and `_freshness_banner()`.
         con.execute(
-            "INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?)",
+            "INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?,?)",
             (src, HOST_LOOKUP_FAILED if hosts_failed else hosts.get(src),
              code, len(rec.get("entries") or []),
              c.get("cited"), c.get("read"), c.get("no_page"),
-             c.get("not_attempted"), c.get("no_host")))
+             c.get("not_attempted"), c.get("no_host"), c.get("unreachable")))
         n_src += 1
         rows = []
         for e in (rec.get("entries") or []):
@@ -771,7 +780,7 @@ def query(sql, args=()):
 # If a listing is genuinely long, the answer is `--sql` with the reader's own LIMIT, chosen by a
 # person who can see what they are cutting off. It is never a smaller universe by default.
 CANNED = {
-    "coverage": "SELECT name, entries, cited, read, no_page, not_attempted "
+    "coverage": "SELECT name, entries, cited, read, no_page, not_attempted, unreachable "
                 "FROM source ORDER BY entries DESC",
     "unaddressed": "SELECT name, entries FROM source WHERE spine IS NULL "
                    "ORDER BY entries DESC",
