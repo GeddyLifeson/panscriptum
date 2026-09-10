@@ -17,6 +17,286 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-09/10 — RUN #54 (DAILY) — I FOUND A HALT ITS AUTHOR WAS ALREADY LIFTING, AND THE EVIDENCE FOR IT HAD BEEN DELETED EIGHT MINUTES EARLIER
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **A HALT WAS STANDING WHEN THIS RUN OPENED AND IT IS NOT STANDING NOW — AND I DID NOT LIFT
+   IT.** `DRILL_BREACH` at 23:23:46, two LEDGER WITNESS nets. **Run #53 lifted it at 23:42:01**,
+   as the shift that caused it, with a full ruling in `state/HALT.json`. Its cause was run #53's
+   own new net `_scope_lands_key_wise` driving `scope.mutate`'s two `silence.note` refusals into
+   the live failure ledger. Nothing in this run's account of the halt is a lift by me.
+2. **TWO MAINTENANCE RUNS WERE EDITING `src/` AT THE SAME TIME**, and the guard that exists to
+   prevent that read as *crashed* throughout. Run #53 held `state/MAINTENANCE_RUN.json` with a
+   heartbeat that had not moved in **101.7 minutes** while it was demonstrably alive — committing
+   at 23:26 and 23:42, lifting a halt at 23:42:01, writing `HANDOFF.md` at 23:44. By the file's
+   own fifteen-minute rule it was dead, so this run claimed the guard and started work. Both runs
+   edited `src/drill.py` inside the same twenty minutes. **Nothing was lost — and "nothing was
+   lost" is the whole of the luck involved.** Filed as `99d752c5632f`.
+3. **THE BATTERY IS GREEN AGAIN**, including the row that was red when run #53 closed. `sweep54`
+   read all 118 modules, so `whoruns.py` is audited and `verify_math` is back to **0 FAILED**.
+4. **Nothing was published under the halt.** `publish.py` re-asked and stopped itself
+   ("STOPPING THE PUBLISHER: a halt is standing"). The 23:26 commit predates the check; the push
+   was held by an unrelated credential-helper failure and later succeeded on its own.
+
+---
+
+## 1. THE HALT, AND WHY I COULD NOT RULE ON IT
+
+I opened the shift on `HALTED / DRILL_BREACH`, two nets down and both reproduced on a tree that
+had been still for 337 seconds:
+
+    no probe anywhere in this drill writes into the live failure ledger
+    nothing this drill did reached the ledger by a route the in-process spy cannot see
+
+Under Hard Rule −1 a halt I merely FOUND stays standing, so I set out to diagnose it and leave it.
+I could not. **The evidence was gone.** Both nets `raise` on purpose so the breach line names the
+leaking site — `_spy_record` builds `drill.py:LINE -> key` addresses for no other reason — and
+`net()` keeps that message in `RESULTS[i]["error"]`. The halt recorded only the net TITLES, and
+the rows live only in `state/drill_last.json`, which is a truncate-and-refill of one file that a
+daemon here rewrites about every ten minutes. **The breached verdict was written at 23:23 and
+overwritten by a green 475/475 verdict at 23:31:50. Eight minutes.**
+
+I drove the five newest nets in isolation with the spy watching and none of them escaped, measured
+that the commit landing between the red drill and the green one removed no `record` or `note` call
+anywhere (its deletions are all comment text), and concluded the breach was condition-dependent.
+**That conclusion was wrong.** It was already fixed, by run #53, minutes earlier. I filed an OWNER
+order arguing the ledger witness could halt over a down host; on reading run #53's ruling I
+withdrew it in the same shift (`2963d87a593f`, closed with the correction).
+
+**The mechanism I derived independently was right and is worth keeping:** `silence.py:889` is
+`health.record(f"silent:{site}", ...)`, so **`silence.note` IS a write into the operational failure
+ledger**, and any probe that drives a library refusal path leaks into it. Run #53's ruling names
+the same mechanism from the other end.
+
+### What I fixed instead: the next one will be diagnosable (`2cf4993b3a3f`, closed)
+
+* The `DRILL_BREACH` escalation now carries `evidence["why"]` — every reproduced breach's **own
+  error text**, uncapped — so `HALT.json` names the site instead of only the net.
+* The breaching rows are copied to **`state/drill_breach_<epoch>.json`** before the escalation, and
+  `evidence["kept_at"]` points at it. The next drill cannot overwrite it.
+* **A ledger escape now names the NET, not just the line.** `net()` pushes the running net onto a
+  new `_CURRENT_NET` stack (popped in a `finally`, because an attack raising is the ordinary case
+  here) and the spy reads it, so an escape reads
+  `drill.py:379 [the net's name] -> silent:scope.py:mutate-unreadable`. Outside any attack it
+  reads `<no net running>`, which is itself the useful distinction.
+* The rule was written into **`net()`'s own docstring** — remedy (c) of `400d5c76e6f8` — so a
+  person writing a new net that drives a noting guard reads it *before* the halt.
+
+Net: **"a halt keeps the breach's own message and the rows behind it"**, pinning both halves.
+Watched red: dropping the error text → `False`; writing the copy back over `drill_last.json` →
+`False`.
+
+---
+
+## 2. SWEEP 54 — ALL 118 MODULES, AND IT PAID FOR ITSELF IN THE BATTERY ITSELF
+
+16 batches, 117,263 lines, every module recorded by the batch that read it.
+`sweep_plan.missing('run54')` → `[]`; `check_briefs()` clean, nothing dropped.
+
+**The three findings that mattered most were in the two files that grade everything else.**
+
+**`verify_math.py:733` — a row that could not fail, in the one row about relativity.** It stood at
+`tol=1.0` under a note reading *"the bar is 1 joule against a quantity near 4.6e16"*. `check()`'s
+tolerance is **relative** (`abs(got-want) <= tol * max(1.0, abs(want))`), so `tol=1.0` permitted an
+error equal to the whole answer. Measured: want `1.390379e16` J; a Newtonian-only
+`physics.kinetic` returns `1.123444e16` — **19.2% low — and PASSED**, and so did `got=0`. The note
+was wrong about the magnitude too. Now `tol=1e-12`; an absolute 1-joule bar is *not achievable*
+(1 J against 1.39e16 is a relative 7.2e-17, below double precision), and the real implementation
+agrees to a relative error of exactly 0.0. Both refusals checked before the change.
+
+**`verify_math.py` — the crash net was disarmed 133 lines before the end.**
+`_REACHED_THE_END_VM[0] = True` sat *above* §20ae, whose five rows do AST work and
+`import_module` calls. A raise there — or a `SystemExit`, which `except Exception` does not catch
+— would have lost the RESULT line entirely, and `allsweep` grades a run with no RESULT line
+**BROKEN rather than RED**, which is the exact outcome that mechanism exists to prevent. Moved to
+the last line, where it belongs.
+
+**`verify_math.py` §20ae's anti-vacuity row could not detect the vacuity it names.** It read
+`len(_standins20ae(_drill20ae)[0]) == 0 and _drill20ae.count("CK.load = ") >= 1` — a re-assertion
+of the row above it plus a grep of the subject file, neither of which counts what the *scan*
+resolved. A walk that matched no assignment would have left all three §20ae rows green for ever.
+`_standins20ae` now returns the sites it actually COMPARED (**97** on today's `drill.py`) and the
+row asserts a floor of 50, with a control asserting the four-line fixture resolves exactly 1.
+
+**`drill.py` — the battery was resetting the clock it is graded by.** The two junction probes must
+stage `src/__drill_junction_probe__` (the gate they attack resolves the allowlist against a path
+spelled `src/...`, so there is nowhere else to deliver it from). Creating and deleting that entry
+**bumps the mtime of the `src/` DIRECTORY** while no `.py` file moves — measured on this
+filesystem: mkdir +1.101s, rmdir +1.102s, `a.py` untouched. And the directory's own mtime is
+exactly what `codewatch.quiet_seconds` reads, *on purpose*. So every drill run stamped its own
+footprint on the clock `_wait_for_a_settled_tree` consults before the battery may halt the
+library, and that every standing daemon reads. **A "RE-READ ON AN UNSETTLED TREE: src/ was last
+written 1s ago … Somebody is editing the library right now" verdict is on record, and it could
+have been the drill reading itself.**
+
+New `_src_mtime_preserved()` puts the directory mtime back — **only when the entry-name set is
+unchanged**, so a real create or delete by somebody else keeps its honest mtime, and a file merely
+modified is unaffected either way (`quiet_seconds` maxes over the files too). It prints rather
+than `silence.note`s on failure, because a note here would be the battery leaking into the
+operational ledger. Net: **"a probe staging inside src/ does not reset the settling clock"**,
+driven over a scratch tree in both directions plus the parse tree for the two call sites. Watched
+red: probe stops preserving → `False`; helper stops restoring → mtime not restored.
+
+**`canon_backup.verify()` could not see a member missing from the archive.** `testzip()`
+CRC-checks what is PHYSICALLY PRESENT and is silent about what is absent, and every other
+comparison in that function runs the manifest against the **live tree**. So a snapshot short of a
+member verified clean and reported *"archive intact, N members"* with N counted off the manifest.
+In a backup verifier for a corpus whose `data/` is gitignored. It now compares `z.namelist()`
+against the manifest, refuses by name, and counts members off the archive. Proven by copying the
+live snapshot pair, dropping one member from the copy, and watching it refuse
+(`data/records/mass-effect.json`) while the faithful copy still verifies. Net added and watched
+red against a `verify()` blind to the same thing.
+
+**Also fixed from the sweep, each verified against source first:**
+
+* `chain.py` — `beat(?:en)?` never matched **"beats"** or **"beating"** while every sibling verb
+  handles `-s`, so present-tense contest sentences were dropped from the harvest silently. Now
+  `beat(?:s|en|ing)?`; `heartbeats` still correctly does not match.
+* `events.py` — `UnicodeEncodeError` on its own content (`E-CONV`'s heading carries a Unicode
+  minus) on a bare console. Only the mandated `PYTHONIOENCODING=utf-8` was hiding it. Same
+  `sys.stdout.reconfigure` fix `threads.py` and `handbuilt.py` already carry; reproduced both ways.
+* `whoruns.py` (two days old, never swept until now) — `script_of()` returned **None** for
+  `python -X utf8 script.py`, the confident false negative the module exists to prevent; and
+  `running()` never applied `overnight._in_this_tree`, so a mutation sandbox's copy would report
+  as the real thing. Both fixed, `--anywhere` added for the wider question, verified live.
+* `threads.py` — the refusal message still called T4 *UNAUTHORISED by §7G* after §7H admitted it
+  the same evening, and `DERIVABLE` already contains T4. Second time that message has rotted.
+* Eight stale line citations converted to **symbol** references (`read.py` ×2, `feats.py`,
+  `standards.py` ×2, `feats_index.py`, `ingest_doc.py`, `threads.py`).
+
+---
+
+## 3. `codewatch` NOW REPORTS HOW LONG AGO EACH JOB *ASKED* (`b67c5d98c91f`, closed)
+
+Remedy (b) of the order run #48 filed, the half it said "deserves its own reading". Everything in
+that module hung off the RESTART ledger, so it could only describe jobs that had restarted — and
+the case that cost run #48 a shift was the opposite: `pipeline.py --run` sat forty minutes on
+out-of-date code because its only `exit_if_stale` call site is a phase boundary and it was inside
+a phase. Its report line said *"either it has never seen one, or it is not reaching
+exit_if_stale"* — both causes, rendered identically.
+
+`state/codewatch_poll/<job>.json`, **one file per job** (seven daemons on one shared document is
+the lost-update hazard this project has paid for twice), stamped from `exit_if_stale` **before**
+`stale()` is consulted, so a poll ending in an rc=17 exit is still recorded. `last_polled()`
+returns seconds **or None**, and the report renders three states, never two. Net watched red
+against a `codewatch` that stops stamping, and against one that stamps *after* the verdict.
+
+Every job currently reads **"last poll NOT KNOWN"**, which is the honest answer — all seven
+daemons started before this code existed. **A job still reading NOT KNOWN tomorrow has not reached
+the call in a day, which is the fault itself, now visible instead of inferred.**
+
+---
+
+## 3b. I BLOCKED MY OWN PUSH, AND THE INSTRUCTIONS TOLD ME TO (`e4caaebcbe18`)
+
+§3b of the maintenance brief says launch the mutation pass as soon as the battery is green and
+*before* §4. §5 says push at the end. **Both cannot happen**: `publish.py` asks
+`mutate.active()` every cycle and refuses while it is True — correctly, with a drill net enforcing
+it, because on 2026-08-25 a publish daemon pushed deliberately-corrupted source to a public repo
+twice. A ~20-hour pass therefore blocks the shift's own push for the rest of the day.
+
+I launched it, noticed, **stopped the 90-second-old pass** (nothing had been measured; the log was
+its two-line header), published, and relaunched it detached as the genuinely last act.
+
+**And the lock is over-blocking on its own terms.** `mutate` now runs SANDBOXED — this run's lock
+record carries `"sandboxed": true` and the log's first line names a sandbox under `Temp\` — so the
+live tree is never wrong during a pass, which is the entire condition the interlock was built for.
+`active()` returns True regardless; it reads the pid and its liveness and never looks at
+`sandboxed`. Twenty hours a day of not publishing, for a hazard that is not present.
+
+Filed rather than fixed: the honest fix touches an interlock that a drill net asserts, and
+extending that net properly means asserting **both** directions — refuses for a non-sandboxed
+pass, proceeds for a sandboxed one — which is a change to a safety and not a change to a
+convenience. The free half is the sequencing, and `NEXT_STEPS.md` §0.4 now tells the next run to
+publish first.
+
+## 4. GATES AT CLOSE
+
+    drill              479 nets / 479 held / 0 BREACHED
+    verify_math        1283 passed / 0 FAILED
+    pyflakes           clean over src/
+    secondopinion      ruff + vulture + detect-secrets all RAN; 0 secrets, agreed by two
+                       independently-written scanners
+    liveness           49 findings, 0 tautology, 0 phantom
+    axis_correlation   45 entities, matches the stored n_entities; no --write owed
+    escalation         clear
+    corpus_db          rebuilt: 216 sources, 282,822 entries, 279,916 evidence rows
+    ENTITY_INDEX       rebuilt (178.0 MB; it was 30.1h stale with 37 records newer)
+    queue at close     59 open — RUN 27 · OWNER 22 · LOCAL 7 · SESSION 2 · BOTS 1
+                       (52 at open; the sweep is what raised it, which is the sweep working)
+
+    allsweep           118/118 modules import and parse their CLI cleanly; no undefined names.
+                       Of 11 verifiers, 9 pass and TWO FAIL — and neither is code:
+
+                         preflight          dandwiki.com is not answering its API. Standing
+                                            BOTS order 2da53c3e192f. An external host, red for
+                                            days, unchanged by this shift.
+                         cascade live call  every cloud failover RATE LIMITED — "Gemini 3.1
+                                            Flash-Lite: rate limited", "DeepSeek V3
+                                            (SambaNova): rate limited", "GLM 4.7 Flash (Z.AI):
+                                            rate limited". 42 models configured, 30
+                                            provider-ready, and the free tiers were spent. This
+                                            was GREEN earlier in the same shift, so it is a
+                                            quota condition and not a regression — the crawl
+                                            runs continuously and `local_agent` spent about
+                                            ninety minutes on the pool. It belongs to the
+                                            standing account orders 9fb8a6b10c1f and
+                                            88982cef258d, and no run can fix it.
+
+**SO THE BATTERY IS NOT UNIFORMLY GREEN AND THIS ENTRY WILL NOT SAY THAT IT IS.** Every gate this
+run can be responsible for is at absolute zero; the two reds are an unreachable wiki and a spent
+free tier, both of which were red before this shift and belong to a person.
+
+---
+
+## 5. WHAT I DID NOT DO, AND WHY
+
+* **The 133 sources carrying a ceiling with no band** (`55d0be76b99b`, OWNER). `SYNTH_SYSTEM`'s
+  hard rule 3 is *"set ceiling_entity to "" AND magnitude "unassayed""*; `phase_synthesis`
+  enforces only the magnitude half, and the resulting pair is unreachable by every recovery path
+  it has — `todo` keys on the ceiling alone, and the `unassayable` block is guarded by `if not
+  _ceiling`. Measured over all 210 records with a synthesis block: **133 in that state, 45 with no
+  ceiling (0 of them flagged `unassayable`), 32 whole.** Applying the whole rule would discard 133
+  nominations, several of them plainly considered work, and re-run phase 1 for ~100 minutes. That
+  is a curatorial call. Nothing was written or deleted; only counted.
+* **The ledger-witness abstention sites** (`400d5c76e6f8`). Batch 01 counted **about twenty**
+  unwrapped `silence.note` sites in `drill.py` whose triggers include *no psutil*, *no `cmd` on
+  the machine*, an absent `~/cascade/config.json`, and an antivirus scanner holding a probe file
+  for a moment — any of which halts the library at OWNER rung. I did not wrap them: the three
+  wrappers answer different questions, `_not_a_leak`'s own docstring restricts it to "the ONE
+  probe whose SUBJECT IS THE RECORDER ITSELF", and whether an *abstention* note belongs in the
+  operational ledger is the ruling that order asks for.
+* **`data/ENTITY_INDEX.json`'s schedule** (`d1709d8e757d`). Rebuilt by hand; the order is about
+  nothing scheduling it, and the trigger threshold is the owner's open question `2cb442afd901`.
+* **The `added_since` half of `de265a105279`.** The row now SAYS which of three things happened —
+  `missing_detail()` was already there and refuses to infer "added since" from an mtime, because a
+  skipped module somebody later edited would launder itself into the exonerating bucket. Whether
+  an `added_since` gap should still fail a Hard-Rule−1 safety is untouched: it closes the LOCAL
+  lane while it stands, which is a real cost, and it is not mine to trade away.
+
+---
+
+## 6. THE LOCAL RUNG
+
+Routed `abc943bb6464` (two Hard Rule 0 undisclosed cuts) to `local_agent`, **twice, and it landed
+nothing either time.** Recorded as attempted-and-not-landed rather than as work done, which is
+what the agent's own `achievement` field says: *"This run changed nothing; do not record it as
+work done."*
+
+**Both failures were mine.** Attempt 1 described the sites in prose and all five proposals were
+refused by `find string occurs N times; it must occur exactly once`. Attempt 2 quoted the three
+substitutions verbatim and also asked for a `_marked()` helper to be inserted "immediately above
+the line that reads `def main():`" — and **every proposal it made was that insertion with `find`
+set to `"    def main():"`, four leading spaces, against a file whose `def main():` is at column
+zero.** It never reached the three substitutions and spent about forty-five minutes retrying the
+same indented anchor. The gate behaved correctly throughout: nothing was written, nothing was
+reverted, and the model was never given a reachable target.
+
+The lesson is in `NEXT_STEPS.md` §2 in the form the next run needs it: give the anchor exactly as
+it appears in the file, or put the helper in yourself and let LOCAL do only the substitutions,
+which are trivially unique strings and were never attempted.
+
 
 ## 2026-09-09 (owner-directed, continued) — RUN #53: FOUR CONFLATIONS CLOSED, THE LOCAL MODEL TOLD ME IT HAD DONE WORK IT HAD NOT DONE, AND THE BATTERY IS RED BECAUSE I ADDED A FILE
 

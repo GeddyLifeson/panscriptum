@@ -1540,6 +1540,124 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+### Resolved by run #54 (2026-09-09/10 daily maintenance, sweep 54)
+
+*Every entry below was found and fixed in the same shift, so none of them ever sat in `## Open`.
+Recorded here because the standing rule is a paper trail, never a deletion — and because four of
+the six are defects in the instruments that grade everything else.*
+
+- **[M98 — RESOLVED 2026-09-09, run #54] THE ONE ROW ABOUT RELATIVITY COULD NOT TELL RELATIVISTIC
+  FROM NEWTONIAN.** `verify_math.py:733` stood at `tol=1.0` under a note claiming *"the bar is 1
+  joule against a quantity near 4.6e16"*. **Root cause:** `check()`'s tolerance is RELATIVE —
+  `abs(got - want) <= tol * max(1.0, abs(want))` — so `tol=1.0` permits an error equal to the
+  whole answer. Measured: want `1.390379e16` J, a Newtonian-only `physics.kinetic` returns
+  `1.123444e16` (19.2% low) and PASSED, and so did `got=0`. The note was also wrong about the
+  magnitude. **Fix:** `tol=1e-12`, with the note rewritten to say the tolerance is relative and
+  what it actually permits (~1.4e4 J). An absolute 1-joule bar is not achievable — 1 J against
+  1.39e16 is a relative 7.2e-17, below double precision — and is recorded as such so nobody
+  "restores" it. The real implementation agrees to a relative error of exactly 0.0; both refusals
+  were checked before the change. Found by sweep 54 batch 02.
+
+- **[M99 — RESOLVED 2026-09-09, run #54] THE BATTERY'S CRASH NET WAS DISARMED 133 LINES BEFORE THE
+  END.** **Root cause:** `_REACHED_THE_END_VM[0] = True` was set above §20ae, whose five rows do
+  AST work and `import_module` calls. A raise there — or a `SystemExit`, which `except Exception`
+  does not catch — would have made the atexit hook return early and the RESULT line vanish;
+  `allsweep` grades a run with no RESULT line **BROKEN rather than RED**, and `mutate` puts it in
+  the ERROR class, which is precisely the outcome that mechanism exists to prevent. **Fix:** moved
+  to the last line before `_print_result_vm()`. Found by sweep 54 batch 02.
+
+- **[M100 — RESOLVED 2026-09-09, run #54] §20ae's ANTI-VACUITY ROW COULD NOT DETECT ITS OWN
+  VACUITY.** **Root cause:** it read `len(_standins20ae(_drill20ae)[0]) == 0 and
+  _drill20ae.count("CK.load = ") >= 1` — a re-assertion of the row above plus a grep of the
+  subject file, neither of which counts what the SCAN resolved. All three §20ae rows assert empty
+  lists, which is also what they are when the walk matches nothing, so a change to how `drill.py`
+  installs stand-ins would have left them green for ever. Every sibling "real population" row in
+  the file counts what its own scan found. **Fix:** `_standins20ae` now returns a fourth value,
+  the sites it actually COMPARED (97 on today's `drill.py`); the row asserts a floor of 50, and a
+  new control asserts the four-line fixture resolves exactly 1. Found by sweep 54 batch 02.
+
+- **[M101 — RESOLVED 2026-09-09, run #54] THE SAFETY BATTERY WAS RESETTING THE CLOCK IT IS GRADED
+  BY.** **Root cause:** `drill.py`'s two junction probes stage `src/__drill_junction_probe__` —
+  they must, because the gate they attack resolves the allowlist against a path spelled `src/...`
+  — and creating plus deleting that entry bumps the mtime of the `src/` DIRECTORY while no `.py`
+  file's mtime moves (measured here: mkdir +1.101s, rmdir +1.102s, `a.py` untouched). That
+  directory mtime is exactly what `codewatch.quiet_seconds` reads, deliberately, so every drill
+  run made its own footprint look like an editor — in the measurement `_wait_for_a_settled_tree`
+  consults before the battery may HALT THE LIBRARY, and that every standing daemon reads. A
+  "RE-READ ON AN UNSETTLED TREE … Somebody is editing the library right now" verdict is on record.
+  **Fix:** `drill._src_mtime_preserved()` restores the directory mtime, but ONLY when the entry
+  name set is unchanged, so a real create or delete by somebody else keeps its honest mtime; a
+  file merely modified is unaffected because `quiet_seconds` maxes over the files too. Prints
+  rather than `silence.note`s on failure, since a note there would be the battery writing into the
+  operational failure ledger. **Net:** *"a probe staging inside src/ does not reset the settling
+  clock"*, driven over a scratch tree in both directions plus the parse tree for the two call
+  sites, watched red against both. Found by sweep 54 batch 01.
+
+- **[M102 — RESOLVED 2026-09-09, run #54] THE BACKUP VERIFIER COULD NOT SEE A MEMBER MISSING FROM
+  THE ARCHIVE.** **Root cause:** `canon_backup.verify()` relied on `zipfile.testzip()`, which
+  CRC-checks the members that are PHYSICALLY PRESENT and says nothing about one that is absent,
+  and every other comparison in the function ran the manifest against the LIVE TREE rather than
+  against the archive. So a snapshot short of a member verified clean and reported "archive
+  intact, N members" with N counted off the manifest. `data/` is gitignored; these archives are
+  the backup of the only copy. **Fix:** `z.namelist()` is now compared against the manifest —
+  members recorded but absent are a refusal, named and uncapped; members present but unrecorded
+  are reported, not refused, since they cannot make a restore short; and the "archive intact"
+  count is read off the archive. Proven by copying the live snapshot pair, dropping one member,
+  and watching it refuse `data/records/mass-effect.json` while the faithful copy still verified.
+  **Net:** *"verify() notices a member missing from the archive, not just a corrupt one"*, watched
+  red against a `verify()` blind to the same thing. Found by sweep 54 batch 04.
+
+- **[M103 — RESOLVED 2026-09-09, run #54] A HALT NAMED THE NET AND THREW AWAY THE ADDRESS.**
+  **Root cause:** the two LEDGER WITNESS nets `raise` on purpose so the breach line names the
+  leaking probe — `_spy_record` builds `drill.py:LINE -> key` for no other reason — and `net()`
+  keeps that message in `RESULTS[i]["error"]`. The `DRILL_BREACH` escalation carried only net
+  titles, and the rows lived only in `state/drill_last.json`, a truncate-and-refill of one file
+  that a daemon here rewrites about every ten minutes. On 2026-09-09 the breached verdict was
+  written at 23:23 and overwritten by a green one at 23:31:50 — eight minutes — and the run that
+  had to rule on the halt arrived after that window had closed, by schedule rather than by luck.
+  **Fix:** the escalation now carries `evidence["why"]` (every reproduced breach's own error text,
+  uncapped) and `evidence["kept_at"]`; the rows are copied to `state/drill_breach_<epoch>.json`
+  before the raise; and an escape now names the NET as well as the line, via a `_CURRENT_NET`
+  stack that `net()` pushes and pops in a `finally`. **Net:** *"a halt keeps the breach's own
+  message and the rows behind it"*, pinning both halves, watched red against each. Order
+  `2cf4993b3a3f`.
+
+- **[m191 — RESOLVED 2026-09-09, run #54] `chain.py` DROPPED EVERY PRESENT-TENSE CONTEST
+  SENTENCE.** **Root cause:** the `OUTCOME` regex spelled `beat(?:en)?` while every sibling verb
+  in the same alternation handles `-s` (`defeat(?:ed|s)?`, `kill(?:ed|s)?`, `overpower(?:ed|s)?`).
+  So "beats" and "beating" matched nothing and those sentences were silently absent from the
+  harvest — a filter that looks like it covers a verb and covers one inflection of it. **Fix:**
+  `beat(?:s|en|ing)?`; verified that "beats"/"beat"/"beating"/"beaten" all match and that
+  "heartbeats" still does not. Found by sweep 54 batch 11.
+
+- **[m192 — RESOLVED 2026-09-09, run #54] `events.py` CRASHED ON ITS OWN CONTENT.** **Root
+  cause:** `E-CONV`'s heading in the Chronicle spine carries a Unicode minus sign, and the module
+  had no `sys.stdout.reconfigure`, so `print` raised `UnicodeEncodeError` on a bare Windows
+  console. Only the `PYTHONIOENCODING=utf-8` the maintenance instructions happen to mandate was
+  hiding it. `threads.py` and `handbuilt.py` already carry the fix for this exact class. **Fix:**
+  the same `try: sys.stdout.reconfigure(encoding="utf-8", errors="replace")`; reproduced crashing
+  before and exiting 0 after, with `PYTHONIOENCODING` empty. Found by sweep 54 batch 04.
+
+- **[m193 — RESOLVED 2026-09-09, run #54] `whoruns.py` GAVE THE CONFIDENT FALSE NEGATIVE IT WAS
+  WRITTEN TO PREVENT.** Two defects in a module two days old that no sweep had ever read. **Root
+  cause (a):** `script_of()` walked tokens treating every non-flag as the script slot, so
+  `python -X utf8 script.py` saw the bare `utf8`, concluded "not a script run" and returned
+  `None`. **Root cause (b):** `running()` never applied `overnight._in_this_tree`, which
+  `overnight.running` uses for exactly this — `mutate.py` copies `src/` into a sandbox and runs
+  same-named modules from it, so during a mutation battery the sandbox's copy would be reported as
+  the real thing. **Fix:** a `_FLAGS_WITH_A_VALUE` set so `-X`/`-W`/`--check-hash-based-pycs`
+  consume their value token, and `this_tree_only=True` by default with `--anywhere` for the wider
+  question. Verified against seven command-line shapes and live against the running `read.py`
+  daemon. Found by sweep 54 batch 15.
+
+- **[m194 — RESOLVED 2026-09-09, run #54] `threads.py`'s REFUSAL MESSAGE ROTTED FOR THE SECOND
+  TIME.** **Root cause:** `DERIVABLE` gained `T4` when §7H authorised it on 2026-09-09, and the
+  `ThreadRefused` text (and the docstring above it) went on saying T4 *"remains UNAUTHORISED by
+  §7G's own closing line"* — the same message that had already been stale once, citing §7E after
+  §7F and §7G superseded it. **Fix:** both corrected, with the recurrence recorded in the message
+  itself: a refusal naming a ruling is a citation and rots like one. Found by sweep 54 batch 12.
+
+
 ### Resolved by run #48 (2026-09-08 daily maintenance)
 
 - **[M89r — RESOLVED 2026-09-08, run #48] `overnight.running()` REPORTED THE WATCHDOG AS DOWN

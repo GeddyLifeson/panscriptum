@@ -43,6 +43,7 @@ import contextlib
 import hashlib
 import json
 import os
+import re
 import sys
 import time
 
@@ -74,6 +75,25 @@ STAMP_RETRY_SECONDS = 0.2
 
 LEDGER = os.path.join(HERE, "state", "CODEWATCH.json")
 LEDGER_LOCK = LEDGER + ".lock"
+
+# WHEN EACH JOB LAST ASKED, WHICH IS A DIFFERENT FACT FROM WHEN IT LAST RESTARTED (order
+# b67c5d98c91f, remedy (b)).
+#
+# Everything else this module reports hangs off the RESTART ledger, so the report can only ever
+# describe jobs that have restarted -- and the case that cost run #48 a whole shift was the
+# opposite one: `pipeline.py --run` sat on out-of-date code for over forty minutes because its
+# only `exit_if_stale` call site is at a phase boundary and it was inside a phase. `stale()`
+# returned True the whole time. Nobody asked. The alarm built for exactly this,
+# `_report_if_never_settling`, cannot see it either, for two independent reasons: it is only
+# called from INSIDE `exit_if_stale`, so a job that is not reaching the call is not reaching the
+# alarm about not reaching it; and it sits on the `if not is_stale:` branch, which reports the
+# opposite shape (a tree that changes and never settles).
+#
+# So the poll itself is stamped. ONE FILE PER JOB, deliberately: seven daemons writing one shared
+# document every cycle is the lost-update hazard this project has already paid for twice, and a
+# per-job path has exactly one writer by construction. It is a diagnostic, never a gate -- a
+# missing or unreadable stamp means "not known", never "stale" and never "fresh".
+POLLS = os.path.join(HERE, "state", "codewatch_poll")
 
 # A read-modify-write of this small a doc never legitimately takes this long. A lock file
 # older than this belongs to a process that died holding it, not one still working, so it is
@@ -813,6 +833,39 @@ def _report_if_never_settling(who, why):
     return True
 
 
+def _stamp_poll(who):
+    """Record that `who` ASKED, just now. -> None. Never raises, never gates anything.
+
+    See `POLLS`. Written before the answer is acted on, because the fact worth recording is that
+    the question was asked at all -- a job that asks and then exits on rc=17 has still polled.
+    """
+    try:
+        os.makedirs(POLLS, exist_ok=True)
+        with open(os.path.join(POLLS, "%s.json" % re.sub(r"[^A-Za-z0-9_.-]", "_", str(who))),
+                  "w", encoding="utf-8") as fh:
+            json.dump({"job": str(who), "at": time.time(), "pid": os.getpid()}, fh)
+    except OSError:
+        # A diagnostic that cannot be written is not a reason to stop a daemon from checking its
+        # own source. Noted rather than raised, and the report says "not known" rather than
+        # inventing a number.
+        silence.note("codewatch.py:poll-stamp")
+
+
+def last_polled(who):
+    """-> seconds since `who` last called `exit_if_stale`, or None if that is not known.
+
+    None is a THIRD answer and the report must render it as one. "Never polled" and "polled a
+    long time ago" have different remedies, and neither is "polled recently".
+    """
+    try:
+        with open(os.path.join(POLLS, "%s.json" % re.sub(r"[^A-Za-z0-9_.-]", "_", str(who))),
+                  encoding="utf-8") as fh:
+            at = (json.load(fh) or {}).get("at")
+        return max(0.0, time.time() - float(at)) if isinstance(at, (int, float)) else None
+    except (OSError, ValueError, TypeError):
+        return None
+
+
 def exit_if_stale(who="?", rc=RC_STALE):
     """The one call a long-lived loop makes. Exits the process if its code is out of date.
 
@@ -821,6 +874,7 @@ def exit_if_stale(who="?", rc=RC_STALE):
     bounces forever performs no work while looking busy, and this project has already paid for
     one respawn loop (see `autostart._twin_watchdog`).
     """
+    _stamp_poll(who)
     is_stale, why = stale(who)
     if not is_stale:
         _report_if_never_settling(who, why)
@@ -908,20 +962,40 @@ def main():
     if not rows:
         print("  no source-change restarts recorded, and no covered job to report")
     for who in rows:
+        # THE DETECTION LATENCY, BESIDE THE RESTART COUNT (order b67c5d98c91f, remedy (b)). The
+        # restart count says what happened when a job noticed; this says how long ago it last
+        # LOOKED, which is the number that separates a healthy 30-second loop from a daemon
+        # forty minutes into a phase on out-of-date code. Three states, rendered as three:
+        # never/not known, a number, and -- when that number is past the settling window by an
+        # order of magnitude -- the same number with a word on it, because a person scanning
+        # this block should not have to do the arithmetic.
+        age = last_polled(who)
+        if age is None:
+            polled = "last poll NOT KNOWN"
+        elif age > 10 * STABLE_SECONDS:
+            polled = "last polled %.0f min ago — LONG" % (age / 60.0)
+        elif age >= 90:
+            polled = "last polled %.0f min ago" % (age / 60.0)
+        else:
+            polled = "last polled %.0fs ago" % age
         if who in doc:
             # The third copy of the rolling-hour filter used to live here too. Same helper as the
             # enforcement path, so the number a person reads is the number the budget spends.
-            print("  %-16s %d restart(s) in the last hour (budget %d)"
-                  % (who, len(_recent_restarts(doc, who)), BUDGET_PER_HOUR))
+            print("  %-16s %d restart(s) in the last hour (budget %d); %s"
+                  % (who, len(_recent_restarts(doc, who)), BUDGET_PER_HOUR, polled))
         else:
             # NOT "0 restarts". Zero-this-hour and never-at-all are different facts and the
             # second one is the one worth reading: a covered job that has never once restarted
             # for a source change either has genuinely never seen one, or is not reaching
             # `exit_if_stale` to find out. This line does not claim which -- it says the ledger
             # is silent about it, which is exactly what is known.
-            print("  %-16s no source-change restart ever recorded (covered, budget %d) — "
-                  "either it has never seen one, or it is not reaching exit_if_stale"
-                  % (who, BUDGET_PER_HOUR))
+            # AND NOW THE TWO CAUSES CAN BE TOLD APART. This line used to end at "either it has
+            # never seen one, or it is not reaching exit_if_stale" and leave the reader there.
+            # The poll stamp answers it: a job polling every thirty seconds with no restart on
+            # record has genuinely never seen a source change, and a job whose last poll is
+            # hours old or unknown is the other case -- the one that cost run #48 a shift.
+            print("  %-16s no source-change restart ever recorded (covered, budget %d); %s"
+                  % (who, BUDGET_PER_HOUR, polled))
     print("\n  rc=%d means 'my code changed, restart me'. It is not a crash." % RC_STALE)
     print()
     print("  WHO IS COVERED BY THIS, AND WHO IS NOT (order 2cb8756deb0a)")

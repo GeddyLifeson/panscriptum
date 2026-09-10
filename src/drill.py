@@ -12659,6 +12659,66 @@ def drill_codewatch():
         "stale code and a daemon that had simply never needed a restart produced the identical "
         "report: no line")
 
+    def _the_report_says_how_long_ago_each_job_ASKED():
+        """The net above made a silent job VISIBLE. This one makes its silence LEGIBLE (order
+        b67c5d98c91f, remedy (b), landed 2026-09-09).
+
+        Being named in the report was not enough, and run #48 measured why: `pipeline.py --run`
+        sat forty minutes on out-of-date code with `stale()` returning True the whole time,
+        because its only `exit_if_stale` call site is a phase boundary and it was inside a
+        phase. Its line said "no source-change restart ever recorded ... either it has never
+        seen one, or it is not reaching exit_if_stale" -- both causes, rendered identically,
+        with no way to choose. A job polling every thirty seconds with no restart on record is
+        healthy; a job whose last poll was an hour ago is the incident.
+
+        THREE STATES, AND `None` IS ONE OF THEM. "Never polled / not known" is not "polled a
+        long time ago" and neither is "polled recently"; a stamp that cannot be read must render
+        as the first, never as either of the others. Driven end to end -- stamp, read back,
+        remove, read back -- plus the parse tree for the two things a behaviour test cannot see:
+        that `exit_if_stale` stamps at all, and that it stamps BEFORE it can exit the process.
+        """
+        import ast
+        import codewatch as _CW
+        # ---- driven: the three states ---------------------------------------------------
+        probe = "__drill_poll_probe__"
+        try:
+            if _CW.last_polled(probe) is not None:
+                return False              # a name nothing has stamped must read as not known
+            _CW._stamp_poll(probe)
+            age = _CW.last_polled(probe)
+            if age is None or age > 60:
+                return False              # a fresh stamp must read back as fresh
+        finally:
+            try:
+                os.remove(os.path.join(_CW.POLLS, probe + ".json"))
+            except OSError:
+                pass
+        if _CW.last_polled(probe) is not None:
+            return False                  # and removing it must go back to "not known"
+
+        # ---- the parse tree: it is actually wired into the poll -------------------------
+        tree = _ast_of(os.path.join(_srcdir(), "codewatch.py"))
+        fn = _defn(tree, "exit_if_stale")
+        if fn is None:
+            return False
+        stamps = [n.lineno for n in _live_walk(fn)
+                  if isinstance(n, ast.Call)
+                  and _spelled(_spellings_of_call(tree, n), "_stamp_poll")]
+        asks = [n.lineno for n in _live_walk(fn)
+                if isinstance(n, ast.Call) and _spelled(_spellings_of_call(tree, n), "stale")]
+        if not stamps or not asks:
+            return False
+        # BEFORE THE ANSWER IS ACTED ON. A stamp written after the staleness verdict would be
+        # skipped on exactly the runs that exit, so the record would hold only the polls that
+        # found nothing -- the same "quietly becomes unable to fail" shape as the alarm this
+        # replaces.
+        return min(stamps) < min(asks)
+    net(a, "the report says how long ago each covered job ASKED, in three states",
+        _the_report_says_how_long_ago_each_job_ASKED,
+        "the restart ledger can only describe jobs that restarted; the job that sat forty "
+        "minutes on stale code never restarted at all, and 'never seen a change' and 'never "
+        "looked' printed the same sentence")
+
     def twin_detection_does_not_match_bystanders():
         """THE ONE THAT WOULD HAVE CAUSED THE OUTAGE IT PREVENTS, and that then went on to cause
         two outages of its own before it was written correctly.

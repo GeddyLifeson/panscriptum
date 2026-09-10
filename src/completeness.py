@@ -648,10 +648,31 @@ def audit(only=None, workers=6):
         # flatteringly high. Whether that should disqualify the row is a judgment about what the
         # `every source is fully catalogued` standard MEASURES, so it is a question in
         # NEXT_STEPS, not a silent change of the aggregate here.
+        # AND THE SENTENCE SAYS WHICH OF TWO THINGS HAPPENED (order f5b8e4afb558, remedy (a),
+        # 2026-09-09 sweep). "is not the primary; denominator belongs to nobody" tells a reader
+        # that a primary might have been identified and this source lost the contest. For a
+        # NON-FANDOM host no primary CAN be identified: `primary` is built by matching the
+        # source's name against `subdomain(h)`, and `subdomain()` returns None for anything not
+        # `*.fandom.com`, so the empty string is compared and nothing ever matches. Every one of
+        # the 28 sources sharing `en.wikipedia.org` and the 4 sharing `www.dandwiki.com` takes
+        # this branch permanently, and the message sent the reader looking for a contest that
+        # was never held.
+        #
+        # REPORTING ONLY. No aggregate changes and no row changes side: what SHOULD decide the
+        # primary for a shared non-fandom host is the ruling half of that order, and it is
+        # deliberately not answered here.
         elif shared[host] > 1 and (primary.get(host) or (None, None))[0] != src:
-            why = ("shares " + host + " with " + str(shared[host] - 1) + " other source(s) and "
-                   "is not the primary; denominator belongs to "
-                   + str((primary.get(host) or ("nobody",))[0]))
+            _others = str(shared[host] - 1) + " other source(s)"
+            if subdomain(host) is None:
+                why = ("shares " + host + " with " + _others + ", and no primary can be "
+                       "identified for a non-fandom host at all -- the only discriminator this "
+                       "module implements is a source name matching the wiki's SUBDOMAIN, and "
+                       "this host has none. Not 'this source lost'; 'the question was never "
+                       "asked'. See order f5b8e4afb558")
+            else:
+                why = ("shares " + host + " with " + _others + " and is not the primary; "
+                       "denominator belongs to "
+                       + str((primary.get(host) or ("nobody",))[0]))
         elif cov > 1.0:
             why = ("catalogued exceeds the probed category, so the probe list missed this "
                    "wiki's real category name")
