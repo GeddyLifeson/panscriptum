@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 482  ·  last run 2026-09-10 13:27
+round 483  ·  last run 2026-09-10 14:03
 
 ## Structure
 
@@ -13,6 +13,8 @@ round 482  ·  last run 2026-09-10 13:27
 
 **37 open** (18 high). Newest first.
 
+- **anchors.py** `vals` — [HIGH] vals is a dictionary that maps anchor names to their ladder positions plus decimal, but the code checks for membership in vals instead of scored, which leads to incorrect grading of refused anchors
+  - says: the declared ladder must name every anchor, and only anchors
 - **silence.py** `append_line` — [HIGH] Appends a line but does not handle the Windows-specific issues with O_APPEND and text mode, leading to potential data corruption and line tearing.
   - says: Append ONE line to a shared ledger without tearing it (m62).
 - **silence.py** `audit` — [HIGH] audit() returns rows of handlers, but the function's name and comment suggest it should audit for silence, not collect handlers
@@ -47,8 +49,12 @@ round 482  ·  last run 2026-09-10 13:27
   - says: Drop the lock, but only if it is still OURS.
 - **chain.py** `main` — [HIGH] the main function is not defined in this slice
   - says: the main function
-- **local_agent.py** `t_propose_patch` — [HIGH] appends to `unreverted` but does not raise an alarm or note
-  - says: raises the durable alarms for this case -- a SAFETY escalation and a `silence.note`
+- **assay.py** `grade` — [MEDIUM] grade_n <= 5 is a BOUNDS GUARD, not a test
+  - says: grade_n <= 5 cannot be false while the Ladder has eleven rungs
+- **assay.py** `set(ATTESTATION_FLOOR)` — [MEDIUM] checks that the set of keys in ATTESTATION_FLOOR matches the set of order
+  - says: WHAT THE EXISTING COVER ACTUALLY REACHED, measured rather than assumed: drill.py exercises ATTESTATION_FLOOR at its two ENDPOINTS (Instrumented against Disputed) plus the unrecognised-grade case. A mid-table rearrangement that leaves both endpoints alone -- swapping Transcribed 0.20 and Reconstructed 0.40 is the whole edit -- imports cleanly, passes that endpoint probe, and publishes a NARROWER bar for the worse-attested of the two grades. That is the "less knowledge, narrower bar" defect this file's own header names as the worst direction the library can be wrong in, on the table with no net under it. Measured green when written: 0.08 < 0.10 < 0.20 < 0.40 < 0.55, over the same `order`.
+- **anchors.py** `vector_score` — [MEDIUM] Returns a value based on the LADDER_RUNGS constant, which is 17, but the comment says it's derived from the Ladder's own height. The function uses a fixed value for LADDER_RUNGS, which may not be correct if the ladder's actual height differs.
+  - says: Vector on the 0-10 decimal scale, derived from the Ladder's own height. No new quantity.
 - **thread_integrity.py** `dist` — [MEDIUM] initialized to None but not properly calculated or handled in all cases
   - says: distance for propagation calculation
 - **thread_integrity.py** `detail` — [MEDIUM] appends tuples to the detail dictionary for various categories but may not be correctly structured as per the comments
@@ -81,12 +87,6 @@ round 482  ·  last run 2026-09-10 13:27
   - says: Cached on a 2-minute clock
 - **standards.py** `_dropped` — [MEDIUM] appended to when a failure occurs, but the code around it says it should be used when a measurement is not taken
   - says: the mechanism for "unmeasurable"
-- **feats_index.py** `load_index` — [MEDIUM] WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
-  - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
-- **feats_index.py** `host_to_sources` — [MEDIUM] RAISES an exception when the host file cannot be read
-  - says: RAISES rather than returning an empty map when the host file cannot be read
-- **pipeline.py** `land_json` — [MEDIUM] land_json is used to land JSON data but the code around it suggests it should be derived
-  - says: land_json is used to land JSON data
 
 ---
 
