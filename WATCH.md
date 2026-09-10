@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 473  ·  last run 2026-09-10 05:23
+round 474  ·  last run 2026-09-10 06:08
 
 ## Structure
 
@@ -11,14 +11,16 @@ round 473  ·  last run 2026-09-10 05:23
 
 ## What the model found in the code
 
-**78 open** (28 high). Newest first.
+**60 open** (27 high). Newest first.
 
+- **mutate.py** `_lock_acquire` — [HIGH] Acquires a lock and writes a token to it, but the function is named and documented as releasing a lock.
+  - says: Drop the lock, but only if it is still OURS.
+- **chain.py** `main` — [HIGH] the main function is not defined in this slice
+  - says: the main function
 - **pipeline.py** `build_jobs_for_source` — [HIGH] The function is called with only two arguments, but the comment claims it should be called with four, leading to incorrect behavior where sources are marked as refusing to build when they actually have no entries.
   - says: The real signature is build_jobs_for_source(cfg, roll_entry, record, spine) -- four arguments, in that order. Calling it with two produced "117 sources would not build", which reads as a property of the sources and was a property of the call.
 - **pipeline.py** `rest` — [HIGH] the rest of the entries are added to the nomination blocks
   - says: the description-only fallback stays a single ranked block
-- **mutate.py** `owner` — [HIGH] Return the owner's PID of a sandbox, not record it
-  - says: Record this process as the sandbox's owner. Never raises.
 - **local_agent.py** `t_propose_patch` — [HIGH] appends to `unreverted` but does not raise an alarm or note
   - says: raises the durable alarms for this case -- a SAFETY escalation and a `silence.note`
 - **local_agent.py** `_rel_l` — [HIGH] The code converts the relative path to lowercase, making the comparison case-insensitive, which contradicts the claim that the denylist is case-sensitive.
@@ -63,44 +65,34 @@ round 473  ·  last run 2026-09-10 05:23
   - says: never dispatches to the local GPU
 - **corpus_db.py** `main` — [HIGH] It skips the freshness check for --canned queries, leading to potential unhandled exceptions when the database file is missing
   - says: The code says it handles --canned queries safely
-- **corpus_db.py** `rebuild` — [HIGH] Rebuilds the index but does not process JSON files correctly, leading to potential data loss or incorrect counts.
-  - says: Rebuild the index from the canonical JSON. -> counts.
-- **binding_health.py** `run` — [HIGH] Returns an empty list and 0 on an empty or unreadable hosts map, which contradicts the claim that it canary every bound host.
-  - says: Canary every bound host. Error-resilient: one bad host never aborts the sweep.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **mutate.py** `judged_since` — [MEDIUM] record of verdicts cast by the current baseline
+  - says: record of verdicts cast by the current baseline
+- **mutate.py** `owner` — [MEDIUM] Return the owner's PID if it exists, otherwise None
+  - says: Record this process as the sandbox's owner. Never raises.
+- **mutate.py** `suppressed_on_record` — [MEDIUM] filters for ruled_equivalent but not revoked
+  - says: every survivor a standing ruling kept out of the queue
+- **ingest_doc.py** `fresh` — [MEDIUM] fresh entries with potential category issues
+  - says: fresh entries
+- **ingest_doc.py** `misses` — [MEDIUM] count of misses leading to stop
+  - says: count of misses
+- **ingest_doc.py** `rec` — [MEDIUM] record data loaded from file
+  - says: record data
+- **ingest_doc.py** `chunks` — [MEDIUM] list of chunks with labels and text
+  - says: list of chunks to process
+- **ingest_doc.py** `cur_pages` — [MEDIUM] current labels being tracked
+  - says: current pages being tracked
 - **retry_synthesis.py** `PL._stored_cut` — [MEDIUM] applies a fixed cut length
   - says: keeps the two writers in step through the NEXT change to it
-- **feats_index.py** `index_faults` — [MEDIUM] Builds the index if it has not been built, but the function does not actually build the index; it only retrieves the faults from the cache.
-  - says: Builds the index if it has not been built, so the answer is never a stale zero.
 - **feats_index.py** `load_index` — [MEDIUM] WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
   - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
 - **feats_index.py** `host_to_sources` — [MEDIUM] RAISES an exception when the host file cannot be read
   - says: RAISES rather than returning an empty map when the host file cannot be read
-- **pipeline.py** `return 0` — [MEDIUM] returns 0 when the pointer is past the last phase and every phase has a completion marker, but the comment suggests this is the clean finish, which may not be the case
-  - says: EXPLICIT 0 (order 1f8e0f1bfb26) -- this IS the clean finish the comment above already describes; see the note at the bottom of this function for why the value now matters.
 - **pipeline.py** `land_json` — [MEDIUM] land_json is used to land JSON data but the code around it suggests it should be derived
   - says: land_json is used to land JSON data
 - **pipeline.py** `batch_settled` — [MEDIUM] the function is called but its purpose is not clear from the code
   - says: what the write-gate comment below already priced and accepted.
-- **mutate.py** `a.rule_equivalent` — [MEDIUM] requires --ruling to be provided
-  - says: record that the survivor at this site has been read and ruled a genuinely equivalent mutation
-- **mutate.py** `judged_since` — [MEDIUM] list of mutants with their verdicts
-  - says: record of verdicts cast doubt over
-- **mutate.py** `unusable_gates` — [MEDIUM] Discards a refresh that could not complete, but does not update the baseline
-  - says: A refresh that could not complete is not a new baseline
-- **mutate.py** `run` — [MEDIUM] Acquires a lock and calls _run_mutation, which is the body of run
-  - says: Mutate one module IN A SANDBOX and report which mutants survived.
-- **mutate.py** `hang_confirms_a_kill` — [MEDIUM] The function returns False when the mutant's timeout is not evidence of a hang, but the function's claim is that it determines whether the timeout indicates a hang. However, the function's logic is designed to return False in cases where the timeout is not conclusive, which aligns with the claim that it does not simply score every timeout as a kill. The function's actual behavior is to return False when the timeout is not evidence of a hang, which is consistent with the claim that it does not simply score every timeout as a kill. The function's claim is that it determines whether the timeout indicates a hang, and the actual behavior is to return False when the timeout is not evidence of a hang, which is consistent with the claim. The function's claim is that it determines whether the, and the actual behavior is to return False when the timeout is not evidence of a hang, which is consistent with the claim.
-  - says: A mutant timed out on `gname`. Was that the MUTATION hanging, or the machine? -> (bool, why).
-- **mutate.py** `suppressed_on_record` — [MEDIUM] filters for 'ruled_equivalent' but does not check if the ruling is still valid
-  - says: every survivor a standing ruling kept out of the queue
-- **mutate.py** `survivors_on_record` — [MEDIUM] includes baseline drift events and ruled-equivalent suppressions
-  - says: FILTERED TO ACTUAL SURVIVORS
-- **local_agent.py** `gpu_lane.lane` — [MEDIUM] the code is using the lane to make a call to an external URL, which could potentially cause the prose calls to queue behind it
-  - says: the model lane is repair work, and it must never make the library's own prose calls queue behind it
-- **local_agent.py** `modname` — [MEDIUM] modname is assigned a value based on the filename, but the code later uses it in a case-insensitive comparison with the denylist, which may not be correct for non-python files.
-  - says: The denylist has to be answerable for NON-python files too. Match on the module name when there is one, and on the repo-relative path otherwise.
 - **local_agent.py** `_gates` — [MEDIUM] parse, lint, import, but not whole-suite
   - says: parse, lint, import, whole-suite
 - **local_agent.py** `_scan` — [MEDIUM] scan a file but ignore line numbers and content
@@ -109,24 +101,6 @@ round 473  ·  last run 2026-09-10 05:23
   - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
 - **local_agent.py** `rel_written` — [MEDIUM] compares the normalized case of the relative paths, but the check for denied target is based on the resolved path's region and paths, not the original string-based path.
   - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
-- **ingest_doc.py** `mine` — [MEDIUM] returns True only when every chunk was processed, and False on both of its early stops
-  - says: run the entity pass (resumable)
-- **ingest_doc.py** `bad_category` — [MEDIUM] count of entries with invalid categories
-  - says: count of bad categories
-- **ingest_doc.py** `started_at` — [MEDIUM] initial value of found counter
-  - says: start time
-- **ingest_doc.py** `misses` — [MEDIUM] count of consecutive misses
-  - says: count of misses
-- **ingest_doc.py** `known` — [MEDIUM] set of keys for known entries
-  - says: known entries
-- **ingest_doc.py** `chunks` — [MEDIUM] list of tuples containing chunk text and page labels
-  - says: list of chunks to be processed
-- **ingest_doc.py** `cur_pages` — [MEDIUM] list of labels for current chunk
-  - says: current pages being built
-- **ingest_doc.py** `cur` — [MEDIUM] accumulated text with labels
-  - says: current chunk being built
-- **completeness.py** `no_denominator` — [MEDIUM] a case where all category probes were answered and none existed
-  - says: a THIRD answer beside those two
 - **codewatch.py** `reportable` — [MEDIUM] a set of jobs derived from coverage() with a split on job names
   - says: a set of reportable jobs
 - **drill.py** `index_spine_agrees_with_the_resolver` — [MEDIUM] The function checks if the stored spine code matches the real spine code, but the comment suggests it should verify that the index's spine column is derived through the same resolver code as `address.spine_code_for()`
@@ -153,22 +127,12 @@ round 473  ·  last run 2026-09-10 05:23
   - says: A remedy never kills a job nothing would restart
 - **drill.py** `_empty` — [MEDIUM] The function writes an empty config.yaml and checks if the gates refuse it for the wrong reason
   - says: The gates must READ config.yaml, not merely survive opening it.
-- **chain.py** `write_result` — [MEDIUM] the edge list is written only when strengths are present
-  - says: the edge list is still the finding, so it is written either way
 - **cascade_bridge.py** `ask` — [MEDIUM] ask is called with max_attempts=1 but the comment suggests it's to prevent neighbor buckets from answering, but the code allows neighbor buckets to answer because the max_attempts=1 is not sufficient to prevent it
   - says: ask is called with max_attempts=1 to prevent neighbor buckets from answering
 - **cascade_bridge.py** `_reset` — [MEDIUM] reset the strike count for a bucket if it exists
   - says: reset the strike count for a bucket
 - **cascade_bridge.py** `_bucket_of` — [MEDIUM] returns the bucket name from a model's answer or an empty string if unresolved
   - says: returns the bucket name from a model's answer
-- **burgs.py** `burg_link` — [MEDIUM] Generates a URL that includes the 'burg' parameter, which is supposed to be handled by Azgaar, but the function's implementation may not correctly reflect this if it's not using the correct parameters or if there's a misunderstanding in the URL construction.
-  - says: The route to a settlement's own map: THROUGH Azgaar, not around it.
-- **binding_health.py** `tight` — [MEDIUM] a fuzz ratio score between 0 and 100
-  - says: the same pair judged as whole strings, and the distance between them is how one-sided the match is
-- **binding_health.py** `containment` — [MEDIUM] a boolean indicating whether one set of words is a subset of the other
-  - says: the strength of the evidence, not a second verdict. `containment` says one name's words sit wholly inside the other's, which is what `token_set_ratio` scores 100
-- **binding_health.py** `available` — [MEDIUM] passed in
-  - says: UNMEASURED
 
 ---
 
