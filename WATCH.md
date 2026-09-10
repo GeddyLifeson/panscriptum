@@ -1,18 +1,20 @@
 # OVERWATCH
 
-round 487  ·  last run 2026-09-10 17:02
+round 488  ·  last run 2026-09-10 18:22
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 303,086 inspected
+- files that will not parse: **0** of 303,086 inspected (deep scan as of round 487)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**35 open** (12 high). Newest first.
+**33 open** (12 high). Newest first.
 
+- **onomast.py** `well_formed` — [HIGH] Implements seven constraints but the docstring claims four, and three of the four original constraints are misattributed
+  - says: Is this a name a Custos could say aloud and write down twice the same way?
 - **ledger_guard.py** `silence.note` — [HIGH] discards the reason a SEAL failed
   - says: TAGGED, like every sibling except-block in this file
 - **ledger_guard.py** `silence.append_line` — [HIGH] used as a bare `open(CHAIN, "a")`
@@ -35,8 +37,8 @@ round 487  ·  last run 2026-09-10 17:02
   - says: The pool's MEASURED success rate over the recent past: (rate, calls).
 - **rosetta.py** `stand_rows` — [HIGH] does not parse Stand parameters as described, but instead is a placeholder for a parser that was never implemented
   - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
-- **verify_math.py** `_flowok19ab` — [HIGH] the check passed whatever that function actually did, INCLUDING the response-only predicate it exists to refuse
-  - says: the exact payload measured on 2026-08-24 -- eval_count 8, thinking non-empty, response empty -- put through standards.ollama_token_flow itself rather than through a copy of its predicate written here. The old predicate returns False on this payload and reports a healthy truncated generation as a dead daemon
+- **pick_model.py** `vram_gb` — [MEDIUM] 0.0GB VRAM currently free
+  - says: 0.0GB VRAM currently free
 - **manifest_builder.py** `silence.replace_retry` — [MEDIUM] is used to replace the temporary report file with the final report path, but the comment suggests it's meant to handle the report writing process including retries and error handling
   - says: Land it through a pid+thread temp and silence.replace_retry
 - **ledger.py** `from_standards` — [MEDIUM] The inverse of `to_standards`, but returns None for unlisted currencies, not handling the case where a currency is deliberately non-convertible as per the docstring
@@ -75,12 +77,6 @@ round 487  ·  last run 2026-09-10 17:02
   - says: refuse to write over an unreadable file
 - **verify_math.py** `check` — [MEDIUM] the code does something else
   - says: the code says it does
-- **verify_math.py** `_restart_horizon` — [MEDIUM] the reader is in the keeper's STANDING set
-  - says: the reader is still identified by one contiguous lognames fragment
-- **verify_math.py** `_flowsecs19ab` — [MEDIUM] the fast path returns True on a warm metrics row without ever evaluating the predicate
-  - says: the fast path returns True on a warm metrics row without ever evaluating the predicate; without this pin the check above could read green off a stale tps and would survive the predicate being deleted outright
-- **verify_math.py** `A.axis_score` — [MEDIUM] returns None for missing quantities but raises an error for unknown bands
-  - says: a missing quantity cannot become an axis score
 - **verify_math.py** `max` — [MEDIUM] the tolerance is silently discarded as the code compares integers exactly
   - says: the k-th burg holds P1/k, independently recomputed
 
