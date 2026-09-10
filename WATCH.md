@@ -1,18 +1,36 @@
 # OVERWATCH
 
-round 469  ·  last run 2026-09-09 23:12
+round 470  ·  last run 2026-09-10 00:27
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 302,231 inspected
+- files that will not parse: **0** of 302,231 inspected (deep scan as of round 469)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**32 open** (10 high). Newest first.
+**46 open** (18 high). Newest first.
 
+- **events.py** `shelf_positions` — [HIGH] Joins shelf names with their positions by parsing lines containing 'Shelf' and 'stands at' and extracting the shelf and its position.
+  - says: Parsed but NOT joined here. Whether a shelf name corresponds to a source on the Acquisitions Roll is `threads.py`'s question, answered by the address resolver, never by this module.
+- **drill.py** `landed` — [HIGH] the verdict did not land, but the code proceeds as if it did
+  - says: the verdict landed in state/drill_last.json
+- **drill.py** `a_second_fault_corroborates_and_does_not_bury_the_first` — [HIGH] the function is incomplete and does not perform the intended action
+  - says: a second fault corroborates and does not bury the first
+- **drill.py** `ESC.brief` — [HIGH] empties every brief
+  - says: keeps what the rung needs and drops the rest
+- **drill.py** `drill_probe_honesty` — [HIGH] The probe incorrectly certifies hosts as healthy even when they should be considered unreachable or faulty.
+  - says: The probe returns True on every exception, certifying hosts it never tested
+- **drill.py** `drill_probe_honesty` — [HIGH] The function returns True for all exceptions, including those that should indicate a host is unreachable or faulty.
+  - says: A probe that could not run must not be counted as a probe that passed.
+- **drill.py** `catalog_matches_disk` — [HIGH] Only checks that chapters in the catalog exist on disk (catalog -> disk), but not that chapters on disk are in the catalog (disk -> catalog)
+  - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
+- **drill.py** `LA.t_propose_patch` — [HIGH] is called with the un-resolved path
+  - says: is called with the resolved path
+- **canon_backup.py** `silence.replace_retry` — [HIGH] the function is called and the result is checked, but the code raises an exception when the result is False, which contradicts the contract that `replace_retry` never raises
+  - says: THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by contract; it reports False.
 - **descending_ladder.py** `beta` — [HIGH] beta is initialized to 0.0 but the code does not actually modify it in the if conditions
   - says: beta is initialized to 0.0 and then modified based on conditions
 - **cascade_bridge.py** `pinned` — [HIGH] can be assigned a local bucket
@@ -29,10 +47,34 @@ round 469  ·  last run 2026-09-09 23:12
   - says: Record where a source's material actually lives.
 - **overnight.py** `snap` — [HIGH] snap is updated with cycle and at information even when there's an error
   - says: A crashed snapshot carries ONLY an "error" key
-- **read.py** `return done["errored"] == 0` — [HIGH] returns 0 if no errors occurred, but the exit code should reflect whether any errors occurred
-  - says: THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **drill.py** `index_spine_agrees_with_the_resolver` — [MEDIUM] The function checks if the stored spine code matches the real spine code, but the comment suggests it should verify that the index's spine column is derived through the same resolver code as `address.spine_code_for()`
+  - says: THE ONE THAT ALREADY COST A FALSE ALARM. The index's `spine` column must come from `address.sp,ine_code_for()`, not from a simpler reimplementation of it.
+- **drill.py** `CW._budget_left` — [MEDIUM] is used to check if the budget is exhausted, but the docstring indicates that the budget-exhausted branch is the only safe one to drive, and the actual code may not be correctly implementing this logic
+  - says: Spend the budget against a scratch ledger and require it to RUN OUT, then refill.
+- **drill.py** `ESC._safe_name` — [MEDIUM] suffixes every short name and truncates no long one
+  - says: sanitises source names
+- **drill.py** `coverage_totals_never_exceed_their_entry_count` — [MEDIUM] The code checks for overflow (sum exceeding entry count) but the docstring and comment mention a correction that the code does not implement
+  - says: No source's states may sum PAST its own entry count. One direction, and only one.
+- **drill.py** `PL.write_record` — [MEDIUM] returns False instead of denying the write
+  - says: a write that is denied
+- **drill.py** `multi_line` — [MEDIUM] controls whether the input is multi-line, but the variable is named 'multi_line' which is misleading
+  - says: controls whether the input is multi-line
+- **drill.py** `seam` — [MEDIUM] controls the maximum number of lines to read, but the variable is named 'seam' which is misleading
+  - says: controls the maximum number of lines to read
+- **drill.py** `cap` — [MEDIUM] controls the maximum number of lines to read, but the variable is named 'cap' which is misleading
+  - says: controls the maximum number of lines to read
+- **drill.py** `only` — [MEDIUM] checks if a string is the only one in a list, but the function is named 'only' which is misleading
+  - says: checks if a string is the only one in a list
+- **drill.py** `F._restartable` — [MEDIUM] asserts the target is restartable and checks agreement between _restart, _restart_horizon
+  - says: A remedy never kills a job nothing would restart
+- **drill.py** `F._restartable` — [MEDIUM] asserts the target is restartable and checks agreement between _restartable and _restart_horizon
+  - says: A remedy never kills a job nothing would restart
+- **drill.py** `_empty` — [MEDIUM] The function writes an empty config.yaml and checks if the gates refuse it for the wrong reason
+  - says: The gates must READ config.yaml, not merely survive opening it.
+- **chain.py** `write_result` — [MEDIUM] the edge list is written only when strengths are present
+  - says: the edge list is still the finding, so it is written either way
 - **cascade_bridge.py** `ask` — [MEDIUM] ask is called with max_attempts=1 but the comment suggests it's to prevent neighbor buckets from answering, but the code allows neighbor buckets to answer because the max_attempts=1 is not sufficient to prevent it
   - says: ask is called with max_attempts=1 to prevent neighbor buckets from answering
 - **cascade_bridge.py** `_reset` — [MEDIUM] reset the strike count for a bucket if it exists
@@ -55,10 +97,6 @@ round 469  ·  last run 2026-09-09 23:12
   - says: Energy to do `mode` to `volume_m3` of `material`.
 - **hosts.py** `discover` — [MEDIUM] Only keeps hosts that score well on LIFT, and discards others
   - says: Find every ADDITIONAL host each source can be read from, and keep all that hold.
-- **verify_math.py** `phase_cosmology` — [MEDIUM] phase 5 does not refuse, but instead returns (False, False) as per the code
-  - says: phase 5 REFUSES an unparseable WORLDSEEDS.json instead of re-addressing from nothing
-- **verify_math.py** `verify_restore` — [MEDIUM] the function's call site is checked to ensure it uses the sandbox copy
-  - says: protects a sandbox copy, not the three ledgers
 - **overnight.py** `write_status` — [MEDIUM] Attempts to write a temporary file and replaces it with the new content, but the function's return value is not directly tied to the success of the file write operation as the function's name suggests.
   - says: Land STATUS.md. -> True if it landed, False if the replace was denied.
 - **overnight.py** `CB.snapshot()` — [MEDIUM] raises exceptions which are caught and logged
@@ -67,16 +105,6 @@ round 469  ·  last run 2026-09-09 23:12
   - says: RATE-LIMITED BY THE NEWEST SNAPSHOT'S OWN TIMESTAMP
 - **overnight.py** `_cmd_is_running` — [MEDIUM] Checks if a command line fragment is being run by splitting and matching parts.
   - says: PURE. Does this command line show `fragment` BEING RUN, rather than merely mentioned?
-- **overnight.py** `_cmd_tokens` — [MEDIUM] Returns split tokens of a command line, used to determine if a script is running.
-  - says: Is the script on this command line THIS checkout's copy? -> bool.
-- **health.py** `a.preflight` — [MEDIUM] used as a condition to trigger preflight checks
-  - says: used to work only by coincidence of being the fall-through default
-- **health.py** `silence.write_json` — [MEDIUM] write_json is called in a context where a return value of False indicates a denied write, but the code proceeds to return None when the write is denied
-  - says: write_json returns False when the atomic replace is denied
-- **health.py** `dump_kw.setdefault` — [MEDIUM] overriding the default for sort_keys
-  - says: set default for sort_keys
-- **feats.py** `known` — [MEDIUM] A CLEAN NEGATIVE IS CACHED, BUT A NULL IS ALSO CACHED (for a source that was never probed)
-  - says: AND ONLY A CLEAN NEGATIVE MAY BE CACHED
 
 ---
 
