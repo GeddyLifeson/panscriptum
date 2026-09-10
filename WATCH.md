@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 485  ·  last run 2026-09-10 15:37
+round 486  ·  last run 2026-09-10 16:28
 
 ## Structure
 
@@ -11,8 +11,10 @@ round 485  ·  last run 2026-09-10 15:37
 
 ## What the model found in the code
 
-**41 open** (14 high). Newest first.
+**39 open** (12 high). Newest first.
 
+- **genre.py** `classify_source` — [HIGH] Raises an error when `cap` is provided, which contradicts the claim that it classifies sources based on their entries.
+  - says: Classify one source from its own catalogued entries.
 - **foreman.py** `lines_changed` — [HIGH] Calculates the number of lines changed based on the diff between old and new code, but the docstring says it's not `abs(len(new) - len(old))` and instead explains a different method. However, the code correctly implements the described logic using difflib's SequenceMatcher. The docstring's claim is accurate, and the code aligns with it. Therefore, no defect of fact is found here.
   - says: How many lines a rewrite actually touches.
 - **foreman.py** `kill_stalled_job` — [HIGH] kills stalled jobs that cannot be restarted, which is against the stated policy
@@ -23,8 +25,6 @@ round 485  ·  last run 2026-09-10 15:37
   - says: Append ONE line to a shared ledger without tearing it (m62).
 - **silence.py** `audit` — [HIGH] audit() returns rows of handlers, but the function's name and comment suggest it should audit for silence, not collect handlers
   - says: audit(root=None)
-- **compress_store.py** `load` — [HIGH] Reads a stored blob back without verifying it against the address it is filed under, and does not check the hash of the decompressed text.
-  - says: Read a stored blob back, VERIFYING it against the address it is filed under.
 - **withdraw_chapters.py** `main` — [HIGH] exits 1 when a.go is True and any of several conditions are met
   - says: exits 0 unconditionally
 - **tuning.py** `cloud_success_rate` — [HIGH] The function reads from `state/cascade_scratch.db`'s `usage` table, but the path is hardcoded to a specific location, which may not be the correct one if SCRATCH_DB is repointed.
@@ -37,10 +37,10 @@ round 485  ·  last run 2026-09-10 15:37
   - says: the k-th burg holds P1/k, independently recomputed
 - **standards.py** `flow` — [HIGH] the local model produces tokens
   - says: the local model produces tokens
-- **standards.py** `CHARTER_REGRESSION_MAX_AGE_H` — [HIGH] the value is hardcoded as a literal '26h' in the comment, but the code uses the variable CHARTER_REGRESSION_MAX_AGE_H
-  - says: every scored reference overlaps its published interval, within CHARTER_REGRESSION_MAX_AGE_Hh
-- **standards.py** `fab is not None and fab <= MAX_FABRICATION` — [HIGH] the condition is evaluated as a boolean, but the text says it's not green when unmeasured
-  - says: UNMEASURED IS NOT GREEN
+- **hostcheck.py** `score` — [MEDIUM] Calculates a score based on probe results and baseline, but the code's logic for handling unmeasured controls and defaults may not align with the stated purpose of measuring lift above baseline.
+  - says: One host, fully judged: how much of this roster it holds, ABOVE ITS OWN BASELINE.
+- **hostcheck.py** `rate` — [MEDIUM] rate is assigned the value of r.get("rate") which could be None, but the code does not explicitly handle the None case as described in the comment
+  - says: A CONTROL THAT DID NOT MEASURE IS `None`, NOT ZERO
 - **generate.py** `call_ollama` — [MEDIUM] call_ollama is used to generate text based on prompts, but the code does not handle the case where the generated text is empty or contains missing entries properly
   - says: call_ollama is used to generate text based on prompts
 - **foreman.py** `_contracts_pass` — [MEDIUM] Returns a tuple indicating success or failure of the contracts pass
@@ -91,10 +91,6 @@ round 485  ·  last run 2026-09-10 15:37
   - says: a non-positive quantity cannot become an axis score
 - **verify_math.py** `max` — [MEDIUM] the tolerance is silently discarded as the code compares integers exactly
   - says: the k-th burg holds P1/k, independently recomputed
-- **standards.py** `scoreable` — [MEDIUM] count of rows that can be scored
-  - says: count of scoreable rows
-- **standards.py** `inside` — [MEDIUM] count of references matching the charter interval with a tolerance
-  - says: count of references inside the charter interval
 
 ---
 
