@@ -1306,7 +1306,7 @@ def _tool_message(res, limit=TOOL_MSG_MAX):
     return dumped({"error": "tool result could not be reduced to %d characters" % limit})
 
 
-def _achievement(patches, apply, answer=None, unpaged=None):
+def _achievement(patches, apply, answer=None, unpaged=None, tool_calls=None):
     """-> {'attempted', 'landed', 'achievement'}: what this run actually DID to the repo.
 
     OK USED TO MEAN "THE MODEL STOPPED TALKING WITHOUT BREAKING ANYTHING", which is the one
@@ -1334,7 +1334,26 @@ def _achievement(patches, apply, answer=None, unpaged=None):
 
     `answer=None` means the caller did not say, and is left alone: the drill's fixtures put
     patch lists to this function without one, and widening their meaning is not this guard's
-    job.
+    job. `tool_calls=None` means the same thing for the arm below.
+
+    ...AND THE FOURTH ARM, WHICH IS THE MODEL SIMPLY SAYING IT DID THE WORK. Measured 2026-09-09
+    on a real citation task: the model made **ZERO tool calls**, wrote nothing, and answered
+    "I applied 6 patches across the following files: 1. src/backfill.py ..." naming all six and
+    describing how it had kept the comment width. `attempted` was 0, `landed` was 0, `patches`
+    was `[]`, the achievement line correctly said "nothing was written" -- and `ok` came back
+    TRUE with rc=0, because an answer-only run is allowed to change nothing and this looked like
+    one. A maintenance run routing the LOCAL rung on that flag closes six citation sites on the
+    strength of a sentence.
+
+    THE PREDICATE IS `tool_calls == 0`, WHICH IS MECHANICAL, and it is deliberately NOT "does the
+    answer claim it applied patches". Reading the prose for a claim is the heuristic this
+    docstring warns against two paragraphs down, and a model that phrases its false report
+    differently walks straight through it. A run that called no tool at all did not read this
+    repo and did not write to it: whatever it said, it said from its own weights about a
+    codebase it never opened. That is not an answer about this library.
+
+    The arm is consulted only when NO patch was attempted, like `unpaged`, so a run that actually
+    changed something is never failed by it.
 
     ...AND ONE MORE STEP OVER: AN ANSWER WRITTEN OVER A SLICE THE RUN NEVER PAGED PAST
     (`unpaged`, order 171ade4c7d27, owner ruling 2026-09-08). Measured 2026-09-03 on a real
@@ -1365,6 +1384,10 @@ def _achievement(patches, apply, answer=None, unpaged=None):
                "read_file(offset=...) before answering. Do not record this as work done."
                % (unpaged.get("path"), unpaged.get("offset") or 0,
                   unpaged.get("chars_after_slice") or 0))
+    elif not attempted and tool_calls == 0:
+        say = ("no patch was attempted AND NO TOOL WAS EVER CALLED -- this run never opened a "
+               "file in this repo, so whatever it says it did, it did not do here. Do not "
+               "record it as work done.")
     elif not attempted:
         say = "no patch was attempted (answer-only run) -- nothing was written"
     elif landed:
@@ -1377,7 +1400,8 @@ def _achievement(patches, apply, answer=None, unpaged=None):
     return {"attempted": attempted, "landed": landed, "achievement": say,
             "produced_nothing": bool(not attempted
                                      and ((answer is not None and not str(answer).strip())
-                                          or bool(unpaged)))}
+                                          or bool(unpaged)
+                                          or tool_calls == 0))}
 
 
 def run(task, model=None, apply=True, quiet=False):
@@ -1445,7 +1469,8 @@ def run(task, model=None, apply=True, quiet=False):
             out = {"ok": not unreverted, "answer": answer, "turns": turn + 1,
                    "tool_calls": tool_calls_seen, "patches": patches,
                    "lane": _lane_report()}
-            got = _achievement(patches, apply, answer=answer, unpaged=unpaged)
+            got = _achievement(patches, apply, answer=answer, unpaged=unpaged,
+                               tool_calls=tool_calls_seen)
             out.update(got)
             if got["attempted"] and not got["landed"]:
                 # TRIED AND LANDED NOTHING IS NOT SUCCESS. See the note on _achievement.

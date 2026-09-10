@@ -224,6 +224,10 @@ def build(hosts, force=False):
     out = {}
     if os.path.exists(OUT):
         out = json.load(open(OUT, encoding="utf-8"))
+    # WHAT THIS RUN PROBED, kept apart from the merged view. `out` is read to decide the work and
+    # returned for the caller's count; `probed` is the only thing written, which is what makes the
+    # compare-and-swap at the bottom key-wise rather than a whole-document overwrite.
+    probed = {}
     # SELECTION IS BY CONTRACT, NOT BY MEMBERSHIP. This was `h not in out`, so a host was skipped
     # for ever once it had a key, whatever produced that key -- and `main()` offered no --rebuild,
     # --force or --host to get past it. See PROBE_VERSION above for what that cost. `force`
@@ -266,7 +270,8 @@ def build(hosts, force=False):
         # only when the contract moves, at four API calls a host. Stored as a record whose
         # `ceiling` is None, which is what `ceiling_for()` and `magnitude.host_ceiling` already
         # read as "no ceiling here".
-        out[h] = sc or {"scope": None, "ceiling": None, "probe_version": PROBE_VERSION}
+        out[h] = probed[h] = sc or {"scope": None, "ceiling": None,
+                                    "probe_version": PROBE_VERSION}
         if sc:
             print(f"  {i:>3}/{len(todo)}  {h:<34}{sc['scope']:<12}ceiling {sc['ceiling']}",
                   flush=True)
@@ -275,8 +280,98 @@ def build(hosts, force=False):
     # the verdict, so a denied replace still let `main()` print "N/M wikis scoped -> SCOPE.json"
     # -- the honest report of a file that, this round, did not change at all. `build()` returns
     # the verdict now so its one caller can tell the difference.
-    ok = silence.write_json(OUT, out, indent=1, ensure_ascii=False)
-    return out, ok
+    #
+    # AND NOW COMPARE-AND-SWAP RATHER THAN A WHOLE-DOCUMENT LAND (order 3610ec65ebd3). Atomic
+    # closed the torn-file half and had nothing to say about STALENESS: this function reads the
+    # cache, then crawls up to 155 wikis, then landed its own copy of the whole table -- so a
+    # `--host` re-probe or a second invocation that landed inside that window was silently
+    # discarded. `probed` carries ONLY the hosts this run actually probed, so the re-apply is
+    # key-wise and nobody else's row is carried backwards by us. `out` still holds the merged
+    # view for the caller's count, which is what it always held.
+    landed, why = mutate(lambda cache: cache.update(probed))
+    if not landed and why:
+        print("SCOPE.json was NOT updated: %s" % why)
+    return out, landed
+
+
+def mutate(apply, attempts=8, path=None):
+    """Land a change to SCOPE.json through a COMPARE-AND-SWAP. -> (landed, why).
+
+    ATOMIC WAS ALREADY DONE HERE, AND THAT IS WHAT MADE THE REST EASY TO MISS (order 3610ec65ebd3).
+    The comment at this file's write site is entirely about atomicity: that SCOPE.json is read by
+    `magnitude` and `pipeline`, that the rename must not tear, and that `write_json`'s
+    landed/denied verdict was being dropped so `main()` printed success over a write that never
+    happened. Both were fixed. So a reader arriving there met careful, recent, correct reasoning
+    about concurrent access and had no reason to suspect the OTHER concurrency fault was still
+    open -- three paths loading the whole document, mutating it, and landing it whole with no
+    comparison against what was on disk in between.
+
+    THE WINDOW IS LONG HERE EVEN THOUGH THE FILE IS SMALL. `build()` reads the cache, then probes
+    up to 155 wikis with four searches each at srlimit=500 and a fetch over every returned title,
+    and lands its copy at the end. Anything another invocation wrote during that crawl -- a
+    `--host` re-probe by hand, a foreman remedy, a second agent -- is overwritten by this run's
+    older copy of it. Nothing fails and nothing tears; the file is simply rows behind, and the
+    rows it is behind by cost a live crawl on an edge that has IP-banned this machine once.
+
+    THE PATTERN IS `roll.mutate`'s, DELIBERATELY, and the reason it transfers is that SCOPE.json is
+    KEYED BY HOST: re-applying our probed hosts to the winner's freshly-read copy leaves their
+    hosts standing and puts ours beside them. `apply(cache) -> cache` is therefore called on a
+    fresh read on EVERY attempt, and a refusal re-reads and re-applies rather than retrying the
+    same bytes. `apply` may mutate in place and return None.
+
+    AN UNREADABLE SCOPE.json IS NOT WRITTEN OVER. Absent is normal -- the first build has no cache
+    -- but unreadable is a different fact, and it is not evidence of what the file should contain.
+    Overwriting it on a failed read would discard 155 hosts' probe results and quietly re-open the
+    crawl that produced them. Same distinction `roll.mutate` and `endpoint.register` draw.
+
+    `path` defaults to this module's OUT and the tests repoint that constant, for the reason
+    `roll.mutate` spells out at length: a helper that wrote to its own module global instead of
+    the caller's would turn "sandbox this test" into "overwrite the live file".
+    """
+    import threading
+    import time
+    path = OUT if path is None else path
+    last_why = "not attempted"
+    for attempt in range(attempts):
+        # The digest is taken BEFORE the read, so anything landing between the two fails the swap
+        # closed rather than passing on a copy that is already behind.
+        digest = silence.digest_of(path)
+        cache = {}
+        if os.path.exists(path):
+            try:
+                with open(path, encoding="utf-8") as f:
+                    cache = json.load(f)
+            except Exception:
+                silence.note("scope.py:mutate-unreadable")
+                return False, ("%s exists and could not be read, so nothing was written to it -- "
+                               "a failed read is not evidence of what the file should hold, and "
+                               "these rows cost a live crawl" % os.path.basename(path))
+            if not isinstance(cache, dict):
+                silence.note("scope.py:mutate-nondict")
+                return False, "%s is not an object; refusing to overwrite it" % os.path.basename(path)
+        out = apply(cache)
+        if out is None:
+            out = cache
+        # pid + thread + attempt in the temp name, for the reason silence.write_json carries them:
+        # a fixed `.tmp` is a second collision between the very writers this function separates.
+        tmp = "%s.%d.%d.%d.tmp" % (path, os.getpid(), threading.get_ident(), attempt)
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(out, f, indent=1, ensure_ascii=False)
+        except Exception:
+            silence.note("scope.py:mutate-tmp")
+            return False, "could not stage the new scope table next to %s" % os.path.basename(path)
+        landed, why = silence.replace_if_unchanged(tmp, path, digest)
+        if landed:
+            return True, ""
+        last_why = why
+        try:
+            os.remove(tmp)
+        except OSError:
+            silence.note("scope.py:mutate-tmp-cleanup")
+        time.sleep(0.05 * (attempt + 1))
+    silence.note("scope.py:mutate-contended")
+    return False, last_why
 
 
 # REPORTED DEAD, NOT DELETED, per house doctrine that dead code is not automatically deletable
@@ -327,7 +422,11 @@ def main():
     if a.host:
         # ONE WIKI, BY HAND. `build()` skips whatever the stamp says is current, so re-probing a
         # single host after a wiki itself has changed had no route at all before this.
-        cache = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
+        #
+        # THE PRE-READ IS GONE, and its removal is the fix rather than a tidy-up. It loaded the
+        # whole table HERE, before a live wiki probe that takes as long as it takes, and the
+        # write below then landed that snapshot -- so this path's own copy of the table was
+        # always the stalest thing in the process. `mutate` re-reads at the moment of writing.
         try:
             sc = scope_for(a.host, verbose=True)
         except ProbeUnread as e:
@@ -335,10 +434,15 @@ def main():
             # as the cached-failure path did.
             print(f"NOT READ: {e}; {OUT} is unchanged and the next build retries this host")
             return 1
-        cache[a.host] = sc or {"scope": None, "ceiling": None,
-                               "probe_version": PROBE_VERSION}
-        if not silence.write_json(OUT, cache, indent=1, ensure_ascii=False):
-            print(f"WRITE DENIED: {a.host} was probed but did not land in {OUT}; rerun to retry")
+        rec = sc or {"scope": None, "ceiling": None, "probe_version": PROBE_VERSION}
+        # ONE HOST, LANDED KEY-WISE (order 3610ec65ebd3). This read the whole table at the top of
+        # the branch, probed a live wiki, and then landed its own copy of the whole thing -- so a
+        # `--build` crawl running beside it lost every row it had finished in the meantime. Now
+        # only this host's row is applied, to a freshly-read copy, under a compare-and-swap.
+        landed, why = mutate(lambda c: c.__setitem__(a.host, rec))
+        if not landed:
+            print(f"WRITE DENIED: {a.host} was probed but did not land in {OUT} ({why}); "
+                  f"rerun to retry")
             return 1
         print(f"{a.host}: {(sc or {}).get('ceiling') or 'no scope established'}  ->  {OUT}")
         return 0

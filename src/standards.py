@@ -112,6 +112,12 @@ MAX_PUBLISH_AGE_H = 2           # the public panel is a snapshot; stale, it misl
 # oversized page, and a false stall that halts a healthy job is worse than a slow report.
 MAX_JOB_SILENCE_MIN = 15
 JOB_WATCH = os.path.join(HERE, "state", "job_progress.json")
+# ITS OWN FILE, NOT A KEY IN JOB_WATCH (order 194dc5f6d24f). JOB_WATCH is rebuilt WHOLESALE
+# from `LN.OWNER` at the bottom of `check()` and its write is inside a `try` that drops the
+# whole standard on failure -- so a reading stamped by the corpus-read block hundreds of
+# lines earlier would be clobbered by that rebuild, or frozen by that drop. Two safeties
+# sharing a failure mode is one safety and a decoy (HARD RULE -1).
+READ_WATCH = os.path.join(HERE, "state", "read_progress.json")
 
 
 _RUNNER = {"at": 0.0, "up": None}
@@ -442,6 +448,77 @@ def job_stamp(prev_entry, size, now):
     more often than MAX_JOB_SILENCE_MIN, the threshold became unreachable for every job."""
     held = bool(prev_entry) and prev_entry.get("size") == size
     return held, (prev_entry.get("at", now) if held else now)
+
+def read_progress_verdict(done, total, prev, now, quiet_min_limit=None):
+    """PURE. Is the corpus read ADVANCING? -> (holds, observed, stamp_to_persist).
+
+    THE NAME WAS A RATE AND THE MEASUREMENT WAS A FLOOR (order 194dc5f6d24f). The standard read:
+
+        prog = read.get("done", 0) / max(read.get("total", 1), 1)
+        _s("corpus read is progressing", prog > 0, ...,  "high", "read")
+
+    `done` is CUMULATIVE and never decreases, so `prog > 0` latched true the instant the first
+    chunk landed and stayed true for the rest of the run. A reader that completed one chunk and
+    then wedged solid for nine hours reported this HIGH standard as holding, at 0.1%, for all
+    nine. "Is progressing" and "has progressed at least once" are different questions and only
+    the first is worth a HIGH rank.
+
+    SO THIS MEASURES A DELTA, using the same `job_stamp` the stall detector uses -- that helper is
+    generic over the watched quantity, and handing it `done` instead of a log size is the whole
+    fix. The threshold is `MAX_JOB_SILENCE_MIN`, the number already ruled on for "this job has
+    gone quiet", DELIBERATELY NOT A NEW ONE: the order warns in its own text against widening a
+    threshold in place of fixing the measurement, and two hand-kept silence limits would drift
+    apart the way `CLEAN_NEGATIVES`'s two copies did.
+
+    THE COLD START IS KEPT, because it was the one condition the old check could actually detect
+    and it is a real failure: `done == 0` is red on the spot, with no waiting for a stamp, and it
+    is what the standard's existing remedy text ("check that read.py printed its transport
+    banner") describes.
+
+    A FINISHED READ IS NOT A STALLED ONE. `done >= total` stops moving because there is nothing
+    left to do; grading that red would cry wolf on every completed pass, which is how a standards
+    system gets ignored -- the same exemption the stall detector makes with its `alive` probe, and
+    the reason it makes it.
+
+    `prev` is the previously persisted `{"size": done, "at": when-it-last-moved}` or None. The
+    third element of the return is what to persist, and the caller must persist it even when the
+    verdict holds, or `at` restarts on every check and the limit becomes unreachable -- which is
+    verbatim the bug `job_stamp`'s own docstring was written to record.
+
+    AND `holds` IS TRI-STATE: `None` MEANS THIS COULD NOT BE MEASURED. Found while grading the
+    fix: with `total` absent or zero, a read that had finished 500 chunks and correctly stopped
+    came back RED at "50000.0%, stuck for 1667 min" -- because with no total there is no way to
+    tell a completed pass from a wedged one, and the completeness exemption above could not fire.
+    Grading that red dispatches `restart_reader` against a healthy job, which is the false-alarm
+    half of the very fault this order is about, and it re-queues the chunk the reader is on.
+    So the question is refused instead: the caller routes `None` to `_dropped`, this file's
+    existing mechanism for a standard that could not be put, and no percentage of an unknown
+    denominator is printed at all.
+    """
+    limit = MAX_JOB_SILENCE_MIN if quiet_min_limit is None else quiet_min_limit
+    done = int(done or 0)
+    total = int(total or 0)
+    held, stamp = job_stamp(prev, done, now)
+    keep = {"size": done, "at": stamp}
+    if done <= 0 and total > 0:
+        return False, "no chunk has completed", keep
+    if total <= 0:
+        # NO DENOMINATOR, NO VERDICT. Not red, and not a silent pass either.
+        return None, ("the job reported no chunk total, so a finished read and a wedged one "
+                      "cannot be told apart (%d chunks done)" % done), keep
+    if done <= 0:
+        return False, "no chunk has completed", keep
+    frac = done / total
+    if done >= total:
+        return True, "complete, %d/%d chunks" % (done, total), keep
+    if not held:
+        return True, "%.1f%%, advancing (%d chunks)" % (frac * 100, done), keep
+    quiet = (now - stamp) / 60.0
+    if quiet < limit:
+        return True, "%.1f%%, %d chunks, quiet %d min" % (frac * 100, done, round(quiet)), keep
+    return False, ("%.1f%%, stuck at %d chunks for %d min"
+                   % (frac * 100, done, round(quiet))), keep
+
 
 # Fraction of each source's own cast the catalogue must hold. DELIBERATELY 1.0 AND DELIBERATELY
 # UNSATISFIABLE, like MIN_HOST_COVERAGE: its job is not to be met, it is to keep the catalogue
@@ -895,11 +972,44 @@ def check(state=None):
             "thin entities -- normal late in a pass -- or the model is returning text that "
             "fails the verbatim check. Compare against the fabrication standard below.",
             "medium", "read"))
-        prog = read.get("done", 0) / max(read.get("total", 1), 1)
-        out.append(_s(
-            "corpus read is progressing", prog > 0, f"{prog:.1%}", "above 0",
-            "No chunk has completed. Check that read.py printed its transport banner and that "
-            "the queue is not empty.", "high", "read"))
+        # A DELTA, NOT A LEVEL (order 194dc5f6d24f). This was `prog > 0` against a CUMULATIVE
+        # `done`, so the standard latched true on the first completed chunk and stayed true for
+        # the rest of the run: a reader that finished one chunk and then wedged for nine hours
+        # reported this HIGH standard as holding, at 0.1%, for all nine. The name is a rate and
+        # the measurement was a floor. See `read_progress_verdict`, which is pure so the drill
+        # can attack it without a reader, a GPU or a network.
+        #
+        # THE STAMP IS PERSISTED EVEN WHEN THE VERDICT HOLDS, and that is the whole mechanism:
+        # `at` must record when `done` last MOVED, not when this check last ran. Re-stamping on
+        # every pass is what made the sibling stall detector's threshold unreachable for every
+        # job for months (see `job_stamp`).
+        _rp_prev = None
+        try:
+            if os.path.exists(READ_WATCH):
+                with open(READ_WATCH, encoding="utf-8") as _f:
+                    _rp_prev = (json.load(_f) or {}).get("corpus read")
+        except Exception:
+            silence.note("standards.py:read-watch-unreadable")
+            _rp_prev = None      # unreadable is UNKNOWN: re-stamp rather than invent a stall
+        _rp_holds, _rp_obs, _rp_keep = read_progress_verdict(
+            read.get("done", 0), read.get("total", 0), _rp_prev, time.time())
+        if not silence.write_json(READ_WATCH, {"corpus read": _rp_keep}):
+            # A DENIED WRITE MEANS THE NEXT PASS COMPARES AGAINST A STALE STAMP, which can only
+            # ever manufacture a stall that is not there. Say so instead of grading on it.
+            silence.note("standards.py:read-watch-denied")
+            _dropped.append("corpus-read-progress")
+        elif _rp_holds is None:
+            # COULD NOT BE PUT, not quietly passed. See read_progress_verdict's tri-state note.
+            _dropped.append("corpus-read-progress")
+        else:
+            out.append(_s(
+                "corpus read is progressing", _rp_holds, _rp_obs,
+                f"moving, or under {MAX_JOB_SILENCE_MIN} min quiet",
+                "The chunk counter has not moved. If it reads 0.0%%, no chunk has completed at "
+                "all -- check that read.py printed its transport banner and that the queue is "
+                "not empty. If it is stuck at a non-zero count, the reader is up and wedged: "
+                "look at the pool standards above and at the failure ledger before restarting "
+                "it, because a restart re-queues the chunk it is stuck on.", "high", "read"))
     else:
         # A VANISHED STANDARD IS NOT A MET ONE (order b8686a5c9772). These four used to be
         # emitted under a bare `if read:` with nothing recorded when the job was absent, so a

@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 467  ·  last run 2026-09-09 20:43
+round 468  ·  last run 2026-09-09 22:31
 
 ## Structure
 
@@ -11,36 +11,36 @@ round 467  ·  last run 2026-09-09 20:43
 
 ## What the model found in the code
 
-**38 open** (14 high). Newest first.
+**29 open** (8 high). Newest first.
 
+- **corpus_db.py** `main` — [HIGH] It skips the freshness check for --canned queries, leading to potential unhandled exceptions when the database file is missing
+  - says: The code says it handles --canned queries safely
+- **corpus_db.py** `rebuild` — [HIGH] Rebuilds the index but does not process JSON files correctly, leading to potential data loss or incorrect counts.
+  - says: Rebuild the index from the canonical JSON. -> counts.
+- **binding_health.py** `run` — [HIGH] Returns an empty list and 0 on an empty or unreadable hosts map, which contradicts the claim that it canary every bound host.
+  - says: Canary every bound host. Error-resilient: one bad host never aborts the sweep.
 - **magnitude.py** `verify` — [HIGH] Applies guards 1-3 but also handles status scores and fabricates provenance for empty citations
   - says: Apply guards 1-3. Returns (scores, worksheet, rejections).
 - **endpoint.py** `register` — [HIGH] Attempts to write a temporary file without proper atomic operations, leading to potential data loss or corruption due to concurrent writes.
   - says: Record where a source's material actually lives.
-- **drill.py** `ESC.escalate` — [HIGH] The escalate call is missing the 'what' argument, which is required to name the specific breached nets in the halt sentence.
-  - says: A BREACHED NET IS ITSELF AN OWNER-LEVEL EVENT. THE HALT SENTENCE NAMES EVERY BREACHED NET
-- **drill.py** `drill_hostcheck` — [HIGH] A function that returns a boolean indicating if an escalation log is unreadable
-  - says: The host verdict, and the baseline every lift in the module is computed against.
-- **drill.py** `drill` — [HIGH] A function that returns a boolean indicating if an escalation log is unreadable
-  - says: The host verdict, and the baseline every lift in the module is computed against.
-- **drill.py** `reap_orphans` — [HIGH] reaping matched a PREFIX AND AN AGE and a PID
-  - says: reaping matched a PREFIX AND AN AGE and nothing else
 - **overnight.py** `snap` — [HIGH] snap is updated with cycle and at information even when there's an error
   - says: A crashed snapshot carries ONLY an "error" key
-- **ingest_doc.py** `mine` — [HIGH] reads the memory
-  - says: reads the disk
-- **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] Matches 'mach' followed by a number, but the comment says it's for unit-first form (e.g., '5 mach') which is actually number-first. The regex is for 'mach' followed by a number, which is number-first, but the comment says it's for unit-first.
-  - says: Matches unit-first form (e.g., '5 mach')
-- **feats.py** `why not in CLEAN_NEGATIVES` — [HIGH] the code says it does instead
-  - says: the code says it does instead
-- **escalation.py** `clear` — [HIGH] clear() is called but not defined in this file or its imports
-  - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller
-- **escalation.py** `resume_subsystem_verdict` — [HIGH] Enforces a 20-character minimum for the ruling, which is different from `clear`'s 12-character requirement
-  - says: Re-open one subsystem. -> (bool, reason). The three-valued sibling of `resume_subsystem`.
 - **read.py** `return done["errored"] == 0` — [HIGH] returns 0 if no errors occurred, but the exit code should reflect whether any errors occurred
   - says: THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **burgs.py** `burg_link` — [MEDIUM] Generates a URL that includes the 'burg' parameter, which is supposed to be handled by Azgaar, but the function's implementation may not correctly reflect this if it's not using the correct parameters or if there's a misunderstanding in the URL construction.
+  - says: The route to a settlement's own map: THROUGH Azgaar, not around it.
+- **binding_health.py** `tight` — [MEDIUM] a fuzz ratio score between 0 and 100
+  - says: the same pair judged as whole strings, and the distance between them is how one-sided the match is
+- **binding_health.py** `containment` — [MEDIUM] a boolean indicating whether one set of words is a subset of the other
+  - says: the strength of the evidence, not a second verdict. `containment` says one name's words sit wholly inside the other's, which is what `token_set_ratio` scores 100
+- **binding_health.py** `binding_verdict` — [MEDIUM] Returns a verdict based on string similarity between the sitename and source names, but the function's purpose is to determine if the binding is correct or not, which is not directly related to the string similarity score.
+  - says: Does the wiki's own name correspond to the source bound to it?
+- **binding_health.py** `available` — [MEDIUM] passed in
+  - says: UNMEASURED
+- **binding_health.py** `PRESENT_CANDIDATES` — [MEDIUM] hardcoded value
+  - says: bound
 - **physics.py** `joules_for` — [MEDIUM] Energy to do `mode` to `volume_m3` of `material` with a default material of 'rock' and mode of 'pulv'.
   - says: Energy to do `mode` to `volume_m3` of `material`.
 - **hosts.py** `discover` — [MEDIUM] Only keeps hosts that score well on LIFT, and discards others
@@ -49,18 +49,6 @@ round 467  ·  last run 2026-09-09 20:43
   - says: phase 5 REFUSES an unparseable WORLDSEEDS.json instead of re-addressing from nothing
 - **verify_math.py** `verify_restore` — [MEDIUM] the function's call site is checked to ensure it uses the sandbox copy
   - says: protects a sandbox copy, not the three ledgers
-- **drill.py** `_an_unreadable_halt_file_confirms_nothing` — [MEDIUM] The function tests that `_halt_file_records` answers False when the file is unreadable, but the code does not correctly simulate an unreadable file. The test does not check if the file is unreadable and returns False in all cases, which may not accurately reflect the actual behavior.
-  - says: `_halt_file_records` must answer False when it cannot read the file at all.
-- **drill.py** `_a_halt_is_not_raised_on_the_writer_s_word` — [MEDIUM] The function tests that `_raise_halt` verifies the record LANDED, but the test does not correctly simulate a write that claims to have landed. The test uses a lambda that returns (True, 'landed') without writing to the file, which may not accurately reflect the actual behavior.
-  - says: `_raise_halt` must verify the record LANDED; a write that merely claims to is not one.
-- **drill.py** `_halt_fails_closed` — [MEDIUM] Points the module at a corrupt halt file and confirms it reads as HALTED, but the code does not check if the file is actually unreadable. The test returns True if the file is unreadable, but the actual check for unreadability is missing.
-  - says: Point the module at a deliberately corrupt halt file and confirm it reads as HALTED.
-- **drill.py** `custodes_table_faults_is_empty` — [MEDIUM] Checks for any table faults, including those not related to tilt and evidence_sensitivity
-  - says: No CUSTODES entry may carry tilt == 0.0 together with a non-zero evidence_sensitivity.
-- **drill.py** `PL.synthesis_blocks` — [MEDIUM] now a + operator that combines both halves
-  - says: was [with_feats chunks] or [rest chunks]
-- **drill.py** `PL._mined_feats` — [MEDIUM] overridden during a test to simulate a specific mining behavior
-  - says: used to decide which arm is taken
 - **overnight.py** `write_status` — [MEDIUM] Attempts to write a temporary file and replaces it with the new content, but the function's return value is not directly tied to the success of the file write operation as the function's name suggests.
   - says: Land STATUS.md. -> True if it landed, False if the replace was denied.
 - **overnight.py** `CB.snapshot()` — [MEDIUM] raises exceptions which are caught and logged
@@ -71,8 +59,6 @@ round 467  ·  last run 2026-09-09 20:43
   - says: PURE. Does this command line show `fragment` BEING RUN, rather than merely mentioned?
 - **overnight.py** `_cmd_tokens` — [MEDIUM] Returns split tokens of a command line, used to determine if a script is running.
   - says: Is the script on this command line THIS checkout's copy? -> bool.
-- **ingest_doc.py** `mine` — [MEDIUM] mine() is called in a try block, and if not ok, returns 1. However, the comment says that mine() returns True only when every chunk was processed, and False on early stops. The code treats False as an error, but the comment implies that False is a valid outcome (resumable).
-  - says: DON'T DISCARD THE VERDICT (order afd7aa05efb4). mine() returns True only when every chunk was processed, and False on both of its early stops -- 60 consecutive transport misses (~5h of napping) and a denied record write. Those are exactly the outcomes an operator or a scheduler needs to tell apart, and `mine(a.source); return 0` gave a run that mined 3 of 262 chunks the same exit code as one that finished the book. The --pdf half of this function has been disciplined about this since order e7b6dcc8d630; this half was not.
 - **health.py** `a.preflight` — [MEDIUM] used as a condition to trigger preflight checks
   - says: used to work only by coincidence of being the fall-through default
 - **health.py** `silence.write_json` — [MEDIUM] write_json is called in a context where a return value of False indicates a denied write, but the code proceeds to return None when the write is denied
@@ -85,10 +71,6 @@ round 467  ·  last run 2026-09-09 20:43
   - says: A NULL IS A CACHED FAILURE, NOT AN ANSWER
 - **feats.py** `alive` — [MEDIUM] Returns the first element of `alive_verdict` which is True if the wiki answered, but the function is not called anywhere, making it effectively unused.
   - says: Unchanged contract: True only when the wiki answered. See `alive_verdict` for the third answer, which every caller that CACHES a negative must ask for instead of this.
-- **escalation.py** `clear` — [MEDIUM] does not properly handle the case where the halt file is not cleared, leading to incorrect return values
-  - says: clears a halt by writing a ruling to the halt file
-- **escalation.py** `clear` — [MEDIUM] Lifts the halt if the caller is not a person, but the code checks for a person before allowing the lift
-  - says: Lift the halt. A PERSON ONLY, and refused at run time if the caller is not one.
 
 ---
 

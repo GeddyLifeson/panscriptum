@@ -3347,10 +3347,23 @@ def _landing_nothing_is_not_success(src=None):
     caller never needs to know. A maintenance run bulk-routing the LOCAL rung on that flag
     closes every such order having changed nothing.
 
-    Put to the real `_achievement`, not to a copy of its rules. Three shapes, because the net
+    Put to the real `_achievement`, not to a copy of its rules. Five shapes now, because the net
     has to hold in both directions: all-refused is a FAILURE, a landed patch is a SUCCESS, and
     an answer-only run (no patch attempted) must stay a success -- failing that one would make
     the flag lie the other way, and every survey task would report as broken.
+
+    THE FIFTH SHAPE IS THE MODEL SIMPLY SAYING IT DID THE WORK, and it is graded here because it
+    HAPPENED, on 2026-09-09, on a real citation task routed to this lane under the owner's
+    instruction to use the local rung. The model made ZERO tool calls, wrote nothing, and
+    answered "I applied 6 patches across the following files: 1. src/backfill.py ..." -- naming
+    all six and describing how it had respected the comment width. Every instrument beside it was
+    correct (`attempted` 0, `landed` 0, `patches` []), the achievement line said "nothing was
+    written", and `ok` was TRUE with rc=0, because an answer-only run is entitled to change
+    nothing and this wore that shape exactly.
+
+    Graded on `tool_calls == 0`, never on the wording. A run that called no tool did not open a
+    file in this repo, so its answer is about a codebase it never read; and a guard that instead
+    looked for a claim in the prose would be defeated by the next paraphrase.
     """
     import local_agent as LA
     refused = [{"outcome": {"applied": False, "error": "find string occurs 0 times"}},
@@ -3365,10 +3378,20 @@ def _landing_nothing_is_not_success(src=None):
     # model that stopped talking on any later turn came back clean. This is the
     # all-refused case one step over: a caller closing an order on `ok` gets nothing.
     produced_nothing = LA._achievement([], True, answer="   ")
+    # THE FIFTH SHAPE, verbatim from the 2026-09-09 run. Both directions: a confident answer over
+    # zero tool calls must FAIL, and the identical answer over real tool calls must still PASS --
+    # otherwise every legitimate survey task on this lane starts reporting as broken.
+    told_us_it_did = LA._achievement(
+        [], True, answer="I applied 6 patches across the following files: 1. src/backfill.py",
+        tool_calls=0)
+    really_answered = LA._achievement(
+        [], True, answer="scout.py's analogous lookup is inside main().", tool_calls=4)
     return (all_refused["landed"] == 0 and all_refused["attempted"] == 2
             and landed["landed"] == 1 and answered["attempted"] == 0
             and answered["produced_nothing"] is False
             and produced_nothing["produced_nothing"] is True
+            and told_us_it_did["produced_nothing"] is True
+            and really_answered["produced_nothing"] is False
             # and the verdict has to REACH `run()`'s ok, not merely be computable beside it.
             # ASKED OF THE PARSE TREE (run #36): the arm was a whole-file search for the text
             # `out["ok"] = False`, which the comment sitting directly above that line -- "TRIED
@@ -6486,6 +6509,184 @@ def _throttle_is_not_an_absence(tmp=None):
         F.fetch = real
 
 
+def _scope_lands_key_wise(tmp=None):
+    """SCOPE.json must not be landed as a whole document read hours earlier (order 3610ec65ebd3).
+
+    ATOMIC WAS ALREADY DONE, AND THAT IS WHY THIS SAT OPEN. The comment at the write site is
+    entirely about the torn-file hazard -- SCOPE.json is read by `magnitude` and `pipeline`, the
+    rename must not tear, and `write_json`'s verdict was being dropped so a denied replace still
+    printed success. All correct, all recent, and all about the OTHER half. A reader arriving there
+    met careful reasoning about concurrent access and had no reason to look for a lost update.
+
+    THE WINDOW IS THE CRAWL. `build()` read the cache, probed up to 155 wikis at four searches each
+    plus a fetch over every returned title, and landed its copy at the end; the `--host` path read
+    the whole table, probed one live wiki, and landed its copy too. Whatever another invocation
+    wrote in between was overwritten by an older copy of it -- and the rows lost that way cost a
+    live crawl on an edge that has IP-banned this machine once.
+
+    DRIVEN IN A TEMP FILE, and driven rather than asserted: a rival writer really does land a host
+    between our read and our write, and its row has to still be there afterwards. Both directions,
+    plus the two refusals -- because a CAS that answered an unreadable file by overwriting it would
+    trade a lost row for a lost table.
+    """
+    import json as _json
+    import tempfile
+    import scope as SC
+    d = tempfile.mkdtemp()
+    p = os.path.join(d, "SCOPE.json")
+
+    def put(doc):
+        with open(p, "w", encoding="utf-8") as f:
+            _json.dump(doc, f)
+
+    def get():
+        with open(p, encoding="utf-8") as f:
+            return _json.load(f)
+
+    # THE LOST UPDATE. We hold `mine` across a long probe; a rival lands `gamma` meanwhile.
+    put({"alpha": {"ceiling": "M4"}})
+    mine = {"beta": {"ceiling": "M6"}}
+    put({"alpha": {"ceiling": "M4"}, "gamma": {"ceiling": "M2"}})
+    landed, _why = SC.mutate(lambda c: c.update(mine), path=p)
+    after = get()
+    if not landed or "gamma" not in after or "beta" not in after or "alpha" not in after:
+        return False
+
+    # AN UNREADABLE TABLE IS NOT WRITTEN OVER -- a failed read is not evidence of contents.
+    with open(p, "w", encoding="utf-8") as f:
+        f.write("{ not json")
+    landed, _why = SC.mutate(lambda c: c.update({"delta": {}}), path=p)
+    if landed:
+        return False
+    with open(p, encoding="utf-8") as f:
+        if f.read() != "{ not json":
+            return False
+
+    # A LIST WHERE AN OBJECT BELONGS IS ALSO REFUSED.
+    put(["not", "an", "object"])
+    landed, _why = SC.mutate(lambda c: c.update({"delta": {}}), path=p)
+    if landed:
+        return False
+
+    # ABSENT IS NORMAL: the first build has no cache and must be allowed to create one.
+    os.remove(p)
+    landed, _why = SC.mutate(lambda c: c.update({"first": {"ceiling": "M1"}}), path=p)
+    return bool(landed) and "first" in get()
+
+
+def _corpus_read_progress_is_a_rate(tmp=None):
+    """A standard named "is progressing" must be able to go RED while the job is up (194dc5f6d24f).
+
+    It could not. The check was `prog > 0` against `done / total`, and `done` is a CUMULATIVE
+    count of completed chunks that never decreases -- so the moment the first chunk landed the
+    standard latched true and stayed true for the rest of the run. A reader that completed one
+    chunk and then wedged solid for nine hours reported this HIGH standard as HOLDING, at 0.1%,
+    for all nine of them. The NAME asked a rate question; the MEASUREMENT answered a floor
+    question ("has progressed at least once"), and only the first is worth a HIGH rank.
+
+    ITS SIBLING ONE FUNCTION OVER FAILS THE OPPOSITE WAY, which is why the pair is the finding:
+    order d9328fe1ee38 records "every running job is advancing" watching LOG FILE SIZE, so a
+    throttled crawl writing 276,911 data files reads as stalled. Two adjacent standards about
+    whether work is happening, both watching a witness that cannot answer the question -- one
+    over-fires, one under-fires.
+
+    GRADED ON THE PURE VERDICT, no reader, no GPU, no network, no files. Six shapes, and the last
+    three are the ones that keep the fix from being a new fault:
+
+      * the nine-hour wedge must go RED, which is the whole point;
+      * a cold start (nothing completed) must go RED, because that was the ONE condition the old
+        check could genuinely detect and losing it would be trading one blind spot for another;
+      * a counter that MOVED must hold, or every healthy reader reports broken;
+      * a quiet spell UNDER the limit must hold, or the standard fires on ordinary chunk latency;
+      * a FINISHED read (done == total) must hold -- its counter stops because there is nothing
+        left to do, and `corpus read is progressing` carries `restart_reader` in foreman.REMEDIES,
+        so grading it red dispatches a restart against a job nothing is wrong with AND re-queues
+        the chunk it just finished;
+      * an UNKNOWN total must be neither -- `None`, routed to `_dropped` -- because with no
+        denominator a finished read and a wedged one are indistinguishable, and the first version
+        of this fix graded that case RED at "50000.0%, stuck for 1667 min".
+
+    AND THE STAMP MUST CARRY FORWARD while the count holds. Re-stamping `at` on every pass makes
+    `quiet` measure the interval between two consecutive standards runs -- a few minutes, always
+    -- so the threshold is unreachable no matter how long the job has really been silent. That is
+    not hypothetical: it is the bug `standards.job_stamp`'s own docstring exists to record, and it
+    kept the sibling stall detector from firing for any job for months.
+    """
+    import standards as S
+    now = 1_000_000.0
+    def verdict(done, total, prev):
+        return S.read_progress_verdict(done, total, prev, now)[0]
+
+    if verdict(1, 500, {"size": 1, "at": now - 9 * 3600}) is not False:
+        return False                      # the nine-hour wedge read as progress
+    if verdict(0, 500, None) is not False:
+        return False                      # the cold start stopped being detected
+    if verdict(42, 500, {"size": 40, "at": now - 9999}) is not True:
+        return False                      # a moving counter graded as stalled
+    if verdict(42, 500, {"size": 42, "at": now - 60 * (S.MAX_JOB_SILENCE_MIN - 1)}) is not True:
+        return False                      # ordinary chunk latency fired the alarm
+    if verdict(500, 500, {"size": 500, "at": now - 99999}) is not True:
+        return False                      # a FINISHED read dispatched a restart
+    if verdict(500, 0, {"size": 500, "at": now - 99999}) is not None:
+        return False                      # an unknown denominator got a verdict anyway
+
+    # THE CARRY-FORWARD, driven rather than asserted: hold the count across four checks five
+    # minutes apart and the fifteenth minute must be the one that reds.
+    prev, seen = None, []
+    for tick in (0, 300, 600, 900):
+        holds, _obs, prev = S.read_progress_verdict(5, 500, prev, now + tick)
+        seen.append(holds)
+    return seen == [True, True, True, False]
+
+
+def _a_probe_never_counts_itself(tmp=None):
+    r"""Asking "is X running?" must not be answered YES by the asking (d9328fe1ee38's own bug).
+
+    FOUR TIMES IN TWO DAYS a maintenance run asked whether `mutate.py` was running by testing
+    `"mutate.py" in cmdline`, and matched the probe's own command line -- because the string being
+    searched for was inside the `-c` source passed to search for it. This is `codewatch.twins()`'s
+    founding bug. It was committed most recently by the very run that filed the third instance of
+    it, which is the reason it is now a module (`whoruns.py`) with a net instead of a habit.
+
+    THE ANSWER IS FALSE IN THE CONFIDENT DIRECTION, which is what makes it expensive rather than
+    annoying: a run that believes a job is already alive stands down and does nothing, or believes
+    a dead job is alive and never restarts it, or -- the case that actually happened -- believes
+    nothing is running and launches a second writer over the first.
+
+    THE FOUR SHAPES ARE ALL GRADED HERE, because each of them was a real reading:
+
+        python -c "... mutate.py ..."            a literal, not a script       -> None
+        python -m pyflakes src/mutate.py         LINTING it, not running it     -> None
+        python src/local_agent.py --task-file .../task_mutate.txt   an ARGUMENT -> local_agent.py
+        "C:\Program Files\Py\python.exe" src/mutate.py     a quoted space       -> mutate.py
+
+    and the last one is graded because splitting the line on whitespace makes the interpreter path
+    itself look like the script. No process table is read; these are eight fixed strings.
+    """
+    import overnight as ON
+    import whoruns as W
+    cases = (
+        (r"C:\py\python.exe src/mutate.py --all", "mutate.py"),
+        (r"C:\py\python.exe -u src/mutate.py --detach", "mutate.py"),
+        (r'C:\py\python.exe -c "import x  # mutate.py is mentioned here"', None),
+        (r"C:\py\python.exe -m pyflakes src/mutate.py", None),
+        (r"C:\py\python.exe src/local_agent.py --task-file /t/task_mutate.txt", "local_agent.py"),
+        (r'"C:\Program Files\Py\python.exe" src/mutate.py', "mutate.py"),
+        (r"C:\py\pythonw.exe src/read.py", "read.py"),
+        (r"notepad.exe src/mutate.py", None),
+    )
+    for cmd, want in cases:
+        got = W.script_of(ON._cmd_tokens(cmd))
+        if (os.path.basename(got) if got else None) != want:
+            return False
+    # AND THE ASKER IS NEVER THE ANSWER. This process is a python.exe running drill.py, so a
+    # `running("drill.py")` that counted itself would come back non-empty for ever.
+    hits = W.running("drill.py")
+    if hits is not None and any(pid == os.getpid() for pid, _cmd in hits):
+        return False
+    return True
+
+
 def _coverage_reaches_unreachable(tmp=None):
     """coverage.py must be able to PRODUCE the state its own docstring calls purely a defect.
 
@@ -6933,6 +7134,19 @@ def drill_binding_identity():
         _throttle_is_not_an_absence,
         "without the outcome channel a throttled fetch and a page that does not exist both "
         "returned (0, None) -- in the one module whose verdicts quarantine a host")
+    net(a, "a scope probe lands its own hosts, never the whole table it read",
+        _scope_lands_key_wise,
+        "SCOPE.json was read, then up to 155 wikis were crawled, then this run's copy of the "
+        "whole document was landed -- so any host another invocation wrote in between was "
+        "overwritten by an older copy of it, and those rows cost a live crawl")
+    net(a, "'corpus read is progressing' measures a rate, not a floor",
+        _corpus_read_progress_is_a_rate,
+        "`prog > 0` on a cumulative counter latched true at the first chunk, so a reader wedged "
+        "for nine hours reported this HIGH standard as holding for all nine")
+    net(a, "a probe asking who runs a script never counts itself",
+        _a_probe_never_counts_itself,
+        "four times in two days a run matched its own `-c` source and concluded a job was alive "
+        "-- codewatch.twins()'s founding bug, last committed by the run that filed it")
     net(a, "coverage can actually produce the state it calls purely a defect",
         _coverage_reaches_unreachable,
         "UNREACHABLE was documented for months and implemented nowhere, so every failed fetch "

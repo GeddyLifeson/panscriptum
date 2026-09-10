@@ -51,7 +51,7 @@ it and nothing here disputes it:
 The consequence is specific and it is not academic. `custodes.convene()` gives Threnody -- the
 one standpoint that can REFUSE the output rather than shift it -- a veto that fires when the
 curl fraction clears Saaty's bar, and the eta that veto reads comes from `hodge_decompose`.
-Since nothing calls `hodge_decompose`, nothing computes that eta, and `anchors.py:190`, the sole
+Since nothing calls `hodge_decompose`, nothing computes that eta, and `anchors.py:run()`, the sole
 real caller of `convene()`, passes none. So eta 1.0 is never asserted and the veto is never
 declined; it is simply never asked. Every scalar the library has published was published without
 anyone having measured whether a scalar was faithful to it.

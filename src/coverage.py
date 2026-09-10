@@ -60,6 +60,30 @@ def _p(base, host, name):
 # order of the whole 874MB corpus per run, several runs a day (round-2 optimization audit,
 # finding 2). A file re-parses only when its mtime moves; everything else is a dict hit.
 _SO_CACHE_P = os.path.join(HERE, "state", "coverage_cache.json")
+
+# THE MEMO IS KEYED ON THE EVIDENCE AND WAS NOT KEYED ON THE CLASSIFIER, AND THAT MADE A CORRECT
+# FIX COMPLETELY INVISIBLE (found 2026-09-09 while landing order 1d55458779fd).
+#
+# A row is `relpath|name -> [mtime, state, n_feats, n_pages]`, and `_state_of_file` returns the
+# cached state whenever the mtime still matches. The evidence file does not move when WE change
+# our minds about how to read it -- so the instant UNREACHABLE was implemented, `measure()`
+# reported **0 UNREACHABLE across all 282,822 entries**, because every single one came back out
+# of the memo carrying the verdict the PRE-FIX classifier had written. The code was right, every
+# unit test passed, the drill net held, and the published table was unchanged. A fix that cannot
+# be observed is indistinguishable from a fix that was never made.
+#
+# So the memo now carries the classifier's own version and DISCARDS ITSELF WHOLESALE when it does
+# not match. `generate.py` has had this property all along -- its recipe hash includes the prompt
+# version and a content hash precisely so a changed recipe restages work rather than skipping it
+# (see its `content_hash`); this cache had the mtime half and not the recipe half.
+#
+# BUMP THIS WHENEVER `_empty_state` OR `_state_of_file` CHANGES WHAT A FILE MEANS. The cost of
+# bumping unnecessarily is one full reparse of the ~874MB evidence corpus; the cost of NOT bumping
+# is a published number that silently describes code nobody is running any more. Those are not
+# comparable, and the cheap direction is the wrong one.
+_CLASSIFIER_VERSION = 2          # 2: UNREACHABLE implemented (order 1d55458779fd)
+_CLASSIFIER_KEY = "__classifier_version__"      # no "|", so it can never collide with a real row
+
 _SO = {"loaded": False, "d": {}, "dirty": 0}
 
 
@@ -84,6 +108,22 @@ def _so_load():
             # so a permanently unreadable memo could quietly convert that remedy into a timeout
             # with nothing anywhere saying why. Now it says why.
             silence.note("coverage.py:so-load-unreadable")
+        # THE VERSION GATE, AFTER EVERY LOAD PATH so a cache that arrived by any route is checked
+        # the same way. A pre-versioning cache has no marker at all and is therefore discarded,
+        # which is correct: it was written by classifier 1.
+        got = _SO["d"].get(_CLASSIFIER_KEY) if isinstance(_SO["d"], dict) else None
+        if got != _CLASSIFIER_VERSION:
+            if _SO["d"]:
+                # COUNT THE ROWS, not the keys minus one: an unversioned cache carries no
+                # marker to subtract, so the blanket `- 1` under-reported it by exactly one.
+                # A number in a message about discarding work should be the true number.
+                n_rows = sum(1 for k in _SO["d"] if k != _CLASSIFIER_KEY)
+                print("coverage: DISCARDING %d cached verdicts -- they were written by classifier "
+                      "%s and this is classifier %d. Re-reading the evidence corpus."
+                      % (n_rows, got if got is not None else "1 (unversioned)",
+                         _CLASSIFIER_VERSION))
+            _SO["d"] = {_CLASSIFIER_KEY: _CLASSIFIER_VERSION}
+            _SO["dirty"] += 1
         _SO["loaded"] = True
     return _SO["d"]
 
