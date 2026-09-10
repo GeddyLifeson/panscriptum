@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 484  ·  last run 2026-09-10 14:34
+round 485  ·  last run 2026-09-10 15:37
 
 ## Structure
 
@@ -11,8 +11,14 @@ round 484  ·  last run 2026-09-10 14:34
 
 ## What the model found in the code
 
-**34 open** (13 high). Newest first.
+**41 open** (14 high). Newest first.
 
+- **foreman.py** `lines_changed` — [HIGH] Calculates the number of lines changed based on the diff between old and new code, but the docstring says it's not `abs(len(new) - len(old))` and instead explains a different method. However, the code correctly implements the described logic using difflib's SequenceMatcher. The docstring's claim is accurate, and the code aligns with it. Therefore, no defect of fact is found here.
+  - says: How many lines a rewrite actually touches.
+- **foreman.py** `kill_stalled_job` — [HIGH] kills stalled jobs that cannot be restarted, which is against the stated policy
+  - says: A job that is UP and writing nothing is worse than a job that is down.
+- **estate.py** `external` — [HIGH] The function is named 'external' but the code inside it is not related to external dependencies, but rather to checking the status of Ollama, Cascade, and disk space.
+  - says: The dependencies that live outside this project and can fail without it changing.
 - **silence.py** `append_line` — [HIGH] Appends a line but does not handle the Windows-specific issues with O_APPEND and text mode, leading to potential data corruption and line tearing.
   - says: Append ONE line to a shared ledger without tearing it (m62).
 - **silence.py** `audit` — [HIGH] audit() returns rows of handlers, but the function's name and comment suggest it should audit for silence, not collect handlers
@@ -35,10 +41,22 @@ round 484  ·  last run 2026-09-10 14:34
   - says: every scored reference overlaps its published interval, within CHARTER_REGRESSION_MAX_AGE_Hh
 - **standards.py** `fab is not None and fab <= MAX_FABRICATION` — [HIGH] the condition is evaluated as a boolean, but the text says it's not green when unmeasured
   - says: UNMEASURED IS NOT GREEN
-- **standards.py** `names` — [HIGH] only the error string is named, not the provider
-  - says: NOTHING IS CAPPED -- every unverified provider is named
-- **standards.py** `body` — [HIGH] hardcoded to 6144 when config.yaml is missing or has no num_ctx entry
-  - says: num_ctx FROM CONFIG, never a literal -- see the docstring. A foreign window turns this probe into a runner rebuild, which is the one call shape that cannot finish.
+- **generate.py** `call_ollama` — [MEDIUM] call_ollama is used to generate text based on prompts, but the code does not handle the case where the generated text is empty or contains missing entries properly
+  - says: call_ollama is used to generate text based on prompts
+- **foreman.py** `_contracts_pass` — [MEDIUM] Returns a tuple indicating success or failure of the contracts pass
+  - says: Everything that must still be true after a patch.
+- **foreman.py** `restart_reader` — [MEDIUM] The function is supposed to determine if a reader can be restarted, but it's actually enumerating processes and returning False or a message if it can't, without checking if the reader is actually restartable.
+  - says: The reader is not progressing. Restarting is safe: every entity is cached only when it was fully read, so nothing is lost and nothing is re-read that was finished.
+- **foreman.py** `reprove_pool` — [MEDIUM] returns False when the proof is not written
+  - says: This returned True whenever the proof was written
+- **estate.py** `inspect` — [MEDIUM] The function does not open or parse the file content; it only checks the file size and handles errors related to file access.
+  - says: WHAT IS OPENED, exactly, because the header used to promise more than this performed: ...
+- **estate.py** `inspect` — [MEDIUM] The function attempts to read file sizes and handle errors but does not actually open or parse the file content as described.
+  - says: One file, opened and actually read where its type can be parsed. Size is a hint.
+- **derivation.py** `main` — [MEDIUM] returns 1 if problems exist, 0 if the ledger closes
+  - says: returns 0 if the ledger closes, 1 otherwise
+- **derivation.py** `college_size` — [MEDIUM] the count is derived, not chosen: a direction with nobody
+  - says: one Custos per degree of freedom
 - **dashboard.py** `movement` — [MEDIUM] Calculates deltas against the oldest sample inside the window, but the comment indicates that the 'reset' branch should handle cases where the standards subsystem failed, leading to potential misinterpretation of negative deltas as restarts.
   - says: What has CHANGED, not what the level is.
 - **catalogue_codex.py** `roll_landed` — [MEDIUM] the roll does not yet say so
@@ -77,10 +95,6 @@ round 484  ·  last run 2026-09-10 14:34
   - says: count of scoreable rows
 - **standards.py** `inside` — [MEDIUM] count of references matching the charter interval with a tolerance
   - says: count of references inside the charter interval
-- **standards.py** `unans_files` — [MEDIUM] calculated inside a try block that does not handle the case where the directory is missing or renamed
-  - says: Cached on a 2-minute clock
-- **standards.py** `_dropped` — [MEDIUM] appended to when a failure occurs, but the code around it says it should be used when a measurement is not taken
-  - says: the mechanism for "unmeasurable"
 
 ---
 
