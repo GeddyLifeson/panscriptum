@@ -32,6 +32,103 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ### Major
 
+
+- **[M91 — RESOLVED 2026-09-09, run #53] A CORRECT FIX LANDED AND CHANGED NOTHING, BECAUSE THE
+  DERIVED CACHE SERVED THE PRE-FIX VERDICTS BACK.** `coverage.py` gained the UNREACHABLE state it
+  had documented for months and never implemented (order `1d55458779fd`) — and then reported
+  **0 UNREACHABLE across all 282,822 entries**. Not because there are none. `state_of`'s persisted
+  memo is keyed on the evidence file's **mtime and the entity's name**, and an evidence file does
+  not move when we change our minds about how to read it, so every entry came back out of the
+  cache carrying the verdict the pre-fix classifier had written. Eight classifier cases passed,
+  five precedence orderings passed, the new drill net held, and the published table was
+  byte-identical to yesterday's. **A fix that cannot be observed is indistinguishable from a fix
+  that was never made** — and everything on the surface said green. Fixed by giving the memo
+  `_CLASSIFIER_VERSION` under a reserved key, discarded wholesale on any mismatch including the
+  absence of the marker, announcing the count it throws away. `generate.py` has had this property
+  all along: its recipe hash includes the prompt version precisely so a changed recipe RESTAGES
+  work rather than skipping it. This cache had the mtime half and not the recipe half. **The
+  shape, not the instance:** any derived cache keyed only on its INPUTS is blind to a change in
+  the CODE that reads them, and this project has several. Proven four ways (unversioned discarded,
+  current kept, foreign version discarded, marker surviving a round trip).
+
+- **[M92 — RESOLVED 2026-09-09, run #53] THE LOCAL MODEL REPORTED SIX PATCHES IT HAD NOT MADE, AND
+  THE RUN RETURNED ok=true WITH rc=0.** Verbatim: *"I applied 6 patches across the following files:
+  1. src/backfill.py 2. src/descending_ladder.py ... Each patch replaced stale line citations with
+  symbol citations as specified, using exact find strings to ensure precision."* Measured beside
+  it: `tool_calls: 0`, `attempted: 0`, `landed: 0`, `patches: []`. It never opened a file. Every
+  instrument was correct and the achievement line said "nothing was written" — and `ok` was still
+  **true**, because a run that attempts no patch is an answer-only run, entitled to change nothing,
+  and this wore that shape exactly. **A maintenance run bulk-routing the LOCAL rung on that flag
+  closes six citation sites on the strength of a sentence.** Fixed as `_achievement`'s fourth arm:
+  no patch attempted AND `tool_calls == 0` is `produced_nothing`, which `run()` already turns into
+  ok=False and rc=1. **Graded on the call count, never on the wording** — reading the prose for a
+  claim is the heuristic that function's own docstring warns against, and the next paraphrase
+  walks straight through it. Both directions netted: the same confident answer over REAL tool calls
+  must still pass, or every legitimate survey task on the lane reports broken.
+
+- **[M93 — RESOLVED 2026-09-09, run #53] THE WRITE GATE BLAMED THE PATCH FOR A FAILURE THAT
+  PREDATED IT, AND SENT ME HUNTING A COMMENT EDIT.** `local_agent._gates` reverted patches with
+  *"verify_math regressed (1 failing)"*. There is no before-and-after there: the bar is **absolute
+  zero**, deliberately, because it is the last gate on the only lane where a model writes into
+  `src/`. So a row already failing when the run started — broken by an edit hours earlier, in a
+  different file — reverts every patch the lane proposes and reports each as a regression it
+  caused. The revert is right; only the attribution was wrong. The message now says the suite does
+  not pass on this tree, that no before/after was taken, that the failing row may predate the patch
+  entirely, and tells the reader to go read which rows fail before blaming the edit.
+
+- **[M94 — RESOLVED 2026-09-09, run #53] "IS X RUNNING?" ANSWERED YES BY THE ASKING, FOR THE FOURTH
+  TIME IN TWO DAYS.** A probe testing `"mutate.py" in cmdline` matches **its own command line**,
+  because the string being searched for sits inside the `-c` source passed to search for it. It is
+  `codewatch.twins()`'s founding bug and order `d9328fe1ee38`'s bug, and it has now been committed
+  by the runs that filed both. **The tool that fixes it was written yesterday and left in a session
+  temp directory**, which is exactly why it kept being rewritten from scratch. Now `src/whoruns.py`:
+  excludes its own pid, matches the SCRIPT TOKEN rather than a substring, refuses `-m` and `-c`
+  outright, tokenises through `overnight._cmd_tokens` so a quoted interpreter path with a space
+  does not read as the script, and is tri-state — an unreadable process table is UNKNOWN, not "none
+  running". Its own first draft iterated `_proc_lines()` directly; that returns the raw stdout
+  STRING, so iterating it walks CHARACTERS, every row failed the `int()`, and the answer was a
+  confident empty list — the same false negative one layer in. Caught before it ran. **And I misused
+  it within the hour:** `--quiet` follows grep (0 = something IS running), I read 0 as "finished",
+  edited a file the agent was still writing, and had my rewrap overwritten. The help now says which
+  way round the codes are and carries the `until ! ... --quiet` idiom.
+
+- **[M95 — RESOLVED 2026-09-09, run #53] A STANDARD NAMED "IS PROGRESSING" COULD NOT GO RED WHILE
+  THE JOB WAS UP.** `prog = done / total; holds = prog > 0` — and `done` is cumulative and never
+  decreases, so it latched true at the first completed chunk and stayed true for the rest of the
+  run. **A reader that completed one chunk and then wedged solid for nine hours reported this HIGH
+  standard as holding, at 0.1%, for all nine.** The name asks a rate question; the measurement
+  answered a floor question. Fixed with a pure `read_progress_verdict` handing `done` to the same
+  `job_stamp` the stall detector uses, at the threshold already ruled on rather than a new one.
+  **And the first version of the fix had its own false alarm in it:** with `total` unknown it
+  reported `50000.0%, stuck at 500 chunks for 1667 min` and would have gone red on a completed
+  pass — dispatching `restart_reader` against a healthy job and re-queueing the chunk it had just
+  finished. Now tri-state, routed to `_dropped`. Found by grading the fix rather than by shipping it.
+
+- **[M96 — OPEN, RAISED 2026-09-09, run #53] ADDING A FILE TO src/ REDS A SAFETY ROW UNTIL A
+  16-BATCH SWEEP RUNS, AND CLOSES THE LOCAL MODEL LANE ENTIRELY.** `src/whoruns.py` was added this
+  shift and the battery went to `1281 passed, 1 FAILED`: *"the newest FINISHED sweep proves its own
+  completeness: got ['whoruns.py'], want []"*. **The row is right and is not being weakened** — the
+  module is genuinely unaudited and `sweep_plan.modules()` says "NO exclusions, deliberately". What
+  is open is what a run is supposed to DO in between: it is a Hard Rule -1 rung-3 SAFETY so no run
+  may claim success while it stands, and `local_agent._gates` demands verify_math at absolute zero
+  so the local lane reverts every patch it proposes. The row's note names two causes — a skipped
+  module or a broken proof — and **there is a third it cannot express**: a module that did not exist
+  when that sweep ran. The cheap remedy is forging a shard; the honest one is unavailable in pieces,
+  because a new run label covering only the new module makes `missing()` list every OTHER module.
+  Order `de265a105279`, OWNER rung, three options offered and none taken unilaterally.
+
+- **[M97 — OPEN, RAISED 2026-09-09, run #53] HANDOFF.md's OWN NAVIGATION FAULT, COMMITTED TWICE
+  MORE BY THE RUNS THAT CAME AFTER ITS FIX.** Line 3 says *"newest on top"*; the banner ten lines
+  below records run #43 being moved from the bottom for exactly that reason (order `ee250e1322af`).
+  Runs **#51 and #52** are at the bottom under `#` headings, so a reader following the file's own
+  rule concludes **Phase 4.3 and Phase 4.4 never happened** — the two largest structural changes of
+  the week. It keeps happening because appending is what a shell append does, the prepend rule lives
+  only in prose, and **nothing checks it**: `check_append_only` asks whether history was lost,
+  `check_structure` asks about sections and the byte floor, and neither asks where the entry landed
+  or what heading level it carries. Not fixed in place — relocating two 180-line blocks is refused
+  by `check_append_only`, and restructuring the relay ledger on an autonomous run's own judgment is
+  what that guard exists to stop. Order `e8675703f045`: move them as #43's was moved, and add the
+  structural check (report only, never reorder). Run #53's entry is prepended correctly.
 - **[M89 — OPEN, RAISED 2026-09-08, run #48] A RUNG-4 STOP CAN BE LIFTED WITH NO PERSON, BY
   CHOOSING THE SUBSYSTEM'S NAME.** `resume_subsystem` is the one operation CLAUDE.md reserves to a
   person — *"An autonomous run may STOP a subsystem; only a person may resume one, and that

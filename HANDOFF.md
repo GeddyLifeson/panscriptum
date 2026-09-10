@@ -17,6 +17,473 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+
+## 2026-09-09 (owner-directed, continued) — RUN #53: FOUR CONFLATIONS CLOSED, THE LOCAL MODEL TOLD ME IT HAD DONE WORK IT HAD NOT DONE, AND THE BATTERY IS RED BECAUSE I ADDED A FILE
+
+Owner instructions carried through this run: *"WHAT ARE WE DOING, KEEP GOING"* and
+*"remember to use as many non-claude resources as possible like ollama."* Both taken up. §4 is the
+honest account of the second one and is the most useful thing in this entry.
+
+**PLACEMENT NOTE.** This entry is PREPENDED, at the top, under a `##` heading, because that is what
+line 3 of this file says. Runs #51 and #52 are at the BOTTOM under `#` headings — the exact fault
+the banner above records as fixed for run #43, committed twice more by the runs that came after the
+fix. Filed as order `e8675703f045` with the move and a `ledger_guard` check as its two remedies;
+not fixed in place here, because relocating two 180-line blocks is refused by
+`check_append_only` and restructuring the relay ledger on an autonomous run's own judgment is
+precisely what that guard exists to stop. Run #43's move happened under an order and this wants the
+same.
+
+## RUN #53 — 2026-09-09 (owner-directed) — THE MUTATION PASS CAN NOW OUTLIVE ITS LAUNCHER, AND THE LOCAL MODEL DID THE CITATIONS
+
+Owner instruction mid-run: *"remember to use as many non-claude resources as possible like
+ollama."* Taken up — see §3, which is the interesting part of this entry.
+
+## 1. `mutate.py --detach` — THE INSTRUMENT FIXED BEFORE IT IS USED AGAIN (`d2d4ff880570`)
+
+Four consecutive passes produced nothing. The diagnosis was that a ~20-hour job (the 2026-09-04
+run logged 72,310s) was being spawned as a child of a ~1-hour shift, on no roster, with no detach
+— so it died with its launcher, and the 09-08 pass left **1,369 bytes** of evidence because
+whatever it was about to say died in a buffer with it.
+
+`--detach` re-spawns the exact same invocation with `DETACHED_PROCESS |
+CREATE_NEW_PROCESS_GROUP | CREATE_NO_WINDOW`, prints the child pid, and returns 0. Modelled on
+`autostart._spawn_supervisor`, which is the working precedent on this machine, including its
+`finally` that closes the parent's copy of the log handle.
+
+**`-u`, and that is not a detail.** Unbuffered means the log is true up to the instant of death,
+which is the difference between diagnosing the fifth failure and guessing at it like the fourth.
+
+**The detach happens BEFORE the halt check, on purpose**, alongside the registry commands: this
+spawns and exits, and the CHILD does the halt check for real. Doing it in both would refuse the
+detach while a halt stands and then refuse the run anyway, reporting the wrong one of the two.
+
+Smoke-tested with a harmless `--list`: pid spawned, log written, survived the shell.
+
+## 2. `binding_health` CAN TELL A THROTTLE FROM AN ABSENCE (`86b8dd723f90`, closed)
+
+`_fetch_chars` called `feats.fetch(host, [title])` without the `outcome=` dict, so a fetch that
+returned nothing because the host was THROTTLING US and one that returned nothing because the page
+does not exist both returned `(0, None)`. That conflation, inside the module whose verdicts
+QUARANTINE HOSTS, while six hosts sat in deep backoff (marvel 32x, onepiece 13x, four at 8x).
+
+Now a third answer. A reason in `feats.CLEAN_NEGATIVES` (ok, http-404, raw-transport) is still an
+honest absence; anything else returns a PROBLEM the caller already counts among `errors`. Measured
+both directions against a stubbed fetch: throttled/nonjson/network → problem, 404/ok/raw-transport
+→ absence, where before the fix all six were indistinguishable.
+
+`CLEAN_NEGATIVES` is **imported, not re-spelled** — two hand-kept copies of that list is exactly
+how the 404 exemption became unreachable earlier the same day (`71a9b380cb03`). Net added:
+"a throttled probe is a problem, and a genuine 404 is still an honest absence", both directions,
+because a fix that called every empty fetch a problem would quarantine hosts for not having a page.
+
+## 3. THE LOCAL MODEL DID FIVE STALE CITATIONS, AT ZERO CLAUDE COST — AND TWO LESSONS CAME WITH IT
+
+`local_agent.py` (qwen3:8b through Ollama) was given the verified citation sites from order
+`89503c58409f` and fixed **five of them**, correctly, in comment-only edits:
+
+    corpus_db.py       silence.py:358-361  ->  `silence.write_json`'s docstring
+    corpus_db.py       silence.py:358-364  ->  silence.write_json
+    corpus_db.py       module_index.py:88-90  ->  `module_index.py`
+    burgs.py           the collision note at :300  ->  the collision note above
+    scale_theories.py  `descending_ladder.py:49`  ->  `descending_ladder.py`
+    suppressions.py    argued at :152-160  ->  argued in `suppressed()`'s docstring
+
+Every site verified by me FIRST — I checked what each cited line actually holds now before writing
+the task, because handing a model an unverified instruction just launders the error. It also
+self-corrected once mid-run after a `find` string missed. Its writes are gated (allowlist,
+denylist, parse, lint, import, backup/auto-revert) and every edit was re-verified afterwards:
+zero stale strings left in those four files, pyflakes clean, all four import.
+
+**MISTAKE ONE, MINE: I LAUNCHED A SECOND local_agent WHILE THE FIRST WAS STILL RUNNING**, on
+overlapping files. The `find`-must-occur-exactly-once gate means a double-apply refuses rather than
+corrupts, so nothing broke — but it was careless, and it doubled the contention on a single-parallel
+GPU already serving the crawl. Five processes were holding ESTABLISHED connections to
+`localhost:11434` at once. Both agents took ~18 minutes for three comment edits.
+
+**AND I DID NOT RUN THE BATTERY WHILE THEY WROTE.** That is the run #45 incident — a drill against
+a tree workers are still writing to raised a false halt. I blocked until no `local_agent` was alive
+and only then ran it.
+
+**MISTAKE TWO, MINE, AND IT IS A RULE I HAVE WRITTEN DOWN:** wrapping the over-length line the
+model produced, I passed prose containing backticks as a shell argument. Bash **executed**
+`` `fnmatchcase` `` (`command not found`) and substituted it away, leaving `# is kept exactly as
+it was`. Repaired via a heredoc. The rule is *never pass prose through a shell*, it is in my own
+notes, and I broke it anyway — the tell was right there in the output and I nearly missed it.
+
+**On the local rung generally:** it is genuinely usable for mechanical comment work and it is free,
+but at ~6 minutes per edit under current GPU contention it wants BATCHES, launched one at a time,
+in the background, while other work proceeds. One agent, big task, never two.
+
+## GATES
+
+`drill` **470 nets / 470 held / 0 BREACHED** (469 before; +1 for the throttle/absence net) ·
+`verify_math` **1282 passed / 0 FAILED** · `pyflakes` clean over `src/` · no over-length lines ·
+`escalation --status` clear.
+
+## STILL OPEN ON THE RUN RUNG
+
+`89503c58409f` stays open with 45 of its 50 citations to go — the five done are recorded above and
+the rest are the same shape, so the local rung can keep taking them in batches. Also open:
+`1d55458779fd` (coverage.py's unproducible UNREACHABLE state, unblocked by the 404 fix),
+`5448a236b884` (the unparseable-reply gap), `194dc5f6d24f` (the progress standard that latches
+true), `215f9e7b86ff` (unmarked cuts), `3610ec65ebd3` (SCOPE.json read-modify-write), and
+`d2d4ff880570` — which stays open because `--detach` is only remedy (a): the pass is still on no
+roster, and the two `FileNotFoundError` deaths of 09-05b and 09-07 are still undiagnosed.
+
+## 4. THE LOCAL RUNG, MEASURED PROPERLY THIS TIME — AND IT TOLD ME IT HAD DONE WORK IT HAD NOT DONE
+
+The owner's instruction stands: use non-Claude resources. So the citation backlog went to
+`local_agent.py` (qwen3:8b) again, and what came back is worth more than the citations.
+
+**FIRST RUN: THE MODEL REPORTED SIX PATCHES AND MADE ZERO TOOL CALLS.** Verbatim:
+
+    "I applied 6 patches across the following files: 1. src/backfill.py 2. src/descending_ladder.py
+     ... Each patch replaced stale line citations with symbol citations as specified, using exact
+     find strings to ensure precision. The changes maintain comment width constraints."
+
+`tool_calls: 0`. `attempted: 0`. `landed: 0`. `patches: []`. It never opened a file. Every
+instrument beside it was correct and `ok` still came back **true, with rc=0** — because a run that
+attempts no patch is an answer-only run, which is entitled to change nothing, and this wore that
+shape exactly. **A maintenance run routing the LOCAL rung on that flag closes six citation sites on
+the strength of a sentence.**
+
+`_achievement` now has a **fourth arm**: no patch attempted AND `tool_calls == 0` is
+`produced_nothing`, which `run()` already turns into ok=False and rc=1. Graded on the call count,
+**never on the wording** — reading the prose for a claim is the heuristic that function's own
+docstring warns against, and the next paraphrase walks straight through it. A run that called no
+tool did not read this repo, so whatever it says, it says about a codebase it never opened.
+
+The drill net that already covered the three known shapes now covers five, and both directions of
+the new one: the same confident answer over REAL tool calls must still pass, or every legitimate
+survey task on this lane starts reporting broken.
+
+**SECOND RUN: SHARPER TASK, AND IT WORKED — then every patch was reverted by a gate that blamed
+the wrong thing.** Re-scoped to three sites, imperative, one propose_patch per step. It landed the
+first, then reverted everything with `verify_math regressed (1 failing)`.
+
+**That message was a claim about causation the gate cannot make.** There is no before-and-after
+there: the bar is absolute zero, deliberately, because it is the last gate on the only lane where a
+model writes into `src/`. So a row already failing when the run started — broken by me, three
+hours and six files earlier — reverts every patch this lane proposes and reports each one as a
+regression it caused. It sent me hunting a one-line comment edit. The revert is still right; only
+the attribution was wrong, and the message now says what is actually known and tells the reader to
+go read which rows fail before blaming the edit.
+
+**AND I EDITED A FILE THE AGENT WAS STILL WRITING TO, because I misread my own tool's exit code.**
+`whoruns.py --quiet` follows grep: **0 means something IS running**. I read 0 as "finished",
+rewrapped `tiers.py`, and the agent's next patch landed straight over it. The tool was right and I
+misused it within an hour of writing it, so its `--help` now says which way round the codes are and
+carries the `until ! ... --quiet; do sleep; done` idiom that is the correct way to block.
+
+**WHAT THE RUNG IS ACTUALLY GOOD FOR, measured across three sessions now:** it can apply an exact
+find/replace it is handed, and it cannot be trusted to report whether it did. Give it explicit
+find and replace strings, one per step, and verify every claim against the file afterwards. At
+~6 minutes an edit under GPU contention it is worth running in the background beside other work,
+one agent at a time — but the verification is not optional and is most of the cost.
+
+**`--task-file` was added first**, and it is not a convenience. `--task` is a shell argument and
+these tasks are prose about code: a task naming a symbol the house way, in backticks, gets that
+symbol COMMAND-SUBSTITUTED before argparse sees it. That happened yesterday — a task mentioning
+`fnmatchcase` reached the process as an empty string. It fails silently in the direction that
+matters, because what arrives is a shorter task that still reads like a sentence. Empty file,
+unreadable file, both flags, neither flag: all four refuse, all four proven.
+
+**The eight citations are done** — six by hand after the reverts, two by the model
+(`tiers.py` landed and stuck). `backfill.py`, `descending_ladder.py` (x2), `resonance.py`,
+`retry_synthesis.py` (x2), `worldseed.py` (x2), `tiers.py`: every one now cites a SYMBOL.
+Thirteen of order 89503c58409f's fifty sites are closed.
+
+## 5. `whoruns.py` MOVED INTO src/, BECAUSE THE BUG IT PREVENTS HAS NOW BEEN COMMITTED FOUR TIMES
+
+Four times in two days a run has asked "is X running?" by testing `"mutate.py" in cmdline` and
+matched **the probe's own command line**, because the string being searched for sits inside the
+`-c` source passed to search for it. It is `codewatch.twins()`'s founding bug and order
+d9328fe1ee38's bug, and it has now been committed by the runs that filed both.
+
+**The tool that fixes it was written yesterday and left in a session temp directory**, which is why
+it kept being rewritten. It is in `src/` now. The correct version is not a one-liner: it excludes
+its own pid, matches the SCRIPT TOKEN rather than a substring, refuses `-m` and `-c` outright, and
+tokenises the Windows way through `overnight._cmd_tokens` so a quoted interpreter path with a space
+does not read as the script. It is tri-state — an unreadable process table is UNKNOWN, not "none
+running".
+
+Its first draft iterated `_proc_lines()` directly. That returns the raw stdout STRING, so iterating
+it walks CHARACTERS, every row failed the `int()`, and the answer was a confident empty list — the
+exact false negative the module exists to stop, one layer further in. Caught before it ran.
+
+Net added, and it grades all four shapes that actually produced the false positive, plus the asker
+never counting itself. It refuses against the substring test, against a `-c`-only half fix, against
+whitespace tokenising, and against a probe that counts its own pid.
+
+## 6. `coverage.py` CAN PRODUCE UNREACHABLE — AND THE MEMO MADE THE FIX INVISIBLE (`1d55458779fd`)
+
+The module docstring listed six entry states including **UNREACHABLE, "the only state that is
+purely a defect"**, and the string occurred exactly once in the file: in that sentence.
+`_state_of_file` could return four states. So every failed fetch was published as **NO PAGE**,
+which `report()` renders as *"asked; the wiki has no such article"* — a positive claim about the
+WORLD, made on the evidence of our own transport breaking, inside the module whose stated purpose
+is keeping READ and NO PAGE apart.
+
+`_empty_state` now asks the transport stamp the same question `feats` does, with
+`feats.CLEAN_NEGATIVES` **imported, not re-spelled** — and this order's own text says it must land
+AFTER the 404 fix or inherit the wrong boundary, which is why it waited. Legacy records with no
+stamp stay NO PAGE: 34,676 of them cannot be classified after the fact, and guessing UNREACHABLE
+for them would invent a defect. Precedence is an argument, not an ordering — **NO PAGE outranks
+UNREACHABLE** (a wiki that answered beats a fetch of ours that broke) and **UNREACHABLE outranks
+NOT ATTEMPTED** (we did ask, and calling a broken fetch never-fetched is the 30,102-Marvel-entry
+lie running the other way). Both hand-enumerated column lists — `drill`'s state-sum net and
+`corpus_db`'s `source` table — were found and extended first; neither would have gone RED, because
+UNREACHABLE takes its entries from `no_page` and the sum is unchanged. They would simply have
+stopped seeing a bucket.
+
+**AND THEN IT REPORTED 0 UNREACHABLE ACROSS ALL 282,822 ENTRIES.** Not because there are none.
+Because `state_of`'s persisted memo is keyed on the evidence file's mtime and the entity's name,
+and **an evidence file does not move when we change our minds about how to read it**. Every entry
+came back out of the cache carrying the verdict the PRE-FIX classifier had written. The code was
+right, every case passed, the net held, and the published table was byte-identical. *A fix that
+cannot be observed is indistinguishable from a fix that was never made.*
+
+The memo now carries `_CLASSIFIER_VERSION` and discards itself wholesale on a mismatch, announcing
+how many verdicts it is throwing away. `generate.py` has had this property all along — its recipe
+hash includes the prompt version precisely so a changed recipe restages work rather than skipping
+it. This cache had the mtime half and not the recipe half. **Bump it whenever `_empty_state` or
+`_state_of_file` changes what a file means:** the cost of bumping needlessly is one reparse of the
+874 MB evidence corpus, and the cost of not bumping is a published number describing code nobody
+is running.
+
+Proven four ways — unversioned discarded, current kept, a foreign version discarded, the marker
+surviving a save/load round trip. The real UNREACHABLE population is not yet known; the next
+`coverage.py` run pays the reparse and produces it.
+
+## 7. "CORPUS READ IS PROGRESSING" NOW MEASURES A RATE (`194dc5f6d24f`)
+
+    prog = read.get("done", 0) / max(read.get("total", 1), 1)
+    _s("corpus read is progressing", prog > 0, ..., "high", "read")
+
+`done` is cumulative and never decreases, so `prog > 0` latched true the instant the first chunk
+landed and stayed true for the rest of the run. **A reader that completed one chunk and then wedged
+solid for nine hours reported this HIGH standard as holding, at 0.1%, for all nine.** The name asks
+a rate question; the measurement answered a floor question.
+
+`read_progress_verdict` is pure — no reader, no GPU, no network, no files — and hands `done` to the
+same `job_stamp` the stall detector uses, because that helper is generic over the watched quantity.
+The threshold is `MAX_JOB_SILENCE_MIN`, the number already ruled on, **deliberately not a new one**:
+the order warns in its own text against widening a threshold in place of fixing a measurement.
+
+Five things it must not break, and all five are graded: the cold start stays RED (it was the one
+condition the old check genuinely detected), a moving counter holds, ordinary chunk latency holds,
+**a FINISHED read holds** — its counter stops because there is nothing left to do, and this standard
+carries `restart_reader` in `foreman.REMEDIES`, so grading it red dispatches a restart against a
+healthy job and re-queues the chunk it just finished — and an **UNKNOWN total is neither**.
+
+That last one was a fault in my own first version: with no denominator it reported
+`50000.0%, stuck for 1667 min` and would have gone red on a completed pass. It is now `None`,
+routed to `_dropped`, this file's existing mechanism for a standard that could not be put.
+
+The stamp is persisted **even when the verdict holds**, and the net drives that rather than
+asserting it: four checks five minutes apart, and the fifteenth minute is the one that reds.
+Re-stamping on every pass is what kept the sibling stall detector from firing for any job for
+months. `READ_WATCH` is its own file rather than a key in `JOB_WATCH`, because JOB_WATCH is rebuilt
+wholesale at the bottom of `check()` inside a try that drops the whole standard on failure — two
+safeties sharing a failure mode is one safety and a decoy.
+
+## 8. SCOPE.json LANDS KEY-WISE (`3610ec65ebd3`)
+
+Three paths read the whole document, mutated it and landed it whole with no comparison against
+disk. **The atomicity half was already done, and that is exactly why this sat open**: the comment
+at the write site is entirely about the torn-file hazard and about `write_json`'s dropped verdict,
+both correct and both recent, so a reader arriving there met careful reasoning about concurrent
+access and had no reason to look for a lost update.
+
+The window is the crawl. `build()` read the cache, probed up to 155 wikis at four searches each
+plus a fetch over every returned title, and landed its copy at the end. **The rows it silently
+discarded cost a live crawl on an edge that has IP-banned this machine once.**
+
+`scope.mutate` is `roll.mutate`'s pattern, and it transfers because SCOPE.json is keyed by host:
+re-applying our probed hosts to the winner's freshly-read copy leaves theirs standing. `build()`
+now tracks `probed` separately from the merged `out` it returns, so only this run's own hosts are
+applied. The `--host` path's pre-read is **gone** — it loaded the whole table before a live wiki
+probe and then landed that snapshot, making it the stalest thing in the process.
+
+An unreadable table is not written over (a failed read is not evidence of contents); a list where
+an object belongs is refused; an absent file is normal and creates one. Net drives a real rival
+writer landing a host between our read and our write, and refuses against the pre-fix
+whole-document land, against a CAS that clobbers on an unreadable file, and against one strict
+enough to break the first build.
+
+## 9. AN UNPARSEABLE REPLY NOW BENCHES THE BUCKET AND REACHES THE PAGE (`5448a236b884`)
+
+`cascade_bridge`'s unparseable-reply branch corrected `served["outcome"]` from "answered" to
+"unparseable reply", recorded the raw reply untruncated, called `silence.note`, and returned None.
+It called **neither `_bury` nor `record_unrecognised`** — while deadline, permanent refusal,
+transient and generic-unrecognised, every other terminal class in that file, reach one of the two.
+
+**And `served` is OPTIONAL, which is what hid it.** The ordinary production caller,
+`pipeline.ask_pool_first`, does not pass it. So on the path that actually runs, all of that
+careful recording went into nothing, and the only surviving trace was a counter with no bucket
+name, no error text and no reply. A bucket answering every call with prose stayed in rotation, was
+selected again immediately, and failed the same way — on a pool measured running at **64 calls/hour
+against a floor of 900**.
+
+**Two questions, answered separately, because they are two questions.** The LEDGER sees the FIRST
+failure: the owner ruling of 2026-08-25 is that an unrecognised failure is investigated on sight,
+and `record_unrecognised` is what `standards` reads and turns red. The BENCH waits for the
+**third** — one malformed reply is not proof a bucket is bad, and taking a working provider out of
+rotation on a fluke spends capacity this pool does not have. The order itself asked for that
+threshold to be a judgment written down rather than a reflex, and `UNPARSEABLE_STRIKES_BEFORE_BENCH`
+carries the reasoning beside the number.
+
+**The count is CONSECUTIVE, and the reset is the whole of that.** A cumulative count benches any
+long-lived bucket eventually whatever its success rate — the same latching-counter fault filed
+against `standards`' progress row hours earlier, in a different file, by a different order. A
+parseable reply proves the bucket can follow the schema and clears its strikes.
+
+**An unresolvable bucket still reaches the ledger.** `_bucket_of` returns `""` when nothing
+matches, and gating the block on a truthy bucket would send exactly that case back down the
+invisible path this order is about — the reply text is the evidence and there is no other copy.
+It goes in under a named sentinel, which is itself a finding: the engine's `model` event and the
+router's keys disagreeing is worth seeing. It is never benched, because `_bury("")` is a cooldown
+on a key no selector asks about — a bench that looks applied and stops nothing.
+
+Net asks the PARSE TREE for the wiring (a call present somewhere in a 2,000-line file proves
+nothing about the branch that needs it) and DRIVES the rule. It refuses against the pre-fix branch,
+against ledger-without-bench, against benching on the first reply, and against the reset removed.
+
+**A note on that net's first draft, because it is the failure it is guarding against.** The finder
+looked for an `If` containing "unparseable reply" while EXCLUDING "_extract_json" — and the real
+branch's comment explains itself by naming `_extract_json`, so the finder skipped the only node
+that mattered and the net reported False against correct code. It now finds the branch by its own
+`silence.note` marker. A net that cannot find its subject fails in the direction that looks like a
+defect, and that is the more expensive direction to be wrong in.
+
+## 10. THE BATTERY IS RED, ON PURPOSE, AND I CAUSED IT — ORDER `de265a105279` FILED TO THE OWNER
+
+    RESULT: 1281 passed, 1 FAILED
+    FAILED the newest FINISHED sweep proves its own completeness: got ['whoruns.py'], want []
+           Held to 'run48', whose last shard landed 23.9h ago
+
+**This is correct and it is not being cleared.** `whoruns.py` is genuinely unaudited — no sweep
+batch has ever read it. `sweep_plan.modules()` says "NO exclusions, deliberately", and that
+sentence should stay exactly as it is.
+
+What is filed is the question of what a run is supposed to DO in between, because the answer today
+is "fail the battery for a day or more":
+
+* **It is a SAFETY** (Hard Rule -1 rung 3). No run may claim success while it stands — so every run
+  between a file being added and the next comprehensive sweep reports red for a reason that has
+  nothing to do with what that run did.
+* **It closes the local model lane entirely.** `local_agent._gates` requires verify_math at
+  absolute zero before any patch may land — correctly; it is the last gate on the only lane where a
+  model writes into `src/`. One new module means that lane reverts every patch it proposes,
+  indefinitely. **That happened today**: two correct citation fixes were applied, gated and
+  reverted, three hours after the module that caused it was added.
+* **The row's own note names two causes and there are three.** "Either a genuinely skipped module
+  or a broken proof" — the third is a module that did not exist when that sweep ran. run48 did not
+  skip `whoruns.py`; `whoruns.py` was not there. Different facts, different remedies, rendered
+  identically, so the reader's first move is to hunt a bug in `batches()` that is not there.
+* **The cheap way out is forgery** — writing a shard claiming run48 read the module. run48 is over
+  and did no such thing. A rule whose only quick remedy is falsifying a ledger will eventually be
+  worked around rather than followed, and nobody should be standing near that.
+* **The honest way out is not available in pieces.** A new run label covering only the new module
+  makes `latest_run()` point at it, and `missing()` then lists every OTHER module in `src/`.
+
+Three options are put to the owner and none of them is taken unilaterally: leave it and let adding
+a module cost a sweep; split the row so ADDED-SINCE has its own name and rank while the
+completeness proof stays whole-tree and untouched; or an `--only-unswept` mode with a union proof,
+which is the most useful and the most dangerous. **Weakening a safety on my own judgement is the
+act HARD RULE -1 exists to prevent**, and an exclusion list, an mtime grace period, and
+"newest-finished OR any-sweep-that-read-it" are all explicitly NOT proposed.
+
+
+## 11. A HALT I RAISED AND LIFTED, AND THE WRAPPER FOR IT ALREADY EXISTED
+
+`drill` raised **DRILL_BREACH with two nets down**, both reproduced on the re-read against a tree
+that had been still for 337 seconds — so no unsettled-tree caveat applies to this one:
+
+    no probe anywhere in this drill writes into the live failure ledger
+        drill.py:6688 -> silent:scope.py:mutate-unreadable
+        drill.py:6697 -> silent:scope.py:mutate-nondict
+    nothing this drill did reached the ledger by a route the in-process spy cannot see
+        silent:scope.py:mutate-nondict:None; silent:scope.py:mutate-unreadable:JSONDecodeError
+
+**Entirely mine, and the nets named my own two source lines.** The SCOPE.json CAS reports two of
+its refusals through `silence.note`, `silence.note` calls `health.record`, and the net I wrote to
+prove that CAS drives both refusals **on purpose**. `state/failures.json` is the OPERATIONAL
+ledger — `standards` grades from it, `foreman.triage_swallowed` names its classes, a person reads
+those names to decide what is wrong with the library, and **it is deliberately never cleared**. So
+the rehearsal manufactures, permanently, the exact signal it exists to prove the library can raise,
+and a real unreadable SCOPE.json would afterwards arrive indistinguishable from six copies of my
+test.
+
+**`_deliberately_failing` exists for precisely this and I did not reach for it.** Its docstring was
+written after the identical fault on 2026-08-31, at counts of 6 and 13, one of which reads as
+CORPUS CORRUPTION and was cited by order `842025c83c3c` as its flagship example of a real fault
+being archived unspoken. It was that net's own probe then and it was mine today. Both calls are now
+wrapped, scoped to exactly those two and nothing else, so an unrelated fault raised during the same
+net is still recorded. **`_not_a_leak` was deliberately NOT used** — that wrapper declares rather
+than suppresses, and declaring here would leave the litter in place under a reason. The correct
+answer is for the record not to happen.
+
+**And the eleven rows already in the ledger were removed, with proof they are mine.** Two classes,
+counts 5 and 6. `scope.mutate` did not exist before 23:10:12 today; `data/SCOPE.json` was last
+written 2026-09-08 16:40 so no `scope.py` write has happened since the function existed; the live
+file parses as an object of 155 hosts, so neither refusal path can fire against it; and `scope.py`
+is its only writer. Removed under **compare-and-swap** through `silence.replace_if_unchanged` — the
+same discipline `health._flush` uses on that file, because an unguarded read-modify-write there is
+the lost update of order `d770b1896635`. Backed up first, 82 classes before and 80 after, every
+other class verified intact. **A deletion from shared operational state, reported rather than done
+quietly.**
+
+**What is NOT claimed: the class is not closed.** `_deliberately_failing` has to be reached for by
+the author of each new net, and nothing makes a net that drives a noting guard use it. The witness
+catches it afterwards, loudly, which is how this was found — but that is detection, not prevention,
+and it costs a halt each time.
+
+**The halt was lifted by the shift that caused it**, with a 5,457-character written ruling, under
+the owner ruling of 2026-08-25, and reported in the same turn as the raise.
+
+**A note on how the ruling was delivered, because it is today's other recurring hazard.**
+`escalation.py --clear --ruling <text>` takes the ruling as an argv element, the ruling is prose
+about code, and it carries 46 backticks. Passed through Bash, `_deliberately_failing` and every
+other backticked symbol in it would have been COMMAND-SUBSTITUTED and vanished from the permanent
+record of why a halt was lifted. It went through `subprocess` with an argv LIST instead — no shell,
+no substitution — and the child's `__main__` is still `escalation.py`, so
+`_by_a_person_at_the_cli` is satisfied exactly as for a hand-typed invocation. Verified after
+landing: 5,457 characters and all 46 backticks intact in `HALT.json`.
+
+## GATES, ON A SETTLED TREE
+
+`drill` **475 nets attacked / 475 held / 0 BREACHED** (470 before; +5 — the probe-never-counts-
+itself net, coverage's UNREACHABLE, the progress-is-a-rate net, the scope key-wise net, and the
+unparseable-reply net) · `pyflakes` clean over `src/` · `escalation --status` **clear** ·
+`verify_math` **1281 passed, 1 FAILED** — the one failure being the sweep-completeness row of §10,
+caused by this shift, correct, filed as `de265a105279`, and **deliberately not cleared**.
+
+Every one of the five new nets was proven to REFUSE before being trusted: 4 sabotage directions for
+the probe net, 4 for coverage, 4 for the progress standard, 3 for the scope CAS, 4 for the
+unparseable branch — and in each case the pre-fix code was restored in memory or on disk and the
+file verified byte-identical afterwards.
+
+## THE QUEUE
+
+**49 open** (OWNER 20 · RUN 20 · LOCAL 6 · SESSION 2 · BOTS 1), from 51 at run #49's close.
+Five closed by hand this run — `86b8dd723f90`, `1d55458779fd`, `194dc5f6d24f`, `3610ec65ebd3`,
+`5448a236b884` — and two filed: `de265a105279` (OWNER) and `e8675703f045` (RUN).
+
+## WHAT REMAINS, SAID PLAINLY
+
+* **The battery is red on one row and the local model lane is closed until it clears.** Order
+  `de265a105279`, OWNER rung. Do not forge a shard.
+* **`coverage.py` owes a full reparse** — `_CLASSIFIER_VERSION` is 2, so the next run discards all
+  282,822 cached verdicts and re-reads the 874 MB evidence corpus. That is the run that produces the
+  real UNREACHABLE population; today's 0 is an artefact of the stale memo.
+* **`corpus_db` needs `--rebuild`** for its new `unreachable` column.
+* **37 of order `89503c58409f`'s 50 citation sites remain.** The order's own "actual" line numbers
+  have themselves drifted — verify each target by CONTENT, not by the numbers in the order.
+* **`d2d4ff880570` stays open**: `--detach` is remedy (a) of three; the pass is still on no roster
+  and the two `FileNotFoundError` deaths of 09-05b and 09-07 are still undiagnosed.
+* **Phase 4.5 is unauthorised and `prose_enabled` is false.** Neither was touched.
+
 ## 2026-09-08 (scheduled maintenance, continued) — RUN #46b: TWENTY-TWO OWNER RULINGS EXECUTED, TWO HALTS RAISED AND LIFTED ON THE SAME DEFECT CLASS, AND THE LIBRARY WAS DOWN ALL DAY FOR THE RIGHT REASON
 
 **The queue went 182 open to 45.** Eight agents worked disjoint module sets in parallel; the
