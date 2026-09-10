@@ -76,7 +76,11 @@ def _assert_not_halted(what):
     _ESC.assert_clear("ingest_doc.py %s" % what)
 
 
-CHUNK = 9000            # characters per extraction call — the same altitude read.py mines at
+CHUNK = 9000            # characters per extraction call — the same ORDER of altitude read.py
+#                         mines at, not the same number: read.CHUNK is 10,000. The comment here
+#                         claimed they matched, which the 2026-09-09 sweep caught. They are set
+#                         independently and there is no rule that they agree; what is true is
+#                         that both are a single wiki-page-sized bite rather than a paragraph.
 CATEGORIES = [
     "Persons (named individual characters, real or fictional)",
     "Factions & Organizations (groups, nations, guilds, companies, orders)",

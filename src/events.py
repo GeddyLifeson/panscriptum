@@ -288,6 +288,17 @@ def build(write=False):
 
 
 def main():
+    # THIS CLI COULD NOT PRINT ITS OWN CONTENT (2026-09-09 sweep, batch 04). `E-CONV`'s heading
+    # carries a Unicode minus sign, so `print` raised UnicodeEncodeError on a bare Windows
+    # console -- the module crashed on the very spine it exists to read, and only the
+    # PYTHONIOENCODING=utf-8 the maintenance instructions happen to mandate was hiding it.
+    # Reproduced both ways before this was added. Same fix, same shape, as `threads.py` and
+    # `handbuilt.py` already carry, and for the same reason: a CLI that dies on its own data is
+    # a gate nobody can run.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass        # an older stdout without reconfigure is not a reason to refuse to run
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--write", action="store_true", help="land data/EVENTS.json")
     ap.add_argument("--refused", action="store_true",

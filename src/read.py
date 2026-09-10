@@ -67,7 +67,7 @@ AXES = list(A.WEIGHTS)
 # only supplies 6144 when the config key is ABSENT, and pipeline.ask passes whatever config() returns
 # straight to Ollama. So the real window measured against the live config is roughly DOUBLE what
 # this header claims -- ~36,000 theoretical characters, not ~18,000 -- and nothing anywhere
-# would notice the two drifting apart: health.check_context_budget (health.py:446-466) grades
+# would notice the two drifting apart: `health.check_context_budget` grades
 # CHUNK against the CONFIG value directly, it does not check this comment.
 #
 # NOTHING IS BROKEN BY THE STALE NUMBER -- CHUNK stays well under either ceiling either way -- but
@@ -555,7 +555,7 @@ def _ask_ungated(c, system, prompt, schema):
     # `ensure_transport()` that came back False in auto mode, and an explicit `--transport
     # ollama`. A benched or failing card returns None and that chunk went nowhere, so the "(%d
     # to GPU)" figure counts what the GPU actually received -- which is the whole reason
-    # read.py:213-215 says the counter exists.
+    # `_FELL_BACK`'s own comment gives for the counter existing.
     got = _local(c, system, prompt, schema)
     if got is not None:
         with _FELL_BACK_LOCK:

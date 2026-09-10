@@ -1,18 +1,22 @@
 # OVERWATCH
 
-round 468  ·  last run 2026-09-09 22:31
+round 469  ·  last run 2026-09-09 23:12
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 302,144 inspected (deep scan as of round 463)
+- files that will not parse: **0** of 302,231 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**29 open** (8 high). Newest first.
+**32 open** (10 high). Newest first.
 
+- **descending_ladder.py** `beta` — [HIGH] beta is initialized to 0.0 but the code does not actually modify it in the if conditions
+  - says: beta is initialized to 0.0 and then modified based on conditions
+- **cascade_bridge.py** `pinned` — [HIGH] can be assigned a local bucket
+  - says: never dispatches to the local GPU
 - **corpus_db.py** `main` — [HIGH] It skips the freshness check for --canned queries, leading to potential unhandled exceptions when the database file is missing
   - says: The code says it handles --canned queries safely
 - **corpus_db.py** `rebuild` — [HIGH] Rebuilds the index but does not process JSON files correctly, leading to potential data loss or incorrect counts.
@@ -29,6 +33,12 @@ round 468  ·  last run 2026-09-09 22:31
   - says: THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **cascade_bridge.py** `ask` — [MEDIUM] ask is called with max_attempts=1 but the comment suggests it's to prevent neighbor buckets from answering, but the code allows neighbor buckets to answer because the max_attempts=1 is not sufficient to prevent it
+  - says: ask is called with max_attempts=1 to prevent neighbor buckets from answering
+- **cascade_bridge.py** `_reset` — [MEDIUM] reset the strike count for a bucket if it exists
+  - says: reset the strike count for a bucket
+- **cascade_bridge.py** `_bucket_of` — [MEDIUM] returns the bucket name from a model's answer or an empty string if unresolved
+  - says: returns the bucket name from a model's answer
 - **burgs.py** `burg_link` — [MEDIUM] Generates a URL that includes the 'burg' parameter, which is supposed to be handled by Azgaar, but the function's implementation may not correctly reflect this if it's not using the correct parameters or if there's a misunderstanding in the URL construction.
   - says: The route to a settlement's own map: THROUGH Azgaar, not around it.
 - **binding_health.py** `tight` — [MEDIUM] a fuzz ratio score between 0 and 100
@@ -67,10 +77,6 @@ round 468  ·  last run 2026-09-09 22:31
   - says: set default for sort_keys
 - **feats.py** `known` — [MEDIUM] A CLEAN NEGATIVE IS CACHED, BUT A NULL IS ALSO CACHED (for a source that was never probed)
   - says: AND ONLY A CLEAN NEGATIVE MAY BE CACHED
-- **feats.py** `known` — [MEDIUM] A NULL IS A CACHED FAILURE, BUT A NULL IS ALSO A CACHED ANSWER (for a source that was never probed)
-  - says: A NULL IS A CACHED FAILURE, NOT AN ANSWER
-- **feats.py** `alive` — [MEDIUM] Returns the first element of `alive_verdict` which is True if the wiki answered, but the function is not called anywhere, making it effectively unused.
-  - says: Unchanged contract: True only when the wiki answered. See `alive_verdict` for the third answer, which every caller that CACHES a negative must ask for instead of this.
 
 ---
 

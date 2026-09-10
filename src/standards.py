@@ -201,7 +201,8 @@ def _flow_failure(exc, secs):
     # verbatim as the entire `observed` of the HIGH standard "the local model produces tokens",
     # whose own order text says "Read the detail before acting" because the remedy differs per
     # cause. A [:80] cut with no marker on the one field that carries the cause is the same
-    # shape already repaired at standards.py:604 and catalogue_models.py:130-138; whitespace is
+    # shape already repaired at `coverage_worst_sources`' own uncut name list below and in
+    # `catalogue_models`'s reason field; whitespace is
     # collapsed instead so a multi-line exception message still prints as one row.
     return "the probe failed before any tokens (%s: %s)" % (
         type(exc).__name__, " ".join(str(exc).split()))
@@ -1581,9 +1582,12 @@ def check(state=None):
         # to be able to NAME. Real roll names routinely pass eighteen ("Lost Mines of
         # Phandelver" is 24), and eighteen-character prefixes COLLIDE: every source of the form
         # "Warhammer Fantasy *" folded onto one string, so the page could not say which one was
-        # worst-covered. This file has already fixed the identical shape twice, at :1671 ("ALL
-        # OF THEM, not [:120] characters -- that cut the joined name list mid-name") and at
-        # :1742 ("EVERY RESIDENT NAME ... ranking is allowed here, truncating is not"). The
+        # worst-covered. This file has already fixed the identical shape twice: once beside the
+        # `code_amendment_pending` list ("ALL OF THEM, not `[:120]` characters -- that cut the
+        # joined name list mid-name") and once beside the resident-model reading ("EVERY
+        # RESIDENT NAME ... ranking is allowed here, truncating is not"). Cited by their own
+        # words rather than by line, because both citations had already rotted by ~220 and ~240
+        # lines when the 2026-09-09 sweep checked them (order 89503c58409f). The
         # list stays ordered worst-first, which is the ranking Hard Rule 0 permits; nothing
         # downstream aligns on this field, so no width argument applies.
         worst = sorted(good, key=lambda c: c.get("coverage", 0))

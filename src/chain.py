@@ -53,7 +53,13 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
 OUT = os.path.join(HERE, "data", "CHAIN.json")
 
 OUTCOME = re.compile(
-    r"\b(defeat(?:ed|s)?|beat(?:en)?|kill(?:ed|s)?|slew|slain|overpower(?:ed|s)?|bested|"
+    # `beat` CARRIES ITS PRESENT TENSE LIKE EVERY SIBLING HERE (2026-09-09 sweep, batch 11).
+    # It was `beat(?:en)?`, so "beats" and "beating" matched nothing while "defeats", "kills",
+    # "overpowers" and "concedes" all did -- and a wiki writes contest outcomes in the present
+    # tense constantly ("Yamamoto beats", "Goku beats him"). Those sentences were dropped from
+    # the harvest silently, which is the shape this project files as a fault: a filter that
+    # looks like it covers a verb and covers one inflection of it.
+    r"\b(defeat(?:ed|s)?|beat(?:s|en|ing)?|kill(?:ed|s)?|slew|slain|overpower(?:ed|s)?|bested|"
     r"outmatched|lost to|fell to|surrender(?:ed)? to|conced(?:ed|es)|"
     r"destroy(?:ed|s)?|struck down|put down|subdued)\b", re.I)
 

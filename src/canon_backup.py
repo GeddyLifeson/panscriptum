@@ -357,10 +357,38 @@ def verify(path=None):
     try:
         with zipfile.ZipFile(path) as z:
             broken = z.testzip()
+            inside = set(z.namelist())
     except (OSError, zipfile.BadZipFile) as e:
         return False, ["archive unreadable: %s" % e]
     if broken:
         return False, ["archive corrupt at member %s" % broken]
+    # AND THE ARCHIVE MUST CONTAIN WHAT THE MANIFEST SAYS IT CONTAINS (2026-09-09 sweep, batch
+    # 04). `testzip()` CRC-checks the members that are PHYSICALLY PRESENT and says nothing about
+    # one that is absent, and every comparison below is manifest-against-the-LIVE-TREE. So a
+    # member missing from the zip altogether was invisible: `testzip()` passed, `changed` and
+    # `gone` are computed from live files, and the report went on to say "archive intact, N
+    # members" with N read off the MANIFEST rather than off the archive. A backup verifier that
+    # cannot notice a missing member is the worst possible place for a check that cannot fail --
+    # the whole point of --verify is to learn this now rather than during a restore.
+    #
+    # `snapshot()` writes every member with `arcname=rel` and records the same `rel` as the
+    # manifest key, so the two sets are directly comparable. FAILS CLOSED, uncapped for the same
+    # reason `gone` and `missing` are: the set is bounded by the canonical inventory and this
+    # only ever prints on an explicit --verify.
+    absent = sorted(set(recorded) - inside)
+    extra = sorted(inside - set(recorded))
+    if absent:
+        return False, notes + [
+            "%d member(s) the manifest records are NOT IN THE ARCHIVE at all: %s. testzip() "
+            "passes on what is present, so this snapshot would have verified clean and "
+            "restored a smaller library than the one it claims to hold."
+            % (len(absent), ", ".join(absent))]
+    if extra:
+        # NOT a refusal: a member the manifest does not list cannot make a restore short, and
+        # calling it corruption would refuse a snapshot over something harmless. It is still
+        # recorded, because a pair that disagree about their own contents is worth seeing.
+        notes.append("%d member(s) in the archive are not recorded in the manifest: %s"
+                     % (len(extra), ", ".join(extra)))
     live = {rel: digest(p) for rel, p in members(strict=False)}
     # UNREADABLE IS NOT CHANGED (order f5ffb9979a07). `digest()` returns `None`, not a raised
     # exception, for a live file it could not read -- its own docstring says that "must be
@@ -374,7 +402,11 @@ def verify(path=None):
     changed = [r for r, d in live.items() if recorded.get(r) and d is not None and d != recorded[r]]
     added = [r for r in live if r not in recorded]
     gone = [r for r in recorded if r not in live]
-    notes.append("archive intact, %d members" % len(recorded))
+    # COUNTED OFF THE ARCHIVE, not off the manifest. `len(recorded)` is what the snapshot MEANT
+    # to contain; the sentence claims what it DOES contain, and until the check above existed
+    # those two were never compared. They are equal by the time this line runs, which is the
+    # point of saying so from the archive's side.
+    notes.append("archive intact, %d members" % len(inside))
     # NAMED, LIKE `gone` (order 323703189931). These two were counts only -- "%d canonical files
     # changed since the snapshot" -- while the docstring above promises this call answers "is the
     # archive itself still intact and readable, AND WHICH CANONICAL FILES HAVE CHANGED since it

@@ -1738,10 +1738,11 @@ _QUANTITY = re.compile(
     # complete unit words -- and a sweep has flagged it as exactly that, correctly, as a
     # QUESTION. The answer, so that it lives beside the code instead of in a handoff nobody
     # greps: `kili` and `power level` are the Dragon Ball scouter's own units, which is why they
-    # are adjacent here. magnitude.py:417 names both in terms as "franchise-internal scales with
-    # no conversion", deliberately absent from `_TO_JOULES` and belonging to the Rosetta Tables
-    # (Vol. X.4) rather than a joules column; "3,000 kili" is the worked example at
-    # magnitude.py:45 and :640 and the cited Reach evidence at reference.py:95, and
+    # are adjacent here. The preamble to `magnitude._TO_JOULES` names both in those terms --
+    # "franchise-internal scales with no conversion", deliberately absent from the table and
+    # belonging to the Rosetta Tables (Vol. X.4) rather than a joules column; "3,000 kili" is the
+    # worked example in `magnitude`'s guard-5 header and again beside `_CITE_NUMBER_ONLY`, and is
+    # the cited Reach evidence in `reference`'s worked example, and
     # src/zfighters.py is the module whose evidence is written in these units. Mining them is
     # the point: a quantity that cannot be converted is still a quantity the assay must SEE
     # before it decides it has no arithmetic for it. (order 26599d13c6a9)

@@ -315,20 +315,22 @@ def edge(to, cls, why, frm, known_codes):
 
     1. A class this pass may not derive. T5 is the Great Identifications and the §7B ruling is
        that they are owner-authored only -- never derived, never inferred, never emitted by
-       `threads.py`. T3 and T4 are unauthorised phases. Refusing here rather than at the call
-       site means a future caller cannot reach the wrong class by a new path.
+       `threads.py`. T3 was authorised by §7G on 2026-09-08 and T4 by §7H on 2026-09-09, so both
+       are in `DERIVABLE` and neither is refused here any more; T5 alone is. Refusing here rather
+       than at the call site means a future caller cannot reach the wrong class by a new path.
     2. An address that does not resolve. §6: emit an address only if it resolves NOW. A thread
        that points at nothing is broken, and building it and hoping the verifier catches it
        later is the wrong order.
     """
     if cls not in DERIVABLE:
         raise ThreadRefused(
-            "class %r may not be derived by threads.py. T1/T2 are Phase 4.1 and T3 (the "
-            "Chronicle join) was authorised by STEP4_PLAN.md §7G on 2026-09-08; T4 (Law "
-            "citations) is Phase 4.4 and remains UNAUTHORISED by §7G's own closing line; T5 (the "
-            "Great Identifications) is OWNER-AUTHORED ONLY by the §7B ruling and must never be "
-            "machine-derived. (The refusal used to cite §7E, which §7F and §7G had already "
-            "superseded -- two rulings stale.)" % (cls,))
+            "class %r may not be derived by threads.py. T1/T2 are Phase 4.1; T3 (the Chronicle "
+            "join) was authorised by STEP4_PLAN.md §7G on 2026-09-08 and T4 (Law citations) by "
+            "§7H on 2026-09-09, so all four are in DERIVABLE; T5 (the Great Identifications) is "
+            "OWNER-AUTHORED ONLY by the §7B ruling and must never be machine-derived. (This "
+            "refusal has now been stale twice: it cited §7E after §7F and §7G superseded it, and "
+            "it went on calling T4 UNAUTHORISED after §7H admitted it the same evening. A "
+            "refusal message naming a ruling is a citation and rots like one.)" % (cls,))
     if not _resolves(to, known_codes):
         raise ThreadRefused(
             "refusing to emit a thread to %r, which does not resolve to a live address. A thread "

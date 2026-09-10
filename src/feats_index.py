@@ -159,7 +159,9 @@ def host_to_sources(path=WIKI_HOSTS):
         silence.note("feats_index.host_to_sources")
         # UNCUT (order 70f5e5150f8b). A hard [:110] slice on the underlying exception text is
         # Hard Rule 0's exact shape on a stored/reported diagnostic -- the same one already
-        # repaired at standards.py:174-181 and catalogue_models.py's provider_pool_denominator
+        # repaired in `standards._token_probe_failure`'s own uncut exception text (cited by name
+        # rather than by line: the line citation that stood here had rotted) and in
+        # catalogue_models.py's provider_pool_denominator
         # [:40] cut (order 6d354a508b96). Whitespace is collapsed instead of sliced, so a long
         # or multi-line OS/JSON error still prints as one row without losing its tail.
         raise RuntimeError(

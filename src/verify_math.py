@@ -730,9 +730,23 @@ gamma = 1 / math.sqrt(1 - 0.5 ** 2)
 # moved, in a file whose whole argument is that a measurement must be re-taken rather than
 # remembered. A prose count cannot notice the next one either. So the scan is now a ROW, at
 # the end of §20z, and it is asserted every run instead of quoted once.
+# AND THE BAR WAS NOT A BAR AT ALL (2026-09-09 sweep, batch 02). This row stood at `tol=1.0`
+# under a note reading "the bar is 1 joule against a quantity near 4.6e16, i.e. floating-point
+# noise and nothing wider". `check()`'s tolerance is RELATIVE -- `abs(got-want) <= tol *
+# max(1.0, abs(want))` -- so `tol=1.0` permitted an error equal to the whole answer. Measured:
+# want is 1.390379e16 J, a Newtonian-only `physics.kinetic` returns 1.123444e16 (19.2% low) and
+# PASSED, and so did `got=0`. The one row in this file whose entire subject is "must switch to
+# relativistic above 0.1c" could not tell relativistic from Newtonian, and the note was wrong
+# about the magnitude as well.
+#
+# 1e-12, and an absolute 1-joule bar is NOT achievable here. One joule against 1.39e16 is a
+# relative 7.2e-17, below double precision (~2.2e-16), so a literal reading of the old note
+# would have made the row fail on rounding. The real implementation agrees to a relative error
+# of exactly 0.0, and 1e-12 refuses both the Newtonian answer and zero -- checked in both
+# directions before this was changed.
 check("KE relativistic @ 0.5c uses gamma", PH.kinetic(1.0, 0.5 * 2.99792458e8),
-      (gamma - 1) * 1.0 * 2.99792458e8 ** 2, tol=1.0,
-      note="must switch to relativistic above 0.1c; the bar is 1 joule against a quantity near 4.6e16, i.e. floating-point noise and nothing wider")
+      (gamma - 1) * 1.0 * 2.99792458e8 ** 2, tol=1e-12,
+      note="must switch to relativistic above 0.1c; tol is RELATIVE, so this is ~1.4e4 J against 1.39e16 J -- floating-point noise at this magnitude and nothing wider. A Newtonian-only answer is 19.2% low and is refused")
 
 # Pulverisation volume math
 check("pulverise 1000 m^3 concrete (J)", PH.joules_for(1000, "concrete", "pulv"), 1.7e11, tol=1e-9)
@@ -6818,12 +6832,33 @@ check("the sweep coverage ledger names a FINISHED run at all", _run20n is not No
            "first batches -- which on a first-ever sweep is the honest answer and still fails, "
            "because the check below would otherwise prove the completeness of a sweep that "
            "never finished")
+# THE ROW SAYS WHICH OF THREE THINGS HAPPENED (order de265a105279, half of it). It named two
+# causes -- "a genuinely skipped module or a broken proof" -- and there is a third: a module that
+# DID NOT EXIST when that sweep's batches were dispatched. run48 did not skip `whoruns.py`;
+# `whoruns.py` was not there. Rendered identically, the reader's first move was to go hunting for
+# a bug in `batches()` that is not there.
+#
+# NOTHING IS WEAKENED BY THIS. `missing()` is still what the row asserts and it is still asked of
+# every module with no exclusions, so exactly the same runs fail. `missing_detail()` -- which
+# already exists, and which deliberately refuses to infer "added since" from a file's mtime,
+# because a skipped module somebody later edited would launder itself into the exonerating
+# bucket -- is read only to SAY WHY in the note. Whether an `added_since` gap should still fail a
+# Hard-Rule--1 safety is the owner's half of that order and is untouched here.
+_detail20n = _SP20n.missing_detail(_run20n) if _run20n else {}
+_why20n = "; ".join("%s: %s" % (_k20n, ", ".join(_detail20n[_k20n]))
+                    for _k20n in ("skipped", "added_since", "undetermined")
+                    if _detail20n.get(_k20n)) or "nothing missing"
 check("the newest FINISHED sweep proves its own completeness",
       _SP20n.missing(_run20n) if _run20n else ["<no finished sweep on record>"], [],
-      note="every module in src/, each recorded by the batch that read it; a non-empty list "
-           "here is either a genuinely skipped module or a broken proof, and both need "
-           "chasing. Held to %r, whose last shard landed %.1fh ago"
-           % (_run20n, (_now20n_t - _ended20n[0][0]) / 3600.0 if _ended20n else -1.0))
+      note="every module in src/, each recorded by the batch that read it. THREE causes, and the "
+           "split for this run is -- %s. `skipped` means that sweep's own roster listed the "
+           "module and no batch recorded reading it, which is a broken proof; `added_since` "
+           "means it was in NO shard's roster, so it provably did not exist when the batches "
+           "were dispatched and is owed to the NEXT sweep; `undetermined` means the run wrote no "
+           "roster and its gaps cannot be explained from the record. Held to %r, whose last "
+           "shard landed %.1fh ago"
+           % (_why20n, _run20n,
+              (_now20n_t - _ended20n[0][0]) / 3600.0 if _ended20n else -1.0))
 
 # THE FILTER NOW MATCHES THE CLAIM (order 8389720500a9, run #37). This collected `r["holds"]`
 # for every UNMEASURED row and demanded []. An HONESTLY UNMEASURED-AND-RED row yields [False]
@@ -12423,8 +12458,6 @@ check("[control] and it reads an inline raw-source read rather than walking past
            "of a dict this file fills with raw source is examined too. Before order eb2666d8b815 "
            "all three were skipped in silence and counted as nothing at all")
 
-_REACHED_THE_END_VM[0] = True
-
 print("    §20ae  A DRILL STAND-IN MAY NOT BE NARROWER THAN THE FUNCTION IT STANDS FOR")
 # THE CLASS THAT RAISED TWO HALTS IN ONE DAY (2026-09-08, run #46).
 #
@@ -12472,7 +12505,19 @@ def _stub_sig20ae(a):
 
 
 def _standins20ae(src_text):
-    """-> (arity faults, weak keyword-only notes, unresolvable sites). Pure; no import of drill."""
+    """-> (arity faults, weak keyword-only notes, unresolvable sites, sites COMPARED).
+
+    Pure; no import of drill.
+
+    THE FOURTH VALUE IS THE ANTI-VACUITY EVIDENCE (2026-09-09 sweep, batch 02). The first three
+    are all lists that are EMPTY when everything is fine -- which is also what they are when the
+    walk matched no assignment at all. The row that was supposed to guard against that asserted
+    `len(bad) == 0 and text.count("CK.load = ") >= 1`: a re-assertion of the first row plus a
+    grep of the subject file, neither of which is a count of what the SCAN resolved. Change how
+    drill installs its stand-ins and all three rows would go on passing over an empty set for
+    ever. Every sibling "real population" row in this file counts what its own scan found; this
+    one is now no longer the exception.
+    """
     tree = _ast20ae.parse(src_text)
     binds = sorted((n.lineno, al.asname or al.name.split(".")[0], al.name)
                    for n in _ast20ae.walk(tree) if isinstance(n, _ast20ae.Import) for al in n.names)
@@ -12480,7 +12525,7 @@ def _standins20ae(src_text):
     for n in _ast20ae.walk(tree):
         if isinstance(n, (_ast20ae.FunctionDef, _ast20ae.AsyncFunctionDef)):
             defs.setdefault(n.name, []).append(n)
-    bad, weak, unresolved = [], [], []
+    bad, weak, unresolved, compared = [], [], [], []
     for n in _ast20ae.walk(tree):
         if not (isinstance(n, _ast20ae.Assign) and len(n.targets) == 1):
             continue
@@ -12512,6 +12557,9 @@ def _standins20ae(src_text):
             spos, skw, skwonly = _stub_sig20ae(max(cands, key=lambda d: d.lineno).args)
         else:
             continue
+        # COUNTED BEFORE THE `**kw` SHORTCUT, on purpose: a stub written wide is a site this
+        # scan resolved and vouched for, not a site it skipped.
+        compared.append("%s.%s@%d" % (t.value.id, t.attr, n.lineno))
         if skw:
             continue
         rpos = [k for k, p in rsig.parameters.items() if p.kind in _ae_pos]
@@ -12522,11 +12570,11 @@ def _standins20ae(src_text):
         for k, p in rsig.parameters.items():
             if p.kind is _insp20ae.Parameter.KEYWORD_ONLY and k not in set(skwonly) | set(spos):
                 weak.append("%s.%s@%d:%s" % (t.value.id, t.attr, n.lineno, k))
-    return bad, weak, unresolved
+    return bad, weak, unresolved, compared
 
 
 _drill20ae = _src20p("drill.py")
-_bad20ae, _weak20ae, _unres20ae = _standins20ae(_drill20ae)
+_bad20ae, _weak20ae, _unres20ae, _seen20ae = _standins20ae(_drill20ae)
 check("no drill stand-in takes fewer arguments than the function it replaces", _bad20ae, [],
       note="a stub narrower than its subject breaches on a CORRECT edit to the guarded code; "
            "the remedy is **kw on the stub, never narrowing the real function")
@@ -12536,16 +12584,20 @@ check("and every stand-in site was actually resolvable, so the scan vouches for 
            "aliases were scoped to the nearest preceding import -- drill.py binds SC to both "
            "scope and scout")
 check("the scan is looking at a real population, not at nothing",
-      len(_standins20ae(_drill20ae)[0]) == 0 and _drill20ae.count("CK.load = ") >= 1, True,
-      note="guards against the walk silently matching no assignment at all, which would make "
-           "both rows above pass on an empty set for ever")
+      len(_seen20ae) >= 50, True,
+      note="the scan RESOLVED AND COMPARED %d stand-in sites in drill.py this run; the floor is "
+           "50. It used to read `len(_standins20ae(_drill20ae)[0]) == 0 and "
+           "_drill20ae.count('CK.load = ') >= 1' -- a re-assertion of the row above plus a grep "
+           "of the subject file, neither of which counts what the WALK found, so a scan that "
+           "matched no assignment at all left all three rows green for ever (2026-09-09 sweep)"
+           % len(_seen20ae))
 # CONTROL. The rows above assert an empty list, so they are exactly the shape that passes when the
 # detector is dead. A stub is planted that IS narrower than its subject, and the scan must find it.
 _ctrl20ae = ("import cachekey\n"
              "def _s(base, host, name):\n"
              "    return None, None\n"
              "cachekey.load = _s\n")
-_cbad20ae, _, _cun20ae = _standins20ae(_ctrl20ae)
+_cbad20ae, _, _cun20ae, _cseen20ae = _standins20ae(_ctrl20ae)
 check("[control] a planted narrow stand-in IS caught", len(_cbad20ae), 1,
       note="cachekey.load is (base, host, name, on_corrupt=None); the plant takes three. This is "
            "halt #3 reduced to four lines")
@@ -12554,8 +12606,15 @@ check("[control] and a stand-in with **kw is NOT reported",
                                       "def _s(base, host, name, **kw):"))[0], [],
       note="the remedy must read as clean, or the row would push people toward narrowing the "
            "real function instead")
+# AND THE CONTROL'S OWN POPULATION, so "the plant was caught" cannot come from a scan that found
+# the plant and nothing else because it resolved exactly one site by luck. One site is the whole
+# of this fixture, which is what makes it a fair control for the count row above.
+check("[control] the planted fixture resolves exactly the one site it contains", len(_cseen20ae), 1,
+      note="if the walk over a four-line fixture resolved zero or two, the count the real row "
+           "asserts a floor on would be measuring something other than stand-in sites")
 
 
+_REACHED_THE_END_VM[0] = True
 _print_result_vm()
 if FAIL:
     sys.exit(1)

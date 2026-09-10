@@ -79,6 +79,10 @@ RESULTS = []
 # a second witness reads `health.LEDGER` at every flush and the union of the two is what the
 # nets assert on. `_no_ledger_flush` exists for the same reason the record wrapper does.
 _LEDGER_ESCAPES = []
+# WHICH NET IS UNDER THE SPY RIGHT NOW. A stack rather than a scalar, so a helper that runs one
+# attack inside another cannot leave the wrong name behind when it unwinds; `net()` is the only
+# writer. Empty means nothing is being attacked, which is a real answer and not a missing one.
+_CURRENT_NET = []
 _FLUSHED = {}
 _LEDGER_UNREADABLE = []
 _REAL_RECORD = _H.record
@@ -93,9 +97,18 @@ def _spy_record(*a, **k):
     # way when the leaks it was reporting all came from a sibling file.
     fr = [f for f in _tb.extract_stack()
           if os.path.basename(f.filename).startswith("drill") and f.name != "_spy_record"]
+    # AND THE NET'S NAME, NOT ONLY THE LINE (order 2cf4993b3a3f, 2026-09-09). A line number is
+    # enough to find the code and not enough to know what was being PROVED there -- and the
+    # author reading the halt is being told, after the fact, that a probe they wrote should have
+    # reached `_deliberately_failing`. `_CURRENT_NET` is set by `net()` around each attack, so
+    # the escape says which one without any caller having to remember to say it. Escapes raised
+    # outside an attack (import time, a helper run by hand) carry "<no net running>", which is
+    # itself the useful distinction.
     _LEDGER_ESCAPES.append(
-        "%s -> %s" % ("%s:%d" % (os.path.basename(fr[-1].filename), fr[-1].lineno)
-                      if fr else "<outside this file>", a[0] if a else "<no key>"))
+        "%s [%s] -> %s" % ("%s:%d" % (os.path.basename(fr[-1].filename), fr[-1].lineno)
+                           if fr else "<outside this file>",
+                           _CURRENT_NET[-1] if _CURRENT_NET else "<no net running>",
+                           a[0] if a else "<no key>"))
     return _REAL_RECORD(*a, **k)
 
 
@@ -351,18 +364,42 @@ _ATTACKS = {}
 
 
 def net(area, name, attack, expectation):
-    """Record one attack. `attack` returns True if the net HELD (i.e. it refused the attack)."""
+    """Record one attack. `attack` returns True if the net HELD (i.e. it refused the attack).
+
+    BEFORE YOU WRITE A NET THAT DRIVES A REFUSAL PATH, READ THIS (order 400d5c76e6f8). Many of
+    this library's guards report through `silence.note`, and `silence.note` calls
+    `health.record`, which lands in `state/failures.json` -- the OPERATIONAL ledger that
+    `standards` grades from, that `foreman.triage_swallowed` names classes out of, and that a
+    person reads to decide what is wrong with the library. A probe that drives such a refusal
+    manufactures, permanently, the exact signal it exists to prove the library can raise.
+
+    So wrap the call that is SUPPOSED to fail in `_deliberately_failing`, scoped to that call and
+    nothing else, so an unrelated fault raised during the same net is still recorded. Assert the
+    RAISE, never the ledger entry; nothing under test is being suppressed by this.
+
+    IT HAS BEEN FORGOTTEN AT LEAST THREE TIMES, and the last one halted the library
+    (2026-09-09: `_scope_lands_key_wise` drove `scope.mutate`'s two CAS refusals and THE LEDGER
+    WITNESS caught it). The witness is a detection mechanism, not a prevention one, and it costs
+    a halt each time -- so the rule is written here, where the author of a new net is, rather
+    than only in the wrapper's own docstring, which is read by people who already know.
+    """
     # KEPT SO A BREACH CAN BE ASKED TWICE (order 71ae3fa7e55e). `RESULTS` is JSON and goes to
     # disk, so the callable cannot live there; it is kept beside it under (area, net), which is
     # how `_reread_the_breaches` finds the one net it has to re-run. Two nets sharing both an
     # area and a name would share an entry -- the second wins -- and the re-read then proves the
     # survivor rather than the loser, which is why it fails CLOSED on a missing entry.
     _ATTACKS[(area, name)] = attack
+    # NAMED WHILE IT RUNS, so a ledger escape can say WHICH net leaked and not only which line
+    # (order 2cf4993b3a3f). Pushed and popped in a `finally` -- an attack that raises is the
+    # ordinary case here, and a stack that only unwinds on success would blame the next net.
+    _CURRENT_NET.append(name)
     try:
         held = bool(attack())
         err = None
     except Exception as e:                      # an exception during the attack is a breach
         held, err = False, "%s: %s" % (type(e).__name__, e)
+    finally:
+        _CURRENT_NET.pop()
     RESULTS.append({"area": area, "net": name, "held": held,
                     "expected": expectation, "error": err})
     return held
@@ -375,6 +412,63 @@ def _refuses(fn, exc):
         return False
     except exc:
         return True
+
+
+@contextlib.contextmanager
+def _src_mtime_preserved(root=None):
+    """Run a probe that must create something inside live `src/`, without the battery's own
+    footprint reading as somebody editing the library.
+
+    `root` defaults to the live `src/` and exists so the net that guards this can drive it over
+    a scratch tree -- a helper whose only exercise is the live directory it is protecting is a
+    helper nobody can watch refuse.
+
+    FOUND BY THE 2026-09-09 SWEEP, batch 01, and MEASURED rather than argued. The junction
+    probes in `drill_writable_surface` have to stage `src/__drill_junction_probe__` -- the gate
+    they attack resolves the ALLOWLIST against a path spelled `src/...`, so there is nowhere
+    else the attack can be delivered from. Creating and deleting that entry bumps the mtime of
+    the `src/` DIRECTORY while no `.py` file's mtime moves at all, which was confirmed on this
+    filesystem (mkdir +1.101s, rmdir +1.102s, `a.py` untouched).
+
+    AND THE DIRECTORY'S OWN MTIME IS EXACTLY WHAT `codewatch.quiet_seconds` READS, on purpose:
+    "The directory's own mtime is included because a file CREATED or DELETED in `src/` changes
+    the digest while every surviving file's mtime stays old." So every drill run reset the
+    settling clock that `_wait_for_a_settled_tree` then consults to decide whether a breach is
+    real -- and the "RE-READ ON AN UNSETTLED TREE: src/ was last written 1s ago ... Somebody is
+    editing the library right now" verdict on record could have been the drill reading its own
+    footprint and blaming a person. Every standing daemon reads the same clock.
+
+    RESTORED ONLY WHEN NOTHING ELSE MOVED, which is the whole of the safety here. The entry
+    NAMES are snapshotted on the way in and compared on the way out: an unchanged set means no
+    file was created or deleted by anyone during the probe, so the original directory mtime is
+    the true one and putting it back restores a fact rather than hiding one. If the set changed,
+    somebody else really did create or delete something and the bumped mtime is CORRECT -- so it
+    is left alone. A file merely MODIFIED during the window is unaffected either way, because
+    `quiet_seconds` takes the max over the files as well as the directory.
+
+    PRINTS RATHER THAN NOTING on failure, deliberately. `silence.note` reaches `health.record`
+    and this helper runs inside probes, so a note here would be a battery rehearsal writing into
+    the operational failure ledger -- the leak THE LEDGER WITNESS halts the library over (order
+    400d5c76e6f8).
+    """
+    if root is None:
+        import local_agent as _LA
+        root = os.path.join(_LA.HERE, "src")
+    try:
+        before = os.stat(root)
+        names = set(os.listdir(root))
+    except OSError:
+        yield                      # cannot measure it, so do not pretend to preserve it
+        return
+    try:
+        yield
+    finally:
+        try:
+            if set(os.listdir(root)) == names and os.path.getmtime(root) != before.st_mtime:
+                os.utime(root, (before.st_atime, before.st_mtime))
+        except OSError as _e_mt:
+            print("  NOTE: could not restore src/'s directory mtime after a probe (%s). The "
+                  "settling clock reads this run's own footprint as an edit." % _e_mt)
 
 
 @contextlib.contextmanager
@@ -3514,24 +3608,31 @@ def drill_local_agent():
             if os.path.lexists(link):
                 _si.note("drill.py:junction-probe-cleanup")
 
-        try:
-            _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "state")],
-                    capture_output=True, text=True,
-                    creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
-        except OSError:
-            # No `cmd` at all -- not Windows. FileNotFoundError is an OSError.
-            unstage()
-            _si.note("drill.py:junction-probe-unstageable")
-            return True
-        if not os.path.isdir(link):
-            unstage()
-            _si.note("drill.py:junction-probe-unstageable")
-            return True                       # could not stage the attack; not evidence either way
-        try:
-            through_link = LA._safe("src/__drill_junction_probe__/failures.json")
-            ordinary = LA._safe("src/lognames.py")
-        finally:
-            unstage()
+        # THE PROBE'S OWN FOOTPRINT IS NOT AN EDIT (2026-09-09 sweep, batch 01). Staging and
+        # unstaging this entry bumps the mtime of the `src/` DIRECTORY, which is exactly what
+        # `codewatch.quiet_seconds` reads to decide whether the tree has settled -- the clock
+        # `_wait_for_a_settled_tree` then consults before this battery is allowed to halt the
+        # library, and the clock every standing daemon reads too. See `_src_mtime_preserved` for
+        # the measurement and for the compare-on-the-way-out that keeps it honest.
+        with _src_mtime_preserved():
+            try:
+                _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "state")],
+                        capture_output=True, text=True,
+                        creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+            except OSError:
+                # No `cmd` at all -- not Windows. FileNotFoundError is an OSError.
+                unstage()
+                _si.note("drill.py:junction-probe-unstageable")
+                return True
+            if not os.path.isdir(link):
+                unstage()
+                _si.note("drill.py:junction-probe-unstageable")
+                return True                   # could not stage the attack; not evidence either way
+            try:
+                through_link = LA._safe("src/__drill_junction_probe__/failures.json")
+                ordinary = LA._safe("src/lognames.py")
+            finally:
+                unstage()
         # Refused through the link, and the ordinary path still permitted -- a gate that refuses
         # everything passes every refusal test ever written.
         #
@@ -3600,32 +3701,37 @@ def drill_local_agent():
             unstage()
             _si.note("drill.py:surface-probe-unstageable")
             return True
-        try:
-            _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "data")],
-                    capture_output=True, text=True,
-                    creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
-        except OSError:
-            unstage()
-            _si.note("drill.py:surface-probe-unstageable")
-            return True
-        if not os.path.isdir(link):
-            unstage()
-            _si.note("drill.py:surface-probe-unstageable")
-            return True               # could not stage the attack; not evidence either way
-        try:
-            got = LA.t_propose_patch("src/__drill_surface_probe__/__drill_surface_probe__.txt",
-                                     "CANARY", "BREACHED", why="drill: bypass class seven")
-            after = ""
+        # SAME FOOTPRINT, SAME PRESERVATION as the sibling junction net above -- this one stages
+        # `src/__drill_surface_probe__`, and a create-plus-delete inside `src/` moves the
+        # directory's mtime, which is the settling clock (2026-09-09 sweep, batch 01).
+        with _src_mtime_preserved():
             try:
-                with open(probe, encoding="utf-8") as fh:
-                    after = fh.read()
+                _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "data")],
+                        capture_output=True, text=True,
+                        creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
             except OSError:
-                _si.note("drill.py:surface-probe-readback")
-            # An ordinary in-surface path must still be reachable: a gate that refuses
-            # everything passes every refusal test ever written.
-            ordinary = LA._safe("src/lognames.py")
-        finally:
-            unstage()
+                unstage()
+                _si.note("drill.py:surface-probe-unstageable")
+                return True
+            if not os.path.isdir(link):
+                unstage()
+                _si.note("drill.py:surface-probe-unstageable")
+                return True           # could not stage the attack; not evidence either way
+            try:
+                got = LA.t_propose_patch(
+                    "src/__drill_surface_probe__/__drill_surface_probe__.txt",
+                    "CANARY", "BREACHED", why="drill: bypass class seven")
+                after = ""
+                try:
+                    with open(probe, encoding="utf-8") as fh:
+                        after = fh.read()
+                except OSError:
+                    _si.note("drill.py:surface-probe-readback")
+                # An ordinary in-surface path must still be reachable: a gate that refuses
+                # everything passes every refusal test ever written.
+                ordinary = LA._safe("src/lognames.py")
+            finally:
+                unstage()
         # IT MUST BE REFUSED BEFORE THE GATES RUN, NOT MERELY UNDONE AFTERWARDS.
         #
         # TWO WRONG ASSERTIONS WERE WRITTEN HERE BEFORE THIS ONE, and both are worth recording
@@ -3662,6 +3768,93 @@ def drill_local_agent():
         "the allowlist is the gate that fails closed, and it was asking about a string the "
         "filesystem had already disagreed with -- a denylist that misses is one hole, an "
         "allowlist that misses is every file nobody thought to list")
+
+    def _a_probe_does_not_reset_the_settling_clock():
+        """The two junction probes stage an entry inside LIVE `src/`, and that moves the clock
+        this battery is graded by (2026-09-09 sweep, batch 01).
+
+        `codewatch.quiet_seconds()` deliberately includes the `src/` DIRECTORY's own mtime,
+        because a file created or deleted there changes the digest while every surviving file's
+        mtime stays old. A create-plus-delete therefore reads as "src/ was written 0 seconds
+        ago" with no `.py` file having changed -- and that reading is what
+        `_wait_for_a_settled_tree` consults before this battery may halt the library, and what
+        every standing daemon consults before restarting itself. A battery that stamps its own
+        footprint on that clock reports "somebody is editing the library right now" about
+        itself, and a "RE-READ ON AN UNSETTLED TREE" verdict of exactly that wording is on
+        record.
+
+        BOTH HALVES, because either alone is defeatable. The helper is DRIVEN over a scratch
+        tree -- it must put the directory mtime back when nothing else moved, and must leave it
+        alone when something did, since a real create by somebody else makes the bumped mtime
+        the true one. And the two probes are asked of the PARSE TREE, because a correct helper
+        nothing calls preserves nothing.
+        """
+        import ast
+        import tempfile
+        import shutil as _sh
+
+        # ---- driven ---------------------------------------------------------------------
+        base = tempfile.mkdtemp(prefix="drill-srcmtime-")
+        try:
+            root = os.path.join(base, "src")
+            os.makedirs(root)
+            with open(os.path.join(root, "a.py"), "w", encoding="utf-8") as fh:
+                fh.write("x = 1\n")
+            os.utime(root, (time.time() - 3600, time.time() - 3600))
+            was = os.path.getmtime(root)
+
+            with _src_mtime_preserved(root):
+                d = os.path.join(root, "__probe__")
+                os.makedirs(d)
+                if os.path.getmtime(root) <= was:
+                    return False      # the premise itself: creating an entry must bump it
+                os.rmdir(d)
+            if abs(os.path.getmtime(root) - was) > 0.01:
+                return False          # a footprint that left nothing behind was not restored
+
+            # and a REAL create by somebody else keeps its honest mtime
+            with _src_mtime_preserved(root):
+                with open(os.path.join(root, "b.py"), "w", encoding="utf-8") as fh:
+                    fh.write("y = 2\n")
+            if os.path.getmtime(root) <= was:
+                return False          # somebody else's edit was hidden, which is worse
+        finally:
+            _sh.rmtree(base, ignore_errors=True)
+
+        # ---- and the probes actually use it ----------------------------------------------
+        tree = _ast_of(os.path.join(_srcdir(), "drill.py"))
+        for name in ("_junction_out_of_the_writable_surface",
+                     "_junction_to_an_unlisted_but_undenied_place"):
+            fn = _defn(tree, name)
+            if fn is None:
+                return False
+            staged = [n for n in _live_walk(fn)
+                      if isinstance(n, ast.Call)
+                      and any(isinstance(x, ast.Constant) and isinstance(x.value, str)
+                              and "mklink" in x.value for x in ast.walk(n))]
+            if not staged:
+                return False          # the probe no longer stages anything; net has lost its subject
+            guarded = False
+            for w in _live_walk(fn):
+                if not isinstance(w, ast.With):
+                    continue
+                if not any(isinstance(i.context_expr, ast.Call)
+                           and _spelled(_spellings_of_call(tree, i.context_expr),
+                                        "_src_mtime_preserved")
+                           for i in w.items):
+                    continue
+                inside = {id(x) for x in ast.walk(w)}
+                if all(id(s) in inside for s in staged):
+                    guarded = True
+            if not guarded:
+                return False
+        return True
+    net(a, "a probe staging inside src/ does not reset the settling clock",
+        _a_probe_does_not_reset_the_settling_clock,
+        "codewatch.quiet_seconds reads the src/ DIRECTORY mtime on purpose, so a probe that "
+        "creates and deletes an entry there makes the battery's own footprint read as an "
+        "editor -- in the one measurement that decides whether a breach is real enough to halt "
+        "the library")
 
     def _write_lane_checks_the_halt(src=None):
         """`local_agent.run` must CALL assert_clear, not merely mention it.
@@ -14666,6 +14859,66 @@ def drill_mutation():
         _a_canonical_snapshot_refuses_when_it_cannot_verify_itself,
         "an unverified backup of the only copy of a 217-source corpus is a belief, and both the "
         "empty and the partial case verify perfectly while restoring almost nothing")
+
+    def _verify_notices_a_member_missing_from_the_archive():
+        """The net above attacks `snapshot()`, which WRITES. This attacks `verify()`, which is
+        what anybody asks months later, and it was blind in exactly the direction that matters
+        (2026-09-09 sweep, batch 04).
+
+        `zipfile.testzip()` CRC-checks the members that are PHYSICALLY PRESENT and is silent
+        about one that is absent, and every other comparison in `verify()` runs the manifest
+        against the LIVE TREE rather than against the archive. So a snapshot with a member
+        simply gone verified clean, and reported "archive intact, N members" with N counted off
+        the MANIFEST -- the number that says what the archive was supposed to hold.
+
+        A REAL ARCHIVE, MINUS ONE MEMBER, because a synthetic fixture would not prove the thing
+        anyone cares about: that this happens to a snapshot of the actual canonical corpus. The
+        live pair is COPIED into a temp tree and the copy is doctored; `newest()` and the live
+        snapshot are never written to. Both directions are asserted -- the untouched copy must
+        verify, or the net is measuring a broken fixture rather than a working check.
+        """
+        import zipfile as _zip
+        import canon_backup as CB
+        live = CB.newest()
+        man = (live or "")[:-4] + ".manifest.json"
+        if not (live and os.path.isfile(live) and os.path.isfile(man)):
+            # NOT A BREACH. No snapshot on this machine yet is a state the sibling net above
+            # already covers from the writing side; grading it here would halt the library over
+            # a fresh clone. Noted through the printed roster rather than the ledger.
+            _DECLARED_ESCAPES.append(
+                "verify-missing-member probe DECLINED -- no snapshot pair on disk to copy")
+            return True
+        d = tempfile.mkdtemp(prefix="drill_canon_verify_")
+        try:
+            copy = os.path.join(d, os.path.basename(live))
+            shutil.copy2(man, os.path.join(d, os.path.basename(man)))
+            with _zip.ZipFile(live) as zin:
+                names = zin.namelist()
+                if len(names) < 2:
+                    return False       # nothing to drop; the fixture cannot pose the question
+                # THE CONTROL FIRST: a faithful copy must still verify, or "False" below would
+                # be evidence about the copying and not about the check.
+                with _zip.ZipFile(copy, "w", _zip.ZIP_DEFLATED, compresslevel=1) as zout:
+                    for n in names:
+                        zout.writestr(n, zin.read(n))
+                if not CB.verify(copy)[0]:
+                    return False
+                drop = names[len(names) // 2]
+                with _zip.ZipFile(copy, "w", _zip.ZIP_DEFLATED, compresslevel=1) as zout:
+                    for n in names:
+                        if n != drop:
+                            zout.writestr(n, zin.read(n))
+            ok, notes = CB.verify(copy)
+            # REFUSED, AND IT NAMES THE MEMBER. A refusal that says only "something is wrong"
+            # sends a person to compare two hundred files by hand.
+            return (not ok) and any(drop in n for n in notes)
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "verify() notices a member missing from the archive, not just a corrupt one",
+        _verify_notices_a_member_missing_from_the_archive,
+        "testzip() passes on whatever is present and every other comparison ran against the "
+        "LIVE TREE, so a snapshot short of a member verified clean and would have restored a "
+        "smaller library than the one it claims to hold")
 
     def a_gate_that_cannot_finish_is_refused():
         """BOTH DIRECTIONS OF THE SAME WORTHLESS ANSWER. Before the baseline existed, a

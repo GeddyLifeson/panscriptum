@@ -38,6 +38,15 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import overnight as ON                                                  # noqa: E402
 
 
+# INTERPRETER FLAGS THAT EAT THE NEXT TOKEN. `-X utf8 script.py` puts a bare `utf8` between the
+# flag and the script, and a scan that treats every non-flag token as "the script slot" reads
+# `utf8` as "a bare non-flag that is not a .py" and returns None -- a CONFIDENT FALSE NEGATIVE,
+# the exact answer this module exists to stop it giving (2026-09-09 sweep, batch 15). The
+# attached spellings (`-Xutf8`, `-Wignore`) are already covered by the `startswith("-")` arm.
+# `-m` and `-c` are handled separately above because they end the scan rather than skip a token.
+_FLAGS_WITH_A_VALUE = ("-X", "-W", "--check-hash-based-pycs")
+
+
 def script_of(tokens):
     """-> the .py this command line actually RUNS, or None.
 
@@ -48,22 +57,42 @@ def script_of(tokens):
         return None
     if "python" not in os.path.basename(tokens[0]).lower():
         return None
-    for tok in tokens[1:]:
+    rest = list(tokens[1:])
+    i = 0
+    while i < len(rest):
+        tok = rest[i]
         if tok in ("-m", "-c"):
             return None
+        if tok in _FLAGS_WITH_A_VALUE:
+            i += 2                     # the flag AND the value it consumes
+            continue
         if tok.startswith("-"):
-            continue                   # -u, -O, -X... an interpreter flag, keep looking
+            i += 1                     # -u, -O, -Xutf8... an interpreter flag, keep looking
+            continue
         if tok.endswith(".py"):
             return tok
         return None                    # a bare non-flag that is not a .py: not a script run
     return None
 
 
-def running(want, exclude_self=True):
+def running(want, exclude_self=True, this_tree_only=True):
     """-> [(pid, command line)] running `want`, or None if the process table was unreadable.
 
     `want` is compared on BASENAME, so "mutate.py", "src/mutate.py" and an absolute path all
     match the same processes.
+
+    AND ON BASENAME ALONE, A SANDBOX COPY IS INDISTINGUISHABLE FROM THE REAL THING (2026-09-09
+    sweep, batch 15). `mutate.py` copies the whole of `src/` into a throwaway tree and runs
+    same-named modules out of it, so during a mutation battery `whoruns.py assay.py` would name
+    the sandbox's copy and an operator would stand down over a process that has nothing to do
+    with this checkout. `overnight.running` already solves exactly this with `_in_this_tree`,
+    added after `codewatch.twins()` was confused the same way -- so this asks the same question
+    through the same predicate rather than growing a second answer to it.
+
+    `this_tree_only=False` asks the wider question on purpose, for a caller that wants "is
+    ANYTHING running this script anywhere" -- which is the honest question when the subject IS
+    the sandbox. `_in_this_tree` fails toward NO, so the narrow answer can be an undercount; the
+    CLI prints which question it asked.
     """
     listing = ON._proc_lines()
     if listing is None:
@@ -84,8 +113,11 @@ def running(want, exclude_self=True):
         if exclude_self and pid == me:
             continue                   # never count the asker
         script = script_of(ON._cmd_tokens(cmd))
-        if script and os.path.basename(script) == want:
-            out.append((pid, cmd.strip()))
+        if not (script and os.path.basename(script) == want):
+            continue
+        if this_tree_only and not ON._in_this_tree(pid, cmd):
+            continue                   # a same-named script out of a sandbox or another checkout
+        out.append((pid, cmd.strip()))
     return out
 
 
@@ -102,8 +134,12 @@ def main():
                          "1 = none running, 2 = the process table could not be read. "
                          "To block until a script finishes: "
                          "`until ! whoruns.py X.py --quiet; do sleep 20; done`")
+    ap.add_argument("--anywhere", action="store_true",
+                    help="count a same-named script running out of ANY tree, including a "
+                         "mutation sandbox or another checkout. The default is this checkout "
+                         "only, which is what an operator asking 'is my job up' means")
     a = ap.parse_args()
-    hits = running(a.script)
+    hits = running(a.script, this_tree_only=not a.anywhere)
     if hits is None:
         if not a.quiet:
             print("UNKNOWN: the process table could not be read. This is not 'none running' -- "
