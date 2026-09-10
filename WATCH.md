@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 483  ·  last run 2026-09-10 14:03
+round 484  ·  last run 2026-09-10 14:34
 
 ## Structure
 
@@ -11,10 +11,8 @@ round 483  ·  last run 2026-09-10 14:03
 
 ## What the model found in the code
 
-**37 open** (18 high). Newest first.
+**34 open** (13 high). Newest first.
 
-- **anchors.py** `vals` — [HIGH] vals is a dictionary that maps anchor names to their ladder positions plus decimal, but the code checks for membership in vals instead of scored, which leads to incorrect grading of refused anchors
-  - says: the declared ladder must name every anchor, and only anchors
 - **silence.py** `append_line` — [HIGH] Appends a line but does not handle the Windows-specific issues with O_APPEND and text mode, leading to potential data corruption and line tearing.
   - says: Append ONE line to a shared ledger without tearing it (m62).
 - **silence.py** `audit` — [HIGH] audit() returns rows of handlers, but the function's name and comment suggest it should audit for silence, not collect handlers
@@ -41,14 +39,10 @@ round 483  ·  last run 2026-09-10 14:03
   - says: NOTHING IS CAPPED -- every unverified provider is named
 - **standards.py** `body` — [HIGH] hardcoded to 6144 when config.yaml is missing or has no num_ctx entry
   - says: num_ctx FROM CONFIG, never a literal -- see the docstring. A foreign window turns this probe into a runner rebuild, which is the one call shape that cannot finish.
-- **scope.py** `mutate` — [HIGH] reads the file, attempts to update it, but does not actually perform a compare-and-swap operation as described
-  - says: Land a change to SCOPE.json through a COMPARE-AND-SWAP. -> (landed, why).
-- **scope.py** `scope_for` — [HIGH] returns a scope with best[0] and best[1] when best is not None
-  - says: returns None when no tier reaches MIN_MENTIONS
-- **mutate.py** `_lock_acquire` — [HIGH] Acquires a lock and writes a token to it, but the function is named and documented as releasing a lock.
-  - says: Drop the lock, but only if it is still OURS.
-- **chain.py** `main` — [HIGH] the main function is not defined in this slice
-  - says: the main function
+- **dashboard.py** `movement` — [MEDIUM] Calculates deltas against the oldest sample inside the window, but the comment indicates that the 'reset' branch should handle cases where the standards subsystem failed, leading to potential misinterpretation of negative deltas as restarts.
+  - says: What has CHANGED, not what the level is.
+- **catalogue_codex.py** `roll_landed` — [MEDIUM] the roll does not yet say so
+  - says: the records land
 - **assay.py** `grade` — [MEDIUM] grade_n <= 5 is a BOUNDS GUARD, not a test
   - says: grade_n <= 5 cannot be false while the Ladder has eleven rungs
 - **assay.py** `set(ATTESTATION_FLOOR)` — [MEDIUM] checks that the set of keys in ATTESTATION_FLOOR matches the set of order
