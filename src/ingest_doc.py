@@ -85,12 +85,19 @@ CATEGORIES = [
     "Events (major storyline events, wars, historical turning points within the fiction)",
     "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
     "Powers, Abilities & Systems (magic systems, power systems, tech systems, disciplines)",
+    # Kept in step with `pipeline.CATEGORIES` (order 6c7495ee66be). This copy feeds a JSON-schema
+    # `enum`, so order does not bind here the way it does in pipeline -- but the STRING must
+    # match exactly, or the same people mined from a PDF and from a wiki land in two categories
+    # that read as one.
+    "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
 ]
 
 SYSTEM = (
     "You are cataloguing a fictional setting from the verbatim text of its own sourcebook. "
     "Extract EVERY named thing in the passage: persons, factions, places, items, events, "
-    "in-fiction media, and powers/systems. Rules: (1) the description must be grounded ONLY "
+    "in-fiction media, powers/systems, and PEOPLES (a species, race or people as a KIND -- "
+    "the Krogan, elves, Warforged -- as distinct from one member of it, who is a person). "
+    "Rules: (1) the description must be grounded ONLY "
     "in this passage — no outside knowledge, no invention; (2) skip real-world game mechanics "
     "(dice, saving throws, stat-block jargon, page references) and real people (authors, "
     "artists); (3) a name mentioned without any describable substance is still returned, with "

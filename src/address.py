@@ -342,6 +342,7 @@ CHAPTER_SLUGS = {
     "Events (major storyline events, wars, historical turning points within the fiction)": "Events",
     "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)": "Media",
     "Powers, Abilities & Systems (magic systems, power systems, tech systems, disciplines)": "Powers",
+    "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)": "Peoples",
     "Mechanical/Named Content": "MechanicalContent",
     "Feats & Attested Deeds (quoted feats mined from the source's own pages)": "Feats",
 }

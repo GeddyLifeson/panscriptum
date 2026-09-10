@@ -251,6 +251,21 @@ CATEGORIES = [
     "Powers, Abilities & Systems (magic systems, power systems, tech systems, disciplines)",
     "Events (major storyline events, wars, historical turning points within the fiction)",
     "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+    # APPENDED 2026-09-09, AND APPENDING IS THE ONLY SAFE OPERATION HERE (order 6c7495ee66be).
+    # `phase_entrypass` maps a model-returned INDEX to a label by position --
+    # `batch[i]["category"] = CATEGORIES[ci - 1]` below -- so INSERTING a category anywhere but
+    # the end would silently re-label every entry already carrying a higher index. Appending
+    # leaves 1..7 meaning exactly what they meant when 282,822 entries were classified under
+    # them.
+    #
+    # WHY IT WAS NEEDED. The seven had no bucket for a PEOPLE. Measured before this landed: of
+    # 203 entries the crawl had typed as a race or species, 85 were filed under
+    # `Places & Locations` -- a race is not a place -- with the rest scattered across all five
+    # other categories. And most peoples were never caught at all: the corpus held hundreds of
+    # individual Krogan and Sangheili and no entry for the Krogan or the Sangheili, while the
+    # Asari and the Turians appeared nowhere at any level. The cataloguer collected exactly what
+    # it was asked for; the ask was short a row.
+    "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
 ]
 
 
@@ -1770,10 +1785,16 @@ ENTRY_SYSTEM = """You are correcting catalogue metadata for an encyclopedia. You
 entries with a name, a type, and a description transcribed from a reference source.
 
 For each entry return:
-  * `category` - the correct bucket, as a NUMBER 1-7:
-      1 Persons  2 Places  3 Vessels & Things  4 Factions  5 Powers  6 Events  7 Media The commonest
+  * `category` - the correct bucket, as a NUMBER 1-8:
+      1 Persons  2 Places  3 Vessels & Things  4 Factions  5 Powers  6 Events  7 Media
+      8 Peoples & Species The commonest
     error to fix is an ability filed as an object: a named technique, transformation, release
     state or process is a POWER, never a Vessel. Vessels & Things means physical objects.
+    The second commonest is a PEOPLE filed as a person, a place or a faction. A species,
+    race or people as a KIND is 8: the Krogan, the Asari, the Sangheili, elves, Warforged.
+    One member of that kind is 1: Urdnot Wrex, a Krogan warlord. A people is not a place
+    even when it shares a name with its homeworld, and not a faction unless the entry is
+    about an organisation rather than a kind of being.
   * `scale_note` - a demonstrated feat of power or scale, ONLY if the supplied description
     actually states one (destruction caused, distance crossed, beings overcome). Quote or
     closely paraphrase the description. If the description shows no feat, return "".
