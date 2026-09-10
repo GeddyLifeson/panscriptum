@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 476  ·  last run 2026-09-10 08:45
+round 477  ·  last run 2026-09-10 09:51
 
 ## Structure
 
@@ -11,8 +11,12 @@ round 476  ·  last run 2026-09-10 08:45
 
 ## What the model found in the code
 
-**78 open** (34 high). Newest first.
+**83 open** (35 high). Newest first.
 
+- **rosetta.py** `silence.write_json` — [HIGH] overwrites without checking the size
+  - says: DO NOT OVERWRITE A BIGGER MINE WITH A SMALLER ONE WITHOUT SAYING SO (order 6447bcc2f18c)
+- **rosetta.py** `stand_rows` — [HIGH] does not parse Stand parameters as described, but instead is a placeholder for a parser that was never implemented
+  - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
 - **verify_math.py** `_flowok19ab` — [HIGH] the check passed whatever that function actually did, INCLUDING the response-only predicate it exists to refuse
   - says: the exact payload measured on 2026-08-24 -- eval_count 8, thinking non-empty, response empty -- put through standards.ollama_token_flow itself rather than through a copy of its predicate written here. The old predicate returns False on this payload and reports a healthy truncated generation as a dead daemon
 - **verify_math.py** `max` — [HIGH] clamped to HAMLET_FLOOR, which is 40, but the code never used the floor
@@ -75,12 +79,24 @@ round 476  ·  last run 2026-09-10 08:45
   - says: A probe that could not run must not be counted as a probe that passed.
 - **drill.py** `catalog_matches_disk` — [HIGH] Only checks that chapters in the catalog exist on disk (catalog -> disk), but not that chapters on disk are in the catalog (disk -> catalog)
   - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
-- **drill.py** `LA.t_propose_patch` — [HIGH] is called with the un-resolved path
-  - says: is called with the resolved path
 - **canon_backup.py** `silence.replace_retry` — [HIGH] the function is called and the result is checked, but the code raises an exception when the result is False, which contradicts the contract that `replace_retry` never raises
   - says: THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by contract; it reports False.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **rosetta.py** `check` — [MEDIUM] check() is called with rosetta and assays, but the code does not show how check() is implemented or its actual behavior.
+  - says: check() is supposed to match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
+- **resync_roll.py** `dupes` — [MEDIUM] stores duplicate filenames under normalized keys
+  - says: index every record file by its declared `source`
+- **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0 (shelf hasn't heard yet) and 0 when lag >= 0 (shelf has heard, but the function returns 0 in both cases, which contradicts the docstring's explanation that it should return the rung when the shelf has heard.)
+  - says: The ascension mark a DISTANT shelf should currently see. The field an entry must print when it claims a neighbour has not heard.
+- **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0, which is when the distant shelf hasn't heard yet, but the docstring says it should return 0 when the shelf has heard nothing (which is when lag >= 0). The function's logic is inverted relative to its docstring's explanation.
+  - says: The field an entry must print when it claims a neighbour has not heard.
+- **policy.py** `evidence_unreadable_detail` — [MEDIUM] only the file names are included, but the error details are truncated
+  - says: every failure, every vacuous pass and every unreadable file is named in full, here and in the report
+- **policy.py** `ap.add_argument("--limit", ...)` — [MEDIUM] default is no limit, the whole corpus
+  - says: evaluate only the first N of each set
+- **policy.py** `--limit` — [MEDIUM] default is no limit, the whole corpus
+  - says: evaluate only the first N of each set
 - **worldseed.py** `limit` — [MEDIUM] limit=0 is treated as no limit, but the code returns an empty list when limit is 0
   - says: limit is intended to be a maximum number of entries to return
 - **worldseed.py** `build_all` — [MEDIUM] build_all(limit=0) returns an empty list due to the limit check
@@ -163,12 +179,6 @@ round 476  ·  last run 2026-09-10 08:45
   - says: controls the maximum number of lines to read
 - **drill.py** `only` — [MEDIUM] checks if a string is the only one in a list, but the function is named 'only' which is misleading
   - says: checks if a string is the only one in a list
-- **drill.py** `F._restartable` — [MEDIUM] asserts the target is restartable and checks agreement between _restart, _restart_horizon
-  - says: A remedy never kills a job nothing would restart
-- **drill.py** `F._restartable` — [MEDIUM] asserts the target is restartable and checks agreement between _restartable and _restart_horizon
-  - says: A remedy never kills a job nothing would restart
-- **drill.py** `_empty` — [MEDIUM] The function writes an empty config.yaml and checks if the gates refuse it for the wrong reason
-  - says: The gates must READ config.yaml, not merely survive opening it.
 
 ---
 
