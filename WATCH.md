@@ -1,18 +1,32 @@
 # OVERWATCH
 
-round 474  ·  last run 2026-09-10 06:08
+round 475  ·  last run 2026-09-10 07:28
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 302,231 inspected (deep scan as of round 469)
+- files that will not parse: **0** of 302,734 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**60 open** (27 high). Newest first.
+**67 open** (32 high). Newest first.
 
+- **standards.py** `flow` — [HIGH] the local model produces tokens
+  - says: the local model produces tokens
+- **standards.py** `CHARTER_REGRESSION_MAX_AGE_H` — [HIGH] the value is hardcoded as a literal '26h' in the comment, but the code uses the variable CHARTER_REGRESSION_MAX_AGE_H
+  - says: every scored reference overlaps its published interval, within CHARTER_REGRESSION_MAX_AGE_Hh
+- **standards.py** `fab is not None and fab <= MAX_FABRICATION` — [HIGH] the condition is evaluated as a boolean, but the text says it's not green when unmeasured
+  - says: UNMEASURED IS NOT GREEN
+- **standards.py** `names` — [HIGH] only the error string is named, not the provider
+  - says: NOTHING IS CAPPED -- every unverified provider is named
+- **standards.py** `body` — [HIGH] hardcoded to 6144 when config.yaml is missing or has no num_ctx entry
+  - says: num_ctx FROM CONFIG, never a literal -- see the docstring. A foreign window turns this probe into a runner rebuild, which is the one call shape that cannot finish.
+- **scope.py** `mutate` — [HIGH] reads the file, attempts to update it, but does not actually perform a compare-and-swap operation as described
+  - says: Land a change to SCOPE.json through a COMPARE-AND-SWAP. -> (landed, why).
+- **scope.py** `scope_for` — [HIGH] returns a scope with best[0] and best[1] when best is not None
+  - says: returns None when no tier reaches MIN_MENTIONS
 - **mutate.py** `_lock_acquire` — [HIGH] Acquires a lock and writes a token to it, but the function is named and documented as releasing a lock.
   - says: Drop the lock, but only if it is still OURS.
 - **chain.py** `main` — [HIGH] the main function is not defined in this slice
@@ -61,12 +75,16 @@ round 474  ·  last run 2026-09-10 06:08
   - says: THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by contract; it reports False.
 - **descending_ladder.py** `beta` — [HIGH] beta is initialized to 0.0 but the code does not actually modify it in the if conditions
   - says: beta is initialized to 0.0 and then modified based on conditions
-- **cascade_bridge.py** `pinned` — [HIGH] can be assigned a local bucket
-  - says: never dispatches to the local GPU
-- **corpus_db.py** `main` — [HIGH] It skips the freshness check for --canned queries, leading to potential unhandled exceptions when the database file is missing
-  - says: The code says it handles --canned queries safely
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **standards.py** `scoreable` — [MEDIUM] count of rows that can be scored
+  - says: count of scoreable rows
+- **standards.py** `inside` — [MEDIUM] count of references matching the charter interval with a tolerance
+  - says: count of references inside the charter interval
+- **standards.py** `unans_files` — [MEDIUM] calculated inside a try block that does not handle the case where the directory is missing or renamed
+  - says: Cached on a 2-minute clock
+- **standards.py** `_dropped` — [MEDIUM] appended to when a failure occurs, but the code around it says it should be used when a measurement is not taken
+  - says: the mechanism for "unmeasurable"
 - **mutate.py** `judged_since` — [MEDIUM] record of verdicts cast by the current baseline
   - says: record of verdicts cast by the current baseline
 - **mutate.py** `owner` — [MEDIUM] Return the owner's PID if it exists, otherwise None
@@ -83,8 +101,6 @@ round 474  ·  last run 2026-09-10 06:08
   - says: list of chunks to process
 - **ingest_doc.py** `cur_pages` — [MEDIUM] current labels being tracked
   - says: current pages being tracked
-- **retry_synthesis.py** `PL._stored_cut` — [MEDIUM] applies a fixed cut length
-  - says: keeps the two writers in step through the NEXT change to it
 - **feats_index.py** `load_index` — [MEDIUM] WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
   - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
 - **feats_index.py** `host_to_sources` — [MEDIUM] RAISES an exception when the host file cannot be read
@@ -131,8 +147,6 @@ round 474  ·  last run 2026-09-10 06:08
   - says: ask is called with max_attempts=1 to prevent neighbor buckets from answering
 - **cascade_bridge.py** `_reset` — [MEDIUM] reset the strike count for a bucket if it exists
   - says: reset the strike count for a bucket
-- **cascade_bridge.py** `_bucket_of` — [MEDIUM] returns the bucket name from a model's answer or an empty string if unresolved
-  - says: returns the bucket name from a model's answer
 
 ---
 
