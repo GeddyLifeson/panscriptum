@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 477  ·  last run 2026-09-10 09:51
+round 478  ·  last run 2026-09-10 10:34
 
 ## Structure
 
@@ -11,8 +11,12 @@ round 477  ·  last run 2026-09-10 09:51
 
 ## What the model found in the code
 
-**83 open** (35 high). Newest first.
+**81 open** (37 high). Newest first.
 
+- **tuning.py** `cloud_success_rate` — [HIGH] The function reads from `state/cascade_scratch.db`'s `usage` table, but the path is hardcoded to a specific location, which may not be the correct one if SCRATCH_DB is repointed.
+  - says: The pool's MEASURED success rate over the recent past: (rate, calls).
+- **sevenfold.py** `write_json` — [HIGH] discards verdict
+  - says: gated write
 - **rosetta.py** `silence.write_json` — [HIGH] overwrites without checking the size
   - says: DO NOT OVERWRITE A BIGGER MINE WITH A SMALLER ONE WITHOUT SAYING SO (order 6447bcc2f18c)
 - **rosetta.py** `stand_rows` — [HIGH] does not parse Stand parameters as described, but instead is a placeholder for a parser that was never implemented
@@ -171,14 +175,6 @@ round 477  ·  last run 2026-09-10 09:51
   - says: No source's states may sum PAST its own entry count. One direction, and only one.
 - **drill.py** `PL.write_record` — [MEDIUM] returns False instead of denying the write
   - says: a write that is denied
-- **drill.py** `multi_line` — [MEDIUM] controls whether the input is multi-line, but the variable is named 'multi_line' which is misleading
-  - says: controls whether the input is multi-line
-- **drill.py** `seam` — [MEDIUM] controls the maximum number of lines to read, but the variable is named 'seam' which is misleading
-  - says: controls the maximum number of lines to read
-- **drill.py** `cap` — [MEDIUM] controls the maximum number of lines to read, but the variable is named 'cap' which is misleading
-  - says: controls the maximum number of lines to read
-- **drill.py** `only` — [MEDIUM] checks if a string is the only one in a list, but the function is named 'only' which is misleading
-  - says: checks if a string is the only one in a list
 
 ---
 
