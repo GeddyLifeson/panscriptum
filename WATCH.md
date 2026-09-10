@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 479  ·  last run 2026-09-10 11:20
+round 480  ·  last run 2026-09-10 11:55
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 479  ·  last run 2026-09-10 11:20
 
 ## What the model found in the code
 
-**48 open** (22 high). Newest first.
+**44 open** (19 high). Newest first.
 
 - **compress_store.py** `load` — [HIGH] Reads a stored blob back without verifying it against the address it is filed under, and does not check the hash of the decompressed text.
   - says: Read a stored blob back, VERIFYING it against the address it is filed under.
@@ -51,12 +51,6 @@ round 479  ·  last run 2026-09-10 11:20
   - says: Parsed but NOT joined here. Whether a shelf name corresponds to a source on the Acquisitions Roll is `threads.py`'s question, answered by the address resolver, never by this module.
 - **drill.py** `landed` — [HIGH] the verdict did not land, but the code proceeds as if it did
   - says: the verdict landed in state/drill_last.json
-- **drill.py** `a_second_fault_corroborates_and_does_not_bury_the_first` — [HIGH] the function is incomplete and does not perform the intended action
-  - says: a second fault corroborates and does not bury the first
-- **drill.py** `ESC.brief` — [HIGH] empties every brief
-  - says: keeps what the rung needs and drops the rest
-- **drill.py** `drill_probe_honesty` — [HIGH] The probe incorrectly certifies hosts as healthy even when they should be considered unreachable or faulty.
-  - says: The probe returns True on every exception, certifying hosts it never tested
 - **rosetta.py** `check` — [MEDIUM] check() is called with rosetta and assays, but the code does not show how check() is implemented or its actual behavior.
   - says: check() is supposed to match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
 - **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0 (shelf hasn't heard yet) and 0 when lag >= 0 (shelf has heard, but the function returns 0 in both cases, which contradicts the docstring's explanation that it should return the rung when the shelf has heard.)
@@ -107,8 +101,6 @@ round 479  ·  last run 2026-09-10 11:20
   - says: THE ONE THAT ALREADY COST A FALSE ALARM. The index's `spine` column must come from `address.sp,ine_code_for()`, not from a simpler reimplementation of it.
 - **drill.py** `CW._budget_left` — [MEDIUM] is used to check if the budget is exhausted, but the docstring indicates that the budget-exhausted branch is the only safe one to drive, and the actual code may not be correctly implementing this logic
   - says: Spend the budget against a scratch ledger and require it to RUN OUT, then refill.
-- **drill.py** `ESC._safe_name` — [MEDIUM] suffixes every short name and truncates no long one
-  - says: sanitises source names
 
 ---
 
