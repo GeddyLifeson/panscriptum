@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 470  ·  last run 2026-09-10 00:27
+round 471  ·  last run 2026-09-10 02:33
 
 ## Structure
 
@@ -11,8 +11,20 @@ round 470  ·  last run 2026-09-10 00:27
 
 ## What the model found in the code
 
-**46 open** (18 high). Newest first.
+**54 open** (24 high). Newest first.
 
+- **feats_index.py** `host_to_sources` — [HIGH] returns an empty map and does not raise an exception
+  - says: RAISES rather than returning an empty map when the host file cannot be read
+- **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] The regex looks for 'mach' followed by a number, but the comment says it's for number-first forms
+  - says: Matches unit-first forms like '5 mach'
+- **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] Matches 'mach 5' (unit-first) but the comment says it's for number-first forms
+  - says: Matches unit-first forms like '5 mach'
+- **feats.py** `known` — [HIGH] A CLEAN NEGATIVE IS CACHED AS A NULL
+  - says: A CLEAN NEGATIVE MAY BE CACHED
+- **feats.py** `known` — [HIGH] A NULL IS CACHED AS A FAILURE AND IS A NEGATIVE
+  - says: A NULL IS A CACHED FAILURE, NOT AN ANSWER
+- **feats.py** `mined_under_failed_transport` — [HIGH] returns False for 404 responses, which is the opposite of what the docstring claims
+  - says: -> did this record's fetch FAIL, leaving an absence that is not evidence of absence?
 - **events.py** `shelf_positions` — [HIGH] Joins shelf names with their positions by parsing lines containing 'Shelf' and 'stands at' and extracting the shelf and its position.
   - says: Parsed but NOT joined here. Whether a shelf name corresponds to a source on the Acquisitions Roll is `threads.py`'s question, answered by the address resolver, never by this module.
 - **drill.py** `landed` — [HIGH] the verdict did not land, but the code proceeds as if it did
@@ -49,6 +61,18 @@ round 470  ·  last run 2026-09-10 00:27
   - says: A crashed snapshot carries ONLY an "error" key
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **feats_index.py** `entries_by_norm` — [MEDIUM] used downstream when the feats prose is generated -- is taken from the correct one of two same-named catalogue entries.
+  - says: description and magnitude used downstream when the feats prose is generated -- is taken from the wrong one of two same-named catalogue entries.
+- **feats_index.py** `index_faults` — [MEDIUM] Builds the index if it has not been built, but the function does not handle the case where the index is built but has faults.
+  - says: Builds the index if it has not been built, so the answer is never a stale zero.
+- **feats_index.py** `load_index` — [MEDIUM] counts unreadable records but not collided keys
+  - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
+- **feats_index.py** `_norm` — [MEDIUM] normalises a string to lowercase and alphanumeric characters
+  - says: normalises a string to lowercase and alphanumeric characters
+- **completeness.py** `no_denominator` — [MEDIUM] a case where all category probes were answered and none existed
+  - says: a THIRD answer beside those two
+- **codewatch.py** `reportable` — [MEDIUM] a set of jobs derived from coverage() with a split on job names
+  - says: a set of reportable jobs
 - **drill.py** `index_spine_agrees_with_the_resolver` — [MEDIUM] The function checks if the stored spine code matches the real spine code, but the comment suggests it should verify that the index's spine column is derived through the same resolver code as `address.spine_code_for()`
   - says: THE ONE THAT ALREADY COST A FALSE ALARM. The index's `spine` column must come from `address.sp,ine_code_for()`, not from a simpler reimplementation of it.
 - **drill.py** `CW._budget_left` — [MEDIUM] is used to check if the budget is exhausted, but the docstring indicates that the budget-exhausted branch is the only safe one to drive, and the actual code may not be correctly implementing this logic
@@ -97,14 +121,6 @@ round 470  ·  last run 2026-09-10 00:27
   - says: Energy to do `mode` to `volume_m3` of `material`.
 - **hosts.py** `discover` — [MEDIUM] Only keeps hosts that score well on LIFT, and discards others
   - says: Find every ADDITIONAL host each source can be read from, and keep all that hold.
-- **overnight.py** `write_status` — [MEDIUM] Attempts to write a temporary file and replaces it with the new content, but the function's return value is not directly tied to the success of the file write operation as the function's name suggests.
-  - says: Land STATUS.md. -> True if it landed, False if the replace was denied.
-- **overnight.py** `CB.snapshot()` — [MEDIUM] raises exceptions which are caught and logged
-  - says: NEVER RAISES
-- **overnight.py** `CB.newest()` — [MEDIUM] uses the timestamp of the newest snapshot to determine if a backup is needed
-  - says: RATE-LIMITED BY THE NEWEST SNAPSHOT'S OWN TIMESTAMP
-- **overnight.py** `_cmd_is_running` — [MEDIUM] Checks if a command line fragment is being run by splitting and matching parts.
-  - says: PURE. Does this command line show `fragment` BEING RUN, rather than merely mentioned?
 
 ---
 
