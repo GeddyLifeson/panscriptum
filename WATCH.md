@@ -1,18 +1,22 @@
 # OVERWATCH
 
-round 481  ·  last run 2026-09-10 12:36
+round 482  ·  last run 2026-09-10 13:27
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 302,961 inspected
+- files that will not parse: **0** of 302,961 inspected (deep scan as of round 481)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**40 open** (17 high). Newest first.
+**37 open** (18 high). Newest first.
 
+- **silence.py** `append_line` — [HIGH] Appends a line but does not handle the Windows-specific issues with O_APPEND and text mode, leading to potential data corruption and line tearing.
+  - says: Append ONE line to a shared ledger without tearing it (m62).
+- **silence.py** `audit` — [HIGH] audit() returns rows of handlers, but the function's name and comment suggest it should audit for silence, not collect handlers
+  - says: audit(root=None)
 - **compress_store.py** `load` — [HIGH] Reads a stored blob back without verifying it against the address it is filed under, and does not check the hash of the decompressed text.
   - says: Read a stored blob back, VERIFYING it against the address it is filed under.
 - **withdraw_chapters.py** `main` — [HIGH] exits 1 when a.go is True and any of several conditions are met
@@ -45,18 +49,18 @@ round 481  ·  last run 2026-09-10 12:36
   - says: the main function
 - **local_agent.py** `t_propose_patch` — [HIGH] appends to `unreverted` but does not raise an alarm or note
   - says: raises the durable alarms for this case -- a SAFETY escalation and a `silence.note`
-- **feats.py** `mined_under_failed_transport` — [HIGH] returns False for 404 responses, which is the opposite of what the docstring claims
-  - says: -> did this record's fetch FAIL, leaving an absence that is not evidence of absence?
+- **thread_integrity.py** `dist` — [MEDIUM] initialized to None but not properly calculated or handled in all cases
+  - says: distance for propagation calculation
+- **thread_integrity.py** `detail` — [MEDIUM] appends tuples to the detail dictionary for various categories but may not be correctly structured as per the comments
+  - says: stores detailed information about each category
+- **thread_integrity.py** `out` — [MEDIUM] increments the count for partially dangling pairs but also for other categories like IMPLIED-UNRECORDED and RECIPROCAL
+  - says: counts the number of partially dangling pairs
+- **scout.py** `deferred` — [MEDIUM] the code uses the old `
+  - says: NOT a truncation of the universe: these are ahead of nobody and behind everybody, and each moves to the front by waiting. Named so the deferral is legible.
+- **scout.py** `silence.replace_if_unchanged` — [MEDIUM] refuses only when the target is unreadable as bytes at write time
+  - says: refuse to write over an unreadable file
 - **rosetta.py** `check` — [MEDIUM] check() is called with rosetta and assays, but the code does not show how check() is implemented or its actual behavior.
   - says: check() is supposed to match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
-- **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0 (shelf hasn't heard yet) and 0 when lag >= 0 (shelf has heard, but the function returns 0 in both cases, which contradicts the docstring's explanation that it should return the rung when the shelf has heard.)
-  - says: The ascension mark a DISTANT shelf should currently see. The field an entry must print when it claims a neighbour has not heard.
-- **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0, which is when the distant shelf hasn't heard yet, but the docstring says it should return 0 when the shelf has heard nothing (which is when lag >= 0). The function's logic is inverted relative to its docstring's explanation.
-  - says: The field an entry must print when it claims a neighbour has not heard.
-- **worldseed.py** `build_all` — [MEDIUM] build_all(limit=0) returns an empty list due to the limit check
-  - says: build_all(limit=0) is intended to return all entries without limit
-- **whoruns.py** `running` — [MEDIUM] returns None when the process table could not be read
-  - says: count a same-named script running out of ANY tree
 - **verify_math.py** `check` — [MEDIUM] the code does something else
   - says: the code says it does
 - **verify_math.py** `_restart_horizon` — [MEDIUM] the reader is in the keeper's STANDING set
@@ -77,22 +81,12 @@ round 481  ·  last run 2026-09-10 12:36
   - says: Cached on a 2-minute clock
 - **standards.py** `_dropped` — [MEDIUM] appended to when a failure occurs, but the code around it says it should be used when a measurement is not taken
   - says: the mechanism for "unmeasurable"
-- **mutate.py** `suppressed_on_record` — [MEDIUM] filters for ruled_equivalent but not revoked
-  - says: every survivor a standing ruling kept out of the queue
 - **feats_index.py** `load_index` — [MEDIUM] WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
   - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
 - **feats_index.py** `host_to_sources` — [MEDIUM] RAISES an exception when the host file cannot be read
   - says: RAISES rather than returning an empty map when the host file cannot be read
 - **pipeline.py** `land_json` — [MEDIUM] land_json is used to land JSON data but the code around it suggests it should be derived
   - says: land_json is used to land JSON data
-- **pipeline.py** `batch_settled` — [MEDIUM] the function is called but its purpose is not clear from the code
-  - says: what the write-gate comment below already priced and accepted.
-- **local_agent.py** `_gates` — [MEDIUM] parse, lint, import, but not whole-suite
-  - says: parse, lint, import, whole-suite
-- **local_agent.py** `_scan` — [MEDIUM] scan a file but ignore line numbers and content
-  - says: scan a file for regex matches
-- **codewatch.py** `reportable` — [MEDIUM] a set of jobs derived from coverage() with a split on job names
-  - says: a set of reportable jobs
 
 ---
 
