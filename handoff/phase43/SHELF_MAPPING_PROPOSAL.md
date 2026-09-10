@@ -1,22 +1,24 @@
-# Phase 4.3 — Concordance shelf mapping: A PROPOSAL, FOR SIGN-OFF
+# Phase 4.3 — Concordance shelf mapping: SIGNED, and TWO ROWS STILL OPEN
 
-**Nothing here has been written to the spine.** This maps the 31 shelves of the Chronicle's *THE CONCORDANCE NOW — CANON POSITIONS BY SHELF* table onto Acquisitions Roll sources, so that Phase 4.3's rich join leg can emit a real T3 for every entry on those shelves instead of the three the thin leg yields. Order `c39a2c0e1bef`.
+**Nothing here has been written to the spine, and nothing can be yet — see the blocker at the foot of this file.** This maps the 31 shelves of the Chronicle's *THE CONCORDANCE NOW — CANON POSITIONS BY SHELF* table onto Acquisitions Roll sources. Order `c39a2c0e1bef`.
 
-**Why this is proposable rather than resemblance-matching.** STEP4_PLAN §7G's one hard constraint is that T3 joins on *event participation*, never on name similarity. No row below rests on a shelf name sounding like a source. Each rests on the Chronicle's own `stands_at` sentence naming canon particulars that belong to exactly one catalogued source. Where the sentence names nothing the row is not proposed — **5 of the 31 are left for you**, 3 refused outright and 2 needing only their extent set.
+**Signed by the owner 2026-09-09**: 28 shelves mapped, reaching **85,281 entries** against the 3 threads the thin leg yields today. One shelf — **The One War** — is signed as mapping to NO source, and the charter settles it: Collection VIII's own Canon list carries `VIII.8 — CANON OF THE ONE WAR (30 vols)`, so that row is a position of the Library, not of a shelf.
 
-**Every proposed source was checked to exist on the roll by exact name and to resolve to a spine code.** A source that is not on the roll cannot appear here — the first draft of this table proposed `Magic: The Gathering - all planes` with a hyphen where the roll uses an em dash, and that check refused the row.
+**TWO SHELVES REMAIN OPEN AND WERE DECLINED ON PURPOSE**, including under a general instruction to proceed: **Masked Multiverses** and **Rot City**. Neither sentence names a work, character or place. §7G's one hard constraint is that T3 joins on EVENT PARTICIPATION and never on resemblance, and Masked Multiverses alone would put a thread on Marvel and DC — 114,730 entries — on the strength of the phrase "comic-time perpetual". Rot City has two equally good candidates at the same spine code. Both need a person's word.
+
+**Every mapped source was checked to exist on the roll by exact name and to resolve to a spine code.** A source that is not on the roll cannot appear here — the first draft proposed `Magic: The Gathering - all planes` with a hyphen where the roll uses an em dash, and that check refused the row.
 
 ## Summary
 
 | grade | shelves | meaning |
 |---|---|---|
-| DIRECT | 26 | the evidence names a work, character or place unique to that source |
-| JUDGMENT | 2 | the cluster is plain, its EXTENT is yours to set |
-| REFUSED | 3 | the evidence names nothing; proposing would be resemblance |
+| MAPPED | 28 | signed; the evidence names a work, character or place unique to that source |
+| SIGNED, NO SOURCE | 1 | The One War = VIII.8, a Canon of the Annex, not a shelf |
+| STILL OPEN | 2 | the evidence names nothing; mapping would be resemblance |
 
-**Entries reached by the DIRECT rows alone: 81,581**, against the **3** threads the thin leg yields today.
+**THE BLOCKER, found 2026-09-09 and not previously named.** No T3 edge can be emitted yet whatever this table says. `threads.edge()` refuses any address that does not resolve NOW (§6, the anti-dangling rule), and its `known_codes` is built only from the SOURCES' own spine codes. A T3 points at an Annex address — STEP4_PLAN §3's worked example is `VIII.9 (the succession wars)` — and no `VIII.n` code is loaded anywhere a program can reach. The charter DOES define them, all 17 Canons and 275 volumes, and they are now parsed to `data/ANNEX_CANONS.json`; what is still missing is the shelf-to-Canon mapping, which is a second curatorial call. See the work order.
 
-Sign off by striking, editing or confirming rows. I will write only what you confirm, and a REFUSED row left refused stays unmapped rather than guessed.
+A row left open stays unmapped rather than guessed.
 
 ---
 
@@ -250,13 +252,34 @@ XVI and XIV at Dawntrail are named. BOTH roll entries are proposed because the r
 
 ---
 
-### Great Wheel  —  **JUDGMENT**
+### Great Wheel  —  **SIGNED**
 
 > 5e-era Realms (post-Second Sundering) per your shelf's supplements
 
-**No source proposed.** 
+| proposed source | spine | entries |
+|---|---|---|
+| Curse of Strahd | `II.L.7` | 33 |
+| Descent into Avernus | `II.L.7` | 34 |
+| Dungeon of the Mad Mage | `II.L.7` | 388 |
+| Hoard of the Dragon Queen | `II.L.7` | 10 |
+| Out of the Abyss | `II.L.7` | 324 |
+| Princes of the Apocalypse | `II.L.7` | 185 |
+| Rime of the Frostmaiden | `II.L.7` | 106 |
+| Rise of Tiamat | `II.L.7` | 140 |
+| Storm King's Thunder | `II.L.7` | 40 |
+| Sword Coast Adventurer's Guide | `II.L.7` | 176 |
+| Tomb of Annihilation | `II.L.7` | 219 |
+| Waterdeep: Dragon Heist | `II.L.7` | 135 |
+| Lost Mines of Phandelver | `II.L.7` | 0 |
+| Ghosts of Saltmarsh | `II.L.7` | 15 |
+| Tales from the Yawning Portal | `II.L.7` | 54 |
+| DMs Guild: Mirt's Undermountain Survival Guide | `II.L.7` | 107 |
+| DMs Guild: The Great Dale | `II.L.7` | 129 |
+| Acquisitions Incorporated | `II.L.7` | 356 |
+| Adventurers League | `II.L.7` | 477 |
+| Extra Life | `II.L.7` | 12 |
 
-'5e-era Realms (post-Second Sundering) per your shelf's supplements' is plainly the D&D shelf -- but that shelf is ~40 roll entries (Player's Handbook, Monster Manual, every DMs Guild and third-party line, the adventure books). WHICH of them the Concordance row governs is a scoping call with real consequences for how many entries receive this T3. OWNER TO SET THE EXTENT.
+OWNER-SIGNED 2026-09-09: the REALMS PROPER only -- the 20 Forgotten Realms adventures and settings. The row says '5e-era Realms', and II.L.7 holds 60 sources of which only these are set in the Realms. DELIBERATELY EXCLUDED: the 7 setting-neutral core rules (the PHB is not IN the Realms), the 9 other settings (Eberron, Ravnica, Theros, Wildemount, Tal'Dorei, Thylea, Midgard -- a Great Wheel canon position would be a claim the Chronicle never made about them), and the 24 third-party mechanical lines. Note the FFXIV/Eorzea conversion sits in that excluded set and is already mapped to Crystal Multiverse, so including it here would have double-mapped it.
 
 ---
 
@@ -340,13 +363,18 @@ Post-KH3, Sora and Riku are named.
 
 ---
 
-### Ludic Spheres  —  **JUDGMENT**
+### Ludic Spheres  —  **SIGNED**
 
 > The Island's current season; arenas in service; skaters skating; the Aeons popping
 
-**No source proposed.** 
+| proposed source | spine | entries |
+|---|---|---|
+| Fortnite | `II.P.1` | 245 |
+| the Skate games | `II.P.3` | 67 |
+| all Bloons TD | `II.M.3` | 341 |
+| Rocket League | `II.P.2` | 107 |
 
-Four clauses, three of which resolve confidently -- 'The Island's current season' is Fortnite, 'skaters skating' is the Skate games, 'the Aeons popping' is Bloons TD (popping is its verb). 'Arenas in service' fits Rocket League and ARMS equally and names neither. Proposing three of four and guessing the fourth would put a guess in the spine. OWNER TO CONFIRM THE THREE AND RULE ON THE FOURTH.
+OWNER-SIGNED 2026-09-09. Three rest on the sentence: 'The Island's current season' is Fortnite, 'skaters skating' is the Skate games, 'the Aeons popping' is Bloons TD (popping is its verb). THE FOURTH RESTS ON SHELVING, NOT ON THE SENTENCE, and is marked so it can be reversed: 'arenas in service' fits Rocket League and ARMS equally, and Rocket League was taken because the charter already numbers Fortnite, Rocket League and Skate as II.P.1/.2/.3 -- one family -- while ARMS sits at the bare parent II.P beside Crash Bandicoot and Rock of Ages.
 
 ---
 
@@ -386,11 +414,11 @@ The strongest row in the table: the roll entry CARRIES the shelf name in its own
 
 ---
 
-### The One War  —  **REFUSED**
+### The One War  —  **SIGNED-UNMAPPED**
 
 > Holding, mostly; losing, slowly; recording, always
 
 **No source proposed.** 
 
-'Holding, mostly; losing, slowly; recording, always' names no work. It reads as either The Lord of the Rings (the long defeat) or as the Library describing itself, and those are very different rulings. OWNER TO DECIDE, including the option that this row is about the Panscriptum and maps to no source at all.
+OWNER-SIGNED 2026-09-09 as MAPPING TO NO SOURCE, and the charter settles it rather than a reading: Collection VIII's Canon list contains 'VIII.8 - CANON OF THE ONE WAR (30 vols)'. The One War is the Annex's own Canon -- the Silence's offensives as dated campaign history -- not a catalogued property. So the Concordance table's last line is a position of the LIBRARY, not of a shelf, and 'Holding, mostly; losing, slowly; recording, always' reads as the Custodes describing their own front. No source is mapped and none should be.
 
