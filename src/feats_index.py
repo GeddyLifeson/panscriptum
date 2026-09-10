@@ -168,7 +168,7 @@ def host_to_sources(path=WIKI_HOSTS):
             "feats_index.host_to_sources(): %s could not be read (%s: %s) -- the source->host "
             "binding is the whole join, so every feats lookup would silently return nothing. "
             "This is NOT the same finding as a source with no attested feats."
-            % (path, type(e).__name__, " ".join(str(e).split()))) from e
+            % (path, type(e).__name__, " ".join(str(e).split())) ) from e
     for src, host in (wh or {}).items():
         if isinstance(host, str) and host and not host.startswith(_PAGES_SENTINEL):
             out[host.lower()].append(src)
