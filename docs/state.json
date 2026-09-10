@@ -1,5 +1,5 @@
 {
- "at": "2026-09-10 06:03:19",
+ "at": "2026-09-10 06:13:37",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -134,9 +134,9 @@
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
    "worst": 0.0
@@ -227,16 +227,16 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
-    },
-    {
      "name": "rpd",
      "left": 0,
      "cap": 1000,
      "frac": 0.0
+    },
+    {
+     "name": "rpm",
+     "left": 1,
+     "cap": 2,
+     "frac": 0.5
     }
    ],
    "worst": 0.0
@@ -267,19 +267,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 0,
-     "cap": 2,
-     "frac": 0.0
+     "name": "rpd",
+     "left": 33,
+     "cap": 250,
+     "frac": 0.132
     },
     {
-     "name": "rpd",
-     "left": 42,
-     "cap": 250,
-     "frac": 0.168
+     "name": "rpm",
+     "left": 2,
+     "cap": 2,
+     "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.132
   },
   {
    "bucket": "github:free",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 64010,
+     "left": 63462,
      "cap": 100000,
-     "frac": 0.6401
+     "frac": 0.6346
     },
     {
      "name": "rpm",
@@ -734,28 +734,33 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 160,
-  "per_hour": 640,
+  "calls": 113,
+  "per_hour": 452,
   "buckets": [
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 113,
-    "ok": 113
+    "calls": 82,
+    "ok": 82
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 25,
-    "ok": 2
+    "calls": 17,
+    "ok": 1
    },
    {
     "bucket": "ollama:qwen3:8b",
-    "calls": 14,
+    "calls": 10,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 8,
-    "ok": 2
+    "calls": 3,
+    "ok": 3
+   },
+   {
+    "bucket": "cohere:free",
+    "calls": 1,
+    "ok": 0
    }
   ]
  },
@@ -763,21 +768,21 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 19259,
+   "done": 19296,
    "total": 412977,
-   "detail": "2,990/242,874 entities  \u00b7  90,580 feats  \u00b7  0.13 chunks/s",
+   "detail": "3,000/242,874 entities  \u00b7  90,694 feats  \u00b7  0.08 chunks/s",
    "warn": "7 unanswered",
-   "dropped": 19580,
-   "eta_h": 840.8
+   "dropped": 19582,
+   "eta_h": 1445.0
   },
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 70600,
+   "done": 70800,
    "total": 282740,
-   "detail": "97,186 pages  \u00b7  974M characters  \u00b7  10.3/s",
+   "detail": "97,420 pages  \u00b7  977M characters  \u00b7  8.9/s",
    "warn": "",
-   "eta_h": 5.7
+   "eta_h": 6.6
   }
  ],
  "library": {
@@ -794,7 +799,7 @@
    "read": 217135,
    "settled": 243465,
    "feats": 143625,
-   "age_h": 2.2
+   "age_h": 2.4
   },
   "phases": [
    {
@@ -830,12 +835,12 @@
     "built": true
    }
   ],
-  "readfeats": 2922
+  "readfeats": 2933
  },
  "watch": {
-  "open": 77,
-  "high": 28,
-  "rounds": 473,
+  "open": 46,
+  "high": 25,
+  "rounds": 474,
   "findings": [
    {
     "module": "drill",
@@ -844,39 +849,15 @@
     "severity": "high"
    },
    {
-    "module": "burgs",
-    "symbol": "burg_link",
-    "actual": "Generates a URL that includes the 'burg' parameter, which is supposed to be handled by Azgaar, but the function's implementation may not correctly reflect this if it's not using the correct parameters or if there's a misunderstanding in the URL construction.",
-    "severity": "medium"
-   },
-   {
     "module": "local_agent",
     "symbol": "t_propose_patch",
     "actual": "appends to `unreverted` but does not raise an alarm or note",
     "severity": "high"
    },
    {
-    "module": "chain",
-    "symbol": "write_result",
-    "actual": "the edge list is written only when strengths are present",
-    "severity": "medium"
-   },
-   {
     "module": "drill",
     "symbol": "a_second_fault_corroborates_and_does_not_bury_the_first",
     "actual": "the function is incomplete and does not perform the intended action",
-    "severity": "high"
-   },
-   {
-    "module": "corpus_db",
-    "symbol": "rebuild",
-    "actual": "Rebuilds the index but does not process JSON files correctly, leading to potential data loss or incorrect counts.",
-    "severity": "high"
-   },
-   {
-    "module": "mutate",
-    "symbol": "owner",
-    "actual": "Return the owner's PID of a sandbox, not record it",
     "severity": "high"
    },
    {
@@ -896,18 +877,6 @@
     "symbol": "shelf_positions",
     "actual": "Joins shelf names with their positions by parsing lines containing 'Shelf' and 'stands at' and extracting the shelf and its position.",
     "severity": "high"
-   },
-   {
-    "module": "mutate",
-    "symbol": "unusable_gates",
-    "actual": "Discards a refresh that could not complete, but does not update the baseline",
-    "severity": "medium"
-   },
-   {
-    "module": "mutate",
-    "symbol": "survivors_on_record",
-    "actual": "includes baseline drift events and ruled-equivalent suppressions",
-    "severity": "medium"
    },
    {
     "module": "codewatch",
@@ -1018,12 +987,6 @@
     "severity": "high"
    },
    {
-    "module": "ingest_doc",
-    "symbol": "bad_category",
-    "actual": "count of entries with invalid categories",
-    "severity": "medium"
-   },
-   {
     "module": "local_agent",
     "symbol": "_gates",
     "actual": "parse, lint, import, but not whole-suite",
@@ -1042,18 +1005,6 @@
     "severity": "high"
    },
    {
-    "module": "ingest_doc",
-    "symbol": "known",
-    "actual": "set of keys for known entries",
-    "severity": "medium"
-   },
-   {
-    "module": "mutate",
-    "symbol": "suppressed_on_record",
-    "actual": "filters for 'ruled_equivalent' but does not check if the ruling is still valid",
-    "severity": "medium"
-   },
-   {
     "module": "drill",
     "symbol": "landed",
     "actual": "the verdict did not land, but the code proceeds as if it did",
@@ -1066,21 +1017,9 @@
     "severity": "high"
    },
    {
-    "module": "ingest_doc",
-    "symbol": "cur",
-    "actual": "accumulated text with labels",
-    "severity": "medium"
-   },
-   {
     "module": "drill",
     "symbol": "F._restartable",
     "actual": "asserts the target is restartable and checks agreement between _restart, _restart_horizon",
-    "severity": "medium"
-   },
-   {
-    "module": "mutate",
-    "symbol": "judged_since",
-    "actual": "list of mutants with their verdicts",
     "severity": "medium"
    },
    {
@@ -1090,40 +1029,10 @@
     "severity": "high"
    },
    {
-    "module": "pipeline",
-    "symbol": "return 0",
-    "actual": "returns 0 when the pointer is past the last phase and every phase has a completion marker, but the comment suggests this is the clean finish, which may not be the case",
-    "severity": "medium"
-   },
-   {
     "module": "drill",
     "symbol": "drill_probe_honesty",
     "actual": "The function returns True for all exceptions, including those that should indicate a host is unreachable or faulty.",
     "severity": "high"
-   },
-   {
-    "module": "feats_index",
-    "symbol": "index_faults",
-    "actual": "Builds the index if it has not been built, but the function does not actually build the index; it only retrieves the faults from the cache.",
-    "severity": "medium"
-   },
-   {
-    "module": "ingest_doc",
-    "symbol": "chunks",
-    "actual": "list of tuples containing chunk text and page labels",
-    "severity": "medium"
-   },
-   {
-    "module": "completeness",
-    "symbol": "no_denominator",
-    "actual": "a case where all category probes were answered and none existed",
-    "severity": "medium"
-   },
-   {
-    "module": "binding_health",
-    "symbol": "available",
-    "actual": "passed in",
-    "severity": "medium"
    },
    {
     "module": "drill",
@@ -1144,15 +1053,9 @@
     "severity": "medium"
    },
    {
-    "module": "ingest_doc",
-    "symbol": "misses",
-    "actual": "count of consecutive misses",
-    "severity": "medium"
-   },
-   {
-    "module": "local_agent",
-    "symbol": "modname",
-    "actual": "modname is assigned a value based on the filename, but the code later uses it in a case-insensitive comparison with the denylist, which may not be correct for non-python files.",
+    "module": "retry_synthesis",
+    "symbol": "PL._stored_cut",
+    "actual": "applies a fixed cut length",
     "severity": "medium"
    },
    {
@@ -1162,46 +1065,10 @@
     "severity": "medium"
    },
    {
-    "module": "local_agent",
-    "symbol": "gpu_lane.lane",
-    "actual": "the code is using the lane to make a call to an external URL, which could potentially cause the prose calls to queue behind it",
-    "severity": "medium"
-   },
-   {
     "module": "drill",
     "symbol": "catalog_matches_disk",
     "actual": "Only checks that chapters in the catalog exist on disk (catalog -> disk), but not that chapters on disk are in the catalog (disk -> catalog)",
     "severity": "high"
-   },
-   {
-    "module": "ingest_doc",
-    "symbol": "cur_pages",
-    "actual": "list of labels for current chunk",
-    "severity": "medium"
-   },
-   {
-    "module": "binding_health",
-    "symbol": "tight",
-    "actual": "a fuzz ratio score between 0 and 100",
-    "severity": "medium"
-   },
-   {
-    "module": "mutate",
-    "symbol": "hang_confirms_a_kill",
-    "actual": "The function returns False when the mutant's timeout is not evidence of a hang, but the function's claim is that it determines whether the timeout indicates a hang. However, the function's logic is designed to return False in cases where the timeout is not conclusive, which aligns with the claim that it does not simply score every timeout as a kill. The function's actual behavior is to return False when the timeout is not evidence of a hang, which is consistent with the claim that it does not simply score every timeout as a kill. The function's claim is that it determines whether the timeout indicates a hang, and the actual behavior is to return False when the timeout is not evidence of a hang, which is consistent with the claim. The function's claim is that it determines whether the, and the actual behavior is to return False when the timeout is not evidence of a hang, which is consistent with the claim.",
-    "severity": "medium"
-   },
-   {
-    "module": "mutate",
-    "symbol": "run",
-    "actual": "Acquires a lock and calls _run_mutation, which is the body of run",
-    "severity": "medium"
-   },
-   {
-    "module": "ingest_doc",
-    "symbol": "mine",
-    "actual": "returns True only when every chunk was processed, and False on both of its early stops",
-    "severity": "medium"
    },
    {
     "module": "feats_index",
@@ -1216,34 +1083,10 @@
     "severity": "high"
    },
    {
-    "module": "pipeline",
-    "symbol": "land_json",
-    "actual": "land_json is used to land JSON data but the code around it suggests it should be derived",
-    "severity": "medium"
-   },
-   {
     "module": "feats",
     "symbol": "mined_under_failed_transport",
     "actual": "returns False for 404 responses, which is the opposite of what the docstring claims",
     "severity": "high"
-   },
-   {
-    "module": "cascade_bridge",
-    "symbol": "_reset",
-    "actual": "reset the strike count for a bucket if it exists",
-    "severity": "medium"
-   },
-   {
-    "module": "mutate",
-    "symbol": "a.rule_equivalent",
-    "actual": "requires --ruling to be provided",
-    "severity": "medium"
-   },
-   {
-    "module": "cascade_bridge",
-    "symbol": "ask",
-    "actual": "ask is called with max_attempts=1 but the comment suggests it's to prevent neighbor buckets from answering, but the code allows neighbor buckets to answer because the max_attempts=1 is not sufficient to prevent it",
-    "severity": "medium"
    },
    {
     "module": "drill",
@@ -1258,27 +1101,9 @@
     "severity": "medium"
    },
    {
-    "module": "ingest_doc",
-    "symbol": "started_at",
-    "actual": "initial value of found counter",
-    "severity": "medium"
-   },
-   {
     "module": "drill",
     "symbol": "_empty",
     "actual": "The function writes an empty config.yaml and checks if the gates refuse it for the wrong reason",
-    "severity": "medium"
-   },
-   {
-    "module": "binding_health",
-    "symbol": "run",
-    "actual": "Returns an empty list and 0 on an empty or unreadable hosts map, which contradicts the claim that it canary every bound host.",
-    "severity": "high"
-   },
-   {
-    "module": "binding_health",
-    "symbol": "containment",
-    "actual": "a boolean indicating whether one set of words is a subset of the other",
     "severity": "medium"
    },
    {
@@ -1286,12 +1111,6 @@
     "symbol": "_deny_paths",
     "actual": "The code converts the denylist paths to lowercase, making the deny, which contradicts the claim that the denylist is case-sensitive.",
     "severity": "high"
-   },
-   {
-    "module": "local_agent",
-    "symbol": "_scan",
-    "actual": "scan a file but ignore line numbers and content",
-    "severity": "medium"
    },
    {
     "module": "feats",
@@ -1323,16 +1142,16 @@
     190
    ],
    [
+    "silent:custodes.py:abstained-comparability:None",
+    162
+   ],
+   [
     "silent:publish.py:main-push-held:PushHeld",
     156
    ],
    [
     "silent:publish.py:push-held:RuntimeError",
     156
-   ],
-   [
-    "silent:custodes.py:abstained-comparability:None",
-    152
    ],
    [
     "silent:hostcheck.py:probe:HTTPError",
@@ -1347,24 +1166,28 @@
     65
    ],
    [
+    "silent:custodes.py:abstained-currency:None",
+    62
+   ],
+   [
     "silent:cascade_bridge.py:unparseable-reply:None",
     59
    ],
    [
-    "silent:custodes.py:abstained-currency:None",
-    59
-   ],
-   [
     "silent:weave.py:index-stale:None",
-    42
+    45
    ],
    [
     "silent:scout.py:verify-http:HTTPError",
-    36
+    39
    ],
    [
     "silent:scout.py:verify:URLError",
     26
+   ],
+   [
+    "silent:foreman.py:kill_stalled-list:FileNotFoundError",
+    15
    ],
    [
     "silent:cascade_bridge.py:extract_json-fence:JSONDecodeError",
@@ -1383,8 +1206,8 @@
     12
    ],
    [
-    "silent:foreman.py:kill_stalled-list:FileNotFoundError",
-    12
+    "silent:foreman.py:restart_reader-list:FileNotFoundError",
+    6
    ],
    [
     "escalation:SUPERVISOR:STALLED_UNRESTARTABLE:stalled and deliberately NOT killed, because nothing would bring them back promptly: read_auto:59704, roll_auto:63388",
@@ -1404,10 +1227,6 @@
    ],
    [
     "silent:endpoint.py:fetch_raw:URLError",
-    3
-   ],
-   [
-    "silent:foreman.py:restart_reader-list:FileNotFoundError",
     3
    ],
    [
@@ -1440,6 +1259,10 @@
    ],
    [
     "escalation:JANITOR:CODEWATCH_RESTART:foreman exited to pick up changed source (src/ changed 12936b9f1fc03fd6 -> 544bc653714c19ec and held for 1535s since src/ was last written)",
+    1
+   ],
+   [
+    "escalation:JANITOR:CODEWATCH_RESTART:foreman exited to pick up changed source (src/ changed 1aa7d0fe8265f23b -> 53fe3a432306b066 and held for 361s since src/ was last written)",
     1
    ],
    [
@@ -1659,32 +1482,32 @@
     1
    ]
   ],
-  "swallowed_total": 10336
+  "swallowed_total": 10362
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 965,
-   "p50": 3.0,
+   "n": 962,
+   "p50": 3.7,
    "p95": 75.3,
-   "ok_pct": 48,
+   "ok_pct": 51,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 321,
-   "p50": 4.7,
-   "p95": 412.3,
+   "n": 312,
+   "p50": 4.8,
+   "p95": 387.3,
    "ok_pct": null,
-   "tps": 23.8
+   "tps": 23.9
   },
   {
    "tag": "ask",
-   "n": 71,
-   "p50": 202.3,
+   "n": 75,
+   "p50": 164.1,
    "p95": 688.3,
    "ok_pct": null,
-   "tps": 17.3
+   "tps": 17.1
   },
   {
    "tag": "assay-split",
@@ -1696,19 +1519,19 @@
   },
   {
    "tag": "entrypass",
-   "n": 65,
-   "p50": 165.8,
+   "n": 70,
+   "p50": 124.1,
    "p95": 1009.6,
    "ok_pct": null,
    "tps": 14.5
   },
   {
    "tag": "assay-local",
-   "n": 7,
+   "n": 5,
    "p50": 214.6,
    "p95": 676.0,
    "ok_pct": null,
-   "tps": 13.4
+   "tps": 13.8
   }
  ],
  "safety": {
@@ -1730,12 +1553,12 @@
    "breached": [],
    "liveness": 48,
    "liveness_ceiling": 52,
-   "age_min": 128.1
+   "age_min": 138.4
   },
   "escalation_recent": {
    "MANAGER": 490,
    "SUPERVISOR": 27,
-   "JANITOR": 134,
+   "JANITOR": 137,
    "OWNER": 2
   },
   "step4_gate": {
@@ -1763,7 +1586,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 640,
+   "observed": 452,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1772,7 +1595,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 27,
+   "observed": 28,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -1781,7 +1604,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "34% dry",
+   "observed": "31% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1799,7 +1622,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": true,
-   "observed": "73% ok of 160",
+   "observed": "76% ok of 113",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1808,7 +1631,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": false,
-   "observed": "local, 1 of 16 permits (2 answering; 73% ok over 160 calls; ollama up)",
+   "observed": "local, 1 of 16 permits (2 answering; 76% ok over 113 calls; ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1826,7 +1649,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "840.8h",
+   "observed": "1445.0h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -1844,7 +1667,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": true,
-   "observed": "4.7%, 19259 chunks, quiet 0 min",
+   "observed": "4.7%, 19296 chunks, quiet 5 min",
    "floor": "moving, or under 15 min quiet",
    "order": "The chunk counter has not moved. If it reads 0.0%%, no chunk has completed at all -- check that read.py printed its transport banner and that the queue is not empty. If it is stuck at a non-zero count, the reader is up and wedged: look at the pool standards above and at the failure ledger before restarting it, because a restart re-queues the chunk it is stuck on.",
    "severity": "high"
@@ -1862,7 +1685,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "2.2h",
+   "observed": "2.4h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1898,7 +1721,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 28,
+   "observed": 25,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1925,7 +1748,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "1,702",
+   "observed": "1,725",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1934,7 +1757,7 @@
    "standard": "probe failures (reported, not judged)",
    "group": "code",
    "holds": true,
-   "observed": "8,634",
+   "observed": "8,637",
    "floor": "no floor",
    "order": "Requests that failed as part of finding something out: endpoint detection trying six paths, the scout trying eight URLs. Volume here is work, not damage.",
    "severity": "low"
@@ -2042,7 +1865,7 @@
    "standard": "the character sweep is newer than the catalogue",
    "group": "library",
    "holds": false,
-   "observed": "1.2h behind the newest record",
+   "observed": "1.4h behind the newest record",
    "floor": "fresh",
    "order": "A record was re-catalogued after the sweep last ran, so every consumer of CHARACTER_SWEEP.json -- the assay queue, the host fitness roster, the chain's entity index -- is working from a cast list that no longer matches the shelves. The remedy starts `sweep.py`; the feats roll and the reader then pick the new entities up on their own next cycle.",
    "severity": "high"
@@ -2060,7 +1883,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x28, 0.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2001. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.2h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1808. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1377. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1353. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1169. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.4h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1715. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.4h old); github:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x9, 3.2h old); kluster:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `kluster:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `kluster:free` is at fault. (x4, 4.0h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1246. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.0h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Kenshiro (Fist of the North Star) - **Epoch:** post-Raoh - **Candidate Evidence:** Grouped by axis, with numbered citations. - **Task:** Score the entity based *only* on th (x1, 5.2h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1159. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 6.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1035. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 6.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1565. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 10.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1041. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 10.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1450. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 11.4h old); chutes:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `chutes:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `chutes:free` is at fault. (x4, 12.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1139. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 12.4h old); ovh:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `ovh:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ovh:free` is at fault. (x2, 12.6h old); anthropic:paid: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x6, 12.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1674. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 13.1h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1031. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 13.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1056. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x3, 14.1h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1369. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 16.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1703. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 18.4h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1067. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 20.5h old)",
+   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x28, 0.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2001. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.4h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1808. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1377. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1353. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1169. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1715. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.5h old); github:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x9, 3.4h old); kluster:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `kluster:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `kluster:free` is at fault. (x4, 4.2h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1246. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.1h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Kenshiro (Fist of the North Star) - **Epoch:** post-Raoh - **Candidate Evidence:** Grouped by axis, with numbered citations. - **Task:** Score the entity based *only* on th (x1, 5.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1159. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 6.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1035. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 6.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1565. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 10.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1041. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 10.9h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1450. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 11.6h old); chutes:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `chutes:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `chutes:free` is at fault. (x4, 12.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1139. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 12.6h old); ovh:free: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `ovh:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ovh:free` is at fault. (x2, 12.8h old); anthropic:paid: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x6, 12.9h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1674. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 13.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1031. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 13.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1056. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x3, 14.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1369. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 16.8h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1703. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 18.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1067. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 20.6h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -2170,7 +1993,7 @@
    "metric": "cited",
    "now": 26330,
    "delta": 0,
-   "minutes": 33,
+   "minutes": 35,
    "reset": false,
    "stalled": true
   },
@@ -2178,7 +2001,7 @@
    "metric": "settled",
    "now": 243465,
    "delta": 0,
-   "minutes": 33,
+   "minutes": 35,
    "reset": false,
    "stalled": true
   },
@@ -2186,23 +2009,23 @@
    "metric": "feats",
    "now": 143625,
    "delta": 0,
-   "minutes": 33,
+   "minutes": 35,
    "reset": false,
    "stalled": true
   },
   {
    "metric": "entities read",
-   "now": 2922,
-   "delta": 23,
-   "minutes": 33,
+   "now": 2933,
+   "delta": 34,
+   "minutes": 35,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "chunks",
-   "now": 19259,
-   "delta": 197,
-   "minutes": 33,
+   "now": 19296,
+   "delta": 234,
+   "minutes": 35,
    "reset": false,
    "stalled": false
   },
@@ -2210,10 +2033,10 @@
    "metric": "standards met",
    "now": 34,
    "delta": 2,
-   "minutes": 33,
+   "minutes": 35,
    "reset": false,
    "stalled": false
   }
  ],
- "generated": "2026-09-10T06:03:30"
+ "generated": "2026-09-10T06:13:49"
 }

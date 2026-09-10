@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 472  ·  last run 2026-09-10 03:05
+round 473  ·  last run 2026-09-10 05:23
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 472  ·  last run 2026-09-10 03:05
 
 ## What the model found in the code
 
-**82 open** (29 high). Newest first.
+**78 open** (28 high). Newest first.
 
 - **pipeline.py** `build_jobs_for_source` — [HIGH] The function is called with only two arguments, but the comment claims it should be called with four, leading to incorrect behavior where sources are marked as refusing to build when they actually have no entries.
   - says: The real signature is build_jobs_for_source(cfg, roll_entry, record, spine) -- four arguments, in that order. Calling it with two produced "117 sources would not build", which reads as a property of the sources and was a property of the call.
@@ -29,8 +29,6 @@ round 472  ·  last run 2026-09-10 03:05
   - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
 - **local_agent.py** `_deny` — [HIGH] The code converts the denylist to lowercase, making the denylist case-insensitive, which contradicts the claim that the denylist is case-sensitive.
   - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
-- **feats_index.py** `host_to_sources` — [HIGH] returns an empty map and does not raise an exception
-  - says: RAISES rather than returning an empty map when the host file cannot be read
 - **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] The regex looks for 'mach' followed by a number, but the comment says it's for number-first forms
   - says: Matches unit-first forms like '5 mach'
 - **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] Matches 'mach 5' (unit-first) but the comment says it's for number-first forms
@@ -71,6 +69,14 @@ round 472  ·  last run 2026-09-10 03:05
   - says: Canary every bound host. Error-resilient: one bad host never aborts the sweep.
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **retry_synthesis.py** `PL._stored_cut` — [MEDIUM] applies a fixed cut length
+  - says: keeps the two writers in step through the NEXT change to it
+- **feats_index.py** `index_faults` — [MEDIUM] Builds the index if it has not been built, but the function does not actually build the index; it only retrieves the faults from the cache.
+  - says: Builds the index if it has not been built, so the answer is never a stale zero.
+- **feats_index.py** `load_index` — [MEDIUM] WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
+  - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
+- **feats_index.py** `host_to_sources` — [MEDIUM] RAISES an exception when the host file cannot be read
+  - says: RAISES rather than returning an empty map when the host file cannot be read
 - **pipeline.py** `return 0` — [MEDIUM] returns 0 when the pointer is past the last phase and every phase has a completion marker, but the comment suggests this is the clean finish, which may not be the case
   - says: EXPLICIT 0 (order 1f8e0f1bfb26) -- this IS the clean finish the comment above already describes; see the note at the bottom of this function for why the value now matters.
 - **pipeline.py** `land_json` — [MEDIUM] land_json is used to land JSON data but the code around it suggests it should be derived
@@ -119,14 +125,6 @@ round 472  ·  last run 2026-09-10 03:05
   - says: current pages being built
 - **ingest_doc.py** `cur` — [MEDIUM] accumulated text with labels
   - says: current chunk being built
-- **feats_index.py** `entries_by_norm` — [MEDIUM] used downstream when the feats prose is generated -- is taken from the correct one of two same-named catalogue entries.
-  - says: description and magnitude used downstream when the feats prose is generated -- is taken from the wrong one of two same-named catalogue entries.
-- **feats_index.py** `index_faults` — [MEDIUM] Builds the index if it has not been built, but the function does not handle the case where the index is built but has faults.
-  - says: Builds the index if it has not been built, so the answer is never a stale zero.
-- **feats_index.py** `load_index` — [MEDIUM] counts unreadable records but not collided keys
-  - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
-- **feats_index.py** `_norm` — [MEDIUM] normalises a string to lowercase and alphanumeric characters
-  - says: normalises a string to lowercase and alphanumeric characters
 - **completeness.py** `no_denominator` — [MEDIUM] a case where all category probes were answered and none existed
   - says: a THIRD answer beside those two
 - **codewatch.py** `reportable` — [MEDIUM] a set of jobs derived from coverage() with a split on job names
@@ -169,14 +167,8 @@ round 472  ·  last run 2026-09-10 03:05
   - says: the same pair judged as whole strings, and the distance between them is how one-sided the match is
 - **binding_health.py** `containment` — [MEDIUM] a boolean indicating whether one set of words is a subset of the other
   - says: the strength of the evidence, not a second verdict. `containment` says one name's words sit wholly inside the other's, which is what `token_set_ratio` scores 100
-- **binding_health.py** `binding_verdict` — [MEDIUM] Returns a verdict based on string similarity between the sitename and source names, but the function's purpose is to determine if the binding is correct or not, which is not directly related to the string similarity score.
-  - says: Does the wiki's own name correspond to the source bound to it?
 - **binding_health.py** `available` — [MEDIUM] passed in
   - says: UNMEASURED
-- **binding_health.py** `PRESENT_CANDIDATES` — [MEDIUM] hardcoded value
-  - says: bound
-- **physics.py** `joules_for` — [MEDIUM] Energy to do `mode` to `volume_m3` of `material` with a default material of 'rock' and mode of 'pulv'.
-  - says: Energy to do `mode` to `volume_m3` of `material`.
 
 ---
 

@@ -444,7 +444,7 @@ def mine(source):
             if misses >= 60:
                 print("  chunk %d/%d: 60 consecutive misses (~5h); stopping (resumable)"
                       % (ci + 1, len(chunks)))
-                break
+                return False
             print("  chunk %d/%d: no transport; napping 300s (miss %d/60)"
                   % (ci + 1, len(chunks), misses))
             time.sleep(300)
@@ -512,7 +512,7 @@ def mine(source):
                     known.discard(_key(e["name"]))
                 print("  chunk %d/%d: record write denied; stopping without advancing "
                       "(resumable)" % (ci + 1, len(chunks)))
-                break
+                return False
             state["found"] += len(fresh)
         state["next"] = ci + 1
         # Atomic, like every other resume cursor in this project: a crash between `open` and
