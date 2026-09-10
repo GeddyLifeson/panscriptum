@@ -10371,3 +10371,128 @@ pick up its threads the moment the source is mined, and nothing is dangling in t
 
 **Still 24% of the corpus with no T3, and still correct.** A source the Annex never names and that
 holds no Concordance shelf gets none.
+
+# RUN #52 — 2026-09-09 (owner-directed) — THE CATALOGUE GREW AN EIGHTH ROOM, AND PHASE 4.4 LANDED
+
+Owner instruction: *"DO THE EXPANSION THEN 4.4."* Both done. `prose_enabled` is **false** and was
+never touched; 4.5 was not asked for and is not authorised.
+
+## PART ONE — THE EXPANSION
+
+The library could not say what a thing is MADE OF, and had no category for a PEOPLE. Order
+`6c7495ee66be` measured the damage: 203 race-typed entries scattered across all six categories
+with **85 filed under `Places & Locations`**, and most peoples never caught at all — hundreds of
+individual Krogan and Sangheili on file and no entry for the Krogan or the Sangheili, with the
+Asari and Turians absent at any level.
+
+**An eighth category, APPENDED — and appending was the only safe move.** `phase_entrypass` maps a
+model-returned INDEX to a label by position (`CATEGORIES[ci - 1]`), so inserting anywhere but the
+end would have silently re-labelled every entry already carrying a higher index. 1–7 still mean
+exactly what they meant when 282,822 entries were classified under them.
+
+Landed in four places, because the seven strings had **nine hand-kept copies** across the tree —
+two distinct orderings, differing only in order, which is safe only as long as each module stays
+internally consistent:
+
+  * `pipeline.CATEGORIES` and `ingest_doc.CATEGORIES` — the same string, appended to both.
+  * `address.CHAPTER_SLUGS` — `Peoples`, so the entries have a chapter to be written into.
+  * **Both extraction prompts**, which is where the functional change actually is. An enum value
+    the model is never asked for collects nothing. `ENTRY_SYSTEM` now says `1-8` and carries the
+    distinction that matters: *"A species, race or people as a KIND is 8: the Krogan, the Asari,
+    the Sangheili, elves, Warforged. One member of that kind is 1: Urdnot Wrex, a Krogan warlord.
+    A people is not a place even when it shares a name with its homeworld."*
+
+**296 entries retagged, in two passes, and the second pass is the interesting one.** The first
+matched nine exact type strings and moved 203. A follow-up scan found ~150 further types it had
+missed — `Species (The Edge)`, `Monster Species`, `Winged People (Rabiah)`, and
+`Playable Race (5e adaptation)`, which is why one of the two Shardmind entries had stayed put. The
+second pass moved 93 more using WORD BOUNDARIES and an exclusion list, because substring matching
+had also produced false positives: **`Charis (Grace)`** matched "race" inside "G-race", as did
+`Racetrack` and `Multiplayer Map (Payload Race)`. This is the standing lesson about contamination
+scans — they always undercount, and the remedy is iterative broadening, not one wider net.
+
+**63 compound types were LEFT ALONE deliberately** — `Alien Species/Faction`, `Race/Faction`,
+`Faction — Serpent Race`. The cataloguer itself could not resolve those, and the classifier now
+has category 8, the people-vs-person instruction, and the description. A retag is a head start,
+not the mechanism.
+
+**THE WRITER MATTERS, AND THE FIRST ONE WAS WRONG.** The retag initially used
+`write_record_catalogue` and **reverted on record one** — the writer said so in its own log:
+*"keeping the disk copy's curated value over the fresh cast's for 10 category"*. `category` is in
+`CATALOGUE_CURATED_FIELDS`, protected so a fresh wiki cast cannot overwrite the entrypass
+classifier's judgment. Correct for a re-catalogue, wrong for a deliberate retag. The verification
+step caught it after ONE record and stopped; the correct writer is `pipeline.write_record`, the
+one `phase_entrypass` itself uses to assign a category. **Learned by measurement, not by reading
+the docstring.**
+
+**TWO MORE AXES WERE SHORT THE SAME ROW, found by following the first one:**
+
+  * **`TOPICS`** — the Encyclopedia series (Persons A-Z, Wars A-Z, Relics A-Z) had a series for
+    the individual and none for the kind. `Peoples` appended.
+  * **`physiology`** — the field that would have answered the question that started all this.
+    Every entry carried WHERE it is, HOW POWERFUL it is and HOW WELL EVIDENCED it is, and nothing
+    recording what it is MADE OF; the Nine Measures are capability axes, so even the Assay is
+    orthogonal. Added to `ENTRY_SCHEMA` as **required with an explicit `""`**, following this
+    schema's own rule for `subroom`: *"An absent key is the one shape that cannot be counted."*
+    Asked only of a people, and only for what the description actually states.
+
+## PART TWO — PHASE 4.4
+
+**Ruling recorded as STEP4_PLAN §7H** before a line was written, the way §7F and §7G were.
+Scoped to T4 alone. It records explicitly that 4.5 is NOT authorised, that T5 stays owner-only,
+and that **the Assay is not licensed by this** — T4 CITES the Law governing a claim, it never
+computes one (Hard Rule 3).
+
+**The Law address space, built the way the Annex was.** A T4 points at a Collection X address —
+the Entry Template's worked example is `X.3 §G-114`. Collection X was defined in the charter and
+loaded nowhere, so `data/LAWS.json` is a transcription of its six volumes, with the parse checked
+against the charter's declared count and refusing to write a partial table.
+
+**T4 IS DERIVED PER ENTRY AND NOT STORED, and that is structural rather than a shortcut.** T1, T2
+and T3 are constant across every entry sharing a (source, category) — which is exactly why
+THREADS.json is kilobytes instead of the ~136 MB an expanded file would take. T4 is not: it
+depends on whether THIS entry asserts a Magnitude. `threads_for` already receives the entry, so
+the per-entry class is computed where the per-entry evidence is.
+
+**AND ITS POPULATION IS 447, WHICH IS THE HONEST NUMBER.** §7G was right that T4 "belongs with
+generation": a Law citation attaches to a claim in The Record, and The Record is gated prose. So
+T4 today covers only the claim the CATALOGUE makes — 447 of 282,711 entries assert a real
+Magnitude band; **217,816 are `unassayed`** and 64,448 carry none. It is small because the Assay
+has not been run, not because the join is weak. Citing a Law for every entry regardless would be
+decoration — which the Doctrine of Derivation itself defines as a Digest sentence with neither
+citation.
+
+It cites **X.1, The Nine Measures** — the volume that defines the bands. Deliberately not X.3,
+the Ledger of per-person worksheets: citing that for a band-only magnitude would claim an Assay
+nobody ran.
+
+## THE NET MOVED TWICE IN ONE DAY
+
+`drill.py`'s phase-boundary net asserted T3 and T4 were both refused, citing §7E. It was moved to
+the §7G boundary this morning and to the **§7H** boundary this evening. Both times it would have
+BREACHED on correct code and halted the library, and both times it was caught by grepping for the
+class before running the drill rather than after.
+
+It now asserts the ADMISSIONS as well as the refusal — T3 and T4 must be constructible, T5 must
+not — because a net that only ever checks refusals would be equally happy if neither ruling had
+ever landed. Plus a second new net: **a T4 to an unresolvable address is still refused**.
+Authorising a class does not authorise a dangling address.
+
+## GATES
+
+`drill` **469 nets / 469 held / 0 BREACHED** (468 before; +1 for the T4 dangling net) ·
+`verify_math` **1282 passed / 0 FAILED** · `pyflakes` clean over `src/` · `secondopinion` all
+three tools ran, **0 secrets** by two independent scanners · `escalation --status` clear ·
+`thread_integrity` DANGLING **0**, ASYMMETRIC-SUSPECT at floor, rc=0.
+
+    T1 282,822 · T2 1,213,110 · T3 280,345 (75.9% of the corpus) · T4 447
+    total 1,776,277 stored threads, 6.28 per entry, plus T4 at expansion
+
+## WHAT REMAINS, SAID PLAINLY
+
+* **The Asari and the Turians still do not exist.** The schema now has somewhere to put them and
+  the prompt now asks for them; collecting them is the crawl's job and it runs continuously.
+  Expect peoples to appear as the 2,883-entry re-judgement queue and subsequent passes turn over.
+* **`physiology` is empty on every entry today.** It fills the same way — on re-judgement.
+* **T4 stays at 447 until the Assay runs.** That is Hard Rule 3 territory and needs its own pass.
+* **4.5 is unauthorised and `prose_enabled` is false.**
