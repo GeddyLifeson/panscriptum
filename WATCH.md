@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 465  ·  last run 2026-09-09 19:07
+round 466  ·  last run 2026-09-09 19:37
 
 ## Structure
 
@@ -11,12 +11,18 @@ round 465  ·  last run 2026-09-09 19:07
 
 ## What the model found in the code
 
-**49 open** (20 high). Newest first.
+**38 open** (14 high). Newest first.
 
+- **drill.py** `ESC.escalate` — [HIGH] The escalate call is missing the 'what' argument, which is required to name the specific breached nets in the halt sentence.
+  - says: A BREACHED NET IS ITSELF AN OWNER-LEVEL EVENT. THE HALT SENTENCE NAMES EVERY BREACHED NET
+- **drill.py** `drill_hostcheck` — [HIGH] A function that returns a boolean indicating if an escalation log is unreadable
+  - says: The host verdict, and the baseline every lift in the module is computed against.
+- **drill.py** `drill` — [HIGH] A function that returns a boolean indicating if an escalation log is unreadable
+  - says: The host verdict, and the baseline every lift in the module is computed against.
+- **drill.py** `reap_orphans` — [HIGH] reaping matched a PREFIX AND AN AGE and a PID
+  - says: reaping matched a PREFIX AND AN AGE and nothing else
 - **overnight.py** `snap` — [HIGH] snap is updated with cycle and at information even when there's an error
   - says: A crashed snapshot carries ONLY an "error" key
-- **ingest_doc.py** `write_record_catalogue` — [HIGH] the code does not call write_record_catalogue but instead directly modifies the file and does not handle the rename landing
-  - says: this is a cast-growing writer, and write_record's disk-wins merge DISCARDED the first 14 entities this module ever found
 - **ingest_doc.py** `mine` — [HIGH] reads the memory
   - says: reads the disk
 - **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] Matches 'mach' followed by a number, but the comment says it's for unit-first form (e.g., '5 mach') which is actually number-first. The regex is for 'mach' followed by a number, which is number-first, but the comment says it's for unit-first.
@@ -31,28 +37,26 @@ round 465  ·  last run 2026-09-09 19:07
   - says: re-checks if a subsystem is stopped by reading the file
 - **escalation.py** `escalate` — [HIGH] Escalates to a rung that cannot enforce itself, leading to no action taken
   - says: Rung 4, made DURABLE. Stop one subsystem until a person resumes it.
-- **drill.py** `silence.write_json` — [HIGH] does not include a time field in the written data
-  - says: this project's stated one correct way to land a shared file
-- **drill.py** `silence.write_json` — [HIGH] writes to a file that can be partially read by other processes due to truncate-then-fill behavior
-  - says: this project's stated one correct way to land a shared file
-- **drill.py** `TH.threads_for` — [HIGH] hands back a blank
-  - says: asking it for a Threads section must REFUSE rather than hand back a blank
-- **drill.py** `ESC.escalate` — [HIGH] stringifies every real evidence mapping into "{'a': 1}"
-  - says: stringifies every real evidence mapping
-- **drill.py** `ESC.escalate` — [HIGH] resolves a typo to MANAGER
-  - says: resolves a typo to OWNER
-- **drill.py** `the_gate_and_the_public_door_are_denied` — [HIGH] The function uses `_denied_target` to check if the targets are denied, but the logic may allow the local model to write the prose gate or the public module if the control files are still open.
-  - says: NOT A STRING BYPASS
-- **drill.py** `the_gate_and_the_public_door_are_denied` — [HIGH] The function returns True when both targets are denied and the control files are still open, which may allow the local model to write the prose gate or the public module.
-  - says: The local model may not write the prose gate, nor the module that pushes to the public.
-- **build_terminal.py** `esc` — [HIGH] some catalogue-derived strings bypass it, and some are escaped where they enter the string not at the sinks
-  - says: every catalogue-derived string goes through this before it reaches innerHTML
-- **axis_correlation.py** `rho` — [HIGH] used without definition
-  - says: compute correlation between two axes
 - **read.py** `return done["errored"] == 0` — [HIGH] returns 0 if no errors occurred, but the exit code should reflect whether any errors occurred
   - says: THE EXIT CODE IS THE NUMBER A SCHEDULER ACTUALLY LOOKS AT
 - **grounding.py** `silence.write_json` — [HIGH] writes JSON to the file and returns a boolean indicating success
   - says: uses to mean "this run did not do what it was asked"
+- **verify_math.py** `phase_cosmology` — [MEDIUM] phase 5 does not refuse, but instead returns (False, False) as per the code
+  - says: phase 5 REFUSES an unparseable WORLDSEEDS.json instead of re-addressing from nothing
+- **verify_math.py** `verify_restore` — [MEDIUM] the function's call site is checked to ensure it uses the sandbox copy
+  - says: protects a sandbox copy, not the three ledgers
+- **drill.py** `_an_unreadable_halt_file_confirms_nothing` — [MEDIUM] The function tests that `_halt_file_records` answers False when the file is unreadable, but the code does not correctly simulate an unreadable file. The test does not check if the file is unreadable and returns False in all cases, which may not accurately reflect the actual behavior.
+  - says: `_halt_file_records` must answer False when it cannot read the file at all.
+- **drill.py** `_a_halt_is_not_raised_on_the_writer_s_word` — [MEDIUM] The function tests that `_raise_halt` verifies the record LANDED, but the test does not correctly simulate a write that claims to have landed. The test uses a lambda that returns (True, 'landed') without writing to the file, which may not accurately reflect the actual behavior.
+  - says: `_raise_halt` must verify the record LANDED; a write that merely claims to is not one.
+- **drill.py** `_halt_fails_closed` — [MEDIUM] Points the module at a corrupt halt file and confirms it reads as HALTED, but the code does not check if the file is actually unreadable. The test returns True if the file is unreadable, but the actual check for unreadability is missing.
+  - says: Point the module at a deliberately corrupt halt file and confirm it reads as HALTED.
+- **drill.py** `custodes_table_faults_is_empty` — [MEDIUM] Checks for any table faults, including those not related to tilt and evidence_sensitivity
+  - says: No CUSTODES entry may carry tilt == 0.0 together with a non-zero evidence_sensitivity.
+- **drill.py** `PL.synthesis_blocks` — [MEDIUM] now a + operator that combines both halves
+  - says: was [with_feats chunks] or [rest chunks]
+- **drill.py** `PL._mined_feats` — [MEDIUM] overridden during a test to simulate a specific mining behavior
+  - says: used to decide which arm is taken
 - **overnight.py** `write_status` — [MEDIUM] Attempts to write a temporary file and replaces it with the new content, but the function's return value is not directly tied to the success of the file write operation as the function's name suggests.
   - says: Land STATUS.md. -> True if it landed, False if the replace was denied.
 - **overnight.py** `CB.snapshot()` — [MEDIUM] raises exceptions which are caught and logged
@@ -83,34 +87,8 @@ round 465  ·  last run 2026-09-09 19:07
   - says: Lift the halt. A PERSON ONLY, and refused at run time if the caller is not one.
 - **escalation.py** `WO.file_order` — [MEDIUM] only escalations with level >= JANITOR are converted to work orders
   - says: EVERY ESCALATION BECOMES A WORK ORDER
-- **drill.py** `the_ignore_file_names_the_same_class` — [MEDIUM] the function checks for .py and other extensions but relies on the CODE_FREE_DIRS and _CODE_EXT to cover all cases, which may not align with the intended behavior
-  - says: THE SAME CLASS MEANS THE WHOLE CLASS, NOT THE .py FAMILY
-- **drill.py** `SC.LOG` — [MEDIUM] A temporary file path created in a test environment
-  - says: A path to the log file
-- **drill.py** `SC.ATTEMPTS` — [MEDIUM] A temporary file path created in a test environment
-  - says: A path to the attempts log file
-- **drill.py** `SC.hostless` — [MEDIUM] A lambda function that returns a fixed dictionary of synthetic hostless sources
-  - says: A function that returns hostless sources
-- **drill.py** `SC.scout` — [MEDIUM] A lambda function that returns a fixed dictionary with a 'source' key, but does not perform any actual scouting or logging
-  - says: A function that simulates scouting behavior with a source, names, and registration flag
-- **drill.py** `F._BACKOFF` — [MEDIUM] tracks backoff multipliers and strike counts
-  - says: tracks backoff multipliers
-- **drill.py** `F.note_throttled` — [MEDIUM] increments a strike count and increases backoff
-  - says: notes that a host is throttled
-- **drill.py** `PL.gate_done(st, "write", [True, True])` — [MEDIUM] the marker itself, and the gate that calls it are not both being tested
-  - says: the marker itself, and the gate that calls it
-- **drill.py** `PL.mark_done(st, "weave")` — [MEDIUM] the marker itself, and the gate that calls it are not both being tested
-  - says: the marker itself, and the gate that calls it
-- **drill.py** `only` — [MEDIUM] It actually returns False if the file is not only that content
-  - says: The code says it checks for a specific file content
-- **drill.py** `LA.t_propose_patch` — [MEDIUM] applies the patch when called with apply=True
-  - says: proposes a patch without applying it
 - **allsweep.py** `bad` — [MEDIUM] counts LINT, RECONCILE, ESTATE, VERIFY, and adds 1 for report failure, but the comment says it should count only LINT, ESTATE, VERIFY, and report failure
   - says: sum of bad subsystems including LINT, RECONCILE, ESTATE, VERIFY, and report write failure
-- **cleanup.py** `low_pref` — [MEDIUM] finds a prefix match with len(ce) >= 6, but the comment says it's for proper prefixes and the docstring says it's for guessing names which is worse
-  - says: finds a prefix match
-- **catalogue_models.py** `sweep` — [MEDIUM] reports stale model references when providers no longer serve them but truncates the list of available samples to the first 10 entries
-  - says: reports stale model references when providers no longer serve them
 
 ---
 
