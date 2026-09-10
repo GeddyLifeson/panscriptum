@@ -1,18 +1,22 @@
 # OVERWATCH
 
-round 486  ·  last run 2026-09-10 16:28
+round 487  ·  last run 2026-09-10 17:02
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 302,961 inspected (deep scan as of round 481)
+- files that will not parse: **0** of 303,086 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**39 open** (12 high). Newest first.
+**35 open** (12 high). Newest first.
 
+- **ledger_guard.py** `silence.note` — [HIGH] discards the reason a SEAL failed
+  - says: TAGGED, like every sibling except-block in this file
+- **ledger_guard.py** `silence.append_line` — [HIGH] used as a bare `open(CHAIN, "a")`
+  - says: NOT A BARE `open(CHAIN, "a")`
 - **genre.py** `classify_source` — [HIGH] Raises an error when `cap` is provided, which contradicts the claim that it classifies sources based on their entries.
   - says: Classify one source from its own catalogued entries.
 - **foreman.py** `lines_changed` — [HIGH] Calculates the number of lines changed based on the diff between old and new code, but the docstring says it's not `abs(len(new) - len(old))` and instead explains a different method. However, the code correctly implements the described logic using difflib's SequenceMatcher. The docstring's claim is accurate, and the code aligns with it. Therefore, no defect of fact is found here.
@@ -33,10 +37,12 @@ round 486  ·  last run 2026-09-10 16:28
   - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
 - **verify_math.py** `_flowok19ab` — [HIGH] the check passed whatever that function actually did, INCLUDING the response-only predicate it exists to refuse
   - says: the exact payload measured on 2026-08-24 -- eval_count 8, thinking non-empty, response empty -- put through standards.ollama_token_flow itself rather than through a copy of its predicate written here. The old predicate returns False on this payload and reports a healthy truncated generation as a dead daemon
-- **verify_math.py** `max` — [HIGH] clamped to HAMLET_FLOOR, which is 40, but the code never used the floor
-  - says: the k-th burg holds P1/k, independently recomputed
-- **standards.py** `flow` — [HIGH] the local model produces tokens
-  - says: the local model produces tokens
+- **manifest_builder.py** `silence.replace_retry` — [MEDIUM] is used to replace the temporary report file with the final report path, but the comment suggests it's meant to handle the report writing process including retries and error handling
+  - says: Land it through a pid+thread temp and silence.replace_retry
+- **ledger.py** `from_standards` — [MEDIUM] The inverse of `to_standards`, but returns None for unlisted currencies, not handling the case where a currency is deliberately non-convertible as per the docstring
+  - says: The inverse of `to_standards`. None where the currency is not convertible -- for UNLISTED vs. deliberately non-convertible, see `currency_status`.
+- **ledger.py** `to_standards` — [MEDIUM] Converts a local sum into Standards, but returns None for unlisted currencies, not handling the case where a currency is deliberately non-convertible as per the docstring
+  - says: Convert a local sum into Standards. None where the currency is not convertible -- for UNLISTED vs. deliberately non-convertible, see `currency_status`.
 - **hostcheck.py** `score` — [MEDIUM] Calculates a score based on probe results and baseline, but the code's logic for handling unmeasured controls and defaults may not align with the stated purpose of measuring lift above baseline.
   - says: One host, fully judged: how much of this roster it holds, ABOVE ITS OWN BASELINE.
 - **hostcheck.py** `rate` — [MEDIUM] rate is assigned the value of r.get("rate") which could be None, but the code does not explicitly handle the None case as described in the comment
@@ -57,14 +63,6 @@ round 486  ·  last run 2026-09-10 16:28
   - says: returns 0 if the ledger closes, 1 otherwise
 - **derivation.py** `college_size` — [MEDIUM] the count is derived, not chosen: a direction with nobody
   - says: one Custos per degree of freedom
-- **dashboard.py** `movement` — [MEDIUM] Calculates deltas against the oldest sample inside the window, but the comment indicates that the 'reset' branch should handle cases where the standards subsystem failed, leading to potential misinterpretation of negative deltas as restarts.
-  - says: What has CHANGED, not what the level is.
-- **catalogue_codex.py** `roll_landed` — [MEDIUM] the roll does not yet say so
-  - says: the records land
-- **assay.py** `grade` — [MEDIUM] grade_n <= 5 is a BOUNDS GUARD, not a test
-  - says: grade_n <= 5 cannot be false while the Ladder has eleven rungs
-- **assay.py** `set(ATTESTATION_FLOOR)` — [MEDIUM] checks that the set of keys in ATTESTATION_FLOOR matches the set of order
-  - says: WHAT THE EXISTING COVER ACTUALLY REACHED, measured rather than assumed: drill.py exercises ATTESTATION_FLOOR at its two ENDPOINTS (Instrumented against Disputed) plus the unrecognised-grade case. A mid-table rearrangement that leaves both endpoints alone -- swapping Transcribed 0.20 and Reconstructed 0.40 is the whole edit -- imports cleanly, passes that endpoint probe, and publishes a NARROWER bar for the worse-attested of the two grades. That is the "less knowledge, narrower bar" defect this file's own header names as the worst direction the library can be wrong in, on the table with no net under it. Measured green when written: 0.08 < 0.10 < 0.20 < 0.40 < 0.55, over the same `order`.
 - **anchors.py** `vector_score` — [MEDIUM] Returns a value based on the LADDER_RUNGS constant, which is 17, but the comment says it's derived from the Ladder's own height. The function uses a fixed value for LADDER_RUNGS, which may not be correct if the ladder's actual height differs.
   - says: Vector on the 0-10 decimal scale, derived from the Ladder's own height. No new quantity.
 - **thread_integrity.py** `dist` — [MEDIUM] initialized to None but not properly calculated or handled in all cases
@@ -73,12 +71,8 @@ round 486  ·  last run 2026-09-10 16:28
   - says: stores detailed information about each category
 - **thread_integrity.py** `out` — [MEDIUM] increments the count for partially dangling pairs but also for other categories like IMPLIED-UNRECORDED and RECIPROCAL
   - says: counts the number of partially dangling pairs
-- **scout.py** `deferred` — [MEDIUM] the code uses the old `
-  - says: NOT a truncation of the universe: these are ahead of nobody and behind everybody, and each moves to the front by waiting. Named so the deferral is legible.
 - **scout.py** `silence.replace_if_unchanged` — [MEDIUM] refuses only when the target is unreadable as bytes at write time
   - says: refuse to write over an unreadable file
-- **rosetta.py** `check` — [MEDIUM] check() is called with rosetta and assays, but the code does not show how check() is implemented or its actual behavior.
-  - says: check() is supposed to match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
 - **verify_math.py** `check` — [MEDIUM] the code does something else
   - says: the code says it does
 - **verify_math.py** `_restart_horizon` — [MEDIUM] the reader is in the keeper's STANDING set
@@ -87,8 +81,6 @@ round 486  ·  last run 2026-09-10 16:28
   - says: the fast path returns True on a warm metrics row without ever evaluating the predicate; without this pin the check above could read green off a stale tps and would survive the predicate being deleted outright
 - **verify_math.py** `A.axis_score` — [MEDIUM] returns None for missing quantities but raises an error for unknown bands
   - says: a missing quantity cannot become an axis score
-- **verify_math.py** `A.axis_score` — [MEDIUM] returns None for non-positive quantities but raises an error for unknown bands
-  - says: a non-positive quantity cannot become an axis score
 - **verify_math.py** `max` — [MEDIUM] the tolerance is silently discarded as the code compares integers exactly
   - says: the k-th burg holds P1/k, independently recomputed
 
