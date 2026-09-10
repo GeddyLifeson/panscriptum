@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-THREADS — Step 4: the T1/T2/T3 entanglement pass (Phases 4.1 and 4.3).
+THREADS — Step 4: the T1/T2/T3/T4 entanglement pass (Phases 4.1, 4.3 and 4.4).
 
 WHAT A THREAD IS, and the whole design follows from taking the charter literally (Part Seven,
 via STEP4_PLAN.md §1): a Thread is a CITATION, not an opinion. It resolves to an ADDRESS — a
@@ -9,7 +9,7 @@ weak thread, it is a BROKEN one. So entanglement is a referencing problem over a
 that already exists, not a semantic-similarity problem over 282,822 entities. Nothing here pairs
 entities against each other; each entry cites a handful of addresses, the way a footnote does.
 
-THE THREE CLASSES THIS MODULE EMITS, and only these three:
+THE FOUR CLASSES THIS MODULE EMITS, and only these four:
 
   T1 HOME    the entry's own volume, from `address.spine_code_for(source)`. Zero judgment,
              100% coverage, cannot be wrong if the addressing is right. This alone gives every
@@ -24,10 +24,20 @@ THE THREE CLASSES THIS MODULE EMITS, and only these three:
              its erasure", "the Great Ninja Wars", "the Horus Heresy". A shelf whose Canon
              names nothing of its gets no T3, and that silence is correct rather than a gap.
 
+  T4 LAW     the Law citation, to a Collection X address. ADMITTED 2026-09-09 under §7H,
+             which authorised Phase 4.4. Per the Doctrine of Derivation every Digest claim must
+             cite a Law or a Deed; T3 is the Deed half and this is the Law half. DERIVED PER
+             ENTRY in `threads_for`, not stored -- see the note there -- because unlike the
+             other three it depends on whether THIS entry asserts a Magnitude.
+
+             ITS POPULATION IS SMALL AND HONESTLY SO. A Law citation attaches to a claim in
+             The Record, and The Record is generated prose, which is gated -- so T4 today covers
+             only the claim the CATALOGUE makes: 447 of 282,711 entries assert a Magnitude band.
+             Citing a Law for every entry regardless would be decoration, which the Doctrine
+             itself calls a Digest sentence with neither citation.
+
 DELIBERATELY NOT EMITTED:
 
-  T4 LAW     per-claim, so it belongs with generation. Phase 4.4, and §7G's closing line is
-             that 4.4 and 4.5 "remain UNAUTHORISED and need their own ruling".
   T5         the Great Identifications. Owner-authored ONLY, by the §7B ruling — never derived,
              never inferred. `edge()` REFUSES to construct one, and a drill net attacks that
              refusal. Part Four names them as the place "where the walls come down entirely",
@@ -114,10 +124,21 @@ OUT = os.path.join(HERE, "data", "THREADS.json")
 # and §7E has been superseded TWICE, by §7F (which authorised 4.2) and §7G. The citation was two
 # rulings stale, which is the same defect class this tree has 50 open instances of.
 #
-# T4 STAYS OUT, and that is the ruling rather than an omission: §7G's closing line is "4.4 and 4.5
-# remain UNAUTHORISED and need their own ruling". When 4.4 is authorised it gets its own paragraph
-# here naming the ruling that admitted it, exactly as this one does.
-DERIVABLE = ("T1", "T2", "T3")
+# T4 ADMITTED 2026-09-09 UNDER STEP4_PLAN §7H, which authorised Phase 4.4 and scopes it to the
+# Law citation alone. Per the Doctrine of Derivation every Digest claim must cite "a Law (by Part
+# or spine code) or a Deed (by event-code)": T3 carries the Deed half, T4 carries the Law half.
+#
+# §7H ALSO RECORDS WHAT T4 CANNOT REACH YET, and it is worth repeating here because the number
+# looks small. A Law citation attaches to a factual claim in THE RECORD, and The Record is
+# generated prose, which is gated. So T4 today covers only the claim the CATALOGUE itself makes:
+# an entry asserting a Magnitude band. Measured at the ruling: 447 of 282,711 entries carry one.
+# A thin T4 that is honestly thin is correct; citing a Law for every entry regardless of whether
+# it makes a claim would be decoration, which the Doctrine explicitly calls a Digest sentence
+# with neither citation.
+#
+# T5 STILL STAYS OUT, by §7B: owner-authored only, never derived. And 4.5 -- re-opening the prose
+# gate -- was NOT authorised by §7H; `prose_enabled` is untouched.
+DERIVABLE = ("T1", "T2", "T3", "T4")
 
 # THE ANNEX IS AN ADDRESS SPACE, AND UNTIL 2026-09-09 NOTHING LOADED IT (order d57a66d25b11).
 # A T3 points at a Collection VIII address -- §3's worked example is `VIII.9 (the succession
@@ -133,6 +154,25 @@ DERIVABLE = ("T1", "T2", "T3")
 ANNEX_CANONS = os.path.join(HERE, "data", "ANNEX_CANONS.json")
 # The shelf-to-Canon join itself -- see `annex_join()`.
 ANNEX_JOIN = os.path.join(HERE, "data", "ANNEX_JOIN.json")
+# Collection X, the measurement doctrine -- the LAW a T4 cites. See `law_codes()`.
+LAWS = os.path.join(HERE, "data", "LAWS.json")
+
+# The Law that governs a Magnitude claim. X.1 is "The Nine Measures (the axes and weights of the
+# Custodial Assay ... the Attestation grades)" -- the volume that DEFINES the bands an entry is
+# asserting. Deliberately not X.3: that is the Ledger of per-person worksheets, and citing it for
+# a band-only magnitude would claim an Assay that was never run (Hard Rule 3).
+MAGNITUDE_LAW = "X.1"
+
+# A band the entry actually asserts. "unassayed" is the honest non-claim the prompt asks for when
+# a description demonstrates no feat, and an absent/empty value is the same thing less explicitly
+# -- neither is a claim, so neither earns a citation.
+_NOT_A_CLAIM = ("", "unassayed", "none", "n/a")
+
+
+def asserts_a_magnitude(entry):
+    """Does this entry make a scale CLAIM that a Law governs? -> bool. PURE."""
+    m = (entry or {}).get("magnitude")
+    return bool(m) and str(m).strip().lower() not in _NOT_A_CLAIM
 
 # `spine_code_for` never raises; it returns this when the Acquisitions Index cannot place a
 # source. An UNASSIGNED code is not an address, so it is never threaded to and never threaded
@@ -210,6 +250,32 @@ def annex_codes():
         silence.note("threads.py:annex-short")
         return set()
     return out
+
+
+def law_codes():
+    """The Collection X volume codes. -> set of 'X.n', EMPTY if unreadable.
+
+    FAILS CLOSED exactly as `annex_codes` does: an empty set means `edge()` refuses every T4 on
+    the anti-dangling rule, which is the behaviour this module had before Collection X was an
+    address space. Never the other way.
+    """
+    try:
+        with open(LAWS, encoding="utf-8") as f:
+            doc = json.load(f)
+    except Exception:
+        silence.note("threads.py:laws-unreadable")
+        return set()
+    out = {str(c.get("code")) for c in (doc.get("laws") or []) if c.get("code")}
+    declared = ((doc.get("declared") or {}).get("volumes"))
+    if declared and len(out) != declared:
+        silence.note("threads.py:laws-short")
+        return set()
+    return out
+
+
+def _known_for_t4():
+    """The address set a T4 is checked against. Just the Laws: a T4 never points anywhere else."""
+    return law_codes()
 
 
 def annex_join():
@@ -440,6 +506,7 @@ def build(records=None):
     # which were already in the set. What it changes is that a T3 to `VIII.9` now has somewhere
     # to land instead of being refused as dangling.
     known |= annex_codes()
+    known |= law_codes()
     joined = annex_join()
 
     # Which categories does each ADDRESS hold? A volume code can be shared by several sources
@@ -585,6 +652,27 @@ def threads_for(graph, source, entry):
     # SOURCE's history in a Canon. `.get` rather than `[...]` so a graph written before 4.3 --
     # THREADS.json on disk predates it -- still expands instead of raising.
     out.extend(dict(e) for e in (rec.get("T3") or ()))
+    # T4 IS DERIVED HERE AND NOT STORED, and that is a structural fact about the class rather
+    # than a shortcut. T1, T2 and T3 are constant across every entry sharing a (source, category)
+    # -- which is exactly why this file can be stored normalised at kilobytes instead of the
+    # ~136 MB an expanded one would take. T4 is NOT: it depends on whether THIS entry asserts a
+    # Magnitude, which varies entry by entry. Storing it would force the expanded shape on the
+    # whole artifact to carry a field 447 entries in 282,711 actually have.
+    #
+    # `threads_for` already receives the entry, so the per-entry class is computed at the one
+    # place that has the per-entry evidence. Refusals are swallowed to nothing rather than
+    # raised: an unreadable LAWS.json means `law_codes()` is empty, `edge()` refuses, and the
+    # entry keeps its T1/T2/T3 -- degrading to the previous phase, never to a broken citation.
+    if asserts_a_magnitude(entry):
+        try:
+            out.append(edge(MAGNITUDE_LAW, "T4",
+                            "Magnitude %s is a claim under the Registry of Magnitudes; the axes, "
+                            "weights and Attestation grades that define the bands are X.1"
+                            % str((entry or {}).get("magnitude")).strip(),
+                            rec["code"], set(_known_for_t4())))
+        except ThreadRefused:
+            silence.note("threads.py:t4-refused")
+    
     # Looked up by the entry's whole path, so a labelled weapon gets the weapon cohort
     # and an unlabelled vessel gets the vessel cohort -- the two are different rooms and
     # the store keeps them apart.
@@ -741,6 +829,20 @@ def main():
              100.0 * c["T3_entries"] / c["entries"] if c["entries"] else 0.0))
     print("   total                    : %s  (%.2f per entry)"
           % (format(c["total_edges"], ","), c["edges_per_entry"]))
+    # T4 IS COUNTED BY WALKING THE RECORDS, not read off the graph, because it is derived per
+    # entry at expansion and deliberately not stored -- see `threads_for`. Reported anyway: a
+    # report that omits a class the pass emits is a report that disagrees with the artifact, and
+    # that is exactly the defect the T3 line was added to fix one ruling ago.
+    try:
+        import weave_index as _WI
+        _t4 = sum(1 for _r in _WI.load_records()
+                  for _e in ((_r or {}).get("entries") or []) if asserts_a_magnitude(_e))
+        print("   T4 edges (Law citation) : %s   on the entries that assert a Magnitude band; "
+              "the rest make no claim a Law governs" % format(_t4, ","))
+    except Exception:
+        silence.note("threads.py:t4-count")
+        print("   T4 edges (Law citation) : could not be counted (records unreadable); "
+              "the class is still emitted at expansion")
     print("   sources with NO address  : %d" % len(graph["unaddressed"]))
     # A SOURCE WITH NO COHORT IS REPORTED, because a reader cannot otherwise tell "this
     # volume has no siblings" from "the cohort pass did not reach it" (order

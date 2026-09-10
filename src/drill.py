@@ -11342,14 +11342,24 @@ def drill_threads():
     # refused would pass just as well if T3 were ALSO still refused -- i.e. if the ruling had
     # never landed. So the net now also requires T3 to be ADMITTED, which is what makes it a
     # check on the CURRENT ruling rather than on refusal in general.
-    net(a, "the authorised phase is admitted and the unauthorised ones are still refused",
+    # MOVED AGAIN 2026-09-09 WHEN §7H AUTHORISED PHASE 4.4 -- the second time in one day this
+    # boundary has shifted, and the net moves with it rather than standing against the ruling.
+    # T5 is the boundary that has NOT moved and is asserted separately above.
+    net(a, "the authorised phases are admitted and T5 is still refused",
         lambda: (TH.edge(to="VIII.9", cls="T3", why="x", frm="II.A.3",
                          known_codes=KNOWN | {"VIII.9"})["to"] == "VIII.9"
-                 and refused(to="II.A.5", cls="T4", why="x", frm="II.A.3", known_codes=KNOWN)),
-        "T3 (the Chronicle join) was authorised by STEP4_PLAN.md §7G on 2026-09-08; T4 (Law "
-        "citations) is Phase 4.4 and §7G's closing line keeps it and 4.5 UNAUTHORISED. The "
-        "refusal lives in edge() so a future caller cannot route around it, and the admission is "
-        "asserted so a silent revert of the ruling cannot pass as caution")
+                 and TH.edge(to="X.1", cls="T4", why="x", frm="II.A.3",
+                             known_codes=KNOWN | {"X.1"})["to"] == "X.1"
+                 and refused(to="II.A.5", cls="T5", why="x", frm="II.A.3", known_codes=KNOWN)),
+        "T3 was authorised by §7G (2026-09-08) and T4 by §7H (2026-09-09); T5 remains "
+        "owner-authored ONLY by §7B and must never be machine-derived. The admissions are "
+        "asserted, not just the refusal, so a silent revert of either ruling cannot pass as "
+        "caution -- a net that only ever checks refusals would be equally happy if 4.3 and 4.4 "
+        "had never landed")
+    net(a, "a T4 to an address that does not resolve is still refused",
+        lambda: refused(to="X.1", cls="T4", why="x", frm="II.A.3", known_codes=KNOWN),
+        "authorising a CLASS does not authorise a dangling ADDRESS: X.1 resolves only where "
+        "Collection X has actually been loaded as an address space")
     net(a, "a T3 to an address that does not resolve is still refused",
         lambda: refused(to="VIII.9", cls="T3", why="x", frm="II.A.3", known_codes=KNOWN),
         "authorising a CLASS does not authorise a dangling ADDRESS: §6's anti-dangling rule "
