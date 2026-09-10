@@ -114,7 +114,7 @@ def write_result(edges, res, unmatched=None, unanswered=None):
     refusal is a field rather than a different document.
     """
     out = {
-        "edges": [[a, b, n] for (a, b), n in edges.items()],
+        "edges": [[a, b, n] for (a, b), n in edges.items()] if res.get("strengths") is not None else None,
         "identified": bool(res.get("identified")),
         "components": [sorted(c) for c in (res.get("components") or [])],
         "names": res.get("names"),
