@@ -10304,3 +10304,70 @@ Annex volume RECORDS its history. The second is what T3 needed. Whether the firs
 something — a T3 to VIII.17, the CANON OF THE NOW, whose subject is *"the rolling present"* and
 which is the obvious home for a "canon positions now" table — is a real question and is NOT
 decided here.
+
+## ADDENDUM, SAME RUN — THE LAST TWO SHELVES WERE ANSWERED BY THE CHARTER, AND BOTH OF MY SHORTLISTS WERE WRONG
+
+Owner instruction: *"JUST PUT THOSE TWO WHERE IT WOULD MAKE THE MOST SENSE DAMMIT."* Third time of
+asking, and correctly impatient. I had twice declined **Masked Multiverses** and **Rot City** on
+the grounds that the Concordance table's sentence names no work. That was true, and it was the
+wrong document to be reading.
+
+**Rot City = ANEURISM IV.** The charter, II.N.3 *The Closed Loops*: *"the **Rot City of ANEURISM
+IV**, a decaying metropolis into which disembodied Spirits incarnate to labor, speculate, and
+spread or contain the Rot, the civic entropy that, unchecked, **resets the entire city-universe to
+its first morning**."* That is "Mid-reset, as always" stated outright. I had been choosing between
+Hotline Miami and Katana Zero — both II.H.4, both a looping violent city — and **the answer was
+not on my shortlist at all.** The Rot is Chronicle vocabulary besides: VIII.8 lists *"the Rot's
+advances"* among the Silence's fronts and the Silence taxonomy names *"the Liquidators of the Rot
+City"* among the Wardens.
+
+**Masked Multiverses = Set II.D.** The charter's Collection II enumeration carries **"SET II.D —
+THE MASKED MULTIVERSES"** — the row's name, verbatim, as the name of a Set — and lists its members:
+II.D.1 *The Numbered Earths* (Marvel), II.D.2 *The Orrery of Worlds* (DC), II.D.3 *The Omnic Peace*
+(**Overwatch**), II.D.4 *Masked Synthesis*, whose own description reads *"the laws of cape-worlds:
+**comic-time**, the retcon as a real cosmological force"* — which is where the Concordance row's
+"Comic-time perpetual" comes from. Invincible joins them because it is shelved at the bare Set
+II.D. **Overwatch was not a candidate I had considered**, which is the argument for reading the
+shelving before guessing at the prose.
+
+**THE LESSON, AND IT IS THE USEFUL PART.** Both times I built a shortlist from what the *entries*
+looked like and then refused to choose between them. The charter had already answered both, in a
+section I had not thought to read, because I was treating "which source is this" as a question
+about the corpus when it was a question about the shelving. A shortlist that does not contain the
+answer is worse than no shortlist: it made "I cannot tell" feel like diligence.
+
+**All 31 Concordance rows are now placed** — 30 mapped, 1 signed-unmapped (The One War = VIII.8, a
+Canon and not a shelf), none refused.
+
+## AND THAT SETTLED THE QUESTION I HAD LEFT OPEN
+
+The previous entry closed with: whether the shelf table should itself emit a T3 to VIII.17, the
+CANON OF THE NOW, is "a real question and is NOT decided here". Completing the table decided it.
+The Concordance records each shelf's canon position **at a dated event** — 1,204 AS,
+`E-1204-DELIVERY` — which is event participation, not resemblance. And the destination is not a
+choice between candidates: VIII.17's own subject line is *"the rolling present: active fronts,
+standing disputes... The Custodes were still writing this Canon when the Collection was
+Delivered."* That is the Concordance Now table's home, named by the charter.
+
+So `ANNEX_JOIN.json` now has two legs, and each edge carries the sentence that licenses it:
+
+  * **the Canon leg** — 29 edges, where a Canon's own description names one of a source's events
+    ("the Cell and Buu crises"), each quote verified verbatim in *that Canon's* subject line;
+  * **the Concordance leg** — 69 edges to VIII.17, each carrying the shelf's own recorded
+    position as its `why`.
+
+## THE NUMBERS
+
+    T3 edges (Chronicle join): 280,345   across 80 sources, 214,689 entries (75.9% of the corpus)
+    total threads            : 1,777,232  (6.28 per entry)
+
+Up from 24.0% and 1,576,252 earlier in this same run. `thread_integrity`: **DANGLING 0**,
+ASYMMETRIC-SUSPECT at floor, rc=0. `drill` 468/468/0 BREACHED. `verify_math` 1282/0. pyflakes clean.
+
+**One join row is inert and that is correct.** `Lost Mines of Phandelver` is mapped under Great
+Wheel but has `entry_count: 0` and is not in the graph, so it received no edges — it is one of the
+six sources on the roll that have never been catalogued. The mapping is forward-looking: it will
+pick up its threads the moment the source is mined, and nothing is dangling in the meantime.
+
+**Still 24% of the corpus with no T3, and still correct.** A source the Annex never names and that
+holds no Concordance shelf gets none.
