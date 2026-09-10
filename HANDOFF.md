@@ -10189,3 +10189,118 @@ confirm rows.**
 
 Also open for you: `2cb442afd901` (what fraction of a moved corpus should raise the index order),
 and the five long-standing owner questions listed in NEXT_STEPS §4.
+
+# RUN #51 — 2026-09-09 (owner-directed) — PHASE 4.3 IS LIVE. THE OMNIVERSE HAS ITS FIRST CROSS-VERSE THREADS.
+
+Owner instruction: *"CONTINUE WITH 4.3 AND WHEN IT'S FINISHED DO PHASE 4.4 AFTER YOU'VE PROPERLY
+EXPANDED EVERYTHING PROPERLY."* This entry covers 4.3 only. The expansion and 4.4 follow, in that
+order, and 4.4 gets its ruling recorded in STEP4_PLAN before a line of it is written.
+
+## WHAT LANDED
+
+**`data/THREADS.json` now carries T3.** 79,330 Chronicle-join edges across 25 sources, reaching
+**67,929 entries — 24.0% of the corpus**. Total threads **1,576,252**, 5.57 per entry, up from
+1,496,923 / 5.29. `verify()` reports no problems and `thread_integrity` holds **DANGLING at 0**
+with ASYMMETRIC-SUSPECT at its floor — the release gate §7G names.
+
+The worked example, and the first of its kind in this library:
+
+    Dragon Ball Z, any entry
+      T1  -> II.A.1    home volume
+      T3  -> VIII.9    the Cell and Buu crises
+      T3  -> VIII.11   the Zeno era
+      T2  -> II.A, II.A.2 ... II.A.10  (the cohort)
+
+## THE BLOCKER NOBODY HAD NAMED, AND WHY THE SHELF MAPPING WAS NOT ENOUGH
+
+Yesterday's sign-off of the Concordance shelf mapping was necessary and **not sufficient**. A T3
+points at a Chronica Annex address — §3's worked example is `VIII.9 (the succession wars)` — and
+`threads.build()` composed `known_codes` from the SOURCES' spine codes alone. `edge()` refuses any
+address that does not resolve NOW, so **every T3 was being refused by construction**, whatever
+mapping it was handed. `data/CHARTER_SPINE_CODES.json` holds Collections II, III and VII and no
+VIII at all, because it is the source-to-shelf map and the charter says so: *"Cross-shelvings in
+Collections III–VIII not repeated here."*
+
+The addresses were never missing from DOCTRINE. The charter defines *"COLLECTION VIII — THE
+CHRONICA ANNEX (17 Canons, 275 volumes)"* and lists every one. `data/ANNEX_CANONS.json` is now a
+transcription of that list — parsed, with the parse CHECKED against the charter's own declared
+counts and refusing to write on a mismatch, because a partial address table would let some T3s
+resolve and silently refuse the rest.
+
+## THE JOIN IS THE CHARTER'S, NOT MINE — WHICH IS THE WHOLE POINT
+
+§7G's one hard constraint is that T3 joins on EVENT PARTICIPATION and never on resemblance. So the
+rule in `data/ANNEX_JOIN.json` is: **a source earns a Canon only where that Canon's own description
+in the charter NAMES one of its events.** VIII.9's subject line contains *"the Cell and Buu
+crises"*. That is the charter placing Dragon Ball's history in the Canon of the Great Wars, in its
+own voice — not me deciding two things look alike.
+
+**Every one of the 29 edges carries a verbatim quote, and the builder verifies it twice**: the
+phrase must appear in the charter, AND it must appear in *that Canon's own subject line* — without
+the second check a phrase from a different Collection would pass as evidence for the wrong claim.
+Every source is checked to exist on the Acquisitions Roll by exact name. A failure of either
+refuses the whole file rather than writing a partial one.
+
+Nine Canons earned rows: VIII.2 (the six pantheons, each by its own named crisis), VIII.6, VIII.7,
+VIII.8, VIII.9, VIII.10, VIII.11, VIII.12, VIII.15.
+
+**And the silence is not a gap.** 76% of the corpus has no T3 because the Annex names nothing of
+theirs. That is a fact about the Chronicle, and it is the correct output — inventing a Canon for
+Adventure Time would be exactly the resemblance-matching §7G forbids.
+
+## THE NET THAT WOULD HAVE HALTED THE LIBRARY
+
+`drill.py` asserted that **both** T3 and T4 were refused, citing §7E. §7F and §7G had already
+superseded that. So the moment 4.3 landed, a net stood against the ruling and **would have
+BREACHED on correct code and halted the library** — which is precisely how a safety teaches people
+to route around it. Caught before running the drill, by grepping for T3 assertions first.
+
+It was **moved, not deleted**, and it now watches from the new boundary in both directions:
+
+  * T3 must be ADMITTED — because asserting only that T4 and T5 are refused would pass equally
+    well if the ruling had never landed. The positive half is what makes it a check on the CURRENT
+    ruling rather than on refusal in general.
+  * T4 refused (4.4 unauthorised), T5 refused (owner-authored only, §7B).
+  * A NEW net: a T3 to an address that does not resolve is still refused. Authorising a CLASS does
+    not authorise a dangling ADDRESS.
+
+## STALE DOCTRINE CORRECTED IN THE SAME CHANGE
+
+Three separate places still cited **§7E** as the authority for refusing T3 — a ruling superseded
+twice. `threads.py`'s module docstring ("DELIBERATELY NOT EMITTED… NOT AUTHORISED by the §7E
+ruling"), `DERIVABLE`'s comment, and `edge()`'s refusal message. All three corrected to cite §7G,
+with T4's continued refusal cited to §7G's own closing line. This is the same defect class as the
+50 rotted citations in order `89503c58409f`, in the module where it mattered most.
+
+`threads.py`'s CLI also printed *"Phase 4.1 (T1 home + T2 cohort)"* and a total that **omitted
+T3** — a report disagreeing with the file it had just written. `counts()` now counts T3 and the
+report names its reach (edges, sources, entries, % of corpus), because a T3 count alone reads as
+tiny at 29 source-level edges and the number a reader needs is how much of the corpus the Annex
+actually claims.
+
+## GATES
+
+`verify_math` **1282 passed / 0 FAILED** · `drill` **468 nets / 468 held / 0 BREACHED** (466
+before; +2 from the moved and new T3 nets) · `pyflakes` clean over `src/` · `escalation --status`
+clear · `thread_integrity` DANGLING **0**, ASYMMETRIC-SUSPECT at floor, rc=0.
+
+`health --preflight` reports 1 problem: `dandwiki.com` not answering its API — the standing BOTS
+order `2da53c3e192f`, an external host, unrelated.
+
+**`build()` was checked for determinism**: two builds in one process are byte-identical. A
+one-edge T2 difference between two CLI runs was corpus drift, not nondeterminism — the crawl is
+live and 2,883 entries are queued for re-judgement, so a category flip between runs is expected.
+
+## WHAT IS STILL OPEN ON 4.3
+
+**Two Concordance shelf rows remain unmapped and were declined twice**, including under a general
+instruction to proceed: **Masked Multiverses** and **Rot City**. Neither sentence names a work.
+Masked Multiverses alone would thread Marvel and DC — 114,730 entries — on the strength of
+*"comic-time perpetual"*. They need a person's word, not mine.
+
+Note the shelf mapping and the Canon join are now **two different tables** doing two different
+jobs: the shelf table says where a shelf's canon STANDS at the Delivery, the Canon join says which
+Annex volume RECORDS its history. The second is what T3 needed. Whether the first should also emit
+something — a T3 to VIII.17, the CANON OF THE NOW, whose subject is *"the rolling present"* and
+which is the obvious home for a "canon positions now" table — is a real question and is NOT
+decided here.

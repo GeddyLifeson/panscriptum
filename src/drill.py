@@ -11331,11 +11331,30 @@ def drill_threads():
         lambda: refused(to="II.A.5", cls="T5", why="x", frm="II.A.3", known_codes=KNOWN),
         "STEP4_PLAN.md §7B: T5 is owner-authored ONLY -- never derived, never inferred, never "
         "emitted by threads.py, because it is the strongest cross-verse claim the charter makes")
-    net(a, "nor may an unauthorised later phase be reached by a new path",
-        lambda: (refused(to="II.A.5", cls="T3", why="x", frm="II.A.3", known_codes=KNOWN)
+    # UPDATED 2026-09-09 WHEN §7G AUTHORISED PHASE 4.3, and updated rather than deleted, which is
+    # the point. This net asserted that BOTH T3 and T4 were refused, citing §7E -- a ruling that
+    # §7F and §7G had already superseded. When the owner authorised 4.3 the net became a net
+    # against the ruling: it would have BREACHED on correct code and halted the library, which is
+    # how a safety teaches people to route around it. So the boundary MOVES with the ruling and
+    # the net keeps watching it from the new position.
+    #
+    # BOTH DIRECTIONS, and the positive half is the new one. Asserting only that T4 and T5 are
+    # refused would pass just as well if T3 were ALSO still refused -- i.e. if the ruling had
+    # never landed. So the net now also requires T3 to be ADMITTED, which is what makes it a
+    # check on the CURRENT ruling rather than on refusal in general.
+    net(a, "the authorised phase is admitted and the unauthorised ones are still refused",
+        lambda: (TH.edge(to="VIII.9", cls="T3", why="x", frm="II.A.3",
+                         known_codes=KNOWN | {"VIII.9"})["to"] == "VIII.9"
                  and refused(to="II.A.5", cls="T4", why="x", frm="II.A.3", known_codes=KNOWN)),
-        "T3 (the Chronicle join) and T4 (Law citations) are unauthorised by the §7E ruling; "
-        "the refusal lives in edge() so a future caller cannot route around it")
+        "T3 (the Chronicle join) was authorised by STEP4_PLAN.md §7G on 2026-09-08; T4 (Law "
+        "citations) is Phase 4.4 and §7G's closing line keeps it and 4.5 UNAUTHORISED. The "
+        "refusal lives in edge() so a future caller cannot route around it, and the admission is "
+        "asserted so a silent revert of the ruling cannot pass as caution")
+    net(a, "a T3 to an address that does not resolve is still refused",
+        lambda: refused(to="VIII.9", cls="T3", why="x", frm="II.A.3", known_codes=KNOWN),
+        "authorising a CLASS does not authorise a dangling ADDRESS: §6's anti-dangling rule "
+        "applies to T3 exactly as it does to T1 and T2, and VIII.9 resolves only where the "
+        "Annex address space has actually been loaded")
 
     def every_addressed_entry_gets_a_home():
         """§6's "quiet one": a Threads section present but EMPTY.

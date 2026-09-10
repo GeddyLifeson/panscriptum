@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-THREADS — Step 4, Phase 4.1: the T1/T2 entanglement pass.
+THREADS — Step 4: the T1/T2/T3 entanglement pass (Phases 4.1 and 4.3).
 
 WHAT A THREAD IS, and the whole design follows from taking the charter literally (Part Seven,
 via STEP4_PLAN.md §1): a Thread is a CITATION, not an opinion. It resolves to an ADDRESS — a
@@ -9,19 +9,25 @@ weak thread, it is a BROKEN one. So entanglement is a referencing problem over a
 that already exists, not a semantic-similarity problem over 282,822 entities. Nothing here pairs
 entities against each other; each entry cites a handful of addresses, the way a footnote does.
 
-THE TWO CLASSES THIS MODULE EMITS, and only these two:
+THE THREE CLASSES THIS MODULE EMITS, and only these three:
 
   T1 HOME    the entry's own volume, from `address.spine_code_for(source)`. Zero judgment,
              100% coverage, cannot be wrong if the addressing is right. This alone gives every
              entry in the library a non-empty, correct Threads section.
   T2 COHORT  sibling volumes under a shared parent in the Collection→Set→Series tree, filtered
              to those the entry's own record gives a reason to name.
+  T3 EVENT   the Chronicle join, to a Chronica Annex address (`VIII.n`). ADMITTED 2026-09-09
+             under §7G, which authorised Phase 4.3 on 2026-09-08 and scopes it to exactly this.
+             THE JOIN IS ON EVENT PARTICIPATION NAMED BY THE CHARTER, never on resemblance:
+             a shelf earns a Canon only where that Canon's own description names a particular
+             belonging to it -- VIII.9 names "the Cell and Buu crises", "the Void Century and
+             its erasure", "the Great Ninja Wars", "the Horus Heresy". A shelf whose Canon
+             names nothing of its gets no T3, and that silence is correct rather than a gap.
 
 DELIBERATELY NOT EMITTED:
 
-  T3 EVENT   the Chronicle join. Phase 4.3, and NOT AUTHORISED by the §7E ruling, which scopes
-             the pass to "PHASE 4.0 AND 4.1 ONLY, then stop and look".
-  T4 LAW     per-claim, so it belongs with generation.
+  T4 LAW     per-claim, so it belongs with generation. Phase 4.4, and §7G's closing line is
+             that 4.4 and 4.5 "remain UNAUTHORISED and need their own ruling".
   T5         the Great Identifications. Owner-authored ONLY, by the §7B ruling — never derived,
              never inferred. `edge()` REFUSES to construct one, and a drill net attacks that
              refusal. Part Four names them as the place "where the walls come down entirely",
@@ -99,9 +105,34 @@ import silence                  # noqa: E402
 
 OUT = os.path.join(HERE, "data", "THREADS.json")
 
-# The classes this module is permitted to derive. T3/T4 are later phases; T5 is owner-authored
-# only and is not in this tuple BY RULING, not by oversight -- see `edge()`.
-DERIVABLE = ("T1", "T2")
+# The classes this module is permitted to derive. T4 is a later phase; T5 is owner-authored only
+# and is not in this tuple BY RULING, not by oversight -- see `edge()`.
+#
+# T3 ADMITTED 2026-09-09 UNDER STEP4_PLAN §7G, which authorised Phase 4.3 on 2026-09-08 in the
+# owner's own words ("get 4.3 started too") and scopes it to exactly one thing: T3, the Chronicle
+# join. This tuple and `edge()`'s refusal text both cited §7E as the authority for refusing T3 --
+# and §7E has been superseded TWICE, by §7F (which authorised 4.2) and §7G. The citation was two
+# rulings stale, which is the same defect class this tree has 50 open instances of.
+#
+# T4 STAYS OUT, and that is the ruling rather than an omission: §7G's closing line is "4.4 and 4.5
+# remain UNAUTHORISED and need their own ruling". When 4.4 is authorised it gets its own paragraph
+# here naming the ruling that admitted it, exactly as this one does.
+DERIVABLE = ("T1", "T2", "T3")
+
+# THE ANNEX IS AN ADDRESS SPACE, AND UNTIL 2026-09-09 NOTHING LOADED IT (order d57a66d25b11).
+# A T3 points at a Collection VIII address -- §3's worked example is `VIII.9 (the succession
+# wars)` -- but `known_codes` was built from the SOURCES' spine codes alone, so `_resolves` said
+# no to every Annex code and `edge()` refused every T3 by construction, whatever mapping it was
+# handed. `data/CHARTER_SPINE_CODES.json` does not carry them because it is the source-to-shelf
+# map and the charter says so: "Cross-shelvings in Collections III-VIII not repeated here."
+#
+# The charter DOES define them -- "COLLECTION VIII — THE CHRONICA ANNEX (17 Canons, 275 volumes)"
+# -- so `data/ANNEX_CANONS.json` is a transcription of the charter's own list, not an invention,
+# and Hard Rule 2 is satisfied. Absent or unreadable, T3 simply cannot resolve and every T3 is
+# refused: fail-closed, and the same answer this module gave before the file existed.
+ANNEX_CANONS = os.path.join(HERE, "data", "ANNEX_CANONS.json")
+# The shelf-to-Canon join itself -- see `annex_join()`.
+ANNEX_JOIN = os.path.join(HERE, "data", "ANNEX_JOIN.json")
 
 # `spine_code_for` never raises; it returns this when the Acquisitions Index cannot place a
 # source. An UNASSIGNED code is not an address, so it is never threaded to and never threaded
@@ -152,6 +183,60 @@ def cohort_family(code):
     return ".".join(parts[:2]) if len(parts) >= 2 else None
 
 
+def annex_codes():
+    """The Chronica Annex's Canon codes. -> set of 'VIII.n', or an EMPTY set if unreadable.
+
+    FAILS CLOSED, and the direction is chosen rather than inherited. An empty set means every T3
+    is refused by `edge()`'s anti-dangling test -- which is exactly the behaviour this module had
+    before the Annex existed as an address space, so a missing or corrupt file degrades to
+    "cannot derive T3" and never to "derive T3 to an address nobody can resolve". The opposite
+    default would put broken threads in the artifact on the strength of a read error.
+
+    Not cached: `build()` calls it once per run, and a stale set held across a charter revision
+    would be a smaller address space wearing the right shape.
+    """
+    try:
+        with open(ANNEX_CANONS, encoding="utf-8") as f:
+            doc = json.load(f)
+    except Exception:
+        silence.note("threads.py:annex-unreadable")
+        return set()
+    out = {str(c.get("code")) for c in (doc.get("canons") or []) if c.get("code")}
+    # THE FILE DECLARES ITS OWN POPULATION, SO CHECK IT. A truncated table would silently make
+    # some Canons unaddressable and refuse exactly the T3s that pointed at them, which is a
+    # smaller universe and this project's oldest failure shape.
+    declared = ((doc.get("declared") or {}).get("canons"))
+    if declared and len(out) != declared:
+        silence.note("threads.py:annex-short")
+        return set()
+    return out
+
+
+def annex_join():
+    """Which Annex Canons does each source's history belong to? -> {source: [{to, why}]}.
+
+    THE JOIN IS THE CHARTER'S OWN, NOT AN INFERENCE. `data/ANNEX_JOIN.json` records, per source,
+    the Canon whose description in `00_MASTER_CHARTER.md` NAMES one of that source's events --
+    VIII.9's subject line contains "the Cell and Buu crises", so Dragon Ball's history belongs to
+    the Canon of the Great Wars because the charter put it there, in its own voice. Its builder
+    verifies every `why` is a verbatim substring of that Canon's own subject line and refuses to
+    write the file otherwise, so a row cannot rest on a phrase somebody remembered.
+
+    That is what makes T3 satisfy §7G's one hard constraint. The join is on EVENT PARTICIPATION,
+    stated by the charter; nothing here compares names for similarity, and a source the Annex
+    never names gets NO T3 -- a silence that is correct rather than a gap.
+
+    FAILS CLOSED: unreadable or absent means an empty join, which means no T3 is emitted at all.
+    """
+    try:
+        with open(ANNEX_JOIN, encoding="utf-8") as f:
+            doc = json.load(f)
+    except Exception:
+        silence.note("threads.py:annex-join-unreadable")
+        return {}
+    return doc.get("join") or {}
+
+
 def _resolves(code, known_codes):
     """Is this an address that exists RIGHT NOW? -> bool. The anti-dangling test."""
     return bool(code) and code != UNADDRESSED and code in known_codes
@@ -172,10 +257,12 @@ def edge(to, cls, why, frm, known_codes):
     """
     if cls not in DERIVABLE:
         raise ThreadRefused(
-            "class %r may not be derived by threads.py. T1/T2 are this phase; T3 (the Chronicle "
-            "join) and T4 (Law citations) are later phases and unauthorised by STEP4_PLAN.md "
-            "§7E; T5 (the Great Identifications) is OWNER-AUTHORED ONLY by the §7B ruling and "
-            "must never be machine-derived." % (cls,))
+            "class %r may not be derived by threads.py. T1/T2 are Phase 4.1 and T3 (the "
+            "Chronicle join) was authorised by STEP4_PLAN.md §7G on 2026-09-08; T4 (Law "
+            "citations) is Phase 4.4 and remains UNAUTHORISED by §7G's own closing line; T5 (the "
+            "Great Identifications) is OWNER-AUTHORED ONLY by the §7B ruling and must never be "
+            "machine-derived. (The refusal used to cite §7E, which §7F and §7G had already "
+            "superseded -- two rulings stale.)" % (cls,))
     if not _resolves(to, known_codes):
         raise ThreadRefused(
             "refusing to emit a thread to %r, which does not resolve to a live address. A thread "
@@ -348,6 +435,12 @@ def build(records=None):
     """
     code_of, cats_of, n_of = survey(records)
     known = {c for c in code_of.values() if c and c != UNADDRESSED}
+    # THE ANNEX JOINS THE ADDRESS SPACE (order d57a66d25b11). Widening `known` can only ever let
+    # MORE addresses resolve, so T1 and T2 are untouched by this: both point at source codes,
+    # which were already in the set. What it changes is that a T3 to `VIII.9` now has somewhere
+    # to land instead of being refused as dangling.
+    known |= annex_codes()
+    joined = annex_join()
 
     # Which categories does each ADDRESS hold? A volume code can be shared by several sources
     # (II.L.7 holds a dozen D&D titles), so the cohort question is asked of the address, not of
@@ -409,8 +502,15 @@ def build(records=None):
                      "sibling volume under %s also holding %s" % (cohort_family(code), room),
                      code, known)
                 for s_, room in sibs]
+        # T3 -- THE CHRONICLE JOIN (Phase 4.3, §7G). Per SOURCE, not per category: the
+        # charter places a source's HISTORY in a Canon, and that is true of every entry the
+        # source holds regardless of which room it sits in. Uncapped: Warhammer 40,000 earns
+        # two Canons and carries two; a source the Annex never names carries none, and that
+        # empty list is a fact about the Annex rather than a gap in the pass.
+        event = [edge(e["to"], "T3", e["why"], code, known)
+                 for e in joined.get(src, ())]
         out[src] = {"code": code, "entries": n_of.get(src, 0), "T1": home,
-                    "T2": cohort,
+                    "T2": cohort, "T3": event,
                     "by_category": {_key(k): v for k, v in cats_of.get(src, {}).items()}}
 
     # STAMPED BESIDE `classes`, because it is a fact about the RULE this graph was derived under
@@ -436,9 +536,19 @@ def counts(sources):
     for v in sources.values():
         for key, n in (v.get("by_category") or {}).items():
             t2 += n * len(v["T2"].get(key, ()))
+    # T3 RIDES ON EVERY ENTRY OF ITS SOURCE, so it multiplies the same way T1 does -- per
+    # source, not per category, because the charter places a SOURCE's history in a Canon.
+    # Counted here rather than left out, because the report printed a "total" that would
+    # otherwise disagree with what `threads_for` actually hands back, and a total that
+    # undercounts the artifact it describes is worse than no total.
+    t3 = sum(v["entries"] * len(v.get("T3") or ()) for v in sources.values())
+    with_t3 = sum(1 for v in sources.values() if v.get("T3"))
+    entries_with_t3 = sum(v["entries"] for v in sources.values() if v.get("T3"))
     return {"sources": len(sources), "entries": t1,
-            "T1_edges": t1, "T2_edges": t2, "total_edges": t1 + t2,
-            "edges_per_entry": round((t1 + t2) / t1, 3) if t1 else 0.0}
+            "T1_edges": t1, "T2_edges": t2, "T3_edges": t3,
+            "T3_sources": with_t3, "T3_entries": entries_with_t3,
+            "total_edges": t1 + t2 + t3,
+            "edges_per_entry": round((t1 + t2 + t3) / t1, 3) if t1 else 0.0}
 
 
 def threads_for(graph, source, entry):
@@ -471,6 +581,10 @@ def threads_for(graph, source, entry):
             % (source, "the source has no resolvable spine code, so the pass did not run for it"
                if source in unaddressed else "no such source in this graph"))
     out = [dict(rec["T1"])]
+    # T3 rides on every entry of the source, for the reason `build` gives: the charter places a
+    # SOURCE's history in a Canon. `.get` rather than `[...]` so a graph written before 4.3 --
+    # THREADS.json on disk predates it -- still expands instead of raising.
+    out.extend(dict(e) for e in (rec.get("T3") or ()))
     # Looked up by the entry's whole path, so a labelled weapon gets the weapon cohort
     # and an unlabelled vessel gets the vessel cohort -- the two are different rooms and
     # the store keeps them apart.
@@ -608,7 +722,7 @@ def main():
     n_src = len(graph["sources"])
     c = graph["counts"]
 
-    print("THREADS — Step 4 Phase 4.1 (T1 home + T2 cohort)")
+    print("THREADS — Step 4, Phases 4.1 and 4.3 (T1 home + T2 cohort + T3 Chronicle join)")
     print("=" * 78)
     if SUBROOM_FALLBACK_REASON:
         # ON THE CONSOLE, ABOVE THE COUNTS IT EXPLAINS (order 04c6360636bf). The counts below
@@ -619,6 +733,12 @@ def main():
     print("   entries behind them      : %s" % format(c["entries"], ","))
     print("   T1 edges (home)          : %s" % format(c["T1_edges"], ","))
     print("   T2 edges (cohort)        : %s" % format(c["T2_edges"], ","))
+    # NAMED WITH ITS REACH, not just its total. A T3 count alone reads as tiny (29 source-level
+    # edges); what a reader needs is how much of the corpus the Annex actually claims, and how
+    # much it does not -- the silence is the more interesting half and it is not a gap.
+    print("   T3 edges (Chronicle join): %s   across %d source(s), %s entries (%.1f%% of the corpus)"
+          % (format(c["T3_edges"], ","), c["T3_sources"], format(c["T3_entries"], ","),
+             100.0 * c["T3_entries"] / c["entries"] if c["entries"] else 0.0))
     print("   total                    : %s  (%.2f per entry)"
           % (format(c["total_edges"], ","), c["edges_per_entry"]))
     print("   sources with NO address  : %d" % len(graph["unaddressed"]))
