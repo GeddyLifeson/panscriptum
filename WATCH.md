@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 488  ·  last run 2026-09-10 18:22
+round 489  ·  last run 2026-09-10 18:49
 
 ## Structure
 
@@ -11,16 +11,12 @@ round 488  ·  last run 2026-09-10 18:22
 
 ## What the model found in the code
 
-**33 open** (12 high). Newest first.
+**25 open** (6 high). Newest first.
 
 - **onomast.py** `well_formed` — [HIGH] Implements seven constraints but the docstring claims four, and three of the four original constraints are misattributed
   - says: Is this a name a Custos could say aloud and write down twice the same way?
 - **ledger_guard.py** `silence.note` — [HIGH] discards the reason a SEAL failed
   - says: TAGGED, like every sibling except-block in this file
-- **ledger_guard.py** `silence.append_line` — [HIGH] used as a bare `open(CHAIN, "a")`
-  - says: NOT A BARE `open(CHAIN, "a")`
-- **genre.py** `classify_source` — [HIGH] Raises an error when `cap` is provided, which contradicts the claim that it classifies sources based on their entries.
-  - says: Classify one source from its own catalogued entries.
 - **foreman.py** `lines_changed` — [HIGH] Calculates the number of lines changed based on the diff between old and new code, but the docstring says it's not `abs(len(new) - len(old))` and instead explains a different method. However, the code correctly implements the described logic using difflib's SequenceMatcher. The docstring's claim is accurate, and the code aligns with it. Therefore, no defect of fact is found here.
   - says: How many lines a rewrite actually touches.
 - **foreman.py** `kill_stalled_job` — [HIGH] kills stalled jobs that cannot be restarted, which is against the stated policy
@@ -29,14 +25,6 @@ round 488  ·  last run 2026-09-10 18:22
   - says: The dependencies that live outside this project and can fail without it changing.
 - **silence.py** `append_line` — [HIGH] Appends a line but does not handle the Windows-specific issues with O_APPEND and text mode, leading to potential data corruption and line tearing.
   - says: Append ONE line to a shared ledger without tearing it (m62).
-- **silence.py** `audit` — [HIGH] audit() returns rows of handlers, but the function's name and comment suggest it should audit for silence, not collect handlers
-  - says: audit(root=None)
-- **withdraw_chapters.py** `main` — [HIGH] exits 1 when a.go is True and any of several conditions are met
-  - says: exits 0 unconditionally
-- **tuning.py** `cloud_success_rate` — [HIGH] The function reads from `state/cascade_scratch.db`'s `usage` table, but the path is hardcoded to a specific location, which may not be the correct one if SCRATCH_DB is repointed.
-  - says: The pool's MEASURED success rate over the recent past: (rate, calls).
-- **rosetta.py** `stand_rows` — [HIGH] does not parse Stand parameters as described, but instead is a placeholder for a parser that was never implemented
-  - says: (name, mean Stand-parameter grade) pairs read from labelled parameter blocks. -> {}
 - **pick_model.py** `vram_gb` — [MEDIUM] 0.0GB VRAM currently free
   - says: 0.0GB VRAM currently free
 - **manifest_builder.py** `silence.replace_retry` — [MEDIUM] is used to replace the temporary report file with the final report path, but the comment suggests it's meant to handle the report writing process including retries and error handling
@@ -73,10 +61,6 @@ round 488  ·  last run 2026-09-10 18:22
   - says: stores detailed information about each category
 - **thread_integrity.py** `out` — [MEDIUM] increments the count for partially dangling pairs but also for other categories like IMPLIED-UNRECORDED and RECIPROCAL
   - says: counts the number of partially dangling pairs
-- **scout.py** `silence.replace_if_unchanged` — [MEDIUM] refuses only when the target is unreadable as bytes at write time
-  - says: refuse to write over an unreadable file
-- **verify_math.py** `check` — [MEDIUM] the code does something else
-  - says: the code says it does
 - **verify_math.py** `max` — [MEDIUM] the tolerance is silently discarded as the code compares integers exactly
   - says: the k-th burg holds P1/k, independently recomputed
 
