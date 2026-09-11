@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 490  ·  last run 2026-09-10 19:29
+round 491  ·  last run 2026-09-10 20:02
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 490  ·  last run 2026-09-10 19:29
 
 ## What the model found in the code
 
-**10 open** (5 high). Newest first.
+**9 open** (3 high). Newest first.
 
 - **roll.py** `apply` — [HIGH] Apply a function to rows, returning modified rows
   - says: Apply `{source_name: {field: value, ...}}` to the roll, key-wise.
@@ -19,18 +19,16 @@ round 490  ·  last run 2026-09-10 19:29
   - says: Is this a name a Custos could say aloud and write down twice the same way?
 - **foreman.py** `lines_changed` — [HIGH] Calculates the number of lines changed based on the diff between old and new code, but the docstring says it's not `abs(len(new) - len(old))` and instead explains a different method. However, the code correctly implements the described logic using difflib's SequenceMatcher. The docstring's claim is accurate, and the code aligns with it. Therefore, no defect of fact is found here.
   - says: How many lines a rewrite actually touches.
-- **foreman.py** `kill_stalled_job` — [HIGH] kills stalled jobs that cannot be restarted, which is against the stated policy
-  - says: A job that is UP and writing nothing is worse than a job that is down.
-- **estate.py** `external` — [HIGH] The function is named 'external' but the code inside it is not related to external dependencies, but rather to checking the status of Ollama, Cascade, and disk space.
-  - says: The dependencies that live outside this project and can fail without it changing.
+- **tells.py** `prompt_in_sync` — [MEDIUM] compares the block with the text after replacing \r\n with \n, but the code uses `block.replace("\r\n", "\n")` which replaces all instances of \r\n with \n, while the text is replaced with `text.replace("\r\n", "\n")` which replaces all instances of \r\n with \n, but the comparison is done on the modified strings, which may not reflect the actual content of the file
+  - says: returns True if the prompt file contains the generated block, False otherwise
+- **sweep.py** `sweep` — [MEDIUM] the comparison eight lines down (`sc["n"] > idx[k][3]`) is what implements the finer-grained-scale-wins rule
+  - says: the comparison eight lines down (`sc["n"] > idx[k][3]`) is what implements the finer-grained-scale-wins rule
+- **sweep.py** `sweep` — [MEDIUM] reads `hit[3]` as the `of` field of `row["native"]`
+  - says: reads `hit[3]` as the `of` field of `row["native"]`
 - **publish.py** `push` — [MEDIUM] push() raises a PushHeld exception when a push is held, which is caught in an except block that prints the exception and sets rc=1
   - says: push() now has only two RETURN values, and both are honest ones: it landed, or there was nothing to land. The third outcome -- committed but held -- comes out as `PushHeld` and is caught below, where it prints and sets rc=1
 - **foreman.py** `_contracts_pass` — [MEDIUM] Returns a tuple indicating success or failure of the contracts pass
   - says: Everything that must still be true after a patch.
-- **foreman.py** `restart_reader` — [MEDIUM] The function is supposed to determine if a reader can be restarted, but it's actually enumerating processes and returning False or a message if it can't, without checking if the reader is actually restartable.
-  - says: The reader is not progressing. Restarting is safe: every entity is cached only when it was fully read, so nothing is lost and nothing is re-read that was finished.
-- **foreman.py** `reprove_pool` — [MEDIUM] returns False when the proof is not written
-  - says: This returned True whenever the proof was written
 - **verify_math.py** `max` — [MEDIUM] the tolerance is silently discarded as the code compares integers exactly
   - says: the k-th burg holds P1/k, independently recomputed
 
