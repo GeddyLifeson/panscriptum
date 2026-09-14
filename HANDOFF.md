@@ -135,7 +135,7 @@ Both LOCAL attempts were stopped and done by hand. On `174c7948f15f` the model l
 ### THE LEDGERS
 
 * `BUGS.md`: M97 (HANDOFF's navigation fault) moved to the paper trail under a new "Resolved by run #58" section. Run #58 filed no new bug-ledger entries; every finding went to the queue.
-* **PUSH:** see the line appended below this entry.
+* **PUSH, verified:** `PANSCRIPTUM_EXPORT=... PANSCRIPTUM_GUARD_TOKEN=... python src/publish.py --push --i-hold-the-guard` ran at 00:53 (the legacy-guard override, logged as a trusted assertion). It printed `synced 89 files` and `pushed`, and the export repo moved from `b5c93b4` to **`f383daa`** ("sync 2026-09-14 00:53 — code: address_space, allsweep, backfill, binding_health, build_terminal, burgs +63; 21 data/site file(s)"), level with `origin/main`. The publish gate again refused every agent scratch `.py` under `handoff/`, as designed. This bullet went up in a second push immediately after.
 
 ---
 
