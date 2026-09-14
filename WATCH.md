@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 515  ·  last run 2026-09-14 10:54
+round 516  ·  last run 2026-09-14 11:49
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 515  ·  last run 2026-09-14 10:54
 
 ## What the model found in the code
 
-**14 open** (7 high). Newest first.
+**16 open** (4 high). Newest first.
 
 - **escalation.py** `clear` — [HIGH] clear() is not properly handling the case where the halt file is not cleared, leading to incorrect state reporting
   - says: clear() is supposed to clear the halt and record the ruling
@@ -21,12 +21,16 @@ round 515  ·  last run 2026-09-14 10:54
   - says: filed.append(...)
 - **withdraw_chapters.py** `main` — [HIGH] returns 1 if (a.go and bad) else 0
   - says: Every refusal above was printed and discarded. `main()` had no `return` on any path and the entry point was a bare `main()`, so this tool exited 0 unconditionally
-- **withdraw_chapters.py** `_catalog_merge` — [HIGH] returns remaining entries without modifying the current catalog, which contradicts the comment about editing the catalog
-  - says: edits the catalog by removing entries whose files have been moved
-- **withdraw_chapters.py** `_manifest_merge` — [HIGH] overwrites existing entries with the new withdrawals without considering the union at landing time
-  - says: merges the existing manifest with the new withdrawals
-- **withdraw_chapters.py** `select` — [HIGH] Returns all entries if no sources or addrs are provided, but the docstring says it should return the whole catalog only when no filters are applied. The code returns all entries even when filters are applied, which contradicts the docstring's claim that it should return exactly what it names.
-  - says: The entries this run will withdraw. -> {addr: rec}.
+- **cascade_bridge.py** `ask` — [MEDIUM] ask is called with max, but the code allows neighbor buckets to answer because the max_attempts=1 is not sufficient to prevent it
+  - says: ask is called with max_attempts=1 to prevent neighbor buckets from answering
+- **cascade_bridge.py** `_bury` — [MEDIUM] is called with a bucket name, but the code uses it to put a cooldown on a key no selector ever asks about
+  - says: bench a bucket
+- **cascade_bridge.py** `record_unrecognised` — [MEDIUM] is called with a key that is either an empty string or a bucket name, but the code uses it to log unparseable replies and benching
+  - says: records unrecognised failures
+- **cascade_bridge.py** `_bucket_of` — [MEDIUM] returns empty string when nothing matches, but the code uses it to determine if a bucket is unresolved and logs it as a separate case
+  - says: returns the bucket name from an answered ID or answer
+- **cascade_bridge.py** `unrecognised_open` — [MEDIUM] The function filters out rows that should be re-evaluated, but the code's logic may not correctly handle all cases of unrecognised failures due to the complexity of the re-triage logic and the potential for stale data.
+  - says: The unrecognised failures seen recently, newest first. Read by `standards`.
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two entirely different worlds
   - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller
 - **escalation.py** `landed` — [MEDIUM] is the halt, after a successful write, accepted by the system
