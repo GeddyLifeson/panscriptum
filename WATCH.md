@@ -1,46 +1,28 @@
 # OVERWATCH
 
-round 516  ·  last run 2026-09-14 11:49
+round 517  ·  last run 2026-09-14 12:31
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 304,675 inspected (deep scan as of round 511)
+- files that will not parse: **0** of 304,730 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**16 open** (4 high). Newest first.
+**7 open** (1 high). Newest first.
 
 - **escalation.py** `clear` — [HIGH] clear() is not properly handling the case where the halt file is not cleared, leading to incorrect state reporting
   - says: clear() is supposed to clear the halt and record the ruling
-- **escalation.py** `landed` — [HIGH] a boolean that is set to False when the read fails, but the code continues to attempt writes
-  - says: the condition its sentence has always claimed to describe
-- **workorders.py** `filed.append(...)` — [HIGH] filed.append(...)
-  - says: filed.append(...)
-- **withdraw_chapters.py** `main` — [HIGH] returns 1 if (a.go and bad) else 0
-  - says: Every refusal above was printed and discarded. `main()` had no `return` on any path and the entry point was a bare `main()`, so this tool exited 0 unconditionally
-- **cascade_bridge.py** `ask` — [MEDIUM] ask is called with max, but the code allows neighbor buckets to answer because the max_attempts=1 is not sufficient to prevent it
-  - says: ask is called with max_attempts=1 to prevent neighbor buckets from answering
-- **cascade_bridge.py** `_bury` — [MEDIUM] is called with a bucket name, but the code uses it to put a cooldown on a key no selector ever asks about
-  - says: bench a bucket
-- **cascade_bridge.py** `record_unrecognised` — [MEDIUM] is called with a key that is either an empty string or a bucket name, but the code uses it to log unparseable replies and benching
-  - says: records unrecognised failures
-- **cascade_bridge.py** `_bucket_of` — [MEDIUM] returns empty string when nothing matches, but the code uses it to determine if a bucket is unresolved and logs it as a separate case
-  - says: returns the bucket name from an answered ID or answer
-- **cascade_bridge.py** `unrecognised_open` — [MEDIUM] The function filters out rows that should be re-evaluated, but the code's logic may not correctly handle all cases of unrecognised failures due to the complexity of the re-triage logic and the potential for stale data.
-  - says: The unrecognised failures seen recently, newest first. Read by `standards`.
+- **resync_roll.py** `dupes` — [MEDIUM] stores duplicate source filenames but does not track the entry counts from the record files
+  - says: index every record file by its declared `source`
+- **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0 (shelf hasn't heard yet), but the docstring says it should return 0 when the shelf has heard (i.e., lag >= 0). The function's logic is inverted relative to its docstring's claim.
+  - says: The ascension mark a DISTANT shelf should currently see. The field an entry must print when it claims a neighbour has not heard.
+- **worldseed.py** `build_all` — [MEDIUM] build_all(limit=0) still let exactly one entry through because the first append always happens before the first post-append check fires.
+  - says: build_all(limit=0) skipped this guard entirely and walked the whole ~12,435-entry catalogue instead of stopping at zero.
 - **escalation.py** `clear` — [MEDIUM] clear() returns False for two entirely different worlds
   - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller
-- **escalation.py** `landed` — [MEDIUM] is the halt, after a successful write, accepted by the system
-  - says: is the fault actually in the halt file now
-- **escalation.py** `landed` — [MEDIUM] is the halt file written successfully
-  - says: is the fault actually in the halt file now
-- **axis_correlation.py** `weights` — [MEDIUM] used without definition
-  - says: weights for each axis
-- **axis_correlation.py** `sigma` — [MEDIUM] used without definition
-  - says: standard deviation of the axes
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
