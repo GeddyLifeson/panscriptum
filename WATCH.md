@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 506  ·  last run 2026-09-14 04:50
+round 507  ·  last run 2026-09-14 05:48
 
 ## Structure
 
@@ -11,36 +11,32 @@ round 506  ·  last run 2026-09-14 04:50
 
 ## What the model found in the code
 
-**16 open** (6 high). Newest first.
+**14 open** (3 high). Newest first.
 
-- **policy.py** `main` — [HIGH] the code does not do
-  - says: the code says it does
-- **policy.py** `landed` — [HIGH] the value of `landed` is not used in the code
-  - says: THE LANDED VERDICT IS PART OF THE ANSWER
-- **pipeline.py** `blocks` — [HIGH] The code is using an or which short-circuits, leading to rest not being evaluated if with_feats has any entries
-  - says: The code says it is combining with_feats and rest with a + to keep every part of the ranking the owner did allow
-- **overnight.py** `_cmd_is_running` — [HIGH] Splits the fragment into parts and checks if the first part matches the script, but does not properly verify if the fragment is showing the script being run.
-  - says: Does this command line show `fragment` BEING RUN, rather than merely mentioned?
-- **onomast.py** `well_formed` — [HIGH] Implements seven constraints but the docstring claims it was meant to implement four, and three of the four original constraints were misattributed
-  - says: Is this a name a Custos could say aloud and write down twice the same way?
-- **mutate.py** `_lock_acquire` — [HIGH] Acquires a lock and writes a token to it, but does not release it.
-  - says: Drop the lock, but only if it is still OURS.
-- **policy.py** `write_json` — [MEDIUM] the function is called with the REPORT variable, which is the path to the JSON file, and the function is supposed to write the JSON to that file and then rename it
-  - says: the console output is this run's, and `state/policy_report.json` is the only copy that outlives it
-- **pipeline.py** `return 1` — [MEDIUM] returns 1 regardless of whether the phase is stalled or not, which may not correctly signal the state to the caller as intended
-  - says: RETURN 1 (order 1f8e0f1bfb26). A stalled phase is exactly the condition `overnight.py:run()` needs to see in `p.returncode` -- it launches this file as a subprocess (`[pipeline.py, "--run"]`, via `overnight.STANDING`'s "pipeline" entry and `overnight.py`'s own `start("pipeline", ...)` call) and folds `p.returncode` straight into the cycle's health summary ("ok" iff returncode == 0). A bare `return` here used to make a mid-ladder stall READ AS "ok", identically to a cycle that finished every phase -- the same fault class order e8466cd6ed14 already fixed at `onomast.main()`, `reference.main()`, `genre.main()`, `sevenfold.main()` and `wh40k.main()` just not caught here because that sweep never visited pipeline.py.
-- **pipeline.py** `spine_of` — [MEDIUM] return AD.spine_code_for(src) if it exists, else None
-  - says: return AD.spine_code_for(src)
-- **pipeline.py** `silence.replace_retry` — [MEDIUM] could never see one, and a refused rename left the PREVIOUS run's RUN_STATUS.md in place with its earlier counts and phase ladder
-  - says: does not raise on a denial -- that is its contract
-- **pipeline.py** `batch_settled` — [MEDIUM] The function is called to determine if a batch is settled, but the code's comment and the surrounding context suggest that the function's actual behavior may not align with the intended logic for handling growing entry lists.
-  - says: A CLOSED BATCH IS NOT A CLOSED SPAN. The resume key is `source#start`, but the span it names is `entries[start:start+B]` -- and a record's entry list GROWS after entrypass has run over it (`ingest_doc.py` appends doc-derived entries through write_record_catalogue). So the tail batch silently widens under a key that is already in done_keys, and every entry appended past the old end is skipped forever: never categorised, never given a scale_note, never banded.
-- **overnight.py** `_twin` — [MEDIUM] check if another instance of overnight.py is running
-  - says: check if another supervisor is already running
-- **mutate.py** `os.makedirs` — [MEDIUM] creates the directory if it does not exist
-  - says: creates the directory
-- **manifest_builder.py** `report_landed` — [MEDIUM] report_landed is assigned but never used beyond the check for its truth value
-  - says: report_landed is the verdict on the report write
+- **publish.py** `push` — [HIGH] push() returns a boolean indicating whether a push occurred, but does not raise or return PushHeld, which is supposed to be handled separately with a specific error handling block.
+  - says: push() now has only two RETURN values, and both are honest ones: it landed, or there was nothing to land. The third outcome -- committed but held -- comes out as `PushHeld` and is caught below, where it prints and sets rc=1, because a held push reported as "no change to push" with rc=0 is this comment block's own rule broken one line further down the function.
+- **publish.py** `git` — [HIGH] The function is supposed to handle credential failures by removing specific environment variables, but the code does not actually remove the GITHUB_TOKEN and GH_TOKEN from the environment, which are the exact variables that should be excluded.
+  - says: Two credential failures live in the environment, not the repo, and both are shed here.
+- **publish.py** `_scrub` — [HIGH] scrubs values but not keys, and does not handle tuples or sets as described
+  - says: refuses anything credential-shaped even if a future edit puts one in the state dict by accident
+- **read.py** `left` — [MEDIUM] calculated as the maximum of 0 and CHUNK_BUDGET minus done['chunks'], but the comment suggests it should represent an upper bound based on the total chunks that can be processed given the size of each chunk.
+  - says: The honest denominator: every chunk the queue can produce at the size this run will use. An upper bound -- the mention and action filters remove some -- so the estimate is pessimistic rather than flattering, which is the right direction for a number anyone is going to plan a night around.
+- **read.py** `crate` — [MEDIUM] calculated as the difference in chunks divided by the time difference between the first and last entries in the rate log, but if the time difference is less than 1 second, it defaults to 0.0. However, if the calculated rate is <= 0, it is replaced with the total chunks divided by the maximum of the elapsed time and 1e-9.
+  - says: A ROLLING RATE, because the queue opens with whatever is already cached and those entities complete in microseconds. Averaged from t0 they reported 1,595 chunks per second and an ETA of 0.0 hours for eight hours of work -- a number that is not merely wrong but reassuring, which is worse.
+- **publish.py** `print` — [MEDIUM] prints a formatted string that may be clipped
+  - says: PRINTED WHOLE, exactly as the PushHeld arm three lines above already is
+- **publish.py** `token_env` — [MEDIUM] is assigned the value of `GUARD_TOKEN_ENV` if `token_env` is None, but the variable `token_env` is not defined in the scope where it's used in the function `token_matches`
+  - says: defaults to `GUARD_TOKEN_ENV`; overridable only so a test can point this at a private variable instead of the real process environment.
+- **publish.py** `prune_export` — [MEDIUM] Deletes files not in 'wanted' but also removes directories that are no longer in COPY_DIRS
+  - says: Remove files not in 'wanted' from the export root
+- **publish.py** `scan_for_secrets` — [MEDIUM] Reads files that are staged for publication, but the description implies it should read what is meant to be published, not what is about to be published.
+  - says: LOCK THREE — read what is about to be PUBLISHED, not what we meant to publish.
+- **publish.py** `_scan_units` — [MEDIUM] Yields segments of a file, but the line numbers and text may not accurately represent the original file's structure due to splitting long lines into overlapping segments.
+  - says: Yield (line number, text) for every scannable piece of a file, at any size.
+- **publish.py** `_is_agent_scratch` — [MEDIUM] The function does not check if the root is a file, but instead splits the path on '/' and checks the first part.
+  - says: The root itself is never a file, so a bare `handoff` cannot match.
+- **profile.py** `B32` — [MEDIUM] used to index into a list of band values
+  - says: used to clamp tier values to 10
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
