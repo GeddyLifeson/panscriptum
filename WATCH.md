@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 514  ·  last run 2026-09-14 10:18
+round 515  ·  last run 2026-09-14 10:54
 
 ## Structure
 
@@ -11,8 +11,12 @@ round 514  ·  last run 2026-09-14 10:18
 
 ## What the model found in the code
 
-**12 open** (9 high). Newest first.
+**14 open** (7 high). Newest first.
 
+- **escalation.py** `clear` — [HIGH] clear() is not properly handling the case where the halt file is not cleared, leading to incorrect state reporting
+  - says: clear() is supposed to clear the halt and record the ruling
+- **escalation.py** `landed` — [HIGH] a boolean that is set to False when the read fails, but the code continues to attempt writes
+  - says: the condition its sentence has always claimed to describe
 - **workorders.py** `filed.append(...)` — [HIGH] filed.append(...)
   - says: filed.append(...)
 - **withdraw_chapters.py** `main` — [HIGH] returns 1 if (a.go and bad) else 0
@@ -23,16 +27,16 @@ round 514  ·  last run 2026-09-14 10:18
   - says: merges the existing manifest with the new withdrawals
 - **withdraw_chapters.py** `select` — [HIGH] Returns all entries if no sources or addrs are provided, but the docstring says it should return the whole catalog only when no filters are applied. The code returns all entries even when filters are applied, which contradicts the docstring's claim that it should return exactly what it names.
   - says: The entries this run will withdraw. -> {addr: rec}.
-- **verify_math.py** `check` — [HIGH] collects all calls to escalation.clear() in src/ (excluding escalation.py and drill.py)
-  - says: escalation.clear() has no caller anywhere in src/ -- by AST, not by grep
-- **verify_math.py** `append_line` — [HIGH] returns True
-  - says: correctly returns False
-- **verify_math.py** `BG.burgs_for` — [HIGH] the code computes a value that is not the same as the expected value due to a re-spelled variable name
-  - says: the k-th burg holds P1/k, independently recomputed
-- **verify_math.py** `BG.burgs_for` — [HIGH] the k-th burg holds P1/k, but the code computes a value that is not the same as the expected value due to a re-spelled variable name
-  - says: the k-th burg holds P1/k, independently recomputed
-- **workorders.py** `where_split_by_code` — [MEDIUM] reports on code with multiple where entries, but does not prevent merging
-  - says: never auto-merge on this. See where_split_by_code's docstring.
+- **escalation.py** `clear` — [MEDIUM] clear() returns False for two entirely different worlds
+  - says: PermissionError is caught alongside ValueError because `clear()` raises it for a non-person caller
+- **escalation.py** `landed` — [MEDIUM] is the halt, after a successful write, accepted by the system
+  - says: is the fault actually in the halt file now
+- **escalation.py** `landed` — [MEDIUM] is the halt file written successfully
+  - says: is the fault actually in the halt file now
+- **axis_correlation.py** `weights` — [MEDIUM] used without definition
+  - says: weights for each axis
+- **axis_correlation.py** `sigma` — [MEDIUM] used without definition
+  - says: standard deviation of the axes
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
