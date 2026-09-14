@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 513  ·  last run 2026-09-14 09:50
+round 514  ·  last run 2026-09-14 10:18
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 513  ·  last run 2026-09-14 09:50
 
 ## What the model found in the code
 
-**16 open** (13 high). Newest first.
+**12 open** (9 high). Newest first.
 
 - **workorders.py** `filed.append(...)` — [HIGH] filed.append(...)
   - says: filed.append(...)
@@ -31,14 +31,6 @@ round 513  ·  last run 2026-09-14 09:50
   - says: the k-th burg holds P1/k, independently recomputed
 - **verify_math.py** `BG.burgs_for` — [HIGH] the k-th burg holds P1/k, but the code computes a value that is not the same as the expected value due to a re-spelled variable name
   - says: the k-th burg holds P1/k, independently recomputed
-- **standards.py** `bool(refs) and inside >= len(refs)` — [HIGH] the condition is based on the length of refs, which may not be the correct denominator
-  - says: the assay reading is valid
-- **standards.py** `unans_files` — [HIGH] unans_files is initialized to 0 before the try block, and if any errors occur (like unreadable files or missing data directories), the count is not updated, leading to a cached zero value that is never corrected. This results in a false positive where the system believes there are no unanswered files, even when there are issues.
-  - says: THIS ONE LEFT NO TRACE AT ALL (2026-08-28). `unans_files = 0` sat before the try and the only out.append sat after it, so a HIGH-severity evidence standard was emitted MET with an observed `0` in three separate unmeasurable cases
-- **silence.py** `append_line` — [HIGH] Does not set O_BINARY flag on Windows, leading to CRLF line endings instead of LF
-  - says: NOT BINARY. `os.open` without `O_BINARY` gives a TEXT-mode descriptor on Windows
-- **silence.py** `append_line` — [HIGH] Implements a lock but does not handle the case where the lock cannot be acquired, leading to potential data corruption
-  - says: NOT SERIALISED. Fixed by taking an OS-level lock on a sidecar for the duration of the write
 - **workorders.py** `where_split_by_code` — [MEDIUM] reports on code with multiple where entries, but does not prevent merging
   - says: never auto-merge on this. See where_split_by_code's docstring.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
