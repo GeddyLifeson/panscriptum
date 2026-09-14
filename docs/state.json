@@ -1,5 +1,5 @@
 {
- "at": "2026-09-14 03:16:55",
+ "at": "2026-09-14 03:27:09",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -134,8 +134,8 @@
     },
     {
      "name": "rpm",
-     "left": 2,
-     "cap": 2,
+     "left": 10,
+     "cap": 10,
      "frac": 1.0
     }
    ],
@@ -234,9 +234,9 @@
     },
     {
      "name": "rpd",
-     "left": 16,
+     "left": 0,
      "cap": 1000,
-     "frac": 0.016
+     "frac": 0.0
     }
    ],
    "worst": 0.0
@@ -352,9 +352,9 @@
     },
     {
      "name": "rpm",
-     "left": 27,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9
+     "frac": 1.0
     },
     {
      "name": "tpm",
@@ -678,18 +678,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 66,
+     "left": 59,
      "cap": 300,
-     "frac": 0.22
+     "frac": 0.1967
     },
     {
      "name": "rpm",
-     "left": 1,
-     "cap": 2,
-     "frac": 0.5
+     "left": 9,
+     "cap": 10,
+     "frac": 0.9
     }
    ],
-   "worst": 0.22
+   "worst": 0.1967
   },
   {
    "bucket": "together:free",
@@ -717,83 +717,53 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpm",
-     "left": 1,
-     "cap": 2,
-     "frac": 0.5
+     "name": "rpd",
+     "left": 274,
+     "cap": 500,
+     "frac": 0.548
     },
     {
-     "name": "rpd",
-     "left": 281,
-     "cap": 500,
-     "frac": 0.562
+     "name": "rpm",
+     "left": 19,
+     "cap": 20,
+     "frac": 0.95
     }
    ],
-   "worst": 0.5
+   "worst": 0.548
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 243,
-  "per_hour": 972,
+  "calls": 178,
+  "per_hour": 712,
   "buckets": [
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 138,
+    "calls": 140,
     "ok": 138
    },
    {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 24,
-    "ok": 5
-   },
-   {
-    "bucket": "ollama:qwen3:8b",
-    "calls": 17,
-    "ok": 0
-   },
-   {
     "bucket": "sambanova:free",
-    "calls": 14,
+    "calls": 11,
     "ok": 0
    },
    {
     "bucket": "zai:free",
-    "calls": 13,
+    "calls": 11,
     "ok": 0
    },
    {
-    "bucket": "groq:qwen/qwen3.6-27b",
-    "calls": 10,
-    "ok": 2
+    "bucket": "ollama:qwen3:8b",
+    "calls": 8,
+    "ok": 0
    },
    {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 7,
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 5,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 7,
-    "ok": 3
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 4,
-    "ok": 1
-   },
-   {
-    "bucket": "cohere:free",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "openrouter:free",
     "calls": 3,
     "ok": 0
    }
@@ -803,12 +773,12 @@
   {
    "name": "corpus read",
    "unit": "chunks",
-   "done": 20480,
+   "done": 20569,
    "total": 413841,
-   "detail": "3,255/243,466 entities  \u00b7  95,386 feats  \u00b7  0.05 chunks/s",
+   "detail": "3,270/243,466 entities  \u00b7  95,558 feats  \u00b7  0.08 chunks/s",
    "warn": "5 unanswered",
-   "dropped": 20436,
-   "eta_h": 2212.6
+   "dropped": 20449,
+   "eta_h": 1449.8
   },
   {
    "name": "page roll",
@@ -834,7 +804,7 @@
    "read": 217455,
    "settled": 243940,
    "feats": 148541,
-   "age_h": 2.6
+   "age_h": 2.7
   },
   "phases": [
    {
@@ -870,12 +840,12 @@
     "built": true
    }
   ],
-  "readfeats": 3176
+  "readfeats": 3189
  },
  "watch": {
-  "open": 19,
-  "high": 7,
-  "rounds": 502,
+  "open": 15,
+  "high": 5,
+  "rounds": 503,
   "findings": [
    {
     "module": "drill",
@@ -884,10 +854,10 @@
     "severity": "high"
    },
    {
-    "module": "drill",
-    "symbol": "lambda: \"pages_refused\" in F.evidence_for.__doc__ or True",
-    "actual": "testing if a docstring mentions the key, but the docstring does not mention it",
-    "severity": "high"
+    "module": "generate",
+    "symbol": "args.limit",
+    "actual": "is not None",
+    "severity": "medium"
    },
    {
     "module": "drill",
@@ -920,40 +890,16 @@
     "severity": "high"
    },
    {
-    "module": "drill",
-    "symbol": "W.script_of",
-    "actual": "returns the script name from a command tokenized by ON._cmd_tokens",
-    "severity": "medium"
-   },
-   {
-    "module": "feats",
-    "symbol": "empty_rates",
-    "actual": "Walk the whole feats cache off LOCAL DISK and report each host's unexplainable-empty rate. No network, nothing sampled, no cap: every file under `data/feats/` is opened. This is the measurement the owner's ruling rests on -- \"only hosts whose empty-rate is anomalous against dc's 8.6% control are re-mined\" -- and it is deliberately a separate, explicit pass rather than something a roll does on the way past, because its output authorises network spend.",
-    "severity": "medium"
+    "module": "health",
+    "symbol": "is_resume_probe",
+    "actual": "Checks if `name` matches a regex pattern that includes many more subjects than the exact set defined in `SELFTEST_RESUME_SUBJECTS`.",
+    "severity": "high"
    },
    {
     "module": "foreman",
     "symbol": "kill_stalled",
     "actual": "The function returns a string that includes the horizons for all killed jobs, but the claim suggests it should name the horizon per job.",
     "severity": "medium"
-   },
-   {
-    "module": "feats",
-    "symbol": "TIMEOUT",
-    "actual": "hardcoded",
-    "severity": "medium"
-   },
-   {
-    "module": "feats",
-    "symbol": "_QUANTITY_UNIT_FIRST",
-    "actual": "Matches 'mach' followed by a number, but the regex is not properly anchored to ensure the entire phrase is matched",
-    "severity": "medium"
-   },
-   {
-    "module": "drill",
-    "symbol": "the_probe_exemption_fails_closed_without_its_evidence",
-    "actual": "returns False when health is present but raises, and when health is not present",
-    "severity": "high"
    },
    {
     "module": "feats",
@@ -968,10 +914,10 @@
     "severity": "medium"
    },
    {
-    "module": "drill",
-    "symbol": "lambda: \"pages_refused\" in F.evidence_for.__doc__ or True",
-    "actual": "a net that is unconditionally true due to or True",
-    "severity": "high"
+    "module": "health",
+    "symbol": "return 1 if reopen_stranded(dry=not a.go) is None else 0",
+    "actual": "return 1 if the result of reopen_stranded is None else 0",
+    "severity": "medium"
    },
    {
     "module": "foreman",
@@ -1008,14 +954,14 @@
    ],
    [
     "silent:cascade_bridge.py:deadline:None",
-    266
-   ],
-   [
-    "silent:cascade_bridge.py:extract_json-brace:JSONDecodeError",
-    72
+    273
    ],
    [
     "silent:custodes.py:abstained-comparability:None",
+    74
+   ],
+   [
+    "silent:cascade_bridge.py:extract_json-brace:JSONDecodeError",
     72
    ],
    [
@@ -1044,7 +990,7 @@
    ],
    [
     "silent:custodes.py:abstained-currency:None",
-    25
+    26
    ],
    [
     "silent:read.py:ask-quick-pool-unusable-shape:None",
@@ -1052,7 +998,11 @@
    ],
    [
     "silent:weave.py:index-stale:None",
-    20
+    21
+   ],
+   [
+    "silent:scout.py:verify-http:HTTPError",
+    17
    ],
    [
     "silent:endpoint.py:detect-api:JSONDecodeError",
@@ -1063,15 +1013,15 @@
     10
    ],
    [
-    "silent:scout.py:verify-http:HTTPError",
+    "silent:cascade_bridge.py:extract_json-fence:JSONDecodeError",
     9
    ],
    [
     "silent:scout.py:verify:URLError",
-    6
+    7
    ],
    [
-    "silent:cascade_bridge.py:extract_json-fence:JSONDecodeError",
+    "silent:foreman.py:kill_stalled-list:FileNotFoundError",
     5
    ],
    [
@@ -1083,15 +1033,15 @@
     4
    ],
    [
+    "silent:foreman.py:restart_reader-list:FileNotFoundError",
+    3
+   ],
+   [
     "silent:foreman.py:_literals:SyntaxError",
     2
    ],
    [
-    "silent:foreman.py:kill_stalled-list:FileNotFoundError",
-    2
-   ],
-   [
-    "silent:foreman.py:restart_reader-list:FileNotFoundError",
+    "silent:pipeline.py:vram:TimeoutExpired",
     2
    ],
    [
@@ -1124,10 +1074,6 @@
    ],
    [
     "silent:feats.py:corrupt-cache:PermissionError",
-    1
-   ],
-   [
-    "silent:pipeline.py:vram:TimeoutExpired",
     1
    ],
    [
@@ -1175,56 +1121,56 @@
     1
    ]
   ],
-  "swallowed_total": 4675
+  "swallowed_total": 4704
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 891,
-   "p50": 7.5,
+   "n": 901,
+   "p50": 14.6,
    "p95": 75.4,
-   "ok_pct": 53,
+   "ok_pct": 60,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 395,
-   "p50": 1.9,
-   "p95": 57.5,
+   "n": 399,
+   "p50": 1.8,
+   "p95": 53.8,
    "ok_pct": null,
-   "tps": 28.0
+   "tps": 28.1
   },
   {
    "tag": "entrypass",
-   "n": 122,
-   "p50": 56.6,
+   "n": 116,
+   "p50": 56.4,
    "p95": 232.0,
    "ok_pct": null,
    "tps": 18.2
   },
   {
    "tag": "ask",
-   "n": 64,
+   "n": 56,
    "p50": 66.9,
-   "p95": 268.9,
+   "p95": 332.7,
    "ok_pct": null,
    "tps": 21.4
   },
   {
    "tag": "assay-split",
-   "n": 56,
-   "p50": 56.1,
+   "n": 49,
+   "p50": 54.1,
    "p95": 882.8,
    "ok_pct": null,
    "tps": 21.2
   },
   {
    "tag": "assay-local",
-   "n": 8,
-   "p50": 69.2,
-   "p95": 212.8,
+   "n": 5,
+   "p50": 62.8,
+   "p95": 73.7,
    "ok_pct": null,
-   "tps": 18.6
+   "tps": 18.5
   }
  ],
  "safety": {
@@ -1246,7 +1192,7 @@
    "breached": [],
    "liveness": 47,
    "liveness_ceiling": 52,
-   "age_min": 156.3
+   "age_min": 166.6
   },
   "escalation_recent": {
    "OWNER": 1,
@@ -1278,8 +1224,8 @@
   {
    "standard": "model calls per hour",
    "group": "pool",
-   "holds": true,
-   "observed": 972,
+   "holds": false,
+   "observed": 712,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1315,7 +1261,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": true,
-   "observed": "61% ok of 243",
+   "observed": "78% ok of 178",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1324,7 +1270,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": true,
-   "observed": "cloud, 16 of 16 permits (3 answering; 61% ok over 243 calls)",
+   "observed": "cloud, 16 of 16 permits (3 answering; 77% ok over 177 calls)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1342,7 +1288,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "2212.6h",
+   "observed": "1449.8h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -1351,7 +1297,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "4.66",
+   "observed": "4.65",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -1360,7 +1306,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": true,
-   "observed": "4.9%, 20480 chunks, quiet 0 min",
+   "observed": "5.0%, 20569 chunks, quiet 0 min",
    "floor": "moving, or under 15 min quiet",
    "order": "The chunk counter has not moved. If it reads 0.0%%, no chunk has completed at all -- check that read.py printed its transport banner and that the queue is not empty. If it is stuck at a non-zero count, the reader is up and wedged: look at the pool standards above and at the failure ledger before restarting it, because a restart re-queues the chunk it is stuck on.",
    "severity": "high"
@@ -1378,7 +1324,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "2.6h",
+   "observed": "2.7h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1414,7 +1360,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 7,
+   "observed": 5,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1441,7 +1387,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "769",
+   "observed": "789",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1450,7 +1396,7 @@
    "standard": "probe failures (reported, not judged)",
    "group": "code",
    "holds": true,
-   "observed": "3,906",
+   "observed": "3,915",
    "floor": "no floor",
    "order": "Requests that failed as part of finding something out: endpoint detection trying six paths, the scout trying eight URLs. Volume here is work, not damage.",
    "severity": "low"
@@ -1459,7 +1405,7 @@
    "standard": "cached records that were fully read",
    "group": "evidence",
    "holds": false,
-   "observed": 33,
+   "observed": 34,
    "floor": 0,
    "order": "A record written while some of its chunks went unanswered is PERMANENTLY incomplete -- read_entity returns the cache forever after and queue never revisits it. Delete those files so the entities are read again; the guard in read.py stops new ones appearing.",
    "severity": "high"
@@ -1540,7 +1486,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "2.5h",
+   "observed": "2.7h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1567,7 +1513,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "roll_auto (21 min, 3197995 bytes)",
+   "observed": "roll_auto (31 min, 3197995 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1576,7 +1522,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1107. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 0.2h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Wakanda - **Page:** Wakanda (fiction wiki page) - **Task:** Extract POWER FEATS for the entity from the provided text. - **Definition of Feat:** Something the entity DID, o (x1, 0.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1464. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 0.8h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1130. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 1.6h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Eric Payne (Earth-616) - **Page Content:** A biography/wiki page about Eric Payne (Devil-Slayer) from Marvel Comics. - **Task:** Extract POWER FEATS. A feat is something th (x1, 2.0h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1471. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 2.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1416. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 2.5h old); groq:openai/gpt-oss-20b: unparseable reply (1 consecutive from this bucket): {\"urls\":[\"https://genuinefantasypress.com/forgotten-secrets\"],\"note\":\"Index page for the Forgotten Secrets (x1, 3.1h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Erik Josten (Earth-616) - **Page Content:** A Marvel Wiki page detailing Erik Josten's history, aliases (Power Man, Smuggler, Goliath, Atlas), affiliations, and various sto (x1, 3.2h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Hinata Hy\u016bga - **Page:** Hinata Hy\u016bga (fiction wiki page) - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the (x1, 3.8h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1704. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 4.2h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1407. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 4.3h old); groq:qwen/qwen3.6-27b: unparseable reply (6 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel source. - Each entry has an index, name, type (all \"Location\"), and a description. - I need to output JSON with specific fields: `index`, `category`, `s (x1, 4.7h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Goku - **Epoch:** Mastered Ultra Instinct, Tournament of Power - **Axis Under Assay:** DISCERNMENT - **Task:** Score 0-9.9 based *only* on the provided candidate sentences. (x1, 4.7h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Goku - **Epoch:** Mastered Ultra Instinct, Tournament of Power - **Axis:** RUIN - **Task:** Score 0-9.9 based *only* on the provided candidate sentences. Cite the single st (x1, 4.8h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy enemy abilities - **Page:** Final Fantasy VIII enemy abilities - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the (x1, 4.8h old); groq:qwen/qwen3.6-27b: unparseable reply (5 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel catalogue. - Each entry has an index, name, type (all \"Location\" in the prompt, but I need to verify/correct based on content), and a description. - I n (x1, 4.8h old); groq:qwen/qwen3.6-27b: unparseable reply (4 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel catalogue. - Each entry has an index, name, type (all marked as \"Character\" in the source, but I need to correct based on content), and a description. - (x1, 5.2h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1202. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.3h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Kenshiro (Fist of the North Star) - **Epoch:** post-Raoh - **Candidate Evidence:** Grouped by axis, with numbered citations. - **Task:** Score the entity based *only* on th (x3, 5.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1670. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.4h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy enemy abilities - **Page:** Final Fantasy Tactics enemy abilities - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something  (x1, 5.4h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** M. Bison - **Page:** M. Bison (fiction wiki page) - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the page, t (x2, 5.4h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2047. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.4h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel source. - Each entry has an index, name, type (all marked as \"Character\" in the prompt, but I need to correct based on content), and a description. - I  (x1, 5.4h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x60, 5.4h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel source. - Each entry has an index, name, type (mostly \"Character\"), and a description. - I need to output a JSON object with a `results` array containin (x1, 5.5h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Kurama - **Page:** Kurama (from a fiction wiki) - **Task:** Extract POWER FEATS for Kurama from the provided text. - **Definition of Feat:** Something the entity DID, on th (x1, 5.5h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy XII accessories (Note: The page title says \"Final Fantasy XIII-2 passive abilities\", but the prompt says \"ENTITY: Final Fantasy XII accessories\". I will focus (x1, 5.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1984. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x5, 5.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1421. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.5h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy enemy abilities - **Page:** The Final Fantasy Legend enemy abilities - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Somethi (x1, 5.5h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel source. - Each entry has an index, name, type (all say \"Character\" in the prompt, but I need to correct based on content), and a description. - I need t (x1, 5.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1618. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x4, 5.6h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Hades - **Page:** Hades (from a fiction wiki, likely God of War) - **Task:** Extract POWER FEATS for Hades from the provided text. - **Definition of Feat:** Something the e (x1, 5.6h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Hades - **Page:** Hades (from a fiction wiki, likely Fandom/God of War wiki) - **Task:** Extract POWER FEATS for Hades from the provided text. - **Definition of Feat:** Som (x1, 5.6h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy enemy abilities - **Page:** Final Fantasy enemy abilities - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the enti (x1, 5.7h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Queen (Type-0) - **Page:** Divine Judgment (Queen ability) - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on th (x1, 5.7h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Baki Hanma - **Page:** Baki Hanma - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the page, to something of c (x1, 5.7h old); groq:groq/compound-mini: unparseable reply (1 consecutive from this bucket): {\"feats (x1, 5.7h old); groq:qwen/qwen3.6-27b: unparseable reply (5 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** War of the Ancients - **Page:** War of the Ancients - **Task:** Extract POWER FEATS for the entity from the provided text. - **Definition of Feat:** Something the entity DI (x1, 5.8h old); groq:qwen/qwen3.6-27b: unparseable reply (4 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Colleges of Magic - **Page:** Colleges of Magic - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the page, to  (x1, 5.8h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Soundwave (G1) - **Page:** Soundwave (G1) - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the page, to someth (x1, 5.8h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Wamuu - **Page:** Wamuu (fiction wiki page) - **Task:** Extract POWER FEATS from the text. - **Definition of Feat:** Something the entity DID, on the page, to something of  (x1, 5.8h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Okita Soji - **Page:** Okita Soji (from a fiction wiki, likely Fandom) - **Task:** Extract POWER FEATS based on specific axes. - **Constraints:** - Feat = something the ent (x1, 5.8h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1076. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.9h old)",
+   "observed": "groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1107. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 0.3h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Wakanda - **Page:** Wakanda (fiction wiki page) - **Task:** Extract POWER FEATS for the entity from the provided text. - **Definition of Feat:** Something the entity DID, o (x1, 0.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1464. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 1.0h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1130. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 1.7h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Eric Payne (Earth-616) - **Page Content:** A biography/wiki page about Eric Payne (Devil-Slayer) from Marvel Comics. - **Task:** Extract POWER FEATS. A feat is something th (x1, 2.2h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1471. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 2.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1416. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 2.7h old); groq:openai/gpt-oss-20b: unparseable reply (1 consecutive from this bucket): {\"urls\":[\"https://genuinefantasypress.com/forgotten-secrets\"],\"note\":\"Index page for the Forgotten Secrets (x1, 3.2h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Erik Josten (Earth-616) - **Page Content:** A Marvel Wiki page detailing Erik Josten's history, aliases (Power Man, Smuggler, Goliath, Atlas), affiliations, and various sto (x1, 3.4h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Hinata Hy\u016bga - **Page:** Hinata Hy\u016bga (fiction wiki page) - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the (x1, 4.0h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1704. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 4.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1407. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 4.5h old); groq:qwen/qwen3.6-27b: unparseable reply (6 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel source. - Each entry has an index, name, type (all \"Location\"), and a description. - I need to output JSON with specific fields: `index`, `category`, `s (x1, 4.9h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Goku - **Epoch:** Mastered Ultra Instinct, Tournament of Power - **Axis Under Assay:** DISCERNMENT - **Task:** Score 0-9.9 based *only* on the provided candidate sentences. (x1, 4.9h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Goku - **Epoch:** Mastered Ultra Instinct, Tournament of Power - **Axis:** RUIN - **Task:** Score 0-9.9 based *only* on the provided candidate sentences. Cite the single st (x1, 4.9h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy enemy abilities - **Page:** Final Fantasy VIII enemy abilities - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the (x1, 5.0h old); groq:qwen/qwen3.6-27b: unparseable reply (5 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel catalogue. - Each entry has an index, name, type (all \"Location\" in the prompt, but I need to verify/correct based on content), and a description. - I n (x1, 5.0h old); groq:qwen/qwen3.6-27b: unparseable reply (4 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel catalogue. - Each entry has an index, name, type (all marked as \"Character\" in the source, but I need to correct based on content), and a description. - (x1, 5.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1202. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.4h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Kenshiro (Fist of the North Star) - **Epoch:** post-Raoh - **Candidate Evidence:** Grouped by axis, with numbered citations. - **Task:** Score the entity based *only* on th (x3, 5.5h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1670. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.5h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy enemy abilities - **Page:** Final Fantasy Tactics enemy abilities - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something  (x1, 5.5h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** M. Bison - **Page:** M. Bison (fiction wiki page) - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the page, t (x2, 5.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2047. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.6h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel source. - Each entry has an index, name, type (all marked as \"Character\" in the prompt, but I need to correct based on content), and a description. - I  (x1, 5.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x60, 5.6h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel source. - Each entry has an index, name, type (mostly \"Character\"), and a description. - I need to output a JSON object with a `results` array containin (x1, 5.6h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Kurama - **Page:** Kurama (from a fiction wiki) - **Task:** Extract POWER FEATS for Kurama from the provided text. - **Definition of Feat:** Something the entity DID, on th (x1, 5.7h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy XII accessories (Note: The page title says \"Final Fantasy XIII-2 passive abilities\", but the prompt says \"ENTITY: Final Fantasy XII accessories\". I will focus (x1, 5.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1984. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x5, 5.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1421. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 5.7h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy enemy abilities - **Page:** The Final Fantasy Legend enemy abilities - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Somethi (x1, 5.7h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from a Marvel source. - Each entry has an index, name, type (all say \"Character\" in the prompt, but I need to correct based on content), and a description. - I need t (x1, 5.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1618. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x4, 5.8h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Hades - **Page:** Hades (from a fiction wiki, likely God of War) - **Task:** Extract POWER FEATS for Hades from the provided text. - **Definition of Feat:** Something the e (x1, 5.8h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Hades - **Page:** Hades (from a fiction wiki, likely Fandom/God of War wiki) - **Task:** Extract POWER FEATS for Hades from the provided text. - **Definition of Feat:** Som (x1, 5.8h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy enemy abilities - **Page:** Final Fantasy enemy abilities - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the enti (x1, 5.8h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Queen (Type-0) - **Page:** Divine Judgment (Queen ability) - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on th (x1, 5.9h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Baki Hanma - **Page:** Baki Hanma - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the page, to something of c (x1, 5.9h old); groq:groq/compound-mini: unparseable reply (1 consecutive from this bucket): {\"feats (x1, 5.9h old); groq:qwen/qwen3.6-27b: unparseable reply (5 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** War of the Ancients - **Page:** War of the Ancients - **Task:** Extract POWER FEATS for the entity from the provided text. - **Definition of Feat:** Something the entity DI (x1, 5.9h old); groq:qwen/qwen3.6-27b: unparseable reply (4 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Colleges of Magic - **Page:** Colleges of Magic - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the page, to  (x1, 6.0h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Soundwave (G1) - **Page:** Soundwave (G1) - **Task:** Extract POWER FEATS from the provided text. - **Definition of Feat:** Something the entity DID, on the page, to someth (x1, 6.0h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Wamuu - **Page:** Wamuu (fiction wiki page) - **Task:** Extract POWER FEATS from the text. - **Definition of Feat:** Something the entity DID, on the page, to something of  (x1, 6.0h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Okita Soji - **Page:** Okita Soji (from a fiction wiki, likely Fandom) - **Task:** Extract POWER FEATS based on specific axes. - **Constraints:** - Feat = something the ent (x1, 6.0h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1076. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 6.1h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1708,28 +1654,28 @@
   },
   {
    "metric": "entities read",
-   "now": 3176,
-   "delta": 28,
+   "now": 3189,
+   "delta": 30,
    "minutes": 31,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "chunks",
-   "now": 20480,
-   "delta": 124,
+   "now": 20569,
+   "delta": 166,
    "minutes": 31,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "standards met",
-   "now": 36,
+   "now": 35,
    "delta": 0,
    "minutes": 31,
    "reset": false,
    "stalled": true
   }
  ],
- "generated": "2026-09-14T03:17:00"
+ "generated": "2026-09-14T03:27:14"
 }
