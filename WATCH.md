@@ -1,18 +1,24 @@
 # OVERWATCH
 
-round 511  ·  last run 2026-09-14 08:31
+round 512  ·  last run 2026-09-14 09:28
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 304,675 inspected
+- files that will not parse: **0** of 304,675 inspected (deep scan as of round 511)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**20 open** (11 high). Newest first.
+**20 open** (13 high). Newest first.
 
+- **weave_index.py** `staleness` — [HIGH] Returns a dict indicating staleness, but the logic incorrectly computes the 'stale' verdict as 'coarse_stale' (A or B) instead of 'coarse_stale and age_hours > STALE_HOURS', which was the original intended logic. The mtime signal, which detects corpus changes, is computed and used to gate the expensive 'modified_since' count but is then absorbed, leading to incorrect staleness detection for cases where the corpus was rewritten within the STALE_HOURS window.
+  - says: How stale is data/ENTITY_INDEX.json against data/records/, right now? -> dict.
+- **weave.py** `null_threshold` — [HIGH] Raises NullThresholdUnmeasured under the same conditions as its surprisal-weighted twin `null_threshold_surprisal` -- see there. This function is reported dead (order 905f13a21f0c); the fix is carried here anyway so it cannot mislead a future caller who revives it.
+  - says: Permutation null: what pair weight arises purely by chance?
+- **weave.py** `filtered_index` — [HIGH] Attempts to use pipeline._STATBLOCK but it is not importable
+  - says: Drop mechanics before anything else looks at the corpus.
 - **verify_math.py** `check` — [HIGH] collects all calls to escalation.clear() in src/ (excluding escalation.py and drill.py)
   - says: escalation.clear() has no caller anywhere in src/ -- by AST, not by grep
 - **verify_math.py** `append_line` — [HIGH] returns True
@@ -33,20 +39,14 @@ round 511  ·  last run 2026-09-14 08:31
   - says: Append ONE line to a shared ledger without tearing it (m62).
 - **silence.py** `audit` — [HIGH] audit() returns rows of handlers, but the function's name and purpose imply it should audit for silence, not collect handlers
   - says: audit(root=None)
-- **scout.py** `verify` — [HIGH] A page is judged against the first 25 names of the source
-  - says: A page is judged against every name catalogued under the source
+- **whoruns.py** `hits` — [MEDIUM] the result of running() which returns None if the process table could not be read
+  - says: count a same-named script running out of ANY tree
 - **tiers.py** `deliberate_joins` — [MEDIUM] the shared-evidence list
   - says: THE EVIDENCE that a xenoverse is artificial
 - **tells.py** `prompt_in_sync` — [MEDIUM] Compares the generated block to the prompt file after normalizing line endings
   - says: Compares the generated block to the prompt file
 - **scout.py** `order` — [MEDIUM] sorted by the number of sources and then by the time of last attempt
   - says: sorted by the number of sources
-- **scout.py** `seen` — [MEDIUM] read the SCOUT_ATTEMPTS.json file but then used as a dictionary for tracking attempts
-  - says: read the SCOUT_ATTEMPTS.json file
-- **runguard.py** `claim` — [MEDIUM] Mints a per-claim secret, stores its digest in the record, and returns (ok, reason) as specified
-  - says: Take the guard for `agent`, or refuse.
-- **runguard.py** `holder_is_live` — [MEDIUM] Returns True for stale heartbeats and missing records, but not for cases where the holder is provably alive with a stale heartbeat
-  - says: Is this record a predecessor that is still working?
 - **rosetta.py** `check` — [MEDIUM] The function 'check' is called with 'rosetta' and 'assays', but the actual implementation of 'check' is not provided in the given code slice. The code slice does not include the definition of 'check', so it's unclear what 'check' does. However, based on the context, it's expected that 'check' performs some validation or comparison between 'rosetta' and 'assays' based on the host information.
   - says: HOST-SCOPED, off ASSAYS.json's own `host|Name` keys (order 0bba50a6d76b): a scale row can only be vouched for by an assay recorded on that same wiki. This is also what makes the check match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
