@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 503  ·  last run 2026-09-14 03:20
+round 504  ·  last run 2026-09-14 03:43
 
 ## Structure
 
@@ -11,18 +11,36 @@ round 503  ·  last run 2026-09-14 03:20
 
 ## What the model found in the code
 
-**15 open** (5 high). Newest first.
+**22 open** (7 high). Newest first.
 
+- **local_agent.py** `_mod_l` — [HIGH] The code converts the module name to lowercase, making the denylist check case-insensitive, which contradicts the claim that the denylist is case-sensitive.
+  - says: THE DENY,LIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
+- **local_agent.py** `_deny_paths` — [HIGH] The code converts the denylist paths to lowercase, making them case-insensitive, which contradicts the claim that the denylist is case-sensitive.
+  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
+- **local_agent.py** `_deny` — [HIGH] The code converts the denylist to lowercase, making it case-insensitive, which contradicts the claim that the denylist is case-sensitive.
+  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
+- **ledger_guard.py** `seal` — [HIGH] raises LedgerViolation on failure
+  - says: returns None on any write failure with no exception raised
 - **health.py** `is_resume_probe` — [HIGH] Checks if `name` matches a regex pattern that includes many more subjects than the exact set defined in `SELFTEST_RESUME_SUBJECTS`.
   - says: Is `name` one of the three synthetic subjects allowed to resume without a person? -> bool.
 - **foreman.py** `kill_stalled_job` — [HIGH] A job that is UP and writing nothing is better than a job that is down.
   - says: A job that is UP and writing nothing is worse than a job that is down.
 - **foreman.py** `CB._PROVEN[0]` — [HIGH] invalidates the cached proof in favor of something older
   - says: force the next _alive() to re-read
-- **drill.py** `silence.write_json` — [HIGH] a TRUNCATE-THEN-FILL, not a write
-  - says: this project's stated one correct way to land a shared file
-- **drill.py** `CW.BUDGET_PER_HOUR` — [HIGH] hardcoded and not dynamically derived as the code around it suggests
-  - says: used to determine budget per hour
+- **local_agent.py** `json.loads` — [MEDIUM] loads a JSON string into a Python object, but the code then proceeds to append the content to messages regardless of whether it was valid JSON or not
+  - says: error instead of half a dict, and the ledger records that it happened.
+- **local_agent.py** `_spellings` — [MEDIUM] The code checks the lowercase version of the path for allowlist checks, which may not accurately represent the actual file path, leading to potential false negatives in allowlist checks.
+  - says: ASKED OF BOTH SPELLINGS OF THE PATH — BYPASS CLASS SEVEN
+- **local_agent.py** `_rel_l` — [MEDIUM] The code uses the lowercase version of the relative path for denylist checks, which may not accurately represent the actual file path, leading to potential false negatives in denylist checks.
+  - says: THE DENYLIST ASKED OF THE FILE, NOT OF ITS NAME
+- **local_agent.py** `rel` — [MEDIUM] rel is the repo-relative path, but the denylist check for non-python files is not properly handled because modname is None for non-python files, and the code only checks modname when it exists.
+  - says: The denylist has to be answerable for NON-python files too. Match on the module name when there is one, and on the repo-relative path otherwise.
+- **local_agent.py** `modname` — [MEDIUM] the module name
+  - says: the module name
+- **local_agent.py** `hits` — [MEDIUM] the list of matches
+  - says: the list of matches
+- **local_agent.py** `full` — [MEDIUM] the path to the file being scanned
+  - says: the path inside the project
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **generate.py** `args.limit` — [MEDIUM] is not None
@@ -39,10 +57,6 @@ round 503  ·  last run 2026-09-14 03:20
   - says: THE BRAKE THE HAND-OFF ALWAYS CLAIMED TO BE. `note_throttled` quarantines a host after THROTTLE_STRIKES consecutive 429s and its comment says the crawl stops spending requests on it; until the 2026-09-08 ruling nothing on the fetch path asked, so twelve workers went on queueing at the 32x ceiling. Asked here, once per entity, off a view refreshed at most once a minute.
 - **feats.py** `retries` — [MEDIUM] hardcoded
   - says: the code around it says it should be derived
-- **drill.py** `CW.LEDGER` — [MEDIUM] reassigned but not used correctly in the context of the code's logic
-  - says: redirected to a temporary directory
-- **drill.py** `CW.LEDGER_LOCK` — [MEDIUM] reassigned to a new value but not properly managed in the context of the code's logic
-  - says: redirected to a lock file
 
 ---
 
