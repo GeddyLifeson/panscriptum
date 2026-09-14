@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 512  ·  last run 2026-09-14 09:28
+round 513  ·  last run 2026-09-14 09:50
 
 ## Structure
 
@@ -11,14 +11,18 @@ round 512  ·  last run 2026-09-14 09:28
 
 ## What the model found in the code
 
-**20 open** (13 high). Newest first.
+**16 open** (13 high). Newest first.
 
-- **weave_index.py** `staleness` — [HIGH] Returns a dict indicating staleness, but the logic incorrectly computes the 'stale' verdict as 'coarse_stale' (A or B) instead of 'coarse_stale and age_hours > STALE_HOURS', which was the original intended logic. The mtime signal, which detects corpus changes, is computed and used to gate the expensive 'modified_since' count but is then absorbed, leading to incorrect staleness detection for cases where the corpus was rewritten within the STALE_HOURS window.
-  - says: How stale is data/ENTITY_INDEX.json against data/records/, right now? -> dict.
-- **weave.py** `null_threshold` — [HIGH] Raises NullThresholdUnmeasured under the same conditions as its surprisal-weighted twin `null_threshold_surprisal` -- see there. This function is reported dead (order 905f13a21f0c); the fix is carried here anyway so it cannot mislead a future caller who revives it.
-  - says: Permutation null: what pair weight arises purely by chance?
-- **weave.py** `filtered_index` — [HIGH] Attempts to use pipeline._STATBLOCK but it is not importable
-  - says: Drop mechanics before anything else looks at the corpus.
+- **workorders.py** `filed.append(...)` — [HIGH] filed.append(...)
+  - says: filed.append(...)
+- **withdraw_chapters.py** `main` — [HIGH] returns 1 if (a.go and bad) else 0
+  - says: Every refusal above was printed and discarded. `main()` had no `return` on any path and the entry point was a bare `main()`, so this tool exited 0 unconditionally
+- **withdraw_chapters.py** `_catalog_merge` — [HIGH] returns remaining entries without modifying the current catalog, which contradicts the comment about editing the catalog
+  - says: edits the catalog by removing entries whose files have been moved
+- **withdraw_chapters.py** `_manifest_merge` — [HIGH] overwrites existing entries with the new withdrawals without considering the union at landing time
+  - says: merges the existing manifest with the new withdrawals
+- **withdraw_chapters.py** `select` — [HIGH] Returns all entries if no sources or addrs are provided, but the docstring says it should return the whole catalog only when no filters are applied. The code returns all entries even when filters are applied, which contradicts the docstring's claim that it should return exactly what it names.
+  - says: The entries this run will withdraw. -> {addr: rec}.
 - **verify_math.py** `check` — [HIGH] collects all calls to escalation.clear() in src/ (excluding escalation.py and drill.py)
   - says: escalation.clear() has no caller anywhere in src/ -- by AST, not by grep
 - **verify_math.py** `append_line` — [HIGH] returns True
@@ -35,20 +39,8 @@ round 512  ·  last run 2026-09-14 09:28
   - says: NOT BINARY. `os.open` without `O_BINARY` gives a TEXT-mode descriptor on Windows
 - **silence.py** `append_line` — [HIGH] Implements a lock but does not handle the case where the lock cannot be acquired, leading to potential data corruption
   - says: NOT SERIALISED. Fixed by taking an OS-level lock on a sidecar for the duration of the write
-- **silence.py** `append_line` — [HIGH] Appends a line but does not ensure atomicity on Windows due to lack of O_BINARY flag and lock handling
-  - says: Append ONE line to a shared ledger without tearing it (m62).
-- **silence.py** `audit` — [HIGH] audit() returns rows of handlers, but the function's name and purpose imply it should audit for silence, not collect handlers
-  - says: audit(root=None)
-- **whoruns.py** `hits` — [MEDIUM] the result of running() which returns None if the process table could not be read
-  - says: count a same-named script running out of ANY tree
-- **tiers.py** `deliberate_joins` — [MEDIUM] the shared-evidence list
-  - says: THE EVIDENCE that a xenoverse is artificial
-- **tells.py** `prompt_in_sync` — [MEDIUM] Compares the generated block to the prompt file after normalizing line endings
-  - says: Compares the generated block to the prompt file
-- **scout.py** `order` — [MEDIUM] sorted by the number of sources and then by the time of last attempt
-  - says: sorted by the number of sources
-- **rosetta.py** `check` — [MEDIUM] The function 'check' is called with 'rosetta' and 'assays', but the actual implementation of 'check' is not provided in the given code slice. The code slice does not include the definition of 'check', so it's unclear what 'check' does. However, based on the context, it's expected that 'check' performs some validation or comparison between 'rosetta' and 'assays' based on the host information.
-  - says: HOST-SCOPED, off ASSAYS.json's own `host|Name` keys (order 0bba50a6d76b): a scale row can only be vouched for by an assay recorded on that same wiki. This is also what makes the check match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
+- **workorders.py** `where_split_by_code` — [MEDIUM] reports on code with multiple where entries, but does not prevent merging
+  - says: never auto-merge on this. See where_split_by_code's docstring.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
