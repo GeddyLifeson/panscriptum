@@ -1540,6 +1540,70 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+### Resolved by run #57 (2026-09-13 owner-triggered maintenance, sweep 57)
+
+*The OWNER halt raised by the 2026-09-10 crash was lifted this shift **on the owner's ruling**, given in chat and applied by run #57. The ruling is in `state/HALT.json`. The halt was never a bug and is not recorded here; the account is in `HANDOFF.md` under runs #56 and #57.*
+
+- **[M105 — RESOLVED 2026-09-13, run #57] THE WATCHDOG READ A HALT'S DELIBERATE EXITS AS CRASHES, THEN KEPT THE FLEET DOWN FOR MOST OF AN HOUR AFTER A PERSON LIFTED IT.**
+  `autostart.watch()` asked only whether the supervisor was running. Under the OWNER halt it started a supervisor, which correctly refused and exited; the watchdog counted that exit against its three-an-hour crash budget and logged *"This is deeper than a crash and needs a person"*. It did this every hour through 2026-09-11 and again at 21:03, 21:06 and 21:09 on 2026-09-13.
+  **Measured cost:** when the owner lifted the halt at ~21:15, the budget was already spent, so the watchdog would not have tried again until ~22:03. Run #57 had to start the supervisor by hand.
+  **Root cause:** a safety that stops work was read as a fault. CLAUDE.md names this exact shape, and it had already been repaired in `overnight.py` (M26) and `allsweep.py`, but never in the watchdog.
+  **Fix:**
+  * A pure function `_start_decision()` asks the halt before the budget. Under a halt: no start, no budget spent, one rate-limited "down on purpose" line. The first check after a lift starts the supervisor immediately. An unreadable halt does not suppress a start, because the supervisor refuses on its own.
+  * `watch()` routes every start through it.
+  * **The fix is in effect, not just in the file:** `autostart.py` is exempt from rc=17, so run #57 restarted the watchdog on the new code (pid 39080).
+  * Two drill nets (a pure-function table and a parse-tree check), watched breaching on the pre-fix module.
+
+  Order `06041602990d`.
+
+- **[M106 — RESOLVED 2026-09-13, run #57] THREE LONG-RUNNING LOOPS ASKED THE HALT ONCE AND NEVER AGAIN.**
+  * `foreman.py --loop` and `overwatch.py --loop` called `assert_clear` at startup, and their `while True:` bodies never re-checked.
+  * `ingest_doc.mine()` asked once on entry, then wrote `data/records/*.json` chunk by chunk for as long as ~5h.
+
+  So an OWNER halt raised mid-run did not stop any of them. The foreman is the dangerous one: a round starts `catalogue_web`, `sweep`, `completeness` and `magnitude --calibrate`, none of which asks the halt itself. A halted library whose foreman keeps dispatching work is not halted.
+  **Root cause:** the fault `publish.py`'s loop was repaired for under order `5905045ff433`, never generalised to the other daemons with a loop. Codewatch's rc=17 does not cover it, because a halt is stale *state*, not stale *code*.
+  **Fix:**
+  * Foreman and overwatch copy publish's pattern exactly: re-import escalation fail-closed inside the loop, `assert_clear` every round, `break` on `SystemHalted`, and exit non-zero.
+  * `mine()` re-asks at the top of every chunk, before the model call and before any write.
+  * `drill._the_loop_reasks_the_halt` now takes a module, and nets cover foreman and overwatch; a parse-tree net covers `mine()`. All three were watched breaching on the pre-fix source.
+  * verify_math's `_EXPECT20p` records the second guard in foreman and overwatch.
+
+  Found by sweep57 batches 09 and 10.
+
+- **[M107 — RESOLVED 2026-09-13, run #57] THE ROW THAT PROVES THE HALT INTERLOCKS ARE WIRED WAS DRIVEN BY A HAND-KEPT LIST THAT WAS THREE SHORT.**
+  `verify_math._INTERLOCKED` named ten modules while thirteen call `assert_clear` outside the battery. `ingest_doc.py`, `threads.py` and `local_agent.py` (the lane on which a model writes to `src/`) were on no row, so replacing a fail-closed guard in any of them with `pass` left the battery green. `local_agent`'s own comment said *"Twelve modules consult escalation.assert_clear()"*, so the code contradicted its own roster.
+  **Root cause:** a count in doctrine, the exact shape CLAUDE.md records correcting elsewhere.
+  **Fix:**
+  * The three modules were added to the roster.
+  * `local_agent.run` was converted from a bare import to the house fail-closed guard, so the AST rows can prove it.
+  * A new row derives the roster from the tree both ways: every `assert_clear` caller except the two battery modules must be listed, and nothing listed may have stopped asking.
+
+  The proof script shows the derived row breaching against the pre-fix roster. Order `16bf1ff4df09`.
+
+- **[m197 — RESOLVED 2026-09-13, run #57] A DETECTOR RE-FILING ITS OWN ORDER SILENTLY WIPED A REROUTE AND EVERYTHING ATTACHED TO IT.**
+  `workorders.file_order`'s refresh rebuilt the record from the caller's arguments and kept only `first_seen` and `seen`. That overwrote `handler` and `found_by`, which is exactly where `reroute()` records the move and its reason. Measured within one shift: run #56 rerouted PREFLIGHT_PROBLEM to OWNER with ~50 lines of measurement, and the next `--sweep` returned it to RUN with the diagnosis gone. No detector-owned order could ever be rerouted.
+  **Fix:** the two writers own different fields. The detector keeps `what`, `severity`, `where`, `evidence` and `last_seen`; a rerouted order keeps its `handler` and `found_by` through every refresh. Rerouted orders are recognised by the trail `reroute()` has always written, so older ones are covered too. One drill net runs against a temp queue and was watched breaching on the pre-fix refresh. Order `066bfb187bd1`.
+
+- **[m198 — RESOLVED 2026-09-13, run #57] CITECHECK SKIPPED ONE OF THE TWO WAYS THIS TREE WRITES ITS OWN CITATIONS, AND NEVER DESCENDED INTO `src/deprecated/`.**
+  Any citation preceded by a slash was treated as another tree and skipped, uncounted, but this codebase writes both `foo.py:NNN` and `src/foo.py:NNN`. The scan also used `os.listdir`, the fourth instance of a shape already repaired in liveness, sweep_plan and drill.
+  **Fix:**
+  * A bare `src/` lead is checked as this tree's; another project's `…/src/` is still set aside.
+  * The scan walks the whole tree.
+  * Set-aside citations are counted and printed.
+  * Four drill nets, three of them watched breaching on the pre-fix scan.
+
+  **Correction on record:** run #56 predicted that fixing this would make the reported total "jump". After the fix, the live count went from 10 to 9, with 7 set aside. Most stale citations point at real-but-wrong code, which a line-count check cannot prove. Order `9daa719e4819`.
+
+- **[m199 — RESOLVED 2026-09-13, run #57] `hosts.add()` COULD LOSE A HOST TO A CONCURRENT WRITER, WITH BOTH CALLS REPORTING SUCCESS.**
+  The write was atomic but not compare-and-swapped, and its own comment reasoned carefully about atomicity and never about staleness.
+  **Fix:** the digest is taken before the read, the write goes through `silence.replace_if_unchanged`, and a lost race re-reads and re-applies. The three-state verdict and the Norton-lock repair are unchanged. One drill net plants a rival write between the read and the write, and was watched breaching on the pre-fix `add()`. Order `3d000c4e482f`.
+
+- *Also landed by run #57, no order:*
+  * `allsweep.reconcile()`'s seven `str(e)[:90]` cuts are kept whole (sweep57-batch05; the same shape run #56 fixed three sites of in the same file).
+  * `pipeline.py`'s comment claiming `subroom_rejected` still cannot reach disk, which was fixed long ago, is corrected (sweep57-batch03).
+  * Run #56's overlap-guard nets: one no longer claims to protect the run #53 overlap, and four no longer breach on a machine without psutil (sweep57-batch01).
+
+
 ### Resolved by run #56 (2026-09-11/12 daily maintenance, sweep 56)
 
 *The halt this shift opened on is NOT in this ledger as a bug, because it was not one: a machine

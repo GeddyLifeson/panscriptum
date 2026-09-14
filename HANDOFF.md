@@ -17,6 +17,159 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-13 — RUN #57 (OWNER-TRIGGERED) — THE OWNER LIFTED THE HALT, AND THE WATCHDOG KEPT THE LIBRARY DOWN AFTER IT
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **THE HALT IS LIFTED, ON YOUR RULING, NOT MINE.** You were present and chose "Lift halt, full shift"
+   when asked. The lift went through `python src/escalation.py --clear` with the written ruling in
+   `state/HALT.json`, signed `owner (ruled in chat 2026-09-13; applied by maintenance run #57)`. The
+   ruling cites run #56's evidence. Before lifting, run #57 re-checked: no unclean shutdown after
+   2026-09-10, `STOPPED.json` still reads `{}`, and all 1,093 JSON files under `state/` and `data/`
+   parse with no NUL damage.
+2. **THE LIBRARY IS RUNNING AGAIN, BUT ONLY BECAUSE IT WAS STARTED BY HAND.** The watchdog had
+   already spent its three-an-hour start budget at 21:03, 21:06 and 21:09 on supervisors that
+   correctly refused the halt, then logged that the library "needs a person". It would not have
+   tried again until ~22:03. Run #57 started the supervisor at 21:18 through
+   `autostart.start_supervisor()`. The drill passed (511/511/0) and the keeper brought up the
+   daemons at 21:20. **That watchdog fault is now fixed and running** (order `06041602990d`, below).
+3. **THE PUBLIC REPO WENT THREE DAYS WITHOUT A PUSH, AND IS CURRENT AGAIN.** From 2026-09-10 01:12,
+   every push by the publish daemon failed with `could not read Username for 'https://github.com'`,
+   leaving the export **124 commits ahead of `origin/main`**. That failure predates the crash.
+
+   **PUSHED -- the outage is over.** `publish.py --push`, run by run #57 at 22:02 with credential prompts disabled, synced 72 files and printed `pushed`. `origin/main` moved from `b7b4387` (2026-09-10 01:12) to `6065172` ("sync 2026-09-13 22:02 — code: allsweep, autostart, citecheck, drill, foreman, hosts +14; 53 data/site file(s)"), and the export is now 0 commits ahead of `origin/main`. So the 124 stranded commits and all of this shift's code are public. This entry and the other ledgers went up in a second push immediately after.
+
+**WHY THE DAEMON'S OWN PUSHES FAILED IS STILL NOT KNOWN, and this is not recorded as a fix.** `publish.git()` already strips `GITHUB_TOKEN` and `GH_TOKEN` (the token is a persistent User variable, length 93, so every daemon inherits it, but git never sees it). Run #57 reproduced the daemon's process context: detached, windowless, launched from pythonw, running `git push --dry-run`. It tried both today's environment and one adding `GCM_INTERACTIVE=never` and `GIT_TERMINAL_PROMPT=0`. **Both succeeded**, so the failure did not reproduce. That leaves two readings. Either the cached Git Credential Manager credential was refreshed at some point after the failures began, or the logon-launched daemon's environment differs in a way that could not be recreated. **Watch `state/publish.log` on the daemon's first push after this shift releases the guard.** If it logs `could not read Username` again, the cause is in the daemon's context, and the variables above are the first thing to try.
+4. **THE MUTATION PASS IS RUNNING, DETACHED, AND WILL OUTLIVE THIS SHIFT.**
+   `mutate.py --target all --file-orders --detach` is pid 39980, logging to `state/mutate_20260913.log`.
+   Its baseline reproduced (verify_math 1289/0, drill 511/0). There is no survivor count yet. **Read
+   the log before trusting any verdict**, and note that this pass's sandbox predates run #57's edits
+   (see below).
+5. **THREE DECISIONS ARE YOURS**, each on its order:
+   * `8b3f2911fa0c`: dandwiki answers 403 on its API by site policy (standing since run #56).
+   * `a5faab7f3ede`: how `ledger_guard`'s loss floor should advance. The current rule is by line
+     count, which a lossy push offset by new growth defeats; the strict alternative freezes on any
+     typo fix.
+   * `1e6f99e54b25`: whether `generate.py`, `retry_synthesis.py --merge`, `repass_bands.py --apply`
+     and `resync_roll.py` should refuse under a halt. This project's precedent says yes.
+6. **THE LOCAL MODEL HAD NOT RUN ALL DAY, AND THE FOREMAN'S REMEDY COULD NOT START IT.**
+   `Ollama/server.log` ends 2026-09-12 09:52 and the tray last started 2026-09-11 -- no crash, no
+   pending update, simply not running after the 2026-09-13 logon although `Ollama.lnk` is in Startup.
+   Every local-model call in the fleet was refused (`WinError 10061`). `foreman.restart_ollama()` only
+   kills the daemon and waits for the tray to respawn it, so with no tray it logged "owner needed" and
+   would have repeated that every 30 minutes. **Run #57 started the tray at 21:55** (`ollama app.exe`,
+   detached, no console): the API answered in ~9s and `qwen3:8b` loaded. Filed as `b750409c76be`.
+   Run #57 also **stopped the old `foreman` and `overwatch` processes at 21:56** so the keeper would
+   relaunch them on this shift's code -- they still ran the halt-blind loops from 21:20 and had not
+   bounced, per CLAUDE.md's ten-minute rule. Relaunched at close: 17948 9/13/2026 9:58:13 PM; 2884 9/13/2026 9:58:13 PM
+
+---
+
+### WHAT THIS SHIFT FOUND THAT MATTERED MOST: LOOPS THAT NEVER RE-ASK THE HALT
+
+Sweep57 found the same hole in three long-running loops. **`foreman.py --loop`** and
+**`overwatch.py --loop`** asserted the halt once at startup and never again. **`ingest_doc.mine()`**
+asked once and then wrote records chunk by chunk for hours. So an OWNER halt raised mid-run did not
+stop them. The foreman's case is the worst of the three: a round starts `catalogue_web`, `sweep`,
+`completeness` and `magnitude --calibrate`, none of which asks the halt itself. A halted library
+whose foreman keeps dispatching work is not halted. `publish.py` had exactly this fault and was
+fixed under order `5905045ff433`, so run #57 copied that pattern:
+* re-import escalation fail-closed inside the loop,
+* `assert_clear` every round,
+* `break` on `SystemHalted`.
+
+The drill's publish net now covers foreman and overwatch as well, and a parse-tree net covers
+`mine()`'s chunk loop.
+
+The same shape turned up twice more on the supervision side:
+* **The watchdog read a halt's deliberate exits as crashes.** Fixed and restarted this shift.
+* **The supervisor counts rc=17 restarts toward its idle limit.** Filed as `633832bdae90`; see
+  below.
+
+### WHAT RUN #57 FIXED
+
+| Order / finding | What landed | Proof |
+|---|---|---|
+| `06041602990d` watchdog | `_start_decision()` asks the halt before any start; `watch()` routes through it; **restarted on new code (pid 39080)** | 2 nets |
+| `16bf1ff4df09` interlock roster | `ingest_doc`, `threads`, `local_agent` added; a derived row now checks the roster against the tree both ways; `local_agent` converted to the fail-closed guard | verify_math row |
+| `066bfb187bd1` reroute wipe | `file_order`'s refresh keeps a rerouted order's `handler` and `found_by` | 1 net |
+| `9daa719e4819` citecheck | `src/`-led citations checked; walks subdirectories; set-aside citations counted | 4 nets |
+| `3d000c4e482f` hosts.add | compare-and-swap, digest before read, re-apply on a lost race | 1 net |
+| sweep57-b10 foreman loop | halt re-asked every round, `break` on `SystemHalted` | 1 net |
+| sweep57-b09 overwatch loop | same | 1 net |
+| sweep57-b09 `ingest_doc.mine` | halt re-asked at the top of every chunk | 1 net |
+| sweep57-b05 allsweep | seven `str(e)[:90]` cuts in `reconcile()` kept whole | — |
+| sweep57-b03 pipeline | stale comment claiming `subroom_rejected` still cannot reach disk | — |
+| sweep57-b01 overlap-guard nets | net 1 no longer claims to protect the run #53 overlap; four nets no longer breach on a machine without psutil; a new net watches `claim()` refuse a live predecessor | 1 new net |
+
+**Every new net was watched go red.** `prove_run57_nets_red.py` drove each one against the repaired
+tree and against the pre-fix code. For the parse-tree nets, the pre-fix code is the export copy of
+`src/`, read *as data* from the last 2026-09-10 sync (parsed, never imported). For the behavioural
+nets, it is the exact removed text, rebuilt inline. Result: **every one of the 11 nets that test new behaviour HELD on the fix and BREACHED (or raised) on the pre-fix code, and the 3 regression nets held on both.** Full table: `state/r57_prove.log`.
+
+### THREE CORRECTIONS TO RUN #56'S WORK, RECORDED RATHER THAN QUIETLY FIXED
+
+1. **The citecheck prediction was wrong.** Run #56's NEXT_STEPS said fixing citecheck's blind spot
+   would make "the reported total jump". After the fix, the live count went from **10 to 9**, with
+   **7 set aside**. The blind spot was real but small. Most stale citations point at real code that is
+   simply the wrong code, and citecheck by design proves only past-EOF, blank-line and bare-bracket.
+   Those ~60 remain a sweep's job, or a reason to cite by symbol.
+2. **One overlap-guard net claimed a protection it does not give.** Its expectation named the run
+   #53/#54 overlap. That holder was a session of short-lived interpreters, whose pid dies within
+   seconds, so the pid arm cannot extend its record; only beating protects it. The net now says so.
+   Found by sweep57-batch01.
+3. **Run #56 filed only two of sweep56-batch02's thirteen findings.** The rest are now order
+   `c8491264e6dc`, and batch01's carry-forwards are folded into `0954a44e057d` and `7a487cfab844`.
+
+### THE SWEEP
+
+`sweep57`: **16 batches, all 119 modules, `missing()` = []**. Opus read `drill.py` and
+`verify_math.py`; Sonnet read the rest. This time each batch checked the open queue first and labelled
+matches KNOWN, and most findings came back KNOWN rather than re-derived. **21 orders filed**, grouped by
+class. The MAJORs:
+
+* `4be1a84f19c6`: three more drill probes wired to live state. One of them has already quarantined
+  fixture hosts in the live file.
+* `0954a44e057d`: five drill nets whose verdict does not depend on the code they name.
+* `3c72359c53aa`: verify_math §20j's two rows are **tautological** (re-verified by run #57). They
+  search verify_math's own source for names it defines.
+* `19eb3626d39c`: two blanket `_no_ledger_vm()` wraps that the owner already refused.
+* `491bd68b18e9`: **verify_math `exec()`s every `handoff/run35/checks_L*.py` it finds**, from a
+  directory agents write into.
+* `972932ab89b0`: `chain.harvest()` overwrites `refresh_continuity()`'s compare-and-swapped patch.
+* `633832bdae90`: the supervisor can halt itself on a burst of deliberate rc=17 restarts.
+* `a5faab7f3ede`: the ledger loss floor (owner decision, above).
+* `b6079a0d24bd`: for an API-closed host, `binding_health` can only ever conclude "unreachable".
+* `1e6f99e54b25`: four corpus writers with no halt interlock (owner decision, above).
+
+### ONE THING THE MUTATION PASS'S READER MUST KNOW
+
+The mutation pass started at ~21:15, **before** run #57's edits, and its sandbox is a snapshot of
+`src/` from that moment. Its three targets (`assay.py`, `prose_gate.py`, `escalation.py`) were
+deliberately not touched this shift, because an edit to a target voids the run. But its *gates*
+(drill, verify_math) are the pre-run-57 versions. A survivor it reports is therefore judged against the
+battery **without** this shift's new nets. Read each survivor against the current drill before filing
+it as a hole.
+
+### THE BATTERY AT CLOSE
+
+    drill              523 nets / 523 held / 0 BREACHED   (was 511 at open; +12 new nets this shift)
+    verify_math        1294 passed / 0 FAILED            (was 1289; +5 rows this shift)
+    allsweep           2 subsystem(s) bad -- FAILED cascade live call 77.3s rc=1 (broken); FAILED preflight 35.3s rc=1 (broken)
+    pyflakes           clean over src/
+    secondopinion      3 of 3 tools RAN, 0 secrets by two independent scanners
+    liveness           48 finding(s) — 0 tautology, 0 phantom, 39 dead, 0 dead class, 9 dead module, 0 unparsed
+    axis_correlation   45 entities -- unchanged, no --write owed
+    corpus_db          rebuilt: 216 sources, 282,822 entries, 280,066 evidence rows
+    sweep run57        16 batches, all 119 modules, `missing()` = []
+    escalation         clear -- lifted 2026-09-13 on the owner's written ruling
+    mutation pass      pid 39980 alive, 12 log lines at close
+    queue at close     95 open -- RUN 56 / OWNER 26 / LOCAL 11 / SESSION 2
+
+Orders this shift: **5 closed** (`06041602990d`, `16bf1ff4df09`, `066bfb187bd1`, `9daa719e4819`,
+`3d000c4e482f`) and **1 stale one closed** (`3dc2832846bc`, a stalled pid that no longer existed);
+**23 filed** (the watchdog order at open, 21 from sweep57, and `b750409c76be` for Ollama).
+
 ## 2026-09-11/12 — RUN #56 (DAILY) — THE MACHINE CRASHED, TOOK TWO BYTES WITH IT, AND EVERY SAFETY IN THE CHAIN DID EXACTLY WHAT IT WAS BUILT TO DO
 
 **FOR THE OWNER, AT THE TOP:**
