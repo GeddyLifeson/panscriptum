@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 524  ·  last run 2026-09-14 17:19
+round 525  ·  last run 2026-09-14 17:46
 
 ## Structure
 
@@ -11,14 +11,16 @@ round 524  ·  last run 2026-09-14 17:19
 
 ## What the model found in the code
 
-**5 open** (1 high). Newest first.
+**6 open** (2 high). Newest first.
 
-- **rigor.py** `measure_bit_value` — [HIGH] Returns L / 10.0 where L is the band resolution, but the docstring claims it should return the bit-worth of a single point which is L_r / 10 bits. However, the example in the docstring uses 7.0 * 13.23 = 92.6 which is using a different value (13.23) instead of the current value (which is L / 10.0). The docstring also mentions that the numbers were wrong until 2026-08-25 and the example was not corrected, leading to a discrepancy between the code and the docstring.
-  - says: The bit-worth of ONE point on any decimal axis at a given band.
-- **rigor.py** `prob_at_least_one` — [MEDIUM] the function may not be correctly calculating the probability due to potential issues in the implementation
-  - says: calculates the probability of at least one occurrence
-- **rigor.py** `lognormal_product` — [MEDIUM] used in a context where it's expected to compute a product of uncertain factors but the code may not be handling the lognormal distribution correctly
-  - says: computes the product of uncertain factors
+- **canon_backup.py** `replace_retry` — [HIGH] the function is called but its result is ignored, and the code proceeds to raise an exception regardless of the result
+  - says: THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by contract; it reports False.
+- **autostart.py** `installed_state` — [HIGH] not defined in this file or its imports
+  - says: returns the state of the launcher
+- **catalogue_models.py** `last` — [MEDIUM] a single-line exception repr with type and message joined by a space
+  - says: a single-line exception repr
+- **canon_backup.py** `restore` — [MEDIUM] Extracts a file from a snapshot, but the function's name and docstring imply it should extract a single file, yet the code may create a 0-byte file if the file is not present in the snapshot.
+  - says: Extract ONE canonical file from a snapshot. -> written path.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
