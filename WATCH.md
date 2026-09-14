@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 518  ·  last run 2026-09-14 13:24
+round 519  ·  last run 2026-09-14 13:51
 
 ## Structure
 
@@ -11,14 +11,8 @@ round 518  ·  last run 2026-09-14 13:24
 
 ## What the model found in the code
 
-**5 open** (0 high). Newest first.
+**2 open** (0 high). Newest first.
 
-- **resync_roll.py** `dupes` — [MEDIUM] stores duplicate source filenames but does not track the entry counts from the record files
-  - says: index every record file by its declared `source`
-- **propagation.py** `observed_mark` — [MEDIUM] returns 0 when lag < 0 (shelf hasn't heard yet), but the docstring says it should return 0 when the shelf has heard (i.e., lag >= 0). The function's logic is inverted relative to its docstring's claim.
-  - says: The ascension mark a DISTANT shelf should currently see. The field an entry must print when it claims a neighbour has not heard.
-- **worldseed.py** `build_all` — [MEDIUM] build_all(limit=0) still let exactly one entry through because the first append always happens before the first post-append check fires.
-  - says: build_all(limit=0) skipped this guard entirely and walked the whole ~12,435-entry catalogue instead of stopping at zero.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
