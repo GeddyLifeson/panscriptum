@@ -386,7 +386,15 @@ def main():
             rows = rows[:a.limit]
         cov_read = len(rows)
         for row in rows:
-            evals.append(evaluate(row, COVERAGE_RULES, str(row.get("source"))[:40]))
+            # UNCUT (order 215f9e7b86ff). This was `str(row.get("source"))[:40]`, an unmarked cut
+            # on the row's IDENTIFYING NAME, persisted verbatim as the `subject` of
+            # state/policy_report.json -- so a reader could not tell a long source name from a
+            # different source sharing its first forty characters. Its siblings three and twenty
+            # lines away (RECORD_RULES, EVIDENCE_RULES) store a full basename or relpath uncut,
+            # and 14 of 210 sources in data/COVERAGE.json are longer than forty characters.
+            # Uncut rather than marked: a subject is an identifier, and `_observed`'s own
+            # argument is that display caps belong at the call sites that render, not in storage.
+            evals.append(evaluate(row, COVERAGE_RULES, str(row.get("source"))))
 
     # THE EVIDENCE CACHE (order ab820740fb85). `EVIDENCE_RULES` declared three invariants and
     # nothing evaluated them; this is the sweep that makes them real, and it is the only

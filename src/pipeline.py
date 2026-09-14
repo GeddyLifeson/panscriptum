@@ -709,14 +709,17 @@ MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected", "subroom
 # (order 2f248e854b58)
 #
 # AND `subroom`, WHICH WAS THE ONE FIELD ADDED AFTER THIS MECHANISM WAS WRITTEN
-# (sweep43-batch03). The judging loop treats it identically to `topic` -- `:1718` pops
-# `subroom_rejected` the moment a subroom passes `subroom_ok`, exactly as `:1707` pops
-# `topic_rejected` -- and `subroom_rejected` is already declared in `MERGED_ENTRY_FIELDS` at
-# :554. It was simply never added here, so the pop stayed in memory and could not reach disk:
-# the per-entry fold can SET a field and never CLEAR one on absence, which is the whole reason
-# this map exists. The result is the precise fault the comment above describes, on the newest of
-# the three fields -- a corrected subroom sitting on disk beside a `subroom_rejected` note
-# asserting the opposite, with no way for any later run to retract it.
+# (sweep43-batch03). The judging loop treats it identically to `topic` -- `phase_entrypass` pops
+# `subroom_rejected` the moment a subroom passes `subroom_ok`, exactly as it pops
+# `topic_rejected` -- and `subroom_rejected` is declared in `MERGED_ENTRY_FIELDS`. It WAS missing
+# from this map, so the pop stayed in memory and could not reach disk: the per-entry fold can SET a
+# field and never CLEAR one on absence, which is the whole reason this map exists. That left the
+# precise fault the comment above describes on the newest of the three fields -- a corrected
+# subroom on disk beside a `subroom_rejected` note asserting the opposite. IT IS FIXED: `subroom`
+# is the third entry below, and `write_record`'s fold applies it. This paragraph used to say, in
+# the present tense, that it "was simply never added here" -- true when written, false once the
+# entry landed, and read by sweep57-batch03 as a live bug. Cited by symbol now, because all three
+# line numbers it carried (`:1718`, `:1707`, `:554`) had drifted.
 ENTRY_REJECTION_COMPANIONS = {"scale_note": "scale_note_rejected",
                               "topic": "topic_rejected",
                               "subroom": "subroom_rejected"}
@@ -2270,7 +2273,7 @@ def phase_entrypass(c, st):
                 else:
                     batch[i]["subroom"] = SUBROOM_UNCLASSIFIED if sub else SUBROOM_NONE
                     if sub:
-                        batch[i]["subroom_rejected"] = sub[:120]
+                        batch[i]["subroom_rejected"] = _stored_cut(sub, 120)
                 batch[i]["catalogued"] = True
 
             landed = write_record(path, rec)

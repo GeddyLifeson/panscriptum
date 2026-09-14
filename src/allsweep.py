@@ -323,7 +323,13 @@ def check_import(name):
         # cannot IMPORT raises, and the traceback is what separates the two.
         blob = (r.stderr or "") + (r.stdout or "")
         tail = (r.stderr or "").strip().splitlines()
-        err = tail[-1][:150] if tail else f"rc={r.returncode}"
+        # WHOLE, NOT CLIPPED (order 215f9e7b86ff). This was `tail[-1][:150]`, an unmarked cut on
+        # the one line that says WHY the import failed -- and `_marked`'s own docstring already
+        # names this exact site as the counter-example it must not be used on: "where the record
+        # exists nowhere else the answer is to keep the whole thing -- see `run_verifier`'s
+        # `tail`". `r` goes out of scope with this call, so the clipped copy was the only one
+        # that survived, and 150 chars is inside the length of an ordinary AssertionError.
+        err = tail[-1] if tail else f"rc={r.returncode}"
         # A SAFETY THAT STOPS WORK IS NOT A FAULT THAT STOPS WORK. Owner ruling 2026-08-25,
         # after the halt made every job exit on purpose and the SUPERVISOR read that as every
         # job crashing, declared the library broken and quit. That was fixed in `overnight.py`
@@ -343,7 +349,10 @@ def check_import(name):
             # with nothing to say is still "no CLI"; one that PRINTED a refusal is a finding.
             said = blob.strip()
             if said:
-                ok, err = False, "exited without a traceback, saying: " + said.splitlines()[-1][:150]
+                # Whole, for the same reason as `tail` above (order 215f9e7b86ff): this is the
+                # refusal text of a module that died via `raise SystemExit(msg)`, and it is kept
+                # nowhere else.
+                ok, err = False, "exited without a traceback, saying: " + said.splitlines()[-1]
             else:
                 ok, err = True, "no CLI (imported cleanly)"
     return {"module": name, "ok": ok, "detail": err, "seconds": round(time.time() - t, 1)}
@@ -481,7 +490,7 @@ def reconcile():
                 note("on the roll but never catalogued", _head(missing), len(missing),
                      names=missing)
     except Exception as e:
-        note("source reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
+        note("source reconciliation failed", f"{type(e).__name__}: {str(e)}")
 
     # --- coverage's verdict against what is actually on disk -------------------------------
     try:
@@ -503,7 +512,7 @@ def reconcile():
             note("COVERAGE.json is stale", f"{age_h:.1f} hours old -- its percentages predate "
                  f"whatever has run since")
     except Exception as e:
-        note("coverage reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
+        note("coverage reconciliation failed", f"{type(e).__name__}: {str(e)}")
 
     # --- rejected hosts must not still be mining -------------------------------------------
     try:
@@ -529,7 +538,7 @@ def reconcile():
         if stale:
             note("cache directories no source points to", _head(stale), len(stale), names=stale)
     except Exception as e:
-        note("cache reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
+        note("cache reconciliation failed", f"{type(e).__name__}: {str(e)}")
 
     # --- purged rosters must be gone from the records, not merely marked -------------------
     try:
@@ -546,7 +555,7 @@ def reconcile():
                 note("purged sources that still carry entries", ", ".join(ghosts), len(ghosts),
                      names=ghosts)
     except Exception as e:
-        note("purge reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
+        note("purge reconciliation failed", f"{type(e).__name__}: {str(e)}")
 
     # --- the phases the runner claims against the phases that exist ------------------------
     try:
@@ -564,7 +573,7 @@ def reconcile():
             note("PHASES NAMED BY THE RUNNER WITH NO IMPLEMENTATION",
                  ", ".join(missing), len(missing))
     except Exception as e:
-        note("phase reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
+        note("phase reconciliation failed", f"{type(e).__name__}: {str(e)}")
 
     # --- no entry may out-band its own source's ceiling -------------------------------------
     #
@@ -603,7 +612,7 @@ def reconcile():
             note("ENTRIES BANDED ABOVE THEIR OWN SOURCE'S CEILING",
                  _head(examples), over, names=examples)
     except Exception as e:
-        note("band reconciliation failed", f"{type(e).__name__}: {str(e)[:90]}")
+        note("band reconciliation failed", f"{type(e).__name__}: {str(e)}")
 
     # --- what is actually running right now ------------------------------------------------
     try:
@@ -675,7 +684,7 @@ def reconcile():
                 # standing job back within five minutes, and a job between laps is not a fault.
                 note("NOT RUNNING", job, 0)
     except Exception as e:
-        note("process check failed", f"{type(e).__name__}: {str(e)[:90]}")
+        note("process check failed", f"{type(e).__name__}: {str(e)}")
 
     return out
 
@@ -796,7 +805,9 @@ def main():
             lint_bad.append("pyflakes DID NOT COMPLETE (rc=%d, %s) -- the lint tier is BLIND "
                             "this sweep, not clean"
                             % (lr.returncode,
-                               ((lr.stderr or "").strip().splitlines() or ["no stderr"])[-1][:150]))
+                               # Whole (order 215f9e7b86ff): the reason the lint tier is blind
+                               # is kept nowhere else.
+                               ((lr.stderr or "").strip().splitlines() or ["no stderr"])[-1]))
     except Exception:
         silence.note("allsweep.py:lint")
         lint_bad.append("pyflakes did not run -- the lint tier is BLIND this sweep, not clean")

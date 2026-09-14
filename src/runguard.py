@@ -177,6 +177,71 @@ def _land_claim(rec, path, expected_digest):
     return ok, why
 
 
+def _process_signature(pid):
+    """Is `pid` a live process, and when did it start? -> (alive, create_time).
+
+    `alive` is True, False, or **None for "could not tell"**, and the third value is the whole
+    reason this returns a tuple instead of a bool. `create_time` is None whenever it could not
+    be read. Order 99d752c5632f.
+
+    WHY A START TIME AND NOT JUST A PID. A bare pid check is worse than no check on a machine
+    that has rebooted: pids are reused, and the guard record this is asked about can be a day
+    old. If a recycled pid belonging to some unrelated program could make `holder_is_live` say
+    LIVE, every future maintenance run would stand down for ever against a corpse -- which is
+    the WEDGE this module's own docstring refuses in the corrupt-guard case ("refusing to run on
+    a corrupt guard would wedge the pass permanently on a file nothing else repairs"). The
+    creation time makes the identity checkable: same pid AND same start instant is the same
+    process, and a reused pid has a start time later than the record that named it.
+
+    THE FALLBACK MUST STILL BE ABLE TO SAY "I DON'T KNOW". `mutate._pid_alive` is the same
+    question asked one module over, in the same shape and with the same psutil-then-ctypes
+    ordering, and it errs toward ALIVE because for its caller alive is the safe answer. Here the
+    safe answer depends on which way the caller is about to fail, so this one refuses to guess:
+    an unreadable process table returns (None, None) and `holder_is_live` then falls back to the
+    heartbeat alone, exactly as it behaved before this function existed. Duplicated rather than
+    imported because `mutate` pulls in `escalation` and a great deal else, and `codewatch` polls
+    `holder_is_live` on its own clock; the hoist belongs with order b0586860a8ae's family.
+    """
+    if not isinstance(pid, int) or pid <= 0:
+        return None, None
+    try:
+        import psutil
+        if not psutil.pid_exists(pid):
+            return False, None
+        try:
+            return True, float(psutil.Process(pid).create_time())
+        except Exception:
+            return True, None                 # alive, but its start instant is unreadable
+    except ImportError:
+        pass
+    except Exception:
+        silence.note("runguard.pid-probe")
+        return None, None
+    if os.name != "nt":
+        return None, None
+    try:
+        import ctypes
+        PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+        ERROR_INVALID_PARAMETER = 87
+        k32 = ctypes.windll.kernel32
+        h = k32.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, pid)
+        if not h:
+            # No such pid at all is the ONLY error that proves death. Access denied on somebody
+            # else's process proves nothing, and must not read as "free to claim".
+            return (False, None) if k32.GetLastError() == ERROR_INVALID_PARAMETER else (None, None)
+        try:
+            code = ctypes.c_ulong()
+            if not k32.GetExitCodeProcess(h, ctypes.byref(code)):
+                return None, None
+            STILL_ACTIVE = 259
+            return (code.value == STILL_ACTIVE), None
+        finally:
+            k32.CloseHandle(h)
+    except Exception:
+        silence.note("runguard.pid-probe")
+        return None, None
+
+
 def holder_is_live(rec, now=None):
     """Is this record a predecessor that is still working?
 
@@ -196,7 +261,107 @@ def holder_is_live(rec, now=None):
     hb = rec.get("heartbeat")
     if not isinstance(hb, (int, float)):
         return False
-    return (now - hb) < STALE_AFTER_S
+    if (now - hb) < STALE_AFTER_S:
+        return True
+    # A STALE HEARTBEAT IS NO LONGER PROOF OF DEATH WHEN THE HOLDER IS PROVABLY ALIVE.
+    # Order 99d752c5632f, and the incident that filed it is the whole argument: on 2026-09-09
+    # run #53 held this guard with a heartbeat that had not moved in 101.7 MINUTES while it was
+    # demonstrably working -- committing, lifting a halt, writing HANDOFF.md. By the fifteen
+    # minute rule above it was dead, so run #54 claimed the guard and both runs edited
+    # src/drill.py inside the same twenty minutes. Nothing was lost, and "nothing was lost" was
+    # the whole of the luck involved. The daily cadence makes this WORSE, not better: the shift
+    # is now meant to be long, so the longer a run works the more certainly its successor walks
+    # in on it.
+    #
+    # THIS ARM ONLY EVER ANSWERS "LIVE", NEVER "DEAD", and that asymmetry is deliberate. It can
+    # turn a would-be claim into a stand-down (safe: the next cadence tries again, which is the
+    # normal outcome this guard is built around) and it can never turn a stand-down into a
+    # claim. Absent pid, unreadable process table, missing start time, a start time that does
+    # not match -- every one of those falls through to the original verdict below, so a machine
+    # without psutil, a guard written by an older run, and a REBOOT THAT RECYCLED THE PID all
+    # behave exactly as they did before this arm existed. That is what keeps it from wedging the
+    # pass, which is the failure mode this module fears more than overlap.
+    #
+    # Measured against the fault that opened run #56: run #55's record named pid 49196, the
+    # machine had crashed and rebooted, and the pid was gone -- so this arm correctly declined to
+    # protect a corpse and the run proceeded.
+    pid, started = rec.get("pid"), rec.get("pid_started")
+    if isinstance(pid, int) and isinstance(started, (int, float)):
+        alive, created = _process_signature(pid)
+        if alive and created is not None and abs(created - started) < 1.0:
+            return True                       # same pid AND same start instant: still working
+    return False
+
+
+def guard_fault(rec=None, path=GUARD, now=None):
+    """Does the guard record DISAGREE with the process table? -> a sentence, or None.
+
+    AND NOTHING DETECTED IT -- that clause is the third of order 99d752c5632f's three, and the
+    one that made the other two survive. There was no work order, no drill net and no battery
+    row for "a guard held by a process that is provably alive has a stale heartbeat", nor for
+    its opposite, "a guard whose heartbeat is fresh names a pid that is gone". A guard that can
+    be wrong in two directions and reports neither is a check that cannot fail.
+
+    ONE SHAPE, NOT THE TWO THE ORDER ASKED FOR, AND THE SECOND ONE IS WHY THIS PARAGRAPH EXISTS.
+
+      STALE BUT ALIVE   the holder is working and has stopped saying so. Harmless to the holder
+                        and dangerous to its successor -- this is the 2026-09-09 overlap, where
+                        two runs edited src/drill.py inside twenty minutes. `holder_is_live` now
+                        protects against it; this says it OUT LOUD, because a run being silently
+                        rescued by a fallback is how the fallback's own regressions hide.
+
+    THE OPPOSITE SHAPE -- "fresh heartbeat, pid GONE" -- WAS WRITTEN, MEASURED AGAINST THE LIVE
+    GUARD, AND REMOVED, because it fired on a perfectly healthy run. Order 99d752c5632f asks for
+    both directions and it is right that both are faults in principle; what it could not know is
+    that THE HOLDER OF THIS GUARD IS NOT A PROCESS. A maintenance run is a Claude session
+    driving many short-lived `python.exe` invocations, so the pid recorded by `claim()` is dead
+    seconds later while the run itself has hours to go. Measured on run #56's own record: pid
+    26924, gone, heartbeat 0.8 minutes old, run entirely healthy. A "corpse" and an ephemeral
+    interpreter are indistinguishable from here.
+
+    So that arm could not tell a real m27 from the NORMAL CASE, and a detector that fires on the
+    normal case is noise -- which is switched off, which is how a project ends up with detectors
+    nobody reads. The arm kept is the one that needs POSITIVE evidence to fire (a live pid whose
+    start instant matches the record), and positive evidence is exactly what an ephemeral holder
+    cannot accidentally supply. Recording the omission rather than deleting it silently: a
+    future holder that IS one long-lived process could carry the other arm honestly.
+
+    IT REPORTS; IT DOES NOT ENFORCE. A verdict belongs to `claim()`, and a detector that also
+    decided things would be a second implementation of the protocol, which is exactly what this
+    module exists to prevent. Silence (None) means the record and the process table agree, or
+    that no comparison was possible -- an absent pid, an older run's record, an unreadable
+    process table. Unknown is never reported as a fault: a detector that fires on "I could not
+    tell" is noise, and noise gets switched off.
+    """
+    if rec is None:
+        rec = read(path)
+    if not rec or rec.get("done"):
+        return None
+    now = time.time() if now is None else now
+    hb = rec.get("heartbeat")
+    pid, started = rec.get("pid"), rec.get("pid_started")
+    if not isinstance(pid, int):
+        return None                           # nothing to compare against; not a fault
+    alive, created = _process_signature(pid)
+    if alive is None:
+        return None                           # could not read the process table
+    agent = rec.get("agent", "?")
+    if not isinstance(hb, (int, float)):
+        return None                           # read_verdict already names this one
+    age_min = (now - hb) / 60.0
+    # POSITIVE EVIDENCE ONLY -- see the docstring. The holder must be a LIVE process whose start
+    # instant matches the one recorded, which is the same pair `holder_is_live` requires before
+    # it will extend a stale record. A dead pid proves nothing here, because the ordinary holder
+    # of this guard is a succession of short-lived interpreters.
+    if (alive and age_min >= (STALE_AFTER_S / 60.0)
+            and isinstance(started, (int, float)) and created is not None
+            and abs(created - started) < 1.0):
+        return ("state/MAINTENANCE_RUN.json holds an unfinished record for %r whose heartbeat is "
+                "%.1f minutes old (stale after %.0f), but its pid %d is PROVABLY ALIVE and is the "
+                "same process that claimed the guard -- the run is working and has stopped saying "
+                "so, which is what let two maintenance runs edit src/ at once on 2026-09-09"
+                % (agent, age_min, STALE_AFTER_S / 60.0, pid))
+    return None
 
 
 def claim(agent, path=GUARD, note=None):
@@ -251,6 +416,17 @@ def claim(agent, path=GUARD, note=None):
                        % (prior.get("agent", "?"), age / 60.0))
     now = time.time()
     rec = {"started": now, "heartbeat": now, "done": False, "agent": agent}
+    # THE HOLDER IS NAMED AS A PROCESS, NOT ONLY AS A STRING (order 99d752c5632f). `agent` is
+    # free text a run chooses for itself, so a reader could not ask the process table whether
+    # the holder was real -- and the guard degraded in exactly the wrong direction, becoming
+    # INVISIBLE to the next reader after fifteen minutes no matter how alive its holder was.
+    # Recording the pid AND its start instant is what lets `holder_is_live` tell a run that is
+    # working quietly from one that died, and lets `guard_fault` below name the mismatch when
+    # the two disagree. `pid_started` may be None where the process table cannot be read; both
+    # arms treat that as "unknown" rather than as evidence either way.
+    _alive, _created = _process_signature(os.getpid())
+    rec["pid"] = os.getpid()
+    rec["pid_started"] = _created
     if note:
         rec["note"] = note
     if prior is not None and not prior.get("done"):
@@ -294,6 +470,15 @@ def beat(agent, path=GUARD):
               file=sys.stderr)
         return False
     rec["heartbeat"] = time.time()
+    # THE PID TRAVELS WITH THE HEARTBEAT, not only with the claim (order 99d752c5632f). Whoever
+    # is beating is the process doing the work right now, and for the ordinary holder of this
+    # guard -- a session driving many short-lived interpreters -- the pid written at claim time
+    # is dead within seconds. Refreshing it here is what keeps `holder_is_live`'s stale-but-alive
+    # arm meaningful for a holder that IS one long-lived process, and keeps the field from
+    # quietly naming a corpse for everyone else.
+    _alive, _created = _process_signature(os.getpid())
+    rec["pid"] = os.getpid()
+    rec["pid_started"] = _created
     ok, why = _land_claim(rec, path, expected)
     if not ok:
         print("runguard: heartbeat CAS refused for %r -- the guard changed underneath us (%s). "

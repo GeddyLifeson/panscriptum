@@ -127,22 +127,50 @@ def add(source, host, evidence=None, score=None):
     """
     if not host or host == primary_host(source):
         return False
-    data = _load(EXTRA, {})
-    rows = data.setdefault(source, [])
-    if any((r.get("host") if isinstance(r, dict) else r) == host for r in rows):
-        return False
-    rows.append({"host": host, "evidence": evidence, "score": score})
-    # `silence.write_json`, not a fixed temp name plus a bare `os.replace`. SOURCE_HOSTS extras
-    # are read live while `discover()` walks, the temp path was shared by every concurrent
-    # writer, and an uncaught PermissionError from Norton's object lock took `discover()` down
-    # mid-walk instead of reporting a denied write. The retrying, pid-unique writer is what the
-    # rest of the tree uses and what `silence.write_json`'s own docstring says replaced this
-    # exact pattern. The verdict is returned, so a caller can tell a denied write from a
-    # duplicate host -- both used to be `False`, which is how a lost host looks like a known one.
-    if not silence.write_json(EXTRA, data, indent=1, ensure_ascii=False):
-        silence.note("hosts.py:add-denied")
-        return None
-    return True
+    # COMPARE-AND-SWAPPED (order 3d000c4e482f). The write was already atomic, but atomicity of one
+    # write says nothing about STALENESS, which is the whole hazard of a read-modify-write: two
+    # parallel `--discover --only <subset>` walks could each read this map, each append their own
+    # host, and each land their copy -- the loser's host silently gone and BOTH calls returning
+    # True. The digest is taken BEFORE the read, the order `runguard._land_claim` and
+    # `binding_health._land_cas` both use: read first and the digest would match disk while the
+    # copy in hand is already stale. A lost race re-reads and re-applies, so a host another writer
+    # added in the gap is kept rather than overwritten.
+    #
+    # `silence.write_json` replaced a FIXED temp name plus a bare `os.replace` here, because the
+    # shared temp path and an uncaught PermissionError from Norton's object lock took `discover()`
+    # down mid-walk. This keeps that repair -- a pid- and thread-unique temp, and a rename that
+    # `replace_if_unchanged` retries when denied -- and adds the condition. The three-state verdict
+    # is unchanged: True recorded, False nothing to record, None there was and it did NOT land.
+    import threading as _th
+    for _attempt in range(5):
+        expected = silence.digest_of(EXTRA)
+        data = _load(EXTRA, {})
+        rows = data.setdefault(source, [])
+        if any((r.get("host") if isinstance(r, dict) else r) == host for r in rows):
+            return False
+        rows.append({"host": host, "evidence": evidence, "score": score})
+        tmp = "%s.%d.%d.%d.tmp" % (EXTRA, os.getpid(), _th.get_ident(), _attempt)
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=1, ensure_ascii=False)
+                f.flush()
+                os.fsync(f.fileno())
+        except Exception:
+            silence.note("hosts.py:add-stage")
+            try:
+                os.remove(tmp)
+            except OSError:
+                _ = "silence-exempt: a temp that failed to stage may not exist to remove"
+            return None
+        ok, _why = silence.replace_if_unchanged(tmp, EXTRA, expected)
+        if ok:
+            return True
+        try:
+            os.remove(tmp)
+        except OSError:
+            _ = "silence-exempt: our own pid-unique temp collides with nobody"
+    silence.note("hosts.py:add-denied")
+    return None
 
 
 KEEP = ("holds", "partial")

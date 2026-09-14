@@ -1430,7 +1430,18 @@ def run(task, model=None, apply=True, quiet=False):
     #
     # Raised, not swallowed: `assert_clear` throws, and a refusal to start under a halt is the
     # correct outcome, not an error to route around.
-    import escalation as _ESC
+    # FAIL CLOSED ON THE IMPORT, in the house spelling (order 16bf1ff4df09, run #57). This was a
+    # bare `import escalation as _ESC` -- fail-closed in effect, since an uncaught ImportError stops
+    # the run, but not in the shape `verify_math._interlock20p` recognises as a guard, so this
+    # module could not sit on the `_INTERLOCKED` roster that proves every other interlocked job
+    # still carries one. It is the one lane on which a model may write to src/, which made it the
+    # worst module in the tree to be unprovable.
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
     _ESC.assert_clear(who="local_agent.run")
     # Each invocation gets a fresh blast budget; the cap bounds ONE run, not the life of
     # the process.

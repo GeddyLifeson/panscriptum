@@ -160,7 +160,39 @@ def decode(profile):
         raise ValueError(f"not a world profile: {profile!r}")
     addr, gr, rg, feats, band, att = m.groups()
     address = _unb32(addr)
-    features = {axis: tbl[B32.index(ch)][0] for (axis, tbl), ch in zip(AXES, feats, strict=True)}
+    # EVERY FEATURE DIGIT IS RANGE-CHECKED AGAINST ITS OWN AXIS TABLE, and refused HERE, by the
+    # validator, naming the profile and the offending character.
+    #
+    # THE SAME FAULT AS THE ONE THE BLOCK ABOVE `_PROFILE_RE` DESCRIBES, ONE LAYER FURTHER IN,
+    # and it survived that fix. `_PROFILE_RE` scopes the feature group to B32 -- the 32
+    # characters the ALPHABET admits -- but each axis table is far shorter than 32 (landform,
+    # climate, condition and tech are single digits long), so `B32.index(ch)` legally returns an
+    # index no table has. This was `tbl[B32.index(ch)]` inside a comprehension, so a
+    # pattern-valid profile whose feature digit simply ran past the end of its table died with a
+    # bare `IndexError: list index out of range` -- out of a dict comprehension, naming neither
+    # the profile, nor the axis, nor the character. Reproduced before the change:
+    # `decode("PS-1-myc-000z-u0")`, where `z` is B32 index 31.
+    #
+    # That is precisely the "validator vs crash" distinction the comment above `_PROFILE_RE`
+    # draws, and this module's stated rule is that a string this format cannot read must be
+    # REFUSED READABLY rather than crash from inside a helper. `decode()` is the public entry
+    # and therefore the validator layer, so the refusal belongs here.
+    #
+    # NOT FIXED BY NARROWING THE PATTERN, though that is the purer form of the same idea and is
+    # what the band group `[0-9au]` already does. A per-axis character class would have to be
+    # built from `AXES`, which is defined BELOW `_PROFILE_RE` in this file; reordering the
+    # module to get it is a bigger change than the fault warrants and would move a regex that
+    # three separate orders have already been filed against. The message below names the legal
+    # digits for the axis, which is the information a narrowed pattern would have carried.
+    features = {}
+    for (axis, tbl), ch in zip(AXES, feats, strict=True):
+        i = B32.index(ch)
+        if i >= len(tbl):
+            raise ValueError(
+                "not a world profile: %r -- the %s digit %r is index %d, but the %s table holds "
+                "only %d value(s); the legal %s digits are %r"
+                % (profile, axis, ch, i, axis, len(tbl), axis, B32[:len(tbl)]))
+        features[axis] = tbl[i][0]
     return {
         "address": address,
         "shelfmark": AS.shelfmark(address),

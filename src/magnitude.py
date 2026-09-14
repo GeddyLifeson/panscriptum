@@ -74,6 +74,29 @@ import scope as SCOPE                                                   # noqa: 
 import identity as ID                                                   # noqa: E402
 import silence
 
+
+def _reason_cell(s, width):
+    """One console column, cut only if it must be, and NEVER silently. -> str.
+
+    Order 215f9e7b86ff. `calibrate()`'s per-row print cut the failure `reason` at 40 chars with
+    no marker, three lines below the code that deliberately keeps the persisted
+    CHARTER_REGRESSION.json copy UNCUT so that a reason "nobody can act on" cannot reach the
+    file. The bound on the console column is right -- it is a fixed-width table -- but an
+    unmarked cut made a long reason indistinguishable from a short one in the one view an
+    operator actually watches during a calibration.
+
+    ONLY FOR A REVERSIBLE DISPLAY CUT, and here it is reversible in the strongest sense: the
+    whole reason is in CHARTER_REGRESSION.json, written by `_land` on the line above. This is
+    the same three-token expression as `allsweep._marked`, `tiers._cut`, `publish._marked`,
+    `corpus_db._cell`, `secondopinion._message` and `suppressions._preview`, in the identical
+    shape and with the identical marker, so that order b0586860a8ae's eventual hoist into one
+    shared helper is a rename and not a re-argument. It is written here rather than hoisted
+    because that hoist spans files this shift does not own.
+    """
+    s = str(s)
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
+
+
 # A regex escape arriving as a literal control character matches nothing and fails SILENTLY.
 # A word-boundary escape written through a shell heredoc has arrived here as a 0x08 backspace
 # five separate times in this project. Each time it read as a tuning problem -- a gate that
@@ -1623,7 +1646,14 @@ def calibrate():
             rows.append(row)
             _land(rows, False)
             print(f"{name:<20}{_published(band, val):>10}{'--':>12}{'--':>7}"
-                  f"{'--':>6}{len(r.get('rejections', [])):>5}  {r.get('reason', 'band only')[:40]}")
+                  f"{'--':>6}{len(r.get('rejections', [])):>5}  "
+                  # MARKED, NOT SILENT (order 215f9e7b86ff). A reversible display cut: the
+                  # comment four lines above keeps the persisted CHARTER_REGRESSION.json copy
+                  # uncut precisely so this column can be short, but at 40 chars with no marker
+                  # a long reason read as a complete one. Same three-token idiom and same
+                  # marker as `allsweep._marked` / `tiers._cut`; order b0586860a8ae still wants
+                  # the family hoisted into one helper, which spans files this shift does not own.
+                  f"{_reason_cell(r.get('reason', 'band only'), 40)}")
             continue
         got_band = res["magnitude"]
         band_hits += (got_band == band)

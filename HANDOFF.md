@@ -17,6 +17,194 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-11/12 — RUN #56 (DAILY) — THE MACHINE CRASHED, TOOK TWO BYTES WITH IT, AND EVERY SAFETY IN THE CHAIN DID EXACTLY WHAT IT WAS BUILT TO DO
+
+**FOR THE OWNER, AT THE TOP:**
+
+1. **A HALT IS STANDING, ITS CAUSE IS FIXED, AND I DID NOT LIFT IT.** `SUBSYSTEM_STOP_UNRECORDABLE`,
+   raised 2026-09-10 22:57:32 by `drill.py`. I **found** this fault; I did not cause it, so under
+   CLAUDE.md's ruling of 2026-08-25 it stays standing and **only a person may lift it**. The cause
+   is repaired and the drill is green on the exact nets that were breached — the evidence for
+   lifting is as complete as it can be made, and the decision is still not mine. `state/HALT.json`
+   holds the six escalations.
+2. **THE LIBRARY HAS BEEN STOPPED FOR ~24 HOURS AND THAT IS THE HALT WORKING, NOT A SECOND FAULT.**
+   Every daemon is down — last polls 1383–1558 minutes ago — because a standing halt makes every
+   job exit on purpose. Only `autostart.py --watch` survives. Nothing crawled, synthesised or
+   published in that window. **Lifting the halt is what restarts the fleet.**
+3. **RUN #55 WAS KILLED MID-SHIFT BY THE CRASH AND LEFT NO HANDOFF ENTRY AT ALL.** Its last
+   heartbeat was 22:54, the machine went down at 22:57. There is no `## RUN #55` section in this
+   file and there will never be one; its work survives only in the queue and in `state/`. Flagging
+   it so the gap is not read later as a run that was skipped.
+4. **NOTHING WAS PUBLISHED.** `publish.py --push` refuses under a halt, by design, and I did not
+   override it. The export repo's last commit is still `787b49f`, 2026-09-10 22:19 — before the
+   crash. **This run's source changes are NOT in the public repo.**
+5. **THE MUTATION PASS COULD NOT RUN.** `mutate.py` refuses under a halt (`"HALTED — refusing to
+   mutate"`), so §3b produced nothing this shift and there is no survivor count. Not a skip —
+   a refusal, and the correct one.
+6. **ONE DECISION IS WAITING ON YOU**, rerouted RUN → OWNER with a measurement: order
+   `32eaec248adf`, the permanently-red preflight row. `www.dandwiki.com` answers **200 on its front
+   page and 403 on its API** to anonymous clients — measured this shift, with a control host at
+   200, so it is neither this machine's TLS fault nor an outage. It is site policy. Four options
+   are written on the order; my reading is (b), teach the preflight a "blocked by policy" class, as
+   the only one that keeps a genuine future outage on that family visible.
+
+---
+
+### WHAT HAPPENED, AND WHY NOTHING IN THE CHAIN FAILED
+
+The Windows System log records an **unclean reboot at 2026-09-10 22:57:01** (event 41, "rebooted
+without cleanly shutting down first"; event 6008, "the previous system shutdown at 10:57:01 PM was
+unexpected"). `state/STOPPED.json`'s mtime is **22:57:03**.
+
+That file came back with its **length intact at 2 bytes and its content replaced by two NUL
+bytes** — the textbook NTFS crash-truncation signature, where the directory entry survives and the
+data blocks do not.
+
+Everything after that is the escalation chain behaving exactly as designed, and it is worth saying
+plainly because the instinct on finding a halted library is to look for the broken thing:
+
+* `escalation._read_stopped()` could not parse the file and returned `__unreadable__` — **fail
+  closed**: "unreadable means stopped, for everything."
+* `stop_subsystem()` **refused to overwrite a ledger it could not read**, rather than destroying
+  whatever standing stops it might have held.
+* That refusal escalated to OWNER, six times, and halted the library.
+* `drill.py` then BREACHED on `a MANAGER stop is recorded where another process can read it`.
+
+**No code was at fault. The library was not broken; it was refusing, correctly, on evidence it
+could not read.** Four consecutive earlier runs are on record re-diagnosing a phantom; this one is
+the opposite case — a real fault, correctly detected, by machinery that worked.
+
+### THE REPAIR, AND WHY `{}` IS PROVEN RATHER THAN GUESSED
+
+`state/STOPPED.json` restored to `{}` via `silence.write_json` (atomic + fsync). The pre-repair
+bytes are kept at `state/STOPPED.json.crashloss-20260910-225703.bak`. Three independent lines of
+evidence agree on the content:
+
+1. **NTFS preserved the LENGTH: 2 bytes.** The only valid 2-byte JSON object is `{}`. A ledger
+   holding even one real stop would have been far longer.
+2. **The queue held no `SUBSYSTEM_STOPPED` order for any real subsystem** — only the three drill
+   probes, which are artefacts of this failure, not evidence of a standing stop.
+3. **A whole-tree scan found exactly one damaged file.** 302,870 text files under the kit: one
+   entirely-NUL file (this one), zero files with partial NUL damage, zero zero-length files near
+   the crash. The blast radius was a single file, so this is isolated crash damage and not a
+   systemic write fault. `silence.write_json` has fsynced since order 698963577852 and did its job.
+
+**Proof the repair works:** the drill went from **1 BREACHED** to **0**, on the rung-4 nets that
+were breached. Disk was never the problem (58 GB free).
+
+### THE SWEEP — COMPLETE, AND IT CLEARED A RED BATTERY ROW
+
+`sweep56`: **16 batches, all 119 modules, `missing()` = []**. Every batch recorded its own
+coverage; two got Opus (`drill.py` at 17,711 lines and `verify_math.py` at 12,674), the rest Sonnet.
+
+This mattered beyond the audit. `verify_math` had **1 FAILED** all shift — *"the newest FINISHED
+sweep proves its own completeness"*, held to `run55`, which listed 43 modules no batch ever read
+**because the crash killed run #55 mid-sweep**. Completing sweep56 is what retires that row.
+
+**The sweep's dominant finding was stale line citations — roughly sixty across thirty modules.**
+That class already has open orders, so I did **not** file sixty duplicates. Far more valuable:
+batch16 found *why* they accumulate — `citecheck._PATH_LEAD` treats any citation written
+`src/foo.py:NNN` as pointing at another tree and **skips it uncounted**, and this codebase writes
+both forms. The detector has a blind spot shaped like its own input. Filed as `9daa719e4819`;
+fixing the detector is worth more than fixing any individual citation.
+
+**Eleven orders filed** for findings not already covered. The five MAJORs:
+
+* `5d686329771b` — a drill probe grades its own cleanup of the **live** `state/codewatch_poll/`
+  and swallows the failure; a denied `os.remove` makes it BREACH → OWNER halt, **and it latches**.
+  Same structure as the fault that halted the library today: a probe touching live state, with an
+  environmental condition escalating straight to the rung that stops everything.
+* `1c7c2c2c8b00` — a drill net runs `withdraw_chapters --go` against the **live tree**; its only
+  protection is the guard it is testing.
+* `247586e57b61` — `_esc_sandbox` stops `file_order` and `health.record` but **not**
+  `workorders.resolve_code`, so two probes rewrite the live queue every battery run.
+* `16bf1ff4df09` — `verify_math._INTERLOCKED` is a **hand-kept tuple of 10** and an AST scan finds
+  **three more** modules that consult the halt (`ingest_doc`, `threads`, **`local_agent`**).
+  Measured: replacing either fail-closed `raise SystemExit` in those with `pass` **leaves the whole
+  battery green**. A count in doctrine wearing a tuple's clothing.
+* `7d314c5e00e4` — the two "anywhere in this battery" ledger-witness rows are evaluated ~630 lines
+  before the battery ends, so import-time `silence.note` calls escape both witnesses.
+
+### WHAT I FIXED
+
+**`215f9e7b86ff` — the gathered Hard Rule 0 order, CLOSED.** Every named site, across eight
+modules. Stored cuts uncut or marked (`pipeline.subroom_rejected` now uses `_stored_cut`, matching
+the sibling eleven lines above that always did); exception text kept **whole** on the precedent
+this codebase already set; reversible display cuts given the house marker. And
+`repass_bands.demoted_sources` — built in full, never printed, only `len()` shown — **is now
+printed, uncapped**. The best find in the order was allsweep's: `_marked`'s own docstring already
+named `run_verifier`'s `tail` as the site it must not be used on, so the file argued for the fix in
+prose while the code did the opposite.
+
+**`99d752c5632f` — the maintenance overlap guard, CLOSED.** `claim()` now records `pid` and
+`pid_started`; `beat()` refreshes them; `holder_is_live()` treats a stale heartbeat with a
+**provably alive, start-instant-matching** holder as LIVE. That arm can only ever turn a claim into
+a stand-down and never the reverse, and every unknown falls through to the old verdict — so it
+cannot wedge the pass, which this module fears more than overlap. A detector `guard_fault()` is
+wired into the sweep. **Eight drill nets**, watched going red against a reconstruction of the
+pre-fix module.
+
+**`profile.decode()` — a MAJOR, fixed.** `tbl[B32.index(ch)]` indexed 6-, 3- and 4-row axis tables
+with a value up to 31, so a pattern-valid profile died as a bare `IndexError` out of a dict
+comprehension, naming neither profile nor axis nor character. Reproduced live
+(`decode("PS-1-myc-000z-u0")`), now a readable `ValueError` naming all three plus the legal digits.
+A new drill net was **watched breaching on the old code and holding on the new**.
+
+### TWO THINGS I GOT WRONG, RECORDED RATHER THAN QUIETLY FIXED
+
+1. **My own new detector fired a false positive on a healthy run — mine.** The second arm I wrote
+   for `guard_fault` ("fresh heartbeat, pid GONE") reported run #56's own record as a corpse: pid
+   26924, gone, heartbeat 0.8 minutes old, run entirely healthy. The premise the order and I both
+   made is wrong: **the holder of this guard is not a process.** A maintenance run is a session
+   driving many short-lived interpreters, so the recorded pid dies seconds after it is written. An
+   ephemeral interpreter and a corpse are indistinguishable from the process table. I removed the
+   arm, recorded why in the docstring, and **added a net pinning that shape as SILENT** so nobody
+   re-adds it from the order text without meeting the case that killed it. The arm that shipped
+   needs *positive* evidence to fire, which an ephemeral holder cannot accidentally supply.
+2. **I opened the shift by hand-writing `state/MAINTENANCE_RUN.json` instead of calling
+   `runguard.claim()`** — the exact "every run re-improvises the read-modify-write inline" habit
+   that module was written to end, and I skipped its compare-and-swap while doing it. I switched to
+   `runguard.beat()` for the rest of the shift. That a run which had just *read that docstring*
+   still improvised is the strongest argument available for naming `runguard` in the maintenance
+   task instructions.
+
+I also made one malformed call early on — `silence.replace_retry(path, content)`, which takes
+`(tmp, dst)` — that failed harmlessly because the destination was an invalid filename. It left a
+`replace-failed:` note in the silence ledger. Nothing was moved or lost; noted so the ledger row
+is not read later as a real write fault.
+
+
+### THE BATTERY AT CLOSE
+
+    drill              511 nets / 511 held / 0 BREACHED   (was 502 at open; +9 new nets this shift)
+    verify_math        1289 passed / 0 FAILED             (was 1288 / 1 FAILED)
+    allsweep           1 subsystem bad, down from 4       (preflight only -- the dandwiki ruling)
+    pyflakes           clean over src/
+    secondopinion      all three tools RAN, 0 secrets by two independent scanners
+    liveness           48 findings, 0 tautology, 0 phantom
+    axis_correlation   45 entities -- unchanged, no --write owed
+    corpus_db          rebuilt: 216 sources, 282,822 entries, 280,066 evidence rows
+    sweep run56        16 batches, all 119 modules, `missing()` = []
+    escalation         HALTED (standing, deliberately; see the top of this entry)
+    queue at close     78 open -- RUN 40 / OWNER 26 / LOCAL 9 / SESSION 2 / BOTS 1
+
+`the numbers` and `cascade live call` both went green during this shift, and the first of those is
+causal rather than lucky: `the numbers` wraps `verify_math`, whose one FAILED row was the
+sweep-completeness proof held to run #55. **Finishing sweep56 is what retired it.** The single
+remaining bad subsystem is `preflight`, which is the dandwiki host-policy condition and cannot be
+cleared by any maintenance action -- it is waiting on a ruling (`8b3f2911fa0c`).
+
+**The queue did not empty, and it could not.** 26 orders are OWNER (account actions, charter
+judgments, curatorial calls), 2 are SESSION, and a large part of the RUN set is blocked behind the
+standing halt -- no mutation pass, no fleet, no publish. Five orders were closed and thirteen
+filed, so the queue grew: that is the sweep doing its job, not the shift failing. What the next run
+should NOT do is re-derive any of it; `NEXT_STEPS.md` names the three worth starting with.
+
+**Publishing was attempted and correctly refused.** `publish.py --push` exits on
+`escalation.SystemHalted` at the first statement of `main()`, before argparse. Verified directly:
+the export repo's HEAD is still `787b49f` and its worktree is clean. **Everything this run changed
+is local only.**
+
 ## 2026-09-09/10 — RUN #54 (DAILY) — I FOUND A HALT ITS AUTHOR WAS ALREADY LIFTING, AND THE EVIDENCE FOR IT HAD BEEN DELETED EIGHT MINUTES EARLIER
 
 **FOR THE OWNER, AT THE TOP:**
@@ -11243,3 +11431,30 @@ three tools ran, **0 secrets** by two independent scanners · `escalation --stat
 * **`physiology` is empty on every entry today.** It fills the same way — on re-judgement.
 * **T4 stays at 447 until the Assay runs.** That is Hard Rule 3 territory and needs its own pass.
 * **4.5 is unauthorised and `prose_enabled` is false.**
+
+## 2026-09-10 — background loops stopped for a GPU job
+The four background processes (read.py --run --loop 5 --workers auto, foreman.py --go --patch --loop 30,
+magnitude.py --calibrate, verify_math.py) were stopped at the user's request so Polyglot Voyager could
+record audio with Chatterbox on the 3080 (they kept qwen3:8b pinned on the GPU with keep-alive forever).
+Restart them when the recording job (C:\Users\imarl\polyglot_game, staging_cbx_* folders) is finished.
+Also stopped for the same reason: overwatch.py --loop 20 --modules 4 and pipeline.py --run.
+Ollama was then restarted CPU-only (CUDA_VISIBLE_DEVICES=-1 GGML_VK_VISIBLE_DEVICES=-1 OLLAMA_KEEP_ALIVE=5m,
+started from a background shell, log C:\Users\imarl\ollama_cpu.log) because the maintenance Claude session
+and Cascade kept reloading qwen3:8b onto the GPU. Local model calls work but are slow until Ollama is
+restarted normally (kill ollama.exe, relaunch the tray app "ollama app.exe") after the recording job.
+
+
+## 2026-09-11 22:50 (from the Polyglot Voyager session)
+`src/autostart.py --watch` (started at login 2026-09-10 22:59) was stopped because Ollama began loading
+qwen3:8b with keep_alive=forever every ~10 minutes from 22:18, which starved the GPU recording job the owner
+asked to protect. Nothing else Panscriptum was running. Relaunch the watcher (or the loops) once the Polyglot
+recording chains are done; the owner's standing instruction is not to touch Panscriptum until then.
+
+2026-09-11 23:05: owner said "Pause Panscriptum". The running maintenance session's turn was stopped, its
+drill.py / verify_math.py processes killed, qwen3:8b unloaded, and the scheduled task `panscriptum-maintenance`
+(daily 22:09) was DISABLED. Re-enable it (scheduled tasks → panscriptum-maintenance → enabled) once the
+Polyglot recording chains are done; the owner decides when.
+
+2026-09-13: owner said "START UP PANSCRIPTUM". Scheduled task `panscriptum-maintenance` re-enabled (daily 22:09)
+and `autostart.py --watch` relaunched via the Startup Panscriptum.vbs. The pause is over; Ollama is on the GPU
+tray app and the Polyglot recording job is complete, so nothing competes for the card any more.

@@ -22,6 +22,7 @@ Usage:
 """
 import argparse
 import contextlib
+import io
 import json
 import os
 import re
@@ -1942,6 +1943,114 @@ def drill_train():
         "orders c78d23849343 / 73c814ee9295: these two lines are the only place the shortfall "
         "report states a QUANTITY, and an operator deciding whether to withdraw a batch reads "
         "that quantity -- every net above matches only the stem of the sentence")
+
+    # --- LAYER 4c, THE INSTRUMENT. Landed 2026-09-11 by the daily run, and the reason it is
+    # being landed is that the 2026-09-10 mutation pass broke `instrument_shortfall` FOURTEEN
+    # different ways and the entire battery stayed green for every one of them. Measured, not
+    # inferred: `grep -rn instrument_shortfall --include=*.py .` returns three hits and all
+    # three are inside `prose_gate.py` itself; `assert_instrument_present` returns its own def,
+    # a comment, and `generate.py:552`. Neither this module nor `verify_math` had ever called
+    # either function with any input.
+    #
+    # THIS IS THE GATE FOR THE LARGEST SINGLE LOSS IN THE 2026-08-25 INCIDENT -- 1,155 of 1,268
+    # entries lost exactly their Instrument section, 91%, against the 71% Threads loss that has
+    # five nets above. `prose_gate.py` said so itself, in a comment above the function, naming
+    # what was owed: a fixture carrying an Instrument line plus a net and a verify_math row,
+    # "WITHOUT which this layer is unproven". The debt is paid here.
+    #
+    # Three of the fourteen mutants CRASH on the exempt (no-Class) path rather than returning a
+    # wrong answer, which is why `_I_FEATS` is a separate net: a ZeroDivisionError inside a
+    # chapter job is not the refusal this gate promises anyone.
+    _I_HEAD_P = "◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
+    _I_HEAD_PL = "◈ **A**\nShelfmark: 1\nClass: Place\nMagnitude: M2\n"
+    _I_BODY = ("The custodian records that the specimen was catalogued in the usual manner, its "
+               "provenance attested by two hands and its measure left open pending the assay.\n"
+               "**Threads: pending the entanglement pass**\n")
+    _I_GOOD = _I_HEAD_P + "▣ The Instrument\nWisdom: 18 (Exalted)\n" + _I_BODY
+    _I_UNINS = _I_HEAD_P + "▣ The Instrument\nuninstrumented -- no faculties on file\n" + _I_BODY
+    _I_BARE = _I_HEAD_P + "▣ The Instrument\n" + _I_BODY
+    _I_LOST = _I_HEAD_P + _I_BODY                      # THE INCIDENT SHAPE: the section is gone
+    _I_SCORE = _I_HEAD_P + "Wisdom: 18\n" + _I_BODY    # scores, but the section never written
+    _I_PLACE = (_I_HEAD_PL
+                + "Not applicable -- the Instrument measures beings, not places.\n" + _I_BODY)
+    _I_PBARE = _I_HEAD_PL + _I_BODY                    # a Place that wrote nothing at all
+    _I_FEATS = "◈ **A**\nShelfmark: 1\n" + _I_BODY     # no Class line: exempt by design
+
+    net(a, "an entry that lost its Instrument section is REFUSED",
+        lambda: _refuses(lambda: PG.assert_instrument_present(_I_LOST, "t"), PG.ProseRefused),
+        "1,155 of 1,268 entries in the withdrawn batch lost exactly this, and it was the "
+        "largest single loss of the incident")
+    net(a, "a classed entry with no Instrument is CHARGED, not skipped",
+        lambda: PG.instrument_shortfall(_I_LOST)[1] == 1,
+        "the mutants that skip the classed entry leave required=0, and required=0 returns 1.0 "
+        "from the line above -- a gate reporting full compliance over a charge it never made")
+    net(a, "a properly instrumented entry still passes",
+        lambda: PG.assert_instrument_present(_I_GOOD, "t") == 1.0,
+        "a net that refuses everything is a wall; six of the fourteen mutants OVER-refuse and "
+        "no correct chapter could be filed under any of them")
+    net(a, "the template's own 'Not applicable' sentence satisfies a Place",
+        lambda: PG.assert_instrument_present(_I_PLACE, "t") == 1.0,
+        "the Entry Template prescribes this sentence for Places, Vessels, Factions and Events; "
+        "a gate that refuses the template it enforces is the template being wrong")
+    net(a, "the honest 'uninstrumented' body satisfies a being",
+        lambda: PG.assert_instrument_present(_I_UNINS, "t") == 1.0,
+        "the template's second allowed body -- an entry with no faculties on file says so "
+        "rather than inventing scores, and must not be punished for it")
+    net(a, "a Place that wrote NOTHING is still charged",
+        lambda: PG.instrument_shortfall(_I_PBARE)[2] != [],
+        "'not a being' is not the same as 'excused'; the mutant that merges them stops "
+        "checking four of the seven classes")
+    net(a, "axis scores WITHOUT the section are still a shortfall",
+        lambda: PG.instrument_shortfall(_I_SCORE)[2] != [],
+        "a Person with `Wisdom: 18` and no section marker passes under the mutant that drops "
+        "the marker requirement -- the section is the Custodial measurement, not the number")
+    net(a, "a section heading with nothing under it is refused",
+        lambda: _refuses(lambda: PG.assert_instrument_present(_I_BARE, "t"), PG.ProseRefused),
+        "the marker alone is the cheapest possible forgery of this section and the one an "
+        "audit would reach for first")
+    net(a, "a feats block with no Class line is exempt, and does not CRASH",
+        lambda: (PG.instrument_shortfall(_I_FEATS) == (0, 0, [])
+                 and PG.assert_instrument_present(_I_FEATS, "t") == 1.0),
+        "three of the fourteen mutants take a ZeroDivisionError, a TypeError or an "
+        "AttributeError down this path instead of returning a wrong answer, and a crash inside "
+        "a chapter job is not the refusal this gate promises anyone")
+    net(a, "an Instrument refusal names the block it is about",
+        _an_instrument_refusal_names_the_block_it_refused,
+        "the exact twin of `a refusal names the block it is about` above, and landed for the "
+        "same reason: batch C01 mutated `label or \"block\"` at the two `assert_block_complete` "
+        "sites and nothing went red. The identical `label or \"block\"` at prose_gate.py's "
+        "Instrument refusal was mutated by the 2026-09-10 pass and nothing went red either, "
+        "because every net reads the FACT of the raise and none of them reads the message")
+
+
+def _an_instrument_refusal_names_the_block_it_refused(label="II.A.3/Persons#1-30"):
+    """Every `ProseRefused` from `assert_instrument_present` must name the block it refused.
+
+    THE EXACT TWIN of `_a_refusal_names_the_block_it_refused` below, and it exists because the
+    same corruption was found in the same shape twice. Batch C01 mutated `label or "block"` at
+    both `assert_block_complete` sites and nothing went red; the 2026-09-10 mutation pass did it
+    to the IDENTICAL expression at the Instrument refusal and nothing went red either -- along
+    with thirteen other mutations of the same function, because no net and no `verify_math` row
+    had ever called it.
+
+    THE BARE `except Exception` IS DELIBERATE AND IS HALF THE POINT. Three of the fourteen
+    mutants do not return a wrong answer, they CRASH -- a ZeroDivisionError from `present /
+    required` once `required` can be zero, a TypeError, an AttributeError. A net that only asked
+    "did something raise" would grade all three as the gate working. This asks for the SPECIFIC
+    refusal, with its label and its subject, and reads anything else as a breach.
+    """
+    import prose_gate as _PG
+    lost = ("◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
+            "The custodian records that the specimen was catalogued in the usual manner, its "
+            "provenance attested by two hands and its measure left open pending the assay.\n"
+            "**Threads: pending the entanglement pass**\n")
+    try:
+        _PG.assert_instrument_present(lost, label)
+        return False                    # the section is gone and it passed
+    except _PG.ProseRefused as e:
+        return label in str(e) and "Instrument" in str(e)
+    except Exception:
+        return False                    # a crash is not the refusal this gate promises anyone
 
 
 def _a_refusal_names_the_block_it_refused(label="II.A.3/Persons#1-30"):
@@ -4504,6 +4613,15 @@ def drill_publish():
         "main() asserted it once at startup, so an OWNER halt raised while the daemon was up "
         "never reached it and it kept pushing to the PUBLIC repo on its timer; codewatch does "
         "not cover this, because a halt is stale STATE and not stale CODE")
+    net(a, "the FOREMAN loop re-asks the HALT every round and stops when it stands",
+        lambda: _the_loop_reasks_the_halt(module="foreman.py"),
+        "sweep57-batch10: foreman asserted the halt once at startup, and a round starts "
+        "catalogue_web, sweep, completeness and magnitude --calibrate, none of which asks the halt "
+        "itself -- a halted library whose foreman keeps dispatching work is not halted")
+    net(a, "the OVERWATCH loop re-asks the HALT every round and stops when it stands",
+        lambda: _the_loop_reasks_the_halt(module="overwatch.py"),
+        "sweep57-batch09: the identical fault order 5905045ff433 repaired in publish.py, left "
+        "standing in the other long-lived round loop")
     net(a, "the publish loop actually ASKS the maintenance gate", _the_loop_asks_the_gate,
         "a predicate nothing calls is a comment; the guard has to be upstream of sync_tree, "
         "which is where the bytes are taken")
@@ -4909,7 +5027,7 @@ def _the_loop_asks_the_gate(src=None):
                                 "sync_tree", (ast.Continue,))
 
 
-def _the_loop_reasks_the_halt(src=None):
+def _the_loop_reasks_the_halt(src=None, module="publish.py"):
     """The publish loop must re-ask the HALT every cycle, and STOP when it is standing.
 
     `main()` asserts the halt once at startup and that is where it stayed, so an OWNER halt
@@ -4935,7 +5053,12 @@ def _the_loop_reasks_the_halt(src=None):
     call is resolved through `_import_maps` rather than matched as text.
     """
     import ast
-    tree = _ast_of(os.path.join(_srcdir(src), "publish.py"))
+    # `module` DEFAULTS TO publish.py and exists so the same two-part question can be put to every
+    # standing daemon with a `while True:` in `main()` (run #57, sweep57-batches 09 and 10):
+    # `foreman.py` and `overwatch.py` asserted the halt once at startup and never again, the exact
+    # fault order 5905045ff433 repaired here. One predicate, several subjects, so the rule cannot
+    # drift apart between them.
+    tree = _ast_of(os.path.join(_srcdir(src), module))
     main = _defn(tree, "main")
     if main is None:
         return False
@@ -5902,6 +6025,406 @@ def drill_done_keys():
         "and a cast that shrank, against a docstring promising it never does")
 
 
+# ============================================================== RUN #57 REPAIRS (sweep57)
+
+def drill_run57_repairs():
+    """The holes sweep57 found and run #57 closed, each attacked by the fault it repaired.
+
+    One area for one shift's repairs, so a regression in any of them points back at the same day's
+    change. EVERY NET HERE DRIVES A SCRATCH TREE, A TEMP FILE OR A PURE FUNCTION. None touches live
+    `src/`, the live work-order queue, the live host map or the live guard, for the reason
+    `_citecheck_over` gives: this battery has halted the library before by staging a fault in live
+    state.
+    """
+    a = "RUN #57 REPAIRS — the holes sweep57 found, attacked"
+    import tempfile as _tf
+
+    def _cc(files, skipped=None):
+        """citecheck over a scratch tree that may contain SUBDIRECTORIES. -> findings."""
+        import citecheck as CC
+        root = _tf.mkdtemp(prefix="drill_cc57_")
+        try:
+            for name, text in files.items():
+                p = os.path.join(root, *name.split("/"))
+                os.makedirs(os.path.dirname(p), exist_ok=True)
+                with open(p, "w", encoding="utf-8") as fh:
+                    fh.write(text)
+            if skipped is None:
+                return CC.stale_citations(src_dir=root, include_unresolved=True)
+            return CC.stale_citations(src_dir=root, include_unresolved=True, skipped=skipped)
+        finally:
+            shutil.rmtree(root, ignore_errors=True)
+
+    net(a, "a citation written `src/t.py:NNN` is checked, not skipped as another tree",
+        lambda: any(f["reason"] == "PAST_EOF" and f["cites"] == "t.py"
+                    for f in _cc({"t.py": _CITE_TARGET, "c.py": "# see src/t.py:5 here\n"})),
+        "order 9daa719e4819: any citation with a slash in front was skipped uncounted, and this "
+        "tree writes its own citations both ways -- sweep56 then found ~60 stale ones by hand")
+    net(a, "and a `src/` inside ANOTHER tree's path is still set aside",
+        lambda: not [f for f in _cc({"t.py": _CITE_TARGET,
+                                     "c.py": "# see motoko/src/t.py:5 there\n"})
+                     if f["cites"] == "t.py"],
+        "widening the lead to any `src/` would start filing other projects' citations as ours")
+    net(a, "a citing file in a SUBDIRECTORY of src/ is scanned",
+        lambda: any(f["reason"] == "PAST_EOF"
+                    for f in _cc({"t.py": _CITE_TARGET,
+                                  "deprecated/c.py": "# see t.py:5 here\n"})),
+        "os.listdir never descended, so src/deprecated/ was invisible -- the fourth instance of a "
+        "shape already repaired in liveness, sweep_plan and drill")
+
+    def a_skip_is_counted():
+        seen = []
+        _cc({"t.py": _CITE_TARGET, "c.py": "# see motoko/src/t.py:5 there\n"}, skipped=seen)
+        return len(seen) == 1 and seen[0]["cites"] == "t.py"
+    net(a, "a citation set aside is COUNTED, not silently dropped", a_skip_is_counted,
+        "a skip is a claim that a citation is somebody else's to keep, and an invisible claim "
+        "cannot be checked")
+
+    def a_reroute_survives_the_detector_refiling_its_order():
+        """Order 066bfb187bd1, driven against a temp queue. The detector files, a run re-routes it
+        to OWNER with a reason, the detector files the SAME code again on its next sweep -- and
+        the order must still be on OWNER with the reason intact, while the detector's own new
+        reading still replaces `what`."""
+        import workorders as WO
+        d = _tf.mkdtemp(prefix="drill_wo57_")
+        saved = (WO.OPEN_FILE, WO.CLOSED_LOG, WO.SELFTEST_LOG)
+        try:
+            WO.OPEN_FILE = os.path.join(d, "workorders.json")
+            WO.CLOSED_LOG = os.path.join(d, "workorders_closed.jsonl")
+            WO.SELFTEST_LOG = os.path.join(d, "workorders_selftest.jsonl")
+            code, where = "DRILL_REROUTE_PROBE", "__drill_reroute__"
+            first = WO.file_order(code, "first reading", "RUN", severity="MINOR", where=where,
+                                  found_by="detector")
+            if not first:
+                return False
+            _rec, moved = WO.reroute(first["id"], "OWNER", "drill probe: a ruling is needed",
+                                     by="drill.py")
+            if moved is not True:
+                return False
+            again = WO.file_order(code, "second reading", "RUN", severity="MINOR", where=where,
+                                  found_by="detector")
+            return (again is not None and again["handler"] == "OWNER"
+                    and "drill probe: a ruling is needed" in again["found_by"]
+                    and again["what"] == "second reading" and again["seen"] == 2)
+        finally:
+            WO.OPEN_FILE, WO.CLOSED_LOG, WO.SELFTEST_LOG = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a re-routed order stays re-routed when its detector files it again",
+        a_reroute_survives_the_detector_refiling_its_order,
+        "run #56 re-routed PREFLIGHT_PROBLEM to OWNER with ~50 lines of measurement, and the same "
+        "shift's next sweep put it back on RUN with the diagnosis wiped")
+
+    def the_watchdog_spends_no_start_on_a_standing_halt():
+        """Order 06041602990d, as a pure function: every tick shape, and the budget left after."""
+        import autostart as AU
+        now = 1000000.0
+        recent = [now - 60, now - 120, now - 180]
+        cases = [((False, [], now, True), "halted", 0),
+                 ((False, recent, now, True), "halted", 3),
+                 ((False, [], now, False), "start", 0),
+                 ((False, recent, now, False), "budget", 3),
+                 ((False, [], now, None), "start", 0),       # unreadable halt: supervisor decides
+                 ((None, [], now, True), "unknown", 0),
+                 ((True, [], now, True), "running", 0)]
+        for args, want, left in cases:
+            action, starts = AU._start_decision(*args)
+            if action != want or len(starts) != left:
+                return False
+        return True
+    net(a, "the watchdog starts nothing and spends no budget while the library is HALTED",
+        the_watchdog_spends_no_start_on_a_standing_halt,
+        "it spent three starts an hour on supervisors that correctly refused the halt, then kept "
+        "the fleet down for most of an hour after the owner lifted it")
+
+    def the_watchdog_loop_actually_asks():
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(None), "autostart.py"))
+        watch = _defn(tree, "watch")
+        if watch is None:
+            return False
+        calls = [n for n in _live_walk(watch) if isinstance(n, ast.Call)]
+        decides = any(isinstance(c.func, ast.Name) and c.func.id == "_start_decision"
+                      for c in calls)
+        reads_halt = any(isinstance(c.func, ast.Attribute) and c.func.attr == "status"
+                         for c in calls)
+        return decides and reads_halt
+    net(a, "and watch() really routes its starts through that decision and reads the halt",
+        the_watchdog_loop_actually_asks,
+        "a correct pure function nothing calls is a comment; the loop is where the budget is spent")
+
+    def hosts_add_keeps_a_host_another_writer_landed_in_the_gap():
+        """Order 3d000c4e482f. A rival writer lands its host AFTER `add()` has read the map and
+        BEFORE `add()` writes. Without compare-and-swap the rival's host is overwritten and both
+        callers believe they succeeded."""
+        import json as _j
+        import hosts as H
+        d = _tf.mkdtemp(prefix="drill_hosts57_")
+        saved = (H.EXTRA, H.primary_host, H._load)
+        try:
+            H.EXTRA = os.path.join(d, "SOURCE_HOSTS.json")
+            H.primary_host = lambda source: "primary.invalid"
+            real_load = saved[2]
+            raced = []
+
+            def racing_load(path, default):
+                got = real_load(path, default)
+                if not raced:
+                    raced.append(True)
+                    with open(path, "w", encoding="utf-8") as fh:
+                        _j.dump({"S": [{"host": "rival.invalid", "evidence": None,
+                                        "score": None}]}, fh)
+                return got
+            H._load = racing_load
+            verdict = _deliberately_failing(lambda: H.add("S", "ours.invalid"))
+            with open(H.EXTRA, encoding="utf-8") as fh:
+                landed = {r["host"] for r in _j.load(fh).get("S", [])}
+            return verdict is True and landed == {"rival.invalid", "ours.invalid"}
+        finally:
+            H.EXTRA, H.primary_host, H._load = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "hosts.add keeps a host another writer landed between its read and its write",
+        hosts_add_keeps_a_host_another_writer_landed_in_the_gap,
+        "two parallel --discover walks could each land their copy and lose the other's host, with "
+        "both calls returning True")
+
+    def mining_re_asks_the_halt_every_chunk():
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(None), "ingest_doc.py"))
+        mine = _defn(tree, "mine")
+        if mine is None:
+            return False
+        for loop in _live_walk(mine):
+            if isinstance(loop, ast.While) and any(
+                    isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+                    and n.func.id == "_assert_not_halted" for n in _live_walk(loop)):
+                return True
+        return False
+    net(a, "ingest_doc.mine re-asks the halt inside its chunk loop, not only on entry",
+        mining_re_asks_the_halt_every_chunk,
+        "the loop can run ~5h writing data/records on every chunk, and an OWNER halt raised in "
+        "that window did not stop it")
+
+    def claiming_refuses_a_live_predecessor():
+        """sweep57-batch01: nothing watched `claim()` REFUSE, only the liveness predicate."""
+        import runguard as RG
+        d = _tf.mkdtemp(prefix="drill_guard57_")
+        try:
+            p = os.path.join(d, "GUARD.json")
+            ok1, _w1 = RG.claim("drill-probe-holder", path=p)
+            ok2, why2 = RG.claim("drill-probe-successor", path=p)
+            rec = RG.read(p) or {}
+            return (ok1 is True and ok2 is False and "live predecessor" in str(why2)
+                    and rec.get("agent") == "drill-probe-holder")
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "claiming the guard REFUSES while a predecessor is live, and leaves its record alone",
+        claiming_refuses_a_live_predecessor,
+        "the whole point of the guard is this refusal, and no net had ever watched it happen")
+
+
+# ============================================================== THE OVERLAP GUARD (runguard)
+
+def drill_run_guard():
+    """The maintenance overlap guard, and the two ways it can be wrong about its own holder.
+
+    ORDER 99d752c5632f, and the incident is the argument. On 2026-09-09 run #53 held
+    `state/MAINTENANCE_RUN.json` with a heartbeat that had not moved in 101.7 minutes while it
+    was demonstrably alive -- committing at 23:26 and 23:42, lifting a halt, writing HANDOFF.md
+    at 23:44. By the file's own fifteen-minute rule it was dead, so run #54 claimed the guard and
+    started work, and both runs edited `src/drill.py` inside the same twenty minutes. Nothing was
+    lost, and "nothing was lost" was the whole of the luck involved.
+
+    `started` and `heartbeat` were written once, together, and never again, so the guard degraded
+    in exactly the wrong direction: the longer a run worked, the more certainly its successor
+    walked in on it. AND NOTHING DETECTED EITHER SHAPE -- no order, no net, no battery row.
+
+    NOT ONE OF THESE NETS TOUCHES THE LIVE GUARD. `holder_is_live` and `guard_fault` both take
+    the record as an argument, so they are asked about synthetic records and a pinned clock; the
+    one net that must exercise `claim()` writes into a scratch directory. The reasoning is
+    `_maintenance_guard_fixture`'s, one screen up: a maintenance shift is holding that file right
+    now, and writing it -- even restoring it a millisecond later -- is a chance for a live reader
+    to act on a heartbeat this drill invented.
+    """
+    a = "THE OVERLAP GUARD — is the holder a process, or only a string?"
+    import runguard as RG
+
+    def _dead_pid():
+        """A pid that is certainly gone: start one, reap it, hand back the number.
+
+        Measured rather than guessed. Picking a large number and hoping it is free would make
+        this net's verdict depend on what else the machine happens to be running, and a net
+        whose answer drifts with the process table is a net nobody can act on.
+        """
+        import subprocess as _sp
+        p = _sp.Popen([sys.executable, "-c", "pass"],
+                      stdout=_sp.DEVNULL, stderr=_sp.DEVNULL,
+                      # NOTHING IN THIS KIT MAY POP A CONSOLE WINDOW.
+                      creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+        p.wait()
+        return p.pid
+
+    def _mine():
+        _alive, created = RG._process_signature(os.getpid())
+        return os.getpid(), created
+
+    STALE = RG.STALE_AFTER_S + 600           # comfortably past the fifteen-minute rule
+
+    def a_stale_heartbeat_on_a_live_holder_is_still_live():
+        """A long-lived holder that stops beating stays protected -- where that can be proven.
+
+        TWO CORRECTIONS FROM SWEEP57-BATCH01, both to this net as run #56 wrote it.
+
+        IT CLAIMED MORE THAN IT PROTECTS. Its expectation named the 2026-09-09 overlap, run #53
+        working with a 101.7-minute-old heartbeat. That is NOT what this arm guards: a maintenance
+        run is a session driving short-lived interpreters, so the pid `claim()` or `beat()` records
+        is dead within seconds, and `holder_is_live` extends only a record whose pid is a LIVE
+        process with a matching start instant. The arm protects a holder that IS one long-lived
+        process. What protects a session-driven run is that it keeps beating -- `runguard.beat()`
+        on a timer -- and the expectation below now says so instead of borrowing the incident.
+
+        IT BREACHED WHERE IT COULD NOT RUN. Without psutil `_process_signature` cannot read a start
+        instant, and this net answered False -- a BREACH, and so an OWNER halt -- for a probe with
+        nothing to observe. So without a start instant it asserts the property that DOES hold
+        there, which is also the safe direction: the arm declines to extend the record, and the
+        heartbeat's own verdict stands.
+        """
+        now = time.time()
+        pid, created = _mine()
+        rec = {"agent": "x", "done": False, "heartbeat": now - STALE,
+               "pid": pid, "pid_started": created}
+        if created is None:
+            return RG.holder_is_live(rec, now=now) is False
+        return RG.holder_is_live(rec, now=now) is True
+    net(a, "a stale heartbeat whose holder is a provably live LONG-LIVED process still reads live",
+        a_stale_heartbeat_on_a_live_holder_is_still_live,
+        "a long-lived holder that stops beating must not be walked in on -- NOT the run #53 overlap, "
+        "whose holder was a session of short-lived interpreters, which only beating protects")
+
+    def a_stale_heartbeat_on_a_dead_holder_is_dead():
+        """THE ARM THAT MUST NOT WEDGE. If the fallback above ever answered LIVE on a corpse,
+        every future run would stand down for ever -- which is the failure this module fears
+        more than overlap, and which its own docstring refuses in the corrupt-guard case."""
+        now = time.time()
+        rec = {"agent": "x", "done": False, "heartbeat": now - STALE,
+               "pid": _dead_pid(), "pid_started": now - STALE}
+        return RG.holder_is_live(rec, now=now) is False
+    net(a, "a stale heartbeat whose holder is GONE still reads as dead",
+        a_stale_heartbeat_on_a_dead_holder_is_dead,
+        "a guard that protects a corpse wedges the maintenance pass permanently, which is worse "
+        "than the overlap it was added to prevent")
+
+    def a_recycled_pid_does_not_resurrect_a_dead_run():
+        """Same pid, different process. After a reboot the number means nothing on its own, and
+        run #56 opened on exactly that: run #55's record named pid 49196 across a crash."""
+        now = time.time()
+        pid, created = _mine()
+        if created is None:
+            # No start instant is readable on this machine (no psutil). The recorded instant is
+            # then unmatchable by construction, and the property -- a reused pid does not revive a
+            # dead run -- still has to hold, so it is asked rather than failed (sweep57-batch01).
+            created = now
+        rec = {"agent": "x", "done": False, "heartbeat": now - STALE,
+               "pid": pid, "pid_started": created - 86400}   # claimed a day before this process
+        return RG.holder_is_live(rec, now=now) is False
+    net(a, "a pid that was REUSED does not make a dead run look live",
+        a_recycled_pid_does_not_resurrect_a_dead_run,
+        "pids are recycled and a guard record outlives a reboot, so the number alone cannot "
+        "identify the holder")
+
+    def a_record_without_a_pid_behaves_exactly_as_before():
+        """No pid is the shape every record written before this change carries, and the answer
+        must be the ORIGINAL one -- the new arm may only ever add a LIVE verdict where it has
+        positive evidence, never remove one."""
+        now = time.time()
+        fresh = {"agent": "x", "done": False, "heartbeat": now - 1}
+        stale = {"agent": "x", "done": False, "heartbeat": now - STALE}
+        return (RG.holder_is_live(fresh, now=now) is True
+                and RG.holder_is_live(stale, now=now) is False)
+    net(a, "a record with no pid is judged by the heartbeat alone, as it always was",
+        a_record_without_a_pid_behaves_exactly_as_before,
+        "a new arm that changed the verdict for older records would silently re-judge every "
+        "guard written before it")
+
+    def the_detector_names_a_working_run_that_stopped_saying_so():
+        now = time.time()
+        pid, created = _mine()
+        rec = {"agent": "quiet-shift", "done": False, "heartbeat": now - STALE,
+               "pid": pid, "pid_started": created}
+        if created is None:
+            # No start instant is readable on this machine (no psutil). The detector fires
+            # only on POSITIVE evidence, so what holds here is that it stays silent -- asked
+            # rather than failed, per sweep57-batch01.
+            return RG.guard_fault(rec=rec, now=now) is None
+        f = RG.guard_fault(rec=rec, now=now)
+        return bool(f) and "PROVABLY ALIVE" in f and "quiet-shift" in f
+    net(a, "the detector NAMES a live holder whose heartbeat has gone stale",
+        the_detector_names_a_working_run_that_stopped_saying_so,
+        "the fallback silently rescuing the run is how the fallback's own regressions hide; the "
+        "condition has to be said out loud")
+
+    def the_detector_does_not_fire_on_an_ephemeral_holder():
+        """THE FALSE POSITIVE THIS DETECTOR WAS MEASURED INTO, AND THE REASON IT HAS ONE ARM.
+
+        Order 99d752c5632f asks for both directions, and the second one -- "fresh heartbeat, pid
+        GONE" -- was written, run against the live guard, and REMOVED, because it fired on a
+        perfectly healthy run. The holder of this guard is not a process: a maintenance run is a
+        session driving many short-lived `python.exe` invocations, so the pid in the record is
+        dead seconds after it is written while the run has hours left. Measured on run #56's own
+        record at the moment the arm was added: pid 26924, gone, heartbeat 0.8 minutes old, run
+        entirely healthy.
+
+        This net pins that shape as SILENT, so nobody re-adds the arm from the order text without
+        first meeting the case that killed it. A detector that fires on the normal case is noise,
+        and noise is switched off.
+        """
+        now = time.time()
+        rec = {"agent": "ephemeral-shift", "done": False, "heartbeat": now - 1,
+               "pid": _dead_pid(), "pid_started": now - 600}
+        return RG.guard_fault(rec=rec, now=now) is None
+    net(a, "the detector is SILENT on a fresh heartbeat whose interpreter has exited",
+        the_detector_does_not_fire_on_an_ephemeral_holder,
+        "the arm that reported this fired on run #56's own healthy record -- an ephemeral "
+        "interpreter and a corpse are indistinguishable from the process table")
+
+    def the_detector_is_quiet_when_the_record_and_the_table_agree():
+        """A detector that also fires on the healthy case is noise, and noise gets switched off.
+        Both silent shapes are asked: agreement, and a record it cannot judge at all."""
+        now = time.time()
+        pid, created = _mine()
+        # No early `return False` when the start instant is unreadable (sweep57-batch01): a
+        # record with `pid_started` None gives the detector no positive evidence, so every
+        # case below must still be silent, which is exactly the property under test.
+        agreeing = {"agent": "x", "done": False, "heartbeat": now - 1,
+                    "pid": pid, "pid_started": created}
+        unknowable = {"agent": "x", "done": False, "heartbeat": now - STALE}
+        finished = {"agent": "x", "done": True, "heartbeat": now - STALE, "pid": _dead_pid()}
+        return all(RG.guard_fault(rec=r, now=now) is None
+                   for r in (agreeing, unknowable, finished))
+    net(a, "and the detector is SILENT when there is nothing to report",
+        the_detector_is_quiet_when_the_record_and_the_table_agree,
+        "a detector that fires on 'I could not tell' is noise, and noise is switched off")
+
+    def claiming_records_the_holder_as_a_process():
+        d = tempfile.mkdtemp(prefix="drill_guard_")
+        try:
+            p = os.path.join(d, "GUARD.json")
+            ok, why = RG.claim("drill-probe-guard", path=p)
+            if not ok:
+                return False
+            rec = RG.read(p)
+            # `pid_started` is None where the process table gives no start instant (no
+            # psutil); the pid itself must be recorded either way (sweep57-batch01).
+            _start_ok = (isinstance(rec.get("pid_started"), (int, float))
+                         or RG._process_signature(os.getpid())[1] is None)
+            return rec.get("pid") == os.getpid() and _start_ok
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "claiming the guard records the holder's pid AND its start instant",
+        claiming_records_the_holder_as_a_process,
+        "the record named `agent` as free text and no pid at all, so a reader could not ask the "
+        "process table whether the holder was real")
+
+
 # ============================================================== THE HANDLE (the world profile)
 
 def drill_profile():
@@ -5961,6 +6484,49 @@ def drill_profile():
         the_validator_is_what_refuses_it,
         "the guard written for this case never fired; the string died four frames later inside "
         "a private helper, as 'substring not found', naming neither the profile nor the char")
+
+    def a_feature_digit_past_its_own_table_is_refused_readably():
+        """THE SAME FAULT AS THE NET ABOVE, ONE LAYER FURTHER IN, AND IT SURVIVED THAT FIX.
+
+        The net above closed the ALPHABET hole: i, l, o and u are not B32 digits, so a profile
+        carrying one is now refused by the validator and named. But being in the alphabet is not
+        the same as being in the AXIS TABLE, and nothing asked the second question. B32 holds 32
+        symbols; `landform` and `climate` hold 6 rows, `condition` 3, `tech` 4. So `6`, `3` and
+        `4` are perfectly legal B32 digits that no axis table has a row for, `decode` indexed
+        `tbl[B32.index(ch)]` inside a dict comprehension, and the result was a bare
+        `IndexError: list index out of range` -- out of a comprehension, naming neither the
+        profile, nor the axis, nor the character.
+
+        THAT IS PRECISELY WHAT THE NET ABOVE EXISTS TO FORBID, and it could not see it: it
+        drives only the four excluded LETTERS, and it asks `except ValueError`, which an
+        IndexError does not even satisfy. Found by the sweep56 batch-08 audit of `profile.py`
+        and reproduced live before the change: `decode("PS-1-myc-000z-u0")`.
+
+        ONE ATTACK PER AXIS, each the first digit its own table does not reach, because a
+        range check written for one axis and not the others is the shape this file keeps
+        finding. The refusal must be a ValueError (not an IndexError), must name the profile,
+        and must name the axis -- a message that says only "bad profile" sends the reader back
+        to guessing which of the four digits was wrong.
+        """
+        import profile as _PR
+        for axis, tbl in _PR.AXES:
+            over = _PR.B32[len(tbl)]                      # first digit this table cannot reach
+            digits = ["0", "0", "0", "0"]
+            digits[[ax for ax, _t in _PR.AXES].index(axis)] = over
+            bad = "PS-1a-hfc-%s-u0" % "".join(digits)
+            try:
+                _PR.decode(bad)
+                return False                  # decoded a world the encoder can never write
+            except ValueError as e:
+                if repr(bad) not in str(e) or axis not in str(e):
+                    return False              # refused, but not readably
+            except Exception:
+                return False                  # IndexError out of the comprehension: the fault
+        return True
+    net(a, "a feature digit inside the alphabet but past its own axis table is refused readably",
+        a_feature_digit_past_its_own_table_is_refused_readably,
+        "`tbl[B32.index(ch)]` indexed a 6-, 3- or 4-row table with a value up to 31, so a "
+        "pattern-valid profile died as a bare IndexError naming neither profile, axis nor char")
 
 
 # ============================================================== THE UNDO (snapshots)
@@ -9532,6 +10098,123 @@ def drill_rung_four():
         the_person_check_is_not_defeated_by_choosing_a_name,
         "an unanchored marker match let payments__drill_x__ lift a rung-4 stop with no person")
 
+    def a_resume_is_refused_to_a_program():
+        """THE PERSON CHECK ITSELF, ASSERTED. Landed 2026-09-11 by the daily run.
+
+        `the_person_check_is_not_defeated_by_choosing_a_name` above proves the exemption is an
+        exact set. NOTHING ANYWHERE PROVED THE REFUSAL THE EXEMPTION IS AN EXEMPTION FROM: a
+        grep of this file and `verify_math.py` for `PermissionError` finds no net asserting that
+        `resume_subsystem` refuses a programmatic caller at all. The 2026-09-10 mutation pass
+        dropped the `not` from the guard at `resume_subsystem_verdict`'s person check -- which
+        deletes the refusal for every real subsystem name -- and the whole battery stayed green.
+
+        Why the existing nets could not see it. Drill's three rung-4 probes call the resume in a
+        `finally` inside `try: ... except Exception: silence.note(...)`, so the mutant's other
+        direction is swallowed; and the one net that does demand a refusal,
+        `resuming_demands_a_written_ruling`, passes a two-character ruling, so the
+        twenty-character check raises `ValueError` first and the person check is never reached.
+
+        AGAINST THE REAL LEDGER, for the same reason the net above is: inside `_esc_sandbox`,
+        `_a_probe_release` answers True for EVERY name by its own condition (1), so a sandboxed
+        version of this net could not fail. The exemption direction is asked of the PREDICATE
+        rather than by calling the resume, so no reserved name is resumed for real.
+
+        AND THE NAME IS SYNTHETIC, WHICH IS THE WHOLE SAFETY OF DRIVING THIS LIVE. The first
+        version of this net named `catalogue_web` -- a REAL subsystem -- and reasoned that the
+        refusal is raised before the compare-and-swap so nothing could be written. True on
+        correct code, and worthless as a guarantee: the mutant this net exists to catch is
+        PRECISELY the one that does not raise, so on the day the net earns its keep it would
+        walk on into the write path against a real name. If that name happened to carry a
+        standing rung-4 stop, the battery would lift it. Sweep55 batch 01 caught this on the day
+        it was written, and named the precedent: `_no_runtime_clear` was repaired out of the
+        same shape under order 9495caa65d06.
+
+        The name below is not in `SELFTEST_RESUME_SUBJECTS`, so it wins no exemption and the
+        person check applies to it in full -- and it is not a subsystem, so it can never be in
+        `state/STOPPED.json`. Under correct code the call refuses; under the mutant it reaches
+        the loop, finds no such key, and returns `(False, "was not stopped; nothing to resume")`
+        without writing. Safe in both worlds, which is what a probe against a live ledger has to
+        be. The stopped set is read first and asserted not to contain it, so the day somebody
+        does stop something by that name the net says so instead of quietly lifting it.
+        """
+        import escalation as E
+        import health as H
+        if E.STOPPED != E._REAL_STOPPED:
+            return False          # sandboxed: the name arm is answering. Not a pass.
+        name = "__drill_person_check_never_a_subsystem__"
+        if H.is_resume_probe(name):
+            return False          # it must NOT be exempt, or the refusal is not what is tested
+        if str(name) in (E._read_stopped() or {}):
+            return False          # refuse to drive this at all against a name that IS stopped
+        ruling = "a ruling long enough to clear the twenty character bar"
+        for fn in (E.resume_subsystem_verdict, E.resume_subsystem):
+            if not _refuses(lambda f=fn: f(name, ruling), PermissionError):
+                return False
+        # and the narrow exemption must still answer, or drill's own probe cleanup breaks and
+        # this net becomes a wall rather than a net
+        return all(E._a_probe_release(good) for good in H.SELFTEST_RESUME_SUBJECTS)
+    net(a, "a stopped subsystem may not be re-opened by a program",
+        a_resume_is_refused_to_a_program,
+        "order ddb5eadd8934, owner ruling 2026-09-08: an autonomous run may STOP a subsystem "
+        "and only a person may resume one. The incident that ruling cites is exactly this -- "
+        "catalogue_web stopped for nulling synthesis blocks and restarted by the keeper "
+        "thirty minutes later -- and the guard against it had no net of its own")
+
+    def the_probe_exemption_fails_closed_without_its_evidence():
+        """`_a_probe_release` must answer False when it cannot ask `health` at all.
+
+        Its own docstring says so in capitals: "FAILS CLOSED. If `health` cannot be imported the
+        answer is False -- not a probe -- so the person check applies in full. An exemption that
+        survives its own evidence going missing is not an exemption, it is a hole." The
+        2026-09-10 pass changed that `return False` to `return True` and nothing noticed,
+        because `health` imports fine under the battery and the line is never reached.
+
+        `is False`, NOT FALSY. The whole question is which of two literals comes back, and
+        `assert not x` would accept `None`, `0` and `""` as the contract being kept.
+
+        BOTH WAYS THE EVIDENCE CAN GO MISSING, because they need different handling. When
+        `is_resume_probe` RAISES, `health` is still importable, so the `except` arm's
+        `silence.note` records for real and the probe must be wrapped. When `health` cannot be
+        IMPORTED AT ALL, the wrapper cannot be used -- `_deliberately_failing` opens with
+        `import health as _H` and would take the ImportError itself -- and it is not needed,
+        because `silence.note` imports `health` too and its whole body sits under a total
+        `except Exception: pass`, so nothing can reach the ledger. That asymmetry is worth the
+        two branches: the first version of this net wrapped both and BREACHED on the import arm.
+        """
+        import escalation as E
+        if E.STOPPED != E._REAL_STOPPED:
+            return False          # sandboxed: condition (1) answers True for everything
+
+        # (1) the marker lookup raises. `health` is present, so the note lands -- wrap it.
+        import health as _H
+        real = _H.is_resume_probe
+
+        def _boom(_name):
+            raise RuntimeError("the resume-probe marker could not be read")
+        _H.is_resume_probe = _boom
+        try:
+            if _deliberately_failing(
+                    lambda: E._a_probe_release("__drill_rung4__")) is not False:
+                return False
+        finally:
+            _H.is_resume_probe = real
+
+        # (2) `health` cannot be imported at all. No wrapper: see the docstring.
+        saved = sys.modules.get("health")
+        sys.modules["health"] = None      # a late `import health` now raises ImportError
+        try:
+            return E._a_probe_release("__drill_rung4__") is False
+        finally:
+            if saved is not None:
+                sys.modules["health"] = saved
+            else:
+                sys.modules.pop("health", None)
+    net(a, "the probe exemption fails CLOSED when its evidence cannot be read",
+        the_probe_exemption_fails_closed_without_its_evidence,
+        "an exemption that survives its own evidence going missing is not an exemption, it is a "
+        "hole -- and it reaches the same end state as dropping the person check outright, by "
+        "the error path instead of the name path")
+
     def a_probe_leaves_no_order_behind():
         """The battery must be able to run on a live library without decorating its queue.
 
@@ -11220,6 +11903,131 @@ def drill_escalation_behaviour():
         a_lift_keeps_the_characters_of_the_ruling,
         "the ruling is the whole reason the halt was worth having; storing it as `\\uXXXX` "
         "makes the record of the decision less readable than the fault it settled")
+
+    # --- THE RUNG ITSELF. Landed 2026-09-11 by the daily run. The 2026-09-10 mutation pass
+    # survived BOTH mutations of the non-integral-float guard, and a grep for `is_integer`,
+    # `2.7` and `escalate(3.0` over this file and `verify_math.py` returns nothing: the existing
+    # rung rows only ever pass `str` and `int` levels, all of which are resolved or handled
+    # before that line is reached. So the guard order 762256b4b844 exists for -- a rung of a
+    # six-rung chain being chosen by a silent truncation -- had never been driven.
+    def a_float_rung_is_honoured_or_refused_but_never_truncated():
+        def probe(d, filed):
+            exact = ESC.escalate(3.0, "C", "W")
+            if exact["level"] != ESC.SAFETY:
+                return False          # 3.0 names a rung exactly and must still mean SAFETY
+            if "unrecognised_level" in (exact.get("evidence") or {}):
+                return False          # ...and must not be reported as unrecognised
+            vague = ESC.escalate(2.7, "C", "W")
+            if vague["level"] != ESC.MANAGER:
+                return False          # 2.7 names no rung; int(2.7) == 2 would be OPERATOR
+            return (vague.get("evidence") or {}).get("unrecognised_level") == "2.7"
+        return _esc_probe(probe)
+    net(a, "a fractional rung is refused UPWARD, and an exact float is still its rung",
+        a_float_rung_is_honoured_or_refused_but_never_truncated,
+        "order 762256b4b844. With the guard inverted, `escalate(2.7, ...)` truncates to "
+        "OPERATOR -- a quieter rung than anybody asked for, chosen by a rounding nobody was "
+        "told about -- while `escalate(3.0, ...)`, documented as still meaning SAFETY, is "
+        "downgraded to MANAGER and labelled unrecognised. Both halves are needed: the 3.0 limb "
+        "alone would pass a guard that had simply been switched off")
+
+    def an_unusable_rung_lands_at_MANAGER_rather_than_raising():
+        def probe(d, filed):
+            for bad in (None, [], object(), b"OWNER"):
+                try:
+                    rec = ESC.escalate(bad, "C", "W")
+                except Exception:
+                    return False      # the alarm crashed instead of sounding
+                if rec["level"] != ESC.MANAGER:
+                    return False
+            return True
+        return _esc_probe(probe)
+    net(a, "a level that is not a rung at all lands at MANAGER and does not raise",
+        an_unusable_rung_lands_at_MANAGER_rather_than_raising,
+        "this module's own comment calls it the worst kind of bug report: a run found a real "
+        "problem, tried to report it, and the alarm crashed instead of sounding, taking the "
+        "run's results with it. The `and -> or` mutant reaches `level.is_integer()` for every "
+        "non-str level, which is survivable only because `int` and `bool` happen to have that "
+        "method -- `None`, `[]` and `bytes` raise AttributeError ONE LINE ABOVE the try/except "
+        "written to catch exactly this class of input")
+
+    # --- THE HALT LOCK. Landed 2026-09-11 by the daily run, against a measured absence: a grep
+    # of this file and `verify_math.py` for `HALT_LOCK`, `halt-lock` and `.lock` returns only
+    # `codewatch`'s LEDGER_LOCK rows. NOTHING ANYWHERE HAD EVER CALLED `escalation._halt_lock`.
+    # The 2026-09-10 mutation pass found SEVEN survivors inside that one function (416, 419,
+    # 421, 428, 438, and the two `yield`s at 444/447), and the two yields are "equivalent" only
+    # because the sole call site is `with _halt_lock():` with no `as` -- an accident of the
+    # caller, not a property of the function. Seven survivors in twenty lines is what a function
+    # with no test looks like.
+    #
+    # WHAT THE LOCK IS FOR (order 97cc0dc43ca7): `O_CREAT|O_EXCL` is the mutual exclusion over
+    # the read-modify-write of `state/HALT.json`, closing the residual race the compare-and-swap
+    # could not. It FAILS OPEN by owner ruling -- a halt that cannot be raised because a lock
+    # file is stuck is worse than a lost corroboration -- so neither net below asserts a refusal.
+    # They assert the two things a fail-open lock still owes: it must not claim an exclusion it
+    # does not have, and it must not steal one somebody else does.
+    def a_fresh_lock_is_not_stolen():
+        def probe(d, filed):
+            lock = ESC.HALT_FILE + ".lock"
+            os.makedirs(os.path.dirname(lock), exist_ok=True)
+            open(lock, "w").close()               # a live holder: mtime is now
+            saved_attempts = ESC.HALT_LOCK_ATTEMPTS
+            ESC.HALT_LOCK_ATTEMPTS = 3            # ~0.15s rather than 2s
+            try:
+                # The contended path is SUPPOSED to fail: it notes and writes a banner. The note
+                # is already caught by the sandbox's `health.record` stub, and this wraps it as
+                # well because `net()`'s docstring says to -- a probe that drives a noting guard
+                # manufactures the exact signal the guard exists to raise. The banner is real
+                # stderr and would read, in the drill's own output, as the battery breaking.
+                buf = io.StringIO()
+                with contextlib.redirect_stderr(buf):
+                    got = _deliberately_failing(lambda: _lock_verdict())
+                if got is not False:
+                    return False                  # claimed an exclusion it never took
+                if "HALT LOCK NOT TAKEN" not in buf.getvalue():
+                    return False                  # failed open SILENTLY, which is the worse half
+                return os.path.exists(lock)       # and the holder's lock must still be there
+            finally:
+                ESC.HALT_LOCK_ATTEMPTS = saved_attempts
+        return _esc_probe(probe)
+
+    def a_stale_lock_is_stolen():
+        def probe(d, filed):
+            lock = ESC.HALT_FILE + ".lock"
+            os.makedirs(os.path.dirname(lock), exist_ok=True)
+            open(lock, "w").close()
+            old = time.time() - (ESC.HALT_LOCK_STALE_SECONDS * 10)
+            os.utime(lock, (old, old))            # a corpse: the holder died before removing it
+            if _lock_verdict() is not True:
+                return False                      # waited out a dead process instead of stealing
+            return not os.path.exists(lock)       # and released it again on the way out
+        return _esc_probe(probe)
+
+    net(a, "a lock somebody is holding is NOT stolen",
+        a_fresh_lock_is_not_stolen,
+        "with the staleness comparison inverted a LIVE lock is removed on sight and two writers "
+        "sit inside the read-modify-write of HALT.json at once -- which is the exact race the "
+        "lock was added to close. The same net catches a lock that was never taken reporting "
+        "itself as held: `held = False` at the top is NOT a dead store, because the contended "
+        "and OSError paths reach the verdict without ever assigning it")
+    net(a, "a lock left by a dead process IS stolen, and released after",
+        a_stale_lock_is_stolen,
+        "the other half, and the one that keeps the net from being a wall: a corpse that is "
+        "never stolen degrades every halt write for as long as the file sits there, and a halt "
+        "that cannot be raised is this module's worst outcome. The release half catches the "
+        "mutation that takes the lock, disclaims it, and returns before the `finally`")
+
+
+def _lock_verdict():
+    """-> the value `escalation._halt_lock()` yields, with the context manager properly exited.
+
+    THE VALUE IS THE WHOLE POINT AND THE LIVE CALLER THROWS IT AWAY. `_halt_lock` is used as
+    `with _halt_lock():` with no `as`, so `yield True` and `yield False` are indistinguishable
+    from inside the library -- which is why the 2026-09-10 mutation pass could flip both and
+    stay green, and why this helper exists to look at what the caller ignores. A net written
+    against the call site instead would inherit the call site's blindness.
+    """
+    with ESC._halt_lock() as got:
+        return got
 
 
 def drill_assay_behaviour():
@@ -15694,6 +16502,99 @@ def drill_correlation():
         "a grade of testimony more uncertain than total ignorance is a formula, not a fact")
 
 
+def _citecheck_over(files):
+    """Run `citecheck` over a scratch tree written from `files` ({name: text}). -> the findings.
+
+    EVERY NET BELOW DRIVES A THROWAWAY DIRECTORY, NEVER LIVE `src/`. Planting a deliberately
+    rotten citation in the library to prove the detector sees it would leave the library holding
+    a rotten citation for as long as the probe ran, and this battery has halted the project once
+    already by staging a fault in a live ledger (2026-09-09, `_scope_lands_key_wise`). The
+    `src_dir` parameter on `citecheck.stale_citations` exists for exactly this and for nothing
+    else.
+    """
+    import tempfile
+    import citecheck as CC
+    root = tempfile.mkdtemp(prefix="drill_citecheck_")
+    try:
+        for name, text in files.items():
+            with open(os.path.join(root, name), "w", encoding="utf-8") as fh:
+                fh.write(text)
+        return CC.stale_citations(src_dir=root, include_unresolved=True)
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _reasons_for(files):
+    """-> the set of reason constants `citecheck` returns over this scratch tree."""
+    return set(f["reason"] for f in _citecheck_over(files))
+
+
+# A target module with a known shape, reused by every net below so each one varies exactly one
+# thing. Line 1 is code, line 2 is BLANK, line 3 is a bare closing bracket, line 4 is code. The
+# file is four lines long, so :5 is past the end of it.
+_CITE_TARGET = "CONST = (\n\n)\nDONE = 1\n"
+
+
+def drill_citations():
+    a = "THE CITATIONS — does a comment that points nowhere get noticed before the next sweep?"
+
+    net(a, "a citation past the end of the cited file is caught",
+        lambda: "PAST_EOF" in _reasons_for({"t.py": _CITE_TARGET,
+                                            "c.py": "# see t.py:5 for the reason\n"}),
+        "`mutate.py` cited verify_math.py:7990 in a file of 1,300 lines; three sweeps in a row "
+        "filed this class by hand because nothing mechanical ever looked")
+
+    net(a, "a citation landing on a blank line is caught",
+        lambda: "BLANK_LINE" in _reasons_for({"t.py": _CITE_TARGET,
+                                              "c.py": "# see t.py:2 for the reason\n"}),
+        "standards.py:604 was exactly this, found by a sweep batch that had to read both ends")
+
+    net(a, "a citation landing on a bare closing bracket is caught",
+        lambda: "BARE_BRACKET" in _reasons_for({"t.py": _CITE_TARGET,
+                                                "c.py": "# see t.py:3 for the reason\n"}),
+        "address_space.py:381 was exactly this; nobody cites the punctuation that ends a call")
+
+    # THE OTHER HALF, AND THE MORE IMPORTANT ONE. A detector that flags everything is a wall,
+    # and a wall filing ten orders a shift is how a queue stops being read (Hard Rule -1: an
+    # alarm that always sounds is furniture). Each of the three below is a shape this detector
+    # met on its FIRST live run and got wrong, which is why they are nets and not comments.
+    net(a, "a citation that still points at real code is NOT flagged",
+        lambda: not _reasons_for({"t.py": _CITE_TARGET,
+                                  "c.py": "# see t.py:4 for the reason\n"}),
+        "a net that refuses everything is a wall, not a net")
+
+    net(a, "a citation into ANOTHER TREE is not called stale",
+        lambda: not _reasons_for({"c.py": "# the model is motoko/discord_bot.py:256 on this "
+                                          "machine\n"}),
+        "`gpu_lane` and `overnight` cite motoko, `cascade_bridge` cites the cascade engine, and "
+        "`workorders` cites deprecated/. All three are correct as written and unresolvable from "
+        "here; reporting them would put ten sites nobody should touch in front of every one "
+        "that matters")
+
+    net(a, "an ILLUSTRATIVE placeholder in a docstring is not called stale",
+        lambda: not _reasons_for({"c.py": "# e.g. `foo.py:12 Bar.baz()` is answerable\n"}),
+        "liveness explains its own rule with foo.py:12 and drill feeds src/x.py:1 to a lint "
+        "net as DATA -- flagging those is reading the example as the thing")
+
+    def _only_proved_reasons():
+        # THE LENGTH CHECK IS NOT DECORATION. `all(... for f in [])` is True, so without it this
+        # net passes loudest exactly when the detector has stopped finding anything at all --
+        # which is the failure it is standing next to. Found by sweep55 batch 01 on the day the
+        # net was written.
+        found = _citecheck_over({"t.py": _CITE_TARGET,
+                                 "c.py": "# t.py:2 and t.py:5 and gone.py:9\n"})
+        if len(found) != 3:
+            return False           # one blank line, one past EOF, one unresolvable module
+        return all(f["reason"] in ("PAST_EOF", "BLANK_LINE", "BARE_BRACKET", "UNRESOLVED")
+                   for f in found)
+
+    net(a, "the detector reports what it PROVED, not what it assumed",
+        _only_proved_reasons,
+        "a zero from citecheck means 'none provably broken', never 'verified' -- the expensive "
+        "half of the question stays a sweep's job and the module must not grow a reason that "
+        "implies otherwise")
+
+
 def drill_outside():
     """The derived index and the outside opinion — two new ways to be confidently wrong.
 
@@ -16912,7 +17813,7 @@ def main(areas=None):
     for fn in (areas if areas is not None else
               (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
-               drill_done_keys, drill_profile,
+               drill_done_keys, drill_run57_repairs, drill_run_guard, drill_profile,
                drill_snapshot, drill_stale_writer, drill_policy, drill_binding_identity,
                drill_fetch, drill_cascade, drill_park,
                drill_workorders, drill_inspector, drill_no_top_ups, drill_probe_honesty, drill_rung_four, drill_codewatch, drill_scout,
@@ -16928,6 +17829,7 @@ def main(areas=None):
                # is an area whose nets never run, which is the quietest way to lose a net.
                drill_identity_dashboard, drill_hostcheck, drill_weave_plan,
                drill_agent_scratch_gate,
+               drill_citations,
                drill_outside,
                # LAST, AND THE POSITION IS THE COVERAGE (order 895a99602bf0). The ledger
                # witness sees only what happened BEFORE it: an area appended after this one

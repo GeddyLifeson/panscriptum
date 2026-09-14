@@ -28,6 +28,23 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pipeline as PL          # noqa: E402
 
 
+def _preview(s, width=70):
+    """One console preview of evidence or a scale note, cut only if it must be, NEVER silently.
+
+    Order 215f9e7b86ff. The three preview sites below cut at 70 with a bare slice, so an
+    evidence string that continued read exactly like one that ended -- in the report whose whole
+    job is to show the operator WHY a band was demoted or kept. `pipeline._stored_cut` is this
+    codebase's convention for these same two fields, and it marks its cuts.
+
+    A DISPLAY CUT, and reversible: the whole `evidence` / `scale_note` stays in
+    `data/records/*.json` and is untouched by this module unless --apply demotes the band. Same
+    three-token idiom and marker as `allsweep._marked`, `tiers._cut` and `magnitude._reason_cell`
+    (order b0586860a8ae wants the family hoisted; that hoist spans files this shift does not own).
+    """
+    s = str(s)
+    return s if len(s) <= width else s[:width - 1] + chr(8230)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
@@ -50,7 +67,7 @@ def main():
         band = syn.get("provisional_magnitude")
         if (band and band != "unassayed"
                 and not PL.valid_scale_note(syn.get("evidence") or "")):
-            demoted_sources.append((src, band, (syn.get("evidence") or "")[:70]))
+            demoted_sources.append((src, band, _preview(syn.get("evidence") or "")))
             if args.apply:
                 syn["provisional_magnitude"] = "unassayed"
                 syn["demoted_by"] = ("evidence gate corrected 2026-08-20; the recorded "
@@ -64,9 +81,9 @@ def main():
             sn = e.get("scale_note") or ""
             if b and b != "unassayed":
                 if PL.valid_scale_note(sn):
-                    kept_entries.append((src, e.get("name"), b, sn[:70]))
+                    kept_entries.append((src, e.get("name"), b, _preview(sn)))
                 else:
-                    demoted_entries.append((src, e.get("name"), b, sn[:70]))
+                    demoted_entries.append((src, e.get("name"), b, _preview(sn)))
                     if args.apply:
                         e["magnitude"] = "unassayed"
                         changed = True
@@ -131,6 +148,14 @@ def main():
     print(f"  demoted to unassayed: {len(demoted_entries):,}")
     print("\nSOURCE CEILINGS")
     print(f"  demoted to unassayed: {len(demoted_sources):,} of {len(recs):,}")
+    # THE ROSTER, NOT ONLY ITS LENGTH (order 215f9e7b86ff). `demoted_sources` was built in full
+    # at the top of this function and then never printed -- only `len()` appeared, right here.
+    # A roster computed and withheld is the same harm as a roster truncated: the operator is
+    # shown a number and cannot reach the names, so there is no way to check the demotion the
+    # number is claiming. UNCAPPED, per Hard Rule 0 and per the DEMOTED twin below, which
+    # sweep42-batch04 uncapped in this same function for this same reason.
+    for _src, _band, _evidence in sorted(demoted_sources):
+        print(f"    {_src:<34}{_band:<6}{_evidence}")
     print(f"\nscale notes cleared (no longer evidence): {cleared_notes:,}")
     # HOW MUCH EVIDENCE WAS RETAINED, beside how much was refused. A run that reports only its
     # refusals reads as a run that destroyed them, which is the reading this module earned.

@@ -1540,6 +1540,73 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+### Resolved by run #56 (2026-09-11/12 daily maintenance, sweep 56)
+
+*The halt this shift opened on is NOT in this ledger as a bug, because it was not one: a machine
+crash damaged a state file and every safety in the chain refused correctly. It is recorded in
+`HANDOFF.md` under run #56, and the OWNER halt it raised is still standing.*
+
+- **[M104 — RESOLVED 2026-09-12, run #56] THE OVERLAP GUARD DEGRADED IN EXACTLY THE WRONG
+  DIRECTION: THE LONGER A RUN WORKED, THE MORE CERTAINLY ITS SUCCESSOR WALKED IN ON IT.**
+  `state/MAINTENANCE_RUN.json` wrote `started` and `heartbeat` once, together, and never again,
+  and recorded the holder as free-text `agent` with **no pid at all** — so a reader could not ask
+  the process table whether the holder was real. **Measured cost (2026-09-09):** run #53 held the
+  guard with a heartbeat that had not moved in **101.7 minutes** while it was demonstrably alive —
+  committing at 23:26 and 23:42, lifting a halt, writing `HANDOFF.md` at 23:44. By the file's own
+  fifteen-minute rule it was dead, so run #54 claimed the guard and **both runs edited
+  `src/drill.py` inside the same twenty minutes.** Nothing was lost, and "nothing was lost" was
+  the whole of the luck involved. **And nothing detected either direction** — no order, no net, no
+  battery row. **Root cause:** liveness was inferred from a timestamp the holder had to remember
+  to refresh, with no second, independent witness. **Fix:** `claim()` records `pid` and
+  `pid_started`; `beat()` refreshes them; `holder_is_live()` extends a stale record **only** when
+  the pid is provably alive *and* its start instant matches. That arm can only ever turn a claim
+  into a stand-down, never the reverse, and every unknown — absent pid, unreadable process table,
+  a recycled pid after a reboot — falls through to the original verdict, so it cannot **wedge**
+  the pass, which this module fears more than overlap. A detector `runguard.guard_fault()` is
+  wired into `workorders.sweep_detectors`. Eight drill nets, the four testing new behaviour
+  **watched going red** against a reconstruction of the pre-fix module. The daily cadence made
+  this worse rather than better: the shift is now meant to be long. Order `99d752c5632f`.
+
+- **[m195 — RESOLVED 2026-09-12, run #56] A PATTERN-VALID WORLD PROFILE CRASHED WITH A BARE
+  `IndexError` INSTEAD OF BEING REFUSED.** `profile.decode()` built its features with
+  `tbl[B32.index(ch)]` inside a dict comprehension. `B32` holds 32 symbols; the axis tables hold
+  **6, 6, 3 and 4 rows**. So `6`, `3` and `4` are perfectly legal B32 digits no table has a row
+  for, and a profile carrying one died as `IndexError: list index out of range` — out of a
+  comprehension, **naming neither the profile, nor the axis, nor the character**. Reproduced
+  before the change: `decode("PS-1-myc-000z-u0")`. **Root cause:** this is the SAME fault the
+  block above `_PROFILE_RE` records fixing — *"what was wrong is WHICH LAYER refused it, and with
+  what"* — one layer further in, and it survived that fix because the existing net drives only the
+  four excluded LETTERS and asks `except ValueError`, which an `IndexError` does not even satisfy.
+  Being in the alphabet is not the same as being in the table, and nothing asked the second
+  question. **Fix:** a per-axis range check in `decode()` raising `ValueError` naming the profile,
+  the axis, the character, its index, the table size and the legal digits for that axis. New drill
+  net drives **one attack per axis** (a range check written for one axis and not the others is the
+  shape this file keeps finding) and was watched BREACHING on the old code and HOLDING on the new.
+  Found by sweep56 batch 08.
+
+- **[m196 — RESOLVED 2026-09-12, run #56] FOURTEEN UNMARKED TRUNCATIONS, TWO OF THEM ON VALUES
+  THAT PERSIST, AND ONE ROSTER COMPUTED AND THEN WITHHELD.** Hard Rule 0 permits ranking and
+  forbids ranking-then-truncating; every site here cut a value with no ellipsis, no "+N more", and
+  nothing telling the reader it continued. **Root cause:** eight files each grew their own
+  marking helper (`_stored_cut`, `_marked`, `_cut`) and then had call sites that did not use it —
+  in two cases the *adjacent* line did. `pipeline.subroom_rejected` used a bare `sub[:120]` while
+  its sibling `topic_rejected` eleven lines above routed through `_stored_cut`; `allsweep`'s
+  `run_verifier` clipped its error tail at 150 while `allsweep._marked`'s own docstring named that
+  exact site as the counter-example it must not be used on (*"where the record exists nowhere else
+  the answer is to keep the whole thing — see `run_verifier`'s `tail`"*). **Fix:** stored values
+  uncut or routed through `_stored_cut`; exception text kept **whole**, on the precedent this
+  codebase set under orders `ca4f97d6b64d` and `f5fdaab825a6` (an exception message is the only
+  surviving copy of what it says, and `_marked`'s docstring forbids using it there); reversible
+  display cuts given the house marker, adding `magnitude._reason_cell` and `repass_bands._preview`.
+  And `repass_bands.demoted_sources` — built in full at the top of the function, printed nowhere,
+  with only `len()` shown under SOURCE CEILINGS — **is now printed in full and uncapped**: a
+  roster computed and withheld is the same harm as a roster truncated, because the operator is
+  shown a number and cannot reach the names that justify it. All four helpers were driven on both
+  sides of their bound to prove they mark only when a cut happens. **Note:** this shift added the
+  eighth and ninth copies of the same three-token display-cut expression, so order `b0586860a8ae`
+  (hoist them into one helper) is now more urgent, not less. Order `215f9e7b86ff`.
+
+
 ### Resolved by run #54 (2026-09-09/10 daily maintenance, sweep 54)
 
 *Every entry below was found and fixed in the same shift, so none of them ever sat in `## Open`.

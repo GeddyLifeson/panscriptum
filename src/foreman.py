@@ -1959,7 +1959,36 @@ def main():
     if a.loop:
         codewatch.claim_singleton("foreman")
         codewatch.stamp("foreman")
+    _halt_rc = 0
     while True:
+        # THE HALT IS RE-ASKED EVERY ROUND (sweep57-batch10). `main()` asserted it once at startup,
+        # above, and this loop then ran for as long as the process lived -- so an OWNER halt raised
+        # by any other job while the foreman was up did not reach it. That matters more here than
+        # almost anywhere: a round starts `catalogue_web.py`, `sweep.py`, `completeness.py` and
+        # `magnitude.py --calibrate`, none of which asks the halt itself, and kills and restarts
+        # processes. A halted library whose foreman keeps dispatching work is not halted.
+        #
+        # THE HOUSE PATTERN, COPIED DELIBERATELY from `publish.py`'s loop (order 5905045ff433),
+        # including the re-import: a deleted or unparseable escalation.py must be a SystemExit here,
+        # not something a later `except Exception` swallows into "round failed, carry on". And it
+        # BREAKS rather than retrying: a halted library must stop the foreman, not have it knock
+        # every few minutes for ever. `codewatch.exit_if_stale` below does not cover this -- it
+        # watches CODE, and a halt is STATE.
+        try:
+            import escalation as _ESC_ROUND
+        except ImportError as _esc_gone_round:
+            raise SystemExit(
+                "STOPPING: the escalation chain (src/escalation.py) could not be imported "
+                "mid-loop (%s), so the halt can no longer be read. Hard Rule -1."
+                % _esc_gone_round) from _esc_gone_round
+        try:
+            _ESC_ROUND.assert_clear("foreman.py round")
+        except _ESC_ROUND.SystemHalted as _halted:
+            print(str(_halted).splitlines()[0])
+            print("STOPPING THE FOREMAN: a halt is standing, so no remedy starts, kills or "
+                  "restarts anything further. Only a person may lift it.")
+            _halt_rc = 1
+            break
         print("=" * 88)
         print(f"FOREMAN  {time.strftime('%H:%M:%S')}" + ("" if a.go else "   (dry run)"))
         print("=" * 88)
@@ -1986,6 +2015,9 @@ def main():
         # so an edit storm cannot turn this into a respawn loop -- see codewatch.py.
         codewatch.exit_if_stale("foreman")
         time.sleep(a.loop * 60)
+    # Reached only by the halt `break` at the top of the loop. Non-zero, as publish.py's is, so a
+    # foreman that stopped for a standing halt is never read as one that finished its work.
+    return _halt_rc
 
 
 if __name__ == "__main__":

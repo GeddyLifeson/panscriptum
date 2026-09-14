@@ -495,7 +495,11 @@ def main():
               "all Fallout", "Adventure Time"):
         if s in charted:
             c = charted[s]
-            print(f"   {s[:26]:<28}H{c['hyperverse']} › X{c['xenoverse']} › "
+            # `_cut`, not a bare slice (order 215f9e7b86ff). This file has carried its own
+            # marking helper at :143 since before this line was written, and named in
+            # sweep45/AUDIT_batch16 and unfixed since: a source name cut at 26 with no marker
+            # reads as the whole name, and these are the names a reader uses to look the row up.
+            print(f"   {_cut(s, 26):<28}H{c['hyperverse']} › X{c['xenoverse']} › "
                   f"Mt{c['metaverse']} › Mv{c['multiverse']}")
 
     out = os.path.join(HERE, "data", "TIERS.json")

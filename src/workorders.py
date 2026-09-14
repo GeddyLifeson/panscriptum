@@ -545,13 +545,34 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
         # already truncate for display at their own call sites (which is where a cap belongs,
         # because it is reversible there), and `order_id` hashes the RAW `where` argument rather
         # than the stored copy, so removing these changes no order's identity.
-        d[oid] = {"id": oid, "code": str(code), "what": str(what), "handler": handler,
+        # A RE-ROUTE SURVIVES A REFRESH (order 066bfb187bd1). This built the record from the
+        # caller's arguments and kept only `first_seen` and `seen` from the order on disk, so a
+        # detector re-filing its own code on the next sweep put `handler` back on the detector's
+        # rung and replaced `found_by` -- which is exactly where `reroute()` records who moved the
+        # order and why. Measured 2026-09-12: run #56 re-routed PREFLIGHT_PROBLEM RUN -> OWNER with
+        # ~50 lines of measurement, and that same shift's next `--sweep` put it back on RUN with the
+        # diagnosis gone. No detector-owned order could ever be re-routed.
+        #
+        # The two writers now own different fields. The detector keeps `what`, `severity`,
+        # `where`, `evidence` and `last_seen` -- its CURRENT reading, which must stay live. A
+        # re-route owns the rung and the trail: once an order has been re-routed, a refresh leaves
+        # `handler` and `found_by` exactly as the re-route left them. Recognised by the
+        # " | rerouted " trail `reroute()` has always written, so every order re-routed before this
+        # change is covered too, and the marker below makes it explicit from here on.
+        _rerouted = (bool(prev.get("rerouted"))
+                     or " | rerouted " in str(prev.get("found_by") or ""))
+        d[oid] = {"id": oid, "code": str(code), "what": str(what),
+                  "handler": prev.get("handler", handler) if _rerouted else handler,
                   "severity": severity, "where": str(where),
                   "evidence": evidence if isinstance(evidence, (dict, list)) else
                   (None if evidence is None else str(evidence)),
-                  "found_by": str(found_by or ""),
+                  "found_by": (str(prev.get("found_by") or "") if _rerouted
+                               else str(found_by or "")),
                   "first_seen": prev.get("first_seen", now), "last_seen": now,
                   "seen": int(prev.get("seen", 0)) + 1}
+        if _rerouted:
+            d[oid]["rerouted"] = prev.get("rerouted") or {
+                "to": prev.get("handler"), "recognised_from": "the found_by trail"}
         return d[oid]
 
     landed, rec = _mutate(_change)
@@ -1226,6 +1247,29 @@ def sweep_detectors():
     except Exception:
         _detector("ledgers", False)
 
+    # 1b. the overlap guard vs the process table (order 99d752c5632f)
+    #
+    # THE GUARD HAD NO DETECTOR AT ALL, which is why the same fault reached its third run. It is
+    # checked here rather than in the battery because it costs one process-table lookup and
+    # because it must be asked on the ORDINARY cadence: the condition it catches is transient by
+    # nature -- a run that is working right now and has stopped saying so -- and a check that
+    # only runs when the battery runs would miss it exactly when a shift is busiest.
+    #
+    # It files at SESSION rather than RUN deliberately. Both shapes are statements ABOUT a
+    # maintenance run's own bookkeeping, and the rung that can honestly act on "two runs may be
+    # overlapping right now" is a person at a terminal, not the run that is arguably one of the
+    # two. `guard_fault` returns None when it cannot tell, so this stays quiet on a machine
+    # whose process table it cannot read.
+    try:
+        import runguard as _RG
+        _gf = _RG.guard_fault()
+        _fire(_gf is None, "MAINTENANCE_GUARD_DISAGREES_WITH_THE_PROCESS_TABLE",
+              _gf or "", "SESSION", "MAJOR", where="state/MAINTENANCE_RUN.json",
+              found_by="runguard.guard_fault")
+        _detector("runguard", True)
+    except Exception:
+        _detector("runguard", False)
+
     # 2. dead code / checks that cannot fail
     try:
         import liveness
@@ -1784,6 +1828,48 @@ def sweep_detectors():
         _detector("misrouted-local", True)
     except Exception:
         _detector("misrouted-local", False)
+
+    # 12. STALE `file.py:NNN` CITATIONS IN src/ (order 386c0d66e31e, remedy (b)). THREE
+    #     CONSECUTIVE SWEEPS filed this class by hand -- 44, 48's `89503c58409f` with 60 sites,
+    #     and 54's -- because the citations rot faster than they are repaired and nothing
+    #     anywhere checked. A sweep re-harvesting the same class is the expensive way to learn
+    #     the same fact a third time.
+    #
+    #     ONE ORDER, NOT ONE PER SITE, and the whole list rides in `evidence` uncapped. This is
+    #     a single rule with many instances, which is how `386c0d66e31e` itself is written, and
+    #     ten orders that each say "a comment points at a blank line" would bury the queue for
+    #     a class whose individual members are each a minute of work.
+    #
+    #     THE HANDLER IS LOCAL. Every finding is a one-line comment edit against a quoted,
+    #     unique string -- the exact shape `local_agent`'s gate can carry -- and the order text
+    #     is composed to give it the quoted line rather than a description of where to look,
+    #     which is the mistake recorded in `abc943bb6464`'s two failed attempts.
+    #
+    #     WHAT IT DOES NOT CLAIM: `citecheck` proves only that a cited line CANNOT be the one
+    #     meant (past EOF, blank, or a bare closing bracket). It never establishes that a
+    #     citation is correct, and a zero here means "none provably broken", not "verified".
+    #     The expensive half stays a sweep's job; this is the floor that stops the class
+    #     growing between sweeps.
+    try:
+        import citecheck as _CC
+        _cites = _CC.stale_citations()
+        _cite_rows = ["%s:%d cites %s:%d (%s) -- %s"
+                      % (c["citing"], c["line"], c["cites"], c["cited_line"], c["reason"],
+                         c["text"])
+                      for c in _cites]
+        _fire(not _cites, "STALE_CITATION",
+              "%d `file.py:NNN` citation(s) in src/ comments point at a line that CANNOT be the "
+              "one meant -- past end of file, a blank line, or a bare closing bracket. Each was "
+              "established by opening the cited file and reading the cited line, so none of "
+              "these is a judgement call. Order 386c0d66e31e remedy (a) is the repair: cite the "
+              "SYMBOL instead of renumbering, so the citation stops rotting on the next edit "
+              "above it. The complete list is in evidence, uncapped; first three: %s"
+              % (len(_cite_rows), " | ".join(_cite_rows[:3])),
+              "LOCAL", "MINOR", found_by="citecheck.stale_citations",
+              evidence={"citations": _cite_rows})
+        _detector("citations", True)
+    except Exception:
+        _detector("citations", False)
 
     # `file_order` returns None for a finding whose queue write did not land (it says so on
     # stderr). Those must not be counted as filed -- "swept: N filed" over an order that is not

@@ -369,6 +369,37 @@ def _twin_watchdog():
     return False
 
 
+def _start_decision(alive, starts, now, halted):
+    """What one watchdog tick should do. -> (action, starts_still_inside_the_window).
+
+    `action` is one of "unknown", "running", "halted", "budget", "start". A PURE FUNCTION, pulled
+    out of `watch()` so the drill can put questions to it: `watch()` is an infinite loop, and a rule
+    inside a loop nobody can drive is a rule nobody can watch refuse (order 06041602990d).
+
+    THE HALT IS ASKED BEFORE THE BUDGET IS SPENT, and that ordering is the whole repair. `watch()`
+    used to ask only "is the supervisor running", so under an OWNER halt it started a supervisor
+    that correctly refused and exited, counted that deliberate exit against its three-an-hour crash
+    budget, and logged that the library "needs a person" -- every hour through 2026-09-11 and again
+    on 2026-09-13. Worse, a budget burned on refusals kept the fleet down for up to an hour AFTER a
+    person lifted the halt; run #57 had to start the supervisor by hand. CLAUDE.md names the shape:
+    "A safety that stops work is not a fault that stops work."
+
+    `halted` is True, False, or None for "could not read the halt". None does NOT suppress the
+    start: the supervisor asks the halt itself, first, and refuses on its own, so an unreadable halt
+    costs one refused start rather than a watchdog that has stopped watching.
+    """
+    starts = [t for t in starts if now - t < START_WINDOW_SECONDS]
+    if alive is None:
+        return "unknown", starts
+    if alive:
+        return "running", starts
+    if halted is True:
+        return "halted", starts
+    if len(starts) >= MAX_STARTS_PER_HOUR:
+        return "budget", starts
+    return "start", starts
+
+
 def watch(read_hours=10):
     """Keep the supervisor alive. The one thing it cannot do for itself.
 
@@ -430,6 +461,7 @@ def watch(read_hours=10):
     said_unknown_at = 0.0       # all three of these are rate-limited: at CHECK_SECONDS a
     said_budget_at = 0.0        # persistent condition would otherwise write twenty identical
     said_stale_at = 0.0         # lines an hour
+    said_halted_at = 0.0        # rate-limited like the three above (order 06041602990d)
     while True:
         try:
             alive = supervisor_alive()
@@ -444,26 +476,43 @@ def watch(read_hours=10):
                          "change to autostart.py since this process started takes effect at the "
                          "NEXT LOGON and not before. To apply one now: kill this process and run "
                          "%s src/autostart.py --watch" % (why, PY))
-            if alive is None:
+            # THE HALT IS READ BEFORE ANY START IS CONSIDERED (order 06041602990d). Only when the
+            # supervisor is down, because that is the only tick on which a start is possible. An
+            # unreadable halt is None, which `_start_decision` deliberately does NOT treat as a
+            # reason to hold back: the supervisor asks the halt first and refuses on its own.
+            halted = None
+            if alive is False:
+                try:
+                    import escalation as _ESC_WATCH
+                    halted, _halt_rec = _ESC_WATCH.status()
+                except Exception:
+                    silence.note("autostart.py:watch-halt-unreadable")
+                    halted = None
+            action, starts = _start_decision(alive, starts, now, halted)
+            if action == "unknown":
                 # DO NOT ACT ON A BLIND SPOT. See supervisor_alive().
                 if now - said_unknown_at >= START_WINDOW_SECONDS:
                     said_unknown_at = now
                     _log("cannot tell whether the supervisor is running, so NOT starting one "
                          "-- an inability to observe is not a death. Will keep looking.")
-            elif not alive:
-                starts = [t for t in starts if now - t < START_WINDOW_SECONDS]
-                if len(starts) >= MAX_STARTS_PER_HOUR:
-                    if now - said_budget_at >= START_WINDOW_SECONDS:
-                        said_budget_at = now
-                        _log("supervisor is down and %d start(s) in the last hour did not fix "
-                             "it; NOT starting another. This is deeper than a crash and needs "
-                             "a person -- respawning past this point is the loop, not the cure."
-                             % len(starts))
-                else:
-                    start_supervisor(read_hours)
-                    starts.append(now)
-                    _log("supervisor was not running; started it (%d of %d allowed this hour)"
-                         % (len(starts), MAX_STARTS_PER_HOUR))
+            elif action == "halted":
+                if now - said_halted_at >= START_WINDOW_SECONDS:
+                    said_halted_at = now
+                    _log("the library is HALTED, so the supervisor is down ON PURPOSE: NOT "
+                         "starting one and NOT spending the start budget. This is not a fault. "
+                         "It starts on the first check after a person lifts the halt.")
+            elif action == "budget":
+                if now - said_budget_at >= START_WINDOW_SECONDS:
+                    said_budget_at = now
+                    _log("supervisor is down and %d start(s) in the last hour did not fix "
+                         "it; NOT starting another. This is deeper than a crash and needs "
+                         "a person -- respawning past this point is the loop, not the cure."
+                         % len(starts))
+            elif action == "start":
+                start_supervisor(read_hours)
+                starts.append(now)
+                _log("supervisor was not running; started it (%d of %d allowed this hour)"
+                     % (len(starts), MAX_STARTS_PER_HOUR))
         except Exception as e:
             silence.note("autostart.py:watch")
             # THE MESSAGE NAMES THE EXCEPTION'S OWN STR, NOT JUST ITS CLASS (order 6d3eb126941f).

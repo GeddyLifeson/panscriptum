@@ -432,6 +432,14 @@ def mine(source):
     # Event, Media item or Power/System misfiled into Persons, with no signal it happened.
     bad_category = 0
     while ci < len(chunks):
+        # THE HALT IS RE-ASKED EVERY CHUNK (sweep57-batch09). `mine()` asked once on entry and this
+        # loop can then run for hours -- sixty consecutive misses alone is ~5h -- writing
+        # data/records/*.json on every chunk that lands, so an OWNER halt raised by any other job in
+        # that window did not stop it. Asked at the TOP of the chunk, before the model call and
+        # before any write, so a halt costs at most the chunk not yet started and never a
+        # half-merged record: every earlier chunk is already on disk through
+        # `write_record_catalogue`, and the run is resumable, as its own stop messages say.
+        _assert_not_halted("mine chunk %d/%d" % (ci + 1, len(chunks)))
         text, chunk_pages = chunks[ci]
         got = _ask(SYSTEM, "PASSAGE (%s):\n\n%s" % (", ".join(chunk_pages), text), SCHEMA)
         if got is None:

@@ -7065,6 +7065,60 @@ check("the section-loss floor is still zero",
       _PGate.SECTION_LOSS_FLOOR, 0.0,
       note="raising this is how a future run would make these failures quietly go away")
 
+# --- LAYER 4c: THE INSTRUMENT. Pinned here as well as in the drill, the way `section_shortfall`
+# above already is, and for a measured reason: the 2026-09-10 mutation pass corrupted
+# `instrument_shortfall` FOURTEEN ways and neither this file nor `drill.py` noticed one of them,
+# because neither had ever called it. `prose_gate.py` names the debt in a comment above the
+# function -- a fixture carrying an Instrument line plus a net and a row here, "WITHOUT which
+# this layer is unproven". The drill carries the full ten-net family; these four are the ones
+# that must hold in both places, because layer 4c guards the LARGEST single loss of the
+# 2026-08-25 incident (1,155 of 1,268 entries, 91%, against the 71% Threads loss two checks up).
+_i_good = ("◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
+           "▣ The Instrument\nWisdom: 18 (Exalted)\n" + _BODY
+           + "**Threads: pending the entanglement pass**\n")
+_i_lost = ("◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n" + _BODY
+           + "**Threads: pending the entanglement pass**\n")
+_i_place = ("◈ **A**\nShelfmark: 1\nClass: Place\nMagnitude: M2\n"
+            "Not applicable -- the Instrument measures beings, not places.\n" + _BODY
+            + "**Threads: pending the entanglement pass**\n")
+_i_unins = ("◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n"
+            "▣ The Instrument\nuninstrumented -- no faculties on file\n" + _BODY
+            + "**Threads: pending the entanglement pass**\n")
+# EVERY 1.0 ROW CARRIES ITS `required` COMPANION, and that is not belt-and-braces -- it is the
+# difference between this block testing anything and testing nothing. `assert_instrument_present`
+# returns 1.0 for "every charged entry is present" AND for "nothing was charged at all", so a
+# bare `== 1.0` is satisfied by a gate that has stopped charging anybody. Sweep55 batch 02
+# demonstrated it on the day these rows landed: with `INSTRUMENT_CLASSES = ()` a Person entry
+# carrying a bare heading and nothing under it passes the gate, and three of these five rows
+# still read True. The companion asserts a charge was actually made, so "1.0" can only mean the
+# first thing.
+check("an instrumented entry satisfies the Instrument gate",
+      (_PGate.assert_instrument_present(_i_good, "t"),
+       _PGate.instrument_shortfall(_i_good)[1]), (1.0, 1))
+check("an entry that lost its Instrument section RAISES",
+      _raises(lambda: _PGate.assert_instrument_present(_i_lost, "t")), True,
+      note="the incident's headline symptom, and the one no other layer can see")
+check("the classed entry is CHARGED rather than skipped",
+      _PGate.instrument_shortfall(_i_lost)[1], 1,
+      note="a mutant that skips it leaves required=0, and required=0 returns 1.0 -- a gate "
+           "reporting full compliance over a charge it never made")
+check("the template's own 'Not applicable' sentence satisfies a Place",
+      (_PGate.assert_instrument_present(_i_place, "t"),
+       _PGate.instrument_shortfall(_i_place)[1]), (1.0, 1),
+      note="a gate that refuses the template it enforces is the template being wrong")
+check("the honest 'uninstrumented' body satisfies a being",
+      (_PGate.assert_instrument_present(_i_unins, "t"),
+       _PGate.instrument_shortfall(_i_unins)[1]), (1.0, 1),
+      note="an entry with no faculties on file says so rather than inventing scores, and must "
+           "not be punished for it")
+check("a being class is still recognised as a being",
+      _PGate.instrument_shortfall(
+          "◈ **A**\nShelfmark: 1\nClass: Person\nMagnitude: M2\n▣ The Instrument\n" + _BODY
+          + "**Threads: pending the entanglement pass**\n")[2] != [], True,
+      note="the marker alone must not satisfy a Person. This is the row that fails when "
+           "INSTRUMENT_CLASSES is emptied -- without it, every row above survives a gate that "
+           "has quietly stopped treating anybody as a being")
+
 # --- LAYER 4b: an assay nobody earned (Hard Rule 3).
 _axis = "◈ **Athuri**\nMagnitude: unassayed\nWisdom: 28 (Transcendent, Grade III)\n"
 check("axis scores on an UNCITED entity are refused",
@@ -7165,8 +7219,49 @@ def _src20p(name):
 # wiring being removed again quietly, which is the half a behavioural net cannot see. One
 # fail-closed guard, so it takes the `_EXPECT20p` default of 1, and `_assert_not_halted`'s
 # ImportError arm carries the REFUSING TO sentence the older row above wants.
-_INTERLOCKED = ("dashboard.py", "feats.py", "foreman.py", "hostcheck.py", "overnight.py",
-                "overwatch.py", "pipeline.py", "publish.py", "read.py", "withdraw_chapters.py")
+# `ingest_doc.py`, `threads.py` and `local_agent.py` JOINED 2026-09-13, run #57, order 16bf1ff4df09.
+# All three call `assert_clear` and none was on this roster, so replacing a fail-closed guard in any
+# of them with `pass` left every row below GREEN -- measured by the sweep56 and sweep57 batch-02 AST
+# scans. `local_agent.py` is the sharpest of the three, being the lane on which a model writes to
+# src/; it carried a bare import rather than the guard shape and was converted in the same change.
+_INTERLOCKED = ("dashboard.py", "feats.py", "foreman.py", "hostcheck.py", "ingest_doc.py",
+                "local_agent.py", "overnight.py", "overwatch.py", "pipeline.py", "publish.py",
+                "read.py", "threads.py", "withdraw_chapters.py")
+
+# AND THE ROSTER CAN NO LONGER FALL BEHIND THE TREE. A hand-kept tuple is a count in doctrine, and
+# CLAUDE.md records what that costs: "A count in doctrine goes stale weekly and then gets reasoned
+# from." So the roster is now CHECKED against the tree it describes: every module under src/ whose
+# parse tree calls `assert_clear` must be on it. Exactly two are excluded, by name: `drill.py` and
+# `verify_math.py` call `assert_clear` to TEST it against synthetic halts, which is the battery
+# exercising the interlock, not a job obeying it.
+_BATTERY20p = frozenset(("drill.py", "verify_math.py"))
+_callers20p = set()
+for _dp20p, _dn20p, _fs20p in os.walk(_here20p):
+    _dn20p[:] = [_d20p for _d20p in _dn20p if _d20p != "__pycache__"]
+    for _fn20p in _fs20p:
+        if not _fn20p.endswith(".py"):
+            continue
+        _rel20p = os.path.relpath(os.path.join(_dp20p, _fn20p), _here20p).replace(os.sep, "/")
+        try:
+            with open(os.path.join(_dp20p, _fn20p), encoding="utf-8") as _fh20p:
+                _tree_c20p = __import__("ast").parse(_fh20p.read())
+        except Exception:
+            silence.note("verify_math.py:S20p-roster-parse")
+            _callers20p.add(_rel20p + " (UNPARSEABLE -- cannot tell whether it is interlocked)")
+            continue
+        if any(isinstance(_n20p, __import__("ast").Call)
+               and isinstance(_n20p.func, __import__("ast").Attribute)
+               and _n20p.func.attr == "assert_clear"
+               for _n20p in __import__("ast").walk(_tree_c20p)):
+            _callers20p.add(_rel20p)
+check("every module that consults the halt is on the _INTERLOCKED roster",
+      sorted(_callers20p - _BATTERY20p - set(_INTERLOCKED)), [],
+      note="order 16bf1ff4df09: the roster was hand-kept at ten while thirteen modules called "
+           "assert_clear, so three interlocks could be deleted with the whole battery green")
+check("[control] and the roster names no module that no longer consults the halt",
+      sorted(set(_INTERLOCKED) - _callers20p), [],
+      note="the same drift in the other direction: a module that stopped asking the halt would "
+           "otherwise keep its seat on the list and go on reading as proven")
 _failopen20p = []
 for _f20p in _INTERLOCKED:
     _t20p = _src20p(_f20p)
@@ -7244,7 +7339,9 @@ def _interlock20p(_src):
 # the startup guard in either module leaves the other standing, so a `>= 1` row would have read
 # green over exactly that deletion. A legitimate new guard turns this row red on purpose: a
 # person should look at a new place the plant-wide halt is being consulted.
-_EXPECT20p = {"overnight.py": 2, "publish.py": 2}
+# foreman.py and overwatch.py became TWO on 2026-09-13 (run #57): each now re-asks the halt inside
+# its `--loop`, in the same fail-closed spelling overnight.py and publish.py already use there.
+_EXPECT20p = {"foreman.py": 2, "overnight.py": 2, "overwatch.py": 2, "publish.py": 2}
 _noguard20p, _openguard20p, _noclear20p = [], [], []
 for _f20p in _INTERLOCKED:
     _t20p = _src20p(_f20p)

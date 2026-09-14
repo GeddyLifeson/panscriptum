@@ -661,7 +661,13 @@ def scan_for_secrets(root, max_bytes=2_000_000, only=None):
                 _add((rel, 0, "unscannable"),
                      (rel, 0, "UNSCANNABLE — could not be read for scanning (%s: %s); "
                               "refusing rather than passing it unexamined"
-                              % (type(e).__name__, str(e)[:80])))
+                              # WHOLE, NOT CLIPPED (order 215f9e7b86ff), on the same reasoning
+                              # as `_held_commits`' `str(e)` under order ca4f97d6b64d: `e` goes
+                              # out of scope with this block, so the clipped copy was the only
+                              # surviving account of why a file could not be scanned for
+                              # secrets. `_marked` is not the remedy here -- its own docstring
+                              # forbids using it on an exception message.
+                              % (type(e).__name__, str(e))))
     return hits
 
 
@@ -690,7 +696,9 @@ def snapshot():
         silence.note("publish.py:standards")
         s["standards"] = []
         s["standards_unavailable"] = {
-            "error": type(e).__name__, "detail": str(e)[:200],
+            # WHOLE (order 215f9e7b86ff). `silence.note` above records only the TAG, so this
+            # `detail` is the only surviving copy of what standards.check actually said.
+            "error": type(e).__name__, "detail": str(e),
             "note": "standards.check raised -- this is NOT a clean standards pass"}
     s["generated"] = time.strftime("%Y-%m-%dT%H:%M:%S")
     return _scrub(s)
@@ -763,7 +771,11 @@ def _unpushed():
         try:
             return int(n.strip()), "origin/main..HEAD"
         except ValueError:
-            return None, "git rev-list answered %r, which is not a count" % n[:40]
+            # WHOLE (order 215f9e7b86ff), on the reasoning the sibling arm below already spells
+            # out: this is a path where the reader is told the question could not be answered,
+            # and what git actually said is the only evidence of why. A 40-char window on an
+            # unexpected answer shows the part every answer has in common.
+            return None, "git rev-list answered %r, which is not a count" % n
     # No remote-tracking ref. Count what is here instead: on a repo that has never pushed, that
     # IS the unpushed set. A repo with no commits at all answers zero, not unknown.
     try:
@@ -785,13 +797,20 @@ def _unpushed():
             return 0, "no commits on this branch yet"
         # WHOLE, not clipped: this is the one path where the reader is being told that the
         # question could not be answered, and git's own diagnostic is the only evidence of why
-        # -- the same reasoning `git()` records above its `raise` (order f5fdaab825a6). The
-        # origin/main arm's `[:80]` is left alone; it sits on a path that still returns a count.
+        # -- the same reasoning `git()` records above its `raise` (order f5fdaab825a6).
+        #
+        # THIS USED TO END "the origin/main arm's `[:80]` is left alone; it sits on a path that
+        # still returns a count", and that sentence was wrong twice over by 2026-09-12: the cut
+        # it pointed at was `[:40]`, not `[:80]`, and the path it excused does NOT return a
+        # count -- both `n[:40]` sites are the arm that reports git answering something that is
+        # not a count at all, which is the same "could not tell" case this comment is defending.
+        # Both are uncut now under order 215f9e7b86ff, so the exception no longer exists.
         return None, "could not count local commits (%s)" % e
     try:
         c = int(local.strip())
     except ValueError:
-        return None, "git rev-list answered %r, which is not a count" % local[:40]
+        # WHOLE, for the same reason as the origin/main arm above (order 215f9e7b86ff).
+        return None, "git rev-list answered %r, which is not a count" % local
     return c, (detail + "; %d local commit(s) have therefore never landed" % c) if c else \
         (detail + "; the branch has no commits, so nothing is held")
 
@@ -1588,7 +1607,9 @@ def push(message=None, before=None):
             raise RuntimeError(
                 "REFUSING TO PUSH: a mutation run was active %s and had NOT declared itself "
                 "sandboxed, so files in src/ may be deliberately corrupt right now (%s)."
-                % (_when, json.dumps(_rec, default=str)[:200]))
+                # WHOLE (order 215f9e7b86ff): this is the evidence for a REFUSAL TO PUSH, and a
+                # reader who cannot see the whole mutation record cannot check the refusal.
+                % (_when, json.dumps(_rec, default=str)))
 
     leaks = [h for h in scan_for_secrets(SITE) if not str(h[2]).startswith('SUPPRESSED')]
     # Suppressed findings are REPORTED by the scanner and excluded from the refusal --

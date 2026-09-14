@@ -1045,7 +1045,11 @@ def instrument(root=None, dry=False):
             # the pass could not reach.
             note("silence.py:instrument-unparseable:" + label)
             print("  !! %s: could not be parsed (%s: %s); left uninstrumented"
-                  % (label, type(exc).__name__, str(exc)[:120]))
+                  # WHOLE (order 215f9e7b86ff). `note()` one line above records the LABEL, not
+                  # the message, so this print was the only account of WHY the module would not
+                  # parse -- and the eaten-escape corruption this project keeps paying for
+                  # announces itself in exactly such a message.
+                  % (label, type(exc).__name__, str(exc)))
             continue
         sites = []
         for node in ast.walk(tree):

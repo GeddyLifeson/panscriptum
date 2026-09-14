@@ -1080,7 +1080,28 @@ def main():
     if a.loop:
         codewatch.claim_singleton("overwatch")
         codewatch.stamp("overwatch")
+    _halt_rc = 0
     while True:
+        # THE HALT IS RE-ASKED EVERY ROUND (sweep57-batch09). `main()` asserted it once at startup
+        # and this loop never asked again, so an OWNER halt raised while overwatch was up did not
+        # reach it -- the identical fault order 5905045ff433 repaired in `publish.py`'s loop, and
+        # the same pattern copied from there: re-import fail-closed, and BREAK on a standing halt
+        # rather than retry. `codewatch.exit_if_stale` below watches CODE; a halt is STATE.
+        try:
+            import escalation as _ESC_ROUND
+        except ImportError as _esc_gone_round:
+            raise SystemExit(
+                "STOPPING: the escalation chain (src/escalation.py) could not be imported "
+                "mid-loop (%s), so the halt can no longer be read. Hard Rule -1."
+                % _esc_gone_round) from _esc_gone_round
+        try:
+            _ESC_ROUND.assert_clear("overwatch.py round")
+        except _ESC_ROUND.SystemHalted as _halted:
+            print(str(_halted).splitlines()[0])
+            print("STOPPING OVERWATCH: a halt is standing, so no further round runs. "
+                  "Only a person may lift it.")
+            _halt_rc = 1
+            break
         print("=" * 88)
         print(f"OVERWATCH  {time.strftime('%H:%M:%S')}")
         print("=" * 88)
@@ -1095,6 +1116,7 @@ def main():
         # so an edit storm cannot turn this into a respawn loop -- see codewatch.py.
         codewatch.exit_if_stale("overwatch")
         time.sleep(a.loop * 60)
+    return _halt_rc
 
 
 if __name__ == "__main__":
