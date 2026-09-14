@@ -1,18 +1,26 @@
 # OVERWATCH
 
-round 510  ·  last run 2026-09-14 07:31
+round 511  ·  last run 2026-09-14 08:31
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 304,616 inspected (deep scan as of round 505)
+- files that will not parse: **0** of 304,675 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**17 open** (8 high). Newest first.
+**20 open** (11 high). Newest first.
 
+- **verify_math.py** `check` — [HIGH] collects all calls to escalation.clear() in src/ (excluding escalation.py and drill.py)
+  - says: escalation.clear() has no caller anywhere in src/ -- by AST, not by grep
+- **verify_math.py** `append_line` — [HIGH] returns True
+  - says: correctly returns False
+- **verify_math.py** `BG.burgs_for` — [HIGH] the code computes a value that is not the same as the expected value due to a re-spelled variable name
+  - says: the k-th burg holds P1/k, independently recomputed
+- **verify_math.py** `BG.burgs_for` — [HIGH] the k-th burg holds P1/k, but the code computes a value that is not the same as the expected value due to a re-spelled variable name
+  - says: the k-th burg holds P1/k, independently recomputed
 - **standards.py** `bool(refs) and inside >= len(refs)` — [HIGH] the condition is based on the length of refs, which may not be the correct denominator
   - says: the assay reading is valid
 - **standards.py** `unans_files` — [HIGH] unans_files is initialized to 0 before the try block, and if any errors occur (like unreadable files or missing data directories), the count is not updated, leading to a cached zero value that is never corrected. This results in a false positive where the system believes there are no unanswered files, even when there are issues.
@@ -27,8 +35,10 @@ round 510  ·  last run 2026-09-14 07:31
   - says: audit(root=None)
 - **scout.py** `verify` — [HIGH] A page is judged against the first 25 names of the source
   - says: A page is judged against every name catalogued under the source
-- **render.py** `containment_svg` — [HIGH] Generates an SVG with a caption that incorrectly states a span based on ids that are not actually used in the tree
-  - says: A containment diagram: this node, and what it holds.
+- **tiers.py** `deliberate_joins` — [MEDIUM] the shared-evidence list
+  - says: THE EVIDENCE that a xenoverse is artificial
+- **tells.py** `prompt_in_sync` — [MEDIUM] Compares the generated block to the prompt file after normalizing line endings
+  - says: Compares the generated block to the prompt file
 - **scout.py** `order` — [MEDIUM] sorted by the number of sources and then by the time of last attempt
   - says: sorted by the number of sources
 - **scout.py** `seen` — [MEDIUM] read the SCOUT_ATTEMPTS.json file but then used as a dictionary for tracking attempts
@@ -39,10 +49,6 @@ round 510  ·  last run 2026-09-14 07:31
   - says: Is this record a predecessor that is still working?
 - **rosetta.py** `check` — [MEDIUM] The function 'check' is called with 'rosetta' and 'assays', but the actual implementation of 'check' is not provided in the given code slice. The code slice does not include the definition of 'check', so it's unclear what 'check' does. However, based on the context, it's expected that 'check' performs some validation or comparison between 'rosetta' and 'assays' based on the host information.
   - says: HOST-SCOPED, off ASSAYS.json's own `host|Name` keys (order 0bba50a6d76b): a scale row can only be vouched for by an assay recorded on that same wiki. This is also what makes the check match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
-- **render.py** `view` — [MEDIUM] call view() for fetched tiers with map_seed and galaxy etc.
-  - says: call view() for non-fetched tiers with coord=sample and tree=tree
-- **render.py** `view` — [MEDIUM] call view() for non-fetched tiers with coord=sample and tree=tree
-  - says: call view() for fetched tiers with map_seed and galaxy etc.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
