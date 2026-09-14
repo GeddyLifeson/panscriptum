@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 509  ·  last run 2026-09-14 06:58
+round 510  ·  last run 2026-09-14 07:31
 
 ## Structure
 
@@ -11,14 +11,24 @@ round 509  ·  last run 2026-09-14 06:58
 
 ## What the model found in the code
 
-**13 open** (3 high). Newest first.
+**17 open** (8 high). Newest first.
 
+- **standards.py** `bool(refs) and inside >= len(refs)` — [HIGH] the condition is based on the length of refs, which may not be the correct denominator
+  - says: the assay reading is valid
+- **standards.py** `unans_files` — [HIGH] unans_files is initialized to 0 before the try block, and if any errors occur (like unreadable files or missing data directories), the count is not updated, leading to a cached zero value that is never corrected. This results in a false positive where the system believes there are no unanswered files, even when there are issues.
+  - says: THIS ONE LEFT NO TRACE AT ALL (2026-08-28). `unans_files = 0` sat before the try and the only out.append sat after it, so a HIGH-severity evidence standard was emitted MET with an observed `0` in three separate unmeasurable cases
+- **silence.py** `append_line` — [HIGH] Does not set O_BINARY flag on Windows, leading to CRLF line endings instead of LF
+  - says: NOT BINARY. `os.open` without `O_BINARY` gives a TEXT-mode descriptor on Windows
+- **silence.py** `append_line` — [HIGH] Implements a lock but does not handle the case where the lock cannot be acquired, leading to potential data corruption
+  - says: NOT SERIALISED. Fixed by taking an OS-level lock on a sidecar for the duration of the write
+- **silence.py** `append_line` — [HIGH] Appends a line but does not ensure atomicity on Windows due to lack of O_BINARY flag and lock handling
+  - says: Append ONE line to a shared ledger without tearing it (m62).
+- **silence.py** `audit` — [HIGH] audit() returns rows of handlers, but the function's name and purpose imply it should audit for silence, not collect handlers
+  - says: audit(root=None)
 - **scout.py** `verify` — [HIGH] A page is judged against the first 25 names of the source
   - says: A page is judged against every name catalogued under the source
 - **render.py** `containment_svg` — [HIGH] Generates an SVG with a caption that incorrectly states a span based on ids that are not actually used in the tree
   - says: A containment diagram: this node, and what it holds.
-- **publish.py** `push` — [HIGH] push() returns a boolean indicating whether a push occurred, but does not raise or return PushHeld, which is supposed to be handled separately with a specific error handling block.
-  - says: push() now has only two RETURN values, and both are honest ones: it landed, or there was nothing to land. The third outcome -- committed but held -- comes out as `PushHeld` and is caught below, where it prints and sets rc=1, because a held push reported as "no change to push" with rc=0 is this comment block's own rule broken one line further down the function.
 - **scout.py** `order` — [MEDIUM] sorted by the number of sources and then by the time of last attempt
   - says: sorted by the number of sources
 - **scout.py** `seen` — [MEDIUM] read the SCOUT_ATTEMPTS.json file but then used as a dictionary for tracking attempts
@@ -33,8 +43,6 @@ round 509  ·  last run 2026-09-14 06:58
   - says: call view() for non-fetched tiers with coord=sample and tree=tree
 - **render.py** `view` — [MEDIUM] call view() for non-fetched tiers with coord=sample and tree=tree
   - says: call view() for fetched tiers with map_seed and galaxy etc.
-- **read.py** `left` — [MEDIUM] calculated as the maximum of 0 and CHUNK_BUDGET minus done['chunks'], but the comment suggests it should represent an upper bound based on the total chunks that can be processed given the size of each chunk.
-  - says: The honest denominator: every chunk the queue can produce at the size this run will use. An upper bound -- the mention and action filters remove some -- so the estimate is pessimistic rather than flattering, which is the right direction for a number anyone is going to plan a night around.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
