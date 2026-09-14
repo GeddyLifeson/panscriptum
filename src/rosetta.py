@@ -545,6 +545,23 @@ def refine(rosetta, records, hosts):
     return out, kept, dropped
 
 
+def _mine_write_denied_message(path, primary_path):
+    """The stderr line for a denied write during `--mine`. Pulled out as its own pure function
+    (order 0182eb4ff49c) so the choice between the two messages can be driven directly rather
+    than only by exercising the whole mining run.
+
+    `path` is written after `primary_path` in the same loop (OUT, then OUT's `.raw.json`
+    backup), so by the time the SECOND write is even attempted, `primary_path` has already
+    landed. Saying "the mine above is NOT on disk" there was false: only the backup failed.
+    """
+    if path == primary_path:
+        return ("rosetta: %s could not be replaced; the mine above is NOT on disk."
+                % os.path.basename(path))
+    return ("rosetta: %s could not be replaced; the mine above IS on disk at %s, "
+            "but its .raw.json backup did not update."
+            % (os.path.basename(path), os.path.basename(primary_path)))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mine", action="store_true", help="mine native scales from every wiki")
@@ -691,8 +708,7 @@ def main():
         # that date -- and missed rosetta.py, which already imported `silence` without using it.
         for path in (OUT, OUT.replace(".json", ".raw.json")):
             if not silence.write_json(path, out, indent=1, ensure_ascii=False):
-                print("rosetta: %s could not be replaced; the mine above is NOT on disk."
-                      % os.path.basename(path), file=sys.stderr)
+                print(_mine_write_denied_message(path, OUT), file=sys.stderr)
                 return 1
         print(f"\n{len(out)} wikis publish a native scale; {rows:,} graded entities "
               f"(standing file held {prior_rows:,})  -> {OUT}")

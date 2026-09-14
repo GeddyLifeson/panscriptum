@@ -117,18 +117,6 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   because a new run label covering only the new module makes `missing()` list every OTHER module.
   Order `de265a105279`, OWNER rung, three options offered and none taken unilaterally.
 
-- **[M97 — OPEN, RAISED 2026-09-09, run #53] HANDOFF.md's OWN NAVIGATION FAULT, COMMITTED TWICE
-  MORE BY THE RUNS THAT CAME AFTER ITS FIX.** Line 3 says *"newest on top"*; the banner ten lines
-  below records run #43 being moved from the bottom for exactly that reason (order `ee250e1322af`).
-  Runs **#51 and #52** are at the bottom under `#` headings, so a reader following the file's own
-  rule concludes **Phase 4.3 and Phase 4.4 never happened** — the two largest structural changes of
-  the week. It keeps happening because appending is what a shell append does, the prepend rule lives
-  only in prose, and **nothing checks it**: `check_append_only` asks whether history was lost,
-  `check_structure` asks about sections and the byte floor, and neither asks where the entry landed
-  or what heading level it carries. Not fixed in place — relocating two 180-line blocks is refused
-  by `check_append_only`, and restructuring the relay ledger on an autonomous run's own judgment is
-  what that guard exists to stop. Order `e8675703f045`: move them as #43's was moved, and add the
-  structural check (report only, never reorder). Run #53's entry is prepended correctly.
 - **[M89 — OPEN, RAISED 2026-09-08, run #48] A RUNG-4 STOP CAN BE LIFTED WITH NO PERSON, BY
   CHOOSING THE SUBSYSTEM'S NAME.** `resume_subsystem` is the one operation CLAUDE.md reserves to a
   person — *"An autonomous run may STOP a subsystem; only a person may resume one, and that
@@ -1539,6 +1527,41 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+### Resolved by run #58 (2026-09-13/14 daily maintenance, sweep 58)
+
+- **[M97 — RESOLVED 2026-09-13, run #58] HANDOFF.md's OWN NAVIGATION FAULT, COMMITTED TWICE
+  MORE BY THE RUNS THAT CAME AFTER ITS FIX.** *(Moved here from Open, per the move-on-resolve rule;
+  the original entry text is preserved below.)* Line 3 says *"newest on top"*; the banner ten lines
+  below records run #43 being moved from the bottom for exactly that reason (order `ee250e1322af`).
+  Runs **#51 and #52** are at the bottom under `#` headings, so a reader following the file's own
+  rule concludes **Phase 4.3 and Phase 4.4 never happened** — the two largest structural changes of
+  the week. It keeps happening because appending is what a shell append does, the prepend rule lives
+  only in prose, and **nothing checks it**: `check_append_only` asks whether history was lost,
+  `check_structure` asks about sections and the byte floor, and neither asks where the entry landed
+  or what heading level it carries. Not fixed in place — relocating two 180-line blocks is refused
+  by `check_append_only`, and restructuring the relay ledger on an autonomous run's own judgment is
+  what that guard exists to stop. Order `e8675703f045`: move them as #43's was moved, and add the
+  structural check (report only, never reorder). Run #53's entry is prepended correctly.
+  - **ROOT CAUSE:** the prepend rule lived only in prose, and no check asked where an entry landed or
+    what heading level it carried.
+  - **FIX, run #58, order `e8675703f045` (closed):** agent G moved all **eight** misplaced blocks to
+    their dated positions: runs #37, #47, #48, #49, #51 and #52 plus two undated notes, more than
+    the two the order named. The six `#` headings were levelled to `##`, and each move is recorded
+    inline and in the banner. The script asserted the non-heading line multiset unchanged, and the
+    retention measured against the sealed snapshot was 99.94%, so the push is admitted.
+    `ledger_guard._handoff_journal_problems` now reports any `#` entry heading and any entry dated
+    newer than the one above it; it runs inside `check_structure`, so `check_all()` fails the
+    battery and `assert_intact` blocks the push.
+  - **A GAP IN THE FIX, CAUGHT BY THE SAME SHIFT'S SWEEP (batch07) AND CLOSED:** the check matched
+    only headings that open on a date, so an UNDATED `# note` still passed, and it cut reported
+    headings to 100 characters with no marker. The coordinator fixed both, and fenced code is
+    skipped so a shell `# comment` cannot block a push. Pre-fix FAIL (2), fixed PASS; live
+    `check_all()` = {}.
+  - **NETS:** G's original fixture net for `e8675703f045` was landed in `drill.py` by the drill agent
+    (W2a), proven HELD and RED. The net for the undated-heading gap was PROPOSED
+    (`sweep58_ledger_undated`) and handed to the drill-quality agent; see HANDOFF.md's run #58 entry
+    for whether it landed. Its standalone red/green proof is the only proof recorded here.
 
 ### Resolved by run #57 (2026-09-13 owner-triggered maintenance, sweep 57)
 

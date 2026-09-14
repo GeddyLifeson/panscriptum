@@ -679,17 +679,80 @@ def name_worlds(resolved):
                 # hand-edited or externally-written ONOMASTICON.json -- but when it does, the
                 # drop is now visible instead of a silent shrink. (Order 2caa35dc6a30.)
                 silence.note("onomast.py:merge-dropped-unschemad-prior")
+            else:
+                # AND A PRIOR RECORD THAT IS NOT A DICT AT ALL gets the same trace (order
+                # 3fc19ad4d1c6). The branch above noted a dict missing its name while a bare
+                # string, list or null in the same position was dropped with nothing saying so --
+                # the silent shrink that note exists to end, reached by the more corrupted file.
+                silence.note("onomast.py:merge-dropped-non-dict-prior")
             continue
         merged[cid] = {**rec, "retired": cid not in resolved}
     merged.update(out)
     return merged
 
 
+def _drop_tmp(tmp):
+    """Remove a staged temp, and never let the removal become the failure."""
+    try:
+        os.remove(tmp)
+    except OSError:
+        silence.note("onomast.py:tmp-not-removed")
+
+
+def land_onomasticon(resolved, attempts=5):
+    """Name the worlds and land ONOMASTICON.json under COMPARE-AND-SWAP. -> (named, landed, why).
+
+    THE ONE WRITER BOTH CALLERS GO THROUGH (order a803028ab794). `main()` here landed the file
+    with `silence.write_json` and `pipeline.phase_weave` with `land_json`, and both are a full
+    read-modify-write -- `name_worlds` reads the prior onomasticon and returns the whole of it plus
+    this run's namings -- protected only against a TORN file. Two concurrent writers each built
+    their copy from the same prior, and the later rename discarded the earlier one's designations
+    with both reporting landed. On an append-only record that is the one loss the file exists to
+    prevent: a designation that vanished from it is a name free to be issued to a different world.
+
+    So the digest is taken BEFORE `name_worlds` reads the prior (the `roll.mutate` order), the
+    landing goes through `silence.replace_if_unchanged`, and a refusal because the file moved
+    RE-RUNS `name_worlds` against the winner's copy -- which carries the winner's designations
+    forward and seeds `taken` with them, so nothing is reissued. A refusal while the file stood
+    still is a denial, not a race, and is reported rather than retried.
+
+    RAISES `OnomasticonUnreadable` exactly as `name_worlds` does, on purpose: both callers already
+    turn it into a refusal to write.
+    """
+    import threading
+    why, named = "not attempted", None
+    for _attempt in range(max(1, attempts)):
+        seen = silence.digest_of(OUT)
+        named = name_worlds(resolved)
+        d = os.path.dirname(OUT)
+        if d:
+            os.makedirs(d, exist_ok=True)
+        tmp = "%s.%d.%d.tmp" % (OUT, os.getpid(), threading.get_ident())
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(named, f, indent=2, ensure_ascii=False)
+                f.flush()
+                os.fsync(f.fileno())
+        except Exception:
+            _drop_tmp(tmp)
+            raise
+        ok, why = silence.replace_if_unchanged(tmp, OUT, seen)
+        if ok:
+            return named, True, why
+        _drop_tmp(tmp)
+        if silence.digest_of(OUT) == seen:
+            break
+    silence.note("onomast.py:land-refused")
+    return named, False, why
+
+
 def main():
     with open(RESOLVED, encoding="utf-8") as f:
         resolved = json.load(f)
     try:
-        named = name_worlds(resolved)
+        # NAMED AND LANDED IN ONE CALL (order a803028ab794): the report below is printed from
+        # what actually landed, and the verdict is read at the bottom.
+        named, landed, why = land_onomasticon(resolved)
     except OnomasticonUnreadable as e:
         # Refusing is the whole point: the alternative is writing a fresh, smaller onomasticon
         # over one that could not be read. Nothing here can repair the file, so say so and
@@ -751,17 +814,21 @@ def main():
     # `return 0`, and called no `silence.note`, so a denied replace reached neither the exit
     # code nor state/failures.json -- its only trace was a line on a console nobody watches
     # during an unattended run. Every sibling repaired by that sweep does the opposite
-    # (genre.py:327-331, sevenfold.py:412-415, wh40k.py:290-295). The stake here is that
+    # (`genre.main()`, `sevenfold.main()`, `wh40k.main()`, each at their own denied-replace
+    # branch). The stake here is that
     # navtree.py and worldseed.py read ONOMASTICON.json, so a denied write leaves them on the
     # previous run's designations while the run reports success.
     #
     # The old wording said "it lands on the next run", which is a promise this module cannot
     # make -- it is only true if a next run happens, the assumption `_landed`'s docstring in
     # pipeline.py exists to refuse.
-    if not silence.write_json(OUT, named, indent=2, ensure_ascii=False):
+    #
+    # THE WRITE ITSELF NOW HAPPENS IN `land_onomasticon`, above the report (order a803028ab794),
+    # so a concurrent writer is merged rather than overwritten; this is where its verdict is read.
+    if not landed:
         silence.note("onomast.py:main-write-denied")
-        print(f"\nWRITE DENIED {OUT} — replace refused; the designations above did NOT land "
-              f"and the file on disk is the previous run's. Rerun to retry.")
+        print(f"\nWRITE REFUSED {OUT} — {why}; the designations above did NOT land "
+              f"and the file on disk is another run's. Rerun to retry.")
         return 1
     print(f"\nwrote {OUT}")
     print("\nEvery designation is reproducible: reseeded from the world's own catalogue")

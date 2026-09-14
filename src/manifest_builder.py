@@ -135,8 +135,8 @@ def chunk(lst, size):
 
 
 # Characters of feat JSON one generation call may carry. The measured lesson is `read.py`'s,
-# not `generate.py`'s (generate.py cites it for OUTPUT attention; the input measurement is at
-# read.py:80 -- 10,000 chars/5 chunks found 41 feats where 36,000 chars/2 chunks found 19).
+# not `generate.py`'s (generate.py cites it for OUTPUT attention; the input measurement is on
+# `read.CHUNK` -- 10,000 chars/5 chunks found 41 feats where 36,000 chars/2 chunks found 19).
 # Input attention thins past ~30,000 characters and material starts going missing.
 #
 # The weight is per ENTITY, which is the unit blocking would otherwise have used: a feat is
@@ -168,7 +168,8 @@ def chunk(lst, size):
 # REPORTED DEAD, NOT DELETED (order db36d589713e, owner ruling 2026-09-08: "mark and keep,
 # one line each, delete nothing"). THIS CONSTANT IS DOCUMENTATION AND IS READ BY NOTHING:
 # a tree-wide grep finds three occurrences of the name -- this line and two comments
-# (context_budget.py:20 and :366 below). The live budget comes from
+# (context_budget.py:20 and `build_jobs_for_source()`'s "DERIVED, NOT DECLARED (m46)" comment
+# below). The live budget comes from
 # `cfg.get("feats_block_chars")` or `context_budget.feats_block_budget(cfg)` further down.
 # The paragraph above is the measurement of record and the number is what that paragraph
 # is about, so the two stay together; the question the comment above deferred to

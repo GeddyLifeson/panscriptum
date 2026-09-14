@@ -944,8 +944,8 @@ def candidates(ev):
     the axis it is scoring, so citing across axes stops being an error it can make.
 
     THE `cap` PARAMETER IS GONE (order 7eee204672ce). This was `candidates(ev, cap=None)` ending
-    in `sorted(...)[:cap] if cap else sorted(...)`, and neither of its two callers -- :1172 here
-    and sweep.py:190 -- ever passed one, so the truncating arm was unreachable while the comment
+    in `sorted(...)[:cap] if cap else sorted(...)`, and neither of its two callers -- `assay_entity()`
+    here and `sweep.sweep()` -- ever passed one, so the truncating arm was unreachable while the comment
     directly beneath it argued against ever reaching it: "capping at six decided that an entity
     with forty pieces of Ruin evidence had six." A parameter whose only behaviour is the one
     Hard Rule 0 forbids, sitting under the paragraph explaining why it must never be used, is a

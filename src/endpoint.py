@@ -472,14 +472,52 @@ def fetch_html(urls, workers=2):
 PAGES_FILE = os.path.join(HERE, "data", "SOURCE_PAGES.json")
 
 
+class PagesRegistryUnreadable(RuntimeError):
+    """SOURCE_PAGES.json exists and could not be read as a registry. NOT the same fact as absent."""
+
+
 def source_pages(source):
-    """The URLs registered for a source that has no wiki. [] when it has none."""
+    """The URLs registered for a source that has no wiki. [] when it has none.
+
+    RAISES `PagesRegistryUnreadable` WHEN THE REGISTRY CANNOT BE READ, and never answers [] for it
+    (order 54db4a3baec8). This used to `except Exception: return []`, so a torn file from a
+    concurrent `register()`, a Norton object-lock or bad JSON read exactly like "this source has
+    no registered pages" -- and that answer is not inert: `feats.reads_as_wiki` turns it into
+    "this `pages:` host is a wiki", which applies the wiki-markup gate to non-wiki pages, judges
+    cache staleness under the wrong gate, and sends the evidence arm to wiki discovery. What was
+    mined under that misreading is CACHED, so the read self-heals and its effect does not.
+
+    The same two facts `register()` below draws apart, drawn the same way:
+      - the file is ABSENT       -> no source has registered pages, and [] is the truth;
+      - the file is UNREADABLE   -> we know nothing, so there is no answer to give.
+    A raise rather than a sentinel return because every caller that tests `if urls:` or
+    `not source_pages(...)` would read a falsy sentinel as "none" -- the very defect -- whereas an
+    exception reaches the unit boundary on its own: `feats.roll`'s worker counts the entity as
+    `errored` and moves on, which refuses this one unit for this one round.
+    """
+    # ABSENT IS CHECKED FOR, NOT CAUGHT -- mirrors `register()`'s own `os.path.exists` guard
+    # further down in this file for the identical absent-vs-unreadable distinction. Catching
+    # FileNotFoundError here for control flow was itself a silent site: the exception carries no
+    # failure to report, it IS the answer, and `register()` already shows the house way to ask
+    # the question without an `except` clause standing in for it.
+    if not os.path.exists(PAGES_FILE):
+        return []
     try:
         with open(PAGES_FILE, encoding="utf-8") as f:
-            return (json.load(f) or {}).get(source) or []
-    except Exception:
-        silence.note("endpoint.py:source_pages")
-        return []
+            d = json.load(f)
+    except Exception as exc:
+        silence.note("endpoint.py:source_pages-unreadable")
+        raise PagesRegistryUnreadable(
+            "SOURCE_PAGES.json could not be read (%s: %s), so whether %r has registered pages is "
+            "UNKNOWN -- refusing to answer 'none'" % (type(exc).__name__, exc, source)) from exc
+    if not isinstance(d, dict):
+        # `register()` refuses a non-object registry rather than overwrite it; a reader that
+        # answered [] for one would be the same unknown dressed as "none".
+        silence.note("endpoint.py:source_pages-nondict")
+        raise PagesRegistryUnreadable(
+            "SOURCE_PAGES.json is not an object (%s), so whether %r has registered pages is "
+            "UNKNOWN -- refusing to answer 'none'" % (type(d).__name__, source))
+    return d.get(source) or []
 
 
 def register(source, urls):

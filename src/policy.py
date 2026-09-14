@@ -41,7 +41,15 @@ REPORT = os.path.join(HERE, "state", "policy_report.json")
 # CUE the wrong answer here.
 OPS = {
     "exists":    lambda v, _a: v is not None,
-    "absent":    lambda v, _a: v is None,
+    # ABSENT MEANS NOT FOUND, NOT "HOLDS null" (order 156c2e28f823 item 2). This tested
+    # `value is None`, so a field holding an explicit JSON `null` -- PRESENT, not missing --
+    # satisfied `absent` just as readily as a key that was never written. `evaluate()`'s own
+    # vacuous-pass exemption for this op ("its only truthful passing case is `found=False`")
+    # depended on that being true and had no way to notice it wasn't. `resolve()`'s whole reason
+    # for returning `found` separately from `value` (see its docstring) is exactly this
+    # distinction, so `check_rule` now hands this op `found` in place of `arg` -- no rule ever
+    # passes a real `arg` for `absent` anyway.
+    "absent":    lambda _v, found: not found,
     "truthy":    lambda v, _a: bool(v),
     "eq":        lambda v, a: v == a,
     "ne":        lambda v, a: v != a,
@@ -179,7 +187,11 @@ def check_rule(doc, rule):
                       % (rule["id"], op, ARG_REQUIRED[op], rule.get("arg")))
     value, found = resolve(doc, rule["path"])
     try:
-        ok = bool(OPS[op](value, rule.get("arg")))
+        # `absent` IS ASKED ABOUT `found`, NOT `arg` (order 156c2e28f823 item 2) -- the one op in
+        # this table whose question is about presence rather than about the value, so it needs
+        # the thing `resolve()` returns alongside `value` for exactly this purpose.
+        arg = found if op == "absent" else rule.get("arg")
+        ok = bool(OPS[op](value, arg))
     except Exception as e:
         # (`ok = False` stood here and was never read -- the return below carries the verdict
         # literally. Removed under order df76f922f635.)

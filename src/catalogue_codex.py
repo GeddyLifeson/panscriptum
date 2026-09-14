@@ -100,8 +100,8 @@ def norm(s):
 # the writer that produced it, and this module carried the identical cap.
 def slug(s):
     """NOTHING IN THIS TREE CALLS THIS (order c158b93e2e07). Kept as a public helper;
-    `record_path()` below is the entry point `main()` actually uses (see its own comment at
-    :326-329ish). Say that first so a future sweep does not re-derive it: `grep -rn 'slug'
+    `record_path()` below is the entry point `main()` actually uses (see `main()`'s
+    `write_record_catalogue(record_path(...), rec)` call). Say that first so a future sweep does not re-derive it: `grep -rn 'slug'
     src/catalogue_codex.py` finds this def and three comment mentions and no caller, and an
     AST walk of every `.py` file under `src/` for `X.slug(...)`, bare `slug(...)`, and
     `from catalogue_codex import slug` finds none either -- verified 2026-09-01, not assumed.

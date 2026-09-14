@@ -132,6 +132,76 @@ def check_append_only(name, new_text, old=None):
     return True, "history preserved"
 
 
+_HANDOFF_ENTRY_HEADING = re.compile(
+    r"^(#{1,2})\s+(?:RUN\s*#?\d+[A-Za-z]*\s*[-‐-―]+\s*)?(\d{4}-\d{2}-\d{2})",
+    re.IGNORECASE)
+
+
+def _handoff_journal_problems(text):
+    """-> [problems]. HANDOFF.md's own rule (line 3): "newest on top", one dated entry per run.
+
+    ORDER e8675703f045. Runs #51 and #52 sat at the BOTTOM under `#` headings, so a reader
+    following this file's own navigation rule concluded the two largest structural changes of
+    the week never happened -- the third time this exact class has bitten (run #43, fixed under
+    ee250e1322af; runs #51/#52/#37/#47/#48/#49 and two undated housekeeping notes, fixed under
+    this order). Nothing before this asked WHERE an entry landed or what heading level it
+    carried -- `check_append_only` asks whether history was lost and this function's own byte
+    floor asks whether there is enough of it; neither asks about position. This is that missing
+    check.
+
+    REPORT ONLY, NEVER REORDER (Hard Rule 0) -- sorting a relay ledger automatically is a write
+    nobody reviewed, and this file's whole rule is append, never overwrite.
+
+    AN "ENTRY HEADING" IS RECOGNISED BY THE SAME SHAPE EVERY REAL ONE USES: a date (optionally
+    behind a `RUN #NN --` prefix) right after the `#`/`##` marker. That is deliberately narrower
+    than "any heading containing a date", because a SUBSECTION of an entry can carry a date of
+    its own without starting a new one -- `## CORRECTION TO RUN #48, WRITTEN 2026-09-09` sits
+    inside run #48's (2026-09-08) own block, added a day later, and is not a second entry out of
+    order. Matching only headings that OPEN on a date keeps that subsection out of the sequence
+    without needing to know which headings are subsections. Case-insensitive because this file
+    spells it both `Run` and `RUN`. Only the first ISO date in a heading counts, per the order
+    (`2026-09-11/12` reads as `2026-09-11`, `2026-08-25 (late)` as `2026-08-25`).
+    """
+    # AN UNDATED TOP-LEVEL `#` HEADING IS THE SAME FAULT, AND IT WAS INVISIBLE (sweep58-batch07,
+    # run #58). The dated-entry match below skips every heading that does not open on a date, so a
+    # `# some note` appended at the bottom -- exactly the "two undated housekeeping notes" this
+    # docstring names as past instances -- returned no problems at all. Any `# ` line after the
+    # title is now reported, dated or not. Lines inside fenced code blocks are skipped for BOTH
+    # checks, so a shell `# comment` in a pasted command can never read as a heading and block a
+    # push. Headings are reported WHOLE: a cut diagnostic is the fault Hard Rule 0 names.
+    problems = []
+    prev = None
+    in_fence = False
+    for i, ln in enumerate((text or "").splitlines(), start=1):
+        if i == 1:
+            continue                       # the document title, never a run entry
+        if ln.lstrip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        m = _HANDOFF_ENTRY_HEADING.match(ln)
+        if not m:
+            if ln.startswith("# "):
+                problems.append(
+                    "HANDOFF.md:%d is a top-level `#` heading with no date after it -- every "
+                    "run-journal entry must be a dated `##` (order e8675703f045): %s"
+                    % (i, ln.strip()))
+            continue
+        level, date_str, heading = len(m.group(1)), m.group(2), ln.strip()
+        if level == 1:
+            problems.append(
+                "HANDOFF.md:%d is a top-level `#` run-journal heading -- every entry must be "
+                "`##` (order e8675703f045): %s" % (i, heading))
+        if prev is not None and date_str > prev[1]:
+            problems.append(
+                "HANDOFF.md:%d is dated %s, which is NEWER than the entry above it at line %d "
+                "(dated %s) -- 'newest on top' is broken here: %s"
+                % (i, date_str, prev[0], prev[1], heading))
+        prev = (i, date_str)
+    return problems
+
+
 def check_structure(name, text=None):
     """-> (ok, [problems]). Sections present, floors met, and no bug filed in two places."""
     text = text if text is not None else _read(name)
@@ -145,6 +215,8 @@ def check_structure(name, text=None):
     for sec in REQUIRED_SECTIONS.get(name, ()):
         if sec not in text:
             problems.append("%s has no '%s' section" % (name, sec))
+    if name == "HANDOFF.md":
+        problems.extend(_handoff_journal_problems(text))
     if name == "BUGS.md" and "## Open" in text and "## Resolved" in text:
         # SECTIONS BOUNDED BY THE ORDER THEY ARE FOUND IN, not by an assumed Open-then-Resolved
         # layout. The earlier version sliced `text[i:j]` on that assumption; reorder the file --

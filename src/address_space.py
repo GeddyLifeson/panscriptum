@@ -293,8 +293,8 @@ def shelfmark(addr, uncharted=()):
     UNADDRESSED tier to the integer 0 because `pack()` takes integers and the packed address must
     not move -- 1,016 addresses and their map seeds stand on it. But 0 is also a real charted
     hyperverse, so a shelf the weave never reached used to print `H0` and read as a survey
-    result: 38 of 208 TIERS.json rows carry an uncharted hyperverse and xenoverse, 65 an
-    uncharted metaverse, and 16 of the 1,016 designations in data/SHELFMARKS.json are affected.
+    result: 38 of 208 TIERS.json rows carry an uncharted hyperverse and xenoverse, 63 an
+    uncharted metaverse, and 14 of the 1,016 designations in data/SHELFMARKS.json are affected.
     Pass `uncharted=charted_gaps(row)` and those fields print `?`. The address is unchanged; only
     the claim the printed name makes about it is.
 
@@ -378,8 +378,8 @@ def seed_from_card(card):
     therefore receive the SAME map seed and the same generated terrain from this path, while
     `map_seed(addr)` -- the position-only seed the same module offers -- separates them. That is
     a real behavioural difference between the two seeding paths, and it is written down here
-    because this docstring has already been wrong once (see :195-200) and the difference was in
-    neither of them.
+    because `shelfmark()`'s own docstring (the "THIS DOCSTRING SAID THE OPPOSITE FOR THREE
+    SWEEPS" paragraph) has already been wrong once and the difference was in neither of them.
     """
     ident = card["identity"]
     key = "|".join(str(ident.get(k) or "") for k in ("name", "endonym", "shelfmark"))
@@ -475,8 +475,8 @@ def assign(designation, tiers):
         # pack(), which names the field and the width it overflowed.
         #
         # MEASURED AGAINST THE LIVE CENSUS FIRST, so this cannot break a run that works today:
-        # TIERS.json holds 209 rows with hyperverse 2..5, xenoverse 0..5, metaverse 0..7 and
-        # multiverse 0..167 against field capacities of 8/8/8/256, and all 1,016 designations in
+        # TIERS.json holds 208 rows with hyperverse 1..5, xenoverse 0..2, metaverse 0..5 and
+        # multiverse 0..142 against field capacities of 8/8/8/256, and all 1,016 designations in
         # WORLDSEEDS.json address with zero out-of-range tiers. The widths are DERIVED from the
         # census maxima, so a tier can only fall outside one if TIERS.json moved after import or
         # carries a negative -- and re-charting the census while a run holds the old widths
@@ -640,8 +640,9 @@ def main():
         #
         # GATED, like scope.py's build() and zfighters.py's main(). `write_json` returns whether
         # the rename LANDED and this dropped the verdict, so a denied replace -- the ordinary
-        # Windows case here, since `pipeline.py:2138` (`_phase_input("SHELFMARKS.json")`) reads
-        # this file as a phase input and `standards.py:1177` reads it on its own clock, and
+        # Windows case here, since `pipeline.phase_shelve`'s `_phase_input("SHELFMARKS.json")`
+        # call reads this file as a phase input and `standards.check()`'s shelfmarks-uniqueness
+        # read reads it on its own clock, and
         # either holding it open is enough --
         # still reached the unconditional `wrote {out}` below and exit 0. The addresses printed
         # above would then be the ones this run computed while the file both readers consult

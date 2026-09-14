@@ -122,13 +122,23 @@ def burg_count(world_seed, era, condition, p1=None):
     if p1 is None:
         p1 = largest_city(world_seed, era, condition)
     n = int((p1 / HAMLET_FLOOR) ** (1.0 / ZIPF_Q))
-    # A ruined world keeps its ruins on the map but loses the living tail.
+    # A ruined world keeps its ruins on the map but loses the living tail. The "settled" entry
+    # here is the same unreachable-key marking as largest_city's below (owner ruling 2026-09-08,
+    # order 40e98eed6870, recorded in worldseed.py) -- kept as vocabulary, not dead code.
     factor = {"ruined": 0.3, "wartorn": 0.8, "settled": 1.0, "thriving": 1.15}.get(condition, 1.0)
     return max(3, int(n * factor))
 
 
 def largest_city(world_seed, era, condition):
     """P_1, the primate city. Everything else follows from the rank-size rule."""
+    # UNREACHABLE KEYS, MARKED NOT DELETED (owner ruling 2026-09-08, question 1, "Mark and keep:
+    # one line each, delete nothing", order 40e98eed6870 -- recorded in worldseed.py's `size`
+    # table comment, which names this module's "primitive" and "settled" keys as its own to
+    # mark). worldseed.TECH has no route to "primitive" and worldseed.CONDITION has no route to
+    # "settled", so `base`'s "primitive" entry and `factor`'s "settled" entry below can never be
+    # selected via the normal build_all -> burgs.py path. Kept as vocabulary for a tech/condition
+    # tier the generator doesn't produce yet, per that ruling; removing either would desync this
+    # module from worldseed.py, genre.py and onomast.py, which key on the same values.
     base = {"primitive": 2500, "medieval": 20000, "magical": 25000,
             "industrial": 400000, "spacefaring": 3000000}.get(era, 20000)
     factor = {"ruined": 0.15, "wartorn": 0.6, "settled": 1.0, "thriving": 1.6}.get(condition, 1.0)

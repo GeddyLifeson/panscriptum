@@ -229,7 +229,8 @@ def _names(sentence, entity):
     # Uub, 'The Six', 'Mr. Fox' -- have no single word longer than three letters, so `parts` is
     # empty and every sentence naming them outright, with no pronoun, fell through to `False`
     # and was counted as `generic_dropped` -- the OPPOSITE of what that counter documents.
-    # read_entity's chunk-selection filter (read.py:731) already falls back to the whole name
+    # `read_entity`'s chunk-selection filter (its
+    # `keys = [...] or [name.lower()]` line) already falls back to the whole name
     # for exactly this case; this is the same fallback, but phrase-bound rather than a raw
     # substring test, because a raw substring here would let a short word like "The" (half of
     # 'The Six') match on its own -- the exact generic-word risk the length floor exists to

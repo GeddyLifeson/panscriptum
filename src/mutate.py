@@ -469,8 +469,8 @@ def _mutations(tree, text, skipped=None):
         """An AST column is a UTF-8 BYTE offset; slicing a `str` needs a CHARACTER offset. -> int.
 
         FOUND 2026-08-29 while counting skipped sites, and it had been silently wrong since
-        occurrence-tracking was written. `prose_gate.py:201` is
-        `re.split(r"(?m)^◈\\s", text or "")`: the marker is three bytes and one character, so
+        occurrence-tracking was written. `prose_gate.py`'s
+        `re.split(r"(?m)^◈\\s", text or "")` line: the marker is three bytes and one character, so
         every column the parser reports for that line is two too far right, the gap search for
         `or` looked at `xt o`, found nothing, and the connective was NEVER ATTEMPTED. This
         project's source is full of non-ASCII in code -- the entry marker, the assay sigil, the
@@ -728,8 +728,9 @@ def _row_ids(out):
 
     Both gates already print the row identity on its own line, so no gate-specific parser is
     needed -- only a prefix match on the stripped line: verify_math with
-    `  FAILED <label>: got ..., want ... <note>` (verify_math.py:7990) and drill with
-    `  BREACHED  <net name>` (drill.py:9604). An unrecognised gate, or a clean run, yields [].
+    `  FAILED <label>: got ..., want ... <note>` (`_print_result_vm()`'s print line) and drill with
+    `  BREACHED  <net name>` (`drill.main()`'s per-net `print("  %s  %s" % (mark, r["net"]))`
+    line). An unrecognised gate, or a clean run, yields [].
     """
     rows = []
     for line in out.splitlines():
@@ -1261,7 +1262,7 @@ def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
         # `drill.py` run in only ONE, and BOTH died together at six seconds; a bare sandbox with
         # nothing running against it died too; decoy directories under other prefixes survived
         # the same window untouched; and the reap ledger added this shift named the call site,
-        # `drill.py:4256 -> M.reap_orphans()`.
+        # `drill.py`'s direct `M.reap_orphans()` calls.
         #
         # So a sandbox now records the pid that built it, and a live owner makes it untouchable
         # at ANY age. That turns the age gate into what it should always have been -- a fallback
@@ -1673,8 +1674,9 @@ def sandbox():
     # difference from it. This one was worse than disabling a row: it took the whole pass down.
     # Measured 2026-09-03 -- `mutate --target all` REFUSED to run at all, on
     # "RED BASELINE TAKEN FROM A TREE UNDER EDIT", and the single red row was
-    # `no probe anywhere in this battery writes into the live failure ledger`, reporting three
-    # escapes: `verify_math.py:3639 -> silent:tuning.py:cloud-success` and two
+    # `no probe anywhere in this battery writes into the live failure ledger`
+    # (verify_math.py's `check()` call carrying that exact label), reporting three
+    # escapes: `silent:tuning.py:cloud-success` and two
     # `-> silent:cascade_bridge.py:provider-error`. All three are the SAME missing file.
     # `cascade_bridge.provider_error` opens it `mode=ro` and notes when that raises;
     # `tuning.cloud_success` connects without `mode=ro`, which CREATES an empty file and then
@@ -2393,8 +2395,8 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 if no_verdict:
                     # UNCUT (order c99634cb840e): this is the permanent record of the diff, not
                     # a console line. A [:120] slice here is indistinguishable from a short line
-                    # -- Hard Rule 0 -- and it silently violates the module's own docstring
-                    # promise (mutate.py:33) that a survivor "is filed with its exact diff rather
+                    # -- Hard Rule 0 -- and it silently violates the module docstring's own
+                    # "WHAT A SURVIVOR IS AND IS NOT" promise that a survivor "is filed with its exact diff rather
                     # than a count". Any bound belongs only at the point of printing (see the
                     # `[:70]` on the console summary line below, which is reversible because the
                     # full value lives here), never on what gets journaled or filed.

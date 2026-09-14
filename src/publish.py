@@ -372,6 +372,32 @@ def _scrub(obj):
         return out
     if isinstance(obj, list):
         return [_scrub(v) for v in obj]
+    # TUPLE AND SET, NOT JUST LIST (order 3fc19ad4d1c6, finding 4). This recursed into dict and
+    # list only, so a credential-shaped string sitting in a tuple-valued or set-valued snapshot
+    # field passed through unscrubbed -- the same "a container shape this walk cannot see" gap
+    # the dict-KEYS fix above closed for dicts. FAILS SAFE rather than leaking (LOCK THREE still
+    # scans the rendered file and would refuse the push loudly), and no live field exercises this
+    # today -- filed anyway because that is a fact about the current snapshot, not a guarantee
+    # about the next field added to it. Converted back to the SAME container type on the way out
+    # so the snapshot's shape is preserved, exactly as dict/list already do.
+    if isinstance(obj, tuple):
+        return tuple(_scrub(v) for v in obj)
+    if isinstance(obj, set):
+        # THE SAME COLLISION GUARD AS THE DICT-KEY ARM ABOVE (sweep 58, batch10). This was
+        # `{_scrub(v) for v in obj}`, and two DISTINCT secrets both redact to the one string
+        # `[redacted]`, so the rebuilt set silently held one member where there had been two --
+        # a lost entry with no marker, which is exactly what the dict-key suffix exists to stop.
+        # It STAYS A SET: `[redacted]` and `[redacted]#1` are different members, so a set holds
+        # the suffixed forms meaningfully, and the container shape is what
+        # `drill._scrub_recurses_into_tuple_and_set` pins. Which member gets the suffix follows
+        # set iteration order; that it is visible at all is the point.
+        out = set()
+        for v in obj:
+            sv = _scrub(v)
+            if sv in out:
+                sv = "%s#%d" % (sv, len(out))
+            out.add(sv)
+        return out
     if isinstance(obj, str):
         return scrub_text(obj)
     return obj
@@ -1346,7 +1372,8 @@ def render_views():
     measured gap; hold the rest, marked"). `render.py` is the dispatcher for all nine cosmology
     view tiers -- view(), galaxy_view, system_view, planet_view, burg_view, containment_svg,
     children_of -- and NOTHING in the tree imported it or ran it: the only mention anywhere in
-    src/ was a comment in build_terminal.py:83, it is absent from lognames.OWNER, and no job
+    src/ was build_terminal.py's `esc()` comment naming `render.py`'s `containment_svg()` in
+    passing, it is absent from lognames.OWNER, and no job
     `overnight.py` starts names it. Its own docstring frames it as closing a real gap ("the top
     five had addresses and no way to look at them") and that closure was reachable by hand and
     by nothing else. This is the cycle it now has.
@@ -1815,6 +1842,72 @@ def maintenance_shift_live(path=None, now=None):
                   "src/ is being edited right now" % (rec.get("agent", "?"), age))
 
 
+# THE ENV VAR A ONE-SHOT --push PROVES ITSELF WITH (order 12d4e1b00c2f). `claim()` in
+# runguard.py mints a per-claim secret at claim time and stores only its digest in
+# state/MAINTENANCE_RUN.json; the claiming shell holds the raw token (printed once, or written
+# to a file it chose) and exports it here so its OWN later `--push` can prove it, without the
+# token ever touching a file another process could read.
+GUARD_TOKEN_ENV = "PANSCRIPTUM_GUARD_TOKEN"
+
+
+def _guard_token_matches(rec, token_env=None):
+    """Does the `token_env` environment variable hash to this guard record's own digest? -> bool.
+
+    FALSE, HONESTLY, FOR A RECORD WITH NO DIGEST AT ALL -- a LEGACY claim, made before order
+    12d4e1b00c2f, has nothing recorded to check the env var against. That is a different case
+    from "the token is wrong," and `_one_shot_push_verdict` treats it separately (see
+    `--i-hold-the-guard`) rather than reading a missing digest as a failed match.
+
+    `token_env` defaults to `GUARD_TOKEN_ENV`; overridable only so a test can point this at a
+    private variable instead of the real process environment.
+    """
+    import runguard as _RG
+    token_env = GUARD_TOKEN_ENV if token_env is None else token_env
+    if not rec or not rec.get(_RG.TOKEN_DIGEST_KEY):
+        return False
+    return _RG.token_matches(rec, os.environ.get(token_env, ""))
+
+
+def _one_shot_push_verdict(rec, i_hold_the_guard, token_env=None):
+    """Should a one-shot `--push` proceed against a LIVE maintenance shift's guard? -> (allow,
+    message). Pulled out as its own pure function (order 12d4e1b00c2f) so the decision can be
+    driven directly, without running `main()`'s whole cycle.
+
+    THREE CASES, and only the first two ever `allow`:
+
+    1. `rec` carries a token digest (a MODERN claim, via `runguard.claim()`) and
+       `PANSCRIPTUM_GUARD_TOKEN` hashes to it -- this really is the process that holds the
+       guard, since the raw token was never written to the guard file for anyone else to copy.
+    2. `rec` carries NO digest (a LEGACY claim, from before this mechanism existed -- exactly
+       the shape of the guard a maintenance run claimed before this order landed) and the
+       caller passed BOTH `i_hold_the_guard=True` AND a non-empty `PANSCRIPTUM_GUARD_TOKEN`.
+       This does NOT verify anything -- there is nothing in a legacy record to verify against --
+       it is a declared, logged assertion, chosen so a legacy guard is not simply un-pushable.
+    3. Everything else refuses, naming the current holder so the caller knows who to ask.
+
+    `token_env` defaults to `GUARD_TOKEN_ENV`; overridable only so a test can point it at a
+    private variable instead of the real environment.
+    """
+    import runguard as _RG
+    token_env = GUARD_TOKEN_ENV if token_env is None else token_env
+    holder = (rec or {}).get("agent", "?")
+    if rec and rec.get(_RG.TOKEN_DIGEST_KEY):
+        if _guard_token_matches(rec, token_env=token_env):
+            return True, ("%s matches the guard's own token digest, so this is that shift's "
+                          "own push." % token_env)
+        return False, ("a one-shot --push while a shift is live is exempt ONLY when it can "
+                       "prove it IS that shift, by setting %s to the token %r was given at "
+                       "claim time. It was unset or did not match." % (token_env, holder))
+    if i_hold_the_guard and os.environ.get(token_env):
+        return True, ("WARNING -- this guard record predates per-claim tokens (order "
+                      "12d4e1b00c2f), so nothing here is actually VERIFIED. Proceeding only "
+                      "because --i-hold-the-guard was passed explicitly and %s is set; this is "
+                      "a trusted assertion, not a proof." % token_env)
+    return False, ("this guard record predates per-claim tokens, so there is nothing to verify "
+                   "a one-shot push against. If you are %r and mean to push anyway: set %s to "
+                   "any non-empty value and pass --i-hold-the-guard." % (holder, token_env))
+
+
 def main():
     # PLANT-WIDE INTERLOCK. The top rung of the escalation chain (escalation.py). If a
     # library-wide invariant has been violated, nothing starts until a person rules on it.
@@ -1838,6 +1931,13 @@ def main():
     ap.add_argument("--remote", help="git remote URL")
     ap.add_argument("--push", action="store_true", help="commit and push")
     ap.add_argument("--loop", type=float, default=0, help="keep publishing, minutes apart")
+    # ORDER 12d4e1b00c2f: the ONLY way a one-shot --push may proceed while a maintenance shift
+    # holds the guard on a LEGACY record (claimed before per-claim tokens existed, so there is
+    # no digest to check PANSCRIPTUM_GUARD_TOKEN against). See `main()`'s one-shot guard check
+    # for what this does and does not prove.
+    ap.add_argument("--i-hold-the-guard", action="store_true",
+                    help="assert (unverifiable against a pre-token guard record) that this "
+                         "one-shot --push IS the live maintenance shift's own push")
     a = ap.parse_args()
 
     if a.init or a.remote:
@@ -1912,18 +2012,34 @@ def main():
             # push: once half-finished source is in the export, the commit is only the last
             # step. See `maintenance_shift_live` for the measurement that produced this.
             #
-            # LOOP MODE ONLY, exactly as `claim_singleton` above is loop-mode only, and for the
-            # same reason in the same words: a one-shot is not a daemon, it is a person -- or a
-            # maintenance run's own final step -- doing one thing deliberately. The shift that
-            # sets this guard must still be able to publish its own results at the end of the
-            # shift, and a guard that blocked its holder would be a guard nobody could ship with.
-            if a.loop:
+            # CHECKED WHENEVER A PUSH COULD HAPPEN, NOT ONLY IN LOOP MODE (order 12d4e1b00c2f).
+            # This used to run `if a.loop:` only, on the reasoning that "a one-shot is not a
+            # daemon, it is a person -- or a maintenance run's own final step -- doing one thing
+            # deliberately." That reasoning is right about the shift's OWN one-shot push and
+            # wrong about every other one: it exempted ANY one-shot `--push`, from anybody, with
+            # no way to tell them apart. A one-shot with no `--push` still copies nothing public
+            # (git push is the only irreversible, outward-facing step) and stays exempt exactly
+            # as before.
+            if a.loop or a.push:
                 _busy, _why = maintenance_shift_live()
-                if _busy:
+                if _busy and a.loop:
                     print("skipping this cycle: " + _why)
                     codewatch.exit_if_stale("publish")
                     time.sleep(a.loop * 60)
                     continue
+                if _busy and not a.loop:
+                    # ONE-SHOT --push WHILE A SHIFT IS LIVE. Exempt ONLY the shift's own push,
+                    # and prove it rather than assume it (order 12d4e1b00c2f). The decision
+                    # itself lives in `_one_shot_push_verdict`, a pure function, so it can be
+                    # driven directly by a test without running this whole cycle.
+                    import runguard as _RG
+                    _rec = _RG.read(MAINTENANCE_GUARD) or {}
+                    _allow, _msg = _one_shot_push_verdict(_rec, a.i_hold_the_guard)
+                    if _allow:
+                        print("proceeding: " + _why + " -- " + _msg)
+                    else:
+                        print("REFUSING TO PUSH: " + _why + " -- " + _msg, file=sys.stderr)
+                        return 1
             # THE INTERLOCK IS READ BEFORE THE BYTES ARE TAKEN, not only at push time. `push()`
             # asks `mutate.active()` after `sync_tree` has already copied src/ into the export,
             # so a mutation run entirely inside that gap is invisible to it. Read here as well
@@ -1994,6 +2110,11 @@ def main():
         # so an edit storm cannot turn this into a respawn loop -- see codewatch.py.
         codewatch.exit_if_stale("publish")
         time.sleep(a.loop * 60)
+    # THE ONE WAY OUT OF THE LOOP IS THE HALT ARM's `break`, and it sets `rc = 1`. Without this
+    # line `main()` fell off the end and returned None, so `sys.exit(main())` exited 0 -- a
+    # publisher STOPPED BY A HALT told its supervisor it had finished cleanly (found by agent F1,
+    # run #58, while fixing order 12d4e1b00c2f).
+    return rc
 
 
 if __name__ == "__main__":

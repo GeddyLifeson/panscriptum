@@ -337,12 +337,36 @@ def mine(source):
     with open(corpus, encoding="utf-8") as f:
         pages = json.load(f)
     state_p = os.path.join(d, "ingest_state.json")
+    # ABSENT AND UNREADABLE ARE DIFFERENT FACTS (sweep58-batch15), drawn the way
+    # `endpoint.register` and `threads.annex_join` draw them. Both used to become `{"next": 0}`,
+    # so a torn or hand-damaged cursor silently restarted a book from chunk 0 -- hours of model
+    # calls re-spent, and the cursor then OVERWRITTEN by the first chunk that landed, destroying
+    # the only record of where the run had got to.
+    #   - ABSENT     -> no run has started; chunk 0 is the truth.
+    #   - UNREADABLE -> we do not know where the run stood: refuse, write nothing. A file that
+    #     parses but is not a {next, found} cursor is the same unknown.
+    # Raised as ValueError so `main()`'s existing "MINE REFUSED: ..." / return 1 path reports it.
     try:
         with open(state_p, encoding="utf-8") as f:
             state = json.load(f)
-    except Exception:
-        silence.note("ingest_doc.py:ingest-state")
+    except FileNotFoundError:
         state = {"next": 0, "found": 0}
+    except Exception as exc:
+        silence.note("ingest_doc.py:ingest-state")
+        raise ValueError(
+            "%s exists but could not be read (%s: %s); refusing to restart the mining run from "
+            "chunk 0 over a resume cursor nobody could read, and it has NOT been overwritten -- "
+            "inspect or repair it (delete it only to deliberately re-mine from the start)"
+            % (os.path.relpath(state_p, HERE), type(exc).__name__, exc)) from exc
+    if not (isinstance(state, dict)
+            and all(isinstance(state.get(k), int) and not isinstance(state.get(k), bool)
+                    and state.get(k) >= 0 for k in ("next", "found"))):
+        silence.note("ingest_doc.py:ingest-state-wrong-shape")
+        raise ValueError(
+            "%s is not a {next, found} resume cursor (found %r); refusing to restart the mining "
+            "run from chunk 0 over it, and it has NOT been overwritten -- inspect or repair it "
+            "(delete it only to deliberately re-mine from the start)"
+            % (os.path.relpath(state_p, HERE), state))
 
     # Chunk on page boundaries so a citation's page label survives.
     #

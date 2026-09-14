@@ -174,8 +174,15 @@ def _mutate(path, change, attempts=8):
         last_why = why
         try:
             os.remove(tmp)
+        except FileNotFoundError:
+            pass                    # already gone: nothing leaked, nothing to record
         except OSError:
-            pass
+            # NOTED, NOT SWALLOWED (sweep57 question bundle bf1340bc3b3f). This was the one silent
+            # handler in this loop; every other path here leaves a note. A temp that cannot be
+            # removed is a pid/thread-named file left beside a shared artifact, and on Windows the
+            # reason is usually a reader holding it open -- the same litter `silence._discard_tmp`
+            # and `hostcheck._unlink` record rather than drop.
+            silence.note("scout.py:mutate-tmp-not-removed")
         _t.sleep(0.05 * (a + 1))
     # Never raises, matching every other shared write in this file: a caller that cannot land
     # gets told so and decides what "attempted but not recorded" means for it, rather than

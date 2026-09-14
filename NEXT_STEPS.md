@@ -3,91 +3,66 @@
 *Overwritten each run. The permanent record is `HANDOFF.md`; the live queue is
 `state/workorders.json` via `python src/workorders.py --sweep`.*
 
-Written by run #57 (owner-triggered), 2026-09-13. **The halt is lifted, on the owner's ruling. The library is running and the battery is green.**
+Written by run #58 (daily), 2026-09-13/14. **No halt was raised or lifted. The library is running and the battery is green, apart from one external row.**
 
-    drill              523 nets / 523 held / 0 BREACHED   (was 511; +12 new nets this shift)
-    verify_math        1294 passed / 0 FAILED            (was 1289; +5 rows this shift)
-    allsweep           2 subsystem(s) bad -- FAILED cascade live call 77.3s rc=1 (broken); FAILED preflight 35.3s rc=1 (broken)
+    drill              590 nets / 590 held / 0 BREACHED   (was 523; +67 nets this shift, each proven HELD and RED)
+    verify_math        1307 passed / 0 FAILED            (was 1294)
+    allsweep           1 subsystem bad -- preflight (dandwiki no-api, owner order 8b3f2911fa0c); cascade live call OK again
     pyflakes           clean over src/
     secondopinion      all three tools RAN, 0 secrets by two independent scanners
-    liveness           48 findings, 0 tautology, 0 phantom
+    liveness           47 findings, 0 tautology, 0 phantom
+    silence            300 SILENT handlers
     axis_correlation   45 entities -- unchanged, no --write owed
-    sweep run57        16 batches, all 119 modules, `missing()` = []
-    escalation         clear (lifted 2026-09-13 on the owner's written ruling)
-    queue at close     95 open -- RUN 56 / OWNER 26 / LOCAL 11 / SESSION 2
+    sweep run58        16 batches, all 119 modules, `missing()` = []
+    escalation         clear
+    queue at close     54 open -- RUN 11 / OWNER 41 / LOCAL 2 / SESSION 0   (was 95)
 
 ---
 
-## READ FIRST: FOUR THINGS TO CHECK BEFORE ANYTHING ELSE
+## READ FIRST: FIVE THINGS TO CHECK BEFORE ANYTHING ELSE
 
-**1. The local model.** It was down all day and was started by hand by run #57 at 21:55 (tray pid 44656). `foreman.restart_ollama()` can only kill-and-wait for a tray, so if the tray is absent again nothing in the library will start it -- order `b750409c76be`. Check `curl http://127.0.0.1:11434/api/tags` first thing.
+**1. Three daemons were still on start-of-shift code at close:** `overnight`, `pipeline` and `read`. The tree never held still for 180s while agents edited, so none could bounce during the shift. Run #58 stopped `foreman` by hand under the ten-minute rule (the keeper had it back in six seconds). It deliberately did not kill the supervisor, which awaits the feats lap, or pipeline and read, which were mid-work. Run `python src/codewatch.py` and check each has bounced. If one has not, restart it at a safe point and say so.
 
-**2. Watch the publish daemon's first push.** From 2026-09-10 01:12 to 2026-09-13, every push by the
-daemon failed with `could not read Username for 'https://github.com'`, and the export fell 124 commits
-behind. Run #57 pushed by hand, so the repo is current. But the daemon's failure did not reproduce,
-and its cause is still unknown.
+**2. The mutation pass (pid 39980, `state/mutate_20260913.log`).** At run #58's close it had not finished its first target. Its sandbox predates run #57's AND run #58's edits, so it judges mutants against a drill of 511 nets and a verify_math of 1289 rows. **Re-check every survivor it reports against the CURRENT battery (590 nets) before filing.** When the pass ends, and `state/MUTATION_ACTIVE.json` is gone:
+* do `d56cb7f2bed0` (the prose_gate eaten-escape guard)
+* do the citation sites inside assay.py, prose_gate.py and escalation.py left open on `89503c58409f`, `1d45a56ae1d8` and `d7efd67caa6f`
+* read the result that `58a00e909217` is waiting for
 
-**PUSHED -- the outage is over.** `publish.py --push`, run by run #57 at 22:02 with credential prompts disabled, synced 72 files and printed `pushed`. `origin/main` moved from `b7b4387` (2026-09-10 01:12) to `6065172` ("sync 2026-09-13 22:02 — code: allsweep, autostart, citecheck, drill, foreman, hosts +14; 53 data/site file(s)"), and the export is now 0 commits ahead of `origin/main`. So the 124 stranded commits and all of this shift's code are public. This entry and the other ledgers went up in a second push immediately after.
+**3. The publish daemon's first push after run #58 released the guard.** Run #57's unexplained `could not read Username` failure has still not reproduced: 0 occurrences during run #58, when the daemon correctly skipped every cycle under the guard. Watch `state/publish.log`.
 
-**WHY THE DAEMON'S OWN PUSHES FAILED IS STILL NOT KNOWN, and this is not recorded as a fix.** `publish.git()` already strips `GITHUB_TOKEN` and `GH_TOKEN` (the token is a persistent User variable, length 93, so every daemon inherits it, but git never sees it). Run #57 reproduced the daemon's process context: detached, windowless, launched from pythonw, running `git push --dry-run`. It tried both today's environment and one adding `GCM_INTERACTIVE=never` and `GIT_TERMINAL_PROMPT=0`. **Both succeeded**, so the failure did not reproduce. That leaves two readings. Either the cached Git Credential Manager credential was refreshed at some point after the failures began, or the logon-launched daemon's environment differs in a way that could not be recreated. **Watch `state/publish.log` on the daemon's first push after this shift releases the guard.** If it logs `could not read Username` again, the cause is in the daemon's context, and the variables above are the first thing to try.
+**4. Claim the guard WITH A TOKEN.** Since order 12d4e1b00c2f, a one-shot `publish.py --push` during a live shift is exempt only for the guard's holder. Run #58's guard predated tokens, so its own push used the legacy override (`PANSCRIPTUM_GUARD_TOKEN=<non-empty>` plus `--i-hold-the-guard`), which is logged as a trusted assertion, not a proof. Instead, claim with `runguard.claim(agent, token_path=<a private scratch file>)`, keep the token, and push with `PANSCRIPTUM_GUARD_TOKEN=<that token>`.
 
-**3. A mutation pass is running.** It was launched detached at ~21:15 (pid 39980,
-`state/mutate_20260913.log`). **Read the log before trusting any survivor.** Its sandbox predates run
-#57's edits, so it judges mutants with the pre-run-57 drill and verify_math, which lack this shift's
-twelve new nets. A survivor may already be caught by the current battery; check each against it
-before filing. Survivors are auto-filed as MUTANT_SURVIVED orders.
-
-**4. Three decisions belong to the owner. Do not spend a shift deriving them again:**
-
-* `8b3f2911fa0c` — dandwiki's API returns 403 by site policy. The preflight row stays red until
-  someone rules on it.
-* `a5faab7f3ede` — how `ledger_guard`'s loss floor should advance. By line count, as now, a lossy
-  push can hide inside new growth; by strict retention, the floor freezes on any typo fix. A "union"
-  middle rule is proposed on the order.
-* `1e6f99e54b25` — whether `generate.py`, `retry_synthesis.py --merge`, `repass_bands.py --apply`
-  and `resync_roll.py` should refuse to run while the library is halted. Precedent here says yes.
+**5. Do not spend a shift re-deriving the owner decisions.** They are routed, each with a written reason: `1e6f99e54b25` + `21c075e5e2d6`, `a5faab7f3ede`, `a724ec57e0d5`, `d1709d8e757d`, `d9328fe1ee38`, `79d51aef8b71`, `30854f11f322`, `a66423722e45`, `0384c99d5454`, `34ec8a90c42f`, `ff77e242b830`, `325ccb493c45`, `a8e02f3bbf76`, plus the external `8b3f2911fa0c` / `32eaec248adf` / `2d6c9343cd32`.
 
 ---
 
-## THE THREE THINGS WORTH A SHIFT, IN ORDER
+## THE RUN WORK LEFT, IN ORDER
 
-**1. One widened drill sandbox, closing four orders at once.** `4be1a84f19c6`, `5d686329771b`,
-`1c7c2c2c8b00` and `247586e57b61` are the same fault: drill probes that touch LIVE state and whose
-only protection is the guard under test. One of them has already quarantined fixture hosts in the
-live `HOST_QUARANTINE.json`. Route every such probe through one sandbox (temp queue, temp host map,
-temp records root, temp poll dir). Then add a LEDGER WITNESS-style net asserting no probe opens a
-live path. Run #56 and run #57 both declined this as the second structural edit of a shift that
-had already changed `drill.py`; the next shift should make it the FIRST.
+**1. `fadd4338a7b0`: the eaten-escape guard on 23 named regex-importing modules.** Do it as ONE batch at the START of the shift, before any other edit, because every save to a daemon's module costs a restart of every standing daemon. Copy the guard exactly from local_agent.py. drill.py and workorders.py are on the local model's write denylist.
 
-**2. verify_math's own holes.**
+**2. Small and well-specified, filed this shift:**
+* `9f1cce19c85c`: `drill.py --prove` never prints the child's stderr, so a crash shows no traceback.
+* `e3fcbbe262e2`: an absent corpus.db passes the index-spine net, and every prove and mutation tree is in that state.
+* `5b00f9d39b94`: `workorders.where_targets` still reduces a backslash path to its basename.
+* `ec8b8b35e521`: generate.py's failures.json is load-once-write-whole (latent under the singleton guard).
+* `058fa19d4e65`: rebuild `state/chain_harvest_idx.json` so the widened OUTCOME pattern reaches indexed feats; better, add a pattern digest to the index.
 
-* `491bd68b18e9` comes first. Section 20u `exec()`s every `handoff/run35/checks_L*.py` it finds,
-  and `handoff/` is where agents write. Restrict it to the six pinned files, by name and digest.
-* Then `3c72359c53aa`. The two §20j rows are tautological, and fixing them properly means lifting
-  §20e's inline scan into a function a fixture control can drive.
-* Then `19eb3626d39c`, two blanket ledger suppressions.
+**3. Needs a reproduction, not a patch:** `9ea4d3545524`, the mutation sandbox FileNotFoundError. Run a pass with its sandbox root audited, and name the process that deletes it.
 
-**3. Supervision faults with the watchdog's shape.**
+**4. Questions only:** `2f314697d52b` (INFO): child spawns without `cwd=` in `_live_audit`, and whether THE LIVE-STATE WITNESS should drive every sandboxed probe.
 
-* `633832bdae90`: the supervisor counts deliberate rc=17 restarts toward its idle limit, so a burst
-  of source edits on short cycles can halt it.
-* `972932ab89b0`: `chain.harvest()` overwrites a compare-and-swapped continuity patch.
-
-Both are small once read.
+**5. The partial citation orders** (`89503c58409f` RUN, `1d45a56ae1d8` LOCAL, `d7efd67caa6f` LOCAL). Beyond the mutation-target sites (item 2 of READ FIRST), three kinds of site remain:
+* citations inside STRING literals in drill.py and verify_math.py, which a check may match on, so grep before editing
+* four historical mutation coordinates in mutate.py (`escalation.py:409` / `assay.py:593`). Run #58 deliberately left these: they are the key format of `mutate.py --rule-equivalent` and of the orders that cite them, and line 1056 is a CLI usage example.
+* one intentional fixture string in verify_math.py (`"# see verify_math.py:1457 ..."`). Do not "fix" it.
 
 ---
 
-## HOUSEKEEPING
+## LESSONS FROM RUN #58 (keep them)
 
-* **Claim with `runguard.claim()` and keep beating on a timer.** The pid-based stale-but-alive arm
-  protects only a long-lived holder; a session-driven run is protected by its heartbeat and nothing
-  else. Run #57 ran `runguard.beat()` every four minutes from a background loop.
-* **Watch the order queue's `KNOWN` discipline.** Sweep57's batches checked the open queue before
-  reporting and labelled matches KNOWN, which kept this shift's filings to real news. Keep that
-  instruction in every sweep prompt.
-* **Citecheck cannot find most stale citations**, and that is by design: it proves only past-EOF,
-  blank-line and bare-bracket. Do not expect a detector to shrink `89503c58409f`. Citing by symbol
-  (order `0c7592915a48`) is the durable remedy.
-* **The watchdog was restarted by hand this shift** (pid 39080) to put its fix in effect.
-  `autostart.py` never picks up source changes on its own; any future fix to it needs the same
-  restart.
+* **Never set a shell variable inside a backgrounded `&&` chain.** `VAR=x && ... & job2 &` hands the assignment to the first background job only. It bit twice.
+* **Every stored order field is length-checked against 80/200/400/600.** `file_order` now refuses one, and the drill breaches on an open order that has one.
+* **The Write tool saves CRLF on this machine.** A revert JSON whose strings carry CRLF matches nothing, and `--prove` then reports DID NOT RUN, not RED. Normalise before proving.
+* **An agent's standalone "RED" is not a landed net.** W2a found three proposals whose reverts could never defeat them.
+* **Run the central drill after every landing wave, not only at close.** Both of this shift's breaches were caught that way within minutes.
+* **Sweep the code the shift itself wrote.** Sweep 58 found nine defects in this shift's own fixes, every one of which had passed its author's tests.

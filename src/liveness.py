@@ -119,7 +119,7 @@ def _modules():
 
     THE DETECTOR THAT CANNOT FAIL WAS BLIND TO A WHOLE DIRECTORY (order aeeba9364147). This
     listed candidates with `os.listdir(SRC)`, which does not descend, and `src/deprecated/`
-    exists and holds `catalogue_local.py` (280 lines, kept on purpose as a record of a failure
+    exists and holds `catalogue_local.py` (333 lines, kept on purpose as a record of a failure
     mode). That file therefore never entered `trees`: never a DEAD or DEAD_CLASS or TAUTOLOGY
     or PHANTOM candidate, never contributing to `referenced` for the dead-module pass, never
     reportable as a dead module itself. A subdirectory nothing can see reads exactly like a
@@ -297,11 +297,15 @@ def _classdefs(tree, prefix=""):
     DEAD candidate at all -- and its methods were meanwhile credited to each other through
     `scoped`, because they call one another on `self`. A class nothing ever instantiates is
     therefore structurally invisible to a detector whose whole subject is code that cannot run:
-    measured over this tree, `escalation.py`'s `class Refused` -- "An OPERATOR- or SUPERVISOR-level
-    stop: this unit or this source, not the library" -- is never raised, caught, imported or
-    named anywhere in src/, while its sibling `SystemHalted` is raised and caught in two modules.
-    Two rungs of Hard Rule -1's chain had a declared exception type with no raiser: a safety in a
-    file rather than in effect. (order 209391b4f990)
+    measured at the time this was written, `escalation.py`'s `class Refused` -- "An OPERATOR- or
+    SUPERVISOR-level stop: this unit or this source, not the library" -- was never raised, caught,
+    imported or named anywhere in src/, while its sibling `SystemHalted` was raised and caught in
+    two modules. Two rungs of Hard Rule -1's chain had a declared exception type with no raiser: a
+    safety in a file rather than in effect. (order 209391b4f990). FIXED SINCE (order
+    da15f582b2ea): `escalation.refuse_unit()` and `escalation.refuse_source()` now raise it, and
+    the detector agrees -- `dead_class` reports zero rows over this tree today. The worked example
+    is kept as the record of the failure this pass exists to catch, not as a live finding; the
+    detector itself needs no correction.
 
     Nested classes recurse and the label carries the dotted path, exactly as `_defs` does, so a
     row names the enclosing class rather than a bare name nobody can find.

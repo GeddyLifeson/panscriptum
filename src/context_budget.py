@@ -106,6 +106,43 @@ class ContextOverflow(RuntimeError):
     """A prompt that does not fit its window. Raised rather than sent and truncated."""
 
 
+class ScaffoldUnreadable(ContextOverflow):
+    """A prompt file the budget must measure could not be read. No budget can be derived.
+
+    A ContextOverflow because the caller's answer is the same: whether this prompt fits is
+    UNKNOWN, and an unknown fit is refused, not sent. Every existing caller already lets a
+    ContextOverflow stop the job.
+    """
+
+
+def _read_scaffold(name, site):
+    """The text of one prompt file the budget is measured against. -> str, or RAISES.
+
+    FAIL CLOSED, BOTH WAYS (sweep58-batch04). This used to substitute "" on any read failure,
+    and SWEEP34 96ebf36510b8 only added a note -- so an AV lock or an edit-in-flight on
+    `system_style.txt` still made `scaffold_chars` 0 and the content budget LARGER, which is
+    the truncating direction this module exists to refuse. ABSENT is refused as well as
+    UNREADABLE, and said separately: `generate.load_prompt_templates` opens both files with no
+    fallback, so an absent file is not an honest zero-length scaffold -- it is a job that cannot
+    be built, and a budget computed for it is a number about nothing.
+    """
+    path = os.path.join(PROMPTS, name)
+    try:
+        with open(path, encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError as exc:
+        silence.note(site + "-absent")
+        raise ScaffoldUnreadable(
+            "prompts/%s is ABSENT, so the scaffolding the content budget is carved from cannot "
+            "be measured -- refusing to derive a budget as if it were empty" % name) from exc
+    except Exception as exc:
+        silence.note(site)
+        raise ScaffoldUnreadable(
+            "prompts/%s could not be read (%s: %s), so the scaffolding the content budget is "
+            "carved from cannot be measured -- refusing to derive a budget as if it were empty"
+            % (name, type(exc).__name__, exc)) from exc
+
+
 def estimate_tokens(text, chars_per_token=None):
     """Characters -> a deliberately high token estimate.
 
@@ -244,24 +281,16 @@ def feats_block_budget(cfg, system_text=None, template_text=None):
 
     The number returned is what `pack_feats`'s `cost()` may report -- NOT the size of the
     emitted block, which is larger by the two corrections above.
+
+    RAISES `ScaffoldUnreadable` when a prompt file it must read is absent or unreadable -- see
+    `_read_scaffold`. A caller that passes the texts itself is trusted with them.
     """
     if system_text is None:
-        try:
-            with open(os.path.join(PROMPTS, "system_style.txt"), encoding="utf-8") as f:
-                system_text = f.read()
-        except Exception:
-            # SWEEP34 96ebf36510b8: an unreadable prompt file was silently making
-            # scaffold_chars 0 and content_budget_chars LARGER -- the truncating direction
-            # this module's own header says it exists to refuse. Recorded, not just swallowed.
-            silence.note("context_budget.py:feats_block_budget-system_text")
-            system_text = ""
+        system_text = _read_scaffold("system_style.txt",
+                                     "context_budget.py:feats_block_budget-system_text")
     if template_text is None:
-        try:
-            with open(os.path.join(PROMPTS, "feats_prompt.txt"), encoding="utf-8") as f:
-                template_text = f.read()
-        except Exception:
-            silence.note("context_budget.py:feats_block_budget-template_text")
-            template_text = ""
+        template_text = _read_scaffold("feats_prompt.txt",
+                                       "context_budget.py:feats_block_budget-template_text")
     sys_used = system_for("feats", system_text)
     # The job overhead is CONTENT, not scaffolding -- the source name, the chapter label, the
     # page span, the ceiling entity -- so it is subtracted from the content budget, where it is
@@ -274,19 +303,13 @@ def feats_block_budget(cfg, system_text=None, template_text=None):
 
 
 def report(cfg):
-    """What fits right now, for a human. Used by health/preflight and by the ledgers."""
-    try:
-        with open(os.path.join(PROMPTS, "system_style.txt"), encoding="utf-8") as f:
-            sysd = f.read()
-    except Exception:
-        silence.note("context_budget.py:report-system_text")
-        sysd = ""
-    try:
-        with open(os.path.join(PROMPTS, "feats_prompt.txt"), encoding="utf-8") as f:
-            ftpl = f.read()
-    except Exception:
-        silence.note("context_budget.py:report-template_text")
-        ftpl = ""
+    """What fits right now, for a human. Used by health/preflight and by the ledgers.
+
+    RAISES `ScaffoldUnreadable` rather than reporting a budget measured against an empty
+    scaffold: a falsely reassuring number on a preflight is worse than no number.
+    """
+    sysd = _read_scaffold("system_style.txt", "context_budget.py:report-system_text")
+    ftpl = _read_scaffold("feats_prompt.txt", "context_budget.py:report-template_text")
     voice, full = split_system_prompt(sysd)
     return {"num_ctx": window(cfg),
             "system_full_chars": len(full), "system_voice_chars": len(voice),

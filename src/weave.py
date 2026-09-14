@@ -264,16 +264,27 @@ def filtered_index(index):
     The [:400] window was dormant only because the on-disk index was itself still 400-capped;
     weave_index.py is uncapped now (order b974e9ed76de), so the next regeneration would have made
     it a live under-filter too. These are two regex scans over a field of at most a few KB.
+
+    AN UNIMPORTABLE `pipeline` FAILS THE CALL; IT DOES NOT SILENTLY SKIP THIS GATE'S OTHER HALF
+    (order 3fc19ad4d1c6). This caught the exception, noted it, set `_STATBLOCK = None`, and
+    carried on -- so a broken or circularly-mid-import `pipeline` module (large, frequently
+    edited, imported lazily here for exactly that reason) switched off the statblock half of
+    this filter for the ENTIRE weave, silently to every caller, and only `silence.note`'s ledger
+    would ever have shown it happened. Same fix as `generate.py`'s P8 meta-language gate under
+    the ImportError-fails-closed hardening: a gate that cannot run has not passed, and this
+    function has no chapter to refuse in its place, so it refuses the whole call instead -- the
+    `silence.note` is kept, exactly as that hardening kept it, because the detectors still read
+    it even though the exception now also propagates. Both current callers
+    (`pipeline.phase_weave`, `tiers._graph`) already call this unwrapped and let a raise here
+    reach their own outer handler -- `phase_weave`'s own comment documents that pattern for the
+    two raises immediately below this call (order bfafac3e1c5e) -- so this failure was always
+    meant to propagate; it simply never could.
     """
     try:
         from pipeline import _STATBLOCK
     except Exception:
-        # Content label, not a line number: this was tagged "weave.py:187", which is the `try:`
-        # three lines above the call it was meant to mark, not the import that actually failed.
-        # A stale number costs a grep every time someone diagnoses it (see wiki_source.py's own
-        # converted sites for the same fix).
         silence.note("weave.py:statblock-import")
-        _STATBLOCK = None
+        raise
     out, dropped = {}, 0
     for k, hits in index.items():
         nm = (hits[0].get("name") or "").strip()

@@ -190,7 +190,8 @@ def save_roll(roll, names=None):
     every process that writes the roll. It was the last of the then-FIVE writers of the file
     (there are SEVEN, counted for order f818a77293fc) of data/SWEEP_ROLL.json
     still on that convention: every roll writer now lands through `roll.update_rows` /
-    `roll.mutate` (catalogue_codex.py:361, resync_roll.py:211), which stages its own
+    `roll.mutate` (`catalogue_codex.main()`'s `roll.update_rows(roll_changes, ...)` call,
+    `resync_roll.main()`'s `roll.mutate(_apply, ...)` call), which stages its own
     pid+thread+attempt-qualified temp name and lands it through `silence.replace_if_unchanged`
     directly, not through `write_json` -- the same pid/thread discipline, hand-rolled instead.
     Two processes writing the roll opened the SAME temp file; the second truncated the first and
@@ -285,7 +286,19 @@ def catalogue_composite(source_name, verbose=True):
                 first_cat.setdefault(_t, c)
             titles = ws.clean_titles(raw_titles)
             if len(titles) > 40:
-                titles = ws.rank_by_size(sub, titles, top=None)   # rank, never truncate
+                # THE RANKING CAN FAIL TRANSPORT TOO, and now says so by raising (order
+                # e7143aba1e9a made `rank_by_size` raise instead of sorting an unmeasured batch to
+                # the bottom). Unwrapped, that raise left this function and discarded every entry
+                # already gathered from earlier categories and sub-wikis, so one bad batch cost the
+                # whole composite source. Degraded exactly like `category_members` above: noted,
+                # named in `failed_cats` (so the provenance says this category was NOT read), and
+                # skipped -- never fetched unranked and never passed off as empty.
+                try:
+                    titles = ws.rank_by_size(sub, titles, top=None)   # rank, never truncate
+                except Exception:
+                    silence.note("catalogue_web.py:composite-rank-by-size")
+                    failed_cats.append(f"{sub}:{c} (size ranking)")
+                    continue
             wanted = []
             for title in titles:
                 key = re.sub(r"[^a-z0-9]", "", title.lower())
@@ -680,11 +693,17 @@ def main():
             # against the live 215-source roll: 11 names exceed 44 characters and 0 collide on
             # their first 44 today, which is a report on the current roll, not a guarantee about
             # the next one added to it -- exactly why feats.py's own fix left the cap off rather
-            # than raising the number. `str(sub or 'UNRESOLVED')` is left cut at 24: it names a
-            # RESOLVED wiki subdomain, not an operator-facing source identity, and measured
-            # against the same roll every resolved subdomain is under 24 characters today, so
-            # there is no live truncation to fix on that half of the line.
-            print(f"  {r['name']:46s} -> {str(sub or 'UNRESOLVED')[:24]:26s} {name or ''}")
+            # than raising the number. `str(sub or 'UNRESOLVED')` was left cut at 24 with no
+            # marker on the same reasoning -- "every resolved subdomain is under 24 characters
+            # today" -- and that is the exact shape the paragraph above just refused for the name
+            # field: a report on the current roll is not a guarantee about the next one added to
+            # it (order 156c2e28f823, catalogue_web follow-up). So it keeps the 26-column layout
+            # but now DECLARES a cut with the house ellipsis marker instead of silently dropping
+            # past character 23, exactly as `_observed`'s cut in policy.py names its own size.
+            _sub_disp = str(sub or "UNRESOLVED")
+            if len(_sub_disp) > 24:
+                _sub_disp = _sub_disp[:23] + chr(8230)
+            print(f"  {r['name']:46s} -> {_sub_disp:26s} {name or ''}")
         print(f"\n{hit}/{len(todo)} resolved. (dry run -- no pages fetched)")
         return 0
 
@@ -764,6 +783,19 @@ def main():
         list(ex.map(_one, todo))
 
     print(f"Catalogued {tally['done']}/{len(todo)} sources ({tally['failed']} skipped).")
+    # WIRED IN (order e7143aba1e9a, finding 1). `wiki_source.category_floor_report()`
+    # implements owner ruling 2026-09-08 ("Traffic on the Fandom edge": the 40-page MediaWiki
+    # category floor is declared and its dropped count reported) but had zero callers anywhere
+    # in the tree. This is the one place that walks categories per-wiki during a catalogue pass
+    # (`catalogue`/`catalogue_composite` -> `ws.find_categories` -> `ws.all_categories`), so it
+    # is where the report belongs. UNCAPPED (Hard Rule 0): every row this run measured, not a
+    # sample of them.
+    floor_rows = ws.category_floor_report()
+    if floor_rows:
+        print(f"  category floor unmeasured on {len(floor_rows)} wiki(s) this run:")
+        for row in floor_rows:
+            print(f"    {row['subdomain']:30s} {row['categories_above_floor']:>4} categories "
+                  f">= {row['floor']} pages ({row['note']})")
     # ORDER 1e45fae97848: this used to have no `return` anywhere in main() and be called bare
     # from `__main__`, so the process always exited 0 -- even when EVERY source in `todo` failed.
     # foreman.run_catalogue_gap dispatches this script in the background via overnight.start(),

@@ -128,8 +128,9 @@ def build_graph():
             for j in range(i + 1, n):
                 p = (sources[i], sources[j])
                 pair_w[p] += w
-                # WHOLE list, no cap -- Hard Rule 0, ruled 2026-08-24. `weave.py:519` and
-                # `pipeline.py:2401` write this same `shared_sample` key and were both brought in
+                # WHOLE list, no cap -- Hard Rule 0, ruled 2026-08-24. `weave.main()`'s and
+                # `pipeline.phase_weave()`'s own `"shared_sample": shared[(a, b)]` writes
+                # write this same `shared_sample` key and were both brought in
                 # line under that ruling; this file is the one member of the family that was
                 # missed, and it kept an `< 8` cap for two more days. The cap was not cosmetic:
                 # `resonance.py:295` reads `shared_sample` back as the pair's actual shared

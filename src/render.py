@@ -364,7 +364,8 @@ def write_views(tree=None, sample=None):
     A FUNCTION, NOT A BRANCH OF `main()` (order 707fefc17465, owner ruling 9 of 2026-09-08:
     "wire what closes a measured gap; hold the rest, marked"). This module is the dispatcher for
     all nine cosmology view tiers and NOTHING imported it -- the only mention anywhere in src/
-    was a comment in build_terminal.py:83 -- so the gap its own docstring describes closing (the
+    was build_terminal.py's `esc()` comment naming `render.py`'s `containment_svg()` in passing --
+    so the gap its own docstring describes closing (the
     top five tiers "had addresses and no way to look at them") was closed only for whoever ran
     it by hand. The ruling wired it into the publish cycle rather than retiring it; a cycle can
     only call a function, so the writing half comes out of the argparse branch it was living in.

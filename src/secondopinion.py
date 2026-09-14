@@ -144,6 +144,17 @@ def _exe(name):
             r = subprocess.run([cand, "--version"], capture_output=True, creationflags=_NO_WIN, timeout=30)
             if r.returncode == 0:
                 return cand, None
+            # THE SPAWN RAN; THE TOOL SAID NO (order 3fc19ad4d1c6). This fell through with
+            # `reason` untouched, so a candidate that plainly exists on disk and ran -- but
+            # exited nonzero on `--version` (a broken install, an incompatible flag, a licence
+            # prompt) -- still reported the FileNotFoundError-shaped default, "no such file". The
+            # remedy printed off that default is "reinstall it", when the real one is "find out
+            # why the spawn failed" -- and this module's whole value is being an INDEPENDENT
+            # opinion, so a wrong reason on its own plumbing is the one place it cannot afford to
+            # be approximate.
+            err = (r.stderr or r.stdout or b"").decode("utf-8", "replace").strip()
+            reason = ("found on disk but exited %d on --version%s"
+                      % (r.returncode, (": " + _message(err, 200)) if err else ""))
         except FileNotFoundError:
             continue
         except Exception as e:

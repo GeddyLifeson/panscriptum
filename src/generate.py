@@ -149,6 +149,77 @@ def save_json(path, obj):
     return landed
 
 
+def _land_catalog(path, own, attempts=8):
+    """Land THIS RUN'S catalog rows under COMPARE-AND-SWAP. -> True if they landed.
+
+    `own` is {address: row} for the rows this run has written since its last landed save. It is
+    CLEARED on a landing, and kept on a refusal so the next save carries those rows again.
+
+    A CONCURRENT WITHDRAWAL WAS RESURRECTED (sweep 58, batch03 / batch11). `main()` loaded
+    catalog.json once at the start of an hours-long run and landed the WHOLE in-memory dict every
+    five chapters through `save_json` -- atomic, but checking nothing else. So a
+    `withdraw_chapters --go` landing in between (which itself lands under CAS, see
+    `withdraw_chapters._land_merged`) removed a row and archived the chapter, and this run's next
+    save wrote the row straight back: a record pointing at a file whose only copy is now in the
+    archive. The same shape lost a second `generate.py`'s newer rows the other way round.
+
+    So the house order, as `_land_merged` and `roll.mutate` do it: the digest is taken BEFORE a
+    fresh read, only `own` is applied over what the file holds NOW, and
+    `silence.replace_if_unchanged` refuses if anyone landed in between, in which case the merge
+    re-runs against the winner's copy. A key this run did not write since its last landed save is
+    never put back. A refusal while the file stood still is a DENIAL (a reader holding it) and is
+    reported, not retried. A file that will not parse, or is not an object, is REFUSED rather
+    than landed over: it is the resume ledger, and overwriting it with this run's rows alone
+    would erase every other record in it.
+    """
+    import threading
+    import time
+    full = os.path.join(HERE, path)
+    why = "not attempted"
+    for attempt in range(max(1, attempts)):
+        seen = silence.digest_of(full)
+        try:
+            with open(full, encoding="utf-8") as f:
+                current = json.load(f)
+        except FileNotFoundError:
+            current = {}
+        except ValueError as e:
+            why = "it will not parse (%s), and landing over it would erase it" % e
+            break
+        except OSError as e:
+            why = "it could not be read to merge against (%s)" % e
+            time.sleep(0.2 * (attempt + 1))
+            continue
+        if not isinstance(current, dict):
+            why = "it holds a %s, not an object" % type(current).__name__
+            break
+        merged = dict(current)
+        merged.update(own)
+        d = os.path.dirname(full)
+        if d:
+            os.makedirs(d, exist_ok=True)
+        tmp = "%s.%d.%d.tmp" % (full, os.getpid(), threading.get_ident())
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(merged, f, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+        except Exception:
+            _discard_tmp(tmp)
+            raise
+        ok, why = silence.replace_if_unchanged(tmp, full, seen)
+        if ok:
+            own.clear()
+            return True
+        _discard_tmp(tmp)
+        if silence.digest_of(full) == seen:
+            break
+    silence.note("generate.py:catalog-cas-refused")
+    print(f"WRITE REFUSED -> {path}: {why}. This run's {len(own)} unlanded row(s) are kept and "
+          f"ride on the next save; the file still holds what it held.", flush=True)
+    return False
+
+
 def _discard_tmp(tmp):
     """Remove a scratch file, and never let the removal itself become the failure.
 
@@ -640,7 +711,11 @@ def main():
     else:
         jobs = manifest.get("jobs") or []
 
+    # `catalog` is read ONCE, to decide what is pending. It is never landed whole: rows this run
+    # writes go into `catalog_own` too, and only those are merged into the file as it stands at
+    # each save -- see `_land_catalog` for the withdrawal it used to resurrect.
     catalog = load_json(cfg["paths"]["catalog"], {})
+    catalog_own = {}
     failures = load_json(cfg["paths"]["failures"], {})
 
     system_prompt, chapter_tpl, front_tpl = load_prompt_templates()
@@ -797,8 +872,8 @@ def main():
 
         # THE P8 META-LANGUAGE BAN, ENFORCED FOR THE FIRST TIME. `pipeline.assert_in_universe`
         # was written to reject prose that breaks the in-fiction frame -- "as a DM you might",
-        # "in this sourcebook" -- and `pipeline.py:2647` states the ban "is enforced in code
-        # like scale_note and the Marginalia cap before it". It was not. The function had **zero
+        # "in this sourcebook" -- and `assert_in_universe()`'s own docstring at the time stated
+        # the ban "is enforced in code like scale_note and the Marginalia cap before it". It was not. The function had **zero
         # callers anywhere in src/**, and this module, which is the only thing that turns a
         # manifest into prose, does not import `pipeline` at all. The only reader of
         # `meta_violations` was `audit.py` -- an after-the-fact report on already-written text.
@@ -902,7 +977,7 @@ def main():
             continue
         babel_coord = babel_coordinate({"address": job["address"], "hash": store_info["hash"]})
 
-        catalog[job["address"]] = {
+        catalog[job["address"]] = catalog_own[job["address"]] = {
             "recipe_hash": rh,
             "content_hash": store_info["hash"],
             "raw_path": os.path.relpath(raw_path, HERE),
@@ -936,13 +1011,13 @@ def main():
 
         # save incrementally so Ctrl-C doesn't lose progress
         if done_count % 5 == 0:
-            save_json(cfg["paths"]["catalog"], catalog)
+            _land_catalog(cfg["paths"]["catalog"], catalog_own)
 
     # THE FINAL WRITES DECIDE THE EXIT CODE. The incremental saves above can be made good by the
     # next one five chapters later; these two cannot, and they are the run's entire durable
     # product. A pass that generated prose and could not record it must not exit 0 -- the
     # scheduler, the keeper and `overnight.py` all read that number and nothing else.
-    catalog_landed = save_json(cfg["paths"]["catalog"], catalog)
+    catalog_landed = _land_catalog(cfg["paths"]["catalog"], catalog_own)
     failures_landed = True
     # `or cleared_count`: a run whose pops emptied the map must still write it. The guard was
     # `if failures:` alone, so if the pop-time save above had been DENIED and the map then went

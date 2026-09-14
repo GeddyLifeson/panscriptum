@@ -89,8 +89,8 @@ def _load():
         return [], False
 
 
-def _land(rows):
-    """Write the list. -> True if it LANDED on disk, False if the rename was refused.
+def _land(rows, expected):
+    """Write the list. -> (ok, why): ok is True only if it LANDED on disk.
 
     GATE ON THE WRITE. `silence.replace_retry` returns whether the rename succeeded and, by its
     own docstring, deliberately never raises on persistent denial ("the caller's write lands next
@@ -102,8 +102,68 @@ def _land(rows):
     failure mode points the wrong way twice: the operator believes an exemption is recorded and
     reviewable when nothing is, and the reason they wrote is lost with it. `repass_bands.py`
     gates on the identical verdict for the identical reason (run #25).
+
+    AND NOW A COMPARE-AND-SWAP, NOT A BARE ATOMIC WRITE (sweep58-batch04). `write_json` closes
+    the torn-file hazard and says nothing about STALENESS: two `add()` calls for two different
+    detectors both read N rows, both land N+1, and the later rename silently discards the
+    earlier row with both calls reporting success -- the m42 lost update `onomast`, `roll` and
+    `endpoint.register` were moved off. `expected` is the digest taken BEFORE the read; the
+    verdict is `(ok, why)` from `silence.replace_if_unchanged`, and `_mutate` re-applies on a
+    lost race.
     """
-    return silence.write_json(FILE, rows, indent=1, ensure_ascii=False)
+    import threading
+    d = os.path.dirname(FILE)
+    if d:
+        os.makedirs(d, exist_ok=True)
+    tmp = "%s.%d.%d.tmp" % (FILE, os.getpid(), threading.get_ident())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(rows, f, indent=1, ensure_ascii=False)
+            f.flush()
+            os.fsync(f.fileno())
+        ok, why = silence.replace_if_unchanged(tmp, FILE, expected)
+    except Exception:
+        _drop_tmp(tmp)
+        raise
+    if not ok:
+        _drop_tmp(tmp)
+    return ok, why
+
+
+def _drop_tmp(tmp):
+    try:
+        os.remove(tmp)
+    except FileNotFoundError:
+        pass
+    except OSError:
+        silence.note("suppressions.py:drop-tmp")
+
+
+def _mutate(apply, refuse_unreadable, refuse_unlanded, attempts=8):
+    """Read, apply, land under compare-and-swap; RE-APPLY to the winner's copy on a lost race.
+
+    `apply(rows)` -> (new_rows or None, result). None means "nothing to write" (a `remove()` of a
+    row that is not there), and `result` is returned as-is. The digest is taken BEFORE `_load()`,
+    so a writer landing between the read and the swap makes the swap refuse rather than pass on
+    a copy already behind. A refusal while the file stood still is a DENIAL, not a race, and is
+    raised at once rather than retried; so is a run of races that never settles.
+    """
+    why = "not attempted"
+    for _attempt in range(max(1, attempts)):
+        seen = silence.digest_of(FILE)
+        rows, ok = _load()
+        if not ok:
+            raise IOError(refuse_unreadable)
+        new_rows, result = apply(rows)
+        if new_rows is None:
+            return result
+        landed, why = _land(new_rows, seen)
+        if landed:
+            return result
+        if silence.digest_of(FILE) == seen:
+            break
+    silence.note("suppressions.py:land-refused")
+    raise IOError("%s (%s)" % (refuse_unlanded, why))
 
 
 def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS):
@@ -111,13 +171,25 @@ def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS
     if not reason or len(str(reason).strip()) < 12:
         raise ValueError("a suppression needs a reason in words -- what is this, and why is it "
                          "not what the detector thinks it is?")
-    rows, ok = _load()
-    if not ok:
-        # Landing on top of an unreadable file would rewrite it from an empty list and silently
-        # drop every row the corrupt file still held on disk. Refuse, same doctrine as a denied
-        # write below: REFUSED IS NOT ADDED.
-        raise IOError("SUPPRESSIONS.json exists but could not be read; refusing to add a "
-                      "suppression on top of it -- fix or restore the file first")
+    # Landing on top of an unreadable file would rewrite it from an empty list and silently
+    # drop every row the corrupt file still held on disk. Refuse, same doctrine as a denied
+    # write below: REFUSED IS NOT ADDED. (Checked inside `_mutate`, on every re-read.)
+    #
+    # UNDER COMPARE-AND-SWAP (sweep58-batch04): `_row_added` is RE-APPLIED to the winner's copy
+    # when another writer lands first, so its row survives beside this one.
+    return _mutate(
+        lambda rows: _row_added(rows, detector, path_glob, reason, added_by, ttl_days),
+        "SUPPRESSIONS.json exists but could not be read; refusing to add a suppression on top "
+        "of it -- fix or restore the file first",
+        # REFUSED IS NOT ADDED. Returning the row here would tell the caller a detector has been
+        # narrowed when it has not been -- the one lie this module must never tell, since the
+        # next scan will report the finding the operator believes they waived.
+        "SUPPRESSIONS.json could not be written (rename refused); the suppression for %s on %s "
+        "was NOT recorded -- try again" % (detector, path_glob))
+
+
+def _row_added(rows, detector, path_glob, reason, added_by, ttl_days):
+    """`add()`'s change, as a pure function of the rows read. -> (new rows, the row added)."""
     rows = [r for r in rows
             if not (r.get("detector") == detector and r.get("path") == path_glob)]
     # THE REASON IS STORED WHOLE (order 7a6362fa3c91). This was `str(reason).strip()[:300]` -- a
@@ -145,13 +217,7 @@ def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS
                  "reason": str(reason).strip(), "added_by": str(added_by),
                  "added_at": time.time(),
                  "expires_at": time.time() + float(ttl_days) * 86400})
-    if not _land(rows):
-        # REFUSED IS NOT ADDED. Returning the row here would tell the caller a detector has been
-        # narrowed when it has not been -- the one lie this module must never tell, since the
-        # next scan will report the finding the operator believes they waived.
-        raise IOError("SUPPRESSIONS.json could not be written (rename refused); the suppression "
-                      "for %s on %s was NOT recorded -- try again" % (detector, path_glob))
-    return rows[-1]
+    return rows, rows[-1]
 
 
 def remove(detector, path_glob, by="owner", why=""):
@@ -178,20 +244,26 @@ def remove(detector, path_glob, by="owner", why=""):
     that did not happen -- the mirror of "REFUSED IS NOT ADDED", and the more dangerous
     direction of the two: an operator who believes a detector has been re-armed when it has not
     is trusting a scan that is still waved through.
+
+    UNDER COMPARE-AND-SWAP (sweep58-batch04), and the removal is RE-APPLIED to the winner's copy
+    on a lost race -- so a concurrent `add()` of another row is kept, and a row another writer
+    already removed comes back as None (this call removed nothing).
     """
-    rows, ok = _load()
-    if not ok:
-        raise IOError("SUPPRESSIONS.json exists but could not be read; refusing to remove a "
-                      "suppression from it -- every other row would be dropped by the write. "
-                      "Fix or restore the file first")
-    hit = next((r for r in rows
-                if r.get("detector") == detector and r.get("path") == path_glob), None)
+    def _apply(rows):
+        found = next((r for r in rows
+                      if r.get("detector") == detector and r.get("path") == path_glob), None)
+        if found is None:
+            return None, None
+        return [r for r in rows if r is not found], found
+
+    hit = _mutate(
+        _apply,
+        "SUPPRESSIONS.json exists but could not be read; refusing to remove a suppression from "
+        "it -- every other row would be dropped by the write. Fix or restore the file first",
+        "SUPPRESSIONS.json could not be written (rename refused); the suppression for %s on %s "
+        "is STILL IN FORCE -- try again" % (detector, path_glob))
     if hit is None:
         return None
-    kept = [r for r in rows if r is not hit]
-    if not _land(kept):
-        raise IOError("SUPPRESSIONS.json could not be written (rename refused); the suppression "
-                      "for %s on %s is STILL IN FORCE -- try again" % (detector, path_glob))
     # The removal is announced where removals are read. `add()` needs no such line because the
     # row it writes IS the record; a deletion leaves nothing behind to be found later.
     silence.note("suppressions.py:removed")

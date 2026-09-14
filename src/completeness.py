@@ -68,8 +68,9 @@ def subdomain(host):
 # `pages:<source>` and `doc:<slug>` are PROVENANCE SENTINELS, not hosts: an owner-supplied
 # document or a hand-registered page list, recorded in the same column because that column is
 # "where this source's material comes from". The project's own idiom for telling them apart is
-# `str(h).startswith(("pages:", "doc:"))` -- binding_health.py:1018 and health.py:486-488 both
-# do exactly this, and health.py's comment says why: probing one as a host is meaningless.
+# `str(h).startswith(("pages:", "doc:"))` -- `binding_health.run()`'s hosts-set filter and
+# `health.check_api_paths()`'s sentinel check both do exactly this, and health.py's comment
+# says why: probing one as a host is meaningless.
 SENTINELS = ("pages:", "doc:")
 
 
@@ -401,7 +402,11 @@ def audit(only=None, workers=6):
     byslug = {}
     for src, v in have.items():
         byslug[str(src).lower()] = v
-        byslug[v["file"][:-5].replace("-", " ")] = v
+        # LOWER-CASED LIKE THE FIRST KEY, because `_rec` below looks both up lower-cased
+        # (sweep57 question bundle bf1340bc3b3f). Unfolded, a record whose filename carried a
+        # capital was reachable by source name only, and a roll row matching it by filename read
+        # as "nothing catalogued". Latent today: every record filename is lowercase by convention.
+        byslug[v["file"][:-5].lower().replace("-", " ")] = v
 
     # EVERY SOURCE THE LIBRARY KNOWS OF, not every source that happens to be on fandom.
     #

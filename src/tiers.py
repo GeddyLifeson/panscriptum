@@ -162,8 +162,15 @@ CUTS = [
     # hyperverse is the finding -- it does not mean no hyperverse is published: see
     # xenoverse_grounding() and "THE HYPERVERSE -- grounding type" below for the one that is.
 ]
-assert all(a[1] > b[1] for a, b in itertools.pairwise(CUTS)), "cuts must loosen downward"
-assert CUTS[0][1] <= MULTIVERSE_THRESHOLD, "multiverse must be tighter than metaverse"
+# RAISED, NOT `assert`ed (order 5d0fa30e4b09, item 4). `python -O` strips assertions, and these
+# are the two invariants every cut below rests on -- the same repair `scale_theories`'s
+# `surviving_theory` already carries for the same reason.
+if not all(a[1] > b[1] for a, b in itertools.pairwise(CUTS)):
+    raise ValueError("tiers: CUTS must loosen downward (each threshold strictly below the one "
+                     "before it); got %r" % [(n, t) for n, t, _ in CUTS])
+if not CUTS[0][1] <= MULTIVERSE_THRESHOLD:
+    raise ValueError("tiers: the multiverse must be tighter than the metaverse -- CUTS[0] (%r) "
+                     "exceeds MULTIVERSE_THRESHOLD (%r)" % (CUTS[0][1], MULTIVERSE_THRESHOLD))
 DELIBERATE_JOIN = 2000.0    # above the cliff: no statistical process makes a link this strong
 
 
@@ -294,9 +301,9 @@ def _load_groundings():
         with open(os.path.join(HERE, "data", "GROUNDINGS.json"), encoding="utf-8") as f:
             return json.load(f), True
     except Exception:
-        # Tagged by SYMBOL, not by line number: this key was `tiers.py:248`, which is a citation
-        # that rots the moment anything above it moves and then points the next reader
-        # confidently at the wrong handler.
+        # Tagged by SYMBOL, not by line number: this key used to be a bare `tiers.py:NNN` tag,
+        # which is a citation that rots the moment anything above it moves and then points the
+        # next reader confidently at the wrong handler.
         silence.note("tiers.py:groundings-read")
         return {}, False
 

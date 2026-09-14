@@ -238,62 +238,57 @@ def exclude(name, note, rows=None):
     if not (note or "").strip():
         raise ValueError("an exclusion without a recorded reason is not an exclusion")
     caller_supplied = rows is not None
-    rows = rows if caller_supplied else load()
-    row = next((r for r in rows if isinstance(r, dict) and r.get("name") == name), None)
-    if row is None:
-        raise ValueError(f"no source named {name!r} on the roll -- exclude() cannot silently "
-                          f"no-op on a typo or a renamed source")
-    changed = row.get("status") != OUT_OF_SCOPE or row.get("note") != note
-    row["status"] = OUT_OF_SCOPE
-    row["note"] = note
-    if not changed:
-        return False
     if caller_supplied:
+        row = next((r for r in rows if isinstance(r, dict) and r.get("name") == name), None)
+        if row is None:
+            raise ValueError(f"no source named {name!r} on the roll -- exclude() cannot silently "
+                              f"no-op on a typo or a renamed source")
+        changed = row.get("status") != OUT_OF_SCOPE or row.get("note") != note
+        row["status"] = OUT_OF_SCOPE
+        row["note"] = note
         # The caller's copy now holds the change; persisting it is the caller's job (see
         # SUPPLYING `rows` above), so True here means "your copy changed", not "it landed".
-        return True
-    # write_json's verdict was discarded here and `changed` returned regardless (order
-    # 26be3dba65cf) -- a DENIED write reported a successful exclusion while the source stayed
-    # in scope on disk, exactly the trap this module's own header exists to close. Return what
-    # actually happened.
+        return changed
+
+    # ON THE COMPARE-AND-SWAP, THE LAST ROLL WRITER TO GET THERE (order c9146abf92df, run #58;
+    # the other six moved under order f818a77293fc). This used to `load()` and then land the
+    # whole document with `silence.write_json`, so a row another writer landed in between was
+    # silently reverted by this function's older copy. The lookup, the raise on an unmatched
+    # name and the no-change test now run INSIDE `apply`, against the FRESH rows `mutate` reads
+    # on every attempt -- which is the actual fix, not a detail of the port. The literal-text pin
+    # that blocked this for three shifts (handoff/run35/checks_L4.py, order b3da16ddfe64) was
+    # restated as the property it meant -- the writer lands non-ASCII unescaped, which `mutate`'s
+    # staging write does -- and re-pinned in verify_math section 20u in the same change.
     #
-    # STILL NOT ON `mutate()` ABOVE, AND THIS IS THE LAST ROLL WRITER THAT IS NOT (order
-    # c9146abf92df; the other six went onto the compare-and-swap under order f818a77293fc).
-    # The lost update `mutate` closes is a LONG window -- a cataloguer reads the roll, works for
-    # minutes, lands a stale whole document. This function loads and lands in the same breath
-    # and has no callers anywhere in src/ (verified again 2026-09-08: the only `R.exclude(...)`
-    # call sites in the tree are inside `drill._rows_kwarg_does_not_write_the_real_roll`, which
-    # repoints `roll.ROLL` at a throwaway file first). So its window is the smallest of the
-    # seven -- but it is not zero, it is a writer of the same file, and the field it writes is
-    # the one field this module exists to protect.
-    #
-    # THE BLOCKER, MEASURED THIS SHIFT AND STILL OUTSIDE ANY ONE MAINTENANCE SHIFT'S REACH.
-    # `handoff/run35/checks_L4.py` (order b3da16ddfe64) pins the LITERAL TEXT of the call below
-    # as a source string, and `verify_math` section 20u executes every `handoff/run35/checks_L*.py`
-    # as part of the live battery. Moving the call turns that row red.
-    #
-    # AND THE PART THAT IS WORTH WRITING DOWN, BECAUSE IT IS A TRAP FOR WHOEVER LANDS THIS.
-    # That check reads roll.py's WHOLE SOURCE -- `_roll_src = open(...).read()`, with no comment
-    # stripping, unlike the `_fm19code` / `_on20code` idiom the same battery uses elsewhere. So
-    # the call could be moved and the row kept green by leaving the literal sitting in a comment.
-    # That would be the forbidden act: a check answered by prose ABOUT the code rather than by
-    # the code, which is the defect this tree has corrected in `verify_math` §19p, §20b and
-    # §20aj and in three drill nets. Nobody should take that route, and the reason it is named
-    # here is that it is the route somebody will find.
-    #
-    # THE PROPERTY THE CHECK MEANS is that roll.py's roll writer passes `ensure_ascii=False`,
-    # matching its siblings -- and `mutate` already satisfies it (`json.dump(out, f, indent=2,
-    # ensure_ascii=False)`, this file, in the staging write). Restating the assertion against
-    # that property, in checks_L4.py, is the prerequisite; then this becomes
-    #
-    #     landed, why = update_rows({name: {"status": OUT_OF_SCOPE, "note": note}}, path=ROLL)
-    #
-    # with the `changed`/raise-on-unmatched logic moved inside the `apply` closure so it reads
-    # the FRESH rows rather than this function's older copy -- which is the actual bug, not a
-    # detail of the port. Left undone deliberately: this shift owns roll.py and does not own
-    # checks_L4.py, and landing half of a two-file change would swap a small lost-update window
-    # for a red battery.
-    return silence.write_json(ROLL, rows, indent=2, ensure_ascii=False)
+    # The verdict is still returned rather than assumed (order 26be3dba65cf): a DENIED or
+    # contended land reports False, never a successful exclusion over a source still in scope.
+    class _NoChange(Exception):
+        pass
+
+    def _apply(fresh):
+        row = next((r for r in fresh if isinstance(r, dict) and r.get("name") == name), None)
+        if row is None:
+            raise ValueError(f"no source named {name!r} on the roll -- exclude() cannot silently "
+                              f"no-op on a typo or a renamed source")
+        if row.get("status") == OUT_OF_SCOPE and row.get("note") == note:
+            raise _NoChange()
+        row["status"] = OUT_OF_SCOPE
+        row["note"] = note
+        return fresh
+
+    try:
+        landed, _why = mutate(_apply, path=ROLL)
+    except _NoChange:
+        # NOT A FAILURE -- `_apply` raises this only when the row already reads exactly as
+        # requested, so there is nothing to land. Private to this call and never escapes it;
+        # noted anyway so a run of these is visible as "asked to exclude something already
+        # excluded" rather than invisible, matching the house rule that even a correct no-op
+        # leaves a trace.
+        silence.note("roll.py:exclude-no-change")
+        return False
+    if not landed:
+        silence.note("roll.py:exclude-not-landed")
+    return landed
 
 
 def main():

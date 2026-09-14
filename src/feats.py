@@ -509,6 +509,15 @@ def reads_as_wiki(host):
     `doc:` is an owner-ingested book -- never a wiki. `pages:` is a source whose material lives
     on ordinary web pages, but ONLY when URLs are actually registered for it: a `pages:` host
     with an empty registry falls through to wiki discovery and genuinely does hold wikitext.
+
+    AN UNREADABLE REGISTRY IS NOT AN EMPTY ONE, and this predicate gives NO answer for it (order
+    54db4a3baec8): `endpoint.source_pages` raises `PagesRegistryUnreadable`, and that raise is
+    deliberately left to propagate. It used to come back [], which this line turned into True --
+    so a torn SOURCE_PAGES.json selected the wiki path for a non-wiki corpus and the results were
+    cached. Propagating reaches every caller fail-closed: `mined_under_superseded_gate` and
+    `mined_without_name_matching` give no staleness verdict, `evidence_for` mines nothing and
+    writes nothing, and `roll`'s worker counts the entity `errored` and moves on -- the unit is
+    refused for this round, never defaulted to wiki discovery. Do not catch it here.
     """
     if host and host.startswith("doc:"):
         return False
@@ -2135,6 +2144,8 @@ def evidence_for(host, name, cache=True):
         attribution = "name-match"
     else:
         import endpoint as EP
+        # An unreadable registry RAISES here (and already raised in `reads_as_wiki` above), so an
+        # unknown never reaches the `else` arm's wiki discovery (order 54db4a3baec8).
         urls = EP.source_pages(host[6:]) if host and host.startswith("pages:") else []
         if urls:
             # `wiki_source` is already False here -- `reads_as_wiki` asked this same registry.

@@ -32,8 +32,11 @@ loudly and keep its own bookkeeping honest, not die mid-phase and strand whateve
 holding. `claim()` is the call that decides whether work happens at all, and it reports its
 refusal as a value the caller must act on.
 """
+import hashlib
+import hmac
 import json
 import os
+import secrets
 import sys
 import time
 
@@ -47,6 +50,37 @@ GUARD = os.path.join(HERE, "state", "MAINTENANCE_RUN.json")
 # MAINTENANCE.md's threshold. A predecessor is live only if it is both unfinished AND recently
 # heard from; a stale heartbeat means a crashed run, which must not block its successor forever.
 STALE_AFTER_S = 15 * 60
+
+# THE FIELD NAME FOR THE PER-CLAIM TOKEN'S DIGEST (order 12d4e1b00c2f). Named once, here, so
+# every reader and writer of it (this module, and `publish.py`'s one-shot `--push` check) agrees
+# on the key. See `claim()` for what this exists to prove and `token_matches()` for how it is
+# checked -- the raw token itself is NEVER a value this module writes to `path`.
+TOKEN_DIGEST_KEY = "guard_token_digest"
+
+
+def _token_digest(token):
+    """sha256 hex digest of a per-claim guard token. -> str."""
+    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+def token_matches(rec, token):
+    """Does `token` hash to the digest `rec` was claimed with? -> bool.
+
+    FALSE, HONESTLY, FOR A RECORD WITH NO DIGEST -- a guard claimed before this mechanism
+    existed (order 12d4e1b00c2f's own LEGACY case) has nothing to check a token against, which
+    is a different fact from "the token is wrong." A caller that needs to tell the two apart
+    (publish.py does) reads `rec.get(TOKEN_DIGEST_KEY)` itself rather than through this
+    function; this function only ever answers the one question its name asks.
+
+    `hmac.compare_digest` rather than `==`: both sides are already sha256 hex, so this is a
+    correctness nicety more than a real defence on a single-user machine, but comparing secrets
+    with a non-constant-time `==` is the kind of habit that stops being free the day this code
+    is copied somewhere it matters more.
+    """
+    digest = rec.get(TOKEN_DIGEST_KEY) if rec else None
+    if not digest or not token:
+        return False
+    return hmac.compare_digest(_token_digest(token), digest)
 
 
 def read_verdict(path=GUARD):
@@ -364,12 +398,31 @@ def guard_fault(rec=None, path=GUARD, now=None):
     return None
 
 
-def claim(agent, path=GUARD, note=None):
+def claim(agent, path=GUARD, note=None, token_path=None, print_token=False):
     """Take the guard for `agent`, or refuse.
 
-    Returns (ok, reason). On refusal the caller must write nothing and stop -- landing on a live
-    predecessor is the NORMAL outcome of a cadence that fires more often than a run takes, and
-    exiting immediately is the correct result rather than a failure.
+    Returns (ok, reason) -- UNCHANGED, on purpose (order 12d4e1b00c2f): every existing caller
+    (`drill.py`'s probes, `verify_math.py`'s self-tests) unpacks exactly this pair, and widening
+    it would break all of them for a feature only one caller -- the real one-shot `--push` guard
+    in `publish.py` -- actually needs.
+
+    A SUCCESSFUL CLAIM NOW ALSO MINTS A PER-CLAIM SECRET, and stores ONLY its sha256 digest in
+    the record under `TOKEN_DIGEST_KEY` -- never the token itself, which is why the return shape
+    could stay the same: the token is not a fact ABOUT the claim the way `ok`/`why` are, it is a
+    capability, and a capability that rode in the return value of a function every caller already
+    calls would leak to callers that never asked for it. `state/MAINTENANCE_RUN.json` is a
+    plaintext file any process on this machine can read, so nothing recorded IN it can ever prove
+    which process holds the guard -- an `agent` name match is copy-pasteable by anyone who reads
+    the file, which is exactly the "check that cannot fail looks exactly like a check that
+    passed" shape Hard Rule -1 warns about. A value that never touches the file, held only by
+    whoever this call hands it to, can be checked without being reproducible from the file alone.
+
+    `token_path` and `print_token` are the two ADDITIVE, opt-in ways to actually receive it: pass
+    `token_path=<file>` to have the raw token written there (best-effort `chmod 0600`), or
+    `print_token=True` to have it printed once to stdout (what the CLI's `--claim` does). Ask for
+    neither and the token is generated, digested into the record, and then discarded -- which is
+    correct for a caller (a drill probe, a self-test) that never needed to prove holdership to
+    begin with.
     """
     # THE DIGEST IS TAKEN BEFORE THE READ, NOT AFTER, and the order is the entire safety
     # property. Digest-then-read means a competitor landing in the gap leaves us holding an
@@ -415,7 +468,9 @@ def claim(agent, path=GUARD, note=None):
         return False, ("live predecessor %r, heartbeat %.1f min old"
                        % (prior.get("agent", "?"), age / 60.0))
     now = time.time()
-    rec = {"started": now, "heartbeat": now, "done": False, "agent": agent}
+    token = secrets.token_hex(32)
+    rec = {"started": now, "heartbeat": now, "done": False, "agent": agent,
+           TOKEN_DIGEST_KEY: _token_digest(token)}
     # THE HOLDER IS NAMED AS A PROCESS, NOT ONLY AS A STRING (order 99d752c5632f). `agent` is
     # free text a run chooses for itself, so a reader could not ask the process table whether
     # the holder was real -- and the guard degraded in exactly the wrong direction, becoming
@@ -437,7 +492,38 @@ def claim(agent, path=GUARD, note=None):
     ok, why = _land_claim(rec, path, expected)
     if not ok:
         return False, "could not write the guard record: %s" % why
+    _deliver_token(token, agent, token_path=token_path, print_token=print_token)
     return True, "claimed"
+
+
+def _deliver_token(token, agent, token_path=None, print_token=False):
+    """Hand the raw per-claim token to the caller, by whichever opt-in route it asked for.
+
+    NEVER writes it to the guard record -- that is the entire point of `claim()`'s change under
+    order 12d4e1b00c2f. A failure to deliver (an unwritable `token_path`) is reported loudly but
+    does not undo the claim: the guard is genuinely held either way, this only affects whether
+    anyone can later prove it via the token.
+    """
+    if token_path:
+        try:
+            with open(token_path, "w", encoding="utf-8") as fh:
+                fh.write(token)
+            try:
+                os.chmod(token_path, 0o600)
+            except OSError:
+                # BEST-EFFORT HARDENING, NOT THE DELIVERY ITSELF -- the token was already written
+                # above and the claim already stands either way. Noted rather than passed
+                # outright so a persistent chmod failure (as opposed to an ordinary platform that
+                # simply does not honour POSIX modes) is at least visible, since it means the
+                # token file may be left more readable than intended.
+                silence.note("runguard.py:token-chmod-unenforced")
+        except OSError as e:
+            print("runguard: claimed the guard for %r, but could not write its token to %r "
+                  "(%s) -- the guard IS held, but nothing can prove it via a token now."
+                  % (agent, token_path, e), file=sys.stderr)
+    if print_token:
+        print("GUARD TOKEN for %r -- copy this now; it is shown exactly once and is never "
+              "written to the guard record itself:\n  %s" % (agent, token))
 
 
 def beat(agent, path=GUARD):
@@ -527,6 +613,9 @@ def main():
     ap.add_argument("--claim", action="store_true")
     ap.add_argument("--beat", action="store_true")
     ap.add_argument("--release", action="store_true")
+    ap.add_argument("--token-path",
+                    help="with --claim: also write the raw per-claim guard token to this file "
+                         "(order 12d4e1b00c2f) -- besides always printing it once to stdout")
     args = ap.parse_args()
 
     if args.claim or args.beat or args.release:
@@ -534,7 +623,11 @@ def main():
             print("--agent is required for --claim/--beat/--release", file=sys.stderr)
             return 2
         if args.claim:
-            ok, why = claim(args.agent)
+            # ALWAYS print_token=True HERE: this is the interactive/CLI entry point, and a claim
+            # made through it with nowhere the token was captured is a claim nobody can ever
+            # prove holdership of again. Library callers that don't want the token (drill.py,
+            # verify_math.py) call `claim()` directly and never pass this.
+            ok, why = claim(args.agent, token_path=args.token_path, print_token=True)
             print(("CLAIMED" if ok else "REFUSED") + ": " + why)
             return 0 if ok else 1
         if args.beat:

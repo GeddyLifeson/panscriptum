@@ -456,9 +456,11 @@ def main():
     # The five lines this replaces staged to `OUT + ".tmp"`, which costs two things silence.py
     # documents against itself: (1) the temp name carried no pid/thread, so two writers of this
     # path collide on the TEMP FILE and the loser can replace the target with a partial one
-    # (silence.py:511, and the same repair already made at standards.py:1534 and
-    # retry_synthesis.py:47-49); (2) a denied replace leaked `HANDBUILT_ASSAYS.json.tmp` beside
-    # the target permanently, with no cleaner anywhere in the tree (silence.py:519-530) -- and a
+    # (`silence.write_json`'s own `"%s.%d.%d.tmp"` line, and the same repair already made at
+    # `standards.check()`'s `JOB_WATCH` write and `retry_synthesis.save_side()`); (2) a denied
+    # replace leaked `HANDBUILT_ASSAYS.json.tmp` beside
+    # the target permanently, with no cleaner anywhere in the tree (`silence.write_json`'s own
+    # "AND THE TEMP GOES WHEN THE REPLACE IS REFUSED" comment) -- and a
     # denied replace is the ORDINARY case on Windows, which is why replace_retry exists at all.
     # This module's three twins -- halo.py, wh40k.py, zfighters.py -- already route this way.
     # The ORDERING is unchanged and must stay so: see the note above on the console encoding.
@@ -499,7 +501,7 @@ def main():
                 # rests on: compute()'s provenance work above exists so a reader checking
                 # whether a high score rests on a citation or on the assayer's judgment can do
                 # so, and the citations run to 250+ characters. At 58 the reader got as far as
-                # the first clause of the argument for a 9.9. catalogue_models.py:227-228
+                # the first clause of the argument for a 9.9. `catalogue_models.sweep()`
                 # already ruled on the console half of this exact shape -- "the persisted copy
                 # being complete does not help someone looking at the terminal". Wrapped rather
                 # than widened: the fix this tree applies to a truncated field is removal.

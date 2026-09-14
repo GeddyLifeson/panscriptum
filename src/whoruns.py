@@ -151,7 +151,7 @@ def main():
         else:
             print("%d process(es) RUNNING %s:" % (len(hits), os.path.basename(a.script)))
             for pid, cmd in hits:
-                print("   %-7d %s" % (pid, cmd[:150]))
+                print("   %-7d %s" % (pid, cmd if len(cmd) <= 150 else cmd[:149] + chr(8230)))
     return 0 if hits else 1
 
 

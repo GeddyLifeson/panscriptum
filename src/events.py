@@ -47,7 +47,10 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# A regex escape eaten in transit is this project's oldest bug; every module carries the guard.
+# A regex escape eaten in transit is this project's oldest bug, so this module carries the guard.
+# NOT EVERY MODULE DOES: 47 of the 119 under src/ carried it when sweep 58 counted (a dated
+# figure, not a standing one). The rest rely on `health.check_control_chars`, which scans only
+# the top level of src/ and only when the preflight runs.
 _BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
 if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
     raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
@@ -316,14 +319,17 @@ def main():
           % c["candidates_refused"])
     print()
     for e in doc["events"]:
-        print("  %-16s %s" % (e["code"], (e["heading"] or "(cited without a heading)")[:58]))
+        _h = e["heading"] or "(cited without a heading)"
+        print("  %-16s %s" % (e["code"], _h if len(_h) <= 58 else _h[:57] + chr(8230)))
         if e["named"]:
             print("        names: %s" % ", ".join(e["named"]))
     if a.refused:
         print()
         print("  REFUSED CANDIDATES — recorded, not dropped:")
         for r in doc["candidates_refused"]:
-            print("    %-16s %-46s (%s)" % (r["event"], r["span"][:46], r["rule"]))
+            _sp = r["span"]
+            print("    %-16s %-46s (%s)" % (r["event"], _sp if len(_sp) <= 46 else _sp[:45] + chr(8230),
+                                            r["rule"]))
     print()
     print("  A name here is a CANDIDATE. Whether it is a real entity is decided by the join, by")
     print("  EXACT match against the catalogue -- never by resemblance (STEP4_PLAN.md §6).")

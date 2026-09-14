@@ -110,7 +110,8 @@ CATALOGUE_SHORTFALL = 100
 # without; `codewatch` is the rc=17 stale-code interlock; `liveness` is the check-that-cannot-
 # fail detector; `overnight` is the supervisor that starts every job. And `_checks_pass` does
 # not cover for the omission: it runs `import`, `verify_math` and `allsweep --quick`, and
-# `--quick` skips only the VERIFY and ESTATE tiers (allsweep.py:702, :727) -- IMPORT and LINT
+# `--quick` skips only the VERIFY and ESTATE tiers (both guarded by `allsweep.main()`'s
+# `if not a.quick:` checks) -- IMPORT and LINT
 # still run unconditionally. `drill` IS among the modules `allsweep.modules()` walks (it is
 # just a file under src/), so the IMPORT tier does smoke-check that drill.py still imports and
 # its CLI still parses -- but that is import-level coverage only: it catches a deletion or a
@@ -119,8 +120,9 @@ CATALOGUE_SHORTFALL = 100
 # the same shallow class of fault, for the same reason.
 #
 # Adding `python src/drill.py` to `_checks_pass` would close the rest of it and is NOT done
-# here: verify_math.py:6051 (and again at :6283) records a standing rule that verify_math.py
-# and drill.py "are not safe to run" concurrently from an agent context, and drill historically
+# here: verify_math.py records a standing rule, twice (the run35 batch1 and batch2
+# proposed-checks docstrings), that verify_math.py and drill.py "are not safe to run"
+# concurrently from an agent context (order c349a51ee2c5), and drill historically
 # wrote trial values of `prose_enabled` into the live config. That is an owner ruling. This half
 # needs none -- it only makes the list satisfy the rule it states.
 DENYLIST = {"foreman", "silence", "health", "allsweep", "estate", "standards", "verify_math",
@@ -229,7 +231,7 @@ def reprove_pool():
         # The old scratch name was FIXED, so two foremen -- which this file deliberately allows,
         # the singleton claim being inside `if a.loop:` in main() -- opened the same temp and the
         # loser could land a half file over the target. `write_json`'s temp carries pid and
-        # thread (silence.py:511), which is the collision the helper exists to make unavailable.
+        # thread (its `"%s.%d.%d.tmp"` line), which is the collision the helper exists to make unavailable.
         # Same repair as the other six sites in this file (order 99b1ae2c580c).
         #
         # A DENIED RENAME HERE IS WORSE THAN A LOST WRITE, because of the line below it.
@@ -291,7 +293,7 @@ def scout_hostless():
     try:
         import scout as SC
         res = SC.sweep(limit=4)
-        # SAME TEST AS scout.py's OWN found COUNTER (scout.py:616), not a truthy read of `kept`
+        # SAME TEST AS `scout.sweep()`'s OWN `found` counter, not a truthy read of `kept`
         # alone. `registered` is a three-state field (None = nobody tried, True = landed,
         # False = tried and failed) -- a source whose URLs verified but whose registration
         # FAILED is the UNSAVED case scout.sweep excludes from its own `found`, and this
@@ -386,8 +388,8 @@ def triage_swallowed():
         # AND THROUGH `silence.write_json`, whose temp name carries pid and thread. Both of
         # these were hand-rolled `path + ".tmp"` opens, which is a FIXED scratch name on the
         # file this very function calls "the highest-traffic shared file in the project" --
-        # health.py:198-210 records the interleaved-writer corruption of `state/failures.json`
-        # verbatim and was migrated to the helper for it; this writer of the same file was
+        # `health._flush_ledger()`'s own comment block records the interleaved-writer corruption
+        # of `state/failures.json` verbatim and was migrated to the helper for it; this writer of the same file was
         # not. Two foremen are allowed by design (the singleton claim is inside `if a.loop:`),
         # so this is foreman against foreman, not theory. (order 99b1ae2c580c)
         #
@@ -577,7 +579,7 @@ def restart_reader():
     # documents having fixed exactly this loose-match class for its own matching and got the
     # remedy: `lognames.OWNER` publishes the one fragment that identifies each managed job,
     # precisely so the killer and the launcher cannot drift apart. This site was left behind.
-    # The fragment is "read.py --run", which is how overnight.py:1425 actually launches it.
+    # The fragment is "read.py --run", which is how `overnight.STANDING`'s "read" entry actually launches it.
     import lognames as _LN
     frag = _LN.OWNER[_LN.READ]
     killed = []
@@ -593,6 +595,39 @@ def restart_reader():
     if killed:
         return True, ("bounced reader pid " + ", ".join(killed) + "; " + _restart_horizon(frag))
     return False, "reader is not running -- " + _restart_horizon(frag)
+
+
+# How long `kill_stalled_job` watches a candidate's I/O before it may kill it (order d9328fe1ee38).
+STALL_KILL_IO_WINDOW_SECONDS = 20
+
+
+def _io_moving(pid, window=None):
+    """Is process `pid` doing any I/O at all? -> True, False, or None if that could not be read.
+
+    THE SECOND WITNESS A KILL NEEDS (order d9328fe1ee38). The "every running job is advancing"
+    standard names a job stalled when its LOG has not grown for MAX_JOB_SILENCE_MIN, and that was
+    the only evidence `kill_stalled_job` acted on. A crawl in deep per-host backoff writes a
+    catalogue file every minute or so and logs almost nothing in between: measured 2026-09-08,
+    `feats.py --roll` read 82 minutes quiet by its log while its newest output file was 1.1
+    minutes old. A wedged process -- blocked on a lock, a dead socket, a first unit it will never
+    finish -- does no I/O at all. So the process's own I/O counters (read, write and other
+    operations; on this platform they count file, network and device I/O alike) are sampled
+    twice, `window` seconds apart.
+
+    ONLY EVER NARROWS A KILL. Any movement, or any failure to read the counters, answers "do not
+    kill": a kill needs positive evidence, and "could not look" is not evidence of anything.
+    """
+    window = STALL_KILL_IO_WINDOW_SECONDS if window is None else window
+    try:
+        import psutil
+        proc = psutil.Process(pid)
+        first = tuple(proc.io_counters())
+        time.sleep(window)
+        second = tuple(proc.io_counters())
+    except Exception:
+        silence.note("foreman.py:stall-io-unreadable")
+        return None
+    return first != second
 
 
 def kill_stalled_job():
@@ -635,7 +670,8 @@ def kill_stalled_job():
     # loose in the other direction too: a stem like "pipeline" matches any command line that
     # merely mentions it. lognames.OWNER carries the specific fragment for each managed job.
     import lognames as _LN
-    # SAME KEY DERIVATION AS standards.py:1511-1512, the code that writes the names this
+    # SAME KEY DERIVATION AS `standards.check()`'s stall-watch loop (its
+    # `job = fn[:-4] if fn.endswith(".log") else fn` line), the code that writes the names this
     # function parses -- guarded, not an unconditional strip, so the two cannot silently
     # disagree the day lognames.OWNER gains an entry whose filename does not end in '.log'.
     # (order 8a5593b3e777)
@@ -643,6 +679,7 @@ def kill_stalled_job():
 
     killed = []
     unrestartable = []        # stalled, but nothing would bring it back -- reported, not killed
+    working = []              # log quiet, but the process is still doing I/O -- reported, not killed
     hit_frags = []            # the OWNER fragment of each job actually killed, for the horizon
     for job in names:
         frag = owners.get(job)
@@ -684,6 +721,19 @@ def kill_stalled_job():
                 if not _restartable(frag):
                     unrestartable.append("%s:%d" % (job, pid))
                     continue
+                # A QUIET LOG IS NOT A STOPPED PROCESS (order d9328fe1ee38). The stall reading
+                # rests on one witness, the LOG's size, and a crawl in deep backoff logs almost
+                # nothing while still landing entries -- so a restartable job was one quiet log
+                # away from being killed mid-request. The kill now also needs the PROCESS to have
+                # done no I/O at all across `_io_moving`'s window; any movement, or a counter that
+                # cannot be read, spares it and says so. The standard's own witness (a job's output
+                # tree beside its log) is a separate question for the owner, because which tree
+                # each job produces is a declaration, not a measurement.
+                moving = _io_moving(pid)
+                if moving is not False:
+                    working.append("%s:%d (%s)" % (job, pid, "its log is quiet but it is doing I/O"
+                                                   if moving else "its I/O could not be read"))
+                    continue
                 try:
                     os.kill(pid, signal.SIGTERM)
                     killed.append(job + ":" + str(pid))
@@ -704,13 +754,18 @@ def kill_stalled_job():
                           evidence={"jobs": unrestartable}, who="foreman.kill_stalled_job")
         except Exception:
             silence.note("foreman.py:kill_stalled-escalate")
+    if working:
+        # NOT escalated: a job still doing I/O is the evidence AGAINST a stall. It is named, so a
+        # standard that keeps reading it stalled is visible here rather than acted on.
+        spared += ("; SPARED (a quiet log but not a stopped process -- a kill needs more evidence "
+                   "than log size): " + ", ".join(working))
     if killed:
         # Name the horizon PER JOB: this remedy can kill a STANDING job (pipeline, back in 300s)
         # and a main-lap job (read, roll) in the same breath, and one blanket clause cannot be
         # true of both. See _restart_horizon.
         horizons = "; ".join(sorted({_restart_horizon(f) for f in hit_frags}))
         return True, "killed stalled " + ", ".join(killed) + "; " + horizons + spared
-    if unrestartable:
+    if unrestartable or working:
         return False, "no job killed" + spared
     return False, "stalled jobs found but no process matched: " + ", ".join(names)
 
@@ -1136,6 +1191,101 @@ restart_reader.always = True
 # which is the right default: acting on a breach nobody scripted a remedy for is guessing.
 RESTART_STAMP = os.path.join(HERE, "state", "OLLAMA_RESTARTS.json")
 
+# The tray app's image name. The tray is what respawns the daemon, so it is the process whose
+# absence turns a kill-and-wait into a no-op followed by a timeout (order b750409c76be).
+OLLAMA_TRAY_IMAGE = "ollama app.exe"
+OLLAMA_DAEMON_IMAGES = ("ollama.exe", "llama-server.exe")
+
+
+def _ollama_processes():
+    """What of Ollama is running? -> {"tray": bool, "daemon": bool}, or None if the process
+    table could not be read.
+
+    None is a THIRD answer, not "nothing is running": a blind probe must not be read as an absent
+    tray, or an unreadable table would start a second tray beside a live one.
+    """
+    try:
+        out = subprocess.run(["tasklist", "/FO", "CSV", "/NH"], capture_output=True, text=True,
+                             timeout=40, creationflags=_NO_WIN).stdout
+    except Exception:
+        silence.note("foreman.py:ollama-tasklist")
+        return None
+    names = set()
+    for line in (out or "").splitlines():
+        image = line.split('","', 1)[0].strip().strip('"').lower()
+        if image:
+            names.add(image)
+    if not names:
+        # An empty table is a failed read. This very process is on it when the read works.
+        silence.note("foreman.py:ollama-tasklist-empty")
+        return None
+    return {"tray": OLLAMA_TRAY_IMAGE in names,
+            "daemon": any(n in names for n in OLLAMA_DAEMON_IMAGES)}
+
+
+def _ollama_tray_exe():
+    """Where is the tray executable? -> (path or None, [every path looked at]).
+
+    LOOKED UP, NOT TYPED IN. The per-user installer puts it under %LOCALAPPDATA%\\Programs\\Ollama
+    (where run #57 found it on this machine), a machine-wide install under %ProgramFiles%\\Ollama,
+    and either way it sits beside the `ollama` CLI on PATH. Every place tried is returned, so a
+    miss names where it looked instead of only saying it failed.
+    """
+    candidates = []
+    local = os.environ.get("LOCALAPPDATA")
+    if local:
+        candidates.append(os.path.join(local, "Programs", "Ollama", OLLAMA_TRAY_IMAGE))
+    for var in ("ProgramFiles", "ProgramW6432"):
+        root = os.environ.get(var)
+        if root:
+            candidates.append(os.path.join(root, "Ollama", OLLAMA_TRAY_IMAGE))
+    cli = shutil.which("ollama")
+    if cli:
+        candidates.append(os.path.join(os.path.dirname(cli), OLLAMA_TRAY_IMAGE))
+    looked = []
+    for c in candidates:
+        if c in looked:
+            continue
+        looked.append(c)
+        if os.path.isfile(c):
+            return c, looked
+    return None, looked
+
+
+def _start_ollama_tray(exe):
+    """Launch the tray DETACHED and WINDOWLESS, the way `autostart.start_supervisor` spawns. -> pid.
+
+    CREATE_NO_WINDOW | DETACHED_PROCESS: nothing this kit starts may pop a console window on the
+    owner's desktop, and the tray must outlive the foreman that started it, because the foreman
+    exits rc=17 on every source change. No handles are inherited, so the child holds nothing of
+    this process open.
+    """
+    p = subprocess.Popen([exe], cwd=os.path.dirname(exe), stdin=subprocess.DEVNULL,
+                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, close_fds=True,
+                         creationflags=_NO_WIN | getattr(subprocess, "DETACHED_PROCESS", 0))
+    return p.pid
+
+
+def _stop_ollama():
+    """Stop the daemon and any runner. The tray, if up, respawns the daemon."""
+    subprocess.run(["powershell", "-NoProfile", "-Command",
+                    "Stop-Process -Name llama-server -Force -ErrorAction SilentlyContinue; "
+                    "Stop-Process -Name ollama -Force -ErrorAction SilentlyContinue"],
+                   capture_output=True, text=True, timeout=60, creationflags=_NO_WIN)
+
+
+def _ollama_answers(first_wait=12, tries=6, gap=5):
+    """Wait for localhost:11434 to answer /api/tags. -> True if it did."""
+    import urllib.request as _ur
+    time.sleep(first_wait)
+    for _ in range(tries):
+        try:
+            _ur.urlopen("http://localhost:11434/api/tags", timeout=8)
+            return True
+        except Exception:
+            time.sleep(gap)
+    return False
+
 
 def restart_ollama():
     """Restart the local model service when tokens stop flowing. AUTO by owner ruling
@@ -1174,25 +1324,45 @@ def restart_ollama():
                            "one; repair or remove the file and the next round proceeds"
                            % (os.path.basename(RESTART_STAMP), type(_stamp_err).__name__))
         if time.time() - st.get("last", 0) < 1800:
+            if st.get("action") == "start-tray":
+                return False, ("started the absent Ollama tray %.0f min ago and tokens still do "
+                               "not flow -- owner attention needed"
+                               % ((time.time() - st.get("last", 0)) / 60))
             return False, ("restarted %.0f min ago and tokens still do not flow -- this is "
                            "deeper than a wedge; owner attention needed"
                            % ((time.time() - st.get("last", 0)) / 60))
-        subprocess.run(["powershell", "-NoProfile", "-Command",
-                        "Stop-Process -Name llama-server -Force -ErrorAction SilentlyContinue; "
-                        "Stop-Process -Name ollama -Force -ErrorAction SilentlyContinue"],
-                       capture_output=True, text=True, timeout=60, creationflags=_NO_WIN)
+        # LOOK BEFORE STOPPING ANYTHING (order b750409c76be). Kill-and-wait cures a WEDGED daemon
+        # because the tray respawns it. With no tray there is nothing to respawn it: on
+        # 2026-09-13 the tray had not come up at logon, this killed nothing, waited 67s for a
+        # respawn that could not happen, stamped the rate limit, and would have repeated that
+        # every 30 minutes for ever while every local-model caller degraded. So an absent tray
+        # is STARTED (detached, windowless -- see `_start_ollama_tray`) and is reported in
+        # different words from a wedge. The 30-minute stamp covers starts too, so a tray that
+        # will not stay up escalates to the owner instead of being relaunched in a loop.
+        #
+        # AN ORPHANED DAEMON IS STOPPED FIRST: with no tray, a daemon that is up is one nothing
+        # supervises, and it would hold port 11434 against the tray's own. A BLIND process table
+        # (None) is not an absent tray. It keeps the kill-and-wait this remedy always performed,
+        # and says the tray was not checked.
+        procs = _ollama_processes()
         _t0 = time.time()
-        time.sleep(12)
-        import urllib.request as _ur
-        up = False
-        for _ in range(6):
-            try:
-                _ur.urlopen("http://localhost:11434/api/tags", timeout=8)
-                up = True
-                break
-            except Exception:
-                time.sleep(5)
-        st = {"count": st.get("count", 0) + 1, "last": time.time()}
+        pid = None
+        if procs is not None and not procs["tray"]:
+            exe, looked = _ollama_tray_exe()
+            if exe is None:
+                where = "; ".join(looked) or "nowhere -- no LOCALAPPDATA or ProgramFiles, no ollama on PATH"
+                return False, ("the Ollama TRAY IS NOT RUNNING, so nothing can respawn the daemon, "
+                               "and its executable was not found (looked in: %s) -- nothing was "
+                               "stopped or started; owner needed" % where)
+            if procs["daemon"]:
+                _stop_ollama()
+            pid = _start_ollama_tray(exe)
+            action = "start-tray"
+        else:
+            _stop_ollama()
+            action = "restart"
+        up = _ollama_answers()
+        st = {"count": st.get("count", 0) + 1, "last": time.time(), "action": action}
         # This stamp IS the 30-minute rate limit that keeps this remedy from restarting Ollama
         # in a loop. A denied rename loses the stamp, so the next round reads no recent restart
         # and is free to kill the daemon again -- the guard failing open, silently. Checked and
@@ -1201,11 +1371,24 @@ def restart_ollama():
         # foremen to lose the same stamp.
         if not silence.write_json(RESTART_STAMP, st):
             silence.note("foreman.py:ollama-stamp-denied")
+        if action == "start-tray":
+            # DIFFERENT WORDS FROM A WEDGE, so foreman.log can tell "the tray is gone" from "the
+            # daemon is wedged" without anyone reading the process table after the fact.
+            if up:
+                return True, ("the Ollama tray was NOT RUNNING, so nothing could respawn the "
+                              "daemon -- started it detached and windowless (pid %d, automated "
+                              "action #%d); daemon answering, model reloads on first call"
+                              % (pid, st["count"]))
+            return False, ("the Ollama tray was NOT RUNNING; started it (pid %d) but the daemon "
+                           "did not answer within %.0fs -- owner needed"
+                           % (pid, time.time() - _t0))
+        blind = ("" if procs is not None else
+                 " (the process table could not be read, so whether the tray was up was not checked)")
         if up:
             return True, ("ollama restarted (automated restart #%d); daemon answering, model "
-                          "reloads on first call" % st["count"])
-        return False, ("ollama killed but the tray did not respawn it within %.0fs -- owner needed"
-                       % (time.time() - _t0))
+                          "reloads on first call%s" % (st["count"], blind))
+        return False, ("ollama killed but the tray did not respawn it within %.0fs -- owner needed%s"
+                       % (time.time() - _t0, blind))
     except Exception as e:
         silence.note("foreman.py:restart_ollama")
         return False, "restart failed: " + type(e).__name__ + " " + str(e)[:80]
@@ -1423,7 +1606,8 @@ def _contracts_pass():
     full three lines up. Starting a second copy to kill it at 30 seconds would prove nothing the
     complete run did not already prove, while doubling the heaviest job in the gate.
 
-    THE DRILL STAYS OUT, per the same ruling. verify_math.py:5504 records the standing rule that
+    THE DRILL STAYS OUT, per the same ruling. verify_math.py records the standing rule (the run35
+    batch1/batch2 proposed-checks docstrings, order c349a51ee2c5) that
     verify_math and drill are not safe to run from an agent context, and drill has historically
     written trial values of `prose_enabled` into the live config. A standing daemon firing the
     drill on every kept patch is exactly what that rule forbids doing unasked.
@@ -1771,7 +1955,7 @@ def owner_queue(items):
     # foremen open at once, and two foremen are allowed by design (the singleton claim in main()
     # sits inside `if a.loop:`). The loser's half-written owner queue then lands over the
     # winner's, and publish.py copies it into the export tree on its own clock. Same
-    # `"%s.%d.%d.tmp"` shape as silence.py:511, inline rather than a new helper.
+    # `"%s.%d.%d.tmp"` shape as `silence.write_json`'s own temp name, inline rather than a new helper.
     _tmp = "%s.%d.%d.tmp" % (FOR_OWNER, os.getpid(), threading.get_ident())
     with open(_tmp, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))

@@ -534,8 +534,9 @@ def summary():
         dashboard.py   try/except around the failures.json read, tag "dashboard.py:failures"
         standards.py   try/except around the ledger measurement, tag "standards.py:ledger"
 
-    Grep for those two strings. As of this writing they sit at dashboard.py:350-360 and
-    standards.py:1000-1028.
+    Grep for those two strings rather than trusting a line number here -- the tag inside
+    standards.py has already moved twice since this docstring was last checked against it,
+    which is the drift this whole note exists to route around.
     """
     return _read_ledger(LEDGER_PATH)
 
@@ -1028,6 +1029,9 @@ def reopen_stranded(dry=True):
     """
     import pipeline as P
     path = os.path.join(HERE, "state", "PIPELINE_STATE.json")
+    # DIGEST BEFORE THE READ, so the landing below can be a real compare-and-swap (order
+    # 26667ecd6543). See the write for why the text comparison alone was not one.
+    seen = silence.digest_of(path)
     try:
         with open(path, encoding="utf-8") as f:
             # THE RAW TEXT IS KEPT, not just the parsed object, so the drift check further down
@@ -1146,13 +1150,22 @@ def reopen_stranded(dry=True):
         # tool was left on the old, fixed-name formula, which is the one convention pipeline.py
         # itself no longer uses. `silence.write_json` is that same pid+thread formula, so the two
         # writers of PIPELINE_STATE.json agree again. (found and fixed run36)
-        if silence.write_json(path, st, indent=1):
+        #
+        # AND THE RE-READ ABOVE WAS A COMPARE, THEN A SWAP (order 26667ecd6543). `write_json`
+        # renames with a sleeping retry and checks nothing, so a `save_state` landing between the
+        # text comparison and the rename was still overwritten. `_cas_land` lands only if the
+        # file still holds the digest taken before the first read -- same pid+thread temp name.
+        # The other half of that order is in `pipeline.save_state`, which now MERGES on a
+        # mismatch, so a re-open that lands here is no longer reverted by the runner's next save.
+        ok, why = _cas_land(path, st, seen, indent=1, sort_keys=False)
+        if ok:
             print("-> PIPELINE_STATE.json")
         else:
             # Do not report a repair that did not land. Returning the list unchanged would read
             # to the caller as "these were re-opened".
-            print("health: PIPELINE_STATE.json write DENIED; nothing re-opened", file=sys.stderr)
-            return None                      # a denied write is a failure, not an empty result
+            print("health: PIPELINE_STATE.json NOT written (%s); nothing re-opened. Re-run "
+                  "--reopen --go; the repair re-derives itself." % why, file=sys.stderr)
+            return None                      # a refused write is a failure, not an empty result
     return reopen
 
 

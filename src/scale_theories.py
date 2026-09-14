@@ -22,7 +22,7 @@ HELD FOR A FUTURE PHASE, MARKED, AND NOT WIRED
 ----------------------------------------------
 Order `01695fe3ef26`; owner ruling 2026-09-08, "whole modules built and never wired in":
 **wire what closes a measured gap; hold the rest, marked.** `render.py` was wired under that
-ruling (`publish.py:1346`, `import render as R`). `hosts.py` WAS NOT, and this sentence used to
+ruling (`publish.render_views()`'s `import render as R`). `hosts.py` WAS NOT, and this sentence used to
 say it was -- measured 2026-09-08 during run #46: `import hosts`, `from hosts import`,
 `hosts_for(` and `SOURCE_HOSTS` all return zero hits anywhere in src/ outside `hosts.py` itself.
 Order `3fb312a72435` is still open for it and the wiring point is `feats.py`, which reads

@@ -155,6 +155,75 @@ def _self_citation_ok(citing_file, target_name, lineno):
     return False
 
 
+def _in_tree_lead(line, start):
+    """Is the directory in front of this citation THIS tree's `src/`? -> bool.
+
+    THE BLIND SPOT THIS CLOSES (order 9daa719e4819). Any citation preceded by a slash was
+    treated as pointing into another tree and skipped, uncounted -- and this codebase writes
+    its own citations both as `foo.py:NNN` and as `src/foo.py:NNN`, so the detector silently
+    ignored one of the two spellings its own tree uses. Live-verified by sweep56-batch16:
+    `secondopinion.py` cited `src/liveness.py:197` while `def scan()` sat at 348, and nothing
+    reported it. Sweep56 then found roughly sixty stale citations by hand that this was not
+    seeing.
+
+    A bare `src/` lead -- at the start of the line, or after a space, quote or backtick -- is
+    this tree. A lead with anything path-like in front of it (`motoko/src/`,
+    `C:\\...\\src\\`) is still treated as elsewhere, so the other-tree net keeps holding.
+
+    MODULE LEVEL, NOT NESTED (order dc9ffadae765). This used to live only inside
+    `stale_citations`, so `citations_in_text` -- which scans a work order's own text rather
+    than a `src/` file -- would have had to copy it or skip the other-tree check entirely.
+    Neither `where` it lived in changed the fact this reads only its two arguments; hoisting it
+    costs nothing and is what lets both callers share one resolver.
+    """
+    lead = line[:start]
+    for spelling in ("src/", "src\\"):
+        if lead.endswith(spelling):
+            before = lead[:-len(spelling)]
+            return not before or not (before[-1].isalnum() or before[-1] in "_-./\\")
+    return False
+
+
+def citations_in_text(text, src_dir=None, include_unresolved=False, skipped=None):
+    """-> findings for every provably broken `file.py:NNN` citation inside an arbitrary string.
+
+    THE SAME RESOLVER AS `stale_citations`, NOT A SECOND COPY OF ITS RULES (order dc9ffadae765).
+    `stale_citations` is bound to reading `src/` files off disk; this is the part of it that
+    does not need a file at all -- `CITATION`, `_classify`, `_PLACEHOLDERS` and `_in_tree_lead`,
+    applied to whatever text a caller hands it -- so a caller with text that never lived in a
+    `src/` file (a work order's own `what`/`where`/`evidence`) can still be checked against
+    exactly the PAST_EOF / BLANK_LINE / BARE_BRACKET resolver `_classify` already is.
+
+    Each finding carries `line` (1-based, within `text`), `cites`, `cited_line`, `reason` and
+    `text` (the matching line, stripped) -- the same shape `stale_citations` returns, minus
+    `citing`, which means nothing for a string that is not a file; the caller attaches whatever
+    identifies its own text (an order id, a field name).
+
+    UNCAPPED, per Hard Rule 0: every finding in `text` is returned.
+    """
+    root = src_dir or SRC
+    found = []
+    for i, raw in enumerate(str(text or "").splitlines()):
+        for m in CITATION.finditer(raw):
+            target_name, num = m.group(1), int(m.group(2))
+            if target_name in _PLACEHOLDERS:
+                continue
+            if (m.start() > 0 and raw[m.start() - 1] in _PATH_LEAD
+                    and not _in_tree_lead(raw, m.start())):
+                if skipped is not None:
+                    skipped.append({"line": i + 1, "cites": target_name, "cited_line": num,
+                                    "text": raw.strip()})
+                continue
+            reason = _classify(target_name, num, src_dir=root)
+            if reason is None:
+                continue
+            if reason == UNRESOLVED and not include_unresolved:
+                continue
+            found.append({"line": i + 1, "cites": target_name, "cited_line": num,
+                          "reason": reason, "text": raw.strip()})
+    return found
+
+
 def stale_citations(paths=None, include_unresolved=False, src_dir=None, skipped=None):
     """-> a list of findings, each a dict, for every provably broken `file.py:NNN` under src/.
 
@@ -172,28 +241,6 @@ def stale_citations(paths=None, include_unresolved=False, src_dir=None, skipped=
     UNCAPPED, per Hard Rule 0. The caller gets every finding; ranking is the caller's business
     and truncating is nobody's.
     """
-    def _in_tree_lead(line, start):
-        """Is the directory in front of this citation THIS tree's `src/`? -> bool.
-
-        THE BLIND SPOT THIS CLOSES (order 9daa719e4819). Any citation preceded by a slash was
-        treated as pointing into another tree and skipped, uncounted -- and this codebase writes
-        its own citations both as `foo.py:NNN` and as `src/foo.py:NNN`, so the detector silently
-        ignored one of the two spellings its own tree uses. Live-verified by sweep56-batch16:
-        `secondopinion.py` cited `src/liveness.py:197` while `def scan()` sat at 348, and nothing
-        reported it. Sweep56 then found roughly sixty stale citations by hand that this was not
-        seeing.
-
-        A bare `src/` lead -- at the start of the line, or after a space, quote or backtick -- is
-        this tree. A lead with anything path-like in front of it (`motoko/src/`,
-        `C:\\...\\src\\`) is still treated as elsewhere, so the other-tree net keeps holding.
-        """
-        lead = line[:start]
-        for spelling in ("src/", "src\\"):
-            if lead.endswith(spelling):
-                before = lead[:-len(spelling)]
-                return not before or not (before[-1].isalnum() or before[-1] in "_-./\\")
-        return False
-
     root = src_dir or SRC
     if paths is None:
         # THE WHOLE TREE, NOT ITS TOP LEVEL (order 9daa719e4819, sweep57-batch08). `os.listdir`

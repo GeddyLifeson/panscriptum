@@ -186,8 +186,9 @@ def audit(records, hosts):
 def backfill_source(source, records, hosts, cap=None, dry=False):
     # DEFAULTED, NOT A BARE StopIteration (order 929622118156). The `--all` path wraps every
     # call to this function in try/except (Hard Rule -1: a source is its own area of the park),
-    # but the explicit `--source name [name ...]` CLI path does not, so one typo'd name used to
-    # kill the whole invocation and run none of the sources listed after it -- scout.py's own
+    # and the explicit `--source name [name ...]` CLI path did not until sweep58-batch08, so
+    # one typo'd name used to kill the whole invocation and run none of the sources listed after
+    # it -- scout.py's own
     # analogous lookup (`scout.py:main()`) already defaults to None and degrades gracefully.
     # Same shape as the "no wiki host" refusal two lines down.
     rec = next(((p, r) for p, r in records if r["source"] == source), None)
@@ -464,10 +465,29 @@ def main():
     if not a.source:
         ap.print_help()
         return 0
+    # CONTAINED PER SOURCE, THE SAME AS `--all` (sweep58-batch08). This loop had no try/except,
+    # so a `RosterIncomplete` from the first named wiki killed the invocation with a traceback
+    # and the sources named after it were never attempted -- the one-area-of-the-park rule
+    # `RosterIncomplete`'s docstring says the caller keeps. Each failure is printed as a JSON row
+    # beside the others (source UNCUT, exception SAID), and the exit is NONZERO if any source
+    # raised, returned an `error`, or had its write denied: naming the sources is an explicit
+    # request, so a failure among them is never an exit-0 run.
+    failed = 0
     for s in a.source:
-        print(json.dumps(backfill_source(s, recs, hosts, cap=a.cap, dry=a.dry),
-                         ensure_ascii=False))
-    return 0
+        try:
+            res = backfill_source(s, recs, hosts, cap=a.cap, dry=a.dry)
+        except Exception as e:
+            failed += 1
+            print(json.dumps({"source": s, "error": "%s: %s" % (type(e).__name__, e)},
+                             ensure_ascii=False), flush=True)
+            continue
+        if res.get("error") or res.get("write_denied"):
+            failed += 1
+        print(json.dumps(res, ensure_ascii=False), flush=True)
+    if failed:
+        print("%d of %d named source(s) FAILED (raised, refused, or write denied)"
+              % (failed, len(a.source)), file=sys.stderr)
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

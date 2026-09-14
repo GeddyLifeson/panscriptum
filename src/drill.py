@@ -610,7 +610,7 @@ def _sweep_probe_litter(subsystem, site):
 
 
 def _rows_in(path, token=None):
-    """How many lines an append-only ledger holds right now. -> int (0 if it is not there yet).
+    """How many lines an append-only ledger holds right now. -> int, 0 if absent, None if unreadable.
 
     A probe that leaves the OPEN queue clean and quietly grows the PAPER TRAIL on every run is
     still littering; see `a_probe_leaves_no_order_behind`. Counting lines rather than parsing
@@ -630,8 +630,15 @@ def _rows_in(path, token=None):
     try:
         with open(path, encoding="utf-8") as fh:
             return sum(1 for line in fh if token is None or token in line)
-    except OSError:
+    except FileNotFoundError:
+        _ = "silence-exempt: a ledger not written yet holds zero rows"
         return 0
+    except OSError:
+        _ = "silence-exempt: None is the answer here, and the only caller refuses on it"
+        # AN UNREADABLE LEDGER IS NOT AN EMPTY ONE (order 0954a44e057d, sweep57 QD). Every OSError
+        # used to answer 0, so a locked or denied trail read 0 before and 0 after, and the only
+        # caller's before/after comparison held whatever the probe wrote. None equals no count.
+        return None
 
 
 def _quiet(mod):
@@ -833,9 +840,17 @@ def prove_net(area, net_name, revert=None, root=None, keep=False, timeout=1800):
             if ln.startswith(PROVE_MARKER):
                 line = ln[len(PROVE_MARKER):]
         if line is None:
+            # THE CUT SAYS IT IS A CUT (Hard Rule 0; DQ, run #58). This was a bare tail slice
+            # with no marker, so a short stderr and the end of a long one read identically --
+            # and the start of a long one, usually the traceback's first frame, was gone without
+            # a word. Same wording as `ledger_dry_run`'s tail below.
+            tail = p.stderr or ""
             return {"held": None, "found": 0, "error": "the scratch run printed no verdict",
                     "area_error": None, "root": root, "rc": p.returncode,
-                    "expected": None, "stderr": (p.stderr or "")[-2000:]}
+                    "expected": None,
+                    "stderr": (tail if len(tail) <= 2000 else
+                               "last 2000 of %d chars (+%d cut): %s"
+                               % (len(tail), len(tail) - 2000, tail[-2000:]))}
         d = json.loads(line)
         rows = d.get("rows") or []
         if not rows:
@@ -850,17 +865,138 @@ def prove_net(area, net_name, revert=None, root=None, keep=False, timeout=1800):
                 "expected": rows[0].get("expected")}
     finally:
         if own and not keep:
-            # The junctions are unlinked before the tree goes, exactly as `mutate.reap_orphans`
-            # does it: `data/` is 1.1 GB of mined corpus reached through one of them, and this
-            # is the one place in this file where getting that wrong would delete it.
-            for shared in ("data", "prompts", "reference", os.path.join("output", "index")):
-                try:
-                    link = os.path.join(root, shared)
-                    if os.path.isdir(link):
-                        os.rmdir(link)
-                except OSError:
-                    pass
-            shutil.rmtree(root, ignore_errors=True)
+            _remove_scratch_tree(root)
+
+
+def _remove_scratch_tree(root):
+    """Remove a `scratch_tree()` root the way `mutate.reap_orphans` removes a sandbox. -> bool.
+
+    THE JUNCTIONS ARE UNLINKED BEFORE THE TREE GOES. The shared directories are portals to the
+    live library, and `data/records/` behind one of them is 1.1 GB of mined corpus, so this is
+    the one place in this file where getting that wrong would delete it.
+
+    IT USED TO SWALLOW THE ONE STEP THAT CAN GO WRONG (order 7a487cfab844, sweep57 QF). Each
+    unlink was `except OSError: pass` -- and since order f40f701594a4 made `<root>/data` a REAL
+    directory of hardlinked files whose SUBDIRECTORIES are the junctions, `os.rmdir` on it failed
+    into that `pass` on every call, so the corpus junctions were never unlinked here at all and
+    only `shutil.rmtree` declining to traverse a junction stood between a `--prove` cleanup and
+    the corpus. `data/`'s children are now unlinked one by one, exactly as `reap_orphans` does
+    it, and a junction that will not unlink, or a tree still on disk afterwards, is NOTED and
+    printed with its path rather than passed over. Same shape as `reap_orphans`'s
+    `mutate.py:reap-incomplete`.
+    """
+    import silence as _si
+    isjunction = getattr(os.path, "isjunction", lambda p: False)
+    stuck = []
+    shared = ["prompts", "reference", os.path.join("output", "index")]
+    try:
+        shared += [os.path.join("data", n) for n in os.listdir(os.path.join(root, "data"))]
+    except FileNotFoundError:
+        _ = "silence-exempt: a tree with no data/ has no data/ junctions to unlink"
+    except OSError as e:
+        _si.note("drill.py:prove-net-cleanup")
+        stuck.append("data/ could not be listed (%s)" % e)
+    for rel in shared:
+        link = os.path.join(root, rel)
+        try:
+            if os.path.isdir(link):
+                os.rmdir(link)            # unlinks a junction; fails on a real, non-empty directory
+        except OSError as e:
+            if isjunction(link) or os.path.islink(link):
+                _si.note("drill.py:prove-net-cleanup")
+                stuck.append("%s would not unlink (%s)" % (rel, e))
+    shutil.rmtree(root, ignore_errors=True)
+    if os.path.isdir(root):
+        _si.note("drill.py:prove-net-cleanup")
+        stuck.append("the tree is still on disk after rmtree")
+    if stuck:
+        sys.stderr.write("prove_net: scratch tree %s was not cleanly removed: %s\n"
+                         % (root, "; ".join(stuck)))
+    return not stuck
+
+
+# ---------------------------------------------------------- a dry run of ONE area against the
+#                                                              failure ledger, in a throwaway tree
+#
+# ORDER 400d5c76e6f8, REMEDY (b). Nothing made a new net that drives a noting guard reach for
+# `_deliberately_failing`; the only enforcement was THE LEDGER WITNESS halting the library after the
+# fact. This delivers the same information BEFORE the halt: one area is run in `scratch_tree()`'s
+# world, exactly as `prove_net` runs one, and every row the spy (`_spy_record`) saw reach the real
+# recorder is printed with the net that let it through. `--prove` cannot show it, because the
+# ledger witness is an area of its own and a proved area never runs it.
+#
+# REMEDY (a), A STATIC CALL-GRAPH NET, IS NOT BUILT, and the order asked for it only if it could be
+# made precise. `python src/silence.py` counts 871 observed catch sites in src/, most of them
+# `silence.note` calls on error branches, so "this net's callable can reach a note" is true of
+# nearly every net that drives library code; which branches a probe actually ENTERS is a runtime
+# fact, and this lane measures it at runtime.
+LEDGER_DRY_MARKER = "LEDGER_DRY_RUN_RESULT "
+
+_LEDGER_DRY_RUNNER = '''"""Written by drill.ledger_dry_run(). Runs ONE area in this scratch tree.
+
+Never calls drill.main(), so no verdict is stamped and no halt can be raised. Prints what the spy
+saw reach the failure ledger while the area ran.
+"""
+import json
+import os
+import sys
+
+_root = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(_root, "src"))
+import drill as D                                              # noqa: E402
+
+_err = None
+try:
+    getattr(D, sys.argv[1])()
+except Exception as _e:
+    _err = "%s: %s" % (type(_e).__name__, _e)
+print("__DRY_MARKER__" + json.dumps({"escapes": list(D._LEDGER_ESCAPES), "area_error": _err,
+                                     "nets": len(D.RESULTS),
+                                     "breached": [r.get("net") for r in D.RESULTS
+                                                  if not r.get("held")]}))
+'''.replace("__DRY_MARKER__", LEDGER_DRY_MARKER)
+
+
+def ledger_dry_run(area, revert=None, timeout=1800):
+    """Run ONE area in a throwaway tree and list what it let through to the failure ledger. -> dict.
+
+    -> {"escapes": [str, ...] or None, "nets": int, "breached": [net, ...],
+        "area_error": str|None, "error": str|None}
+
+    `escapes` is None, not [], when the child printed no result: "nothing leaked" and "nothing was
+    measured" are different answers, the distinction `prove_net` draws with `held=None`. `revert`
+    is `prove_net`'s -- a callable given the scratch root -- so an author can watch a deliberately
+    unwrapped probe show up here before it halts anything. Order 400d5c76e6f8, remedy (b).
+    """
+    import subprocess
+    root = scratch_tree()
+    try:
+        if revert is not None:
+            revert(root)
+        runner = os.path.join(root, "_ledger_dry_run.py")
+        with open(runner, "w", encoding="utf-8") as fh:
+            fh.write(_LEDGER_DRY_RUNNER)
+        env = dict(os.environ)
+        env["PYTHONIOENCODING"] = "utf-8"
+        p = subprocess.run([sys.executable, runner, area], cwd=root, env=env, timeout=timeout,
+                           capture_output=True, text=True, encoding="utf-8", errors="replace",
+                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        line = None
+        for ln in (p.stdout or "").splitlines():
+            if ln.startswith(LEDGER_DRY_MARKER):
+                line = ln[len(LEDGER_DRY_MARKER):]
+        if line is None:
+            tail = p.stderr or ""
+            return {"escapes": None, "nets": 0, "breached": [], "area_error": None,
+                    "error": "the scratch run printed no result (rc=%s); stderr, last %d of %d "
+                             "chars: %s" % (p.returncode, min(2000, len(tail)), len(tail),
+                                            tail[-2000:])}
+        d = json.loads(line)
+        return {"escapes": d.get("escapes") or [], "nets": d.get("nets") or 0,
+                "breached": d.get("breached") or [], "area_error": d.get("area_error"),
+                "error": None}
+    finally:
+        _remove_scratch_tree(root)
 
 
 def _substitution(module, old, new):
@@ -2014,6 +2150,50 @@ def drill_train():
         "three of the fourteen mutants take a ZeroDivisionError, a TypeError or an "
         "AttributeError down this path instead of returning a wrong answer, and a crash inside "
         "a chapter job is not the refusal this gate promises anyone")
+    def an_unmeasurable_scaffold_never_yields_a_budget():
+        """sweep58-batch04. `feats_block_budget()`/`report()` read `system_style.txt` and
+        `feats_prompt.txt` and, on any failure, noted it and carried on with "" -- scaffolding 0,
+        so the content budget came back LARGER than the truth, in the module built to stop Ollama
+        truncating prompts. Absent and unreadable must both REFUSE with a ContextOverflow. PURE:
+        `context_budget.PROMPTS` is a scratch dir; the live prompts/ is never read. BOTH
+        DIRECTIONS: with both files readable the budget equals the explicit-text budget."""
+        import context_budget as CB
+        keep = CB.PROMPTS
+        cfg = {"num_ctx": 12288}
+        sysd = "voice " * 1200 + "\nTHE ENTRY TEMPLATE\n" + "tpl " * 2000
+        ftpl = "feats template " * 180
+        root = tempfile.mkdtemp(prefix="drill_scaffold_")
+
+        def _prompts(system="file", template=True):
+            pd = tempfile.mkdtemp(dir=root)
+            p = os.path.join(pd, "system_style.txt")
+            if system == "dir":
+                os.mkdir(p)                         # exists, cannot be read as a file
+            elif system == "file":
+                with open(p, "w", encoding="utf-8") as f:
+                    f.write(sysd)
+            if template:
+                with open(os.path.join(pd, "feats_prompt.txt"), "w", encoding="utf-8") as f:
+                    f.write(ftpl)
+            CB.PROMPTS = pd
+
+        try:
+            _prompts()
+            if CB.feats_block_budget(cfg) != CB.feats_block_budget(cfg, sysd, ftpl):
+                return False                        # a wall: readable files must still measure
+            for kw in ({"system": None}, {"template": False}, {"system": "dir"}):
+                for call in (lambda: CB.feats_block_budget(cfg), lambda: CB.report(cfg)):
+                    _prompts(**kw)
+                    if not _refuses(lambda: _deliberately_failing(call), CB.ContextOverflow):
+                        return False
+            return True
+        finally:
+            CB.PROMPTS = keep
+            shutil.rmtree(root, ignore_errors=True)
+    net(a, "an absent or unreadable prompt scaffold refuses the budget instead of widening it",
+        an_unmeasurable_scaffold_never_yields_a_budget,
+        "sweep58-batch04: an unreadable system_style.txt made scaffold_chars 0 and the feats "
+        "content budget larger -- the silent-truncation direction the module exists to refuse")
     net(a, "an Instrument refusal names the block it is about",
         _an_instrument_refusal_names_the_block_it_refused,
         "the exact twin of `a refusal names the block it is about` above, and landed for the "
@@ -2594,6 +2774,35 @@ def drill_no_caps():
         "an `or` here dropped 46 of 54 entries in tales-from-the-yawning-portal and 53 of 55 in "
         "kbp-unlikely-heroes, and no net in this area could see it")
 
+    def coverage_report_discloses_the_hosted_floor():
+        """`coverage.report()` must SAY how many hosted sources its 40-entry floor excluded.
+
+        Order e3b2668af9af. `have` drops every hosted source under 40 entries before EITHER
+        ranking sees it, so the WORST COVERED table -- whose whole purpose is to show the sources
+        most in need of work -- structurally could not show the smallest ones, and nothing said a
+        class of sources was cut or how many. The floor itself may be right; an undisclosed cut
+        before a ranking is this rule's exact prohibition. Two of four hosted fixture rows sit
+        under the floor, and the printed report must carry that count against that total -- not
+        merely some "2" somewhere in eighty lines. Pure: rows in memory, stdout captured.
+        """
+        import coverage as CV
+
+        def row(source, entries):
+            return {"source": source, "host": "h", "entries": entries, "cited": 0, "read": 0,
+                    "no_page": 0, "not_attempted": 0, "unreachable": 0, "no_host": 0,
+                    "feats": 0, "coverage": 0.5, "settled": 0.5}
+
+        rows = [row("Big A", 500), row("Big B", 300), row("Tiny C", 10), row("Tiny D", 3)]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            CV.report(rows, show=None, show_best=10)
+        out = buf.getvalue()
+        return "2 of 4 hosted sources excluded" in out and "floor" in out
+    net(a, "coverage's WORST/BEST COVERED tables disclose the hosted-source floor",
+        coverage_report_discloses_the_hosted_floor,
+        "order e3b2668af9af: a cut on the population before a ranking is Hard Rule 0's exact "
+        "prohibition when it is not disclosed, and this one was applied silently")
+
 
 # ============================================================== THE RIDE RECORD (M23)
 
@@ -2841,46 +3050,79 @@ def _broken_table_refuses():
 
 # ============================================================== THE PARK (halt + isolation)
 
+# ORDER 70a74f7a0628: the park's DRILL_AREA probe escalated into the LIVE ledgers.
+
+
+def _area_fault_does_not_close_the_park():
+    """`area_fault_does_not_close_the_park`, in the one sandbox. -> bool.
+
+    IT ESCALATED AGAINST THE LIVE LEDGERS (order 70a74f7a0628). Its SUPERVISOR escalation
+    appended to the live `state/escalation.log` and `state/escalations/__drill__.log`, filed its
+    order through the live `file_order`, and its cleanup closed that order in the live queue. All
+    four now land in the sandbox, and THE LIVE-STATE WITNESS drives it. Module-level for the
+    witness; the net still owns the verdict.
+    """
+    return _esc_probe(lambda d, filed: _area_fault_does_not_close_the_park_in_the_sandbox())
+
+
+def _area_fault_does_not_close_the_park_in_the_sandbox():
+    """A source-level fault must not CHANGE the halt state, whatever it already is.
+
+    The first version asserted `not status()[0]` outright, which quietly assumed the park
+    was running -- so the moment a real halt stood (which is exactly when a drill matters
+    most) this net reported itself breached and the drill blamed the wrong thing. A net
+    whose result depends on unrelated state is not measuring what it claims to.
+    """
+    before = ESC.status()[0]
+    # Wrapped for the reason every rehearsal in this file now is: an escalation calls
+    # `health.record`, so this probe was putting `escalation:SUPERVISOR:DRILL_AREA` into the
+    # operational ledger once per battery run, in the file a person reads to find out
+    # whether a source has actually been closed. See `_deliberately_failing`, and the
+    # whole-run witness at the top of this file that found this one. (Order 895a99602bf0.)
+    _deliberately_failing(
+        lambda: ESC.escalate(ESC.SUPERVISOR, "DRILL_AREA", "drill: one area closing",
+                             source="__drill__"))
+    same = ESC.status()[0] == before
+    # AND FROM A STANDING HALT, the other half of "whatever it already is" (order
+    # 70a74f7a0628). In the sandbox the halt file is scratch, so a synthetic halt can be put
+    # there; against the live file this net could only ever see whichever state the library
+    # happened to be in. REFUSES TO SEED A LIVE HALT FILE: if the halt path is the library's
+    # own, the answer is False before a byte is written.
+    live_halt = os.path.normcase(os.path.abspath(os.path.join(HERE, "state", "HALT.json")))
+    if os.path.normcase(os.path.abspath(ESC.HALT_FILE)) == live_halt:
+        return False
+    with open(ESC.HALT_FILE, "w", encoding="utf-8") as fh:
+        json.dump({"code": "DRILL", "what": "a synthetic standing halt", "by": "drill",
+                   "cleared": False}, fh)
+    halted = ESC.status()[0]
+    _deliberately_failing(
+        lambda: ESC.escalate(ESC.SUPERVISOR, "DRILL_AREA", "drill: one area closing",
+                             source="__drill__"))
+    same = same and halted is True and ESC.status()[0] is True
+    # CLEAN UP AFTER THE TEST. Escalating now files a real work order, so a drill that left
+    # its own probe behind would put one piece of litter in the queue on every cycle -- and
+    # a queue with permanent decoration in it is a queue people stop reading. The order is
+    # resolved by identity, so this closes exactly the one this probe just filed.
+    # AND IF THE CLEANUP ITSELF FAILS, SAY SO. This was `except Exception: pass`, which
+    # discarded the one fact worth having: a failed resolve leaves a DRILL_AREA order in the
+    # LIVE queue, one per supervisor cycle, for ever -- the exact outcome the paragraph
+    # above says the cleanup exists to prevent, arrived at silently. `silence.note` records
+    # the site and the live exception in the health ledger, where a swallowed failure in
+    # this project is supposed to go.
+    try:
+        import workorders as WO
+        WO.resolve_code("DRILL_AREA", "drill self-test; not a real fault",
+                        where="__drill__", by="drill.py")
+    except Exception:
+        import silence
+        silence.note("drill.py:drill-area-cleanup")
+    return same
+
+
 def drill_park():
     a = "THE PARK — does a fault close one area, and can the whole park stop?"
-    def area_fault_does_not_close_the_park():
-        """A source-level fault must not CHANGE the halt state, whatever it already is.
-
-        The first version asserted `not status()[0]` outright, which quietly assumed the park
-        was running -- so the moment a real halt stood (which is exactly when a drill matters
-        most) this net reported itself breached and the drill blamed the wrong thing. A net
-        whose result depends on unrelated state is not measuring what it claims to.
-        """
-        before = ESC.status()[0]
-        # Wrapped for the reason every rehearsal in this file now is: an escalation calls
-        # `health.record`, so this probe was putting `escalation:SUPERVISOR:DRILL_AREA` into the
-        # operational ledger once per battery run, in the file a person reads to find out
-        # whether a source has actually been closed. See `_deliberately_failing`, and the
-        # whole-run witness at the top of this file that found this one. (Order 895a99602bf0.)
-        _deliberately_failing(
-            lambda: ESC.escalate(ESC.SUPERVISOR, "DRILL_AREA", "drill: one area closing",
-                                 source="__drill__"))
-        same = ESC.status()[0] == before
-        # CLEAN UP AFTER THE TEST. Escalating now files a real work order, so a drill that left
-        # its own probe behind would put one piece of litter in the queue on every cycle -- and
-        # a queue with permanent decoration in it is a queue people stop reading. The order is
-        # resolved by identity, so this closes exactly the one this probe just filed.
-        # AND IF THE CLEANUP ITSELF FAILS, SAY SO. This was `except Exception: pass`, which
-        # discarded the one fact worth having: a failed resolve leaves a DRILL_AREA order in the
-        # LIVE queue, one per supervisor cycle, for ever -- the exact outcome the paragraph
-        # above says the cleanup exists to prevent, arrived at silently. `silence.note` records
-        # the site and the live exception in the health ledger, where a swallowed failure in
-        # this project is supposed to go.
-        try:
-            import workorders as WO
-            WO.resolve_code("DRILL_AREA", "drill self-test; not a real fault",
-                            where="__drill__", by="drill.py")
-        except Exception:
-            import silence
-            silence.note("drill.py:drill-area-cleanup")
-        return same
     net(a, "a SOURCE-level fault does NOT change the park's halt state",
-        area_fault_does_not_close_the_park,
+        _area_fault_does_not_close_the_park,
         "escalating everything is the same failure as escalating nothing")
     net(a, "the halt file FAILS CLOSED when unreadable", _halt_fails_closed,
         "a halt a corrupted file can lift is not a halt")
@@ -2937,6 +3179,63 @@ def drill_park():
         _halt_is_not_breakage,
         "the halt made every job exit, the supervisor called that broken and quit, and nothing "
         "came back when the halt was cleared -- the guard caused the outage it prevents")
+    net(a, "a deliberate rc=17 restart does not count toward the supervisor's idle halt",
+        _a_deliberate_restart_is_not_an_idle_cycle,
+        "order 633832bdae90: codewatch restarts on a short cycle could end the supervisor as "
+        "'broken'; a real startup crash must still count")
+    net(a, "an absent Ollama tray is started, not killed-and-waited-for",
+        _absent_tray_is_started_not_waited_for,
+        "order b750409c76be: with no tray, kill-and-wait killed nothing and waited for a respawn "
+        "that could not come, every 30 minutes for ever")
+    net(a, "a quiet log alone does not license killing a job that is still doing I/O",
+        _a_quiet_log_alone_does_not_license_a_kill,
+        "order d9328fe1ee38: the stall standard watches log size, and a restartable crawl in "
+        "backoff was one quiet log away from a SIGTERM mid-request; a wedged process must still die")
+
+    def backfill_named_sources_are_each_their_own_area():
+        """sweep58-batch08. `backfill.main --source A --source B` had no per-source try/except, so
+        a `RosterIncomplete` from A's wiki killed the invocation and B was never attempted -- the
+        containment `RosterIncomplete`'s own docstring promised. And a failure among named sources
+        must never exit 0. NO NETWORK, NO RECORD WRITE: `backfill_source` itself is stood in for,
+        `pipeline.records` returns nothing and `feats.HOSTS` is a scratch file, each stand-in with
+        its subject's own signature; all restored. Only the run that is SUPPOSED to hit a failure
+        is wrapped in `_deliberately_failing`."""
+        import backfill as BF
+        import pipeline as _PL
+        bd = tempfile.mkdtemp(prefix="drill_backfill_source_")
+        keep = (_PL.records, BF.F.HOSTS, BF.backfill_source, list(sys.argv))
+        called = []
+
+        def _fake(source, records, hosts, cap=None, dry=False):
+            called.append(source)
+            if source == "Foo":
+                raise BF.RosterIncomplete("faketest: category walk stopped (stubbed)")
+            return {"source": source, "roster": 1, "absent": 0, "added": 0}
+
+        def _run(*names):
+            del called[:]
+            sys.argv = ["backfill.py"] + [x for n in names for x in ("--source", n)]
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                return BF.main()
+
+        try:
+            hosts = os.path.join(bd, "WIKI_HOSTS.json")
+            with open(hosts, "w", encoding="utf-8") as f:
+                json.dump({}, f)
+            _PL.records = lambda: []
+            BF.F.HOSTS = hosts
+            BF.backfill_source = _fake
+            if _deliberately_failing(lambda: _run("Foo", "Bar")) != 1 or called != ["Foo", "Bar"]:
+                return False
+            # AND THE NONZERO IS ABOUT THE FAILURE: two clean sources still exit 0.
+            return _run("Bar", "Baz") == 0 and called == ["Bar", "Baz"]
+        finally:
+            _PL.records, BF.F.HOSTS, BF.backfill_source, sys.argv[:] = keep
+            shutil.rmtree(bd, ignore_errors=True)
+    net(a, "one named backfill source raising neither stops the others nor exits 0",
+        backfill_named_sources_are_each_their_own_area,
+        "sweep58-batch08: --source had no per-source try/except, so one flaky wiki's "
+        "RosterIncomplete denied every source named after it, by traceback")
 
 
 def _no_unrestartable_kill():
@@ -3028,6 +3327,216 @@ def _standing_still_killable():
     frags = {fn[:-4]: fr for fn, fr in _LN.OWNER.items()}
     pipe = frags.get("pipeline_auto") or frags.get("pipeline")
     return pipe is not None and F._restartable(pipe)
+
+
+def _a_deliberate_restart_is_not_an_idle_cycle(src=None):
+    """A fast cycle whose only statuses are rc=17 must not advance the supervisor's idle count.
+
+    ORDER 633832bdae90. `run()`/`join()` report a job that exited ON PURPOSE to pick up changed
+    source as "rc=17", and the idle branch's busy list did not know it -- so a burst of codewatch
+    restarts on a short cycle could reach IDLE_LIMIT and end the supervisor with "it is a broken
+    one": a watcher reading jobs-exiting-on-purpose as jobs-crashing, Hard Rule -1's own incident.
+
+    DRIVES THE LOOP'S OWN EXPRESSION, NOT A RE-SPELLING OF ITS RULE. Every reachable `busy = ...`
+    assignment in `main()` is lifted out of the parse tree and evaluated against the module's
+    real namespace with a synthetic `statuses`, so reverting the loop to an inline tuple and
+    dropping "rc=17" from BUSY_STATUSES both go red. A comment produces no Assign node.
+
+    AND THE OTHER DIRECTION. A real startup crash ("rc=1", "rc=-1", TerminateProcess's
+    4294967295, "error", "timeout") and a clean-but-instant "ok" must still NOT be busy, or the
+    idle halt for "every job was dying on startup" would be switched off by the fix.
+    """
+    import ast
+    import overnight as _ON
+    tree = _ast_of(os.path.join(_srcdir(src), "overnight.py"))
+    main = _defn(tree, "main")
+    if main is None:
+        return False
+    exprs = [n.value for n in _live_walk(main)
+             if isinstance(n, ast.Assign) and len(n.targets) == 1
+             and isinstance(n.targets[0], ast.Name) and n.targets[0].id == "busy"]
+    if not exprs:
+        return False                      # no busy list at all is not evidence it is right
+    ns = dict(vars(_ON))
+    for e in exprs:
+        code = compile(ast.fix_missing_locations(ast.Expression(e)), "<overnight busy>", "eval")
+        if eval(code, ns, {"statuses": ["rc=17", "ok"]}) != ["rc=17"]:
+            return False
+        for crash in (["rc=1"], ["rc=-1"], ["rc=4294967295"], ["error"], ["timeout"], ["ok"]):
+            if eval(code, ns, {"statuses": crash}):
+                return False
+    return True
+
+
+def _absent_tray_is_started_not_waited_for():
+    """restart_ollama must START an absent Ollama tray, and must still kill-and-wait a wedge.
+
+    ORDER b750409c76be. The remedy's only move was Stop-Process then wait "because the tray
+    respawns the daemon". On 2026-09-13 there was no tray, so it killed nothing, waited for a
+    respawn that could not come, and would have repeated that every 30 minutes for ever.
+
+    NOTHING REAL IS STOPPED, STARTED OR FETCHED. The module's `subprocess` is a recorder (a
+    scripted tasklist; "kill" for the powershell Stop-Process; "start" for Popen, recorded only
+    when the flags carry BOTH CREATE_NO_WINDOW and DETACHED_PROCESS, since a tray started with a
+    console window breaks the machine rule this remedy keeps). `urlopen` answers without a
+    request, sleep is a no-op, and RESTART_STAMP and LOCALAPPDATA point into the sandbox. All of
+    it is restored in `finally`, inside `_esc_probe` so a stray live write fails this net.
+
+    BOTH DIRECTIONS. The absent tray must produce exactly ["start"], the "NOT RUNNING" words and a
+    `start-tray` stamp (a start is rate-limited like a restart); a tray that is up must still
+    produce exactly ["kill"]. A remedy that only ever starts trays would pass the first half and
+    break the wedge cure the owner ruled AUTO on 2026-08-24.
+    """
+    import subprocess as _real_sp
+    import types
+    import urllib.request as _ur
+    import foreman as F
+
+    class _Rec:
+        DEVNULL = _real_sp.DEVNULL
+        DETACHED_PROCESS = getattr(_real_sp, "DETACHED_PROCESS", 0x00000008)
+        CREATE_NO_WINDOW = getattr(_real_sp, "CREATE_NO_WINDOW", 0x08000000)
+
+        def __init__(self, images):
+            self.calls = []
+            self.out = "\n".join(['"python.exe","1","Console","1","1 K"']
+                                 + ['"%s","2","Console","1","1 K"' % i for i in images]) + "\n"
+
+        def run(self, args, **kw):
+            if args and args[0] == "tasklist":
+                return types.SimpleNamespace(stdout=self.out, returncode=0)
+            if args and args[0] == "powershell":
+                self.calls.append("kill")
+                return types.SimpleNamespace(stdout="", returncode=0)
+            raise AssertionError("unexpected spawn %r" % (args,))
+
+        def Popen(self, args, **kw):
+            fl = kw.get("creationflags", 0)
+            ok = bool(fl & self.CREATE_NO_WINDOW) and bool(fl & self.DETACHED_PROCESS)
+            self.calls.append("start" if ok else "start-with-a-window")
+            return types.SimpleNamespace(pid=4242)
+
+    def probe(t, filed):
+        tray = os.path.join(t, "Programs", "Ollama", "ollama app.exe")
+        os.makedirs(os.path.dirname(tray))
+        open(tray, "w").close()
+        saved = (F.subprocess, F.time, F.shutil, F.RESTART_STAMP, _ur.urlopen,
+                 {k: os.environ.get(k) for k in ("LOCALAPPDATA", "ProgramFiles", "ProgramW6432")})
+        try:
+            F.time = types.SimpleNamespace(time=time.time, sleep=lambda s: None)
+            F.shutil = types.SimpleNamespace(which=lambda n: None)
+            _ur.urlopen = lambda *a_, **k_: True
+            os.environ["LOCALAPPDATA"] = t
+            os.environ["ProgramFiles"] = os.path.join(t, "none")
+            os.environ["ProgramW6432"] = os.path.join(t, "none")
+
+            def _case(images, stamp_name):
+                rec = _Rec(images)
+                F.subprocess = rec
+                F.RESTART_STAMP = os.path.join(t, stamp_name)
+                ok, msg = F.restart_ollama()
+                return rec.calls, ok, msg
+
+            calls, ok, msg = _case([], "absent.json")
+            if calls != ["start"] or not ok or "NOT RUNNING" not in msg:
+                return False
+            with open(os.path.join(t, "absent.json"), encoding="utf-8") as fh:
+                if json.load(fh).get("action") != "start-tray":
+                    return False
+            calls, ok, msg = _case(["ollama app.exe", "ollama.exe"], "wedged.json")
+            return calls == ["kill"] and ok and "NOT RUNNING" not in msg
+        finally:
+            F.subprocess, F.time, F.shutil, F.RESTART_STAMP, _ur.urlopen, env = saved
+            for k, v in env.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+    return _esc_probe(probe)
+
+
+def _a_quiet_log_alone_does_not_license_a_kill():
+    """kill_stalled_job must not SIGTERM a job whose log is quiet while the process is working.
+
+    ORDER d9328fe1ee38. The stall standard reads LOG size and nothing else, and on 2026-09-08 it
+    called `feats.py --roll` 82 minutes stalled while its newest output file was 1.1 minutes old
+    -- a crawl in deep backoff. Only being unrestartable saved it, so `_restartable` is forced
+    True here: the kill path IS reached, which is the case that would actually kill.
+
+    THREE PROCESS SHAPES, NOTHING LIVE. psutil is a stub whose io_counters MOVE (working: spared),
+    HOLD (wedged: still killed -- a remedy that can never act is not a remedy) or RAISE
+    (unreadable: spared, because "could not look" is not evidence). standards and dashboard are
+    stand-ins, the process table is a scripted wmic line naming a pid that does not exist, and
+    os.kill is a recorder. Everything is restored in `finally`, inside `_esc_probe`. The
+    unreadable case makes `_io_moving` call `silence.note`, so it runs in `_deliberately_failing`.
+    """
+    import types
+    import foreman as F
+    import lognames as _LN
+    frag = "feats.py --roll"
+    job = next(((fn[:-4] if fn.endswith(".log") else fn)
+                for fn, fr in _LN.OWNER.items() if fr == frag), None)
+    if job is None:
+        return False
+    fake_pid = 987654
+
+    def _psutil(mode):
+        m = types.ModuleType("psutil")
+        n = {"i": 0}
+
+        class Process:
+            def __init__(self, pid):
+                if mode == "blind":
+                    raise PermissionError("access denied")
+
+            def io_counters(self):
+                if mode == "moving":
+                    n["i"] += 1
+                return (100 + n["i"], 5, 1000, 50, 7, 70)
+        m.Process = Process
+        return m
+
+    class _SP:
+        @staticmethod
+        def run(args, **kw):
+            return types.SimpleNamespace(
+                stdout="Node,CommandLine,ProcessId\nHOST,C:\\python.exe src\\%s --workers 12,%d\n"
+                       % (frag, fake_pid), returncode=0)
+
+    def probe(d, filed):
+        keys = ("standards", "dashboard", "psutil")
+        saved_mods = {k: sys.modules.get(k) for k in keys}
+        saved = (F.subprocess, F.time, F._restartable, F._restart_horizon, os.kill)
+        kills = []
+        try:
+            sys.modules["standards"] = types.SimpleNamespace(check=lambda st: [{
+                "standard": "every running job is advancing", "holds": False,
+                "observed": "%s (82 min, 1234 bytes)" % job}])
+            sys.modules["dashboard"] = types.SimpleNamespace(state=lambda: {})
+            F.subprocess = _SP
+            F.time = types.SimpleNamespace(time=time.time, sleep=lambda s: None)
+            F._restartable = lambda fr: True
+            F._restart_horizon = lambda fr: "%s is STANDING (drill stub)" % fr
+            os.kill = lambda pid, sig: kills.append(pid)
+
+            def _killed(mode):
+                del kills[:]
+                sys.modules["psutil"] = _psutil(mode)
+                if mode == "blind":
+                    _deliberately_failing(F.kill_stalled_job)
+                else:
+                    F.kill_stalled_job()
+                return fake_pid in kills
+
+            return (not _killed("moving")) and _killed("static") and (not _killed("blind"))
+        finally:
+            F.subprocess, F.time, F._restartable, F._restart_horizon, os.kill = saved
+            for k, v in saved_mods.items():
+                if v is None:
+                    sys.modules.pop(k, None)
+                else:
+                    sys.modules[k] = v
+    return _esc_probe(probe)
 
 
 def _halt_is_not_breakage(src=None):
@@ -3604,6 +4113,262 @@ def _landing_nothing_is_not_success(src=None):
             and _run_marks_a_landless_run_failed(src))
 
 
+# `denied` WAS A CLOSURE OF `drill_local_agent`, and is module-level now so the sandboxed state
+# probe below can ask the same question (order 70a74f7a0628). The area binds the old name to it.
+
+
+def _refused_by_a_gate(path):
+    """Was the path refused BY A GATE, as opposed to failing for an unrelated reason?
+
+    The first version asked only "did it decline", which conflated a gate refusal with
+    `find string occurs 0 times` -- so a file the agent is perfectly entitled to write read
+    as denied, and the net that proves the agent can still do its job reported a false
+    breach. A probe that cannot tell refusal from ordinary failure is measuring the wrong
+    thing, which is the same defect as a check that cannot fail.
+
+    `no such file` WAS THE SAME CONFLATION WITH A DIFFERENT MESSAGE, and it made the one net
+    here that matters empty (order 5a24b2956be8). `local_agent.t_propose_patch` answers
+    `no such file` BEFORE the module denylist, before the WRITABLE_PREFIXES/WRITABLE_FILES
+    allowlist and before DENYLIST_PREFIXES -- so for any path that does not exist on disk
+    this returned True whatever the gates said. Reproduced 2026-08-30 with every one of
+    those five lists emptied, i.e. an agent with no writable-surface gate at all:
+    `denied('something_nobody_listed.txt')` was still True, still
+    `err='no such file: ...'`, and the net still read HELD. The control in the same run --
+    `denied('data/COVERAGE.json')`, whose file exists -- correctly flipped to False, so the
+    neighbouring allowlist nets do have teeth and only the invented-name one was empty.
+    Every remaining `denied(...)` target in this area exists on disk and comes back with
+    `denylist`, `protected region` or `writable surface`.
+    """
+    import local_agent as LA
+    r = LA.t_propose_patch(path, "x", "y", why="drill", apply=False)
+    if not isinstance(r, dict) or r.get("applied"):
+        return False
+    err = str(r.get("error") or "")
+    if "denylist" in err or "protected region" in err or "writable surface" in err:
+        return True
+    # AND THE OTHER HALF OF `no such file`, WHICH IS A GATE AFTER ALL. Measured 2026-08-30
+    # while making the line above stop accepting that message: `t_propose_patch` prints it
+    # for TWO different events -- the file is genuinely absent, which is not a refusal, and
+    # `_safe()` RETURNED None, which is the containment gate refusing. `_safe` is the gate
+    # that stops an alternate data stream, a trailing dot or space, a path outside the
+    # project root, anything under `.git`, and -- bypass class six -- a name inside the
+    # project that RESOLVES outside it through a junction. The two are told apart by asking
+    # `_safe` itself rather than by reading the message.
+    #
+    # This is not theoretical and it is not only about hostile paths. `mutate.py` junctions
+    # `data/`, `prompts/`, `reference/` and `output/index` into every sandbox, so inside a
+    # mutation sandbox EVERY path under those four trees resolves out of the sandbox and
+    # `_safe` refuses it. Six nets here point at exactly those trees -- the records, the
+    # charter, the catalog, COVERAGE.json, WIKI_HOSTS.json -- and until the line above
+    # stopped taking `no such file` on faith, all six were passing in the sandbox for the
+    # wrong reason, in the run whose entire purpose is measuring which nets cannot see.
+    #
+    # `local_agent.py` is NOT changed to suit this net, per order 5a24b2956be8: no path's
+    # verdict moves, and a genuinely missing ordinary file still passes `_safe` (it is inside
+    # the project) and fails only `os.path.isfile`, so the invented-name net below still
+    # requires a real file on disk to mean anything.
+    return "no such file" in err and LA._safe(path) is None
+
+
+def _cannot_edit_shared_run_state():
+    """`cannot_edit_shared_run_state`, in the one sandbox. -> bool.
+
+    IT WROTE ITS PROBE FILE INTO THE LIVE `state/` (order 70a74f7a0628). `local_agent.HERE` is
+    pointed at the sandbox directory for the duration, so the scratch file lands there. Module-level
+    for THE LIVE-STATE WITNESS; the net still owns the verdict.
+    """
+    import local_agent as LA
+
+    def state_probe(d, filed):
+        saved = LA.HERE
+        LA.HERE = d
+        try:
+            return _cannot_edit_shared_run_state_in_the_sandbox()
+        finally:
+            LA.HERE = saved
+    return _esc_probe(state_probe)
+
+
+def _cannot_edit_shared_run_state_in_the_sandbox():
+    """A SCRATCH FILE IN `state/`, because the halt file is not always there to point at.
+
+    This net used to probe `state/HALT.json`, and its verdict turned on whether that file
+    happened to exist. In the live tree it always does. In a MUTATION SANDBOX it never does
+    -- `mutate.sandbox()` removes it deliberately, since a copied halt would make every gate
+    refuse on purpose -- so once `denied()` stopped accepting `no such file` on faith
+    (order 5a24b2956be8) this net was the last of six here reporting a refusal it had not
+    actually obtained. Worse, it was UNSTABLE: a sandbox drill run that breaches RAISES a
+    halt, which writes `state/HALT.json` inside that sandbox, so a second run in the same
+    directory saw a different answer than the first.
+
+    `state/` is refused as a whole -- the allowlist admits `src/`, `prompts/`, `handoff/` and
+    four root documents and nothing else -- so a scratch name inside it tests exactly the
+    property, in both trees, without depending on any particular file being present. The
+    halt file is still the thing this net is about; it is simply no longer the thing it needs
+    to find on disk.
+
+    AND IN THE ONE SANDBOX NOW (order 70a74f7a0628). Its wrapper points `local_agent.HERE`
+    at the sandbox directory for the duration, so the scratch file is created and removed
+    there rather than in the live `state/`. The refusal is the same one: `state/` is outside
+    the allowlist and inside `DENYLIST_PREFIXES` whichever root it is resolved against.
+    """
+    import local_agent as LA
+    probe = os.path.join(LA.HERE, "state", "__drill_state_probe__.json")
+    try:
+        os.makedirs(os.path.dirname(probe), exist_ok=True)
+        with open(probe, "w", encoding="utf-8") as fh:
+            fh.write('{"drill": "state-surface probe, created and deleted by drill.py"}\n')
+        return _refused_by_a_gate("state/__drill_state_probe__.json")
+    finally:
+        # A FAILED CLEANUP IS NOT NOTHING, and outside the sandbox this one littered the
+        # LIVE shared run-state directory -- the place every job looks to find out what is
+        # going on. Was
+        # `except OSError: pass`; a denied `os.remove` on Windows needs nothing exotic (a
+        # reader holding the file, or this machine's documented Norton interference) and the
+        # reason it failed was thrown away at the moment it was known. Same discipline as
+        # the junction-probe and blast-cap cleanups. Not a reason to FAIL the net: failing
+        # to tidy up is not a fault, and killing the battery over a permissions error would
+        # lose every other verdict with it.
+        try:
+            os.remove(probe)
+        except OSError:
+            import silence as _si
+            _si.note("drill.py:state-probe-cleanup")
+
+
+# A NAME PER PROCESS (order 7a487cfab844). Two drills on one tree -- the supervisor's and a
+# person's -- created and deleted the SAME fixed probe names (`handoff/__drill_blast_probe__.md`,
+# `__drill_unlisted_probe__.txt` at the root, `handoff/__drill_empty_find__.txt`, and the
+# `src/__drill_junction_probe__` and `src/__drill_surface_probe__` junctions), so either could
+# remove the other's probe mid-net: the concurrency class `_step4_needs_its_plan` was repaired out
+# of. The `__drill..__` shape is kept, so `health.is_selftest` still recognises every one of them.
+_BLAST_PROBE_REL = "handoff/__drill_blast_probe_%d__.md" % os.getpid()
+_UNLISTED_PROBE_NAME = "__drill_unlisted_probe_%d__.txt" % os.getpid()
+_EMPTY_FIND_PROBE_REL = "handoff/__drill_empty_find_%d__.txt" % os.getpid()
+_JUNCTION_PROBE_NAME = "__drill_junction_probe_%d__" % os.getpid()
+_SURFACE_PROBE_NAME = "__drill_surface_probe_%d__" % os.getpid()
+
+
+def _blast_cap_bites():
+    """`blast_cap_bites`, in the one sandbox. -> bool.
+
+    ITS ESCALATION AND ITS CLEANUP REACHED THE LIVE LEDGERS (order 70a74f7a0628). The cap
+    escalates at MANAGER when it bites -- the live escalation logs, LOCAL_AGENT_BLAST_CAP filed
+    through the live `file_order` -- and the `finally` then closed that order in the live queue.
+    All of it now lands in the sandbox. The probe FILE stays under the live `handoff/` on purpose:
+    that is the writable surface this net drives. Module-level for THE LIVE-STATE WITNESS; the net
+    still owns the verdict.
+    """
+    return _esc_probe(lambda d, filed: _blast_cap_bites_in_the_sandbox())
+
+
+def _blast_cap_bites_in_the_sandbox():
+    """The bound that does not depend on knowing which gate was bypassed.
+
+    THIS PROBE STOPPED EXERCISING THE CAP, AND HALTED THE LIBRARY SAYING SO (2026-08-28,
+    DRILL_BREACH at 22:44). It hammered `t_propose_patch` with `apply=False` and a find
+    string occurring ZERO times, and read a refusal out of the far end. Order 528e5b07fded
+    then moved `_blast_ok`'s charge to AFTER the uniqueness check and after the `--no-apply`
+    early return -- correct, and what the comment beside it had claimed all along: a refused
+    path costs no budget, and neither an ambiguous find string nor a dry run is an edit. So
+    the probe's calls stopped charging anything, the cap could never bite, and the net
+    breached against a library that was working.
+
+    The net was right to be unhappy and the local_agent change is right to stand. What was
+    wrong was the PROBE: it demonstrated the cap through a path that no longer reaches it,
+    which is the same defect as a check that cannot fail wearing the other sign. It now
+    drives the path the cap actually guards -- a REAL find string, `apply=True`, a patch
+    that would otherwise land -- and the bound is lowered to make it bite, exactly as the
+    orphan reaper's age gate is lowered next door to make reaping observable.
+
+    THE TARGET IS A SCRATCH FILE THIS PROBE CREATES AND DELETES, inside the writable surface
+    but under `handoff/` rather than `src/`: `codewatch` fingerprints `src/`, and a battery
+    that adds and removes a module there would bounce every standing daemon onto rc=17 every
+    cycle. Nothing tracked is written on either arm -- the staged arm does not write by
+    definition, and the capped arm is refused BEFORE the write, which is the property.
+    """
+    import local_agent as LA
+    keep_caps = (LA.MAX_PATCHES_PER_RUN, LA.MAX_FILES_PER_RUN)
+    probe = os.path.join(HERE, *_BLAST_PROBE_REL.split("/"))
+    body = "drill blast-radius probe -- created and deleted by drill.py\nMARKER-ONCE\n"
+    LA.blast_reset()
+    try:
+        os.makedirs(os.path.dirname(probe), exist_ok=True)
+        with open(probe, "w", encoding="utf-8") as fh:
+            fh.write(body)
+        rel = _BLAST_PROBE_REL
+
+        # 1 -- THE PROBE REALLY WOULD HAVE PATCHED. Writable surface, off every denylist,
+        #      find string occurring exactly once. Without this arm a cap-shaped refusal
+        #      could be any of the four earlier gates wearing the wrong message, and a
+        #      probe that never gets as far as the charge is what caused this halt.
+        staged = LA.t_propose_patch(rel, "MARKER-ONCE", "MARKER-TWICE",
+                                    why="drill", apply=False)
+        if not (isinstance(staged, dict) and staged.get("staged") is True
+                and staged.get("applied") is False):
+            return False
+        if LA._BLAST["patches"] != 0:
+            return False                  # a staged dry run must still cost no budget
+
+        # 2 -- AND THE CAP REFUSES IT ANYWAY once the budget is gone. Both bounds are
+        #      taken to zero, so the very first charge is over budget and the refusal
+        #      arrives before anything is written -- which is what "the cap bites" means.
+        LA.MAX_PATCHES_PER_RUN = LA.MAX_FILES_PER_RUN = 0
+        # ORDER 247b173c78ee's CLASS, the eighth and last of them (2026-09-06). The cleanup
+        # below already retires the WORK ORDER this refusal files -- but the refusal also
+        # goes through `escalation.escalate` at MANAGER, and escalate calls `health.record`,
+        # so an `escalation:MANAGER:LOCAL_AGENT_BLAST_CAP:...` row landed in the LIVE
+        # state/failures.json on every drill run and nothing retired THAT. It stood at 39,
+        # the drill-run count, exactly like the seven `silent:` rows. Two ledgers, one probe;
+        # the order queue had the discipline and the failure ledger did not. The net still
+        # asserts the refusal, the charge, and the untouched file, so nothing is suppressed.
+        r = _deliberately_failing(
+            lambda: LA.t_propose_patch(rel, "MARKER-ONCE", "MARKER-TWICE",
+                                       why="drill", apply=True))
+        if "blast-radius cap" not in str((r or {}).get("error", "")):
+            return False
+        if (r or {}).get("applied") is not False or LA._BLAST["patches"] != 1:
+            return False                  # refused, and the charge was actually made
+        with open(probe, encoding="utf-8") as fh:
+            return fh.read() == body      # ... and the file it was refused on is untouched
+    finally:
+        LA.MAX_PATCHES_PER_RUN, LA.MAX_FILES_PER_RUN = keep_caps
+        LA.blast_reset()
+        # AND THIS ONE LEAKS INTO THE PUBLIC EXPORT. The probe lives under `handoff/`, which
+        # is in `publish.COPY_DIRS`, so a removal that quietly failed would PUBLISH
+        # `handoff/__drill_blast_probe__.md` to the public repo on the next cycle with
+        # nothing anywhere recording why. It was `except OSError: pass` while the work-order
+        # cleanup twenty lines below -- with a weaker consequence -- already noted its own
+        # failure under a paragraph making exactly this argument. (Order 5442da43c9f8.)
+        try:
+            os.remove(probe)
+        except OSError:
+            import silence as _si
+            _si.note("drill.py:blast-probe-cleanup")
+        # The cap escalates when it bites, and an escalation files a work order -- so this
+        # probe would leave one behind on every cycle. Same discipline as the DRILL_AREA
+        # probe: a test that litters the real queue is a test with a side effect, and a
+        # queue carrying permanent decoration is one people stop reading.
+        # A FAILED CLEANUP IS NOT NOTHING. Was `except Exception: pass`; a resolve that did
+        # not happen leaves a LOCAL_AGENT_BLAST_CAP order standing in the live queue on
+        # every cycle, and the reason it did not happen was thrown away at the moment it
+        # was known. Recorded now, in the ledger the rest of the project uses for exactly
+        # this.
+        try:
+            import workorders as WO
+            # `synthetic=True` -- the ORDER is real (the cap is a real safety that
+            # fires on real runs, so it carries no reserved subject) and only THIS
+            # closure is a rehearsal. The closer is the only actor that knows, so
+            # the closer says so, and the row goes to the self-test log instead of
+            # the paper trail. 314 rows of this one id were 10.6% of the trail.
+            # Order c24fcbb8a291.
+            WO.resolve_code("LOCAL_AGENT_BLAST_CAP", "drill self-test; not a real runaway",
+                            by="drill.py", synthetic=True)
+        except Exception:
+            import silence
+            silence.note("drill.py:blast-cap-cleanup")
+
+
 def drill_local_agent():
     """The autonomous local writer is staff too, and staff get supervised.
 
@@ -3693,7 +4458,7 @@ def drill_local_agent():
         import subprocess as _sp
         import silence as _si
         import local_agent as LA
-        link = os.path.join(LA.HERE, "src", "__drill_junction_probe__")
+        link = os.path.join(LA.HERE, "src", _JUNCTION_PROBE_NAME)
 
         def unstage():
             """Remove the probe whether or not it ever became usable. -> None.
@@ -3738,7 +4503,7 @@ def drill_local_agent():
                 _si.note("drill.py:junction-probe-unstageable")
                 return True                   # could not stage the attack; not evidence either way
             try:
-                through_link = LA._safe("src/__drill_junction_probe__/failures.json")
+                through_link = LA._safe("src/%s/failures.json" % _JUNCTION_PROBE_NAME)
                 ordinary = LA._safe("src/lognames.py")
             finally:
                 unstage()
@@ -3781,8 +4546,8 @@ def drill_local_agent():
         import subprocess as _sp
         import silence as _si
         import local_agent as LA
-        link = os.path.join(LA.HERE, "src", "__drill_surface_probe__")
-        probe = os.path.join(LA.HERE, "data", "__drill_surface_probe__.txt")
+        link = os.path.join(LA.HERE, "src", _SURFACE_PROBE_NAME)
+        probe = os.path.join(LA.HERE, "data", _SURFACE_PROBE_NAME + ".txt")
 
         def unstage():
             for remove in (os.rmdir, os.unlink):
@@ -3828,7 +4593,7 @@ def drill_local_agent():
                 return True           # could not stage the attack; not evidence either way
             try:
                 got = LA.t_propose_patch(
-                    "src/__drill_surface_probe__/__drill_surface_probe__.txt",
+                    "src/%s/%s.txt" % (_SURFACE_PROBE_NAME, _SURFACE_PROBE_NAME),
                     "CANARY", "BREACHED", why="drill: bypass class seven")
                 after = ""
                 try:
@@ -4010,56 +4775,7 @@ def drill_local_agent():
         "a half-written module on disk while the run reports success is the worst outcome this "
         "lane has, and the ALARM was being truncated out of the only place it was sent")
 
-    def denied(path):
-        """Was the path refused BY A GATE, as opposed to failing for an unrelated reason?
-
-        The first version asked only "did it decline", which conflated a gate refusal with
-        `find string occurs 0 times` -- so a file the agent is perfectly entitled to write read
-        as denied, and the net that proves the agent can still do its job reported a false
-        breach. A probe that cannot tell refusal from ordinary failure is measuring the wrong
-        thing, which is the same defect as a check that cannot fail.
-
-        `no such file` WAS THE SAME CONFLATION WITH A DIFFERENT MESSAGE, and it made the one net
-        here that matters empty (order 5a24b2956be8). `local_agent.t_propose_patch` answers
-        `no such file` BEFORE the module denylist, before the WRITABLE_PREFIXES/WRITABLE_FILES
-        allowlist and before DENYLIST_PREFIXES -- so for any path that does not exist on disk
-        this returned True whatever the gates said. Reproduced 2026-08-30 with every one of
-        those five lists emptied, i.e. an agent with no writable-surface gate at all:
-        `denied('something_nobody_listed.txt')` was still True, still
-        `err='no such file: ...'`, and the net still read HELD. The control in the same run --
-        `denied('data/COVERAGE.json')`, whose file exists -- correctly flipped to False, so the
-        neighbouring allowlist nets do have teeth and only the invented-name one was empty.
-        Every remaining `denied(...)` target in this area exists on disk and comes back with
-        `denylist`, `protected region` or `writable surface`.
-        """
-        r = LA.t_propose_patch(path, "x", "y", why="drill", apply=False)
-        if not isinstance(r, dict) or r.get("applied"):
-            return False
-        err = str(r.get("error") or "")
-        if "denylist" in err or "protected region" in err or "writable surface" in err:
-            return True
-        # AND THE OTHER HALF OF `no such file`, WHICH IS A GATE AFTER ALL. Measured 2026-08-30
-        # while making the line above stop accepting that message: `t_propose_patch` prints it
-        # for TWO different events -- the file is genuinely absent, which is not a refusal, and
-        # `_safe()` RETURNED None, which is the containment gate refusing. `_safe` is the gate
-        # that stops an alternate data stream, a trailing dot or space, a path outside the
-        # project root, anything under `.git`, and -- bypass class six -- a name inside the
-        # project that RESOLVES outside it through a junction. The two are told apart by asking
-        # `_safe` itself rather than by reading the message.
-        #
-        # This is not theoretical and it is not only about hostile paths. `mutate.py` junctions
-        # `data/`, `prompts/`, `reference/` and `output/index` into every sandbox, so inside a
-        # mutation sandbox EVERY path under those four trees resolves out of the sandbox and
-        # `_safe` refuses it. Six nets here point at exactly those trees -- the records, the
-        # charter, the catalog, COVERAGE.json, WIKI_HOSTS.json -- and until the line above
-        # stopped taking `no such file` on faith, all six were passing in the sandbox for the
-        # wrong reason, in the run whose entire purpose is measuring which nets cannot see.
-        #
-        # `local_agent.py` is NOT changed to suit this net, per order 5a24b2956be8: no path's
-        # verdict moves, and a genuinely missing ordinary file still passes `_safe` (it is inside
-        # the project) and fails only `os.path.isfile`, so the invented-name net below still
-        # requires a real file on disk to mean anything.
-        return "no such file" in err and LA._safe(path) is None
+    denied = _refused_by_a_gate
 
     net(a, "it cannot patch the checking machinery", lambda: denied("src/verify_math.py"),
         "the gate must not be able to edit its own judge")
@@ -4076,154 +4792,12 @@ def drill_local_agent():
     net(a, "it cannot edit the catalog", lambda: denied("output/index/catalog.json"),
         "output/ is what the library has produced; a night-shift model that can rewrite the "
         "catalog can rewrite the record of its own work")
-    def cannot_edit_shared_run_state():
-        """A SCRATCH FILE IN `state/`, because the halt file is not always there to point at.
-
-        This net used to probe `state/HALT.json`, and its verdict turned on whether that file
-        happened to exist. In the live tree it always does. In a MUTATION SANDBOX it never does
-        -- `mutate.sandbox()` removes it deliberately, since a copied halt would make every gate
-        refuse on purpose -- so once `denied()` stopped accepting `no such file` on faith
-        (order 5a24b2956be8) this net was the last of six here reporting a refusal it had not
-        actually obtained. Worse, it was UNSTABLE: a sandbox drill run that breaches RAISES a
-        halt, which writes `state/HALT.json` inside that sandbox, so a second run in the same
-        directory saw a different answer than the first.
-
-        `state/` is refused as a whole -- the allowlist admits `src/`, `prompts/`, `handoff/` and
-        four root documents and nothing else -- so a scratch name inside it tests exactly the
-        property, in both trees, without depending on any particular file being present. The
-        halt file is still the thing this net is about; it is simply no longer the thing it needs
-        to find on disk.
-        """
-        probe = os.path.join(HERE, "state", "__drill_state_probe__.json")
-        try:
-            os.makedirs(os.path.dirname(probe), exist_ok=True)
-            with open(probe, "w", encoding="utf-8") as fh:
-                fh.write('{"drill": "state-surface probe, created and deleted by drill.py"}\n')
-            return denied("state/__drill_state_probe__.json")
-        finally:
-            # A FAILED CLEANUP IS NOT NOTHING, and this one litters the LIVE shared run-state
-            # directory -- the place every job looks to find out what is going on. Was
-            # `except OSError: pass`; a denied `os.remove` on Windows needs nothing exotic (a
-            # reader holding the file, or this machine's documented Norton interference) and the
-            # reason it failed was thrown away at the moment it was known. Same discipline as
-            # the junction-probe and blast-cap cleanups. Not a reason to FAIL the net: failing
-            # to tidy up is not a fault, and killing the battery over a permissions error would
-            # lose every other verdict with it.
-            try:
-                os.remove(probe)
-            except OSError:
-                import silence as _si
-                _si.note("drill.py:state-probe-cleanup")
-    net(a, "it cannot edit shared run state", cannot_edit_shared_run_state,
+    net(a, "it cannot edit shared run state", _cannot_edit_shared_run_state,
         "least of all the halt file")
     net(a, "it CAN still be given ordinary work", lambda: not denied("src/scope.py"),
         "a writer that can write nothing is not a writer")
 
-    def blast_cap_bites():
-        """The bound that does not depend on knowing which gate was bypassed.
-
-        THIS PROBE STOPPED EXERCISING THE CAP, AND HALTED THE LIBRARY SAYING SO (2026-08-28,
-        DRILL_BREACH at 22:44). It hammered `t_propose_patch` with `apply=False` and a find
-        string occurring ZERO times, and read a refusal out of the far end. Order 528e5b07fded
-        then moved `_blast_ok`'s charge to AFTER the uniqueness check and after the `--no-apply`
-        early return -- correct, and what the comment beside it had claimed all along: a refused
-        path costs no budget, and neither an ambiguous find string nor a dry run is an edit. So
-        the probe's calls stopped charging anything, the cap could never bite, and the net
-        breached against a library that was working.
-
-        The net was right to be unhappy and the local_agent change is right to stand. What was
-        wrong was the PROBE: it demonstrated the cap through a path that no longer reaches it,
-        which is the same defect as a check that cannot fail wearing the other sign. It now
-        drives the path the cap actually guards -- a REAL find string, `apply=True`, a patch
-        that would otherwise land -- and the bound is lowered to make it bite, exactly as the
-        orphan reaper's age gate is lowered next door to make reaping observable.
-
-        THE TARGET IS A SCRATCH FILE THIS PROBE CREATES AND DELETES, inside the writable surface
-        but under `handoff/` rather than `src/`: `codewatch` fingerprints `src/`, and a battery
-        that adds and removes a module there would bounce every standing daemon onto rc=17 every
-        cycle. Nothing tracked is written on either arm -- the staged arm does not write by
-        definition, and the capped arm is refused BEFORE the write, which is the property.
-        """
-        keep_caps = (LA.MAX_PATCHES_PER_RUN, LA.MAX_FILES_PER_RUN)
-        probe = os.path.join(HERE, "handoff", "__drill_blast_probe__.md")
-        body = "drill blast-radius probe -- created and deleted by drill.py\nMARKER-ONCE\n"
-        LA.blast_reset()
-        try:
-            os.makedirs(os.path.dirname(probe), exist_ok=True)
-            with open(probe, "w", encoding="utf-8") as fh:
-                fh.write(body)
-            rel = "handoff/__drill_blast_probe__.md"
-
-            # 1 -- THE PROBE REALLY WOULD HAVE PATCHED. Writable surface, off every denylist,
-            #      find string occurring exactly once. Without this arm a cap-shaped refusal
-            #      could be any of the four earlier gates wearing the wrong message, and a
-            #      probe that never gets as far as the charge is what caused this halt.
-            staged = LA.t_propose_patch(rel, "MARKER-ONCE", "MARKER-TWICE",
-                                        why="drill", apply=False)
-            if not (isinstance(staged, dict) and staged.get("staged") is True
-                    and staged.get("applied") is False):
-                return False
-            if LA._BLAST["patches"] != 0:
-                return False                  # a staged dry run must still cost no budget
-
-            # 2 -- AND THE CAP REFUSES IT ANYWAY once the budget is gone. Both bounds are
-            #      taken to zero, so the very first charge is over budget and the refusal
-            #      arrives before anything is written -- which is what "the cap bites" means.
-            LA.MAX_PATCHES_PER_RUN = LA.MAX_FILES_PER_RUN = 0
-            # ORDER 247b173c78ee's CLASS, the eighth and last of them (2026-09-06). The cleanup
-            # below already retires the WORK ORDER this refusal files -- but the refusal also
-            # goes through `escalation.escalate` at MANAGER, and escalate calls `health.record`,
-            # so an `escalation:MANAGER:LOCAL_AGENT_BLAST_CAP:...` row landed in the LIVE
-            # state/failures.json on every drill run and nothing retired THAT. It stood at 39,
-            # the drill-run count, exactly like the seven `silent:` rows. Two ledgers, one probe;
-            # the order queue had the discipline and the failure ledger did not. The net still
-            # asserts the refusal, the charge, and the untouched file, so nothing is suppressed.
-            r = _deliberately_failing(
-                lambda: LA.t_propose_patch(rel, "MARKER-ONCE", "MARKER-TWICE",
-                                           why="drill", apply=True))
-            if "blast-radius cap" not in str((r or {}).get("error", "")):
-                return False
-            if (r or {}).get("applied") is not False or LA._BLAST["patches"] != 1:
-                return False                  # refused, and the charge was actually made
-            with open(probe, encoding="utf-8") as fh:
-                return fh.read() == body      # ... and the file it was refused on is untouched
-        finally:
-            LA.MAX_PATCHES_PER_RUN, LA.MAX_FILES_PER_RUN = keep_caps
-            LA.blast_reset()
-            # AND THIS ONE LEAKS INTO THE PUBLIC EXPORT. The probe lives under `handoff/`, which
-            # is in `publish.COPY_DIRS`, so a removal that quietly failed would PUBLISH
-            # `handoff/__drill_blast_probe__.md` to the public repo on the next cycle with
-            # nothing anywhere recording why. It was `except OSError: pass` while the work-order
-            # cleanup twenty lines below -- with a weaker consequence -- already noted its own
-            # failure under a paragraph making exactly this argument. (Order 5442da43c9f8.)
-            try:
-                os.remove(probe)
-            except OSError:
-                import silence as _si
-                _si.note("drill.py:blast-probe-cleanup")
-            # The cap escalates when it bites, and an escalation files a work order -- so this
-            # probe would leave one behind on every cycle. Same discipline as the DRILL_AREA
-            # probe: a test that litters the real queue is a test with a side effect, and a
-            # queue carrying permanent decoration is one people stop reading.
-            # A FAILED CLEANUP IS NOT NOTHING. Was `except Exception: pass`; a resolve that did
-            # not happen leaves a LOCAL_AGENT_BLAST_CAP order standing in the live queue on
-            # every cycle, and the reason it did not happen was thrown away at the moment it
-            # was known. Recorded now, in the ledger the rest of the project uses for exactly
-            # this.
-            try:
-                import workorders as WO
-                # `synthetic=True` -- the ORDER is real (the cap is a real safety that
-                # fires on real runs, so it carries no reserved subject) and only THIS
-                # closure is a rehearsal. The closer is the only actor that knows, so
-                # the closer says so, and the row goes to the self-test log instead of
-                # the paper trail. 314 rows of this one id were 10.6% of the trail.
-                # Order c24fcbb8a291.
-                WO.resolve_code("LOCAL_AGENT_BLAST_CAP", "drill self-test; not a real runaway",
-                                by="drill.py", synthetic=True)
-            except Exception:
-                import silence
-                silence.note("drill.py:blast-cap-cleanup")
-    net(a, "a runaway is stopped by the blast-radius cap", blast_cap_bites,
+    net(a, "a runaway is stopped by the blast-radius cap", _blast_cap_bites,
         "five gate bypasses were found after the fact; this bounds the sixth without "
         "needing to know what it is")
     def the_cap_resets_per_run():
@@ -4285,12 +4859,12 @@ def drill_local_agent():
         refuses: with the allowlist in place the answer is `writable surface`, and with it
         removed the patch would be perfectly ordinary work.
         """
-        probe = os.path.join(HERE, "__drill_unlisted_probe__.txt")
+        probe = os.path.join(HERE, _UNLISTED_PROBE_NAME)
         try:
             with open(probe, "w", encoding="utf-8") as fh:
                 fh.write("drill unlisted-name probe -- created and deleted by drill.py\n"
                          "MARKER-ONCE\n")
-            return denied("__drill_unlisted_probe__.txt")
+            return denied(_UNLISTED_PROBE_NAME)
         finally:
             # Recorded, not swallowed, for the third time in this area: a failed removal leaves
             # `__drill_unlisted_probe__.txt` at the repository ROOT, which is the one place a
@@ -4323,7 +4897,7 @@ def drill_local_agent():
         removed inside the drill's own handoff scratch, which is on the writable surface, so the
         gates under test are the real ones."""
         import local_agent as LA
-        rel = "handoff/__drill_empty_find__.txt"
+        rel = _EMPTY_FIND_PROBE_REL
         full = os.path.join(HERE, rel.replace("/", os.sep))
         try:
             open(full, "w", encoding="utf-8").close()          # genuinely zero bytes
@@ -4625,6 +5199,122 @@ def drill_publish():
     net(a, "the publish loop actually ASKS the maintenance gate", _the_loop_asks_the_gate,
         "a predicate nothing calls is a comment; the guard has to be upstream of sync_tree, "
         "which is where the bytes are taken")
+    net(a, "a one-shot --push during a live shift takes no bytes unless it proves it IS the shift",
+        _a_one_shot_push_proves_it_is_the_shift,
+        "order 12d4e1b00c2f: the maintenance guard was checked `if a.loop:` only, so ANY one-shot "
+        "--push slipped past a live shift, not just the shift's own")
+    net(a, "_scrub redacts a credential inside a tuple or a set, not just a dict or a list",
+        _scrub_recurses_into_tuple_and_set,
+        "order 3fc19ad4d1c6: a credential-shaped string in a tuple- or set-valued snapshot field "
+        "passed through _scrub unredacted")
+
+    def scrub_set_keeps_colliding_redactions_apart():
+        """Two distinct secrets in a set must not collapse into one `[redacted]` member.
+
+        Sweep 58, batch10. The set arm added for order 3fc19ad4d1c6 rebuilt the set with no
+        collision guard, while the dict-key arm above it suffixes a colliding key with `#%d`.
+        Both fixtures redact to the same string, so the old arm returned a set one member short
+        with no marker. Still a set, as `_scrub_recurses_into_tuple_and_set` requires. The
+        fixture credentials are BUILT at runtime from repeated letters, so no credential-shaped
+        literal sits in this file.
+        """
+        import publish as PB
+        c1 = "ghp_" + "A" * 24
+        c2 = "ghp_" + "B" * 24
+        out = PB._scrub({"s": {c1, c2, "ordinary-value"}})["s"]
+        return (isinstance(out, set) and len(out) == 3 and c1 not in out and c2 not in out
+                and "ordinary-value" in out)
+    net(a, "_scrub keeps two secrets in a set apart when both redact to the same token",
+        scrub_set_keeps_colliding_redactions_apart,
+        "sweep 58 batch10: the set arm collapsed distinct redacted members silently, unlike the "
+        "dict-key arm's #%d suffix")
+
+
+def _a_one_shot_push_proves_it_is_the_shift():
+    """A one-shot `publish.py --push` while a maintenance shift is live, DRIVEN through `main()`.
+
+    ORDER 12d4e1b00c2f. The guard check ran `if a.loop:` only, on the reasoning that a one-shot is
+    a person doing one thing deliberately -- right about the shift's OWN final push and wrong
+    about every other one, since nothing told them apart. The decision now lives in
+    `_one_shot_push_verdict`, but a correct pure function nothing consults is a comment, so this
+    drives the real `main()` three times against a modern (digest-bearing) guard record:
+
+      * no PANSCRIPTUM_GUARD_TOKEN   -> refused, rc 1, "REFUSING TO PUSH", and NO bytes taken;
+      * the wrong token              -> the same;
+      * the shift's own token        -> proceeds to take the bytes.
+
+    NOTHING IS COPIED, COMMITTED OR PUSHED. `sync_tree` is a recorder that raises the moment it is
+    reached (the bytes are taken there), `_mutation_observation` answers None,
+    `maintenance_shift_live` answers "live", and MAINTENANCE_GUARD is a fixture file in the
+    sandbox -- never the live state/MAINTENANCE_RUN.json. The recorder's raise lands in `main()`'s
+    own `except` arm, which notes, so `main()` runs in `_deliberately_failing`. The env var, argv
+    and every stand-in are restored in `finally`.
+    """
+    import publish as PB
+    import runguard as _RG
+
+    def probe(d, filed):
+        guard = os.path.join(d, "MAINTENANCE_RUN.json")
+        now = time.time()
+        with open(guard, "w", encoding="utf-8") as fh:
+            json.dump({"agent": "drill-shift", "started": now, "heartbeat": now, "done": False,
+                       _RG.TOKEN_DIGEST_KEY: _RG._token_digest("drill-the-shifts-own-token")}, fh)
+        taken = []
+
+        def no_bytes(*a_, **k_):
+            taken.append(1)
+            raise RuntimeError("drill: sync_tree stood in for -- no bytes are taken")
+        env = PB.GUARD_TOKEN_ENV
+        saved = (PB.MAINTENANCE_GUARD, PB.maintenance_shift_live, PB.sync_tree,
+                 PB._mutation_observation, sys.argv, os.environ.get(env))
+
+        def run(token):
+            del taken[:]
+            if token is None:
+                os.environ.pop(env, None)
+            else:
+                os.environ[env] = token
+            sys.argv = ["publish.py", "--push"]
+            out, err = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+                rc = _deliberately_failing(PB.main)
+            return rc, bool(taken), err.getvalue()
+        try:
+            PB.MAINTENANCE_GUARD = guard
+            PB.maintenance_shift_live = lambda *a_, **k_: (True, "drill: a shift is live")
+            PB.sync_tree = no_bytes
+            PB._mutation_observation = lambda *a_, **k_: None
+            rc_none, took_none, err_none = run(None)
+            rc_wrong, took_wrong, _err = run("not-the-shifts-token")
+            _rc, took_own, _err2 = run("drill-the-shifts-own-token")
+        finally:
+            (PB.MAINTENANCE_GUARD, PB.maintenance_shift_live, PB.sync_tree,
+             PB._mutation_observation, sys.argv, prior) = saved
+            if prior is None:
+                os.environ.pop(env, None)
+            else:
+                os.environ[env] = prior
+        return (rc_none == 1 and not took_none and "REFUSING TO PUSH" in err_none
+                and rc_wrong == 1 and not took_wrong
+                and took_own)
+    return _esc_probe(probe)
+
+
+def _scrub_recurses_into_tuple_and_set():
+    """`_scrub` must redact a credential inside a tuple or a set, and keep the container type.
+
+    Order 3fc19ad4d1c6, finding 4. `_scrub` had dict / list / str arms only and returned
+    everything else unchanged, so a credential-shaped string in a tuple- or set-valued snapshot
+    field passed through verbatim. LOCK THREE's scan of the rendered file is a second layer, not
+    a licence for this one to pass it. The fixture credential is BUILT at runtime from an
+    obviously fake repeated letter, so no credential-shaped literal sits in this file for the
+    scanners to flag, and it is never written anywhere. Pure.
+    """
+    import publish as PB
+    cred = "ghp_" + "A" * 24
+    out = PB._scrub({"t": ("bucket-a", cred, "bucket-b"), "s": {cred, "ordinary-value"}})
+    return (isinstance(out["t"], tuple) and cred not in out["t"]
+            and isinstance(out["s"], set) and cred not in out["s"])
 
 
 def _the_scanner_reads_files_over_two_megabytes():
@@ -5389,6 +6079,124 @@ def drill_ledgers():
         "is printed on every run and every push, and a waiver with no range, no ledger, no "
         "reason or no author acknowledges nothing")
 
+    def handoff_journal_order_is_checked_on_a_fixture():
+        """A `#`-headed or out-of-date-order HANDOFF.md entry must be REPORTED, on a fixture.
+
+        Order e8675703f045: runs #51/#52 (and five more, measured that shift) sat at the bottom of
+        the run journal under `#` headings, and nothing asked WHERE an entry landed -- only
+        whether the file parsed and cleared its byte floor. "the live ledgers are intact" above
+        already runs `check_all()` over the live file; that net can only ever say today's file is
+        clean. This one can fail independently of it: two fixtures through the real WIRED path,
+        `check_structure("HANDOFF.md", text)`, padded past HANDOFF.md's 20000-byte floor so the
+        floor is not what answers. The misordered one (a `#` heading, dated newer than the entry
+        above it) must be refused with both problems named; the clean one must pass untouched,
+        or the check is a wall. Nothing here reads or writes the live ledger.
+        """
+        filler = ("Filler prose line for the byte floor, repeated to clear twenty kilobytes.\n"
+                  * 300)
+        clean = ("# Handoff Log\n\n## 2026-09-13 -- RUN #57\n\nbody\n\n" + filler + "\n"
+                 "## 2026-09-09 (owner-directed) -- RUN #53\n\nbody\n")
+        red = ("# Handoff Log\n\n## 2026-09-13 -- RUN #57\n\nbody\n\n" + filler + "\n"
+               "## 2026-08-23 -- Run #1, triggered by commit b16f631\n\nbody\n\n"
+               "# RUN #52 -- 2026-09-09 (owner-directed) -- misplaced at the bottom\n\nbody\n")
+        ok_clean, probs_clean = LG.check_structure("HANDOFF.md", clean)
+        ok_red, probs_red = LG.check_structure("HANDOFF.md", red)
+        return (ok_clean and not probs_clean
+                and not ok_red
+                and any("top-level `#`" in p for p in probs_red)
+                and any("NEWER than the entry above it" in p for p in probs_red))
+    net(a, "HANDOFF.md's heading level and date order are checked, on a fixture, not just its size",
+        handoff_journal_order_is_checked_on_a_fixture,
+        "order e8675703f045: a #-headed or out-of-order entry at the bottom of the run journal "
+        "reads as a run that never happened, and nothing asked where an entry landed")
+
+    def undated_top_level_heading_is_reported():
+        """sweep58-batch07. `ledger_guard`'s dated-entry match skipped any heading that did not open
+        on a date, so an UNDATED top-level `#` note -- the shape the check's own docstring names as
+        past instances -- passed unseen. BOTH DIRECTIONS: a `#` comment inside a fenced code block
+        is not a heading and must not be reported, and the clean fixture stays clean. Pure: fixture
+        strings only; never asserts anything about the live HANDOFF.md."""
+        import ledger_guard as LG
+        base = ("# Handoff Log\n\nintro\n\n## 2026-09-13 -- RUN #58 -- newest\n\nbody\n\n"
+                "## 2026-09-12 -- RUN #57 -- older\n\nbody\n")
+        undated = base + "\n# A housekeeping note with no date\n\ntext\n"
+        fenced = base.replace("body\n\n## 2026-09-12",
+                              "body\n\n```bash\n# a shell comment\n```\n\n## 2026-09-12", 1)
+        return (bool(LG._handoff_journal_problems(undated))
+                and LG._handoff_journal_problems(fenced) == []
+                and LG._handoff_journal_problems(base) == [])
+    net(a, "an undated top-level # heading in HANDOFF.md is reported, and a fenced # comment is not",
+        undated_top_level_heading_is_reported,
+        "the dated-entry match skipped any heading not opening on a date, so the undated `#` notes "
+        "the check's own docstring names as past instances passed unseen")
+
+    def a_corrupt_mining_cursor_refuses_instead_of_restarting():
+        """sweep58-batch15. `ingest_doc.mine()` read ingest_state.json with `except Exception:
+        state = {"next": 0, "found": 0}`, so a torn cursor silently restarted a book from chunk 0
+        (hours of model calls) and the first chunk to land OVERWROTE the only record of where the
+        run stood; a cursor that parsed to the wrong type crashed with TypeError. Unreadable and
+        wrong-shape must refuse (ValueError naming the file) and leave the bytes intact; ABSENT
+        must still start at 0. NO MODEL CALL AND NO RECORD WRITE CAN HAPPEN: the halt check is
+        stood in for and raises at the loop's first per-chunk re-ask, DOCS and the record are a
+        scratch tree, every stand-in takes its subject's own signature, and everything is
+        restored in `finally`."""
+        import ingest_doc as ID
+
+        class _LoopReached(Exception):
+            pass
+
+        keep = (ID._assert_not_halted, ID.DOCS, ID.record_path)
+        root = tempfile.mkdtemp(prefix="drill_ingest_state_")
+        asks = []
+
+        def _halt(what):
+            asks.append(what)
+            if len(asks) > 1:
+                raise _LoopReached()
+
+        try:
+            ID._assert_not_halted = _halt
+            ID.DOCS = root
+            rec_p = os.path.join(root, "record.json")
+            with open(rec_p, "w", encoding="utf-8") as f:
+                json.dump({"source": "Drill Book", "entries": []}, f)
+            ID.record_path = lambda source: rec_p
+            bookdir = os.path.join(root, ID.slug("Drill Book"))
+            os.makedirs(bookdir)
+            with open(os.path.join(bookdir, "pages.json"), "w", encoding="utf-8") as f:
+                json.dump({"p%04d" % i: "word " * (ID.CHUNK // 8) for i in range(1, 4)}, f)
+            state_p = os.path.join(bookdir, "ingest_state.json")
+            for raw in (b'{"next": 81, "fou', b"[81, 40]"):
+                with open(state_p, "wb") as f:
+                    f.write(raw)
+                del asks[:]
+                try:
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        _deliberately_failing(lambda: ID.mine("Drill Book"))
+                    return False
+                except ValueError as e:
+                    if "ingest_state.json" not in str(e):
+                        return False              # refused, but not by the cursor guard
+                with open(state_p, "rb") as f:
+                    if f.read() != raw:
+                        return False              # the unreadable cursor was overwritten
+            os.remove(state_p)
+            del asks[:]
+            try:
+                with contextlib.redirect_stdout(io.StringIO()):
+                    ID.mine("Drill Book")
+                return False
+            except _LoopReached:
+                _ = "silence-exempt: reaching the chunk loop IS the absent-cursor verdict"
+                return True                       # a wall: ABSENT still starts fresh
+        finally:
+            ID._assert_not_halted, ID.DOCS, ID.record_path = keep
+            shutil.rmtree(root, ignore_errors=True)
+    net(a, "a corrupt mining resume cursor refuses and is kept, instead of restarting at chunk 0",
+        a_corrupt_mining_cursor_refuses_instead_of_restarting,
+        "sweep58-batch15: an unreadable ingest_state.json read exactly like no prior run, silently "
+        "re-mining a book from chunk 0 and then overwriting the cursor")
+
 
 # ============================================================== THE CORPUS (two-writer contract)
 
@@ -5496,14 +6304,40 @@ def drill_two_writer():
         importing it here would end the drill, and `sys.modules` would make a second ask
         meaningless anyway. Nothing is written by any of these five runs -- that is the claim.
         """
-        import subprocess
-        mod = os.path.join(_srcdir(src), "deprecated", "catalogue_local.py")
-        if not os.path.isfile(mod):
-            return False              # the quarantined module gone is not evidence of a refusal
+        return _the_deprecated_cataloguer_still_refuses(src)
+    net(a, "the deprecated cataloguer still refuses to run, and still answers --help",
+        the_deprecated_cataloguer_still_refuses,
+        "a README said 'do not run' for months while every entry point stayed fully live; the "
+        "refusal that replaced it is six lines in a file nobody opens")
+
+
+def _the_deprecated_cataloguer_still_refuses(src=None):
+    """The driven half of `the_deprecated_cataloguer_still_refuses` -- see its docstring. -> bool.
+
+    RUN FROM A COPY INSIDE THE ONE SANDBOX (order 4be1a84f19c6). This ran the real file in place
+    with `cwd=HERE`, so the day its module-level refusal is deleted -- the exact case the net
+    exists for -- the net's first run, which passes no arguments, would catalogue every source
+    into the live `data/records/` and rewrite the live `data/SWEEP_ROLL.json`: a probe whose only
+    protection was the guard it tests. The module finds both paths from its own `__file__`, so a
+    byte-for-byte copy at `<sandbox>/src/deprecated/` answers every question about the refusal
+    and aims whatever a missing refusal would do at scratch. The copy is taken from
+    `_srcdir(src)`, so a proof against a defeated copy of `src/` still asks the defeated file.
+
+    Module-level so THE LIVE-STATE WITNESS can drive it; the net above still owns the verdict.
+    """
+    import subprocess
+    mod = os.path.join(_srcdir(src), "deprecated", "catalogue_local.py")
+    if not os.path.isfile(mod):
+        return False              # the quarantined module gone is not evidence of a refusal
+
+    def probe(d, filed):
+        copy = os.path.join(d, "src", "deprecated", "catalogue_local.py")
+        os.makedirs(os.path.dirname(copy), exist_ok=True)
+        shutil.copyfile(mod, copy)
 
         def ask(argv):
-            r = subprocess.run([sys.executable, mod] + list(argv), capture_output=True,
-                               text=True, errors="replace", cwd=HERE, timeout=300,
+            r = subprocess.run([sys.executable, copy] + list(argv), capture_output=True,
+                               text=True, errors="replace", cwd=d, timeout=300,
                                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
             return r.returncode, (r.stdout or ""), (r.stderr or "")
 
@@ -5514,10 +6348,7 @@ def drill_two_writer():
                 return False
         rc, out, err = ask(["--help"])
         return rc == 0 and named in out
-    net(a, "the deprecated cataloguer still refuses to run, and still answers --help",
-        the_deprecated_cataloguer_still_refuses,
-        "a README said 'do not run' for months while every entry point stayed fully live; the "
-        "refusal that replaced it is six lines in a file nobody opens")
+    return _esc_probe(probe)
 
 
 # ============================================================== THE DONE-KEY (permanent loss)
@@ -5704,12 +6535,14 @@ def _run_the_runner(verdicts):
     import types
     import silence as _S
     import pipeline as PL
+    import codewatch as _CW
     ran = []
     st = {"phase": 1, "done": {}, "failed": {}, "units_done": 0, "started": "drill"}
     esc = types.ModuleType("escalation")
     esc.assert_clear = lambda who="?": True
     had, prev = "escalation" in sys.modules, sys.modules.get("escalation")
-    keep = (PL.log, PL.load_state, PL.save_state, PL.update_handoff, PL.IMPLEMENTED, PL.silence)
+    keep = (PL.log, PL.load_state, PL.save_state, PL.update_handoff, PL.IMPLEMENTED, PL.silence,
+            _CW.exit_if_stale)
     # `main()` parses sys.argv, and the drill's own argv is not the runner's. `drill.py
     # --to-halt` would otherwise reach pipeline's parser as an unrecognised argument and kill
     # this net with a SystemExit -- a net that only holds when the drill is invoked one
@@ -5721,6 +6554,13 @@ def _run_the_runner(verdicts):
             ran.append(n)
             return verdicts[n]
         return fn
+    # INSIDE THE ONE SANDBOX (order 093a35335c68). `main()` calls `codewatch.stamp("pipeline")`
+    # and then `codewatch.exit_if_stale("pipeline")` at every phase boundary, and the latter
+    # stamps `state/codewatch_poll/pipeline.json` with THIS process's pid -- so a pipeline daemon
+    # that was not running at all read as polled minutes ago, measured against the process table
+    # on 2026-09-10. The sandbox points `codewatch.POLLS` and its ledger at scratch. Opened before
+    # the `escalation` stand-in below goes into `sys.modules`, so it redirects the real module.
+    _sb_dir, _sb_filed, sandbox_restore = _esc_sandbox()
     try:
         sys.argv = ["pipeline.py"]
         sys.modules["escalation"] = esc
@@ -5730,16 +6570,24 @@ def _run_the_runner(verdicts):
         PL.update_handoff = lambda s: None
         PL.silence = _quiet(_S)
         PL.IMPLEMENTED = {n: phase(n) for n in verdicts}
+        # `exit_if_stale` IS STOOD IN FOR (order 70a74f7a0628). The real one calls
+        # `sys.exit(17)` when `stale()` answers True, and `net()` does not catch SystemExit, so a
+        # fingerprint change settling mid-net would end the drill process itself. Practically
+        # unreachable -- the stamp is milliseconds old and the settle window is 180 s -- and
+        # removed outright rather than argued about. The phase loop still reaches its call site;
+        # the call simply cannot exit.
+        _CW.exit_if_stale = lambda who="?", rc=17: None
         PL.main()
         return st, ran
     finally:
         sys.argv = argv
         (PL.log, PL.load_state, PL.save_state, PL.update_handoff, PL.IMPLEMENTED,
-         PL.silence) = keep
+         PL.silence, _CW.exit_if_stale) = keep
         if had:
             sys.modules["escalation"] = prev
         else:
             sys.modules.pop("escalation", None)
+        sandbox_restore()
 
 
 def _the_pointer_stops_at_the_open_phase():
@@ -5998,6 +6846,69 @@ def drill_done_keys():
         _chain_done_key_follows_the_disk,
         "the thirteenth landing: chain.write_result hands back the document whatever the disk "
         "said, so a denied rename left phase 4 complete over the previous cycle's fit for ever")
+
+    def chain_refusal_still_writes_its_edges():
+        """A refused fit writes its edges to CHAIN.json, with strengths null and the reason kept.
+
+        Sweep 58, batch12. `write_result` nulled `edges` whenever `strengths` was None, which is
+        true on both of main()'s refusal paths -- so the call order 0ced896514e7 added to keep
+        "the edges ... and the graph is the finding" wrote `"edges": null`. Asserted on BOTH
+        refusal shapes (`fit`'s error and Bradley-Terry's Ford refusal). `chain.OUT` is a temp
+        file, restored in `finally`; data/CHAIN.json is never touched, and no model is called.
+        """
+        import collections as _co
+        import chain as CH
+        cd = tempfile.mkdtemp(prefix="drill_chain_refusal_")
+        saved = CH.OUT
+        try:
+            CH.OUT = os.path.join(cd, "CHAIN.json")
+            edges = _co.Counter({("Goku", "Tao"): 2, ("Tao", "Krillin"): 1})
+            for res in ({"error": "too few edges to fit"},
+                        {"strengths": None, "identified": False,
+                         "names": ["Goku", "Tao", "Krillin"],
+                         "components": [["Goku"], ["Tao"], ["Krillin"]],
+                         "refusal": "comparison graph is not strongly connected"}):
+                out = CH.write_result(edges, res, _co.Counter())
+                with open(CH.OUT, encoding="utf-8") as fh:
+                    disk = json.load(fh)
+                if not (CH.landed(out) and disk["strengths"] is None
+                        and sorted(map(tuple, disk["edges"] or []))
+                        == [("Goku", "Tao", 2), ("Tao", "Krillin", 1)]
+                        and disk["fit_error"] == (res.get("error") or res.get("refusal"))):
+                    return False
+            return True
+        finally:
+            CH.OUT = saved
+            shutil.rmtree(cd, ignore_errors=True)
+    net(a, "a refused chain fit still writes its edges to CHAIN.json",
+        chain_refusal_still_writes_its_edges,
+        "sweep 58 batch12: write_result wrote edges: null on both refusal paths, the one case "
+        "order 0ced896514e7 was written to keep them")
+
+    def outcome_filter_reads_every_tense_of_every_verb():
+        """`chain.OUTCOME` must match each verb in every tense a wiki writes, and not its stem.
+
+        Sweep 58, batch12. The 2026-09-09 fix gave `beat` its -ing and left `defeat`, `kill`,
+        `overpower`, `destroy`, `surrender ... to` and `conced-` without theirs, so "overpowering
+        him" was dropped from the harvest silently. BOTH DIRECTIONS: a noun sharing the stem
+        ("killer", "destroyer") must still not match. Pure: in-memory sentences only.
+        """
+        import chain as CH
+        must = ["Goku defeated Frieza.", "Goku defeats Frieza.", "Goku defeating Frieza",
+                "Yamamoto beats Ichigo.", "Vegeta was beaten", "beating Cell",
+                "Cell killed 16.", "Cell kills 16.", "while killing 16",
+                "Gomah overpowered them.", "Gomah overpowers Goku.", "overpowering his opponent",
+                "Buu destroyed Dabura.", "Buu destroys Dabura.", "Buu destroying Dabura",
+                "He surrendered to Vader.", "He surrenders to Vader.", "surrendering to Vader",
+                "Tao conceded.", "Tao concedes.", "Tao conceding the match"]
+        never = ["He trained with Korin on the mountain.", "A notorious killer of the north.",
+                 "The ship is a destroyer class vessel.", "He surrendered his sword."]
+        return (all(CH.OUTCOME.search(s) for s in must)
+                and not any(CH.OUTCOME.search(s) for s in never))
+    net(a, "chain's contest filter reads the present participle of every outcome verb",
+        outcome_filter_reads_every_tense_of_every_verb,
+        "sweep 58 batch12: only `beat` was given -ing; 'overpowering', 'killing', 'destroying', "
+        "'surrenders to' were still dropped from the harvest silently")
     net(a, "phase 8 stays OPEN when every ready source refuses to build",
         _write_phase_stays_open_when_everything_refuses,
         "all([]) is True, and 'nothing needed building' and 'everything refused' arrived at the "
@@ -6221,6 +7132,109 @@ def drill_run57_repairs():
         claiming_refuses_a_live_predecessor,
         "the whole point of the guard is this refusal, and no net had ever watched it happen")
 
+    def rosetta_says_which_mine_write_was_denied():
+        """Order 0182eb4ff49c. `--mine` writes OUT, then OUT's `.raw.json` backup, in that order,
+        so a denial on the SECOND write means the primary already landed. The message used to say
+        "the mine above is NOT on disk" for either one. Driven through the pure function the
+        write loop now asks, both arms: the backup-only denial must say the mine IS on disk, and
+        a denied primary must still say it is NOT -- a fix that silenced the true case would pass
+        the first half alone. The function does no I/O, so the paths are only names.
+        """
+        import rosetta as RO
+        out = os.path.join("state", "ROSETTA.json")
+        raw = out.replace(".json", ".raw.json")
+        backup = RO._mine_write_denied_message(raw, out)
+        primary = RO._mine_write_denied_message(out, out)
+        return ("NOT on disk" not in backup and "IS on disk" in backup
+                and "NOT on disk" in primary)
+    net(a, "rosetta's denied-backup message does not claim the primary mine is missing",
+        rosetta_says_which_mine_write_was_denied,
+        "order 0182eb4ff49c: the .raw.json backup is written AFTER the mine has landed, so a "
+        "denial there is not evidence the mine is missing -- and the old message said it was")
+
+    def tells_discourse_markers_fire_at_an_indented_passage_start():
+        """Order f0677ea9bc68. Rewriting the per-pattern `^\\s*` anchors to
+        `_SENTENCE_START + pat[4:]` dropped the `\\s*` at the true start of a passage, so nine of
+        DISCOURSE's fifteen patterns went blind to a passage beginning with whitespace -- which
+        has no earlier sentence boundary for the mid-paragraph branch to catch instead. All nine
+        are attacked at once, and the other direction is held too: the words mid-sentence with
+        no boundary before them must still not match, or widening `^` became unanchoring.
+        """
+        import tells as TL
+        cases = (("that said", "   That said, the record notes it."),
+                 ("importantly", "   Importantly, the record notes it."),
+                 ("in conclusion", "   In conclusion, the record notes it."),
+                 ("moreover / furthermore", "   Moreover, the record notes it."),
+                 ("firstly / secondly", "   Firstly, the record notes it."),
+                 ("the truth is", "   The truth is, the record notes it."),
+                 ("to be clear", "   To be clear, the record notes it."),
+                 ("in essence", "   In essence, the record notes it."),
+                 ("simply put", "   Simply put, the record notes it."))
+        if not all(name in TL.scan(text) for name, text in cases):
+            return False
+        return "that said" not in TL.scan(
+            "We noted that said thing was odd, but that said the record notes it too.")
+    net(a, "tells' discourse markers fire at an indented passage start, and not mid-sentence",
+        tells_discourse_markers_fire_at_an_indented_passage_start,
+        "order f0677ea9bc68: nine DISCOURSE patterns missed any passage that began with "
+        "whitespace, the one position the sentence-boundary branch cannot reach")
+
+    def completeness_filename_alias_is_case_folded():
+        """Order bf1340bc3b3f item 3. `audit()` keys each record twice -- by label and by
+        filename alias -- and `_rec` looks both up lower-cased, but the alias key itself was not
+        lower-cased, so a record whose only link to its roll row is a capitalised filename read
+        as "nothing catalogued". Latent today (no capitalised file under data/records), which is
+        why it needs a fixture. A HOSTLESS row ("Foo Bar", host None) takes the unmeasured branch,
+        so no network is touched; `audit()` only, never `land()`, and the hosts file lives in the
+        sandbox.
+        """
+        import completeness as CO
+
+        def probe(d, filed):
+            hosts = os.path.join(d, "WIKI_HOSTS.json")
+            with open(hosts, "w", encoding="utf-8") as fh:
+                json.dump({"Foo Bar": None}, fh)
+            keep = (CO.HOSTS, CO.catalogued_counts)
+            try:
+                CO.HOSTS = hosts
+                CO.catalogued_counts = lambda: {
+                    "A Label Unlike The Roll Row": {"total": 7, "by_category": {},
+                                                    "file": "Foo-Bar.json"}}
+                rows = CO.audit(only="Foo Bar", workers=1)
+            finally:
+                CO.HOSTS, CO.catalogued_counts = keep
+            return any(r.get("source") == "Foo Bar" and r.get("catalogued_total") == 7
+                       for r in rows)
+        return _esc_probe(probe)
+    net(a, "completeness.audit resolves a capitalised record filename alias",
+        completeness_filename_alias_is_case_folded,
+        "order bf1340bc3b3f: the alias key was not lower-cased while its lookups were, so such a "
+        "source read as 'nothing catalogued'")
+
+    def entity_match_threshold_ratchet_survives_optimize():
+        """Order bf1340bc3b3f item 9. The STRONG/WEAK ordering ratchet was a bare `assert`, and
+        `python -O` strips asserts, so it was absent in exactly the run nobody checks. The real
+        module source is compiled with `optimize=2` (what -O does to asserts) after STRONG is
+        moved below WEAK, into a private namespace -- the imported module is never touched --
+        and it must refuse to load. The anchor is checked first: a fixture that no longer
+        matches the source fails closed rather than proving nothing.
+        """
+        import types
+        import entity_match as EM
+        with open(EM.__file__, encoding="utf-8") as fh:
+            text = fh.read()
+        if text.count("\nSTRONG = 0.90\n") != 1:
+            return False
+        bad = text.replace("\nSTRONG = 0.90\n", "\nSTRONG = 0.50\n", 1)
+        mod = types.ModuleType("entity_match_misordered")
+        mod.__file__ = EM.__file__
+        return _refuses(lambda: exec(compile(bad, EM.__file__, "exec", optimize=2),
+                                     mod.__dict__), ValueError)
+    net(a, "entity_match refuses misordered STRONG/WEAK even under python -O",
+        entity_match_threshold_ratchet_survives_optimize,
+        "order bf1340bc3b3f: a bare assert is stripped by -O, so the ordering ratchet vanished in "
+        "exactly the run nobody checks")
+
 
 # ============================================================== THE OVERLAP GUARD (runguard)
 
@@ -6424,6 +7438,51 @@ def drill_run_guard():
         "the record named `agent` as free text and no pid at all, so a reader could not ask the "
         "process table whether the holder was real")
 
+    def a_claim_records_only_a_digest_of_its_token():
+        """A claim stores ONLY a sha256 digest of its per-claim token, never the token.
+
+        Order 12d4e1b00c2f. The guard file is plaintext and any process on this machine can read
+        it, so anything written into it can be copied by any one-shot -- the raw token must never
+        be one of those things, or "proving" holdership proves nothing. Driven on a guard file
+        inside the sandbox, NEVER the live state/MAINTENANCE_RUN.json this shift holds: the token
+        is delivered through `token_path` and must not appear in the record's bytes, the record
+        must carry the digest, and `token_matches` must accept that token and refuse another.
+
+        AND A LEGACY RECORD STILL WORKS. A guard claimed before this mechanism has no digest at
+        all; `token_matches` must answer False for it honestly, and `holder_is_live` / `beat` /
+        `release` must keep working on it, or the fix bricks the guard a shift already holds.
+        """
+        def probe(d, filed):
+            p = os.path.join(d, "GUARD.json")
+            tp = os.path.join(d, "token.txt")
+            ok, _why = RG.claim("drill-token-probe", path=p, token_path=tp)
+            if not ok:
+                return False
+            with open(p, encoding="utf-8") as fh:
+                raw_text = fh.read()
+            rec = json.loads(raw_text)
+            with open(tp, encoding="utf-8") as fh:
+                token = fh.read().strip()
+            if not token or token in raw_text or not rec.get(RG.TOKEN_DIGEST_KEY):
+                return False
+            if not RG.token_matches(rec, token) or RG.token_matches(rec, token[::-1] + "x"):
+                return False
+            lp = os.path.join(d, "LEGACY.json")
+            now = time.time()
+            with open(lp, "w", encoding="utf-8") as fh:
+                json.dump({"started": now, "heartbeat": now, "done": False,
+                           "agent": "legacy-run"}, fh)
+            legacy = RG.read(lp)
+            return (RG.token_matches(legacy, token) is False
+                    and RG.holder_is_live(legacy) is True
+                    and RG.beat("legacy-run", path=lp) is True
+                    and RG.release("legacy-run", path=lp) is True)
+        return _esc_probe(probe)
+    net(a, "a claim stores only its token's digest, and a legacy record still beats and releases",
+        a_claim_records_only_a_digest_of_its_token,
+        "order 12d4e1b00c2f: the guard file is world-readable, so a raw token in it proves nothing "
+        "about who holds the guard; and the fix must not brick a record claimed before it")
+
 
 # ============================================================== THE HANDLE (the world profile)
 
@@ -6531,6 +7590,23 @@ def drill_profile():
 
 # ============================================================== THE UNDO (snapshots)
 
+def _remove_scratch_in_live_state(path, site):
+    """Remove a drill-made scratch directory under the LIVE `state/`, and SAY so if it stayed.
+
+    ORDER 7a487cfab844 (sweep57 QE). Every snapshot-area cleanup here was
+    `shutil.rmtree(..., ignore_errors=True)`, which never raises -- so the one `except OSError` note
+    beside them could fire only when `os.listdir` failed, never for the removal it is named after,
+    and a directory left behind in `state/snapshots/` or `state/` said nothing. The comment in
+    `drill_snapshot` records what that silence built: 151 orphaned `drill-*` directories. The disk
+    is asked afterwards, the way `mutate.reap_orphans` asks it, and a leftover is noted by site.
+    Not a verdict: failing to tidy up is not the fault a net is about.
+    """
+    shutil.rmtree(path, ignore_errors=True)
+    if os.path.exists(path):
+        import silence as _si
+        _si.note("drill.py:%s" % site)
+
+
 def _snapshot_proves_a_directory():
     """A snapshotted DIRECTORY must be proved file by file, not by the folder still existing.
 
@@ -6585,11 +7661,11 @@ def _snapshot_proves_a_directory():
                 return False
             return True
         finally:
-            shutil.rmtree(other, ignore_errors=True)
+            _remove_scratch_in_live_state(other, "snapshot-dir-probe-cleanup")
     finally:
-        shutil.rmtree(d, ignore_errors=True)
+        _remove_scratch_in_live_state(d, "snapshot-dir-probe-cleanup")
         if sid:
-            shutil.rmtree(os.path.join(SNAP.ROOT, sid), ignore_errors=True)
+            _remove_scratch_in_live_state(os.path.join(SNAP.ROOT, sid), "snapshot-dir-probe-cleanup")
 
 
 def _verify_reads_the_bytes_under_a_restored_directory():
@@ -6608,7 +7684,6 @@ def _verify_reads_the_bytes_under_a_restored_directory():
     the snapshot it produces are both removed in the `finally`, so this leaves no `drill-*`
     directory behind.
     """
-    import shutil
     import snapshot as SNAP
     d = tempfile.mkdtemp(prefix="drillvfy_", dir=os.path.join(HERE, "state"))
     sid = None
@@ -6633,17 +7708,18 @@ def _verify_reads_the_bytes_under_a_restored_directory():
         return (not ok) and "differ" in why
     finally:
         SNAP.restore = real_restore
-        shutil.rmtree(d, ignore_errors=True)
+        _remove_scratch_in_live_state(d, "snapshot-verify-probe-cleanup")
         if sid:
-            shutil.rmtree(os.path.join(SNAP.ROOT, sid), ignore_errors=True)
+            _remove_scratch_in_live_state(os.path.join(SNAP.ROOT, sid), "snapshot-verify-probe-cleanup")
 
 
 def _withdrawal_takes_a_snapshot(path=None):
     """`withdraw_chapters.py` must CALL for a copy, and must VERIFY it, before it moves a file.
 
     THIS NET WAS SATISFIED BY A COMMENT. It tested `"snapshot" in <the file's text>`, and the
-    word appears at `withdraw_chapters.py:216-219` inside the paragraph that sits directly above the
-    code — "A COPY BEFORE THE IRREVERSIBLE STEP ... the instinct was the ONLY thing standing
+    word appears inside the paragraph that sits directly above `SNAP.before(...)` in
+    `withdraw_chapters.main` (cited by symbol: the line numbers this carried had drifted onto an
+    unrelated `except`) — "A COPY BEFORE THE IRREVERSIBLE STEP ... the instinct was the ONLY thing standing
     behind 145 chapters". So the import, the `SNAP.before(...)`, the `SNAP.verify(...)` and the
     refusal that raises on a bad copy could all be deleted and this net would go on holding, on
     the strength of the sentence explaining why they used to be there. Found by the run #34
@@ -6680,7 +7756,6 @@ def _a_waived_partial_snapshot_still_records_what_it_missed():
     exception, and a manifest that cannot say which of its paths were never taken. `requested`
     and `skipped` go in either way. Cleaned up by name, like the empty-snapshot litter above.
     """
-    import shutil as _sh
     import snapshot as SNAP
     sid = None
     try:
@@ -6691,7 +7766,7 @@ def _a_waived_partial_snapshot_still_records_what_it_missed():
                 and bool(m.get("took")))
     finally:
         if sid:
-            _sh.rmtree(os.path.join(SNAP.ROOT, sid), ignore_errors=True)
+            _remove_scratch_in_live_state(os.path.join(SNAP.ROOT, sid), "snapshot-partial-probe-cleanup")
 
 
 def drill_snapshot():
@@ -6754,11 +7829,13 @@ def drill_snapshot():
         "a guard that blocks the caller who genuinely means 'whichever of these exist' is a "
         "guard that gets an allow_missing=True typed in front of every call site")
     try:
-        import shutil as _sh0
         for _new in (set(os.listdir(SNAP.ROOT)) - _empty_before
                      if os.path.isdir(SNAP.ROOT) else ()):
             if _new.startswith(_EMPTY + "-"):
-                _sh0.rmtree(os.path.join(SNAP.ROOT, _new), ignore_errors=True)
+                # A REMOVAL THAT FAILED IS NOW NOTED BY THE HELPER; the `except` below still covers
+                # a listing that failed, which is the only thing it could ever see (order
+                # 7a487cfab844).
+                _remove_scratch_in_live_state(os.path.join(SNAP.ROOT, _new), "empty-snapshot-cleanup")
     except OSError:
         import silence as _si0
         _si0.note("drill.py:empty-snapshot-cleanup")
@@ -6773,8 +7850,7 @@ def drill_snapshot():
     # a shared area carrying permanent decoration is one people stop reading. The 151 already
     # there are left alone -- deleting a backup somebody may be keeping is the owner's call, not
     # a side effect of a test tidying up after itself.
-    import shutil as _sh
-    _sh.rmtree(os.path.join(SNAP.ROOT, sid), ignore_errors=True)
+    _remove_scratch_in_live_state(os.path.join(SNAP.ROOT, sid), "snapshot-run-cleanup")
 
 
 # ============================================================== THE STALE WRITER
@@ -6981,9 +8057,407 @@ def drill_stale_writer():
             "the compare and the swap were three seconds of sleep apart, so both writers were "
             "told they landed and one of them had not -- two work-order closures with paper "
             "trail entries were lost to exactly this and watched reappear in the open queue")
+
+        net(a, "harvest does not overwrite a continuity patch that landed while it scanned",
+            _harvest_keeps_a_patch_landed_mid_scan,
+            "order 972932ab89b0: refresh_continuity landed under CAS and harvest's plain write "
+            "clobbered it -- the protected writer was the one that lost")
+        net(a, "the pipeline's state save keeps a concurrent re-open and its own progress",
+            _pipeline_state_keeps_a_concurrent_reopen,
+            "order 26667ecd6543: save_state dumped the run-long in-memory copy whole after every "
+            "batch, so health.py --reopen --go reported success and the next batch put the "
+            "stranded units straight back")
+        net(a, "two onomasticon writers racing keep each other's designations",
+            _onomasticon_writers_keep_each_others_designations,
+            "order a803028ab794: onomast.main and pipeline.phase_weave both read-modify-wrote the "
+            "append-only onomasticon with only atomic-rename protection, so the later writer "
+            "silently dropped the earlier one's designations")
+        net(a, "two concurrent chapter withdrawals do not resurrect each other's catalog rows",
+            _concurrent_withdrawals_do_not_resurrect_each_other,
+            "order d5492a646306: each --go landed the catalog it read at startup minus its own "
+            "withdrawals, restoring rows for chapters another run had already moved to the archive")
+
+        def generate_catalog_save_does_not_resurrect_a_withdrawal():
+            """generate.py must land only its own catalog rows, merged into the file as it is NOW.
+
+            Sweep 58, batch03 (and batch11's question). `generate.main()` loaded catalog.json once
+            and landed the WHOLE in-memory dict every five chapters with `save_json`, so a
+            `withdraw_chapters --go` landing mid-run had its row written straight back: a record
+            for a chapter whose only copy is in the archive. withdraw_chapters' own compare-and-
+            swap could not help, because the other writer checked nothing. Two halves: WIRING (no
+            whole-catalog `save_json` left in generate.py) and BEHAVIOUR (a row withdrawn after
+            generate's load is not put back, and this run's own row lands). Temp tree only;
+            `silence.note` is stood in for with its own signature and restored.
+            """
+            import ast as _ast
+            import generate as G
+            import silence as _S
+            import withdraw_chapters as WC
+            tree = _ast_of(os.path.join(_srcdir(), "generate.py"))
+            whole = [n.lineno for n in _ast.walk(tree)
+                     if isinstance(n, _ast.Call) and isinstance(n.func, _ast.Name)
+                     and n.func.id == "save_json" and n.args
+                     and "catalog" in _ast.unparse(n.args[0])]
+            root = tempfile.mkdtemp(prefix="drill_gen_catalog_cas_")
+            saved = (G.HERE, _S.note)
+            try:
+                G.HERE = root
+                _S.note = lambda site: None
+                full = os.path.join(root, "catalog.json")
+                with open(full, "w", encoding="utf-8") as fh:
+                    json.dump({"A/1": {"raw_path": "a"}, "B/1": {"raw_path": "b"}}, fh)
+                own = {"C/1": {"raw_path": "c"}}
+                ok_w, _why, _o, _c = WC._land_merged(
+                    full, lambda cur, st: {k: v for k, v in (cur or {}).items() if k != "B/1"})
+                landed = G._land_catalog("catalog.json", own)
+                with open(full, encoding="utf-8") as fh:
+                    cat = json.load(fh)
+                return (not whole and ok_w and landed is True and own == {}
+                        and "B/1" not in cat and "A/1" in cat and "C/1" in cat)
+            finally:
+                G.HERE, _S.note = saved
+                shutil.rmtree(root, ignore_errors=True)
+        net(a, "generate.py's catalog save does not resurrect a concurrently withdrawn row",
+            generate_catalog_save_does_not_resurrect_a_withdrawal,
+            "sweep 58 batch03: generate landed its whole start-of-run catalog every five chapters, "
+            "restoring rows withdraw_chapters had just removed")
+
+        def suppressions_keep_the_row_another_writer_landed():
+            """sweep58-batch04. `suppressions.add()`/`remove()` were a whole-document read-modify-
+            write through `silence.write_json` (atomic, NOT a compare-and-swap): a writer landing
+            between the read and the rename was silently overwritten, and both calls reported
+            success. The race is made deterministic by standing in for `_load`: on its first call,
+            after reading, ANOTHER writer's copy lands on disk. PURE: `suppressions.FILE` is a
+            scratch file; data/SUPPRESSIONS.json is never touched; everything restored in `finally`."""
+            import time as _t
+            import suppressions as SUP
+            sd = tempfile.mkdtemp(prefix="drill_suppressions_cas_")
+            keep = (SUP.FILE, SUP._load)
+            real_load = SUP._load
+
+            def _row(det, path):
+                return {"detector": det, "path": path, "reason": "a drill fixture reason for " + det,
+                        "added_by": "drill", "added_at": _t.time(), "expires_at": _t.time() + 86400}
+
+            def _put(rows):
+                with open(SUP.FILE, "w", encoding="utf-8") as f:
+                    json.dump(rows, f)
+
+            def _disk():
+                with open(SUP.FILE, encoding="utf-8") as f:
+                    return sorted((r["detector"], r["path"]) for r in json.load(f))
+
+            def _racing(other):
+                fired = []
+
+                def _load():
+                    got = real_load()
+                    if not fired:
+                        fired.append(1)
+                        _put(other)                     # the other writer lands in the gap
+                    return got
+                return _load
+
+            try:
+                SUP.FILE = os.path.join(sd, "SUPPRESSIONS.json")
+                _put([])
+                SUP._load = _racing([_row("ruff", "b.py")])
+                _deliberately_failing(lambda: SUP.add("detect_secrets", "a.py", "a drill fixture reason"))
+                if _disk() != [("detect_secrets", "a.py"), ("ruff", "b.py")]:
+                    return False
+                _put([_row("x", "x.py"), _row("y", "y.py")])
+                SUP._load = _racing([_row("x", "x.py"), _row("y", "y.py"), _row("z", "z.py")])
+                with contextlib.redirect_stderr(io.StringIO()):
+                    hit = _deliberately_failing(lambda: SUP.remove("x", "x.py", by="drill"))
+                return bool(hit) and _disk() == [("y", "y.py"), ("z", "z.py")]
+            finally:
+                SUP.FILE, SUP._load = keep
+                shutil.rmtree(sd, ignore_errors=True)
+        net(a, "a suppression add or remove keeps the row another writer landed in its gap",
+            suppressions_keep_the_row_another_writer_landed,
+            "sweep58-batch04: add()/remove() landed a whole stale copy with no compare-and-swap, so a "
+            "concurrent writer's exemption (or its removal) vanished with both calls reporting success")
+
+        def non_dict_prior_is_noted_when_dropped():
+            """A prior onomasticon record that is not a dict must leave a trace when dropped.
+
+            Order 3fc19ad4d1c6, finding 2. `name_worlds`' merge noted a prior DICT missing its
+            name, while a bare string, list or null in the same position was dropped with nothing
+            saying so -- the silent shrink that note exists to end, reached by the more corrupted
+            file. Pure: the prior is served by a stand-in `load_onomasticon`, `silence.note` is
+            captured, both restored in `finally`, and `name_worlds` lands nothing.
+            """
+            import onomast as ON
+            notes = []
+            saved = (ON.load_onomasticon, ON.silence.note)
+            try:
+                ON.silence.note = lambda tag, *a_, **k_: notes.append(tag)
+                ON.load_onomasticon = lambda *a_, **k_: {"junk#1": "a string", "junk#2": None,
+                                                         "junk#3": ["a"],
+                                                         "nameless#1": {"endonym": "X"}}
+                merged = ON.name_worlds({})
+            finally:
+                ON.load_onomasticon, ON.silence.note = saved
+            return (not any(k in merged for k in ("junk#1", "junk#2", "junk#3", "nameless#1"))
+                    and notes.count("onomast.py:merge-dropped-non-dict-prior") == 3
+                    and notes.count("onomast.py:merge-dropped-unschemad-prior") == 1)
+        net(a, "a prior onomasticon record that is not a dict is not dropped without a trace",
+            non_dict_prior_is_noted_when_dropped,
+            "order 3fc19ad4d1c6: a string, list or null prior record was dropped from the "
+            "append-only onomasticon with no note, while its dict sibling was noted")
     finally:
-        import shutil
-        shutil.rmtree(d, ignore_errors=True)
+        # ALIASED, NOT A BARE `import shutil` (run #58). A bare import here makes `shutil` a LOCAL
+        # of this whole function, so every net above whose closure says `shutil.rmtree` read an
+        # unbound local and raised NameError before this `finally` ever ran: two nets landed in
+        # this area breached on exactly that. The alias leaves the name to the module's import.
+        import shutil as _shutil_for_cleanup
+        _shutil_for_cleanup.rmtree(d, ignore_errors=True)
+
+
+def _harvest_keeps_a_patch_landed_mid_scan():
+    """chain.harvest() must not overwrite a refresh_continuity() patch that landed while it scanned.
+
+    ORDER 972932ab89b0. Two writers reach state/chain_harvest_idx.json. `refresh_continuity` lands
+    under compare-and-swap, and `harvest` used a plain `silence.write_json`, so the protected
+    writer's work was the one that got lost.
+
+    STAGED, NOT HOPED FOR. `identity.load()` is the first call harvest makes after reading the
+    index, so a stand-in `ID.load` lands a continuity patch on disk at exactly that moment, the way
+    a concurrent `refresh_continuity` would. harvest then parses one NEW feats file, so it has
+    something of its own to land. HELD means BOTH survive -- the patch and harvest's new entry --
+    because a net that only checked the patch would pass on a harvest that stopped writing at all.
+
+    Inside the sandbox, with chain.HERE / HARVEST_IDX / ID repointed at a tree under it and
+    restored in `finally`. The lost race drives `silence.replace_if_unchanged`'s refusal, which
+    notes, so the harvest call is wrapped in `_deliberately_failing`.
+    """
+    import chain as CH
+
+    def probe(t, filed):
+        saved = (CH.HERE, CH.HARVEST_IDX, CH.ID)
+        try:
+            feats = os.path.join(t, "data", "feats", "host_x")
+            os.makedirs(feats)
+            os.makedirs(os.path.join(t, "state"), exist_ok=True)
+            a_fp = os.path.join(feats, "a.json")
+            b_fp = os.path.join(feats, "b.json")
+            with open(a_fp, "w", encoding="utf-8") as fh:
+                json.dump({"entity": "Goku", "host": "host.x",
+                           "feats": [{"feat": "Goku defeated Frieza", "page": "Goku"}]}, fh)
+            idx_path = os.path.join(t, "state", "chain_harvest_idx.json")
+            rel_a, rel_b = os.path.relpath(a_fp, t), os.path.relpath(b_fp, t)
+            base = {rel_a: {"mt": os.path.getmtime(a_fp),
+                            "rows": [{"entity": "Goku", "sentence": "Goku defeated Frieza",
+                                      "page": "Goku", "host": "host.x", "continuity": None}]}}
+            with open(idx_path, "w", encoding="utf-8") as fh:
+                json.dump(base, fh)
+            with open(b_fp, "w", encoding="utf-8") as fh:
+                json.dump({"entity": "Vegeta", "host": "host.x",
+                           "feats": [{"feat": "Vegeta beats Cell", "page": "Vegeta"}]}, fh)
+
+            class _ID:
+                @staticmethod
+                def load():
+                    patched = json.loads(json.dumps(base))
+                    patched[rel_a]["rows"][0]["continuity"] = "Earth-616"
+                    tmp = idx_path + ".other.tmp"
+                    with open(tmp, "w", encoding="utf-8") as fh:
+                        json.dump(patched, fh)
+                    os.replace(tmp, idx_path)
+                    return {}
+
+                @staticmethod
+                def identify(page, host, inv=None):
+                    return None, None
+
+            CH.HERE, CH.HARVEST_IDX, CH.ID = t, idx_path, _ID
+            rows = _deliberately_failing(CH.harvest)
+            with open(idx_path, encoding="utf-8") as fh:
+                on_disk = json.load(fh)
+            kept = (on_disk.get(rel_a, {}).get("rows") or [{}])[0].get("continuity") == "Earth-616"
+            return (kept and rel_b in on_disk
+                    and any(r.get("continuity") == "Earth-616" for r in rows))
+        finally:
+            CH.HERE, CH.HARVEST_IDX, CH.ID = saved
+    return _esc_probe(probe)
+
+
+def _pipeline_state_keeps_a_concurrent_reopen():
+    """`save_state` must keep another writer's edit AND this runner's own progress.
+
+    Order 26667ecd6543. `main()` loads PIPELINE_STATE.json once and `save_state` dumped that whole
+    object after every batch, so `health.py --reopen --go` reported success and the runner's next
+    save put the re-opened batch straight back. Driven: load, save a batch, a second writer
+    removes a done-key under compare-and-swap, the runner saves two more batches. The re-open
+    must survive BOTH later saves (the second proves the in-memory alias was folded, or it would
+    be resurrected one save late), and every batch the runner itself closed, and its counter,
+    must be on disk. `PL.STATE`/`STATE_DIR` point under the sandbox and `PL.log` is stubbed, so
+    the merge line cannot reach the live `state/pipeline.log`.
+    """
+    import pipeline as PL
+    import silence as _S
+
+    def probe(d, filed):
+        d2 = os.path.join(d, "pipeline_state")
+        os.makedirs(d2)
+        path = os.path.join(d2, "PIPELINE_STATE.json")
+        saved = (PL.STATE, PL.STATE_DIR, PL.log)
+        try:
+            PL.STATE_DIR, PL.STATE = d2, path
+            PL.log = lambda *_a, **_k: None
+            with open(path, "w", encoding="utf-8") as fh:
+                json.dump({"phase": 2, "done": {"entrypass": ["A#0", "A#20", "B#0"]},
+                           "failed": {}, "started": "t0", "units_done": 0}, fh)
+            st = PL.load_state()
+            keys = st["done"]["entrypass"]               # the alias phase_entrypass holds
+            keys.append("B#20")
+            st["units_done"] += 1
+            if not PL.save_state(st):
+                return False
+            seen = _S.digest_of(path)                    # health.reopen_stranded's shape
+            with open(path, encoding="utf-8") as fh:
+                other = json.load(fh)
+            other["done"]["entrypass"].remove("A#20")
+            staged = path + ".other.tmp"
+            with open(staged, "w", encoding="utf-8") as fh:
+                json.dump(other, fh, indent=1)
+            if not _S.replace_if_unchanged(staged, path, seen)[0]:
+                return False
+            for k in ("C#0", "C#20"):
+                keys.append(k)
+                st["units_done"] += 1
+                if not PL.save_state(st):
+                    return False
+            with open(path, encoding="utf-8") as fh:
+                disk = json.load(fh)
+            e = disk["done"]["entrypass"]
+            return ("A#20" not in e and "A#20" not in keys
+                    and all(k in e for k in ("A#0", "B#0", "B#20", "C#0", "C#20"))
+                    and disk["units_done"] == 3)
+        finally:
+            PL.STATE, PL.STATE_DIR, PL.log = saved
+            getattr(PL, "_STATE_BASE", {}).pop(os.path.abspath(path), None)
+    return _esc_probe(probe)
+
+
+def _onomasticon_writers_keep_each_others_designations():
+    """Two writers of ONOMASTICON.json racing must not discard each other's designations.
+
+    Order a803028ab794. `onomast.main` (via silence.write_json) and `pipeline.phase_weave` (via
+    land_json) each read the prior onomasticon inside `name_worlds` and renamed their whole copy
+    over the file, so the later one dropped the earlier one's worlds with both reporting landed.
+    On an append-only record a vanished designation is a name free to be issued to another world.
+    Both now go through `onomast.land_onomasticon`. Driven: writer B lands completely INSIDE
+    writer A's `name_worlds` call, after A has read the prior. A's first landing is refused by
+    the compare-and-swap -- the fix working, and it notes -- so A's call is wrapped in
+    `_deliberately_failing`. `onomast.OUT` points under the sandbox.
+    """
+    import onomast as O
+
+    def world(group, attest):
+        return {"canonical_name": "Earth", "key": "earth", "continuity_group": group,
+                "attestations": [attest]}
+
+    def probe(d, filed):
+        res_a = {"a1": world("g1", "Alpha"), "a2": world("g2", "Beta")}
+        res_b = {"b1": world("g3", "Gamma"), "b2": world("g4", "Delta")}
+        saved = (O.OUT, O.name_worlds)
+        real = O.name_worlds
+        fired = []
+        try:
+            O.OUT = os.path.join(d, "ONOMASTICON.json")
+
+            def hooked(resolved):
+                out = real(resolved)
+                if resolved is res_a and not fired:
+                    fired.append(1)
+                    O.name_worlds = real
+                    try:
+                        if not O.land_onomasticon(res_b)[1]:
+                            raise AssertionError("writer B did not land")
+                    finally:
+                        O.name_worlds = hooked
+                return out
+            O.name_worlds = hooked
+            _named, ok, _why = _deliberately_failing(lambda: O.land_onomasticon(res_a))
+            with open(O.OUT, encoding="utf-8") as fh:
+                final = json.load(fh)
+            names = [v["catalogue_name"].lower() for v in final.values()]
+            return (bool(fired) and ok and all(c in final for c in ("a1", "a2", "b1", "b2"))
+                    and len(set(names)) == len(names))
+        finally:
+            O.OUT, O.name_worlds = saved
+    return _esc_probe(probe)
+
+
+def _concurrent_withdrawals_do_not_resurrect_each_other():
+    """Two `withdraw_chapters --go` runs must not put back each other's withdrawn rows.
+
+    Order d5492a646306. Each run computed `remaining` from the catalog it read at startup and
+    landed it whole, so run B (another --source) wrote back the rows run A had just removed --
+    catalog records for chapters whose files are already in the archive, the only copy. Driven:
+    run A starts; on A's first move, run B runs to completion; then A lands. Neither row may be
+    left in the catalog, and the shared-label manifest must hold both.
+
+    `_esc_sandbox()` redirects the halt interlock (which runs for real) and `withdraw_chapters`;
+    WC.HERE / CATALOG are then pointed at a fixture tree inside it. `--go` also calls
+    `snapshot.before`, so `sys.modules["snapshot"]` is a stand-in for the duration, and
+    `shutil.move` is wrapped only to deliver the interleave. All of it is restored.
+    """
+    import types as _types
+    import withdraw_chapters as WC
+    d, _filed, restore = _esc_sandbox()
+    root = os.path.join(d, "withdraw_fixture")
+    stub = _types.ModuleType("snapshot")
+    stub.before = lambda *_a, **_k: "drill-stub"
+    stub.verify = lambda _sid: (True, "drill stub")
+    stub.SnapshotFailed = type("SnapshotFailed", (Exception,), {})
+    saved = (WC.HERE, WC.CATALOG, sys.argv, shutil.move, sys.modules.get("snapshot"))
+    real_move = shutil.move
+    fired = []
+    try:
+        sys.modules["snapshot"] = stub
+        raw = os.path.join(root, "output", "raw")
+        os.makedirs(raw)
+        os.makedirs(os.path.join(root, "output", "index"))
+        for n in ("s1.md", "s2.md"):
+            with open(os.path.join(raw, n), "w", encoding="utf-8") as fh:
+                fh.write("# a chapter\n")
+        WC.HERE = root
+        WC.CATALOG = os.path.join(root, "output", "index", "catalog.json")
+        with open(WC.CATALOG, "w", encoding="utf-8") as fh:
+            json.dump({"A/1": {"source_name": "S1", "raw_path": "output/raw/s1.md"},
+                       "B/1": {"source_name": "S2", "raw_path": "output/raw/s2.md"}}, fh)
+
+        def hooked_move(src, dst, *a_, **k_):
+            r = real_move(src, dst, *a_, **k_)
+            if not fired:
+                fired.append(1)
+                argv = sys.argv
+                sys.argv = ["withdraw_chapters.py", "--source", "S2", "--go", "--label", "drill"]
+                try:
+                    WC.main()
+                finally:
+                    sys.argv = argv
+            return r
+        shutil.move = hooked_move
+        sys.argv = ["withdraw_chapters.py", "--source", "S1", "--go", "--label", "drill"]
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc = WC.main()
+        with open(WC.CATALOG, encoding="utf-8") as fh:
+            cat = json.load(fh)
+        with open(os.path.join(root, "output", "withdrawn_drill", "catalog.withdrawn.json"),
+                  encoding="utf-8") as fh:
+            man = json.load(fh)
+        return (bool(fired) and rc == 0 and "A/1" not in cat and "B/1" not in cat
+                and "A/1" in man and "B/1" in man)
+    finally:
+        WC.HERE, WC.CATALOG, sys.argv, shutil.move, prior = saved
+        if prior is None:
+            sys.modules.pop("snapshot", None)
+        else:
+            sys.modules["snapshot"] = prior
+        restore()
 
 
 # ============================================================== POLICY (checks as data)
@@ -6999,6 +8473,12 @@ def _partial_canary_merges(tmp=None):
     import binding_health as BH
     tmpdir = tmp or tempfile.mkdtemp(prefix="drill_binding_")
     out_path = os.path.join(tmpdir, "BINDING_HEALTH.json")
+    # INSIDE THE ONE SANDBOX (order 4be1a84f19c6). The stubbed canary quarantines the fixture host
+    # FOR REAL, and before this that landed in the live `data/HOST_QUARANTINE.json` and escalated
+    # into the live queue -- closed orders 5b6a89c02b87 and 7147d4ffae96 record it happening.
+    # `_deliberately_failing` below only ever stopped the ledger row; the file and the order were
+    # protected by nothing but the stub staying correct.
+    _sb_dir, _sb_filed, sandbox_restore = _esc_sandbox()
     saved_out, saved_canary, saved_titles, saved_load = (
         BH.OUT, BH.canary, BH.known_present_titles, BH._load)
     try:
@@ -7035,6 +8515,7 @@ def _partial_canary_merges(tmp=None):
         BH.OUT, BH.canary, BH.known_present_titles, BH._load = (
             saved_out, saved_canary, saved_titles, saved_load)
         shutil.rmtree(tmpdir, ignore_errors=True)
+        sandbox_restore()
     hosts = {h.get("host") for h in (after.get("hosts") or [])}
     return ("kept.example.invalid" in hosts and "probed.example.invalid" in hosts
             and after.get("checked") == 2)
@@ -7295,10 +8776,16 @@ def _unparseable_reply_is_benched_and_ledgered(tmp=None):
     the same day against `standards`' own progress row. A bucket that stumbles twice and then
     answers must never reach the threshold.
 
-    Asked of the PARSE TREE for the wiring and DRIVEN for the rule. The wiring half is asked
-    structurally because a call that is merely present somewhere in the file proves nothing about
-    the branch that needs it -- this is the shape `_run_marks_a_landless_run_failed` already uses.
-    Nothing is sent to any provider.
+    DRIVEN THROUGH THE REAL `_ask_call` NOW (order 0954a44e057d, sweep57 N2). The driven half used
+    to run a local `fail()` that was a line-for-line COPY of the production branch, so the expected
+    value and the actual value came from the same code and `if _bucket and _strikes >= 1:`,
+    `if _bucket:` and `_strikes = 1` all survived it. Every call below goes through
+    `cascade_bridge._ask_call` against a stand-in engine that answers with prose: the router, the
+    aliveness and pacing checks and the two recorders are stood in for, each with its subject's
+    own signature (verify_math §20ae), and the unparseable branch, its strike count, its threshold
+    and its reset all run for real. Nothing is sent to any provider. The structural half now reads
+    the module through `_srcdir()`, so a scratch tree can watch it refuse, and asks `_live_walk`, so
+    a `_bury` stranded after a `return` inside the branch no longer counts as a call.
     """
     import ast as _ast
     import cascade_bridge as CB
@@ -7310,8 +8797,7 @@ def _unparseable_reply_is_benched_and_ledgered(tmp=None):
     # so the finder skipped the only node that mattered and the net reported False against
     # correct code. A net that cannot find its subject fails in the direction that looks like a
     # defect, which is the more expensive direction.
-    src = open(os.path.join(HERE, "src", "cascade_bridge.py"), encoding="utf-8").read()
-    tree = _ast.parse(src)
+    tree = _ast_of(os.path.join(_srcdir(), "cascade_bridge.py"))
     MARK = "cascade_bridge.py:unparseable-reply"
     branch = None
     for node in _ast.walk(tree):
@@ -7323,77 +8809,103 @@ def _unparseable_reply_is_benched_and_ledgered(tmp=None):
                 branch = node
     if branch is None:
         return False                      # the branch cannot be found at all
-    called = {n.func.id for n in _ast.walk(branch)
+    called = {n.func.id for n in _live_walk(branch)
               if isinstance(n, _ast.Call) and isinstance(n.func, _ast.Name)}
     if "record_unrecognised" not in called or "_bury" not in called:
         return False                      # back to reaching neither
-
-    # AND THE RESET MUST EXIST IN THE FILE, OUTSIDE THIS BRANCH. The consecutive rule is only
-    # consecutive because something clears the count on a parseable reply, and that clearing sits
-    # on the success path where this net cannot reach it without a live engine. So it is asserted
-    # STRUCTURALLY: a `_UNPARSEABLE.pop` somewhere that is not inside the failure branch. Without
-    # it the counter is cumulative and any long-lived bucket benches eventually whatever its
-    # success rate -- the latching-counter fault, which is exactly what the driven half below
-    # cannot see, because the drive supplies its own reset.
     inside = {id(n) for n in _ast.walk(branch)}
-    resets = [n for n in _ast.walk(tree)
+    resets = [n for n in _live_walk(tree)
               if isinstance(n, _ast.Call) and isinstance(n.func, _ast.Attribute)
               and n.func.attr == "pop" and isinstance(n.func.value, _ast.Name)
               and n.func.value.id == "_UNPARSEABLE" and id(n) not in inside]
     if not resets:
         return False                      # a cumulative counter wearing a threshold
 
-    # ---- the rule, driven ------------------------------------------------------------------
-    if CB.UNPARSEABLE_STRIKES_BEFORE_BENCH < 2:
+    # ---- the rule, driven through the real `_ask_call` -------------------------------------
+    strikes = CB.UNPARSEABLE_STRIKES_BEFORE_BENCH
+    if strikes < 2:
         return False                      # benching on the first reply is the fluke fault
-    seen = []
-    real_rec, real_bury = CB.record_unrecognised, CB._bury
+    seen, buried = [], []
+    reply = {"text": "I am sorry, I cannot give that as JSON."}
+    resolves_to = {"bucket": "drill-bucket"}
+
+    class _Model:
+        id, label, bucket = "drill:model", "Drill Model", "drill-bucket"
+
+    class _Router:
+        models = [_Model]
+
+        def claim(self, pool, n):
+            return [_Model]
+
+        def reserve(self, model):
+            return None
+
+        def release(self, model):
+            return None
+
+    class _Engine:
+        def stream_chat(self, messages, **stream_kw):
+            yield {"type": "model", "label": _Model.label, "model_id": _Model.id}
+            yield {"type": "delta", "text": reply["text"]}
+
+    engine = _Engine()
+    keep = (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+            CB._bucket_of, CB.record_unrecognised, CB._bury)
+
+    def ask():
+        # The unparseable branch notes through `silence.note` by design; this call is the one
+        # SUPPOSED to reach it, so it alone is wrapped. See `_deliberately_failing`.
+        return _deliberately_failing(lambda: CB._ask_call("drill system", "drill prompt"))
+
     try:
+        CB.thread_engine = lambda: engine
+        CB._ROUTER = _Router()
+        CB._alive = lambda bucket: True
+        CB._tried_add = lambda bucket: None
+        CB._pace = lambda bucket: None
+        CB._clear = lambda bucket: None
+        CB._bucket_of = lambda name: resolves_to["bucket"]
         CB.record_unrecognised = lambda bucket, err: seen.append(bucket)
-        buried = []
         CB._bury = lambda bucket, seconds=None: buried.append(bucket)
         with CB._DEAD_LOCK:
             CB._UNPARSEABLE.clear()
 
-        def fail(bucket):
-            key = bucket or "<bucket unresolved>"
-            with CB._DEAD_LOCK:
-                n = CB._UNPARSEABLE.get(key, 0) + 1
-                CB._UNPARSEABLE[key] = n
-            CB.record_unrecognised(key, "x")
-            if bucket and n >= CB.UNPARSEABLE_STRIKES_BEFORE_BENCH:
-                CB._bury(bucket)
-
-        # the ledger sees the first, the bench waits for the threshold
-        fail("b")
-        if not seen or buried:
+        # the ledger sees the FIRST unparseable reply; the bench waits for the threshold
+        if ask() is not None or seen != ["drill-bucket"] or buried:
             return False
-        for _ in range(CB.UNPARSEABLE_STRIKES_BEFORE_BENCH - 1):
-            fail("b")
-        if not buried:
-            return False
+        for _ in range(strikes - 2):
+            ask()
+        if buried:
+            return False                  # benched before the threshold
+        ask()
+        if buried != ["drill-bucket"]:
+            return False                  # the threshold reply did not bench
 
-        # a stumble followed by a success never reaches the threshold
+        # a stumble followed by a parseable reply never reaches the threshold
         with CB._DEAD_LOCK:
             CB._UNPARSEABLE.clear()
         buried[:] = []
-        for _ in range(CB.UNPARSEABLE_STRIKES_BEFORE_BENCH - 1):
-            fail("c")
-        with CB._DEAD_LOCK:
-            CB._UNPARSEABLE.pop("c", None)          # a parseable reply
-        for _ in range(CB.UNPARSEABLE_STRIKES_BEFORE_BENCH - 1):
-            fail("c")
+        for _ in range(strikes - 1):
+            ask()
+        reply["text"] = '{"drill": "a parseable reply"}'
+        if not isinstance(ask(), dict):
+            return False                  # a parseable reply must come back parsed
+        reply["text"] = "prose again"
+        for _ in range(strikes - 1):
+            ask()
         if buried:
-            return False
+            return False                  # a count that did not reset benched a bucket that answered
 
         # an unresolvable bucket still reaches the ledger and is never benched
-        buried[:] = []
+        resolves_to["bucket"] = ""
         before = len(seen)
-        for _ in range(CB.UNPARSEABLE_STRIKES_BEFORE_BENCH + 1):
-            fail("")
-        return len(seen) > before and not buried
+        for _ in range(strikes + 1):
+            ask()
+        return len(seen) > before and "<bucket unresolved>" in seen[before:] and not buried
     finally:
-        CB.record_unrecognised, CB._bury = real_rec, real_bury
+        (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+         CB._bucket_of, CB.record_unrecognised, CB._bury) = keep
         with CB._DEAD_LOCK:
             CB._UNPARSEABLE.clear()
 
@@ -7539,6 +9051,25 @@ def _corpus_read_progress_is_a_rate(tmp=None):
     return seen == [True, True, True, False]
 
 
+def _a_cold_start_needs_no_total(tmp=None):
+    """`done == 0` is a cold start whether or not a total has been reported (order 156c2e28f823
+    item 3).
+
+    The six shapes above never drive `done=0, total=0` together, so they could not see this. The
+    cold-start branch read `if done <= 0 and total > 0`, and a reader that had completed nothing
+    AND reported no total yet -- it has not even printed its transport banner -- fell through to
+    the no-denominator branch and came back `None`, "could not be measured", which routes to
+    `_dropped` instead of red. `read_progress_verdict`'s own docstring promises the cold start is
+    "red on the spot" with no condition on `total`. Pure, like its sibling: no reader, no files.
+    """
+    import standards as S
+    now = 1_000_000.0
+    if S.read_progress_verdict(0, 0, None, now)[0] is not False:
+        return False                      # nothing read and no total: still the cold start
+    # AND THE NO-DENOMINATOR CASE IT WAS CONFUSED WITH STILL REFUSES A VERDICT once work exists.
+    return S.read_progress_verdict(500, 0, {"size": 500, "at": now - 99999}, now)[0] is None
+
+
 def _a_probe_never_counts_itself(tmp=None):
     r"""Asking "is X running?" must not be answered YES by the asking (d9328fe1ee38's own bug).
 
@@ -7622,20 +9153,13 @@ def _coverage_reaches_unreachable(tmp=None):
             return False              # a genuine absence accused of being a transport fault
     if CV._empty_state({}) != "NO PAGE":
         return False                  # an unstamped legacy record cannot be classified
-    if "UNREACHABLE" not in (CV.report.__doc__ or "") and "UNREACHABLE" not in _cv_report_src():
-        return False                  # producible but unreportable is the same fault one layer on
-    return True
-
-
-def _cv_report_src():
-    """The source text of coverage.report, so the net above can ask whether it prints the row."""
-    import inspect
-
-    import coverage as CV
-    try:
-        return inspect.getsource(CV.report)
-    except OSError:
-        return ""
+    # PRODUCIBLE BUT UNREPORTABLE IS THE SAME FAULT ONE LAYER ON -- and "reportable" is now asked
+    # of the PARSE TREE (order 0954a44e057d). It was `"UNREACHABLE" in report.__doc__` or in
+    # `inspect.getsource(report)`, and that source includes comments, so a `report()` whose row
+    # had been deleted still passed while any comment or docstring inside it named the state.
+    # `_says` counts CODE strings only, and only reachable ones.
+    rep = _defn(_ast_of(os.path.join(_srcdir(), "coverage.py")), "report")
+    return rep is not None and _says(rep, "UNREACHABLE", reachable=True)
 
 
 def _binding_health_filters(tmp=None):
@@ -7661,6 +9185,9 @@ def _binding_health_filters(tmp=None):
     seeded = {"at": 0, "checked": 2, "failed": 0,
               "hosts": [{"host": "a.example.invalid", "healthy": True},
                         {"host": "b.example.invalid", "healthy": True}]}
+    # INSIDE THE ONE SANDBOX, for the reason its sibling `_partial_canary_merges` gives (order
+    # 4be1a84f19c6): limb 4 quarantines a fixture host for real.
+    _sb_dir, _sb_filed, sandbox_restore = _esc_sandbox()
     saved_out, saved_canary, saved_titles, saved_load, saved_note = (
         BH.OUT, BH.canary, BH.known_present_titles, BH._load, BH._report_not_written)
     probed, refused = [], []
@@ -7718,6 +9245,7 @@ def _binding_health_filters(tmp=None):
         (BH.OUT, BH.canary, BH.known_present_titles, BH._load,
          BH._report_not_written) = (saved_out, saved_canary, saved_titles, saved_load, saved_note)
         shutil.rmtree(tmpdir, ignore_errors=True)
+        sandbox_restore()
     return limb1 and limb2 and limb3 and limb4
 
 
@@ -7922,6 +9450,7 @@ def drill_binding_identity():
             roots.append(r)
             return r
 
+        built, left = [], ["<the litter question was never asked>"]
         try:
             shutil.copy2, tempfile.mkdtemp = dropping_copy, remember
             try:
@@ -7931,12 +9460,22 @@ def drill_binding_identity():
                 refused = "assay.py" in str(e) and "Nothing was mutated" in str(e)
             except Exception:
                 refused = False
+            # AND IT MUST NOT LEAVE THE HALF-BUILT SANDBOX BEHIND WHILE REFUSING -- asked HERE,
+            # before the `finally` below removes anything (order 156c2e28f823). This clause used
+            # to run after that `finally` had already rmtree'd every recorded path, and it asked
+            # about the names `mkdtemp` returned, which `sandbox()` renames away before it copies
+            # a byte -- so it was False whatever `sandbox()` did, and deleting its cleanup left
+            # this net green. Both spellings of each recorded root are asked about: the
+            # BUILDING_PREFIX name `mkdtemp` made and the SANDBOX_PREFIX name it is renamed to.
+            built = [os.path.join(os.path.dirname(r), M.SANDBOX_PREFIX
+                                  + os.path.basename(r)[len(M.BUILDING_PREFIX):])
+                     for r in roots if os.path.basename(r).startswith(M.BUILDING_PREFIX)]
+            left = [p for p in roots + built if os.path.isdir(p)]
         finally:
             shutil.copy2, tempfile.mkdtemp = real_copy, real_mkdtemp
-            for r in roots:
+            for r in roots + built:
                 shutil.rmtree(r, ignore_errors=True)
-        # And it must not leave the half-built sandbox behind while refusing.
-        return refused and not any(os.path.isdir(r) for r in roots)
+        return refused and not left
     net(a, "a sandbox missing its own mutation target REFUSES to be used",
         _sandbox_without_its_target_refuses,
         "the run crashed on a bare FileNotFoundError four minutes after a baseline that had "
@@ -7946,6 +9485,77 @@ def drill_binding_identity():
         _rows_kwarg_does_not_write_the_real_roll,
         "this ate the live 216-source roll twice in one afternoon, while someone was being "
         "careful, and no backup of that file existed")
+
+    def _exclude_keeps_a_row_another_writer_landed_mid_exclude():
+        """`roll.exclude` must not revert a row another writer landed while it worked.
+
+        Order c9146abf92df. `exclude()` was the last roll writer still doing `load()` and then
+        landing the WHOLE document with `silence.write_json`, so writer B's `entry_count` change
+        landed between those two steps was silently put back by A's older copy -- the m42 lost
+        update, on one of canon_backup's non-derivable canonical files.
+
+        THE OTHER WRITER IS DELIVERED AT BOTH SEAMS, so it fires whichever implementation is
+        live: after `roll.load` returns (the whole-document shape reads there) and immediately
+        before the first `silence.replace_if_unchanged` (the compare-and-swap shape reads inside
+        `mutate`). It fires once. `silence.replace_if_unchanged` is process-wide, so it and
+        `roll.load` are restored in an inner `finally` straight after the one call, before
+        anything else runs; `ROLL` points at a sandbox file. The lost race makes the swap refuse
+        and note, which is the fix working, so the call is in `_deliberately_failing`.
+        HELD means A's exclusion AND B's change are both on disk.
+        """
+        import roll as R
+        import silence as _S
+
+        def probe(d, filed):
+            path = os.path.join(d, "SWEEP_ROLL.json")
+            with open(path, "w", encoding="utf-8") as fh:
+                json.dump([{"name": "A", "status": "catalogued", "entry_count": 5},
+                           {"name": "B", "status": "catalogued", "entry_count": 0}], fh)
+            fired = []
+
+            def other_writer():
+                if fired:
+                    return
+                fired.append(1)
+                with open(path, encoding="utf-8") as fh:
+                    rows = json.load(fh)
+                for r in rows:
+                    if r.get("name") == "B":
+                        r["entry_count"] = 42
+                with open(path, "w", encoding="utf-8") as fh:
+                    json.dump(rows, fh)
+
+            saved_roll = R.ROLL
+            real_load, real_replace = R.load, _S.replace_if_unchanged
+
+            def hooked_load():
+                out = real_load()
+                other_writer()
+                return out
+
+            def hooked_replace(tmp, dst, expected, *a_, **k_):
+                other_writer()
+                return real_replace(tmp, dst, expected, *a_, **k_)
+            try:
+                R.ROLL = path
+                R.load, _S.replace_if_unchanged = hooked_load, hooked_replace
+                try:
+                    landed = _deliberately_failing(
+                        lambda: R.exclude("A", "drill: a person excluded this source"))
+                finally:
+                    _S.replace_if_unchanged, R.load = real_replace, real_load
+            finally:
+                R.ROLL = saved_roll
+            with open(path, encoding="utf-8") as fh:
+                rows = {r.get("name"): r for r in json.load(fh)}
+            return (bool(fired) and landed is True
+                    and rows.get("A", {}).get("status") == R.OUT_OF_SCOPE
+                    and rows.get("B", {}).get("entry_count") == 42)
+        return _esc_probe(probe)
+    net(a, "roll.exclude keeps a row another writer landed while it was excluding",
+        _exclude_keeps_a_row_another_writer_landed_mid_exclude,
+        "order c9146abf92df: exclude() loaded the roll and landed the whole document, so B's "
+        "change landed in between was lost with both writers reporting success")
 
     def _context_mismatch_is_a_finding():
         """A served context that disagrees with the configured one must be a FINDING, not a lag.
@@ -8048,6 +9658,10 @@ def drill_binding_identity():
         _corpus_read_progress_is_a_rate,
         "`prog > 0` on a cumulative counter latched true at the first chunk, so a reader wedged "
         "for nine hours reported this HIGH standard as holding for all nine")
+    net(a, "a cold start with no total reported is still a cold start, not unmeasurable",
+        _a_cold_start_needs_no_total,
+        "`if done <= 0 and total > 0` made the cold start wait on a total it has no need of, so a "
+        "reader that had read nothing and reported no total was dropped as unmeasurable, not red")
     net(a, "a probe asking who runs a script never counts itself",
         _a_probe_never_counts_itself,
         "four times in two days a run matched its own `-c` source and concluded a job was alive "
@@ -8057,6 +9671,110 @@ def drill_binding_identity():
         "UNREACHABLE was documented for months and implemented nowhere, so every failed fetch "
         "was published as `the wiki has no such article` -- a claim about the world made on the "
         "evidence of our own transport breaking")
+
+    def coverage_state_of_keeps_the_larger_read_candidate():
+        """`state_of()` must not let a later READ candidate discard a larger earlier page count.
+
+        Order 3fc19ad4d1c6. `cachekey.candidate_paths` can hand back TWO real files for one
+        entity (natural and disambiguated), and the READ arm took whichever was visited LAST --
+        while every other state in the same loop already refuses to let a weaker later finding
+        downgrade a stronger one. Both candidates are stood in for as READ, larger first, so a
+        blind overwrite on the second is exposed. Nothing on disk is read: `candidate_paths` and
+        `_state_of_file` are stand-ins, restored in `finally`.
+        """
+        import cachekey as _CK
+        import coverage as CV
+        real = (_CK.candidate_paths, CV._state_of_file)
+        path_a, path_b = "drilltest-natural.json", "drilltest-disambiguated.json"
+        results = {path_a: ("READ", 0, 12), path_b: ("READ", 0, 5)}
+        try:
+            _CK.candidate_paths = lambda base, host, name: [path_a, path_b]
+            CV._state_of_file = lambda fp, name, cache: results.get(fp)
+            state, _nf, np = CV.state_of("drilltest.wiki.invalid", "Drill Entity")
+            return state == "READ" and np == 12
+        finally:
+            _CK.candidate_paths, CV._state_of_file = real
+    net(a, "a later READ candidate cannot silently outrank a more informative earlier one",
+        coverage_state_of_keeps_the_larger_read_candidate,
+        "order 3fc19ad4d1c6: candidate_paths can hand back two real files for one entity, and "
+        "the smaller, later-visited one used to win regardless")
+
+    def binding_report_loses_no_record_file():
+        """`feats_index.binding_report` must NAME every record file it could not classify.
+
+        Order 5d0fa30e4b09 item 12. A record that would not parse, or parsed with no `source`,
+        fell out of every bucket -- the second without even a ledger note -- so a corpus-side
+        fault shrank this report silently. Driven on a fixture records directory inside the
+        sandbox: one good record, one torn, one source-less. Host lookup and binding are stood
+        in for and `silence.note` is captured, all restored in `finally`.
+        """
+        import feats_index as FI
+
+        def probe(d, filed):
+            recs = os.path.join(d, "records")
+            os.makedirs(recs)
+            saved = (FI.host_to_sources, FI.source_binding, FI.silence.note)
+            try:
+                FI.host_to_sources = lambda path=None: {}
+                FI.source_binding = lambda src, hosts=None: "unbound"
+                FI.silence.note = lambda *a_, **k_: None
+                for name, body in (("good.json", '{"source": "S"}'), ("torn.json", "{ not json"),
+                                   ("nosource.json", '{"entries": []}')):
+                    with open(os.path.join(recs, name), "w", encoding="utf-8") as fh:
+                        fh.write(body)
+                b = FI.binding_report(records_dir=recs)
+            finally:
+                FI.host_to_sources, FI.source_binding, FI.silence.note = saved
+            return (b.get("unreadable_files") == ["torn.json"]
+                    and b.get("sourceless_files") == ["nosource.json"]
+                    and b.get("unbound") == ["S"])
+        return _esc_probe(probe)
+    net(a, "binding_report drops no record file silently -- unreadable and source-less are named",
+        binding_report_loses_no_record_file,
+        "order 5d0fa30e4b09 item 12: a torn or source-less record fell out of every bucket, so a "
+        "corpus-side fault shrank the binding report without a word")
+
+    def entry_collisions_recorded_are_readable():
+        """A collision `feats_for_source` folds into `_ENTRY_COLLISIONS` must reach a reader.
+
+        Order 156c2e28f823 item 4. The dict was filled and read nowhere in the tree, so every
+        within-source collision it recorded (order 04a3f79b7f55) was recorded into nothing --
+        the shape its sibling `_UNBOUND_ASKED`'s accessor `unbound_asked()` exists to avoid. Driven:
+        a recorded collision must come back from `entry_collisions_seen()`. And read from the
+        parse tree, because a behaviour test of `audit()` would rescan the whole corpus: `audit()`
+        must carry it as `entry_collisions_live`, and `main()` must print that key. The module dict
+        is saved and restored in place; nothing on disk is touched.
+        """
+        import ast
+        import feats_index as FI
+        saved = dict(FI._ENTRY_COLLISIONS)
+        try:
+            FI._ENTRY_COLLISIONS.clear()
+            if not callable(getattr(FI, "entry_collisions_seen", None)):
+                return False               # no accessor: the recorded collisions reach nobody
+            FI._ENTRY_COLLISIONS["__drill_source__"] = ["__drill_source__ | kept 'A', dropped 'B'"]
+            if FI.entry_collisions_seen() != {
+                    "__drill_source__": ["__drill_source__ | kept 'A', dropped 'B'"]}:
+                return False
+        finally:
+            FI._ENTRY_COLLISIONS.clear()
+            FI._ENTRY_COLLISIONS.update(saved)
+        tree = _ast_of(os.path.join(_srcdir(), "feats_index.py"))
+        audit_fn, main_fn = _defn(tree, "audit"), _defn(tree, "main")
+        if audit_fn is None or main_fn is None:
+            return False
+        carried = any(isinstance(n, ast.Dict) and any(
+            isinstance(k, ast.Constant) and k.value == "entry_collisions_live"
+            and isinstance(v, ast.Call) and isinstance(v.func, ast.Name)
+            and v.func.id == "entry_collisions_seen" for k, v in zip(n.keys, n.values))
+            for n in ast.walk(audit_fn))
+        printed = any(isinstance(n, ast.Constant) and n.value == "entry_collisions_live"
+                      for n in ast.walk(main_fn))
+        return carried and printed
+    net(a, "a within-source collision _ENTRY_COLLISIONS records is actually readable",
+        entry_collisions_recorded_are_readable,
+        "_ENTRY_COLLISIONS was filled by feats_for_source and read nowhere in the tree, so every "
+        "collision it recorded was recorded into nothing")
     net(a, "an EMPTY filter canaries nothing and re-stamps nothing",
         _binding_health_filters,
         "`--limit 0` read as 'no limit' answers a request for nothing by canarying the whole "
@@ -8094,6 +9812,15 @@ def drill_policy():
         and POL.evaluate({}, [{"id": "t", "path": "nope", "op": "absent"}])["failed"] == [],
         "a signal that fires on every correct use of an operator is furniture, and the "
         "exemption that stops it must be netted or the next edit will widen it to everything")
+    # THE NET ABOVE ONLY EVER DRIVES A MISSING KEY (order 156c2e28f823 item 2), which cannot tell
+    # `not found` from `value is None`. This one drives the case that can: a key PRESENT with an
+    # explicit null must NOT satisfy `absent`, and a genuinely missing key still must.
+    net(a, "an explicit null is PRESENT, and \"absent\" must say so",
+        lambda: POL.check_rule({"foo": None}, {"id": "t", "path": "foo", "op": "absent"})["ok"]
+        is False
+        and POL.check_rule({}, {"id": "t", "path": "foo", "op": "absent"})["ok"] is True,
+        "`absent` tested `value is None`, so a field holding an explicit JSON null -- present, not "
+        "missing -- satisfied it exactly as readily as a key that was never written at all")
     net(a, "a real pass is NOT flagged vacuous",
         lambda: POL.evaluate({"a": 1}, [{"id": "t", "path": "a", "op": "eq", "arg": 1}])
         ["vacuous"] == [],
@@ -8144,7 +9871,7 @@ def _policy_corpus_clean(root=None):
     import glob
     import policy as POL
     root = root or os.path.join(HERE, "data", "records")
-    bad, unreadable = 0, 0
+    bad, unreadable, read = 0, 0, 0
     for p in sorted(glob.glob(os.path.join(root, "*.json"))):
         try:
             with open(p, encoding="utf-8") as f:
@@ -8152,8 +9879,13 @@ def _policy_corpus_clean(root=None):
         except Exception:
             unreadable += 1
             continue
+        read += 1
         bad += len([r for r in ev["failed"] if r.get("severity") != "INFO"])
-    return bad == 0 and unreadable == 0
+    # AND A CORPUS OF NOTHING PASSES NOTHING (order 0954a44e057d; sweep56-batch01 D7). An absent
+    # or empty `data/records/` left both counters at zero and this answered True: "every record
+    # passes its structural rules" over no records at all. At least one record must have been
+    # read and evaluated before the verdict says anything about the corpus.
+    return read > 0 and bad == 0 and unreadable == 0
 
 
 # ============================================================== THE FETCH (network manners)
@@ -8531,7 +10263,7 @@ def _backoff_stops_at_its_ceiling():
 
     THE OLD NET WAS `1.0 < F.BACKOFF_MAX <= 128.0`. That is an assertion about a number nobody
     was going to change, and it never drove a call: the clamp it is named after is
-    `feats.py:159`, `min(BACKOFF_MAX, _BACKOFF.get(host, 1.0) * BACKOFF_GROWTH)`, and deleting
+    `feats.note_throttled()`'s `min(BACKOFF_MAX, _BACKOFF.get(host, 1.0) * BACKOFF_GROWTH)`, and deleting
     the `min(...)` leaves the constant exactly as it was. Its sibling `_backoff_adapts` walks
     growth and recovery but never approaches the ceiling, so nothing in this file had ever seen
     the clamp bite. Third time this shape has been removed from this file (run #33 took two).
@@ -8600,6 +10332,76 @@ def drill_fetch():
         _a_clean_404_is_not_re_mined_but_a_throttle_beside_it_still_is,
         "the http-404 exemption was unreachable behind a short-circuit, so every genuinely "
         "absent entity was re-mined for ever against the hosts least able to afford it")
+
+    def an_unreadable_pages_registry_does_not_select_the_wiki_path():
+        """A torn SOURCE_PAGES.json read as "no registered pages" (order 54db4a3baec8).
+
+        `endpoint.source_pages` answered [] for an ABSENT file and for an UNREADABLE one alike, and
+        `feats.reads_as_wiki` is `not source_pages(...)` for a `pages:` host -- so a transient bad
+        read selected the wiki path for a non-wiki corpus, and what was mined under it was cached.
+        BOTH DIRECTIONS: torn and non-object registries must REFUSE (the named raise, and wiki
+        discovery never reached); an absent registry must still answer [] / wiki-True, and a
+        readable one must still tell a registered source from an unregistered one.
+
+        NO NETWORK, NO LIVE STATE: `endpoint.PAGES_FILE` and `feats.CACHE` are scratch, and every
+        stand-in takes its subject's own signature (verify_math §20ae), all restored in `finally`.
+        """
+        import endpoint as EP
+        import feats as F
+        keep = (EP.PAGES_FILE, EP.detect, EP._get, F.discover, F.fetch, F._source_pages_text, F.CACHE)
+        tmp = tempfile.mkdtemp(prefix="drill_pages_registry_")
+        calls = []
+        named = getattr(EP, "PagesRegistryUnreadable", None)
+
+        def put(text):
+            p = os.path.join(tmp, "SOURCE_PAGES_%d.json" % len(calls + os.listdir(tmp)))
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(text)
+            EP.PAGES_FILE = p
+
+        def refuses(fn):
+            try:
+                _deliberately_failing(fn)
+            except Exception as e:
+                return named is not None and isinstance(e, named)
+            return False
+
+        def no_network(url, timeout=25):
+            calls.append("network")
+            raise RuntimeError("drill: no network")
+
+        try:
+            EP.detect = lambda host, force=False: {"mode": EP.MODE_API}
+            EP._get = no_network
+            F.discover = lambda host, name, extra=None, resolved=None: calls.append("discover") or []
+            F.fetch = lambda host, titles, outcome=None: calls.append("fetch") or {}
+            F._source_pages_text = lambda urls: calls.append("pages") or {}
+            F.CACHE = os.path.join(tmp, "cache")
+            os.makedirs(F.CACHE, exist_ok=True)
+            for text in ("{ torn", "[1, 2]"):
+                put(text)
+                if not (refuses(lambda: EP.source_pages("X"))
+                        and refuses(lambda: F.reads_as_wiki("pages:X"))
+                        and refuses(lambda: F.evidence_for("pages:X", "Drill Entity", cache=False))):
+                    return False                  # an unknown registry answered "none"
+                if "discover" in calls or "fetch" in calls or "network" in calls:
+                    return False                  # ... and went looking for a wiki
+            EP.PAGES_FILE = os.path.join(tmp, "absent.json")
+            if EP.source_pages("X") != [] or F.reads_as_wiki("pages:X") is not True:
+                return False                      # a wall: an absent registry IS empty
+            put(json.dumps({"X": ["https://example.invalid/a"]}))
+            return (F.reads_as_wiki("pages:X") is False and F.reads_as_wiki("pages:Y") is True
+                    and "network" not in calls)
+        finally:
+            (EP.PAGES_FILE, EP.detect, EP._get, F.discover, F.fetch,
+             F._source_pages_text, F.CACHE) = keep
+            shutil.rmtree(tmp, ignore_errors=True)
+    net(a, "an unreadable pages registry refuses the unit instead of selecting the wiki path",
+        an_unreadable_pages_registry_does_not_select_the_wiki_path,
+        "order 54db4a3baec8: endpoint.source_pages answered [] for a torn SOURCE_PAGES.json, "
+        "feats.reads_as_wiki turned that into 'this pages: host is a wiki', and the wiki gate, the "
+        "cache-staleness verdict and wiki discovery all ran on a non-wiki corpus, with the result "
+        "cached; register() already drew absent and unreadable apart, and its reader did not")
 
     # A TRANSPORT FAILURE READ AS AN EMPTY ANSWER, in three more places (orders
     # de0681cb9edc and 6e2dab4c3981, landed 2026-09-06 from
@@ -8718,6 +10520,138 @@ def drill_fetch():
         wiki_source_all_categories_partial_walk_never_cached_as_complete,
         "all_categories raises on a transport failure mid-pagination instead of returning (and, "
         "unbounded, memoising) a partial category list (order de0681cb9edc)")
+
+    def wiki_source_rank_by_size_partial_batch_never_ranked_as_measured():
+        """rank_by_size must RAISE when a size-lookup batch fails transport.
+
+        Order e7143aba1e9a, the third sibling of the two nets above. `rank_by_size`'s inner
+        `fetch()` caught the transport exception, noted it and returned `{}` for that batch --
+        indistinguishable downstream from titles with no `length`, so every title in the failed
+        batch sorted to the bottom via `sizes.get(t, 0)` in a ranking reported as complete. NO
+        REQUEST IS MADE: `wiki_source._api` is stood in for and fails only the batch holding the
+        poisoned title. The failure notes, so the call is in `_deliberately_failing`; the
+        exception type is the stand-in's own, so nothing else can pass for the raise.
+        """
+        import wiki_source as WS
+
+        class _Poisoned(Exception):
+            pass
+
+        def _fake_api(subdomain, params, timeout=25):
+            titles = params["titles"].split("|")
+            if "PoisonedTitle" in titles:
+                raise _Poisoned("simulated transport failure (stubbed -- no real request)")
+            return {"query": {"pages": {t: {"title": t, "length": 1000 + i}
+                                        for i, t in enumerate(titles)}}}
+
+        orig = WS._api
+        WS._api = _fake_api
+        try:
+            titles = (["Real%03d" % i for i in range(50)] + ["PoisonedTitle"]
+                      + ["Real%03d" % i for i in range(51, 119)])
+            return _refuses(lambda: _deliberately_failing(
+                lambda: WS.rank_by_size("faketest-net-e7143aba1e9a", titles, top=None)), _Poisoned)
+        finally:
+            WS._api = orig
+
+    net(a, "a size-ranking batch cut off by a transport failure is not ranked as measured",
+        wiki_source_rank_by_size_partial_batch_never_ranked_as_measured,
+        "rank_by_size raises on a transport failure instead of silently sorting the failed "
+        "batch's titles to the bottom as if they were confirmed stubs (order e7143aba1e9a)")
+
+    def composite_source_survives_one_categorys_ranking_failure():
+        """sweep58-batch08. `rank_by_size` now RAISES on a transport failure (order e7143aba1e9a),
+        and `catalogue_composite` wrapped only `category_members`, so one category's ranking
+        failure escaped and discarded every entry already gathered from other categories and
+        sub-wikis -- the whole composite source SKIPPED for one bad batch. NO REQUEST IS MADE:
+        every `wiki_source` call the function makes is stood in for, each with its subject's own
+        signature (verify_math §20ae), and restored in `finally`. HELD means: the other
+        categories' entries come back, the failed one is NOT among them, and it is named in the
+        provenance and counted in the note. Also the live test order ef70feacb430's verify_math
+        shape check asks for."""
+        import catalogue_web as CW
+        import wiki_source as WS
+
+        class _Poisoned(Exception):
+            pass
+
+        def _rank(subdomain, titles, top=None, progress=None):
+            if titles and "CatA2" in titles[0]:
+                raise _Poisoned("simulated size-lookup transport failure (stubbed -- no request)")
+            return list(titles)
+
+        keep = (WS.COMPOSITE_SOURCES, WS.category_members, WS.rank_by_size, WS.page_texts)
+        name = "__drill composite sweep58__"
+        try:
+            WS.COMPOSITE_SOURCES = dict(keep[0])
+            WS.COMPOSITE_SOURCES[name] = [("faketest-a", ["CatA1", "CatA2"]),
+                                          ("faketest-b", ["CatB"])]
+            WS.category_members = (lambda subdomain, category, limit=None:
+                                   ["%s %s %02d" % (subdomain, category, i) for i in range(50)])
+            WS.rank_by_size = _rank
+            WS.page_texts = (lambda subdomain, titles, max_chars=900, workers=None, progress=None:
+                             {t: "text of " + t for t in titles})
+            rec, note = _deliberately_failing(
+                lambda: CW.catalogue_composite(name, verbose=False))
+            return (rec is not None
+                    and len(rec["entries"]) == 100
+                    and not any("CatA2" in e["name"] for e in rec["entries"])
+                    and "faketest-a:CatA2" in rec["provenance"]
+                    and "INCOMPLETE" in rec["provenance"]
+                    and "transport failed for 1 categories" in note)
+        finally:
+            WS.COMPOSITE_SOURCES, WS.category_members, WS.rank_by_size, WS.page_texts = keep
+    net(a, "one category's size-ranking failure costs a composite source that category, not the source",
+        composite_source_survives_one_categorys_ranking_failure,
+        "sweep58-batch08: rank_by_size's new raise escaped catalogue_composite's per-category "
+        "handling and discarded every entry gathered from earlier categories and sub-wikis")
+
+    def catalogue_web_prints_every_category_floor_row():
+        """`catalogue_web.main()` must print EVERY row `category_floor_report()` returns.
+
+        Order e7143aba1e9a, finding 1 -- the same order as the net above, from the other side.
+        `wiki_source.category_floor_report()` implements owner ruling 2026-09-08 ("Traffic on the
+        Fandom edge": the 40-page category floor is declared and its dropped count reported) and
+        had zero callers anywhere in the tree: a correct report no reader could ever see. Proves
+        the WIRING, uncapped. NOTHING IS FETCHED OR WRITTEN: the roll load and save, the per-source
+        `catalogue`, the record write and the report itself are stood in for, all inside the
+        sandbox and restored in `finally`.
+        """
+        import pipeline as PL
+        import catalogue_web as CWB
+        import wiki_source as WS
+
+        fake_rows = [{"subdomain": "faketest1", "floor": 40, "categories_above_floor": 12,
+                      "below_floor": None, "note": "unmeasured (drill fixture row 1)"},
+                     {"subdomain": "faketest2", "floor": 40, "categories_above_floor": 3,
+                      "below_floor": None, "note": "unmeasured (drill fixture row 2)"}]
+
+        def probe(d, filed):
+            saved = (CWB.load_roll, CWB.save_roll, CWB.catalogue, WS.category_floor_report,
+                     PL.write_record_catalogue, sys.argv)
+            try:
+                CWB.load_roll = lambda: [{"name": "Faketest Source", "entry_count": 0,
+                                          "category": "Test"}]
+                CWB.save_roll = lambda roll, names=None: True
+                CWB.catalogue = lambda name, verbose=True: ({"entries": [], "category": "Test"},
+                                                           "ok")
+                WS.category_floor_report = lambda: list(fake_rows)
+                PL.write_record_catalogue = lambda path, record: True
+                sys.argv = ["catalogue_web.py"]
+                buf = io.StringIO()
+                with contextlib.redirect_stdout(buf):
+                    CWB.main()
+                out = buf.getvalue()
+            finally:
+                (CWB.load_roll, CWB.save_roll, CWB.catalogue, WS.category_floor_report,
+                 PL.write_record_catalogue, sys.argv) = saved
+            return all(row["subdomain"] in out for row in fake_rows)
+        return _esc_probe(probe)
+
+    net(a, "every category_floor_report() row reaches catalogue_web.main()'s stdout",
+        catalogue_web_prints_every_category_floor_row,
+        "order e7143aba1e9a: the owner-ruled floor report was correct and had zero callers, so "
+        "it could never reach a reader")
 
     def drill_scope_refuses_an_unread_host():
         import scope as SC, feats as F
@@ -8957,6 +10891,69 @@ def drill_cascade():
         return True
     net(a, "an exhausted pool is a NAMED condition", empty_pool_is_not_silence,
         "a pool with nothing alive returning None is indistinguishable from a real empty result")
+
+    def catalogue_models_shape_and_orphans():
+        """A malformed model list is not an EMPTY one, and an undefined provider is still counted.
+
+        Order 5d0fa30e4b09 item 5. `rows or []` turned a body with no `data` list -- an error
+        object served with a 200, a `{"models": [...]}` schema, id-less rows -- into the same
+        empty `ids` as a well-formed `[]`, and so into EMPTY_LIST, which `sweep()` reads as "every
+        configured id is STALE". And a model entry naming a provider the config never defines
+        reached no count at all. Both directions: a genuine `{"data": []}` must still be
+        EMPTY_LIST. NO REQUEST IS MADE: `urllib.request.urlopen` answers from a fixture body,
+        `silence.note` is captured, and `catalogue_models.OUT` and the config live in the sandbox;
+        all restored in `finally`.
+        """
+        import urllib.request as _ur
+        import catalogue_models as CM
+
+        class _Reply:
+            def __init__(self, b):
+                self.b = b
+
+            def read(self):
+                return self.b
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return False
+
+        def probe(d, filed):
+            body = {}
+            saved = (_ur.urlopen, CM.OUT, CM.silence.note)
+            try:
+                _ur.urlopen = (lambda url, data=None, timeout=None, *, context=None:
+                               _Reply(json.dumps(body["v"]).encode()))
+                CM.silence.note = lambda *a_, **k_: None
+                prov = {"base_url": "https://example.invalid/v1", "api_key": "x"}
+                for v in ({"models": [{"name": "m"}]}, {"error": {"message": "x"}},
+                          {"data": [{"model": "m"}]}):
+                    body["v"] = v
+                    if CM.ask_provider("p", prov)["outcome"] == CM.EMPTY_LIST:
+                        return False          # a shape it cannot read, reported as "serves nothing"
+                body["v"] = {"data": []}
+                if CM.ask_provider("p", prov)["outcome"] != CM.EMPTY_LIST:
+                    return False              # a genuine empty list must still read as one
+                cfg = os.path.join(d, "config.json")
+                with open(cfg, "w", encoding="utf-8") as fh:
+                    json.dump({"providers": {"p1": {}}, "models": [
+                        {"provider": "p1", "model": "a"}, {"provider": "ghost", "model": "b"}]}, fh)
+                CM.OUT = os.path.join(d, "PROVIDER_MODELS.json")
+                with contextlib.redirect_stdout(io.StringIO()):
+                    pm = CM.sweep(config_path=cfg, workers=1)
+            finally:
+                _ur.urlopen, CM.OUT, CM.silence.note = saved
+            c = pm["counts"]
+            return ("ghost" in [u["provider"] for u in pm["unverified"]]
+                    and c["unchecked_ids"] == 2
+                    and c["providers"] == c["verified"] + c["unverified"])
+        return _esc_probe(probe)
+    net(a, "a malformed model list is not an empty one, and an undefined provider is still counted",
+        catalogue_models_shape_and_orphans,
+        "order 5d0fa30e4b09 item 5: a shape the parser could not read became EMPTY_LIST -- every "
+        "configured id STALE -- and a provider the config never defined dropped out of the counts")
 
 
 # ============================================================== THE INSPECTOR
@@ -9238,6 +11235,234 @@ def drill_workorders():
         "a stored field ending exactly on 600 / 200 / 80 / 400 is cap damage that outlived the "
         "cap, and it went unseen for four shifts because the only thing that could have looked "
         "lived inside the module keeping the queue")
+
+    def twins_see_a_range_and_the_line_inside_it():
+        """A cited RANGE and a line inside it are one place to `twins()`; a line outside is not.
+
+        Order abc943bb6464. `WHERE_TARGET` read `(?::(\\d+))?` alone, so `x.py:405-419` became
+        `x.py:405` and the `-419` was dropped: an order about line 419 never clustered with the
+        range containing it, and two different ranges starting on one line clustered as if
+        identical. Pure -- rows are built in memory and the live queue is never loaded. BOTH
+        DIRECTIONS: the line inside must join the range's cluster, and a line outside the range
+        or the same line number in ANOTHER file must not, or overlap became "same file".
+        """
+        import workorders as _WO
+        _files, lines = _WO.where_targets("src/x.py:405-419")
+        if "x.py:405-419" not in lines:
+            return False
+        rep = _WO.twins([{"id": "A", "where": "src/x.py:405-419"},
+                         {"id": "B", "where": "x.py:419"},
+                         {"id": "D", "where": "x.py:500"},
+                         {"id": "E", "where": "y.py:419"}])
+        cl = rep["file_line_clusters"].get("x.py:405-419", [])
+        return "B" in cl and "D" not in cl and "E" not in cl
+    net(a, "twins() finds a cited range and a line inside it as one place",
+        twins_see_a_range_and_the_line_inside_it,
+        "order abc943bb6464: WHERE_TARGET dropped the `-419` of `x.py:405-419`, so an order about "
+        "line 419 never clustered with the range that contains it")
+
+    def twins_do_not_merge_same_named_files_under_different_roots():
+        """`where_targets` strips a leading `src/` only; another directory prefix is another file.
+
+        Sweep 58, batch07. Every path was cut to its basename, so `src/assay.py` and
+        `handoff/nets_20260906/assay.py` clustered as one file in `twins()`. BOTH DIRECTIONS:
+        those two stay apart, and `publish.py` still twins with `src/publish.py:3-9`. Pure: rows
+        are built in memory and the live queue is never loaded.
+        """
+        import workorders as _WO
+        files, _lines = _WO.where_targets("src/assay.py:10; handoff/nets_20260906/assay.py:10")
+        if files != ["assay.py", "handoff/nets_20260906/assay.py"]:
+            return False
+        rep = _WO.twins([{"id": "A", "where": "src/assay.py:10"},
+                         {"id": "B", "where": "handoff/nets_20260906/assay.py:10"},
+                         {"id": "C", "where": "publish.py:3"},
+                         {"id": "D", "where": "src/publish.py:3-9"}])
+        clusters = list(rep["file_clusters"].values()) + list(rep["file_line_clusters"].values())
+        merged = any({"A", "B"} <= set(v) for v in clusters)
+        return (not merged and rep["file_clusters"].get("publish.py") == ["C", "D"]
+                and set(rep["file_line_clusters"].get("publish.py:3-9", [])) == {"C", "D"})
+    net(a, "twins() does not merge two same-named files under different directory roots",
+        twins_do_not_merge_same_named_files_under_different_roots,
+        "sweep 58 batch07: basename-only normalisation clustered src/assay.py with "
+        "handoff/nets_20260906/assay.py, two different files")
+
+    # --- THE QUEUE'S OWN DOOR AND ITS RESOLUTION CHECK (run #58). Every probe below drives the
+    # REAL queue writer against a queue inside `_esc_sandbox`, never state/workorders.json. The
+    # sandbox stands `file_order` in with a recorder, so the real function is taken BEFORE the
+    # sandbox opens, and the queue paths are pointed at files in its directory; `restore()` puts
+    # the live paths and the real functions back.
+    def _queue_in(d):
+        W.OPEN_FILE = os.path.join(d, "q.json")
+        W.CLOSED_LOG = os.path.join(d, "c.jsonl")
+        W.SELFTEST_LOG = os.path.join(d, "s.jsonl")
+        for p in (W.OPEN_FILE, W.CLOSED_LOG, W.SELFTEST_LOG):
+            try:
+                os.remove(p)
+            except FileNotFoundError:
+                _ = "silence-exempt: a scratch queue file not created yet has nothing to remove"
+
+    def file_order_refuses_a_legacy_cap_length_at_the_door():
+        """`file_order()` refuses a field landing EXACTLY on a LEGACY_CAP_BOUNDARY length.
+
+        Filed by the coordinator mid-shift (run #58): a `where` landed on exactly 200 characters
+        by coincidence and `cap_boundary_scan`'s own net breached on the NEXT drill cycle -- one
+        cycle too late, since `where` feeds the order's identity. Asserted on a fresh filing for
+        `where`==200, `what`==600 and `found_by`==80, with nothing written; on a REFRESH that
+        grows `what` onto the boundary, with the stored text untouched; and the other direction,
+        so the door is not a wall: one character either side files normally.
+        """
+        real_file_order = W.file_order
+
+        def probe(d, filed):
+            _queue_in(d)
+            if not _refuses(lambda: real_file_order("T", "ok", "RUN", "MINOR", where="x" * 200),
+                            W.BadOrder):
+                return False
+            if W._load() != {}:
+                return False                      # refused, and yet something was written
+            for what, kw in (("y" * 600, {}), ("ok", {"found_by": "z" * 80})):
+                _queue_in(d)
+                if not _refuses(lambda: real_file_order("T", what, "RUN", "MINOR",
+                                                        where="ok.py", **kw), W.BadOrder):
+                    return False
+            _queue_in(d)
+            real_file_order("T2", "short", "RUN", "MINOR", where="refresh.py")
+            if not _refuses(lambda: real_file_order("T2", "y" * 600, "RUN", "MINOR",
+                                                    where="refresh.py"), W.BadOrder):
+                return False
+            if W._load()[W.order_id("T2", "refresh.py")]["what"] != "short":
+                return False
+            _queue_in(d)
+            ok1 = real_file_order("T3", "y" * 599, "RUN", "MINOR", where="x" * 199) is not None
+            _queue_in(d)
+            ok2 = real_file_order("T4", "y" * 601, "RUN", "MINOR", where="x" * 201) is not None
+            return ok1 and ok2
+        return _esc_probe(probe)
+    net(a, "file_order() refuses a field landing exactly on a legacy cap length, at the door",
+        file_order_refuses_a_legacy_cap_length_at_the_door,
+        "run #58: a `where` of exactly 200 characters was filed and cap_boundary_scan's net "
+        "breached one drill cycle later; refusing before the write catches it before it is filed")
+
+    def a_refresh_is_not_refused_for_a_found_by_it_inherited():
+        """A re-routed order's refresh must not raise over the `found_by` `reroute()` left on it.
+
+        Sweep 58, batch07. `file_order`'s door refusal checked `_found_by`, which on a re-routed
+        order is the STORED trail, not the caller's text. A stored value of exactly 80 characters
+        would make every refresh raise BadOrder, and `sweep_detectors` turns that into
+        DETECTOR_FAILED, masking a whole detector section. The other direction is kept: text the
+        caller supplies at 80 is still refused at the door. The real `file_order` is taken BEFORE
+        the sandbox opens (the sandbox stubs it); the queue it writes is the sandbox's.
+        """
+        import workorders as _WO
+        real_file_order = _WO.file_order
+
+        def probe(d, filed):
+            os.makedirs(os.path.dirname(_WO.OPEN_FILE), exist_ok=True)
+            oid = _WO.order_id("T6", "inherit.py")
+            trail = "det | rerouted RUN -> OWNER by drill: "
+            inherited = trail + "w" * (80 - len(trail))
+            with open(_WO.OPEN_FILE, "w", encoding="utf-8") as fh:
+                json.dump({oid: {"id": oid, "code": "T6", "what": "old", "handler": "OWNER",
+                                 "severity": "MINOR", "where": "inherit.py", "evidence": None,
+                                 "found_by": inherited, "first_seen": 1.0, "last_seen": 1.0,
+                                 "seen": 1, "rerouted": {"to": "OWNER"}}}, fh)
+            with contextlib.redirect_stderr(io.StringIO()):
+                rec = real_file_order("T6", "fresh", "RUN", "MINOR", where="inherit.py",
+                                      found_by="det")
+            now = _WO._load()[oid]
+            if not (rec and now["what"] == "fresh" and now["handler"] == "OWNER"
+                    and now["found_by"] == inherited):
+                return False
+            return _refuses(lambda: real_file_order("T7", "ok", "RUN", "MINOR", where="fresh.py",
+                                                    found_by="z" * 80), _WO.BadOrder)
+        return _esc_probe(probe)
+    net(a, "a refresh is not refused over a found_by it inherited from a re-route",
+        a_refresh_is_not_refused_for_a_found_by_it_inherited,
+        "sweep 58 batch07: the cap-boundary door checked the STORED found_by of a re-routed order, "
+        "so one 80-character trail would fail every refresh and mask its detector section")
+
+    def reroute_refuses_found_by_at_exactly_80():
+        """`reroute()` refuses a `found_by` it would grow onto 80, and leaves the order untouched.
+
+        `found_by` STAYS on an open order after a reroute, unlike `resolve()`'s `resolution`,
+        which never reaches the open queue. The refused attempt must not have moved the handler
+        or half-written `found_by`, even though the record is a reference into the dict the
+        reroute's change was handed.
+        """
+        real_file_order = W.file_order
+
+        def probe(d, filed):
+            _queue_in(d)
+            rec = real_file_order("T5", "f", "RUN", "MINOR", where="rr.py", found_by="orig")
+            oid = rec["id"]
+            prefix = "orig | rerouted RUN -> SESSION by cli: "
+            why = "w" * (80 - len(prefix))
+            if not _refuses(lambda: W.reroute(oid, "SESSION", why, by="cli"), W.BadOrder):
+                return False
+            now = W._load()
+            return now[oid]["handler"] == "RUN" and now[oid]["found_by"] == "orig"
+        return _esc_probe(probe)
+    net(a, "reroute() refuses a found_by landing on exactly 80 chars and leaves the order as it was",
+        reroute_refuses_found_by_at_exactly_80,
+        "run #58: reroute() is the other writer of a field that stays on the OPEN queue, reached "
+        "from the far end of the same cap-boundary fault")
+
+    def check_closed_names_a_resolved_order_still_open():
+        """`check_closed` names an order whose resolution file exists while the queue still holds it.
+
+        Order e114b2d0fe48. Measured 2026-09-07: 2 of 4 orders in one lane were already fixed and
+        never resolved, and a later shift paid a full lane's budget to re-derive "already done".
+        BOTH DIRECTIONS on a queue file inside the sandbox (passed as `queue_path`, never the
+        live queue): still open -> named; removed from the queue -> clean, with the resolution
+        id still reported. A detector that always alarms is furniture.
+        """
+        def probe(d, filed):
+            resdir = os.path.join(d, "resolve")
+            os.makedirs(resdir)
+            open(os.path.join(resdir, "aaaaaaaaaaaa.txt"), "w", encoding="utf-8").close()
+            qpath = os.path.join(d, "queue.json")
+            with open(qpath, "w", encoding="utf-8") as fh:
+                json.dump({"aaaaaaaaaaaa": {"id": "aaaaaaaaaaaa"}}, fh)
+            if W.check_closed(resdir, queue_path=qpath)["still_open"] != ["aaaaaaaaaaaa"]:
+                return False
+            with open(qpath, "w", encoding="utf-8") as fh:
+                json.dump({}, fh)
+            rep = W.check_closed(resdir, queue_path=qpath)
+            return rep["still_open"] == [] and rep["resolved_ids"] == ["aaaaaaaaaaaa"]
+        return _esc_probe(probe)
+    net(a, "a resolution file naming an order the queue still holds is caught, and clears when closed",
+        check_closed_names_a_resolved_order_still_open,
+        "order e114b2d0fe48: fixed orders left open at shift end cost a later lane its whole "
+        "budget re-deriving 'already done'")
+
+    def check_closed_refuses_a_resolutions_dir_that_is_not_there():
+        """`check_closed` REFUSES an absent or unnamed resolutions directory; a real one still reads.
+
+        Sweep 58, batch07. It read the directory through `resolution_ids_in`, whose `[]` for a
+        directory that will not list is deliberate, and never made the judgement that docstring
+        hands it -- so `--check-closed` on a mistyped path said "all resolved orders are closed"
+        and exited 0. BOTH DIRECTIONS, on a queue file inside the sandbox: an existing directory
+        still names the open order, and an absent path and an empty string both raise.
+        """
+        import workorders as _WO
+
+        def probe(d, filed):
+            resdir = os.path.join(d, "resolve")
+            os.makedirs(resdir)
+            open(os.path.join(resdir, "aaaaaaaaaaaa.txt"), "w", encoding="utf-8").close()
+            qpath = os.path.join(d, "queue.json")
+            with open(qpath, "w", encoding="utf-8") as fh:
+                json.dump({"aaaaaaaaaaaa": {"id": "aaaaaaaaaaaa"}}, fh)
+            if _WO.check_closed(resdir, queue_path=qpath)["still_open"] != ["aaaaaaaaaaaa"]:
+                return False
+            return all(_refuses(lambda p=p: _WO.check_closed(p, queue_path=qpath),
+                                _WO.ResolutionsUnreadable)
+                       for p in (os.path.join(d, "DOES_NOT_EXIST_TYPO"), ""))
+        return _esc_probe(probe)
+    net(a, "check_closed refuses a resolutions directory that is not there, and still reads a real one",
+        check_closed_refuses_a_resolutions_dir_that_is_not_there,
+        "sweep 58 batch07: --check-closed on a mistyped path printed 'all resolved orders are "
+        "closed' and exited 0 -- a check that read nothing, reporting the clean answer")
 
 
 def _guards_are_wired_where_claimed(src=None):
@@ -9981,6 +12206,262 @@ def drill_probe_honesty():
         a_lying_host_is_still_caught,
         "the tri-state must not soften the verdict it was built to deliver")
 
+    def unmeasured_reachability_does_not_quarantine_either():
+        """The argument of `unknown_does_not_quarantine_a_live_host`, for the OTHER probe.
+
+        Order b6079a0d24bd. `verdict()` read `ok_reachable` as truthy-or-not, so None (the probe
+        could not even be asked) and False (the probe ran and confirmed the host dead) reached
+        the same "host unreachable" branch and quarantined equally. Both arms of `verdict()` --
+        `ok_absent is None` and not -- are asked, because the fix touches both. Pure.
+        """
+        import binding_health as B
+        case_a, _ = B.verdict(False, None, None, det_p="p", det_a="a", det_r="r")
+        case_b, _ = B.verdict(False, True, None, det_p="p", det_a="a", det_r="r")
+        return case_a is not False and case_b is not False
+    net(a, "an unmeasured reachability probe does not quarantine a host on its own",
+        unmeasured_reachability_does_not_quarantine_either,
+        "order b6079a0d24bd: None (could not measure) and False (confirmed dead) reached the "
+        "same quarantining verdict")
+
+    def raw_mode_host_reachability_is_actually_probed():
+        """A RAW-mode host's reachability probe must be able to answer True.
+
+        Order b6079a0d24bd. `_probe_reachable` asked `feats.api()`, which returns None for any
+        host that is not MODE_API by construction, so an API-closed wiki could NEVER pass this
+        probe however alive it was. NO REQUEST IS MADE: `endpoint.detect` / `raw_url` / `_get`
+        are stood in for (a MODE_RAW verdict and real-shaped wikitext) and restored in `finally`.
+        """
+        import binding_health as B
+        import endpoint as EP
+        orig = (EP.detect, EP.raw_url, EP._get)
+        EP.detect = lambda host, force=False: {"mode": EP.MODE_RAW, "path": "/x"}
+        EP.raw_url = lambda host, title: "https://%s/index.php?action=raw&title=%s" % (host, title)
+        EP._get = lambda url, timeout=25: "{{Infobox}}\nreal wikitext, not an error page"
+        try:
+            ok, _detail = B._probe_reachable("faketest-net-b6079a0d24bd.raw.invalid")
+            return ok is True
+        finally:
+            EP.detect, EP.raw_url, EP._get = orig
+    net(a, "a RAW-mode host's reachability probe can actually answer True",
+        raw_mode_host_reachability_is_actually_probed,
+        "order b6079a0d24bd: feats.api() -> None for a RAW host made this probe read "
+        "'unreachable' unconditionally")
+
+    def api_mode_reachability_exception_is_unmeasured():
+        """An exception from the siteinfo call is "could not ask", never "host unreachable".
+
+        Sweep 58, batch16. The RAW arm of `_probe_reachable` was corrected to answer None when
+        its request cannot complete (order b6079a0d24bd); the API arm two lines below it still
+        answered False for ANY exception, and with `retries=0` one fault on our side made
+        `verdict()` quarantine a live API-mode host. Asserted end to end: the probe says None
+        AND `verdict()` does not return False on it. NO REQUEST IS MADE: `feats.api` raises and
+        `endpoint.detect` answers API mode, each taking its subject's own signature (verify_math
+        §20ae), both restored in `finally`. The probe call is the one SUPPOSED to hit the
+        failure path, so it alone is wrapped in `_deliberately_failing`.
+        """
+        import binding_health as B
+        import endpoint as EP
+        import feats as F
+
+        def boom(host, params, retries=2, outcome=None):
+            raise TimeoutError("drill stub -- no request was made")
+        orig = (F.api, EP.detect)
+        F.api = boom
+        EP.detect = lambda host, force=False: {"mode": EP.MODE_API, "path": "/api.php"}
+        try:
+            ok, detail = _deliberately_failing(
+                lambda: B._probe_reachable("faketest-net-sweep58.api.invalid"))
+        finally:
+            F.api, EP.detect = orig
+        healthy, _reason = B.verdict(False, True, ok, det_p="p", det_a="a", det_r=detail)
+        return ok is None and healthy is not False
+    net(a, "an exception in the API-mode reachability probe is unmeasured, not a dead host",
+        api_mode_reachability_exception_is_unmeasured,
+        "sweep 58 batch16: the API arm returned False on any siteinfo exception, so a transient "
+        "fault on our side quarantined a live host")
+
+
+# THE RUNG-FOUR PROBES RUN IN THE ONE SANDBOX (order 70a74f7a0628). They stopped and resumed
+# synthetic subsystems against the LIVE `state/STOPPED.json`, appended to the live escalation
+# logs, and closed their orders in the live queue -- so a probe that died between the stop and the
+# resume left the library's own ledger holding a stop. Module-level so THE LIVE-STATE WITNESS can
+# drive each one; the nets still own the verdicts.
+#
+# INSIDE THE SANDBOX `escalation._a_probe_release` ANSWERS TRUE FOR EVERY NAME, by its own
+# condition (1), and that is what lets these cleanups resume. It is also why the two nets whose
+# SUBJECT is that exemption (`the_person_check_is_not_defeated_by_choosing_a_name`,
+# `a_resume_is_refused_to_a_program`) stay outside it: these three depend on the exemption, they
+# do not test it.
+
+
+def _a_stop_is_written_down_and_readable():
+    """`a_stop_is_written_down_and_readable`, in the one sandbox. -> bool."""
+    return _esc_probe(lambda d, filed: _a_stop_is_written_down_and_readable_in_the_sandbox())
+
+
+def _a_stop_is_written_down_and_readable_in_the_sandbox():
+    import escalation as E
+    name = "__drill_rung4__"
+    try:
+        # WRAPPED, BOTH HALVES (order 895a99602bf0). A rung-4 stop and its release each
+        # escalate, and an escalation calls `health.record` -- so this probe put
+        # `escalation:MANAGER:SUBSYSTEM_STOPPED` and `escalation:JANITOR:SUBSYSTEM_RESUMED`
+        # into the live operational ledger once per battery run, about a subsystem that has
+        # never existed. `_sweep_probe_litter` below has kept exactly this discipline for the
+        # OTHER ledger a probe can write to since the day it was written; this is the same
+        # rule applied to `state/failures.json`. See `_deliberately_failing`.
+        _deliberately_failing(
+            lambda: E.stop_subsystem(
+                name, "drill probe: rung 4 must outlive the process that set it",
+                who="drill.py"))
+        held, why = E.subsystem_stopped(name)
+        return held is True and "drill probe" in why
+    finally:
+        try:
+            _deliberately_failing(
+                lambda: E.resume_subsystem(
+                    name, "drill probe complete; releasing the synthetic stop"))
+        except Exception:
+            import silence as _s
+            _s.note("drill.py:rung4-cleanup")
+        _sweep_probe_litter(name, "rung4")
+
+
+def _resuming_demands_a_written_ruling():
+    """`resuming_demands_a_written_ruling`, in the one sandbox. -> bool."""
+    return _esc_probe(lambda d, filed: _resuming_demands_a_written_ruling_in_the_sandbox())
+
+
+def _resuming_demands_a_written_ruling_in_the_sandbox():
+    import escalation as E
+    name = "__drill_rung4b__"
+    try:
+        # Wrapped for the same reason as the probe above: the stop and the release each
+        # escalate into the live failure ledger. (Order 895a99602bf0.) The REFUSED resume in
+        # the middle is not wrapped -- it never gets as far as recording anything, and the
+        # rule is to wrap only the call that is supposed to reach the guard.
+        _deliberately_failing(
+            lambda: E.stop_subsystem(name, "drill probe: resuming must not be casual",
+                                     who="drill.py"))
+        try:
+            E.resume_subsystem(name, "ok")
+            return False                      # a shrug re-opened it. Breach.
+        except ValueError:
+            return True
+    finally:
+        try:
+            _deliberately_failing(
+                lambda: E.resume_subsystem(
+                    name, "drill probe complete; releasing the synthetic stop"))
+        except Exception:
+            import silence as _s
+            _s.note("drill.py:rung4b-cleanup")
+        _sweep_probe_litter(name, "rung4b")
+
+
+def _a_probe_leaves_no_order_behind():
+    """`a_probe_leaves_no_order_behind`, in the one sandbox, WITH THE REAL QUEUE FUNCTIONS. -> bool.
+
+    `_esc_sandbox` stubs `workorders.file_order` and `resolve_code`, and this net's subject is
+    exactly what those two leave behind: stubbed, nothing is filed and nothing can litter, so the
+    net could not fail. The sandbox has already pointed all three queue files at scratch, so the
+    real functions are put back for this probe alone and write the scratch queue; the stubs go
+    back before `restore()` runs.
+    """
+    import workorders as WO
+    real = (WO.file_order, WO.resolve_code)
+
+    def litter_probe(d, filed):
+        stubs = (WO.file_order, WO.resolve_code)
+        WO.file_order, WO.resolve_code = real
+        try:
+            return _a_probe_leaves_no_order_behind_in_the_sandbox()
+        finally:
+            WO.file_order, WO.resolve_code = stubs
+    return _esc_probe(litter_probe)
+
+
+def _a_probe_leaves_no_order_behind_in_the_sandbox():
+    """The battery must be able to run on a live library without decorating its queue.
+
+    Every escalation FILES A REAL WORK ORDER, so a probe that stops and resumes a synthetic
+    subsystem files two, and the rung-4 pair above did that on every cycle without ever
+    clearing them: SUBSYSTEM_STOPPED for `__drill_rung4__` at MAJOR, addressed to RUN, was
+    `seen 15x` when this net was written, next to its RESUMED twin and a `probe_job` pair
+    left by a scratch test that no longer exists anywhere in `src/`. None of the four
+    describe a subsystem that has ever existed.
+
+    Asserted by DOING IT: a fresh synthetic subsystem is stopped and resumed here, and no
+    order carrying THIS PROBE'S name may be open afterwards that was not open before.
+    Counting is not enough -- an unrelated detector filing one order while this probe leaks
+    one would net to zero -- so the identities are compared.
+
+    SCOPED TO THIS PROBE'S OWN ROWS, WHICH IS THE OTHER HALF OF THAT SAME SENTENCE (order
+    00f8ca4ab967). It compared the WHOLE open set and the WHOLE closed-log length, on two
+    files every detector in the kit writes, so a different detector filing one ordinary order
+    in this net's window made the sets differ -- and a breached drill net escalates to OWNER.
+    The masking direction stays closed and the false-alarm direction closes with it, because
+    `where` carries the synthetic subsystem name verbatim (`escalate` passes `source` through
+    as `file_order`'s `where`) and no bystander can produce that string: `__drill_litter_probe__`
+    is reserved, matched by `health.is_selftest`, and belongs to nothing that has ever existed.
+    Same ruling as `twin_detection_does_not_match_bystanders` -- a net whose answer depends on
+    what happens to be running when it looks is not testing the code.
+
+    AND IT NOW WATCHES THE CLOSED LOG TOO, which is the half it was pointed away from
+    (order c24fcbb8a291). The probe passed -- it leaves nothing OPEN -- and then littered the
+    PAPER TRAIL instead, once per battery run, for ever. Measured 2026-08-29: eight such ids
+    were 49.0% of the trail. Measured again one day later: 62.6%. The net checked the half of
+    the queue it was pointed at, and the honest fraction of this project's record of its own
+    closed work fell every day it passed. Rehearsals now go to `workorders_selftest.jsonl`,
+    and this asserts the paper trail did not move -- so if a future probe stops being marked
+    as one, THIS goes red rather than the trail quietly filling up again.
+
+    IN THE ONE SANDBOX NOW, WITH THE REAL QUEUE FUNCTIONS (order 70a74f7a0628). It stopped and
+    resumed against the live `state/STOPPED.json` and asked the live queue. Its wrapper
+    `_a_probe_leaves_no_order_behind` puts the real `file_order` and `resolve_code` back
+    inside the sandbox -- whose queue files are scratch -- because a stubbed queue files
+    nothing and this net could not fail. AND IT MUST HAVE HAD SOMETHING TO CLEAN UP (order
+    0954a44e057d): the stop has to have filed an order, and the closures have to have reached
+    the rehearsal log. An unreadable trail counts as None, which no count equals.
+    """
+    import escalation as E
+    import workorders as WO
+    name = "__drill_litter_probe__"
+
+    def mine():
+        return {i for i, o in WO._load().items()
+                if isinstance(o, dict) and o.get("where") == name}
+
+    before = mine()
+    trail_before = _rows_in(WO.CLOSED_LOG, name)
+    rehearsed_before = _rows_in(WO.SELFTEST_LOG, name)
+    filed_during = set()
+    try:
+        # AND THE SAME PROBE LITTERED THE OTHER LEDGER, WHICH IS THE JOKE THIS NET WAS
+        # MISSING (order 895a99602bf0). This is the net that proves a probe leaves the WORK
+        # ORDER queue clean, and its own stop/resume pair was writing
+        # `escalation:MANAGER:SUBSYSTEM_STOPPED` into `state/failures.json` every run. Two
+        # ledgers, one probe, one of them watched. Both are watched now: this net for the
+        # queue, and the whole-run witness at the top of this file for the ledger.
+        _deliberately_failing(
+            lambda: E.stop_subsystem(name, "drill probe: a probe must not litter the queue",
+                                     who="drill.py"))
+        filed_during = mine() - before
+    finally:
+        try:
+            _deliberately_failing(
+                lambda: E.resume_subsystem(
+                    name, "drill probe complete; releasing the synthetic stop"))
+        except Exception:
+            import silence as _s
+            _s.note("drill.py:litter-probe-cleanup")
+        _sweep_probe_litter(name, "litter-probe")
+    rehearsed_after = _rows_in(WO.SELFTEST_LOG, name)
+    return (bool(filed_during) and mine() == before
+            and trail_before is not None and _rows_in(WO.CLOSED_LOG, name) == trail_before
+            and rehearsed_before is not None and rehearsed_after is not None
+            and rehearsed_after > rehearsed_before)
+
 
 def drill_rung_four():
     """MANAGER stops must actually stop things — for four days they did not.
@@ -9997,63 +12478,12 @@ def drill_rung_four():
     """
     a = "RUNG FOUR — a stopped subsystem stays stopped"
 
-    def a_stop_is_written_down_and_readable():
-        import escalation as E
-        name = "__drill_rung4__"
-        try:
-            # WRAPPED, BOTH HALVES (order 895a99602bf0). A rung-4 stop and its release each
-            # escalate, and an escalation calls `health.record` -- so this probe put
-            # `escalation:MANAGER:SUBSYSTEM_STOPPED` and `escalation:JANITOR:SUBSYSTEM_RESUMED`
-            # into the live operational ledger once per battery run, about a subsystem that has
-            # never existed. `_sweep_probe_litter` below has kept exactly this discipline for the
-            # OTHER ledger a probe can write to since the day it was written; this is the same
-            # rule applied to `state/failures.json`. See `_deliberately_failing`.
-            _deliberately_failing(
-                lambda: E.stop_subsystem(
-                    name, "drill probe: rung 4 must outlive the process that set it",
-                    who="drill.py"))
-            held, why = E.subsystem_stopped(name)
-            return held is True and "drill probe" in why
-        finally:
-            try:
-                _deliberately_failing(
-                    lambda: E.resume_subsystem(
-                        name, "drill probe complete; releasing the synthetic stop"))
-            except Exception:
-                import silence as _s
-                _s.note("drill.py:rung4-cleanup")
-            _sweep_probe_litter(name, "rung4")
     net(a, "a MANAGER stop is recorded where another process can read it",
-        a_stop_is_written_down_and_readable,
+        _a_stop_is_written_down_and_readable,
         "a stop only the stopping process knows about lasted 25 minutes and lost 26 records")
 
-    def resuming_demands_a_written_ruling():
-        import escalation as E
-        name = "__drill_rung4b__"
-        try:
-            # Wrapped for the same reason as the probe above: the stop and the release each
-            # escalate into the live failure ledger. (Order 895a99602bf0.) The REFUSED resume in
-            # the middle is not wrapped -- it never gets as far as recording anything, and the
-            # rule is to wrap only the call that is supposed to reach the guard.
-            _deliberately_failing(
-                lambda: E.stop_subsystem(name, "drill probe: resuming must not be casual",
-                                         who="drill.py"))
-            try:
-                E.resume_subsystem(name, "ok")
-                return False                      # a shrug re-opened it. Breach.
-            except ValueError:
-                return True
-        finally:
-            try:
-                _deliberately_failing(
-                    lambda: E.resume_subsystem(
-                        name, "drill probe complete; releasing the synthetic stop"))
-            except Exception:
-                import silence as _s
-                _s.note("drill.py:rung4b-cleanup")
-            _sweep_probe_litter(name, "rung4b")
     net(a, "re-opening a stopped subsystem demands a written ruling",
-        resuming_demands_a_written_ruling,
+        _resuming_demands_a_written_ruling,
         "the thing that undid the last stop was an automated actor with a restart timer")
 
     def the_person_check_is_not_defeated_by_choosing_a_name():
@@ -10215,73 +12645,8 @@ def drill_rung_four():
         "hole -- and it reaches the same end state as dropping the person check outright, by "
         "the error path instead of the name path")
 
-    def a_probe_leaves_no_order_behind():
-        """The battery must be able to run on a live library without decorating its queue.
-
-        Every escalation FILES A REAL WORK ORDER, so a probe that stops and resumes a synthetic
-        subsystem files two, and the rung-4 pair above did that on every cycle without ever
-        clearing them: SUBSYSTEM_STOPPED for `__drill_rung4__` at MAJOR, addressed to RUN, was
-        `seen 15x` when this net was written, next to its RESUMED twin and a `probe_job` pair
-        left by a scratch test that no longer exists anywhere in `src/`. None of the four
-        describe a subsystem that has ever existed.
-
-        Asserted by DOING IT: a fresh synthetic subsystem is stopped and resumed here, and no
-        order carrying THIS PROBE'S name may be open afterwards that was not open before.
-        Counting is not enough -- an unrelated detector filing one order while this probe leaks
-        one would net to zero -- so the identities are compared.
-
-        SCOPED TO THIS PROBE'S OWN ROWS, WHICH IS THE OTHER HALF OF THAT SAME SENTENCE (order
-        00f8ca4ab967). It compared the WHOLE open set and the WHOLE closed-log length, on two
-        files every detector in the kit writes, so a different detector filing one ordinary order
-        in this net's window made the sets differ -- and a breached drill net escalates to OWNER.
-        The masking direction stays closed and the false-alarm direction closes with it, because
-        `where` carries the synthetic subsystem name verbatim (`escalate` passes `source` through
-        as `file_order`'s `where`) and no bystander can produce that string: `__drill_litter_probe__`
-        is reserved, matched by `health.is_selftest`, and belongs to nothing that has ever existed.
-        Same ruling as `twin_detection_does_not_match_bystanders` -- a net whose answer depends on
-        what happens to be running when it looks is not testing the code.
-
-        AND IT NOW WATCHES THE CLOSED LOG TOO, which is the half it was pointed away from
-        (order c24fcbb8a291). The probe passed -- it leaves nothing OPEN -- and then littered the
-        PAPER TRAIL instead, once per battery run, for ever. Measured 2026-08-29: eight such ids
-        were 49.0% of the trail. Measured again one day later: 62.6%. The net checked the half of
-        the queue it was pointed at, and the honest fraction of this project's record of its own
-        closed work fell every day it passed. Rehearsals now go to `workorders_selftest.jsonl`,
-        and this asserts the paper trail did not move -- so if a future probe stops being marked
-        as one, THIS goes red rather than the trail quietly filling up again.
-        """
-        import escalation as E
-        import workorders as WO
-        name = "__drill_litter_probe__"
-
-        def mine():
-            return {i for i, o in WO._load().items()
-                    if isinstance(o, dict) and o.get("where") == name}
-
-        before = mine()
-        trail_before = _rows_in(WO.CLOSED_LOG, name)
-        try:
-            # AND THE SAME PROBE LITTERED THE OTHER LEDGER, WHICH IS THE JOKE THIS NET WAS
-            # MISSING (order 895a99602bf0). This is the net that proves a probe leaves the WORK
-            # ORDER queue clean, and its own stop/resume pair was writing
-            # `escalation:MANAGER:SUBSYSTEM_STOPPED` into `state/failures.json` every run. Two
-            # ledgers, one probe, one of them watched. Both are watched now: this net for the
-            # queue, and the whole-run witness at the top of this file for the ledger.
-            _deliberately_failing(
-                lambda: E.stop_subsystem(name, "drill probe: a probe must not litter the queue",
-                                         who="drill.py"))
-        finally:
-            try:
-                _deliberately_failing(
-                    lambda: E.resume_subsystem(
-                        name, "drill probe complete; releasing the synthetic stop"))
-            except Exception:
-                import silence as _s
-                _s.note("drill.py:litter-probe-cleanup")
-            _sweep_probe_litter(name, "litter-probe")
-        return mine() == before and _rows_in(WO.CLOSED_LOG, name) == trail_before
     net(a, "a probe leaves NO work order behind in the live queue",
-        a_probe_leaves_no_order_behind,
+        _a_probe_leaves_no_order_behind,
         "six permanent orders described three subsystems that never existed; a queue with "
         "decoration in it is a queue people stop reading, and that is the failure this whole "
         "ladder exists to prevent")
@@ -10397,16 +12762,197 @@ def drill_rung_four():
         "'I cannot tell whether a person closed this' is not permission to re-open it")
 
 
+# ------------------------------------------------------------- THE LIVE-STATE SANDBOX WITNESS
+#
+# ONE FAULT, FILED FIVE TIMES (orders 4be1a84f19c6, 5d686329771b, 1c7c2c2c8b00, 247586e57b61,
+# 093a35335c68): a probe that touches LIVE state and whose only protection is the guard it is
+# testing. Two of them had already done harm -- the binding probes quarantined their fixture
+# hosts in the live `data/HOST_QUARANTINE.json` (closed orders 5b6a89c02b87, 7147d4ffae96), and
+# the pipeline runner probe stamped `state/codewatch_poll/pipeline.json` with the drill's pid, so
+# a dead daemon read as freshly polled. Every one of them now runs inside `_esc_sandbox`, which is
+# the ONE sandbox in this file: the fix is the shape, not five call sites.
+#
+# AND A SANDBOX NOBODY WATCHES LEAK IS THE SAME GREEN LIGHT OF UNKNOWN PROVENANCE. So an audit
+# hook (`sys.addaudithook`, installed the first time a sandbox opens) watches every write-shaped
+# operation this PROCESS performs -- a write-mode open, a rename/replace, a remove, a mkdir, a
+# copy, a subprocess -- and while any sandbox is open, or while THE LIVE-STATE WITNESS is driving
+# a probe, a write that lands on one of the live paths below is recorded against the net that
+# made it. It watches the OPERATION, not a module constant: the constants are what the sandbox
+# redirects, and a witness that read the same constants would share the sandbox's failure mode.
+# The watch list is spelled from this file's own `HERE` for exactly that reason.
+#
+# THE LIST IS THE LIVE STATE A PROBE HERE HAS BEEN FOUND WRITING, plus the state files of every
+# module the sandbox redirects. A path is watched with its siblings (`workorders.json.<pid>.tmp`,
+# `CODEWATCH.json.lock`), because every writer in this tree lands through a temp name beside the
+# target and a witness that only matched the final name would miss the write that matters.
+_LIVE_ESCAPES = []
+_SANDBOX_STACK = []                 # one escape-list mark per sandbox currently open
+_SANDBOX_ENTRIES = [0]              # how many sandboxes have ever opened in this process
+_WITNESS_ARMED = []                 # non-empty while the witness itself drives a probe
+_LIVE_HOOK = {"installed": False, "errors": [], "busy": False, "watch": None}
+_WRITE_FLAGS = os.O_WRONLY | os.O_RDWR | os.O_APPEND | os.O_CREAT | os.O_TRUNC
+
+
+def _live_watch():
+    """-> (files, dirs, name_prefixes), normcased absolute live paths. Built once, from HERE."""
+    if _LIVE_HOOK["watch"] is None:
+        def p(*parts):
+            return os.path.normcase(os.path.abspath(os.path.join(HERE, *parts)))
+        files = tuple(p(*x) for x in (
+            ("state", "workorders.json"), ("state", "workorders_closed.jsonl"),
+            ("state", "workorders_selftest.jsonl"), ("state", "HALT.json"),
+            ("state", "escalation.log"), ("state", "STOPPED.json"), ("state", "CODEWATCH.json"),
+            ("data", "HOST_QUARANTINE.json"), ("data", "BINDING_HEALTH.json"),
+            ("data", "SWEEP_ROLL.json"), ("output", "index", "catalog.json"),
+            # THE SUBJECT FILES OF THE PROBES MOVED INTO THE SANDBOX IN RUN #58 (sweep58-batch01).
+            # Each of those probes redirects its module's constant with ONE line, and a dropped
+            # line sent the real write at the live file with nothing here to see it:
+            # foreman.RESTART_STAMP, pipeline.STATE, onomast.OUT, chain.HARVEST_IDX,
+            # publish.MAINTENANCE_GUARD, catalogue_models.OUT and completeness.HOSTS.
+            ("state", "OLLAMA_RESTARTS.json"), ("state", "PIPELINE_STATE.json"),
+            ("data", "ONOMASTICON.json"), ("state", "chain_harvest_idx.json"),
+            ("state", "MAINTENANCE_RUN.json"), ("data", "PROVIDER_MODELS.json"),
+            ("data", "WIKI_HOSTS.json")))
+        dirs = tuple(p(*x) for x in (
+            ("state", "escalations"), ("state", "codewatch_poll"), ("state", "snapshots"),
+            ("data", "records"), ("output", "raw"), ("output", "compressed")))
+        # `state/__drill_*` is the reserved probe-name shape (order 70a74f7a0628): the state-surface
+        # probe used to create one in the live `state/`, and now must only ever do so in scratch.
+        prefixes = (p("output", "withdrawn_"), p("state", "__drill_"))
+        _LIVE_HOOK["watch"] = (files, dirs, prefixes, os.path.normcase(os.path.abspath(HERE)))
+    return _LIVE_HOOK["watch"]
+
+
+def _is_live(path):
+    """Is this path one of the live files/dirs the witness watches? -> bool. Never raises."""
+    try:
+        s = os.path.normcase(os.path.abspath(os.fsdecode(path)))
+    except Exception:
+        _ = "silence-exempt: an fd or non-path argument names no file; the hook must never raise"
+        return False                 # an fd, or nothing path-like: not a name that can be live
+    files, dirs, prefixes, _root = _live_watch()
+    return (any(s == f or s.startswith(f + ".") or s.startswith(f + os.sep) for f in files)
+            or any(s == d or s.startswith(d + os.sep) for d in dirs)
+            or any(s.startswith(x) for x in prefixes))
+
+
+def _live_audit(event, args):
+    """The audit hook. Records a live-path write made while a sandbox or the witness is open.
+
+    CHEAP ON THE COMMON PATH, because it sees every audited event in the process for the rest of
+    its life: two list truth-tests and out. NEVER RAISES -- an exception from an audit hook
+    aborts the operation being audited, which would turn the witness into a fault injector --
+    so a failure inside it is kept in `_LIVE_HOOK["errors"]` and THE LIVE-STATE WITNESS fails on
+    a non-empty list, rather than the hook going quietly blind.
+    """
+    if not (_SANDBOX_STACK or _WITNESS_ARMED) or _LIVE_HOOK["busy"]:
+        return
+    try:
+        _LIVE_HOOK["busy"] = True
+        hits = []
+        if event == "open":
+            if len(args) >= 3 and isinstance(args[2], int) and args[2] & _WRITE_FLAGS:
+                hits = [a_ for a_ in args[:1] if _is_live(a_)]
+        # `_winapi.CopyFile2` IS ALL `shutil.copy2` AND `shutil.copytree` RAISE ON THIS PLATFORM
+        # (Python 3.13, measured by sweep58-batch01 and again for this change): no
+        # `shutil.copyfile`, no `open`. Without it the commonest copy here landed on a live file
+        # and nothing was recorded. Its first two arguments are (source, destination).
+        elif event in ("os.rename", "shutil.copyfile", "_winapi.CopyFile2"):
+            hits = [a_ for a_ in args[:2] if _is_live(a_)]
+        elif event in ("os.remove", "os.rmdir", "os.mkdir", "shutil.rmtree", "os.truncate"):
+            hits = [a_ for a_ in args[:1] if _is_live(a_)]
+        elif event == "subprocess.Popen":
+            # A CHILD PROCESS IS A PROBE THIS HOOK CANNOT FOLLOW, so the child must be pointed
+            # away from the live tree on its command line: an absolute path argument inside it,
+            # or a working directory inside it (an absent `cwd` is inherited, and the drill runs
+            # from the live root), is recorded as the escape.
+            root = _live_watch()[3]
+            _exe, argv, cwd = (list(args) + [None, None, None])[:3]
+            here_cwd = os.path.normcase(os.path.abspath(os.fsdecode(cwd) if cwd else os.getcwd()))
+            if here_cwd == root or here_cwd.startswith(root + os.sep):
+                hits.append("cwd=" + here_cwd)
+            for a_ in (argv if isinstance(argv, (list, tuple)) else [argv]):
+                if isinstance(a_, (str, bytes, os.PathLike)) and os.path.isabs(os.fsdecode(a_)):
+                    s = os.path.normcase(os.path.abspath(os.fsdecode(a_)))
+                    if s.startswith(root + os.sep):
+                        hits.append(s)
+        for h in hits:
+            import traceback as _tb
+            fr = [f for f in _tb.extract_stack()
+                  if os.path.basename(f.filename).startswith("drill")
+                  and f.name not in ("_live_audit", "_is_live")]
+            _LIVE_ESCAPES.append("%s [%s] %s %s" % (
+                "%s:%d" % (os.path.basename(fr[-1].filename), fr[-1].lineno) if fr
+                else "<outside this file>",
+                _WITNESS_ARMED[-1] if _WITNESS_ARMED else (_CURRENT_NET[-1] if _CURRENT_NET
+                                                           else "<no net running>"),
+                event, os.fsdecode(h) if not isinstance(h, str) else h))
+    except Exception as e:
+        _LIVE_HOOK["errors"].append("%s: %s" % (type(e).__name__, e))
+    finally:
+        _LIVE_HOOK["busy"] = False
+
+
+def _install_live_witness():
+    """Install the audit hook once. Lazily, at the first sandbox: a process that imports this
+    file and never opens a sandbox should not pay for a hook it cannot remove."""
+    if not _LIVE_HOOK["installed"]:
+        sys.addaudithook(_live_audit)
+        _LIVE_HOOK["installed"] = True
+
+
+# EVERY MODULE CONSTANT A PROBE IN THIS FILE HAS BEEN FOUND WRITING THROUGH, as (module,
+# attribute, path under the sandbox directory). `escalation`'s four stay at the sandbox ROOT,
+# exactly where they always were: `a_refused_write_leaves_no_litter_beside_the_ledger` lists that
+# directory for `.tmp` litter beside STOPPED.json, and moving them would change what it measures.
+_SANDBOX_REDIRECTS = (
+    ("escalation", "HALT_FILE", "HALT.json"),
+    ("escalation", "LOG", "escalation.log"),
+    ("escalation", "SRC_LOGS", "escalations"),
+    ("escalation", "STOPPED", "STOPPED.json"),
+    ("workorders", "OPEN_FILE", os.path.join("state", "workorders.json")),
+    ("workorders", "CLOSED_LOG", os.path.join("state", "workorders_closed.jsonl")),
+    ("workorders", "SELFTEST_LOG", os.path.join("state", "workorders_selftest.jsonl")),
+    ("binding_health", "OUT", os.path.join("data", "BINDING_HEALTH.json")),
+    ("binding_health", "QUARANTINE", os.path.join("data", "HOST_QUARANTINE.json")),
+    ("codewatch", "LEDGER", os.path.join("state", "CODEWATCH.json")),
+    ("codewatch", "LEDGER_LOCK", os.path.join("state", "CODEWATCH.json.lock")),
+    ("codewatch", "POLLS", os.path.join("state", "codewatch_poll")),
+    ("withdraw_chapters", "HERE", ""),
+    ("withdraw_chapters", "CATALOG", os.path.join("output", "index", "catalog.json")),
+    ("snapshot", "HERE", ""),
+    ("snapshot", "ROOT", os.path.join("state", "snapshots")),
+)
+
+
 def _esc_sandbox():
-    """A temp directory the escalation chain can be driven inside, with its side effects off.
+    """THE sandbox: a temp directory every probe that could reach live state is driven inside.
 
     RETURNS a (dir, filed, restore) triple. `filed` is the list `workorders.file_order` calls
     land in while stubbed -- load-bearing, not incidental: `an_escalation_reaches_the_queue_
     addressed_and_graded` asserts against it. `restore()` puts every redirected module constant
     back and removes the directory. Written as a tuple rather than a context manager because
-    `net()` takes a zero-argument callable and every probe below wants the same four
-    redirections plus the recorder; a helper that both callers and `finally` blocks can name is
-    easier to keep honest than four copies of the same try/finally.
+    `net()` takes a zero-argument callable and every probe below wants the same redirections
+    (every row of `_SANDBOX_REDIRECTS`) plus the same three stubs; a helper that both callers and
+    `finally` blocks can name is easier to keep honest than a copy of that try/finally per probe.
+
+    WIDENED FROM THE ESCALATION CHAIN TO EVERY LIVE PATH A PROBE WAS FOUND WRITING (orders
+    4be1a84f19c6, 5d686329771b, 1c7c2c2c8b00, 247586e57b61, 093a35335c68). See THE LIVE-STATE
+    SANDBOX WITNESS above for the fault and `_SANDBOX_REDIRECTS` for the list. A module that will
+    not IMPORT is skipped rather than failing every probe in the file: a module that cannot be
+    imported cannot write through its constants, and one that imports later still writes under
+    the audit hook, which does not depend on this list.
+
+    `workorders.resolve_code` IS STOPPED HERE NOW, beside `file_order` (order 247586e57b61).
+    `stop_subsystem`'s post-write recheck and `resume_subsystem` both close orders through it,
+    and one net stubbed it at its own call site while every other probe reaching the same branch
+    compare-and-swapped the LIVE `state/workorders.json` each battery run. The queue paths are
+    redirected as well, so a closure arriving by any other name lands in scratch too.
+
+    AND `restore()` FAILS THE NET THAT LEAKED. If the audit hook recorded a live-path write while
+    this sandbox was open, `restore()` finishes restoring and then raises AssertionError naming
+    each write, so the probe's own net goes BREACHED and says where -- the per-net half of the
+    witness. The whole-run half is THE LIVE-STATE WITNESS in `drill_ledger_witness`.
 
     WHAT IS REDIRECTED, AND WHY EACH ONE HAS TO BE. `escalation.py` resolves its paths once, at
     import, from `HERE` -- so a probe that calls `escalate(OWNER, ...)` for real writes the
@@ -10423,25 +12969,57 @@ def _esc_sandbox():
     that asserts an escalation reaches the queue reads the recorder to prove it -- they simply
     land in a list instead of in the library's ledgers.
     """
+    import importlib
+    _install_live_witness()
     d = tempfile.mkdtemp(prefix="drill_escbehav_")
-    saved = {k: getattr(ESC, k) for k in ("HALT_FILE", "LOG", "SRC_LOGS", "STOPPED")}
-    ESC.HALT_FILE = os.path.join(d, "HALT.json")
-    ESC.LOG = os.path.join(d, "escalation.log")
-    ESC.SRC_LOGS = os.path.join(d, "escalations")
-    ESC.STOPPED = os.path.join(d, "STOPPED.json")
+    saved = {}
+    for modname, attr, rel in _SANDBOX_REDIRECTS:
+        try:
+            mod = ESC if modname == "escalation" else importlib.import_module(modname)
+        except Exception:
+            _ = "silence-exempt: an unimportable module writes nothing; the audit hook still watches"
+            continue                      # see the docstring: an unimportable module writes nothing
+        saved[(mod, attr)] = getattr(mod, attr)
+        setattr(mod, attr, os.path.join(d, rel) if rel else d)
+    # CHECKED BEFORE ANY PROBE RUNS, the `_ledger_redirected` discipline: every redirected value
+    # must now sit under the sandbox, so a row added to the table with a wrong path refuses here
+    # rather than writing somewhere a person has to find later.
+    _d_abs = os.path.normcase(os.path.abspath(d))
+    for (mod, attr) in saved:
+        got = os.path.normcase(os.path.abspath(getattr(mod, attr)))
+        if not (got == _d_abs or got.startswith(_d_abs + os.sep)):
+            for (m2, a2), v2 in saved.items():
+                setattr(m2, a2, v2)
+            shutil.rmtree(d, ignore_errors=True)
+            raise AssertionError("%s.%s still points outside the sandbox (%s) -- refusing to run "
+                                 "a probe that would write there" % (mod.__name__, attr, got))
 
-    filed, recorded = [], []
+    filed, recorded, resolved = [], [], []
     import workorders as _WO
     import health as _H
-    real_file_order, real_record = _WO.file_order, _H.record
+    real_file_order, real_resolve, real_record = _WO.file_order, _WO.resolve_code, _H.record
     _WO.file_order = lambda *args, **kw: filed.append((args, kw))
+    _WO.resolve_code = lambda *args, **kw: resolved.append((args, kw))
     _H.record = lambda *args, **kw: recorded.append((args, kw))
+    _SANDBOX_STACK.append(len(_LIVE_ESCAPES))
+    _SANDBOX_ENTRIES[0] += 1
+    done = []
 
     def restore():
-        _WO.file_order, _H.record = real_file_order, real_record
-        for k, v in saved.items():
-            setattr(ESC, k, v)
-        shutil.rmtree(d, ignore_errors=True)
+        if done:
+            return
+        done.append(True)
+        try:
+            _WO.file_order, _WO.resolve_code, _H.record = real_file_order, real_resolve, real_record
+            for (mod, attr), v in saved.items():
+                setattr(mod, attr, v)
+            shutil.rmtree(d, ignore_errors=True)
+        finally:
+            mark = _SANDBOX_STACK.pop() if _SANDBOX_STACK else len(_LIVE_ESCAPES)
+        escaped = _LIVE_ESCAPES[mark:]
+        if escaped:
+            raise AssertionError("%d live-path write(s) from inside the sandbox: %s"
+                                 % (len(escaped), "; ".join(escaped)))
 
     return d, filed, restore
 
@@ -10458,6 +13036,80 @@ def _esc_probe(fn):
         return fn(d, filed)
     finally:
         restore()
+
+
+def _the_destructive_tool_asks_before_it_moves_anything():
+    """The driven half of `the_destructive_tool_asks_before_it_moves_anything`. -> bool.
+
+    AGAINST A SEEDED THROWAWAY TREE, NOT THE LIBRARY (order 1c7c2c2c8b00). This drove
+    `withdraw_chapters.py --go` with `WC.HERE` and `WC.CATALOG` still pointing at the live tree,
+    so the one thing between a battery run and every catalogued chapter being MOVED out of the
+    library was the halt check this net exists to test -- and `_reread_the_breaches` re-runs a
+    breached net, so a regressed guard would have taken the destructive path twice in one run.
+    Every other destructive-tool net here builds a fixture first. The sandbox now points
+    `withdraw_chapters` and `snapshot` at scratch and one throwaway chapter, with a catalog that
+    claims it, is seeded there, so a regression costs a fixture.
+
+    REFUSES TO SEED ANYWHERE BUT THE SANDBOX: if `WC.HERE` is not the sandbox directory the
+    probe answers False before writing a byte, rather than seeding a chapter into whatever tree
+    it is pointed at. AND THE FIXTURE MUST STILL BE THERE AFTERWARDS -- a SystemHalted raised
+    after the move is not the refusal this asks for, and the chapter surviving is the direct
+    evidence that nothing moved.
+
+    Module-level so THE LIVE-STATE WITNESS can drive it; the net still owns the verdict.
+    """
+    import withdraw_chapters as WC
+
+    def probe(d, filed):
+        root = os.path.normcase(os.path.abspath(d))
+        if (os.path.normcase(os.path.abspath(WC.HERE)) != root
+                or not os.path.normcase(os.path.abspath(WC.CATALOG)).startswith(root + os.sep)):
+            return False
+        raw = os.path.join(d, "output", "raw")
+        os.makedirs(raw, exist_ok=True)
+        os.makedirs(os.path.dirname(WC.CATALOG), exist_ok=True)
+        chapter = os.path.join(raw, "II.A.1__Persons.md")
+        with open(chapter, "w", encoding="utf-8") as fh:
+            fh.write("# a throwaway chapter\n")
+        with open(WC.CATALOG, "w", encoding="utf-8") as fh:
+            json.dump({"II.A.1/Persons": {"source_name": "A Probe Source",
+                                          "raw_path": "output/raw/II.A.1__Persons.md"}}, fh)
+        ESC.silence.write_json(ESC.HALT_FILE, {
+            "raised_at": 0.0, "code": "DRILL_SYNTHETIC_HALT",
+            "what": "a synthetic standing halt for the interlock probe",
+            "by": "drill.py", "source": None, "cleared": False, "ruling": None, "also": []})
+        argv = sys.argv
+        try:
+            sys.argv = ["withdraw_chapters.py", "--go"]
+            refused = _refuses(WC.main, ESC.SystemHalted)
+        finally:
+            sys.argv = argv
+        return refused and os.path.isfile(chapter)
+    return _esc_probe(probe)
+
+
+def _an_unrecordable_stop_closes_no_live_order():
+    """A stop whose temp copy cannot be written, driven inside the sandbox. -> True once it ran.
+
+    The route order 247586e57b61 found into the live work-order queue: `stop_subsystem`'s
+    post-write recheck finds the name absent from STOPPED.json and closes the SUBSYSTEM_STOPPED
+    order through `workorders.resolve_code`, which `_esc_sandbox` did not stop. THE LIVE-STATE
+    WITNESS drives this as its representative of every probe in THE CHAIN, DRIVEN that reaches
+    that branch; the witness asserts the side effects, and the stop's own nets own its verdicts.
+    """
+    def probe(d, filed):
+        real = ESC._write_stopped
+
+        def refused(*args, **kw):
+            raise OSError("temp copy refused on purpose")
+        ESC._write_stopped = refused
+        try:
+            ESC.stop_subsystem("__drill_witness_sub__", "a live-state witness probe",
+                               who="drill-probe")
+        finally:
+            ESC._write_stopped = real
+        return True
+    return _esc_probe(probe)
 
 
 def drill_escalation_behaviour():
@@ -10883,19 +13535,7 @@ def drill_escalation_behaviour():
         raise before it touches anything? Run with `--go` -- the destructive form -- on purpose:
         a net that only proves the dry run refuses proves nothing about the run that moves files.
         """
-        import withdraw_chapters as WC
-        d, filed, restore = _esc_sandbox()
-        argv = sys.argv
-        try:
-            ESC.silence.write_json(ESC.HALT_FILE, {
-                "raised_at": 0.0, "code": "DRILL_SYNTHETIC_HALT",
-                "what": "a synthetic standing halt for the interlock probe",
-                "by": "drill.py", "source": None, "cleared": False, "ruling": None, "also": []})
-            sys.argv = ["withdraw_chapters.py", "--go"]
-            return _refuses(WC.main, ESC.SystemHalted)
-        finally:
-            sys.argv = argv
-            restore()
+        return _the_destructive_tool_asks_before_it_moves_anything()
     net(a, "the tool that MOVES chapters out of the library asks about the halt first",
         the_destructive_tool_asks_before_it_moves_anything,
         "a halt is raised when a library-wide invariant has been violated, and moving the "
@@ -10984,12 +13624,25 @@ def drill_escalation_behaviour():
         neither call can actually move anything, because HOSTS points into the temp tree and the
         record writer is stubbed. The net is about whether the QUESTION is asked, and a net that
         needed the real write to be dangerous in order to prove that would be a net nobody could
-        run twice."""
+        run twice.
+
+        THE STUB IS REAL NOW (order 7a487cfab844). That sentence said the record writer was
+        stubbed while nothing stubbed it. `pipeline.write_record_catalogue` is stood in for by a
+        recorder that refuses, restored in `finally`, and the net fails if it was ever reached."""
         import ingest_doc as ID
+        import pipeline as _PL
         d = tempfile.mkdtemp(prefix="drill_ingest_halt_")
         saved_halt = ESC.HALT_FILE
         saved_hosts = ID.HOSTS
+        saved_writer = _PL.write_record_catalogue
+        wrote = []
+
+        def no_record_write(path, rec):
+            wrote.append(path)
+            raise RuntimeError("drill: the record writer is stubbed in this net")
+
         try:
+            _PL.write_record_catalogue = no_record_write
             ESC.HALT_FILE = os.path.join(d, "HALT.json")
             with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
                 json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
@@ -11017,10 +13670,11 @@ def drill_escalation_behaviour():
             # -- it will fail later for its own reasons against a temp tree, and that is the
             # point: a net that only ever sees a refusal cannot tell the gate from the weather.
             os.remove(ESC.HALT_FILE)
-            return not refuses(lambda: ID.register("__drill_source__"))
+            return not refuses(lambda: ID.register("__drill_source__")) and not wrote
         finally:
             ESC.HALT_FILE = saved_halt
             ID.HOSTS = saved_hosts
+            _PL.write_record_catalogue = saved_writer
             shutil.rmtree(d, ignore_errors=True)
     net(a, "the document ingester asks about the halt before it writes",
         the_document_ingester_asks_about_the_halt,
@@ -11392,10 +14046,12 @@ def drill_escalation_behaviour():
             STANDS, because an answer nobody could get is not evidence that a subsystem is
             running. This kills the fail-open `_still_stopped = False`.
 
-        `workorders.resolve_code` is stood in for and its calls collected. It is not one of the
-        two side effects `_esc_sandbox` already stops (`file_order` and `health.record`), so
-        without the stand-in this probe would reach the real queue -- and reaching the real
-        queue to close orders is the one thing a net about closing orders wrongly must not do.
+        `workorders.resolve_code` is stood in for HERE and its calls collected, so the closures
+        this probe grades are in its own list. `_esc_sandbox` now stubs `resolve_code` as well
+        and redirects all three queue files (order 247586e57b61), so this local stand-in is no
+        longer what keeps the probe off the real queue; it is what lets the probe COUNT, since
+        the sandbox does not hand its own recorder back. Reaching the real queue to close orders
+        is the one thing a net about closing orders wrongly must not do, and two layers now say so.
         """
         def probe(d, filed):
             import workorders as WO
@@ -12016,6 +14672,141 @@ def drill_escalation_behaviour():
         "that cannot be raised is this module's worst outcome. The release half catches the "
         "mutation that takes the lock, disclaims it, and returns before the `finally`")
 
+    # --- FOUR SURVIVORS OF THE RUN #58 MUTATION PASS (orders befe73801f6f, 17242f0e3f39,
+    # aa9522fcec35, 3c85cdc4e5ee). Each sat one step past a net that already existed: the
+    # `recorded` field was asserted and its stderr sentence was not; the readback was only asked
+    # of records that CARRY a `cleared` key; `_land_clear` was only driven to a compare-and-swap
+    # refusal, never to a raise; and `--resume` was only asked to refuse, never whose name it
+    # signs. Each is driven for real inside the sandbox, with the one collaborator that decides
+    # the branch stood in for.
+    def an_unrecorded_escalation_says_so_on_stderr_and_only_then():
+        """ESCALATION NOT RECORDED is printed exactly when the janitor's append was lost.
+
+        Order befe73801f6f: `if not recorded:` -> `if recorded:` survived, because the net
+        "an escalation that could not be written down says so on its own record" reads the
+        `recorded` field and never the sentence. The sentence is the half that reaches a person
+        when the log itself is what failed -- by construction it cannot be said in the log.
+        BOTH WAYS: the mutant prints the warning on every escalation that DID land and goes
+        silent on the one that did not, and a warning that fires on the good path is one people
+        learn to scroll past.
+        """
+        def probe(d, filed):
+            real = ESC._append_log
+            lost, landed = io.StringIO(), io.StringIO()
+            try:
+                ESC._append_log = lambda rec: False
+                with contextlib.redirect_stderr(lost):
+                    rec_lost = ESC.escalate(ESC.SUPERVISOR, "C", "W", source="S")
+                ESC._append_log = lambda rec: True
+                with contextlib.redirect_stderr(landed):
+                    rec_landed = ESC.escalate(ESC.SUPERVISOR, "C", "W", source="S")
+            finally:
+                ESC._append_log = real
+            return (rec_lost.get("recorded") is False
+                    and "ESCALATION NOT RECORDED" in lost.getvalue()
+                    and rec_landed.get("recorded") is True
+                    and "ESCALATION NOT RECORDED" not in landed.getvalue())
+        return _esc_probe(probe)
+    net(a, "a lost escalation says ESCALATION NOT RECORDED on stderr, and a landed one does not",
+        an_unrecorded_escalation_says_so_on_stderr_and_only_then,
+        "order befe73801f6f: with the `not` dropped the line prints on every escalation that WAS "
+        "written and never on the one that was lost, and no net read stderr")
+
+    def a_halt_record_without_a_cleared_field_is_still_standing():
+        """The readback's DEFAULT, which the net above it never reaches.
+
+        Order 17242f0e3f39: `cur.get("cleared", False)` -> `cur.get("cleared", True)` survived,
+        because "the halt readback answers the CLEARED FIELD" writes `cleared: false` and
+        `cleared: true` -- both carry the key, so the default is never consulted. A halt record
+        with NO `cleared` field is a standing halt: `status()` reads it that way with the same
+        default, and the fixture is checked against `status()` first so the net cannot be
+        measuring a record nobody would call raised. The mutant reads it as lifted, which is the
+        readback agreeing with a `clear()` whose write never landed. Driven through the real
+        `_read_halt_raw` against a real file in the sandbox.
+        """
+        def probe(d, filed):
+            with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                json.dump({"code": "TEST", "raised_at": 1.0, "by": "drill-probe"}, f)
+            if ESC.status()[0] is not True:
+                return False               # the fixture must be a halt status() calls standing
+            if ESC._halt_file_cleared() is not False:
+                return False               # no `cleared` field read as lifted
+            with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                json.dump({"code": "TEST", "raised_at": 1.0, "cleared": True}, f)
+            return ESC._halt_file_cleared() is True
+        return _esc_probe(probe)
+    net(a, "a halt record with no `cleared` field reads as STANDING to the readback",
+        a_halt_record_without_a_cleared_field_is_still_standing,
+        "order 17242f0e3f39: a default of True makes every record that simply lacks the key "
+        "confirm a lift, and both existing fixtures carried the key")
+
+    def a_lift_whose_write_raised_does_not_report_landed():
+        """`_land_clear`'s EXCEPT arm, which no net had ever reached.
+
+        Order aa9522fcec35: `return False, "raised"` -> `return True, "raised"` survived. Every
+        existing probe drives `_land_clear` to a compare-and-swap REFUSAL, which returns from the
+        `try` body; nothing made it RAISE. A lift whose scratch copy could not even be written
+        must not report `landed` -- that is a writer's claim about a file it never touched, and
+        the readback behind it in `clear()` is a second layer, not a licence for this one to lie.
+
+        Forced by pointing HALT_FILE beneath a path whose parent is a FILE, so `os.makedirs`
+        raises; the sandbox's own HALT_FILE is put back in `finally`. The arm notes and writes
+        CANNOT WRITE HALT FILE by design, so the call is wrapped in `_deliberately_failing` and
+        `_quietly`, and the RETURN VALUE is what is asserted.
+        """
+        def probe(d, filed):
+            blocker = os.path.join(d, "a_file_not_a_directory")
+            with open(blocker, "w", encoding="utf-8") as f:
+                f.write("x")
+            sandboxed = ESC.HALT_FILE
+            ESC.HALT_FILE = os.path.join(blocker, "HALT.json")
+            try:
+                landed, why = _quietly(lambda: _deliberately_failing(
+                    lambda: ESC._land_clear({"code": "TEST", "cleared": True}, None)))
+            finally:
+                ESC.HALT_FILE = sandboxed
+            return landed is False and why == "raised"
+        return _esc_probe(probe)
+    net(a, "a lift whose halt-file write RAISED reports that it did not land",
+        a_lift_whose_write_raised_does_not_report_landed,
+        "order aa9522fcec35: the except arm answering True turns 'the write threw' into 'the "
+        "write landed', and every probe of this function stopped at the refusal branch")
+
+    def a_cli_resume_signs_with_the_name_it_was_given():
+        """Who re-opened a subsystem is this argument, and nothing had ever read it.
+
+        Order 3c85cdc4e5ee: `by=(a.by or "cli")` -> `by=(a.by and "cli")` survived. The mutant
+        signs every SIGNED resume as "cli", discarding the name a person typed, and every
+        unsigned one as None -- the anonymous record `main()`'s own `--by` comment says the
+        channel label exists to prevent. `resume_subsystem_verdict` is stood in for by a
+        recorder, so nothing is resumed and the person check is not on the path at all: `main()`
+        resolves the name from its module globals at call time, and the recorder is what it
+        finds. BOTH ARMS, because a fix that hardcoded either answer passes one of them.
+        """
+        def probe(d, filed):
+            seen = []
+            real = ESC.resume_subsystem_verdict
+
+            def recorder(name, ruling, by="?"):
+                seen.append((name, by))
+                return True, "drill recorder: nothing was resumed"
+            ESC.resume_subsystem_verdict = recorder
+            ruling = "a ruling long enough to clear the twenty character bar"
+            try:
+                signed = _cli(["--resume", "__drill_resume_by__", "--ruling", ruling,
+                               "--by", "drill-person"])
+                unsigned = _cli(["--resume", "__drill_resume_by__", "--ruling", ruling])
+            finally:
+                ESC.resume_subsystem_verdict = real
+            return (signed[0] == 0 and unsigned[0] == 0
+                    and seen == [("__drill_resume_by__", "drill-person"),
+                                 ("__drill_resume_by__", "cli")])
+        return _esc_probe(probe)
+    net(a, "a resume from the CLI is signed with --by, and with 'cli' only when nobody signed",
+        a_cli_resume_signs_with_the_name_it_was_given,
+        "order 3c85cdc4e5ee: `or` -> `and` records every signed resume as 'cli' and every "
+        "unsigned one as None, and no net had ever asked who a resume was signed by")
+
 
 def _lock_verdict():
     """-> the value `escalation._halt_lock()` yields, with the context manager properly exited.
@@ -12362,8 +15153,8 @@ def drill_assay_behaviour():
     def a_ladder_rung_with_no_instrument_window_refuses_to_load():
         """`instrument()` refuses such a rung with a message that NAMES it as acceptable.
 
-        Worse, anchors.py:427 indexes INSTRUMENT_WINDOWS[b] for every b in LADDER with no guard, so
-        the same divergence arrives as a KeyError raised from inside production code. Both directions
+        Worse, `anchors.run()`'s collapsed-window scan indexes INSTRUMENT_WINDOWS[b] for every b
+        in LADDER with no guard, so the same divergence arrives as a KeyError raised from inside production code. Both directions
         are attacked, because a table can disagree with the Ladder by having too little or too much.
         """
         saved = dict(ASSAY.INSTRUMENT_WINDOWS)
@@ -12383,7 +15174,8 @@ def drill_assay_behaviour():
         a_ladder_rung_with_no_instrument_window_refuses_to_load,
         "a rung on the Ladder with no window is refused by `anchor must be one of {LADDER}` -- a "
         "sentence that names that rung as acceptable -- and is an unguarded KeyError out of "
-        "anchors.py:427; a window row off the Ladder is numbers nothing can ever score against")
+        "`anchors.run()`'s collapsed-window scan; a window row off the Ladder is numbers nothing "
+        "can ever score against")
 
     def a_faculty_that_reads_a_measure_nobody_defines_refuses_to_load():
         """A misspelt axis in FACULTY_READS is not a refusal downstream, it is a SILENT DROP.
@@ -12868,6 +15660,164 @@ def drill_threads():
         "a Threads section that is present but empty reads as pending to a person and as done "
         "to a checker, which is the worst of both")
 
+    def a_stored_t3_is_verified_against_the_annex():
+        """`verify()` visited T1 and T2 only, so a mangled or dropped T3 landed (order 5a0f3925442a).
+
+        A T3 points at a Chronica Annex Canon, which the graph does not carry, so `verify()` must
+        read the Annex set from `annex_codes()` -- the reader `build()` admitted T3 against. BOTH
+        DIRECTIONS: an admitted Canon must pass, or the check is a wall; a T3 to a Canon the Annex
+        does not have, to a spine code, with a foreign class, from another volume, or dropped
+        from a graph that declares T3, must each be a problem; and an Annex that cannot be read
+        must REFUSE the T3 rather than pass it vacuously. PURE FIXTURE: `annex_codes` is stood in
+        for and restored in `finally`, the graph is an in-memory dict round-tripped through JSON
+        the way `main()` does it, and neither data/THREADS.json nor the live Annex is read.
+        """
+        import threads as TH
+        home = {"to": "II.A.1", "class": "T1", "why": "home volume", "from": "II.A.1"}
+        good = {"to": "VIII.9", "class": "T3", "why": "x", "from": "II.A.1"}
+
+        def graph(t3):
+            rec = {"code": "II.A.1", "entries": 1, "T1": dict(home), "T2": {},
+                   "by_category": {}}
+            if t3 is not None:
+                rec["T3"] = t3
+            return json.loads(json.dumps({"classes": list(TH.DERIVABLE),
+                                          "sources": {"Alpha": rec}, "unaddressed": []}))
+
+        keep = TH.annex_codes
+        try:
+            TH.annex_codes = lambda: {"VIII.9"}
+            if TH.verify(graph([dict(good)])):
+                return False                      # a wall: an admitted Canon must pass
+            for bad in ([dict(good, to="VIII.999")], [dict(good, to="II.A.1")],
+                        [dict(good, **{"class": "T5"})], [dict(good, **{"from": "II.A.2"})],
+                        None):
+                if not TH.verify(graph(bad)):
+                    return False                  # a mangled or dropped T3 landed unverified
+            TH.annex_codes = lambda: set()        # what the real reader returns when it cannot read
+            if not TH.verify(graph([dict(good)])):
+                return False                      # passed vacuously on an unreadable Annex
+            return True
+        finally:
+            TH.annex_codes = keep
+    net(a, "a stored T3 is verified against the Annex it cites, and refuses when the Annex is unreadable",
+        a_stored_t3_is_verified_against_the_annex,
+        "order 5a0f3925442a: verify() is the round-trip check main() runs before writing "
+        "THREADS.json and it never visited T3, so a T3 to a Canon the charter does not have, "
+        "or with T5's class, would have landed; and an unreadable Annex must refuse, not skip")
+
+    def an_unreadable_annex_join_refuses_and_a_stale_key_is_reported():
+        """Two silent paths beside the T3 join (order 9245eb5f6f76).
+
+        (1) `annex_join()` returned {} for an unreadable file, so the graph landed with no T3 and
+        nothing could tell it from "the Annex names nothing" -- and `verify()`'s unreadable-Annex
+        refusal cannot fire on a graph with no T3 in it. `build()` must REFUSE with the named
+        `AnnexJoinUnreadable`. (2) `build()` asked the join only for sources it walked, so a key
+        with no record (live: "Lost Mines of Phandelver") vanished. It must be REPORTED with all
+        its Canons. BOTH DIRECTIONS: an ABSENT join still builds a clean graph with no T3, a key
+        that resolved is not reported, and nothing is invented for a source the join never named.
+
+        PURE FIXTURE: records are in-memory, `threads.ANNEX_JOIN` is a scratch file, and neither
+        data/THREADS.json nor data/ANNEX_JOIN.json is read; every patch is restored in `finally`.
+        """
+        import threads as TH
+        keep = (TH.ANNEX_JOIN, TH.annex_codes, TH.law_codes, TH.ADDR.spine_code_for)
+        tmp = tempfile.mkdtemp(prefix="drill_annex_join_")
+        codes = {"Alpha": "II.A.1", "Beta": "II.A.2"}
+        recs = [{"source": s, "entries": [{"category": "Persons", "name": s.lower()}]}
+                for s in ("Alpha", "Beta", "Homeless")]
+        named = getattr(TH, "AnnexJoinUnreadable", None)
+
+        def put(text):
+            p = os.path.join(tmp, "ANNEX_JOIN_%d.json" % len(os.listdir(tmp)))
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(text)
+            TH.ANNEX_JOIN = p
+
+        try:
+            TH.ADDR.spine_code_for = lambda source_name: codes.get(source_name, TH.UNADDRESSED)
+            TH.annex_codes = lambda: {"VIII.9", "VIII.17"}
+            TH.law_codes = lambda: {"X.1"}
+            for text in ("{ torn", '{"rule": "no join object"}', '{"join": [1]}'):
+                put(text)
+                try:
+                    _deliberately_failing(lambda: TH.build(recs))
+                    return False                  # a graph landed on a join nobody could read
+                except Exception as e:
+                    if named is None or not isinstance(e, named) or not isinstance(e, TH.ThreadRefused):
+                        return False              # refused by accident, not by the guard
+            TH.ANNEX_JOIN = os.path.join(tmp, "absent.json")
+            g = _deliberately_failing(lambda: TH.build(recs))
+            if any(r["T3"] for r in g["sources"].values()) or TH.verify(json.loads(json.dumps(g))):
+                return False                      # a wall: an absent join is an empty one
+            put(json.dumps({"join": {"Alpha": [{"to": "VIII.9", "why": "w"}],
+                                     "Lost Mines of Phandelver": [{"to": "VIII.17", "why": "x"}],
+                                     "Homeless": [{"to": "VIII.9", "why": "y"},
+                                                  {"to": "VIII.17", "why": "z"}]}}))
+            g = TH.build(recs)
+            rep = {r.get("source"): r.get("canons") for r in (g.get("annex_join_unmatched") or [])}
+            return (rep == {"Lost Mines of Phandelver": ["VIII.17"], "Homeless": ["VIII.9", "VIII.17"]}
+                    and [e["to"] for e in g["sources"]["Alpha"]["T3"]] == ["VIII.9"]
+                    and g["sources"]["Beta"]["T3"] == []
+                    and not TH.verify(json.loads(json.dumps(g))))
+        finally:
+            TH.ANNEX_JOIN, TH.annex_codes, TH.law_codes, TH.ADDR.spine_code_for = keep
+            shutil.rmtree(tmp, ignore_errors=True)
+    net(a, "an unreadable Annex join refuses the graph, and a join key that threads nothing is reported",
+        an_unreadable_annex_join_refuses_and_a_stale_key_is_reported,
+        "order 9245eb5f6f76: annex_join() returned {} for a torn ANNEX_JOIN.json, so the graph "
+        "landed with no T3 and verify() could not see it; and build() dropped join keys with no "
+        "record without a word -- live, 'Lost Mines of Phandelver' -> VIII.17")
+
+    def a_malformed_annex_join_row_refuses_by_name():
+        """sweep58-batch15. `annex_join()` checked that `join` was an object but not what each
+        source mapped to, and `build()` reads `e["to"]`/`e["why"]` blind -- so a bare string, a
+        non-dict row, a missing `why` or a non-string `to` escaped as TypeError/KeyError/
+        AttributeError, not as a ThreadRefused, and `main()`'s refusal path never saw it. Each must
+        refuse as `AnnexJoinUnreadable`. BOTH DIRECTIONS: a well-formed join still builds its T3.
+        PURE FIXTURE, same shape as the net above: in-memory records, a scratch ANNEX_JOIN, the
+        address and Canon/Law tables stood in for, all restored in `finally`. Hard Rule 5: no
+        thread for the live corpus is generated and `step4_enabled` is never read."""
+        import threads as TH
+        keep = (TH.ANNEX_JOIN, TH.annex_codes, TH.law_codes, TH.ADDR.spine_code_for)
+        tmp = tempfile.mkdtemp(prefix="drill_annex_rows_")
+        codes = {"Alpha": "II.A.1", "Beta": "II.A.2"}
+        recs = [{"source": s, "entries": [{"category": "Persons", "name": s.lower()}]}
+                for s in ("Alpha", "Beta")]
+        named = getattr(TH, "AnnexJoinUnreadable", None)
+
+        def put(obj):
+            p = os.path.join(tmp, "ANNEX_JOIN_%d.json" % len(os.listdir(tmp)))
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(obj, f)
+            TH.ANNEX_JOIN = p
+
+        try:
+            TH.ADDR.spine_code_for = lambda source_name: codes.get(source_name, TH.UNADDRESSED)
+            TH.annex_codes = lambda: {"VIII.9", "VIII.17"}
+            TH.law_codes = lambda: {"X.1"}
+            for join in ({"Alpha": "VIII.9"}, {"Alpha": [1]}, {"Alpha": [{"to": "VIII.9"}]},
+                         {"Alpha": [{"to": ["VIII.9"], "why": "w"}]}, {"Ghost": "VIII.9"}):
+                put({"join": join})
+                try:
+                    _deliberately_failing(lambda: TH.build(recs))
+                    return False                  # a graph landed on a join row nobody could read
+                except Exception as e:
+                    if named is None or not isinstance(e, named) or not isinstance(e, TH.ThreadRefused):
+                        return False              # crashed, or refused by accident
+            put({"join": {"Alpha": [{"to": "VIII.9", "why": "w"}], "Beta": []}})
+            g = TH.build(recs)
+            return ([e["to"] for e in g["sources"]["Alpha"]["T3"]] == ["VIII.9"]
+                    and g["sources"]["Beta"]["T3"] == []
+                    and not TH.verify(json.loads(json.dumps(g))))
+        finally:
+            TH.ANNEX_JOIN, TH.annex_codes, TH.law_codes, TH.ADDR.spine_code_for = keep
+            shutil.rmtree(tmp, ignore_errors=True)
+    net(a, "a malformed per-source Annex join row refuses the graph by name, not by traceback",
+        a_malformed_annex_join_row_refuses_by_name,
+        "sweep58-batch15: annex_join() validated only the top-level join object, so a bad "
+        "per-source value crashed build() with a TypeError instead of AnnexJoinUnreadable")
+
     def an_unaddressed_source_is_recorded_and_refused():
         """THE BRANCH WITH NO TRAFFIC (order bee8fcbd12ab).
 
@@ -13104,6 +16054,36 @@ def drill_threads():
         "so the gate fails only on growth")
 
 
+def _a_poll_stamp_reads_back_in_three_states():
+    """The driven half of `_the_report_says_how_long_ago_each_job_ASKED`. -> bool.
+
+    IN THE ONE SANDBOX, AND WITH NO CLEANUP TO GRADE (order 5d686329771b). This stamped the LIVE
+    `state/codewatch_poll/` and then made its own `os.remove` of the stamp part of the verdict,
+    swallowing a refusal. On Windows a remove is DENIED whenever anything holds the file, so a
+    transient lock left the stamp behind, the "gone again" arm read it as polled, the net
+    breached, a breach halts at OWNER -- and the next run breached on the same leftover. It
+    latched. Now `codewatch.POLLS` is a scratch directory the sandbox removes wholesale, and the
+    third state is reached by pointing `POLLS` at a second, EMPTY scratch directory instead of
+    deleting anything. The question is whether a stamp that is not there reads as not known;
+    asked this way a lock cannot fail it, and a cache keyed on the job name cannot pass it.
+
+    Module-level so THE LIVE-STATE WITNESS can drive it; the net still owns the verdict.
+    """
+    import codewatch as _CW
+
+    def probe(d, filed):
+        name = "__drill_poll_probe__"
+        if _CW.last_polled(name) is not None:
+            return False              # a name nothing has stamped must read as not known
+        _CW._stamp_poll(name)
+        age = _CW.last_polled(name)
+        if age is None or age > 60:
+            return False              # a fresh stamp must read back as fresh
+        _CW.POLLS = os.path.join(d, "codewatch_poll_emptied")    # put back by the sandbox
+        return _CW.last_polled(name) is None     # and a stamp that is not there is "not known"
+    return _esc_probe(probe)
+
+
 def drill_codewatch():
     """Stale daemons — the failure that made every other safety here conditional.
 
@@ -13213,19 +16193,28 @@ def drill_codewatch():
 
     def a_change_must_settle_before_it_restarts_anything():
         """A digest taken mid-write is a digest of garbage. `local_agent --patch` writes several
-        files over several seconds, and a naive watcher would bounce every daemon per file."""
+        files over several seconds, and a naive watcher would bounce every daemon per file.
+
+        INSIDE THE SANDBOX (run #58). This called `CW.stamp("__drill__")` with codewatch's
+        POLLS / LEDGER still pointing at the live `state/`, so any stamp-time write -- a poll
+        stamp, a blind-stamp escalation -- would land in the live tree under a drill name.
+        `_esc_sandbox` already redirects both, and its audit hook fails this net if anything
+        still escapes."""
         import codewatch as CW
-        CW.stamp("__drill__")
-        saved = CW._START["digest"]
-        try:
-            CW._START["digest"] = "0000000000000000"      # pretend the source moved
-            first = CW.stale("__drill__")
-            second = CW.stale("__drill__")
-            return first[0] is False and second[0] is False and "settling" in second[1]
-        finally:
-            CW._START["digest"] = saved
-            CW._PENDING["digest"] = None
-            CW._PENDING["first_seen"] = None
+
+        def probe(d, filed):
+            CW.stamp("__drill__")
+            saved = CW._START["digest"]
+            try:
+                CW._START["digest"] = "0000000000000000"      # pretend the source moved
+                first = CW.stale("__drill__")
+                second = CW.stale("__drill__")
+                return first[0] is False and second[0] is False and "settling" in second[1]
+            finally:
+                CW._START["digest"] = saved
+                CW._PENDING["digest"] = None
+                CW._PENDING["first_seen"] = None
+        return _esc_probe(probe)
     net(a, "a source change must hold still before it triggers a restart",
         a_change_must_settle_before_it_restarts_anything,
         "restarting into a half-written file is worse than running the old one")
@@ -13246,6 +16235,49 @@ def drill_codewatch():
     net(a, "an unreadable source tree is not mistaken for an unchanged one",
         unreadable_source_is_not_reported_as_unchanged,
         "None must never compare equal to a digest")
+
+    def a_subdirectory_change_is_not_invisible_to_the_watch():
+        """`fingerprint` and `quiet_seconds` must see a source change BELOW the top of src/.
+
+        Order 5d0fa30e4b09 item 1. Both listed `root` with `os.listdir`, and `src/deprecated/`
+        holds a module -- the blind spot already closed in `silence._py_files`,
+        `sweep_plan._src_py_files` and this file's own `_src_py_files`. Every rc=17 decision rests
+        on this digest. Driven on a fixture tree inside the sandbox: an edit to `sub/b.py` must
+        move the digest and read as recent, a write into `__pycache__` must NOT count (it is
+        rewritten on every import), and the existing contract still holds -- an absent directory
+        fingerprints as None.
+        """
+        import codewatch as CW
+
+        def probe(d, filed):
+            tree = os.path.join(d, "src_fixture")
+            os.makedirs(os.path.join(tree, "sub"))
+            os.makedirs(os.path.join(tree, "__pycache__"))
+            top, low = os.path.join(tree, "a.py"), os.path.join(tree, "sub", "b.py")
+            for p, body in ((top, "A = 1\n"), (low, "B = 1\n")):
+                with open(p, "w", encoding="utf-8") as fh:
+                    fh.write(body)
+            old = time.time() - 3600
+            for p in (top, low, os.path.join(tree, "sub"), os.path.join(tree, "__pycache__"), tree):
+                os.utime(p, (old, old))
+            fp1 = CW.fingerprint(tree)
+            with open(low, "w", encoding="utf-8") as fh:
+                fh.write("B = 2\n")
+            fp2, quiet = CW.fingerprint(tree), CW.quiet_seconds(tree)
+            for p in (top, low, os.path.join(tree, "sub"), tree):
+                os.utime(p, (old, old))
+            with open(os.path.join(tree, "__pycache__", "x.pyc"), "w", encoding="utf-8") as fh:
+                fh.write("x")
+            os.utime(tree, (old, old))
+            pyc_quiet = CW.quiet_seconds(tree)
+            return (fp1 is not None and fp1 != fp2 and quiet is not None and quiet < 60
+                    and pyc_quiet is not None and pyc_quiet > 3000
+                    and CW.fingerprint(os.path.join(tree, "absent")) is None)
+        return _esc_probe(probe)
+    net(a, "a source change below the top of src/ is seen by the staleness watch",
+        a_subdirectory_change_is_not_invisible_to_the_watch,
+        "order 5d0fa30e4b09 item 1: a watch that does not descend restarts nothing when "
+        "src/<subdir>/ changes")
 
     def restarts_are_budgeted():
         """Spend the budget against a scratch ledger and require it to RUN OUT, then refill.
@@ -13486,23 +16518,9 @@ def drill_codewatch():
         that `exit_if_stale` stamps at all, and that it stamps BEFORE it can exit the process.
         """
         import ast
-        import codewatch as _CW
-        # ---- driven: the three states ---------------------------------------------------
-        probe = "__drill_poll_probe__"
-        try:
-            if _CW.last_polled(probe) is not None:
-                return False              # a name nothing has stamped must read as not known
-            _CW._stamp_poll(probe)
-            age = _CW.last_polled(probe)
-            if age is None or age > 60:
-                return False              # a fresh stamp must read back as fresh
-        finally:
-            try:
-                os.remove(os.path.join(_CW.POLLS, probe + ".json"))
-            except OSError:
-                pass
-        if _CW.last_polled(probe) is not None:
-            return False                  # and removing it must go back to "not known"
+        # ---- driven: the three states, inside the one sandbox (order 5d686329771b) -------
+        if not _a_poll_stamp_reads_back_in_three_states():
+            return False
 
         # ---- the parse tree: it is actually wired into the poll -------------------------
         tree = _ast_of(os.path.join(_srcdir(), "codewatch.py"))
@@ -13526,6 +16544,94 @@ def drill_codewatch():
         "the restart ledger can only describe jobs that restarted; the job that sat forty "
         "minutes on stale code never restarted at all, and 'never seen a change' and 'never "
         "looked' printed the same sentence")
+
+    def a_failed_poll_stamp_write_leaves_the_previous_stamp_readable():
+        """ATOMIC, NOT TRUNCATE-THEN-FILL -- the fix of order cc07729f5a4d, watched refusing.
+
+        `codewatch._stamp_poll` was a bare `open(..., "w")` + `json.dump`. A write that died
+        part-way left the stamp torn until the next poll, and `last_polled`, the report and the
+        dashboard read that torn document in the meantime. It now lands through
+        `silence.write_json`, a temp file renamed over the old stamp, so a failed write leaves the
+        PREVIOUS stamp readable.
+
+        Driven the way the fault happens: stamp once, then make `json.dump` write HALF a document
+        and raise for exactly one call, and require the stamp on disk to still parse and to still
+        carry the FIRST stamp's `at`. `json.dump` is the module attribute both the old and the new
+        write path reach, so the same attack lands on either. Inside the sandbox, which already
+        points `codewatch.POLLS` at scratch; the failure is deliberate, so its `silence.note` is
+        kept out of the live failure ledger by `_deliberately_failing`.
+        """
+        import codewatch as CW
+
+        def probe(d, filed):
+            name = "__drill_torn_poll__"
+            CW._stamp_poll(name)
+            path = os.path.join(CW.POLLS, "%s.json" % name)
+            with open(path, encoding="utf-8") as fh:
+                first = json.load(fh)
+            if first.get("job") != name or "at" not in first:
+                return False                   # a normal stamp must land before the attack means anything
+            real_dump = json.dump
+
+            def torn_dump(obj, fp, *args, **kw):
+                fp.write('{"job": "__drill_to')        # part of a document, then the write dies
+                raise OSError("drill: simulated failure mid-write")
+            json.dump = torn_dump
+            try:
+                _deliberately_failing(lambda: CW._stamp_poll(name))
+            finally:
+                json.dump = real_dump
+            try:
+                with open(path, encoding="utf-8") as fh:
+                    after = json.load(fh)
+            except (OSError, ValueError):
+                return False                   # torn or gone: the previous stamp was destroyed
+            return after.get("at") == first.get("at")
+        return _esc_probe(probe)
+    net(a, "a poll stamp that fails mid-write leaves the previous stamp readable (order cc07729f5a4d)",
+        a_failed_poll_stamp_write_leaves_the_previous_stamp_readable,
+        "a truncate-then-fill stamp that dies part-way is a torn file every reader of the poll "
+        "record trips over until the next poll")
+
+    def _a_poll_stamp_from_a_dead_process_is_not_known():
+        """A poll stamp outlives the process that wrote it, and must not speak for it.
+
+        Order 093a35335c68, remedy (b). `last_polled` read the stamp by job NAME only, so a stamp
+        left by an exited process -- the drill driving pipeline's phase loop, a daemon's previous
+        instance -- rendered as "polled N minutes ago" for a job that was not polling. Measured:
+        pipeline "9 min ago" off the drill's pid with no pipeline running; overwatch "4432 min
+        ago" off a three-day-old pid. BOTH DIRECTIONS: a stamp from a live pid (this process) must
+        still read as a number, or the check is a wall; a stamp from a dead pid, and one with no
+        pid, must read None. Inside the sandbox, so `codewatch.POLLS` is scratch. The dead pid is
+        a child `python -c pass` spawned windowless with its cwd in the sandbox (the witness
+        counts a child whose cwd is the live tree as a live-path write) and already reaped.
+        """
+        import subprocess
+        import codewatch as _CW
+
+        def probe(d, filed):
+            child = subprocess.Popen([sys.executable, "-c", "pass"], cwd=d,
+                                     creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            child.wait()
+            os.makedirs(_CW.POLLS, exist_ok=True)
+            now = time.time()
+            for name, pid in (("__drill_poll_live__", os.getpid()),
+                              ("__drill_poll_dead__", child.pid),
+                              ("__drill_poll_nopid__", None)):
+                rec = {"job": name, "at": now}
+                if pid is not None:
+                    rec["pid"] = pid
+                with open(os.path.join(_CW.POLLS, name + ".json"), "w", encoding="utf-8") as fh:
+                    json.dump(rec, fh)
+            live = _CW.last_polled("__drill_poll_live__")
+            return (live is not None and live < 60
+                    and _CW.last_polled("__drill_poll_dead__") is None
+                    and _CW.last_polled("__drill_poll_nopid__") is None)
+        return _esc_probe(probe)
+    net(a, "a poll stamp left by a process that is no longer running reads as NOT KNOWN",
+        _a_poll_stamp_from_a_dead_process_is_not_known,
+        "order 093a35335c68: the report read stamps by job name, so a dead process's stamp -- "
+        "the drill's own, or a daemon's previous instance -- rendered as a recent poll")
 
     def twin_detection_does_not_match_bystanders():
         """THE ONE THAT WOULD HAVE CAUSED THE OUTAGE IT PREVENTS, and that then went on to cause
@@ -13799,6 +16905,71 @@ def drill_defect_classes():
         "never restarts, never spends budget, and reports a FULL budget -- healthy-looking "
         "precisely because the fault is happening. Four daemons sat a day on stale code under "
         "that reading; foreman sat 1.6 hours under it during this very run")
+    def weave_index_refuses_an_eaten_escape():
+        """A `\\s` turned into a literal backspace in weave_index.py must stop it loading.
+
+        Sweep 58, batch14. weave_index compiles live escapes (`_STRIP`, `_EARTH`, `norm`'s
+        substitutions) and carried no `_BAD_CHARS` guard, so a transit-mangled `_STRIP` would
+        have loaded and matched nothing, silently, through a `--write` run. Reads the module from
+        `_srcdir()`, writes a MANGLED copy into a temp dir and executes that copy's module level
+        under a throwaway name (`main()` never runs). The anchor must match exactly once or the
+        net refuses rather than proving nothing.
+        """
+        import importlib.util as _ilu
+        with open(os.path.join(_srcdir(), "weave_index.py"), encoding="utf-8") as fh:
+            text = fh.read()
+        anchor = "\\s+\", re.I)"
+        if text.count(anchor) != 1:
+            return False
+        tmp = tempfile.mkdtemp(prefix="drill_weave_guard_")
+        try:
+            p = os.path.join(tmp, "weave_mangled_copy.py")
+            with open(p, "w", encoding="utf-8", newline="") as fh:
+                fh.write(text.replace(anchor, chr(8) + "\", re.I)"))
+            spec = _ilu.spec_from_file_location("weave_mangled_copy", p)
+            try:
+                spec.loader.exec_module(_ilu.module_from_spec(spec))
+            except SystemExit as e:
+                return "eaten in transit" in str(e)
+            return False
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+    net(a, "weave_index.py refuses to load when a regex escape was eaten in transit",
+        weave_index_refuses_an_eaten_escape,
+        "sweep 58 batch14: weave_index had live regex escapes and no _BAD_CHARS guard")
+    net(a, "the tiers invariants are raised, not asserted, so -O cannot strip them",
+        _tiers_invariants_survive_optimize,
+        "order 5d0fa30e4b09 item 4: python -O strips assert, so a CUTS edit that broke nesting "
+        "would chart silently -- the bare-assert class already repaired in entity_match and "
+        "scale_theories, a third time")
+
+
+def _tiers_invariants_survive_optimize():
+    """tiers.py's CUTS invariants must refuse under `python -O`, not only under plain python.
+
+    Order 5d0fa30e4b09 item 4. "CUTS loosen downward" and "CUTS[0] <= MULTIVERSE_THRESHOLD" were
+    bare `assert`s, and -O strips assertions, so a broken CUTS would import and chart silently in
+    exactly the run nobody checks. The real source is compiled with `optimize=2` (what -O does)
+    into a private namespace -- the imported module is never touched -- once with a threshold out
+    of order and once with the multiverse looser than the metaverse, and each must raise
+    ValueError. A fixture anchor that no longer matches the source fails closed: an unmodified
+    text would otherwise import cleanly and read as a refusal that never happened.
+    """
+    import types
+    p = os.path.join(_srcdir(), "tiers.py")
+    with open(p, encoding="utf-8") as fh:
+        text = fh.read()
+    broken = [text.replace('("xenoverse",   50.0,', '("xenoverse",  150.0,', 1),
+              text.replace("MULTIVERSE_THRESHOLD = 102.3", "MULTIVERSE_THRESHOLD = 99.0", 1)]
+    if any(b == text for b in broken):
+        return False
+    for b in broken:
+        m = types.ModuleType("tiers_optimized_probe")
+        m.__file__ = p
+        if not _refuses(lambda b=b, m=m: exec(compile(b, p, "exec", optimize=2), m.__dict__),
+                        ValueError):
+            return False
+    return True
 
 
 _KNOWN_KILL0_SITES = {
@@ -14291,6 +17462,42 @@ def drill_scout():
         _the_log_roll_off_archives_before_it_trims,
         "the ordering is the whole guarantee, and both existing scout nets run four-cycle "
         "fixtures against LOG_CYCLES=40 -- so this branch had never once been executed")
+    net(a, "scout._mutate records a temp it could not remove",
+        _scout_mutate_notes_a_temp_it_could_not_remove,
+        "order bf1340bc3b3f: the one silent `except OSError: pass` in the compare-and-swap loop "
+        "left leaked temps beside shared artifacts with no trace")
+
+
+def _scout_mutate_notes_a_temp_it_could_not_remove():
+    """A refused compare-and-swap round whose temp cannot be removed must leave a note.
+
+    Order bf1340bc3b3f item 6. In `scout._mutate`'s loop the `os.remove(tmp)` after a refused
+    `silence.replace_if_unchanged` sat in `except OSError: pass` -- the one silent handler in a
+    loop where every other path notes -- so a pid/thread-named temp left beside WIKI_HOSTS.json or
+    SCOUT_ATTEMPTS.json by a reader holding it open left no trace at all. One round, forced:
+    the swap refuses and `os.remove` raises PermissionError. `silence.note` is captured IN MEMORY
+    (so no ledger row is manufactured), and it, the swap and `os.remove` are restored in `finally`
+    straight after the one call. The target is a file inside the sandbox.
+    """
+    import silence as _S
+    import scout as SC
+
+    def probe(d, filed):
+        noted = []
+        keep = (_S.note, _S.replace_if_unchanged, os.remove)
+
+        def _remove(p):
+            raise PermissionError(13, "held open (drill)", p)
+        try:
+            _S.note = lambda site: noted.append(site)
+            _S.replace_if_unchanged = lambda tmp, path, digest, *a_, **k_: (False, "denied (drill)")
+            os.remove = _remove
+            landed, _why = SC._mutate(os.path.join(d, "X.json"), lambda dd: dd.update(a=1),
+                                      attempts=1)
+        finally:
+            _S.note, _S.replace_if_unchanged, os.remove = keep
+        return (not landed) and "scout.py:mutate-tmp-not-removed" in noted
+    return _esc_probe(probe)
 
 
 def drill_recorders_and_lane():
@@ -15234,6 +18441,9 @@ def drill_mutation():
             return seen == [True, True] and not M.active()[0] and not os.path.exists(M.LOCK)
         finally:
             M.LOCK, M._run_mutation, M._HELD = saved_lock, saved_body, saved_held
+            # REMOVED, LIKE ITS THREE SIBLINGS' (order 7a487cfab844). The prefix is not
+            # `mutate.SANDBOX_PREFIX`, so `reap_orphans` never collects it: one leaked per run.
+            shutil.rmtree(d, ignore_errors=True)
     net(a, "run() actually HOLDS the lock, on the crash path too", run_actually_holds_the_lock,
         "_lock_acquire had no caller anywhere in mutate.py, so publish's 'refusing to push "
         "during a mutation' could never fire -- and four nets exercised the lock without ever "
@@ -15787,6 +18997,44 @@ def drill_mutation():
         "testzip() passes on whatever is present and every other comparison ran against the "
         "LIVE TREE, so a snapshot short of a member verified clean and would have restored a "
         "smaller library than the one it claims to hold")
+
+    def _verify_fails_when_a_canonical_file_is_gone():
+        """A verify that passes while the files it protects are missing cannot fail when it matters.
+
+        Order 2f85e46c2c3c. `verify()` named canonical files GONE from the live tree and then
+        returned ok=True, so `--verify` printed "VERIFY: ok" and exited 0. Both directions: a
+        faithful tree must still verify (or this measures a broken fixture), and the same tree
+        with one record deleted must refuse and name it. `CB.ROOT` / `HERE` / `CANON_FILES` /
+        `CANON_DIRS` point at a fixture tree inside the sandbox and are restored in `finally`.
+        """
+        import canon_backup as CB
+
+        def probe(d, filed):
+            saved = (CB.ROOT, CB.CANON_FILES, CB.CANON_DIRS, CB.HERE)
+            tree = os.path.join(d, "canon_fixture")
+            try:
+                CB.ROOT, CB.HERE = os.path.join(tree, "snaps"), tree
+                CB.CANON_FILES, CB.CANON_DIRS = ("data/SIDE.json",), ("data/records",)
+                os.makedirs(os.path.join(tree, "data", "records"))
+                with open(os.path.join(tree, "data", "SIDE.json"), "w", encoding="utf-8") as fh:
+                    fh.write("{}")
+                for n in ("a.json", "b.json"):
+                    with open(os.path.join(tree, "data", "records", n), "w",
+                              encoding="utf-8") as fh:
+                        json.dump({"source": n}, fh)
+                snap, _man = CB.snapshot()
+                if not CB.verify(snap)[0]:
+                    return False                  # the control: a faithful tree verifies
+                os.remove(os.path.join(tree, "data", "records", "b.json"))
+                ok, notes = CB.verify(snap)
+                return (not ok) and any("data/records/b.json" in n for n in notes)
+            finally:
+                CB.ROOT, CB.CANON_FILES, CB.CANON_DIRS, CB.HERE = saved
+        return _esc_probe(probe)
+    net(a, "verify() fails when a canonical file it recorded is gone from the live tree",
+        _verify_fails_when_a_canonical_file_is_gone,
+        "order 2f85e46c2c3c: verify() named the gone files and still returned ok=True, so "
+        "--verify printed 'VERIFY: ok' with the canon it protects missing")
 
     def a_gate_that_cannot_finish_is_refused():
         """BOTH DIRECTIONS OF THE SAME WORTHLESS ANSWER. Before the baseline existed, a
@@ -16547,7 +19795,8 @@ def drill_citations():
     net(a, "a citation landing on a blank line is caught",
         lambda: "BLANK_LINE" in _reasons_for({"t.py": _CITE_TARGET,
                                               "c.py": "# see t.py:2 for the reason\n"}),
-        "standards.py:604 was exactly this, found by a sweep batch that had to read both ends")
+        "a citation into standards.py that landed on a blank line was exactly this, found by a "
+        "sweep batch that had to read both ends")
 
     net(a, "a citation landing on a bare closing bracket is caught",
         lambda: "BARE_BRACKET" in _reasons_for({"t.py": _CITE_TARGET,
@@ -16593,6 +19842,71 @@ def drill_citations():
         "a zero from citecheck means 'none provably broken', never 'verified' -- the expensive "
         "half of the question stays a sweep's job and the module must not grow a reason that "
         "implies otherwise")
+
+    def queue_text_reuses_the_resolver_not_a_copy_of_it():
+        """`citecheck.citations_in_text` is the SAME resolver applied to queue text.
+
+        Order dc9ffadae765. Measured 2026-08-30: 2,898 `file.py:NNN` citations sat in the open
+        queue's own evidence and `what` text and nothing had ever checked one. The remedy has to
+        be the existing PAST_EOF / BLANK_LINE / BARE_BRACKET resolver applied to a new kind of
+        text, not a second copy of its rules that can drift. A plain string is scanned against
+        the same four-line `_CITE_TARGET` the nets above use, written to a scratch `src/` inside
+        the sandbox -- no queue is read and live `src/` is never touched. Line 5 of a four-line
+        file must come back PAST_EOF, and line 4 (real code) must not be flagged at all.
+        """
+        import citecheck as CC
+
+        def probe(d, filed):
+            root = os.path.join(d, "src_fixture")
+            os.makedirs(root)
+            with open(os.path.join(root, "t.py"), "w", encoding="utf-8") as fh:
+                fh.write(_CITE_TARGET)
+            found = CC.citations_in_text("evidence.proof cites t.py:5 for the fix", src_dir=root)
+            clean = CC.citations_in_text("evidence.proof cites t.py:4 for the fix", src_dir=root)
+            return (len(found) == 1 and found[0]["reason"] == "PAST_EOF"
+                    and found[0]["cited_line"] == 5 and clean == [])
+        return _esc_probe(probe)
+
+    net(a, "workorders --check-citations reuses citecheck's resolver on queue text",
+        queue_text_reuses_the_resolver_not_a_copy_of_it,
+        "order dc9ffadae765: 2,898 line citations sat in the open queue's own text and nothing "
+        "had ever resolved one of them")
+
+    def check_citations_exits_nonzero_on_a_stale_citation():
+        """`--check-citations` must say so in its exit code, like `--check-closed` does.
+
+        Sweep 58, batch07. It returned 0 whether or not it found provably stale citations, so
+        anything reading the exit code saw a stale queue as a pass. BOTH DIRECTIONS: one stale
+        citation -> 1, none -> 0. Inside the sandbox; `workorders.open_orders` serves one
+        in-memory row and `citecheck.citations_in_text` a stub finding, each with its subject's
+        own signature (verify_math §20ae) -- that the REAL resolver is used is the net above's job.
+        """
+        import workorders as _WO
+        import citecheck as _CC
+
+        def probe(d, filed):
+            rows = [{"id": "o1", "code": "C", "what": "cites t.py:5", "where": "",
+                     "evidence": None}]
+            saved = (_WO.open_orders, _CC.citations_in_text, sys.argv)
+            try:
+                _WO.open_orders = lambda handler=None, severity=None: list(rows)
+                _CC.citations_in_text = (
+                    lambda text, src_dir=None, include_unresolved=False, skipped=None:
+                    ([{"reason": "PAST_EOF", "cites": "t.py", "cited_line": 5}]
+                     if "t.py:5" in text else []))
+                sys.argv = ["workorders.py", "--check-citations"]
+                with contextlib.redirect_stdout(io.StringIO()):
+                    stale = _WO.main()
+                    rows[0]["what"] = "cites nothing"
+                    clean = _WO.main()
+                return stale == 1 and clean == 0
+            finally:
+                _WO.open_orders, _CC.citations_in_text, sys.argv = saved
+        return _esc_probe(probe)
+    net(a, "workorders --check-citations exits nonzero when it finds a stale citation",
+        check_citations_exits_nonzero_on_a_stale_citation,
+        "sweep 58 batch07: --check-citations returned 0 on findings, unlike --check-closed, so an "
+        "exit-code reader could not tell a stale queue from a clean one")
 
 
 def drill_outside():
@@ -16679,9 +19993,16 @@ def drill_outside():
         """
         import corpus_db
         import address
+        # NO INDEX IS STILL A PASS, DELIBERATELY; AN EMPTY ONE IS NOT (order 0954a44e057d).
+        # `mutate.sandbox()` copies `state/` BY NAME and leaves the 78 MB `state/corpus.db` out,
+        # so every `--prove` tree and every mutation baseline has no index at all -- and a net
+        # that is red at the baseline is disabled as a detector for that whole pass. With no
+        # derived view there is nothing to disagree with. An index that EXISTS and names no
+        # source is a different fact: a pass over it is a pass over nothing.
         if not os.path.exists(corpus_db.DB):
             return True
         cols, rows = corpus_db.query("SELECT name, spine FROM source")
+        checked = 0
         for name, stored in rows:
             if not name:
                 continue
@@ -16689,7 +20010,8 @@ def drill_outside():
             real = None if real == "UNASSIGNED" else real
             if stored != real:
                 return False
-        return True
+            checked += 1
+        return checked > 0
     net(a, "the index's spine column agrees with address.spine_code_for()",
         index_spine_agrees_with_the_resolver,
         "a derived view must derive through the same code, never a simpler copy of it")
@@ -16799,6 +20121,34 @@ def drill_outside():
     net(a, "the outside opinion always returns a status for every tool",
         outside_opinion_survives_a_broken_tool,
         "fail-open here, and say so -- an optional check must not be able to halt the park")
+
+    def a_tool_that_ran_and_exited_nonzero_is_not_reported_missing():
+        """`_exe()` must say a candidate RAN and exited nonzero, not default to "no such file".
+
+        Order 3fc19ad4d1c6. A candidate that exists and spawns but exits nonzero on `--version`
+        (a broken install, a licence prompt) fell through with `reason` untouched and reported
+        the FileNotFoundError-shaped default -- whose remedy is "reinstall it", when the real one
+        is "find out why the spawn failed". NOTHING IS SPAWNED: the module's `subprocess.run` is
+        stood in for, every candidate "runs" and exits 1, and it is restored in `finally`.
+        """
+        import types
+        import secondopinion as SO
+
+        def _ran_and_refused(cmd, **kw):
+            return types.SimpleNamespace(returncode=1, stdout=b"",
+                                         stderr=b"error: could not acquire licence")
+        real_run = SO.subprocess.run
+        try:
+            SO.subprocess.run = _ran_and_refused
+            path, reason = SO._exe("drilltest-nonexistent-tool")
+        finally:
+            SO.subprocess.run = real_run
+        return (path is None and reason != "no such file"
+                and "exited 1" in (reason or ""))
+    net(a, "a tool that ran and exited nonzero is not reported as missing",
+        a_tool_that_ran_and_exited_nonzero_is_not_reported_missing,
+        "order 3fc19ad4d1c6: 'no such file' survived a real spawn that returned nonzero, so the "
+        "remedy printed was 'reinstall it' instead of 'find out why the spawn failed'")
 
 
 def drill_resonance():
@@ -16949,7 +20299,10 @@ def drill_identity_dashboard():
     # re-threw on the same bytes forever.
     def history_heals_nonnumeric_at():
         import dashboard as DB
-        tmp = tempfile.mktemp(suffix=".json")
+        # A NAME RESERVED BY CREATING THE FILE (order 7a487cfab844). `mktemp` only GENERATES a
+        # name, which another process can take before this one opens it; `mkstemp` makes it.
+        fd, tmp = tempfile.mkstemp(suffix=".json", prefix="drill_history_")
+        os.close(fd)
         orig_history = DB.HISTORY
         try:
             DB.HISTORY = tmp
@@ -16965,10 +20318,15 @@ def drill_identity_dashboard():
             return after != before and json.loads(after) != corrupt
         finally:
             DB.HISTORY = orig_history
+            # A FAILED REMOVAL IS RECORDED, NOT PASSED OVER (order 7a487cfab844), the discipline
+            # every live-tree probe cleanup in `drill_local_agent` already keeps.
             try:
                 os.remove(tmp)
+            except FileNotFoundError:
+                _ = "silence-exempt: the temp history file is already gone"
             except OSError:
-                pass
+                import silence as _si
+                _si.note("drill.py:history-probe-cleanup")
     net(a, "a history row with a non-numeric 'at' heals the file rather than wedging it",
         history_heals_nonnumeric_at,
         "order c003673cff01 Case A: the write that would have healed HISTORY was never "
@@ -16983,7 +20341,8 @@ def drill_identity_dashboard():
     # page over one bad field in one sample.
     def movement_survives_nonnumeric_metric():
         import dashboard as DB
-        tmp = tempfile.mktemp(suffix=".json")
+        fd, tmp = tempfile.mkstemp(suffix=".json", prefix="drill_history_")   # see the net above
+        os.close(fd)
         orig_history = DB.HISTORY
         try:
             DB.HISTORY = tmp
@@ -16996,10 +20355,15 @@ def drill_identity_dashboard():
                 return False
         finally:
             DB.HISTORY = orig_history
+            # A FAILED REMOVAL IS RECORDED, NOT PASSED OVER (order 7a487cfab844), the discipline
+            # every live-tree probe cleanup in `drill_local_agent` already keeps.
             try:
                 os.remove(tmp)
+            except FileNotFoundError:
+                _ = "silence-exempt: the temp history file is already gone"
             except OSError:
-                pass
+                import silence as _si
+                _si.note("drill.py:history-probe-cleanup")
     net(a, "a non-numeric stored metric does not raise out of movement()",
         movement_survives_nonnumeric_metric,
         "order c003673cff01 Case B: one string in one history sample used to black out every "
@@ -17313,6 +20677,84 @@ def drill_weave_plan():
         "order 9508f9322b4c -- case (c): `--batches N --out PATH` writes a bare JSON list at the "
         "plan path, and freeze_plan used to silently recompute and overwrite it")
 
+    def sweep_plan_first_callers_agree_with_the_frozen_file():
+        """Two first-callers of freeze_plan(run) must both come away holding the plan on disk.
+
+        Orders 762fadb8c4c9 / bf316bbb7f89. The create-if-absent path landed with
+        `silence.write_json`, which renames over anything: both callers saw "absent", both
+        computed, and the later rename replaced the earlier plan while BOTH returned
+        `frozen: True` -- the loser dispatching from batches that are not the frozen ones.
+        Driven: caller B freezes its (different) plan inside caller A's `batches()`; then A lands.
+        A's landing is refused by the compare-and-swap -- the fix working, and it notes -- so A's
+        call is wrapped in `_deliberately_failing`. `SP.PLANS` points under the sandbox and
+        `SP.modules` / `SP.batches` are stood in for, so nothing reads the live tree.
+        """
+        import sweep_plan as SP
+
+        def probe(d, filed):
+            tmp = os.path.join(d, "sweep_plan")
+            os.makedirs(tmp)
+            saved = (SP.PLANS, SP.modules, SP.batches)
+            who, got = ["A"], {}
+            try:
+                SP.PLANS = tmp
+                SP.modules = lambda: [{"module": "a.py", "lines": 1}]
+
+                def batches(n, snapshot=None):
+                    me = who[0]
+                    plan = [{"batch": 1, "modules": ["plan-of-" + me]}]
+                    if me == "A":
+                        who[0] = "B"
+                        got["B"] = SP.freeze_plan("__drill_freeze_cas__", 2)
+                    return plan
+                SP.batches = batches
+                with contextlib.redirect_stderr(io.StringIO()):
+                    got["A"] = _deliberately_failing(
+                        lambda: SP.freeze_plan("__drill_freeze_cas__", 2))
+                with open(SP.plan_path("__drill_freeze_cas__"), encoding="utf-8") as fh:
+                    disk = json.load(fh)
+                return all(got.get(k, {}).get("frozen") is True
+                           and got[k].get("batches") == disk.get("batches") for k in ("A", "B"))
+            finally:
+                SP.PLANS, SP.modules, SP.batches = saved
+        return _esc_probe(probe)
+
+    net(a, "two first-callers of freeze_plan both return the plan that is actually frozen",
+        sweep_plan_first_callers_agree_with_the_frozen_file,
+        "orders 762fadb8c4c9 / bf316bbb7f89: create-if-absent had no compare-and-swap, so two "
+        "first-callers could each believe they froze a different plan")
+
+    def weave_filtered_index_fails_closed_on_an_unimportable_statblock_gate():
+        """filtered_index() must RAISE when `pipeline._STATBLOCK` cannot be imported.
+
+        Order 3fc19ad4d1c6. The import sat in `try/except: _STATBLOCK = None`, so an unimportable
+        `pipeline` silently switched off the statblock half of the mechanic filter for the whole
+        weave and returned a plausible-looking index -- "the gate found nothing" spelled the same
+        as "the gate could not run". `pipeline` is stood in for by an EMPTY module for the one
+        call, the exact ImportError shape the old code downgraded, and restored in `finally`.
+        ImportError specifically, not any exception: a filter that died of something else has
+        not shown it refuses on this. The arm notes, so the call is in `_deliberately_failing`.
+        """
+        import types
+        import weave as W
+        fake = types.ModuleType("pipeline")
+        prior = sys.modules.get("pipeline")
+        sys.modules["pipeline"] = fake
+        try:
+            raw = {"k1": [{"name": "Ordinary Entity", "description": "no rules voice here"}]}
+            return _refuses(lambda: _deliberately_failing(lambda: W.filtered_index(raw)),
+                            ImportError)
+        finally:
+            if prior is not None:
+                sys.modules["pipeline"] = prior
+            else:
+                sys.modules.pop("pipeline", None)
+
+    net(a, "filtered_index refuses when the statblock gate cannot even be imported",
+        weave_filtered_index_fails_closed_on_an_unimportable_statblock_gate,
+        "order 3fc19ad4d1c6: an unimportable pipeline switched off the statblock half of the "
+        "mechanic filter for the whole weave, silently")
+
 
 # ==================================================== THE ONE GUARD BETWEEN A SCRATCH
 #                                                      SCRIPT AND THE PUBLIC REPO
@@ -17527,6 +20969,128 @@ def drill_agent_scratch_gate():
         "exactly like a file that was never copied")
 
 
+# EVERY PROBE THAT WAS FOUND WRITING LIVE STATE, which THE LIVE-STATE WITNESS drives itself. A
+# probe added to the sandbox for the same reason belongs here too: this list is what makes the
+# witness able to go red on a probe taken back OUT of the sandbox, which no after-the-fact reading
+# of the escape list can see (a probe outside every sandbox records nothing in it).
+_LIVE_STATE_PROBES = (
+    _partial_canary_merges,
+    _binding_health_filters,
+    _the_deprecated_cataloguer_still_refuses,
+    _the_destructive_tool_asks_before_it_moves_anything,
+    _a_poll_stamp_reads_back_in_three_states,
+    _the_pointer_stops_at_the_open_phase,
+    _an_unrecordable_stop_closes_no_live_order,
+    # Order 70a74f7a0628: the rung-four stop/resume probes, the two cleanups that closed orders in
+    # the LIVE queue, and the probe that wrote a scratch file into the LIVE `state/`.
+    _a_stop_is_written_down_and_readable,
+    _resuming_demands_a_written_ruling,
+    _a_probe_leaves_no_order_behind,
+    _area_fault_does_not_close_the_park,
+    _blast_cap_bites,
+    _cannot_edit_shared_run_state,
+)
+
+
+def _no_sandboxed_probe_reaches_live_state():
+    """THE LIVE-STATE WITNESS. -> True, or raises AssertionError naming every problem found.
+
+    THREE PARTS, because each is a way the other two could pass without evidence.
+
+      1. CONTROL. A sandbox is opened and a write-mode open of a path INSIDE the live
+         `state/workorders.json` is attempted -- a path that cannot exist, because its parent is
+         a file or absent, so nothing is created -- and the hook must record exactly that write
+         and `restore()` must refuse over it. A hook never installed, a hook gone blind, or a
+         `restore()` that had stopped failing its net would each otherwise read as a clean run.
+      2. DRIVEN. Every probe in `_LIVE_STATE_PROBES` is run again here with the witness ARMED,
+         which records live writes whether or not a sandbox is open, and each must have OPENED a
+         sandbox and made no live write. The first half catches a probe taken out of the sandbox;
+         the second catches one still inside it that re-points a path back at the live tree.
+         Driven here rather than only read off the run, so this net is provable on its own and
+         its evidence does not depend on which areas a caller happened to run. Their verdicts
+         belong to their own nets; only their side effects are asserted here.
+      3. THE WHOLE RUN. No live write may have been recorded from inside ANY sandbox this process
+         opened -- every net in THE CHAIN, DRIVEN included -- and the hook must never have failed.
+
+    A MEASUREMENT OF THIS PROCESS ONLY, the same line the ledger witness below draws: the standing
+    daemons write these same files all day. That is why this watches OPERATIONS and not file
+    digests before and after -- a digest witness would halt the library for a neighbour doing its
+    job, which is the false halt `twin_detection_does_not_match_bystanders` was rewritten to end.
+    """
+    problems = []
+
+    # 1 -- CONTROL. TWO WRITE SHAPES, because the hook takes them apart differently: a write-mode
+    # `open`, and a `shutil.copy2`, which on this platform raises only `_winapi.CopyFile2`
+    # (sweep58-batch01). Both destinations sit under the live `workorders.json`, a FILE, so
+    # neither can be created; the audit event is raised before the operation fails.
+    d, _filed, restore = _esc_sandbox()
+    mark = len(_LIVE_ESCAPES)
+    control = os.path.join(HERE, "state", "workorders.json", "__drill_witness_control__")
+    target, copied_to = os.path.join(control, "x.json"), os.path.join(control, "y.json")
+    created, refused = False, False
+    try:
+        try:
+            with open(target, "w", encoding="utf-8"):
+                created = True
+        except OSError:
+            _ = "silence-exempt: this write is meant to fail; `created` is what is asserted"
+        seed = os.path.join(d, "witness_control_seed.txt")
+        with open(seed, "w", encoding="utf-8") as fh:
+            fh.write("the witness control's copy source, inside the sandbox\n")
+        try:
+            shutil.copy2(seed, copied_to)
+            created = True
+        except OSError:
+            _ = "silence-exempt: this copy is meant to fail; `created` is what is asserted"
+    finally:
+        try:
+            restore()
+        except AssertionError:
+            _ = "silence-exempt: restore() refusing IS the control; `refused` is asserted"
+            refused = True
+    caught = _LIVE_ESCAPES[mark:]
+    del _LIVE_ESCAPES[mark:]           # the control is not a leak; do not leave it for part 3
+    if (created or not refused or len(caught) != 2
+            or not any(" open " in c and c.endswith("x.json") for c in caught)
+            or not any(" _winapi.CopyFile2 " in c and c.endswith("y.json") for c in caught)):
+        problems.append("[control] a write-mode open and a copy2 onto a live path from inside the "
+                        "sandbox were not both seen, or not refused: created=%s "
+                        "restore_refused=%s recorded=%r hook_installed=%s"
+                        % (created, refused, caught, _LIVE_HOOK["installed"]))
+
+    # 2 -- DRIVEN
+    for fn in _LIVE_STATE_PROBES:
+        entries, mark = _SANDBOX_ENTRIES[0], len(_LIVE_ESCAPES)
+        _WITNESS_ARMED.append(fn.__name__)
+        err = None
+        try:
+            with contextlib.redirect_stdout(io.StringIO()), \
+                    contextlib.redirect_stderr(io.StringIO()):
+                fn()
+        except Exception as e:
+            err = "%s: %s" % (type(e).__name__, e)
+        finally:
+            _WITNESS_ARMED.pop()
+        moved = _LIVE_ESCAPES[mark:]
+        del _LIVE_ESCAPES[mark:]       # reported here, by probe, rather than twice
+        if _SANDBOX_ENTRIES[0] == entries:
+            problems.append("%s never opened the sandbox%s" % (
+                fn.__name__, "" if err is None else " (it raised %s)" % err))
+        if moved:
+            problems.append("%s wrote live state: %s" % (fn.__name__, "; ".join(moved)))
+
+    # 3 -- THE WHOLE RUN
+    if _LIVE_ESCAPES:
+        problems.append("%d live-path write(s) from inside a sandbox during this run: %s"
+                        % (len(_LIVE_ESCAPES), "; ".join(_LIVE_ESCAPES)))
+    if _LIVE_HOOK["errors"]:
+        problems.append("the audit hook failed %d time(s), so it was not watching: %s"
+                        % (len(_LIVE_HOOK["errors"]), "; ".join(_LIVE_HOOK["errors"])))
+    if problems:
+        raise AssertionError(" | ".join(problems))
+    return True
+
+
 def drill_ledger_witness():
     """The last area, and it is about this battery rather than about the library.
 
@@ -17541,6 +21105,14 @@ def drill_ledger_witness():
     """
     a = ("THE LEDGER WITNESS — does this battery's own rehearsing show up in the file a person "
          "reads to find real faults?")
+
+    # FIRST IN THE AREA, not last: its driven half re-runs the live-state probes, and the ledger
+    # nets below must be able to see anything those runs leak into `state/failures.json`.
+    net(a, "THE LIVE-STATE WITNESS: no probe that touched live state can write it from the sandbox",
+        _no_sandboxed_probe_reaches_live_state,
+        "five drill probes touched live state with nothing between them and it but the guard "
+        "under test -- two had already quarantined fixture hosts in the live file and stamped a "
+        "dead daemon as freshly polled -- and a sandbox nobody watches leak is not evidence")
 
     # PRINTED, NOT ASSERTED, and the distinction is load-bearing (order c121db910a17): the
     # library's standing jobs write to this same ledger while the drill runs, so movement in the
@@ -17782,14 +21354,43 @@ def main(areas=None):
     # or raise a halt here.
     ap.add_argument("--prove", nargs=2, metavar=("AREA", "NET"),
                     help="run ONE net in a throwaway copy of the tree and report HELD/RED")
+    ap.add_argument("--ledger-dry-run", metavar="AREA",
+                    help="run ONE area in a throwaway copy of the tree and list every row it let "
+                         "through to the failure ledger, by net (order 400d5c76e6f8)")
     ap.add_argument("--revert", metavar="PATH",
-                    help="with --prove: a JSON file [{module, old, new}, ...] of substitutions "
+                    help="with --prove or --ledger-dry-run: a JSON file [{module, old, new}, ...] "
+                         "of substitutions "
                          "to apply to the scratch tree first, i.e. the defeat the net must "
                          "refuse. A file rather than an argument so no source text has to "
                          "survive a shell.")
     ap.add_argument("--keep", action="store_true",
                     help="with --prove: leave the scratch tree on disk")
     a = ap.parse_args()
+
+    # A DRY RUN OF ONE AREA AGAINST THE FAILURE LEDGER (order 400d5c76e6f8, remedy (b)). Like
+    # `--prove` it exits before the battery starts and runs in a throwaway tree; see
+    # `ledger_dry_run`. rc=0 either way: a list of escapes is the answer the author asked for.
+    if a.ledger_dry_run:
+        reversal = None
+        if a.revert:
+            with open(a.revert, encoding="utf-8") as fh:
+                subs = json.load(fh)
+            reversal = (lambda root, _subs=subs:
+                        [_substitution(s["module"], s["old"], s["new"])(root) for s in _subs])
+        r = ledger_dry_run(a.ledger_dry_run, revert=reversal)
+        if r["error"]:
+            print("\nDID NOT RUN  %s\n    %s" % (a.ledger_dry_run, r["error"]))
+            return 0
+        print("\n%s  %s: %d net(s) ran, %d row(s) reached the failure ledger"
+              % ("CLEAN" if not r["escapes"] else "LEAKS", a.ledger_dry_run, r["nets"],
+                 len(r["escapes"])))
+        for e in r["escapes"]:
+            print("    " + e)
+        if r["area_error"]:
+            print("    area_error: %s" % r["area_error"])
+        if r["breached"]:
+            print("    not held in this world: %s" % "; ".join(r["breached"]))
+        return 0
 
     if a.prove:
         area_name, net_name = a.prove
@@ -17934,7 +21535,8 @@ def main(areas=None):
     #     verdict cannot be believed about a mutant either. No new handling is needed there, and
     #     nothing silently changes: the alternative was a sandbox whose stamp failed reporting
     #     rc=0 and disabling nothing.
-    #   * `foreman` does not run `drill.py` at all (foreman.py:115 records the decision not to).
+    #   * `foreman` does not run `drill.py` at all (the comment above `foreman.DENYLIST` records
+    #     the decision not to add it to `_checks_pass`).
     #   * `workorders.sweep_detectors` and `dashboard.safety` read the FILE, not the rc, and are
     #     the readers this whole paragraph is about protecting.
     #

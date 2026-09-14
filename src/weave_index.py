@@ -33,7 +33,14 @@ import time
 import unicodedata
 import silence
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# A regex escape eaten in transit is this project's oldest bug, and this module compiles live
+# escapes (`_STRIP`, `_EARTH`, the substitutions in `norm`): a mangled one matches nothing and
+# says nothing, so the file refuses to load instead.
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
+HERE =os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RECORDS = os.path.join(HERE, "data/records")
 OUT_INDEX = os.path.join(HERE, "data/ENTITY_INDEX.json")
 OUT_CAND = os.path.join(HERE, "data/WEAVE_CANDIDATES.json")
@@ -652,8 +659,10 @@ def main():
     ranked = sorted(candidates.items(), key=lambda kv: -len({h["source"] for h in kv[1]}))
     TOP_N = 18
     top = ranked[:TOP_N]
-    # A RANKING PLUS A STATED FLOOR AND AN HONEST "AND N MORE" -- the ruling recorded at
-    # health.py:576-585, applied here (order 4cea367c9235). Eighteen of 8,000-odd candidates
+    # A RANKING PLUS A STATED FLOOR AND AN HONEST "AND N MORE" -- the ruling recorded in
+    # `health.check_caches` (its "EVERY FILE, NOT `files[:200]`" comment: "if a cost ceiling is
+    # ever wanted back it must be a RANKING plus a stated floor, never a prefix of a glob"),
+    # applied here (order 4cea367c9235). Eighteen of 8,000-odd candidates
     # were printed under a heading calling them the weave's backbone with nothing saying so,
     # and this is a list a person reads to decide which entities to adjudicate. The eighteen
     # stay -- ranking is allowed -- but the cut is now named, with the floor it was made at.

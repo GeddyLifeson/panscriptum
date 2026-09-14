@@ -115,14 +115,28 @@ def ask_provider(name, prov, timeout=30):
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 d = json.loads(r.read().decode("utf-8", "replace"))
             rows = d.get("data") if isinstance(d, dict) else d
+            # A MALFORMED ANSWER IS NOT AN EMPTY ONE (order 5d0fa30e4b09, item 5). `rows or []`
+            # turned a body with no `data` list at all (an error object served with a 200, a
+            # `{"models": [...]}` schema) into the same empty `ids` as a well-formed `[]`, and so
+            # into EMPTY_LIST -- whose reading in `sweep()` is "every configured id is STALE". A
+            # shape this parser cannot read is a failed measurement, so it is recorded as the
+            # reason and the remaining paths are still tried, like any other failed request.
+            if not isinstance(rows, list):
+                last = ("MalformedModelList: %s answered without a model list (expected a list "
+                        "under `data`, or a bare list; got %s)" % (url, type(rows).__name__))
+                continue
             ids = []
-            for m in (rows or []):
+            for m in rows:
                 mid = m.get("id") or m.get("name") if isinstance(m, dict) else str(m)
                 if mid:
                     ids.append(mid)
             if ids:
                 return {"provider": name, "outcome": LISTED, "url": url,
                         "models": sorted(ids)}
+            if rows:
+                last = ("MalformedModelList: %s answered %d row(s), none carrying an `id` or "
+                        "`name`" % (url, len(rows)))
+                continue
             if empty_at is None:
                 empty_at = url
         except Exception as e:
@@ -189,6 +203,16 @@ def sweep(config_path=None, workers=6):
     with ThreadPoolExecutor(max_workers=workers) as ex:
         rows = list(ex.map(lambda kv: ask_provider(kv[0], kv[1]), sorted(provs.items())))
 
+    # A MODEL ENTRY CAN NAME A PROVIDER THE CONFIG NEVER DEFINES (order 5d0fa30e4b09, item 5),
+    # and the loop below walked `provs` only, so its model ids reached no count at all -- the
+    # "silently out of the arithmetic" shape orders cd64337d3349 and 1c5551aded53 closed for
+    # providers that ARE defined. Such a provider was never asked, so it is UNCONFIGURED, with
+    # the reason saying which half of the config is missing. None exist in the config today.
+    for _orphan in sorted(set(want) - set(provs)):
+        rows.append({"provider": _orphan, "outcome": UNCONFIGURED,
+                     "error": "config `models` names this provider but `providers` has no entry "
+                              "for it"})
+
     # ON THE OUTCOME, NOT ON TRUTHINESS (sweep42-batch14).
     #
     # This read `if r.get("models")`, and an empty list is falsy -- so a provider whose outcome
@@ -225,7 +249,8 @@ def sweep(config_path=None, workers=6):
     # be established, so the gap is countable and nameable instead of invisible. Order
     # cd64337d3349.
     unverified = []
-    for name in sorted(provs):
+    # `by_name`, not `provs`: it also holds the undefined providers appended above.
+    for name in sorted(by_name):
         r = live.get(name)
         asks = [a for a in (want.get(name) or []) if a]
         if not r:

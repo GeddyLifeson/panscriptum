@@ -199,7 +199,7 @@ def running(fragment, include_self=False):
 
     That is not hypothetical; it was live for an unknown length of time and found on 2026-08-25
     (run #21) by reading the same standard off two renderers at one moment. `publish.py` computes
-    the published page in its own process (`publish.py:render_page()`, ~line 1266), so the public panel said
+    the published page in its own process (`publish.render_page()`), so the public panel said
     `publish.py,read.py` were down; `dashboard.py` computes the local page in ITS process, so at
     the same instant the local panel said `dashboard.py,read.py`. `allsweep.py`, a third and
     neutral process, saw both up. Each renderer was deleting itself from its own roster.
@@ -749,7 +749,10 @@ def run(name, args, logfile, timeout_h=6):
         log(f"  {name}: hit the {timeout_h}h cap and was stopped (work is cached, it resumes)")
         return "timeout"
     except Exception as e:
-        log(f"  {name}: {type(e).__name__} {str(e)[:80]}")
+        # UNCUT (Hard Rule 0, order fe99e57e1993). This was `str(e)[:80]`, an unmarked cut on
+        # the only record of what went wrong -- this line lands in state/overnight.log and
+        # nowhere else, matching `identity_refresh_cycle`'s own `{type(e).__name__}: {e}` above.
+        log(f"  {name}: {type(e).__name__} {e}")
         return "error"
 
 
@@ -841,7 +844,8 @@ def join(job, timeout_h):
         log(f"  {job['name']}: hit the {timeout_h}h cap and was stopped (cached, it resumes)")
         return "timeout"
     except Exception as e:
-        log(f"  {job['name']}: {type(e).__name__} {str(e)[:80]}")
+        # UNCUT (Hard Rule 0, order fe99e57e1993), same fix as run()'s identical except arm above.
+        log(f"  {job['name']}: {type(e).__name__} {e}")
         return "error"
     finally:
         try:
@@ -975,6 +979,27 @@ def ledger_report():
 MIN_CYCLE_SECONDS = 300
 IDLE_LIMIT = 3
 WAIT_SECONDS = 600
+
+# THE STATUSES THAT MEAN "A STAGE DID NOT WORK THIS LAP, AND THAT IS NOT A FAULT". A fast cycle
+# made only of these waits and resets the idle counter; any other status counts toward
+# IDLE_LIMIT. The reason for each of the first three is written at the idle branch in `main()`.
+#
+# "rc=17" JOINED THEM (order 633832bdae90). `run()` and `join()` report a job that exited to pick
+# up changed source as "rc=17" -- `name_rc` names it ON PURPOSE -- and it was the one deliberate
+# exit this list did not know, so a burst of legitimate codewatch restarts during an edit sweep,
+# on a cycle shorter than MIN_CYCLE_SECONDS, counted toward IDLE_LIMIT and could stop the
+# supervisor with "it is a broken one". That is the outage Hard Rule -1's IN EFFECT paragraph
+# describes: a watcher reading jobs-exiting-on-purpose as jobs-crashing. It cannot excuse a real
+# restart loop: `codewatch.BUDGET_PER_HOUR` refuses the rc=17 exit itself once spent, after which
+# the job stays up (and returns something else) instead of bouncing.
+BUSY_STATUSES = ("already-running", "manager-stopped", "probe-blind", "rc=17")
+
+
+def busy_statuses(statuses):
+    """The cycle's stage statuses that are NOT idleness. -> list, in the order given.
+
+    Pulled out of the cycle loop so the rule can be tested without running a cycle."""
+    return [x for x in statuses if x in BUSY_STATUSES]
 
 # THE STANDING SET — the jobs the keeper re-asserts every five minutes. Module-level, and
 # deliberately so: this roster used to live inside main() while THREE other places carried
@@ -1185,7 +1210,9 @@ def coverage_snapshot():
         rows = json.load(open(cov, encoding="utf-8"))
     except Exception as e:
         silence.note("overnight.py:coverage-snapshot")
-        return {"error": f"{type(e).__name__} {str(e)[:60]}"}
+        # UNCUT (Hard Rule 0, order fe99e57e1993). This was `str(e)[:60]`; this dict is the
+        # ONLY place the failure is recorded (main() logs the "error" key verbatim).
+        return {"error": f"{type(e).__name__} {e}"}
     n = sum(r["entries"] for r in rows)
     cited = sum(r["cited"] for r in rows)
     read = sum(r["read"] for r in rows)
@@ -1210,7 +1237,10 @@ def preflight():
         # under a stale line-number key, never labelled as the preflight. The behaviour is
         # deliberately unchanged -- a preflight that cannot run must not block the cycle -- but
         # it no longer passes for a pass.
-        log(f"  preflight: DID NOT RUN ({type(e).__name__}: {str(e)[:120]}) "
+        # UNCUT (Hard Rule 0, order fe99e57e1993). This was `str(e)[:120]`, the same shape
+        # already removed from `identity_refresh_cycle` above; this line is the only record
+        # of why preflight did not run.
+        log(f"  preflight: DID NOT RUN ({type(e).__name__}: {e}) "
             f"-- continuing, but this cycle was NOT checked")
         return 0, False
     fails = [ln.strip() for ln in out.splitlines() if ln.strip().startswith("FAIL")]
@@ -1318,7 +1348,9 @@ def safety_drill():
     except Exception as e:
         # Same discipline as preflight: a drill that could not run must not pass for a pass.
         silence.note("overnight.py:drill")
-        log(f"  safety drill: DID NOT RUN ({type(e).__name__}: {str(e)[:120]}) "
+        # UNCUT (Hard Rule 0, order fe99e57e1993), same fix as preflight()'s identical except
+        # arm above.
+        log(f"  safety drill: DID NOT RUN ({type(e).__name__}: {e}) "
             f"-- the nets were NOT inspected this cycle")
         return None
     line = [x for x in (r.stdout or "").splitlines() if x.startswith("DRILL:")]
@@ -1412,7 +1444,9 @@ def write_status(cycle, history):
         silence.note("overnight.py:status-serialise")
         with contextlib.suppress(Exception):
             os.remove(tmp)
-        log(f"  STATUS.md: NOT WRITTEN ({type(e).__name__}: {str(e)[:120]}) "
+        # UNCUT (Hard Rule 0, order fe99e57e1993), same fix as preflight()'s and safety_drill()'s
+        # identical except arms above.
+        log(f"  STATUS.md: NOT WRITTEN ({type(e).__name__}: {e}) "
             f"-- the page on disk is the previous cycle's")
         return False
     landed = silence.replace_retry(tmp, p)
@@ -1682,10 +1716,11 @@ def main():
         # library by itself" untrue for one whole lap. The proposed mitigation was that every
         # job self-checks the halt at its own entry point, and that is now CHECKED, not assumed:
         # `drill.py` raises an OWNER-level halt itself on a breach, and every job this cycle
-        # starts afterwards opens `main()` with `escalation.assert_clear` -- dashboard.py:1068,
-        # publish.py:1594, foreman.py:1711, overwatch.py:922, pipeline.py:2876 (the whole of
-        # STANDING), plus read.py:1408 and feats.py:1813, the two long jobs that hang off this
-        # lap. So they exit on purpose the moment they start, and the mitigation holds.
+        # starts afterwards opens `main()` with `escalation.assert_clear` -- dashboard.py,
+        # publish.py, foreman.py, overwatch.py and pipeline.py (the whole of
+        # STANDING) each open `main()` with `_ESC.assert_clear(os.path.basename(__file__))`,
+        # plus read.py and feats.py, the two long jobs that hang off this
+        # lap, do the same. So they exit on purpose the moment they start, and the mitigation holds.
         #
         # WITH ONE EXCEPTION, WHICH IS WHY THIS IS NOW A GATE AND NOT ONLY A COMMENT.
         # `generate.py` -- the prose stage below -- has NO halt interlock anywhere in it (grep
@@ -1887,11 +1922,13 @@ def main():
         # as a dead cycle would halt the supervisor after three laps of a transient WMI hiccup,
         # and nothing restarts it -- `autostart.supervisor_alive()` reads the same blind sensor
         # and correctly declines to act on it. Waiting and looking again is the whole remedy.
-        busy = [x for x in statuses if x in ("already-running", "manager-stopped",
-                                             "probe-blind")]
+        # AND NEITHER IS "rc=17" (order 633832bdae90) -- a job that exited on purpose to pick up
+        # changed source. See BUSY_STATUSES for why, and for what still bounds a restart loop.
+        busy = busy_statuses(statuses)
         if busy and snap["cycle_seconds"] < MIN_CYCLE_SECONDS:
-            log(f"  {len(busy)} job(s) already running, stopped at the MANAGER rung, or "
-                f"skipped on a blind process probe; "
+            log(f"  {len(busy)} job(s) already running, stopped at the MANAGER rung, "
+                f"skipped on a blind process probe, or restarting on purpose for a source "
+                f"change (rc=17); "
                 f"waiting {WAIT_SECONDS // 60}m before looking again")
             idle = 0
             time.sleep(WAIT_SECONDS)
@@ -1943,9 +1980,10 @@ def main():
                 except Exception as _halt_unreadable:
                     silence.note("overnight.py:halt-status-unreadable")
                     _halted = True
+                    # UNCUT (sweep58-batch11, order fe99e57e1993's seventh site): this text is
+                    # the only record of WHY the halt could not be read.
                     _rec = {"code": "HALT UNREADABLE (%s: %s)"
-                                    % (type(_halt_unreadable).__name__,
-                                       str(_halt_unreadable)[:120])}
+                                    % (type(_halt_unreadable).__name__, _halt_unreadable)}
                 if _halted:
                     log("  the library is HALTED (%s) -- every job is exiting on purpose, which "
                         "is not the same as failing. Waiting for a person to clear it."

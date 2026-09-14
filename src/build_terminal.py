@@ -644,8 +644,9 @@ def main():
     #
     # This printed the denial and then fell through to `return 0`, which `sys.exit(main())`
     # below turns into a clean exit for a run whose only product is not on disk -- exactly what
-    # `catalogue_codex.py:315-331` and `generate.py:700-706` already settle the other way in
-    # this same tree, both citing `module_index.py` as the shape: return 1 on a denied write.
+    # `catalogue_codex.main()`'s "THE VERDICTS REACH THE EXIT CODE" comment and
+    # `generate.main()`'s "BUT THE RUN'S RECORD DID NOT LAND" check already settle the other way
+    # in this same tree, the former citing `module_index.py` as the shape: return 1 on a denied write.
     #
     # And `silence.replace_retry` does NOT unlink `tmp` when it fails -- it notes
     # `replace-denied`/`replace-failed` and returns False. Because the temp name carries pid and

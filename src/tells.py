@@ -158,7 +158,14 @@ ALL_PATTERNS = {**STRUCTURAL, **DISCOURSE}
 # Discourse markers were anchored to ^ and so were invisible mid-paragraph: in
 # "...only whispers. That said, the record notes..." the tell went undetected, which is exactly
 # where it actually occurs. The anchor is now a sentence boundary OR a line start.
-_SENTENCE_START = r"(?:^|(?<=[.!?])\s+)"
+#
+# THE `^\s*` BRANCH KEEPS ITS OWN LEADING-WHITESPACE TOLERANCE (order f0677ea9bc68). The original
+# per-pattern anchors were `^\s*That said`-shaped; rewriting them to `_SENTENCE_START + pat[4:]`
+# dropped that `\s*` at the true start of the passage, so nine of the fifteen DISCOURSE patterns
+# stopped firing on a passage that begins with whitespace (`_anchor` only strips the literal
+# 4-char prefix "^\s*" before splicing, it never re-adds the tolerance). The mid-sentence branch
+# `(?<=[.!?])\s+` is untouched -- widening `^` to `^\s*` only affects position 0.
+_SENTENCE_START = r"(?:^\s*|(?<=[.!?])\s+)"
 
 
 def _anchor(pat):

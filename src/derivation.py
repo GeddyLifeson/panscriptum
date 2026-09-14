@@ -625,10 +625,10 @@ def scan_constants_with_reason(mod):
     rendered both as the one string `(absent)`, so a module with a SyntaxError was reported to
     the reader as a module that does not exist. (order 6baeeb468a24)
 
-    The mislabel was total rather than occasional: `SCAN_MODULES` is built from `os.listdir(HERE)`
-    over the same directory this function then reads (order ca1ed2be8c51 notes this listing is
-    still flat and misses `src/deprecated/`, left open this shift -- see the comment above
-    `SCAN_MODULES`), so the file-not-found branch is unreachable outside a race -- which means
+    The mislabel was total rather than occasional: `SCAN_MODULES` is built by `_scan_modules()`,
+    a recursive `os.walk(HERE)` over the same tree this function then reads (`src/deprecated/`
+    included since order ca1ed2be8c51 closed on 2026-09-06 -- see the comment above
+    `_scan_modules`), so the file-not-found branch is unreachable outside a race -- which means
     every `(absent)` anyone had ever seen on that map really meant "this module will not parse".
     The parse failure was recorded, but only into the silence ledger via `silence.note`, and the
     panel the person was actually looking at contradicted it.
@@ -788,8 +788,9 @@ def main():
         cs, why = scan_constants_with_reason(m)
         if cs is None:
             # Print WHICH failure it was. `(absent)` for everything was actively wrong here:
-            # SCAN_MODULES is built from os.listdir of this same directory, so "absent" is a
-            # race and "will not parse" is the only thing a reader realistically sees.
+            # SCAN_MODULES is built from `_scan_modules()`'s recursive `os.walk(HERE)` over this
+            # same directory, so "absent" is a race and "will not parse" is the only thing a
+            # reader realistically sees.
             print(f"   {m:20s} ({'absent' if why == 'absent' else 'will not parse: ' + why})")
         elif cs:
             print(f"   {m:20s} {len(cs):2d} constants, {sum(c[1] for c in cs):4d} literals")

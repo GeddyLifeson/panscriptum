@@ -788,7 +788,7 @@ def _probe_absent(host):
 
 
 def _probe_reachable(host):
-    """Does this host's API answer at all? -> (ok, detail).
+    """Does this host answer at all? -> (ok, detail). `ok` is True, False, or None.
 
     THE THIRD PROBE, and the one that decides whether a failure is the HOST's fault. Without it
     the canary had exactly two outcomes and had to force every failure into one of them, so
@@ -803,16 +803,55 @@ def _probe_reachable(host):
     `Eldritch Cannon` -- which that wiki has no articles for. Eight candidates, eight misses,
     and the old canary called the host dead. `www.dandwiki.com` fails this probe outright: 403,
     "restricted to logged in users". Only the second is a host fault.
+
+    A RAW-MODE HOST HAS NO API TO ASK, so it needs its own arm. `F.api()` -> `endpoint.api_url()`
+    short-circuits to `None` for anything that is not `MODE_API`, which routed EVERY RAW host
+    through the exception branch below and made this probe return False -- "host unreachable" --
+    unconditionally, for every RAW host whose title probe failed, whether the host was actually
+    down or not (order b6079a0d24bd). The fix mirrors what `endpoint.detect()` already asks of a
+    RAW host to certify it as RAW in the first place: `action=raw` against the wiki's own Main
+    Page, read directly rather than through the API path that mode does not have. A body that
+    is not an HTML error shell is the host answering; a request that cannot even complete (DNS,
+    timeout, no `raw_url` to build) is reported `None` -- UNMEASURED, not a verdict -- rather
+    than folded into the same False that means "asked, and it said no". `verdict()` is the other
+    half of this fix: it used to read False and None as the same "not reachable", which would
+    have quarantined a host on an unmeasured probe exactly as it would on a confirmed-dead one.
     """
     try:
         import feats as F
+        import endpoint as EP
+    except Exception as e:
+        return None, "%s: %s -- could not even load the transport" % (type(e).__name__, str(e))
+    if EP.detect(host)["mode"] == EP.MODE_RAW:
+        url = EP.raw_url(host, "Main Page")
+        if not url:
+            return None, "RAW mode but no raw_url could be built -- could not ask"
+        try:
+            body = EP._get(url)
+        except Exception as e:
+            # NOT ASKED IS NOT ANSWERED -- same argument as `_probe_absent`'s own exception arm.
+            # A timeout or a DNS failure on OUR side must not be read as a host fault.
+            return None, "%s: %s -- could not ask (raw probe)" % (type(e).__name__, str(e))
+        if body and not body.lstrip().lower().startswith(("<!doctype", "<html")):
+            return True, "raw page answered"
+        return False, "raw page returned an HTML error shell -- the host is not answering"
+    try:
         d = F.api(host, {"action": "query", "meta": "siteinfo"}, retries=0)
     except Exception as e:
+        # NOT ASKED IS NOT ANSWERED, IN THE API ARM TOO (sweep 58, batch16). This returned False
+        # -- the value that means "asked, and it said no" -- for ANY exception from the siteinfo
+        # call, while the RAW arm above and `_probe_absent`'s own exception arm both answer None
+        # for exactly this case, and this function's docstring promises None for "a request that
+        # cannot even complete". `feats.api` swallows its own network faults and returns None
+        # (handled below as a real answer), so what reaches here is a fault on OUR side -- a bug,
+        # a broken import inside the transport -- and with `retries=0` there is no cushion.
+        # False quarantined a live API-mode host on it; None is UNMEASURED, which `verdict()`
+        # declines to quarantine on.
         # STORED WHOLE (order ecc355769a41). This flows into
         # `data/BINDING_HEALTH.json:hosts[].reachable.detail` and, via `verdict()`, into
         # `data/HOST_QUARANTINE.json:<host>.reason` -- see the sibling fix and precedent noted
         # at `_fetch_chars`'s except-arm above.
-        return False, "%s: %s" % (type(e).__name__, str(e))
+        return None, "%s: %s -- could not ask (siteinfo)" % (type(e).__name__, str(e))
     if not isinstance(d, dict) or "query" not in d:
         return False, "siteinfo returned nothing usable -- the API is not answering"
     return True, "siteinfo answered"
@@ -980,6 +1019,14 @@ def verdict(ok_present, ok_absent, ok_reachable, det_p="", det_a="", det_r=""):
         if ok_reachable:
             return None, ("host is UP, no catalogued title resolved (%s), and the absent-probe "
                           "could not run (%s)" % (det_p, det_a))
+        if ok_reachable is None:
+            # UNMEASURED IS NOT UNREACHABLE (order b6079a0d24bd). This used to read False and
+            # None the same way -- "not truthy" -- so a RAW-mode host whose reachability probe
+            # could not even run (always False before that order's fix) was quarantined exactly
+            # as confidently as one that was actually confirmed down. Neither probe here ran to
+            # a real answer, so the honest report is "nothing is proven", not a host fault.
+            return None, ("neither probe could be measured (present: %s; reachability: %s) -- "
+                          "not proven sound, not proven at fault" % (det_p, det_r))
         return False, "host unreachable: %s (present probe: %s)" % (det_r, det_p)
     if ok_present and ok_absent:
         return True, None
@@ -990,6 +1037,11 @@ def verdict(ok_present, ok_absent, ok_reachable, det_p="", det_a="", det_r=""):
     if ok_reachable:
         return None, ("host is UP but no catalogued title resolved (%s) -- suspect the binding "
                       "or the entry names, not the host" % det_p)
+    if ok_reachable is None:
+        # Same UNMEASURED argument as above: no catalogued title resolved AND reachability could
+        # not be asked is "we do not know", not "the host is at fault" -- never quarantine on it.
+        return None, ("no catalogued title resolved (%s) and reachability is unmeasured (%s) -- "
+                      "not proven sound, not proven at fault" % (det_p, det_r))
     return False, "host unreachable: %s (present probe: %s)" % (det_r, det_p)
 
 

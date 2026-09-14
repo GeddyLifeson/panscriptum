@@ -330,7 +330,10 @@ def main():
                 continue
             cd = clean_description(d)
             if cd != d:
-                desc_fixed.append((src, nm, d[:46], cd[:46]))
+                # WHOLE, like every sibling roster in the report below (sweep57, order
+                # 174c7948f15f): the comment above the rosters says the per-name cuts went, and
+                # this pair was the remainder that had not.
+                desc_fixed.append((src, nm, d, cd))
                 if args.apply:
                     e["description"] = cd
                     changed = True

@@ -110,6 +110,22 @@ _CACHE = {"hosts": {}, "index": {}, "index_faults": {}}
 _ENTRY_COLLISIONS = {}
 
 
+def entry_collisions_seen():
+    """-> {source: [collision strings]} for every within-source name collision `feats_for_source`
+    has actually folded in this process, so far.
+
+    THE ACCESSOR ITS SIBLING `_UNBOUND_ASKED` HAS AND THIS DID NOT (order 156c2e28f823 item 4).
+    `_ENTRY_COLLISIONS` was filled and read nowhere -- every collision it recorded was recorded
+    into nothing. This is the LIVE view: only the sources a real caller (`manifest_builder`, or
+    anything else walking the roll through `feats_for_source`) has actually asked about in this
+    process, which is narrower than -- and does not replace -- `audit()`'s own corpus-wide rescan
+    of every record on disk (see `audit()`'s docstring). `audit()` folds this in as
+    `entry_collisions_live` so both views travel together wherever this module reports its own
+    faults.
+    """
+    return dict(_ENTRY_COLLISIONS)
+
+
 def _norm(s):
     """Fold a name to its comparable core.
 
@@ -416,7 +432,13 @@ def feats_for_source(source_name, record, binding=None):
 def binding_report(records_dir=None):
     """Every catalogued source classified by WHY it has (or has not) a wiki host.
 
-    -> {"bound": [...], "pages": [...], "doc": [...], "unbound": [...], "unknown": [...]}
+    -> {"bound": [...], "pages": [...], "doc": [...], "unbound": [...], "unknown": [...],
+        "unreadable_files": [...], "sourceless_files": [...]}
+
+    THE LAST TWO ARE RECORD FILE NAMES, NOT SOURCE NAMES (order 5d0fa30e4b09, item 12). A record
+    that would not parse, or parsed with no `source`, used to fall out of every bucket -- the
+    second with not even a ledger note -- so a corpus-side fault shrank this report the way
+    `audit()`'s `unreadable`/`collided` counters exist to stop it shrinking that one.
 
     THE COUNTER THAT WAS MISSING (order c8dc624e4e02; owner ruling 2026-09-08). `audit()` finds
     the condition from the other end -- a feats record on an unbound host lands in
@@ -431,16 +453,21 @@ def binding_report(records_dir=None):
     import glob
     root = records_dir or os.path.join(HERE, "data", "records")
     hosts = host_to_sources()
-    out = {"bound": [], "pages": [], "doc": [], "unbound": [], "unknown": []}
+    out = {"bound": [], "pages": [], "doc": [], "unbound": [], "unknown": [],
+           "unreadable_files": [], "sourceless_files": []}
     for q in sorted(glob.glob(os.path.join(root, "*.json"))):
         try:
             with open(q, encoding="utf-8") as f:
                 src = json.load(f).get("source")
         except Exception:
             silence.note("feats_index.py:binding-report-record")
+            out["unreadable_files"].append(os.path.basename(q))
             continue
         if src:
             out.setdefault(source_binding(src, hosts), []).append(src)
+        else:
+            silence.note("feats_index.py:binding-report-no-source")
+            out["sourceless_files"].append(os.path.basename(q))
     return {k: sorted(set(v)) for k, v in out.items()}
 
 
@@ -498,6 +525,12 @@ def audit():
         # Different losses, different remedies, so one number would serve neither.
         "entry_collisions": len(entry_collisions),
         "entry_collision_pairs": entry_collisions,
+        # THE LIVE VIEW, ALONGSIDE THE RESCAN (order 156c2e28f823 item 4). `_ENTRY_COLLISIONS`
+        # is filled by `feats_for_source` as an actual caller asks for each source's feats, not
+        # by rewalking the corpus the way the two lines above do -- see `entry_collisions_seen()`
+        # for why the two do not replace each other. Empty here unless something already called
+        # `feats_for_source` in this process before `audit()` ran.
+        "entry_collisions_live": entry_collisions_seen(),
         "files_seen": len(idx) + faults["unreadable"] + faults["collided"],
         "joined": len(joined),
         "stranded": len(stranded),
@@ -540,6 +573,17 @@ def main():
           f"and magnitude are what the feats prose will not see. No mined feat is lost.)")
     for k in a["entry_collision_pairs"]:
         print(f"      {k}")
+    # THE LIVE VIEW (order 156c2e28f823 item 4): whatever `feats_for_source` has actually folded
+    # in THIS process, e.g. because a manifest build shares this interpreter with this report.
+    # Empty whenever `feats_index.py` is run standalone, since `main()`/`audit()` never call
+    # `feats_for_source` themselves -- that emptiness is correct, not a missed report.
+    if a["entry_collisions_live"]:
+        n_live = sum(len(v) for v in a["entry_collisions_live"].values())
+        print(f"  ENTRY-NAME COLLISIONS SEEN LIVE: {n_live:,}  (folded by feats_for_source calls "
+              f"already made in this process; see entry_collisions_seen())")
+        for src in sorted(a["entry_collisions_live"]):
+            for k in a["entry_collisions_live"][src]:
+                print(f"      {k}")
     print(f"  entities catalogued in more than one source on the same host: {a['shared']:,}")
     # THE SOURCES THAT CANNOT REACH A FEATS CHAPTER AT ALL, asked from the catalogue's side.
     # See `binding_report`. `pages:`/`doc:` sources are correct by design and are named as such
@@ -559,6 +603,17 @@ def main():
               f"on the second ask -- a fault about the FILE, never a verdict about the source)")
         for src in b["unknown"]:
             print(f"      {src}")
+    # NAMED BY FILE, because there is no source name to give them (order 5d0fa30e4b09, item 12).
+    if b["unreadable_files"]:
+        print(f"  RECORD UNREADABLE    : {len(b['unreadable_files']):,}  (would not parse -- in no "
+              f"bucket above, so every count above is short by these)")
+        for fn in b["unreadable_files"]:
+            print(f"      {fn}")
+    if b["sourceless_files"]:
+        print(f"  RECORD HAS NO SOURCE : {len(b['sourceless_files']):,}  (parsed, but carries no "
+              f"`source` field to classify)")
+        for fn in b["sourceless_files"]:
+            print(f"      {fn}")
     if a["stranded_hosts"]:
         print("\nSTRANDED BY HOST — a mined deed no volume will print. The host below is the one")
         print("the RECORD states, not one derived from its directory name, so `NOT IN WIKI_HOSTS`")

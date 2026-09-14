@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS source (
     -- article on the strength of our own transport breaking. Added here rather than left out
     -- because this index is the thing people run `--canned coverage` against, and a bucket the
     -- index cannot see is a bucket nobody queries. CREATE TABLE IF NOT EXISTS does NOT alter an
-    -- existing table, so a database built before today keeps the old five columns and the
+    -- existing table, so a database built before today keeps the old nine columns and the
     -- INSERT below would fail on arity -- which is exactly why `--rebuild` is whole-file and
     -- never incremental (see the module docstring). Rebuild after pulling this change.
     unreachable INTEGER
@@ -425,8 +425,8 @@ def age_seconds():
     (sweep33 batch17, sweep34 batch04, sweep36 batch09, sweep37 batch09, sweep38 batch10 ->
     order a25e919309cb). `grep -rn 'age_seconds()'` over the repo finds this def, a self-
     reference inside this docstring's own grep pattern, and two prose mentions in comments --
-    the rebuild's stale-`built_at` warning (`replace_retry`'s comment, :321) and the no-SQL
-    branch's ABSENT/UNREADABLE note in `main()` (:742) -- and nothing else; every real reader
+    the rebuild's stale-`built_at` warning (`rebuild()`'s comment beside its `replace_retry`
+    call) and the no-SQL branch's ABSENT/UNREADABLE note in `main()` -- and nothing else; every real reader
     takes the value off `freshness()`'s dict instead -- `_freshness_banner()`'s `age_seconds is
     None` branch and its `mins =` line, `main()`'s `--serve` and no-SQL branches, and drill.py.
     The migration happened and this function stayed.
@@ -632,8 +632,8 @@ def drift():
                 real += len(json.load(f).get("entries") or [])
         except Exception as e:
             silence.note("corpus_db.py:drift-record")
-            # Same shape as `rebuild()`'s list at :190 -- basename plus the exception class, so
-            # the two halves of this CLI report an unreadable record identically.
+            # Same shape as `rebuild()`'s `unreadable_records.append(...)` -- basename plus the
+            # exception class, so the two halves of this CLI report an unreadable record identically.
             unreadable.append("%s (%s)" % (os.path.basename(p), type(e).__name__))
     gap = None if indexed is None else real - indexed
     return indexed, real, gap, unreadable
@@ -816,6 +816,19 @@ CANNED = {
     # that tells you to run coverage, not to go cataloguing.
     "worst_cited": "SELECT name, entries, cited, ROUND(100.0*cited/entries,1) pct "
                    "FROM source WHERE entries>=40 AND cited IS NOT NULL ORDER BY pct ASC",
+    # THE ROWS THE 40-ENTRY FLOOR ABOVE EXCLUDES, NAMED (sweep58-batch05, run #58). `worst_cited`
+    # keeps its floor -- a 3-entry source at 0% is noise at the head of a work list -- but the
+    # floor dropped a MEASURED source under 40 entries from every work list with no disclosure:
+    # `unmeasured` names only `cited IS NULL`, so a small source that WAS measured and cites
+    # nothing appeared nowhere. Measured on the day this was added: 33 such sources, 25 of them at
+    # 0.0% (Curse of Strahd, Ghosts of Saltmarsh, Hoard of the Dragon Queen, ...), against 177 rows
+    # in `worst_cited`. Same remedy `coverage.report()` got for the same floor under order
+    # e3b2668af9af, and the same shape `unmeasured` already uses: the excluded rows are a named
+    # query, not a silent difference. `entries BETWEEN 1 AND 39`, not `< 40`: a 0-entry row makes
+    # `pct` NULL, and NULL sorts FIRST on ASC -- the exact fault order 8e5b951c1e2f removed above.
+    "below_floor_cited": "SELECT name, entries, cited, ROUND(100.0*cited/entries,1) pct "
+                         "FROM source WHERE entries BETWEEN 1 AND 39 AND cited IS NOT NULL "
+                         "ORDER BY pct ASC",
     "unmeasured": "SELECT name, entries FROM source WHERE cited IS NULL ORDER BY entries DESC",
 }
 

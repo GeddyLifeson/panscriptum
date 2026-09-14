@@ -192,7 +192,12 @@ WEAK = 0.72
 # clear STRONG and be labelled STRONG -- silently inflating confidence in a module whose entire
 # purpose is refusing over-confident identity merges. Dormant today (the live values are
 # correctly ordered); this just makes a future misordering fail loudly instead of silently.
-assert 0.0 < WEAK < STRONG <= 1.0, "entity_match: STRONG/WEAK threshold ordering is broken"
+# RAISED, NOT `assert`ed (sweep57 question bundle bf1340bc3b3f): `python -O` strips assertions,
+# so the ratchet above was absent in exactly the run nobody would think to check. Same fix, same
+# reason, as `scale_theories.surviving_theory()`.
+if not (0.0 < WEAK < STRONG <= 1.0):
+    raise ValueError("entity_match: STRONG/WEAK threshold ordering is broken "
+                     "(need 0 < WEAK < STRONG <= 1, have WEAK=%r STRONG=%r)" % (WEAK, STRONG))
 
 
 # --------------------------------------------------------------------------- the match

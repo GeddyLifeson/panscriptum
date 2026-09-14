@@ -38,7 +38,7 @@ HELD, MARKED, AND NOT WIRED -- AND THE GAP ABOVE IS STILL OPEN
 --------------------------------------------------------------
 Order `66f96febdb3a`; owner ruling 2026-09-08, "whole modules built and never wired in":
 **wire what closes a measured gap; hold the rest, marked.** `render.py` was wired under that
-ruling (`publish.py:1346`, `import render as R`). `hosts.py` WAS NOT, and this sentence used to
+ruling (`publish.render_views()`'s `import render as R`). `hosts.py` WAS NOT, and this sentence used to
 say it was -- measured 2026-09-08 during run #46: `import hosts`, `from hosts import`,
 `hosts_for(` and `SOURCE_HOSTS` all return zero hits anywhere in src/ outside `hosts.py` itself.
 Order `3fb312a72435` is still open for it and the wiring point is `feats.py`, which reads
@@ -50,9 +50,14 @@ left for the next sweep to re-derive.
 Nothing in `src/` imports it and none of its seven public functions is ever called. Excluding
 this file, a grep for `descending_ladder|DESCENDING|rung_for_length|shrink_report|
 transgression_bits|rung_table|FOLD_RUNG|FOLD_GLYPH|compton_confinement_energy|density_at_scale|
-schwarzschild_radius` returns three lines: `derivation.py`'s `SCAN_MODULES` list, `anchors.py:43`
-telling a reader to "Use `transgression_bits()`" (which no code does), and a historical note in
-`secondopinion.py`. One prose pointer, one scan target, one memory.
+schwarzschild_radius` today returns lines in eight other files -- none of them a caller:
+`anchors.py` and `assay.py` carry the identical "Use `transgression_bits()`" pointer (which no
+code does), `drill.py` and `liveness.py` name this module in their own dead-code-exemption
+lists, `onomast.py` and `scale_theories.py` note that this module keeps its own copy of a
+constant rather than centralising it, and `secondopinion.py` and `tempus.py` each carry a
+historical note. `derivation.py`'s `SCAN_MODULES` list no longer matches at all, because that
+name is now built by `_scan_modules()`'s `os.walk(HERE)` rather than typed out as a literal --
+one more citation this docstring used to make that the tree has since moved out from under.
 
 So READ THE FIRST SECTION OF THIS DOCSTRING AS STILL TRUE, not as history. Reach is still scored
 off `assay.py`'s own hand-written band table, which carries its own sub-planetary edges (in

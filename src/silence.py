@@ -261,7 +261,7 @@ def _src_py_files(root):
 
     THE AUDIT OF HIDDEN FAILURES WAS ITSELF HIDING A DIRECTORY (order d7620dd893fa). `audit()`
     and `instrument()` both listed candidates with `glob.glob(os.path.join(root, "*.py"))`,
-    which does not descend, and `src/deprecated/` holds `catalogue_local.py` -- 280 lines kept
+    which does not descend, and `src/deprecated/` holds `catalogue_local.py` -- 333 lines kept
     on purpose as a record of a failure mode, and containing handlers. Every silent `except` in
     it was uncounted by `python src/silence.py` and unreachable by `--instrument`, and an
     uncounted handler reads in the printed total exactly like a handler that is not there. That

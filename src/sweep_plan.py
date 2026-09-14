@@ -44,7 +44,7 @@ def _src_py_files():
 
     THE GLOB SAID "EVERY MODULE IN src/" AND MEANT "every module in the TOP LEVEL of src/"
     (order f42c55355431, run #37). `glob(SRC + "/*.py")` does not descend, and `src/deprecated/`
-    holds `catalogue_local.py` (280 lines), so that file was invisible to every sweep ever run
+    holds `catalogue_local.py` (333 lines), so that file was invisible to every sweep ever run
     here -- never batched, never import-checked, never read by overwatch's model.
 
     The structural half is why it mattered more than one skipped file: `missing()` is
@@ -246,6 +246,15 @@ def frozen_plan(run):
     return rec, None
 
 
+def _drop_plan_tmp(tmp):
+    """Remove a staged plan temp, and never let the removal become the failure."""
+    try:
+        os.remove(tmp)
+    except OSError:
+        import silence
+        silence.note("sweep_plan.py:plan-tmp-not-removed")
+
+
 def freeze_plan(run, n=16):
     """Compute the plan for `run` ONCE and land it. -> the frozen record.
 
@@ -293,16 +302,40 @@ def freeze_plan(run, n=16):
     rec = {"run": str(run), "at": time.time(), "n": max(1, int(n)),
            "src_table_digest": _table_digest(table),
            "modules": table, "batches": batches(n, snapshot=table), "frozen": True}
+    # CREATE-IF-ABSENT IS A COMPARE-AND-SWAP AGAINST ABSENCE (orders 762fadb8c4c9, bf316bbb7f89).
+    # This landed through `silence.write_json`, which renames over whatever is there: two
+    # first-callers for one run both saw "absent", both computed (possibly different) plans, and
+    # the later rename replaced the earlier one while BOTH returned `frozen: True` -- the loser
+    # dispatching from a plan that is not on disk. `replace_if_unchanged(..., None)` lands only
+    # if the file is still absent, the shape of `runguard._land_claim`; the loser re-reads and
+    # returns the WINNER's plan, which is what "an existing frozen plan is RETURNED" promises.
     try:
         import silence
         os.makedirs(PLANS, exist_ok=True)
-        if not silence.write_json(plan_path(run), rec, indent=1):
+        path = plan_path(run)
+        tmp = "%s.%d.%d.tmp" % (path, os.getpid(), threading.get_ident())
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(rec, f, indent=1)
+                f.flush()
+                os.fsync(f.fileno())
+        except Exception:
+            _drop_plan_tmp(tmp)
+            raise
+        ok, why = silence.replace_if_unchanged(tmp, path, None)
+        if not ok:
+            _drop_plan_tmp(tmp)
+            winner, _reason = frozen_plan(run)
+            if winner is not None:
+                print("sweep_plan: another caller froze the plan for run=%s first; returning "
+                      "THAT plan, not the one this call computed." % run, file=_sys.stderr)
+                return winner
             rec["frozen"] = False
             silence.note("sweep_plan.py:plan-freeze-denied")
-            print("sweep_plan: the plan for run=%s did NOT land at %s (replace refused). It is "
+            print("sweep_plan: the plan for run=%s did NOT land at %s (%s). It is "
                   "NOT frozen: another process asking for this run's plan will recompute it "
                   "from the live tree and may get different batches. Re-run before dispatching."
-                  % (run, plan_path(run)), file=_sys.stderr)
+                  % (run, path, why), file=_sys.stderr)
     except Exception as exc:
         rec["frozen"] = False
         try:

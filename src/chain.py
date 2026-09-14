@@ -59,9 +59,15 @@ OUTCOME = re.compile(
     # tense constantly ("Yamamoto beats", "Goku beats him"). Those sentences were dropped from
     # the harvest silently, which is the shape this project files as a fault: a filter that
     # looks like it covers a verb and covers one inflection of it.
-    r"\b(defeat(?:ed|s)?|beat(?:s|en|ing)?|kill(?:ed|s)?|slew|slain|overpower(?:ed|s)?|bested|"
-    r"outmatched|lost to|fell to|surrender(?:ed)? to|conced(?:ed|es)|"
-    r"destroy(?:ed|s)?|struck down|put down|subdued)\b", re.I)
+    #
+    # AND THE SAME GAP ON THE SIBLINGS (sweep 58, batch12). That fix gave `beat` its -ing and
+    # left `defeat`, `kill`, `overpower`, `destroy`, `surrender ... to` and `conced-` without
+    # theirs, so "overpowering him", "killing Frieza" and "surrenders to" were still dropped the
+    # same way. Every verb here now carries past, third-person and present participle.
+    r"\b(defeat(?:ed|s|ing)?|beat(?:s|en|ing)?|kill(?:ed|s|ing)?|slew|slain|"
+    r"overpower(?:ed|s|ing)?|bested|outmatched|lost to|fell to|"
+    r"surrender(?:ed|s|ing)? to|conced(?:ed|es|ing)|"
+    r"destroy(?:ed|s|ing)?|struck down|put down|subdued)\b", re.I)
 
 SYSTEM = """You read NUMBERED sentences from a fiction wiki and report CONTEST OUTCOMES.
 
@@ -114,7 +120,13 @@ def write_result(edges, res, unmatched=None, unanswered=None):
     refusal is a field rather than a different document.
     """
     out = {
-        "edges": [[a, b, n] for (a, b), n in edges.items()] if res.get("strengths") is not None else None,
+        # UNCONDITIONAL (sweep 58, batch12). This was `... if res.get("strengths") is not None
+        # else None`, and `strengths` is None on BOTH of main()'s refusal paths -- `fit`'s "too
+        # few edges to fit" and Ford's "NO STRENGTHS RETURNED" -- so the one call written to keep
+        # the edges on a refusal (order 0ced896514e7: "the edges are kept and the graph is the
+        # finding") wrote `"edges": null`, indistinguishable from a harvest that found nothing.
+        # The refusal is carried beside them: `strengths` null, the reason in `fit_error`.
+        "edges": [[a, b, n] for (a, b), n in edges.items()],
         "identified": bool(res.get("identified")),
         "components": [sorted(c) for c in (res.get("components") or [])],
         "names": res.get("names"),
@@ -228,6 +240,85 @@ def _held_root(rel, held):
     return any(r.startswith("data/%s/" % b) for b in held)
 
 
+def _land_harvest(idx, digest, updates, removed, attempts=8):
+    """Land harvest()'s index under compare-and-swap. -> the index as it now stands.
+
+    THE OTHER HALF OF `refresh_continuity`'s COMPARE-AND-SWAP (order 972932ab89b0). That function
+    lands its continuity patch only if HARVEST_IDX still holds what it read, and re-applies on a
+    lost race. This writer used a plain `silence.write_json`, so a harvest that read the index
+    BEFORE a patch landed overwrote the patch with its stale copy minutes later -- the CAS on the
+    other side only ever refused to overwrite harvest, never the reverse. Same shape as
+    `workorders._mutate` and `runguard._land_claim`: the digest is taken before the read
+    (`harvest` passes it in), and on a lost race the file is re-read and THIS PASS'S OWN CHANGES
+    -- the entries it re-derived and the keys it pruned, nothing else -- are re-applied on top of
+    the fresh copy. An entry this pass did not touch therefore keeps whatever the other writer
+    put there.
+
+    A denied or unreadable target is NOT a lost race (the digest did not move) and keeps its old
+    handling: noted, reported, and the next pass re-parses. Never raises past its caller's own
+    `except`.
+    """
+    import time as _t
+    import threading as _th
+    for a in range(attempts):
+        tmp = "%s.%d.%d.%d.tmp" % (HARVEST_IDX, os.getpid(), _th.get_ident(), a)
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(idx, f, ensure_ascii=False)
+        landed, why = silence.replace_if_unchanged(tmp, HARVEST_IDX, digest)
+        if landed:
+            return idx
+        try:
+            os.remove(tmp)
+        except OSError:
+            _ = "silence-exempt: a leftover temp from a refused land is litter, not state"
+        now = silence.digest_of(HARVEST_IDX)
+        if now == digest:
+            # The file did not change, so this was a denied rename or an unreadable target, not
+            # another writer. The VERDICT, not just the attempt: a denied rename here is not
+            # harmless, because the index is the incremental cache, so a silent failure means
+            # every following cycle re-parses ~900MB of feats to rediscover the same rows --
+            # minutes of I/O per cycle presenting as "the pipeline is just slow". Deleting the
+            # index is documented safe; NOT KNOWING whether it was written is what costs.
+            silence.note("chain.py:harvest-idx-denied")
+            print("chain: harvest index could not be replaced (%s); this cycle's incremental "
+                  "gains are lost and the next pass re-parses whole." % why, file=sys.stderr)
+            return idx
+        # LOST THE RACE. Re-read under a fresh digest and re-apply only what this pass changed.
+        digest = now
+        try:
+            with open(HARVEST_IDX, encoding="utf-8") as f:
+                fresh = json.load(f)
+        except FileNotFoundError:
+            # ABSENT, NOT CORRUPT (contrast the `except Exception:` just below, which IS noted).
+            # Deleting the index is documented safe -- see `harvest`'s own docstring -- so this
+            # is `_land_harvest` losing the race it re-reads to recover from AND finding nothing
+            # there at all; resetting `digest` to None makes the next `replace_if_unchanged`
+            # treat this as a fresh write rather than a stale compare-and-swap. Noted anyway:
+            # this branch only runs after a lost race, so the index existed a moment ago, and its
+            # disappearance now is worth a trace however rare.
+            silence.note("chain.py:harvest-idx-reread-absent")
+            fresh = {}
+            digest = None
+        except Exception:
+            # Unparseable even though it just changed: harvest's own rule is to rebuild rather
+            # than heal a corrupt cache, and this pass's copy IS a whole rebuild relative to its
+            # scan, so it is what lands.
+            silence.note("chain.py:harvest-idx-reread")
+            fresh = None
+        if isinstance(fresh, dict):
+            fresh.update(updates)
+            for rel in removed:
+                fresh.pop(rel, None)
+            idx = fresh
+        _t.sleep(0.05 * (a + 1))
+    silence.note("chain.py:harvest-idx-contended")
+    print("chain: the harvest index did not land after %d attempt(s) (another writer kept "
+          "landing underneath it); this cycle's incremental gains are lost and the next pass "
+          "re-parses whole. Nothing another writer landed was overwritten." % attempts,
+          file=sys.stderr)
+    return idx
+
+
 def harvest():
     """Every mined feat sentence that reads like a contest outcome.
 
@@ -236,6 +327,12 @@ def harvest():
     optimization sweep: minutes of I/O per cycle). The index keeps, per file, its mtime and
     the contest rows it yielded; only files newer than their indexed mtime are re-opened.
     Deleting the index file is always safe -- the next run rebuilds it whole."""
+    # THE DIGEST BEFORE THE READ (order 972932ab89b0): `_land_harvest` lands under
+    # compare-and-swap against it, so a `refresh_continuity` patch landing while this pass scans
+    # is re-read and kept rather than overwritten. `updates` and `removed` are exactly what this
+    # pass changed, which is all a lost race re-applies.
+    digest = silence.digest_of(HARVEST_IDX)
+    updates, removed = {}, []
     try:
         with open(HARVEST_IDX, encoding="utf-8") as f:
             idx = json.load(f)
@@ -300,27 +397,23 @@ def harvest():
                 _, cont = ID.identify(page, host, inv=_inv)
                 found.append({"entity": ent, "sentence": t, "page": page,
                               "host": host, "continuity": cont})
-            idx[rel] = {"mt": mt, "rows": found}
+            idx[rel] = updates[rel] = {"mt": mt, "rows": found}
             changed += 1
     # A file that vanished takes its contests with it -- an index must never outlive its corpus.
     # Unless we never got to look: a key under a HELD root was not proven absent, only unread.
     for rel in [k for k in idx if k not in live and not _held_root(k, held)]:
         del idx[rel]
+        removed.append(rel)
         changed += 1
     if changed:
         try:
-            # Unique temp name via silence.write_json -- see write_result above; same two
-            # concurrent callers reach this index. (run #26)
-            # The VERDICT, not just the attempt. A denied rename here is not harmless: the index
-            # is the incremental cache, so a silent failure means every following cycle re-parses
-            # ~900MB of feats to rediscover the same rows -- minutes of I/O per cycle presenting
-            # as "the pipeline is just slow". Deleting the index is documented safe; NOT KNOWING
-            # whether it was written is what costs. (Same family as m33-m35.)
-            if not silence.write_json(HARVEST_IDX, idx, ensure_ascii=False):
-                silence.note("chain.py:harvest-idx-denied")
-                print("chain: harvest index could not be replaced (reader holding it?); this "
-                      "cycle's incremental gains are lost and the next pass re-parses whole.",
-                      file=sys.stderr)
+            # THROUGH `_land_harvest`'s COMPARE-AND-SWAP, no longer a plain `silence.write_json`
+            # (order 972932ab89b0): two writers reach this index, and only one of them was
+            # protected. The land re-reads and re-applies this pass's own changes on a lost race,
+            # and still reports a denied rename rather than swallowing it (run #26, m33-m35) --
+            # see there. `idx` becomes what actually stands on disk, so the rows returned below
+            # carry the other writer's patch too.
+            idx = _land_harvest(idx, digest, updates, removed)
         except Exception:
             silence.note("chain.py:harvest-idx")
     rows, seen = [], set()
@@ -478,14 +571,14 @@ def _ask(system, prompt, schema):
             if got is not None:
                 return got
     except Exception:
-        silence.note("chain.py:ask-cloud")   # was tagged chain.py:155; this is _ask's cloud arm
+        silence.note("chain.py:ask-cloud")   # was tagged with a bare line number; this is _ask's cloud arm
         pass
     try:
         import pipeline as P
         import read as R
         return P.ask(R.config(), system, prompt, schema, timeout=300)
     except Exception:
-        silence.note("chain.py:ask-local")   # was tagged chain.py:161; this is _ask's local arm
+        silence.note("chain.py:ask-local")   # was tagged with a bare line number; this is _ask's local arm
         return None
 
 
@@ -563,7 +656,7 @@ def extract(rows, batch=8, limit=None, workers=8):
             try:
                 pos = int(o.get("index", 0)) - 1
             except (TypeError, ValueError):
-                # was tagged chain.py:252; this is extract()'s bad-index guard
+                # was tagged with a bare line number; this is extract()'s bad-index guard
                 silence.note("chain.py:extract-bad-index")
                 continue
             if not (0 <= pos < len(chunk)):

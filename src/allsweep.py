@@ -185,7 +185,8 @@ class Verifier:
     """One row of the VERIFY tier: what to run, and what a nonzero exit MEANS.
 
     IT ITERATES AS EXACTLY `(label, argv)`, deliberately, and that is not tidiness. A plain
-    three-tuple was the obvious shape, and it would have broken `verify_math.py:6824-6825` --
+    three-tuple was the obvious shape, and it would have broken verify_math.py's
+    `"[6e3e3e553fd5] allsweep.VERIFIERS now runs rosetta.py --check"` check --
     `any(argv == ["rosetta.py", "--check"] for _label, argv in allsweep.VERIFIERS)`, a check
     written in run #26 to prove this very row exists. A net that has to be edited before a
     correctness fix can be applied is a net standing in the way of the thing it was written to

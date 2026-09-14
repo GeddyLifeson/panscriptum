@@ -292,7 +292,8 @@ def main():
     bad = 0
     for r in rows:
         d = decode(r["profile"])
-        # `d["profile"]` is decode()'s own argument echoed back (line 125 above) -- comparing it
+        # `d["profile"]` is decode()'s own argument echoed back (its `"profile": profile,`
+        # return-dict entry) -- comparing it
         # to `r["profile"]` compares that string with itself and can never fail. The real
         # round trip is to RE-ENCODE what decode() extracted and check it reproduces the exact
         # string, which is the only way genre, register, features, band and attested_axes -- the

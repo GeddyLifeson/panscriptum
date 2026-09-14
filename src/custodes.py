@@ -350,16 +350,26 @@ _ABSTAIN_NOTE = {
 def _abstained(dof):
     """Record, once per process per degree of freedom, that a Custos had nothing to read.
 
-    ORDER 2af7ca515157 AND f467f662be4b, AND THEY ARE ONE FAULT SEEN TWICE. Both Custodes were
+    ORDER 2af7ca515157 AND f467f662be4b, AND THEY WERE ONE FAULT SEEN TWICE. Both Custodes were
     given a real mechanism, a real threshold and a real place in `convene()`'s body, and both
-    were then wired to a keyword argument that no production caller supplies -- `anchors.py:190`,
-    the single real call site, passes neither `eta` nor `distance`/`years_since`. So `half +=
-    stale` added exactly 0.0 on every real reading and the curl veto could not fire on any of
-    them, and NOTHING SAID SO: the output dict reported `staleness_widening: 0.0`, which reads as
-    a measurement that came back zero, and omitted `threnody_veto` entirely, which reads as a
-    veto that was considered and declined.
+    were then wired to a keyword argument that `anchors.py`'s `run()` -- the single production
+    call site -- passed neither of: no `eta`, no `distance`/`years_since`. So `half += stale`
+    added exactly 0.0 on every real reading and the curl veto could not fire on any of them, and
+    NOTHING SAID SO: the output dict reported `staleness_widening: 0.0`, which reads as a
+    measurement that came back zero, and omitted `threnody_veto` entirely, which reads as a veto
+    that was considered and declined.
     // The code was never wrong. It was never reached. Those look identical from the output, and
     // that is precisely what this records.
+
+    CORRECTED FOR LUMEN, NOT FOR THRENODY (owner ruling 2026-09-08, order bd673ceaaf31; docstring
+    corrected 2026-09-13, order 360c6b8c68e5). `anchors.py`'s `run()` now passes `distance=0.0`
+    and a real `years_since` (`_anchor_vantage()`) for each of the five calibration anchors, so
+    Lumen (dof=currency) is no longer abstaining on production's one real call site -- this
+    function still fires for her only on a call that omits them, which is what `verify_math.py`'s
+    own demonstration calls to `convene()` do deliberately, to exercise this exact path, and what
+    a live sweep sees printed is that demonstration, not a production gap. Threnody
+    (dof=comparability) is UNCHANGED: nothing in production computes `eta`, so she still abstains
+    on every real call and the curl veto has still never fired on a real being.
 
     It does not substitute a value, because there is no honest value to substitute: the vantage
     and the contest graph are inputs, not defaults, and inventing either would be manufacturing
@@ -425,8 +435,9 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
     Returns the consensus decimal, the ± as measured spread, and -- the part that makes the number
     useful -- the split between what fieldwork could fix and what it could not.
 
-    TWO OF THE TEN CUSTODES CANNOT WORK ON A DEFAULT CALL, AND THAT IS THE STATE OF THE TREE
-    TODAY (orders 2af7ca515157, f467f662be4b, both left OPEN for the wiring):
+    ONE OF THE TEN CUSTODES CANNOT WORK ON A DEFAULT CALL, AND THAT IS THE STATE OF THE TREE
+    TODAY (order f467f662be4b, still OPEN for the wiring; its twin `2af7ca515157` for Lumen was
+    closed by owner ruling bd673ceaaf31 -- corrected here 2026-09-13, order 360c6b8c68e5):
 
       `eta`, from `resonance.hodge_decompose`, is what lets Threnody exercise her veto: where the
       contest structure is substantially curl, no scalar is faithful and the college should say
@@ -435,19 +446,24 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
       pass `eta` are this module's own `main()` demo (a literal 0.70) and `verify_math`. The
       veto's arithmetic is exercised; the veto itself has never fired on a real being.
 
-      `distance`/`years_since` are what Lumen reads, via `propagation.observed_mark`. No caller
-      supplies them either, so `staleness_widening` contributes exactly 0.0 to every real
-      interval.
+      `distance`/`years_since` are what Lumen reads, via `propagation.observed_mark`. NOW
+      SUPPLIED by `anchors.py`'s `run()` -- the single production call site -- for each of the
+      five calibration anchors: `distance=0.0` (an anchor is read at zero remove) and
+      `years_since=propagation.ascension_years(propagation.LADDER_HEIGHT)` (an anchor's content
+      is ratified to the apex by the time it is an anchor at all), both a stated CONVENTION
+      rather than an estimate. `staleness_widening` now contributes a real, computed value on
+      that path; a call that omits `distance`/`years_since` -- `verify_math`'s own demonstration
+      calls, or `main()`'s -- still abstains, honestly, because it really did supply neither.
 
-    Both are therefore reported as ABSTENTIONS rather than absorbed: `staleness_measured` and
-    `comparability_measured` ride on every result, false on a default call, with the reason
-    named in `currency_source` / `comparability_source`. A reader of one published +/- can tell
-    from the number itself that two of its ten standpoints did not get to speak.
+    Threnody is therefore still reported as an ABSTENTION rather than absorbed on every call;
+    Lumen only on a call that does not supply her vantage. `staleness_measured` and
+    `comparability_measured` ride on every result either way, with the reason named in
+    `currency_source` / `comparability_source`, so a reader of one published +/- can always tell
+    from the number itself whether a given standpoint got to speak.
 
-    WIRING THEM IS A CHANGE IN `anchors.py`, NOT HERE, and it is a curatorial one rather than a
-    mechanical one: `ANCHORS` carries no vantage for any of its five entries, so somebody has to
-    rule what distance and how many years each is being read across, and there is no contest
-    graph for the college to decompose. Defaulting either from in here would be inventing the
+    WIRING THRENODY IS STILL A CHANGE OUTSIDE THIS FILE, and it is a curatorial one rather than a
+    mechanical one: no contest graph exists for the college to decompose, and there is nowhere in
+    production to derive `eta` from. Defaulting it from in here would be inventing the
     measurement, which is the failure this file exists to refuse.
     """
     # THE ATTENDANCE IS A FACT ABOUT THE ARGUMENTS, so it is settled before the readings are

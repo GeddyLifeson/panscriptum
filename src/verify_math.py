@@ -221,10 +221,12 @@ def _spy_record_vm(*_a_vm, **_k_vm):
     """Forward to the real recorder, and remember WHICH battery line let it through."""
     # THE SPY'S OWN FRAME IS NOT THE SITE. `extract_stack()` includes this function, which lives
     # in verify_math.py, so an unfiltered `[-1]` blamed every leak on this line -- including the
-    # ones from checks_L6.py, which is how it was noticed.
+    # ones from checks_L6.py, which is how it was noticed. `_no_ledger_for_vm`'s forwarder is
+    # excluded for the same reason: it FORWARDS an unnamed class here, so without the exclusion
+    # every leak it passed through would be blamed on the wrapper instead of the probe.
     _fr_vm = [_f for _f in _tb_vm.extract_stack()
               if os.path.basename(_f.filename).startswith(("verify_math", "checks_L"))
-              and _f.name != "_spy_record_vm"]
+              and _f.name not in ("_spy_record_vm", "_forward_unnamed_vm")]
     _LEDGER_ESCAPES_VM.append(
         "%s -> %s" % ("%s:%d" % (os.path.basename(_fr_vm[-1].filename), _fr_vm[-1].lineno)
                       if _fr_vm else "<outside the battery>",
@@ -361,6 +363,33 @@ def _no_ledger_vm():
         yield
     finally:
         _H_vm.record = _saved_vm
+
+
+@_ctx_vm.contextmanager
+def _no_ledger_for_vm(*_classes_vm):
+    """`_no_ledger_vm` NARROWED TO NAMED CLASSES (order 19eb3626d39c).
+
+    Drops the ledger echo of exactly the classes named -- the ones the wrapped call is KNOWN to
+    provoke -- and forwards every other class to whatever recorder was installed on entry, so a
+    GENUINE fault raised during the same call still reaches the spy and reddens §20z by name.
+    The blanket form was put to the owner for live-state calls and refused (see "WHY A NAMED
+    CLASS AND NOT A BLANKET SUPPRESSION" below); this is the same ruling applied to a call whose
+    one noisy class is known. Nests: the forward goes to the recorder saved at entry, which may
+    itself be a `_third_party_vm` collector.
+    """
+    _saved_nf_vm = _H_vm.record
+
+    def _forward_unnamed_vm(*_a_nf, **_k_nf):
+        _kind_nf = _a_nf[0] if _a_nf else _k_nf.get("kind")
+        if _kind_nf in _classes_vm:
+            return None
+        return _saved_nf_vm(*_a_nf, **_k_nf)
+
+    _H_vm.record = _forward_unnamed_vm
+    try:
+        yield
+    finally:
+        _H_vm.record = _saved_nf_vm
 
 
 # --------------------------------------------------------------------------------------------
@@ -546,6 +575,24 @@ check("the ledger wrapper suppresses only what it wraps, and restores the record
       (_probe_calls_vm, _raised_vm), (["before", "after", "after-raise"], True),
       note="a wrapper that failed to restore would silence the LIVE ledger for the remainder "
            "of the run -- worse than the probe litter it exists to remove")
+# AND THE NARROW FORM IS EXERCISED THE SAME WAY (order 19eb3626d39c). Its whole reason to exist
+# is the class it does NOT swallow, so that is what this drives: a named class dropped, an
+# unnamed one forwarded to the recorder that was installed, and that recorder handed back.
+_narrow_calls_vm = []
+_outer_nf_vm = _H_vm.record
+_H_vm.record = lambda *_a, **_k: _narrow_calls_vm.append(_a[0] if _a else None)
+try:
+    with _no_ledger_for_vm("silent:the-one-provoked-class"):
+        _H_vm.record("silent:the-one-provoked-class", "OSError")
+        _H_vm.record("silent:a-genuine-fault-during-the-same-call", "KeyError")
+    _H_vm.record("after")
+finally:
+    _H_vm.record = _outer_nf_vm
+check("[control] the NAMED ledger wrapper drops only its named class and forwards the rest",
+      _narrow_calls_vm, ["silent:a-genuine-fault-during-the-same-call", "after"],
+      note="red with the genuine fault missing means the narrow form has become the blanket one "
+           "the owner refused; red with the provoked class present means it suppresses nothing; "
+           "red without 'after' means it did not hand the recorder back")
 
 # AND THE GRANT ITSELF IS RATCHETED, both ways (order 728d9e99e9ec). A named exemption is only
 # as honest as the names on it. Two ways it could rot silently:
@@ -1687,7 +1734,12 @@ import collections as _co    # noqa: E402
 # c121db910a17's shape exactly: a row's verdict must not turn on the state of somebody else's
 # artefact. Only the ECHO is dropped -- weave still prints the staleness to stderr, and every
 # value `build()` returns is asserted below unchanged.
-with _no_ledger_vm():
+#
+# NARROWED TO THAT ONE CLASS (order 19eb3626d39c). This was a blanket `_no_ledger_vm()`, which
+# hid EVERY class `build()` could raise -- a genuine weave or sevenfold fault included -- to
+# drop the one it is known to provoke. That is the shape the owner refused for the live-state
+# calls. Anything else `build()` notes now reaches §20z and is named there.
+with _no_ledger_for_vm("silent:weave.py:index-stale"):
     _, _coords, _, _worlds = SF.build()  # sources and weights are not read by this section
 
 def _branching(pool, tier_idx):
@@ -1727,8 +1779,9 @@ check("and a second deliberate join lands the same way",
 # which Python randomises per process"). This row was the fourth: it compared `SF.build()` to
 # the `SF.build()` three lines above it, in one process, through one module object.
 #
-# IT IS NOT HYPOTHETICAL HERE. `shelve` builds `remaining = set(members)` (sevenfold.py:86) and
-# `sorted(set(cuts))` (:214), and §19n of this same battery records that hash-seed-dependent set
+# IT IS NOT HYPOTHETICAL HERE. `shelve` builds `remaining = set(members)` (in
+# `sevenfold.affinity_order()`, which it calls) and `sorted(set(cuts))` (in `shelve()` itself),
+# and §19n of this same battery records that hash-seed-dependent set
 # order really did rename 75 of 734 navtree nodes between two runs on identical inputs. A
 # shelfmark that moves between processes orphans every published address pointing at it, which
 # is the one fault a shelving-determinism row exists to catch.
@@ -1755,7 +1808,7 @@ _spec_sf = _ilu.spec_from_file_location("sevenfold__fresh",
                                         os.path.join(_SRC_AS, "sevenfold.py"))
 _sffresh = _ilu.module_from_spec(_spec_sf)
 _spec_sf.loader.exec_module(_sffresh)
-with _no_ledger_vm():                    # same corpus-staleness echo as the build at §16's head
+with _no_ledger_for_vm("silent:weave.py:index-stale"):   # same narrow grant as §16's head build
     _coords_fresh = _sffresh.build()[1]
 check("shelving is deterministic ACROSS LOADS, not merely within one call",
       _coords_fresh["Alien"], _coords["Alien"],
@@ -2086,10 +2139,13 @@ import pipeline as _PL
 #
 # WHAT IS ACTUALLY EXEMPT, re-enumerated by reading every temp-making site in this file rather
 # than by trusting the old list: §19ab's token-flow root and §20p's halt-probe root, each
-# rmtree'd from a `finally`; the two `TemporaryDirectory()` blocks; and batch6's `_tmp_guard`,
-# which is a single FILE removed in a `finally`. That is five, not three -- §20p's was doing
-# the right thing and was not credited. Everything else that makes a scratch directory goes
-# through `_mkdtemp_vm` and is swept at exit.
+# rmtree'd from a `finally`; §19ft's `_scratch19ft` feats-gate cache root, rmtree'd from a
+# `finally`; batch2's `_codewatch_concurrency_b2` `scratch_dir`, rmtree'd from a `finally`; the
+# two `TemporaryDirectory()` blocks; and batch6's `_tmp_guard`, which is a single FILE removed in
+# a `finally`. That is SEVEN. The previous count said five and "everything else goes through
+# `_mkdtemp_vm`", which was false twice over -- `_scratch19ft` and batch2's `scratch_dir` call
+# `mkdtemp` directly and were on no list (order c8491264e6dc, sweep57). Everything else that makes
+# a scratch directory goes through `_mkdtemp_vm` and is swept at exit.
 # `_atexit_vm` is bound once, beside `check()`, where the crash net that also needs it lives:
 # one alias per module per file, so two call sites cannot come to disagree about which one.
 import shutil as _shutil_vm
@@ -2126,7 +2182,9 @@ _got = json.load(open(_rp, encoding="utf-8"))
 check("write_record keeps the DISK cast against a stale copy",
       sorted(e["name"] for e in _got["entries"]), ["A", "B"])
 check("and still lands the stale copy's judgment",
-      next(e for e in _got["entries"] if e["name"] == "A")["magnitude"], "M3")
+      next((e for e in _got["entries"] if e["name"] == "A"), {}).get("magnitude",
+                                                                    "NOT THERE: no entry A"),
+      "M3")
 
 # Catalogue direction: a FRESH larger cast wins, disk judgments ride along.
 with open(_rp, "w", encoding="utf-8") as _f:
@@ -2139,7 +2197,9 @@ _got = json.load(open(_rp, encoding="utf-8"))
 check("write_record_catalogue keeps the FRESH cast",
       sorted(e["name"] for e in _got["entries"]), ["A", "B", "C"])
 check("and preserves the disk judgment onto the matching name",
-      next(e for e in _got["entries"] if e["name"] == "A")["magnitude"], "M2")
+      next((e for e in _got["entries"] if e["name"] == "A"), {}).get("magnitude",
+                                                                    "NOT THERE: no entry A"),
+      "M2")
 
 # And the catalogue merge never shrinks: a disk-only entry survives a smaller fresh cast.
 with open(_rp, "w", encoding="utf-8") as _f:
@@ -3209,7 +3269,8 @@ check("an all-tied fixture resolves to a FROZEN answer, not merely a self-consis
       note="every value appears once, so the counts decide nothing and `, v` decides "
            "everything: without it `max` keeps whichever the SET yielded first and this triple "
            "moves with PYTHONHASHSEED. Frozen because that is the only in-process way to see "
-           "it, which is the same reason §16 froze `affinity_order`'s ordering at :1605")
+           "it, which is the same reason §16 froze `affinity_order`'s ordering in its all-tied "
+           "fixture row")
 check("the real navtree helper carries the same rule",
       "key=lambda r: (regs.count(r), r)" in
       open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "navtree.py"),
@@ -3273,8 +3334,10 @@ check("each split block carries only that entity",
       all(len(b) == 1 for b in _bk), True)
 _spans = [e["feat_span"] for b in _bk for e in b]
 check("every split block declares which span it holds", len(_spans), len(_bk))
-check("the spans start at the first deed", _spans[0].startswith("1-"), True)
-check("and end at the last", _spans[-1].endswith("of 569"), True)
+check("the spans start at the first deed",
+      str(_at_vm(_spans, 0, "the packer declared no span")).startswith("1-"), True)
+check("and end at the last",
+      str(_at_vm(_spans, -1, "the packer declared no span")).endswith("of 569"), True)
 check("the spans are contiguous and cover the whole record",
       sum(int(s.split(" of ")[0].split("-")[1]) - int(s.split("-")[0]) + 1 for s in _spans), 569,
       note="a gap between two spans would be a silent loss wearing the shape of pagination")
@@ -3507,7 +3570,10 @@ check("slicing an oversized entity loses no deed", _emitted19v, 40)
 check("every slice carries its span so a partial block is legible",
       all(e.get("feat_span") for b in _blocks for e in b), True)
 check("no slice of a multi-deed entity exceeds the budget",
-      max(len(json.dumps(e["feats"], ensure_ascii=False)) for b in _blocks for e in b) <= _fb,
+      # `default=inf`, not a bare max(): a packer that returned no blocks must redden this row,
+      # not raise ValueError at module level and take the RESULT line with it (order e0d71f507510)
+      max((len(json.dumps(e["feats"], ensure_ascii=False)) for b in _blocks for e in b),
+          default=float("inf")) <= _fb,
       True, note="the packer used to test the budget AFTER appending, so every slice overshot")
 
 # ---- Section 19y: the window admits a real chapter block, and prose is charged as prose ------
@@ -3796,6 +3862,32 @@ import yaml as _yaml19ab        # noqa: E402
 _SRC19ab = os.path.dirname(os.path.abspath(__file__))
 _ROOT19ab = os.path.dirname(_SRC19ab)
 
+def _ctx_literals_in19ab(_tree19f, _name19f):
+    """-> ["<name>:<line> num_ctx=<n>"] for every Ollama request body in this parse tree that
+    hardcodes its context window.
+
+    A FUNCTION, NOT AN INLINE LOOP (order 3c72359c53aa). The order 873330d2e98d canary used to
+    test a RE-TYPED COPY of this predicate, so a typo in the real scan left the scan and its
+    canary both green. The canary now drives this function.
+    """
+    _out19f = []
+    for _n19f in _ast19ab.walk(_tree19f):
+        if not isinstance(_n19f, _ast19ab.Dict):
+            continue
+        for _k19f, _v19f in zip(_n19f.keys, _n19f.values):
+            # the request-body shape: {..., "options": {..., "num_ctx": <expr>}}
+            if not (isinstance(_k19f, _ast19ab.Constant) and _k19f.value == "options"):
+                continue
+            if not isinstance(_v19f, _ast19ab.Dict):
+                continue
+            for _ok19f, _ov19f in zip(_v19f.keys, _v19f.values):
+                if (isinstance(_ok19f, _ast19ab.Constant) and _ok19f.value == "num_ctx"
+                        and isinstance(_ov19f, _ast19ab.Constant)
+                        and isinstance(_ov19f.value, int)):
+                    _out19f.append("%s:%d num_ctx=%d" % (_name19f, _ov19f.lineno, _ov19f.value))
+    return _out19f
+
+
 _ctx_literals = []
 _unparsed19ab = []
 for _p19 in sorted(_glob19ab.glob(os.path.join(_SRC19ab, "*.py"))):
@@ -3809,21 +3901,7 @@ for _p19 in sorted(_glob19ab.glob(os.path.join(_SRC19ab, "*.py"))):
         silence.note("verify_math.py:S19ab-parse")
         _unparsed19ab.append(os.path.basename(_p19))
         continue
-    for _n19 in _ast19ab.walk(_tree19):
-        if not isinstance(_n19, _ast19ab.Dict):
-            continue
-        for _k19, _v19 in zip(_n19.keys, _n19.values):
-            # the request-body shape: {..., "options": {..., "num_ctx": <expr>}}
-            if not (isinstance(_k19, _ast19ab.Constant) and _k19.value == "options"):
-                continue
-            if not isinstance(_v19, _ast19ab.Dict):
-                continue
-            for _ok19, _ov19 in zip(_v19.keys, _v19.values):
-                if (isinstance(_ok19, _ast19ab.Constant) and _ok19.value == "num_ctx"
-                        and isinstance(_ov19, _ast19ab.Constant)
-                        and isinstance(_ov19.value, int)):
-                    _ctx_literals.append(
-                        f"{os.path.basename(_p19)}:{_ov19.lineno} num_ctx={_ov19.value}")
+    _ctx_literals.extend(_ctx_literals_in19ab(_tree19, os.path.basename(_p19)))
 
 check("no Ollama request body hardcodes a context window", _ctx_literals, [],
       note="a literal num_ctx that differs from config.yaml's forces a runner teardown+rebuild "
@@ -4312,7 +4390,7 @@ def _pool19ai(buckets):
     """Run the real standards.check() over a synthetic throughput window.
 
     THE LIVE TOKEN-FLOW PROBE IS PINNED FOR THE DURATION OF THE CALL, and this is not tidiness.
-    `standards.check()` calls `ollama_token_flow()` (standards.py:1901). When the metrics ledger
+    `standards.check()` calls `ollama_token_flow()`. When the metrics ledger
     has been quiet for fifteen minutes that function stops reading and PROBES: a real generation
     sent to the local daemon on a 300-second deadline, and on failure `silence.note(
     "standards.py:token-flow")` -- a write into the LIVE failure ledger, which per order
@@ -4522,7 +4600,7 @@ check("the threshold standards enforces is the number tuning.py's own source dec
 #
 # WHAT WAS NEVER DRIVEN IS THE BOUNDARY. The constant's whole job is to decide where
 # `standards.check()` stops rendering a success percentage and says UNMEASURED instead
-# (standards.py:751). That cut is asked here directly, both sides of it, and then the constant
+# (its `calls < MIN_CALLS_TO_JUDGE_RATE` comparison). That cut is asked here directly, both sides of it, and then the constant
 # is swapped underneath the live function and the ANSWER is watched to move -- the device this
 # file already uses for the restart horizon in `_horizon_derives_from_standing_b19`. A
 # hand-inlined literal at the cut
@@ -4546,8 +4624,9 @@ check("and the boundary MOVES WITH THE CONSTANT: the same window is refused once
       "threshold is raised over it", _moved19ai, True,
       note="a literal spelled at standards.py:751 instead of the constant leaves the two "
            "equality rows perfectly green and this row red -- which is the whole point")
-# AND THE OTHER END OF THE SAME WIRE. The row above holds standards.py:751 to the constant; this
-# holds standards.py:67 to tuning, BEHAVIOURALLY rather than by grep. The binding is evaluated
+# AND THE OTHER END OF THE SAME WIRE. The row above holds `standards.check()`'s cut to the
+# constant; this holds standards.py's module-level `MIN_CALLS_TO_JUDGE_RATE =
+# tuning.MIN_CALLS_TO_JUDGE` binding to tuning, BEHAVIOURALLY rather than by grep. The binding is evaluated
 # at import, so the only way to see a re-inlined literal there is to import the module again
 # with tuning's constant moved -- the `_asfresh` device from §15 and §16, applied to a third
 # module. The fresh copy is thrown away; the live `_STx` every row above uses is untouched.
@@ -5269,8 +5348,22 @@ import dashboard as _D20
 # at all. `jobs()` itself notes three classes (`jobs-lognames-import`, `jobs-read`, `jobs-roll`)
 # whenever the live reader log or the live roll is unreadable, and each of those was reddening
 # §20z, which cancels the mutation pass. Nothing under test is suppressed: only the echo, for
-# the duration of this one call, exactly as §16's `SF.build()` calls are.
-with _no_ledger_vm():
+# the duration of this one call.
+#
+# NARROWED TO NAMED CLASSES (sweep58-batch02). This was the blanket `_no_ledger_vm()`, justified
+# as "exactly as §16's `SF.build()` calls are" -- which stopped being true when §16 was narrowed
+# under order 19eb3626d39c. The blanket form is the one the owner refused for live-state reads
+# ("WHY A NAMED CLASS AND NOT A BLANKET SUPPRESSION", beside the grant list). Named below is every
+# note a live read can reach from `jobs()`: its own three, plus `_tail_match`'s `tail` and
+# `_num`'s `num-parse`, which `_read_row` and `_roll_row` call -- all five already on the
+# live-state grant. DELIBERATELY NOT NAMED: `tail-format-mismatch:<log>`, which `_tail_match`
+# raises when a progress line no longer fits `RE_READ` / `RE_ROLL`. That is a fact about this
+# repository's two hand-copied formats, not about the machine, so it must reach §20z.
+with _no_ledger_for_vm("silent:dashboard.py:jobs-lognames-import",
+                       "silent:dashboard.py:jobs-read",
+                       "silent:dashboard.py:jobs-roll",
+                       "silent:dashboard.py:tail",
+                       "silent:dashboard.py:num-parse"):
     _j20 = _D20.jobs()
 check("dashboard.jobs() still returns a list of panels after the refactor",
       isinstance(_j20, list), True,
@@ -5373,7 +5466,13 @@ import overnight as _on21
 #
 # The call is wrapped because `_proc_lines` notes `overnight.py:proc-lines` /
 # `:proc-lines-blind` into the live ledger on that path, and that echo reddened §20z.
-with _no_ledger_vm():
+#
+# NARROWED TO THOSE TWO CLASSES (sweep58-batch02). This was the blanket `_no_ledger_vm()`, the
+# form the owner refused for live-state reads ("WHY A NAMED CLASS AND NOT A BLANKET
+# SUPPRESSION", beside the grant list). They are the only two notes `_proc_lines` has, and both
+# are on the live-state grant; anything else raised during the call now reaches §20z by name.
+with _no_ledger_for_vm("silent:overnight.py:proc-lines",
+                       "silent:overnight.py:proc-lines-blind"):
     try:
         _probe21 = _on21._proc_lines()
         _probe21_raised = None
@@ -5650,6 +5749,72 @@ _unparsed20e = []
 # below `_silent_importers20e` for the whole argument; these two collect what they compare.
 _sp_importers20e = set()          # module -> it imports subprocess, by any spelling
 _recognised20e = {}               # module -> how many spawn calls this scan actually resolved
+
+
+def _spawn_scan20e(_t20e, _name20e):
+    """-> {"imports_subprocess", "recognised", "guarded", "unguarded", "osspawn"} for ONE tree.
+
+    A FUNCTION, NOT INLINE MODULE CODE (order 3c72359c53aa). While this scan was a loop body,
+    nothing could drive a fixture through it, so §20j "proved" it resolved aliases by finding
+    the words `_alias20e` and `asname` in THIS FILE'S OWN SOURCE -- true on every tree, including
+    one where the alias resolution below had been deleted. §20j now plants aliased spawns and
+    asks this function whether it sees them.
+    """
+    _found20e = {"imports_subprocess": False, "recognised": 0, "guarded": 0,
+                 "unguarded": [], "osspawn": []}
+    # RESOLVE THE IMPORT ALIASES FIRST, because matching the literal name `subprocess` is a
+    # check that cannot fail on the one file that matters. This scan used to compare
+    # `_f20e.value.id == "subprocess"`, so `import subprocess as _sp20a` made it blind -- and
+    # the single unguarded spawn in the whole tree was in THIS file, three hundred lines above
+    # the check, spawned through exactly that alias. The check reported green for nine runs.
+    # A guard that only recognises the unobfuscated spelling of the thing it guards against is
+    # not a guard. (Found run #25; the spawn itself is fixed at §20a.)
+    _alias20e = {}                    # local name -> real module, for `import X as Y`
+    _direct20e = {}                   # local name -> (real module, attr), for `from X import Y`
+    for _i20e in _ast20e.walk(_t20e):
+        if isinstance(_i20e, _ast20e.Import):
+            for _a20e in _i20e.names:
+                if _a20e.name in {"subprocess", "os"}:
+                    _alias20e[_a20e.asname or _a20e.name] = _a20e.name
+        elif isinstance(_i20e, _ast20e.ImportFrom):
+            if _i20e.module in {"subprocess", "os"}:
+                for _a20e in _i20e.names:
+                    _direct20e[_a20e.asname or _a20e.name] = (_i20e.module, _a20e.name)
+    _found20e["imports_subprocess"] = (
+        "subprocess" in _alias20e.values()
+        or any(_m20ei == "subprocess" for _m20ei, _ in _direct20e.values()))
+
+    for _n20e in _ast20e.walk(_t20e):
+        if not isinstance(_n20e, _ast20e.Call):
+            continue
+        _f20e = _n20e.func
+        _mod20e = _fn20e = None
+        if isinstance(_f20e, _ast20e.Attribute) and isinstance(_f20e.value, _ast20e.Name):
+            # `subprocess.run(...)`, and now `_sp20a.Popen(...)` too.
+            _mod20e = _alias20e.get(_f20e.value.id)
+            _fn20e = _f20e.attr
+        elif isinstance(_f20e, _ast20e.Name):
+            # `from subprocess import Popen` then a bare `Popen(...)` -- the other spelling
+            # that slipped past an attribute-only scan.
+            _mod20e, _fn20e = _direct20e.get(_f20e.id, (None, None))
+        if not _mod20e:
+            continue
+        _kw20e = {k.arg for k in _n20e.keywords if k.arg}
+        _where20e = f"{_name20e}:{_n20e.lineno}"
+        if _mod20e == "os" and _fn20e in {"system", "popen", "startfile"}:
+            _found20e["osspawn"].append(_where20e)
+        elif _mod20e == "subprocess" and _fn20e in _SPAWNERS20e:
+            # RECOGNISED, guarded or not: the reconciliation below asks whether the SCAN can
+            # still see this module's spawns at all, which is a different question from whether
+            # they carry the flag. An unguarded site is already reported by name one row down.
+            _found20e["recognised"] += 1
+            if "creationflags" in _kw20e or "startupinfo" in _kw20e:
+                _found20e["guarded"] += 1
+            else:
+                _found20e["unguarded"].append(_where20e)
+    return _found20e
+
+
 for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
     try:
         _t20e = _ast20e.parse(open(_p20e, encoding="utf-8").read())
@@ -5673,57 +5838,14 @@ for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
         silence.note("verify_math.py:S20e-parse")
         _unparsed20e.append(os.path.basename(_p20e))
         continue
-    # RESOLVE THE IMPORT ALIASES FIRST, because matching the literal name `subprocess` is a
-    # check that cannot fail on the one file that matters. This scan used to compare
-    # `_f20e.value.id == "subprocess"`, so `import subprocess as _sp20a` made it blind -- and
-    # the single unguarded spawn in the whole tree was in THIS file, three hundred lines above
-    # the check, spawned through exactly that alias. The check reported green for nine runs.
-    # A guard that only recognises the unobfuscated spelling of the thing it guards against is
-    # not a guard. (Found run #25; the spawn itself is fixed at §20a.)
-    _alias20e = {}                    # local name -> real module, for `import X as Y`
-    _direct20e = {}                   # local name -> (real module, attr), for `from X import Y`
-    for _i20e in _ast20e.walk(_t20e):
-        if isinstance(_i20e, _ast20e.Import):
-            for _a20e in _i20e.names:
-                if _a20e.name in {"subprocess", "os"}:
-                    _alias20e[_a20e.asname or _a20e.name] = _a20e.name
-        elif isinstance(_i20e, _ast20e.ImportFrom):
-            if _i20e.module in {"subprocess", "os"}:
-                for _a20e in _i20e.names:
-                    _direct20e[_a20e.asname or _a20e.name] = (_i20e.module, _a20e.name)
-    if ("subprocess" in _alias20e.values()
-            or any(_m20ei == "subprocess" for _m20ei, _ in _direct20e.values())):
+    _r20e = _spawn_scan20e(_t20e, os.path.basename(_p20e))
+    if _r20e["imports_subprocess"]:
         _sp_importers20e.add(os.path.basename(_p20e))
-
-    for _n20e in _ast20e.walk(_t20e):
-        if not isinstance(_n20e, _ast20e.Call):
-            continue
-        _f20e = _n20e.func
-        _mod20e = _fn20e = None
-        if isinstance(_f20e, _ast20e.Attribute) and isinstance(_f20e.value, _ast20e.Name):
-            # `subprocess.run(...)`, and now `_sp20a.Popen(...)` too.
-            _mod20e = _alias20e.get(_f20e.value.id)
-            _fn20e = _f20e.attr
-        elif isinstance(_f20e, _ast20e.Name):
-            # `from subprocess import Popen` then a bare `Popen(...)` -- the other spelling
-            # that slipped past an attribute-only scan.
-            _mod20e, _fn20e = _direct20e.get(_f20e.id, (None, None))
-        if not _mod20e:
-            continue
-        _kw20e = {k.arg for k in _n20e.keywords if k.arg}
-        _where20e = f"{os.path.basename(_p20e)}:{_n20e.lineno}"
-        if _mod20e == "os" and _fn20e in {"system", "popen", "startfile"}:
-            _osspawn20e.append(_where20e)
-        elif _mod20e == "subprocess" and _fn20e in _SPAWNERS20e:
-            # RECOGNISED, guarded or not: the reconciliation below asks whether the SCAN can
-            # still see this module's spawns at all, which is a different question from whether
-            # they carry the flag. An unguarded site is already reported by name one row down.
-            _recognised20e[os.path.basename(_p20e)] = (
-                _recognised20e.get(os.path.basename(_p20e), 0) + 1)
-            if "creationflags" in _kw20e or "startupinfo" in _kw20e:
-                _guarded20e += 1
-            else:
-                _unguarded20e.append(_where20e)
+    if _r20e["recognised"]:
+        _recognised20e[os.path.basename(_p20e)] = _r20e["recognised"]
+    _guarded20e += _r20e["guarded"]
+    _unguarded20e.extend(_r20e["unguarded"])
+    _osspawn20e.extend(_r20e["osspawn"])
 
 check("every subprocess spawn in src/ suppresses its console window",
       _unguarded20e, [],
@@ -5999,9 +6121,22 @@ print("          of 2026-08-25 found SIXTEEN non-atomic writes across FOURTEEN m
 # the other fourteen went on truncating. FOUR separate scripts were writing `data/SWEEP_ROLL.json`
 # this way, which is the exact hazard `resync_roll.py`'s own docstring described in prose.
 #
-# This check is deliberately a SOURCE SCAN over the whole tree rather than a test of one
-# function: the fault was never in any single writer, it was in there being no shared way to do
-# it right. `silence.write_json` is now that way, and this check is what stops a seventeenth.
+# This check is deliberately a SOURCE SCAN rather than a test of one function: the fault was
+# never in any single writer, it was in there being no shared way to do it right.
+# `silence.write_json` is now that way.
+#
+# WHAT THIS SECTION DOES NOT DO, corrected (order c8491264e6dc, sweep56/57). It used to end "and
+# this check is what stops a seventeenth". It does not. The rows below pin the SIXTEEN REPAIRED
+# SITES BY NAME (a hand-kept list of fourteen module/constant pairs plus three `silence` greps);
+# nothing here walks the tree for a NEW truncate-then-fill write, so a seventeenth passes in
+# silence. One already did: `codewatch._stamp_poll` opened its poll stamp with "w" and
+# `json.dump`ed into it, on no list. That was filed as a finding about codewatch.py rather than
+# pinned here, and it is now FIXED there (order cc07729f5a4d, run #58: the stamp lands through
+# `silence.write_json`). It is deliberately NOT added to `_REPAIRED_20g` below: that list asks
+# `open(<CONSTANT>, "w"`, and the old write opened `os.path.join(POLLS, ...)`, so a
+# `("codewatch.py", "POLLS")` entry could never have matched the bad code -- a row that cannot
+# fail. It is guarded behaviourally instead (the net proposed with that order for
+# `drill_codewatch`). A general tree scan is still the remedy the sentence used to promise.
 _atomic_src = {}
 for _p20g in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
     _atomic_src[os.path.basename(_p20g)] = open(_p20g, encoding="utf-8").read()
@@ -6381,14 +6516,34 @@ print("31. §20j  RUN #25 — A GUARD THAT ONLY RECOGNISES THE UNOBFUSCATED SPEL
 #   * The pool's unrecognised ledger had no name for "the provider answered with nothing",
 #     and Cascade says that in two different wordings, so one fault held two permanent rows.
 _here20j = _here19
-_src20j = open(os.path.join(_here20j, "verify_math.py"), encoding="utf-8").read()
+# THE TWO ROWS THAT STOOD HERE COULD NOT FAIL (order 3c72359c53aa, re-verified by run #57). They
+# searched THIS FILE'S OWN SOURCE for "_alias20e", "asname" and "_direct20e" -- variable names
+# defined in this file and literals on those very check lines -- so both were True on every tree,
+# including one where §20e's alias resolution had been deleted outright. The scan is now the
+# function `_spawn_scan20e`, and these rows plant the spellings it must resolve and one it must
+# not flag. Each fixture is a whole module, so "fixture.py:2" is the spawn on its second line.
+_FIX20j = {
+    "aliased module, no flag": "import subprocess as _x\n_x.Popen(['a'])\n",
+    "aliased module, flag set": ("import subprocess as _x\n"
+                                 "_x.Popen(['a'], creationflags=0x08000000)\n"),
+    "a different module's Popen": "import other as _x\n_x.Popen(['a'])\n",
+    "aliased from-import, no flag": "from subprocess import Popen as _P\n_P(['a'])\n",
+    "plain from-import, no flag": "from subprocess import run\nrun(['a'])\n",
+}
+_got20j = {_k20j: _spawn_scan20e(_ast20e.parse(_v20j), "fixture.py")["unguarded"]
+           for _k20j, _v20j in _FIX20j.items()}
 check("the spawn scan resolves import ALIASES, not just the literal module name",
-      ("_alias20e" in _src20j) and ("asname" in _src20j), True,
+      (_got20j["aliased module, no flag"], _got20j["aliased module, flag set"],
+       _got20j["a different module's Popen"]),
+      (["fixture.py:2"], [], []),
       note="`import subprocess as X` hid the only unguarded spawn in the tree from the check "
-           "whose entire job was to find it; matching the plain spelling is not a guard")
+           "whose entire job was to find it; matching the plain spelling is not a guard. Red in "
+           "the first slot: the alias is not resolved. Red in the second: the flag is not read. "
+           "Red in the third: the scan flags any `.Popen` whatever module it belongs to")
 check("the spawn scan also resolves `from subprocess import ...` call names",
-      "_direct20e" in _src20j, True,
-      note="the other spelling an attribute-only walk cannot see")
+      (_got20j["aliased from-import, no flag"], _got20j["plain from-import, no flag"]),
+      (["fixture.py:2"], ["fixture.py:2"]),
+      note="the other spelling an attribute-only walk cannot see, aliased and plain")
 
 _la20j = __import__("local_agent")
 for _case20j in ("src/foreman.PY", "src/foreman.Py", "SRC/FOREMAN.PY", "src/silence.PY",
@@ -6902,7 +7057,8 @@ print("    §20x  THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS"
 # ---- Section 20x: THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS -------------
 # RETAGGED run #36, order c30618e03a36, from §19s -- the THIRD tag collision found in this file
 # and the third fixed the same way §20e and §20f were fixed above. `§19s` named this section AND
-# the metrics-ledger-timestamp section at line ~2494, so a citation to it resolved to a coin
+# the metrics-ledger-timestamp section ("Section 19s: both writers of the metrics ledger stamp a
+# timestamp"), so a citation to it resolved to a coin
 # flip. Which section each citer meant was read, not assumed:
 #   §19s  kept by the metrics-timestamp section -- BUGS.md's m61 entry cites it as "§19s (2
 #         checks -- both writers must stamp)", HANDOFF.md records "+6: §19s x2", and run #14's
@@ -6916,9 +7072,11 @@ print("    §20x  THE PROSE INTERLOCKS, AT EVERY LAYER, INCLUDING THE OPERATORS"
 #         file lands on both sections.
 # §20x is the next free letter after §20w (§20o is skipped on purpose -- it reads as a zero),
 # and the §20 run is the right series because this section sits inside it, between §20j and §20p.
-# ALSO NOTED WHILE READING THE CITERS, and not fixed here because it is BUGS.md's: the "Pinned by
-# §19s" at BUGS.md:3019 is about the GPU lane's dead-holder fix, which run #14 moved to §19u. It
-# was already dangling before this rename. Staged in the same handoff file.
+# ALSO NOTED WHILE READING THE CITERS, and not fixed here because it is BUGS.md's: BUGS.md carried
+# a "Pinned by §19s" about the GPU lane's dead-holder fix, which run #14 moved to §19u. It was
+# already dangling before this rename, and was staged in the same handoff file. THAT TOO HAS
+# SINCE BEEN CORRECTED: re-read for order c8491264e6dc (run #58), BUGS.md no longer contains a
+# "Pinned by §19s" anywhere, so this is a record of a repair, not an outstanding one.
 #
 # Added 2026-08-25 (owner ruling). 145 chapters were written that should not have been, and the
 # reason is worth stating exactly: NOTHING FAILED. Five reasonable things were each missing a
@@ -7262,13 +7420,20 @@ check("[control] and the roster names no module that no longer consults the halt
       sorted(set(_INTERLOCKED) - _callers20p), [],
       note="the same drift in the other direction: a module that stopped asking the halt would "
            "otherwise keep its seat on the list and go on reading as proven")
+def _failopen_in20p(_text20pf):
+    """-> how many times this source swallows a missing escalation module with `pass`.
+
+    A FUNCTION (order 3c72359c53aa) so the order 873330d2e98d canary drives the REAL pattern
+    rather than a re-typed copy of it, which a typo here would have left green.
+    """
+    return len(list(__import__("re").finditer(
+        r"import escalation as _ESC\s*\n\s*_ESC\.assert_clear[^\n]*\n\s*except ImportError:"
+        r"\s*\n\s*pass", _text20pf)))
+
+
 _failopen20p = []
 for _f20p in _INTERLOCKED:
-    _t20p = _src20p(_f20p)
-    for _ in __import__("re").finditer(
-            r"import escalation as _ESC\s*\n\s*_ESC\.assert_clear[^\n]*\n\s*except ImportError:"
-            r"\s*\n\s*pass", _t20p):
-        _failopen20p.append(_f20p)
+    _failopen20p.extend([_f20p] * _failopen_in20p(_src20p(_f20p)))
 check("no job swallows a missing escalation module", _failopen20p, [],
       note="THE BUG: `except ImportError: pass` around the halt check meant deleting "
            "escalation.py disabled the plant-wide halt in eight jobs at once, quietly")
@@ -7567,9 +7732,13 @@ def _publish_rc20p(_push20p):
     import escalation as _esc20p
     import io as _io20p
     import tempfile as _tf20p
+    # `maintenance_shift_live` IS STUBBED FOR THE SAME REASON THE HALT FILE IS REDIRECTED (run
+    # #58): since order 12d4e1b00c2f a one-shot --push asks whether a maintenance shift holds the
+    # guard, so without this the probe's "landed" push was refused before `push` was ever called
+    # whenever a shift was live -- the row measured the live guard, not the refusal path.
     _saved20p = {_n20p: getattr(_pubmod20p, _n20p) for _n20p in
                  ("push", "sync_tree", "render_page", "write", "render_views",
-                  "_mutation_observation")}
+                  "_mutation_observation", "maintenance_shift_live")}
     _argv20p, _halt20p = sys.argv[:], _esc20p.HALT_FILE
     _buf20p = _io20p.StringIO()
     try:
@@ -7579,6 +7748,7 @@ def _publish_rc20p(_push20p):
         _pubmod20p.write = lambda *_a, **_k: None
         _pubmod20p.render_views = lambda *_a, **_k: None
         _pubmod20p._mutation_observation = lambda *_a, **_k: (False, {})
+        _pubmod20p.maintenance_shift_live = lambda *_a, **_k: (False, "no shift (probe)")
         _esc20p.HALT_FILE = os.path.join(_tf20p.gettempdir(),
                                          "verify_math_S20p_no_such_halt.json")
         sys.argv = ["publish.py", "--push"]
@@ -7681,24 +7851,79 @@ import ast as _ast20q
 
 _pipe20q = _ast20q.parse(_src20p("pipeline.py"))
 _discarded20q, _used20q = [], 0
+
+
+# TWO WRITER SPELLINGS, ONE POPULATION (run #58, order a803028ab794). phase_weave's ONOMASTICON
+# write moved from `land_json` to `O.land_onomasticon`, the compare-and-swapped writer onomast.py
+# also uses -- so counting `land_json` alone dropped the population to 11 while no writer was
+# lost, and a verdict-discard at the new call would have been invisible to the row below. Both
+# spellings are counted and both are held to "the verdict is not thrown away".
+def _is_writer20q(_f20q):
+    return ((isinstance(_f20q, _ast20q.Name) and _f20q.id == "land_json")
+            or (isinstance(_f20q, _ast20q.Attribute) and _f20q.attr == "land_onomasticon"))
+
+
 for _n20q in _ast20q.walk(_pipe20q):
-    if not isinstance(_n20q, _ast20q.Call):
-        continue
-    _f20q = _n20q.func
-    if not (isinstance(_f20q, _ast20q.Name) and _f20q.id == "land_json"):
-        continue
-    _used20q += 1
+    if isinstance(_n20q, _ast20q.Call) and _is_writer20q(_n20q.func):
+        _used20q += 1
 for _n20q in _ast20q.walk(_pipe20q):
     # A bare expression statement wrapping the call == the verdict goes nowhere.
-    if isinstance(_n20q, _ast20q.Expr) and isinstance(_n20q.value, _ast20q.Call):
-        _f20q = _n20q.value.func
-        if isinstance(_f20q, _ast20q.Name) and _f20q.id == "land_json":
-            _discarded20q.append("pipeline.py:%d" % _n20q.lineno)
+    if (isinstance(_n20q, _ast20q.Expr) and isinstance(_n20q.value, _ast20q.Call)
+            and _is_writer20q(_n20q.value.func)):
+        _discarded20q.append("pipeline.py:%d" % _n20q.lineno)
 
 check("no land_json call in pipeline.py throws its write verdict away",
       _discarded20q, [],
       note="a bare-Expr land_json is a denied rename nobody hears; the phase then marks itself "
            "done over the pre-write file and no run redoes it")
+
+
+# AND THE ASSIGNED-THEN-DROPPED SHAPE (sweep58-batch02, run #58). The row above sees only a
+# bare-Expr call. `land_onomasticon` returns (named, landed, why), so the realistic regression is
+# `named, onom_landed, onom_why = O.land_onomasticon(...)` followed by NOTHING reading
+# `onom_landed` -- measured by the sweep: deleting `landed.append(onom_landed)` left the row above
+# green. So: a writer call whose result is ASSIGNED must have its verdict (the name itself, or the
+# tuple's second element) READ later in the same function.
+def _verdict_dropped20q(_tree20q):
+    _out = []
+    for _fn in _ast20q.walk(_tree20q):
+        if not isinstance(_fn, (_ast20q.FunctionDef, _ast20q.AsyncFunctionDef)):
+            continue
+        for _nd in _ast20q.walk(_fn):
+            if not (isinstance(_nd, _ast20q.Assign) and isinstance(_nd.value, _ast20q.Call)
+                    and _is_writer20q(_nd.value.func) and len(_nd.targets) == 1):
+                continue
+            _tg = _nd.targets[0]
+            if isinstance(_tg, _ast20q.Name):
+                _vn = _tg.id
+            elif (isinstance(_tg, (_ast20q.Tuple, _ast20q.List)) and len(_tg.elts) >= 2
+                  and isinstance(_tg.elts[1], _ast20q.Name)):
+                _vn = _tg.elts[1].id
+            else:
+                continue
+            _end = getattr(_nd, "end_lineno", _nd.lineno)
+            if not any(isinstance(_x, _ast20q.Name) and _x.id == _vn
+                       and isinstance(_x.ctx, _ast20q.Load) and _x.lineno > _end
+                       for _x in _ast20q.walk(_fn)):
+                _out.append("%s: `%s` from a writer at pipeline.py:%d is never read"
+                            % (_fn.name, _vn, _nd.lineno))
+    return _out
+
+
+check("no writer verdict in pipeline.py is assigned and then never read",
+      _verdict_dropped20q(_pipe20q), [],
+      note="the tuple-returning writer's verdict can be unpacked and dropped without any bare-Expr "
+           "call; the phase then reports landed over a write that was refused")
+# CONTROL: the same scan over pipeline.py with phase_weave's two uses of the verdict removed must
+# name it, or the row above is a scan that cannot fail.
+_mut20q = _src20p("pipeline.py").replace("landed.append(onom_landed)", "pass", 1) \
+                                .replace("if not onom_landed:", "if False:", 1)
+check("[control] the verdict scan names a dropped land_onomasticon verdict",
+      (_mut20q != _src20p("pipeline.py"),
+       any("onom_landed" in _r for _r in _verdict_dropped20q(_ast20q.parse(_mut20q)))),
+      (True, True),
+      note="if the first element is False the control's edit no longer matches phase_weave -- "
+           "re-read it and re-point the control; do not delete it")
 check("the scan is actually finding the land_json calls (not silently matching nothing)",
       _used20q >= 12, True,
       note="a renamed writer would empty the list above and pass the check vacuously -- this is "
@@ -7767,6 +7992,50 @@ check("every pipeline phase that lands artifacts consults gate_done()",
 # guarantee no longer rests on any scan, and this check exists to catch a caller being ADDED.
 import ast as _ast20t
 _src20t = os.path.dirname(os.path.abspath(__file__))
+
+
+def _clear_callers20t(_tree20tf, _f20tf):
+    """-> one "<file>:<line> <spelling>" per call to escalation.clear() in this parse tree.
+
+    A FUNCTION (order 3c72359c53aa) so the order 873330d2e98d canary drives THIS scan; it used
+    to exercise a re-typed copy, which a typo in the real one would have left green.
+    """
+    _out20tf = []
+    # Every name this file binds the escalation MODULE to, and every name it binds `clear` to.
+    _mods20tf, _direct20tf = set(), set()
+    for _n20tf in _ast20t.walk(_tree20tf):
+        if isinstance(_n20tf, _ast20t.Import):
+            for _a20tf in _n20tf.names:
+                if _a20tf.name == "escalation":
+                    _mods20tf.add(_a20tf.asname or "escalation")
+        elif isinstance(_n20tf, _ast20t.ImportFrom) and _n20tf.module == "escalation":
+            for _a20tf in _n20tf.names:
+                if _a20tf.name == "clear":
+                    _direct20tf.add(_a20tf.asname or "clear")
+    for _n20tf in _ast20t.walk(_tree20tf):
+        if not isinstance(_n20tf, _ast20t.Call):
+            continue
+        _fn20tf = _n20tf.func
+        # 1. the aliased attribute call the substring scan could not see: X.clear(...)
+        if (isinstance(_fn20tf, _ast20t.Attribute) and _fn20tf.attr == "clear"
+                and isinstance(_fn20tf.value, _ast20t.Name) and _fn20tf.value.id in _mods20tf):
+            _out20tf.append("%s:%d %s.clear()" % (_f20tf, _n20tf.lineno, _fn20tf.value.id))
+        # 2. the from-import, which has no module name in the call at all
+        elif isinstance(_fn20tf, _ast20t.Name) and _fn20tf.id in _direct20tf:
+            _out20tf.append("%s:%d %s()  [from escalation import clear]"
+                            % (_f20tf, _n20tf.lineno, _fn20tf.id))
+        # 3. dynamic dispatch: getattr(<escalation>, "clear")(...)
+        elif (isinstance(_fn20tf, _ast20t.Call) and isinstance(_fn20tf.func, _ast20t.Name)
+                and _fn20tf.func.id == "getattr" and len(_fn20tf.args) >= 2
+                and isinstance(_fn20tf.args[0], _ast20t.Name)
+                and _fn20tf.args[0].id in _mods20tf
+                and isinstance(_fn20tf.args[1], _ast20t.Constant)
+                and _fn20tf.args[1].value == "clear"):
+            _out20tf.append("%s:%d getattr(%s, 'clear')()"
+                            % (_f20tf, _n20tf.lineno, _fn20tf.args[0].id))
+    return _out20tf
+
+
 _callers20t = []
 for _f20t in sorted(os.listdir(_src20t)):
     if not _f20t.endswith(".py") or _f20t in ("escalation.py", "drill.py"):
@@ -7794,38 +8063,7 @@ for _f20t in sorted(os.listdir(_src20t)):
         silence.note("verify_math.py:S20t-parse")
         _callers20t.append("%s: UNPARSEABLE (%s)" % (_f20t, type(_e20t).__name__))
         continue
-    # Every name this file binds the escalation MODULE to, and every name it binds `clear` to.
-    _mods20t, _direct20t = set(), set()
-    for _n20t in _ast20t.walk(_tree20t):
-        if isinstance(_n20t, _ast20t.Import):
-            for _a20t in _n20t.names:
-                if _a20t.name == "escalation":
-                    _mods20t.add(_a20t.asname or "escalation")
-        elif isinstance(_n20t, _ast20t.ImportFrom) and _n20t.module == "escalation":
-            for _a20t in _n20t.names:
-                if _a20t.name == "clear":
-                    _direct20t.add(_a20t.asname or "clear")
-    for _n20t in _ast20t.walk(_tree20t):
-        if not isinstance(_n20t, _ast20t.Call):
-            continue
-        _fn20t = _n20t.func
-        # 1. the aliased attribute call the substring scan could not see: X.clear(...)
-        if (isinstance(_fn20t, _ast20t.Attribute) and _fn20t.attr == "clear"
-                and isinstance(_fn20t.value, _ast20t.Name) and _fn20t.value.id in _mods20t):
-            _callers20t.append("%s:%d %s.clear()" % (_f20t, _n20t.lineno, _fn20t.value.id))
-        # 2. the from-import, which has no module name in the call at all
-        elif isinstance(_fn20t, _ast20t.Name) and _fn20t.id in _direct20t:
-            _callers20t.append("%s:%d %s()  [from escalation import clear]"
-                               % (_f20t, _n20t.lineno, _fn20t.id))
-        # 3. dynamic dispatch: getattr(<escalation>, "clear")(...)
-        elif (isinstance(_fn20t, _ast20t.Call) and isinstance(_fn20t.func, _ast20t.Name)
-                and _fn20t.func.id == "getattr" and len(_fn20t.args) >= 2
-                and isinstance(_fn20t.args[0], _ast20t.Name)
-                and _fn20t.args[0].id in _mods20t
-                and isinstance(_fn20t.args[1], _ast20t.Constant)
-                and _fn20t.args[1].value == "clear"):
-            _callers20t.append("%s:%d getattr(%s, 'clear')()"
-                               % (_f20t, _n20t.lineno, _fn20t.args[0].id))
+    _callers20t.extend(_clear_callers20t(_tree20t, _f20t))
 
 check("escalation.clear() has no caller anywhere in src/ -- by AST, not by grep",
       _callers20t, [],
@@ -8082,7 +8320,8 @@ check("[control] and a checker that cannot run reports itself rather than borrow
 # "no rungs"` is `[]`, and `['M5'] and "no rungs"` is "no rungs" -- so the GUILTY half loses the
 # rung it exists to name and prints the innocent half's wording, while the innocent half prints
 # an empty list. A curator is told the tables disagree and refused the one fact that would fix
-# it, and anchors.py:427 indexes this table across the whole Ladder unguarded, so the divergence
+# it, and `anchors.run()`'s collapsed-window scan indexes this table across the whole Ladder
+# unguarded, so the divergence
 # arrives in production as a bare KeyError if this refusal does not land first.
 #
 # BOTH HALVES ARE ASSERTED ON BOTH FIXTURES, which is what kills both variants: the missing-rung
@@ -8714,6 +8953,11 @@ print("=" * 96)
 # ------------------------------------------------------------------------------------------
 # ---- run35 batch1 ----
 """
+SPLICED AND LIVE: this block runs on every battery run (§20u proves the splice by its labels).
+The header below is the proposing agent's original note, kept as the record of how the block
+arrived; its "proposed" and "not run" wording describes the day it was written, not today
+(order c8491264e6dc).
+
 Proposed checks for run35 batch 1 (agent working assay.py / custodes.py / rigor.py).
 
 These are NOT run standalone. They assume the surrounding verify_math.py namespace: `os`,
@@ -8730,7 +8974,6 @@ Local names are suffixed to avoid colliding with verify_math.py's own `_NN<lette
 """
 
 import ast as _ast_b1
-import re as _re_b1
 
 
 # ==================================================================================================
@@ -8746,38 +8989,23 @@ import re as _re_b1
 # gaps named in the order.
 #
 # Where the real matcher is already a standalone function (`_writes_the_config20p`), the canary
-# below calls THAT function directly -- a true positive control. Where the real matcher is an
-# inline loop with no reusable entry point (`_ctx_literals`, `_failopen20p`, `_callers20t`), the
-# canary reimplements the identical predicate/regex here, faithfully, as the closest available
-# substitute; ideally the coordinator factors each inline scan into a function the same way
-# `_writes_the_config20p` already is, and then rebinds
-# these canaries to call the real function instead of a parallel copy.
+# below calls THAT function directly -- a true positive control. The other three USED TO test a
+# RE-TYPED COPY of an inline loop, so a typo in the real scan left the scan and its canary both
+# green. DONE, order 3c72359c53aa (run #58): each inline scan is now a function --
+# `_ctx_literals_in19ab`, `_failopen_in20p`, `_clear_callers20t` -- the live scan calls it, and
+# these canaries call the same function, with a must-not fixture beside each must-catch one.
 # ==================================================================================================
 
 print()
 print("[batch1] order 873330d2e98d -- positive controls for the four unguarded negative scans")
 
 # ---- canary for _ctx_literals (section 19ab: Ollama request body hardcodes num_ctx) -----------
-def _num_ctx_literals_b1_873(tree):
-    out = []
-    for n in _ast_b1.walk(tree):
-        if not isinstance(n, _ast_b1.Dict):
-            continue
-        for k, v in zip(n.keys, n.values):
-            if not (isinstance(k, _ast_b1.Constant) and k.value == "options"):
-                continue
-            if not isinstance(v, _ast_b1.Dict):
-                continue
-            for ok, ov in zip(v.keys, v.values):
-                if (isinstance(ok, _ast_b1.Constant) and ok.value == "num_ctx"
-                        and isinstance(ov, _ast_b1.Constant) and isinstance(ov.value, int)):
-                    out.append(ov.value)
-    return out
-
-
 _canary_src_ctx_b1 = "body = {'model': 'x', 'options': {'num_ctx': 512}}\n"
+_canary_src_ctx_ok_b1 = "body = {'model': 'x', 'options': {'num_ctx': int(cfg['num_ctx'])}}\n"
 check("[canary 873330d2e98d] the num_ctx-literal predicate still catches a hardcoded window",
-      _num_ctx_literals_b1_873(_ast_b1.parse(_canary_src_ctx_b1)), [512],
+      (_ctx_literals_in19ab(_ast_b1.parse(_canary_src_ctx_b1), "canary.py"),
+       _ctx_literals_in19ab(_ast_b1.parse(_canary_src_ctx_ok_b1), "canary.py")),
+      (["canary.py:1 num_ctx=512"], []),
       note="if this goes red, the shape `_ctx_literals` (S19ab) looks for may have stopped "
            "being matchable and `_ctx_literals == []` above could be silently vacuous")
 
@@ -8790,9 +9018,9 @@ _canary_failopen_b1 = (
     "    pass\n"
 )
 check("[canary 873330d2e98d] the escalation fail-open regex still catches its own attack shape",
-      bool(list(_re_b1.finditer(
-          r"import escalation as _ESC\s*\n\s*_ESC\.assert_clear[^\n]*\n\s*except ImportError:"
-          r"\s*\n\s*pass", _canary_failopen_b1))), True,
+      (_failopen_in20p(_canary_failopen_b1),
+       _failopen_in20p(_canary_failopen_b1.replace("pass", "raise SystemExit('REFUSING TO START')"))),
+      (1, 0),
       note="if this goes red, `_failopen20p`'s regex may no longer match the bug it was written "
            "to catch, and `_failopen20p == []` above could be silently vacuous")
 
@@ -8831,45 +9059,23 @@ check("[canary 873330d2e98d] _writes_the_config20p catches a write rooted at the
            "fixtures, which is how it failed on 2026-08-30")
 
 # ---- canary for _callers20t (section 20t: any spelling of a call to escalation.clear()) -------
-def _escalation_clear_callers_b1_873(tree):
-    out = []
-    mods, direct = set(), set()
-    for n in _ast_b1.walk(tree):
-        if isinstance(n, _ast_b1.Import):
-            for a in n.names:
-                if a.name == "escalation":
-                    mods.add(a.asname or "escalation")
-        elif isinstance(n, _ast_b1.ImportFrom) and n.module == "escalation":
-            for a in n.names:
-                if a.name == "clear":
-                    direct.add(a.asname or "clear")
-    for n in _ast_b1.walk(tree):
-        if not isinstance(n, _ast_b1.Call):
-            continue
-        fn = n.func
-        if (isinstance(fn, _ast_b1.Attribute) and fn.attr == "clear"
-                and isinstance(fn.value, _ast_b1.Name) and fn.value.id in mods):
-            out.append("attr")
-        elif isinstance(fn, _ast_b1.Name) and fn.id in direct:
-            out.append("direct")
-        elif (isinstance(fn, _ast_b1.Call) and isinstance(fn.func, _ast_b1.Name)
-                and fn.func.id == "getattr" and len(fn.args) >= 2
-                and isinstance(fn.args[0], _ast_b1.Name) and fn.args[0].id in mods
-                and isinstance(fn.args[1], _ast_b1.Constant) and fn.args[1].value == "clear"):
-            out.append("getattr")
-    return out
-
-
 _canary_esc_attr_b1 = "import escalation as _ESC\n_ESC.clear()\n"
 _canary_esc_direct_b1 = "from escalation import clear\nclear()\n"
 _canary_esc_getattr_b1 = "import escalation as _ESC\ngetattr(_ESC, 'clear')()\n"
+_canary_esc_other_b1 = "import collections as _ESC\n_ESC.clear()\nfrom other import clear\nclear()\n"
 check("[canary 873330d2e98d] the escalation.clear() scan still catches the aliased-attribute "
       "call shape",
-      _escalation_clear_callers_b1_873(_ast_b1.parse(_canary_esc_attr_b1)), ["attr"])
+      (_clear_callers20t(_ast_b1.parse(_canary_esc_attr_b1), "canary.py"),
+       _clear_callers20t(_ast_b1.parse(_canary_esc_other_b1), "canary.py")),
+      (["canary.py:2 _ESC.clear()"], []),
+      note="the second slot is the must-not: a `.clear()` on a module that is not escalation, "
+           "and a `clear` imported from somewhere else, are not callers of the halt lift")
 check("[canary 873330d2e98d] ...the from-import call shape",
-      _escalation_clear_callers_b1_873(_ast_b1.parse(_canary_esc_direct_b1)), ["direct"])
+      _clear_callers20t(_ast_b1.parse(_canary_esc_direct_b1), "canary.py"),
+      ["canary.py:2 clear()  [from escalation import clear]"])
 check("[canary 873330d2e98d] ...the dynamic getattr-dispatch shape",
-      _escalation_clear_callers_b1_873(_ast_b1.parse(_canary_esc_getattr_b1)), ["getattr"],
+      _clear_callers20t(_ast_b1.parse(_canary_esc_getattr_b1), "canary.py"),
+      ["canary.py:2 getattr(_ESC, 'clear')()"],
       note="if any of these three goes red, `_callers20t == []` above could be silently "
            "vacuous for that call shape -- CLAUDE.md Hard Rule -1 names this exact assertion")
 
@@ -9127,6 +9333,11 @@ check("[d9b895708c45] the conditional-standard exemption list has no stale entri
 # ------------------------------------------------------------------------------------------
 # ---- run35 batch2 ----
 """
+SPLICED AND LIVE: this block runs on every battery run (§20u proves the splice by its labels).
+The header below is the proposing agent's original note, kept as the record of how the block
+arrived; its "proposed" and "not run" wording describes the day it was written, not today
+(order c8491264e6dc).
+
 Proposed checks for run35 batch 2 (agent working silence.py / codewatch.py / catalogue_aurora.py /
 sevenfold.py / scope.py / weave.py / reference.py).
 
@@ -9403,6 +9614,11 @@ check("b68ca666da79: scope.py records when the wiki still withheld results past 
 # ------------------------------------------------------------------------------------------
 # ---- run35 batch3 ----
 """
+SPLICED AND LIVE: this block runs on every battery run (§20u proves the splice by its labels).
+The header below is the proposing agent's original note, kept as the record of how the block
+arrived; its "proposed" and "not run" wording describes the day it was written, not today
+(order c8491264e6dc).
+
 Proposed checks for run35 batch 3 (agent working coverage.py / standards.py / tuning.py /
 rosetta.py / lognames.py / sweep.py / allsweep.py).
 
@@ -9669,8 +9885,15 @@ _bi_b3.open = _breaking_open_b3
 # WRAPPED: `_breaking_open_b3` raises OSError on COVERAGE-shaped reads ON PURPOSE, and
 # `standards` notes `standards.py:catalogue-coverage:OSError` when it catches it -- 30 in the
 # live ledger, one a run, describing this simulation rather than an unreadable file.
+#
+# NARROWED (order 19eb3626d39c). This was a blanket `_no_ledger_vm()` around a whole live
+# `standards.check()` -- exactly the form the owner refused for live-state calls, because it
+# also hides a GENUINE fault raised during the call. Two named layers instead, the same as the
+# clean run above plus one: the provoked class is dropped by name, and every other class goes to
+# the live-state grant, which prints what it swallowed and reddens §20z on anything not granted.
 try:
-    with _no_ledger_vm():
+    with _third_party_vm(_LIVE_STATE_VM), \
+            _no_ledger_for_vm("silent:standards.py:catalogue-coverage"):
         _rows_b3 = _STx_b3.check(_state_b3)
 finally:
     _bi_b3.open = _real_open_b3
@@ -9871,8 +10094,8 @@ check("[6e3e3e553fd5] rosetta.py --check now exits 1 (not always 0) when a scale
 
 
 # ==================================================================================================
-# order dcdd1fa96864 -- DISPROVED, not fixed. The order's evidence quotes overnight.py:180 as a
-# plain substring test (`fragment in cmd... or fragment in cmd`) under which
+# order dcdd1fa96864 -- DISPROVED, not fixed. The order's evidence quotes `overnight.running()`'s
+# old body as a plain substring test (`fragment in cmd... or fragment in cmd`) under which
 # lognames.OWNER[SWEEP]='sweep.py' would collide with allsweep.py. Measured against the live
 # source: overnight.running() now calls _cmd_is_running(), which does an EXACT
 # os.path.basename(script) == os.path.basename(want) comparison (fixed for the unrelated
@@ -9985,6 +10208,11 @@ check("[run49] ...and the quoted launch fixed the day before still counts, so th
 # ------------------------------------------------------------------------------------------
 # ---- run35 batch4 ----
 """
+SPLICED AND LIVE: this block runs on every battery run (§20u proves the splice by its labels).
+The header below is the proposing agent's original note, kept as the record of how the block
+arrived; its "proposed" and "not run" wording describes the day it was written, not today
+(order c8491264e6dc).
+
 Proposed checks for run35 batch 4 (agent working publish.py / ledger_guard.py / ledger.py /
 mutate.py / overwatch.py / secondopinion.py / axis_correlation.py).
 
@@ -10406,6 +10634,11 @@ _b4_axis_correlation_checks()
 # ------------------------------------------------------------------------------------------
 # ---- run35 batch5 ----
 """
+SPLICED AND LIVE: this block runs on every battery run (§20u proves the splice by its labels).
+The header below is the proposing agent's original note, kept as the record of how the block
+arrived; its "proposed" and "not run" wording describes the day it was written, not today
+(order c8491264e6dc).
+
 Proposed checks for run35 batch 5 (agent working read.py / onomast.py / feats.py / backfill.py /
 hostcheck.py / scout.py / wiki_source.py / cachekey.py / corpus_db.py).
 
@@ -10672,7 +10905,9 @@ def _b5_backfill_size_lookup_failure():
         check("titles whose size lookup FAILED rank with the deepest articles, never under a "
               "title merely known to be small",
               all(t.startswith("Failtitle") for t in res.get("sample") or []), True,
-              note="sample=%s" % (res.get("sample") or [])[:3])
+              # UNCUT (order c8491264e6dc): the sample was sliced to three in the one diagnostic
+              # a FAILED row prints, with nothing saying it was cut. Hard Rule 0.
+              note="sample=%s" % (res.get("sample") or []))
         # And a --cap run therefore cannot drop a title for the reason the order names: the
         # network, rather than the article's depth.
         capped = _run(titles, {"Realtitle": 5000}, cap=10)
@@ -11257,13 +11492,105 @@ print("=" * 96)
 # checks at all, and a file whose own harness calls `sys.exit` are each a FAILED check rather
 # than a skip -- an absent proof must never read as a passed one.
 import glob as _g36                                                     # noqa: E402
+import hashlib as _hl36                                                 # noqa: E402
 
 _RUN35_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                           "handoff", "run35")
-_run35_files = sorted(_g36.glob(os.path.join(_RUN35_DIR, "checks_L*.py")))
+# EXECUTED BY NAME AND DIGEST, NEVER BY GLOB (order 491bd68b18e9). This used to exec() every
+# `checks_L*.py` the glob found. handoff/ is where sweep agents and maintenance runs write their
+# working files, and this battery runs inside every mutation pass and every maintenance shift --
+# so any file landing there under a matching name was executed with the battery's full
+# privileges on the next run, and a pinned file whose contents had been rewritten was executed
+# as if it were the one that was reviewed. Both are refused now, LOUDLY: a refusal is a FAILED
+# row naming the file and the reason, never a silent skip, and never an execution.
+#
+# The digest is of the BYTES THAT ARE EXECUTED -- one read, hashed, then compiled -- so the file
+# cannot change between being checked and being run. RE-PIN ONLY AFTER READING THE NEW CONTENT:
+# a digest refreshed without reading it is the glob again with extra steps.
+_RUN35_PINNED36 = {
+    "checks_L1.py": "d6edfd7302b61946451a554ac05720befcd4043eb2bed05b93b86394b19089e3",
+    "checks_L2.py": "177e7a3f995d6cf36cf0d065293d95621b88b871c8f45e2a47b7626d251c4f17",
+    "checks_L3.py": "629633cb6bc37b7b69b8563994daf5d5cda56b9b460e6967e512db4a0e10ab28",
+    # RE-PINNED by maintenance run #58 (order c9146abf92df): the order b3da16ddfe64 block was
+    # restated from a literal source-substring check of roll.py into a behavioural check of the
+    # same property (the roll writer lands non-ASCII unescaped). File read before re-pinning.
+    "checks_L4.py": "baf73377f21ec255c3e9109b7fe9cef2370ce8c0a865b39b24c967a0b60f5607",
+    "checks_L5.py": "b31302edc8ab59c84571abe951aef11fc23d3a152c9f1ac2d3d87a363ec6c84d",
+    "checks_L6.py": "2514580906359f759e0e76790740000a01c65f9dbf49055a22cbcb03deed1494",
+}
+
+
+def _admit36(_on_disk36, _read36, _pins36):
+    """-> (admitted [(name, source text)], refused ["name: why"]).
+
+    PURE, so the control below can drive it without a directory: `_on_disk36` is the names the
+    glob matched, `_read36(name) -> bytes`. Every name that is on disk OR pinned is decided, so a
+    pinned file that has gone is refused by name as well.
+    """
+    _ok36, _no36 = [], []
+    for _nm36 in sorted(set(_on_disk36) | set(_pins36)):
+        if _nm36 not in _pins36:
+            _no36.append("%s: matches checks_L*.py but is NOT PINNED -- refused, not executed"
+                         % _nm36)
+            continue
+        try:
+            _raw36 = _read36(_nm36)
+        except Exception as _e36r:
+            # silence-exempt: NOT SWALLOWED -- the reason becomes a FAILED row below. Noting it
+            # as well would put a missing handoff file into the live ledger and redden §20z a
+            # second time for the same fact.
+            _no36.append("%s: pinned but unreadable (%s: %s) -- not executed"
+                         % (_nm36, type(_e36r).__name__, _e36r))
+            continue
+        _dig36 = _hl36.sha256(_raw36).hexdigest()
+        if _dig36 != _pins36[_nm36]:
+            _no36.append("%s: sha256 %s is not the pinned %s -- refused, not executed"
+                         % (_nm36, _dig36, _pins36[_nm36]))
+            continue
+        try:
+            _ok36.append((_nm36, _raw36.decode("utf-8")))
+        except UnicodeDecodeError as _e36d:
+            # silence-exempt: NOT SWALLOWED -- a FAILED row below, for the reason above.
+            _no36.append("%s: matches its pin but is not UTF-8 (%s) -- not executed"
+                         % (_nm36, _e36d))
+    return _ok36, _no36
+
+
+def _read_run35_36(_nm36r):
+    with open(os.path.join(_RUN35_DIR, _nm36r), "rb") as _fh36r:
+        return _fh36r.read()
+
+
+_admitted36, _refused36 = _admit36(
+    {os.path.basename(_p36g) for _p36g in _g36.glob(os.path.join(_RUN35_DIR, "checks_L*.py"))},
+    _read_run35_36, _RUN35_PINNED36)
+_run35_files = [os.path.join(_RUN35_DIR, _n36a) for _n36a, _ in _admitted36]
 check("the run #35 LOCAL check files are still on disk",
-      len(_run35_files), 6,
-      note="six LOCAL batches wrote one each; a vanished file is coverage that silently left")
+      sorted(_n36a for _n36a, _ in _admitted36), sorted(_RUN35_PINNED36),
+      note="six LOCAL batches wrote one each; a vanished or refused file is coverage that "
+           "silently left. The row below names which, and why")
+check("no checks_L*.py under handoff/run35 runs unless its name AND sha256 are pinned",
+      _refused36, [],
+      note="ORDER 491bd68b18e9: handoff/ is agent-writable and this battery runs with full "
+           "privileges inside every mutation pass. Each name here was REFUSED and NOT executed "
+           "-- an unpinned file, a pinned file whose bytes changed, or a pinned file that is "
+           "gone. Read the file before re-pinning it")
+# CONTROL, because the row above asserts an empty list and an admission gate that had stopped
+# refusing anything returns exactly that. One fixture per way a file must be refused, plus the
+# one that must be let through, driven through the same `_admit36` the live read uses.
+_fixpins36 = {"checks_L1.py": _hl36.sha256(b"PASS, FAIL = [], []\n").hexdigest(),
+              "checks_L2.py": _hl36.sha256(b"the reviewed body\n").hexdigest(),
+              "checks_L3.py": _hl36.sha256(b"a file that has gone\n").hexdigest()}
+_fixdisk36 = {"checks_L1.py": b"PASS, FAIL = [], []\n",
+              "checks_L2.py": b"the reviewed body, rewritten after review\n",
+              "checks_L9.py": b"raise SystemExit('an unpinned file an agent dropped here')\n"}
+_fixok36, _fixno36 = _admit36(set(_fixdisk36), lambda _n36f: _fixdisk36[_n36f], _fixpins36)
+check("[control] the run35 pin admits the matching file and refuses tampered, gone and unpinned",
+      ([_n36f for _n36f, _ in _fixok36], sorted(_r36f.split(":", 1)[0] for _r36f in _fixno36)),
+      (["checks_L1.py"], ["checks_L2.py", "checks_L3.py", "checks_L9.py"]),
+      note="red with checks_L9.py admitted is the glob this order removed; red with checks_L2.py "
+           "admitted is a pin checked by name only; red with checks_L3.py missing from the "
+           "refusals is a vanished file read as nothing to report")
 
 # ---- AND EVERY OTHER PROPOSAL FILE IN THAT DIRECTORY IS ACCOUNTED FOR ------------------------
 # Order 28c1f58f5e8a, and the sentence that settles it is the order's own: whether the remaining
@@ -11349,12 +11676,12 @@ check("each batch file recorded as SPLICED still has labels standing in this fil
            "was reverted, this file lost that batch's coverage and every other row would look "
            "exactly the same")
 
-for _p36 in _run35_files:
-    _name36 = os.path.basename(_p36)
+for _name36, _text36 in _admitted36:
+    # ONLY what `_admit36` let through, and the text it hashed rather than a second read.
+    _p36 = os.path.join(_RUN35_DIR, _name36)
     _ns36 = {"__name__": "__verify_math_run35__", "__file__": _p36}
     try:
-        with open(_p36, encoding="utf-8") as _f36:
-            exec(compile(_f36.read(), _p36, "exec"), _ns36)          # noqa: S102
+        exec(compile(_text36, _p36, "exec"), _ns36)                  # noqa: S102
         _loaded36, _why36 = True, ""
     except SystemExit as _e36:
         # Its own standalone harness exiting non-zero IS a failure report, not a crash.
@@ -11881,11 +12208,19 @@ print("    §20ad  THIS FILE MAY NOT CITE ITSELF BY LINE NUMBER — a pointer th
 # tree is sanctioned or a defect -- so the doctrine could not be looked up from the one place
 # that points at it.
 #
-# WHY THE SELF-CITATIONS ROT AND THE CROSS-MODULE ONES DO NOT. Spot-checked the same day:
-# `standards.py:751`, `standards.py:67`, `standards.py:1901`, `anchors.py:427`, `sevenfold.py:86`
-# and `assay.py:147-189` were all still accurate. They hold because they point at OTHER files,
-# which this file's own growth does not move. This one grows by roughly fifty rows a shift, and
-# every insertion above a citation invalidates it silently. Section 24 had already ruled on
+# WHY THE SELF-CITATIONS ROTTED FIRST -- AND WHY THE CROSS-MODULE ONES ROT TOO. Spot-checked
+# the same day, six cross-module line citations in this file were still accurate, and this
+# paragraph used to conclude that they held because they pointed at OTHER files, which this
+# file's own growth does not move. THAT CONCLUSION WAS WRONG (order 89503c58409f): by sweep 48 at
+# least three of the six had drifted, because the other files grew. A citation of another file
+# rots exactly as a self-citation does, on somebody else's clock, so the six are named here by
+# symbol instead: `standards.check()`'s `calls < MIN_CALLS_TO_JUDGE_RATE` cut, standards.py's
+# module-level `MIN_CALLS_TO_JUDGE_RATE = tuning.MIN_CALLS_TO_JUDGE` binding, `standards.check()`'s
+# `ollama_token_flow()` call, `anchors.run()`'s collapsed-window scan that indexes
+# `A.INSTRUMENT_WINDOWS[b]` for every rung, `sevenfold.affinity_order()`'s `set(members)`, and
+# assay.py's `INAPPLICABLE` / `NONE` / `UNESTIMABLE` sentinels. What self-citations add is only
+# speed: this file grows by roughly fifty rows a shift, and every insertion above a citation
+# invalidates it silently. Section 24 had already ruled on
 # exactly this ("CITED BY SYMBOL, NOT BY LINE", order a09a0e003c31) -- for a citation of
 # sweep.py. Thirteen citations of verify_math.py by verify_math.py were left standing, and three
 # more were written after the ruling. A rule that is not enforced is a rule that is decoration.
@@ -11924,6 +12259,11 @@ def _self_cites20ad(_text20ad):
         r"[A-Za-z_][A-Za-z0-9_.-]*\.(?:py|md|json|jsonl|yaml|yml|txt|log|html|cfg|ini)\b")
     _SELF20ad = _re_vm.compile(r"verify_math\.py:(\d{1,5})\b")
     _BARE20ad = _re_vm.compile(r"(?<![\w\[.])[:](\d{2,5})\b")
+    # THE SPELLING THE COLON FORM DID NOT SEE (order 3c72359c53aa): the §20x retag comment sent
+    # its reader to the §19s section by the word "line", a tilde and a four-digit number, which
+    # points at this file exactly as the colon form does and rotted the same way. (Described
+    # rather than quoted: quoting it here would be the self-citation this scan now refuses.)
+    _LINEW20ad = _re_vm.compile(r"\blines? ~?(\d{3,5})\b")
     _lines20ad = _text20ad.splitlines()
     _blocks20ad, _run20ad = [], []
     for _tk in _tk20ad.generate_tokens(_io20ad.StringIO(_text20ad).readline):
@@ -11942,6 +12282,25 @@ def _self_cites20ad(_text20ad):
                     and isinstance(_b20ad.value.value, str)):
                 _blocks20ad.append([(_l20ad, _lines20ad[_l20ad - 1])
                                     for _l20ad in range(_b20ad.lineno, _b20ad.end_lineno + 1)])
+        # A check()'s NOTE IS PROSE TOO (order 3c72359c53aa). It is the sentence a FAILED row
+        # prints to its reader, and it was the one place a stale colon-form citation of §16 sat
+        # unseen (§19n's all-tied-fixture row) -- inside a string, so neither the comment tokens
+        # nor the docstring walk above ever read it. Only
+        # the `note=` of a call to `check` is read, and every string constant in it (an f-string's
+        # literal parts and a `%` template included), in source order, as one block. Fixture
+        # strings elsewhere in this file are source snippets, not prose, and are left alone.
+        if (isinstance(_n20ad, _ast20p.Call) and isinstance(_n20ad.func, _ast20p.Name)
+                and _n20ad.func.id == "check"):
+            for _kw20ad in _n20ad.keywords:
+                if _kw20ad.arg != "note":
+                    continue
+                _parts20ad = sorted(
+                    ((_c20ad.lineno, _c20ad.col_offset, _c20ad.value)
+                     for _c20ad in _ast20p.walk(_kw20ad.value)
+                     if isinstance(_c20ad, _ast20p.Constant) and isinstance(_c20ad.value, str)),
+                    key=lambda _t20ad: (_t20ad[0], _t20ad[1]))
+                if _parts20ad:
+                    _blocks20ad.append([(_ln20ad, _v20ad) for _ln20ad, _, _v20ad in _parts20ad])
     _out20ad = []
     for _blk20ad in _blocks20ad:
         _named20ad = False
@@ -11954,13 +12313,16 @@ def _self_cites20ad(_text20ad):
             # further along than the citation it would have excused.
             _hits20ad = sorted(
                 [(_m.start(), None) for _m in _FILE20ad.finditer(_s20ad)]
-                + [(_m.start(), _m.group(1)) for _m in _BARE20ad.finditer(_s20ad)])
+                + [(_m.start(), _m.group(1)) for _m in _BARE20ad.finditer(_s20ad)]
+                + [(_m.start(), "~" + _m.group(1)) for _m in _LINEW20ad.finditer(_s20ad)])
             for _pos20ad, _num20ad in _hits20ad:
                 if _num20ad is None:
                     _named20ad = True
                 elif not _named20ad:
+                    # UNCUT (order c8491264e6dc): this was `[:90]`, an unmarked cut inside the
+                    # one diagnostic a red row here prints.
                     _out20ad.append("line %d: :%s  in  %s"
-                                    % (_no20ad, _num20ad, " ".join(_s20ad.split())[:90]))
+                                    % (_no20ad, _num20ad, " ".join(_s20ad.split())))
     return _out20ad
 
 
@@ -11985,6 +12347,15 @@ _FIX20ad = {
     "a timestamp": ("# the log line [22:39:04] was misdated by 38 minutes\n", 0),
     "a slice in CODE, which is not prose at all": ("_x = _y[:220]\n", 0),
     "a citation of another file": ("# standards.py:751 is the cut this row drives\n", 0),
+    # order 3c72359c53aa: the two spellings the scan was blind to, and the fixture strings it
+    # must keep ignoring now that it reads string constants at all
+    "one in a check() note": ('check("x", 1, 1, note="the same reason §16 froze it at :1605")\n',
+                              1),
+    "one in an f-string note": ('check("x", 1, 1, note=f"{n} rows, as at :3212")\n', 1),
+    "a note that names its file first": (
+        'check("x", 1, 1, note="standards.py:67 and then :214")\n', 0),
+    "a 'line ~NNNN' in prose": ("# the section at line ~2494 moved\n", 1),
+    "a fixture string that is not a note": ('_F = {"k": ("# the doctrine at :2358", 1)}\n', 0),
 }
 check("[control] the self-citation scan flags exactly the citations it should",
       sorted("%s:%d" % (_k20ad, len(_self_cites20ad(_v20ad[0])))
@@ -11993,243 +12364,6 @@ check("[control] the self-citation scan flags exactly the citations it should",
       note="a row asserting an empty list is indistinguishable from a scan that matches "
            "nothing; these nine fixtures are the constructs actually present in this file, and "
            "four of the five zeros are the false positives order 363c79272987 named in advance")
-
-
-# ---- Section 20z: the battery leaves nothing behind in the ledger a person reads -------------
-#
-# THE RATCHET FOR THE WRAPPER AT THE TOP OF THIS FILE. `_spy_record_vm` has been sitting on
-# `health.record` since line 1, forwarding every call to the real recorder and remembering the
-# battery line it came from -- so this row does not ask whether the wrapping LOOKS right, it
-# asks what actually reached `state/failures.json` during this run.
-#
-# It is placed last because that is the only place it can see the whole run, and it is reported
-# as a LIST of "file:line -> class" so a red row names the probe that leaked rather than saying
-# a number. Measured before the wrapping: fifteen entries a run, ten from this file.
-#
-# WHAT THIS ROW DOES NOT MEASURE, said out loud. It sees `health.record`, which is the only door
-# into `state/failures.json`. It does NOT see the work-order queue, stderr banners, or anything
-# a probe writes directly to disk -- `drill._sweep_probe_litter` and
-# `a_probe_leaves_no_order_behind` own the queue, and the stderr banners are deliberately left
-# alone because they are addressed to whoever is reading this run and vanish with it.
-#
-# AND WHAT IT ABSTAINS ON, SAID LOUDLY RATHER THAN QUIETLY EXCLUDED (order c121db910a17). Three
-# probes read Cascade's own scratch database for real. `cascade_bridge.provider_error` is total
-# by design, so a database that will not answer -- another program mid-write, out of quota, or
-# not installed -- is swallowed into `silent:cascade_bridge.py:provider-error` and used to redden
-# this row for a reason that has nothing to do with this library. Those three calls run inside
-# `_third_party_vm`, which keeps their echo out of the ledger and KEEPS A RECORD OF IT; the
-# banner below prints that record, and the row after it holds the exemption to the classes it
-# was granted for. A reader is told the dependency was unreachable. They are never left to infer
-# it from a row that is green either way.
-_abstain20z = sorted(set(_THIRD_PARTY_VM))
-if _abstain20z:
-    print()
-    print("!" * 96)
-    print("  ABSTAINED: a THIRD PARTY this battery reads was not answering during this run.")
-    print("  These are NOT faults of this library, and NOT counted against the row below:")
-    for _dep20z, _cls20z in _abstain20z:
-        print("    %-24s could not be read; it noted %s" % (_dep20z, _cls20z))
-    print("  Every row that depends on that dependency read whatever it could get. Nothing")
-    print("  here reddens the battery, and nothing here is hidden from you either.")
-    print("!" * 96)
-    print()
-check("a third-party abstention only ever covers the classes it was granted for",
-      sorted({"%s -> %s" % (_d20z, _c20z) for _d20z, _c20z in _abstain20z
-              if _c20z not in _THIRD_PARTY_CLASSES_VM.get(_d20z, ())}), [],
-      note="THE EXEMPTION HAS A NAME ON IT. `_third_party_vm` suppresses the ledger echo of a "
-           "probe that reads somebody else's live resource -- and a suppression that widened "
-           "past the class it was written for would be exactly the hole §20z exists to close. "
-           "A wrapped site that starts swallowing anything but the class named for its "
-           "dependency reddens here instead of disappearing")
-
-# AND THE FILE ITSELF IS READ, because the row below measures a proxy (order 8aaddf34adf3).
-# Printed, not asserted: the library's standing jobs write to this same ledger while the battery
-# runs, so growth here can be somebody else's honest fault and turning it into a verdict would
-# rebuild the flake that order c121db910a17 was filed to remove. What IS asserted is the line
-# after -- the part that is unambiguously this process.
-_after20z = _ledger_counts_vm()
-_grew20z = sorted("%s %+d" % (_k20z2, _after20z[_k20z2] - _LEDGER_BEFORE_VM.get(_k20z2, 0))
-                  for _k20z2 in _after20z
-                  if _after20z[_k20z2] != _LEDGER_BEFORE_VM.get(_k20z2, 0))
-if _grew20z:
-    print()
-    print("  state/failures.json changed while this battery ran. EVERY class that moved:")
-    for _g20z in _grew20z:
-        print("    " + _g20z)
-    print("  Standing jobs write here too, so this is evidence to read, not a verdict. The row")
-    print("  below is the part that is unambiguously this process.")
-    print()
-# AND "NOTHING MOVED" IS DISTINGUISHED FROM "IT COULD NOT BE READ" (order d43a5a050c0f). Both
-# reads above answer {} on an unreadable ledger, so `_grew20z` is empty either way and the
-# banner printed nothing at all -- telling a reader the ledger held still when in fact nobody
-# looked at it. That is this witness's own stated failure mode, printed rather than asserted for
-# the same reason the banner above is: a torn file written by a standing job is not this
-# battery's fault. See `_ledger_counts_vm`'s exemption note for why it is not a ledger record.
-if _LEDGER_UNREADABLE_VM:
-    print()
-    print("  state/failures.json COULD NOT BE READ -- the movement banner above is silent")
-    print("  because nothing was measured, NOT because nothing moved:")
-    for _u20z in _LEDGER_UNREADABLE_VM:
-        print("    " + _u20z)
-    print("  A standing job writing this file mid-read is the ordinary cause and is nobody's")
-    print("  fault; a persistent one means the operational ledger is unreadable and standards,")
-    print("  the dashboard and foreman.triage_swallowed() are all reading it too.")
-    print()
-check("nothing this battery did reached the ledger by a route the in-process spy cannot see",
-      _wrote_to_the_ledger_vm(_FLUSHED_VM, _H_vm.LEDGER), [],
-      note="STRICTLY STRONGER THAN THE SPY BELOW, and added because the spy was believed and "
-           "was measuring a proxy. It watches `health.LEDGER` -- the buffer every recorded "
-           "class lands in and the only thing `flush()` ever writes -- from both ends: what has "
-           "already been flushed to disk, and what is still queued for the atexit flush. A "
-           "record that reached the ledger without passing the spy is invisible to the spy and "
-           "cannot be invisible to this. Per-process memory, so another process's honest fault "
-           "can never redden it")
-_escaped20z = sorted(set(_LEDGER_ESCAPES_VM))
-check("no probe anywhere in this battery writes into the live failure ledger", _escaped20z, [],
-      note="a rehearsal recorded in the ledger a person reads to find real faults manufactures "
-           "the exact signal it exists to prove the library can raise -- and per order "
-           "842025c83c3c that ledger is deliberately never cleared, so it is permanent. "
-           "Thirteen sites were doing it every run until 2026-09-01: ten here and three in "
-           "handoff/run35/checks_L6.py, which this row also covers")
-
-# AND THE DETECTOR IS EXERCISED, because a row asserting `== []` over a run in which the spy had
-# quietly stopped working would read exactly the same as a clean run -- which is the whole
-# lesson this file is built on. The spy is driven directly, through the same `health.record`
-# attribute every noting guard reaches, and must both report the leak and forward it.
-_probe20z = []
-_seen20z = list(_LEDGER_ESCAPES_VM)
-_savedrec20z, _savedreal20z = _H_vm.record, _REAL_RECORD_VM
-try:
-    # The spy forwards to `_REAL_RECORD_VM`; point that at a list for this one call so the
-    # control asserts the FORWARDING too, without writing a control row into the real ledger.
-    _REAL_RECORD_VM = lambda *_a, **_k: _probe20z.append(_a[0])   # noqa: E731
-    _H_vm.record = _spy_record_vm
-    _H_vm.record("silent:verify_math.py:S20z-detector-control", "NoException")
-finally:
-    _H_vm.record, _REAL_RECORD_VM = _savedrec20z, _savedreal20z
-_caught20z = [_e for _e in _LEDGER_ESCAPES_VM if _e not in _seen20z]
-del _LEDGER_ESCAPES_VM[len(_seen20z):]      # the control is not a leak; do not leave it in
-check("[control] the leak detector still sees a call and still forwards it",
-      (len(_caught20z), _caught20z[0].endswith("S20z-detector-control") if _caught20z else False,
-       _probe20z), (1, True, ["silent:verify_math.py:S20z-detector-control"]),
-      note="the row above asserts an empty list, and an empty list is exactly what a BROKEN "
-           "detector returns. This is the other direction of it")
-
-# AND SO IS THE WITNESS THAT DOES NOT DEPEND ON THE SPY. Driven with the real `health.flush`
-# swapped out and a throwaway in-memory ledger swapped in, so it exercises the whole path --
-# `flush()` is called for real, the wrapper reads what was about to be written -- without one
-# byte reaching `state/failures.json`.
-_fsaved20z, _lsaved20z = _REAL_FLUSH_VM, _H_vm.LEDGER
-_fbefore20z = dict(_FLUSHED_VM)
-try:
-    _REAL_FLUSH_VM = lambda *_a20z3, **_k20z3: None                   # noqa: E731
-    _H_vm.LEDGER = {"silent:verify_math.py:S20z-flush-control": 3}
-    _H_vm.flush()
-finally:
-    _REAL_FLUSH_VM, _H_vm.LEDGER = _fsaved20z, _lsaved20z
-_fcaught20z = {_k20z4: _v20z4 for _k20z4, _v20z4 in _FLUSHED_VM.items()
-               if _k20z4 not in _fbefore20z}
-_FLUSHED_VM.clear()
-_FLUSHED_VM.update(_fbefore20z)         # the control is not a write; do not leave it in
-check("[control] the flush witness sees what a flush is about to write",
-      (_fcaught20z, _H_vm.flush is _spy_flush_vm),
-      ({"silent:verify_math.py:S20z-flush-control": 3}, True),
-      note="the row it feeds asserts an empty list, which is also what a witness that had "
-           "stopped watching returns. The second half is the same question about the wrapper "
-           "itself: a `flush` that had been replaced and not restored would leave the rest of "
-           "the run unwatched")
-check("[control] and the witness reads BOTH ends, flushed and still queued",
-      (_wrote_to_the_ledger_vm({"already flushed": 1}, {"still queued": 2}),
-       _wrote_to_the_ledger_vm({}, {})),
-      (["already flushed", "still queued"], []),
-      note="a witness reading only the in-memory buffer misses everything a mid-run flush "
-           "already carried to disk, which is the timing hole this pair exists to refuse")
-
-# AND THE ABSTENTION PATH IS EXERCISED THE SAME WAY, for the same reason: the row above it also
-# asserts an empty list on a healthy run, so it would read identically if `_third_party_vm` had
-# stopped suppressing, stopped recording, or stopped restoring. Driven directly on a throwaway
-# dependency name so the real ledger is never touched -- three properties at once: it SUPPRESSES
-# (nothing reaches the recorder that was installed), it REMEMBERS what it suppressed, and it
-# RESTORES that recorder afterwards, which matters more here than anywhere else in this file
-# because losing the spy would silently disarm §20z for the rest of the run.
-_tpprobe20z = []
-_tpseen20z = len(_THIRD_PARTY_VM)
-_tpsaved20z = _H_vm.record
-
-
-def _tpcollector20z(*_a20z, **_k20z):
-    _tpprobe20z.append(_a20z[0] if _a20z else "<no key>")
-
-
-_H_vm.record = _tpcollector20z
-try:
-    with _third_party_vm("a dependency that exists only in this control"):
-        _H_vm.record("silent:verify_math.py:S20z-abstain-control")
-    _tp_restored20z = _H_vm.record is _tpcollector20z
-finally:
-    _H_vm.record = _tpsaved20z
-_tpnew20z = _THIRD_PARTY_VM[_tpseen20z:]
-del _THIRD_PARTY_VM[_tpseen20z:]        # the control is not an abstention; do not leave it in
-check("[control] the abstain wrapper suppresses, remembers, and hands the recorder back",
-      (_tpprobe20z, _tpnew20z, _tp_restored20z),
-      ([], [("a dependency that exists only in this control",
-             "silent:verify_math.py:S20z-abstain-control")], True),
-      note="a wrapper that had quietly stopped suppressing would give back the litter it was "
-           "added to stop; one that had stopped RECORDING would turn the abstention banner "
-           "silent, which is the failure mode this whole repair exists to refuse; and one that "
-           "leaked its collector would disarm the §20z spy for every row after it")
-check("[control] and an unnamed class is NOT covered by the exemption",
-      sorted({"%s -> %s" % (_d20z2, _c20z2) for _d20z2, _c20z2
-              in [("cascade scratch DB", "silent:cascade_bridge.py:provider-error"),
-                  ("cascade scratch DB", "silent:pipeline.py:write_record-merge")]
-              if _c20z2 not in _THIRD_PARTY_CLASSES_VM.get(_d20z2, ())}),
-      ["cascade scratch DB -> silent:pipeline.py:write_record-merge"],
-      note="the row above asserts an empty list; this drives the same expression over a "
-           "dependency swallowing a class it was never granted and shows it is named, not "
-           "absorbed")
-
-
-# ---- and no two rows in this battery answer to the same name --------------------------------
-#
-# THE OPTIONAL HALF OF ORDER 9ab5bfa26f14, filed separately as 87fc2109afd1 so it would not be
-# lost as a note. That order's mechanical half is done -- the two rows that both read "and no
-# .tmp is left behind" (pipeline.land_json at §19c, completeness.land at §19d) are renamed --
-# and this is the guard that stops the next collision.
-#
-# The end-of-run dump prints label, got, want and note, and nothing else. Two rows sharing a
-# label and carrying no note render IDENTICALLY, so a red row cannot say which writer broke and
-# a reader has to grep an 8,000-line file to find out. That is §20y's section-tag collision one
-# level down, and §20y's own argument applies unchanged: a duplicated identifier makes every
-# citation of it ambiguous, and it does it silently.
-#
-# ASKED OF THE RUN, NOT OF THE SOURCE, and the difference cuts both ways -- said here rather
-# than left for the next reader to discover:
-#   * STRONGER than the AST scan the order proposed. Roughly a fifth of this file's labels are
-#     built with `%`, so a scan collecting literal first arguments to `check()` cannot see
-#     `"%s refuses to start" % f` at all, and two loops over overlapping lists would collide
-#     invisibly. These are the labels that were actually PRINTED.
-#   * WEAKER in one specific way: a row inside a branch this run did not take is not in the
-#     tally, so it is not checked. That is the §20k shape (absent reads like green) and it is
-#     bounded here by the fact that this battery has no optional rows by design -- every
-#     conditional row §20k and §20p found has since been made unconditional.
-# It cannot see its own two rows either, which are appended after this line runs.
-def _dup_labels20z(_labels):
-    """-> the labels appearing more than once, sorted. A LIST, so a red row names them."""
-    _seen20z, _dup20z2 = set(), set()
-    for _l20z in _labels:
-        (_dup20z2 if _l20z in _seen20z else _seen20z).add(_l20z)
-    return sorted(_dup20z2)
-
-
-_labels20z = [_r20z[0] for _r20z in PASS] + [_r20z[0] for _r20z in FAIL]
-check("no two rows in this battery answer to the same label",
-      _dup_labels20z(_labels20z), [],
-      note="the label is the ONLY identifier a FAILED line carries. Measured across %d rows "
-           "this run" % len(_labels20z))
-check("[control] and the collision detector can actually find one",
-      _dup_labels20z(["a", "b", "a", "c", "b", "d"]), ["a", "b"],
-      note="a ratchet nobody has watched go red is a ratchet nobody has evidence about; the "
-           "row above asserts an empty list, which is also what a broken detector returns")
 
 
 # ---- and no row promises a tolerance that check() will throw away ---------------------------
@@ -12709,6 +12843,461 @@ check("[control] and a stand-in with **kw is NOT reported",
 check("[control] the planted fixture resolves exactly the one site it contains", len(_cseen20ae), 1,
       note="if the walk over a four-line fixture resolved zero or two, the count the real row "
            "asserts a floor on would be measuring something other than stand-in sites")
+
+# THE INVERSE: A STAND-IN WIDER THAN ITS SUBJECT (order e727ab804c5b). The rows above catch a stub
+# NARROWER than the function it replaces, which is loud -- it breaches on a correct edit. The
+# inverse is quiet: a stub that accepts a call the real function would REJECT lets the net pass
+# while exercising a call production can never make, and nothing fires, ever.
+#
+# TWO SHAPES ARE ASSERTED, AND THE THIRD IS REPORTED, and that line was measured, not assumed
+# (run #58, over every stand-in the scan resolves). A stub with MORE positional slots than its
+# subject, and a stub that makes OPTIONAL a parameter its subject REQUIRES, were both found on zero
+# sites: those are the rows. `*args` or `**kw` on a stub whose subject has neither was found on 42
+# and 47 sites, nearly all of them deliberate catch-all recorders -- `health.record`,
+# `pipeline.log`, `_esc_sandbox`'s queue stubs -- and `**kw` is the very remedy the narrowness row
+# above recommends. Reddening on it would be an alarm that always sounds, the reason keyword-only
+# parameters are only a weak signal above, so the count goes in the note instead.
+#
+# WHAT THIS SECTION STILL CANNOT SEE, said out loud. It reads `alias.attr = stand_in` and nothing
+# else. A stub installed through `setattr`, a context manager or a dict of patches is invisible to
+# every row here. Today the six `setattr(` calls in drill.py all save or restore constants
+# (`_esc_sandbox`'s redirect table and two fixture trees), which is why no row counts them; a
+# stand-in installed that way would need this scan extended, not a row that passes over it.
+def _standins_wide20ae(src_text):
+    """-> (extra positional slots, optional-where-required, wildcard notes, sites COMPARED).
+
+    Pure; no import of drill. Resolves stand-ins exactly as `_standins20ae` does (attribute
+    assignment on an alias bound by the nearest preceding import; a lambda or a def by name), so
+    the fourth value is the same population and a row below ties the two together.
+    """
+    tree = _ast20ae.parse(src_text)
+    binds = sorted((n.lineno, al.asname or al.name.split(".")[0], al.name)
+                   for n in _ast20ae.walk(tree) if isinstance(n, _ast20ae.Import) for al in n.names)
+    defs = {}
+    for n in _ast20ae.walk(tree):
+        if isinstance(n, (_ast20ae.FunctionDef, _ast20ae.AsyncFunctionDef)):
+            defs.setdefault(n.name, []).append(n)
+    extra, optional, wild, compared = [], [], [], []
+    for n in _ast20ae.walk(tree):
+        if not (isinstance(n, _ast20ae.Assign) and len(n.targets) == 1):
+            continue
+        t = n.targets[0]
+        if not (isinstance(t, _ast20ae.Attribute) and isinstance(t.value, _ast20ae.Name)):
+            continue
+        modname = None
+        for ln, al, mod in binds:
+            if al == t.value.id and ln <= n.lineno:
+                modname = mod
+        if modname is None:
+            continue
+        try:
+            real = getattr(_imp20ae.import_module(modname), t.attr)
+            if not callable(real):
+                continue
+            rsig = _insp20ae.signature(real)
+        except Exception:
+            continue                      # counted as UNRESOLVABLE by `_standins20ae` above
+        v = n.value
+        if isinstance(v, _ast20ae.Lambda):
+            args = v.args
+        elif isinstance(v, _ast20ae.Name) and v.id in defs:
+            cands = [d for d in defs[v.id] if d.lineno < n.lineno]
+            if not cands:
+                continue
+            args = max(cands, key=lambda d: d.lineno).args
+        else:
+            continue
+        site = "%s.%s@%d" % (t.value.id, t.attr, n.lineno)
+        compared.append(site)
+        params = list(rsig.parameters.values())
+        rpos = [p for p in params if p.kind in _ae_pos]
+        r_var = any(p.kind is _insp20ae.Parameter.VAR_POSITIONAL for p in params)
+        r_kw = any(p.kind is _insp20ae.Parameter.VAR_KEYWORD for p in params)
+        spos = len(list(getattr(args, "posonlyargs", [])) + list(args.args))
+        if args.vararg is not None and not r_var:
+            wild.append(site + ":*args")
+        if args.kwarg is not None and not r_kw:
+            wild.append(site + ":**kw")
+        if args.vararg is None and not r_var and spos > len(rpos):
+            extra.append("%s takes %d for %d" % (site, spos, len(rpos)))
+        required_real = sum(1 for p in rpos if p.default is _insp20ae.Parameter.empty)
+        if args.vararg is None and spos - len(args.defaults) < required_real:
+            optional.append("%s requires %d where the real function requires %d"
+                            % (site, spos - len(args.defaults), required_real))
+    return extra, optional, wild, compared
+
+
+_extra20ae, _opt20ae, _wild20ae, _wseen20ae = _standins_wide20ae(_drill20ae)
+check("no drill stand-in takes MORE positional arguments than the function it replaces",
+      _extra20ae, [],
+      note="a stub wider than its subject accepts a call the real function rejects, so the net "
+           "passes on a call production can never make (order e727ab804c5b). Wildcard stand-ins "
+           "-- *args or **kw on a subject with neither -- are reported, not asserted: %d this run, "
+           "nearly all deliberate recorders" % len(_wild20ae))
+check("no drill stand-in makes optional a parameter the function it replaces requires",
+      _opt20ae, [],
+      note="`lambda host=None: ...` for a real `f(host)` accepts `f()`, which production cannot "
+           "call; the net would pass on a call that raises everywhere else (order e727ab804c5b)")
+check("the width scan compared the same stand-in population as the narrowness scan",
+      len(_wseen20ae), len(_seen20ae),
+      note="two walks written to resolve the same sites; if they disagree, one of them is looking "
+           "at something other than drill's stand-ins and its empty list proves nothing")
+# CONTROLS, for the same reason as above: every row here asserts an empty list.
+check("[control] a planted stand-in with an EXTRA positional slot IS caught",
+      len(_standins_wide20ae(_ctrl20ae.replace(
+          "def _s(base, host, name):", "def _s(base, host, name, on_corrupt=None, extra=None):"))[0]),
+      1, note="cachekey.load is (base, host, name, on_corrupt=None); the plant takes five")
+check("[control] a planted stand-in that makes a REQUIRED parameter optional IS caught",
+      len(_standins_wide20ae(_ctrl20ae.replace(
+          "def _s(base, host, name):", "def _s(base, host=None, name=None, on_corrupt=None):"))[1]),
+      1, note="the real function requires three positional arguments; the plant requires one")
+check("[control] and a *args/**kw recorder is reported as a wildcard, not asserted as a fault",
+      [(r[0], r[1], len(r[2])) for r in [_standins_wide20ae(_ctrl20ae.replace(
+          "def _s(base, host, name):", "def _s(*a, **k):"))]][0], ([], [], 2),
+      note="the deliberate recorder shape must read as clean, or this row would push authors "
+           "toward pinning signatures on stubs whose whole job is to accept anything")
+
+
+# ---- Section 20z: the battery leaves nothing behind in the ledger a person reads -------------
+#
+# THE RATCHET FOR THE WRAPPER AT THE TOP OF THIS FILE. `_spy_record_vm` has been sitting on
+# `health.record` since line 1, forwarding every call to the real recorder and remembering the
+# battery line it came from -- so this row does not ask whether the wrapping LOOKS right, it
+# asks what actually reached `state/failures.json` during this run.
+#
+# It is placed last because that is the only place it can see the whole run, and it is reported
+# as a LIST of "file:line -> class" so a red row names the probe that leaked rather than saying
+# a number. Measured before the wrapping: fifteen entries a run, ten from this file.
+#
+# "LAST" HAD STOPPED BEING TRUE, and is true again (order 7d314c5e00e4). This block stood before
+# the tol= scan, the prose-backed scan and §20ae, and §20ae `import_module`s every module drill.py
+# aliases -- so an import-time note from any of them landed after the witness was read. It now
+# follows §20ae, and the row after it asserts that nothing below it can import.
+#
+# WHAT THIS ROW DOES NOT MEASURE, said out loud. It sees `health.record`, which is the only door
+# into `state/failures.json`. It does NOT see the work-order queue, stderr banners, or anything
+# a probe writes directly to disk -- `drill._sweep_probe_litter` and
+# `a_probe_leaves_no_order_behind` own the queue, and the stderr banners are deliberately left
+# alone because they are addressed to whoever is reading this run and vanish with it.
+#
+# AND WHAT IT ABSTAINS ON, SAID LOUDLY RATHER THAN QUIETLY EXCLUDED (order c121db910a17). Three
+# probes read Cascade's own scratch database for real. `cascade_bridge.provider_error` is total
+# by design, so a database that will not answer -- another program mid-write, out of quota, or
+# not installed -- is swallowed into `silent:cascade_bridge.py:provider-error` and used to redden
+# this row for a reason that has nothing to do with this library. Those three calls run inside
+# `_third_party_vm`, which keeps their echo out of the ledger and KEEPS A RECORD OF IT; the
+# banner below prints that record, and the row after it holds the exemption to the classes it
+# was granted for. A reader is told the dependency was unreachable. They are never left to infer
+# it from a row that is green either way.
+_abstain20z = sorted(set(_THIRD_PARTY_VM))
+if _abstain20z:
+    print()
+    print("!" * 96)
+    print("  ABSTAINED: a THIRD PARTY this battery reads was not answering during this run.")
+    print("  These are NOT faults of this library, and NOT counted against the row below:")
+    for _dep20z, _cls20z in _abstain20z:
+        print("    %-24s could not be read; it noted %s" % (_dep20z, _cls20z))
+    print("  Every row that depends on that dependency read whatever it could get. Nothing")
+    print("  here reddens the battery, and nothing here is hidden from you either.")
+    print("!" * 96)
+    print()
+check("a third-party abstention only ever covers the classes it was granted for",
+      sorted({"%s -> %s" % (_d20z, _c20z) for _d20z, _c20z in _abstain20z
+              if _c20z not in _THIRD_PARTY_CLASSES_VM.get(_d20z, ())}), [],
+      note="THE EXEMPTION HAS A NAME ON IT. `_third_party_vm` suppresses the ledger echo of a "
+           "probe that reads somebody else's live resource -- and a suppression that widened "
+           "past the class it was written for would be exactly the hole §20z exists to close. "
+           "A wrapped site that starts swallowing anything but the class named for its "
+           "dependency reddens here instead of disappearing")
+
+# AND THE FILE ITSELF IS READ, because the row below measures a proxy (order 8aaddf34adf3).
+# Printed, not asserted: the library's standing jobs write to this same ledger while the battery
+# runs, so growth here can be somebody else's honest fault and turning it into a verdict would
+# rebuild the flake that order c121db910a17 was filed to remove. What IS asserted is the line
+# after -- the part that is unambiguously this process.
+_after20z = _ledger_counts_vm()
+_grew20z = sorted("%s %+d" % (_k20z2, _after20z[_k20z2] - _LEDGER_BEFORE_VM.get(_k20z2, 0))
+                  for _k20z2 in _after20z
+                  if _after20z[_k20z2] != _LEDGER_BEFORE_VM.get(_k20z2, 0))
+if _grew20z:
+    print()
+    print("  state/failures.json changed while this battery ran. EVERY class that moved:")
+    for _g20z in _grew20z:
+        print("    " + _g20z)
+    print("  Standing jobs write here too, so this is evidence to read, not a verdict. The row")
+    print("  below is the part that is unambiguously this process.")
+    print()
+# AND "NOTHING MOVED" IS DISTINGUISHED FROM "IT COULD NOT BE READ" (order d43a5a050c0f). Both
+# reads above answer {} on an unreadable ledger, so `_grew20z` is empty either way and the
+# banner printed nothing at all -- telling a reader the ledger held still when in fact nobody
+# looked at it. That is this witness's own stated failure mode, printed rather than asserted for
+# the same reason the banner above is: a torn file written by a standing job is not this
+# battery's fault. See `_ledger_counts_vm`'s exemption note for why it is not a ledger record.
+if _LEDGER_UNREADABLE_VM:
+    print()
+    print("  state/failures.json COULD NOT BE READ -- the movement banner above is silent")
+    print("  because nothing was measured, NOT because nothing moved:")
+    for _u20z in _LEDGER_UNREADABLE_VM:
+        print("    " + _u20z)
+    print("  A standing job writing this file mid-read is the ordinary cause and is nobody's")
+    print("  fault; a persistent one means the operational ledger is unreadable and standards,")
+    print("  the dashboard and foreman.triage_swallowed() are all reading it too.")
+    print()
+check("nothing this battery did reached the ledger by a route the in-process spy cannot see",
+      _wrote_to_the_ledger_vm(_FLUSHED_VM, _H_vm.LEDGER), [],
+      note="STRICTLY STRONGER THAN THE SPY BELOW, and added because the spy was believed and "
+           "was measuring a proxy. It watches `health.LEDGER` -- the buffer every recorded "
+           "class lands in and the only thing `flush()` ever writes -- from both ends: what has "
+           "already been flushed to disk, and what is still queued for the atexit flush. A "
+           "record that reached the ledger without passing the spy is invisible to the spy and "
+           "cannot be invisible to this. Per-process memory, so another process's honest fault "
+           "can never redden it")
+_escaped20z = sorted(set(_LEDGER_ESCAPES_VM))
+check("no probe anywhere in this battery writes into the live failure ledger", _escaped20z, [],
+      note="a rehearsal recorded in the ledger a person reads to find real faults manufactures "
+           "the exact signal it exists to prove the library can raise -- and per order "
+           "842025c83c3c that ledger is deliberately never cleared, so it is permanent. "
+           "Thirteen sites were doing it every run until 2026-09-01: ten here and three in "
+           "handoff/run35/checks_L6.py, which this row also covers")
+
+# AND THE DETECTOR IS EXERCISED, because a row asserting `== []` over a run in which the spy had
+# quietly stopped working would read exactly the same as a clean run -- which is the whole
+# lesson this file is built on. The spy is driven directly, through the same `health.record`
+# attribute every noting guard reaches, and must both report the leak and forward it.
+_probe20z = []
+_seen20z = list(_LEDGER_ESCAPES_VM)
+_savedrec20z, _savedreal20z = _H_vm.record, _REAL_RECORD_VM
+try:
+    # The spy forwards to `_REAL_RECORD_VM`; point that at a list for this one call so the
+    # control asserts the FORWARDING too, without writing a control row into the real ledger.
+    _REAL_RECORD_VM = lambda *_a, **_k: _probe20z.append(_a[0])   # noqa: E731
+    _H_vm.record = _spy_record_vm
+    _H_vm.record("silent:verify_math.py:S20z-detector-control", "NoException")
+finally:
+    _H_vm.record, _REAL_RECORD_VM = _savedrec20z, _savedreal20z
+_caught20z = [_e for _e in _LEDGER_ESCAPES_VM if _e not in _seen20z]
+del _LEDGER_ESCAPES_VM[len(_seen20z):]      # the control is not a leak; do not leave it in
+check("[control] the leak detector still sees a call and still forwards it",
+      (len(_caught20z), _caught20z[0].endswith("S20z-detector-control") if _caught20z else False,
+       _probe20z), (1, True, ["silent:verify_math.py:S20z-detector-control"]),
+      note="the row above asserts an empty list, and an empty list is exactly what a BROKEN "
+           "detector returns. This is the other direction of it")
+
+# AND SO IS THE WITNESS THAT DOES NOT DEPEND ON THE SPY. Driven with the real `health.flush`
+# swapped out and a throwaway in-memory ledger swapped in, so it exercises the whole path --
+# `flush()` is called for real, the wrapper reads what was about to be written -- without one
+# byte reaching `state/failures.json`.
+_fsaved20z, _lsaved20z = _REAL_FLUSH_VM, _H_vm.LEDGER
+_fbefore20z = dict(_FLUSHED_VM)
+try:
+    _REAL_FLUSH_VM = lambda *_a20z3, **_k20z3: None                   # noqa: E731
+    _H_vm.LEDGER = {"silent:verify_math.py:S20z-flush-control": 3}
+    _H_vm.flush()
+finally:
+    _REAL_FLUSH_VM, _H_vm.LEDGER = _fsaved20z, _lsaved20z
+_fcaught20z = {_k20z4: _v20z4 for _k20z4, _v20z4 in _FLUSHED_VM.items()
+               if _k20z4 not in _fbefore20z}
+_FLUSHED_VM.clear()
+_FLUSHED_VM.update(_fbefore20z)         # the control is not a write; do not leave it in
+check("[control] the flush witness sees what a flush is about to write",
+      (_fcaught20z, _H_vm.flush is _spy_flush_vm),
+      ({"silent:verify_math.py:S20z-flush-control": 3}, True),
+      note="the row it feeds asserts an empty list, which is also what a witness that had "
+           "stopped watching returns. The second half is the same question about the wrapper "
+           "itself: a `flush` that had been replaced and not restored would leave the rest of "
+           "the run unwatched")
+check("[control] and the witness reads BOTH ends, flushed and still queued",
+      (_wrote_to_the_ledger_vm({"already flushed": 1}, {"still queued": 2}),
+       _wrote_to_the_ledger_vm({}, {})),
+      (["already flushed", "still queued"], []),
+      note="a witness reading only the in-memory buffer misses everything a mid-run flush "
+           "already carried to disk, which is the timing hole this pair exists to refuse")
+
+# AND THE ABSTENTION PATH IS EXERCISED THE SAME WAY, for the same reason: the row above it also
+# asserts an empty list on a healthy run, so it would read identically if `_third_party_vm` had
+# stopped suppressing, stopped recording, or stopped restoring. Driven directly on a throwaway
+# dependency name so the real ledger is never touched -- three properties at once: it SUPPRESSES
+# (nothing reaches the recorder that was installed), it REMEMBERS what it suppressed, and it
+# RESTORES that recorder afterwards, which matters more here than anywhere else in this file
+# because losing the spy would silently disarm §20z for the rest of the run.
+_tpprobe20z = []
+_tpseen20z = len(_THIRD_PARTY_VM)
+_tpsaved20z = _H_vm.record
+
+
+def _tpcollector20z(*_a20z, **_k20z):
+    _tpprobe20z.append(_a20z[0] if _a20z else "<no key>")
+
+
+_H_vm.record = _tpcollector20z
+try:
+    with _third_party_vm("a dependency that exists only in this control"):
+        _H_vm.record("silent:verify_math.py:S20z-abstain-control")
+    _tp_restored20z = _H_vm.record is _tpcollector20z
+finally:
+    _H_vm.record = _tpsaved20z
+_tpnew20z = _THIRD_PARTY_VM[_tpseen20z:]
+del _THIRD_PARTY_VM[_tpseen20z:]        # the control is not an abstention; do not leave it in
+check("[control] the abstain wrapper suppresses, remembers, and hands the recorder back",
+      (_tpprobe20z, _tpnew20z, _tp_restored20z),
+      ([], [("a dependency that exists only in this control",
+             "silent:verify_math.py:S20z-abstain-control")], True),
+      note="a wrapper that had quietly stopped suppressing would give back the litter it was "
+           "added to stop; one that had stopped RECORDING would turn the abstention banner "
+           "silent, which is the failure mode this whole repair exists to refuse; and one that "
+           "leaked its collector would disarm the §20z spy for every row after it")
+check("[control] and an unnamed class is NOT covered by the exemption",
+      sorted({"%s -> %s" % (_d20z2, _c20z2) for _d20z2, _c20z2
+              in [("cascade scratch DB", "silent:cascade_bridge.py:provider-error"),
+                  ("cascade scratch DB", "silent:pipeline.py:write_record-merge")]
+              if _c20z2 not in _THIRD_PARTY_CLASSES_VM.get(_d20z2, ())}),
+      ["cascade scratch DB -> silent:pipeline.py:write_record-merge"],
+      note="the row above asserts an empty list; this drives the same expression over a "
+           "dependency swallowing a class it was never granted and shows it is named, not "
+           "absorbed")
+
+
+# ---- and the witness above is read after the last statement in this battery that can import --
+#
+# ORDER 7d314c5e00e4. The two ledger rows above claim "anywhere in this battery" and are the
+# check whose entire job is to prove the battery's own rehearsing does not contaminate the ledger
+# a person reads. They used to stand some six hundred lines BEFORE the end, and §20ae then
+# `import_module`d every module aliased in drill.py -- so a `silence.note` raised at IMPORT TIME
+# by any of those landed after both witnesses had been read, and escaped both. A witness that
+# stops watching before the last writer runs reports clean on exactly the imports most likely to
+# be noisy. The witness block now stands after §20ae, and this row keeps it there: a later
+# section that imports -- directly, or through a function of this file that does -- reddens it
+# and is named, instead of quietly moving the end of the battery past the witness again.
+def _importers_after20z(_src20zo, _labels20zo):
+    """-> (how many of the witness rows were found, ["line N: <statement>"] for every module-level
+    statement AFTER the first of them that can import a module).
+
+    "Can import" is read from the parse tree: an `import` statement; a call spelled `__import__`,
+    `import_module`, `exec_module`, `reload` or `exec`; or a call to a module-level function of
+    this file whose body does any of those, followed through as many functions as it takes. A
+    `def` placed after the witness is not an import. Calling it is.
+    """
+    _tree20zo = _ast_vm.parse(_src20zo)
+    _defs20zo = {_d20zo.name: _d20zo for _d20zo in _tree20zo.body
+                 if isinstance(_d20zo, (_ast_vm.FunctionDef, _ast_vm.AsyncFunctionDef))}
+    _IMPCALLS20zo = {"__import__", "import_module", "exec_module", "reload", "exec"}
+
+    def _called20zo(_node20zo):
+        return {(_c20zo.func.id if isinstance(_c20zo.func, _ast_vm.Name)
+                 else getattr(_c20zo.func, "attr", None))
+                for _c20zo in _ast_vm.walk(_node20zo) if isinstance(_c20zo, _ast_vm.Call)}
+
+    def _imports20zo(_node20zo):
+        return (any(isinstance(_c20zo, (_ast_vm.Import, _ast_vm.ImportFrom))
+                    for _c20zo in _ast_vm.walk(_node20zo))
+                or bool(_called20zo(_node20zo) & _IMPCALLS20zo))
+
+    _importing20zo = {_k20zo for _k20zo, _d20zo in _defs20zo.items() if _imports20zo(_d20zo)}
+    _grew20zo = True
+    while _grew20zo:
+        _grew20zo = False
+        for _k20zo, _d20zo in _defs20zo.items():
+            if _k20zo not in _importing20zo and _called20zo(_d20zo) & _importing20zo:
+                _importing20zo.add(_k20zo)
+                _grew20zo = True
+    _anchors20zo = [_i20zo for _i20zo, _s20zo in enumerate(_tree20zo.body)
+                    if isinstance(_s20zo, _ast_vm.Expr) and isinstance(_s20zo.value, _ast_vm.Call)
+                    and isinstance(_s20zo.value.func, _ast_vm.Name)
+                    and _s20zo.value.func.id == "check" and _s20zo.value.args
+                    and isinstance(_s20zo.value.args[0], _ast_vm.Constant)
+                    and _s20zo.value.args[0].value in _labels20zo]
+    if not _anchors20zo:
+        return 0, []
+    _late20zo = []
+    for _s20zo in _tree20zo.body[min(_anchors20zo) + 1:]:
+        if isinstance(_s20zo, (_ast_vm.FunctionDef, _ast_vm.AsyncFunctionDef, _ast_vm.ClassDef)):
+            continue
+        if _imports20zo(_s20zo) or _called20zo(_s20zo) & _importing20zo:
+            _late20zo.append("line %d: %s" % (_s20zo.lineno, " ".join(
+                (_ast_vm.get_source_segment(_src20zo, _s20zo) or "").split())))
+    return len(_anchors20zo), _late20zo
+
+
+_LEDGER_ROWS20z = (
+    "nothing this battery did reached the ledger by a route the in-process spy cannot see",
+    "no probe anywhere in this battery writes into the live failure ledger",
+)
+with open(os.path.abspath(__file__), encoding="utf-8") as _f20zo:
+    _found20zo, _late20zo = _importers_after20z(_f20zo.read(), _LEDGER_ROWS20z)
+check("the ledger witness is read after the last statement in this battery that can import",
+      (_found20zo, _late20zo), (2, []),
+      note="ORDER 7d314c5e00e4. A number other than 2 means a witness row was renamed or removed, "
+           "and this row is no longer watching it. A statement listed here runs after the "
+           "witness and can import a module, so a note raised at its import time escapes both "
+           "rows. Move the witness block below it -- never the other way round")
+# CONTROL: the row above asserts an empty list, which is also what a scan that recognises no
+# import at all returns. Each fixture is one way the end of the battery can move past the witness.
+_FIX20zo = {
+    "an import statement after the witness": (
+        'check("A", 1, 1)\ncheck("B", 1, 1)\nimport json\n', (2, 1)),
+    "an import_module call after it": (
+        'check("A", 1, 1)\ncheck("B", 1, 1)\n_m = importlib.import_module("x")\n', (2, 1)),
+    "a call to a function that imports, two defs deep": (
+        'def f():\n    import x\ndef g():\n    f()\ncheck("A", 1, 1)\ncheck("B", 1, 1)\ng()\n',
+        (2, 1)),
+    "an importing function merely DEFINED after it": (
+        'check("A", 1, 1)\ncheck("B", 1, 1)\ndef f():\n    import x\n', (2, 0)),
+    "every import placed before the witness": (
+        'import json\ndef f():\n    import x\nf()\ncheck("A", 1, 1)\ncheck("B", 1, 1)\n_x = 1\n',
+        (2, 0)),
+    "a witness row renamed away": ('import json\ncheck("A2", 1, 1)\nimport os\n', (0, 0)),
+}
+check("[control] the ordering scan catches every spelling of an import after the witness, and only those",
+      sorted("%s:%d,%d" % (_k20zf, _importers_after20z(_v20zf[0], ("A", "B"))[0],
+                           len(_importers_after20z(_v20zf[0], ("A", "B"))[1]))
+             for _k20zf, _v20zf in _FIX20zo.items()),
+      sorted("%s:%d,%d" % (_k20zf, _v20zf[1][0], _v20zf[1][1])
+             for _k20zf, _v20zf in _FIX20zo.items()),
+      note="the third fixture is §20ae's real shape: the import is inside a helper, and only the "
+           "CALL is at module level")
+
+
+# ---- and no two rows in this battery answer to the same name --------------------------------
+#
+# THE OPTIONAL HALF OF ORDER 9ab5bfa26f14, filed separately as 87fc2109afd1 so it would not be
+# lost as a note. That order's mechanical half is done -- the two rows that both read "and no
+# .tmp is left behind" (pipeline.land_json at §19c, completeness.land at §19d) are renamed --
+# and this is the guard that stops the next collision.
+#
+# The end-of-run dump prints label, got, want and note, and nothing else. Two rows sharing a
+# label and carrying no note render IDENTICALLY, so a red row cannot say which writer broke and
+# a reader has to grep an 8,000-line file to find out. That is §20y's section-tag collision one
+# level down, and §20y's own argument applies unchanged: a duplicated identifier makes every
+# citation of it ambiguous, and it does it silently.
+#
+# ASKED OF THE RUN, NOT OF THE SOURCE, and the difference cuts both ways -- said here rather
+# than left for the next reader to discover:
+#   * STRONGER than the AST scan the order proposed. Roughly a fifth of this file's labels are
+#     built with `%`, so a scan collecting literal first arguments to `check()` cannot see
+#     `"%s refuses to start" % f` at all, and two loops over overlapping lists would collide
+#     invisibly. These are the labels that were actually PRINTED.
+#   * WEAKER in one specific way: a row inside a branch this run did not take is not in the
+#     tally, so it is not checked. That is the §20k shape (absent reads like green) and it is
+#     bounded here by the fact that this battery has no optional rows by design -- every
+#     conditional row §20k and §20p found has since been made unconditional.
+# It cannot see its own two rows either, which are appended after this line runs.
+def _dup_labels20z(_labels):
+    """-> the labels appearing more than once, sorted. A LIST, so a red row names them."""
+    _seen20z, _dup20z2 = set(), set()
+    for _l20z in _labels:
+        (_dup20z2 if _l20z in _seen20z else _seen20z).add(_l20z)
+    return sorted(_dup20z2)
+
+
+_labels20z = [_r20z[0] for _r20z in PASS] + [_r20z[0] for _r20z in FAIL]
+check("no two rows in this battery answer to the same label",
+      _dup_labels20z(_labels20z), [],
+      note="the label is the ONLY identifier a FAILED line carries. Measured across %d rows "
+           "this run" % len(_labels20z))
+check("[control] and the collision detector can actually find one",
+      _dup_labels20z(["a", "b", "a", "c", "b", "d"]), ["a", "b"],
+      note="a ratchet nobody has watched go red is a ratchet nobody has evidence about; the "
+           "row above asserts an empty list, which is also what a broken detector returns")
 
 
 _REACHED_THE_END_VM[0] = True

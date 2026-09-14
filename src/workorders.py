@@ -337,7 +337,7 @@ class QueueUnreadable(Exception):
     """state/workorders.json exists but could not be parsed. NEVER treated as an empty queue."""
 
 
-def _load(with_digest=False):
+def _load(with_digest=False, path=None):
     """The open queue. -> {id: order}, or ({id: order}, digest) when the caller intends to write.
 
     The digest is read BEFORE the file, never after, so it describes the copy the caller is
@@ -363,10 +363,19 @@ def _load(with_digest=False):
     found nothing" from "the queue is destroyed". `hostcheck._land_hosts` already draws exactly
     this line one module over -- "NEVER heal this one by starting empty ... it is not
     reconstructible; fix the file" -- and the queue deserves the same treatment.
+
+    `path` DEFAULTS TO THE LIVE `OPEN_FILE` AND EXISTS SO A READ-ONLY CALLER CAN POINT THIS AT A
+    DISPOSABLE COPY INSTEAD (order e114b2d0fe48's own detector, `check_closed`, and its drill).
+    Same shape as `citecheck._classify`'s `src_dir` parameter: a check that can only ever be
+    exercised against the live file is a check nobody can watch refuse, and this project's
+    standing rule is that a resolution must never touch the real `state/workorders.json` while
+    testing. `_mutate` is NOT given this parameter -- every writer still contends on `OPEN_FILE`
+    alone, so the compare-and-swap guarantee this function's callers rely on is unchanged.
     """
-    digest = silence.digest_of(OPEN_FILE) if with_digest else None
+    path = path or OPEN_FILE
+    digest = silence.digest_of(path) if with_digest else None
     try:
-        with open(OPEN_FILE, encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             d = json.load(f)
     except FileNotFoundError:
         d = {}
@@ -376,13 +385,13 @@ def _load(with_digest=False):
             "%s exists but could not be parsed (%s: %s). REFUSING to treat it as an empty "
             "queue: every open order would be deleted by the next write, and agent-filed "
             "findings are not re-derivable from anything on disk. Fix or restore the file."
-            % (OPEN_FILE, type(e).__name__, e)) from e
+            % (path, type(e).__name__, e)) from e
     if not isinstance(d, dict):
         silence.note("workorders.py:load")
         raise QueueUnreadable(
             "%s parsed as %s, not an object. REFUSING to treat it as an empty queue -- the same "
             "reason as an unparseable file: the next write would land over it."
-            % (OPEN_FILE, type(d).__name__))
+            % (path, type(d).__name__))
     return (d, digest) if with_digest else d
 
 
@@ -474,6 +483,31 @@ def order_id(code, where=""):
     return hashlib.sha1(("%s|%s" % (code, where)).encode("utf-8")).hexdigest()[:12]
 
 
+def _refuse_cap_hit(oid, field, value):
+    """Raise BadOrder if `value` sits EXACTLY on `field`'s legacy cap boundary. See
+    `LEGACY_CAP_BOUNDARY` and `cap_boundary_scan()` -- this reads that same dict rather than
+    keeping a second copy of "the lengths that used to be dangerous", exactly so the detector
+    and this door-guard cannot drift apart the way `battery_faults` warns two mirrored lists
+    always eventually do.
+
+    ONE FUNCTION, TWO CALLERS. `file_order` asks this of `what`, `where` and `found_by` before
+    filing or refreshing an order; `reroute` asks it of the `found_by` it is about to write,
+    because that field -- unlike `resolve()`'s `resolution` -- stays on an OPEN order (see the
+    comment at `reroute`'s own call site for why `resolution` needs no such guard). A field not
+    in `LEGACY_CAP_BOUNDARY` is silently not checked, so a caller may pass any field name safely.
+    """
+    bound = LEGACY_CAP_BOUNDARY.get(field)
+    if bound is not None and len(value) == bound:
+        raise BadOrder(
+            "refusing to write `%s` on order %s: it is EXACTLY %d characters, the legacy cap "
+            "boundary this module used to silently truncate that field at (removed 2026-08-28; "
+            "see LEGACY_CAP_BOUNDARY and cap_boundary_scan()). Landing there is very likely "
+            "coincidence, not truncation -- but the detector cannot tell the difference, and a "
+            "SUPERVISOR-severity drill net breaches on it either way. Shorten or rephrase the "
+            "text by hand; do NOT pad or trim it to dodge this length, which would only move "
+            "the coincidence to a different call." % (field, oid, bound))
+
+
 def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, found_by=""):
     """Open (or refresh) one work order. -> the order.
 
@@ -512,7 +546,7 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
     if handler == "LOCAL":
         try:
             import local_agent as _LA
-            targets = sorted(set(m for m, _ in WHERE_TARGET.findall(str(where or ""))))
+            targets = sorted(set(m[0] for m in WHERE_TARGET.findall(str(where or ""))))
             if targets and all(_LA._denied_target(t) for t in targets):
                 found_by = "%s | workorders.file_order: filed at RUN, not LOCAL -- `where` " \
                            "names %s, entirely on local_agent's write denylist, so LOCAL is " \
@@ -561,13 +595,47 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
         # change is covered too, and the marker below makes it explicit from here on.
         _rerouted = (bool(prev.get("rerouted"))
                      or " | rerouted " in str(prev.get("found_by") or ""))
-        d[oid] = {"id": oid, "code": str(code), "what": str(what),
+        _what = str(what)
+        _where = str(where)
+        _found_by = str(prev.get("found_by") or "") if _rerouted else str(found_by or "")
+        # REFUSED AT THE DOOR, NOT MEASURED AFTER THE FACT (order filed this shift: a `where`
+        # landed on exactly 200 characters by coincidence, `cap_boundary_scan`'s own drill net
+        # breached on the next cycle, and a SUPERVISOR breach halts the library). Removing the
+        # caps (see the comment above) was necessary but not sufficient -- it stopped this
+        # module from CUTTING text at a legacy boundary, but nothing stopped a caller from
+        # landing there by chance, and `cap_boundary_scan` exists precisely to notice when that
+        # happens. Catching it only on the NEXT drill cycle is catching it one cycle too late for
+        # a SUPERVISOR-severity net; refusing here is the same fault caught before it is filed.
+        #
+        # `_refuse_cap_hit` READS THE SAME `LEGACY_CAP_BOUNDARY` `cap_boundary_scan` GRADES BY,
+        # not a second hand-kept copy -- two lists of "the lengths that used to be dangerous"
+        # would be exactly the kind of drift this project keeps finding between a detector and
+        # what it is supposed to mirror (`battery_faults`'s own docstring is the standing
+        # example).
+        #
+        # `where` FEEDS THE ORDER'S IDENTITY and `what` IS THE EVIDENCE A LATER RUN READS -- Hard
+        # Rule 0's exact shape, a smaller universe wearing the real one's clothes, so refusing is
+        # right where truncating would be wrong. Applies to BOTH a fresh file and a refresh of an
+        # existing id: `_change` computes `_what`/`_where`/`_found_by` fresh on every call
+        # (fresh copy after a stale-write retry included), so a refresh that grew a field onto a
+        # boundary is caught exactly like a first filing that did.
+        _refuse_cap_hit(oid, "what", _what)
+        _refuse_cap_hit(oid, "where", _where)
+        # ONLY TEXT THIS CALL SUPPLIES IS REFUSED (sweep 58, batch07). On a re-routed order
+        # `_found_by` is not the caller's: it is inherited from the record as `reroute()` left
+        # it. Refusing THAT made every refresh of the order raise BadOrder over a length the
+        # caller cannot change, and `sweep_detectors` turns a raise into DETECTOR_FAILED -- one
+        # stored string would mask a whole detector section. An inherited value on the boundary
+        # is reported once the write lands (below) and graded by `cap_boundary_scan`; the
+        # fresh-file refusal here and `reroute()`'s own refusal are unchanged.
+        if not _rerouted:
+            _refuse_cap_hit(oid, "found_by", _found_by)
+        d[oid] = {"id": oid, "code": str(code), "what": _what,
                   "handler": prev.get("handler", handler) if _rerouted else handler,
-                  "severity": severity, "where": str(where),
+                  "severity": severity, "where": _where,
                   "evidence": evidence if isinstance(evidence, (dict, list)) else
                   (None if evidence is None else str(evidence)),
-                  "found_by": (str(prev.get("found_by") or "") if _rerouted
-                               else str(found_by or "")),
+                  "found_by": _found_by,
                   "first_seen": prev.get("first_seen", now), "last_seen": now,
                   "seen": int(prev.get("seen", 0)) + 1}
         if _rerouted:
@@ -582,6 +650,16 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
         sys.stderr.write("workorders: ORDER NOT FILED (%s) -- the queue write did not land after "
                          "retries; this finding is NOT in state/workorders.json\n" % code)
         return None
+    if (isinstance(rec, dict) and rec.get("rerouted")
+            and len(rec.get("found_by") or "") == LEGACY_CAP_BOUNDARY["found_by"]):
+        # REPORTED, NOT REFUSED -- see the `found_by` comment in `_change`. Out here rather than
+        # in there because `_change` must stay free of side effects across `_mutate`'s retries.
+        silence.note("workorders.py:inherited-found-by-on-cap-boundary")
+        sys.stderr.write("workorders: order %s (%s) was refreshed, but the `found_by` it inherited "
+                         "from its re-route sits EXACTLY on the legacy %d-character cap boundary. "
+                         "Not refused (this call did not write it); cap_boundary_scan will name "
+                         "it. Rephrase that trail by hand.\n"
+                         % (rec.get("id"), code, LEGACY_CAP_BOUNDARY["found_by"]))
     return rec
 
 
@@ -780,12 +858,24 @@ def reroute(oid, handler, why, by=""):
             # --reroute call (its own analysis stale, or two lanes agreeing on nothing new)
             # leaves a trace that the call happened and found no move to make, instead of
             # vanishing into a "rerouted" line indistinguishable from a real one.
-            rec["found_by"] = "%s | reroute to %s requested by %s, already there: %s" % (
+            _new_found_by = "%s | reroute to %s requested by %s, already there: %s" % (
                 rec.get("found_by") or "", handler, by or "?", why)
+            _refuse_cap_hit(oid, "found_by", _new_found_by)
+            rec["found_by"] = _new_found_by
             return rec, False
-        rec["handler"] = handler
-        rec["found_by"] = "%s | rerouted %s -> %s by %s: %s" % (
+        _new_found_by = "%s | rerouted %s -> %s by %s: %s" % (
             rec.get("found_by") or "", old, handler, by or "?", why)
+        # THIS FIELD STAYS ON AN OPEN ORDER, UNLIKE `resolve()`'s `resolution` (order filed this
+        # shift, alongside file_order's own door check above). `resolve()` pops the record out of
+        # the open dict before ever writing `resolution`, so that field can never land in
+        # `state/workorders.json` and `cap_boundary_scan`'s own docstring calls a closed-log hit
+        # "a measurement, not a failure" for exactly that reason. `reroute()` is different: it
+        # mutates `found_by` on a record that REMAINS in the open queue, so a concatenation that
+        # happens to land on the legacy 80-character boundary is exactly the same coincidence
+        # `file_order` was just hardened against, reached through the other writer.
+        _refuse_cap_hit(oid, "found_by", _new_found_by)
+        rec["handler"] = handler
+        rec["found_by"] = _new_found_by
         return rec, True
 
     landed, result = _mutate(_change)
@@ -826,25 +916,47 @@ def open_orders(handler=None, severity=None):
 # LOCAL detector already uses, widened by an optional `:line` and by an optional directory
 # prefix, so `src/workorders.py:405-419`, `workorders.py:resolve,main` and
 # `deprecated/catalogue_local.py:12` all parse.
-WHERE_TARGET = re.compile(r"\b((?:[A-Za-z0-9_.-]+/)*[A-Za-z_][A-Za-z0-9_]*\.py)(?::(\d+))?")
+#
+# THE RANGE END IS CAPTURED TOO (order abc943bb6464). This read `(?::(\d+))?` alone, so
+# `foo.py:405-419` yielded 405 and the `-419` was dropped: two orders about different ends of one
+# range clustered as if they named one line, and an order about line 419 never clustered with the
+# range that contains it. Three groups now -- path, start, optional end.
+WHERE_TARGET = re.compile(r"\b((?:[A-Za-z0-9_.-]+/)*[A-Za-z_][A-Za-z0-9_]*\.py)(?::(\d+)(?:-(\d+))?)?")
+
+
+def _span(key):
+    """`file:405` or `file:405-419` -> (file, start, end), end >= start. None if not a line key."""
+    base, _, rng = str(key).rpartition(":")
+    lo, _, hi = rng.partition("-")
+    if not base or not lo.isdigit() or (hi and not hi.isdigit()):
+        return None
+    a, b = int(lo), int(hi) if hi else int(lo)
+    return base, min(a, b), max(a, b)
 
 
 def where_targets(where):
-    """Parse a `where` string. -> (sorted [file], sorted [file:line]).
+    """Parse a `where` string. -> (sorted [file], sorted [file:line or file:start-end]).
 
-    The file is normalised to its basename, because the same fault is written `publish.py` by
-    one sweep and `src/publish.py` by the next, and a grouping that treats those as two files
-    cannot find the twin it exists to find. Nothing is GUESSED from prose: a `where` that names
+    A leading `src/` is normalised away, because the same fault is written `publish.py` by one
+    sweep and `src/publish.py` by the next, and a grouping that treats those as two files cannot
+    find the twin it exists to find. ANY OTHER DIRECTORY PREFIX IS KEPT (sweep 58, batch07): this
+    used to cut every path to its basename, so `src/assay.py` and `handoff/nets_20260906/assay.py`
+    -- two different files -- clustered as one. A bare name means `src/`, the house convention;
+    a name under another root is another file. Nothing is GUESSED from prose: a `where` that names
     no `.py` file at all returns two empty lists and is counted separately by `twins()`, which
     is itself the first finding -- an order whose target cannot be parsed cannot be grouped with
     anything and is invisible to any twin check.
+
+    A cited RANGE is kept whole as `file:start-end` (order abc943bb6464); `twins()` clusters by
+    overlap, so a range and a line inside it are found together.
     """
     files, lines = set(), set()
-    for path, line in WHERE_TARGET.findall(str(where or "")):
-        base = path.rsplit("/", 1)[-1]
+    for path, line, end in WHERE_TARGET.findall(str(where or "")):
+        base = path[len("src/"):] if path.startswith("src/") else path
         files.add(base)
         if line:
-            lines.add("%s:%s" % (base, line))
+            lines.add("%s:%s-%s" % (base, line, end) if end and end != line
+                      else "%s:%s" % (base, line))
     return sorted(files), sorted(lines)
 
 
@@ -855,8 +967,9 @@ def twins(rows=None):
     c98ac549fb7b). The dedup key is `order_id(code, where)`, so two sweeps that describe the
     SAME line in different words produce two ids and neither knows about the other. Measured
     2026-09-02: five orders closed in one shift were twins, and cleanup.py's five truncated
-    rosters were held by THREE separate orders filed by three sweeps over three weeks.
-    manifest_builder.py:424, roll.main() and audit.py:190-193 each held two.
+    rosters were held by THREE separate orders filed by three sweeps over three weeks --
+    `manifest_builder.py`, `roll.main()` and `audit.py` each held two, at lines that have since
+    moved (the fault itself is long fixed; this is the historical count, not a live pointer).
 
     WHY THIS IS A REPORT AND NOT A MERGE. Twins are only visible as CANDIDATES here: two orders
     naming one file are usually two different faults in that file, and closing on a similarity
@@ -882,14 +995,26 @@ def twins(rows=None):
             by_file.setdefault(f, []).append(oid)
         for fl in lines:
             by_line.setdefault(fl, []).append(oid)
+    # CLUSTER BY OVERLAP, NOT BY STRING (order abc943bb6464). `by_file_line` stays the exact
+    # index; a cluster for each key gathers every order whose cited line or range on the SAME
+    # file overlaps it, so `x.py:405-419` finds `x.py:419` and `x.py:405-410`.
+    spans = {k: _span(k) for k in by_line}
+    overlap = {}
+    for k, s in spans.items():
+        ids = set(by_line[k])
+        if s is not None:
+            for k2, s2 in spans.items():
+                if k2 != k and s2 is not None and s2[0] == s[0] and s2[1] <= s[2] and s[1] <= s2[2]:
+                    ids.update(by_line[k2])
+        overlap[k] = ids
     return {
         "open_orders": len(rows),
         "with_file": len(rows) - len(orphans),
         "no_file_in_where": sorted(orphans),
         "by_file": {k: sorted(v) for k, v in sorted(by_file.items())},
         "by_file_line": {k: sorted(v) for k, v in sorted(by_line.items())},
-        "file_line_clusters": {k: sorted(v) for k, v in sorted(by_line.items())
-                               if len(set(v)) > 1},
+        "file_line_clusters": {k: sorted(v) for k, v in sorted(overlap.items())
+                               if len(v) > 1},
         "file_clusters": {k: sorted(v) for k, v in sorted(by_file.items()) if len(set(v)) > 1},
     }
 
@@ -929,6 +1054,109 @@ def for_ladder():
         if got:
             out[rung] = got
     return out
+
+
+# A RESOLUTION FILE NAMES ITS ORDER BY ITS FIRST 12 HEX CHARACTERS -- exactly `order_id`'s own
+# hash width -- so `abc943bb6464.txt` and `abc943bb6464_tiers.txt` (a multi-part resolution for
+# one order) both name order `abc943bb6464`. Anything else about the filename is the shift's own
+# business; this only reads the id.
+_RESOLUTION_ID = re.compile(r"^([0-9a-f]{12})")
+
+
+def resolution_ids_in(dir_path):
+    """Every order id named by a `<order_id>*.txt` resolution file written into `dir_path`.
+
+    -> sorted [id, ...], de-duplicated (a multi-part resolution like `<id>.txt` plus
+    `<id>_tiers.txt` names one order once).
+
+    A missing or unreadable directory is honestly empty, not an error: a shift that has not
+    written any resolutions yet, or a caller pointed at the wrong path, both read the same way a
+    directory with no `.txt` files in it would -- `check_closed` below is the thing that has an
+    opinion about whether that is suspicious, not this, and it REFUSES such a directory.
+    """
+    try:
+        names = sorted(os.listdir(dir_path))
+    except OSError:
+        # DOCUMENTED DELIBERATE (see the docstring above): a missing or unreadable resolutions
+        # directory is an honest empty answer, not a fault. Noted anyway -- a persistent
+        # permission problem would otherwise look identical to a shift that simply has not
+        # written anything yet, and `check_closed` below depends on this list to avoid
+        # re-verifying orders another lane already fixed this shift.
+        silence.note("workorders.py:resolution-ids-unreadable")
+        return []
+    return _ids_from_names(names)
+
+
+def _ids_from_names(names):
+    """The order ids a directory listing names -> sorted, de-duplicated. The one reading of a
+    resolution filename, shared by `resolution_ids_in` and `check_closed`, which differ only in
+    what a directory that will not list means."""
+    ids = set()
+    for name in names:
+        if not name.endswith(".txt"):
+            continue
+        m = _RESOLUTION_ID.match(name)
+        if m:
+            ids.add(m.group(1))
+    return sorted(ids)
+
+
+class ResolutionsUnreadable(Exception):
+    """`check_closed`'s resolutions directory is absent or will not list. NEVER read as empty."""
+
+
+def check_closed(dir_path, queue_path=None):
+    """Order ids with a written resolution file in `dir_path` that are STILL OPEN. -> report.
+
+    ORDER e114b2d0fe48 -- FIXED_ORDERS_LEFT_OPEN_AT_SHIFT_END. Orders get fixed and then left
+    open, so a later shift pays again to re-verify work that is already landed (measured: 2 of 4
+    orders in one lane of the 2026-09-07 shift were already fixed and still open). The remedy is
+    mechanical and deliberately asks for nothing new about the library: "compare orders still
+    open against orders any lane reported as fixed this shift" is a comparison between two
+    things a run already has in hand -- the resolution files a shift wrote (this run: into
+    `scratchpad/resolve/`) and the queue's own open set (`_load`) -- so this reads both and
+    reports the mismatch.
+
+    READ-ONLY, ALWAYS. This never calls `resolve()`, `resolve_code()` or `_mutate()` -- it
+    cannot close anything, by construction, because it never imports the write path. A "cheap
+    detector" that quietly started resolving things because they looked done would be a second,
+    unreviewed way for an order to leave the queue, which is the exact failure Hard Rule -1's
+    escalation chain exists to prevent one layer up.
+
+    `queue_path` DEFAULTS TO THE LIVE QUEUE and exists so this can be proven against a disposable
+    copy (see `_load`'s own `path` parameter) -- this run's own rule is "NEVER write to the live
+    state/workorders.json while testing", and pointing the READ at a temp copy is how a caller
+    keeps that rule while still exercising the real code path.
+
+    -> {"dir": dir_path, "resolved_ids": every distinct order id a resolution file in `dir_path`
+        named (sorted, uncapped), "still_open": the ones of those still in the queue (sorted,
+        uncapped) -- non-empty means the mismatch this order was filed to catch}.
+    Raises ResolutionsUnreadable when `dir_path` is empty, absent or will not list.
+
+    AN ABSENT DIRECTORY IS REFUSED, NOT READ AS "NOTHING TO CLOSE" (sweep 58, batch07). This
+    called `resolution_ids_in`, whose `[]` for a directory that will not list is deliberate and
+    whose docstring hands the judgement to this function -- which never made it. So
+    `--check-closed` on a mistyped path printed "all resolved orders are closed in the queue" and
+    exited 0, the answer a genuinely clean shift gets, from a check that read nothing. The
+    directory is now listed ONCE, here, and a failure raises. An existing directory holding no
+    resolution files is still an honest empty answer.
+    """
+    if not dir_path:
+        raise ResolutionsUnreadable(
+            "no resolutions directory was named (%r). REFUSING to check: nothing would be read, "
+            "and an empty answer would look exactly like a clean one." % (dir_path,))
+    try:
+        names = os.listdir(dir_path)
+    except OSError as e:
+        silence.note("workorders.py:check-closed-dir-unreadable")
+        raise ResolutionsUnreadable(
+            "%s could not be listed (%s: %s). REFUSING to check: an absent or unreadable "
+            "resolutions directory is not a directory whose orders are all closed. Check the path."
+            % (dir_path, type(e).__name__, e)) from e
+    resolved_ids = _ids_from_names(names)
+    open_map = _load(path=queue_path)
+    still_open = sorted(oid for oid in resolved_ids if oid in open_map)
+    return {"dir": dir_path, "resolved_ids": resolved_ids, "still_open": still_open}
 
 
 # THE FOUR LENGTHS THIS QUEUE USED TO CUT ITS OWN FIELDS AT. Until 2026-08-28 `file_order`
@@ -1932,8 +2160,93 @@ def main():
     ap.add_argument("--twins", action="store_true",
                     help="group the open orders by the file, and the file:line, their `where` "
                          "names -- the candidates for one fault held by several orders")
+    ap.add_argument("--check-closed", metavar="DIR",
+                    help="READ-ONLY (order e114b2d0fe48): list every order id named by a "
+                         "`<order_id>*.txt` resolution file in DIR that is STILL OPEN in the "
+                         "queue. Exits nonzero when any are. Never resolves anything -- it only "
+                         "compares the resolution files a shift wrote against the queue's own "
+                         "open set.")
+    ap.add_argument("--check-citations", action="store_true",
+                    help="READ-ONLY (order dc9ffadae765): scan every open order's `what`, "
+                         "`where` and `evidence` text for `file.py:NNN` citations and report the "
+                         "ones that PROVABLY cannot land (past EOF, blank line, bare bracket), "
+                         "via citecheck's own resolver. Exits nonzero when any are. Never "
+                         "rewrites stored order text.")
     ap.add_argument("--handler", help="show only this rung")
     a = ap.parse_args()
+
+    # `is not None`, not truthiness: `--check-closed ""` names no directory and must be refused
+    # by `check_closed`, not fall through to the rest of `main()` as if the flag were absent.
+    if a.check_closed is not None:
+        # SEE `check_closed`'S DOCSTRING for why this can only ever report, never resolve: it
+        # never imports `resolve`/`resolve_code`/`_mutate`, so there is no write path here to
+        # accidentally take.
+        try:
+            rep = check_closed(a.check_closed)
+        except ResolutionsUnreadable as gone:
+            sys.stderr.write("workorders: %s\n" % gone)
+            print("REFUSING to check: the resolutions directory %r could not be read. Nothing "
+                  "was verified." % (a.check_closed,))
+            return 2
+        except QueueUnreadable as gone:
+            sys.stderr.write("workorders: %s\n" % gone)
+            print("REFUSING to check: the queue could not be read. Nothing was verified.")
+            return 2
+        print("check-closed %s: %d distinct order id(s) named by a resolution file"
+              % (a.check_closed, len(rep["resolved_ids"])))
+        if rep["still_open"]:
+            print("STILL OPEN despite a written resolution (%d) -- re-verified work, or a "
+                  "close that was never landed:" % len(rep["still_open"]))
+            print("-" * 78)
+            for oid in rep["still_open"]:
+                print("  %s" % oid)
+            print("\nNOTHING WAS RESOLVED (read-only). Close with:  --resolve <id> --how-file "
+                  "<path>")
+            return 1
+        print("all resolved orders are closed in the queue.")
+        return 0
+
+    if a.check_citations:
+        # REPORT ONLY (order dc9ffadae765's own text: "Do NOT rewrite the stored text of "
+        # existing orders"). This calls citecheck's resolver -- `citations_in_text`, built on
+        # the same `CITATION` regex and `_classify` as `stale_citations` -- rather than a second
+        # copy of its PAST_EOF / BLANK_LINE / BARE_BRACKET rules.
+        import citecheck
+        try:
+            rows = open_orders()
+        except QueueUnreadable as gone:
+            sys.stderr.write("workorders: %s\n" % gone)
+            print("REFUSING to check: the queue could not be read. Nothing was scanned.")
+            return 2
+        findings = []
+        for r in rows:
+            for field in ("what", "where", "evidence"):
+                val = r.get(field)
+                if val is None:
+                    continue
+                text = val if isinstance(val, str) else json.dumps(val, ensure_ascii=False)
+                for f in citecheck.citations_in_text(text):
+                    f = dict(f, order=r.get("id"), code=r.get("code"), field=field)
+                    findings.append(f)
+        print("check-citations: scanned %d open order(s) for `file.py:NNN` citations against "
+              "src/, via citecheck's resolver" % len(rows))
+        if findings:
+            print("%d PROVABLY STALE citation(s) in the open queue's own text (uncapped):"
+                  % len(findings))
+            print("-" * 78)
+            for f in findings:
+                print("  %-12s %-9s %-12s %s:%d  (order code %s)"
+                      % (f["order"], f["field"], f["reason"], f["cites"], f["cited_line"],
+                         f["code"]))
+        else:
+            print("no provably stale citations found in the open queue's own text.")
+        print("CLEAN HERE MEANS 'not provably broken', NOT 'verified' -- see citecheck's "
+              "module docstring. REPORT ONLY: nothing in the queue was rewritten.")
+        # NONZERO ON A FINDING, LIKE `--check-closed` (sweep 58, batch07). This returned 0 either
+        # way, so anything reading the exit code -- the channel this project treats as the one
+        # that counts -- saw stale citations as a pass. Nothing calls this flag from automation
+        # today (checked: drill, verify_math, allsweep), so no caller depended on the old 0.
+        return 1 if findings else 0
 
     if a.resolve:
         # THE TEXT COMES FROM A FILE OR STDIN IF THE CALLER LETS IT (order 1c99df1f69c1). See

@@ -320,6 +320,10 @@ def verify(path=None):
     useful question: is the archive itself still intact and readable, and which canonical files
     have changed since it was taken.
 
+    A CHANGED FILE IS DIVERGENCE; A GONE ONE IS NOT (order 2f85e46c2c3c). A canonical file the
+    manifest records and the live tree no longer has is a loss, and `ok` is False for it even
+    though the archive itself is intact -- the notes say which of the two it is.
+
     NO MANIFEST IS A FAILURE, NOT A PASS (order b6d5f70a7f19). This used to return ok=True with
     `recorded = {}`, so `changed` was empty BY CONSTRUCTION and the notes read "archive intact,
     0 members" / "0 canonical files changed since the snapshot" -- a comparison against nothing,
@@ -439,6 +443,15 @@ def verify(path=None):
         # the alphabetical head and decided the rest had not happened. Order d111c05f5368.
         notes.append("%d canonical files present in the snapshot are GONE from the live tree: %s"
                      % (len(gone), ", ".join(sorted(gone))))
+        # AND IT FAILS THE VERIFY (order 2f85e46c2c3c). This returned ok=True after naming them,
+        # so `--verify` printed "VERIFY: ok" and exited 0 with canonical files missing -- a check
+        # that passes in exactly the case it exists for. The ARCHIVE is not accused: the note
+        # says it is intact and holds the copy, which is the good news a person needs next. But
+        # the top-level verdict is about the canon, and a canon with files gone is not ok.
+        notes.append("NOT OK: the archive is intact and still holds %d canonical file(s) the "
+                     "live tree has lost -- recover each with --restore REL, or take a fresh "
+                     "--snapshot if the removal was deliberate." % len(gone))
+        return False, notes
     return True, notes
 
 

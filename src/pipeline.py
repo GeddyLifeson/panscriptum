@@ -301,11 +301,106 @@ def _tmp_for(path):
     return "%s.%d.%d.tmp" % (path, os.getpid(), threading.get_ident())
 
 
+# WHAT THIS PROCESS LAST SAW ON DISK, PER STATE PATH. (order 26667ecd6543)
+#
+# `main()` loads the state ONCE and holds it for the whole run, and `save_state` used to dump that
+# whole object after every batch -- so any edit another process landed in between was reverted at
+# the next batch boundary, silently. The victim is named in `save_state`'s own docstring:
+# `health.reopen_stranded` read-modify-writes this file, reports success, and the pipeline's next
+# save put the stranded units straight back. `_TOP_SNAPSHOT` is this module's answer to the same
+# hazard on records; this is that answer for the resume point. `digest` is what the file held and
+# `obj` is its parsed content, taken at `load_state` and advanced after every save that lands, so
+# `save_state` can tell "another writer changed this" from "this runner changed this" key by key.
+# Keyed by absolute path so a harness that repoints STATE never merges against the live file's base.
+_STATE_BASE = {}
+_STATE_CAS_ATTEMPTS = 5
+_ABSENT = object()
+
+
 def load_state():
     if os.path.exists(STATE):
+        # THE DIGEST IS TAKEN BEFORE THE READ, the house order (`roll.mutate`): anything landing
+        # between the two makes the base look older than it is, which costs one merge that
+        # changes nothing, never a lost edit.
+        seen = silence.digest_of(STATE)
         with open(STATE, encoding="utf-8") as f:
-            return json.load(f)
-    return {"phase": 1, "done": {}, "failed": {}, "started": None, "units_done": 0}
+            text = f.read()
+        st = json.loads(text)
+        _STATE_BASE[os.path.abspath(STATE)] = {"digest": seen, "obj": json.loads(text)}
+        return st
+    st = {"phase": 1, "done": {}, "failed": {}, "started": None, "units_done": 0}
+    _STATE_BASE[os.path.abspath(STATE)] = {"digest": None, "obj": json.loads(json.dumps(st))}
+    return st
+
+
+def _merge_state(base, ours, disk):
+    """Three-way merge of the resume point. -> the value to land (or `_ABSENT` to drop a key).
+
+    `base` is what this runner last saw on disk, `ours` is what it holds now, `disk` is what is
+    there now. A side that did not change a value defers to the side that did. When BOTH changed
+    it, dicts merge key by key, and lists -- the done-key lists -- merge as sets in both
+    directions: what this runner added stays added and what it removed stays removed, and what the
+    OTHER writer removed (a `--reopen`) stays removed unless this runner added it back itself.
+    A scalar both sides changed (`phase`, `units_done`) is THIS runner's: the pipeline owns its
+    own pointer, and it must never lose its own progress to a repair tool's older copy.
+    """
+    if ours == base:
+        return disk
+    if disk == base or ours == disk:
+        return ours
+    if isinstance(ours, dict) and isinstance(disk, dict):
+        b = base if isinstance(base, dict) else {}
+        out = {}
+        for k in list(disk) + [k for k in ours if k not in disk]:
+            v = _merge_state(b.get(k, _ABSENT), ours.get(k, _ABSENT), disk.get(k, _ABSENT))
+            if v is not _ABSENT:
+                out[k] = v
+        return out
+    if isinstance(ours, list) and isinstance(disk, list):
+        b = base if isinstance(base, list) else []
+        try:
+            bset, oset = set(b), set(ours)
+        except TypeError:
+            # UNHASHABLE MEMBERS MEAN THE SET-BASED MERGE CANNOT RUN, and falling back silently to
+            # "this runner's copy stands" is exactly the lost-update shape this whole function
+            # exists to prevent: the other writer's additions/removals to this list are dropped
+            # with nothing to show it happened. Noted so a real occurrence (a done/failed list that
+            # started holding dicts instead of plain keys) is visible rather than read as an
+            # ordinary clean merge.
+            silence.note("pipeline.py:merge-state-unhashable")
+            return ours                       # unhashable members: this runner's copy stands
+        added, removed = oset - bset, bset - oset
+        out, seen = [], set()
+        for x in disk:
+            if x not in removed and x not in seen:
+                out.append(x)
+                seen.add(x)
+        for x in ours:
+            if x in added and x not in seen:
+                out.append(x)
+                seen.add(x)
+        return out
+    return ours
+
+
+def _fold_state(st, merged):
+    """Make `st` equal `merged` IN PLACE. -> None.
+
+    In place because the phases hold aliases into it -- `phase_entrypass` keeps
+    `done_keys = st["done"]["entrypass"]` for the whole phase -- and a rebound list would leave
+    that alias on the pre-merge copy, so the NEXT save would see the other writer's removals as
+    this runner's additions and put them straight back.
+    """
+    for k in [k for k in st if k not in merged]:
+        del st[k]
+    for k, v in merged.items():
+        cur = st.get(k, _ABSENT)
+        if isinstance(cur, dict) and isinstance(v, dict):
+            _fold_state(cur, v)
+        elif isinstance(cur, list) and isinstance(v, list):
+            cur[:] = v
+        else:
+            st[k] = v
 
 
 def save_state(st):
@@ -323,16 +418,72 @@ def save_state(st):
     (it prints AND lands in state/pipeline.log, so the trace survives the process).
     """
     os.makedirs(STATE_DIR, exist_ok=True)
-    tmp = _tmp_for(STATE)
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(st, f, indent=2, ensure_ascii=False)
-    if not silence.replace_retry(tmp, STATE):  # atomic; retried, readers poll this file
-        silence.note("pipeline.py:save_state-denied")
-        log("STATE WRITE DENIED -- PIPELINE_STATE.json still holds the PREVIOUS resume point "
-            "(a reader is holding it open). Progress since the last successful save is not "
-            "recorded; a restart will redo it.")
-        return False
-    return True
+    # COMPARE-AND-SWAP, MERGING ON A MISMATCH (order 26667ecd6543). The whole-object dump that
+    # stood here reverted every concurrent edit at the next batch boundary. Now: digest the file,
+    # and if it no longer holds what this runner last saw, re-read it and three-way merge
+    # (`_merge_state`) so the other writer's keys survive and this runner's own progress lands on
+    # top; then land through `silence.replace_if_unchanged`, re-merging if the file moves again.
+    # A file that is ABSENT or will not PARSE has nothing of anyone else's that can be kept, so
+    # this runner's copy lands whole, which is what this function always did.
+    key = os.path.abspath(STATE)
+    why = "not attempted"
+    for attempt in range(_STATE_CAS_ATTEMPTS):
+        base = _STATE_BASE.get(key)
+        seen = silence.digest_of(STATE)
+        merged = st
+        if base is not None and seen != base["digest"]:
+            try:
+                with open(STATE, encoding="utf-8") as f:
+                    disk = json.load(f)
+            except FileNotFoundError:
+                # ABSENT IS NOT UNPARSEABLE (contrast the ValueError arm just below, which IS
+                # noted). This runner's own digest already disagreed with what is on disk, so a
+                # file that has since disappeared has nothing of another writer's left to keep --
+                # `disk` stays unmerged and this runner's copy lands whole, same as it always did
+                # before order 26667ecd6543. Noted anyway: this state only reaches here after
+                # `load_state` DID see the file once (`base is not None`), so its disappearance
+                # now is worth a trace.
+                silence.note("pipeline.py:save-state-absent")
+                disk = None
+            except ValueError:
+                disk = None
+                silence.note("pipeline.py:save_state-unparseable")
+            except OSError:
+                # UNREADABLE IS NOT ABSENT: a reader or a concurrent replace is holding it. Wait
+                # and ask again rather than land blind over whatever it now holds.
+                why = "PIPELINE_STATE.json could not be read to merge against"
+                time.sleep(0.2 * (attempt + 1))
+                continue
+            if isinstance(disk, dict):
+                merged = _merge_state(base["obj"], st, disk)
+        text = json.dumps(merged, indent=2, ensure_ascii=False)
+        tmp = _tmp_for(STATE)
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(text)
+        landing = silence.digest_of(tmp)
+        ok, why = silence.replace_if_unchanged(tmp, STATE, seen)
+        if ok:
+            _STATE_BASE[key] = {"digest": landing, "obj": json.loads(text)}
+            if merged is not st:
+                differ = sorted(k for k in set(st) | set(merged) if st.get(k) != merged.get(k))
+                _fold_state(st, merged)
+                if differ:
+                    log("STATE MERGED -- PIPELINE_STATE.json was changed by another writer since "
+                        "this runner last saved (health.py --reopen, or a second runner). Its "
+                        "edits were KEPT and this runner's progress landed on top; field(s) "
+                        "that now differ from this runner's copy: %s" % ", ".join(differ))
+            return True
+        try:
+            os.remove(tmp)
+        except OSError:
+            silence.note("pipeline.py:save_state-tmp-not-removed")
+        if silence.digest_of(STATE) == seen:
+            break      # refused while the file stood still: a denial, not a race to re-merge
+    silence.note("pipeline.py:save_state-denied")
+    log("STATE WRITE DENIED -- PIPELINE_STATE.json still holds the PREVIOUS resume point (%s). "
+        "Progress since the last successful save is not recorded; a restart will redo it."
+        % why)
+    return False
 
 
 def cfg():
@@ -3194,15 +3345,23 @@ def phase_weave(c, st):
     # `gate_done` below already leaves the unit open on a False, which is exactly the right
     # outcome: nothing here can repair the file, and the phase must not be marked complete
     # sitting over an onomasticon nobody could read.
+    #
+    # AND IT LANDS THROUGH THE ONE COMPARE-AND-SWAPPED WRITER `onomast.main()` ALSO USES (order
+    # a803028ab794). This was `land_json` over `name_worlds`' return: atomic, but a whole
+    # read-modify-write with no staleness check, so a concurrent `onomast.py` run's designations
+    # were discarded with both sides reporting landed. `land_onomasticon` re-names against the
+    # winner's copy when the file moves under it.
     try:
-        named = O.name_worlds(resolved)
+        named, onom_landed, onom_why = O.land_onomasticon(resolved)
     except O.OnomasticonUnreadable as e:
         log("  onomasticon: REFUSED — %s" % e)
         silence.note("pipeline.py:phase_weave-onomasticon-unreadable")
         named = None
         landed.append(False)
     if named is not None:
-        landed.append(land_json(os.path.join(HERE, "data/ONOMASTICON.json"), named, indent=2))
+        if not onom_landed:
+            log("  onomasticon: NOT LANDED — %s" % onom_why)
+        landed.append(onom_landed)
     # `named` is the WHOLE onomasticon, retired records included -- that is what makes the file
     # append-only, and it is the point of order 9309a040f208. Counting it whole reports withdrawn
     # designations as worlds this phase has just named, and inflates the carried-name figure with
@@ -3431,12 +3590,13 @@ def main():
             f"(open: {', '.join(open_now)})")
         # RETURN 1 (order 1f8e0f1bfb26). A stalled phase is exactly the condition
         # `overnight.py:run()` needs to see in `p.returncode` -- it launches this file as a
-        # subprocess (`[pipeline.py, "--run"]`, at overnight.py:911,1600,1650-1651) and folds
+        # subprocess (`[pipeline.py, "--run"]`, via `overnight.STANDING`'s "pipeline" entry and
+        # `overnight.py`'s own `start("pipeline", ...)` call) and folds
         # `p.returncode` straight into the cycle's health summary ("ok" iff returncode == 0). A
         # bare `return` here used to make a mid-ladder stall READ AS "ok", identically to a cycle
         # that finished every phase -- the same fault class order e8466cd6ed14 already fixed at
-        # onomast.py:569-573, reference.py:363-373, genre.py:327-331, sevenfold.py:412-415 and
-        # wh40k.py:289-293, just not caught here because that sweep never visited pipeline.py.
+        # `onomast.main()`, `reference.main()`, `genre.main()`, `sevenfold.main()` and
+        # `wh40k.main()`, just not caught here because that sweep never visited pipeline.py.
         return 1
     # EXPLICIT 0. Every phase this run touched reported True (or the ladder stopped cleanly on an
     # unimplemented phase, via the `break` above) and nothing stalled -- a genuine clean finish,

@@ -112,6 +112,80 @@ def _archive_name_free(dst):
     return False
 
 
+def _land_merged(path, merge, attempts=8):
+    """Re-read `path`, fold this run's change into it, land under COMPARE-AND-SWAP.
+    -> (landed, why, landed_obj, current).
+
+    TWO CONCURRENT `--go` RUNS RESURRECTED EACH OTHER'S WITHDRAWALS (order d5492a646306). Both
+    writes below were computed from reads taken at the top of `main()` -- minutes of moving files
+    earlier -- and landed with `silence.write_json`, which is atomic and checks nothing else. So
+    run B, selecting a different source, wrote back the catalog as IT had read it minus its own
+    withdrawals, restoring every row run A had just removed: records pointing at chapters whose
+    files are, correctly, already in the archive -- the only copy.
+
+    `merge(current, state)` is handed the file as it stands NOW (`state` is "present", "absent"
+    or "unparseable", `current` a dict or None) and returns what to land. The digest is taken
+    before that read, the house order (`roll.mutate`), so a writer landing in between makes the
+    swap refuse and the merge re-run against the winner's copy. A refusal while the file stood
+    still is a denial, reported rather than retried. An UNREADABLE file (a lock, a denial) is
+    waited on, never written over blind.
+    """
+    import threading
+    import time
+    why, obj, current = "not attempted", None, None
+    for attempt in range(max(1, attempts)):
+        seen = silence.digest_of(path)
+        try:
+            with open(path, encoding="utf-8") as f:
+                current = json.load(f)
+            state = "present" if isinstance(current, dict) else "unparseable"
+        except FileNotFoundError:
+            # DRIVEN, UNWRAPPED, BY drill.py's `_concurrent_withdrawals_do_not_resurrect_each_other`
+            # (order d5492a646306): its interleave lands the second run's manifest write before the
+            # first run has written one, which reaches exactly this branch for real. Left un-noted
+            # here rather than adding a note that would fire on every run of that net; flagged in
+            # this shift's silence resolution for the drill owner to wrap instead.
+            current, state = None, "absent"
+        except ValueError:
+            # UNLIKE THE ABSENT ARM ABOVE, this means the file exists and is corrupt -- CATALOG.json
+            # or the withdrawal manifest, both consumed by `main()`'s own merge functions. Noted so
+            # a torn file (a Norton object-lock, a crash mid-write) leaves a trace instead of
+            # reading as an ordinary first write.
+            silence.note("withdraw_chapters.py:land-merged-unparseable")
+            current, state = None, "unparseable"
+        except OSError as e:
+            why = "%s could not be read to merge against (%s)" % (os.path.basename(path), e)
+            time.sleep(0.2 * (attempt + 1))
+            continue
+        if state != "present":
+            current = None
+        obj = merge(current, state)
+        tmp = "%s.%d.%d.tmp" % (path, os.getpid(), threading.get_ident())
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(obj, f, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+        except Exception:
+            _drop_tmp(tmp)
+            raise
+        ok, why = silence.replace_if_unchanged(tmp, path, seen)
+        if ok:
+            return True, why, obj, current
+        _drop_tmp(tmp)
+        if silence.digest_of(path) == seen:
+            break
+    return False, why, obj, current
+
+
+def _drop_tmp(tmp):
+    """Remove a staged temp, and never let the removal become the failure."""
+    try:
+        os.remove(tmp)
+    except OSError:
+        silence.note("withdraw_chapters.py:tmp-not-removed")
+
+
 def select(cat, sources=None, addrs=None):
     """The entries this run will withdraw. -> {addr: rec}.
 
@@ -401,17 +475,20 @@ def main():
         # address (the same entry withdrawn twice under one label) keeps the later record, same
         # rule `_UNPRESERVED`-style merges elsewhere in this project use for "whichever writer
         # has more to say wins the key."
-        existing_manifest = {}
-        try:
-            with open(record_path, encoding="utf-8") as f:
-                existing_manifest = json.load(f)
-        except FileNotFoundError:
-            pass
-        except (OSError, ValueError) as e:
-            print("  existing manifest at %s could not be read (%s) -- not merging; the new "
-                  "manifest will hold only this run's withdrawals." % (record_path, e))
-        merged_manifest = dict(existing_manifest)
-        merged_manifest.update(withdrawn)
+        #
+        # AND THE UNION IS TAKEN AT LANDING TIME, UNDER COMPARE-AND-SWAP (order d5492a646306): a
+        # second run sharing the label that lands between this run's read and its write is
+        # re-read and kept, rather than overwritten by a union computed before it existed.
+        def _manifest_merge(current, state):
+            if state == "unparseable":
+                print("  existing manifest at %s could not be parsed -- not merging; the new "
+                      "manifest will hold only this run's withdrawals." % record_path)
+            merged = dict(current or {})
+            merged.update(withdrawn)
+            return merged
+        record_landed, record_why, merged_manifest, existing_manifest = _land_merged(
+            record_path, _manifest_merge)
+        existing_manifest = existing_manifest or {}
         if existing_manifest:
             new_from_existing = len(existing_manifest) - sum(
                 1 for k in existing_manifest if k in withdrawn)
@@ -419,7 +496,6 @@ def main():
                   "%d, %d kept from the earlier withdrawal, %d entr(ies) total"
                   % (record_path, len(existing_manifest), len(withdrawn),
                      new_from_existing, len(merged_manifest)))
-        record_landed = silence.write_json(record_path, merged_manifest, indent=2)
         # ATOMIC, AND THE VERDICT KEPT. This ran AFTER every chapter file above has already
         # been moved, on the one file generate.py and publish.py both read -- same collision
         # hazard as scout._land, on a shared file. The hand-rolled `CATALOG + ".tmp"` plus a
@@ -434,7 +510,23 @@ def main():
         # the records of chapters whose move had just FAILED. What lands is the catalog minus the
         # entries whose files actually left. With no filter and no failure that is still `{}` --
         # the 2026-08-25 behaviour, arrived at by measurement instead of by assumption.
-        catalog_landed = silence.write_json(CATALOG, remaining, indent=2)
+        #
+        # AND "THE CATALOG" MEANS THE CATALOG AS IT STANDS WHEN THIS LANDS, not as it stood when
+        # this run started (order d5492a646306). `remaining` was computed from the read at the top
+        # of `main()`, so a concurrent `--go` that withdrew OTHER entries in between had those
+        # rows put straight back. What is applied now is this run's DELTA -- drop exactly the
+        # entries whose files left, re-apply the half-withdrawal amendments -- to a fresh read,
+        # under compare-and-swap. A catalog that is absent or will not parse at that moment has
+        # no other run's work in it to keep, so `remaining` lands, as before.
+        def _catalog_merge(current, state):
+            if state != "present":
+                return remaining
+            out = {k: v for k, v in current.items() if k not in withdrawn}
+            for _ad, _key, _new in amended:
+                if isinstance(out.get(_ad), dict):
+                    out[_ad] = dict(out[_ad], **{_key: _new})
+            return out
+        catalog_landed, catalog_why, _cat_obj, _cat_seen = _land_merged(CATALOG, _catalog_merge)
 
     # PATHS AND ENTRIES ARE DIFFERENT UNITS and these lines used to hide it: `moved` and
     # `missing` count PATHS (two per entry) while `stuck` counts ENTRIES, and every line read
@@ -477,13 +569,14 @@ def main():
             # The archive's own manifest. Named separately from the catalog line below because
             # the remedy is different: retrying the run cannot rebuild this one (the files have
             # already moved), so the %d addresses are printed here to be copied down by hand.
-            print("ARCHIVE RECORD NOT WRITTEN: %s -- replace refused, so %d withdrawn entr(ies) "
-                  "are in %s with NO manifest beside them. Write it by hand from this run's "
-                  "output; a re-run will not reproduce it. Addresses: %s"
-                  % (record_path, len(withdrawn), arch, ", ".join(sorted(withdrawn))))
+            print("ARCHIVE RECORD NOT WRITTEN: %s -- replace refused (%s), so %d withdrawn "
+                  "entr(ies) are in %s with NO manifest beside them. Write it by hand from this "
+                  "run's output; a re-run will not reproduce it. Addresses: %s"
+                  % (record_path, record_why, len(withdrawn), arch,
+                     ", ".join(sorted(withdrawn))))
         if not catalog_landed:
             print("CATALOG WRITE DENIED: %s still lists the paths just moved away -- "
-                  "replace refused, retry this run" % CATALOG)
+                  "replace refused (%s), retry this run" % (CATALOG, catalog_why))
         with open(CATALOG, encoding="utf-8") as f:
             print("catalog now       : %d entries" % len(json.load(f)))
         print("archive           : %s" % arch)
@@ -508,7 +601,8 @@ def main():
     # wrapper script runs, and rc 0 is the only thing a shell `&&`, a scheduled job or a keeper
     # restart looks at. Every printed line above is unchanged -- the rc is additive, and the
     # per-condition wording is still what a person reads. The dry-run path returns 0; a selector
-    # that matched nothing already raised SystemExit at :184 and never reaches here.
+    # that matched nothing already raised `main()`'s "matches nothing in the catalog" SystemExit
+    # and never reaches here.
     # Order b422c125e93e.
     bad = ((not catalog_landed) or (not record_landed)
            or bool(stuck or unreadable or collided or stray_stuck))

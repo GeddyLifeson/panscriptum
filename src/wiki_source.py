@@ -447,8 +447,9 @@ def all_categories(subdomain, min_pages=CATEGORY_MIN_PAGES, hard_stop=None):
     it were complete. `_get` has already retried (its own `retries=2`) by the time this raises,
     so a caller sees this only once retry is exhausted. `find_categories`/`discover_categories`
     do not wrap this call, so the exception reaches `catalogue()`'s single-wiki path uncaught --
-    matching the comment at catalogue_web.py:257-259, which describes exactly this and, before
-    this fix, was describing behaviour the code did not actually have. The partial list this
+    matching the comment in `catalogue_composite()` explaining that `catalogue()`'s single-wiki
+    path lets `find_categories`/`category_members` raise, which describes exactly this and,
+    before this fix, was describing behaviour the code did not actually have. The partial list this
     walk collected before failing is discarded along with the exception: a truncated roster is
     not a smaller correct answer, it is the Hard Rule 0 failure the charter names by example.
     """
@@ -662,8 +663,8 @@ def category_members(subdomain, category, limit=None):
     `break` out with whatever had been paginated so far -- for an alphabetically-returned listing
     that IS an A-through-something prefix, landed silently as the whole cast, and the caller has
     no way to tell it apart from a genuinely small category. `_get` has already retried by the
-    time this raises. `catalogue_composite`'s per-category `try/except` (catalogue_web.py:220-224)
-    is the intended handler for this call: it now actually catches the failure, records the
+    time this raises. `catalogue_composite`'s per-category `try/except` around its own
+    `ws.category_members` call is the intended handler for this call: it now actually catches the failure, records the
     category in `failed_cats`, and keeps going with the rest of the source. `catalogue()`'s
     single-wiki path wraps nothing around this call on purpose, so the exception fails that whole
     attempt honestly and the source stays retryable (`entry_count` stays 0).
@@ -725,6 +726,20 @@ def rank_by_size(subdomain, titles, top=None, progress=None):
     the protagonist. Article length is a blunt but reliable proxy for significance: main
     characters have long pages, walk-ons have stubs. One `prop=info` call covers 50 titles, so
     ranking a whole category costs a handful of requests.
+
+    A TRANSPORT FAILURE MID-WALK RAISES; IT IS NEVER RETURNED AS THE RANKING (order e7143aba1e9a,
+    same fix as `all_categories`/`category_members`/`extracts` under order de0681cb9edc). `fetch`
+    used to catch the transport error and hand back `{}`, so a batch that could not be asked and
+    a batch of titles that genuinely carry no `length` info (both fall through `sizes.get(t, 0)`
+    below) produced the identical result: an "honest" full ranking with the failed batch's titles
+    silently sorted to the bottom, as if they were confirmed stubs rather than never measured.
+    `pool.map` re-raises the first worker's exception on iteration, so this now fails the whole
+    call rather than the ranking. `catalogue_web.py` has two call sites and they no longer agree:
+    `catalogue()`'s single-wiki path still leaves its call unwrapped, matching the sibling raises'
+    own precedent of failing the source honestly rather than the request that happened to hit the
+    bad batch, but `catalogue_composite()`'s call is now wrapped in its own `try/except` and
+    degrades per category instead -- noted and named in `failed_cats`, the source kept going with
+    the rest of its categories rather than failing whole.
     """
     batches = [titles[i:i + 50] for i in range(0, len(titles), 50)]
 
@@ -734,7 +749,7 @@ def rank_by_size(subdomain, titles, top=None, progress=None):
                                     "titles": "|".join(batch), "redirects": 1}, timeout=40)
         except Exception:
             silence.note("wiki_source.py:rank-by-size-api")
-            return {}
+            raise
 
     sizes = {}
     # Ranking a 1,200-title category is 24 batches; running them in the pool turns 24 serial

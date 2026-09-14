@@ -501,14 +501,24 @@ def read_progress_verdict(done, total, prev, now, quiet_min_limit=None):
     total = int(total or 0)
     held, stamp = job_stamp(prev, done, now)
     keep = {"size": done, "at": stamp}
-    if done <= 0 and total > 0:
+    # COLD START IS UNCONDITIONAL ON `total` (order 156c2e28f823 item 3). This read
+    # `if done <= 0 and total > 0`, which made "no chunk has completed" wait on a total the cold
+    # start case has no need of -- the docstring above already promises `done == 0` is "red on
+    # the spot, with no waiting for a stamp" and never hedges that on `total` being known. The
+    # `and total > 0` sent a `done <= 0, total <= 0` job (nothing read, and no total reported
+    # either -- read.py has not even printed its transport banner yet) into the branch below
+    # instead, where it was misreported as merely UNMEASURABLE rather than the plain cold start
+    # it is. It also left the later, identically-worded `if done <= 0:` a few lines down
+    # permanently unreachable: by the time control could reach it, the branch below had already
+    # returned for every `total <= 0`, and this branch would already have returned for every
+    # `total > 0` -- no `(done, total)` pair could still be waiting to fall through into it. That
+    # copy is removed below rather than kept dead.
+    if done <= 0:
         return False, "no chunk has completed", keep
     if total <= 0:
         # NO DENOMINATOR, NO VERDICT. Not red, and not a silent pass either.
         return None, ("the job reported no chunk total, so a finished read and a wedged one "
                       "cannot be told apart (%d chunks done)" % done), keep
-    if done <= 0:
-        return False, "no chunk has completed", keep
     frac = done / total
     if done >= total:
         return True, "complete, %d/%d chunks" % (done, total), keep
@@ -722,9 +732,9 @@ def provider_pool_denominator(pm):
         # UNCUT (orders 5802e8899e4f, c1ab7302613e). This branch's own comment above says the
         # error string is the ONLY surviving evidence for why a provider went unverified in a
         # pre-`counts` snapshot -- "the derived figure cannot tell `no key` from `the provider
-        # refused`: only the fixed sweep records that" -- and the function's docstring at :576
-        # promises "NOTHING IS CAPPED -- every unverified provider is named". A [:40] slice cut
-        # the REASON, not the name, with no marker. catalogue_models.py:130-138 removed the
+        # refused`: only the fixed sweep records that" -- and `provider_pool_denominator()`'s
+        # own docstring promises "NOTHING IS CAPPED -- every unverified provider is named". A [:40] slice cut
+        # the REASON, not the name, with no marker. `catalogue_models.ask_provider()` removed the
         # identical cut on the identical upstream string one module over (order 6d354a508b96,
         # "a URL plus a status line already passes 70 characters, so the cut was landing on the
         # reason itself") -- forty is tighter than the seventy already found too short there.

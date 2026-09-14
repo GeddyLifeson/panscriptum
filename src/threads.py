@@ -184,6 +184,14 @@ class ThreadRefused(Exception):
     """A thread this module is not permitted to derive, or one that resolves to nothing."""
 
 
+class AnnexJoinUnreadable(ThreadRefused):
+    """data/ANNEX_JOIN.json exists and could not be read as a join. NOT the same fact as absent.
+
+    A ThreadRefused because it is one: `build()` refuses to derive a graph whose T3 half would
+    otherwise be silently empty, the same way it already refuses a T3 that does not resolve.
+    """
+
+
 def cohort_family(code):
     """The Collection.Set whose members cohort with each other. -> str or None.
 
@@ -292,15 +300,52 @@ def annex_join():
     stated by the charter; nothing here compares names for similarity, and a source the Annex
     never names gets NO T3 -- a silence that is correct rather than a gap.
 
-    FAILS CLOSED: unreadable or absent means an empty join, which means no T3 is emitted at all.
+    ABSENT AND UNREADABLE ARE DIFFERENT FACTS, AND THEY USED TO GIVE ONE ANSWER (order
+    9245eb5f6f76). Both returned an empty join, and an empty join emits no T3 edge at all -- so
+    neither `build()` nor `verify()` could tell "the Annex names nothing" from "the file was
+    torn", and `verify()`'s own unreadable-Annex refusal never fires on a graph with no T3 in it.
+    Drawn apart the way `endpoint.register` draws them:
+      - the file is ABSENT      -> no join has been built; {} is the truth, and it is NOTED;
+      - the file is UNREADABLE  -> we know nothing: `AnnexJoinUnreadable` is raised and
+        `build()` refuses. A file that parses but carries no `join` object is the same unknown.
     """
     try:
         with open(ANNEX_JOIN, encoding="utf-8") as f:
             doc = json.load(f)
-    except Exception:
-        silence.note("threads.py:annex-join-unreadable")
+    except FileNotFoundError:
+        silence.note("threads.py:annex-join-absent")
         return {}
-    return doc.get("join") or {}
+    except Exception as exc:
+        silence.note("threads.py:annex-join-unreadable")
+        raise AnnexJoinUnreadable(
+            "ANNEX_JOIN.json could not be read (%s: %s); refusing to derive a graph whose T3 half "
+            "would silently be empty" % (type(exc).__name__, exc)) from exc
+    join = doc.get("join") if isinstance(doc, dict) else None
+    if not isinstance(join, dict):
+        silence.note("threads.py:annex-join-malformed")
+        raise AnnexJoinUnreadable(
+            "ANNEX_JOIN.json carries no `join` object (found %s); refusing to derive a graph whose "
+            "T3 half would silently be empty" % type(join).__name__)
+    # EVERY SOURCE'S ROWS ARE CHECKED TOO, NOT ONLY THE TOP-LEVEL OBJECT (sweep58-batch15).
+    # `build()` reads `e["to"]`/`e["why"]` off each row with no further check, so a bare string
+    # (iterated as characters), a non-dict row, a missing key or a non-string `to` escaped as a
+    # raw TypeError/KeyError -- not a ThreadRefused, so `main()`'s REFUSING TO DERIVE path never
+    # saw it. A malformed row is the same unknown as a torn file, and is refused the same way.
+    for src, rows in join.items():
+        if not isinstance(rows, list):
+            silence.note("threads.py:annex-join-malformed-rows")
+            raise AnnexJoinUnreadable(
+                "ANNEX_JOIN.json maps %r to a %s, not a list of {to, why} rows; refusing to derive "
+                "a graph from a join nobody can read" % (src, type(rows).__name__))
+        for i, row in enumerate(rows):
+            if not (isinstance(row, dict) and isinstance(row.get("to"), str) and row.get("to")
+                    and isinstance(row.get("why"), str)):
+                silence.note("threads.py:annex-join-malformed-rows")
+                raise AnnexJoinUnreadable(
+                    "ANNEX_JOIN.json row %d for %r is not a {to: <code>, why: <text>} object "
+                    "(found %r); refusing to derive a graph from a join nobody can read"
+                    % (i, src, row))
+    return join
 
 
 def _resolves(code, known_codes):
@@ -582,13 +627,32 @@ def build(records=None):
                     "T2": cohort, "T3": event,
                     "by_category": {_key(k): v for k, v in cats_of.get(src, {}).items()}}
 
+    # A JOIN ROW THAT LANDED NOWHERE IS REPORTED, NOT DROPPED (order 9245eb5f6f76). The loop
+    # above asks the join only for sources it is walking, so a key naming a source with no
+    # record -- measured 2026-09-13: "Lost Mines of Phandelver", purged after being mined off the
+    # wrong wiki (owner order f19f4a2b00f4) -- simply never came up, and a key for an unaddressed
+    # source lost its Canons behind the `unaddressed` row without saying so. Every such key is
+    # listed with ALL of its Canons (Hard Rule 0), under the same heading as `unaddressed`.
+    # REPORTED, NOT REFUSED: whether a stale join key should stop the pass is an owner question.
+    unmatched = []
+    for key in sorted(joined):
+        if key in out:
+            continue
+        unmatched.append({
+            "source": key,
+            "canons": [(e or {}).get("to") for e in (joined.get(key) or ())],
+            "why": ("source is catalogued but has no resolvable spine code, so its Canons cannot "
+                    "be threaded" if key in code_of else
+                    "no record in the corpus carries this source, so the join row resolves to "
+                    "nothing")})
+
     # STAMPED BESIDE `classes`, because it is a fact about the RULE this graph was derived under
     # and not about its contents (order 04c6360636bf). None on every ordinary run; a sentence
     # when the subroom table was unavailable, so a reader of THREADS.json can tell a graph with
     # no finer rooms from a graph built by a pass that could not see them. See
     # SUBROOM_FALLBACK_REASON.
     return {"classes": list(DERIVABLE), "subroom_fallback": SUBROOM_FALLBACK_REASON,
-            "sources": out, "unaddressed": refused,
+            "sources": out, "unaddressed": refused, "annex_join_unmatched": unmatched,
             "counts": counts(out)}
 
 
@@ -712,6 +776,16 @@ def verify(graph):
     if not sources:
         return ["the graph carries no sources at all"]
     known = {rec.get("code") for rec in sources.values() if isinstance(rec, dict)}
+    # T3 IS CHECKED AGAINST THE ADDRESS SPACE IT LIVES IN, not against `known` (order
+    # 5a0f3925442a). This loop used to visit T1 and T2 only, so a mangled or dropped T3 landed
+    # unverified. A T3 points at a Chronica Annex Canon, which the graph does not carry and
+    # `known` (source codes) never contains -- so the Annex set is read from `annex_codes()`,
+    # the same reader `build()` admitted T3 against, rather than from a copy stamped onto the
+    # graph, which would let a mangled artifact vouch for itself. Stricter than `build()`'s
+    # widened `known` on purpose: a T3 is a Deed citation and a spine or Law code is not one.
+    annex = annex_codes()
+    declares_t3 = "T3" in (graph.get("classes") or ())
+    t3_checked = 0
     for src, rec in sources.items():
         if not isinstance(rec, dict) or "T1" not in rec or "T2" not in rec:
             problems.append("%s: record is not a thread record (%r)" % (src, type(rec).__name__))
@@ -731,6 +805,30 @@ def verify(graph):
         if t1.get("to") != rec.get("code"):
             problems.append("%s: T1 does not point at the source's own volume (%r != %r)"
                             % (src, t1.get("to"), rec.get("code")))
+        # A GRAPH THAT DECLARES T3 CARRIES A T3 LIST ON EVERY RECORD, empty where the Annex names
+        # nothing -- `build()` always writes one. A missing key is a dropped field, not silence.
+        # A pre-4.3 graph does not declare the class and is not asked for it.
+        if "T3" not in rec:
+            if declares_t3:
+                problems.append("%s: the graph declares T3 but this record carries no T3 list"
+                                % src)
+        elif not isinstance(rec.get("T3"), list):
+            problems.append("%s: T3 is not a list of edges (%r)" % (src, type(rec.get("T3")).__name__))
+        else:
+            for e in rec["T3"]:
+                if not isinstance(e, dict):
+                    problems.append("%s: a T3 edge is not an edge (%r)" % (src, type(e).__name__))
+                    continue
+                t3_checked += 1
+                if e.get("class") != "T3":
+                    problems.append("%s: an edge stored under T3 carries class %r"
+                                    % (src, e.get("class")))
+                if e.get("from") != rec.get("code"):
+                    problems.append("%s: a T3 edge is not from the source's own volume (%r != %r)"
+                                    % (src, e.get("from"), rec.get("code")))
+                if annex and e.get("to") not in annex:
+                    problems.append("%s: T3 points at %r, which is not an admitted Chronica Annex "
+                                    "address" % (src, e.get("to")))
         # §6's "quiet one" -- an empty Threads section -- is NOT checked here, and that is a
         # deliberate omission rather than an oversight. A first attempt at repairing this
         # function put the check back as "every category expands to something", and it was a
@@ -743,6 +841,14 @@ def verify(graph):
         # `threads_for` raises `ThreadRefused` for a source the graph has no record for. Writing
         # a third version of a check that cannot fire would be the defect this whole module is
         # supposed to be careful about, restated as diligence.
+    # FAIL CLOSED ON AN UNREADABLE ANNEX. `annex_codes()` returns an empty set when it cannot
+    # read or count the Canons, and the target check above is skipped for an empty set -- so
+    # the refusal is raised HERE, once, rather than letting every T3 pass unchecked. A graph
+    # with no T3 edge has nothing that needs the Annex, and is not refused for it.
+    if t3_checked and not annex:
+        problems.append("the Chronica Annex address space could not be read (annex_codes() is "
+                        "empty), so %d T3 edge(s) cannot be verified; refusing rather than "
+                        "passing them unchecked" % t3_checked)
     return problems
 
 
@@ -802,7 +908,14 @@ def main():
                          "the halt cannot be read. Hard Rule -1." % gone) from gone
     _ESC.assert_clear(os.path.basename(__file__))
 
-    graph = build()
+    try:
+        graph = build()
+    except ThreadRefused as refusal:
+        # A REFUSAL TO DERIVE IS PRINTED AS ONE, not as a traceback: an unreadable ANNEX_JOIN.json
+        # (`AnnexJoinUnreadable`, order 9245eb5f6f76) or a T3 that does not resolve. Nothing has
+        # been written; nothing can be.
+        print("REFUSING TO DERIVE — %s" % refusal)
+        return 1
     # VERIFIED AFTER A ROUND TRIP, not on the object build() just returned -- see
     # `verify`. Checking the in-memory graph proved only that the builder had just done
     # what it had just done; checking the parsed-back copy tests the artifact a reader
@@ -856,6 +969,10 @@ def main():
           % len(_no_cohort))
     for u in graph["unaddressed"]:
         print("      %s (%s entries) — %s" % (u["source"], format(u["entries"], ","), u["why"]))
+    # EVERY JOIN KEY THAT THREADED NOTHING, listed whole (order 9245eb5f6f76; Hard Rule 0).
+    print("   Annex join keys that threaded nothing: %d" % len(graph["annex_join_unmatched"]))
+    for u in graph["annex_join_unmatched"]:
+        print("      %s -> %s — %s" % (u["source"], ", ".join(str(c) for c in u["canons"]), u["why"]))
     print("   recorded source->source directions: %s" % format(len(recorded_pairs(graph)), ","))
     if problems:
         print()

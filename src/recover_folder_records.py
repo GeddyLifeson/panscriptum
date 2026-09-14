@@ -119,7 +119,8 @@ def main():
     # a nonzero exit and not merely a printed line. See the two sites for the argument.
     denied = False
     # This run's roll rows, by source name -- the input to the compare-and-swap at the bottom.
-    # The comment at line 168 already says the roll is a SNAPSHOT and the record folder is the
+    # `main()`'s own "THE ROLL IS A SNAPSHOT; THE RECORD FOLDER IS THE TRUTH" comment further
+    # down already says the roll is a SNAPSHOT and the record folder is the
     # truth; landing the whole snapshot back is how that snapshot became everyone else's truth
     # too. (order f818a77293fc)
     roll_changes = {}

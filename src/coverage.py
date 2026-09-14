@@ -103,8 +103,8 @@ def _so_load():
             # derived and rebuilding gives the same answers), but the rebuild is a full reparse
             # of the ~874MB evidence corpus every run -- and coverage.py sits on
             # foreman.refresh_coverage's AUTO remedy path under its 600s timeout (cited by
-            # SYMBOL: this read `foreman.py:324`, which had drifted onto triage_swallowed's
-            # third-false-success comment, order bf22c557852e),
+            # SYMBOL: this used to be a bare `foreman.py:NNN` tag, which had drifted onto
+            # triage_swallowed's third-false-success comment, order bf22c557852e),
             # so a permanently unreadable memo could quietly convert that remedy into a timeout
             # with nothing anywhere saying why. Now it says why.
             silence.note("coverage.py:so-load-unreadable")
@@ -185,7 +185,16 @@ def state_of(host, name):
             if st == "CITED":
                 return "CITED", nf, np
             if st == "READ":
-                best = ("READ", 0, np)
+                # A LATER READ CANDIDATE MUST NOT SILENTLY OUTRANK A MORE INFORMATIVE EARLIER ONE
+                # (order 3fc19ad4d1c6). `candidate_paths` can hand back TWO real files for the
+                # same entity -- its natural path and its disambiguated one -- and this used to
+                # take whichever candidate happened to be READ LAST, discarding the other's page
+                # count outright even when it was the larger of the two. Inert while `measure()`
+                # discards `np` from its own caller, but the precedence this loop already keeps
+                # for every OTHER state (never let a weaker later finding downgrade a stronger
+                # established one) is the honest rule here too: keep the larger page count, not
+                # the more recent one.
+                best = ("READ", 0, max(np, best[2] if best[0] == "READ" else 0))
             elif st == "NO PAGE" and best[0] in ("NOT ATTEMPTED", "UNREACHABLE"):
                 best = ("NO PAGE", 0, 0)
             elif st == "UNREACHABLE" and best[0] == "NOT ATTEMPTED":
@@ -375,7 +384,18 @@ def report(rows, show=None, show_best=10):
     for r in hostless:
         print(f"   {r['entries']:>6,}  {r['source']}")
 
+    # THE FLOOR IS A CUT BEFORE A RANKING, AND HARD RULE 0 SAYS A CUT MUST SAY IT (order
+    # e3b2668af9af). `have` drops every hosted source under 40 entries before EITHER ranking
+    # below sees it, so the WORST COVERED table -- whose whole purpose is to show the sources
+    # most in need of work -- structurally could not show the smallest ones, with nothing
+    # anywhere saying a class of sources was excluded or how many. A floor may be the right call
+    # (a 3-entry source has a meaningless percentage); what was wrong is that it was invisible.
+    # Disclosed once, in this function's own idiom (`--show`/`--show-best` a few lines below).
+    below_floor = [r for r in rows if r["host"] and r["entries"] < 40]
     have = [r for r in rows if r["host"] and r["entries"] >= 40]
+    if below_floor:
+        print(f"\n({len(below_floor)} of {len(have) + len(below_floor)} hosted sources excluded "
+              f"from both tables below: floor >=40 entries, too few for a meaningful percentage)")
     worst = sorted(have, key=lambda x: (x["coverage"], -x["entries"]))
     limit = show if show is not None else len(worst)
     if limit < len(worst):

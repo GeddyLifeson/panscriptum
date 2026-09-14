@@ -162,6 +162,14 @@ EXEMPT = {
         "run for a long time, which is why it reads as long-lived in a process table, but it is "
         "one batch that ends. An rc=17 mid-calibration would discard that batch and nothing "
         "would restart it, which is the worse trade of the two."),
+    "mutate.py": (
+        "ONE-SHOT, DETACHED, HOURS-LONG AND SANDBOXED (order d2d4ff880570). A mutation pass runs "
+        "about twenty hours (the 2026-09-04 pass logged 72,310s) and is launched with `--detach` "
+        "so it outlives the shift that started it. It is in neither `overnight.STANDING` nor "
+        "`ALL_JOBS`, so NOTHING restarts it: an rc=17 would kill a pass nobody relaunches. And "
+        "it does not want current code -- it DELIBERATELY snapshots src/ into its sandbox at "
+        "launch and mutates that copy, and an edit to src/ mid-pass already voids its baseline. "
+        "Staleness is its design, not a gap; relaunch it after the edits land instead."),
 }
 
 # Jobs that ARE covered and are not in STANDING, so `coverage()` does not report them as gaps.
@@ -225,8 +233,40 @@ def coverage():
     return rows
 
 
+def _py_tree(root):
+    """-> ([(label, path)] for every .py under `root` AT ANY DEPTH, [every directory walked]).
+
+    RAISES OSError if any directory cannot be listed.
+
+    THE WATCH DID NOT DESCEND (order 5d0fa30e4b09, item 1). `fingerprint` and `quiet_seconds`
+    listed `root` with `os.listdir`, and `src/deprecated/` holds `catalogue_local.py` -- the
+    blind spot already closed in `silence._py_files`, `sweep_plan._src_py_files`,
+    `drill._src_py_files`, `liveness._modules`, `module_index` and `citecheck`. Harmless today
+    only because nothing standing imports that file; but every rc=17 decision rests on this
+    digest, and "nil today" was a fact about the tree, not about the code.
+
+    AN UNLISTABLE DIRECTORY RAISES RATHER THAN BEING SKIPPED. `os.walk` swallows listing errors
+    by default, and a subtree it silently omitted would fingerprint as unchanged -- the
+    None-is-not-unchanged rule `fingerprint` states, broken one level down. `__pycache__` holds
+    no source and is rewritten on import, so it is pruned. Labels are paths relative to `root`
+    with forward slashes: a top-level file keeps its bare name, so a tree with no source below
+    the top digests exactly as it did before this change.
+    """
+    errors, files, dirs = [], [], []
+    for here, subdirs, names in os.walk(root, onerror=errors.append):
+        subdirs[:] = sorted(d for d in subdirs if d != "__pycache__")
+        dirs.append(here)
+        for name in names:
+            if name.endswith(".py"):
+                full = os.path.join(here, name)
+                files.append((os.path.relpath(full, root).replace(os.sep, "/"), full))
+    if errors:
+        raise errors[0]
+    return sorted(files), dirs
+
+
 def fingerprint(root=None):
-    """-> a digest of every .py in src/, or None if it cannot be taken.
+    """-> a digest of every .py in src/, subdirectories included, or None if it cannot be taken.
 
     NONE IS NOT "UNCHANGED". A caller that treats an unreadable tree as a matching digest would
     silently stop watching, which is the failure this module exists to end wearing a different
@@ -235,13 +275,11 @@ def fingerprint(root=None):
     root = root or SRC
     h = hashlib.sha256()
     try:
-        for name in sorted(os.listdir(root)):
-            if not name.endswith(".py"):
-                continue
-            p = os.path.join(root, name)
+        files, _dirs = _py_tree(root)
+        for label, p in files:
             try:
                 with open(p, "rb") as f:
-                    h.update(name.encode("utf-8"))
+                    h.update(label.encode("utf-8"))
                     h.update(f.read())
             except OSError:
                 # A file that cannot be read right now is very likely being written right now.
@@ -274,19 +312,19 @@ def quiet_seconds(root=None):
 
     Conservative in the safe direction on both edges: a touch that changes no bytes still bumps
     the mtime and so postpones the restart, and a write in progress right now reads as zero
-    seconds quiet, which is the mid-write case the settling period exists for. The directory's
-    own mtime is included because a file CREATED or DELETED in `src/` changes the digest while
-    every surviving file's mtime stays old.
+    seconds quiet, which is the mid-write case the settling period exists for. Every walked
+    directory's own mtime is included because a file CREATED or DELETED in `src/` (or below it)
+    changes the digest while every surviving file's mtime stays old. Walks the same tree
+    `fingerprint` digests, via `_py_tree`, so the two can never disagree about what `src/` is.
     """
     root = root or SRC
     newest = None
     try:
+        files, dirs = _py_tree(root)
         newest = os.path.getmtime(root)
-        for name in os.listdir(root):
-            if not name.endswith(".py"):
-                continue
+        for p in dirs + [full for _label, full in files]:
             try:
-                m = os.path.getmtime(os.path.join(root, name))
+                m = os.path.getmtime(p)
             except OSError:
                 # Same rule as `fingerprint`: a file that cannot be read right now is very
                 # likely being written right now. Refuse to time the settle rather than time
@@ -839,16 +877,114 @@ def _stamp_poll(who):
     See `POLLS`. Written before the answer is acted on, because the fact worth recording is that
     the question was asked at all -- a job that asks and then exits on rc=17 has still polled.
     """
+    # ATOMIC, NOT TRUNCATE-THEN-FILL (order cc07729f5a4d, run #58). This was a bare
+    # `open(..., "w")` + `json.dump`: a reader arriving mid-write -- `last_polled`, the report,
+    # the dashboard -- saw an empty or half document, and a write that died part-way left the
+    # stamp torn until the next poll. `silence.write_json` lands a pid/thread-named temp file and
+    # renames it over the old stamp, so a failed write leaves the PREVIOUS stamp readable. It
+    # returns False rather than raising on a denied replace, which is noted exactly as before.
     try:
         os.makedirs(POLLS, exist_ok=True)
-        with open(os.path.join(POLLS, "%s.json" % re.sub(r"[^A-Za-z0-9_.-]", "_", str(who))),
-                  "w", encoding="utf-8") as fh:
-            json.dump({"job": str(who), "at": time.time(), "pid": os.getpid()}, fh)
+        landed = silence.write_json(
+            os.path.join(POLLS, "%s.json" % re.sub(r"[^A-Za-z0-9_.-]", "_", str(who))),
+            {"job": str(who), "at": time.time(), "pid": os.getpid()})
     except OSError:
+        landed = False
+    if not landed:
         # A diagnostic that cannot be written is not a reason to stop a daemon from checking its
         # own source. Noted rather than raised, and the report says "not known" rather than
         # inventing a number.
         silence.note("codewatch.py:poll-stamp")
+
+
+def _poll_pid_alive(pid, at=None):
+    """Is the process that wrote a poll stamp still running? -> True, False, or None (cannot tell).
+
+    THE STAMP OUTLIVES ITS WRITER, AND THE REPORT USED TO READ IT AS THE CURRENT PROCESS'S (order
+    093a35335c68, remedy (b)). `last_polled` read the stamp by job NAME only, so a stamp left by
+    a process that had exited -- a daemon that died, the previous instance of a restarted one, or
+    the drill driving a real job's phase loop -- rendered as "polled N minutes ago" for a job
+    that was not polling at all. Measured twice: pipeline read "last polled 9 min ago" off the
+    drill's own pid while no pipeline ran, and overwatch read "4432 min ago" off a pid from three
+    days earlier while the live overwatch had simply not finished its first round.
+
+    THREE ANSWERS, AND "CANNOT TELL" IS NOT "ALIVE". The same question `runguard._process_signature`
+    asks, in the same psutil-then-ctypes order and never with `os.kill(pid, 0)` (order
+    b9044b16c8e9 records that idiom misreporting live processes on this machine). Duplicated
+    rather than imported, for the reason runguard gives: this module is imported by every daemon
+    and must stay thin. `at` lets a RECYCLED pid be told apart: the stamping process must have
+    started before it stamped, so a live process whose start instant is later than the stamp is a
+    different process wearing the number.
+    """
+    if isinstance(pid, bool) or not isinstance(pid, int) or pid <= 0:
+        return None
+    try:
+        import psutil
+    except ImportError:
+        # THE SAME OPTIONAL-DEPENDENCY FALLBACK `runguard._process_signature` already carries,
+        # duplicated rather than imported for the reason that function's own docstring gives.
+        # Noted here (unlike there) for symmetry with this function's own `except Exception:`
+        # arms below; inert on this machine, where psutil is installed.
+        silence.note("codewatch.py:poll-pid-alive-no-psutil")
+        psutil = None
+    if psutil is not None:
+        try:
+            if not psutil.pid_exists(pid):
+                return False
+            started = float(psutil.Process(pid).create_time())
+            if isinstance(at, (int, float)) and started > float(at) + 1.0:
+                return False                  # a newer process holding a recycled pid
+            return True
+        except psutil.NoSuchProcess:
+            # THE SAME ANSWER THE ORDINARY CHECK ABOVE GIVES, reached by a race instead of by
+            # `pid_exists`: the process was there a moment ago and is gone now. Not the failure
+            # the `except Exception:` arms below exist to catch -- those mean "could not tell";
+            # this means "no", which the direct check two lines up already returns un-noted.
+            silence.note("codewatch.py:poll-pid-alive-race")
+            return False
+        except Exception:
+            silence.note("codewatch.py:poll-pid-probe")
+            return None
+    if os.name != "nt":
+        return None
+    try:
+        import ctypes
+        k32 = ctypes.windll.kernel32
+        h = k32.OpenProcess(0x1000, False, pid)          # PROCESS_QUERY_LIMITED_INFORMATION
+        if not h:
+            # ERROR_INVALID_PARAMETER (87) is the only failure that proves there is no such pid.
+            return False if k32.GetLastError() == 87 else None
+        try:
+            code = ctypes.c_ulong()
+            if not k32.GetExitCodeProcess(h, ctypes.byref(code)):
+                return None
+            return code.value == 259                     # STILL_ACTIVE
+        finally:
+            k32.CloseHandle(h)
+    except Exception:
+        silence.note("codewatch.py:poll-pid-probe")
+        return None
+
+
+def last_poll_record(who):
+    """-> {"at", "age", "pid", "alive"} for `who`'s poll stamp, or None if there is no readable one.
+
+    `alive` is `_poll_pid_alive`'s three-valued answer about the pid that wrote the stamp. The
+    report reads this so it can say WHICH kind of not-known it is; `last_polled` reads it so the
+    number is only ever given for a stamp whose writer is a live process.
+    """
+    try:
+        with open(os.path.join(POLLS, "%s.json" % re.sub(r"[^A-Za-z0-9_.-]", "_", str(who))),
+                  encoding="utf-8") as fh:
+            rec = json.load(fh) or {}
+        at = rec.get("at")
+        if isinstance(at, bool) or not isinstance(at, (int, float)):
+            return None
+        pid = rec.get("pid")
+        return {"at": float(at), "age": max(0.0, time.time() - float(at)), "pid": pid,
+                "alive": _poll_pid_alive(pid, at)}
+    except (OSError, ValueError, TypeError, AttributeError):
+        return None
 
 
 def last_polled(who):
@@ -856,14 +992,15 @@ def last_polled(who):
 
     None is a THIRD answer and the report must render it as one. "Never polled" and "polled a
     long time ago" have different remedies, and neither is "polled recently".
+
+    AND A STAMP WHOSE WRITER IS NOT A LIVE PROCESS IS NOT KNOWN EITHER (order 093a35335c68). The
+    number is returned only when the pid recorded in the stamp is a running process that started
+    before the stamp was written. A dead pid, a recycled one, a stamp with no pid, and a liveness
+    check that cannot be answered all return None -- an unanswerable check must render NOT KNOWN,
+    never fresh, because "polled recently" is the one answer that stops anybody looking.
     """
-    try:
-        with open(os.path.join(POLLS, "%s.json" % re.sub(r"[^A-Za-z0-9_.-]", "_", str(who))),
-                  encoding="utf-8") as fh:
-            at = (json.load(fh) or {}).get("at")
-        return max(0.0, time.time() - float(at)) if isinstance(at, (int, float)) else None
-    except (OSError, ValueError, TypeError):
-        return None
+    rec = last_poll_record(who)
+    return rec["age"] if rec is not None and rec["alive"] is True else None
 
 
 def exit_if_stale(who="?", rc=RC_STALE):
