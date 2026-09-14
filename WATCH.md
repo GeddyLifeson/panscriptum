@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 520  ·  last run 2026-09-14 14:25
+round 521  ·  last run 2026-09-14 15:07
 
 ## Structure
 
@@ -11,8 +11,18 @@ round 520  ·  last run 2026-09-14 14:25
 
 ## What the model found in the code
 
-**2 open** (0 high). Newest first.
+**7 open** (2 high). Newest first.
 
+- **estate.py** `external` — [HIGH] The function is named 'external' but the code inside it is not about external dependencies, but rather about checking various system states and configurations (Ollama, Cascade, disk space).
+  - says: The dependencies that live outside this project and can fail without it changing.
+- **estate.py** `artifacts` — [HIGH] The code does not discover roots from the tree; it uses a hand-kept list of directories and files, and the docstring claims it does not sample.
+  - says: Every file in the project, opened and checked. No sampling anywhere.
+- **estate.py** `note` — [MEDIUM] appends a finding to the out, but the function is not properly defined with a docstring or comment explaining its purpose
+  - says: appends a finding to the out list
+- **estate.py** `note` — [MEDIUM] appends a finding to the out list but the function is not properly defined with a docstring or comment explaining its purpose
+  - says: appends a finding to the out list
+- **assay.py** `grade` — [MEDIUM] grade_n is compared to 5, but the Ladder has eleven rungs (indices 0-10), so grade_n can be 0-10, making the condition grade_n <= 5 true for 0-5, but the code uses a list with six slots (indices 0-5), so grade_n=6 would be out of range
+  - says: grade_n <= 5 cannot be false while the Ladder has eleven rungs
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
