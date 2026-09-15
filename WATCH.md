@@ -1,18 +1,28 @@
 # OVERWATCH
 
-round 546  ·  last run 2026-09-15 16:54
+round 547  ·  last run 2026-09-15 17:38
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **1** of 305,442 inspected (deep scan as of round 541)  — state\gpu_lane\slot.0.json — cannot stat: GONE (absent on a second look, one rename later)
+- files that will not parse: **0** of 305,503 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**30 open** (8 high). Newest first.
+**33 open** (10 high). Newest first.
 
+- **suppressions.py** `main` — [HIGH] the code does something else
+  - says: the code says it does
+- **suppressions.py** `add` — [HIGH] Adds a suppression by modifying the file, but the code does not actually perform the addition and instead returns the result of _mutate which may not have added anything
+  - says: Record one narrow exception
+- **standards.py** `bool(refs) and inside >= len(refs)` — [HIGH] the condition is checking if inside is greater than or equal to the length of refs, but the comment indicates it should check if inside is greater than or equal to the scoreable count
+  - says: the assay reading is valid
+- **standards.py** `unans_files` — [HIGH] unans_files is initialized to 0 before the try block, and if any of the three unmeasurable cases occur (raise, unreadable file, missing/renamed data/readfeats), the except block is not triggered, and the zero is cached in _UNANS_CACHE for 120 seconds, resulting in no trace of the error
+  - says: THIS ONE LEFT NO TRACE AT ALL (2026-08-28). `unans_files = 0` sat before the try and the only out.append sat after it, so a HIGH-severity evidence standard was emitted MET with an observed `0` in three separate unmeasurable cases
+- **standards.py** `resident_context` — [HIGH] The context window served by the runner holding any model that matches the configured model name.
+  - says: The context window served by the runner holding THIS project's model.
 - **runguard.py** `holder_is_live` — [HIGH] Returns True for stale heartbeats and missing records, but the docstring says it should only return True for unfinished records with fresh heartbeats.
   - says: Is this record a predecessor that is still working?
 - **health.py** `F.api` — [HIGH] probe a host that may have been quarantined
@@ -23,12 +33,10 @@ round 546  ·  last run 2026-09-15 16:54
   - says: finds the path assignment in the same function as the call
 - **verify_math.py** `call_idxs` — [HIGH] uses a substring search on the source code which can be fooled by comments
   - says: finds the call site of verify_restore
-- **verify_math.py** `_chunk_key` — [HIGH] returns the same key for entities reading the same passage
-  - says: two entities reading the SAME passage get different cache keys
-- **verify_math.py** `priority` — [HIGH] returns only rows with own > 0 or chars >= 2000
-  - says: returns EVERY row it was given
-- **verify_math.py** `_unrec_tmp` — [HIGH] assigned the value of _CB.UNRECOGNISED divided by 2
-  - says: assigned the value of _CB.UNRECOGNISED
+- **standards.py** `fab` — [MEDIUM] is set to None and used to determine the standard's status, but the logic is flawed
+  - says: represents the fabrication rate
+- **standards.py** `resident_context` — [MEDIUM] Now iterates through all rows and returns the first matching model's context length.
+  - says: IT USED TO TAKE WHICHEVER ROW /api/ps LISTED FIRST
 - **recover_folder_records.py** `shortfalls` — [MEDIUM] A list of sources that declared nothing usable or had fewer items than expected
   - says: A list of sources that declared fewer items than expected
 - **pipeline.py** `landed` — [MEDIUM] used as a list to append boolean values (False) and JSON data
@@ -63,8 +71,6 @@ round 546  ·  last run 2026-09-15 16:54
   - says: each batch file recorded as SPLICED still has labels standing in this file
 - **verify_math.py** `check` — [MEDIUM] checks that the difference between _run35_all36 and _run35_seen36 is empty
   - says: every proposal file under handoff/run35 is executed, spliced, or on the register
-- **verify_math.py** `check` — [MEDIUM] the code is using 'check' to perform assertions but the actual implementation of 'check' is not provided in the given code slice
-  - says: check the code against a condition
 - **foreman.py** `restart_ollama` — [MEDIUM] The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.
   - says: Restart the local model service when tokens stop flowing. AUTO by owner ruling (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon answered /api/tags while zero generations completed, once with no runner process and once with a runner spinning at 98% completing nothing -- and both times the only cure was a restart a person had to perform. The restart is mechanical and reversible (the tray app respawns the daemon; the resident model reloads on first call), and it is rate-limited: at most one automated restart per 30 minutes, so a deeper fault escalates to the owner instead of being restart-looped into invisibility.
 - **drill.py** `ESC.status` — [MEDIUM] returns halted status and record, but the code in the slice may not correctly handle all cases
