@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 544  ·  last run 2026-09-15 14:36
+round 545  ·  last run 2026-09-15 15:35
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 544  ·  last run 2026-09-15 14:36
 
 ## What the model found in the code
 
-**44 open** (15 high). Newest first.
+**45 open** (14 high). Newest first.
 
 - **manifest_builder.py** `feats_index.feats_for_source` — [HIGH] The code does not handle exceptions and does not produce the expected observable result when a failed lookup occurs.
   - says: AND A FAILED LOOKUP SAYS SO, OUT LOUD. `except Exception: silence.note(...)` alone made a BUG in `feats_index` -- a KeyError on a malformed record, an AttributeError, anything -- produce the identical observable result to "this source genuinely has no attested feats": `feat_rows = []`, no Feats chapter emitted, and a build report (the prints in `main()`) that reads exactly the same as a clean run. That is Hard Rule 0's central failure, a smaller-than-real output that nothing distinguishes from a legitimately small one, sitting directly under the comment explaining that 39,862 mined feats once existed with no volume able to print one. The note is kept for the ledger; the print is what reaches the operator watching the build. Found by the run #33 sweep (batch 15).
@@ -41,8 +41,16 @@ round 544  ·  last run 2026-09-15 14:36
   - says: the k-th burg holds P1/k, independently recomputed
 - **silence.py** `replace_retry` — [HIGH] raises on OSError (except for EXDEV, ENOSPC, etc.)
   - says: NEVER RAISES, FOR **ANY** OSError, not only for the denied one.
-- **silence.py** `silent` — [HIGH] what it does instead
-  - says: what the code says it does
+- **recover_folder_records.py** `shortfalls` — [MEDIUM] A list of sources that declared nothing usable or had fewer items than expected
+  - says: A list of sources that declared fewer items than expected
+- **pipeline.py** `landed` — [MEDIUM] used as a list to append boolean values (False) and JSON data
+  - says: appended with JSON data from files
+- **pipeline.py** `ranks_p` — [MEDIUM] hardcoded path to SHELF_RANKS.json
+  - says: path to SHELF_RANKS.json
+- **pipeline.py** `spine_of` — [MEDIUM] returns None if AD.spine_code_for(src) raises an exception
+  - says: return AD.spine_code_for(src)
+- **overnight.py** `blocking` — [MEDIUM] The variable 'blocking' is assigned the value of checking if the output contains the string 'FAIL  ' + _control_label, but the comment indicates that the original logic was based on two substrings from health.py's console output, which is now replaced by a label from health.CHECKS. The actual implementation uses a label from health.CHECKS, which may not match the original intended behavior.
+  - says: The blocking condition is determined by checking if the output contains the exact string 'FAIL  ' + _control_label
 - **manifest_builder.py** `silence.replace_retry` — [MEDIUM] The function is used to replace the temporary report file with the final path, but the comment suggests it's used for retrying operations, which may not be the intended use.
   - says: Land it through a pid+thread temp and silence.replace_retry, and report the verdict on the same footing as the manifest write instead of assuming it.
 - **magnitude.py** `anchor` — [MEDIUM] assigned based on ladder index comparison and possibly from got
@@ -87,12 +95,6 @@ round 544  ·  last run 2026-09-15 14:36
   - says: check the code against a condition
 - **silence.py** `replace_retry` — [MEDIUM] some faults are grouped under the same name
   - says: A DIFFERENT FAULT WEARS A DIFFERENT NAME IN THE LEDGER
-- **silence.py** `note` — [MEDIUM] Can be called with a message that is not a string, leading to potential errors.
-  - says: Records a note in the ledger with the given message.
-- **silence.py** `build_parent_map` — [MEDIUM] Builds a parent map for every node in `tree` but the function is named `build_parent_map` and the code is correct
-  - says: Builds a parent map for every node in `tree`
-- **scout.py** `seen_ok` — [MEDIUM] set to False on read failure, but may be overwritten by subsequent code
-  - says: indicate if SCOUT_ATTEMPTS.json was successfully read
 - **foreman.py** `restart_ollama` — [MEDIUM] The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.
   - says: Restart the local model service when tokens stop flowing. AUTO by owner ruling (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon answered /api/tags while zero generations completed, once with no runner process and once with a runner spinning at 98% completing nothing -- and both times the only cure was a restart a person had to perform. The restart is mechanical and reversible (the tray app respawns the daemon; the resident model reloads on first call), and it is rate-limited: at most one automated restart per 30 minutes, so a deeper fault escalates to the owner instead of being restart-looped into invisibility.
 - **drill.py** `ESC.status` — [MEDIUM] returns halted status and record, but the code in the slice may not correctly handle all cases
