@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 536  ·  last run 2026-09-15 02:53
+round 537  ·  last run 2026-09-15 07:54
 
 ## Structure
 
@@ -11,8 +11,24 @@ round 536  ·  last run 2026-09-15 02:53
 
 ## What the model found in the code
 
-**40 open** (11 high). Newest first.
+**48 open** (17 high). Newest first.
 
+- **onomast.py** `load_onomasticon` — [HIGH] Returns an empty dict on FileNotFoundError and on parse errors, but the docstring says it should return the loaded onomasticon or an empty dict on error
+  - says: Return the loaded onomasticon or an empty dict on error
+- **onomast.py** `coin_well_formed` — [HIGH] Returns a name that may be malformed or already taken, and does not ensure uniqueness or well-formedness.
+  - says: First well-formed, unused name for this seed. Deterministic: same input, same output.
+- **onomast.py** `well_formed` — [HIGH] Implements seven constraints, but the docstring claims it checks four constraints and misattributes three of them.
+  - says: Is this a name a Custos could say aloud and write down twice the same way?
+- **ledger_guard.py** `seal` — [HIGH] is called without checking its return value, leading to potential silent failure
+  - says: returns None on any write failure with no exception raised
+- **hostcheck.py** `audit` — [HIGH] the audit is being filtered based on rate and judgeable flags
+  - says: the audit shortlists, a person decides.
+- **hostcheck.py** `foreign` — [HIGH] stride first, then dedupe
+  - says: dedupe first, then stride
+- **hostcheck.py** `candidates` — [HIGH] Returns the same flat `grounded + spec` list it has always returned, not promoting all grounded hosts as intended.
+  - says: Other hosts worth probing for this source, best first: grounded, then speculation.
+- **hostcheck.py** `_get` — [HIGH] Does not use feats._throttle as described in its docstring
+  - says: One API call, PACED PER HOST.
 - **genre.py** `classify_text` — [HIGH] Returns the top N genres, ranked (genre, score).
   - says: Score every genre against a body of text. Returns ALL of them, ranked (genre, score).
 - **generate.py** `failures.pop` — [HIGH] popped before the catalog entry is built
@@ -31,10 +47,12 @@ round 536  ·  last run 2026-09-15 02:53
   - says: Drive `pipeline.main()`'s phase loop over stubbed phases.
 - **completeness.py** `host_reachable` — [HIGH] returns a message about host unreachability but does not actually check reachability
   - says: checks if a host is reachable
-- **codewatch.py** `escalation.escalate` — [HIGH] escalate is called with a value that is not escalation.MANAGER
-  - says: MANAGER EITHER WAY -- see the docstring. The run guard describes; it does not rank.
-- **chain.py** `write_result` — [HIGH] only persists `names` and `strengths` if the fit was successful
-  - says: persist `names` and `strengths` whole
+- **mutate.py** `base` — [MEDIUM] baseline
+  - says: baseline
+- **hostcheck.py** `found` — [MEDIUM] store adopted hosts but not write to disk if not dry
+  - says: store adopted hosts
+- **hostcheck.py** `_land` — [MEDIUM] Used to update WIKI_HOSTS.json and print status, but the code around it suggests it's for determining if a file should be updated based on results
+  - says: Determines if a file should be updated based on the results
 - **generate.py** `silence.note` — [MEDIUM] logs a generic message without specific error details
   - says: logs the failure with a meaningful message
 - **generate.py** `generate_job` — [MEDIUM] may raise exceptions that are not properly handled or logged
@@ -87,8 +105,6 @@ round 536  ·  last run 2026-09-15 02:53
   - says: the fragment is safe
 - **drill.py** `creationflags` — [MEDIUM] sets the creation flags for the subprocess on Windows
   - says: suppresses its console window
-- **cleanup.py** `low_pref` — [MEDIUM] filter entries starting with the ceiling entity but return the shortest one as 'prefix' when there's exactly one match
-  - says: filter entries starting with the ceiling entity
 - **catalogue_aurora.py** `roll_landed` — [MEDIUM] used as a flag to determine if the roll was successfully updated, but the code does not properly handle the case where the update might have failed
   - says: COMPARE-AND-SWAP, BECAUSE ATOMIC WAS NEVER THE PROPERTY THIS NEEDED
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
