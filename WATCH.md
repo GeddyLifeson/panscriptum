@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 543  ·  last run 2026-09-15 13:50
+round 544  ·  last run 2026-09-15 14:36
 
 ## Structure
 
@@ -11,20 +11,20 @@ round 543  ·  last run 2026-09-15 13:50
 
 ## What the model found in the code
 
-**45 open** (16 high). Newest first.
+**44 open** (15 high). Newest first.
 
+- **manifest_builder.py** `feats_index.feats_for_source` — [HIGH] The code does not handle exceptions and does not produce the expected observable result when a failed lookup occurs.
+  - says: AND A FAILED LOOKUP SAYS SO, OUT LOUD. `except Exception: silence.note(...)` alone made a BUG in `feats_index` -- a KeyError on a malformed record, an AttributeError, anything -- produce the identical observable result to "this source genuinely has no attested feats": `feat_rows = []`, no Feats chapter emitted, and a build report (the prints in `main()`) that reads exactly the same as a clean run. That is Hard Rule 0's central failure, a smaller-than-real output that nothing distinguishes from a legitimately small one, sitting directly under the comment explaining that 39,862 mined feats once existed with no volume able to print one. The note is kept for the ledger; the print is what reaches the operator watching the build. Found by the run #33 sweep (batch 15).
+- **local_agent.py** `_deny_paths` — [HIGH] The code converts the denylist paths to lowercase, making the comparison case-insensitive, which may not be correct for the denylist asking of the file, not of its name.
+  - says: THE DENYLIST ASKED OF THE FILE, NOT OF ITS NAME
+- **local_agent.py** `_deny` — [HIGH] The code converts the denylist to lowercase, making the comparison case-insensitive, which may not be correct for the denylist asking of the file, not of its name.
+  - says: THE DENYLIST ASKED OF THE FILE, NOT OF ITS NAME
+- **local_agent.py** `_deny_paths` — [HIGH] The code converts the denylist paths to lowercase, making the denylist case-insensitive, which contradicts the claim that the denylist is case-sensitive.
+  - says: THE DENYLIST IS CASE-SENSITIVE AND THE FILESYSTEM IS NOT.
 - **ingest_doc.py** `write_record_catalogue` — [HIGH] it is a writer that merges and discards existing entries
   - says: this is a cast-growing writer
 - **health.py** `F.api` — [HIGH] probe a host that may have been quarantined
   - says: probe a host we are actually still talking to
-- **feats_index.py** `source_binding` — [HIGH] Returns "unknown" when the WIKI_HOSTS file is unreadable, which is not unbound.
-  - says: Why does this source have no host? -> "bound" | "pages" | "doc" | "unbound".
-- **worldseed.py** `to_fmg_query` — [HIGH] emits parameters that are not actually honoured by the generator, such as 'options' and 'width', 'height'
-  - says: Render for Azgaar, emitting ONLY what that generator actually honours.
-- **workorders.py** `for_ladder` — [HIGH] the function is called but the code does not handle the case where the queue is unreadable, instead it proceeds to check if rungs is empty and prints "no open work orders" which is incorrect for an unreadable queue
-  - says: AN UNREADABLE QUEUE IS NOT AN EMPTY ONE, AND THE DIFFERENCE IS THE WHOLE POINT (order 5d3794de8b81). Before this, a corrupt state/workorders.json reached the reader as `{}` and printed the "nothing outstanding" line below -- which `battery_faults`' own docstring records as precisely the failure this module was built to end. `_load` now raises instead, and this is where a person sees it: a named file, a named cause, and a nonzero exit so no script reads the shift as clean.
-- **workorders.py** `resolve_code` — [HIGH] is never called because the condition is always false
-  - says: resolves a code to a resolution
 - **withdraw_chapters.py** `main` — [HIGH] Returns 1 if a.go is true and bad conditions are met, else 0. This contradicts the claim that it exits 0 unconditionally.
   - says: Every refusal above was printed and discarded. The tool should exit 0 unconditionally, including when catalog write was denied.
 - **verify_math.py** `assign` — [HIGH] searches the entire module and can pick up assignments from other functions
@@ -43,26 +43,30 @@ round 543  ·  last run 2026-09-15 13:50
   - says: NEVER RAISES, FOR **ANY** OSError, not only for the denied one.
 - **silence.py** `silent` — [HIGH] what it does instead
   - says: what the code says it does
-- **genre.py** `classify_text` — [HIGH] Returns the top N genres, ranked (genre, score).
-  - says: Score every genre against a body of text. Returns ALL of them, ranked (genre, score).
+- **manifest_builder.py** `silence.replace_retry` — [MEDIUM] The function is used to replace the temporary report file with the final path, but the comment suggests it's used for retrying operations, which may not be the intended use.
+  - says: Land it through a pid+thread temp and silence.replace_retry, and report the verdict on the same footing as the manifest write instead of assuming it.
+- **magnitude.py** `anchor` — [MEDIUM] assigned based on ladder index comparison and possibly from got
+  - says: that, at the one place that knows nothing rescued it.
+- **magnitude.py** `used` — [MEDIUM] used is set to 'split' if the prompt is too long, but in the 'local' branch, it's set to 'local' even if the prompt is not too long
+  - says: used is set to 'split' if the prompt is too long, otherwise 'pool' or 'local'
+- **local_agent.py** `backup` — [MEDIUM] store a copy of the original content but then immediately overwritten by the replacement operation
+  - says: store a copy of the original content
+- **local_agent.py** `original` — [MEDIUM] read the entire content of the file but then immediately overwritten by the replacement operation
+  - says: read the entire content of the file
+- **local_agent.py** `_spellings` — [MEDIUM] The code appends the lowercase version of the real path to the spellings list, which may not be correct for the denylist asking of both spellings of the path.
+  - says: ASKED OF BOTH SPELLINGS OF THE PATH — BYPASS CLASS SEVEN
+- **local_agent.py** `modname` — [MEDIUM] modname is assigned a value based on the file extension, but the code later uses it in a case-insensitive comparison with the denylist, which may not be correct for non-python files.
+  - says: The denylist has to be answerable for NON-python files too. Match on the module name when there is one, and on the repo-relative path otherwise.
 - **ingest_doc.py** `write_record_catalogue` — [MEDIUM] the cursor may lag; it may never lead
   - says: the cursor may lag; it may never lead
 - **ingest_doc.py** `write_record_catalogue` — [MEDIUM] returns whether the rename actually landed
   - says: returns whether the rename actually landed
 - **hosts.py** `discover` — [MEDIUM] probe alternative hosts for every source but does not keep all that hold
   - says: probe alternative hosts for every source and keep all that hold
-- **hosts.py** `replace_if_unchanged` — [MEDIUM] replaces the temp file but does not handle the case where the file is unchanged and the replacement fails
-  - says: replaces the temp file if unchanged
-- **hosts.py** `add-stage` — [MEDIUM] returns None on failure and does not add the stage
-  - says: adds a stage for a host
-- **hosts.py** `hosts_for` — [MEDIUM] May include sentinel hosts like 'pages:' or 'doc:' if they are not filtered out
-  - says: Return every host this source can be, best first
 - **hosts.py** `primary_host` — [MEDIUM] Returns the primary host or None if not found, but does not handle cases where the primary host is a sentinel like 'pages:' or 'doc:'
   - says: Return the primary host for a source
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the reopen_stranded function returns a value that is None, else 0
   - says: return 1 if the reopen_stranded function returns None, else 0
-- **worldseed.py** `to_fmg_query` — [MEDIUM] to_fmg_query is supposed to generate a query string for a worldseed, but the code uses it to print a truncated URL without further processing
-  - says: to_fmg_query is supposed to generate a query string for a worldseed
 - **worldseed.py** `to_options` — [MEDIUM] to_options is supposed to generate options for a worldseed, but the code uses it to append entries to the output list without further processing
   - says: to_options is supposed to generate options for a worldseed
 - **worldseed.py** `WORLD` — [MEDIUM] The regex is supposed to find any of the specified words in the name or description, but the code checks for the absence of such words and skips entries without them
@@ -71,12 +75,8 @@ round 543  ·  last run 2026-09-15 13:50
   - says: build_all(limit=0) is supposed to return all entries without limit
 - **workorders.py** `reroute` — [MEDIUM] move an order to a different rung
   - says: reroute an order
-- **workorders.py** `resolve` — [MEDIUM] close an order
-  - says: resolve an order
 - **workorders.py** `filed.extend([])` — [MEDIUM] no-op standing where the close pass should have been
   - says: close the ones that recovered
-- **workorders.py** `path` — [MEDIUM] is assigned the value of `path` or `OPEN_FILE` but not checked for existence
-  - says: DEFAULTS TO THE LIVE `OPEN_FILE` AND EXISTS SO A READ-ONLY CALLER CAN POINT THIS AT A DISPOSABLE COPY INSTEAD
 - **withdraw_chapters.py** `_catalog_merge` — [MEDIUM] returns the remaining entries without modifying the original catalog, but the code expects it to modify the catalog
   - says: edits the catalog by removing entries whose files have been moved
 - **verify_math.py** `check` — [MEDIUM] checks that the list _unspliced36 is empty
@@ -93,8 +93,6 @@ round 543  ·  last run 2026-09-15 13:50
   - says: Builds a parent map for every node in `tree`
 - **scout.py** `seen_ok` — [MEDIUM] set to False on read failure, but may be overwritten by subsequent code
   - says: indicate if SCOUT_ATTEMPTS.json was successfully read
-- **mutate.py** `base` — [MEDIUM] baseline
-  - says: baseline
 - **foreman.py** `restart_ollama` — [MEDIUM] The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.
   - says: Restart the local model service when tokens stop flowing. AUTO by owner ruling (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon answered /api/tags while zero generations completed, once with no runner process and once with a runner spinning at 98% completing nothing -- and both times the only cure was a restart a person had to perform. The restart is mechanical and reversible (the tray app respawns the daemon; the resident model reloads on first call), and it is rate-limited: at most one automated restart per 30 minutes, so a deeper fault escalates to the owner instead of being restart-looped into invisibility.
 - **drill.py** `ESC.status` — [MEDIUM] returns halted status and record, but the code in the slice may not correctly handle all cases
