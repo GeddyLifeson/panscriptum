@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 525  ·  last run 2026-09-14 17:46
+round 526  ·  last run 2026-09-14 18:02
 
 ## Structure
 
@@ -11,16 +11,26 @@ round 525  ·  last run 2026-09-14 17:46
 
 ## What the model found in the code
 
-**6 open** (2 high). Newest first.
+**11 open** (4 high). Newest first.
 
+- **allsweep.py** `reconcile` — [HIGH] not defined in the slice
+  - says: where the subsystems disagree
+- **binding_health.py** `filtered` — [HIGH] filtered is a boolean that is True if only is truthy or limit is not None, but it is not used in any downstream decision
+  - says: WAS THIS PASS FILTERED AT ALL? Asked once, here, and used for every downstream decision
+- **binding_health.py** `return False, ("%d known-present title(s) %s all returned nothing or too little to be a page (tried: %s)" % (len(tried), _of, ` — [HIGH] it does instead
+  - says: the code says it does
 - **canon_backup.py** `replace_retry` — [HIGH] the function is called but its result is ignored, and the code proceeds to raise an exception regardless of the result
   - says: THE VERDICT IS CHECKED, WHICH IS THE HALF THAT MATTERS. `replace_retry` NEVER RAISES, by contract; it reports False.
-- **autostart.py** `installed_state` — [HIGH] not defined in this file or its imports
-  - says: returns the state of the launcher
+- **binding_health.py** `_land` — [MEDIUM] the canary results are still returned but the code does not explicitly state this
+  - says: the canary results are still returned -- the run happened
+- **binding_health.py** `_land_cas` — [MEDIUM] discards the failure and returns a default value
+  - says: deliberately RE-RAISES whatever stopped the temp copy being written
+- **backfill.py** `main` — [MEDIUM] returns 1 if failed else 0
+  - says: returns 1 if denied else 0
+- **backfill.py** `backfill_source` — [MEDIUM] not used in this context
+  - says: careful to distinguish used to die here
 - **catalogue_models.py** `last` — [MEDIUM] a single-line exception repr with type and message joined by a space
   - says: a single-line exception repr
-- **canon_backup.py** `restore` — [MEDIUM] Extracts a file from a snapshot, but the function's name and docstring imply it should extract a single file, yet the code may create a 0-byte file if the file is not present in the snapshot.
-  - says: Extract ONE canonical file from a snapshot. -> written path.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 - **feats.py** `main` — [MEDIUM] returns 0 or 1 based on the roll's success, but the comment claims it should follow the same pattern as `--hosts` and `resolve_hosts` which return 1 if _HOSTS_DENIED else 0 and exit nonzero on failure
