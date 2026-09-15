@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 532  ·  last run 2026-09-14 23:24
+round 533  ·  last run 2026-09-15 00:30
 
 ## Structure
 
@@ -8,15 +8,28 @@ round 532  ·  last run 2026-09-14 23:24
 - files that will not parse: **0** of 304,847 inspected (deep scan as of round 529)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
-- NOT RUNNING: **0** dashboard.py
 - NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**14 open** (1 high). Newest first.
+**18 open** (2 high). Newest first.
 
-- **assay.py** `assay` — [HIGH] Computes a Moth Number but does not include the M_a term
-  - says: Compute a Moth Number: 𝔄 = M_a + (sum w_i * s_i) / 10
+- **chain.py** `write_result` — [HIGH] only persists `names` and `strengths` if the fit was successful
+  - says: persist `names` and `strengths` whole
+- **catalogue_web.py** `first_cat` — [HIGH] first_cat is used to store the first category a title was found in, but the code later uses `first_cat.get(title) or canon.split(" (")` to determine the type, which may not be the actual category the title came from.
+  - says: Keyed on the RAW title, deliberately: `clean_titles` only filters and de-duplicates and `rank_by_size` only reorders, so every string that survives into `wanted` below is one of these exact strings. Nothing normalises them in between, so nothing can drift.
+- **chain.py** `changed` — [MEDIUM] Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`)
+  - says: Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`)
+- **chain.py** `live` — [MEDIUM] Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`)
+  - says: Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`)
+- **catalogue_web.py** `tally` — [MEDIUM] tally is a dictionary that is modified in a non-atomic way, leading to potential race conditions when multiple threads access it concurrently.
+  - says: Record and roll writes are serialized under a lock; a source is still written atomically, whole.
+- **cascade_bridge.py** `try_disabled` — [MEDIUM] Attempts to enable models and test them, but the code does not actually verify if they have a working key as described.
+  - says: Test models that are switched off in config but DO have a working key.
+- **cascade_bridge.py** `_bury` — [MEDIUM] a call to `_bury` is made with a bucket name, but only if the bucket is not empty and strikes are above a threshold
+  - says: a call to `_bury` is made with a bucket name
+- **cascade_bridge.py** `record_unrecognised` — [MEDIUM] record_unrecognised is called with a key and a message, but the key is derived from an unresolved bucket
+  - says: record_unrecognised is called with a key and a message
 - **catalogue_codex.py** `roll_landed` — [MEDIUM] roll_landed is used to determine if a write was denied and to decide the exit code
   - says: the code says it does not matter if the roll is updated
 - **catalogue_aurora.py** `roll_landed` — [MEDIUM] used as a flag to determine if the roll was successfully updated, but the code does not properly handle the case where the update might have failed
@@ -35,12 +48,6 @@ round 532  ·  last run 2026-09-14 23:24
   - says: audit the invariants
 - **assay.py** `floor` — [MEDIUM] the attestation floor if recognised, otherwise 0.30
   - says: the attestation floor
-- **assay.py** `_interval` — [MEDIUM] The docstring mentions two components contributing to variance, but the code may not correctly implement the variance propagation as described.
-  - says: Half-width of the honest error bar, in BAND units, by variance propagation.
-- **assay.py** `_attestation_sigma` — [MEDIUM] Returns a value that is clamped to SIGMA_MAX, but the function's name and docstring suggest it should return the dispersion and recognition status based on the attestation.
-  - says: -> (the dispersion this call will use, whether the GRADE was recognised).
-- **assay.py** `_rho` — [MEDIUM] Delegates to `axis_correlation.rho`, which may not be the same as the measured correlation between two Measures as described in the docstring.
-  - says: Measured correlation between two Measures. -> float in [-1, 1].
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
