@@ -1,5 +1,5 @@
 {
- "at": "2026-09-15 16:11:24",
+ "at": "2026-09-15 16:21:43",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,18 +228,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 205,
+     "left": 201,
      "cap": 1000,
-     "frac": 0.205
+     "frac": 0.201
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.205
+   "worst": 0.201
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -308,9 +308,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 3,
+     "left": 0,
      "cap": 312,
-     "frac": 0.0096
+     "frac": 0.0
     },
     {
      "name": "tpd",
@@ -331,7 +331,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0096
+   "worst": 0.0
   },
   {
    "bucket": "groq:openai/gpt-oss-120b",
@@ -346,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 128078,
+     "left": 127211,
      "cap": 200000,
-     "frac": 0.6404
+     "frac": 0.6361
     },
     {
      "name": "rpm",
@@ -373,14 +373,14 @@
     {
      "name": "rpd",
      "left": 0,
-     "cap": 314,
+     "cap": 310,
      "frac": 0.0
     },
     {
      "name": "tpd",
-     "left": 53267,
+     "left": 53227,
      "cap": 100000,
-     "frac": 0.5327
+     "frac": 0.5323
     },
     {
      "name": "rpm",
@@ -404,9 +404,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 874,
+     "left": 875,
      "cap": 1000,
-     "frac": 0.874
+     "frac": 0.875
     },
     {
      "name": "tpd",
@@ -427,7 +427,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.874
+   "worst": 0.875
   },
   {
    "bucket": "huggingface:free",
@@ -678,9 +678,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 1,
+     "left": 0,
      "cap": 300,
-     "frac": 0.0033
+     "frac": 0.0
     },
     {
      "name": "rpm",
@@ -689,7 +689,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0033
+   "worst": 0.0
   },
   {
    "bucket": "together:free",
@@ -718,67 +718,67 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 104,
+     "left": 99,
      "cap": 500,
-     "frac": 0.208
+     "frac": 0.198
     },
     {
      "name": "rpm",
-     "left": 2,
+     "left": 1,
      "cap": 2,
-     "frac": 1.0
+     "frac": 0.5
     }
    ],
-   "worst": 0.208
+   "worst": 0.198
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 46,
-  "per_hour": 184,
+  "calls": 47,
+  "per_hour": 188,
   "buckets": [
    {
     "bucket": "ollama:qwen3:8b",
-    "calls": 15,
+    "calls": 14,
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 8,
+    "ok": 1
+   },
+   {
+    "bucket": "zai:free",
+    "calls": 6,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 10,
-    "ok": 0
-   },
-   {
-    "bucket": "zai:free",
-    "calls": 8,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "sambanova:free",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 2,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 1,
+    "calls": 5,
     "ok": 0
    },
    {
     "bucket": "groq:groq/compound-mini",
-    "calls": 1,
+    "calls": 5,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
+    "calls": 4,
+    "ok": 1
+   },
+   {
+    "bucket": "sambanova:free",
+    "calls": 3,
+    "ok": 0
+   },
+   {
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 1,
+    "ok": 0
+   },
+   {
+    "bucket": "openrouter:free",
     "calls": 1,
     "ok": 0
    }
@@ -798,11 +798,11 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 115200,
+   "done": 115400,
    "total": 282740,
-   "detail": "151,712 pages  \u00b7  1474M characters  \u00b7  16.6/s",
+   "detail": "151,929 pages  \u00b7  1476M characters  \u00b7  12.7/s",
    "warn": "",
-   "eta_h": 2.8
+   "eta_h": 3.7
   }
  ],
  "library": {
@@ -819,7 +819,7 @@
    "read": 218265,
    "settled": 244968,
    "feats": 153065,
-   "age_h": 2.4
+   "age_h": 2.6
   },
   "phases": [
    {
@@ -858,8 +858,8 @@
   "readfeats": 3335
  },
  "watch": {
-  "open": 19,
-  "high": 9,
+  "open": 41,
+  "high": 14,
   "rounds": 545,
   "findings": [
    {
@@ -893,6 +893,18 @@
     "severity": "medium"
    },
    {
+    "module": "ingest_doc",
+    "symbol": "write_record_catalogue",
+    "actual": "it is a writer that merges and discards existing entries",
+    "severity": "high"
+   },
+   {
+    "module": "ingest_doc",
+    "symbol": "write_record_catalogue",
+    "actual": "returns whether the rename actually landed",
+    "severity": "medium"
+   },
+   {
     "module": "overnight",
     "symbol": "blocking",
     "actual": "The variable 'blocking' is assigned the value of checking if the output contains the string 'FAIL  ' + _control_label, but the comment indicates that the original logic was based on two substrings from health.py's console output, which is now replaced by a label from health.CHECKS. The actual implementation uses a label from health.CHECKS, which may not match the original intended behavior.",
@@ -911,9 +923,39 @@
     "severity": "high"
    },
    {
+    "module": "local_agent",
+    "symbol": "original",
+    "actual": "read the entire content of the file but then immediately overwritten by the replacement operation",
+    "severity": "medium"
+   },
+   {
+    "module": "ingest_doc",
+    "symbol": "write_record_catalogue",
+    "actual": "the cursor may lag; it may never lead",
+    "severity": "medium"
+   },
+   {
+    "module": "magnitude",
+    "symbol": "used",
+    "actual": "used is set to 'split' if the prompt is too long, but in the 'local' branch, it's set to 'local' even if the prompt is not too long",
+    "severity": "medium"
+   },
+   {
     "module": "silence",
     "symbol": "replace_retry",
     "actual": "some faults are grouped under the same name",
+    "severity": "medium"
+   },
+   {
+    "module": "manifest_builder",
+    "symbol": "feats_index.feats_for_source",
+    "actual": "The code does not handle exceptions and does not produce the expected observable result when a failed lookup occurs.",
+    "severity": "high"
+   },
+   {
+    "module": "local_agent",
+    "symbol": "modname",
+    "actual": "modname is assigned a value based on the file extension, but the code later uses it in a case-insensitive comparison with the denylist, which may not be correct for non-python files.",
     "severity": "medium"
    },
    {
@@ -923,9 +965,33 @@
     "severity": "high"
    },
    {
+    "module": "local_agent",
+    "symbol": "backup",
+    "actual": "store a copy of the original content but then immediately overwritten by the replacement operation",
+    "severity": "medium"
+   },
+   {
+    "module": "magnitude",
+    "symbol": "anchor",
+    "actual": "assigned based on ladder index comparison and possibly from got",
+    "severity": "medium"
+   },
+   {
     "module": "verify_math",
     "symbol": "call_idxs",
     "actual": "uses a substring search on the source code which can be fooled by comments",
+    "severity": "high"
+   },
+   {
+    "module": "local_agent",
+    "symbol": "_deny_paths",
+    "actual": "The code converts the denylist paths to lowercase, making the denylist case-insensitive, which contradicts the claim that the denylist is case-sensitive.",
+    "severity": "high"
+   },
+   {
+    "module": "local_agent",
+    "symbol": "_deny_paths",
+    "actual": "The code converts the denylist paths to lowercase, making the comparison case-insensitive, which may not be correct for the denylist asking of the file, not of its name.",
     "severity": "high"
    },
    {
@@ -933,6 +999,12 @@
     "symbol": "priority",
     "actual": "returns only rows with own > 0 or chars >= 2000",
     "severity": "high"
+   },
+   {
+    "module": "hosts",
+    "symbol": "primary_host",
+    "actual": "Returns the primary host or None if not found, but does not handle cases where the primary host is a sentinel like 'pages:' or 'doc:'",
+    "severity": "medium"
    },
    {
     "module": "verify_math",
@@ -953,9 +1025,45 @@
     "severity": "high"
    },
    {
+    "module": "worldseed",
+    "symbol": "build_all",
+    "actual": "build_all(limit=0) returns an empty list because the limit check is triggered immediately",
+    "severity": "medium"
+   },
+   {
+    "module": "withdraw_chapters",
+    "symbol": "_catalog_merge",
+    "actual": "returns the remaining entries without modifying the original catalog, but the code expects it to modify the catalog",
+    "severity": "medium"
+   },
+   {
+    "module": "local_agent",
+    "symbol": "_deny",
+    "actual": "The code converts the denylist to lowercase, making the comparison case-insensitive, which may not be correct for the denylist asking of the file, not of its name.",
+    "severity": "high"
+   },
+   {
     "module": "foreman",
     "symbol": "restart_ollama",
     "actual": "The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.",
+    "severity": "medium"
+   },
+   {
+    "module": "worldseed",
+    "symbol": "WORLD",
+    "actual": "The regex is supposed to find any of the specified words in the name or description, but the code checks for the absence of such words and skips entries without them",
+    "severity": "medium"
+   },
+   {
+    "module": "workorders",
+    "symbol": "reroute",
+    "actual": "move an order to a different rung",
+    "severity": "medium"
+   },
+   {
+    "module": "local_agent",
+    "symbol": "_spellings",
+    "actual": "The code appends the lowercase version of the real path to the spellings list, which may not be correct for the denylist asking of both spellings of the path.",
     "severity": "medium"
    },
    {
@@ -975,6 +1083,30 @@
     "symbol": "BG.burgs_for",
     "actual": "the k-th burg holds P1/k, but the value is clamped to the hamlet floor, which is incorrectly spelled as int(_bs[0][\"population\"] / 10) instead of BG.HAMLET_FLOOR",
     "severity": "high"
+   },
+   {
+    "module": "manifest_builder",
+    "symbol": "silence.replace_retry",
+    "actual": "The function is used to replace the temporary report file with the final path, but the comment suggests it's used for retrying operations, which may not be the intended use.",
+    "severity": "medium"
+   },
+   {
+    "module": "hosts",
+    "symbol": "discover",
+    "actual": "probe alternative hosts for every source but does not keep all that hold",
+    "severity": "medium"
+   },
+   {
+    "module": "worldseed",
+    "symbol": "to_options",
+    "actual": "to_options is supposed to generate options for a worldseed, but the code uses it to append entries to the output list without further processing",
+    "severity": "medium"
+   },
+   {
+    "module": "workorders",
+    "symbol": "filed.extend([])",
+    "actual": "no-op standing where the close pass should have been",
+    "severity": "medium"
    }
   ],
   "broken": [],
@@ -1057,43 +1189,43 @@
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 743,
-   "p50": 2.3,
-   "p95": 75.9,
-   "ok_pct": 14,
+   "n": 730,
+   "p50": 2.1,
+   "p95": 76.0,
+   "ok_pct": 12,
    "tps": null
   },
   {
    "tag": "overwatch",
-   "n": 431,
+   "n": 444,
    "p50": 4.1,
-   "p95": 117.7,
+   "p95": 111.3,
    "ok_pct": null,
-   "tps": 30.8
+   "tps": 30.9
   },
   {
    "tag": "entrypass",
-   "n": 164,
+   "n": 169,
    "p50": 54.8,
-   "p95": 494.3,
+   "p95": 466.2,
    "ok_pct": null,
    "tps": 19.4
   },
   {
-   "tag": "ask",
-   "n": 127,
-   "p50": 66.7,
-   "p95": 505.7,
+   "tag": "assay-split",
+   "n": 126,
+   "p50": 144.2,
+   "p95": 814.3,
    "ok_pct": null,
-   "tps": 23.4
+   "tps": 24.3
   },
   {
-   "tag": "assay-split",
-   "n": 121,
-   "p50": 139.3,
-   "p95": 797.9,
+   "tag": "ask",
+   "n": 123,
+   "p50": 66.7,
+   "p95": 459.3,
    "ok_pct": null,
-   "tps": 24.4
+   "tps": 23.3
   },
   {
    "tag": "assay-local",
@@ -1123,7 +1255,7 @@
    "breached": [],
    "liveness": 47,
    "liveness_ceiling": 52,
-   "age_min": 142.0
+   "age_min": 152.3
   },
   "escalation_recent": {
    "JANITOR": 16,
@@ -1155,7 +1287,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 184,
+   "observed": 188,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1173,7 +1305,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "19% dry",
+   "observed": "25% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1191,7 +1323,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "0% ok of 46",
+   "observed": "4% ok of 47",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1200,7 +1332,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": false,
-   "observed": "local, 1 of 16 permits (2 answering; 0% ok over 46 calls; ollama up)",
+   "observed": "local, 1 of 16 permits (2 answering; 4% ok over 47 calls; ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1236,7 +1368,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": false,
-   "observed": "5.2%, stuck at 21502 chunks for 124 min",
+   "observed": "5.2%, stuck at 21502 chunks for 134 min",
    "floor": "moving, or under 15 min quiet",
    "order": "The chunk counter has not moved. If it reads 0.0%%, no chunk has completed at all -- check that read.py printed its transport banner and that the queue is not empty. If it is stuck at a non-zero count, the reader is up and wedged: look at the pool standards above and at the failure ledger before restarting it, because a restart re-queues the chunk it is stuck on.",
    "severity": "high"
@@ -1254,7 +1386,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "2.4h",
+   "observed": "2.6h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1290,7 +1422,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 9,
+   "observed": 14,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1380,7 +1512,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 3 of 6 benchmarks done, started 0.8h ago -- pending: Naruto Uzumaki, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 4 of 6 benchmarks done, started 1.0h ago -- pending: Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1416,7 +1548,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": false,
-   "observed": "16.3h",
+   "observed": "16.4h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1443,7 +1575,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "read_auto (21 min, 2387277 bytes), roll_auto (21 min, 3507523 bytes)",
+   "observed": "read_auto (31 min, 2387277 bytes)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1452,7 +1584,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "ovh:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `ovh:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ovh:free` is at fault. (x3, 0.2h old); chutes:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `chutes:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `chutes:free` is at fault. (x6, 0.2h old); deepinfra:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `deepinfra:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `deepinfra:free` is at fault. (x4, 1.5h old); anthropic:paid: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x3, 3.8h old); groq:openai/gpt-oss-120b: unparseable reply (1 consecutive from this bucket): {\"feats\":[{\"sentence\":\"Changes forms.\",\"axis\":\" (x1, 15.1h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x67, 17.3h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Let me analyze each entry carefully: [0] Inner Guard (Earth-616) - Organization: Private robot bodyguards of Madame Masque, destroyed in battle with Avengers. This is a group/organization. Category 4 (Factions). Topic: Factions. No scale no (x1, 18.1h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Let me analyze each entry carefully. [0] Kamekeri (Earth-616) - Organization type, but described as \"people from the Incan tribes\" who lived in Costa Verde and worshiped gods. This is a people/race, not an organization. Category 8 (Peoples  (x1, 18.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1002. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 19.0h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze each entry carefully. [0] Curators (type: Organization): Robotic creatures created by the Builders to help shape the universe. They are tasked with vigilance of the Builders' creations. - Category: 4 (Factions) - they are a g (x1, 19.2h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze Goku's feats to determine his anchor band. The key question: What scale of conflict can Goku DECIDE? Looking at the feats: - [18] Destroying Kamioren with a punch to its core - this is a massive foe, but what scale is Kamiore (x1, 19.6h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze Monkey D. Luffy in his Gear Five / Awakened Nika state. STEP 1: ANCHOR The question is: what scale of conflict can Luffy DECIDE? Looking at the evidence: - [10] \"With a single, enhanced Gear 4 punch, Luffy was capable of obli (x1, 20.8h old)",
+   "observed": "ovh:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `ovh:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ovh:free` is at fault. (x3, 0.4h old); chutes:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `chutes:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `chutes:free` is at fault. (x6, 0.4h old); deepinfra:free: All 1 candidates failed: GLM 4.7 Flash (Z.AI) -- NOTE: the pinned bucket `deepinfra:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `deepinfra:free` is at fault. (x4, 1.7h old); anthropic:paid: All 1 candidates failed: Gemini 3.1 Flash-Lite -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x3, 4.0h old); groq:openai/gpt-oss-120b: unparseable reply (1 consecutive from this bucket): {\"feats\":[{\"sentence\":\"Changes forms.\",\"axis\":\" (x1, 15.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x67, 17.4h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Let me analyze each entry carefully: [0] Inner Guard (Earth-616) - Organization: Private robot bodyguards of Madame Masque, destroyed in battle with Avengers. This is a group/organization. Category 4 (Factions). Topic: Factions. No scale no (x1, 18.2h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Let me analyze each entry carefully. [0] Kamekeri (Earth-616) - Organization type, but described as \"people from the Incan tribes\" who lived in Costa Verde and worshiped gods. This is a people/race, not an organization. Category 8 (Peoples  (x1, 18.8h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1002. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 19.2h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze each entry carefully. [0] Curators (type: Organization): Robotic creatures created by the Builders to help shape the universe. They are tasked with vigilance of the Builders' creations. - Category: 4 (Factions) - they are a g (x1, 19.3h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze Goku's feats to determine his anchor band. The key question: What scale of conflict can Goku DECIDE? Looking at the feats: - [18] Destroying Kamioren with a punch to its core - this is a massive foe, but what scale is Kamiore (x1, 19.7h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze Monkey D. Luffy in his Gear Five / Awakened Nika state. STEP 1: ANCHOR The question is: what scale of conflict can Luffy DECIDE? Looking at the evidence: - [10] \"With a single, enhanced Gear 4 punch, Luffy was capable of obli (x1, 20.9h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1461,7 +1593,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 172.66.2.166",
+   "observed": "reachable over IPv4 at 162.159.142.170",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1607,5 +1739,5 @@
    "stalled": true
   }
  ],
- "generated": "2026-09-15T16:11:35"
+ "generated": "2026-09-15T16:21:53"
 }
