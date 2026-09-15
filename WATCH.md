@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 548  ·  last run 2026-09-15 18:17
+round 549  ·  last run 2026-09-15 18:47
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 548  ·  last run 2026-09-15 18:17
 
 ## What the model found in the code
 
-**24 open** (6 high). Newest first.
+**20 open** (5 high). Newest first.
 
 - **weave.py** `null_threshold` — [HIGH] Calculates a permutation null based on IDF weights, but the function is marked as superseded and not called anywhere
   - says: Permutation null: what pair weight arises purely by chance?
@@ -23,8 +23,6 @@ round 548  ·  last run 2026-09-15 18:17
   - says: The context window served by the runner holding THIS project's model.
 - **health.py** `F.api` — [HIGH] probe a host that may have been quarantined
   - says: probe a host we are actually still talking to
-- **withdraw_chapters.py** `main` — [HIGH] Returns 1 if a.go is true and bad conditions are met, else 0. This contradicts the claim that it exits 0 unconditionally.
-  - says: Every refusal above was printed and discarded. The tool should exit 0 unconditionally, including when catalog write was denied.
 - **whoruns.py** `hits` — [MEDIUM] the result of the running function which may return None
   - says: count a same-named script running out of ANY tree
 - **weave_index.py** `cacheable` — [MEDIUM] cacheable is set to True when records is None, but the code later uses it to determine whether to use the cached designation
@@ -47,12 +45,6 @@ round 548  ·  last run 2026-09-15 18:17
   - says: probe alternative hosts for every source and keep all that hold
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the reopen_stranded function returns a value that is None, else 0
   - says: return 1 if the reopen_stranded function returns None, else 0
-- **worldseed.py** `to_options` — [MEDIUM] to_options is supposed to generate options for a worldseed, but the code uses it to append entries to the output list without further processing
-  - says: to_options is supposed to generate options for a worldseed
-- **workorders.py** `reroute` — [MEDIUM] move an order to a different rung
-  - says: reroute an order
-- **workorders.py** `filed.extend([])` — [MEDIUM] no-op standing where the close pass should have been
-  - says: close the ones that recovered
 - **foreman.py** `restart_ollama` — [MEDIUM] The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.
   - says: Restart the local model service when tokens stop flowing. AUTO by owner ruling (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon answered /api/tags while zero generations completed, once with no runner process and once with a runner spinning at 98% completing nothing -- and both times the only cure was a restart a person had to perform. The restart is mechanical and reversible (the tray app respawns the daemon; the resident model reloads on first call), and it is rate-limited: at most one automated restart per 30 minutes, so a deeper fault escalates to the owner instead of being restart-looped into invisibility.
 - **drill.py** `ESC.status` — [MEDIUM] returns halted status and record, but the code in the slice may not correctly handle all cases
