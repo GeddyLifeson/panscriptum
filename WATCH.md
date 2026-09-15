@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 542  ·  last run 2026-09-15 13:22
+round 543  ·  last run 2026-09-15 13:50
 
 ## Structure
 
@@ -11,8 +11,12 @@ round 542  ·  last run 2026-09-15 13:22
 
 ## What the model found in the code
 
-**38 open** (14 high). Newest first.
+**45 open** (16 high). Newest first.
 
+- **ingest_doc.py** `write_record_catalogue` — [HIGH] it is a writer that merges and discards existing entries
+  - says: this is a cast-growing writer
+- **health.py** `F.api` — [HIGH] probe a host that may have been quarantined
+  - says: probe a host we are actually still talking to
 - **feats_index.py** `source_binding` — [HIGH] Returns "unknown" when the WIKI_HOSTS file is unreadable, which is not unbound.
   - says: Why does this source have no host? -> "bound" | "pages" | "doc" | "unbound".
 - **worldseed.py** `to_fmg_query` — [HIGH] emits parameters that are not actually honoured by the generator, such as 'options' and 'width', 'height'
@@ -41,6 +45,22 @@ round 542  ·  last run 2026-09-15 13:22
   - says: what the code says it does
 - **genre.py** `classify_text` — [HIGH] Returns the top N genres, ranked (genre, score).
   - says: Score every genre against a body of text. Returns ALL of them, ranked (genre, score).
+- **ingest_doc.py** `write_record_catalogue` — [MEDIUM] the cursor may lag; it may never lead
+  - says: the cursor may lag; it may never lead
+- **ingest_doc.py** `write_record_catalogue` — [MEDIUM] returns whether the rename actually landed
+  - says: returns whether the rename actually landed
+- **hosts.py** `discover` — [MEDIUM] probe alternative hosts for every source but does not keep all that hold
+  - says: probe alternative hosts for every source and keep all that hold
+- **hosts.py** `replace_if_unchanged` — [MEDIUM] replaces the temp file but does not handle the case where the file is unchanged and the replacement fails
+  - says: replaces the temp file if unchanged
+- **hosts.py** `add-stage` — [MEDIUM] returns None on failure and does not add the stage
+  - says: adds a stage for a host
+- **hosts.py** `hosts_for` — [MEDIUM] May include sentinel hosts like 'pages:' or 'doc:' if they are not filtered out
+  - says: Return every host this source can be, best first
+- **hosts.py** `primary_host` — [MEDIUM] Returns the primary host or None if not found, but does not handle cases where the primary host is a sentinel like 'pages:' or 'doc:'
+  - says: Return the primary host for a source
+- **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the reopen_stranded function returns a value that is None, else 0
+  - says: return 1 if the reopen_stranded function returns None, else 0
 - **worldseed.py** `to_fmg_query` — [MEDIUM] to_fmg_query is supposed to generate a query string for a worldseed, but the code uses it to print a truncated URL without further processing
   - says: to_fmg_query is supposed to generate a query string for a worldseed
 - **worldseed.py** `to_options` — [MEDIUM] to_options is supposed to generate options for a worldseed, but the code uses it to append entries to the output list without further processing
@@ -75,12 +95,6 @@ round 542  ·  last run 2026-09-15 13:22
   - says: indicate if SCOUT_ATTEMPTS.json was successfully read
 - **mutate.py** `base` — [MEDIUM] baseline
   - says: baseline
-- **foreman.py** `codewatch.exit_if_stale` — [MEDIUM] checks if the code is stale and exits if it is, but the comment says it's for picking up code changes
-  - says: PICK UP CODE CHANGES
-- **foreman.py** `lines_changed` — [MEDIUM] measures the number of lines changed using difflib, which is correct
-  - says: LINES CHANGED, not the difference in line COUNT. This gate is the one the module docstring sells as bounding how much of a function a model rewrite may touch, and it was measuring `abs(len(new) - len(old))` -- a net total. A rewrite that replaced every line of an 80-line function and happened to land on 82 lines scored `delta = 2` and passed a gate meant to stop exactly that. The message said "patch changes 2 lines", which was false.
-- **foreman.py** `restart_ollama` — [MEDIUM] return a tuple indicating success or failure
-  - says: restart the local model
 - **foreman.py** `restart_ollama` — [MEDIUM] The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.
   - says: Restart the local model service when tokens stop flowing. AUTO by owner ruling (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon answered /api/tags while zero generations completed, once with no runner process and once with a runner spinning at 98% completing nothing -- and both times the only cure was a restart a person had to perform. The restart is mechanical and reversible (the tray app respawns the daemon; the resident model reloads on first call), and it is rate-limited: at most one automated restart per 30 minutes, so a deeper fault escalates to the owner instead of being restart-looped into invisibility.
 - **drill.py** `ESC.status` — [MEDIUM] returns halted status and record, but the code in the slice may not correctly handle all cases
