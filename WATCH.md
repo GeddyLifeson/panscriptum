@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 538  ·  last run 2026-09-15 10:33
+round 539  ·  last run 2026-09-15 11:04
 
 ## Structure
 
@@ -8,11 +8,24 @@ round 538  ·  last run 2026-09-15 10:33
 - files that will not parse: **0** of 304,914 inspected (deep scan as of round 535)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
+- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**48 open** (15 high). Newest first.
+**54 open** (19 high). Newest first.
 
+- **scout.py** `sweep` — [HIGH] Scouts the hostless sources, but the ordering logic is flawed and the limit parameter is misinterpreted as a filter rather than a rate limiter.
+  - says: Scout the hostless sources, oldest attempt first. -> [result].
+- **scout.py** `verify` — [HIGH] A page is judged against the first 25 names catalogued under the source
+  - says: A page is judged against every name catalogued under the source
+- **read.py** `codewatch.exit_if_stale` — [HIGH] exits the process if stale, which is not what the comment says it does
+  - says: check between passes whether src/ has changed under this process (rc=17)
+- **read.py** `_chunk_get` — [HIGH] is called directly, bypassing the router and using the local GPU unconditionally
+  - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline.
+- **publish.py** `sync_tree` — [HIGH] Deletes files not in 'wanted' and removes entire directories not in 'COPY_DIRS' or 'EXPORT_OWN_DIRS', effectively pruning the entire export copy
+  - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
+- **publish.py** `_scrub` — [HIGH] scrubs values but not keys in dictionaries, and does not handle tuple and set elements properly
+  - says: refuses anything credential-shaped even if a future edit puts one in the state dict by accident
 - **policy.py** `ev_unreadable` — [HIGH] A RECORD THAT COULD NOT BE READ IS A PASS
   - says: A RECORD THAT COULD NOT BE READ IS NOT A PASS
 - **onomast.py** `load_onomasticon` — [HIGH] Returns an empty dict on FileNotFoundError and on parse errors, but the docstring says it should return the loaded onomasticon or an empty dict on error
@@ -39,10 +52,14 @@ round 538  ·  last run 2026-09-15 10:33
   - says: is used to refer to the Escalation module
 - **drill.py** `paid_access_stays_switched_off` — [HIGH] returns True when the config file is absent or unreadable, which could allow paid access if the config is missing or corrupted
   - says: allow_paid is owner-held. Nothing automatic may switch it on.
-- **drill.py** `PL.phase_write` — [HIGH] Calls a function that does not exist in the current context, leading to potential errors or unexpected behavior.
-  - says: Drive `pipeline.main()`'s phase loop over stubbed phases.
-- **drill.py** `PL.phase_entrypass` — [HIGH] Calls a function that does not exist in the current context, leading to potential errors or unexpected behavior.
-  - says: Drive `pipeline.main()`'s phase loop over stubbed phases.
+- **scout.py** `seen_ok` — [MEDIUM] set to False on read failure, but may be overwritten by subsequent code
+  - says: indicate if SCOUT_ATTEMPTS.json was successfully read
+- **scout.py** `seen` — [MEDIUM] store a dictionary of seen sources, but may be overwritten by a failed read
+  - says: store the contents of SCOUT_ATTEMPTS.json
+- **rosetta.py** `check` — [MEDIUM] The function is called with by_host=by_host, but the actual implementation of check may not enforce host-scoping as described in the comment. The comment suggests that the check should only match assays on the same wiki, but the code may not be doing that.
+  - says: HOST-SCOPED, off ASSAYS.json's own `host|Name` keys (order 0bba50a6d76b): a scale row can only be vouched for by an assay recorded on that same wiki. This is also what makes the check match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
+- **publish.py** `snapshot` — [MEDIUM] overwrites `s['standards']` with an empty list and sets `s['standards_unavailable']` with error details
+  - says: handle standards check failures gracefully
 - **prose_gate.py** `assert_gate_open` — [MEDIUM] Calls gate_open
   - says: Layer 2. The TOOL's own refusal, independent of whoever started it.
 - **prose_gate.py** `step4_gate_open` — [MEDIUM] Calls gate_open
@@ -99,10 +116,6 @@ round 538  ·  last run 2026-09-15 10:33
   - says: THE JANITOR'S RUNG REPORTS WHETHER IT ACTUALLY TOOK THE ALARM DOWN.
 - **drill.py** `F.fetch` — [MEDIUM] replaced with a stub that returns an empty dict
   - says: called `feats.fetch(host, [title])` WITHOUT the `outcome=` dict
-- **drill.py** `generate_failures_save_keeps_a_concurrent_runs_rows` — [MEDIUM] The function tests that generate.py does not write failures.json as a whole, but the code in the function does not actually perform this check; it only collects problems and does not enforce the behavior.
-  - says: generate.py must land only its own failures.json changes, merged into the file as it is NOW -- the sibling of the catalog net above, for order ec8b8b35e521.
-- **drill.py** `hosts_add_keeps_a_host_another_writer_landed_in_the_gap` — [MEDIUM] The function is named to imply a race condition scenario but the code does not implement any concurrency mechanisms or race condition handling. The code only sets up variables but does not perform any operations that would trigger the described race condition.
-  - says: A rival writer lands its host AFTER `add()` has read the map and BEFORE `add()` writes. Without compare-and-swap the rival's host is overwritten and both callers believe they succeeded.
 - **drill.py** `read_frag` — [MEDIUM] the fragment is not safe
   - says: the fragment is safe
 - **catalogue_aurora.py** `roll_landed` — [MEDIUM] used as a flag to determine if the roll was successfully updated, but the code does not properly handle the case where the update might have failed
