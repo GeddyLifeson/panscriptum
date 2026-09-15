@@ -286,58 +286,97 @@ def raw_url(host, title):
     return f"https://{host}{d['path']}?{q}"
 
 
-def fetch_raw(host, titles, workers=2):
-    """{title: wikitext} for a raw-only host, one request per title.
+def fetch_raw_verdict(host, titles, workers=2):
+    """(texts, tally) for a raw-only host -- the verdict form of `fetch_raw`, below.
+
+    `fetch_raw` swallows every per-title outcome inside its `one(t)` closure -- an HTTPError, a
+    404/410, any other Exception, a 200-with-HTML block page -- and returns only the titles that
+    were found. That makes a host that REFUSES every probed title (blocked, throttled, an HTML
+    interstitial) return the identical `{}` a host that is genuinely up and simply holds none of
+    them would return: total refusal and honest absence are indistinguishable to any caller that
+    only sees the dict. (order 5b99ff000325, run #59; the gap was named but not fixed in run #58
+    -- see `hostcheck.probe()`.)
+
+    `tally` is the missing signal, never the dict's shape: `{"probed", "found", "not_found",
+    "refused", "errored"}`, where
+
+        not_found  -- HTTP 404/410. The page genuinely is not there.
+        refused    -- any other HTTPError, OR a 200 whose body is an HTML block/login/captcha
+                      page in place of wikitext.
+        errored    -- anything else (URLError, timeout, DNS failure, no usable RAW url for this
+                      host at all).
 
     Deliberately few workers. A wiki that closed its API did so to reduce load, and answering
     that by opening eight connections would be both rude and a fast route to being blocked
     outright — which would turn a slow source into a dead one.
+
+    `fetch_raw`'s own signature and return contract are UNCHANGED by this -- it is a thin wrapper
+    below that discards the tally, so every existing caller (feats.py, hostcheck.py's
+    `_bodies()`) reads exactly what it always read. Only a caller that asks for the verdict form
+    by name sees the counts.
     """
     from concurrent.futures import ThreadPoolExecutor
-    out = {}
+    texts = {}
+    tally = {"probed": 0, "found": 0, "not_found": 0, "refused": 0, "errored": 0}
 
     def one(t):
         url = raw_url(host, t)
         if not url:
-            return t, None
+            # The host stopped being RAW mode between `detect()` and this call (a concurrent
+            # `_save()` landed a fresher verdict) -- not a real request, so it cannot be "not
+            # found" or "refused". `errored` is the honest bucket: nothing about this title was
+            # actually tested.
+            return t, None, "errored"
         try:
             body = _get(url, timeout=40)
         except urllib.error.HTTPError as e:
-            # A REFUSAL IS NOT AN ABSENCE. This returned None for every HTTP status, so a 403,
-            # a 429 or a 500 reached the caller as the exact same answer a genuine 404 gives --
-            # "this page does not exist" -- and a rate-limit during a raw pass was therefore
-            # filed as permanent absence. Same failure family as wiki_source.page_text()'s
-            # abandon-on-first-error: a transient wearing the face of settled fact.
-            #
-            # The signature is unchanged (callers in feats.py and hostcheck.py read only
-            # presence), so the fix is to make the two cases legible in the ledger, where the
-            # counts are what tell a real block apart from a wiki that simply lacks the page.
-            # 404/410 are the only statuses that actually mean "not here". (BUGS m15.)
+            # A REFUSAL IS NOT AN ABSENCE. This used to return None for every HTTP status, so a
+            # 403, a 429 or a 500 reached the caller as the exact same answer a genuine 404
+            # gives -- "this page does not exist" -- and a rate-limit during a raw pass was
+            # therefore filed as permanent absence. Same failure family as
+            # wiki_source.page_text()'s abandon-on-first-error: a transient wearing the face of
+            # settled fact. 404/410 are the only statuses that actually mean "not here". (BUGS
+            # m15.)
             if getattr(e, "code", None) in (404, 410):
                 silence.note("endpoint.py:fetch_raw-absent")
-            else:
-                silence.note("endpoint.py:fetch_raw-refused-%s" % getattr(e, "code", "?"))
-            return t, None
+                return t, None, "not_found"
+            silence.note("endpoint.py:fetch_raw-refused-%s" % getattr(e, "code", "?"))
+            return t, None, "refused"
         except Exception:
             silence.note("endpoint.py:fetch_raw")
-            return t, None
+            return t, None, "errored"
         if not body or body.lstrip().lower().startswith(("<!doctype", "<html")):
-            # AND THE 200 THAT IS ALSO A REFUSAL. Twelve lines above, every HTTP status class is
-            # noted so the counts can tell a block apart from a missing page -- and then this
-            # branch, which catches the block page, the captcha and the login wall that all
-            # answer 200 with HTML where raw wikitext was asked for, returned None with no
-            # ledger entry at all. That is the same "a transient wearing the face of settled
-            # fact" this handler exists to end, and it is the case that matters most: a
-            # host-wide block is invisible unless the counts show it. (order c474d4cbd6dc)
+            # AND THE 200 THAT IS ALSO A REFUSAL. Every HTTP status class is noted above so the
+            # counts can tell a block apart from a missing page -- and this branch, which catches
+            # the block page, the captcha and the login wall that all answer 200 with HTML where
+            # raw wikitext was asked for, used to return None with no ledger entry at all. That
+            # is the same "a transient wearing the face of settled fact" this handler exists to
+            # end, and it is the case that matters most: a host-wide block is invisible unless
+            # the counts show it. (order c474d4cbd6dc)
             silence.note("endpoint.py:fetch_raw-html-body")
-            return t, None
-        return t, body
+            return t, None, "refused"
+        return t, body, "found"
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        for t, body in ex.map(one, titles):
+        for t, body, verdict in ex.map(one, titles):
+            tally["probed"] += 1
+            tally[verdict] += 1
             if body:
-                out[t] = body
-    return out
+                texts[t] = body
+    return texts, tally
+
+
+def fetch_raw(host, titles, workers=2):
+    """{title: wikitext} for a raw-only host, one request per title.
+
+    THIN WRAPPER OVER `fetch_raw_verdict`, ABOVE. This function's return contract is unchanged --
+    a dict of found titles only, nothing else -- so no existing caller (feats.py, hostcheck.py)
+    needs to change. A caller that needs to tell a total refusal apart from a genuine absence
+    should call `fetch_raw_verdict` directly for its tally instead of reading anything into this
+    function's `{}`.
+    """
+    texts, _tally = fetch_raw_verdict(host, titles, workers=workers)
+    return texts
 
 
 def main():

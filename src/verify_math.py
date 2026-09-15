@@ -13,6 +13,10 @@ import math
 import os
 import sys
 
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 # `--help` DESCRIBES THIS MODULE; IT DOES NOT RUN 1,052 CHECKS.
 #
 # This file is a flat script: every check executes at import, so `verify_math.py --help` used to
@@ -3855,12 +3859,37 @@ check("the gate's URL actually names that host",
 # refuses a bare integer literal for `num_ctx`. Test configs elsewhere in this file use
 # `{"num_ctx": 6144}` at the top level, which is not that shape and is correctly ignored.
 import ast as _ast19ab          # noqa: E402
-import glob as _glob19ab        # noqa: E402
 import inspect as _insp19ab     # noqa: E402
 import yaml as _yaml19ab        # noqa: E402
 
 _SRC19ab = os.path.dirname(os.path.abspath(__file__))
 _ROOT19ab = os.path.dirname(_SRC19ab)
+
+
+def _recursive_py_paths(_root20fl):
+    """-> sorted relative paths (forward-slash, e.g. "deprecated/catalogue_local.py") of every
+    .py file under _root20fl, walking subdirectories and skipping __pycache__.
+
+    ORDER 3138709c66e6. Six whole-tree scans in this file (this one, the two subprocess-spawn
+    scans, the atomic-write scan, the cache-key roster, and the escalation.clear() no-caller
+    scan) each enumerated `src/` with a bare glob("*.py") or listdir(), so a subdirectory --
+    src/deprecated/, holding the deliberately-unrepaired catalogue_local.py, and any future
+    one -- was invisible to every one of them despite each claiming to scan "every module in
+    src/". This is the one shared fix. For a file directly in src/ (every module today except
+    deprecated/catalogue_local.py) the relative path IS the bare filename, so every existing
+    name-keyed lookup below (hardcoded module rosters, exclusion lists) is unaffected; a
+    subdirectory file now surfaces as "<subdir>/<name>.py" instead of vanishing.
+    """
+    _out20fl = []
+    for _dirpath20fl, _dirnames20fl, _filenames20fl in os.walk(_root20fl):
+        _dirnames20fl[:] = [_d20fl for _d20fl in _dirnames20fl if _d20fl != "__pycache__"]
+        for _fn20fl in _filenames20fl:
+            if _fn20fl.endswith(".py"):
+                _rel20fl = os.path.relpath(
+                    os.path.join(_dirpath20fl, _fn20fl), _root20fl).replace(os.sep, "/")
+                _out20fl.append(_rel20fl)
+    return sorted(_out20fl)
+
 
 def _ctx_literals_in19ab(_tree19f, _name19f):
     """-> ["<name>:<line> num_ctx=<n>"] for every Ollama request body in this parse tree that
@@ -3890,7 +3919,8 @@ def _ctx_literals_in19ab(_tree19f, _name19f):
 
 _ctx_literals = []
 _unparsed19ab = []
-for _p19 in sorted(_glob19ab.glob(os.path.join(_SRC19ab, "*.py"))):
+for _rel19 in _recursive_py_paths(_SRC19ab):
+    _p19 = os.path.join(_SRC19ab, _rel19)
     try:
         with open(_p19, encoding="utf-8") as _f19:
             _tree19 = _ast19ab.parse(_f19.read())
@@ -3899,9 +3929,9 @@ for _p19 in sorted(_glob19ab.glob(os.path.join(_SRC19ab, "*.py"))):
         # clear, and swallowing that would let an offending site hide inside a broken file --
         # the check would go green BECAUSE something was wrong. Recorded, and asserted below.
         silence.note("verify_math.py:S19ab-parse")
-        _unparsed19ab.append(os.path.basename(_p19))
+        _unparsed19ab.append(_rel19)
         continue
-    _ctx_literals.extend(_ctx_literals_in19ab(_tree19, os.path.basename(_p19)))
+    _ctx_literals.extend(_ctx_literals_in19ab(_tree19, _rel19))
 
 check("no Ollama request body hardcodes a context window", _ctx_literals, [],
       note="a literal num_ctx that differs from config.yaml's forces a runner teardown+rebuild "
@@ -5738,7 +5768,6 @@ print("25. §20e  NO CONSOLE WINDOWS, EVER — every child spawn must suppress i
 # This is a whole-tree invariant with no exceptions list on purpose: a new module that shells out
 # and forgets the flag must fail the suite, not be discovered by the owner.
 import ast as _ast20e
-import glob as _glob20e
 
 _SPAWNERS20e = {"run", "Popen", "call", "check_output", "check_call"}
 _unguarded20e = []
@@ -5815,7 +5844,8 @@ def _spawn_scan20e(_t20e, _name20e):
     return _found20e
 
 
-for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
+for _rel20e in _recursive_py_paths(_here19):
+    _p20e = os.path.join(_here19, _rel20e)
     try:
         _t20e = _ast20e.parse(open(_p20e, encoding="utf-8").read())
     except Exception:
@@ -5836,13 +5866,13 @@ for _p20e in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
         # is a SyntaxError, and both of which would previously have taken the whole suite down
         # instead of being reported as the unreadable file they are.
         silence.note("verify_math.py:S20e-parse")
-        _unparsed20e.append(os.path.basename(_p20e))
+        _unparsed20e.append(_rel20e)
         continue
-    _r20e = _spawn_scan20e(_t20e, os.path.basename(_p20e))
+    _r20e = _spawn_scan20e(_t20e, _rel20e)
     if _r20e["imports_subprocess"]:
-        _sp_importers20e.add(os.path.basename(_p20e))
+        _sp_importers20e.add(_rel20e)
     if _r20e["recognised"]:
-        _recognised20e[os.path.basename(_p20e)] = _r20e["recognised"]
+        _recognised20e[_rel20e] = _r20e["recognised"]
     _guarded20e += _r20e["guarded"]
     _unguarded20e.extend(_r20e["unguarded"])
     _osspawn20e.extend(_r20e["osspawn"])
@@ -5882,11 +5912,12 @@ check("no os.system / os.popen / os.startfile anywhere in src/",
 # 14 modules on 2026-09-08 by both readings, with no disagreement in either direction.
 _sp_import_lines20e = set()
 _rx_sp20e = _re_vm.compile(r"^\s*(?:import\s+subprocess\b|from\s+subprocess\s+import\b)")
-for _p20ei in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
+for _rel20ei in _recursive_py_paths(_here19):
+    _p20ei = os.path.join(_here19, _rel20ei)
     with open(_p20ei, encoding="utf-8") as _f20ei:
         for _ln20ei in _f20ei:
             if _rx_sp20e.match(_ln20ei.split("#", 1)[0]):
-                _sp_import_lines20e.add(os.path.basename(_p20ei))
+                _sp_import_lines20e.add(_rel20ei)
                 break
 _silent_importers20e = sorted(_m20es for _m20es in _sp_importers20e
                               if not _recognised20e.get(_m20es))
@@ -6138,8 +6169,8 @@ print("          of 2026-08-25 found SIXTEEN non-atomic writes across FOURTEEN m
 # fail. It is guarded behaviourally instead (the net proposed with that order for
 # `drill_codewatch`). A general tree scan is still the remedy the sentence used to promise.
 _atomic_src = {}
-for _p20g in sorted(_glob20e.glob(os.path.join(_here19, "*.py"))):
-    _atomic_src[os.path.basename(_p20g)] = open(_p20g, encoding="utf-8").read()
+for _rel20g in _recursive_py_paths(_here19):
+    _atomic_src[_rel20g] = open(os.path.join(_here19, _rel20g), encoding="utf-8").read()
 
 check("silence.write_json exists as the one correct way to land a JSON file",
       hasattr(__import__("silence"), "write_json"), True)
@@ -7306,7 +7337,7 @@ check("the writer disambiguates rather than overwriting a neighbour",
 # in a check is the identical defect m49 found in `allsweep` two days ago: it cannot report what
 # it was never told to look at. So this scans EVERY module in src/ instead.
 _SRCDIR = os.path.dirname(os.path.abspath(__file__))
-_ALL_SRC = sorted(f for f in os.listdir(_SRCDIR) if f.endswith(".py"))
+_ALL_SRC = _recursive_py_paths(_SRCDIR)
 _KEY_SPELLING = '"_", name)[:80]'
 _offenders, _users = [], []
 for _f in _ALL_SRC:
@@ -8037,8 +8068,8 @@ def _clear_callers20t(_tree20tf, _f20tf):
 
 
 _callers20t = []
-for _f20t in sorted(os.listdir(_src20t)):
-    if not _f20t.endswith(".py") or _f20t in ("escalation.py", "drill.py"):
+for _f20t in _recursive_py_paths(_src20t):
+    if _f20t in ("escalation.py", "drill.py"):
         continue
     _p20t = os.path.join(_src20t, _f20t)
     try:

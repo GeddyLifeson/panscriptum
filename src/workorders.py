@@ -45,6 +45,10 @@ import os
 import sys
 import time
 
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import silence  # noqa: E402
@@ -546,7 +550,8 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
     if handler == "LOCAL":
         try:
             import local_agent as _LA
-            targets = sorted(set(m[0] for m in WHERE_TARGET.findall(str(where or ""))))
+            targets = sorted(set(m[0] for m in WHERE_TARGET.findall(
+                str(where or "").replace(chr(92), "/"))))           # order 5b00f9d39b94
             if targets and all(_LA._denied_target(t) for t in targets):
                 found_by = "%s | workorders.file_order: filed at RUN, not LOCAL -- `where` " \
                            "names %s, entirely on local_agent's write denylist, so LOCAL is " \
@@ -949,9 +954,15 @@ def where_targets(where):
 
     A cited RANGE is kept whole as `file:start-end` (order abc943bb6464); `twins()` clusters by
     overlap, so a range and a line inside it are found together.
+
+    A WINDOWS-STYLE PATH IS THE SAME PATH (order 5b00f9d39b94). WHERE_TARGET's directory group
+    only knows `/`, so `handoff\\nets_20260906\\assay.py` parsed as a bare `assay.py` and
+    clustered with src/assay.py -- the basename collision above, surviving through the other
+    separator. Backslashes are turned into slashes before matching, then the same src/-only rule
+    applies.
     """
     files, lines = set(), set()
-    for path, line, end in WHERE_TARGET.findall(str(where or "")):
+    for path, line, end in WHERE_TARGET.findall(str(where or "").replace(chr(92), "/")):
         base = path[len("src/"):] if path.startswith("src/") else path
         files.add(base)
         if line:

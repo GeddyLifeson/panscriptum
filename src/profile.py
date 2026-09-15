@@ -46,6 +46,10 @@ import re
 import sys
 import os
 
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -126,6 +130,20 @@ def _unb32(s):
 def encode(address, genre, register, features, band="unassayed", attested=0):
     a = _b32(address)
     g = GENRE_CODE.get(genre, "un") + REG_CODE.get(register, "c")
+    # UNGUARDED ON PURPOSE, CHECKED (sweep59 batch07 question, re-verified this shift): this
+    # `.index(...)` raises a bare ValueError if `features[axis]` is not one of the names in
+    # `tbl`, and unlike the band/decode paths above and below it, nothing here catches that. Not
+    # given the same `silence.note` + fallback treatment because there is no fallback that keeps
+    # meaning: `_b32`/`decode` degrade to "unassayed" or refuse a STRING a caller handed in, but
+    # a feature axis with no legal value is not a string to refuse -- it is `build_all()`
+    # answering a different world than the one it was asked about, one axis at a time. Grepped
+    # the whole tree (`grep -rn "\.encode(" src/*.py`, this shift): the only callers are this
+    # module's own `build_all()`, which supplies `features` straight from `worldseed.features()`
+    # (built from these exact `AXES` tables, so `features[axis]` is always one of `tbl`'s own
+    # names by construction), and `verify_math.py`'s two calls, which pass hand-written literal
+    # values already in-table. No caller constructs `features` from an independent source, so
+    # this ValueError has no live path to fire today -- an invariant worth crashing loudly on if
+    # that ever changes, not one to silently degrade.
     f = "".join(B32[[n for n, _ in tbl].index(features[axis])] for axis, tbl in AXES)
     if band in (None, "unassayed"):
         b = "u"

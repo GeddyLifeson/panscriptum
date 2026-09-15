@@ -1136,7 +1136,14 @@ OWNER_FILE = "_owner.json"
 # (Dedented from four spaces, order 0129ac1cee0a: comment-only lines emit no INDENT token so it
 # always parsed, but at module level an indented comment reads as the tail of a function body,
 # and in this file the comments are the documentation.)
-OWNERSHIP_CEILING_SECONDS = 24 * 3600
+# RAISED FROM 24h TO 72h by maintenance run #59 (2026-09-14, sweep59-batch04). "Comfortably
+# longer than the longest plausible mutation run" stopped being true: the 2026-09-13 pass spent
+# 11.7h on assay.py + prose_gate.py alone, and escalation.py took 31,062s (8.6h) on 2026-09-10,
+# so a full three-target pass runs about 30h. Past the ceiling a LIVE owner's claim is disbelieved,
+# the sandbox is protected only by `_touch_root`'s mtime, and any `drill.py --prove` (whose
+# scratch tree calls `sandbox()` and so `reap_orphans`) may reap it -- the candidate actor for
+# order 9ea4d3545524's two FileNotFoundError deaths. 72h still bounds a recycled-pid strand.
+OWNERSHIP_CEILING_SECONDS = 72 * 3600
 
 
 def _owner_pid(sandbox_root):

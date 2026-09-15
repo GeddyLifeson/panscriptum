@@ -51,6 +51,10 @@ import json
 import os
 import re
 
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 # NO `HERE` (order 42fa60f85054). This module used to bind the repo root here and nothing read
 # it -- not in this file, and not in any of the fifteen modules that import it. Every path this
 # module builds is relative to a `base` its caller supplies, which is why the constant was never

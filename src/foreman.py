@@ -534,6 +534,72 @@ def _restart_horizon(frag):
             f"supervisor's next MAIN LAP, measured at 42-44 min typically and 4h at worst")
 
 
+class ProcessTableUnreadable(RuntimeError):
+    """The python process table could not be read. Never the same claim as "nothing is running"."""
+
+
+def _python_processes():
+    """Every python.exe / pythonw.exe on the machine. -> [(pid, commandline, created)], or RAISES.
+
+    THE ONE PROCESS LISTING THE THREE KILLING REMEDIES SHARE (order 7bd2ee5f8b3b). All three used
+    to shell out to `wmic process where ... /format:csv`, and WMIC does not exist on this machine
+    (Windows 11 build 10.0.26200 ships without it; `where wmic` is empty). The spawn raised, every
+    remedy took its "could not enumerate" arm, and `restart_reader` -- the owner-ruled remedy of
+    order d2e44a766769 -- answered `(False, 'could not enumerate processes')` live on 2026-09-14.
+    Three remedies that could never act, each looking like one that simply found nothing to do.
+    The drill net for order d9328fe1ee38 stubbed a scripted wmic line, so it held throughout.
+
+    ROWS, NOT CSV. `commandline` is the argv psutil reads back joined with the Windows quoting
+    rules (`subprocess.list2cmdline`, the same join `Popen` used to build the command line the
+    supervisor launched), so a contiguous fragment such as "read.py --run" is found exactly where
+    WMIC's CommandLine column showed it. `pid` is an int field, so nothing is parsed off the end of
+    a line any more. `created` is the process start as a 14-digit UTC stamp (YYYYmmddHHMMSS) --
+    the width `kill_duplicate_jobs` compared -- or None when it could not be read; UTC so the
+    oldest-first order cannot flip across a DST change.
+
+    Per-process races are skipped, not fatal: a process that exits mid-walk (NoSuchProcess) or
+    will not show its command line (AccessDenied, which `process_iter` reports as None) is a row
+    nobody could have matched, so it is left out.
+
+    FAILS CLOSED, NEVER EMPTY. A listing that could not be taken RAISES ProcessTableUnreadable,
+    which every caller already answers with "could not enumerate processes". An empty list would
+    read as "no such job is running", and to `restart_reader` that is a confident answer. Zero
+    rows is also treated as blind, for `overnight._proc_lines`'s reason: the caller is itself a
+    python process, so a walk that worked cannot come back with nothing.
+
+    THE SEAM. Callers look this name up on the module at call time, so the drill replaces
+    `foreman._python_processes` with a scripted table; no subprocess or psutil stub is needed.
+    """
+    try:
+        import psutil
+    except ImportError as exc:
+        silence.note("foreman.py:python-processes-no-psutil")
+        raise ProcessTableUnreadable("could not enumerate processes: psutil is not importable") from exc
+    import datetime as _dt
+    from subprocess import list2cmdline
+    rows = []
+    for proc in psutil.process_iter(["pid", "name", "cmdline", "create_time"]):
+        try:
+            info = proc.info
+            argv = info.get("cmdline")
+            name = info.get("name") or (os.path.basename(str(argv[0])) if argv else "")
+            if str(name).lower() not in ("python.exe", "pythonw.exe"):
+                continue
+            if not argv:
+                continue
+            created = info.get("create_time")
+            stamp = (_dt.datetime.fromtimestamp(created, _dt.timezone.utc).strftime("%Y%m%d%H%M%S")
+                     if created else None)
+            rows.append((int(info["pid"]), list2cmdline([str(a) for a in argv]), stamp))
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+    if not rows:
+        silence.note("foreman.py:python-processes-blind")
+        raise ProcessTableUnreadable("could not enumerate processes: no python process visible, "
+                                     "and the caller is one")
+    return rows
+
+
 def restart_reader():
     """The reader is not progressing. Restarting is safe: every entity is cached only when it was
     fully read, so nothing is lost and nothing is re-read that was finished.
@@ -561,13 +627,11 @@ def restart_reader():
     not the fix, and adding it re-creates a remedy that can never act. If the reader is ever
     taken back out of STANDING, this function becomes an unrestartable kill again and the drill
     net above is what will say so."""
-    import re as _re
     import signal
     try:
-        out = subprocess.run(
-            ["wmic", "process", "where", "name='python.exe' or name='pythonw.exe'",
-             "get", "ProcessId,CommandLine", "/format:csv"],
-            capture_output=True, text=True, timeout=40, creationflags=_NO_WIN).stdout
+        # The shared psutil listing, not `wmic` -- which this machine does not have, so this
+        # remedy could never act (order 7bd2ee5f8b3b). See `_python_processes`.
+        procs = _python_processes()
     except Exception:
         silence.note("foreman.py:restart_reader-list")
         return False, "could not enumerate processes"
@@ -583,13 +647,12 @@ def restart_reader():
     import lognames as _LN
     frag = _LN.OWNER[_LN.READ]
     killed = []
-    for line in out.splitlines():
+    for pid, line, _created in procs:
         if frag in line:
-            m = _re.search(r",(\d+)\s*$", line.strip())
-            if m and int(m.group(1)) != os.getpid():
+            if pid != os.getpid():
                 try:
-                    os.kill(int(m.group(1)), signal.SIGTERM)
-                    killed.append(m.group(1))
+                    os.kill(pid, signal.SIGTERM)
+                    killed.append(str(pid))
                 except Exception:
                     silence.note("foreman.py:restart_reader-kill")
     if killed:
@@ -686,19 +749,13 @@ def kill_stalled_job():
         if not frag:
             continue          # a job with no declared owner is not one this remedy may kill
         try:
-            out = subprocess.run(
-                ["wmic", "process", "where",
-                 "name='python.exe' or name='pythonw.exe'", "get", "ProcessId,CommandLine", "/format:csv"],
-                capture_output=True, text=True, timeout=40, creationflags=_NO_WIN).stdout
+            # The shared psutil listing, not `wmic` (order 7bd2ee5f8b3b). See `_python_processes`.
+            procs = _python_processes()
         except Exception:
             silence.note("foreman.py:kill_stalled-list")
             continue
-        for line in out.splitlines():
+        for pid, line, _created in procs:
             if frag in line and "python" in line:
-                m = _re.search(r",(\d+)\s*$", line.strip())
-                if not m:
-                    continue
-                pid = int(m.group(1))
                 if pid == os.getpid():
                     continue
                 # NEVER KILL WHAT YOU CANNOT RESTART (owner finding, 2026-08-25).
@@ -780,22 +837,19 @@ def kill_duplicate_jobs():
     import re as _re
     import signal
     try:
-        out = subprocess.run(
-            ["wmic", "process", "where", "name='python.exe' or name='pythonw.exe'",
-             "get", "ProcessId,CreationDate,CommandLine", "/format:csv"],
-            capture_output=True, text=True, timeout=40, creationflags=_NO_WIN).stdout
+        # The shared psutil listing, not `wmic` (order 7bd2ee5f8b3b). See `_python_processes`.
+        procs = _python_processes()
     except Exception:
         silence.note("foreman.py:dupes-list")
         return False, "could not enumerate processes"
 
     seen, killed, unaged = {}, [], []
-    for line in out.splitlines():
+    for p, line, created in procs:
         m = _re.search(r"src[\\/](\w+)\.py", line)
-        pid = _re.search(r",(\d+)\s*$", line.strip())
-        started = _re.search(r",(\d{14})", line)
-        if not (m and pid):
+        started = created if (created and _re.fullmatch(r"\d{14}", str(created))) else None
+        if not m:
             continue
-        job, p = m.group(1), int(pid.group(1))
+        job = m.group(1)
         # The supervision chain is NEVER a valid duplicate target. Two watchdogs spawned two
         # supervisors spawned two foremen, and each foreman -- keeping "the oldest" of every
         # job -- shot the other stack's members on its first round. The stacks killed each
@@ -812,7 +866,7 @@ def kill_duplicate_jobs():
         # order to decide which process to kill is the same species of error as `_checks_pass`
         # accepting "10 FAILED" (run #3): a destructive action taken on a value that was never
         # read. `None` is carried instead and the job is skipped below. 2026-08-24.
-        seen.setdefault(job, []).append((started.group(1) if started else None, p))
+        seen.setdefault(job, []).append((started, p))
 
     for job, procs in seen.items():
         if len(procs) < 2:

@@ -30,6 +30,10 @@ import re
 import sys
 import time
 
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import silence  # noqa: E402
@@ -71,7 +75,20 @@ OPS = {
     "matches":   lambda v, a: v is not None and re.search(a, str(v)) is not None,
     "not_matches": lambda v, a: v is None or re.search(a, str(v)) is None,
     "glob":      lambda v, a: v is not None and fnmatch.fnmatch(str(v), a),
-    "is_type":   lambda v, a: isinstance(v, TYPES[a]),
+    # BOOL IS NOT AN INT HERE EITHER (order 58cbf2367aeb item 4). Plain `isinstance(v, TYPES[a])`
+    # accepted a Python bool for `arg="int"` -- `bool` subclasses `int`, so `isinstance(True,
+    # int)` is `True` -- and would do the identical wrong thing for `arg="float"` too (`bool`
+    # also satisfies `isinstance(_, float)` nowhere directly, but `True == 1` and `int(True) ==
+    # 1` make the same confusion reachable the moment a rule table compares a bool against a
+    # numeric range). `assay._check_readings` already drew this line for the Hands' numeric
+    # readings -- `isinstance(v, bool) or not isinstance(v, (int, float))` -- for the same
+    # reason: a JSON `true`/`false` reads as `1`/`0` to `isinstance` and would silently pass a
+    # rule whose `why` promises a NUMBER. Checked: no rule in RECORD_RULES, EVIDENCE_RULES or
+    # COVERAGE_RULES uses `is_type` with `arg` "int" or "float" today (both live uses are
+    # `arg="list"`), so tightening this changes no table's verdict -- it closes the gap before a
+    # future table walks into it, same shape as the TYPES-default and ARG_REQUIRED fixes above.
+    "is_type":   lambda v, a: (isinstance(v, TYPES[a])
+                               and not (a in ("int", "float") and isinstance(v, bool))),
 }
 
 # The type names `is_type` accepts, and a CLOSED SET for the same reason `OPS` is one.

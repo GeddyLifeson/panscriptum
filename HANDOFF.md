@@ -27,6 +27,157 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-14 — RUN #59 (DAILY) — THE GUARD ROSTER CLOSED, THE PUSH DAEMON FAILED EVERY CYCLE SINCE THE REBOOT, AND THE SWEEP FOUND THE MUTATION SANDBOX'S LIKELY KILLER
+
+**FOR THE OWNER, FIRST:**
+
+* **THIS RUN RAISED A HALT AND LIFTED IT (Hard Rule -1, self-caused clause).**
+  * **Raise:** the central drill at about 22:39 breached "harvest does not overwrite a continuity patch that landed while it scanned" (drill_stale_writer, order 972932ab89b0), and the breach reproduced on a still tree. Record: `state/drill_breach_1789443564.json`.
+  * **Cause, which this run wrote:** tonight's chain.py fix for 058fa19d4e65 made an index with no `_RECIPE_KEY` invalid whole. The net's fixture predated the key, so harvest took the forced-rescan path and correctly re-applied its own re-derived entry over the patch. Production behaviour is right on both paths; the fixture had gone stale.
+  * **Fix:** the fixture is stamped with the current recipe digest, so it tests the incremental case again. `--prove` gave HELD on the live tree and RED under 972932ab89b0's original plain-write revert, so the net was not weakened.
+  * **Lift:** only after drill 596/596/0 BREACHED and verify_math 1307/0 on the fixed tree. The ruling and `--by` name this run and the clause; see `escalation.py --status`, which reads clear. No daemon wrote library state under the broken net, because the breach was in a test fixture.
+* **No committed secrets.** detect-secrets and the house scanner both report 0.
+* **The public repo was 25 commits behind at open.** Since the 18:00 reboot on 2026-09-14, every `publish.py --push --loop` cycle failed: sh reported that the gh.exe credential helper was "No such file or directory" while gh.exe was on disk. Run #59 could not reproduce it, not with the daemon's exact environment (read with psutil) and not from a detached windowless pythonw. The one spawn difference found is that the daemon's git inherited a nonexistent stdin handle (sweep59-batch11). `publish.git()` now passes `stdin=DEVNULL`, and `_credential_probe` (display only) will name the layer if it recurs. This shift's own push ran AFTER this entry was written, because the ledgers travel with it. Its outcome and export commit are in the closing note of `state/MAINTENANCE_RUN.json`, and in the next run's NEXT_STEPS READ FIRST item 1. **Watch `state/publish.log` for the first daemon cycle after the guard is released.**
+* **Needs a ruling:** order `3099138a82bd` adds chain.py, weave.py, axis_correlation.py and roll.py to the pending "should hand-run writers refuse under a halt" question (`1e6f99e54b25` / `21c075e5e2d6`). Batch05 called chain.py CRITICAL. It is the same class, so it was routed to the owner, not patched.
+* **Orders still open at RUN, with the reason.** None can be finished by a maintenance run tonight:
+  * `58a00e909217` (MAJOR): waits on tonight's mutation pass. It is the first pass over escalation.py with a green drill baseline, so its verdict on the old escalation.py:409 mutant answers the order.
+  * `9ea4d3545524` (MAJOR): waits on the same pass. The deletion watcher is running beside it, and the ownership ceiling is raised to 72h.
+  * `058fa19d4e65` (MINOR): the code fix and net are landed, but data/CHAIN.json has not yet been rewritten by the still-running chain.py extraction.
+  * `89503c58409f` (MINOR): 20 citation sites remain, all in files other agents or the mutation pass held tonight. The per-site list is in handoff/sweep59/.
+* **Also open, and not a RUN job:**
+  * LOCAL `d7efd67caa6f`: citecheck's last site is a verify_math fixture, and citecheck deliberately grants no exemption, so it needs a ruling.
+  * BOTS `0a7cc18747e5`: the binding-health canary is past 7 days. Nothing schedules it; it is an operator hand-run, and it was not started from a maintenance shift because of the fandom ban history.
+
+### Battery at close
+
+    drill              608 nets / 608 held / 0 BREACHED   (was 590 at run #58; +18 this shift, each proven HELD and RED)
+    verify_math        1307 passed / 0 FAILED
+    allsweep           final run 3 subsystem(s) bad, graded verifiers 2 + estate file 1; imports 119/119, lint 0:
+                         preflight        the dandwiki no-api row (owner order 8b3f2911fa0c), unchanged all shift
+                         cascade live call  a PROVIDER CONDITION, not this shift's code: deadline on gem-31-lite (no reply in 75s); failovers Gemini 3.1 Flash-Lite and GLM 4.7 Flash rate limited; Groq returned HTTP 404 for `qwen/qwen3.6-27b` ("does not exist or you do not have access") and the engine removed it from the pool. The 22:48 allsweep had this row OK, run #57 had it red and run #58 OK again: it flaps with quota. The failure path is the DEADLINE outcome, not the unstated-retry-after bench run #59 changed. The Groq model id is stale in Cascade's own config (C:\Users\imarl\cascade), which is outside this kit and was not edited.
+                         estate: BUGS.md  SELF-INFLICTED AND REPAIRED BEFORE THE PUSH. 3 control characters (backspace) where `\b` should be, all on line 380 of the M108 paper-trail entry, written by a python snippet passed through a bash heredoc that ate the escape. Replaced via chr(92), with zero control characters left in any ledger and structure checks green.
+    pyflakes           clean over src/
+    secondopinion      all three tools RAN; 0 secrets by two independent scanners
+    liveness           47 findings (0 tautology, 0 phantom), unchanged
+    silence            314 SILENT, was 300 at run #58's publish. Every one of the +14 was mapped by ast to its function (against a copy of the last-published src/, then against the second-wave count):
+                         foreman.py +1  _python_processes skips a process that exits or denies access mid-listing (a vanished process is not part of the table)
+                         drill.py +1    _the_process_listing_sees_its_own_process, the new lister net that makes psutil unimportable and expects ProcessTableUnreadable
+                         chain.py +6   the single-instance guard: _pid_alive x4 (copied from mutate.py, whose own copies count the same), _singleton_active, singleton_release
+                         drill.py +5   the new assay-net refusal probe (2), plus the 3 expected-refusal handlers dfac5986e779's narrower observed-test correctly reclassified
+                         generate.py +1  _land_failures's FileNotFoundError -> {} (mirrors _land_catalog)
+    axis_correlation   45 entities, unchanged; no --write owed
+    preflight          1 problem, dandwiki no-api (owner order 8b3f2911fa0c)
+    codewatch          fingerprint f63d4e6e88bef98e at 23:47
+                       dashboard, foreman and publish have restarted onto tonight's code
+                       read.py was bounced by hand (the wmic-dependent remedy could not act) and restarted by the keeper at 23:25:42 with --loop 5
+                       overnight and pipeline had not polled since the 18:00 reboot; they are left to bounce at their own cycle/phase boundaries (their changed dependencies add only refusals and merges)
+    sweep run59        16 batches, all 119 modules, missing() = [], skipped/added_since/undetermined all empty
+    queue              50 open at close -- OWNER 44 / RUN 4 / LOCAL 1 / BOTS 1   (58 at open; after the final sweep's two refiled CODEWATCH_RESTART INFO records were closed again)
+
+### What was done
+
+**The eaten-escape guard roster is closed (fadd4338a7b0, d56cb7f2bed0).** The guard went into 27 modules: the 23 the order named, prose_gate.py (no mutation pass was live), and three the new roster net found that no order listed (codewatch.py, secondopinion.py, verify_math.py). Insertion was by an ast-placed script whose guard text carries no backslash; CRLF files kept their own line endings. New drill nets: "every top-level module in src/ that imports re carries the eaten-escape guard" plus its control. It went RED on the live tree before the last three were fixed (3 of 52), and RED under a revert that removes the guard from cachekey.py. src/deprecated/ is excluded on purpose; the docstring says why.
+
+**Closed with proof:**
+* `5b00f9d39b94`: workorders.where_targets and file_order's misrouted-LOCAL check now read backslash paths.
+* `ec8b8b35e521`: generate.py lands failures.json through `_land_failures`, a compare-and-swap own-rows merge. New net in drill_stale_writer: RED under a whole-dict revert and under `merged = {}`.
+* `9f1cce19c85c`: `drill.py --prove` prints the child's stderr tail when the net did not run.
+* `e3fcbbe262e2`: the index-spine net builds a fixture index with the real corpus_db.rebuild(), so it measures something in every tree. RED under a plain-dict revert.
+* `058fa19d4e65`: chain.py harvest() stores a recipe digest (OUTCOME pattern + flags) and invalidates the whole index when it differs or is absent. New net RED under both reverts. The live harvest re-scanned all 277,045 feats files (31,594 contest sentences). **CHAIN.json is NOT yet rewritten, so this order stays open.** The surviving full `chain.py` run (pid 18496, started 22:24:19 under nohup, orphaned from the agent that launched it, with no log after 22:26) was still in its local-model extraction pass at 23:47 (120s CPU, 859 MB resident). `data/CHAIN.json` still carried its 2026-08-22 mtime, and `state/chain_harvest_idx.json` was rewritten at 22:26 under the new recipe digest. If CHAIN.json is still stale when the next run opens, re-run `python -u src/chain.py` with a log: the harvest is cached now, so it goes straight to extraction, and the new single-instance guard stops a second copy.
+* `1d45a56ae1d8`: every named site was re-measured. Nothing is left to edit: the remaining hits are citecheck fixtures and the deliberately-kept mutation coordinates.
+* `fadd4338a7b0` and `d56cb7f2bed0`: the guard roster, closed after the central drill held the roster net on the live tree.
+* `3138709c66e6`: all six verify_math "every module in src/" scans now walk src/ recursively through one helper, `_recursive_py_paths()`. The recursive walk adds exactly deprecated/catalogue_local.py, read as text only, and no row found anything new in it. No row wording changed. verify_math 1307/0 afterwards.
+* Six LOCAL `CODEWATCH_RESTART` INFO records (dashboard, overnight, publish, foreman twice, overwatch): designed rc=17 restarts, closed with a shared note. The standing question of whether they should be orders at all is owner order `f7d7769075c0`.
+* **Re-routed, not closed:** `2d6c9343cd32` BATTERY_GRADED -> OWNER. allsweep's only bad subsystem is preflight's dandwiki row, owner order `8b3f2911fa0c`, the same routing run #58 gave `32eaec248adf`.
+* **Second wave, closed after the central drill held at 604/604/0 BREACHED:** `13ab15a6c8da` (chain.py single-instance guard), `dfac5986e779` (silence.py sink-based observed test), `c4d13e8829b5` (completeness zero-size categories), `98898e10038e` (read.py short names), `2f314697d52b` (drill live-audit questions: Q1 implemented, Q2's technical half implemented).
+* **Third wave, closed after the central drill held at 608/608/0 BREACHED:** `7bd2ee5f8b3b` (foreman remedies moved from absent WMIC to psutil), `5b99ff000325` (a RAW-probe refusal is no longer a 0% rate), `58cbf2367aeb` (the sweep59 question bundle, all eight items accounted for).
+* **Filed for the owner by this run:**
+  * `cd6ec0fe3e79`: 79 sandboxed closure probes the live-state witness cannot list; hoist them or check them structurally.
+  * `d03706b5eaf0`: bundle items 1 (prose_gate bare Instrument marker) and 5 (standards never-run job reads unmeasurable).
+  * `3099138a82bd`: four more hand-run writers for the halt-interlock ruling.
+
+**Fixed from the sweep, each verified against source first:**
+* assay.py `_check_hand_readings`, the fourth door. `assay(hand_readings=[nan, 3.0])` published an interval of nan, and `['seven', 3.0]` raised TypeError from inside `_interval`. It reuses `_check_readings`' rules and refuses a None slot. Net RED with the call removed (all nine bad inputs got through).
+* rosetta.py `refine`: rows rejected by the 4-row or span floor are now counted as dropped. Net RED under each revert (18/21 and 16/21).
+* dashboard.py: severity sort used `{high:0}[s]||3`, which ranked HIGH last. Now `??`.
+* hostcheck.py and scout.py: persisted error text no longer cut at 60/120 characters without a marker.
+* axis_correlation.py: a negative mean r also reports that rho = 0 is ruled out.
+* mutate.py `OWNERSHIP_CEILING_SECONDS` 24h -> 72h. See the mutation section.
+* prose_gate.py and citecheck.py: two of d7efd67caa6f's three stale citations now cite by name. The third is a verify_math fixture, which citecheck deliberately does not exempt, so the detector order stays open.
+
+**Sweep59 question bundle `58cbf2367aeb`, closed in the third wave.** Every item is accounted for:
+* item 2, cascade_bridge: gap, fixed and netted
+* item 3, hostcheck RAW: answered; it led to 5b99ff000325, fixed
+* item 4, policy is_type: fixed
+* item 6, profile.encode: its ValueError is unreachable (the only callers are build_all over the same AXES tables and two verify_math literals); comment only
+* item 7, events.py: names separator " | "; nothing parses that line
+* item 8, threads.py: T4 count now excludes `graph["unaddressed"]` sources, the idiom `threads_for()` uses; output unchanged today; netted
+
+**Items 1 and 5 are rulings, re-filed together as one OWNER order:**
+* item 1: prose_gate's bare Instrument marker on a non-being entry. Not touched: owner-sensitive, and a live mutation target.
+* item 5: standards.py stats a managed job's log before asking whether it is alive, so a job that has NEVER logged reads unmeasurable while one that ran and stopped is exempt. Reproduced in isolation; it does not fire here today. The code's own comment argues it is deliberate.
+
+**Citation roster `89503c58409f`, worked in the third wave (left open):** 1 FIXED (tiers.py), 29 ALREADY FIXED by earlier runs (each grep-verified), 20 SKIPPED in files other agents or the mutation pass held. The per-site status is persisted to `handoff/sweep59/citation_roster_status_89503c58409f.txt`, because the scratchpad does not survive the session. citecheck then found a NEW blank-line citation that run #59 itself caused: withdraw_chapters.py cited `publish.py:1385-1398` for the fail-closed escalation import, and tonight's `_credential_probe` insertion moved it onto `_swap()`. Fixed by symbol (publish.py `main()`).
+
+**Found live during the second wave:**
+* **`7bd2ee5f8b3b` (MAJOR): WMIC IS GONE FROM THIS MACHINE, SO THREE FOREMAN REMEDIES CANNOT ACT.** Windows 11 build 10.0.26200 does not ship WMIC. `where wmic` is empty and System32\wbem\WMIC.exe is absent. `foreman.restart_reader`, `kill_stalled_job` and `kill_duplicate_jobs` each list processes with `wmic` and answer "could not enumerate processes". Called live, `restart_reader()` returned exactly that and killed nothing. The drill net for d9328fe1ee38 drives `kill_stalled_job` against a SCRIPTED wmic line, so it held on a machine where the real call can never succeed.
+  * **FIXED IN THE THIRD WAVE:** foreman.py gained `_python_processes()`, which lists python.exe/pythonw.exe through psutil and returns `(pid, commandline, created)` rows. The commandline is rebuilt with `list2cmdline`, so the run #19 one-contiguous-fragment rule still matches. It raises `ProcessTableUnreadable` if psutil is missing or no rows come back, never an empty list that would read as "nothing running". All three remedies route through it; every gate is unchanged (fragment rule, `_restartable`, the I/O witness, the ruled absence of a gate on `restart_reader`). Harness 19/19 with a stubbed lister and a recorder kill; no remedy was run live. The real helper, read-only, returned exactly one row for the harness's own pid.
+  * **THE FIX TURNED THE OLD NET RED, AND ONLY THE MUTATION PASS KEPT THAT FROM HALTING THE LIBRARY.** The d9328fe1ee38 net stubbed `F.subprocess`, which `kill_stalled_job` no longer calls, so its wedged case could not kill and it read BREACHED. drill suppresses halts while a mutation run is active. Without that, the supervisor's next drill cycle would have halted everything. The net was replaced before the shift closed.
+    * **(a) Replaced in place** in `drill_park`, same name. It now stubs `foreman._python_processes`, keeps the move-spared / hold-killed / raise-spared shapes, and raises if `kill_stalled_job` stops asking the helper. HOLD nets3/p24. RED under the I/O-witness revert (p25) and under the wmic-listing revert (p26). p26's red comes from the sandbox audit hook recording the reverted wmic spawn with no `cwd=`; wmic is absent, so nothing ran.
+    * **(b) New, read-only:** the REAL `_python_processes()` must return exactly one row for the drill's own pid and script, and must raise `ProcessTableUnreadable` with psutil unimportable. HOLD p27. RED under the wmic-listing revert (p28, wmic not found). This is the net that would have gone red the day WMIC left this machine. Lesson: when a fix removes the seam a net stubs, rework the net in the SAME wave, before the central drill.
+* **Stale reader bounced by hand.** `read.py --run --workers auto` (pid 2980, the supervisor's one-pass serial stage from 18:02) was still running pre-fix code, including the short-name collision. The sanctioned remedy failed (above). Run #59 terminated it with psutil after checking its command line: the remedy's own docstring says a bounce is safe, because entities are cached only when fully read. The keeper restarted the standing reader at 23:25:42 (pid 29308, `--loop 5`) on current code. `pipeline.py` (pid 17124) and `overnight.py` (pid 28520) were left to bounce at their own phase or cycle boundaries, as run #58 left them. Their changed dependencies add only refusals and merges.
+* **A second self-inflicted drill breach, caught by the central run and NOT halted** (a mutation pass was active, so drill reads a breach as possibly deliberate). "and no NEW module starts using the bare kill-0 idiom unnoticed": chain.py's new single-instance guard copies mutate's `_pid_alive`, whose POSIX-only fallback reaches `os.kill(pid, 0)`. The ratchet is designed for exactly this, so chain.py was added to `_KNOWN_KILL0_SITES` with its reason. `chain._pid_alive` and `chain._pid_alive_windows` joined the behavioural net's probe list, so the copy is proven to answer DEAD for a nonexistent pid. Proven: ratchet HELD live and RED with the entry removed; behavioural net HELD. The net agent's own proves had passed; only the central drill found it, the same lesson as run #58.
+
+**Filed from the sweep, not patched (each needs a measurement first):**
+* `98898e10038e` MAJOR: read.py `_names()` whole-name fallback has a leading `\b` and no trailing one. "Ash" owns "ashes", "Vi" owns "village", "Ike" owns "Ikea", across the 4,939 short-named entities. Needs the full-corpus diff before it ships.
+* `3138709c66e6`: six verify_math rows that say "every module in src/" read only the top level.
+* `dfac5986e779`: silence.py counts any load of the bound exception name as observed.
+* `13ab15a6c8da`: chain.py has no single-instance guard. Two runs overlapped tonight, and run #59 terminated the later one.
+* `c4d13e8829b5`: completeness.py reads an answered zero-size category as absent (reason text only; the denominator is unaffected, which corrects the batch's claim).
+* `58cbf2367aeb`: eight sweep questions and latent minors, bundled. Items 3 and 4 were answered the same shift (see below); the other six remain.
+* `5b99ff000325` MAJOR, filed while answering bundle item 3, **then fixed the same shift in the third wave.** The fault: a RAW-mode host that refuses every probe title and one that holds none both read as `rate: 0.0` in hostcheck, because `endpoint.fetch_raw` swallows per-title transport failures, so the refusal never reaches `probe()`. That is the conflation the API branch's own comment says unassigned warhammer40k.fandom.com. Only the dandwiki RAW sources were exposed.
+  * **endpoint.py:** new `fetch_raw_verdict(host, titles, workers=2) -> (texts, tally)`, with tally `{probed, found, not_found, refused, errored}`. `fetch_raw` is now a thin wrapper returning only the dict, so neither caller (feats.py, hostcheck.py) needed an edit.
+  * **hostcheck.py `probe()` RAW branch:** records `rate: None` plus a whole error naming the counts when nothing was found and every title failed at the transport. A genuine all-404 stays `0.0` (a real answer), and mixed cases report the real rate.
+  * **Evidence:** no-network harness, 4/4 (all URLError -> None, all 404 -> 0.0, mixed -> rate, `fetch_raw` still a bare dict). Net in `drill_hostcheck`, sandboxed, no network, no cache writes: all titles 403 -> `rate: None` with an error naming the refused and errored counts; all titles 404 -> `rate: 0.0`, no error. Proven HOLD (nets3/p20) and RED under a small hostcheck.py revert disabling the None branch (p21). The net agent's own RAW-branch net from earlier (a transport failure is answered, not raised) was re-proved after the change: its stubs never patched `fetch_raw` directly, so only its revert needed rebuilding (p18 HOLD, p19 RED).
+
+**Second wave, after the halt was lifted and the mutation pass launched** (live edits only; the pass judges from its launch-time sandbox copy, and assay.py / prose_gate.py / escalation.py were not touched):
+* chain.py single-instance guard (`13ab15a6c8da`): `SINGLETON_LOCK` = state/chain_singleton.json, pid + started, judged live with a copy of mutate's err-toward-ALIVE `_pid_alive`, landed via `silence.replace_retry`, released in `finally`. A corrupt lock file reads as HELD (fail closed): if a crash ever leaves one unreadable, delete it by hand. Only `main()` takes it, so `harvest()` imported by other code is unaffected. The live pid 18496 never took one and was not disturbed. Harness 6/6.
+* silence.py `_handler_is_observed` (`dfac5986e779`): the any-load test became a sink test (Return/Raise value, call argument, write into existing structure, or an assignment propagating into one, even past the handler). Measured on one snapshot: exactly 3 movers OBSERVED -> SILENT, all drill.py expected-refusal probes of the shape `except ValueError as e: if <text> not in str(e): return False`. No row pins the count.
+* completeness.py (`c4d13e8829b5`): two live requests (both HTTP 200, no ban shape) confirmed the probe already returns None for a missing category and 0 for an existing empty one. `work()` now keeps the zeros apart, and an existing-but-empty category gets its own unmeasured reason. The verify_math §19d-pinned true-absence wording is untouched; no coverage figure moves.
+* policy.py `OPS["is_type"]` (bundle item 4): bool no longer passes "int" or "float". None of the three live rule tables uses those, so no current verdict moved. Harness 18/18.
+* **cascade_bridge.py (bundle item 2): a GAP, fixed.** A `named_transient` failure that stated no retry-after benched the bucket for nothing. Order 2239a87c57f5 had taught the branch to honour a STATED retry-after and never covered the unstated case. `_pace()` is a per-bucket burst throttle, not a post-failure penalty, so it did not cover it either. The clinching evidence was that the deadline path a few lines up still flat-benched a bucket that merely went silent, while a bucket that explicitly named its own throttle got no bench at all. That is backwards. Now `_wait = None if exhausted else (retry_after_seconds(err) or MIN_STATED_BENCH)`, reusing the existing 60s floor rather than a new number; the exhausted, pool-wide path is unchanged. Stubbed test only, no live provider calls. Net in `drill_binding_identity`. The proposal was REJECTED as written: it recomputed the fallback formula inside the test, so no change to cascade_bridge.py could ever redden it. The landed net drives the real `_ask_call` against a stand-in engine, with no provider calls and no clock reads. A bare "rate limit exceeded" benches `MIN_STATED_BENCH` (60s), "retry in 90s" benches 90s, and "All 3 candidates failed" benches nothing. It first asserts each wording still classifies as expected. Proven HOLD (nets3/p22), and RED with the fallback removed (p23: the bare throttle benched nothing).
+* hostcheck.py RAW branch (bundle item 3): no try/except was added, because `fetch_raw` / `detect` provably swallow transport errors, so one would be inert. A comment records why, and the residual conflation became order `5b99ff000325`.
+* **read.py `_names()` short-name prefix collisions (`98898e10038e`, the MAJOR the sweep found), fixed after the full-corpus diff the function's own run-#3 lesson demands.** The whole-name fallback now ends `(?:'s|s)?\b`.
+  * On the real readfeats corpus: 95,425 (sentence, entity) pairs across 3,225 files, of which 976 pairs (52 entities) take the fallback. The verdict is identical on all 976. At pattern level 2 matches were removed, both collisions (Fu/"future", Al/"also"/"allies"), and both sentences still pass on a pronoun.
+  * Over every readfeats sentence against all 3,864 fallback names in data/records (368,722,200 pairs), 985,496 old matches were removed and 0 added. Every row with an es/en/i/ii/digit/repeated-name tail was read: all collisions (Fox, Ox as Diablo affixes). Longer tails were listed in full, not read row by row.
+  * A plain trailing `\b` was tried and rejected: it lost real plurals (Bat/"bats", Mii/"Miis").
+  * Real matches lost: 0. The old comment's "4,939" figure is stale; data/records now holds 3,864 fallback names.
+
+### The mutation pass
+
+At open, the 2026-09-13 pass (pid 39980) was dead: the machine rebooted at ~18:00. It had finished assay.py (150 mutants, 148 killed, 2 survived, both already ruled equivalent by run #55, 1 kill by hang) and prose_gate.py (76/76 killed, 0 survived, baseline re-photographed every 1800s and never disagreed with itself). It never finished escalation.py. **That pass is incomplete and must not be read as a pass with fewer survivors.** Its lock was stale (dead pid; `mutate.active()` already reads it that way).
+
+Sweep59-batch04 named a candidate for order `9ea4d3545524`'s two sandbox deaths. Past `OWNERSHIP_CEILING_SECONDS` a live owner's claim is disbelieved, and any `drill.py --prove` (whose scratch tree calls `sandbox()` and so `reap_orphans`) can reap the sandbox if its root mtime has aged. A three-target pass runs ~30h (11.7h for the first two targets on 09-13, 8.6h for escalation on 09-10), past the old 24h ceiling. The ceiling is now 72h. The order stays open until a pass survives or the actor is caught: a read-only deletion watcher (pid 17004, `pythonw`, script and log in this session's scratchpad: `sandbox_watch.py` / `sandbox_watch_20260914.log`) polls %TEMP% every 2s. When a `panscriptum_mutate_*` directory vanishes or loses its src/, it logs the owner claim, whether the owner was alive, and every python/cmd/git/sh process alive or exited at that moment. It logged the new sandbox APPEARING at 22:53:45, so it works. **Stop it by creating `state/STOP_SANDBOX_WATCH`.** A "VANISHED ... <<< LIVE OWNER" line in that log names the actor this order asks for.
+
+**How to read that log, learned the same night.** `drill.py --prove` builds its scratch tree through `mutate.sandbox()`, so every prove creates and removes a `panscriptum_mutate_*` directory too. By 23:34 the watcher had logged 24 VANISHED events, and every one was a `--prove` scratch tree whose owner had already exited (`owner_alive=False`), from tonight's net-landing waves at 23:18-23:26. **None was the pass's own sandbox:** `panscriptum_mutate_1d96qw29` and its src/ were intact, with owner pid 28764 alive. Filter on the pass's sandbox name or pid; only a vanish with a LIVE owner that is NOT the deleting prove is the event.
+
+Order `58a00e909217` (escalation.py:409 scored KILLED when undetectable) cannot be answered from 09-10's log, whose drill was red at baseline. Tonight's pass is the first with a green baseline over escalation.py. **Tonight's pass was launched at 22:53:43, after the halt was lifted and allsweep had run.** Command: `mutate.py --target all --file-orders --detach --log state/mutate_20260914.log`, detached pid 28764, sandbox `panscriptum_mutate_1d96qw29`, fingerprint at launch c9729af549d3b7e5. Its baseline is GREEN: import rc=0, verify_math 1307/0 (155s), drill 596/596/0 BREACHED (128s). One caveat from its own log: src/ was written 4s before the sandbox copy, while the verify_math-scan agent was mid-edit, so the log flags the baseline as "a snapshot of source somebody is changing". The copy ran green, and the pass runs gates from that copy, so later live edits cannot move it. Read survivors against that note. Flakiness was not pre-checked (the default).
+
+### Housekeeping
+
+* 204 empty `drill_mut_held_*` temp dirs removed. They leaked hourly from 09-10 until the reboot, from drill copies predating the rmtree fix (order 7a487cfab844, closed 09-14 00:45): mutation sandboxes snapshot src/ at launch. None has leaked since.
+* The LOCAL model was given the read.py/handbuilt.py citation half twice. It correctly produced nothing: its own gate refused an answer over an unread slice, and the citations were already gone.
+
+### Lessons (keep them)
+
+* **Measure the premise of an order before routing it.** 1d45a56ae1d8's sites were already fixed; two local-model attempts were spent before a grep showed it.
+* **A sweep finding can be real and still overstated.** Batch11's completeness "fabricated tiny denominator" did not survive `best = max(...)`; batch05's CRITICAL was a known owner-class question. Verify the harm, not only the line.
+* **An agent that launches a long job must say which pid it owns.** The chain agent's harvest ran twice in parallel, and its own report called its surviving run killed.
+* **The eaten-escape hazard bit the LEDGER tonight, not src/.** A python heredoc that quoted a regex (`\b`) wrote three backspaces into BUGS.md. Only the final allsweep's estate tier caught it, minutes before the push. Build any backslash with chr(92) or use the Edit/Write tools, even in prose about a regex.
+* **A fix that removes the seam a net stubs turns that net red on the live tree.** The foreman WMIC fix did it to d9328fe1ee38, and only the active mutation pass kept it from halting the library. Rework the net in the same wave as the fix.
+
+---
+
 ## 2026-09-13/14 — RUN #58 (DAILY) — THE QUEUE WORKED IN PARALLEL, THE SWEEP FOUND WHERE THE FIXES WERE WRONG, AND I BREACHED THE DRILL ONCE MYSELF
 
 **FOR THE OWNER, AT THE TOP:**

@@ -166,7 +166,142 @@ _OBSERVED_TOKENS = ("health", "record", "log", "print", "swallow", "silence", "n
 _OBSERVED_RX = tuple(re.compile(r"\b" + t + r"\b") for t in _OBSERVED_TOKENS)
 
 
-def _handler_is_observed(node):
+def _assign_target_names(target):
+    """Every plain name a single assignment target binds, tuple/list unpacking included.
+
+    `x[i] = ...` and `obj.attr = ...` bind no plain name -- there is nothing here to trace
+    further, and `_block_reaches_sink` below treats those as sinks in their own right instead
+    (order dfac5986e779: a write into an existing structure IS the observation).
+    """
+    if isinstance(target, ast.Name):
+        yield target.id
+    elif isinstance(target, (ast.Tuple, ast.List)):
+        for elt in target.elts:
+            yield from _assign_target_names(elt)
+    elif isinstance(target, ast.Starred):
+        yield from _assign_target_names(target.value)
+
+
+def _expr_uses_names(expr, names):
+    return expr is not None and any(
+        isinstance(n, ast.Name) and n.id in names for n in ast.walk(expr))
+
+
+def _expr_has_call(expr):
+    return expr is not None and any(isinstance(n, ast.Call) for n in ast.walk(expr))
+
+
+def _block_reaches_sink(stmts, tainted):
+    """Does running this statement list carry a name in `tainted` to an OBSERVABLE SINK --
+    a Return or Raise value, a call made for its side effect (logging, print, silence.note,
+    a write, an f-string passed into one), or a write into an existing structure
+    (`x[...] = ...`, `obj.attr = ...`)? `tainted` grows in place as it goes: a plain
+    assignment (`x = str(e)`) only propagates the taint to `x` -- it is not itself a sink
+    unless `x` goes on to reach one of the above, which is why this walks the block in order
+    rather than asking "is the name mentioned anywhere". (order dfac5986e779)
+
+    Recurses into `if`/`for`/`while`/`with`/`try` bodies because a sink two lines deep in a
+    conditional is still a sink; does not cross into a nested `def`/lambda, which starts a
+    scope of its own.
+    """
+    observed = False
+    for stmt in stmts:
+        if isinstance(stmt, ast.Return):
+            if _expr_uses_names(stmt.value, tainted):
+                observed = True
+        elif isinstance(stmt, ast.Raise):
+            if _expr_uses_names(stmt.exc, tainted) or _expr_uses_names(stmt.cause, tainted):
+                observed = True
+        elif isinstance(stmt, ast.Assign):
+            if _expr_uses_names(stmt.value, tainted):
+                for t in stmt.targets:
+                    if isinstance(t, (ast.Subscript, ast.Attribute)):
+                        observed = True
+                    else:
+                        tainted.update(_assign_target_names(t))
+        elif isinstance(stmt, ast.AnnAssign):
+            if stmt.value is not None and _expr_uses_names(stmt.value, tainted):
+                tainted.update(_assign_target_names(stmt.target))
+        elif isinstance(stmt, ast.AugAssign):
+            if _expr_uses_names(stmt.value, tainted):
+                tainted.update(_assign_target_names(stmt.target))
+        elif isinstance(stmt, ast.Expr):
+            # A bare expression statement is a call kept only for what it DOES -- its return
+            # value, if any, is thrown away -- so a tainted name reaching one here (however
+            # deeply nested, e.g. inside an f-string argument) is a sink by itself.
+            if _expr_has_call(stmt.value) and _expr_uses_names(stmt.value, tainted):
+                observed = True
+        elif isinstance(stmt, ast.If):
+            if _block_reaches_sink(stmt.body, tainted):
+                observed = True
+            if _block_reaches_sink(stmt.orelse, tainted):
+                observed = True
+        elif isinstance(stmt, (ast.For, ast.AsyncFor, ast.While)):
+            if _block_reaches_sink(stmt.body, tainted):
+                observed = True
+            if _block_reaches_sink(stmt.orelse, tainted):
+                observed = True
+        elif isinstance(stmt, (ast.With, ast.AsyncWith)):
+            for item in stmt.items:
+                if (item.context_expr is not None and _expr_has_call(item.context_expr)
+                        and _expr_uses_names(item.context_expr, tainted)):
+                    observed = True
+            if _block_reaches_sink(stmt.body, tainted):
+                observed = True
+        elif isinstance(stmt, ast.Try):
+            if _block_reaches_sink(stmt.body, tainted):
+                observed = True
+            for h in stmt.handlers:
+                if _block_reaches_sink(h.body, tainted):
+                    observed = True
+            if _block_reaches_sink(stmt.orelse, tainted):
+                observed = True
+            if _block_reaches_sink(stmt.finalbody, tainted):
+                observed = True
+        # else: Pass, Global, Nonlocal, Import, nested def/class, ... bind and sink nothing here.
+    return observed
+
+
+def _stmts_after(stmts, target):
+    """-> (found, [statements that run after `target` within this suite, in source order]).
+
+    Searches nested `if`/`for`/`while`/`with`/`try` bodies for `target` and, on a match,
+    returns the remainder of ITS suite followed by the remainder of every enclosing suite --
+    the full set of statements Python would actually execute after `target`, within one
+    function/module scope.
+    """
+    for i, s in enumerate(stmts):
+        if s is target:
+            return True, list(stmts[i + 1:])
+        nested = []
+        if isinstance(s, ast.If):
+            nested = [s.body, s.orelse]
+        elif isinstance(s, (ast.For, ast.AsyncFor, ast.While)):
+            nested = [s.body, s.orelse]
+        elif isinstance(s, (ast.With, ast.AsyncWith)):
+            nested = [s.body]
+        elif isinstance(s, ast.Try):
+            nested = [s.body] + [h.body for h in s.handlers] + [s.orelse, s.finalbody]
+        for nl in nested:
+            found, after = _stmts_after(nl, target)
+            if found:
+                return True, after + list(stmts[i + 1:])
+    return False, []
+
+
+def build_parent_map(tree):
+    """{id(child): parent} for every node in `tree`. Built ONCE per file by the caller (audit's
+    `_handlers` and `instrument`) and threaded through to `_handler_is_observed`, which needs a
+    handler's enclosing scope, not only its own body, to see a carry that escapes the handler.
+    """
+    parents = {}
+    for node in ast.walk(tree):
+        for child in ast.iter_child_nodes(node):
+            parents[id(child)] = node
+    return parents
+
+
+def _handler_is_observed(node, parents=None):
     """Does this `except` body leave a trace of the exception it caught? -> bool.
 
     ASK THE BODY, NOT THE HANDLER. Both call sites used to test `ast.dump(node)`, which
@@ -190,23 +325,67 @@ def _handler_is_observed(node):
     AND THE TOKENS ARE MATCHED AS WORDS. See `_OBSERVED_RX`: a bare substring test read a
     handler that merely NAMES something spelled like a recorder as one that calls it.
     (order a04cbfab2473)
+
+    A handler that carries the exception into its own return value is observed too -- BUT
+    "carries" MEANS REACHES A SINK, NOT MERELY LOADED (order dfac5986e779). The line this
+    replaced was `bool(node.name) and any(isinstance(n, ast.Name) and n.id == node.name ...)`:
+    ANY load of the bound name, anywhere in the body, counted -- so `except Exception as e:
+    _ = e` and `x = str(e)` followed by carrying on classified themselves OBSERVED although
+    nothing was recorded, logged, returned, or re-raised. That is the RUN #33 tautology's own
+    shape one level down: the fix for "`node.name in ast.dump(node)` is always true" was
+    "is the name loaded anywhere in the body", which is still true of nearly every touch of
+    `e`, including one that goes precisely nowhere.
+
+    So the question is now "does the bound name (or a name it is assigned into) reach an
+    OBSERVABLE SINK": a Return or Raise value; an argument of a call executed as a bare
+    statement (logging, print, `silence.note(...)`, a write, an f-string passed into one); or
+    a write into an existing structure (`r["reread"] = ...`, `rec.field = ...`). A plain
+    assignment (`why = str(e)`) only propagates the taint to `why` -- through
+    `_block_reaches_sink`, which walks the handler's own body AND, if nothing there reaches a
+    sink, the statements that run after the handler in its enclosing function or module (via
+    `_stmts_after`), because the ordinary shape here is `except ...: why = "..." % e` followed
+    by using `why` once the `try` is over, e.g. `RESULTS.append({"error": err})` or
+    `r["reread"] = "...%s" % e`.
+
+    MEASURED before landing this: 1,185 `ExceptHandler` nodes in `src/`. Against the
+    within-handler-only cut of this rule, 36 handlers moved from OBSERVED to SILENT; reading
+    each showed all but one were a `why`/`err`/`rec`-style carry used just after the `try`, not
+    a genuine swallow, so the test was widened to look past the handler (see `_stmts_after`)
+    and a write-into-an-existing-structure was added as its own sink kind. Under the WIDENED
+    test, exactly 3 handlers still move -- all three in `drill.py`, all the same shape:
+    `except ValueError as e: if <expected text> not in str(e): return False`, which inspects
+    `e` only to gate the FAILING branch and falls through in silence on the branch where the
+    message matched. That is the genuine article: a real path through the handler that records
+    nothing. Re-run `python src/silence.py` after this change: SILENT was 303, is now 306.
     """
     body = "".join(ast.dump(stmt) for stmt in node.body)
     if any(rx.search(body) for rx in _OBSERVED_RX):
         return True
     if any(isinstance(n, ast.Raise) for stmt in node.body for n in ast.walk(stmt)):
         return True
-    # A handler that carries the exception into its own return value is observed too.
-    #
-    # THIS TEST WAS A TAUTOLOGY UNTIL RUN #33, in the detector built to find tautologies. It
-    # read `node.name in body` where `body` was `ast.dump(node)` -- which always serialises
-    # `name='e'` -- so `'e' in body` was True for EVERY `except ... as e:`, whether or not `e`
-    # was ever touched, and `except Exception as e: return None`, the canonical fault this
-    # module exists to catch, classified itself as observed. Ask the body instead: is the bound
-    # name actually loaded anywhere inside it.
-    return bool(node.name) and any(
-        isinstance(n, ast.Name) and n.id == node.name
-        for stmt in node.body for n in ast.walk(stmt))
+    if not node.name:
+        return False
+    tainted = {node.name}
+    if _block_reaches_sink(node.body, tainted):
+        return True
+    if parents is None:
+        return False
+    try_node = parents.get(id(node))
+    if not isinstance(try_node, ast.Try):
+        return False
+    scope_body = []
+    cur = parents.get(id(try_node))
+    while cur is not None:
+        if isinstance(cur, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Module)):
+            scope_body = cur.body
+            break
+        cur = parents.get(id(cur))
+    if not scope_body:
+        return False
+    found, after = _stmts_after(scope_body, try_node)
+    if not found or not after:
+        return False
+    return _block_reaches_sink(after, tainted)
 
 
 def _suppressed_names(expr):
@@ -309,6 +488,10 @@ def _handlers(path, label=None):
               "this audit" % label, file=sys.stderr)
         return []
     out = []
+    # BUILT ONCE PER FILE (order dfac5986e779). `_handler_is_observed` now needs a handler's
+    # enclosing scope to see a carry that escapes the handler's own body, not only its body --
+    # walking the whole tree once here is far cheaper than each handler re-walking it.
+    parents = build_parent_map(tree)
     for node in ast.walk(tree):
         # `with contextlib.suppress(X):` FIRST -- it is a catch site with no ExceptHandler node,
         # so the walk below could never see it. See `_suppressed_names`. It is reported and
@@ -332,7 +515,7 @@ def _handlers(path, label=None):
         # turned a 404 into "these entities have no page". The judgment itself lives in
         # `_handler_is_observed`, shared with `instrument`, so the counter and the rewriter
         # cannot disagree about what counts. (order 1e86b06e7463)
-        silent = not _handler_is_observed(node)
+        silent = not _handler_is_observed(node, parents)
         out.append({"file": label, "line": node.lineno,
                     "type": getattr(node.type, "id", None) if node.type else "bare",
                     "silent": silent})
@@ -1052,6 +1235,10 @@ def instrument(root=None, dry=False):
                   % (label, type(exc).__name__, str(exc)))
             continue
         sites = []
+        # SAME PARENT MAP, SAME REASON AS `_handlers` ABOVE (order dfac5986e779): the counter
+        # and the rewriter share `_handler_is_observed` precisely so they cannot disagree, and
+        # that now extends to what each passes it.
+        parents = build_parent_map(tree)
         for node in ast.walk(tree):
             if not isinstance(node, ast.ExceptHandler):
                 continue
@@ -1080,7 +1267,7 @@ def instrument(root=None, dry=False):
             # not 50. Run that grep for the live number. A stale count in a comment inside the
             # module whose own __doc__ refuses to freeze the handler count into prose is that
             # same defect one level up. (order c87266a33fdb)
-            if _handler_is_observed(node):
+            if _handler_is_observed(node, parents):
                 continue
             sites.append(node)
         if not sites:

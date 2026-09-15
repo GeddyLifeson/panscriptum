@@ -322,7 +322,15 @@ def main():
         _h = e["heading"] or "(cited without a heading)"
         print("  %-16s %s" % (e["code"], _h if len(_h) <= 58 else _h[:57] + chr(8230)))
         if e["named"]:
-            print("        names: %s" % ", ".join(e["named"]))
+            # " | " NOT ", " (sweep59 batch09 finding). `e["named"]` mixes a whole bolded span
+            # with the very fragments `_fragments()` split out of it (see parse(), above), so a
+            # span like "Soul Edge, wearing Siegfried" already contains a comma before this join
+            # ever runs -- joining candidates with ", " then produced a console line no reader
+            # could split back into items ("Soul Edge, wearing Siegfried, Soul Edge, Siegfried").
+            # " | " cannot occur inside a name here: BOLD-matched spans are prose fragments, not
+            # tables, and nothing this module or `_fragments()` ever inserts a pipe. Display only
+            # -- data/EVENTS.json stores `named` as a real JSON list and is untouched by this.
+            print("        names: %s" % " | ".join(e["named"]))
     if a.refused:
         print()
         print("  REFUSED CANDIDATES — recorded, not dropped:")

@@ -234,12 +234,32 @@ def _names(sentence, entity):
     # for exactly this case; this is the same fallback, but phrase-bound rather than a raw
     # substring test, because a raw substring here would let a short word like "The" (half of
     # 'The Six') match on its own -- the exact generic-word risk the length floor exists to
-    # stop. Instead the entity's own words are required TOGETHER, in order, with the same
-    # token-start rule as above applied to the whole phrase.
+    # stop. Instead the entity's own words are required TOGETHER, in order.
+    #
+    # AND THE PHRASE MUST END WHERE A WORD ENDS (order 98898e10038e). This used to say "the same
+    # token-start rule as above", and applied it with a leading word boundary and no trailing one
+    # -- but that rule was measured only on words LONGER than three letters, where a longer token
+    # starting with the name word is almost always an inflection of it. At three letters or fewer
+    # it is almost always a different word: "ashes" named Ash, "village" named Vi, "Ikea" named
+    # Ike, "also"/"allies" named Al, "future" named Fu. So the fallback now ends at a word
+    # boundary, after an optional "'s" or "s" (possessive / plural; a curly apostrophe already
+    # ends the word by itself).
+    #
+    # Measured before shipping, per the run-#3 lesson (2026-09-14, run #59). ATTACHED CORPUS: all
+    # 3,225 readfeats files, 95,425 (sentence, entity) pairs, 976 of them on this fallback (52
+    # entities). `_names` changed on 0 of the 976 in either direction; at the pattern level the
+    # fix removed 2 matches, both collisions (Fu/'future', Al/'also'+'allies'), and both
+    # sentences still pass on their pronoun. 0 real matches lost. The "s" is not optional
+    # decoration: a bare trailing boundary was measured first and dropped real plurals (Bat/'bats'
+    # x12 hits, Mii/'Miis' x2). CROSS-CHECK for the unreported cases: every corpus sentence
+    # against every fallback name in data/records (3,864 distinct names, 368,722,200 pairs):
+    # 985,496 old matches removed, 0 added, and every inflection-shaped tail among them ('es',
+    # 'en', 'i', 'ii', digits, a repeated name) was read and is a collision with the catalogued
+    # entity (Fox/'foxes' is a Diablo and a Ghost Recon name, Ox/'oxen' a Diablo item suffix).
     if not parts:
         whole = [w for w in re.split(r'\W+', entity_f) if w]
         if whole:
-            pattern = r'\b' + r'\s+'.join(re.escape(w) for w in whole)
+            pattern = r'\b' + r'\s+'.join(re.escape(w) for w in whole) + r"(?:'s|s)?\b"
             if re.search(pattern, low, re.IGNORECASE):
                 return True
     # Tokenised rather than pattern-matched. A word-boundary escape has been eaten in

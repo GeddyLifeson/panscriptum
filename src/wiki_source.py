@@ -31,6 +31,10 @@ import urllib.parse
 import urllib.request
 import silence
 
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 UA = {"User-Agent": "Panscriptum-Cataloguer/1.0 (local library research tool)"}
 
 # Sources whose wiki cannot be guessed from the name. Extend freely -- an explicit mapping is

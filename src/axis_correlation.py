@@ -425,7 +425,7 @@ def main():
     # already handles None correctly (`if doc["mean_r"] and ...`); this print did not.
     mean_str = "%+.4f" % doc["mean_r"] if doc["mean_r"] is not None else "n/a (no pair reached MIN_N)"
     print("   %d pair(s) measured, mean r = %s" % (doc["measured_pairs"], mean_str))
-    if doc["mean_r"] and doc["mean_r"] > 0.1:
+    if doc["mean_r"] and abs(doc["mean_r"]) > 0.1:     # negative dependence rules out rho=0 too
         print("   The Measures are NOT independent. rho = 0 is ruled out by this data.")
     if a.write:
         landed = write(doc)

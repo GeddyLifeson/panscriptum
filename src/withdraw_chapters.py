@@ -217,7 +217,8 @@ def main():
     # IT SITS ABOVE THE ARGPARSE BLOCK AND ABOVE THE CATALOG READ, so there is no path into this
     # job that skips it -- including `--go` typed in a hurry while the library is stopped.
     #
-    # FAIL CLOSED ON THE IMPORT, copied from publish.py:1385-1398 and NOT wrapped in a bare
+    # FAIL CLOSED ON THE IMPORT, copied from publish.py `main()`'s fail-closed `import escalation`
+    # (cited by symbol, not line: the old `publish.py:1385-1398` drifted onto `_swap()`), and NOT wrapped in a bare
     # except: `except ImportError: pass` is how a deleted or unparseable escalation.py silently
     # switched the halt off in nine jobs at once (run #31). A job that cannot ask whether the
     # library is halted has no business starting.

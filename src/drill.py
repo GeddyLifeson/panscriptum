@@ -31,6 +31,10 @@ import sys
 import tempfile
 import time
 
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -839,18 +843,23 @@ def prove_net(area, net_name, revert=None, root=None, keep=False, timeout=1800):
         for ln in (p.stdout or "").splitlines():
             if ln.startswith(PROVE_MARKER):
                 line = ln[len(PROVE_MARKER):]
+        # THE CUT SAYS IT IS A CUT (Hard Rule 0; DQ, run #58). This was a bare tail slice
+        # with no marker, so a short stderr and the end of a long one read identically --
+        # and the start of a long one, usually the traceback's first frame, was gone without
+        # a word. Same wording as `ledger_dry_run`'s tail below.
+        #
+        # CARRIED ON EVERY RETURN, NOT ONLY THE NO-VERDICT ONE (order 9f1cce19c85c). `main()`'s
+        # `--prove` output prints it whenever the net did not run or the child exited non-zero;
+        # a "DID NOT RUN" with no traceback beside it sent the author back to reproduce the crash
+        # by hand. Display only: nothing below reads it to decide a verdict.
+        tail = p.stderr or ""
+        stderr = (tail if len(tail) <= 2000 else
+                  "last 2000 of %d chars (+%d cut): %s"
+                  % (len(tail), len(tail) - 2000, tail[-2000:]))
         if line is None:
-            # THE CUT SAYS IT IS A CUT (Hard Rule 0; DQ, run #58). This was a bare tail slice
-            # with no marker, so a short stderr and the end of a long one read identically --
-            # and the start of a long one, usually the traceback's first frame, was gone without
-            # a word. Same wording as `ledger_dry_run`'s tail below.
-            tail = p.stderr or ""
             return {"held": None, "found": 0, "error": "the scratch run printed no verdict",
                     "area_error": None, "root": root, "rc": p.returncode,
-                    "expected": None,
-                    "stderr": (tail if len(tail) <= 2000 else
-                               "last 2000 of %d chars (+%d cut): %s"
-                               % (len(tail), len(tail) - 2000, tail[-2000:]))}
+                    "expected": None, "stderr": stderr}
         d = json.loads(line)
         rows = d.get("rows") or []
         if not rows:
@@ -858,11 +867,11 @@ def prove_net(area, net_name, revert=None, root=None, keep=False, timeout=1800):
                     "error": "no net named %r ran in %s (%d net(s) did)"
                              % (net_name, area, d.get("nets_in_area") or 0),
                     "area_error": d.get("area_error"), "root": root, "rc": p.returncode,
-                    "expected": None}
+                    "expected": None, "stderr": stderr}
         return {"held": all(bool(r.get("held")) for r in rows), "found": len(rows),
                 "error": "; ".join(r["error"] for r in rows if r.get("error")) or None,
                 "area_error": d.get("area_error"), "root": root, "rc": p.returncode,
-                "expected": rows[0].get("expected")}
+                "expected": rows[0].get("expected"), "stderr": stderr}
     finally:
         if own and not keep:
             _remove_scratch_tree(root)
@@ -3191,6 +3200,10 @@ def drill_park():
         _a_quiet_log_alone_does_not_license_a_kill,
         "order d9328fe1ee38: the stall standard watches log size, and a restartable crawl in "
         "backoff was one quiet log away from a SIGTERM mid-request; a wedged process must still die")
+    net(a, "the foreman's real process listing sees the process asking, and a blind one raises",
+        _the_process_listing_sees_its_own_process,
+        "order 7bd2ee5f8b3b: three killing remedies listed processes with wmic, which this machine "
+        "does not have, so every one of them answered 'could not enumerate' and could never act")
 
     def backfill_named_sources_are_each_their_own_area():
         """sweep58-batch08. `backfill.main --source A --source B` had no per-source try/except, so
@@ -3466,9 +3479,18 @@ def _a_quiet_log_alone_does_not_license_a_kill():
     THREE PROCESS SHAPES, NOTHING LIVE. psutil is a stub whose io_counters MOVE (working: spared),
     HOLD (wedged: still killed -- a remedy that can never act is not a remedy) or RAISE
     (unreadable: spared, because "could not look" is not evidence). standards and dashboard are
-    stand-ins, the process table is a scripted wmic line naming a pid that does not exist, and
-    os.kill is a recorder. Everything is restored in `finally`, inside `_esc_probe`. The
-    unreadable case makes `_io_moving` call `silence.note`, so it runs in `_deliberately_failing`.
+    stand-ins, the process table is a scripted `foreman._python_processes` row naming a pid that
+    does not exist, and os.kill is a recorder. Everything is restored in `finally`, inside
+    `_esc_probe`. The unreadable case makes `_io_moving` call `silence.note`, so it runs in
+    `_deliberately_failing`.
+
+    THE TABLE IS STUBBED AT THE SEAM, NOT AT THE SPAWN (order 7bd2ee5f8b3b). This used to script
+    `foreman.subprocess.run` with a wmic CSV line, and WMIC does not exist on this machine -- so
+    the net held for weeks over a remedy whose real listing always raised and which could never
+    kill anything. The listing is now `_python_processes`, and the net also requires that the
+    remedy ASKED it on every mode: a remedy that quietly stops consulting the shared listing is
+    one the wedged case would otherwise have to catch by accident. Whether the REAL listing works
+    on this machine is the next net's question, not this one's.
     """
     import types
     import foreman as F
@@ -3496,24 +3518,23 @@ def _a_quiet_log_alone_does_not_license_a_kill():
         m.Process = Process
         return m
 
-    class _SP:
-        @staticmethod
-        def run(args, **kw):
-            return types.SimpleNamespace(
-                stdout="Node,CommandLine,ProcessId\nHOST,C:\\python.exe src\\%s --workers 12,%d\n"
-                       % (frag, fake_pid), returncode=0)
+    asked = {"n": 0}
+
+    def _table():
+        asked["n"] += 1
+        return [(fake_pid, "C:\\python.exe src\\%s --workers 12" % frag, "20260914000000")]
 
     def probe(d, filed):
         keys = ("standards", "dashboard", "psutil")
         saved_mods = {k: sys.modules.get(k) for k in keys}
-        saved = (F.subprocess, F.time, F._restartable, F._restart_horizon, os.kill)
+        saved = (F._python_processes, F.time, F._restartable, F._restart_horizon, os.kill)
         kills = []
         try:
             sys.modules["standards"] = types.SimpleNamespace(check=lambda st: [{
                 "standard": "every running job is advancing", "holds": False,
                 "observed": "%s (82 min, 1234 bytes)" % job}])
             sys.modules["dashboard"] = types.SimpleNamespace(state=lambda: {})
-            F.subprocess = _SP
+            F._python_processes = _table
             F.time = types.SimpleNamespace(time=time.time, sleep=lambda s: None)
             F._restartable = lambda fr: True
             F._restart_horizon = lambda fr: "%s is STANDING (drill stub)" % fr
@@ -3521,22 +3542,76 @@ def _a_quiet_log_alone_does_not_license_a_kill():
 
             def _killed(mode):
                 del kills[:]
+                before = asked["n"]
                 sys.modules["psutil"] = _psutil(mode)
                 if mode == "blind":
                     _deliberately_failing(F.kill_stalled_job)
                 else:
                     F.kill_stalled_job()
+                if asked["n"] == before:
+                    raise AssertionError("kill_stalled_job did not consult _python_processes "
+                                         "in the %r case" % mode)
                 return fake_pid in kills
 
             return (not _killed("moving")) and _killed("static") and (not _killed("blind"))
         finally:
-            F.subprocess, F.time, F._restartable, F._restart_horizon, os.kill = saved
+            F._python_processes, F.time, F._restartable, F._restart_horizon, os.kill = saved
             for k, v in saved_mods.items():
                 if v is None:
                     sys.modules.pop(k, None)
                 else:
                     sys.modules[k] = v
     return _esc_probe(probe)
+
+
+def _the_process_listing_sees_its_own_process():
+    """The foreman's REAL process listing returns a row for the very process that asks.
+
+    ORDER 7bd2ee5f8b3b. `restart_reader`, `kill_stalled_job` and `kill_duplicate_jobs` listed
+    processes with `wmic`, which does not exist on this machine, so all three answered "could not
+    enumerate processes" and could never act -- and every net that touched them scripted the
+    listing, so none could see it. This one does not script it: it calls
+    `foreman._python_processes()` on the live machine.
+
+    READ-ONLY, AND ITS ANSWER DOES NOT DEPEND ON WHAT ELSE IS RUNNING. It lists; it kills nothing
+    and calls no remedy. The one row it demands is its own -- this drill is a python process for as
+    long as the question is asked -- so the answer is fixed by the asker, not by whatever the
+    machine happens to be running (the trap `codewatch.twins`' net fell into twice). THREE CHECKS:
+      1. exactly one row carries this pid, and its command line names the running script;
+      2. its creation stamp is 14 digits or None, never a guessed value;
+      3. FAIL CLOSED: with psutil made unimportable the listing RAISES ProcessTableUnreadable
+         rather than returning a list the killers would read as "nothing is running". That raise
+         notes, so it alone runs in `_deliberately_failing`; psutil is restored in `finally`.
+    """
+    import foreman as F
+    try:
+        rows = F._python_processes()
+    except Exception as e:
+        raise AssertionError("the real listing could not be taken: %s: %s" % (type(e).__name__, e))
+    mine = [r for r in rows if r[0] == os.getpid()]
+    if len(mine) != 1:
+        raise AssertionError("%d row(s) name this process's pid %d among %d listed"
+                             % (len(mine), os.getpid(), len(rows)))
+    _pid, cmd, created = mine[0]
+    script = os.path.basename(sys.argv[0]) if sys.argv and sys.argv[0] else ""
+    if script.endswith(".py") and script not in cmd:
+        raise AssertionError("this process's row does not name its script %r: %r" % (script, cmd))
+    if created is not None and not (len(str(created)) == 14 and str(created).isdigit()):
+        raise AssertionError("this process's creation stamp is not a 14-digit stamp: %r"
+                             % (created,))
+    had, saved = "psutil" in sys.modules, sys.modules.get("psutil")
+    try:
+        sys.modules["psutil"] = None          # `import psutil` now raises ImportError
+        try:
+            _deliberately_failing(F._python_processes)
+        except F.ProcessTableUnreadable:
+            return True
+        return False                          # a blind listing answered instead of raising
+    finally:
+        if had:
+            sys.modules["psutil"] = saved
+        else:
+            sys.modules.pop("psutil", None)
 
 
 def _halt_is_not_breakage(src=None):
@@ -7152,6 +7227,55 @@ def drill_run57_repairs():
         "order 0182eb4ff49c: the .raw.json backup is written AFTER the mine has landed, so a "
         "denial there is not evidence the mine is missing -- and the old message said it was")
 
+    def rosetta_refine_accounts_for_every_row():
+        """sweep59-batch08, verified by run #59. `refine()` credited rows of a scale that survived
+        the per-name filter but then fell to the 4-row floor or the numeric-span floor to NEITHER
+        counter, so `kept + dropped` fell short of the pre-refine row count (measured: 10 before,
+        0 kept, 6 dropped). Order 78f2bebed995 had already stopped `kept` counting them; nothing
+        counted them as dropped.
+
+        IN MEMORY ONLY: `refine()` does no I/O, and the fixture never touches data/ROSETTA.json.
+        One scale per arm, so each of the two `dropped += len(vals)` lines is load-bearing on its
+        own: "three" matches 3 catalogued Persons (the 4-row floor), "narrow" matches 5 but spans
+        10..50 (the span floor), "wide" survives, and "other.test" has no catalogued host at all.
+        A Places entry named on a scale must not count as a match either.
+
+        BOTH IDENTITIES ARE ASSERTED. `kept + dropped == total` alone is what let order
+        78f2bebed995's discrepancy hide behind two numbers that looked reconciled, so `kept` is
+        also held to the rows actually present in `out`.
+        """
+        import rosetta as RO
+        persons = "Persons/Characters"
+        records = [("fixture", {"source": "Drill Source",
+                                "entries": [{"name": n, "category": persons} for n in "ABCDE"]
+                                + [{"name": "Harbour", "category": "Places"}]})]
+        hosts = {"Drill Source": "drill.test"}
+        rosetta = {
+            "drill.test": {
+                "three": {"kind": "rank", "values": {"A": 1, "B": 2, "C": 3, "X1": 4}},
+                "narrow": {"kind": "numeric",
+                           "values": {"A": 10, "B": 20, "C": 30, "D": 40, "E": 50, "Y1": 60}},
+                "wide": {"kind": "numeric",
+                         "values": {"A": 1, "B": 10, "C": 100, "D": 1000, "E": 10000,
+                                    "Harbour": 5, "Z1": 7}}},
+            "other.test": {"lost": {"kind": "rank", "values": {"A": 1, "B": 2, "C": 3, "D": 4}}}}
+        total = sum(len(sc["values"]) for scales in rosetta.values() for sc in scales.values())
+        out, kept, dropped = RO.refine(rosetta, records, hosts)
+        in_out = sum(len(sc["values"]) for scales in out.values() for sc in scales.values())
+        if kept + dropped != total:
+            raise AssertionError("refine() accounted for %d kept + %d dropped = %d of %d rows"
+                                 % (kept, dropped, kept + dropped, total))
+        if kept != in_out:
+            raise AssertionError("refine() reported %d kept but wrote %d rows" % (kept, in_out))
+        return (total == 21 and kept == 5
+                and set(out) == {"drill.test"} and set(out["drill.test"]) == {"wide"})
+
+    net(a, "rosetta refine() counts every row as kept or dropped, and kept is what it wrote",
+        rosetta_refine_accounts_for_every_row,
+        "rosetta.py's refine(): both `dropped += len(vals)` lines, the 4-row floor's and the "
+        "numeric-span floor's. Removing either restores rows credited to neither counter, so "
+        "kept + dropped falls short of the pre-refine total")
+
     def tells_discourse_markers_fire_at_an_indented_passage_start():
         """Order f0677ea9bc68. Rewriting the per-pattern `^\\s*` anchors to
         `_SENTENCE_START + pat[4:]` dropped the `\\s*` at the true start of a passage, so nine of
@@ -7210,6 +7334,87 @@ def drill_run57_repairs():
         completeness_filename_alias_is_case_folded,
         "order bf1340bc3b3f: the alias key was not lower-cased while its lookups were, so such a "
         "source read as 'nothing catalogued'")
+
+    def completeness_an_empty_category_is_not_a_missing_one():
+        """A category that EXISTS with zero direct pages is not reported as a category that does not.
+
+        Order c4d13e8829b5. `work()`'s probe loops kept a size with `if n:`, so a category that
+        answered `categoryinfo {pages: 0}` (onepiece's Category:Characters: 12 subcategories, 0
+        direct pages) was dropped exactly like a `missing` one, and the row said none of the
+        probed categories exists. THREE PROBE WORLDS on one fandom-shaped fixture host:
+          * every probe answers 0: the row is unmeasured, its reason names subcategories and is
+            NOT the reason the all-missing world gets, and no coverage or denominator is offered;
+          * every probe answers missing: a row is still produced. Its wording is pinned by
+            verify_math section 19d and deliberately not asserted here;
+          * one probe answers 1000 and the rest 0: 1000 is the denominator and the zeros are
+            kept in `wiki_categories`, so recording a zero did not hide a real size.
+        NO NETWORK: `category_size_probe` and `host_reachable` are stand-ins with their
+        subjects' own signatures, `catalogued_counts` answers nothing, `HOSTS` is a sandbox file,
+        and only `audit()` runs, never `land()`. All restored in `finally`.
+        """
+        import completeness as CO
+
+        def probe(d, filed):
+            hosts = os.path.join(d, "WIKI_HOSTS.json")
+            with open(hosts, "w", encoding="utf-8") as fh:
+                json.dump({"Drillzerocategory": "drillzerocategory.fandom.com"}, fh)
+            probes = list(CO.ws.CATEGORY_PROBES[CO.PERSONS])
+            keep = (CO.HOSTS, CO.catalogued_counts, CO.host_reachable, CO.category_size_probe)
+
+            def row(answer):
+                CO.category_size_probe = lambda sub, category: answer(category)
+                rows = CO.audit(only="Drillzerocategory", workers=1)
+                return rows[0] if len(rows) == 1 else None
+            try:
+                CO.HOSTS = hosts
+                CO.catalogued_counts = lambda: {}
+                CO.host_reachable = lambda host, timeout=8: True
+                empty = row(lambda c: (0, None))
+                absent = row(lambda c: (None, None))
+                mixed = row(lambda c: (1000, None) if c == probes[-1] else (0, None))
+            finally:
+                CO.HOSTS, CO.catalogued_counts, CO.host_reachable, CO.category_size_probe = keep
+            if not (empty and absent and mixed and len(probes) > 1):
+                return False
+            return (bool(empty["unreliable"]) and bool(absent["unreliable"])
+                    and empty["unreliable"] != absent["unreliable"]
+                    and "subcategories" in empty["unreliable"]
+                    and empty["wiki_persons"] is None and empty["coverage"] == 0.0
+                    and mixed["wiki_persons"] == 1000
+                    and mixed["wiki_categories"].get(probes[0]) == 0)
+        return _esc_probe(probe)
+    net(a, "completeness tells a category that exists with zero direct pages from one that does "
+        "not exist",
+        completeness_an_empty_category_is_not_a_missing_one,
+        "order c4d13e8829b5: `if n:` dropped a real categoryinfo pages:0 answer like a missing "
+        "page, so a category filing its cast in subcategories read as absent from the wiki")
+
+    def a_short_entity_name_matches_only_a_whole_word():
+        """`read._names`' whole-name fallback ends where a word ends, allowing only 's or s.
+
+        Order 98898e10038e. The fallback serves entities with no word over three letters (Ash, Vi,
+        Ike) and had a leading boundary and no trailing one, so "ashes" named Ash and "village"
+        named Vi. BOTH DIRECTIONS AND BOTH WAYS TO BE WRONG: the two prefix collisions must answer
+        False, the bare name and its possessive True -- and a plural ("bats" for Bat, measured as
+        a real match 12 times) True, so tightening to a bare trailing boundary goes red as well
+        as loosening back to none. No sentence carries a pronoun, so the answer is the fallback's.
+        `read` imports only modules this file already drives and computes constants; nothing runs.
+        """
+        import read as RD
+        cases = (("the ashes settled over the field", "Ash", False),
+                 ("Vi entered the village", "Vi", True),
+                 ("the village burned", "Vi", False),
+                 ("Ash's Pikachu attacked", "Ash", True),
+                 ("the bats swept down from the rafters", "Bat", True))
+        wrong = ["_names(%r, %r) -> %r, expected %r" % (s, e, RD._names(s, e), want)
+                 for s, e, want in cases if RD._names(s, e) is not want]
+        if wrong:
+            raise AssertionError("; ".join(wrong))
+        return True
+    net(a, "a short entity name matches only a whole word, its possessive or its plural",
+        a_short_entity_name_matches_only_a_whole_word,
+        "order 98898e10038e: with no trailing boundary a name of three letters or fewer named "
+        "every sentence holding a word that starts with it -- 985,496 such matches corpus-wide")
 
     def entity_match_threshold_ratchet_survives_optimize():
         """Order bf1340bc3b3f item 9. The STRONG/WEAK ordering ratchet was a bare `assert`, and
@@ -8062,6 +8267,16 @@ def drill_stale_writer():
             _harvest_keeps_a_patch_landed_mid_scan,
             "order 972932ab89b0: refresh_continuity landed under CAS and harvest's plain write "
             "clobbered it -- the protected writer was the one that lost")
+        net(a, "harvest re-reads a cached feats file when OUTCOME changes, and when the index "
+            "has no recipe digest",
+            _harvest_rescans_when_the_recipe_changes,
+            "order 058fa19d4e65: the index was an mtime-only cache, so run #58's widened OUTCOME "
+            "never reached feats already indexed under the narrower pattern")
+        net(a, "a second chain.py is refused while the first one's claim is live, a dead "
+            "holder's claim is retaken, and release clears only its own",
+            _a_second_chain_run_is_refused_while_the_first_is_live,
+            "order 13ab15a6c8da: two chain.py runs overlapped on 2026-09-14 and raced for the "
+            "harvest index, data/CHAIN.json and the one Ollama, because nothing refused the second")
         net(a, "the pipeline's state save keeps a concurrent re-open and its own progress",
             _pipeline_state_keeps_a_concurrent_reopen,
             "order 26667ecd6543: save_state dumped the run-long in-memory copy whole after every "
@@ -8121,6 +8336,90 @@ def drill_stale_writer():
             generate_catalog_save_does_not_resurrect_a_withdrawal,
             "sweep 58 batch03: generate landed its whole start-of-run catalog every five chapters, "
             "restoring rows withdraw_chapters had just removed")
+
+        def generate_failures_save_keeps_a_concurrent_runs_rows():
+            """generate.py must land only its own failures.json changes, merged into the file as
+            it is NOW -- the sibling of the catalog net above, for order ec8b8b35e521.
+
+            `main()` loaded failures.json once and every write site (four refusal branches, the
+            clear-on-success branch, the closing write) landed the WHOLE in-memory `failures`
+            dict through `save_json`: atomic, blind to what the file held. A second overlapping
+            run (a hand-run beside a standing job does not pass the overnight singleton guard)
+            had every row it recorded, and every clear it made, in the gap silently undone.
+
+            TWO HALVES, and each has its own revert. WIRING: no `save_json`/`write_json` call in
+            generate.py takes a `failures` argument, and `main()` does call `_land_failures`.
+            BEHAVIOUR, staged the way the race happens rather than on a quiet file: this run loads
+            failures.json once; ANOTHER run then lands, by a plain write independent of the code
+            under test, a new row of its own and a clear of a shared one; this run then lands its
+            own new row and its own clear through `_land_failures`. The other run's row must
+            survive, its clear must not be resurrected, and this run's row and clear must both
+            land with `own` drained. Adapted from the generate.py agent's proposed net, which
+            landed onto a file nobody had written since the load and so could not show a
+            concurrent run's row being kept. Temp tree only: `generate.HERE` points into a temp
+            directory and `silence.note` is stood in for, both restored in `finally`.
+            """
+            import ast as _ast
+            import generate as G
+            import silence as _S
+            problems = []
+            tree = _ast_of(os.path.join(_srcdir(), "generate.py"))
+            for n in _ast.walk(tree):
+                if not isinstance(n, _ast.Call):
+                    continue
+                fname = (n.func.id if isinstance(n.func, _ast.Name) else
+                         n.func.attr if isinstance(n.func, _ast.Attribute) else None)
+                if (fname in ("save_json", "write_json")
+                        and any("failures" in _ast.unparse(x) for x in n.args)):
+                    problems.append("generate.py:%d still writes failures whole: %s"
+                                    % (n.lineno, _ast.unparse(n)))
+            main_fn = _defn(tree, "main")
+            if main_fn is None or not any(
+                    isinstance(n, _ast.Call) and isinstance(n.func, _ast.Name)
+                    and n.func.id == "_land_failures" for n in _ast.walk(main_fn)):
+                problems.append("generate.main() never calls _land_failures")
+            root = tempfile.mkdtemp(prefix="drill_gen_failures_cas_")
+            saved = (G.HERE, _S.note)
+            try:
+                G.HERE = root
+                _S.note = lambda site, *args, **kw: None
+                full = os.path.join(root, "failures.json")
+                with open(full, "w", encoding="utf-8") as fh:
+                    json.dump({"OTHER.RUN/Old#1": {"error": "an open failure of the other run"},
+                               "SHARED/Cleared#2": {"error": "the other run makes this good"},
+                               "THIS.RUN/Fixed#5": {"error": "this run makes this good"}}, fh)
+                failures = G.load_json("failures.json", {})        # this run's one load
+                with open(full, "w", encoding="utf-8") as fh:      # the other run lands mid-run
+                    json.dump({"OTHER.RUN/Old#1": {"error": "an open failure of the other run"},
+                               "OTHER.RUN/New#3": {"error": "the other run's new refusal"},
+                               "THIS.RUN/Fixed#5": {"error": "this run makes this good"}}, fh)
+                mine = {"error": "this run's own new refusal"}
+                failures["THIS.RUN/Mine#4"] = mine
+                failures.pop("THIS.RUN/Fixed#5", None)
+                own = {"THIS.RUN/Mine#4": mine, "THIS.RUN/Fixed#5": G._FAILURE_CLEARED}
+                landed = G._land_failures("failures.json", own)
+                with open(full, encoding="utf-8") as fh:
+                    fin = json.load(fh)
+                if landed is not True or own != {}:
+                    problems.append("the land did not report landed and drain own "
+                                    "(landed=%r, own left=%r)" % (landed, sorted(own)))
+                for k in ("OTHER.RUN/Old#1", "OTHER.RUN/New#3", "THIS.RUN/Mine#4"):
+                    if k not in fin:
+                        problems.append("%s is missing after the land" % k)
+                for k in ("SHARED/Cleared#2", "THIS.RUN/Fixed#5"):
+                    if k in fin:
+                        problems.append("%s was cleared and is back after the land" % k)
+            finally:
+                G.HERE, _S.note = saved
+                shutil.rmtree(root, ignore_errors=True)
+            if problems:
+                raise AssertionError("; ".join(problems))
+            return True
+        net(a, "generate.py's failures save keeps a row and a clear another run landed mid-run",
+            generate_failures_save_keeps_a_concurrent_runs_rows,
+            "order ec8b8b35e521: generate loaded failures.json once and landed the whole "
+            "in-memory dict on every refusal and every clear, so a second overlapping run's "
+            "recorded rows and clears were erased -- the catalog.json shape run #58 removed")
 
         def suppressions_keep_the_row_another_writer_landed():
             """sweep58-batch04. `suppressions.add()`/`remove()` were a whole-document read-modify-
@@ -8246,7 +8545,14 @@ def _harvest_keeps_a_patch_landed_mid_scan():
                            "feats": [{"feat": "Goku defeated Frieza", "page": "Goku"}]}, fh)
             idx_path = os.path.join(t, "state", "chain_harvest_idx.json")
             rel_a, rel_b = os.path.relpath(a_fp, t), os.path.relpath(b_fp, t)
-            base = {rel_a: {"mt": os.path.getmtime(a_fp),
+            # STAMPED WITH THE CURRENT RECIPE (run #59). Since order 058fa19d4e65 an index with
+            # no `_RECIPE_KEY` is invalid WHOLE, so an unstamped fixture sent harvest down the
+            # forced-rescan path: `a.json` was re-derived, and `_land_harvest` correctly re-applied
+            # this pass's own entry over the patch. This net is about the INCREMENTAL case, where
+            # `a.json` is cached and untouched and the patch must survive. The forced rescan has its
+            # own net (`_harvest_rescans_when_the_recipe_changes`).
+            base = {CH._RECIPE_KEY: CH._harvest_recipe_digest(),
+                    rel_a: {"mt": os.path.getmtime(a_fp),
                             "rows": [{"entity": "Goku", "sentence": "Goku defeated Frieza",
                                       "page": "Goku", "host": "host.x", "continuity": None}]}}
             with open(idx_path, "w", encoding="utf-8") as fh:
@@ -8279,6 +8585,161 @@ def _harvest_keeps_a_patch_landed_mid_scan():
                     and any(r.get("continuity") == "Earth-616" for r in rows))
         finally:
             CH.HERE, CH.HARVEST_IDX, CH.ID = saved
+    return _esc_probe(probe)
+
+
+def _harvest_rescans_when_the_recipe_changes():
+    """chain.harvest() must re-open a cached feats file when OUTCOME changes, mtime untouched.
+
+    ORDER 058fa19d4e65. The harvest index is a per-file mtime cache, and an mtime says nothing
+    about whether the RULE reading the file changed: run #58 widened OUTCOME and the widening
+    never reached feats already indexed under the narrower pattern. The fix stores
+    `_harvest_recipe_digest()` under `chain._RECIPE_KEY` and discards the whole cached index when
+    the stored digest differs OR IS MISSING. Adapted from chain_agent's proposed net, with the
+    missing-key half added, because that half is its own way to fail: an index written before the
+    fix carries no key, and reading "no key" as a match would keep every pre-fix index forever.
+
+    THREE PHASES on one fixture sentence ("... is defeating ...") and patterns spelled without a
+    backslash, so nothing here can be eaten in transit:
+      1. NARROW OUTCOME (defeated|defeats), empty index: no row, and the index lands carrying the
+         narrow digest. A narrow pattern that matched would make the rest prove nothing.
+      2. WIDENED OUTCOME (adds defeating), the file NOT touched: the row must come back and the
+         index must now carry the widened digest. A cache keyed on mtime alone returns nothing.
+      3. AN INDEX WITH NO RECIPE KEY holding that file at its real mtime and no rows: the row must
+         come back. An index with no key read as matching returns nothing.
+
+    Inside `_esc_probe`'s sandbox, with chain.HERE / HARVEST_IDX / ID / OUTCOME repointed at a
+    tree under it and restored in `finally`; this file's `_SANDBOX_REDIRECTS` also covers
+    state/chain_harvest_idx.json. The live index and data/CHAIN.json are never opened: harvest
+    does not write CHAIN.json, and `ID` is stubbed so DESIGNATORS.json is not read either. The
+    two rescans note `chain.py:harvest-recipe-changed` by design, so they are wrapped in
+    `_deliberately_failing`.
+    """
+    import chain as CH
+    sentence = "Test Hero is defeating Test Villain right now."
+
+    def probe(d, filed):
+        saved = (CH.HERE, CH.HARVEST_IDX, CH.ID, CH.OUTCOME)
+        problems = []
+        try:
+            t = os.path.join(d, "chain_recipe")
+            feats = os.path.join(t, "data", "feats", "host_r")
+            os.makedirs(feats)
+            os.makedirs(os.path.join(t, "state"))
+            fp = os.path.join(feats, "e1.json")
+            with open(fp, "w", encoding="utf-8") as fh:
+                json.dump({"entity": "Test Hero", "host": "host.r",
+                           "feats": [{"feat": sentence, "page": "Test Page"}]}, fh)
+            idx_path = os.path.join(t, "state", "chain_harvest_idx.json")
+
+            class _ID:
+                @staticmethod
+                def load():
+                    return {}
+
+                @staticmethod
+                def identify(page, host, inv=None):
+                    return None, None
+
+            def on_disk():
+                with open(idx_path, encoding="utf-8") as fh:
+                    return json.load(fh)
+
+            def found(rows):
+                return any(r.get("sentence") == sentence for r in (rows or []))
+
+            CH.HERE, CH.HARVEST_IDX, CH.ID = t, idx_path, _ID
+            CH.OUTCOME = re.compile("defeated|defeats", re.I)
+            narrow = CH._harvest_recipe_digest()
+            if found(CH.harvest()):
+                problems.append("the fixture is wrong: the narrow pattern matched the sentence")
+            if on_disk().get(CH._RECIPE_KEY) != narrow:
+                problems.append("the first harvest did not store the narrow recipe digest")
+
+            CH.OUTCOME = re.compile("defeated|defeats|defeating", re.I)
+            wide = CH._harvest_recipe_digest()
+            if wide == narrow:
+                problems.append("widening OUTCOME did not change _harvest_recipe_digest()")
+            if not found(_deliberately_failing(CH.harvest)):
+                problems.append("a widened OUTCOME did not reach a file cached under the narrow "
+                                "one (mtime untouched)")
+            if on_disk().get(CH._RECIPE_KEY) != wide:
+                problems.append("the rescan did not store the widened recipe digest")
+
+            with open(idx_path, "w", encoding="utf-8") as fh:
+                json.dump({os.path.relpath(fp, t): {"mt": os.path.getmtime(fp), "rows": []}}, fh)
+            if not found(_deliberately_failing(CH.harvest)):
+                problems.append("an index with no recipe key was read as matching, and its "
+                                "cached empty entry was kept")
+        finally:
+            CH.HERE, CH.HARVEST_IDX, CH.ID, CH.OUTCOME = saved
+        if problems:
+            raise AssertionError("; ".join(problems))
+        return True
+    return _esc_probe(probe)
+
+
+def _a_second_chain_run_is_refused_while_the_first_is_live():
+    """A second chain.py must be REFUSED while the first one's claim is live. -> True or raises.
+
+    ORDER 13ab15a6c8da. Two `python src/chain.py` runs overlapped on 2026-09-14, racing each other
+    for state/chain_harvest_idx.json, data/CHAIN.json and the one local Ollama. `main()` now takes
+    a claim through `singleton_claim` before `_run` and releases it in a `finally`. THREE CASES,
+    because each is a way the guard can be wrong while the others still pass:
+
+      1. A LIVE HOLDER REFUSES A SECOND CLAIM. This process claims, then claims again against the
+         same file: our own pid is trivially alive, so the second must come back refused, naming
+         the overlap. `if held:` read as `if False:` passes cases 2 and 3 and fails only this.
+      2. A DEAD HOLDER IS RETAKEN. The claim names a child `python -c pass` that has already
+         exited, so the guard must not wedge every future run on a crash.
+      3. RELEASE CLEARS ONLY ITS OWN CLAIM. A record naming another pid survives `release()`; an
+         unconditional unlink would let a run that lost the race drop a later run's live claim.
+
+    NEVER THE LIVE LOCK. `singleton_claim(path=SINGLETON_LOCK)` binds its default at import, so
+    repointing `chain.SINGLETON_LOCK` would redirect nothing: every call here passes a path under
+    the sandbox, the probe refuses to run if that path is the live one, and the live file is on
+    the audit hook's watch list, so a dropped argument fails this net rather than claiming and
+    clearing state/chain_singleton.json beside the running chain. The child is windowless and its
+    cwd is the sandbox. Nothing here notes: a refusal is a return value, not a ledger row.
+    Module-level so THE LIVE-STATE WITNESS can drive it; the net still owns the verdict.
+    """
+    import subprocess
+    import chain as CH
+
+    def probe(d, filed):
+        lock = os.path.join(d, "state", "chain_singleton.json")
+        if (os.path.normcase(os.path.abspath(lock))
+                == os.path.normcase(os.path.abspath(CH.SINGLETON_LOCK))):
+            return False
+        problems = []
+
+        ok1, why1 = CH.singleton_claim(lock)
+        ok2, why2 = CH.singleton_claim(lock)
+        if not (ok1 is True and ok2 is False and "already running" in (why2 or "")):
+            problems.append("a second claim while this process holds the first was not refused: "
+                            "first=(%r, %r) second=(%r, %r)" % (ok1, why1, ok2, why2))
+        CH.singleton_release(lock)
+        if os.path.exists(lock):
+            problems.append("release() did not clear a claim naming this process's own pid")
+
+        child = subprocess.Popen([sys.executable, "-c", "pass"], cwd=d,
+                                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        child.wait()
+        os.makedirs(os.path.dirname(lock), exist_ok=True)
+        with open(lock, "w", encoding="utf-8") as fh:
+            json.dump({"pid": child.pid, "started": time.time() - 999}, fh)
+        ok3, why3 = CH.singleton_claim(lock)
+        if ok3 is not True:
+            problems.append("a claim naming an exited pid was not retaken: (%r, %r)" % (ok3, why3))
+
+        with open(lock, "w", encoding="utf-8") as fh:
+            json.dump({"pid": child.pid, "started": time.time()}, fh)
+        CH.singleton_release(lock)
+        if not os.path.exists(lock):
+            problems.append("release() cleared a claim naming a different pid")
+        if problems:
+            raise AssertionError("; ".join(problems))
+        return True
     return _esc_probe(probe)
 
 
@@ -8908,6 +9369,98 @@ def _unparseable_reply_is_benched_and_ledgered(tmp=None):
          CB._bucket_of, CB.record_unrecognised, CB._bury) = keep
         with CB._DEAD_LOCK:
             CB._UNPARSEABLE.clear()
+
+
+def _a_throttle_that_states_no_wait_still_benches():
+    """A named throttle with no stated retry-after still benches the bucket. -> True or raises.
+
+    ORDER 58cbf2367aeb item 2. `_ask_call`'s named-transient branch benched only when the
+    provider STATED a wait (`_wait = retry_after_seconds(err)`), so a bare "rate limit exceeded"
+    benched nothing and the bucket was claimable again on the next pace tick -- less caution than
+    the deadline path gives a bucket that merely went silent. The branch now falls back to
+    `MIN_STATED_BENCH`. THREE WORDINGS, driven through the REAL `_ask_call` against a stand-in
+    engine that answers with an error event, so the branch's own line decides every answer:
+
+      * a bare throttle: benched once, for exactly `MIN_STATED_BENCH` seconds;
+      * a stated "retry in 90s": benched for 90, so the floor does not override a real number;
+      * "All 3 candidates failed: ...": pool-wide exhaustion names no provider and benches nobody.
+
+    THE WORDINGS ARE CHECKED AGAINST THE MODULE'S OWN PREDICATES FIRST (`named_transient`,
+    `retry_after_seconds`, `permanent_refusal`, `pool_exhausted`), so a vocabulary change fails
+    here as a fixture error rather than passing on a branch the call never reached. NOTHING IS
+    SENT TO ANY PROVIDER AND NO CLOCK IS READ: the engine, router, aliveness, pacing, `_clear`,
+    `_bucket_of` and `record_unrecognised` are stand-ins with their subjects' signatures, and
+    `_bury` is a recorder that keeps `(bucket, seconds)`, so no bench expiry is ever computed from
+    `time.time()`. Same stand-in set as `_unparseable_reply_is_benched_and_ledgered`, all restored
+    in `finally`.
+    """
+    import cascade_bridge as CB
+    bare = "rate limit exceeded, please try again later"
+    stated = "rate limited, retry in 90s"
+    pooled = "All 3 candidates failed: rate limit exceeded, please try again later"
+    if not (CB.named_transient(bare) and CB.retry_after_seconds(bare) is None
+            and not CB.permanent_refusal(bare) and not CB.pool_exhausted(bare)
+            and CB.named_transient(stated) and CB.retry_after_seconds(stated) == 90
+            and not CB.permanent_refusal(stated) and not CB.pool_exhausted(stated)
+            and CB.pool_exhausted(pooled) and not CB.permanent_refusal(pooled)):
+        raise AssertionError("[fixture] the three wordings no longer classify the way this net "
+                             "needs them to, so it cannot say which branch it reached")
+    reply = {"error": bare}
+    buried = []
+
+    class _Model:
+        id, label, bucket = "drill:model", "Drill Model", "drill-bench-bucket"
+
+    class _Router:
+        models = [_Model]
+
+        def claim(self, pool, n):
+            return [_Model]
+
+        def reserve(self, model):
+            return None
+
+        def release(self, model):
+            return None
+
+    class _Engine:
+        def stream_chat(self, messages, **stream_kw):
+            yield {"type": "model", "label": _Model.label, "model_id": _Model.id}
+            yield {"type": "error", "error": reply["error"]}
+
+    engine = _Engine()
+    keep = (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+            CB._bucket_of, CB.record_unrecognised, CB._bury)
+
+    def benches_for(err):
+        reply["error"] = err
+        del buried[:]
+        answer = CB._ask_call("drill system", "drill prompt")
+        if answer is not None:
+            raise AssertionError("a failed call returned %r" % (answer,))
+        return list(buried)
+
+    try:
+        CB.thread_engine = lambda: engine
+        CB._ROUTER = _Router()
+        CB._alive = lambda bucket: True
+        CB._tried_add = lambda bucket: None
+        CB._pace = lambda bucket: None
+        CB._clear = lambda bucket: None
+        CB._bucket_of = lambda name: _Model.bucket
+        CB.record_unrecognised = lambda bucket, err: None
+        CB._bury = lambda bucket, seconds=None: buried.append((bucket, seconds))
+        got = {"bare": benches_for(bare), "stated": benches_for(stated),
+               "pooled": benches_for(pooled)}
+    finally:
+        (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+         CB._bucket_of, CB.record_unrecognised, CB._bury) = keep
+    want = {"bare": [(_Model.bucket, CB.MIN_STATED_BENCH)],
+            "stated": [(_Model.bucket, 90)],
+            "pooled": []}
+    if got != want:
+        raise AssertionError("benches by wording: got %r, expected %r" % (got, want))
+    return True
 
 
 def _scope_lands_key_wise(tmp=None):
@@ -9649,6 +10202,12 @@ def drill_binding_identity():
         "the one failure that is the model's own fault reached neither the bench nor the "
         "ledger, and everything it did record went into an OPTIONAL dict the production caller "
         "does not pass")
+    net(a, "a named throttle that states no wait still benches the bucket, a stated wait still "
+        "wins, and pool-wide exhaustion benches nobody",
+        _a_throttle_that_states_no_wait_still_benches,
+        "order 58cbf2367aeb item 2: only a stated retry-after benched, so a bare 'rate limit "
+        "exceeded' left the bucket claimable on the next pace tick -- less caution than a bucket "
+        "that merely went silent gets")
     net(a, "a scope probe lands its own hosts, never the whole table it read",
         _scope_lands_key_wise,
         "SCOPE.json was read, then up to 155 wikis were crawled, then this run's copy of the "
@@ -9842,6 +10401,23 @@ def drill_policy():
         "records and coverage rows must be well-formed before anything reasons over them -- and "
         "this read 40 of 216 records and scored an unparseable one as clean, so the claim was "
         "about a fifth of the corpus and could not fail on the file most likely to be broken")
+
+    def is_type_refuses_a_bool_for_a_number():
+        """Order 58cbf2367aeb item 4. `bool` subclasses `int`, so a plain `isinstance` let a JSON
+        true/false through a rule whose `why` promises a NUMBER. BOTH DIRECTIONS: True and False
+        refused for "int" and "float", while a real int, a real float and a bool asked for as
+        "bool" still pass -- a carve-out that refused every bool would satisfy the first half."""
+        def ok(value, arg):
+            return POL.check_rule({"n": value}, {"id": "drill.is_type", "path": "n",
+                                                 "op": "is_type", "arg": arg})["ok"]
+        return (ok(True, "int") is False and ok(False, "int") is False
+                and ok(True, "float") is False and ok(False, "float") is False
+                and ok(7, "int") is True and ok(2.5, "float") is True
+                and ok(True, "bool") is True)
+    net(a, "is_type refuses a bool where a rule asks for an int or a float",
+        is_type_refuses_a_bool_for_a_number,
+        "order 58cbf2367aeb item 4: isinstance(True, int) is True, so a boolean passed a rule "
+        "promising a number -- the line assay._check_readings already draws")
 
 
 def _policy_corpus_clean(root=None):
@@ -12812,7 +13388,12 @@ def _live_watch():
             ("state", "OLLAMA_RESTARTS.json"), ("state", "PIPELINE_STATE.json"),
             ("data", "ONOMASTICON.json"), ("state", "chain_harvest_idx.json"),
             ("state", "MAINTENANCE_RUN.json"), ("data", "PROVIDER_MODELS.json"),
-            ("data", "WIKI_HOSTS.json")))
+            ("data", "WIKI_HOSTS.json"),
+            # chain.py's single-instance claim (order 13ab15a6c8da). `singleton_claim` and
+            # `singleton_release` take the path as a DEFAULT ARGUMENT bound at import, so
+            # repointing `chain.SINGLETON_LOCK` redirects nothing: the probe passes a sandbox path
+            # explicitly, and a dropped argument would claim and clear the live file.
+            ("state", "chain_singleton.json")))
         dirs = tuple(p(*x) for x in (
             ("state", "escalations"), ("state", "codewatch_poll"), ("state", "snapshots"),
             ("data", "records"), ("output", "raw"), ("output", "compressed")))
@@ -12864,13 +13445,25 @@ def _live_audit(event, args):
         elif event == "subprocess.Popen":
             # A CHILD PROCESS IS A PROBE THIS HOOK CANNOT FOLLOW, so the child must be pointed
             # away from the live tree on its command line: an absolute path argument inside it,
-            # or a working directory inside it (an absent `cwd` is inherited, and the drill runs
-            # from the live root), is recorded as the escape.
+            # or a working directory inside it, is recorded as the escape.
+            #
+            # AN ABSENT `cwd` IS AN ESCAPE WHEREVER THE DRILL WAS LAUNCHED FROM (order
+            # 2f314697d52b, Q1). This resolved an absent `cwd` through `os.getcwd()`, so the same
+            # probe read as a leak when the drill ran from the live root (overnight.py, mutate.py
+            # and `prove_net` all launch it there) and as clean when a person ran it from anywhere
+            # else -- one net, two verdicts, decided by the shell it was typed into. Resolving
+            # against the SANDBOX instead was rejected: the child does not run in the sandbox, it
+            # inherits whatever this process has, and a witness that assumes the redirection it
+            # is checking shares the sandbox's failure mode. "I do not know where the child runs"
+            # is answered with STOP, so a sandboxed spawn passes `cwd=` or it is recorded.
             root = _live_watch()[3]
             _exe, argv, cwd = (list(args) + [None, None, None])[:3]
-            here_cwd = os.path.normcase(os.path.abspath(os.fsdecode(cwd) if cwd else os.getcwd()))
-            if here_cwd == root or here_cwd.startswith(root + os.sep):
-                hits.append("cwd=" + here_cwd)
+            if not cwd:
+                hits.append("cwd=<inherited: no cwd= was passed>")
+            else:
+                here_cwd = os.path.normcase(os.path.abspath(os.fsdecode(cwd)))
+                if here_cwd == root or here_cwd.startswith(root + os.sep):
+                    hits.append("cwd=" + here_cwd)
             for a_ in (argv if isinstance(argv, (list, tuple)) else [argv]):
                 if isinstance(a_, (str, bytes, os.PathLike)) and os.path.isabs(os.fsdecode(a_)):
                     s = os.path.normcase(os.path.abspath(os.fsdecode(a_)))
@@ -15546,6 +16139,63 @@ def drill_assay_behaviour():
         "deliberately: what range a Hand reading may take is a charter question the owner has "
         "not ruled on, and deciding it inside the engine is the move this net exists to notice")
 
+    # ------------------------------------------------------ the fourth door: assay(hand_readings=)
+    #
+    # sweep59 batch13, verified by maintenance run #59. `interval_from_hands` gained Layer 1 under
+    # order 50e8d8be9a9b; `assay()` takes the SAME Hands' decimals as a plain list and fed them
+    # into `_interval`'s between-hands variance with no check at all.
+
+    def assay_refuses_hand_readings_it_cannot_publish():
+        """`assay(hand_readings=[nan, 3.0])` published interval nan; `["seven", 3.0]` raised a
+        TypeError from inside `_interval`. Both are the outcomes `_check_readings`' docstring names
+        as the wrong ones, reached through the door that function does not guard.
+
+        EVERY BAD SHAPE MUST RAISE `AssayIntegrityError` SPECIFICALLY. A TypeError from the
+        arithmetic is not a refusal, it is a crash that happens to stop the number -- so anything
+        other than the integrity error counts as NOT refused here, and the net reds on it.
+
+        AND THE CONTROLS, SO THE GATE IS WATCHED FROM BOTH SIDES: a real pair, a single reading,
+        None ("no readings on file") and [] must all still publish a FINITE interval. A gate that
+        refused every list would pass the first half alone.
+        """
+        import math
+        scores = {axis: 5.0 for axis in ASSAY.WEIGHTS}
+
+        def run(hr):
+            return ASSAY.assay("M3", scores, worksheet="drill", hand_readings=hr)
+
+        def refused(hr):
+            try:
+                run(hr)
+            except ASSAY.AssayIntegrityError:
+                return True
+            except Exception:
+                return False
+            return False
+
+        bad = ([float("nan"), 3.0], [float("inf"), 3.0], ["seven", 3.0],
+               # bool is an int subclass, so True would otherwise score as 1.0
+               [True, 3.0],
+               # a hole in the list is not a smaller list: `_interval` averages it as given
+               [None, 3.0],
+               # not a sequence of readings at all
+               "3.3", b"3.3", {"AVAR": 3.0}, 3.0)
+        missed = [hr for hr in bad if not refused(hr)]
+        if missed:
+            raise AssertionError("assay() did not refuse hand_readings=%r" % (missed,))
+        for hr in ([3.30, 3.74], [7.4], None, []):
+            iv = run(hr).get("interval")
+            if not (isinstance(iv, (int, float)) and math.isfinite(iv)):
+                raise AssertionError("assay() with hand_readings=%r published interval %r"
+                                     % (hr, iv))
+        return True
+
+    net(a, "assay() refuses hand_readings it cannot publish and still accepts a real list",
+        assay_refuses_hand_readings_it_cannot_publish,
+        "assay.py's _check_hand_readings, called in assay() right after _check_scores (cited by "
+        "symbol per order 0c7592915a48). Removing that call restores interval nan published for "
+        "hand_readings=[nan, 3.0] and a TypeError from inside _interval for ['seven', 3.0]")
+
 
 def drill_threads():
     """The entanglement pass — the one place a citation can be invented.
@@ -16052,6 +16702,68 @@ def drill_threads():
         the_floor_never_rises_to_go_green,
         "no phase may lower a floor to go green (§8); ruling C keeps existing asymmetry lawful, "
         "so the gate fails only on growth")
+
+    def t4_count_excludes_unaddressed_sources():
+        """Order 58cbf2367aeb item 8. `main()`'s printed T4 count walked every magnitude-asserting
+        entry with no check against `graph["unaddressed"]`, while `threads_for` REFUSES an
+        unaddressed source and `build()` gives it no Threads section -- so such an entry produced
+        no real T4 edge and was counted anyway. BOTH DIRECTIONS on one in-memory fixture: an
+        addressed source with one asserting and one non-asserting entry, and an unaddressed source
+        with one asserting entry. The count must be exactly 1 -- 2 is the old sum, 0 is a filter
+        that dropped the addressed source too.
+
+        THE REAL BLOCK, NOT A RE-SPELLING OF IT: the `try` in `main()` that imports `weave_index`
+        is found in the parse tree of `threads.py` (read through `_srcdir()`, so a scratch tree can
+        watch it refuse) and executed against the fixture. `main()` itself never runs and no live
+        record or graph is read: `weave_index` is a stand-in module in `sys.modules`, restored in
+        `finally`, and `graph`, `asserts_a_magnitude`, `format`, `print` and `silence` are
+        namespace stand-ins. An exception from the block is a failure, never a pass."""
+        import ast as _ast
+        import textwrap
+        import types
+        path = os.path.join(_srcdir(), "threads.py")
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        tree = _ast.parse(text)
+        main_fn = next((n for n in tree.body
+                        if isinstance(n, _ast.FunctionDef) and n.name == "main"), None)
+        if main_fn is None:
+            return False                        # fail closed: main() itself is missing
+        block = next((n for n in _ast.walk(main_fn)
+                      if isinstance(n, _ast.Try)
+                      and "weave_index" in (_ast.get_source_segment(text, n) or "")), None)
+        if block is None:
+            return False                        # fail closed: the T4-counting block is missing
+        # `get_source_segment` drops the first line's own indent and keeps every later line's, so
+        # the first line's column is put back before dedenting.
+        seg = textwrap.dedent(" " * block.col_offset + _ast.get_source_segment(text, block))
+        records = [{"source": "Drill Addressed Source", "entries": [{"m": True}, {"m": False}]},
+                   {"source": "Drill Unaddressed Source", "entries": [{"m": True}]}]
+        stand_in = types.ModuleType("weave_index")
+        stand_in.load_records = lambda: records
+        noted = []
+        ns = {"graph": {"unaddressed": [{"source": "Drill Unaddressed Source"}]},
+              "asserts_a_magnitude": lambda e: bool(e.get("m")),
+              "format": format,
+              "print": lambda *a_, **k_: None,
+              "silence": types.SimpleNamespace(note=lambda site: noted.append(site))}
+        had, saved = "weave_index" in sys.modules, sys.modules.get("weave_index")
+        try:
+            sys.modules["weave_index"] = stand_in
+            exec(compile(seg, path + ":main-T4-block", "exec"), ns)
+        finally:
+            if had:
+                sys.modules["weave_index"] = saved
+            else:
+                sys.modules.pop("weave_index", None)
+        if noted:
+            raise AssertionError("the T4 block took its except arm on the fixture: %r" % noted)
+        return ns.get("_t4") == 1
+    net(a, "the printed T4 count excludes entries whose source has no resolvable spine code",
+        t4_count_excludes_unaddressed_sources,
+        "order 58cbf2367aeb item 8: the printed sum counted magnitude-asserting entries in sources "
+        "threads_for refuses, so an unaddressed source -- the ordinary case under Hard Rule 2 -- "
+        "would inflate T4 coverage the day it asserted a Magnitude")
 
 
 def _a_poll_stamp_reads_back_in_three_states():
@@ -16937,11 +17649,327 @@ def drill_defect_classes():
     net(a, "weave_index.py refuses to load when a regex escape was eaten in transit",
         weave_index_refuses_an_eaten_escape,
         "sweep 58 batch14: weave_index had live regex escapes and no _BAD_CHARS guard")
+    net(a, "every top-level module in src/ that imports re carries the eaten-escape guard",
+        _every_re_importer_carries_the_eaten_escape_guard,
+        "order fadd4338a7b0: 24 modules importing re had no _BAD_CHARS guard, because the net "
+        "above proves one module's guard fires and nothing checked who has one at all")
+    net(a, "[control] the eaten-escape roster finds importers and reads a guard in a def or a "
+        "string as no guard",
+        _the_eaten_escape_roster_scan_reads_both_answers,
+        "the roster net asserts an empty offender list, which a matcher that matches nothing "
+        "would satisfy for ever")
     net(a, "the tiers invariants are raised, not asserted, so -O cannot strip them",
         _tiers_invariants_survive_optimize,
         "order 5d0fa30e4b09 item 4: python -O strips assert, so a CUTS edit that broke nesting "
         "would chart silently -- the bare-assert class already repaired in entity_match and "
         "scale_theories, a third time")
+    net(a, "a handler that only touches its exception, reaching no sink, is classified SILENT",
+        _a_touched_exception_is_not_an_observed_one,
+        "order dfac5986e779: any load of the bound name counted as observed, so `except "
+        "Exception as e: _ = e` classified itself as handled -- the run #33 tautology one level "
+        "down, in the detector built to find tautologies")
+
+
+def _a_touched_exception_is_not_an_observed_one():
+    """`silence._handler_is_observed` asks whether the exception REACHES A SINK. -> True or raises.
+
+    ORDER dfac5986e779. The last branch was "is the bound name loaded anywhere in the body", which
+    is true of every handler that so much as mentions `e`. It now asks whether the name, or a name
+    it is assigned into, reaches a Return or Raise value, an argument of a call made as a
+    statement, or a write into an existing structure -- including after the handler ends.
+
+    BOTH DIRECTIONS, driven through the REAL predicate with the same `build_parent_map` plumbing
+    `audit()` and `instrument()` use, never a re-spelling of it:
+      * SILENT: a bare discard, a value built and dropped, and the three-drill-handlers shape that
+        inspects `e` only to gate the failing branch. Any load counting reads all three OBSERVED.
+      * OBSERVED: a note, a return, a raise-from, a log call, and a carry past the handler end
+        into a later write and a later call. A rule too narrow to follow a carry reads these
+        SILENT, which is the 33 false movers the fix's first cut produced.
+    Fixtures are parsed from strings; nothing is run or written.
+    """
+    import ast
+    import silence as _S
+    silent = {
+        "a bare discard": (
+            "def f():\n    try:\n        risky()\n    except Exception as e:\n        _ = e\n"),
+        "a value built and dropped": (
+            "def f():\n    try:\n        risky()\n    except Exception as e:\n"
+            "        x = str(e)\n"),
+        "inspected only to gate the failing branch": (
+            "def f(label):\n    try:\n        risky()\n        return False\n"
+            "    except ValueError as e:\n        if label not in str(e):\n"
+            "            return False\n    return True\n"),
+    }
+    observed = {
+        "a note": (
+            "def f():\n    try:\n        risky()\n    except Exception as e:\n"
+            "        silence.note(str(e))\n"),
+        "a return": (
+            "def f():\n    try:\n        risky()\n    except Exception as e:\n        return e\n"),
+        "a raise from": (
+            "def f():\n    try:\n        risky()\n    except Exception as e:\n"
+            "        raise RuntimeError('wrapped') from e\n"),
+        "a log call": (
+            "def f():\n    try:\n        risky()\n    except Exception as e:\n        log(e)\n"),
+        "a carry into a later write": (
+            "def f():\n    r = {}\n    why = None\n    try:\n        risky()\n"
+            "    except Exception as e:\n        why = 'raised: %s' % e\n"
+            "    r['reread'] = why\n    return r\n"),
+        "a carry into a later call": (
+            "def f():\n    err = None\n    try:\n        risky()\n"
+            "    except Exception as e:\n        err = str(e)\n"
+            "    RESULTS.append({'error': err})\n"),
+    }
+
+    def classify(text):
+        tree = ast.parse(text)
+        handlers = [n for n in ast.walk(tree) if isinstance(n, ast.ExceptHandler)]
+        if len(handlers) != 1:
+            raise AssertionError("fixture does not hold exactly one handler: %r" % text)
+        return _S._handler_is_observed(handlers[0], _S.build_parent_map(tree))
+
+    wrong = (["%s -> observed, expected SILENT" % k for k, v in silent.items() if classify(v)]
+             + ["%s -> silent, expected OBSERVED" % k for k, v in observed.items()
+                if not classify(v)])
+    if wrong:
+        raise AssertionError("; ".join(wrong))
+    return True
+
+
+_EATEN_ESCAPE_CODEPOINTS = frozenset((8, 11, 12, 7))
+
+
+def _module_level_nodes(tree):
+    """Every node of a module that runs at IMPORT: inside top-level `if`/`try`/`with`, never
+    inside a `def`, `class` or `lambda` body. -> generator of ast nodes."""
+    import ast
+    stack = list(tree.body)
+    while stack:
+        n = stack.pop()
+        yield n
+        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Lambda)):
+            continue
+        stack.extend(ast.iter_child_nodes(n))
+
+
+def _imports_re_at_module_level(tree):
+    """`import re`, `import re as x` or `from re import ...`, run at import time. -> bool."""
+    import ast
+    for n in _module_level_nodes(tree):
+        if isinstance(n, ast.Import) and any(al.name == "re" for al in n.names):
+            return True
+        if isinstance(n, ast.ImportFrom) and n.module == "re" and not n.level:
+            return True
+    return False
+
+
+def _carries_eaten_escape_guard(tree):
+    """The house `_BAD_CHARS` guard, as STATEMENTS in the module body. -> bool.
+
+    Two top-level statements, in order: `_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))` --
+    all four code points, a narrower tuple is a narrower guard -- and an `if` whose test reads
+    `_BAD_CHARS` and whose body raises `SystemExit`. Direct children of the module only: a guard
+    inside a `def` never runs at import, one under `if __name__ == "__main__"` never runs on
+    import either, and one inside a string is prose about a guard.
+    """
+    import ast
+    assigned_at = None
+    for i, n in enumerate(tree.body):
+        if (assigned_at is None and isinstance(n, ast.Assign)
+                and any(isinstance(t, ast.Name) and t.id == "_BAD_CHARS" for t in n.targets)
+                and isinstance(n.value, ast.Tuple)):
+            points = set()
+            for e in n.value.elts:
+                if (isinstance(e, ast.Call) and isinstance(e.func, ast.Name)
+                        and e.func.id == "chr" and len(e.args) == 1
+                        and isinstance(e.args[0], ast.Constant)):
+                    points.add(e.args[0].value)
+            if _EATEN_ESCAPE_CODEPOINTS <= points:
+                assigned_at = i
+        elif (assigned_at is not None and isinstance(n, ast.If)
+              and any(isinstance(x, ast.Name) and x.id == "_BAD_CHARS"
+                      for x in ast.walk(n.test))):
+            for r in n.body:
+                exc = getattr(r, "exc", None) if isinstance(r, ast.Raise) else None
+                fn = exc.func if isinstance(exc, ast.Call) else exc
+                if isinstance(fn, ast.Name) and fn.id == "SystemExit":
+                    return True
+    return False
+
+
+def _eaten_escape_roster(src=None):
+    """-> (importers, offenders): every TOP-LEVEL module in `_srcdir(src)` that imports `re` at
+    module level, and every one of those not carrying `_carries_eaten_escape_guard`. Uncapped,
+    sorted by file name.
+
+    WHY TOP LEVEL ONLY, AND NOT `src/deprecated/` (decided for order fadd4338a7b0). The one
+    module there, `deprecated/catalogue_local.py`, imports `re` and has no guard ON PURPOSE: its
+    header lists "no `_BAD_CHARS` transit guard" among six defects DELIBERATELY NOT REPAIRED, so
+    the file stays a record of a failure mode and never looks usable again, and its refusal sits
+    above every path so importing it stops as hard as running it -- the guard would protect code
+    that cannot run. Walking into `deprecated/` would make this net red over a standing ruling
+    or force an exemption list, and an exemption list is where the next offender hides. A module
+    moved into `deprecated/` has left the roster this net is about; `_src_py_files` is the walk
+    for nets whose question does include that directory.
+    """
+    d = _srcdir(src)
+    importers, offenders = [], []
+    for f in sorted(os.listdir(d)):
+        full = os.path.join(d, f)
+        if not (f.endswith(".py") and os.path.isfile(full)):
+            continue
+        tree = _ast_of(full)
+        if not _imports_re_at_module_level(tree):
+            continue
+        importers.append(f)
+        if not _carries_eaten_escape_guard(tree):
+            offenders.append(f)
+    return importers, offenders
+
+
+def _every_re_importer_carries_the_eaten_escape_guard(src=None):
+    """ORDER fadd4338a7b0. Every top-level module in src/ that imports `re` carries the house
+    eaten-escape guard at module level. -> True, or raises naming EVERY offender.
+
+    The guard exists because a `\\s` or `\\b` that loses its backslash in transit becomes a
+    control character, and a regex holding one compiles, loads and matches nothing, silently.
+    It was inserted by hand into 24 modules on 2026-09-14 after the class came back -- and it
+    came back because nothing checked the ROSTER: `weave_index_refuses_an_eaten_escape` proves one
+    module's guard fires, and no net asked whether a module had one at all. Read with `ast`, not
+    a substring, so the guard quoted in a comment, a docstring or a function body does not count;
+    see `_carries_eaten_escape_guard`. An importer set that comes back EMPTY also fails: a matcher
+    that matches nothing would otherwise hold here for ever, and the control beside this net
+    proves the matcher on fixtures.
+    """
+    importers, offenders = _eaten_escape_roster(src)
+    if not importers:
+        raise AssertionError("no module in %s imports re at module level -- the import matcher "
+                             "has gone blind, which is not the same as a clean roster"
+                             % _srcdir(src))
+    if offenders:
+        raise AssertionError("%d of %d module(s) importing re carry no module-level _BAD_CHARS "
+                             "guard: %s" % (len(offenders), len(importers), ", ".join(offenders)))
+    return True
+
+
+def _the_eaten_escape_roster_scan_reads_both_answers():
+    """[control] for `_every_re_importer_carries_the_eaten_escape_guard`. -> bool.
+
+    A scratch `src/` of fixtures, each answer spelled out: a guarded `import re`, a guarded
+    `from re import`, a guard inside a `def`, a guard quoted in a string, an unguarded `import re`
+    inside a module-level `try`, a module importing `re` only inside a function (not an importer),
+    and a module under a `deprecated/` subdirectory (outside the roster). The roster must name
+    exactly the five importers and exactly the three offenders.
+    """
+    guard = ('_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))\n'
+             'if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() '
+             'for c in _BAD_CHARS):\n'
+             '    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")\n')
+    files = {
+        "guarded.py": "import os\nimport re\n" + guard,
+        "from_re.py": "import os\nfrom re import sub\n" + guard,
+        "in_a_def.py": ("import os\nimport re as _r\n\n\ndef f():\n"
+                        + "".join("    " + ln + "\n" for ln in guard.splitlines())),
+        "in_a_string.py": "import os\nimport re\nNOTE = %r\n" % guard,
+        "in_a_try.py": "import os\ntry:\n    import re\nexcept ImportError:\n    re = None\n",
+        "no_re.py": "import os\n\n\ndef f():\n    import re\n    return re\n",
+        os.path.join("deprecated", "old.py"): "import re\n",
+    }
+    tmp = tempfile.mkdtemp(prefix="drill_eaten_roster_")
+    try:
+        os.makedirs(os.path.join(tmp, "deprecated"))
+        for rel, body in files.items():
+            with open(os.path.join(tmp, rel), "w", encoding="utf-8", newline="") as fh:
+                fh.write(body)
+        importers, offenders = _eaten_escape_roster(tmp)
+        return (importers == ["from_re.py", "guarded.py", "in_a_def.py", "in_a_string.py",
+                              "in_a_try.py"]
+                and offenders == ["in_a_def.py", "in_a_string.py", "in_a_try.py"])
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _index_spine_disagreements(db_path):
+    """Read one corpus index's `source` table against `address.spine_code_for()`, read-only.
+
+    -> (checked, disagreements): how many named rows were compared, and one line per row whose
+    stored `spine` is not what the resolver answers (UNASSIGNED is stored as NULL). Uncapped.
+    """
+    import corpus_db
+    import address
+    con = corpus_db.connect(db_path, readonly=True)
+    try:
+        rows = con.execute("SELECT name, spine FROM source").fetchall()
+    finally:
+        con.close()
+    checked, bad = 0, []
+    for name, stored in rows:
+        if not name:
+            continue
+        real = address.spine_code_for(name)
+        real = None if real == "UNASSIGNED" else real
+        if stored != real:
+            bad.append("%r stored %r, resolver %r" % (name, stored, real))
+        checked += 1
+    return checked, bad
+
+
+def _spine_fixture_index():
+    """Build a three-source corpus index with the REAL `corpus_db.rebuild()` in a temp directory
+    and compare it. -> (checked, disagreements). Order e3fcbbe262e2; see
+    `index_spine_agrees_with_the_resolver`.
+
+    The three names are chosen from the live `data/CHARTER_SPINE_CODES.json` at run time, so the
+    fixture cannot rot against the charter: an EXACT index name, the same name UPPER-CASED (not
+    itself a key, so a dict `get` misses it and only the resolver's letter-level match shelves
+    it), and a name the resolver answers UNASSIGNED for (stored NULL). Each choice is verified
+    against the resolver before the build; a fixture that could not be built raises, because a
+    net that silently skipped its fixture is the hole this was written to close.
+
+    NOTHING LIVE IS WRITTEN. `corpus_db.HERE` and `corpus_db.DB` are pointed at the temp
+    directory for the call and restored in `finally`; the temp tree carries its own
+    `data/records/`, an empty `WIKI_HOSTS.json` and `COVERAGE.json` (so no read-failure note is
+    raised), and evidence is not included. The resolver still reads the real charter codes, which
+    is the point.
+    """
+    import corpus_db
+    import address
+    codes = address._load_spine_codes()
+    exact = variant = None
+    for k in sorted(codes):
+        v = k.upper()
+        if (v != k and v not in codes and address.spine_code_for(k) not in (None, "UNASSIGNED")
+                and address.spine_code_for(v) == address.spine_code_for(k)):
+            exact, variant = k, v
+            break
+    unshelved = "Drill Fixture Qzxv Nonsource"
+    if exact is None or address.spine_code_for(unshelved) != "UNASSIGNED":
+        raise AssertionError("the spine fixture could not be built: exact=%r, %r resolves to %r"
+                             % (exact, unshelved, address.spine_code_for(unshelved)))
+    tmp = tempfile.mkdtemp(prefix="drill_spine_fixture_")
+    keep = (corpus_db.HERE, corpus_db.DB)
+    try:
+        os.makedirs(os.path.join(tmp, "data", "records"))
+        os.makedirs(os.path.join(tmp, "state"))
+        for fname, body in (("WIKI_HOSTS.json", {}), ("COVERAGE.json", [])):
+            with open(os.path.join(tmp, "data", fname), "w", encoding="utf-8") as fh:
+                json.dump(body, fh)
+        for i, name in enumerate((exact, variant, unshelved)):
+            with open(os.path.join(tmp, "data", "records", "fixture_%d.json" % i), "w",
+                      encoding="utf-8") as fh:
+                json.dump({"source": name, "entries": []}, fh)
+        corpus_db.HERE = tmp
+        corpus_db.DB = os.path.join(tmp, "state", "corpus.db")
+        got = corpus_db.rebuild(include_evidence=False)
+        if not got.get("landed") or got.get("sources") != 3:
+            raise AssertionError("the fixture rebuild did not land three sources: %r" % (got,))
+        checked, bad = _index_spine_disagreements(corpus_db.DB)
+        if checked != 3:
+            raise AssertionError("the fixture index held %d named source(s), not 3" % checked)
+        return checked, bad
+    finally:
+        corpus_db.HERE, corpus_db.DB = keep
+        shutil.rmtree(tmp, ignore_errors=True)
 
 
 def _tiers_invariants_survive_optimize():
@@ -16981,6 +18009,11 @@ _KNOWN_KILL0_SITES = {
                    "section 19u drives _alive(999999) and requires False",
     "mutate.py": "psutil first, then _pid_alive_windows on os.name == 'nt'; the bare idiom is "
                  "the POSIX-only leg, where it is exact",
+    # ADDED BY RUN #59 (order 13ab15a6c8da), and argued for here as the note above demands: the
+    # central drill breached this ratchet the moment chain.py's single-instance guard landed.
+    "chain.py": "_pid_alive is a verbatim copy of mutate._pid_alive for the singleton guard: "
+                "psutil first, then _pid_alive_windows on os.name == 'nt'; the bare idiom is "
+                "the POSIX-only leg, where it is exact",
 }
 
 
@@ -17006,9 +18039,12 @@ def _liveness_probes_answer_correctly():
     """
     import gpu_lane as _GL
     import mutate as _M
+    import chain as _CH                       # run #59: the singleton guard's copy (13ab15a6c8da)
     probes = [("gpu_lane._alive", _GL._alive),
               ("mutate._pid_alive", _M._pid_alive),
-              ("mutate._pid_alive_windows", _M._pid_alive_windows)]
+              ("mutate._pid_alive_windows", _M._pid_alive_windows),
+              ("chain._pid_alive", _CH._pid_alive),
+              ("chain._pid_alive_windows", _CH._pid_alive_windows)]
     mine = os.getpid()
     for _name, fn in probes:
         try:
@@ -19992,25 +21028,29 @@ def drill_outside():
         and this one was alarming enough to nearly be acted on as a curatorial backlog.
         """
         import corpus_db
-        import address
-        # NO INDEX IS STILL A PASS, DELIBERATELY; AN EMPTY ONE IS NOT (order 0954a44e057d).
+        # A FIXTURE INDEX, BUILT BY THE REAL `rebuild()`, IN EVERY TREE (order e3fcbbe262e2).
         # `mutate.sandbox()` copies `state/` BY NAME and leaves the 78 MB `state/corpus.db` out,
-        # so every `--prove` tree and every mutation baseline has no index at all -- and a net
-        # that is red at the baseline is disabled as a detector for that whole pass. With no
-        # derived view there is nothing to disagree with. An index that EXISTS and names no
-        # source is a different fact: a pass over it is a pass over nothing.
+        # so every `--prove` tree and every mutation baseline has no index at all. Order
+        # 0954a44e057d made "no index" a pass so the net would not be red at a baseline -- which
+        # was right about the baseline and left the net asserting NOTHING in exactly the worlds
+        # that decide whether it can kill a mutant: a `corpus_db` that went back to a dict `get`
+        # held there, by construction. So `_spine_fixture_index` now builds a three-source index
+        # through `corpus_db.rebuild()` itself in a temp directory -- one exact index name, one
+        # spelling only the real resolver's letter-level match can shelve, one name it cannot
+        # shelve at all -- and that index is checked first, always. The live index, when there is
+        # one, is checked after it, unchanged in rule: an index that EXISTS and names no source
+        # is a pass over nothing and fails.
+        fixture_checked, fixture_bad = _spine_fixture_index()
+        if fixture_bad:
+            raise AssertionError("the fixture index built by corpus_db.rebuild() disagrees with "
+                                 "address.spine_code_for() on %d of %d source(s): %s"
+                                 % (len(fixture_bad), fixture_checked, "; ".join(fixture_bad)))
         if not os.path.exists(corpus_db.DB):
-            return True
-        cols, rows = corpus_db.query("SELECT name, spine FROM source")
-        checked = 0
-        for name, stored in rows:
-            if not name:
-                continue
-            real = address.spine_code_for(name)
-            real = None if real == "UNASSIGNED" else real
-            if stored != real:
-                return False
-            checked += 1
+            return True                      # the fixture above was measured; nothing else to read
+        checked, bad = _index_spine_disagreements(corpus_db.DB)
+        if bad:
+            raise AssertionError("state/corpus.db disagrees with address.spine_code_for() on %d "
+                                 "of %d source(s): %s" % (len(bad), checked, "; ".join(bad)))
         return checked > 0
     net(a, "the index's spine column agrees with address.spine_code_for()",
         index_spine_agrees_with_the_resolver,
@@ -20571,6 +21611,99 @@ def drill_hostcheck():
         "this function's own comment: a baseline measured against the wrong foreign set is "
         "worse than no baseline, because it still looks like one")
 
+    def a_transport_failure_reading_a_raw_host_is_answered_not_raised():
+        """Order 58cbf2367aeb item 3. `hostcheck.probe()`'s RAW branch has no try/except, and a
+        comment now says why none is needed: `endpoint.fetch_raw` and `endpoint.detect` catch a
+        transport failure themselves. A comment is not evidence, so the property it leans on is
+        driven here -- every request raises, `fetch_raw` must answer {} and `detect(force=True)`
+        must answer MODE_DEAD, neither raising. If endpoint.py ever lets the exception out, this
+        goes red and the RAW branch needs the wrapper its API sibling has.
+
+        NO REQUEST IS MADE AND NO LIVE CACHE IS TOUCHED: `_get` raises, `raw_url` answers a URL
+        for the `fetch_raw` half, `CACHE` is a sandbox file with `_MEM`/`_DIRTY` emptied (detect
+        lands its DEAD verdict through `_save`), each stand-in taking its subject's signature and
+        all restored in `finally`. Both calls note by design, so each runs in
+        `_deliberately_failing`. hostcheck's own RAW branch is not re-driven with both endpoint
+        calls stubbed: that asserts nothing an endpoint.py regression could break."""
+        import urllib.error
+        import endpoint as EP
+        target = "drill-raw-transport-58cbf2367aeb.invalid"
+
+        def boom(url, timeout=25):
+            raise urllib.error.URLError("drill stub -- no request was made")
+
+        def probe(d, filed):
+            keep = (EP._get, EP.raw_url, EP.CACHE, EP._MEM, set(EP._DIRTY))
+            try:
+                EP._get = boom
+                EP.CACHE = os.path.join(d, "ENDPOINTS.json")
+                EP._MEM = {}
+                EP._DIRTY.clear()
+                EP.raw_url = lambda host, title: ("https://%s/w/index.php?title=%s&action=raw"
+                                                  % (host, title))
+                got = _deliberately_failing(lambda: EP.fetch_raw(target, ["A", "B", "C"]))
+                EP.raw_url = keep[1]
+                verdict = _deliberately_failing(lambda: EP.detect(target, force=True))
+            finally:
+                EP._get, EP.raw_url, EP.CACHE, EP._MEM = keep[:4]
+                EP._DIRTY.clear()
+                EP._DIRTY.update(keep[4])
+            return got == {} and verdict.get("mode") == EP.MODE_DEAD
+        return _esc_probe(probe)
+    net(a, "a transport failure while reading a RAW-mode host is answered, not raised",
+        a_transport_failure_reading_a_raw_host_is_answered_not_raised,
+        "order 58cbf2367aeb item 3: hostcheck.probe()'s RAW branch is unwrapped on the evidence "
+        "that endpoint swallows transport errors, so that evidence has to be able to fail")
+
+    def a_total_raw_refusal_is_not_a_genuine_absence():
+        """Order 5b99ff000325. `probe()`'s RAW branch read `fetch_raw`'s bare dict, so a host that
+        REFUSED every probed title and a host that holds none of them both gave `{}` and both
+        scored `rate: 0.0`. It now reads `fetch_raw_verdict`'s tally. BOTH DIRECTIONS, on one
+        fixture host in RAW mode:
+          * every request answers HTTP 403: `rate` is None and the error names the refused and
+            errored counts, so a blocked host is not scored as an empty one;
+          * every request answers HTTP 404: `rate` stays 0.0 with no error, so a genuine absence
+            is still a measurement -- a branch that nulled every empty result would pass the
+            first half.
+        NO REQUEST IS MADE: `detect` answers RAW mode (so no cache is read or written), `raw_url`
+        answers a URL and `_get` raises, each with its subject's signature, all restored in
+        `finally` inside the sandbox. Both probes note by design, so each is wrapped in
+        `_deliberately_failing`."""
+        import urllib.error
+        import endpoint as EP
+        import hostcheck as HC
+        target = "drill-raw-total-refusal-5b99ff000325.invalid"
+        titles = ["Alpha", "Beta", "Gamma"]
+
+        def answering(code):
+            def _get(url, timeout=25):
+                raise urllib.error.HTTPError(url, code, "drill stub -- no request was made",
+                                             None, None)
+            return _get
+
+        def probe(d, filed):
+            keep = (EP._get, EP.raw_url, EP.detect)
+            try:
+                EP.detect = lambda host, force=False: {"mode": EP.MODE_RAW, "path": "/w/index.php"}
+                EP.raw_url = lambda host, title: ("https://%s/w/index.php?title=%s&action=raw"
+                                                  % (host, title))
+                EP._get = answering(403)
+                blocked = _deliberately_failing(lambda: HC.probe(target, titles))
+                EP._get = answering(404)
+                empty = _deliberately_failing(lambda: HC.probe(target, titles))
+            finally:
+                EP._get, EP.raw_url, EP.detect = keep
+            error = (blocked or {}).get("error") or ""
+            return (blocked is not None and blocked.get("rate") is None
+                    and "refused" in error and "errored" in error
+                    and empty is not None and empty.get("rate") == 0.0
+                    and not empty.get("error"))
+        return _esc_probe(probe)
+    net(a, "a total RAW refusal reads rate None, not the 0.0 a genuine absence gets",
+        a_total_raw_refusal_is_not_a_genuine_absence,
+        "order 5b99ff000325: fetch_raw swallowed every refusal into {}, so a blocked host and a "
+        "host holding none of the names scored the same 0.0")
+
 
 def drill_weave_plan():
     """Two thresholds that could be spent without ever having been measured.
@@ -20989,6 +22122,23 @@ _LIVE_STATE_PROBES = (
     _area_fault_does_not_close_the_park,
     _blast_cap_bites,
     _cannot_edit_shared_run_state,
+    # ORDER 2f314697d52b, Q2: EVERY OTHER MODULE-LEVEL PROBE THAT OPENS THE SANDBOX. The per-net
+    # audit hook is NOT coverage for a probe that loses its wrapper: `_live_audit` returns at its
+    # first line unless a sandbox is open or this witness is armed, so an unwrapped probe records
+    # nothing anywhere. Only this list can see that loss. Nine sandboxed probes (run #58 and after)
+    # were never added to it, and the chain singleton probe is new; the net
+    # "every module-level probe that opens the sandbox is driven by THE LIVE-STATE WITNESS"
+    # keeps a new one from being left off again.
+    _absent_tray_is_started_not_waited_for,
+    _a_quiet_log_alone_does_not_license_a_kill,
+    _a_one_shot_push_proves_it_is_the_shift,
+    _harvest_keeps_a_patch_landed_mid_scan,
+    _harvest_rescans_when_the_recipe_changes,
+    _a_second_chain_run_is_refused_while_the_first_is_live,
+    _pipeline_state_keeps_a_concurrent_reopen,
+    _onomasticon_writers_keep_each_others_designations,
+    _concurrent_withdrawals_do_not_resurrect_each_other,
+    _scout_mutate_notes_a_temp_it_could_not_remove,
 )
 
 
@@ -21091,6 +22241,117 @@ def _no_sandboxed_probe_reaches_live_state():
     return True
 
 
+def _an_inherited_cwd_is_recorded_wherever_the_drill_was_launched():
+    """A sandboxed spawn with no `cwd=` is recorded even when the drill was launched OUTSIDE the tree.
+
+    ORDER 2f314697d52b, Q1. `_live_audit` resolved an absent `cwd` through `os.getcwd()`, so the
+    same unpinned spawn was a leak when the drill ran from the live root and clean when it was
+    run from anywhere else. Driven with this process's working directory moved INTO the sandbox
+    -- outside the tree, the launch the old rule could not see -- and back in `finally`:
+
+      1. a spawn with no `cwd=` must be recorded, once, as an inherited cwd, and `restore()` must
+         refuse over it;
+      2. a spawn with `cwd=` inside the sandbox must add nothing, or the net passes on a hook
+         that records every spawn whatever it is given.
+
+    NOTHING IS STARTED. The program named does not exist, and CPython raises the
+    `subprocess.Popen` audit event before `CreateProcess` fails, so the hook sees each call and no
+    child ever runs. The recorded escape is removed from `_LIVE_ESCAPES` afterwards, the way THE
+    LIVE-STATE WITNESS's own control does: a control is not a leak.
+    """
+    import subprocess
+    d, _filed, restore = _esc_sandbox()
+    mark = len(_LIVE_ESCAPES)
+    launched_from = os.getcwd()
+    missing = os.path.join(d, "__drill_no_such_program__.exe")
+    counts, started, refused = [], [], False
+    try:
+        os.chdir(d)
+        for kw in ({}, {"cwd": d}):
+            try:
+                subprocess.Popen([missing], creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                                 **kw)
+                started.append(sorted(kw))
+            except OSError:
+                _ = "silence-exempt: the program is absent on purpose; the audit event is what is asserted"
+            counts.append(len(_LIVE_ESCAPES) - mark)
+    finally:
+        os.chdir(launched_from)
+        try:
+            restore()
+        except AssertionError:
+            _ = "silence-exempt: restore() refusing over the inherited cwd IS the assertion"
+            refused = True
+    caught = _LIVE_ESCAPES[mark:]
+    del _LIVE_ESCAPES[mark:]
+    if (started or counts != [1, 1] or not refused
+            or not (" subprocess.Popen " in caught[0] and "cwd=<inherited" in caught[0])):
+        raise AssertionError("an unpinned spawn from a drill launched outside the tree was not "
+                             "recorded exactly once, or a pinned one was: started=%r counts=%r "
+                             "restore_refused=%s recorded=%r" % (started, counts, refused, caught))
+    return True
+
+
+# PROBES THE ROSTER BELOW DOES NOT REQUIRE ON THE WITNESS LIST, each with the reason.
+_WITNESS_ROSTER_EXEMPT = {
+    "_esc_probe": "the sandbox itself, not a probe",
+    "_esc_sandbox": "the sandbox itself, not a probe",
+    "_no_sandboxed_probe_reaches_live_state": "the witness; it cannot drive itself",
+    "_an_inherited_cwd_is_recorded_wherever_the_drill_was_launched":
+        "a control whose whole purpose is a recorded escape, the same shape as the witness's "
+        "own part 1",
+}
+
+
+def _every_sandboxed_probe_is_driven_by_the_witness():
+    """Every module-level probe that opens the sandbox is on `_LIVE_STATE_PROBES`. -> True or raises.
+
+    ORDER 2f314697d52b, Q2. The per-net audit hook cannot see a probe that has LOST its sandbox:
+    `_live_audit` returns at once unless a sandbox is open or the witness is armed. So the only
+    thing that notices a wrapper taken out is THE LIVE-STATE WITNESS re-running the probe and
+    finding no sandbox opened -- and it re-runs only what is on its list. Nine probes that opened
+    the sandbox were not on it. This asks the parse tree of this file, not a count: every
+    top-level function callable with no arguments whose body calls `_esc_probe` or `_esc_sandbox`
+    must be listed, unless `_WITNESS_ROSTER_EXEMPT` names it with a reason.
+
+    A CONTROL FIRST, because an empty "missing" list is also what a scan that finds nothing
+    returns: two probes known to open the sandbox directly must be among what it found.
+
+    THE LIMIT, STATED. A probe defined INSIDE an area function is a closure; it has no name this
+    list can hold, so neither this roster nor the witness covers it. See order 2f314697d52b's
+    answer for the choice that leaves open.
+    """
+    import ast
+    with open(os.path.abspath(__file__), encoding="utf-8") as fh:
+        tree = ast.parse(fh.read())
+    listed = {fn.__name__ for fn in _LIVE_STATE_PROBES}
+    openers = []
+    for node in tree.body:
+        if not isinstance(node, ast.FunctionDef) or node.name in _WITNESS_ROSTER_EXEMPT:
+            continue
+        if node.name.startswith("drill_"):
+            continue                  # an AREA: `main()` runs it, and its sandboxed closures are
+            #                           the stated limit above, not probes this list can hold
+        args = node.args
+        required = len(args.posonlyargs) + len(args.args) - len(args.defaults)
+        if required > 0 or args.vararg or any(d is None for d in args.kw_defaults):
+            continue                  # needs arguments, so the witness could not drive it bare
+        if any(isinstance(c, ast.Call) and isinstance(c.func, ast.Name)
+               and c.func.id in ("_esc_probe", "_esc_sandbox") for c in ast.walk(node)):
+            openers.append(node.name)
+    known = ("_the_destructive_tool_asks_before_it_moves_anything",
+             "_a_second_chain_run_is_refused_while_the_first_is_live")
+    if not all(k in openers for k in known):
+        raise AssertionError("[control] the roster scan did not find %r among the sandbox openers "
+                             "(found %r)" % (known, openers))
+    missing = sorted(set(openers) - listed)
+    if missing:
+        raise AssertionError("%d probe(s) open the sandbox and are not driven by THE LIVE-STATE "
+                             "WITNESS, so losing their wrapper would be seen by nothing: %s"
+                             % (len(missing), ", ".join(missing)))
+    return True
+
+
 def drill_ledger_witness():
     """The last area, and it is about this battery rather than about the library.
 
@@ -21113,6 +22374,14 @@ def drill_ledger_witness():
         "five drill probes touched live state with nothing between them and it but the guard "
         "under test -- two had already quarantined fixture hosts in the live file and stamped a "
         "dead daemon as freshly polled -- and a sandbox nobody watches leak is not evidence")
+    net(a, "an unpinned sandbox spawn is recorded wherever the drill was launched from",
+        _an_inherited_cwd_is_recorded_wherever_the_drill_was_launched,
+        "order 2f314697d52b Q1: an absent cwd was resolved through os.getcwd(), so the same probe "
+        "was a leak run from the live root and clean run from anywhere else")
+    net(a, "every module-level probe that opens the sandbox is driven by THE LIVE-STATE WITNESS",
+        _every_sandboxed_probe_is_driven_by_the_witness,
+        "order 2f314697d52b Q2: the audit hook is silent while no sandbox is open, so a probe that "
+        "loses its wrapper is seen only by the witness re-running it -- and nine were not listed")
 
     # PRINTED, NOT ASSERTED, and the distinction is load-bearing (order c121db910a17): the
     # library's standing jobs write to this same ledger while the drill runs, so movement in the
@@ -21406,6 +22675,14 @@ def main(areas=None):
         for k in ("error", "area_error", "expected", "rc", "found", "root"):
             if r.get(k) not in (None, ""):
                 print("    %-11s %s" % (k + ":", r[k]))
+        # THE CHILD'S STDERR, WHEN THE CHILD IS WHY THERE IS NO ANSWER (order 9f1cce19c85c). A
+        # net that DID NOT RUN because its child crashed printed no traceback at all, so the one
+        # fact that says why was captured, carried in the dict, and thrown away here. Printed
+        # when the net never ran or the child exited non-zero; a clean HELD/RED keeps its short
+        # form. `prove_net` already marks the tail as a cut when it is one. Display only.
+        if r["held"] is None or r.get("rc"):
+            print("    %-11s %s" % ("stderr:", (r.get("stderr") or "(empty)").rstrip()
+                                   .replace("\n", "\n" + " " * 16)))
         # rc=0 whichever way the verdict came out: this is a measurement, not a gate. A red here
         # is the ANSWER an author is asking for -- it is what proves the net can refuse -- and a
         # non-zero exit would teach a wrapper to treat "the guard works" as a failure.

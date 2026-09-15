@@ -521,6 +521,7 @@ def refine(rosetta, records, hosts):
             vals = {n: v for n, v in sc["values"].items() if _norm(n) in known}
             dropped += len(sc["values"]) - len(vals)
             if len(vals) < 4:                  # below four rows a scale cannot rank anything
+                dropped += len(vals)           # sweep59-batch08: rejected rows are DROPPED rows
                 continue
             # A POWER scale spans orders of magnitude; a PROGRESSION ladder counts 1 to 100.
             # Fortnite's "Final Level", Call of Duty's multiplayer ranks and a Terminator RPG's
@@ -530,6 +531,11 @@ def refine(rosetta, records, hosts):
             if sc["kind"] == "numeric":
                 lo, hi = min(vals.values()), max(vals.values())
                 if lo <= 0 or hi / lo < 100:
+                    # AND COUNTED AS DROPPED (sweep59-batch08, verified by run #59). Order
+                    # 78f2bebed995 stopped these rows being counted as kept, but credited them to
+                    # nothing, so `kept + dropped` fell short of the pre-refine total by every row
+                    # of every scale a floor rejected: measured 10 before, 0 kept, 6 dropped.
+                    dropped += len(vals)
                     continue
             # `kept` MUST ONLY COUNT ROWS THAT SURVIVE INTO `out` (order 78f2bebed995). This
             # used to increment right after building `vals`, before either `continue` above

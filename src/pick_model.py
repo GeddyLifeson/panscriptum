@@ -20,6 +20,12 @@ Usage:
                                                 # silently settling for a worse model
 """
 import argparse
+
+import os
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 _NO_WIN = getattr(__import__("subprocess"), "CREATE_NO_WINDOW", 0)
 
 import os

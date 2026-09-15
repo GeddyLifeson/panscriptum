@@ -24,6 +24,10 @@ from address import recipe_hash, babel_coordinate  # noqa: E402
 import compress_store  # noqa: E402
 import silence
 
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # VOLUME DEPTH (owner ruling 2026-08-23): every volume is a full-length book, and a local
@@ -217,6 +221,97 @@ def _land_catalog(path, own, attempts=8):
     silence.note("generate.py:catalog-cas-refused")
     print(f"WRITE REFUSED -> {path}: {why}. This run's {len(own)} unlanded row(s) are kept and "
           f"ride on the next save; the file still holds what it held.", flush=True)
+    return False
+
+
+# SENTINEL FOR `failures_own`, NEVER SERIALISED. `own` maps address -> the row to land, except
+# for an address whose failure this run just made good, which maps to THIS object instead of a
+# dict. `_land_failures` reads it as "remove this key from the merged file", never as a value to
+# write -- so a cleared address is never round-tripped back onto disk as a fake row.
+_FAILURE_CLEARED = object()
+
+
+def _land_failures(path, own, attempts=8):
+    """Land THIS RUN'S failures.json changes under COMPARE-AND-SWAP. -> True if they landed.
+
+    THE SAME LOST-UPDATE SHAPE RUN #58 REMOVED FROM THE catalog.json WRITE (order ec8b8b35e521).
+    `main()` used to `load_json` failures.json ONCE at the top of an hours-long run and then
+    write the WHOLE in-memory `failures` dict back with `save_json` on every refusal and every
+    clear. `save_json` is atomic -- a reader never sees a half-written file -- but atomic is not
+    the same claim as correct: it checks nothing about what the file holds at write time. So if
+    a second `generate.py` is running at once (the overnight singleton guard prevents this in
+    the ordinary run, but a hand-run started beside a standing job, or two keeper restarts
+    racing, do not go through that guard), each process reads failures.json once and later
+    overwrites it whole -- and the second writer's save erases every row the first writer
+    recorded, or cleared, in the gap between the two reads. Latent while the prose gate is
+    closed, exactly as the catalog version of this bug was latent until a run actually landed
+    concurrent writes.
+
+    `own` is {address: row} for a failure this run recorded or updated, and {address:
+    `_FAILURE_CLEARED`} for an address a success this run popped. It is CLEARED on a landing and
+    kept on a refusal, so the next save carries those same changes again -- identical contract
+    to `_land_catalog.own`, right down to why: the in-memory `failures` dict this run carries is
+    a stale snapshot the instant another writer lands, so only the CHANGES this run actually made
+    are ever applied, never the snapshot itself.
+
+    Applied exactly as `_land_catalog` applies its rows: the digest is taken BEFORE a fresh read,
+    `own` is merged onto what the file holds NOW (never onto this run's stale in-memory copy of
+    `failures`), and `silence.replace_if_unchanged` refuses if anyone landed in between, in which
+    case the merge re-reads and re-applies `own` against the winner's copy. A key this run did
+    not touch is never written back, so a concurrent run's own new failure -- or its own clear --
+    survives untouched. A file that will not parse, or is not an object, is REFUSED rather than
+    landed over: it is the operational record of every open refusal, and overwriting it with this
+    run's changes alone would erase every other run's still-open ones.
+    """
+    import threading
+    import time
+    full = os.path.join(HERE, path)
+    why = "not attempted"
+    for attempt in range(max(1, attempts)):
+        seen = silence.digest_of(full)
+        try:
+            with open(full, encoding="utf-8") as f:
+                current = json.load(f)
+        except FileNotFoundError:
+            current = {}
+        except ValueError as e:
+            why = "it will not parse (%s), and landing over it would erase it" % e
+            break
+        except OSError as e:
+            why = "it could not be read to merge against (%s)" % e
+            time.sleep(0.2 * (attempt + 1))
+            continue
+        if not isinstance(current, dict):
+            why = "it holds a %s, not an object" % type(current).__name__
+            break
+        merged = dict(current)
+        for addr, val in own.items():
+            if val is _FAILURE_CLEARED:
+                merged.pop(addr, None)
+            else:
+                merged[addr] = val
+        d = os.path.dirname(full)
+        if d:
+            os.makedirs(d, exist_ok=True)
+        tmp = "%s.%d.%d.tmp" % (full, os.getpid(), threading.get_ident())
+        try:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(merged, f, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+        except Exception:
+            _discard_tmp(tmp)
+            raise
+        ok, why = silence.replace_if_unchanged(tmp, full, seen)
+        if ok:
+            own.clear()
+            return True
+        _discard_tmp(tmp)
+        if silence.digest_of(full) == seen:
+            break
+    silence.note("generate.py:failures-cas-refused")
+    print(f"WRITE REFUSED -> {path}: {why}. This run's {len(own)} unlanded change(s) are kept "
+          f"and ride on the next save; the file still holds what it held.", flush=True)
     return False
 
 
@@ -717,6 +812,12 @@ def main():
     catalog = load_json(cfg["paths"]["catalog"], {})
     catalog_own = {}
     failures = load_json(cfg["paths"]["failures"], {})
+    # `failures_own` carries only what THIS RUN has changed since its last landed save -- a row
+    # for a recorded/updated failure, `_FAILURE_CLEARED` for one this run's success popped -- and
+    # is what actually lands, through `_land_failures`'s compare-and-swap merge. `failures` stays
+    # the in-memory dict `main()` reads and pops locally to decide what changed; it is never
+    # written back whole. See `_land_failures` for why (order ec8b8b35e521).
+    failures_own = {}
 
     system_prompt, chapter_tpl, front_tpl = load_prompt_templates()
     prompt_version = cfg.get("prompt_version", "v1")
@@ -867,7 +968,8 @@ def main():
             # `unearned`). `getattr` rather than an isinstance branch so an ordinary
             # RuntimeError from anywhere else in the job simply adds nothing.
             failures[job["address"]].update(getattr(e, "lists", {}))
-            save_json(cfg["paths"]["failures"], failures)
+            failures_own[job["address"]] = failures[job["address"]]
+            _land_failures(cfg["paths"]["failures"], failures_own)
             continue
 
         # THE P8 META-LANGUAGE BAN, ENFORCED FOR THE FIRST TIME. `pipeline.assert_in_universe`
@@ -932,7 +1034,8 @@ def main():
                             "NOT written, because a gate that cannot run has not passed"),
                 "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
             }
-            save_json(cfg["paths"]["failures"], failures)
+            failures_own[job["address"]] = failures[job["address"]]
+            _land_failures(cfg["paths"]["failures"], failures_own)
             continue
 
         raw_path = os.path.join(raw_dir, safe_filename(job["address"], "md"))
@@ -952,7 +1055,8 @@ def main():
                 "refused": "raw chapter did not land — chapter NOT catalogued",
                 "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
             }
-            save_json(cfg["paths"]["failures"], failures)
+            failures_own[job["address"]] = failures[job["address"]]
+            _land_failures(cfg["paths"]["failures"], failures_own)
             continue
 
         # ONE BLOB THAT WOULD NOT LAND MUST NOT END THE RUN. `compress_store.store()` now RAISES
@@ -973,7 +1077,8 @@ def main():
                 "refused": "compressed blob did not land — chapter NOT catalogued",
                 "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
             }
-            save_json(cfg["paths"]["failures"], failures)
+            failures_own[job["address"]] = failures[job["address"]]
+            _land_failures(cfg["paths"]["failures"], failures_own)
             continue
         babel_coord = babel_coordinate({"address": job["address"], "hash": store_info["hash"]})
 
@@ -1007,7 +1112,8 @@ def main():
         # chapter that is on disk and recorded, never on the strength of having got this far.
         if failures.pop(job["address"], None) is not None:
             cleared_count += 1
-            save_json(cfg["paths"]["failures"], failures)
+            failures_own[job["address"]] = _FAILURE_CLEARED
+            _land_failures(cfg["paths"]["failures"], failures_own)
 
         # save incrementally so Ctrl-C doesn't lose progress
         if done_count % 5 == 0:
@@ -1018,21 +1124,35 @@ def main():
     # product. A pass that generated prose and could not record it must not exit 0 -- the
     # scheduler, the keeper and `overnight.py` all read that number and nothing else.
     catalog_landed = _land_catalog(cfg["paths"]["catalog"], catalog_own)
-    failures_landed = True
-    # `or cleared_count`: a run whose pops emptied the map must still write it. The guard was
-    # `if failures:` alone, so if the pop-time save above had been DENIED and the map then went
-    # empty, the final write was skipped and the stale file stood with nobody reporting it.
-    if failures or cleared_count:
-        failures_landed = save_json(cfg["paths"]["failures"], failures)
+    # UNCONDITIONAL, matching `_land_catalog` above (order ec8b8b35e521): every incremental save
+    # in the loop already routed through `_land_failures` and cleared `failures_own` on success,
+    # so this call lands only whatever refusal or clear did NOT land mid-run -- an empty `own`
+    # merges to a no-op write, same as `catalog_own`'s unconditional final call. The old
+    # `if failures or cleared_count:` guard read THIS run's stale in-memory dict, which is exactly
+    # the quantity `_land_failures` exists to stop trusting.
+    failures_landed = _land_failures(cfg["paths"]["failures"], failures_own)
 
     # SAY WHICH RUN THE FILE DESCRIBES. This printed only THIS run's fail_count and then pointed
     # the reader at a file that mixes runs -- on 2026-08-29 it held six refusals from four
     # sessions spanning ten days. Naming the total, this run's share and what this run cleared
     # is what lets a reader tell a live refusal from a historical one. (order b3c806f694d6)
+    #
+    # THE TOTAL IS READ BACK FROM THE LANDED FILE, NOT FROM `failures`. Under the old whole-dict
+    # write `failures` and the file it just wrote were the same thing; under the CAS merge they
+    # can differ the moment another run has touched the file, so `len(failures)` would print a
+    # count this run never actually landed. Falls back to the in-memory count only if the file
+    # cannot be read back at all (refused, or a raced FileNotFoundError) -- an approximation is
+    # better than an unhandled exception on the closing report line.
+    try:
+        with open(os.path.join(HERE, cfg["paths"]["failures"]), encoding="utf-8") as _f:
+            _failures_total = len(json.load(_f))
+    except Exception:
+        silence.note("generate.py:failures-readback")
+        _failures_total = len(failures)
     print(f"\nDone. {done_count} generated this run, {fail_count} failed this run"
           + (f", {cleared_count} earlier failure(s) cleared by a success this run"
              if cleared_count else "")
-          + f". {cfg['paths']['failures']} now lists {len(failures)} address(es) in total.")
+          + f". {cfg['paths']['failures']} now lists {_failures_total} address(es) in total.")
     if not (catalog_landed and failures_landed):
         print("BUT THE RUN'S RECORD DID NOT LAND: "
               + ", ".join(n for n, ok in (("catalog", catalog_landed),

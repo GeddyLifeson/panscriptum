@@ -335,10 +335,59 @@ def probe(host, names):
         return None
     # A RAW-ONLY HOST ANSWERS TITLE-BY-TITLE. There is no batched query to ask, so existence is
     # tested by fetching. Slower, and the only way to judge a wiki that closed its API at all.
+    #
+    # NOT WRAPPED IN try/except, AND THAT IS CHECKED RATHER THAN ASSUMED (order 58cbf2367aeb item
+    # 3). The API branch below wraps its transport (`_get`) because `urlopen` raises straight
+    # through it on a timeout, a DNS failure or an HTTP error, and an uncaught raise there would
+    # take the whole probe down instead of recording `rate: None`. `endpoint.fetch_raw` and the
+    # `endpoint.detect` call above it were read end to end to ask the same question here, and
+    # NEITHER can raise on a transport failure -- both already catch it internally, one layer
+    # down from this caller:
+    #   * `detect()`'s own probe loop wraps every `_get()` attempt in `try/except Exception` and
+    #     falls back to `MODE_DEAD` rather than propagating (endpoint.py, the API- and RAW-path
+    #     loops in `detect()`); `_load()`/`_save()` behind it do the same for a corrupt cache.
+    #   * `fetch_raw()`'s inner `one()` wraps its own `_get()` in `except urllib.error.HTTPError`
+    #     (logged and returned as `(t, None)`, with 404/410 filed differently from a refusal) and
+    #     a catch-all `except Exception` beneath it -- so a title that fails at the transport
+    #     never raises out of `one()`, it just does not make it into the returned dict, and
+    #     `fetch_raw()` returns `{}` rather than an exception when every title fails.
+    # So wrapping this branch in try/except would be a no-op: there is no exception path left for
+    # it to catch. Left AS A COMMENT rather than silently doing nothing, per the task's own
+    # instruction, so the next reader does not re-add a needless try/except believing it closes a
+    # gap it already does not have.
+    #
+    # THE RESIDUAL GAP NAMED (BUT NOT FIXED) IN RUN #58 IS FIXED HERE (order 5b99ff000325, run
+    # #59): because `fetch_raw` swallowed a transport failure internally and returned only a
+    # dict, a host that is completely down or blocking every one of the 12 sampled titles used
+    # to return the identical `got = {}` as a host that is genuinely up and holds none of them --
+    # both read here as `rate: 0.0`, not `rate: None`. That is not an unhandled exception (the
+    # thing the comment above was asked to check for), it was `fetch_raw`'s own per-title error
+    # handling choosing silence over signal one layer down.
+    #
+    # `endpoint.fetch_raw_verdict` is the fix: it returns `(texts, tally)` where `tally` counts
+    # `not_found` (404/410 -- a real "not here"), `refused` (any other HTTP error, or a 200 that
+    # is actually an HTML block/login/captcha page) and `errored` (anything else). `fetch_raw`
+    # itself is untouched -- still a thin wrapper returning only the dict -- so no other caller
+    # (feats.py, `_bodies()` below) needed to change.
+    #
+    # A probe where every title failed at the transport (`refused + errored == probed`, and
+    # nothing was found) is answered `rate: None` with a whole error string naming the counts,
+    # exactly like the API branch below already does for a request that raised -- a total
+    # refusal is not a measurement of the host, it is the absence of one. A probe that genuinely
+    # finds none of its twelve titles (clean 404s all the way) is left as `rate: 0.0`: that IS a
+    # real measurement, and conflating it with a block would be the opposite defect this file
+    # exists to catch. A mixed result (some found, some refused/errored) reports the real rate
+    # over what was actually found -- the same honest reading `probe()`'s API branch already
+    # gives a batch where some but not all titles resolved.
     import endpoint as EP
     if EP.detect(host)["mode"] == EP.MODE_RAW:
-        got = EP.fetch_raw(host, names[:12])
         n = min(len(names), 12)
+        got, tally = EP.fetch_raw_verdict(host, names[:12])
+        failed = tally["refused"] + tally["errored"]
+        if not got and tally["probed"] and failed == tally["probed"]:
+            return {"host": host, "probed": n, "hits": 0, "rate": None,
+                    "error": "RAW probe: %d refused, %d errored, 0 found of %d probed"
+                             % (tally["refused"], tally["errored"], tally["probed"])}
         return {"host": host, "probed": n, "hits": len(got),
                 "rate": round(len(got) / n, 3), "examples": sorted(got)[:5],
                 "titles": sorted(got)}
@@ -357,7 +406,9 @@ def probe(host, names):
         # the tool built to catch it. Seventy-four throttled probes came back as 0% and the repair
         # pass unassigned `warhammer40k.fandom.com` from Warhammer 40,000.
         return {"host": host, "probed": len(names), "hits": 0, "rate": None,
-                "error": f"{type(e).__name__} {str(e)[:60]}"}
+                # WHOLE, not cut at 60 with no marker (sweep59-batch16, Hard Rule 0): this lands
+                # in data/HOST_FITNESS.json and is the only record of WHY a probe failed.
+                "error": f"{type(e).__name__} {e}"}
     pages = ((d.get("query") or {}).get("pages") or {})
     live = [p for p in pages.values() if "missing" not in p and int(p.get("pageid", 0)) > 0]
     found = [p.get("title") for p in live][:5]

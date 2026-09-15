@@ -769,6 +769,37 @@ def _check_readings(readings):
               "alternative is a data error wearing the shape of a reading.")
 
 
+def _check_hand_readings(hand_readings):
+    """LAYER 1, THE FOURTH DOOR: `assay()`'s `hand_readings=`. Raises AssayIntegrityError.
+
+    THE TWIN OF `_check_readings`, AND IT WAS MISSING FOR THE SAME REASON THAT ONE WAS (sweep59
+    batch13, verified by maintenance run #59). `interval_from_hands` gained its gate under order
+    50e8d8be9a9b; `assay()` takes the SAME Hands' decimals as a plain list and feeds them into
+    `_interval`'s between-hands variance with no check at all. Reproduced before this was written:
+    `hand_readings=[nan, 3.0]` published an interval of nan, and `["seven", 3.0]` raised a
+    TypeError from inside the arithmetic -- the two outcomes `_check_readings`' docstring names
+    as the wrong ones. A gate on one of two doors is not a gate.
+
+    None stays "no readings on file". Inside the list, a None is REFUSED rather than skipped:
+    `_interval` averages the list as given, so a skipped None would still reach `sum()`, and a
+    list with a hole in it is not a smaller list of readings. The finiteness and type rules are
+    `_check_readings`' own, reused rather than copied, so the two doors cannot drift apart. The
+    RANGE question that function leaves open for the owner is left open here too.
+    """
+    if hand_readings is None:
+        return
+    if isinstance(hand_readings, (str, bytes, dict)) or not hasattr(hand_readings, "__len__"):
+        raise AssayIntegrityError(
+            "hand_readings must be a list of the Hands' decimals; got %r." % (hand_readings,))
+    holes = [i for i, v in enumerate(hand_readings) if v is None]
+    if holes:
+        raise AssayIntegrityError(
+            "hand_readings has an empty slot at position(s) %s. `_interval` averages the list "
+            "as given, so a missing reading cannot be skipped here; pass only the readings that "
+            "were filed." % holes)
+    _check_readings({"reading %d" % i: v for i, v in enumerate(hand_readings)})
+
+
 def _check_constants():
     """The sigma table's invariants, verified AT IMPORT so a broken instrument cannot load.
 
@@ -1281,6 +1312,7 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
     # both a ZeroDivisionError and a printed 𝔄 M3.-90. See `_check_weights`.
     _check_weights(weights)
     _check_scores(scores, weights=weights)
+    _check_hand_readings(hand_readings)
     if not worksheet:
         # H5 of X.6: no worksheet, no number. Thin attestation yields a band window.
         return {"magnitude": anchor, "decimal": None, "interval": None,

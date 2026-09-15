@@ -895,7 +895,7 @@ function panelStandards(d){const s=el('section','wide');
   s.appendChild(grid);
   if(bad.length){
     s.appendChild(el('div','sub','WORK ORDERS'));
-    bad.sort((a,b)=>({high:0,medium:1,low:2}[a.severity]||3)-({high:0,medium:1,low:2}[b.severity]||3));
+    bad.sort((a,b)=>({high:0,medium:1,low:2}[a.severity]??3)-({high:0,medium:1,low:2}[b.severity]??3));
     bad.forEach(x=>{const o=el('div','order');
       o.appendChild(el('div','otitle','['+x.severity.toUpperCase()+'] '+x.standard+
         ' — observed '+x.observed+', floor '+x.floor));

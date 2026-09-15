@@ -950,7 +950,17 @@ def main():
     # that is exactly the defect the T3 line was added to fix one ruling ago.
     try:
         import weave_index as _WI
+        # FILTERED ON THE SAME `unaddressed` SET `threads_for` REFUSES ON (sweep59 batch13
+        # finding), not just on `asserts_a_magnitude`. An unaddressed source gets no Threads
+        # section at all -- `build()` never adds one for it, and `threads_for` raises
+        # `ThreadRefused` rather than expand one -- so a magnitude-asserting entry sitting in an
+        # unaddressed source produces no real T4 edge. Counting it anyway overstates coverage.
+        # Latent today (0 of 486 magnitude-asserting entries sit in an unaddressed source), but
+        # per CLAUDE.md Hard Rule 2 an unaddressed source is "the ORDINARY case," so this is the
+        # day-it-happens fix, not a hypothetical one.
+        _unaddr = {u["source"] for u in (graph.get("unaddressed") or [])}
         _t4 = sum(1 for _r in _WI.load_records()
+                  if (_r or {}).get("source") not in _unaddr
                   for _e in ((_r or {}).get("entries") or []) if asserts_a_magnitude(_e))
         print("   T4 edges (Law citation) : %s   on the entries that assert a Magnitude band; "
               "the rest make no claim a Law governs" % format(_t4, ","))

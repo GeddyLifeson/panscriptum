@@ -525,7 +525,8 @@ def main():
     # THE INVARIANT REACHES THE WRITE. The containment scan above was computed, printed and then
     # gated on nothing: a run with violations still published TIERS.json and still exited 0.
     # This module states the rule as doctrine twice in the same words -- "a tier that does not
-    # contain its own members is not a tier" (:111 and again at :156-157) -- and address_space
+    # contain its own members is not a tier" (in the comment above `CUTS`, and again in
+    # `main()`'s split-sources refusal print below) -- and address_space
     # reads data/TIERS.json AT IMPORT, so a bad write silently re-charts the top of the Ladder
     # of Being. Same shape and same exit code as the groundings refusal directly above: a
     # measurement that contradicts itself is not published. Measured 2026-09-01 against the

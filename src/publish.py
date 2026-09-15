@@ -746,7 +746,14 @@ def git(*args, check=True):
     gh_dir = os.path.join(os.environ.get("LOCALAPPDATA", ""), "gh-cli", "bin")
     if os.path.isdir(gh_dir) and gh_dir not in env.get("PATH", ""):
         env["PATH"] = env.get("PATH", "") + os.pathsep + gh_dir
-    r = subprocess.run(["git", *list(args)], cwd=SITE, capture_output=True,
+    # 3. STDIN (maintenance run #59, sweep59-batch11). The keeper spawns this daemon with no
+    #    `stdin=`, from a windowless pythonw, so git -- and the sh that runs the credential
+    #    helper -- inherited a stdin handle that does not exist. Since the 2026-09-14 reboot every
+    #    push from the daemon failed with sh reporting gh.exe "No such file or directory" while a
+    #    session-spawned process with the daemon's exact environment pushed cleanly; an invalid
+    #    inherited std handle is the one spawn difference found. A push never reads stdin, so NUL
+    #    costs nothing. Unproven as the cause: `_credential_probe` stays to say so if it recurs.
+    r = subprocess.run(["git", *list(args)], cwd=SITE, capture_output=True, stdin=subprocess.DEVNULL,
                        text=True, encoding="utf-8", errors="replace", env=env, creationflags=_NO_WIN)
     if check and r.returncode != 0:
         # GIT'S OWN DIAGNOSTIC, WHOLE (order f5fdaab825a6, sweep38-batch10; Hard Rule 0). This was
@@ -761,6 +768,41 @@ def git(*args, check=True):
         raise RuntimeError("git " + " ".join(args) + ": "
                            + (r.stderr or r.stdout).strip())
     return (r.stdout or "").strip()
+
+
+def _credential_probe(err):
+    """Name the layer a credential-helper exec failure lives in. -> '' or one bracketed line.
+
+    DISPLAY ONLY; it changes no verdict. From 18:00 on 2026-09-14 the standing `--push --loop`
+    daemon logged every cycle `'.../gh-cli/bin/gh.exe' auth git-credential get: line 1: ...gh.exe:
+    No such file or directory` while gh.exe was on disk, and run #57 saw the same thing once.
+    Maintenance run #59 could NOT reproduce it: this function's exact environment (read from the
+    daemon with psutil), and a detached, windowless pythonw carrying it, both pushed cleanly. So
+    the difference is in the daemon's process context, not in its variables, and the only
+    process that can observe it is the one it happens to. This asks, from inside that process,
+    whether the file is there and whether Python can exec it without git's sh. The two answers
+    split the cause: exec fails here too -> the OS/AV refuses this process tree; exec succeeds ->
+    it is git's shell layer.
+    """
+    if "No such file or directory" not in err or "git-credential" not in err:
+        return ""
+    try:
+        start = err.index("'") + 1
+        exe = err[start:err.index("'", start)]
+    except ValueError:
+        silence.note("publish.py:credential-probe-unparsed")
+        return " [credential probe: no quoted helper path in git's message]"
+    import shutil as _sh
+    facts = ["helper %s isfile=%s" % (exe, os.path.isfile(exe))]
+    try:
+        r = subprocess.run([exe, "--version"], capture_output=True, text=True, timeout=30,
+                           creationflags=_NO_WIN)
+        facts.append("python execs it directly: rc=%s" % r.returncode)
+    except Exception as x:
+        silence.note("publish.py:credential-probe")
+        facts.append("python CANNOT exec it directly: %s: %s" % (type(x).__name__, x))
+    facts.append("which git=%s sh=%s bash=%s" % (_sh.which("git"), _sh.which("sh"), _sh.which("bash")))
+    return " [credential probe, display only (maintenance run #59): " + "; ".join(facts) + "]"
 
 
 def _unpushed():
@@ -1757,7 +1799,7 @@ def push(message=None, before=None):
             # WHOLE, for the same reason as the rebase branch above (order f5fdaab825a6).
             "origin/main was REFUSED (" + str(e) + "). Nothing reached the public repo; "
             "the export is now ahead of origin. The next cycle retries. This is not 'no change "
-            "to push'.") from e
+            "to push'." + _credential_probe(str(e))) from e
     # AND THE PUSH IS CONFIRMED, not assumed from rc=0. `git push` is the one step here whose
     # success this module cannot otherwise observe, and the whole family of faults this function
     # documents is a publish that reported success while the public repo stood still.

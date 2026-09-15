@@ -37,6 +37,7 @@ import json
 import os
 import re
 import sys
+import time
 import glob
 import silence
 
@@ -197,6 +198,35 @@ def landed(out):
 
 HARVEST_IDX = os.path.join(HERE, "state", "chain_harvest_idx.json")
 
+# THE RECIPE KEY (order 058fa19d4e65). `harvest()` is incremental by file mtime, which is right
+# for a corpus that only grows -- but the mtime of a feats file says nothing about whether the
+# EXTRACTION RULE that reads it has changed. Run #58 widened OUTCOME (present participles of
+# defeat/kill/overpower/destroy/surrender-to, plus conced-) and the 2026-09-09 `beat` fix had the
+# same shape: a file already indexed under the OLD pattern is never re-opened for the new one,
+# because its mtime never moved, so the widened pattern silently never reaches feats already in
+# the index. Only files touched after the widening got read under it.
+#
+# So the index now carries a digest of everything that decides what a harvest EXTRACTS --
+# OUTCOME's pattern and flags today; add any future filtering constant's own repr alongside it --
+# under this reserved key, never a real file's `os.path.relpath`. A mismatch (including a missing
+# key -- an index with none, like every index written before this order, MUST read as invalid,
+# never as a coincidental match) invalidates the WHOLE cached index, forcing every file to be
+# re-opened once under the current recipe. This key is not a per-file cache entry: `harvest()`'s
+# prune and row-collection loops and `refresh_continuity()`'s patch loop all skip it explicitly.
+_RECIPE_KEY = "__chain_recipe__"
+
+
+def _harvest_recipe_digest():
+    """Fingerprint of every compiled pattern/constant that decides what `harvest()` extracts.
+
+    Only `OUTCOME.pattern` and `OUTCOME.flags` decide, today, whether a mined sentence becomes a
+    harvested row (`harvest()`'s `if not OUTCOME.search(t): continue`) -- nothing else in this
+    module filters what gets kept. A widened or narrowed OUTCOME changes this digest, which is
+    exactly what should force a full rescan: see `_RECIPE_KEY` above.
+    """
+    import hashlib
+    return hashlib.sha1(("%r|%d" % (OUTCOME.pattern, OUTCOME.flags)).encode("utf-8")).hexdigest()[:16]
+
 
 def _corpus_root_state(base):
     """Classify `data/<base>` in the live project: 'live', 'gone' or 'unavailable'.
@@ -339,6 +369,22 @@ def harvest():
     except Exception:
         _ = "silence-exempt: a missing or corrupt index rebuilds whole; documented safe"
         idx = {}
+    # ORDER 058fa19d4e65: an index built under a DIFFERENT extraction recipe (or one written
+    # before this check existed at all, which carries no `_RECIPE_KEY`) is invalid whole, not
+    # merely stale -- a per-file mtime cache cannot tell "this file's content changed" apart from
+    # "the rule reading it changed", and confusing the two is exactly how run #58's widened
+    # OUTCOME never reached feats already indexed under the narrower one. A missing key reads as
+    # a mismatch, never as a match, so today's pre-fix index is discarded on its first read here.
+    recipe = _harvest_recipe_digest()
+    if idx.get(_RECIPE_KEY) != recipe:
+        if idx:
+            silence.note("chain.py:harvest-recipe-changed")
+            print("chain: the harvest extraction recipe changed (OUTCOME's pattern/flags, or "
+                  "this index predates the recipe check) -- the cached index is invalid whole; "
+                  "every feats file will be re-opened once under the current recipe.",
+                  file=sys.stderr)
+        idx = {_RECIPE_KEY: recipe}
+        updates[_RECIPE_KEY] = recipe
     # The designator inventory, loaded ONCE. identify() with inv=None re-reads
     # DESIGNATORS.json from disk per call, and harvest called it per outcome sentence --
     # thousands of 54KB parses per pass (round-2 optimization audit, finding 5).
@@ -347,7 +393,11 @@ def harvest():
     except Exception:
         silence.note("chain.py:inv-load")
         _inv = None
-    live, changed, held = set(), 0, []
+    # Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this
+    # cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`),
+    # and a recipe change with nothing to persist is not the honest "nothing changed" this counter
+    # otherwise means.
+    live, changed, held = set(), (1 if _RECIPE_KEY in updates else 0), []
     for base in ("readfeats", "feats"):
         # ABSENCE OF EVIDENCE IS NOT EVIDENCE OF DELETION. A root that will not list is HELD:
         # its index entries survive the prune below, so this pass still returns the rows it
@@ -401,7 +451,9 @@ def harvest():
             changed += 1
     # A file that vanished takes its contests with it -- an index must never outlive its corpus.
     # Unless we never got to look: a key under a HELD root was not proven absent, only unread.
-    for rel in [k for k in idx if k not in live and not _held_root(k, held)]:
+    # `_RECIPE_KEY` is excluded: it names no file, was never in `live`, and this prune would
+    # otherwise delete it every single pass.
+    for rel in [k for k in idx if k != _RECIPE_KEY and k not in live and not _held_root(k, held)]:
         del idx[rel]
         removed.append(rel)
         changed += 1
@@ -418,6 +470,8 @@ def harvest():
             silence.note("chain.py:harvest-idx")
     rows, seen = [], set()
     for rel in sorted(idx):
+        if rel == _RECIPE_KEY:
+            continue    # the recipe digest, not a per-file cache entry -- it carries no rows
         for r in idx[rel].get("rows", []):
             # m37. The key was `sentence[:120]`, which made the dedup DECIDE WHICH CONTESTS EXIST:
             # two different sentences about the same entity sharing a 120-character prefix -- the
@@ -489,7 +543,13 @@ def refresh_continuity(attempts=8):
                   "against nothing.", file=sys.stderr)
             return None, None
         patched, hosts = 0, set()
-        for entry in idx.values():
+        for key, entry in idx.items():
+            # `_RECIPE_KEY` holds a digest string, not a per-file cache entry -- it carries no
+            # `rows` and `.get` on a string would raise. Fail closed on any OTHER shape too
+            # (a per-file entry is always a dict): skip rather than crash on something this
+            # function does not recognise.
+            if key == _RECIPE_KEY or not isinstance(entry, dict):
+                continue
             for r in entry.get("rows") or []:
                 if r.get("continuity") is not None:
                     continue
@@ -881,6 +941,160 @@ def fit(edges, prior=0.0):
     return RG.bradley_terry(wins, prior=prior)
 
 
+# --------------------------------------------------------------------------- single-instance guard
+#
+# ORDER 13ab15a6c8da (2026-09-14). Two `python src/chain.py` runs overlapped: `harvest()`
+# rewrites state/chain_harvest_idx.json under CAS and `write_result()` rewrites data/CHAIN.json
+# whole, and both runs also competed for the one local Ollama.
+#
+# THE HOUSE PATTERN, reused rather than re-invented. `mutate.py`'s own `LOCK` +
+# `active()`/`_lock_acquire()`/`_lock_release()` is exactly this shape already: a claim file
+# recording `pid` and `started`, judged live by `_pid_alive` (psutil, ERRING TOWARD ALIVE -- an
+# unreadable process table says the lock is real rather than saying it is free), removed only by
+# whoever's pid it names. This mirrors that shape for a lock of chain.py's own, landed through
+# `silence.replace_retry` -- the same atomic-write primitive nearly every other writer in this
+# project already lands through -- rather than mutate.py's O_CREAT|O_EXCL, since a chain.py
+# claim only ever needs to refuse a hand-run overlap, not defend a race between two claims
+# arriving in the same instant the way mutate.py's sandboxed mutation lock does.
+#
+# `_pid_alive`/`_pid_alive_windows` are COPIED, NOT IMPORTED, from `mutate.py` -- the same choice
+# `runguard.py`'s own `_process_signature` already made and documented: "Duplicated rather than
+# imported because `mutate` pulls in `escalation` and a great deal else." chain.py has no other
+# need of mutate.py's mutation-testing machinery, and importing it just for one function would
+# pull that whole module's import graph into every chain.py invocation for nothing.
+SINGLETON_LOCK = os.path.join(HERE, "state", "chain_singleton.json")
+
+
+def _pid_alive(pid):
+    """-> True if that PID is still running. Unknown counts as ALIVE.
+
+    Copied from `mutate._pid_alive` (see that docstring for the full argument). Fails toward
+    "the claim is real": a false 'stale' would let a second `chain.py` start over a live one,
+    which is the exact overlap order 13ab15a6c8da exists to close. A false 'alive' only makes a
+    stale claim outlive its dead holder by a little, which is the safe direction here.
+    """
+    try:
+        import psutil
+        return psutil.pid_exists(pid)
+    except ImportError:
+        try:
+            if os.name == "nt":
+                return _pid_alive_windows(pid)
+            os.kill(pid, 0)
+            return True
+        except ProcessLookupError:
+            return False
+        except Exception:
+            return True
+    except Exception:
+        return True
+
+
+def _pid_alive_windows(pid):
+    """-> True if `pid` is a live Windows process, via ctypes (no psutil, no subprocess).
+
+    Copied from `mutate._pid_alive_windows` -- see that docstring. OpenProcess failing with
+    ERROR_INVALID_PARAMETER (87) means Windows has no such pid at all -- dead. Any other failure
+    errs toward ALIVE, the same direction `_pid_alive` already commits to for everything it
+    cannot resolve cleanly.
+    """
+    import ctypes
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+    STILL_ACTIVE = 259
+    handle = kernel32.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, pid)
+    if not handle:
+        return ctypes.get_last_error() != 87
+    try:
+        code = ctypes.c_ulong()
+        if not kernel32.GetExitCodeProcess(handle, ctypes.byref(code)):
+            return True
+        return code.value == STILL_ACTIVE
+    finally:
+        kernel32.CloseHandle(handle)
+
+
+def _singleton_active(path=SINGLETON_LOCK):
+    """-> (bool, record). Is another chain.py already claiming the guard right now?
+
+    Same shape as `mutate.active()`. ABSENT IS THE ORDINARY CASE, including for the live pid
+    18496 run this order was opened against -- it never took a claim, so the very first read
+    here, against a fresh checkout, is simply `(False, None)`, exactly like a file that has
+    never existed. An unreadable or wrong-shaped record is treated as HELD, the same fail-closed
+    direction `mutate.active()` takes: if the file exists at all, something claimed the right to
+    run, and "I could not read the claim" is not proof that nobody holds it.
+    """
+    try:
+        with open(path, encoding="utf-8") as f:
+            rec = json.load(f)
+    except FileNotFoundError:
+        return False, None
+    except Exception:
+        silence.note("chain.py:singleton-unreadable")
+        return True, {"unreadable": True}
+    if not isinstance(rec, dict):
+        silence.note("chain.py:singleton-unreadable")
+        return True, {"unreadable": True}
+    pid = rec.get("pid")
+    if isinstance(pid, int) and not _pid_alive(pid):
+        rec["stale"] = True
+        return False, rec
+    return True, rec
+
+
+def singleton_claim(path=SINGLETON_LOCK):
+    """Claim the single-instance guard for this process, or refuse. -> (ok, reason).
+
+    Landed via `silence.replace_retry` -- a pid-named temp, never a fixed one two competing
+    claims from different processes could share -- which never raises and reports a denied
+    Windows rename as a plain False this function turns into a refusal rather than a traceback.
+    """
+    held, rec = _singleton_active(path)
+    if held:
+        return False, ("another chain.py is already running (pid %s, started %s); refusing to "
+                       "start a second -- order 13ab15a6c8da"
+                       % (rec.get("pid"), rec.get("started")))
+    directory = os.path.dirname(path)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+    tmp = "%s.%d.tmp" % (path, os.getpid())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump({"pid": os.getpid(), "started": time.time()}, f, indent=2)
+    except Exception:
+        silence.note("chain.py:singleton-stage")
+        return False, "could not stage the single-instance claim"
+    if not silence.replace_retry(tmp, path):
+        # replace_retry has already recorded the denial under its own key; this call site adds
+        # only the verdict the caller (main()) needs to act on.
+        return False, "could not land the single-instance claim (denied replace)"
+    return True, "claimed"
+
+
+def singleton_release(path=SINGLETON_LOCK):
+    """Release our own claim -- but only if it still names our own pid.
+
+    Same ownership rule as `runguard.release`/`mutate._lock_release`: a process may only ever
+    clear a record that names itself. Releasing unconditionally would let a run that lost a
+    race (or is simply calling this twice) drop a claim a second, later `chain.py` now
+    legitimately holds -- the m27 failure this whole family of guards exists to prevent, pointed
+    at a different file.
+    """
+    try:
+        with open(path, encoding="utf-8") as f:
+            rec = json.load(f)
+    except FileNotFoundError:
+        return
+    except Exception:
+        silence.note("chain.py:singleton-release-unreadable")
+        return
+    if isinstance(rec, dict) and rec.get("pid") == os.getpid():
+        try:
+            os.remove(path)
+        except OSError:
+            silence.note("chain.py:singleton-release-failed")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int)
@@ -894,6 +1108,27 @@ def main():
                          "disconnected graph instead of refusing")
     a = ap.parse_args()
 
+    # SINGLE-INSTANCE GUARD (order 13ab15a6c8da). Placed AFTER argument parsing -- a `--help`
+    # or a bad flag must not stage or clear anybody's claim -- and before any of `_run`'s shared
+    # writes. Two `python src/chain.py` runs overlapped on 2026-09-14: `harvest()` rewrites
+    # state/chain_harvest_idx.json under CAS and `write_result()` rewrites data/CHAIN.json
+    # whole, and both runs also competed for the one local Ollama. See `singleton_claim` above
+    # for the mechanism this reuses rather than re-invents.
+    ok, why = singleton_claim()
+    if not ok:
+        print("chain: REFUSING TO START -- %s" % why, file=sys.stderr)
+        return 1
+    try:
+        return _run(a)
+    finally:
+        # RELEASED IN A FINALLY, on every exit out of `_run` including an uncaught exception --
+        # a claim left standing by a crash would block every future run of this script until
+        # someone deletes state/chain_singleton.json by hand.
+        singleton_release()
+
+
+def _run(a):
+    """The body of `main()`, run only once this process holds the single-instance claim."""
     if a.refresh_continuity:
         patched, hosts = refresh_continuity()
         if patched is None:

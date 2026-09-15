@@ -1890,7 +1890,23 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                 # even have been attempted (the ledger showed pin `groq:openai/gpt-oss-20b`
                 # against candidate label `Llama 3.3 70B (Groq)`). Benching on that evidence is
                 # exactly m103's harm reached by a new road.
-                _wait = None if exhausted else retry_after_seconds(err)
+                #
+                # A NAMED TRANSIENT THAT STATES NO NUMBER STILL GETS A BENCH (sweep59
+                # AUDIT_batch08, order 58cbf2367aeb item 2). Order 2239a87c57f5 only taught this
+                # branch to honour a STATED cooldown; it never claimed the unstated case was
+                # covered elsewhere, and `_pace()` is not that cover -- it spaces ENTRIES by the
+                # bucket's own declared rpm (capped at `MAX_PACE_SECONDS`, often under a second),
+                # which is burst prevention, not a penalty for a refusal that already happened.
+                # Left as `_wait = None`, a bare "rate limit exceeded" with no number in it was
+                # claimable again on the very next pace tick, at full rate, with less caution
+                # than the DEADLINE path a few dozen lines up gets for going merely silent
+                # (`_bury(pinned.bucket)`, no seconds, the flat exponential-strike bench). A
+                # provider that names its own throttle should not be trusted with a shorter
+                # cooldown than one that said nothing at all. `MIN_STATED_BENCH` is reused rather
+                # than inventing a number: it is already this file's floor for "a bench shorter
+                # than the router's own first miss is indistinguishable from no bench at all",
+                # which is exactly the condition an un-parsed retry-after leaves it in.
+                _wait = None if exhausted else (retry_after_seconds(err) or MIN_STATED_BENCH)
                 if _wait:
                     _bury(pinned.bucket, _wait)
             elif pinned:

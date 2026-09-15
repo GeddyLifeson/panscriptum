@@ -366,6 +366,20 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
   shard held `catalogue_local.py`, which `sweep_plan` spells `deprecated/catalogue_local.py`, and
   nothing noticed. Shards were normalised onto names `sweep_plan` itself emits and only those.
 
+### Resolved this run (paper trail, run #59 — 2026-09-14)
+
+None of these had a BUGS.md entry; they were work orders only. They are recorded here so the ledger carries each root cause. The export commit is named in HANDOFF.md's run #59 entry.
+
+- **Eaten-escape guard missing from 27 regex modules** (orders `fadd4338a7b0`, `d56cb7f2bed0`). Root cause: the roster was measured by substring and nothing checked it, so three modules (codewatch, secondopinion, verify_math) were never on it. Fixed by inserting the guard and adding an ast-based roster net, proven RED/HOLD.
+- **generate.py failures.json lost-update** (`ec8b8b35e521`). Root cause: loaded once, written whole. Now a CAS own-rows merge, `_land_failures`; the net goes RED under whole-dict and empty-merge reverts.
+- **chain.py harvest index hid a widened OUTCOME pattern** (`058fa19d4e65`, code half; the CHAIN.json rewrite is still outstanding). Root cause: an mtime-only incremental index with no recipe key. It now stores and checks a pattern digest; net RED under both reverts; the live index is re-harvested (277,045 files, 31,594 contest sentences). The change briefly left the continuity net's fixture stale and halted the library; that halt was raised, fixed and lifted this run (see HANDOFF.md).
+- **assay() hand_readings had no Layer-1 gate** (sweep59-batch13). Root cause: `interval_from_hands` was gated under `50e8d8be9a9b` and its twin door was not. `_check_hand_readings` added; net RED with the call removed.
+- **rosetta.refine kept + dropped did not reconcile** (sweep59-batch08). Root cause: order `78f2bebed995` moved floor-rejected rows out of `kept` and credited them nowhere. Now counted as dropped; net RED under each revert.
+- **dashboard severity sort ranked HIGH last** (sweep59-batch13). Root cause: JS `0||3`. Now `??`.
+- **hostcheck/scout persisted errors cut without a marker** (sweep59-batch16). Hard Rule 0; now whole.
+- **[M108 — RESOLVED 2026-09-14, run #59, order `98898e10038e`; labelled M92 for minutes and corrected, since run #53 already used M92] short entity names matched as a word prefix** ("Ash" owned "ashes"). Root cause: `read._names()`'s whole-name fallback had a leading `\b` and no trailing one, copying a token-start rule measured only for words over three letters. Fixed to end `(?:'s|s)?\b` after the full-corpus diff: 976 real fallback pairs unchanged, 985,496 collision matches removed over 368.7M sentence/name pairs, 0 real matches lost (a bare trailing `\b` was rejected for dropping Bat/"bats"). Net RED under the old pattern and under over-tightening. Moved here from Open in the same commit, per the standing rule.
+- **workorders backslash `where` collapsed to a basename** (`5b00f9d39b94`); **drill --prove hid a crashed child's traceback** (`9f1cce19c85c`); **index-spine net held with no corpus.db** (`e3fcbbe262e2`).
+
 ### Resolved this run (paper trail, run #47 — 2026-09-07)
 
 *All seven entries — m184 through m190 — moved to `## Resolved (paper trail)` in the measured

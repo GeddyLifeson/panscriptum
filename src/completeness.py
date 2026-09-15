@@ -540,20 +540,34 @@ def audit(only=None, workers=6):
         # identical `prop=categoryinfo` question through `endpoint`, which resolves each host's
         # own API path. A RAW-mode wiki (www.dandwiki.com serves `index.php?action=raw` and no
         # API at all) can be READ but cannot be COUNTED, and that is stated rather than scored.
+        #
+        # `if n is not None`, NOT `if n` (order c4d13e8829b5). This was `if n: sizes[cand] = n`,
+        # which treats a category that ANSWERED with `pages: 0` the same as one that never
+        # answered at all -- both are falsy. But the probes already tell the two apart: MediaWiki
+        # marks a genuinely missing category page with a `missing` key and no `categoryinfo` at
+        # all (`category_size_probe`/`_host` then return `n=None`), while a category that EXISTS
+        # but holds only subcategories still returns a real `categoryinfo` dict with `pages: 0`
+        # (`n=0`). Confirmed live against onepiece.fandom.com Category:Characters (cached at n=0
+        # in this project's own data), which answers
+        # `{"categoryinfo": {"size": 12, "pages": 0, "files": 0, "subcats": 12}}` -- a real
+        # answer, not a missing one -- versus a made-up category title, which answers
+        # `{"missing": ""}` with no `categoryinfo` key at all. Dropping the `n=0` case here threw
+        # that distinction away a few lines after the probe took the trouble to preserve it, and
+        # the zero-branch below (`sizes and max(sizes.values()) == 0`) is what puts it back.
         no_denominator = None
         if sub:
             for cand in probes:
                 n, err = category_size_probe(sub, cand)
                 if err:
                     failed += 1
-                if n:
+                elif n is not None:
                     sizes[cand] = n
         elif api_base(host):
             for cand in probes:
                 n, err = category_size_probe_host(host, cand)
                 if err:
                     failed += 1
-                if n:
+                elif n is not None:
                     sizes[cand] = n
         else:
             no_denominator = ("no denominator possible: %s answers no MediaWiki API (it serves "
@@ -620,6 +634,26 @@ def audit(only=None, workers=6):
                 "unknown rather than zero. A probe set that does not name this wiki's own "
                 "category is a known failure mode -- see the cov > 1.0 branch below."
                 % (len(probes), host)))
+        # EXISTING-BUT-EMPTY IS A THIRD ANSWER, NOT THE SAME ONE AS MISSING (order c4d13e8829b5).
+        # The branch above says "none of the categories exists" -- true only when every probe hit
+        # the `missing` case. But `sizes` can now be non-empty while every value in it is 0: one
+        # or more of the probed categories DOES exist (a real `categoryinfo` answered) and simply
+        # files none of its members as direct pages -- onepiece.fandom.com's Category:Characters
+        # holds 12 subcategories and 0 direct pages, which is exactly this shape. `max(sizes) ==
+        # 0` there would otherwise fall through to `best = 0`, and every later coverage figure
+        # for a real-but-zero denominator would divide by (or against) zero as if the category
+        # had never been found -- the same "answered no non-zero size" misreading this fix
+        # exists to correct, just one branch later. Reported here, before `best` is computed, so
+        # no coverage number is ever offered for a denominator that categoryinfo cannot supply.
+        if sizes and max(sizes.values()) == 0:
+            zero_cats = sorted(sizes)
+            return _unmeasured(src, host, (
+                "no denominator possible: %d of the %d CATEGORY_PROBES categories exist on %s "
+                "(%s) and answered, but categoryinfo reports 0 direct member pages for all of "
+                "them -- the category exists but files its members in subcategories (or files), "
+                "which categoryinfo's `pages` count does not include, so the size of the cast "
+                "is unknown rather than zero"
+                % (len(zero_cats), len(probes), host, ", ".join(zero_cats))))
         best = max(sizes.values()) if sizes else None
         rec = byslug.get(str(src).lower()) or byslug.get(str(src).lower().replace("-", " "))
         got = (rec or {}).get("total")

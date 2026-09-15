@@ -42,6 +42,10 @@ import json
 import os
 import re
 
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Every entry the chapter template requires. An entry that reached the page without these did
@@ -359,8 +363,8 @@ def cited_names_for(source, names):
     direction, because the failure being guarded is a fabricated measurement.
 
     ON_CORRUPT TRACE (order 2ce520242de8). This was the only `cachekey.load` call site in the
-    tree that did not pass `on_corrupt` -- feats.py:1454, hostcheck.py:1374, pipeline.py:1399,
-    read.py:804 and sweep.py:184 all do. `cachekey.load` answers `(None, None)` for a file it
+    tree that did not pass `on_corrupt` -- the `cachekey.load` calls in feats.py, hostcheck.py,
+    pipeline.py, read.py and sweep.py all do (cited by module, not line: order d7efd67caa6f). `cachekey.load` answers `(None, None)` for a file it
     could not parse, exactly as it does for a file that is not there, so a TORN evidence record
     read the same as an entity that was never mined: `unearned_instrument` names it and the
     block is refused either way. THE GATE'S DECISION DOES NOT CHANGE HERE -- fail-closed is

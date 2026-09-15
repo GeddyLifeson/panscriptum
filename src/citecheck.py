@@ -33,8 +33,8 @@ of those can be resolved from here, so they are reported separately as UNRESOLVE
 visible, and deliberately NOT filed as work, because "I could not find this file" is a fact about
 this checker's reach and not about the citation.
 
-WHY A FLOOR IS WORTH HAVING ANYWAY. Of the sites sweep 54 filed by hand, `standards.py:604`
-(a blank line) and `address_space.py:381` (a bare bracket) would both have been caught by this
+WHY A FLOOR IS WORTH HAVING ANYWAY. Of the sites sweep 54 filed by hand, standards.py line 604
+(a blank line) and address_space.py line 381 (a bare bracket) would both have been caught by this
 alone, at no cost, the moment they rotted rather than at the next sweep. Under a floor like this
 the class stops GROWING between sweeps, which is the part that was making it permanent.
 
@@ -48,6 +48,10 @@ import argparse
 import os
 import re
 import sys
+
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 HERE = os.path.dirname(SRC)

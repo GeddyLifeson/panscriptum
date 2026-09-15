@@ -448,7 +448,7 @@ def scout(source, names, register=True):
             silence.note("scout.py:register-pages")
             registered = False
             reg_note = ("%d page(s) verified but NOT registered (%s: %s)"
-                        % (len(kept), type(e).__name__, str(e)[:120]))
+                        % (len(kept), type(e).__name__, str(e)))            # WHOLE (sweep59-batch16)
         # AND THE HOST ADOPTION IS GATED ON THE PAGE REGISTRATION HAVING WORKED. The mapping
         # written below is literally `hosts[source] = "pages:" + source` -- it tells `feats` to
         # read this source's pages OUT OF SOURCE_PAGES.json. Adopting it while the pages are not
@@ -474,7 +474,7 @@ def scout(source, names, register=True):
                 silence.note("scout.py:register-host")
                 registered = False
                 reg_note = ("%d page(s) registered but host adoption failed (%s: %s)"
-                            % (len(kept), type(e).__name__, str(e)[:120]))
+                            % (len(kept), type(e).__name__, str(e)))            # WHOLE (sweep59-batch16)
     elif kept:
         # register=False (--dry): pages were verified but nobody was ever asked to save them.
         # `registered` stays None -- nobody tried, which is neither a success nor a failure --
