@@ -1,18 +1,24 @@
 # OVERWATCH
 
-round 535  ·  last run 2026-09-15 01:57
+round 536  ·  last run 2026-09-15 02:53
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 304,914 inspected
+- files that will not parse: **0** of 304,914 inspected (deep scan as of round 535)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**29 open** (8 high). Newest first.
+**40 open** (11 high). Newest first.
 
+- **genre.py** `classify_text` — [HIGH] Returns the top N genres, ranked (genre, score).
+  - says: Score every genre against a body of text. Returns ALL of them, ranked (genre, score).
+- **generate.py** `failures.pop` — [HIGH] popped before the catalog entry is built
+  - says: popped only AFTER the catalog entry above is built
+- **feats.py** `outcome` — [HIGH] never defined in this file or its imports
+  - says: used as a channel for why None came back
 - **drill.py** `M.reap_orphans` — [HIGH] reaping all sandboxes in the temporary directory, including those not owned by the current process
   - says: reaping matched a prefix and an age and nothing else
 - **drill.py** `ESC` — [HIGH] is used to refer to a variable or function that is not defined in this slice
@@ -29,6 +35,30 @@ round 535  ·  last run 2026-09-15 01:57
   - says: MANAGER EITHER WAY -- see the docstring. The run guard describes; it does not rank.
 - **chain.py** `write_result` — [HIGH] only persists `names` and `strengths` if the fit was successful
   - says: persist `names` and `strengths` whole
+- **generate.py** `silence.note` — [MEDIUM] logs a generic message without specific error details
+  - says: logs the failure with a meaningful message
+- **generate.py** `generate_job` — [MEDIUM] may raise exceptions that are not properly handled or logged
+  - says: generates a job's content
+- **generate.py** `floor` — [MEDIUM] the evidence floor is misconfigured
+  - says: the evidence floor is misconfigured
+- **foreman.py** `codewatch.exit_if_stale` — [MEDIUM] checks if the code is stale and exits if it is, but the comment says it's for picking up code changes
+  - says: PICK UP CODE CHANGES
+- **foreman.py** `lines_changed` — [MEDIUM] measures the number of lines changed using difflib, which is correct
+  - says: LINES CHANGED, not the difference in line COUNT. This gate is the one the module docstring sells as bounding how much of a function a model rewrite may touch, and it was measuring `abs(len(new) - len(old))` -- a net total. A rewrite that replaced every line of an 80-line function and happened to land on 82 lines scored `delta = 2` and passed a gate meant to stop exactly that. The message said "patch changes 2 lines", which was false.
+- **foreman.py** `restart_ollama` — [MEDIUM] return a tuple indicating success or failure
+  - says: restart the local model
+- **foreman.py** `restart_ollama` — [MEDIUM] The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.
+  - says: Restart the local model service when tokens stop flowing. AUTO by owner ruling (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon answered /api/tags while zero generations completed, once with no runner process and once with a runner spinning at 98% completing nothing -- and both times the only cure was a restart a person had to perform. The restart is mechanical and reversible (the tray app respawns the daemon; the resident model reloads on first call), and it is rate-limited: at most one automated restart per 30 minutes, so a deeper fault escalates to the owner instead of being restart-looped into invisibility.
+- **foreman.py** `kill_stalled` — [MEDIUM] killed stalled or spared based on conditions
+  - says: killed stalled
+- **foreman.py** `CB._PROVEN[0]` — [MEDIUM] clears the cached proof but does not force re-reading
+  - says: force the next _alive() to re-read
+- **feats.py** `work` — [MEDIUM] The function `work` is responsible for processing jobs, but the code inside the `if honour_quarantine` block does not correctly implement the intended quarantine logic. It checks if the host is in `held` and defers the job, but the comment suggests that the code should be enforcing the quarantine by stopping requests, which is not happening as described.
+  - says: THE BRAKE THE HAND-OFF ALWAYS CLAIMED TO BE. `note_throttled` quarantines a host after THROTTLE_STRIKES consecutive 429s and its comment says the crawl stops spending requests on it; until the 2026-09-08 ruling nothing on the fetch path asked, so twelve workers went on queueing at the 32x ceiling. Asked here, once per entity, off a view refreshed at most once a minute.
+- **feats.py** `_HOSTS_DENIED` — [MEDIUM] is set to the boolean result of replace_retry
+  - says: is set to not silence.replace_retry(tmp, HOSTS)
+- **feats.py** `replace_retry` — [MEDIUM] returns a boolean indicating whether the rename was successful
+  - says: answers False rather than raising when the rename is denied
 - **events.py** `shelf_positions` — [MEDIUM] Parses lines that start with | and contain 'Shelf' and 'stands at' to extract shelf and stands_at, but the actual implementation may not correctly handle the table structure as described.
   - says: The Concordance table: where each shelf stands at the Delivery. -> [{shelf, stands_at}].
 - **endpoint.py** `html_text` — [MEDIUM] Strips script, style, and navigation tags, but does not remove other tags like div or p.
@@ -59,14 +89,6 @@ round 535  ·  last run 2026-09-15 01:57
   - says: suppresses its console window
 - **cleanup.py** `low_pref` — [MEDIUM] filter entries starting with the ceiling entity but return the shortest one as 'prefix' when there's exactly one match
   - says: filter entries starting with the ceiling entity
-- **chain.py** `changed` — [MEDIUM] Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`)
-  - says: Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`)
-- **chain.py** `live` — [MEDIUM] Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`)
-  - says: Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`)
-- **catalogue_web.py** `tally` — [MEDIUM] tally is a dictionary that is modified in a non-atomic way, leading to potential race conditions when multiple threads access it concurrently.
-  - says: Record and roll writes are serialized under a lock; a source is still written atomically, whole.
-- **cascade_bridge.py** `try_disabled` — [MEDIUM] Attempts to enable models and test them, but the code does not actually verify if they have a working key as described.
-  - says: Test models that are switched off in config but DO have a working key.
 - **catalogue_aurora.py** `roll_landed` — [MEDIUM] used as a flag to determine if the roll was successfully updated, but the code does not properly handle the case where the update might have failed
   - says: COMPARE-AND-SWAP, BECAUSE ATOMIC WAS NEVER THE PROPERTY THIS NEEDED
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
