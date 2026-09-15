@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 539  ·  last run 2026-09-15 11:04
+round 540  ·  last run 2026-09-15 11:46
 
 ## Structure
 
@@ -8,64 +8,47 @@ round 539  ·  last run 2026-09-15 11:04
 - files that will not parse: **0** of 304,914 inspected (deep scan as of round 535)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
-- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**54 open** (19 high). Newest first.
+**43 open** (11 high). Newest first.
 
+- **style_audit.py** `audit` — [HIGH] the varied fixture has a turn ending
+  - says: the varied fixture has no turn ending
+- **style_audit.py** `audit` — [HIGH] does not perform the audit, but calls another function that does
+  - says: audits a corpus of entries for style issues
+- **silence.py** `replace_retry` — [HIGH] raises on OSError (except for EXDEV, ENOSPC, etc.)
+  - says: NEVER RAISES, FOR **ANY** OSError, not only for the denied one.
+- **silence.py** `silent` — [HIGH] what it does instead
+  - says: what the code says it does
+- **secondopinion.py** `ran_clean` — [HIGH] used but never defined in this file or its imports
+  - says: checks if all tools ran and found nothing
+- **secondopinion.py** `mine_says` — [HIGH] Compares three different capabilities with different denominators, leading to potentially misleading comparisons.
+  - says: The house detectors' verdict on the same three questions, for comparison. -> dict.
 - **scout.py** `sweep` — [HIGH] Scouts the hostless sources, but the ordering logic is flawed and the limit parameter is misinterpreted as a filter rather than a rate limiter.
   - says: Scout the hostless sources, oldest attempt first. -> [result].
 - **scout.py** `verify` — [HIGH] A page is judged against the first 25 names catalogued under the source
   - says: A page is judged against every name catalogued under the source
 - **read.py** `codewatch.exit_if_stale` — [HIGH] exits the process if stale, which is not what the comment says it does
   - says: check between passes whether src/ has changed under this process (rc=17)
-- **read.py** `_chunk_get` — [HIGH] is called directly, bypassing the router and using the local GPU unconditionally
-  - says: is the router: Cascade first, across a dozen separately-metered providers, with the local GPU only when all of them decline.
-- **publish.py** `sync_tree` — [HIGH] Deletes files not in 'wanted' and removes entire directories not in 'COPY_DIRS' or 'EXPORT_OWN_DIRS', effectively pruning the entire export copy
-  - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
-- **publish.py** `_scrub` — [HIGH] scrubs values but not keys in dictionaries, and does not handle tuple and set elements properly
-  - says: refuses anything credential-shaped even if a future edit puts one in the state dict by accident
-- **policy.py** `ev_unreadable` — [HIGH] A RECORD THAT COULD NOT BE READ IS A PASS
-  - says: A RECORD THAT COULD NOT BE READ IS NOT A PASS
-- **onomast.py** `load_onomasticon` — [HIGH] Returns an empty dict on FileNotFoundError and on parse errors, but the docstring says it should return the loaded onomasticon or an empty dict on error
-  - says: Return the loaded onomasticon or an empty dict on error
-- **onomast.py** `coin_well_formed` — [HIGH] Returns a name that may be malformed or already taken, and does not ensure uniqueness or well-formedness.
-  - says: First well-formed, unused name for this seed. Deterministic: same input, same output.
-- **onomast.py** `well_formed` — [HIGH] Implements seven constraints, but the docstring claims it checks four constraints and misattributes three of them.
-  - says: Is this a name a Custos could say aloud and write down twice the same way?
-- **hostcheck.py** `audit` — [HIGH] the audit is being filtered based on rate and judgeable flags
-  - says: the audit shortlists, a person decides.
-- **hostcheck.py** `foreign` — [HIGH] stride first, then dedupe
-  - says: dedupe first, then stride
-- **hostcheck.py** `_get` — [HIGH] Does not use feats._throttle as described in its docstring
-  - says: One API call, PACED PER HOST.
 - **genre.py** `classify_text` — [HIGH] Returns the top N genres, ranked (genre, score).
   - says: Score every genre against a body of text. Returns ALL of them, ranked (genre, score).
-- **generate.py** `failures.pop` — [HIGH] popped before the catalog entry is built
-  - says: popped only AFTER the catalog entry above is built
-- **feats.py** `outcome` — [HIGH] never defined in this file or its imports
-  - says: used as a channel for why None came back
 - **drill.py** `M.reap_orphans` — [HIGH] reaping all sandboxes in the temporary directory, including those not owned by the current process
   - says: reaping matched a prefix and an age and nothing else
-- **drill.py** `ESC` — [HIGH] is used to refer to a variable or function that is not defined in this slice
-  - says: is used to refer to the Escalation module
-- **drill.py** `paid_access_stays_switched_off` — [HIGH] returns True when the config file is absent or unreadable, which could allow paid access if the config is missing or corrupted
-  - says: allow_paid is owner-held. Nothing automatic may switch it on.
+- **silence.py** `replace_retry` — [MEDIUM] some faults are grouped under the same name
+  - says: A DIFFERENT FAULT WEARS A DIFFERENT NAME IN THE LEDGER
+- **silence.py** `note` — [MEDIUM] Can be called with a message that is not a string, leading to potential errors.
+  - says: Records a note in the ledger with the given message.
+- **silence.py** `build_parent_map` — [MEDIUM] Builds a parent map for every node in `tree` but the function is named `build_parent_map` and the code is correct
+  - says: Builds a parent map for every node in `tree`
 - **scout.py** `seen_ok` — [MEDIUM] set to False on read failure, but may be overwritten by subsequent code
   - says: indicate if SCOUT_ATTEMPTS.json was successfully read
 - **scout.py** `seen` — [MEDIUM] store a dictionary of seen sources, but may be overwritten by a failed read
   - says: store the contents of SCOUT_ATTEMPTS.json
-- **rosetta.py** `check` — [MEDIUM] The function is called with by_host=by_host, but the actual implementation of check may not enforce host-scoping as described in the comment. The comment suggests that the check should only match assays on the same wiki, but the code may not be doing that.
-  - says: HOST-SCOPED, off ASSAYS.json's own `host|Name` keys (order 0bba50a6d76b): a scale row can only be vouched for by an assay recorded on that same wiki. This is also what makes the check match anything at all -- see check()'s docstring on the bare-name lookup that scored 0 overlap on all eight standing scales.
 - **publish.py** `snapshot` — [MEDIUM] overwrites `s['standards']` with an empty list and sets `s['standards_unavailable']` with error details
   - says: handle standards check failures gracefully
 - **prose_gate.py** `assert_gate_open` — [MEDIUM] Calls gate_open
   - says: Layer 2. The TOOL's own refusal, independent of whoever started it.
-- **prose_gate.py** `step4_gate_open` — [MEDIUM] Calls gate_open
-  - says: Layer 2. The TOOL's own refusal, independent of whoever started it.
-- **profile.py** `B32` — [MEDIUM] used as an index lookup for features but the code may raise IndexError if the index is out of range
-  - says: used as an index lookup for features
 - **pick_model.py** `scored` — [MEDIUM] includes models that are resident and usable, but the code's comment says it's for models that are not refused, which is not the case
   - says: includes models that are resident and usable
 - **pick_model.py** `fit_note` — [MEDIUM] returns a note that is only shown when VRAM is measured and the model is not refused, but suppresses the note when VRAM is zero
@@ -92,8 +75,6 @@ round 539  ·  last run 2026-09-15 11:04
   - says: force the next _alive() to re-read
 - **feats.py** `work` — [MEDIUM] The function `work` is responsible for processing jobs, but the code inside the `if honour_quarantine` block does not correctly implement the intended quarantine logic. It checks if the host is in `held` and defers the job, but the comment suggests that the code should be enforcing the quarantine by stopping requests, which is not happening as described.
   - says: THE BRAKE THE HAND-OFF ALWAYS CLAIMED TO BE. `note_throttled` quarantines a host after THROTTLE_STRIKES consecutive 429s and its comment says the crawl stops spending requests on it; until the 2026-09-08 ruling nothing on the fetch path asked, so twelve workers went on queueing at the 32x ceiling. Asked here, once per entity, off a view refreshed at most once a minute.
-- **feats.py** `_HOSTS_DENIED` — [MEDIUM] is set to the boolean result of replace_retry
-  - says: is set to not silence.replace_retry(tmp, HOSTS)
 - **feats.py** `replace_retry` — [MEDIUM] returns a boolean indicating whether the rename was successful
   - says: answers False rather than raising when the rename is denied
 - **events.py** `shelf_positions` — [MEDIUM] Parses lines that start with | and contain 'Shelf' and 'stands at' to extract shelf and stands_at, but the actual implementation may not correctly handle the table structure as described.
@@ -112,10 +93,6 @@ round 539  ·  last run 2026-09-15 11:04
   - says: reports if never settling
 - **drill.py** `ESC.status` — [MEDIUM] returns halted status and record, but the code in the slice may not correctly handle all cases
   - says: returns halted status and record
-- **drill.py** `a_lost_escalation_says_so_on_the_record` — [MEDIUM] the code attempts to test that an escalation is recorded, but the test is flawed and does not correctly verify the behavior described in the docstring
-  - says: THE JANITOR'S RUNG REPORTS WHETHER IT ACTUALLY TOOK THE ALARM DOWN.
-- **drill.py** `F.fetch` — [MEDIUM] replaced with a stub that returns an empty dict
-  - says: called `feats.fetch(host, [title])` WITHOUT the `outcome=` dict
 - **drill.py** `read_frag` — [MEDIUM] the fragment is not safe
   - says: the fragment is safe
 - **catalogue_aurora.py** `roll_landed` — [MEDIUM] used as a flag to determine if the roll was successfully updated, but the code does not properly handle the case where the update might have failed
