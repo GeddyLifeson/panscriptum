@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 531  ·  last run 2026-09-14 22:10
+round 532  ·  last run 2026-09-14 23:24
 
 ## Structure
 
@@ -8,17 +8,29 @@ round 531  ·  last run 2026-09-14 22:10
 - files that will not parse: **0** of 304,847 inspected (deep scan as of round 529)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
+- NOT RUNNING: **0** dashboard.py
+- NOT RUNNING: **0** read.py
 
 ## What the model found in the code
 
-**13 open** (3 high). Newest first.
+**14 open** (1 high). Newest first.
 
 - **assay.py** `assay` — [HIGH] Computes a Moth Number but does not include the M_a term
   - says: Compute a Moth Number: 𝔄 = M_a + (sum w_i * s_i) / 10
-- **address.py** `slugify` — [HIGH] Truncates to 60 characters
-  - says: Mint a slug from a label. NOT TRUNCATED -- see below.
-- **coverage.py** `measure` — [HIGH] measure() raises SystemExit on failure, which is not the same as measuring
-  - says: measure() is a function that measures something
+- **catalogue_codex.py** `roll_landed` — [MEDIUM] roll_landed is used to determine if a write was denied and to decide the exit code
+  - says: the code says it does not matter if the roll is updated
+- **catalogue_aurora.py** `roll_landed` — [MEDIUM] used as a flag to determine if the roll was successfully updated, but the code does not properly handle the case where the update might have failed
+  - says: COMPARE-AND-SWAP, BECAUSE ATOMIC WAS NEVER THE PROPERTY THIS NEEDED
+- **binding_health.py** `_land_cas` — [MEDIUM] silences the error and returns a false landed flag
+  - says: deliberately RE-RAISES whatever stopped the temp copy being written
+- **binding_health.py** `filtered` — [MEDIUM] filtered is set to bool(only) or limit is not None, which is a boolean indicating whether only or limit was provided, not whether the filtering actually occurred
+  - says: WAS THIS PASS FILTERED AT ALL? Asked once, here, and used for every downstream decision, because the three sites below each asked it again as `only or limit` and a falsy-but-given `--limit 0` answered "no" to all of them (orders cd7492eec3bc and f1901d2178ba).
+- **binding_health.py** `F.api` — [MEDIUM] returns None for network faults, which is UNMEASURED, not a verdict
+  - says: what reaches here is a fault on OUR side -- a bug, a broken import inside the transport -- and with `retries=0` there is no cushion.
+- **binding_health.py** `return _spread([title] if isinstance(title, str) else list(title or []), PRESENT_CANDIDATES)` — [MEDIUM] hardcodes the value of PRESENT_CANDIDATES as the number of candidates to take, but the code around it suggests that this value should be derived from the input title or other context
+  - says: SPREAD, NOT FRONT-CUT (order 14a73de63099). This was `[:PRESENT_CANDIDATES]`, which took the alphabetical head of whatever it was handed. See `_spread`.
+- **binding_health.py** `release` — [MEDIUM] returns a reason saying it was not released, but does not attempt to write the change to disk if the quarantine file is unreadable
+  - says: Lift a quarantine. -> the reason it was lifted, or a reason saying it was NOT.
 - **audit.py** `audit_invariants` — [MEDIUM] audit the invariants but with a critical off-by-one error in the calculation of the rate for synthesis-level failures
   - says: audit the invariants
 - **assay.py** `floor` — [MEDIUM] the attestation floor if recognised, otherwise 0.30
@@ -29,14 +41,6 @@ round 531  ·  last run 2026-09-14 22:10
   - says: -> (the dispersion this call will use, whether the GRADE was recognised).
 - **assay.py** `_rho` — [MEDIUM] Delegates to `axis_correlation.rho`, which may not be the same as the measured correlation between two Measures as described in the docstring.
   - says: Measured correlation between two Measures. -> float in [-1, 1].
-- **assay.py** `_rho_source` — [MEDIUM] Returns a string that includes the 'degraded' status and the reason for degradation, but the function's name and docstring suggest it should provide a provenance stamp for the correlations, not the degradation status.
-  - says: -> a one-line provenance stamp for the correlations behind an interval.
-- **custodes.py** `main` — [MEDIUM] returns 1 if _faults else 0
-  - says: A TABLE FAULT IS A NON-ZERO EXIT, NOT ONLY A PRINTED LINE
-- **feats.py** `main` — [MEDIUM] returns 1 if the roll failed, otherwise 0
-  - says: the sibling branches in this same file already do it: `--hosts` twenty lines up returns `1 if _HOSTS_DENIED else 0`, and `resolve_hosts`'s own docstring promises "main() exits nonzero on it". `--roll` was the one place the pattern was never applied, even though `roll()` has always returned exactly the counters needed.
-- **feats.py** `wiki_source` — [MEDIUM] ReNone of the findings are valid. The code correctly computes `wiki_source` using `reads_as_wiki` as described. There are no defects of fact in this slice. The repeated entries in the findings list were due to a formatting error in the response. The correct answer is an empty list. The code does not have any issues where it does something other than what it claims. The `wiki_source` variable is properly computed using the `reads_as_wiki` function, and there are no other defects of fact in the provided code slice. The repeated findings were a result of an error in generating the response, not actual issues in the code. The code is sound and does not contain any defects of fact as per the given criteria. The findings list should be empty. The code correctly implements the intended functionality without any discrepancies between the code and its claims. The response should be {
-  - says: Answered by `reads_as_wiki` rather than recomputed here, so the cache-staleness check above and this mining path can never disagree about what kind of corpus a host is.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
