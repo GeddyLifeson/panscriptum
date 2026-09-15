@@ -2661,7 +2661,7 @@ def main():
         import escalation as _ESC
     except ImportError as _esc_gone:
         # FAIL CLOSED. This used to be `except ImportError: pass`, which meant a deleted or
-        # unparseable `escalation.py` silently switched the plant-wide halt off in every job
+        # unparseable `escal,ation.py` silently switched the plant-wide halt off in every job
         # at once -- nine sites, all of them quiet about it. That is Hard Rule -1's own
         # incident wearing different clothes: the last one began with an autonomous run
         # removing a safety it had concluded was unnecessary, and nothing downstream could
@@ -2699,10 +2699,10 @@ def main():
         floor = EMPTY_RATE_CONTROL * EMPTY_RATE_ANOMALY
         # RANKED, NEVER TRUNCATED -- every host prints, worst rate first (Hard Rule 0).
         for h, r in sorted(rows.items(), key=lambda kv: -kv[1]["empty_rate"]):
-            print(f"  {'ANOMALOUS' if r['empty_rate'] >= floor else '   ok    '}  "
-                  f"{r['empty_rate']:>7.2%}  {r['unexplainable_empty']:>7,} of {r['files']:>7,}"
-                  f"  stamped {r['carries_transport_stamp']:>7,}"
-                  f"  unreadable {r['unreadable']:>5,}  {h}")
+            print(f"  {'ANOMALOUS' if r["empty_rate"] >= floor else '   ok    '}  "
+                  f"{r["empty_rate"]:>7.2%}  {r["unexplainable_empty"]:>7,} of {r["files"]:>7,}"
+                  f"  stamped {r["carries_transport_stamp"]:>7,}"
+                  f"  unreadable {r["unreadable"]:>5,}  {h}")
         n_anom = sum(1 for r in rows.values() if r["empty_rate"] >= floor)
         print(f"\n{len(rows)} host(s) measured, {n_anom} anomalous against the "
               f"{EMPTY_RATE_CONTROL:.1%} dc.fandom.com control at x{EMPTY_RATE_ANOMALY:g}. "
@@ -2711,8 +2711,8 @@ def main():
             # The measurement is the product. A run that measured and could not land it has not
             # authorised anything, and must not exit as though it had.
             print("\nMEASUREMENT NOT WRITTEN: %s could not be replaced, so nothing on disk "
-                  "authorises a re-mine and `anomalous_empty_hosts()` still reports UNMEASURED."
-                  % EMPTY_RATES)
+                  "authorises a re-mine and `anomalous_empty_hosts()` still reports UNMEASURED."%
+                  EMPTY_RATES)
             return 1
         print("wrote %s" % EMPTY_RATES)
         return 0
