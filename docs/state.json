@@ -1,5 +1,5 @@
 {
- "at": "2026-09-15 11:12:36",
+ "at": "2026-09-15 11:22:54",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,18 +228,18 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 221,
+     "left": 220,
      "cap": 1000,
-     "frac": 0.221
+     "frac": 0.22
     },
     {
      "name": "rpm",
-     "left": 14,
+     "left": 15,
      "cap": 15,
-     "frac": 0.9333
+     "frac": 1.0
     }
    ],
-   "worst": 0.221
+   "worst": 0.22
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -248,9 +248,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 1,
      "cap": 250,
-     "frac": 0.0
+     "frac": 0.004
     },
     {
      "name": "rpm",
@@ -259,7 +259,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.004
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -314,9 +314,9 @@
     },
     {
      "name": "tpd",
-     "left": 497200,
+     "left": 497687,
      "cap": 500000,
-     "frac": 0.9944
+     "frac": 0.9954
     },
     {
      "name": "rpm",
@@ -346,9 +346,9 @@
     },
     {
      "name": "tpd",
-     "left": 126066,
+     "left": 126728,
      "cap": 200000,
-     "frac": 0.6303
+     "frac": 0.6336
     },
     {
      "name": "rpm",
@@ -378,9 +378,9 @@
     },
     {
      "name": "tpd",
-     "left": 46122,
+     "left": 46662,
      "cap": 100000,
-     "frac": 0.4612
+     "frac": 0.4666
     },
     {
      "name": "rpm",
@@ -404,15 +404,15 @@
    "windows": [
     {
      "name": "tpd",
-     "left": 149718,
+     "left": 151420,
      "cap": 200000,
-     "frac": 0.7486
+     "frac": 0.7571
     },
     {
      "name": "rpd",
-     "left": 798,
+     "left": 802,
      "cap": 1000,
-     "frac": 0.798
+     "frac": 0.802
     },
     {
      "name": "rpm",
@@ -427,7 +427,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.7486
+   "worst": 0.7571
   },
   {
    "bucket": "huggingface:free",
@@ -678,9 +678,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 37,
+     "left": 39,
      "cap": 300,
-     "frac": 0.1233
+     "frac": 0.13
     },
     {
      "name": "rpm",
@@ -689,7 +689,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.1233
+   "worst": 0.13
   },
   {
    "bucket": "together:free",
@@ -718,9 +718,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 203,
+     "left": 207,
      "cap": 500,
-     "frac": 0.406
+     "frac": 0.414
     },
     {
      "name": "rpm",
@@ -729,67 +729,52 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.406
+   "worst": 0.414
   }
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 71,
-  "per_hour": 284,
+  "calls": 47,
+  "per_hour": 188,
   "buckets": [
    {
-    "bucket": "groq:openai/gpt-oss-120b",
+    "bucket": "ollama:qwen3:8b",
     "calls": 12,
-    "ok": 4
+    "ok": 0
+   },
+   {
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 10,
+    "ok": 1
    },
    {
     "bucket": "sambanova:free",
-    "calls": 9,
+    "calls": 6,
     "ok": 0
    },
    {
     "bucket": "zai:free",
-    "calls": 9,
+    "calls": 6,
     "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.1-flash-lite",
-    "calls": 8,
-    "ok": 0
-   },
-   {
-    "bucket": "ollama:qwen3:8b",
-    "calls": 8,
+    "calls": 5,
     "ok": 0
    },
    {
     "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 7,
-    "ok": 4
+    "calls": 4,
+    "ok": 1
    },
    {
     "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 5,
-    "ok": 2
+    "calls": 3,
+    "ok": 0
    },
    {
     "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 4,
-    "ok": 0
-   },
-   {
-    "bucket": "cohere:free",
-    "calls": 3,
-    "ok": 0
-   },
-   {
-    "bucket": "groq:groq/compound-mini",
-    "calls": 3,
-    "ok": 2
-   },
-   {
-    "bucket": "openrouter:free",
-    "calls": 3,
+    "calls": 1,
     "ok": 0
    }
   ]
@@ -808,11 +793,11 @@
   {
    "name": "page roll",
    "unit": "entities",
-   "done": 112400,
+   "done": 112600,
    "total": 282740,
-   "detail": "148,114 pages  \u00b7  1450M characters  \u00b7  9.8/s",
+   "detail": "148,335 pages  \u00b7  1452M characters  \u00b7  9.0/s",
    "warn": "",
-   "eta_h": 4.8
+   "eta_h": 5.2
   }
  ],
  "library": {
@@ -829,7 +814,7 @@
    "read": 218182,
    "settled": 244865,
    "feats": 152962,
-   "age_h": 1.0
+   "age_h": 1.2
   },
   "phases": [
    {
@@ -1241,7 +1226,7 @@
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 897,
+   "n": 895,
    "p50": 6.2,
    "p95": 75.5,
    "ok_pct": 58,
@@ -1257,8 +1242,8 @@
   },
   {
    "tag": "entrypass",
-   "n": 82,
-   "p50": 57.0,
+   "n": 84,
+   "p50": 62.4,
    "p95": 810.1,
    "ok_pct": null,
    "tps": 19.5
@@ -1307,7 +1292,7 @@
    "breached": [],
    "liveness": 47,
    "liveness_ceiling": 52,
-   "age_min": 198.4
+   "age_min": 208.7
   },
   "escalation_recent": {
    "JANITOR": 17,
@@ -1339,7 +1324,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 284,
+   "observed": 188,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1357,7 +1342,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "22% dry",
+   "observed": "19% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1375,7 +1360,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "17% ok of 71",
+   "observed": "4% ok of 47",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1384,7 +1369,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": false,
-   "observed": "local, 1 of 16 permits (3 answering; 17% ok over 71 calls; ollama up)",
+   "observed": "local, 1 of 16 permits (3 answering; 4% ok over 47 calls; ollama up)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1420,7 +1405,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": false,
-   "observed": "5.2%, stuck at 21462 chunks for 115 min",
+   "observed": "5.2%, stuck at 21462 chunks for 126 min",
    "floor": "moving, or under 15 min quiet",
    "order": "The chunk counter has not moved. If it reads 0.0%%, no chunk has completed at all -- check that read.py printed its transport banner and that the queue is not empty. If it is stuck at a non-zero count, the reader is up and wedged: look at the pool standards above and at the failure ledger before restarting it, because a restart re-queues the chunk it is stuck on.",
    "severity": "high"
@@ -1438,7 +1423,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "1.0h",
+   "observed": "1.2h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1564,7 +1549,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 2 of 6 benchmarks done, started 0.1h ago -- pending: Monkey D. Luffy, Naruto Uzumaki, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 2 of 6 benchmarks done, started 0.3h ago -- pending: Monkey D. Luffy, Naruto Uzumaki, Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1600,7 +1585,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": false,
-   "observed": "11.3h",
+   "observed": "11.5h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1636,7 +1621,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:openai/gpt-oss-120b: unparseable reply (1 consecutive from this bucket): {\"feats\":[{\"sentence\":\"Changes forms.\",\"axis\":\" (x1, 10.1h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x67, 12.3h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Let me analyze each entry carefully: [0] Inner Guard (Earth-616) - Organization: Private robot bodyguards of Madame Masque, destroyed in battle with Avengers. This is a group/organization. Category 4 (Factions). Topic: Factions. No scale no (x1, 13.1h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Let me analyze each entry carefully. [0] Kamekeri (Earth-616) - Organization type, but described as \"people from the Incan tribes\" who lived in Costa Verde and worshiped gods. This is a people/race, not an organization. Category 8 (Peoples  (x1, 13.7h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1002. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 14.0h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze each entry carefully. [0] Curators (type: Organization): Robotic creatures created by the Builders to help shape the universe. They are tasked with vigilance of the Builders' creations. - Category: 4 (Factions) - they are a g (x1, 14.2h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze Goku's feats to determine his anchor band. The key question: What scale of conflict can Goku DECIDE? Looking at the feats: - [18] Destroying Kamioren with a punch to its core - this is a massive foe, but what scale is Kamiore (x1, 14.6h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze Monkey D. Luffy in his Gear Five / Awakened Nika state. STEP 1: ANCHOR The question is: what scale of conflict can Luffy DECIDE? Looking at the evidence: - [10] \"With a single, enhanced Gear 4 punch, Luffy was capable of obli (x1, 15.8h old); github:free: All 1 candidates failed: GPT-OSS 120B (Groq) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x1, 19.1h old); dashscope:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `dashscope:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `dashscope:free` is at fault. (x9, 19.3h old); nebius:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `nebius:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `nebius:free` is at fault. (x24, 19.3h old); cerebras:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `cerebras:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `cerebras:free` is at fault. (x9, 19.3h old); bigmodel:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `bigmodel:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `bigmodel:free` is at fault. (x8, 19.3h old); together:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `together:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `together:free` is at fault. (x5, 19.4h old); huggingface:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `huggingface:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `huggingface:free` is at fault. (x9, 19.8h old); deepinfra:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `deepinfra:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `deepinfra:free` is at fault. (x16, 19.8h old); anthropic:paid: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x27, 19.8h old); kluster:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `kluster:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `kluster:free` is at fault. (x17, 19.9h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Goku - **Epoch:** Mastered Ultra Instinct, Tournament of Power - **Axis Under Assay:** VOLITION - **Task:** Score 0-9.9 based *only* on the provided candidate sentences. Ci (x1, 20.1h old); gemini:models/gemini-2.5-flash-lite: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash-lite` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash-lite` is at fault. (x9, 20.2h old); chutes:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `chutes:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `chutes:free` is at fault. (x20, 20.4h old); anthropic:paid: All 1 candidates failed: Qwen 3.6 27B (Groq) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x1, 20.4h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1552. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 20.4h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1427. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 20.4h old); ai21:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `ai21:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ai21:free` is at fault. (x6, 20.4h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1686. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 20.5h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from Marvel, all typed as \"Item\". - Each entry has a name, type, and description. - I need to output JSON with specific fields: `index`, `category`, `scale_note`, `ma (x1, 20.6h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> The user is asking for the online location of a specific body of tabletop RPG material named \"JMBrew\". The catalogued items include: - Tool Expertise (Cook's Utensils) - Changeling Clothes, Major - Changeling Clothes, Minor - Making use of  (x2, 20.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1147. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 20.7h old); nvidia:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `nvidia:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `nvidia:free` is at fault. (x11, 21.4h old); mistral:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `mistral:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `mistral:free` is at fault. (x8, 21.5h old); github:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x15, 21.6h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy Type-0 abilities (Note: The page title says \"Final Fantasy XI enemy abilities\", but the entity specified is \"Final Fantasy Type-0 abilities\". I will focus on  (x1, 21.7h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Android 8 (Note: The page is actually about Android 18, but the prompt says \"ENTITY: Android 8\". I will process the feats for the entity described in the text, which is And (x1, 22.3h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy X-2 enemy abilities (Note: The page title says \"Lightning Returns: Final Fantasy XIII enemy abilities\", but the entity specified is \"Final Fantasy X-2 enemy a (x1, 23.1h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1321. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 23.1h old)",
+   "observed": "groq:openai/gpt-oss-120b: unparseable reply (1 consecutive from this bucket): {\"feats\":[{\"sentence\":\"Changes forms.\",\"axis\":\" (x1, 10.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x67, 12.4h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Let me analyze each entry carefully: [0] Inner Guard (Earth-616) - Organization: Private robot bodyguards of Madame Masque, destroyed in battle with Avengers. This is a group/organization. Category 4 (Factions). Topic: Factions. No scale no (x1, 13.3h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Let me analyze each entry carefully. [0] Kamekeri (Earth-616) - Organization type, but described as \"people from the Incan tribes\" who lived in Costa Verde and worshiped gods. This is a people/race, not an organization. Category 8 (Peoples  (x1, 13.9h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1002. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 14.2h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze each entry carefully. [0] Curators (type: Organization): Robotic creatures created by the Builders to help shape the universe. They are tasked with vigilance of the Builders' creations. - Category: 4 (Factions) - they are a g (x1, 14.4h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze Goku's feats to determine his anchor band. The key question: What scale of conflict can Goku DECIDE? Looking at the feats: - [18] Destroying Kamioren with a punch to its core - this is a massive foe, but what scale is Kamiore (x1, 14.7h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Let me analyze Monkey D. Luffy in his Gear Five / Awakened Nika state. STEP 1: ANCHOR The question is: what scale of conflict can Luffy DECIDE? Looking at the evidence: - [10] \"With a single, enhanced Gear 4 punch, Luffy was capable of obli (x1, 16.0h old); github:free: All 1 candidates failed: GPT-OSS 120B (Groq) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x1, 19.3h old); dashscope:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `dashscope:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `dashscope:free` is at fault. (x9, 19.4h old); nebius:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `nebius:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `nebius:free` is at fault. (x24, 19.4h old); cerebras:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `cerebras:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `cerebras:free` is at fault. (x9, 19.5h old); bigmodel:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `bigmodel:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `bigmodel:free` is at fault. (x8, 19.5h old); together:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `together:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `together:free` is at fault. (x5, 19.5h old); huggingface:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `huggingface:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `huggingface:free` is at fault. (x9, 19.9h old); deepinfra:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `deepinfra:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `deepinfra:free` is at fault. (x16, 20.0h old); anthropic:paid: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x27, 20.0h old); kluster:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `kluster:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `kluster:free` is at fault. (x17, 20.0h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Goku - **Epoch:** Mastered Ultra Instinct, Tournament of Power - **Axis Under Assay:** VOLITION - **Task:** Score 0-9.9 based *only* on the provided candidate sentences. Ci (x1, 20.3h old); gemini:models/gemini-2.5-flash-lite: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `gemini:models/gemini-2.5-flash-lite` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `gemini:models/gemini-2.5-flash-lite` is at fault. (x9, 20.4h old); chutes:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `chutes:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `chutes:free` is at fault. (x20, 20.5h old); anthropic:paid: All 1 candidates failed: Qwen 3.6 27B (Groq) -- NOTE: the pinned bucket `anthropic:paid` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `anthropic:paid` is at fault. (x1, 20.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1552. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 20.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1427. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 20.6h old); ai21:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `ai21:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `ai21:free` is at fault. (x6, 20.6h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1686. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 20.7h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - Input: 20 entries from Marvel, all typed as \"Item\". - Each entry has a name, type, and description. - I need to output JSON with specific fields: `index`, `category`, `scale_note`, `ma (x1, 20.8h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> The user is asking for the online location of a specific body of tabletop RPG material named \"JMBrew\". The catalogued items include: - Tool Expertise (Cook's Utensils) - Changeling Clothes, Major - Changeling Clothes, Minor - Making use of  (x2, 20.8h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1147. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 20.9h old); nvidia:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `nvidia:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `nvidia:free` is at fault. (x11, 21.6h old); mistral:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `mistral:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `mistral:free` is at fault. (x8, 21.7h old); github:free: All 1 candidates failed: Qwen3 8B (local) -- NOTE: the pinned bucket `github:free` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `github:free` is at fault. (x15, 21.8h old); groq:qwen/qwen3.6-27b: unparseable reply (3 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy Type-0 abilities (Note: The page title says \"Final Fantasy XI enemy abilities\", but the entity specified is \"Final Fantasy Type-0 abilities\". I will focus on  (x1, 21.9h old); groq:qwen/qwen3.6-27b: unparseable reply (2 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Android 8 (Note: The page is actually about Android 18, but the prompt says \"ENTITY: Android 8\". I will process the feats for the entity described in the text, which is And (x1, 22.5h old); groq:qwen/qwen3.6-27b: unparseable reply (1 consecutive from this bucket): <think> Here's a thinking process: 1. **Analyze User Input:** - **Entity:** Final Fantasy X-2 enemy abilities (Note: The page title says \"Lightning Returns: Final Fantasy XIII enemy abilities\", but the entity specified is \"Final Fantasy X-2 enemy a (x1, 23.3h old); groq:qwen/qwen3.6-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.6-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1321. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 23.3h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1785,11 +1770,11 @@
   {
    "metric": "standards met",
    "now": 32,
-   "delta": 0,
+   "delta": 1,
    "minutes": 31,
    "reset": false,
-   "stalled": true
+   "stalled": false
   }
  ],
- "generated": "2026-09-15T11:12:47"
+ "generated": "2026-09-15T11:23:05"
 }
