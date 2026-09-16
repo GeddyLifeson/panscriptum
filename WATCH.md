@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 556  ·  last run 2026-09-15 21:56
+round 557  ·  last run 2026-09-15 22:27
 
 ## Structure
 
@@ -11,12 +11,38 @@ round 556  ·  last run 2026-09-15 21:56
 
 ## What the model found in the code
 
-**3 open** (0 high). Newest first.
+**16 open** (7 high). Newest first.
 
+- **autostart.py** `silence` — [HIGH] is never defined in this slice
+  - says: handles errors with retries and logging
+- **autostart.py** `installed_state` — [HIGH] is never defined in this slice
+  - says: returns the state of the launcher
+- **drill.py** `CB.verify` — [HIGH] does not verify the archive against the live tree
+  - says: is what anybody asks months later
+- **drill.py** `CB.snapshot` — [HIGH] writes a snapshot and does not re-open it for verification
+  - says: reopens the archive it wrote and re-hashes every member before recording success
+- **drill.py** `ESC` — [HIGH] the code says it does
+  - says: the code says it does
+- **drill.py** `paid_access_stays_switched_off` — [HIGH] returns True when the config file is absent or unreadable, implying that paid access is not blocked in these cases
+  - says: allow_paid is owner-held. Nothing automatic may switch it on.
+- **drill.py** `drill_binding_identity` — [HIGH] The function is incomplete and does not fully implement the described behavior
+  - says: Can an unfixable fault be filed, for ever, at a handler that cannot fix it?
+- **drill.py** `_LIVE_HOOK` — [MEDIUM] the audit hook is not checked for failures
+  - says: the audit hook failed
+- **drill.py** `GL._take_slot` — [MEDIUM] return a slot
+  - says: arbitrate a slot
+- **drill.py** `GL.lane` — [MEDIUM] create a context manager for a lane
+  - says: arbitrate a lane
+- **drill.py** `CW._report_if_never_settling` — [MEDIUM] The code does something else
+  - says: The code says it does something else
+- **drill.py** `_is_rooted` — [MEDIUM] The function no longer accepts a bare `join` as a path, which contradicts the comment explaining that it was supposed to accept such cases.
+  - says: WHAT IT NO LONGER ACCEPTS. A bare `join` matched `",".join(root)` as readily as a path build, so a SENTENCE assembled out of a rooted name read as a place inside the sandbox.
+- **drill.py** `_is_rooted` — [MEDIUM] Checks if the expression is a call to `join` with a string receiver that does not contain path separators, returning False in such cases.
+  - says: Is this expression a path anchored at one of `derived`? -> bool.
+- **drill.py** `creationflags` — [MEDIUM] yields 0 off Windows
+  - says: suppresses its console window
 - **foreman.py** `restart_ollama` — [MEDIUM] The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.
   - says: Restart the local model service when tokens stop flowing. AUTO by owner ruling (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon answered /api/tags while zero generations completed, once with no runner process and once with a runner spinning at 98% completing nothing -- and both times the only cure was a restart a person had to perform. The restart is mechanical and reversible (the tray app respawns the daemon; the resident model reloads on first call), and it is rate-limited: at most one automated restart per 30 minutes, so a deeper fault escalates to the owner instead of being restart-looped into invisibility.
-- **drill.py** `ESC.status` — [MEDIUM] returns halted status and record, but the code in the slice may not correctly handle all cases
-  - says: returns halted status and record
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
