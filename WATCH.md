@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 561  ·  last run 2026-09-16 04:05
+round 562  ·  last run 2026-09-16 04:31
 
 ## Structure
 
@@ -11,16 +11,22 @@ round 561  ·  last run 2026-09-16 04:05
 
 ## What the model found in the code
 
-**19 open** (4 high). Newest first.
+**20 open** (5 high). Newest first.
 
+- **assay.py** `attestation_recognised` — [HIGH] the fault was the silence, not the substitution
+  - says: the grade is the ONE operand of assay() with no Layer 1
+- **assay.py** `attestation_sigma` — [HIGH] a bar that doubled because somebody typed a lowercase w
+  - says: the interval IS the published claim about how much the library does not know
+- **assay.py** `assay` — [HIGH] Computes a Moth Number but the formula is incorrect due to missing covariance terms and incorrect variance calculation
+  - says: Compute a Moth Number: 𝔄 = M_a + (sum w_i * s_i) / 10
 - **corpus_db.py** `rebuild` — [HIGH] Rebuilds the index but does not actually process the canonical JSON data as described, instead handling WIKI_HOSTS.json and COVERAGE.json files and attempting to connect to a temporary database without fully implementing the described index rebuilding logic.
   - says: Rebuild the index from the canonical JSON. -> counts.
 - **build_terminal.py** `esc` — [HIGH] some catalogue-derived strings bypass it, like shelfmark and the four f.* rows in selectWorld
   - says: every catalogue-derived string goes through this before it reaches innerHTML
-- **foreman.py** `overwatch.save` — [HIGH] discards the failure silently
-  - says: prints the denial itself and returns the same verdict `silence.write_json` gave
-- **foreman.py** `kill_duplicate_jobs` — [HIGH] Returns False when duplicates are found but no process matched, and sometimes returns False when no duplicates were ended despite having found some.
-  - says: Keep the OLDEST instance of each job and end the rest.
+- **assay.py** `_rho_source` — [MEDIUM] The function returns a string indicating degradation, but the actual implementation does not directly reference the 'degraded' key from the doc dictionary.
+  - says: DEGRADED IS NAMED HERE TOO, NOT JUST MEASURED-VS-FALLBACK
+- **assay.py** `RHO_FALLBACK_REASON` — [MEDIUM] The variable is assigned a value when a fallback occurs, but the code does not explicitly guard against the absence of the matrix at import time.
+  - says: A guard cited in a comment and absent from the code is worse than no guard, because the next reader stops looking.
 - **corpus_db.py** `code` — [MEDIUM] is set to None when code is 'UNASSIGNED'
   - says: NULL means unshelved, and only the resolver may say so
 - **compress_store.py** `load` — [MEDIUM] Reads a stored blob back, decompresses it, and checks if the decompressed text's hash matches the filename's hash, raising an error if they don't match.
@@ -45,10 +51,6 @@ round 561  ·  last run 2026-09-16 04:05
   - says: One host, fully judged: how much of this roster it holds, ABOVE ITS OWN BASELINE.
 - **hostcheck.py** `candidates` — [MEDIUM] Returns the same flat `grounded + spec` list it has always returned.
   - says: Other hosts worth probing for this source, best first: grounded, then speculation.
-- **foreman.py** `silence.write_json` — [MEDIUM] The code attempts to write the log but does not handle the case where writing is denied, leading to potential data loss.
-  - says: A denied rename here loses this whole round from the operational record, and overnight.foreman_report() would then replay the PREVIOUS round as if it were this one -- i.e. report stale repairs as current.
-- **foreman.py** `kill_stalled` — [MEDIUM] killed stalled or spared based on restartability and I/O activity
-  - says: killed stalled
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
