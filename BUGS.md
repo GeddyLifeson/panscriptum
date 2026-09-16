@@ -1542,6 +1542,81 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+### Resolved by run #60 (2026-09-15 daily maintenance, sweep 60)
+
+*All three were FOUND AND FIXED in the same shift, so none of them ever sat in `## Open`. They are
+recorded here because each is a defect in a SAFETY, and a safety that was broken is worth a bug
+entry even when its life was short.*
+
+- **[M109 — RESOLVED 2026-09-15, run #60] THE BUGS.md DUPLICATE CHECK COULD NOT FAIL, AND RAN ON
+  EVERY PUSH.** `ledger_guard.check_structure` bounds its sections with `text.find("## Resolved")`,
+  and **line 14 of this very file is prose inside a blockquote** that quotes that heading in
+  backticks — 1,529 lines above the real heading at line 1543. So the section marks sorted
+  Open(264) → Resolved(669) → Watching(127654) when the file's true order is
+  Open(7) → Watching(1523) → Resolved(1543), and the **"Open" span collapsed to 405 characters**.
+  - **MEASURED BEFORE ANYTHING WAS CHANGED:** the Open span held **0 bug ids** against **38** in
+    the Resolved span. An intersection with an empty set is empty, so the check reported "intact"
+    every time it ran and could not have done anything else. `assert_intact()` calls it on every
+    `publish.push()`.
+  - **ROOT CAUSE:** the comment directly above the code already says *"a check that cannot fail
+    reads exactly like a check that passed"* — it was written for an EARLIER version of this same
+    bug, which assumed an Open-then-Resolved ORDER. That fix taught the marks not to assume an
+    order. It did not teach them to tell a heading from a MENTION of one, and a ledger whose whole
+    subject is bugs will go on quoting its own section names in prose.
+  - **FIX:** match the marker line-anchored (`(?m)^## Resolved`), so a backticked mention, a
+    blockquote and an indented example all fail `^`. After the fix the Open span holds **38 ids**
+    and Resolved **39**; the real intersection is empty, so this file genuinely is clean — that
+    part of the old answer was true by luck.
+  - **PROVEN, BOTH WAYS:** new drill net *"a bug id planted in BOTH sections is actually named, not
+    quietly passed"* drives the real `check_structure` over a real copy of BUGS.md with one id
+    moved from Resolved into Open. HELD with the fix; **RED** under the original substring code,
+    which is the measurement that the bug was real. The clean file must still pass in the same
+    probe, so the repair cannot be "refuse everything". Found by sweep60 batch05.
+
+- **[M110 — RESOLVED 2026-09-15, run #60] ONE MALFORMED MODEL REPLY ENDED A MULTI-HOUR CHAIN PASS,
+  AND LEFT CHAIN.json THREE WEEKS STALE WITHOUT SAYING SO.** `chain.extract`'s worker reads
+  untrusted model output. Every malformation it expects — a missing index, a non-numeric one, a
+  blank winner, a name the library does not catalogue — costs that one outcome and the pass
+  continues. A wrong **TYPE** did not: `o.get("index", 0)` raises `AttributeError` when the model
+  answers with a list of **strings** instead of objects, and the `except (TypeError, ValueError)`
+  beside it does not name that exception.
+  - **MEASURED, NOT HYPOTHESISED:** this run's own `chain.py --workers 12` pass harvested **31,927
+    contest sentences** and then died with `AttributeError: 'str' object has no attribute 'get'`.
+    `data/CHAIN.json` was left holding the fit from **2026-08-22** while every downstream reader
+    went on treating it as current.
+  - **ROOT CAUSE:** the least interesting failure was the most expensive one. The crash was loud;
+    the staleness it caused was silent, which is the half that matters.
+  - **FIX:** skip any outcome that is not a mapping, with a named `silence.note`. Iterating a bare
+    string answer yields characters and lands in the same guard.
+  - **PROVEN, BOTH WAYS:** new drill net *"a malformed model outcome is SKIPPED, and does not end
+    the chain pass"* drives the REAL `extract` with the model call stubbed, over three answers — a
+    string where an object belongs, a bare string for the whole `outcomes` value, and a well-formed
+    outcome that must still produce its edge, so the guard cannot pass by dropping everything.
+    HELD with the fix; **RED** with the guard removed, reporting the identical AttributeError.
+
+- **[M111 — RESOLVED 2026-09-15, run #60] A VANISHED WIKI_HOSTS.json WOULD HAVE BEEN REBUILT
+  NEAR-EMPTY, THROUGH THE DOOR BESIDE THE REFUSAL THAT EXISTS TO STOP EXACTLY THAT.**
+  `hostcheck._land_hosts` refuses to merge into an **unreadable** host map — *"NEVER heal this one
+  by starting empty"* — but reached that refusal through `if os.path.exists(F.HOSTS):`, so an
+  **absent** file fell straight past it to `hosts = {}`, into the merge, and into the write.
+  - **WHY IT MATTERS:** `hostcheck` calls this one of the two files not reconstructible from
+    anything else on disk, and `canon_backup` carries it as canonical — *"host bindings,
+    hand-corrected over many runs"*. An empty host map reads downstream as "no source has a wiki",
+    which is how COMPLETENESS.json came to hold zero rows on 2026-08-24. The window is real rather
+    than theoretical: `adopt()` probes the network for minutes between its first read and this
+    write, and `roll.py` records a test harness destroying the sibling canonical file twice.
+  - **ROOT CAUSE:** the refusal's own sentence is about the empty MAP, not about which way the file
+    became unavailable — but the guard was written around one of the two doors.
+  - **FIX:** absent is refused like unreadable, naming the restore command rather than starting
+    over. This does not close the bootstrap path: `ingest_doc` still creates the file through
+    `silence.write_json` when there is genuinely nothing to merge into.
+  - **PROVEN, THREE WAYS IN ONE PROBE:** new drill net *"a VANISHED WIKI_HOSTS.json is refused, not
+    rebuilt from this pass's findings alone"* — absent refuses and creates no file, unreadable
+    still refuses, and a present valid map still accepts the merge while keeping the hand-corrected
+    row it merged into, so the guard cannot become a wall that quietly ends host adoption. HELD
+    with the fix; **RED** with the absent-guard removed. Found by sweep60 batch15.
+
+
 ### Resolved by run #58 (2026-09-13/14 daily maintenance, sweep 58)
 
 - **[M97 — RESOLVED 2026-09-13, run #58] HANDOFF.md's OWN NAVIGATION FAULT, COMMITTED TWICE

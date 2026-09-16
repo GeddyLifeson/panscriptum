@@ -713,6 +713,25 @@ def extract(rows, batch=8, limit=None, workers=8):
             # and a graph that should connect fragments into per-branch islands -- 21 of them,
             # 70 of 82 fighters holding a single edge. Ford's condition cannot be met by a
             # graph assembled this way no matter how many sentences are fed to it.
+            # AN OUTCOME THAT IS NOT AN OBJECT KILLED A WHOLE PASS (run #60, 2026-09-15).
+            # `o.get` raises AttributeError when the model answers with a list of STRINGS
+            # instead of a list of objects -- `{"outcomes": ["Goku beat Vegeta"]}` -- and
+            # AttributeError is not in the `except` below, so it went straight up through
+            # `work()`, through `ex.map`, and ended the run. Measured, not hypothesised: a
+            # `--workers 12` pass died exactly here after harvesting 31,927 contest sentences,
+            # and `data/CHAIN.json` was left carrying the fit from three weeks earlier while
+            # every downstream reader went on treating it as current.
+            #
+            # THE SHAPE OF THE FAULT IS THE POINT. This loop reads UNTRUSTED MODEL OUTPUT, and
+            # every other malformation here -- a missing index, a non-numeric one, a blank
+            # winner, a name the library does not catalogue -- is already handled by SKIPPING
+            # that one outcome and carrying on. A wrong TYPE was the single shape that took the
+            # process down instead, which made the least interesting failure the most expensive
+            # one. Iterating a bare string answer (`{"outcomes": "Goku beat Vegeta"}`) yields
+            # characters and lands here too, and is skipped the same way.
+            if not isinstance(o, dict):
+                silence.note("chain.py:extract-outcome-not-an-object")
+                continue
             try:
                 pos = int(o.get("index", 0)) - 1
             except (TypeError, ValueError):

@@ -27,6 +27,278 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-15 — RUN #60 (DAILY) — A CHECK THAT COULD NOT FAIL RAN ON EVERY PUSH, A MODEL'S BAD REPLY KILLED A CHAIN PASS, AND THE DETECTOR THAT CRIED WOLF FIFTEEN TIMES WAS RIGHT TO BE FIXED RATHER THAN OBEYED
+
+**FOR THE OWNER, AT THE TOP:**
+
+* **A HALT WAS RAISED AND LIFTED BY THIS RUN, under the Hard Rule -1 self-caused clause. Saying
+  it loudly because a run that lifts a halt quietly is the thing that rule exists to stop.**
+  * **THE RAISE.** `drill.py` raised `DRILL_BREACH` at 23:07:52 on the net *"every module-level
+    probe that opens the sandbox is driven by THE LIVE-STATE WITNESS"*. **This run caused it.**
+    The new chain probe (§3) is module-level and opens the sandbox, and it was not added to
+    `_LIVE_STATE_PROBES` — so if it ever lost its `_esc_probe` wrapper, nothing would have seen
+    it. The net is right and the omission was mine.
+  * **THE CAUSE IS FIXED.** The probe was added to the witness roster. It went on the list
+    **because that net refused**, which is the whole reason the list exists.
+  * **WHY THE HALT OUTLIVED THE FIX BY A FEW SECONDS, and it is a good illustration of this
+    project's fourth safety property.** Two drill runs overlapped. The breaching run **started
+    before the roster fix landed**, and a Python process does not re-read its own source — so it
+    was photographing pre-fix code. It finished at 23:07:52 and raised the halt **three seconds
+    after** the post-fix run had already returned 619/619/0 at 23:07:49. The halt record says as
+    much itself: *"RE-READ ON AN UNSETTLED TREE: src/ was last written 169s ago ... a breach read
+    here may be a photograph of a half-applied edit rather than a defect."*
+  * **THE LIFT, and what it rests on.** Not on that reasoning alone. `src/` was confirmed settled
+    (no source written for ~5 minutes, against the 180s threshold) and the **whole drill was then
+    re-run from scratch on the quiet tree**: **619 nets attacked, 619 held, 0 BREACHED**, with no breached line in the log at all. Beside it: verify_math
+    1307 passed / 0 FAILED, pyflakes clean, `ledger_guard.check_all()` empty.
+  * Cleared with a written ruling via `escalation.py --clear`. **No halt that this run merely
+    FOUND was cleared — there were none.**
+* **One thing this run set out to do and did not finish: `data/CHAIN.json` is still dated
+  2026-08-22.** The reason is now a fixed bug rather than a mystery, and the pipeline can finish
+  the job on its own — see §3. This is written at the top because it is the one deliverable left
+  short.
+* **The cloud lane is dead for a reason a person can fix in one line, and it is not a quota.**
+  The cascade config asks Groq for `qwen/qwen3.6-27b`, which no longer exists; Groq offers
+  `qwen/qwen3.8-27b`. The file is `C:/Users/imarl/cascade/config.json` line 510 — **another
+  project's**, which is why this run filed order `3e6283e6dd78` instead of editing it. Everything
+  model-shaped here is currently running on one local 8B model because of it.
+* **No committed secrets.** Two independently-written scanners (`detect-secrets` and
+  `publish.scan_for_secrets`) both say zero.
+* **43 OWNER orders remain open**, unchanged in substance. They are questions, not faults.
+
+---
+
+### THE SHIFT
+
+Queue at open: **54** (44 OWNER / 4 RUN / 2 BOTS / 4 LOCAL). At close: **58** (43 OWNER / 5 RUN /
+1 BOTS / 9 LOCAL). **Seven closed, nine filed** — the queue grew, and it grew because the
+comprehensive sweep did its job, not because work was left.
+
+`corpus_db --rebuild` first, before any number was read out of it: **216 sources, 282,822 entries,
+280,401 evidence rows**.
+
+---
+
+### 1. THE BUGS.md DUPLICATE CHECK HAD NO POWER TO REFUSE, AND `publish.push()` RAN IT EVERY TIME (bug M109)
+
+The find of the shift, and it is this project's signature failure caught in its own ledger guard.
+
+`ledger_guard.check_structure` bounded its sections with `text.find("## Resolved")`. **Line 14 of
+BUGS.md is prose inside a blockquote** that quotes that heading in backticks — 1,529 lines above
+the real heading at line 1543. So the marks sorted Open(264) → Resolved(669) → Watching(127654)
+when the file's true order is Open(7) → Watching(1523) → Resolved(1543), and the **Open span
+collapsed to 405 characters**.
+
+Measured before anything was changed: **0 bug ids in the Open span against 38 in the Resolved
+one.** An intersection with an empty set is empty. The check passed every time it ran and could
+not have done anything else.
+
+The comment directly above the code already says *"a check that cannot fail reads exactly like a
+check that passed"* — written for an **earlier** version of this same bug, which assumed an
+Open-then-Resolved order. That fix taught the marks not to assume an ORDER. It did not teach them
+to tell a heading from a MENTION of one, and a ledger whose whole subject is bugs will go on
+quoting its own section names in prose.
+
+Fixed by matching line-anchored (`(?m)^## Resolved`). **After the fix the Open span holds 38 ids
+and Resolved 39, and the real intersection is empty** — so BUGS.md genuinely is clean; that part
+of the old answer was true by luck. New net *"a bug id planted in BOTH sections is actually named,
+not quietly passed"*: **HELD** with the fix, **RED** under the original substring code. Found by
+sweep60 batch05.
+
+---
+
+### 2. A CHECK REFILED FIFTEEN TIMES WAS WRONG FIFTEEN TIMES (order `d7efd67caa6f`)
+
+`citecheck` had filed the same two "stale citations" fifteen times. **Both were false positives**,
+and the interesting part is that they were two different shapes of one mistake:
+
+* a `verify_math` probe asserting that a retired `silence.note` tag is **absent** from feats.py —
+  a proof-of-removal, read as a citation to the thing removed;
+* a `withdraw_chapters` comment carrying this project's own ruling phrase *"cited by symbol, not
+  line"*, recording a citation that **had already been repaired**. Flagging it was flagging the
+  repair.
+
+One root: **use versus mention**. A citation is a pointer. Both sites quote the token as a name.
+
+The rule was **measured before it was written**, over all 190 citation tokens in `src/`: 21 are
+quoted-exactly, and every one is a mention — note tags, or synthetic fixture rows drill feeds its
+own nets. Not one is a comment sending a reader to a line.
+
+So the detector was fixed, not the sites. Exempted citations go to `skipped` with a reason, and
+`main()` now reports what it set aside **by kind** — that line previously stated one number under
+one sentence about other trees, which since the change would have described two of three claims
+wrongly.
+
+**Six nets, every one watched go red.** Two of them are attacks on the exemption itself: a bare
+stale citation beside a quoted one must still be caught, and a stale citation **in front of** the
+disclaimer phrase must still be caught. The second one **found a real hole** — the first draft
+tested the phrase against the whole line, so writing it anywhere would have excused every citation
+on that line. The exemption now covers only what follows the phrase.
+
+**And the detector immediately flagged this run's own documentation, twice.** The first draft of
+the explanatory comment spelled its examples as bare pointer-shaped tokens in prose; so did a net
+description. Both were repaired the honest way — write *"feats.py line 139"* — rather than by
+quoting them into the exemption this run had just written. Leaning on your own excuse is how an
+exemption becomes a hiding place.
+
+Live result: **0 findings, with 9 + 24 + 4 set aside and each reported by kind.**
+
+---
+
+### 3. ONE BAD MODEL REPLY ENDED A MULTI-HOUR CHAIN PASS (bug M110)
+
+Run #60 set out to refresh `CHAIN.json`, three weeks stale. The pass harvested **31,927 contest
+sentences** and then died:
+
+```
+AttributeError: 'str' object has no attribute 'get'
+```
+
+`chain.extract` reads untrusted model output. Every malformation it expects — a missing index, a
+non-numeric one, a blank winner, an uncatalogued name — costs one outcome and the pass continues.
+A wrong **type** did not: `o.get(...)` raises `AttributeError` when the model answers with a list
+of strings, and the `except (TypeError, ValueError)` beside it does not name it. **The least
+interesting failure was the most expensive one** — the crash was loud, and the staleness it caused
+was silent.
+
+Fixed by skipping any outcome that is not a mapping. New net drives the **real** `extract` over
+three answers — a string where an object belongs, a bare string for the whole value, and a
+well-formed outcome that must still produce its edge, so the guard cannot pass by dropping
+everything. **HELD**; **RED** with the guard removed, reporting the identical AttributeError.
+
+**`CHAIN.json` is still stale, and that is the honest state of it.** The re-run was started and
+then **killed on purpose**: it holds the chain singleton lock, so while it ran the pipeline's own
+chain phase was being refused, and it was competing with the local agent for one saturated GPU at
+"2 answering, 8% ok over 90 calls". The pipeline can now finish this itself, which it could not
+before the fix.
+
+---
+
+### 4. A VANISHED CANONICAL FILE WOULD HAVE BEEN REBUILT NEAR-EMPTY (bug M111)
+
+`hostcheck._land_hosts` refuses to merge into an **unreadable** `WIKI_HOSTS.json` — *"NEVER heal
+this one by starting empty"* — but reached that refusal through `if os.path.exists(...)`, so an
+**absent** file fell past it into the merge and the write. The one outcome the refusal exists to
+prevent, through the door beside it.
+
+This is one of the two files the project calls not reconstructible, carried by `canon_backup` as
+*"host bindings, hand-corrected over many runs"*. An empty host map reads downstream as "no source
+has a wiki" — how COMPLETENESS.json came to hold zero rows on 2026-08-24. The window is real:
+`adopt()` probes the network for minutes between its first read and this write.
+
+Absent is now refused like unreadable, naming the restore command. **It does not close the
+bootstrap path** — `ingest_doc` still creates the file when there is genuinely nothing to merge
+into. New net proves all three in one probe: absent refuses and creates nothing, unreadable still
+refuses, and a valid map still accepts the merge and keeps the hand-corrected row — so the guard
+cannot become a wall that quietly ends host adoption. Found by sweep60 batch15.
+
+---
+
+### 5. A REMEDY THAT REPORTED SUCCESS FOR DOING NOTHING
+
+`foreman.kill_duplicate_jobs` returned `did=True` while saying *"no duplicate ended"* in the same
+breath — the case where duplicates exist and it deliberately declined to choose a victim because
+their creation times would not read. Under the owner ruling of 2026-09-08 (*"make did honest"*),
+`did` means **the problem was fixed**, not *a measurement completed*. Its own sibling
+`kill_stalled_job` already answers `False` for exactly this shape.
+
+Now `False`. **Checked rather than assumed:** `REMEDIES["one instance of each job"]` is that one
+remedy alone, so no sibling remedy was being skipped by the dishonest `True` — what changes is
+that the operational log stops calling it a fix.
+
+---
+
+### 6. THE TWO MUTATION ORDERS
+
+**`9ea4d3545524` — CLOSED, on its own first condition: the deleting actor is named.** It is
+`reap_orphans` itself. It ages a sandbox on the mtime of its **root**, while a running pass writes
+into `root/src/`, which never touches the root — so hours in, a working pass is indistinguishable
+from an abandoned one, and the ownership check (which fails **safe to reaping**) is all that
+remains. Both 2026-09-05 and 2026-09-07 died ~12.3 hours in, about 6.3 hours past becoming
+reapable, on the identical FileNotFoundError.
+
+The guard was already in source. **What was missing was the net for the half that carries the
+load:** `sandbox()`'s own docstring calls `_touch_root` the thing that "on its own would have saved
+both dead passes", and nothing proved it. Added, with the fixture being the real pairing — aged
+**and** carrying an unparseable owner claim — and both directions in one call so it cannot pass by
+the reaper having stopped reaping. HELD; RED with the `os.utime` removed.
+
+**`58a00e909217` — LEFT OPEN, deliberately.** Its only surviving explanation is fixed (top-level
+`data/` files are hardlinked, so a sandbox reads a frozen snapshot), and this run added the net
+that proves the underlying property: a hardlinked file keeps its bytes when the live name is
+replaced. HELD; RED when `silence.write_json` stops landing by atomic replace. **But the decisive
+measurement does not exist yet** — a long pass scoring `escalation.py:409` SURVIVED rather than
+KILLED — and closing it on the strength of the fix is exactly what the order itself warns against.
+
+---
+
+### 7. THE COMPREHENSIVE SWEEP — sweep60
+
+16 batches, **all 119 modules**, `sweep_plan.missing()` empty. Every finding was re-verified
+against source by this run before anything was done with it; the two HIGH ones (§1, §4) were
+reproduced by running the code, not by reading it.
+
+**Nine orders filed**, including one routed OWNER and untouched on purpose: `prose_gate`'s
+`unearned_instrument()` carries an undocumented fallback that strips a trailing parenthetical and
+accepts a match on the bare base name — and the parenthetical is exactly where this library keeps
+**continuity**. On that reading a fabricated score for an uncited variant could pass as earned
+whenever a same-base variant is cited elsewhere. **Nothing was changed.** CLAUDE.md is explicit
+that this gate is owner-held, that a sweep once deleted it on a fair reading of a code smell, and
+that 145 unauthorised chapters followed. Tightening a gate is still a change to what the library
+will publish. Order `39a0542b03f3`.
+
+The sweep also reported a great deal of *"this batch is clean"*, which is the correct and useful
+answer for a tree this heavily self-audited, and is recorded as such rather than padded out.
+
+---
+
+### 8. THE LOCAL MODEL GOT NO TURN
+
+`local_agent.py` was given a small mechanical order and after **15 minutes had produced no output
+and changed no file** before hitting its timeout. It was starved — the chain pass and the agent
+were queued against the same single loaded `qwen3:8b`. **This is not the local model failing the
+task; it never got one.** Recorded so the next run retries it against a quiet GPU rather than
+concluding the rung is useless. Nine LOCAL orders now wait, most of them small.
+
+---
+
+### 9. NO MUTATION PASS WAS LAUNCHED, ON PURPOSE
+
+The standing instruction is to launch it early. This run did not, and the reason is run #59's own
+log: its baseline was taken from a tree that was being edited, and it said so. Run #60 was editing
+`src/` for most of the shift — five modules — and `mutate` snapshots `src/` at launch. **A pass
+with a corrupt baseline is worth less than no pass.** It should be launched now that `src/` is
+quiet; `NEXT_STEPS.md` §6 carries the command.
+
+`escalation.py` has still never completed a mutation pass. Both deaths that stopped it are now
+explained and guarded, so the next attempt is the first with a real chance.
+
+---
+
+### THE BATTERY AT CLOSE
+
+**drill **619 nets attacked, 619 held, 0 BREACHED**** · verify_math **1307 passed, 0 FAILED** · pyflakes clean ·
+liveness **47** (unchanged) · silence **314 silent of 1208** (unchanged) · secondopinion — ruff,
+vulture and detect-secrets all RAN, **0 secrets by two independent scanners** · axis_correlation
+**n_entities 45, unchanged** (nothing written) · `health.py --preflight` **1 problem**
+(`dandwiki.com` does not answer its API — standing owner item) · allsweep **2 bad subsystems**
+(the cascade live call, and that same preflight row) · `binding_health --run` **134 hosts, 0
+failed** · `ledger_guard.check_all()` **{}**.
+
+**The drill went red once during this shift and that was the system working.** The net *"every
+module-level probe that opens the sandbox is driven by THE LIVE-STATE WITNESS"* BREACHED on this
+run's own new chain probe — written, wrapped, proved HELD and proved RED, and still left off the
+witness roster. It was added because that net refused. A probe left off it could lose its wrapper
+later and nothing would see it.
+
+**Restarts:** five `src/` modules changed this shift (`citecheck`, `chain`, `ledger_guard`,
+`hostcheck`, `foreman`, plus `drill`), so the standing daemons took their designed rc=17 exits and
+the keeper brought them back on current code — dashboard, publish and foreman each filed the
+expected CODEWATCH_RESTART record. That is the contract working, not a fault.
+
+
+---
+
 ## 2026-09-14 — RUN #59 (DAILY) — THE GUARD ROSTER CLOSED, THE PUSH DAEMON FAILED EVERY CYCLE SINCE THE REBOOT, AND THE SWEEP FOUND THE MUTATION SANDBOX'S LIKELY KILLER
 
 **FOR THE OWNER, FIRST:**

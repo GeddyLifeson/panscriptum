@@ -83,6 +83,70 @@ _PATH_LEAD = ("/", "\\")
 _PLACEHOLDERS = frozenset(("foo.py", "bar.py", "baz.py", "qux.py", "x.py", "y.py", "z.py",
                            "example.py", "module.py", "mymodule.py", "somefile.py"))
 
+# USE vs MENTION (order d7efd67caa6f). A citation is a POINTER: "go read this line". The two
+# shapes below are not pointers at all -- they are the token being QUOTED, as a name or as a
+# corpse -- and flagging them reads the mention as the use. This detector filed the same two
+# sites fifteen times before the distinction was drawn, which is the churn order e114b2d0fe48
+# describes: a detector that refiles what cannot be fixed teaches its queue to be ignored.
+#
+# MEASURED BEFORE IT WAS WRITTEN, over all 190 citation tokens in src/: 21 are quoted-exactly,
+# and every one is a mention -- `silence.note` TAGS (present or historical), or synthetic
+# fixture rows drill feeds its own nets (`{"id": "B", "where": "x.py:419"}`). Not one is a
+# comment sending a reader to a line. The quoted form is how this codebase spells a note tag,
+# and the m81 pass that renamed the bare-number tags (`"feats.py:139"` -> `"feats.py:api-http-
+# error"`) left exactly these quoted survivors behind AS THE RECORD OF THE RENAME. So a probe
+# asserting `"feats.py:139"` is ABSENT from feats.py was being reported as a stale citation TO
+# feats.py line 139 -- the detector reading a proof-of-removal as the thing removed.
+#
+# AND THIS COMMENT IS WRITTEN AROUND ITS OWN RULE, which is worth saying rather than hiding. The
+# first draft of this block spelled those examples as bare `name.py:NNN` tokens in running prose
+# and CITECHECK IMMEDIATELY FLAGGED ITS OWN DOCUMENTATION -- three findings, all of them here.
+# That is the same use/mention fault one paragraph up, committed by the paragraph describing it.
+# The repair was NOT to quote them into the exemption this file now grants (leaning on your own
+# excuse is how an exemption becomes a hiding place) but to stop writing pointer-shaped tokens
+# for things that are not pointers: prose says "feats.py line 139", and the colon form is left
+# to mean what it says.
+#
+# NARROW ON PURPOSE, both of them. The quote must be immediately either side of the whole token,
+# so an unquoted token after some quoted words nearby is still checked; and the disclaimer must carry this
+# project's own ruling phrase from order a09a0e003c31, not a loose "the old". A citation that is
+# genuinely rotted cannot hide behind either without being deliberately dressed as a mention --
+# and `drill.py` carries that attack (see `_reasons_for` around the mention nets).
+_QUOTES = "\"'"
+MENTION_QUOTED_TAG = "QUOTED_TAG"
+MENTION_SYMBOL_DISCLAIMER = "SYMBOL_DISCLAIMER"
+# The pre-existing skip, which had no name until there was a second kind to tell it from. A
+# `skipped` row now always carries `why`, so the report can say WHICH claim was made rather
+# than folding three different claims into one number and one sentence about trees.
+OTHER_TREE = "OTHER_TREE"
+
+# The ruling phrase itself, order a09a0e003c31 ("CITED BY SYMBOL, NOT BY LINE"). A comment
+# carrying it is DECLARING that the number beside it is the superseded form, kept so the next
+# reader can see what moved -- `withdraw_chapters.py` records publish.py lines 1385-1398
+# drifting onto `_swap()` in exactly this way. Flagging that is flagging the repair.
+_SYMBOL_NOT_LINE = re.compile(r"cited\s+by\s+symbol,\s*not\s+(?:by\s+)?line", re.I)
+
+
+def _mention_kind(line, start, end):
+    """-> why this `file.py:NNN` is a MENTION rather than a citation, or None if it is a use.
+
+    `start`/`end` bound the matched token inside `line`. Returning None means "check it", which
+    is the default for everything this does not positively recognise -- an unrecognised shape
+    must fall through to being CHECKED, never to being excused.
+    """
+    if start > 0 and end < len(line) and line[start - 1] in _QUOTES and line[end] == line[start - 1]:
+        return MENTION_QUOTED_TAG
+    # THE DISCLAIMER EXEMPTS WHAT FOLLOWS IT, NOT THE WHOLE LINE. A line-wide test would let a
+    # genuinely rotted citation ride along beside a declared-superseded one -- write the phrase
+    # anywhere on the line and every citation on it stops being checked, which is an exemption
+    # that has become a hiding place. The phrase introduces the dead number, so only tokens
+    # AFTER it are covered; anything in front of it is an ordinary citation and is checked.
+    d = _SYMBOL_NOT_LINE.search(line)
+    if d is not None and start >= d.start():
+        return MENTION_SYMBOL_DISCLAIMER
+    return None
+
+
 UNRESOLVED = "UNRESOLVED"
 PAST_EOF = "PAST_EOF"
 BLANK_LINE = "BLANK_LINE"
@@ -216,7 +280,14 @@ def citations_in_text(text, src_dir=None, include_unresolved=False, skipped=None
                     and not _in_tree_lead(raw, m.start())):
                 if skipped is not None:
                     skipped.append({"line": i + 1, "cites": target_name, "cited_line": num,
-                                    "text": raw.strip()})
+                                    "text": raw.strip(), "why": OTHER_TREE})
+                continue
+            mention = _mention_kind(raw, m.start(), m.end())
+            if mention is not None:
+                # COUNTED, NOT DROPPED -- the same doctrine as the other-tree skip below it.
+                if skipped is not None:
+                    skipped.append({"line": i + 1, "cites": target_name, "cited_line": num,
+                                    "text": raw.strip(), "why": mention})
                 continue
             reason = _classify(target_name, num, src_dir=root)
             if reason is None:
@@ -272,7 +343,18 @@ def stale_citations(paths=None, include_unresolved=False, src_dir=None, skipped=
                     # `skipped` lets the caller report how many were set aside, and which.
                     if skipped is not None:
                         skipped.append({"citing": base, "line": i + 1, "cites": target_name,
-                                        "cited_line": num, "text": raw.strip()})
+                                        "cited_line": num, "text": raw.strip(),
+                                        "why": OTHER_TREE})
+                    continue
+                mention = _mention_kind(raw, m.start(), m.end())
+                if mention is not None:
+                    # THE TOKEN IS BEING NAMED, NOT FOLLOWED (order d7efd67caa6f). Same
+                    # "counted, not dropped" rule as the skip above: a mention is still a claim
+                    # this checker is making, and it is reported by kind in `main()`.
+                    if skipped is not None:
+                        skipped.append({"citing": base, "line": i + 1, "cites": target_name,
+                                        "cited_line": num, "text": raw.strip(),
+                                        "why": mention})
                     continue
                 if target_name == base and _self_citation_ok(base, target_name, num):
                     continue
@@ -338,12 +420,32 @@ def main():
     print("  %d finding(s): %s" % (
         s["total"],
         ", ".join("%s=%d" % (k, v) for k, v in sorted(s.items()) if k != "total") or "none"))
-    # AND WHAT WAS SET ASIDE, BY COUNT (order 9daa719e4819). A citation with a path in front of it
-    # is treated as belonging to another tree and is not checked; that is a claim, and a claim
-    # nobody can see is one nobody can check. `--json` still emits findings only, so no
-    # consumer's input changes shape.
-    print("  %d citation(s) set aside as pointing into another tree (a path-like lead other "
-          "than this tree's own src/)" % len(skipped))
+    # AND WHAT WAS SET ASIDE, BY KIND (orders 9daa719e4819 and d7efd67caa6f). A citation this
+    # module declines to check is a CLAIM -- that it belongs to another tree, or that it is a
+    # mention rather than a pointer -- and a claim nobody can see is one nobody can check.
+    #
+    # BY KIND, because there are now three of them. This printed one number under one sentence
+    # about other trees, which since `_mention_kind` would state two of the three WRONGLY: the
+    # exact failure the skip list exists against, committed by the line reporting it. `--json`
+    # still emits findings only, so no consumer's input changes shape.
+    by_why = {}
+    for row in skipped:
+        by_why.setdefault(row.get("why") or OTHER_TREE, []).append(row)
+    _WHY_SAYS = {
+        OTHER_TREE: "pointing into another tree (a path-like lead other than this tree's own "
+                    "src/)",
+        MENTION_QUOTED_TAG: "a quoted MENTION, not a citation -- a silence.note tag or a "
+                            "fixture row, where the token is the name being discussed rather "
+                            "than a line to go read",
+        MENTION_SYMBOL_DISCLAIMER: "a line declaring 'cited by symbol, not line' -- the number "
+                                   "beside it is the superseded form, kept as the record of "
+                                   "the repair",
+    }
+    for why in sorted(by_why):
+        print("  %d citation(s) set aside as %s" % (len(by_why[why]),
+                                                    _WHY_SAYS.get(why, why)))
+    if not skipped:
+        print("  0 citation(s) set aside")
     print("  CLEAN HERE MEANS 'not provably broken', NOT 'verified' — this checks whether a "
           "cited line\n  CAN be the one meant, never whether it IS. See the module docstring.")
     return 0

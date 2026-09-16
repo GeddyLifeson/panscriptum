@@ -1,0 +1,233 @@
+[
+ {
+  "batch": 1,
+  "lines": 23258,
+  "modules": [
+   "drill.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 2,
+  "lines": 13337,
+  "modules": [
+   "verify_math.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 3,
+  "lines": 6647,
+  "modules": [
+   "pipeline.py",
+   "weave_index.py",
+   "feats_index.py",
+   "reference.py",
+   "recover_folder_records.py",
+   "navtree.py",
+   "propagation.py",
+   "catalog.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 4,
+  "lines": 6643,
+  "modules": [
+   "mutate.py",
+   "allsweep.py",
+   "address_space.py",
+   "worldseed.py",
+   "pantheon.py",
+   "wh40k.py",
+   "cosmology_graph.py",
+   "whoruns.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 5,
+  "lines": 6583,
+  "modules": [
+   "feats.py",
+   "ledger_guard.py",
+   "estate.py",
+   "autostart.py",
+   "coverage.py",
+   "snapshot.py",
+   "context_budget.py",
+   "scale_theories.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 6,
+  "lines": 6657,
+  "modules": [
+   "workorders.py",
+   "overwatch.py",
+   "identity.py",
+   "endpoint.py",
+   "scope.py",
+   "genre.py",
+   "resync_roll.py",
+   "ledger.py",
+   "chord_field.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 7,
+  "lines": 6641,
+  "modules": [
+   "standards.py",
+   "rigor.py",
+   "wiki_source.py",
+   "withdraw_chapters.py",
+   "backfill.py",
+   "retry_synthesis.py",
+   "catalogue_aurora.py",
+   "cachekey.py",
+   "module_index.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 8,
+  "lines": 6660,
+  "modules": [
+   "cascade_bridge.py",
+   "sweep_plan.py",
+   "derivation.py",
+   "runguard.py",
+   "catalogue_codex.py",
+   "hosts.py",
+   "deprecated/catalogue_local.py",
+   "halo.py",
+   "repass_bands.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 9,
+  "lines": 6557,
+  "modules": [
+   "foreman.py",
+   "codewatch.py",
+   "rosetta.py",
+   "manifest_builder.py",
+   "zfighters.py",
+   "suppressions.py",
+   "style_audit.py",
+   "tuning.py",
+   "lognames.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 10,
+  "lines": 6509,
+  "modules": [
+   "publish.py",
+   "generate.py",
+   "catalogue_web.py",
+   "ingest_doc.py",
+   "canon_backup.py",
+   "burgs.py",
+   "descending_ladder.py",
+   "resonance.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 11,
+  "lines": 6509,
+  "modules": [
+   "overnight.py",
+   "chain.py",
+   "completeness.py",
+   "secondopinion.py",
+   "address.py",
+   "axis_correlation.py",
+   "catalogue_models.py",
+   "tempus.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 12,
+  "lines": 6645,
+  "modules": [
+   "magnitude.py",
+   "dashboard.py",
+   "threads.py",
+   "build_terminal.py",
+   "handbuilt.py",
+   "render.py",
+   "profile.py",
+   "audit.py",
+   "compress_store.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 13,
+  "lines": 6510,
+  "modules": [
+   "assay.py",
+   "silence.py",
+   "scout.py",
+   "custodes.py",
+   "tiers.py",
+   "citecheck.py",
+   "cosmography.py",
+   "entity_match.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 14,
+  "lines": 6513,
+  "modules": [
+   "read.py",
+   "health.py",
+   "liveness.py",
+   "thread_integrity.py",
+   "policy.py",
+   "pick_model.py",
+   "grounding.py",
+   "tells.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 15,
+  "lines": 6514,
+  "modules": [
+   "hostcheck.py",
+   "escalation.py",
+   "corpus_db.py",
+   "gpu_lane.py",
+   "prose_gate.py",
+   "sevenfold.py",
+   "events.py",
+   "roll.py"
+  ],
+  "unreadable": []
+ },
+ {
+  "batch": 16,
+  "lines": 6518,
+  "modules": [
+   "local_agent.py",
+   "binding_health.py",
+   "onomast.py",
+   "weave.py",
+   "anchors.py",
+   "cleanup.py",
+   "sweep.py",
+   "physics.py"
+  ],
+  "unreadable": []
+ }
+]

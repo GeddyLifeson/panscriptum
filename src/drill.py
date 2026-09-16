@@ -5933,6 +5933,124 @@ def drill_ledgers():
 
     net(a, "the live ledgers are intact", lambda: LG.check_all() == {},
         "structure, floors, and no bug id in two sections at once")
+
+    def _a_bug_id_in_two_sections_is_actually_caught():
+        """The duplicate check must have the POWER to refuse, not merely the habit of passing.
+
+        Sweep60 batch05, 2026-09-15, verified against the live file before anything was changed.
+        `check_structure` bounded its sections with `text.find("## Resolved")`, and BUGS.md line
+        14 is a blockquote quoting that heading inside backticks -- 1,529 lines before the real
+        one. The marks therefore sorted Open -> Resolved -> Watching when the file's true order
+        is Open -> Watching -> Resolved, and the "Open" span collapsed to 405 characters holding
+        ZERO bug ids against 38 in the "Resolved" span. An intersection with an empty set is
+        empty, so the check passed every time it ran, on every `publish.push()`, and could not
+        have done anything else.
+
+        THE NET DRIVES THE REAL `check_structure` OVER A REAL COPY OF BUGS.md, with one id moved
+        from Resolved into Open. That duplicate MUST be named. The old code answers "intact" to
+        this exact input -- measured, both ways, before the repair landed.
+
+        AND THE CLEAN FILE MUST STILL PASS, in the same probe. A check repaired into refusing
+        everything would satisfy the first half perfectly, and this area's own first net ("the
+        live ledgers are intact") is the thing it would break. Nothing is written: the fixture is
+        a string, and `check_structure` takes the text as an argument.
+        """
+        import re as _re
+        with open(os.path.join(HERE, "BUGS.md"), encoding="utf-8") as fh:
+            text = fh.read()
+        ok_clean, _ = LG.check_structure("BUGS.md", text)
+        if not ok_clean:
+            return False                      # the live file is dirty; say so via the sibling net
+        marks = sorted((m.start(), s)
+                       for s in ("## Open", "## Resolved", "## Watching")
+                       for m in [_re.search(r"(?m)^" + _re.escape(s), text)] if m)
+        if len(marks) != 3:
+            return False
+        span = {}
+        for n, (at, sec) in enumerate(marks):
+            span[sec] = text[at:(marks[n + 1][0] if n + 1 < len(marks) else len(text))]
+        res = set(_re.findall(r"\[([Mm]\d+)\]", span["## Resolved"]))
+        op = set(_re.findall(r"\[([Mm]\d+)\]", span["## Open"]))
+        victims = sorted(res - op)
+        if not victims:
+            return False                      # no id to move: the fixture cannot be built
+        at = _re.search(r"(?m)^## Open", text).end()
+        planted = (text[:at]
+                   + "\n\n- [%s] a deliberately duplicated bug id (drill fixture)\n" % victims[0]
+                   + text[at:])
+        ok_planted, problems = LG.check_structure("BUGS.md", planted)
+        return (not ok_planted
+                and any("BOTH Open and Resolved" in p and victims[0] in p for p in problems))
+
+    def _a_vanished_host_map_is_not_rebuilt_empty():
+        """A canonical file that has GONE is restored from, never started over.
+
+        Sweep60 batch15, 2026-09-15. `hostcheck._land_hosts` refused to merge into an UNREADABLE
+        WIKI_HOSTS.json -- "NEVER heal this one by starting empty" -- but reached that refusal
+        through `if os.path.exists(...)`, so an ABSENT file fell past it to `hosts = {}` and on
+        into the merge and the write. The one outcome the refusal exists to prevent, reached by
+        the door beside it.
+
+        WHY THIS FILE AND NOT ANOTHER. `hostcheck` calls WIKI_HOSTS.json one of the two files not
+        reconstructible from anything else on disk, and `canon_backup` carries it as canonical:
+        "host bindings, hand-corrected over many runs". An empty host map reads downstream as "no
+        source has a wiki", which is how COMPLETENESS.json came to hold zero rows on 2026-08-24.
+        The window is real: `adopt()` probes the network for minutes between its first read and
+        this write.
+
+        BOTH DOORS, and a third assertion so this cannot become a wall. Absent must refuse,
+        unreadable must still refuse, and a PRESENT, VALID map must still accept the merge --
+        a guard that refused every write would satisfy the first two and quietly end host
+        adoption. Every path points inside the sandbox; the live data/ is never touched.
+        """
+        import hostcheck as HC
+        # `_land_hosts` reads `F.HOSTS`, and its `F` is `feats`, imported inside the function --
+        # so the path to redirect is `feats.HOSTS` itself. Redirected, not copied: the live
+        # data/WIKI_HOSTS.json is never opened by this probe, in any of its three parts.
+        import feats as _FE
+
+        def probe(d, filed):
+            path = os.path.join(d, "WIKI_HOSTS.json")
+            saved = _FE.HOSTS
+            try:
+                _FE.HOSTS = path
+
+                ok_absent, why_absent = HC._land_hosts({"newsource": "new.fandom.com"}, "drill")
+                if ok_absent or "NOT THERE" not in (why_absent or ""):
+                    return False
+                if os.path.exists(path):
+                    return False              # it must not have created the file either
+
+                with open(path, "w", encoding="utf-8") as fh:
+                    fh.write("{ this is not json")
+                ok_bad, _ = HC._land_hosts({"newsource": "new.fandom.com"}, "drill")
+                if ok_bad:
+                    return False
+
+                with open(path, "w", encoding="utf-8") as fh:
+                    json.dump({"existing": "old.fandom.com"}, fh)
+                ok_good, _ = HC._land_hosts({"newsource": "new.fandom.com"}, "drill")
+                with open(path, encoding="utf-8") as fh:
+                    after = json.load(fh)
+                # The merge landed AND the hand-corrected row it merged into survived.
+                return (ok_good and after.get("newsource") == "new.fandom.com"
+                        and after.get("existing") == "old.fandom.com")
+            finally:
+                _FE.HOSTS = saved
+        return _esc_probe(probe)
+
+    net(a, "a VANISHED WIKI_HOSTS.json is refused, not rebuilt from this pass's findings alone",
+        _a_vanished_host_map_is_not_rebuilt_empty,
+        "sweep60: the 'never start empty' refusal covered an unreadable file and not a missing "
+        "one, so a canonical map that vanished mid-pass would have been replaced by a near-empty "
+        "one. It is hand-corrected over many runs and reconstructible from nothing else on disk")
+
+    net(a, "a bug id planted in BOTH sections is actually named, not quietly passed",
+        _a_bug_id_in_two_sections_is_actually_caught,
+        "sweep60: `text.find` matched a backticked MENTION of `## Resolved` in a blockquote 1,529 "
+        "lines above the real heading, collapsing the Open span to 405 characters with 0 bug ids "
+        "in it. The intersection was empty by construction and the check had no power to refuse "
+        "-- a check that cannot fail reads exactly like a check that passed")
     net(a, "an honest append is allowed",
         lambda: LG.check_append_only("HANDOFF.md", "## NEW\n\n" + (LG._read("HANDOFF.md") or ""))[0],
         "a guard that blocks the normal case gets removed within a week")
@@ -8272,6 +8390,12 @@ def drill_stale_writer():
             _harvest_rescans_when_the_recipe_changes,
             "order 058fa19d4e65: the index was an mtime-only cache, so run #58's widened OUTCOME "
             "never reached feats already indexed under the narrower pattern")
+        net(a, "a malformed model outcome is SKIPPED, and does not end the chain pass",
+            _a_malformed_outcome_does_not_end_the_pass,
+            "run #60, 2026-09-15: a `--workers 12` pass died on AttributeError after harvesting "
+            "31,927 contest sentences, because `o.get(...)` met a STRING where it expected an "
+            "object and AttributeError was not in the except beside it. data/CHAIN.json was "
+            "left three weeks stale and every reader went on treating it as current")
         net(a, "a second chain.py is refused while the first one's claim is live, a dead "
             "holder's claim is retaken, and release clears only its own",
             _a_second_chain_run_is_refused_while_the_first_is_live,
@@ -8511,6 +8635,61 @@ def drill_stale_writer():
         # this area breached on exactly that. The alias leaves the name to the module's import.
         import shutil as _shutil_for_cleanup
         _shutil_for_cleanup.rmtree(d, ignore_errors=True)
+
+
+def _a_malformed_outcome_does_not_end_the_pass():
+    """UNTRUSTED MODEL OUTPUT MUST COST ONE OUTCOME, NEVER THE WHOLE RUN.
+
+    Run #60, 2026-09-15, measured rather than imagined: a live `chain.py --workers 12` pass
+    harvested 31,927 contest sentences and then died with
+    `AttributeError: 'str' object has no attribute 'get'` in `extract`'s worker. The model had
+    answered `{"outcomes": ["...text..."]}` -- a list of STRINGS where the code expects a list of
+    objects -- and `o.get("index", 0)` raised a type the `except (TypeError, ValueError)` beside
+    it does not name. The exception went up through the worker, through `ex.map`, and ended the
+    process. `data/CHAIN.json` was left holding a fit from three weeks earlier while every
+    downstream reader went on treating it as current, which is the expensive half: the crash was
+    loud, the staleness it caused was silent.
+
+    EVERY OTHER MALFORMATION IN THIS LOOP IS ALREADY SURVIVABLE -- a missing index, a non-numeric
+    one, a blank winner, a name the library does not catalogue -- each skips one outcome and the
+    pass continues. A wrong TYPE was the one shape that took the process down, so the least
+    interesting failure was the most expensive one.
+
+    DRIVEN THROUGH THE REAL `extract`, not a reimplementation of its loop, with the model call
+    stubbed to return the exact malformed shape. Three answers in one fixture: a string where an
+    object belongs, a bare string for the whole `outcomes` value (iterating it yields characters
+    and lands in the same place), and -- the half that stops this being a wall -- a WELL-FORMED
+    outcome that must still produce its edge. A guard that survives malformed input by dropping
+    everything would pass the first two and fail the third.
+    """
+    import chain as CH
+
+    def probe(d, filed):
+        rows = [{"entity": "Goku", "sentence": "Goku defeated Vegeta.", "page": "Goku",
+                 "host": "dragonball.fandom.com", "continuity": None}]
+        answers = [
+            {"outcomes": ["Goku beat Vegeta"]},          # a string where an object belongs
+            {"outcomes": "Goku beat Vegeta"},            # iterating this yields characters
+            {"outcomes": [{"index": 1, "winner": "Goku", "loser": "Vegeta"}]},   # well formed
+        ]
+        counts = []
+        saved = (CH._ask, CH.entity_index)
+        try:
+            # The index is stubbed so the well-formed answer has two catalogued names to match;
+            # without it `extract` would drop the good edge for an unrelated reason and the
+            # third assertion below would stop meaning anything.
+            CH.entity_index = lambda *_a, **_k: {"goku": "Goku", "vegeta": "Vegeta"}
+            for ans in answers:
+                CH._ask = lambda *_a, _ans=ans, **_k: _ans
+                edges, _unmatched, _prov = CH.extract(rows, workers=1)
+                counts.append(sum(edges.values()))
+        finally:
+            CH._ask, CH.entity_index = saved
+        # The two malformed answers must cost their own outcome and NOTHING ELSE -- no exception
+        # escapes, no edges. The well-formed one must still produce its edge, or this net would
+        # pass just as loudly if the guard had started refusing everything.
+        return counts == [0, 0, 1]
+    return _esc_probe(probe)
 
 
 def _harvest_keeps_a_patch_landed_mid_scan():
@@ -19895,6 +20074,129 @@ def drill_mutation():
         "two twenty-hour mutation passes died on their own sandbox being reaped out from under "
         "them, and escalation.py has never once been mutation tested because of it")
 
+    def _touch_root_keeps_a_working_sandbox_out_of_the_age_gate():
+        """THE OTHER HALF OF THE f9643582fd29 REMEDY, and nothing proved it until now.
+
+        `sandbox()`'s docstring says of `_touch_root`: "on its own it would have saved both dead
+        passes". That is the load-bearing claim of the whole repair and it had no net -- the
+        construction-window net beside this one proves the CLAIM SEQUENCE, never the ageing.
+
+        THE COMBINATION THAT ACTUALLY KILLED THE TWO PASSES, reproduced exactly. A live pass
+        writes into `root/src/*.py`, which updates `root/src`'s mtime and NOT `root`'s, so the
+        root's mtime is frozen at creation and the sandbox becomes reapable BY AGE while it is
+        being used. Age alone is survivable, because the ownership check spares a live owner --
+        but that check FAILS SAFE TO REAPING on an unreadable, malformed or absent claim. So the
+        fixture here is the real pairing: aged past `ORPHAN_AGE_SECONDS` AND carrying an owner
+        file that will not parse. Without a touch it is reaped, which is the death both passes
+        died; with one `_touch_root` it is young again and the age gate never asks the question.
+
+        BOTH DIRECTIONS, because a net that only shows the survival would pass just as loudly if
+        `reap_orphans` had stopped reaping anything at all -- the shape `_only_proved_reasons`
+        was rewritten for. The untouched twin must go in the same call that spares the touched one.
+
+        CONTAINED like its three siblings above: `tempfile.tempdir` is redirected, so the
+        `tempfile.gettempdir()` inside the REAL `reap_orphans` cannot reach anybody's live
+        sandbox. That containment is not decoration -- the net two above this one deleted every
+        concurrent sandbox on the machine before it was added, and a mutation pass may well be
+        running right now.
+        """
+        import mutate as M
+        if not hasattr(M, "_touch_root") or M.ORPHAN_AGE_SECONDS < 3600:
+            return False
+        _tmp_root = tempfile.mkdtemp(prefix="drill_touch_root_")
+        _saved_tempdir = tempfile.tempdir
+        tempfile.tempdir = _tmp_root
+        root = tempfile.gettempdir()
+        touched = os.path.join(root, M.SANDBOX_PREFIX + "drilltouch_live_%d" % os.getpid())
+        untouched = os.path.join(root, M.SANDBOX_PREFIX + "drilltouch_dead_%d" % os.getpid())
+        try:
+            back = time.time() - (M.ORPHAN_AGE_SECONDS + 3600)
+            for p in (touched, untouched):
+                os.makedirs(os.path.join(p, "src"), exist_ok=True)
+                # AN OWNER FILE THAT WILL NOT PARSE -- the documented fail-safe-to-reaping case,
+                # not an absent one, so the fixture is the combination and not merely the age.
+                with open(os.path.join(p, M.OWNER_FILE), "w", encoding="utf-8") as fh:
+                    fh.write("{not json at all")
+                # Written INTO src/ exactly as a running pass does, then the root aged. This is
+                # the asymmetry the whole finding turns on: the write below moves `p/src`'s
+                # mtime and leaves `p`'s alone, so ageing `p` afterwards models a pass that has
+                # been working hard for sixteen hours and still looks abandoned.
+                with open(os.path.join(p, "src", "escalation.py"), "w", encoding="utf-8") as fh:
+                    fh.write("# the module both dead passes never reached\n")
+                os.utime(p, (back, back))
+            M._touch_root(touched)
+            removed = M.reap_orphans()
+            return (untouched in removed and not os.path.isdir(untouched)
+                    and touched not in removed and os.path.isdir(touched))
+        finally:
+            tempfile.tempdir = _saved_tempdir
+            shutil.rmtree(touched, ignore_errors=True)
+            shutil.rmtree(untouched, ignore_errors=True)
+            shutil.rmtree(_tmp_root, ignore_errors=True)
+
+    net(a, "one `_touch_root` keeps a WORKING sandbox out of the age gate, unreadable claim and all",
+        _touch_root_keeps_a_working_sandbox_out_of_the_age_gate,
+        "order 9ea4d3545524: two passes died on a FileNotFoundError for their own sandbox about "
+        "12.3 hours in. `_touch_root` is the half of the fix that would have saved them on its "
+        "own, and it had no net -- a safety nobody has watched refuse is not evidence")
+
+    def _a_hardlinked_data_file_is_a_frozen_snapshot():
+        """The repair for the one CONFIRMED false kill, proved rather than asserted.
+
+        ORDER 58a00e909217. A 16.3-hour pass scored `escalation.py:409` KILLED; re-attacked in a
+        fresh short-lived sandbox it SURVIVES, and it is provably unkillable. The explanation
+        `sandbox()` now records: `data/` used to be one junction, so gates running inside the
+        sandbox read the LIVE corpus, and a mutant judged hours after the baseline photograph was
+        compared against a signature the tree had since moved away from. Seven recorded baseline
+        drifts name exactly the files a live crawl rewrites -- TIERS, COVERAGE, SHELFMARKS,
+        ONOMASTICON, CHARACTER_SWEEP, FOREMAN.
+
+        THE FIX IS A PROPERTY OF HARDLINKS AND `os.replace`, AND THAT PROPERTY IS WHAT THIS
+        ATTACKS. Every top-level file under `data/` is now HARDLINKED into the sandbox. A
+        hardlink shares the live file's disk blocks for free, but it is a separate directory
+        entry -- and every writer here lands through `silence.write_json`, which finishes with
+        `os.replace(tmp, path)`. An atomic replace detaches the NAME from the old file record and
+        attaches it to the temp file's, so a directory entry taken before the replace goes on
+        reading the pre-replace bytes. That is what makes the sandbox copy a snapshot frozen at
+        the instant `sandbox()` ran, without moving 274 MB to get one.
+
+        `sandbox()`'s docstring says this was "PROVEN this shift, not assumed ... reproduced
+        directly against this project's own `silence.write_json` on a throwaway pair of files".
+        That proof lived in a shift that has ended. This is it, kept.
+
+        AGAINST THE REAL WRITER, never a local imitation of `os.replace` -- the whole claim is
+        about what THIS project's write path does, so a stub would prove something else. Nothing
+        under the live tree is touched; both files are in a throwaway directory.
+        """
+        import silence as S
+        d = tempfile.mkdtemp(prefix="drill_hardlink_")
+        try:
+            live = os.path.join(d, "TIERS.json")
+            S.write_json(live, {"generation": "before"})
+            snap = os.path.join(d, "snapshot_entry.json")
+            try:
+                os.link(live, snap)
+            except (OSError, AttributeError, NotImplementedError):
+                # A filesystem without hardlinks is not a failing guard, and must not be
+                # reported as one -- but it is not a pass either, so say which it was.
+                S.note("drill.py:hardlink-unsupported")
+                return True
+            if json.load(open(snap, encoding="utf-8"))["generation"] != "before":
+                return False
+            S.write_json(live, {"generation": "after"})
+            # THE WHOLE POINT, in two reads: the live name moved on, the snapshot did not.
+            return (json.load(open(live, encoding="utf-8"))["generation"] == "after"
+                    and json.load(open(snap, encoding="utf-8"))["generation"] == "before")
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    net(a, "a hardlinked data file keeps the bytes it was taken from when the live name is replaced",
+        _a_hardlinked_data_file_is_a_frozen_snapshot,
+        "order 58a00e909217: the one confirmed FALSE KILL on record came from gates reading the "
+        "live corpus through a junction. If `silence.write_json` ever stopped landing by atomic "
+        "replace, every sandbox would silently go back to reading a moving tree and the false "
+        "kills would return with nothing to say so")
+
     def _a_canonical_snapshot_refuses_when_it_cannot_verify_itself():
         """The backup of the only copy of a 217-source corpus must be able to say no.
 
@@ -20786,8 +21088,13 @@ def drill_correlation():
         "a grade of testimony more uncertain than total ignorance is a formula, not a fact")
 
 
-def _citecheck_over(files):
+def _citecheck_over(files, skipped=None):
     """Run `citecheck` over a scratch tree written from `files` ({name: text}). -> the findings.
+
+    `skipped`, when a list is passed, is handed straight to `citecheck.stale_citations` and
+    collects the citations it set aside rather than checked (another tree, or a MENTION). A net
+    that asserts an exemption fired needs to see the exemption, not merely the absence of a
+    finding -- "not flagged" and "not reached" look identical from the findings list alone.
 
     EVERY NET BELOW DRIVES A THROWAWAY DIRECTORY, NEVER LIVE `src/`. Planting a deliberately
     rotten citation in the library to prove the detector sees it would leave the library holding
@@ -20803,7 +21110,7 @@ def _citecheck_over(files):
         for name, text in files.items():
             with open(os.path.join(root, name), "w", encoding="utf-8") as fh:
                 fh.write(text)
-        return CC.stale_citations(src_dir=root, include_unresolved=True)
+        return CC.stale_citations(src_dir=root, include_unresolved=True, skipped=skipped)
     finally:
         shutil.rmtree(root, ignore_errors=True)
 
@@ -20860,6 +21167,92 @@ def drill_citations():
         lambda: not _reasons_for({"c.py": "# e.g. `foo.py:12 Bar.baz()` is answerable\n"}),
         "liveness explains its own rule with foo.py:12 and drill feeds src/x.py:1 to a lint "
         "net as DATA -- flagging those is reading the example as the thing")
+
+    # USE vs MENTION, AND THE ATTACK ON IT (order d7efd67caa6f). `citecheck._mention_kind` grants
+    # two exemptions, and an exemption is a hole until something has tried to climb through it.
+    # The first two nets below prove the exemptions WORK; the three after them are the attack,
+    # and they are the reason this block is longer than the thing it guards.
+    net(a, "a quoted silence.note TAG is not read as a citation to that line",
+        lambda: not _reasons_for({"t.py": _CITE_TARGET,
+                                  "c.py": 'silence.note("t.py:2")\n'}),
+        "the detector filed the same two sites fifteen times: a verify_math probe asserting that "
+        "a retired note tag (feats.py, line 139, in the old bare-number spelling) is ABSENT was "
+        "reported as a stale citation TO that line -- a proof-of-removal read as the thing "
+        "removed. Spelled in words here on purpose: the colon form in running prose is what "
+        "this net is about, and writing one would flag this very line")
+
+    net(a, "a line declaring 'cited by symbol, not line' is not flagged for the number it buries",
+        lambda: not _reasons_for(
+            {"t.py": _CITE_TARGET,
+             "c.py": "# (cited by symbol, not line: the old t.py:2 drifted onto _swap())\n"}),
+        "order a09a0e003c31's own ruling phrase. `withdraw_chapters` records where a citation "
+        "USED to point so the next reader can see what moved; flagging that is flagging the repair")
+
+    net(a, "a BARE stale citation beside a quoted one on the same line is STILL caught",
+        lambda: "BARE_BRACKET" in _reasons_for(
+            {"t.py": _CITE_TARGET,
+             "c.py": '# the tag "t.py:2" was renamed; see t.py:3 for why\n'}),
+        "THE ATTACK. The quoted exemption is per-TOKEN, never per-line -- if one quoted mention "
+        "could excuse a whole line, the exemption would be a hiding place and every rotted "
+        "citation would need only a quoted neighbour")
+
+    net(a, "a stale citation IN FRONT OF the disclaimer phrase is STILL caught",
+        lambda: "BLANK_LINE" in _reasons_for(
+            {"t.py": _CITE_TARGET,
+             "c.py": "# t.py:2 rots here (cited by symbol, not line: the old t.py:3 moved)\n"}),
+        "THE SECOND ATTACK, and it found a real hole: the first draft tested the phrase against "
+        "the WHOLE line, so writing it anywhere stopped every citation on that line from being "
+        "checked. The phrase now covers only what follows it, which is where the dead number is")
+
+    def mention_skips_are_counted_not_dropped():
+        """An exempted citation must arrive in `skipped`, carrying WHICH claim excused it.
+
+        The module's own doctrine, inherited from the other-tree skip: "a claim nobody can see
+        is a claim nobody can check". A mention that is silently dropped is indistinguishable
+        from a citation the detector never reached, and that is the shape this whole file exists
+        against. Both exemptions must be countable, and each must say which one it was.
+        """
+        import citecheck as CC
+        seen = []
+        _citecheck_over({"t.py": _CITE_TARGET,
+                         "c.py": 'silence.note("t.py:2")\n'
+                                 "# (cited by symbol, not line: the old t.py:3 moved)\n"},
+                        skipped=seen)
+        whys = set(s.get("why") for s in seen)
+        return (len(seen) == 2
+                and CC.MENTION_QUOTED_TAG in whys
+                and CC.MENTION_SYMBOL_DISCLAIMER in whys
+                and all(s.get("cites") == "t.py" for s in seen))
+
+    net(a, "an exempted MENTION is counted in `skipped`, by kind, never silently dropped",
+        mention_skips_are_counted_not_dropped,
+        "an exemption nobody can count is an exemption nobody can audit -- and `main()` prints "
+        "these by kind precisely so a reader can see what the detector set aside and why")
+
+    def both_scanners_share_the_mention_rule():
+        """`citations_in_text` must honour the exemption too, not drift from `stale_citations`.
+
+        Order dc9ffadae765's standing concern: these are two scanners over the same resolver,
+        and the mention test is CALLED from each of them. A rule that holds in one and not the
+        other is the "second copy of the rules that can drift" that order was filed about --
+        and queue text is full of quoted tags, so the drift would be silent and one-directional.
+        """
+        import citecheck as CC
+
+        def probe(d, filed):
+            root = os.path.join(d, "src_fixture")
+            os.makedirs(root)
+            with open(os.path.join(root, "t.py"), "w", encoding="utf-8") as fh:
+                fh.write(_CITE_TARGET)
+            quoted = CC.citations_in_text('the tag "t.py:2" was renamed', src_dir=root)
+            bare = CC.citations_in_text("see t.py:2 for the reason", src_dir=root)
+            return quoted == [] and len(bare) == 1 and bare[0]["reason"] == "BLANK_LINE"
+        return _esc_probe(probe)
+
+    net(a, "citations_in_text honours the mention rule too, so the two scanners cannot drift",
+        both_scanners_share_the_mention_rule,
+        "order dc9ffadae765: one resolver, two callers. An exemption that holds in the file "
+        "scanner and not the text scanner is the drift that order exists to prevent")
 
     def _only_proved_reasons():
         # THE LENGTH CHECK IS NOT DECORATION. `all(... for f in [])` is True, so without it this
@@ -22135,6 +22528,12 @@ _LIVE_STATE_PROBES = (
     _harvest_keeps_a_patch_landed_mid_scan,
     _harvest_rescans_when_the_recipe_changes,
     _a_second_chain_run_is_refused_while_the_first_is_live,
+    # Added run #60 BY THE NET ABOVE GOING RED, which is the whole point of it existing: this
+    # probe was written, wrapped in `_esc_probe`, proved HELD and proved RED, and still arrived
+    # here only because "every module-level probe that opens the sandbox is driven by THE
+    # LIVE-STATE WITNESS" BREACHED on the full run and named it. Left off, losing its wrapper
+    # later would have been seen by nothing.
+    _a_malformed_outcome_does_not_end_the_pass,
     _pipeline_state_keeps_a_concurrent_reopen,
     _onomasticon_writers_keep_each_others_designations,
     _concurrent_withdrawals_do_not_resurrect_each_other,

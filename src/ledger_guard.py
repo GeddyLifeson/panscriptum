@@ -228,8 +228,29 @@ def check_structure(name, text=None):
         # so `op` is empty, the intersection is empty, and the one check that exists to catch a
         # bug filed in two places passes even when every Resolved bug is still sitting in Open.
         # A check that cannot fail reads exactly like a check that passed.
-        marks = sorted((text.find(s), s) for s in ("## Open", "## Resolved", "## Watching")
-                       if text.find(s) >= 0)
+        # AND FOUND AS HEADINGS, NOT AS SUBSTRINGS -- the same bug again, one layer down
+        # (sweep60 batch05, 2026-09-15, verified against the live file before this was changed).
+        # `text.find("## Resolved")` matched line 14, which is PROSE INSIDE A BLOCKQUOTE:
+        #     > **76 entries moved** to `## Resolved (paper trail)`, under a heading naming ...
+        # 1,529 lines before the real heading at line 1543. So the marks sorted as
+        # Open(264) -> Resolved(669) -> Watching(127654) when the true order is
+        # Open(7) -> Watching(1523) -> Resolved(1543), and the "Open" span collapsed to the 405
+        # characters between line 7 and that blockquote. MEASURED: 0 bug ids in the Open span
+        # against 38 in the Resolved one, so the intersection was empty BY CONSTRUCTION and this
+        # check could not fail no matter how many resolved bugs were left sitting in Open.
+        #
+        # THE COMMENT ABOVE ALREADY SAYS THE SENTENCE, which is the part worth keeping: "a check
+        # that cannot fail reads exactly like a check that passed". That fix taught the marks not
+        # to assume an ORDER. It did not teach them to tell a heading from a mention of one -- and
+        # a ledger whose whole subject is bugs will go on quoting its own section names in prose.
+        # `assert_intact()` runs this on every `publish.push()`, so every push since has been
+        # running a check with no power to refuse.
+        #
+        # A heading is a line that BEGINS with the marker. A backticked mention, a blockquote and
+        # an indented example all fail `^`, and none of them can move a span again.
+        marks = sorted((m.start(), s)
+                       for s in ("## Open", "## Resolved", "## Watching")
+                       for m in [re.search(r"(?m)^" + re.escape(s), text)] if m)
         span = {}
         for n, (at, sec) in enumerate(marks):
             span[sec] = text[at:(marks[n + 1][0] if n + 1 < len(marks) else len(text))]

@@ -887,7 +887,24 @@ def kill_duplicate_jobs():
     if killed:
         return True, "ended duplicate " + ", ".join(killed) + note
     if unaged:
-        return True, "no duplicate ended" + note
+        # FOUND THE PROBLEM AND COULD NOT ACT IS did=False (order 7ad10a229440, owner ruling
+        # 2026-09-08 "make did honest"; sweep60 batch09, 2026-09-15). This returned True while
+        # saying "no duplicate ended" in the same breath -- and `did` does not mean "a
+        # measurement completed", it means THE PROBLEM THIS STANDARD HAS WAS FIXED. Here the
+        # standard is "one instance of each job", the duplicates are still running, and this
+        # function deliberately declined to choose a victim because their creation times would
+        # not read. That is the unfixed case, reported in the operational log and FOREMAN.json
+        # as a success.
+        #
+        # THE SIBLING IN THIS FILE ALREADY ANSWERS CORRECTLY: `kill_stalled_job` returns False
+        # for exactly this shape -- "stall reported but no job name parsed", "could not read the
+        # standards" -- so the two remedies disagreed about what a return value means.
+        #
+        # NO REMEDY IS SKIPPED BY THIS CHANGE, checked rather than assumed: `round_once` breaks
+        # its remedy list on the first did=True, but REMEDIES["one instance of each job"] is
+        # [kill_duplicate_jobs] alone, so there is nothing after it to unblock. What changes is
+        # that the log stops calling this a fix, which is the whole of the owner's ruling.
+        return False, "no duplicate ended" + note
     return True, "no duplicates found now"
 
 

@@ -204,17 +204,43 @@ def _land_hosts(merge, label):
         # than passing on a copy that is already behind.
         digest = silence.digest_of(F.HOSTS)
         hosts = {}
-        if os.path.exists(F.HOSTS):
-            try:
-                with open(F.HOSTS, encoding="utf-8") as f:
-                    hosts = json.load(f)
-            except Exception:
-                # NEVER heal this one by starting empty. An empty host map reads downstream as
-                # "no source has a wiki", which is how COMPLETENESS.json came to hold zero rows
-                # on 2026-08-24, and the file cannot be rebuilt from anything else on disk.
-                silence.note("hostcheck.py:hosts-unreadable")
-                return False, ("WIKI_HOSTS.json could not be read, so it cannot be merged into "
-                               "-- refusing to write. It is not reconstructible; fix the file.")
+        # ABSENT IS NOT A REASON TO START EMPTY EITHER (sweep60 batch15, 2026-09-15). The refusal
+        # below has always covered the file being UNREADABLE, and its own sentence -- "NEVER heal
+        # this one by starting empty" -- is about the empty map, not about which way the file
+        # became unavailable. But `if os.path.exists(...)` let the ABSENT case fall straight
+        # through to `hosts = {}` and on into the merge and the write, which is the one outcome
+        # the refusal exists to prevent, reached by the door beside it.
+        #
+        # THE TWO CASES DESERVE THE SAME ANSWER BECAUSE THEY MEAN THE SAME THING. This module
+        # calls WIKI_HOSTS.json one of the two files confirmed not reconstructible from anything
+        # else on disk; `canon_backup` carries it as canonical, described there as "host bindings,
+        # hand-corrected over many runs". A file like that going missing is a disaster to be
+        # restored from, never a blank page to be started over -- and the window is real rather
+        # than theoretical, because `adopt()` probes the network for minutes between its first
+        # read and this write, and `roll.py` records a test harness destroying the sibling
+        # canonical file twice.
+        #
+        # THIS IS NOT THE BOOTSTRAP PATH and does not close one: `ingest_doc` creates the file
+        # through `silence.write_json` when there is genuinely nothing to merge into. What this
+        # refuses is the far more likely reading -- the hand-corrected map has VANISHED mid-pass,
+        # and a near-empty replacement is about to be written over its name.
+        if not os.path.exists(F.HOSTS):
+            silence.note("hostcheck.py:hosts-absent")
+            return False, ("WIKI_HOSTS.json is NOT THERE, so there is nothing to merge into and "
+                           "this would write a host map holding only this pass's own findings. "
+                           "It is not reconstructible; restore it "
+                           "(`python src/canon_backup.py --restore data/WIKI_HOSTS.json`) rather "
+                           "than letting it be rebuilt empty.")
+        try:
+            with open(F.HOSTS, encoding="utf-8") as f:
+                hosts = json.load(f)
+        except Exception:
+            # NEVER heal this one by starting empty. An empty host map reads downstream as
+            # "no source has a wiki", which is how COMPLETENESS.json came to hold zero rows
+            # on 2026-08-24, and the file cannot be rebuilt from anything else on disk.
+            silence.note("hostcheck.py:hosts-unreadable")
+            return False, ("WIKI_HOSTS.json could not be read, so it cannot be merged into "
+                           "-- refusing to write. It is not reconstructible; fix the file.")
         if not isinstance(hosts, dict):
             silence.note("hostcheck.py:hosts-nondict")
             return False, "WIKI_HOSTS.json is not an object; refusing to overwrite it"
