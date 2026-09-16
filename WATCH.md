@@ -1,17 +1,17 @@
 # OVERWATCH
 
-round 558  ·  last run 2026-09-16 01:54
+round 559  ·  last run 2026-09-16 02:34
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **1** of 305,592 inspected (deep scan as of round 553)  — state\gpu_lane\slot.0.json — cannot stat: GONE (absent on a second look, one rename later)
+- files that will not parse: **0** of 305,734 inspected
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**24 open** (9 high). Newest first.
+**26 open** (6 high). Newest first.
 
 - **foreman.py** `overwatch.save` — [HIGH] discards the failure silently
   - says: prints the denial itself and returns the same verdict `silence.write_json` gave
@@ -25,12 +25,20 @@ round 558  ·  last run 2026-09-16 01:54
   - says: is what anybody asks months later
 - **drill.py** `CB.snapshot` — [HIGH] writes a snapshot and does not re-open it for verification
   - says: reopens the archive it wrote and re-hashes every member before recording success
-- **drill.py** `ESC` — [HIGH] the code says it does
-  - says: the code says it does
-- **drill.py** `paid_access_stays_switched_off` — [HIGH] returns True when the config file is absent or unreadable, implying that paid access is not blocked in these cases
-  - says: allow_paid is owner-held. Nothing automatic may switch it on.
-- **drill.py** `drill_binding_identity` — [HIGH] The function is incomplete and does not fully implement the described behavior
-  - says: Can an unfixable fault be filed, for ever, at a handler that cannot fix it?
+- **catalogue_models.py** `sweep` — [MEDIUM] write a payload and return it, not actually interacting with providers
+  - says: ask each provider what it actually serves
+- **ledger_guard.py** `seal` — [MEDIUM] returns None on failure but does not raise an exception
+  - says: seals the ledger hash chain
+- **ledger_guard.py** `check_since_floor` — [MEDIUM] only checks against the all-time floor, not the current snapshot
+  - says: checks for loss that compounds across pushes
+- **ledger_guard.py** `check_since_snapshot` — [MEDIUM] only checks against the current snapshot, not the all-time floor
+  - says: checks for loss that compounds across pushes
+- **ledger_guard.py** `verify_chain` — [MEDIUM] only verifies hash, but does not check structure or floors
+  - says: verifies hash chain integrity
+- **ledger_guard.py** `check_all` — [MEDIUM] only checks structure and floors, but does not verify hash chain integrity
+  - says: reports all ledger structure and floor issues
+- **ledger_guard.py** `silence.append_line` — [MEDIUM] still uses the old shape
+  - says: NOT A BARE `open(CHAIN, "a")`
 - **hostcheck.py** `base` — [MEDIUM] The `base` variable is assigned the result of `null_rate(host, by=by, exclude=source) if by else None`, which may not correctly represent the baseline rate due to potential issues with the `null_rate` function's handling of the `exclude` parameter and the conditional logic.
   - says: The `null_rate` function is called with `by=by` to get the baseline rate for the host.
 - **hostcheck.py** `score` — [MEDIUM] Calculates a score based on probe data and baseline comparisons, but the function's name and docstring suggest a more direct measurement of host performance against a baseline, not a comprehensive judgment of the host's overall quality or relevance.
@@ -45,8 +53,6 @@ round 558  ·  last run 2026-09-16 01:54
   - says: killed stalled
 - **foreman.py** `CB._PROVEN[0]` — [MEDIUM] invalidates the cached proof by setting to None
   - says: force the next _alive() to re-read
-- **chain.py** `write_result` — [MEDIUM] cuts the names with `n[:50]`
-  - says: persist `names` and `strengths` whole
 - **chain.py** `singleton_release` — [MEDIUM] unconditionally releases a record that names itself
   - says: releases a record that names itself
 - **chain.py** `live` — [MEDIUM] initialized to 0, then set to 1 if _RECIPE_KEY is in updates
@@ -57,8 +63,6 @@ round 558  ·  last run 2026-09-16 01:54
   - says: arbitrate a slot
 - **drill.py** `GL.lane` — [MEDIUM] create a context manager for a lane
   - says: arbitrate a lane
-- **drill.py** `CW._report_if_never_settling` — [MEDIUM] The code does something else
-  - says: The code says it does something else
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
