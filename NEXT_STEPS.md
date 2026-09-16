@@ -128,10 +128,15 @@ Launch it early and let it run overnight:
 python src/mutate.py --target all --file-orders --detach
 ```
 
-Run #60 did **not** launch one, on purpose: it was editing `src/` for most of the shift (five
-modules), and `mutate` snapshots `src/` at launch — run #59's own log recorded its baseline being
-taken from a half-edited tree and said so. A pass with a corrupt baseline is worth less than no
-pass. **Launch it once `src/` is quiet.**
+**Run #60 launched one at 23:16 — pid 30232, log `state/mutate_20260915.log`, sandbox fingerprint
+860af1f51f1757ca.** It was launched LAST rather than first on purpose: this run edited six `src/`
+modules, `mutate` snapshots `src/` at launch, and run #59's own log recorded its baseline being
+taken from a half-edited tree. So the pass waited until `src/` was settled, the halt was cleared
+and the push had landed.
+
+**Check whether it is still alive before doing anything else, and do NOT relaunch while it is.**
+Read the log and put the survivor count in the handoff. If it did not finish, say so — a pass
+killed halfway is not a pass with fewer survivors.
 
 `escalation.py` — the module the whole chain of command rests on — **has still never completed a
 mutation pass.** Both of the deaths that stopped it are now explained and guarded (order

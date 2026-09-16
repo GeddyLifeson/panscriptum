@@ -262,13 +262,24 @@ concluding the rung is useless. Nine LOCAL orders now wait, most of them small.
 
 ---
 
-### 9. NO MUTATION PASS WAS LAUNCHED, ON PURPOSE
+### 9. THE MUTATION PASS WAS LAUNCHED LAST, NOT FIRST, ON PURPOSE
 
-The standing instruction is to launch it early. This run did not, and the reason is run #59's own
-log: its baseline was taken from a tree that was being edited, and it said so. Run #60 was editing
-`src/` for most of the shift — five modules — and `mutate` snapshots `src/` at launch. **A pass
-with a corrupt baseline is worth less than no pass.** It should be launched now that `src/` is
-quiet; `NEXT_STEPS.md` §6 carries the command.
+The standing instruction is to launch it early. This run launched it **at the end instead**, and
+the reason is run #59's own log: its baseline was taken from a tree that was being edited, and it
+said so in capitals. Run #60 was editing `src/` for most of the shift — six modules — and `mutate`
+snapshots `src/` at launch. **A pass with a corrupt baseline is worth less than no pass**, and
+launching early would have guaranteed one. Nothing was lost by waiting: the pass runs for hours
+either way, and the next run reads its log either way.
+
+**Launched at 23:16 once `src/` was settled, the halt was cleared and the push had landed:**
+`mutate.py --target all --file-orders --detach`, **pid 30232**, log `state/mutate_20260915.log`,
+sandbox fingerprint **860af1f51f1757ca** — a clean photograph of a quiet tree. Do **not** relaunch
+while it is alive.
+
+**Read the log before closing the next shift.** A survivor is not automatically a bug — some
+mutations are genuinely equivalent — but which it is has to be decided by reading it, never
+assumed. If the pass did not finish, say so; a mutation pass killed halfway is not a pass with
+fewer survivors.
 
 `escalation.py` has still never completed a mutation pass. Both deaths that stopped it are now
 explained and guarded, so the next attempt is the first with a real chance.
