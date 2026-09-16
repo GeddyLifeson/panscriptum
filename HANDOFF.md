@@ -27,6 +27,67 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-16 — OWNER-DIRECTED — PHASE 4.5: THE PROSE GATE IS OPEN, PER SOURCE, FOR THE SEVEN THAT CLEAR
+
+**FOR THE OWNER, AT THE TOP:** `prose_enabled` is now **true**, by your ruling in session. The
+ruling is recorded in `STEP4_PLAN.md` section 7I. Prose opens **per source**: the evidence floor
+(`prose_min_cited_fraction` 0.35, unchanged) holds back every source under it, and **7 of 210
+cleared**. **733 chapter jobs** are eligible. The cloud lane is still down (order `3e6283e6dd78`),
+so they will be written on the local model alone, sharing the GPU with run #60's mutation pass.
+At local speed that is a job measured in days, not hours.
+
+**THE RULING.** You asked for "the next subphase". Phase 4.4 had landed in run #52, so the next
+subphase was 4.5, re-opening the prose gate per source. Before touching anything, the session
+listed the sources that would clear and asked how to open the gate. You chose **"Open for the 7
+now"**. You were offered a one-source pilot and an authorise-but-wait option, and chose neither.
+
+| source | cited | jobs |
+|---|---|---|
+| Digimon | 40.6% | 275 |
+| KibblesTasty (techno-psionic line) | 39.7% | 140 |
+| Arcanum Worlds (Odyssey of the Dragonlords) | 46.9% | 110 |
+| Star Trek | 38.1% | 97 |
+| Star Wars | 39.2% | 83 |
+| Helldivers 1 & 2 | 84.8% | 14 |
+| A Plethora of Paladins | 90.5% | 14 |
+
+(The Lord of the Rings, asked about in the same session, is shelved at II.L.1 with 616 entries
+but only 9.7% cited, so it stays closed until its citations rise.)
+
+**WHAT CHANGED:**
+
+* `config.yaml`: `prose_enabled: true`, with the ruling cited in its comment. The floor was not
+  touched.
+* `verify_math`: **both** closed-gate rows were repointed to OPEN rather than relaxed. One reads
+  the raw YAML value and one reads it through `gate_open()`, so they are two independent readings
+  of one decision. Each still pins an exact value, so a silent close is caught as loudly as a
+  silent open would have been. A new row pins the floor at 0.35, because lowering it is the quiet
+  way to turn "the 7" into "everything".
+* `drill.py`: the net "the live gate is closed right now" would have **breached, and halted the
+  library,** the moment the flag moved. It was repointed to "stands where the owner ruled it —
+  OPEN since 2026-09-16", the same treatment the Step 4 net got on 2026-08-31. A new net drives the
+  **real** `evidence_ok` with the **real** floor against a 5%-cited and a 90%-cited synthetic source.
+  It is **HELD** with the floor in place and **RED** with the floor comparison switched off.
+* `output/index/manifest.json` was rebuilt from current data: **30,416 jobs over 205 sources**
+  (the old copy dated from 2026-08-24). `generate.py` narrows that to the seven, per job, before it
+  writes anything.
+* Stale "the prose gate stays closed" comments in `config.yaml`, `verify_math.py` and `drill.py`
+  were corrected so they no longer state the old ruling as current.
+
+**NOT DONE, AND NOT AUTHORISED BY THIS RULING:** lowering the floor; T5; any Assay decimal;
+restoring any of the 145 withdrawn chapters (per §7D they are regenerated through the same floor
+or not at all).
+
+**BATTERY AFTER THE CHANGE:** drill **620 attacked, 620 held, 0 BREACHED** · verify_math **1308
+passed, 0 FAILED**.
+
+**WHAT STARTS THE WRITING:** nothing extra is needed. `overnight.py` starts `generate.py` on its
+next cycle once the flag is true, the manifest exists and the drill did not breach. The `src/`
+edits above trigger the designed rc=17 restarts first. Watch `state/prose_auto.log`.
+
+
+---
+
 ## 2026-09-15 — RUN #60 (DAILY) — A CHECK THAT COULD NOT FAIL RAN ON EVERY PUSH, A MODEL'S BAD REPLY KILLED A CHAIN PASS, AND THE DETECTOR THAT CRIED WOLF FIFTEEN TIMES WAS RIGHT TO BE FIXED RATHER THAN OBEYED
 
 **FOR THE OWNER, AT THE TOP:**
