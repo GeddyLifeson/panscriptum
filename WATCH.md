@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 567  ·  last run 2026-09-16 08:52
+round 568  ·  last run 2026-09-16 09:57
 
 ## Structure
 
@@ -11,16 +11,18 @@ round 567  ·  last run 2026-09-16 08:52
 
 ## What the model found in the code
 
-**5 open** (2 high). Newest first.
+**6 open** (1 high). Newest first.
 
-- **mutate.py** `reap_orphans` — [HIGH] Deletes sandboxes that are either abandoned (age > ORPHAN_AGE_SECONDS) and have no live owner, or are abandoned and have a live owner but the owner's pid is invalid or the started time is invalid or the claim is expired. Also deletes sandboxes that are not owned by any process (no owner file) and are older than ORPHAN_AGE_SECONDS.
-  - says: Delete sandboxes abandoned by runs that were killed. -> [paths removed].
 - **assay.py** `assay` — [HIGH] Computes a Moth Number but the formula is incorrect due to missing covariance terms and incorrect variance calculation
   - says: Compute a Moth Number: 𝔄 = M_a + (sum w_i * s_i) / 10
+- **policy.py** `ev_unreadable` — [MEDIUM] used in a condition to return 1 when unreadable or ev_unreadable are present
+  - says: A RECORD THAT COULD NOT BE READ IS NOT A PASS
+- **policy.py** `unreadable` — [MEDIUM] used in a condition to return 1 when unreadable or ev_unreadable are present
+  - says: A RECORD THAT COULD NOT BE READ IS NOT A PASS
+- **pick_model.py** `fit_note` — [MEDIUM] returns a note that is not shown when VRAM is unavailable
+  - says: reports if a model fits in VRAM
 - **mutate.py** `base` — [MEDIUM] base is the baseline signatures
   - says: base is the baseline
-- **endpoint.py** `source_pages` — [MEDIUM] returns [] when the file is absent and raises `PagesRegistryUnreadable` when the file is unreadable
-  - says: RAISES `PagesRegistryUnreadable` WHEN THE REGISTRY CANNOT BE READ, and never answers [] for it
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
