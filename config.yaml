@@ -105,7 +105,13 @@ prompt_version: "v5"   # v5 2026-08-23: scale-ladder altitude + full-length chun
 # ruling was ever taken. 145 chapters were written under that inversion and have been withdrawn.
 #
 # Set to true ONLY on an explicit owner decision. Nothing in the automation may flip it.
-prose_enabled: false
+#
+# OPENED 2026-09-16 BY A RECORDED OWNER RULING: STEP4_PLAN.md section 7I, Phase 4.5. The owner,
+# in session, said "do the next subphase", was asked explicitly what that would do, and chose
+# "Open for the 7 now". This is per source, not library-wide: `prose_min_cited_fraction` below
+# still holds back every source under 35% cited (7 of 210 cleared at the time of the ruling).
+# verify_math pins this value to true, so moving it again in either direction needs another ruling.
+prose_enabled: true
 
 # A source must have at least this fraction of its entries CITED before its chapters may be
 # written. Prose is dressing on the records (Hard Rule 1), so a source with no citations yields
@@ -147,7 +153,8 @@ prose_min_cited_fraction: 0.35
 # IT, from the plan's own section 6: T3 joins on EVENT PARTICIPATION, NEVER on name similarity --
 # a thread whose only evidence is that two names resemble each other is not a thread.
 # 4.4 and 4.5 are still NOT authorised. This flag's VALUE is unchanged, again.
-# The prose gate is untouched and stays closed. Nothing here authorises a generated chapter.
+# (The prose gate was later opened by its own ruling, Phase 4.5, STEP4_PLAN.md section 7I; see
+# prose_enabled above. This flag does not authorise a generated chapter.)
 step4_enabled: true
 
 # how many source entries to fold into a single chapter-generation call. Big chapters (e.g.

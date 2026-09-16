@@ -297,6 +297,50 @@ A thin T4 that is honestly thin is the correct outcome here. Inflating it by cit
 every entry regardless of whether it makes a claim would be decoration, which is precisely what
 the Doctrine of Derivation calls a Digest sentence with neither citation.
 
+**I. Phase 4.5 — AUTHORISED 2026-09-16, by the owner, in session.** Ruled after 4.4 landed (run
+#52) and after maintenance run #60 closed green. The owner's words: *"also do the next subphase
+please"*. Before anything was changed, the run showed what that meant and asked explicitly:
+*"Phase 4.5 means setting prose_enabled: true so chapters get written for sources above the 35%
+citation floor. How do you want it opened?"* The owner chose **"Open for the 7 now"** over a
+one-source pilot and over authorising without running. They chose it knowing that the cloud lane
+is down (the cascade config asks Groq for a model that no longer exists, order `3e6283e6dd78`),
+that generation would run on the local model alone, and that it would share the GPU with the
+mutation pass launched by run #60.
+
+**Scope of I, and only this:** `prose_enabled: true`. **"Per source, as each clears"** is
+enforced by the existing floor. `prose_min_cited_fraction` stays **0.35**, and `generate.py`
+refuses every source below it through `prose_gate.evidence_ok`, per job, before writing anything.
+The gate was **not** opened library-wide. It was opened for the sources that clear. Measured at the
+time of the ruling, **7 of 210** did:
+
+| source | cited |
+|---|---|
+| A Plethora of Paladins | 90.5% |
+| Helldivers 1 & 2 | 84.8% |
+| Arcanum Worlds (Odyssey of the Dragonlords) | 46.9% |
+| Digimon | 40.6% |
+| KibblesTasty (techno-psionic line) | 39.7% |
+| Star Wars | 39.2% |
+| Star Trek | 38.1% |
+
+Every other source is held back and opens on its own when its citations cross the floor. That is
+what "as each clears" means, and it needs no further ruling per source. (The Lord of the Rings,
+asked about in the same session, was at 9.7% and stays closed.)
+
+**WHAT THIS RULING DOES NOT AUTHORISE:**
+
+* **Lowering the floor.** `prose_min_cited_fraction` is a separate owner-held value. It is not
+  touched by this ruling and may not be lowered to let more sources through.
+* **Fake Assay decimals.** Hard Rule 3 stands, and every prose-gate layer (block completeness,
+  the Instrument check, `unearned_instrument`) stays in force.
+* **T5.** It remains owner-authored only, per §7B.
+* **Any of the 145 withdrawn chapters.** Per §7D they are regenerated through the same floor, never
+  restored.
+
+**THE GATE STAYS INDEPENDENTLY CHECKED.** `verify_math`'s row now pins `prose_enabled` to **True**,
+by value, citing this ruling. So the flag still cannot move, in either direction, without the row
+going red and needing another ruling.
+
 ---
 
 ## 7b. The original questions, kept for the record

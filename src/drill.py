@@ -1964,9 +1964,51 @@ def drill_dispatch():
     net(a, "assert_gate_open RAISES when closed",
         lambda: _refuses(lambda: PG.assert_gate_open({}), PG.ProseRefused),
         "the tool refuses on its own authority, not just the supervisor's")
-    net(a, "the live gate is closed right now",
-        lambda: not PG.gate_open()[0],
-        "prose is held by owner ruling pending Step 4")
+    # THE PROSE GATE: OPEN SINCE 2026-09-16, by a recorded owner ruling (STEP4_PLAN.md section 7I,
+    # Phase 4.5: the owner asked for "the next subphase", was told it meant this flag, and chose
+    # "Open for the 7 now"). This net asserted the gate was CLOSED, which was right until that
+    # ruling, and it would have breached the moment the flag moved. That breach would have been the
+    # system working.
+    #
+    # It is REPOINTED, not removed and not relaxed, exactly as the Step 4 net below was on
+    # 2026-08-31. It still pins an exact state, so a silent CLOSE is now caught as loudly as a
+    # silent open was. The six rows above still test HOW the gate decides, and the ruling does
+    # not change that.
+    #
+    # "PER SOURCE" IS NOT THIS FLAG'S JOB. It is the evidence floor, which `generate.py` applies
+    # per job through `prose_gate.evidence_ok`. The next net pins that, so an open gate cannot be
+    # widened to every source by lowering a number nobody is watching.
+    net(a, "the live prose gate stands where the owner ruled it -- OPEN since 2026-09-16",
+        lambda: PG.gate_open()[0],
+        "Phase 4.5 was ruled in session; if this goes red, find the ruling that closed the gate, "
+        "and if there is none then something that is not a person moved it")
+
+    def _the_open_gate_still_holds_back_an_uncited_source():
+        """With the gate open, a source under the floor must still be refused by the real check.
+
+        Opening `prose_enabled` made the evidence floor the only thing standing between the
+        library and the 145-chapter incident's exact shape: a source with nothing cited being
+        written anyway. So this drives the REAL `evidence_ok` with the REAL floor from config.yaml
+        against two synthetic coverage rows, one well under the floor and one well over it. It
+        does not read the live COVERAGE.json, so a coverage change cannot make the net pass or fail
+        by accident. The floor itself must also still be the ruled 0.35.
+        """
+        import yaml as _yaml
+        with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as fh:
+            floor = (_yaml.safe_load(fh) or {}).get("prose_min_cited_fraction")
+        if floor != 0.35:
+            return False
+        # The row shape `prose_gate.cited_fraction` reads: a list of {source, entries, cited}.
+        rows = [{"source": "DrillLow", "entries": 100, "cited": 5},
+                {"source": "DrillHigh", "entries": 100, "cited": 90}]
+        ok_low, _ = PG.evidence_ok("DrillLow", floor, rows)
+        ok_high, _ = PG.evidence_ok("DrillHigh", floor, rows)
+        return (not ok_low) and ok_high
+
+    net(a, "with the gate open, a source under the 35% floor is still held back",
+        _the_open_gate_still_holds_back_an_uncited_source,
+        "Phase 4.5 opened the gate PER SOURCE. The floor is what makes that true; a source at 5% "
+        "cited is the shape of the 145 withdrawn chapters and must never be written")
     # THE STEP 4 GATE — RATIFIED AND OPEN SINCE 2026-08-31, by a recorded owner ruling.
     # This row asserted the gate was CLOSED, which was correct for as long as the plan was
     # unratified and is why it breached the moment the owner opened it. That breach was
@@ -1978,8 +2020,8 @@ def drill_dispatch():
     # three sibling rows below (stringy flag, missing plan, assert_step4_open) are
     # untouched: they test HOW the gate decides, which the ruling does not change.
     #
-    # SCOPE: STEP4_PLAN.md §7E authorises Phase 4.0 and 4.1 ONLY. `prose_enabled` is a
-    # separate flag, is untouched, and the row four lines above still pins it CLOSED.
+    # SCOPE: STEP4_PLAN.md §7E authorised Phase 4.0 and 4.1 ONLY. `prose_enabled` is a separate
+    # flag, opened later by its own ruling (§7I, Phase 4.5), and the net above now pins it OPEN.
     net(a, "the Step 4 gate stands where the owner ruled it -- OPEN since 2026-08-31",
         lambda: PG.step4_gate_open()[0],
         "the owner ruled the plan ratified after Phase 4.0 measured closed; if this goes "

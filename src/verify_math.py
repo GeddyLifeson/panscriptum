@@ -7166,8 +7166,14 @@ check("a non-True truthy value is a closed gate", _PGate.gate_open({"prose_enabl
       False, note="only an explicit boolean true opens it -- 'yes' is a typo, not a ruling")
 check("an explicit true opens it", _PGate.gate_open({"prose_enabled": True})[0], True,
       note="a gate that cannot open is not a gate, it is a wall (standing lesson 9)")
-check("the gate is CLOSED right now, as the owner ruled", _PGate.gate_open()[0], False,
-      note="prose is held pending Step 4; if this is True someone opened it")
+# REPOINTED 2026-09-16 by the owner's Phase 4.5 ruling (STEP4_PLAN.md section 7I), exactly like the
+# config-value row further down. It still pins an exact state, so the gate cannot move in either
+# direction without a ruling. This row reads the gate through `gate_open()`; the other reads the
+# raw YAML value. They are two independent readings of one decision.
+check("the gate is OPEN right now, as the owner ruled on 2026-09-16 (Phase 4.5)",
+      _PGate.gate_open()[0], True,
+      note="if this is False, find the ruling that closed it; per-source holding is the "
+           "evidence floor's job, pinned separately")
 
 # --- LAYER 3: the queue line. A source with nothing under it never boards.
 check("an UNMEASURED source is refused",
@@ -7208,10 +7214,25 @@ check("the prose flag is a BOOLEAN in config, not a string",
 # watching it happen. Updating this row costs exactly what opening the gate costs: a recorded
 # owner ruling. Do not relax it to `isinstance`, do not widen it to "either boolean", and do not
 # edit the flags to quiet it -- the flags are owner-held and are not this file's to move.
-check("the prose gate is CLOSED in config.yaml, by value and not merely by type",
-      _raw_cfg.get("prose_enabled"), False,
-      note="a run that finds this red must stop and find the owner ruling that opened it; if "
-           "there is none, someone flipped the most consequential flag in the repo in silence")
+# OPENED 2026-09-16 BY A RECORDED OWNER RULING: STEP4_PLAN.md section 7I, Phase 4.5. The owner,
+# in session, asked for "the next subphase", was told plainly that this meant setting this flag,
+# and chose "Open for the 7 now". This paragraph describes what that ruling costs, and the cost
+# was paid.
+#
+# THE ROW IS UPDATED, NOT RELAXED, the same way the step 4 row below was on 2026-08-31. It still
+# pins an exact VALUE, so the flag cannot move again in either direction without turning this red.
+# "Per source" is enforced elsewhere and independently: `generate.py` refuses every source under
+# `prose_min_cited_fraction` through `prose_gate.evidence_ok`, per job, before it writes a word.
+check("the prose gate is OPEN in config.yaml, by the owner ruling of 2026-09-16 (Phase 4.5)",
+      _raw_cfg.get("prose_enabled"), True,
+      note="a run that finds this red must stop and find the owner ruling that CLOSED it; the "
+           "flag is owner-held in both directions and no automated actor may move it")
+# THE FLOOR IS WHAT MAKES THE OPEN GATE PER-SOURCE, so it is pinned beside it. Phase 4.5's ruling
+# explicitly does not authorise lowering it, and lowering it is the quiet way to turn "the 7 that
+# cleared" into "everything".
+check("the prose evidence floor is still 0.35 (Phase 4.5 did not authorise lowering it)",
+      _raw_cfg.get("prose_min_cited_fraction"), 0.35,
+      note="the floor is owner-held; a lower value widens the open gate without a ruling")
 # OPENED 2026-08-31 BY A RECORDED OWNER RULING, which is exactly what the paragraph above
 # says this costs. The owner instructed it in session -- "go flip it to true yourself
 # right now" -- after Phase 4.0 was measured closed (0 of 216 sources unaddressed), the
@@ -7224,8 +7245,8 @@ check("the prose gate is CLOSED in config.yaml, by value and not merely by type"
 # owner has ruled for has changed.
 #
 # SCOPE OF THE RULING: STEP4_PLAN.md section 7E authorises Phase 4.0 and 4.1 ONLY.
-# 4.2 through 4.5 are NOT authorised by it. `prose_enabled` is untouched and the row
-# above still pins it CLOSED.
+# 4.2 through 4.5 are NOT authorised by it. (4.2-4.5 were each authorised later by their own
+# rulings, sections 7F-7I; 4.5 opened `prose_enabled`, which the row above now pins OPEN.)
 check("the step 4 gate is OPEN in config.yaml, by the owner ruling of 2026-08-31",
       _raw_cfg.get("step4_enabled"), True,
       note="a run that finds this red must stop and find the ruling that CLOSED it; the "
