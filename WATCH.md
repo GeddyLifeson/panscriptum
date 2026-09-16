@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 568  ·  last run 2026-09-16 09:57
+round 569  ·  last run 2026-09-16 10:31
 
 ## Structure
 
@@ -11,18 +11,24 @@ round 568  ·  last run 2026-09-16 09:57
 
 ## What the model found in the code
 
-**6 open** (1 high). Newest first.
+**9 open** (1 high). Newest first.
 
 - **assay.py** `assay` — [HIGH] Computes a Moth Number but the formula is incorrect due to missing covariance terms and incorrect variance calculation
   - says: Compute a Moth Number: 𝔄 = M_a + (sum w_i * s_i) / 10
+- **scout.py** `seen_ok` — [MEDIUM] initialized to True and set to False only if there's an exception reading the file
+  - says: indicates if the attempts were successfully read
+- **scout.py** `seen` — [MEDIUM] initialized to an empty dictionary and overwritten if the file exists and is readable
+  - says: store the attempts from SCOUT_ATTEMPTS.json
+- **publish.py** `a.loop` — [MEDIUM] the condition for checking maintenance shift is also true for one-shot --push, leading to potential incorrect behavior
+  - says: keep publishing, minutes apart
+- **publish.py** `a.loop` — [MEDIUM] controls whether the loop runs, but the condition for checking maintenance shift is also true for one-shot --push
+  - says: keep publishing, minutes apart
+- **publish.py** `sync_tree` — [MEDIUM] Deletes files not in 'wanted' and removes entire directories that are no longer in COPY_DIRS, effectively pruning the export copy
+  - says: Refresh the export copy from the live project. Named files only, never a whole-tree copy.
 - **policy.py** `ev_unreadable` — [MEDIUM] used in a condition to return 1 when unreadable or ev_unreadable are present
   - says: A RECORD THAT COULD NOT BE READ IS NOT A PASS
 - **policy.py** `unreadable` — [MEDIUM] used in a condition to return 1 when unreadable or ev_unreadable are present
   - says: A RECORD THAT COULD NOT BE READ IS NOT A PASS
-- **pick_model.py** `fit_note` — [MEDIUM] returns a note that is not shown when VRAM is unavailable
-  - says: reports if a model fits in VRAM
-- **mutate.py** `base` — [MEDIUM] base is the baseline signatures
-  - says: base is the baseline
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
