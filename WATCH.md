@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 560  ·  last run 2026-09-16 03:09
+round 561  ·  last run 2026-09-16 04:05
 
 ## Structure
 
@@ -11,14 +11,18 @@ round 560  ·  last run 2026-09-16 03:09
 
 ## What the model found in the code
 
-**20 open** (3 high). Newest first.
+**19 open** (4 high). Newest first.
 
+- **corpus_db.py** `rebuild` — [HIGH] Rebuilds the index but does not actually process the canonical JSON data as described, instead handling WIKI_HOSTS.json and COVERAGE.json files and attempting to connect to a temporary database without fully implementing the described index rebuilding logic.
+  - says: Rebuild the index from the canonical JSON. -> counts.
 - **build_terminal.py** `esc` — [HIGH] some catalogue-derived strings bypass it, like shelfmark and the four f.* rows in selectWorld
   - says: every catalogue-derived string goes through this before it reaches innerHTML
 - **foreman.py** `overwatch.save` — [HIGH] discards the failure silently
   - says: prints the denial itself and returns the same verdict `silence.write_json` gave
 - **foreman.py** `kill_duplicate_jobs` — [HIGH] Returns False when duplicates are found but no process matched, and sometimes returns False when no duplicates were ended despite having found some.
   - says: Keep the OLDEST instance of each job and end the rest.
+- **corpus_db.py** `code` — [MEDIUM] is set to None when code is 'UNASSIGNED'
+  - says: NULL means unshelved, and only the resolver may say so
 - **compress_store.py** `load` — [MEDIUM] Reads a stored blob back, decompresses it, and checks if the decompressed text's hash matches the filename's hash, raising an error if they don't match.
   - says: Read a stored blob back, VERIFYING it against the address it is filed under.
 - **catalogue_models.py** `sweep` — [MEDIUM] write a payload and return it, not actually interacting with providers
@@ -45,12 +49,6 @@ round 560  ·  last run 2026-09-16 03:09
   - says: A denied rename here loses this whole round from the operational record, and overnight.foreman_report() would then replay the PREVIOUS round as if it were this one -- i.e. report stale repairs as current.
 - **foreman.py** `kill_stalled` — [MEDIUM] killed stalled or spared based on restartability and I/O activity
   - says: killed stalled
-- **foreman.py** `CB._PROVEN[0]` — [MEDIUM] invalidates the cached proof by setting to None
-  - says: force the next _alive() to re-read
-- **chain.py** `singleton_release` — [MEDIUM] unconditionally releases a record that names itself
-  - says: releases a record that names itself
-- **drill.py** `_LIVE_HOOK` — [MEDIUM] the audit hook is not checked for failures
-  - says: the audit hook failed
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
