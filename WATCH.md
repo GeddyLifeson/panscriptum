@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 557  ·  last run 2026-09-15 22:27
+round 558  ·  last run 2026-09-16 01:54
 
 ## Structure
 
@@ -11,8 +11,12 @@ round 557  ·  last run 2026-09-15 22:27
 
 ## What the model found in the code
 
-**16 open** (7 high). Newest first.
+**24 open** (9 high). Newest first.
 
+- **foreman.py** `overwatch.save` — [HIGH] discards the failure silently
+  - says: prints the denial itself and returns the same verdict `silence.write_json` gave
+- **foreman.py** `kill_duplicate_jobs` — [HIGH] Returns False when duplicates are found but no process matched, and sometimes returns False when no duplicates were ended despite having found some.
+  - says: Keep the OLDEST instance of each job and end the rest.
 - **autostart.py** `silence` — [HIGH] is never defined in this slice
   - says: handles errors with retries and logging
 - **autostart.py** `installed_state` — [HIGH] is never defined in this slice
@@ -27,6 +31,26 @@ round 557  ·  last run 2026-09-15 22:27
   - says: allow_paid is owner-held. Nothing automatic may switch it on.
 - **drill.py** `drill_binding_identity` — [HIGH] The function is incomplete and does not fully implement the described behavior
   - says: Can an unfixable fault be filed, for ever, at a handler that cannot fix it?
+- **hostcheck.py** `base` — [MEDIUM] The `base` variable is assigned the result of `null_rate(host, by=by, exclude=source) if by else None`, which may not correctly represent the baseline rate due to potential issues with the `null_rate` function's handling of the `exclude` parameter and the conditional logic.
+  - says: The `null_rate` function is called with `by=by` to get the baseline rate for the host.
+- **hostcheck.py** `score` — [MEDIUM] Calculates a score based on probe data and baseline comparisons, but the function's name and docstring suggest a more direct measurement of host performance against a baseline, not a comprehensive judgment of the host's overall quality or relevance.
+  - says: One host, fully judged: how much of this roster it holds, ABOVE ITS OWN BASELINE.
+- **hostcheck.py** `foreign` — [MEDIUM] is initialized as an empty list and then extended with names from the 'by' parameter, but the actual control sample is derived from the 'foreign' list after deduplication and sampling
+  - says: builds a list of foreign names for the control sample
+- **hostcheck.py** `candidates` — [MEDIUM] Returns the same flat `grounded + spec` list it has always returned.
+  - says: Other hosts worth probing for this source, best first: grounded, then speculation.
+- **foreman.py** `silence.write_json` — [MEDIUM] The code attempts to write the log but does not handle the case where writing is denied, leading to potential data loss.
+  - says: A denied rename here loses this whole round from the operational record, and overnight.foreman_report() would then replay the PREVIOUS round as if it were this one -- i.e. report stale repairs as current.
+- **foreman.py** `kill_stalled` — [MEDIUM] killed stalled or spared based on restartability and I/O activity
+  - says: killed stalled
+- **foreman.py** `CB._PROVEN[0]` — [MEDIUM] invalidates the cached proof by setting to None
+  - says: force the next _alive() to re-read
+- **chain.py** `write_result` — [MEDIUM] cuts the names with `n[:50]`
+  - says: persist `names` and `strengths` whole
+- **chain.py** `singleton_release` — [MEDIUM] unconditionally releases a record that names itself
+  - says: releases a record that names itself
+- **chain.py** `live` — [MEDIUM] initialized to 0, then set to 1 if _RECIPE_KEY is in updates
+  - says: Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`)
 - **drill.py** `_LIVE_HOOK` — [MEDIUM] the audit hook is not checked for failures
   - says: the audit hook failed
 - **drill.py** `GL._take_slot` — [MEDIUM] return a slot
@@ -35,14 +59,6 @@ round 557  ·  last run 2026-09-15 22:27
   - says: arbitrate a lane
 - **drill.py** `CW._report_if_never_settling` — [MEDIUM] The code does something else
   - says: The code says it does something else
-- **drill.py** `_is_rooted` — [MEDIUM] The function no longer accepts a bare `join` as a path, which contradicts the comment explaining that it was supposed to accept such cases.
-  - says: WHAT IT NO LONGER ACCEPTS. A bare `join` matched `",".join(root)` as readily as a path build, so a SENTENCE assembled out of a rooted name read as a place inside the sandbox.
-- **drill.py** `_is_rooted` — [MEDIUM] Checks if the expression is a call to `join` with a string receiver that does not contain path separators, returning False in such cases.
-  - says: Is this expression a path anchored at one of `derived`? -> bool.
-- **drill.py** `creationflags` — [MEDIUM] yields 0 off Windows
-  - says: suppresses its console window
-- **foreman.py** `restart_ollama` — [MEDIUM] The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.
-  - says: Restart the local model service when tokens stop flowing. AUTO by owner ruling (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon answered /api/tags while zero generations completed, once with no runner process and once with a runner spinning at 98% completing nothing -- and both times the only cure was a restart a person had to perform. The restart is mechanical and reversible (the tray app respawns the daemon; the resident model reloads on first call), and it is rate-limited: at most one automated restart per 30 minutes, so a deeper fault escalates to the owner instead of being restart-looped into invisibility.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
