@@ -1,6 +1,6 @@
 # OVERWATCH
 
-round 573  ·  last run 2026-09-16 16:03
+round 574  ·  last run 2026-09-16 16:37
 
 ## Structure
 
@@ -11,7 +11,7 @@ round 573  ·  last run 2026-09-16 16:03
 
 ## What the model found in the code
 
-**10 open** (5 high). Newest first.
+**10 open** (4 high). Newest first.
 
 - **hosts.py** `discover` — [HIGH] probe alternative hosts for every source and keep all that hold
   - says: probe alternative hosts for every source and keep all that hold
@@ -19,18 +19,18 @@ round 573  ·  last run 2026-09-16 16:03
   - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
 - **feats_index.py** `host_to_sources` — [HIGH] returns an empty map when the host file cannot be read and caches it
   - says: RAISES rather than returning an empty map when the host file cannot be read, and does NOT cache that emptiness
-- **worldseed.py** `to_fmg_query` — [HIGH] emits parameters that are not honored by Azgaar, such as 'options' and 'width', 'height'
-  - says: Render for Azgaar, emitting ONLY what that generator actually honours.
 - **assay.py** `assay` — [HIGH] Computes a Moth Number but the formula is incorrect due to missing covariance terms and incorrect variance calculation
   - says: Compute a Moth Number: 𝔄 = M_a + (sum w_i * s_i) / 10
+- **magnitude.py** `anchor` — [MEDIUM] assigned based on conditions involving ceiling and A.LADDER.index
+  - says: that, at the one place that knows nothing rescued it.
+- **local_agent.py** `rel_real` — [MEDIUM] used in a comparison with rel_written, which is the written path, but the check is only performed if the filesystem disagrees with the string
+  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
+- **local_agent.py** `rel_written` — [MEDIUM] used in a comparison with rel_real, which is the resolved path, but the check is only performed if the filesystem disagrees with the string
+  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if reopen_stranded(...) is None else 0
   - says: return 1 if reopen_stranded(...) is None else 0
 - **worldseed.py** `WORLD` — [MEDIUM] matches words related to worlds in descriptions or names but may miss some cases due to regex limitations
   - says: matches words related to worlds in descriptions or names
-- **worldseed.py** `limit` — [MEDIUM] is checked against the length of the output list before appending
-  - says: controls the maximum number of worlds to include
-- **worldseed.py** `build_all` — [MEDIUM] returns a list of worldseed addresses but may return early if limit is reached
-  - says: returns a list of worldseed addresses
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 
