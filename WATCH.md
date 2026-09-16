@@ -1,22 +1,20 @@
 # OVERWATCH
 
-round 552  ·  last run 2026-09-15 20:06
+round 553  ·  last run 2026-09-15 20:31
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 305,503 inspected (deep scan as of round 547)
+- files that will not parse: **1** of 305,592 inspected  — state\gpu_lane\slot.0.json — cannot stat: GONE (absent on a second look, one rename later)
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**7 open** (2 high). Newest first.
+**6 open** (1 high). Newest first.
 
-- **escalation.py** `subsystem_stopped` — [HIGH] fails closed when the file is unreadable, but the code expects it to leave the order standing
-  - says: re-checks if the subsystem is stopped
-- **standards.py** `bool(refs) and inside >= len(refs)` — [HIGH] the condition is checking if inside is greater than or equal to the length of refs, but the comment indicates it should check if inside is greater than or equal to the scoreable count
-  - says: the assay reading is valid
+- **gpu_lane.py** `foreground` — [HIGH] Modifies a claim file with a refcount, but does not actually mark the process as foreground in any way that affects background jobs
+  - says: Mark this process as doing work that background jobs should get out of the way for.
 - **resync_roll.py** `dupes` — [MEDIUM] stores duplicate source filenames
   - says: index every record file by its declared `source`
 - **foreman.py** `restart_ollama` — [MEDIUM] The function may not restart the service if the restart stamp is unreadable or if the tray is not running, but it does not clearly handle the case where the daemon is wedged and needs a restart. The function's logic for handling the tray and daemon states is complex and may not fully address the intended behavior of restarting the service when tokens stop flowing.
