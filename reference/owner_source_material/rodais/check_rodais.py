@@ -43,6 +43,10 @@ check(len(lex) == 5005 and len({e['id'] for e in lex}) == 5005, 'lexicon: 5,005 
 check(all(e.get('rod') and e.get('pos') and e.get('en') for e in lex), 'lexicon: every entry has headword, part of speech, English')
 check(all(e.get('g') in ('m', 'f') for e in lex if e['pos'] == 'n'), 'lexicon: every noun has a gender')
 check(all(e.get('root') for e in lex if e['pos'] == 'v'), 'lexicon: every verb has a root')
+ken = [e for e in lex if e.get('kenning')]
+check(all(e.get('lit') and e.get('scots') for e in ken), 'lexicon: every old-root compound has its literal sense and the word it replaces (%d)' % len(ken))
+check(len({e['rod'].lower() for e in ken}) == len(ken), 'lexicon: no two old-root compounds share a headword')
+check(not [e for e in ken if R.check_agreement(e['rod'].strip('?!.'))], 'lexicon: every old-root compound obeys caol le caol')
 fields = [(e['id'], e[k]) for e in lex for k in ('rod', 'pl', 'root') if e.get(k)]
 check(all(R.normalize(v) == v for _, v in fields), 'lexicon: every Ròdais field is in Ròdais spelling (no acute, no sg)')
 flag = sorted({w for _, v in fields for w in words(v) if R.check_agreement(w)}, key=str.lower)

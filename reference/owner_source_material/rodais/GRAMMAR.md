@@ -361,3 +361,39 @@ an t-Iuchar, an Lùnastal, an t-Sultain, an Dàmhair, an t-Samhain, an Dùbhlach
 3. Run the text through `normalize()`: acute to grave, *sg* to *sc*, curly apostrophes to straight.
 4. Run `check_agreement()` over each word; anything it flags is either a typo or belongs in
    `AGREEMENT_EXCEPTIONS`.
+
+## 13. How Ròdais names new things
+
+Ròdais is an old, isolated dialect. It has none of the loanwords and dictionary coinages that
+modern Scottish Gaelic took on for new things (*coimpiutair, telebhisean, bacteiria*). When it
+needs a word for something new, it builds one from old roots, naming the thing by what it does or
+what it is like:
+
+| English | Ròdais | literally | modern Scottish Gaelic |
+|---|---|---|---|
+| skyscraper | *suathaiche-nèimh* | heaven-grazer | *tùr-speur* |
+| jet lag | *suain-siubhail* | travel-drowsiness | *sgìths-itealaich* |
+| computer | *inntinn-iarainn* | iron-mind | *coimpiutair* |
+| aeroplane | *eun-iarainn* | iron-bird | *plèana* |
+| television | *scàthan-sceòil* | tale-mirror | *telebhisean* |
+| telephone | *guth-sreinge* | string-voice | *fòn* |
+| robot | *gille-iarainn* | iron-lad | *robot* |
+| black hole | *slugaire-solais* | light-swallower | *toll dubh* |
+
+Families form on their own: machines are *iarainn* (of iron), films and screens are *scàil* and
+*scàthan* (shadow, mirror), electricity is *dealan* (spark) and *dealanach* (lightning).
+
+The rules for a new word:
+
+1. **Old roots only.** Words attested in Old, Middle or Classical Gaelic or early Scottish
+   Gaelic: *nèamh, speur, teine, gual, iarann, guth, dealbh, cuimhne, siubhal, suain, sgeul*.
+   Old borrowings for things known before about 1800 are fine (*leabhar, cofaidh*); a modern
+   international root (*tele-, fòn-, eileactr-, meatair*) is not.
+2. **Head first, then the describer**, hyphenated, the describer in the genitive where Gaelic
+   wants it: *suain-siubhail* (drowsiness of travel), *guth-sreinge* (voice of a string).
+3. **Two elements, three at most.**
+4. **Each part obeys caol le caol**, which old words do anyway.
+
+In the lexicon these entries (609 of the 5,005) carry `"kenning": true`, the literal English in
+`lit`, and the modern Scottish Gaelic word they replace in `scots` (written in Ròdais spelling), so
+the difference between the dialects stays on record. `LEXICON.md` marks them with ✦.

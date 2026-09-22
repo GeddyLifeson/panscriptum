@@ -12,7 +12,7 @@ the whole language and the finished map.
 | `NAMING_LAYER.md` | The original reference sheet: lenition, broad/slender agreement, place-name generics, the peoples. Errata at the end. |
 | `GRAMMAR.md` | The full grammar: spelling, mutations, articles, nouns, adjectives, pronouns, prepositional pronouns, verbs (regular, the ten irregulars, *bi*), the copula, particles, word order, numbers, time. |
 | `rodais_engine.py` | The rules as code: `normalize`, `lenite`, `check_agreement`, `attach_suffix`, `article`, `possessive`, `Verb` / `IRREGULAR` / `BI`, `verb_phrase`, `clause`, `copula`, `prep_pronoun`, `object_particle`, `number`, `place_name`, `substrate_name`. `python rodais_engine.py` runs its 108-check self-test. |
-| `LEXICON.json` | 5,005 entries keyed by English, graded A1 to C2: headword, part of speech, gender and plural for nouns, root for verbs, a literal gloss for idioms. |
+| `LEXICON.json` | 5,005 entries keyed by English, graded A1 to C2: headword, part of speech, gender and plural for nouns, root for verbs, a literal gloss for idioms. 609 of them are old-root compounds for modern things (*inntinn-iarainn*, "iron-mind", for computer), each with the Scottish Gaelic word it replaces. |
 | `LEXICON.md` | The same lexicon as a readable Ròdais–English dictionary. |
 | `TEXTS.json`, `TEXTS.md` | Four everyday conversations and six tales with line-by-line English. Three tales are real Gaelic traditions moved to Rodos (the selkie wife, the each-uisge, Fionn and the salmon); three are Rodos legends (the Seann-Dhaoine leaving, coal coming into the blood, the Tuathaich going north). None of the story's named characters appear. |
 | `Rodos_renamed.map` | The map as the first pass left it (the input). |
@@ -51,9 +51,11 @@ Nothing here is under `src/`, so none of the library's daemons, audits or linter
 
 - **The Gaelic is AI-written.** The grammar follows standard Scottish Gaelic grammars and the
   engine's forms are checked against known forms, but the lexicon and texts have not been
-  reviewed by a Gaelic speaker. Each of the ten lexicon batches flagged up to 15 entries it was
-  unsure of, mostly modern or technical words that are coinages or paraphrases rather than
-  established terms. Treat C1/C2 technical vocabulary as a draft.
+  reviewed by a Gaelic speaker.
+- **Modern things have Ròdais-only words by design.** Ròdais has no modern loans or dictionary
+  coinages; 609 entries are compounds of old roots (GRAMMAR.md §13). A Scottish Gaelic speaker
+  would not know these words, which is the point. The line between "old borrowing, keep" and
+  "modern loan, replace" was drawn at about 1800: *leabhar, cofaidh, oifis* stay.
 - **465 headwords are shared by more than one English entry** (*uisce* for both "water" and
   "rain", *iasc* for fish as food and as animal). That is how Gaelic works; the lexicon does not
   invent distinctions it doesn't have.

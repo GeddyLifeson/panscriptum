@@ -8,7 +8,7 @@ Conversation, A2. Polite 'sibh' greetings, 'Is mise...' (copula) for giving a na
 
 | Ròdais | English |
 |---|---|
-| Eilidh: Halò! Ciamar a tha sibh? | Eilidh: Hello! How are you? |
+| Eilidh: Dia dhuibh! Ciamar a tha sibh? | Eilidh: Hello! How are you? |
 | Tormod: Tha gu math, gu robh math agaibh. Ciamar a tha sibh fhèin? | Tormod: Well, thank you. How are you yourself? |
 | Eilidh: Tha mi gu dòigheil. Is mise Eilidh. Dè an t-ainm a th' oirbh? | Eilidh: I'm fine. I'm Eilidh. What's your name? |
 | Tormod: Is mise Tormod. Tha mi air tighinn à Cathair dhearg air a' bhàta. | Tormod: I'm Tormod. I have come from Cathair dhearg on the boat. |
