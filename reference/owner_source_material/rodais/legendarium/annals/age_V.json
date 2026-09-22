@@ -232,7 +232,7 @@
  {
   "id": "V-0029",
   "canon": false,
-  "title": "The first high custodian",
+  "title": "The first high custodian of the Rite",
   "body": "Dòmhnall mac Thormoid is named Àrd-choimheadaiche of Creideamh nan Ròdach and seated at Seann Skell on the southern coast, where the Rite's largest house stands. His first charge is a written order of worship. There had never been one.",
   "place": "burg:431",
   "kind": "faith"
@@ -322,7 +322,7 @@
   "id": "V-0040",
   "canon": false,
   "title": "The bridge at Cathair dhearg re-dedicated",
-  "body": "The stone bridge over the Abhainn dhomhain below the capital, built under the humans, is re-dedicated with a Ròdais name-stone. The humans' stone is not removed. It is turned to face the river.",
+  "body": "The stone bridge over the Abhainn dhomhain below the capital, rebuilt under the humans, is re-dedicated with a Ròdais name-stone. The humans' stone is not removed. It is turned to face the river.",
   "place": "marker:3",
   "kind": "building"
  },
@@ -388,7 +388,7 @@
   "id": "V-0048",
   "canon": false,
   "title": "The Allt an Àigh walk",
-  "body": "Followers of Seann Spioradan nan Ròdach begin walking each year to the holy well called Allt an Àigh in the east, whose water the old tales call healing. The custodians of the Rite discourage the walk and do not forbid it.",
+  "body": "Followers of Seann Spioradan nan Ròdach keep up their yearly walk to the holy well called Allt an Àigh in the east, whose water the old tales say brings fortune. The custodians of the Rite discourage the walk and do not forbid it.",
   "place": "marker:1",
   "kind": "faith"
  },
@@ -413,7 +413,7 @@
   "id": "V-0051",
   "canon": false,
   "title": "The Sloc Mòr concession",
-  "body": "The Crown grants the working of the Sloc Mòr, the great shaft at Achadh dhomhain, to Uisdean mac Ùisdein of Cathair mhòr, whose house held the overseer's post under the humans. The terms give the Crown a fifth of the yield. They are the humans' terms with the names changed.",
+  "body": "The Crown grants the working of the Sloc Mòr, the great shaft at Achadh dhomhain, to Uisdean mac Ùisdein of Cathair mhòr, whose house held an overseer's post under the humans. The terms give the Crown a fifth of the yield. They are the humans' terms with the names changed.",
   "place": "burg:135",
   "kind": "trade"
  },
@@ -429,7 +429,7 @@
   "id": "V-0053",
   "canon": false,
   "title": "The pit towns fill",
-  "body": "Ròdaich families from the hungry east move to the vein-towns for wages. Muileann dhearg doubles in size within three years, and its hall of Feallsanachd an Fhèidh is enlarged twice in the same span.",
+  "body": "Ròdaich families from the hungry east move to the vein-towns for wages. Muileann dhearg doubles in size within three years, and its hall of Feallsanachd an Fhèidh, shut since the humans' time, is taken for a hewers' lodging and enlarged twice in the same span.",
   "place": "burg:491",
   "kind": "people"
  },
@@ -575,7 +575,7 @@
   "id": "V-0071",
   "canon": false,
   "title": "Ailean Leabhar, first keeper",
-  "body": "Ailean mac Iain, called Ailean Leabhar, is appointed the first keeper of Leabharlann Muileann chaol. He brings with him the council's minute-books and what survived of the humans' tithe ledgers, and spends his first years having them read.",
+  "body": "Ailean mac Iain, called Ailean Leabhar, is appointed the first keeper of Leabharlann Muileann chaol. He brings with him the council's minute-books and what survived of the humans' tithe ledgers, takes in the custodians' rolls kept in the town's cellars since the Severance war, and spends his first years having them read.",
   "place": "marker:34",
   "kind": "record"
  },
@@ -599,7 +599,7 @@
   "id": "V-0074",
   "canon": false,
   "title": "The bath-house at the hot springs",
-  "body": "A bath-house is built over the hot springs near Muileann ruadh, paid for by the Guild of Hewers for miners sick with the dust. The guild's sick-roll for its first year lists four hundred men by name and shift.",
+  "body": "A new bath-house is built over the hot springs near Muileann ruadh, paid for by the Guild of Hewers for miners sick with the dust. The guild's sick-roll for its first year lists four hundred men by name and shift.",
   "place": "marker:0",
   "kind": "building"
  },
@@ -607,7 +607,7 @@
   "id": "V-0075",
   "canon": false,
   "title": "The keepers of the five lights",
-  "body": "The five lighthouses built under the humans are given Ròdaich keepers by royal warrant. At Taigh-solais Baile chrom, the one beacon on the Tuathaich coast, the keeper is a Ròdaich man lodged in a Tuathaich town, and his warrant tells him to report what he sees on land as well as at sea.",
+  "body": "The five lighthouses built under the humans are given Ròdaich keepers by royal warrant. At Taigh-solais Baile chrom, on the Tuathaich coast, the keeper is a Ròdaich man lodged in a Tuathaich town, and his warrant tells him to report what he sees on land as well as at sea.",
   "place": "marker:12",
   "kind": "building"
  },
@@ -836,7 +836,7 @@
   "id": "V-0103",
   "canon": false,
   "title": "The Scorpion at Seann Bhral",
-  "body": "The house of Creideamh na Scairpe Buidhe at Seann Bhral, the oldest on the west coast, refuses to admit Tuathaich worshippers from the north who come for its feast. Its keeper says the god is the same and the house is not.",
+  "body": "The house of Creideamh na Scairpe Buidhe at Seann Bhral, one of the oldest on the west coast, refuses to admit Tuathaich worshippers from the north who come for its feast. Its keeper says the god is the same and the house is not.",
   "place": "burg:47",
   "kind": "faith"
  },
@@ -998,7 +998,7 @@
  {
   "id": "V-0123",
   "canon": false,
-  "title": "The lighthouse on the Tuathaich coast",
+  "title": "A lighthouse on the Tuathaich coast",
   "body": "The Ròdaich keeper of Taigh-solais Baile chrom reports to the council that the Grey Night cult keeps its vigil in the dark of the lighthouse's own shadow. The council takes no action.",
   "place": "marker:12",
   "kind": "faith"
@@ -1112,7 +1112,7 @@
   "id": "V-0137",
   "canon": false,
   "title": "The silver at depth",
-  "body": "The silver seam at Muileann chiar, which the Ròdaich kept from the humans, is found richer at depth than anyone expected. The town's silversmiths are chartered as a guild. Iain Mapa, working there since the Board moved him, measures the new faces.",
+  "body": "The silver seam at Muileann chiar, which the Ròdaich kept from the humans, is found richer at depth than anyone expected. The town's old silver guild takes a charter under the restored custom. Iain Mapa, working there since the Board moved him, measures the new faces.",
   "place": "marker:2",
   "kind": "craft"
  },
@@ -1234,7 +1234,7 @@
   "id": "V-0152",
   "canon": false,
   "title": "Tormod Pinn",
-  "body": "Gormshuil nic Dhùghaill lays down the office of royal chronicler. Her successor, Tormod mac Ailein, called Tormod Pinn for the speed of his hand, keeps the record for more than twenty years and writes more of it than anyone before or since.",
+  "body": "Gormshuil nic Dhùghaill lays down the office of royal chronicler. Her successor, Tormod mac Sheumais, called Tormod Pinn for the speed of his hand, keeps the record for more than twenty years and writes more of it than anyone before or since.",
   "place": "marker:34",
   "kind": "record"
  },
@@ -1323,7 +1323,7 @@
   "id": "V-0163",
   "canon": false,
   "title": "Seonaid nic Ghill-Eathain's lectures",
-  "body": "The revived school's first teacher is Seonaid nic Ghill-Eathain, who lectures in the sacred wood near Muileann chiar in the east, where the Fèidh had last met before the humans came. Her opening question is the school's oldest, put plainly: why the vein answers some hands and not others.",
+  "body": "The revived school's first teacher is Seonaid nic Ghill-Eathain, who lectures in the sacred wood near Muileann chiar in the east, where the Fèidh had last met under the humans. Her opening question is the school's oldest, put plainly: why the vein answers some hands and not others.",
   "place": "marker:23",
   "kind": "faith"
  },
@@ -1703,7 +1703,7 @@
   "id": "V-0210",
   "canon": false,
   "title": "The panthers cross the south-west",
-  "body": "A great movement of panthers crosses the south-west near Baile dhomhain. Herders lose stock for a month. Tormod Pinn records it as a thing named in the Holy Age lists and not seen since.",
+  "body": "A great movement of panthers crosses the south-west near Baile dhomhain. Herders lose stock for a month. Tormod Pinn records it as a thing named in the Holy Age lists and not seen in living memory.",
   "place": "marker:40",
   "kind": "omen"
  },
@@ -2230,7 +2230,7 @@
   "id": "V-0275",
   "canon": false,
   "title": "The Guild of Hewers dissolved",
-  "body": "The Guild of Hewers, chartered at Achadh dhomhain in the first years of the restored custom, dissolves itself. Its rolls, its oath-stone of ore and its sick-roll go to the library. Its last master, Tormod mac Coinnich, writes that the guild had outlived the mountain's patience.",
+  "body": "The Guild of Hewers, chartered at Achadh dhomhain in the first years of the restored custom, dissolves itself. Its rolls, its oath-stone of ore and its sick-roll go to the library. Its last master, Tormod mac Dhonnchaidh, writes that the guild had outlived the mountain's patience.",
   "place": "burg:135",
   "kind": "craft"
  },

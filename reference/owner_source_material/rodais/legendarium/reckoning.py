@@ -161,6 +161,31 @@ def date_age(events, first, last, years_ok, relaxed):
             continue
         anchors.append((i, max(t, anchors[-1][1])))
     anchors.append((n, max(last, anchors[-1][1])))
+    # "within": [ID, N] or [ID, N, M] -- this event falls no more than N (and at least M) years after event ID
+    # (one person's life, one reign, "the following year"): once ID has its year, everything from it up to
+    # this event is capped at that year + N, and this event is held at least M years after it
+    idx = {e.get('id'): i for i, e in enumerate(events)}
+    within = {}
+    for i, e in enumerate(events):
+        w = e.get('within')
+        if w and w[0] in idx and idx[w[0]] < i:
+            within.setdefault(idx[w[0]], []).append((i, int(w[1]), int(w[2]) if len(w) > 2 else 0))
+    cap = [None] * n
+    floor_ = [None] * n
+
+    def set_caps(i):
+        for j, span, least in within.get(i, []):
+            c = years[i] + span
+            if c < lb[j]:
+                relaxed.append('%s: within %d of %s cannot hold' % (events[j].get('id'), span, events[i].get('id')))
+                continue
+            for k in range(i + 1, j + 1):
+                cap[k] = c if cap[k] is None else min(cap[k], c)
+            if least:
+                f = years[i] + least
+                if f <= ub[j]:
+                    floor_[j] = f if floor_[j] is None else max(floor_[j], f)
+
     years = [None] * n
     prev = first
     a = 0
@@ -170,6 +195,7 @@ def date_age(events, first, last, years_ok, relaxed):
         if anchors[a + 1][0] == i and i in fixed:
             years[i] = fixed[i][0]
             prev = years[i]
+            set_caps(i)
             continue
         (i0, y0), (i1, y1) = anchors[a], anchors[a + 1]
         if i1 == i:                                    # a window's own event: aim at its middle
@@ -177,6 +203,10 @@ def date_age(events, first, last, years_ok, relaxed):
         else:
             t = y0 + (y1 - y0) * (i - i0) / float(i1 - i0)
         lo, hi = max(lb[i], prev), ub[i]
+        if floor_[i] is not None:
+            lo = max(lo, min(floor_[i], hi))
+        if cap[i] is not None and cap[i] >= lo:
+            hi = min(hi, cap[i])
         t = min(max(t, lo), hi)
         cands = [y for y in years_ok if lo <= y <= hi]
         if cands:
@@ -185,6 +215,7 @@ def date_age(events, first, last, years_ok, relaxed):
             y = nz(round(t))
         years[i] = y
         prev = y
+        set_caps(i)
     return years
 
 
@@ -195,7 +226,7 @@ def slot_hash(s):
     return h
 
 
-def month_days(years, events, months_ok, days_ok):
+def month_days(years, events, months_ok, days_ok, floor=None):
     """Day and month from the pool: shared years keep list order across the year; every event's own
     slot is chosen by a hash of its id, so dates vary instead of piling on one day."""
     n = len(events)
@@ -206,6 +237,8 @@ def month_days(years, events, months_ok, days_ok):
     for y, idxs in groups.items():
         yl = y if y > 0 else 2001
         slots = [(m, d) for m in months_ok for d in days_ok if d <= calendar.monthrange(yl, m)[1]]
+        if floor and y == floor[0]:                    # the age before ended this year: come after it
+            slots = [s_ for s_ in slots if s_ > floor[1:]] or slots[-1:]
         pinned = {i: (canon_anchor(events[i])[1], canon_anchor(events[i])[2]) for i in idxs
                   if events[i].get('canon') and canon_anchor(events[i]) and canon_anchor(events[i])[1]}
         k = len(idxs)
@@ -230,6 +263,11 @@ def month_days(years, events, months_ok, days_ok):
             if out[i0] > out[i1] and i0 not in pinned:
                 earlier = [s for s in slots if s <= out[i1]]
                 out[i0] = earlier[-1] if earlier else out[i1]
+    # "first_of_year": the earliest day the pool gives in its year (an age that closes early in a year)
+    for i in range(n):
+        if events[i].get('first_of_year'):
+            yl = years[i] if years[i] > 0 else 2001
+            out[i] = min((m, d) for m in months_ok for d in days_ok if d <= calendar.monthrange(yl, m)[1])
     # "same_day": the writers say this happened on the day of the event before it
     for i in range(1, n):
         if events[i].get('same_day') and years[i] == years[i - 1]:
@@ -245,6 +283,7 @@ def main():
     if len(months_ok) < 12 or len(days_ok) < 31:
         print('warning: the pool makes only months %s and days %s' % (months_ok, days_ok))
     all_dated = []
+    floor = None
     for key, first, last in AGES:
         path = os.path.join(HERE, 'annals', 'age_%s.json' % key)
         if not os.path.exists(path):
@@ -254,7 +293,15 @@ def main():
         years_ok = reachable_years(album_years, first, last)
         relaxed = []
         years = date_age(events, first, last, years_ok, relaxed)
-        mds = month_days(years, events, months_ok, days_ok)
+        mds = month_days(years, events, months_ok, days_ok, floor)
+        # "eve": the night before the next event (the day before it, even across the turn of a year)
+        for i in range(len(events) - 1):
+            if events[i].get('eve'):
+                import datetime
+                ny, (nm, nd) = years[i + 1], mds[i + 1]
+                prev = datetime.date(ny if ny > 0 else 2001, nm, nd) - datetime.timedelta(days=1)
+                py = ny if prev.year == (ny if ny > 0 else 2001) else (ny - 1 if ny - 1 != 0 else -1)
+                years[i], mds[i] = py, (prev.month, prev.day)
         dated = [dict(e, y=y, m=md[0], d=md[1], date=display(y, md[0], md[1])) for e, y, md in zip(events, years, mds)]
         if relaxed:
             print('  Age %s: %d writer windows dropped (they contradicted the list order): %s' % (key, len(relaxed), ', '.join(relaxed[:12])))
@@ -264,6 +311,7 @@ def main():
         for a, b in zip(dated, dated[1:]):
             assert (a['y'], a['m'], a['d']) <= (b['y'], b['m'], b['d']), (a['id'], b['id'])
         all_dated.extend(dated)
+        floor = (dated[-1]['y'], dated[-1]['m'], dated[-1]['d'])
         print('Age %-3s %4d events  %s .. %s   (%d years reachable)' % (key, len(dated), dated[0]['date'], dated[-1]['date'], len(years_ok)))
     json.dump(all_dated, open(os.path.join(HERE, 'annals_dated.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('annals_dated.json:', len(all_dated), 'events')

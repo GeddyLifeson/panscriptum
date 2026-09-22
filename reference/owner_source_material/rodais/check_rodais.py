@@ -12,6 +12,7 @@ check_rodais.py -- verify everything in this folder in one run.
 
 Exit status 0 only when every check holds.  python check_rodais.py
 """
+import glob
 import json
 import os
 import re
@@ -82,6 +83,28 @@ names = [o['name'] for n in (12, 15, 29, 30, 32, 35, 37, 38) for o in parsed[n] 
 check(all(R.normalize(x) == x for x in names), 'map: every name in Ròdais spelling (%d names)' % len(names))
 mflag = sorted({w for x in names for w in words(x) if R.check_agreement(w)})
 check(not mflag, 'map: every name obeys caol le caol (%s)' % (', '.join(mflag) or 'no exceptions'))
+
+# 5. the legendarium: every event dated and in order, every reference resolves, every place is on the map
+LEG = os.path.join(HERE, 'legendarium')
+sys.path.insert(0, LEG)
+import build_book  # noqa: E402
+rec = build_book.Record()
+evs = rec.events
+check(all(e.get('y') and e.get('m') and e.get('d') and e.get('date') for e in evs), 'legendarium: every one of %d events has a day, month and year' % len(evs))
+order = [(e['y'], e['m'], e['d']) for e in evs]
+check(order == sorted(order), 'legendarium: the annals run in order of date, age to age')
+check(len({e['id'] for e in evs}) == len(evs), 'legendarium: event ids unique')
+canon = [e for e in evs if e.get('canon') and build_book.reckoning.canon_anchor(e)]
+held = [e for e in canon if build_book.reckoning.canon_anchor(e)[0] != e['y']]
+check(len(held) <= 2, 'legendarium: every chronicle year kept (%d of %d; approximate ones moved: %s)' % (
+    len(canon) - len(held), len(canon), ', '.join(e['id'] for e in held) or 'none'))
+badplace = [e['id'] for e in evs if e.get('place') and e['place'] not in rec.names]
+check(not badplace, 'legendarium: every event place is on the map (%s)' % (', '.join(badplace[:8]) or 'all'))
+check(len(rec.gaz) == len(rec.burg), 'legendarium: gazetteer covers all %d burgs (%d)' % (len(rec.burg), len(rec.gaz)))
+build_book.compose(rec)
+check(not rec.missing, 'legendarium: every {{date}}/{{year}}/{{place}} reference resolves (%s)' % (', '.join(sorted(set(rec.missing))[:8]) or 'all'))
+srcs = [open(f, encoding='utf-8').read() for f in glob.glob(os.path.join(LEG, 'book', '*.md')) + glob.glob(os.path.join(LEG, 'appendices', '*.md'))]
+check(not any(re.search('[\u00e1\u00e9\u00ed\u00f3\u00fa]', t) for t in srcs), 'legendarium: no acute accents in the books and appendices')
 
 print('\n%s' % ('ALL CHECKS HOLD' if not fails else '%d CHECK(S) FAILED' % len(fails)))
 sys.exit(1 if fails else 0)

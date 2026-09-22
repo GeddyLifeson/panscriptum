@@ -36,7 +36,7 @@
   "id": "IV-0005",
   "canon": false,
   "title": "The Council of Custodians grants leave",
-  "body": "The Council of Custodians at Cathair dhearg, under the high custodian Tormod mac Ailein, confirms the strangers' leave to stay. The council roll records the vote as unanimous; a later hand has written in the margin that three custodians were absent.",
+  "body": "The Council of Custodians at Cathair dhearg, which has sat in the crown's place since the crown fell vacant at the close of the Sundering age, under the high custodian Tormod mac Ailein, confirms the strangers' leave to stay. The council roll records the vote as unanimous; a later hand has written in the margin that three custodians were absent.",
   "place": "burg:19",
   "kind": "law"
  },
@@ -199,7 +199,7 @@
   "id": "IV-0025",
   "canon": false,
   "title": "A supply ship lost on the western reefs",
-  "body": "A human supply ship strikes the reefs off the western coast in fog, and nine of her crew drown. Her master had been sailing by a chart drawn from memory, the humans' letter-books complain, on a coast without a single light.",
+  "body": "A human supply ship strikes the reefs off the western coast in fog, and nine of her crew drown. Her master had been sailing by a chart drawn from memory, the humans' letter-books complain, on a coast lit only by the old driftwood fires.",
   "place": "feature:1",
   "kind": "voyage"
  },
@@ -216,7 +216,7 @@
   "id": "IV-0027",
   "canon": false,
   "title": "Surveying the beacon headlands",
-  "body": "The human navigator James Fenn and the Ròdaich mason Ailean Clachair walk the coast together to choose sites for the beacons. They mark five headlands. Fenn's chart survives; Ailean's cairns mostly do not.",
+  "body": "The human navigator James Fenn and the Ròdaich mason Torcall Clachair walk the coast together to choose sites for the new beacons. They mark the five headlands of the old fires. Fenn's chart survives; Torcall's cairns mostly do not.",
   "place": "marker:16",
   "kind": "building"
  },
@@ -224,7 +224,7 @@
   "id": "IV-0028",
   "canon": false,
   "title": "A marriage in two tongues",
-  "body": "At Baile dhìreach the net-maker Eilidh nic Iain marries the human cooper Samuel Hale. The council enters the marriage in both its books, and the custodians at Cathair dhearg, asked for a ruling, send none.",
+  "body": "At Baile dhìreach the net-maker Eilidh nic Ruairidh marries the human cooper Samuel Hale. The council enters the marriage in both its books, and the custodians at Cathair dhearg, asked for a ruling, send none.",
   "place": "burg:105",
   "kind": "people"
  },
@@ -370,8 +370,8 @@
  {
   "id": "IV-0046",
   "canon": false,
-  "title": "Beathag Ruadh of Doire mhòr",
-  "body": "The settlement that refused was Doire mhòr, in the hills above Muileann chrom, and its custodian was Beathag Ruadh. Her answer to the Company's agent survives only in his paraphrase: that the hill was not hers to sell and not his to buy.",
+  "title": "Beathag Dhubh of Doire mhòr",
+  "body": "The settlement that refused was Doire mhòr, in the hills above Muileann chrom, and its custodian was Beathag Dhubh. Her answer to the Company's agent survives only in his paraphrase: that the hill was not hers to sell and not his to buy.",
   "place": "burg:101",
   "kind": "people"
  },
@@ -387,7 +387,7 @@
   "id": "IV-0048",
   "canon": false,
   "title": "Taigh-solais Tobar dhearg lit",
-  "body": "The first beacon is finished on the southern headland at Tobar dhearg, a round tower of grey stone with a Ròdaich keeper, paid for by the Company. Ailean Clachair builds it; James Fenn sets its lens.",
+  "body": "The first of the new beacons is finished on the southern headland at Tobar dhearg, a round tower of grey stone raised over the old fire-tower, with a Ròdaich keeper, paid for by the Company. Torcall Clachair builds it; James Fenn sets its lens.",
   "place": "marker:16",
   "kind": "building"
  },
@@ -459,8 +459,8 @@
  {
   "id": "IV-0057",
   "canon": false,
-  "title": "Drochaid Cathair dhearg in stone",
-  "body": "Company masons replace the timber bridge over Abhainn dhomhain at Cathair dhearg with one of dressed stone, wide enough for ore-carts to pass two abreast.",
+  "title": "Drochaid Cathair dhearg rebuilt",
+  "body": "Company masons rebuild the old stone bridge over Abhainn dhomhain at Cathair dhearg in dressed stone, wide enough for ore-carts to pass two abreast.",
   "place": "marker:3",
   "kind": "building"
  },
@@ -492,7 +492,7 @@
   "id": "IV-0061",
   "canon": false,
   "title": "Death of Tormod mac Ailein",
-  "body": "The high custodian who signed the first treaty dies at Cathair dhearg. The council chooses Coinneach Bàn of Ceann àrsaidh to follow him, a man who had never met a human before the Crossing and had dealt with little else since.",
+  "body": "The high custodian who signed the first treaty dies at Cathair dhearg. The council chooses Coinneach Glas of Ceann àrsaidh to follow him, a man who had never met a human before the Crossing and had dealt with little else since.",
   "place": "burg:19",
   "kind": "death"
  },
@@ -549,7 +549,7 @@
   "id": "IV-0068",
   "canon": false,
   "title": "Burning by the cartload",
-  "body": "The Company's furnaces at Muileann chrom burn ore by the cartload to drive the new pumps, and the custodians' tally of what the hill may give in a year is not consulted. Coinneach Bàn's council asks for the tally to be observed and receives a copy of the Company's accounts instead.",
+  "body": "The Company's furnaces at Muileann chrom burn ore by the cartload to drive the new pumps, and the custodians' tally of what the hill may give in a year is not consulted. Coinneach Glas's council asks for the tally to be observed and receives a copy of the Company's accounts instead.",
   "place": "burg:354",
   "kind": "trade"
  },
@@ -606,7 +606,7 @@
   "id": "IV-0075",
   "canon": false,
   "title": "Taigh-solais Baile ìseal lit",
-  "body": "The second beacon is lit on the eastern shore at Baile ìseal. Ailean Clachair, too old now to climb, directs its building from a chair at the foot of the headland.",
+  "body": "The second beacon is lit on the eastern shore at Baile ìseal. Torcall Clachair, too old now to climb, directs its building from a chair at the foot of the headland.",
   "place": "marker:13",
   "kind": "building"
  },
@@ -630,7 +630,7 @@
   "id": "IV-0078",
   "canon": false,
   "title": "Doire mhòr's water taken",
-  "body": "The Company diverts the stream that watered Doire mhòr to wash ore at Cnoc fhiadhaich. No order is recorded; the stream is simply dammed one season and not released. Beathag Ruadh's people carry water by hand for two summers and then begin to leave.",
+  "body": "The Company diverts the stream that watered Doire mhòr to wash ore at Cnoc fhiadhaich. No order is recorded; the stream is simply dammed one season and not released. Beathag Dhubh's people carry water by hand for two summers and then begin to leave.",
   "place": "burg:101",
   "kind": "law"
  },
@@ -710,8 +710,8 @@
  {
   "id": "IV-0088",
   "canon": false,
-  "title": "An Taigh-seinnse Mòr opens",
-  "body": "A carters' house is built at the halfway stage of the ore road between the capital and the hills, and becomes An Taigh-seinnse Mòr. Its first keeper, Seònaid Bhàn, takes both marks and barter and is the only innkeeper on the road who will.",
+  "title": "An Taigh-seinnse Mòr reopens",
+  "body": "The old carters' house at the halfway stage of the ore road between the capital and the hills is rebuilt, and keeps the name An Taigh-seinnse Mòr. Its first keeper, Seònaid Bhàn, takes both marks and barter and is the only innkeeper on the road who will.",
   "place": "marker:10",
   "kind": "building"
  },
@@ -824,8 +824,8 @@
  {
   "id": "IV-0102",
   "canon": false,
-  "title": "Sìleas nic Choinnich and the silver guild",
-  "body": "The silver seam was held for the town by its guild of refiners, and the guild was led by Sìleas nic Choinnich. When the Company's surveyors came she met them at the adit with the guild's whole membership and the guild's ledgers, and asked them to find the humans' name anywhere in either.",
+  "title": "Ùna nic Choinnich and the silver guild",
+  "body": "The silver seam was held for the town by its guild of refiners, and the guild was led by Ùna nic Choinnich. When the Company's surveyors came she met them at the adit with the guild's whole membership and the guild's ledgers, and asked them to find the humans' name anywhere in either.",
   "place": "marker:2",
   "kind": "people"
  },
@@ -857,7 +857,7 @@
   "id": "IV-0106",
   "canon": false,
   "title": "Taigh-solais Àth dhearg lit",
-  "body": "The third beacon is lit on the north-east coast at Àth dhearg. Its keeper, Tormod mac Iain, keeps a daybook of every ship he sees, and it is from his book that the number of human sailings in these years is known.",
+  "body": "The third beacon is lit on the north-east coast at Àth dhearg. Its keeper, Tormod mac Pheadair, keeps a daybook of every ship he sees, and it is from his book that the number of human sailings in these years is known.",
   "place": "marker:15",
   "kind": "building"
  },
@@ -865,7 +865,7 @@
   "id": "IV-0107",
   "canon": false,
   "title": "Àth dhearg builds the tower",
-  "body": "The masons of the beacon at Àth dhearg are townsmen of Àth dhearg, paid half in marks and half in the promise that the tower will guide their own boats home. Tormod mac Iain, the keeper, is one of them.",
+  "body": "The masons of the beacon at Àth dhearg are townsmen of Àth dhearg, paid half in marks and half in the promise that the tower will guide their own boats home. Tormod mac Pheadair, the keeper, is one of them.",
   "place": "burg:258",
   "kind": "people"
  },
@@ -994,7 +994,7 @@
   "id": "IV-0123",
   "canon": false,
   "title": "Drochaid Ros fhionn",
-  "body": "The Company builds a bridge over the river at Ros fhionn to carry the eastern ore road. For as long as the carts run, it is the busiest crossing on that side of the island.",
+  "body": "The Company rebuilds the old bridge over the river at Ros fhionn to carry the eastern ore road. For as long as the carts run, it is the busiest crossing on that side of the island.",
   "place": "marker:4",
   "kind": "building"
  },
@@ -1155,7 +1155,7 @@
   "id": "IV-0143",
   "canon": false,
   "title": "The silver guild refuses again",
-  "body": "A Company agent, Martha Gale, offers the silver guild of Muileann chiar a partnership, on terms the guild's ledger calls generous. Sìleas nic Choinnich, now very old, has the offer read aloud twice in the guild hall and then refused by show of hands.",
+  "body": "A Company agent, Martha Gale, offers the silver guild of Muileann chiar a partnership, on terms the guild's ledger calls generous. Ùna nic Choinnich, now very old, has the offer read aloud twice in the guild hall and then refused by show of hands.",
   "place": "marker:2",
   "kind": "trade"
  },
@@ -1246,7 +1246,7 @@
   "id": "IV-0154",
   "canon": false,
   "title": "Twenty-six settlements",
-  "body": "The sickness spreads along the ore roads to Muileann chrom, Baile dhomhain, Àth ìseal, Cnoc fhiadhaich and Seann Toll, and from there to the coast. The custodians' roll lists the twenty-six settlements that record cases and leaves a blank line after the last, as if expecting another.",
+  "body": "The sickness spreads along the ore roads from the camps at Muileann chrom, Àth ìseal and Cnoc fhiadhaich, and falls hardest on Ros dhìreach, Ceann òg, Inis ìseal, Baile dhomhain, Achadh fhada, Cnoc bheag, Muileann uaine, Cuan àrsaidh and Inis bhàn. The custodians' roll lists the twenty-six settlements that record cases and leaves a blank line after the last, as if expecting another.",
   "place": "zone:0",
   "kind": "disaster"
  },
@@ -1375,7 +1375,7 @@
   "id": "IV-0170",
   "canon": false,
   "title": "The springs at Muileann ruadh",
-  "body": "The Administration builds a bath-house at the hot springs near Muileann ruadh for officials recovering from fevers. Ròdaich who had bathed there for centuries are admitted on certain days and charged a penny.",
+  "body": "The Administration builds a new bath-house at the hot springs near Muileann ruadh for officials recovering from fevers. Ròdaich who had bathed there for centuries are admitted on certain days and charged a penny.",
   "place": "marker:0",
   "kind": "building"
  },
@@ -1415,7 +1415,7 @@
  {
   "id": "IV-0175",
   "canon": false,
-  "title": "The Black Unicorn blesses the coin",
+  "title": "The Dark Unicorn blesses the coin",
   "body": "The priests of Creideamh an Aon-adharcaich Dhuibh at Cathair dhearg, the capital's own faith, bless the Residency's new coin at Tolley's request. The dualist priesthood teaches that the dark and the light each have their due; the dissenting priests say the coin is only one of them.",
   "place": "burg:19",
   "kind": "faith"
@@ -1449,7 +1449,7 @@
   "id": "IV-0179",
   "canon": false,
   "title": "The dissenters go to Cnoc bheag",
-  "body": "Priests of the Black Unicorn who refused the blessing leave the capital's temple and settle in the sacred forest at Cnoc bheag. Their community there keeps the older reading of the dual faith, and becomes a place where custodians who have lost their seats are received.",
+  "body": "Priests of the Dark Unicorn who refused the blessing leave the capital's temple and settle in the sacred forest at Cnoc bheag. Their community there keeps the older reading of the dual faith, and becomes a place where custodians who have lost their seats are received.",
   "place": "marker:24",
   "kind": "faith"
  },
@@ -1774,7 +1774,7 @@
   "id": "IV-0219",
   "canon": false,
   "title": "The dry country",
-  "body": "Ten districts of the east are counted as drought country by the custodians' roll, from Achadh shean down to Cuan ruadh and west toward Baile chaol. The Administration keeps no count of its own.",
+  "body": "Ten districts of the east are counted as drought country by the custodians' roll, worst at Achadh shean, Àth uaine, Achadh àrsaidh and Muileann chiar, and reaching down to Cuan ruadh and west toward Baile chaol. The Administration keeps no count of its own.",
   "place": "zone:2",
   "kind": "disaster"
  },
@@ -1871,7 +1871,7 @@
   "id": "IV-0231",
   "canon": false,
   "title": "The case of Thomas Hale",
-  "body": "The child in the case was Thomas Hale, a grandson of the Baile dhìreach marriage of Eilidh nic Iain and Samuel Hale, who claimed a share in a customary cutting through his Ròdaich grandmother. The magistrate at Ros dhomhain, Oliver Dunstan, ruled that customary rights descend only through the line the Administration recognizes, and that it recognizes only its own.",
+  "body": "The child in the case was Thomas Hale, a grandson of the Baile dhìreach marriage of Eilidh nic Ruairidh and Samuel Hale, who claimed a share in a customary cutting through his Ròdaich grandmother. The magistrate at Ros dhomhain, Oliver Dunstan, ruled that customary rights descend only through the line the Administration recognizes, and that it recognizes only its own.",
   "place": "burg:27",
   "kind": "law"
  },
@@ -2009,7 +2009,7 @@
   "id": "IV-0248",
   "canon": false,
   "title": "The custodians' records at Muileann chaol",
-  "body": "The custodians of the east begin sending copies of their rolls to the town of Muileann chaol for safekeeping, away from the Residency's reach. The copying is done in the houses of three families and kept in a cellar.",
+  "body": "The custodians of the east begin sending copies of their rolls to the town of Muileann chaol, which still kept Beathag nic Thòmais's loft of papers, for safekeeping, away from the Residency's reach. The copying is done in the houses of three families and kept in a cellar.",
   "place": "burg:246",
   "kind": "culture"
  },
@@ -2465,7 +2465,7 @@
   "id": "IV-0300",
   "canon": false,
   "title": "Seònaid's house",
-  "body": "An Taigh-seinnse Mòr, the carters' house on the ore road opened by Seònaid Bhàn in the early years of the extraction, is kept now by her great-grandson Aonghas. It is the busiest of the fortified houses, and the one the constables search most often and find least in.",
+  "body": "An Taigh-seinnse Mòr, the carters' house on the ore road reopened by Seònaid Bhàn in the early years of the extraction, is kept now by her great-grandson Aonghas. It is the busiest of the fortified houses, and the one the constables search most often and find least in.",
   "place": "marker:10",
   "kind": "people"
  },
@@ -2538,7 +2538,7 @@
   "id": "IV-0309",
   "canon": false,
   "title": "Beacon hill at Doire mhòr",
-  "body": "Doire mhòr, which had refused the first contract and then lost its water, has by now only a few households. The beacon of the stoppage was lit on its hill by the descendants of Beathag Ruadh's people, and the constables burn the hill's heather to deny it to them.",
+  "body": "Doire mhòr, which had refused the first contract and then lost its water, has by now only a few households. The beacon of the stoppage was lit on its hill by the descendants of Beathag Dhubh's people, and the constables burn the hill's heather to deny it to them.",
   "place": "burg:101",
   "kind": "people"
  },
@@ -2587,7 +2587,7 @@
   "id": "IV-0315",
   "canon": false,
   "title": "The council locked out",
-  "body": "Strake has the council hall at Cathair dhearg locked and its keys lodged at the Residency. The custodians meet instead in the Black Unicorn's temple, whose priests, who had blessed the humans' coin, now shelter those who had petitioned against it.",
+  "body": "Strake has the council hall at Cathair dhearg locked and its keys lodged at the Residency. The custodians meet instead in the Dark Unicorn's temple, whose priests, who had blessed the humans' coin, now shelter those who had petitioned against it.",
   "place": "burg:19",
   "kind": "law"
  },
@@ -2644,7 +2644,7 @@
   "id": "IV-0322",
   "canon": false,
   "title": "The council at Cnoc bheag forest",
-  "body": "Custodians, crew-leaders of the Lamp-Watch and the dissenting priests of the Black Unicorn meet in the sacred forest at Cnoc bheag and form a single council for the mining regions. Eilidh nic Raghnaill is chosen to speak for it. The meeting is not recorded by any human source.",
+  "body": "Custodians, crew-leaders of the Lamp-Watch and the dissenting priests of the Dark Unicorn meet in the sacred forest at Cnoc bheag and form a single council for the mining regions. Eilidh nic Raghnaill is chosen to speak for it. The meeting is not recorded by any human source.",
   "place": "marker:24",
   "kind": "faith"
  },
@@ -3089,6 +3089,7 @@
   "body": "The war ends with the crossing itself closed. Whatever let humans reach Rodos shuts. The humans still on the island are shepherded to the northern territory their descendants hold today. Cian and Lorccan, not yet twenty, grow up in its immediate wake.",
   "place": null,
   "kind": "war",
-  "canon_date": "c. 1930 DE"
+  "canon_date": "c. 1930 DE",
+  "first_of_year": true
  }
 ]

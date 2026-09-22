@@ -16,7 +16,7 @@
   "id": "III-0002",
   "canon": false,
   "title": "The report heard at Cathair dhearg",
-  "body": "The report of the far land is repeated in Queen Beathag nic Dhòmhnaill's hall at Cathair dhearg by three separate crews from the western harbours, none of whom claims to have been first. The queen's scribe takes down all three accounts and notes that they agree on the coast and on nothing else.",
+  "body": "The report of the far land is repeated at Cathair dhearg in the hall of Queen Beathag nic Dhòmhnaill, daughter of Mòr nic Coinnich, by three separate crews from the western harbours, none of whom claims to have been first. The queen's scribe takes down all three accounts and notes that they agree on the coast and on nothing else.",
   "place": "burg:19",
   "kind": "discovery",
   "between": [
@@ -65,7 +65,7 @@
   "id": "III-0006",
   "canon": false,
   "title": "The custodians count the cost",
-  "body": "The vein-house above Muileann dhearg reckons which of the households holding the customary right to burn the ore have entered the roll. The custody-book puts it at nearly one household in five, and adds that the reckoning was made twice because the first figure was not believed.",
+  "body": "The vein-house above Muileann dhearg, heir to the Keepers' Hall at Dùn ìseal, reckons which of the households holding the customary right to burn the ore have entered the roll. The custody-book puts it at nearly one household in five, and adds that the reckoning was made twice because the first figure was not believed.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -265,7 +265,8 @@
   "between": [
    -1,
    1
-  ]
+  ],
+  "eve": true
  },
  {
   "id": "III-0023",
@@ -290,7 +291,8 @@
   "between": [
    1,
    1
-  ]
+  ],
+  "same_day": true
  },
  {
   "id": "III-0025",
@@ -408,7 +410,7 @@
   "id": "III-0034",
   "canon": false,
   "title": "The seven houses of custody",
-  "body": "The remaining custodian households are regrouped into seven houses, each answerable to the vein-house for its share of the ore and of the measured burning: Clann Dhòmhnaill, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. The division is the first in the record to treat the right to the ore as something inherited by house rather than earned by apprenticeship.",
+  "body": "The remaining custodian households are regrouped into seven houses, each answerable to the vein-house for its share of the ore and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. The division is the first in the record to treat the right to the ore as something inherited by house rather than earned by apprenticeship.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -629,7 +631,7 @@
   "id": "III-0052",
   "canon": false,
   "title": "The silversmiths of Muileann chiar",
-  "body": "The silver of the seam at Muileann chiar, mined since the Holy Age, is first worked into neck-rings for the heads of the seven houses. A smiths' fellowship forms around the seam and keeps its methods within four families.",
+  "body": "The silver of the seam at Muileann chiar, mined since the Holy Age, is worked into neck-rings for the heads of the seven houses. The smiths' fellowship of the seam, heir to Sliochd Fhearchair, closes its methods within four families.",
   "place": "marker:2",
   "kind": "craft",
   "between": [
@@ -736,8 +738,8 @@
  {
   "id": "III-0061",
   "canon": false,
-  "title": "Fearchar Òg crowned",
-  "body": "Fearchar mac Lachlainn dies and his son, called Fearchar Òg, is crowned at Cathair dhearg without dispute.",
+  "title": "Fearchar Donn crowned",
+  "body": "Fearchar mac Lachlainn dies and his son, called Fearchar Donn, is crowned at Cathair dhearg without dispute.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -749,7 +751,7 @@
   "id": "III-0062",
   "canon": false,
   "title": "Gormshuil of the Hawk",
-  "body": "At Cnoc bheag the priestess Gormshuil nic Artair teaches that the vein is Mòd, the Hungry Hawk, who must be fed the measured handful and no more, since a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers are the first house of Creideamh an t-Seabhaig.",
+  "body": "At Cnoc bheag, where the dawn-hawk rite of the Holy Age is still kept, the priestess Gormshuil nic Artair teaches that the vein is Mòd, the Hungry Hawk, who must be fed the measured handful and no more, since a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers gather the old rite into the first house of Creideamh an t-Seabhaig.",
   "place": "burg:20",
   "kind": "faith",
   "between": [
@@ -821,7 +823,7 @@
   "id": "III-0068",
   "canon": false,
   "title": "The walls of Dùn dhearg",
-  "body": "Dùn dhearg in the eastern hills is walled in stone by Clann Lachlainn, who hold the land around it. The walls are the first on the island built by a custodian house rather than the crown.",
+  "body": "Dùn dhearg in the eastern hills is walled in stone by Clann Ìomhair, who hold the land around it. The walls are the first on the island built by a custodian house rather than the crown.",
   "place": "burg:422",
   "kind": "building",
   "between": [
@@ -833,7 +835,7 @@
   "id": "III-0069",
   "canon": false,
   "title": "Queen Sìleas's measures",
-  "body": "Sìleas nic Fhearchair, crowned after her father Fearchar Òg, fixes a single measure for grain across the island, the firlot of Cathair dhearg, so that barter between shires need not begin with a quarrel over the size of a basket. Standard firlots of oak bound with iron are sent to every shire seat.",
+  "body": "Sìleas nic Fhearchair, crowned after her father Fearchar Donn, fixes a single measure for grain across the island, the firlot of Cathair dhearg, so that barter between shires need not begin with a quarrel over the size of a basket. Standard firlots of oak bound with iron are sent to every shire seat.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -1037,7 +1039,7 @@
   "id": "III-0086",
   "canon": false,
   "title": "Clach first preached at Inis thais",
-  "body": "Dòmhnall mac Ailein, a net-maker of Inis thais, preaches a single god, Clach, the Resplendent Direwolf, who keeps the island as a wolf keeps its range. His hearers are the first congregation of Creideamh a' Mhadaidh-allaidh.",
+  "body": "Dòmhnall mac Ailein, a net-maker of Inis thais, where the wolf-sworn's stone stands, gives the one god of the wolf-sworn a name, Clach, the Resplendent Direwolf, who keeps the island as a wolf keeps its range. His hearers are the first congregation of Creideamh a' Mhadaidh-allaidh.",
   "place": "burg:166",
   "kind": "faith",
   "between": [
@@ -1049,7 +1051,7 @@
   "id": "III-0087",
   "canon": false,
   "title": "The wolf-house at Inis thais",
-  "body": "Dòmhnall mac Ailein's followers raise a temple at Inis thais, the first building on the island made for a god of one name only. It is roofed with slate brought by sea from the north.",
+  "body": "Dòmhnall mac Ailein's followers raise a temple at Inis thais, the first temple on the island raised to Clach by name. It is roofed with slate brought by sea from the north.",
   "place": "burg:166",
   "kind": "building",
   "between": [
@@ -1073,7 +1075,7 @@
   "id": "III-0089",
   "canon": false,
   "title": "The Dark Unicorn at court",
-  "body": "King Aonghas takes up the teaching of Uallach, the Dark Unicorn, which holds that light and dark are two powers in balance and that the vein belongs to both. The court follows him, and Creideamh an Aon-adharcaich Dhuibh becomes the faith of Cathair dhearg.",
+  "body": "King Aonghas takes up the wood-watchers' teaching of Uallach, the Dark Unicorn, which holds that light and dark are two powers in balance and that the vein belongs to both. The court follows him, and Creideamh an Aon-adharcaich Dhuibh becomes the faith of Cathair dhearg.",
   "place": "burg:19",
   "kind": "faith",
   "between": [
@@ -1193,7 +1195,7 @@
   "id": "III-0099",
   "canon": false,
   "title": "The bell-founders of Muileann naomh",
-  "body": "A family at Muileann naomh casts the first bronze bell on Rodos for its hawk-house. The bell cracks in its first frost, and the second holds.",
+  "body": "A family at Muileann naomh casts the first bronze bell on Rodos hung in a hawk-house. The bell cracks in its first frost, and the second holds.",
   "place": "burg:326",
   "kind": "craft",
   "between": [
@@ -1266,7 +1268,7 @@
   "canon": false,
   "title": "Seann Warr shuts its gates",
   "body": "Seann Warr, the port nearest the capital on the west, closes its gates to all three claimants and declares for none. It is besieged twice in the war and taken by neither.",
-  "place": "burg:95",
+  "place": "burg:64",
   "kind": "war",
   "between": [
    513,
@@ -1348,8 +1350,8 @@
  {
   "id": "III-0112",
   "canon": false,
-  "title": "Catrìona Mhòr crowned",
-  "body": "Catrìona nic Aonghais is crowned at Cathair dhearg and is known after as Catrìona Mhòr. The War of the Three Claimants ends with her crowning, having lasted about a decade.",
+  "title": "Catrìona Bhuadhach crowned",
+  "body": "Catrìona nic Aonghais is crowned at Cathair dhearg and is known after as Catrìona Bhuadhach. The War of the Three Claimants ends with her crowning, having lasted about a decade.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1361,7 +1363,7 @@
   "id": "III-0113",
   "canon": false,
   "title": "The ruling of the hearth",
-  "body": "Catrìona Mhòr and the vein-house fix in law that no claimant, house or king may withhold the measured handful from any lawful hearth. It is the first law in the record written to bind the custodians themselves.",
+  "body": "Catrìona Bhuadhach and the vein-house fix in law that no claimant, house or king may withhold the measured handful from any lawful hearth. It is the first law in the record written to bind the custodians themselves.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -1386,7 +1388,7 @@
   "canon": false,
   "title": "Seann Warr's gates honoured",
   "body": "Queen Catrìona grants Seann Warr the right to keep its own gates and levy its own tolls, in memory of its standing aside in the war. The grant is cut over the landward gate.",
-  "place": "burg:95",
+  "place": "burg:64",
   "kind": "building",
   "between": [
    535,
@@ -1396,8 +1398,8 @@
  {
   "id": "III-0116",
   "canon": false,
-  "title": "Death of Catrìona Mhòr",
-  "body": "Catrìona Mhòr dies at Cathair dhearg. Her son Lachlann mac Iain is crowned, and the houses swear to him in one day, which the record remarks on.",
+  "title": "Death of Catrìona Bhuadhach",
+  "body": "Catrìona Bhuadhach dies at Cathair dhearg. Her son Lachlann mac Iain is crowned, and the houses swear to him in one day, which the record remarks on.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1445,7 +1447,7 @@
   "id": "III-0120",
   "canon": false,
   "title": "The Yellow Scorpion preached at Seann Skell",
-  "body": "At Seann Skell a preacher named Mànas mac Ruairidh proclaims Cnut, the Yellow Scorpion, as the one god, and teaches that Cnut closed the western sea behind the fleet and that it must not be tried again. His hearers are the first congregation of Creideamh na Scairpe Buidhe.",
+  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, a preacher named Mànas mac Ruairidh proclaims its one power as Cnut, the Yellow Scorpion, and teaches that Cnut closed the western sea behind the fleet and that it must not be tried again. His hearers are the first congregation of Creideamh na Scairpe Buidhe.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -1457,7 +1459,7 @@
   "id": "III-0121",
   "canon": false,
   "title": "Death of Lachlann mac Iain",
-  "body": "Lachlann mac Iain, son of Catrìona Mhòr, dies at Cathair dhearg, and his daughter Anna is crowned. The record calls his reign quiet and means it as praise.",
+  "body": "Lachlann mac Iain, son of Catrìona Bhuadhach, dies at Cathair dhearg, and his daughter Anna is crowned. The record calls his reign quiet and means it as praise.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1565,7 +1567,7 @@
   "id": "III-0130",
   "canon": false,
   "title": "The bath-house at the hot springs",
-  "body": "Clann Choinnich builds a bath-house of dressed stone over the hot springs of Fuarain Theth Muileann ruadh and admits the sick of any house on one day in seven. The house's physicians keep a book of cures that is later lost.",
+  "body": "Clann Choinnich rebuilds the old bath-house over the hot springs of Fuarain Theth Muileann ruadh in dressed stone and admits the sick of any house on one day in seven. The house's physicians keep a book of cures that is later lost.",
   "place": "marker:0",
   "kind": "building",
   "between": [
@@ -1793,7 +1795,7 @@
   "id": "III-0149",
   "canon": false,
   "title": "The stair at Toll-dubh",
-  "body": "Quarrymen north of the capital break into a cave, Toll-dubh, and find a stair cut into the rock going down beyond their lamps. The custodians of the vein-house have the entrance walled up; the one quarryman who went down is not recorded as saying what he saw.",
+  "body": "Quarrymen north of the capital break into Toll-dubh, the shaft of the old tellings, long lost, and find a stair cut into the rock going down beyond their lamps. The custodians of the vein-house have the entrance walled up; the one quarryman who went down is not recorded as saying what he saw.",
   "place": "marker:19",
   "kind": "discovery",
   "between": [
@@ -1924,8 +1926,8 @@
  {
   "id": "III-0160",
   "canon": false,
-  "title": "Queen Beathag Ruadh's closing of the roads",
-  "body": "Beathag Ruadh, crowned after her mother Mòrag, closes the coast road between Seann Bhral and Muileann dhomhain and sets reeves at the fords to turn back travellers. The cough goes no further west.",
+  "title": "Queen Beathag Fhionn's closing of the roads",
+  "body": "Beathag Fhionn, crowned after her mother Mòrag, closes the coast road between Seann Bhral and Muileann dhomhain and sets reeves at the fords to turn back travellers. The cough goes no further west.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -1960,8 +1962,8 @@
  {
   "id": "III-0163",
   "canon": false,
-  "title": "Death of Queen Beathag Ruadh",
-  "body": "Queen Beathag Ruadh, who closed the coast road against the cough, dies at Cathair dhearg. Her son Ailean is crowned, the first of four kings of that name in the house of Raghnall.",
+  "title": "Death of Queen Beathag Fhionn",
+  "body": "Queen Beathag Fhionn, who closed the coast road against the cough, dies at Cathair dhearg. Her son Ailean is crowned, the first of four kings of that name in the house of Raghnall.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2117,7 +2119,7 @@
   "id": "III-0176",
   "canon": false,
   "title": "Death of King Ailean mac Raghnaill",
-  "body": "King Ailean mac Raghnaill dies at Cathair dhearg, leaving two sons of different mothers, Iain Dubh and Alasdair Bàn, each of whom has been told he is the heir.",
+  "body": "King Ailean mac Raghnaill dies at Cathair dhearg, leaving two sons of different mothers, Iain Ciar and Alasdair Bàn, each of whom has been told he is the heir.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -2129,7 +2131,7 @@
   "id": "III-0177",
   "canon": false,
   "title": "The battle of Cnoc naomh",
-  "body": "The brothers' war opens when Alasdair Bàn's men seize Cnoc naomh and Iain Dubh retakes it. The houses divide, four to three, and Cogadh nam Bràithrean, the Brothers' War, is named from this battle.",
+  "body": "The brothers' war opens when Alasdair Bàn's men seize Cnoc naomh and Iain Ciar retakes it. The houses divide, four to three, and Cogadh nam Bràithrean, the Brothers' War, is named from this battle.",
   "place": "burg:318",
   "kind": "war",
   "between": [
@@ -2153,7 +2155,7 @@
   "id": "III-0179",
   "canon": false,
   "title": "The battle of Muileann ghlas",
-  "body": "Iain Dubh defeats Alasdair Bàn below Muileann ghlas. Alasdair is taken alive, and his captains are allowed to go home.",
+  "body": "Iain Ciar defeats Alasdair Bàn below Muileann ghlas. Alasdair is taken alive, and his captains are allowed to go home.",
   "place": "burg:360",
   "kind": "battle",
   "between": [
@@ -2165,7 +2167,7 @@
   "id": "III-0180",
   "canon": false,
   "title": "The brothers' peace at An Taigh-seinnse Mòr",
-  "body": "The brothers make peace at An Taigh-seinnse Mòr, on neutral ground between their lands. Alasdair Bàn gives up his claim and receives the lordship of Seann Chwen for life. Iain Dubh is crowned.",
+  "body": "The brothers make peace at An Taigh-seinnse Mòr, on neutral ground between their lands. Alasdair Bàn gives up his claim and receives the lordship of Seann Chwen for life. Iain Ciar is crowned.",
   "place": "marker:10",
   "kind": "law",
   "between": [
@@ -2188,8 +2190,8 @@
  {
   "id": "III-0182",
   "canon": false,
-  "title": "Iain Dubh's grain law",
-  "body": "King Iain Dubh orders that every shire seat keep a year's grain in store against the next war, having seen Ceann mhin beg its bread. The law is enforced for as long as he lives.",
+  "title": "Iain Ciar's grain law",
+  "body": "King Iain Ciar orders that every shire seat keep a year's grain in store against the next war, having seen Ceann mhin beg its bread. The law is enforced for as long as he lives.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -2201,7 +2203,7 @@
   "id": "III-0183",
   "canon": false,
   "title": "The account of the Brothers' War",
-  "body": "A clerk of King Iain Dubh, Pàdraig mac Ruairidh, writes the account of the Brothers' War. It praises the king at every turn and is the only account that survives, which later readers have found inconvenient.",
+  "body": "A clerk of King Iain Ciar, Pàdraig mac Ruairidh, writes the account of the Brothers' War. It praises the king at every turn and is the only account that survives, which later readers have found inconvenient.",
   "place": "burg:19",
   "kind": "record",
   "between": [
@@ -2224,8 +2226,8 @@
  {
   "id": "III-0185",
   "canon": false,
-  "title": "Death of Iain Dubh",
-  "body": "King Iain Dubh dies at Cathair dhearg. His grain law lapses within a few years of his death, as he had foreseen in a note in his own hand.",
+  "title": "Death of Iain Ciar",
+  "body": "King Iain Ciar dies at Cathair dhearg. His grain law lapses within a few years of his death, as he had foreseen in a note in his own hand.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2369,7 +2371,7 @@
   "id": "III-0197",
   "canon": false,
   "title": "The oath of the seven",
-  "body": "Queen Catrìona Bheag has the heads of the seven houses swear to the ruling of the hearth in her presence, the first renewal of the oath since Catrìona Mhòr. Clann Choinnich swears last.",
+  "body": "Queen Catrìona Bheag has the heads of the seven houses swear to the ruling of the hearth in her presence, the first renewal of the oath since Catrìona Bhuadhach. Clann Choinnich swears last.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -2393,7 +2395,7 @@
   "id": "III-0199",
   "canon": false,
   "title": "The eastern Toll-dubh",
-  "body": "Charcoal-burners in the east find a second cave also called Toll-dubh, with the same cut stair as the one walled up in the west. The custodians wall this one too, and the two entries in the custody-book are cross-referenced by the scribe.",
+  "body": "Charcoal-burners in the east find again the eastern Toll-dubh of the old tellings, with the same cut stair as the one walled up in the west. The custodians wall this one too, and the two entries in the custody-book are cross-referenced by the scribe.",
   "place": "marker:20",
   "kind": "discovery",
   "between": [

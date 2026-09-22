@@ -1973,7 +1973,7 @@
   "id": "I-0243",
   "canon": false,
   "title": "Catrìona Mhòr",
-  "body": "Catrìona Mhòr, twelfth of the Stone Kings and the last whose name the oral list gives for this age, holds Dùn ìseal. Her telling says she knew every household of the hills by its line back seven names.",
+  "body": "Catrìona Mhòr, twelfth of the Stone Kings and the last name the oral list gives, holds Dùn ìseal. Her telling says she knew every household of the hills by its line back seven names.",
   "place": "burg:315",
   "kind": "reign"
  },
@@ -1981,7 +1981,7 @@
   "id": "I-0244",
   "canon": false,
   "title": "Seumas Òg of the Red Hill",
-  "body": "Seumas Òg holds the Red Hill. He is the last name in the Red Hill's oral list for this age; the list goes on after him, but in the next age it is written down and no longer only spoken.",
+  "body": "Seumas Òg holds the Red Hill. He is the last name in the Red Hill's oral list; the list stops with him, and in the next age what the reciters kept of it is written down and no longer only spoken.",
   "place": "burg:19",
   "kind": "reign"
  },
@@ -2004,8 +2004,8 @@
  {
   "id": "I-0247",
   "canon": false,
-  "title": "The keepers number twelve",
-  "body": "The keepers of the slab are twelve at a time, one drawn by lot for each of twelve districts of the hills. They meet at the slab when a keeper dies, and not otherwise.",
+  "title": "The keepers number nine",
+  "body": "The keepers of the slab are nine at a time, one drawn by lot for each of nine districts of the hills. They meet at the slab when a keeper dies, and not otherwise.",
   "place": "burg:276",
   "kind": "faith"
  },
@@ -2069,7 +2069,7 @@
   "id": "I-0255",
   "canon": false,
   "title": "The keepers ask to be named",
-  "body": "The twelve keepers of the slab ask Catrìona Mhòr that their charge be declared before the whole ford gathering, so that no king after her can draw the lot at Dùn ìseal. She does not refuse and does not agree. The matter is carried forward.",
+  "body": "The nine keepers of the slab ask Catrìona Mhòr that their charge be declared before the whole ford gathering, so that no king after her can draw the lot at Dùn ìseal. She does not refuse and does not agree. The matter is carried forward.",
   "place": "marker:38",
   "kind": "law",
   "between": [
@@ -2081,7 +2081,7 @@
   "id": "I-0256",
   "canon": false,
   "title": "The eve of the Binding",
-  "body": "At the close of this age the handful custom is everywhere in the hills, the keepers are twelve, the sharing before the storms is kept on every coast, and the doctrine is said at every gathering. None of it is yet declared. The next age begins when it is.",
+  "body": "At the close of this age the handful custom is everywhere in the hills, the keepers are nine, the sharing before the storms is kept on every coast, and the doctrine is said at every gathering. None of it is yet declared. The next age begins when it is.",
   "place": null,
   "kind": "record",
   "between": [

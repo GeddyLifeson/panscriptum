@@ -12,7 +12,7 @@
   "id": "II-0002",
   "canon": false,
   "title": "Beathag Bhàn keeps the first flame",
-  "body": "At Dùn ìseal, under the central mountains, the households who swore the Binding choose Beathag Bhàn to hold the first flame and answer for what is taken from the vein. The Keepers' recited roll begins with her name. Nothing is remembered of her before it.",
+  "body": "At Dùn ìseal, under the central mountains, the keepers of the slab and the households who swore the Binding choose Beathag Bhàn to hold the first flame and answer for what is taken from the vein. The Keepers' recited roll begins with her name. Nothing is remembered of her before it.",
   "place": "burg:315",
   "kind": "faith",
   "between": [
@@ -24,7 +24,7 @@
   "id": "II-0003",
   "canon": false,
   "title": "The nine hearths",
-  "body": "Nine households round the mountain's foot take the flame's tending in turn, each sending a son or a daughter to sit with it through a season. The later houses of custody all claimed descent from one or another of the nine; not all of the claims can be true.",
+  "body": "Nine households round the mountain's foot, one for each district of the old keepers of the slab, take the flame's tending in turn, each sending a son or a daughter to sit with it through a season. The later houses of custody all claimed descent from one or another of the nine; not all of the claims can be true.",
   "place": "province:35",
   "kind": "people"
  },
@@ -212,7 +212,7 @@
   "id": "II-0026",
   "canon": false,
   "title": "Fionnlagh Dall and the stone cup",
-  "body": "Fionnlagh Dall, Keeper after Gormshuil, has a cup cut from grey stone that holds exactly what a cupped pair of hands will hold, and sets it on the threshold of Talla na Lasrach at Dùn ìseal as the measure. A blind man, he fills it by touch before the council, and nobody afterward can say he favoured anyone's hands.",
+  "body": "Fionnlagh Dall, Keeper after Gormshuil, has the old keepers' stone cup re-cut in grey stone to hold exactly what a cupped pair of hands will hold, and sets it on the threshold of Talla na Lasrach at Dùn ìseal as the measure. A blind man, he fills it by touch before the council, and nobody afterward can say he favoured anyone's hands.",
   "place": "burg:315",
   "kind": "law"
  },
@@ -423,8 +423,8 @@
  {
   "id": "II-0052",
   "canon": false,
-  "title": "The first fire at Baile chrom",
-  "body": "The fishers of Baile chrom build a beacon on the point after the loss, fed with driftwood as the Law requires. It is the ancestor of Taigh-solais Baile chrom and the first sea-light in the north-west.",
+  "title": "The fire at Baile chrom relit",
+  "body": "The fishers of Baile chrom relight the old beacon on the point after the loss, fed with driftwood as the Law requires. It is the ancestor of Taigh-solais Baile chrom.",
   "place": "marker:12",
   "kind": "building"
  },
@@ -617,15 +617,15 @@
   "id": "II-0076",
   "canon": false,
   "title": "A fishing town at Cathair dhearg",
-  "body": "A small fishing town grows at the western bridge-foot where the Abhainn dhomhain meets the sea, on the ground later called Cathair dhearg. Its red stone gives it its name. At this time it is a place carriers pass through on their way to somewhere else.",
+  "body": "The Red Hill's old settlement, shrunk to a small fishing town, grows again at the western bridge-foot where the Abhainn dhomhain meets the sea, on the ground later called Cathair dhearg. Its red stone gives it its name. At this time it is a place carriers pass through on their way to somewhere else.",
   "place": "burg:19",
   "kind": "people"
  },
  {
   "id": "II-0077",
   "canon": false,
-  "title": "Ailean mac Ìomhair called rìgh",
-  "body": "At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Ailean mac Ìomhair, their rìgh, their king. He is the first person in any record so called. Ailean claims nothing over the vein and is careful to say so to the Hall.",
+  "title": "Goraidh mac Ìomhair called rìgh",
+  "body": "At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Goraidh mac Ìomhair, their rìgh, their king. He is the first person in any record so called. Goraidh claims nothing over the vein and is careful to say so to the Hall.",
   "place": "burg:422",
   "kind": "reign",
   "between": [
@@ -637,15 +637,15 @@
   "id": "II-0078",
   "canon": false,
   "title": "The division of keeping",
-  "body": "The council at Dùn ìseal and Ailean mac Ìomhair agree on a division: the Keeper keeps the flame and the galleries, and the rìgh keeps the roads, the granaries and the peace of the lowlands. The rìgh may not enter the galleries; the Keeper may not raise spears. The division is the frame of Rodian government for the rest of the age.",
+  "body": "The council at Dùn ìseal and Goraidh mac Ìomhair agree on a division: the Keeper keeps the flame and the galleries, and the rìgh keeps the roads, the granaries and the peace of the lowlands. The rìgh may not enter the galleries; the Keeper may not raise spears. The division is the frame of Rodian government for the rest of the age.",
   "place": "burg:315",
   "kind": "law"
  },
  {
   "id": "II-0079",
   "canon": false,
-  "title": "Ailean Mòr's hall",
-  "body": "Ailean mac Ìomhair, called Ailean Mòr, builds a timber hall on the hill at Dùn dhearg with a granary at each corner. Its post-holes were still visible when the Library's surveyors walked the hill, and were measured and drawn then.",
+  "title": "Goraidh Mòr's hall",
+  "body": "Goraidh mac Ìomhair, called Goraidh Mòr, builds a timber hall on the hill at Dùn dhearg with a granary at each corner. Its post-holes were still visible when the Library's surveyors walked the hill, and were measured and drawn then.",
   "place": "burg:422",
   "kind": "building"
  },
@@ -653,7 +653,7 @@
   "id": "II-0080",
   "canon": false,
   "title": "The first road-toll",
-  "body": "Ailean Mòr sets a toll on the carriers' roads, one fish in twenty or its worth, to pay for the road-guards and the upkeep of the bridges. The keepers of the waypoint houses collect it. They also keep a share of it, and the record says so.",
+  "body": "Goraidh Mòr sets a toll on the carriers' roads, one fish in twenty or its worth, to pay for the road-guards and the upkeep of the bridges. The keepers of the waypoint houses collect it. They also keep a share of it, and the record says so.",
   "place": "marker:10",
   "kind": "law"
  },
@@ -661,7 +661,7 @@
   "id": "II-0081",
   "canon": false,
   "title": "Mòrag of the Roads",
-  "body": "Ailean Mòr's daughter Mòrag nic Ailein takes the hall at Dùn dhearg after him. She is remembered as Mòrag nan Rathad, Mòrag of the Roads, for walking every carriers' road on the island in her first years and ordering the bad stretches remade.",
+  "body": "Goraidh Mòr's daughter Mòrag nic Ghoraidh takes the hall at Dùn dhearg after him. She is remembered as Mòrag nan Rathad, Mòrag of the Roads, for walking every carriers' road on the island in her first years and ordering the bad stretches remade.",
   "place": "burg:422",
   "kind": "reign"
  },
@@ -922,7 +922,7 @@
   "id": "II-0112",
   "canon": false,
   "title": "The contents of Tormod's roll",
-  "body": "Tormod Scrìobhaiche's roll, kept in the hall at Dùn dhearg, begins with Ailean Mòr and runs to Ealasaid Chiar. Its earliest names come from the reciters and the later ones from living memory, and he marks which are which. The roll disagrees with the Keepers' recited roll in three places, and Tormod writes down both readings without choosing.",
+  "body": "Tormod Scrìobhaiche's roll, kept in the hall at Dùn dhearg, begins with Goraidh Mòr and runs to Ealasaid Chiar. Its earliest names come from the reciters and the later ones from living memory, and he marks which are which. The roll disagrees with the Keepers' recited roll in three places, and Tormod writes down both readings without choosing.",
   "place": "burg:422",
   "kind": "record"
  },
@@ -1061,7 +1061,7 @@
   "id": "II-0129",
   "canon": false,
   "title": "The road-guards' games at Ceann leathan",
-  "body": "The road-guards of the south begin meeting at Ceann leathan each year to fight with blunted staves for a silver ring. The meeting outlives its purpose and becomes the contest later called Còmhrag Ceann leathan. The first winner the record names is a woman, Mòrag Dhubh of Cnoc mhòr.",
+  "body": "The road-guards of the south begin meeting at Ceann leathan each year to fight with blunted staves for a silver ring. The meeting outlives its purpose; the field it used is the one where Còmhrag Ceann leathan is later fought. The first winner the record names is a woman, Mòrag Dhubh of Cnoc mhòr.",
   "place": "marker:37",
   "kind": "culture"
  },
@@ -1194,7 +1194,7 @@
   "id": "II-0145",
   "canon": false,
   "title": "The light at Baile ìseal",
-  "body": "A beacon is built on the eastern point at Baile ìseal, kept with driftwood and seal fat as the Law requires, to bring the fishing boats of the eastern coast home in the dark. It is the ancestor of Taigh-solais Baile ìseal.",
+  "body": "The old beacon on the eastern point at Baile ìseal is rebuilt, kept with driftwood and seal fat as the Law requires, to bring the fishing boats of the eastern coast home in the dark. It is the ancestor of Taigh-solais Baile ìseal.",
   "place": "marker:13",
   "kind": "building"
  },
@@ -1202,7 +1202,7 @@
   "id": "II-0146",
   "canon": false,
   "title": "The light at Muileann bheag",
-  "body": "A beacon is built on the northern headland at Muileann bheag, the ancestor of Taigh-solais Muileann bheag. Its keepers are fisher-families of the north-west who pay no toll to Cathair dhearg in return for keeping it.",
+  "body": "The old beacon on the northern headland at Muileann bheag is rebuilt, the ancestor of Taigh-solais Muileann bheag. Its keepers are fisher-families of the north-west who pay no toll to Cathair dhearg in return for keeping it.",
   "place": "marker:14",
   "kind": "building"
  },
@@ -1210,7 +1210,7 @@
   "id": "II-0147",
   "canon": false,
   "title": "The light at Àth dhearg",
-  "body": "A beacon is built on the north-eastern cape at Àth dhearg by Sliochd Raghnaill, to mark the passage in toward Seann Tarr. It is the ancestor of Taigh-solais Àth dhearg.",
+  "body": "The old beacon on the north-eastern cape at Àth dhearg is rebuilt by Sliochd Raghnaill, to mark the passage in toward Seann Tarr. It is the ancestor of Taigh-solais Àth dhearg.",
   "place": "marker:15",
   "kind": "building"
  },
@@ -1500,7 +1500,7 @@
   "id": "II-0183",
   "canon": false,
   "title": "Death of Oighrig nic Lachlainn",
-  "body": "Oighrig nic Lachlainn dies at Cathair dhearg without an heir of her body, and the line of Ailean Mòr, as the list reckons it, ends with her. The red hall is shut and its clerks keep it.",
+  "body": "Oighrig nic Lachlainn dies at Cathair dhearg without an heir of her body, and the line of Goraidh Mòr, as the list reckons it, ends with her. The red hall is shut and its clerks keep it.",
   "place": "burg:19",
   "kind": "death"
  },
@@ -2029,7 +2029,7 @@
   "id": "II-0248",
   "canon": false,
   "title": "The Hall's roll at the close of the age",
-  "body": "At the close of the age the Keepers' roll holds the names of one hundred and forty Keepers from Beathag Bhàn to Catrìona nic Mhuirich, and the king-list the names of more than ninety rulers from Ailean Mòr to Mòr nic Coinnich. The Small-Burning Law has not been changed in a word since Fionnlagh Dall's stone cup. The cup is still on the threshold of Talla na Lasrach at Dùn ìseal.",
+  "body": "At the close of the age the Keepers' roll holds the names of one hundred and forty Keepers from Beathag Bhàn to Catrìona nic Mhuirich, and the king-list the names of more than ninety rulers from Goraidh Mòr to Mòr nic Coinnich. The Small-Burning Law has not been changed in a word since Fionnlagh Dall's stone cup. The cup is still on the threshold of Talla na Lasrach at Dùn ìseal.",
   "place": "burg:315",
   "kind": "record"
  },

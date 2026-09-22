@@ -20,9 +20,10 @@ the whole language and the finished map.
 | `Rodos_finished.map` | The finished map. Open it in Azgaar's Fantasy Map Generator. |
 | `MAP_CHANGES.md` | Every name `finish_map.py` changed, before and after (425 changes). |
 | `CHRONICLE.html` | The chronicle of Rodos (five ages, 1848–2026 DE) with the real map from `Rodos_finished.map` embedded. Its place, faith, war and disaster names follow the map file; published at https://claude.ai/artifact/RXjhVcNh8gfmYuJTocopX2. |
-| `Rodos_Atlas/` | **The program.** Double-click `Rodos Atlas.bat` (or run `python atlas.py`): it opens the chronicle in your browser with a Map tab that runs Azgaar's Fantasy Map Generator itself on the Rodos map. Click a timeline event to fly to where it happened; click a marked place on the map to see its events. Needs only Python 3.7+. |
-| `build_atlas.py`, `atlas.py`, `atlas_template.html` | Rebuild `Rodos_Atlas/` from an Azgaar build, `Rodos_finished.map` and `CHRONICLE.html` (instructions at the top of `build_atlas.py`). |
-| `check_rodais.py` | Runs every check in the folder: the engine self-test, lexicon completeness and spelling, the texts, and the map. |
+| `legendarium/` | **The legendarium of Rodos**: a prose book for each of the five ages, the dated annals (1,515 events, every one with a day, month and year), appendices (rulers and houses, faiths, hosts and wars, the reckoning of years, words born from history, tongues and peoples) and a gazetteer of all 505 towns. Read `legendarium/LEGENDARIUM.html`; see `legendarium/README.md`. |
+| `Rodos_Atlas/` | **The program.** Double-click `Rodos Atlas.bat` (or run `python atlas.py`). It opens in your browser with three tabs: **Annals** (every event, filter by age, search), **Map** (Azgaar's Fantasy Map Generator itself, running the Rodos map) and **Book** (the whole legendarium). An event's map button flies to where it happened; clicking a town or marker on the map shows its history and every event recorded there; every place named in the book opens the map. Needs only Python 3.7+. |
+| `build_atlas.py`, `atlas.py`, `atlas_template.html` | Rebuild `Rodos_Atlas/` from an Azgaar build, `Rodos_finished.map` and the legendarium (instructions at the top of `build_atlas.py`). |
+| `check_rodais.py` | Runs every check in the folder: the engine self-test, lexicon completeness and spelling, the texts, the map, and the legendarium (every event dated and in order, every reference resolving to an event or a place on the map). |
 
 ## What the map pass fixed
 
