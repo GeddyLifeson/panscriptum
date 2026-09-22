@@ -1,0 +1,1060 @@
+{
+ "339": {
+  "founded_age": "II",
+  "founded_by": "the custodian house of Achadh chaol",
+  "history": "Muileann dhìreach was raised to grind the barley of Achadh chaol, and its mill-race still runs straight as a ruled line from the stream above the town. In the Age of Strangers it ground for the camps as well as for its own people, and the tithe clerks kept a counting-room beside the wheel. A reading-house of Feallsanachd an Fhèidh stands on the square, and the miller's guild and the school have shared its bell since before anyone wrote the arrangement down.",
+  "known_for": "grain mills on the straight race"
+ },
+ "340": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich woodwards of the Baile Mòr dhomhain plain",
+  "history": "An oak grove kept by woodward families, whose trees grow unusually tall and true. The record of the Sundering says the shipwrights sent to Doire dhìreach for keels when the ocean ships were built, and the village has told that story of itself ever since. It has grown into a large village of timber-yards and cooperages, serving Àth mhòr and Baile Mòr àrsaidh.",
+  "known_for": "straight-grown oak for keels"
+ },
+ "341": {
+  "founded_age": "II",
+  "founded_by": "millers of the Ros fhionn river",
+  "history": "A long mill-house on the Ros fhionn gave the place its name, and a river quay below it made it a port, sending flour downstream by barge. Its walls date from the Age of Strangers, when a tithe store was kept here and needed guarding. Trade on the river dried up when the carts took the traffic, and the crossing of Drochaid Ros fhionn just upstream is now rarely used; the town has shrunk to its walls.",
+  "known_for": "a river port gone quiet"
+ },
+ "342": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich dyers from Achadh shean",
+  "history": "Baile ghorm grew up around woad pits and dye-houses, and in the chroniclers' day its houses were still washed blue from the vats. It sent cloth to Seann Dunn for shipping and yarn to Achadh shean for weaving. The old folk tradition of the ancestors holds here strongly, and the dyers still leave a first skein at the hearth-stone each season.",
+  "known_for": "woad dyers and blue-washed houses"
+ },
+ "343": {
+  "founded_age": "II",
+  "founded_by": "a custodian house of the Binding",
+  "history": "The white hill was fortified early by a custodian house, and its citadel of pale stone is the oldest standing work in the province that bears its name. In the Age of Strangers it served as a district seat of the human administration, and the ledgers kept in its strong-room were among those later lost in the war. It is now a large town of scholars and advocates: the disputations of Feallsanachd an Fhèidh are held in its hall, and its readers walk daily to the library at Muileann chaol.",
+  "known_for": "white citadel and the Fèidh disputations"
+ },
+ "344": {
+  "founded_age": "III",
+  "founded_by": "the wardens of the Achadh shean road",
+  "history": "A small garrison town at the green ford on the road between Doire fhionn and Achadh shean. Its citadel is larger than the town needs, a sign that the ford was once contested, though the record does not preserve by whom. Tiormachd Achadh shean, the Long Drought, struck it in the Age of Strangers, and it lives now on toll and on the soldiers who still keep the tower.",
+  "known_for": "garrisoned green ford"
+ },
+ "345": {
+  "founded_age": "V",
+  "founded_between": [
+   1930,
+   1945
+  ],
+  "founded_by": "the restored kingdom, as a border post",
+  "history": "Cnoc òg, \"the young hill\", was walled by the restored kingdom soon after the Severance, on the Ròdaich side of the line facing the Tuathaich towns to the north and west. It has never been more than a small town of soldiers' families and carters. In An Cogadh Fada it lay a short march behind the field at Àth leathan, and its walls held the wounded after that first battle.",
+  "known_for": "border walls facing the Tuathaich"
+ },
+ "346": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich drovers; resettled by the Tuathaich after the Severance",
+  "history": "A Ròdaich drovers' village at the wide ford, emptied at the Severance and resettled by Tuathaich families sent north. In the years before the Long War it became a gathering place for the coal-holdouts of the north-west. The Battle of Àth leathan, the first major engagement of An Cogadh Fada, was fought on the meadows just west of the ford, and the town has not recovered its numbers since.",
+  "known_for": "the first battlefield of the Long War"
+ },
+ "347": {
+  "founded_age": "I",
+  "founded_by": "the Seann-Dhaoine",
+  "history": "The harbour stones of Seann Dunn are older than any Ròdaich work, and the name the Ròdaich gave the place keeps a root that is not their own. It became a Ròdaich port in the Holy Age, and its citadel was raised above the harbour to guard the eastern approaches. It is now a city of shipping and salt-fish, and its oldest families still claim that the harbour wall was only repaired, never built, by their ancestors.",
+  "known_for": "Seann-Dhaoine harbour stones and citadel"
+ },
+ "348": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich pilgrims to Allt an Àigh",
+  "history": "Cnoc ìseal began as a halt for pilgrims going down to Allt an Àigh, and its inns still fill at the phase of the moon when the stream is said to give fortune. Its nearness to Muileann chaol has drawn scholars as well, and many readers of the library lodge here. The town keeps the Fèidh habit of arguing a question before answering it.",
+  "known_for": "pilgrim lodgings on the Allt an Àigh road"
+ },
+ "349": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich road-keepers of Baile chaol",
+  "history": "The great ford carries the road from Seann Dunn inland, and for most of the record it has been the busiest crossing in the province. A path leaves the town southward to Làrach an Teampaill, and the folk of Àth mhòr have kept that path cleared for as long as there are accounts of it, though they will not say why. It is a large, plain town of carters, smiths and innkeepers.",
+  "known_for": "the great ford and the temple-ruin path"
+ },
+ "350": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich flax-growers of Seann Skell",
+  "history": "The white field is the flax country that feeds the linen-weavers of Seann Skell, and in the drying season the whole plain is laid with bleaching cloth. The village is large and prosperous for its kind, and it follows the Yellow Scorpion as the port does. Its growers' guild has sold to the same Seann Skell houses for longer than either side can prove.",
+  "known_for": "flax fields and bleached linen"
+ },
+ "351": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich river pilots",
+  "history": "A long spit of land made Ceann fhada a landing for river craft, and its pilots have guided boats on the Abhainn uaine for centuries. It is the old rival of Inis ìseal, a short way downstream, and the two quays have quarrelled over tolls in every age the record covers. It prospered in the Age of Strangers carrying ore-cart loads by water and has held its trade since by carrying grain.",
+  "known_for": "long quay and river pilots"
+ },
+ "352": {
+  "founded_age": "II",
+  "founded_by": "a custodian house that quarried the black hill",
+  "history": "The black hill is an outcrop of dark stone that the early custodians hoped was the vein; it was not, and the quarry that tested it became a town. Cnoc dhubh is the seat of its province, a walled market for the herders and quarrymen of the hills near Làrach an Teampaill. Prospectors dug here again in the Age of Strangers and found only rock, a result the town's chroniclers record with some satisfaction.",
+  "known_for": "black-stone quarries and walled market"
+ },
+ "353": {
+  "founded_age": "II",
+  "founded_by": "priests of the Dark Unicorn",
+  "history": "A chapel site on the ridge above the road north from Cathair dhearg, fortified in the Holy Age to guard the approach to the capital. The citadel dwarfs the village, which has never numbered more than a thousand or so, most of them in service to the garrison and the shrine. Pilgrims of Creideamh an Aon-adharcaich Dhuibh stop here before entering the capital.",
+  "known_for": "fortified chapel above the capital road"
+ },
+ "354": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich millers on the river bend",
+  "history": "The mill on the bend of the river gave its name to the town and then to the province, of which it is the seat and the largest place. It ground grain for the whole central country and, in the Age of Strangers, for the camps east of it as well. It is a busy, unwalled town that has never needed walls, standing between Cathair mhòr and Ceann leathan on the road that joins them.",
+  "known_for": "the great mill on the river bend"
+ },
+ "355": {
+  "founded_age": "III",
+  "founded_by": "ore-crushers of the eastern diggings",
+  "history": "Muileann chiar, seat of the province of the same name, began as an ore-crushing mill for the diggings in the hills east of the capital. It grew large in the Age of Strangers, when the district was worked by the ton, and lost its trade when Scàineadh Cill ghlas, a short way west, closed the district for a generation. It is not the silver town of the same name further east, and the two are often confused in the older records.",
+  "known_for": "ore mills of the eastern district"
+ },
+ "356": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich millers of Dùn ìseal",
+  "history": "The deep mill takes its name from a mill-race cut far down into the rock to reach a steady flow. It grinds for Dùn dhearg and the villages around it and has done so since the Holy Age. The folk tradition of the ancestors holds here, and each new millstone is blessed at the hearth before it is set.",
+  "known_for": "its deep-cut mill-race"
+ },
+ "357": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich ferrymen of Dùn chrom",
+  "history": "The black ford takes its name from the dark water over the crossing. Walls were raised in the Age of Strangers, when the crossing carried much of the capital's traffic eastward. The Battle of Muileann ghlas, the last of An Cogadh Fada, was fought within sight of its walls.",
+  "known_for": "the black ford and its walls"
+ },
+ "358": {
+  "founded_age": "II",
+  "founded_by": "a custodian house guarding the capital's east",
+  "history": "Dùn chiar is a hill fort of dusky stone east of Cathair dhearg, called a city for its rank rather than its people, who are few. Its citadel and walls were rebuilt in every age, and it has served as the eastern guard of the capital since the kings of the Holy Age. It follows the capital's faith, and its garrison takes part in the rites of Cathair dhearg.",
+  "known_for": "dusky hill fort east of the capital"
+ },
+ "359": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich herders of Dùn chrom",
+  "history": "A modest town on the broad hill beside Muileann òg, whose people live for most of the year on herding and for one season on the fair. Since Fèill Muileann òg became the island's greatest gathering, Cnoc leathan has lodged the traders the fair town cannot hold and stabled their animals. It stood near the lines at Muileann ghlas and was emptied for the battle.",
+  "known_for": "lodgings and horse-lines for Fèill Muileann òg"
+ },
+ "360": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich millers of Dùn chrom",
+  "history": "The grey mill is an old grain town near the fair at Muileann òg and within a day of the capital. It is remembered above all for the Battle of Muileann ghlas, the second and final major battle of An Cogadh Fada, fought on its fields, in which the Tuathaich holdouts were broken. The battlefield, Àraich Muileann ghlas, lies just north-west of the town.",
+  "known_for": "the last battle of the Long War"
+ },
+ "361": {
+  "founded_age": "III",
+  "founded_by": "wardens of the Dùn chrom crossings",
+  "history": "A walled town with a citadel at the smooth ford, one of a chain of crossings east of the capital. It was a quartering place for soldiers in the Age of Strangers and again in the Long War, when it held the state's stores for the campaign that ended at Muileann ghlas. Its people are mostly carters and stable-keepers.",
+  "known_for": "the smooth ford and its citadel"
+ },
+ "362": {
+  "founded_age": "II",
+  "founded_by": "a custodian house of the southern approach",
+  "history": "The white fort is ranked a city though it holds only a few thousand people, a hill fort limed white so that it could be seen from the capital. It watched the southern road in the Holy Age and has done so since. It now serves as a market for Baile uaine and the farms of Àth shean.",
+  "known_for": "white-limed hill fort"
+ },
+ "363": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich fishers settling in the ruin of Làrach an Dùin",
+  "history": "Ceann mhin is built in and around Làrach an Dùin, the ruined fortress of the old builders, and its harbour lies under the fallen walls. The Ròdaich fishers who settled there in the Holy Age reused its stones but never finished clearing it; the record admits it does not know who built the fortress. It is now a walled port town of nearly twenty thousand, the seat of its province, and the rival of Ceann chaol along the same coast.",
+  "known_for": "harbour beneath Làrach an Dùin"
+ },
+ "364": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich shore farmers of Seann Vell",
+  "history": "Cnoc chaol is the town the Great Wave is named after. Tonn Mhòr Cnoc chaol struck the southern coast without warning in a single night, devastating it together with Cuan dhearg and Achadh mhin. The town was rebuilt higher up the narrow hill, and its people still leave the lowest street empty.",
+  "known_for": "the town the Great Wave named"
+ },
+ "365": {
+  "founded_age": "II",
+  "founded_by": "the early kings of the northern province",
+  "history": "Baile Mòr mhòr is the great city of the north, walled and crowned by a citadel, and the seat of its province. It was a royal seat in the Holy Age and a centre of the human administration in the Age of Strangers. Since the Severance it has stood close to the Tuathaich country to the west, the largest Ròdaich city on that frontier.",
+  "known_for": "the great walled city of the north"
+ },
+ "366": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich seafarers of Baile Mòr mhòr",
+  "history": "Caol mhin is the harbour of Baile Mòr mhòr on the calm strait, and its fortunes have always followed the city's. It is walled against raiders from the sea. Its quays load wool and hides from the northern uplands.",
+  "known_for": "calm-strait harbour of Baile Mòr mhòr"
+ },
+ "367": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich woodwards; resettled by the Tuathaich after the Severance",
+  "history": "A Ròdaich village in a grove of pale oaks, left empty at the Severance and resettled by Tuathaich families sent north. Its people keep Creideamh nan Tuathach, and it is one of the northern households where the First Canoe is still told at the hearth, a telling the Ròdaich priesthood calls superstition. It lives on timber and on the fort at Cnoc leathan nearby.",
+  "known_for": "pale oaks and Tuathaich hearth-tellings"
+ },
+ "368": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich keepers of the northern ford",
+  "history": "An old ford on the road north out of the Ròdaich country, walled in the Age of Strangers and strengthened again after the Severance, when the Tuathaich country began a short way to the west. It is a town of the Hawk, Creideamh an t-Seabhaig, and its shrine is one of the oldest of that form of the Rite. It trades with Inis bhàn to the south and, warily, with the Tuathaich villages over the line.",
+  "known_for": "old ford on the northern march"
+ },
+ "369": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich charcoal-burners; resettled by the Tuathaich after the Severance",
+  "history": "A charcoal village in a narrow oakwood, resettled by the Tuathaich after the Severance. The newcomers kept the Ròdaich shrine of the Yellow Scorpion they found there rather than raising their own, as several villages of this coast did. It still burns charcoal for the smiths of Àth fhionn and Àth dhearg.",
+  "known_for": "narrow oakwood and charcoal"
+ },
+ "370": {
+  "founded_age": "V",
+  "founded_between": [
+   1930,
+   1940
+  ],
+  "founded_by": "Tuathaich families sent north at the Severance",
+  "history": "Baile òg, \"the young town\", was built by Tuathaich families who arrived after the Severance and found no empty village to take. It stands a short way from the larger Tuathaich town of Baile ìseal and has always depended on it. Its houses are the first the Tuathaich built for themselves on the island rather than inherited.",
+  "known_for": "the first Tuathaich-built houses"
+ },
+ "371": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich seafarers of the white island",
+  "history": "Inis bhàn is the great harbour of the north-west Ròdaich coast and the seat of its province, a port of nearly forty thousand. It is a town of the Hawk, and its shrines face the sea. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It is one of several harbours that claim the dock from which the ships of the Sundering set out, a claim the others dispute and the record cannot settle.",
+  "known_for": "white-island harbour and Hawk shrines"
+ },
+ "372": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich priests of the holy ford; resettled by the Tuathaich after the Severance",
+  "history": "The holy ford was a Ròdaich shrine and crossing, and a citadel was raised over it in the Holy Age. At the Severance the Ròdaich left and Tuathaich families took the town, which is now one of the largest they hold. They keep the citadel manned and the shrine of the Yellow Scorpion open.",
+  "known_for": "citadel over the holy ford"
+ },
+ "373": {
+  "founded_age": "III",
+  "founded_by": "slate-quarriers of Àth dhomhain",
+  "history": "Baile ghorm is a quarry town whose blue slate roofs half the northern plain. It sends slate to Inis mhòr and takes grain in return. It shares its name with a dyers' town far to the east, and the two are told apart in the record by their provinces.",
+  "known_for": "blue slate quarries"
+ },
+ "374": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich shepherds of Cuan ghlas",
+  "history": "A large town on the dusky hill, living on the sheep walks above it and on the wool trade with Caol bheag. It was a mustering place for fleeces in the Age of Strangers, when the humans bought wool as eagerly as ore. Its market is the busiest in the province.",
+  "known_for": "sheep walks and wool market"
+ },
+ "375": {
+  "founded_age": "III",
+  "founded_by": "carters of the Achadh chaol road",
+  "history": "Baile mhin grew where the road from Achadh chaol to the coast levels out, a stopping place for carts. It is a small town of wheelwrights and stables. Its people send their grain to the mills at Muileann dhìreach.",
+  "known_for": "wheelwrights on the Achadh chaol road"
+ },
+ "376": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich barley farmers",
+  "history": "A farming village of fair barley fields between Baile mhin and Àth ghlas. In the Age of Strangers its pastures were taken for the horses of the administration, and they have served as remount grounds for the soldiers of the district ever since. It is a quiet place, larger in fields than in people.",
+  "known_for": "barley fields and remount pastures"
+ },
+ "377": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich ford-keepers of the northern plain",
+  "history": "One of several towns of this name, this Àth mhòr carries the tavern road across the river near An Taigh-seinnse Reòta. It was a waypoint on the mining roads in the Holy Age and a militia halt in the years before the war. It trades oak from Doire dhìreach down the road to the towns of the plain.",
+  "known_for": "ford on the northern tavern road"
+ },
+ "378": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich eel-fishers of the water-meadows",
+  "history": "Baile thais stands on damp ground where the meadows flood each wet season, and its people have always fished the ditches for eels. It is a large town now, and it supplies Cnoc bhàn with hay and fish. The river works that keep the meadows are older than the town's charter.",
+  "known_for": "water-meadows and eel traps"
+ },
+ "379": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich well-keepers of Cnoc bhàn",
+  "history": "A village around a deep well whose water runs dark, said in the old telling to rise from near the vein. It has never been proved so, and the Fèidh scholars of Cnoc bhàn have argued it both ways. The well still draws visitors who drink from it for luck.",
+  "known_for": "the dark well of old telling"
+ },
+ "380": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich keepers of the holy wood",
+  "history": "Àth dhearg stands at the edge of Coille Naomh Muileann chiar, and its people have acted as keepers of the wood's western paths since the Holy Age. Walls were raised in the Age of Strangers to keep timber-cutters out of the forest as much as to keep raiders out of the town. It is not the Àth dhearg of the lighthouse in the north.",
+  "known_for": "ford at the edge of the holy wood"
+ },
+ "381": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich market families of Ceann àrsaidh",
+  "history": "Baile chrom is named for its bending main street, which follows an old stream-bed. It is a market town between the capital and the northern plain, serving Baile fhiadhaich and Cuan chrom. It shares its name with three other places on the island, and the chroniclers take care to give its province.",
+  "known_for": "the bent-street market"
+ },
+ "382": {
+  "founded_age": "III",
+  "founded_by": "shepherds of Cnoc dhubh",
+  "history": "A small hill town below Cnoc dhubh, holding the shepherds' market for the province. It has always been a dependent of the larger town. It is one of several places named Cnoc bheag and is not the fort of the holy wood near the capital.",
+  "known_for": "shepherds' market below Cnoc dhubh"
+ },
+ "383": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich ferrymen of Muileann chrom",
+  "history": "The low ford floods each wet season, and for part of every year the crossing is made by ferry. The town is small and has always been poor. It sends its surplus down to the quays at Inis ìseal and Ceann fhada.",
+  "known_for": "the low ford and its ferry"
+ },
+ "384": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich pilgrims to Allt an Àigh",
+  "history": "Baile dhìreach is the nearest town to Allt an Àigh, and the straight road that gives it its name runs from its square down to the stream. It grew up in the Holy Age to serve the pilgrims and still does, alongside Cnoc ìseal further up the road. Its people are wary of strangers who come at the wrong phase of the moon.",
+  "known_for": "the nearest town to Allt an Àigh"
+ },
+ "385": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich woodcutters of the capital",
+  "history": "A small village in an oak copse north-east of Cathair dhearg, which has cut firewood and charcoal for the capital for as long as there are accounts. It has never grown past a few hundred households. Its people follow the capital's faith and take their wood into the city on market days.",
+  "known_for": "firewood for the capital"
+ },
+ "386": {
+  "founded_age": "II",
+  "founded_by": "priests of Feallsanachd an Fhèidh for the silver-miners",
+  "history": "A church village a short way from the silver seam at Muileann chiar, whose chapel has served the silver-miners since the seam was first worked. In the Age of Strangers its priests kept a record of the miners killed underground, one of the few such records to survive. It is not the Cill dhìreach of the central country.",
+  "known_for": "miners' chapel by the silver seam"
+ },
+ "387": {
+  "founded_age": "II",
+  "founded_by": "a custodian house of the eastern shore",
+  "history": "Baile Mòr ruadh is a walled city of red stone, crowned by a citadel, and the principal city of its province. It was fought over in the Age of Strangers, when the human administration made it a district seat, and its walls show repairs of every age. Travellers on the eastern road break their journey at An Taigh-seinnse Òir just west of the city.",
+  "known_for": "red-stone walls of the east"
+ },
+ "388": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich woodwards of Cnoc dhìreach",
+  "history": "A large village in rough oakwood below the Doire uaine hills, walled against the thing that the old inscriptions say walks in those hills. The record gives a more ordinary reason: the walls went up in the Age of Strangers, when the strikes in the eastern district reached its gates. The warm springs of Muileann ruadh lie a short walk east.",
+  "known_for": "palisade under the Doire uaine hills"
+ },
+ "389": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich farmers of Muileann dhomhain",
+  "history": "A village of narrow fields that has fed the eastern mining district since the district was opened. Scàineadh Cill ghlas, the Rending, struck it when the fault tore open, and the diggings it fed were closed after. It still sends its grain to the mills around it.",
+  "known_for": "narrow fields feeding the diggings"
+ },
+ "390": {
+  "founded_age": "III",
+  "founded_by": "quarriers for Dùn dhearg",
+  "history": "Cnoc ghlas is the grey hill whose stone built much of Dùn dhearg. It is a quarry town, dependent on the city. Its quarrymen keep the old folk rites of the ancestors and will not open a new face without them.",
+  "known_for": "grey stone for Dùn dhearg"
+ },
+ "391": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich millers of the central country",
+  "history": "The red mill is the seat of its province and one of the largest towns of the centre, standing between Seann Chwen and Cnoc ghorm. Its mills stamped ore in the Age of Strangers and turned back to grain after the Severance. It is a town of the capital's faith, busy and unwalled.",
+  "known_for": "stamping mills turned to grain"
+ },
+ "392": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich keepers of Calbh Cnoc ghorm",
+  "history": "The blue hill grew up around Calbh Cnoc ghorm, the standing column carved with the doctrine itself: Cha do thàinig sinn; bha sinn ann. If the doctrine has a birthplace it may be here, and the town has never let the island forget it. It is a large town now, and pilgrims of every faith climb to the stone.",
+  "known_for": "the doctrine stone"
+ },
+ "393": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich ford-keepers of the central country",
+  "history": "The grey ford is the seat of its province, a large town beside Cathair mhòr and a short way from the ruin of Làrach an Dùin-fhaire. The ruin predates every known pattern of settlement on the island, and the town has kept its people out of it by custom. It lives on trade between Cathair mhòr and the eastern towns.",
+  "known_for": "grey ford below the ruined outpost"
+ },
+ "394": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich shipwrights' woodwards",
+  "history": "A large walled village in rough oakwood that has supplied timber to the yards at Cuan shean since the Holy Age. When the fleet of Cuan shean was raised in the Long War its hulls were cut here. It follows the Yellow Scorpion, as does most of the west.",
+  "known_for": "rough oak for the western fleet"
+ },
+ "395": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich farming households of the eastern plain",
+  "history": "Achadh mhòr is still called a field village, though it is one of the largest settlements on the island and the seat of its province. It is the granary of the east, and the shared-meal custom of the Holy Age is said to have been kept here most faithfully. Travellers on the road stop at An Sligeanach Fad' às nearby.",
+  "known_for": "the great granary fields"
+ },
+ "396": {
+  "founded_age": "III",
+  "founded_by": "lime-burners of Ceann leathan",
+  "history": "A small town of lime kilns whose white dust gives it its name. It supplies lime to the builders of the eastern coast and the fields around Ceann leathan. It keeps the folk tradition of the ancestors.",
+  "known_for": "lime kilns of the east"
+ },
+ "397": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich seafarers of the narrow point",
+  "history": "Ceann chaol is a port city on the narrow point, and the old rival of Ceann mhin along the same shore. Its ships carry the flour of Muileann dhomhain and the grain of the eastern plain. The two harbours have disputed fishing grounds in every age, and the disputes are recorded at length.",
+  "known_for": "narrow-point harbour, rival of Ceann mhin"
+ },
+ "398": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich well-keepers of the southern coast",
+  "history": "Tobar dhearg is a large village around a well of red water, the seat of its province. Taigh-solais Tobar dhearg, one of the five lighthouses of the Age of Strangers, stands on the shore below it; it burned obsidian-lit flame for over a century before it was converted to dubhan. The village holds to Creideamh nan Ròdach and its priests keep the light's log.",
+  "known_for": "the southern lighthouse and red well"
+ },
+ "399": {
+  "founded_age": "IV",
+  "founded_between": [
+   1790,
+   1830
+  ],
+  "founded_by": "the human administration, as a coast fort",
+  "history": "Cnoc leathan was built by the human administration as a fort on the northern coast road, not far from the lighthouse at Muileann bheag. The Tuathaich have held it since the Severance and keep its citadel manned. Its small garrison follows Creideamh nan Tuathach.",
+  "known_for": "Tuathaich-held fort on the north coast"
+ },
+ "400": {
+  "founded_age": "III",
+  "founded_by": "millers of Tobar ghorm",
+  "history": "Muileann mhin grinds the fine flour of Tobar ghorm, a short way east, and has risen and fallen with the larger village's harvests in every age. Its wheels are the oldest still turning in the province, and the miller families keep a roll of their masters going back to the Age of Sundering. In fair season the carts from the wool fairs come back loaded with its flour.",
+  "known_for": "fine flour for Tobar ghorm"
+ },
+ "401": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich fishers of the black headland",
+  "history": "Ceann dhubh is a harbour under a dark headland, the port of Baile gharbh province, whose boats work the cold waters of the northern coast. Travellers on the coast road break their journey at An Leòmhann Buidhe a short way west, and the inn buys most of the harbour's catch. The harbour was deepened in the Age of Strangers to take the humans' ore ships, and has been too large for its trade ever since.",
+  "known_for": "harbour under the black headland"
+ },
+ "402": {
+  "founded_age": "I",
+  "founded_by": "the Seann-Dhaoine",
+  "history": "Seann Tarr is a small harbour whose landing stones are older than any Ròdaich work, and the root in its name is not Gaelic. Ròdaich fishers settled it in the Holy Age and gave it the name it bears, marking it as a place of the Old Ones. On clear nights the lighthouse of Àth dhearg can be seen from its quay, and its boats steer by it.",
+  "known_for": "the Old Ones' landing stones"
+ },
+ "403": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich well-keepers of the northern road",
+  "history": "A village around a blue spring on the road running north toward the Tuathaich country, and the last Ròdaich water on that road. Since the Severance it has traded with both sides of the line and has been trusted by neither. It is not the larger Tobar ghorm of the wool fairs, and it resents the confusion.",
+  "known_for": "blue spring on the northern road"
+ },
+ "404": {
+  "founded_age": "I",
+  "founded_by": "the Seann-Dhaoine",
+  "history": "Seann Toll is a harbour in a cleft of the rock, and its lowest quay is cut in a manner the Ròdaich did not use; the record assigns it to the Seann-Dhaoine and goes no further. The Ròdaich settled it in the Holy Age as the nearest harbour for Dùn dhubh and Muileann bheag. It is a small port town of fishers and lightermen.",
+  "known_for": "cleft-rock harbour of the Old Ones"
+ },
+ "405": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich households of the ancestor feasts",
+  "history": "The holy field was a meeting ground for the ancestor feasts of the old folk tradition before any house stood on it, and the houses were built around its edge rather than upon it. It is now a village of twenty-five thousand and the seat of its province, yet the field at its heart is still left unploughed. The feasts are kept there as they were in the Holy Age.",
+  "known_for": "the ancestor feasts on the unploughed field"
+ },
+ "406": {
+  "founded_age": "II",
+  "founded_by": "a custodian house of Inis mhòr",
+  "history": "The holy hill carried a shrine before it carried a citadel; the citadel was added to guard Inis mhòr from the landward side. The shrine still stands inside the walls. The fourth regiment from Caol bheag drills on the plain below it.",
+  "known_for": "citadel on the holy hill"
+ },
+ "407": {
+  "founded_age": "II",
+  "founded_by": "priests of Feallsanachd an Fhèidh",
+  "history": "A church village of red stone near Drochaid Ros fhionn, whose chapel gave shelter to travellers crossing the old bridge when the river trade was busy. As the trade dried up and the bridge fell out of use, the village shrank to its chapel and a few farms. Its priests still keep a lamp at the bridge-end.",
+  "known_for": "red chapel by the old bridge"
+ },
+ "408": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich well-keepers; resettled by the Tuathaich after the Severance",
+  "history": "A Ròdaich village around a well of red water, resettled by Tuathaich families after the Severance. Like several villages of this coast it kept the shrine of the Yellow Scorpion that it inherited rather than raising its own. It lives on sheep and on the market at Cathair gheal.",
+  "known_for": "red well of the western Tuathaich"
+ },
+ "409": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich founders; resettled by the Tuathaich after the Severance",
+  "history": "An old Ròdaich town with walls and a citadel, emptied at the Severance and taken over by Tuathaich families. In the years before An Cogadh Fada it was counted among the northern communities that refused the dubhan economy. Its walls still stand, and the Tuathaich guard them as the Ròdaich once did.",
+  "known_for": "old walls held by the Tuathaich"
+ },
+ "410": {
+  "founded_age": "III",
+  "founded_by": "carters of Dùn thais",
+  "history": "A small town at a narrow ford on the Dùn thais road, living on the carts that pass through it. Since the library was founded at Muileann chaol many of its young people have gone to work there as porters and copyists. It has never been walled or fought over.",
+  "known_for": "narrow ford on the Dùn thais road"
+ },
+ "411": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich farming households",
+  "history": "Achadh shean, the old field, is a village of twenty-five thousand and the seat of its province. It gave its name to Tiormachd Achadh shean, the Long Drought, which settled over the island's dry season for three years running in the Age of Strangers. Its granaries were emptied in those years and rebuilt larger afterward, and they are the largest on the eastern coast.",
+  "known_for": "the old fields and the Long Drought"
+ },
+ "412": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich drovers; resettled by the Tuathaich after the Severance",
+  "history": "A drovers' town at the bent ford, Ròdaich until the Severance and Tuathaich since. It lies a short way from the field of Àth leathan, and its people carried the dead from that battle. It follows the Yellow Scorpion.",
+  "known_for": "Tuathaich drovers at the bent ford"
+ },
+ "413": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich scribes of Dùn thais",
+  "history": "Baile leathan is one of the towns nearest Leabharlann Muileann chaol, and many of its people are copyists, binders and parchment-makers for the library. It was a market town of the broad valley long before the library was founded, and it grew quickly after. It keeps the Fèidh habit of reading aloud in the evenings.",
+  "known_for": "copyists and binders for the library"
+ },
+ "414": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich hunters of Ceann àrsaidh",
+  "history": "The wild town was a hunters' camp in the Age of Sundering, when the forests of Ceann àrsaidh were larger. It still lives on hides and game, and its curing-sheds can be smelled from the road. Its people trade at Baile chrom.",
+  "known_for": "hunters and hide-curers"
+ },
+ "415": {
+  "founded_age": "IV",
+  "founded_between": [
+   1810,
+   1850
+  ],
+  "founded_by": "a mining crew under the human administration",
+  "history": "Cnoc chaol was a mining camp on the narrow hill, worked by the ton in the Age of Strangers. It emptied after Scàineadh Cill ghlas closed the district and never recovered. Fewer than seven hundred people live there now, among the spoil heaps.",
+  "known_for": "a spent camp on the narrow hill"
+ },
+ "416": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich farmers who reclaimed the wild field",
+  "history": "A village of fields reclaimed from wild ground in the Age of Sundering, when the island had fewer mouths and more hands to spare. It feeds the towns of Ceann àrsaidh and sends its surplus to Muileann chrom to be ground. It is a large village now, of nearly ten thousand.",
+  "known_for": "reclaimed wild fields"
+ },
+ "417": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich river boatmen",
+  "history": "Inis ìseal is a river port on a low island in the Abhainn uaine, a short way from the landing at Cidhe Beag. It is the rival of Ceann fhada a short way upstream, and the two have disputed tolls in every age. It prospered in the Age of Strangers carrying ore and has kept its trade by carrying grain.",
+  "known_for": "river-island port on the Abhainn uaine"
+ },
+ "418": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich innkeepers of Seann Vell",
+  "history": "Cuan chrom is a harbour town on a bent inlet, and An Taigh-seinnse Mòr, one of the great houses of the old tavern circuit, stands at its quay. The tavern was a waypoint on the mining roads and doubled as a militia halt in the years before the war. It is known across the island for its steamed carp and green brandy.",
+  "known_for": "An Taigh-seinnse Mòr and steamed carp"
+ },
+ "419": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich custodians who found the silver seam",
+  "history": "Muileann chiar was founded when a silver seam was found near, but distinct from, the great vein, the island's first confirmed resource that was not obsidian. In the Age of Strangers human interests tried to claim the silver as well, and the Ròdaich kept it; the town grew alongside the obsidian workings as demand for both rose. It is smaller now than in its great years.",
+  "known_for": "the island's silver seam"
+ },
+ "420": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich teachers of the Yellow Scorpion",
+  "history": "Baile àrsaidh is the ancient town of the west, the seat of its province and the place where the teachers of the Yellow Scorpion have kept their school since the faiths divided. It is a large town of twenty thousand. It trades with Seann Skell to the north and with the fleet at Cuan shean to the south.",
+  "known_for": "the Yellow Scorpion's teachers"
+ },
+ "421": {
+  "founded_age": "III",
+  "founded_by": "craftsmen outside the walls of Baile Mòr ruadh",
+  "history": "Baile mhòr grew outside the walls of Baile Mòr ruadh, a suburb of tanners, dyers and other trades the city would not have within its gates. It has never been walled itself. In the Age of Strangers it was burned once in a quarrel between the city and the administration, and rebuilt in stone.",
+  "known_for": "trades outside Baile Mòr ruadh's walls"
+ },
+ "422": {
+  "founded_age": "II",
+  "founded_by": "a custodian house of the eastern hills",
+  "history": "Dùn dhearg is the red hill-fort city of the east and the seat of its province, a city of more than twenty-five thousand. The mills of Muileann dhomhain grind its bread and the quarries of Cnoc ghlas built its houses. It keeps the folk tradition of the ancestors, and its old fort is the site of the province's ancestor feasts.",
+  "known_for": "red hill-fort city of the east"
+ },
+ "423": {
+  "founded_age": "IV",
+  "founded_between": [
+   1810,
+   1860
+  ],
+  "founded_by": "a mining crew under the human administration",
+  "history": "Baile òg, \"the young town\", was a camp of the diggings east of the capital, raised in the Age of Strangers near Cill ghlas. It emptied when Scàineadh Cill ghlas closed the district for a generation. It was reopened after the Severance, and its people now follow the capital's faith.",
+  "known_for": "camp-town of the Cill ghlas diggings"
+ },
+ "424": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich traders of the eastern plain",
+  "history": "Cnoc shean is the old hill market for the granary fields of Achadh mhòr, and the seat of its province. It is a town of more than twenty thousand, with grain-halls and a weighing-house older than any coinage on the island. The tavern An Sligeanach Fad' às lies on the road to Achadh mhòr, and its dried deer is sold in Cnoc shean's market.",
+  "known_for": "old hill market of the granary fields"
+ },
+ "425": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich innkeepers of Cnoc leathan",
+  "history": "A small town at a blue ford a short way from An Taigh-òsta Grianach, the great roadside inn of the eastern circuit. Its people keep stables and sell to travellers. It fortified its inns before the war, as the tavern road did everywhere.",
+  "known_for": "blue ford by An Taigh-òsta Grianach"
+ },
+ "426": {
+  "founded_age": "III",
+  "founded_by": "market gardeners of Àth shean",
+  "history": "Baile uaine is a small town of market gardens, sending green stuff to Dùn gheal and on to the capital each market day. It has never been walled or fought over. Its people follow the capital's faith and pay their dues at Dùn gheal.",
+  "known_for": "market gardens for the capital"
+ },
+ "427": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich followers of the Direwolf",
+  "history": "An old walled town of Creideamh a' Mhadaidh-allaidh, beside the fort of Muileann bheag. Its walls are older than the fort, and for most of the record it was the stronger of the two. It is small now, and lives on the fort's custom.",
+  "known_for": "old walled town of the Direwolf"
+ },
+ "428": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich soldiers of the capital's south",
+  "history": "A town of one long street with a citadel at its end, south-east of the capital. It was a garrison town in the Age of Strangers and has kept its citadel manned since. Its people are soldiers' families and carters, and its street is the last stage of the road from the southern coast to Cathair dhearg.",
+  "known_for": "long street and citadel south of the capital"
+ },
+ "429": {
+  "founded_age": "III",
+  "founded_by": "millers of Ceann mhin",
+  "history": "A walled mill town a short way inland from Ceann mhin, whose broad mill-pool is the largest on that coast. It was walled when Ceann mhin was, in the Age of Strangers, to protect its stores. Its flour goes to the ships at Ceann mhin and never to the rival quays of Ceann chaol.",
+  "known_for": "broad mill serving Ceann mhin"
+ },
+ "430": {
+  "founded_age": "III",
+  "founded_by": "wardens of the panther roads",
+  "history": "Muileann bheag is a fort with a citadel north of Baile dhomhain, whose fields the panthers of Imrich nam Pantar cross. It is not the Muileann bheag of the northern lighthouse. Travellers stop at Am Buabhall Fortanach nearby, and the first fleet lies at Àth gharbh a short way west.",
+  "known_for": "citadel north of the panther roads"
+ },
+ "431": {
+  "founded_age": "I",
+  "founded_by": "the Seann-Dhaoine",
+  "history": "Seann Skell is the great southern port, a town of nearly sixty thousand whose harbour lies on a site the Seann-Dhaoine used before the Ròdaich; the name keeps their root. It is the seat of its province and a centre of Creideamh nan Ròdach. The ninth regiment and the second fleet, raised in the Long War, are stationed here. It shares its name with the great western port.",
+  "known_for": "the southern fleet harbour"
+ },
+ "432": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich keepers of Tuam Cnoc dhìreach",
+  "history": "A small town beside Tuam Cnoc dhìreach, the necropolis whose oldest graves are older than its oldest legible names. Its families have kept the necropolis since the Holy Age, when it received its first formally recorded burial. It lives on the burials of the eastern coast and on the masons who cut the stones.",
+  "known_for": "keepers of Tuam Cnoc dhìreach"
+ },
+ "433": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich followers of the Direwolf",
+  "history": "Cnoc àrsaidh is a walled town of Creideamh a' Mhadaidh-allaidh and the seat of its province, holding the oldest shrines of that faith. The panther roads pass close by, and the town keeps a watch on them in the season of crossing. Its walls were raised in the Age of Strangers and have not been needed since.",
+  "known_for": "Direwolf shrines and the panther watch"
+ },
+ "434": {
+  "founded_age": "III",
+  "founded_by": "millers of Tobar fhiadhaich",
+  "history": "A mill town on the north coast, grinding for Tobar fhiadhaich and the upland farms behind it. It is one of several places named Muileann chrom and is not the great mill town of the central country. It is a quiet town of millers and inshore fishers.",
+  "known_for": "north-coast mill of Tobar fhiadhaich"
+ },
+ "435": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich herders of the northern moor",
+  "history": "Tobar fhiadhaich is a large village around a wild spring on the moor, and the seat of its province. It lives on grazing and on the peat of Achadh gharbh. Its herders have walked the same moor paths since the Holy Age, and its spring is said never to have failed, even in the driest years.",
+  "known_for": "wild spring and moorland grazing"
+ },
+ "436": {
+  "founded_age": "II",
+  "founded_by": "a custodian house of the northern ford",
+  "history": "Àth mhòr is the walled great ford of the north and the seat of its province, a town of twelve thousand. Its walls were raised in the Age of Strangers, when the northern road carried ore to the coast and the ford was worth holding. Baile bheag lies across the river and handles the traffic after the gates are shut.",
+  "known_for": "walled great ford of the north"
+ },
+ "437": {
+  "founded_age": "III",
+  "founded_by": "carters across the ford from Àth mhòr",
+  "history": "A small town across the ford from Àth mhòr, grown up to serve the traffic that the walled town would not let in after dark. It is a town of stables, carters and cheap lodging. It has always been a dependent of Àth mhòr and has never been allowed a market of its own.",
+  "known_for": "carters across the ford"
+ },
+ "438": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich herders of the northern plain",
+  "history": "Tobar ghorm is a large village around a blue spring, the seat of its province, and home to the greatest wool fairs of the north. The fairs were old before the humans came, and the humans' wool-buyers made them larger. The mills of Muileann mhin grind its grain.",
+  "known_for": "blue spring and wool fairs"
+ },
+ "439": {
+  "founded_age": "III",
+  "founded_by": "woodwards for Caol gharbh's yards",
+  "history": "A village in a narrow oakwood that has sent timber to the boatyards of Caol gharbh since the yards were opened. It has always been small and has always been owed money by the yards. It follows Feallsanachd an Fhèidh.",
+  "known_for": "oak for Caol gharbh's boatyards"
+ },
+ "440": {
+  "founded_age": "I",
+  "founded_by": "the Seann-Dhaoine",
+  "history": "Seann Bhrenn is an old harbour of the Seann-Dhaoine, settled by the Ròdaich in the Holy Age. It lies hard beside Caol gharbh, and the two harbours have quarrelled over the same water for as long as there are records, each claiming the other was built on its fishing ground. It is a port town of nearly nine thousand and the older of the two by its name.",
+  "known_for": "old harbour quarrelling with Caol gharbh"
+ },
+ "441": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich drovers; resettled by the Tuathaich after the Severance",
+  "history": "The northern Àth leathan is a drovers' ford resettled by the Tuathaich after the Severance. It is not the battlefield of the Long War, which lies far to the south-west, and its people have spent a generation correcting travellers. It follows the Yellow Scorpion.",
+  "known_for": "a drovers' ford in the north"
+ },
+ "442": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich woodwards; resettled by the Tuathaich after the Severance",
+  "history": "A great oakwood village, resettled by the Tuathaich after the Severance and now one of the largest places they hold, with fourteen thousand people. It lives on timber and charcoal, and its charcoal fed the northern smithies when the ore was no longer theirs to burn. It follows the Yellow Scorpion.",
+  "known_for": "great oakwood and charcoal"
+ },
+ "443": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich seafarers of the rough strait",
+  "history": "Caol gharbh is a walled harbour on the rough strait and the seat of its province, a village in name but a town of twenty-seven thousand in fact. Its boatyards take oak from Doire chaol and build the heavy boats the strait demands. Its quarrel with Seann Bhrenn next door is as old as the record.",
+  "known_for": "boatyards on the rough strait"
+ },
+ "444": {
+  "founded_age": "III",
+  "founded_by": "toll-keepers of Muileann bheag",
+  "history": "A small town on the road to Muileann bheag, walled to collect tolls rather than to keep enemies out. It still collects them, and has outlasted every attempt to abolish the right. It is one of several places named Baile bheag.",
+  "known_for": "a walled town of tolls"
+ },
+ "445": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich ford-keepers; resettled by the Tuathaich after the Severance",
+  "history": "A red ford on the western coast below the lighthouse of Baile chrom, struck by Gorta Baile chrom in the Age of Strangers and resettled by the Tuathaich after the Severance. Its people keep the Yellow Scorpion, as most of this coast does. It is not the Àth dhearg of the north-eastern lighthouse.",
+  "known_for": "red ford under the Baile chrom light"
+ },
+ "446": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich fishers of the northern shore",
+  "history": "Baile shean is an old quay on the northern shore and the port of its province. The inn An Taigh-seinnse Reòta lies inland on the road south, and its pickled spinach goes out through the quay. It is one of several places named Baile shean.",
+  "known_for": "old quay of the northern shore"
+ },
+ "447": {
+  "founded_age": "IV",
+  "founded_between": [
+   1790,
+   1840
+  ],
+  "founded_by": "human traders, as a waystation",
+  "history": "Àth fhionn was a waystation of human traders on the road north, built in the Age of Strangers at a fair ford. The Tuathaich kept it after the Severance. It is small, fewer than a thousand people, and its inn is still built in the humans' manner.",
+  "known_for": "a human waystation at the fair ford"
+ },
+ "448": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich ford-keepers",
+  "history": "A small town at a grey ford upstream of Drochaid Ros fhionn. It took the traffic when the old bridge fell out of use, and grew as the bridge-villages shrank. It follows Feallsanachd an Fhèidh.",
+  "known_for": "grey ford that replaced the old bridge"
+ },
+ "449": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich barley farmers",
+  "history": "Achadh chaol is a large village of narrow barley fields and the seat of its province. Its grain goes to the mills of Muileann dhìreach, and the two places have kept the same bargain since the Holy Age. It follows Feallsanachd an Fhèidh.",
+  "known_for": "narrow barley fields"
+ },
+ "450": {
+  "founded_age": "IV",
+  "founded_between": [
+   1782,
+   1800
+  ],
+  "founded_by": "Ròdaich and human traders together",
+  "history": "Ceann òg, \"the young headland\", was built as a trading quay in the first years after the Crossing, when exchange with the humans was still reciprocal. It stands near Carragh Cnoc bheag, the stone carved Bha teine sa chloich. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It follows the Hawk, and its quay was rebuilt after the Severance for Ròdaich ships alone.",
+  "known_for": "young quay near Carragh Cnoc bheag"
+ },
+ "451": {
+  "founded_age": "III",
+  "founded_by": "carters of Achadh shean",
+  "history": "A small town at a bent ford on the road from Achadh shean to the coast. It lives on the road and has never been more than a crossing.",
+  "known_for": "bent ford on the Achadh shean road"
+ },
+ "452": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich shepherds; resettled by the Tuathaich after the Severance",
+  "history": "A white hill of sheepfolds, Ròdaich until the Severance and Tuathaich since. The Ròdaich Cnoc gheal lies a short walk south-west, over the line. The two villages share a name and a faith and very little else.",
+  "known_for": "white hill sheepfolds on the line"
+ },
+ "453": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich farmers of Cnoc bheag",
+  "history": "A farming village of six thousand just south of the Tuathaich line. It follows the Yellow Scorpion, like its neighbours across the line. It trades with both sides and has been watched by both.",
+  "known_for": "border fields south of the Tuathaich line"
+ },
+ "454": {
+  "founded_age": "V",
+  "founded_between": [
+   1940,
+   1970
+  ],
+  "founded_by": "settlers under the restored kingdom",
+  "history": "Achadh dhìreach was laid out in straight fields by the restored kingdom, when extraction returned to full scale and the towns of the plain needed feeding. It is small, fewer than eight hundred people. It feeds Baile Mòr àrsaidh.",
+  "known_for": "kingdom-era straight fields"
+ },
+ "455": {
+  "founded_age": "II",
+  "founded_by": "a custodian house of Dùn thais",
+  "history": "Muileann àrsaidh is an ancient mill fortified with a citadel, a short way from Muileann chaol. The citadel guarded the road to the ore in the Holy Age and now guards the road to the library. It is a small place of fewer than two thousand.",
+  "known_for": "fortified ancient mill"
+ },
+ "456": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich keepers of the holy wood",
+  "history": "Cnoc uaine is a green hill at the edge of Coille Naomh Muileann chiar. It is a large town of nearly seventeen thousand, and its people share the keeping of the wood with Àth dhearg. It keeps the folk tradition of the ancestors, though the wood itself is sacred to the Fèidh.",
+  "known_for": "green hill on the holy wood's edge"
+ },
+ "457": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich fishers of the eastern coast",
+  "history": "Ceann chiar is a walled harbour on the eastern coast, walled against the pirate ships that have been seen in these waters in every age. It keeps a watch-fire on its headland. It is the port of Seann Tarr province.",
+  "known_for": "walled harbour against pirates"
+ },
+ "458": {
+  "founded_age": "III",
+  "founded_by": "millers of Muileann chrom",
+  "history": "A walled mill town on the road north of Muileann chrom, one of three places named Muileann dhearg. It was walled in the Age of Strangers to protect its stores. It follows the capital's faith.",
+  "known_for": "walled red mill"
+ },
+ "459": {
+  "founded_age": "IV",
+  "founded_between": [
+   1790,
+   1830
+  ],
+  "founded_by": "suppliers to the garrison at Inis mhòr",
+  "history": "Cnoc òg grew up in the Age of Strangers to supply the garrison at Inis mhòr, where the first regiment is now stationed. It is a town of bakers and harness-makers. It follows the capital's faith.",
+  "known_for": "supplies for the first regiment"
+ },
+ "460": {
+  "founded_age": "III",
+  "founded_by": "a custodian house of Cill dhìreach",
+  "history": "Baile bhàn is a white town with a citadel above Cill dhìreach, built to guard the church-town and its treasuries. It is a town of five thousand. Its garrison keeps order at Còmhrag Ceann leathan.",
+  "known_for": "citadel above Cill dhìreach"
+ },
+ "461": {
+  "founded_age": "II",
+  "founded_by": "priests of the Dark Unicorn",
+  "history": "Cill dhìreach is a church village of twenty-four thousand and the seat of its province. It lies beside Ceann leathan, where Còmhrag Ceann leathan is held each year. Its priests tend the wounded of the melee and bury its dead.",
+  "known_for": "church-town of the Ceann leathan melee"
+ },
+ "462": {
+  "founded_age": "III",
+  "founded_by": "a custodian house of the eastern diggings",
+  "history": "Cnoc dhìreach is the walled seat of the eastern mining district, a town of nearly nineteen thousand. It was walled in the Age of Strangers, when the strikes in the district made the administration nervous. It is not the small town of the necropolis on the south-east coast.",
+  "known_for": "walled seat of the mining district"
+ },
+ "463": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich traders of Inis thais",
+  "history": "Àth ghlas is a large ford-market of the west, near Seann Warr. It follows the Yellow Scorpion. It is one of three places named Àth ghlas and the largest.",
+  "known_for": "grey ford market of the west"
+ },
+ "464": {
+  "founded_age": "III",
+  "founded_by": "reed-cutters of Cnoc leathan",
+  "history": "Cnoc thais is a damp hill whose reed-beds thatch the roofs of the eastern plain. It is a town of eleven thousand. Its cutters work the beds in the dry months and its thatchers travel in the wet.",
+  "known_for": "reed-cutters and thatch"
+ },
+ "465": {
+  "founded_age": "I",
+  "founded_by": "the Seann-Dhaoine",
+  "history": "Seann Mhorn is a small old harbour, one of several Seann names on this stretch of the southern coast, and was settled by the Ròdaich in the Holy Age. It lies between Seann Skell and Seann Vell. It is a fishing village of three thousand.",
+  "known_for": "small old harbour"
+ },
+ "466": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich millers of the south-east",
+  "history": "Muileann dhomhain, seat of its province, is a town of twenty thousand built around deep mill-pools fed from the hills. Its flour goes down to the quays of Ceann chaol and out by sea, and the two towns have depended on each other since the Holy Age. It is not the smaller Muileann dhomhain of Dùn ìseal to the north.",
+  "known_for": "deep mill-pools feeding Ceann chaol's ships"
+ },
+ "467": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich peat-cutters of the northern uplands",
+  "history": "A hamlet-sized village of rough upland fields and peat banks above Tobar fhiadhaich. Its peat warmed the northern towns when the Small-Burning Law still held and the ore was not burned freely. Fewer than a thousand people live there now.",
+  "known_for": "rough upland fields and peat"
+ },
+ "468": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich priests; resettled by the Tuathaich after the Severance",
+  "history": "Cill chaol was a narrow Ròdaich chapel village near the northern coast, emptied at the Severance and taken by Tuathaich families. They turned its chapel to the worship of Donn, an Sìorraidh, under Creideamh nan Tuathach, and the Ròdaich carvings on its doorposts were left in place beside theirs. It is a small place near the lighthouse of Muileann bheag.",
+  "known_for": "a Tuathach shrine in a Ròdaich chapel"
+ },
+ "469": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich farmers of Baile gharbh",
+  "history": "A village of smooth, well-drained fields that feeds the harbour at Ceann dhubh. It is not the Achadh mhin of the southern coast that the Great Wave struck. It has had few recorded troubles and is mentioned in the older rolls chiefly for its tithe.",
+  "known_for": "smooth fields of Baile gharbh"
+ },
+ "470": {
+  "founded_age": "IV",
+  "founded_between": [
+   1840,
+   1900
+  ],
+  "founded_by": "human colliers of the northern seams",
+  "history": "Baile dhubh, \"the black town\", was built by human colliers in the Age of Strangers on one of the northern coal seams, which the humans worked alongside the vein in the south. After the Severance it passed to the Tuathaich with the rest of the north. Before the Long War it was one of the communities that refused the new fuel and kept working the last workable seams.",
+  "known_for": "coal pits of the northern holdouts"
+ },
+ "471": {
+  "founded_age": "II",
+  "founded_by": "a custodian house of Muileann bheag",
+  "history": "Dùn dhubh is a walled hill fort of dark stone, ranked a city though it holds under three thousand people. It commands the coast road above Muileann bheag and the harbour of Seann Toll. Its walls were raised in the Holy Age and repaired in every age after.",
+  "known_for": "black fort over the coast road"
+ },
+ "472": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich ford-keepers; resettled by the Tuathaich after the Severance",
+  "history": "A fair ford on the western coast road below the lighthouse of Baile chrom, struck by Gorta Baile chrom in the Age of Strangers and resettled by the Tuathaich after the Severance. It is a town of nearly nine thousand and the market for Doire chaol's charcoal. Its people follow the Yellow Scorpion, as most of this coast does.",
+  "known_for": "fair ford of the western coast"
+ },
+ "473": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich founders; resettled by the Tuathaich after the Severance",
+  "history": "Cnoc dhubh is a black hill with coal seams in its flank, first dug by the Ròdaich for building-stone and later by the humans for coal. The Tuathaich who resettled it kept the pits open. It was among the northern communities that refused the dubhan economy, and its pits were the last in the north to close after the Long War.",
+  "known_for": "the last coal pits of the north"
+ },
+ "474": {
+  "founded_age": "III",
+  "founded_by": "millers of Achadh naomh",
+  "history": "The black mill stands on the northern road near Tobar ghorm, grinding for the villages of Achadh naomh province. Its wheel was darkened, the old telling says, by ore dust carried downstream from the mining roads. It is a small town and has always been one.",
+  "known_for": "black mill of the northern road"
+ },
+ "475": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich seafarers of the small strait",
+  "history": "Caol bheag is a harbour town of more than forty thousand on the small strait, crowned by a citadel and the seat of its province. The fourth regiment, raised in the Long War, is stationed here. The mills of Muileann bheag and the wool of Cnoc chiar pass through its quays.",
+  "known_for": "fourth regiment's harbour town"
+ },
+ "476": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich builders; resettled by the Tuathaich after the Severance",
+  "history": "Cathair gheal is a walled city of white stone on the far western coast, built by the Ròdaich and resettled by the Tuathaich after the Severance. Its walls face the sea, where pirate ships have been seen offshore. It is the market for the Tuathaich villages of Muileann àrsaidh province.",
+  "known_for": "white walls against the pirate coast"
+ },
+ "477": {
+  "founded_age": "III",
+  "founded_by": "millers of Cuan ghlas",
+  "history": "Muileann bheag is a mill town of fourteen thousand grinding for Inis mhòr and Caol bheag. Its mills are among the busiest in the north. It is one of several places named Muileann bheag, and not the fort above the panther roads nor the town of the northern lighthouse.",
+  "known_for": "mills for Inis mhòr and Caol bheag"
+ },
+ "478": {
+  "founded_age": "V",
+  "founded_between": [
+   1930,
+   1940
+  ],
+  "founded_by": "Tuathaich families sent north at the Severance",
+  "history": "A small ford settlement founded by Tuathaich families who came north at the Severance. It has fewer than a thousand people. It trades with Baile ìseal and Baile òg, the other Tuathaich towns of its province.",
+  "known_for": "a ford settled after the Severance"
+ },
+ "479": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich followers of the Hawk",
+  "history": "Baile dhomhain is a walled town in a deep valley near Cnoc bheag, one of the towns of the Hawk. Its walls were raised in the Age of Strangers and strengthened after the Severance, when the Tuathaich line was drawn close by. A' Phlàigh Uaine, the Green Death, struck it in the Age of Strangers. Its trade goes down to the quay at Ceann òg.",
+  "known_for": "walled deep-valley town of the Hawk"
+ },
+ "480": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich slate-quarriers of Cuan ruadh",
+  "history": "A small town of grey slate on the eastern coast, quarrying for the roofs of Achadh shean and Cnoc uaine. Its people keep the folk tradition of the ancestors.",
+  "known_for": "grey slate of the east coast"
+ },
+ "481": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich traders of Muileann naomh",
+  "history": "A small town of one straight street on the far west, twinned with Cnoc gheal a short walk away. It lies close to the Tuathaich line and trades with the villages beyond it. It follows the Yellow Scorpion.",
+  "known_for": "straight-street twin of Cnoc gheal"
+ },
+ "482": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich priests of the Yellow Scorpion",
+  "history": "The Ròdaich Cnoc gheal is a white hill with a shrine of the Yellow Scorpion, twinned with Baile dhìreach. A second Cnoc gheal, held by the Tuathaich, lies a short walk north-east over the line. The two villages share a name and a faith and very little else.",
+  "known_for": "white hill shrine of the Scorpion"
+ },
+ "483": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich farmers of Seann Skell",
+  "history": "A village of grey-green fields on the road north from Seann Skell, whose barley and oats feed the great port. It lies just south of the Tuathaich line, and since the Severance its farmers have ploughed with one eye on the boundary. In the Long War its barns quartered soldiers of the seventh regiment on the way to Àth leathan.",
+  "known_for": "grey fields on the Seann Skell road"
+ },
+ "484": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich traders of the northern plain",
+  "history": "Baile Mòr àrsaidh is an ancient market city of the northern plain, ranked a city for its age rather than its size. Its market was old in the Holy Age. It takes oak from Doire dhìreach and grain from Achadh dhìreach.",
+  "known_for": "ancient market of the northern plain"
+ },
+ "485": {
+  "founded_age": "III",
+  "founded_by": "carters of the Seann Dunn road",
+  "history": "A town of one straight road running down to Seann Dunn, whose carters take the dyed cloth of Baile ghorm to the harbour. It is a town of nearly ten thousand. It keeps the folk tradition of the ancestors.",
+  "known_for": "straight road to Seann Dunn"
+ },
+ "486": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich woodwards of Cnoc bhàn",
+  "history": "A village in a dark oak grove a short way north of Muileann chaol. When the library was founded its oak was cut for the shelves and reading-tables, and the woodwards still claim a right to repair them. It sends its remaining timber to Cnoc bhàn and Baile thais.",
+  "known_for": "dark oak for the library's shelves"
+ },
+ "487": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich ford-keepers of Dùn thais",
+  "history": "The deep ford lies below Muileann chaol, and every reader bound for the library crosses it. It is a town of eleven thousand. It follows Feallsanachd an Fhèidh.",
+  "known_for": "deep ford below Muileann chaol"
+ },
+ "488": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich priests of the western coast",
+  "history": "A village around a rough stone chapel on the far western coast of the Ròdaich country. Its chapel is older than any of its houses, and the Yellow Scorpion was worshipped there before the faiths divided. It is a small village of fewer than two thousand.",
+  "known_for": "rough stone chapel of the west"
+ },
+ "489": {
+  "founded_age": "I",
+  "founded_by": "the Seann-Dhaoine",
+  "history": "Seann Skell is the great port of the west, a city of seventy-four thousand and the largest place in this part of the island; the harbour is a Seann-Dhaoine site and the name keeps their root. It is walled by its citadel rather than by curtain walls, and the seventh regiment, raised in the Long War, is stationed here. The first battle of that war was fought at Àth leathan, a short march north.",
+  "known_for": "the great western port"
+ },
+ "490": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich woodwards of Seann Tarr",
+  "history": "A village in a wild oakwood between Baile Mòr ruadh and the east coast. It lives on timber and on the boar hunts that the city's families come out for. It keeps the folk tradition of the ancestors.",
+  "known_for": "wild oakwood and boar"
+ },
+ "491": {
+  "founded_age": "III",
+  "founded_by": "ore-millers of the central diggings",
+  "history": "Muileann dhearg, seat of its province, is a mill town a short way from Cill ghlas. Scàineadh Cill ghlas tore open the hills nearby and killed dozens, and the town's mills stood idle for a generation after. It follows Feallsanachd an Fhèidh.",
+  "known_for": "red mill beside Cill ghlas"
+ },
+ "492": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich ford-keepers of the east coast",
+  "history": "Àth bheag is a town of twenty thousand on the east coast, the seat of its province. Pirate ships have been seen offshore, and the town keeps watchers on the dunes. The lighthouse of Baile ìseal lies a short way south.",
+  "known_for": "east-coast ford under pirate watch"
+ },
+ "493": {
+  "founded_age": "IV",
+  "founded_between": [
+   1810,
+   1860
+  ],
+  "founded_by": "a mining crew under the human administration",
+  "history": "Muileann gheal was a walled mill-camp under the Doire uaine hills, built in the Age of Strangers to crush ore from the eastern diggings. It is small, fewer than seven hundred people. The warm springs of Muileann ruadh lie a short walk away, and the camp's miners bathed there.",
+  "known_for": "walled mill-camp under Doire uaine"
+ },
+ "494": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich woodwards of Baile àrsaidh",
+  "history": "A village in a narrow oakwood south of Baile àrsaidh, felling for the yards at Cuan shean as the larger Doire gharbh does. The two oakwood villages have argued over the same buyers in every age. It follows the Yellow Scorpion.",
+  "known_for": "narrow oakwood of Baile àrsaidh"
+ },
+ "495": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich traders of Doire mhin",
+  "history": "Baile bhàn is a white town of nine thousand near Cathair mhòr, on the road toward Muileann ghlas. Before the last battle of the Long War the state's columns marched through it. It follows the capital's faith.",
+  "known_for": "white town on the Muileann ghlas road"
+ },
+ "496": {
+  "founded_age": "IV",
+  "founded_between": [
+   1810,
+   1860
+  ],
+  "founded_by": "a mining crew under the human administration",
+  "history": "Àth dhìreach was a ford where the ore carts crossed in the Age of Strangers. It is a town of three thousand in the eastern mining district. Its ford is paved with spoil from the diggings.",
+  "known_for": "straight ford of the ore carts"
+ },
+ "497": {
+  "founded_age": "I",
+  "founded_by": "the Seann-Dhaoine",
+  "history": "Seann Bhral is a walled harbour on a Seann-Dhaoine site, settled by the Ròdaich and named by them for the Old Ones. It lies near Làrach an Dùin-fhaire, the ruined outpost no one can date. It is a port town of four thousand.",
+  "known_for": "walled old harbour of Ros gharbh"
+ },
+ "498": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich woodwards of Àth ghlas",
+  "history": "A small village in a copse of white-barked trees across the river from Àth ghlas, cutting firewood and poles for the town. It keeps clear of the ruin of Làrach an Dùin-fhaire to the east, as its elder neighbour does. It follows the capital's faith.",
+  "known_for": "white-barked copse by Àth ghlas"
+ },
+ "499": {
+  "founded_age": "II",
+  "founded_by": "priests of the Yellow Scorpion",
+  "history": "Cill thais is a chapel village on damp ground above the anchorage of Cuan shean, fortified with a citadel in the Holy Age to watch the western sea. The fourth fleet, raised in the Long War, is stationed at Cuan shean below, and the village's priests bless each ship before it first puts out. It is a small place whose citadel is larger than its village.",
+  "known_for": "fortified chapel over the fleet anchorage"
+ },
+ "500": {
+  "founded_age": "II",
+  "founded_by": "Ròdaich ford-keepers of the capital",
+  "history": "Àth fhiadhaich is the wild ford on the south road out of Cathair dhearg, a town of ten thousand that grew as the capital grew. Its crossing was paved in the Holy Age, and the road over it carries the capital's trade toward the southern coast. It follows the capital's faith, and its shrine keepers take part in the rites at Cathair dhearg.",
+  "known_for": "wild ford on the capital's south road"
+ },
+ "501": {
+  "founded_age": "III",
+  "founded_by": "quarriers of Ros gharbh",
+  "history": "Cnoc gharbh is a rough hill of quarries near Seann Bhral, whose walls were built of its stone. It is a town of nearly five thousand, of quarrymen and carters. The standing column at Cnoc ghorm is not of its stone, a fact its masons have checked more than once.",
+  "known_for": "quarries on the rough hill"
+ },
+ "502": {
+  "founded_age": "III",
+  "founded_by": "a custodian house of the ore road",
+  "history": "Muileann bhàn is a town of thirty-four thousand with a citadel, the seat of its province, standing where the ore road from the eastern diggings met the mills. In the Age of Strangers its citadel held the human administration's weighing-house and its guards. The mills have turned to grain since the Severance, and the folk tradition of the ancestors, never lost here, has returned to the square.",
+  "known_for": "white mills and citadel of the ore road"
+ },
+ "503": {
+  "founded_age": "IV",
+  "founded_between": [
+   1790,
+   1850
+  ],
+  "founded_by": "human administrators near Seann Warr",
+  "history": "Baile dhubh was built in the Age of Strangers as a clerks' town for the human administration near Seann Warr, where the fifth regiment is now stationed. After the Severance its Ròdaich people took up the Direwolf faith of the country around it. It has fewer than seven hundred people and lives on the garrison.",
+  "known_for": "former clerks' town by Seann Warr"
+ },
+ "504": {
+  "founded_age": "II",
+  "founded_by": "custodians named in the holy-wood dispute",
+  "history": "Cnoc bheag is a fort with a citadel at the edge of Coille Naomh Cnoc bheag, the forest that has never been settled or logged. It was raised after the holy-wood dispute of the Holy Age, when custody of the wood was divided rather than awarded, to house the custodians of the share that went to the faith now called Creideamh an Aon-adharcaich Dhuibh. It stands outside the trees, never within them, and its twelve thousand people guard the capital's south as well as the wood.",
+  "known_for": "fort at the edge of the holy wood"
+ },
+ "505": {
+  "founded_age": "III",
+  "founded_by": "Ròdaich millers of Cnoc leathan",
+  "history": "Muileann ruadh is a walled mill town near An Taigh-òsta Grianach, the great inn of the eastern road. Its walls were raised when the inns fortified before the war, and the town and the inn have shared a watch ever since. The unexplored hollow called Toll-dubh lies close by, and the townsfolk keep away from it. It is not the Muileann ruadh of the warm springs to the west.",
+  "known_for": "red mill on the inn road"
+ }
+}

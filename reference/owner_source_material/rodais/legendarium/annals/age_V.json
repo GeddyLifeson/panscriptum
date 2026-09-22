@@ -1,0 +1,3347 @@
+[
+ {
+  "id": "V-0001",
+  "canon": true,
+  "title": "The Tuathaich homeland fixed",
+  "body": "Human descendants stranded by the Severance are formally settled in the island's north — a confinement, not a homecoming, though later generations will simply call it home.",
+  "place": null,
+  "kind": "people",
+  "canon_date": "c. 1930 DE"
+ },
+ {
+  "id": "V-0002",
+  "canon": false,
+  "title": "The Severance companies stood down",
+  "body": "The war-companies that fought the last campaign against the human administration are disbanded at Cathair dhearg. Their rolls are handed to the council rather than burned, and the companies are never formally abolished; they survive as names on a list.",
+  "place": "burg:19",
+  "kind": "war"
+ },
+ {
+  "id": "V-0003",
+  "canon": false,
+  "title": "The boundary stones set",
+  "body": "Stones are set on the roads running north to mark where the Tuathaich territory begins. No wall follows them. Many still stand at the roadside, and nobody has been paid to move them.",
+  "place": "province:7",
+  "kind": "people"
+ },
+ {
+  "id": "V-0004",
+  "canon": false,
+  "title": "The hungry year at Doire ghlas",
+  "body": "Cut off from the stores that used to come over the water from an Tìr Thall, the northern settlements go short of grain in their first year alone. Tuathaich memory, taken down long afterwards, puts the dead at Doire ghlas above two hundred. No Ròdaich count was made.",
+  "place": "burg:209",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0005",
+  "canon": false,
+  "title": "The human counting-houses emptied",
+  "body": "Council clerks enter the human administration's counting-houses at Cathair dhearg, Ros dhomhain and Seann Skell and carry off everything written. What the raids of the war left of the tithe ledgers is boxed with the rest, unread, because few of the clerks can read the humans' hand.",
+  "place": "burg:27",
+  "kind": "record"
+ },
+ {
+  "id": "V-0006",
+  "canon": false,
+  "title": "The north-west ports without a master",
+  "body": "At Ceann mhòr, Cathair gheal and Inis àrsaidh, the humans' harbour officers leave with the last ships before the crossing closes, taking their keys. The Tuathaich fishermen break the locks on the harbour stores and share out what they find by household.",
+  "place": "burg:330",
+  "kind": "people"
+ },
+ {
+  "id": "V-0007",
+  "canon": true,
+  "title": "Rìoghachd Ròdais declared",
+  "body": "The state formally restyles itself a kingdom in form, whatever it remains in function — the same contradiction its own records still carry today.",
+  "place": "burg:19",
+  "kind": "founding",
+  "canon_date": "c. 1931 DE"
+ },
+ {
+  "id": "V-0008",
+  "canon": false,
+  "title": "The Moot at Caol mhòr",
+  "body": "Tuathaich householders from the northern towns meet at Caol mhòr and choose a speaker, Walter Hale, a former harbour clerk. The Moot has no standing in Ròdaich law. It meets anyway and keeps its own minutes, which run unbroken from this meeting to the present.",
+  "place": "burg:95",
+  "kind": "founding"
+ },
+ {
+  "id": "V-0009",
+  "canon": false,
+  "title": "The council of the kingdom seated",
+  "body": "A royal council of twelve is seated at Cathair dhearg, drawn from the custodian families and the captains of the Severance war. Its minute-books are the oldest continuous record of the state in this age.",
+  "place": "burg:19",
+  "kind": "law"
+ },
+ {
+  "id": "V-0010",
+  "canon": false,
+  "title": "The harbour-houses of Ros dhomhain taken over",
+  "body": "The customs sheds the humans built at Ros dhomhain, the kingdom's largest port, pass to Ròdaich harbour-masters. The first of them, Dùghall mac Iain, keeps the humans' tariff in force for want of another and translates it line by line over the following years.",
+  "place": "burg:27",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0011",
+  "canon": false,
+  "title": "The ship sent west",
+  "body": "The council sends a ship out past the western capes to look for the crossing the humans used. It comes back after a month of open water and reports nothing: no land, no ship, no sign of the passage. No second ship is sent.",
+  "place": "feature:1",
+  "kind": "voyage"
+ },
+ {
+  "id": "V-0012",
+  "canon": true,
+  "title": "Niall crowned",
+  "body": "The first ruler of the restored kingdom takes the throne at Cathair dhearg — the opening name in the line the state's own chronicles keep unbroken from here forward.",
+  "place": "burg:19",
+  "kind": "reign",
+  "canon_date": "c. 1932 DE"
+ },
+ {
+  "id": "V-0013",
+  "canon": false,
+  "title": "A saying enters speech",
+  "body": "The crowning passes with so little dispute that 'mar a thàinig Niall', the way Niall came, becomes a saying for any smooth handing-over of power. Its first written use is in a Cathair dhearg tavern ledger, set against a debt settled without argument.",
+  "place": "burg:19",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0014",
+  "canon": false,
+  "title": "The shires drawn",
+  "body": "The council divides the kingdom into siorrachdan, each named for its seat, and keeps most of the human administration's district lines under the new names. The humans' surveys are the only complete ones on the island; the kingdom uses them and does not say so.",
+  "place": "province:1",
+  "kind": "law"
+ },
+ {
+  "id": "V-0015",
+  "canon": false,
+  "title": "The maoir appointed",
+  "body": "A maor is appointed to each shire to collect the Crown's dues and keep its peace. In the Tuathaich shires the maoir are Ròdaich, lodged in the seat towns; at Ceann mhòr the maor's house is the old human magistrate's, and the townspeople call it by the old name.",
+  "place": "burg:143",
+  "kind": "law"
+ },
+ {
+  "id": "V-0016",
+  "canon": false,
+  "title": "The maor of Baile Mòr mhòr",
+  "body": "The first maor of Siorrachd Baile Mòr mhòr, Coinneach mac Ailein, holds his court under the market roof of the town, since the humans' courthouse has burned. He keeps the court there after the new courthouse is built, and so do his successors.",
+  "place": "burg:365",
+  "kind": "law"
+ },
+ {
+  "id": "V-0017",
+  "canon": true,
+  "title": "Tonn Mhòr Cnoc chaol",
+  "body": "The Great Wave strikes the southern coast without warning, devastating Cnoc chaol, Cuan dhearg and Achadh mhin in a single night — the first disaster the new state responds to on its own terms.",
+  "place": null,
+  "kind": "disaster",
+  "canon_date": "c. 1933 DE"
+ },
+ {
+  "id": "V-0018",
+  "canon": false,
+  "title": "The dead of the Great Wave counted",
+  "body": "Relief parties from Cathair dhearg reach Cuan dhearg on the southern coast and count the dead of the three settlements at a little over nine hundred. The harbour at Cuan dhearg is gone. Its boats are found in the fields behind the town.",
+  "place": "burg:190",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0019",
+  "canon": false,
+  "title": "Achadh mhin under salt",
+  "body": "The fields of Achadh mhin lie under salt and will not bear. The council moves the survivors to higher ground and pays for their seed from the treasury, the first relief the restored kingdom ever grants.",
+  "place": "burg:150",
+  "kind": "law"
+ },
+ {
+  "id": "V-0020",
+  "canon": false,
+  "title": "Cnoc chaol rebuilt on the hill",
+  "body": "Cnoc chaol is rebuilt on the slope behind the old town, out of the wave's reach. The old site is left as the water left it. The townspeople call it an Tràigh Bhàthte, the drowned strand, and do not build there.",
+  "place": "burg:364",
+  "kind": "building"
+ },
+ {
+  "id": "V-0021",
+  "canon": false,
+  "title": "Tonn",
+  "body": "The accounts gathered from survivors by the relief parties use 'tonn', wave, for anything sudden and overwhelming. Within a generation the sense is heard across the south: 'tha e san tonn', he is in the wave of it.",
+  "place": "zone:4",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0022",
+  "canon": false,
+  "title": "The wave's reach on Eilean mhin",
+  "body": "The Great Wave also crosses the low island of Eilean mhin off the southern coast, where no one then lived year-round. The shepherds who summered there do not go back.",
+  "place": "feature:14",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0023",
+  "canon": true,
+  "title": "The old human coinage withdrawn",
+  "body": "Every remaining piece of human currency is formally demonetized. A new Rìoghachd coinage, minted with obsidian-dust ink in its seal, replaces it within a year.",
+  "place": null,
+  "kind": "trade",
+  "canon_date": "c. 1934 DE"
+ },
+ {
+  "id": "V-0024",
+  "canon": false,
+  "title": "The mint at Cathair dhearg",
+  "body": "A mint is set up in the old human counting-house at Cathair dhearg under Fearchar mac Dhòmhnaill, called Fearchar Bonn. The seal of each coin is pressed with an ink ground from obsidian dust, so that a clipped coin shows the colour at its edge.",
+  "place": "burg:19",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0025",
+  "canon": false,
+  "title": "The northern savings voided",
+  "body": "Tuathaich households kept what savings they had in the humans' coin. With its withdrawal those savings are worth their metal by weight and no more. The Moot at Caol mhòr petitions the council for an exchange. The petition is received and filed.",
+  "place": "burg:95",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0026",
+  "canon": false,
+  "title": "Joseph Marlow's ploughshares",
+  "body": "At Doire mhin in the north a smith named Joseph Marlow melts down his neighbours' withdrawn coin and casts it into ploughshares, which he sells back to them at the cost of the charcoal. Tuathaich songs still name him.",
+  "place": "burg:5",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0027",
+  "canon": false,
+  "title": "The coin at Inis thais",
+  "body": "At Inis thais on the south-west coast the new coin is short for most of the year and the town's merchants trade in chits written on the Wolf house's paper. The chits are redeemed at the Wolf house door when the coin arrives, and the house keeps a tenth.",
+  "place": "burg:166",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0028",
+  "canon": true,
+  "title": "Creideamh nan Ròdach formalized",
+  "body": "The Obsidian Rite becomes organized doctrine rather than diffuse folk reverence, built around the leyline and the unbroken line of the obsidian-touched.",
+  "place": null,
+  "kind": "faith",
+  "canon_date": "c. 1935 DE"
+ },
+ {
+  "id": "V-0029",
+  "canon": false,
+  "title": "The first high custodian",
+  "body": "Dòmhnall mac Thormoid is named Àrd-choimheadaiche of Creideamh nan Ròdach and seated at Seann Skell on the southern coast, where the Rite's largest house stands. His first charge is a written order of worship. There had never been one.",
+  "place": "burg:431",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0030",
+  "canon": false,
+  "title": "The Hawk houses refuse",
+  "body": "The houses of Creideamh an t-Seabhaig around Cnoc bheag decline the new order of worship, holding that the Rite's older form needs no custodian above the local altar. They are not compelled. The long quarrel between the two forms of the Rite begins here.",
+  "place": "burg:20",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0031",
+  "canon": false,
+  "title": "The Wolf houses stand aside",
+  "body": "The houses of Creideamh a' Mhadaidh-allaidh in the south-west, whose god Clach is not the Rite's, are asked to send witnesses to the formalizing of the Rite at Seann Skell. They send none, and a letter saying they wish it well.",
+  "place": "burg:204",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0032",
+  "canon": false,
+  "title": "The Moot's schoolhouse petition",
+  "body": "Walter Hale asks the council for leave to open schools in the north that teach in the humans' tongue. The council answers that the kingdom's schools teach in Ròdais and that it has no others. The Moot's minute calls the answer 'clear, at least'.",
+  "place": "burg:95",
+  "kind": "law"
+ },
+ {
+  "id": "V-0033",
+  "canon": false,
+  "title": "The capital's faith and the court",
+  "body": "The house of Creideamh an Aon-adharcaich Dhuibh at Cathair dhearg, the capital's own faith, is given the keeping of the coronation regalia, as it had been before the humans came. The Rite's high custodian asks for a share of the keeping and is refused.",
+  "place": "burg:19",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0034",
+  "canon": true,
+  "title": "The first post-Severance census",
+  "body": "The state counts its own population for the first time since reclaiming the island — and quietly notes, without further comment, exactly how few obsidian-touched individuals actually exist.",
+  "place": null,
+  "kind": "record",
+  "canon_date": "c. 1936 DE"
+ },
+ {
+  "id": "V-0035",
+  "canon": false,
+  "title": "The count taken from the road",
+  "body": "Ròdaich census clerks count the Tuathaich towns of Siorrachd Doire ghlas from the road, without entering most houses. The Moot keeps its own tally the same year. The two totals differ by nearly a fifth, and each side keeps its own.",
+  "place": "province:23",
+  "kind": "record"
+ },
+ {
+  "id": "V-0036",
+  "canon": false,
+  "title": "The circuit justices",
+  "body": "Justices are appointed to ride circuit among the shires, the first of them Eilidh nic Leòid of Cathair dhomhain. Her circuit covers eleven shires of the south-west and takes most of a year to ride once.",
+  "place": "burg:26",
+  "kind": "law"
+ },
+ {
+  "id": "V-0037",
+  "canon": false,
+  "title": "Muileann bhàn's waterworks",
+  "body": "Muileann bhàn, on the southern plain, builds the first public waterworks of the restored kingdom: a stone tank on the hill fed by the mill-race, with lead pipes to four street wells. The Guild of Hewers sends its surveyors to learn how it was done.",
+  "place": "burg:502",
+  "kind": "building"
+ },
+ {
+  "id": "V-0038",
+  "canon": false,
+  "title": "The Leòid ruling",
+  "body": "Sitting at Seann Bhral, Eilidh nic Leòid rules that land held by Tuathaich under human title passes to the Crown, while the right to work it stays with the holders and their heirs. The ruling is cited in nearly every land case of the age that follows.",
+  "place": "burg:47",
+  "kind": "law"
+ },
+ {
+  "id": "V-0039",
+  "canon": false,
+  "title": "The ore line repaired",
+  "body": "The railway the humans built from the central mountains to the sea, broken in three places during the Severance war, is repaired as far as Muileann chrom. A Rail Board is formed at Cathair dhearg to run it, with a clerk, two engineers and the humans' timetable.",
+  "place": "burg:354",
+  "kind": "building"
+ },
+ {
+  "id": "V-0040",
+  "canon": false,
+  "title": "The bridge at Cathair dhearg re-dedicated",
+  "body": "The stone bridge over the Abhainn dhomhain below the capital, built under the humans, is re-dedicated with a Ròdais name-stone. The humans' stone is not removed. It is turned to face the river.",
+  "place": "marker:3",
+  "kind": "building"
+ },
+ {
+  "id": "V-0041",
+  "canon": false,
+  "title": "The necropolis at Cnoc dhìreach",
+  "body": "The shire of Ceann mhin closes the old burial ground at Tuam Cnoc dhìreach to new graves, since the vines have broken too many stones to find room. Families of the town still tend the old graves, and some say the place is not empty after dark.",
+  "place": "marker:41",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0042",
+  "canon": true,
+  "title": "Creideamh nan Tuathach persists",
+  "body": "Tuathaich communities keep their own folk-shamanic tradition alive in the north — including, quietly, the First Canoe fragment the Ròdaich priesthood still calls superstition.",
+  "place": null,
+  "kind": "faith",
+  "canon_date": "c. 1938 DE"
+ },
+ {
+  "id": "V-0043",
+  "canon": false,
+  "title": "The Grey Night kept openly",
+  "body": "At Baile chrom in the far north-west, the vigil-keeper Hannah Crane holds the rites of Rùn-dìomhair na h-Oidhche Glaise in the open for the first time since the Severance. The cult keeps one night of silence in the year for Sìne, the Peaceful Goose. Outsiders are not told which night it is.",
+  "place": "burg:305",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0044",
+  "canon": false,
+  "title": "The Scorpion houses of the north",
+  "body": "Most Tuathaich towns keep the worship of Cnut, the Yellow Scorpion, as the Ròdaich of the west coast do; how the settlers came to it the record does not say. A house of Creideamh na Scairpe Buidhe is built at Cnoc ghorm, the largest in the north.",
+  "place": "burg:142",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0045",
+  "canon": false,
+  "title": "The school of the Scorpion at Cnoc ghorm",
+  "body": "The Scorpion house at Cnoc ghorm opens a school for its priests, teaching in the humans' tongue and reading the Scorpion's scripture in the Ròdais text the west-coast houses use. It is the only place in the north where both are taught.",
+  "place": "burg:142",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0046",
+  "canon": true,
+  "title": "The border wall proposed",
+  "body": "A formal boundary between Ròdaich and Tuathaich territory is proposed for the first time. It is rejected — not out of principle, records suggest, but because it's considered unnecessary. The two populations are already staying apart on their own.",
+  "place": null,
+  "kind": "law",
+  "canon_date": "c. 1939 DE"
+ },
+ {
+  "id": "V-0047",
+  "canon": false,
+  "title": "The minute on the wall",
+  "body": "The council minute that rejects the boundary wall runs to four lines. The fourth reads: 'They do not come south.' It is initialled by five of the twelve councillors, and the other seven did not sign against it.",
+  "place": "burg:19",
+  "kind": "record"
+ },
+ {
+  "id": "V-0048",
+  "canon": false,
+  "title": "The Allt an Àigh walk",
+  "body": "Followers of Seann Spioradan nan Ròdach begin walking each year to the holy well called Allt an Àigh in the east, whose water the old tales call healing. The custodians of the Rite discourage the walk and do not forbid it.",
+  "place": "marker:1",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0049",
+  "canon": false,
+  "title": "The walkers at Achadh gharbh",
+  "body": "The walkers to Allt an Àigh lodge at Achadh gharbh on the way, and the village builds a long hall for them. The hall's keeper writes each walker's shire in a book, which by the end of the decade holds names from fifty shires.",
+  "place": "burg:279",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0050",
+  "canon": true,
+  "title": "Extraction resumes at full scale",
+  "body": "The mine's post-Severance yield matches, then exceeds, its colonial-era output. Nothing about the method changed. Only who profits did.",
+  "place": null,
+  "kind": "trade",
+  "canon_date": "c. 1940 DE"
+ },
+ {
+  "id": "V-0051",
+  "canon": false,
+  "title": "The Sloc Mòr concession",
+  "body": "The Crown grants the working of the Sloc Mòr, the great shaft at Achadh dhomhain, to Uisdean mac Ùisdein of Cathair mhòr, whose house held the overseer's post under the humans. The terms give the Crown a fifth of the yield. They are the humans' terms with the names changed.",
+  "place": "burg:135",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0052",
+  "canon": false,
+  "title": "The night-shift kept",
+  "body": "The council declines to end the continuous working of the vein, day and night, that the humans ordered two generations before. The mountain is still given no season of rest. The custodians of the Rite enter a protest and then bless the shafts.",
+  "place": "burg:280",
+  "kind": "law"
+ },
+ {
+  "id": "V-0053",
+  "canon": false,
+  "title": "The pit towns fill",
+  "body": "Ròdaich families from the hungry east move to the vein-towns for wages. Muileann dhearg doubles in size within three years, and its hall of Feallsanachd an Fhèidh is enlarged twice in the same span.",
+  "place": "burg:491",
+  "kind": "people"
+ },
+ {
+  "id": "V-0054",
+  "canon": false,
+  "title": "Baile thais grows on the ore road",
+  "body": "Baile thais, where the ore road from the central mountains meets the east coast, takes on carters, inns and a ropewalk. Its population doubles in a decade, and the town is given a shire court.",
+  "place": "burg:44",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0055",
+  "canon": false,
+  "title": "Raiders off Cathair gheal",
+  "body": "Ships that no longer fly any flag, some crewed by men who once served the human administration, begin raiding the coast off Cathair gheal in the north-west. The Tuathaich towns suffer first and are not defended.",
+  "place": "marker:25",
+  "kind": "war"
+ },
+ {
+  "id": "V-0056",
+  "canon": false,
+  "title": "The ore line reaches the Sloc Mòr",
+  "body": "The repaired railway is carried up the valley to the pithead at Achadh dhomhain. The first ore train from the Sloc Mòr to Cathair dhearg runs under the kingdom's name and on the humans' rails.",
+  "place": "burg:135",
+  "kind": "building"
+ },
+ {
+  "id": "V-0057",
+  "canon": false,
+  "title": "The quarry at Achadh dhomhain",
+  "body": "The spoil of the Sloc Mòr, a black-veined grey stone, is cut and sold as building stone under the house of Mac Ùisdein's quarry-mark. It is used for public buildings across the south for the next forty years.",
+  "place": "burg:135",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0058",
+  "canon": false,
+  "title": "The shunting yards at Muileann chrom",
+  "body": "The Rail Board lays new sidings at Muileann chrom, where ore trains from the Sloc Mòr are broken up and made up again for the ports. The yard's families, who work the small engines that move the wagons, are counted separately by the Board and live apart in rows by the lines.",
+  "place": "burg:354",
+  "kind": "building"
+ },
+ {
+  "id": "V-0059",
+  "canon": true,
+  "title": "The guild system restored",
+  "body": "The old apprentice-binding custom from the Holy Age is revived in modified form, now explicitly reserved for Ròdaich applicants only.",
+  "place": null,
+  "kind": "craft",
+  "canon_date": "c. 1942 DE"
+ },
+ {
+  "id": "V-0060",
+  "canon": false,
+  "title": "The Guild of Hewers chartered",
+  "body": "The first guild under the restored custom, the Guild of Hewers, is chartered at Achadh dhomhain. Its oath is taken with a hand on a piece of ore. Its rolls are open to Ròdaich only, as the charter requires.",
+  "place": "burg:135",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0061",
+  "canon": false,
+  "title": "The shipwrights of Ros dhomhain",
+  "body": "The shipwrights of Ros dhomhain take a guild charter of their own and bind their first thirty apprentices in a single day on the slipway.",
+  "place": "burg:27",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0062",
+  "canon": false,
+  "title": "The indentures broken",
+  "body": "At Cuan shean and Seann Bhral, Tuathaich boys already bound to Ròdaich masters are released from their indentures under the charter rule. Some go north. Most stay on as day-labour, outside the guilds and their wages.",
+  "place": "burg:282",
+  "kind": "people"
+ },
+ {
+  "id": "V-0063",
+  "canon": false,
+  "title": "The chandlers of Ceann àrsaidh",
+  "body": "The ship-chandlers of Ceann àrsaidh, on the southern coast east of the capital, take a guild charter and a monopoly of supplying the Crown's patrol boats. The monopoly outlasts the patrol boats.",
+  "place": "burg:88",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0064",
+  "canon": false,
+  "title": "The lamp-makers of Muileann mhin",
+  "body": "The lamp-makers of Muileann mhin, who make the ore lamps used in every shaft on the island, are chartered as a guild. Their mark, a flame over a hammer, is stamped on every lamp and is the only guild mark the humans' traders had ever copied.",
+  "place": "burg:137",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0065",
+  "canon": false,
+  "title": "The weavers of Baile chiar",
+  "body": "The weavers of Baile chiar are chartered as a guild. Their cloth, woven from southern wool, undersells the northern cloth at the fair until the mills of Doire ghlas are built.",
+  "place": "burg:106",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0066",
+  "canon": false,
+  "title": "Agnes Pike's school",
+  "body": "Agnes Pike, a Tuathaich teacher, opens a school at Doire ghlas that teaches in the humans' tongue, with Moot money and without the council's leave. Within a decade there are nine such schools in the north. The council never licenses them and never closes them.",
+  "place": "burg:209",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0067",
+  "canon": false,
+  "title": "The Cill ghlas district reopened",
+  "body": "The mining district closed since the Rending is surveyed and declared safe to work. The first new shafts are cut well back from the old fault line, on the surveyors' word.",
+  "place": "zone:3",
+  "kind": "building"
+ },
+ {
+  "id": "V-0068",
+  "canon": false,
+  "title": "The Leòid circuit in the north",
+  "body": "Eilidh nic Leòid rides the northern circuit for the first time and holds court at Ceann mhòr. Of the nineteen cases brought before her, seventeen are Tuathaich suits over land. She finds for the Crown in fifteen, citing her own ruling.",
+  "place": "burg:143",
+  "kind": "law"
+ },
+ {
+  "id": "V-0069",
+  "canon": false,
+  "title": "Eilidh nic Leòid dies",
+  "body": "Eilidh nic Leòid dies at Cathair dhomhain. Her rulings are bound as a single book, the first law-book of the restored kingdom, and every circuit justice after her carries a copy.",
+  "place": "burg:26",
+  "kind": "death"
+ },
+ {
+  "id": "V-0070",
+  "canon": true,
+  "title": "Leabharlann Muileann chaol founded",
+  "body": "A great library is established at Muileann chaol — the institution that will eventually keep the most complete surviving record of everything in this chronicle.",
+  "place": "marker:34",
+  "kind": "founding",
+  "canon_date": "c. 1945 DE"
+ },
+ {
+  "id": "V-0071",
+  "canon": false,
+  "title": "Ailean Leabhar, first keeper",
+  "body": "Ailean mac Iain, called Ailean Leabhar, is appointed the first keeper of Leabharlann Muileann chaol. He brings with him the council's minute-books and what survived of the humans' tithe ledgers, and spends his first years having them read.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0072",
+  "canon": false,
+  "title": "A chur san Leabharlann",
+  "body": "Within a few years, 'a chur san Leabharlann', to put it in the Library, is said of anything made settled and beyond dispute. Ailean Leabhar is recorded as disliking the phrase, on the ground that the library settles nothing and only keeps it.",
+  "place": "marker:34",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0073",
+  "canon": false,
+  "title": "The first readers",
+  "body": "The library's first reading room opens to anyone who can show a letter from a shire maor. The first reader entered in its book is a shipwright of Ros dhomhain, asking for the humans' plans of their hulls.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0074",
+  "canon": false,
+  "title": "The bath-house at the hot springs",
+  "body": "A bath-house is built over the hot springs near Muileann ruadh, paid for by the Guild of Hewers for miners sick with the dust. The guild's sick-roll for its first year lists four hundred men by name and shift.",
+  "place": "marker:0",
+  "kind": "building"
+ },
+ {
+  "id": "V-0075",
+  "canon": false,
+  "title": "The keepers of the five lights",
+  "body": "The five lighthouses built under the humans are given Ròdaich keepers by royal warrant. At Taigh-solais Baile chrom, the one beacon on the Tuathaich coast, the keeper is a Ròdaich man lodged in a Tuathaich town, and his warrant tells him to report what he sees on land as well as at sea.",
+  "place": "marker:12",
+  "kind": "building"
+ },
+ {
+  "id": "V-0076",
+  "canon": false,
+  "title": "The Muileann chaol town grows",
+  "body": "Copyists, binders and paper-makers settle in Muileann chaol around the library. The town takes a market charter, and its first market day is held in the library's yard.",
+  "place": "burg:246",
+  "kind": "founding"
+ },
+ {
+  "id": "V-0077",
+  "canon": false,
+  "title": "The paper-mill at Tobar dhìreach",
+  "body": "A paper-mill is built at Tobar dhìreach, a few miles from the library, on the stream below the village. For the next half-century nearly every page of the royal chronicle is written on its paper.",
+  "place": "burg:276",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0078",
+  "canon": true,
+  "title": "The first royal chronicler appointed",
+  "body": "A formal office is created specifically to maintain the kingdom's records — the direct ancestor of the archive this very document draws from.",
+  "place": "marker:34",
+  "kind": "record",
+  "canon_date": "c. 1947 DE"
+ },
+ {
+  "id": "V-0079",
+  "canon": false,
+  "title": "Gormshuil nic Dhùghaill",
+  "body": "The first royal chronicler is Gormshuil nic Dhùghaill, a clerk of the council. She keeps her record at Muileann chaol, not at the capital, and writes in her first entry that a record kept beside the throne is kept for the throne.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0080",
+  "canon": false,
+  "title": "The first chronicle circuit",
+  "body": "Gormshuil nic Dhùghaill sends clerks to every shire to copy parish books, grave-lists and harbour rolls. The returns from the south fill forty chests. The returns from Siorrachd Àth àrsaidh and the other northern shires fill one; few Tuathaich will speak to the clerks.",
+  "place": "province:86",
+  "kind": "record"
+ },
+ {
+  "id": "V-0081",
+  "canon": false,
+  "title": "The chest from Inis bheag",
+  "body": "The chronicle clerks at Inis bheag on the north-east coast are shown a parish book going back before the humans' coming, kept in the Seann Spioradan house there. The keeper lets it be copied and not taken.",
+  "place": "burg:62",
+  "kind": "record"
+ },
+ {
+  "id": "V-0082",
+  "canon": false,
+  "title": "Boats lost off Cuan bheag",
+  "body": "A storm out of the west drowns eleven Tuathaich fishermen off Cuan bheag in the north. The village has no lifeboat. The Moot buys one by subscription and asks the council to pay half; the council pays a third.",
+  "place": "burg:38",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0083",
+  "canon": false,
+  "title": "The thing off the north-west cape",
+  "body": "Fishermen out of Achadh àrsaidh report a creature longer than their boats in the waters off the north-west cape. Gormshuil nic Dhùghaill records the report and adds that the same waters are where the raiders shelter.",
+  "place": "marker:21",
+  "kind": "omen"
+ },
+ {
+  "id": "V-0084",
+  "canon": false,
+  "title": "The Eilean dhubh sheep-count",
+  "body": "A royal clerk is sent to count the flocks on Eilean dhubh, the largest of the outer isles, to set the island's dues. The islanders count them for him, and the dues are set on their count.",
+  "place": "feature:3",
+  "kind": "record"
+ },
+ {
+  "id": "V-0085",
+  "canon": false,
+  "title": "Cathair gheal arms its boats",
+  "body": "The Tuathaich fishermen of Cathair gheal arm their own boats and drive the raiders out of the bay. The council, asked for help twice, had sent none. It later fines the town for bearing arms without licence, and the fine is paid.",
+  "place": "burg:476",
+  "kind": "war"
+ },
+ {
+  "id": "V-0086",
+  "canon": false,
+  "title": "The market cross at Cathair mhòr",
+  "body": "A market cross is raised at Cathair mhòr, paid for by the house of Mac Ùisdein, with the house's name cut on all four faces. The town's wool and ore markets are moved to its foot.",
+  "place": "burg:23",
+  "kind": "building"
+ },
+ {
+  "id": "V-0087",
+  "canon": false,
+  "title": "The Wolf house at Caol leathan",
+  "body": "The Wolf house at Caol leathan, the largest of the faith, is rebuilt with a tower from which a bell rings at the hours. The town sets its market and its courts by the bell.",
+  "place": "burg:1",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0088",
+  "canon": true,
+  "title": "Fèill Muileann òg established",
+  "body": "An annual fair becomes the island's largest recurring gathering, drawing trade from every province the state controls.",
+  "place": "marker:38",
+  "kind": "trade",
+  "canon_date": "c. 1950 DE"
+ },
+ {
+  "id": "V-0089",
+  "canon": false,
+  "title": "Oighrig nic Mhathain's rules",
+  "body": "The first toll-mistress of the fair at Muileann òg, Oighrig nic Mhathain, sets its rules: a stall-fee in coin, a court of the fair for disputes, and Tuathaich goods sold only through Ròdaich factors. The rules are read aloud at each fair's opening to this day.",
+  "place": "marker:38",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0090",
+  "canon": false,
+  "title": "The fair's road",
+  "body": "The road from Cathair dhearg to Muileann òg is widened and metalled for the fair's carts, passing Dùn chrom, which takes a toll at its gate and grows on it.",
+  "place": "burg:255",
+  "kind": "building"
+ },
+ {
+  "id": "V-0091",
+  "canon": false,
+  "title": "Dùn chrom's gate-toll",
+  "body": "The toll taken at Dùn chrom's gate on the fair road pays for a new wall on the town's southern side. The townspeople call it the fair's wall, and the fair's carters call it something else.",
+  "place": "burg:255",
+  "kind": "building"
+ },
+ {
+  "id": "V-0092",
+  "canon": true,
+  "title": "Niall dies; Brìghde crowned",
+  "body": "His daughter succeeds him without contest — mortal succession within an immortal-adjacent aristocracy, unremarkable at the time, unusual in hindsight.",
+  "place": "burg:19",
+  "kind": "reign",
+  "canon_date": "c. 1951 DE"
+ },
+ {
+  "id": "V-0093",
+  "canon": false,
+  "title": "The chronicler's use of the saying",
+  "body": "Gormshuil nic Dhùghaill writes that the succession came 'mar a thàinig Niall', the first time the saying appears in the royal record. It is the only idiom she allows into the chronicle in her whole tenure.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0094",
+  "canon": false,
+  "title": "The ancestors' hall at Seann Dunn",
+  "body": "The Seann Spioradan houses of the east coast build a common hall at Seann Dunn, where the ancestors of forty families are named aloud each year by their living heads. The list is copied to the library the next year and grows by a few names every year after.",
+  "place": "burg:18",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0095",
+  "canon": false,
+  "title": "Cuan ruadh's harbour light",
+  "body": "Cuan ruadh on the east coast, which has no lighthouse of the five, raises a harbour light of its own on the mole, lit with ore bought by the town. The Lighthouse Board declines to take it on.",
+  "place": "burg:119",
+  "kind": "building"
+ },
+ {
+  "id": "V-0096",
+  "canon": true,
+  "title": "Còmhrag Ceann leathan established",
+  "body": "A brutal annual melee tournament begins at Ceann leathan, ostensibly a martial tradition, increasingly a release valve for a population with fewer and fewer other outlets.",
+  "place": "marker:37",
+  "kind": "culture",
+  "canon_date": "c. 1952 DE"
+ },
+ {
+  "id": "V-0097",
+  "canon": false,
+  "title": "Calum Ruadh",
+  "body": "The first champion of the Còmhrag the record remembers is Calum mac Aonghais, called Calum Ruadh, a hewer from Muileann chrom. Two men die in the melee he wins. The prize is a year's wages and the right to carry arms in any shire.",
+  "place": "marker:37",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0098",
+  "canon": false,
+  "title": "Ceann leathan's inns",
+  "body": "Ceann leathan builds four new inns for the Còmhrag crowds. The fair-wardens of the town, who take a share of every room, become the Còmhrag's keepers in all but name.",
+  "place": "burg:22",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0099",
+  "canon": false,
+  "title": "The ore-ships of Ros gheal",
+  "body": "Ros gheal on the north-central coast builds a dock for the grain-ships of the Hawk country. The Hawk houses bless the dock and ask a tithe of the dues. The shire gives them a twentieth.",
+  "place": "burg:24",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0100",
+  "canon": true,
+  "title": "Splatter and Dodge's generation born",
+  "body": "A cluster of births in the Class-08-adjacent shunting families — the generation that will grow up to become Dubhan's closest allies, Seachran and Brean among them.",
+  "place": null,
+  "kind": "birth",
+  "canon_date": "1953 DE"
+ },
+ {
+  "id": "V-0101",
+  "canon": false,
+  "title": "Seann Bhral in the south",
+  "body": "Seann Bhral on the south coast, not to be confused with its namesake in the west, becomes the kingdom's largest fishing port, landing more fish than Ros dhomhain. Its curing-sheds run the length of the harbour.",
+  "place": "burg:110",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0102",
+  "canon": false,
+  "title": "The circus at Seann Chwen",
+  "body": "The travelling show that calls itself An Siorcas Siubhail Do-thuigsinn is first recorded, pitched near Seann Chwen on the southern coast. The chronicler's clerk could not say what the acts were meant to show. Neither, the clerk adds, could the crowd, which came back the next night.",
+  "place": "marker:36",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0103",
+  "canon": false,
+  "title": "The Scorpion at Seann Bhral",
+  "body": "The house of Creideamh na Scairpe Buidhe at Seann Bhral, the oldest on the west coast, refuses to admit Tuathaich worshippers from the north who come for its feast. Its keeper says the god is the same and the house is not.",
+  "place": "burg:47",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0104",
+  "canon": false,
+  "title": "The northern Scorpion feast",
+  "body": "Turned away at Seann Bhral, the Tuathaich worshippers of the Scorpion hold the feast at Cnoc ghorm instead. It is kept there every year after, and the northern feast is larger than the western within a generation.",
+  "place": "burg:142",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0105",
+  "canon": true,
+  "title": "The Depletion first acknowledged",
+  "body": "Survey reports begin quietly noting the vein's declining yield. The state does not act on them for years.",
+  "place": null,
+  "kind": "discovery",
+  "canon_date": "c. 1955 DE"
+ },
+ {
+  "id": "V-0106",
+  "canon": false,
+  "title": "Iain Mapa's survey",
+  "body": "The survey behind the report is the work of Iain mac Ruairidh, called Iain Mapa, of the Mine Board. His measurements of the faces of the Sloc Mòr show the vein thinning to the east and south. The Board files the survey without circulating it, and Iain Mapa is moved to the silver works at Muileann chiar.",
+  "place": "burg:135",
+  "kind": "discovery"
+ },
+ {
+  "id": "V-0107",
+  "canon": false,
+  "title": "The Mine Board at Cathair mhòr",
+  "body": "The Mine Board, which had sat at Cathair dhearg since the Sloc Mòr concession, moves its clerks to Cathair mhòr to be nearer the mountain. Its surveys are kept there, not sent to the library, by the Board's own rule.",
+  "place": "burg:23",
+  "kind": "law"
+ },
+ {
+  "id": "V-0108",
+  "canon": false,
+  "title": "The Grey Night forbidden",
+  "body": "A Ròdaich magistrate at Baile chrom forbids the gatherings of the Grey Night cult as disorderly. Hannah Crane is fined. The vigil moves indoors and goes on.",
+  "place": "burg:305",
+  "kind": "law"
+ },
+ {
+  "id": "V-0109",
+  "canon": false,
+  "title": "The harbour at Cuan dhearg reopened",
+  "body": "The harbour at Cuan dhearg, lost to the Great Wave, is reopened with a new mole of dressed stone. The first boat in is one of those found in the fields behind the old town, refloated and kept by the harbour-master as a relic.",
+  "place": "burg:190",
+  "kind": "building"
+ },
+ {
+  "id": "V-0110",
+  "canon": false,
+  "title": "Achadh mhin resettled",
+  "body": "The fields of Achadh mhin bear again, and a few of the families moved away after the Great Wave come back to them. The shire gives them their old boundaries from the humans' survey.",
+  "place": "burg:150",
+  "kind": "people"
+ },
+ {
+  "id": "V-0111",
+  "canon": true,
+  "title": "Eòghan crowned",
+  "body": "Brìghde's reign ends young — no cause is recorded publicly. Her cousin Eòghan takes the throne amid the first real succession tension the restored kingdom has faced.",
+  "place": "burg:19",
+  "kind": "reign",
+  "canon_date": "c. 1957 DE"
+ },
+ {
+  "id": "V-0112",
+  "canon": false,
+  "title": "The succession entry",
+  "body": "The royal chronicler's entry for the succession gives the fact and nothing more. The chroniclers who followed Gormshuil nic Dhùghaill have added nothing to it.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0113",
+  "canon": false,
+  "title": "Dissent recorded in council",
+  "body": "For the first time the council's minutes record votes against a succession. They name the councillors who voted and not their reasons. Two of them do not sit again.",
+  "place": "burg:19",
+  "kind": "law"
+ },
+ {
+  "id": "V-0114",
+  "canon": false,
+  "title": "Inis bhàn's fire",
+  "body": "Fire takes the warehouse quarter of Inis bhàn on the north-central coast and burns for two days. The town's Hawk house takes in the homeless. The fire-bell the town buys afterwards is the loudest in the kingdom.",
+  "place": "burg:371",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0115",
+  "canon": true,
+  "title": "Dubhan born",
+  "body": "Born mortal, into the exact confinement the Severance created, decades after the war that closed the island to the people his line descends from.",
+  "place": null,
+  "kind": "birth",
+  "canon_date": "1958 DE"
+ },
+ {
+  "id": "V-0116",
+  "canon": false,
+  "title": "The Tuathaich schools counted",
+  "body": "The Moot counts eleven schools in the north teaching in the humans' tongue, and three that have begun to teach Ròdais as well, at the parents' asking. Agnes Pike's school at Doire ghlas is among the three.",
+  "place": "burg:209",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0117",
+  "canon": false,
+  "title": "The stone house of Mac Ùisdein",
+  "body": "Uisdean mac Ùisdein's house at Cathair mhòr is rebuilt in stone quarried from the spoil of the Sloc Mòr, the largest private house in the kingdom. The Guild of Hewers holds its feast in the new hall.",
+  "place": "burg:23",
+  "kind": "building"
+ },
+ {
+  "id": "V-0118",
+  "canon": false,
+  "title": "The northern fishing grounds",
+  "body": "Licences to fish the waters south and east of Caol mhòr are reserved to Ròdaich boats. The Tuathaich boats are left the northern grounds, which the raiders also work.",
+  "place": "burg:95",
+  "kind": "law"
+ },
+ {
+  "id": "V-0119",
+  "canon": false,
+  "title": "Doire shean's harbour",
+  "body": "Doire shean in the south-west builds a stone harbour for the fishing boats of the Wolf country, the first new harbour since the Severance not paid for by the Crown. The Wolf house lends the money and takes the harbour dues.",
+  "place": "burg:324",
+  "kind": "building"
+ },
+ {
+  "id": "V-0120",
+  "canon": false,
+  "title": "Trenches at Làrach an Dùin",
+  "body": "Diggers sent by the library open trenches at Làrach an Dùin on the south-east coast. They find walls older than any Ròdaich building and no writing at all. Ailean Leabhar orders the finds catalogued as of the Old Ones, purpose unknown.",
+  "place": "marker:32",
+  "kind": "discovery"
+ },
+ {
+  "id": "V-0121",
+  "canon": false,
+  "title": "Làrach an Teampaill measured",
+  "body": "The library's diggers measure the ruin called Làrach an Teampaill in the east but do not dig it, at the asking of the Seann Spioradan houses of the district. The keeper enters it as measured and let be.",
+  "place": "marker:33",
+  "kind": "discovery"
+ },
+ {
+  "id": "V-0122",
+  "canon": false,
+  "title": "The obelisk at Cnoc bheag copied",
+  "body": "A scribe of the library copies the inscription on the obelisk near Cnoc bheag, stroke by stroke. It matches no script known on the island. The copy is filed and the obelisk is fenced.",
+  "place": "marker:28",
+  "kind": "discovery"
+ },
+ {
+  "id": "V-0123",
+  "canon": false,
+  "title": "The lighthouse on the Tuathaich coast",
+  "body": "The Ròdaich keeper of Taigh-solais Baile chrom reports to the council that the Grey Night cult keeps its vigil in the dark of the lighthouse's own shadow. The council takes no action.",
+  "place": "marker:12",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0124",
+  "canon": false,
+  "title": "Salt-pans of Àth bheag",
+  "body": "Salt-pans are dug on the flats below Àth bheag on the east coast, and within a few years the town supplies the whole eastern seaboard. The salt is carried inland by the old drove road past Baile ìseal.",
+  "place": "burg:492",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0125",
+  "canon": false,
+  "title": "Cathair fhada's grain-store",
+  "body": "Cathair fhada on the southern plain builds a Crown grain-store large enough to feed the south for a season. It is filled from the south's own harvests, and first opened in the dry years at Achadh shean.",
+  "place": "burg:297",
+  "kind": "building"
+ },
+ {
+  "id": "V-0126",
+  "canon": true,
+  "title": "The second post-Severance census",
+  "body": "The gap between Ròdaich and Tuathaich living standards is, for the first time, measured rather than simply observed. The report is not made public.",
+  "place": null,
+  "kind": "record",
+  "canon_date": "c. 1962 DE"
+ },
+ {
+  "id": "V-0127",
+  "canon": false,
+  "title": "Walter Hale dies",
+  "body": "Walter Hale, first speaker of the Moot, dies at Caol mhòr. The Moot chooses Mary Coyle, a fisherman's widow, to follow him. She is the first woman to hold the chair.",
+  "place": "burg:95",
+  "kind": "death"
+ },
+ {
+  "id": "V-0128",
+  "canon": false,
+  "title": "The census clerks' private note",
+  "body": "One of the census clerks, Seonag nic Ille-Mhoire, leaves among her papers a note that she had asked to see the gap report and been refused. The note reached the library with her papers after her death and is the only mention of the report outside the council.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0129",
+  "canon": false,
+  "title": "The Tuathaich doctors",
+  "body": "The Moot pays for two Tuathaich women to be taught medicine by a Ròdaich physician at Àth àrsaidh, who takes them in defiance of his guild. He is struck from the guild's rolls. They practise in the north for forty years.",
+  "place": "burg:304",
+  "kind": "people"
+ },
+ {
+  "id": "V-0130",
+  "canon": false,
+  "title": "The Abhainn ìseal floods",
+  "body": "The Abhainn ìseal, the longest river on the island, breaks its banks along its lower reach, carrying away three bridges and a stretch of the ore line's embankment. The line is closed for most of a year and the ports live on stored ore.",
+  "place": "river:16",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0131",
+  "canon": false,
+  "title": "The Hawk houses' own custodian",
+  "body": "The Hawk houses of Siorrachd Cnoc bheag name a custodian of their own, Raonaid nic Iain, and seat her at Inis ìseal. The high custodian at Seann Skell refuses to recognise her. The houses carry on as if he had.",
+  "place": "burg:25",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0132",
+  "canon": false,
+  "title": "Raonaid nic Iain at Inis ìseal",
+  "body": "Raonaid nic Iain, custodian of the Hawk houses, writes out the Hawk's order of worship, which had been said and never written. The Hawk houses read it aloud once a year and keep the written copy locked away.",
+  "place": "burg:25",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0133",
+  "canon": false,
+  "title": "Six dead at the Còmhrag",
+  "body": "Six fighters die at the Còmhrag, the most in any year yet. The custodians of the Rite petition for it to end. The fair-wardens of Ceann leathan, whose town lives off the crowds, refuse.",
+  "place": "marker:37",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0134",
+  "canon": false,
+  "title": "The circus at Ceann leathan",
+  "body": "An Siorcas Siubhail Do-thuigsinn pitches at Ceann leathan in the year of the Còmhrag's six dead and plays to the crowds who stay on after the melee. The fair-wardens are said to have paid it to come.",
+  "place": "burg:22",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0135",
+  "canon": false,
+  "title": "The ore line reaches Ceann leathan",
+  "body": "The railway is carried through to the port of Ceann leathan, so that ore can be shipped from a second harbour. Ceann leathan's quays are rebuilt for ore ships, and the town outgrows its walls.",
+  "place": "burg:22",
+  "kind": "building"
+ },
+ {
+  "id": "V-0136",
+  "canon": false,
+  "title": "Ros bheag's shipyard",
+  "body": "Ros bheag on the west coast opens a shipyard for ore-ships, so that the western ports need no longer send to Ros dhomhain for hulls. The shipwrights of Ros dhomhain protest to the guild court and lose.",
+  "place": "burg:63",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0137",
+  "canon": false,
+  "title": "The silver at depth",
+  "body": "The silver seam at Muileann chiar, which the Ròdaich kept from the humans, is found richer at depth than anyone expected. The town's silversmiths are chartered as a guild. Iain Mapa, working there since the Board moved him, measures the new faces.",
+  "place": "marker:2",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0138",
+  "canon": false,
+  "title": "Dùn thais in the west",
+  "body": "Dùn thais on the west coast is granted the right to hold its own court of the sea, deciding salvage and wreck along its shore. Its first session awards a raider's hulk to the fishermen who drove it aground.",
+  "place": "burg:8",
+  "kind": "law"
+ },
+ {
+  "id": "V-0139",
+  "canon": false,
+  "title": "Dùn thais in the east",
+  "body": "Its namesake Dùn thais in the east, seat of its own shire, builds a covered market for the hill farms. The two towns' courts are confused in the royal record for a decade until Tormod Pinn marks them west and east.",
+  "place": "burg:77",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0140",
+  "canon": false,
+  "title": "The dead and not dead of Doire uaine",
+  "body": "Herders near Doire uaine refuse to graze the hills above the town, where old inscriptions tell of a thing that is dead and does not rest. A shepherd goes missing there. The magistrate records wolves.",
+  "place": "marker:22",
+  "kind": "omen"
+ },
+ {
+  "id": "V-0141",
+  "canon": false,
+  "title": "The fall at Muileann dhearg",
+  "body": "A gallery of the reopened Cill ghlas district gives way under Muileann dhearg, along a line the surveyors had marked as sound. Thirty-one hewers die. It is small beside the Rending. It is the same fault.",
+  "place": "burg:491",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0142",
+  "canon": true,
+  "title": "The mine-safety reforms",
+  "body": "New excavation rules are introduced after a smaller echo of the old Scàineadh Cill ghlas collapse. They apply to Ròdaich workers. Enforcement in Tuathaich-adjacent sites is inconsistent, records suggest deliberately so.",
+  "place": null,
+  "kind": "law",
+  "canon_date": "c. 1968 DE"
+ },
+ {
+  "id": "V-0143",
+  "canon": false,
+  "title": "The timber at Àth leathan",
+  "body": "At the pits around Àth leathan, where Ròdaich overseers work Tuathaich hands, the new timbering rules are posted and not paid for. The overseers' books, which reached the library later, show the timber ordered and never delivered.",
+  "place": "burg:346",
+  "kind": "law"
+ },
+ {
+  "id": "V-0144",
+  "canon": false,
+  "title": "Mòrag nic Coinnich, keeper",
+  "body": "Ailean Leabhar dies at Muileann chaol, and Mòrag nic Coinnich becomes keeper of the library. She begins the practice, kept ever since, of writing each item's source beside the item itself.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0145",
+  "canon": false,
+  "title": "The pit families of Achadh dhomhain",
+  "body": "After the fall at Muileann dhearg, forty hewers' families leave Achadh dhomhain for the fishing ports of the south. The Guild of Hewers binds sixty apprentices to fill the rolls. None of them are Tuathaich.",
+  "place": "burg:135",
+  "kind": "people"
+ },
+ {
+  "id": "V-0146",
+  "canon": false,
+  "title": "Fire at the fair",
+  "body": "Fire runs through the stalls of the fair at Muileann òg. The fair's court sits in a field the next day and the fair goes on. Oighrig nic Mhathain, toll-mistress since the first fair, dies of her burns.",
+  "place": "marker:38",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0147",
+  "canon": false,
+  "title": "The Tuathaich wool carts",
+  "body": "The Rail Board refuses to carry goods consigned by the Moot, citing the fair's rule on factors. The wool of the north goes south to Muileann òg by cart, a week on the road, and is sold by factors when it arrives.",
+  "place": "burg:234",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0148",
+  "canon": false,
+  "title": "The Tuathaich carters' road",
+  "body": "The carters taking northern wool to the fair go by Cnoc ghorm, Àth fhada and the old road down to Inis àrsaidh, and the Tuathaich villages on the way open inns for them. The road is called the Carters' Road in the north and nothing in the south.",
+  "place": "burg:174",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0149",
+  "canon": true,
+  "title": "Dubhan's childhood",
+  "body": "He grows up watching an eternally young caste hold every real advantage on an island his own ancestors were pushed to the edge of. The obsidian was never his to inherit.",
+  "place": null,
+  "kind": "people",
+  "canon_date": "c. 1970 DE"
+ },
+ {
+  "id": "V-0150",
+  "canon": false,
+  "title": "The Moot's pit register",
+  "body": "The Moot at Caol mhòr begins a register of Tuathaich hewers killed or maimed in the western pits, since no Ròdaich book counts them. Mary Coyle's clerks enter the first year's names from the families' own word. The register is kept to the present and has never been sent south.",
+  "place": "burg:95",
+  "kind": "record"
+ },
+ {
+  "id": "V-0151",
+  "canon": false,
+  "title": "Ros mhòr's boatyard",
+  "body": "A boatyard is opened at Ros mhòr in the north by Tuathaich boatbuilders turned out of the guild yards. Its boats are built to the humans' old lines and are faster than anything in the south.",
+  "place": "burg:60",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0152",
+  "canon": false,
+  "title": "Tormod Pinn",
+  "body": "Gormshuil nic Dhùghaill lays down the office of royal chronicler. Her successor, Tormod mac Ailein, called Tormod Pinn for the speed of his hand, keeps the record for more than twenty years and writes more of it than anyone before or since.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0153",
+  "canon": false,
+  "title": "Gormshuil nic Dhùghaill's last entry",
+  "body": "Her last entry as chronicler is a list of what the record does not hold: the northern towns' own accounts, the humans' treaties in their own tongue, the Board's surveys. Tormod Pinn copies the list into the front of his first book and does not add to it.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0154",
+  "canon": false,
+  "title": "Dry years at Achadh shean",
+  "body": "Dry years return to the country around Achadh shean, where the Long Drought settled in the humans' time. This time the council sends grain up the ore line and pays for it out of the Sloc Mòr's share. Nobody dies of hunger in the shire, and the chronicler records the fact.",
+  "place": "zone:2",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0155",
+  "canon": false,
+  "title": "The wells of Siorrachd Achadh shean",
+  "body": "The maor of Siorrachd Achadh shean has twelve wells dug to the rock along the drove road, each marked with the shire's name and the council's. Four of them are still drawn from.",
+  "place": "province:61",
+  "kind": "building"
+ },
+ {
+  "id": "V-0156",
+  "canon": false,
+  "title": "Grain by the ore line",
+  "body": "The grain for Achadh shean comes from the store at Cathair fhada and goes by the ore line for the first time. The Rail Board charges the council for the carriage.",
+  "place": "burg:411",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0157",
+  "canon": false,
+  "title": "Raiders at Baile ìseal",
+  "body": "Raiders land near Baile ìseal on the far east coast and burn the salt-sheds that serve Àth bheag. The kingdom's patrol boats arrive two days later and find the sheds cold.",
+  "place": "marker:26",
+  "kind": "war"
+ },
+ {
+  "id": "V-0158",
+  "canon": false,
+  "title": "Murchadh mac Coinnich's log",
+  "body": "Murchadh mac Coinnich, keeper of Taigh-solais Baile ìseal, begins entering every unlit ship he sees in the lighthouse log with its heading and the hour. His logs, kept for most of his life, are the fullest record of the eastern raiders the library holds.",
+  "place": "marker:13",
+  "kind": "record"
+ },
+ {
+  "id": "V-0159",
+  "canon": false,
+  "title": "The pirates' names",
+  "body": "Murchadh mac Coinnich's log names the eastern raiders' ships as the fishermen of Àth bheag name them, since the raiders fly no flag. The names pass into the royal record from his log.",
+  "place": "burg:492",
+  "kind": "record"
+ },
+ {
+  "id": "V-0160",
+  "canon": false,
+  "title": "The Còmhrag at its height",
+  "body": "The Còmhrag draws its largest crowd yet to Ceann leathan, and the fair-wardens build timber stands along the three sides of the field. The champion is Ealasaid nic Coinnich of Àth ghlas, the first woman to win it. She does not fight again.",
+  "place": "marker:37",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0161",
+  "canon": false,
+  "title": "The Hawk port of Cnoc bheag",
+  "body": "Cnoc bheag, the largest town of the Hawk country, passes Cathair mhòr in population. Its harbour takes the grain of the north-central coast and its Hawk house is the richest of any faith outside the capital.",
+  "place": "burg:20",
+  "kind": "people"
+ },
+ {
+  "id": "V-0162",
+  "canon": true,
+  "title": "The Feallsanachd an Fhèidh revival",
+  "body": "The old philosophical school, dormant since the colonial period, reopens — its founding question, why the vein answers some and not others, suddenly urgent again as the vein itself starts running short.",
+  "place": null,
+  "kind": "faith",
+  "canon_date": "c. 1975 DE"
+ },
+ {
+  "id": "V-0163",
+  "canon": false,
+  "title": "Seonaid nic Ghill-Eathain's lectures",
+  "body": "The revived school's first teacher is Seonaid nic Ghill-Eathain, who lectures in the sacred wood near Muileann chiar in the east, where the Fèidh had last met before the humans came. Her opening question is the school's oldest, put plainly: why the vein answers some hands and not others.",
+  "place": "marker:23",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0164",
+  "canon": false,
+  "title": "The Fèidh in Siorrachd Baile gharbh",
+  "body": "Houses of Feallsanachd an Fhèidh in Siorrachd Baile gharbh in the north-east, dormant since the humans' time, reopen at Baile gharbh and Àth fhada. Their teachers walk to the sacred wood to hear Seonaid nic Ghill-Eathain and walk back.",
+  "place": "burg:131",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0165",
+  "canon": false,
+  "title": "The school at Caol shean",
+  "body": "The Fèidh school takes a house at Caol shean, the largest town of its faith on the east coast, and begins to teach in the wet months, when the wood is too sodden for lectures. Its students copy the census note on the obsidian-touched and debate it openly.",
+  "place": "burg:197",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0166",
+  "canon": false,
+  "title": "The Hawk given a place",
+  "body": "A council of the Rite at Seann Skell offers the Hawk houses of Cnoc bheag a place under the high custodian with their own order of worship. The Hawk houses accept the place and keep their order. The quarrel is quieter after this. It is not over.",
+  "place": "burg:20",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0167",
+  "canon": false,
+  "title": "The north-eastern harbours",
+  "body": "Caol chrom and Caol gharbh on the north-east coast combine their harbour dues to pay for a breakwater across the strait between them. It takes eight years to build and is still the longest on the island.",
+  "place": "burg:133",
+  "kind": "building"
+ },
+ {
+  "id": "V-0168",
+  "canon": false,
+  "title": "Daniel Frayne's copying school",
+  "body": "At Muileann leathan in the north, a clerk of the Moot named Daniel Frayne teaches young Tuathaich to copy and bind books, since the guilds that do it in the south will not take them. The bindings of Muileann leathan are later found in Ròdaich libraries without their makers' names.",
+  "place": "burg:234",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0169",
+  "canon": false,
+  "title": "The Abhainn uaine ferries",
+  "body": "The boat-landing at Cidhe Beag on the Abhainn uaine is licensed as a ferry, carrying passengers and small freight down the river toward the coast. Its first licensee is an old boatman who had worked the landing without a licence for forty years.",
+  "place": "marker:39",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0170",
+  "canon": false,
+  "title": "Loch chrom",
+  "body": "Fishermen on Loch chrom, the island's only lake of any size, are given a licence to net its trout, which had been kept for the Crown's table. The Crown's table is supplied first each year.",
+  "place": "feature:9",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0171",
+  "canon": false,
+  "title": "The pillar at Cnoc chiar",
+  "body": "Students of Feallsanachd an Fhèidh try to read the pillar near Cnoc chiar by setting it against the obelisk at Cnoc bheag and the column at Cnoc ghorm. They find signs in common and no meaning. Seonaid nic Ghill-Eathain writes that the Old Ones were here and said so, and that nobody living can hear it.",
+  "place": "marker:29",
+  "kind": "discovery"
+ },
+ {
+  "id": "V-0172",
+  "canon": false,
+  "title": "Flood at Inis chrom",
+  "body": "A storm tide floods the lower town at Inis chrom on the south-west coast, drowning the net-lofts and the rope-walk. The town rebuilds both on piles, which is how they stand now.",
+  "place": "burg:92",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0173",
+  "canon": false,
+  "title": "Cnoc leathan's schools",
+  "body": "Cnoc leathan in the east opens a school in every one of its six parishes, paid from the shire's dues, the first shire to do so. The council asks how it paid for them and is shown the accounts.",
+  "place": "burg:167",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0174",
+  "canon": false,
+  "title": "Alasdair mac Ùisdein's loan",
+  "body": "Alasdair mac Ùisdein, grandson of the first holder of the Sloc Mòr concession, borrows against the house's share to pay for a search for a second vein. The Mine Board lends its surveyors. The Crown lends its name.",
+  "place": "burg:23",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0175",
+  "canon": false,
+  "title": "The Feallsanachd on the search",
+  "body": "Seonaid nic Ghill-Eathain writes to the Mine Board that the search for a second vein asks the wrong question: that the school has always asked why the vein answers some hands, and nobody has asked why there is one vein. The Board files the letter.",
+  "place": "marker:23",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0176",
+  "canon": true,
+  "title": "The failed vein expansion",
+  "body": "A costly attempt to locate a second obsidian deposit elsewhere on the island turns up nothing — the same result the Holy Age's failed attempt found centuries earlier, forgotten and rediscovered the hard way.",
+  "place": null,
+  "kind": "discovery",
+  "canon_date": "c. 1980 DE"
+ },
+ {
+  "id": "V-0177",
+  "canon": false,
+  "title": "Forty-one dry shafts",
+  "body": "The search's borings run from the hills above Dùn dhearg to the moors south of Baile ruadh. Forty-one shafts are sunk and none strikes the vein. Mòrag nic Coinnich later finds, in a Holy Age list at the library, the same hills named as searched and barren.",
+  "place": "burg:422",
+  "kind": "discovery"
+ },
+ {
+  "id": "V-0178",
+  "canon": false,
+  "title": "Dùn dhearg's claim",
+  "body": "The town of Dùn dhearg, whose hills held a dozen of the dry shafts, claims damages from the house of Mac Ùisdein for spoiled grazing. The circuit court awards them. The house pays a third before it sells.",
+  "place": "burg:422",
+  "kind": "law"
+ },
+ {
+  "id": "V-0179",
+  "canon": false,
+  "title": "The house of Mac Ùisdein sells half",
+  "body": "To meet its debts, the house of Mac Ùisdein sells half its share in the Sloc Mòr back to the Crown. Its stone house at Cathair mhòr is let to the Mine Board, which moves its offices there.",
+  "place": "burg:23",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0180",
+  "canon": false,
+  "title": "The shafts at Baile ruadh left open",
+  "body": "The dry shafts of the search are left open on the moors near Baile ruadh. Sheep and one child fall into them before the shire fences them at its own cost. The shire's claim on the house of Mac Ùisdein for the fencing is never paid.",
+  "place": "burg:241",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0181",
+  "canon": false,
+  "title": "The Muileann dhomhain mills",
+  "body": "The mills of Muileann dhomhain in the south-east, which ground grain for the vein-towns, turn to grinding bark for the tanners when the vein-towns' orders fall. The town's miller-families keep their mark and change their trade.",
+  "place": "burg:202",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0182",
+  "canon": false,
+  "title": "The rope-makers of Seann Tarr",
+  "body": "The rope-makers of Seann Tarr on the north-east coast are chartered as a guild, the last guild the restored custom creates for a trade that the humans had not touched. Their hemp comes from the fields around Doire uaine and Achadh naomh.",
+  "place": "burg:34",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0183",
+  "canon": false,
+  "title": "Seann Tarr's chest remembered",
+  "body": "The rope-makers' charter at Seann Tarr is kept in the shire's own chest, not sent to Cathair dhearg, by the shire's rule. The shire keeper of Seann Tarr keeps a list of what the chest holds and sends the list alone.",
+  "place": "burg:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0184",
+  "canon": false,
+  "title": "The Circus at Inis àrsaidh",
+  "body": "An Siorcas Siubhail Do-thuigsinn is recorded again, this time pitched on the common near Inis àrsaidh on the west coast. The magistrate who licenses it enters the acts as 'various' and the fee as paid.",
+  "place": "marker:35",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0185",
+  "canon": false,
+  "title": "Ceann mhin's fish-market",
+  "body": "Ceann mhin, the great port south-east of the capital, opens a covered fish-market over the old strand. Fish from Seann Bhral and the eastern grounds is sold there for the capital.",
+  "place": "burg:30",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0186",
+  "canon": false,
+  "title": "Edged tools banned from the Còmhrag",
+  "body": "After a fighter is killed with a hewer's pick, the fair-wardens of Ceann leathan ban edged tools from the Còmhrag. Staves and fists remain allowed, and so the deaths go on, fewer.",
+  "place": "marker:37",
+  "kind": "law"
+ },
+ {
+  "id": "V-0187",
+  "canon": false,
+  "title": "The drowned lighthouse keeper",
+  "body": "The keeper of Taigh-solais Tobar dhearg on the south coast drowns going out to a boat aground on the reef below the light. The boat's crew are saved by the keeper's daughter, Ciorstaidh nic Artair, who is given the keeper's warrant in his place.",
+  "place": "marker:16",
+  "kind": "death"
+ },
+ {
+  "id": "V-0188",
+  "canon": false,
+  "title": "Ciorstaidh nic Artair's reef mark",
+  "body": "Ciorstaidh nic Artair has an iron post set on the reef below Taigh-solais Tobar dhearg, painted and hung with a bell. No boat goes aground there while she keeps the light.",
+  "place": "marker:16",
+  "kind": "building"
+ },
+ {
+  "id": "V-0189",
+  "canon": false,
+  "title": "Mary Coyle lays down the chair",
+  "body": "Mary Coyle lays down the Moot's chair at Caol mhòr. Her successor, Daniel Frayne of Muileann leathan, is the first speaker born after the Severance.",
+  "place": "burg:95",
+  "kind": "people"
+ },
+ {
+  "id": "V-0190",
+  "canon": false,
+  "title": "The Fèill's northern day",
+  "body": "The court of the fair at Muileann òg sets aside one day of the fair for goods from the northern shires, still sold through Ròdaich factors but under the northern makers' own marks. It is the first time a Tuathaich name is written on anything sold there.",
+  "place": "marker:38",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0191",
+  "canon": false,
+  "title": "The Tuathaich marks at the fair",
+  "body": "The first northern mark sold under its own name at the fair is the cloth of the Doire ghlas weavers, a grey twill with a white thread at the selvedge. The southern weavers of Baile chiar begin weaving a white thread into their own.",
+  "place": "burg:106",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0192",
+  "canon": true,
+  "title": "The Depletion becomes undeniable",
+  "body": "What was a quiet survey note in 1955 is now an open crisis. The last untouched sections of the vein are identified — and are smaller than anyone wants to admit.",
+  "place": null,
+  "kind": "discovery",
+  "canon_date": "c. 1985 DE"
+ },
+ {
+  "id": "V-0193",
+  "canon": false,
+  "title": "Catrìona nic Neacail's map",
+  "body": "The Mine Board's surveyor-general, Catrìona nic Neacail, publishes the map of the vein's last untouched sections. It fits on one sheet. She resigns within the year and goes to teach at the Fèidh school at Caol shean.",
+  "place": "burg:135",
+  "kind": "record"
+ },
+ {
+  "id": "V-0194",
+  "canon": false,
+  "title": "Iain Mapa's survey found",
+  "body": "Among the Board's files, Catrìona nic Neacail finds Iain Mapa's survey of thirty years before, which shows the same thinning she had just measured. She sends a copy to the library with a note of when the Board received it.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0195",
+  "canon": false,
+  "title": "Iain Mapa dies",
+  "body": "Iain mac Ruairidh, called Iain Mapa, dies at Muileann chiar, where the Board had sent him. His own copy of his survey is found among his papers, with the Board's receipt pinned to it.",
+  "place": "marker:2",
+  "kind": "death"
+ },
+ {
+  "id": "V-0196",
+  "canon": false,
+  "title": "Muileann dhearg empties",
+  "body": "Muileann dhearg loses a third of its households to the ports in a few years. Its hall of the Fèidh is closed, and its bell is sold to the school at Caol shean, where it still rings for lectures.",
+  "place": "burg:491",
+  "kind": "people"
+ },
+ {
+  "id": "V-0197",
+  "canon": false,
+  "title": "Ceann leathan's ore quays idle",
+  "body": "Ore ships wait at Ceann leathan for cargoes that come in half-loads. The harbour dues fall by half, and the fair-wardens of the town raise the Còmhrag's gate-price to make it up.",
+  "place": "burg:22",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0198",
+  "canon": false,
+  "title": "Baile Mòr dhomhain's market",
+  "body": "Baile Mòr dhomhain in the northern hills becomes the market for the hill country's wool and hides as the ore-towns' trade falls away. Its market day draws more carts than the fair at Muileann òg for two years running.",
+  "place": "burg:273",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0199",
+  "canon": true,
+  "title": "Mairead crowned",
+  "body": "Eòghan's reign ends in the same decade the Depletion becomes public knowledge — his successor inherits a kingdom whose founding resource is visibly failing for the first time in the restored era.",
+  "place": "burg:19",
+  "kind": "reign",
+  "canon_date": "c. 1987 DE"
+ },
+ {
+  "id": "V-0200",
+  "canon": false,
+  "title": "The Hewers bind no apprentices",
+  "body": "The Guild of Hewers binds no new apprentices for the first time since its charter. Its masters vote to keep the rolls open to the sons and daughters of members only.",
+  "place": "burg:135",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0201",
+  "canon": false,
+  "title": "Muileann shean's school of hewers",
+  "body": "Muileann shean in the north opens a school for hewers' sons and daughters who will not be bound, teaching them to read, reckon and survey. Most of its first pupils go to the ports.",
+  "place": "burg:212",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0202",
+  "canon": false,
+  "title": "The Doire ghlas mills",
+  "body": "Wool mills are built at Doire ghlas with Moot money, the north's first works tied to nothing in the vein. The Rail Board refuses their cloth until a ruling of the circuit court at Seann Bhral compels it to carry any goods that pay the rate.",
+  "place": "burg:209",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0203",
+  "canon": false,
+  "title": "The Seann Bhral ruling",
+  "body": "The circuit justice at Seann Bhral, Ruairidh mac Phàdraig, rules that the Rail Board is a carrier of the Crown and must carry for any payer. It is the first ruling the Moot ever wins in a Ròdaich court. The Board appeals and the council lets the appeal lapse.",
+  "place": "burg:47",
+  "kind": "law"
+ },
+ {
+  "id": "V-0204",
+  "canon": false,
+  "title": "The Crown's share of the Sloc Mòr",
+  "body": "The Crown buys the last of the house of Mac Ùisdein's working shafts at the Sloc Mòr and leaves the house its share in the spoil and the quarry. From this point the vein is worked by the Board in the Crown's name alone.",
+  "place": "burg:135",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0205",
+  "canon": false,
+  "title": "The copper at Àth fhiadhaich",
+  "body": "Copper is found in the hills behind Àth fhiadhaich on the east coast. The Board opens a working with men laid off from the Sloc Mòr. It pays wages. It is not the vein, and the town's Seann Spioradan house holds no blessing for it.",
+  "place": "burg:12",
+  "kind": "discovery"
+ },
+ {
+  "id": "V-0206",
+  "canon": false,
+  "title": "Àth fhiadhaich's copper-town",
+  "body": "The copper workings at Àth fhiadhaich draw miners from the failing vein-towns. The town builds a new street for them and names it for the Sloc Mòr, and the Seann Spioradan house there objects to the name.",
+  "place": "burg:12",
+  "kind": "people"
+ },
+ {
+  "id": "V-0207",
+  "canon": true,
+  "title": "Dubhan begins his experiments",
+  "body": "Early, unsuccessful attempts to synthesize a substitute fuel from mining byproducts — failures the historical record barely bothers to name.",
+  "place": null,
+  "kind": "craft",
+  "canon_date": "c. 1990 DE"
+ },
+ {
+  "id": "V-0208",
+  "canon": false,
+  "title": "The Sloc Mòr's pumps",
+  "body": "The lowest galleries of the Sloc Mòr are allowed to flood. The pumps cost more to run than the ore beneath them is worth. The Board's minute calls it a pause.",
+  "place": "burg:135",
+  "kind": "disaster"
+ },
+ {
+  "id": "V-0209",
+  "canon": false,
+  "title": "The pumps sold",
+  "body": "The Board sells the Sloc Mòr's great pumps to the harbour at Seann Bhral in the south, where they drain the new dry dock. They are the only machines of the vein still at work in the next generation.",
+  "place": "burg:110",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0210",
+  "canon": false,
+  "title": "The panthers cross the south-west",
+  "body": "A great movement of panthers crosses the south-west near Baile dhomhain. Herders lose stock for a month. Tormod Pinn records it as a thing named in the Holy Age lists and not seen since.",
+  "place": "marker:40",
+  "kind": "omen"
+ },
+ {
+  "id": "V-0211",
+  "canon": false,
+  "title": "The hides of Baile ghorm",
+  "body": "Tanners at Baile ghorm on the south-west coast buy the hides of the panthers killed by herders, and their trade outlasts the migration by a decade. Panther-skin saddles from Baile ghorm are sold at the fair at Muileann òg under the town's mark.",
+  "place": "burg:170",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0212",
+  "canon": false,
+  "title": "Imrich nam Pantar in the record",
+  "body": "Tormod Pinn's entry on the panthers is the longest in his book for the year. He sets it beside the Holy Age list and notes that the old list also names the year after the panthers as a hungry one.",
+  "place": "marker:40",
+  "kind": "record"
+ },
+ {
+  "id": "V-0213",
+  "canon": false,
+  "title": "The ore-lamp shortage",
+  "body": "The lamp-makers of Muileann mhin cut their output by half for want of ore to burn in the lamps they make. Shaft-lamps are lent between pits, and the guild's minute-book records who lent to whom.",
+  "place": "burg:137",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0214",
+  "canon": false,
+  "title": "Unrest at Muileann chrom",
+  "body": "The yard families at Muileann chrom stop the ore trains for three days over cut wages. The Rail Board settles on the fourth and dismisses eleven men on the fifth.",
+  "place": "burg:354",
+  "kind": "people"
+ },
+ {
+  "id": "V-0215",
+  "canon": false,
+  "title": "The hungry year that was not",
+  "body": "The harvest after the panthers' crossing is a good one across the south. Tormod Pinn records it and draws a line through his own note of the year before.",
+  "place": "burg:297",
+  "kind": "record"
+ },
+ {
+  "id": "V-0216",
+  "canon": true,
+  "title": "The third post-Severance census",
+  "body": "Population figures are published openly for the first time in Rìoghachd history — a small, symbolic transparency reform that changes nothing structurally.",
+  "place": null,
+  "kind": "record",
+  "canon_date": "c. 1993 DE"
+ },
+ {
+  "id": "V-0217",
+  "canon": false,
+  "title": "The figures read at the Moot",
+  "body": "The published figures are read aloud at the Moot at Caol mhòr. They show the northern towns at about half the Ròdaich measure in every column the clerks chose to take. The Moot's minute says only: 'Now written.'",
+  "place": "burg:95",
+  "kind": "record"
+ },
+ {
+  "id": "V-0218",
+  "canon": false,
+  "title": "The count of the touched",
+  "body": "The published census, like the first, carries a line for the obsidian-touched. It gives a number and nothing else. Tormod Pinn copies it into the chronicle without comment, as Gormshuil nic Dhùghaill had done for the first.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0219",
+  "canon": false,
+  "title": "The census in the Wolf country",
+  "body": "In the Wolf shires of the south-west, the Wolf houses publish their own count of their people beside the kingdom's, for the first time. The two agree to within a hundred.",
+  "place": "province:15",
+  "kind": "record"
+ },
+ {
+  "id": "V-0220",
+  "canon": false,
+  "title": "Beathag nic Fhionnlaigh",
+  "body": "Tormod Pinn dies at his desk at Muileann chaol. Beathag nic Fhionnlaigh becomes royal chronicler. She is the first to add, at the foot of each year, a note of what the record could not learn.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0221",
+  "canon": false,
+  "title": "The Hawk houses' registers",
+  "body": "The Hawk houses of Siorrachd Ros gheal send their birth-rolls to the library for the first time, on condition that the rolls be filed under Creideamh an t-Seabhaig and not under the Rite. Mòrag nic Coinnich agrees.",
+  "place": "province:45",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0222",
+  "canon": false,
+  "title": "Beathag nic Fhionnlaigh's first foot-note",
+  "body": "Beathag nic Fhionnlaigh's first note of what the record could not learn is of the northern shires: that the census clerks were told the figures and did not count them, and that the figures they were told were the Moot's.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0223",
+  "canon": false,
+  "title": "The record-chests called in",
+  "body": "Mòrag nic Coinnich's clerks travel to thirty shire towns to bring their record-chests to Muileann chaol. At Seann Tarr the shire's keeper burns the chest rather than send it, saying the shire's record belongs in the shire. He is fined; the chest is not recovered.",
+  "place": "burg:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0224",
+  "canon": false,
+  "title": "Cathair naomh sends its rolls",
+  "body": "The keeper of Cathair naomh in the north sends her shire's rolls to the library in two carts, with the town's own chronicle, kept by a single family for four generations. Mòrag nic Coinnich enters it as the best-kept shire record received.",
+  "place": "burg:192",
+  "kind": "record"
+ },
+ {
+  "id": "V-0225",
+  "canon": false,
+  "title": "The Seann Toll chest",
+  "body": "Seann Toll in the north sends its chest willingly and asks for a copy of everything in it. Mòrag nic Coinnich's clerks make the copy, and the shire's copy is the model for every copy the library has made since.",
+  "place": "burg:37",
+  "kind": "record"
+ },
+ {
+  "id": "V-0226",
+  "canon": true,
+  "title": "The library expansion",
+  "body": "Leabharlann Muileann chaol doubles its holdings, absorbing several smaller provincial archives into one central record — the moment Rodian history starts being kept in one place instead of many.",
+  "place": "marker:34",
+  "kind": "record",
+  "canon_date": "c. 1996 DE"
+ },
+ {
+  "id": "V-0227",
+  "canon": false,
+  "title": "No northern chest",
+  "body": "No Tuathaich record is called in. The Moot's minute-books, the schools' registers and the vigil-books of Baile chrom stay in the north, in private keeping, as they always had.",
+  "place": "burg:95",
+  "kind": "record"
+ },
+ {
+  "id": "V-0228",
+  "canon": false,
+  "title": "The library's new wing",
+  "body": "The expanded library is housed in a new wing at Muileann chaol built of the grey stone from the Sloc Mòr's spoil. The provincial chests fill three floors. The fourth is left empty for what was not sent.",
+  "place": "marker:34",
+  "kind": "building"
+ },
+ {
+  "id": "V-0229",
+  "canon": false,
+  "title": "The branch line to Àth leathan closed",
+  "body": "The Rail Board closes the branch line to Àth leathan, citing falling yield from the western pits. The Tuathaich pits go on working, and their coal goes by cart to the western ports and by boat from there.",
+  "place": "burg:346",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0230",
+  "canon": false,
+  "title": "The Moot's hewers take the pits",
+  "body": "With the Board's overseers withdrawn from Àth leathan, the Tuathaich hewers there go on working the pits under their own pit captains, paying the Crown's fifth by the Leòid ruling. The Board accepts the payments and records them as arrears.",
+  "place": "burg:346",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0231",
+  "canon": false,
+  "title": "Cnoc thais in the western hills",
+  "body": "At Cnoc thais in the western hills the Tuathaich pits pass to their hewers when the Board's overseers leave, and the pit captain Tom Varley's father is chosen to keep the accounts. The town's own register of the pits begins.",
+  "place": "burg:269",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0232",
+  "canon": false,
+  "title": "The Sligeanach's great year",
+  "body": "An Sligeanach Fad' às, the roadside tavern by Ceann bhàn on the southern road, is sold to a family of Achadh mhòr drovers, who build a second hall for the drove trade. It becomes the largest house on the old mining roads.",
+  "place": "marker:11",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0233",
+  "canon": false,
+  "title": "The eastern fishing grounds fail",
+  "body": "The herring do not come to the grounds off Seann Dunn for the second year together. Boats from the east coast go north to fish the grounds off Caol mhòr, which the licence law reserves to them, and the Tuathaich boats are pushed farther out.",
+  "place": "burg:18",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0234",
+  "canon": false,
+  "title": "Inis mhin's boats",
+  "body": "The Tuathaich boats of Inis mhin, pushed out from their grounds by the eastern boats, fish the deep water past the northern isles. Two are lost in the first year and none after, and Inis mhin's catch passes Caol mhòr's.",
+  "place": "burg:9",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0235",
+  "canon": false,
+  "title": "Raghnall mac Mhuirich, keeper",
+  "body": "Mòrag nic Coinnich retires after some thirty years as keeper. Raghnall mac Mhuirich, her deputy, becomes keeper of Leabharlann Muileann chaol.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0236",
+  "canon": false,
+  "title": "The ore price at the fair",
+  "body": "The price of ore-fuel at the fair at Muileann òg doubles as the Board cuts its sales. The fair's court fixes a ceiling price and cannot hold it.",
+  "place": "marker:38",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0237",
+  "canon": false,
+  "title": "Ore thieves at Cnoc fhiadhaich",
+  "body": "The Board posts watchmen at the spoil-heaps of Cnoc fhiadhaich after households of the town are found picking ore from the waste to burn. The watchmen are from the town and see nothing.",
+  "place": "burg:280",
+  "kind": "law"
+ },
+ {
+  "id": "V-0238",
+  "canon": true,
+  "title": "The first working dubhan",
+  "body": "A crude but functional synthetic fuel is produced. It is not yet an economy. It is, for now, one man's answer to a crisis the caste in power still hasn't fully faced.",
+  "place": null,
+  "kind": "discovery",
+  "canon_date": "c. 2000 DE"
+ },
+ {
+  "id": "V-0239",
+  "canon": false,
+  "title": "Beathag nic Fhionnlaigh's note on the fuel",
+  "body": "At the foot of the year the royal chronicler writes that a fuel made without the vein is reported from the north, and that she has not seen it. Hers is the first mention of dubhan in the royal record, and she spells the word three ways in two lines.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0240",
+  "canon": false,
+  "title": "The Board's inquiry",
+  "body": "The Mine Board sends two surveyors north to learn whether the new fuel burns as it is said to. Their report, which reached the library, says that it burns, that it smells, and that it is not ore.",
+  "place": "burg:95",
+  "kind": "discovery"
+ },
+ {
+  "id": "V-0241",
+  "canon": false,
+  "title": "The lamp-houses of the capital",
+  "body": "Cathair dhearg's street-lamps, which burned ore since the humans set them up, are left dark in the poorer streets to save fuel. The dark streets are the first to be lit again when dubhan comes.",
+  "place": "burg:19",
+  "kind": "building"
+ },
+ {
+  "id": "V-0242",
+  "canon": false,
+  "title": "The last ore sale at the fair",
+  "body": "The court of the fair at Muileann òg records its last sale of ore-fuel by the cartload. Ore is sold at the fair after this only by the sack, and at last only by the lump, for altars.",
+  "place": "marker:38",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0243",
+  "canon": true,
+  "title": "Cathal crowned",
+  "body": "Mairead's reign ends as Dubhan's early experiments are still failing more than succeeding — Cathal inherits a kingdom that doesn't yet know how close its own solution already is.",
+  "place": "burg:19",
+  "kind": "reign",
+  "canon_date": "c. 2002 DE"
+ },
+ {
+  "id": "V-0244",
+  "canon": false,
+  "title": "The mint's new dies",
+  "body": "The mint at Cathair dhearg cuts new dies for the coinage of the reign. They are the first dies not cut by a pupil of Fearchar Bonn's workshop, and the obsidian ink is still pressed into the seal.",
+  "place": "burg:19",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0245",
+  "canon": false,
+  "title": "The shipmasters' works at Seann Skell",
+  "body": "A works for making dubhan is set up at Seann Skell on the southern coast by a company of shipmasters, the first on the island outside the north. The record does not say on what terms they had the process.",
+  "place": "burg:431",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0246",
+  "canon": false,
+  "title": "The high custodian's letter",
+  "body": "The Àrd-choimheadaiche at Seann Skell writes to every house of the Rite that the new fuel is not forbidden, since it is not ore, and not blessed, since it is not ore. The letter is read in the houses and argued about in the Fèidh schools for years.",
+  "place": "burg:431",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0247",
+  "canon": false,
+  "title": "The Seann Skell works' first year",
+  "body": "The dubhan works at Seann Skell on the southern coast sell their first year's output to the fishing boats of the south coast and the lamp-houses of Cathair dhearg. The works' chimney is the tallest thing on the coast.",
+  "place": "burg:431",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0248",
+  "canon": false,
+  "title": "Peigi nic Ascaill's trial lamp",
+  "body": "Peigi nic Ascaill, engineer to the Lighthouse Board, fits a dubhan burner to a spare lamp in the yard below Taigh-solais Baile ìseal and runs it for a hundred nights. Murchadh mac Coinnich, retired from the light, keeps the trial's log for her.",
+  "place": "marker:13",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0249",
+  "canon": false,
+  "title": "The fishing boats of Caol fhiadhaich",
+  "body": "The boatwrights of Caol fhiadhaich on the south-west coast fit dubhan engines to the first fishing boats. The Shipwrights' Guild calls the work unlawful for its members. The boatwrights leave the guild and keep the work.",
+  "place": "burg:191",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0250",
+  "canon": false,
+  "title": "The shipwrights' guild court",
+  "body": "The Shipwrights' Guild court at Ros dhomhain rules that fitting an engine is not shipwrighting and so not within its charter. The boatwrights of Caol fhiadhaich are readmitted to the guild. They decline.",
+  "place": "burg:27",
+  "kind": "law"
+ },
+ {
+  "id": "V-0251",
+  "canon": true,
+  "title": "The lighthouses converted",
+  "body": "The five coastal beacons, still running on obsidian-lit flame for over a century, are the first infrastructure formally converted to dubhan power.",
+  "place": "marker:12",
+  "kind": "building",
+  "canon_date": "c. 2005 DE"
+ },
+ {
+  "id": "V-0252",
+  "canon": false,
+  "title": "The last obsidian flame",
+  "body": "The obsidian flame of Taigh-solais Tobar dhearg is carried in a closed lantern to the Rite's house at Seann Skell and allowed to burn out on the altar. Custodians from four shires attend, and Ciorstaidh nic Artair, keeper of the light, carries the lantern.",
+  "place": "marker:16",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0253",
+  "canon": false,
+  "title": "Taigh-solais Muileann bheag converted",
+  "body": "The beacon at Muileann bheag on the Tuathaich north coast is converted with the others. Its dubhan is carried by cart from the north, the only one of the five lights whose fuel does not come by sea from Seann Skell.",
+  "place": "marker:14",
+  "kind": "building"
+ },
+ {
+  "id": "V-0254",
+  "canon": false,
+  "title": "Taigh-solais Àth dhearg converted",
+  "body": "At Taigh-solais Àth dhearg on the north-east cape the conversion takes a month longer than at the others, because the stair is too narrow for the new tank. The tank is lifted to the lamp-room from outside by a crane borrowed from the rope-walk at Seann Tarr.",
+  "place": "marker:15",
+  "kind": "building"
+ },
+ {
+  "id": "V-0255",
+  "canon": false,
+  "title": "Taigh-solais Baile chrom converted",
+  "body": "At Taigh-solais Baile chrom on the Tuathaich coast, the conversion is done by Tuathaich fitters from Caol mhòr, the Lighthouse Board having none of its own to send that far. The keeper's report names none of them.",
+  "place": "marker:12",
+  "kind": "building"
+ },
+ {
+  "id": "V-0256",
+  "canon": false,
+  "title": "The lamp-makers turn",
+  "body": "The lamp-makers of Muileann mhin begin making dubhan lamps and ask for their guild mark to be allowed on them. The guild court allows it after a year's argument. The flame over the hammer is kept.",
+  "place": "burg:137",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0257",
+  "canon": false,
+  "title": "Daniel Frayne dies",
+  "body": "Daniel Frayne, speaker of the Moot, dies at Muileann leathan. The Moot chooses Martha Greaves of Doire ghlas, a mill manager, to follow him.",
+  "place": "burg:234",
+  "kind": "death"
+ },
+ {
+  "id": "V-0258",
+  "canon": false,
+  "title": "The binders of Muileann leathan",
+  "body": "The Moot sends Daniel Frayne's pupils, the binders of Muileann leathan, to rebind the Moot's minute-books from the first meeting. The rebound set is kept at Caol mhòr, and a second set is made and hidden, the Moot's minute says, elsewhere.",
+  "place": "burg:234",
+  "kind": "record"
+ },
+ {
+  "id": "V-0259",
+  "canon": false,
+  "title": "The ore line's first dubhan engine",
+  "body": "The Rail Board runs its first dubhan engine on the ore line, from the yards at Muileann chrom to Cathair dhearg. It carries no ore. It carries dubhan to the capital's lamp-houses and comes back empty.",
+  "place": "burg:354",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0260",
+  "canon": false,
+  "title": "The eastern salt-road",
+  "body": "Salt from Àth bheag goes to the inland towns by dubhan lorry for the first time, on the drove road past Baile ìseal. The drovers of the east coast sell their oxen within a few years.",
+  "place": "burg:492",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0261",
+  "canon": false,
+  "title": "Achadh mhòr's drovers",
+  "body": "The drovers of Achadh mhòr in the south, with no oxen to drive, buy lorries. The drove-inn at An Sligeanach Fad' às keeps its trade by selling them dubhan.",
+  "place": "burg:395",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0262",
+  "canon": true,
+  "title": "The tavern circuit modernizes",
+  "body": "Roadside houses along the old mining routes install dubhan lamps, ending centuries of oil-and-wick lighting in a single decade.",
+  "place": "marker:9",
+  "kind": "trade",
+  "canon_date": "c. 2008 DE"
+ },
+ {
+  "id": "V-0263",
+  "canon": false,
+  "title": "An Leòmhann Buidhe keeps a wick",
+  "body": "At An Leòmhann Buidhe on the north-east road, the landlord keeps one wick lamp burning over the door beside the new dubhan lamps. The custom spreads along the circuit, and a wick lamp over an inn door is still called a Leòmhann.",
+  "place": "marker:7",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0264",
+  "canon": false,
+  "title": "Am Buabhall Fortanach",
+  "body": "Am Buabhall Fortanach, the tavern on the south-west road near Doire shean, installs its dubhan lamps last of the great inns. Its landlady's account-book gives the cost as a year's takings.",
+  "place": "marker:5",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0265",
+  "canon": false,
+  "title": "The Taigh-seinnse Mòr's hall",
+  "body": "An Taigh-seinnse Mòr, on the old ore road above Cuan chrom, opens a second hall lit entirely by dubhan. The hall is let for weddings, wakes and the meetings of the Guild of Hewers, whose own hall at Achadh dhomhain has been sold.",
+  "place": "marker:10",
+  "kind": "building"
+ },
+ {
+  "id": "V-0266",
+  "canon": false,
+  "title": "An Taigh-òsta Grianach",
+  "body": "An Taigh-òsta Grianach, on the south-east road near Cnoc dhìreach, is rebuilt with dubhan lamps in every room and a dubhan pump at the door. It is the first inn on the island to sell fuel as well as beds.",
+  "place": "marker:6",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0267",
+  "canon": false,
+  "title": "The ore engines laid up",
+  "body": "The Rail Board's ore-fired engines are laid up in a siding at Muileann chrom and never run again. The yard families who drove them are retrained on the dubhan engines, those who will be.",
+  "place": "burg:354",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0268",
+  "canon": false,
+  "title": "An Taigh-seinnse Reòta",
+  "body": "An Taigh-seinnse Reòta on the north road above Muileann fhada is the last of the great inns to keep a wick lamp in every room. Its landlord writes to the Board that the dubhan smell drives away his guests. It does not, and he puts in the lamps the following year.",
+  "place": "marker:8",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0269",
+  "canon": false,
+  "title": "Muileann dhearg closed",
+  "body": "The last working face under Muileann dhearg is closed. The town's remaining families are moved by the Board to Seann Toll on the coast, and Muileann dhearg is left with its chapel, its graves and a caretaker.",
+  "place": "burg:491",
+  "kind": "people"
+ },
+ {
+  "id": "V-0270",
+  "canon": false,
+  "title": "The Muileann dhearg families at Seann Toll",
+  "body": "The families from Muileann dhearg are settled in a new row at the edge of Seann Toll, which the town calls the Hewers' Row. Few of them find work at sea. Most work on the dubhan tanks at the harbour.",
+  "place": "burg:313",
+  "kind": "people"
+ },
+ {
+  "id": "V-0271",
+  "canon": false,
+  "title": "Muileann dhearg's chapel",
+  "body": "The Fèidh chapel at Muileann dhearg is given to the town's caretaker to keep, with the graves. The Fèidh school at Caol shean sends a teacher once a year to hold the town's one remaining lecture, which few come to.",
+  "place": "burg:491",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0272",
+  "canon": true,
+  "title": "The word spreads before the fuel does",
+  "body": "\"Dubhan\" begins appearing in common speech to mean the fuel itself, not the man, years before the economy built on it is complete.",
+  "place": null,
+  "kind": "culture",
+  "canon_date": "c. 2010 DE"
+ },
+ {
+  "id": "V-0273",
+  "canon": false,
+  "title": "Dubhan-tùsail",
+  "body": "The word 'dubhan-tùsail' is first recorded, in a letter of the Fèidh school at Caol shean, for an early attempt at anything that looked like a dead end before it wasn't. The letter uses it of the school's own revival.",
+  "place": "burg:197",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0274",
+  "canon": false,
+  "title": "The Rail Board's new name",
+  "body": "The Rail Board drops 'ore' from the name of its main line in its own timetables, calling it only the line. Everyone else goes on calling it the ore line.",
+  "place": "burg:354",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0275",
+  "canon": false,
+  "title": "The Guild of Hewers dissolved",
+  "body": "The Guild of Hewers, chartered at Achadh dhomhain in the first years of the restored custom, dissolves itself. Its rolls, its oath-stone of ore and its sick-roll go to the library. Its last master, Tormod mac Coinnich, writes that the guild had outlived the mountain's patience.",
+  "place": "burg:135",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0276",
+  "canon": false,
+  "title": "The bath-house given to the Rite",
+  "body": "The bath-house at the hot springs near Muileann ruadh, built by the Hewers for their sick, passes to the Rite's custodians with the guild's other goods. It is opened to anyone who pays, the first time it has been open to Tuathaich.",
+  "place": "marker:0",
+  "kind": "building"
+ },
+ {
+  "id": "V-0277",
+  "canon": false,
+  "title": "The Achadh dhomhain hall",
+  "body": "The Hewers' hall at Achadh dhomhain, sold before the guild dissolved, becomes a dubhan depot. Its carved lintel, with the guild's oath cut into it, is left in place over the pumps.",
+  "place": "burg:135",
+  "kind": "building"
+ },
+ {
+  "id": "V-0278",
+  "canon": true,
+  "title": "The dubhan economy takes shape",
+  "body": "Markets, military logistics, and shipping begin shifting wholesale to the new fuel. The obsidian caste, watching its own power source fail, does not object.",
+  "place": null,
+  "kind": "trade",
+  "canon_date": "c. 2012 DE"
+ },
+ {
+  "id": "V-0279",
+  "canon": false,
+  "title": "The house of Mac Ùisdein moves",
+  "body": "The house of Mac Ùisdein sells what remains of its share in the Sloc Mòr's spoil and quarry and puts its money into dubhan shipping at Ros dhomhain. Of the families that held the vein, it is the only one that moved before the vein failed it.",
+  "place": "burg:27",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0280",
+  "canon": false,
+  "title": "The fleet's first dubhan hulls",
+  "body": "The kingdom's patrol boats at Ros dhomhain are refitted for dubhan, and for the first time they can outrun the raiders. The next two raider hulks taken are brought into Ros dhomhain under tow.",
+  "place": "burg:27",
+  "kind": "war"
+ },
+ {
+  "id": "V-0281",
+  "canon": false,
+  "title": "Raiders taken to Ros dhomhain",
+  "body": "The crews of the raider hulks brought into Ros dhomhain are tried at the court of the sea there. Several of them are Tuathaich. The court hangs none, sends the Ròdaich among them to the quarries at Achadh dhomhain and the Tuathaich home to the north.",
+  "place": "burg:27",
+  "kind": "law"
+ },
+ {
+  "id": "V-0282",
+  "canon": false,
+  "title": "The Fuel-Fitters chartered",
+  "body": "The fitters of dubhan engines, who had worked outside every guild, are chartered as the Guild of Fuel-Fitters at Seann Skell on the southern coast. Its rolls, like those of every guild before it, are open to Ròdaich only. The Tuathaich fitters already in the trade are let go.",
+  "place": "burg:431",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0283",
+  "canon": false,
+  "title": "Tuathaich fitters go north",
+  "body": "The fitters let go by the charter rule go back to the northern towns and fit engines there without a guild. Caol mhòr's harbour has more dubhan boats than any port of its size in the south within a few years.",
+  "place": "burg:95",
+  "kind": "people"
+ },
+ {
+  "id": "V-0284",
+  "canon": false,
+  "title": "The Moot on the new economy",
+  "body": "The Moot at Caol mhòr, under Martha Greaves, debates whether the north should take up the new fuel or keep to its own seams. The Moot votes to take it up. The delegates from the western pit towns walk out.",
+  "place": "burg:95",
+  "kind": "law"
+ },
+ {
+  "id": "V-0285",
+  "canon": false,
+  "title": "The Tuathaich depots",
+  "body": "Dubhan depots open at Caol mhòr, Doire ghlas and Ceann mhòr, supplied by sea. Martha Greaves writes in the Moot's minute that the north now buys its fire from the south, and does not say whether this is good.",
+  "place": "burg:143",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0286",
+  "canon": true,
+  "title": "The fourth currency reform",
+  "body": "Rìoghachd coinage is re-pegged to dubhan output rather than obsidian reserves for the first time — an economic admission, quietly made, of which resource actually runs the kingdom now.",
+  "place": null,
+  "kind": "trade",
+  "canon_date": "c. 2014 DE"
+ },
+ {
+  "id": "V-0287",
+  "canon": false,
+  "title": "The plain seal",
+  "body": "The mint at Cathair dhearg stops pressing obsidian ink into the coinage seal. The new seal is plain. Fearchar Bonn's first dies are given to the library, where they are kept in the case beside the Guild of Hewers' oath-stone.",
+  "place": "burg:19",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0288",
+  "canon": false,
+  "title": "The Rite's protest on the seal",
+  "body": "The high custodian at Seann Skell protests the plain seal to the council as a sign that the kingdom no longer holds the vein sacred. The council's answer is that the kingdom never said it did. Beathag nic Fhionnlaigh copies both letters into the chronicle.",
+  "place": "burg:431",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0289",
+  "canon": false,
+  "title": "The western pit towns meet",
+  "body": "Delegates of the western pit towns meet at Muileann àrsaidh, apart from the Moot. They agree to go on working their seams and to sell their coal to any household in the north that will buy it.",
+  "place": "burg:244",
+  "kind": "people"
+ },
+ {
+  "id": "V-0290",
+  "canon": false,
+  "title": "Àth naomh joins the pit towns",
+  "body": "Àth naomh, a Tuathaich town of the western hills with only a few old shafts, joins the pit towns' agreement, its delegates saying that the town would rather be cold with its neighbours than warm alone.",
+  "place": "burg:372",
+  "kind": "people"
+ },
+ {
+  "id": "V-0291",
+  "canon": true,
+  "title": "Tuathaich resistance organizes",
+  "body": "A cluster of northern communities refuse to fold into the new economy, continuing to work the last workable coal seams rather than trade independence for dependence on one man's fuel.",
+  "place": null,
+  "kind": "war",
+  "canon_date": "c. 2015 DE"
+ },
+ {
+  "id": "V-0292",
+  "canon": false,
+  "title": "The holdout towns",
+  "body": "The towns that refuse are Àth leathan, Muileann àrsaidh, Cnoc thais, Àth naomh and Tobar dhearg in the western hills. Their spokeswoman is Ruth Calder, a pit captain's daughter from Àth leathan. The Moot at Caol mhòr does not join them and does not condemn them.",
+  "place": "burg:346",
+  "kind": "people"
+ },
+ {
+  "id": "V-0293",
+  "canon": false,
+  "title": "Tom Varley's pits",
+  "body": "At Cnoc thais the pit captain Tom Varley reopens two shafts that had lain abandoned since the humans' time. The coal from them is poor. It is theirs, and it heats the town.",
+  "place": "burg:269",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0294",
+  "canon": false,
+  "title": "Tobar dhearg of the hills",
+  "body": "Tobar dhearg in the western hills, the smallest of the holdout towns, has one pit and forty hewers. It sends its coal to Cathair gheal on the coast and receives fish in exchange.",
+  "place": "burg:408",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0295",
+  "canon": false,
+  "title": "Ellen Marsh's books",
+  "body": "Ellen Marsh, a schoolteacher of Doire ghlas, finishes a collection of Tuathaich accounts of the Severance and the settlement, taken down from the old in the north over many years. It fills eleven books. It is her request that goes to the library.",
+  "place": "burg:209",
+  "kind": "record"
+ },
+ {
+  "id": "V-0296",
+  "canon": true,
+  "title": "The library's Tuathaich wing proposed",
+  "body": "A formal request to archive Tuathaich oral history alongside the official Ròdaich record is submitted to Leabharlann Muileann chaol. It is tabled, not rejected — and remains tabled to this day.",
+  "place": "marker:34",
+  "kind": "record",
+  "canon_date": "c. 2016 DE"
+ },
+ {
+  "id": "V-0297",
+  "canon": false,
+  "title": "The keeper's answer",
+  "body": "Raghnall mac Mhuirich's answer to Ellen Marsh says that the request awaits the council's view on the standing of oral testimony. The council has not given one.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0298",
+  "canon": false,
+  "title": "Ellen Marsh's reply",
+  "body": "Ellen Marsh writes back to the keeper that oral testimony was good enough for the census clerks when they took the Moot's figures. Her letter is filed with the request.",
+  "place": "burg:209",
+  "kind": "record"
+ },
+ {
+  "id": "V-0299",
+  "canon": false,
+  "title": "The coal price in the north",
+  "body": "The holdout pits sell their coal to Tuathaich households across the north at less than the price of dubhan. The Moot's own wool mills at Doire ghlas buy it. The Board's revenue from the north falls for the first time since the Severance.",
+  "place": "burg:209",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0300",
+  "canon": false,
+  "title": "The Board's northern revenue",
+  "body": "The Mine Board's accounts show its northern revenue down by a quarter. The Board's report to the council names the western pits as the cause and the Leòid ruling as the remedy.",
+  "place": "burg:23",
+  "kind": "record"
+ },
+ {
+  "id": "V-0301",
+  "canon": false,
+  "title": "The seams declared Crown property",
+  "body": "The Mine Board declares the western seams Crown property under the Leòid ruling, holding that the right to work them lapsed when the holders stopped paying the fifth. The holders say they stopped paying when the Board stopped carrying the coal. The pits are ordered closed.",
+  "place": "burg:47",
+  "kind": "law"
+ },
+ {
+  "id": "V-0302",
+  "canon": false,
+  "title": "Enforcers posted to the west",
+  "body": "A company of the Board's enforcers is posted at Seann Skell on the western coast to close the pits. Beathag nic Fhionnlaigh notes that it is the first armed company the kingdom has sent toward the north since the Severance.",
+  "place": "burg:489",
+  "kind": "war"
+ },
+ {
+  "id": "V-0303",
+  "canon": false,
+  "title": "The enforcers' depot",
+  "body": "The enforcers at Seann Skell on the west coast build a dubhan depot for their lorries at the town's edge. The town's Scorpion house refuses to bless it, and the high custodian of the Rite sends a priest to do so instead.",
+  "place": "burg:489",
+  "kind": "war"
+ },
+ {
+  "id": "V-0304",
+  "canon": false,
+  "title": "The Moot's warning",
+  "body": "Martha Greaves writes to the council from Caol mhòr that the western towns will not close their pits for a letter, and asks for a year's delay while the Moot talks with them. The letter is received and filed.",
+  "place": "burg:95",
+  "kind": "law"
+ },
+ {
+  "id": "V-0305",
+  "canon": true,
+  "title": "First skirmishes",
+  "body": "Minor, unrecorded clashes between state enforcers and Tuathaich coal-holdouts begin — too small individually to name, together the clear runway into open war.",
+  "place": null,
+  "kind": "war",
+  "canon_date": "2018 DE"
+ },
+ {
+  "id": "V-0306",
+  "canon": false,
+  "title": "The chronicler asks",
+  "body": "At the foot of the year Beathag nic Fhionnlaigh writes that clashes are reported in the west, that the Board's reports of them are not given to the chronicler, and that she has asked for them. They were not given.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0307",
+  "canon": false,
+  "title": "The pit-heads walled",
+  "body": "The pit-heads at Muileann àrsaidh are walled with spoil and timber, and the road into the town from the south is dug across. The Board's enforcers at Seann Skell report the town closed to them.",
+  "place": "burg:244",
+  "kind": "war"
+ },
+ {
+  "id": "V-0308",
+  "canon": false,
+  "title": "Ruth Calder's letter",
+  "body": "Ruth Calder writes to the council for the western towns, offering to pay the Crown's fifth in coal if the Board will carry it and let the pits work until the seams are spent. The letter reached the library. No answer to it did.",
+  "place": "burg:346",
+  "kind": "law"
+ },
+ {
+  "id": "V-0309",
+  "canon": false,
+  "title": "The Moot stands apart",
+  "body": "The Moot at Caol mhòr resolves that it is not a party to the quarrel between the Board and the western towns, and will feed anyone who comes to its towns hungry. The resolution is carried by nine votes.",
+  "place": "burg:95",
+  "kind": "law"
+ },
+ {
+  "id": "V-0310",
+  "canon": false,
+  "title": "The Moot's granaries",
+  "body": "The Moot orders its granaries at Caol mhòr and Doire ghlas filled beyond the usual, paying from the wool-mill revenue. The minute gives no reason.",
+  "place": "burg:209",
+  "kind": "people"
+ },
+ {
+  "id": "V-0311",
+  "canon": false,
+  "title": "Sìleas nic Rath",
+  "body": "Beathag nic Fhionnlaigh lays down the office, and Sìleas nic Rath, her clerk, becomes royal chronicler. Her record of the war is the one the library would later seal.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0312",
+  "canon": true,
+  "title": "The mobilization order",
+  "body": "Regiments not called to active service since the Severance itself are reformed and re-equipped, openly, months before anyone in power admits a war is coming.",
+  "place": null,
+  "kind": "war",
+  "canon_date": "c. 2019 DE"
+ },
+ {
+  "id": "V-0313",
+  "canon": false,
+  "title": "Somhairle mac Lachlainn",
+  "body": "Command of the reformed regiments is given to Somhairle mac Lachlainn, who had risen among the Board's enforcers. The rolls of the Severance companies are brought out of the council's chests at Cathair dhearg to name the reformed regiments, and the old names are read aloud before new men.",
+  "place": "burg:19",
+  "kind": "war"
+ },
+ {
+  "id": "V-0314",
+  "canon": false,
+  "title": "The Moot's last petition",
+  "body": "Martha Greaves carries a petition from the Moot to the council at Cathair dhearg in person, asking that the western pits be left to work out their seams, which the Moot says will be spent within a few years in any case. It is received and filed. She is the first speaker of the Moot to enter the council chamber.",
+  "place": "burg:19",
+  "kind": "law"
+ },
+ {
+  "id": "V-0315",
+  "canon": false,
+  "title": "Arms by the ore line",
+  "body": "The Rail Board carries arms and dubhan from Cathair dhearg to Seann Bhral on the ore line and its western branch. The yard at Muileann chrom works day and night on the trains.",
+  "place": "burg:47",
+  "kind": "war"
+ },
+ {
+  "id": "V-0316",
+  "canon": false,
+  "title": "The hewers gather at Àth leathan",
+  "body": "Hewers from the five western towns gather at Àth leathan, where the road from the south enters the hills. The Board's lists name Ruth Calder and Tom Varley among them.",
+  "place": "burg:346",
+  "kind": "war",
+  "between": [
+   2020,
+   2020
+  ]
+ },
+ {
+  "id": "V-0317",
+  "canon": false,
+  "title": "The regiments go west",
+  "body": "The reformed regiments set out from Cathair dhearg by the western road, their carts and lorries running on dubhan, to join the enforcers at Seann Skell on the west coast.",
+  "place": "burg:489",
+  "kind": "war",
+  "between": [
+   2020,
+   2020
+  ]
+ },
+ {
+  "id": "V-0318",
+  "canon": true,
+  "title": "Battle of Àth leathan",
+  "body": "The first major engagement of An Cogadh Fada, the Long War. The state, already leaning on Dubhan's fuel to prop up its fading power, moves against the holdouts directly.",
+  "place": "marker:18",
+  "kind": "battle",
+  "canon_date": "April 11, 2020 DE"
+ },
+ {
+  "id": "V-0319",
+  "canon": false,
+  "title": "The dead of Àth leathan",
+  "body": "The open record counts the kingdom's dead at Àth leathan and does not count the holdouts'. Tuathaich telling puts theirs in the hundreds. Ruth Calder's name does not appear in the open record after this battle.",
+  "place": "marker:18",
+  "kind": "battle",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0320",
+  "canon": false,
+  "title": "Into the hills",
+  "body": "After Àth leathan the holdouts give up the southern pits and fall back into the hills around Muileann àrsaidh and Cnoc thais. The pits at Àth leathan are taken without a fight and flooded on the Board's order.",
+  "place": "burg:244",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0321",
+  "canon": false,
+  "title": "An seachdamh rèisimeid raised",
+  "body": "The seventh regiment is raised from the levies of the west coast and stationed at Seann Skell, the port nearest the western hills. It holds the road behind the army and the field of Àth leathan.",
+  "place": "burg:489",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0322",
+  "canon": false,
+  "title": "The field of Àth leathan after",
+  "body": "The field of Àth leathan is left unploughed. The seventh regiment's patrols pass it on the road to the western hills and report it empty.",
+  "place": "marker:18",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0323",
+  "canon": true,
+  "title": "The wartime tithe",
+  "body": "A temporary tax increase, justified by the war, on every dubhan transaction in the kingdom. It is never repealed once the war ends.",
+  "place": null,
+  "kind": "law",
+  "canon_date": "c. 2020 DE"
+ },
+ {
+  "id": "V-0324",
+  "canon": false,
+  "title": "The tithe at the pumps",
+  "body": "The wartime tithe is collected at the dubhan depots, where a clerk of the Treasury sits beside every pump. The fair-court at Muileann òg records the first complaint against it within a month.",
+  "place": "marker:38",
+  "kind": "law",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0325",
+  "canon": false,
+  "title": "A' chiad rèisimeid raised",
+  "body": "The first regiment is raised at Inis mhòr, the port beside the capital, from the capital's own companies. It guards the council, the mint and the bridge over the Abhainn dhomhain.",
+  "place": "burg:2",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0326",
+  "canon": false,
+  "title": "A' chiad chabhlach raised",
+  "body": "The first fleet is raised from the south-west harbours and stationed at Àth gharbh. It is sent round the western cape to stop coal going out by sea from the Tuathaich ports.",
+  "place": "burg:50",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0327",
+  "canon": false,
+  "title": "An ceathramh cabhlach raised",
+  "body": "The fourth fleet is raised at Cuan shean on the west coast and joins the first off the Tuathaich shore. Between them they close Seann Skell and Cnoc bhàn in the north-west to every boat but fishing boats, and search those.",
+  "place": "burg:282",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0328",
+  "canon": false,
+  "title": "The siege of Muileann àrsaidh",
+  "body": "The regiments invest Muileann àrsaidh. The town holds for weeks on stored coal and potatoes, and its pit-heads are taken one at a time. Sìleas nic Rath's open record gives the day it fell and nothing else.",
+  "place": "burg:244",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0329",
+  "canon": false,
+  "title": "An treas rèisimeid raised",
+  "body": "The third regiment is raised at Cathair mhòr, where the Mine Board keeps its offices in the old stone house of Mac Ùisdein. Its first muster is held under the market cross the house had raised.",
+  "place": "burg:23",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0330",
+  "canon": false,
+  "title": "An còigeamh rèisimeid raised",
+  "body": "The fifth regiment is raised at Seann Warr on the west coast below the capital. It is sent north to relieve the regiments before Muileann àrsaidh.",
+  "place": "burg:64",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0331",
+  "canon": false,
+  "title": "The capital's lamp-houses rationed",
+  "body": "Dubhan for the army is taken ahead of every other use. The capital's poorer streets go dark again, as they had before the fuel came, and the lamp-houses of Cathair dhearg ration by street.",
+  "place": "burg:19",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0332",
+  "canon": false,
+  "title": "Families at Caol mhòr",
+  "body": "Families from the western pits come into Caol mhòr and Doire ghlas with what they can carry. The Moot feeds them from its own stores, as it had resolved. The council sends nothing and forbids nothing.",
+  "place": "burg:95",
+  "kind": "people",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0333",
+  "canon": false,
+  "title": "The Moot's granaries opened",
+  "body": "The Moot opens its granaries at Caol mhòr and Doire ghlas to the families from the west. Its minute records the amount given and the names of the families, which are among the few Tuathaich records of the war the library does not hold.",
+  "place": "burg:95",
+  "kind": "people",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0334",
+  "canon": false,
+  "title": "Agnes Pike's school as a shelter",
+  "body": "The school at Doire ghlas that Agnes Pike founded is given over to the families from the west, its benches used for beds. Ellen Marsh, who teaches there, takes down the families' accounts.",
+  "place": "burg:209",
+  "kind": "people",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0335",
+  "canon": false,
+  "title": "Cnoc thais taken",
+  "body": "Cnoc thais is taken after the regiments cut the road to its pits. Tom Varley's two shafts are fired and sealed. The open record gives the number of holdouts taken and not the number who went on into the hills.",
+  "place": "burg:269",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0336",
+  "canon": false,
+  "title": "An dàrna cabhlach raised",
+  "body": "The second fleet is raised at Seann Skell on the southern coast to keep the eastern and southern waters while the first and fourth are in the north-west.",
+  "place": "burg:431",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0337",
+  "canon": false,
+  "title": "Raiders take the salt-boats",
+  "body": "With the fleets drawn north-west, raiders from the eastern waters take two salt-boats off Àth bheag and burn a third. The second fleet runs one of the raiders down off Baile ìseal.",
+  "place": "marker:26",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0338",
+  "canon": false,
+  "title": "An siathamh rèisimeid raised",
+  "body": "The sixth regiment is raised at Cnoc bheag, the great port of the Hawk houses on the north-central coast. It holds the northern road between the Tuathaich shires and the middle of the island, and the Hawk houses bless its colours in their own order.",
+  "place": "burg:20",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0339",
+  "canon": false,
+  "title": "An dàrna rèisimeid raised",
+  "body": "The second regiment is raised at Àth dhìreach in the east and set to guard the ore line and the library road. Its camp is the first soldiery the town of Muileann chaol has seen.",
+  "place": "burg:338",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0340",
+  "canon": false,
+  "title": "An ceathramh rèisimeid raised",
+  "body": "The fourth regiment is raised at Caol bheag on the north-east coast. It is shipped west round the north coast in hired dubhan hulls and landed at Ceann mhòr in the Tuathaich north.",
+  "place": "burg:475",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0341",
+  "canon": false,
+  "title": "The regiments at Ceann mhòr",
+  "body": "The fourth regiment is quartered at Ceann mhòr, in the old human magistrate's house that the maor had kept since the shires were drawn. The Moot protests the quartering. The protest is received.",
+  "place": "burg:143",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0342",
+  "canon": false,
+  "title": "The fishermen of Cathair gheal",
+  "body": "The fleets off the north-west search the fishing boats of Cathair gheal every day they go out. The fishermen petition the Moot, which petitions the council. The searching goes on.",
+  "place": "burg:476",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0343",
+  "canon": false,
+  "title": "An t-ochdamh rèisimeid raised",
+  "body": "The eighth regiment is raised at Inis uaine on the east coast to guard the dubhan depots and tanks of the eastern ports, which the council fears the holdouts might fire.",
+  "place": "burg:103",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0344",
+  "canon": false,
+  "title": "An treas cabhlach raised",
+  "body": "The third fleet is raised at Baile ghorm on the south-west coast and carries the army's dubhan up the west coast in tank-hulls to the regiments in the hills.",
+  "place": "burg:170",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0345",
+  "canon": false,
+  "title": "The Baile chrom vigil",
+  "body": "The Grey Night cult at Baile chrom keeps its vigil as always. The regiments quartered along the coast report a night when the whole town was dark and silent, and search it, and find nothing.",
+  "place": "burg:305",
+  "kind": "faith",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0346",
+  "canon": false,
+  "title": "Àth naomh and Tobar dhearg",
+  "body": "The last two western towns, Àth naomh and Tobar dhearg, open their roads to the regiments without a siege. Their pits are flooded. The open record names no holdouts taken at either.",
+  "place": "burg:372",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0347",
+  "canon": false,
+  "title": "An naoidheamh rèisimeid raised",
+  "body": "The ninth regiment is raised at Seann Skell on the southern coast, the second of that name in the regimental list, to guard the dubhan works the shipmasters built there. The regimental clerks tell the two apart by their coasts.",
+  "place": "burg:431",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0348",
+  "canon": false,
+  "title": "The column goes south",
+  "body": "A column of holdouts, several hundred strong, leaves the western hills and moves south-east through the middle of the island toward the capital. Why it did so is in the sealed archive. The name Tuathaich telling gives its leader is Owen Barrow. The open record gives no name.",
+  "place": "burg:120",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0349",
+  "canon": false,
+  "title": "The column's road",
+  "body": "The column's road south-east runs by Àth bheag in the west, Muileann mhin and the edge of the capital's country. The towns it passes report it, and the open record copies their reports and not the regiments'.",
+  "place": "burg:248",
+  "kind": "war",
+  "between": [
+   2021,
+   2021
+  ]
+ },
+ {
+  "id": "V-0350",
+  "canon": false,
+  "title": "The camp by Muileann ghlas",
+  "body": "The column passes Muileann òg and makes camp on the fields by Muileann ghlas, within a day's walk of Cathair dhearg. The first and third regiments are brought down the fair road to meet it.",
+  "place": "burg:360",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0351",
+  "canon": false,
+  "title": "The fair-ground emptied",
+  "body": "The fair-ground at Muileann òg is cleared of its standing booths to give the first and third regiments room to camp. Its court's books for the year end without a closing entry.",
+  "place": "marker:38",
+  "kind": "war",
+  "between": [
+   2021,
+   2021
+  ]
+ },
+ {
+  "id": "V-0352",
+  "canon": true,
+  "title": "Battle of Muileann ghlas",
+  "body": "The war's second and final major battle. The Tuathaich holdouts are broken within a single year's campaign — descendants of the humans once pushed to the island's edge, pushed back again, this time by a fuel one of their own invented.",
+  "place": "marker:17",
+  "kind": "battle",
+  "canon_date": "December 10, 2021 DE"
+ },
+ {
+  "id": "V-0353",
+  "canon": false,
+  "title": "The field at Muileann ghlas",
+  "body": "The open record lists the first and third regiments on the field at Muileann ghlas and gives no count of the column's dead. The regiments' own dead are named on a stone at Cathair mhòr, set up the following year.",
+  "place": "marker:17",
+  "kind": "battle",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0354",
+  "canon": false,
+  "title": "The last pits give up",
+  "body": "Word of Muileann ghlas reaches the hills, and the holdouts still in them come down to the seventh regiment's posts on the Àth leathan road. They are disarmed and sent home. The open record counts their weapons.",
+  "place": "marker:18",
+  "kind": "war",
+  "between": [
+   2020,
+   2021
+  ]
+ },
+ {
+  "id": "V-0355",
+  "canon": true,
+  "title": "An Cogadh Fada ends",
+  "body": "Nine regiments and four fleets, still active today, were raised in this campaign; each is named for the town it is stationed in.",
+  "place": null,
+  "kind": "war",
+  "canon_date": "2021 DE"
+ },
+ {
+  "id": "V-0356",
+  "canon": false,
+  "title": "Fadachadh",
+  "body": "Among Tuathaich speakers, 'chaidh am fadachadh', they got long-warred, begins to be said of the defeat in the west, and then of any defeat after holding out too long. It is said as a joke, and the people who say it do not laugh.",
+  "place": "burg:95",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0357",
+  "canon": false,
+  "title": "The regiments stay on their stations",
+  "body": "The nine regiments and four fleets are not stood down. The council keeps each at the town it was raised in and pays them from the wartime tithe.",
+  "place": "burg:19",
+  "kind": "war"
+ },
+ {
+  "id": "V-0358",
+  "canon": true,
+  "title": "The dubhan monopoly completes",
+  "body": "With the last organized resistance gone, Dubhan's fuel becomes functionally mandatory across the entire island economy.",
+  "place": null,
+  "kind": "trade",
+  "canon_date": "c. 2022 DE"
+ },
+ {
+  "id": "V-0359",
+  "canon": false,
+  "title": "The western seams flooded",
+  "body": "By the Board's order the last western seams are flooded and their shafts capped with concrete. The seventh regiment stands by at each capping. No coal is dug on the island outside the Board's own works after this.",
+  "place": "burg:346",
+  "kind": "law"
+ },
+ {
+  "id": "V-0360",
+  "canon": false,
+  "title": "The prisoners sent home",
+  "body": "The holdouts held since Muileann ghlas are released from the capital's gaol and sent north under the first regiment's escort as far as the boundary stones. The Moot's register adds their names to the dead and maimed it has kept since the Severance, in a column of its own.",
+  "place": "province:7",
+  "kind": "people"
+ },
+ {
+  "id": "V-0361",
+  "canon": false,
+  "title": "Somhairle mac Lachlainn seated",
+  "body": "Somhairle mac Lachlainn is given a seat on the council. He is the first soldier to sit there since the captains of the Severance war.",
+  "place": "burg:19",
+  "kind": "law"
+ },
+ {
+  "id": "V-0362",
+  "canon": false,
+  "title": "The seventh regiment at Àth leathan",
+  "body": "The seventh regiment builds a post on the road below Àth leathan and keeps a company there. The post is called the Àth leathan post in the regimental lists and something else in the town.",
+  "place": "burg:346",
+  "kind": "war"
+ },
+ {
+  "id": "V-0363",
+  "canon": false,
+  "title": "The stone at Cathair mhòr",
+  "body": "A stone is set up at Cathair mhòr with the names of the regiments' dead from Àth leathan and Muileann ghlas. It stands beside the market cross of the house of Mac Ùisdein.",
+  "place": "burg:23",
+  "kind": "building"
+ },
+ {
+  "id": "V-0364",
+  "canon": false,
+  "title": "The Muileann ghlas field",
+  "body": "The field at Muileann ghlas where the column camped is sown again. The farmer who holds it finds weapons in the furrows for years and hands them to the first regiment, which keeps a list.",
+  "place": "marker:17",
+  "kind": "war"
+ },
+ {
+  "id": "V-0365",
+  "canon": true,
+  "title": "The library's war archive sealed",
+  "body": "Leabharlann Muileann chaol's complete Long War record is formally sealed from public access for a term of fifty years — the only sealed archive in the kingdom's history.",
+  "place": "marker:34",
+  "kind": "record",
+  "canon_date": "c. 2023 DE"
+ },
+ {
+  "id": "V-0366",
+  "canon": false,
+  "title": "Sìleas nic Rath's open chronicle",
+  "body": "What remains open of the royal chronicle for the war years is Sìleas nic Rath's list of places, the regiments present and the counts she was allowed. Her full record went into the sealed archive with the rest.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0367",
+  "canon": false,
+  "title": "The cairn at Àth leathan",
+  "body": "Tuathaich families build a cairn on the field of Àth leathan without leave. The seventh regiment's patrols leave it standing, and it grows by a stone or two every time the patrols pass.",
+  "place": "marker:18",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0368",
+  "canon": false,
+  "title": "The tithe carried forward",
+  "body": "The Treasury's accounts carry the wartime tithe forward as a standing line under the regiments' pay. No minute of the council records a decision to keep it.",
+  "place": "burg:19",
+  "kind": "law"
+ },
+ {
+  "id": "V-0369",
+  "canon": false,
+  "title": "The Fuel-Fitters and the regiments",
+  "body": "The Guild of Fuel-Fitters at Seann Skell on the southern coast is given the contract for the regiments' engines and the fleets' hulls, and doubles its rolls. The rule of the charter holds, and all its new fitters are Ròdaich.",
+  "place": "burg:431",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0370",
+  "canon": false,
+  "title": "The second fleet off Baile ìseal",
+  "body": "The second fleet runs down the raiders off Baile ìseal who had taken the salt-boats during the war, and brings their hulls into Seann Skell. The lighthouse log at Baile ìseal records the chase from the lamp-room.",
+  "place": "marker:13",
+  "kind": "war"
+ },
+ {
+  "id": "V-0371",
+  "canon": false,
+  "title": "The fourth fleet in the north-west",
+  "body": "The fourth fleet, kept on the Tuathaich coast after the war, searches the raiders' bays off Cathair gheal and finds them empty. The fishermen of Cathair gheal say the raiders left when the fleets came and will be back when they go.",
+  "place": "marker:27",
+  "kind": "war"
+ },
+ {
+  "id": "V-0372",
+  "canon": false,
+  "title": "The third fleet's tank-hulls",
+  "body": "The third fleet at Baile ghorm keeps its tank-hulls after the war and runs dubhan up the west coast to the Tuathaich depots on the council's contract. The Moot pays the freight.",
+  "place": "burg:170",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0373",
+  "canon": false,
+  "title": "The creature off the cape again",
+  "body": "The fourth fleet's log for the year records a thing longer than a patrol boat off the north-west cape, where the Tuathaich fishermen had reported one in Gormshuil nic Dhùghaill's time. The log records it as a whale.",
+  "place": "marker:21",
+  "kind": "omen"
+ },
+ {
+  "id": "V-0374",
+  "canon": false,
+  "title": "Anna nic Phàil's motion",
+  "body": "The proposal to compensate the Tuathaich communities is carried into the council by Anna nic Phàil, councillor for Cathair dhomhain, on a petition from the Moot under Martha Greaves. She speaks for it once.",
+  "place": "burg:26",
+  "kind": "law"
+ },
+ {
+  "id": "V-0375",
+  "canon": true,
+  "title": "The reparations debate",
+  "body": "A proposal to formally compensate Tuathaich communities for wartime losses is raised in the capital and quietly allowed to die without a vote.",
+  "place": "burg:19",
+  "kind": "law",
+  "canon_date": "c. 2024 DE"
+ },
+ {
+  "id": "V-0376",
+  "canon": false,
+  "title": "The Moot's minute on the reparations",
+  "body": "The Moot's minute on the reparations motion runs to one line: 'Allowed to die.' Martha Greaves lays down the chair the same year. The Moot chooses Peter Hale, a great-grandson of its first speaker, to follow her.",
+  "place": "burg:95",
+  "kind": "people"
+ },
+ {
+  "id": "V-0377",
+  "canon": false,
+  "title": "The fifth regiment's barracks",
+  "body": "The fifth regiment builds stone barracks at Seann Warr, the first permanent quarters any of the nine regiments has had. The town gives the land and takes the regiment's custom.",
+  "place": "burg:64",
+  "kind": "building"
+ },
+ {
+  "id": "V-0378",
+  "canon": false,
+  "title": "The eighth regiment at Inis uaine",
+  "body": "The eighth regiment's guard on the eastern dubhan tanks at Inis uaine is made permanent. The regiment's officers take houses in the town, and Inis uaine's Seann Spioradan house adds the regiment to its prayers.",
+  "place": "burg:103",
+  "kind": "war"
+ },
+ {
+  "id": "V-0379",
+  "canon": false,
+  "title": "The fourth regiment leaves Ceann mhòr",
+  "body": "The fourth regiment leaves the old magistrate's house at Ceann mhòr and goes home to Caol bheag. The Moot asks for the house to be given to the town. It is given to the maor.",
+  "place": "burg:475",
+  "kind": "war"
+ },
+ {
+  "id": "V-0380",
+  "canon": false,
+  "title": "Seann-chunntas",
+  "body": "Tuathaich speakers begin to name the tabled archive request and the dead reparations motion together as 'seann-chunntas', an old reckoning that nobody in power will act on and nobody has cancelled. Official Ròdaich usage does not take the word up.",
+  "place": "burg:95",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0381",
+  "canon": false,
+  "title": "The Sloc Mòr closed",
+  "body": "The Mine Board closes the upper galleries of the Sloc Mòr at Achadh dhomhain. One face is kept open under the custody of the Rite, to cut ore for the altars, a few baskets a year.",
+  "place": "burg:135",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0382",
+  "canon": false,
+  "title": "The last hewers",
+  "body": "Twelve hewers are kept at the Sloc Mòr to cut the altar-ore under the Rite's custody. They are the last of their trade working the vein on the island, and the Rite gives them its own oath, not the dissolved guild's.",
+  "place": "burg:135",
+  "kind": "craft"
+ },
+ {
+  "id": "V-0383",
+  "canon": false,
+  "title": "The regiments at the Còmhrag",
+  "body": "Fighters from the regiments are entered in the Còmhrag at Ceann leathan for the first time. The ninth regiment's man wins it. The fair-wardens raise the gate-price again.",
+  "place": "marker:37",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0384",
+  "canon": false,
+  "title": "The second regiment's library guard",
+  "body": "The second regiment at Àth dhìreach keeps a guard at Leabharlann Muileann chaol on the sealed war archive. The keeper, Raghnall mac Mhuirich, writes to the council that the library had not asked for one.",
+  "place": "marker:34",
+  "kind": "war"
+ },
+ {
+  "id": "V-0385",
+  "canon": false,
+  "title": "The ore line carries no ore",
+  "body": "The last ore train runs from Achadh dhomhain to Cathair dhearg. The ore line keeps its name and carries dubhan, wool and soldiers.",
+  "place": "burg:135",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0386",
+  "canon": false,
+  "title": "The sixth regiment on the northern road",
+  "body": "The sixth regiment at Cnoc bheag keeps posts on the northern road where the boundary stones stand. Tuathaich going south show a pass for the first time since the Severance. The council's minute calls the passes temporary.",
+  "place": "province:7",
+  "kind": "law"
+ },
+ {
+  "id": "V-0387",
+  "canon": false,
+  "title": "The fair of the present year",
+  "body": "The fair at Muileann òg draws traders from every shire the state controls. Tuathaich wool is sold there on its northern day, through Ròdaich factors, as it has been since the first fair.",
+  "place": "marker:38",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0388",
+  "canon": false,
+  "title": "The Còmhrag of the present year",
+  "body": "The Còmhrag at Ceann leathan is fought with staves and fists, as it has been since edged tools were banned. Two regiments and nine shires send fighters. One man dies.",
+  "place": "marker:37",
+  "kind": "culture"
+ },
+ {
+  "id": "V-0389",
+  "canon": false,
+  "title": "The eleven books",
+  "body": "Ellen Marsh's eleven books are copied by hand in the Tuathaich schools and kept in the north. The library's catalogue lists the tabled request and not the books.",
+  "place": "burg:209",
+  "kind": "record"
+ },
+ {
+  "id": "V-0390",
+  "canon": false,
+  "title": "The Moot of the present year",
+  "body": "The Moot at Caol mhòr meets under Peter Hale. Its minute-books run unbroken from Walter Hale's first meeting. It has no standing in Ròdaich law and has never asked for any.",
+  "place": "burg:95",
+  "kind": "people"
+ },
+ {
+  "id": "V-0391",
+  "canon": false,
+  "title": "The dubhan works of the present",
+  "body": "Dubhan is made at Seann Skell on the southern coast and at works in the east and north. Every lamp, engine, ship and lorry on the island runs on it. The coinage is pegged to it, and the tithe is taken on every sale.",
+  "place": "burg:431",
+  "kind": "trade"
+ },
+ {
+  "id": "V-0392",
+  "canon": false,
+  "title": "The altar-ore",
+  "body": "The Rite's twelve hewers at the Sloc Mòr cut the year's altar-ore. It fills four baskets. The high custodian at Seann Skell divides it among the houses of the Rite by lot.",
+  "place": "burg:431",
+  "kind": "faith"
+ },
+ {
+  "id": "V-0393",
+  "canon": false,
+  "title": "The chronicler's note on the present",
+  "body": "Sìleas nic Rath writes at the foot of the year that the kingdom's record is complete in every part but two: the war, which is sealed, and the north, which was not asked.",
+  "place": "marker:34",
+  "kind": "record"
+ },
+ {
+  "id": "V-0394",
+  "canon": true,
+  "title": "The present",
+  "body": "The coal is all but gone. The dubhan economy runs on a name that used to belong to one man. The Ròdaich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, and a First-Canoe memory the people who twice defeated them still call folklore.",
+  "place": "burg:19",
+  "kind": "record",
+  "canon_date": "2026 DE"
+ }
+]

@@ -1,5 +1,5 @@
 """
-build_atlas.py -- assemble the Rodos Atlas: the chronicle of Rodos and the live Azgaar map in one program.
+build_atlas.py -- assemble the Rodos Atlas: the annals, the book and the live Azgaar map in one program.
 
     python build_atlas.py <azgaar-build-dir>
 
@@ -13,13 +13,13 @@ Output: Rodos_Atlas/ next to this file --
 
     Rodos Atlas.bat     double-click on Windows
     atlas.py            the launcher: serves the folder on 127.0.0.1 and opens the browser
-    index.html          the chronicle (timeline) and the map tab, wired together
-    Rodos.map           Rodos_finished.map, with the chronicle's events added to the notes of the places
+    index.html          three tabs: the Annals (every dated event), the Map, and the Book (legendarium/build_book.py)
+    Rodos.map           Rodos_finished.map
     fmg/                Azgaar's Fantasy Map Generator (MIT, see fmg/LICENSE)
 
-A timeline event that happened somewhere has a place; clicking it switches to the map, flies there
-and marks the spot. On the map, the Chronicle panel lists the same events, and every such place's
-marker note in Azgaar carries its events too.
+An annals event that happened somewhere has a place; its map button switches to the map, flies there
+and marks the spot, and the Record panel shows that place's history and every event recorded there.
+Clicking a town or marker on the map opens the same record; every place named in the Book opens the map.
 """
 import html
 import json
@@ -38,53 +38,48 @@ if len(sys.argv) != 2 or not os.path.isfile(os.path.join(sys.argv[1], 'index.htm
     sys.exit(__doc__)
 FMG = sys.argv[1]
 
-# ---------------------------------------------------------------- the chronicle, taken apart
+# ---------------------------------------------------------------- the record: annals, book, gazetteer
+sys.path.insert(0, os.path.join(HERE, 'legendarium'))
+import build_book  # noqa: E402
+
 page = open(CHRONICLE, encoding='utf-8').read()
 style = re.search(r'<style>(.*?)</style>', page, re.S).group(1)
 fonts = re.search(r'<link href="(https://fonts.googleapis.com[^"]+)"', page).group(1)
-header = re.search(r'<header>.*?</header>', page, re.S).group(0)
-timeline = re.search(r'<div id="panel-timeline">.*?</footer>\s*</div>', page, re.S).group(0)
+rec = build_book.Record()
+toc, book = build_book.compose(rec)
+if rec.missing:
+    sys.exit('unresolved references in the book: %s' % sorted(set(rec.missing))[:40])
 
-# places: every pin of the old picture map, with its map coordinates and the events recorded there
+events = [[e['id'], e['age'], e['date'], e['title'], e['body'], e.get('place'), bool(e.get('canon'))] for e in rec.events]
 places = {}
-for pid, cat, left, top in re.findall(
-        r'<div class="pin" id="pin-(\w+)" data-cat="(\w+)" style="left:([\d.]+)%; top:([\d.]+)%;"', page):
-    start = page.index('<div class="popup" id="popup-%s"' % pid)
-    ends = [i for i in (page.find('<div class="pin"', start), page.find('<script', start)) if i > 0]
-    seg = page[start:min(ends)]
-    name = re.search(r'<h4>(.*?)</h4>', seg).group(1)
-    events = re.findall(r'<div class="pdate">(.*?)</div><div class="ptitle">(.*?)</div><div class="pbody">(.*?)</div>', seg)
-    places[pid] = {'name': name, 'cat': cat, 'x': round(float(left) / 100 * 1536, 2),
-                   'y': round(float(top) / 100 * 702, 2), 'events': [{'date': d, 'title': t, 'body': b} for d, t, b in events]}
+for ref, name in rec.names.items():
+    kind, i = ref.split(':')
+    i = int(i)
+    p = {'name': name}
+    if kind == 'burg':
+        b, g = rec.burg[i], rec.gaz.get(i, {})
+        p['facts'] = ' · '.join(str(x) for x in (b.get('group'), b.get('province'), b.get('culture'), b.get('faith'),
+                                                 'pop. %s' % format(b.get('population', 0), ',')) if x)
+        if g:
+            p.update(founded=g['founded']['date'], by=g.get('founded_by', ''), history=g.get('history', ''), known=g.get('known_for', ''))
+    elif kind == 'marker':
+        mk = next(o for o in rec.world['markers'] if o['id'] == i)
+        p['facts'] = mk.get('type', '').replace('-', ' ')
+        p['history'] = re.sub(r'<[^>]+>', ' ', mk.get('note', '') or '').strip()
+    elif kind == 'province':
+        pr = next(o for o in rec.world['provinces'] if o['id'] == i)
+        p['name'] = pr.get('fullName', name)
+        p['facts'] = 'shire; seat %s' % rec.names.get('burg:%s' % pr.get('seat'), '')
+    else:
+        p['facts'] = {'zone': 'region of the chronicle', 'river': 'river', 'feature': 'water or land'}[kind]
+    if kind == 'burg' or ref in rec.at:
+        places[ref] = p
+ages = [[k, build_book.AGE_NAMES[k][0], build_book.AGE_NAMES[k][1], '--' + build_book.AGE_NAMES[k][2],
+         '%s – %s' % (build_book.year_of(build_book.reckoning.display(a, 1, 1)),
+                      build_book.year_of(build_book.reckoning.display(b, 1, 1)))] for k, a, b in build_book.reckoning.AGES]
 
-# ---------------------------------------------------------------- the map, with the chronicle in its notes
 records = open(MAP, encoding='utf-8', newline='').read().split('\r\n')
 assert len(records) == 53, 'Rodos_finished.map should have 53 CRLF records'
-markers, burgs = json.loads(records[35]), json.loads(records[15])
-
-
-def near(items, x, y):
-    best = min((o for o in items if isinstance(o, dict) and 'x' in o), key=lambda o: (o['x'] - x) ** 2 + (o['y'] - y) ** 2)
-    return best if (best['x'] - x) ** 2 + (best['y'] - y) ** 2 < 1 else None
-
-
-def chronicle_note(events):
-    rows = ''.join('<p><b>%s</b> — %s. %s</p>' % (e['date'], e['title'], e['body']) for e in events)
-    return '<hr><p><i>From the chronicle of Rodos:</i></p>' + rows
-
-
-for pid, pl in places.items():
-    m = near(markers, pl['x'], pl['y'])
-    b = near(burgs, pl['x'], pl['y']) if pid == 'capital' else None
-    target = b or m
-    if target is None:
-        sys.exit('place %s has no marker or burg at (%s, %s)' % (pid, pl['x'], pl['y']))
-    pl['kind'], pl['i'] = ('burg', b['i']) if b else ('marker', m['i'])
-    target['note'] = (target.get('note') or '') + chronicle_note(pl['events'])
-records[35] = json.dumps(markers, ensure_ascii=False, separators=(',', ':'))
-records[15] = json.dumps(burgs, ensure_ascii=False, separators=(',', ':'))
-for n in (15, 35):   # keep the escaped half-emoji of the source as escapes, as finish_map.py does
-    records[n] = re.sub('[\ud800-\udfff]', lambda m_: '\\u%04x' % ord(m_.group()), records[n])
 
 # ---------------------------------------------------------------- write the program
 if os.path.exists(OUT):
@@ -100,13 +95,19 @@ with open(os.path.join(OUT, 'Rodos.map'), 'w', encoding='utf-8', newline='') as 
     fh.write('\r\n'.join(records))
 
 TEMPLATE = open(os.path.join(HERE, 'atlas_template.html'), encoding='utf-8').read()
-index = (TEMPLATE.replace('/*STYLE*/', style).replace('FONTS_URL', html.escape(fonts))
-         .replace('<!--TIMELINE-->', timeline.replace('<div id="panel-timeline">', '<div id="panel-timeline">' + header, 1))
-         .replace('/*PLACES*/null', json.dumps(places, ensure_ascii=False))
+
+def js(o):
+    return json.dumps(o, ensure_ascii=False).replace('</', '<\\/')
+
+
+index = (TEMPLATE.replace('/*STYLE*/', style).replace('/*BOOKCSS*/', build_book.BOOK_CSS).replace('FONTS_URL', html.escape(fonts))
+         .replace('/*EVENTS*/[]', js(events)).replace('/*PLACES*/{}', js(places)).replace('/*AGES*/[]', js(ages))
+         .replace('<!--TOC-->', build_book.toc_html(toc)).replace('<!--BOOK-->', book)
          .replace('FMG_VERSION', FMG_VERSION))
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(index)
 shutil.copy(os.path.join(HERE, 'atlas.py'), os.path.join(OUT, 'atlas.py'))
 with open(os.path.join(OUT, 'Rodos Atlas.bat'), 'w', encoding='utf-8', newline='\r\n') as fh:
     fh.write('@echo off\ncd /d "%~dp0"\nwhere py >nul 2>nul && (py atlas.py) || (python atlas.py)\n'
              'if errorlevel 1 pause\n')
-print('Rodos_Atlas written: %d places wired to the map, %d events' % (len(places), sum(len(p['events']) for p in places.values())))
+print('Rodos_Atlas written: %d events, %d with a place on the map; %d places; book of about %s words'
+      % (len(events), sum(1 for e in events if e[5]), len(places), format(len(re.sub(r'<[^>]+>', ' ', book).split()), ',')))
