@@ -691,7 +691,11 @@
   "title": "Gormshuil nic Ailein",
   "body": "The second name in the Stone Kings' list is Gormshuil nic Ailein, the first woman in any list on Rodos. The telling gives her one deed: she moved the herds of Dùn ìseal down to the warm springs in a hard winter and lost none.",
   "place": "burg:315",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "I-0081",
+   40
+  ]
  },
  {
   "id": "I-0085",
@@ -716,7 +720,11 @@
   "title": "The shell road broken",
   "body": "The storm breaks the shell causeway of Seann Warr in three places and floods the marsh behind it with salt. The Seann-Dhaoine do not mend it. The broken ends are still visible.",
   "place": "burg:64",
-  "kind": "disaster"
+  "kind": "disaster",
+  "within": [
+   "I-0086",
+   0
+  ]
  },
  {
   "id": "I-0088",
@@ -853,7 +861,11 @@
   "title": "Iain Dubh killed",
   "body": "Iain Dubh, sixth of the Stone Kings, goes down to the salt-pans to repeat Mòrag Chruaidh's raid and is killed on the shingle at Baile ghorm. The list says only that he was brought home.",
   "place": "burg:170",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "I-0099",
+   60
+  ]
  },
  {
   "id": "I-0105",
@@ -877,7 +889,11 @@
   "title": "The fault-line kept clear",
   "body": "A line of white stones is laid along the old crack at Cill ghlas, and no house is set within a stone's throw of it in any later layer of this age. The line is still partly there.",
   "place": "burg:123",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "I-0106",
+   20
+  ]
  },
  {
   "id": "I-0108",
@@ -1231,7 +1247,11 @@
   "title": "Lachlann Ruadh takes the fosterling",
   "body": "Lachlann Ruadh, holder of the Red Hill, takes Eilidh Ghlas's son into his house. The Red Hill list gives him a byname for it, Lachlann an Altraim, 'Lachlann of the fostering', and uses it more often than his own.",
   "place": "burg:19",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "I-0149",
+   1
+  ]
  },
  {
   "id": "I-0151",
@@ -1255,7 +1275,11 @@
   "title": "The stone cup",
   "body": "Oighrig nic Dhòmhnaill has a cup ground out of grey stone to the size of her own cupped hand, so that the handful of ore would be the same for every household. The cup is carried round the hill settlements. Whether it survived the age is not known.",
   "place": "burg:276",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "I-0151",
+   40
+  ]
  },
  {
   "id": "I-0154",
@@ -1279,7 +1303,11 @@
   "title": "The ore returned to the crack",
   "body": "The ore found in Gilleasbuig Beag's house is not burned and not kept. It is carried back to the slab and laid under it, piece by piece, by the keeper who followed him. The tellings make much of this: the ore went home.",
   "place": "burg:276",
-  "kind": "faith"
+  "kind": "faith",
+  "within": [
+   "I-0155",
+   5
+  ]
  },
  {
   "id": "I-0157",
@@ -1287,7 +1315,11 @@
   "title": "Calum Ciar asks for the lot",
   "body": "Calum Ciar, eleventh of the Stone Kings, asks the households at the slab that the keeper's lot be drawn at Dùn ìseal in his sight. The households refuse. The list records the refusal, which is more than the list usually records of anything.",
   "place": "burg:315",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "I-0149",
+   12
+  ]
  },
  {
   "id": "I-0158",
@@ -1311,7 +1343,11 @@
   "title": "The sharing holds after the Black Wind",
   "body": "After the Black Wind, the settlements of the east coast feed the people of Cuan ruadh through a whole winter from their shared surplus. No one on that coast is recorded as dying of hunger that season.",
   "place": "burg:457",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "I-0159",
+   1
+  ]
  },
  {
   "id": "I-0161",
@@ -1415,7 +1451,11 @@
   "title": "Peigi Dhubh of the Red Hill",
   "body": "Peigi Dhubh holds the Red Hill after Lachlann an Altraim. She sends the fostered son of Dùn ìseal home grown, with gifts of salt, and the ford peace holds a generation more.",
   "place": "burg:19",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "I-0150",
+   25
+  ]
  },
  {
   "id": "I-0174",
@@ -1423,7 +1463,11 @@
   "title": "The foster-son returns",
   "body": "The son of Eilidh Ghlas comes home from the Red Hill to Dùn ìseal. The Stone Kings' list gives him no name and no reign; he is remembered only as the one who went, and for bringing western salt-songs home with him.",
   "place": "burg:315",
-  "kind": "culture"
+  "kind": "culture",
+  "within": [
+   "I-0173",
+   1
+  ]
  },
  {
   "id": "I-0175",
@@ -1607,7 +1651,11 @@
   "title": "Cuan ruadh rebuilt",
   "body": "Cuan ruadh, stripped by the Black Wind, is rebuilt in stone to the height of the eaves. It is the first settlement on the east coast to build its walls against wind rather than cold.",
   "place": "burg:119",
-  "kind": "building"
+  "kind": "building",
+  "within": [
+   "I-0159",
+   60
+  ]
  },
  {
   "id": "I-0198",
@@ -1919,7 +1967,11 @@
   "title": "Dùn dhearg comes to the ford",
   "body": "The households of Dùn dhearg come to the ford gathering for the first time in Catrìona Mhòr's time, bringing seal-skins and asking for salt. They are given their own ground on the far bank.",
   "place": "marker:38",
-  "kind": "trade"
+  "kind": "trade",
+  "between": [
+   -3300,
+   -3260
+  ]
  },
  {
   "id": "I-0237",
@@ -2075,6 +2127,10 @@
   "between": [
    -3300,
    -3001
+  ],
+  "within": [
+   "I-0236",
+   55
   ]
  },
  {

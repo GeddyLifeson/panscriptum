@@ -2,11 +2,12 @@
 reckoning.py -- give every event in the annals of Rodos an exact day, month and year.
 
 Every date is assembled from album release dates (albums.json): the DAY from one album, the
-MONTH from another, and the YEAR from two more, combined by the reckoning of its age:
+MONTH from another, and the YEAR from three more, combined by the reckoning of its age:
 
-    year = first year of the age + (100 x yy(album A) + yy(album B)) mod (length of the age)
+    year = first year of the age + (100 x ((yy(A) + yy(C)) mod 100) + yy(B)) mod (length of the age)
 
-where yy is the last two digits of an album's year. Which albums made which date is not
+where yy is the last two digits of an album's year. (Two albums, A and C, make the hundreds between them: no album
+in the pool has a year ending 26-44, and with A alone the reckoning could not reach 1,900 years of the Ancient Age.) Which albums made which date is not
 recorded anywhere, by the owner's choice; the reckoning only needs to know that a date CAN be
 made from the pool, and it always picks one that can.
 
@@ -57,11 +58,12 @@ def load_pool():
 
 
 def reachable_years(album_years, first, last):
-    """Every year of an age the reckoning can make from two album years."""
+    """Every year of an age the reckoning can make from three album years."""
     span = last - first + 1 - (1 if first < 0 < last else 0)          # no year 0
     yys = sorted({y % 100 for y in album_years})
+    hundreds = sorted({(a + c) % 100 for a in yys for c in yys})
     out = set()
-    for a in yys:
+    for a in hundreds:
         for b in yys:
             k = (100 * a + b) % span
             year = first + k
@@ -101,7 +103,7 @@ def nz(y):
     return y if y != 0 else 1
 
 
-def date_age(events, first, last, years_ok, relaxed):
+def date_age(events, first, last, years_ok, relaxed, extra=None):
     """Years, in list order: canon years fixed, windows honoured, never backwards, evenly spread."""
     n = len(events)
     fixed = {}
@@ -155,6 +157,8 @@ def date_age(events, first, last, years_ok, relaxed):
     for i in range(n):
         if i in fixed:
             t = fixed[i][0]
+        elif extra and i in extra:
+            t = extra[i]
         elif events[i].get('between') and use_window[i]:
             t = min(max((wlo[i] + whi[i]) / 2.0, lb[i]), ub[i])
         else:
@@ -216,6 +220,14 @@ def date_age(events, first, last, years_ok, relaxed):
         years[i] = y
         prev = y
         set_caps(i)
+    if extra is None and within:
+        # second pass: the ends of every "within" stretch become anchors at the years the first pass found,
+        # so the events inside a stretch spread across it (not piled on its cap) and those after it
+        # carry on evenly from where it ended
+        spans = [(i, j) for i, lst in within.items() for j, _, _ in lst]
+        inner = lambda k: any(a < k < b for a, b in spans)          # noqa: E731 -- nested stretches spread with their outer one
+        ends = {k: years[k] for a, b in spans for k in (a, b) if not inner(k)}
+        return date_age(events, first, last, years_ok, relaxed, ends)
     return years
 
 
@@ -294,17 +306,20 @@ def main():
         relaxed = []
         years = date_age(events, first, last, years_ok, relaxed)
         mds = month_days(years, events, months_ok, days_ok, floor)
-        # "eve": the night before the next event (the day before it, even across the turn of a year)
-        for i in range(len(events) - 1):
+        # "eve": the night before the next event (the day before it, even across the turn of a year);
+        # "eve": N puts it N days before. Worked from the end, so a run of eves chains back from its last event
+        for i in range(len(events) - 2, -1, -1):
             if events[i].get('eve'):
                 import datetime
                 ny, (nm, nd) = years[i + 1], mds[i + 1]
-                prev = datetime.date(ny if ny > 0 else 2001, nm, nd) - datetime.timedelta(days=1)
+                back = 1 if events[i]['eve'] is True else int(events[i]['eve'])
+                prev = datetime.date(ny if ny > 0 else 2001, nm, nd) - datetime.timedelta(days=back)
                 py = ny if prev.year == (ny if ny > 0 else 2001) else (ny - 1 if ny - 1 != 0 else -1)
                 years[i], mds[i] = py, (prev.month, prev.day)
         dated = [dict(e, y=y, m=md[0], d=md[1], date=display(y, md[0], md[1])) for e, y, md in zip(events, years, mds)]
+        relaxed = list(dict.fromkeys(relaxed))
         if relaxed:
-            print('  Age %s: %d writer windows dropped (they contradicted the list order): %s' % (key, len(relaxed), ', '.join(relaxed[:12])))
+            print('  Age %s: %d writer windows dropped or held (they contradicted the list order): %s' % (key, len(relaxed), ', '.join(relaxed[:12])))
         for e in dated:
             e['age'] = key
         # never backwards

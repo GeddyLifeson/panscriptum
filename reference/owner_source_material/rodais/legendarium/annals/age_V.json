@@ -1745,7 +1745,12 @@
   "title": "The hungry year that was not",
   "body": "The harvest after the panthers' crossing is a good one across the south. Tormod Pinn records it and draws a line through his own note of the year before.",
   "place": "burg:297",
-  "kind": "record"
+  "kind": "record",
+  "within": [
+   "V-0210",
+   1,
+   1
+  ]
  },
  {
   "id": "V-0216",
@@ -2639,6 +2644,10 @@
   "between": [
    2020,
    2021
+  ],
+  "within": [
+   "V-0318",
+   0
   ]
  },
  {
@@ -2948,7 +2957,8 @@
   "between": [
    2020,
    2021
-  ]
+  ],
+  "eve": 26
  },
  {
   "id": "V-0349",
@@ -2960,7 +2970,8 @@
   "between": [
    2021,
    2021
-  ]
+  ],
+  "eve": 12
  },
  {
   "id": "V-0350",
@@ -2972,7 +2983,8 @@
   "between": [
    2020,
    2021
-  ]
+  ],
+  "eve": 3
  },
  {
   "id": "V-0351",
@@ -2984,7 +2996,8 @@
   "between": [
    2021,
    2021
-  ]
+  ],
+  "eve": true
  },
  {
   "id": "V-0352",
@@ -3091,7 +3104,12 @@
   "title": "The stone at Cathair mhòr",
   "body": "A stone is set up at Cathair mhòr with the names of the regiments' dead from Àth leathan and Muileann ghlas. It stands beside the market cross of the house of Mac Ùisdein.",
   "place": "burg:23",
-  "kind": "building"
+  "kind": "building",
+  "within": [
+   "V-0352",
+   1,
+   1
+  ]
  },
  {
   "id": "V-0364",

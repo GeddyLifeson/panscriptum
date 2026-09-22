@@ -31,10 +31,12 @@ stretch of years. `reckoning.py` then dates every event in the order written:
 
 - The chronicle's own years stay fixed, and its full dates stay whole (11 an Giblean 2020, 10 an Dùbhlachd 2021).
 - Events between fixed points are spread evenly, aiming at the middle of any window.
-- The **year** is built from two album release years, then the **month** and **day** from other albums:
-  `year = first year of the age + (100 × yy(A) + yy(B)) mod (length of the age)`, with no year 0.
+- The **year** is built from three album release years, then the **month** and **day** from other albums:
+  `year = first year of the age + (100 × ((yy(A) + yy(C)) mod 100) + yy(B)) mod (length of the age)`, with no year 0.
 - Which albums make which date is not recorded.
-- `same_day`, `eve` and `first_of_year` on an event pin it to the day before or after its neighbour.
+- `within: [ID, N, M]` holds an event N (and at least M) years after an earlier one, so a person's acts fall within a
+  human life and "the following year" means it; `same_day`, `eve` (or `eve: N` days) and `first_of_year` pin days.
+  `TIMING_LOG.md` lists every such constraint and the phrase it honours.
 
 In the books and appendices, dates are references, never typed: `{{date:IV-0157}}`, `{{year:IV-0157}}`,
 `{{reckon:A:B:KEY}}` for a day the reckoning makes in a window (births and deaths, foundings), and `{{place:burg:19}}`

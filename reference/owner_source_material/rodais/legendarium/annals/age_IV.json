@@ -584,7 +584,11 @@
   "title": "The eleven of Cnoc fhiadhaich",
   "body": "The collapse was at Cnoc fhiadhaich, in a gallery driven forward without the timbering the Ròdaich crews had asked for. The custodians' roll names all eleven dead. The Company's report names none and calls the gallery \"unsound ground.\"",
   "place": "burg:280",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "IV-0071",
+   0
+  ]
  },
  {
   "id": "IV-0073",
@@ -746,7 +750,11 @@
   "title": "Raghnall Maor",
   "body": "The first overseer is Raghnall mac Dhòmhnaill of Muileann chrom, a crew-leader who had worked the pits since the first contract. He is given the Company's staff and a house with a slate roof, and from this office the Ròdaich give him his byname: Raghnall Maor, Raghnall the steward.",
   "place": "burg:354",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "IV-0091",
+   0
+  ]
  },
  {
   "id": "IV-0093",
@@ -972,7 +980,11 @@
   "title": "The family of Eachann Mòr",
   "body": "The family that sent its son away was that of Eachann Mòr, a custodian of Ceann àrsaidh who had lost his place on the council. The boy, Calum, sailed west on a Company ship with a letter of introduction from the Mission and a purse of marks.",
   "place": "burg:88",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "IV-0119",
+   0
+  ]
  },
  {
   "id": "IV-0121",
@@ -1061,7 +1073,11 @@
   "title": "Lisle's tithe schedule",
   "body": "The new schedule is issued at the Residency over Arthur Lisle's signature, raising the Administration's portion from one part in five to one part in three. The custodians receive a copy in the humans' tongue and a translation made by a Mission pupil.",
   "place": "burg:27",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "IV-0130",
+   0
+  ]
  },
  {
   "id": "IV-0132",
@@ -1085,7 +1101,11 @@
   "title": "The flux reaches Seann Vell",
   "body": "The flux spreads to Seann Vell, the port a little east along the coast, carried by the ore barges. The custodians of the town close the barge landing for a season and are fined for it by the Company.",
   "place": "burg:162",
-  "kind": "disaster"
+  "kind": "disaster",
+  "within": [
+   "IV-0133",
+   1
+  ]
  },
  {
   "id": "IV-0135",
@@ -1296,7 +1316,12 @@
   "title": "George Tolley Commissioner",
   "body": "George Tolley arrives from an Tìr Thall with orders that the yield must not fall because of the sickness. He does not visit the camps. His letter-book blames the dust, the Ròdaich custom of sleeping near the fire, and the custodians' shrines, in that order.",
   "place": "burg:27",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "IV-0159",
+   1,
+   1
+  ]
  },
  {
   "id": "IV-0161",
@@ -1345,7 +1370,11 @@
   "title": "The strike at Baile thais",
   "body": "The settlement was Baile thais, below Cill ghlas, and the halt was called by the crew-leader Catrìona nic Eachainn after the Company refused to close the galleries where the Green Death had been worst. For eleven days no ore left the town. On the twelfth the Company's store, the only store, was empty.",
   "place": "burg:44",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "IV-0165",
+   0
+  ]
  },
  {
   "id": "IV-0167",
@@ -1564,7 +1593,11 @@
   "title": "Taigh-solais Baile chrom lit",
   "body": "The beacon at Baile chrom is lit with an ore flame, completing the ring. The Company's ships can now round the island by night, and the keepers' daybooks record the sailings doubling in the next few years.",
   "place": "marker:12",
-  "kind": "building"
+  "kind": "building",
+  "within": [
+   "IV-0191",
+   0
+  ]
  },
  {
   "id": "IV-0194",
@@ -1670,7 +1703,11 @@
   "title": "Àth fhionn signs",
   "body": "The custodian of Àth fhionn in the south-east, Ruairidh mac Thormoid, is the oldest of those who signed the petition. He had been born before the humans' coin was struck, and he says so beside his signature.",
   "place": "burg:46",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "IV-0204",
+   0
+  ]
  },
  {
   "id": "IV-0207",
@@ -1768,7 +1805,12 @@
   "title": "The wells of Achadh shean",
   "body": "At Achadh shean, whose name the drought bears, the wells fail in the second summer and the cattle are driven west in a column that the roll says was a day long. Fewer than half of them reach water.",
   "place": "burg:411",
-  "kind": "disaster"
+  "kind": "disaster",
+  "within": [
+   "IV-0217",
+   1,
+   1
+  ]
  },
  {
   "id": "IV-0219",
@@ -1784,7 +1826,12 @@
   "title": "The cattle of Baile chaol",
   "body": "At Baile chaol the herds are slaughtered in the second summer of the drought rather than watched to die. The salted meat is sold to the Company for the camps, at a price the Company names.",
   "place": "burg:311",
-  "kind": "disaster"
+  "kind": "disaster",
+  "within": [
+   "IV-0217",
+   1,
+   1
+  ]
  },
  {
   "id": "IV-0221",
@@ -1873,7 +1920,11 @@
   "title": "The case of Thomas Hale",
   "body": "The child in the case was Thomas Hale, a grandson of the Baile dhìreach marriage of Eilidh nic Ruairidh and Samuel Hale, who claimed a share in a customary cutting through his Ròdaich grandmother. The magistrate at Ros dhomhain, Oliver Dunstan, ruled that customary rights descend only through the line the Administration recognizes, and that it recognizes only its own.",
   "place": "burg:27",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "IV-0230",
+   0
+  ]
  },
  {
   "id": "IV-0232",
@@ -1930,7 +1981,11 @@
   "title": "The night crews at Cnoc chaol",
   "body": "The order is felt first at Cnoc chaol, where the Company's newest galleries are opened to crews working by ore-lamp in two shifts. The custodians' roll records that the hill was given no silence at all, and then leaves the rest of the page blank.",
   "place": "burg:415",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "IV-0237",
+   0
+  ]
  },
  {
   "id": "IV-0239",
@@ -2036,7 +2091,11 @@
   "title": "The custodians who named it",
   "body": "The word was agreed by a meeting of custodians held at the shrine of Cill ghlas, where the oldest cutting still stood open. They chose a plain word for a medical register. The roll records the vote and does not record who proposed it.",
   "place": "burg:123",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "IV-0250",
+   0
+  ]
  },
  {
   "id": "IV-0252",
@@ -2141,7 +2200,11 @@
   "title": "Seann Vell's dockers stay out",
   "body": "The dockers of Seann Vell, the harbour next to Ros dhomhain, refuse to load the ore diverted to them during the strike. When it ends they are not shipped west, having no humans among them, but they are not hired again either.",
   "place": "burg:29",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "IV-0263",
+   0
+  ]
  },
  {
   "id": "IV-0265",
@@ -2241,6 +2304,10 @@
   "between": [
    1915,
    1917
+  ],
+  "within": [
+   "IV-0270",
+   0
   ]
  },
  {
@@ -2484,7 +2551,8 @@
   "title": "Muileann bheag in the north-east",
   "body": "The workings at Muileann bheag in the north-east, among the Deer villages, stop with the rest. The town's custodian writes that it was the first thing the town had done in concert with the hills in a hundred years.",
   "place": "burg:240",
-  "kind": "people"
+  "kind": "people",
+  "same_day": true
  },
  {
   "id": "IV-0303",
@@ -2492,7 +2560,8 @@
   "title": "The northern pits at Àth dhomhain",
   "body": "The pits north of the hills at Àth dhomhain stop with the rest on the day of the stoppage, having received the signal by a runner rather than the beacon. Their crew-leaders are among those shipped west.",
   "place": "burg:175",
-  "kind": "people"
+  "kind": "people",
+  "same_day": true
  },
  {
   "id": "IV-0304",
@@ -2500,7 +2569,8 @@
   "title": "Ceann bheag stops",
   "body": "The ore stage at Ceann bheag on the northern coast stops loading the same day. Its dockers had not been told of the stoppage in advance; they stop because the ore stops arriving.",
   "place": "burg:42",
-  "kind": "people"
+  "kind": "people",
+  "same_day": true
  },
  {
   "id": "IV-0305",
@@ -2508,7 +2578,8 @@
   "title": "The quarrymen of Cnoc gheal",
   "body": "The quarrymen of Cnoc gheal in the north-east, who cut stone for the Company's buildings, put down their tools on the day of the stoppage without being asked. Nobody in the record says why.",
   "place": "burg:262",
-  "kind": "people"
+  "kind": "people",
+  "same_day": true
  },
  {
   "id": "IV-0306",
@@ -2516,7 +2587,12 @@
   "title": "The day the pits stopped",
   "body": "On the day of the stoppage every working in the Muileann chrom district halted at once, together with Baile thais, Cnoc chaol, the silver town and the eastern pits at Ros fhionn. The signal was a beacon fire lit on the hills above Doire mhòr, which the Company took for a heath fire.",
   "place": "province:76",
-  "kind": "people"
+  "kind": "people",
+  "same_day": true,
+  "within": [
+   "IV-0301",
+   0
+  ]
  },
  {
   "id": "IV-0307",
@@ -2524,7 +2600,8 @@
   "title": "The ore ships wait",
   "body": "The Company's steamships wait at Ros dhomhain for six days with empty holds. The agents at the quay write that they have never before seen the harbour so quiet, and that it frightened them more than the crowds.",
   "place": "burg:27",
-  "kind": "trade"
+  "kind": "trade",
+  "same_day": true
  },
  {
   "id": "IV-0308",
@@ -2532,7 +2609,11 @@
   "title": "The stoppage broken",
   "body": "The stoppage ends when the constables close the Company stores in every district at once. Forty crew-leaders are arrested; thirty-two are released without charge, eight are shipped west to an Tìr Thall for trial and are not heard of again.",
   "place": "burg:27",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "IV-0306",
+   0
+  ]
  },
  {
   "id": "IV-0309",

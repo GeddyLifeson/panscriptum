@@ -98,7 +98,7 @@ people-ending *-aich*; a single person is a *Ròdach*. English writers of the hu
 the hill settlements that no fire should take more of the ore than one cupped hand could hold. The
 Binding of the First Flame ({{date:II-0001}}) made the custodianship of the vein a formal order,
 "centuries before anything like a king", and the Small-Burning Law ({{date:II-0027}}) made the
-custom into rule. The first person in any record to be called *rìgh* was Ailean mac Ìomhair at Dùn
+custom into rule. The first person in any record to be called *rìgh* was Goraidh mac Ìomhair at Dùn
 dhearg ({{date:II-0077}}), and he claimed nothing over the vein. For the whole of the Holy Age the
 kings ruled the grazing and the gatherings, and the Keepers at Dùn ìseal ruled the mountain. The
 Holy Age closes on the last age of even population ({{date:II-0249}}), the last stretch of Rodian
@@ -180,7 +180,7 @@ north is where their descendants were sent.
 **Mixing.** The first mixed settlement ({{date:IV-0021}}) was Baile dhìreach on the south-west
 coast, under a council of three Ròdaich and three humans, whose founding compact was written twice,
 once in each tongue, the only such compact on record in the age ({{date:IV-0022}}). There the
-net-maker Eilidh nic Iain married the human cooper Samuel Hale, and the council entered the
+net-maker Eilidh nic Ruairidh married the human cooper Samuel Hale, and the council entered the
 marriage in both its books ({{date:IV-0028}}). Later history did not repeat the experiment, and the
 first mixed-blood inheritance case ({{date:IV-0230}}) was decided by the Administration entirely in
 its own favour.

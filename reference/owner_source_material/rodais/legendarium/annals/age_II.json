@@ -67,7 +67,11 @@
   "title": "Làrach an Teampaill left unentered",
   "body": "Beathag Bhàn walks to Làrach an Teampaill, finds its altar already turned toward the mountain, and declares the place not the Hall's to keep. The Keepers set no foot inside it for the rest of the age. Whose it was, they did not say, and it seems they did not know.",
   "place": "marker:33",
-  "kind": "faith"
+  "kind": "faith",
+  "within": [
+   "II-0002",
+   30
+  ]
  },
  {
   "id": "II-0009",
@@ -75,7 +79,11 @@
   "title": "Death of Beathag Bhàn",
   "body": "Beathag Bhàn dies at Dùn ìseal and is laid on the slope facing the vein, not the sea. The nine hearths choose Muireach Liath, her sister's son, to keep the flame after her.",
   "place": "burg:315",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "II-0002",
+   40
+  ]
  },
  {
   "id": "II-0010",
@@ -108,7 +116,11 @@
   "title": "The Hall declines the stream",
   "body": "Muireach Liath rules that Allt an Àigh belongs to the ancestors and the weather, not to the vein, and that the Hall will not keep it. The ruling is the first visible parting between the Keepers' rite and the older folk reverence, and both sides later cite it as proof they were right.",
   "place": "marker:1",
-  "kind": "faith"
+  "kind": "faith",
+  "within": [
+   "II-0009",
+   15
+  ]
  },
  {
   "id": "II-0014",
@@ -141,7 +153,11 @@
   "title": "Silver is not holy",
   "body": "Asked whether the new seam falls under the flame, Muireach Liath answers that silver does not bleed and so is not the mountain's. The ruling leaves Muileann chiar free to dig as deep as it likes, and it digs. Every later quarrel over the silver begins from this sentence.",
   "place": "burg:419",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0009",
+   30
+  ]
  },
  {
   "id": "II-0018",
@@ -157,7 +173,11 @@
   "title": "Death of Muireach Liath",
   "body": "Muireach Liath dies at Dùn ìseal, keeping the flame. The nine hearths pass over three candidates of other lines and choose his daughter Gormshuil nic Mhuirich, and from her election the Keeper's office stays in the house of Muireach for many generations.",
   "place": "burg:315",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "II-0009",
+   45
+  ]
  },
  {
   "id": "II-0020",
@@ -198,7 +218,11 @@
   "title": "The Hall shuts the galleries to the stag's people",
   "body": "Gormshuil nic Mhuirich forbids Sìleas's hearers to cut in the galleries of Dùn ìseal, on the ground that a question asked of the vein is a demand made of it. The stag's people keep their school in the east and send no cutters to the mountain for a long time after.",
   "place": "burg:315",
-  "kind": "faith"
+  "kind": "faith",
+  "within": [
+   "II-0019",
+   40
+  ]
  },
  {
   "id": "II-0025",
@@ -214,7 +238,11 @@
   "title": "Fionnlagh Dall and the stone cup",
   "body": "Fionnlagh Dall, Keeper after Gormshuil, has the old keepers' stone cup re-cut in grey stone to hold exactly what a cupped pair of hands will hold, and sets it on the threshold of Talla na Lasrach at Dùn ìseal as the measure. A blind man, he fills it by touch before the council, and nobody afterward can say he favoured anyone's hands.",
   "place": "burg:315",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0019",
+   50
+  ]
  },
  {
   "id": "II-0027",
@@ -255,7 +283,11 @@
   "title": "The carriers drowned on the Abhainn dhomhain",
   "body": "Eleven carriers and their baskets are lost at a ford of the Abhainn dhomhain when the river rises in the night. The Hall mourns the ore as well as the carriers, and Fionnlagh Dall asks the council for a way across that the river cannot take.",
   "place": "river:63",
-  "kind": "disaster"
+  "kind": "disaster",
+  "within": [
+   "II-0026",
+   20
+  ]
  },
  {
   "id": "II-0032",
@@ -272,7 +304,11 @@
   "title": "Ailean Clachair's crossing at Ros fhionn",
   "body": "Ailean Clachair and forty masons of the nine hearths bridge the river above Ros fhionn with a single span of fitted stone, the ancestor of Drochaid Ros fhionn. Ailean sets a hearth-sign in the keystone. Every bridge the masons build after this carries one, and a bridge without one is not trusted.",
   "place": "marker:4",
-  "kind": "building"
+  "kind": "building",
+  "within": [
+   "II-0031",
+   25
+  ]
  },
  {
   "id": "II-0034",
@@ -337,7 +373,11 @@
   "title": "Death of Fionnlagh Dall",
   "body": "Fionnlagh Dall dies at Dùn ìseal. By his own asking he is not laid on the slope with the Keepers before him but carried south to the old graves near Cnoc dhìreach, which no living people had yet claimed.",
   "place": "burg:315",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "II-0026",
+   45
+  ]
  },
  {
   "id": "II-0042",
@@ -345,7 +385,11 @@
   "title": "Fionnlagh Dall carried to the old graves",
   "body": "The bearers take eleven days over the road with Fionnlagh Dall's body and lay it among graves older than any name at Tuam Cnoc dhìreach. The Keepers who follow him cannot agree why he asked it, and the record gives two answers without choosing.",
   "place": "marker:41",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "II-0041",
+   0
+  ]
  },
  {
   "id": "II-0043",
@@ -362,7 +406,11 @@
   "title": "The grave-keepers of Cnoc dhìreach",
   "body": "A few families settle at Cnoc dhìreach to tend Tuam Cnoc dhìreach after the Keeper's burial there. They are paid in ore by the Hall, one handful each a season, the only payment in ore the Law ever allowed.",
   "place": "burg:432",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "II-0042",
+   10
+  ]
  },
  {
   "id": "II-0045",
@@ -378,7 +426,11 @@
   "title": "The Four Houses sworn",
   "body": "Under Eilidh nic Ìomhair the Keepers' office is bound to four custodian houses: Sliochd Mhuirich of Dùn ìseal, Sliochd Ìomhair of Dùn dhearg, Sliochd Thormoid of Seann Dunn and Sliochd Raghnaill of Seann Tarr. The other hearths keep their seats on the council but not their claim to the flame. Most of the island's later nobility descends, or says it does, from one of the four.",
   "place": "burg:315",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0045",
+   10
+  ]
  },
  {
   "id": "II-0047",
@@ -426,7 +478,11 @@
   "title": "The fire at Baile chrom relit",
   "body": "The fishers of Baile chrom relight the old beacon on the point after the loss, fed with driftwood as the Law requires. It is the ancestor of Taigh-solais Baile chrom.",
   "place": "marker:12",
-  "kind": "building"
+  "kind": "building",
+  "within": [
+   "II-0051",
+   5
+  ]
  },
  {
   "id": "II-0053",
@@ -450,7 +506,11 @@
   "title": "The panthers let pass",
   "body": "The great cats' crossing of the mountains is found to run straight over the carriers' southern road. Eilidh nic Ìomhair rules that no panther may be killed on the road in its season, and the carriers wait in the waypoint houses until the crossing is done. The rule is kept because it costs the carriers only time.",
   "place": "marker:40",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0045",
+   40
+  ]
  },
  {
   "id": "II-0056",
@@ -603,7 +663,11 @@
   "title": "The fall in the high gallery",
   "body": "A roof falls in the highest gallery at Dùn ìseal and kills four cutters. The gallery is walled up and left. Seonaid Chiar orders props of oak in every gallery afterward, the first time the Hall spends timber on the mountain.",
   "place": "burg:315",
-  "kind": "disaster"
+  "kind": "disaster",
+  "within": [
+   "II-0066",
+   40
+  ]
  },
  {
   "id": "II-0075",
@@ -655,7 +719,11 @@
   "title": "The first road-toll",
   "body": "Goraidh Mòr sets a toll on the carriers' roads, one fish in twenty or its worth, to pay for the road-guards and the upkeep of the bridges. The keepers of the waypoint houses collect it. They also keep a share of it, and the record says so.",
   "place": "marker:10",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0077",
+   45
+  ]
  },
  {
   "id": "II-0081",
@@ -663,7 +731,11 @@
   "title": "Mòrag of the Roads",
   "body": "Goraidh Mòr's daughter Mòrag nic Ghoraidh takes the hall at Dùn dhearg after him. She is remembered as Mòrag nan Rathad, Mòrag of the Roads, for walking every carriers' road on the island in her first years and ordering the bad stretches remade.",
   "place": "burg:422",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0077",
+   80
+  ]
  },
  {
   "id": "II-0082",
@@ -679,7 +751,11 @@
   "title": "The bridge-foot rebuilt",
   "body": "The western crossing of the Abhainn dhomhain is rebuilt in wider stone at Mòrag nan Rathad's order, so that two laden carriers can pass on it. The hearth-sign in its keystone is Ailean Clachair's, recut. From this rebuilding the town at the bridge-foot begins to grow.",
   "place": "marker:3",
-  "kind": "building"
+  "kind": "building",
+  "within": [
+   "II-0081",
+   40
+  ]
  },
  {
   "id": "II-0084",
@@ -687,7 +763,11 @@
   "title": "Dòmhnall Crùbach",
   "body": "Dòmhnall Crùbach, Dòmhnall the Lame, follows his mother Mòrag at Dùn dhearg. He cannot walk the roads as she did, and he governs through the keepers of the waypoint houses, who grow powerful in his reign.",
   "place": "burg:422",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0081",
+   80
+  ]
  },
  {
   "id": "II-0085",
@@ -695,7 +775,11 @@
   "title": "The waypoint-keepers of Ceann mhin",
   "body": "The keepers of the waypoint houses round the harbour town of Ceann mhin take the collection of the road-toll into their own hands in Dòmhnall Crùbach's reign and pay the rìgh what they judge fair. Their judgment is generous to themselves, and the rolls record the sums.",
   "place": "burg:30",
-  "kind": "trade"
+  "kind": "trade",
+  "within": [
+   "II-0084",
+   30
+  ]
  },
  {
   "id": "II-0086",
@@ -711,7 +795,11 @@
   "title": "The storm at Seann Chwen",
   "body": "A storm drives the sea over the harbour at Seann Chwen and takes the boats and a third of the houses. The Keeper sends the Hall's grain from Dùn ìseal, and Dòmhnall Crùbach sends his from Dùn dhearg. The survivors remember that the Hall's came first.",
   "place": "burg:36",
-  "kind": "disaster"
+  "kind": "disaster",
+  "within": [
+   "II-0084",
+   45
+  ]
  },
  {
   "id": "II-0088",
@@ -739,7 +827,11 @@
   "title": "Sìleas Dhonn",
   "body": "Sìleas Dhonn, Dòmhnall Crùbach's niece, holds Dùn dhearg after him. In her reign the keepers of the waypoint houses are made to render account of the tolls at her hall once a year, and several of them do.",
   "place": "burg:422",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0084",
+   80
+  ]
  },
  {
   "id": "II-0091",
@@ -755,7 +847,11 @@
   "title": "Iain Garbh",
   "body": "Iain Garbh, Iain the Rough, son of Sìleas Dhonn, takes the hall at Dùn dhearg and demands the western tolls from Caol leathan. Lachlann Ciar sends back a basket of fish-bones.",
   "place": "burg:422",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0090",
+   80
+  ]
  },
  {
   "id": "II-0093",
@@ -767,6 +863,10 @@
   "between": [
    -2000,
    -1850
+  ],
+  "within": [
+   "II-0092",
+   5
   ]
  },
  {
@@ -775,7 +875,11 @@
   "title": "Uisdean mac Ruairidh's refusal",
   "body": "The Keeper Uisdean mac Ruairidh refuses Iain Garbh's messengers at Dùn ìseal the Hall's handful for the warband's hearths, saying the flame does not warm men who are going to kill. The warband winters on peat. Iain Garbh never forgives the Hall, and never enters it.",
   "place": "burg:315",
-  "kind": "faith"
+  "kind": "faith",
+  "within": [
+   "II-0093",
+   1
+  ]
  },
  {
   "id": "II-0095",
@@ -783,7 +887,11 @@
   "title": "The fight at Àth fhiadhaich",
   "body": "The men of Caol leathan meet Iain Garbh's levies at the ford of Àth fhiadhaich and hold it for a day before giving way. Forty are dead on both sides. The ford is called by the carriers for a long time afterward the ford of the forty.",
   "place": "burg:500",
-  "kind": "battle"
+  "kind": "battle",
+  "within": [
+   "II-0093",
+   2
+  ]
  },
  {
   "id": "II-0096",
@@ -791,7 +899,11 @@
   "title": "Baile ghlas burned",
   "body": "Retreating toward Caol leathan, Lachlann Ciar's men burn Baile ghlas so that Iain Garbh's levies will find no grain. The town's people walk to Cathair dhomhain and many never return.",
   "place": "burg:45",
-  "kind": "war"
+  "kind": "war",
+  "within": [
+   "II-0095",
+   1
+  ]
  },
  {
   "id": "II-0097",
@@ -799,7 +911,11 @@
   "title": "Baile chiar holds",
   "body": "Baile chiar, south of the western bridge-foot, shuts its gate against both armies in the War of the Roads and feeds the burned-out people of Baile ghlas through the winter. Neither side forgives it, and neither side attacks it.",
   "place": "burg:106",
-  "kind": "war"
+  "kind": "war",
+  "within": [
+   "II-0096",
+   1
+  ]
  },
  {
   "id": "II-0098",
@@ -807,7 +923,11 @@
   "title": "The siege of Caol leathan",
   "body": "Iain Garbh closes Caol leathan from the land for a season, but its boats bring in fish from the sea and he cannot close the harbour. His levies begin to go home for the harvest. The siege ends without an assault.",
   "place": "burg:1",
-  "kind": "battle"
+  "kind": "battle",
+  "within": [
+   "II-0093",
+   6
+  ]
  },
  {
   "id": "II-0099",
@@ -815,7 +935,11 @@
   "title": "The peace at Mòr nic Dhùghaill's house",
   "body": "Iain Garbh and Lachlann Ciar meet under the roof of the waypoint house that will become Am Buabhall Fortanach, where by the road-peace neither may draw. Caol leathan keeps half its tolls and sends half to Dùn dhearg, and Lachlann Ciar swears to the Law before the Keeper's witness. The War of the Roads ends in a house built to feed carriers.",
   "place": "marker:5",
-  "kind": "war"
+  "kind": "war",
+  "within": [
+   "II-0098",
+   1
+  ]
  },
  {
   "id": "II-0100",
@@ -823,7 +947,11 @@
   "title": "The wolf-sworn of Caol leathan",
   "body": "Men who fought for Caol leathan become its road-guards and swear their watch on a white stone carved as a wolf, which they keep at the town gate. They call themselves the wolf-sworn. Later ages will read more into the stone than they did.",
   "place": "burg:1",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "II-0099",
+   3
+  ]
  },
  {
   "id": "II-0101",
@@ -831,7 +959,11 @@
   "title": "Caol fhiadhaich rebuilt",
   "body": "Caol fhiadhaich, on the south-western shore, which had sent its boats to feed Caol leathan through the siege, is given a share of the western tolls by Lachlann Ciar in thanks. The town builds a harbour wall with it.",
   "place": "burg:191",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "II-0091",
+   45
+  ]
  },
  {
   "id": "II-0102",
@@ -839,7 +971,11 @@
   "title": "Death of Iain Garbh",
   "body": "Iain Garbh dies at Dùn dhearg. His daughter Catrìona has him buried in the hall's floor and not on the slope at Dùn ìseal, and the Hall does not ask for him.",
   "place": "burg:422",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "II-0092",
+   50
+  ]
  },
  {
   "id": "II-0103",
@@ -847,7 +983,11 @@
   "title": "Catrìona Ghlic",
   "body": "Catrìona Ghlic, Catrìona the Wise, rules from Dùn dhearg and sends her own son to sit with the flame for a season, the first child of the royal house to do so since the division of keeping. The Hall and the hall are on speaking terms again by the end of her reign.",
   "place": "burg:422",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0102",
+   2
+  ]
  },
  {
   "id": "II-0104",
@@ -871,7 +1011,11 @@
   "title": "Inis mhòr grows",
   "body": "The harbour at Inis mhòr in the north becomes the gathering place of the northern wool trade and outgrows every other northern town. Its people petition Catrìona Ghlic for a road-guard of their own, and are given one.",
   "place": "burg:17",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "II-0102",
+   45
+  ]
  },
  {
   "id": "II-0107",
@@ -924,7 +1068,11 @@
   "title": "The contents of Tormod's roll",
   "body": "Tormod Scrìobhaiche's roll, kept in the hall at Dùn dhearg, begins with Goraidh Mòr and runs to Ealasaid Chiar. Its earliest names come from the reciters and the later ones from living memory, and he marks which are which. The roll disagrees with the Keepers' recited roll in three places, and Tormod writes down both readings without choosing.",
   "place": "burg:422",
-  "kind": "record"
+  "kind": "record",
+  "within": [
+   "II-0109",
+   45
+  ]
  },
  {
   "id": "II-0113",
@@ -932,7 +1080,11 @@
   "title": "The Keepers' roll written down",
   "body": "Shamed, in the Hall's own words, by the rìgh's clerk, the Keepers have their recited roll set down in stag-letters at Dùn ìseal. Its first name is Beathag Bhàn, and it is longer than Tormod's by several centuries.",
   "place": "burg:315",
-  "kind": "record"
+  "kind": "record",
+  "within": [
+   "II-0112",
+   20
+  ]
  },
  {
   "id": "II-0114",
@@ -940,7 +1092,11 @@
   "title": "The watchers of the dark wood",
   "body": "A small company settles on the edge of Coille Naomh Cnoc bheag, the wood nobody had ever cleared, and keeps watch there for a black horned beast they say walks in it. The people of Cathair dhearg call them the wood-watchers. None of the watchers' own accounts are older than the later faith that claims them.",
   "place": "marker:24",
-  "kind": "faith"
+  "kind": "faith",
+  "between": [
+   -1440,
+   -1420
+  ]
  },
  {
   "id": "II-0115",
@@ -956,7 +1112,11 @@
   "title": "The stag's people claim the dark wood",
   "body": "In answer, the stag's people send teachers west to hold their lessons in Coille Naomh Cnoc bheag, saying the first stag had come from there. Each side now claims both woods, and in each wood the two companies meet and do not speak.",
   "place": "marker:24",
-  "kind": "faith"
+  "kind": "faith",
+  "within": [
+   "II-0115",
+   5
+  ]
  },
  {
   "id": "II-0117",
@@ -973,7 +1133,11 @@
   "title": "The boundary stones of the woods",
   "body": "The division of the woods is made at Dùn dhearg before Fearchar Òg, rìgh after Ealasaid Chiar, and the Keeper Calum Liath: the stag's people keep the eastern wood and the wood-watchers the western, and each may walk in the other's wood unarmed and without cutting. Boundary stones are set at both woods' edges with the terms cut on them in stag-letters. Two of the eastern stones survive.",
   "place": "burg:422",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0115",
+   25
+  ]
  },
  {
   "id": "II-0119",
@@ -998,7 +1162,11 @@
   "title": "The reckoning of the cords",
   "body": "Calum Liath's reckoning, cut on a slab in the Hall at Dùn ìseal, holds that the mountain can give every household its handful for more generations than there are grains in the granaries of Dùn dhearg. It was read out at the council and received in silence, which the Hall took for assent.",
   "place": "burg:315",
-  "kind": "record"
+  "kind": "record",
+  "within": [
+   "II-0119",
+   5
+  ]
  },
  {
   "id": "II-0122",
@@ -1023,7 +1191,11 @@
   "title": "Oighrig Bhàn's first bound",
   "body": "Oighrig Bhàn, Keeper after Calum Liath, binds the first twelve apprentices under the new custom at Dùn ìseal, each to a master cutter by name. They swear on the stone cup to serve seven years before touching the vein. Four of the twelve are later Keepers, which is the custom's best argument for itself.",
   "place": "burg:315",
-  "kind": "craft"
+  "kind": "craft",
+  "within": [
+   "II-0118",
+   50
+  ]
  },
  {
   "id": "II-0125",
@@ -1039,7 +1211,11 @@
   "title": "The long reign of Fearchar Òg",
   "body": "Fearchar Òg, who made the division of the woods, rules long at Dùn dhearg and is remembered for nothing so much as for dying old. The list gives him a byname, Òg, the young, from his accession as a boy, and it stuck.",
   "place": "burg:422",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0118",
+   70
+  ]
  },
  {
   "id": "II-0127",
@@ -1047,7 +1223,11 @@
   "title": "The silver tokens",
   "body": "Fearchar Òg's clerks begin paying the road-guards in small silver rings of Muileann chiar weight, stamped with the hall's mark. It is the first time a ruler on Rodos pays in metal. The rings travel further than the guards do.",
   "place": "burg:419",
-  "kind": "trade"
+  "kind": "trade",
+  "within": [
+   "II-0118",
+   70
+  ]
  },
  {
   "id": "II-0128",
@@ -1079,7 +1259,11 @@
   "title": "The landing on the Abhainn uaine",
   "body": "A landing for river-boats is built on the Abhainn uaine at the place since called Cidhe Beag, so that grain from the lowlands can go upriver in boats rather than on carriers' backs. The carriers of the eastern road protest to Fearchar Òg and lose.",
   "place": "marker:39",
-  "kind": "voyage"
+  "kind": "voyage",
+  "within": [
+   "II-0118",
+   70
+  ]
  },
  {
   "id": "II-0132",
@@ -1103,7 +1287,11 @@
   "title": "Beathag Mhòr",
   "body": "Beathag Mhòr, great-granddaughter of Fearchar Òg, takes the hall at Dùn dhearg. She is the first ruler the list calls banrìgh, queen, rather than rìgh with a woman's name after it, and the change of word is the list's own.",
   "place": "burg:422",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0118",
+   90
+  ]
  },
  {
   "id": "II-0135",
@@ -1115,6 +1303,10 @@
   "between": [
    -1300,
    -1150
+  ],
+  "within": [
+   "II-0134",
+   30
   ]
  },
  {
@@ -1147,7 +1339,11 @@
   "title": "Disputed hands",
   "body": "The council at Dùn ìseal is asked to judge more disputes over which households hold a right to the handful than over anything else: new households, divided households, households that claim descent from one of the nine hearths without proof. Oighrig Bhàn's successor as Keeper, Dùghall mac Raghnaill, asks the queen for a counting.",
   "place": "burg:315",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0124",
+   65
+  ]
  },
  {
   "id": "II-0140",
@@ -1180,7 +1376,11 @@
   "title": "The count of hands",
   "body": "The census rolls kept at Cathair dhearg give eleven thousand four hundred households holding the right, and some two thousand whose claims were refused. The refused households are written on a separate roll, and it is the separate roll that later generations went looking for when they wished to prove an ancestor's standing.",
   "place": "burg:19",
-  "kind": "record"
+  "kind": "record",
+  "within": [
+   "II-0140",
+   10
+  ]
  },
  {
   "id": "II-0144",
@@ -1220,7 +1420,11 @@
   "title": "Death of Beathag Mhòr",
   "body": "Beathag Mhòr dies at Cathair dhearg and, by her own order, is carried back to Dùn dhearg to be buried among the house of Ìomhar. The procession between the two is the longest royal journey in the record to this point.",
   "place": "burg:422",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "II-0134",
+   50
+  ]
  },
  {
   "id": "II-0149",
@@ -1228,7 +1432,11 @@
   "title": "Ruairidh Liath",
   "body": "Ruairidh Liath, Beathag Mhòr's son, rules from Cathair dhearg. He is already grey when he takes the hall, and his byname is the list's joke, the only one it makes.",
   "place": "burg:19",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0148",
+   1
+  ]
  },
  {
   "id": "II-0150",
@@ -1236,7 +1444,11 @@
   "title": "The Silver Feud begins",
   "body": "Ruairidh Liath demands one ring in five of the silver taken at Muileann chiar, saying the tokens that pay his guards should cost him nothing. Sliochd Fhearchair, the silversmiths' house, answers that silver is not holy and so not the crown's either, citing Muireach Liath's ruling. They close the workings rather than pay.",
   "place": "burg:419",
-  "kind": "trade"
+  "kind": "trade",
+  "within": [
+   "II-0139",
+   46
+  ]
  },
  {
   "id": "II-0151",
@@ -1244,7 +1456,11 @@
   "title": "The closing of the silver",
   "body": "For three seasons no silver leaves Muileann chiar. The road-guards go unpaid, the fair at Muileann òg trades in grain again, and the carriers' tolls go uncollected on the eastern road. The record calls it the Silver Feud, though no one is killed in it.",
   "place": "burg:419",
-  "kind": "war"
+  "kind": "war",
+  "within": [
+   "II-0150",
+   1
+  ]
  },
  {
   "id": "II-0152",
@@ -1252,7 +1468,11 @@
   "title": "The Keeper's judgment on the silver",
   "body": "Asked by both parties, the Keeper Dùghall mac Raghnaill rules at Dùn ìseal that Muireach Liath's words stand: silver is not the mountain's. But he rules too that the crown keeps the roads the silver travels on. Ruairidh Liath takes one ring in ten, Sliochd Fhearchair reopens the workings, and both call it a victory.",
   "place": "burg:315",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0150",
+   4
+  ]
  },
  {
   "id": "II-0153",
@@ -1260,7 +1480,11 @@
   "title": "The Muileann chiar weight made law",
   "body": "As part of the settlement, the silver weights of Muileann chiar are declared the only lawful weights on the island's roads. Copies in bronze are sent to every waypoint house, and the house of Fearchar is paid for each.",
   "place": "burg:419",
-  "kind": "craft"
+  "kind": "craft",
+  "within": [
+   "II-0152",
+   1
+  ]
  },
  {
   "id": "II-0154",
@@ -1276,7 +1500,11 @@
   "title": "Seonag Chrom",
   "body": "Seonag Chrom, Ruairidh Liath's granddaughter, rules at Cathair dhearg. She has the clerks' office there given a room of its own in the red hall and a stipend in silver, and from her reign the king-list is kept year by year rather than reign by reign.",
   "place": "burg:19",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0149",
+   45
+  ]
  },
  {
   "id": "II-0156",
@@ -1340,7 +1568,11 @@
   "title": "Donnchadh mac Iain leaves Cnoc bhàn",
   "body": "Donnchadh mac Iain and twenty-two of his hearers leave the house at Cnoc bhàn and settle at Muileann chaol, taking copies of the strike-books with them. The elders of Cnoc bhàn call it theft of the books. Donnchadh calls it a copying, which it was.",
   "place": "burg:246",
-  "kind": "faith"
+  "kind": "faith",
+  "within": [
+   "II-0162",
+   10
+  ]
  },
  {
   "id": "II-0164",
@@ -1357,7 +1589,11 @@
   "title": "The school at Muileann chaol",
   "body": "Donnchadh mac Iain's school at Muileann chaol keeps its own strike-books and adds a rule the elder school never had: a cutter's parentage is not written in the book at all. The two schools of the stag argue by letter for the rest of the age, and the letters are kept by both.",
   "place": "burg:246",
-  "kind": "culture"
+  "kind": "culture",
+  "within": [
+   "II-0162",
+   40
+  ]
  },
  {
   "id": "II-0166",
@@ -1365,7 +1601,11 @@
   "title": "The Hall hears the two schools",
   "body": "The Keeper Raonaid Dhubh hears both schools of the stag at Dùn ìseal and gives no ruling, saying the vein has not asked the Hall to decide. The Hall's roll notes the hearing and the refusal. It was the most-cited refusal in the Hall's history.",
   "place": "burg:315",
-  "kind": "faith"
+  "kind": "faith",
+  "between": [
+   -640,
+   -625
+  ]
  },
  {
   "id": "II-0167",
@@ -1389,7 +1629,11 @@
   "title": "Baile ghorm's penance",
   "body": "The families of the diggers at Baile ghorm pay their penance by keeping the road from their town to Tuam Cnoc dhìreach in repair. The road is still called the diggers' road in the southern hills.",
   "place": "burg:3",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "II-0168",
+   5
+  ]
  },
  {
   "id": "II-0170",
@@ -1405,7 +1649,11 @@
   "title": "The shared-meal law written",
   "body": "Lachlann Bàn and the Keeper Raonaid Dhubh set the old unwritten custom down as law at Cathair dhearg: any household with grain above its winter's need gives the surplus to the common granary of its district before the storm season, and the granary feeds any household of the district that runs short. Peigi nic Tormoid's successors wrote it into the rolls in full. It is the first law in the record made by rìgh and Keeper together.",
   "place": "burg:19",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0166",
+   45
+  ]
  },
  {
   "id": "II-0172",
@@ -1413,7 +1661,11 @@
   "title": "The granary of Cnoc mhòr",
   "body": "Cnoc mhòr builds its common granary under the new law before any other district, and sends word of it to Cathair dhearg. Lachlann Bàn sends back a silver ring for the reeve.",
   "place": "burg:31",
-  "kind": "building"
+  "kind": "building",
+  "within": [
+   "II-0170",
+   40
+  ]
  },
  {
   "id": "II-0173",
@@ -1445,7 +1697,11 @@
   "title": "Oighrig nic Lachlainn",
   "body": "Oighrig nic Lachlainn, Lachlann Bàn's daughter, takes the hall at Cathair dhearg. She has no children. The houses begin to count their claims before her reign is half done.",
   "place": "burg:19",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0170",
+   55
+  ]
  },
  {
   "id": "II-0177",
@@ -1461,7 +1717,11 @@
   "title": "The poor season in the mountain",
   "body": "The galleries open late and close early, and the ore carried down is a third of a common season's. The mountain households of Muileann gheal, Doire uaine and Àth dhìreach, who trade their carrying for grain, have nothing to trade. By the end of the season they are eating their seed.",
   "place": "province:112",
-  "kind": "disaster"
+  "kind": "disaster",
+  "within": [
+   "II-0177",
+   0
+  ]
  },
  {
   "id": "II-0179",
@@ -1478,7 +1738,11 @@
   "title": "The granaries opened",
   "body": "Under the shared-meal law the common granaries of the mountain districts are opened at Muileann gheal, and when they run low the granaries of Dùn dhearg and the southern coast send grain up the carriers' roads without being asked twice. The carriers carry it for no fee. No one in the three settlements is recorded as having died of hunger that winter.",
   "place": "burg:493",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "II-0178",
+   1
+  ]
  },
  {
   "id": "II-0181",
@@ -1494,7 +1758,11 @@
   "title": "The reeves of Dùn dhearg send the grain",
   "body": "The reeves of Dùn dhearg, who had refused Cathair dhearg their accounts for generations, open the old granaries of the house of Ìomhar to the mountain without waiting for an order. Oighrig nic Lachlainn writes that she would have given the order had they waited. Peigi nic Tormoid's successor notes that they did not.",
   "place": "burg:422",
-  "kind": "people"
+  "kind": "people",
+  "within": [
+   "II-0180",
+   1
+  ]
  },
  {
   "id": "II-0183",
@@ -1502,7 +1770,11 @@
   "title": "Death of Oighrig nic Lachlainn",
   "body": "Oighrig nic Lachlainn dies at Cathair dhearg without an heir of her body, and the line of Goraidh Mòr, as the list reckons it, ends with her. The red hall is shut and its clerks keep it.",
   "place": "burg:19",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "II-0176",
+   50
+  ]
  },
  {
   "id": "II-0184",
@@ -1510,7 +1782,11 @@
   "title": "The four houses meet",
   "body": "The Four Houses of custody meet at Dùn ìseal to choose a ruler, since no custom covers a hall without an heir. Sliochd Ìomhair claims it by blood, Sliochd Thormoid by the clerks, Sliochd Raghnaill by its boats. Sliochd Mhuirich, holding the Keeper's office, will not claim at all.",
   "place": "burg:315",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0183",
+   2
+  ]
  },
  {
   "id": "II-0185",
@@ -1522,6 +1798,10 @@
   "between": [
    -500,
    -350
+  ],
+  "within": [
+   "II-0184",
+   3
   ]
  },
  {
@@ -1530,7 +1810,11 @@
   "title": "Gilleasbuig Mòr at Cathair dhearg",
   "body": "Gilleasbuig Mòr takes the red hall. He keeps the clerks' office in his own house's hands and has the king-list recopied from the beginning, with a line drawn under Oighrig nic Lachlainn. The line is in every later copy.",
   "place": "burg:19",
-  "kind": "reign"
+  "kind": "reign",
+  "within": [
+   "II-0185",
+   1
+  ]
  },
  {
   "id": "II-0187",
@@ -1546,7 +1830,11 @@
   "title": "Death of Gilleasbuig Mòr",
   "body": "Gilleasbuig Mòr dies at Cathair dhearg and is buried among the house of Ìomhar at Dùn dhearg, as agreed. His son Tormod Òg succeeds him without a meeting of the houses, and nobody asks for one.",
   "place": "burg:422",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "II-0185",
+   25
+  ]
  },
  {
   "id": "II-0189",
@@ -1682,7 +1970,11 @@
   "title": "Anna Ruadh",
   "body": "Anna Ruadh of the house of Tormod takes the red hall at Cathair dhearg. She is the first ruler since Mòrag nan Rathad to walk the whole road circuit, and she does it twice.",
   "place": "burg:19",
-  "kind": "reign"
+  "kind": "reign",
+  "between": [
+   -200,
+   -185
+  ]
  },
  {
   "id": "II-0206",
@@ -1690,7 +1982,11 @@
   "title": "Anna Ruadh at Am Buabhall Fortanach",
   "body": "On her first circuit Anna Ruadh stops at the house on the site of Am Buabhall Fortanach where the War of the Roads was ended, and eats the jugged buffalo like a carrier. The house's keepers still tell it.",
   "place": "marker:5",
-  "kind": "trade"
+  "kind": "trade",
+  "within": [
+   "II-0205",
+   3
+  ]
  },
  {
   "id": "II-0207",
@@ -1738,7 +2034,11 @@
   "title": "Death of Anna Ruadh",
   "body": "Anna Ruadh dies at Cathair dhearg and is buried at Dùn dhearg with the house of Ìomhar and her own house's kings. Her son Coinneach Bàn takes the hall.",
   "place": "burg:19",
-  "kind": "death"
+  "kind": "death",
+  "within": [
+   "II-0205",
+   40
+  ]
  },
  {
   "id": "II-0213",
@@ -1819,7 +2119,11 @@
   "title": "The council divided by rite",
   "body": "The council at Dùn ìseal, which had sat by hearth and by house, begins to sit in companies by rite. Seumas Bàn complains that he now keeps the flame for eight peoples who each think they are its only keepers. The seating is kept for the rest of the age.",
   "place": "burg:315",
-  "kind": "law"
+  "kind": "law",
+  "within": [
+   "II-0214",
+   45
+  ]
  },
  {
   "id": "II-0223",
@@ -1947,7 +2251,11 @@
   "title": "Baile chaol's repayment",
   "body": "The rolls at Baile chaol record Achadh shean's repayment of the drought grain, measure by measure, down to the last. The clerk adds that it is the first such debt in the rolls repaid in full.",
   "place": "burg:311",
-  "kind": "trade"
+  "kind": "trade",
+  "within": [
+   "II-0237",
+   10
+  ]
  },
  {
   "id": "II-0239",
@@ -2023,6 +2331,10 @@
   "between": [
    -70,
    -45
+  ],
+  "within": [
+   "II-0212",
+   100
   ]
  },
  {
