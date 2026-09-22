@@ -1,0 +1,5074 @@
+# Ròdais – English lexicon
+
+5005 entries, sorted by Ròdais headword (ignoring a leading article). Nouns show gender and plural; verbs give the verbal noun as the headword and the root (the imperative) after it. Levels are CEFR, A1 to C2. The same list keyed by English is in `LEXICON.json`.
+
+## '
+
+- **'S dòcha** adv. — Maybe (lit. it is likely) `A1`
+- **'S e ceòl as fheàrr leam** phr. — My favorite is music (lit. it is music I like best) `A2`
+- **'S e do bheatha** phr. — You’re welcome (lit. it is your life) `A1`
+- **'S e èiginn a th' ann** phr. — It’s an emergency (lit. it is an emergency that is in it) `A1`
+- **'S e oileanach a th' annam** phr. — I am a student (lit. it is a student that is in me) `A2`
+- **'S toil leam a bhith a' leughadh** phr. — I like to read `A2`
+
+## A
+
+- **A bharrachd air sin** adv. — In addition `B1`
+- **A bheil an suidheachan seo saor?** phr. — Is this seat free? `A1`
+- **A bheil Beurla agaibh?** phr. — Do you speak English? (lit. is English at you?) `A1`
+- **A bheil e agaibh ann an dath eile?** phr. — Do you have it in another color? (lit. is it at you in another colour?) `A2`
+- **A bheil e fad' air falbh?** phr. — Is it far? `A2`
+- **A bheil fios agad dè tha mi a' ciallachadh?** phr. — You know what I mean? `B1`
+- **A bheil lasachadh agaibh?** phr. — Do you have a discount? (lit. is a reduction at you?) `A2`
+- **A bheil seo air lasachadh?** phr. — Is this on sale? (lit. is this on discount?) `A1`
+- **A bheil thu ri fealla-dhà?** phr. — Are you kidding? `A2`
+- **A bheil thu saor Disathairne?** phr. — Are you free on Saturday? `A2`
+- **À bith** adj. — Defunct (lit. out of existence) `C2`
+- **A ceithir** num. — Four `A1`
+- **A ceithir deug** num. — Fourteen `A1`
+- **A chionn 's gu** conj. — Inasmuch as (lit. because) `C2`
+- **A còig** num. — Five `A1`
+- **A còig deug** num. — Fifteen `A1`
+- **A deich** num. — Ten `A1`
+- **A dh'aindeoin** prep. — Despite `B1`
+- **A dh'aindeoin** prep. — In spite of `B1`
+- **A dh'aindeoin** prep. — Notwithstanding (lit. despite) `C1`
+- **A dh'aindeoin sin** adv. — Nevertheless (lit. in spite of that) `B1`
+- **A dh'aindeoin sin** adv. — Nevertheless (formal) (lit. despite that) `C1`
+- **A dh'aindeoin sin** adv. — Nonetheless (lit. in spite of that) `B2`
+- **A dh'aithghearr** adv. — Soon `A1`
+- **A dh'aon ghnothach** adv. — Deliberately (lit. on purpose) `B2`
+- **A dh'aon ghnothach** phr. — On purpose (lit. for one purpose) `B2`
+- **A dhà** num. — Two `A1`
+- **A dhà dheug** num. — Twelve `A1`
+- **A ghabhas toirt dheth** phr. — Deductible (lit. that can be taken off) `C1`
+- **A h-aon** num. — One `A1`
+- **A h-aon deug** num. — Eleven `A1`
+- **A h-ochd** num. — Eight `A1`
+- **A h-ochd deug** num. — Eighteen `A1`
+- **À la carte** phr. — À la carte `C1`
+- **A naoi** num. — Nine `A1`
+- **A naoi deug** num. — Nineteen `A1`
+- **A rèir** prep. — According to `B1`
+- **A rèir** prep. — In light of (lit. according to) `C1`
+- **A rèir** prep. — Pursuant to (lit. according to) `C2`
+- **A rèir aithris** adv. — Allegedly (lit. according to report) `C1`
+- **A rèir coltais** adj. — Ostensible (lit. by appearance) `C2`
+- **A rèir coltais** adv. — Presumably (lit. by all appearances) `C1`
+- **A rèir na litreach** phr. — Strictly speaking (lit. according to the letter) `B2`
+- **A seachd** num. — Seven `A1`
+- **A seachd deug** num. — Seventeen `A1`
+- **A sia** num. — Six `A1`
+- **A sia deug** num. — Sixteen `A1`
+- **A thaobh** prep. — As regards `C2`
+- **A thaobh** phr. — In terms of (lit. on the side of) `B2`
+- **A thaobh** prep. — In view of (lit. regarding) `C1`
+- **A thuilleadh air sin** adv. — Besides `B1`
+- **A trì** num. — Three `A1`
+- **A trì deug** num. — Thirteen `A1`
+- **A-chaoidh** adv. — Never (lit. ever (used with a negative verb)) `A1`
+- **A-mach à stoc** adj. — Out of stock `B1`
+- **A-màireach** adv. — Tomorrow `A1`
+- **A-mhàin** adv. — Merely (lit. only) `B2`
+- **A-mhàin** adv. — Only `A2`
+- **A-nis** adv. — Now `A1`
+- **A-nochd** adv. — Tonight `A1`
+- **A-rithist** adv. — Again `A1`
+- **A-steach air an dàrna cluais 's a-mach air a' chluais eile** phr. — In one ear and out the other `C2`
+- **Abaich** adj. — Ripe `A2`
+- **Abair co-thuiteamas!** phr. — What are the odds (lit. what a coincidence) `C2`
+- **Abairt chaithte** n. f. pl. *abairtean caithte* — Cliché (lit. worn-out phrase) `C2`
+- **Abhainn** n. f. pl. *aibhnichean* — River `A1`
+- **Àbhaist** n. f. pl. *àbhaistean* — Habit (lit. custom) `A2`
+- **Àbhaist** n. f. pl. *àbhaistean* — Norm (lit. custom) `B2`
+- **Àbhaisteach** adj. — Run-of-the-mill (lit. ordinary) `C1`
+- **Àbhaisteach** adj. — Typical `B1`
+- **Abhocado** n. m. pl. *abhocadothan* — Avocado `A2`
+- **Ach** conj. — But `A1`
+- **Ach a-mhàin** prep. — Apart from `B1`
+- **Achadh** n. m. pl. *achaidhean* — Field `A2`
+- **Achdaire** n. m. pl. *achdairean* — Actuary `C2`
+- **Actair** n. m. pl. *actairean* — Actor `A2`
+- **Ad** n. f. pl. *adan* — Hat `A1`
+- **Adharc-bhròg** n. f. pl. *adharcan-bhròg* — Shoehorn (lit. shoe horn) `C2`
+- **Adhartas mòr** n. m. pl. *adhartasan mòra* — Breakthrough (lit. big advance) `B2`
+- **Adhbhar** n. m. pl. *adhbharan* — Reason (cause) `B1`
+- **Adhbharachadh** n. m. — Causation (lit. causing) `C1`
+- **Adhbhrachadh** v. root *adhbhraich* — To give rise to (lit. to cause) `C2`
+- **Adhbrann** n. m. pl. *adhbrannan* — Ankle `B2`
+- **Agairt** v. root *agair* — To sue `B2`
+- **Agallamh** n. m. pl. *agallamhan* — Interview `A2`
+- **Aghaidh** n. f. pl. *aghaidhean* — Facade (lit. front, face) `C2`
+- **An aghaidh a chèile** adj. — Contradictory (lit. against each other) `B2`
+- **Aghaidh togalaich** n. f. pl. *aghaidhean thogalaichean* — Facade (building front) (lit. face of a building) `C2`
+- **Agus** conj. — And `A1`
+- **Agus thu fhèin?** phr. — And you? (lit. and yourself?) `A1`
+- **Àibheiseach** adj. — Huge `B1`
+- **Àibheiseach** adj. — Hyperbolic `C2`
+- **Àibheiseach** adj. — Vast `B2`
+- **Àibheiseachadh** n. m. — Hyperbole (lit. exaggeration) `C2`
+- **Àibheiseachadh** v. root *àibheisich* — To exaggerate `B1`
+- **Àicheadh** n. m. — Denial `B2`
+- **Àicheadh** v. root *àicheidh* — To deny `B1`
+- **Aideachadh** v. root *aidich* — To acknowledge `B2`
+- **Aideachadh** v. root *aidich* — To admit `B1`
+- **Aideachadh** v. root *aidich* — To concede (lit. admitting) `C2`
+- **Aideachadh** v. root *aidich* — To confess `B2`
+- **Aideachadh ciontach** v. root *aidich ciontach* — To plead guilty (lit. admit guilty) `C2`
+- **Aig a' char as fheàrr** phr. — At best (lit. at the best turn) `C1`
+- **Aig a' char as miosa** phr. — At worst (lit. at the worst turn) `C1`
+- **Aig a' char as motha** phr. — At most (lit. at the greatest turn) `C1`
+- **Aig a' cheann thall** adv. — Ultimately (lit. at the far end) `B2`
+- **Aig a' mhionaid mu dheireadh** adv. — Last minute (lit. at the last minute) `B2`
+- **Aig an àm cheart** phr. — On time (lit. at the right time) `A2`
+- **Aig an aon àm** phr. — At the same time `B2`
+- **Aig an aon àm** adv. — Simultaneously (lit. at the same time) `B2`
+- **Aig an deireadh** adv. — At the end `A2`
+- **Aig an fhìor thoiseach** adj. — Cutting-edge (lit. at the very front) `C1`
+- **Aig an toiseach** adv. — At the beginning `A2`
+- **Aig deireadh an latha** phr. — Bottom line is (lit. at the end of the day) `C2`
+- **Aig fois** adj. — At ease (lit. at rest) `B1`
+- **Ailbhean** n. m. pl. *ailbheanan* — Elephant `A2`
+- **An t-ailbhean san t-seòmar** phr. — The elephant in the room `C1`
+- **Àileach** adj. — Airy `C1`
+- **Aileag** n. f. pl. *aileagan* — Hiccup `C2`
+- **Aileirdsidh** n. m. pl. *aileirdsidhean* — Allergy `A2`
+- **Àilgheasach** adj. — Picky `B1`
+- **Àilleasach** adj. — Fastidious `C2`
+- **Aillse** n. f. — Cancer `B2`
+- **Aillseach** adj. — Malignant (lit. cancerous) `C2`
+- **Ailtire** n. m. pl. *ailtirean* — Architect `A2`
+- **Aimsir** n. f. — Weather `A1`
+- **Aindeoin** n. f. — Reluctance (lit. unwillingness) `B2`
+- **Aindeonach** adj. — Reluctant (lit. unwilling) `B2`
+- **Ainm** n. m. pl. *ainmean* — Name `A1`
+- **Ainmeachadh** v. root *ainmich* — To announce `B2`
+- **Ainmeil** adj. — Famous (lit. renowned) `A2`
+- **Ainmh-eòlas** n. m. — Zoology `C2`
+- **Ainneamh** adj. — Rare `B1`
+- **Air** prep. — On `A1`
+- **Air a chaochladh** adv. — On the contrary `B1`
+- **Air a chur thuige** phr. — Wound up (lit. worked up) `C1`
+- **Air a dhèanamh suas de** phr. — To consist of (lit. made up of) `B2`
+- **Air a dhibhearsanachadh** adj. — Amused (lit. entertained) `B1`
+- **Air a dhol à cleachdadh** adj. — Deprecated (lit. gone out of use) `C2`
+- **Air a dhol bhuaithe** adj. — Dilapidated (lit. gone to ruin) `C1`
+- **Air a dhol bhuaithe** phr. — Run-down (place) (lit. gone from itself) `C1`
+- **Air a ghiùlan san adhar** adj. — Airborne (lit. carried in the air) `C2`
+- **Air a leamhachadh** adj. — Annoyed (lit. irritated) `B1`
+- **Air a mholadh leis an luchd-breithneachaidh** phr. — Critically acclaimed (lit. praised by the critics) `C1`
+- **Air a' bhuille** adv. — On the dot (lit. on the stroke) `B2`
+- **Air a' chaochladh** adv. — Conversely (lit. on the contrary) `C1`
+- **Air a' char as lugha** adv. — At least (lit. at the least turn) `A2`
+- **Air ais aig an toiseach** phr. — Back to square one (lit. back at the start) `C2`
+- **Air ais aig an toiseach** phr. — Back to the drawing board (lit. back at the start) `C1`
+- **Air an làimh eile** phr. — On the other hand `B1`
+- **Air an uachdar** adv. — Ostensibly (lit. on the surface) `C1`
+- **Air ath-smaoineachadh** phr. — On second thought (lit. on re-thinking) `B2`
+- **Air bhioran** adj. — Excited (lit. on edge) `A1`
+- **Air bhioran** phr. — On edge (lit. on points) `C1`
+- **Air bhioran** adj. — Thrilled (lit. on edge (with excitement)) `B1`
+- **Air bhoil** phr. — Beside oneself (lit. in a frenzy) `C1`
+- **Air bhoil** adj. — Furious (lit. in a frenzy) `B1`
+- **Air choltas** adj. — Apparent (lit. in appearance) `B2`
+- **Air chuibheasachd** phr. — On average `C1`
+- **Air chùmhnant gu** conj. — Provided that (lit. on condition that) `C1`
+- **Air cùl an àrd-ùrlair** adv. — Backstage (lit. behind the stage) `B2`
+- **Air cungaidh** phr. — On medication (lit. on medicine) `C1`
+- **Air dheireadh** adv. — Behind schedule (lit. behind) `B2`
+- **Air do shocair!** phr. — Hold your horses (lit. at your ease) `C2`
+- **Air eagal 's gu** conj. — In case (lit. for fear that) `B1`
+- **Air èiginn** adv. — Barely (lit. with difficulty) `B2`
+- **Air èiginn** phr. — By a narrow margin (lit. barely) `C1`
+- **Air ghleus** phr. — Keyed up (lit. tuned up) `C1`
+- **Air iarrtas** prep. — At the behest of (lit. at the request of) `C2`
+- **Air leth math** adj. — Top-notch (lit. exceptionally good) `C1`
+- **Air leth toilichte** adj. — Delighted (lit. exceptionally happy) `B1`
+- **Air mhire** adj. — Exhilarated (lit. in high spirits) `C2`
+- **Air mo chlisceadh** phr. — Taken aback (lit. startled) `C1`
+- **Air mo dhòigh** phr. — Over the moon (lit. in my way (delighted)) `C1`
+- **Air mo scaradh eadar** phr. — Torn (between) (lit. split between) `C1`
+- **Air mo shon fhìn** phr. — As far as I’m concerned (lit. for my own part) `B2`
+- **Air neo** conj. — Otherwise `B1`
+- **Air sàilleabh** prep. — By virtue of (lit. on account of) `C1`
+- **Air scàth** phr. — For the sake of (lit. on account of) `B2`
+- **Air scàth** prep. — On account of (lit. because of) `C1`
+- **Air scàth 's gu** conj. — On the grounds that (lit. because) `C2`
+- **Air thuaiream** adj. — Arbitrary (lit. at random) `B2`
+- **Àirde** n. f. — Altitude (lit. height) `B2`
+- **Àirde** n. f. pl. *àirdean* — Height `A2`
+- **Àirde gutha** n. f. — Pitch (voice) `C1`
+- **Àirde na mara** n. f. — Sea level (lit. height of the sea) `B2`
+- **Aire** n. f. — Attention `B1`
+- **Aire-inntinn** n. f. — Mindfulness (lit. attention of mind) `B2`
+- **Àireamh** n. f. pl. *àireamhan* — Number `A1`
+- **Àireamh chruinn** phr. — A round number `C1`
+- **Àireamh chruinn** n. f. pl. *àireamhan cruinne* — Round number `C2`
+- **Àireamh-shluaigh** n. f. — Population (lit. number of people) `B1`
+- **Àireamhaiche** n. m. pl. *àireamhaichean* — Numerator `C2`
+- **Airgead** n. m. — Money `A1`
+- **Airgead-làimhe** n. m. — Cash (lit. hand money) `A1`
+- **Airgead-pòca** n. m. — Allowance (lit. pocket money) `B1`
+- **Airgead-tascaidh** n. m. — Nest egg (lit. saved money) `C2`
+- **Airgead-tascaidh** n. m. — Savings (lit. stored money) `B1`
+- **Airgeadair** n. m. pl. *airgeadairean* — Cashier `A2`
+- **Airgeadra** n. m. pl. *airgeadraidhean* — Currency `B1`
+- **Àiria** n. f. pl. *àiriathan* — Aria `C2`
+- **Airidh** adj. — Eligible (lit. entitled) `C1`
+- **Àirneis** n. f. — Furniture `A2`
+- **Àirneisichte** adj. — Furnished `B1`
+- **Airson** prep. — For `A1`
+- **Airson an-dràsta** phr. — For the time being (lit. for now) `B2`
+- **Airson gach neach** phr. — Per capita (lit. for each person) `C1`
+- **Airson na fiach e** phr. — For what it's worth `C2`
+- **Airson na h-argamaid** phr. — For the sake of argument `C2`
+- **Ais-dhìoladh** n. m. pl. *ais-dhìolaidhean* — Refund (lit. back-payment) `A2`
+- **Aischaireadh** v. root *aischair* — To rescind (lit. repealing) `C2`
+- **Aisling-latha** n. f. pl. *aislingean-latha* — Daydream (lit. day vision) `C2`
+- **Aiste** n. f. pl. *aistean* — Essay `B1`
+- **Aiste-deasachaidh** n. f. pl. *aistean-deasachaidh* — Editorial (lit. editing essay) `C1`
+- **An àite** prep. — In lieu of (lit. in place of) `C1`
+- **An àite** prep. — Instead of (lit. in the place of) `B1`
+- **Àite comhfhurtail** n. m. pl. *àiteachan comhfhurtail* — Comfort zone (lit. comfortable place) `B2`
+- **Àite dall** n. m. pl. *àiteachan dalla* — Blind spot (lit. blind place) `C2`
+- **Àite glèidhte** n. m. pl. *àiteachan glèidhte* — Reservation (lit. reserved place) `A2`
+- **Àite uaine** n. m. pl. *àiteachan uaine* — Green space `B2`
+- **Àite-gleidhidh** n. m. pl. *àiteachan-gleidhidh* — Placeholder (lit. keeping place) `C2`
+- **Àite-pàighidh** n. m. pl. *àiteachan-pàighidh* — Checkout (lit. paying place) `B1`
+- **Aiteamh** n. m. — Thaw `C2`
+- **Aithghearr** adj. — Terse `C2`
+- **Aithneachadh** v. root *aithnich* — To identify (lit. recognising) `B2`
+- **Aithneachadh** v. root *aithnich* — To recognize `B1`
+- **Aithreachas** n. m. — Remorse `B2`
+- **Aithris** n. f. pl. *aithrisean* — Narrative `C2`
+- **Aithris** n. f. pl. *aithrisean* — Statement `B2`
+- **Al dente** adj. — Al dente `C1`
+- **Algairim** n. m. pl. *algairimean* — Algorithm `B2`
+- **Alibi** n. m. pl. *alibithean* — Alibi `B2`
+- **Allt** n. m. pl. *uillt* — Stream `B2`
+- **Alt** n. m. pl. *altan* — Joint `B2`
+- **Altram** v. root *altraim* — To cherish (lit. nurturing) `B2`
+- **An t-àm a dh'fhalbh** n. m. — The past (lit. the time that has gone) `B1`
+- **An t-àm ri teachd** n. m. — The future (lit. the time to come) `B1`
+- **An t-àm seo** n. m. — The present (lit. this time) `B1`
+- **Àm-coinneachaidh** n. m. pl. *amannan-coinneachaidh* — Appointment (lit. meeting time) `A2`
+- **Amaideach** adj. — Preposterous `C2`
+- **Amaideach** adj. — Ridiculous `B1`
+- **Amalachadh** v. root *amalaich* — To integrate `B2`
+- **Amas** n. m. pl. *amasan* — Goal `B1`
+- **Ambasaid** n. f. pl. *ambasaidean* — Embassy `C1`
+- **Amhach** n. f. pl. *amhaichean* — Neck `A1`
+- **Àmhainn** n. f. pl. *àmhainnean* — Oven `A2`
+- **Amharas** n. m. pl. *amharasan* — Hunch (lit. suspicion) `C2`
+- **Amharas** n. m. pl. *amharasan* — Suspicion `B2`
+- **Amharasach** adj. — Sketchy (lit. suspicious) `C1`
+- **Amladh** v. root *amail* — To impede (lit. hamper) `C1`
+- **Amladh** v. root *amail* — To stymie (lit. entangling) `C2`
+- **An-ascaidh** adv. — Free (no cost) (lit. free of charge) `A1`
+- **An-còmhnaidh** adv. — Always `A1`
+- **An-dè** adv. — Yesterday `A1`
+- **An-diugh** adv. — Today `A1`
+- **An-earar** adv. — The day after tomorrow `A2`
+- **An-uiridh** adv. — Last year `A2`
+- **Ana-caitheamh airgid** v. root *ana-caith* — To waste money (lit. squandering money) `B1`
+- **Anailis** n. f. pl. *anailisean* — Analysis `B2`
+- **Anainn** n. f. pl. *anainnean* — Eaves `C2`
+- **Analach** adj. — Respiratory (lit. of breath) `C2`
+- **Anann** n. m. pl. *anannan* — Pineapple `A2`
+- **Anfhann** adj. — Feeble `C2`
+- **Anfhoiseil** adj. — Uneasy `B1`
+- **Anmoch** adj. — Late `A1`
+- **Ann am beagan fhaclan** phr. — In a nutshell (lit. in a few words) `B2`
+- **Ann am beagan fhaclan** adv. — In short (lit. in a few words) `B1`
+- **Ann am briathran sìmplidh** phr. — To put it simply (lit. in simple words) `B2`
+- **Ann am faclan eile** adv. — In other words `B1`
+- **Ann am mòr-thomhas** phr. — In bulk (lit. in great measure) `C1`
+- **Ann an** prep. — In `A1`
+- **Ann an cabhaig** adv. — In a hurry `A2`
+- **Ann an clais** phr. — In a rut (lit. in a furrow) `C1`
+- **Ann an co-cheangal ri** phr. — With regard to (lit. in connection with) `B2`
+- **Ann an co-rèir ri** prep. — In accordance with `C2`
+- **Ann an deagh chumadh** phr. — In good shape `C1`
+- **Ann an deagh shunnd** phr. — In a good mood (lit. in good spirits) `A2`
+- **Ann an droch chumadh** phr. — Out of shape (lit. in bad shape) `C1`
+- **Ann an droch shunnd** phr. — In a bad mood (lit. in bad spirits) `A2`
+- **Ann an imcheist** phr. — At a loss (lit. in perplexity) `C1`
+- **Ann an imcheist** adj. — Confused (lit. in perplexity) `A2`
+- **Ann an sìth** phr. — At peace (lit. in peace) `C1`
+- **Ann an stoc** phr. — In stock `B1`
+- **Annasach** adj. — Uncanny (lit. unusual) `C1`
+- **Annasachd** n. f. pl. *annasachdan* — Idiosyncrasy `C2`
+- **Anns a bheil** conj. — Wherein (lit. in which is) `C2`
+- **Anns an eadar-àm** phr. — In the meantime (lit. in the between-time) `B2`
+- **Anns an fharsaingeachd** phr. — On the whole (lit. in the generality) `B2`
+- **Anns gach seagh** phr. — For all intents and purposes (lit. in every sense) `C1`
+- **Antaidh** n. f. pl. *antaidhean* — Aunt `A1`
+- **Antibiotaig** n. m. pl. *antibiotaigean* — Antibiotic `B2`
+- **Aodach** n. m. pl. *aodaichean* — Clothes `A1`
+- **Aodach cumanta** n. m. — Casual wear (lit. everyday clothes) `B2`
+- **Aodach foirmeil** n. m. — Formal wear (lit. formal clothes) `B2`
+- **Aodach-nighe** n. m. — Laundry (lit. washing clothes) `A2`
+- **Aodach-oidhche** n. m. — Pajamas (lit. night clothes) `B2`
+- **Aodachadh** v. root *aodaich* — To get dressed (lit. clothing (oneself)) `A2`
+- **Aodann** n. m. pl. *aodannan* — Face `A1`
+- **Aognaidh** adj. — Eerie `C1`
+- **Aoibhneas** n. m. — Joy `A1`
+- **Aoigh** n. m. pl. *aoighean* — Guest `A2`
+- **Aoir** n. f. pl. *aoirean* — Satire `C2`
+- **Aois** n. f. pl. *aoisean* — Age `A2`
+- **Aois** n. f. pl. *aoisean* — Era (lit. age) `B1`
+- **Aon às gach deich** phr. — One in ten `C1`
+- **Aon mhionaid, mas e ur toil e** phr. — One moment, please `A1`
+- **Aon tiogaid, mas e ur toil e** phr. — One ticket, please `A2`
+- **Aon turas** adv. — Once (lit. one time) `A2`
+- **Aon-dathach** adj. — Plain (no pattern) (lit. one-coloured) `B1`
+- **Aon-ghuthach** adj. — Monotone (lit. one-voiced) `C1`
+- **Aon-leanabh** n. m. — Only child (lit. one child) `A2`
+- **Aon-slighe** adj. — One way (lit. one way) `A2`
+- **Aonaranach** adj. — Forlorn (lit. lonely) `C2`
+- **Aonaranach** adj. — Lonely `A1`
+- **Aonta fiosraichte** n. m. — Informed consent `C2`
+- **Aonta-màil** n. m. pl. *aontaidhean-màil* — Lease (lit. rent agreement) `B1`
+- **Aontachadh** v. root *aontaich* — To agree `B1`
+- **Aontachadh** v. root *aontaich* — To approve (lit. agreeing) `B2`
+- **Aontachadh** v. root *aontaich* — To see eye to eye (lit. agree) `C1`
+- **Aosta** adj. — Old (person) (lit. aged) `A2`
+- **Aotrom** adj. — Light (weight) `A2`
+- **Aotrom sa cheann** adj. — Lightheaded (lit. light in the head) `C2`
+- **Aplacaid** n. f. pl. *aplacaidean* — App `A2`
+- **Ar-a-mach** n. m. — Uprising `C1`
+- **Àrach** v. root *àraich* — To nurture (lit. rear) `C1`
+- **Àrach gearain** v. root *àraich* — To nurse a grievance (lit. rear a complaint) `C2`
+- **Àrachadh** v. root *àrachaich* — To insure `B1`
+- **Àrachas** n. m. — Insurance `A2`
+- **Àrainn** n. f. pl. *àrainnean* — Campus `B1`
+- **Àrainn** n. f. pl. *àrainnean* — Habitat `B2`
+- **Àrainneachd** n. f. — Environment `B1`
+- **Aran** n. m. — Bread `A1`
+- **Arbatraids** n. m. — Arbitrage `C2`
+- **Àrc-eòlas** n. m. — Archaeology `C2`
+- **Àrd** adj. — Tall (lit. high) `A2`
+- **Àrd-amasach** adj. — Ambitious (lit. high-aiming) `B1`
+- **Àrd-aoibhneas** n. m. — Ecstasy (lit. high joy) `B2`
+- **Àrd-bhàillidh** n. m. pl. *àrd-bhàillidhean* — Mayor `B2`
+- **Àrd-chlàr** n. m. pl. *àrd-chlàran* — Plateau (lit. high plain) `B2`
+- **Àrd-choinneamh** n. f. pl. *àrd-choinneamhan* — Summit (meeting) (lit. high meeting) `C1`
+- **Àrd-dhealbh** n. m. pl. *àrd-dhealbhan* — Elevation (drawing) (lit. upright drawing) `C2`
+- **Àrd-mholadh** v. root *àrd-mhol* — To extol (lit. high praising) `C2`
+- **Àrd-ollamh** n. m. pl. *àrd-ollamhan* — Professor `B1`
+- **Àrd-ùrlar** n. m. pl. *àrd-ùrlaran* — Platform (lit. raised floor) `B1`
+- **Àrd-ùrlar** n. m. pl. *àrd-ùrlaran* — Stage (lit. high floor) `B2`
+- **Àrdachadh** v. root *àrdaich* — To exalt (lit. raising) `C2`
+- **Àrdachadh** v. root *àrdaich* — To ramp up (lit. raise) `C1`
+- **Àrdachadh ìre an rèidh** n. m. — Interest rate hike (lit. raising of the interest rate) `C2`
+- **Àrdachadh luach** n. m. — Appreciation (value) (lit. rise in value) `C1`
+- **Àrdachadh pàighidh** n. m. pl. *àrdachaidhean pàighidh* — Salary raise `A2`
+- **Àrdachadh prìse** n. m. — Markup (lit. raising of price) `C1`
+- **Àrdaichear** n. m. pl. *àrdaichearan* — Elevator (lit. raiser) `A2`
+- **Àrdanach** adj. — Arrogant `B1`
+- **Àrdanach** adj. — Haughty `C2`
+- **Argamaid** n. f. pl. *argamaidean* — Argument (reasoning) `B1`
+- **Artaigil** n. m. pl. *artaigilean* — Article `B1`
+- **Artaire** n. m. pl. *artairean* — Artery `B2`
+- **Às a shunnd** phr. — Out of sorts (lit. out of one's good humour) `C1`
+- **Às dèidh sin** adv. — After (lit. after that) `A1`
+- **Às dèidh sin** adv. — After that `B1`
+- **Às dèidh sin a ràdh** phr. — Having said that (lit. after saying that) `B2`
+- **Às-aithris** n. f. pl. *às-aithrisean* — Quotation `B2`
+- **Às-dùnadh** v. root *às-dùin* — To exclude (lit. shutting out) `B2`
+- **Às-imrich** n. f. — Exodus `C2`
+- **Às-mhalairt** n. f. — Export `B2`
+- **Aslachadh** v. root *aslaich* — To implore `C2`
+- **Asna** n. f. pl. *asnaichean* — Rib `B2`
+- **Astar** n. m. pl. *astaran* — Distance `A2`
+- **Astar** n. m. pl. *astaran* — Velocity `C1`
+- **Astar sceòil** n. m. — Pacing (lit. story speed) `C1`
+- **Astaroid** n. m. pl. *astaroidean* — Asteroid `C1`
+- **Atadh** n. m. — Inflammation (lit. swelling) `C2`
+- **Ath-aithris** v. root *ath-aithris* — To reiterate `B2`
+- **Ath-bheachdachadh** v. root *ath-bheachdaich* — To reconsider (lit. re-considering) `B2`
+- **An ath-bhliadhna** adv. — Next year (lit. the next year) `A2`
+- **Ath-bhualadh** n. m. pl. *ath-bhualaidhean* — Reflex (lit. rebound) `C2`
+- **Ath-cheannach** v. root *ath-cheannaich* — To redeem (lit. buying back) `C2`
+- **Ath-cheannach earrannan** n. m. — Share buyback (lit. re-buying of shares) `C2`
+- **Ath-choinneachadh** n. m. pl. *ath-choinneachaidhean* — Reunion (lit. re-meeting) `B1`
+- **Ath-chuairteachadh** v. root *ath-chuairtich* — To recycle `B1`
+- **Ath-fhaclachadh** n. m. pl. *ath-fhaclachaidhean* — Paraphrase (lit. rewording) `C2`
+- **Ath-fhaclachadh** v. root *ath-fhaclaich* — To paraphrase (lit. rewording) `B2`
+- **Ath-fhuaimneachadh** v. root *ath-fhuaimnich* — To resonate (lit. re-sounding) `C2`
+- **Ath-ghuthaichte** adj. — Dubbed (lit. re-voiced) `C1`
+- **Ath-làimh** adj. — Second-hand `B1`
+- **Ath-leasachadh** n. m. pl. *ath-leasachaidhean* — Reform `B2`
+- **Ath-lìonadh** v. root *ath-lìon* — To replenish (lit. refilling) `C2`
+- **Ath-nuadhachadh** v. root *ath-nuadhaich* — To renovate `B1`
+- **Ath-rèiteachadh** v. root *ath-rèitich* — To reschedule (lit. re-arranging) `B2`
+- **Ath-scrùdadh** v. root *ath-scrùd* — To review `A2`
+- **Ath-scrùdadh co-aoise** n. m. pl. *ath-scrùdaidhean co-aoise* — Peer review (lit. peer re-examination) `C1`
+- **An ath-sheachdain** adv. — Next week (lit. the next week) `A2`
+- **Ath-shlànachadh** n. m. — Convalescence `C2`
+- **Ath-shlànachadh** n. m. — Recovery (lit. re-healing) `B2`
+- **Ath-shuidheachadh** v. root *ath-shuidhich* — To reset `B1`
+- **Ath-thagradh** n. m. pl. *ath-thagraidhean* — Appeal (legal) `B2`
+- **Ath-thilleadh** n. m. — Recurrence (lit. return) `C2`
+- **Ath-thòiseachadh** n. m. — Reboot (lit. restart) `C1`
+- **Ath-thuiteam** n. m. — Relapse (lit. re-falling) `C1`
+- **Ath-uidheamachadh** n. m. — Retrofit (lit. re-equipping) `C2`
+- **Athair** n. m. pl. *athraichean* — Father `A1`
+- **Atharrachadh** n. m. pl. *atharraichean* — Amendment (lit. change) `C1`
+- **Atharrachadh** v. root *atharraich* — To alter `B2`
+- **Atharrachadh** v. root *atharraich* — To change `A2`
+- **Atharrachadh cùrsa** v. root *atharraich* — To pivot (lit. change course) `C1`
+- **Atharrachadh gnàth-shìde** n. m. — Climate change (lit. change of climate) `B1`
+- **Atharrachadh loidhne** v. root *atharraich* — To transfer (change lines) (lit. changing line) `B1`
+- **Atmhorachd** n. f. — Inflation (lit. swelling) `B1`
+- **Atol** n. m. pl. *atolan* — Atoll `C2`
+- **Àtrium** n. m. pl. *àtriuman* — Atrium `C2`
+
+## B
+
+- **B' fheàrr leam gun** phr. — I’d rather not (lit. I'd prefer not) `B1`
+- **Bacadh** n. m. pl. *bacaidhean* — Embargo (lit. blockage) `C2`
+- **Bacadh** n. m. pl. *bacaidhean* — Impasse (lit. blockage) `C2`
+- **Bacadh** v. root *bac* — To hinder `C1`
+- **Bacadh** v. root *bac* — To thwart (lit. hindering) `C2`
+- **Bacteiria** n. f. pl. *bacteiridhean* — Bacteria `B2`
+- **Baga** n. m. pl. *bagaichean* — Bag `A1`
+- **Bagaist** n. f. — Luggage `A2`
+- **Bagarrach** adj. — Ominous (lit. threatening) `C1`
+- **Bàgh** n. m. pl. *bàghan* — Bay `B2`
+- **Bàidh** n. f. — Fondness `B2`
+- **Bàidh a ghabhail ri** v. root *gabh* — To have a soft spot for (lit. take a liking to) `C1`
+- **Baidhsagal** n. m. pl. *baidhsagalan* — Bicycle `A1`
+- **Bailteil** adj. — Urban `B2`
+- **Bainne** n. m. — Milk `A1`
+- **Bàirlinn** n. f. pl. *bàirlinnean* — Subpoena (lit. summons) `C2`
+- **Balach** n. m. pl. *balaich* — Boy `A1`
+- **Balach** n. m. pl. *balaich* — Dude (lit. lad) `C1`
+- **Balastrad** n. m. pl. *balastradan* — Balustrade `C2`
+- **Balcanaidh** n. m. pl. *balcanaidhean* — Balcony `B1`
+- **Balg** n. m. pl. *builg* — Blister `C2`
+- **Balgan-buachair** n. m. pl. *balgain-bhuachair* — Mushroom `A2`
+- **Ball-acainn** n. m. pl. *buill-acainn* — Tool (lit. piece of equipment) `B1`
+- **Ball-bascaid** n. m. — Basketball `A2`
+- **Ball-bholaidh** n. m. — Volleyball `A2`
+- **Ball-chrith** n. f. — Shiver (lit. limb-trembling) `C2`
+- **Ball-coise** n. m. — Soccer (lit. foot-ball) `A2`
+- **Ball-sceadachaidh** n. m. pl. *buill-sceadachaidh* — Accessory (lit. adornment item) `B1`
+- **Ball-stèidhe** n. m. — Baseball `A2`
+- **Balla** n. m. pl. *ballachan* — Wall `A1`
+- **Balla-dealachaidh** n. m. pl. *ballachan-dealachaidh* — Partition wall (lit. dividing wall) `C2`
+- **Balla-pàighidh** n. m. pl. *ballachan-pàighidh* — Paywall (lit. paying wall) `C1`
+- **Balla-taice** n. m. pl. *ballachan-taice* — Load-bearing wall (lit. support wall) `C1`
+- **Balla-teine** n. m. pl. *ballachan-teine* — Firewall `C1`
+- **Ballrachd** n. f. — Membership `B1`
+- **Bàn** adj. — Blond (lit. fair) `A2`
+- **Banacharaid** n. f. pl. *banacharaidean* — Friend (female) (lit. woman-friend) `A1`
+- **Banachdach** n. f. pl. *banachdaichean* — Vaccine `B1`
+- **Banais** n. f. pl. *bainnsean* — Wedding `A2`
+- **Banaltram** n. f. pl. *banaltraman* — Nurse `A2`
+- **Banana** n. m. pl. *bananathan* — Banana `A2`
+- **Banca** n. m. pl. *bancaichean* — Bank `A1`
+- **Bann** n. m. pl. *bannan* — Bond (finance) `C1`
+- **Bann-dùirn** n. m. pl. *bannan-dùirn* — Cuff (lit. wrist band) `C2`
+- **Banntrach** n. f. pl. *banntraichean* — Widow `B2`
+- **Barail** n. f. pl. *barailean* — Assumption (lit. supposition) `C1`
+- **Barantachadh** v. root *barantaich* — To guarantee `B2`
+- **Barantas** n. m. pl. *barantasan* — Warrant `C2`
+- **Barantas** n. m. pl. *barantasan* — Warranty `B1`
+- **Bàrcadh** n. m. — Surge `C2`
+- **Bargan** n. m. pl. *barganan* — Bargain `B1`
+- **Barganachadh** n. m. pl. *barganachaidhean* — Negotiation `B2`
+- **Barganachadh** v. root *barganaich* — To haggle `B1`
+- **Barista** n. m. — Barista `C1`
+- **Baròc** n. m. — Baroque `C2`
+- **Bàrr na beinne-deighe** phr. — The tip of the iceberg `C1`
+- **Bàrr-bhalla** n. m. pl. *bàrr-bhallachan* — Cornice (lit. wall-top) `C2`
+- **Barrachd** n. m. — More `A1`
+- **Barraichte** adj. — Outstanding `B2`
+- **Bas** n. f. pl. *basan* — Palm `B2`
+- **Bàsachadh** v. root *bàsaich* — To die `A2`
+- **Basail** n. m. — Basil `B2`
+- **Bataraidh** n. m. pl. *bataraidhean* — Battery `A2`
+- **Bathais** n. f. pl. *bathaisean* — Forehead `B2`
+- **Bathar-bog** n. m. — Software (lit. soft ware) `B2`
+- **Bathar-bog millteach** n. m. — Malware (lit. destructive software) `C1`
+- **Bathar-cruaidh** n. m. — Hardware (lit. hard ware) `B2`
+- **Beachd** n. m. pl. *beachdan* — Idea `B1`
+- **Beachd** n. m. pl. *beachdan* — Opinion `A2`
+- **Beachd-bharail** n. f. pl. *beachd-bharailean* — Hypothesis `B2`
+- **Beachd-smaoineachadh** v. root *beachd-smaoinich* — To ponder `C2`
+- **Beachdachadh** v. root *beachdaich* — To consider `B1`
+- **Beachdachadh** v. root *beachdaich* — To contemplate (lit. consider) `C1`
+- **Beachdail** adj. — Abstract (lit. notional) `B2`
+- **Beadradh** v. root *dèan beadradh* — To flirt `B1`
+- **Beag** adj. — Short (height) (lit. small) `A2`
+- **Beag** adj. — Small `A1`
+- **Beag bìodach** adj. — Infinitesimal (lit. tiny) `C2`
+- **Beag-bhriathrach** adj. — Laconic (lit. of few words) `C2`
+- **Beag-chùiseachadh** v. root *beag-chùisich* — To belittle `C2`
+- **Beagan** adv. — A bit `A2`
+- **Beagan** n. m. — Few `A1`
+- **Beagan** adv. — Slightly (lit. a little) `B2`
+- **Beagan dearg** adj. — Medium rare (lit. a bit red) `C1`
+- **Bean-ghlùine** n. f. pl. *mnathan-glùine* — Midwife (lit. knee-woman) `C2`
+- **Bean-phòsta** n. f. pl. *mnathan-pòsta* — Wife (lit. married woman) `A1`
+- **Bean-uasal** n. f. pl. *mnathan-uasal* — Madam (lit. noble woman) `A1`
+- **Beannachadh** v. root *beannaich* — To greet (lit. blessing, greeting) `B1`
+- **Beannachd am falach** phr. — A blessing in disguise (lit. a blessing in hiding) `C1`
+- **Beannachd leat** phr. — Goodbye (lit. blessing with you) `A1`
+- **Beantainn** v. root *bean* — To touch `A2`
+- **Beantainn ri** v. root *bean* — To touch on (lit. touch upon) `C1`
+- **Bèarlagair** n. m. — Jargon `C1`
+- **Beàrn** n. f. pl. *beàrnan* — Loophole (lit. gap) `C2`
+- **Beàrn beartais** n. f. — Wealth gap `C1`
+- **Beàrn laghail** phr. — A loophole (lit. a legal gap) `C1`
+- **Beàrn nan ginealach** n. f. — Generation gap (lit. gap of the generations) `B1`
+- **Beàrn-cìse** n. m. pl. *beàrnan-cìse* — Tax loophole (lit. tax gap) `C2`
+- **Bearradh** n. m. pl. *bearraidhean* — Cliff `B2`
+- **Bearradh** n. m. pl. *bearraidhean* — Escarpment `C2`
+- **Beartach** adj. — Rich `A2`
+- **Beartach** adj. — Wealthy `B1`
+- **Beartas** n. m. — Wealth `B1`
+- **Beatha shàmhach** n. f. — Still life (lit. quiet life) `C2`
+- **Beathach** n. m. pl. *beathaichean* — Animal `A2`
+- **Bèicear** n. m. pl. *bèicearan* — Baker `A2`
+- **Being-obrach** n. f. pl. *beingean-obrach* — Workbench (lit. work bench) `B2`
+- **Beinn** n. f. pl. *beanntan* — Mountain `A1`
+- **Beinn-deighe** n. f. pl. *beanntan-deighe* — Iceberg (lit. ice mountain) `B2`
+- **Beinn-theine** n. f. pl. *beanntan-teine* — Volcano (lit. fire-mountain) `B1`
+- **Beò** adj. — Live (broadcast) (lit. alive) `B1`
+- **Beò-ghlacadh** n. m. — Obsession (lit. living grip) `B2`
+- **Beothachadh** n. m. — Animation `B1`
+- **Beòthachadh** v. root *beòthaich* — To galvanize (lit. enlivening) `C2`
+- **Beòthail** adj. — Lively `C1`
+- **Beòthail** adj. — Vivid (lit. lively) `C1`
+- **Beucail** v. root *beuc* — To bellow (lit. roar) `C1`
+- **Beul** n. m. pl. *beòil* — Mouth `A1`
+- **Beul na h-oidhche** n. m. — Evening (lit. mouth of the night) `A1`
+- **Beul-aithris** n. f. — Folklore (lit. oral tradition) `B2`
+- **Beus** n. f. pl. *beusan* — Ethos `C2`
+- **Bhidio** n. f. pl. *bhidiothan* — Video `A2`
+- **Bhìoras** n. m. pl. *bhìorasan* — Virus `B2`
+- **Bhith** v. root *bi* — To be `A1`
+- **Bhith aig** v. root *bi* — To have (lit. to be at) `A1`
+- **Bhith air dàil** v. root *bi* — To be delayed (lit. be on delay) `B1`
+- **Bhith an dòchas** v. root *bi an dòchas* — To hope (lit. being in hope) `A2`
+- **Bhith comasach** v. root *bi* — To be able to (lit. to be able) `A1`
+- **Bhith comasach air a phàigheadh** v. root *bi comasach air a phàigheadh* — To afford (lit. be able to pay for it) `A2`
+- **Bhith dèidheil air** v. root *bi* — To be into (lit. be fond of) `C1`
+- **Bhith fadalach** v. root *bi fadalach* — To be late (lit. being late) `A2`
+- **Bhith feumach air** v. root *bi* — To require (lit. be in need of) `B1`
+- **Bhith fo eagal ro** v. root *bi fo eagal ro* — To be afraid of (lit. be under fear before) `A2`
+- **Bhith fo fhiachan do** v. root *bi fo fhiachan do* — To owe (lit. be under debts to) `A2`
+- **Bhith gun scillinn** v. root *bi* — To be broke (lit. be without a penny) `B1`
+- **Bhith mothachail** v. root *bi* — To be aware (lit. be aware) `B1`
+- **Bhith na chunnart** v. root *bi* — To pose a threat (lit. to be a danger) `C2`
+- **Bhith os cionn** v. root *bi os cionn* — To be in charge (lit. be above) `B1`
+- **Bho** prep. — From `A1`
+- **Bho** prep. — Since (lit. from) `A2`
+- **Bho àm gu àm** phr. — Every now and then (lit. from time to time) `B2`
+- **Bho àm gu àm** adv. — Occasionally (lit. from time to time) `B1`
+- **Bho bhreith** adj. — Congenital (lit. from birth) `C2`
+- **Bho fheum** adj. — Obsolete (lit. out of use) `B2`
+- **Bho seo a-mach** adv. — Henceforth (lit. from this out) `C1`
+- **Bho seo a-mach** adv. — Hereinafter (lit. from here on) `C2`
+- **Bhon sceilp** adj. — Off-the-rack (lit. from the shelf) `C2`
+- **Bhòtadh** v. root *bhòt* — To vote `B1`
+- **Bi faiceallach** phr. — Be careful `A1`
+- **Biadh** n. m. — Food `A1`
+- **Biadh ri thoirt leat** n. m. — Takeout (lit. food to take with you) `A2`
+- **Biadh-eòlaiche** n. m. pl. *biadh-eòlaichean* — Dietitian (lit. food expert) `C2`
+- **Biadh-sràide** n. m. — Street food `B1`
+- **Biastag-eòlaiche** n. m. pl. *biastag-eòlaichean* — Entomologist (lit. insect expert) `C2`
+- **Biathadh-briogaidh** n. m. — Clickbait (lit. click bait) `C1`
+- **Bìdeadh** v. root *bìd* — To bite `B1`
+- **Bidh eòin den aon iteig a' tighinn còmhla.** phr. — Birds of a feather flock together `C2`
+- **Bidh mi a' dèanamh spòrs** phr. — I play sports (lit. I do sport) `A2`
+- **Bidh mi a' gabhail fois aig an deireadh-sheachdain** phr. — On weekends I rest `A2`
+- **Bìgeanach** adj. — Vegan `B1`
+- **Bile** n. m. pl. *bilean* — Bill (proposed law) `B2`
+- **Bile** n. m. pl. *bilean* — Bill (utility) `A2`
+- **Bile** n. f. pl. *bilean* — Lip `B2`
+- **Bile-ionmhais** n. m. pl. *bilichean-ionmhais* — Treasury bill `C2`
+- **Binn** n. f. pl. *binnean* — Sentence (punishment) `C2`
+- **Binn prìosain** n. f. pl. *binnean prìosain* — Prison sentence `B2`
+- **Binnean** n. m. pl. *binneanan* — Spire `C2`
+- **Bìodach** adj. — Tiny `B1`
+- **Biodh sin mar a bhitheas e** phr. — Be that as it may `C2`
+- **Biona ath-chuairteachaidh** n. m. pl. *bionaichean ath-chuairteachaidh* — Recycling bin `B2`
+- **Biorgadh** n. m. — Tingling `C2`
+- **Bìosa** n. f. pl. *bìosathan* — Visa `B1`
+- **Bith-cheimigeachd** n. f. — Biochemistry `C2`
+- **Bith-iomadachd** n. f. — Biodiversity `B2`
+- **Bith-mheatrach** adj. — Biometric `C1`
+- **Biurocrasaidh** n. m. — Bureaucracy `C1`
+- **Blas** n. m. — Accent (lit. taste) `A2`
+- **Blas** n. m. pl. *blasan* — Flavor `B1`
+- **Blasachadh** v. root *blasaich* — To season `B1`
+- **Blasad** v. root *blais* — To taste `A2`
+- **Blasadh** v. root *blais* — To savor (the moment) (lit. tasting) `C2`
+- **Blasta** adj. — Delicious `A1`
+- **Blasta** adj. — Savory (lit. tasty) `B2`
+- **Blasta** adj. — Tasty `B1`
+- **Blasta** adj. — Zesty (lit. tasty) `C2`
+- **Blàthachadh** v. root *blàthaich* — To warm up `B1`
+- **Blàthachadh na cruinne** n. m. — Global warming (lit. warming of the globe) `B2`
+- **Bliadhna** n. f. pl. *bliadhnaichean* — Year `A1`
+- **Bliadhna an fhìona** n. f. — Vintage (wine) (lit. the wine's year) `C1`
+- **Bliadhna ionmhais** n. f. pl. *bliadhnachan ionmhais* — Fiscal year `C1`
+- **Bliadhna Ùr** n. f. — New Year (lit. new year) `A2`
+- **Bliadhnail** adj. — Annual `B1`
+- **Bloca** n. m. pl. *blocaichean* — Block `A2`
+- **Bloigh** phr. — A fraction `C1`
+- **Bloinigean-gàrraidh** n. m. — Spinach `A2`
+- **Bò** n. f. pl. *bà* — Cow `A1`
+- **Bòbhladh** n. m. — Bowling `B2`
+- **Bochd** adj. — Poor `A2`
+- **Bochdainn** n. f. — Poverty `B1`
+- **Bocsadh** n. m. — Boxing `B2`
+- **Bodhaig** n. f. pl. *bodhaigean* — Body `A1`
+- **Bodhrach** adj. — Deafening `C1`
+- **Bodraigeadh** v. root *bodraig* — To bother `B1`
+- **Bog** adj. — Soft `A2`
+- **Bog** adj. — Soggy (lit. soft, wet) `C2`
+- **Bog fliuch** adj. — Sodden (lit. soaking wet) `C2`
+- **Bogadh** n. m. — Immersion (lit. steeping) `C1`
+- **Bogadh** v. root *bog* — To marinate (lit. steeping) `B2`
+- **Bogha** n. m. pl. *boghachan* — Arch `C2`
+- **Bogha-frois** n. m. pl. *boghachan-frois* — Rainbow `B1`
+- **Boghadaireachd** n. f. — Archery `B2`
+- **Boglach** n. f. pl. *boglaichean* — Marsh `C2`
+- **Boglach** n. f. pl. *boglaichean* — Swamp `B2`
+- **Bogsa** n. m. pl. *bogsaichean* — Box `A1`
+- **Bogsa-fianais** n. m. pl. *bogsaichean-fianais* — Witness stand (lit. witness box) `C2`
+- **Bogsa-fiùsaichean** n. m. pl. *bogsaichean-fiùsaichean* — Fuse box (lit. box of fuses) `C2`
+- **Bogsa-gainmhich** n. m. pl. *bogsaichean-gainmhich* — Sandbox (lit. sand box) `C2`
+- **Bogsa-innealan** n. m. pl. *bogsaichean-innealan* — Toolbox (lit. box of tools) `C2`
+- **Bogsa-litrichean** n. m. pl. *bogsaichean-litrichean* — Mailbox `B1`
+- **Boile** n. f. — Rage `B2`
+- **Boinne sa chuan** phr. — A drop in the ocean `C1`
+- **Boireannach** n. m. pl. *boireannaich* — Woman `A1`
+- **Bolgan** n. m. pl. *bolganan* — Light bulb `B1`
+- **Bonn** n. m. pl. *buinn* — Medal `A2`
+- **Bonn airgid** n. m. pl. *buinn airgid* — Coin `A2`
+- **Bonn-boise** n. m. pl. *buinn-boise* — Tip (lit. coin of the palm) `A2`
+- **Bòrd** n. m. pl. *bùird* — Table `A1`
+- **Bòrd airson dithis** phr. — A table for two (lit. a table for two people) `A2`
+- **Bòrd-gearraidh** n. m. pl. *bùird-ghearraidh* — Cutting board `C2`
+- **Bòrd-plàsta** n. m. pl. *bùird-phlàsta* — Drywall (lit. plaster board) `B2`
+- **Bòrd-sciortaidh** n. m. pl. *bùird-sciortaidh* — Baseboard (lit. skirting board) `C1`
+- **Bòstadh** v. root *bòst* — To brag `B1`
+- **Botal** n. m. pl. *botail* — Bottle `A1`
+- **Bòtannan** n. m. — Boots `B2`
+- **Bothan-cìse** n. m. pl. *bothain-chìse* — Toll booth (lit. toll hut) `C2`
+- **Bracaist** n. f. pl. *bracaistean* — Breakfast `A1`
+- **Bracaist-lòin** n. f. — Brunch `B1`
+- **Brag tàirneanaich** n. m. — Thunderclap (lit. crack of thunder) `C2`
+- **Bragaire** n. m. pl. *bragairean* — Show-off (lit. boaster) `C2`
+- **Bràmair** n. m. pl. *bràmairean* — Boyfriend `A1`
+- **Brandair** n. m. pl. *brandairean* — Trivet `C2`
+- **Brannd** n. m. pl. *branndan* — Brand `A2`
+- **Braoisceil** v. root *braoisc* — To giggle `C1`
+- **Braon** n. m. pl. *braoin* — Drizzle (of oil) (lit. drop) `C1`
+- **Bras** adj. — Impetuous `C2`
+- **Bras** adj. — Impulsive `C1`
+- **Brat-dorais** n. m. pl. *bratan-dorais* — Doormat (lit. door rug) `C2`
+- **Bratach dhearg** phr. — A red flag `C1`
+- **Brath** n. m. pl. *brathan* — Announcement `B2`
+- **Brath** n. m. pl. *brathan* — Notification `A2`
+- **Brathadair** n. m. pl. *brathadairean* — Turncoat (lit. betrayer) `C2`
+- **Brathadh** v. root *brath* — To betray `B1`
+- **Brathadh** v. root *brath* — To denounce (lit. betraying) `C2`
+- **Bràthair** n. m. pl. *bràithrean* — Brother `A1`
+- **Bràthair as sine** phr. — Older brother (lit. eldest brother) `A1`
+- **Bràthair no piuthar** n. m. — Sibling (lit. brother or sister) `B2`
+- **Breac-sheunain** n. m. — Freckles `C2`
+- **Brèagha** adj. — Beautiful `A1`
+- **Breic-làimhe** n. f. pl. *breicichean-làimhe* — Handbrake (lit. hand brake) `C2`
+- **Breith** n. f. pl. *breithean* — Ruling `C2`
+- **Breith** v. root *beir* — To be born (lit. bearing; rugadh mi = I was born) `A2`
+- **Breith** n. f. pl. *breithean* — Verdict `B2`
+- **Breith air** v. root *beir* — To catch up (lit. catch hold of) `B1`
+- **Breithneachadh** n. m. pl. *breithneachaidhean* — Critique (lit. judgement) `C1`
+- **Breithneachadh** n. m. — Diagnosis `B2`
+- **Breithneachadh tinneis** v. root *breithnich* — To diagnose (lit. judging an illness) `B2`
+- **Breugnachadh** n. m. pl. *breugnachaidhean* — Rebuttal `C2`
+- **Breugnachadh** v. root *breugnaich* — To refute (lit. proving false) `C2`
+- **Breun** adj. — Rancid `C2`
+- **Briathrach** adj. — Verbose `C2`
+- **Briathrachas** n. m. — Verbiage `C2`
+- **Brìb** n. f. pl. *brìbean* — Kickback (lit. bribe) `C2`
+- **Brìbeadh** n. m. — Bribery `B2`
+- **Brìgh** n. f. — Gist (lit. essence) `C2`
+- **Brìgh** n. f. — Significance `B2`
+- **Brìgh-eòlas** n. m. — Semantics `C2`
+- **Brìghmhor** adj. — Pithy `C2`
+- **Brìodal** v. root *brìodail* — To cajole `C2`
+- **Briogadh** v. root *briog* — To click `A2`
+- **Briogais** n. f. pl. *briogaisean* — Pants `A1`
+- **Brìoghmhor** adj. — Vibrant (lit. full of vigour) `C1`
+- **Brisc** adj. — Brittle `C2`
+- **Brisc** adj. — Crispy `B2`
+- **Brisc** adj. — Fragile `B1`
+- **Briseadair-cuairt** n. m. pl. *briseadairean-cuairt* — Circuit breaker `C1`
+- **Briseadh** v. root *bris* — To break `A2`
+- **Briseadh** v. root *bris* — To infringe (lit. break) `C1`
+- **Briseadh a-steach** n. m. — Burglary (lit. breaking in) `B2`
+- **Briseadh a-steach air** v. root *bris a-steach air* — To interrupt (lit. breaking in on) `B1`
+- **Briseadh dàta** n. m. pl. *brisidhean dàta* — Data breach `C2`
+- **Briseadh dheth** v. root *bris* — To break off (lit. breaking off) `C1`
+- **Briseadh sìos** v. root *bris* — To break down (machine) `B1`
+- **Briseadh-creideis** n. m. — Bankruptcy (lit. breaking of credit) `B2`
+- **Briseadh-seirbheis** n. m. pl. *brisidhean-seirbheis* — Outage (lit. service break) `C1`
+- **Bristeadh na fàire** n. m. — Daybreak (lit. breaking of the horizon) `C2`
+- **Britheamh** n. m. pl. *britheamhan* — Judge `B2`
+- **Brògan** n. f. — Shoes `A1`
+- **Brògan àrd-shàileach** n. f. — High heels (lit. high-heeled shoes) `B2`
+- **Brògan-spòrs** n. f. — Sneakers (lit. sport shoes) `B2`
+- **Bròn** n. m. — Grief `B2`
+- **Brònach** adj. — Sad `A1`
+- **Brosnachadh** n. m. — Impetus `C2`
+- **Brosnachadh** v. root *brosnaich* — To cheer on `B1`
+- **Brosnachadh** v. root *brosnaich* — To encourage `B1`
+- **Brosnachadh** v. root *brosnaich* — To exhort `C2`
+- **Brosnachadh** v. root *brosnaich* — To foster (lit. encourage) `C1`
+- **Brosnaichte** adj. — Motivated `B1`
+- **Brot** n. m. — Broth `B2`
+- **Brot** n. m. — Soup `A1`
+- **Bruadar na dhùisc** v. root *bruadair* — To daydream (lit. dreaming awake) `B1`
+- **Bruich gu socair** v. root *bruich* — To simmer (lit. cooking gently) `B2`
+- **Bruich le smùid** v. root *bruich* — To steam (lit. cooking with steam) `B2`
+- **Bruidhinn** v. root *bruidhinn* — To speak `A1`
+- **Bruidhinn air an donas, 's nochdaidh e.** phr. — Speak of the devil (lit. speak of the devil and he'll appear) `C2`
+- **A' bruidhinn air sin** phr. — Speaking of which `B1`
+- **A' bruidhinn gu farsaing** phr. — Broadly speaking (lit. speaking broadly) `B2`
+- **Bruidhinn gu gagach** v. root *bruidhinn* — To stutter (lit. speak with a stammer) `C1`
+- **Bruidhinn gu tiugh** v. root *bruidhinn* — To slur (lit. speak thickly) `C1`
+- **Bruidhinn gun bhrìgh** v. root *bruidhinn* — To waffle (be vague) (lit. talking without substance) `C2`
+- **Na bruidhinn rium air!** phr. — Tell me about it! (lit. don't talk to me about it) `B1`
+- **Bruidhinn sìos ri** v. root *bruidhinn* — To condescend (lit. talking down to) `C2`
+- **Bruidhinn sìos ri** v. root *bruidhinn* — To patronize (lit. talk down to) `C2`
+- **Bruidhneach** adj. — Talkative `A2`
+- **Bruidhnidh sinn air seo air leth** phr. — Take it offline (lit. we'll talk about this separately) `C1`
+- **Bruis-fhiaclan** n. f. pl. *bruisichean-fhiaclan* — Toothbrush (lit. teeth brush) `A1`
+- **Bruis-pheantaidh** n. f. pl. *bruisean-peantaidh* — Paintbrush (lit. painting brush) `B2`
+- **Brunndail** v. root *brunndail* — To mumble `C1`
+- **Brùthadair-cofaidh** n. m. pl. *brùthadairean-cofaidh* — French press (lit. coffee presser) `C2`
+- **Bruthadh** n. m. pl. *bruthaidhean* — Bruise `C2`
+- **Bruthadh** n. m. — Pressure (physics) `C1`
+- **Brùthadh a-steach** v. root *brùth* — To squeeze in (lit. pushing in) `B2`
+- **Bruthadh-fala** n. m. — Blood pressure (lit. blood pressing) `A2`
+- **Bruthainneach** adj. — Muggy `B1`
+- **Bruthainneach** adj. — Sultry `C2`
+- **Bu toil leam…** phr. — I would like… `A1`
+- **Buadh** n. f. pl. *buadhan* — Feature (lit. quality) `B2`
+- **Buadhaiche** n. m. pl. *buadhaichean* — Influencer `C1`
+- **Buaidh** n. f. pl. *buaidhean* — Impact (lit. effect) `B2`
+- **Buaidh a chleachdadh** v. root *cleachd* — To wield influence (lit. to use influence) `C2`
+- **Buail an t-iarann fhad 's a tha e teth.** phr. — Strike while the iron is hot `C2`
+- **Buailteach** adj. — Susceptible (lit. prone) `C2`
+- **Buailteach do** phr. — Prone to `C1`
+- **Buailteachd** n. f. — Liability `C1`
+- **Buailtear-uighean** n. m. pl. *buailtearan-uighean* — Whisk (lit. egg-beater) `C2`
+- **Buaireadh** n. m. pl. *buairidhean* — Temptation `B2`
+- **Buaireadh** v. root *buair* — To disrupt `C1`
+- **Buaireadh** v. root *buair* — To incite (lit. stirring up) `C2`
+- **Buaireas** n. m. — Turmoil `C2`
+- **Buaireas-adhair** n. m. — Turbulence (lit. air turmoil) `C2`
+- **Bualadh** v. root *buail* — To whisk (lit. beating) `B2`
+- **Bualadh bhasan** v. root *buail* — To clap (lit. striking palms) `B1`
+- **Bualadh na tarraig air a ceann** v. root *buail* — To nail it (lit. hit the nail on its head) `C1`
+- **Bualadh-bhas** n. m. — Applause (lit. striking of palms) `B2`
+- **Buan** adj. — Durable (lit. lasting) `C1`
+- **Buanachadh** v. root *buanaich* — To perpetuate `C2`
+- **Buannachadh** v. root *buannaich* — To win `A2`
+- **Buannachd don dà thaobh** phr. — Win-win (lit. gain for both sides) `C1`
+- **Buannachd fhurasta** phr. — Low-hanging fruit (lit. easy gain) `C1`
+- **Buannachdan calpa** n. f. — Capital gains `C1`
+- **Buanseasmhachd** n. f. — Perseverance `C2`
+- **Bufaidh** n. m. pl. *bufaidhean* — Buffet `B1`
+- **Buidhe** adj. — Yellow `A1`
+- **Buidheann dùinte** n. m. pl. *buidhnean dùinte* — Clique (lit. closed group) `C2`
+- **Buidseat** n. m. pl. *buidseatan* — Budget `A2`
+- **Buil** n. f. pl. *builean* — Consequence `B2`
+- **Buileachadh** v. root *builich* — To confer (lit. bestowing) `C2`
+- **Builgeanach** adj. — Sparkling (lit. bubbly) `C1`
+- **Buille-cridhe** n. f. pl. *buillean-cridhe* — Heartbeat `B1`
+- **Buille-cuisle** n. f. pl. *buillean-cuisle* — Pulse (lit. vein beat) `B2`
+- **Buin ri fiodh!** interj. — Touch wood (lit. touch wood) `C2`
+- **Bun is bàrr** phr. — Bottom line (lit. bottom and top) `C1`
+- **Bun-bheachd** n. m. pl. *bun-bheachdan* — Concept (lit. base idea) `B2`
+- **Bun-bheachd** n. m. pl. *bun-bheachdan* — Postulate `C2`
+- **Bun-bheanntan** n. m. — Foothills (lit. bottoms of the mountains) `C2`
+- **Bun-pheant** n. m. — Primer (paint) (lit. base paint) `C1`
+- **Bun-reachd** n. m. pl. *bun-reachdan* — Constitution `C1`
+- **Bun-smuain** n. f. pl. *bun-smuaintean* — Premise (lit. base thought) `C1`
+- **Bun-structar** n. m. pl. *bun-structaran* — Infrastructure `B2`
+- **Bunait** n. f. pl. *bunaitean* — Foundation (building) `B2`
+- **Bunaiteach** adj. — Fundamental `B2`
+- **Bunasach** adj. — Rudimentary (lit. basic) `C1`
+- **Buntainn** v. root *buin* — To belong `B1`
+- **Buntainneach** adj. — Relevant `B2`
+- **Buntàta** n. m. pl. *buntàta* — Potato `A2`
+- **Bus** n. m. pl. *busaichean* — Bus `A1`
+- **Bùth** n. f. pl. *bùthan* — Store `A1`
+- **Bùth-chungaidhean** n. f. pl. *bùthan-chungaidhean* — Pharmacy (lit. medicines shop) `A1`
+- **Bùth-obrach** n. f. pl. *bùthan-obrach* — Workshop (lit. work shop) `B1`
+
+## C
+
+- **Cabach** adj. — Garrulous `C2`
+- **Cabadaich** n. f. — Small talk (lit. chatter) `B1`
+- **Cabadaich** v. root *dèan cabadaich* — To chat (lit. chattering) `A2`
+- **Càball** n. m. pl. *càballan* — Cable `B1`
+- **Càball-leudachaidh** n. m. pl. *càballan-leudachaidh* — Extension cord (lit. extending cable) `C2`
+- **Cabar** n. m. pl. *cabair* — Antler `C2`
+- **Cabhsair** n. m. pl. *cabhsairean* — Sidewalk `A2`
+- **Cadal** v. root *caidil* — To sleep `A1`
+- **Cadal trom** v. root *caidil* — To sleep like a log (lit. heavy sleep) `C1`
+- **Cadal-deilgneach** n. m. — Pins and needles (lit. prickly sleep) `C2`
+- **Cadal-geamhraidh** n. m. — Hibernation (lit. winter sleep) `C2`
+- **Cadalach** adj. — Drowsy `C2`
+- **Cadalach** adj. — Sleepy `A1`
+- **Cadalach** adj. — Sleepy (town) `C1`
+- **Cagarsaich** v. root *cagair* — To whisper `A2`
+- **Cagnadh** v. root *cagainn* — To chew `B1`
+- **Caibideil** n. f. pl. *caibideilean* — Chapter `B1`
+- **Caidheacadh** n. m. — Kayaking `B2`
+- **Caidreachas** n. m. pl. *caidreachasan* — Alliance `C1`
+- **Càil** n. f. — Appetite `B1`
+- **Càileachd** n. f. — Quality `A2`
+- **Càileachdail** adj. — Qualitative `C1`
+- **Caileag** n. f. pl. *caileagan* — Girl `A1`
+- **Càin** n. f. pl. *càintean* — Fine (penalty) `B1`
+- **Càineadh** n. m. — Criticism `B1`
+- **Càineadh** v. root *càin* — To decry `C2`
+- **Caineal** n. m. — Cinnamon `B2`
+- **Cainneachdail** adj. — Quantitative `C1`
+- **Càirdeas** n. m. — Friendship `B1`
+- **Càirdeil** adj. — Friendly `A2`
+- **Càirean** n. m. pl. *càireanan* — Palate `C1`
+- **Cairt** n. f. pl. *cairtean* — Card `A1`
+- **Cairt fhiadhaich** n. f. pl. *cairtean fiadhaich* — Wildcard (lit. wild card) `C1`
+- **Cairt-bhòrdaidh** n. f. pl. *cairtean-bòrdaidh* — Boarding pass `C2`
+- **Cairt-creideis** n. f. pl. *cairtean-creideis* — Credit card `A2`
+- **Cairtean** n. f. — Cards (game) `A2`
+- **Caiscireachd** n. f. — Censorship `C1`
+- **Càise** n. m. — Cheese `A1`
+- **Caismeachd** n. f. pl. *caismeachdan* — Parade `B2`
+- **Càite** adv. — Where `A1`
+- **Càite a bheil a' bhùth-chungaidh?** phr. — Where is the pharmacy? (lit. where is the medicine shop?) `A2`
+- **Càite a bheil an seòmar-ionnlaid?** phr. — Where is the bathroom? `A1`
+- **Càite a bheil an stèisean-trèana?** phr. — Where is the train station? `A2`
+- **Càite a bheil an taigh-beag?** phr. — Where is the restroom? (lit. where is the little house?) `A2`
+- **Càite a bheil e?** phr. — Where is it? `A1`
+- **Caitheamh** v. root *caith* — To spend (money) `A2`
+- **Caitheamh** v. root *caith* — To wear `A1`
+- **Caitheamh air falbh** v. root *caith* — To wear off (lit. wearing away) `C1`
+- **Caitheamh cus** v. root *caith* — To overspend (lit. spending too much) `B1`
+- **Caitheamh is reubadh** n. m. — Wear and tear (lit. wearing and tearing) `C1`
+- **Caithte** adj. — Trite (lit. worn out) `C2`
+- **Càl** n. m. — Cabbage `A2`
+- **Cala** n. m. pl. *calachan* — Harbor `B2`
+- **Calaraidh** n. f. pl. *calaraidhean* — Calories `B1`
+- **Call** n. m. pl. *callaidhean* — Loss (financial) `B1`
+- **Call** v. root *caill* — To forfeit (lit. losing) `C2`
+- **Call** v. root *caill* — To lose (a game) `A2`
+- **Call a' bhus** v. root *caill* — To miss the bus (lit. losing the bus) `B1`
+- **Call conaltradh** v. root *caill conaltradh* — To lose touch (lit. lose communication) `B1`
+- **Call cuideim** v. root *caill cuideam* — To lose weight `B1`
+- **Call dath** v. root *caill* — To fade (lit. losing colour) `B2`
+- **Call obraichean** n. m. — Job displacement (lit. loss of jobs) `C1`
+- **Callaid-ionmhais** n. f. pl. *callaidean-ionmhais* — Hedge (finance) (lit. financial hedge) `C2`
+- **Calma** adj. — Stocky (lit. sturdy) `C2`
+- **Calma** adj. — Sturdy `B1`
+- **Calpa iomairt** n. m. — Venture capital (lit. enterprise capital) `C1`
+- **Calpa-obrachaidh** n. m. — Working capital `C2`
+- **Camara** n. m. pl. *camarathan* — Camera `A1`
+- **Camas** n. m. pl. *camasan* — Cove `C2`
+- **Camhanaich** n. f. — Dawn `B1`
+- **Na can an còrr.** phr. — Say no more `C2`
+- **Canabhas** n. m. pl. *canabhasan* — Canvas `B2`
+- **Cànan** n. m. pl. *cànanan* — Language `A2`
+- **Cànan màthaireil** n. m. pl. *cànanan màthaireil* — Mother tongue `C1`
+- **Cànan-eòlas** n. m. — Philology `C2`
+- **Cànanachas** n. m. — Linguistics `C2`
+- **Cànranaich** v. root *cànranaich* — To whine `C1`
+- **Caochladair** n. m. pl. *caochladairean* — Variable `C1`
+- **Caochladh** n. m. — Variance `C2`
+- **Caochlaideach** adj. — Mercurial (lit. changeable) `C2`
+- **Caochlaideach** adj. — Moody (lit. changeable) `B1`
+- **Caochlaideach** adj. — Volatile (lit. changeable) `C2`
+- **Caochlaideachd** n. f. — Volatility (lit. changeability) `C2`
+- **Caogad** num. — Fifty `A1`
+- **Caogadh** v. root *caog* — To wink `B1`
+- **Caoidh** v. root *caoidh* — To wail (lit. lament) `C1`
+- **Caoineadh** v. root *caoin* — To cry `A2`
+- **Caoineadh gu goirt** v. root *caoin* — To sob (lit. cry bitterly) `C1`
+- **Caol** adj. — Slim `B1`
+- **Caol** adj. — Tenuous (lit. thin) `C2`
+- **Caol-dùirn** n. m. pl. *caoil-dhùirn* — Wrist (lit. narrow of the fist) `B2`
+- **Caolachadh** v. root *caolaich* — To narrow down (lit. narrow) `C1`
+- **Caolan** n. m. pl. *caolanan* — Intestine `B2`
+- **Caomhalachd** n. f. — Tenderness `B2`
+- **Caomhnach** adj. — Frugal `C1`
+- **Caomhnadh** v. root *caomhain* — To conserve (lit. sparing, saving) `B2`
+- **Caomhnadh** v. root *caomhain* — To save (money) `A2`
+- **Caora** n. f. pl. *caoraich* — Sheep `A2`
+- **Càr** n. m. pl. *càraichean* — Car `A1`
+- **Càr dealain** n. m. pl. *càraichean dealain* — Electric car (lit. car of electricity) `B1`
+- **Car san sceul** n. m. — Plot twist (lit. twist in the story) `C1`
+- **Carach** adj. — Calculating (lit. cunning) `C1`
+- **Carach** adj. — Cunning `C2`
+- **Caractar** n. m. pl. *caractaran* — Character (story) `B1`
+- **Caractar-coimeis** n. m. pl. *caractaran-coimeis* — Foil (character) (lit. contrast character) `C2`
+- **Càradh** v. root *càraich* — To repair `A2`
+- **Càradh chùisean** v. root *càirich* — To patch things up (lit. mending matters) `C1`
+- **Càradh-èiginn** n. m. pl. *càraidhean-èiginn* — Hotfix (lit. emergency repair) `C2`
+- **Càraid** n. f. pl. *càraidean* — Couple `A2`
+- **Caraid** n. m. pl. *caraidean* — Friend `A1`
+- **Caraid as fheàrr** n. m. pl. *caraidean as fheàrr* — Best friend `B1`
+- **Caraid meallta** n. m. pl. *caraidean meallta* — False friend (lit. deceptive friend) `C1`
+- **Caraid-rùin** n. m. pl. *caraidean-rùin* — Confidant (lit. friend of secrets) `C1`
+- **Càraideachadh** n. m. — Pairing (lit. pairing) `C1`
+- **Caramalachadh** v. root *caramalaich* — To caramelize `C1`
+- **Caran** adv. — Rather `B2`
+- **Carbad-eiridinn** n. m. pl. *carbadan-eiridinn* — Ambulance (lit. nursing vehicle) `B2`
+- **Càrnadh** v. root *càrn* — To hoard (lit. heaping) `C2`
+- **Carragh** n. f. pl. *carraighean* — Pillar `C2`
+- **Carson** adv. — Why `A1`
+- **Carthannas** n. m. pl. *carthannasan* — Charity `B1`
+- **Cas** adj. — Brusque (lit. abrupt) `C2`
+- **Cas** n. f. pl. *casan* — Leg `A1`
+- **Càs** n. m. pl. *càsan* — Plight `C2`
+- **Casad** n. m. pl. *casadan* — Cough `A2`
+- **Casadaich** v. root *casadaich* — To cough `B1`
+- **Casaid fhoirmeil** n. f. pl. *casaidean foirmeil* — Indictment (lit. formal accusation) `C2`
+- **Casan-feannaig** n. f. — Crow's feet (lit. crow's feet) `C2`
+- **Casc** v. root *caisc* — To avert `C2`
+- **Casc-pian** n. m. pl. *cascan-pian* — Painkiller (lit. pain stopper) `B1`
+- **Cascadh** v. root *caisc* — To prevent `B2`
+- **Cat** n. m. pl. *cait* — Cat `A1`
+- **Catalaist** n. m. pl. *catalaistean* — Catalyst `C2`
+- **Cathadh** n. m. — Whiteout (lit. blinding drift of snow) `C2`
+- **Cathadh-sneachda** n. m. — Blizzard `B1`
+- **Cathair** n. f. pl. *cathraichean* — City `A1`
+- **Cathair-chuibhle** n. f. pl. *cathraichean-cuibhle* — Wheelchair (lit. wheel chair) `B2`
+- **Cead** n. m. pl. *ceadan* — License (permit) (lit. permission) `C1`
+- **Cead** n. m. pl. *ceadan* — Permit (lit. permission) `B2`
+- **Cead cusbainn** n. m. — Customs clearance (lit. customs permission) `C2`
+- **Cead-dràibhidh** n. m. pl. *ceadan-dràibhidh* — Driver’s license (lit. driving permit) `B1`
+- **Cead-siubhail** n. m. pl. *ceadan-siubhail* — Passport (lit. travel permit) `A1`
+- **Ceadachadh** v. root *ceadaich* — To allow `A2`
+- **Ceadachadh** v. root *ceadaich* — To sign off on (lit. permit) `C1`
+- **Ceàird** n. f. pl. *ceàirdean* — Craft `B2`
+- **Cealgair** n. m. pl. *cealgairean* — Hypocrite `C2`
+- **Cealgaireachd** n. f. — Hypocrisy `B2`
+- **Cealla** n. f. pl. *ceallan* — Cell (biology) `B2`
+- **Ceangal** n. m. pl. *ceanglaichean* — Bond `B1`
+- **Ceangal** v. root *ceangail* — To attach (lit. tying) `B2`
+- **Ceangal** v. root *ceangail* — To fasten (lit. tying) `B2`
+- **Ceanglach** adj. — Astringent (lit. binding) `C2`
+- **Ceann** n. m. pl. *cinn* — Head `A1`
+- **Ceann-ama togail** n. m. pl. *cinn-ama togail* — Deadline (construction) (lit. building time-limit) `B2`
+- **Ceann-bliadhna** n. m. pl. *cinn-bliadhna* — Anniversary (lit. year's end) `A2`
+- **Ceann-latha** n. m. pl. *cinn-latha* — Deadline (lit. end date) `A2`
+- **Ceann-latha** n. m. pl. *cinn-latha* — Deadline (filing) (lit. head-day) `C1`
+- **Ceann-naidheachd** n. m. pl. *cinn-naidheachd* — Headline (lit. news head) `B1`
+- **Ceann-staidhre** n. m. pl. *cinn-staidhre* — Landing (stairs) (lit. stair head) `C2`
+- **Ceann-suaicheantais** n. m. — Figurehead `C1`
+- **Ceann-suidhe** n. m. pl. *cinn-suidhe* — President (lit. head of sitting) `B2`
+- **Ceann-uidhe** n. m. pl. *cinn-uidhe* — Destination `B1`
+- **Ceannach** v. root *ceannaich* — To buy `A1`
+- **Ceannach air-loidhne** n. m. — Online shopping (lit. buying on-line) `A2`
+- **Ceannach bras** n. m. — Impulse buy (lit. rash purchase) `B1`
+- **Ceannairceach** n. m. pl. *ceannaircich* — Insurgent `C2`
+- **Ceannard** n. m. pl. *ceannardan* — Boss `A2`
+- **Ceannsachadh** v. root *ceannsaich* — To vanquish (lit. subduing) `C2`
+- **Ceannsalach** adj. — Dominant `B2`
+- **Cearbach** adj. — Awkward `B1`
+- **Cearbach** adj. — Clumsy `B1`
+- **Cearc** n. f. pl. *cearcan* — Chicken `A1`
+- **Cearcall** n. m. pl. *cearcallan* — Circle `A1`
+- **Cearcall dìobhalach** n. m. — Vicious circle (lit. destructive circle) `C2`
+- **Cearcall dlùth** n. m. pl. *cearcallan dlùtha* — Small circle (inner circle) (lit. close circle) `C2`
+- **Cearcall olc** phr. — A vicious circle (lit. an evil circle) `C1`
+- **Cearcall-rathaid** n. m. pl. *cearcallan-rathaid* — Roundabout (lit. road circle) `B1`
+- **Ceàrnag** n. f. pl. *ceàrnagan* — Square `A1`
+- **Ceàrnag** n. f. pl. *ceàrnagan* — Square (plaza) `A2`
+- **Ceàrr** adj. — Wrong `A2`
+- **Ceart** adj. — Correct `A2`
+- **Ceart gu leòr** phr. — Fair enough (lit. right enough) `B1`
+- **Ceartachadh** v. root *ceartaich* — To correct `A2`
+- **Ceartas** n. m. — Justice `B1`
+- **Ceasnachadh-tarsainn** n. m. — Cross-examination `C2`
+- **Ceathach** n. m. — Haze `C2`
+- **Ceathrad** num. — Forty `A1`
+- **Cèic** n. f. pl. *cèicichean* — Cake `A2`
+- **Cèile** n. m. pl. *cèilean* — Spouse `B2`
+- **Ceimigeach** adj. — Chemical `B2`
+- **Ceist** n. f. pl. *ceistean* — Question `A2`
+- **Ceist-rannsachaidh** n. f. pl. *ceistean-rannsachaidh* — Query (lit. search question) `C2`
+- **An Cèitean** n. m. — May `A1`
+- **Ceò** n. m. — Fog `A2`
+- **Ceò-inntinn** n. m. — Brain fog (lit. mind-mist) `C2`
+- **Ceòl** n. m. — Music `A2`
+- **Ceòl-eòlas** n. m. — Musicology `C2`
+- **Ceud** num. — One hundred `A1`
+- **Ceudadach** n. m. pl. *ceudadaich* — Percentile `C2`
+- **Ceudameatair** n. m. pl. *ceudameatairean* — Centimeter `A2`
+- **Ceudna** adj. — Same `A2`
+- **Ceum** n. m. pl. *ceuman* — Degree (lit. step) `A2`
+- **Ceum** n. m. pl. *ceuman* — Degree (temperature) `A2`
+- **Ceum air ais** phr. — A setback (lit. a step back) `C1`
+- **Ceum air ais** n. m. pl. *ceumannan air ais* — Setback (lit. step back) `C2`
+- **Ceumnachadh** v. root *ceumnaich* — To graduate `A2`
+- **Cha** adv. — Not `A1`
+- **Cha bhi roghainn aig an fheumach.** phr. — Beggars can't be choosers (lit. the needy one has no choice) `C2`
+- **Cha deach an Ròimh a thogail ann an aon latha.** phr. — Rome wasn't built in a day `C2`
+- **Cha dèan mi breug** phr. — I'm not gonna lie (lit. I won't tell a lie) `C2`
+- **Cha mhòr** adv. — Almost `A2`
+- **Cha mhòr** adv. — Virtually (lit. not much (short of)) `B2`
+- **Cha tachair sin idir!** phr. — No way! (lit. that won't happen at all!) `A2`
+- **Cha toil leam e** phr. — I don’t like it `A1`
+- **Chaidh e às mo cheann** phr. — It slipped my mind (lit. it went out of my head) `B1`
+- **Chan ann fhathast** phr. — Not yet (lit. it is not yet) `A2`
+- **Chan ann gu sìorraidh!** phr. — Not in a million years (lit. not ever) `C2`
+- **Chan e saidheans rocaid a th' ann.** phr. — It's not rocket science `C2`
+- **Chan eil** interj. — No (lit. it is not; a Ròdach usually answers by repeating the verb in the negative (Cha robh. / Cha bhi.)) `A1`
+- **Chan eil dona** phr. — Not bad `B1`
+- **Chan eil duilgheadas ann** phr. — No problem (lit. there is no difficulty) `A1`
+- **Chan eil e gu diofar** phr. — No biggie (lit. it doesn't matter) `C1`
+- **Chan eil fhios agam** phr. — I don’t know (lit. knowledge is not at me) `A1`
+- **Chan eil mi a' tuigsinn** phr. — I don’t understand `A2`
+- **Chan eil mi ach a' coimhead** phr. — I’m just looking (lit. I am only looking) `A2`
+- **Chan eil mi cinnteach** phr. — I’m not sure `A2`
+- **Chan eil mi gu math** phr. — I don’t feel well `A2`
+- **Chan eil olc ann nach dèan math do chuideigin.** phr. — Every cloud has a silver lining (lit. there's no ill that doesn't do someone good) `C2`
+- **Chan eil thu dha-rìribh!** phr. — You've got to be kidding me (lit. you're not serious) `C2`
+- **Chan fhaca mi thu o chionn fhada** phr. — Long time no see (lit. I have not seen you for a long time) `A1`
+- **Chan fheum mi ràdh** phr. — Needless to say (lit. I need not say) `B2`
+- **Chan fhulaing mi e** phr. — I can’t stand it (lit. I can't bear it) `B1`
+- **Chan urrainn dhut do chèic a chumail agus a h-ithe.** phr. — You can't have your cake and eat it too `C2`
+- **Chì mi a dh'aithghearr thu** phr. — See you soon `A1`
+- **Chì mi a-màireach thu** phr. — See you tomorrow `A1`
+- **Chì mi a-rithist thu** phr. — See you later (lit. I will see you again) `A2`
+- **Chì sinn mar a thèid dhuinn** phr. — Let’s play it by ear (lit. we'll see how we get on) `B1`
+- **Chì sinn mar a thèid dhuinn.** phr. — Let's play it by ear (lit. we'll see how it goes for us) `C2`
+- **A' chiad** num. — First `A1`
+- **Cho fad 's a** conj. — As long as `B1`
+- **Cho fad 's a** conj. — Insofar as (lit. as far as) `C1`
+- **Cho furasta 's a ghabhas** phr. — A piece of cake (lit. as easy as can be) `C1`
+- **Cho luath 's a** conj. — As soon as `B1`
+- **Chun na h-ìre 's gun** conj. — To the extent that (lit. to the degree that) `C1`
+- **Ciad chùrsa** n. m. — Starter (lit. first course) `A2`
+- **Ciad-thaisbeanadh** n. m. pl. *ciad-thaisbeanaidhean* — Premiere (lit. first showing) `B2`
+- **Ciallach** adj. — Coherent (lit. sensible) `B2`
+- **Ciallach** adj. — Sensible `B1`
+- **Ciallachadh** v. root *ciallaich* — To entail (lit. mean) `C1`
+- **Ciallachadh** v. root *ciallaich* — To imply (lit. meaning) `B2`
+- **Ciallachadh** v. root *ciallaich* — To mean `A2`
+- **Ciamar** adv. — How `A1`
+- **Ciamar a chanas tu…?** phr. — How do you say…? `A1`
+- **Ciamar a gheibh mi gu…?** phr. — How do I get to…? (lit. how will I get to…?) `A2`
+- **Ciamar a ruigeas mi am port-adhair?** phr. — How do I get to the airport? (lit. how will I reach the airport?) `A2`
+- **Ciamar a tha thu?** phr. — How are you? `A1`
+- **Ciamar sin?** phr. — How come? (lit. how so?) `B1`
+- **Cianail** adj. — Wistful `C1`
+- **Cianalach** adj. — Nostalgic `B1`
+- **Cianalas** n. m. — Nostalgia `C2`
+- **Ciaradh** n. m. — Dusk (lit. darkening) `B1`
+- **Cidsin** n. m. pl. *cidsinean* — Kitchen `A1`
+- **Cileagram** n. m. pl. *cileagraman* — Kilogram `A2`
+- **Cilemeatair** n. m. pl. *cilemeatairean* — Kilometer `A2`
+- **Cinneadh-eòlas** n. m. — Ethnography `C2`
+- **Cinnteach** adj. — Sure `A2`
+- **Cion-cosnaidh** n. m. — Unemployment (lit. lack of earning) `B1`
+- **Cion-dachaigh** n. m. — Homelessness (lit. lack of home) `B2`
+- **Cion-mothachaidh** n. m. — Numbness (lit. lack of feeling) `C2`
+- **Ciont** n. m. — Guilt `B2`
+- **Ciontach** n. m. pl. *ciontaich* — Culprit `C2`
+- **Ciontach** adj. — Guilty `B1`
+- **Ciorram** n. m. — Disability `B2`
+- **Cìs** n. f. pl. *cìsean* — Tax `A2`
+- **Cìs gualain** n. f. pl. *cìsean gualain* — Carbon tax `C1`
+- **Cìs-chusbainn** n. f. pl. *cìsean-cusbainn* — Tariff (lit. customs tax) `B2`
+- **Cìs-rathaid** n. f. pl. *cìsean-rathaid* — Toll (lit. road tax) `B1`
+- **Cìsean-teagaisc** n. f. — Tuition (lit. teaching fees) `B1`
+- **Ciste dhìomhair** n. f. pl. *cisteachan dìomhair* — Slush fund (lit. secret chest) `C2`
+- **Ciùin** adj. — Calm `A1`
+- **Ciùin** adj. — Phlegmatic (lit. calm) `C2`
+- **Ciùin** adj. — Serene `C1`
+- **Ciùineachadh** v. root *ciùinich* — To appease (lit. calming) `C2`
+- **Ciùineachadh** v. root *ciùinich* — To mollify (lit. calm) `C2`
+- **Ciùineas** n. m. — Equanimity (lit. calmness) `C2`
+- **Ciùthran** n. m. — Drizzle `B1`
+- **Clabaireachd** n. f. — Gossip `C2`
+- **Clabhstair** n. m. pl. *clabhstairean* — Cloister `C2`
+- **Clach-cheum** phr. — A stepping stone `C1`
+- **Clach-ghlasaidh** n. f. pl. *clachan-glasaidh* — Keystone (lit. locking stone) `C2`
+- **Clach-mheallain** n. f. pl. *clachan-meallain* — Hail `B1`
+- **Clach-mhìle** n. f. pl. *clachan-mìle* — Milestone (lit. mile-stone) `B1`
+- **Clach-mhìle** n. f. pl. *clachan-mìle* — Milestone (project) `B2`
+- **Cladach** n. m. pl. *cladaichean* — Shore `B2`
+- **Clag-dorais** n. m. pl. *clagan-dorais* — Doorbell `B1`
+- **Clag-dùscaidh** phr. — A wake-up call (lit. wake-up bell) `C1`
+- **Claidheamh dà-fhaobharach** phr. — A double-edged sword `C1`
+- **Claigeann** n. m. pl. *claignean* — Skull `B2`
+- **Clàimhean** n. m. pl. *clàimheanan* — Latch `C2`
+- **Clais** n. f. pl. *claisean* — Ravine `C2`
+- **Clann** n. f. — Children `A1`
+- **Claoidheadh obrach** n. m. — Burnout (lit. work exhaustion) `B1`
+- **Claoidhte** adj. — Exhausted `B1`
+- **Claoidhte** adj. — Run down (exhausted) `C1`
+- **Claoidhte** adj. — Weary `C2`
+- **Claon-bhreith** n. f. pl. *claon-bhreithean* — Prejudice `B2`
+- **Claon-bhreitheach** adj. — Biased `B2`
+- **Claon-rathad** n. m. pl. *claon-rathaidean* — Diversion (route) `C2`
+- **Claonadh** n. m. — Bias (lit. slant) `B2`
+- **Claonadh** n. m. pl. *claonaidhean* — Digression (lit. deviation) `C2`
+- **Claonadh** n. m. pl. *claonaidhean* — Slant (bias) (lit. leaning) `C1`
+- **Claonadh** v. root *claon* — To deviate `C2`
+- **Claonadh** v. root *claon* — To divert (lit. turn aside) `C1`
+- **Claonadh algairim** n. m. — Algorithmic bias `C2`
+- **Claonadh coitcheann** n. m. — Standard deviation (lit. common deviation) `C2`
+- **Clàr-ama** n. m. pl. *clàran-ama* — Schedule (lit. time list) `A2`
+- **Clàr-ama** n. m. pl. *clàran-ama* — Timetable (lit. time table) `B1`
+- **Clàr-bìdh** n. m. pl. *clàran-bìdh* — Menu (lit. food list) `A2`
+- **Clàr-bìdh blasaid** n. m. pl. *clàran-bìdh blasaid* — Tasting menu (lit. taster menu) `C1`
+- **Clàr-comharran** n. m. pl. *clàran-comharran* — Transcript (lit. record of marks) `B1`
+- **Clàr-dhathan** n. m. pl. *clàran-dhathan* — Palette (lit. board of colours) `C2`
+- **Clàr-fuaim** n. m. pl. *clàran-fuaim* — Soundtrack `B1`
+- **Clàr-gnothaich** n. m. pl. *clàran-gnothaich* — Agenda `B2`
+- **Clàr-obrach** n. m. pl. *clàran-obrach* — Countertop (lit. work surface) `C1`
+- **Clàr-pàighidh** n. m. pl. *clàran-pàighidh* — Payroll (lit. pay register) `C1`
+- **Clàr-sceòil** n. m. pl. *clàran-sceòil* — Storyboard (lit. story board) `C1`
+- **Clàr-siubhail** n. m. pl. *clàran-siubhail* — Itinerary `B1`
+- **Clàradh** v. root *clàraich* — To enroll `B1`
+- **Clàradh** v. root *clàraich* — To register `A2`
+- **Clàradh a-steach** n. m. — Check-in (lit. registering in) `A2`
+- **Clàradh a-steach** v. root *clàraich a-steach* — To log in `A2`
+- **Clàradh airson** v. root *clàraich airson* — To subscribe (lit. register for) `B1`
+- **Clàrc cùirte** n. m. pl. *clàrcan cùirte* — Court clerk `C2`
+- **Clas** n. m. pl. *clasaichean* — Class `A2`
+- **Clàs** n. m. pl. *clàsaichean* — Clause `C1`
+- **Cleachdadh** v. root *cleachd* — To use `A2`
+- **Cleachdadh daor** n. m. pl. *cleachdaidhean daora* — Expensive habit `A2`
+- **Cleamhnaich** n. m. — In-laws (lit. relatives by marriage) `B2`
+- **Clì** adj. — Left `A1`
+- **Cliobach** adj. — Clunky (lit. clumsy) `C1`
+- **Clisc** n. m. pl. *cliscean* — Flinch (noun) (lit. a start) `C2`
+- **Clisceadh** v. root *clisc* — To flinch `C2`
+- **Clisceadh cultarach** n. m. — Culture shock `C1`
+- **Cliù** n. m. — Fame `B1`
+- **Cliùiteach** adj. — Prominent (lit. renowned) `B2`
+- **Clò-bhualadair** n. m. pl. *clò-bhualadairean* — Printer `A2`
+- **Clò-bhualadh** v. root *clò-bhuail* — To print `A2`
+- **Clò-bhualadh 3D** n. m. — 3D printing `B2`
+- **Clò-scrìobhadh** v. root *clò-scrìobh* — To type `A2`
+- **Clobha** n. m. pl. *clobhaichean* — Tongs `C2`
+- **Clòimh** n. f. — Wool `B1`
+- **Cluain** n. f. pl. *cluaintean* — Meadow `C2`
+- **Cluaineas** n. m. — Retirement `B1`
+- **Cluas** n. f. pl. *cluasan* — Ear `A1`
+- **Cluasag** n. f. pl. *cluasagan* — Pillow `A2`
+- **Cluich** v. root *cluich* — To play `A1`
+- **Cluich-fhacal** n. m. pl. *cluich-fhaclan* — Pun (lit. word play) `C2`
+- **Cnag-aodaich** n. f. pl. *cnagan-aodaich* — Clothespin (lit. clothes peg) `C2`
+- **Cnagach** adj. — Crunchy `C2`
+- **Cnàimh** n. m. pl. *cnàmhan* — Bone `B2`
+- **Cnàimh-droma** n. m. pl. *cnàmhan-droma* — Spine (lit. back bone) `B2`
+- **Cnàimhneach** n. m. pl. *cnàimhnich* — Skeleton `B2`
+- **Cnàmh** v. root *cnàmh* — To rankle (lit. gnaw) `C2`
+- **Cnap nam amhaich** phr. — A lump in my throat (lit. a lump in my throat) `C1`
+- **Cnap-astair** n. m. pl. *cnapan-astair* — Speed bump (lit. speed lump) `C2`
+- **Cnatan** n. m. pl. *cnatain* — A cold (illness) `A2`
+- **Cnatan mòr** n. m. — Flu (lit. big cold) `A2`
+- **Cnò** n. f. pl. *cnothan* — Nuts `A2`
+- **Cnò-chòco** n. f. pl. *cnothan-còco* — Coconut `A2`
+- **Cnuasachadh** v. root *cnuasaich* — To brood (lit. ruminating) `C2`
+- **Cnuasachadh air** v. root *cnuasaich* — To dwell on (lit. ponder on) `C1`
+- **Cnuasachadh còmhla** v. root *cnuasaich còmhla* — To brainstorm (lit. pondering together) `B2`
+- **Cò** pron. — Who `A1`
+- **Cò aca** pron. — Which (lit. who of them) `A1`
+- **Cò aige tha fios?** phr. — Beats me (lit. who knows?) `C2`
+- **Cò às a tha thu?** phr. — Where are you from? `A1`
+- **Co mheud** adv. — How many `A1`
+- **Cò shaoileadh?** phr. — Go figure (lit. who would think?) `C2`
+- **Co-aonadh** n. m. — Merger `B2`
+- **Co-aontachd** n. f. — Consensus `C2`
+- **Co-bhanntachd** n. f. pl. *co-bhanntachdan* — Coalition `B2`
+- **An co-bhonn ri** prep. — In conjunction with `C2`
+- **Co-chiall** n. f. pl. *co-chiallan* — Connotation `C2`
+- **Co-chiontach** n. m. pl. *co-chiontaich* — Accessory (to a crime) `C2`
+- **Co-chiontach** n. m. pl. *co-chiontaich* — Accomplice `C2`
+- **Co-choltas** n. m. pl. *co-choltasan* — Analogy `C2`
+- **Co-chomhairleachadh** v. root *co-chomhairlich* — To consult `B2`
+- **Co-chòrdadh** n. m. — Rapport (lit. harmony) `C1`
+- **Co-chothromachadh luchda** n. m. — Load balancing (lit. balancing of load) `C2`
+- **Co-chur** v. root *co-chuir* — To synthesize (lit. putting together) `C1`
+- **Co-dhàimh** n. f. pl. *co-dhàimhean* — Correlation (lit. co-relation) `C1`
+- **Co-dhiù** adv. — Anyway `A2`
+- **Co-dhiù** phr. — In any case `B2`
+- **Co-dhùnadh** n. m. pl. *co-dhùnaidhean* — Decision `B1`
+- **Co-dhùnadh** n. m. pl. *co-dhùnaidhean* — Deduction (lit. conclusion) `C2`
+- **Co-dhùnadh** n. m. pl. *co-dhùnaidhean* — Inference (lit. conclusion) `C1`
+- **Co-dhùnadh** v. root *co-dhùin* — To conclude `B2`
+- **Co-dhùnadh** v. root *co-dhùin* — To decide (lit. closing together) `A2`
+- **Co-èigneachadh** v. root *co-èignich* — To coerce `C1`
+- **Co-fhacal** n. m. pl. *co-fhaclan* — Cognate `C1`
+- **Co-fhad-thràth** n. m. — Equinox (lit. equal-length time) `C2`
+- **Co-fhaireachdainn** n. f. — Empathy (lit. co-feeling) `B1`
+- **Co-fhaireachdainn dhomhainn** n. f. — Empathy (deep) (lit. deep co-feeling) `B2`
+- **Co-fhreagairt** v. root *co-fhreagair* — To match (clothes) `B1`
+- **Co-fhulangas** n. m. — Sympathy (lit. co-suffering) `B1`
+- **Co-ionannachd** n. f. — Equality `B2`
+- **Co-là-breith** n. m. — Birthday (lit. day of birth) `A1`
+- **Co-là-breith math dhut** phr. — Happy birthday `A1`
+- **Co-labhairt naidheachd** n. f. pl. *co-labhairtean naidheachd* — Press conference (lit. news conference) `C1`
+- **Co-leaghadh** v. root *co-leagh* — To coalesce (lit. melting together) `C2`
+- **Co-leanailteach** adj. — Cohesive `C2`
+- **Co-lòistear** n. m. pl. *co-lòistearan* — Roommate (lit. co-lodger) `A2`
+- **Co-mheas** n. m. pl. *co-mheasan* — Ratio `B2`
+- **Co-obrachadh** n. m. — Synergy (lit. working together) `C1`
+- **Co-obrachadh** v. root *co-obraich* — To collaborate `B2`
+- **Co-obraiche** n. m. pl. *co-obraichean* — Colleague `A2`
+- **Co-obraiche** n. m. pl. *co-obraichean* — Coworker `B1`
+- **Co-ogha** n. m. pl. *co-oghaichean* — Cousin `A1`
+- **Co-phàirt** n. f. pl. *co-phàirtean* — Component `B2`
+- **Co-rèiteachadh** phr. — A trade-off (lit. compromise) `C1`
+- **Co-rèiteachadh** n. m. pl. *co-rèiteachaidhean* — Compromise (noun) `B2`
+- **Co-rèiteachadh** v. root *co-rèitich* — To negotiate `B1`
+- **Co-rèiteachadh** v. root *co-rèitich* — To reconcile (ideas) `C1`
+- **Co-roinn** v. root *co-roinn* — To share `A2`
+- **Co-shuidheachadh** n. m. — Juxtaposition (lit. placing together) `C2`
+- **Co-theacsa** n. m. pl. *co-theacsaichean* — Context `B2`
+- **Co-thoradh** n. m. pl. *co-thoraidhean* — Corollary `C2`
+- **Còcaire** n. m. pl. *còcairean* — Chef `A2`
+- **Còcaireachd** n. f. — Cuisine `B1`
+- **Còcaireachd** v. root *dèan còcaireachd* — To cook (lit. doing cookery) `A2`
+- **Cochall** n. m. pl. *cochaill* — Cocoon `C2`
+- **Cofaidh** n. m. — Coffee `A1`
+- **Cofhurtail** adj. — Comfortable `A2`
+- **Cogach** adj. — Belligerent (lit. warlike) `C2`
+- **Cogadh** n. m. pl. *cogaidhean* — War `B1`
+- **Cogadh catharra** n. m. pl. *cogaidhean catharra* — Civil war `C1`
+- **Cogais** n. f. — Conscience `B2`
+- **Cogaiseach** adj. — Conscientious `C1`
+- **Coidse** n. m. pl. *coidsichean* — Coach `A2`
+- **Coigreach** n. m. pl. *coigrich* — Outsider `C1`
+- **Coigreach** n. m. pl. *coigrich* — Stranger `B1`
+- **Coigreach gun chuireadh** n. m. pl. *coigrich gun chuireadh* — Interloper (lit. uninvited stranger) `C2`
+- **Coileanadh** v. root *coilean* — To achieve `B1`
+- **Coileanadh** v. root *coilean* — To fulfill `B2`
+- **Coileanadh dùil** v. root *coilean* — To live up to (lit. fulfil expectation) `C1`
+- **Coileanta** adj. — Comprehensive (lit. complete) `B2`
+- **Coilear** n. m. pl. *coilearan* — Collar `B2`
+- **Coille** n. f. pl. *coilltean* — Forest `A2`
+- **Coille-uisce** n. f. pl. *coilltean-uisce* — Rainforest (lit. rain forest) `B2`
+- **Coimeas** v. root *coimeas* — To compare `A2`
+- **An coimeas ri** prep. — Vis-à-vis (lit. in comparison with) `C2`
+- **Coimeascadh** v. root *coimeasc* — To assimilate (lit. mingling) `C1`
+- **Coimheach** adj. — Estranged (lit. alien) `C1`
+- **Coimhead air adhart ri** v. root *coimhead* — To look forward to `B1`
+- **Coimhead air ais** v. root *coimhead* — To look back `B1`
+- **Coimhead air an telebhisean** v. root *coimhead* — To watch TV (lit. looking at the television) `A2`
+- **Coimhead airson** v. root *coimhead* — To look for (lit. look for) `A1`
+- **Coimhead às dèidh** v. root *coimhead* — To look after `B1`
+- **Coimhead às dèidh** v. root *coimhead* — To look out for (lit. look after) `C1`
+- **Coimhead às dèidh** v. root *coimhead às dèidh* — To take care of (lit. looking after) `A2`
+- **Coimhead eun** n. m. — Birdwatching (lit. watching birds) `B2`
+- **Coimhead gun scur** v. root *coimhead* — To binge-watch (lit. watch without stopping) `B1`
+- **Coimhead mun cuairt** v. root *coimhead mun cuairt* — To browse (lit. look around) `B1`
+- **Coimhead seachad air** v. root *coimhead seachad air* — To overlook (lit. looking past) `B2`
+- **Coimhead suas ri** v. root *coimhead* — To look up to (lit. looking up to) `C1`
+- **Coimhearsnachd** n. f. pl. *coimhearsnachdan* — Community `B1`
+- **Coimisean** n. m. pl. *coimiseanan* — Commission (fee) `C1`
+- **Coimpiutair** n. m. pl. *coimpiutairean* — Computer `A1`
+- **Coimpiutair-uchd** n. m. pl. *coimpiutairean-uchd* — Laptop (lit. lap computer) `A2`
+- **Coimpiutaireachd cuantamach** n. f. — Quantum computing `C2`
+- **Coimpiutaireachd neòil** n. f. — Cloud computing (lit. computing of cloud) `C1`
+- **Coineanach** n. m. pl. *coineanaich* — Rabbit `A2`
+- **Còinneach** n. f. — Moss `C2`
+- **Coinneachadh** v. root *coinnich* — To meet up `A2`
+- **Coinneal** n. f. pl. *coinnlean* — Candle `A2`
+- **Coinneamh leantainneach** n. f. pl. *coinneamhan leantainneach* — Follow-up (appointment) (lit. following meeting) `C1`
+- **Coinnichidh sinn a-màireach** phr. — Let’s meet tomorrow (lit. we will meet tomorrow) `A2`
+- **Còir** adj. — Decent `B1`
+- **Còir** adj. — Kind `A2`
+- **Còir-scrìobhte** n. f. pl. *còirichean-scrìobhte* — Deed (lit. written right) `C1`
+- **Còir-seilbhe** n. f. pl. *còirichean-seilbhe* — Title (property) (lit. right of ownership) `C1`
+- **Còir-slighe** n. f. pl. *còirichean-slighe* — Easement (lit. right of way) `C1`
+- **Coirbeachd** n. f. — Corruption `B2`
+- **Coire** n. m. pl. *coireachan* — Kettle `B1`
+- **Coireachadh** v. root *coirich* — To blame `B1`
+- **Coirnis** n. f. pl. *coirnisean* — Crown molding (lit. cornice) `C1`
+- **Coiseachd** v. root *coisich* — To walk `A1`
+- **Coiseachd air corra-biod** v. root *coisich* — To tiptoe (lit. walk on tiptoe) `B1`
+- **Coiseachd nam beann** v. root *coisich* — To hike (lit. walking the hills) `A2`
+- **Coisiche** n. m. pl. *coisichean* — Pedestrian (lit. walker) `B1`
+- **Còisir** n. f. pl. *còisirean* — Choir `B2`
+- **Coisrigeadh** v. root *coisrig* — To devote (lit. consecrating) `B2`
+- **Colbh** n. m. pl. *colbhan* — Column `C2`
+- **Colbh beachd** n. m. pl. *colbhan beachd* — Op-ed (lit. opinion column) `C1`
+- **Coloinidh** n. m. pl. *coloinidhean* — Colony `C1`
+- **Coltachd** n. f. — Odds (probability) (lit. likelihood) `C2`
+- **Com-pàirteachadh** v. root *com-pàirtich* — To participate `B1`
+- **Coma** adj. — Indifferent `B1`
+- **Coma leat** phr. — Never mind (lit. indifferent with you) `A2`
+- **Coma leat sin** phr. — Never mind that (lit. never mind that) `B1`
+- **Coma-co-dhiù** n. m. — Apathy `C2`
+- **Comadaidh** n. f. pl. *comadaidhean* — Comedy `B1`
+- **Comas** n. m. pl. *comasan* — Bandwidth (capacity) (lit. capacity) `C1`
+- **Comas-pàighidh** n. m. — Solvency (lit. ability to pay) `C2`
+- **Comasachadh** v. root *comasaich* — To enable `B2`
+- **Comasachd** n. f. — Proficiency `C1`
+- **Comhairle** n. f. pl. *comhairlean* — Tip (advice) (lit. advice) `B1`
+- **Comhairleachadh an aghaidh** v. root *comhairlich* — To dissuade (lit. advising against) `C2`
+- **Comhairliche** n. m. pl. *comhairlichean* — Consultant `C1`
+- **Comhardadh** n. m. pl. *comhardaidhean* — Rhyme `B2`
+- **Comharra** n. m. pl. *comharran* — Grade (mark) (lit. mark) `A2`
+- **Comharra** n. m. pl. *comharran* — Symptom `B1`
+- **Comharra-eòlas** n. m. — Semiotics `C2`
+- **Comharra-tìre** n. m. pl. *comharran-tìre* — Landmark (lit. land mark) `B1`
+- **Comharrachadh** v. root *comharraich* — To celebrate (lit. marking) `A2`
+- **Comharrachadh** v. root *comharraich* — To delineate (lit. marking out) `C2`
+- **Comharrachadh** v. root *comharraich* — To highlight (lit. marking) `B2`
+- **Comharrachadh** v. root *comharraich* — To point `B1`
+- **Comharrachadh** v. root *comharraich* — To point out (lit. marking) `C1`
+- **Còmhdach** n. m. pl. *còmhdaichean* — Cladding (lit. covering) `C2`
+- **Còmhdach** n. m. — Coverage (lit. covering) `C1`
+- **Còmhdhail phoblach** n. f. — Public transport `B2`
+- **Comhfhreagraiche** n. m. pl. *comhfhreagraichean* — Correspondent `C1`
+- **Comhfhurtachadh** v. root *comhfhurtaich* — To console `C2`
+- **Comhfhurtachd** v. root *comhfhurtaich* — To comfort `B1`
+- **Còmhnard** adj. — Flat `B1`
+- **Còmhnard salainn** n. m. pl. *còmhnardan salainn* — Salt flat (lit. plain of salt) `C2`
+- **Còmhnardair** n. m. pl. *còmhnardairean* — Spirit level (lit. leveller) `C2`
+- **Còmhradh** n. m. pl. *còmhraidhean* — Conversation `A2`
+- **Còmhstri** n. f. pl. *còmhstrithean* — Rivalry `C2`
+- **Companach** n. m. pl. *companaich* — Buddy (lit. companion) `C1`
+- **Companach** n. m. pl. *companaich* — Partner (romantic) `B1`
+- **Companach** n. m. pl. *companaich* — Sidekick (lit. companion) `C2`
+- **Companaidh** n. f. pl. *companaidhean* — Company `A2`
+- **Companas** n. m. — Camaraderie `C2`
+- **Conaltradh** n. m. — Discourse `C1`
+- **Connadh** n. m. — Fuel `B1`
+- **Connadh fosail** n. m. — Fossil fuels `B2`
+- **Connsachadh** n. m. pl. *connsachaidhean* — Argument (quarrel) `B1`
+- **Connsachadh** v. root *connsaich* — To argue `A2`
+- **Connspaideach** adj. — Contentious `C2`
+- **Connspaideach** adj. — Controversial `B2`
+- **Connspaideach** adj. — Truculent (lit. quarrelsome) `C2`
+- **Copyleft** n. m. — Copyleft `C2`
+- **Còraichean** n. f. — Rights (lit. rights (pl. of còir)) `B1`
+- **Còrdadh** v. root *còrd* — To like (lit. to please (còrd ri)) `A1`
+- **Còrdadh ri chèile** v. root *còrd* — To hit it off (lit. please each other) `C1`
+- **Còrdadh-tagraidh** n. m. — Plea bargain (lit. plea agreement) `C2`
+- **Corr-mhial** n. m. pl. *corr-mhialan* — Mosquito `A2`
+- **Corrag** n. f. pl. *corragan* — Finger `A1`
+- **Cosamhlachd** n. f. pl. *cosamhlachdan* — Allegory `C2`
+- **Cosc** v. root *cosc* — To cost `A2`
+- **Coscais a ghabhail** v. root *gabh* — To incur a cost (lit. to take on a cost) `C2`
+- **Coscais-bheatha** n. f. — Cost of living `B1`
+- **Coscaisean** n. f. — Expenses (lit. costs) `B1`
+- **Coscaisean coitcheann** n. f. — Overhead (lit. general costs) `C1`
+- **Cosnadh** v. root *coisinn* — To earn `A2`
+- **Cosnadh** v. root *coisinn* — To garner (lit. earning) `C2`
+- **Cosnadh beòshlaint** v. root *coisinn beòshlaint* — To earn a living `B1`
+- **Cosnaiche** n. m. pl. *cosnaichean* — Breadwinner (lit. earner) `B2`
+- **Cosplay** n. m. — Cosplay `B2`
+- **Còta** n. m. pl. *còtaichean* — Coat `A1`
+- **Cotan** n. m. — Cotton `B1`
+- **Cothrom caol** phr. — A long shot (lit. a slim chance) `C1`
+- **Cothromach** adj. — Fair `B1`
+- **Cothromachadh** v. root *cothromaich* — To weigh up (lit. balance) `C1`
+- **Cothromachadh a lorg** v. root *lorg* — To strike a balance (lit. to find a balance) `C2`
+- **Cothromachd** n. f. — Fairness `B2`
+- **Na cothroman** phr. — The odds (lit. the chances) `C1`
+- **Cràdh** n. m. — Agony `B2`
+- **Craiceann** n. m. pl. *craicnean* — Skin `A1`
+- **Crampa** n. m. pl. *crampaichean* — Cramp `C2`
+- **Crann-togail** n. m. pl. *crainn-thogail* — Crane (lit. lifting mast) `B2`
+- **Craobh** n. f. pl. *craobhan* — Tree `A1`
+- **Craoladh** n. m. pl. *craolaidhean* — Broadcast `C1`
+- **Crathadh** v. root *crath* — To brandish (lit. shaking) `C2`
+- **Crathadh do chinn** v. root *crath* — To shake one’s head (lit. shaking one's head) `B1`
+- **Crathadh do ghuailnean** v. root *crath* — To shrug (lit. shaking one's shoulders) `B1`
+- **Crèadhadaireachd** n. f. — Pottery `B2`
+- **Creag** n. f. pl. *creagan* — Rock `A2`
+- **Creamh** n. m. — Garlic `A2`
+- **Creideas** n. m. — Belief `B1`
+- **Creideas a thoirt do** v. root *thoir* — To lend credence to (lit. to give credence to) `C2`
+- **Creideasach** adj. — Credible `B2`
+- **Creideasach** adj. — Plausible `C2`
+- **Creidsinn** v. root *creid* — To believe `A2`
+- **Creimeadh** n. m. — Erosion (lit. gnawing away) `C2`
+- **Crèiseach** adj. — Greasy `B2`
+- **Creud** n. f. pl. *creudan* — Dogma (lit. creed) `C2`
+- **Cridhe** n. m. pl. *cridheachan* — Heart `A1`
+- **Cridhe-cuisleach** adj. — Cardiovascular (lit. of heart and vessels) `C2`
+- **Crìoch** n. f. pl. *crìochan* — Border `B1`
+- **Crìoch fo theannas** n. f. — Cliffhanger (lit. ending under tension) `C1`
+- **Crìoch-astair** n. f. pl. *crìochan-astair* — Speed limit (lit. speed boundary) `B1`
+- **Crìoch-ùine laghail** n. f. — Statute of limitations (lit. legal time limit) `C2`
+- **Crìochnachadh** v. root *crìochnaich* — To finish `A2`
+- **Crìochnachadh** v. root *crìochnaich* — To wrap up (lit. finish) `C1`
+- **Crìochnachadh reic** n. m. — Closing (real estate) (lit. completion of sale) `C1`
+- **Crìon** adj. — Meager (lit. paltry) `C1`
+- **Crìon** adj. — Paltry `C2`
+- **Crìonadh** n. m. — Downturn (lit. decline) `C2`
+- **A' crìonadh** adj. — Dwindling (lit. withering) `C2`
+- **Crìonadh** v. root *crìon* — To dwindle `C2`
+- **Crìonadh eaconamach** n. m. — Recession (lit. economic withering) `B2`
+- **Crìonnachd** n. f. — Prudence `C2`
+- **Crioptachadh** n. m. — Encryption `B2`
+- **Criopto-airgead** n. m. — Cryptocurrency `C1`
+- **Crios** n. m. pl. *criosan* — Belt `B2`
+- **Crios-bagaichean** n. m. pl. *criosan-bagaichean* — Baggage carousel (lit. baggage belt) `C2`
+- **Crios-meadhain** n. m. — Equator (lit. middle belt) `B2`
+- **Crios-sàbhailteachd** n. m. pl. *criosan-sàbhailteachd* — Seatbelt (lit. safety belt) `B1`
+- **Criothnachadh** v. root *criothnaich* — To shudder `C2`
+- **Crith** v. root *crith* — To quiver `C2`
+- **Crith-thalmhainn** n. f. pl. *critheannan-talmhainn* — Earthquake `B1`
+- **Crith-thalmhainn-eòlas** n. m. — Seismology `C2`
+- **Critheadh** v. root *crith* — To shiver `B1`
+- **Crochadair** n. m. pl. *crochadairean* — Hanger `B2`
+- **Crochadh** v. root *croch* — To hang (a picture) `B1`
+- **Crochadh air** v. root *croch* — To depend on (lit. hang on) `B1`
+- **Cromadh do chinn** v. root *crom* — To nod (lit. bowing one's head) `B1`
+- **Crònan** v. root *crònanaich* — To hum `C1`
+- **Crotal** n. m. — Lichen `C2`
+- **Cruadal** n. m. — Fortitude `C2`
+- **Cruadal** n. m. — Resilience (lit. hardiness) `B2`
+- **Cruaidh** adj. — Hard (firm) `A2`
+- **Cruaidh-chridheach** adj. — Callous (lit. hard-hearted) `C2`
+- **Crùbadh le nàire** v. root *crùb* — To cringe (lit. shrink with shame) `C2`
+- **Cruinn** adj. — Round `A1`
+- **Cruinne-cè** n. m. — Universe `C1`
+- **Cruinneachadh** v. root *cruinnich* — To accumulate (lit. gathering) `B2`
+- **Cruinneachadh** v. root *cruinnich* — To amass `C2`
+- **Cruinneachadh àireamhan** n. m. — Rounding (lit. rounding of numbers) `C2`
+- **Cruinneachan** n. m. pl. *cruinneachain* — Dome `C2`
+- **Cruithneachd innseanach** n. f. — Corn (lit. Indian wheat) `A2`
+- **Crùnair** n. m. pl. *crùnairean* — Coroner `C2`
+- **Crupadh** v. root *crup* — To shrink `B2`
+- **Cruth** n. m. pl. *cruthan* — Layout (lit. shape) `C1`
+- **Cruth-atharrachadh** v. root *cruth-atharraich* — To transform (lit. changing shape) `B2`
+- **Cruth-tìre** n. m. — Scenery (lit. shape of the land) `B1`
+- **Cruthachail** adj. — Creative `B1`
+- **Cruthachalachd** n. f. — Creativity `B1`
+- **Cù** n. m. pl. *coin* — Dog `A1`
+- **Cuairt-chainnt** n. f. — Circumlocution (lit. roundabout speech) `C2`
+- **Cuan** n. m. pl. *cuantan* — Ocean `A2`
+- **Cuan-eòlas** n. m. — Oceanography `C2`
+- **Cuaranan** n. m. — Sandals `B2`
+- **Cùbhrachd** n. f. — Perfume `B1`
+- **Cùbhradair** n. m. pl. *cùbhradairean* — Perfumer `C2`
+- **Cùbhraidh** adj. — Fragrant `C2`
+- **Cùbhraidheachd** n. f. — Aroma (lit. fragrance) `C1`
+- **Cudrom** n. m. pl. *cudroman* — Accent (stress) `C1`
+- **Cudromach** adj. — Important `A1`
+- **Cugallach** adj. — Flimsy (lit. unsteady) `C1`
+- **Cugallach** adj. — Precarious `C2`
+- **Cugallach** adj. — Rickety (lit. unsteady) `C2`
+- **Cuibheas** n. m. pl. *cuibheasan* — Mean (average) `C2`
+- **Cuibheasach** adj. — Average `B1`
+- **Cuibhreann** n. m. pl. *cuibhreannan* — Portion `B1`
+- **Cuibhreann** n. m. pl. *cuibhreannan* — Proportion (lit. share) `B2`
+- **Cuibhreann bathair** n. m. pl. *cuibhreannan bathair* — Consignment (lit. portion of goods) `C2`
+- **Cuibhreann-pàighidh** n. m. pl. *cuibhreannan-pàighidh* — Installment (lit. payment portion) `B1`
+- **Cuid** n. f. — Some `A1`
+- **Cuid an leòmhainn** phr. — The lion’s share `C1`
+- **Cuideachadh** v. root *cuidich* — To help `A1`
+- **Cuideachd** adv. — Also `A1`
+- **Cuideachdail** adj. — Gregarious (lit. sociable) `C2`
+- **Cuideachdail** adj. — Outgoing (lit. sociable) `B1`
+- **Cuideam** n. m. — Stress (lit. weight, pressure) `B2`
+- **Cuideam** n. m. pl. *cuideaman* — Weight `A2`
+- **Cuideam a chur air** v. root *cuir* — To exert pressure (lit. to put weight on) `C2`
+- **Cuideam cho-aoisean** n. m. — Peer pressure (lit. pressure of contemporaries) `B2`
+- **Cuidhteas** n. m. pl. *cuidhteasan* — Receipt `A1`
+- **Cuidhteas** n. m. pl. *cuidhteasan* — Receipt (proof) `B1`
+- **Cuidichibh mi!** interj. — Help! (lit. help me!) `A1`
+- **Cùil** n. f. pl. *cùiltean* — Alcove (lit. nook) `C2`
+- **Cuilbheart** n. f. pl. *cuilbheartan* — Plot `B1`
+- **Cuimhne** n. f. pl. *cuimhneachan* — Memory (recollection) `B1`
+- **Cuimhneachadh** v. root *cuimhnich* — To remember `A2`
+- **Cuimhneachan** n. m. pl. *cuimhneachain* — Memoir `C2`
+- **Cuimhneachan** n. m. pl. *cuimhneachain* — Reminder `B2`
+- **Cuimhneachan** n. m. pl. *cuimhneachain* — Souvenir `A2`
+- **Cuimir** adj. — Concise (lit. neat, trim) `C2`
+- **Cuimseach** adj. — Adequate `B2`
+- **Cuimseachadh air** v. root *cuimsich* — To zero in on (lit. aim at) `C1`
+- **Cuin** adv. — When `A1`
+- **Cuing** n. f. — Asthma (lit. yoke) `B2`
+- **Cuingealachadh** v. root *cuingealaich* — To confine (lit. restrict) `C1`
+- **Cuingealachadh** v. root *cuingealaich* — To restrict `B2`
+- **An cuir thu fòn thugam?** phr. — Can you call me? (lit. will you put a phone to me?) `A2`
+- **Cuireadh** n. m. pl. *cuiridhean* — Invitation `A2`
+- **Cuiribh fòn dha na poileis** phr. — Call the police (lit. put a phone to the police) `A1`
+- **Cuirm-chiùil** n. f. pl. *cuirmean-ciùil* — Concert (lit. feast of music) `A2`
+- **Cuirm-chnuic** n. f. pl. *cuirmean-chnuic* — Picnic (lit. hill feast) `A2`
+- **Cùirt** n. f. pl. *cùirtean* — Court `B2`
+- **Cùis-choire** n. f. — Scapegoat (lit. object of blame) `C1`
+- **Cùis-iomaill** n. f. pl. *cùisean-iomaill* — Edge case (lit. edge case) `C2`
+- **Cùis-lagha** n. f. pl. *cùisean-lagha* — Lawsuit (lit. law case) `B2`
+- **Cùis-lagha neo-dhligheach** n. f. — Mistrial (lit. invalid trial) `C2`
+- **Cuisle** n. f. pl. *cuislean* — Vein `B2`
+- **Cùl-chàineadh** n. m. — Slander (lit. back-reviling) `C2`
+- **Cùl-mhùtaireachd** n. f. — Smuggling `B2`
+- **Cùl-stòras airgid** n. m. — Cash reserve (lit. money back-store) `C1`
+- **Culaidh** n. f. pl. *culaidhean* — Costume `B2`
+- **Culaidh** n. f. pl. *culaidhean* — Outfit `B1`
+- **Cularan** n. m. pl. *cularain* — Cucumber `A2`
+- **Cultar** n. m. pl. *cultaran* — Culture `B1`
+- **Cùm ort!** phr. — Hang in there (lit. keep going) `C2`
+- **Cumadh** n. m. pl. *cumaidhean* — Shape `A1`
+- **Cumadh** v. root *cum* — To forge (lit. shape) `C1`
+- **Cumail** v. root *cum* — To keep `A2`
+- **Cumail** v. root *cùm* — To retain (lit. keeping) `B2`
+- **Cumail a' dol** v. root *cum* — To carry on (lit. keeping going) `C1`
+- **Cumail a' dol** v. root *cùm* — To make ends meet (lit. keep going) `B1`
+- **Cumail a' dol** v. root *cùm a' dol* — To sustain (lit. keeping going) `B2`
+- **Cumail a-mach** v. root *cum* — To claim (lit. holding out) `B2`
+- **Cumail a-mach** v. root *cum* — To contend (lit. holding out) `C2`
+- **Cumail aig astar** v. root *cùm* — To keep someone at arm’s length (lit. keep at a distance) `C1`
+- **Cumail air ais** v. root *cùm* — To hold back (lit. keep back) `C1`
+- **Cumail air ais** v. root *cum* — To inhibit (lit. holding back) `C2`
+- **Cumail air falbh** v. root *cùm* — To fend off (lit. keep away) `C1`
+- **Cumail an grèim** n. m. — Remand (lit. keeping in custody) `C2`
+- **Cumail an grèim** v. root *cum* — To detain (lit. holding in custody) `C2`
+- **Cumail ann an conaltradh** v. root *cùm ann an conaltradh* — To keep in touch (lit. keep in communication) `B1`
+- **Cumail fios ri** v. root *cùm* — To keep in the loop (lit. keep informed) `C1`
+- **Cumail gamhlais** v. root *cùm* — To hold a grudge (lit. keep spite) `C1`
+- **Cumail mar ulaidh** v. root *cùm* — To treasure (lit. keep as a treasure) `C2`
+- **Cumail ort** v. root *cum* — To hold on (lit. keeping on) `C1`
+- **Cumail ri** v. root *cùm* — To stick to (lit. keep to) `C1`
+- **Cumail suas** v. root *cùm suas* — To maintain (lit. keeping up) `B2`
+- **Cumail suas** v. root *cùm* — To uphold (lit. keep up) `C1`
+- **Cumail suas ri** v. root *cum* — To keep up with (lit. keeping up with) `C1`
+- **Cumail sùil air** v. root *cùm sùil air* — To monitor (lit. keeping an eye on) `B2`
+- **Cumail taic ri** v. root *cum* — To back up (support) (lit. keeping support to) `C1`
+- **Cumanta** adj. — Common `B1`
+- **Cumha** n. m. pl. *cumhachan* — Contingency (lit. condition) `C1`
+- **Cumhachd niùclasach** n. m. — Nuclear energy `C1`
+- **Cumhang** n. m. pl. *cumhangan* — Bottleneck (lit. narrows) `C2`
+- **Cumhang** adj. — Cramped (lit. narrow) `C1`
+- **Cumhang** adj. — Narrow `A2`
+- **Cùmhnant** n. m. pl. *cùmhnantan* — Contract `B1`
+- **Cùmhnant** n. m. pl. *cùmhnantan* — Deal (agreement) `B1`
+- **Cùmhnant** n. m. pl. *cùmhnantan* — Treaty `C1`
+- **Cunbhalach** adj. — Consistent `B2`
+- **Cungaidh choitcheann** n. f. pl. *cungaidhean coitcheann* — Generic drug `C2`
+- **Cungaidh-eòlas** n. m. — Pharmacology `C2`
+- **Cungaidh-socrachaidh** n. f. pl. *cungaidhean-socrachaidh* — Sedative (lit. calming medicine) `C2`
+- **Cungaidh-suain** n. f. pl. *cungaidhean-suain* — Anesthetic (lit. sleep medicine) `C2`
+- **Cunnart a ghabhail** v. root *gabh* — To run the risk of (lit. to take a risk) `C2`
+- **Cunnartach** adj. — Dangerous `A2`
+- **Cunnradair** n. m. pl. *cunnradairean* — Contractor `B2`
+- **Na cunnt na h-iseanan mus tig iad às an ugh.** phr. — Don't count your chickens before they hatch `C2`
+- **Cunntachail** adj. — Responsible `B1`
+- **Cunntas banca** n. m. pl. *cunntasan banca* — Bank account `A2`
+- **An cunntas, mas e ur toil e** phr. — The bill, please `A1`
+- **Cunntas-beatha** n. m. pl. *cunntasan-beatha* — Résumé (lit. life account) `B1`
+- **Cunntas-urrais** n. m. pl. *cunntasan-urrais* — Escrow (lit. trust account) `C1`
+- **Cunntasair** n. m. pl. *cunntasairean* — Accountant `A2`
+- **Cuota malairt** n. m. pl. *cuotaichean malairt* — Trade quota `C2`
+- **Cupa** n. m. pl. *cupannan* — Cup `A1`
+- **Cùpon** n. m. pl. *cùponan* — Coupon `B1`
+- **Cur** v. root *cuir* — To put `A1`
+- **Cur à àite** v. root *cuir* — To supplant (lit. putting out of place) `C2`
+- **Cur à dreuchd** n. m. — Layoff (lit. putting out of a post) `B2`
+- **Cur à dreuchd** v. root *cuir à dreuchd* — To fire (someone) (lit. put out of office) `B1`
+- **Cur a-steach** v. root *cuir a-steach* — To deposit (lit. put in) `A2`
+- **Cur a-steach** v. root *cuir* — To file (documents) (lit. put in, submit) `C1`
+- **Cur a-steach** v. root *cuir* — To interject (lit. putting in) `C2`
+- **Cur a-steach** v. root *cuir* — To submit (lit. put in) `B1`
+- **Cur a-steach airson obair** v. root *cuir a-steach airson obair* — To apply (for a job) (lit. put in for work) `B1`
+- **Cur a-steach gearan** v. root *cuir a-steach gearan* — To file a complaint (lit. put in a complaint) `B1`
+- **Cur aghaidh ri** v. root *cuir aghaidh ri* — To confront (lit. putting face to) `B2`
+- **Cur aig fois** v. root *cuir* — To put at ease (lit. put at rest) `C2`
+- **Cur ainm ri** v. root *cuir ainm ri* — To sign (lit. put name to) `B1`
+- **Cur air** v. root *cuir air* — To turn on (lit. put on) `A2`
+- **Cur air ais** v. root *cuir air ais* — To return (an item) (lit. putting back) `A2`
+- **Cur air bhoil** v. root *cuir* — To infuriate (lit. put into a frenzy) `C2`
+- **Cur air chall** v. root *cuir air chall* — To lose (an object) (lit. putting astray) `A2`
+- **Cur air dàil** v. root *cuir* — To put off (lit. put on delay) `B1`
+- **Cur air mheomhair** v. root *cuir air mheomhair* — To memorize (lit. put in memory) `A2`
+- **Cur air mhire** v. root *cuir* — To enrapture (lit. put into rapture) `C2`
+- **Cur aire air** v. root *cuir* — To concentrate (lit. put attention on) `B1`
+- **Cur airgead ann** v. root *cuir* — To invest (lit. put money in) `B1`
+- **Cur an aghaidh** v. root *cuir* — To object (lit. putting against) `B2`
+- **Cur an aghaidh** v. root *cuir an aghaidh* — To oppose (lit. putting against) `B2`
+- **Cur an aghaidh** v. root *cuir* — To rebut (lit. putting against) `C2`
+- **Cur an àite** v. root *cuir* — To replace (lit. put in the place of) `B1`
+- **Cur an aithne** v. root *cuir an aithne* — To introduce (lit. put into acquaintance) `B1`
+- **Cur an cèill** v. root *cuir* — To get across (lit. express) `C1`
+- **Cur an cèill** v. root *cuir* — To state (lit. putting into meaning) `B2`
+- **Cur an cèill gu soilleir** v. root *cuir* — To articulate (lit. expressing clearly) `B2`
+- **Cur an dàrna taobh** v. root *cuir an dàrna taobh* — To dismiss (lit. putting to one side) `B2`
+- **Cur an gnìomh** v. root *cuir* — To deploy (lit. put into action) `C1`
+- **Cur an gnìomh** v. root *cuir an gnìomh* — To implement (lit. putting into action) `B2`
+- **Cur an gnìomh** v. root *cuir* — To perform (lit. put into action) `B1`
+- **Cur an gnìomh** v. root *cuir* — To roll out (lit. put into action) `C1`
+- **Cur an grèim** v. root *cuir an grèim* — To arrest (lit. putting in grip) `B2`
+- **Cur an imcheist** v. root *cuir* — To bewilder (lit. putting into perplexity) `C2`
+- **Cur an neoni** v. root *cuir* — To revoke (lit. putting to nothing) `C2`
+- **Cur an sàs** n. m. — Rollout (lit. putting into effect) `C2`
+- **Cur ann an cunnart** v. root *cuir* — To jeopardize (lit. putting in danger) `C2`
+- **Cur às a' chunntas** v. root *cuir* — To rule out (lit. put out of the reckoning) `C1`
+- **Cur às do** v. root *cuir* — To abolish (lit. do away with) `C1`
+- **Cur às do** v. root *cuir às do* — To eliminate (lit. putting out of) `B2`
+- **Cur às leth** v. root *cuir* — To allege (lit. impute) `C1`
+- **Cur às leth** v. root *cuir* — To ascribe (lit. putting to the account of) `C2`
+- **Cur às leth** v. root *cuir às leth* — To charge (with a crime) (lit. putting to (someone's) account) `B2`
+- **Cur caothach air** v. root *cuir* — To get on someone’s nerves (lit. put rage on) `C1`
+- **Cur cuideam air** v. root *cuir* — To accentuate (lit. putting weight on) `C2`
+- **Cur cuideam air** v. root *cuir cuideam air* — To emphasize (lit. putting weight on) `B2`
+- **Cur cùl ri** v. root *cuir cùl ri* — To reject (lit. turning one's back on) `B1`
+- **Cur cùl ri** v. root *cuir* — To renounce (lit. putting one's back to) `C2`
+- **Cur dàil air** v. root *cuir* — To defer (lit. putting delay on) `C2`
+- **Cur dàil air** v. root *cuir dàil air* — To postpone (lit. putting delay on) `A2`
+- **Cur dheth** v. root *cuir* — To call off (lit. putting off) `C1`
+- **Cur dheth** v. root *cuir dheth* — To cancel (lit. putting off) `A2`
+- **Cur dheth** v. root *cuir* — To deter (lit. put off) `C1`
+- **Cur dheth** v. root *cuir dheth* — To procrastinate (lit. putting off) `B2`
+- **Cur dheth** v. root *cuir dheth* — To turn off (lit. put off) `A2`
+- **Cur eagal air** v. root *cuir* — To intimidate (lit. putting fear on) `C2`
+- **Cur earbsa ann** v. root *cuir* — To lean on (lit. put trust in) `C1`
+- **Cur earbsa ann** v. root *cuir* — To rely on someone (lit. put trust in) `B1`
+- **Cur earbsa ann** v. root *cuir earbsa ann* — To trust (lit. put trust in) `B1`
+- **Cur eòlas air** v. root *cuir eòlas air* — To get to know (lit. put acquaintance on) `B1`
+- **Cur eòlas air** v. root *cuir eòlas air* — To meet (someone new) (lit. putting acquaintance on) `A2`
+- **Cur eòlas air na daoine mòra** v. root *cuir* — To hobnob (lit. get to know the big people) `C2`
+- **Cur fàilte air** v. root *cuir fàilte air* — To welcome (lit. putting welcome on) `B1`
+- **Cur fios** v. root *cuir* — To touch base (lit. send word) `C1`
+- **Cur fo dhraoidheachd** v. root *cuir* — To enthrall (lit. putting under enchantment) `C2`
+- **Cur fo gheasaibh** v. root *cuir* — To captivate (lit. put under spells) `C2`
+- **Cur gruaim ort** v. root *cuir* — To frown (lit. put a scowl on oneself) `B1`
+- **Cur gu** v. root *cuir gu* — To send (lit. putting to) `A2`
+- **Cur gu feum** v. root *cuir* — To harness (lit. putting to use) `C2`
+- **Cur impidh air** v. root *cuir* — To coax (lit. putting persuasion on) `C2`
+- **Cur ìmpidh air** v. root *cuir ìmpidh air* — To persuade (lit. putting entreaty on) `B1`
+- **Cur inntinn aig fois** v. root *cuir inntinn aig fois* — To reassure (lit. putting a mind at rest) `B1`
+- **Cur luach air** v. root *cuir* — To appreciate (lit. put value on) `B1`
+- **Cur meal-a-naidheachd air** v. root *cuir meal-a-naidheachd air* — To congratulate (lit. putting "enjoy the news" on) `B1`
+- **Cur mun cuairt** v. root *cuir* — To stir (lit. putting round) `B2`
+- **Cur ri** v. root *cuir ri* — To contribute (lit. putting to) `B2`
+- **Cur romhad** v. root *cuir* — To make up one’s mind (lit. put before yourself) `B1`
+- **Cur seachad ùine** v. root *cuir* — To kill time (lit. passing time) `B2`
+- **Cur seachad ùine còmhla** v. root *cuir seachad ùine còmhla* — To hang out (lit. spend time together) `B1`
+- **Cur sìos** v. root *cuir* — To hang up (phone) (lit. put down (the phone)) `B1`
+- **Cur sìos air** v. root *cuir* — To disparage (lit. putting down on) `C2`
+- **Cur suas** v. root *cuir suas* — To post (lit. put up) `A2`
+- **Cur suas cuideam** v. root *cuir suas cuideam* — To gain weight (lit. put up weight) `B1`
+- **Cur suas le** v. root *cuir* — To put up with (lit. putting up with) `C1`
+- **Cur taic ri** v. root *cuir* — To endorse (lit. put support to) `C1`
+- **Cur taic ri** v. root *cuir taic ri* — To support (lit. put support to) `B1`
+- **Cur teagamh ann** v. root *cuir teagamh ann* — To doubt (lit. put doubt in) `B1`
+- **Cur troimh-a-chèile** v. root *cuir* — To unnerve (lit. put into confusion) `C2`
+- **Cur-seachad** n. m. pl. *cur-seachadan* — Hobby (lit. passing (time)) `A2`
+- **Cur-seachad** n. m. pl. *cur-seachadan* — Pastime `B2`
+- **Cùram lasachaidh** n. m. — Palliative care (lit. relieving care) `C2`
+- **Cùram-slàinte do na h-uile** n. m. — Universal healthcare (lit. health care for all) `C1`
+- **Curraicealam** n. m. pl. *curraicealaman* — Curriculum `B1`
+- **Curran** n. m. pl. *currain* — Carrot `A2`
+- **Cùrsa** n. m. pl. *cùrsaichean* — Course `A2`
+- **Cus** n. m. — Too much (lit. too much, excess) `A1`
+- **Cus sluaigh** n. m. — Overpopulation (lit. too much population) `B2`
+- **Cus-fhreagarrachadh** n. m. — Overfitting (lit. too much fitting) `C2`
+- **Cuspair** n. m. pl. *cuspairean* — Subject `A2`
+- **Custamair** n. m. pl. *custamairean* — Customer `A2`
+
+## D
+
+- **Dà thuras** adv. — Twice (lit. two times) `A2`
+- **Dà-chànanach** adj. — Bilingual `C1`
+- **Dà-fhillte** adj. — Twofold `C1`
+- **Dà-scaradh** n. m. — Dichotomy (lit. split in two) `C2`
+- **Dà-sheaghach** adj. — Ambiguous (lit. two-sensed) `B2`
+- **Dà-sheaghachas** n. m. — Ambiguity `C2`
+- **Dà-shreathach** n. m. pl. *dà-shreathaich* — Couplet (lit. two-liner) `C2`
+- **Dà-thaobhach** adj. — Mutual (lit. two-sided) `B2`
+- **Dad** n. m. — Nothing `A1`
+- **Dadam** n. m. pl. *dadaman* — Atom `B2`
+- **Dàil** n. f. pl. *dàilean* — Delay `A2`
+- **Dàil-freagairt** n. f. — Latency (lit. response delay) `C1`
+- **Dàimh** n. f. — Affinity `C1`
+- **Dàimh** n. f. — Affinity (between people) `C2`
+- **Dàimh** n. f. pl. *dàimhean* — Kinship `B2`
+- **Daingneachadh** v. root *daingnich* — To assert `B2`
+- **Daingneachadh** v. root *daingnich* — To consolidate `C1`
+- **Daingneachadh** v. root *daingnich* — To ratify (lit. confirming) `C2`
+- **Daingneachadh** v. root *daingnich* — To reinforce (lit. strengthening) `B2`
+- **Daithead** n. m. pl. *daitheadan* — Diet `B1`
+- **Dalta** n. m. pl. *daltachan* — Protégé (lit. foster-child) `C1`
+- **An Dàmhair** n. f. — October `A1`
+- **Dàn** n. m. pl. *dàin* — Poem `B1`
+- **Dàn-thuras** n. m. pl. *dàn-thursan* — Adventure (lit. bold journey) `B1`
+- **Dàna** adj. — Audacious `C2`
+- **Dànadas** n. m. — Audacity `C2`
+- **Dannsadh** v. root *danns* — To dance `A2`
+- **Daoine** n. m. — People `A1`
+- **Daonn-eòlas** n. m. — Anthropology `C2`
+- **Daor** adj. — Expensive `A1`
+- **Dara anail** n. f. — Second wind (lit. second breath) `C2`
+- **An dàrna** num. — Second `A1`
+- **Dàrna beachd** n. m. — Second opinion `C1`
+- **Dàrna smaoin** n. f. pl. *dàrna smaointean* — Second thoughts (lit. second thought) `C1`
+- **Dàta** n. m. — Data `B2`
+- **Dath** n. m. pl. *dathan* — Color `A1`
+- **Dè** pron. — What `A1`
+- **Dè a' phrìs a th' air seo?** phr. — How much is this? (lit. what is the price on this?) `A2`
+- **Dè an àireamh fòn agad?** phr. — What’s your phone number? `A2`
+- **Dè an rathad?** phr. — Which way? (lit. what road?) `A1`
+- **Dè an t-ainm a th' ort?** phr. — What’s your name? (lit. what is the name that is on you?) `A1`
+- **Dè an uair a tha e?** phr. — What time is it? `A2`
+- **Dè do bheachd?** phr. — What do you think? (lit. what is your opinion?) `A2`
+- **Dè tha dol?** phr. — What’s up? (lit. what's going?) `B1`
+- **Dè tha e a' cosc?** phr. — How much is it? (lit. what is it costing?) `A1`
+- **Dè tha seo?** phr. — What’s this? `A1`
+- **Dè tha sin a' ciallachadh?** phr. — What does that mean? `A1`
+- **Deachdaireachd** n. f. pl. *deachdaireachdan* — Dictatorship `C1`
+- **Deagh phuing** phr. — Good point `A2`
+- **Deagh-rùnach** adj. — Benevolent (lit. well-meaning) `C1`
+- **Dealachadh** v. root *dealaich* — To break up `B1`
+- **Dealaichte** adj. — Divorced (lit. separated) `A2`
+- **Dealain-dè nam stamaig** phr. — Butterflies in my stomach (lit. butterflies in my stomach) `C1`
+- **Dealan-dè** n. m. pl. *dealanan-dè* — Butterfly `A2`
+- **Dealanach** n. m. — Lightning `B1`
+- **Dealanair** n. m. pl. *dealanairean* — Electrician `A2`
+- **Dealas** n. m. — Eagerness `B2`
+- **Dealbh** n. m. pl. *dealbhan* — Photo `A2`
+- **Dealbh farsaing** n. m. pl. *dealbhan farsaing* — Wide shot `C1`
+- **Dealbh gual-fiodha** n. m. pl. *dealbhan gual-fiodha* — Charcoal drawing `C2`
+- **Dealbh-balla** n. m. pl. *dealbhan-balla* — Fresco (lit. wall-painting) `C2`
+- **Dealbh-tìre** n. f. pl. *dealbhan-tìre* — Landscape (painting) (lit. land picture) `B2`
+- **Dealbhach** adj. — Picturesque `C1`
+- **Dealbhachadh** v. root *dealbhaich* — To illustrate (lit. depicting) `B2`
+- **Dealbhachadh** v. root *dealbhaich* — To plan `A2`
+- **Dealbhadaireachd** n. f. — Photography `A2`
+- **Dealbhadh mhapaichean** n. m. — Cartography (lit. map-making) `C2`
+- **Dealbhaiche** n. m. pl. *dealbhaichean* — Designer `A2`
+- **Deàlrach** adj. — Shiny `B1`
+- **Deamagog** n. m. pl. *deamagogan* — Demagogue `C2`
+- **Deamocrasaidh** n. m. — Democracy `C1`
+- **Dèanamh** v. root *dèan* — To do `A1`
+- **Dèanamh a' chùis** v. root *dèan* — To get by (lit. managing the matter) `C1`
+- **Dèanamh a' chùis** v. root *dèan* — To manage (to cope) (lit. do the business) `B1`
+- **Dèanamh a' chùis** v. root *dèan* — To pull off (lit. do the business, manage) `C1`
+- **Dèanamh a-mach** v. root *dèan* — To deduce (lit. making out) `C1`
+- **Dèanamh an gnothach le** v. root *dèan* — To settle for (lit. make do with) `C1`
+- **Dèanamh às aonais** v. root *dèan* — To do without (lit. doing without) `C1`
+- **Dèanamh às aonais** v. root *dèan* — To forgo (lit. doing without) `C2`
+- **Dèanamh barrachd na dh'fheumar** v. root *dèan* — To go the extra mile (lit. do more than is needed) `C1`
+- **Dèanamh brìodail** v. root *dèan* — To schmooze (lit. making cajolery) `C2`
+- **Dèanamh burraidheachd air** v. root *dèan burraidheachd air* — To bully (lit. doing bullying on) `B1`
+- **Dèanamh ceum ann an** v. root *dèan* — To major in (lit. doing a degree in) `B1`
+- **Dèanamh cinnteach** v. root *dèan cinnteach* — To ensure (lit. making sure) `B2`
+- **Dèanamh cleachdaidh** v. root *dèan cleachdadh* — To practice (lit. doing practice) `A2`
+- **Dèanamh co-bhròn ri** v. root *dèan* — To commiserate (lit. share sorrow with) `C2`
+- **Dèanamh dearmad** v. root *dèan* — To drop the ball (lit. neglect) `C1`
+- **Dèanamh eacarsaich** v. root *dèan eacarsaich* — To exercise (lit. doing exercise) `A2`
+- **Dèanamh eacarsaich** v. root *dèan eacarsaich* — To work out (lit. do exercise) `B1`
+- **Dèanamh eadar-dhealachadh** v. root *dèan* — To draw a distinction (lit. making a distinction) `C2`
+- **Dèanamh fiamh-ghàire** v. root *dèan fiamh-ghàire* — To smile (lit. making a hint of a laugh) `A2`
+- **Dèanamh foill** v. root *dèan* — To cheat (lit. doing fraud) `B1`
+- **Dèanamh gàirdeachas thar farpaiseach** v. root *dèan* — To gloat over a rival (lit. rejoice over a rival) `C2`
+- **Dèanamh gnùis-ghoirt** v. root *dèan* — To wince (lit. make a pained face) `C2`
+- **Dèanamh gun ullachadh** v. root *dèan* — To wing it (lit. do without preparation) `C1`
+- **Dèanamh iomadh rud aig an aon àm** v. root *dèan* — To multitask (lit. doing many things at once) `B2`
+- **Dèanamh nas miosa** v. root *dèan* — To aggravate (lit. making worse) `C2`
+- **Dèanamh nas miosa** v. root *dèan* — To exacerbate (lit. make worse) `C1`
+- **Dèanamh obair leibideach** v. root *dèan* — To cut corners (lit. do shoddy work) `C1`
+- **Dèanamh praiseach** v. root *dèan* — To screw up (lit. make a mess) `C1`
+- **Dèanamh rannsachadh** v. root *dèan* — To research (lit. doing research) `B1`
+- **Dèanamh rèite** v. root *dèan* — To bury the hatchet (lit. make peace) `C1`
+- **Dèanamh sodal ri** v. root *dèan* — To fawn over (lit. make fawning to) `C2`
+- **Dèanamh spaglainn** v. root *dèan spaglainn* — To show off (lit. making a swagger) `B1`
+- **Dèanamh suas** v. root *dèan* — To fabricate (lit. making up) `C2`
+- **Dèanamh suas airson** v. root *dèan* — To make up for (lit. making up for) `C1`
+- **Dèanamh tàir air** v. root *dèan* — To despise (lit. making contempt of) `B2`
+- **Dèanamh tàir air** v. root *dèan* — To scorn (lit. making contempt of) `C2`
+- **Dèanamh uaill à** v. root *dèan* — To gloat (lit. making a boast of) `C2`
+- **Dèanta a rèir òrduigh** adj. — Bespoke (lit. made to order) `C2`
+- **Dèanta aig an taigh** adj. — Homemade (lit. made at home) `B1`
+- **Dearbhach** adj. — Compelling (lit. convincing) `B2`
+- **Dearbhadh** v. root *dearbh* — To confirm `B2`
+- **Dearbhadh** v. root *dearbh* — To corroborate (lit. confirming) `C2`
+- **Dearbhadh** v. root *dearbh* — To prove `B1`
+- **Dearbhadh** v. root *dearbh* — To substantiate (lit. prove) `C1`
+- **Dearbhadh dà-cheumach** n. m. — Two-factor authentication (lit. two-step verification) `C1`
+- **Dearbhadh fhìrinnean** n. m. — Fact-check (lit. proving of facts) `C1`
+- **Dearg** adj. — Red `A1`
+- **Dearmad** v. root *dearmaid* — To neglect `B2`
+- **Deas** adj. — Right `A1`
+- **Deas-bhriathrach** adj. — Eloquent `C1`
+- **Deas-bhriathrach** adj. — Silver-tongued `C2`
+- **Deas-bhriathrachd** n. f. — Eloquence `C2`
+- **Deas-làmhach** adj. — Deft (lit. dexterous) `C2`
+- **Deasbad** v. root *deasbaid* — To discuss `A2`
+- **Deasbadach** adj. — Moot (lit. debatable) `C2`
+- **Deatamach** adj. — Crucial `B2`
+- **Deatamach** adj. — Essential `B1`
+- **Deichead** n. m. pl. *deicheadan* — Decade `B1`
+- **Deigh** n. f. — Ice `B1`
+- **Deigh dhubh** n. f. — Black ice `C2`
+- **Dèiligeadh ri** v. root *dèilig* — To address (an issue) (lit. dealing with) `B2`
+- **Dèiligeadh ri** v. root *dèilig ri* — To cope (lit. dealing with) `B2`
+- **Dèiligeadh ri** v. root *dèilig* — To deal with `B1`
+- **Deimhinnte** adj. — Emphatic `C2`
+- **Deireadh** n. m. pl. *deiridhean* — Ending `B1`
+- **Deireadh an t-sreatha** n. m. — Season finale (lit. end of the series) `C1`
+- **Deireadh-seachdain** n. m. — Weekend (lit. end of week) `A1`
+- **Deise** n. f. pl. *deiseachan* — Suit `B2`
+- **Deiseil** adj. — Ready `A2`
+- **Den aon bheachd** phr. — On the same page (lit. of the same opinion) `C1`
+- **Den chiad scoth** adj. — First-rate (lit. of the first choice) `C1`
+- **Den dàrna ìre** adj. — Second-rate (lit. of the second grade) `C1`
+- **Deoch** n. f. pl. *deochan* — Drink (noun) `A1`
+- **Deoch-slàinte** n. f. pl. *deochannan-slàinte* — A toast (lit. health drink) `B1`
+- **Deuchainn** n. f. pl. *deuchainnean* — Exam `A2`
+- **Deuchainn** n. f. pl. *deuchainnean* — Experiment `B2`
+- **Deuchainn-fala** n. f. pl. *deuchainnean-fala* — Blood test `B2`
+- **Deuchainneil** adj. — Empirical (lit. experimental) `C1`
+- **Deugaire** n. m. pl. *deugairean* — Teenager `A2`
+- **Dh'fhaodte a ràdh** phr. — Arguably (lit. it could be said) `C1`
+- **Dha-rìribh** adv. — Actually `A2`
+- **Dha-rìribh** adv. — For real `C1`
+- **Dha-rìribh?** interj. — Really? `A1`
+- **Dì-atmhorachd** n. f. — Deflation `C2`
+- **Dì-choillteachadh** n. m. — Deforestation `B2`
+- **Dia leat** phr. — Bless you (lit. God with you) `A1`
+- **Diadhachd** n. f. — Theology `C2`
+- **Dian** adj. — Acute (sudden, severe) (lit. intense) `C2`
+- **Dian-chùram** n. m. — Intensive care (lit. intensive care) `B2`
+- **Diardaoin** n. m. — Thursday `A1`
+- **Dìcheallach** adj. — Diligent `C1`
+- **Dìcheallach** adj. — Hardworking (lit. diligent) `A2`
+- **Diciadain** n. m. — Wednesday `A1`
+- **Didòmhnaich** n. m. — Sunday `A1`
+- **Dìg** n. f. pl. *dìgean* — Moat `C2`
+- **Dihaoine** n. m. — Friday `A1`
+- **Dìle** n. f. pl. *dìlean* — Cloudburst (lit. deluge) `C2`
+- **Dìle** n. f. pl. *dìlean* — Deluge `C2`
+- **Dìle** n. f. pl. *dìlean* — Downpour `B1`
+- **Dìleas** adj. — Loyal `B1`
+- **Dìlleachdan** n. m. pl. *dìlleachdain* — Orphan `B2`
+- **Dìlseachd** n. f. — Loyalty `B1`
+- **Diluain** n. m. — Monday `A1`
+- **Dimàirt** n. m. — Tuesday `A1`
+- **Dìmeas** n. m. — Disdain `C2`
+- **Dìmeas** n. m. — Snub (lit. slight) `C2`
+- **Dìmeasachadh** v. root *dìmeasaich* — To disdain `C2`
+- **Dìnnear** n. f. pl. *dìnnearan* — Dinner `A1`
+- **Dinnsear** n. m. — Ginger `B2`
+- **Dìobarach** n. m. pl. *dìobaraich* — Pariah (lit. outcast) `C2`
+- **Dìochuimhneachadh** v. root *dìochuimhnich* — To forget `A2`
+- **Dìoghaltach** adj. — Vindictive `C1`
+- **Dìoghras** n. m. — Zeal `C2`
+- **Dìoladh** v. root *dìol* — To make amends (lit. compensate) `C1`
+- **Dìoladh** v. root *dìol* — To retaliate (lit. paying back) `C2`
+- **Diombach** adj. — Disappointed `A2`
+- **Diombuan** adj. — Ephemeral `C2`
+- **Diombuan** adj. — Fleeting `C1`
+- **Dìomhain** adj. — Futile `C2`
+- **Dìomhair** adj. — Cryptic `C2`
+- **Dìon** n. m. — Defense (legal) `B2`
+- **Dìon** v. root *dìon* — To protect `B1`
+- **Dìon dàta** n. m. — Data protection `C1`
+- **Dìon-cunnairt** n. m. — Hedge (lit. risk protection) `C1`
+- **Dìonach an aghaidh** phr. — Immune to (lit. proof against) `C1`
+- **Dìonachd** n. f. — Immunity `C2`
+- **Dìonachd-eòlas** n. m. — Immunology `C2`
+- **Diongmhaltas** n. m. — Tenacity `C2`
+- **Dioplòmaiche** n. m. pl. *dioplòmaichean* — Diplomat `C2`
+- **Dioplòmasaidh** n. m. — Diplomacy `C1`
+- **Dìorrasach** adj. — Assertive `C1`
+- **Diosc air sleamhnachadh** n. m. — Slipped disc (lit. disc that has slipped) `C1`
+- **Dìreach** adj. — Blunt (direct) (lit. straight) `B2`
+- **Dìreach** adv. — Exactly `A1`
+- **Dìreach air adhart** adv. — Straight ahead `A1`
+- **Dìreach ann an àm** adv. — In the nick of time (lit. just in time) `B2`
+- **Dìreach beagan** phr. — Just a little `A1`
+- **Disathairne** n. m. — Saturday `A1`
+- **Dìsne** n. m. pl. *disnean* — Dice `B2`
+- **Dìte** adj. — Convicted `B2`
+- **Dìteadh** n. m. pl. *dìtidhean* — Conviction (guilty verdict) `C2`
+- **Dìteadh** v. root *dìt* — To deplore (lit. condemning) `C2`
+- **Dìth-cadail** n. m. — Insomnia (lit. lack of sleep) `B1`
+- **Dìthreabhach** n. m. pl. *dìthreabhaich* — Recluse (lit. hermit) `C2`
+- **Diùid** adj. — Diffident (lit. shy) `C2`
+- **Diùid** adj. — Shy `A2`
+- **Diùltadh** v. root *diùlt* — To decline (refuse) `B2`
+- **Diùltadh** v. root *diùlt* — To refuse `B1`
+- **Diùltadh** v. root *diùlt* — To repudiate (lit. refusing) `C2`
+- **Diùltadh** v. root *diùlt* — To turn down (lit. refusing) `C1`
+- **Diùraidh** n. m. pl. *diùraidhean* — Jury `B2`
+- **Dleastanas** n. m. pl. *dleastanasan* — Duty `B2`
+- **Dleastanas a choileanadh** v. root *coilean* — To fulfil an obligation `C2`
+- **Dligheach** adj. — Legit (lit. legitimate) `C1`
+- **Dligheach** adj. — Legitimate `B2`
+- **Dlùth** adj. — Compact (lit. close) `C1`
+- **Dlùth-charaid** n. m. pl. *dlùth-charaidean* — Close friend `B1`
+- **Dlùth-choille** n. f. pl. *dlùth-choilltean* — Jungle (lit. dense forest) `B2`
+- **Dlùth-chruinneas** n. m. — Globalization `C1`
+- **Dlùth-dhealbh** n. m. pl. *dlùth-dhealbhan* — Close-up `C1`
+- **Dlùthachd** n. f. — Solidarity `C2`
+- **Dlùths** n. m. — Density `C1`
+- **Do-àicheadh** adj. — Irrefutable (lit. undeniable) `C2`
+- **Do-cheannsachaidh** adj. — Indomitable (lit. unsubduable) `C2`
+- **Do-dhìochuimhnichte** adj. — Unforgettable `B1`
+- **Do-dhìon** adj. — Untenable (lit. indefensible) `C2`
+- **Do-labhairt** adj. — Ineffable (lit. unspeakable) `C2`
+- **Do-sheachanta** adj. — Inevitable (lit. unavoidable) `B2`
+- **Do-thuigsinn** adj. — Abstruse (lit. hard to understand) `C2`
+- **Dòchasach** adj. — Hopeful `A2`
+- **Dòchasach** adj. — Sanguine (lit. hopeful) `C2`
+- **Dòigh** n. f. pl. *dòighean* — Method (lit. way) `B2`
+- **Dòigh leis an euslainteach** n. f. — Bedside manner (lit. manner with the patient) `C1`
+- **Dòigh timcheall** n. f. pl. *dòighean timcheall* — Workaround (lit. way around) `C2`
+- **Dòigh-obrach** n. f. pl. *dòighean-obrach* — Approach (lit. way of working) `B2`
+- **Dòigh-smaoineachaidh** n. f. pl. *dòighean-smaoineachaidh* — Mindset (lit. way of thinking) `B1`
+- **Doilleir** adj. — Dull `B1`
+- **Doilleir** adj. — Vague (lit. dim) `B2`
+- **Doineann** n. f. pl. *doineannan* — Hurricane `B1`
+- **Doirbh a ghlacadh** adj. — Elusive (lit. hard to catch) `C1`
+- **Doire** n. f. pl. *doireachan* — Grove `C2`
+- **Dol** v. root *rach* — To go `A1`
+- **Dol à bith** n. m. — Extinction (lit. going out of existence) `B2`
+- **Dol a champachadh** v. root *rach a champachadh* — To go camping `A2`
+- **Dol a laighe** v. root *rach a laighe* — To go to bed (lit. going to lie down) `A2`
+- **Dol à sealladh** v. root *rach* — To disappear (lit. go out of sight) `B1`
+- **Dol à sealladh** v. root *rach* — To ghost (lit. go out of sight) `C1`
+- **Dol a-mach air** v. root *rach* — To fall out with (lit. go out on) `C2`
+- **Dol a-mach le** v. root *rach a-mach le* — To date (someone) (lit. go out with) `B1`
+- **Dol a-steach don ospadal** v. root *rach* — To be admitted (hospital) (lit. going into the hospital) `C1`
+- **Dol air cùl** v. root *rach* — To go behind someone’s back (lit. go behind) `C1`
+- **Dol air do ghlùinean** v. root *rach* — To kneel (lit. go on one's knees) `B1`
+- **Dol air seachran** v. root *rach* — To ramble (lit. go astray) `C1`
+- **Dol air thoiseach air** v. root *rach* — To preempt (lit. going ahead of) `C2`
+- **Dol am bruadar** v. root *rach* — To zone out (lit. go into a dream) `C1`
+- **Dol an laigse** v. root *rach an laigse* — To faint (lit. go into weakness) `B1`
+- **Dol an neul** v. root *rach* — To black out (lit. going into a faint) `C1`
+- **Dol an neul** v. root *rach* — To pass out (lit. going into a faint) `C1`
+- **Dol an sàs ann** v. root *rach an sàs ann* — To tackle (lit. getting to grips with) `B2`
+- **Dol às a chiall** v. root *rach* — To freak out (lit. go out of one's senses) `C1`
+- **Dol bho chèile** v. root *rach* — To drift apart (lit. go from each other) `C1`
+- **Dol còmhla ri** v. root *rach còmhla ri* — To accompany (lit. going along with) `B2`
+- **Dol dhachaigh** v. root *rach dhachaigh* — To go home (lit. going homeward) `A2`
+- **Dol far an rathaid** v. root *rach* — To digress (lit. going off the road) `C2`
+- **Dol fodha na grèine** n. m. — Sunset (lit. going under of the sun) `B1`
+- **Dol mun cuairt air a' chùis** v. root *rach* — To beat around the bush (lit. go around the matter) `C1`
+- **Dol ri** v. root *rach* — To take after (lit. going to (resembling)) `C1`
+- **Dol ro** v. root *rach* — To precede (lit. go before) `C1`
+- **Dol seachad air** v. root *rach* — To overtake (lit. go past) `B1`
+- **Dol tarsainn** v. root *rach tarsainn* — To cross (lit. going across) `A2`
+- **Dol thairis air** v. root *rach thairis air* — To exceed (lit. going over) `B2`
+- **Dol thairis air** v. root *rach* — To surpass (lit. go beyond) `C1`
+- **Dol thairis air** v. root *rach* — To transcend (lit. going beyond) `C2`
+- **Dol tro** v. root *rach* — To go through (experience) (lit. going through) `C1`
+- **Dol tro** v. root *rach tro* — To undergo (lit. going through) `B2`
+- **Domhainn** adj. — Profound (lit. deep) `B2`
+- **Domhan-leud** n. m. — Latitude (lit. world breadth) `B2`
+- **Dona** adj. — Bad `A1`
+- **Donn** adj. — Brown `A1`
+- **Donnalaich** v. root *donnalaich* — To howl `C1`
+- **Doras** n. m. pl. *dorsan* — Door `A1`
+- **Dorch-fhaltach** adj. — Dark-haired (lit. dark-haired) `A2`
+- **Dorcha** adj. — Dark `A1`
+- **Dòrlach** phr. — A handful `C1`
+- **Dorsair** n. m. pl. *dorsairean* — Gatekeeper `C1`
+- **Dòs** n. m. pl. *dòsan* — Dose `B2`
+- **Dotair** n. m. pl. *dotairean* — Doctor `A2`
+- **Dràibheadh** v. root *dràibh* — To drive `A1`
+- **Dràibheadh ro fhaisc** n. m. — Tailgating (driving) (lit. driving too close) `C2`
+- **Draibhear** n. m. pl. *draibhearan* — Driver `A2`
+- **Dràma** n. m. pl. *dràmathan* — Drama `B1`
+- **Dranndan** v. root *dranndanaich* — To mutter `C1`
+- **Dreasa** n. f. pl. *dreasaichean* — Dress `A1`
+- **Dreuchd** n. f. pl. *dreuchdan* — Career `A2`
+- **Drile** n. f. pl. *drilichean* — Drill `B1`
+- **Driùchd** n. m. — Dew `C2`
+- **Drochaid** n. f. pl. *drochaidean* — Bridge `A2`
+- **Drochaid-bhòrdaidh** n. f. pl. *drochaidean-bòrdaidh* — Jet bridge (lit. boarding bridge) `C2`
+- **Drochaid-thogalach** n. f. pl. *drochaidean-togalach* — Drawbridge (lit. lifting bridge) `C2`
+- **Dròn** n. m. pl. *drònaichean* — Drone `C1`
+- **Drùdhadh** v. root *drùidh* — To permeate (lit. soaking through) `C2`
+- **Drùidhte** adj. — Touched `B1`
+- **Drùidhteach** adj. — Impressive `B1`
+- **Druidhteach** adj. — Piercing `C2`
+- **Drùidhteach** adj. — Poignant `C1`
+- **Drùidhteachas** n. m. — Impressionism `C2`
+- **Druim** n. m. pl. *dromannan* — Back (body) `A1`
+- **Druim** n. m. pl. *dromannan* — Ridge `C2`
+- **Duaichnidh** adj. — Dingy `C1`
+- **Dual-chainnt** n. f. pl. *dual-chainntean* — Dialect `C1`
+- **Dualchas** n. m. — Heritage `B2`
+- **Duanaire** n. m. pl. *duanairean* — Anthology `C2`
+- **Dùbailte** adj. — Double `A2`
+- **Dubh** adj. — Black `A1`
+- **Dubh-loscadh** v. root *dubh-loisc* — To smolder (lit. black-burning) `C2`
+- **Dubhach** adj. — Somber `C1`
+- **Dubhadh** n. m. pl. *dubhaidhean* — Eclipse (lit. darkening) `C1`
+- **Dubhadh-às** n. m. — Write-off (lit. blotting out) `C1`
+- **Dubhag** n. f. pl. *dubhagan* — Kidney `B2`
+- **Dubhailc** n. f. pl. *dubhailcean* — Vice `B2`
+- **Dubhan falaichte** phr. — A catch (hidden problem) (lit. a hidden hook) `C1`
+- **Dubhar** n. m. — Shade `B1`
+- **An Dùbhlachd** n. f. — December `A1`
+- **Dùchas** n. m. — Instinct (lit. innate nature) `B2`
+- **Dùil-beatha** n. f. — Life expectancy (lit. expectation of life) `B1`
+- **Duilich** adj. — Difficult `A1`
+- **Duilleag** n. f. pl. *duilleagan* — Leaf `A2`
+- **Duilleagach** adj. — Leafy `C1`
+- **Duine bog** n. m. pl. *daoine boga* — Pushover (lit. soft person) `C2`
+- **Duine dùinte** n. m. pl. *daoine dùinte* — Introvert (lit. closed person) `B2`
+- **Duine foscailte** n. m. pl. *daoine foscailte* — Extrovert (lit. open person) `B2`
+- **Dùinte** adj. — Closed (shop) `A1`
+- **Dùinteachd** n. f. — Reticence `C2`
+- **Na dùisc an cù a tha na chadal.** phr. — Let sleeping dogs lie (lit. don't wake the sleeping dog) `C2`
+- **Dùmhlachd trafaig** n. f. — Congestion (lit. density of traffic) `B2`
+- **Dùmhlachd-trafaig** n. f. — Traffic jam (lit. traffic density) `B1`
+- **Dùn-gainmhich** n. m. pl. *dùintean-gainmhich* — Dune (lit. sand heap) `B2`
+- **Dùnadh** v. root *dùin* — To close `A1`
+- **Dùnadh a-mach** v. root *dùin* — To preclude (lit. shut out) `C1`
+- **Dùr** adj. — Persistent (lit. dour, stubborn) `B2`
+- **Dusan** n. m. pl. *dusanan* — A dozen `C2`
+- **Dusan** n. m. pl. *dusanan* — Dozen `A2`
+- **Dùscadh** v. root *dùisc* — To evoke (lit. awaken) `C1`
+- **Dùscadh** v. root *dùisc* — To wake up `A2`
+- **Dùthaich** n. f. pl. *dùthchannan* — Country `A1`
+- **Dùthaich** n. f. — Countryside `B1`
+- **Dùthchail** adj. — Rural `B2`
+- **Dùthchasach** adj. — Vernacular (lit. native) `C2`
+
+## E
+
+- **E** pron. — He `A1`
+- **E-spòrs** n. m. — Esports `B2`
+- **Each** n. m. pl. *eich* — Horse `A1`
+- **Each dubh** n. m. pl. *eich dhubha* — Dark horse `C1`
+- **Eachdraidh** n. f. — History `A2`
+- **Eaconamaidh** n. m. pl. *eaconamaidhean* — Economy `B1`
+- **Eaconamaidh obraichean goirid** n. f. — Gig economy (lit. economy of short jobs) `C1`
+- **Eadar** prep. — Between `A2`
+- **Eadar dà bharail** phr. — In two minds (lit. between two opinions) `C1`
+- **Eadar dà lionn** phr. — Ambivalence (lit. between two tides) `C2`
+- **Eadar dà sceul** phr. — By the way (lit. between two stories) `A2`
+- **Eadar-aghaidh** n. f. pl. *eadar-aghaidhean* — Interface `C1`
+- **Eadar-dhealachadh** v. root *eadar-dhealaich* — To distinguish `B2`
+- **Eadar-dhealaichte** adj. — Different `A2`
+- **Eadar-dhealaichte** adj. — Distinct `B2`
+- **Eadar-ghuidhe** v. root *eadar-ghuidh* — To intercede `C2`
+- **Eadar-lìon** n. m. — Internet (lit. inter-net) `A2`
+- **Eadar-mheadhanachadh** v. root *eadar-mheadhanaich* — To mediate `B2`
+- **Eadar-mhìneachadh** v. root *eadar-mhìnich* — To interpret `B2`
+- **Eadar-obrachadh** n. m. — Interoperability (lit. inter-working) `C2`
+- **Eadar-sholas** n. m. — Twilight (lit. between-light) `C2`
+- **Eadar-theangachadh** v. root *eadar-theangaich* — To translate (lit. between-tonguing) `A2`
+- **Eadar-theangair** n. m. pl. *eadar-theangairean* — Interpreter `C1`
+- **Eadar-theangair co-làimh** n. m. pl. *eadar-theangairean co-làimh* — Interpreter (simultaneous) `C2`
+- **Eag-shiostam** n. m. pl. *eag-shiostaman* — Ecosystem `B2`
+- **Eagal** n. m. pl. *eagalan* — Fear `A1`
+- **Eagalach** adj. — Alarming `B2`
+- **Eagalach** adj. — Formidable (lit. fearsome) `C2`
+- **Eaglais** n. f. pl. *eaglaisean* — Church `A1`
+- **Eagrachadh** v. root *eagraich* — To organize `B1`
+- **Ealain** n. f. — Art `A2`
+- **Ealain a' chamara** n. f. — Cinematography (lit. art of the camera) `C1`
+- **Ealain-shabaid** n. f. — Martial arts (lit. fighting arts) `B2`
+- **Ealamhachd** n. f. — Alacrity `C2`
+- **Eallach bhàrr mo ghuailnean** phr. — A weight off my shoulders (lit. a burden off my shoulders) `C1`
+- **Eallach obrach** n. m. — Workload (lit. burden of work) `B1`
+- **Eanchainn** n. f. pl. *eanchainnean* — Brain `B2`
+- **Earalachadh** v. root *earalaich* — To admonish `C2`
+- **Earbsa** n. f. — Trust `B1`
+- **Earbsach** adj. — Reliable `B1`
+- **Earbsadh à** v. root *earb à* — To rely on `B1`
+- **Earrach** n. m. pl. *earraich* — Spring `A1`
+- **Earrann** n. f. pl. *earrannan* — Episode `B1`
+- **Earrann** n. f. pl. *earrannan* — Segment (TV) (lit. section) `C1`
+- **Earrann** n. f. pl. *earrannan* — Shares (stocks) `B2`
+- **Earrann-bhuannachd** n. f. pl. *earrannan-bhuannachd* — Dividend (lit. share of profit) `C1`
+- **Earrannaiche** n. m. pl. *earrannaichean* — Shareholder `B2`
+- **Eas** n. m. pl. *easan* — Waterfall `B2`
+- **Easaontachadh** v. root *easaontaich* — To disagree `B1`
+- **Easaontachadh le** v. root *easaontaich* — To take issue with (lit. to disagree with) `C2`
+- **Easbhaidh buidseit** n. f. — Budget deficit (lit. budget shortfall) `B2`
+- **Easbhaidheach** adj. — Flawed (lit. deficient) `B2`
+- **Eascaraid** n. m. pl. *eascairdean* — Adversary `C2`
+- **Easponant** n. m. pl. *easponantan* — Exponent `C2`
+- **Èibhinn** adj. — Funny `A1`
+- **Èideadh** n. m. pl. *èididhean* — Uniform `B2`
+- **Èifeachdach** adj. — Efficient `B2`
+- **Èifeachdas** n. m. — Efficiency `B2`
+- **Eigh-shruth** n. m. pl. *eigh-shruthan* — Glacier (lit. ice stream) `B2`
+- **Èigheach** v. root *èigh* — To shout `A2`
+- **Èigheach còmhla** v. root *èigh* — To chant (lit. shout together) `C1`
+- **Èiginn** n. f. pl. *èiginnean* — Emergency `A2`
+- **Èiginn taigheadais** n. f. — Housing crisis `B2`
+- **Eileactrolait** n. m. pl. *eileactrolaitean* — Electrolyte `C2`
+- **Eileamaid** n. f. pl. *eileamaidean* — Element `B2`
+- **Eilean** n. m. pl. *eileanan* — Island `A2`
+- **Eilthireach** n. m. pl. *eilthirich* — Expatriate `C1`
+- **Einnsean** n. m. pl. *einnseanan* — Engine `B1`
+- **Einnsim** n. m. pl. *einnsimean* — Enzyme `C1`
+- **Eipideim-eòlas** n. m. — Epidemiology `C2`
+- **Eireachdail** adj. — Handsome `A2`
+- **Èirig** n. f. pl. *èirigean* — Ransom `C2`
+- **Èirigh** v. root *èirich* — To get up `A2`
+- **Èirigh à** v. root *èirich* — To stem from (lit. arise from) `C1`
+- **Èirigh na grèine** n. f. — Sunrise (lit. rising of the sun) `B1`
+- **Eisceachd** n. f. pl. *eisceachdan* — Exception `B2`
+- **Eisimpleir** n. m. pl. *eisimpleirean* — Example `A2`
+- **Eisimpleir ri leantainn** n. m. pl. *eisimpleirean ri leantainn* — Role model (lit. example to follow) `B2`
+- **Eisimpleireach** adj. — Exemplary `C2`
+- **Èisteachd** v. root *èist* — To listen `A1`
+- **Eitheach** n. m. — Perjury (lit. false oath) `C2`
+- **Eleactron** n. m. pl. *eleactronan* — Electron `C1`
+- **Eòlaiche** n. m. pl. *eòlaichean* — Connoisseur (lit. expert) `C2`
+- **Eòlaiche foireansach** n. m. pl. *eòlaichean foireansach* — Forensic scientist `C2`
+- **Eòlas** n. m. — Experience `B1`
+- **Eòlas** n. m. — Knowledge `B1`
+- **Espresso** n. m. — Espresso `C1`
+- **Eu-dòchasach** adj. — Hopeless `B1`
+- **Eucoir** n. f. pl. *eucoirean* — Crime `B1`
+- **Eucoir aotrom** n. f. pl. *eucoirean aotroma* — Misdemeanor (lit. light crime) `C2`
+- **Eucoir eagraichte** n. f. — Racketeering (lit. organised crime) `C2`
+- **Eucoir throm** n. f. pl. *eucoirean troma* — Felony (lit. heavy crime) `C2`
+- **Eucoir-eòlas** n. m. — Criminology `C2`
+- **Eucoireach** n. m. pl. *eucoirich* — Perpetrator (lit. criminal) `C2`
+- **Eudmhor** adj. — Jealous `A2`
+- **Eugsamhail** adj. — Diverse `B2`
+- **Eun** n. m. pl. *eòin* — Bird `A1`
+- **Eun-eòlas** n. m. — Ornithology `C2`
+- **Euslainteach** adj. — Ailing `C2`
+- **Euslainteach a-muigh** n. m. pl. *euslaintich a-muigh* — Outpatient (lit. patient outside) `C1`
+- **Euslainteach san ospadal** n. m. pl. *euslaintich san ospadal* — Inpatient (lit. patient in hospital) `C2`
+
+## F
+
+- **Fàbhar** n. m. pl. *fàbharan* — Favor `B1`
+- **Fàbhar-dàimh** n. m. — Nepotism (lit. kinship favour) `C2`
+- **Fabhra** n. m. pl. *fabhraidean* — Eyelash `B2`
+- **Facal** n. m. pl. *faclan* — Remark (lit. word) `B2`
+- **Facal** n. m. pl. *faclan* — Word `A2`
+- **Facal caithte** n. m. pl. *faclan caithte* — Platitude (lit. worn-out word) `C2`
+- **Facal dà-sheaghach** n. m. pl. *faclan dà-sheaghach* — Double entendre (lit. two-meaning word) `C2`
+- **Facal fasanta** n. m. pl. *faclan fasanta* — Buzzword (lit. fashionable word) `C2`
+- **Facal molaidh** n. m. pl. *faclan molaidh* — Compliment (lit. word of praise) `B1`
+- **Facal-faire** n. m. pl. *faclan-faire* — Password (lit. watch-word) `A2`
+- **Facal-iasaid** n. m. pl. *faclan-iasaid* — Loanword `C1`
+- **Faclair** n. m. pl. *faclairean* — Dictionary `A2`
+- **Fad** n. m. — Length `A2`
+- **Fad às an t-sùil, fad às a' chridhe.** phr. — Out of sight, out of mind (lit. far from the eye, far from the heart) `C2`
+- **Fad na coise a-staigh** n. m. — Inseam (lit. inner leg length) `C2`
+- **Fad ùine mhòr** adv. — For a long time (lit. for a great while) `A2`
+- **Fad' air falbh** adv. — Far `A1`
+- **Fad' às** adj. — Aloof (lit. far away) `C1`
+- **Fad-beatha** n. m. — Lifetime (lit. length of life) `B1`
+- **Fad-chainnteach** adj. — Long-winded `C2`
+- **Fad-thomhas** n. m. — Telemetry (lit. distance measurement) `C2`
+- **Fad-ùine** adj. — Long-term `B2`
+- **Fada** adj. — Long `A1`
+- **Fada bho** phr. — A far cry from (lit. far from) `C1`
+- **Fada-caol** adj. — Lanky (lit. long and thin) `C2`
+- **Fadadh** v. root *fad* — To foment (lit. kindling) `C2`
+- **Fàgail** v. root *fàg* — To leave `A1`
+- **Fàgail** v. root *fàg* — To render (lit. leave (in a state)) `C1`
+- **Fàgail aig** v. root *fàg* — To drop off (lit. leave at) `B1`
+- **Fàgail an oilthigh** v. root *fàg* — To drop out (lit. leaving the university) `B1`
+- **Fàgail às** v. root *fàg* — To omit (lit. leave out) `C1`
+- **Faiceallach** adj. — Careful `B1`
+- **Faiceallachd** n. f. — Discretion `C2`
+- **Faicinn** v. root *faic* — To see `A1`
+- **Faicinn san inntinn** v. root *faic* — To envision (lit. seeing in the mind) `C2`
+- **Faicsinneach** adj. — Tangible (lit. perceptible) `C1`
+- **Faidhle** n. m. pl. *faidhlichean* — File `A2`
+- **Faighinn** v. root *faigh* — To obtain `B2`
+- **Faighinn** v. root *faigh* — To receive (lit. getting) `A2`
+- **Faighinn a-mach** v. root *faigh* — To ascertain (lit. find out) `C1`
+- **Faighinn a-mach às an ospadal** v. root *faigh* — To be discharged (lit. getting out of the hospital) `C1`
+- **Faighinn air iasad** v. root *faigh air iasad* — To borrow (lit. get on loan) `A2`
+- **Faighinn àrdachadh** v. root *faigh àrdachadh* — To get promoted (lit. get a raise) `B1`
+- **Faighinn às le** v. root *faigh* — To get away with (lit. getting out with) `C1`
+- **Faighinn cuidhteas** v. root *faigh* — To get rid of (lit. get quit of) `B1`
+- **Faighinn eòlas air** v. root *faigh eòlas air* — To experience (lit. get knowledge of) `B1`
+- **Faighinn mun cuairt** v. root *faigh mun cuairt* — To get around `B1`
+- **Faighinn thairis air** v. root *faigh* — To get over (lit. getting over) `C1`
+- **Faighinn thairis air** v. root *faigh thairis air* — To overcome (lit. getting over) `B2`
+- **Faighinn timcheall air** v. root *faigh* — To circumvent (lit. get round) `C1`
+- **Faighinn troimhe** v. root *faigh troimhe* — To pass (an exam) (lit. getting through) `A2`
+- **Faighneachd** v. root *faighnich* — To ask `A1`
+- **Faighneachd dhìot fhèin** v. root *faighnich dhìot fhèin* — To wonder (lit. ask of yourself) `B1`
+- **Faighneachd do chuideigin mu rudeigin** v. root *faighnich* — To run something by someone (lit. ask someone about something) `C1`
+- **Faileas** n. m. pl. *faileasan* — Shadow `B1`
+- **Faillean** n. m. pl. *failleanan* — Sapling `C2`
+- **Fàilligeadh** v. root *fàillig* — To fail (an exam) `A2`
+- **Fàilligeadh** v. root *fàillig* — To fail (in general) `B1`
+- **Fàilligeadh pàighidh** n. m. — Default (loan) (lit. failure of payment) `C1`
+- **Fàilte** interj. — Welcome `A1`
+- **Fàirdeal** n. m. pl. *fàirdealan* — Invoice `A2`
+- **Fàire** n. f. — Horizon `B2`
+- **Faire** n. f. — Surveillance (lit. watching) `C1`
+- **Faire nàbachd** n. f. — Neighborhood watch (lit. neighbourhood watch) `B1`
+- **Faireachdainn** phr. — A hunch (lit. a feeling) `C1`
+- **Faireachdainn** v. root *fairich* — To feel `A2`
+- **Faireachdainn gun do thachair e roimhe** n. f. — Déjà vu (lit. feeling that it happened before) `C2`
+- **Faireachdainn-mionaich** n. f. — Gut feeling (lit. feeling of the guts) `C2`
+- **Faireachdainnean meascaichte** n. m. — Mixed feelings `C1`
+- **Faisc** adj. — Near `A1`
+- **Faisc air làimh** adj. — Imminent (lit. close at hand) `C2`
+- **Faisc air neoni** phr. — Next to nothing (lit. near to zero) `C1`
+- **Fàitheam** n. m. pl. *fàitheaman* — Hem `B2`
+- **Falach** v. root *falaich* — To hide `A2`
+- **Am falach** phr. — Tucked away (lit. in hiding) `C1`
+- **Falaichte** adj. — Latent (lit. hidden) `C2`
+- **Falamh** adj. — Empty `A1`
+- **Falamhachd** n. f. — Vacuum (lit. emptiness) `C1`
+- **Falbh** n. m. — Departure (lit. going away) `A2`
+- **Falbh air seachran** v. root *falbh air seachran* — To wander (lit. go astray) `B1`
+- **Fallain** adj. — Healthy `A2`
+- **Fallasachadh** v. root *fallasaich* — To sweat `B1`
+- **Fallsachadh** n. m. — Forgery `C2`
+- **Falt** n. m. — Hair `A1`
+- **Falt dualach** n. m. — Curly hair (lit. curling hair) `A2`
+- **Fanaideach** adj. — Sardonic (lit. mocking) `C2`
+- **Fann** adj. — Faint (sound) `C1`
+- **Fann** adj. — Languid `C2`
+- **Fanntachadh** v. root *fanntaich* — To swoon (lit. fainting) `C2`
+- **Fantainn** v. root *fan* — To remain `B1`
+- **Faochadh** n. m. — Remission (lit. relief) `C1`
+- **Faochadh** n. m. — Respite `C2`
+- **Am faod mi pàigheadh le cairt?** phr. — Can I pay by card? `A2`
+- **Am Faoilleach** n. m. — January `A1`
+- **Faoisid** n. f. pl. *faoisidean* — Confession `B2`
+- **Faothachadh** v. root *faothaich* — To alleviate `C2`
+- **Far a bheil toil, tha dòigh.** phr. — Where there's a will, there's a way `C2`
+- **Far an rathaid mhòir** phr. — Off the beaten path (lit. off the main road) `B1`
+- **Fàradh** n. m. pl. *fàraidhean* — Ladder `B1`
+- **Faramach** adj. — Noisy `A2`
+- **Farmadach** adj. — Envious `B1`
+- **Farpais** n. f. pl. *farpaisean* — Competition `A2`
+- **Farpaiseach** n. m. pl. *farpaisich* — Competitor `B2`
+- **Farsaing** adj. — Baggy (lit. wide) `C2`
+- **Farsaing** adj. — Spacious `B1`
+- **Farsaing** adj. — Widespread (lit. wide) `B2`
+- **Farsaingeachd** n. f. — Scope (lit. breadth) `B2`
+- **Farsaingeachd na h-obrach** n. f. — Scope of work (lit. extent of the work) `C1`
+- **Fàs** v. root *fàs* — To grow `A2`
+- **Fàs eaconamach** n. m. — Economic growth `B2`
+- **Fàs ealanta air** v. root *fàs* — To master (lit. grow skilled at) `C1`
+- **Fàs easponantach** n. m. — Exponential growth `C2`
+- **Fàs fasanta** v. root *fàs* — To catch on (lit. becoming fashionable) `C1`
+- **Fàs feargach** v. root *fàs feargach* — To get angry (lit. grow angry) `A2`
+- **Fàs marbhanta** v. root *fàs* — To stagnate (lit. growing sluggish) `C2`
+- **Fàs nas miosa** v. root *fàs* — To take a turn for the worse (lit. grow worse) `C1`
+- **Fàs sean** v. root *fàs* — To age (lit. grow old) `B1`
+- **Fàs suas** v. root *fàs suas* — To grow up (lit. growing up) `A2`
+- **Fàs tinn** v. root *fàs* — To come down with (lit. become sick) `C1`
+- **Fàs-bheairt** n. f. pl. *fàs-bheairtean* — Organism `C1`
+- **Fàsach** n. m. pl. *fàsaichean* — Desert `A2`
+- **Fàsail** adj. — Bleak (lit. desolate) `C1`
+- **Fàsail** adj. — Deserted `C1`
+- **Fàsail** adj. — Desolate `C2`
+- **Fasan** n. m. pl. *fasanan* — Fashion `B1`
+- **Fasanta** adj. — Trendy `C1`
+- **Fascadh** n. m. pl. *fascaidhean* — Shelter `B2`
+- **Fàscadh** v. root *fàisc* — To squeeze `B1`
+- **Fastaiche** n. m. pl. *fastaichean* — Employer `B1`
+- **Fathann** n. m. pl. *fathannan* — Rumor `B1`
+- **Am feabhas** phr. — On the mend (lit. in improvement) `C1`
+- **Feabhsachadh** v. root *feabhsaich* — To improve `B1`
+- **Fealla-dhà** n. f. — Joke (lit. two-sided deceit, jest) `A2`
+- **Fealla-dhàach** adj. — Facetious `C2`
+- **Fealltach** adj. — Insidious (lit. treacherous) `C2`
+- **Feansa** n. f. pl. *feansaichean* — Fence `B1`
+- **Fear** n. m. pl. *fir* — Man `A1`
+- **Fear gun dùil** n. m. — Underdog (lit. one not expected to win) `C1`
+- **Fear-gealladh-pòsaidh** n. m. pl. *fir-gealladh-pòsaidh* — Fiancé (lit. man of the marriage promise) `B2`
+- **Fear-meadhain** n. m. pl. *fir-mheadhain* — Middleman `C1`
+- **Fear-pòsta** n. m. pl. *fir-phòsta* — Husband (lit. married man) `A1`
+- **Fear-taice** n. m. pl. *fir-taice* — Wingman (lit. support man) `C2`
+- **Fear-toisich** n. m. pl. *fir-thoisich* — Frontrunner (lit. one in front) `C1`
+- **Feargach** adj. — Angry `A1`
+- **Feart** n. m. pl. *feartan* — Factor `B2`
+- **Feart** n. m. pl. *feartan* — Trait `B2`
+- **Feascar** n. m. pl. *feascairean* — Afternoon `A1`
+- **Feascar math** phr. — Good evening `A1`
+- **Fèin-chòmhradh** n. m. pl. *fèin-chòmhraidhean* — Soliloquy (lit. self-talk) `C2`
+- **Fèin-dhealbh** n. m. pl. *fèin-dhealbhan* — Selfie (lit. self-picture) `A2`
+- **Fèin-fhastaichte** adj. — Freelance (lit. self-employed) `B1`
+- **Fèin-fhìrinn** n. f. pl. *fèin-fhìrinnean* — Axiom (lit. self-evident truth) `C2`
+- **Fèin-mhisneachail** adj. — Confident `B1`
+- **Fèin-mhisneachd** n. f. — Aplomb (lit. self-confidence) `C2`
+- **Fèin-mhisneachd** n. f. — Self-confidence `B2`
+- **Fèin-mhothachadh** n. m. — Self-awareness `B2`
+- **Fèin-obrachadh** n. m. — Automation (lit. self-working) `B2`
+- **Fèin-riarachas** n. m. — Smugness (lit. self-satisfaction) `C2`
+- **Fèin-riaraichte** adj. — Complacent (lit. self-satisfied) `C2`
+- **Fèin-spèis** n. f. — Self-esteem `B2`
+- **Fèin-spèis** n. f. — Vanity (lit. self-regard) `C2`
+- **Fèineil** adj. — Selfish `B1`
+- **Fèis** n. f. pl. *fèisean* — Festival `B2`
+- **Fèith** n. f. pl. *fèithean* — Bog `C2`
+- **Fèith** n. f. pl. *fèithean* — Muscle `B1`
+- **Fèith a shìneadh** v. root *sìn* — To pull a muscle (lit. to stretch a muscle) `C1`
+- **Fèith shìnte** n. f. pl. *fèithean sìnte* — Pulled muscle (lit. stretched muscle) `C2`
+- **Fèith-lùthaidh** n. f. pl. *fèithean-lùthaidh* — Tendon `B2`
+- **Feitheamh** v. root *feith* — To wait `A1`
+- **A' feitheamh air** prep. — Pending (lit. waiting on) `C2`
+- **Feòil** n. f. — Meat `A1`
+- **Feòil-sheachnach** adj. — Vegetarian (lit. meat-avoiding) `A2`
+- **Feòrachas** n. m. — Curiosity `B1`
+- **Feuchainn** v. root *feuch* — To try `A2`
+- **Feuchainn air** v. root *feuch air* — To try on (lit. trying on) `A2`
+- **Feumachdainn** v. root *feum* — To need `A1`
+- **Feumail** adj. — Useful `B1`
+- **Feumar aideachadh** phr. — Admittedly (lit. it must be admitted) `C1`
+- **Feur** n. m. — Grass `A2`
+- **Feusag** n. f. pl. *feusagan* — Beard `A2`
+- **Feusag ghoirid** n. f. — Stubble (lit. short beard) `C2`
+- **Fhad 's a** conj. — Whereas `B1`
+- **Fhad 's a** conj. — Whilst `C2`
+- **Fhathast** adv. — Still `A2`
+- **Fiabhras** n. m. pl. *fiabhrasan* — Fever `A2`
+- **Fiacail** n. f. pl. *fiaclan* — Tooth `A1`
+- **Fiach** n. m. pl. *fiachan* — Liability (finance) `C1`
+- **Fiachan** n. m. — Debt `A2`
+- **Fiachan nàiseanta** n. m. — National debt (lit. national debts) `B2`
+- **Fiaclair** n. m. pl. *fiaclairean* — Dentist `A2`
+- **Fiadh-bheatha** n. f. — Wildlife (lit. wild life) `B2`
+- **Fialaidh** adj. — Generous `A2`
+- **Fialaidheachd** n. f. — Generosity `B2`
+- **Fianais** n. f. pl. *fianaisean* — Evidence `B1`
+- **Fianais** n. f. pl. *fianaisean* — Testimony `C2`
+- **Fianais mhionnaichte** n. f. — Deposition (lit. sworn evidence) `C2`
+- **Fianais-chluaise** n. f. — Hearsay (lit. ear-evidence) `C2`
+- **Fichead** num. — Twenty `A1`
+- **Fighe** n. f. — Knitting `B2`
+- **Fileanta** adj. — Fluent `A2`
+- **Fileantachd** n. f. — Fluency `C1`
+- **Filleadh** n. m. pl. *fillidhean* — Pleat (lit. fold) `C2`
+- **Fillte** adj. — Implicit (lit. folded in) `B2`
+- **Fillteag** n. f. pl. *fillteagan* — Dart (sewing) `C2`
+- **Film** n. m. pl. *filmichean* — Movie `A2`
+- **Film cultach** n. m. — Cult classic (lit. cult film) `C1`
+- **Film mòr-shoirbheachail** n. m. — Blockbuster (lit. hugely successful film) `C1`
+- **Film neo-eisimeileach** n. m. — Indie film (lit. independent film) `C1`
+- **Fìnealta** adj. — Subtle `B2`
+- **Fiodh-cladaich** n. m. — Driftwood (lit. shore wood) `C2`
+- **Fiodha** adj. — Wooden (lit. of wood) `B1`
+- **Fìon** n. m. pl. *fìontan* — Wine `A1`
+- **Fìon-dhearcan** n. f. — Grapes (lit. wine-berries) `A2`
+- **Fìon-fhrithealaiche** n. m. pl. *fìon-fhrithealaichean* — Sommelier (lit. wine waiter) `C1`
+- **Fìon-geur** n. m. — Vinegar (lit. sour wine) `B2`
+- **Fionnar** adj. — Crisp (air) `C2`
+- **Fionnaran** n. m. pl. *fionnaranan* — Vent (lit. ventilator) `C1`
+- **Fìor gu leòr** adv. — Granted (lit. true enough) `C1`
+- **Fìor mhòran** phr. — A great deal (lit. truly much) `C1`
+- **Fìor-eisimpleir** n. m. pl. *fìor-eisimpleirean* — Epitome (lit. true example) `C2`
+- **Fìor-ghlan** adj. — Pristine (lit. truly clean) `C1`
+- **Fìor-ghrinn** adj. — Exquisite (lit. truly fine) `C1`
+- **Fìorachd leasaichte** n. f. — Augmented reality `C1`
+- **Fios a bhith aig** v. root *bi* — To know (lit. knowledge to be at) `A1`
+- **Fios air ais** n. m. — Feedback (lit. information back) `B1`
+- **Fios naidheachd** n. m. pl. *fiosan naidheachd* — Press release (lit. news notice) `C1`
+- **Fios-eòlas** n. m. — Epistemology (lit. knowledge of knowing) `C2`
+- **Fiosio-leighiche** n. m. pl. *fiosio-leighichean* — Physiotherapist `C2`
+- **Fiosrach** adj. — Curious `A2`
+- **Na Fir-chlis** n. m. — Aurora (lit. the nimble men) `C2`
+- **Fìreanachadh** v. root *fìreanaich* — To justify `B2`
+- **Fìreanachadh** v. root *fìreanaich* — To vindicate (lit. justifying) `C2`
+- **Fìrinn** n. f. — Truth `A2`
+- **Fìrinn bhiortail** n. f. — Virtual reality `B2`
+- **Fìrinneach** adj. — Genuine (lit. truthful) `B2`
+- **Flat** n. m. pl. *flataichean* — Apartment `A2`
+- **Flin** n. m. — Sleet `C2`
+- **Fliuch** adj. — Wet `A2`
+- **Flùr** n. m. pl. *flùraichean* — Flower `A1`
+- **Fo** prep. — Under `A1`
+- **Fo chianalas** adj. — Homesick (lit. under homesickness) `B1`
+- **Fo chuideam** adj. — Stressed (lit. under pressure) `A2`
+- **Fo eagal** adj. — Scared (lit. under fear) `A1`
+- **Fo fhadachd** adj. — Bored (lit. under tedium) `A1`
+- **Fo iongnadh** adj. — Surprised (lit. under wonder) `A1`
+- **Fo iongnadh mòr** phr. — Blown away (lit. in great astonishment) `C1`
+- **Fo ìre** adj. — Subpar (lit. below standard) `C1`
+- **Fo luibhean** phr. — Overgrown (lit. under weeds) `C1`
+- **Fo oillt** adj. — Terrified (lit. under terror) `B1`
+- **Fo sprochd** phr. — Down in the dumps (lit. under dejection) `C1`
+- **Fo uallach** adj. — Overwhelmed (lit. under a burden) `B1`
+- **Fo-abhainn** n. f. pl. *fo-aibhnichean* — Tributary (lit. under-river) `C2`
+- **Fo-aodach** n. m. — Underwear (lit. under-clothes) `B2`
+- **Fo-chùmhnantachadh** v. root *fo-chùmhnantaich* — To outsource (lit. sub-contracting) `B2`
+- **Fo-chùmhnantaiche** n. m. pl. *fo-chùmhnantaichean* — Subcontractor `C1`
+- **Fo-fhàs** n. m. — Undergrowth (lit. under-growth) `C2`
+- **Fo-làr** n. m. — Crawl space (lit. space under the floor) `C2`
+- **Fo-làr** n. m. pl. *fo-làran* — Subfloor (lit. under-floor) `C1`
+- **Fo-rathad** n. m. pl. *fo-rathaidean* — Underpass (lit. under-road) `C2`
+- **Fo-sceul** n. m. pl. *fo-sceulan* — Subplot (lit. sub-story) `C1`
+- **Fo-scrìobhadair** n. m. pl. *fo-scrìobhadairean* — Subscriber `C1`
+- **Fo-scrìobhadair** n. m. pl. *fo-scrìobhadairean* — Underwriter (lit. under-writer) `C2`
+- **Fo-scrìobhadh** n. m. pl. *fo-scrìobhaidhean* — Subscription `B1`
+- **Fo-theacsa** n. m. — Subtext `C2`
+- **Fo-thiotalaichte** adj. — Subtitled `C1`
+- **Fo-thiotalan** n. m. — Subtitles `A2`
+- **Fòcasachadh** v. root *fòcasaich* — To focus `B1`
+- **Fògarrach** n. m. pl. *fògarraich* — Refugee `C1`
+- **Foghainteach** adj. — Sufficient `B2`
+- **Foghar** n. m. pl. *fogharan* — Autumn `A1`
+- **Fogharachd** n. f. — Phonetics `C2`
+- **Foghlaimte** adj. — Erudite (lit. learned) `C2`
+- **Fògradh** n. m. — Exile `C1`
+- **Fògradh** v. root *fògair* — To ostracize (lit. banishing) `C2`
+- **Fògradh sòisealta** n. m. — Ostracism (lit. social banishment) `C2`
+- **Foighidinn** n. f. — Forbearance (lit. patience) `C2`
+- **Foighidinn** n. f. — Patience `B2`
+- **Foighidneach** adj. — Patient `A2`
+- **Foill** n. f. — Fraud `B2`
+- **Foillseachadh** n. m. pl. *foillseachaidhean* — Epiphany (lit. revelation) `C2`
+- **Foillseachadh** n. m. pl. *foillseachaidhean* — Release (version) (lit. publication) `C1`
+- **Foillseachadh** v. root *foillsich* — To disclose (lit. reveal, publish) `C1`
+- **Foillseachadh** v. root *foillsich* — To reveal `B2`
+- **Foireigneadh** n. m. — Extortion `C2`
+- **Foirfeachas** n. m. — Perfectionism `B2`
+- **Fois** n. f. — Break (pause) (lit. rest) `A2`
+- **Fois** n. f. — Leisure (lit. rest, ease) `B2`
+- **Follaiseach** adj. — Explicit `B2`
+- **Follaiseach** adj. — Obvious `B1`
+- **Follaiseach** adj. — Salient `C2`
+- **Fòn** n. m. pl. *fònaichean* — Phone `A1`
+- **Fon scian** phr. — Under the knife `C1`
+- **Fònadh** v. root *fòn* — To call (phone) `A1`
+- **Fònaichean-cluaise** n. m. — Headphones (lit. ear-phones) `A2`
+- **Fonn-labhairt** n. m. — Intonation (lit. tune of speech) `C1`
+- **Forc** n. f. pl. *forcaichean* — Fork `A1`
+- **Fòrladh goirid** n. m. — Getaway (lit. short leave) `C1`
+- **Fòrladh sàbaid** n. m. — Sabbatical `C1`
+- **Fosail-eòlaiche** n. m. pl. *fosail-eòlaichean* — Paleontologist (lit. fossil expert) `C2`
+- **Foscailte** adj. — Open (shop) `A1`
+- **Foscarra** adj. — Candid `C1`
+- **Foscarrachd** n. f. — Candor `C2`
+- **Foscladh** v. root *foscail* — To open `A1`
+- **Foto-co-chur** n. m. — Photosynthesis `C1`
+- **Fras** n. f. pl. *frasan* — Shower `A2`
+- **Fras-shneachda** n. f. pl. *frasan-sneachda* — Flurry (snow) (lit. snow shower) `C2`
+- **Freagairt** n. f. pl. *freagairtean* — Answer (noun) `A2`
+- **Freagairt** v. root *freagair* — To answer `A1`
+- **Freagairt gu geur** v. root *freagair* — To retort (lit. answering sharply) `C2`
+- **Freagairt gu grad** v. root *freagair* — To snap (at someone) (lit. answer sharply) `C1`
+- **Freagarrach** adj. — Apt `C2`
+- **Freagarrach** adj. — Flattering (clothes) (lit. suiting) `C2`
+- **Freagarrach airson coiseachd** phr. — Walkable (lit. suitable for walking) `C1`
+- **Freagarrachadh** v. root *freagarraich* — To adapt `B2`
+- **Frèam-obrach** n. m. pl. *frèamaichean-obrach* — Framework (lit. working frame) `B2`
+- **Freumh ceàrnagach** n. m. pl. *freumhan ceàrnagach* — Square root (lit. square root) `C2`
+- **Freumhachadh** v. root *freumhaich* — To instill (lit. rooting) `C2`
+- **Frighigeadh** v. root *frighig* — To fry `A2`
+- **Frighigeadh gu luath** v. root *frighig* — To sauté (lit. frying quickly) `B2`
+- **Frionasach** adj. — Petulant (lit. fretful) `C2`
+- **Frith-bheachd** n. m. pl. *frith-bheachdan* — Antithesis (lit. counter-idea) `C2`
+- **Frith-bhodhaig** n. f. pl. *frith-bhodhaigean* — Antibody `C2`
+- **Frith-bhuaidh** n. f. pl. *frith-bhuaidhean* — Side effect `B2`
+- **Frith-chomharra** n. m. pl. *frith-chomharran* — Contraindication (lit. counter-sign) `C2`
+- **Frith-ghaisceach** n. m. pl. *frith-ghaiscich* — Anti-hero (lit. anti-hero) `C2`
+- **Frith-ràdh** n. m. pl. *frith-ràdhan* — Oxymoron (lit. contradictory saying) `C2`
+- **Frith-thairgse** n. f. pl. *frith-thairgsean* — Counteroffer `C1`
+- **Frithealadh** v. root *frithealaich* — To attend `B1`
+- **Frithealaiche** n. m. pl. *frithealaichean* — Server `C1`
+- **Frithealaiche** n. m. pl. *frithealaichean* — Waiter (lit. server) `A2`
+- **Fuadach-daoine** n. m. — Kidnapping (lit. carrying off of people) `B2`
+- **Fuadain** adj. — Counterfeit `B1`
+- **Fuadain** adj. — Spurious `C2`
+- **Fuaigheal** n. m. — Sewing `B2`
+- **Fuaimneachadh** v. root *fuaimnich* — To pronounce `A2`
+- **Fuaimneachadh gu soilleir** v. root *fuaimnich* — To enunciate (lit. pronouncing clearly) `C2`
+- **Fuar** adj. — Cold `A1`
+- **Fuar-chràbhach** adj. — Sanctimonious (lit. coldly pious) `C2`
+- **Fuaradair** n. m. pl. *fuaradairean* — Fridge (lit. cooler) `A2`
+- **Fuaraidh** adj. — Chilly `B1`
+- **Fuaraidh** adj. — Musty `C2`
+- **Fuaran** n. m. pl. *fuarain* — Spring (water) `B2`
+- **Fuaran-fàsaich** n. m. pl. *fuarain-fhàsaich* — Oasis (lit. desert spring) `B2`
+- **Fuascailte aig na h-oirean** adj. — Frayed (lit. loose at the edges) `C2`
+- **Fuascladh** n. m. — Denouement (lit. resolution) `C2`
+- **Fuascladh** v. root *fuascail* — To decipher (lit. solving) `C2`
+- **Fuascladh** v. root *fuascail* — To resolve (lit. solving, untying) `B2`
+- **Fuascladh** v. root *fuascail* — To solve `B1`
+- **Fuascladh** v. root *fuascail* — To unbutton (lit. undoing) `B2`
+- **Fuathachadh** v. root *fuathaich* — To abhor `C2`
+- **Fuathachadh** v. root *fuathaich* — To hate `A2`
+- **Fuidheall** n. m. pl. *fuidhleach* — Remainder `C2`
+- **Fuigheall** n. m. — Leftovers `B1`
+- **Fuil** n. f. — Blood `A1`
+- **Fuine** v. root *fuin* — To bake `A2`
+- **Fuineadh** v. root *fuin* — To knead `B2`
+- **Fuireach** v. root *fuirich* — To live (lit. to dwell, stay) `A1`
+- **Fuireach** v. root *fuirich* — To stay `A2`
+- **Fuireach thairis** v. root *fuirich* — To crash (sleep) (lit. stay over) `C1`
+- **Fuirich mionaid** phr. — Wait a moment `A1`
+- **Fulang** v. root *fuiling* — To suffer `B1`
+- **Fulangach-ionnsaigheach** adj. — Passive-aggressive `C1`
+- **Fulangaiche** n. m. pl. *fulangaichean* — Victim `B2`
+- **Fulangas** n. m. — Stamina (lit. endurance) `C2`
+- **Fulangas** n. m. — Tolerance `B2`
+- **Furachras** n. m. — Vigilance `C2`
+- **Furasdachadh** v. root *furasdaich* — To facilitate (lit. making easy) `B2`
+- **Furasta** adj. — Easy `A1`
+- **Furasta a chleachdadh** adj. — User-friendly (lit. easy to use) `C1`
+
+## G
+
+- **Gabh air do shocair** phr. — Take it easy (lit. take at your ease) `B1`
+- **Gabh cùram** phr. — Take care `A1`
+- **Na gabh dragh** phr. — Don’t worry (lit. don't take worry) `A1`
+- **Na gabh dragh** phr. — No worries (lit. don't take worry) `B1`
+- **Gabh gu math dheth** phr. — Enjoy your meal (lit. take well of it) `A1`
+- **Gabh le pinne salainn e** phr. — Take it with a grain of salt (lit. take it with a pinch of salt) `C2`
+- **Gabh mo leisceul** phr. — Excuse me (lit. take my excuse) `A1`
+- **Gabh ris le misneachd** phr. — Bite the bullet (lit. accept it with courage) `C2`
+- **Gabhaidh mi e** phr. — I’ll take it `A2`
+- **Gabhail** v. root *gabh* — To take `A1`
+- **Gabhail a-steach** v. root *gabh* — To encompass (lit. taking in) `C2`
+- **Gabhail a-steach** v. root *gabh* — To involve (lit. take in) `B1`
+- **Gabhail aithreachais** v. root *gabh* — To regret (lit. take regret) `B1`
+- **Gabhail bracaist** v. root *gabh bracaist* — To have breakfast (lit. taking breakfast) `A2`
+- **Gabhail brath air** v. root *gabh brath air* — To exploit (lit. taking advantage of) `B2`
+- **Gabhail brath air** v. root *gabh* — To leverage (lit. take advantage of) `C1`
+- **Gabhail càr air màl** v. root *gabh càr air màl* — To rent a car (lit. take a car on rent) `B1`
+- **Gabhail cluaineas** v. root *gabh cluaineas* — To retire (lit. take retirement) `B1`
+- **Gabhail cuairt** v. root *gabh cuairt* — To take a walk (lit. taking a turn) `A2`
+- **Gabhail dìnnear** v. root *gabh dìnnear* — To have dinner (lit. taking dinner) `A2`
+- **Gabhail diomb ri** v. root *gabh* — To resent (lit. taking offence at) `B2`
+- **Gabhail dragh** v. root *gabh dragh* — To worry (lit. take worry) `A2`
+- **Gabhail eagal mòr ro** v. root *gabh* — To dread (lit. taking great fear of) `B2`
+- **Gabhail fàileadh** v. root *gabh fàileadh* — To smell (lit. taking a smell) `A2`
+- **Gabhail fois** v. root *gabh* — To kick back (lit. take rest) `C1`
+- **Gabhail fois** v. root *gabh fois* — To rest (lit. taking rest) `A2`
+- **Gabhail fras** v. root *gabh fras* — To take a shower (lit. taking a shower) `A2`
+- **Gabhail greim bìdh** v. root *gabh greim bìdh* — To grab a bite (lit. take a bite of food) `B1`
+- **Gabhail iomagain** v. root *gabh* — To fret (lit. take anxiety) `C2`
+- **Gabhail iongnadh** v. root *gabh* — To marvel (lit. taking wonder) `C2`
+- **Gabhail iongnadh ri** v. root *gabh* — To marvel at (lit. take wonder at) `C2`
+- **Gabhail leisceul** v. root *gabh leisceul* — To apologize (lit. taking an excuse) `A2`
+- **Gabhail lòn** v. root *gabh lòn* — To have lunch (lit. taking lunch) `A2`
+- **Gabhail mar rud cinnteach** v. root *gabh* — To take for granted (lit. take as a certain thing) `C1`
+- **Gabhail os làimh** v. root *gabh* — To take on (a task) (lit. take in hand) `C1`
+- **Gabhail os làimh** v. root *gabh os làimh* — To undertake (lit. taking in hand) `B2`
+- **Gabhail pàirt** v. root *gabh* — To take part (lit. take part) `B1`
+- **Gabhail ris** v. root *gabh ris* — To assume (lit. take to it) `B1`
+- **Gabhail stuirc** v. root *gabh* — To sulk (lit. take a sulk) `C2`
+- **Gabhail suim de** v. root *gabh* — To care about (lit. take heed of) `B1`
+- **Gabhail thairis** v. root *gabh* — To take over (lit. taking over) `C1`
+- **Gabhail tlachd ann** v. root *gabh* — To relish (lit. taking pleasure in) `C2`
+- **Gabhaltach** adj. — Contagious `B2`
+- **Gabhaltaiche** n. m. pl. *gabhaltaichean* — Tenant `B1`
+- **Gabhaltas** n. m. — Infection `B2`
+- **Gach latha** adv. — Every day (lit. each day) `A2`
+- **Gailearaidh** n. m. pl. *gailearaidhean* — Gallery `B2`
+- **Gainmheach** n. f. — Sand `A2`
+- **Gainne** n. f. — Dearth `C2`
+- **Gainne uisce** n. f. — Water scarcity `C1`
+- **Gàirdean** n. m. pl. *gàirdeanan* — Arm `A1`
+- **Gàireachdainn** v. root *dèan gàire* — To laugh `A2`
+- **Gàireachdainn fo anail** v. root *gàir* — To chuckle (lit. laugh under one's breath) `C1`
+- **Gàireachdainn gu fanaideach** v. root *gàir* — To snicker (lit. laugh mockingly) `C1`
+- **Gairm** v. root *gairm* — To declare (lit. proclaiming) `B2`
+- **Gairm bhidio** n. f. pl. *gairmean bhidio* — Video call `A2`
+- **Gàirnealaireachd** n. f. — Gardening `B2`
+- **Gaisceil** adj. — Brave `B1`
+- **Galanta** adj. — Upscale `C1`
+- **Galar mòr-scaoilte** n. m. pl. *galaran mòr-scaoilte* — Pandemic (lit. widespread disease) `C2`
+- **Galar-eòlaiche** n. m. pl. *galar-eòlaichean* — Pathologist (lit. disease expert) `C2`
+- **Gamhlas** n. m. — Grudge `C2`
+- **Gamhlas** n. m. — Resentment `B2`
+- **Gann** adj. — Scant `C2`
+- **Gann** adj. — Scarce `C1`
+- **Gaol** n. m. — Love `A1`
+- **Gaoth** n. f. pl. *gaothan* — Wind `A1`
+- **Gaothaire** n. m. pl. *gaothairean* — Fan (appliance) `B1`
+- **Garaids** n. f. pl. *garaidsean* — Garage `B1`
+- **Garbh** adj. — Coarse (lit. rough) `C2`
+- **Garbh** adj. — Crude (lit. rough) `C1`
+- **Garbh** adj. — Rough `B1`
+- **Gàrradh** n. m. pl. *gàrraidhean* — Garden `A1`
+- **Gas taigh-glainne** n. m. pl. *gasaichean taigh-glainne* — Greenhouse gas (lit. glasshouse gas) `B2`
+- **Ge-tà** adv. — However `B1`
+- **Geal** adj. — White `A1`
+- **Gealach** n. f. pl. *gealaichean* — Moon `A1`
+- **Gealladh-pòsaidh** n. m. pl. *geallaidhean-pòsaidh* — Engagement (lit. promise of marriage) `B2`
+- **Gealltainn** v. root *geall* — To commit (to) (lit. promising) `B2`
+- **Gealltainn** v. root *geall* — To promise `A2`
+- **Gealtach** adj. — Cowardly `B1`
+- **Gealtachd** n. f. — Cowardice `B2`
+- **Geama** n. m. pl. *geamannan* — Game `A2`
+- **Geama bhidio** n. m. pl. *geamaichean bhidio* — Video game `A2`
+- **Geama cluich-pàirt air bòrd** n. m. pl. *geamannan cluich-pàirt air bòrd* — Tabletop role-playing game (lit. part-playing game on a table) `B2`
+- **Geama-bùird** n. m. pl. *geamaichean-bùird* — Board game `A2`
+- **Geamhradh** n. m. pl. *geamhraidhean* — Winter `A1`
+- **Gean** n. m. — Mood `A2`
+- **Geansaidh** n. m. pl. *geansaidhean* — Sweater `A1`
+- **Gearain** v. root *gearain* — To complain `A2`
+- **Gearan** n. m. pl. *gearanan* — Objection (lit. complaint) `B2`
+- **Gearan** n. m. pl. *gearanan* — Protest `B1`
+- **Gearan** v. root *gearain* — To grumble (lit. complain) `C1`
+- **Gearan mu** v. root *gearain* — To complain about `B1`
+- **Geàrr-chunntas** n. m. pl. *geàrr-chunntasan* — Minutes (of a meeting) (lit. short account) `B2`
+- **Geàrr-chunntas** n. m. pl. *geàrr-chunntasan* — Summary (lit. short account) `B2`
+- **Gearr-fhacal** n. m. pl. *gearr-fhaclan* — Quip `C2`
+- **Geàrr-iomradh** n. m. pl. *geàrr-iomraidhean* — Abstract (summary) (lit. short account) `C1`
+- **Geàrr-scrìobhaiche** n. m. pl. *geàrr-scrìobhaichean* — Stenographer (lit. shorthand writer) `C2`
+- **Geàrr-ùine** adj. — Short-term `B2`
+- **Gearradh** n. m. pl. *gearraidhean* — Incision (lit. cut) `C2`
+- **Gearradh** v. root *geàrr* — To cut `A2`
+- **Gearradh na chiùban** v. root *geàrr* — To dice (lit. cutting into cubes) `B2`
+- **Gearradh sìos air** v. root *geàrr* — To cut down on (lit. cutting down on) `C1`
+- **An Gearran** n. m. — February `A1`
+- **Geata** n. m. pl. *geataichean* — Gate `A2`
+- **Ged** conj. — Although `B1`
+- **Ged a** conj. — Albeit (lit. though) `C1`
+- **Ged a** conj. — Even though `B1`
+- **Gèile** n. m. pl. *gèilichean* — Gale `C2`
+- **Gèilleadh** n. m. — Compliance (lit. yielding, conforming) `C1`
+- **Gèilleadh** v. root *gèill* — To acquiesce `C2`
+- **Gèilleadh** v. root *gèill* — To comply (lit. yielding) `B2`
+- **Gèilleadh** v. root *gèill* — To give in (lit. yielding) `C1`
+- **Geo-phoileataics** n. f. — Geopolitics `C2`
+- **Geòlaiche** n. m. pl. *geòlaichean* — Geologist `C2`
+- **Geur** adj. — Acute (lit. sharp) `B2`
+- **Geur** adj. — Incisive (lit. sharp) `C2`
+- **Geur** adj. — Sharp `B1`
+- **Geur-bhlasta** adj. — Tangy (lit. sharp-tasting) `C2`
+- **Geur-chainnteach** adj. — Witty (lit. sharp-tongued) `C1`
+- **Geur-chùiseach** adj. — Astute `C2`
+- **Geur-chùiseachd** n. f. — Acumen `C2`
+- **Geur-fhàileach** adj. — Pungent (lit. sharp-smelling) `C2`
+- **Geur-fhreagairt** n. f. pl. *geur-fhreagairtean* — Repartee (lit. sharp answer) `C2`
+- **Gheibh an t-eun moch a' chnuimh.** phr. — The early bird catches the worm `C2`
+- **Giall** n. f. pl. *giallan* — Jaw `B2`
+- **An Giblean** n. m. — April `A1`
+- **Gille-coise** n. m. pl. *gillean-coise* — Lackey (lit. footman) `C2`
+- **Gine** n. f. pl. *ginean* — Gene `B2`
+- **Gineadair-galair** n. m. pl. *gineadairean-galair* — Pathogen (lit. disease generator) `C2`
+- **Gineadh** v. root *gin* — To generate `B2`
+- **Ginideachadh** n. m. — Germination `C2`
+- **Gintinn** v. root *gin* — To engender `C2`
+- **Gintinneachd** n. f. — Genetics `C2`
+- **Giorrachadh** v. root *giorraich* — To summarize (lit. shortening) `B2`
+- **Giùlan** n. m. — Behavior `B2`
+- **Giùlan** v. root *giùlain* — To carry `A2`
+- **Giùlan an ualaich as truime** v. root *giùlain* — To bear the brunt (lit. carrying the heaviest load) `C2`
+- **Glacadair** n. m. pl. *glacadairean* — Clutch (car) (lit. catcher) `C2`
+- **Glacadh** v. root *glac* — To catch `A2`
+- **Glacadh** v. root *glac* — To grab `B1`
+- **Glacadh** v. root *glac* — To grab (get) (lit. catch) `C1`
+- **Glacadh cumhachd** n. m. — Coup (lit. seizure of power) `C1`
+- **Glacadh gu mì-laghail** v. root *glac* — To usurp (lit. seizing unlawfully) `C2`
+- **Glacadh na trèana** v. root *glac* — To catch the train `B1`
+- **Glacadh-maoine** n. m. — Receivership (lit. seizing of assets) `C2`
+- **Glacadh-scrìn** n. m. pl. *glacaidhean-scrìn* — Screenshot (lit. screen capture) `A2`
+- **Glacadh-seilbhe** n. m. — Foreclosure (lit. seizing possession) `C1`
+- **Glainne** n. f. pl. *glainneachan* — Glass (cup) `A1`
+- **Glainne** n. f. — Glass (material) `B1`
+- **Glainne-sìde** n. f. pl. *glainneachan-sìde* — Barometer (lit. weather glass) `C2`
+- **Glainneadair** n. m. pl. *glainneadairean* — Glazier `C2`
+- **Glan** adj. — Clean `A1`
+- **Glan** adj. — Net (lit. clean) `C1`
+- **Glanadair-sùghaidh** n. m. pl. *glanadairean-sùghaidh* — Vacuum cleaner (lit. sucking cleaner) `A2`
+- **Glanadh** v. root *glan* — To clean `A2`
+- **Glanadh nam fiaclan** v. root *glan* — To brush one’s teeth (lit. cleaning the teeth) `A2`
+- **Glaodh** n. m. — Glue `B2`
+- **Glaodhach** adj. — Garish (lit. loud) `C2`
+- **Glaodhach** adj. — Gooey (lit. gluey) `C2`
+- **Glaodhaire** n. m. pl. *glaodhairean* — Speaker `A2`
+- **Glasadair** n. m. pl. *glasadairean* — Locksmith `C2`
+- **Glasadh** v. root *glais* — To lock `B1`
+- **Glasadh-trafaig** n. m. — Gridlock (lit. traffic lock) `C2`
+- **Glasraich** n. f. — Vegetables `A1`
+- **Glè** adv. — Very `A1`
+- **Gleac** v. root *gleac* — To grapple `C2`
+- **Gleann** n. m. pl. *glinn* — Valley `B2`
+- **Glèidheadair** n. m. pl. *glèidheadairean* — Curator (lit. keeper) `C2`
+- **Glèidheadh** v. root *glèidh* — To book `A2`
+- **Glèidheadh** v. root *glèidh* — To preserve `B2`
+- **Glèidheadh airson dìnnearach** n. m. — Reservation for dinner `B1`
+- **Glèidheadh chunntasan** n. m. — Bookkeeping (lit. keeping of accounts) `C1`
+- **Glèidhteach** adj. — Thrifty `B1`
+- **Glèidhteachas** n. m. — Conservation `B2`
+- **Gleoc** n. m. pl. *gleocaichean* — Clock `A1`
+- **Gleoc-dùscaidh** n. m. pl. *gleocaichean-dùscaidh* — Alarm clock (lit. waking clock) `A2`
+- **Gleusadh** v. root *gleus* — To adjust `B1`
+- **Glic** adj. — Smart (lit. wise, clever) `A2`
+- **Glic** adj. — Wise `B1`
+- **Gliocas** n. m. — Wisdom `B1`
+- **Glòir-mhiann** n. m. — Ambition `B2`
+- **Gluaiste** adj. — Moved (emotionally) `B1`
+- **Gluasad** n. m. pl. *gluasadan* — Trend `B1`
+- **Gluasad a-mach** v. root *gluais a-mach* — To move out `B1`
+- **Gluasad a-steach** v. root *gluais a-steach* — To move in `B1`
+- **Gluasad air an raon** n. m. — Taxiing (lit. moving on the field) `C2`
+- **Gluasad banca** n. m. pl. *gluasadan banca* — Bank transfer (lit. bank movement) `B1`
+- **Glùin** n. f. pl. *glùinean* — Knee `A1`
+- **Glumag-chladaich** n. f. pl. *glumagan-cladaich* — Tide pool (lit. shore pool) `C2`
+- **Gnàth-chùrsa** n. m. pl. *gnàth-chùrsaichean* — Routine (lit. usual course) `A2`
+- **Gnàth-fhacal** n. m. pl. *gnàth-fhaclan* — Aphorism `C2`
+- **Gnè** n. f. pl. *gnèithean* — Genre (lit. kind) `B2`
+- **Gnè** n. f. pl. *gnèithean* — Species `B2`
+- **Gnè ann an cunnart** n. f. pl. *gnèithean ann an cunnart* — Endangered species (lit. species in danger) `B2`
+- **Gnìomh** n. m. pl. *gnìomhan* — Function `B2`
+- **Gnìomh** n. m. pl. *gnìomhan* — Task `B1`
+- **Gnìomhachas ùr** n. m. pl. *gnìomhachasan ùra* — Startup (lit. new business) `B2`
+- **Gnothachail** adj. — Officious (lit. meddlesome) `C2`
+- **Gobaire** n. m. pl. *gobairean* — Busybody `C2`
+- **Gobaireachd** v. root *dèan gobaireachd* — To gossip (lit. beaking, gossiping) `B1`
+- **Gobha** n. m. pl. *goibhnean* — Blacksmith `C2`
+- **Goid** n. f. — Theft `B2`
+- **Goil** v. root *goil* — To boil `A2`
+- **Goil le fearg** v. root *goil* — To seethe (lit. boil with anger) `C2`
+- **Goireasach** adj. — Convenient `B1`
+- **Goireasan** n. m. — Utilities `B1`
+- **Goirid** adj. — Short (length) `A1`
+- **Goirt** adj. — Sore `B1`
+- **Goirt** adj. — Sour `B2`
+- **Gorm** adj. — Blue `A1`
+- **Gorta** n. f. — Famine `B2`
+- **Gràbhaladh searbhaig** n. m. — Etching (lit. acid engraving) `C2`
+- **Gràdhachadh** v. root *gràdhaich* — To love `A1`
+- **Gràineach** adj. — Grainy `C2`
+- **Gràineachadh** v. root *gràinich* — To abominate (lit. loathe) `C2`
+- **Gràineachadh** v. root *gràinich* — To loathe `B2`
+- **Gram** n. m. pl. *graman* — Gram `A2`
+- **Grànda** adj. — Ugly `A1`
+- **Greannach** adj. — Grumpy `B1`
+- **Greas ort!** phr. — Hurry up `A2`
+- **Greasad** v. root *greas* — To hurry `A2`
+- **Grèim** n. m. pl. *grèimean* — Custody (detention) `C2`
+- **An grèim** adj. — Hooked (lit. in a grip) `C1`
+- **Grèim** n. m. pl. *grèimean* — Suture (lit. stitch) `C2`
+- **Grèim a' phoileis** n. m. — Custody (police) (lit. the police's grip) `B2`
+- **Greim bìdh** n. m. — Snack (lit. a bite of food) `A2`
+- **Grèim-cridhe** n. m. — Heart attack (lit. heart seizure) `B2`
+- **Grèim-mionaich** n. m. — Stomachache (lit. gripe of the belly) `A2`
+- **Greimiche** n. m. pl. *greimichean* — Pliers (lit. gripper) `C2`
+- **Greis fhuar** n. f. — Cold snap (lit. cold spell) `C2`
+- **Greis-obrach** n. f. pl. *greisean-obrach* — Internship (lit. work spell) `B1`
+- **Grian** n. f. — Sun `A1`
+- **Grian-stad** n. m. pl. *grian-stadan* — Solstice (lit. sun-stop) `C2`
+- **Grinn** adj. — Elegant `B1`
+- **Grìosachadh** v. root *grìosaich* — To grill `B2`
+- **Grìs** n. f. — Goosebumps (lit. shivers) `C1`
+- **Grod** adj. — Putrid `C2`
+- **Grod** adj. — Rotten `B2`
+- **Gruagaire** n. m. pl. *gruagairean* — Hairdresser `A2`
+- **Gruaidh** n. f. pl. *gruaidhean* — Cheek `B2`
+- **Gruamach** adj. — Gloomy `C1`
+- **Grùdadh** n. m. — Brew (lit. brewing) `C1`
+- **Grùid** n. f. — Sediment `C2`
+- **Grunn** n. m. — Several `A2`
+- **Grùthan** n. m. pl. *grùthanan* — Liver `B2`
+- **Gu** prep. — To (direction) `A1`
+- **Gu bràth** adv. — Forever `B1`
+- **Gu bunaiteach** adv. — Basically `B1`
+- **Gu cunbhalach** adv. — Steadily `B2`
+- **Gu dearbh** adv. — In fact `B1`
+- **Gu dearbh** adv. — Of course `A1`
+- **Gu dìreach** adv. — Precisely (lit. exactly) `B2`
+- **Gu follaiseach** adv. — Obviously `B1`
+- **Gu fortanach** adv. — Luckily `B1`
+- **Gu h-ainneamh** adv. — Rarely `B1`
+- **Gu h-easponantach** adv. — Exponentially `C1`
+- **Gu h-iomlan** adv. — Entirely (lit. wholly) `B2`
+- **Gu h-obann** adv. — Abruptly (lit. suddenly) `B2`
+- **Gu h-obann** adv. — Suddenly `A2`
+- **Gu ìre** adv. — Partially (lit. to a degree) `B2`
+- **Gu ìre** phr. — To some extent (lit. to a degree) `B2`
+- **Gu ìre àraidh** phr. — Up to a point (lit. to a certain degree) `B2`
+- **Gu ìre bhig** adv. — Marginally (lit. to a small degree) `C1`
+- **Gu ìre mhòr** adv. — Considerably (lit. to a great degree) `B2`
+- **Gu leisc** adv. — Reluctantly (lit. reluctantly, lazily) `B2`
+- **Gu leòr** adv. — Enough `A1`
+- **Gu luath** adv. — Rapidly `B2`
+- **Gu math** adv. — Fairly (lit. well (quite)) `B2`
+- **Gu mì-fhortanach** adv. — Unfortunately `B1`
+- **Gu mionaideach** adv. — Thoroughly (lit. in detail) `B2`
+- **Gu mòr** adv. — Significantly (lit. greatly) `B2`
+- **Gu robh math agad** phr. — Thank you (lit. may good be at you) `A1`
+- **Gu ruige** prep. — Until `A2`
+- **Gu ruige seo** adv. — Hitherto (lit. up to now) `C2`
+- **Gu slaodach, mas e ur toil e** phr. — Slowly, please `A1`
+- **Gu tric** adv. — Frequently `B1`
+- **Gu tric** adv. — Often `A1`
+- **Gu tuigseach** adv. — Tactfully (lit. understandingly) `C1`
+- **Gu tur** adv. — Utterly `B2`
+- **Gu tur ann an gaol** phr. — Head over heels (lit. completely in love) `C1`
+- **Guala-rathaid** n. f. pl. *guailnean-rathaid* — Hard shoulder (lit. road shoulder) `C2`
+- **Gualainn** n. f. pl. *guailnean* — Shoulder `A1`
+- **Guanach** adj. — Flippant (lit. giddy) `C2`
+- **Guidhe** v. root *guidh* — To beg (lit. imploring) `B1`
+- **Guidhe** v. root *guidh* — To beseech `C2`
+- **Guin** n. m. pl. *guinean* — Twinge (lit. pang) `C2`
+- **Guineach** adj. — Mordant (lit. stinging) `C2`
+- **Guiseid** n. f. pl. *guiseidean* — Gusset `C2`
+- **Guitear** n. m. pl. *guitearan* — Gutter (roof) `C2`
+- **Gun** prep. — Without `A1`
+- **Gun adhbhar** adj. — Gratuitous (lit. without reason) `C2`
+- **Gun aire do** prep. — Irrespective of (lit. without regard to) `C2`
+- **Gun atharrachadh** adv. — Invariably (lit. without variation) `C1`
+- **Gun bhlas** adj. — Bland (flavorless) (lit. without taste) `C2`
+- **Gun chaifein** adj. — Decaf (lit. without caffeine) `C1`
+- **Gun choimeas** phr. — Peerless (lit. without comparison) `C2`
+- **Gun chomharraidhean** adj. — Asymptomatic (lit. without symptoms) `C2`
+- **Gun cus a ràdh** phr. — To say the least (lit. without saying too much) `B2`
+- **Gun dàil** adv. — Forthwith (lit. without delay) `C2`
+- **Gun droch-fhaireachdainn** phr. — No hard feelings (lit. without bad feeling) `C2`
+- **Gun èirich dhut** phr. — Good luck (lit. may it rise for you) `A1`
+- **Gun facal** adj. — Speechless (lit. without a word) `B1`
+- **Gun fhacal le toileachas** phr. — Speechless with joy (lit. wordless with joy) `C1`
+- **Gun fheum** adj. — Useless (lit. without use) `B1`
+- **Gun fhiosta** phr. — By accident (lit. unawares) `B2`
+- **Gun fhuaigheal** adj. — Seamless (lit. without a seam) `C1`
+- **Gun ghlùtan** adj. — Gluten-free `B1`
+- **Gun lochd** phr. — Faultless (lit. without fault) `C2`
+- **Gun mheang** adj. — Impeccable (lit. without blemish) `C1`
+- **Gun mhearachd** adj. — Flawless (lit. without error) `C1`
+- **Gun mhilleadh** phr. — Unspoiled (lit. without spoiling) `C1`
+- **Gun obair** adj. — Unemployed (lit. without work) `A2`
+- **Gun oilbheum, ach** phr. — No offense, but `C2`
+- **Gun òrdugh-dotair** phr. — Over-the-counter (lit. without a doctor's order) `C1`
+- **Gun ro-smaoineachadh** phr. — Off the top of my head (lit. without forethought) `C2`
+- **Gun samhail roimhe** adj. — Unprecedented (lit. without its like before) `B2`
+- **Gun scur** adj. — Incessant (lit. without stopping) `C2`
+- **Gun smal** phr. — Immaculate (lit. without a stain) `C2`
+- **Gun srian** adj. — Rampant (lit. unbridled) `C2`
+- **Gun sunnd** adj. — Listless (lit. without spirit) `C2`
+- **Gun taobh a ghabhail** phr. — On the fence (lit. without taking a side) `C1`
+- **Gun teagamh** adv. — Definitely (lit. without doubt) `B1`
+- **Gun teagamh** adv. — Undoubtedly (lit. without doubt) `C1`
+- **Gun teagamh sam bith** phr. — By all means (lit. without any doubt) `B2`
+- **Gun ullachadh** adj. — Spontaneous (lit. unprepared) `C1`
+- **Gus** prep. — In order to `B1`
+- **Gus sceul fada a dhèanamh goirid** phr. — Long story short (lit. to make a long story short) `B1`
+- **Guth-thairis** n. m. — Voice-over (lit. voice across) `C1`
+
+## H
+
+- **Hais-chòdachadh** n. m. — Hashing (lit. hash encoding) `C2`
+- **Hais-taga** n. m. pl. *hais-tagaichean* — Hashtag `C1`
+- **Halò** interj. — Hello `A1`
+- **Hormon** n. m. pl. *hormonan* — Hormone `C1`
+
+## I
+
+- **I** pron. — She `A1`
+- **Iad** pron. — They `A1`
+- **Iar-bhlas** n. m. — Aftertaste (lit. after-taste) `C1`
+- **Iar-bhlas searbh** n. m. — Bitter aftertaste `C2`
+- **Iar-shealladh** n. m. — Hindsight (lit. after-sight) `C2`
+- **Iargalta** adj. — Churlish `C2`
+- **Iarmhairt** n. f. pl. *iarmhairtean* — Implication `B2`
+- **Iarmhairt** n. f. pl. *iarmhairtean* — Ramification (lit. consequence) `C2`
+- **Iarnaigeadh** v. root *iarnaig* — To iron `A2`
+- **Iarraidh** v. root *iarr* — To want `A1`
+- **Iarraidh ri pòsadh** v. root *iarr* — To propose (marriage) (lit. asking to marry) `B2`
+- **Iasad** n. m. pl. *iasadan* — Loan `A2`
+- **Iasc** n. m. pl. *èisc* — Fish (animal) `A1`
+- **Iasc** n. m. — Fish (food) `A1`
+- **Iascach** n. m. — Fishing `A2`
+- **Idir** adv. — Whatsoever (lit. at all) `B2`
+- **Ìm** n. m. — Butter `A2`
+- **Imcheist** n. f. pl. *imcheistean* — Quandary `C2`
+- **Imfhios** n. m. — Intuition `B1`
+- **Imlich** v. root *imlich* — To lick `B1`
+- **Ìmpireachd** n. f. pl. *ìmpireachdan* — Empire `C1`
+- **Imrich** n. f. pl. *imrichean* — Migration (animal) `C2`
+- **Imrich** v. root *imrich* — To move (house) (lit. flitting) `A2`
+- **Imrich** v. root *imrich* — To relocate `C1`
+- **In-imrich** n. f. — Immigration `B1`
+- **In-imriche** n. m. pl. *in-imrichean* — Immigrant `C1`
+- **In-mhalairt** n. f. — Import `B2`
+- **Inbhe** n. f. pl. *inbhean* — Standard `B2`
+- **Inbheach** n. m. pl. *inbhich* — Adult `A2`
+- **Inbheach** adj. — Mature `B1`
+- **Inbhir** n. m. pl. *inbhirean* — Estuary `C2`
+- **Inneal** n. m. pl. *innealan* — Appliance `B1`
+- **Inneal fionnarachaidh** n. m. pl. *innealan fionnarachaidh* — Air conditioner (lit. cooling machine) `B1`
+- **Inneal-airgid** n. m. pl. *innealan-airgid* — ATM (lit. money machine) `A2`
+- **Inneal-nighe** n. m. pl. *innealan-nighe* — Washing machine (lit. washing machine) `A2`
+- **Inneal-smachd** n. m. pl. *innealan-smachd* — Remote control (lit. control device) `B1`
+- **Inneal-teàirrdsidh** n. m. pl. *innealan-teàirrdsidh* — Charger (lit. charging device) `A1`
+- **Innleachadh** v. root *innlich* — To concoct (lit. devising) `C2`
+- **Innleachdas** n. m. — Ingenuity `C2`
+- **Innleadair** n. m. pl. *innleadairean* — Engineer `A2`
+- **Innleadaireachd shòisealta** n. f. — Social engineering `C2`
+- **Innse bhreugan** v. root *innis breugan* — To lie (lit. telling lies) `A2`
+- **Innsidh mi dhut** phr. — I’ll let you know (lit. I'll tell you) `B1`
+- **Inntinneach** adj. — Interesting `A2`
+- **Insaladh** n. m. — Insulation `B2`
+- **Ìobairt** n. f. pl. *ìobairtean* — Sacrifice `B2`
+- **Ioga** n. f. — Yoga `A2`
+- **Iol-chomasach** adj. — Versatile (lit. many-abled) `B2`
+- **Iom-fhillte** adj. — Complicated `B1`
+- **Iom-fhillte** adj. — Intricate (lit. complex) `C1`
+- **Iom-tharraing** n. f. — Gravity `B2`
+- **Ioma-chànanach** adj. — Multilingual `C1`
+- **Ioma-lùbach** adj. — Labyrinthine (lit. many-winding) `C2`
+- **Iomadachadh** v. root *iomadaich* — To proliferate (lit. multiplying) `C2`
+- **Iomadh** adj. — Umpteen (lit. many a) `C1`
+- **Iomagain** n. f. — Anxiety `B2`
+- **Iomagain** n. f. — Apprehension `B2`
+- **Iomagaineach** adj. — Anxious `B1`
+- **Iomagaineach** adj. — Worried `A1`
+- **Iomain** v. root *iomain* — To propel (lit. driving) `C2`
+- **Iomairt** n. f. pl. *iomairtean* — Campaign `B2`
+- **Iomairt** n. f. pl. *iomairtean* — Campaign (game) `B2`
+- **Iomall mearachd** n. m. — Margin of error (lit. margin of error) `C2`
+- **Iomall prothaid** n. m. pl. *iomallan prothaid* — Profit margin `B2`
+- **Iomall-baile** n. m. pl. *iomallan-baile* — Suburb (lit. town edge) `B1`
+- **Iomallach** adj. — Remote (place) `C1`
+- **Iomarcach** adj. — Superfluous `C2`
+- **Iomarcachd** n. f. — Redundancy (backup) `C2`
+- **Iomchaidh** adj. — Appropriate `B2`
+- **Iomghaoth** n. f. pl. *iomghaothan* — Tornado (lit. whirlwind) `B1`
+- **Ìomhaigh-uchd** n. f. pl. *ìomhaighean-uchd* — Bust (sculpture) (lit. breast statue) `C2`
+- **Iomlaid** n. f. — Change (coins) `A1`
+- **Iomlaid** v. root *iomlaidich* — To exchange (money) `A2`
+- **Iomlan** n. m. — Total `A2`
+- **Iompaidheach** adj. — Persuasive `B2`
+- **Iomradh** n. m. pl. *iomraidhean* — Allusion (lit. mention) `C2`
+- **Iomradh** n. m. pl. *iomraidhean* — Reference `B2`
+- **Iomradh-tùis** n. m. pl. *iomraidhean-tùis* — Citation (lit. source reference) `C1`
+- **Ionad-bhùthan** n. m. pl. *ionadan-bhùthan* — Mall (lit. centre of shops) `A2`
+- **Ionadaire** n. m. pl. *ionadairean* — Understudy (lit. substitute) `C2`
+- **Iongantas** n. m. pl. *iongantasan* — Phenomenon (lit. wonder) `C1`
+- **Ionmhasail** adj. — Financial `B1`
+- **Ionmholta** adj. — Laudable `C2`
+- **Ionndrainn** n. f. — Longing `B2`
+- **Ionndrainn** v. root *ionndrainn* — To miss (someone) `A2`
+- **Ionndrainn** v. root *ionndrainn* — To pine for (lit. miss) `C2`
+- **Ionnradh** n. m. pl. *ionnraidhean* — Invasion `C1`
+- **Ionnsachadh** v. root *ionnsaich* — To learn `A1`
+- **Ionnsachadh innealach** n. m. — Machine learning `C1`
+- **Ionnsachadh thall thairis** v. root *ionnsaich* — To study abroad (lit. learning overseas) `B1`
+- **Ionnsaigh** n. f. pl. *ionnsaighean* — Assault `B2`
+- **Ionnsaigh** n. f. pl. *ionnsaighean* — Onslaught `C2`
+- **Ionnsaigh-chainnte** n. f. pl. *ionnsaighean-cainnte* — Tirade (lit. verbal attack) `C2`
+- **Ionracas** n. m. — Integrity `B2`
+- **Ionracas** n. m. — Rectitude `C2`
+- **Ìoranas** n. m. — Irony `C2`
+- **Ìre** n. f. pl. *ìrean* — Juncture (lit. stage, point) `C2`
+- **Ìre** n. f. pl. *ìrean* — Level `A2`
+- **Ìre** n. f. pl. *ìrean* — Phase (lit. stage) `B2`
+- **Ìre bhòtaidh** n. f. — Voter turnout (lit. voting level) `C1`
+- **Ìre cànain** n. f. — Register (language) (lit. language level) `C1`
+- **Ìre cothromachaidh** n. f. — Break-even (lit. balancing point) `C1`
+- **Ìre meudachd** n. f. pl. *ìrean meudachd* — Order of magnitude (lit. degree of size) `C2`
+- **An ìre mhath** phr. — More or less (lit. to a good degree) `B2`
+- **Ìre rèidh** n. f. pl. *ìrean rèidh* — Interest rate `B2`
+- **Ìre-breith** n. f. — Birth rate `C1`
+- **Iriosal** adj. — Humble `B1`
+- **Irioslachadh** n. m. — Humiliation `B2`
+- **Irioslachd** n. f. — Humility `B2`
+- **Iris** n. f. pl. *irisean* — Magazine `B1`
+- **Is coltach** adv. — Probably (lit. it is likely) `B1`
+- **Is coltach** phr. — To seem (lit. it is likely) `A2`
+- **Is cumhachdaiche am peann na an claidheamh.** phr. — The pen is mightier than the sword `C2`
+- **Is domhainn na h-uisceachan ciùin.** phr. — Still waters run deep `C2`
+- **Is e an onair an dòigh as fheàrr.** phr. — Honesty is the best policy (lit. honesty is the best way) `C2`
+- **Is e bargan a th' ann** phr. — It’s a deal (lit. it's a bargain) `B1`
+- **Is e deagh bheachd a th' ann** phr. — That’s a good idea `A2`
+- **Is e mo choire-sa a th' ann.** phr. — That's on me (lit. it's my fault) `C2`
+- **Is e plana math a th' ann** phr. — Sounds like a plan (lit. it's a good plan) `B1`
+- **Is e sin** adv. — Namely (lit. that is) `C1`
+- **Is fheàrr a bhith cinnteach na bhith duilich.** phr. — Better safe than sorry `C2`
+- **Is fheàrr anmoch na chaoidh.** phr. — Better late than never `C2`
+- **Is fheàrr aon ghnìomh na ceud facal.** phr. — Actions speak louder than words (lit. one deed is better than a hundred words) `C2`
+- **Is fheàrr dà cheann na aon cheann.** phr. — Two heads are better than one `C2`
+- **Is fheàrr eun san làimh na dhà air a' chraoibh.** phr. — A bird in the hand is worth two in the bush (lit. better a bird in the hand than two on the tree) `C2`
+- **Is fheàrr le** phr. — To prefer (lit. is better with) `A2`
+- **Is fhiach e** phr. — Worth it (lit. it is worth (it)) `B1`
+- **Is fhiach feuchainn** phr. — It’s worth a try (lit. trying is worth it) `B1`
+- **Is gann** adv. — Hardly (lit. it is scarce) `B2`
+- **Is gorm na cnuic a bhios fada bhuainn.** phr. — The grass is always greener on the other side (lit. green are the hills far from us) `C2`
+- **Is i an èiginn màthair na h-innleachd.** phr. — Necessity is the mother of invention `C2`
+- **Is mise Alex** phr. — My name is Alex (lit. I am Alex) `A1`
+- **Is tighe fuil na uisce.** phr. — Blood is thicker than water `C2`
+- **Is truagh sin** phr. — What a pity (lit. that is sad) `A2`
+- **Iseatop** n. m. pl. *iseatopan* — Isotope `C1`
+- **Ìsleachadh** v. root *ìslich* — To reduce (lit. lower) `B1`
+- **Ìsleachadh luach** n. m. — Depreciation (lit. fall in value) `C1`
+- **Iteach** n. m. — Plumage `C2`
+- **Itealaich** v. root *itealaich* — To fly `A2`
+- **Ithe** v. root *ith* — To eat `A1`
+- **Iuchair** n. f. pl. *iuchraichean* — Key `A1`
+- **Iuchair Allen** n. f. pl. *iuchraichean Allen* — Allen key `C2`
+- **Iuchair crioptachaidh** n. f. pl. *iuchraichean crioptachaidh* — Encryption key `C1`
+- **Iuchair-inntrigidh** n. f. pl. *iuchraichean-inntrigidh* — Passkey (lit. access key) `C2`
+- **An t-Iuchar** n. m. — July `A1`
+
+## K
+
+- **Karaoke** n. m. — Karaoke `B2`
+
+## L
+
+- **Labhairteach** adj. — Colloquial (lit. spoken) `C1`
+- **Ladar** n. m. pl. *ladair* — Ladle `C2`
+- **Lag** adj. — Weak `A1`
+- **Lagachadh** v. root *lagaich* — To abate `C2`
+- **Lagachadh** v. root *lagaich* — To undermine (lit. weaken) `C1`
+- **Lagaiche-solais** n. m. pl. *lagaichean-solais* — Dimmer (lit. light dimmer) `C1`
+- **Lagh** n. m. pl. *laghannan* — Law `B1`
+- **Lagh-eòlas** n. m. — Jurisprudence `C2`
+- **Laghach** adj. — Nice (person) `A2`
+- **Làidir** adj. — Cogent (lit. strong (of an argument)) `C2`
+- **Làidir** adj. — Strong `A1`
+- **Na laighe gu seascair** phr. — Nestled (lit. lying snugly) `C1`
+- **Làimhseachadh** v. root *làimhsich* — To conduct (carry out) (lit. handling) `B2`
+- **Làimhseachadh** v. root *làimhsich* — To handle `B1`
+- **Làimhseachadh** v. root *làimhsich* — To wield (lit. handling) `C2`
+- **Na làithean seo** adv. — Nowadays (lit. these days) `B1`
+- **Làitheil** adj. — Daily `B1`
+- **Làmh** n. f. pl. *làmhan* — Hand `A1`
+- **Làmh-dhèanta** adj. — Handmade (lit. hand-made) `B1`
+- **Làmh-dorais** n. f. pl. *làmhan-dorais* — Doorknob (lit. door handle) `C2`
+- **Làmh-scrìobhainn** n. f. pl. *làmh-scrìobhainnean* — Manuscript (lit. hand-writing) `C2`
+- **Lampa** n. m. pl. *lampaichean* — Lamp `A1`
+- **Làn** adj. — Full `A1`
+- **Làn dheth fhèin** adj. — Smug (lit. full of himself) `C1`
+- **Làn luchd-turais** phr. — Touristy (lit. full of tourists) `C1`
+- **Làn mhearachdan** adj. — Glitchy (lit. full of errors) `C1`
+- **Làn-bhlasta** adj. — Full-bodied (lit. full-flavoured) `C1`
+- **Làn-bhruich** adj. — Well done (lit. fully cooked) `C1`
+- **Làn-lìonadh** v. root *làn-lìon* — To saturate (lit. filling completely) `C2`
+- **Làn-ùine** adj. — Full-time `B1`
+- **Lannsair** n. m. pl. *lannsairean* — Surgeon `B2`
+- **Lapach** adj. — Lame (lit. feeble) `C1`
+- **Làr fiodha cruaidh** n. m. — Hardwood floor (lit. floor of hard wood) `C1`
+- **Làr lannaichte** n. m. — Laminate (lit. laminated floor) `C1`
+- **Làrach-lìn** n. f. pl. *làraichean-lìn* — Website (lit. web site) `A2`
+- **Làrach-scudail** n. f. pl. *làraichean-scudail* — Landfill (lit. rubbish site) `B2`
+- **Làrach-togail** n. f. pl. *làraichean-togail* — Construction site (lit. building site) `B2`
+- **Làraidh-shlaodaidh** n. f. pl. *làraidhean-slaodaidh* — Tow truck (lit. towing lorry) `C2`
+- **Lasachadh** n. m. pl. *lasachaidhean* — Discount `A1`
+- **Lasachadh** v. root *lasaich* — To wind down (lit. slacken) `C1`
+- **Lasadh** n. m. pl. *lasaidhean* — Flare-up (lit. flaring) `C2`
+- **Latha** n. m. pl. *làithean* — Day `A1`
+- **Latha dheth** n. m. pl. *làithean dheth* — Day off `B1`
+- **Latha is oidhche** adv. — Around the clock (lit. day and night) `B2`
+- **Latha loisceach** n. m. pl. *làithean loisceach* — Scorcher (lit. burning day) `C2`
+- **Latha math dhut** phr. — Have a nice day `A1`
+- **Latha-fèille** n. m. pl. *làithean-fèille* — Holiday (lit. feast day) `A1`
+- **Le** prep. — With `A1`
+- **Le comharraidhean** adj. — Symptomatic (lit. with symptoms) `C2`
+- **Le cridhe briste** adj. — Heartbroken (lit. with a broken heart) `C1`
+- **Le fios às dèidh làimh** phr. — In hindsight (lit. with knowledge after the event) `B2`
+- **Le mòr-bhuannachd** phr. — By a landslide (lit. with a great victory) `C1`
+- **Le sin** adv. — Thereby (lit. with that) `C1`
+- **Leabaidh** n. f. pl. *leapannan* — Bed `A1`
+- **Leabhar** n. m. pl. *leabhraichean* — Book `A1`
+- **Leabhar-cunntais** n. m. pl. *leabhraichean-cunntais* — Ledger `C1`
+- **Leabhar-notaichean** n. m. pl. *leabhraichean-notaichean* — Notebook `A2`
+- **Leabhar-reasabaidh** n. m. pl. *leabhraichean-reasabaidh* — Recipe book `B1`
+- **Leabharlann** n. m. pl. *leabharlannan* — Library `A2`
+- **Leac-uinneig** n. f. pl. *leacan-uinneig* — Windowsill (lit. window slab) `C2`
+- **Leachtachd** n. f. — Liquidity `C1`
+- **Leagail** n. m. — Demolition (lit. knocking down) `B2`
+- **Leaghadh** v. root *leagh* — To melt `B2`
+- **Leaghadh niùclasach** n. m. — Nuclear fusion `C1`
+- **Leamh** adj. — Annoying `B1`
+- **Leamh** adj. — Banal (lit. insipid) `C2`
+- **Leamhachadh** v. root *leamhaich* — To exasperate `C2`
+- **Leamhachas** n. m. — Boredom `B2`
+- **Leanabas** n. m. — Childhood `A2`
+- **Leanabh** n. m. pl. *leanaban* — Baby `A1`
+- **Leanabh-iongantais** n. m. pl. *leanaban-iongantais* — Prodigy (lit. child of wonder) `C2`
+- **Leann** n. m. — Beer `A1`
+- **Leannan** n. m. pl. *leannanan* — Girlfriend (lit. sweetheart) `A1`
+- **Leannan-dìomhair** n. m. pl. *leannain-dhìomhair* — Crush (lit. secret sweetheart) `B1`
+- **Leantainn** n. m. — Sequel (lit. continuation) `C1`
+- **Leantainn** v. root *lean* — To follow `A2`
+- **Leantainn** v. root *lean* — To pursue (lit. following) `B2`
+- **Leantainn air** v. root *lean air* — To continue (lit. following on) `A2`
+- **Leantainn air** v. root *lean air* — To persist (lit. following on) `B2`
+- **Leantainn ri** v. root *lean* — To adhere (lit. follow, stick to) `C1`
+- **Leantainneach** adj. — Chronic (lit. continuing) `B2`
+- **Leasachadh** v. root *leasaich* — To develop `B1`
+- **Leasachadh** v. root *leasaich* — To enhance (lit. improving) `B2`
+- **Leasachadh màladair** n. m. pl. *leasachaidhean màladair* — Tenant improvement (lit. tenant improvement) `B2`
+- **Leasan** n. m. pl. *leasanan* — Lesson `A2`
+- **Leatas** n. m. pl. *leatasan* — Lettuce `A2`
+- **Leathad sleamhainn** phr. — A slippery slope `C1`
+- **Leathann** adj. — Wide (lit. broad) `A2`
+- **Leathar** n. m. — Leather `B1`
+- **Leatromach** adj. — Pregnant `B2`
+- **Leibideach** adj. — Shoddy `C1`
+- **Leig leam smaoineachadh** phr. — Let me think `A2`
+- **Leig leam!** phr. — Give me a break (lit. let me be) `C2`
+- **Leigeil a-mach** v. root *leig* — To leak (lit. letting out) `C1`
+- **Leigeil air** v. root *leig* — To feign `C2`
+- **Leigeil air** v. root *leig* — To pretend (lit. let on) `B1`
+- **Leigeil anail** v. root *leig* — To chill (lit. let breath) `C1`
+- **Leigeil anail** v. root *leig anail* — To relax (lit. letting (one's) breath) `A2`
+- **Leigeil às** v. root *leig* — To relinquish (lit. let go) `C1`
+- **Leigeil dhiot** v. root *leig dhiot* — To quit (lit. let go from you) `B1`
+- **Leigeil do thaic ri** v. root *leig* — To lean (lit. let one's weight on) `B1`
+- **Leigeil ris** v. root *leig* — To divulge (lit. letting it be seen) `C2`
+- **Leigeil rùin ri** v. root *leig* — To confide in (lit. let a secret to) `C2`
+- **Leigeil rùn ri** v. root *leig* — To confide (lit. let a secret to) `C1`
+- **Leigeil seachad** v. root *leig* — To condone (lit. let pass) `C1`
+- **Leigeil seachad** v. root *leig* — To give up (lit. let past) `B1`
+- **Leigeil seachad** v. root *leig seachad* — To ignore (lit. letting pass) `B1`
+- **Leigeil seachad biadh** v. root *leig seachad biadh* — To skip a meal (lit. let a meal pass) `B1`
+- **Leigeil sìos** v. root *leig* — To let down (lit. letting down) `C1`
+- **Leigheas** n. m. pl. *leigheasan* — Medicine `A2`
+- **Leigheas** n. m. — Treatment `B2`
+- **Lèine** n. f. pl. *lèintean* — Shirt `A1`
+- **Lèine-T** n. f. pl. *lèintean-T* — T-shirt `A1`
+- **Lèir-shealbh** n. m. — Monopoly (lit. total possession) `B2`
+- **Lèirmheas** n. m. pl. *lèirmheasan* — Review `B1`
+- **Leis a seo** adv. — Hereby (lit. with this) `C1`
+- **Leis am** conj. — Whereby (lit. by which) `C1`
+- **Leis an amas** phr. — With a view to (lit. with the aim) `C1`
+- **Leis an astar, fàsaidh an gaol.** phr. — Absence makes the heart grow fonder (lit. with distance, love grows) `C2`
+- **Leis an fhìrinn innse** phr. — As a matter of fact (lit. to tell the truth) `B2`
+- **Leis an fhìrinn innse** phr. — To be honest (lit. with the truth told) `A2`
+- **Leisc** adj. — Indolent (lit. lazy) `C2`
+- **Leisc** adj. — Lazy `A2`
+- **Leiscear** n. m. pl. *leiscearan* — Slacker `C1`
+- **Leisceul** n. m. pl. *leisceulan* — Pretext (lit. excuse) `C2`
+- **Leòmhann** n. m. pl. *leòmhainn* — Lion `A2`
+- **Leòn** n. m. pl. *leòintean* — Injury `A2`
+- **Leth** n. m. — Half `A1`
+- **Leth-aon** n. m. pl. *leth-aonan* — Twins (lit. half-one (a twin)) `A2`
+- **Leth-bhreith** n. f. — Discrimination `B2`
+- **Leth-bhruich** adj. — Half-baked (lit. half-cooked) `C1`
+- **Leth-chruinne** n. m. pl. *leth-chruinnean* — Hemisphere (lit. half globe) `B2`
+- **Leth-eilean** n. m. pl. *leth-eileanan* — Peninsula (lit. half island) `B2`
+- **Leth-eòlaiche** n. m. pl. *leth-eòlaichean* — Dilettante (lit. half-expert) `C2`
+- **Leth-fhacal a thilgeil** v. root *tilg* — To insinuate (lit. to throw a half-word) `C2`
+- **Leth-ghiùlanair** n. m. pl. *leth-ghiùlanairean* — Semiconductor (lit. half-conductor) `C2`
+- **Leth-lobhta** n. m. pl. *leth-lobhtaichean* — Mezzanine (lit. half-loft) `C2`
+- **Leth-shaillte** adj. — Brackish (lit. half-salty) `C2`
+- **Leth-tinn** adj. — Under the weather (lit. half-sick) `C1`
+- **Lethbhreac dearbhte** n. m. pl. *lethbhreacan dearbhte* — Certified copy `C1`
+- **Lethbhreac-glèidhidh** n. m. pl. *lethbhric-ghlèidhidh* — Backup (data) (lit. keeping copy) `C1`
+- **Leud-bann** n. m. — Bandwidth (network) `C1`
+- **Leud-banna** n. m. — Bandwidth `C2`
+- **Leudachadh** v. root *leudaich* — To elaborate (lit. widening) `B2`
+- **Leudachadh** v. root *leudaich* — To expand (lit. widening) `B2`
+- **Leudachadh** v. root *leudaich* — To scale up (lit. widen) `C1`
+- **Leughadh** v. root *leugh* — To read `A1`
+- **Leughadh eadar na loidhnichean** v. root *leugh* — To read between the lines (lit. read between the lines) `C1`
+- **Leum** v. root *leum* — To jump `A2`
+- **Liath** adj. — Gray `A1`
+- **Lìbhrigeadh** n. m. — Delivery `A2`
+- **Lìbhrigeadh an-ascaidh** phr. — Free shipping (lit. free delivery) `B1`
+- **Lighiche aillse** n. m. pl. *lighichean aillse* — Oncologist (lit. cancer doctor) `C2`
+- **Lighiche-cnàimh** n. m. pl. *lighichean-cnàimh* — Chiropractor (lit. bone doctor) `C2`
+- **Lighiche-sprèidh** n. m. pl. *lighichean-sprèidh* — Veterinarian (specialist) (lit. livestock doctor) `C2`
+- **Lighiche-suain** n. m. pl. *lighichean-suain* — Anesthesiologist (lit. sleep doctor) `C2`
+- **Lighiche-sùla** n. m. pl. *lighichean-sùla* — Ophthalmologist (lit. eye doctor) `C2`
+- **Lìnigeadh** n. m. — Lining `B2`
+- **Linn** n. f. pl. *linntean* — Century `B1`
+- **Liobasta** adj. — Cumbersome (lit. clumsy) `C2`
+- **Liomaid** n. f. pl. *liomaidean* — Lemon `A2`
+- **Lìomh** n. f. — Glaze (lit. gloss) `C1`
+- **Lìomhte** adj. — Polished `C1`
+- **Lìonadh a-steach** v. root *lìon* — To fill in (a form) `B1`
+- **Lìonmhor** adj. — Copious `C2`
+- **Lìonmhor** adj. — Rife (lit. plentiful) `C2`
+- **Lionn-dubh** n. m. — Melancholy (lit. black humour) `B2`
+- **Lìonra neurach** n. m. pl. *lìonraidhean neurach* — Neural network `C1`
+- **Lìonrachadh** v. root *lìonraich* — To network `B2`
+- **Liopaid** n. f. pl. *liopaidean* — Lapel `C2`
+- **Lios** n. f. pl. *liosan* — Courtyard `C2`
+- **Lios** n. f. pl. *liosan* — Yard `B1`
+- **Liosda** adj. — Boring (lit. tedious) `A2`
+- **Liosta rudan ri dhèanamh** n. f. pl. *liostaichean rudan ri dhèanamh* — To-do list (lit. list of things to do) `B2`
+- **Liosta-lochdan** n. f. pl. *liostaichean-lochdan* — Punch list (lit. list of faults) `C1`
+- **Liotair** n. m. pl. *liotairean* — Liter `A2`
+- **Litearrachd** n. f. — Literacy `C1`
+- **Litreachadh** v. root *litrich* — To spell `A2`
+- **Litreachas** n. m. — Literature `B2`
+- **Liut** phr. — A knack `C1`
+- **Lobhta** n. m. pl. *lobhtaichean* — Attic `B1`
+- **Loch** n. m. pl. *lochan* — Lake `A2`
+- **Lochdachadh** v. root *lochdaich* — To criticize (lit. finding fault) `B1`
+- **Loidhne** n. f. pl. *loidhnichean* — Line `A1`
+- **Loidhne-fuaigheil** n. f. pl. *loidhnichean-fuaigheil* — Seam (lit. sewing line) `B2`
+- **Loidhne-ùghdair** n. f. pl. *loidhnichean-ùghdair* — Byline (lit. author line) `C1`
+- **Loidsig** n. f. — Logic `B1`
+- **Loisceach** adj. — Acrid (lit. burning) `C2`
+- **Lom** adj. — Austere (lit. bare) `C1`
+- **Lom-chaithte** adj. — Threadbare (lit. worn bare) `C2`
+- **Loma-làn** adj. — Packed `C1`
+- **Lòn** n. m. pl. *lòintean* — Lunch `A1`
+- **An lorg** prep. — In the wake of (lit. in the track of) `C2`
+- **Lorg** v. root *lorg* — To detect (lit. finding, tracing) `B2`
+- **Lorg** v. root *lorg* — To find `A1`
+- **Lorg air loidhne** v. root *lorg air loidhne* — To search online (lit. search on line) `A2`
+- **Lorg brisidh a-steach** n. f. — Intrusion detection (lit. detection of breaking in) `C2`
+- **Lorg-carboin** n. f. — Carbon footprint (lit. carbon track) `B2`
+- **Lorgadh** v. root *lorg* — To track (a package) (lit. track (a package)) `B1`
+- **Lorgair-ceò** n. m. pl. *lorgairean-ceò* — Smoke detector (lit. smoke finder) `B1`
+- **Lorgaire** n. m. pl. *lorgairean* — Detective (lit. tracker) `B2`
+- **Los gu** conj. — So that `B1`
+- **Loscadh le droch rùn** n. m. — Arson (lit. burning with ill intent) `C2`
+- **Loscadh-grèine** n. m. — Sunburn `B1`
+- **Luach airgid** n. m. — Value for money (lit. worth of money) `B1`
+- **Luach iomallach** n. m. pl. *luachan iomallach* — Outlier (lit. remote value) `C2`
+- **Luach malairt** n. m. — Turnover (lit. value of trade) `C1`
+- **Luach seilbhe** n. m. — Equity (lit. value of ownership) `C1`
+- **Luach-seilbhe** n. m. — Equity (ownership) (lit. ownership value) `C2`
+- **Luachadh** n. m. pl. *luachaidhean* — Appraisal (lit. valuation) `C1`
+- **Luachadh** v. root *luachaich* — To evaluate `B2`
+- **Luachmhor** adj. — Valuable `B1`
+- **Luaidh** v. root *luaidh* — To quote `B2`
+- **Luaineach** adj. — Capricious `C2`
+- **Luaineach** adj. — Whimsical (lit. fickle) `C1`
+- **Luamhanachadh** n. m. — Leverage (finance) (lit. levering) `C2`
+- **Luascadh** v. root *luaisc* — To oscillate (lit. swinging) `C2`
+- **Luascan comharra** n. m. — Jitter (lit. signal wavering) `C2`
+- **Luascanach** adj. — Fidgety `C2`
+- **Luath** adj. — Fast `A1`
+- **Luath no mall** phr. — Sooner or later (lit. early or late) `B2`
+- **Luathachadh** n. m. — Acceleration `C1`
+- **Luathachadh** v. root *luathaich* — To expedite `C2`
+- **Luaths** n. m. — Speed `A2`
+- **Lùbach** adj. — Tortuous (lit. winding) `C2`
+- **Lùbadh** v. root *lùb* — To bend `B1`
+- **Lùbadh** v. root *lùb* — To meander (lit. bending) `C2`
+- **Luchd** n. m. pl. *luchdan* — Freight (lit. load) `C2`
+- **Luchd-amhairc** n. m. — Viewership (lit. viewers) `C1`
+- **Luchd-coimhideachd** n. m. — Entourage (lit. escorting people) `C2`
+- **Luchd-dàimh** n. m. — Relatives (lit. kin folk) `A2`
+- **Luchd-dùbhlain** n. m. — Opposition (lit. challenging people) `B2`
+- **Luchd-èisteachd** n. m. — Audience (lit. listeners) `B1`
+- **Luchdachadh a-nuas** v. root *luchdaich a-nuas* — To download (lit. loading down) `A2`
+- **Lùdag** n. f. pl. *lùdagan* — Hinge `C2`
+- **Lùghdachadh** v. root *lùghdaich* — To decrease `B1`
+- **Lùghdachadh** v. root *lùghdaich* — To diminish `C1`
+- **Lùghdachadh** v. root *lùghdaich* — To wane (lit. decreasing) `C2`
+- **Lughdachadh** n. m. — Understatement (lit. lessening) `C2`
+- **Luibh** n. f. pl. *luibhean* — Herb `B2`
+- **Luibh-eòlas** n. m. — Botany `C2`
+- **Luideach** adj. — Shabby (lit. ragged) `C1`
+- **An Lùnastal** n. m. — August `A1`
+- **Lus** n. m. pl. *lusan* — Plant `A2`
+- **Lùth** n. m. — Energy `B1`
+- **Lùth ath-nuadhachail** n. m. — Renewable energy `B1`
+
+## M
+
+- **Ma tha dad ann** phr. — If anything (lit. if there is anything) `B2`
+- **Mac** n. m. pl. *mic* — Son `A1`
+- **Mac peathar** n. m. pl. *mic peathar* — Nephew (lit. sister's son (also mac bràthar)) `A2`
+- **Mac-meanmna** n. m. — Imagination `B1`
+- **Mac-meanmnachadh** v. root *mac-meanmnaich* — To imagine `B1`
+- **Macantas** n. m. — Meekness `C2`
+- **MacGuffin** n. m. — MacGuffin `C2`
+- **Madainn** n. f. pl. *madainnean* — Morning `A1`
+- **Madainn mhath** phr. — Good morning `A1`
+- **Magadh** v. root *mag* — To deride (lit. mocking) `C2`
+- **Maidean-ithe** n. m. — Chopsticks (lit. eating sticks) `B1`
+- **Maighstir** n. m. pl. *maighstirean* — Mister `A1`
+- **Màileid** n. f. pl. *màileidean* — Suitcase `A1`
+- **Màileid-droma** n. f. pl. *màileidean-droma* — Backpack (lit. back bag) `B1`
+- **Maireannach** adj. — Enduring `C1`
+- **Maireannach** adj. — Permanent `B1`
+- **Màirneal** n. m. — Procrastination (lit. delay, dilatoriness) `B2`
+- **Mairsinn beò** v. root *mair* — To survive (lit. last alive) `B1`
+- **Maiseachd** n. f. — Aesthetic (lit. beauty-ness) `C2`
+- **Màl** n. m. pl. *màil* — Rent `A2`
+- **Mala** n. f. pl. *malaichean* — Eyebrow `B2`
+- **Malairt** n. f. — Trade (commerce) `B2`
+- **Malairteachadh** v. root *malairtich* — To exchange (goods) `B1`
+- **Manaidsear** n. m. pl. *manaidsearan* — Manager `A2`
+- **Mango** n. m. pl. *mangothan* — Mango `A2`
+- **Maoidheadh** v. root *maoidh* — To begrudge `C2`
+- **Maoidheadh** v. root *maoidh* — To threaten `B1`
+- **Maoim-sneachda** n. m. pl. *maoimean-sneachda* — Avalanche `B1`
+- **Maoin** n. f. pl. *maoinean* — Asset `C1`
+- **Maoin-dìolaidh** n. f. pl. *maoinean-dìolaidh* — Sinking fund (lit. repayment fund) `C2`
+- **Maoineachadh còmhdhail poblach** n. m. — Public transit funding `C1`
+- **Maol** adj. — Blunt `B1`
+- **Maor** n. m. pl. *maoir* — Bailiff `C2`
+- **Maoth** adj. — Tender `B2`
+- **Maoth-fhacal** n. m. pl. *maoth-fhaclan* — Euphemism (lit. soft word) `C2`
+- **Maoth-fhaclach** adj. — Euphemistic (lit. soft-worded) `C2`
+- **Maothachadh** v. root *maothaich* — To mitigate (lit. soften) `C1`
+- **Maothail** adj. — Cheesy (lit. soppy, sentimental) `C1`
+- **Mapa** n. m. pl. *mapaichean* — Map `A1`
+- **Mapaiche** n. m. pl. *mapaichean* — Cartographer `C2`
+- **Mar an ceudna** adv. — Ditto (lit. likewise) `C2`
+- **Mar an ceudna** adv. — Likewise `C1`
+- **Mar as àbhaist** adv. — Usually (lit. as is customary) `A2`
+- **Mar as toil leat.** phr. — Suit yourself (lit. as you like) `C2`
+- **Mar cho-dhùnadh** adv. — In conclusion `B1`
+- **Mar eisimpleir** phr. — For example `A2`
+- **Mar eisimpleir** adv. — For instance `B1`
+- **Mar gum** conj. — As if `B1`
+- **Mar sin** adv. — Thus (lit. like that) `C1`
+- **Mar sin leat an-dràsta** phr. — Goodbye for now (lit. like that with you for now) `A1`
+- **Mar thoradh air sin** adv. — As a result `B1`
+- **Marbh** adj. — Stagnant (lit. dead (of water)) `C2`
+- **Marbhadh gun rùn** n. m. — Manslaughter (lit. killing without intent) `C2`
+- **Marbhanta** adj. — Inert `C2`
+- **Marbhantachd** n. f. — Inertia (lit. sluggishness) `C1`
+- **Marbhantachd** n. f. — Lethargy `C2`
+- **Margadh** n. m. pl. *margaidhean* — Market `A1`
+- **Margadh mathain** n. m. — Bear market (lit. bear's market) `C2`
+- **Margadh nan earrannan** n. m. — Stock market (lit. market of the shares) `B2`
+- **Margadh tairbh** n. m. — Bull market (lit. bull's market) `C2`
+- **Am Màrt** n. m. — March `A1`
+- **Mas e do thoil e** phr. — Please (lit. if it is your will) `A1`
+- **Maslach** adj. — Deplorable `C2`
+- **Masladh** n. m. pl. *maslaidhean* — Slur (insult) (lit. insult) `C2`
+- **Mata-glainne** n. m. pl. *matachan-glainne* — Coaster (lit. glass mat) `C2`
+- **Matamataig** n. f. — Math `A2`
+- **Math** adj. — Good `A1`
+- **Math gu ruige seo** phr. — So far so good (lit. good up to here) `B1`
+- **Mathadh** v. root *math* — To forgive `B1`
+- **Màthair** n. f. pl. *màthraichean* — Mother `A1`
+- **Màthair-chèile** n. f. pl. *màthraichean-cèile* — Mother-in-law `B2`
+- **Mathanas** n. m. — Forgiveness `B2`
+- **Meacanaig** n. m. pl. *meacanaigean* — Mechanic `A2`
+- **Meadhan** n. m. pl. *meadhanan* — Median (lit. middle) `C2`
+- **Meadhan a' bhaile** n. m. — Downtown (lit. the middle of the town) `A2`
+- **Meadhan-aois** n. f. — Middle age `B1`
+- **Meadhan-latha** n. m. — Noon (lit. middle of the day) `A1`
+- **Meadhan-oidhche** n. m. — Midnight (lit. middle of the night) `A1`
+- **Meadhanach** adj. — Mediocre (lit. middling) `C1`
+- **Meadhanach** adj. — Medium `B1`
+- **Meadhanach mòr** adj. — Sizable (lit. fairly big) `C1`
+- **Meadhanan sòisealta** n. m. — Social media `A2`
+- **Meadrachd** n. f. — Meter (poetry) `C2`
+- **Meafar** n. m. pl. *meafaran* — Metaphor `B2`
+- **Meal do naidheachd** phr. — Congratulations (lit. enjoy your news) `A1`
+- **Meal-bhuc uisce** n. m. pl. *meal-bhucan uisce* — Watermelon (lit. water melon) `A2`
+- **Mealladh** v. root *meall* — To lure (lit. deceiving) `C2`
+- **Mealladh air loidhne** n. m. — Phishing (lit. online deception) `C1`
+- **Mealltair** n. m. pl. *mealltairean* — Charlatan (lit. deceiver) `C2`
+- **Mealtainn** v. root *meal* — To enjoy `A2`
+- **Mealtainn** v. root *meal* — To revel in (lit. enjoying) `C2`
+- **Mean air mhean** adv. — Gradually (lit. little by little) `B2`
+- **Mean-fhàs** n. m. — Evolution (lit. gradual growth) `B2`
+- **Meanbh-bhiastag** n. f. pl. *meanbh-bhiastagan* — Insect `A2`
+- **Meanbh-bhith-eòlas** n. m. — Microbiology `C2`
+- **Meanbh-fhigear** n. m. pl. *meanbh-fhigearan* — Miniature (figure) (lit. tiny figure) `B2`
+- **Mearachd** n. f. pl. *mearachdan* — Fallacy (lit. error) `C2`
+- **Mearachd** n. f. pl. *mearachdan* — Mistake `A2`
+- **Mearachd prògraim** n. f. pl. *mearachdan prògraim* — Bug (software) (lit. program error) `B2`
+- **Mearachd-fhacail** n. f. pl. *mearachdan-fhacail* — Malapropism (lit. word error) `C2`
+- **Mearachdach** adj. — Fallacious `C2`
+- **Mèaran** n. m. pl. *mèaranan* — Yawn `C2`
+- **Mèaranaich** v. root *mèaranaich* — To yawn `B1`
+- **Meas** n. m. pl. *measan* — Fruit `A1`
+- **Meas** v. root *meas* — To deem `C2`
+- **Measadh** n. m. pl. *measaidhean* — Rating `B1`
+- **Measadh** v. root *meas* — To assess `B2`
+- **Measadh coileanaidh** n. m. — Performance review (lit. assessment of performance) `B2`
+- **Meascachadh** v. root *meascaich* — To mingle (lit. mixing) `C2`
+- **Meascaiche** n. m. pl. *meascaichean* — Blender (lit. mixer) `B1`
+- **Meata-dàta** n. m. — Metadata `C2`
+- **Meata-fiosaigs** n. f. — Metaphysics `C2`
+- **Meatabolas** n. m. — Metabolism `C1`
+- **Meatailt** n. f. pl. *meatailtean* — Metal `B1`
+- **Meatair** n. m. pl. *meatairean* — Meter `A2`
+- **Mèirle-earbsa** n. f. — Embezzlement (lit. theft of trust) `C2`
+- **Mèirle-inntleachd** n. f. — Plagiarism (lit. intellectual theft) `B1`
+- **Meòrachadh** v. root *meòraich* — To meditate `B1`
+- **Meòrachadh** v. root *meòraich* — To reflect (think over) `B1`
+- **Meud** n. m. — Scale (magnitude) (lit. size) `B2`
+- **Meud** n. m. pl. *meudan* — Size `A1`
+- **Meud an sampaill** n. m. — Sample size (lit. size of the sample) `C2`
+- **Meudachadh** v. root *meudaich* — To augment `C2`
+- **Meudachadh** v. root *meudaich* — To increase `B1`
+- **Meur** n. m. pl. *meuran* — Branch (office) `B2`
+- **Meur-chlàr** n. m. pl. *meur-chlàran* — Keyboard `A2`
+- **Mharbh feòrachas an cat.** phr. — Curiosity killed the cat `C2`
+- **A' mhòr-chuid mhòr** phr. — The vast majority (lit. the great greater part) `C1`
+- **Mi** pron. — I `A1`
+- **Mì-chiallach** adj. — Wanton (lit. senseless) `C2`
+- **Mì-chinnteach** adj. — Insecure `B1`
+- **Mì-chliùiteach** adj. — Seedy (lit. disreputable) `C1`
+- **Mì-chliùthachadh** v. root *mì-chliùthaich* — To vilify (lit. defaming) `C2`
+- **Mì-chothromach** adj. — Unfair `B1`
+- **Mì-chreideas** n. m. — Disbelief `B2`
+- **Mì-chùramach** adj. — Careless `B1`
+- **Mì-earbsach** adj. — Cynical (lit. distrustful) `C1`
+- **Mì-fhiosrachadh** n. m. — Misinformation (lit. bad information) `C1`
+- **Mì-fhois** n. f. — Restlessness (lit. unrest) `C2`
+- **Mì-fhoisneach** adj. — Restless `B1`
+- **Mì-fhreagarrach** adj. — Incongruous `C2`
+- **Mì-fhuaimneachadh** v. root *mì-fhuaimnich* — To mispronounce `C1`
+- **Mì-laghail** adj. — Illicit `C2`
+- **Mì-làimhseachail** adj. — Unwieldy (lit. hard to handle) `C2`
+- **Mì-mhealladh** v. root *mì-mheall* — To disillusion (lit. undeceive) `C2`
+- **Mì-mhisneachadh** v. root *mì-mhisnich* — To dishearten (lit. discourage) `C2`
+- **Mì-mhodhail** adj. — Rude (lit. un-mannerly) `A2`
+- **Mì-rùn** n. m. — Malice `C2`
+- **Mì-rùnach** adj. — Malicious `C1`
+- **Mì-sciobalta** adj. — Disheveled (lit. untidy) `C2`
+- **Mì-sciobalta** adj. — Sloppy (lit. untidy) `C1`
+- **Mì-shoilleir** adj. — Confusing (lit. unclear) `B1`
+- **Miann** n. m. pl. *miannan* — Craving `B1`
+- **Miannachadh** v. root *miannaich* — To long for (lit. desire) `C2`
+- **Miannachadh** v. root *miannaich* — To yearn (lit. desiring) `C2`
+- **Mias** n. f. pl. *miasan* — Dish `A2`
+- **Mias shònraichte** n. f. pl. *miasan sònraichte* — Signature dish (lit. special dish) `C1`
+- **Micreathonn** n. m. pl. *micreathonnan* — Microwave `B1`
+- **Mìle** num. — One thousand `A1`
+- **Mìle-chunntair** n. m. pl. *mìle-chunntairean* — Odometer (lit. mile counter) `C2`
+- **Milis** adj. — Sweet `A1`
+- **Milleadair-spòrs** n. m. pl. *milleadairean-spòrs* — Killjoy (lit. spoiler of fun) `C2`
+- **Milleadh-sceòil** n. m. — Spoiler (lit. story-spoiling) `B1`
+- **Millean** num. — One million `A1`
+- **Millidh cus chòcairean am brot.** phr. — Too many cooks spoil the broth `C2`
+- **Millteach** adj. — Pernicious `C2`
+- **Milsean** n. m. pl. *milseanan* — Dessert `A2`
+- **Mìn** adj. — Smooth `B1`
+- **Mìneachadh** v. root *mìnich* — To define (lit. explaining) `B2`
+- **Mìneachadh** v. root *mìnich* — To explain `A2`
+- **Mìneachadh** v. root *mìnich* — To expound (lit. explaining) `C2`
+- **Mìneachadh-eòlas** n. m. — Hermeneutics (lit. science of interpretation) `C2`
+- **Ministear** n. m. pl. *ministearan* — Minister `B2`
+- **Miodal** n. m. — Flattery `C2`
+- **Miodalaiche** n. m. pl. *miodalaichean* — Yes-man (lit. flatterer) `C1`
+- **Mion-chiallach** adj. — Nuanced (lit. fine-meaninged) `C1`
+- **Mion-chuid** n. f. — Minority `B2`
+- **Mion-dhealachadh** n. m. pl. *mion-dhealachaidhean* — Nuance (lit. fine distinction) `C2`
+- **Mion-ghearradh** v. root *mion-gheàrr* — To chop (lit. cutting small) `B2`
+- **Mion-scrùdadh** v. root *mion-scrùd* — To analyze (lit. close-examining) `B2`
+- **Mionaid** n. f. pl. *mionaidean* — Minute `A1`
+- **Mionaideach** adj. — Meticulous `C1`
+- **Mionaideach** adj. — Rigorous (lit. minute, exact) `C1`
+- **Mionaideach** adj. — Thorough (lit. detailed) `B2`
+- **Mìos** n. m. pl. *mìosan* — Month `A1`
+- **Mìos nam pòg** n. m. — Honeymoon (lit. month of the kisses) `B2`
+- **Am mìos seo** adv. — This month (lit. this month) `A2`
+- **Mìosachan** n. m. pl. *mìosachain* — Calendar `B2`
+- **Mìosail** adj. — Monthly `B1`
+- **Miotag-àmhainn** n. f. pl. *miotagan-àmhainn* — Oven mitt (lit. oven glove) `C2`
+- **Miotagan** n. f. — Gloves `A1`
+- **Miotas** n. m. pl. *miotasan* — Myth `B2`
+- **Mìrean** n. m. pl. *mìreanan* — Particle `C1`
+- **Mise cuideachd** phr. — Same here (lit. me too) `A2`
+- **Mise nas motha** phr. — Me neither (lit. me any more) `A2`
+- **Misneachadh** v. root *misnich* — To embolden (lit. encourage) `C2`
+- **Misneachadh** v. root *misnich* — To inspire (lit. encouraging) `B2`
+- **Misneachd** n. f. — Courage `B2`
+- **Mo choire** phr. — My bad (lit. my fault) `B1`
+- **Modail cànain mòr** n. m. pl. *modailean cànain mòra* — Large language model `C2`
+- **Modh-eòlas** n. m. — Methodology `C1`
+- **Modh-obrach** n. m. pl. *modhan-obrach* — Procedure (lit. working mode) `B2`
+- **Modhail** adj. — Polite `A2`
+- **Modhalachd** n. f. — Etiquette (lit. good manners) `C2`
+- **Moibeal** n. m. pl. *moibealan* — Mop `C2`
+- **Moileciuil** n. m. pl. *moileciuilean* — Molecule `B2`
+- **Mòitif** n. m. pl. *mòitifean* — Motif `C2`
+- **Moladh** v. root *mol* — To commend `C2`
+- **Moladh** v. root *mol* — To praise `B1`
+- **Moladh** v. root *mol* — To recommend `B1`
+- **Moladh** v. root *mol* — To suggest `A2`
+- **Moladh a' chòcaire** n. m. — Chef’s recommendation (lit. the cook's recommendation) `C1`
+- **Moladh le càineadh** n. m. — Backhanded compliment (lit. praise with a dig) `C2`
+- **Molag** n. f. pl. *molagan* — Pebble `C2`
+- **Mòmentum** n. m. — Momentum `C1`
+- **Monarcachd** n. f. — Monarchy `C1`
+- **Monmhar** v. root *monmhair* — To murmur `C1`
+- **Monsùn** n. m. pl. *monsùnan* — Monsoon `C2`
+- **Montàids** n. m. — Montage `C1`
+- **Mòr** adj. — Big `A1`
+- **Mòr-aoibhneas** n. m. — Euphoria (lit. great joy) `B2`
+- **Mòr-bhùth** n. f. pl. *mòr-bhùthan* — Supermarket (lit. big shop) `A1`
+- **Mòr-chòrdte** adj. — Popular (lit. much-liked) `A2`
+- **Mòr-chuid** n. f. — Majority `B2`
+- **Mòr-ghil** n. f. pl. *mòr-ghilean* — Gorge (lit. great ravine) `C2`
+- **Mòr-ghleann** n. m. pl. *mòr-ghlinn* — Canyon (lit. great glen) `B2`
+- **Mòr-inntinneach** adj. — Magnanimous `C1`
+- **Mòr-rathad** n. m. pl. *mòr-rathaidean* — Highway (lit. great road) `B1`
+- **Mòr-thìr** n. f. pl. *mòr-thìrean* — Continent (lit. great land) `B2`
+- **Moraltachd** n. f. — Morality `B2`
+- **Mòran** adv. — A lot `A2`
+- **Mòran** n. m. — Many `A1`
+- **Mòrchuiseach** adj. — Pretentious `C1`
+- **Morgaids** n. m. pl. *morgaidsean* — Mortgage `B1`
+- **Mosàig** n. f. pl. *mosàigean* — Mosaic `C2`
+- **Mothachadh** v. root *mothaich* — To notice `B1`
+- **Mothachadh** v. root *mothaich* — To perceive `B2`
+- **Mothachadh** v. root *mothaich* — To realize `B1`
+- **Mothachail** adj. — Sensitive `B1`
+- **Mothachair** n. m. pl. *mothachairean* — Sensor `C1`
+- **Mu choinneimh** prep. — Opposite (lit. facing) `A2`
+- **Mu dheireadh** adv. — Eventually (lit. at last) `B1`
+- **Mu dheireadh** adv. — Finally (lit. at last) `A2`
+- **Mu thimcheall** phr. — In the region of (lit. about) `C1`
+- **Mu thràth** adv. — Already `A2`
+- **Muc** n. f. pl. *mucan* — Pig `A2`
+- **Mùchadh** v. root *mùch* — To quell (lit. smothering) `C2`
+- **Mùchte** adj. — Hushed (lit. muffled) `C2`
+- **Mùchte** adj. — Muffled (lit. smothered) `C1`
+- **Mùgach** adj. — Grim `C1`
+- **Muime** n. f. pl. *muimeachan* — Stepmother `B2`
+- **Muinchill** n. m. pl. *muinchillean* — Sleeve `B2`
+- **Muinntir-taighe** n. f. — Household (lit. people of the house) `B2`
+- **Muir** n. f. pl. *marannan* — Sea `A1`
+- **Mullach** n. m. pl. *mullaichean* — Ceiling `B1`
+- **Mullach** n. m. pl. *mullaichean* — Summit `C2`
+- **Mullach boghach** n. m. pl. *mullaichean boghach* — Vault (ceiling) (lit. arched ceiling) `C2`
+- **Mullach na coille** n. m. — Canopy (forest) (lit. top of the forest) `C2`
+- **Muncaidh** n. m. pl. *muncaidhean* — Monkey `A2`
+- **Mura** conj. — Unless `B1`
+- **Murt** n. m. pl. *muirt* — Murder `B2`
+- **Mùthadh** n. m. pl. *mùthaidhean* — Mutation (lit. change) `C1`
+- **Mùthadh** v. root *mùth* — To modify `B2`
+
+## N
+
+- **Nàbachd** n. f. — Neighborhood `A2`
+- **Nàbaidh** n. m. pl. *nàbaidhean* — Neighbor `A1`
+- **Nach tèid ceàrr** adj. — Foolproof (lit. that won't go wrong) `C1`
+- **Naidheachd** n. f. pl. *naidheachdan* — Anecdote `C2`
+- **Naidheachd** n. f. pl. *naidheachdan* — News `A2`
+- **Naidheachd air leth** n. f. pl. *naidheachdan air leth* — Exclusive (story) (lit. story apart) `C1`
+- **Naidheachd sa bhad** n. f. pl. *naidheachdan sa bhad* — Breaking news (lit. news on the spot) `C1`
+- **Nàire** n. f. — Cringe (lit. shame) `C1`
+- **Nàire** n. f. — Shame `B2`
+- **Nàireach** adj. — Embarrassing `B1`
+- **Nàiseantachd** n. f. — Nationalism `C1`
+- **Nam bheachd-sa** phr. — In my opinion `A2`
+- **Nàmhaid-sceòil** n. m. pl. *nàimhdean-sceòil* — Antagonist (lit. story's enemy) `C1`
+- **Naochad** num. — Ninety `A1`
+- **Nàrachadh** v. root *nàraich* — To mortify (lit. shame) `C2`
+- **Nàraichte** adj. — Ashamed `A2`
+- **Nas fhaide air adhart** adv. — Later (lit. further forward) `A1`
+- **Nas lugha** adv. — Less `A1`
+- **Nas motha 's nas motha** adv. — Increasingly (lit. more and more) `B2`
+- **Nas saoire** adj. — Cheaper (lit. more cheap) `A2`
+- **Nas slaodaiche, mas e ur toil e** phr. — Slower, please `A1`
+- **Nathair** n. f. pl. *nathraichean* — Snake `A2`
+- **Neach** n. m. — Person `A1`
+- **Neach a-staigh** n. m. — Insider (lit. person inside) `C1`
+- **Neach adhartach** n. m. — Go-getter (lit. forward person) `C1`
+- **Neach ainmeil** n. m. pl. *daoine ainmeil* — Celebrity (lit. famous person) `B1`
+- **Neach fèin-ghluasadach** n. m. pl. *daoine fèin-ghluasadach* — Self-starter (lit. self-moving person) `C2`
+- **Neach fo amharas** n. m. pl. *daoine fo amharas* — Suspect (lit. person under suspicion) `B2`
+- **Neach ionadail** n. m. pl. *daoine ionadail* — Local (person) `B1`
+- **Neach neo-ghèilleach** n. m. — Maverick (lit. unyielding person) `C2`
+- **Neach ùr** n. m. — Newcomer (lit. new person) `C1`
+- **Neach-agairt** n. m. pl. *luchd-agairt* — Plaintiff `C2`
+- **Neach-aithris** n. m. pl. *luchd-aithris* — Narrator `C2`
+- **Neach-àrainneachd** n. m. pl. *luchd-àrainneachd* — Environmentalist `B2`
+- **Neach-casaid** n. m. pl. *luchd-casaid* — Prosecutor `B2`
+- **Neach-ceangail** n. m. pl. *luchd-ceangail* — Liaison `C1`
+- **Neach-ciùil** n. m. pl. *luchd-ciùil* — Musician `A2`
+- **Neach-coimhid** n. m. pl. *luchd-coimhid* — Bystander (lit. onlooker) `C2`
+- **Neach-còmhdachaidh àirneis** n. m. pl. *luchd-còmhdachaidh àirneis* — Upholsterer (lit. furniture-coverer) `C2`
+- **Neach-cuideachaidh laghail** n. m. pl. *luchd-cuideachaidh laghail* — Paralegal (lit. legal assistant) `C2`
+- **Neach-cur-seachad** n. m. pl. *luchd-cur-seachad* — Hobbyist (lit. pastime person) `B2`
+- **Neach-cùraim** n. m. pl. *luchd-cùraim* — Caregiver (lit. person of care) `B2`
+- **Neach-dèiligidh** n. m. pl. *luchd-dèiligidh* — Client `B2`
+- **Neach-dìona** n. m. pl. *luchd-dìona* — Defendant `C2`
+- **Neach-ealain** n. m. pl. *luchd-ealain* — Artist `A2`
+- **Neach-eòlais** n. m. pl. *luchd-eòlais* — Acquaintance `B1`
+- **Neach-fianais** n. m. pl. *luchd-fianais* — Witness `B2`
+- **Neach-fiosrachaidh** n. m. pl. *luchd-fiosrachaidh* — Informant `C2`
+- **Neach-foillseachaidh** n. m. pl. *luchd-foillseachaidh* — Whistleblower (lit. revealer) `C1`
+- **Neach-gleidhidh** n. m. pl. *luchd-gleidhidh* — Guardian (lit. keeper) `B2`
+- **Neach-iùil** n. m. pl. *luchd-iùil* — Guide (lit. guidance person) `A2`
+- **Neach-labhairt** n. m. pl. *luchd-labhairt* — Spokesperson `C1`
+- **Neach-lagha** n. m. pl. *luchd-lagha* — Lawyer (lit. law person) `A2`
+- **Neach-leantainn** n. m. pl. *luchd-leantainn* — Fan (supporter) (lit. follower) `A2`
+- **Neach-leigheis** n. m. pl. *luchd-leigheis* — Therapist (lit. healing person) `B2`
+- **Neach-lìonaidh bheathaichean** n. m. pl. *luchd-lìonaidh bheathaichean* — Taxidermist (lit. animal-stuffer) `C2`
+- **Neach-naidheachd** n. m. pl. *luchd-naidheachd* — Journalist `A2`
+- **Neach-obrach** n. m. pl. *luchd-obrach* — Employee `B1`
+- **Neach-reic** n. m. pl. *luchd-reic* — Salesperson `A2`
+- **Neach-reic thaighean** n. m. pl. *luchd-reic thaighean* — Real estate agent (lit. house seller) `B1`
+- **Neach-saidheans** n. m. pl. *luchd-saidheans* — Scientist `A2`
+- **Neach-scrùdaidh** n. m. pl. *luchd-scrùdaidh* — Auditor (lit. examiner) `C2`
+- **Neach-siubhail** n. m. pl. *luchd-siubhail* — Nomad (lit. travelling person) `C1`
+- **Neach-smàlaidh** n. m. pl. *luchd-smàlaidh* — Firefighter `A2`
+- **Neach-tabhartais** n. m. pl. *luchd-tabhartais* — Donor `C2`
+- **Neach-tagraidh poblach** n. m. pl. *luchd-tagraidh poblach* — Public defender (lit. public pleader) `C2`
+- **Neach-taice dìleas** n. m. pl. *luchd-taice dìleas* — Stalwart (lit. loyal supporter) `C2`
+- **Neach-tascaidh** n. m. pl. *luchd-tascaidh* — Investor `B2`
+- **Neach-tionnscain** n. m. pl. *luchd-tionnscain* — Entrepreneur `B2`
+- **Neach-tòiseachaidh** n. m. pl. *luchd-tòiseachaidh* — Beginner `A2`
+- **Neach-turais** n. m. pl. *luchd-turais* — Tourist (lit. journey person) `A2`
+- **Neach-ùidh** n. m. pl. *luchd-ùidh* — Stakeholder (lit. person of interest) `B2`
+- **Nèapraigear** n. m. pl. *nèapraigearan* — Napkin `B1`
+- **Nearbh** n. m. pl. *nearbhan* — Nerve `B2`
+- **Nearbhach** adj. — Neurological `C2`
+- **Nearbhasach** adj. — Nervous `A1`
+- **Neart fuaime** n. m. — Volume (lit. strength of sound) `A2`
+- **Neart-toile** n. m. — Willpower (lit. strength of will) `B2`
+- **Neartachadh** v. root *neartaich* — To bolster (lit. strengthen) `C1`
+- **Neo-àbhaisteach** adj. — Unusual `B1`
+- **Neo-aillseach** adj. — Benign (lit. non-cancerous) `C2`
+- **Neo-bhuntainneach** adj. — Irrelevant `B2`
+- **Neo-chiallach** adj. — Absurd (lit. senseless) `B2`
+- **Neo-chiontach** adj. — Innocent `B2`
+- **Neo-chomas pàighidh** n. m. — Insolvency (lit. inability to pay) `C2`
+- **Neo-chrìochnach** adj. — Boundless `C2`
+- **Neo-eisimeileach** adj. — Independent `B1`
+- **Neo-eisimeileachd** n. f. — Independence `C1`
+- **Neo-eòlaiche** n. m. pl. *neo-eòlaichean* — Layperson (lit. non-expert) `C2`
+- **Neo-ghnàthach** adj. — Unconventional `C1`
+- **Neo-ionannachd** n. f. — Inequality `B2`
+- **Neo-lochdach** adj. — Innocuous `C2`
+- **Neo-mhearachdach** adj. — Accurate (lit. error-free) `B2`
+- **Neo-mhothachadh** n. m. — Anesthesia (lit. non-feeling) `B2`
+- **Neo-phàirteach** adj. — Impartial `C2`
+- **Neo-phàirteach** adj. — Neutral (lit. non-partisan) `B2`
+- **Neo-riaghailteachd** n. f. pl. *neo-riaghailteachdan* — Anomaly `C2`
+- **Neo-riatanach** adj. — Redundant (lit. unnecessary) `B2`
+- **Neo-shoilleir** adj. — Nebulous (lit. unclear) `C2`
+- **Neo-thruaillte** adj. — Unblemished (lit. undefiled) `C2`
+- **Neo-thuigseach** adj. — Tactless `C1`
+- **Neònach** adj. — Eccentric (lit. strange) `C1`
+- **Neònach** adj. — Strange `A2`
+- **Neònach** adj. — Weird `B1`
+- **Neoni** num. — Zero `A1`
+- **Neulach** adj. — Cloudy `A2`
+- **Nì cabhag maill.** phr. — Haste makes waste (lit. haste makes delay) `C2`
+- **Nì cleachdadh teòma.** phr. — Practice makes perfect (lit. practice makes skilful) `C2`
+- **Nighe** v. root *nigh* — To wash `A2`
+- **Nighe airgid** n. m. — Money laundering (lit. washing of money) `C2`
+- **Nighe fhèin** v. root *nigh thu fhèin* — To wash oneself (lit. washing self) `A2`
+- **Nigheadair-shoithichean** n. m. pl. *nigheadairean-shoithichean* — Dishwasher (lit. dish-washer) `B1`
+- **Nighean** n. f. pl. *nigheanan* — Daughter `A1`
+- **Nighean bràthar** n. f. pl. *nigheanan bràthar* — Niece (lit. brother's daughter (also nighean peathar)) `A2`
+- **Nitheil** adj. — Concrete (lit. thing-like) `B2`
+- **No** conj. — Or `A1`
+- **No mar sin** phr. — Give or take (lit. or so) `C1`
+- **Nobhail** n. f. pl. *nobhailean* — Novel `B1`
+- **Nochdadh** v. root *nochd* — To evince (lit. showing) `C2`
+- **Nochdadh** v. root *nochd* — To indicate (lit. showing) `B2`
+- **Nochdadh** v. root *nochd* — To show up `B1`
+- **Nochdadh** v. root *nochd* — To turn up (lit. appearing) `C1`
+- **Nochdadh** v. root *nochd* — To unveil (lit. reveal) `C1`
+- **Nochdadh goirid** n. m. — Cameo (lit. brief appearance) `C1`
+- **Nollaig** n. f. — Christmas `A2`
+- **Norrag** n. f. pl. *norragan* — Nap `A2`
+- **Nòs** n. m. pl. *nòsan* — Custom (tradition) `B1`
+- **Nòs-sceòil** n. m. pl. *nòsan-sceòil* — Trope (lit. story convention) `C2`
+- **Nòtair** n. m. pl. *nòtairean* — Notary `C1`
+- **Nuadh-aimsireil** adj. — Modern (lit. new-era) `A2`
+- **Nuair a bhios tu san Ròimh, dèan mar a nì na Ròmanaich.** phr. — When in Rome, do as the Romans do `C2`
+- **Nùdail** n. m. pl. *nùdailean* — Noodles `A2`
+
+## O
+
+- **O chionn** prep. — Ago `A2`
+- **O chionn ghoirid** adv. — Recently (lit. a short while since) `A2`
+- **Obair** n. f. pl. *obraichean* — Job `A2`
+- **Obair** v. root *obraich* — To work `A1`
+- **Obair air dheireadh** n. f. — Backlog (lit. work fallen behind) `C2`
+- **Obair buidhne** n. f. — Group work (lit. work of a group) `B1`
+- **Obair-dachaigh** n. f. — Homework (lit. home work) `A2`
+- **Obair-fhiodha** n. f. — Woodworking (lit. wood work) `B2`
+- **Obair-lann** n. f. pl. *obair-lannan* — Laboratory `B2`
+- **Obair-lannsa** n. f. — Surgery (lit. lancet work) `B2`
+- **Obair-pàipeir** n. f. — Paperwork (lit. paper work) `C1`
+- **Obair-scioba** n. f. — Teamwork `B1`
+- **Obair-shònraichte** n. f. pl. *obraichean-sònraichte* — Assignment (lit. specified work) `B1`
+- **Obrachadh a-mach** v. root *obraich a-mach* — To calculate (lit. working out) `B2`
+- **Obrachadh a-mach** v. root *obraich* — To figure out (lit. work out) `B1`
+- **Obrachadh a-mach** v. root *obraich* — To work out (resolve) (lit. working out) `C1`
+- **Obrachadh còmhla** v. root *obraich còmhla* — To cooperate (lit. working together) `B2`
+- **Ochdad** num. — Eighty `A1`
+- **Òg** adj. — Young `A1`
+- **Ogha** n. m. pl. *oghaichean* — Grandchild `A2`
+- **An t-Ògmhios** n. m. — June `A1`
+- **Oide** n. m. pl. *oidean* — Tutor `B1`
+- **Oide-eòlas** n. m. — Pedagogy `C2`
+- **Oideachadh** v. root *oidich* — To train (someone) `B1`
+- **Oidhche** n. f. pl. *oidhcheannan* — Night `A1`
+- **Oidhche mhath** phr. — Good night `A1`
+- **Oidhirpeachadh** v. root *oidhirpich* — To attempt `B1`
+- **Oifigear poileis** n. m. pl. *oifigearan poileis* — Police officer `A2`
+- **Oifis** n. f. pl. *oifisean* — Office `A1`
+- **Oifis a' phuist** n. f. pl. *oifisean a' phuist* — Post office (lit. office of the post) `A2`
+- **Oifis-thiocaidean** n. f. — Box office (lit. ticket office) `C1`
+- **Òige** n. f. — Youth `B1`
+- **Oighre** n. m. pl. *oighreachan* — Heir `C1`
+- **Oighreachail** adj. — Hereditary `C2`
+- **Oighreachd** n. f. pl. *oighreachdan* — Inheritance `B2`
+- **Oilbheum** n. m. — Umbrage `C2`
+- **Oileanach obrach** n. m. pl. *oileanaich obrach* — Intern (lit. work student) `C1`
+- **Oillt** n. f. — Dread `B2`
+- **Oilthigh** n. m. pl. *oilthighean* — University `A2`
+- **Oir** conj. — Because `A1`
+- **Òirdheirc** adj. — Sublime `C1`
+- **Oirthir** n. f. pl. *oirthirean* — Coast `B2`
+- **Oisean** n. m. pl. *oisein* — Corner `A2`
+- **Oiteag** n. f. pl. *oiteagan* — Breeze `B1`
+- **Òl** v. root *òl* — To drink `A1`
+- **Ola** n. f. pl. *olaichean* — Oil `A2`
+- **Onarach** adj. — Honest `A2`
+- **Onarachadh** v. root *onaraich* — To venerate (lit. honouring) `C2`
+- **Onarachd** n. f. — Honesty `B2`
+- **Opara** n. f. pl. *oparan* — Opera `B2`
+- **Òraid** n. f. pl. *òraidean* — Lecture `B1`
+- **Òraideach** adj. — Rhetorical `C2`
+- **Òraidheachd** n. f. — Rhetoric (lit. oratory) `C2`
+- **Orains** adj. — Orange (color) `A1`
+- **Orains** n. m. pl. *orainsearan* — Orange (fruit) `A2`
+- **Òran a bharrachd** n. m. pl. *òrain a bharrachd* — Encore (lit. an extra song) `C2`
+- **Orcastra** n. f. pl. *orcastraichean* — Orchestra `B2`
+- **Òrd** n. m. pl. *ùird* — Hammer `B1`
+- **Òrdachadh** v. root *òrdaich* — To order (online) `A2`
+- **Òrdachadh** v. root *òrdaich* — To prescribe (lit. ordering) `B2`
+- **Òrdag** n. f. pl. *òrdagan* — Thumb `B2`
+- **Ordagachadh** v. root *ordagaich* — To hitchhike (lit. thumbing) `B1`
+- **Òrdugh-atharrachaidh** n. m. pl. *òrduighean-atharrachaidh* — Change order `C1`
+- **Òrdugh-cungaidh** n. m. pl. *òrduighean-cungaidh* — Prescription (written order) (lit. medicine order) `C2`
+- **Òrdugh-inbhe** n. m. — Pecking order (lit. order of rank) `C2`
+- **Òrdugh-leighis** n. m. pl. *òrdughan-leighis* — Prescription (lit. medicine order) `A2`
+- **Òrdugh-toirmisc** n. m. pl. *òrduighean-toirmisc* — Injunction (lit. prohibition order (interdict)) `C2`
+- **Organach** adj. — Organic `B1`
+- **Os cionn gach nì** adv. — Above all (lit. above everything) `B1`
+- **Os cionn gach nì** phr. — Transcendent (lit. above everything) `C2`
+- **Os-fhìorachas** n. m. — Surrealism `C2`
+- **Os-rathad** n. m. pl. *os-rathaidean* — Overpass (lit. over-road) `C2`
+- **Osag** n. f. pl. *osagan* — Gust `C2`
+- **Osnaich** v. root *osnaich* — To sigh `B1`
+- **Ospadal** n. m. pl. *ospadalan* — Hospital `A1`
+- **Ostail** n. f. pl. *ostailean* — Hostel `B1`
+- **Othail** n. f. pl. *othailean* — Hype (lit. fuss, hubbub) `C1`
+
+## P
+
+- **Pacadh** v. root *pac* — To pack `B1`
+- **Paidhir** n. f. pl. *paidhrichean* — Pair `A2`
+- **Pàigheadh** n. m. pl. *pàighidhean* — Payment `A2`
+- **Pàigheadh** v. root *pàigh* — To pay `A1`
+- **Pàigheadh air ais** v. root *pàigh* — To pay back `B1`
+- **Pàigheadh do chuideigin** v. root *pàigh do chuideigin* — To treat (pay for someone) (lit. pay for someone) `B1`
+- **Pailt** adj. — Abundant `C1`
+- **Pailt** adj. — Bountiful (lit. plentiful) `C2`
+- **Pàipear** n. m. pl. *pàipearan* — Paper `A1`
+- **Pàipear-gainmhich** n. m. pl. *pàipearan-gainmhich* — Sandpaper (lit. sand paper) `B2`
+- **Pàipear-scainnealach** n. m. pl. *pàipearan-scainnealach* — Tabloid (lit. scandal paper) `C1`
+- **Pàirc** n. f. pl. *pàircean* — Park `A1`
+- **Pàirc-chàraichean** n. f. pl. *pàircean-chàraichean* — Parking lot (lit. car park) `A2`
+- **Pàirt-ùine** adj. — Part-time `B1`
+- **Pàiste** n. m. pl. *pàistean* — Child `A1`
+- **Paiste** n. m. pl. *paistean* — Patch (software) `C1`
+- **Pannal grèine** n. m. pl. *pannalan grèine* — Solar panel (lit. sun panel) `B2`
+- **Pantraidh** n. m. pl. *pantraidhean* — Pantry `C2`
+- **Paradaim** n. m. pl. *paradaimean* — Paradigm `C1`
+- **Paradocs** n. m. pl. *paradocsan* — Paradox `C1`
+- **Pàrant singilte** n. m. pl. *pàrantan singilte* — Single parent `B2`
+- **Pàrant-baistidh** n. m. pl. *pàrantan-baistidh* — Godparent (lit. baptism parent) `B2`
+- **Pàrantan** n. m. — Parents `A1`
+- **Parcadh** v. root *parc* — To park `B1`
+- **Pàrlamaid** n. f. pl. *pàrlamaidean* — Parliament `B2`
+- **Paròdaidh** n. m. pl. *paròdaidhean* — Parody `C2`
+- **Pàrtaidh** n. m. pl. *pàrtaidhean* — Party `A2`
+- **Pàrtaidh poilitigeach** n. m. pl. *pàrtaidhean poilitigeach* — Political party `B2`
+- **Pascadh** v. root *paisc* — To fold `B2`
+- **Pascan** n. m. pl. *pascanan* — Folder `A2`
+- **Pascan** n. m. pl. *pascanan* — Package `A2`
+- **Pascan ciad-chobhair** n. m. pl. *pascanan ciad-chobhair* — First-aid kit (lit. first-aid pack) `C2`
+- **Pascan fuaigheil** n. m. pl. *pascanan fuaigheil* — Sewing kit (lit. sewing pack) `C2`
+- **Pascan-tascaidh** n. m. pl. *pascanan-tascaidh* — Portfolio (lit. investment folder) `C1`
+- **Pàtran** n. m. pl. *pàtranan* — Patron `C2`
+- **Pàtran** n. m. pl. *pàtranan* — Pattern `B1`
+- **Peanasachadh** v. root *peanasaich* — To chastise (lit. punishing) `C2`
+- **Peann** n. m. pl. *pinn* — Pen `A1`
+- **Peantadh** n. m. pl. *peantaidhean* — Painting `B2`
+- **Peantadh** v. root *peant* — To paint `A2`
+- **Peapag** n. f. pl. *peapagan* — Pumpkin `A2`
+- **Pearsanachadh** v. root *pearsanaich* — To embody (lit. personify) `C1`
+- **Pearsantachd** n. f. — Personality `B2`
+- **Peata** n. m. pl. *peatachan* — Pet `A1`
+- **Peinnsean** n. m. pl. *peinnseanan* — Pension `B1`
+- **Peitseag** n. f. pl. *peitseagan* — Peach `A2`
+- **Peur** n. f. pl. *peuran* — Pear `A2`
+- **Piachanach** adj. — Raspy `C1`
+- **Pian** n. m. pl. *piantan* — Pain `A2`
+- **Pìleat** n. m. pl. *pìleatan* — Pilot `A2`
+- **Pinc** adj. — Pink `A1`
+- **Pìob-adhair** n. f. pl. *pìoban-adhair* — Duct (lit. air pipe) `C1`
+- **Pìob-fhionnarachaidh** n. f. pl. *pìoban-fionnarachaidh* — Ventilation duct (lit. ventilation pipe) `C2`
+- **Piobar** n. m. — Pepper `A2`
+- **Piobar milis** n. m. pl. *piobaran milis* — Bell pepper (lit. sweet pepper) `A2`
+- **Piobrachadh** v. root *piobraich* — To prompt (lit. incite) `C1`
+- **Pìos** n. m. pl. *pìosan* — Piece `A2`
+- **Piuthar** n. f. pl. *peathraichean* — Sister `A1`
+- **Piuthar as òige** phr. — Younger sister (lit. youngest sister) `A1`
+- **Placebo** n. m. pl. *placebothan* — Placebo `C2`
+- **Plaide** n. f. pl. *plaidichean* — Blanket `A2`
+- **Plana foscailte** n. m. — Open plan (lit. open plan) `C1`
+- **Plana-làir** n. m. pl. *planaichean-làir* — Floor plan `C1`
+- **Plana-togail** n. m. pl. *planaichean-togail* — Blueprint (lit. building plan) `B2`
+- **Planadh ro-làimh** v. root *plan* — To plan ahead (lit. planning beforehand) `B1`
+- **Plastaig** n. f. pl. *plastaigean* — Plastic `B1`
+- **Plastaig aon-chleachdaidh** n. f. — Single-use plastic `B2`
+- **Plèana** n. m. pl. *plèanaichean* — Plane `A1`
+- **Ploscadh** v. root *plosc* — To gasp `C1`
+- **Ploscartach** adj. — Throbbing `C2`
+- **Plùchach** adj. — Stuffy (lit. stifling) `C1`
+- **Plug** n. m. pl. *plugaichean* — Plug `B1`
+- **Plugadh a-steach** v. root *plug* — To plug in `B1`
+- **Plugan** n. m. pl. *pluganan* — Plugin `C1`
+- **Plumair** n. m. pl. *plumairean* — Plumber `A2`
+- **Plumaireachd** n. f. — Plumbing `B2`
+- **Plumaireachd** n. f. — Plumbing (system) `C2`
+- **Pobalachas** n. m. — Populism `C1`
+- **Poblachd** n. f. pl. *poblachdan* — Republic `C1`
+- **Poca-scudail** n. m. pl. *pocannan-scudail* — Bin liner (lit. rubbish bag) `C2`
+- **Pòcaid** n. f. pl. *pòcaidean* — Pocket `B2`
+- **Pod-chraoladh** n. m. pl. *pod-chraolaidhean* — Podcast `A2`
+- **Pògadh** v. root *pòg* — To kiss `A2`
+- **Poileanachadh** n. m. — Pollination `C2`
+- **Poileasaidh** n. m. pl. *poileasaidhean* — Policy `B2`
+- **Poileasaidh airgid** n. m. — Monetary policy (lit. money policy) `C2`
+- **Poileasaidh fioscail** n. m. — Fiscal policy `C2`
+- **Poileasaidh tilleadh** n. m. pl. *poileasaidhean tilleadh* — Return policy `B1`
+- **Poileataics** n. f. — Politics `B1`
+- **Pòlarachadh** n. m. — Polarization `C1`
+- **Pònair** n. f. pl. *pònairean* — Beans `A2`
+- **Pongail** adj. — Precise `B2`
+- **Pongail** adj. — Punctual `B1`
+- **Pongail** adj. — Succinct `C2`
+- **Pongalachd** n. f. — Punctuality `B2`
+- **Port-adhair** n. m. pl. *puirt-adhair* — Airport (lit. air port) `A1`
+- **Portraid** n. f. pl. *portraidean* — Portrait `B2`
+- **Pòsadh** v. root *pòs* — To get married `A2`
+- **Post-balla** n. m. pl. *puist-bhalla* — Stud (wall) (lit. wall post) `C1`
+- **Post-d** n. m. pl. *puist-d* — Email (lit. e-post) `A2`
+- **Pòsta** adj. — Married `A1`
+- **Practaigeach** adj. — Pragmatic (lit. practical) `C1`
+- **Preantasachd** n. f. — Apprenticeship `B1`
+- **Preas-aodaich** n. m. pl. *preasan-aodaich* — Wardrobe (lit. clothes cupboard) `B2`
+- **Preasa os-cionn** n. m. pl. *preasachan os-cionn* — Overhead compartment (lit. cupboard overhead) `C2`
+- **Preasach** adj. — Creased `C2`
+- **Preasadh** n. m. pl. *preasaidhean* — Wrinkle `B2`
+- **Preasan** n. m. — Cabinetry (lit. cupboards) `C1`
+- **Preasantair naidheachdan** n. m. pl. *preasantairean naidheachdan* — Anchor (news) (lit. news presenter) `C1`
+- **Preasarnach** n. m. — Thicket `C2`
+- **Priobadh** v. root *priob* — To blink `B1`
+- **Prìobhaideachd** n. f. — Privacy `C1`
+- **Prìomh chùrsa** n. m. — Main course (lit. chief course) `A2`
+- **Prìomh chuspair** n. m. pl. *prìomh chuspairean* — Major (field of study) (lit. main subject) `B1`
+- **Prìomh oifis** n. f. pl. *prìomh oifisean* — Headquarters (lit. main office) `B2`
+- **Prìomh-àireamh** n. f. pl. *prìomh-àireamhan* — Prime number `C2`
+- **Prìomh-charactar** n. m. pl. *prìomh-charactaran* — Protagonist `C1`
+- **Prìomh-riochdaire** n. m. pl. *prìomh-riochdairean* — Showrunner (lit. chief producer) `C1`
+- **Prìomh-shamhla** n. m. pl. *prìomh-shamhlaidhean* — Archetype `C2`
+- **Prìomh-shamhla** n. m. pl. *prìomh-shamhlaidhean* — Prototype (lit. first model) `B2`
+- **Prìomhachadh** v. root *prìomhaich* — To prioritize `B2`
+- **Prìomhaire** n. m. pl. *prìomhairean* — Prime minister `B2`
+- **Prionnsabal** n. m. pl. *prionnsabalan* — Principle `B2`
+- **Prionnsabal** n. m. pl. *prionnsabalan* — Tenet (lit. principle) `C2`
+- **Prionnsabal a chumail suas** v. root *cùm* — To uphold a principle (lit. to keep up a principle) `C2`
+- **Prìs** n. f. pl. *prìsean* — Price `A1`
+- **Prògram aithriseach** n. m. pl. *prògraman aithriseach* — Documentary `B1`
+- **Prògram deuchainn** n. m. pl. *prògraman deuchainn* — Pilot episode (lit. trial programme) `C1`
+- **Prògram iomlaid** n. m. pl. *prògraman iomlaid* — Exchange program `B1`
+- **Prògramachadh** v. root *prògramaich* — To code (program) `B2`
+- **Prògramaiche** n. m. pl. *prògramaichean* — Programmer `A2`
+- **Pròiseact** n. m. pl. *pròiseactan* — Project `A2`
+- **Pròiseas** n. m. pl. *pròiseasan* — Process `B2`
+- **Pròiseil** adj. — Proud `A1`
+- **Propaganda** n. m. — Propaganda `C1`
+- **Pròtain** n. m. — Protein `B1`
+- **Prothaid** n. f. pl. *prothaidean* — Profit `B1`
+- **Puing dheicheach** n. f. pl. *puingean deicheach* — Decimal point `C2`
+- **Puing-sa-cheud** n. f. pl. *puingean-sa-cheud* — Percentage point `C2`
+- **Puing-tionndaidh** n. f. pl. *puingean-tionndaidh* — Game changer (lit. turning point) `C1`
+- **Puing-tionndaidh** n. f. pl. *puingean-tionndaidh* — Tipping point (lit. turning point) `C2`
+- **Puinnsean-eòlas** n. m. — Toxicology `C2`
+- **Pumpa sloc** n. m. pl. *pumpaichean sloc* — Sump pump (lit. pit pump) `C1`
+- **Purpaidh** adj. — Purple `A1`
+- **Putadh** v. root *put* — To push `A2`
+- **Putan** n. m. pl. *putanan* — Button `B2`
+- **Putanan-dùirn** n. m. — Cufflinks (lit. wrist buttons) `C2`
+
+## R
+
+- **Rabhadair carbon aon-ogsaid** n. m. pl. *rabhadairean carbon aon-ogsaid* — Carbon monoxide alarm `C2`
+- **Rabhadh** phr. — A heads-up (lit. a warning) `C1`
+- **Rabhadh** n. m. pl. *rabhaidhean* — Caveat (lit. warning) `C2`
+- **Raca-shoithichean** n. m. pl. *racaichean-shoithichean* — Dish rack (lit. rack for dishes) `C2`
+- **Ràdh** v. root *abair* — To say `A1`
+- **Rag** adj. — Rigid `B2`
+- **Rag-fhoghlamach** adj. — Pedantic `C2`
+- **Rag-mhuinealach** adj. — Stubborn (lit. stiff-necked) `A2`
+- **Raige** n. f. — Stiffness `C2`
+- **Raineach** n. f. pl. *raineachan* — Fern `C2`
+- **Ràith** n. f. pl. *ràithean* — Quarter (business) `B2`
+- **Ramallach** adj. — Slimy `C2`
+- **Rangachadh èiginn** n. m. — Triage (lit. emergency ranking) `C2`
+- **Rangachd** n. f. pl. *rangachdan* — Hierarchy `C1`
+- **Rann** n. m. pl. *rannan* — Stanza `C2`
+- **Rann** n. m. pl. *rannan* — Verse `B2`
+- **Rannsachadh** n. m. pl. *rannsachaidhean* — Investigation `B2`
+- **Rannsachadh** n. m. pl. *rannsachaidhean* — Research `B1`
+- **Rannsachadh** v. root *rannsaich* — To explore `B1`
+- **Rannsachadh** v. root *rannsaich* — To look into (lit. investigating) `C1`
+- **Raon glas** phr. — A grey area `C1`
+- **Raon magnaiteach** n. m. pl. *raointean magnaiteach* — Magnetic field `C1`
+- **Raon-eòlais** n. m. pl. *raointean-eòlais* — Discipline (field) (lit. field of knowledge) `C1`
+- **Raon-spòrs** n. m. pl. *raointean-spòrs* — Stadium (lit. sports ground) `A2`
+- **Rathad** n. m. pl. *rathaidean* — Road `A1`
+- **Rathad timcheall** n. m. pl. *rathaidean timcheall* — Detour (lit. road around) `B1`
+- **Rè** prep. — During `A2`
+- **Reabhlaid** n. f. pl. *reabhlaidean* — Revolution `C1`
+- **Reachd** n. m. pl. *reachdan* — Statute `C2`
+- **Reachdas** n. m. — Legislation `B2`
+- **Reamhar** adj. — Overweight (lit. fat) `A2`
+- **Reasabaidh** n. m. pl. *reasabaidhean* — Recipe `A2`
+- **Reat iomlaid** n. m. pl. *reataichean iomlaid* — Exchange rate `A2`
+- **Reic** v. root *reic* — To sell `A1`
+- **Reic lasachaidh** n. m. — Sale (discount event) (lit. discount sale) `A2`
+- **Rèididheachd** n. f. — Radiation `C1`
+- **Rèidio-eòlaiche** n. m. pl. *rèidio-eòlaichean* — Radiologist `C2`
+- **Reifreann** n. m. pl. *reifrinn* — Referendum `B2`
+- **Rèile-staidhre** n. f. pl. *rèilichean-staidhre* — Banister (lit. stair rail) `C2`
+- **Rèim** n. f. pl. *rèimean* — Regime `C1`
+- **Rèis** n. f. pl. *rèisean* — Race `A2`
+- **Rèite** n. f. — Reconciliation `C1`
+- **Rèiteachadh** v. root *rèitich* — To iron out (lit. settle, smooth out) `C1`
+- **Rèiteachadh** v. root *rèitich* — To make up (reconcile) `B1`
+- **Rèiteachadh** v. root *rèitich* — To reconcile `C2`
+- **Rèiteachadh** v. root *rèitich* — To sort out (lit. settling) `C1`
+- **Rèiteachadh** v. root *rèitich* — To unravel (lit. disentangling) `C2`
+- **Rèitire** n. m. pl. *rèitirean* — Referee `A2`
+- **Reothadh** n. m. — Frost `B1`
+- **Reòthte** adj. — Freezing (lit. frozen) `B1`
+- **Reul-bhad** n. m. pl. *reul-bhadan* — Constellation (lit. star cluster) `C1`
+- **Reul-chrios** n. m. pl. *reul-chriosan* — Galaxy (lit. star belt) `C1`
+- **Reul-chuairt** n. f. pl. *reul-chuairtean* — Orbit `B2`
+- **Reul-fhiosaigs** n. f. — Astrophysics `C2`
+- **Reusanta** adj. — Reasonable `B1`
+- **Ri fhaighinn** adj. — Available (lit. to be got) `B1`
+- **Ri taobh** prep. — Next to (lit. by the side of) `A2`
+- **Riadh** n. m. — Interest (bank) `A2`
+- **Riaghailt** n. f. pl. *riaghailtean* — Regulation (lit. rule) `C1`
+- **Riaghailt òrdaig** phr. — A rule of thumb (lit. a thumb rule) `C1`
+- **Riaghailtean gun fheum** phr. — Red tape (lit. useless rules) `C1`
+- **Riaghaltas** n. m. pl. *riaghaltasan* — Government `B1`
+- **Riarachadh** v. root *riaraich* — To allocate `B2`
+- **Riarachadh mhaoinean** n. m. — Asset allocation (lit. sharing out of assets) `C2`
+- **Riaraichte** adj. — Satisfied `A2`
+- **Riatanach** adj. — Necessary `B1`
+- **Riatanach** adj. — Vital (lit. essential) `B2`
+- **Ribe luchd-turais** n. f. pl. *ribeachan luchd-turais* — Tourist trap `B1`
+- **Rìgh-shliochd** n. m. pl. *rìgh-shliochdan* — Dynasty (lit. royal line) `C1`
+- **Riochdachadh** v. root *riochdaich* — To depict (lit. represent) `C1`
+- **Riochdaire** n. m. pl. *riochdairean* — Producer `B2`
+- **Rionnag** n. f. pl. *rionnagan* — Star `A1`
+- **Ro mhòr** phr. — Too big `A2`
+- **Ro-aithne** n. f. — Prognosis (lit. foreknowledge) `C2`
+- **Ro-aithris** n. f. pl. *ro-aithrisean* — Forecast (lit. fore-telling) `A2`
+- **Ro-cheòl** n. m. — Overture (lit. fore-music) `C2`
+- **Ro-eisimpleir** n. m. pl. *ro-eisimpleirean* — Precedent `C2`
+- **Ro-eisimpleir a stèidheachadh** v. root *stèidhich* — To set a precedent `C2`
+- **Ro-fheachd** n. f. — Avant-garde (lit. vanguard) `C2`
+- **Ro-innleachd** n. f. pl. *ro-innleachdan* — Strategy `B2`
+- **Ro-innse** v. root *ro-innis* — Forecast (verb) (lit. fore-telling) `C2`
+- **Ro-innse** v. root *ro-innis* — To predict (lit. fore-telling) `B1`
+- **Ro-làimh** adv. — In advance (lit. beforehand) `B2`
+- **Ro-mhilis** adj. — Cloying (lit. too sweet) `C2`
+- **Ro-riatanas** n. m. pl. *ro-riatanasan* — Prerequisite (lit. prior requirement) `C1`
+- **Ro-sceadaichte** adj. — Florid (lit. over-adorned) `C2`
+- **Ro-sceul** n. m. pl. *ro-sceulan* — Prequel (lit. fore-story) `C1`
+- **Ro-shealladh** n. m. pl. *ro-sheallaidhean* — Trailer (lit. preview) `B1`
+- **Robach** adj. — Ramshackle `C2`
+- **Robach** adj. — Scruffy `C2`
+- **Robaireachd** n. f. — A rip-off (lit. robbery) `C1`
+- **Robaireachd** n. f. — Robbery `B2`
+- **Robot** n. m. pl. *robotan* — Robot `B2`
+- **Roghainn** n. f. pl. *roghainnean* — Choice `B1`
+- **Roimh-shealladh** n. m. — Foreshadowing (lit. fore-view) `C1`
+- **Roimhe** adv. — Before `A1`
+- **Roimhe seo** adv. — Heretofore (lit. before this) `C2`
+- **Roinn** n. f. pl. *roinnean* — Department `B2`
+- **Roinn a' bhile** v. root *roinn a' bhile* — To split the bill `B1`
+- **Roinn nan coscaisean** v. root *roinn* — To split (costs) (lit. dividing the costs) `B1`
+- **Roinneadair** n. m. pl. *roinneadairean* — Denominator (lit. divider) `C2`
+- **Roinneadair-drathair** n. m. pl. *roinneadairean-drathair* — Drawer organizer (lit. drawer divider) `C2`
+- **Ron àm** adv. — Ahead of schedule (lit. before the time) `B2`
+- **Ròpa-aodaich** n. m. pl. *ròpannan-aodaich* — Clothesline (lit. clothes rope) `C2`
+- **Rosc** n. m. — Prose `C2`
+- **Ròstadh** n. m. — Roast (coffee) (lit. roasting) `C1`
+- **Ròstadh** v. root *ròst* — To roast `B2`
+- **Ròtair** n. m. pl. *ròtairean* — Router `B1`
+- **Roth-gaoithe** n. m. pl. *rothan-gaoithe* — Wind turbine (lit. wind wheel) `B2`
+- **Rothaireachd** n. f. — Cycling `A2`
+- **Rud** n. m. pl. *rudan* — Thing `A1`
+- **Rud a chuireas dragh orm** phr. — A pet peeve (lit. a thing that bothers me) `C1`
+- **Rud beag** adv. — Somewhat (lit. a little thing) `B2`
+- **Rud gun cheist** phr. — A no-brainer (lit. a thing without question) `C1`
+- **Rud sam bith a thogras tu** phr. — You name it (lit. anything you like) `C2`
+- **Rud tàmailteach** phr. — A bummer (lit. a disappointing thing) `C1`
+- **Rud-cruinneachaidh** n. m. pl. *rudan-cruinneachaidh* — Collectible (lit. collecting thing) `B2`
+- **Rudhadh** n. m. pl. *rudhaidhean* — Blush `C2`
+- **Ruighinn** n. m. — Arrival (lit. reaching) `A2`
+- **Ruighinn** v. root *ruig* — To turn (an age) (lit. reach (an age)) `B1`
+- **Ruighinn mu dheireadh** v. root *ruig* — To wind up (end up) (lit. reaching at last) `C1`
+- **Ruigsinn** v. root *ruig* — To arrive `A1`
+- **Ruigsinn** v. root *ruig* — To attain (lit. reach) `C1`
+- **Ruigsinneach** adj. — Affordable `B1`
+- **Ruith** n. f. — Running `A2`
+- **Ruith** v. root *ruith* — To run `A1`
+- **Ruith a-mach à** v. root *ruith* — To run out of `B1`
+- **Ruith-thairis** n. f. pl. *ruithean-thairis* — Rehearsal (lit. run-through) `B2`
+- **Rùn-dìomhair** n. m. pl. *rùintean-dìomhair* — Secret (lit. hidden intent) `A2`
+- **Rùnaichte** adj. — Deliberate (lit. intended) `B2`
+- **Rus** n. m. — Rice `A1`
+- **Rùsc** n. m. pl. *rùscan* — Bark (of a tree) `C2`
+- **Rùsc** n. m. pl. *rùscan* — Crust `B2`
+- **Rùsc** n. m. pl. *rùscan* — Zest (lit. peel) `C1`
+- **Rùscadh** v. root *rùisc* — To debunk (lit. stripping bare) `C2`
+- **Rùscadh** v. root *rùisc* — To peel `B2`
+
+## S
+
+- **Sa bhad** adv. — Right away (lit. in the spot) `A2`
+- **Sa cheud** phr. — Percent (lit. in the hundred) `A2`
+- **Sa chiad àite** adv. — First of all (lit. in the first place) `B1`
+- **Sa mhòr-chuid** phr. — By and large (lit. in the greater part) `B2`
+- **Sa mhòr-chuid** adv. — Mostly (lit. for the most part) `B2`
+- **Sàbhailte** adj. — Safe `A2`
+- **Sabhana** n. m. pl. *sabhanaichean* — Savanna `B2`
+- **Sabhs** n. m. pl. *sabhsan* — Sauce `A2`
+- **Sabhs lùghdaichte** n. m. — Reduction (sauce) (lit. reduced sauce) `C1`
+- **Sabhs soidhe** n. m. — Soy sauce `B2`
+- **Saideal** n. m. pl. *saidealan* — Satellite `B2`
+- **Saidhbhir** adj. — Opulent `C1`
+- **Saidheans** n. m. — Science `A2`
+- **Saidheans nan nearbhan** n. m. — Neuroscience (lit. science of the nerves) `C2`
+- **Saighdear** n. m. pl. *saighdearan* — Soldier `A2`
+- **Saighdear-duaise** n. m. pl. *saighdearan-duaise* — Mercenary (lit. reward-soldier) `C2`
+- **Saighead-dealanaich** n. f. pl. *saighdean-dealanaich* — Lightning bolt (lit. arrow of lightning) `C2`
+- **Sail** n. f. pl. *sailean* — Beam `B2`
+- **Sail** n. f. pl. *sailean* — Beam (structural) `C2`
+- **Sàil** n. f. pl. *sàilean* — Heel `B2`
+- **Sail** n. f. pl. *sailean* — Joist (lit. beam) `C1`
+- **Sail-iarainn** n. f. pl. *sailean-iarainn* — Girder (lit. iron beam) `C2`
+- **Saillte** adj. — Salty `A2`
+- **Salach** adj. — Dirty `A1`
+- **Salann** n. m. — Salt `A1`
+- **Sàmhach** adj. — Quiet (person) `A2`
+- **An t-Samhain** n. f. — November `A1`
+- **Samhlachas** n. m. pl. *samhlachasan* — Simile `C2`
+- **Samhradh** n. m. pl. *samhraidhean* — Summer `A1`
+- **Sampall** n. m. pl. *sampallan* — Sample (study) `C1`
+- **Sampall-feòla** n. m. pl. *sampallan-feòla* — Biopsy (lit. flesh sample) `C2`
+- **San eadar-àm** adv. — Meanwhile (lit. in the interval) `B1`
+- **San fhad-ùine** adv. — In the long run (lit. in the long time) `B1`
+- **Sanas** n. m. pl. *sanasan* — Innuendo (lit. hint) `C2`
+- **Sanas a thoirt** v. root *thoir* — To hint (lit. giving a hint) `B2`
+- **Sanas meallta** n. m. pl. *sanasan meallta* — Red herring (lit. misleading clue) `C2`
+- **Sanas-seilbhe** n. m. pl. *sanasan-seilbhe* — Listing (property) (lit. property advert) `C1`
+- **Sannt** n. m. — Greed `B2`
+- **Sanntach** adj. — Greedy `B1`
+- **Sanntachadh** v. root *sanntaich* — To crave (lit. covet) `C2`
+- **Saoi** n. m. pl. *saoidhean* — Sage `C2`
+- **Saor** adj. — Cheap `A1`
+- **Saor-làithean** n. m. — Vacation (lit. free days) `B1`
+- **Saor-thoileach** n. m. pl. *saor-thoilich* — Volunteer `B1`
+- **Saoradh** n. m. pl. *saoraidhean* — Acquittal `C2`
+- **Saoradh** n. m. pl. *saoraidhean* — Exemption `C1`
+- **Saoradh dealbhachaidh** n. m. — Zoning variance (lit. planning exemption) `C1`
+- **Saoradh fo chumhachan** n. m. — Parole (lit. release under conditions) `C2`
+- **Saoranach** n. m. pl. *saoranaich* — Citizen `B1`
+- **Saorsa** n. f. — Freedom `B1`
+- **Saorsa-cainnte** n. f. — Free speech (lit. freedom of speech) `C1`
+- **Saothrachail** adj. — Arduous (lit. laborious) `C2`
+- **Sàr-làmh** n. f. — Whiz (lit. excellent hand) `C1`
+- **Sàr-obair** n. f. pl. *sàr-obraichean* — Masterpiece `B2`
+- **Sàrachadh** v. root *sàraich* — To nag (lit. harassing) `B1`
+- **Sàraichte** adj. — Frustrated `A2`
+- **Sàraichte** adj. — Jaded (lit. worn out) `C2`
+- **Sàsachail** adj. — Satisfying `B1`
+- **Scafall** n. m. pl. *scafallan* — Scaffolding `B2`
+- **Scàil-steallaidh** n. f. pl. *scàilean-steallaidh* — Backsplash (lit. splash screen) `C1`
+- **Scàilean** n. m. pl. *scàileanan* — Umbrella `A1`
+- **Scàilean-uinneig** n. m. pl. *scàileanan-uinneig* — Blinds (window) (lit. window shades) `C2`
+- **Scainneal** n. m. pl. *scainnealan* — Scandal `B2`
+- **Scaiteach** adj. — Scathing `C2`
+- **Scal** n. m. pl. *scalan* — Squall `C2`
+- **Scalanta** adj. — Shrill `C1`
+- **Scamhan** n. m. pl. *scamhanan* — Lung `B2`
+- **Scanadh** n. m. — Scan (medical) `B2`
+- **Scaoil an rùn** phr. — Spill the beans (lit. release the secret) `C2`
+- **Scaoileadh** n. m. pl. *scaoilidhean* — Emissions `B2`
+- **Scaoileadh** v. root *scaoil* — To dispel (lit. scatter) `C1`
+- **Scaoileadh bailteil** n. m. — Urban sprawl (lit. urban spreading) `C1`
+- **Scaoilte** adj. — Sprawling (lit. spread out) `C1`
+- **Scaoilteach** adj. — Viral (lit. spreading) `C1`
+- **Scapadh** v. root *scap* — To disperse `C2`
+- **Scaradh** v. root *scar* — To estrange (lit. separating) `C2`
+- **Scarfa** n. m. pl. *scarfaichean* — Scarf `A1`
+- **Scàthan** n. m. pl. *scàthain* — Mirror `A2`
+- **Sceadachadh** n. m. — Garnish (lit. decoration) `C1`
+- **Sceadachadh** v. root *sceadaich* — To decorate `B1`
+- **Sceadachadh** v. root *sceadaich* — To embellish (lit. adorning) `C2`
+- **Sceadachadh-oir** n. m. — Molding (trim) (lit. edge decoration) `C1`
+- **Sceadaichte** adj. — Ornate (lit. adorned) `C2`
+- **Sceap** n. f. pl. *sceapan* — Hive `C2`
+- **Sceidse** n. f. pl. *sceidsichean* — Sketch `B2`
+- **Sceilb** n. f. pl. *sceilbean* — Chisel `C2`
+- **Sceir** n. f. pl. *sceirean* — Reef `B2`
+- **Sceul-frèama** n. m. pl. *sceulachdan-frèama* — Frame narrative (lit. frame story) `C2`
+- **Sceul-teannachaidh** n. m. pl. *sceulachdan-teannachaidh* — Thriller (lit. tension story) `B1`
+- **Sceulachd** n. f. pl. *sceulachdan* — Story `A2`
+- **Scian** n. f. pl. *sceinean* — Knife `A1`
+- **Scil** n. m. pl. *scilean* — Skill `B1`
+- **Scimilear** n. m. pl. *scimilearan* — Freeloader `C2`
+- **Scioba** n. m. pl. *sciobaidhean* — Team `A2`
+- **Sciobalta** adj. — Well-kept (lit. tidy) `C1`
+- **Scioblachadh** v. root *scioblaich* — To streamline (lit. tidying) `B2`
+- **Scioblachadh** v. root *scioblaich* — To tidy up `A2`
+- **Sciort** n. f. pl. *sciortan* — Skirt `A1`
+- **Scìre** n. f. pl. *scìrean* — District `B2`
+- **Scìth às dèidh itealaich** phr. — Jet-lagged (lit. tired after flying) `C1`
+- **Scìth is searbh dheth** phr. — Sick and tired (lit. tired and bitter of it) `C1`
+- **Scitheadh** n. m. — Skiing `A2`
+- **Scìtheil** adj. — Tiring `B1`
+- **Scìths** n. f. — Fatigue `C2`
+- **Scìths-itealaich** n. f. — Jet lag (lit. flight tiredness) `B1`
+- **Sciùrsadh** v. root *sciùrs* — To castigate (lit. scourging) `C2`
+- **Scochadh** n. m. pl. *scochaidhean* — Sprain `B1`
+- **Scoil** n. f. pl. *scoiltean* — School `A1`
+- **Scoilear** n. m. pl. *scoilearan* — Scholar `C1`
+- **Scoilearachd** n. f. pl. *scoilearachdan* — Scholarship `A2`
+- **Scoinneil** adj. — Awesome `C1`
+- **Scoinneil** adj. — Terrific `B1`
+- **Scòr** n. m. pl. *scòran* — Score `A2`
+- **Scòrnan** n. m. pl. *scòrnain* — Throat `B2`
+- **Scòth** n. f. pl. *scòthan* — Cloud `A1`
+- **Screamh** n. m. — Disgust `B2`
+- **Screamhail** adj. — Disgusting `B1`
+- **Screamhail** adj. — Gross `C1`
+- **Screuchail** v. root *screuch* — To shriek (lit. screech) `C1`
+- **Scrìn** n. f. pl. *scrìnichean* — Screen `A2`
+- **Scrìobach** adj. — Grating (sound) (lit. scraping) `C2`
+- **Scrìobadair** n. m. pl. *scrìobadairean* — Grater (lit. scraper) `C2`
+- **Scrìobadh** v. root *scrìob* — To grate (lit. scraping) `B2`
+- **Scrìobhadair** n. m. pl. *scrìobhadairean* — Writer `A2`
+- **Scrìobhadh** v. root *scrìobh* — To write `A1`
+- **Scrìobhaiche-dràma** n. m. pl. *scrìobhaichean-dràma* — Playwright (lit. drama writer) `B2`
+- **Scriobt** n. m. pl. *scriobtan* — Script `B2`
+- **Scriobt film** n. m. pl. *scriobtan film* — Screenplay (lit. film script) `B2`
+- **Scrios** v. root *scrios* — To obliterate (lit. destroying) `C2`
+- **Scriubhaire** n. m. pl. *scriubhairean* — Screwdriver `B1`
+- **Scròbadh** v. root *scròb* — To scratch `B1`
+- **Scrùdadh** n. m. pl. *scrùdaidhean* — Inspection `B2`
+- **Scrùdadh** v. root *scrùd* — To scrutinize `C1`
+- **Scrùdadh** v. root *scrùd* — To verify (lit. checking) `B2`
+- **Scrùdadh-cunntais** n. m. pl. *scrùdaidhean-cunntais* — Audit `C1`
+- **Scrùdadh-slàinte** n. m. pl. *scrùdaidhean-slàinte* — Checkup (lit. health examination) `B1`
+- **Scuabadair-uinneig** n. m. pl. *scuabadairean-uinneig* — Windshield wiper (lit. window sweeper) `C2`
+- **Scudal** n. m. — Trash `A2`
+- **Scudal** n. m. — Waste (garbage) `B1`
+- **Scuireamaid an-diugh.** phr. — Let's call it a day (lit. let's stop for today) `C2`
+- **Scur** v. root *scuir* — To cease `B2`
+- **Scur de smocadh** v. root *scuir de smocadh* — To quit smoking `B1`
+- **Seacaid** n. f. pl. *seacaidean* — Jacket `A1`
+- **Seach-ùine** n. f. — Overtime `B1`
+- **Seachd scìth** phr. — Fed up (lit. seven times tired) `C1`
+- **Seachdad** num. — Seventy `A1`
+- **Seachdain** n. f. pl. *seachdainean* — Week `A1`
+- **An t-seachdain sa chaidh** adv. — Last week (lit. the week that went) `A2`
+- **Seachdaineil** adj. — Weekly `B1`
+- **Seachnadh** v. root *seachain* — To avoid `B1`
+- **Seachnadh** v. root *seachain* — To elude (lit. avoiding) `C2`
+- **Seachnadh** v. root *seachain* — To refrain (lit. avoid) `C1`
+- **Seachnadh** v. root *seachain* — To shun (lit. avoiding) `C2`
+- **Seachnadh cìse** n. m. — Tax evasion `C2`
+- **Seachran** n. m. pl. *seachranan* — Tangent (lit. straying) `C2`
+- **Seadh** interj. — Yes (lit. it is so; a Ròdach usually answers by repeating the verb (Tha. / Bha. / Bidh.)) `A1`
+- **Seadh gu dearbh!** phr. — I'll say (lit. yes indeed) `C2`
+- **Sealach** adj. — Temporary `B1`
+- **Sealbhachadh** n. m. — Occupation (military) (lit. taking possession) `C1`
+- **Sealbhachadh** v. root *sealbhaich* — To inherit `B2`
+- **Sealbhachadh** v. root *sealbhaich* — To own `B1`
+- **Sealbhachadh** v. root *sealbhaich* — To possess `B2`
+- **Sealgair-thàlantan** n. m. pl. *sealgairean-thàlantan* — Headhunter (lit. talent hunter) `C1`
+- **Seall romhad mus leum thu.** phr. — Look before you leap `C2`
+- **Sealladh** n. m. pl. *seallaidhean* — Perspective (lit. view) `B1`
+- **Sealladh** n. m. pl. *seallaidhean* — View `B1`
+- **Sealladh air ais** n. m. pl. *seallaidhean air ais* — Flashback (lit. look back) `C1`
+- **Sealladh pearsanta** n. m. pl. *seallaidhean pearsanta* — Point of view (lit. personal view) `B1`
+- **Sealltainn** v. root *seall* — To show `A2`
+- **Sealltainn fhaireachdainnean gu foscailte** v. root *seall* — To wear one’s heart on one’s sleeve (lit. show one's feelings openly) `C1`
+- **Sealltainn mar eisimpleir** v. root *seall* — To exemplify (lit. show as an example) `C1`
+- **Sean** adj. — Old (thing) `A1`
+- **Sean** adj. — Stale (lit. old (of bread)) `B2`
+- **Seanail** n. m. pl. *seanailean* — Channel `A2`
+- **Seanair** n. m. pl. *seanairean* — Grandfather `A1`
+- **Seang** adj. — Gaunt `C2`
+- **Seanmhair** n. f. pl. *seanmhairean* — Grandmother `A1`
+- **Seann aois** n. f. — Old age `B1`
+- **Seann daoine** n. m. — Elderly (lit. old people) `B2`
+- **Seann eòlaiche** n. m. pl. *seann eòlaichean* — Old hand (lit. old expert) `C2`
+- **Seann siostam** n. m. pl. *seann siostaman* — Legacy system (lit. old system) `C2`
+- **Seann-fhasanta** adj. — Antiquated (lit. old-fashioned) `C2`
+- **Seann-fhasanta** adj. — Quaint (lit. old-fashioned) `C1`
+- **Seann-làmh** n. f. pl. *seann-làmhan* — Veteran (experienced) (lit. old hand) `C1`
+- **Seann-leannan** n. m. pl. *seann-leannain* — Ex (lit. former sweetheart) `B1`
+- **Seantans** n. m. pl. *seantansan* — Sentence `A2`
+- **Searbh** adj. — Bitter `A2`
+- **Searbh-milis** adj. — Bittersweet `B1`
+- **Searbhachd** n. f. — Bitterness `B2`
+- **Searbhadair** n. m. pl. *searbhadairean* — Towel `A1`
+- **Searbhas** n. m. — Sarcasm `C2`
+- **Searbhasach** adj. — Sarcastic `C1`
+- **Seargadh** v. root *searg* — To languish (lit. withering) `C2`
+- **Seargte** adj. — Haggard (lit. withered) `C2`
+- **Searmonachadh** v. root *searmonaich* — To preach `C2`
+- **Seasamh** v. root *seas* — To stand `A1`
+- **Seasamh air** v. root *seas air* — To insist (lit. stand on) `B1`
+- **Seasamh airson** v. root *seas* — To stand for (lit. standing for) `C1`
+- **Seasamh airson** v. root *seas* — To stick up for (lit. stand for) `C1`
+- **Seascad** num. — Sixty `A1`
+- **Seascair** adj. — Cozy `B1`
+- **Seasmhach** adj. — Robust (lit. stable) `C1`
+- **Seasmhach** adj. — Sustainable `B2`
+- **Seasmhachd** n. f. — Sustainability `B2`
+- **Seata dàta** n. m. pl. *seataichean dàta* — Dataset `C1`
+- **Seilbh** n. f. pl. *seilbhean* — Property `B1`
+- **Seilbheach** adj. — Proprietary (lit. owned) `C2`
+- **Seilear** n. m. pl. *seilearan* — Cellar `C2`
+- **Seillean** n. m. pl. *seilleanan* — Bee `A2`
+- **Seimeastar** n. m. pl. *seimeastaran* — Semester `A2`
+- **Seiminear** n. m. pl. *seiminearan* — Seminar `B1`
+- **Seinn** v. root *seinn* — To sing `A2`
+- **Seirbheis luchd-ceannach** n. f. — Customer service `B1`
+- **Sèisdeadh** v. root *sèisd* — To besiege `C2`
+- **Sèithear** n. m. pl. *sèithrichean* — Chair `A1`
+- **An seo** adv. — Here `A1`
+- **Seo** pron. — This `A1`
+- **Seòl-mara** n. m. pl. *siùil-mhara* — Tide `B2`
+- **Seòladh** n. m. pl. *seòlaidhean* — Address `A2`
+- **Seòmar** n. m. pl. *seòmraichean* — Room `A1`
+- **Seòmar-cadail** n. m. pl. *seòmraichean-cadail* — Bedroom (lit. sleeping room) `A1`
+- **Seòmar-feuchainn** n. m. pl. *seòmraichean-feuchainn* — Fitting room (lit. trying room) `A2`
+- **Seòmar-ìochdair** n. m. pl. *seòmraichean-ìochdair* — Basement `B1`
+- **Seòmar-ionnlaid** n. m. pl. *seòmraichean-ionnlaid* — Bathroom (lit. washing room) `A1`
+- **Seòmar-nighe** n. m. pl. *seòmraichean-nighe* — Utility room (lit. washing room) `C2`
+- **Seòmar-stiùiridh** n. m. pl. *seòmraichean-stiùiridh* — Cockpit (lit. steering room) `C2`
+- **Seòmar-teagaisc** n. m. pl. *seòmraichean-teagaisc* — Classroom `A2`
+- **Seudraidh** n. f. — Jewelry `B1`
+- **Seusan** n. m. pl. *seusanan* — Season (TV) `B1`
+- **Siabann** n. m. pl. *siabainn* — Soap `A1`
+- **Siansadh** n. m. pl. *siansaidhean* — Symphony `B2`
+- **Sìde-eòlas** n. m. — Meteorology `C2`
+- **Sileadh-eanchainn** n. m. — Brain drain (lit. brain drain) `C1`
+- **Sin** pron. — That `A1`
+- **An sin** adv. — There `A1`
+- **Sin an sop mu dheireadh.** phr. — That's the last straw `C2`
+- **Sìneadh** v. root *sìn* — To stretch `B1`
+- **Sìneadh-ama** n. m. — Extension (deadline) (lit. extension of time) `B1`
+- **Singilte** adj. — Single `A2`
+- **Sinn** pron. — We `A1`
+- **Sinnsear** n. m. pl. *sinnsearan* — Ancestor `B2`
+- **Sìoda** n. m. — Silk `B1`
+- **Sìodach** adj. — Silky `C2`
+- **Sioft** n. f. pl. *sioftaichean* — Shift `B1`
+- **Sìolachadh** v. root *sìolaich* — To beget (lit. propagating) `C2`
+- **Sìolachan** n. m. pl. *sìolachain* — Colander `C2`
+- **Sìoladh** v. root *sìolaidh* — To subside (lit. settling) `C2`
+- **Siop** n. m. pl. *siopaichean* — Zipper `B2`
+- **Sìor-bhruidhinn air** v. root *bruidhinn* — To belabor the point (lit. constantly talking about) `C2`
+- **Siostam dìon** n. m. pl. *siostaman dìon* — Immune system (lit. defence system) `B2`
+- **Sìothachadh** v. root *sìothaich* — To placate (lit. pacifying) `C2`
+- **Sirist** n. f. pl. *siristean* — Cherry `A2`
+- **Sìth** n. f. — Peace `B1`
+- **Siubhal** v. root *siubhail* — To travel `A1`
+- **Siubhal gu obair** v. root *siubhail gu obair* — To commute (lit. travelling to work) `A2`
+- **Siubhal-obrach** n. m. — Commute (noun) (lit. work travel) `C2`
+- **Siùcar** n. m. — Sugar `A1`
+- **Slabhraidh-bhloca** n. f. — Blockchain (lit. chain of blocks) `C1`
+- **Slabhraidh-ùghdarrais** n. f. — Chain of command (lit. chain of authority) `C2`
+- **Slàinte mhath!** interj. — Cheers! (lit. good health) `A1`
+- **Slàinte-inntinn** n. f. — Mental health `B1`
+- **Slàn** adj. — Gross (before deductions) (lit. whole) `C1`
+- **Slàn-àireamh** n. f. pl. *slàn-àireamhan* — Integer (lit. whole number) `C2`
+- **Slànachadh** v. root *slànaich* — To recover `B1`
+- **Slaodach** adj. — Slow `A1`
+- **Slaodadh** v. root *slaod* — To tow (lit. drag) `B1`
+- **Slaopadh** v. root *slaop* — To poach (lit. parboil) `C1`
+- **Slapagan** n. f. — Slippers `B2`
+- **Slat-tomhais** n. f. pl. *slatan-tomhais* — Benchmark (lit. measuring rod) `B2`
+- **Slat-tomhais** n. f. pl. *slatan-tomhais* — Criterion (lit. measuring rod) `B2`
+- **Slat-tomhais** n. f. pl. *slatan-tomhais* — Yardstick (lit. measuring rod) `C2`
+- **Sleamhainn** adj. — Glib (lit. slippery) `C2`
+- **Sleamhnachadh** v. root *sleamhnaich* — To slip `B1`
+- **Sleogach** adj. — Queasy `C2`
+- **Sleogadh** n. m. — Nausea `B1`
+- **Sliasaid** n. f. pl. *slèistean* — Thigh `B2`
+- **Slighe a-mach** n. f. pl. *slighean a-mach* — Exit (lit. way out) `A1`
+- **Slighe a-steach** n. f. pl. *slighean a-steach* — Entrance (lit. way in) `A1`
+- **Slighe rothaireachd** n. f. pl. *slighean rothaireachd* — Bike lane (lit. cycling way) `B2`
+- **Slighe-choisichean** n. f. pl. *slighean-choisichean* — Crosswalk (lit. walkers' path) `B1`
+- **Sliochd** n. m. pl. *sliochdan* — Descendant (lit. offspring, lineage) `B2`
+- **Slìom** adj. — Sleek `C1`
+- **Sliseadh** v. root *slis* — To slice `B2`
+- **Sliseag** n. f. pl. *sliseagan* — Slice `A2`
+- **Sluagh a' fàs nas sine** n. m. — Aging population (lit. population growing older) `C1`
+- **Sluagh-eòlas** n. m. — Demography `C2`
+- **Sluasaid-dhuslaich** n. f. pl. *sluasaidean-duslaich* — Dustpan (lit. dust shovel) `C2`
+- **Slugadh** v. root *sluig* — To swallow `B1`
+- **Smachd air màl** n. m. — Rent control (lit. control on rent) `C1`
+- **Smachd-bhannan** n. m. — Sanctions `C1`
+- **Smachdachadh** v. root *smachdaich* — To dominate `B2`
+- **Smal** n. m. pl. *smalan* — Stain `B2`
+- **Smalachadh** v. root *smalaich* — To tarnish `C2`
+- **Smaoin** n. f. pl. *smaointean* — Notion (lit. thought) `B2`
+- **Smaoineachadh** v. root *smaoinich* — To think `A1`
+- **Smaoineachadh air** v. root *smaoinich* — To come up with (lit. think of) `B1`
+- **Smaoineachadh cus** v. root *smaoinich* — To overthink (lit. thinking too much) `B1`
+- **Smaoineachadh gu cruthachail** v. root *smaoinich* — To think outside the box (lit. think creatively) `C1`
+- **Smaoineachadh-buidhne** n. m. — Groupthink (lit. group thinking) `C2`
+- **Smèideadh** v. root *smèid* — To beckon `C2`
+- **Smèideadh** v. root *smèid* — To wave `B1`
+- **Smiogaid** n. m. pl. *smiogaidean* — Chin `B2`
+- **Smior** n. m. — Grit (lit. marrow) `C2`
+- **Smuain** n. f. pl. *smuaintean* — Thought `B1`
+- **Snàgadh** v. root *snàg* — To grovel (lit. crawl) `C2`
+- **Snàgail** v. root *snàg* — To crawl `B1`
+- **Snaidheadh** n. m. pl. *snaidheaidhean* — Sculpture (lit. carving) `B2`
+- **Snaim-rathaid** n. m. pl. *snaimean-rathaid* — Interchange (highway) (lit. road knot) `C2`
+- **Snàmh** v. root *snàmh* — To swim `A2`
+- **Snasail** adj. — Chic `C1`
+- **Snasail** adj. — Dapper `C2`
+- **Snasail** adj. — Sophisticated `C1`
+- **Sneachd** n. m. — Snow `A1`
+- **Snodhach** n. m. — Sap `C2`
+- **So-dhèanta** adj. — Feasible (lit. easily done) `B2`
+- **So-dhèanta** adj. — Viable (lit. doable) `C2`
+- **So-dhìon** adj. — Tenable (lit. defensible) `C2`
+- **So-leòntachd** n. f. pl. *so-leòntachdan* — Vulnerability (security) `C2`
+- **So-mhealladh** adj. — Gullible (lit. easily deceived) `C1`
+- **So-mheudachd** n. f. — Scalability `C1`
+- **Socaid** n. f. pl. *socaidean* — Outlet (socket) `B1`
+- **Socair** adj. — Easygoing `B1`
+- **Socair** adj. — Laid-back (lit. easy-going) `C1`
+- **Sochair** n. f. pl. *sochairean* — Welfare (lit. benefit) `C1`
+- **Socrachadh** v. root *socraich* — To calm down `A2`
+- **Socrachadh** v. root *socraich* — To settle down `C1`
+- **Socrachail** adj. — Relaxing `B1`
+- **Sodalach** adj. — Obsequious `C2`
+- **Sòfa** n. f. pl. *sòfathan* — Sofa `A2`
+- **Sòghail** adj. — Lavish (lit. luxurious) `C1`
+- **Sòghail** adj. — Sumptuous (lit. luxurious) `C2`
+- **Soilleir** adj. — Light (color) `A1`
+- **Soilleir** adj. — Lucid (lit. clear) `C1`
+- **Soilleir** adj. — Perspicuous (lit. clear) `C2`
+- **Soilleireachadh** v. root *soilleirich* — To clarify `B2`
+- **Soillseachadh** v. root *soillsich* — To enlighten `C2`
+- **Soineanta** adj. — Naive `B1`
+- **Soirbheachadh** v. root *soirbhich* — To flourish `C2`
+- **Soirbheachadh** v. root *soirbhich* — To succeed `B1`
+- **Soirbheachadh** v. root *soirbhich* — To thrive (lit. prosper) `C1`
+- **Sòisio-chànanachas** n. m. — Sociolinguistics `C2`
+- **Soitheamh** adj. — Docile `C2`
+- **Soithichean** n. m. — Dishes (lit. vessels (plural)) `A2`
+- **Solais falaichte** n. m. — Recessed lighting (lit. hidden lights) `C1`
+- **Solais-cunnairt** n. m. — Hazard lights (lit. danger lights) `C2`
+- **Solarachadh** v. root *solaraich* — To procure `C2`
+- **Solarachadh** v. root *solaraich* — To provide `B1`
+- **Solaraiche** n. m. pl. *solaraichean* — Supplier `B2`
+- **Solas a thilgeil air** v. root *tilg* — To shed light on (lit. to throw light on) `C2`
+- **Solas crochte** n. m. pl. *solais chrochte* — Pendant light (lit. hanging light) `C1`
+- **Solas-balla** n. m. pl. *solais-bhalla* — Sconce (lit. wall light) `C1`
+- **Solas-trafaig** n. m. pl. *solais-trafaig* — Traffic light (lit. traffic light) `A2`
+- **Sòn coisichean** n. m. pl. *sònaichean coisichean* — Pedestrian zone (lit. walkers' zone) `B2`
+- **Sòn-ama** n. m. pl. *sònaichean-ama* — Time zone `B2`
+- **Sònachadh** n. m. — Zoning `B2`
+- **Sonaid** n. f. pl. *sonaidean* — Sonnet `C2`
+- **Sònrachadh** v. root *sònraich* — To assign `B2`
+- **Sònrachadh** v. root *sònraich* — To stipulate (lit. specify) `C1`
+- **Sònraichte** adj. — Exceptional (lit. special) `C1`
+- **Sònraichte** adj. — Notable `B2`
+- **An sop mu dheireadh** phr. — The last straw `C1`
+- **Sòradh** v. root *sòr* — To hesitate `B1`
+- **Sorchan** n. m. pl. *sorchain* — Easel `C2`
+- **Spadal** n. m. pl. *spadalan* — Spatula `C2`
+- **Spaglainneach** adj. — Bombastic `C2`
+- **Spaideil** adj. — Fancy `B1`
+- **Spàin** n. f. pl. *spàinean* — Spoon `A1`
+- **Spanair** n. m. pl. *spanairean* — Wrench `C2`
+- **Sparradh** v. root *sparr* — To hammer home (lit. driving in) `C2`
+- **Sparradh** v. root *spàrr* — To impose (lit. thrusting) `B2`
+- **Speactram** n. m. pl. *speactraman* — Spectrum `C1`
+- **Spèis** n. f. — Affection `B2`
+- **Spèis** n. f. — Respect `B1`
+- **Speisealachd** n. f. pl. *speisealachdan* — Specialty `B1`
+- **Speuclairean** n. m. — Glasses `A1`
+- **Speur** n. m. pl. *speuran* — Sky `A1`
+- **Speur soilleir** n. m. — Clear sky `B1`
+- **Spìocach** adj. — Stingy `B1`
+- **Spìocaire** n. m. pl. *spìocairean* — Cheapskate `B1`
+- **Spìonadh às a bhun** v. root *spìon* — To eradicate (lit. tear out by the root) `C1`
+- **Spiorad na linn** n. m. — Zeitgeist (lit. spirit of the age) `C2`
+- **Spìosrach** adj. — Spicy `A1`
+- **Spìosraidh** n. m. pl. *spìosraidhean* — Spice `B2`
+- **Spleuchdadh** v. root *spleuchd* — To stare `B1`
+- **Sporan** n. m. pl. *sporain* — Wallet (lit. purse) `A1`
+- **Spòrs** n. f. pl. *spòrsan* — Sport `A2`
+- **Spreagadh** v. root *spreag* — To motivate `B2`
+- **Spuir** n. m. pl. *spuirean* — Talon `C2`
+- **Sràid** n. f. pl. *sràidean* — Street `A1`
+- **Sràid-chainnt** n. f. — Slang (lit. street speech) `C1`
+- **Sreath** n. m. pl. *sreathan* — Sequence (lit. row) `B2`
+- **Sreath** n. f. pl. *sreathan* — Series `B1`
+- **Sreath-rathaid** n. f. pl. *sreathan-rathaid* — Lane (lit. road row) `B1`
+- **Sreothart** n. m. pl. *sreothartan* — Sneeze `C2`
+- **Sreothartaich** v. root *dèan sreothart* — To sneeze `B1`
+- **Srianadh** v. root *srian* — To curb (lit. bridle) `C1`
+- **Sròn** n. f. pl. *sròinean* — Nose `A1`
+- **Sruth** n. m. pl. *sruthan* — Current (water) `B2`
+- **Sruth adrenalain** n. m. — Adrenaline rush (lit. rush of adrenaline) `C2`
+- **Sruth-airgid** n. m. — Cash flow (lit. money flow) `B1`
+- **Sruthadh** n. m. — Streaming (lit. flowing) `B1`
+- **Sruthadh** v. root *sruth* — To emanate (lit. flowing) `C2`
+- **Stad-atmhorachd** n. f. — Stagflation (lit. stop-inflation) `C2`
+- **Stad-bus** n. m. pl. *stadan-bus* — Stop (bus stop) `A1`
+- **Stad-loscaidh** n. m. — Ceasefire `C1`
+- **Stad-siubhail** n. m. pl. *stadan-siubhail* — Layover (lit. travel stop) `B1`
+- **Staid gun bhuannachd** n. f. — Stalemate (lit. situation without a win) `C2`
+- **Staidhre** n. f. pl. *staidhrichean* — Stairs `A2`
+- **Stailc** n. f. pl. *stailcean* — Strike `B1`
+- **Stamag** n. f. pl. *stamagan* — Stomach `A1`
+- **Staonadh** v. root *staon* — To abstain `C2`
+- **Stèidheachadh** v. root *stèidhich* — To establish `B2`
+- **Stèidheachadh** v. root *stèidhich* — To set up (lit. establishing) `C1`
+- **Stèisean** n. m. pl. *stèiseanan* — Station `A1`
+- **Stèisean peatrail** n. m. pl. *stèiseanan peatrail* — Gas station (lit. petrol station) `A2`
+- **Stèisean poileis** n. m. pl. *stèiseanan poileis* — Police station `A2`
+- **Stereotip** n. m. pl. *stereotipean* — Stereotype `B2`
+- **Stiall-socaidean** n. f. pl. *stiallan-socaidean* — Power strip (lit. strip of sockets) `C2`
+- **Stiallach** adj. — Striped `B1`
+- **Stiogma** n. m. — Stigma `C2`
+- **Stiubha** n. f. pl. *stiubhaichean* — Stew `B2`
+- **Stiùireadh** v. root *stiùir* — To supervise `B2`
+- **Stiùiriche film** n. m. pl. *stiùirichean film* — Director (film) `B2`
+- **Stòbha** n. f. pl. *stòbhaichean* — Stove `A2`
+- **Stobhadh** v. root *stobh* — To braise (lit. stew) `C1`
+- **Stocainnean** n. f. — Socks `A1`
+- **Stoidhle** n. f. pl. *stoidhlichean* — Style `B1`
+- **Stoirm** n. f. pl. *stoirmean* — Storm `A2`
+- **Stòlda** adj. — Down-to-earth (lit. steady, sober) `B1`
+- **Stòlda** adj. — Serious (lit. sober, staid) `A2`
+- **Stòlda** adj. — Understated `C2`
+- **Stòlda** adj. — Unflappable (lit. steady) `C2`
+- **Stòr-dàta** n. m. pl. *stòran-dàta* — Database `B2`
+- **Stòras nàdarra** n. m. pl. *stòrasan nàdarra* — Natural resources `B2`
+- **Streap** v. root *streap* — To climb `A2`
+- **Streap chreag** n. m. — Rock climbing (lit. climbing of rocks) `B2`
+- **Strì** v. root *strì* — To struggle `B1`
+- **Strìochdach** adj. — Submissive `C1`
+- **Strìochdadh** v. root *strìochd* — To succumb (lit. yielding) `C2`
+- **Stròc** n. m. — Stroke `B2`
+- **Stròdhail** adj. — Profligate `C2`
+- **Structar** n. m. pl. *structaran* — Structure `B2`
+- **Struidheadh** v. root *struidh* — To squander `C2`
+- **Struidheil** adj. — Extravagant `C1`
+- **Stuadh** n. f. pl. *stuaidhean* — Gable `C2`
+- **Stuigeadh** v. root *stuig* — To instigate (lit. incite) `C1`
+- **Stuth** n. m. pl. *stuthan* — Fabric (lit. material) `B2`
+- **Stuth** n. m. pl. *stuthan* — Material `B1`
+- **Stuth-blasaidh** n. m. pl. *stuthan-blasaidh* — Seasoning (lit. flavouring stuff) `B2`
+- **Stuth-lìonaidh** n. m. — Caulk (lit. filling material) `C1`
+- **Stuth-nighe** n. m. pl. *stuthan-nighe* — Detergent (lit. washing stuff) `B2`
+- **Suaimhneas** n. m. — Serenity `B2`
+- **Suairc** adj. — Affable `C2`
+- **Suarach** adj. — Negligible `C1`
+- **Suarach** adj. — Trivial `B2`
+- **Suathadh** n. m. — Friction (lit. rubbing) `C1`
+- **Suathadh** v. root *suath* — To rub `B1`
+- **Suathadh ri** v. root *suath* — To rub shoulders with (lit. rub against) `C2`
+- **Sùbailte** adj. — Flexible `B1`
+- **Sùbh-làir** n. m. pl. *sùbhan-làir* — Strawberry `A2`
+- **Subhailc** n. f. pl. *subhailcean* — Virtue `B2`
+- **Subsadaidh** n. m. pl. *subsadaidhean* — Subsidy `C2`
+- **Sùgh** n. m. pl. *sùghan* — Juice `A1`
+- **Sùghmhor** adj. — Juicy `B2`
+- **Sùghmhor** adj. — Luscious (lit. juicy) `C2`
+- **Suidhe** v. root *suidh* — To sit `A1`
+- **Suidheachan** n. m. pl. *suidheachain* — Seat `A2`
+- **Suidheachan-trannsa** n. m. pl. *suidheachain-trannsa* — Aisle seat (lit. corridor seat) `C2`
+- **Suidhichte** adj. — Poised (lit. settled) `C2`
+- **Suids-lasachaidh** n. m. pl. *suidsichean-lasachaidh* — Dimmer switch (lit. dimming switch) `C2`
+- **Suidse** n. f. pl. *suidsichean* — Switch `B1`
+- **Sùil** n. f. pl. *sùilean* — Eye `A1`
+- **Sùil fhuar** n. f. — Cold shoulder (lit. cold eye) `C2`
+- **Sùileachadh** v. root *sùilich* — To anticipate (lit. expecting) `B2`
+- **Sùileachadh** v. root *sùilich* — To expect `B1`
+- **Suimeil** adj. — Thoughtful `B1`
+- **An t-Sultain** n. f. — September `A1`
+- **Sunnd** n. m. — Wellbeing `B1`
+- **Sunndach** adj. — Cheerful `A2`
+- **Surfadh** n. m. — Surfing `A2`
+
+## T
+
+- **Tabhartaiche** n. m. pl. *tabhartaichean* — Benefactor `C2`
+- **Tabhartas** n. m. pl. *tabhartasan* — Grant `B1`
+- **Tachairt** v. root *tachair* — To happen `A2`
+- **Tachairt air** v. root *tachair* — To come across (lit. happening on) `C1`
+- **Tachairt ri** v. root *tachair* — To run into (lit. happening upon) `C1`
+- **Tachas** n. m. — Itch `C2`
+- **Tachdadh** v. root *tachd* — To stifle (lit. choking) `C2`
+- **Tadhal** v. root *tadhail* — To visit `A2`
+- **Taghadh** n. m. pl. *taghaidhean* — Election `B1`
+- **Taghadh** v. root *tagh* — To choose `A2`
+- **Taghadh chleasaichean** n. m. — Casting (lit. choosing of actors) `C1`
+- **Taghta** adj. — Sweet (great) (lit. choice, smashing) `C1`
+- **Tagradh** n. m. pl. *tagraidhean* — Bid `B2`
+- **Tagradh** v. root *tagair* — To advocate (lit. pleading) `B2`
+- **Tagradh** v. root *tagair* — To plead `C1`
+- **Tagradh air seilbh** n. m. pl. *tagraidhean air seilbh* — Lien (lit. claim on property) `C1`
+- **Tagraiche** n. m. pl. *tagraichean* — Advocate `C2`
+- **Tagraiche** n. m. pl. *tagraichean* — Applicant `C1`
+- **Tagraiche** n. m. pl. *tagraichean* — Candidate `B2`
+- **Tagsaidh** n. m. pl. *tagsaidhean* — Taxi `A1`
+- **Taic luchd-ùidh** n. f. — Stakeholder buy-in (lit. support of the interested parties) `C1`
+- **Taic-bhalla** n. f. pl. *taicean-balla* — Buttress (lit. wall-support) `C2`
+- **Tàidh** n. f. pl. *tàidhean* — Tie `B2`
+- **Taidhr** n. f. pl. *taidhrichean* — Tire `B1`
+- **Taidhr pollta** n. f. pl. *taidhrichean pollta* — Flat tire (lit. punctured tyre) `B1`
+- **Taigh** n. m. pl. *taighean* — House `A1`
+- **Taigh glic** n. m. pl. *taighean glic* — Smart home (lit. clever house) `C1`
+- **Taigh-bìdh** n. m. pl. *taighean-bìdh* — Restaurant (lit. food house) `A1`
+- **Taigh-cluiche** n. m. pl. *taighean-cluiche* — Theater (lit. house of play) `A2`
+- **Taigh-cùraim** n. m. pl. *taighean-cùraim* — Retirement home (lit. care house) `B2`
+- **Taigh-dhealbh** n. m. pl. *taighean-dhealbh* — Cinema (lit. house of pictures) `A2`
+- **Taigh-fuine** n. m. pl. *taighean-fuine* — Bakery (lit. baking house) `A1`
+- **Taigh-òsta** n. m. pl. *taighean-òsta* — Hotel `A1`
+- **Taigh-tascaidh** n. m. pl. *taighean-tascaidh* — Museum (lit. storing house) `A2`
+- **Taigheadas aig prìs reusanta** n. m. — Affordable housing (lit. housing at a reasonable price) `C1`
+- **Tàileasc** n. m. — Chess `A2`
+- **Tàille** n. f. pl. *tàillean* — Fee `B1`
+- **Tàillear** n. m. pl. *tàillearan* — Tailor `B2`
+- **Tàillearaichte** adj. — Tailored (lit. tailor-made) `C2`
+- **Taing do** prep. — Thanks to `B1`
+- **Taingealachd** n. f. — Gratitude `B2`
+- **Taingeil** adj. — Grateful `A2`
+- **Tàir** n. f. — Contempt `B2`
+- **Tàir** n. f. — Scorn `C2`
+- **Tàir air a' chùirt** n. f. — Contempt of court (lit. contempt on the court) `C2`
+- **Tàireil** adj. — Condescending (lit. contemptuous) `C1`
+- **Tàireil** adj. — Derogatory `C2`
+- **Tairgse** n. f. pl. *tairgsean* — Proposal `B2`
+- **Tairgsinn** v. root *tairg* — To offer `B1`
+- **Tàirneanach** n. m. — Thunder `A2`
+- **Tais** adj. — Clammy `C2`
+- **Tais** adj. — Dank (lit. damp) `C2`
+- **Tais** adj. — Humid `A2`
+- **Taisbeanadh** n. m. pl. *taisbeanaidhean* — Exhibition `B2`
+- **Taisbeanadh** n. m. pl. *taisbeanaidhean* — Presentation `B1`
+- **Taisbeanadh** n. m. pl. *taisbeanaidhean* — Screening (lit. showing) `C1`
+- **Taisbeanadh** v. root *taisbean* — To demonstrate `B2`
+- **Taiseachd** n. f. — Humidity `C2`
+- **Taistealachd** n. f. pl. *taistealachdan* — Pilgrimage `C1`
+- **Taitneach** adj. — Charming `B1`
+- **Tàladh** v. root *tàlaidh* — To entice `C2`
+- **Talamh** n. m. — Earth `A1`
+- **Talla a' bhaile** n. m. pl. *tallachan baile* — Town hall (lit. hall of the town) `A2`
+- **Talla-còmhnaidh** n. m. pl. *tallachan-còmhnaidh* — Dormitory (lit. residence hall) `B1`
+- **Talla-spòrs** n. m. pl. *tallachan-spòrs* — Gym (lit. sports hall) `A2`
+- **Tàmailt** n. f. — Indignation `B2`
+- **Tàmailteach** adj. — Disappointing `B1`
+- **Tàmailteach** adj. — Embarrassed `A2`
+- **Tàmailteachadh** v. root *tàmailtich* — To insult `B1`
+- **Tana** adj. — Thin `A2`
+- **Taobh** n. m. pl. *taobhan* — Aspect (lit. side) `B2`
+- **An taobh dona** phr. — The downside (lit. the bad side) `C1`
+- **An taobh math** phr. — The upside (lit. the good side) `C1`
+- **Taobh soilleir** phr. — A silver lining (lit. a bright side) `C1`
+- **Taobh-tomhais** n. m. pl. *taobhan-tomhais* — Dimension (lit. measuring side) `B2`
+- **Taobhan** n. m. pl. *taobhain* — Rafter `C2`
+- **Taois** n. f. pl. *taoisean* — Dough `B2`
+- **Taois shilteach** n. f. — Batter (lit. runny dough) `B2`
+- **Taois-leacan** n. f. — Grout (lit. tile paste) `C1`
+- **Tar-chur** n. m. — Referral (lit. sending across) `C1`
+- **Tar-chur** n. m. pl. *tar-chuir* — Referral (to a specialist) `C2`
+- **Tar-chur** n. m. — Transplant (lit. cross-putting) `B2`
+- **Targaid** n. f. pl. *targaidean* — Target `B2`
+- **Tarraing** n. f. — Chemistry (between people) (lit. attraction) `C1`
+- **Tarraing** v. root *tarraing* — To pull `A2`
+- **Tarraing à** v. root *tarraing à* — To tease (lit. pulling out of (someone)) `B1`
+- **Tarraing a-mach** v. root *tarraing* — To opt out (lit. pull out) `C1`
+- **Tarraing a-mach** v. root *tarraing a-mach* — To withdraw (pull out) (lit. pulling out) `B2`
+- **Tarraing air ais** v. root *tarraing* — To recant (lit. drawing back) `C2`
+- **Tarraing anail** v. root *tarraing anail* — To breathe (lit. draw breath) `B1`
+- **Tarraing dhealbhan** v. root *tarraing dealbh* — To draw (lit. drawing pictures) `A2`
+- **Tarraing-às** n. f. — Banter `C2`
+- **Tarraingeach** adj. — Charismatic (lit. attractive) `C1`
+- **Tarrang** n. f. pl. *tairgnean* — Nail (metal) `B1`
+- **Tascadan** n. m. pl. *tascadain* — Cache `C2`
+- **Tascadh** n. m. pl. *tascaidhean* — Investment `B1`
+- **Tascadh** n. m. pl. *tascaidhean* — Security deposit `B1`
+- **Tasclannaiche** n. m. pl. *tasclannaichean* — Archivist `C2`
+- **Tàthadair** n. m. pl. *tàthadairean* — Welder `C2`
+- **Tàthchuid** n. f. pl. *tàthchuidean* — Ingredient `A2`
+- **Teachd-a-steach** n. m. — Income (lit. coming-in) `B1`
+- **Teachd-a-steach** n. m. — Revenue (lit. coming-in) `B2`
+- **Teachd-a-steach bunaiteach do na h-uile** n. m. — Universal basic income (lit. basic income for all) `C1`
+- **Teachdaireachd** n. f. pl. *teachdaireachdan* — Message `A2`
+- **Teagaisceach** adj. — Didactic `C2`
+- **Teagamh** n. m. pl. *teagamhan* — Doubt (noun) `B1`
+- **Teagamh a chur air** v. root *cuir* — To cast doubt on (lit. to put doubt on) `C2`
+- **Teagamh aig a' mhionaid mu dheireadh** n. m. — Cold feet (lit. doubt at the last minute) `C1`
+- **Teagasc** n. m. pl. *teagascan* — Doctrine `C2`
+- **Teagasc** v. root *teagaisc* — To teach `A2`
+- **Teaghlach** n. m. pl. *teaghlaichean* — Family `A1`
+- **Teagmhach** adj. — Dubious `C2`
+- **Teagmhach** adj. — Hesitant `B1`
+- **Teagmhach** adj. — Skeptical (lit. doubtful) `C1`
+- **Teanas** n. m. — Tennis `A2`
+- **Teanga** n. f. pl. *teangannan* — Tongue `B2`
+- **Teann** adj. — Snug (lit. tight) `C2`
+- **Teann** adj. — Uptight (lit. tight) `C1`
+- **Teannachadh a' chrios** n. m. — Belt-tightening (lit. tightening of the belt) `C2`
+- **Teannachadh air** v. root *teannaich* — To crack down on (lit. tighten on) `C1`
+- **Teannachadh ionmhais** n. m. — Austerity (lit. financial tightening) `C1`
+- **Teannachadh ri uchd** v. root *teannaich ri uchd* — To hug (lit. squeezing to the breast) `A2`
+- **Tèarainteachd bìdh** n. f. — Food security `C1`
+- **Tèarainteachd saidhbeir** n. f. — Cybersecurity `B2`
+- **Tearc** adj. — Sparse `C2`
+- **Tèarmann** n. m. pl. *tèarmainn* — Asylum (lit. sanctuary) `C1`
+- **Teas-lasadh** n. m. pl. *teas-lasaidhean* — Hot flush (lit. heat flare) `C2`
+- **Teas-riaghladair** n. m. pl. *teas-riaghladairean* — Thermostat (lit. heat regulator) `B1`
+- **Teasachadh is fionnarachadh** n. m. — HVAC (lit. heating and cooling) `C1`
+- **Teasadair** n. m. pl. *teasadairean* — Heater `B1`
+- **Teasadair-uisce** n. m. pl. *teasadairean-uisce* — Water heater `C1`
+- **Teasraiginn-ionmhais** n. f. — Bailout (lit. financial rescue) `C2`
+- **Teicheadh** v. root *teich* — To bail (leave) (lit. flee) `C1`
+- **Teicheadh bho** v. root *teich* — To evade (lit. fleeing from) `C2`
+- **Teicheadh caol** phr. — A close call (lit. a narrow escape) `C1`
+- **Teicnic** n. f. pl. *teicnicean* — Technique `B2`
+- **Teileascop** n. m. pl. *teileascopan* — Telescope `C1`
+- **Teine** n. m. pl. *teintean* — Fire `A1`
+- **Teine fiadhaich** n. m. pl. *teintean fiadhaich* — Wildfire (lit. wild fire) `B1`
+- **Teip** n. f. pl. *teipichean* — Tape (adhesive) `B1`
+- **Teip-tomhais** n. f. pl. *teipichean-tomhais* — Tape measure (lit. measuring tape) `C2`
+- **Teiripe** n. f. — Therapy `B1`
+- **Teisteanachadh** v. root *teisteanaich* — To qualify `C1`
+- **Teisteanas** n. m. pl. *teisteanasan* — Certificate `B1`
+- **Teisteanas fo mhionnan** n. m. pl. *teisteanasan fo mhionnan* — Affidavit (lit. statement under oath) `C1`
+- **Teisteanas slàinte glan** phr. — A clean bill of health (lit. clean health certificate) `C1`
+- **Telebhisean** n. m. pl. *telebhiseanan* — Television `A1`
+- **Teòiridh** n. f. pl. *teòiridhean* — Theory `B2`
+- **Teòiridheach** adj. — Theoretical `C1`
+- **Teòthachd** n. f. pl. *teòthachdan* — Temperature `A2`
+- **Teth** adj. — Hot `A1`
+- **Tha a' ghrian a' deàrrsadh** phr. — It’s sunny (lit. the sun is shining) `A2`
+- **Tha aileirdsidh agam ri cnòthan-talmhainn** phr. — I’m allergic to peanuts (lit. an allergy is at me to earth-nuts) `A2`
+- **Tha am pathadh orm** phr. — I’m thirsty (lit. the thirst is on me) `A1`
+- **Tha an sneachd ann** phr. — It’s snowing (lit. the snow is in it) `A1`
+- **Tha an t-acras orm** phr. — I’m hungry (lit. the hunger is on me) `A1`
+- **Tha an t-uisce ann** phr. — It’s raining (lit. the rain is in it) `A2`
+- **Tha beagan agam** phr. — I speak a little (lit. a little is at me) `A1`
+- **Tha ceann goirt orm** phr. — I have a headache (lit. a sore head is on me) `A2`
+- **Tha coinneamh agam** phr. — I have a meeting (lit. a meeting is at me) `A2`
+- **Tha e a' freagairt orm.** phr. — It fits me (lit. it is fitting on me) `A2`
+- **Tha e air bàrr mo theanga.** phr. — It's on the tip of my tongue `C2`
+- **Tha e an crochadh** phr. — It depends (lit. it is hanging (on it)) `A2`
+- **Tha e an urra riut fhèin** phr. — It’s up to you `A2`
+- **Tha e anmoch** phr. — It’s late `A1`
+- **Tha e ceart gu leòr** phr. — It’s okay (lit. it is right enough) `A1`
+- **Tha e goirt an seo** phr. — It hurts here (lit. it is sore here) `A2`
+- **Tha e mar a tha e.** phr. — It is what it is `C2`
+- **Tha e math d' fhaicinn** phr. — Nice to see you `A1`
+- **Tha e ro dhaor** phr. — It’s too expensive `A2`
+- **Tha eagal orm gu bheil** phr. — I’m afraid so (lit. fear is on me that it is) `B1`
+- **Tha faochadh orm** phr. — Relieved (lit. there is relief on me) `A2`
+- **Tha feum agam air dotair** phr. — I need a doctor (lit. need is at me on a doctor) `A2`
+- **Tha greis ann** phr. — It’s been a while (lit. it's a while) `B1`
+- **Tha i fuar an-diugh** phr. — It’s cold today `A1`
+- **Tha i gaothach** phr. — It’s windy `A1`
+- **Tha i teth an-diugh** phr. — It’s hot today `A1`
+- **Tha mi a' coimhead airson obair** phr. — I am looking for a job `A2`
+- **Tha mi a' faireachdainn nas fheàrr.** phr. — I feel better `A2`
+- **Tha mi a' smaoineachadh gu bheil** phr. — I think so (lit. I think that it is) `A1`
+- **Tha mi a' tuigsinn dè tha thu a' ciallachadh** phr. — I see what you mean `B1`
+- **Tha mi a' tuigsinn.** phr. — Point taken (lit. I understand) `C2`
+- **Tha mi ag aontachadh** phr. — I agree `A1`
+- **Tha mi ag aontachadh gu tur** phr. — I couldn’t agree more (lit. I agree completely) `B1`
+- **Tha mi ag èisteachd gu dlùth.** phr. — I'm all ears (lit. I'm listening closely) `C2`
+- **Tha mi ag ionnsachadh** phr. — I am studying `A2`
+- **Tha mi ag obair ann an oifis** phr. — I work in an office `A2`
+- **Tha mi air an t-slighe** phr. — I’m on my way (lit. I am on the road) `A2`
+- **Tha mi air chall** phr. — I’m lost (lit. I am in loss) `A2`
+- **Tha mi an teagamh** phr. — I doubt it (lit. I am in doubt) `B1`
+- **Tha mi às na Stàitean Aonaichte** phr. — I’m from the United States `A1`
+- **Tha mi coma co-dhiù.** phr. — I couldn't care less (lit. I'm indifferent anyway) `C2`
+- **Tha mi duilich** phr. — Sorry (lit. I am sorry) `A1`
+- **Tha mi duilich gu bheil mi fadalach** phr. — Sorry I’m late `A2`
+- **Tha mi fìor dhèidheil air** phr. — I love it (lit. I am really fond of it) `A1`
+- **Tha mi gu math** phr. — I’m fine `A1`
+- **Tha mi làn** phr. — I’m full `B1`
+- **Tha mi scìth** phr. — I’m tired `A1`
+- **Tha mi tinn** phr. — I’m sick `A1`
+- **Tha mi toilichte coinneachadh riut** phr. — Nice to meet you (lit. I am happy to meet you) `A1`
+- **Tha mi trang an-diugh** phr. — I’m busy today `A2`
+- **Tha mise ann** phr. — Count me in (lit. I'm in) `B1`
+- **Tha sin a' cur nam chuimhne** phr. — That reminds me (lit. that puts in my memory) `B1`
+- **Tha sin a' dèanamh ciall** phr. — That makes sense `A2`
+- **Tha sin taghta** phr. — Sounds good (lit. that is choice) `A2`
+- **Thall thairis** adv. — Abroad (lit. over yonder) `A2`
+- **Na thàmh** adj. — Dormant (lit. at rest) `C2`
+- **Thar an ama** adj. — Overdue (lit. past the time) `B2`
+- **Thig a-steach** phr. — Come in `A1`
+- **Thig chun na puinge!** phr. — Cut to the chase (lit. come to the point) `C2`
+- **Thig latha a' choin duibh.** phr. — Every dog has its day (lit. the black dog's day will come) `C2`
+- **Thoir an aire!** phr. — Watch out! (lit. give attention!) `A2`
+- **Thu** pron. — You `A1`
+- **Thugainn!** interj. — Let’s go (lit. come along) `A1`
+- **Tì** n. f. — Tea `A1`
+- **Tiamhaidh** adj. — Plaintive `C2`
+- **Tibhre** n. m. pl. *tibhrean* — Dimple `C2`
+- **Tìde samhraidh** n. f. — Daylight saving time (lit. summer time) `B2`
+- **Tidsear** n. m. pl. *tidsearan* — Teacher `A2`
+- **Tighinn** v. root *thig* — To come `A1`
+- **Tighinn air adhart le** v. root *thig air adhart le* — To get along (lit. come along with) `B1`
+- **Tighinn air thoiseach air** v. root *thig* — To take precedence over (lit. to come ahead of) `C2`
+- **Tighinn am bàrr** v. root *thig am bàrr* — To emerge (lit. coming to the top) `B2`
+- **Tighinn chun na puing** v. root *thig* — To get to the point (lit. come to the point) `C1`
+- **Tighinn do** v. root *thig* — To suit (look good on) (lit. come to (someone)) `B1`
+- **Tighinn gu bhith** v. root *thig gu bhith* — To become (lit. coming to be) `A2`
+- **Tighinn gu breith** v. root *thig* — To reach a verdict (lit. coming to a judgement) `C2`
+- **Tighinn gu buil** v. root *thig* — To come to fruition (lit. to come to effect) `C2`
+- **Tighinn gu co-rèiteachadh** v. root *thig gu co-rèiteachadh* — To compromise (lit. coming to an agreement) `B2`
+- **Tighinn gu crìch** v. root *thig* — To end up (lit. come to an end) `B1`
+- **Tilgeil** v. root *tilg* — To throw `A2`
+- **Tilleadh** v. root *till* — To return `A1`
+- **Tilleadh air ais** n. m. — Rollback (lit. going back) `C2`
+- **Tilleadh thuige** v. root *till* — To circle back (lit. return to it) `C1`
+- **Timcheall air** adv. — Roughly (lit. around) `B2`
+- **Tinn** adj. — Sick (unwell) `A1`
+- **Tinneas an t-siùcair** n. m. — Diabetes (lit. the sugar illness) `B2`
+- **Tinneas-siubhail** n. m. — Motion sickness (lit. travel sickness) `C2`
+- **Tiocaid** n. f. pl. *tiocaidean* — Ticket `A1`
+- **Tiodhlac** n. m. pl. *tiodhlacan* — Gift `A1`
+- **Tiomnadh** v. root *tiomnaich* — To bequeath `C2`
+- **Tiomnadh** v. root *tiomain* — To delegate `B2`
+- **Tiomnadh** n. m. pl. *tiomnaidhean* — Will (testament) `B2`
+- **Tional** v. root *tionail* — To muster (lit. gathering) `C2`
+- **Tionndadh** v. root *tionndaidh* — To convert (lit. turning) `B2`
+- **Tionndadh** v. root *tionndaidh* — To turn `A2`
+- **Tionndadh a-mach** v. root *tionndaidh* — To turn out `B1`
+- **Tionndadh a-null 's a-nall** v. root *tionndaidh* — To toss and turn (lit. turning back and forth) `C1`
+- **Tionndadh beta** n. m. pl. *tionndaidhean beta* — Beta (lit. beta version) `C1`
+- **Tionndadh bun-os-cionn** v. root *tionndaidh* — To overturn (lit. turn upside down) `C1`
+- **Tioram** adj. — Dry `A2`
+- **Tioram** adj. — Dry (wine) `C1`
+- **Tioram** adj. — Wry (lit. dry (of humour)) `C2`
+- **Tiormachd** n. f. — Drought `B1`
+- **Tiormadair-fuilt** n. m. pl. *tiormadairean-fuilt* — Hair dryer (lit. hair dryer) `B1`
+- **Tiugh** adj. — Thick `B1`
+- **Tlàth** adj. — Balmy `C2`
+- **Tlàth** adj. — Mellow `C2`
+- **Tlàth** adj. — Mild `B1`
+- **Tlàth** adj. — Mild (weather) `B1`
+- **Todhar** n. m. — Compost `B2`
+- **Na tog ceàrr mi** phr. — Don’t get me wrong (lit. don't take me wrong) `B1`
+- **Togail** v. root *tog* — To build `A2`
+- **Togail** v. root *tog* — To pick up (collect) (lit. lift) `B1`
+- **Togail** n. f. — Upbringing (lit. raising) `B2`
+- **Togail cridhe** v. root *tog cridhe* — To cheer up (lit. lifting the heart) `A2`
+- **Togail cuspair** v. root *tog* — To bring up (mention) (lit. raising a subject) `C1`
+- **Togail dealbh** v. root *tog dealbh* — To take a photo (lit. take a picture) `B1`
+- **Togail rithe** v. root *tog* — To hit the road (lit. set off) `C1`
+- **Togalach** n. m. pl. *togalaichean* — Building `A2`
+- **Togalach àrd** n. m. pl. *togalaichean àrda* — High-rise (lit. tall building) `B2`
+- **Togarrach** adj. — Exciting `B1`
+- **Togradh** n. m. — Motivation (lit. desire, inclination) `B2`
+- **Toiceach** n. m. pl. *toicich* — Tycoon (lit. wealthy person) `C2`
+- **Toileachadh** v. root *toilich* — To indulge (lit. pleasing) `C2`
+- **Toileachas-fhèin** n. m. — Complacency (lit. self-satisfaction) `B2`
+- **Toileachas-inntinn** n. m. — Contentment (lit. contentment of mind) `B2`
+- **Toilichte** adj. — Happy `A1`
+- **Toilichte** adj. — Pleased `B1`
+- **Toilltinn** v. root *toill* — To deserve `B1`
+- **Tòimhseachan** n. m. pl. *tòimhseachain* — Conundrum (lit. riddle) `C2`
+- **Tòimhseachan** n. m. pl. *tòimhseachain* — Puzzle `A2`
+- **Toinisc** n. f. — Common sense `B1`
+- **Toinneamh** v. root *toinn* — To writhe (lit. twisting) `C2`
+- **Toinnte** adj. — Convoluted (lit. twisted) `C1`
+- **Toinnte** adj. — Elaborate (lit. twisted, intricate) `B2`
+- **Na toir breith air leabhar air a chòmhdach.** phr. — Don't judge a book by its cover `C2`
+- **Na toir orm tòiseachadh.** phr. — Don't get me started `C2`
+- **Toirmeasc** n. m. pl. *toirmeascan* — Taboo (lit. prohibition) `C2`
+- **Toirt a chreidsinn air** v. root *thoir a chreidsinn air* — To convince (lit. make believe on) `B1`
+- **A' toirt a h-uile càil san àireamh** phr. — All things considered (lit. taking everything into the count) `B2`
+- **Toirt a-mach** v. root *thoir* — To elicit (lit. draw out) `C1`
+- **Toirt a-mach** v. root *thoir a-mach* — To withdraw (lit. take out) `A2`
+- **Toirt a-steach** v. root *thoir* — To onboard (lit. bring in) `C1`
+- **Toirt achmhasan** v. root *thoir* — To reprimand (lit. giving a reproof) `C2`
+- **Toirt air** v. root *thoir* — To compel (lit. make (someone do)) `C1`
+- **Toirt air iasad** v. root *thoir air iasad* — To lend (lit. give on loan) `A2`
+- **Toirt àite do** v. root *thoir* — To accommodate (lit. give room to) `C1`
+- **Toirt às a' phlug** v. root *thoir* — To unplug (lit. take out of the plug) `B1`
+- **Toirt beachd** v. root *thoir* — To comment (lit. giving an opinion) `B2`
+- **Toirt buaidh air** v. root *thoir buaidh air* — To influence (lit. giving effect on) `B2`
+- **Toirt buannachd an teagaimh** v. root *thoir* — To give the benefit of the doubt (lit. give the benefit of the doubt) `C1`
+- **Toirt car à** v. root *thoir* — To swindle (lit. taking a turn out of) `C2`
+- **Toirt cinnt do** v. root *thoir cinnt do* — To assure (lit. giving certainty to) `B2`
+- **Toirt cuireadh** v. root *thoir cuireadh* — To invite (lit. giving an invitation) `A2`
+- **Toirt feart air** v. root *thoir* — To heed (lit. giving heed to) `C2`
+- **Toirt gaol thar tomhais do** v. root *thoir* — To dote on (lit. give love beyond measure to) `C2`
+- **Toirt gu crìch mean air mhean** v. root *thoir* — To phase out (lit. bring to an end little by little) `C1`
+- **Toirt iomradh air** v. root *thoir* — To allude to (lit. to make mention of) `C2`
+- **Toirt iomradh air** v. root *thoir* — To mention (lit. give mention of) `B1`
+- **Toirt ionnsaigh air** v. root *thoir* — To assail (lit. making an attack on) `C2`
+- **Toirt leat** v. root *thoir* — To bring (lit. take with you) `A1`
+- **Toirt lioft** v. root *thoir* — To give a ride (lit. give a lift) `B1`
+- **Toirt oilbheum do** v. root *thoir oilbheum do* — To offend (lit. giving offence to) `B1`
+- **Toirt rabhaidh** v. root *thoir* — To warn (lit. give a warning) `B1`
+- **Toirt sanas air** v. root *thoir* — To allude (lit. give a hint of) `C1`
+- **Toirt seachad** v. root *thoir* — To convey (lit. giving over) `B2`
+- **Toirt seachad** v. root *thoir* — To donate (lit. give away) `B1`
+- **Toirt seachad** v. root *thoir* — To give (lit. give away) `A1`
+- **Toirt seachad** v. root *thoir* — To impart (lit. giving over) `C2`
+- **Toirt seachad còir** v. root *thoir* — To waive (lit. give away a right) `C1`
+- **Toirt sùil** v. root *thoir* — To glance (lit. give an eye) `B1`
+- **Toirt sùil air** v. root *thoir* — To check out (look at) (lit. giving an eye to) `C1`
+- **Toirt taing** v. root *thoir taing* — To thank (lit. giving thanks) `A2`
+- **Toirt toradh** v. root *thoir* — To yield (lit. give a yield) `C1`
+- **Toirt tuairisceul air** v. root *thoir tuairisceul air* — To describe (lit. giving a description of) `A2`
+- **An toiseach** adv. — At first `B1`
+- **Tòiseachadh** v. root *tòisich* — To start `A2`
+- **Tòiseachaiche** n. m. pl. *tòiseachaichean* — Novice (lit. beginner) `C2`
+- **Tòisiche** n. m. pl. *tòisichean* — Rookie (lit. beginner) `C1`
+- **Toll dubh** n. m. pl. *tuill dhubha* — Black hole `C1`
+- **Toll-coimhead** n. m. pl. *tuill-choimhead* — Peephole (lit. looking hole) `C2`
+- **Toll-luchda** n. m. pl. *tuill-luchda* — Cargo hold (lit. cargo hole) `C2`
+- **Toll-talmhainn** n. m. pl. *tuill-thalmhainn* — Burrow (lit. hole in the ground) `C2`
+- **Tomadach** adj. — Bulky `C1`
+- **Tomàto** n. m. pl. *tomàtothan* — Tomato `A2`
+- **Tomhais dè?** phr. — Guess what? `B1`
+- **Tomhas** v. root *tomhais* — To guess `B1`
+- **Tomhas** v. root *tomhais* — To measure `B2`
+- **Tomhas eaconamach** n. m. — Econometrics (lit. economic measurement) `C2`
+- **Tomhas-cungaidh** n. m. pl. *tomhasan-cungaidh* — Dosage (lit. medicine measure) `C2`
+- **Tomhasair** n. m. pl. *tomhasairean* — Surveyor (lit. measurer) `C2`
+- **Tonn** n. m. pl. *tonnan* — Wave `A2`
+- **Tonn-fhad** n. m. pl. *tonn-fhaidean* — Wavelength (lit. wave length) `C1`
+- **Tonn-teasa** n. m. pl. *tonnan-teasa* — Heatwave `B1`
+- **Toradh** n. m. pl. *toraidhean* — Outcome (lit. result) `B2`
+- **Toradh** n. m. pl. *toraidhean* — Yield (finance) (lit. return) `C2`
+- **Toradh air tascadh** n. m. — Return on investment `C1`
+- **Toradh ri lìbhrigeadh** n. m. — Deliverable (lit. output to be delivered) `C1`
+- **Toradh-roinn** n. m. pl. *toraidhean-roinn* — Quotient (lit. result of division) `C2`
+- **Toradhachd** n. f. — Productivity `B2`
+- **Toraidhean rannsachaidh** n. m. — Findings (lit. research results) `C1`
+- **Toscaire** n. m. pl. *toscairean* — Ambassador `C1`
+- **Toscaire** n. m. pl. *toscairean* — Envoy `C2`
+- **Tosdach** adj. — Taciturn (lit. silent) `C2`
+- **Tostair** n. m. pl. *tostairean* — Toaster `B1`
+- **Tràchdas** n. m. pl. *tràchdasan* — Dissertation `C1`
+- **Tràchdas** n. m. pl. *tràchdasan* — Thesis `B1`
+- **Trafaig** n. f. — Traffic `A2`
+- **Traidiseanta** adj. — Traditional `A2`
+- **Tràigh** n. f. pl. *tràighean* — Beach `A2`
+- **Tràill-obrach** n. m. pl. *tràillean-obrach* — Workaholic (lit. work slave) `C1`
+- **Tràilleachd** n. f. — Addiction (lit. slavery) `B2`
+- **Trang** adj. — Bustling (lit. busy) `C1`
+- **Trang** adj. — Busy `A2`
+- **Trannsa** n. f. pl. *trannsaichean* — Hallway `B1`
+- **Traoghadh** v. root *traogh* — To deplete (lit. draining) `C2`
+- **Tràth** adj. — Early `A1`
+- **Trauma** n. m. — Trauma `B2`
+- **Trealaich** n. f. — Odds and ends `C1`
+- **Trèana** n. f. pl. *trèanaichean* — Train `A1`
+- **Trèana fon talamh** n. f. pl. *trèanaichean fon talamh* — Subway (lit. train under the ground) `A1`
+- **Trèanadh** v. root *trèan* — To train `A2`
+- **Treandadh** v. root *treand* — To trend `C1`
+- **An treas** num. — Third `A1`
+- **Treibhdhireas** n. m. — Sincerity `B1`
+- **Trèigsinn** v. root *trèig* — To abandon `B2`
+- **Trèigsinn** v. root *trèig* — To ditch (lit. abandon) `C1`
+- **Trèigte** adj. — Derelict (lit. abandoned) `C2`
+- **Treòraiche** n. m. pl. *treòraichean* — Mentor (lit. guide) `C1`
+- **Triail** n. f. pl. *trialan* — Trial `B2`
+- **Triantan** n. m. pl. *triantanan* — Triangle `A1`
+- **Tribiùnal** n. m. pl. *tribiùnalan* — Tribunal `C2`
+- **Tricead** n. m. pl. *triceadan* — Frequency (physics) `C1`
+- **Trìd-shoilleir** adj. — Transparent `B1`
+- **Trìfillte** adj. — Threefold (lit. three-folded) `C2`
+- **Trithead** num. — Thirty `A1`
+- **Tro fhèith** adj. — Intravenous (lit. through a vein) `C2`
+- **Trod** v. root *troid* — To rant (lit. scold) `C1`
+- **Trod** v. root *troid* — To rebuke (lit. scolding) `C2`
+- **Troigh** n. f. pl. *troighean* — Foot `A1`
+- **Troilidh** n. m. pl. *troilidhean* — Shopping cart (lit. trolley) `A2`
+- **Troimh-a-chèile** adj. — Bewildered `C2`
+- **Troimh-a-chèile** adj. — Upset `B1`
+- **Troimh-chèile** n. m. — Confusion (lit. through-each-other) `B1`
+- **Troimh-chur** n. m. — Throughput `C2`
+- **Trom** adj. — Heavy `A2`
+- **Trom-chuideam** n. m. — Heavyweight (lit. heavy weight) `C1`
+- **Trom-inntinn** n. f. — Depression (lit. heavy mind) `B2`
+- **Trom-neulach** adj. — Overcast (lit. heavy-clouded) `B1`
+- **Truailleadh** n. m. — Pollution `B1`
+- **Truailleadh** v. root *truaill* — To pollute `B2`
+- **Truas** n. m. — Compassion `B2`
+- **Truinnsear** n. m. pl. *truinnsearan* — Plate `A1`
+- **Tuaileas** n. m. — Libel `C2`
+- **Tuaineal** n. m. — Dizziness `C2`
+- **Tuainealach** adj. — Dizzy `B1`
+- **Tuainealaich** n. f. — Vertigo `C2`
+- **Tuaiream** n. f. pl. *tuaireaman* — Conjecture `C2`
+- **Tuaireamachadh** v. root *tuaireamaich* — To surmise (lit. guessing) `C2`
+- **Tuairmse** n. f. pl. *tuairmsean* — Ballpark figure (lit. estimate) `C1`
+- **Tuairmse gharbh** phr. — A rough estimate `C1`
+- **Tuairmse-prìse** n. f. pl. *tuairmsean-prìse* — Quote (price estimate) (lit. price estimate) `B2`
+- **Tuairmseachadh** v. root *tuairmsich* — To estimate `B2`
+- **Tuar** n. m. — Complexion `C2`
+- **Tuarastal** n. m. pl. *tuarastalan* — Salary `A2`
+- **Tuarastal as lugha** n. m. — Minimum wage (lit. least wage) `C1`
+- **Tuathanach** n. m. pl. *tuathanaich* — Farmer `A2`
+- **Tuathanachas organach** n. m. — Organic farming `B2`
+- **Tuathanas** n. m. pl. *tuathanasan* — Farm `A2`
+- **Tubaist** n. f. pl. *tubaistean* — Accident `B1`
+- **Tubaist** n. f. pl. *tubaistean* — Debacle (lit. disaster) `C2`
+- **Tùchanach** adj. — Gravelly (voice) (lit. hoarse) `C2`
+- **Tùchanach** adj. — Hoarse `C1`
+- **Tuigse fhuadain** n. f. — Artificial intelligence (lit. artificial understanding) `B2`
+- **Tuigseach** adj. — Tactful (lit. understanding) `B2`
+- **Tuigsinn** v. root *tuig* — To grasp (lit. understand) `C1`
+- **Tuigsinn** v. root *tuig* — To understand `A1`
+- **Tuigsinn à** v. root *tuig* — To infer (lit. understanding from) `C1`
+- **Tuil** n. f. pl. *tuiltean* — Flood `B1`
+- **Tuilteach** adj. — Torrential `C2`
+- **Tuisleadh** n. m. pl. *tuislidhean* — Faux pas (lit. a stumble) `C2`
+- **Tuisleadh** v. root *tuislich* — To falter (lit. stumbling) `C2`
+- **Tuisleadh** v. root *tuislich* — To stumble `B1`
+- **Tuiteam** v. root *tuit* — To fall `A2`
+- **Tuiteam a-mach** v. root *tuit* — To fall out (lit. fall out) `C1`
+- **Tuiteam air dheireadh** v. root *tuit* — To fall behind (lit. falling behind) `C1`
+- **Tuiteam an eu-dòchas** v. root *tuit* — To despair (lit. falling into despair) `C2`
+- **Tuiteam ann am fèin-thruas** v. root *tuit* — To wallow (in self-pity) (lit. fall into self-pity) `C2`
+- **Tuiteam ann an gaol** v. root *tuit ann an gaol* — To fall in love `A2`
+- **Tuiteam às a chèile** v. root *tuit* — To fall apart (lit. falling from each other) `C1`
+- **Tuiteam às a chèile** v. root *tuit* — To fall through (lit. fall apart) `C1`
+- **Tuiteam gu grad** v. root *tuit* — To plummet (lit. falling suddenly) `C2`
+- **Tuiteam na chadal** v. root *tuit na chadal* — To fall asleep (lit. falling into his sleep) `A2`
+- **Tuiteam na chadal** v. root *tuit* — To nod off (lit. falling into his sleep) `C1`
+- **Tuiteam na h-oidhche** n. m. — Nightfall (lit. falling of the night) `C2`
+- **Tuiteam thairis air** v. root *tuit* — To trip (over) (lit. fall over) `B1`
+- **Tundra** n. m. — Tundra `B2`
+- **Tùr-speur** n. m. pl. *tùir-speur* — Skyscraper (lit. sky tower) `B2`
+- **Turaid** n. f. pl. *turaidean* — Turret `C2`
+- **Turas** n. m. pl. *tursan* — Journey `B1`
+- **Turas** n. m. pl. *tursan* — Trip `A1`
+- **Turas tillidh** n. m. pl. *tursan tillidh* — Round trip (lit. return journey) `A2`
+- **Turas-adhair** n. m. pl. *tursan-adhair* — Flight (lit. air journey) `A2`
+- **Turas-adhair oidhche** n. m. pl. *tursan-adhair oidhche* — Red-eye flight (lit. night flight) `C2`
+- **Turas-mara** n. m. pl. *tursan-mara* — Cruise (lit. sea journey) `B1`
+- **Turas-rannsachaidh** n. m. pl. *tursan-rannsachaidh* — Expedition (lit. exploring journey) `C1`
+- **Turasachd** n. f. — Sightseeing (lit. tourism) `A2`
+- **Turchairt** n. m. — Windfall `C2`
+- **Tùs** n. m. pl. *tùsan* — Source (journalism) (lit. origin) `C1`
+- **Tùs foscailte** n. m. — Open source `C1`
+
+## U
+
+- **Uabhar** n. m. — Hubris `C2`
+- **Uabhas** n. m. — Horror (lit. terror) `B1`
+- **Uabhasach** adj. — Awful `B1`
+- **Uabhasach** adj. — Dire (lit. dreadful) `C2`
+- **Uabhasach** adj. — Egregious `C2`
+- **Uabhasach** adj. — Tremendous `B2`
+- **Uachdarach** adj. — Creamy `C2`
+- **Uachdarach** adj. — Superficial (lit. surface-level) `B2`
+- **Uachdaran** n. m. pl. *uachdarain* — Landlord `A2`
+- **Uachdranas** n. m. — Sovereignty `C1`
+- **Uaigneach** adj. — Secluded `C1`
+- **Uaill** n. f. — Pride (self-respect) `B2`
+- **Uaim** n. f. — Alliteration `C2`
+- **Uaine** adj. — Green `A1`
+- **Uair** n. f. pl. *uairean* — Hour `A1`
+- **Uair eile** phr. — A rain check (lit. another time) `C1`
+- **Uair eile, ma-thà.** phr. — I'll take a rain check (lit. another time, then) `C2`
+- **An uair sin** adv. — Then `B1`
+- **Uair-thrang** n. f. pl. *uairean-trang* — Rush hour (lit. busy hour) `B1`
+- **Uaireadair** n. m. pl. *uaireadairean* — Watch (wrist) `A1`
+- **Uaireannan** adv. — Sometimes `A1`
+- **Uaisleachadh** n. m. — Gentrification (lit. ennobling) `B2`
+- **Uallach** n. m. pl. *uallaichean* — Responsibility `B1`
+- **Uallach dearbhaidh** n. m. — Burden of proof `C2`
+- **Uamh** n. f. pl. *uamhan* — Cave `B2`
+- **Uàrd** n. m. pl. *uàrdan* — Ward `B2`
+- **Ubhal** n. m. pl. *ùbhlan* — Apple `A1`
+- **Uchd-bhalla** n. m. pl. *uchd-bhallachan* — Parapet (lit. breast-wall) `C2`
+- **Uchd-mhacachadh** v. root *uchd-mhacaich* — To adopt `B2`
+- **Uchd-mhacachd** n. f. — Adoption `B2`
+- **Uèirigeadh** n. m. — Wiring `B2`
+- **Ugh** n. m. pl. *uighean* — Egg `A1`
+- **Ùghdar** n. m. pl. *ùghdaran* — Author `B1`
+- **Ùghdarrachadh** v. root *ùghdarraich* — To authorize `C1`
+- **Ùghdarras-lagha** n. m. — Jurisdiction (lit. legal authority) `C1`
+- **Uidheam so-chaithte** n. f. pl. *uidheaman so-chaithte* — Wearable (lit. wearable device) `C1`
+- **Uidheam suidhichte** n. m. — Fixture (lit. fixed equipment) `C1`
+- **Uile** adj. — All `A1`
+- **Uile gu lèir** adv. — Altogether (lit. all together) `B2`
+- **Uile gu lèir** adv. — On balance (lit. all in all) `C2`
+- **Uile-fhiosraiche** n. m. — Know-it-all (lit. all-knower) `C1`
+- **Uile-làthaireach** adj. — Ubiquitous `C1`
+- **Uileann** n. f. pl. *uilnean* — Elbow `B2`
+- **Ùilleach** adj. — Unctuous (lit. oily) `C2`
+- **Uime sin** adv. — Hence `C1`
+- **Uime sin** adv. — Therefore `B1`
+- **Ùine dhearbhaidh** n. f. — Probation (lit. period of proving) `C2`
+- **Ùine shaor** n. f. — Free time (lit. free time) `A2`
+- **Ùine shaor** n. f. — Spare time (lit. free time) `B2`
+- **Ùine-craolaidh** n. f. — Airtime (lit. broadcasting time) `C1`
+- **Ùine-obrachaidh** n. f. — Uptime (lit. operating time) `C2`
+- **Ùine-stad** n. f. — Downtime (lit. stop time) `B2`
+- **Uinneag** n. f. pl. *uinneagan* — Window `A1`
+- **Uinneag-mhullaich** n. f. pl. *uinneagan-mullaich* — Skylight (lit. roof window) `C2`
+- **Uinnean** n. m. pl. *uinneanan* — Onion `A2`
+- **Ùireach** adj. — Earthy `C2`
+- **Uiread math** phr. — A fair amount (lit. a good amount) `C1`
+- **Uirsceul** n. m. pl. *uirsceulan* — Legend `B2`
+- **Uisce** n. m. — Rain `A1`
+- **Uisce** n. m. pl. *uisceachan* — Water `A1`
+- **Uisce-dhruim** n. m. — Watershed (lit. water-ridge) `C2`
+- **Ulbhag** n. f. pl. *ulbhagan* — Boulder `C2`
+- **Ultra-fhuaim** n. m. — Ultrasound `C2`
+- **Umami** n. m. — Umami `C1`
+- **Umhlachadh** v. root *umhlaich* — To bow `B1`
+- **Ùmhlachd** n. f. — Deference `C2`
+- **Uncail** n. m. pl. *uncailean* — Uncle `A1`
+- **Ùpraid** n. f. pl. *ùpraidean* — Upheaval `C2`
+- **Ùr** adj. — Fresh `A2`
+- **Ùr** adj. — New `A1`
+- **Ùr-ghnàthach** adj. — Innovative `B2`
+- **Ùr-ghnàthachadh** n. m. — Innovation `B2`
+- **Ùr-nodha** adj. — State-of-the-art (lit. brand new) `C1`
+- **Ùrachadh** v. root *ùraich* — To brush up on (lit. refreshing) `C1`
+- **Ùrachadh** n. m. pl. *ùrachaidhean* — Update `A2`
+- **Ùrlar** n. m. pl. *ùrlaran* — Floor (level) `A1`
+- **An urrainn dhut mo chuideachadh?** phr. — Can you help me? `A1`
+- **An urrainn dhut sin a ràdh a-rithist?** phr. — Can you repeat that? (lit. can you say that again?) `A1`
+- **Urram** n. m. — Awe (lit. reverence) `B2`
+- **Urram** n. m. — Dignity `B2`
+- **Urram a thoirt do** v. root *thoir* — To pay tribute to (lit. to give honour to) `C2`
+- **Urramachadh** v. root *urramaich* — To revere (lit. honouring) `C2`
+- **Urras** n. m. — Bail `B2`
+- **Urras** n. m. pl. *urrasan* — Collateral `C1`
+
+## W
+
+- **Wi-Fi** n. m. — Wi-Fi `A2`
+
+## X
+
+- **X-ghath** n. m. pl. *x-ghathan* — X-ray `B2`
