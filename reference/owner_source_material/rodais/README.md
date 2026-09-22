@@ -19,6 +19,7 @@ the whole language and the finished map.
 | `finish_map.py` | Finishes the renaming, deterministically, through the engine. |
 | `Rodos_finished.map` | The finished map. Open it in Azgaar's Fantasy Map Generator. |
 | `MAP_CHANGES.md` | Every name `finish_map.py` changed, before and after (425 changes). |
+| `CHRONICLE.html` | The chronicle of Rodos (five ages, 1848–2026 DE) with the real map from `Rodos_finished.map` embedded. Its place, faith, war and disaster names follow the map file; published at https://claude.ai/artifact/RXjhVcNh8gfmYuJTocopX2. |
 | `check_rodais.py` | Runs every check in the folder: the engine self-test, lexicon completeness and spelling, the texts, and the map. |
 
 ## What the map pass fixed

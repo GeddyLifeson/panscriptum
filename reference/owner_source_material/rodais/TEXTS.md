@@ -130,7 +130,7 @@ Tale, C1. An invented Rodos origin legend. Shows the negative past in subordinat
 
 ## Mar a Thàinig an Gual dhan Fhuil — *How Coal Came into the Blood*
 
-Tale, C1. An invented Rodos legend of the fuil-ghuail (coal-blood), told as hearsay. Shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Ròdaich...).
+Tale, C1. A folk legend, not history: in the chronicle the gift comes from exposure to the ore in the mining camps, first in Aisling (1848 DE). An invented Rodos legend of the fuil-ghuail (coal-blood), told as hearsay. Shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Ròdaich...).
 
 | Ròdais | English |
 |---|---|
@@ -145,7 +145,7 @@ Tale, C1. An invented Rodos legend of the fuil-ghuail (coal-blood), told as hear
 
 ## Carson a Chaidh na Tuathaich gu Tuath — *Why the Tuathaich Went North*
 
-Tale, B2. An invented Rodos legend told from the Tuathaich side, following on from the coal-blood tale. Shows the relative future after 'nuair a' (nuair a dh'fhaighnicheas), a reported prohibition in the conditional (nach fhaodadh duine...), fronting with 'is ann' and 'cha b' e', 'dà' + lenited singular (an dà shluagh), and genitives after verbal nouns and 'an àite' (a' losgadh mònach an àite guail, clann nan Tuathach).
+Tale, B2. A folk legend, not history: in the chronicle the Tuathaich descend from the humans settled in the north after the Severance (c. 1930 DE). An invented Rodos legend told from the Tuathaich side, following on from the coal-blood tale. Shows the relative future after 'nuair a' (nuair a dh'fhaighnicheas), a reported prohibition in the conditional (nach fhaodadh duine...), fronting with 'is ann' and 'cha b' e', 'dà' + lenited singular (an dà shluagh), and genitives after verbal nouns and 'an àite' (a' losgadh mònach an àite guail, clann nan Tuathach).
 
 | Ròdais | English |
 |---|---|
