@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rodos Atlas</title>
+<link rel="icon" type="image/png" href="fmg/images/icons/favicon-32x32.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almendra+SC&amp;family=Lugrasimo&amp;family=Cinzel:wght@500;600;700&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
+<style>
+
+  :root{
+    --obsidian:#0c0a10; --parchment:#e9ddc8; --parchment-dim:#b6ab97;
+    --myth:#9d6bff; --holy:#d4af37; --sunder:#5fa8a0; --colonial:#b06a3a; --new:#5c7a5e;
+    --hair:#332c3d;
+    box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:inherit;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  html,body{background:var(--obsidian); color:var(--parchment); margin:0; font-family:'Cormorant Garamond',serif; -webkit-font-smoothing:antialiased; height:100%;}
+  body{background:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(157,107,255,0.09), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, rgba(176,106,58,0.07), transparent 60%),
+    var(--obsidian);}
+
+  .tabbar{position:sticky; top:env(safe-area-inset-top,0px); z-index:40; display:flex; gap:0;
+    background:rgba(12,10,16,0.94); backdrop-filter:blur(6px); border-bottom:1px solid var(--hair);}
+  .tabbtn{flex:1; font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.08em; text-transform:uppercase;
+    background:none; border:none; color:var(--parchment-dim); padding:16px 10px; cursor:pointer; border-bottom:2px solid transparent;}
+  .tabbtn[data-active="true"]{color:var(--parchment); border-bottom-color:var(--myth);}
+
+  header{max-width:780px; margin:0 auto; padding:44px 28px 20px;}
+  .kicker{font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.14em; color:var(--myth); margin:0 0 12px;}
+  h1{font-family:'Cinzel',serif; font-weight:600; font-size:clamp(26px,5vw,38px); line-height:1.15; margin:0 0 12px;}
+  header p{font-size:17px; line-height:1.6; color:var(--parchment-dim); max-width:64ch; margin:0 0 6px;}
+
+  #panel-timeline{display:block;}
+  #panel-map{display:none;}
+
+  nav.jump{max-width:780px; margin:0 auto; padding:0 28px 30px; display:flex; flex-wrap:wrap; gap:8px;}
+  nav.jump a{font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.03em; color:var(--parchment-dim);
+    text-decoration:none; border:1px solid var(--hair); padding:5px 12px; border-radius:3px;}
+  nav.jump a:hover{color:var(--parchment); border-color:var(--parchment-dim);}
+
+  main{max-width:780px; margin:0 auto; padding:0 28px 100px; position:relative;}
+  .spine{position:absolute; left:28px; top:8px; bottom:40px; width:1px;
+    background:linear-gradient(to bottom, transparent, var(--hair) 4%, var(--hair) 96%, transparent);}
+  .era{position:relative; padding-left:52px; margin-bottom:8px; scroll-margin-top:70px;}
+  .era-head{padding-top:52px; padding-bottom:6px;}
+  .era-head:first-child{padding-top:0;}
+  .era-num{font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em; color:var(--parchment-dim); margin:0 0 6px;}
+  .era-title{font-family:'Cinzel',serif; font-weight:600; font-size:clamp(21px,3.2vw,27px); margin:0 0 4px;}
+  .era-title .en{font-style:italic; font-weight:400; font-size:0.6em; color:var(--parchment-dim);}
+  .era-span{font-style:italic; font-size:14px; margin:0 0 5px;}
+  .era-defining{font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.03em; margin:0 0 12px;}
+  .era-intro{font-size:16px; line-height:1.58; color:var(--parchment-dim); max-width:60ch; margin:0 0 8px;}
+  .event{position:relative; padding:13px 0; border-top:1px solid var(--hair);}
+  .event::before{content:''; position:absolute; left:-52px; top:19px; width:8px; height:8px; border-radius:50%; background:var(--parchment-dim);}
+  .event[data-cat="myth"]::before{background:var(--myth);} .event[data-cat="holy"]::before{background:var(--holy);}
+  .event[data-cat="sunder"]::before{background:var(--sunder);} .event[data-cat="colonial"]::before{background:var(--colonial);}
+  .event[data-cat="new"]::before{background:var(--new);}
+  .event-meta{display:flex; align-items:baseline; gap:10px; margin-bottom:4px; flex-wrap:wrap;}
+  .event-date{font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.05em; color:var(--parchment-dim);}
+  .event-title{font-family:'Cinzel',serif; font-weight:600; font-size:16px; margin:0 0 5px; display:inline;}
+  .event-body{font-size:16px; line-height:1.55; color:var(--parchment-dim); max-width:58ch;}
+  .event-body em{color:var(--parchment); font-style:italic;}
+  .maplink{font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.03em; color:var(--myth);
+    background:none; border:1px solid var(--myth); border-radius:3px; padding:2px 8px; margin-left:8px; cursor:pointer; vertical-align:middle;}
+  .maplink:hover{background:var(--myth); color:var(--obsidian);}
+
+  #panel-map{padding:16px;}
+  .map-wrap{max-width:1536px; margin:0 auto; position:relative; overflow:auto; border:1px solid var(--hair); border-radius:4px;}
+  .map-inner{position:relative; width:1536px; max-width:none;}
+  .map-inner > svg{display:block; width:1536px; height:702px;}
+  .pin{position:absolute; width:11px; height:11px; margin:-5.5px 0 0 -5.5px; border-radius:50%;
+    background:var(--myth); border:2px solid var(--obsidian); cursor:pointer; box-shadow:0 0 0 0 rgba(157,107,255,0.6);}
+  .pin[data-cat="holy"]{background:var(--holy);} .pin[data-cat="sunder"]{background:var(--sunder);}
+  .pin[data-cat="colonial"]{background:var(--colonial);} .pin[data-cat="new"]{background:var(--new);}
+  .pin.pulse{animation:pulse 1.4s ease-out 2;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(157,107,255,0.7);} 100%{box-shadow:0 0 0 22px rgba(157,107,255,0);}}
+  .popup{position:absolute; z-index:30; max-width:280px; background:rgba(15,12,20,0.97); border:1px solid var(--hair);
+    border-radius:4px; padding:12px 14px; display:none; font-size:14px; line-height:1.4;}
+  .popup h4{font-family:'Cinzel',serif; font-size:14px; margin:0 0 8px; color:var(--parchment);}
+  .popup .pe{margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--hair);}
+  .popup .pe:last-child{border-bottom:none; margin-bottom:0; padding-bottom:0;}
+  .popup .pdate{font-family:'Cinzel',serif; font-size:10px; color:var(--parchment-dim); letter-spacing:0.03em;}
+  .popup .ptitle{font-weight:600; color:var(--parchment); font-size:13px; margin:2px 0;}
+  .popup .pbody{color:var(--parchment-dim); font-size:13px;}
+  .maphint{max-width:1536px; margin:0 auto 12px; font-size:14px; color:var(--parchment-dim); padding:0 4px;}
+
+  .etysection{max-width:780px; margin:0 auto; padding:20px 28px 0;}
+  .etysection h2{font-family:'Cinzel',serif; font-size:22px; margin:0 0 6px;}
+  .etysection > p{font-size:16px; color:var(--parchment-dim); line-height:1.6; max-width:60ch; margin:0 0 20px;}
+  .etycard{border-top:1px solid var(--hair); padding:14px 0;}
+  .etyword{font-family:'Cinzel',serif; font-weight:600; font-size:18px; color:var(--parchment);}
+  .etypos{font-style:italic; color:var(--parchment-dim); font-size:14px;}
+  .etymeaning{font-size:16px; color:var(--parchment); margin:4px 0;}
+  .etysource{font-size:13px; color:var(--myth); margin:2px 0;}
+  .etynote{font-size:14px; color:var(--parchment-dim); line-height:1.5; margin-top:4px;}
+
+  footer{max-width:780px; margin:0 auto; padding:40px 28px 90px; border-top:1px solid var(--hair);}
+  footer p{font-size:15px; line-height:1.6; color:var(--parchment-dim); max-width:58ch;}
+
+  @media (max-width:560px){
+    header{padding:36px 20px 16px;} nav.jump{padding:0 20px 24px;} main{padding:0 20px 90px;}
+    .spine{left:20px;} .era{padding-left:38px;} .event::before{left:-38px;} footer{padding:32px 20px 70px;}
+    .etysection{padding:16px 20px 0;}
+  }
+
+
+/* ---- the atlas: timeline and live map, one program ---- */
+html, body{height:100%;}
+body{display:flex; flex-direction:column;}
+.tabbar{flex:none;}
+#panel-timeline{flex:1; overflow:auto;}
+#panel-map{display:none; flex:1; min-height:0; padding:0; position:relative;}
+body[data-tab="map"] #panel-timeline{display:none;}
+body[data-tab="map"] #panel-map{display:flex;}
+
+.stage{flex:1; position:relative; min-width:0; background:#1d2230;}
+#fmg{position:absolute; inset:0; width:100%; height:100%; border:0; display:block;}
+.loading{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+  background:var(--obsidian); color:var(--parchment-dim); font-family:'Cinzel',serif; letter-spacing:.06em; font-size:14px; z-index:5;}
+.loading[hidden]{display:none;}
+.loading b{color:var(--parchment); font-weight:600; font-size:18px;}
+
+.drawer{flex:none; width:340px; max-width:85vw; overflow:auto; background:rgba(12,10,16,.97); border-left:1px solid var(--hair);
+  padding:14px 16px 40px; font-size:15px;}
+.drawer[hidden]{display:none;}
+.drawer h2{font-family:'Cinzel',serif; font-size:15px; letter-spacing:.08em; margin:4px 0 4px; color:var(--parchment);}
+.drawer .hint{color:var(--parchment-dim); font-size:13px; margin:0 0 12px; line-height:1.45;}
+.agehead{font-family:'Cinzel',serif; font-size:11px; letter-spacing:.14em; margin:18px 0 6px; text-transform:uppercase;}
+.place{border-top:1px solid var(--hair); padding:8px 0;}
+.place h3{font-family:'Cinzel',serif; font-size:14px; margin:0 0 4px; display:flex; gap:8px; align-items:center; cursor:pointer;}
+.place h3::before{content:''; width:8px; height:8px; border-radius:50%; background:var(--dot,var(--parchment-dim)); flex:none;}
+.place.sel{background:rgba(157,107,255,.10); outline:1px solid rgba(157,107,255,.35); border-radius:3px; padding-inline:6px; margin-inline:-6px;}
+.ev{display:block; width:100%; text-align:left; background:none; border:0; color:var(--parchment-dim); font:inherit; font-size:13.5px;
+  line-height:1.4; padding:4px 0 4px 16px; cursor:pointer;}
+.ev:hover, .ev:focus-visible{color:var(--parchment); outline:none;}
+.ev .d{font-family:'Cinzel',serif; font-size:10.5px; letter-spacing:.04em; display:block; color:var(--parchment-dim);}
+.ev .t{color:var(--parchment); font-weight:600;}
+.drawtoggle{position:absolute; top:10px; right:10px; z-index:6; font-family:'Cinzel',serif; font-size:12px; letter-spacing:.06em;
+  background:rgba(12,10,16,.9); color:var(--parchment); border:1px solid var(--hair); border-radius:3px; padding:6px 10px; cursor:pointer;}
+
+.event.located{cursor:pointer;}
+.event.located:hover .event-title{color:#fff;}
+.event.located:focus-visible{outline:1px solid var(--myth); outline-offset:4px;}
+@media (max-width:760px){ .drawer{position:absolute; right:0; top:0; bottom:0; z-index:7;} }
+@media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto !important;} }
+</style>
+</head>
+<body data-tab="timeline">
+<div class="tabbar">
+  <button class="tabbtn" data-tab="timeline" data-active="true" onclick="showTab('timeline')">Timeline</button>
+  <button class="tabbtn" data-tab="map" data-active="false" onclick="showTab('map')">Map</button>
+</div>
+<div id="panel-timeline"><header>
+  <p class="kicker">RÌOGHACHD RÒDAIS &middot; the working chronicle</p>
+  <h1>Chronicle of Rodos</h1>
+  <p>Five ages, each opened by the event that ended the one before it. Events marked <span style="color:var(--myth)">&#9679;</span> have a real place on the map — tap "view on map" to jump there.</p>
+</header>
+<nav class="jump">
+<a href="#era-I">I. An Aois Àrsaidh</a>
+<a href="#era-II">II. An Aois Naomh</a>
+<a href="#era-III">III. An Aois Scaraidh</a>
+<a href="#era-IV">IV. An Aois Choigreach</a>
+<a href="#era-V">V. An Aois Ùr</a>
+</nav>
+<main>
+<div class="spine" aria-hidden="true"></div>
+<div class="era" id="era-I">
+<div class="era-head">
+<p class="era-num">AGE I</p>
+<h2 class="era-title">An Aois Àrsaidh <span class="en">— The Ancient Age</span></h2>
+<p class="era-span" style="color:var(--myth)">beyond record</p>
+<p class="era-defining" style="color:var(--myth)">Defining event: The crack in the stone</p>
+<p class="era-intro">No chronicle claims to know how the first people came to Rodos. Ask, and the answer is doctrine, not history: <em>cha do thàinig sinn — bha sinn ann</em>, "we did not come — we were here."</p>
+</div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The crack in the stone</h3><p class="event-body">A mason splitting rock for a well breaks a black, glassy vein — and it bleeds color instead of dust. The closest thing Rodos keeps to a creation myth.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The First Canoe</h3><p class="event-body">A suppressed, half-remembered voyaging fragment survives among coastal Tuathaich families: a named steersman, a first crossing, dismissed by the Ròdaich priesthood as superstition.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Sea-Watcher first sighted</h3><button class="maplink" onclick="jumpToMap('seamonster')">view on map</button><p class="event-body">Old sailors speak of a vast creature inhabiting the waters off the northwestern coast. No wreck has ever been recovered to prove it wrong.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Hollow Man of Doire uaine</h3><button class="maplink" onclick="jumpToMap('undead')">view on map</button><p class="event-body">Inscriptions in the Doire uaine hills describe something that walked without breathing, and attacked anyone who lit a fire in its sight.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Coille Naomh Muileann chiar set aside</h3><button class="maplink" onclick="jumpToMap('doire_naomh')">view on map</button><p class="event-body">A forest is marked sacred, long before any organized faith claims it formally — the trees simply understood, the old telling goes, before the people did.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Coille Naomh Cnoc bheag left unclaimed</h3><button class="maplink" onclick="jumpToMap('doire_arsaidh')">view on map</button><p class="event-body">A second forest, older-feeling than the first, is never settled, never logged, never fully mapped.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Làrach an Dùin-fhaire abandoned</h3><button class="maplink" onclick="jumpToMap('outpost')">view on map</button><p class="event-body">An outpost, already ruined when the first reliable chronicles begin, predates every known Rodian settlement pattern. No one knows who built it.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Làrach an Dùin abandoned</h3><button class="maplink" onclick="jumpToMap('fortress')">view on map</button><p class="event-body">A fortress in the same condition and the same mystery. Whether it belonged to the same builders as the outpost has never been settled.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Làrach an Teampaill abandoned</h3><button class="maplink" onclick="jumpToMap('temple')">view on map</button><p class="event-body">A temple older than any recorded religion, its altar oriented toward the central mountains rather than the sea — toward the vein, not the horizon.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Carragh Cnoc bheag raised</h3><button class="maplink" onclick="jumpToMap('carragh1')">view on map</button><p class="event-body">A standing stone, later found carved with four words: <em>Bha teine sa chloich</em> — "there was fire in the stone."</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Colbh Cnoc chiar raised</h3><button class="maplink" onclick="jumpToMap('carragh2')">view on map</button><p class="event-body">A second stone carries only two words: <em>Cuimhnich an teine</em> — "remember the fire." No one has ever explained the imperative.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Calbh Cnoc ghorm raised</h3><button class="maplink" onclick="jumpToMap('carragh3')">view on map</button><p class="event-body">A third stone carries the doctrine itself, complete: <em>Cha do thàinig sinn; bha sinn ann.</em> If the doctrine has a birthplace, it may be here.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Tuam Cnoc dhìreach consecrated</h3><button class="maplink" onclick="jumpToMap('mausoleum')">view on map</button><p class="event-body">A necropolis grows around a site nobody remembers consecrating. Its oldest graves are older than its oldest legible names.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The panther roads</h3><p class="event-body">A migratory instinct in the island's great cats is first recorded — routes crossing the mountains at fixed intervals, for reasons no naturalist has explained.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The first named storm</h3><p class="event-body">A tempest severe enough to be given a name in the oldest surviving oral king-lists — the name itself lost, only the fact of it surviving.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The counting of the dead begins</h3><p class="event-body">The Seann-Dhaoine, whoever they were, the people who built Làrach an Dùin-fhaire and Làrach an Dùin, also began keeping count of its own losses — record-keeping as instinct, before there was a Ròdaich people to inherit it.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The unlit hearth</h3><p class="event-body">A single dwelling, preserved by chance in the island's peat, shows a hearth never lit — the earliest evidence that someone here once chose not to burn something they easily could have.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The first tide-count</h3><p class="event-body">Someone begins marking the high-water line against a fixed rock, for reasons never recorded, in intervals later scholars recognize as suspiciously regular for a purely practical fisherman's habit.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The naming of the wind directions</h3><p class="event-body">The eight-point wind system every later Ròdaich sailor still uses is fixed in this period, with names that translate awkwardly and have simply never been replaced.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The first forbidden marriage</h3><p class="event-body">A union between two lineages is refused for reasons no surviving text explains — the earliest evidence that Rodian society organized itself by bloodline before it had any obsidian-caste reason to.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The stone that would not break</h3><p class="event-body">A second attempt to open a new vein elsewhere on the island fails entirely — ordinary rock, nothing beneath it. The first confirmation that the vein under the mountain is not a rule, but an exception.</p></div>
+<div class="event" data-cat="myth"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The first shared meal law</h3><p class="event-body">An unwritten custom, later formalized, requiring any household with surplus food to share it before a storm season — the earliest form of the communal obligation later ages will lean on more heavily than they admit.</p></div>
+</div>
+<div class="era" id="era-II">
+<div class="era-head">
+<p class="era-num">AGE II</p>
+<h2 class="era-title">An Aois Naomh <span class="en">— The Holy Age</span></h2>
+<p class="era-span" style="color:var(--holy)">the reverent age, undated</p>
+<p class="era-defining" style="color:var(--holy)">Defining event: The Binding of the First Flame</p>
+<p class="era-intro">The people who found the vein call themselves, in their own tongue, <strong>Ròdaich</strong>. For centuries they treat the ore the way jade was treated, not gold: burned in small measured quantities, never mass-excavated, never anything but sacred. In this age, nobody bonds with it. The power this story knows as obsidian-touched does not exist yet.</p>
+</div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Binding of the First Flame</h3><p class="event-body">A formal custodianship is declared over the vein — the first Rodian institution recognizable as a religious-political order, centuries before anything like a king.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Seann Spioradan nan Ròdach established</h3><p class="event-body">The island's oldest continuous folk tradition takes shape: reverence for ancestors, for the vein, for the weather that decides the mining season.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Allt an Àigh named</h3><button class="maplink" onclick="jumpToMap('creekofluck')">view on map</button><p class="event-body">A stream said to grant fortune to anyone who drinks from it during a particular phase of the moon becomes a site of pilgrimage that has never fully stopped.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Muileann chiar founded</h3><button class="maplink" onclick="jumpToMap('baileairgid')">view on map</button><p class="event-body">A silver seam is found near, but distinct from, the great vein — the island's first confirmed resource that isn't obsidian.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Feallsanachd an Fhèidh founded</h3><p class="event-body">A philosophical school forms around the question of why the vein answers some hands and not others — the first attempt to reason about the obsidian rather than simply revere it.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Small-Burning Law</h3><p class="event-body">A custom hardens into formal rule: no household may burn more than a measured handful of the ore in a season. It holds for centuries.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The first bridges</h3><button class="maplink" onclick="jumpToMap('bridge_capital')">view on map</button><p class="event-body">Stone crossings begin linking the interior mining paths to the coast — ancestors of what will later be Drochaid Cathair dhearg and Drochaid Ros fhionn.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The tavern roads begin</h3><button class="maplink" onclick="jumpToMap('tavern_damh')">view on map</button><p class="event-body">The first waypoint houses appear along the mining roads — ancestors of Am Buabhall Fortanach, An Taigh-òsta Grianach, and the rest of the circuit.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The mausoleum consecrated</h3><p class="event-body">Tuam Cnoc dhìreach, already ancient, receives its first formally recorded burial — an unclaimed necropolis becoming a claimed one.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The reverent centuries</h3><p class="event-body">Generation after generation mines the same modest quantity, burns the same modest quantity, and nothing about the population changes. This is the last age in which that remains true.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The first written king-list</h3><p class="event-body">Rulers begin to be recorded by name rather than remembered by story — a shift the later succession records will inherit directly.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The holy-wood dispute</h3><p class="event-body">The first recorded conflict between rival religious claims to Coille Naomh Muileann chiar and Coille Naomh Cnoc bheag — settled by dividing custody rather than choosing a winner.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The measuring of the vein</h3><p class="event-body">The first attempt to estimate how much obsidian the mountain holds. The estimate will prove wildly optimistic.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The apprentice-binding custom</h3><p class="event-body">Young Rodians are first formally bound to a master custodian of the vein for seven years before being trusted near the ore themselves — the origin of every later mining guild's structure.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The census of hands</h3><p class="event-body">The first attempt to count, island-wide, how many households hold a customary right to burn obsidian at all — proof the reverent tradition was already being formally rationed, not simply assumed.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The founding of Feallsanachd an Fhèidh's rival school</h3><p class="event-body">A breakaway sect argues the vein answers effort, not birth — a quiet, centuries-early rehearsal of the argument the Long War will eventually be fought over in a very different form.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The first recorded famine averted</h3><p class="event-body">A poor mining season nearly starves three settlements before the shared-meal custom, formalized a generation earlier, holds and prevents it — the tradition's first real test.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The naming of the nine faiths' common ancestor</h3><p class="event-body">A single unified folk practice begins visibly splitting into the distinct threads later ages will separately name — the moment 'Rodian belief' stops being one thing.</p></div>
+<div class="event" data-cat="holy"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The last age of even population</h3><p class="event-body">Chroniclers later look back and note, with some unease, that this is the final stretch of Rodian history in which no single family held meaningfully more years of life than any other.</p></div>
+</div>
+<div class="era" id="era-III">
+<div class="era-head">
+<p class="era-num">AGE III</p>
+<h2 class="era-title">An Aois Scaraidh <span class="en">— The Age of Sundering</span></h2>
+<p class="era-span" style="color:var(--sunder)">undated, by choice</p>
+<p class="era-defining" style="color:var(--sunder)">Defining event: The Choosing</p>
+<p class="era-intro">A group of Rodians find another land — barren of people like themselves — and volunteer to cross the water and settle it. Nothing forces them out. This is the Sundering, and it is chosen.</p>
+</div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Land is found</h3><p class="event-body">Word returns of a land across open water, unpeopled by anyone resembling the Ròdaich. No record survives of who found it first.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Choosing</h3><p class="event-body">A vote — or something the later chronicles call a vote — decides who will go. Volunteers only. No lots are drawn, no conscription recorded.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The ships are built</h3><p class="event-body">The island's shipwrights, used to modest coastal craft, build vessels meant to survive open water for the first time in Rodian memory.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The provisioning debate</h3><p class="event-body">A dispute over how much of the island's stored grain the departing ships may take nearly cancels the whole expedition. It is resolved, unrecorded how, within a season.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Setting-Out</h3><p class="event-body">The volunteers depart. The island's chronicles simply stop describing them the moment the ships clear the harbor.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Two landfalls</h3><p class="event-body">What fragmentary report ever returns describes two separate coasts reached, not one — the seed, in this telling, of two later peoples rather than one.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The thinning</h3><p class="event-body">Cut off from the vein, whatever strength the crossing required fades across the departed's own children. By the third generation abroad, nothing remains that Rodos would recognize.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The Mourning Custom</h3><p class="event-body">Rodos formalizes a mourning rite for the departed that is not quite grief and not quite celebration — reused, uneasily, for a very different departure in a much later age.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">Population correction</h3><p class="event-body">With a portion of the obsidian-bonded population gone, Rodian society reorganizes around a smaller, more concentrated custodian class — the shape every later aristocracy inherits.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The empty harbor rite</h3><p class="event-body">A ceremony develops around the specific dock the ships departed from, still observed in reduced form on an anniversary no one can precisely date anymore.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The second silence</h3><p class="event-body">A rumor of a second, smaller crossing — fewer ships, no surviving record of a destination — is neither confirmed nor denied by anything that survives.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The renaming of the west quay</h3><p class="event-body">The dock the ships departed from is given a new name specifically so ordinary trade could resume using the old one without the association — an early, quiet act of managed forgetting.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The first generation to never see the sea empty</h3><p class="event-body">Children born just after the Setting-Out grow up never having known the harbor with those particular ships in it — the exact moment departure stops being an event and starts being a fact of history.</p></div>
+<div class="event" data-cat="sunder"><div class="event-meta"><span class="event-date">undated</span></div><h3 class="event-title">The closing of the shipwrights' guild</h3><p class="event-body">With no more ocean-crossing vessels needed, the guild that built the Sundering fleet quietly dissolves — its techniques half-forgotten by the time anyone thinks to need them again.</p></div>
+</div>
+<div class="era" id="era-IV">
+<div class="era-head">
+<p class="era-num">AGE IV</p>
+<h2 class="era-title">An Aois Choigreach <span class="en">— The Age of Strangers</span></h2>
+<p class="era-span" style="color:var(--colonial)">c. 1780 DE – 1930 DE</p>
+<p class="era-defining" style="color:var(--colonial)">Defining event: The Crossing</p>
+<p class="era-intro">Humans find their way back across the water the Rodians once crossed, and are permitted access to Rodian land. What follows is not the usual colonial pattern — greed meeting reverence. The humans who arrive don't want the ore for what it is. They can't see what it is. To them it's coal: a burnable fuel, not a worship source, and the color it glows when broken reads as ungodly, not precious.</p>
+</div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1780 DE</span></div><h3 class="event-title">The Crossing</h3><p class="event-body">Humans make landfall on Rodos and are granted permission to stay — the first contact since the Sundering.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1781 DE</span></div><h3 class="event-title">The first translation attempts</h3><p class="event-body">Human clerics and Rodian custodians spend a full season trying to build a shared vocabulary. Neither side's account of what was actually agreed to survives intact.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1782 DE</span></div><h3 class="event-title">Trade begins</h3><p class="event-body">Early exchange is genuinely reciprocal: Rodian goods for tools and knowledge the isolated island lacks. For a few years, the arrangement looks sustainable.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1784 DE</span></div><h3 class="event-title">The first mixed settlement</h3><p class="event-body">A small coastal town accepts both Rodian and human residents under a single administration — an experiment later history will not repeat.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1785 DE</span></div><h3 class="event-title">The lighthouses proposed</h3><p class="event-body">Human navigators, unused to Rodos's coastline, request permanent beacons. Ròdaich engineers agree, not yet understanding what the request will enable.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1787 DE</span></div><h3 class="event-title">The first written treaty</h3><p class="event-body">Terms of the human presence are set down formally for the first time — in the humans' language only, a detail no one on the Rodian side objects to at the time.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1790 DE</span></div><h3 class="event-title">First extraction contracts</h3><p class="event-body">What begins as trade curdles into arrangement: Rodian labor mines the vein at a scale no reverent tradition ever used.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1793 DE</span></div><h3 class="event-title">The first refusal</h3><p class="event-body">A single mining settlement declines to sign an extraction contract. It is quietly bypassed rather than punished — for now.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1796 DE</span></div><h3 class="event-title">The currency reform</h3><p class="event-body">Human coinage is introduced alongside traditional barter, ostensibly for convenience. Within a decade it is the only accepted form of payment for anything requiring imported tools.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1800 DE</span></div><h3 class="event-title">The Small-Burning Law lapses</h3><p class="event-body">Centuries of measured restraint end within a single generation. No formal repeal is recorded — it simply stops being enforced once it stops being profitable to enforce.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1804 DE</span></div><h3 class="event-title">The first mining deaths blamed on speed</h3><p class="event-body">A tunnel collapse, worked faster than any Rodian crew would have chosen to work it, kills eleven. It is recorded as an accident.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1810 DE</span></div><h3 class="event-title">Mass excavation begins in earnest</h3><p class="event-body">The mountain is worked by the ton for the first time in Rodian history, for purposes no Rodian tradition would have chosen.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1815 DE</span></div><h3 class="event-title">The first Rodian overseer appointed</h3><p class="event-body">A Ròdaich is given authority over other Rodian miners, answerable to human administrators — the first visible fracture within Rodian society itself, not just between it and the humans.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1822 DE</span></div><h3 class="event-title">The Muileann chiar silver dispute</h3><button class="maplink" onclick="jumpToMap('baileairgid')">view on map</button><p class="event-body">Human interests attempt to claim the silver seam at Muileann chiar as well. It is one of the few resources the Ròdaich successfully keep fully under their own control throughout this age.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1830 DE</span></div><h3 class="event-title">The first Rodian child sent abroad</h3><p class="event-body">A single family, hoping to secure better treatment, sends a son to be educated in the humans' home country. He is never recorded returning.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1836 DE</span></div><h3 class="event-title">The tithe increase</h3><p class="event-body">The portion of mined obsidian claimed by human administrators rises sharply, with no corresponding rise in what Rodian communities receive.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">1848 DE</span></div><h3 class="event-title">The first of the immortal generation</h3><p class="event-body">A child born into the mining camps is exposed to more raw ore across her lifetime than any Rodian in living memory — and does not age the way the people around her do. Her name is Aisling.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1850 DE</span></div><h3 class="event-title">The condition goes unnamed</h3><p class="event-body">Whatever is happening to the child born two years earlier has no word yet, in any language spoken on the island. It will be decades before anyone tries to coin one.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1852 DE</span></div><h3 class="event-title">A' Phlàigh Uaine</h3><p class="event-body">The Green Death moves through the mining camps — the ore dust itself is blamed, though no formal study is ever completed. Twenty-six settlements record cases.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1856 DE</span></div><h3 class="event-title">The first work-refusal strike</h3><p class="event-body">An entire mining settlement halts extraction for eleven days over conditions worsened by the plague two years prior. It ends when food supplies, controlled by human administrators, run out.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1860 DE</span></div><h3 class="event-title">Muileann chiar expands</h3><button class="maplink" onclick="jumpToMap('baileairgid')">view on map</button><p class="event-body">The silver town grows alongside the obsidian operation, human demand for both metals accelerating extraction the reverent tradition never would have permitted.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1865 DE</span></div><h3 class="event-title">The second currency reform</h3><p class="event-body">Rodian barter goods are formally devalued against human coinage a second time, on terms set entirely by the human administration.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1870 DE</span></div><h3 class="event-title">The five lighthouses complete</h3><button class="maplink" onclick="jumpToMap('light_rosmor')">view on map</button><p class="event-body">Taigh-solais Baile chrom, Baile ìseal, Muileann bheag, Àth dhearg and Tobar dhearg — the full ring of coastal beacons is finished, built to serve trade that is by now extraction in every way but name.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1873 DE</span></div><h3 class="event-title">Gorta Baile chrom</h3><p class="event-body">The Great Hunger follows a failed harvest across thirty-four settlements, worsened by a mining workforce too depleted by mass conscription to farm its own land.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1878 DE</span></div><h3 class="event-title">The first organized petition</h3><p class="event-body">Rodian custodians, for the first time acting jointly rather than settlement by settlement, submit a formal grievance to the human administration. It is not answered.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1880 DE</span></div><h3 class="event-title">Resentment first recorded</h3><p class="event-body">The earliest surviving Ròdaich grievance texts date from this period — not yet organized resistance, but the first written acknowledgment that something has gone wrong.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1885 DE</span></div><h3 class="event-title">Tiormachd Achadh shean</h3><p class="event-body">The Long Drought settles over the island's dry season for three consecutive years, straining a population already stretched thin by extraction quotas.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1890 DE</span></div><h3 class="event-title">The first mixed-blood inheritance dispute</h3><p class="event-body">A legal case over whether a child of one Rodian and one human parent may inherit customary mining rights sets a precedent the administration writes entirely to its own benefit.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1895 DE</span></div><h3 class="event-title">The night-shift order</h3><p class="event-body">Extraction is extended to run continuously, day and night, for the first time — the mountain given no season of rest at all.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">1900 DE</span></div><h3 class="event-title">Fionnan born</h3><p class="event-body">A second child manifests the same unprecedented bonding Aisling did half a century earlier. The exposure is not a one-time accident. It is an ongoing industrial condition.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1905 DE</span></div><h3 class="event-title">The word finally coined</h3><p class="event-body">Facing two confirmed cases, Rodian custodians settle on a term for what's happening: <em>fuil-ghuail</em>, "coal-blood" — rendered in the humans' tongue as obsidian-touched. It is meant clinically. It will outlive that intention.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1908 DE</span></div><h3 class="event-title">The third currency reform</h3><p class="event-body">Traditional Rodian barter is formally abolished as legal tender entirely. Every transaction on the island now runs through human coinage.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">1913 DE</span></div><h3 class="event-title">Lorccan born</h3><p class="event-body">A third case, born into a mining town rather than a mining camp — proof the phenomenon has outgrown any single site.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">1914 DE</span></div><h3 class="event-title">Cian born</h3><p class="event-body">A fourth, within a year of the third — the closest the immortal generation comes to being born in a cluster rather than a scatter.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1916 DE</span></div><h3 class="event-title">Scàineadh Cill ghlas</h3><p class="event-body">The Rending — a fault line tears open in the hills east of the capital, around Cill ghlas during a routine excavation, killing dozens and closing an entire mining district for a generation.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1915 DE</span></div><h3 class="event-title">The first open confrontation</h3><p class="event-body">A mining accident, blamed by Rodian workers on human indifference to safety, becomes the first recorded violent clash between the two populations.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1918 DE</span></div><h3 class="event-title">The second organized petition</h3><p class="event-body">This one includes an implicit threat rather than a plea. It is the first Rodian document the human administration bothers to respond to — with increased security, not concessions.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1920 DE</span></div><h3 class="event-title">The taverns fortify</h3><button class="maplink" onclick="jumpToMap('tavern_seann')">view on map</button><p class="event-body">Roadside houses along the old mining routes begin doubling as informal militia waypoints — infrastructure quietly repurposing itself for a conflict not yet declared.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1922 DE</span></div><h3 class="event-title">The first coordinated work stoppage</h3><p class="event-body">Multiple mining regions halt extraction on the same day for the first time — proof that Rodian resistance, for all its scattering, could act as one when it chose to.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1925 DE</span></div><h3 class="event-title">Imperial overreach begins openly</h3><p class="event-body">Human administrators begin issuing directives with no Rodian counsel sought at all — the polite fiction of permission finally dropped.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1926 DE</span></div><h3 class="event-title">The confiscation edict</h3><p class="event-body">Human authorities formally claim the right to seize any Rodian dwelling deemed necessary for extraction expansion. It is the single most-cited grievance in every surviving account of what came next.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">1928 DE</span></div><h3 class="event-title">War declared</h3><p class="event-body">Rodian resistance, coordinated for the first time across multiple mining regions, moves from grievance to open conflict.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1929 DE</span></div><h3 class="event-title">The burning of the third currency's records</h3><p class="event-body">Rebels destroy the human administration's tithe ledgers in three separate raids — an act later chroniclers treat as symbolically decisive even though its practical effect was small.</p></div>
+<div class="event" data-cat="colonial"><div class="event-meta"><span class="event-date">c. 1930 DE</span></div><h3 class="event-title">The Severance</h3><p class="event-body">The war ends with the crossing itself closed. Whatever let humans reach Rodos shuts. The humans still on the island are shepherded to the northern territory their descendants hold today. Cian and Lorccan, not yet twenty, grow up in its immediate wake.</p></div>
+</div>
+<div class="era" id="era-V">
+<div class="era-head">
+<p class="era-num">AGE V</p>
+<h2 class="era-title">An Aois Ùr <span class="en">— The New Age</span></h2>
+<p class="era-span" style="color:var(--new)">post-1930 DE – 2026 DE</p>
+<p class="era-defining" style="color:var(--new)">Defining event: The Severance</p>
+<p class="era-intro">The Ròdaich reclaim the whole island. They do not restore the old reverent practice. The mine keeps running at the scale the occupiers built it to, because by now the extraction benefits the people holding power directly. The colonizers are gone. Their method isn't.</p>
+</div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1930 DE</span></div><h3 class="event-title">The Tuathaich homeland fixed</h3><p class="event-body">Human descendants stranded by the Severance are formally settled in the island's north — a confinement, not a homecoming, though later generations will simply call it home.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1931 DE</span></div><h3 class="event-title">Rìoghachd Ròdais declared</h3><button class="maplink" onclick="jumpToMap('capital')">view on map</button><p class="event-body">The state formally restyles itself a kingdom in form, whatever it remains in function — the same contradiction its own records still carry today.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1932 DE</span></div><h3 class="event-title">Niall crowned</h3><button class="maplink" onclick="jumpToMap('capital')">view on map</button><p class="event-body">The first ruler of the restored kingdom takes the throne at Cathair dhearg — the opening name in the line the state's own chronicles keep unbroken from here forward.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1933 DE</span></div><h3 class="event-title">Tonn Mhòr Cnoc chaol</h3><p class="event-body">The Great Wave strikes the southern coast without warning, devastating Cnoc chaol, Cuan dhearg and Achadh mhin in a single night — the first disaster the new state responds to on its own terms.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1934 DE</span></div><h3 class="event-title">The old human coinage withdrawn</h3><p class="event-body">Every remaining piece of human currency is formally demonetized. A new Rìoghachd coinage, minted with obsidian-dust ink in its seal, replaces it within a year.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1935 DE</span></div><h3 class="event-title">Creideamh nan Ròdach formalized</h3><p class="event-body">The Obsidian Rite becomes organized doctrine rather than diffuse folk reverence, built around the leyline and the unbroken line of the obsidian-touched.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1936 DE</span></div><h3 class="event-title">The first post-Severance census</h3><p class="event-body">The state counts its own population for the first time since reclaiming the island — and quietly notes, without further comment, exactly how few obsidian-touched individuals actually exist.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1938 DE</span></div><h3 class="event-title">Creideamh nan Tuathach persists</h3><p class="event-body">Tuathaich communities keep their own folk-shamanic tradition alive in the north — including, quietly, the First Canoe fragment the Ròdaich priesthood still calls superstition.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1939 DE</span></div><h3 class="event-title">The border wall proposed</h3><p class="event-body">A formal boundary between Ròdaich and Tuathaich territory is proposed for the first time. It is rejected — not out of principle, records suggest, but because it's considered unnecessary. The two populations are already staying apart on their own.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1940 DE</span></div><h3 class="event-title">Extraction resumes at full scale</h3><p class="event-body">The mine's post-Severance yield matches, then exceeds, its colonial-era output. Nothing about the method changed. Only who profits did.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1942 DE</span></div><h3 class="event-title">The guild system restored</h3><p class="event-body">The old apprentice-binding custom from the Holy Age is revived in modified form, now explicitly reserved for Ròdaich applicants only.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1945 DE</span></div><h3 class="event-title">Leabharlann Muileann chaol founded</h3><button class="maplink" onclick="jumpToMap('library')">view on map</button><p class="event-body">A great library is established at Muileann chaol — the institution that will eventually keep the most complete surviving record of everything in this chronicle.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1947 DE</span></div><h3 class="event-title">The first royal chronicler appointed</h3><button class="maplink" onclick="jumpToMap('library')">view on map</button><p class="event-body">A formal office is created specifically to maintain the kingdom's records — the direct ancestor of the archive this very document draws from.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1950 DE</span></div><h3 class="event-title">Fèill Muileann òg established</h3><button class="maplink" onclick="jumpToMap('fair')">view on map</button><p class="event-body">An annual fair becomes the island's largest recurring gathering, drawing trade from every province the state controls.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1951 DE</span></div><h3 class="event-title">Niall dies; Brìghde crowned</h3><button class="maplink" onclick="jumpToMap('capital')">view on map</button><p class="event-body">His daughter succeeds him without contest — mortal succession within an immortal-adjacent aristocracy, unremarkable at the time, unusual in hindsight.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1952 DE</span></div><h3 class="event-title">Còmhrag Ceann leathan established</h3><button class="maplink" onclick="jumpToMap('melee')">view on map</button><p class="event-body">A brutal annual melee tournament begins at Ceann leathan, ostensibly a martial tradition, increasingly a release valve for a population with fewer and fewer other outlets.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">1953 DE</span></div><h3 class="event-title">Splatter and Dodge's generation born</h3><p class="event-body">A cluster of births in the Class-08-adjacent shunting families — the generation that will grow up to become Dubhan's closest allies, Seachran and Brean among them.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1955 DE</span></div><h3 class="event-title">The Depletion first acknowledged</h3><p class="event-body">Survey reports begin quietly noting the vein's declining yield. The state does not act on them for years.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1957 DE</span></div><h3 class="event-title">Eòghan crowned</h3><button class="maplink" onclick="jumpToMap('capital')">view on map</button><p class="event-body">Brìghde's reign ends young — no cause is recorded publicly. Her cousin Eòghan takes the throne amid the first real succession tension the restored kingdom has faced.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">1958 DE</span></div><h3 class="event-title">Dubhan born</h3><p class="event-body">Born mortal, into the exact confinement the Severance created, decades after the war that closed the island to the people his line descends from.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1962 DE</span></div><h3 class="event-title">The second post-Severance census</h3><p class="event-body">The gap between Ròdaich and Tuathaich living standards is, for the first time, measured rather than simply observed. The report is not made public.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1968 DE</span></div><h3 class="event-title">The mine-safety reforms</h3><p class="event-body">New excavation rules are introduced after a smaller echo of the old Scàineadh Cill ghlas collapse. They apply to Ròdaich workers. Enforcement in Tuathaich-adjacent sites is inconsistent, records suggest deliberately so.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1970 DE</span></div><h3 class="event-title">Dubhan's childhood</h3><p class="event-body">He grows up watching an eternally young caste hold every real advantage on an island his own ancestors were pushed to the edge of. The obsidian was never his to inherit.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1975 DE</span></div><h3 class="event-title">The Feallsanachd an Fhèidh revival</h3><p class="event-body">The old philosophical school, dormant since the colonial period, reopens — its founding question, why the vein answers some and not others, suddenly urgent again as the vein itself starts running short.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1980 DE</span></div><h3 class="event-title">The failed vein expansion</h3><p class="event-body">A costly attempt to locate a second obsidian deposit elsewhere on the island turns up nothing — the same result the Holy Age's failed attempt found centuries earlier, forgotten and rediscovered the hard way.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1985 DE</span></div><h3 class="event-title">The Depletion becomes undeniable</h3><p class="event-body">What was a quiet survey note in 1955 is now an open crisis. The last untouched sections of the vein are identified — and are smaller than anyone wants to admit.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1987 DE</span></div><h3 class="event-title">Mairead crowned</h3><button class="maplink" onclick="jumpToMap('capital')">view on map</button><p class="event-body">Eòghan's reign ends in the same decade the Depletion becomes public knowledge — his successor inherits a kingdom whose founding resource is visibly failing for the first time in the restored era.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1990 DE</span></div><h3 class="event-title">Dubhan begins his experiments</h3><p class="event-body">Early, unsuccessful attempts to synthesize a substitute fuel from mining byproducts — failures the historical record barely bothers to name.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1993 DE</span></div><h3 class="event-title">The third post-Severance census</h3><p class="event-body">Population figures are published openly for the first time in Rìoghachd history — a small, symbolic transparency reform that changes nothing structurally.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 1996 DE</span></div><h3 class="event-title">The library expansion</h3><button class="maplink" onclick="jumpToMap('library')">view on map</button><p class="event-body">Leabharlann Muileann chaol doubles its holdings, absorbing several smaller provincial archives into one central record — the moment Rodian history starts being kept in one place instead of many.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2000 DE</span></div><h3 class="event-title">The first working dubhan</h3><p class="event-body">A crude but functional synthetic fuel is produced. It is not yet an economy. It is, for now, one man's answer to a crisis the caste in power still hasn't fully faced.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2002 DE</span></div><h3 class="event-title">Cathal crowned</h3><button class="maplink" onclick="jumpToMap('capital')">view on map</button><p class="event-body">Mairead's reign ends as Dubhan's early experiments are still failing more than succeeding — Cathal inherits a kingdom that doesn't yet know how close its own solution already is.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2005 DE</span></div><h3 class="event-title">The lighthouses converted</h3><button class="maplink" onclick="jumpToMap('light_rosmor')">view on map</button><p class="event-body">The five coastal beacons, still running on obsidian-lit flame for over a century, are the first infrastructure formally converted to dubhan power.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2008 DE</span></div><h3 class="event-title">The tavern circuit modernizes</h3><button class="maplink" onclick="jumpToMap('tavern_oir')">view on map</button><p class="event-body">Roadside houses along the old mining routes install dubhan lamps, ending centuries of oil-and-wick lighting in a single decade.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2010 DE</span></div><h3 class="event-title">The word spreads before the fuel does</h3><p class="event-body">"Dubhan" begins appearing in common speech to mean the fuel itself, not the man, years before the economy built on it is complete.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2012 DE</span></div><h3 class="event-title">The dubhan economy takes shape</h3><p class="event-body">Markets, military logistics, and shipping begin shifting wholesale to the new fuel. The obsidian caste, watching its own power source fail, does not object.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2014 DE</span></div><h3 class="event-title">The fourth currency reform</h3><p class="event-body">Rìoghachd coinage is re-pegged to dubhan output rather than obsidian reserves for the first time — an economic admission, quietly made, of which resource actually runs the kingdom now.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2015 DE</span></div><h3 class="event-title">Tuathaich resistance organizes</h3><p class="event-body">A cluster of northern communities refuse to fold into the new economy, continuing to work the last workable coal seams rather than trade independence for dependence on one man's fuel.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2016 DE</span></div><h3 class="event-title">The library's Tuathaich wing proposed</h3><button class="maplink" onclick="jumpToMap('library')">view on map</button><p class="event-body">A formal request to archive Tuathaich oral history alongside the official Ròdaich record is submitted to Leabharlann Muileann chaol. It is tabled, not rejected — and remains tabled to this day.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">2018 DE</span></div><h3 class="event-title">First skirmishes</h3><p class="event-body">Minor, unrecorded clashes between state enforcers and Tuathaich coal-holdouts begin — too small individually to name, together the clear runway into open war.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2019 DE</span></div><h3 class="event-title">The mobilization order</h3><p class="event-body">Regiments not called to active service since the Severance itself are reformed and re-equipped, openly, months before anyone in power admits a war is coming.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">April 11, 2020 DE</span></div><h3 class="event-title">Battle of Àth leathan</h3><button class="maplink" onclick="jumpToMap('battle_axblema')">view on map</button><p class="event-body">The first major engagement of An Cogadh Fada, the Long War. The state, already leaning on Dubhan's fuel to prop up its fading power, moves against the holdouts directly.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2020 DE</span></div><h3 class="event-title">The wartime tithe</h3><p class="event-body">A temporary tax increase, justified by the war, on every dubhan transaction in the kingdom. It is never repealed once the war ends.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">December 10, 2021 DE</span></div><h3 class="event-title">Battle of Muileann ghlas</h3><button class="maplink" onclick="jumpToMap('battle_watchelces')">view on map</button><p class="event-body">The war's second and final major battle. The Tuathaich holdouts are broken within a single year's campaign — descendants of the humans once pushed to the island's edge, pushed back again, this time by a fuel one of their own invented.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">2021 DE</span></div><h3 class="event-title">An Cogadh Fada ends</h3><p class="event-body">Nine regiments and four fleets, still active today, were raised in this campaign; each is named for the town it is stationed in.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2022 DE</span></div><h3 class="event-title">The dubhan monopoly completes</h3><p class="event-body">With the last organized resistance gone, Dubhan's fuel becomes functionally mandatory across the entire island economy.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2023 DE</span></div><h3 class="event-title">The library's war archive sealed</h3><button class="maplink" onclick="jumpToMap('library')">view on map</button><p class="event-body">Leabharlann Muileann chaol's complete Long War record is formally sealed from public access for a term of fifty years — the only sealed archive in the kingdom's history.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">c. 2024 DE</span></div><h3 class="event-title">The reparations debate</h3><button class="maplink" onclick="jumpToMap('capital')">view on map</button><p class="event-body">A proposal to formally compensate Tuathaich communities for wartime losses is raised in the capital and quietly allowed to die without a vote.</p></div>
+<div class="event" data-cat="new"><div class="event-meta"><span class="event-date">2026 DE</span></div><h3 class="event-title">The present</h3><button class="maplink" onclick="jumpToMap('capital')">view on map</button><p class="event-body">The coal is all but gone. The dubhan economy runs on a name that used to belong to one man. The Ròdaich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, and a First-Canoe memory the people who twice defeated them still call folklore.</p></div>
+</div>
+</main>
+<div class="etysection">
+<h2>Words Born from History</h2>
+<p>Twelve entries where a specific dated event left a permanent mark on the language itself — the same mechanism as "dubhan," repeated. Each is built from real Ròdais vocabulary and real grammar, not invented from nothing.</p>
+<div class="etycard"><span class="etyword">dubhan</span> <span class="etypos">n., lowercase</span><div class="etymeaning">diesel; the synthetic fuel itself</div><div class="etysource">from: Dubhan's Fire (c. 2000 DE)</div><div class="etynote">From Dubhan's own name (dubh + -an, "the black one"), worn down into a common noun the way English wore down a man's title into a sandwich.</div></div>
+<div class="etycard"><span class="etyword">fadachadh</span> <span class="etypos">v.n. (verbal noun)</span><div class="etymeaning">to be crushed decisively after holding out too long; "am fadachadh" = a total, one-season defeat</div><div class="etysource">from: An Cogadh Fada, the Long War (2020–2021 DE)</div><div class="etynote">The plain verbal noun of <em>fadaich</em> ("lengthen", from <em>fada</em>, the war's own name) given a narrowed, bitter sense by An Cogadh Fada. "Chaidh am fadachadh" — "they got long-warred" — is already circulating among Tuathaich speakers as gallows humor about their own defeat.</div></div>
+<div class="etycard"><span class="etyword">scàinte</span> <span class="etypos">adj.</span><div class="etymeaning">reeling, structurally shaken (of a person, not just a building)</div><div class="etysource">from: Scàineadh Cill ghlas, the Rending (c. 1916 DE)</div><div class="etynote">The plain adjective from "scàineadh" (a rending/fault-crack) picked up a figurative sense after the disaster — the same drift that gave English "shattered" its emotional meaning alongside its literal one.</div></div>
+<div class="etycard"><span class="etyword">uaine</span> <span class="etypos">adj., extended sense</span><div class="etymeaning">sickly, plague-marked — alongside its plain meaning "green"</div><div class="etysource">from: A' Phlàigh Uaine, the Green Death (c. 1852 DE)</div><div class="etynote">A color word gaining a second, darker sense from a single event — parallel to how English "green" came to mean inexperienced, or nauseated, from otherwise unrelated color associations.</div></div>
+<div class="etycard"><span class="etyword">mar a thàinig Niall</span> <span class="etypos">idiom</span><div class="etymeaning">"the way Niall came" — said of any unusually smooth transfer of power</div><div class="etysource">from: Niall crowned (c. 1932 DE)</div><div class="etynote">A ruler's name converted directly into a fixed idiomatic phrase, the commonest way any language turns a specific memorable event into permanent vocabulary.</div></div>
+<div class="etycard"><span class="etyword">dubhan-tùsail</span> <span class="etypos">n.</span><div class="etymeaning">a rough, failed-seeming first attempt that later turns out to matter</div><div class="etysource">from: Dubhan's early failed experiments (c. 1990 DE)</div><div class="etynote">Dubhan (the name/fuel) + tùsail ("of the beginning") — used now for any early prototype, in any field, that looked like a dead end before it wasn't.</div></div>
+<div class="etycard"><span class="etyword">tonn</span> <span class="etypos">n., extended sense</span><div class="etymeaning">a sudden, overwhelming change, used metaphorically ("tha e san tonn" — "he's in the wave of it")</div><div class="etysource">from: Tonn Mhòr Cnoc chaol, the Great Wave (c. 1933 DE)</div><div class="etynote">The plain word for "wave" gaining the same figurative extension English gives "tide" or "wave" for sudden large-scale change — a near-universal metaphor, arrived at independently here.</div></div>
+<div class="etycard"><span class="etyword">a chur san Leabharlann</span> <span class="etypos">idiom</span><div class="etymeaning">"to put it in the Library" — to make something official, settled, beyond dispute</div><div class="etysource">from: Leabharlann Muileann chaol founded (c. 1945 DE)</div><div class="etynote">An institution's name becoming shorthand for the authority it holds — the same mechanism that gave English phrases like "it's in the record" their weight.</div></div>
+<div class="etycard"><span class="etyword">seann-chunntas</span> <span class="etypos">n.</span><div class="etymeaning">an old grievance nobody in power will act on but nobody has cancelled either</div><div class="etysource">from: The tabled Tuathaich archive request (c. 2016 DE) / the dead reparations debate (c. 2024 DE)</div><div class="etynote">Sean (old) + cunntas (an account, a reckoning) — coined by Tuathaich speakers specifically, and pointedly never adopted into official Ròdaich usage.</div></div>
+<div class="etycard"><span class="etyword">roghnaich</span> <span class="etypos">v., narrowed sense</span><div class="etymeaning">to choose permanent exile specifically, as opposed to its plain general sense "to choose"</div><div class="etysource">from: The Choosing (Age III)</div><div class="etynote">An ordinary verb given a specific, weighted secondary meaning by one enormous historical choice — its plain sense never lost, its narrow sense unmistakable in context.</div></div>
+<div class="etycard"><span class="etyword">a' Scaradh</span> <span class="etypos">n. (with the article, capitalized in speech)</span><div class="etymeaning">the Sundering, but also used loosely for any permanent, chosen parting between people who once belonged together</div><div class="etysource">from: The Sundering (Age III) and, later, reapplied informally to the Severance</div><div class="etynote">The same root generalized twice, once for a chosen departure and once, later, for a forced one — a single word doing service for two historical wounds that don't otherwise resemble each other.</div></div>
+<div class="etycard"><span class="etyword">Aisling-aois</span> <span class="etypos">n.</span><div class="etymeaning">an unnaturally long span of youth in anyone, used half-jokingly of ordinary people who simply look young for their years</div><div class="etysource">from: The first of the immortal generation (1848 DE)</div><div class="etynote">Aisling's own name + aois (age) — the rare case of an in-story, in-language nod: an eponym coined from the exact person this whole project has already spent hours discussing, and the one entry on this list where the "joke" and the "myth" are the same word.</div></div>
+</div>
+
+<footer>
+  <p>Nine named faiths are on record for Rodos, spanning the full chronicle: Seann Spioradan nan Ròdach (ancestral, Holy Age), Creideamh nan Ròdach and Creideamh an t-Seabhaig (the Obsidian Rite's orthodox and older forms), Creideamh nan Tuathach (Tuathaich folk tradition), Creideamh na Scairpe Buidhe, Feallsanachd an Fhèidh, Creideamh an Aon-adharcaich Dhuibh, Creideamh a' Mhadaidh-allaidh, and Rùn-dìomhair na h-Oidhche Glaise — a heterodox cult whose name translates, roughly, to "the Mystery of the Grey Night."</p>
+  <p style="margin-top:14px;">Two suppressed histories bracket this chronicle on purpose: the First Canoe legend at one end, the Tuathaich's own memory of the Long War at the other. Both are filed as folklore by whoever currently holds power. Neither is resolved here.</p>
+</footer>
+</div>
+<div id="panel-map">
+  <div class="stage">
+    <iframe id="fmg" title="Map of Rodos in Azgaar's Fantasy Map Generator"></iframe>
+    <div class="loading" id="loading"><b>Opening the map of Rodos</b><span>Azgaar's Fantasy Map Generator is loading Rodos.map</span></div>
+    <button class="drawtoggle" id="drawtoggle" onclick="toggleDrawer()">Chronicle ◂</button>
+  </div>
+  <aside class="drawer" id="drawer" aria-label="Chronicle places">
+    <h2>The chronicle on the map</h2>
+    <p class="hint">Click an event to fly to where it happened. Click a marked place on the map to find its events here. The map itself is the full Fantasy Map Generator: pan, zoom, open layers and editors as usual.</p>
+    <div id="placelist"></div>
+  </aside>
+</div>
+
+<script>
+var PLACES = {"seamonster": {"name": "Uilebheist na Mara", "cat": "myth", "x": 301.82, "y": 156.27, "events": [{"date": "undated", "title": "The Sea-Watcher first sighted", "body": "Old sailors speak of a vast creature inhabiting the waters off the northwestern coast. No wreck has ever been recovered to prove it wrong."}], "kind": "marker", "i": 21}, "undead": {"name": "Marbh-bheò Doire uaine", "cat": "myth", "x": 942.95, "y": 352.05, "events": [{"date": "undated", "title": "The Hollow Man of Doire uaine", "body": "Inscriptions in the Doire uaine hills describe something that walked without breathing, and attacked anyone who lit a fire in its sight."}], "kind": "marker", "i": 22}, "doire_naomh": {"name": "Coille Naomh Muileann chiar", "cat": "myth", "x": 1144.32, "y": 289.01, "events": [{"date": "undated", "title": "Coille Naomh Muileann chiar set aside", "body": "A forest is marked sacred, long before any organized faith claims it formally — the trees simply understood, the old telling goes, before the people did."}], "kind": "marker", "i": 23}, "doire_arsaidh": {"name": "Coille Naomh Cnoc bheag", "cat": "myth", "x": 644.97, "y": 438.75, "events": [{"date": "undated", "title": "Coille Naomh Cnoc bheag left unclaimed", "body": "A second forest, older-feeling than the first, is never settled, never logged, never fully mapped."}], "kind": "marker", "i": 24}, "outpost": {"name": "Làrach an Dùin-fhaire", "cat": "myth", "x": 868.45, "y": 426.89, "events": [{"date": "undated", "title": "The Làrach an Dùin-fhaire abandoned", "body": "An outpost, already ruined when the first reliable chronicles begin, predates every known Rodian settlement pattern. No one knows who built it."}], "kind": "marker", "i": 31}, "fortress": {"name": "Làrach an Dùin", "cat": "myth", "x": 1057.23, "y": 493.79, "events": [{"date": "undated", "title": "The Làrach an Dùin abandoned", "body": "A fortress in the same condition and the same mystery. Whether it belonged to the same builders as the outpost has never been settled."}], "kind": "marker", "i": 32}, "temple": {"name": "Làrach an Teampaill", "cat": "myth", "x": 1105.61, "y": 344.26, "events": [{"date": "undated", "title": "The Làrach an Teampaill abandoned", "body": "A temple older than any recorded religion, its altar oriented toward the central mountains rather than the sea — toward the vein, not the horizon."}], "kind": "marker", "i": 33}, "carragh1": {"name": "Carragh Cnoc bheag", "cat": "myth", "x": 653.11, "y": 243.59, "events": [{"date": "undated", "title": "Carragh Cnoc bheag raised", "body": "A standing stone, later found carved with four words: <em>Bha teine sa chloich</em> — \"there was fire in the stone.\""}], "kind": "marker", "i": 28}, "carragh2": {"name": "Colbh Cnoc chiar", "cat": "myth", "x": 802.71, "y": 217.13, "events": [{"date": "undated", "title": "Colbh Cnoc chiar raised", "body": "A second stone carries only two words: <em>Cuimhnich an teine</em> — \"remember the fire.\" No one has ever explained the imperative."}], "kind": "marker", "i": 29}, "carragh3": {"name": "Calbh Cnoc ghorm", "cat": "myth", "x": 804.1, "y": 417.62, "events": [{"date": "undated", "title": "Calbh Cnoc ghorm raised", "body": "A third stone carries the doctrine itself, complete: <em>Cha do thàinig sinn; bha sinn ann.</em> If the doctrine has a birthplace, it may be here."}], "kind": "marker", "i": 30}, "mausoleum": {"name": "Tuam Cnoc dhìreach", "cat": "myth", "x": 1076.43, "y": 517.02, "events": [{"date": "undated", "title": "Tuam Cnoc dhìreach consecrated", "body": "A necropolis grows around a site nobody remembers consecrating. Its oldest graves are older than its oldest legible names."}], "kind": "marker", "i": 41}, "creekofluck": {"name": "Allt an Àigh", "cat": "holy", "x": 1004.39, "y": 328.68, "events": [{"date": "undated", "title": "Allt an Àigh named", "body": "A stream said to grant fortune to anyone who drinks from it during a particular phase of the moon becomes a site of pilgrimage that has never fully stopped."}], "kind": "marker", "i": 1}, "baileairgid": {"name": "Muileann chiar", "cat": "holy", "x": 999.32, "y": 359.42, "events": [{"date": "undated", "title": "Muileann chiar founded", "body": "A silver seam is found near, but distinct from, the great vein — the island's first confirmed resource that isn't obsidian."}, {"date": "c. 1822 DE", "title": "The Muileann chiar silver dispute", "body": "Human interests attempt to claim the silver seam at Muileann chiar as well. It is one of the few resources the Ròdaich successfully keep fully under their own control throughout this age."}, {"date": "c. 1860 DE", "title": "Muileann chiar expands", "body": "The silver town grows alongside the obsidian operation, human demand for both metals accelerating extraction the reverent tradition never would have permitted."}], "kind": "marker", "i": 2}, "bridge_capital": {"name": "Drochaid Cathair dhearg", "cat": "holy", "x": 614.71, "y": 395.79, "events": [{"date": "undated", "title": "The first bridges", "body": "Stone crossings begin linking the interior mining paths to the coast — ancestors of what will later be Drochaid Cathair dhearg and Drochaid Ros fhionn."}], "kind": "marker", "i": 3}, "tavern_damh": {"name": "Am Buabhall Fortanach", "cat": "holy", "x": 516.86, "y": 496.59, "events": [{"date": "undated", "title": "The tavern roads begin", "body": "The first waypoint houses appear along the mining roads — ancestors of Am Buabhall Fortanach, An Taigh-òsta Grianach, and the rest of the circuit."}], "kind": "marker", "i": 5}, "light_rosmor": {"name": "Taigh-solais Baile chrom", "cat": "colonial", "x": 387.84, "y": 170.31, "events": [{"date": "c. 1870 DE", "title": "The five lighthouses complete", "body": "Taigh-solais Baile chrom, Baile ìseal, Muileann bheag, Àth dhearg and Tobar dhearg — the full ring of coastal beacons is finished, built to serve trade that is by now extraction in every way but name."}, {"date": "c. 2005 DE", "title": "The lighthouses converted", "body": "The five coastal beacons, still running on obsidian-lit flame for over a century, are the first infrastructure formally converted to dubhan power."}], "kind": "marker", "i": 12}, "tavern_seann": {"name": "An Taigh-seinnse Mòr", "cat": "colonial", "x": 727.76, "y": 355.91, "events": [{"date": "c. 1920 DE", "title": "The taverns fortify", "body": "Roadside houses along the old mining routes begin doubling as informal militia waypoints — infrastructure quietly repurposing itself for a conflict not yet declared."}], "kind": "marker", "i": 10}, "capital": {"name": "Cathair dhearg", "cat": "new", "x": 614.71, "y": 395.79, "events": [{"date": "c. 1931 DE", "title": "Rìoghachd Ròdais declared", "body": "The state formally restyles itself a kingdom in form, whatever it remains in function — the same contradiction its own records still carry today."}, {"date": "c. 1932 DE", "title": "Niall crowned", "body": "The first ruler of the restored kingdom takes the throne at Cathair dhearg — the opening name in the line the state's own chronicles keep unbroken from here forward."}, {"date": "c. 1951 DE", "title": "Niall dies; Brìghde crowned", "body": "His daughter succeeds him without contest — mortal succession within an immortal-adjacent aristocracy, unremarkable at the time, unusual in hindsight."}, {"date": "c. 1957 DE", "title": "Eòghan crowned", "body": "Brìghde's reign ends young — no cause is recorded publicly. Her cousin Eòghan takes the throne amid the first real succession tension the restored kingdom has faced."}, {"date": "c. 1987 DE", "title": "Mairead crowned", "body": "Eòghan's reign ends in the same decade the Depletion becomes public knowledge — his successor inherits a kingdom whose founding resource is visibly failing for the first time in the restored era."}, {"date": "c. 2002 DE", "title": "Cathal crowned", "body": "Mairead's reign ends as Dubhan's early experiments are still failing more than succeeding — Cathal inherits a kingdom that doesn't yet know how close its own solution already is."}, {"date": "c. 2024 DE", "title": "The reparations debate", "body": "A proposal to formally compensate Tuathaich communities for wartime losses is raised in the capital and quietly allowed to die without a vote."}, {"date": "2026 DE", "title": "The present", "body": "The coal is all but gone. The dubhan economy runs on a name that used to belong to one man. The Ròdaich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, and a First-Canoe memory the people who twice defeated them still call folklore."}], "kind": "burg", "i": 19}, "library": {"name": "Leabharlann Muileann chaol", "cat": "new", "x": 1018.98, "y": 286.06, "events": [{"date": "c. 1945 DE", "title": "Leabharlann Muileann chaol founded", "body": "A great library is established at Muileann chaol — the institution that will eventually keep the most complete surviving record of everything in this chronicle."}, {"date": "c. 1947 DE", "title": "The first royal chronicler appointed", "body": "A formal office is created specifically to maintain the kingdom's records — the direct ancestor of the archive this very document draws from."}, {"date": "c. 1996 DE", "title": "The library expansion", "body": "Leabharlann Muileann chaol doubles its holdings, absorbing several smaller provincial archives into one central record — the moment Rodian history starts being kept in one place instead of many."}, {"date": "c. 2016 DE", "title": "The library's Tuathaich wing proposed", "body": "A formal request to archive Tuathaich oral history alongside the official Ròdaich record is submitted to Leabharlann Muileann chaol. It is tabled, not rejected — and remains tabled to this day."}, {"date": "c. 2023 DE", "title": "The library's war archive sealed", "body": "Leabharlann Muileann chaol's complete Long War record is formally sealed from public access for a term of fifty years — the only sealed archive in the kingdom's history."}], "kind": "marker", "i": 34}, "fair": {"name": "Fèill Muileann òg", "cat": "new", "x": 701.03, "y": 442.75, "events": [{"date": "c. 1950 DE", "title": "Fèill Muileann òg established", "body": "An annual fair becomes the island's largest recurring gathering, drawing trade from every province the state controls."}], "kind": "marker", "i": 38}, "melee": {"name": "Còmhrag Ceann leathan", "cat": "new", "x": 856.47, "y": 387.71, "events": [{"date": "c. 1952 DE", "title": "Còmhrag Ceann leathan established", "body": "A brutal annual melee tournament begins at Ceann leathan, ostensibly a martial tradition, increasingly a release valve for a population with fewer and fewer other outlets."}], "kind": "marker", "i": 37}, "tavern_oir": {"name": "An Taigh-seinnse Òir", "cat": "new", "x": 1109.45, "y": 370.23, "events": [{"date": "c. 2008 DE", "title": "The tavern circuit modernizes", "body": "Roadside houses along the old mining routes install dubhan lamps, ending centuries of oil-and-wick lighting in a single decade."}], "kind": "marker", "i": 9}, "battle_axblema": {"name": "Àraich Àth leathan", "cat": "new", "x": 431.92, "y": 282.13, "events": [{"date": "April 11, 2020 DE", "title": "Battle of Àth leathan", "body": "The first major engagement of An Cogadh Fada, the Long War. The state, already leaning on Dubhan's fuel to prop up its fading power, moves against the holdouts directly."}], "kind": "marker", "i": 18}, "battle_watchelces": {"name": "Àraich Muileann ghlas", "cat": "new", "x": 713.01, "y": 422.25, "events": [{"date": "December 10, 2021 DE", "title": "Battle of Muileann ghlas", "body": "The war's second and final major battle. The Tuathaich holdouts are broken within a single year's campaign — descendants of the humans once pushed to the island's edge, pushed back again, this time by a fuel one of their own invented."}], "kind": "marker", "i": 17}};
+var AGES = [['myth','Age I · An Aois Àrsaidh','var(--myth)'], ['holy','Age II · An Aois Naomh','var(--holy)'],
+            ['sunder','Age III · An Aois Scaraidh','var(--sunder)'], ['colonial','Age IV · An Aois Choigreach','var(--colonial)'],
+            ['new','Age V · An Aois Ùr','var(--new)']];
+var ready = false, pending = null;
+
+function fmg(){ try { return document.getElementById('fmg').contentWindow; } catch(e){ return null; } }
+
+function showTab(name){
+  document.body.dataset.tab = name;
+  document.querySelectorAll('.tabbtn').forEach(function(b){ b.dataset.active = (b.dataset.tab === name) ? 'true' : 'false'; });
+  if (name === 'map') startMap();
+}
+
+/* ---- the map: Azgaar's own generator, loading Rodos.map from this folder ---- */
+var started = false;
+function startMap(){
+  if (started) return; started = true;
+  try { localStorage.setItem('version', '1.153.1'); } catch(e){}   // skip the generator's "what's new" window
+  var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'Rodos.map';
+  document.getElementById('fmg').src = 'fmg/index.html?maplink=' + encodeURIComponent(link);
+  var tries = 0, t = setInterval(function(){
+    var w = fmg(); tries++;
+    if (w && w.pack && w.pack.burgs && w.pack.burgs.length > 500 && w.zoomTo && w.Layers && w.document.getElementById('viewbox')) {
+      clearInterval(t); onMapReady(w);
+    } else if (tries > 240) { clearInterval(t);
+      document.getElementById('loading').innerHTML = '<b>The map did not load</b><span>Close this tab and run Rodos Atlas again.</span>'; }
+  }, 250);
+}
+
+function onMapReady(w){
+  ready = true;
+  document.getElementById('loading').hidden = true;
+  try { if (!w.Layers.isOn('markers')) w.Layers.show('markers'); } catch(e){}
+  // a click on a marked place in the map selects its events in the drawer
+  w.document.addEventListener('click', function(ev){
+    var el = ev.target;
+    while (el && el !== w.document) {
+      var m = el.id && /^marker(\d+)$/.exec(el.id);
+      var bid = el.dataset && el.dataset.id && el.closest && el.closest('#burgIcons') ? Number(el.dataset.id) : null;
+      var hit = placeFor(m ? 'marker' : (bid !== null ? 'burg' : null), m ? Number(m[1]) : bid);
+      if (hit) { selectPlace(hit, false); if (document.getElementById('drawer').hidden) toggleDrawer(); return; }
+      el = el.parentNode;
+    }
+  }, true);
+  if (pending) { var p = pending; pending = null; setTimeout(function(){ flyTo(p); }, 400); }
+}
+
+function placeFor(kind, i){
+  if (!kind) return null;
+  for (var id in PLACES) if (PLACES[id].kind === kind && PLACES[id].i === i) return id;
+  return null;
+}
+
+function flyTo(id){
+  var p = PLACES[id]; if (!p) return;
+  showTab('map');
+  if (!ready) { pending = id; return; }
+  var w = fmg();
+  w.zoomTo(p.x, p.y, 6, 1600);
+  mark(w, p.x, p.y);
+  selectPlace(id, true);
+}
+
+function mark(w, x, y){
+  var layer = w.document.getElementById('debug'); if (!layer) return;
+  var NS = 'http://www.w3.org/2000/svg', g = w.document.createElementNS(NS, 'g');
+  [0, 0.6, 1.2].forEach(function(delay){
+    var c = w.document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 2);
+    c.setAttribute('fill', 'none'); c.setAttribute('stroke', '#9d6bff'); c.setAttribute('stroke-width', 1.2);
+    c.innerHTML = '<animate attributeName="r" from="2" to="22" dur="1.8s" begin="' + delay + 's" repeatCount="2"/>' +
+                  '<animate attributeName="stroke-opacity" from="1" to="0" dur="1.8s" begin="' + delay + 's" repeatCount="2"/>';
+    g.appendChild(c);
+  });
+  var dot = w.document.createElementNS(NS, 'circle');
+  dot.setAttribute('cx', x); dot.setAttribute('cy', y); dot.setAttribute('r', 2.2);
+  dot.setAttribute('fill', '#9d6bff'); dot.setAttribute('stroke', '#fff'); dot.setAttribute('stroke-width', .6);
+  g.appendChild(dot);
+  layer.appendChild(g);
+  setTimeout(function(){ g.remove(); }, 6000);
+}
+
+/* ---- the drawer: every place the chronicle names, by age ---- */
+function esc(s){ var d = document.createElement('div'); d.innerHTML = s; return d.innerHTML; }
+function buildDrawer(){
+  var html = '';
+  AGES.forEach(function(a){
+    var ids = Object.keys(PLACES).filter(function(id){ return PLACES[id].cat === a[0]; });
+    if (!ids.length) return;
+    html += '<div class="agehead" style="color:' + a[2] + '">' + a[1] + '</div>';
+    ids.forEach(function(id){
+      var p = PLACES[id];
+      html += '<div class="place" id="place-' + id + '" style="--dot:' + a[2] + '"><h3 onclick="flyTo(\'' + id + '\')">' + p.name + '</h3>' +
+        p.events.map(function(e){ return '<button class="ev" onclick="flyTo(\'' + id + '\')"><span class="d">' + e.date + '</span><span class="t">' +
+          e.title + '</span></button>'; }).join('') + '</div>';
+    });
+  });
+  document.getElementById('placelist').innerHTML = html;
+}
+function selectPlace(id, scroll){
+  document.querySelectorAll('.place.sel').forEach(function(n){ n.classList.remove('sel'); });
+  var n = document.getElementById('place-' + id); if (!n) return;
+  n.classList.add('sel'); n.scrollIntoView({block: 'nearest', behavior: scroll ? 'smooth' : 'auto'});
+}
+function toggleDrawer(){
+  var d = document.getElementById('drawer'); d.hidden = !d.hidden;
+  document.getElementById('drawtoggle').textContent = d.hidden ? 'Chronicle ▸' : 'Chronicle ◂';
+}
+
+/* ---- the timeline: every event with a place is a link to the map ---- */
+function jumpToMap(id){ flyTo(id); }
+function togglePopup(){}
+function wireTimeline(){
+  document.querySelectorAll('#panel-timeline .event').forEach(function(ev){
+    var b = ev.querySelector('.maplink'); if (!b) return;
+    var id = (/jumpToMap\('(\w+)'\)/.exec(b.getAttribute('onclick')) || [])[1]; if (!id || !PLACES[id]) return;
+    ev.classList.add('located'); ev.tabIndex = 0; ev.setAttribute('role', 'link');
+    ev.title = 'Show ' + PLACES[id].name.replace(/<[^>]+>/g, '') + ' on the map';
+    b.onclick = function(e){ e.stopPropagation(); flyTo(id); };
+    ev.addEventListener('click', function(){ flyTo(id); });
+    ev.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flyTo(id); } });
+  });
+}
+buildDrawer();
+wireTimeline();
+</script>
+</body>
+</html>

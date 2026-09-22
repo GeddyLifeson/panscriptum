@@ -20,6 +20,8 @@ the whole language and the finished map.
 | `Rodos_finished.map` | The finished map. Open it in Azgaar's Fantasy Map Generator. |
 | `MAP_CHANGES.md` | Every name `finish_map.py` changed, before and after (425 changes). |
 | `CHRONICLE.html` | The chronicle of Rodos (five ages, 1848–2026 DE) with the real map from `Rodos_finished.map` embedded. Its place, faith, war and disaster names follow the map file; published at https://claude.ai/artifact/RXjhVcNh8gfmYuJTocopX2. |
+| `Rodos_Atlas/` | **The program.** Double-click `Rodos Atlas.bat` (or run `python atlas.py`): it opens the chronicle in your browser with a Map tab that runs Azgaar's Fantasy Map Generator itself on the Rodos map. Click a timeline event to fly to where it happened; click a marked place on the map to see its events. Needs only Python 3.7+. |
+| `build_atlas.py`, `atlas.py`, `atlas_template.html` | Rebuild `Rodos_Atlas/` from an Azgaar build, `Rodos_finished.map` and `CHRONICLE.html` (instructions at the top of `build_atlas.py`). |
 | `check_rodais.py` | Runs every check in the folder: the engine self-test, lexicon completeness and spelling, the texts, and the map. |
 
 ## What the map pass fixed
@@ -60,7 +62,8 @@ Nothing here is under `src/`, so none of the library's daemons, audits or linter
 - **465 headwords are shared by more than one English entry** (*uisce* for both "water" and
   "rain", *iasc* for fish as food and as animal). That is how Gaelic works; the lexicon does not
   invent distinctions it doesn't have.
-- **The map was checked structurally, not in Azgaar.** Every rewritten section parses, every
-  label matches its burg, and no old name survives, but the file has not been opened in the
-  generator from here (the session had no network access to it).
+- **The map is checked in Azgaar itself.** `Rodos_finished.map` loads in Fantasy Map Generator
+  1.153.1 (the version that saved it) with no data errors. Keep `.gitattributes` in this folder:
+  a `.map` file is CRLF-separated records around an SVG with LF newlines, and any line-ending
+  conversion breaks it.
 - **No recordings.** No speech engine reachable from here speaks Scottish Gaelic.

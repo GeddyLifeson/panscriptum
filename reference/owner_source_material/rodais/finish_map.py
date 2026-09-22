@@ -37,9 +37,11 @@ SRC = os.path.join(HERE, 'Rodos_renamed.map')
 DST = os.path.join(HERE, 'Rodos_finished.map')
 LOG = os.path.join(HERE, 'MAP_CHANGES.md')
 
-# line numbers of the .map sections this pass touches (Azgaar FMG 1.153 save format)
-L_FEATURES, L_STATES, L_BURGS, L_RELIGIONS, L_PROVINCES, L_RIVERS = 137, 139, 140, 154, 155, 157
-L_MARKERS, L_ROUTES, L_ZONES, L_SVG, L_JOURNEYS = 160, 162, 163, 126, 177
+# A .map file is 53 records joined by CRLF, in the order Azgaar's save.ts writes them; the SVG
+# (record 5) contains plain LF newlines of its own. These are the records this pass touches.
+L_SVG, L_FEATURES, L_STATES, L_BURGS, L_RELIGIONS, L_PROVINCES, L_RIVERS = 5, 12, 14, 15, 29, 30, 32
+L_MARKERS, L_ROUTES, L_ZONES, L_JOURNEYS = 35, 37, 38, 52
+RECORDS = 53
 
 changes = []   # (section, old, new)
 
@@ -53,7 +55,9 @@ def rename(section, obj, key, new):
 
 
 # ---------------------------------------------------------------- load
-lines = open(SRC, encoding='utf-8').read().split('\n')
+# newline='' keeps the CRLF record separators; text mode would turn them into LF and fuse the records
+lines = open(SRC, encoding='utf-8', newline='').read().split('\r\n')
+assert len(lines) == RECORDS, 'expected %d records, got %d' % (RECORDS, len(lines))
 J = {n: json.loads(lines[n]) for n in (L_FEATURES, L_STATES, L_BURGS, L_RELIGIONS, L_PROVINCES,
                                        L_RIVERS, L_MARKERS, L_ROUTES, L_ZONES, L_JOURNEYS)}
 burgs = [b for b in J[L_BURGS] if isinstance(b, dict) and b.get('name') and not b.get('removed')]
@@ -352,6 +356,30 @@ for jr in J[L_JOURNEYS]:
 # ---------------------------------------------------------------- 9. the saved SVG labels
 svg = lines[L_SVG]
 
+# One state, one capital. The first pass left burg 1 flagged as a capital beside the real one
+# (state.capital, Cathair dhearg); Azgaar then reports a data-integrity error on load and keeps
+# the FIRST as capital, which would move the capital to the wrong town. Demote the extra ones to
+# cities, in the data and in the saved icon, anchor and label groups.
+def move_into_group(svg, element_re, group_open_re):
+    m = re.search(element_re, svg)
+    if not m:
+        return svg
+    el = m.group(0)
+    svg = svg[:m.start()] + svg[m.end():]
+    g = re.search(group_open_re, svg)
+    return svg[:g.end()] + el + svg[g.end():]
+
+
+for b in burgs:
+    if b.get('capital') and b['i'] != state['capital']:
+        changes.append(('capital', '%s (capital)' % b['name'], '%s (city)' % b['name']))
+        b['capital'] = 0
+        b['group'] = 'city'
+        i = b['i']
+        svg = move_into_group(svg, r'<use id="burg%d" [^>]*/>' % i, r'<g id="city" data-group="city"[^>]*data-icon="#icon-circle">')
+        svg = move_into_group(svg, r'<use id="anchor%d" [^>]*/>' % i, r'<g id="city" data-group="city"[^>]*data-icon="#icon-anchor">')
+        svg = move_into_group(svg, r'<text id="burgLabel%d" [^>]*>[^<]*</text>' % i, r'<g id="labels-city" data-group="city"[^>]*>')
+
 
 def fix_label(m):
     b = burg_by_id.get(int(m.group(2)))
@@ -374,11 +402,12 @@ for n, data in J.items():
     # the source carries some surrogates as \\u escapes (half-emoji in generated notes); write them back the same way
     text = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     lines[n] = re.sub('[\ud800-\udfff]', lambda m: '\\u%04x' % ord(m.group()), text)
-out = '\n'.join(lines)
+out = '\r\n'.join(lines)
 open(DST, 'w', encoding='utf-8', newline='').write(out)
 
 # ---------------------------------------------------------------- verify
-check = out.split('\n')
+check = open(DST, encoding='utf-8', newline='').read().split('\r\n')
+assert len(check) == RECORDS, 'output has %d records' % len(check)
 for n in J:
     json.loads(check[n])                                        # every rewritten section still parses
 LEFTOVER = ['Luteley', 'Grantesham', 'Kiverton', 'Marltash', 'Albridge', 'Penrith', 'Towbigham', 'Hatlexe',

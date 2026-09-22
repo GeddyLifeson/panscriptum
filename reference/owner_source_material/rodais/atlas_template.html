@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rodos Atlas</title>
+<link rel="icon" type="image/png" href="fmg/images/icons/favicon-32x32.png">
+<link rel="stylesheet" href="FONTS_URL">
+<style>
+/*STYLE*/
+
+/* ---- the atlas: timeline and live map, one program ---- */
+html, body{height:100%;}
+body{display:flex; flex-direction:column;}
+.tabbar{flex:none;}
+#panel-timeline{flex:1; overflow:auto;}
+#panel-map{display:none; flex:1; min-height:0; padding:0; position:relative;}
+body[data-tab="map"] #panel-timeline{display:none;}
+body[data-tab="map"] #panel-map{display:flex;}
+
+.stage{flex:1; position:relative; min-width:0; background:#1d2230;}
+#fmg{position:absolute; inset:0; width:100%; height:100%; border:0; display:block;}
+.loading{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+  background:var(--obsidian); color:var(--parchment-dim); font-family:'Cinzel',serif; letter-spacing:.06em; font-size:14px; z-index:5;}
+.loading[hidden]{display:none;}
+.loading b{color:var(--parchment); font-weight:600; font-size:18px;}
+
+.drawer{flex:none; width:340px; max-width:85vw; overflow:auto; background:rgba(12,10,16,.97); border-left:1px solid var(--hair);
+  padding:14px 16px 40px; font-size:15px;}
+.drawer[hidden]{display:none;}
+.drawer h2{font-family:'Cinzel',serif; font-size:15px; letter-spacing:.08em; margin:4px 0 4px; color:var(--parchment);}
+.drawer .hint{color:var(--parchment-dim); font-size:13px; margin:0 0 12px; line-height:1.45;}
+.agehead{font-family:'Cinzel',serif; font-size:11px; letter-spacing:.14em; margin:18px 0 6px; text-transform:uppercase;}
+.place{border-top:1px solid var(--hair); padding:8px 0;}
+.place h3{font-family:'Cinzel',serif; font-size:14px; margin:0 0 4px; display:flex; gap:8px; align-items:center; cursor:pointer;}
+.place h3::before{content:''; width:8px; height:8px; border-radius:50%; background:var(--dot,var(--parchment-dim)); flex:none;}
+.place.sel{background:rgba(157,107,255,.10); outline:1px solid rgba(157,107,255,.35); border-radius:3px; padding-inline:6px; margin-inline:-6px;}
+.ev{display:block; width:100%; text-align:left; background:none; border:0; color:var(--parchment-dim); font:inherit; font-size:13.5px;
+  line-height:1.4; padding:4px 0 4px 16px; cursor:pointer;}
+.ev:hover, .ev:focus-visible{color:var(--parchment); outline:none;}
+.ev .d{font-family:'Cinzel',serif; font-size:10.5px; letter-spacing:.04em; display:block; color:var(--parchment-dim);}
+.ev .t{color:var(--parchment); font-weight:600;}
+.drawtoggle{position:absolute; top:10px; right:10px; z-index:6; font-family:'Cinzel',serif; font-size:12px; letter-spacing:.06em;
+  background:rgba(12,10,16,.9); color:var(--parchment); border:1px solid var(--hair); border-radius:3px; padding:6px 10px; cursor:pointer;}
+
+.event.located{cursor:pointer;}
+.event.located:hover .event-title{color:#fff;}
+.event.located:focus-visible{outline:1px solid var(--myth); outline-offset:4px;}
+@media (max-width:760px){ .drawer{position:absolute; right:0; top:0; bottom:0; z-index:7;} }
+@media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto !important;} }
+</style>
+</head>
+<body data-tab="timeline">
+<div class="tabbar">
+  <button class="tabbtn" data-tab="timeline" data-active="true" onclick="showTab('timeline')">Timeline</button>
+  <button class="tabbtn" data-tab="map" data-active="false" onclick="showTab('map')">Map</button>
+</div>
+<!--TIMELINE-->
+<div id="panel-map">
+  <div class="stage">
+    <iframe id="fmg" title="Map of Rodos in Azgaar's Fantasy Map Generator"></iframe>
+    <div class="loading" id="loading"><b>Opening the map of Rodos</b><span>Azgaar's Fantasy Map Generator is loading Rodos.map</span></div>
+    <button class="drawtoggle" id="drawtoggle" onclick="toggleDrawer()">Chronicle ◂</button>
+  </div>
+  <aside class="drawer" id="drawer" aria-label="Chronicle places">
+    <h2>The chronicle on the map</h2>
+    <p class="hint">Click an event to fly to where it happened. Click a marked place on the map to find its events here. The map itself is the full Fantasy Map Generator: pan, zoom, open layers and editors as usual.</p>
+    <div id="placelist"></div>
+  </aside>
+</div>
+
+<script>
+var PLACES = /*PLACES*/null;
+var AGES = [['myth','Age I · An Aois Àrsaidh','var(--myth)'], ['holy','Age II · An Aois Naomh','var(--holy)'],
+            ['sunder','Age III · An Aois Scaraidh','var(--sunder)'], ['colonial','Age IV · An Aois Choigreach','var(--colonial)'],
+            ['new','Age V · An Aois Ùr','var(--new)']];
+var ready = false, pending = null;
+
+function fmg(){ try { return document.getElementById('fmg').contentWindow; } catch(e){ return null; } }
+
+function showTab(name){
+  document.body.dataset.tab = name;
+  document.querySelectorAll('.tabbtn').forEach(function(b){ b.dataset.active = (b.dataset.tab === name) ? 'true' : 'false'; });
+  if (name === 'map') startMap();
+}
+
+/* ---- the map: Azgaar's own generator, loading Rodos.map from this folder ---- */
+var started = false;
+function startMap(){
+  if (started) return; started = true;
+  try { localStorage.setItem('version', 'FMG_VERSION'); } catch(e){}   // skip the generator's "what's new" window
+  var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'Rodos.map';
+  document.getElementById('fmg').src = 'fmg/index.html?maplink=' + encodeURIComponent(link);
+  var tries = 0, t = setInterval(function(){
+    var w = fmg(); tries++;
+    if (w && w.pack && w.pack.burgs && w.pack.burgs.length > 500 && w.zoomTo && w.Layers && w.document.getElementById('viewbox')) {
+      clearInterval(t); onMapReady(w);
+    } else if (tries > 240) { clearInterval(t);
+      document.getElementById('loading').innerHTML = '<b>The map did not load</b><span>Close this tab and run Rodos Atlas again.</span>'; }
+  }, 250);
+}
+
+function onMapReady(w){
+  ready = true;
+  document.getElementById('loading').hidden = true;
+  try { if (!w.Layers.isOn('markers')) w.Layers.show('markers'); } catch(e){}
+  // a click on a marked place in the map selects its events in the drawer
+  w.document.addEventListener('click', function(ev){
+    var el = ev.target;
+    while (el && el !== w.document) {
+      var m = el.id && /^marker(\d+)$/.exec(el.id);
+      var bid = el.dataset && el.dataset.id && el.closest && el.closest('#burgIcons') ? Number(el.dataset.id) : null;
+      var hit = placeFor(m ? 'marker' : (bid !== null ? 'burg' : null), m ? Number(m[1]) : bid);
+      if (hit) { selectPlace(hit, false); if (document.getElementById('drawer').hidden) toggleDrawer(); return; }
+      el = el.parentNode;
+    }
+  }, true);
+  if (pending) { var p = pending; pending = null; setTimeout(function(){ flyTo(p); }, 400); }
+}
+
+function placeFor(kind, i){
+  if (!kind) return null;
+  for (var id in PLACES) if (PLACES[id].kind === kind && PLACES[id].i === i) return id;
+  return null;
+}
+
+function flyTo(id){
+  var p = PLACES[id]; if (!p) return;
+  showTab('map');
+  if (!ready) { pending = id; return; }
+  var w = fmg();
+  w.zoomTo(p.x, p.y, 6, 1600);
+  mark(w, p.x, p.y);
+  selectPlace(id, true);
+}
+
+function mark(w, x, y){
+  var layer = w.document.getElementById('debug'); if (!layer) return;
+  var NS = 'http://www.w3.org/2000/svg', g = w.document.createElementNS(NS, 'g');
+  [0, 0.6, 1.2].forEach(function(delay){
+    var c = w.document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 2);
+    c.setAttribute('fill', 'none'); c.setAttribute('stroke', '#9d6bff'); c.setAttribute('stroke-width', 1.2);
+    c.innerHTML = '<animate attributeName="r" from="2" to="22" dur="1.8s" begin="' + delay + 's" repeatCount="2"/>' +
+                  '<animate attributeName="stroke-opacity" from="1" to="0" dur="1.8s" begin="' + delay + 's" repeatCount="2"/>';
+    g.appendChild(c);
+  });
+  var dot = w.document.createElementNS(NS, 'circle');
+  dot.setAttribute('cx', x); dot.setAttribute('cy', y); dot.setAttribute('r', 2.2);
+  dot.setAttribute('fill', '#9d6bff'); dot.setAttribute('stroke', '#fff'); dot.setAttribute('stroke-width', .6);
+  g.appendChild(dot);
+  layer.appendChild(g);
+  setTimeout(function(){ g.remove(); }, 6000);
+}
+
+/* ---- the drawer: every place the chronicle names, by age ---- */
+function esc(s){ var d = document.createElement('div'); d.innerHTML = s; return d.innerHTML; }
+function buildDrawer(){
+  var html = '';
+  AGES.forEach(function(a){
+    var ids = Object.keys(PLACES).filter(function(id){ return PLACES[id].cat === a[0]; });
+    if (!ids.length) return;
+    html += '<div class="agehead" style="color:' + a[2] + '">' + a[1] + '</div>';
+    ids.forEach(function(id){
+      var p = PLACES[id];
+      html += '<div class="place" id="place-' + id + '" style="--dot:' + a[2] + '"><h3 onclick="flyTo(\'' + id + '\')">' + p.name + '</h3>' +
+        p.events.map(function(e){ return '<button class="ev" onclick="flyTo(\'' + id + '\')"><span class="d">' + e.date + '</span><span class="t">' +
+          e.title + '</span></button>'; }).join('') + '</div>';
+    });
+  });
+  document.getElementById('placelist').innerHTML = html;
+}
+function selectPlace(id, scroll){
+  document.querySelectorAll('.place.sel').forEach(function(n){ n.classList.remove('sel'); });
+  var n = document.getElementById('place-' + id); if (!n) return;
+  n.classList.add('sel'); n.scrollIntoView({block: 'nearest', behavior: scroll ? 'smooth' : 'auto'});
+}
+function toggleDrawer(){
+  var d = document.getElementById('drawer'); d.hidden = !d.hidden;
+  document.getElementById('drawtoggle').textContent = d.hidden ? 'Chronicle ▸' : 'Chronicle ◂';
+}
+
+/* ---- the timeline: every event with a place is a link to the map ---- */
+function jumpToMap(id){ flyTo(id); }
+function togglePopup(){}
+function wireTimeline(){
+  document.querySelectorAll('#panel-timeline .event').forEach(function(ev){
+    var b = ev.querySelector('.maplink'); if (!b) return;
+    var id = (/jumpToMap\('(\w+)'\)/.exec(b.getAttribute('onclick')) || [])[1]; if (!id || !PLACES[id]) return;
+    ev.classList.add('located'); ev.tabIndex = 0; ev.setAttribute('role', 'link');
+    ev.title = 'Show ' + PLACES[id].name.replace(/<[^>]+>/g, '') + ' on the map';
+    b.onclick = function(e){ e.stopPropagation(); flyTo(id); };
+    ev.addEventListener('click', function(){ flyTo(id); });
+    ev.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flyTo(id); } });
+  });
+}
+buildDrawer();
+wireTimeline();
+</script>
+</body>
+</html>

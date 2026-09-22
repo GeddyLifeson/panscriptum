@@ -60,9 +60,11 @@ tflag = sorted({w for t in texts for p in t['paras'] for w in words(p) if R.chec
 print('      caol le caol in texts: %s' % (', '.join(tflag) or 'none'))
 
 # 4. map
-lines = open(os.path.join(HERE, 'Rodos_finished.map'), encoding='utf-8').read().split('\n')
+# 53 CRLF-joined records in Azgaar's save order (see finish_map.py); the SVG is record 5
+lines = open(os.path.join(HERE, 'Rodos_finished.map'), encoding='utf-8', newline='').read().split('\r\n')
+check(len(lines) == 53, 'map: 53 CRLF-separated records, as Azgaar writes them (%d)' % len(lines))
 parsed = {}
-for n in (137, 139, 140, 154, 155, 157, 160, 162, 163, 177):
+for n in (12, 14, 15, 29, 30, 32, 35, 37, 38, 52):
     try:
         parsed[n] = json.loads(lines[n])
     except Exception as e:  # noqa: BLE001
@@ -71,12 +73,12 @@ for n in (137, 139, 140, 154, 155, 157, 160, 162, 163, 177):
 check(all(v is not None for v in parsed.values()), 'map: every rewritten section parses')
 OLD = ['Luteley', 'Grantesham', 'Kiverton', 'Marltash', 'Albridge', 'Penrith', 'Towbigham', 'Hatlexe', 'Uxblean',
        'Tuton', 'Clitle', 'Shkell', 'Seann Dhunn', 'Seann Tharr', 'Seann Tholl', 'City-State Rodos', 'Wincland']
-left = [w for w in OLD if any(w in lines[n] for n in list(parsed) + [126])]
+left = [w for w in OLD if any(w in lines[n] for n in list(parsed) + [5])]
 check(not left, 'map: no pre-Ròdais name left (%s)' % (', '.join(left) or 'none'))
-burgs = {b['i']: b['name'] for b in parsed[140] if isinstance(b, dict) and b.get('name')}
-labels = re.findall(r'<text id="burgLabel\d+" data-label-type="burg" data-id="(\d+)"[^>]*>([^<]*)</text>', lines[126])
+burgs = {b['i']: b['name'] for b in parsed[15] if isinstance(b, dict) and b.get('name')}
+labels = re.findall(r'<text id="burgLabel\d+" data-label-type="burg" data-id="(\d+)"[^>]*>([^<]*)</text>', lines[5])
 check(labels and all(burgs.get(int(i)) == t for i, t in labels), 'map: all %d saved burg labels match their burgs' % len(labels))
-names = [o['name'] for n in (137, 140, 154, 155, 157, 160, 162, 163) for o in parsed[n] if isinstance(o, dict) and o.get('name')]
+names = [o['name'] for n in (12, 15, 29, 30, 32, 35, 37, 38) for o in parsed[n] if isinstance(o, dict) and o.get('name')]
 check(all(R.normalize(x) == x for x in names), 'map: every name in Ròdais spelling (%d names)' % len(names))
 mflag = sorted({w for x in names for w in words(x) if R.check_agreement(w)})
 check(not mflag, 'map: every name obeys caol le caol (%s)' % (', '.join(mflag) or 'no exceptions'))

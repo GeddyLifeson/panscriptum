@@ -1,6 +1,6 @@
 # Map changes (finish_map.py)
 
-Input `Rodos_renamed.map`, output `Rodos_finished.map`. 425 changes.
+Input `Rodos_renamed.map`, output `Rodos_finished.map`. 426 changes.
 
 Old names left anywhere in the rewritten sections: none.
 
@@ -438,10 +438,17 @@ Words in map names that break caol le caol: none.
 | Watches kept in the grasslands | Faire anns na raointean feòir |
 | On to Wazion | Air adhart gu Inis thais |
 
+## capital (1)
+
+| before | after |
+|---|---|
+| Caol leathan (capital) | Caol leathan (city) |
+
 ## burg label (52)
 
 | before | after |
 |---|---|
+| Maltonta | Caol leathan |
 | Watchtonor | Inis mhòr |
 | Horsbury | Ceann leathan |
 | Stanswest | Cathair mhòr |
@@ -493,7 +500,6 @@ Words in map names that break caol le caol: none.
 | Sokere | Seann Dunn |
 | Cleoliton | Baile Mòr ruadh |
 | Luteley | Cathair dhearg |
-| Maltonta | Caol leathan |
 
 ## state label (1)
 
