@@ -51,7 +51,7 @@ The Keepers' ruling that no ore might feed a beacon ({{date:II-0029}}). It held 
 > "The Keepers rule that no ore may feed a beacon, since a beacon burns for strangers." — annals, {{year:II-0029}}
 
 **Cha tàinig long** *phr.* · lit. "no ship came"
-The entry in the beacon-keepers' daybooks after the Severance, when the council had the five beacons relit ({{date:IV-0375}}).
+The entry in the beacon-keepers' daybooks from the Severance on, after the council had the five beacons relit ({{date:IV-0375}}).
 > "The keepers' daybooks, which had counted human ships since the ring was finished, continue to be kept, with nothing in them." — annals, {{year:IV-0375}}
 
 **Chaidh a' mhèinn dhachaigh** *phr.* · lit. "the ore went home"
@@ -107,7 +107,7 @@ A rough first attempt that looked like a dead end and later mattered; used in an
 #### F
 
 **fadachadh** *v.n. m.* · lit. "lengthening", from *fadaich*, *fada*
-To be crushed after holding out too long; *am fadachadh*, a total defeat in one season. Narrowed by An Cogadh Fada, from Àth leathan ({{date:V-0318}}) to Muileann ghlas ({{date:V-0352}}), and first heard among Tuathaich speakers of their own defeat ({{date:V-0356}}).
+To be crushed after holding out too long; *am fadachadh*, a total and final defeat. Narrowed by An Cogadh Fada, from Àth leathan ({{date:V-0318}}) to Muileann ghlas ({{date:V-0352}}), and first heard among Tuathaich speakers of their own defeat ({{date:V-0356}}).
 > "…'chaidh am fadachadh', they got long-warred… It is said as a joke, and the people who say it do not laugh." — annals, {{year:V-0356}}
 
 **faire-obrach** *n. f.* · lit. "work-watch"

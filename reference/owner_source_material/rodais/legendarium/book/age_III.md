@@ -45,7 +45,7 @@ In {{year:III-0015}} the households on the roll met at Seann Skell and chose the
 
 Masons came from the capital to lengthen the west quay at Seann Skell with dressed stone, so that the deep hulls could lie alongside at low water. No one then knew that the later rite would be held on those stones.
 
-In {{year:III-0018}}, the last year before the Diosal, the whole enterprise nearly came apart over grain: how much of the island's stored harvest might the departing ships take? The chronicle says the dispute was resolved within a season, and that how it was resolved is unrecorded. One piece of it survives. At Àth shean, while the quarrel was still open, the reeve of the granaries, Tormod mac Coinnich, barred the store-houses and set a watch on them until the matter was settled. Tormod is not recorded as holding office afterward. When it was settled, a tally-keeper at Drochaid Cathair dhearg counted forty-one grain barges passing down Abhainn dhomhain for the fleet.
+In {{year:III-0018}}, with the Diosal little more than a year off, the whole enterprise nearly came apart over grain: how much of the island's stored harvest might the departing ships take? The chronicle says the dispute was resolved within a season, and that how it was resolved is unrecorded. One piece of it survives. At Àth shean, while the quarrel was still open, the reeve of the granaries, Tormod mac Coinnich, barred the store-houses and set a watch on them until the matter was settled. Tormod is not recorded as holding office afterward. When it was settled, a tally-keeper at Drochaid Cathair dhearg counted forty-one grain barges passing down Abhainn dhomhain for the fleet.
 
 By the spring of that year the fleet lay complete at Seann Skell. The custody-book gives it as nineteen hulls. A later hand in the margin corrects this to twenty-one, and no one since has been able to settle which is right.
 
@@ -75,7 +75,7 @@ In {{year:III-0030}} the vein-house counted again the households that held the r
 
 The next year Rodos made a rite for the departed, which the chronicle calls the Mourning Custom. It was not quite grief and not quite celebration. Queen Beathag kept it first for her sister, in undyed wool, with one place set empty at a meal that was neither feast nor fast. The court called it an Tùrsa Geal, the white sorrow, and by the next generation it was kept in every harbour town on the island. It would be taken up again, uneasily, for a very different departure in a much later age, and that belongs to its own book.
 
-Three years after, the island reshaped itself around what was left. With part of the ore-bonded people gone, the custodian class became smaller and more concentrated, and that is the shape every later aristocracy of Rodos inherits. Early in {{year:III-0034}} the remaining custodian households were regrouped into seven houses, each answerable to the vein-house for its share of the ore and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. The keepers ask the reader to mark that list. It is the first division in the record to treat the right to the ore as something inherited by house rather than earned by apprenticeship.
+The year after, the island reshaped itself around what was left. With part of the ore-bonded people gone, the custodian class became smaller and more concentrated, and that is the shape every later aristocracy of Rodos inherits. In {{year:III-0034}} the remaining custodian households were regrouped into seven houses, each answerable to the vein-house for its share of the ore and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. The keepers ask the reader to mark that list. It is the first division in the record to treat the right to the ore as something inherited by house rather than earned by apprenticeship.
 
 Queen Beathag died at Cathair dhearg in the summer of that year, the last ruler of Rodos to have seen the fleet. Her son Raghnall mac Uilleim was crowned in the same hall.
 
@@ -83,12 +83,12 @@ Then came the long work of getting used to it. At Seann Skell a ceremony grew up
 
 By {{year:III-0040}} Seann Skell had found a way to go on trading. The dock the ships had left from was given a new name so that ordinary trade could keep using the old one without the association. The chronicle calls it an act of managed forgetting. In the harbour rolls the departure berth became Cidhe an Diosail, the quay of the sunwise turn, and the name Cidhe an Iar passed to the new fish-wharf at the north end of the strand, where within a few years the fishers used it without a thought.
 
-The language kept what the harbour put away. From {{year:III-0042}} the custody-book uses the verb *roghnaich*, to choose, with no object at all, meaning to have chosen the crossing, and the next century's scribes use it so without explaining it. Two years later the chronicle marks the first generation never to have seen the harbour with those ships in it. For them the departure was no longer an event but a fact of history. A saying of the western shore claims to come from about this time:
+The language kept what the harbour put away. From {{year:III-0042}} the custody-book uses the verb *roghnaich*, to choose, with no object at all, meaning to have chosen the crossing, and the next century's scribes use it so without explaining it. That same year the chronicle marks the first generation never to have seen the harbour with those ships in it. For them the departure was no longer an event but a fact of history. A saying of the western shore claims to come from about this time:
 
 > *Is fhada an cuan, is goirid a' chuimhne.*
 > Long is the sea, and short is memory.
 
-Alasdair Saor died at Seann Skell the next summer. His last work was a coasting trader of the old sewn-plank kind, built for a fish merchant of Inis àrsaidh. Nine years later his fellowship quietly dissolved, since no one wanted ocean-going hulls any more, and its techniques were half forgotten by the time anyone thought to need them again. Its patterns and keel-moulds were broken up and burned as firewood in a hard season. The harbour-master noted the loss of the shed and said nothing of what had been in it.
+Alasdair Saor died at Seann Skell at the end of that summer. His last work was a coasting trader of the old sewn-plank kind, built for a fish merchant of Inis àrsaidh. Seventeen years later his fellowship quietly dissolved, since no one wanted ocean-going hulls any more, and its techniques were half forgotten by the time anyone thought to need them again. Its patterns and keel-moulds were broken up and burned as firewood in a hard season. The harbour-master noted the loss of the shed and said nothing of what had been in it.
 
 In {{year:III-0047}} the seven houses drew lots at the vein-house for the galleries each would keep, and the lot-stones were shown to visitors at Muileann dhearg for centuries after. Doire fhionn, its oaks gone to the fleet, began to coppice its woods, and the law spread to every shire with a *doire* in its name.
 
@@ -99,7 +99,7 @@ At Seann Skell the waterfront kept the night of lamps every year on the eve of t
 > A light on the window,
 > a light till they come home.
 
-Donnchadh mac Thormoid died at Muileann dhearg in {{year:III-0050}}. His last entry is a list of the ore burned that season, household by household, in the same hand as his first. That autumn King Raghnall died after a long and uneventful reign, and his son Ìomhar mac Raghnaill was crowned. The custody-book gives Raghnall's reign a single line. After the shaking of its first years the age seems to have wanted no more than that.
+Donnchadh mac Thormoid died at Muileann dhearg in {{year:III-0050}}. His last entry is a list of the ore burned that season, household by household, in the same hand as his first. Sixteen years later, in {{year:III-0051}}, King Raghnall died after a long and uneventful reign, and his son Ìomhar mac Raghnaill was crowned. The custody-book gives Raghnall's reign a single line. After the shaking of its first years the age seems to have wanted no more than that.
 
 ## V. Of Hawks and Wolves, and the Firlot of Cathair dhearg
 

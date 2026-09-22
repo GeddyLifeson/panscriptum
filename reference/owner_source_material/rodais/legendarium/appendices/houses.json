@@ -6,12 +6,12 @@
    {"id": "cf1", "name": "Lachlann mac Fhearchair", "parent": null, "born_between": [78, 88], "died_between": [130, 150], "note": "Father of the first king of the house; the house roll gives his name and nothing more."},
    {"id": "cf2", "name": "Fearchar mac Lachlainn", "parent": "cf1", "spouse": "Eilidh nic Dhùghaill", "born_between": [108, 118], "died_between": [172, 172], "note": "Chosen by the heads of the seven houses and crowned at Cathair dhearg {{date:III-0058}}; kept part of each year's court at Baile Mòr dhomhain."},
    {"id": "cf3", "name": "Iain mac Lachlainn", "parent": "cf1", "born_between": [112, 125], "died_between": [165, 185], "note": "The king's younger brother; kept the house's hall at Baile Mòr dhomhain in the seasons the court was away."},
-   {"id": "cf4", "name": "Fearchar Donn", "parent": "cf2", "spouse": "Mòrag nic Iain", "born_between": [145, 155], "died_between": [222, 229], "note": "Crowned after his father without dispute, {{date:III-0061}}."},
+   {"id": "cf4", "name": "Fearchar Donn", "parent": "cf2", "spouse": "Mòrag nic Iain", "born_between": [145, 155], "died_between": [215, 222], "note": "Crowned after his father without dispute, {{date:III-0061}}."},
    {"id": "cf5", "name": "Mòr nic Fhearchair", "parent": "cf2", "born_between": [140, 155], "died_between": [190, 215], "note": "Sister of Fearchar Donn; given in marriage to a man of Clann Ìomhair at Dùn dhearg."},
    {"id": "cf6", "name": "Gormshuil nic Iain", "parent": "cf3", "born_between": [145, 160], "died_between": [200, 225], "note": "Named in the house roll among those who swore to Fearchar Donn."},
    {"id": "cf7", "name": "Seumas mac Iain", "parent": "cf3", "born_between": [150, 165], "died_between": [205, 235], "note": "A reeve of the house's grazing below the pass; nothing else is recorded."},
-   {"id": "cf8", "name": "Lachlann Òg mac Fhearchair", "parent": "cf4", "born_between": [196, 205], "died_between": [210, 220], "note": "Elder brother of Sìleas; died young, before his father."},
-   {"id": "cf9", "name": "Sìleas nic Fhearchair", "parent": "cf4", "spouse": "Dùghall", "born_between": [206, 212], "died_between": [285, 285], "note": "Queen after her father; fixed the firlot of Cathair dhearg, {{date:III-0069}}; reigned more than half a century."},
+   {"id": "cf8", "name": "Lachlann Òg mac Fhearchair", "parent": "cf4", "born_between": [190, 197], "died_between": [205, 214], "note": "Elder brother of Sìleas; died young, before his father."},
+   {"id": "cf9", "name": "Sìleas nic Fhearchair", "parent": "cf4", "spouse": "Dùghall", "born_between": [198, 205], "died_between": [285, 285], "note": "Queen after her father; fixed the firlot of Cathair dhearg, {{date:III-0069}}; reigned more than half a century."},
    {"id": "cf10", "name": "Eilidh nic Sheumais", "parent": "cf7", "born_between": [185, 200], "died_between": [250, 275], "note": "Kept the house roll at Baile Mòr dhomhain in Queen Sìleas's reign; the roll is lost and is known only from a later copy."}
   ]
  },

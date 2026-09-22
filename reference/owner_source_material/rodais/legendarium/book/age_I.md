@@ -111,9 +111,9 @@ made well. Let that be remembered of them also.
 
 ## Of the Three Ruins and the Deep Shafts
 
-In the one year that the reckoning calls {{year:I-0032}}, the annals set as many works and wonders as
-in any year of the age. The chroniclers do not believe these all fell in a single turning of the
-sun. The year is a mark, not a witness: it holds together what the tellings hold together, a time
+In the three centuries that the reckoning opens at {{year:I-0032}}, the annals set as many works and
+wonders as in any stretch of the age. The chroniclers do not trust the reckoning's spacing of them to
+the year. The dates are marks, not witnesses: they hold together what the tellings hold together, a time
 when great works went up inland and great fears came in from the sea.
 
 On a spur above the ground where Cathair mhòr now stands, a walled outpost was raised, which later
@@ -359,7 +359,7 @@ the fact of it kept. It broke the shell causeway of Seann Warr in three places, 
 not mend it. Then came **Fearchar Bacach**, the lame king, carried to the gatherings in a chair of woven
 birch, the first ruler on Rodos remembered for a hurt. On the Red Hill, **Uisdean Mòr** dug a ditch
 across the neck of the hill and set a palisade on it, which burned twice and was twice rebuilt; and
-**Seonag nic Uisdein** after him counted her people by pebbles in a bag, one to a household, and knew by
+**Seonag nic Uisdein**, generations after him, counted her people by pebbles in a bag, one to a household, and knew by
 the weight when a household had gone.
 
 The first war in either list was a raid for salt. **Mòrag Chruaidh**, fifth of the Stone Kings, went down
@@ -472,9 +472,9 @@ anywhere.
 There was one who spoke against the doctrine. On {{date:I-0167}}, at the ford gathering, a teller
 from the western coast named **Anndra Breac** recited a telling in which the people came to Rodos over the
 sea. The households of the hills shouted him down, and he was put out of the ford for the rest of his life.
-His telling was not kept; only the fact of it. The chroniclers note, and weigh nothing by it, that in that
-same month planks of stitched boats broken small had washed up along the western shore, with no bodies and
-no boat missing from any settlement there; and that the Sea-Watcher had been seen from the tower at Seann
+His telling was not kept; only the fact of it. The chroniclers note, and weigh nothing by it, that in the
+month before, planks of stitched boats broken small had washed up along the western shore, with no bodies and
+no boat missing from any settlement there; and that that spring the Sea-Watcher had been seen from the tower at Seann
 Skell, a back as long as three boats, by four witnesses. They note it because it is in the annals. The
 reader should draw nothing from it either.
 
@@ -504,7 +504,7 @@ there. Pilgrims sat a night at the edge of Coille Naomh Muileann chiar without e
 to the warm springs of Muileann ruadh, where the oldest cure-telling on Rodos is set: a herder who came lame
 and walked home.
 
-Then, over some thousand years, the Ròdaich filled the island; the annals give each place its settling,
+Then, over nearly two thousand years, the Ròdaich filled the island; the annals give each place its settling,
 and this book names only enough to show the shape of it. Baile chrom, emptied by the old hunger, was settled
 again from Cnoc ghorm. Caol mhòr was built on the Old Ones' middens. A salt road ran from the pans of Baile
 ghorm through the ford to Muileann àrsaidh, where salt sold at three times its price. Dùn thais was banked,
@@ -534,7 +534,7 @@ shared surplus held, and the record counts no deaths.
 
 And east of the vein a double-banked fort was raised at Dùn dhearg by households who owed nothing to Dùn ìseal.
 The Stone Kings' list does not name its holders. It says only that Dùn dhearg did not come to the gatherings,
-until in the time the tellings give to Catrìona Mhòr its people came to the ford with seal-skins, asking for
+until in the lifetime the tellings give to Catrìona Mhòr, before ever she held Dùn ìseal, its people came to the ford with seal-skins, asking for
 salt, and were given ground on the far bank. The last settlings of the age went up at Inis mhòr, whose two
 facing rows of houses are the oldest street on Rodos; at Baile gheal, round a house limed white with shells
 burned from the Old Ones' middens; and at Àth bheag, the easternmost place of the age, whose boats went out to

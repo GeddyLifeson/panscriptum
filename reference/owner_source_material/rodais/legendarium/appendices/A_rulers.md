@@ -78,13 +78,13 @@ The tables give only rulers whom the record names. Where a list says that names 
 | *nine rulers of the house of Tormod* | | | | ({{year:II-0189}}) | Names and years only; the rolls record harvests, tolls and bridges |
 | Anna Ruadh | the red | house of Tormod | — | {{year:II-0205}} – {{year:II-0212}} | Walked the road circuit twice; chartered the sunny house; kept a wood-watcher at court |
 | Coinneach Bàn | the fair | house of Tormod | her son | {{year:II-0212}} – — | Ruled long and quietly; the laws copied for every province |
-| Mòr nic Coinnich | — | house of Tormod | granddaughter of Coinneach Bàn; the stone cup set in her hands | {{year:II-0247}} – c. {{reckonyear:-57:-40:A-mor-nic-coinnich-end}} | The last name in the king-list of the Holy Age |
+| Mòr nic Coinnich | — | house of Tormod | granddaughter of Coinneach Bàn; the stone cup set in her hands | {{year:II-0247}} – c. {{reckonyear:-50:-40:A-mor-nic-coinnich-end}} | The last name in the king-list of the Holy Age |
 
 **The crowned rulers of the Age of Sundering.** From the king-list as recopied under Eilidh Bhàn ({{date:III-0135}}) and from the custody-book of the vein-house. Every crowning in this age was at Cathair dhearg.
 
 | Name | Byname | House | How they came to rule | Reign | The reign |
 |---|---|---|---|---|---|
-| Beathag nic Dhòmhnaill | — | line of Beathag (of the house of Tormod through her mother) | daughter of Mòr nic Coinnich | c. {{reckonyear:-57:-40:A-mor-nic-coinnich-end}} – {{year:III-0035}} | Neither sent nor kept back the fleet; struck her sister's line from the succession; kept the white sorrow |
+| Beathag nic Dhòmhnaill | — | line of Beathag (of the house of Tormod through her mother) | daughter of Mòr nic Coinnich | c. {{reckonyear:-50:-40:A-mor-nic-coinnich-end}} – {{year:III-0035}} | Neither sent nor kept back the fleet; struck her sister's line from the succession; kept the white sorrow |
 | Raghnall mac Uilleim | — | line of Beathag | her son | {{year:III-0035}} – {{year:III-0051}} | Long and uneventful; one line in the custody-book |
 | Ìomhar mac Raghnaill | — | line of Beathag | his son | {{year:III-0051}} – {{year:III-0057}} | Died with no living child; the line of Beathag ends |
 | Fearchar mac Lachlainn | — | Clann Fhearchair, of Baile Mòr dhomhain | chosen by the heads of the seven houses | {{year:III-0058}} – {{year:III-0061}} | The first crowning decided by the houses; the double court at Baile Mòr dhomhain |
@@ -107,10 +107,10 @@ The tables give only rulers whom the record names. Where a list says that names 
 | Ailean mac Raghnaill | — | Clann Raghnaill | — | — – {{year:III-0176}} | Left two sons of different mothers, each told he was the heir |
 | *the Brothers' War* | | | | {{year:III-0177}} – {{year:III-0180}} | Iain Ciar against Alasdair Bàn; the houses divided four to three |
 | Iain Ciar | the dusky | Clann Raghnaill | won the war; crowned at the peace of An Taigh-seinnse Mòr | {{year:III-0180}} – {{year:III-0185}} | The grain law, which lapsed after him as he had foreseen |
-| Catrìona Bheag | the small | Clann Raghnaill | — | {{year:III-0195}} – — | The first queen in more than three centuries; renewed the oath of the seven |
+| Catrìona Bheag | the small | Clann Raghnaill | — | {{year:III-0195}} – — | The first queen in some three centuries; renewed the oath of the seven |
 | Sìleas Òg | the young | Clann Raghnaill | — | {{year:III-0205}} – — | The first ruler to visit every shire seat; a new census of hands |
 | Ailean mac Raghnaill | the fourth of the name | Clann Raghnaill | — | {{year:III-0211}} – {{year:III-0213}} | The shortest reign in the king-list |
-| Mòrag nic Ailein | — | Clann Raghnaill | his sister | {{year:III-0213}} – c. {{reckonyear:1603:1607:A-morag-nic-ailein-end}} | Forty years of good harvests and the rite |
+| Mòrag nic Ailein | — | Clann Raghnaill | his sister | {{year:III-0213}} – c. {{reckonyear:1589:1593:A-morag-nic-ailein-end}} | Forty years of good harvests and the rite |
 | Tormod mac Ruairidh | — | Clann Raghnaill | — | {{year:III-0222}} – {{year:III-0231}} | Roads and bridges; a reign of more than fifty years |
 | Gormshuil nic Thormoid | — | Clann Raghnaill | his daughter | {{year:III-0231}} – — | Went round every shire seat and answered no grievance in writing; the last crowned ruler of the age |
 
@@ -131,7 +131,7 @@ The tables give only rulers whom the record names. Where a list says that names 
 | Henry Maddox | sent with orders to double the yield | {{year:IV-0069}} – {{year:IV-0099}} | Bought the oaks of Cathair fhada for pit-props; left a rich man |
 | Arthur Lisle | a lawyer, sent to replace Maddox | {{year:IV-0099}} – {{year:IV-0135}} | Bound every agreement in one book; signed the Silver Compact; died at the Residency |
 | Walter Crane | the Company's chief agent, appointed in Lisle's place | {{year:IV-0135}} – {{year:IV-0159}} | The pay office at Ceann mhin; walked the camps in the Green Death and died of it |
-| Martha Gale | the Company's agent at Ros dhomhain; held the seal | {{year:IV-0159}} – {{year:IV-0160}} | Held the seal for the months until a successor came |
+| Martha Gale | the Company's agent at Ros dhomhain; held the seal | {{year:IV-0159}} – {{year:IV-0160}} | Held the seal for a year and more, until a successor came |
 | George Tolley | sent from an Tìr Thall | {{year:IV-0160}} – {{year:IV-0202}} | Never visited the camps; retired with honours |
 | Robert Haskins | successor to Tolley | {{year:IV-0202}} – {{year:IV-0235}} | Set the tithe before the council met; recalled after a quarrel with the Company |
 | Edward Vane | the first Commissioner born on Rodos | {{year:IV-0235}} – {{year:IV-0259}} | The tram-road to Ros dhìreach; spoke Ròdais badly, but at all; died at the Residency |
@@ -163,7 +163,7 @@ Before the Binding, Rodos kept its rulers only in recitation. The Stone Kings' l
 
 A third office ran beside the two lines and answered to neither. From {{date:I-0151}} the keeper of the slab over the crack was chosen by lot. When Calum Ciar asked for the lot to be drawn in his sight, the households refused him, and from then on the Stone Kings ruled the grazing and not the vein ({{date:I-0158}}).
 
-Catrìona Mhòr is the hardest name in either list. The tellings set three things "in her time": the first coming of Dùn dhearg to the ford, the first recital of both lists together, and the keepers' request that their charge be declared ({{date:I-0255}}). The reckoning puts those three more than a lifetime apart. The Library does not know whether the name covers more than one holder, or whether the tellings drew several reigns' deeds to one famous name. Both lists end in her generation. The Holy Age says the Binding came "centuries before anything like a king" ({{date:II-0001}}). The Hall that kept that saying did not count the holders of the hills as kings, and the name *Rìghrean na Cloiche* is the later scribes'.
+Catrìona Mhòr is the hardest name in either list. The tellings set three things "in her time": the first coming of Dùn dhearg to the ford, the first recital of both lists together, and the keepers' request that their charge be declared ({{date:I-0255}}). The reckoning spreads those three over more than half a century: a long reign, but not a longer one than a life can hold. The Library does not know whether one holder saw all three or the tellings drew a neighbour's deeds to one famous name. Both lists end in her generation. The Holy Age says the Binding came "centuries before anything like a king" ({{date:II-0001}}). The Hall that kept that saying did not count the holders of the hills as kings, and the name *Rìghrean na Cloiche* is the later scribes'.
 
 ### III. The Holy Age: the Keepers and the Kings
 
@@ -171,13 +171,13 @@ The Keepers came first. The nine hearths chose each one, and for many generation
 
 Kingship began in the granaries of Dùn dhearg. The households who ate Sliochd Ìomhair's grain called Goraidh mac Ìomhair their *rìgh* ({{date:II-0077}}), and he took care to claim nothing over the vein. By the division of keeping, the rìgh held the roads, the granaries and the lowland peace, and the Keeper held the rest ({{date:II-0078}}). The early rulers were rulers of roads, and the first war between Ròdaich, Iain Garbh's War of the Roads, was fought over tolls.
 
-The king-list says plainly where it fails. It gives eleven bare names after Catrìona Ghlic ({{date:II-0108}}) and nine after Tormod Òg ({{date:II-0189}}), and Tormod Scrìobhaiche marked which of his names came from reciters ({{date:II-0112}}). Where the reckoning gives one named reign more years than a life can hold, the Library takes it that the reciters' names stand for more reigns than they name, and does not correct them.
+The king-list says plainly where it fails. It gives eleven bare names after Catrìona Ghlic ({{date:II-0108}}) and nine after Tormod Òg ({{date:II-0189}}), and Tormod Scrìobhaiche marked which of his names came from reciters ({{date:II-0112}}). The reckoning gives Goraidh Mòr, his daughter, her son and his niece some eighty years of rule apiece before the niece's son, Iain Garbh, takes the hall: more years than four lives in one line can hold one after another. There, as wherever the reckoning outruns the lives of the named, the Library takes it that the reciters' names stand for more reigns than they name, and does not correct them.
 
 Beathag Mhòr, the first *banrìgh*, moved the seat to Cathair dhearg ({{date:II-0135}}). When Oighrig nic Lachlainn died without an heir, the Four Houses met at Dùn ìseal, and the Keeper set the stone cup in the hands of Gilleasbuig Mòr of Sliochd Thormoid ({{date:II-0185}}). The house of Tormod held the red hall from then to the close of the age. Mòr nic Coinnich took the cup from the Keeper in the same way, and her name closes the king-list.
 
 ### IV. The Age of Sundering: the Crown and the Houses
 
-Queen Beathag nic Dhòmhnaill would neither send anyone across the water nor keep anyone back ({{date:III-0005}}). Her sister Mòrag went, as a leader of the departed, and seven years after the Setting-Out the queen struck Mòrag's line from the succession "as persons no longer on Rodos" ({{date:III-0028}}). Beathag's own line ended with her grandson Ìomhar.
+Queen Beathag nic Dhòmhnaill would neither send anyone across the water nor keep anyone back ({{date:III-0005}}). Her sister Mòrag went, as a leader of the departed, and six years after the Setting-Out the queen struck Mòrag's line from the succession "as persons no longer on Rodos" ({{date:III-0028}}). Beathag's own line ended with her grandson Ìomhar.
 
 From then on the seven houses made the kings whenever blood failed. They chose Fearchar mac Lachlainn of Clann Fhearchair ({{date:III-0058}}), and the crown passed through Sìleas nic Fhearchair to her son's line. That line ended with Tormod Bàn, who died without naming an heir. In the War of the Three Claimants that followed, Raghnall Ruadh, master of the vein-house, used the ore itself as a weapon ({{date:III-0109}}). Catrìona Bhuadhach won the crown and bound it, and the custodians with it, never to withhold the handful from a lawful hearth ({{date:III-0113}}).
 
