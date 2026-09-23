@@ -872,6 +872,18 @@
   ]
  },
  {
+  "id": "III-0070a",
+  "canon": false,
+  "title": "The market charter of Cathair fhada",
+  "body": "Queen Sìleas grants Cathair fhada a market each week on its ridge and a tally-house for the south, the first market right cut on paired sticks. The long city's merchants carry the honey, hemp, wax and pots of the south to the capital, and they begin to go to the harvest fair at Muileann òg as one company.",
+  "place": "burg:297",
+  "kind": "law",
+  "between": [
+   246,
+   250
+  ]
+ },
+ {
   "id": "III-0071",
   "canon": false,
   "title": "Drochaid Cathair dhearg widened",
@@ -899,7 +911,7 @@
   "id": "III-0073",
   "canon": false,
   "title": "An Leòmhann Buidhe on the north road",
-  "body": "An Leòmhann Buidhe, a road-house on the northern mining road, is recorded as serving fried olives and fire water to the ore-carters. Its keeper is fined for watering the fire water.",
+  "body": "An Leòmhann Buidhe, a road-house on the northern mining road, is recorded as serving oatcakes fried in linseed oil, and fire water, to the ore-carters. Its keeper is fined for watering the fire water.",
   "place": "marker:7",
   "kind": "trade",
   "between": [
@@ -1085,6 +1097,18 @@
   "between": [
    365,
    415
+  ]
+ },
+ {
+  "id": "III-0088a",
+  "canon": false,
+  "title": "The market inside the new gate",
+  "body": "Seann Skell on the Hawk bay is walled, and a market is chartered inside the new landward gate. Amber, whale-oil, honey and the sheep of the northern moors are sold there, and the amber-workers of the bay agree to sell no rough amber outside the walls.",
+  "place": "burg:132",
+  "kind": "trade",
+  "between": [
+   391,
+   401
   ]
  },
  {
@@ -1399,7 +1423,7 @@
   "id": "III-0114",
   "canon": false,
   "title": "Catrìona's road south",
-  "body": "Queen Catrìona has the road from the capital south by Am Buabhall Fortanach laid with stone, so that her own town of Inis thais may be reached in any weather. The road is known as Rathad na Banrighinn.",
+  "body": "Queen Catrìona has the road from the capital south by Baile shean and Am Buabhall Fortanach at Doire shean laid with stone, so that her own town of Inis thais may be reached in any weather. The road is known as Rathad na Banrighinn.",
   "place": "marker:5",
   "kind": "building",
   "between": [
@@ -1465,6 +1489,18 @@
   "between": [
    575,
    615
+  ]
+ },
+ {
+  "id": "III-0119a",
+  "canon": false,
+  "title": "The feast-market at Seann Tarr",
+  "body": "The crowds that come to the ancestor shrine at Seann Tarr for the great feasts begin to hold a market on the three feast days. Its chief goods are honey, beeswax for the shrine lights and the dyes of Baile fhiadhaich. The wax lights of Seann Tarr are soon burned at ancestor shrines along the whole north-eastern coast.",
+  "place": "burg:34",
+  "kind": "trade",
+  "between": [
+   596,
+   614
   ]
  },
  {
@@ -1553,6 +1589,18 @@
   "between": [
    665,
    705
+  ]
+ },
+ {
+  "id": "III-0126a",
+  "canon": false,
+  "title": "The market of the eastern road",
+  "body": "Baile Mòr dhìreach, the citadel on the eastern straight road, is given a market for the east coast. The fish and sail-cloth of the coast towns meet the furs, hides and dyes of the hills there, and the dyers of Baile Mòr ruadh sell their colours nowhere else.",
+  "place": "burg:136",
+  "kind": "trade",
+  "between": [
+   686,
+   699
   ]
  },
  {
@@ -1664,6 +1712,18 @@
   ]
  },
  {
+  "id": "III-0135a",
+  "canon": false,
+  "title": "The strand-market at Àth fhionn",
+  "body": "Àth fhionn, the ford town where the coast road crosses the clear river, holds a market on the strand for the north coast. Fish, the flesh and oil of stranded whales, wool and barley are sold there, and the fishers of the north coast stop carrying their catch to Inis mhòr.",
+  "place": "burg:113",
+  "kind": "trade",
+  "between": [
+   791,
+   801
+  ]
+ },
+ {
   "id": "III-0136",
   "canon": false,
   "title": "Eilidh Bhàn dies without an heir",
@@ -1697,6 +1757,17 @@
   "between": [
    800,
    840
+  ]
+ },
+ {
+  "id": "III-0138a",
+  "title": "The custody's seal on the king's letters",
+  "body": "From the joining of the crown and the custody the king's letters are sealed with the vein-house's own seal: a trellis of gold on blue, which the custodians read as the galleries of the mountain, with a hollow lozenge over it for the slab laid on the first break. The crown adds a white band across the field and nothing else. From this time the seal is the arms of the kingdom.",
+  "place": "burg:491",
+  "kind": "law",
+  "between": [
+   820,
+   832
   ]
  },
  {
@@ -1775,12 +1846,24 @@
   "id": "III-0145",
   "canon": false,
   "title": "The ore-roads kept by the crown",
-  "body": "The king's council takes the roads from the mountain to the coast into the keeping of the crown, so that the carts carrying the measured ore to the temples may not be stopped by any house. The roads are marked with posts bearing the crown's sign.",
+  "body": "The king's council takes the roads from the mountain to the coast into the keeping of the crown, so that the carts carrying the measured ore to the temples may not be stopped by any house. The roads are marked with posts bearing the crown's sign: the carriers' road down to Cathair dhearg, An Rathad Tuath over the pass by Muileann fhada, Slighe Muileann dhearg south from the hills by Muileann chrom, and Slighe Baile òg down to the southern Seann Skell.",
   "place": "burg:19",
   "kind": "law",
   "between": [
    880,
    920
+  ]
+ },
+ {
+  "id": "III-0145a",
+  "canon": false,
+  "title": "The crown's riders",
+  "body": "Fresh horses are kept for the crown's riders at the waypoint houses on the ore-roads. A rider who changes horses at every house can carry the council's word from Cathair dhearg to the mountain between dawn and dark. The houses are paid for the stabling out of the ore-road tolls.",
+  "place": "burg:19",
+  "kind": "law",
+  "between": [
+   900,
+   910
   ]
  },
  {
@@ -1913,6 +1996,18 @@
   "between": [
    1000,
    1000
+  ]
+ },
+ {
+  "id": "III-0156a",
+  "canon": false,
+  "title": "The market above the mill-race",
+  "body": "The hill-lords of Baile ghorm hold a market at Cnoc bhàn, above the long mill-race of Muileann fhada, for the farms of the south-east. Grain, clay and honey are its common goods. Its rare good is pearls, which the women of the shore take from the mussel beds in the shallows and which are sold in no other market.",
+  "place": "burg:233",
+  "kind": "trade",
+  "between": [
+   1001,
+   1024
   ]
  },
  {
@@ -2060,6 +2155,18 @@
   ]
  },
  {
+  "id": "III-0167a",
+  "canon": false,
+  "title": "The stone on the neck",
+  "body": "Caol gharbh and Caol chrom, the two harbours of the strait, send their headmen to a stone on the neck of land between them and settle the dues the salt-boats pay to each. They meet at the same stone over every quarrel about the strait after, and it is called Coinneachadh na h-Amhaich, the meeting of the neck.",
+  "place": "marker:44",
+  "kind": "trade",
+  "between": [
+   1110,
+   1150
+  ]
+ },
+ {
   "id": "III-0168",
   "canon": false,
   "title": "Traffic falls on Drochaid Ros fhionn",
@@ -2069,6 +2176,30 @@
   "between": [
    1120,
    1160
+  ]
+ },
+ {
+  "id": "III-0168a",
+  "canon": false,
+  "title": "The market-court stays at Ros fhionn",
+  "body": "The salt-masters take their ships to Caol gharbh but leave their market-court on the headland at Ros fhionn, where the weights and the tally-sticks are kept. The farms and forges of the north-eastern hills go on bringing their goods to it, and the town keeps its market after it has lost its harbour.",
+  "place": "burg:76",
+  "kind": "law",
+  "between": [
+   1141,
+   1149
+  ]
+ },
+ {
+  "id": "III-0168b",
+  "canon": false,
+  "title": "Seòlaid Ros fhionn",
+  "body": "With the salt of Ros fhionn going by sea, its boats run down the river past Caol gharbh, round the north-east cape, south along the eastern shore past Seann Tarr and Àth bheag, and back west into the bay below Caol shean, where the salt goes inland. The lane is called Seòlaid Ros fhionn after the town whose salt made it, and the eastern boats keep it long after the salt-pans fail.",
+  "place": "burg:76",
+  "kind": "voyage",
+  "between": [
+   1130,
+   1170
   ]
  },
  {
@@ -2123,7 +2254,7 @@
   "id": "III-0173",
   "canon": false,
   "title": "The winter of ice at Inis mhòr",
-  "body": "The river at Inis mhòr freezes from bank to bank, which no one then living had seen. Boats are crushed at their moorings and the grain fleet does not sail until the thaw.",
+  "body": "The river at Inis mhòr freezes from bank to bank before the autumn grain fleet has sailed, which no one then living had seen. Boats are crushed at their moorings and the grain fleet does not sail until the thaw.",
   "place": "burg:17",
   "kind": "disaster",
   "between": [
@@ -2228,6 +2359,18 @@
   ]
  },
  {
+  "id": "III-0181a",
+  "canon": false,
+  "title": "White stone from Baile Mòr dhomhain",
+  "body": "Masons from Ceann leathan buy a veined white stone from the hills above Baile Mòr dhomhain for the new front of their temple. The quarry is worked from this time on, and its marble goes south by the carriers' road to every town that can pay for it.",
+  "place": "burg:273",
+  "kind": "craft",
+  "between": [
+   1253,
+   1259
+  ]
+ },
+ {
   "id": "III-0182",
   "canon": false,
   "title": "Iain Ciar's grain law",
@@ -2291,7 +2434,7 @@
   "id": "III-0187",
   "canon": false,
   "title": "An Taigh-seinnse Reòta",
-  "body": "An Taigh-seinnse Reòta, the road-house on the high northern road, is snowed in for a whole season with a party of custodians' reeves inside. They live on its pickled spinach and fire milk, and their complaint to the charter-roll is recorded in full.",
+  "body": "An Taigh-seinnse Reòta, the road-house on the bare northern road, is snowed in for a whole season with a party of custodians' reeves inside. They live on its pickled spinach and fire milk, and their complaint to the charter-roll is recorded in full.",
   "place": "marker:8",
   "kind": "trade",
   "between": [
@@ -2321,6 +2464,18 @@
   "between": [
    1310,
    1350
+  ]
+ },
+ {
+  "id": "III-0189a",
+  "canon": false,
+  "title": "The southern lane",
+  "body": "The fishers of Caol fhiadhaich, on the wild strait of the west coast, take their boats round into the southern sea and along the whole south coast to the mouth of the Abhainn uaine, and up it to the landing of Cidhe Beag below Baile thais, where they sell dried fish for grain. The older harbours of the south coast, which had not sailed beyond their own capes, begin to follow them. The lane is named for its first sailors: Slighe-mhara Caol fhiadhaich.",
+  "place": "burg:49",
+  "kind": "voyage",
+  "between": [
+   1320,
+   1380
   ]
  },
  {
@@ -2636,10 +2791,22 @@
   ]
  },
  {
+  "id": "III-0214a",
+  "canon": false,
+  "title": "The dark wine of Àth shean",
+  "body": "The growers on the slopes above Àth shean press blaeberry and bramble into a dark wine that keeps a year in the cask. It is sold along the eastern road, and the road-houses serve it as black wine.",
+  "place": "burg:32",
+  "kind": "craft",
+  "between": [
+   1581,
+   1594
+  ]
+ },
+ {
   "id": "III-0215",
   "canon": false,
   "title": "Inis mhòr's grain fleet laid up",
-  "body": "The coasting grain barges of Inis mhòr are laid up for good as the roads improve. The last of them is kept on the strand as a curiosity.",
+  "body": "The coasting grain barges of Inis mhòr, which had sailed Slighe-uisce reòta, the frozen way along the north coast from Ros chiar to Caol mhin, since the Holy Age, are laid up for good as the roads improve. The last of them is kept on the strand as a curiosity.",
   "place": "burg:17",
   "kind": "people",
   "between": [

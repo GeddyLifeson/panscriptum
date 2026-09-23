@@ -39,9 +39,9 @@ Everything else in this folder is the source for one of those two.
 | File | What it is |
 |---|---|
 | `Rodos_Atlas/` | The program (see above). Built by `build_atlas.py`. |
-| `legendarium/` | The history: the dated annals, the five prose books, the appendices, the gazetteer, the reckoning of years from album release dates (`reckoning.py`, `albums.json`, `albums_src/`). `LEGENDARIUM.md` is the whole record as plain text. See `legendarium/README.md`. |
+| `legendarium/` | The history: the dated annals, the five prose books, the appendices A–J (among them G goods and markets, H shires, I land and waters, J arms), the gazetteer, the reckoning of years from album release dates (`reckoning.py`, `albums.json`, `albums_src/`), and the map's layers reconciled with the history (`reconcile/`, applied by `map_reconcile.py`). `LEGENDARIUM.md` is the whole record as plain text. See `legendarium/README.md`. |
 | `Rodos_finished.map` | The finished map. Open it in Azgaar's Fantasy Map Generator 1.153.1. |
-| `Rodos_renamed.map`, `finish_map.py`, `MAP_CHANGES.md` | The map as the first renaming pass left it, the script that finishes the renaming through the engine, and every name it changed (425). |
+| `Rodos_renamed.map`, `finish_map.py`, `MAP_CHANGES.md` | The map as the first renaming pass left it, the script that finishes the renaming through the engine (and then applies the town features, the harbour moves and the layer reconciliation from `legendarium/`), and every name it changed (425). |
 | `build_atlas.py`, `atlas.py`, `atlas_template.html`, `atlas_style.css` | Rebuild `Rodos_Atlas/` from an Azgaar build, the map and the legendarium (instructions at the top of `build_atlas.py`). |
 
 | Both | |

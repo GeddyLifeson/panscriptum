@@ -26,7 +26,7 @@
  "174": {
   "founded_age": "III",
   "founded_by": "Ròdaich ford-wardens, resettled by the Tuathaich",
-  "history": "A long ford on the north-western roads, held by a Ròdaich warden-family through the quiet centuries of the Sundering. After the Severance its houses were emptied and given to Tuathaich families shepherded north, who raised the present walls and made it one of the chief towns of their homeland. The Tuathaich here keep the faith of Cnut, the Yellow Scorpion, inherited from the shrines the Ròdaich left behind, and the ford is still paid for in toll.",
+  "history": "A long ford on the north-western roads, held by a Ròdaich warden-family through the quiet centuries of the Sundering. After the Severance its houses were emptied and given to Tuathaich families shepherded north, who raised the present walls and made it one of the chief towns of their homeland. The Tuathaich here keep the faith of Cnut, the Yellow Scorpion, inherited from the shrines the Ròdaich left behind, and the ford is still paid for in toll. Charcoal-burning is the chief trade of its woods, and it binds books, a craft the Tuathaich learned at Muileann leathan.",
   "known_for": "the long ford and its toll"
  },
  "175": {
@@ -68,7 +68,7 @@
  "181": {
   "founded_age": "II",
   "founded_by": "cattle-drovers of the eastern hills",
-  "history": "A red-banked ford where the drovers' road crosses a stream in the east, it has been a cattle-market since the Holy Age. It keeps the old spirits of the Ròdaich, and the drovers still pour a cup into the ford before driving a herd across. The town trades beasts to Seann Dunn on the coast and hides to Baile shean.",
+  "history": "A red-banked ford where the drovers' road crosses a stream in the east, it has been a cattle-market since the Holy Age. It keeps the old spirits of the Ròdaich, and the drovers still pour a cup into the ford before driving a herd across. The town trades beasts to Seann Dunn on the coast and hides to Baile shean. Furs and hides from the eastern hills are sold at its fair.",
   "known_for": "the drovers' ford and cattle fair"
  },
  "182": {
@@ -108,7 +108,7 @@
  "187": {
   "founded_age": "III",
   "founded_by": "the tithe-reeves of Cathair mhòr",
-  "history": "A walled town on a bend of the road below Cathair mhòr, raised to store and guard the tithe-grain of the Doire mhin country. Its walls were strengthened when the human administration raised the tithe, and the chroniclers note that the grain was guarded but not shared. It keeps the faith of the Dark Unicorn and serves Cill fhada and Muileann ruadh as their market.",
+  "history": "A walled town on a bend of the road below Cathair mhòr, raised to store and guard the tithe-grain of the Doire mhin country. Its walls were strengthened when the human administration raised the tithe, and the chroniclers note that the grain was guarded but not shared. It keeps the faith of the Dark Unicorn and serves Cill fhada and Muileann ruadh as their market. The charcoal-burners of its woods supply the forges of the gulf, and the town boils soap.",
   "known_for": "the walled tithe-granaries"
  },
  "188": {
@@ -126,7 +126,7 @@
  "190": {
   "founded_age": "II",
   "founded_by": "fishing clans of the southern shore",
-  "history": "A red-cliffed harbour on the southern coast that was a fishing town for three ages. The Great Wave, Tonn Mhòr Cnoc chaol, struck it in a single night in the first years of the new kingdom and destroyed the lower town with its fleet, and the harbour was rebuilt higher up the cliff. Its people keep the old spirits of the Ròdaich, and every house facing the sea keeps a lamp in the upper window.",
+  "history": "A red-cliffed harbour on the southern coast that was a fishing town for three ages. The Great Wave, Tonn Mhòr Cnoc chaol, struck it in a single night in the first years of the new kingdom and destroyed the lower town with its fleet, and the harbour was rebuilt higher up the cliff. Its people keep the old spirits of the Ròdaich, and every house facing the sea keeps a lamp in the upper window. The harbour is on Eilean bhàn, the largest island off the south coast, which it shares with Cnoc chaol.",
   "known_for": "rebuilt after the Great Wave"
  },
  "191": {
@@ -138,7 +138,7 @@
  "192": {
   "founded_age": "I",
   "founded_by": "unknown builders, later the Ròdaich spirit-keepers",
-  "history": "The holy city of the north grew around a ring of stones older than the Ròdaich, and the chroniclers do not claim to know who raised them. The Ròdaich made it a place of the old spirits in the Holy Age and it has never had walls, since the ancestors' ground was held to need none. It is a city of pilgrims and hostels, and the shrine-keepers of Cnoc chiar and Inis bheag answer to its elders.",
+  "history": "The holy city of the north grew around a ring of stones older than the Ròdaich, and the chroniclers do not claim to know who raised them. The Ròdaich made it a place of the old spirits in the Holy Age and it has never had walls, since the ancestors' ground was held to need none. It is a city of pilgrims and hostels, and the shrine-keepers of Cnoc chiar and Inis bheag answer to its elders. Charcoal from its woods and books copied in its hostels are its trades.",
   "known_for": "the unwalled ring of the ancestors"
  },
  "193": {
@@ -214,13 +214,13 @@
  "204": {
   "founded_age": "II",
   "founded_by": "the lords of the western plain",
-  "history": "A great fair walled city of the west, seat of lords before the kingdom and a fortress since. Its citadel was held by Ròdaich forces through the war that ended in the Severance, and it is a city of Clach, the Resplendent Direwolf. It is the chief market of the plain between the capital and the western harbours.",
+  "history": "A great fair walled city of the west, seat of lords before the kingdom and a fortress since. Its citadel was held by Ròdaich forces through the war that ended in the Severance, and it is a city of Clach, the Resplendent Direwolf. It is the chief market of the plain between the capital and the western harbours. Its own vineyards give the plain's wine, and the town salts meat, makes boots and dips candles.",
   "known_for": "the fair citadel of the western plain"
  },
  "205": {
   "founded_age": "III",
   "founded_by": "priests of the Obsidian Rite",
-  "history": "A holy strait-harbour near the ruins of Làrach an Dùin-fhaire, where the orthodox Obsidian Rite built a landing for pilgrims coming to the mountain. It is one of the few towns where Creideamh nan Ròdach holds the majority, and its priests were among those who formalized the Rite in the first years of the new kingdom. It is a small town and quiet outside the pilgrim season.",
+  "history": "A holy strait-harbour near the ruins of Làrach an Dùin-fhaire, where the orthodox Obsidian Rite built a landing for pilgrims coming to the mountain. It is one of the few towns where Creideamh nan Ròdach holds the majority, and its priests were among those who formalized the Rite in the first years of the new kingdom. It is a small town and quiet outside the pilgrim season. Pilgrims' boats from the southern Seann Skell come round to its landing by Slighe-mhara chritheanach, the shaking sea-way, named for the swell off the south cape.",
   "known_for": "pilgrim landing of the Obsidian Rite"
  },
  "206": {
@@ -244,7 +244,7 @@
  "209": {
   "founded_age": "III",
   "founded_by": "Ròdaich oak-cutters, resettled by the Tuathaich",
-  "history": "A small Ròdaich village in a grey oak grove until the Severance, when the families shepherded north were gathered here before being sent on, and so many stayed that it became the largest settlement in the Tuathaich homeland almost at once. It never took a town's name, and the Tuathaich keep it a village in speech on purpose. It is the seat of Siorrachd Doire ghlas and the heart of Creideamh nan Tuathach, whose keepers are said to hold the First Canoe fragment here; the library has asked to copy it and been refused.",
+  "history": "A small Ròdaich village in a grey oak grove until the Severance, when the families shepherded north were gathered here before being sent on, and so many stayed that it became the largest settlement in the Tuathaich homeland almost at once. It never took a town's name, and the Tuathaich keep it a village in speech on purpose. It is the seat of Siorrachd Doire ghlas and the heart of Creideamh nan Tuathach, whose keepers are said to hold the First Canoe fragment here; the library has asked to copy it and been refused. Its wool mills, built with the Moot's money, make the grey twill of the north.",
   "known_for": "the great Tuathaich gathering-village"
  },
  "210": {
@@ -280,7 +280,7 @@
  "215": {
   "founded_age": "II",
   "founded_by": "the headland-lords of Ceann bheag",
-  "history": "A dusky headland city on the north coast, walled, with a citadel on the rock and a harbour below. It was one of the harbours the human traders first used after the Crossing, and its citadel was taken and retaken in the war before the Severance. It follows Feallsanachd an Fhèidh and competes with Caol bheag for the northern trade.",
+  "history": "A dusky headland city on the north coast, walled, with a citadel on the rock and a harbour below. It was one of the harbours the human traders first used after the Crossing, and its citadel was taken and retaken in the war before the Severance. It follows Feallsanachd an Fhèidh and competes with Caol bheag for the northern trade. Slighe-uisce reòta, the frozen way along the north coast to Caol mhin, begins at its harbour; the grain barges of Inis mhòr sailed it until the roads took their trade.",
   "known_for": "the fortified headland harbour"
  },
  "216": {
@@ -392,13 +392,13 @@
  "233": {
   "founded_age": "III",
   "founded_by": "the hill-lords of Baile ghorm",
-  "history": "A walled pale hill in the south-east above the long mill-race of Muileann fhada, which grinds its grain. The walls were raised when the road from Làrach an Dùin became unsafe. It keeps the old spirits and is the market of the southern-eastern farms.",
+  "history": "A walled pale hill in the south-east above the long mill-race of Muileann fhada, which grinds its grain. The walls were raised when the road from Làrach an Dùin became unsafe. It keeps the old spirits and is the market of the southern-eastern farms. It sends the pearls of the south-eastern shallows and the clay of its fields to other markets.",
   "known_for": "the market above the mill-race"
  },
  "234": {
   "founded_age": "II",
   "founded_by": "Ròdaich millers, resettled by the Tuathaich",
-  "history": "A wide mill on a northern river, walled with a citadel, and the seat of Siorrachd Muileann leathan. It was a Ròdaich town until the Severance, when the Tuathaich took it over as one of the principal towns of their homeland. It is a centre of Creideamh nan Tuathach, and its keep is where the Tuathaich northern coast is governed.",
+  "history": "A wide mill on a northern stream, walled with a citadel, and the seat of Siorrachd Muileann leathan. It was a Ròdaich town until the Severance, when the Tuathaich took it over as one of the principal towns of their homeland. It is a centre of Creideamh nan Tuathach, and its keep is where the Tuathaich northern coast is governed.",
   "known_for": "the Tuathaich mill-citadel"
  },
  "235": {
@@ -416,7 +416,7 @@
  "237": {
   "founded_age": "II",
   "founded_by": "the island-keepers of Seann Toll",
-  "history": "A small walled island harbour on the north coast, near the holy city of Cathair naomh. It ferries pilgrims from the sea to the holy city and keeps the old spirits.",
+  "history": "A small walled harbour on a tidal islet of the north coast, near the holy city of Cathair naomh. It ferries pilgrims from the sea to the holy city and keeps the old spirits.",
   "known_for": "the pilgrims' ferry to Cathair naomh"
  },
  "238": {
@@ -428,7 +428,7 @@
  "239": {
   "founded_age": "II",
   "founded_by": "harbour-lords of the smooth headland",
-  "history": "A smooth headland port, walled, and the seat of Siorrachd Ceann mhin. It was a trading harbour for the northern mines in the Age of Strangers and follows Feallsanachd an Fhèidh.",
+  "history": "A smooth headland port, walled, and the seat of Siorrachd Ceann mhin. It was a trading harbour for the northern mines in the Age of Strangers and follows Feallsanachd an Fhèidh. Slighe Ceann mhin, the long road down the east of the island to Seann Dunn, begins at its gate.",
   "known_for": "the northern ore harbour"
  },
  "240": {
@@ -446,7 +446,7 @@
  "242": {
   "founded_age": "II",
   "founded_by": "Ròdaich fishers, resettled by the Tuathaich",
-  "history": "An ancient field village on the far western coast, facing the waters of Uilebheist na Mara, the Sea-Watcher. Gorta Baile chrom, the Great Hunger, struck it in the Age of Strangers; it was resettled by the Tuathaich after the Severance and keeps the Yellow Scorpion. Pirates have been seen offshore and the villagers keep watch on the headland.",
+  "history": "An ancient field village on the far western coast, facing the waters of Uilebheist na Mara, the Sea-Watcher. Gorta Baile chrom, the Great Hunger, struck it in the Age of Strangers; it was resettled by the Tuathaich after the Severance and keeps the Yellow Scorpion. Pirates have been seen offshore and the villagers keep watch on the headland. Its boats first met the humans' ships at sea, off the north-west cape at the place they call Coinneachadh nan Long.",
   "known_for": "the watch for the Sea-Watcher"
  },
  "243": {
@@ -470,7 +470,7 @@
  "246": {
   "founded_age": "III",
   "founded_by": "millers of the narrow race",
-  "history": "A narrow mill town in the eastern hills, and the home of Leabharlann Muileann chaol, the library that keeps the most complete record of the island. The library was founded in the new kingdom and has since taken in the provincial archives, and its war archive is sealed. The town lives on the library and on the river landing at Ceann dhomhain, and to put a thing in the Library is to settle it.",
+  "history": "A narrow mill town in the eastern hills, and the home of Leabharlann Muileann chaol, the library that keeps the most complete record of the island. The library was founded in the new kingdom and has since taken in the provincial archives, and its war archive is sealed. The town lives on the library and on the river landing at Ceann dhomhain, and to put a thing in the Library is to settle it. Paper has been made here since the Age of Sundering, and its copyists and binders work for the library.",
   "known_for": "Leabharlann Muileann chaol, the great library"
  },
  "247": {
@@ -494,7 +494,7 @@
  "250": {
   "founded_age": "II",
   "founded_by": "the lords of Doire mhin",
-  "history": "A hill-city with a citadel close to the capital, raised by lords of the Doire mhin country who held the roads north of Cathair dhearg. It has always been a garrison town and was one of the strongholds from which the war before the Severance was fought. It follows the Dark Unicorn and draws on the tithe-granaries of Baile chrom and the great village of Doire mhin. It is not the Cathair mhòr of the third regiment, which lies further east.",
+  "history": "A hill-city with a citadel close to the capital, raised by lords of the Doire mhin country who held the roads north of Cathair dhearg. It has always been a garrison town and was one of the strongholds from which the war before the Severance was fought. It follows the Dark Unicorn and draws on the tithe-granaries of Baile chrom and the great village of Doire mhin. It is not the Cathair mhòr of the third regiment, which lies further east. Its glass-house is the largest on the island.",
   "known_for": "the citadel on the capital's north road"
  },
  "251": {
@@ -636,7 +636,7 @@
  "273": {
   "founded_age": "II",
   "founded_by": "the lords of the deep river",
-  "history": "A walled city with a citadel on a deep river in the north, the seat of Siorrachd Baile Mòr dhomhain. It was one of the great market cities of the north through the Holy Age and the Sundering and a centre of the human administration in the Age of Strangers. It follows Feallsanachd an Fhèidh and holds its four fords and its river landing at Àth shean.",
+  "history": "A walled city with a citadel on a deep river in the north, the seat of Siorrachd Baile Mòr dhomhain. It was one of the great market cities of the north through the Holy Age and the Sundering and a centre of the human administration in the Age of Strangers. It follows Feallsanachd an Fhèidh and holds its four fords and its river landing at Àth shean. It is the market town of the northern hills and the second cattle-market of the island. The white marble of its hills is quarried nearby, and the town is known for its books.",
   "known_for": "the deep-river city and its fords"
  },
  "274": {
@@ -654,13 +654,13 @@
  "276": {
   "founded_age": "III",
   "founded_by": "well-diggers of Baile thais",
-  "history": "A large well village in the central-east, laid out along a straight channel that carries its water. It follows Feallsanachd an Fhèidh and supplies water and vegetables to Baile Mòr uaine and Baile thais.",
+  "history": "A large well village in the central-east, laid out along a straight channel that carries its water. It follows Feallsanachd an Fhèidh and supplies water and vegetables to Baile Mòr uaine and Baile thais. Its paper-mill makes the paper of the royal chronicle.",
   "known_for": "the straight water-channel"
  },
  "277": {
   "founded_age": "III",
   "founded_by": "drovers of the central hills",
-  "history": "A rough ford on the hill road near Baile Mòr uaine, where the drovers rest their beasts. It follows Feallsanachd an Fhèidh and is a very small place.",
+  "history": "A rough ford on the hill road near Baile Mòr uaine, where the drovers rest their beasts. It follows Feallsanachd an Fhèidh and is a very small place. Coinneachadh nan Cupan, the spring where the keeper's stone cup was first checked against its copies, lies on the moor between the ford and Tobar dhìreach.",
   "known_for": "a drovers' ford in the hills"
  },
  "278": {
@@ -714,7 +714,7 @@
  "286": {
   "founded_age": "III",
   "founded_by": "priests of the Yellow Scorpion",
-  "history": "A holy ford near Cuan shean, where the priests of Cnut bless the carts that go down to the harbour. It follows the Yellow Scorpion and is a small town of shrine-keepers and carters.",
+  "history": "A holy ford near Cuan shean, where the priests of Cnut bless the carts that go down to the harbour. It follows the Yellow Scorpion and is a small town of shrine-keepers and carters. Bog-iron is dug in the moss behind the town, and its forges have made arms and field-guns for the regiments since An Cogadh Fada.",
   "known_for": "blessing of the harbour carts"
  },
  "287": {
@@ -738,7 +738,7 @@
  "290": {
   "founded_age": "II",
   "founded_by": "the lords of the wild hill",
-  "history": "A small wild city on a hill south of the capital, near Achadh mhin, which the Great Wave struck. Its hill kept it clear of the water, and it took in the survivors of the villages below. It follows the Dark Unicorn.",
+  "history": "A small wild city on a hill south of the capital, near Achadh mhin, which the Great Wave struck. Its hill kept it clear of the water, and it took in the survivors of the villages below. It follows the Dark Unicorn. The clay of its hill makes it the largest pottery on Rodos, and Cathair fhada sells its ware to the north.",
   "known_for": "refuge from the Great Wave"
  },
  "291": {
@@ -780,7 +780,7 @@
  "297": {
   "founded_age": "II",
   "founded_by": "the lords of the long city",
-  "history": "A long walled city in the south, strung along a ridge between the capital's country and the coast, and the seat of Siorrachd Cathair fhada. It follows the Dark Unicorn and has always been one of the capital's chief supports. The Fèill Muileann òg is held a short way north, and the city's merchants dominate it.",
+  "history": "A long walled city in the south, strung along a ridge between the capital's country and the coast, and the seat of Siorrachd Cathair fhada. It follows the Dark Unicorn and has always been one of the capital's chief supports. The Fèill Muileann òg is held a short way north, and the city's merchants dominate it. Its market right is among the oldest on the island, and its own trade is in cheese, honey and garments.",
   "known_for": "merchants of the Fèill Muileann òg"
  },
  "298": {
@@ -804,7 +804,7 @@
  "301": {
   "founded_age": "II",
   "founded_by": "fishers of the north coast",
-  "history": "A small harbour on the northern strait, older than its far larger namesake inland and the one that gave that town its name. It keeps the old spirits and is a quiet fishing town, though An ceathramh rèisimeid, stationed at the larger Caol bheag, sends its patrols here.",
+  "history": "A small harbour on the northern strait, older than its far larger namesake inland and the one that gave that town its name. It keeps the old spirits and is a quiet fishing town, though An ceathramh rèisimeid, stationed at the larger Caol bheag, sends its patrols here. It stands on Eilean fhada, the long island off the north coast, and the strait it is named for is the sound between that island and Rodos.",
   "known_for": "the elder Caol bheag on the strait"
  },
  "302": {
@@ -828,7 +828,7 @@
  "305": {
   "founded_age": "II",
   "founded_by": "Ròdaich fishers, resettled by the Tuathaich",
-  "history": "A bent town on the far north-west coast, the seat of Siorrachd Baile chrom, beside Taigh-solais Baile chrom, the first of the five lighthouses in the ring. Since the Severance it has been Tuathaich, and it is the one town where Rùn-dìomhair na h-Oidhche Glaise, the cult of Sìne the Peaceful Goose, holds the majority. Gorta Baile chrom, the Great Hunger, takes its name from this town, which it struck in the Age of Strangers.",
+  "history": "A bent town on the far north-west coast, the seat of Siorrachd Baile chrom, beside Taigh-solais Baile chrom, the first of the five lighthouses in the ring. Since the Severance it has been Tuathaich, and it is the one town where Rùn-dìomhair na h-Oidhche Glaise, the cult of Sìne the Peaceful Goose, holds the majority. Gorta Baile chrom, the Great Hunger, takes its name from this town, which it struck in the Age of Strangers. The Scorpion's priests at Ceann mhòr hold that the Grey Night grew out of their own prayer to keep the sea shut, and call it the Scorpion gone astray.",
   "known_for": "the Grey Night cult and the lighthouse"
  },
  "306": {
@@ -854,7 +854,7 @@
    1900
   ],
   "founded_by": "miners of the western hills",
-  "history": "A deep well-village in the western hills, dug to supply a mining camp that has since been abandoned. It is one of the smallest villages on the island and follows the Yellow Scorpion.",
+  "history": "A deep well-village in the western hills, dug to supply a mining camp that has since been abandoned. It is one of the smallest villages on the island and follows the Yellow Scorpion. The grassland above the village is where the Leaden Hawk company kept its watch on the road from Ros bheag in the first spring of the Severance war.",
   "known_for": "the well of a lost camp"
  },
  "309": {
@@ -896,7 +896,7 @@
  "315": {
   "founded_age": "II",
   "founded_by": "the custodian house of Dùn ìseal",
-  "history": "A low fort-city in the east with walls, a citadel and a temple, the seat of Siorrachd Dùn ìseal. Its temple is the chief shrine of the old spirits in the eastern hills, where the Ròdaich custodians kept the ancestors' rites through every age. It stands between the silver seam of Muileann chiar and the hot springs of Muileann ruadh, and it was held by the Ròdaich in the dispute over the silver.",
+  "history": "A low fort-city in the east with walls, a citadel and a temple, the seat of Siorrachd Dùn ìseal. Its temple is the chief shrine of the old spirits in the eastern hills, where the Ròdaich custodians kept the ancestors' rites through every age. It stands between the silver seam of Muileann chiar and the hot springs of Muileann ruadh, and it was held by the Ròdaich in the dispute over the silver. It is the market town of the eastern hills and plain, and the market under the Hall is older than the kingdom. The silver, gold and copper of its hills pass through it as blanks for the mint, and the town salts venison and binds books.",
   "known_for": "the great temple of the old spirits"
  },
  "316": {
@@ -950,7 +950,7 @@
  "324": {
   "founded_age": "II",
   "founded_by": "the tavern-keepers of the south-west",
-  "history": "An old oak grove in the south-west, grown into one of the largest villages on the island and the seat of Siorrachd Doire shean. At its heart is Am Buabhall Fortanach, the most famous tavern on the old roads, which serves jugged buffalo and has stood since the Holy Age. It is a harbour as well, and follows the Madadh-allaidh faith.",
+  "history": "An old oak grove in the south-west, grown into one of the largest villages on the island and the seat of Siorrachd Doire shean. At its heart is Am Buabhall Fortanach, the most famous tavern on the old roads, which serves jugged buffalo and has stood since the Holy Age. It is a harbour as well, where the hulls of the first fleet of Àth gharbh lie, and follows the Madadh-allaidh faith. Rathad na Banrighinn, Queen Catrìona's stone road from the capital to Inis thais, runs through the village past the tavern.",
   "known_for": "Am Buabhall Fortanach and jugged buffalo"
  },
  "325": {
@@ -962,7 +962,7 @@
  "326": {
   "founded_age": "III",
   "founded_by": "priests of the Obsidian Rite",
-  "history": "A holy mill in the south, the seat of Siorrachd Muileann naomh, whose priests of the orthodox Rite bless the grain before it is ground. It is one of the few towns of Creideamh nan Ròdach and trades with Caol ruadh and Seann Skell.",
+  "history": "A holy mill in the south, the seat of Siorrachd Muileann naomh, whose priests of the orthodox Rite bless the grain before it is ground. It is one of the few towns of Creideamh nan Ròdach and trades with Caol ruadh and Seann Skell. Its hawk-house was the southernmost of Creideamh an t-Seabhaig, the first on Rodos to hang a bronze bell, until it took the Rite's written order in the first years of the restored kingdom; the bell now rings for the Rite.",
   "known_for": "grain blessed by the Rite's priests"
  },
  "327": {

@@ -363,7 +363,7 @@
   "id": "II-0040",
   "canon": false,
   "title": "Seann Warr resettled",
-  "body": "On the western coast, the harbour called Seann Warr is resettled in the same way, by families walking the new road from the mountain. They find house-footings there already and build on them, as the carriers' song has it, without asking whose.",
+  "body": "On the western shore of Loch chrom, the harbour called Seann Warr is resettled in the same way, by families walking the new road from the mountain. They find house-footings there already and build on them, as the carriers' song has it, without asking whose.",
   "place": "burg:64",
   "kind": "people"
  },
@@ -586,6 +586,18 @@
   "kind": "craft"
  },
  {
+  "id": "II-0064a",
+  "canon": false,
+  "title": "The market under the Hall",
+  "body": "A market is held under the walls of the Hall at Dùn ìseal on the quarter days, when the households of the eastern hills come up with their dues. Hides, venison, charcoal, honey and the silver of Muileann chiar change hands there, weighed on the new weights. The Keepers allow no ore to be sold on their ground, and none is.",
+  "place": "burg:315",
+  "kind": "trade",
+  "between": [
+   -2449,
+   -2437
+  ]
+ },
+ {
   "id": "II-0065",
   "canon": false,
   "title": "The stag's people at Cnoc bhàn",
@@ -681,7 +693,7 @@
   "id": "II-0076",
   "canon": false,
   "title": "A fishing town at Cathair dhearg",
-  "body": "The Red Hill's old settlement, shrunk to a small fishing town, grows again at the western bridge-foot where the Abhainn dhomhain meets the sea, on the ground later called Cathair dhearg. Its red stone gives it its name. At this time it is a place carriers pass through on their way to somewhere else.",
+  "body": "The Red Hill's old settlement, shrunk to a small fishing town, grows again at the western bridge-foot on the Abhainn dhomhain, a little above its meeting with the Abhainn gheal below Loch chrom, on the ground later called Cathair dhearg. Its red stone gives it its name. At this time it is a place carriers pass through on their way to somewhere else.",
   "place": "burg:19",
   "kind": "people"
  },
@@ -785,7 +797,7 @@
   "id": "II-0086",
   "canon": false,
   "title": "Baile àrsaidh on the western heath",
-  "body": "Settlers from Cathair dhomhain take the dry heath of the west coast and found Baile àrsaidh there, where the soil is thin and the yellow scorpions are thick. They swear their oaths on a scorpion's sting kept in a box, and neighbours find the custom strange.",
+  "body": "Settlers from Cathair dhomhain take the wet heath of the west coast and found Baile àrsaidh there, where the soil is thin and the yellow scorpions are thick. They swear their oaths on a scorpion's sting kept in a box, and neighbours find the custom strange.",
   "place": "burg:420",
   "kind": "people"
  },
@@ -1000,8 +1012,8 @@
  {
   "id": "II-0105",
   "canon": false,
-  "title": "The house in the cold pass",
-  "body": "A stone house is built high in the pass on the road between Baile Mòr dhomhain and the northern coast, on the site of An Taigh-seinnse Reòta, for carriers caught by snow. Its keepers are paid by the Hall in grain and by the crown in cloth, and complain of both.",
+  "title": "The house on the cold road",
+  "body": "A stone house is built on the open moor on the road between Baile Mòr dhomhain and the northern coast, on the site of An Taigh-seinnse Reòta, for carriers caught by snow. Its keepers are paid by the Hall in grain and by the crown in cloth, and complain of both.",
   "place": "marker:8",
   "kind": "building"
  },
@@ -1015,6 +1027,18 @@
   "within": [
    "II-0102",
    45
+  ]
+ },
+ {
+  "id": "II-0106a",
+  "canon": false,
+  "title": "The market at the fords of Baile Mòr dhomhain",
+  "body": "The lords of the deep river set a market at Baile Mòr dhomhain, where the carriers' road from the south meets the paths down from the hill pastures. Cattle, sheep, horses, hides and the white stone of the hills are sold at the fords on the day after each new moon, and the lords take one fleece in forty from the sellers.",
+  "place": "burg:273",
+  "kind": "trade",
+  "between": [
+   -1909,
+   -1845
   ]
  },
  {
@@ -1291,6 +1315,18 @@
   "within": [
    "II-0118",
    90
+  ]
+ },
+ {
+  "id": "II-0134a",
+  "canon": false,
+  "title": "The fleece-measure of Baile Mòr fhionn",
+  "body": "The lords of the western plain hold a market at Baile Mòr fhionn and make the fleece of a grown ewe its measure. Grain, wine, cattle and the horses of the plain are all priced in fleeces. The silver rings of Muileann chiar are taken there too, but reckoned in wool.",
+  "place": "burg:204",
+  "kind": "trade",
+  "between": [
+   -1304,
+   -1281
   ]
  },
  {
@@ -1853,6 +1889,18 @@
   "kind": "building"
  },
  {
+  "id": "II-0190a",
+  "canon": false,
+  "title": "Riders on the lowland roads",
+  "body": "The road-guards of Dùn dhearg begin to ride the lowland roads on the small horses of the southern grass country. A guard can now reach a waypoint house before a quarrel there has cooled. They are the first riders the record names, and for a long time the only ones.",
+  "place": "burg:422",
+  "kind": "craft",
+  "between": [
+   -423,
+   -408
+  ]
+ },
+ {
   "id": "II-0191",
   "canon": false,
   "title": "The crossing at Ros fhionn repaired",
@@ -1992,7 +2040,7 @@
   "id": "II-0207",
   "canon": false,
   "title": "Anna Ruadh at the sunny house",
-  "body": "On the eastern road Anna Ruadh stays at the house on the site of An Taigh-òsta Grianach, and grants its keepers the right to a toll of their own for the upkeep of the road to Cnoc leathan. It is the only waypoint house on the island with a royal charter.",
+  "body": "On the eastern road Anna Ruadh stays at the house on the site of An Taigh-òsta Grianach, and grants its keepers the right to a toll of their own for the upkeep of the road to Cnoc leathan, Slighe Cnoc leathan. It is the only waypoint house on the island with a royal charter.",
   "place": "marker:6",
   "kind": "trade"
  },

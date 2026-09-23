@@ -17,7 +17,10 @@ This pass:
     and the quest journey -- all in Ròdais, through rodais_engine;
   * rewrites the English notes so they name places that exist on this map;
   * gives every burg the town features (citadel, walls, plaza, temple, shanty) its history
-    supports, from legendarium/burg_features.json.
+    supports, from legendarium/burg_features.json;
+  * brings every other layer of the map into line with the history (faiths, goods and markets,
+    shires, regiments, land and climate, markers, routes, arms), from legendarium/reconcile/ by
+    legendarium/map_reconcile.py.
 
 Descriptive notes stay in English, as the first pass left the Azgaar UI
 text (biomes, trade goods, unit types). Only names are Ròdais.
@@ -412,6 +415,13 @@ for n, data in J.items():
     # the source carries some surrogates as \\u escapes (half-emoji in generated notes); write them back the same way
     text = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     lines[n] = re.sub('[\ud800-\udfff]', lambda m: '\\u%04x' % ord(m.group()), text)
+
+# ---------------------------------------------------------------- 11. the map brought into line with the history
+# every layer (faiths, goods and markets, shires, regiments, land, markers and routes, arms) as reconciled with
+# the annals in legendarium/reconcile/*.json; after the burg moves above, so a moved town's faith is set on its
+# new cell. See legendarium/map_reconcile.py
+from map_reconcile import reconcile_records  # noqa: E402
+reconcile_records(lines)
 out = '\r\n'.join(lines)
 open(DST, 'w', encoding='utf-8', newline='').write(out)
 

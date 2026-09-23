@@ -1,0 +1,332 @@
+"""
+map_reconcile.py -- bring the Rodos map into line with its history, layer by layer.
+
+Every layer Azgaar generated (faiths, goods and markets, the state and its shires, the regiments, the land,
+markers and routes, the arms) was read against the annals, the gazetteer and the appendices. Each layer's
+findings are in reconcile/<layer>.json; their "map_edits" say what on the map had to change. This script
+applies all of them, in a fixed order, and then the integrator's own edits in reconcile/integration.json
+(which also lists the few proposal edits it sets aside; INTEGRATION.md gives the reasons).
+
+    python map_reconcile.py     # Rodos_finished.map, Rodos_Atlas/Rodos.map and world.json, in place
+
+finish_map.py calls reconcile_records() after burg_features.finish_records(), so the edits land on the map
+as it stands after the harbour towns were moved (the faith of a moved town is set on its NEW cell).
+
+Edit forms (a .map is 53 CRLF-joined records; see finish_map.py):
+    {"record": 29, "path": "[2].center", "old": 40, "value": 3104}     JSON record: set the value at the path
+    {"record": 1, "path": ".units.distance.scale", "value": 0.2}       (object records; the leading dot is optional)
+    {"record": 26, "path": "[2973]", "old": 3, "value": 7}              comma record (a cell array): set one cell
+    {"record": 16, "path": "(whole record: ...)", "value": "0,0,..."}   replace a cell array whole
+    {"record": 15, "path": "[419].production", "op": "append", "value": {...}}   append to a list, once
+    {"record": 35, "path": "[28].note", "mode": "replace-substring", "old": "...", "value": "..."}
+    {"record": 31, "path": "append as name base 43 ...", "value": "Ròdais|7|18||0|..."}
+    {"record": 49, "action": "delete_indices", "indices": [...], "match": [...]}  remove relief icons
+"old", where given, must be what the map holds (or the value itself, when the edit is already in).
+
+Beside the edits it derives what follows from them: a route regrouped to "roads" has its saved
+<path id="routeN"> moved from <g id="trails"> into <g id="roads"> (record 5), in route order as Azgaar draws
+them; and the rural totals of the cultures (record 13) follow the cell culture and population arrays.
+
+Byte-safe like burg_features.py: records are split on CRLF, every record it rewrites must round-trip before it
+is touched, only the records named in RECORDS_TOUCHED may change, and running it twice changes nothing.
+"""
+import json
+import os
+import re
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+RECON = os.path.join(HERE, 'reconcile')
+WORLD = os.path.join(HERE, 'world.json')
+MAPS = [os.path.join(ROOT, 'Rodos_finished.map'), os.path.join(ROOT, 'Rodos_Atlas', 'Rodos.map')]
+
+RECORDS = 53
+L_SETTINGS, L_BIOMES, L_SVG, L_TEMP, L_FEATURES, L_CULTURES, L_STATES, L_BURGS = 1, 3, 5, 11, 12, 13, 14, 15
+L_BIOME, L_CELL_BURG, L_CELL_CULTURE, L_POP, L_CELL_STATE, L_CELL_RELIGION, L_CELL_PROVINCE = 16, 17, 19, 21, 25, 26, 27
+L_RELIGIONS, L_PROVINCES, L_NAMEBASES, L_RIVERS, L_MARKERS, L_ROUTES, L_ZONES = 29, 30, 31, 32, 35, 37, 38
+L_CELL_GOOD, L_GOODS, L_RELIEF = 40, 41, 49
+CELL_ARRAYS = {11, 16, 19, 21, 26, 40}
+JSON_RECORDS = {1, 3, 13, 14, 15, 29, 30, 35, 37, 41, 49}
+RECORDS_TOUCHED = CELL_ARRAYS | JSON_RECORDS | {L_SVG, L_NAMEBASES}
+
+# the order the layers are applied in: the state and its shires first, the land (whole cell arrays) last
+ORDER = ['state', 'heraldry', 'religions', 'economy', 'military', 'markers_routes', 'land', 'integration']
+
+
+def dump(data):
+    # the serialisation of finish_map.py and burg_features.py: compact, UTF-8, lone surrogates as \u escapes
+    text = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
+    return re.sub('[\ud800-\udfff]', lambda m: '\\u%04x' % ord(m.group()), text)
+
+
+def load_edits():
+    """[(layer, edit)] in ORDER, less the edits integration.json sets aside."""
+    props = {}
+    for layer in ORDER:
+        path = os.path.join(RECON, layer + '.json')
+        props[layer] = json.load(open(path, encoding='utf-8'))
+    skip = {(s['layer'], s['record'], s['path']) for s in props['integration'].get('skip', [])}
+    out = []
+    for layer in ORDER:
+        for e in props[layer]['map_edits']:
+            if (layer, e.get('record'), e.get('path')) in skip:
+                continue
+            out.append((layer, e))
+    return out
+
+
+# ---------------------------------------------------------------- paths into JSON records
+TOKEN = re.compile(r'\[(\d+)\]|\.?([A-Za-z_][A-Za-z_0-9]*)')
+
+
+def parse_path(path):
+    keys, pos = [], 0
+    while pos < len(path):
+        m = TOKEN.match(path, pos)
+        assert m and m.end() > pos, 'bad path %r' % path
+        keys.append(int(m.group(1)) if m.group(1) is not None else m.group(2))
+        pos = m.end()
+    return keys
+
+
+def walk(data, keys):
+    for k in keys[:-1]:
+        data = data[k]
+    return data, keys[-1]
+
+
+def same(a, b):
+    return json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
+
+
+# ---------------------------------------------------------------- one edit
+def apply_json_edit(data, e, where):
+    keys = parse_path(e['path'])
+    parent, k = walk(data, keys)
+    if e.get('op') == 'append':
+        lst = parent[k]
+        if not any(same(x, e['value']) for x in lst):
+            lst.append(e['value'])
+        return
+    if e.get('mode') == 'replace-substring':
+        cur = parent[k]
+        if e['old'] in cur:
+            assert cur.count(e['old']) == 1, '%s: %r is not unique' % (where, e['old'])
+            parent[k] = cur.replace(e['old'], e['value'])
+        else:
+            assert e['value'] in cur, '%s: neither the old nor the new text is there' % where
+        return
+    exists = (k in parent) if isinstance(parent, dict) else (k < len(parent))
+    cur = parent[k] if exists else None
+    if 'old' in e and not same(cur, e['value']):
+        assert same(cur, e['old']), '%s: expected %r, found %r' % (where, e['old'], cur)
+    parent[k] = e['value']
+
+
+def relief_edits(icons, edits, where):
+    """Record 49: the icon renames (made before the deletions, as the land layer lists them) and the deletions."""
+    dels = [e for e in edits if e.get('action') == 'delete_indices']
+    assert len(dels) <= 1
+    gone = sorted(dels[0]['indices']) if dels else []
+    match = dict(zip(dels[0]['indices'], dels[0]['match'])) if dels else {}
+    done = bool(gone) and not all(i < len(icons) and same(icons[i], match[i]) for i in gone)
+
+    def at(i):                                          # an index as it was before the deletions
+        return i - sum(1 for g in gone if g < i) if done else i
+    for e in edits:
+        if e.get('action'):
+            continue
+        keys = parse_path(e['path'])
+        keys[0] = at(keys[0])
+        apply_json_edit(icons, dict(e, path=''.join('[%d]' % k if isinstance(k, int) else '.' + k for k in keys)), where)
+    if gone and not done:
+        for i in sorted(gone, reverse=True):
+            assert same(icons[i], match[i]), '%s: relief icon %d is not the one to delete' % (where, i)
+            del icons[i]
+
+
+def regroup_routes(svg, routes):
+    """Every route in the "roads" group gets its saved path in <g id="roads">, in route order; out of any other group."""
+    roads = [r['i'] for r in routes if r.get('group') == 'roads']
+    if not roads:
+        return svg
+    els = {}
+    for i in roads:
+        m = re.search(r'<path id="route%d" [^>]*/>' % i, svg)
+        assert m, 'no saved path for route %d' % i
+        els[i] = m.group(0)
+        svg = svg[:m.start()] + svg[m.end():]
+    g = re.search(r'<g id="roads" data-group="roads"[^>]*?(/?)>', svg)
+    assert g, 'no roads group in the SVG'
+    if g.group(1):                                     # an empty group is saved self-closing
+        svg = svg[:g.start()] + g.group(0)[:-2] + '></g>' + svg[g.end():]
+        g = re.search(r'<g id="roads" data-group="roads"[^>]*>', svg)
+    end = svg.index('</g>', g.end())
+    assert not re.search(r'<path id="route', svg[g.end():end]), 'roads group holds a route that is not a road'
+    return svg[:g.end()] + ''.join(els[i] for i in roads) + svg[end:]
+
+
+def cells(text):
+    return text.split(',')
+
+
+def num(s):
+    return float(s) if s else 0.0
+
+
+def reconcile_records(lines, edits=None):
+    """Apply every edit to a list of 53 raw records, in place. Returns the numbers of the records it changed."""
+    assert len(lines) == RECORDS
+    edits = load_edits() if edits is None else edits
+    before = list(lines)
+    parsed = {}
+    for n in JSON_RECORDS:
+        parsed[n] = json.loads(lines[n])
+        assert dump(parsed[n]) == lines[n], 'record %d does not round-trip; refusing to rewrite it' % n
+    arrays = {n: cells(lines[n]) for n in CELL_ARRAYS}
+    for n, a in arrays.items():
+        assert ','.join(a) == lines[n]
+    old_pop, old_culture = list(arrays[L_POP]), list(arrays[L_CELL_CULTURE])
+    relief = []
+    for layer, e in edits:
+        n = e['record']
+        where = '%s record %d %s' % (layer, n, e.get('path') or e.get('action'))
+        if n == L_RELIEF:
+            relief.append(e)
+        elif n == L_NAMEBASES:
+            assert e['path'].startswith('append as name base'), where
+            bases = lines[n].split('/')
+            if e['value'] not in bases:
+                assert not any(b.split('|')[0] == e['value'].split('|')[0] for b in bases), '%s: another base of that name' % where
+                lines[n] = lines[n] + '/' + e['value']
+        elif n in CELL_ARRAYS:
+            if e['path'].startswith('(whole record'):
+                new = cells(e['value'])
+                assert len(new) == len(arrays[n]), '%s: %d values for %d cells' % (where, len(new), len(arrays[n]))
+                arrays[n] = new
+            else:
+                i = parse_path(e['path'])[0]
+                cur = arrays[n][i]
+                if 'old' in e and cur != str(e['value']):
+                    assert cur == str(e['old']), '%s: expected %s, found %s' % (where, e['old'], cur)
+                arrays[n][i] = str(e['value'])
+        elif n in JSON_RECORDS:
+            apply_json_edit(parsed[n], e, where)
+        else:
+            raise AssertionError('%s: no edits are expected in record %d' % (where, n))
+    if relief:
+        relief_edits(parsed[L_RELIEF], relief, 'relief')
+    # the cultures' rural totals follow the cells (population in thousands, as Azgaar keeps it)
+    for i, (p0, c0, p1, c1) in enumerate(zip(old_pop, old_culture, arrays[L_POP], arrays[L_CELL_CULTURE])):
+        if p0 != p1 or c0 != c1:
+            parsed[L_CULTURES][int(c0)]['rural'] -= num(p0)
+            parsed[L_CULTURES][int(c1)]['rural'] += num(p1)
+    for c in parsed[L_CULTURES]:
+        if abs(c['rural']) < 1e-3:                    # a culture left with no cells (the cell array rounds to 4 places)
+            c['rural'] = 0
+    lines[L_SVG] = regroup_routes(lines[L_SVG], parsed[L_ROUTES])
+    for n in JSON_RECORDS:
+        lines[n] = dump(parsed[n])
+    for n in CELL_ARRAYS:
+        lines[n] = ','.join(arrays[n])
+    changed = {n for n in range(RECORDS) if lines[n] != before[n]}
+    assert changed <= RECORDS_TOUCHED, 'an unexpected record changed: %s' % sorted(changed - RECORDS_TOUCHED)
+    for n in CELL_ARRAYS:
+        assert len(cells(lines[n])) == len(cells(before[n]))
+    assert lines[L_SVG].count('<path id="route') == before[L_SVG].count('<path id="route')
+    return changed
+
+
+# ---------------------------------------------------------------- world.json, the map as data for the writers
+def strip_note(note):
+    t = re.sub(r'<iframe.*?</iframe>', '', note or '', flags=re.S)
+    t = re.sub(r'<[^>]+>', '', t)
+    return re.sub('[\ud800-\udfff]', '', t).strip()     # without the half-glyphs of the carved inscriptions
+
+
+def world_digest(lines):
+    """The digest of names and ids the history is written against (legendarium/world.json)."""
+    J = {n: json.loads(lines[n]) for n in (L_CULTURES, L_STATES, L_BURGS, L_RELIGIONS, L_PROVINCES, L_RIVERS,
+                                           L_MARKERS, L_ZONES, L_FEATURES)}
+    cult = {c['i']: c['name'] for c in J[L_CULTURES]}
+    rel = {r['i']: r['name'] for r in J[L_RELIGIONS]}
+    prov = {p['i']: p['name'] for p in J[L_PROVINCES] if isinstance(p, dict)}
+    cell_rel = cells(lines[L_CELL_RELIGION])
+    cell_prov = cells(lines[L_CELL_PROVINCE])
+    cell_burg = cells(lines[L_CELL_BURG])
+    state = J[L_STATES][1]
+    burgs = [b for b in J[L_BURGS] if isinstance(b, dict) and b.get('i') and not b.get('removed')]
+    by_id = {b['i']: b for b in burgs}
+    w = {'state': {'name': state['name'], 'fullName': state['fullName'],
+                   'capital': '%s (burg %d)' % (by_id[state['capital']]['name'], state['capital'])}}
+    w['cultures'] = [{'id': c['i'], 'name': c['name']} for c in J[L_CULTURES]]
+    w['faiths'] = [{'id': r['i'], 'name': r['name'], 'type': r['type'], 'form': r['form'], 'deity': r.get('deity'),
+                    'culture': cult[r['culture']]} for r in J[L_RELIGIONS] if r['i']]
+    w['provinces'] = [{'id': p['i'], 'name': p['name'], 'fullName': p['fullName'], 'seat': p.get('burg', 0)}
+                      for p in J[L_PROVINCES] if isinstance(p, dict)]
+    w['burgs'] = [{'id': b['i'], 'name': b['name'], 'x': b['x'], 'y': b['y'], 'culture': cult[b['culture']],
+                   'province': prov.get(int(cell_prov[b['cell']]), ''), 'faith': rel[int(cell_rel[b['cell']])],
+                   'population': int(round(b['population'] * 1000)), 'port': bool(b.get('port')),
+                   'capital': bool(b.get('capital')), 'citadel': bool(b.get('citadel')), 'walls': bool(b.get('walls')),
+                   'temple': bool(b.get('temple')), 'group': b['group']} for b in burgs]
+    w['rivers'] = [{'id': r['i'], 'name': r['name'], 'length': int(round(r.get('length', 0))), 'type': r.get('type')}
+                   for r in J[L_RIVERS]]
+
+    def nearest(x, y):
+        return min(burgs, key=lambda b: ((b['x'] - x) ** 2 + (b['y'] - y) ** 2, b['i']))['i']
+    w['markers'] = [{'id': m['i'], 'type': m['type'], 'name': m['name'], 'x': m['x'], 'y': m['y'],
+                     'note': strip_note(m.get('note')), 'nearest_burg': nearest(m['x'], m['y'])} for m in J[L_MARKERS]]
+    w['zones'] = []
+    for z in J[L_ZONES]:
+        seen = []
+        for c in z['cells']:
+            b = int(cell_burg[c])
+            if b and b not in seen:
+                seen.append(b)
+        w['zones'].append({'id': z['i'], 'name': z['name'], 'type': z['type'], 'cells': len(z['cells']), 'burgs': seen})
+    w['military'] = [{'name': r['name'], 'type': 'fleet' if r.get('n') else 'regiment', 'x': r['x'], 'y': r['y'],
+                      'stationed_burg': nearest(r.get('bx', r['x']), r.get('by', r['y']))} for r in state.get('military', [])]
+    w['features'] = [{'id': f['i'], 'type': f['type'], 'name': f['name']} for f in J[L_FEATURES] if isinstance(f, dict)]
+    return w
+
+
+def write_world(lines):
+    raw = open(WORLD, encoding='utf-8').read()
+    old = json.loads(raw)
+    new = world_digest(lines)
+    # keep the digest's own order of keys and any key it carries that the map does not give
+    out = {k: new.get(k, v) for k, v in old.items()}
+    text = json.dumps(out, ensure_ascii=False, indent=0)
+    if text != raw:
+        open(WORLD, 'w', encoding='utf-8').write(text)
+    return text != raw
+
+
+def apply_to_map(path, edits=None):
+    raw = open(path, encoding='utf-8', newline='').read()       # newline='' keeps the CRLF record separators
+    lines = raw.split('\r\n')
+    assert len(lines) == RECORDS, '%s: expected %d records, got %d' % (path, RECORDS, len(lines))
+    new = list(lines)
+    changed = reconcile_records(new, edits)
+    out = '\r\n'.join(new)
+    if out != raw:
+        with open(path, 'w', encoding='utf-8', newline='') as fh:
+            fh.write(out)
+    check = open(path, encoding='utf-8', newline='').read().split('\r\n')
+    assert len(check) == RECORDS and check == new
+    return changed, check
+
+
+if __name__ == '__main__':
+    edits = load_edits()
+    last = None
+    for path in MAPS:
+        if not os.path.isfile(path):
+            print('skip (not built):', os.path.relpath(path, ROOT))
+            continue
+        changed, last = apply_to_map(path, edits)
+        print('%s: records changed %s' % (os.path.relpath(path, ROOT), sorted(changed) or 'none'))
+    if last:
+        print('world.json:', 'rewritten' if write_world(last) else 'unchanged')
+    sys.exit(0)

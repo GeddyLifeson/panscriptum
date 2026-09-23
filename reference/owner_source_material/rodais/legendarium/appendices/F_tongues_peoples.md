@@ -206,7 +206,7 @@ What the Tuathaich call themselves in their own speech the chronicles do not say
 appendix is the kingdom's name for them.
 
 **Their burgs.** The map counts sixty-four Tuathaich burgs, all in the north and north-west, with
-some 543,000 people in them. The Ròdaich hold the other 441. The largest Tuathaich towns:
+some 543,000 people in them. The Ròdaich hold the other 441. The Tuathaich country is some fifteen parts in a hundred of the island's land, the frozen coast of the far north-west among it, and the Ròdaich country the other eighty-five (Appendix H). The largest Tuathaich towns:
 
 | Burg | Shire | Faith | Population |
 |---|---|---|---|
@@ -523,7 +523,7 @@ The describers are colour, size and character words: *mòr, beag, dubh, geal, b�
 uaine, glas, fada, domhain, ìseal, fiadhaich, naomh, fionn, ciar, gorm, sean, òg, garbh, min, caol,
 leathan, crom, dìreach, àrsaidh*. The great rivers are *Abhainn* with a describer; the small ones
 take a root and the ending *-as* or *-eas* by broad and slender. A shire, *siorrachd*, takes the name
-of its seat. Names repeat freely; there are two Baile chrom and four Seann Skell, and the rolls
+of its seat, or, where it has no town, of its island (Appendix H). Names repeat freely; there are four Baile chrom and four Seann Skell, and the rolls
 tell them apart by where they are.
 
 Beside these stand the Old Ones' names, which follow none of the rules above except that the Ròdaich

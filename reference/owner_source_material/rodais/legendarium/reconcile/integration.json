@@ -1,0 +1,88 @@
+{
+ "layer": "integration",
+ "summary": "The integrator's own map edits and the proposal edits it sets aside, applied by map_reconcile.py after the seven layer proposals. The reasons are set out in INTEGRATION.md.",
+ "skip": [
+  {
+   "layer": "heraldry",
+   "record": 30,
+   "path": "[122].fullName",
+   "why": "state.json names the two island shires for their islands (Siorrachd Eilean dhìreach / Eilean ìseal); its values win."
+  },
+  {
+   "layer": "heraldry",
+   "record": 30,
+   "path": "[123].fullName",
+   "why": "as above"
+  },
+  {
+   "layer": "state",
+   "record": 13,
+   "path": "[0].rural",
+   "why": "the cultures' rural totals are derived by map_reconcile.py from the cell culture and population arrays after every edit, so the land layer's population change is counted too"
+  },
+  {
+   "layer": "state",
+   "record": 13,
+   "path": "[2].rural",
+   "why": "as above"
+  },
+  {
+   "layer": "markers_routes",
+   "record": 35,
+   "path": "[47].note",
+   "why": "replaced by the integration edit below: the company's eight days fall in the first spring of the war, not its first winter"
+  }
+ ],
+ "map_edits": [
+  {
+   "record": 41,
+   "path": "[13].name",
+   "old": "Olives",
+   "value": "Flax",
+   "why": "Rodos lies at about 62.5-64.5 N (land layer); no olive grows there. The good becomes flax, grown on the lake shore at Seann Warr and pressed for linseed oil. The Oil good, whose recipes are this good or whales, is then linseed or whale oil."
+  },
+  {
+   "record": 41,
+   "path": "[13].unit",
+   "old": "barrel",
+   "value": "bale",
+   "why": "goes with Flax"
+  },
+  {
+   "record": 41,
+   "path": "[13].icon",
+   "old": "good-olives",
+   "value": "good-hemp",
+   "why": "the Azgaar icon set has no flax; hemp is the nearest fibre crop"
+  },
+  {
+   "record": 35,
+   "path": "[7].note",
+   "mode": "replace-substring",
+   "old": "Delicious fried olives with fire water is served here.",
+   "value": "Delicious oatcakes fried in linseed oil are served here with fire water.",
+   "why": "An Leòmhann Buidhe served fried olives in the history (III-0073), which became oatcakes fried in linseed oil with the olives."
+  },
+  {
+   "record": 35,
+   "path": "[40].note",
+   "old": "A huge group of panthers are migrating, whether part of their annual routine, or something more extraordinary.",
+   "value": "Imrich nam Pantar, the panthers' crossing. The great cats' roads cross the mountains by the high passes and come down here, between Baile dhomhain and the southern Cnoc àrsaidh, over the southern road to the fens of the south-west coast, at the same season every year. The herders of the south-west keep the crossing days and drive their flocks off the paths beforehand.",
+   "why": "The marker stands on low south-west coast. The history places the crossing near Baile dhomhain and the southern Cnoc àrsaidh, over the carriers' southern road (I-0179, II-0055, III-0072, V-0210) as well as over the high passes (I-0078, I-0079); there is no mountain within reach of those towns, so the note is reworded and the marker kept."
+  },
+  {
+   "record": 3,
+   "path": "[10].name",
+   "old": "Tundra",
+   "value": "Moor",
+   "why": "The land layer relabels the settled north from Glacier to biome 10; the history calls that country moor (Appendix I), so the biome is named for it."
+  },
+  {
+   "record": 35,
+   "path": "[47].note",
+   "old": "Current location of the adventuring party.",
+   "value": "Here, at the Direwolf's temple city of Inis thais, Buidheann an t-Seabhaig Luaidhe, the Leaden Hawk company, ended its road in the first spring of the Severance war.",
+   "why": "the markers layer's note, with the season the annals date the company's road to (IV-0342a..e, April 1929)"
+  }
+ ]
+}

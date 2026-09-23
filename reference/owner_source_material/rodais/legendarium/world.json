@@ -821,14 +821,14 @@
 },
 {
 "id": 122,
-"name": "Siorrachd fhionn",
-"fullName": "Siorrachd Siorrachd fhionn",
+"name": "Eilean dhìreach",
+"fullName": "Siorrachd Eilean dhìreach",
 "seat": 0
 },
 {
 "id": 123,
-"name": "Siorrachd àrsaidh",
-"fullName": "Siorrachd Siorrachd àrsaidh",
+"name": "Eilean ìseal",
+"fullName": "Siorrachd Eilean ìseal",
 "seat": 0
 }
 ],
@@ -9874,7 +9874,7 @@
 "name": "Allt an Àigh",
 "x": 1004.4,
 "y": 328.7,
-"note": "This legendary water source is whispered about in ancient tales and believed to possess mystical properties. The spring emanates crystal-clear water, shimmering with an otherworldly iridescence that s",
+"note": "This legendary water source is whispered about in ancient tales and believed to possess mystical properties. The spring emanates crystal-clear water, shimmering with an otherworldly iridescence that sparkles even in the dimmest light.",
 "nearest_burg": 279
 },
 {
@@ -9883,7 +9883,7 @@
 "name": "Muileann chiar — baile mèinne airgid",
 "x": 999.3,
 "y": 359.44,
-"note": "Muileann chiar is a mining town of 11461 people just nearby the silver mine.",
+"note": "Muileann chiar, the silver town, stands beside the only silver seam on Rodos, found in the Holy Age near the great vein and never part of it. The town's silver guild has held the seam ever since: against the Company in the Age of Strangers, and under the kingdom's charter now.",
 "nearest_burg": 419
 },
 {
@@ -9928,8 +9928,8 @@
 "name": "An Leòmhann Buidhe",
 "x": 941.34,
 "y": 169.73,
-"note": "A big and famous roadside tavern. Delicious fried olives with fire water is served here.",
-"nearest_burg": 84
+"note": "A big and famous roadside tavern. Delicious oatcakes fried in linseed oil are served here with fire water.",
+"nearest_burg": 215
 },
 {
 "id": 8,
@@ -10036,7 +10036,7 @@
 "name": "Toll-dubh",
 "x": 592.31,
 "y": 312.35,
-"note": "Undiscovered dungeon. See One page dungeon",
+"note": "Toll-dubh, the western shaft of the Old Ones: cut straight down through the rock, its walls tooled smooth as far as a lamp can show, with no spoil heap beside it. Quarrymen from north of the capital broke into it in the Age of Sundering and found a stair cut in the rock going down beyond their lamps. The custodians walled the entrance up, and it has not been opened since.",
 "nearest_burg": 80
 },
 {
@@ -10045,7 +10045,7 @@
 "name": "Toll-dubh",
 "x": 1069.79,
 "y": 459.4,
-"note": "Undiscovered dungeon. See One page dungeon",
+"note": "Toll-dubh, the eastern shaft of the Old Ones, twin of the western one across the island. In the Ancient Age a youth was let down into it on a rope of plaited hide and drawn up alive, and he never said what he had seen. Charcoal-burners found it again in the Age of Sundering, with the same cut stair as the western shaft, and the custodians walled it up. The people of Muileann ruadh keep away from it.",
 "nearest_burg": 505
 },
 {
@@ -10117,7 +10117,7 @@
 "name": "Carragh Cnoc bheag",
 "x": 653.11,
 "y": 243.61,
-"note": "An ancient obelisk. It has an inscription, but no one can translate it:\n        ⳫⲲ⳪ⳊⳎ⳩Ⳛ ⳬⳖⳤ⳾ⳠⲾ⳥⳩ⳈⳎⲶ⳥⳧⳹ⳆⳐ⳥ⳲⳆⳖⳘⳐ⳪ ⳆⲶⳫⳐⳐⳊⳌⳃ⳪ⳬⳖⳊⳔⳲ⳹ⳖⳆⳈⳜⳂⳄⳞⳲⳈⳫⳆⳞⲾⳚⲶⳆⳐ⳥ⲺⳔⳤⳘⳚ⳹ⳁⳜⳠⳄⲴⳲ",
+"note": "An ancient obelisk. On its upper face runs a line in the script of the Old Ones, which no one can read; lower down, cut by a later hand with a narrower tool, are four words of Ròdais, Bha teine sa chloich, 'there was fire in the stone'. The old line reads:\n        ⳫⲲ⳪ⳊⳎ⳩Ⳛ ⳬⳖⳤ⳾ⳠⲾ⳥⳩ⳈⳎⲶ⳥⳧⳹ⳆⳐ⳥ⳲⳆⳖⳘⳐ⳪ ⳆⲶⳫⳐⳐⳊⳌⳃ⳪ⳬⳖⳊⳔⳲ⳹ⳖⳆⳈⳜⳂⳄⳞⳲⳈⳫⳆⳞⲾⳚⲶⳆⳐ⳥ⲺⳔⳤⳘⳚ⳹ⳁⳜⳠⳄⲴⳲ",
 "nearest_burg": 20
 },
 {
@@ -10126,7 +10126,7 @@
 "name": "Colbh Cnoc chiar",
 "x": 802.67,
 "y": 217.14,
-"note": "An ancient pillar. It has an inscription, but no one can translate it:\n         𐠔𐠁𐠪𐠫𐠅𐠸 𐠨 𐠬𐠋𐠭𐠗𐠌𐠂𐠷𐠰𐠲𐠞𐠞𐠟𐠭",
+"note": "An ancient pillar. It carries two words of Ròdais, Cuimhnich an teine, 'remember the fire', and round them signs in a script no one can read. The signs run:\n         𐠔𐠁𐠪𐠫𐠅𐠸 𐠨 𐠬𐠋𐠭𐠗𐠌𐠂𐠷𐠰𐠲𐠞𐠞𐠟𐠭",
 "nearest_burg": 243
 },
 {
@@ -10135,7 +10135,7 @@
 "name": "Calbh Cnoc ghorm",
 "x": 804.06,
 "y": 417.61,
-"note": "An ancient column. It has an inscription, but no one can translate it:\n        𐠨 𐠞𐠨𐠕𐠖𐠟𐠎𐠅𐠟 𐠥  𐠐𐠿𐠋  𐠦𐠕𐠬𐠤  𐠃𐠲 𐠅",
+"note": "An ancient column. The people of Cnoc ghorm say it carries the doctrine of the Ancient Age, Cha do thàinig sinn; bha sinn ann, 'we did not come; we were here'; the scholars who came to read it in the Holy Age could not. Its marks run:\n        𐠨 𐠞𐠨𐠕𐠖𐠟𐠎𐠅𐠟 𐠥  𐠐𐠿𐠋  𐠦𐠕𐠬𐠤  𐠃𐠲 𐠅",
 "nearest_burg": 392
 },
 {
@@ -10144,8 +10144,8 @@
 "name": "Làrach an Dùin-fhaire",
 "x": 868.47,
 "y": 426.89,
-"note": "Ruins of an ancient outpost. Untold riches may lie within.",
-"nearest_burg": 23
+"note": "Ruins of a walled outpost of the Old Ones on a spur above Cathair mhòr. Its stones are dressed on the outer face only, and its single gate faces inland and was blocked with rubble from the inside. No one knows who built it.",
+"nearest_burg": 22
 },
 {
 "id": 32,
@@ -10153,8 +10153,8 @@
 "name": "Làrach an Dùin",
 "x": 1057.19,
 "y": 493.8,
-"note": "Ruins of an ancient fortress. Untold riches may lie within.",
-"nearest_burg": 363
+"note": "Ruins of a fortress of the Old Ones: three rings of wall and a cistern cut into the bedrock, with room for four hundred people and their beasts. It was long said to hold riches. The men of Baile ghorm who dug for them in the Holy Age found only ash, and the library's diggers found walls older than any Ròdaich building and no writing.",
+"nearest_burg": 429
 },
 {
 "id": 33,
@@ -10162,7 +10162,7 @@
 "name": "Làrach an Teampaill",
 "x": 1105.57,
 "y": 344.24,
-"note": "Ruins of an ancient temple. Untold riches may lie within.",
+"note": "Ruins of a temple older than any faith on the island: a stepped platform of fitted stone whose altar is set square to the central mountains, not to the sea. Its top stone was prised off in the Ancient Age and has never been found. Edwin Lowe dug here for a season in the Age of Strangers and found cut stone, burnt bone and marks he could not read; the library has measured it and, at the asking of the district, left it undug.",
 "nearest_burg": 226
 },
 {
@@ -10199,7 +10199,7 @@
 "x": 856.43,
 "y": 387.73,
 "note": "Warriors from around the land gather for a melee of brutality in Ceann leathan, with fame, fortune and favour on offer to the victor.",
-"nearest_burg": 22
+"nearest_burg": 314
 },
 {
 "id": 38,
@@ -10225,7 +10225,7 @@
 "name": "Imrich nam Pantar",
 "x": 584.1,
 "y": 525.9,
-"note": "A huge group of panthers are migrating, whether part of their annual routine, or something more extraordinary.",
+"note": "Imrich nam Pantar, the panthers' crossing. The great cats' roads cross the mountains by the high passes and come down here, between Baile dhomhain and the southern Cnoc àrsaidh, over the southern road to the fens of the south-west coast, at the same season every year. The herders of the south-west keep the crossing days and drive their flocks off the paths beforehand.",
 "nearest_burg": 257
 },
 {
@@ -10240,56 +10240,56 @@
 {
 "id": 42,
 "type": "encounters",
-"name": "Coinneachadh",
+"name": "Coinneachadh a' Mhonaidh",
 "x": 902.39,
 "y": 223,
-"note": "You have encountered a character.",
+"note": "The moor above Cnoc naomh where the crew-leaders of the northern pits met in the spring before the Severance war and fixed the week of their rising. A cairn of spoil-stones from every pit that sent a man marks the place.",
 "nearest_burg": 406
 },
 {
 "id": 43,
 "type": "encounters",
-"name": "Coinneachadh",
+"name": "Coinneachadh an Fhearainn",
 "x": 932.42,
 "y": 404.04,
-"note": "You have encountered a character.",
+"note": "The standing stone on the moor road below Muileann dhomhain where the custodians of that town met the people turned out of the closed district of the Rending and lent them the land on which Achadh chaol was raised.",
 "nearest_burg": 202
 },
 {
 "id": 44,
 "type": "encounters",
-"name": "Coinneachadh",
+"name": "Coinneachadh na h-Amhaich",
 "x": 1037.07,
 "y": 172.04,
-"note": "You have encountered a character.",
-"nearest_burg": 443
+"note": "The stone on the neck of land between Caol chrom and Caol gharbh where the two harbours of the strait have met to settle its dues since the salt came to Caol gharbh in the Age of Sundering.",
+"nearest_burg": 133
 },
 {
 "id": 45,
 "type": "encounters",
-"name": "Coinneachadh",
+"name": "Coinneachadh nan Long",
 "x": 279.1,
 "y": 159.3,
-"note": "You have encountered a character.",
+"note": "The water off the north-west cape where boats out of Achadh àrsaidh met the three ships from the west in the first days of the Crossing and led them down the coast toward Cuan shean. The fishing boats of Achadh àrsaidh still slow when they pass it.",
 "nearest_burg": 242
 },
 {
 "id": 46,
 "type": "encounters",
-"name": "Coinneachadh",
+"name": "Coinneachadh nan Cupan",
 "x": 946.39,
 "y": 307.15,
-"note": "You have encountered a character.",
+"note": "The spring on the moor between Àth gharbh and Tobar dhìreach where the keeper's stone cup and its three copies were first set side by side and filled from the spring, so that every hearth of the hills burned the ore by one measure.",
 "nearest_burg": 277
 },
 {
 "id": 47,
 "type": "party",
 "name": "A' Bhuidheann",
-"x": 837.5,
-"y": 123.7,
-"note": "Current location of the adventuring party.",
-"nearest_burg": 11
+"x": 515.1,
+"y": 438,
+"note": "Here, at the Direwolf's temple city of Inis thais, Buidheann an t-Seabhaig Luaidhe, the Leaden Hawk company, ended its road in the first spring of the Severance war.",
+"nearest_burg": 166
 }
 ],
 "zones": [
@@ -10355,6 +10355,7 @@
 "burgs": [
 364,
 190,
+90,
 150
 ]
 }
@@ -10391,8 +10392,8 @@
 {
 "name": "An còigeamh rèisimeid (Seann Warr)",
 "type": "regiment",
-"x": 551.89,
-"y": 408.51,
+"x": 565.3,
+"y": 375.29,
 "stationed_burg": 64
 },
 {

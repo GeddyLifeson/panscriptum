@@ -399,7 +399,7 @@ good flint on Rodos, and the road of those who carried it is sunk a yard deep ne
 carved on a lintel at Àth mhòr, the oldest carving of any bird on the island. Someone began to mark the
 high-water line against a fixed rock, at intervals too regular for a fisherman's habit, and the practice
 was carried to Ros dhomhain with the interval unchanged; and there the marks crept upward from keeper to
-keeper, until by the age's end the sea stood a hand higher than at the first cut. The keepers kept
+keeper, until by the age's end the lake stood a hand higher than at the first cut. The keepers kept
 cutting. And the eight winds were named, with names that translate awkwardly and have never been replaced.
 Eight stones were set in a ring on the point at Ceann leathan, one to each wind, and sailors of every age
 since have touched the stone of the wind they want before they go out.

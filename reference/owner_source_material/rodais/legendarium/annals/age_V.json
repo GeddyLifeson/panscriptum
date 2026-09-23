@@ -115,12 +115,53 @@
   "kind": "law"
  },
  {
+  "id": "V-0014a",
+  "title": "The frozen coast left out",
+  "body": "The shire lines stop where the humans' survey stopped, at the ice margin of the far north-west. The frozen coast beyond, an Oirthir Reòthte, with its sealers and fowlers, is put in no shire and given no maor. The council's minute says only that it 'is not in the survey'.",
+  "place": "province:120"
+ },
+ {
+  "id": "V-0014b",
+  "title": "The island shires",
+  "body": "Two rocks that each kept a customs station of the Administration, Eilean dhìreach off the Tuathaich coast and Eilean ìseal off the east coast, are kept as shires of their own, since the council has no rule for folding a district into its neighbour. Neither has a town to name it, and each shire takes its island's name.",
+  "place": "province:122"
+ },
+ {
+  "id": "V-0014c",
+  "canon": false,
+  "title": "The market of Ceann mhòr",
+  "body": "When the shires are drawn, the Tuathaich of Ceann mhòr are given a market right for the north-west coast. Its court sits in the harbour store whose locks the fishermen had broken. Fish, whale-oil, seal-oil, amber, dyes and the tobacco of the concession farms are sold there.",
+  "place": "burg:143",
+  "kind": "law",
+  "between": [
+   1932,
+   1933
+  ]
+ },
+ {
   "id": "V-0015",
   "canon": false,
   "title": "The maoir appointed",
   "body": "A maor is appointed to each shire to collect the Crown's dues and keep its peace. In the Tuathaich shires the maoir are Ròdaich, lodged in the seat towns; at Ceann mhòr the maor's house is the old human magistrate's, and the townspeople call it by the old name.",
   "place": "burg:143",
   "kind": "law"
+ },
+ {
+  "id": "V-0015a",
+  "title": "The Crown's dues set",
+  "body": "The council sets the dues the maoir are to collect: a head-due, cìs-cinn, on every household by the number of its heads, and a market-due, cìs-margaidh, on every sale made by a seller of the kingdom. The humans' harbour tariff at Ros dhomhain stays in force until the kingdom has a coin of its own to take the market-due in.",
+  "place": "burg:19"
+ },
+ {
+  "id": "V-0015b",
+  "title": "The roll of arms",
+  "body": "The council's clerks make Clàr nan Suaicheantas, a roll of arms, so that each maor can seal his court's letters. The kingdom's arms are cut again from the custody's old seal, and every shire is given arms of its own. Many of the charges are copied from a book of arms left at the Residency, and so lions, parrots and crocodiles appear on the seals of shires where no one has ever seen one. The Ròdaich shires take the pointed shield of the custody's seal. The Tuathaich shires keep the rounded shield of the humans' district seals. At Seann Skell in the west the Scorpion's house asks for its sign, and that shire's arms are the only ones on the roll to carry a scorpion.",
+  "place": "province:1",
+  "kind": "law",
+  "between": [
+   1933,
+   1933
+  ]
  },
  {
   "id": "V-0016",
@@ -143,7 +184,7 @@
   "id": "V-0018",
   "canon": false,
   "title": "The dead of the Great Wave counted",
-  "body": "Relief parties from Cathair dhearg reach Cuan dhearg on the southern coast and count the dead of the three settlements at a little over nine hundred. The harbour at Cuan dhearg is gone. Its boats are found in the fields behind the town.",
+  "body": "Relief parties from Cathair dhearg reach Cuan dhearg on the southern coast and count the dead of the three settlements at a little over nine hundred. The harbour at Cuan dhearg is gone. Its boats are found in the fields behind the town. The wave has run on up the gulf as far as Ros gharbh, the seat of its shire, broken its quays and thrown the gulf's fishing fleet onto the headland; the town stands high and has lost few people, and nearly every boat.",
   "place": "burg:190",
   "kind": "disaster"
  },
@@ -246,6 +287,18 @@
   "kind": "faith"
  },
  {
+  "id": "V-0030a",
+  "canon": false,
+  "title": "The hawk-house at Muileann naomh takes the order",
+  "body": "The hawk-house at Muileann naomh, the southernmost of the Hawk's houses and the farthest from Cnoc bheag, accepts the Rite's written order of worship and becomes a house of Creideamh nan Ròdach. Its bell, the first hung in a hawk-house, is rung now at the Rite's measured burnings. No other house of the Hawk follows it.",
+  "place": "burg:326",
+  "kind": "faith",
+  "between": [
+   1935,
+   1936
+  ]
+ },
+ {
   "id": "V-0031",
   "canon": false,
   "title": "The Wolf houses stand aside",
@@ -279,6 +332,18 @@
   "canon_date": "c. 1936 DE"
  },
  {
+  "id": "V-0034a",
+  "canon": false,
+  "title": "The census of the faiths",
+  "body": "The first census of the restored kingdom enters every town under the faith its people keep, the first such roll since Seumas Bàn's clerks counted the rites at Dùn ìseal. On the far north-western cape beyond Baile chrom, where there is no town, the clerks find scattered families with no house of any faith, and on Eilean ghorm and the smallest islets no one to ask. They enter all of it as *gun chreideamh*, without a faith.",
+  "place": "burg:305",
+  "kind": "record",
+  "between": [
+   1936,
+   1936
+  ]
+ },
+ {
   "id": "V-0035",
   "canon": false,
   "title": "The count taken from the road",
@@ -293,6 +358,18 @@
   "body": "Justices are appointed to ride circuit among the shires, the first of them Eilidh nic Leòid of Cathair dhomhain. Her circuit covers eleven shires of the south-west and takes most of a year to ride once.",
   "place": "burg:26",
   "kind": "law"
+ },
+ {
+  "id": "V-0036a",
+  "canon": false,
+  "title": "The head-due first collected",
+  "body": "The maoir collect the head-due for the first time, on the households the census counted, at eighteen purses on every hundred thousand heads, and take it with the harbour dues.",
+  "place": "burg:19",
+  "kind": "law",
+  "between": [
+   1936,
+   1937
+  ]
  },
  {
   "id": "V-0037",
@@ -358,6 +435,18 @@
   "body": "Most Tuathaich towns keep the worship of Cnut, the Yellow Scorpion, as the Ròdaich of the west coast do; how the settlers came to it the record does not say. A house of Creideamh na Scairpe Buidhe is built at Cnoc ghorm, the largest in the north.",
   "place": "burg:142",
   "kind": "faith"
+ },
+ {
+  "id": "V-0044a",
+  "canon": false,
+  "title": "The cattle-market at Muileann fhionn",
+  "body": "Muileann fhionn, the mill-town the humans built to guard the northern landing, takes a market right for the north-western interior. The Tuathaich drovers bring their cattle and sheep to it, and the droves go south from it to Ceann leathan and the south-eastern farms. It becomes the largest cattle-market on the island.",
+  "place": "burg:160",
+  "kind": "trade",
+  "between": [
+   1938,
+   1939
+  ]
  },
  {
   "id": "V-0045",
@@ -437,7 +526,7 @@
   "id": "V-0054",
   "canon": false,
   "title": "Baile thais grows on the ore road",
-  "body": "Baile thais, where the ore road from the central mountains meets the east coast, takes on carters, inns and a ropewalk. Its population doubles in a decade, and the town is given a shire court.",
+  "body": "Baile thais, where the ore road from the central mountains comes down to the Abhainn uaine above the gulf, takes on carters, inns and a ropewalk. Its population doubles in a decade, and the town is given a shire court.",
   "place": "burg:44",
   "kind": "trade"
  },
@@ -472,6 +561,18 @@
   "body": "The Rail Board lays new sidings at Muileann chrom, where ore trains from the Sloc Mòr are broken up and made up again for the ports. The yard's families, who work the small engines that move the wagons, are counted separately by the Board and live apart in rows by the lines.",
   "place": "burg:354",
   "kind": "building"
+ },
+ {
+  "id": "V-0058a",
+  "canon": false,
+  "title": "The western branch",
+  "body": "The Rail Board carries a branch of the ore line west from Cathair dhearg to the port of Seann Bhral, with a spur north to the pits at Àth leathan, so that the western workings can send their ore east by rail.",
+  "place": "burg:47",
+  "kind": "building",
+  "between": [
+   1942,
+   1950
+  ]
  },
  {
   "id": "V-0059",
@@ -653,6 +754,17 @@
   "kind": "record"
  },
  {
+  "id": "V-0080a",
+  "title": "The town arms copied",
+  "body": "The clerks of the first chronicle circuit copy the seal of every town they visit into the roll of arms, and the roll comes to hold the arms of five hundred and five places. In the north most are copied from the humans' old town seals, since few Tuathaich will show the clerks their own.",
+  "place": "marker:34",
+  "kind": "record",
+  "between": [
+   1948,
+   1948
+  ]
+ },
+ {
   "id": "V-0081",
   "canon": false,
   "title": "The chest from Inis bheag",
@@ -729,7 +841,7 @@
   "id": "V-0090",
   "canon": false,
   "title": "The fair's road",
-  "body": "The road from Cathair dhearg to Muileann òg is widened and metalled for the fair's carts, passing Dùn chrom, which takes a toll at its gate and grows on it.",
+  "body": "The road from Cathair dhearg to Muileann òg is widened and metalled for the fair's carts, passing Dùn chrom, which takes a toll at its gate and grows on it. As far as Muileann ghlas it runs on the old ore road; the new stretches are called Rathad na Fèille.",
   "place": "burg:255",
   "kind": "building"
  },
@@ -872,6 +984,18 @@
   "body": "The Mine Board, which had sat at Cathair dhearg since the Sloc Mòr concession, moves its clerks to Cathair mhòr to be nearer the mountain. Its surveys are kept there, not sent to the library, by the Board's own rule.",
   "place": "burg:23",
   "kind": "law"
+ },
+ {
+  "id": "V-0107a",
+  "canon": false,
+  "title": "The scent-makers of Seann Vell",
+  "body": "The glass-houses of the capital shore begin to make small flasks, and the women of Seann Vell sell in them the waters they distil from bog-myrtle, meadowsweet and heather honey. Within a few years scent is sold in every market town, and the towns of the western plain take up the trade.",
+  "place": "burg:29",
+  "kind": "craft",
+  "between": [
+   1956,
+   1956
+  ]
  },
  {
   "id": "V-0108",
@@ -1077,6 +1201,17 @@
   "kind": "faith"
  },
  {
+  "id": "V-0132a",
+  "title": "A hawk for Siorrachd Cnoc bheag",
+  "body": "The Hawk houses of Siorrachd Cnoc bheag ask the council to put a hawk on the shire's arms in place of the white billet the roll had given it. The council agrees, and the maor's seal is recut with a white hawk among its twelve crescents. It is the first change made to the roll at a faith's asking.",
+  "place": "province:6",
+  "kind": "faith",
+  "between": [
+   1964,
+   1965
+  ]
+ },
+ {
   "id": "V-0133",
   "canon": false,
   "title": "Six dead at the Còmhrag",
@@ -1117,6 +1252,18 @@
   "kind": "craft"
  },
  {
+  "id": "V-0137a",
+  "canon": false,
+  "title": "The eastern blank-houses",
+  "body": "With more silver coming up from Muileann chiar than the mint at Cathair dhearg can refine, the Crown contracts the villages of the eastern hills to refine the guild's bar, and the gold washed from the stream below Baile dhìreach, into blanks for the realm-coin. The mint strikes them. The villages are paid by weight.",
+  "place": "burg:384",
+  "kind": "trade",
+  "between": [
+   1966,
+   1966
+  ]
+ },
+ {
   "id": "V-0138",
   "canon": false,
   "title": "Dùn thais in the west",
@@ -1131,6 +1278,16 @@
   "body": "Its namesake Dùn thais in the east, seat of its own shire, builds a covered market for the hill farms. The two towns' courts are confused in the royal record for a decade until Tormod Pinn marks them west and east.",
   "place": "burg:77",
   "kind": "trade"
+ },
+ {
+  "id": "V-0139a",
+  "title": "Siorrachd Doire chaol",
+  "body": "Doire chaol, the village laid out south of the capital for the families of the royal household, has grown too large for the maor of Baile chiar to govern from his seat. The council cuts it out as a shire of its own, the only shire made since the drawing.",
+  "place": "province:67",
+  "between": [
+   1967,
+   1968
+  ]
  },
  {
   "id": "V-0140",
@@ -1339,7 +1496,7 @@
   "id": "V-0165",
   "canon": false,
   "title": "The school at Caol shean",
-  "body": "The Fèidh school takes a house at Caol shean, the largest town of its faith in the east, and begins to teach in the wet months, when the wood is too sodden for lectures. Its students copy the census note on the obsidian-touched and debate it openly.",
+  "body": "The Fèidh school takes a house at Caol shean, one of the great towns of its faith in the east, and begins to teach in the wet months, when the wood is too sodden for lectures. Its students copy the census note on the obsidian-touched and debate it openly.",
   "place": "burg:197",
   "kind": "faith"
  },
@@ -1662,7 +1819,7 @@
   "id": "V-0205",
   "canon": false,
   "title": "The copper at Àth fhiadhaich",
-  "body": "Copper is found in the hills behind Àth fhiadhaich on the east coast. The Board opens a working with men laid off from the Sloc Mòr. It pays wages. It is not the vein, and the town's Seann Spioradan house holds no blessing for it.",
+  "body": "Copper is found in the hills behind Àth fhiadhaich in the eastern hills. The Board opens a working with men laid off from the Sloc Mòr. It pays wages. It is not the vein, and the town's Seann Spioradan house holds no blessing for it.",
   "place": "burg:12",
   "kind": "discovery"
  },
@@ -1782,7 +1939,7 @@
   "canon": false,
   "title": "The census in the Wolf country",
   "body": "In the Wolf shires of the south-west, the Wolf houses publish their own count of their people beside the kingdom's, for the first time. The two agree to within a hundred.",
-  "place": "province:15",
+  "place": "province:10",
   "kind": "record"
  },
  {
@@ -2143,6 +2300,18 @@
   "kind": "culture"
  },
  {
+  "id": "V-0263a",
+  "canon": false,
+  "title": "The first motor car",
+  "body": "Fitters at Seann Skell on the southern coast put a lorry's dubhan engine under a closed carriage for the high custodian of the Rite. It is the first carriage on the island that needs no horse. Within a few years the council and the Mine Board have them too.",
+  "place": "burg:431",
+  "kind": "craft",
+  "between": [
+   2008,
+   2008
+  ]
+ },
+ {
   "id": "V-0264",
   "canon": false,
   "title": "Am Buabhall Fortanach",
@@ -2263,6 +2432,18 @@
   "place": null,
   "kind": "trade",
   "canon_date": "c. 2012 DE"
+ },
+ {
+  "id": "V-0278a",
+  "canon": false,
+  "title": "Buses and hired cars",
+  "body": "Dubhan buses begin to run between Cathair dhearg, Inis mhòr and Cathair mhòr, and hired cars wait at the bridge in the capital. Ròdais takes the names of both from the humans' tongue as it found them, bus and tacsaidh, where for the engine and the train it had made its own words.",
+  "place": "burg:19",
+  "kind": "trade",
+  "between": [
+   2012,
+   2012
+  ]
  },
  {
   "id": "V-0279",
@@ -2687,7 +2868,7 @@
   "id": "V-0326",
   "canon": false,
   "title": "A' chiad chabhlach raised",
-  "body": "The first fleet is raised from the south-west harbours and stationed at Àth gharbh. It is sent round the western cape to stop coal going out by sea from the Tuathaich ports.",
+  "body": "The first fleet is raised from the south-west harbours and stationed at Àth gharbh, its hulls lying in the harbour of Doire shean a short walk away. It is sent round the western cape to stop coal going out by sea from the Tuathaich ports.",
   "place": "burg:50",
   "kind": "war",
   "between": [
@@ -2735,7 +2916,7 @@
   "id": "V-0330",
   "canon": false,
   "title": "An còigeamh rèisimeid raised",
-  "body": "The fifth regiment is raised at Seann Warr on the west coast below the capital. It is sent north to relieve the regiments before Muileann àrsaidh.",
+  "body": "The fifth regiment is raised at Seann Warr on the lake shore west of the capital. It is sent north to relieve the regiments before Muileann àrsaidh.",
   "place": "burg:64",
   "kind": "war",
   "between": [
@@ -2801,6 +2982,16 @@
   "between": [
    2020,
    2021
+  ]
+ },
+ {
+  "id": "V-0335a",
+  "title": "Onto the frozen coast",
+  "body": "Some of the holdouts of Cnoc thais go on past the hills and out onto the frozen coast of the far north-west. The regiments follow them to the edge of the shire of Seann Vell and no farther. The open record names them, as it names every enemy of the war, only as those 'of no shire'.",
+  "place": "province:75",
+  "between": [
+   2020,
+   2020
   ]
  },
  {
@@ -3058,6 +3249,18 @@
   "kind": "war"
  },
  {
+  "id": "V-0357a",
+  "canon": false,
+  "title": "The market charter of Caol ruadh",
+  "body": "Caol ruadh, whose harbour victualled the garrisons and the second fleet through the war, is given a market right for the southern strait. It is the sixteenth market town and the last to be chartered.",
+  "place": "burg:15",
+  "kind": "trade",
+  "between": [
+   2022,
+   2022
+  ]
+ },
+ {
   "id": "V-0358",
   "canon": true,
   "title": "The dubhan monopoly completes",
@@ -3153,12 +3356,36 @@
   "kind": "law"
  },
  {
+  "id": "V-0368a",
+  "canon": false,
+  "title": "The market-due fixed",
+  "body": "The Treasury fixes the market-due at seventeen in the hundred on every sale a town makes into its market and on every sale between markets. A clerk of the Treasury is set in each of the sixteen market towns to take it and to keep the market roll. The wartime tithe on dubhan stays at the pumps, on its own line.",
+  "place": "burg:19",
+  "kind": "law",
+  "between": [
+   2023,
+   2023
+  ]
+ },
+ {
   "id": "V-0369",
   "canon": false,
   "title": "The Fuel-Fitters and the regiments",
   "body": "The Guild of Fuel-Fitters at Seann Skell on the southern coast is given the contract for the regiments' engines and the fleets' hulls, and doubles its rolls. The rule of the charter holds, and all its new fitters are Ròdaich.",
   "place": "burg:431",
   "kind": "craft"
+ },
+ {
+  "id": "V-0369a",
+  "canon": false,
+  "title": "The regiments' arms contracts",
+  "body": "The forges of Àth naomh in the west and Caol ìseal on the north coast, which smelt the bog-iron of their districts, take the Crown's contract for the regiments' small arms and field-guns. The forge-towns of the old vein country follow. Arms become the dearest common goods in every market of the kingdom.",
+  "place": "burg:286",
+  "kind": "trade",
+  "between": [
+   2023,
+   2023
+  ]
  },
  {
   "id": "V-0370",
@@ -3336,6 +3563,16 @@
   "body": "Dubhan is made at Seann Skell on the southern coast and at works in the east and north. Every lamp, engine, ship and lorry on the island runs on it. The coinage is pegged to it, and the tithe is taken on every sale.",
   "place": "burg:431",
   "kind": "trade"
+ },
+ {
+  "id": "V-0391a",
+  "title": "The Treasury's roll of the present year",
+  "body": "The Treasury's roll for the year stands at 9,568 purses: 6,374 from the head-due, taken at eighteen purses on every hundred thousand heads, and 3,194 from the market-due, taken at seventeen in the hundred on every sale. The wartime tithe is carried on its own line under the regiments' pay. The frozen coast pays neither due.",
+  "place": "burg:19",
+  "between": [
+   2026,
+   2026
+  ]
  },
  {
   "id": "V-0392",

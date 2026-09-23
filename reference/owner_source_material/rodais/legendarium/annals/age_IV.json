@@ -9,6 +9,18 @@
   "canon_date": "c. 1780 DE"
  },
  {
+  "id": "IV-0001a",
+  "canon": false,
+  "title": "The ships met off the north-west",
+  "body": "Two fishing boats out of Achadh àrsaidh, working the water off the north-west cape where the Sea-Watcher is seen, meet three ships out of the west and hail them. Neither side understands the other. The fishers turn south and the ships follow them down the coast toward Cuan shean. The fishers call the place of the meeting Coinneachadh nan Long, the meeting of the ships, and the boats of Achadh àrsaidh still slow there.",
+  "place": "marker:45",
+  "kind": "voyage",
+  "between": [
+   1780,
+   1780
+  ]
+ },
+ {
   "id": "IV-0002",
   "canon": false,
   "title": "Three ships off Cuan shean",
@@ -97,6 +109,18 @@
   "body": "The humans set up a trading post at Ros dhomhain, the capital's harbour: iron tools, window glass, lamp-oil and paper against wool, salt fish, hides and dyed cloth. The first tally-book of the post, kept by the trader Thomas Pike, balances evenly across its first year.",
   "place": "burg:27",
   "kind": "trade"
+ },
+ {
+  "id": "IV-0012a",
+  "canon": false,
+  "title": "The first hull on Loch chrom",
+  "body": "Pilots of Caol leathan bring the first of the strangers' ships up the Abhainn gheal into Loch chrom, towing her through the shallows below Baile ghlas with boats. She anchors off Ros dhomhain. From then on the humans' goods come to the capital shore by water, and the pilots charge a stranger's hull twice the toll of a Ròdaich boat.",
+  "place": "river:115",
+  "kind": "voyage",
+  "between": [
+   1782,
+   1782
+  ]
  },
  {
   "id": "IV-0013",
@@ -221,6 +245,14 @@
   "kind": "building"
  },
  {
+  "id": "IV-0027a",
+  "canon": false,
+  "title": "Fenn's line",
+  "body": "On the same survey James Fenn runs a line of sights across the whole island, from the open sea off the north-west, where ships from the west first raise the land, to the water off the eastern cape. He measures it at two hundred and twenty-one miles, some forty-five of them sea at the western end. It is the first measure of Rodos from side to side, and every chart the Company draws afterwards is scaled to it.",
+  "place": "feature:2",
+  "kind": "record"
+ },
+ {
   "id": "IV-0028",
   "canon": false,
   "title": "A marriage in two tongues",
@@ -265,7 +297,7 @@
   "id": "IV-0033",
   "canon": false,
   "title": "The warehouse at Cathair dhomhain",
-  "body": "The Company leases a stone warehouse at Cathair dhomhain, up the coast from the capital, to store tools out of reach of the harbour thieves of Ros dhomhain. It is the first building on Rodos the Company owns outright.",
+  "body": "The Company leases a stone warehouse at Cathair dhomhain, along the lake shore from the capital, to store tools out of reach of the harbour thieves of Ros dhomhain. It is the first building on Rodos the Company owns outright.",
   "place": "burg:26",
   "kind": "trade"
  },
@@ -436,7 +468,7 @@
   "id": "IV-0054",
   "canon": false,
   "title": "Cathair mhòr refuses the mark",
-  "body": "The market of Cathair mhòr, the largest in the hills east of the capital, refuses the humans' coin for a full year. The custodians of the town give way when the Company's tool-sellers refuse to cross their bridge.",
+  "body": "The market of Cathair mhòr, the largest below the hills east of the capital, refuses the humans' coin for a full year. The custodians of the town give way when the Company's tool-sellers refuse to cross their bridge.",
   "place": "burg:23",
   "kind": "trade"
  },
@@ -463,6 +495,18 @@
   "body": "Company masons rebuild the old stone bridge over Abhainn dhomhain at Cathair dhearg in dressed stone, wide enough for ore-carts to pass two abreast.",
   "place": "marker:3",
   "kind": "building"
+ },
+ {
+  "id": "IV-0057a",
+  "canon": false,
+  "title": "The Commissioner's carriage",
+  "body": "Company wheelwrights build a closed carriage for Josiah Pell, and he drives in it over the rebuilt bridge from the Residency to the council at Cathair dhearg. It is the first carriage on the island. The custodians go on walking to the council, and say so.",
+  "place": "marker:3",
+  "kind": "craft",
+  "between": [
+   1798,
+   1798
+  ]
  },
  {
   "id": "IV-0058",
@@ -623,6 +667,18 @@
   "kind": "people"
  },
  {
+  "id": "IV-0076a",
+  "canon": false,
+  "title": "Seòlaid Ceann òg",
+  "body": "The traders' boats from the new quay at Ceann òg go down the Abhainn ìseal past Cnoc bheag and Inis bhàn to the north coast, west along it, round the western capes, and south past Inis thais into the capital's water. Their lane is called Seòlaid Ceann òg after the quay. Off the north-west it swings far out into open sea, and there the ships bound for an Tìr Thall leave it and the ships from the west come in.",
+  "place": "burg:450",
+  "kind": "voyage",
+  "between": [
+   1806,
+   1810
+  ]
+ },
+ {
   "id": "IV-0077",
   "canon": false,
   "title": "The camp at Àth ìseal",
@@ -720,6 +776,18 @@
   "kind": "building"
  },
  {
+  "id": "IV-0088a",
+  "canon": false,
+  "title": "Rathad na Mèinne",
+  "body": "The Company's road-gangs finish metalling the carriers' road from Cathair dhearg by Doire chaol and the ford of Àth chiar to the workings at Achadh dhomhain, wide enough for ore-carts to pass both ways. The carters call it Rathad na Mèinne, the ore road. The posts with the crown's sign that had marked it since the Age of Sundering are left standing along it.",
+  "place": "burg:163",
+  "kind": "building",
+  "between": [
+   1812,
+   1815
+  ]
+ },
+ {
   "id": "IV-0089",
   "canon": false,
   "title": "The carters of Doire chaol",
@@ -734,6 +802,18 @@
   "body": "The Company takes over the river landing at Seann Toll, below the workings, and builds a loading stage there for the barges that carry the ore down the Abhainn uaine to Ceann leathan. The town's fishing boats are moved to the next reach.",
   "place": "burg:313",
   "kind": "reign"
+ },
+ {
+  "id": "IV-0090a",
+  "canon": false,
+  "title": "The ore ships' lane",
+  "body": "From the landing at Seann Toll the ore barges go down the Abhainn uaine to Ceann leathan, where the Company's ships load at the river mouth and go out by the southern lane, Slighe-mhara Caol fhiadhaich, west along the south coast to the wild strait and the open sea. The fishers of the south coast, who had used the lane for five hundred years, learn to keep out of the ore ships' way.",
+  "place": "burg:22",
+  "kind": "trade",
+  "between": [
+   1814,
+   1818
+  ]
  },
  {
   "id": "IV-0091",
@@ -857,7 +937,7 @@
   "id": "IV-0105",
   "canon": false,
   "title": "The carters of Baile gheal",
-  "body": "The carters of Baile gheal in the south-west take up the long haul of Seann Warr salt to the capital, a trade the Company does not bother to claim. It keeps the town's people out of the pits for the whole age.",
+  "body": "The carters of Baile gheal in the south-west take up the haul of Seann Warr brine-salt round the lake to the capital, a trade the Company does not bother to claim. It keeps the town's people out of the pits for the whole age.",
   "place": "burg:232",
   "kind": "trade"
  },
@@ -1003,6 +1083,18 @@
   "kind": "culture"
  },
  {
+  "id": "IV-0122a",
+  "canon": false,
+  "title": "Tobacco on the concession farms",
+  "body": "Human farmers of the northern concession plant tobacco on the sheltered slopes behind Ceann mhòr and sell the dried leaf to the Company's ships. It is the one crop the humans brought that is still grown on Rodos.",
+  "place": "burg:143",
+  "kind": "trade",
+  "between": [
+   1831,
+   1832
+  ]
+ },
+ {
   "id": "IV-0123",
   "canon": false,
   "title": "Drochaid Ros fhionn",
@@ -1041,6 +1133,30 @@
   "body": "The crew of a Company brig report a beast larger than their ship off the north-western headlands. The Administration's clerk files the report with the complaints about pirates, and the Ròdaich sailors of the coast say they had wondered when the humans would see it.",
   "place": "marker:21",
   "kind": "voyage"
+ },
+ {
+  "id": "IV-0127a",
+  "canon": false,
+  "title": "A brig in the drift ice",
+  "body": "A Company brig bound for the northern landing with tools is caught in the drift ice off Eilean fhada in a late spring and crushed. Her crew walk over the ice to the harbour at Caol bheag. After it the Company's charts mark the northern passage closed from midwinter to the end of spring.",
+  "place": "burg:301",
+  "kind": "disaster",
+  "between": [
+   1834,
+   1835
+  ]
+ },
+ {
+  "id": "IV-0127b",
+  "canon": false,
+  "title": "Whale-boats out of Àth fhionn",
+  "body": "Human fishermen of the concession teach the boats of Àth fhionn to hunt whales with the hand-lance instead of waiting for them to strand. The oil is sold to the Company for its lamps, and whale-boats go out from the north coast every summer after this.",
+  "place": "burg:113",
+  "kind": "trade",
+  "between": [
+   1834,
+   1835
+  ]
  },
  {
   "id": "IV-0128",
@@ -1172,6 +1288,18 @@
   "kind": "record"
  },
  {
+  "id": "IV-0142a",
+  "canon": false,
+  "title": "The glass-house at Baile Mòr dhìreach",
+  "body": "Peter Voss, a glazier left behind when his Company contract ended, builds a glass-house at Baile Mòr dhìreach and melts the white sand of Cuan ruadh with charcoal from the hills. It is the first glass made on Rodos. His Ròdaich apprentices take the craft to the towns of the capital shore within a generation.",
+  "place": "burg:136",
+  "kind": "craft",
+  "between": [
+   1845,
+   1846
+  ]
+ },
+ {
   "id": "IV-0143",
   "canon": false,
   "title": "The silver guild refuses again",
@@ -1205,6 +1333,18 @@
   "canon_date": "1848 DE"
  },
  {
+  "id": "IV-0146a",
+  "canon": false,
+  "title": "The coach to the camps",
+  "body": "The Company puts a coach on the road between the quay at Ros dhomhain and the camps at Muileann chrom, twice a week each way, changing horses at the old waypoint houses. Its passengers are clerks and overseers. The crews walk.",
+  "place": "burg:354",
+  "kind": "trade",
+  "between": [
+   1848,
+   1849
+  ]
+ },
+ {
   "id": "IV-0147",
   "canon": false,
   "title": "The ore weighed at the quay",
@@ -1228,6 +1368,18 @@
   "place": null,
   "kind": "record",
   "canon_date": "c. 1850 DE"
+ },
+ {
+  "id": "IV-0149a",
+  "canon": false,
+  "title": "The first steamer",
+  "body": "The first ship driven by an engine comes into Ros dhomhain, a Company paddle-steamer out of an Tìr Thall. The fishermen row out to look at a ship moving against the wind with no sail set. Within a generation the Company's ore goes out in nothing else.",
+  "place": "burg:27",
+  "kind": "voyage",
+  "between": [
+   1850,
+   1851
+  ]
  },
  {
   "id": "IV-0150",
@@ -1615,6 +1767,18 @@
   "body": "The hunger is worst at Baile chrom itself, whose people could see the new beacon from their empty fields. The custodians record that more died there than in any other settlement, and the Administration, which kept its own count, does not dispute the figure.",
   "place": "burg:305",
   "kind": "disaster"
+ },
+ {
+  "id": "IV-0195a",
+  "canon": false,
+  "title": "The famine country",
+  "body": "The custodians' roll draws the line of the famine country along the north-west shore and the hills behind it. Inside it lie Baile chrom in its own shire; Ceann mhòr, Àth fhionn and Àth dhearg in the shire of Ceann mhòr; Muileann àrsaidh in the shire of Cnoc thais; and Achadh àrsaidh in the shire of Muileann àrsaidh. Thirty-four settlements are counted within the line, and the roll gives the dead of each.",
+  "place": "zone:1",
+  "kind": "disaster",
+  "between": [
+   1873,
+   1874
+  ]
  },
  {
   "id": "IV-0196",
@@ -2028,6 +2192,18 @@
   "kind": "people"
  },
  {
+  "id": "IV-0243a",
+  "canon": false,
+  "title": "The ore line",
+  "body": "The Company opens its railway from the pits at Muileann chrom down by Cathair dhearg to the deep-water quay at Ros dhomhain. Its engines burn the island's own ore, as the steamships do, and the tram-road to Ros dhìreach is left to the mules. The carters' guild of Doire chaol, which had hauled the ore on Rathad na Mèinne for eighty years, loses the long haul within a year. The Ròdaich call the engine carbad-iarainn, the iron chariot, and the railway the ore line from its first day.",
+  "place": "burg:354",
+  "kind": "building",
+  "between": [
+   1899,
+   1899
+  ]
+ },
+ {
   "id": "IV-0244",
   "canon": false,
   "title": "Ore-lamps from Baile ghorm",
@@ -2051,6 +2227,12 @@
   "body": "The Administration counts the people of Rodos by district for the first time. Its figures for the humans are precise to the household; its figures for the Ròdaich are round to the hundred, and in the hill districts to the thousand.",
   "place": "burg:27",
   "kind": "record"
+ },
+ {
+  "id": "IV-0246a",
+  "title": "The district of the outer coasts",
+  "body": "The Administration makes the outer coasts a single district and governs it from the harbour office at Seann Vell on Eilean ruadh, where its revenue cutters lie: the islands of the west and south, Eilean bhàn with Cuan dhearg and Cnoc chaol, and the southern edge of the ice in the far north-west. Its surveyors walk the ice margin and go no farther. Beyond it the district map is left blank.",
+  "place": "burg:127"
  },
  {
   "id": "IV-0247",
@@ -2187,6 +2369,18 @@
   "kind": "faith"
  },
  {
+  "id": "IV-0262a",
+  "canon": false,
+  "title": "The Scorpion's priests on the grey night",
+  "body": "The Scorpion's priests at Ceann mhòr answer the Mission's report on the grey-night gatherings. The practice was learned from the Ròdaich, they say, but from their own harbours and not from Baile chrom: the human fishing families of Ceann mhòr learned the prayer to keep the sea shut from them, and the labourers inland keep it as a night of silence, praying to a grey goose instead of Cnut. The priests call it the Scorpion gone astray and do not admit its keepers to their house.",
+  "place": "burg:143",
+  "kind": "faith",
+  "between": [
+   1912,
+   1913
+  ]
+ },
+ {
   "id": "IV-0263",
   "canon": false,
   "title": "The dockers' strike at Ros dhomhain",
@@ -2274,9 +2468,21 @@
   "id": "IV-0272",
   "canon": false,
   "title": "The district closed",
-  "body": "The Company closes the whole district of the Rending and fences it, leaving Cill ghlas and its hamlets without work. The villages empty toward Baile thais and Muileann dhearg, and the closed district is left to thorn.",
+  "body": "The Company closes the whole district of the Rending and fences it, leaving Cill ghlas, Àth chaol and their hamlets in the shires of Muileann dhearg and Muileann chiar without work. The villages empty toward Baile thais and Muileann dhearg, and the closed district is left to thorn.",
   "place": "zone:3",
   "kind": "disaster",
+  "between": [
+   1916,
+   1918
+  ]
+ },
+ {
+  "id": "IV-0272a",
+  "canon": false,
+  "title": "The meeting on the moor road",
+  "body": "The people turned out of the closed district send their eldest to the custodians of Muileann dhomhain, who meet them at a standing stone on the moor road below the town rather than let the Company's clerks see them in the town hall. At the stone the custodians lend them the land at the edge of the fenced ground. The place is called Coinneachadh an Fhearainn, the meeting of the land.",
+  "place": "marker:43",
+  "kind": "people",
   "between": [
    1916,
    1918
@@ -2673,6 +2879,18 @@
   "kind": "law"
  },
  {
+  "id": "IV-0315a",
+  "canon": false,
+  "title": "The iron bird",
+  "body": "Strake brings a flying machine from an Tìr Thall in the hold of a Company steamship and has it flown from a field above the Residency over the ore country, to count the workings from the air. The Ròdaich call it eun-iarainn, the iron bird. The custodians enter it in the roll as the first thing seen over Rodos that flew and was not alive.",
+  "place": "burg:27",
+  "kind": "discovery",
+  "between": [
+   1926,
+   1926
+  ]
+ },
+ {
   "id": "IV-0316",
   "canon": true,
   "title": "The confiscation edict",
@@ -2769,6 +2987,18 @@
   "body": "At Baile thais the constables hold their walled pithead against the town for eleven days, the same span as the first strike a lifetime before. They surrender on the twelfth, when their water runs out. Eilidh nic Raghnaill sends them under guard to the coast unharmed, an order the Residency did not expect and did not reciprocate.",
   "place": "burg:44",
   "kind": "battle"
+ },
+ {
+  "id": "IV-0327a",
+  "canon": false,
+  "title": "The crews meet on the moor",
+  "body": "Crew-leaders from Baile gharbh and the other northern pits meet at night on the moor above Cnoc naomh and fix the week of their rising. Each brings a stone of spoil from his own pit, and the stones are left in a cairn. The place is called Coinneachadh a' Mhonaidh, the meeting of the moor.",
+  "place": "marker:42",
+  "kind": "war",
+  "between": [
+   1928,
+   1928
+  ]
  },
  {
   "id": "IV-0328",
@@ -2889,6 +3119,70 @@
   "body": "A Company steamship, come up the Abhainn uaine, shells the ore stage at Seann Toll to deny it to the rebels, and sets the fishing town behind it burning. Twenty-three townsfolk die. It is the first time the humans turn the island's own ore, burning in their boilers, against a Ròdaich town.",
   "place": "burg:313",
   "kind": "war"
+ },
+ {
+  "id": "IV-0342a",
+  "canon": false,
+  "title": "The Leaden Hawk company",
+  "body": "At An Cupa Dàna, the inn at Cuan dhearg, seven hawk-faithful crewmen of the river towns wait nine hours for the council's letters to the Hawk coast, and leave with them at dark. Each wears a hawk cast in lead from the cartridges taken at the store at Muileann chrom, and the record calls them Buidheann an t-Seabhaig Luaidhe, the Leaden Hawk company.",
+  "place": "burg:10",
+  "kind": "war",
+  "between": [
+   1929,
+   1929
+  ],
+  "eve": 3
+ },
+ {
+  "id": "IV-0342b",
+  "canon": false,
+  "title": "The Leaden Hawk walks to the Hawk coast",
+  "body": "The company goes on foot and lightly laden: past the burned stage at Seann Toll, through Baile thais, up over the hills by Achadh dhomhain and Cuan bheag, down the Abhainn ìseal by Ceann òg and Inis ìseal to Cnoc bheag, and along the Hawk coast by Inis bhàn, Ros gheal and Seann Skell to Inis mhin, some eighty miles in a little over three days. At every hawk-house on the way they read the council's letter aloud, and at Seann Skell they leave it with Ìomhar Seabhag.",
+  "place": "burg:20",
+  "kind": "war",
+  "between": [
+   1929,
+   1929
+  ],
+  "eve": 1
+ },
+ {
+  "id": "IV-0342c",
+  "canon": false,
+  "title": "Rumours at Inis mhin",
+  "body": "At Inis mhin, the northern landing the humans had walled, the company lies twelve hours in a boat-shed and hears that Strake's constables ride the western roads out of Ros bheag every day. They hire a carriage from a carter of the town and leave the roads altogether.",
+  "place": "burg:9",
+  "kind": "war",
+  "between": [
+   1929,
+   1929
+  ],
+  "eve": 2
+ },
+ {
+  "id": "IV-0342d",
+  "canon": false,
+  "title": "The watch in the grasslands",
+  "body": "Two days by carriage across country, off every road, bring the company to the grasslands above Tobar dhomhain in the western hills. They lie eleven hours in the long grass over the road from Ros bheag to the concession and count the constables' riders who pass. The company's own list gives forty-one riders, and none of them going north.",
+  "place": "burg:308",
+  "kind": "war",
+  "between": [
+   1929,
+   1929
+  ],
+  "eve": 2
+ },
+ {
+  "id": "IV-0342e",
+  "canon": false,
+  "title": "The Leaden Hawk at Inis thais",
+  "body": "Two more days by carriage, still off the roads, bring the company down to Inis thais, eight days after it left Cuan dhearg. The priests of Clach hear the council's letter in the Direwolf's temple. They will send no men, but they close the harbour of Inis thais to the Company's ships and give the hawk-faithful the use of the Wolf's roads. The Leaden Hawk ends its road there, and its seven join the hawk company when it is mustered at the western Seann Skell.",
+  "place": "burg:166",
+  "kind": "war",
+  "between": [
+   1929,
+   1929
+  ]
  },
  {
   "id": "IV-0343",
@@ -3031,7 +3325,7 @@
   "id": "IV-0360",
   "canon": false,
   "title": "The harbour quarter changes sides",
-  "body": "The Ròdaich of the Ros dhomhain harbour quarter, after the counting-house raid, open the lower gates to the council's companies. Strake is left holding the Residency and the Company's quays alone.",
+  "body": "The Ròdaich of the Ros dhomhain harbour quarter, after the counting-house raid, open the lower gates to the council's companies. Strake is left holding the Residency and the Company's quays alone. The same night men of the harbour quarter burn the Company's flying machine in its shed above the town. It had not flown since the war began, for want of the spirit its engine burned, and nothing has flown over Rodos since that was not a bird.",
   "place": "burg:27",
   "kind": "war"
  },
@@ -3039,7 +3333,7 @@
   "id": "IV-0361",
   "canon": false,
   "title": "Cuan uaine opens its quays",
-  "body": "The river quays of Cuan uaine, east of the capital, open to the council's boats. With them and the Ros dhomhain harbour quarter both lost, the Residency can be supplied only by sea.",
+  "body": "The river quays of Cuan uaine, east of the capital, open to the council's boats. With them and the Ros dhomhain harbour quarter both lost, the Residency can be supplied only by water, up the Abhainn gheal from the sea.",
   "place": "burg:104",
   "kind": "war"
  },
@@ -3047,7 +3341,7 @@
   "id": "IV-0362",
   "canon": false,
   "title": "Strake abandons the Residency",
-  "body": "Lionel Strake evacuates the Residency by sea with his officials, the Mission's clergy and the Company's agents, and removes the Administration to Ros bheag. The council's companies enter the Residency the next morning and find it stripped of everything but its furniture.",
+  "body": "Lionel Strake evacuates the Residency by water, down the Abhainn gheal, with his officials, the Mission's clergy and the Company's agents, and removes the Administration to Ros bheag. The council's companies enter the Residency the next morning and find it stripped of everything but its furniture.",
   "place": "burg:27",
   "kind": "war"
  },
@@ -3063,7 +3357,7 @@
   "id": "IV-0364",
   "canon": false,
   "title": "Outposts at Ros àrsaidh",
-  "body": "Strake posts constables at Ros àrsaidh, north of Ros bheag, to hold the coast road. The townsfolk bring them food and news, and the news is always a day old.",
+  "body": "Strake posts constables at Ros àrsaidh, north of Ros bheag, to hold the coast road, Ceum Ros àrsaidh. The townsfolk bring them food and news, and the news is always a day old.",
   "place": "burg:122",
   "kind": "war"
  },

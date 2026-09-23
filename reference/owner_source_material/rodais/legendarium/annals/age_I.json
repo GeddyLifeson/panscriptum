@@ -49,6 +49,18 @@
   "kind": "discovery"
  },
  {
+  "id": "I-0006a",
+  "canon": false,
+  "title": "The ice keeps the north-west",
+  "body": "When the oak comes to the lowlands the ice of the cold years draws back from all the island but its north-western horn. There a low cap of ice holds behind the shore, and it holds there still. No hearth of any age has been found under it or on it.",
+  "place": null,
+  "kind": "record",
+  "between": [
+   -12500,
+   -12440
+  ]
+ },
+ {
   "id": "I-0007",
   "canon": false,
   "title": "Eilean dhubh cut off",
@@ -63,6 +75,18 @@
   "body": "Camps of seal-hunters are pitched on Eilean mhin, reached by boat: the first sure sign that anyone on Rodos crossed open water on purpose. The camps are used a season at a time and left.",
   "place": "feature:14",
   "kind": "voyage"
+ },
+ {
+  "id": "I-0008a",
+  "canon": false,
+  "title": "Seals on the drift ice",
+  "body": "Hunters of the north shore go out on the drift ice that the northern sea brings down in late winter and take seals on it. The seal bones in the middens of the north coast carry the same cut-marks as those of Eilean mhin. The tellings of Eilean fhada count a hard year by how near the ice came.",
+  "place": "feature:4",
+  "kind": "craft",
+  "between": [
+   -12340,
+   -12285
+  ]
  },
  {
   "id": "I-0009",
@@ -124,7 +148,7 @@
   "id": "I-0016",
   "canon": false,
   "title": "The shell causeway of Seann Warr",
-  "body": "A road of crushed shell is laid across the salt marsh at Seann Warr, a little over a mile long, raised a forearm above the reeds. It is the first made road on the island that can still be walked.",
+  "body": "A road of crushed shell is laid across the reed marsh at Seann Warr, on the western shore of Loch chrom, a little over a mile long, raised a forearm above the reeds. It is the first made road on the island that can still be walked.",
   "place": "burg:64",
   "kind": "building"
  },
@@ -525,6 +549,14 @@
   "kind": "people"
  },
  {
+  "id": "I-0064a",
+  "canon": false,
+  "title": "The ancient sea-way",
+  "body": "The boats of the Seann-Dhaoine keep a lane along the south-east coast, from the river mouth below Seann Dunn round the cape where Taigh-solais Tobar dhearg now stands to the bay of Ceann chaol. Flat landing-stones lie along it a day's rowing apart, and some still show the grooves of hauled keels. The Ròdaich call it Slighe-mhara àrsaidh, the ancient sea-way, and the fishers of that coast keep to it still.",
+  "place": "burg:18",
+  "kind": "voyage"
+ },
+ {
   "id": "I-0065",
   "canon": false,
   "title": "The hill-folk of the vein",
@@ -718,7 +750,7 @@
   "id": "I-0087",
   "canon": false,
   "title": "The shell road broken",
-  "body": "The storm breaks the shell causeway of Seann Warr in three places and floods the marsh behind it with salt. The Seann-Dhaoine do not mend it. The broken ends are still visible.",
+  "body": "The storm breaks the shell causeway of Seann Warr in three places and floods the marsh behind it with lake water. The Seann-Dhaoine do not mend it. The broken ends are still visible.",
   "place": "burg:64",
   "kind": "disaster",
   "within": [
@@ -969,6 +1001,18 @@
   "kind": "founding"
  },
  {
+  "id": "I-0116a",
+  "canon": false,
+  "title": "Amber from the Hawk bay",
+  "body": "Lumps of amber gathered from the wrack on the strands of the Hawk bay are found drilled for stringing in the middens below Seann Skell. A bead of the same amber lies in the oldest ground of the ford gathering, carried there the length of the island.",
+  "place": "burg:132",
+  "kind": "trade",
+  "between": [
+   -6312,
+   -6277
+  ]
+ },
+ {
   "id": "I-0117",
   "canon": false,
   "title": "The first houses at Cathair dhomhain",
@@ -1060,8 +1104,8 @@
  {
   "id": "I-0128",
   "canon": false,
-  "title": "The sea is higher",
-  "body": "The marks on the Ros dhomhain rock creep upward from keeper to keeper. By the end of this age the sea stands a hand higher on the rock than it did at the first cut. The keepers kept cutting.",
+  "title": "The lake is higher",
+  "body": "The marks on the Ros dhomhain rock creep upward from keeper to keeper. By the end of this age Loch chrom stands a hand higher on the rock than it did at the first cut. The keepers kept cutting.",
   "place": "burg:27",
   "kind": "record"
  },
@@ -1290,6 +1334,14 @@
   "kind": "law"
  },
  {
+  "id": "I-0154a",
+  "canon": false,
+  "title": "The meeting of the cups",
+  "body": "The keeper's cup and its three copies are carried to a spring on the moor between Àth gharbh and Tobar dhìreach, set side by side on a flat stone and filled from the spring in turn. The place is called Coinneachadh nan Cupan, the meeting of the cups, and the hill settlements come back to it whenever a cup is broken and a new one must be checked.",
+  "place": "marker:46",
+  "kind": "law"
+ },
+ {
   "id": "I-0155",
   "canon": false,
   "title": "Gilleasbuig Beag takes ore",
@@ -1433,7 +1485,7 @@
   "id": "I-0171",
   "canon": false,
   "title": "Ros dhomhain grows",
-  "body": "The settlement at Ros dhomhain becomes the largest on the west-central coast, with some sixty houses round the tide-rock. Its people fish from boats now, not from the shore.",
+  "body": "The settlement at Ros dhomhain becomes the largest on the shores of Loch chrom, with some sixty houses round the tide-rock. Its people fish from boats now, not from the shore.",
   "place": "burg:27",
   "kind": "founding"
  },
@@ -1441,7 +1493,7 @@
   "id": "I-0172",
   "canon": false,
   "title": "The Red Hill's harbour",
-  "body": "The Red Hill's households build a landing of laid stone on the river-mouth below the hill, where Cathair dhearg's harbour is now. It is the Red Hill's first way onto the sea.",
+  "body": "The Red Hill's households build a landing of laid stone on the river-mouth below the hill, where Cathair dhearg's harbour is now. It is the Red Hill's first way onto the water, and by the lake and the Abhainn gheal to the sea.",
   "place": "burg:19",
   "kind": "building"
  },
@@ -1632,7 +1684,7 @@
  {
   "id": "I-0195",
   "canon": false,
-  "title": "The eastern coast settled at Dùn thais",
+  "title": "The east settled at Dùn thais",
   "body": "The hill-folk push east and build a banked enclosure at Dùn thais, on a hill above good grazing. It is the first defended place built by the Ròdaich away from Dùn ìseal and the Red Hill.",
   "place": "burg:77",
   "kind": "founding"
@@ -1842,6 +1894,18 @@
   "kind": "craft"
  },
  {
+  "id": "I-0220a",
+  "canon": false,
+  "title": "The moor takes the north",
+  "body": "The pollen in the bog under Doire ghlas shows the oak falling back. Heather, birch and bog-moss spread over the northern lowlands, and the groves that give the north its many Doire names shrink to the sheltered valleys, where they still stand. The tellings of the north remember it as the time the winters lengthened.",
+  "place": "burg:209",
+  "kind": "record",
+  "between": [
+   -4030,
+   -3995
+  ]
+ },
+ {
   "id": "I-0221",
   "canon": false,
   "title": "The river crossings of Abhainn fhionn",
@@ -1917,7 +1981,7 @@
   "id": "I-0230",
   "canon": false,
   "title": "The harbour at Baile ghlas",
-  "body": "Boats of the Red Hill households are drawn up at Baile ghlas, down the coast from the hill, in sheds of stone and turf. It becomes the Red Hill's fishing harbour.",
+  "body": "Boats of the Red Hill households are drawn up at Baile ghlas, along the lake shore from the hill, in sheds of stone and turf. It becomes the Red Hill's fishing harbour.",
   "place": "burg:45",
   "kind": "founding"
  },
@@ -1977,7 +2041,7 @@
   "id": "I-0237",
   "canon": false,
   "title": "Settlers at Àth fhiadhaich",
-  "body": "Households settle at Àth fhiadhaich on the south-east coast, by a ford where wild cattle cross. They catch the calves and raise them, and their herds are later the best on that coast.",
+  "body": "Households settle at Àth fhiadhaich in the south-eastern hills, by a ford where wild cattle cross. They catch the calves and raise them, and their herds are later the best in those hills.",
   "place": "burg:12",
   "kind": "founding"
  },

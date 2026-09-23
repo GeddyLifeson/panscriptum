@@ -8,7 +8,10 @@ check_rodais.py -- verify everything in this folder in one run.
      listed, not failed)
   3. TEXTS.json: every line paired with its translation, Ròdais spelling
   4. Rodos_finished.map: the rewritten sections parse, no pre-Ròdais name
-     survives, every saved burg label matches its burg
+     survives, every saved burg label matches its burg, every layer edit of
+     legendarium/reconcile/ is in, the roads are drawn as roads
+  5. the legendarium: every event dated and in order, every reference
+     resolves, world.json is the digest of the map as it stands
 
 Exit status 0 only when every check holds.  python check_rodais.py
 """
@@ -103,6 +106,22 @@ old_cells = {m['from']['cell'] for m in moves.values()} - {b['cell'] for b in li
 route_ends = [r['i'] for r in json.loads(lines[37]) for c in (r['points'][0][2], r['points'][-1][2]) if c in old_cells]
 check(not route_ends, 'map: no route still ends where a moved town used to stand (%s)' % (', '.join(map(str, route_ends[:8])) or 'none'))
 check(not off, 'map: every burg has the town features legendarium/burg_features.json gives it (%s)' % (', '.join(map(str, off[:8])) or '%d burgs' % len(live)))
+sys.path.insert(0, os.path.join(HERE, 'legendarium'))
+import map_reconcile  # noqa: E402
+again = list(lines)
+try:
+    redo = sorted(map_reconcile.reconcile_records(again))
+except AssertionError as e:  # an edit whose "old" no longer matches: the map predates the reconcile files
+    redo = ['%s' % e]
+check(not redo, 'map: every reconciled layer edit of legendarium/reconcile/ is in (%s)' % (', '.join(map(str, redo)) or 'nothing left to apply'))
+routes = json.loads(lines[37])
+road_ids = {r['i'] for r in routes if r.get('group') == 'roads'}
+g = re.search(r'<g id="roads" data-group="roads"[^>]*>(.*?)</g>', lines[5])
+check(road_ids and g and {int(i) for i in re.findall(r'<path id="route(\d+)"', g.group(1))} == road_ids,
+      'map: the %d roads are drawn in the roads group and nowhere else' % len(road_ids))
+world = json.load(open(os.path.join(HERE, 'legendarium', 'world.json'), encoding='utf-8'))
+digest = map_reconcile.world_digest(lines)
+check(all(world[k] == digest[k] for k in digest), 'legendarium/world.json is the digest of the map as it stands')
 
 # 5. the legendarium: every event dated and in order, every reference resolves, every place is on the map
 LEG = os.path.join(HERE, 'legendarium')

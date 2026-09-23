@@ -199,7 +199,7 @@ The Old Ones, the people before the Ròdaich. The name is a Ròdais description,
 > "The Seann-Dhaoine, whoever they were, the people who built Làrach an Dùin-fhaire and Làrach an Dùin…" — annals, {{year:I-0091}}
 
 **siorrachd** *n. f.*, *pl.* **siorrachdan** · lit. "shire"
-Named in the annals from the Age of Sundering ({{date:III-0013}}). The kingdom redrew the shires on the humans' district lines ({{date:V-0014}}).
+Named in the annals from the Age of Sundering ({{date:III-0013}}). The kingdom redrew the shires on the humans' district lines ({{date:V-0014}}), and has had a hundred and twenty-three since {{year:V-0139a}} (Appendix H).
 > "…the kingdom uses them and does not say so." — annals, {{year:V-0014}}
 
 **sliochd** *n. m.* · lit. "seed, offspring"

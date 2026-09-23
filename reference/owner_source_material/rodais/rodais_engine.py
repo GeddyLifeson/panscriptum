@@ -89,6 +89,8 @@ def normalize(text):
 AGREEMENT_EXCEPTIONS = {"esan", "seo", "eadar", "ceudna", "iadsan", "airson", "neoni", "rudeigin",
                         "cuideigin", "ògmhios", "t-ògmhios", "còmhstri", "diluain", "dimàirt", "diciadain",
                         "diardaoin", "dihaoine", "disathairne", "didòmhnaich",
+                        # ban- + rìgh, written as one word since the bards' schools, as in the sister tongues
+                        "banrigh", "banrìgh", "banrighinn", "banrighrean", "banrìghrean",
                         # traditional emphatic prepositional pronouns (GRAMMAR_MORPHOLOGY.md §5)
                         "aigesan", "airsan", "leathase", "bhuaithesan", "dhaibhsan", "thuigesan", "uimesan"}
 _EXEMPT_ENDINGS = ("te", "mhor")
