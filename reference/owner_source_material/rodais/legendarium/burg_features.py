@@ -26,7 +26,10 @@ burg_moves.json moves harbour towns whose map cell lay inland onto the nearest f
 haven in the same province and state, as Azgaar's own burg editor relocates a burg (x, y, cell and the
 cells' burg array, record 17) and with the port Azgaar gives a coastal burg (the haven's water feature,
 the position at the water's edge). In the saved SVG the burg's icon and label move with it and its anchor
-is placed in its group in id order. Routes are left as they are, as Azgaar's relocate leaves them.
+is placed in its group in id order. Azgaar's relocate leaves routes alone; route_extensions.json carries
+each route that ended at a moved town's old cell on to its new cell (over adjacent land for trails; for
+boat routes, by water and river cells where it can), with the path Azgaar's Routes.getPath draws for the
+new points, the saved <path id="routeN"> in the SVG, and the cells' route links (record 36).
 
     python burg_features.py      # Rodos_finished.map, Rodos_Atlas/Rodos.map and world.json, in place
 
@@ -43,10 +46,12 @@ ROOT = os.path.dirname(HERE)
 TABLE = os.path.join(HERE, 'burg_features.json')
 WORLD = os.path.join(HERE, 'world.json')
 MOVES = os.path.join(HERE, 'burg_moves.json')
+ROUTE_EXT = os.path.join(HERE, 'route_extensions.json')
 MAPS = [os.path.join(ROOT, 'Rodos_finished.map'), os.path.join(ROOT, 'Rodos_Atlas', 'Rodos.map')]
 
 FLAGS = ('citadel', 'walls', 'plaza', 'temple', 'shanty')
 RECORDS, L_SETTINGS, L_SVG, L_BURGS, L_CELL_BURG = 53, 1, 5, 15, 17   # a .map is 53 CRLF-joined records (see finish_map.py)
+L_CELL_ROUTES, L_ROUTES = 36, 37
 GROUP_PREVIEWS = {'fort': 'watabou-city'}            # Azgaar's fort group has no town plan by default
 ANCHOR = re.compile(r'<use id="anchor(\d+)" data-id="\1" href="#icon-anchor"[^>]*/>')
 
@@ -168,9 +173,38 @@ def move_burgs(lines, burgs, moves=None):
     lines[L_SVG] = svg
 
 
-def finish_records(lines, burgs):
-    """After apply(): the moves, the SVG anchors and the group previews, on a list of raw records."""
+def extend_routes(lines, routes, ext=None):
+    """Carry the routes that ended at a moved town's old cell on to its new cell; idempotent."""
+    ext = ({int(k): v for k, v in json.load(open(ROUTE_EXT, encoding='utf-8')).items()} if os.path.isfile(ROUTE_EXT) else {}) if ext is None else ext
+    by_id = {r['i']: r for r in routes}
+    links = json.loads(lines[L_CELL_ROUTES])
+    assert dump(links) == lines[L_CELL_ROUTES], 'the cell-routes record does not round-trip; refusing to rewrite it'
+    svg = lines[L_SVG]
+    for i, e in sorted(ext.items()):
+        r = by_id[i]
+        assert r['points'] in (e['before'], e['points']), 'route %d is neither as saved nor as extended' % i
+        r['points'] = e['points']
+        for a, b in e['links']:
+            links.setdefault(str(a), {}).setdefault(str(b), i)
+            links.setdefault(str(b), {}).setdefault(str(a), i)
+        m = re.search(r'<path id="route%d" d="[^"]*"' % i, svg)
+        assert m, 'no saved path for route %d' % i
+        svg = svg[:m.start()] + '<path id="route%d" d="%s"' % (i, e['d']) + svg[m.end():]
+    lines[L_CELL_ROUTES] = dump(links)
+    lines[L_SVG] = svg
+
+
+def finish_records(lines, burgs, routes=None):
+    """After apply(): the moves, the routes, the SVG anchors and the group previews, on a list of raw records.
+    finish_map.py passes its parsed routes (it writes record 37 itself); otherwise record 37 is parsed here."""
     move_burgs(lines, burgs)
+    if routes is None:
+        parsed = json.loads(lines[L_ROUTES])
+        assert dump(parsed) == lines[L_ROUTES], 'the routes record does not round-trip; refusing to rewrite it'
+        extend_routes(lines, parsed)
+        lines[L_ROUTES] = dump(parsed)
+    else:
+        extend_routes(lines, routes)
     lines[L_SVG], gone = drop_anchors(lines[L_SVG], burgs)
     lines[L_SETTINGS] = set_group_previews(lines[L_SETTINGS])
     return gone
@@ -198,7 +232,7 @@ def apply_to_map(path, table):
             fh.write(out)
     check = open(path, encoding='utf-8', newline='').read().split('\r\n')
     assert len(check) == RECORDS
-    assert set(n for n in range(RECORDS) if check[n] != lines[n]) <= {L_SETTINGS, L_SVG, L_BURGS, L_CELL_BURG}, '%s: an unexpected record changed' % path
+    assert set(n for n in range(RECORDS) if check[n] != lines[n]) <= {L_SETTINGS, L_SVG, L_BURGS, L_CELL_BURG, L_CELL_ROUTES, L_ROUTES}, '%s: an unexpected record changed' % path
     assert check[L_SVG].count('<') - check[L_SVG].count('<use id="anchor') == lines[L_SVG].count('<') - lines[L_SVG].count('<use id="anchor') + check[L_SVG].count('></g>') - lines[L_SVG].count('></g>')
     assert len(check[L_CELL_BURG].split(',')) == len(lines[L_CELL_BURG].split(','))
     json.loads(check[L_BURGS])

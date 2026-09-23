@@ -405,7 +405,7 @@ lines[L_SVG] = svg
 sys.path.insert(0, os.path.join(HERE, 'legendarium'))
 from burg_features import apply as apply_burg_features, finish_records  # noqa: E402
 apply_burg_features(J[L_BURGS])
-finish_records(lines, J[L_BURGS])       # anchors of cleared ports out of the SVG; the fort group's town plan
+finish_records(lines, J[L_BURGS], J[L_ROUTES])       # anchors of cleared ports out of the SVG; the fort group's town plan
 
 # ---------------------------------------------------------------- write
 for n, data in J.items():

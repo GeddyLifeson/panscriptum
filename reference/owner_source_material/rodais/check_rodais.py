@@ -98,7 +98,10 @@ check(all(cell_burg[b['cell']] == str(b['i']) for b in live) and sum(1 for v in 
 moves = json.load(open(os.path.join(HERE, 'legendarium', 'burg_moves.json'), encoding='utf-8'))
 byid = {b['i']: b for b in live}
 check(all(byid[int(i)]['cell'] == m['to']['cell'] and byid[int(i)]['x'] == m['to']['x'] and byid[int(i)]['port'] == m['port'] for i, m in moves.items()),
-      'map: the %d harbour towns of legendarium/burg_moves.json stand on the coast' % len(moves))
+      'map: the %d harbour towns of legendarium/burg_moves.json stand on the shore' % len(moves))
+old_cells = {m['from']['cell'] for m in moves.values()} - {b['cell'] for b in live}
+route_ends = [r['i'] for r in json.loads(lines[37]) for c in (r['points'][0][2], r['points'][-1][2]) if c in old_cells]
+check(not route_ends, 'map: no route still ends where a moved town used to stand (%s)' % (', '.join(map(str, route_ends[:8])) or 'none'))
 check(not off, 'map: every burg has the town features legendarium/burg_features.json gives it (%s)' % (', '.join(map(str, off[:8])) or '%d burgs' % len(live)))
 
 # 5. the legendarium: every event dated and in order, every reference resolves, every place is on the map
