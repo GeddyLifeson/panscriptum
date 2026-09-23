@@ -1,0 +1,117 @@
+[
+ {
+  "artist": "Savatage",
+  "album": null,
+  "note": "Exact day/month dates for Savatage albums not reliably known; years only."
+ },
+ {
+  "artist": "Asteroid",
+  "album": null,
+  "note": "Assumed the Swedish stoner-rock band from Örebro; only full-length albums listed, years only."
+ },
+ {
+  "artist": "Crystal King",
+  "album": null,
+  "note": "Japanese band (\"Daitokai\" 1979, \"Ai o Torimodose!!\" 1984). Album discography poorly known to me; the single entry is a low-confidence guess and should be verified."
+ },
+ {
+  "artist": "Kevin Sherwood",
+  "album": null,
+  "note": "Treyarch composer/sound designer (Call of Duty Zombies easter-egg songs with Elena Siegman). His music was mostly issued inside game soundtracks or as digital singles; release titles/dates above are uncertain."
+ },
+ {
+  "artist": "Brian Tuey",
+  "album": null,
+  "note": "Treyarch audio director (Call of Duty: World at War / Black Ops zombies music, e.g. 'Damned'). I know of no standalone albums under his name; his work appears on Call of Duty game soundtracks."
+ },
+ {
+  "artist": "Ludowic",
+  "album": null,
+  "note": "Unknown to me; could not identify an artist by this exact name (possibly a misspelling, e.g. Ludovico Einaudi or Ludwig Göransson)."
+ },
+ {
+  "artist": "ZUTOMAYO",
+  "album": null,
+  "note": "Mini-album titles and dates after 2020 are from uncertain memory."
+ },
+ {
+  "artist": "YOASOBI",
+  "album": null,
+  "note": "YOASOBI has released EPs (The Book series), not conventional studio albums."
+ },
+ {
+  "artist": "Panda Eyes",
+  "album": null,
+  "note": "Electronic/dubstep producer (Neil Chan?) known for singles like 'Colorblind' and 'Take My Hand'; I do not reliably know his album/EP titles or dates."
+ },
+ {
+  "artist": "Benjamin Diamond",
+  "album": null,
+  "note": "French singer/producer, vocalist on Stardust's 'Music Sounds Better with You' (1998). Album dates are approximate."
+ },
+ {
+  "artist": "Leonard Bernstein",
+  "album": null,
+  "note": "As composer only a selection of cast/score albums is listed; his conducting discography is far too large to include."
+ },
+ {
+  "artist": "Peter Lawford",
+  "album": null,
+  "note": "Actor and Rat Pack member, not a recording artist; I know of no LP albums under his own name. He appears in films like Ocean's 11 (1960) but not on its soundtrack album as a featured singer."
+ },
+ {
+  "artist": "Joey Bishop",
+  "album": null,
+  "note": "Joey Bishop was a comedian/Rat Pack member and talk-show host, not primarily a recording artist; I know of no reliable discography. The one LP listed is low confidence; he may also appear on comedy/Rat Pack compilations I cannot date."
+ },
+ {
+  "artist": "James Brown",
+  "album": null,
+  "note": "Very large discography (60+ studio LPs); dates given as year only and some 1960s King LPs (compilation-like) may be missing or misclassified."
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": null,
+  "note": "Many 1960s soundtrack LP dates are to the month only; the post-1977 RCA compilation catalogue is mostly omitted."
+ },
+ {
+  "artist": "Parliament-Funkadelic",
+  "album": null,
+  "note": "Collective name; entries cover both Parliament and Funkadelic albums, with the band named in parentheses. George Clinton solo and P-Funk All Stars records are not included."
+ },
+ {
+  "artist": "Phil Spector",
+  "album": null,
+  "note": "Phil Spector was mainly a producer, not a recording artist; entries are his own-label/Teddy Bears releases and his signature compilations (he produced many artists' albums, not listed)."
+ },
+ {
+  "artist": "Jackie Wilson",
+  "album": null,
+  "note": "Brunswick LP years are from memory; month/day not known."
+ },
+ {
+  "artist": "Hank Williams",
+  "album": null,
+  "note": "Hank Williams released singles; his LPs (mostly 10-inch MGM collections, most posthumous) are listed as compilations. Dates are years/months only."
+ },
+ {
+  "artist": "The Shirelles",
+  "album": null,
+  "note": "Scepter LP years are approximate; later albums are low confidence."
+ },
+ {
+  "artist": "Carl Perkins",
+  "album": null,
+  "note": "Discography beyond the 1950s Sun/Columbia LPs is patchy in my knowledge; later album titles/years are low confidence and the list may be incomplete."
+ },
+ {
+  "artist": "Gram Parsons",
+  "album": null,
+  "note": "Includes albums with the International Submarine Band, The Byrds and The Flying Burrito Brothers (noted in album titles); his solo albums are only GP and Grievous Angel."
+ },
+ {
+  "artist": "Carlos Santana",
+  "album": null,
+  "note": "Includes both the band Santana's albums and Carlos Santana's solo/collaborative albums."
+ }
+]

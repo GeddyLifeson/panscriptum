@@ -1,0 +1,24 @@
+import{Bn as e,G as t,P as n,X as r,Y as i,_ as a,a as o,d as s,f as c,hn as l,j as u,n as d,o as f,s as p}from"./utils-Cob8vHf9.js";import{lt as m}from"./index-DsIn6sTp.js";function h(){g(),_(),l(`#viewbox`).on(`touchmove.cellInfo mousemove.cellInfo`,v),$(`#cellInfo`).dialog({resizable:!1,width:`22em`,title:`Cell Details`,position:{my:`right top`,at:`right-10 top+10`,of:`svg`,collision:`fit`},close:g})}function g(){l(`#viewbox`).on(`.cellInfo`,null),m(`cellInfo`)}function _(){u(`dialogs`).insertAdjacentHTML(`beforeend`,`<div id="cellInfo" class="dialog stable">
+    <p><b>Cell:</b> <span id="infoCell"></span> <b>X:</b> <span id="infoX"></span> <b>Y:</b> <span id="infoY"></span></p>
+    <p><b>Latitude:</b> <span id="infoLat"></span></p>
+    <p><b>Longitude:</b> <span id="infoLon"></span></p>
+    <p><b>Geozone:</b> <span id="infoGeozone"></span></p>
+    <p><b>Area:</b> <span id="infoArea">0</span></p>
+    <p><b>Type:</b> <span id="infoFeature">n/a</span></p>
+    <p><b>Precipitation:</b> <span id="infoPrec">0</span></p>
+    <p><b>River:</b> <span id="infoRiver">no</span></p>
+    <p><b>Population:</b> <span id="infoPopulation">0</span></p>
+    <p><b>Elevation:</b> <span id="infoElevation">0</span></p>
+    <p><b>Depth:</b> <span id="infoDepth">0</span></p>
+    <p><b>Temperature:</b> <span id="infoTemp">0</span></p>
+    <p><b>Biome:</b> <span id="infoBiome">n/a</span></p>
+    <p><b>State:</b> <span id="infoState">n/a</span></p>
+    <p><b>Province:</b> <span id="infoProvince">n/a</span></p>
+    <p><b>Culture:</b> <span id="infoCulture">n/a</span></p>
+    <p><b>Religion:</b> <span id="infoReligion">n/a</span></p>
+    <p><b>Burg:</b> <span id="infoBurg">n/a</span></p>
+    <p><b>Good:</b> <span id="infoGood">n/a</span></p>
+    <p><b>Market:</b> <span id="infoMarket">n/a</span></p>
+    <p><b>Cell Production:</b> <span id="infoCellProduction">n/a</span></p>
+    <p><b>Burg Production:</b> <span id="infoBurgProduction">n/a</span></p>
+  </div>`)}var v=t(e=>{let t=e.currentTarget;if(!t||!pack.cells?.p)return;let r=n(e,t),i=Pack.findCell(...r);i!==void 0&&y(r,i,Grid.findCell(r[0],r[1]))},100);function y(t,n,c){let{cells:l}=pack,u=e(t[0]),p=e(t[1]);b(`infoX`,u),b(`infoY`,p);let m=i(p,options.map.geography.coordinates,options.map.graph.height,4);b(`infoLat`,E(m,`lat`)),b(`infoLon`,E(r(u,options.map.geography.coordinates,options.map.graph.width,4),`lon`)),b(`infoGeozone`,T(m));let h=l.f[n],g=pack.features[h];b(`infoCell`,n),b(`infoArea`,l.area[n]?`${a(o(l.area[n]))} ${f()}`:`n/a`),b(`infoElevation`,D(g,l.h[n])),b(`infoDepth`,O(g,t)),b(`infoTemp`,d(grid.cells.temp[c])),b(`infoPrec`,l.h[n]>=20?s(n,pack,grid):`n/a`),b(`infoRiver`,l.h[n]>=20&&l.r[n]?k(l.r[n]):`no`),b(`infoState`,S(n)),b(`infoProvince`,x(pack.provinces,l.province[n],`fullName`)),b(`infoCulture`,x(pack.cultures,l.culture[n],`name`)),b(`infoReligion`,x(pack.religions,l.religion[n],`name`)),b(`infoPopulation`,A(n)),b(`infoBurg`,x(pack.burgs,l.burg[n],`name`)),b(`infoFeature`,h?`${g.subtype||g.type} (${h})`:`n/a`),b(`infoBiome`,pack.biomes[l.biome[n]].name),b(`infoGood`,x(pack.goods,l.good[n],`name`)),b(`infoMarket`,C(l.market?.[n])),b(`infoCellProduction`,w(Production.getCellProduction(n,Goods.getBiomesProduction())));let _=l.burg[n];b(`infoBurgProduction`,_?w(Production.getBurgProduction(pack.burgs[_])):`n/a`)}function b(e,t){u(e).innerHTML=String(t)}function x(e,t,n){return t?`${e[t]?.[n]} (${t})`:`no`}function S(e){let{cells:t}=pack;if(t.h[e]<20)return`no`;let n=t.state[e];return n?`${pack.states[n].fullName} (${n})`:`neutral lands (0)`}function C(e){if(!e)return`no`;let t=Markets.get(e),n=t&&pack.burgs[t.centerBurgId];return n?`${n.name} market (${e})`:`market ${e}`}function w(t){let n=Object.entries(t).filter(([,e])=>e>0);return n.length?n.map(([t,n])=>`${Goods.get(Number(t))?.name||t}: ${e(n,2)}`).join(`, `):`none`}function T(e){return e>66.5?`Arctic`:e>35?`Temperate North`:e>23.5?`Subtropical North`:e>1?`Tropical North`:e>-1?`Equatorial`:e>-23.5?`Tropical South`:e>-35?`Subtropical South`:e>-66.5?`Temperate South`:`Antarctic`}function E(e,t){let n=Math.floor(Math.abs(e)),r=(Math.abs(e)-n)*60,i=Math.floor(r);return`${n}°${i}′${Math.floor((r-i)*60)}″${t===`lat`?e>=0?`N`:`S`:e>=0?`E`:`W`}`}function D(e,t){return e.land?`${c(t)} (${t})`:e.border?`0 ${options.map.units.height.unit}`:e.type===`lake`?`${c(e.height)} (${e.height})`:`n/a`}function O(e,[t,n]){if(e.land)return`0 ${options.map.units.height.unit}`;let r=grid.cells.h[Grid.findCell(t,n)];return e.type===`lake`?c(r===19?e.height/2:r,!0):c(r,!0)}function k(e){let t=pack.rivers.find(t=>t.i===e);return t?`${t.name} ${t.type} (${e})`:`n/a`}function A(e){let[t,n]=p(e,pack);return`${a(t+n)} (${a(t)} rural, urban ${a(n)})`}var j={open:h};export{j as CellInfo};

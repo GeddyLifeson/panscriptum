@@ -1,0 +1,2212 @@
+[
+ {
+  "id": "I-0001",
+  "canon": true,
+  "title": "The crack in the stone",
+  "body": "A mason splitting rock for a well breaks a black, glassy vein — and it bleeds color instead of dust. The closest thing Rodos keeps to a creation myth.",
+  "place": null,
+  "kind": "discovery",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0002",
+  "canon": false,
+  "title": "Three wells claim the crack",
+  "body": "Tobar dhìreach, Tobar dhubh and Tobar òg each keep a telling that the mason's well was theirs. Tobar dhìreach can show a capped shaft with a dark stain on its lip; the other two can show only the telling. No chronicle has chosen between the three claims.",
+  "place": "burg:276",
+  "kind": "record"
+ },
+ {
+  "id": "I-0003",
+  "canon": false,
+  "title": "The slab over the bleeding rock",
+  "body": "The tellings agree on what the mason's people did next: they did not dig on. They laid a flat stone over the broken vein, would not draw water beside it, and cut their well again a stone's throw away.",
+  "place": "burg:276",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0004",
+  "canon": false,
+  "title": "The high snowfields shrink",
+  "body": "Meltwater off the central mountains cuts the bed that Abhainn uaine still follows. Gravel terraces along its lower reach hold hearth-stones at three heights, each left as the water came up to it.",
+  "place": "river:15",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0005",
+  "canon": false,
+  "title": "The first hearths of the high valleys",
+  "body": "Under the turf at Achadh dhìreach lie hearths of pine and heather charcoal, scrapers of grey flint, and the split bones of red deer. Nothing in them is black glass; whoever sat at them either did not have the ore or did not burn it.",
+  "place": "burg:454",
+  "kind": "people"
+ },
+ {
+  "id": "I-0006",
+  "canon": false,
+  "title": "The oak comes to the lowlands",
+  "body": "Pollen in the bog under Doire ghlas shows the birch and pine of the cold years giving way to oak and hazel. The grove that the place is named for stands on ground that was open heath when the vein was first broken.",
+  "place": "burg:209",
+  "kind": "discovery"
+ },
+ {
+  "id": "I-0006a",
+  "canon": false,
+  "title": "The bare north-west",
+  "body": "When the oak comes to the lowlands it never reaches the north-western horn of the island. The gales off the north-western sea keep the horn bare, low heather and blanket bog behind the shore with no tree on it, as it is still. No hearth of that age has been found on it.",
+  "place": null,
+  "kind": "record",
+  "between": [
+   -12500,
+   -12440
+  ]
+ },
+ {
+  "id": "I-0007",
+  "canon": false,
+  "title": "Eilean dhubh cut off",
+  "body": "The rising sea floods the low neck of land that joined Eilean dhubh to the main island. Hearths on the drowned neck lie under the sand of the sound, and the island's deer, cut off, grow smaller over the lifetimes after.",
+  "place": "feature:3",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0008",
+  "canon": false,
+  "title": "Hunters on Eilean mhin",
+  "body": "Camps of seal-hunters are pitched on Eilean mhin, reached by boat: the first sure sign that anyone on Rodos crossed open water on purpose. The camps are used a season at a time and left.",
+  "place": "feature:14",
+  "kind": "voyage"
+ },
+ {
+  "id": "I-0008a",
+  "canon": false,
+  "title": "Seals on the skerries",
+  "body": "Hunters of the north shore go out in skin boats in the autumn gales to the skerries off Eilean fhada, where the grey seals haul out to pup, and take seals there. The seal bones in the middens of the north coast carry the same cut-marks as those of Eilean mhin. The tellings of Eilean fhada count a hard year by how many boats the gales kept on the shore.",
+  "place": "feature:4",
+  "kind": "craft",
+  "between": [
+   -12340,
+   -12285
+  ]
+ },
+ {
+  "id": "I-0009",
+  "canon": false,
+  "title": "The flood-plain of Abhainn ìseal",
+  "body": "The longest river on the island, Abhainn ìseal, settles into the wide bed it keeps now. Fish-weirs of hazel stakes are set across its side channels, and the stakes are renewed in the same holes for generations.",
+  "place": "river:16",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0010",
+  "canon": false,
+  "title": "The middens of Seann Dunn",
+  "body": "The oldest mound at Seann Dunn is limpet shell, seal bone and burnt weed, taller than a man and laid down over many lifetimes. It is the first sure trace of the Seann-Dhaoine. No tool in it is shaped the way any later Ròdach shaped tools.",
+  "place": "burg:347",
+  "kind": "people"
+ },
+ {
+  "id": "I-0011",
+  "canon": false,
+  "title": "The notched net-weights of Seann Chwen",
+  "body": "At Seann Chwen the Seann-Dhaoine sink their nets with beach stones, and every stone is notched with the same three strokes. It is the earliest mark on Rodos that is repeated on purpose.",
+  "place": "burg:36",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0012",
+  "canon": false,
+  "title": "The mole at Seann Skell",
+  "body": "A mole of unmortared boulders is laid out into the Abhainn naomh from the bank at Seann Skell, long enough to shelter a dozen boats from the current. Its foot is still under water at the lowest tides, and every quay wall built there since stands on it.",
+  "place": "burg:489",
+  "kind": "building"
+ },
+ {
+  "id": "I-0013",
+  "canon": false,
+  "title": "The steps of Seann Bhral",
+  "body": "Two hundred and twelve steps are cut up the cliff at Seann Bhral, from the shingle to the grazing above. The treads are worn hollow in the middle; no one has counted how many feet that took.",
+  "place": "burg:47",
+  "kind": "building"
+ },
+ {
+  "id": "I-0014",
+  "canon": false,
+  "title": "The dead of Seann Vell go to Eilean dhearg",
+  "body": "The Seann-Dhaoine of Seann Vell row their dead out to Eilean dhearg and lay them in stone boxes that face the mainland. Forty boxes have been counted there. No grave of theirs on the mainland from this time has been found.",
+  "place": "feature:12",
+  "kind": "death"
+ },
+ {
+  "id": "I-0015",
+  "canon": false,
+  "title": "The fish-channel of Seann Toll",
+  "body": "At Seann Toll a channel is cut through a rock shelf into a pool beside the Abhainn uaine, with a slot for a gate of wattle. When the river falls the gate is dropped and the pool is emptied by hand. The slot is still sharp.",
+  "place": "burg:313",
+  "kind": "building"
+ },
+ {
+  "id": "I-0016",
+  "canon": false,
+  "title": "The shell causeway of Seann Warr",
+  "body": "A road of crushed shell is laid across the reed marsh at Seann Warr, on the western shore of Loch chrom, a little over a mile long, raised a forearm above the reeds. It is the first made road on the island that can still be walked.",
+  "place": "burg:64",
+  "kind": "building"
+ },
+ {
+  "id": "I-0017",
+  "canon": false,
+  "title": "The script appears at Seann Tarr",
+  "body": "Rows of signs are cut into the cliff face above Seann Tarr, in the script that later turns up on the standing stones. It is not Ròdais and it has not been read. Not one sign of it has an agreed meaning.",
+  "place": "burg:249",
+  "kind": "record"
+ },
+ {
+  "id": "I-0018",
+  "canon": false,
+  "title": "The fish-kilns of Seann Mhorn",
+  "body": "Stone-lined pits with short flues are built above the beach at Seann Mhorn to dry the catch over peat smoke. Seven are known. They are the first buildings on Rodos made for a trade rather than for sleeping or for the dead.",
+  "place": "burg:186",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0019",
+  "canon": false,
+  "title": "The slipways of Seann Bhrenn",
+  "body": "Long ramps of flat stone run down into the water at Seann Bhrenn, wide enough for hulls bigger than any hide boat. The hulls themselves are gone, and so is any telling of where they went.",
+  "place": "burg:328",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0020",
+  "canon": false,
+  "title": "The lake dwellings of Loch chrom",
+  "body": "Platforms on oak piles are raised out in the shallows of Loch chrom and joined to the shore by plank walks. Whether the Seann-Dhaoine built them, or some other people of the same years, the timbers do not say.",
+  "place": "feature:9",
+  "kind": "building"
+ },
+ {
+  "id": "I-0021",
+  "canon": false,
+  "title": "The whale-rib houses of Seann Dunn",
+  "body": "A whale strands on the shore below the southern Seann Dunn and its ribs are raised as the frames of three round houses, roofed with turf. The ribs were reset in new houses at least twice before they rotted.",
+  "place": "burg:295",
+  "kind": "building"
+ },
+ {
+  "id": "I-0022",
+  "canon": false,
+  "title": "The round houses of the eastern Seann Vell",
+  "body": "At the eastern Seann Vell the Seann-Dhaoine build round houses of dry stone with a hearth sunk in the middle of each floor and a drain running out under the wall. Fourteen house-rings are counted.",
+  "place": "burg:94",
+  "kind": "building"
+ },
+ {
+  "id": "I-0023",
+  "canon": false,
+  "title": "The tower at the north-western Seann Skell",
+  "body": "The smallest of the Seann Skell places, on the north-west coast, has a single round tower of dry stone, hollow-walled, with a stair inside the thickness of the wall. It looks out over the water where the Sea-Watcher is later seen.",
+  "place": "burg:16",
+  "kind": "building"
+ },
+ {
+  "id": "I-0024",
+  "canon": false,
+  "title": "The huts of the northern Seann Toll",
+  "body": "On the north coast, at Seann Toll, a cluster of stone huts is built into the lee of a dune. The dune later buries them whole, and it is the sand that kept them.",
+  "place": "burg:37",
+  "kind": "building"
+ },
+ {
+  "id": "I-0025",
+  "canon": false,
+  "title": "The eastern Seann Bhral",
+  "body": "At the Seann Bhral of the south-east coast the Seann-Dhaoine keep a landing and a line of fish-kilns like those of Seann Mhorn. The two places lie within a day's rowing of each other.",
+  "place": "burg:110",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0026",
+  "canon": false,
+  "title": "The shell beds of the southern Seann Mhorn",
+  "body": "The second Seann Mhorn, on the southern coast, is almost nothing but shell: oyster, whelk and cockle, heaped over a whole headland. The oysters in its lowest layers are larger than any taken there since.",
+  "place": "burg:465",
+  "kind": "people"
+ },
+ {
+  "id": "I-0027",
+  "canon": false,
+  "title": "The twin landings of Seann Bhrenn",
+  "body": "A second Seann Bhrenn, far to the north-east of the first, has the same long ramps into the water. Whether the two were one people's, or the name was carried, is not known.",
+  "place": "burg:440",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0028",
+  "canon": false,
+  "title": "The cliff-house at Seann Tarr in the east",
+  "body": "At the Seann Tarr of the north-eastern headlands a single long house is built into a cleft in the cliff, its back wall the living rock. The rock behind the hearth is black with soot to the height of a man.",
+  "place": "burg:34",
+  "kind": "building"
+ },
+ {
+  "id": "I-0029",
+  "canon": false,
+  "title": "The north-eastern Seann Vell",
+  "body": "The Seann Vell on the Abhainn bheag, a short way above its mouth in the north-east, is a small place of four houses and a boat-shed. It is the most north-easterly of the Seann-Dhaoine sites known on the main island.",
+  "place": "burg:97",
+  "kind": "people"
+ },
+ {
+  "id": "I-0030",
+  "canon": false,
+  "title": "The northern Seann Skell",
+  "body": "On the north coast, at the Seann Skell below the later Ros gheal, the Seann-Dhaoine lay a second breakwater, shorter than the southern one and curved against the swell from the open sea. The two moles are built the same way, stone by stone.",
+  "place": "burg:132",
+  "kind": "building"
+ },
+ {
+  "id": "I-0031",
+  "canon": false,
+  "title": "The western Seann Vell",
+  "body": "At the Seann Vell of the west coast the Seann-Dhaoine dig a line of storage pits into the dune, lined with clay and lidded with slabs. Some still held fish bones when they were opened.",
+  "place": "burg:127",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0032",
+  "canon": false,
+  "title": "Làrach an Dùin-fhaire raised",
+  "body": "On a spur above the ground where Cathair mhòr now stands, the Seann-Dhaoine build the walled outpost later called Làrach an Dùin-fhaire. Its stones are dressed on the outer face only. Its single gate faces inland, not to the sea.",
+  "place": "marker:31",
+  "kind": "building",
+  "between": [
+   -11200,
+   -9600
+  ]
+ },
+ {
+  "id": "I-0033",
+  "canon": false,
+  "title": "Làrach an Dùin raised",
+  "body": "A greater work goes up on the height near Ceann mhin: three rings of wall, a cistern cut into the bedrock, and room inside, by later reckoning, for four hundred people with their beasts. Whether the outpost's builders built it too has never been settled.",
+  "place": "marker:32",
+  "kind": "building"
+ },
+ {
+  "id": "I-0034",
+  "canon": false,
+  "title": "The kerbed way between the forts",
+  "body": "Stretches of a kerbed track, a cart's width and paved with flat slabs, run through the ground near Àth fhionn in the direction of both ruins. It is the only road the Seann-Dhaoine are known to have built away from the shore.",
+  "place": "burg:46",
+  "kind": "building"
+ },
+ {
+  "id": "I-0035",
+  "canon": false,
+  "title": "Làrach an Teampaill raised",
+  "body": "A stepped platform of fitted stone is built in the eastern hills, with an altar block on its top step. The altar is set square to the central mountains. Every later temple on Rodos faces some other way.",
+  "place": "marker:33",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0036",
+  "canon": false,
+  "title": "The shaft of Toll-dubh in the south-east",
+  "body": "A shaft is sunk straight down through the rock at the eastern Toll-dubh, its walls tooled smooth as far as a lamp can show. No spoil heap lies beside it. Whatever was taken out of it was carried away, or nothing was.",
+  "place": "marker:20",
+  "kind": "discovery"
+ },
+ {
+  "id": "I-0037",
+  "canon": false,
+  "title": "The shaft of Toll-dubh in the west",
+  "body": "A second shaft of the same make is cut at the western Toll-dubh, far across the island from the first. Stones thrown into either are not heard to land.",
+  "place": "marker:19",
+  "kind": "discovery"
+ },
+ {
+  "id": "I-0038",
+  "canon": true,
+  "title": "The First Canoe",
+  "body": "A suppressed, half-remembered voyaging fragment survives among coastal Tuathaich families: a named steersman, a first crossing to an isle of the blessed. Their church tells it as the voyage of Naomh Breandan. The druids of the Old Faith dismiss it as superstition.",
+  "place": null,
+  "kind": "voyage",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0039",
+  "canon": false,
+  "title": "Stakes in the mud below Ceann mhòr",
+  "body": "The first sure boats of the north-west coast leave their trace: a row of mooring stakes and a scrap of stitched hide in the tidal mud below Ceann mhòr. Who rowed them, and from where, the mud does not say.",
+  "place": "burg:143",
+  "kind": "voyage"
+ },
+ {
+  "id": "I-0040",
+  "canon": true,
+  "title": "The Sea-Watcher first sighted",
+  "body": "Old sailors speak of a vast creature inhabiting the waters off the northwestern coast. No wreck has ever been recovered to prove it wrong.",
+  "place": "marker:21",
+  "kind": "omen",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0041",
+  "canon": false,
+  "title": "The beacon on the Baile chrom headland",
+  "body": "A fire is kept on the headland where Taigh-solais Baile chrom now stands. Its ash lies a man's height deep. The tellings say it was lit to turn boats away from the water where the Sea-Watcher was seen, not to guide them in.",
+  "place": "marker:12",
+  "kind": "building"
+ },
+ {
+  "id": "I-0042",
+  "canon": false,
+  "title": "Seven boats lost off Ros ruadh",
+  "body": "A telling from the north-west coast counts seven boats gone from Ros ruadh in one calm season, with no storm to blame. It is the first loss for which the Sea-Watcher is named as the cause rather than feared in general.",
+  "place": "burg:238",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0043",
+  "canon": false,
+  "title": "The seal hunt moves south",
+  "body": "The seal-bone layers in the middens of the north-west thin out and those at Caol mhòr and Cuan bheag grow. The hunters are working the southern side of the headlands now, out of sight of the open water.",
+  "place": "burg:95",
+  "kind": "people"
+ },
+ {
+  "id": "I-0044",
+  "canon": false,
+  "title": "Signs cut in the Doire uaine hills",
+  "body": "Rock faces across the Doire uaine hills are cut with inscriptions, more of them than anywhere else on the island, in lines that run for yards. Some of the lines are cut over and defaced by the same kind of tool that cut them.",
+  "place": "burg:148",
+  "kind": "record"
+ },
+ {
+  "id": "I-0045",
+  "canon": true,
+  "title": "The Hollow Man of Doire uaine",
+  "body": "Inscriptions in the Doire uaine hills describe something that walked without breathing, and attacked anyone who lit a fire in its sight.",
+  "place": "marker:22",
+  "kind": "omen",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0046",
+  "canon": false,
+  "title": "The hill fires go under the ground",
+  "body": "After the inscriptions, the hearths of the Doire uaine hills change. Fires are dug into pits and roofed with slabs, and no open hearth shows in the hills for many lifetimes. The people did not leave. They hid their light.",
+  "place": "burg:148",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0047",
+  "canon": false,
+  "title": "The nine at the hill camp",
+  "body": "Nine people lie where they fell inside a hut at the camp later built over by Muileann chiar, beside a hearth of fresh ash. No wound has been found on any bone. The hut was never reopened, and no one was buried from it.",
+  "place": "burg:355",
+  "kind": "death"
+ },
+ {
+  "id": "I-0048",
+  "canon": true,
+  "title": "Coille Naomh Muileann chiar set aside",
+  "body": "A forest is marked sacred, long before any order of the Old Faith claims it formally — the trees simply understood, the old telling goes, before the people did.",
+  "place": "marker:23",
+  "kind": "faith",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0049",
+  "canon": false,
+  "title": "No axe in the grove",
+  "body": "The charcoal in the hearths around Coille Naomh Muileann chiar comes from every wood but that one. The families at its edge carried their fuel a half-day's walk rather than cut a branch inside it.",
+  "place": "marker:23",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0050",
+  "canon": false,
+  "title": "The white stag of the grove",
+  "body": "The first telling of a white stag in Coille Naomh Muileann chiar is set in this age: seen at the edge of the trees by three hunters, none of whom drew. The stag comes back in the tellings of every age after, and the druids of later ages call it the white stag of Flidais. The tellings of this age give it no god.",
+  "place": "marker:23",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0051",
+  "canon": true,
+  "title": "Coille Naomh Cnoc bheag left unclaimed",
+  "body": "A second forest, older-feeling than the first, is never settled, never logged, never fully mapped.",
+  "place": "marker:24",
+  "kind": "faith",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0052",
+  "canon": false,
+  "title": "The paths that stop at a line of stones",
+  "body": "Tracks worn into the ground lead toward Coille Naomh Cnoc bheag from three directions, and all three end at a low line of set stones some way short of the trees. Nothing is worn beyond the stones.",
+  "place": "marker:24",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0053",
+  "canon": false,
+  "title": "The deer-drives of the eastern forest",
+  "body": "Lines of stakes and brush funnel the red deer of the eastern woods toward a gully near Doire fhionn, where they are killed with spears. The hunters left the antlers of the largest stags stacked apart from the rest.",
+  "place": "burg:117",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0054",
+  "canon": false,
+  "title": "The first dog graves",
+  "body": "Dogs are buried beside people at Cnoc fhionn in the east, each with a shell at its head. It is the first time any beast is given a grave on Rodos.",
+  "place": "burg:61",
+  "kind": "death"
+ },
+ {
+  "id": "I-0055",
+  "canon": false,
+  "title": "The geese of Eilean ghorm",
+  "body": "The grey geese that winter on Eilean ghorm are recorded in the tellings of this age for the first time. The tellings say they come in with the first storm and leave with the last, and are never hunted there.",
+  "place": "feature:8",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0056",
+  "canon": false,
+  "title": "The widest reach of the Seann-Dhaoine",
+  "body": "At their height the Seann-Dhaoine hold every coast of the island: the ten places whose names begin with Seann, and the islands off them. The largest of their landings is at the place now called Seann Skell, up the Abhainn naomh, where the mole already stands.",
+  "place": "province:3",
+  "kind": "people"
+ },
+ {
+  "id": "I-0057",
+  "canon": false,
+  "title": "The warm springs used",
+  "body": "Stone basins are set into the springs at Fuarain Theth Muileann ruadh, and the bones of the people buried nearby show old breaks that knitted clean. It is the first place on Rodos where the sick were brought for a cure.",
+  "place": "marker:0",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0058",
+  "canon": false,
+  "title": "The gate of the outpost walled up",
+  "body": "The single gate of Làrach an Dùin-fhaire is blocked with rubble from the inside. Whoever did it left by another way, or did not leave.",
+  "place": "marker:31",
+  "kind": "war"
+ },
+ {
+  "id": "I-0059",
+  "canon": true,
+  "title": "The Làrach an Dùin-fhaire abandoned",
+  "body": "An outpost, already ruined when the first reliable chronicles begin, predates every known Rodian settlement pattern. No one knows who built it.",
+  "place": "marker:31",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0060",
+  "canon": false,
+  "title": "The fortress cistern fouled",
+  "body": "The cistern of Làrach an Dùin is found choked with the bones of cattle, thrown in whole. The water it held served four hundred people. After it was fouled, no one drew from it again.",
+  "place": "marker:32",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0061",
+  "canon": true,
+  "title": "The Làrach an Dùin abandoned",
+  "body": "A fortress in the same condition and the same mystery. Whether it belonged to the same builders as the outpost has never been settled.",
+  "place": "marker:32",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0062",
+  "canon": false,
+  "title": "The temple altar stripped",
+  "body": "The top stone of the altar at Làrach an Teampaill is prised off and carried away; the sockets that held it are still sharp. It has never been found. What was cut on it, if anything, is not known.",
+  "place": "marker:33",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0063",
+  "canon": true,
+  "title": "The Làrach an Teampaill abandoned",
+  "body": "A temple older than any recorded religion, its altar oriented toward the central mountains rather than the sea — toward the vein, not the horizon.",
+  "place": "marker:33",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0064",
+  "canon": false,
+  "title": "The Seann-Dhaoine keep to the shore",
+  "body": "After the high places are left, every new work of the Seann-Dhaoine is within sight of salt water. The middens at the southern Seann Chwen begin to grow as fast as the old ones at Seann Dunn once did.",
+  "place": "burg:14",
+  "kind": "people"
+ },
+ {
+  "id": "I-0064a",
+  "canon": false,
+  "title": "The ancient sea-way",
+  "body": "The boats of the Seann-Dhaoine keep a lane along the south-east coast, from the river mouth below Seann Dunn round the cape where Taigh-solais Tobar dhearg now stands to the bay of Ceann chaol. Flat landing-stones lie along it a day's rowing apart, and some still show the grooves of hauled keels. The Ròdaich call it Slighe-mhara àrsaidh, the ancient sea-way, and the fishers of that coast keep to it still.",
+  "place": "burg:18",
+  "kind": "voyage"
+ },
+ {
+  "id": "I-0065",
+  "canon": false,
+  "title": "The hill-folk of the vein",
+  "body": "In the high valleys around the crack there live people who are not the Seann-Dhaoine: they bury their dead in the ground, not on islands, and cut no script. Whether they shared the island with the Seann-Dhaoine or came after them no telling knows. Their own answer, later, is that they were always there.",
+  "place": "burg:277",
+  "kind": "people"
+ },
+ {
+  "id": "I-0066",
+  "canon": false,
+  "title": "The first small burning",
+  "body": "A hearth at Àth gharbh holds, among ordinary peat ash, a sliver of black glass burnt to a bead, and the hearthstone around it stained through with colour. It is the earliest burning of the ore anyone has found. It is also small: one sliver, one fire.",
+  "place": "burg:277",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0067",
+  "canon": false,
+  "title": "The stained cloth of Achadh dhìreach",
+  "body": "Wool from the graves at Achadh dhìreach carries streaks of colour no plant dye makes. The hill-folk were rubbing broken ore into cloth for the dead. They did it rarely: one grave in some thirty.",
+  "place": "burg:454",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0068",
+  "canon": false,
+  "title": "A sliver in a Seann Bhral midden",
+  "body": "A chip of the black ore, still staining the shell around it, is found in a midden at Seann Bhral on the far western coast. How a piece of the vein came to a Seann-Dhaoine rubbish heap, by gift, trade or theft, is not known.",
+  "place": "burg:47",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0069",
+  "canon": true,
+  "title": "Carragh Cnoc bheag raised",
+  "body": "A standing stone, later found carved with four words: Bha teine sa chloich — \"there was fire in the stone.\"",
+  "place": "marker:28",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0070",
+  "canon": false,
+  "title": "The older face of Carragh Cnoc bheag",
+  "body": "The stone's upper face bears a line of the unread script. The four Ròdais words lie lower down, cut with a narrower tool by another hand. When that second hand came, the stone does not say.",
+  "place": "marker:28",
+  "kind": "record"
+ },
+ {
+  "id": "I-0071",
+  "canon": true,
+  "title": "Colbh Cnoc chiar raised",
+  "body": "A second stone carries only two words: Cuimhnich an teine — \"remember the fire.\" No one has ever explained the imperative.",
+  "place": "marker:29",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0072",
+  "canon": false,
+  "title": "A ring of fire-stones round the pillar",
+  "body": "The ground round Colbh Cnoc chiar is trodden hard in a ring, and the ring is paved with fire-cracked stones. Fires were kept there, hearth-sized, again and again. Nothing else was left.",
+  "place": "marker:29",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0073",
+  "canon": true,
+  "title": "Calbh Cnoc ghorm raised",
+  "body": "A third stone carries the doctrine itself, complete: Cha do thàinig sinn; bha sinn ann. If the doctrine has a birthplace, it may be here.",
+  "place": "marker:30",
+  "kind": "faith",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0074",
+  "canon": false,
+  "title": "The gatherings at the column",
+  "body": "People come to the column at Cnoc ghorm in numbers: the ground around it holds the post-holes of shelters for some hundreds, used and rebuilt many times. Whatever was said there, it was said to a crowd.",
+  "place": "burg:392",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0075",
+  "canon": true,
+  "title": "Tuam Cnoc dhìreach consecrated",
+  "body": "A necropolis grows around a site nobody remembers consecrating. Its oldest graves are older than its oldest legible names.",
+  "place": "marker:41",
+  "kind": "death",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0076",
+  "canon": false,
+  "title": "The black chip in the child's grave",
+  "body": "One of the oldest graves at Tuam Cnoc dhìreach holds a child with a sliver of black glass closed in one hand. The sliver still stains the cloth it is kept in. It is the only piece of the vein found buried with the dead in this age.",
+  "place": "marker:41",
+  "kind": "death"
+ },
+ {
+  "id": "I-0077",
+  "canon": false,
+  "title": "The rows at Tuam Cnoc dhìreach",
+  "body": "The graves at Tuam Cnoc dhìreach begin to be laid in rows, heads toward the central mountains. The earliest rows are straight; the later ones bend to fit around graves already there that no one would disturb.",
+  "place": "marker:41",
+  "kind": "death"
+ },
+ {
+  "id": "I-0078",
+  "canon": true,
+  "title": "The panther roads",
+  "body": "A migratory instinct in the island's great cats is first recorded — routes crossing the mountains at fixed intervals, for reasons no naturalist has explained.",
+  "place": null,
+  "kind": "discovery",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0079",
+  "canon": false,
+  "title": "The crossing season kept",
+  "body": "The hill-folk learn the panthers' timing and keep off the high passes while the cats are crossing. Camps in the passes show a gap in their use at the same point in every year.",
+  "place": "marker:40",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0080",
+  "canon": false,
+  "title": "Eleven lost on the panther road",
+  "body": "A party of eleven from the southern shore, going up into the hills near Cnoc àrsaidh in the crossing season, does not come back. Their bones are found years afterward along the line the cats still use.",
+  "place": "burg:433",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0081",
+  "canon": false,
+  "title": "Ailean Mòr, first of the Stone Kings",
+  "body": "The oldest of the oral king-lists, the one later called Rìghrean na Cloiche, opens with Ailean Mòr, who is said to have held the hill where Dùn ìseal now stands and to have thrown up its first ring of bank. The list gives no lengths of reign. It is older than the name Ròdaich.",
+  "place": "burg:315",
+  "kind": "reign",
+  "between": [
+   -8200,
+   -7000
+  ]
+ },
+ {
+  "id": "I-0082",
+  "canon": false,
+  "title": "The bank of Dùn ìseal",
+  "body": "The first earthwork on the hill at Dùn ìseal is a single bank and ditch, enclosing space for some forty houses. It is the oldest defended place built by the hill-folk.",
+  "place": "burg:315",
+  "kind": "building"
+ },
+ {
+  "id": "I-0083",
+  "canon": false,
+  "title": "Beathag Ruadh of the Red Hill",
+  "body": "A second oral list, kept in the west, opens with Beathag Ruadh, who held the hill where Cathair dhearg now stands. The Red Hill list and the Stone Kings' list never mention each other until much later in both.",
+  "place": "burg:19",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0084",
+  "canon": false,
+  "title": "Gormshuil nic Ailein",
+  "body": "The second name in the Stone Kings' list is Gormshuil nic Ailein, the first woman in any list on Rodos. The telling gives her one deed: she moved the herds of Dùn ìseal down to the warm springs in a hard winter and lost none.",
+  "place": "burg:315",
+  "kind": "reign",
+  "within": [
+   "I-0081",
+   40
+  ]
+ },
+ {
+  "id": "I-0085",
+  "canon": false,
+  "title": "Dòmhnall Clachach sets the boundary stones",
+  "body": "Dòmhnall Clachach, third of the Stone Kings, sets marker stones along the valley below the hill to divide the grazing of Dùn ìseal from its neighbours. Some are still standing, and still argued over.",
+  "place": "burg:315",
+  "kind": "law"
+ },
+ {
+  "id": "I-0086",
+  "canon": true,
+  "title": "The first named storm",
+  "body": "A tempest severe enough to be given a name in the oldest surviving oral king-lists — the name itself lost, only the fact of it surviving.",
+  "place": null,
+  "kind": "disaster",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0087",
+  "canon": false,
+  "title": "The shell road broken",
+  "body": "The storm breaks the shell causeway of Seann Warr in three places and floods the marsh behind it with lake water. The Seann-Dhaoine do not mend it. The broken ends are still visible.",
+  "place": "burg:64",
+  "kind": "disaster",
+  "within": [
+   "I-0086",
+   0
+  ]
+ },
+ {
+  "id": "I-0088",
+  "canon": false,
+  "title": "Fearchar Bacach",
+  "body": "The Stone Kings' list sets the storm between Dòmhnall Clachach and Fearchar Bacach, the lame king, whose telling says he was carried to the Dùn ìseal gatherings in a chair of woven birch. He is the first ruler on Rodos remembered for a hurt.",
+  "place": "burg:315",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0089",
+  "canon": false,
+  "title": "Uisdean Mòr of the Red Hill",
+  "body": "Uisdean Mòr, second in the Red Hill list, digs a ditch across the neck of the hill where Cathair dhearg now stands and sets a palisade on it. The palisade burns twice in his telling and is twice rebuilt.",
+  "place": "burg:19",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0090",
+  "canon": false,
+  "title": "Strokes on the midden stones",
+  "body": "The Seann-Dhaoine begin cutting single strokes on flat stones set at the edges of their middens, one stone to a household. The strokes are not the script. They are simpler: a mark, and then another.",
+  "place": "burg:36",
+  "kind": "record"
+ },
+ {
+  "id": "I-0091",
+  "canon": true,
+  "title": "The counting of the dead begins",
+  "body": "The Seann-Dhaoine, whoever they were, the people who built Làrach an Dùin-fhaire and Làrach an Dùin, also began keeping count of its own losses — record-keeping as instinct, before there was a Ròdaich people to inherit it.",
+  "place": null,
+  "kind": "record",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0092",
+  "canon": false,
+  "title": "The tally wall of Seann Warr",
+  "body": "At the eastern Seann Warr the counting stones are built into a wall, each stone cut with its strokes, some three thousand strokes in all. The wall grows for many lifetimes.",
+  "place": "burg:128",
+  "kind": "record"
+ },
+ {
+  "id": "I-0093",
+  "canon": false,
+  "title": "The count at Seann Tarr",
+  "body": "The counting reaches Seann Tarr in the north-east, where the stones are cut with strokes in groups of five and set in the floor of a house. The house was lived in over its own dead.",
+  "place": "burg:402",
+  "kind": "record"
+ },
+ {
+  "id": "I-0094",
+  "canon": false,
+  "title": "The bad years in the counts",
+  "body": "In one stretch the tally stones at Seann Warr, Seann Tarr and Seann Chwen all thicken together: more strokes on each stone and more stones in each course. Whatever killed so many, it killed on three coasts at once. The strokes do not say what it was.",
+  "place": "burg:128",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0095",
+  "canon": false,
+  "title": "The half-cut stone of Seann Chwen",
+  "body": "At the Seann Chwen near Cuan dhearg the last tally stone is left half-cut: two strokes finished, a third begun and abandoned. The chisel marks stop mid-groove.",
+  "place": "burg:139",
+  "kind": "record"
+ },
+ {
+  "id": "I-0096",
+  "canon": false,
+  "title": "The Seann-Dhaoine fall silent",
+  "body": "After the half-cut stone, no new work of the Seann-Dhaoine can be dated. Their middens stop growing, their harbours silt and their script is not cut again. How they ended no telling knows.",
+  "place": null,
+  "kind": "people"
+ },
+ {
+  "id": "I-0097",
+  "canon": false,
+  "title": "The old names kept",
+  "body": "The hill-folk go on calling the Seann-Dhaoine places by their Seann-Dhaoine names, putting only their own word for 'old' in front: Seann Dunn, Seann Chwen, Seann Skell and the rest. They translate nothing. The roots are still not understood.",
+  "place": "burg:489",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0098",
+  "canon": false,
+  "title": "The old landings taken up",
+  "body": "Hill-folk families come down the Abhainn naomh and settle in the empty river harbour at Seann Skell, using the old mole and repairing none of it. It is the first time they are known to live by the water.",
+  "place": "burg:489",
+  "kind": "people"
+ },
+ {
+  "id": "I-0099",
+  "canon": false,
+  "title": "Mòrag Chruaidh and the salt-flats raid",
+  "body": "Mòrag Chruaidh, fifth of the Stone Kings, leads a raid down to the salt-pans on the southern shore at Baile ghorm and carries off the salt. It is the first war in either list: seven dead on the hill side, a number the telling keeps.",
+  "place": "burg:170",
+  "kind": "war"
+ },
+ {
+  "id": "I-0100",
+  "canon": false,
+  "title": "The salt-pans of Baile ghorm",
+  "body": "The pans at Baile ghorm, shallow clay basins behind a shingle bar, are the island's first salt-works. Salt from them turns up in the hill settlements from here on.",
+  "place": "burg:170",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0101",
+  "canon": false,
+  "title": "Seonag of the Red Hill",
+  "body": "Seonag nic Uisdein holds the Red Hill after her father. The telling says she kept a count of her people by pebbles in a bag, one to a household, and knew by weight when a household had gone.",
+  "place": "burg:19",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0102",
+  "canon": false,
+  "title": "The first pots at Doire shean",
+  "body": "Pots of coiled clay, fired in open bonfires, turn up at Doire shean on the south-west coast before anywhere else. Within a few lifetimes the whole southern shore is using them.",
+  "place": "burg:324",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0103",
+  "canon": false,
+  "title": "The dug-out at Cidhe Beag",
+  "body": "A boat hollowed from a single oak trunk, long enough for six, is sunk and left at the landing on Abhainn uaine now called Cidhe Beag. It is the oldest boat on Rodos whose whole shape is known.",
+  "place": "marker:39",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0104",
+  "canon": false,
+  "title": "Iain Dubh killed",
+  "body": "Iain Dubh, sixth of the Stone Kings, goes down to the salt-pans to repeat Mòrag Chruaidh's raid and is killed on the shingle at Baile ghorm. The list says only that he was brought home.",
+  "place": "burg:170",
+  "kind": "death",
+  "within": [
+   "I-0099",
+   60
+  ]
+ },
+ {
+  "id": "I-0105",
+  "canon": false,
+  "title": "The wave at Cnoc chaol",
+  "body": "A sheet of sea sand, a hand thick, lies over the hearths of a village on the site of Cnoc chaol, with the shells of deep-water creatures in it. The sea came far inland there once in this age, and the village was not rebuilt on the same ground.",
+  "place": "zone:4",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0106",
+  "canon": false,
+  "title": "The ground opens at Cill ghlas",
+  "body": "A crack a man could fall into opens across the valley at Cill ghlas and a spring moves a hundred paces downhill. The hill-folk bank the crack with stones and do not build on either side of it.",
+  "place": "zone:3",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0107",
+  "canon": false,
+  "title": "The fault-line kept clear",
+  "body": "A line of white stones is laid along the old crack at Cill ghlas, and no house is set within a stone's throw of it in any later layer of this age. The line is still partly there.",
+  "place": "burg:123",
+  "kind": "law",
+  "within": [
+   "I-0106",
+   20
+  ]
+ },
+ {
+  "id": "I-0108",
+  "canon": true,
+  "title": "The unlit hearth",
+  "body": "A single dwelling, preserved by chance in the island's peat, shows a hearth never lit — the earliest evidence that someone here once chose not to burn something they easily could have.",
+  "place": null,
+  "kind": "culture",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0109",
+  "canon": false,
+  "title": "Peat over the unlit hearth",
+  "body": "The house with the unlit hearth sits under three yards of peat, its hearth laid with dry wood and a slip of the ore beside it, and none of it burned. Whoever laid it went away and did not come back to light it.",
+  "place": null,
+  "kind": "record"
+ },
+ {
+  "id": "I-0110",
+  "canon": false,
+  "title": "The measured handful",
+  "body": "Across the hill settlements a custom sets in that no fire takes more of the ore than can be held in one cupped hand. It is nowhere written and everywhere kept. The Small-Burning Law of the next age is this custom hardened.",
+  "place": "burg:277",
+  "kind": "law"
+ },
+ {
+  "id": "I-0111",
+  "canon": false,
+  "title": "The basket burning at Achadh dhìreach",
+  "body": "A household at Achadh dhìreach burns a whole basket of the ore at once. The house burns down with three people inside, and the hearth-stone is found cracked through and running with colour. The tellings use it for ever after to explain the handful.",
+  "place": "burg:454",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0112",
+  "canon": false,
+  "title": "The watchers of the slab",
+  "body": "Families near the crack begin taking turns to sit by the slab laid over it, a household at a time, through the dark half of the year. No one ever says what they are watching for.",
+  "place": "burg:276",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0113",
+  "canon": false,
+  "title": "Raghnall Ceannfhionn makes peace",
+  "body": "Raghnall Ceannfhionn, seventh of the Stone Kings, meets the Red Hill's holder at the ford where the fair of Muileann òg is held now, and they agree on salt for wool. Both lists record the meeting. It is the first time either mentions the other.",
+  "place": "marker:38",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0114",
+  "canon": false,
+  "title": "The ford gathering",
+  "body": "The meeting at the ford becomes a yearly gathering. Salt, flint, wool, dried fish and pots change hands there, and marriages are agreed. The trodden ground is the oldest continuous meeting-place on the island.",
+  "place": "marker:38",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0115",
+  "canon": false,
+  "title": "Murchadh Gearr of the Red Hill",
+  "body": "Murchadh Gearr holds the Red Hill after Seonag and keeps the peace of the ford. His telling says he walked the salt road himself every year to be seen on it.",
+  "place": "burg:19",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0116",
+  "canon": false,
+  "title": "Hill-folk on the western shore",
+  "body": "Households from the hills settle the bay at Ros bheag, the first of them on the west coast. They build in the hill manner, round and turf-roofed, a little back from the beach, and they fish from the shore rather than from boats.",
+  "place": "burg:63",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0116a",
+  "canon": false,
+  "title": "Amber from the Hawk bay",
+  "body": "Lumps of amber gathered from the wrack on the strands of the Hawk bay are found drilled for stringing in the middens below Seann Skell. A bead of the same amber lies in the oldest ground of the ford gathering, carried there the length of the island.",
+  "place": "burg:132",
+  "kind": "trade",
+  "between": [
+   -6312,
+   -6277
+  ]
+ },
+ {
+  "id": "I-0117",
+  "canon": false,
+  "title": "The first houses at Cathair dhomhain",
+  "body": "A cluster of round houses goes up by the harbour where Cathair dhomhain now stands, near enough the Red Hill to pay it salt. The Red Hill list counts it among the holder's households.",
+  "place": "burg:26",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0118",
+  "canon": false,
+  "title": "Cattle in the north-west",
+  "body": "Cattle bones appear in the hearths of Cnoc ghorm in the north-west for the first time. Until now the settlements there lived on seal, fish and deer. The herds must have been walked up the flint road.",
+  "place": "burg:142",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0119",
+  "canon": false,
+  "title": "The long-house at Cathair gheal",
+  "body": "A long-house forty paces long is built on the rise at Cathair gheal, with byre and hall under one roof. It is the largest single building of this age in the north-west, and it burns and is rebuilt on the same footing twice.",
+  "place": "burg:476",
+  "kind": "building"
+ },
+ {
+  "id": "I-0120",
+  "canon": false,
+  "title": "A youth let down into Toll-dubh",
+  "body": "The tellings of the south-east keep the story of a youth let down on a rope of plaited hide into the eastern Toll-dubh, to the rope's end. He was drawn up alive, and he never said what was at the bottom. After him no one went down again in this age.",
+  "place": "marker:20",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0121",
+  "canon": false,
+  "title": "A fire lit in the Doire uaine hills",
+  "body": "A herding family, new to the hills, lights an open fire at Doire uaine against the custom. The telling says the hut was found empty and the fire still burning. The custom of the covered hearth is kept stricter after.",
+  "place": "marker:22",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0122",
+  "canon": false,
+  "title": "The lake dwellings burn",
+  "body": "The platforms on Loch chrom burn to the waterline, and the charred piles are left standing in the shallows. No one rebuilds on the lake in this age.",
+  "place": "feature:9",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0123",
+  "canon": false,
+  "title": "Seal-oil lamps at Caol leathan",
+  "body": "Stone lamps with a hollow for seal oil and a moss wick are in use at Caol leathan. They are the first light on Rodos that is not a hearth, and they make no smoke to speak of.",
+  "place": "burg:1",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0124",
+  "canon": false,
+  "title": "The fish-traps of Caol fhiadhaich",
+  "body": "Wattle fences are staked across the river-mouth at Caol fhiadhaich to trap salmon on the ebb. The same line of stake-holes is used and re-used through the rest of the age.",
+  "place": "burg:191",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0125",
+  "canon": false,
+  "title": "The upright looms of Muileann leathan",
+  "body": "Loom-weights of fired clay, lying in rows where they fell from the warp, are found in the houses at Muileann leathan in the north. Cloth is being woven there on standing frames, not twined by hand.",
+  "place": "burg:234",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0126",
+  "canon": true,
+  "title": "The first tide-count",
+  "body": "Someone begins marking the high-water line against a fixed rock, for reasons never recorded, in intervals later scholars recognize as suspiciously regular for a purely practical fisherman's habit.",
+  "place": null,
+  "kind": "record",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0127",
+  "canon": false,
+  "title": "A second tide-rock at Ros dhomhain",
+  "body": "The high-water marking is copied at Ros dhomhain on a boulder in the harbour mouth. The marks there are cut at the same intervals as on the first rock, which means someone carried the practice, and the interval with it.",
+  "place": "burg:27",
+  "kind": "record"
+ },
+ {
+  "id": "I-0128",
+  "canon": false,
+  "title": "The lake is higher",
+  "body": "The marks on the Ros dhomhain rock creep upward from keeper to keeper. By the end of this age Loch chrom stands a hand higher on the rock than it did at the first cut. The keepers kept cutting.",
+  "place": "burg:27",
+  "kind": "record"
+ },
+ {
+  "id": "I-0129",
+  "canon": false,
+  "title": "The flint of Cnoc àrsaidh",
+  "body": "A pit is worked for flint on the hill of Cnoc àrsaidh in the north-west, the only good flint on Rodos. Grey flakes from it are found in hearths from one end of the island to the other.",
+  "place": "burg:28",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0130",
+  "canon": false,
+  "title": "The flint road",
+  "body": "A track worn by people carrying flint runs from Cnoc àrsaidh south and east toward the ford gathering. Stretches of it near Àth leathan are sunk a yard deep by feet.",
+  "place": "burg:441",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0131",
+  "canon": false,
+  "title": "The hawk lintel at Àth mhòr",
+  "body": "A lintel stone over a house door at Àth mhòr in the north is carved with a hawk, wings closed, head turned. It is the oldest hawk carving on the island and the oldest carving of any bird.",
+  "place": "burg:436",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0132",
+  "canon": false,
+  "title": "Wolves at Tobar fhiadhaich",
+  "body": "The bones of wolves are found buried whole and with care at Tobar fhiadhaich, laid on their sides like people. No other beast is buried that way in this age.",
+  "place": "burg:435",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0133",
+  "canon": false,
+  "title": "Sìleas Bhàn and the hungry years",
+  "body": "Sìleas Bhàn, eighth of the Stone Kings, holds Dùn ìseal through years of failed grazing. The telling gives her no deed but survival: she held, and the list goes on after her.",
+  "place": "burg:315",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0134",
+  "canon": false,
+  "title": "The hunger at Baile chrom",
+  "body": "The hearths of the settlement on the site of the north-western Baile chrom are found with their pots full of boiled bark and seaweed, and the grave-rows beside them doubled. It is the oldest hunger on Rodos with a place to it.",
+  "place": "zone:1",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0135",
+  "canon": false,
+  "title": "The drought at Achadh shean",
+  "body": "The springs of Achadh shean in the east run dry for long enough that the field banks are abandoned and grown over. When people come back they cut new fields on a different line.",
+  "place": "zone:2",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0136",
+  "canon": true,
+  "title": "The naming of the wind directions",
+  "body": "The eight-point wind system every later Ròdaich sailor still uses is fixed in this period, with names that translate awkwardly and have simply never been replaced.",
+  "place": null,
+  "kind": "culture",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0137",
+  "canon": false,
+  "title": "The wind-stones of Ceann leathan",
+  "body": "Eight tall stones are set in a ring on the point at Ceann leathan, one for each of the named winds. Sailors of every later age touch the stone of the wind they want before they go out.",
+  "place": "burg:22",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0138",
+  "canon": false,
+  "title": "The wind-names carried to the islands",
+  "body": "The eight wind-names are in use on Eilean fhada as well as the main island: stone markers on its high point carry eight cut notches, one facing each way.",
+  "place": "feature:4",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0139",
+  "canon": false,
+  "title": "Tormod Liath",
+  "body": "Tormod Liath, ninth of the Stone Kings, is remembered as old: the list says he outlived three heirs. In his time Dùn ìseal gets its second bank, doubling the enclosed ground.",
+  "place": "burg:315",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0140",
+  "canon": false,
+  "title": "The Ròdaich name",
+  "body": "Somewhere in this age the hill-folk begin to call themselves Ròdaich and the island Ròdos. No one records the first use. The oldest tellings already assume both names, and the doctrine goes with them: they did not come; they were here.",
+  "place": null,
+  "kind": "people",
+  "between": [
+   -6000,
+   -4800
+  ]
+ },
+ {
+  "id": "I-0141",
+  "canon": true,
+  "title": "The first forbidden marriage",
+  "body": "A union between two lineages is refused for reasons no surviving text explains — the earliest evidence that Rodian society organized itself by bloodline before it had any obsidian-caste reason to.",
+  "place": null,
+  "kind": "law",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0142",
+  "canon": false,
+  "title": "Lines recited at the ford",
+  "body": "At the ford gathering, households begin reciting their lines aloud before any marriage is agreed, seven names back on each side. The recitations are the first genealogies on Rodos. None of them survives complete.",
+  "place": "marker:38",
+  "kind": "law"
+ },
+ {
+  "id": "I-0143",
+  "canon": false,
+  "title": "The first seeking of another vein",
+  "body": "Diggers from Dùn ìseal open a trench on a hill near Cnoc dhubh in the east, looking for black rock like the vein's. They give it up unfinished when two of them are crushed by a fall. The trench is left open, and no one says what it would have found.",
+  "place": "burg:198",
+  "kind": "discovery"
+ },
+ {
+  "id": "I-0144",
+  "canon": true,
+  "title": "The stone that would not break",
+  "body": "A second attempt to open a new vein elsewhere on the island fails entirely — ordinary rock, nothing beneath it. The first confirmation that the vein under the mountain is not a rule, but an exception.",
+  "place": null,
+  "kind": "discovery",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0145",
+  "canon": false,
+  "title": "The prospecting ends",
+  "body": "After the failed second opening, no one in this age tries a third. The Ròdaich take it as a sign that the vein chooses where it lies, and that the choosing is not theirs to test.",
+  "place": null,
+  "kind": "faith"
+ },
+ {
+  "id": "I-0146",
+  "canon": true,
+  "title": "The first shared meal law",
+  "body": "An unwritten custom, later formalized, requiring any household with surplus food to share it before a storm season — the earliest form of the communal obligation later ages will lean on more heavily than they admit.",
+  "place": null,
+  "kind": "law",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0147",
+  "canon": false,
+  "title": "Surplus shared at Dùn ìseal",
+  "body": "At Dùn ìseal the sharing before the storm season is done in the open: every household brings its surplus to the space inside the bank and it is divided by count of mouths. The bank is the first place the custom is known to have a place.",
+  "place": "burg:315",
+  "kind": "law"
+ },
+ {
+  "id": "I-0148",
+  "canon": false,
+  "title": "A household turned out at Àth shean",
+  "body": "A household at Àth shean hides its surplus grain in a pit under the floor and brings nothing to the sharing. When the pit is found the household is put out of the settlement with what it can carry. It is the first known punishment under the custom.",
+  "place": "burg:32",
+  "kind": "law"
+ },
+ {
+  "id": "I-0149",
+  "canon": false,
+  "title": "Eilidh Ghlas",
+  "body": "Eilidh Ghlas, tenth of the Stone Kings, sends her younger son to the Red Hill to be fostered. It is the first fosterage in either list. The son's name is not kept; only that he went, and that the peace of the ford held while he was there.",
+  "place": "burg:315",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0150",
+  "canon": false,
+  "title": "Lachlann Ruadh takes the fosterling",
+  "body": "Lachlann Ruadh, holder of the Red Hill, takes Eilidh Ghlas's son into his house. The Red Hill list gives him a byname for it, Lachlann an Altraim, 'Lachlann of the fostering', and uses it more often than his own.",
+  "place": "burg:19",
+  "kind": "reign",
+  "within": [
+   "I-0149",
+   1
+  ]
+ },
+ {
+  "id": "I-0151",
+  "canon": false,
+  "title": "Oighrig, first keeper by lot",
+  "body": "The families who watch the slab over the crack agree to choose one keeper at a time by lot instead of taking turns by household. The first lot falls to a woman the tellings call Oighrig nic Dhòmhnaill. She keeps the slab for the rest of her life.",
+  "place": "burg:276",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0152",
+  "canon": false,
+  "title": "The keepers' house",
+  "body": "A house is built beside the slab at Tobar dhìreach for whoever holds the lot, with a door facing the stone. It is rebuilt on the same footing many times. It is the first building on Rodos that exists only to be near the vein.",
+  "place": "burg:276",
+  "kind": "building"
+ },
+ {
+  "id": "I-0153",
+  "canon": false,
+  "title": "The stone cup",
+  "body": "Oighrig nic Dhòmhnaill has a cup ground out of grey stone to the size of her own cupped hand, so that the handful of ore would be the same for every household. The cup is carried round the hill settlements. Whether it survived the age is not known.",
+  "place": "burg:276",
+  "kind": "law",
+  "within": [
+   "I-0151",
+   40
+  ]
+ },
+ {
+  "id": "I-0154",
+  "canon": false,
+  "title": "The stone cup copied",
+  "body": "Copies of the keeper's cup are ground at Àth gharbh, Achadh dhìreach and Cnoc chaol, each checked against the first by filling it with water. The hill settlements now measure the ore with one measure.",
+  "place": "burg:415",
+  "kind": "law"
+ },
+ {
+  "id": "I-0154a",
+  "canon": false,
+  "title": "The meeting of the cups",
+  "body": "The keeper's cup and its three copies are carried to a spring on the moor between Àth gharbh and Tobar dhìreach, set side by side on a flat stone and filled from the spring in turn. The place is called Coinneachadh nan Cupan, the meeting of the cups, and the hill settlements come back to it whenever a cup is broken and a new one must be checked.",
+  "place": "marker:46",
+  "kind": "law"
+ },
+ {
+  "id": "I-0155",
+  "canon": false,
+  "title": "Gilleasbuig Beag takes ore",
+  "body": "A keeper by lot named Gilleasbuig Beag is found with a basket of broken ore in his own house. The households of the hills sit in judgement at the slab and row him out to Eilean chrom and leave him there without a boat. He is the first person on record exiled for the vein.",
+  "place": "feature:6",
+  "kind": "law"
+ },
+ {
+  "id": "I-0156",
+  "canon": false,
+  "title": "The ore returned to the crack",
+  "body": "The ore found in Gilleasbuig Beag's house is not burned and not kept. It is carried back to the slab and laid under it, piece by piece, by the keeper who followed him. The tellings make much of this: the ore went home.",
+  "place": "burg:276",
+  "kind": "faith",
+  "within": [
+   "I-0155",
+   5
+  ]
+ },
+ {
+  "id": "I-0157",
+  "canon": false,
+  "title": "Calum Ciar asks for the lot",
+  "body": "Calum Ciar, eleventh of the Stone Kings, asks the households at the slab that the keeper's lot be drawn at Dùn ìseal in his sight. The households refuse. The list records the refusal, which is more than the list usually records of anything.",
+  "place": "burg:315",
+  "kind": "reign",
+  "within": [
+   "I-0149",
+   12
+  ]
+ },
+ {
+  "id": "I-0158",
+  "canon": false,
+  "title": "The kings and the keepers",
+  "body": "After Calum Ciar's refusal the lot is still drawn at the slab, and the Stone Kings go on ruling the grazing and the gatherings but not the vein. The line between the two holds for the rest of this age. It is not yet written anywhere.",
+  "place": "burg:315",
+  "kind": "law"
+ },
+ {
+  "id": "I-0159",
+  "canon": false,
+  "title": "A' Ghaoth Dhubh",
+  "body": "A storm the tellings call A' Ghaoth Dhubh, the Black Wind, strips the thatch from every house on the east coast from Cuan ruadh to Ceann chiar. It is the oldest storm whose name is kept.",
+  "place": "burg:119",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0160",
+  "canon": false,
+  "title": "The sharing holds after the Black Wind",
+  "body": "After the Black Wind, the settlements of the east coast feed the people of Cuan ruadh through a whole winter from their shared surplus. No one on that coast is recorded as dying of hunger that season.",
+  "place": "burg:457",
+  "kind": "law",
+  "within": [
+   "I-0159",
+   1
+  ]
+ },
+ {
+  "id": "I-0161",
+  "canon": false,
+  "title": "The beacon at Baile ìseal",
+  "body": "A fire is built up on the eastern cape where Taigh-solais Baile ìseal now stands, kept by the households of the coast in turn. Its purpose, in the tellings, is to bring boats home in a storm, not to warn them off.",
+  "place": "marker:13",
+  "kind": "building"
+ },
+ {
+  "id": "I-0162",
+  "canon": false,
+  "title": "The beacon at Muileann bheag",
+  "body": "A second shore-fire is kept on the north coast, on the point where Taigh-solais Muileann bheag stands now. The ash under the modern tower goes down through three yards of fire-reddened soil.",
+  "place": "marker:14",
+  "kind": "building"
+ },
+ {
+  "id": "I-0163",
+  "canon": false,
+  "title": "The beacon at Àth dhearg",
+  "body": "Households of the north-east coast keep a fire on the cape where Taigh-solais Àth dhearg now stands, and cut steps up to it from the shore. The steps are narrower than those at Seann Bhral and less worn.",
+  "place": "marker:15",
+  "kind": "building"
+ },
+ {
+  "id": "I-0164",
+  "canon": false,
+  "title": "The beacon at Tobar dhearg",
+  "body": "On the southern cape where Taigh-solais Tobar dhearg stands a fire is kept for the boats of the south coast. With the fires at Baile chrom, Baile ìseal, Muileann bheag and Àth dhearg, the island's coasts are lit at five points.",
+  "place": "marker:16",
+  "kind": "building"
+ },
+ {
+  "id": "I-0165",
+  "canon": false,
+  "title": "The Sea-Watcher seen from Seann Skell",
+  "body": "Watchers on the north-western tower at Seann Skell report a back as long as three boats, rising and going under off the point. It is the first sighting of the Sea-Watcher that the tellings tie to a named place and a count of witnesses: four.",
+  "place": "marker:21",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0166",
+  "canon": false,
+  "title": "Wreckage in the western water",
+  "body": "Planks of stitched boats, broken small, wash up for a season along the western shore below the waters where raiders are later seen. No bodies come with them. No settlement on that coast is missing a boat.",
+  "place": "marker:25",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0167",
+  "canon": false,
+  "title": "Anndra Breac says 'we came'",
+  "body": "At the ford gathering a teller from the western coast, Anndra Breac, recites a telling in which the people came to Rodos over the sea. The households of the hills shout him down and the gathering puts him out of the ford for the rest of his life. His telling is not kept, only the fact of it.",
+  "place": "marker:38",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0168",
+  "canon": false,
+  "title": "The doctrine said at the column",
+  "body": "After Anndra Breac, the saying cut on the column at Cnoc ghorm is spoken aloud at the opening of the ford gathering: we did not come; we were here. It is the first time the doctrine is known to be said as a rule rather than a belief.",
+  "place": "marker:30",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0169",
+  "canon": false,
+  "title": "The keepers of the Ros dhomhain rock",
+  "body": "The tide-rock at Ros dhomhain passes to a woman remembered as Seònaid Mhòr, who cuts her marks in pairs, one for the high water and one for the low. Her pairs are still readable. The keepers after her go back to single marks.",
+  "place": "burg:27",
+  "kind": "record"
+ },
+ {
+  "id": "I-0170",
+  "canon": false,
+  "title": "A third tide-rock at Inis thais",
+  "body": "Households at Inis thais cut their own high-water marks on the harbour rock, at the same interval as Ros dhomhain. The three rocks now run side by side. None of them says why the interval is what it is.",
+  "place": "burg:166",
+  "kind": "record"
+ },
+ {
+  "id": "I-0171",
+  "canon": false,
+  "title": "Ros dhomhain grows",
+  "body": "The settlement at Ros dhomhain becomes the largest on the shores of Loch chrom, with some sixty houses round the tide-rock. Its people fish from boats now, not from the shore.",
+  "place": "burg:27",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0172",
+  "canon": false,
+  "title": "The Red Hill's harbour",
+  "body": "The Red Hill's households build a landing of laid stone on the river-mouth below the hill, where Cathair dhearg's harbour is now. It is the Red Hill's first way onto the water, and by the lake and the Abhainn gheal to the sea.",
+  "place": "burg:19",
+  "kind": "building"
+ },
+ {
+  "id": "I-0173",
+  "canon": false,
+  "title": "Peigi Dhubh of the Red Hill",
+  "body": "Peigi Dhubh holds the Red Hill after Lachlann an Altraim. She sends the fostered son of Dùn ìseal home grown, with gifts of salt, and the ford peace holds a generation more.",
+  "place": "burg:19",
+  "kind": "reign",
+  "within": [
+   "I-0150",
+   25
+  ]
+ },
+ {
+  "id": "I-0174",
+  "canon": false,
+  "title": "The foster-son returns",
+  "body": "The son of Eilidh Ghlas comes home from the Red Hill to Dùn ìseal. The Stone Kings' list gives him no name and no reign; he is remembered only as the one who went, and for bringing western salt-songs home with him.",
+  "place": "burg:315",
+  "kind": "culture",
+  "within": [
+   "I-0173",
+   1
+  ]
+ },
+ {
+  "id": "I-0175",
+  "canon": false,
+  "title": "The first songs kept",
+  "body": "The salt-songs of the south and west, work-songs for raking the pans, are the oldest songs on Rodos whose words are said to survive. What survives is a refrain of four lines that no one can fully translate.",
+  "place": "burg:170",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0176",
+  "canon": false,
+  "title": "Bone pipes at Cnoc àrsaidh",
+  "body": "Pipes of hollow bird-bone, bored with four holes, are found in a house at the southern Cnoc àrsaidh near the panther road. They are the oldest instruments on the island.",
+  "place": "burg:433",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0177",
+  "canon": false,
+  "title": "The panthers turn back",
+  "body": "In one season the great cats come down the panther road near Imrich nam Pantar and turn back at the foothills instead of crossing. The hill-folk take it as a sign of a hard winter and store double. The winter is hard.",
+  "place": "marker:40",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0178",
+  "canon": false,
+  "title": "The cattle lost in the passes",
+  "body": "Herders from Muileann bhàn drive cattle up into the passes out of season, against the custom of the crossing. The panthers take thirty head in a night. The herders come down with nothing.",
+  "place": "burg:502",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0179",
+  "canon": false,
+  "title": "The panther season kept at Baile dhomhain",
+  "body": "The households at Baile dhomhain in the south cut a sign on their gateposts at the start of the crossing season and scrape it off at the end. It is the island's first mark for a season.",
+  "place": "burg:257",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0180",
+  "canon": false,
+  "title": "The wind-stone at Seann Chwen",
+  "body": "One of the eight wind-names is cut in the Ròdaich manner on a boulder at the central Seann Chwen, over an older mark of the Seann-Dhaoine. It is one of the few places where the marks of the two peoples touch.",
+  "place": "burg:36",
+  "kind": "record"
+ },
+ {
+  "id": "I-0181",
+  "canon": false,
+  "title": "Boats named for the winds",
+  "body": "Fishing households at Caol bheag, who fish the north coast from the mouth of the Abhainn ghorm, name their boats for the winds they fish in. A boat named for the wrong wind is thought unlucky, and one that sinks has its name never used again.",
+  "place": "burg:475",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0182",
+  "canon": false,
+  "title": "The Tuam keepers",
+  "body": "A family living by Tuam Cnoc dhìreach takes on the clearing of the thorn from the old graves. They bury no one of their own there. They only keep it.",
+  "place": "marker:41",
+  "kind": "death"
+ },
+ {
+  "id": "I-0183",
+  "canon": false,
+  "title": "A grave at Tuam opened",
+  "body": "Diggers laying a new row at Tuam Cnoc dhìreach break into an older grave than any they knew, lined with slabs cut in the Seann-Dhaoine way. They close it and move the row. No one opens that grave again.",
+  "place": "marker:41",
+  "kind": "death"
+ },
+ {
+  "id": "I-0184",
+  "canon": false,
+  "title": "Pilgrims at Coille Naomh Muileann chiar",
+  "body": "People begin to walk to the edge of Coille Naomh Muileann chiar and sit a night at the line of the trees without entering. Hearths along the edge show the visits: small fires, a single night each.",
+  "place": "marker:23",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0185",
+  "canon": false,
+  "title": "A child lost in Coille Naomh Cnoc bheag",
+  "body": "A child from Cnoc bheag's settlement goes past the line of stones into Coille Naomh Cnoc bheag and is not found. The search party stops at the stones. The telling does not blame them.",
+  "place": "marker:24",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0186",
+  "canon": false,
+  "title": "The first house at Cnoc bheag",
+  "body": "Settlers from the Red Hill build at Cnoc bheag, near the forest's edge. They take their timber from the far side of the river, never from the unclaimed wood.",
+  "place": "burg:504",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0187",
+  "canon": false,
+  "title": "The spring at Muileann ruadh",
+  "body": "Pilgrims come to the warm springs at Fuarain Theth Muileann ruadh in numbers, and a ring of shelters is built. The oldest cure-telling on Rodos is set there: a herder who came lame and walked home.",
+  "place": "marker:0",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0188",
+  "canon": false,
+  "title": "The Hollow Man seen again",
+  "body": "Two herders driving past the Doire uaine hills after dark say they saw a figure walk the ridge without breath showing in the cold. They had no fire lit, and the telling says that is why they lived.",
+  "place": "marker:22",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0189",
+  "canon": false,
+  "title": "The covered hearth spreads",
+  "body": "The custom of the covered hearth, pit-dug and roofed, spreads from the Doire uaine hills to the settlements around Muileann chiar. The later rule that no open fire is lit on those slopes after dark starts here.",
+  "place": "burg:355",
+  "kind": "law"
+ },
+ {
+  "id": "I-0190",
+  "canon": false,
+  "title": "Settlers at Caol mhòr",
+  "body": "Ròdaich households settle at Caol mhòr in the north-west, on the strait where the Seann-Dhaoine once hunted seal. They find the old middens and build on them.",
+  "place": "burg:95",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0191",
+  "canon": false,
+  "title": "Settlers at Baile chrom in the north-west",
+  "body": "The ground at Baile chrom that was emptied by the old hunger is settled again by households from Cnoc ghorm. They dig their pits for storage deeper than anyone else on the coast.",
+  "place": "burg:305",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0192",
+  "canon": false,
+  "title": "Muileann àrsaidh settled",
+  "body": "A cluster of houses goes up on the stream at Muileann àrsaidh in the north-west. Their flint is from Cnoc àrsaidh and their salt from the south, carried the length of the island.",
+  "place": "burg:244",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0193",
+  "canon": false,
+  "title": "The salt road to the north-west",
+  "body": "A salt road runs from the pans of Baile ghorm through the ford gathering to the north-west. The salt reaches Muileann àrsaidh at three times its price at the pans, paid in flint and seal-skins.",
+  "place": "burg:244",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0194",
+  "canon": false,
+  "title": "Doire ghlas settled",
+  "body": "Households move in under the oaks at Doire ghlas in the north. The settlement grows in rings, each ring of houses built outside the last as the wood is cleared back.",
+  "place": "burg:209",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0195",
+  "canon": false,
+  "title": "The east settled at Dùn thais",
+  "body": "The hill-folk push east and build a banked enclosure at Dùn thais, on a hill above good grazing. It is the first defended place built by the Ròdaich away from Dùn ìseal and the Red Hill.",
+  "place": "burg:77",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0196",
+  "canon": false,
+  "title": "Achadh chaol cleared",
+  "body": "Fields are cleared by fire and stone-picking at Achadh chaol in the east. The picked stones are laid in banks round each field, and the banks are still the field boundaries.",
+  "place": "burg:449",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0197",
+  "canon": false,
+  "title": "Cuan ruadh rebuilt",
+  "body": "Cuan ruadh, stripped by the Black Wind, is rebuilt in stone to the height of the eaves. It is the first settlement on the east coast to build its walls against wind rather than cold.",
+  "place": "burg:119",
+  "kind": "building",
+  "within": [
+   "I-0159",
+   60
+  ]
+ },
+ {
+  "id": "I-0198",
+  "canon": false,
+  "title": "Cathair fhada on the south coast",
+  "body": "A settlement is founded at Cathair fhada on the south coast, between the old Seann Dunn and Seann Chwen. It takes its water from a well the Seann-Dhaoine dug and never mentions where the well came from.",
+  "place": "burg:297",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0199",
+  "canon": false,
+  "title": "Caol ruadh on the southern strait",
+  "body": "Fishing households settle Caol ruadh on the south coast and take the strait's cod on long lines. Their middens are the first on the south coast with more fish than shell in them.",
+  "place": "burg:15",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0200",
+  "canon": false,
+  "title": "Baile Mòr mhòr in the north",
+  "body": "Houses are built at Baile Mòr mhòr, on the northern plain, around a spring that never freezes. The settlement is large for the age: some eighty houses at its height.",
+  "place": "burg:365",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0201",
+  "canon": false,
+  "title": "Baile gharbh in the north-east",
+  "body": "Households settle the rough ground at Baile gharbh and live by sheep, not cattle. Their wool goes south along the coast to the ford gathering.",
+  "place": "burg:131",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0202",
+  "canon": false,
+  "title": "Baile fhiadhaich on the west coast",
+  "body": "Settlers at Baile fhiadhaich build on the western coast where boars run in the thickets. Boar tusks are hung over their doors, and boar is their main meat for the rest of the age.",
+  "place": "burg:134",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0203",
+  "canon": false,
+  "title": "Cuan shean settled",
+  "body": "Ròdaich households take up the harbour at Cuan shean on the west coast, next to an old landing whose builders are not known. The landing is reused without repair.",
+  "place": "burg:282",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0204",
+  "canon": false,
+  "title": "Dùn chrom raised",
+  "body": "A banked hill-fort is raised at Dùn chrom in the centre of the island, between the Red Hill and the hills of the vein. Its bank faces both ways.",
+  "place": "burg:255",
+  "kind": "building"
+ },
+ {
+  "id": "I-0205",
+  "canon": false,
+  "title": "Cathair mhòr below the old outpost",
+  "body": "Households settle on the ground below Làrach an Dùin-fhaire, where Cathair mhòr now stands. They take no stone from the ruin above them, though it would have been the nearest quarry.",
+  "place": "burg:23",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0206",
+  "canon": false,
+  "title": "Cnoc naomh",
+  "body": "A hill called Cnoc naomh, the holy hill, is settled by households who come there for its spring. Why the hill was already called holy when they came is not known.",
+  "place": "burg:318",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0207",
+  "canon": false,
+  "title": "Tobar dhearg on the southern cape",
+  "body": "The households that keep the beacon at Tobar dhearg build their settlement on the cape itself, round a well whose water runs reddish from the rock. It becomes the largest place on the south coast.",
+  "place": "burg:398",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0208",
+  "canon": false,
+  "title": "Muileann naomh founded",
+  "body": "A settlement is founded at Muileann naomh near the south coast, between the beacon at Tobar dhearg and the old Seann Skell. Its first houses are built on stilts over a marsh and later moved to firm ground.",
+  "place": "burg:326",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0209",
+  "canon": false,
+  "title": "Ceann mhin on the south-eastern shore",
+  "body": "The south-eastern Ceann mhin is settled near Làrach an Dùin. Its people are the first to live in sight of the fortress ruin, and they will not go up to it.",
+  "place": "burg:363",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0210",
+  "canon": false,
+  "title": "Seann Skell of the south",
+  "body": "Ròdaich households take up the old harbour at the southern Seann Skell, keeping its old name. Within a few generations it is the busiest landing on the south coast.",
+  "place": "burg:431",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0211",
+  "canon": false,
+  "title": "Achadh shean resettled",
+  "body": "After the drought, households come back to Achadh shean and cut new fields on the higher ground. They sink a deep well first and plant after, and the well does not fail again in this age.",
+  "place": "burg:411",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0212",
+  "canon": false,
+  "title": "Inis mhin settled",
+  "body": "A few households settle at Inis mhin on the eastern coast. They live by eggs and birds from the cliffs, and trade feathers inland.",
+  "place": "burg:221",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0213",
+  "canon": false,
+  "title": "Muileann chaol on its hill",
+  "body": "Households settle on the hill at Muileann chaol, above the upper reaches of the rivers. The ground where the library stands now is a cattle-fold in this age.",
+  "place": "burg:246",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0214",
+  "canon": false,
+  "title": "Cairns on the hill at Muileann chaol",
+  "body": "The households of Muileann chaol raise a cairn for each head of a household at his or her death, on the slope above the fold. Some forty cairns stand there by the end of the age.",
+  "place": "marker:34",
+  "kind": "death"
+ },
+ {
+  "id": "I-0215",
+  "canon": false,
+  "title": "Baile Mòr ruadh in the east",
+  "body": "A settlement grows up at Baile Mòr ruadh near the eastern Seann Dunn, on land its people call empty. The Seann Dunn middens lie a morning's walk away. The settlers do not dig into them.",
+  "place": "burg:387",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0216",
+  "canon": false,
+  "title": "The temple ruin avoided",
+  "body": "The Ròdaich of the eastern hills pass Làrach an Teampaill on their paths without stopping and without taking stone from it. A path is worn round it at a distance.",
+  "place": "marker:33",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0217",
+  "canon": false,
+  "title": "Ceann leathan's contests",
+  "body": "At Ceann leathan the gathering by the wind-stones is ended with wrestling and stone-lifting. The heaviest lifting-stone, a black boulder, is still on the point, and few have raised it.",
+  "place": "marker:37",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0218",
+  "canon": false,
+  "title": "The ford gathering grows",
+  "body": "The ford gathering at Muileann òg now draws households from every coast. Its ground is divided into places by custom: the salt people downstream, the hill people upstream, the flint people on the far bank.",
+  "place": "marker:38",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0219",
+  "canon": false,
+  "title": "Stone axes from the north",
+  "body": "Axes of polished green stone from a quarry near Àth àrsaidh in the north-west turn up across the island. They are too fine for work, and most are found unused, in graves or under house floors.",
+  "place": "burg:304",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0220",
+  "canon": false,
+  "title": "The quarry at Àth àrsaidh",
+  "body": "The green-stone quarry at Àth àrsaidh is worked by a few households who trade nothing else. The chips around it are knee-deep. The quarry is abandoned before the age ends, and the axes stop.",
+  "place": "burg:304",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0220a",
+  "canon": false,
+  "title": "The moor takes the north",
+  "body": "The pollen in the bog under Doire ghlas shows the oak falling back. Heather, birch and bog-moss spread over the northern lowlands, and the groves that give the north its many Doire names shrink to the sheltered valleys, where they still stand. The tellings of the north remember it as the time the winters lengthened.",
+  "place": "burg:209",
+  "kind": "record",
+  "between": [
+   -4030,
+   -3995
+  ]
+ },
+ {
+  "id": "I-0221",
+  "canon": false,
+  "title": "The river crossings of Abhainn fhionn",
+  "body": "Stepping-stones are laid across Abhainn fhionn at its shallows, the first made crossing of any river on the island. They are older than the first bridges and in places lie under them.",
+  "place": "river:28",
+  "kind": "building"
+ },
+ {
+  "id": "I-0222",
+  "canon": false,
+  "title": "A drowning at the fords of Abhainn chaol",
+  "body": "A spate on Abhainn chaol takes a party of twelve crossing with salt at its fords. After it the crossing is not made in the wet season.",
+  "place": "river:1",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0223",
+  "canon": false,
+  "title": "The Black Wind remembered at Ceann chiar",
+  "body": "The people of Ceann chiar, rebuilding after the Black Wind, set a stone in the middle of their settlement and cut on it one mark for every house lost: twenty-two.",
+  "place": "burg:457",
+  "kind": "record"
+ },
+ {
+  "id": "I-0224",
+  "canon": false,
+  "title": "A dry year on the eastern plain",
+  "body": "The rivers of the eastern plain run low for a whole summer, and the households of Dùn ìseal and Muileann bhàn drive their cattle to the warm springs for water. The shared surplus holds; the tellings count no deaths.",
+  "place": "burg:502",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0225",
+  "canon": false,
+  "title": "A second wave on the south coast",
+  "body": "The sea comes in again over the low ground at Cnoc chaol, less far than the first time. The new houses were built higher up the slope, and none is lost.",
+  "place": "zone:4",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0226",
+  "canon": false,
+  "title": "The ground shakes at Cill ghlas again",
+  "body": "The old crack at Cill ghlas moves again and the spring shifts back uphill. The line of white stones is found broken in two places and relaid.",
+  "place": "zone:3",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0227",
+  "canon": false,
+  "title": "Cnoc bheag under the Carragh",
+  "body": "Households settle on the bank of the Abhainn ìseal at Cnoc bheag, a short walk from Carragh Cnoc bheag. They set their houses so that none has its door toward the stone.",
+  "place": "burg:20",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0228",
+  "canon": false,
+  "title": "The seal rocks of Inis bhàn",
+  "body": "The households of Inis bhàn on the lower Abhainn ìseal take seals from the skerries off the river mouth by agreement, one household to a rock. A rock taken out of turn is the commonest quarrel in their tellings.",
+  "place": "burg:371",
+  "kind": "law"
+ },
+ {
+  "id": "I-0229",
+  "canon": false,
+  "title": "Fields at Achadh mhòr",
+  "body": "The wide field at Achadh mhòr, near the warm springs, is cleared and banked, the largest single field of the age. Its bank is laid with the stones of an older wall no one claims.",
+  "place": "burg:395",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0230",
+  "canon": false,
+  "title": "The harbour at Baile ghlas",
+  "body": "Boats of the Red Hill households are drawn up at Baile ghlas, along the lake shore from the hill, in sheds of stone and turf. It becomes the Red Hill's fishing harbour.",
+  "place": "burg:45",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0231",
+  "canon": false,
+  "title": "Achadh naomh's spring-fields",
+  "body": "Settlers at Achadh naomh in the north water their fields from a spring they will not build over, and carry the water in channels round it. The spring is fenced before any house is.",
+  "place": "burg:145",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0232",
+  "canon": false,
+  "title": "Caol gharbh on the rough strait",
+  "body": "Households settle at Caol gharbh on the north-east coast and fish the strait in skin boats. Their graves hold paddles laid beside the dead.",
+  "place": "burg:443",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0233",
+  "canon": false,
+  "title": "Doire chiar",
+  "body": "A settlement grows up under the dark oaks at Doire chiar in the north. Its people pen pigs in the wood and drive them out to the acorns in the fall of the year.",
+  "place": "burg:333",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0234",
+  "canon": false,
+  "title": "The river landing at Caol shean",
+  "body": "Caol shean, on the Abhainn ìseal east of the vein, becomes the river landing for the hill households east of the vein. Salt, fish and seal-skins come up the river to it from the coast, and on from it to the keepers' country.",
+  "place": "burg:197",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0235",
+  "canon": false,
+  "title": "Dùn dhearg raised",
+  "body": "A hill-fort with a double bank is raised at Dùn dhearg, east of the vein, by households who owe nothing to Dùn ìseal. The Stone Kings' list does not name its holders; it only says Dùn dhearg did not come to the gatherings.",
+  "place": "burg:422",
+  "kind": "building"
+ },
+ {
+  "id": "I-0236",
+  "canon": false,
+  "title": "Dùn dhearg comes to the ford",
+  "body": "The households of Dùn dhearg come to the ford gathering for the first time in Catrìona Mhòr's time, bringing seal-skins and asking for salt. They are given their own ground on the far bank.",
+  "place": "marker:38",
+  "kind": "trade",
+  "between": [
+   -3300,
+   -3260
+  ]
+ },
+ {
+  "id": "I-0237",
+  "canon": false,
+  "title": "Settlers at Àth fhiadhaich",
+  "body": "Households settle at Àth fhiadhaich in the south-eastern hills, by a ford where wild cattle cross. They catch the calves and raise them, and their herds are later the best in those hills.",
+  "place": "burg:12",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0238",
+  "canon": false,
+  "title": "Ceann àrsaidh",
+  "body": "The point at Ceann àrsaidh on the Abhainn fhionn is settled by households from the Red Hill. They find an old river landing there and name the place for it: the ancient headland.",
+  "place": "burg:88",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0239",
+  "canon": false,
+  "title": "Cnoc thais in the north-west",
+  "body": "Households settle on the damp hill at Cnoc thais in the north-west and drain it with ditches. The ditches still carry water.",
+  "place": "burg:269",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0240",
+  "canon": false,
+  "title": "Inis mhòr",
+  "body": "Households settle Inis mhòr on the Abhainn ghorm in the north-east, and live by the fish of its sheltered river pools. Their houses are built in two rows facing each other, the oldest street on Rodos.",
+  "place": "burg:17",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0241",
+  "canon": false,
+  "title": "Baile gheal in the south-west",
+  "body": "Baile gheal, on the south-western plain, is founded around a house with white-limed walls. The lime is burned from shells from the old middens along the coast.",
+  "place": "burg:232",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0242",
+  "canon": false,
+  "title": "Àth bheag on the eastern coast",
+  "body": "Households settle the small ford at Àth bheag on the far eastern coast, the easternmost settlement of the age on the main island. Their boats go out to the geese on the islands.",
+  "place": "burg:492",
+  "kind": "founding"
+ },
+ {
+  "id": "I-0243",
+  "canon": false,
+  "title": "Catrìona Mhòr",
+  "body": "Catrìona Mhòr, twelfth of the Stone Kings and the last name the oral list gives, holds Dùn ìseal. Her telling says she knew every household of the hills by its line back seven names.",
+  "place": "burg:315",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0244",
+  "canon": false,
+  "title": "Seumas Òg of the Red Hill",
+  "body": "Seumas Òg holds the Red Hill. He is the last name in the Red Hill's oral list; the list stops with him, and in the next age what the reciters kept of it is written down and no longer only spoken.",
+  "place": "burg:19",
+  "kind": "reign"
+ },
+ {
+  "id": "I-0245",
+  "canon": false,
+  "title": "The two lists recited together",
+  "body": "At the ford gathering in Catrìona Mhòr's time, the Stone Kings' list and the Red Hill list are recited one after the other, from first name to last. It takes from dusk to dawn. It is the first time anyone hears both whole.",
+  "place": "marker:38",
+  "kind": "record"
+ },
+ {
+  "id": "I-0246",
+  "canon": false,
+  "title": "Lots drawn for the slab",
+  "body": "The lot for the keeper of the slab is now drawn among households from every part of the hills, not only those near the crack. The keeper's house at Tobar dhìreach becomes a place people walk to.",
+  "place": "burg:276",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0247",
+  "canon": false,
+  "title": "The keepers number nine",
+  "body": "The keepers of the slab are nine at a time, one drawn by lot for each of nine districts of the hills. They meet at the slab when a keeper dies, and not otherwise.",
+  "place": "burg:276",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0248",
+  "canon": false,
+  "title": "Ore in every hearth by the handful",
+  "body": "Every household of the hills burns its handful of ore on one night in the dark of the year, the night later kept as Samhain, measured in a copy of the stone cup. The burning is done at once in every house, by agreement, so the colour shows on every hillside the same night.",
+  "place": null,
+  "kind": "faith"
+ },
+ {
+  "id": "I-0249",
+  "canon": false,
+  "title": "A handful refused at Cnoc dhubh",
+  "body": "The household of the Cnoc dhubh trench, the one that crushed two diggers, refuses its handful of ore for as long as anyone remembers. It is the first household on record to choose not to burn at all.",
+  "place": "burg:198",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0250",
+  "canon": false,
+  "title": "Counting the households",
+  "body": "Catrìona Mhòr's people count the households of the hills by knots on a cord, a knot to a hearth. The cord from Dùn ìseal is said to have had some nine hundred knots. It is the largest count made on Rodos in this age.",
+  "place": "burg:315",
+  "kind": "record"
+ },
+ {
+  "id": "I-0251",
+  "canon": false,
+  "title": "The saying on the column recut",
+  "body": "The words on the column at Cnoc ghorm, worn shallow, are recut along their old grooves by a hand from the Stone Kings' hill. Some later readers say the recutting changed a letter; no one can prove which.",
+  "place": "marker:30",
+  "kind": "record"
+ },
+ {
+  "id": "I-0252",
+  "canon": false,
+  "title": "The last Seann-Dhaoine midden disturbed",
+  "body": "Households at the eastern Seann Dunn cut into the old midden there for a house-floor and find the tally stones. They put them back in the order they found them and build elsewhere.",
+  "place": "burg:18",
+  "kind": "record"
+ },
+ {
+  "id": "I-0253",
+  "canon": false,
+  "title": "Eilean ìseal given to the dead",
+  "body": "The households of the south-east coast begin to row their dead to Eilean ìseal, in the old Seann-Dhaoine manner. Whether they learned it from the Seann Vell graves on Eilean dhearg, or from nothing, no telling says.",
+  "place": "feature:10",
+  "kind": "death"
+ },
+ {
+  "id": "I-0254",
+  "canon": false,
+  "title": "Gilleasbuig Beag's island",
+  "body": "Eilean chrom, where Gilleasbuig Beag was sent, is left empty and is not fished. The tellings say his fire was seen on it for three nights and then not at all.",
+  "place": "feature:6",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0255",
+  "canon": false,
+  "title": "The keepers ask to be named",
+  "body": "The nine keepers of the slab ask Catrìona Mhòr that their charge be declared before the whole ford gathering, so that no king after her can draw the lot at Dùn ìseal. She does not refuse and does not agree. The matter is carried forward.",
+  "place": "marker:38",
+  "kind": "law",
+  "between": [
+   -3300,
+   -3001
+  ],
+  "within": [
+   "I-0236",
+   55
+  ]
+ },
+ {
+  "id": "I-0256",
+  "canon": false,
+  "title": "The eve of the Binding",
+  "body": "At the close of this age the handful custom is everywhere in the hills, the keepers are nine, the sharing before the storms is kept on every coast, and the doctrine is said at every gathering. None of it is yet declared, and no god is yet named over the vein. The next age begins when it is.",
+  "place": null,
+  "kind": "record",
+  "between": [
+   -3100,
+   -3001
+  ]
+ }
+]

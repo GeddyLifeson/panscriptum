@@ -1,0 +1,317 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ròdais</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Gentium+Book+Plus:ital@0;1&family=Noto+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Dark-first: the night library of the Atlas. Light is vellum. */
+:root{
+  color-scheme:dark;
+  --ground:#110e14; --panel:#18141d; --raise:#201a27;
+  --ink:#e9dfca; --muted:#a79c8c; --hair:#352d3d;
+  --rubric:#e07a5f; --rubric-soft:rgba(224,122,95,.14);
+  --violet:#a98bff; --gold:#d6b25e;
+  --display:'Uncial Antiqua','Cinzel',Georgia,serif;
+  --label:'Cinzel',Georgia,serif;
+  --body:'Cormorant Garamond','EB Garamond',Georgia,'Times New Roman',serif;
+  --ipa:'Gentium Book Plus','Charis SIL','Doulos SIL','Noto Serif',serif;
+  --mono:'Noto Sans Mono','DejaVu Sans Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    color-scheme:light;
+    --ground:#f3ecdd; --panel:#ebe2cf; --raise:#fbf6ea;
+    --ink:#2a2226; --muted:#6c6158; --hair:#d5c8ae;
+    --rubric:#a8381f; --rubric-soft:rgba(168,56,31,.09);
+    --violet:#5d3fb8; --gold:#8a6a1c;
+  }
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --ground:#f3ecdd; --panel:#ebe2cf; --raise:#fbf6ea;
+  --ink:#2a2226; --muted:#6c6158; --hair:#d5c8ae;
+  --rubric:#a8381f; --rubric-soft:rgba(168,56,31,.09);
+  --violet:#5d3fb8; --gold:#8a6a1c;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{background:var(--ground); color:var(--ink); font-family:var(--body); font-size:20px; line-height:1.55;
+  -webkit-font-smoothing:antialiased; margin:0}
+a{color:var(--violet); text-decoration-thickness:1px; text-underline-offset:3px}
+a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important; transition:none!important}}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky; top:env(safe-area-inset-top,0px); z-index:30; background:color-mix(in srgb, var(--ground) 92%, transparent);
+  backdrop-filter:blur(6px); border-bottom:1px solid var(--hair)}
+.bar-in{max-width:1240px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+.brand{font-family:var(--display); font-size:1.7rem; color:var(--rubric); text-decoration:none; line-height:1}
+.tabs{display:flex; gap:4px; margin-left:auto}
+.tab{font-family:var(--label); font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+  background:none; border:1px solid transparent; border-radius:3px; padding:8px 14px; cursor:pointer}
+.tab[aria-selected="true"]{color:var(--ink); border-color:var(--hair); background:var(--panel)}
+.tab:hover{color:var(--ink)}
+
+/* ---------- book ---------- */
+.book{max-width:1240px; margin:0 auto; padding:0 16px; display:grid; grid-template-columns:260px minmax(0,1fr); gap:48px}
+.toc{position:sticky; top:calc(env(safe-area-inset-top,0px) + 64px); align-self:start; max-height:calc(100vh - 80px);
+  overflow:auto; padding-block:28px 40px; font-size:.95rem}
+.toc ol{list-style:none; margin:0; padding:0}
+.toc > ol > li{margin-bottom:14px}
+.toc a{color:var(--muted); text-decoration:none; display:block; padding:2px 0; line-height:1.3}
+.toc a:hover{color:var(--ink)}
+.toc a.ch{font-family:var(--label); font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); margin-bottom:4px}
+.toc ol ol a{padding-left:10px; border-left:1px solid var(--hair); font-size:.9rem}
+.toc-toggle{display:none}
+.text{max-width:70ch; padding-block:28px 120px; min-width:0}
+.front{padding-block:36px 8px; border-bottom:1px solid var(--hair); margin-bottom:12px}
+.front .eyebrow{font-family:var(--label); font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0}
+.front h1{font-family:var(--display); font-weight:400; font-size:clamp(3rem, 9vw, 5.2rem); line-height:1; color:var(--rubric); margin:.15em 0 .2em}
+.front .lede{font-size:1.3rem; line-height:1.45; margin:0 0 1.2em}
+.sample{background:var(--panel); border:1px solid var(--hair); border-radius:4px; padding:16px 20px; margin:1.4em 0}
+.sample .ro{font-size:1.35rem; font-weight:600}
+.sample .ipa{font-family:var(--ipa); color:var(--muted); font-size:1rem}
+.sample .en{font-style:italic}
+.chapter{padding-top:36px; border-top:1px solid var(--hair); margin-top:48px}
+.chapter > h1{font-family:var(--display); font-weight:400; color:var(--rubric); font-size:2.6rem; line-height:1.1; margin:0 0 .6em; text-wrap:balance}
+.chapter h2{font-family:var(--label); font-weight:600; font-size:1.25rem; letter-spacing:.04em; margin:2.2em 0 .6em; text-wrap:balance}
+.chapter h3{font-weight:700; font-size:1.2rem; margin:1.8em 0 .4em; text-wrap:balance}
+.chapter h4{font-weight:700; font-style:italic; font-size:1.05rem; margin:1.4em 0 .3em}
+.chapter p, .chapter li{hyphens:auto}
+.chapter em{color:color-mix(in srgb, var(--ink) 88%, var(--rubric))}
+.chapter code{font-family:var(--mono); font-size:.8em; background:var(--panel); padding:1px 4px; border-radius:3px}
+.chapter pre{font-family:var(--mono); font-size:.8rem; line-height:1.55; background:var(--panel); border:1px solid var(--hair);
+  border-radius:4px; padding:14px 16px; overflow-x:auto}
+.chapter pre code{background:none; padding:0; font-size:inherit}
+.tw{overflow-x:auto; margin:1em 0 1.4em; border:1px solid var(--hair); border-radius:4px}
+table{border-collapse:collapse; width:100%; font-size:.92rem; line-height:1.4}
+th{font-family:var(--label); font-weight:600; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; text-align:left;
+  color:var(--muted); background:var(--panel)}
+th, td{padding:7px 12px; border-bottom:1px solid var(--hair); vertical-align:top}
+tr:last-child td{border-bottom:none}
+blockquote{margin:1em 0; padding:.2em 1em; border-left:2px solid var(--rubric); color:var(--muted)}
+
+/* ---------- dictionary ---------- */
+.dict{max-width:1000px; margin:0 auto; padding:28px 16px 120px}
+.dict-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 20px; margin-bottom:18px}
+.dict-head h1{font-family:var(--display); font-weight:400; color:var(--rubric); font-size:2.6rem; margin:0; line-height:1}
+.dict-head .stats{color:var(--muted); font-size:1rem; font-variant-numeric:tabular-nums}
+.search{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+#q{flex:1 1 320px; min-width:0; font-family:var(--body); font-size:1.3rem; color:var(--ink); background:var(--raise);
+  border:1px solid var(--hair); border-radius:4px; padding:10px 14px}
+#q::placeholder{color:var(--muted)}
+.seg{display:inline-flex; border:1px solid var(--hair); border-radius:4px; overflow:hidden}
+.seg button{font-family:var(--label); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; background:none; border:0;
+  color:var(--muted); padding:10px 12px; cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--panel); color:var(--ink)}
+.chk{display:inline-flex; align-items:center; gap:6px; color:var(--muted); font-size:1rem; cursor:pointer}
+.chk input{accent-color:var(--violet)}
+.letters{display:flex; flex-wrap:wrap; gap:2px; margin:16px 0 6px}
+.letters button{font-family:var(--display); font-size:1.05rem; min-width:34px; padding:4px 6px; background:none;
+  border:1px solid transparent; border-radius:3px; color:var(--muted); cursor:pointer}
+.letters button[aria-pressed="true"]{color:var(--rubric); border-color:var(--hair); background:var(--panel)}
+.letters button:disabled{opacity:.3; cursor:default}
+.note{color:var(--muted); font-size:1rem; margin:6px 0 10px; font-variant-numeric:tabular-nums}
+.entries{list-style:none; margin:0; padding:0}
+.entry{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 16px; padding:12px 0; border-bottom:1px solid var(--hair)}
+.hw{font-size:1.35rem; font-weight:700; color:var(--rubric); line-height:1.25}
+.hw.en{color:var(--ink)}
+.hw .k{color:var(--violet); font-size:.9rem; margin-left:6px; vertical-align:2px}
+.gram{font-size:.98rem; color:var(--muted)}
+.gram i{color:var(--ink)}
+.ipa{font-family:var(--ipa); font-size:.95rem; color:var(--muted)}
+.gloss{grid-column:1 / -1; font-size:1.08rem}
+.gloss .sense{color:var(--muted)}
+.gloss .ro{font-weight:700; color:var(--rubric)}
+.lit{grid-column:1 / -1; font-size:.98rem; color:var(--muted)}
+.lit i{color:var(--ink)}
+.lvl{grid-row:1; grid-column:2; font-family:var(--label); font-size:.68rem; letter-spacing:.08em; color:var(--muted);
+  border:1px solid var(--hair); border-radius:3px; padding:2px 6px; align-self:start; font-variant-numeric:tabular-nums}
+.more{margin:20px 0; font-family:var(--label); font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; background:var(--panel);
+  color:var(--ink); border:1px solid var(--hair); border-radius:4px; padding:10px 18px; cursor:pointer}
+.legend{color:var(--muted); font-size:.95rem; margin-top:22px; border-top:1px solid var(--hair); padding-top:12px}
+
+@media (max-width: 860px){
+  body{font-size:19px}
+  .book{grid-template-columns:minmax(0,1fr); gap:0}
+  .toc{position:static; max-height:none; padding-block:0; display:none}
+  .toc.open{display:block; padding-block:8px 16px; border-bottom:1px solid var(--hair)}
+  .toc-toggle{display:inline-block; margin-top:14px}
+  .tabs{margin-left:0}
+  .entry{grid-template-columns:minmax(0,1fr) auto}
+}
+</style>
+
+<header class="bar"><div class="bar-in">
+  <a class="brand" href="#top" id="top-link">Ròdais</a>
+  <nav class="tabs" role="tablist" aria-label="Parts of the book">
+    <button class="tab" role="tab" id="tab-book" aria-selected="true" data-view="book">Book</button>
+    <button class="tab" role="tab" id="tab-dict" aria-selected="false" data-view="dict">Dictionary</button>
+  </nav>
+</div></header>
+
+<main id="view-book" class="book" role="tabpanel" aria-labelledby="tab-book">
+  <nav class="toc" id="toc" aria-label="Contents"><ol>{{NAV}}<li><a class="ch" href="#dictionary">Dictionary</a></li></ol></nav>
+  <article class="text">
+    <button class="more toc-toggle" id="toc-toggle" aria-controls="toc" aria-expanded="false">Contents</button>
+    <section class="front" id="top">
+      <p class="eyebrow">The Gaelic of Rodos</p>
+      <h1>Ròdais</h1>
+      <p class="lede">The tongue of the Ròdaich, spoken on Rodos in every age of its annals: in the harbour towns and the
+        hill shires, in the courts of the kings, and in the copying-rooms of the library at Muileann chaol.</p>
+      <div class="sample">
+        <div class="ro">{{SAMPLE_RO}}</div>
+        <div class="ipa">/{{SAMPLE_IPA}}/</div>
+        <div class="en">{{SAMPLE_EN}}</div>
+      </div>
+      <p>This book sets the language down whole. <a href="#ch-sounds">The sounds</a> describes how Ròdais is
+        spoken and how its spelling is read. <a href="#ch-grammar">The grammar in brief</a> gives the language in a few
+        pages; <a href="#ch-forms">Word forms</a> and <a href="#ch-sentences">Sentences</a> give it in full, every example
+        glossed word by word. <a href="#ch-naming">Names</a> tells how the places and peoples of the island are named, and
+        <a href="#ch-texts">Texts</a> has conversations and tales with English beside them. The
+        <a href="#dictionary">Dictionary</a> can be searched from either language.</p>
+      <p>Ròdais keeps its old words. For the things the island knew before the humans came, about 1780, it says what
+        the bards said. Some of what the humans brought kept the humans' own names, as <i>bus</i> and <i>rèidio</i> did.
+        For the rest Ròdais made words of its own from old roots: a skyscraper is <i>suathaiche-nèimh</i>,
+        “heaven-grazer”, and a computer <i>inntinn-iarainn</i>, “iron-mind”. Those words are marked ✦ in the dictionary.</p>
+    </section>
+    {{CHAPTERS}}
+  </article>
+</main>
+
+<main id="view-dict" class="dict" role="tabpanel" aria-labelledby="tab-dict" hidden>
+  <div class="dict-head" id="dictionary">
+    <h1>Faclair</h1>
+    <span class="stats">{{STATS}}</span>
+  </div>
+  <div class="search">
+    <input id="q" type="search" placeholder="Search Ròdais or English, e.g. “iron” or “long”" autocomplete="off" spellcheck="false" aria-label="Search the dictionary">
+    <span class="seg" role="group" aria-label="Order">
+      <button id="dir-ro" aria-pressed="true">Ròdais A–Z</button>
+      <button id="dir-en" aria-pressed="false">English A–Z</button>
+    </span>
+    <label class="chk" for="konly"><input type="checkbox" id="konly"> ✦ kennings only</label>
+  </div>
+  <div class="letters" id="letters" aria-label="Jump to letter"></div>
+  <p class="note" id="note" aria-live="polite"></p>
+  <ol class="entries" id="entries"></ol>
+  <button class="more" id="more" hidden>Show more</button>
+  <p class="legend">Nouns show gender (masculine or feminine), genitive and plural; verbs show the verbal noun.
+    Pronunciation is between slashes (see <a href="#ch-sounds">The sounds</a>). ✦ marks a word Ròdais made from old roots
+    for a thing that came in after about 1780, with its literal sense, and the word Scottish Gaelic uses for the same
+    thing.</p>
+</main>
+
+<script>
+const POS = {{POS}};
+const D = {{DATA}};
+// columns: 0 rod, 1 pos, 2 g, 3 gen, 4 pl, 5 vn, 6 en, 7 sense, 8 lit, 9 scots, 10 kenning, 11 ipa, 12 level
+const fold = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const rkey = s => fold(s).replace(/^(an t-|an |am |a' |na h-|na |'s |')/, '');
+const FR = D.map(r => fold(r[0])), FE = D.map(r => fold(r[6])), FS = D.map(r => fold((r[7] || '') + ' ' + (r[8] || '')));
+const KR = D.map(r => rkey(r[0])), KE = FE.map(s => s.replace(/^(to|a|an|the) /, ''));
+const byRo = D.map((_, i) => i).sort((a, b) => KR[a] < KR[b] ? -1 : KR[a] > KR[b] ? 1 : 0);
+const byEn = D.map((_, i) => i).sort((a, b) => KE[a] < KE[b] ? -1 : KE[a] > KE[b] ? 1 : 0);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const $ = id => document.getElementById(id);
+const PAGE = 100;
+let dir = 'ro', letter = 'a', shown = PAGE, list = [];
+
+function gram(r) {
+  const b = [POS[r[1]] || r[1]];
+  if (r[1] === 'n' && r[2]) b.push(r[2] === 'f' ? 'feminine' : 'masculine');
+  if (r[3]) b.push('gen. <i>' + esc(r[3]) + '</i>');
+  if (r[4]) b.push('pl. <i>' + esc(r[4]) + '</i>');
+  if (r[5]) b.push('vn. <i>' + esc(r[5]) + '</i>');
+  return b.join(' · ');
+}
+function card(i) {
+  const r = D[i], k = r[10] ? '<span class="k" title="kenning">✦</span>' : '';
+  const ipa = r[11] ? ' <span class="ipa">/' + esc(r[11]) + '/</span>' : '';
+  const sense = r[7] ? ' <span class="sense">(' + esc(r[7]) + ')</span>' : '';
+  const lit = (r[8] || r[9]) ? '<div class="lit">' + (r[8] ? 'lit. “' + esc(r[8]) + '”' : '') +
+    (r[9] ? (r[8] ? '; ' : '') + 'compare Scottish Gaelic <i>' + esc(r[9]) + '</i>' : '') + '</div>' : '';
+  const lvl = '';
+  if (dir === 'en') return '<li class="entry"><div><span class="hw en">' + esc(r[6]) + '</span>' + sense + '</div>' + lvl +
+    '<div class="gloss"><span class="ro">' + esc(r[0]) + '</span>' + k + ' <span class="gram">' + gram(r) + '</span>' + ipa + '</div>' + lit + '</li>';
+  return '<li class="entry"><div><span class="hw">' + esc(r[0]) + k + '</span> <span class="gram">' + gram(r) + '</span>' + ipa + '</div>' + lvl +
+    '<div class="gloss">' + esc(r[6]) + sense + '</div>' + lit + '</li>';
+}
+function compute() {
+  const q = fold($('q').value.trim()), ko = $('konly').checked;
+  const order = dir === 'ro' ? byRo : byEn, key = dir === 'ro' ? KR : KE;
+  if (!q) {
+    list = order.filter(i => key[i].startsWith(letter) && (!ko || D[i][10]));
+    return (ko ? 'Kennings under ' : 'Under ') + letter.toUpperCase() + ': ' + list.length.toLocaleString() + ' entries';
+  }
+  const re = new RegExp('(^|[\\s(\\-/])' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const scored = [];
+  for (const i of order) {
+    if (ko && !D[i][10]) continue;
+    let s = -1;
+    if (FR[i] === q || KE[i] === q || FE[i] === q) s = 0;
+    else if (FR[i].startsWith(q) || KR[i].startsWith(q)) s = 1;
+    else if (KE[i].startsWith(q)) s = 2;
+    else if (re.test(FE[i]) || re.test(FR[i])) s = 3;
+    else if (re.test(FS[i])) s = 4;
+    else if (FR[i].includes(q) || FE[i].includes(q)) s = 5;
+    if (s >= 0) scored.push([s, i]);
+  }
+  scored.sort((a, b) => a[0] - b[0]);
+  list = scored.map(x => x[1]);
+  return list.length ? list.length.toLocaleString() + ' matches for “' + esc($('q').value.trim()) + '”'
+    : 'Nothing matches “' + esc($('q').value.trim()) + '”. Try a shorter part of the word, or the other language.';
+}
+function render(reset) {
+  if (reset) shown = PAGE;
+  $('note').innerHTML = compute();
+  $('entries').innerHTML = list.slice(0, shown).map(card).join('');
+  $('more').hidden = list.length <= shown;
+  $('more').textContent = 'Show ' + Math.min(PAGE, list.length - shown).toLocaleString() + ' more';
+  drawLetters();
+}
+function drawLetters() {
+  const key = dir === 'ro' ? KR : KE, have = new Set(key.map(s => s[0]));
+  const L = (dir === 'ro' ? 'abcdefghilmnoprstu' : 'abcdefghijklmnopqrstuvwxyz').split('');
+  const searching = !!$('q').value.trim();
+  $('letters').innerHTML = L.map(c => '<button data-l="' + c + '" aria-pressed="' + (!searching && c === letter) + '"' +
+    (have.has(c) ? '' : ' disabled') + '>' + c.toUpperCase() + '</button>').join('');
+}
+$('letters').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b || b.disabled) return;
+  letter = b.dataset.l; $('q').value = ''; render(true);
+});
+let t; $('q').addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => render(true), 120); });
+$('konly').addEventListener('change', () => render(true));
+$('more').addEventListener('click', () => { shown += PAGE; render(false); });
+for (const d of ['ro', 'en']) $('dir-' + d).addEventListener('click', () => {
+  dir = d; letter = 'a';
+  $('dir-ro').setAttribute('aria-pressed', d === 'ro'); $('dir-en').setAttribute('aria-pressed', d === 'en');
+  render(true);
+});
+
+// ---------- views ----------
+function show(view, anchor) {
+  $('view-book').hidden = view !== 'book'; $('view-dict').hidden = view !== 'dict';
+  $('tab-book').setAttribute('aria-selected', view === 'book'); $('tab-dict').setAttribute('aria-selected', view === 'dict');
+  if (view === 'dict' && !$('entries').children.length) render(true);
+  if (anchor) { const el = document.getElementById(anchor); if (el) el.scrollIntoView(); } else window.scrollTo(0, 0);
+}
+function route() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h === 'dictionary') show('dict');
+  else show('book', h || null);
+}
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => {
+  if (b.dataset.view === 'dict') { if (location.hash !== '#dictionary') location.hash = 'dictionary'; else show('dict'); }
+  else { history.pushState(null, '', '#top'); show('book'); }
+}));
+$('top-link').addEventListener('click', e => { e.preventDefault(); history.pushState(null, '', '#top'); show('book'); });
+window.addEventListener('hashchange', route);
+$('toc-toggle').addEventListener('click', () => {
+  const open = $('toc').classList.toggle('open'); $('toc-toggle').setAttribute('aria-expanded', open);
+});
+$('toc').addEventListener('click', e => { if (e.target.closest('a')) { $('toc').classList.remove('open'); $('toc-toggle').setAttribute('aria-expanded', false); } });
+route();
+</script>

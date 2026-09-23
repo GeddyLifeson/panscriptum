@@ -1,0 +1,562 @@
+[
+ {
+  "artist": "Black Sabbath",
+  "album": "Black Sabbath",
+  "date": "1970-02-13",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Black_Sabbath_(album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Paranoid",
+  "date": "1970-09-18",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Paranoid_(album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Master of Reality",
+  "date": "1971-08-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Master_of_Reality"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Vol. 4",
+  "date": "1972-09-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Vol._4_(Black_Sabbath_album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Sabbath Bloody Sabbath",
+  "date": "1973-11-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Sabbath_Bloody_Sabbath"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Sabotage",
+  "date": "1975-07-28",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Sabotage_(Black_Sabbath_album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Technical Ecstasy",
+  "date": "1976-09-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Technical_Ecstasy"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Never Say Die!",
+  "date": "1978-09-29",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Never_Say_Die!"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Heaven and Hell",
+  "date": "1980-04-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Heaven_and_Hell_(Black_Sabbath_album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Live at Last",
+  "date": "1980-06",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Live_at_Last_(Black_Sabbath_album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Mob Rules",
+  "date": "1981-11-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Mob_Rules_(album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Live Evil",
+  "date": "1982-12",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Live_Evil_(Black_Sabbath_album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Born Again",
+  "date": "1983-09-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Born_Again_Tour"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Seventh Star",
+  "date": "1986-01-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Seventh_Star"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "The Eternal Idol",
+  "date": "1987-11-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Eternal_Idol"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Headless Cross",
+  "date": "1989-04-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Headless_Cross_(album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Tyr",
+  "date": "1990-08-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Tyr_(album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Dehumanizer",
+  "date": "1992-06-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Dehumanizer"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Cross Purposes",
+  "date": "1994-01-31",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Cross_Purposes"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Forbidden",
+  "date": "1995-06-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Forbidden_(Black_Sabbath_album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Reunion",
+  "date": "1998-10-19",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Reunion_(Black_Sabbath_album)"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "Past Lives",
+  "date": "2002-08-20",
+  "kind": "live",
+  "source": "https://www.black-sabbath.com/discography/blacksabbath/pastlives/"
+ },
+ {
+  "artist": "Black Sabbath",
+  "album": "13",
+  "date": "2013-06-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/13_(Black_Sabbath_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "UFO 1",
+  "date": "1970-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/UFO_1"
+ },
+ {
+  "artist": "UFO",
+  "album": "UFO 2: Flying",
+  "date": "1971-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/UFO_2:_Flying"
+ },
+ {
+  "artist": "UFO",
+  "album": "Phenomenon",
+  "date": "1974-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Phenomenon_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "Force It",
+  "date": "1975-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Force_It"
+ },
+ {
+  "artist": "UFO",
+  "album": "No Heavy Petting",
+  "date": "1976-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/No_Heavy_Petting"
+ },
+ {
+  "artist": "UFO",
+  "album": "Lights Out",
+  "date": "1977-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Lights_Out_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "Obsession",
+  "date": "1978-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Obsession_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "Strangers in the Night",
+  "date": "1979-01",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Strangers_in_the_Night_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "No Place to Run",
+  "date": "1980-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/No_Place_to_Run_(album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "The Wild, the Willing and the Innocent",
+  "date": "1981-01-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/UFO_discography"
+ },
+ {
+  "artist": "UFO",
+  "album": "Mechanix",
+  "date": "1982-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Mechanix_(album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "Making Contact",
+  "date": "1983-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Making_Contact_(album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "Misdemeanor",
+  "date": "1985-11-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Misdemeanor_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "Ain't Misbehavin'",
+  "date": "1988-03-28",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Ain%27t_Misbehavin%27_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "High Stakes & Dangerous Men",
+  "date": "1992-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/High_Stakes_%26_Dangerous_Men"
+ },
+ {
+  "artist": "UFO",
+  "album": "Walk on Water",
+  "date": "1995-04-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Walk_on_Water_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "Covenant",
+  "date": "2000-07-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Covenant_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "Sharks",
+  "date": "2002-09-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Sharks_(album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "You Are Here",
+  "date": "2004-03-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/You_Are_Here_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "The Monkey Puzzle",
+  "date": "2006-09-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Monkey_Puzzle_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "The Visitor",
+  "date": "2009-06-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Visitor_(UFO_album)"
+ },
+ {
+  "artist": "UFO",
+  "album": "Seven Deadly",
+  "date": "2012-02-27",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Seven_Deadly"
+ },
+ {
+  "artist": "UFO",
+  "album": "A Conspiracy of Stars",
+  "date": "2015-02-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/A_Conspiracy_of_Stars"
+ },
+ {
+  "artist": "UFO",
+  "album": "The Salentino Cuts",
+  "date": "2017-09-29",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Salentino_Cuts"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Triumph",
+  "date": "1976-10-13",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Triumph_(Triumph_album)"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Rock & Roll Machine",
+  "date": "1977-11-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Triumph_discography"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Just a Game",
+  "date": "1979-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Just_a_Game_(album)"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Progressions of Power",
+  "date": "1980-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Progressions_of_Power"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Allied Forces",
+  "date": "1981-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Allied_Forces_(album)"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Never Surrender",
+  "date": "1982-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Never_Surrender_(album)"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Thunder Seven",
+  "date": "1984-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Thunder_Seven"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Stages",
+  "date": "1985-10-14",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Stages_(Triumph_album)"
+ },
+ {
+  "artist": "Triumph",
+  "album": "The Sport of Kings",
+  "date": "1986-08-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Sport_of_Kings_(album)"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Surveillance",
+  "date": "1987-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Surveillance_(Triumph_album)"
+ },
+ {
+  "artist": "Triumph",
+  "album": "Edge of Excess",
+  "date": "1992-10-27",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Edge_of_Excess"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Screaming Life",
+  "date": "1987-11-21",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Screaming_Life"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Fopp",
+  "date": "1988-08",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Fopp_(EP)"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Ultramega OK",
+  "date": "1988-10-31",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Ultramega_OK"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Louder Than Love",
+  "date": "1989-09-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Louder_Than_Love"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Loudest Love",
+  "date": "1990-09-21",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Loudest_Love"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Badmotorfinger",
+  "date": "1991-10-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Badmotorfinger"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Superunknown",
+  "date": "1994-03-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Superunknown"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Songs from the Superunknown",
+  "date": "1995-11-21",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Songs_from_the_Superunknown"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Down on the Upside",
+  "date": "1996-05-21",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Down_on_the_Upside"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "Before the Doors: Live on I-5 Soundcheck",
+  "date": "2011-11-25",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Before_the_Doors:_Live_on_I-5_Soundcheck"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "King Animal",
+  "date": "2012-11-13",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/King_Animal"
+ },
+ {
+  "artist": "Soundgarden",
+  "album": "King Animal Demos",
+  "date": "2013-04-20",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/King_Animal_Demos"
+ },
+ {
+  "artist": "Pantera",
+  "album": "Metal Magic",
+  "date": "1983-06-10",
+  "kind": "studio",
+  "source": "https://www.metal-archives.com/albums/Pantera/Metal_Magic/427894"
+ },
+ {
+  "artist": "Pantera",
+  "album": "Projects in the Jungle",
+  "date": "1984-07-27",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Projects_in_the_Jungle"
+ },
+ {
+  "artist": "Pantera",
+  "album": "I Am the Night",
+  "date": "1985-08-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/I_Am_the_Night_(album)"
+ },
+ {
+  "artist": "Pantera",
+  "album": "Power Metal",
+  "date": "1988",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Power_Metal_(album)"
+ },
+ {
+  "artist": "Pantera",
+  "album": "Cowboys from Hell",
+  "date": "1990-07-24",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Cowboys_from_Hell"
+ },
+ {
+  "artist": "Pantera",
+  "album": "Vulgar Display of Power",
+  "date": "1992-02-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Vulgar_Display_of_Power"
+ },
+ {
+  "artist": "Pantera",
+  "album": "Far Beyond Driven",
+  "date": "1994-03-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Far_Beyond_Driven"
+ },
+ {
+  "artist": "Pantera",
+  "album": "The Great Southern Trendkill",
+  "date": "1996-05-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Great_Southern_Trendkill"
+ },
+ {
+  "artist": "Pantera",
+  "album": "Official Live: 101 Proof",
+  "date": "1997-07-29",
+  "kind": "live",
+  "source": "https://pantera.fandom.com/wiki/Official_Live:_101_Proof"
+ },
+ {
+  "artist": "Pantera",
+  "album": "Reinventing the Steel",
+  "date": "2000-03-21",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Reinventing_the_Steel"
+ }
+]

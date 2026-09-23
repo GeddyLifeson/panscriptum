@@ -1,0 +1,5985 @@
+[
+ {
+  "en": "gg",
+  "rank": 11638,
+  "skip": "internet abbreviation"
+ },
+ {
+  "id": "f-godfather-n",
+  "en": "godfather",
+  "rank": 11639,
+  "sense": "baptismal sponsor",
+  "pos": "n",
+  "rod": "goistidh",
+  "g": "m",
+  "pl": "goistidhean",
+  "gen": "goistidh"
+ },
+ {
+  "en": "gould",
+  "rank": 11640,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-gran-n",
+  "en": "gran",
+  "rank": 11641,
+  "sense": "grandmother (familiar)",
+  "pos": "n",
+  "rod": "seanmhair",
+  "g": "f",
+  "pl": "seanmhairean",
+  "gen": "seanmhar"
+ },
+ {
+  "id": "f-groundwater-n",
+  "en": "groundwater",
+  "rank": 11642,
+  "sense": "water under the ground",
+  "pos": "n",
+  "rod": "uisce-talmhainn",
+  "g": "m",
+  "gen": "uisce-talmhainn"
+ },
+ {
+  "en": "heidi",
+  "rank": 11643,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-hospitalize-v",
+  "en": "hospitalize",
+  "rank": 11644,
+  "sense": "send into hospital",
+  "pos": "v",
+  "rod": "cuir dhan ospadal",
+  "root": "cuir dhan ospadal",
+  "vn": "cur dhan ospadal"
+ },
+ {
+  "en": "hyundai",
+  "rank": 11645,
+  "skip": "brand name"
+ },
+ {
+  "id": "f-inadvertently-adv",
+  "en": "inadvertently",
+  "rank": 11646,
+  "sense": "without meaning to",
+  "pos": "adv",
+  "rod": "gun fhiosta"
+ },
+ {
+  "id": "f-inject-v",
+  "en": "inject",
+  "rank": 11648,
+  "sense": "force (medicine) into the body",
+  "pos": "v",
+  "rod": "steall a-steach",
+  "root": "steall a-steach",
+  "vn": "stealladh a-steach"
+ },
+ {
+  "id": "f-insistence-n",
+  "en": "insistence",
+  "rank": 11649,
+  "sense": "firm demand",
+  "pos": "n",
+  "rod": "dian-iarrtas",
+  "g": "m",
+  "pl": "dian-iarrtasan",
+  "gen": "dian-iarrtais"
+ },
+ {
+  "id": "f-invincible-adj",
+  "en": "invincible",
+  "rank": 11651,
+  "sense": "unbeatable",
+  "pos": "adj",
+  "rod": "do-chlaoidhte"
+ },
+ {
+  "en": "jfk",
+  "rank": 11652,
+  "skip": "abbreviation (personal name)"
+ },
+ {
+  "id": "f-jubilee-n",
+  "en": "jubilee",
+  "rank": 11653,
+  "sense": "anniversary celebration",
+  "pos": "n",
+  "rod": "àrd-fhèill",
+  "g": "f",
+  "pl": "àrd-fhèilltean",
+  "gen": "àrd-fhèille"
+ },
+ {
+  "en": "kia",
+  "rank": 11654,
+  "skip": "brand name"
+ },
+ {
+  "id": "f-kinetic-adj",
+  "en": "kinetic",
+  "rank": 11655,
+  "sense": "of motion",
+  "pos": "adj",
+  "rod": "gluasadach"
+ },
+ {
+  "en": "lam",
+  "rank": 11656,
+  "skip": "slang fragment (on the lam) / surname"
+ },
+ {
+  "id": "f-lash-v",
+  "en": "lash",
+  "rank": 11657,
+  "sense": "whip",
+  "pos": "v",
+  "rod": "sciùrs",
+  "root": "sciùrs",
+  "vn": "sciùrsadh"
+ },
+ {
+  "id": "f-lash-n",
+  "en": "lash",
+  "rank": 11657,
+  "sense": "eyelash",
+  "pos": "n",
+  "rod": "fabhra",
+  "g": "m",
+  "pl": "fabhraidhean",
+  "gen": "fabhra"
+ },
+ {
+  "en": "latvia",
+  "rank": 11658,
+  "skip": "place name"
+ },
+ {
+  "en": "laurence",
+  "rank": 11659,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-lavender-n",
+  "en": "lavender",
+  "rank": 11660,
+  "sense": "the fragrant plant",
+  "pos": "n",
+  "rod": "lus na tùise",
+  "g": "m",
+  "pl": "lusan na tùise",
+  "gen": "luis na tùise"
+ },
+ {
+  "id": "f-lemonade-n",
+  "en": "lemonade",
+  "rank": 11661,
+  "sense": "lemon drink",
+  "pos": "n",
+  "rod": "deoch-liomaid",
+  "g": "f",
+  "pl": "deochan-liomaid",
+  "gen": "dighe-liomaid"
+ },
+ {
+  "en": "lenin",
+  "rank": 11662,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-lodging-n",
+  "en": "lodging",
+  "rank": 11663,
+  "sense": "place to stay",
+  "pos": "n",
+  "rod": "fàrdach",
+  "g": "f",
+  "pl": "fàrdaichean",
+  "gen": "fàrdaich"
+ },
+ {
+  "en": "lowell",
+  "rank": 11664,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-mania-n",
+  "en": "mania",
+  "rank": 11665,
+  "sense": "frenzy, madness",
+  "pos": "n",
+  "rod": "boile",
+  "g": "f",
+  "gen": "boile"
+ },
+ {
+  "id": "f-medically-adv",
+  "en": "medically",
+  "rank": 11666,
+  "sense": "in terms of healing",
+  "pos": "adv",
+  "rod": "a thaobh leigheis"
+ },
+ {
+  "id": "f-mule-n",
+  "en": "mule",
+  "rank": 11667,
+  "sense": "the animal",
+  "pos": "n",
+  "rod": "muileid",
+  "g": "f",
+  "pl": "muileidean",
+  "gen": "muileide"
+ },
+ {
+  "id": "f-mythical-adj",
+  "en": "mythical",
+  "rank": 11668,
+  "sense": "of myth",
+  "pos": "adj",
+  "rod": "miotasach"
+ },
+ {
+  "en": "nathaniel",
+  "rank": 11669,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-neutron-n",
+  "en": "neutron",
+  "rank": 11670,
+  "sense": "uncharged particle of the atom",
+  "pos": "n",
+  "rod": "neodron",
+  "g": "m",
+  "pl": "neodronan",
+  "gen": "neodroin"
+ },
+ {
+  "en": "nicaragua",
+  "rank": 11672,
+  "skip": "place name"
+ },
+ {
+  "en": "nicholson",
+  "rank": 11673,
+  "skip": "personal name"
+ },
+ {
+  "en": "oecd",
+  "rank": 11674,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "ooo",
+  "rank": 11675,
+  "skip": "internet junk"
+ },
+ {
+  "id": "f-orderly-adj",
+  "en": "orderly",
+  "rank": 11676,
+  "sense": "tidy, in order",
+  "pos": "adj",
+  "rod": "òrdail"
+ },
+ {
+  "id": "f-orderly-n",
+  "en": "orderly",
+  "rank": 11676,
+  "sense": "hospital attendant",
+  "pos": "n",
+  "rod": "gille-ospadail",
+  "g": "m",
+  "pl": "gillean-ospadail",
+  "gen": "gille-ospadail"
+ },
+ {
+  "id": "f-orient-v",
+  "en": "orient",
+  "rank": 11677,
+  "sense": "find or set one's bearings",
+  "pos": "v",
+  "rod": "treòraich",
+  "root": "treòraich",
+  "vn": "treòrachadh"
+ },
+ {
+  "id": "f-orient-n",
+  "en": "orient",
+  "rank": 11677,
+  "sense": "the East",
+  "pos": "n",
+  "rod": "an Àird an Ear",
+  "g": "f",
+  "gen": "na h-Àird an Ear"
+ },
+ {
+  "en": "orion",
+  "rank": 11678,
+  "skip": "proper name (constellation)"
+ },
+ {
+  "id": "f-outset-n",
+  "en": "outset",
+  "rank": 11679,
+  "sense": "the very start",
+  "pos": "n",
+  "rod": "toiseach",
+  "g": "m",
+  "pl": "toisichean",
+  "gen": "toisich"
+ },
+ {
+  "id": "f-paralyze-v",
+  "en": "paralyze",
+  "rank": 11680,
+  "sense": "make unable to move",
+  "pos": "v",
+  "rod": "cuir pairilis air",
+  "root": "cuir pairilis air",
+  "vn": "cur pairilis air"
+ },
+ {
+  "id": "f-parry-v",
+  "en": "parry",
+  "rank": 11681,
+  "sense": "ward off (a blow)",
+  "pos": "v",
+  "rod": "bac",
+  "root": "bac",
+  "vn": "bacadh"
+ },
+ {
+  "id": "f-patio-n",
+  "en": "patio",
+  "rank": 11682,
+  "sense": "paved yard by a house",
+  "pos": "n",
+  "rod": "lios-leac",
+  "g": "m",
+  "pl": "liosan-leac",
+  "gen": "lios-leac"
+ },
+ {
+  "id": "f-peacock-n",
+  "en": "peacock",
+  "rank": 11683,
+  "sense": "the bird",
+  "pos": "n",
+  "rod": "peucag",
+  "g": "f",
+  "pl": "peucagan",
+  "gen": "peucaig"
+ },
+ {
+  "en": "pepsi",
+  "rank": 11684,
+  "skip": "brand name"
+ },
+ {
+  "en": "pf",
+  "rank": 11685,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-postcard-n",
+  "en": "postcard",
+  "rank": 11686,
+  "sense": "card sent by post",
+  "pos": "n",
+  "rod": "litir-lom",
+  "g": "f",
+  "pl": "litrichean-loma",
+  "gen": "litreach-loim",
+  "lit": "bare-letter",
+  "scots": "cairt-phuist",
+  "kenning": true
+ },
+ {
+  "en": "pow",
+  "rank": 11687,
+  "skip": "abbreviation (prisoner of war)"
+ },
+ {
+  "id": "f-powerhouse-n",
+  "en": "powerhouse",
+  "rank": 11688,
+  "sense": "source of great energy (person or place)",
+  "pos": "n",
+  "rod": "tobar-neirt",
+  "g": "m",
+  "pl": "tobraichean-neirt",
+  "gen": "tobair-neirt"
+ },
+ {
+  "id": "f-precursor-n",
+  "en": "precursor",
+  "rank": 11689,
+  "sense": "forerunner",
+  "pos": "n",
+  "rod": "ro-theachdaire",
+  "g": "m",
+  "pl": "ro-theachdairean",
+  "gen": "ro-theachdaire"
+ },
+ {
+  "id": "f-preferable-adj",
+  "en": "preferable",
+  "rank": 11690,
+  "sense": "better, to be preferred (comparative of math)",
+  "pos": "adj",
+  "rod": "nas fheàrr"
+ },
+ {
+  "id": "f-preparatory-adj",
+  "en": "preparatory",
+  "rank": 11691,
+  "sense": "preliminary",
+  "pos": "adj",
+  "rod": "ullachail"
+ },
+ {
+  "id": "f-prism-n",
+  "en": "prism",
+  "rank": 11692,
+  "sense": "glass that splits light",
+  "pos": "n",
+  "rod": "glainne-dhathan",
+  "g": "f",
+  "pl": "glainneachan-dhathan",
+  "gen": "glainne-dhathan"
+ },
+ {
+  "id": "f-proclamation-n",
+  "en": "proclamation",
+  "rank": 11693,
+  "sense": "public announcement",
+  "pos": "n",
+  "rod": "gairm",
+  "g": "f",
+  "pl": "gairmean",
+  "gen": "gairme"
+ },
+ {
+  "id": "f-proponent-n",
+  "en": "proponent",
+  "rank": 11694,
+  "sense": "advocate of an idea",
+  "pos": "n",
+  "rod": "neach-tagraidh",
+  "g": "m",
+  "pl": "luchd-tagraidh",
+  "gen": "neach-tagraidh"
+ },
+ {
+  "id": "f-provocative-adj",
+  "en": "provocative",
+  "rank": 11695,
+  "sense": "stirring up, provoking",
+  "pos": "adj",
+  "rod": "brosnachail"
+ },
+ {
+  "en": "pu",
+  "rank": 11696,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-purposely-adv",
+  "en": "purposely",
+  "rank": 11697,
+  "sense": "on purpose",
+  "pos": "adv",
+  "rod": "a dh'aon ghnothach"
+ },
+ {
+  "en": "qc",
+  "rank": 11698,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-questionnaire-n",
+  "en": "questionnaire",
+  "rank": 11699,
+  "sense": "list of questions",
+  "pos": "n",
+  "rod": "ceisteachan",
+  "g": "m",
+  "pl": "ceisteachain",
+  "gen": "ceisteachain"
+ },
+ {
+  "id": "f-reclaim-v",
+  "en": "reclaim",
+  "rank": 11700,
+  "sense": "take back, recover",
+  "pos": "v",
+  "rod": "faigh air ais",
+  "root": "faigh air ais",
+  "vn": "faighinn air ais"
+ },
+ {
+  "id": "f-redevelopment-n",
+  "en": "redevelopment",
+  "rank": 11701,
+  "sense": "rebuilding of an area",
+  "pos": "n",
+  "rod": "ath-leasachadh",
+  "g": "m",
+  "pl": "ath-leasachaidhean",
+  "gen": "ath-leasachaidh"
+ },
+ {
+  "id": "f-rematch-n",
+  "en": "rematch",
+  "rank": 11704,
+  "sense": "second contest",
+  "pos": "n",
+  "rod": "ath-chluiche",
+  "g": "m",
+  "pl": "ath-chluichean",
+  "gen": "ath-chluiche"
+ },
+ {
+  "id": "f-renal-adj",
+  "en": "renal",
+  "rank": 11705,
+  "sense": "of the kidneys",
+  "pos": "adj",
+  "rod": "dubhagach"
+ },
+ {
+  "id": "f-repayment-n",
+  "en": "repayment",
+  "rank": 11706,
+  "sense": "paying back",
+  "pos": "n",
+  "rod": "ais-phàigheadh",
+  "g": "m",
+  "pl": "ais-phàighidhean",
+  "gen": "ais-phàighidh"
+ },
+ {
+  "id": "f-restrained-adj",
+  "en": "restrained",
+  "rank": 11707,
+  "sense": "held back, temperate",
+  "pos": "adj",
+  "rod": "stuama"
+ },
+ {
+  "id": "f-riddle-n",
+  "en": "riddle",
+  "rank": 11708,
+  "sense": "puzzle",
+  "pos": "n",
+  "rod": "tòimhseachan",
+  "g": "m",
+  "pl": "tòimhseachain",
+  "gen": "tòimhseachain"
+ },
+ {
+  "en": "rivera",
+  "rank": 11709,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-roach-n",
+  "en": "roach",
+  "rank": 11710,
+  "sense": "cockroach",
+  "pos": "n",
+  "rod": "daolag dhubh",
+  "g": "f",
+  "pl": "daolagan dubha"
+ },
+ {
+  "en": "rockefeller",
+  "rank": 11711,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-roe-n1",
+  "en": "roe",
+  "rank": 11712,
+  "sense": "fish eggs",
+  "pos": "n",
+  "rod": "iuchair",
+  "g": "f",
+  "pl": "iuchraichean",
+  "gen": "iuchrach"
+ },
+ {
+  "id": "f-roe-n2",
+  "en": "roe",
+  "rank": 11712,
+  "sense": "roe deer",
+  "pos": "n",
+  "rod": "earb",
+  "g": "f",
+  "pl": "earbaichean",
+  "gen": "earba"
+ },
+ {
+  "id": "f-rubble-n",
+  "en": "rubble",
+  "rank": 11713,
+  "sense": "broken stone",
+  "pos": "n",
+  "rod": "sprùilleach",
+  "g": "m",
+  "gen": "sprùillich"
+ },
+ {
+  "en": "saddam",
+  "rank": 11714,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-sapphire-n",
+  "en": "sapphire",
+  "rank": 11715,
+  "sense": "blue gemstone",
+  "pos": "n",
+  "rod": "leug ghorm",
+  "g": "f",
+  "pl": "leugan gorma"
+ },
+ {
+  "id": "f-sectional-adj",
+  "en": "sectional",
+  "rank": 11717,
+  "sense": "of a section, in parts",
+  "pos": "adj",
+  "rod": "earrannach"
+ },
+ {
+  "id": "f-simulate-v",
+  "en": "simulate",
+  "rank": 11718,
+  "sense": "feign, imitate",
+  "pos": "v",
+  "rod": "leig air",
+  "root": "leig air",
+  "vn": "leigeil air"
+ },
+ {
+  "en": "sioux",
+  "rank": 11719,
+  "skip": "proper name (people)"
+ },
+ {
+  "en": "sloan",
+  "rank": 11720,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-sniff-v",
+  "en": "sniff",
+  "rank": 11721,
+  "sense": "draw air through the nose",
+  "pos": "v",
+  "rod": "snòtaich",
+  "root": "snòtaich",
+  "vn": "snòtachadh"
+ },
+ {
+  "en": "snowden",
+  "rank": 11722,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-soar-v",
+  "en": "soar",
+  "rank": 11723,
+  "sense": "fly high, rise",
+  "pos": "v",
+  "rod": "èirich an àirde",
+  "root": "èirich an àirde",
+  "vn": "èirigh an àirde"
+ },
+ {
+  "id": "f-soluble-adj",
+  "en": "soluble",
+  "rank": 11724,
+  "sense": "that dissolves",
+  "pos": "adj",
+  "rod": "so-leaghte"
+ },
+ {
+  "id": "f-solvent-adj",
+  "en": "solvent",
+  "rank": 11725,
+  "sense": "able to pay one's debts",
+  "pos": "adj",
+  "rod": "gun fhiachan"
+ },
+ {
+  "id": "f-solvent-n",
+  "en": "solvent",
+  "rank": 11725,
+  "sense": "liquid that dissolves",
+  "pos": "n",
+  "rod": "leaghadair",
+  "g": "m",
+  "pl": "leaghadairean",
+  "gen": "leaghadair"
+ },
+ {
+  "id": "f-squid-n",
+  "en": "squid",
+  "rank": 11726,
+  "sense": "sea animal",
+  "pos": "n",
+  "rod": "gibearnach",
+  "g": "m",
+  "pl": "gibearnaich",
+  "gen": "gibearnaich"
+ },
+ {
+  "en": "stamford",
+  "rank": 11727,
+  "skip": "place name"
+ },
+ {
+  "en": "steph",
+  "rank": 11728,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-swarm-n",
+  "en": "swarm",
+  "rank": 11730,
+  "sense": "mass of insects or people",
+  "pos": "n",
+  "rod": "scaoth",
+  "g": "m",
+  "pl": "scaothan",
+  "gen": "scaoith"
+ },
+ {
+  "id": "f-tanker-n",
+  "en": "tanker",
+  "rank": 11731,
+  "sense": "ship or lorry carrying oil",
+  "pos": "n",
+  "rod": "tancair",
+  "g": "m",
+  "pl": "tancairean",
+  "gen": "tancair"
+ },
+ {
+  "en": "terra",
+  "rank": 11732,
+  "skip": "non-English word"
+ },
+ {
+  "en": "tj",
+  "rank": 11734,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-torpedo-n",
+  "en": "torpedo",
+  "rank": 11735,
+  "sense": "underwater missile",
+  "pos": "n",
+  "rod": "toirpeado",
+  "g": "m",
+  "pl": "toirpeadothan",
+  "gen": "toirpeado"
+ },
+ {
+  "id": "f-trolley-n",
+  "en": "trolley",
+  "rank": 11736,
+  "sense": "wheeled hand-cart",
+  "pos": "n",
+  "rod": "cairt-làimhe",
+  "g": "f",
+  "pl": "cairtean-làimhe",
+  "gen": "cairte-làimhe"
+ },
+ {
+  "en": "trudeau",
+  "rank": 11737,
+  "skip": "personal name"
+ },
+ {
+  "en": "una",
+  "rank": 11738,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-undocumented-adj",
+  "en": "undocumented",
+  "rank": 11739,
+  "sense": "without papers",
+  "pos": "adj",
+  "rod": "gun phàipearan"
+ },
+ {
+  "id": "f-vaginal-adj",
+  "en": "vaginal",
+  "rank": 11740,
+  "sense": "of the vagina",
+  "pos": "adj",
+  "rod": "faighneach"
+ },
+ {
+  "en": "vance",
+  "rank": 11741,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-viability-n",
+  "en": "viability",
+  "rank": 11742,
+  "sense": "ability to work or survive",
+  "pos": "n",
+  "rod": "comasachd",
+  "g": "f",
+  "gen": "comasachd"
+ },
+ {
+  "en": "wat",
+  "rank": 11743,
+  "skip": "non-English word / name"
+ },
+ {
+  "id": "f-widen-v",
+  "en": "widen",
+  "rank": 11744,
+  "sense": "make wider",
+  "pos": "v",
+  "rod": "leudaich",
+  "root": "leudaich",
+  "vn": "leudachadh"
+ },
+ {
+  "id": "f-winged-adj",
+  "en": "winged",
+  "rank": 11745,
+  "sense": "having wings",
+  "pos": "adj",
+  "rod": "sciathach"
+ },
+ {
+  "id": "f-wolverine-n",
+  "en": "wolverine",
+  "rank": 11746,
+  "sense": "the animal (the glutton)",
+  "pos": "n",
+  "rod": "craosaire",
+  "g": "m",
+  "pl": "craosairean",
+  "gen": "craosaire"
+ },
+ {
+  "id": "f-wrought-adj",
+  "en": "wrought",
+  "rank": 11747,
+  "sense": "worked, hammered (of iron)",
+  "pos": "adj",
+  "rod": "oibrichte"
+ },
+ {
+  "en": "xiii",
+  "rank": 11748,
+  "skip": "roman numeral"
+ },
+ {
+  "id": "f-yearbook-n",
+  "en": "yearbook",
+  "rank": 11749,
+  "sense": "annual book",
+  "pos": "n",
+  "rod": "leabhar-bliadhna",
+  "g": "m",
+  "pl": "leabhraichean-bliadhna",
+  "gen": "leabhair-bliadhna"
+ },
+ {
+  "id": "f-yikes-interj",
+  "en": "yikes",
+  "rank": 11750,
+  "sense": "exclamation of alarm",
+  "pos": "interj",
+  "rod": "mo chreach"
+ },
+ {
+  "id": "f-abbot-n",
+  "en": "abbot",
+  "rank": 11751,
+  "sense": "head of an abbey",
+  "pos": "n",
+  "rod": "aba",
+  "g": "m",
+  "pl": "abachan",
+  "gen": "aba"
+ },
+ {
+  "id": "f-abduction-n",
+  "en": "abduction",
+  "rank": 11752,
+  "sense": "kidnapping",
+  "pos": "n",
+  "rod": "fuadach",
+  "g": "m",
+  "pl": "fuadaichean",
+  "gen": "fuadaich"
+ },
+ {
+  "id": "f-ache-n",
+  "en": "ache",
+  "rank": 11753,
+  "sense": "dull pain",
+  "pos": "n",
+  "rod": "cràdh",
+  "g": "m",
+  "pl": "cràdhan",
+  "gen": "cràidh"
+ },
+ {
+  "id": "f-afro-n",
+  "en": "afro",
+  "rank": 11754,
+  "sense": "round curly hairstyle",
+  "pos": "n",
+  "rod": "dos-cas",
+  "g": "m",
+  "pl": "dosan-cas",
+  "gen": "dois-chas",
+  "lit": "curly-tuft",
+  "scots": "stoidhle afro",
+  "kenning": true
+ },
+ {
+  "id": "f-ancestral-adj",
+  "en": "ancestral",
+  "rank": 11755,
+  "sense": "of one's ancestors",
+  "pos": "adj",
+  "rod": "sinnsearach"
+ },
+ {
+  "id": "f-antiquity-n",
+  "en": "antiquity",
+  "rank": 11756,
+  "sense": "ancient times",
+  "pos": "n",
+  "rod": "àrsaidheachd",
+  "g": "f",
+  "gen": "àrsaidheachd"
+ },
+ {
+  "id": "f-apocalyptic-adj",
+  "en": "apocalyptic",
+  "rank": 11757,
+  "sense": "catastrophic, of the end of the world",
+  "pos": "adj",
+  "rod": "scriosail"
+ },
+ {
+  "id": "f-aqua-adj",
+  "en": "aqua",
+  "rank": 11759,
+  "sense": "blue-green colour",
+  "pos": "adj",
+  "rod": "gorm-uaine"
+ },
+ {
+  "id": "f-aspen-n",
+  "en": "aspen",
+  "rank": 11760,
+  "sense": "the tree",
+  "pos": "n",
+  "rod": "critheann",
+  "g": "m",
+  "pl": "critheannan",
+  "gen": "crithinn"
+ },
+ {
+  "en": "atlantis",
+  "rank": 11761,
+  "skip": "proper name (mythical place)"
+ },
+ {
+  "en": "augustus",
+  "rank": 11762,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-autistic-adj",
+  "en": "autistic",
+  "rank": 11763,
+  "sense": "having autism",
+  "pos": "adj",
+  "rod": "fèin-fhillte",
+  "lit": "self-folded",
+  "scots": "fèin-inntinneach",
+  "kenning": true
+ },
+ {
+  "en": "barnett",
+  "rank": 11764,
+  "skip": "personal name"
+ },
+ {
+  "en": "baylor",
+  "rank": 11765,
+  "skip": "proper name"
+ },
+ {
+  "id": "f-bearer-n",
+  "en": "bearer",
+  "rank": 11766,
+  "sense": "one who carries",
+  "pos": "n",
+  "rod": "neach-giùlain",
+  "g": "m",
+  "pl": "luchd-giùlain",
+  "gen": "neach-giùlain"
+ },
+ {
+  "en": "bernstein",
+  "rank": 11767,
+  "skip": "personal name"
+ },
+ {
+  "en": "bk",
+  "rank": 11768,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "bmi",
+  "rank": 11771,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-bogus-adj",
+  "en": "bogus",
+  "rank": 11772,
+  "sense": "fake",
+  "pos": "adj",
+  "rod": "fallsa"
+ },
+ {
+  "en": "bridget",
+  "rank": 11773,
+  "skip": "personal name"
+ },
+ {
+  "en": "btc",
+  "rank": 11775,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "burt",
+  "rank": 11776,
+  "skip": "personal name"
+ },
+ {
+  "en": "caldwell",
+  "rank": 11777,
+  "skip": "personal name"
+ },
+ {
+  "en": "cara",
+  "rank": 11778,
+  "skip": "personal name"
+ },
+ {
+  "en": "cavs",
+  "rank": 11779,
+  "skip": "team name"
+ },
+ {
+  "id": "f-centric-adj",
+  "en": "centric",
+  "rank": 11780,
+  "sense": "centred on something",
+  "pos": "adj",
+  "rod": "meadhanach"
+ },
+ {
+  "id": "f-chaplain-n",
+  "en": "chaplain",
+  "rank": 11781,
+  "sense": "priest of a household or institution",
+  "pos": "n",
+  "rod": "sagart-teaghlaich",
+  "g": "m",
+  "pl": "sagartan-teaghlaich",
+  "gen": "sagairt-teaghlaich"
+ },
+ {
+  "id": "f-chlorine-n",
+  "en": "chlorine",
+  "rank": 11782,
+  "sense": "the element",
+  "pos": "n",
+  "rod": "clòrain",
+  "g": "m",
+  "gen": "clòrain"
+ },
+ {
+  "id": "f-chow-n",
+  "en": "chow",
+  "rank": 11783,
+  "sense": "food (slang)",
+  "pos": "n",
+  "rod": "lòn",
+  "g": "m",
+  "gen": "lòin"
+ },
+ {
+  "id": "f-chubby-adj",
+  "en": "chubby",
+  "rank": 11784,
+  "sense": "plump",
+  "pos": "adj",
+  "rod": "sultmhor"
+ },
+ {
+  "id": "f-clement-adj",
+  "en": "clement",
+  "rank": 11785,
+  "sense": "mild (weather)",
+  "pos": "adj",
+  "rod": "ciùin"
+ },
+ {
+  "id": "f-collusion-n",
+  "en": "collusion",
+  "rank": 11786,
+  "sense": "secret plotting together",
+  "pos": "n",
+  "rod": "co-cheilg",
+  "g": "f",
+  "pl": "co-cheilgean",
+  "gen": "co-cheilge"
+ },
+ {
+  "id": "f-contractual-adj",
+  "en": "contractual",
+  "rank": 11787,
+  "sense": "of a contract",
+  "pos": "adj",
+  "rod": "cùmhnantach"
+ },
+ {
+  "id": "f-correctional-adj",
+  "en": "correctional",
+  "rank": 11789,
+  "sense": "of punishment and prisons",
+  "pos": "adj",
+  "rod": "peanasach"
+ },
+ {
+  "id": "f-couldnt-phrase",
+  "en": "couldnt",
+  "rank": 11790,
+  "sense": "could not (cha b' urrainn dhomh, \"I couldn't\")",
+  "pos": "phrase",
+  "rod": "cha b' urrainn"
+ },
+ {
+  "en": "daryl",
+  "rank": 11792,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-deterioration-n",
+  "en": "deterioration",
+  "rank": 11793,
+  "sense": "getting worse",
+  "pos": "n",
+  "rod": "crìonadh",
+  "g": "m",
+  "gen": "crìonaidh"
+ },
+ {
+  "id": "f-dirk-n",
+  "en": "dirk",
+  "rank": 11794,
+  "sense": "dagger",
+  "pos": "n",
+  "rod": "biodag",
+  "g": "f",
+  "pl": "biodagan",
+  "gen": "biodaig"
+ },
+ {
+  "id": "f-discreet-adj",
+  "en": "discreet",
+  "rank": 11796,
+  "sense": "careful not to reveal",
+  "pos": "adj",
+  "rod": "faiceallach"
+ },
+ {
+  "en": "dre",
+  "rank": 11798,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-duet-n",
+  "en": "duet",
+  "rank": 11799,
+  "sense": "piece for two voices",
+  "pos": "n",
+  "rod": "òran-dithis",
+  "g": "m",
+  "pl": "òrain-dithis",
+  "gen": "òrain-dithis"
+ },
+ {
+  "en": "dustin",
+  "rank": 11800,
+  "skip": "personal name"
+ },
+ {
+  "en": "eisenhower",
+  "rank": 11801,
+  "skip": "personal name"
+ },
+ {
+  "en": "elle",
+  "rank": 11802,
+  "skip": "personal name / brand"
+ },
+ {
+  "en": "elsa",
+  "rank": 11803,
+  "skip": "personal name"
+ },
+ {
+  "en": "everest",
+  "rank": 11804,
+  "skip": "place name"
+ },
+ {
+  "id": "f-expressive-adj",
+  "en": "expressive",
+  "rank": 11805,
+  "sense": "full of feeling",
+  "pos": "adj",
+  "rod": "brìoghmhor"
+ },
+ {
+  "id": "f-fiddle-n",
+  "en": "fiddle",
+  "rank": 11806,
+  "sense": "violin",
+  "pos": "n",
+  "rod": "fìdheall",
+  "g": "f",
+  "pl": "fìdhlean",
+  "gen": "fìdhle"
+ },
+ {
+  "id": "f-fortify-v",
+  "en": "fortify",
+  "rank": 11807,
+  "sense": "strengthen with walls",
+  "pos": "v",
+  "rod": "daingnich",
+  "root": "daingnich",
+  "vn": "daingneachadh"
+ },
+ {
+  "en": "fran",
+  "rank": 11808,
+  "skip": "personal name"
+ },
+ {
+  "en": "garfield",
+  "rank": 11809,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-generalize-v",
+  "en": "generalize",
+  "rank": 11810,
+  "sense": "make a general statement",
+  "pos": "v",
+  "rod": "coitchinnich",
+  "root": "coitchinnich",
+  "vn": "coitcheannachadh"
+ },
+ {
+  "en": "gl",
+  "rank": 11811,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-glossy-adj",
+  "en": "glossy",
+  "rank": 11812,
+  "sense": "shiny",
+  "pos": "adj",
+  "rod": "lìomhach"
+ },
+ {
+  "en": "gregg",
+  "rank": 11813,
+  "skip": "personal name"
+ },
+ {
+  "en": "haram",
+  "rank": 11815,
+  "skip": "non-English word"
+ },
+ {
+  "id": "f-hectare-n",
+  "en": "hectare",
+  "rank": 11816,
+  "sense": "unit of land area",
+  "pos": "n",
+  "rod": "heactair",
+  "g": "m",
+  "pl": "heactairean",
+  "gen": "heactair"
+ },
+ {
+  "en": "hobart",
+  "rank": 11817,
+  "skip": "place name"
+ },
+ {
+  "id": "f-horrendous-adj",
+  "en": "horrendous",
+  "rank": 11819,
+  "sense": "dreadful",
+  "pos": "adj",
+  "rod": "uabhasach"
+ },
+ {
+  "id": "f-hound-n",
+  "en": "hound",
+  "rank": 11821,
+  "sense": "hunting dog",
+  "pos": "n",
+  "rod": "gadhar",
+  "g": "m",
+  "pl": "gadhair",
+  "gen": "gadhair"
+ },
+ {
+  "id": "f-hound-v",
+  "en": "hound",
+  "rank": 11821,
+  "sense": "harass, pursue",
+  "pos": "v",
+  "rod": "sàraich",
+  "root": "sàraich",
+  "vn": "sàrachadh"
+ },
+ {
+  "en": "htc",
+  "rank": 11822,
+  "skip": "brand name"
+ },
+ {
+  "id": "f-illegitimate-adj1",
+  "en": "illegitimate",
+  "rank": 11823,
+  "sense": "born outside marriage",
+  "pos": "adj",
+  "rod": "dìolain"
+ },
+ {
+  "id": "f-illegitimate-adj2",
+  "en": "illegitimate",
+  "rank": 11823,
+  "sense": "not lawful",
+  "pos": "adj",
+  "rod": "mì-laghail"
+ },
+ {
+  "id": "f-incompetence-n",
+  "en": "incompetence",
+  "rank": 11825,
+  "sense": "lack of ability",
+  "pos": "n",
+  "rod": "neo-chomas",
+  "g": "m",
+  "gen": "neo-chomais"
+ },
+ {
+  "id": "f-interception-n",
+  "en": "interception",
+  "rank": 11827,
+  "sense": "catching on the way",
+  "pos": "n",
+  "rod": "eadar-ghlacadh",
+  "g": "m",
+  "pl": "eadar-ghlacaidhean",
+  "gen": "eadar-ghlacaidh"
+ },
+ {
+  "id": "f-invader-n",
+  "en": "invader",
+  "rank": 11828,
+  "sense": "one who invades",
+  "pos": "n",
+  "rod": "ionnsaighiche",
+  "g": "m",
+  "pl": "ionnsaighichean",
+  "gen": "ionnsaighiche"
+ },
+ {
+  "en": "irl",
+  "rank": 11829,
+  "skip": "internet abbreviation"
+ },
+ {
+  "en": "israelis",
+  "rank": 11830,
+  "skip": "demonym (proper name)"
+ },
+ {
+  "en": "kemp",
+  "rank": 11832,
+  "skip": "personal name"
+ },
+ {
+  "en": "kosovo",
+  "rank": 11833,
+  "skip": "place name"
+ },
+ {
+  "en": "kw",
+  "rank": 11834,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-lagoon-n",
+  "en": "lagoon",
+  "rank": 11835,
+  "sense": "shallow water cut off from the sea",
+  "pos": "n",
+  "rod": "òb",
+  "g": "m",
+  "pl": "òban",
+  "gen": "òib"
+ },
+ {
+  "en": "len",
+  "rank": 11836,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-lesion-n",
+  "en": "lesion",
+  "rank": 11837,
+  "sense": "wound, damaged tissue",
+  "pos": "n",
+  "rod": "lot",
+  "g": "m",
+  "pl": "lotan",
+  "gen": "lota"
+ },
+ {
+  "id": "f-limp-v",
+  "en": "limp",
+  "rank": 11838,
+  "sense": "walk lamely",
+  "pos": "v",
+  "rod": "cuagaich",
+  "root": "cuagaich",
+  "vn": "cuagachadh"
+ },
+ {
+  "id": "f-limp-adj",
+  "en": "limp",
+  "rank": 11838,
+  "sense": "slack, not firm",
+  "pos": "adj",
+  "rod": "bog"
+ },
+ {
+  "id": "f-lingering-adj",
+  "en": "lingering",
+  "rank": 11839,
+  "sense": "slow to leave",
+  "pos": "adj",
+  "rod": "màirnealach"
+ },
+ {
+  "id": "f-logically-adv",
+  "en": "logically",
+  "rank": 11841,
+  "sense": "by logic",
+  "pos": "adv",
+  "rod": "gu loidsigeach"
+ },
+ {
+  "en": "lucifer",
+  "rank": 11842,
+  "skip": "proper name"
+ },
+ {
+  "en": "lumpur",
+  "rank": 11843,
+  "skip": "place name"
+ },
+ {
+  "id": "f-lunatic-n",
+  "en": "lunatic",
+  "rank": 11844,
+  "sense": "madman",
+  "pos": "n",
+  "rod": "gealt",
+  "g": "m",
+  "pl": "gealtan",
+  "gen": "geilt"
+ },
+ {
+  "id": "f-lyrical-adj",
+  "en": "lyrical",
+  "rank": 11845,
+  "sense": "song-like, full of feeling",
+  "pos": "adj",
+  "rod": "ceòlmhor"
+ },
+ {
+  "id": "f-manifestation-n",
+  "en": "manifestation",
+  "rank": 11846,
+  "sense": "showing, appearance",
+  "pos": "n",
+  "rod": "foillseachadh",
+  "g": "m",
+  "pl": "foillseachaidhean",
+  "gen": "foillseachaidh"
+ },
+ {
+  "en": "manitoba",
+  "rank": 11847,
+  "skip": "place name"
+ },
+ {
+  "id": "f-mead-n",
+  "en": "mead",
+  "rank": 11848,
+  "sense": "honey wine",
+  "pos": "n",
+  "rod": "mìodh",
+  "g": "m",
+  "gen": "mìodha"
+ },
+ {
+  "en": "mhz",
+  "rank": 11849,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-migrate-v",
+  "en": "migrate",
+  "rank": 11850,
+  "sense": "move to another land",
+  "pos": "v",
+  "rod": "imrich",
+  "root": "imrich",
+  "vn": "imrich"
+ },
+ {
+  "id": "f-mildly-adv",
+  "en": "mildly",
+  "rank": 11851,
+  "sense": "slightly",
+  "pos": "adv",
+  "rod": "rud beag"
+ },
+ {
+  "id": "f-miraculous-adj",
+  "en": "miraculous",
+  "rank": 11852,
+  "sense": "like a miracle",
+  "pos": "adj",
+  "rod": "mìorbhaileach"
+ },
+ {
+  "id": "f-moan-v",
+  "en": "moan",
+  "rank": 11853,
+  "sense": "complain, lament",
+  "pos": "v",
+  "rod": "gearain",
+  "root": "gearain",
+  "vn": "gearan"
+ },
+ {
+  "id": "f-moan-n",
+  "en": "moan",
+  "rank": 11853,
+  "sense": "groan",
+  "pos": "n",
+  "rod": "cnead",
+  "g": "m",
+  "pl": "cneadan",
+  "gen": "cneid"
+ },
+ {
+  "en": "mos",
+  "rank": 11854,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-mourn-v",
+  "en": "mourn",
+  "rank": 11855,
+  "sense": "grieve for",
+  "pos": "v",
+  "rod": "caoidh",
+  "root": "caoidh",
+  "vn": "caoidh"
+ },
+ {
+  "id": "f-mundane-adj",
+  "en": "mundane",
+  "rank": 11856,
+  "sense": "ordinary, worldly",
+  "pos": "adj",
+  "rod": "saoghalta"
+ },
+ {
+  "id": "f-nay-interj",
+  "en": "nay",
+  "rank": 11857,
+  "sense": "no (old-fashioned)",
+  "pos": "interj",
+  "rod": "chan eil"
+ },
+ {
+  "en": "ngo",
+  "rank": 11858,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "nielsen",
+  "rank": 11859,
+  "skip": "personal name"
+ },
+ {
+  "en": "nr",
+  "rank": 11860,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-nutshell-n",
+  "en": "nutshell",
+  "rank": 11861,
+  "sense": "shell of a nut",
+  "pos": "n",
+  "rod": "slige cnò",
+  "g": "f",
+  "pl": "sligean cnò",
+  "gen": "slige cnò"
+ },
+ {
+  "id": "f-nutshell-phrase",
+  "en": "nutshell",
+  "rank": 11861,
+  "sense": "in a nutshell, briefly",
+  "pos": "phrase",
+  "rod": "ann am beagan fhaclan"
+ },
+ {
+  "en": "ob",
+  "rank": 11862,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-obsessive-adj",
+  "en": "obsessive",
+  "rank": 11863,
+  "sense": "fixated",
+  "pos": "adj",
+  "rod": "dian-smuainteach"
+ },
+ {
+  "id": "f-offseason-n",
+  "en": "offseason",
+  "rank": 11864,
+  "sense": "quiet time of the year",
+  "pos": "n",
+  "rod": "ràith-fhois",
+  "g": "f",
+  "pl": "ràithean-fois",
+  "gen": "ràithe-fois"
+ },
+ {
+  "en": "oswald",
+  "rank": 11865,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-overboard-adv",
+  "en": "overboard",
+  "rank": 11866,
+  "sense": "over the side of a ship",
+  "pos": "adv",
+  "rod": "thar bòrd"
+ },
+ {
+  "id": "f-pendant-n",
+  "en": "pendant",
+  "rank": 11867,
+  "sense": "hanging ornament",
+  "pos": "n",
+  "rod": "crochadan",
+  "g": "m",
+  "pl": "crochadain",
+  "gen": "crochadain"
+ },
+ {
+  "id": "f-petite-adj",
+  "en": "petite",
+  "rank": 11868,
+  "sense": "small and slight",
+  "pos": "adj",
+  "rod": "meanbh"
+ },
+ {
+  "id": "f-pharma-n",
+  "en": "pharma",
+  "rank": 11869,
+  "sense": "drug-making industry",
+  "pos": "n",
+  "rod": "malairt-leigheis",
+  "g": "f",
+  "gen": "malairt-leigheis",
+  "lit": "healing-trade",
+  "scots": "gnìomhachas cungaidhean",
+  "kenning": true
+ },
+ {
+  "id": "f-pimp-n",
+  "en": "pimp",
+  "rank": 11870,
+  "sense": "man who lives off prostitutes",
+  "pos": "n",
+  "rod": "fear-strìopachais",
+  "g": "m",
+  "pl": "fir-strìopachais",
+  "gen": "fir-strìopachais"
+ },
+ {
+  "en": "pol",
+  "rank": 11872,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-posterior-adj",
+  "en": "posterior",
+  "rank": 11873,
+  "sense": "at the back",
+  "pos": "adj",
+  "rod": "deiridh"
+ },
+ {
+  "id": "f-posterior-n",
+  "en": "posterior",
+  "rank": 11873,
+  "sense": "buttocks",
+  "pos": "n",
+  "rod": "tòn",
+  "g": "f",
+  "pl": "tòinean",
+  "gen": "tòine"
+ },
+ {
+  "id": "f-pouch-n",
+  "en": "pouch",
+  "rank": 11874,
+  "sense": "small bag",
+  "pos": "n",
+  "rod": "balgan",
+  "g": "m",
+  "pl": "balgain",
+  "gen": "balgain"
+ },
+ {
+  "id": "f-protestor-n",
+  "en": "protestor",
+  "rank": 11876,
+  "sense": "one who protests",
+  "pos": "n",
+  "rod": "neach-gearain",
+  "g": "m",
+  "pl": "luchd-gearain",
+  "gen": "neach-gearain"
+ },
+ {
+  "id": "f-psychotic-adj",
+  "en": "psychotic",
+  "rank": 11877,
+  "sense": "out of touch with reality",
+  "pos": "adj",
+  "rod": "cuthachail"
+ },
+ {
+  "id": "f-relegation-n",
+  "en": "relegation",
+  "rank": 11878,
+  "sense": "being sent down a rank",
+  "pos": "n",
+  "rod": "ìsleachadh",
+  "g": "m",
+  "pl": "ìsleachaidhean",
+  "gen": "ìsleachaidh"
+ },
+ {
+  "id": "f-repertoire-n",
+  "en": "repertoire",
+  "rank": 11879,
+  "sense": "stock of pieces one can perform",
+  "pos": "n",
+  "rod": "stòras",
+  "g": "m",
+  "pl": "stòrasan",
+  "gen": "stòrais"
+ },
+ {
+  "id": "f-repository-n",
+  "en": "repository",
+  "rank": 11880,
+  "sense": "storehouse",
+  "pos": "n",
+  "rod": "taigh-tascaidh",
+  "g": "m",
+  "pl": "taighean-tascaidh",
+  "gen": "taighe-tascaidh"
+ },
+ {
+  "en": "rican",
+  "rank": 11881,
+  "skip": "fragment of a proper name (Puerto Rican)"
+ },
+ {
+  "id": "f-rumble-n",
+  "en": "rumble",
+  "rank": 11882,
+  "sense": "deep rolling sound",
+  "pos": "n",
+  "rod": "torman",
+  "g": "m",
+  "pl": "tormain",
+  "gen": "tormain"
+ },
+ {
+  "en": "sachs",
+  "rank": 11883,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-saloon-n",
+  "en": "saloon",
+  "rank": 11884,
+  "sense": "bar, tavern",
+  "pos": "n",
+  "rod": "taigh-seinnse",
+  "g": "m",
+  "pl": "taighean-seinnse",
+  "gen": "taighe-seinnse"
+ },
+ {
+  "id": "f-shack-n",
+  "en": "shack",
+  "rank": 11885,
+  "sense": "hut",
+  "pos": "n",
+  "rod": "bothan",
+  "g": "m",
+  "pl": "bothain",
+  "gen": "bothain"
+ },
+ {
+  "id": "f-sinner-n",
+  "en": "sinner",
+  "rank": 11886,
+  "sense": "one who sins",
+  "pos": "n",
+  "rod": "peacach",
+  "g": "m",
+  "pl": "peacaich",
+  "gen": "peacaich"
+ },
+ {
+  "id": "f-sire-n",
+  "en": "sire",
+  "rank": 11887,
+  "sense": "father of an animal; lord (in address)",
+  "pos": "n",
+  "rod": "athair",
+  "g": "m",
+  "pl": "athraichean",
+  "gen": "athar"
+ },
+ {
+  "id": "f-sterile-adj1",
+  "en": "sterile",
+  "rank": 11889,
+  "sense": "unable to bear young",
+  "pos": "adj",
+  "rod": "neo-thorrach"
+ },
+ {
+  "id": "f-sterile-adj2",
+  "en": "sterile",
+  "rank": 11889,
+  "sense": "free of germs",
+  "pos": "adj",
+  "rod": "gun ghalar"
+ },
+ {
+  "id": "f-stride-n",
+  "en": "stride",
+  "rank": 11890,
+  "sense": "long step",
+  "pos": "n",
+  "rod": "sìnteag",
+  "g": "f",
+  "pl": "sìnteagan",
+  "gen": "sìnteig"
+ },
+ {
+  "id": "f-stringent-adj",
+  "en": "stringent",
+  "rank": 11891,
+  "sense": "strict",
+  "pos": "adj",
+  "rod": "teann"
+ },
+ {
+  "id": "f-sulfur-n",
+  "en": "sulfur",
+  "rank": 11892,
+  "sense": "brimstone",
+  "pos": "n",
+  "rod": "pronnasc",
+  "g": "m",
+  "gen": "pronnaisc"
+ },
+ {
+  "en": "suzuki",
+  "rank": 11893,
+  "skip": "brand name"
+ },
+ {
+  "id": "f-torrent-n",
+  "en": "torrent",
+  "rank": 11894,
+  "sense": "rushing stream",
+  "pos": "n",
+  "rod": "bras-shruth",
+  "g": "m",
+  "pl": "bras-shruthan",
+  "gen": "bras-shrutha"
+ },
+ {
+  "en": "tp",
+  "rank": 11895,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-trainee-n",
+  "en": "trainee",
+  "rank": 11896,
+  "sense": "one being trained",
+  "pos": "n",
+  "rod": "neach-ionnsachaidh",
+  "g": "m",
+  "pl": "luchd-ionnsachaidh",
+  "gen": "neach-ionnsachaidh"
+ },
+ {
+  "en": "trey",
+  "rank": 11897,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-trough-n",
+  "en": "trough",
+  "rank": 11898,
+  "sense": "feeding or water container",
+  "pos": "n",
+  "rod": "amar",
+  "g": "m",
+  "pl": "amaran",
+  "gen": "amair"
+ },
+ {
+  "id": "f-trunks-n",
+  "en": "trunks",
+  "rank": 11899,
+  "sense": "short trousers for swimming",
+  "pos": "n",
+  "rod": "briogais-shnàimh",
+  "g": "f",
+  "pl": "briogaisean-snàimh",
+  "gen": "briogais-shnàimh"
+ },
+ {
+  "id": "f-tummy-n",
+  "en": "tummy",
+  "rank": 11900,
+  "sense": "belly (child's word)",
+  "pos": "n",
+  "rod": "brù",
+  "g": "f",
+  "pl": "brùthan",
+  "gen": "bronn"
+ },
+ {
+  "id": "f-unjust-adj",
+  "en": "unjust",
+  "rank": 11901,
+  "sense": "unfair",
+  "pos": "adj",
+  "rod": "mì-cheart"
+ },
+ {
+  "en": "vaughan",
+  "rank": 11903,
+  "skip": "personal name"
+ },
+ {
+  "en": "venezuelan",
+  "rank": 11904,
+  "skip": "demonym (proper name)"
+ },
+ {
+  "en": "vis",
+  "rank": 11905,
+  "skip": "fragment (vis-à-vis)"
+ },
+ {
+  "en": "vivian",
+  "rank": 11906,
+  "skip": "personal name"
+ },
+ {
+  "en": "vivo",
+  "rank": 11907,
+  "skip": "non-English word / brand"
+ },
+ {
+  "id": "f-wager-n",
+  "en": "wager",
+  "rank": 11908,
+  "sense": "bet",
+  "pos": "n",
+  "rod": "geall",
+  "g": "m",
+  "pl": "gill",
+  "gen": "gill"
+ },
+ {
+  "id": "f-whack-v",
+  "en": "whack",
+  "rank": 11909,
+  "sense": "hit hard",
+  "pos": "v",
+  "rod": "buail",
+  "root": "buail",
+  "vn": "bualadh"
+ },
+ {
+  "id": "f-whoop-n",
+  "en": "whoop",
+  "rank": 11910,
+  "sense": "loud cry of joy",
+  "pos": "n",
+  "rod": "iolach",
+  "g": "f",
+  "pl": "iolaichean",
+  "gen": "iolaich"
+ },
+ {
+  "en": "wichita",
+  "rank": 11911,
+  "skip": "place name"
+ },
+ {
+  "en": "wilde",
+  "rank": 11912,
+  "skip": "personal name"
+ },
+ {
+  "en": "wilmington",
+  "rank": 11913,
+  "skip": "place name"
+ },
+ {
+  "en": "zambia",
+  "rank": 11914,
+  "skip": "place name"
+ },
+ {
+  "id": "f-accelerator-n",
+  "en": "accelerator",
+  "rank": 11915,
+  "sense": "pedal that speeds a vehicle",
+  "pos": "n",
+  "rod": "troigh-luais",
+  "g": "f",
+  "pl": "troighean-luais",
+  "gen": "troighe-luais",
+  "lit": "speed-foot",
+  "scots": "luathaiche",
+  "kenning": true
+ },
+ {
+  "id": "f-acrylic-n",
+  "en": "acrylic",
+  "rank": 11916,
+  "sense": "synthetic fibre or paint",
+  "pos": "n",
+  "rod": "acrailig",
+  "g": "m",
+  "gen": "acrailig"
+ },
+ {
+  "en": "ames",
+  "rank": 11917,
+  "skip": "personal / place name"
+ },
+ {
+  "id": "f-anchorage-n",
+  "en": "anchorage",
+  "rank": 11918,
+  "sense": "place to anchor",
+  "pos": "n",
+  "rod": "acarsaid",
+  "g": "f",
+  "pl": "acarsaidean",
+  "gen": "acarsaide"
+ },
+ {
+  "id": "f-annexation-n",
+  "en": "annexation",
+  "rank": 11919,
+  "sense": "seizing of territory",
+  "pos": "n",
+  "rod": "glacadh fearainn",
+  "g": "m",
+  "gen": "glacaidh fearainn"
+ },
+ {
+  "id": "f-ascent-n",
+  "en": "ascent",
+  "rank": 11920,
+  "sense": "climb",
+  "pos": "n",
+  "rod": "dìreadh",
+  "g": "m",
+  "pl": "dìridhean",
+  "gen": "dìridh"
+ },
+ {
+  "en": "atkinson",
+  "rank": 11921,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-ballad-n",
+  "en": "ballad",
+  "rank": 11922,
+  "sense": "narrative song",
+  "pos": "n",
+  "rod": "duan",
+  "g": "m",
+  "pl": "duanan",
+  "gen": "duain"
+ },
+ {
+  "en": "basel",
+  "rank": 11923,
+  "skip": "place name"
+ },
+ {
+  "en": "beckett",
+  "rank": 11924,
+  "skip": "personal name"
+ },
+ {
+  "en": "bel",
+  "rank": 11925,
+  "skip": "personal name / abbreviation"
+ },
+ {
+  "en": "betsy",
+  "rank": 11926,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-bigotry-n",
+  "en": "bigotry",
+  "rank": 11927,
+  "sense": "intolerant prejudice",
+  "pos": "n",
+  "rod": "claon-bhàidh",
+  "g": "f",
+  "gen": "claon-bhàidhe"
+ },
+ {
+  "id": "f-biotechnology-n",
+  "en": "biotechnology",
+  "rank": 11928,
+  "sense": "use of living things in industry",
+  "pos": "n",
+  "rod": "ceàird-beatha",
+  "g": "f",
+  "gen": "ceàirde-beatha",
+  "lit": "life-craft",
+  "scots": "bith-theicneòlas",
+  "kenning": true
+ },
+ {
+  "en": "blanc",
+  "rank": 11929,
+  "skip": "non-English word"
+ },
+ {
+  "id": "f-bookstore-n",
+  "en": "bookstore",
+  "rank": 11930,
+  "sense": "shop selling books",
+  "pos": "n",
+  "rod": "bùth-leabhraichean",
+  "g": "f",
+  "pl": "bùthan-leabhraichean",
+  "gen": "bùtha-leabhraichean"
+ },
+ {
+  "id": "f-boomers-n",
+  "en": "boomers",
+  "rank": 11931,
+  "sense": "the post-war baby-boom generation",
+  "pos": "n",
+  "rod": "ginealach-pailteis",
+  "g": "m",
+  "gen": "ginealaich-pailteis",
+  "lit": "plenty-generation",
+  "scots": "(no fixed term; English boomers)",
+  "kenning": true
+ },
+ {
+  "en": "boone",
+  "rank": 11932,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-bots-n",
+  "en": "bots",
+  "rank": 11933,
+  "sense": "automated programs (bot)",
+  "pos": "n",
+  "rod": "bot",
+  "g": "m",
+  "pl": "botaichean",
+  "gen": "bot"
+ },
+ {
+  "id": "f-broom-n1",
+  "en": "broom",
+  "rank": 11934,
+  "sense": "brush for sweeping",
+  "pos": "n",
+  "rod": "scuab",
+  "g": "f",
+  "pl": "scuaban",
+  "gen": "scuaibe"
+ },
+ {
+  "id": "f-broom-n2",
+  "en": "broom",
+  "rank": 11934,
+  "sense": "the yellow-flowered shrub",
+  "pos": "n",
+  "rod": "bealaidh",
+  "g": "m",
+  "gen": "bealaidh"
+ },
+ {
+  "en": "browne",
+  "rank": 11935,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-brute-n",
+  "en": "brute",
+  "rank": 11936,
+  "sense": "savage person or beast",
+  "pos": "n",
+  "rod": "brùid",
+  "g": "f",
+  "pl": "brùidean",
+  "gen": "brùide"
+ },
+ {
+  "en": "buffy",
+  "rank": 11937,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-camouflage-n",
+  "en": "camouflage",
+  "rank": 11938,
+  "sense": "disguise that blends in",
+  "pos": "n",
+  "rod": "breug-riochd",
+  "g": "m",
+  "pl": "breug-riochdan",
+  "gen": "breug-riochd"
+ },
+ {
+  "en": "cary",
+  "rank": 11939,
+  "skip": "personal name"
+ },
+ {
+  "en": "catalan",
+  "rank": 11940,
+  "skip": "demonym / language name"
+ },
+ {
+  "id": "f-chiefly-adv",
+  "en": "chiefly",
+  "rank": 11941,
+  "sense": "mainly",
+  "pos": "adv",
+  "rod": "sa mhòr-chuid"
+ },
+ {
+  "id": "f-childbirth-n",
+  "en": "childbirth",
+  "rank": 11942,
+  "sense": "giving birth",
+  "pos": "n",
+  "rod": "asaid",
+  "g": "f",
+  "pl": "asaidean",
+  "gen": "asaide"
+ },
+ {
+  "en": "chung",
+  "rank": 11943,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-compliant-adj",
+  "en": "compliant",
+  "rank": 11944,
+  "sense": "obedient, conforming",
+  "pos": "adj",
+  "rod": "umhail"
+ },
+ {
+  "id": "f-conservatism-n",
+  "en": "conservatism",
+  "rank": 11945,
+  "sense": "wish to keep things as they are",
+  "pos": "n",
+  "rod": "glèidhteachas",
+  "g": "m",
+  "gen": "glèidhteachais"
+ },
+ {
+  "id": "f-continuum-n",
+  "en": "continuum",
+  "rank": 11946,
+  "sense": "unbroken series",
+  "pos": "n",
+  "rod": "leantainneachd",
+  "g": "f",
+  "gen": "leantainneachd"
+ },
+ {
+  "id": "f-corona-n",
+  "en": "corona",
+  "rank": 11947,
+  "sense": "ring of light around the sun",
+  "pos": "n",
+  "rod": "cearcall-grèine",
+  "g": "m",
+  "pl": "cearcaill-grèine",
+  "gen": "cearcaill-grèine"
+ },
+ {
+  "en": "cpr",
+  "rank": 11950,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "css",
+  "rank": 11951,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-cultivate-v",
+  "en": "cultivate",
+  "rank": 11952,
+  "sense": "till, grow",
+  "pos": "v",
+  "rod": "àitich",
+  "root": "àitich",
+  "vn": "àiteachadh"
+ },
+ {
+  "en": "cyril",
+  "rank": 11953,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-dealership-n",
+  "en": "dealership",
+  "rank": 11954,
+  "sense": "business selling cars",
+  "pos": "n",
+  "rod": "bùth-charbad",
+  "g": "f",
+  "pl": "bùthan-charbad",
+  "gen": "bùtha-charbad",
+  "lit": "chariot-shop",
+  "scots": "reiceadair charbadan",
+  "kenning": true
+ },
+ {
+  "en": "decker",
+  "rank": 11955,
+  "skip": "fragment (double-decker) / surname"
+ },
+ {
+  "id": "f-defy-v",
+  "en": "defy",
+  "rank": 11956,
+  "sense": "resist openly",
+  "pos": "v",
+  "rod": "dùlanaich",
+  "root": "dùlanaich",
+  "vn": "dùlanachadh"
+ },
+ {
+  "en": "della",
+  "rank": 11957,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-denote-v",
+  "en": "denote",
+  "rank": 11958,
+  "sense": "mean, indicate",
+  "pos": "v",
+  "rod": "ciallaich",
+  "root": "ciallaich",
+  "vn": "ciallachadh"
+ },
+ {
+  "id": "f-densely-adv",
+  "en": "densely",
+  "rank": 11959,
+  "sense": "thickly",
+  "pos": "adv",
+  "rod": "gu dùmhail"
+ },
+ {
+  "id": "f-devoid-adj",
+  "en": "devoid",
+  "rank": 11960,
+  "sense": "lacking, empty (devoid of = gun)",
+  "pos": "adj",
+  "rod": "falamh"
+ },
+ {
+  "en": "dhabi",
+  "rank": 11961,
+  "skip": "place name"
+ },
+ {
+  "en": "dickinson",
+  "rank": 11962,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-disparity-n",
+  "en": "disparity",
+  "rank": 11963,
+  "sense": "inequality",
+  "pos": "n",
+  "rod": "neo-ionannachd",
+  "g": "f",
+  "gen": "neo-ionannachd"
+ },
+ {
+  "id": "f-diva-n",
+  "en": "diva",
+  "rank": 11964,
+  "sense": "celebrated female singer",
+  "pos": "n",
+  "rod": "ban-sheinneadair",
+  "g": "f",
+  "pl": "ban-sheinneadairean",
+  "gen": "ban-sheinneadair"
+ },
+ {
+  "en": "dlc",
+  "rank": 11965,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-eater-n",
+  "en": "eater",
+  "rank": 11966,
+  "sense": "one who eats",
+  "pos": "n",
+  "rod": "itheadair",
+  "g": "m",
+  "pl": "itheadairean",
+  "gen": "itheadair"
+ },
+ {
+  "en": "eaton",
+  "rank": 11967,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-elegance-n",
+  "en": "elegance",
+  "rank": 11968,
+  "sense": "grace",
+  "pos": "n",
+  "rod": "grinneas",
+  "g": "m",
+  "gen": "grinneis"
+ },
+ {
+  "en": "elias",
+  "rank": 11969,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-encrypt-v",
+  "en": "encrypt",
+  "rank": 11970,
+  "sense": "hide by a code",
+  "pos": "v",
+  "rod": "crioptaich",
+  "root": "crioptaich",
+  "vn": "crioptachadh"
+ },
+ {
+  "id": "f-englishman-n",
+  "en": "englishman",
+  "rank": 11971,
+  "sense": "man from England",
+  "pos": "n",
+  "rod": "Sasannach",
+  "g": "m",
+  "pl": "Sasannaich",
+  "gen": "Sasannaich"
+ },
+ {
+  "id": "f-extraordinarily-adv",
+  "en": "extraordinarily",
+  "rank": 11972,
+  "sense": "exceptionally",
+  "pos": "adv",
+  "rod": "air leth"
+ },
+ {
+  "id": "f-farmhouse-n",
+  "en": "farmhouse",
+  "rank": 11974,
+  "sense": "house on a farm",
+  "pos": "n",
+  "rod": "taigh-tuathanais",
+  "g": "m",
+  "pl": "taighean-tuathanais",
+  "gen": "taighe-tuathanais"
+ },
+ {
+  "id": "f-fertilizer-n",
+  "en": "fertilizer",
+  "rank": 11975,
+  "sense": "manure for the fields",
+  "pos": "n",
+  "rod": "todhar",
+  "g": "m",
+  "gen": "todhair"
+ },
+ {
+  "id": "f-filler-n",
+  "en": "filler",
+  "rank": 11976,
+  "sense": "material to fill",
+  "pos": "n",
+  "rod": "lìonadh",
+  "g": "m",
+  "gen": "lìonaidh"
+ },
+ {
+  "id": "f-flea-n",
+  "en": "flea",
+  "rank": 11977,
+  "sense": "the insect",
+  "pos": "n",
+  "rod": "deargad",
+  "g": "f",
+  "pl": "deargadan",
+  "gen": "deargaid"
+ },
+ {
+  "id": "f-footwear-n",
+  "en": "footwear",
+  "rank": 11978,
+  "sense": "shoes and boots",
+  "pos": "n",
+  "rod": "caisbheart",
+  "g": "f",
+  "gen": "caisbheirt"
+ },
+ {
+  "en": "fri",
+  "rank": 11979,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "fritz",
+  "rank": 11980,
+  "skip": "personal name"
+ },
+ {
+  "en": "giovanni",
+  "rank": 11981,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-goody-n",
+  "en": "goody",
+  "rank": 11982,
+  "sense": "treat, sweet thing",
+  "pos": "n",
+  "rod": "milsean",
+  "g": "m",
+  "pl": "milseanan",
+  "gen": "milsein"
+ },
+ {
+  "en": "greenland",
+  "rank": 11983,
+  "skip": "place name"
+ },
+ {
+  "id": "f-handbag-n",
+  "en": "handbag",
+  "rank": 11984,
+  "sense": "woman's bag",
+  "pos": "n",
+  "rod": "màileid-làimhe",
+  "g": "f",
+  "pl": "màileidean-làimhe",
+  "gen": "màileide-làimhe"
+ },
+ {
+  "id": "f-handicapped-adj",
+  "en": "handicapped",
+  "rank": 11985,
+  "sense": "disabled",
+  "pos": "adj",
+  "rod": "ciorramach"
+ },
+ {
+  "id": "f-headquarter-n",
+  "en": "headquarter",
+  "rank": 11987,
+  "sense": "main office, headquarters",
+  "pos": "n",
+  "rod": "prìomh-oifis",
+  "g": "f",
+  "pl": "prìomh-oifisean",
+  "gen": "prìomh-oifise"
+ },
+ {
+  "id": "f-helium-n",
+  "en": "helium",
+  "rank": 11988,
+  "sense": "the light gas",
+  "pos": "n",
+  "rod": "hèiliam",
+  "g": "m",
+  "gen": "hèiliam"
+ },
+ {
+  "id": "f-hemp-n",
+  "en": "hemp",
+  "rank": 11989,
+  "sense": "plant for rope",
+  "pos": "n",
+  "rod": "cainb",
+  "g": "f",
+  "gen": "cainbe"
+ },
+ {
+  "id": "f-hitch-n",
+  "en": "hitch",
+  "rank": 11990,
+  "sense": "snag, hold-up",
+  "pos": "n",
+  "rod": "bacadh",
+  "g": "m",
+  "pl": "bacaidhean",
+  "gen": "bacaidh"
+ },
+ {
+  "id": "f-hitch-v",
+  "en": "hitch",
+  "rank": 11990,
+  "sense": "fasten, hook on",
+  "pos": "v",
+  "rod": "ceangail",
+  "root": "ceangail",
+  "vn": "ceangal"
+ },
+ {
+  "en": "hoc",
+  "rank": 11991,
+  "skip": "non-English word (ad hoc)"
+ },
+ {
+  "en": "hutchinson",
+  "rank": 11992,
+  "skip": "personal name"
+ },
+ {
+  "en": "ike",
+  "rank": 11993,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-incarnation-n",
+  "en": "incarnation",
+  "rank": 11994,
+  "sense": "taking bodily form",
+  "pos": "n",
+  "rod": "colainn-ghabhail",
+  "g": "m",
+  "gen": "colainn-ghabhail"
+ },
+ {
+  "id": "f-inhibitors-n",
+  "en": "inhibitors",
+  "rank": 11995,
+  "sense": "substances that slow a process (inhibitor)",
+  "pos": "n",
+  "rod": "bacadair",
+  "g": "m",
+  "pl": "bacadairean",
+  "gen": "bacadair"
+ },
+ {
+  "id": "f-intrusion-n",
+  "en": "intrusion",
+  "rank": 11996,
+  "sense": "unwelcome entry",
+  "pos": "n",
+  "rod": "briseadh a-steach",
+  "g": "m",
+  "gen": "brisidh a-steach"
+ },
+ {
+  "id": "f-inverse-adj",
+  "en": "inverse",
+  "rank": 11997,
+  "sense": "opposite",
+  "pos": "adj",
+  "rod": "contrarra"
+ },
+ {
+  "id": "f-invert-v",
+  "en": "invert",
+  "rank": 11998,
+  "sense": "turn upside down",
+  "pos": "v",
+  "rod": "cuir bun-os-cionn",
+  "root": "cuir bun-os-cionn",
+  "vn": "cur bun-os-cionn"
+ },
+ {
+  "id": "f-irritation-n",
+  "en": "irritation",
+  "rank": 11999,
+  "sense": "annoyance, itch",
+  "pos": "n",
+  "rod": "frionas",
+  "g": "m",
+  "gen": "frionais"
+ },
+ {
+  "en": "jae",
+  "rank": 12000,
+  "skip": "personal name"
+ },
+ {
+  "en": "julio",
+  "rank": 12001,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-keyword-n",
+  "en": "keyword",
+  "rank": 12002,
+  "sense": "word used as a key",
+  "pos": "n",
+  "rod": "briathar-iuchrach",
+  "g": "m",
+  "pl": "briathran-iuchrach",
+  "gen": "briathair-iuchrach",
+  "lit": "key-word",
+  "scots": "prìomh-fhacal",
+  "kenning": true
+ },
+ {
+  "en": "libyan",
+  "rank": 12004,
+  "skip": "demonym (proper name)"
+ },
+ {
+  "id": "f-livelihood-n",
+  "en": "livelihood",
+  "rank": 12005,
+  "sense": "means of living",
+  "pos": "n",
+  "rod": "beòshlaint",
+  "g": "f",
+  "pl": "beòshlaintean",
+  "gen": "beòshlainte"
+ },
+ {
+  "en": "livingston",
+  "rank": 12006,
+  "skip": "personal / place name"
+ },
+ {
+  "en": "mansfield",
+  "rank": 12007,
+  "skip": "personal / place name"
+ },
+ {
+  "en": "mckenzie",
+  "rank": 12008,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-medic-n",
+  "en": "medic",
+  "rank": 12009,
+  "sense": "healer, army doctor",
+  "pos": "n",
+  "rod": "lighiche",
+  "g": "m",
+  "pl": "lighichean",
+  "gen": "lighiche"
+ },
+ {
+  "id": "f-merlin-n",
+  "en": "merlin",
+  "rank": 12010,
+  "sense": "small falcon",
+  "pos": "n",
+  "rod": "meirneal",
+  "g": "m",
+  "pl": "meirnealan",
+  "gen": "meirneil"
+ },
+ {
+  "id": "f-midland-adj",
+  "en": "midland",
+  "rank": 12011,
+  "sense": "inland",
+  "pos": "adj",
+  "rod": "meadhan-tìreach"
+ },
+ {
+  "id": "f-miscellaneous-adj",
+  "en": "miscellaneous",
+  "rank": 12012,
+  "sense": "mixed",
+  "pos": "adj",
+  "rod": "meascaichte"
+ },
+ {
+  "id": "f-misguided-adj",
+  "en": "misguided",
+  "rank": 12013,
+  "sense": "mistaken",
+  "pos": "adj",
+  "rod": "mearachdach"
+ },
+ {
+  "id": "f-morrow-n",
+  "en": "morrow",
+  "rank": 12014,
+  "sense": "the following day",
+  "pos": "n",
+  "rod": "làrna-mhàireach",
+  "g": "m"
+ },
+ {
+  "en": "moto",
+  "rank": 12015,
+  "skip": "abbreviation / brand"
+ },
+ {
+  "en": "mozart",
+  "rank": 12016,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-nylon-n",
+  "en": "nylon",
+  "rank": 12018,
+  "sense": "synthetic fibre",
+  "pos": "n",
+  "rod": "nàidhlean",
+  "g": "m",
+  "gen": "nàidhlein"
+ },
+ {
+  "id": "f-override-v",
+  "en": "override",
+  "rank": 12019,
+  "sense": "set aside, overrule",
+  "pos": "v",
+  "rod": "cuir air cùl",
+  "root": "cuir air cùl",
+  "vn": "cur air cùl"
+ },
+ {
+  "id": "f-ozone-n",
+  "en": "ozone",
+  "rank": 12020,
+  "sense": "protective gas high in the air",
+  "pos": "n",
+  "rod": "òson",
+  "g": "m",
+  "gen": "òson"
+ },
+ {
+  "en": "papua",
+  "rank": 12021,
+  "skip": "place name"
+ },
+ {
+  "id": "f-pave-v",
+  "en": "pave",
+  "rank": 12023,
+  "sense": "lay flagstones",
+  "pos": "v",
+  "rod": "leacaich",
+  "root": "leacaich",
+  "vn": "leacachadh"
+ },
+ {
+  "id": "f-paranoia-n",
+  "en": "paranoia",
+  "rank": 12022,
+  "sense": "irrational suspicion",
+  "pos": "n",
+  "rod": "paranòia",
+  "g": "f",
+  "gen": "paranòia"
+ },
+ {
+  "id": "f-persecute-v",
+  "en": "persecute",
+  "rank": 12024,
+  "sense": "hound for belief",
+  "pos": "v",
+  "rod": "geur-lean",
+  "root": "geur-lean",
+  "vn": "geur-leanmhainn"
+ },
+ {
+  "en": "peruvian",
+  "rank": 12025,
+  "skip": "demonym (proper name)"
+ },
+ {
+  "id": "f-phosphate-n",
+  "en": "phosphate",
+  "rank": 12026,
+  "sense": "salt of phosphorus",
+  "pos": "n",
+  "rod": "fosfat",
+  "g": "m",
+  "pl": "fosfatan",
+  "gen": "fosfait"
+ },
+ {
+  "en": "php",
+  "rank": 12027,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-physicist-n",
+  "en": "physicist",
+  "rank": 12028,
+  "sense": "scientist of physics",
+  "pos": "n",
+  "rod": "fiosaigear",
+  "g": "m",
+  "pl": "fiosaigearan",
+  "gen": "fiosaigeir"
+ },
+ {
+  "id": "f-plurality-n",
+  "en": "plurality",
+  "rank": 12029,
+  "sense": "multitude; largest share",
+  "pos": "n",
+  "rod": "iomadachd",
+  "g": "f",
+  "gen": "iomadachd"
+ },
+ {
+  "id": "f-prehistoric-adj",
+  "en": "prehistoric",
+  "rank": 12030,
+  "sense": "before written history",
+  "pos": "adj",
+  "rod": "ro-eachdraidheil"
+ },
+ {
+  "en": "prescott",
+  "rank": 12031,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-pronoun-n",
+  "en": "pronoun",
+  "rank": 12032,
+  "sense": "word standing for a noun",
+  "pos": "n",
+  "rod": "riochdair",
+  "g": "m",
+  "pl": "riochdairean",
+  "gen": "riochdair"
+ },
+ {
+  "id": "f-proton-n",
+  "en": "proton",
+  "rank": 12033,
+  "sense": "charged particle of the atom",
+  "pos": "n",
+  "rod": "proton",
+  "g": "m",
+  "pl": "protonan",
+  "gen": "protoin"
+ },
+ {
+  "id": "f-psyche-n",
+  "en": "psyche",
+  "rank": 12034,
+  "sense": "mind, soul",
+  "pos": "n",
+  "rod": "anam",
+  "g": "m",
+  "pl": "anaman",
+  "gen": "anama"
+ },
+ {
+  "id": "f-redesign-v",
+  "en": "redesign",
+  "rank": 12035,
+  "sense": "design again",
+  "pos": "v",
+  "rod": "ath-dhealbh",
+  "root": "ath-dhealbh",
+  "vn": "ath-dhealbhadh"
+ },
+ {
+  "id": "f-replication-n",
+  "en": "replication",
+  "rank": 12037,
+  "sense": "copying, repeating",
+  "pos": "n",
+  "rod": "ath-dhèanamh",
+  "g": "m",
+  "gen": "ath-dhèanaimh"
+ },
+ {
+  "id": "f-rotor-n",
+  "en": "rotor",
+  "rank": 12038,
+  "sense": "rotating blade assembly",
+  "pos": "n",
+  "rod": "rotair",
+  "g": "m",
+  "pl": "rotairean",
+  "gen": "rotair"
+ },
+ {
+  "id": "f-seeming-adj",
+  "en": "seeming",
+  "rank": 12040,
+  "sense": "apparent",
+  "pos": "adj",
+  "rod": "a rèir coltais"
+ },
+ {
+  "id": "f-solitude-n",
+  "en": "solitude",
+  "rank": 12041,
+  "sense": "being alone",
+  "pos": "n",
+  "rod": "aonaranachd",
+  "g": "f",
+  "gen": "aonaranachd"
+ },
+ {
+  "id": "f-spacing-n",
+  "en": "spacing",
+  "rank": 12042,
+  "sense": "space left between things",
+  "pos": "n",
+  "rod": "farsaingeachd",
+  "g": "f",
+  "gen": "farsaingeachd"
+ },
+ {
+  "id": "f-standby-n",
+  "en": "standby",
+  "rank": 12043,
+  "sense": "reserve, backup",
+  "pos": "n",
+  "rod": "cùl-taic",
+  "g": "m",
+  "gen": "cùl-taic"
+ },
+ {
+  "en": "std",
+  "rank": 12044,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-stronghold-n",
+  "en": "stronghold",
+  "rank": 12045,
+  "sense": "fortress",
+  "pos": "n",
+  "rod": "daingneach",
+  "g": "m",
+  "pl": "daingnichean",
+  "gen": "daingnich"
+ },
+ {
+  "en": "talbot",
+  "rank": 12046,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-theorist-n",
+  "en": "theorist",
+  "rank": 12047,
+  "sense": "one who forms theories",
+  "pos": "n",
+  "rod": "teòiriche",
+  "g": "m",
+  "pl": "teòirichean",
+  "gen": "teòiriche"
+ },
+ {
+  "id": "f-therein-adv",
+  "en": "therein",
+  "rank": 12048,
+  "sense": "in that",
+  "pos": "adv",
+  "rod": "ann an sin"
+ },
+ {
+  "id": "f-triangular-adj",
+  "en": "triangular",
+  "rank": 12049,
+  "sense": "three-cornered",
+  "pos": "adj",
+  "rod": "triantanach"
+ },
+ {
+  "id": "f-trooper-n",
+  "en": "trooper",
+  "rank": 12050,
+  "sense": "mounted soldier",
+  "pos": "n",
+  "rod": "marcach",
+  "g": "m",
+  "pl": "marcaich",
+  "gen": "marcaich"
+ },
+ {
+  "id": "f-truthful-adj",
+  "en": "truthful",
+  "rank": 12051,
+  "sense": "honest",
+  "pos": "adj",
+  "rod": "fìrinneach"
+ },
+ {
+  "id": "f-unbelievably-adv",
+  "en": "unbelievably",
+  "rank": 12054,
+  "sense": "beyond belief",
+  "pos": "adv",
+  "rod": "gu do-chreidsinneach"
+ },
+ {
+  "id": "f-unnecessarily-adv",
+  "en": "unnecessarily",
+  "rank": 12056,
+  "sense": "without need",
+  "pos": "adv",
+  "rod": "gun fheum"
+ },
+ {
+  "id": "f-unnoticed-adj",
+  "en": "unnoticed",
+  "rank": 12057,
+  "sense": "not seen",
+  "pos": "adj",
+  "rod": "gun mhothachadh"
+ },
+ {
+  "id": "f-untouched-adj",
+  "en": "untouched",
+  "rank": 12058,
+  "sense": "not handled, intact",
+  "pos": "adj",
+  "rod": "neo-làimhsichte"
+ },
+ {
+  "en": "vega",
+  "rank": 12059,
+  "skip": "proper name"
+ },
+ {
+  "en": "ver",
+  "rank": 12060,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "vin",
+  "rank": 12061,
+  "skip": "abbreviation / non-English word"
+ },
+ {
+  "en": "virgil",
+  "rank": 12062,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-visionary-n",
+  "en": "visionary",
+  "rank": 12063,
+  "sense": "seer",
+  "pos": "n",
+  "rod": "fiosaiche",
+  "g": "m",
+  "pl": "fiosaichean",
+  "gen": "fiosaiche"
+ },
+ {
+  "id": "f-visionary-adj",
+  "en": "visionary",
+  "rank": 12063,
+  "sense": "far-seeing",
+  "pos": "adj",
+  "rod": "fàidheadach"
+ },
+ {
+  "en": "vitro",
+  "rank": 12064,
+  "skip": "non-English word (in vitro)"
+ },
+ {
+  "id": "f-voodoo-n",
+  "en": "voodoo",
+  "rank": 12065,
+  "sense": "Afro-Caribbean sorcery",
+  "pos": "n",
+  "rod": "bhùdù",
+  "g": "m",
+  "gen": "bhùdù"
+ },
+ {
+  "en": "wigan",
+  "rank": 12066,
+  "skip": "place name"
+ },
+ {
+  "id": "f-witchcraft-n",
+  "en": "witchcraft",
+  "rank": 12067,
+  "sense": "sorcery",
+  "pos": "n",
+  "rod": "draoidheachd",
+  "g": "f",
+  "gen": "draoidheachd"
+ },
+ {
+  "en": "yong",
+  "rank": 12068,
+  "skip": "personal name"
+ },
+ {
+  "en": "abbas",
+  "rank": 12069,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-adultery-n",
+  "en": "adultery",
+  "rank": 12070,
+  "sense": "unfaithfulness in marriage",
+  "pos": "n",
+  "rod": "adhaltranas",
+  "g": "m",
+  "gen": "adhaltranais"
+ },
+ {
+  "id": "f-agile-adj",
+  "en": "agile",
+  "rank": 12071,
+  "sense": "nimble",
+  "pos": "adj",
+  "rod": "lùthmhor"
+ },
+ {
+  "id": "f-anonymously-adv",
+  "en": "anonymously",
+  "rank": 12072,
+  "sense": "without a name",
+  "pos": "adv",
+  "rod": "gun ainm"
+ },
+ {
+  "en": "aristotle",
+  "rank": 12073,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-awfully-adv",
+  "en": "awfully",
+  "rank": 12075,
+  "sense": "very, terribly (awfully good = uabhasach math)",
+  "pos": "adv",
+  "rod": "uabhasach"
+ },
+ {
+  "en": "barca",
+  "rank": 12076,
+  "skip": "team name"
+ },
+ {
+  "en": "beatrice",
+  "rank": 12077,
+  "skip": "personal name"
+ },
+ {
+  "en": "beethoven",
+  "rank": 12078,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-bouquet-n",
+  "en": "bouquet",
+  "rank": 12079,
+  "sense": "bunch of flowers",
+  "pos": "n",
+  "rod": "bad fhlùraichean",
+  "g": "m",
+  "pl": "badan fhlùraichean",
+  "gen": "baid fhlùraichean"
+ },
+ {
+  "id": "f-bullock-n",
+  "en": "bullock",
+  "rank": 12080,
+  "sense": "young castrated bull",
+  "pos": "n",
+  "rod": "damh",
+  "g": "m",
+  "pl": "daimh",
+  "gen": "daimh"
+ },
+ {
+  "id": "f-cad-n",
+  "en": "cad",
+  "rank": 12081,
+  "sense": "dishonourable man",
+  "pos": "n",
+  "rod": "cealgair",
+  "g": "m",
+  "pl": "cealgairean",
+  "gen": "cealgair"
+ },
+ {
+  "id": "f-candidacy-n",
+  "en": "candidacy",
+  "rank": 12082,
+  "sense": "standing for a post",
+  "pos": "n",
+  "rod": "tagradh",
+  "g": "m",
+  "pl": "tagraidhean",
+  "gen": "tagraidh"
+ },
+ {
+  "id": "f-clubhouse-n",
+  "en": "clubhouse",
+  "rank": 12083,
+  "sense": "building of a club",
+  "pos": "n",
+  "rod": "taigh-comainn",
+  "g": "m",
+  "pl": "taighean-comainn",
+  "gen": "taighe-comainn"
+ },
+ {
+  "id": "f-collegiate-adj",
+  "en": "collegiate",
+  "rank": 12085,
+  "sense": "of a college",
+  "pos": "adj",
+  "rod": "colaisteach"
+ },
+ {
+  "id": "f-commonplace-adj",
+  "en": "commonplace",
+  "rank": 12086,
+  "sense": "ordinary",
+  "pos": "adj",
+  "rod": "cumanta"
+ },
+ {
+  "en": "conan",
+  "rank": 12087,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-confidently-adv",
+  "en": "confidently",
+  "rank": 12088,
+  "sense": "with confidence",
+  "pos": "adv",
+  "rod": "gu misneachail"
+ },
+ {
+  "id": "f-constrained-adj",
+  "en": "constrained",
+  "rank": 12089,
+  "sense": "restricted",
+  "pos": "adj",
+  "rod": "cuingealaichte"
+ },
+ {
+  "id": "f-converter-n",
+  "en": "converter",
+  "rank": 12090,
+  "sense": "device that changes one form into another",
+  "pos": "n",
+  "rod": "muileann-caochlaidh",
+  "g": "m",
+  "pl": "muilnean-caochlaidh",
+  "gen": "muilinn-caochlaidh",
+  "lit": "change-mill",
+  "scots": "tionndaidhear",
+  "kenning": true
+ },
+ {
+  "id": "f-coop-n",
+  "en": "coop",
+  "rank": 12091,
+  "sense": "hen house",
+  "pos": "n",
+  "rod": "crò-chearc",
+  "g": "m",
+  "pl": "cròthan-chearc"
+ },
+ {
+  "en": "cps",
+  "rank": 12093,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-crook-n1",
+  "en": "crook",
+  "rank": 12094,
+  "sense": "criminal",
+  "pos": "n",
+  "rod": "meirleach",
+  "g": "m",
+  "pl": "meirlich",
+  "gen": "meirlich"
+ },
+ {
+  "id": "f-crook-n2",
+  "en": "crook",
+  "rank": 12094,
+  "sense": "shepherd's staff",
+  "pos": "n",
+  "rod": "cromag",
+  "g": "f",
+  "pl": "cromagan",
+  "gen": "cromaig"
+ },
+ {
+  "id": "f-coronary-n",
+  "en": "coronary",
+  "rank": 12092,
+  "sense": "heart attack (a coronary)",
+  "pos": "n",
+  "rod": "grèim-cridhe",
+  "g": "m",
+  "pl": "grèimean-cridhe",
+  "gen": "grèim-cridhe"
+ },
+ {
+  "id": "f-cupcake-n",
+  "en": "cupcake",
+  "rank": 12096,
+  "sense": "small cake",
+  "pos": "n",
+  "rod": "cèic bheag",
+  "g": "f",
+  "pl": "cèicichean beaga"
+ },
+ {
+  "en": "deco",
+  "rank": 12097,
+  "skip": "fragment (art deco)"
+ },
+ {
+  "en": "desmond",
+  "rank": 12098,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-directorate-n",
+  "en": "directorate",
+  "rank": 12099,
+  "sense": "board of directors, department",
+  "pos": "n",
+  "rod": "stiùireachd",
+  "g": "f",
+  "gen": "stiùireachd"
+ },
+ {
+  "en": "dora",
+  "rank": 12100,
+  "skip": "personal name"
+ },
+ {
+  "en": "duffy",
+  "rank": 12102,
+  "skip": "personal name"
+ },
+ {
+  "en": "emmanuel",
+  "rank": 12103,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-emulate-v",
+  "en": "emulate",
+  "rank": 12104,
+  "sense": "imitate, rival",
+  "pos": "v",
+  "rod": "dèan atharrais air",
+  "root": "dèan atharrais air",
+  "vn": "dèanamh atharrais air"
+ },
+ {
+  "id": "f-endow-v",
+  "en": "endow",
+  "rank": 12106,
+  "sense": "provide with money or gifts",
+  "pos": "v",
+  "rod": "builich",
+  "root": "builich",
+  "vn": "buileachadh"
+ },
+ {
+  "id": "f-enquiry-n",
+  "en": "enquiry",
+  "rank": 12107,
+  "sense": "inquiry, questioning",
+  "pos": "n",
+  "rod": "ceasnachadh",
+  "g": "m",
+  "pl": "ceasnachaidhean",
+  "gen": "ceasnachaidh"
+ },
+ {
+  "id": "f-evasion-n",
+  "en": "evasion",
+  "rank": 12108,
+  "sense": "dodging",
+  "pos": "n",
+  "rod": "seachnadh",
+  "g": "m",
+  "gen": "seachnaidh"
+ },
+ {
+  "id": "f-evergreen-adj",
+  "en": "evergreen",
+  "rank": 12109,
+  "sense": "always green",
+  "pos": "adj",
+  "rod": "sìor-uaine"
+ },
+ {
+  "id": "f-eviction-n",
+  "en": "eviction",
+  "rank": 12110,
+  "sense": "putting out of a home",
+  "pos": "n",
+  "rod": "fuadachadh",
+  "g": "m",
+  "pl": "fuadachaidhean",
+  "gen": "fuadachaidh"
+ },
+ {
+  "id": "f-expulsion-n",
+  "en": "expulsion",
+  "rank": 12111,
+  "sense": "driving out, banishment",
+  "pos": "n",
+  "rod": "fògradh",
+  "g": "m",
+  "pl": "fògraidhean",
+  "gen": "fògraidh"
+ },
+ {
+  "en": "fedex",
+  "rank": 12112,
+  "skip": "brand name"
+ },
+ {
+  "id": "f-filth-n",
+  "en": "filth",
+  "rank": 12113,
+  "sense": "dirt",
+  "pos": "n",
+  "rod": "salchar",
+  "g": "m",
+  "gen": "salchair"
+ },
+ {
+  "en": "firefox",
+  "rank": 12114,
+  "skip": "brand name"
+ },
+ {
+  "id": "f-foliage-n",
+  "en": "foliage",
+  "rank": 12115,
+  "sense": "leaves",
+  "pos": "n",
+  "rod": "duilleach",
+  "g": "m",
+  "gen": "duillich"
+ },
+ {
+  "id": "f-fortnight-n",
+  "en": "fortnight",
+  "rank": 12117,
+  "sense": "two weeks",
+  "pos": "n",
+  "rod": "cola-deug",
+  "g": "m",
+  "pl": "cola-deugan",
+  "gen": "cola-deug"
+ },
+ {
+  "en": "fresno",
+  "rank": 12118,
+  "skip": "place name"
+ },
+ {
+  "en": "fs",
+  "rank": 12119,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-genie-n",
+  "en": "genie",
+  "rank": 12120,
+  "sense": "spirit that grants wishes",
+  "pos": "n",
+  "rod": "sìthiche",
+  "g": "m",
+  "pl": "sìthichean",
+  "gen": "sìthiche"
+ },
+ {
+  "en": "georges",
+  "rank": 12121,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-goo-n",
+  "en": "goo",
+  "rank": 12122,
+  "sense": "sticky mess",
+  "pos": "n",
+  "rod": "làthach",
+  "g": "f",
+  "gen": "làthaich"
+ },
+ {
+  "en": "goodwin",
+  "rank": 12123,
+  "skip": "personal name"
+ },
+ {
+  "en": "hannibal",
+  "rank": 12124,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-helper-n",
+  "en": "helper",
+  "rank": 12126,
+  "sense": "one who helps",
+  "pos": "n",
+  "rod": "cuidiche",
+  "g": "m",
+  "pl": "cuidichean",
+  "gen": "cuidiche"
+ },
+ {
+  "id": "f-hubby-n",
+  "en": "hubby",
+  "rank": 12128,
+  "sense": "husband (familiar)",
+  "pos": "n",
+  "rod": "fear-pòsta",
+  "g": "m",
+  "pl": "fir-phòsta",
+  "gen": "fir-phòsta"
+ },
+ {
+  "id": "f-hypertension-n",
+  "en": "hypertension",
+  "rank": 12129,
+  "sense": "high blood pressure",
+  "pos": "n",
+  "rod": "àrd-neart-cuisle",
+  "g": "m",
+  "gen": "àrd-neirt-cuisle",
+  "lit": "high-vein-strength",
+  "scots": "bruthadh-fala àrd",
+  "kenning": true
+ },
+ {
+  "id": "f-immerse-v",
+  "en": "immerse",
+  "rank": 12130,
+  "sense": "plunge in",
+  "pos": "v",
+  "rod": "tum",
+  "root": "tum",
+  "vn": "tumadh"
+ },
+ {
+  "id": "f-immortality-n",
+  "en": "immortality",
+  "rank": 12131,
+  "sense": "deathlessness",
+  "pos": "n",
+  "rod": "neo-bhàsmhorachd",
+  "g": "f",
+  "gen": "neo-bhàsmhorachd"
+ },
+ {
+  "id": "f-indefinite-adj",
+  "en": "indefinite",
+  "rank": 12132,
+  "sense": "not fixed",
+  "pos": "adj",
+  "rod": "neo-chinnteach"
+ },
+ {
+  "id": "f-insightful-adj",
+  "en": "insightful",
+  "rank": 12133,
+  "sense": "perceptive",
+  "pos": "adj",
+  "rod": "lèirsinneach"
+ },
+ {
+  "en": "io",
+  "rank": 12134,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "ipswich",
+  "rank": 12135,
+  "skip": "place name"
+ },
+ {
+  "id": "f-irrespective-phrase",
+  "en": "irrespective",
+  "rank": 12136,
+  "sense": "irrespective of, regardless of",
+  "pos": "phrase",
+  "rod": "gun spèis do"
+ },
+ {
+  "en": "jeanne",
+  "rank": 12137,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-kicker-n",
+  "en": "kicker",
+  "rank": 12138,
+  "sense": "one who kicks (in football)",
+  "pos": "n",
+  "rod": "breabaire",
+  "g": "m",
+  "pl": "breabairean",
+  "gen": "breabaire"
+ },
+ {
+  "en": "kyoto",
+  "rank": 12139,
+  "skip": "place name"
+ },
+ {
+  "id": "f-ledge-n",
+  "en": "ledge",
+  "rank": 12140,
+  "sense": "narrow shelf of rock",
+  "pos": "n",
+  "rod": "sceilp",
+  "g": "f",
+  "pl": "sceilpichean",
+  "gen": "sceilpe"
+ },
+ {
+  "en": "levin",
+  "rank": 12141,
+  "skip": "personal name"
+ },
+ {
+  "en": "lgbtq",
+  "rank": 12142,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "macbook",
+  "rank": 12143,
+  "skip": "brand name"
+ },
+ {
+  "en": "mackay",
+  "rank": 12144,
+  "skip": "personal name"
+ },
+ {
+  "en": "madeleine",
+  "rank": 12145,
+  "skip": "personal name"
+ },
+ {
+  "en": "maj",
+  "rank": 12146,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-malt-n",
+  "en": "malt",
+  "rank": 12147,
+  "sense": "sprouted grain",
+  "pos": "n",
+  "rod": "braich",
+  "g": "f",
+  "gen": "bracha"
+ },
+ {
+  "en": "mandela",
+  "rank": 12148,
+  "skip": "personal name"
+ },
+ {
+  "en": "marian",
+  "rank": 12149,
+  "skip": "personal name"
+ },
+ {
+  "en": "michaels",
+  "rank": 12150,
+  "skip": "personal name"
+ },
+ {
+  "en": "mj",
+  "rank": 12152,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-moderator-n",
+  "en": "moderator",
+  "rank": 12153,
+  "sense": "chair of a meeting or assembly",
+  "pos": "n",
+  "rod": "cathraiche",
+  "g": "m",
+  "pl": "cathraichean",
+  "gen": "cathraiche"
+ },
+ {
+  "id": "f-momma-n",
+  "en": "momma",
+  "rank": 12154,
+  "sense": "mother (familiar)",
+  "pos": "n",
+  "rod": "màthair",
+  "g": "f",
+  "pl": "màthraichean",
+  "gen": "màthar"
+ },
+ {
+  "id": "f-monstrous-adj",
+  "en": "monstrous",
+  "rank": 12155,
+  "sense": "beastly, hideous",
+  "pos": "adj",
+  "rod": "biastail"
+ },
+ {
+  "en": "moran",
+  "rank": 12156,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-morphology-n",
+  "en": "morphology",
+  "rank": 12157,
+  "sense": "study of forms",
+  "pos": "n",
+  "rod": "eòlas-crutha",
+  "g": "m",
+  "gen": "eòlais-crutha",
+  "lit": "form-knowledge",
+  "scots": "moirfeòlas",
+  "kenning": true
+ },
+ {
+  "id": "f-mustache-n",
+  "en": "mustache",
+  "rank": 12158,
+  "sense": "hair on the upper lip",
+  "pos": "n",
+  "rod": "cròimeal",
+  "g": "m",
+  "pl": "cròimealan",
+  "gen": "cròimeil"
+ },
+ {
+  "en": "nasdaq",
+  "rank": 12159,
+  "skip": "proper name (stock exchange)"
+ },
+ {
+  "id": "f-natal-adj",
+  "en": "natal",
+  "rank": 12160,
+  "sense": "of birth (used as genitive: latha breith)",
+  "pos": "adj",
+  "rod": "breith"
+ },
+ {
+  "id": "f-obituary-n",
+  "en": "obituary",
+  "rank": 12162,
+  "sense": "notice of a death",
+  "pos": "n",
+  "rod": "iomradh-bàis",
+  "g": "m",
+  "pl": "iomraidhean-bàis",
+  "gen": "iomraidh-bàis"
+ },
+ {
+  "en": "olivier",
+  "rank": 12163,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-ordination-n",
+  "en": "ordination",
+  "rank": 12164,
+  "sense": "making a priest",
+  "pos": "n",
+  "rod": "òrdachadh",
+  "g": "m",
+  "pl": "òrdachaidhean",
+  "gen": "òrdachaidh"
+ },
+ {
+  "en": "otis",
+  "rank": 12165,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-parity-n",
+  "en": "parity",
+  "rank": 12166,
+  "sense": "equality",
+  "pos": "n",
+  "rod": "co-ionannachd",
+  "g": "f",
+  "gen": "co-ionannachd"
+ },
+ {
+  "en": "paterson",
+  "rank": 12167,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-pew-n",
+  "en": "pew",
+  "rank": 12169,
+  "sense": "church bench",
+  "pos": "n",
+  "rod": "suidheachan-eaglais",
+  "g": "m",
+  "pl": "suidheachain-eaglais",
+  "gen": "suidheachain-eaglais"
+ },
+ {
+  "en": "philips",
+  "rank": 12170,
+  "skip": "brand / personal name"
+ },
+ {
+  "id": "f-populous-adj",
+  "en": "populous",
+  "rank": 12171,
+  "sense": "with many people",
+  "pos": "adj",
+  "rod": "sluaghmhor"
+ },
+ {
+  "id": "f-postwar-adj",
+  "en": "postwar",
+  "rank": 12172,
+  "sense": "after the war",
+  "pos": "adj",
+  "rod": "an dèidh a' chogaidh"
+ },
+ {
+  "id": "f-proactive-adj",
+  "en": "proactive",
+  "rank": 12173,
+  "sense": "acting in advance",
+  "pos": "adj",
+  "rod": "ro-ghnìomhach"
+ },
+ {
+  "en": "prob",
+  "rank": 12174,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-projector-n",
+  "en": "projector",
+  "rank": 12175,
+  "sense": "machine that throws pictures on a screen",
+  "pos": "n",
+  "rod": "proiseactar",
+  "g": "m",
+  "pl": "proiseactaran",
+  "gen": "proiseactair"
+ },
+ {
+  "id": "f-prominently-adv",
+  "en": "prominently",
+  "rank": 12176,
+  "sense": "conspicuously",
+  "pos": "adv",
+  "rod": "gu follaiseach"
+ },
+ {
+  "id": "f-prudent-adj",
+  "en": "prudent",
+  "rank": 12177,
+  "sense": "wise, careful",
+  "pos": "adj",
+  "rod": "ciallach"
+ },
+ {
+  "id": "f-qualifier-n",
+  "en": "qualifier",
+  "rank": 12178,
+  "sense": "qualifying round",
+  "pos": "n",
+  "rod": "cuairt-thaghaidh",
+  "g": "f",
+  "pl": "cuairtean-taghaidh",
+  "gen": "cuairte-taghaidh"
+ },
+ {
+  "en": "quincy",
+  "rank": 12179,
+  "skip": "personal / place name"
+ },
+ {
+  "id": "f-refine-v",
+  "en": "refine",
+  "rank": 12181,
+  "sense": "purify, polish",
+  "pos": "v",
+  "rod": "grinnich",
+  "root": "grinnich",
+  "vn": "grinneachadh"
+ },
+ {
+  "id": "f-reliant-adj",
+  "en": "reliant",
+  "rank": 12182,
+  "sense": "dependent (reliant on = an eisimeil air)",
+  "pos": "adj",
+  "rod": "an eisimeil"
+ },
+ {
+  "id": "f-reputable-adj",
+  "en": "reputable",
+  "rank": 12183,
+  "sense": "of good name",
+  "pos": "adj",
+  "rod": "cliùiteach"
+ },
+ {
+  "id": "f-revolver-n",
+  "en": "revolver",
+  "rank": 12184,
+  "sense": "pistol with turning chambers",
+  "pos": "n",
+  "rod": "rèabhalbhar",
+  "g": "m",
+  "pl": "rèabhalbharan",
+  "gen": "rèabhalbhair"
+ },
+ {
+  "id": "f-revolve-v",
+  "en": "revolve",
+  "rank": 12185,
+  "sense": "turn round",
+  "pos": "v",
+  "rod": "cuartaich",
+  "root": "cuartaich",
+  "vn": "cuartachadh"
+ },
+ {
+  "en": "ricardo",
+  "rank": 12186,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-rink-n",
+  "en": "rink",
+  "rank": 12187,
+  "sense": "ice arena",
+  "pos": "n",
+  "rod": "rinc",
+  "g": "f",
+  "pl": "rincean",
+  "gen": "rince"
+ },
+ {
+  "id": "f-ripple-n",
+  "en": "ripple",
+  "rank": 12188,
+  "sense": "small wave",
+  "pos": "n",
+  "rod": "tonnag",
+  "g": "f",
+  "pl": "tonnagan",
+  "gen": "tonnaig"
+ },
+ {
+  "id": "f-robber-n",
+  "en": "robber",
+  "rank": 12189,
+  "sense": "one who robs",
+  "pos": "n",
+  "rod": "spùinneadair",
+  "g": "m",
+  "pl": "spùinneadairean",
+  "gen": "spùinneadair"
+ },
+ {
+  "en": "routledge",
+  "rank": 12190,
+  "skip": "proper name"
+ },
+ {
+  "id": "f-sentinel-n",
+  "en": "sentinel",
+  "rank": 12191,
+  "sense": "guard",
+  "pos": "n",
+  "rod": "freiceadan",
+  "g": "m",
+  "pl": "freiceadanan",
+  "gen": "freiceadain"
+ },
+ {
+  "id": "f-signalling-n",
+  "en": "signalling",
+  "rank": 12192,
+  "sense": "making signals",
+  "pos": "n",
+  "rod": "comharrachadh",
+  "g": "m",
+  "gen": "comharrachaidh"
+ },
+ {
+  "en": "slovenia",
+  "rank": 12193,
+  "skip": "place name"
+ },
+ {
+  "id": "f-solemn-adj",
+  "en": "solemn",
+  "rank": 12194,
+  "sense": "grave, serious",
+  "pos": "adj",
+  "rod": "sòlaimte"
+ },
+ {
+  "en": "spacex",
+  "rank": 12195,
+  "skip": "brand name"
+ },
+ {
+  "en": "stacey",
+  "rank": 12197,
+  "skip": "personal name"
+ },
+ {
+  "en": "starr",
+  "rank": 12198,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-substantive-adj",
+  "en": "substantive",
+  "rank": 12199,
+  "sense": "real, significant",
+  "pos": "adj",
+  "rod": "brìgheil"
+ },
+ {
+  "id": "f-substitution-n",
+  "en": "substitution",
+  "rank": 12200,
+  "sense": "replacing",
+  "pos": "n",
+  "rod": "ionadachadh",
+  "g": "m",
+  "pl": "ionadachaidhean",
+  "gen": "ionadachaidh"
+ },
+ {
+  "en": "tobago",
+  "rank": 12201,
+  "skip": "place name"
+ },
+ {
+  "en": "torah",
+  "rank": 12202,
+  "skip": "proper name (scripture)"
+ },
+ {
+  "id": "f-torso-n",
+  "en": "torso",
+  "rank": 12203,
+  "sense": "trunk of the body",
+  "pos": "n",
+  "rod": "com",
+  "g": "m",
+  "pl": "cuim",
+  "gen": "cuim"
+ },
+ {
+  "id": "f-tremendously-adv",
+  "en": "tremendously",
+  "rank": 12204,
+  "sense": "enormously",
+  "pos": "adv",
+  "rod": "gu h-uabhasach"
+ },
+ {
+  "en": "trojan",
+  "rank": 12205,
+  "skip": "proper name / demonym"
+ },
+ {
+  "id": "f-tumble-v",
+  "en": "tumble",
+  "rank": 12206,
+  "sense": "fall headlong",
+  "pos": "v",
+  "rod": "tuit",
+  "root": "tuit",
+  "vn": "tuiteam"
+ },
+ {
+  "id": "f-unpublished-adj",
+  "en": "unpublished",
+  "rank": 12207,
+  "sense": "not published",
+  "pos": "adj",
+  "rod": "neo-fhoillsichte"
+ },
+ {
+  "id": "f-untrue-adj",
+  "en": "untrue",
+  "rank": 12208,
+  "sense": "false",
+  "pos": "adj",
+  "rod": "breugach"
+ },
+ {
+  "id": "f-verbally-adv",
+  "en": "verbally",
+  "rank": 12209,
+  "sense": "by word of mouth",
+  "pos": "adv",
+  "rod": "bho bheul"
+ },
+ {
+  "id": "f-vitality-n",
+  "en": "vitality",
+  "rank": 12210,
+  "sense": "liveliness",
+  "pos": "n",
+  "rod": "beòthalachd",
+  "g": "f",
+  "gen": "beòthalachd"
+ },
+ {
+  "en": "wc",
+  "rank": 12211,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-weep-v",
+  "en": "weep",
+  "rank": 12212,
+  "sense": "cry",
+  "pos": "v",
+  "rod": "guil",
+  "root": "guil",
+  "vn": "gul"
+ },
+ {
+  "id": "f-windshield-n",
+  "en": "windshield",
+  "rank": 12213,
+  "sense": "front window of a vehicle",
+  "pos": "n",
+  "rod": "glainne-aghaidh",
+  "g": "f",
+  "pl": "glainneachan-aghaidh",
+  "gen": "glainne-aghaidh",
+  "lit": "face-glass",
+  "scots": "sgàilean-gaoithe",
+  "kenning": true
+ },
+ {
+  "en": "wolfe",
+  "rank": 12214,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-zodiac-n",
+  "en": "zodiac",
+  "rank": 12215,
+  "sense": "the band of star-signs",
+  "pos": "n",
+  "rod": "grian-chrios",
+  "g": "m",
+  "gen": "grian-chriosa"
+ },
+ {
+  "id": "f-abandonment-n",
+  "en": "abandonment",
+  "rank": 12216,
+  "sense": "forsaking",
+  "pos": "n",
+  "rod": "trèigsinn",
+  "g": "m",
+  "gen": "trèigsinn"
+ },
+ {
+  "id": "f-abyss-n",
+  "en": "abyss",
+  "rank": 12217,
+  "sense": "bottomless deep",
+  "pos": "n",
+  "rod": "àibheis",
+  "g": "f",
+  "pl": "àibheisean",
+  "gen": "àibheise"
+ },
+ {
+  "id": "f-accession-n",
+  "en": "accession",
+  "rank": 12218,
+  "sense": "coming to the throne",
+  "pos": "n",
+  "rod": "teachd chun a' chrùin",
+  "g": "m"
+ },
+ {
+  "en": "alvarez",
+  "rank": 12219,
+  "skip": "personal name"
+ },
+ {
+  "en": "alvin",
+  "rank": 12220,
+  "skip": "personal name"
+ },
+ {
+  "en": "amir",
+  "rank": 12221,
+  "skip": "personal name / non-English title"
+ },
+ {
+  "en": "anders",
+  "rank": 12222,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-arithmetic-n",
+  "en": "arithmetic",
+  "rank": 12223,
+  "sense": "reckoning with numbers",
+  "pos": "n",
+  "rod": "àireamhachd",
+  "g": "f",
+  "gen": "àireamhachd"
+ },
+ {
+  "id": "f-astronomer-n",
+  "en": "astronomer",
+  "rank": 12225,
+  "sense": "student of the stars",
+  "pos": "n",
+  "rod": "reuladair",
+  "g": "m",
+  "pl": "reuladairean",
+  "gen": "reuladair"
+ },
+ {
+  "id": "f-authoritative-adj",
+  "en": "authoritative",
+  "rank": 12226,
+  "sense": "commanding, reliable",
+  "pos": "adj",
+  "rod": "ùghdarrasach"
+ },
+ {
+  "id": "f-barren-adj",
+  "en": "barren",
+  "rank": 12227,
+  "sense": "bearing no crop or young",
+  "pos": "adj",
+  "rod": "seasc"
+ },
+ {
+  "id": "f-basal-adj",
+  "en": "basal",
+  "rank": 12228,
+  "sense": "at the base",
+  "pos": "adj",
+  "rod": "bunaiteach"
+ },
+ {
+  "id": "f-batsman-n",
+  "en": "batsman",
+  "rank": 12229,
+  "sense": "player who bats",
+  "pos": "n",
+  "rod": "fear-slacain",
+  "g": "m",
+  "pl": "fir-shlacain",
+  "gen": "fir-shlacain"
+ },
+ {
+  "id": "f-bedding-n",
+  "en": "bedding",
+  "rank": 12230,
+  "sense": "sheets and blankets",
+  "pos": "n",
+  "rod": "aodach-leapa",
+  "g": "m",
+  "gen": "aodaich-leapa"
+ },
+ {
+  "id": "f-bender-n",
+  "en": "bender",
+  "rank": 12231,
+  "sense": "drinking spree",
+  "pos": "n",
+  "rod": "daorach",
+  "g": "f",
+  "pl": "daoraich",
+  "gen": "daoraich"
+ },
+ {
+  "en": "bethlehem",
+  "rank": 12232,
+  "skip": "place name"
+ },
+ {
+  "en": "boi",
+  "rank": 12233,
+  "skip": "internet slang"
+ },
+ {
+  "id": "f-bourgeois-adj",
+  "en": "bourgeois",
+  "rank": 12234,
+  "sense": "middle-class",
+  "pos": "adj",
+  "rod": "bùirdeasach"
+ },
+ {
+  "id": "f-brunette-n",
+  "en": "brunette",
+  "rank": 12236,
+  "sense": "woman with brown hair",
+  "pos": "n",
+  "rod": "tè dhonn",
+  "g": "f"
+ },
+ {
+  "id": "f-bureaucratic-adj",
+  "en": "bureaucratic",
+  "rank": 12237,
+  "sense": "of officialdom",
+  "pos": "adj",
+  "rod": "clèireachail"
+ },
+ {
+  "id": "f-buzzer-n",
+  "en": "buzzer",
+  "rank": 12238,
+  "sense": "electric bell",
+  "pos": "n",
+  "rod": "srann-dealain",
+  "g": "m",
+  "pl": "srannan-dealain",
+  "gen": "srainn-dealain",
+  "lit": "spark-hum",
+  "scots": "srannair",
+  "kenning": true
+ },
+ {
+  "id": "f-cactus-n",
+  "en": "cactus",
+  "rank": 12239,
+  "sense": "spiny desert plant",
+  "pos": "n",
+  "rod": "lus-deilgneach",
+  "g": "m",
+  "pl": "lusan-deilgneach",
+  "gen": "luis-deilgneach",
+  "lit": "thorny-herb",
+  "scots": "cactas",
+  "kenning": true
+ },
+ {
+  "en": "carlson",
+  "rank": 12240,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-cassette-n",
+  "en": "cassette",
+  "rank": 12241,
+  "sense": "tape box",
+  "pos": "n",
+  "rod": "cèiseag",
+  "g": "f",
+  "pl": "cèiseagan",
+  "gen": "cèiseig"
+ },
+ {
+  "id": "f-characterise-v",
+  "en": "characterise",
+  "rank": 12242,
+  "sense": "describe the nature of",
+  "pos": "v",
+  "rod": "comharraich",
+  "root": "comharraich",
+  "vn": "comharrachadh"
+ },
+ {
+  "id": "f-childcare-n",
+  "en": "childcare",
+  "rank": 12243,
+  "sense": "minding children",
+  "pos": "n",
+  "rod": "cùram-cloinne",
+  "g": "m",
+  "gen": "cùraim-cloinne"
+ },
+ {
+  "id": "f-chronological-adj",
+  "en": "chronological",
+  "rank": 12244,
+  "sense": "in order of time",
+  "pos": "adj",
+  "rod": "a rèir ùine"
+ },
+ {
+  "id": "f-cleavage-n",
+  "en": "cleavage",
+  "rank": 12245,
+  "sense": "split; hollow between the breasts",
+  "pos": "n",
+  "rod": "scoltadh",
+  "g": "m",
+  "pl": "scoltaidhean",
+  "gen": "scoltaidh"
+ },
+ {
+  "id": "f-cohort-n",
+  "en": "cohort",
+  "rank": 12246,
+  "sense": "group, band",
+  "pos": "n",
+  "rod": "buidheann",
+  "g": "m",
+  "pl": "buidhnean",
+  "gen": "buidhne"
+ },
+ {
+  "id": "f-commandment-n",
+  "en": "commandment",
+  "rank": 12247,
+  "sense": "divine command",
+  "pos": "n",
+  "rod": "àithne",
+  "g": "f",
+  "pl": "àitheantan",
+  "gen": "àithne"
+ },
+ {
+  "id": "f-condense-v",
+  "en": "condense",
+  "rank": 12248,
+  "sense": "make denser or shorter",
+  "pos": "v",
+  "rod": "dùmhlaich",
+  "root": "dùmhlaich",
+  "vn": "dùmhlachadh"
+ },
+ {
+  "id": "f-convene-v",
+  "en": "convene",
+  "rank": 12249,
+  "sense": "call together",
+  "pos": "v",
+  "rod": "cruinnich",
+  "root": "cruinnich",
+  "vn": "cruinneachadh"
+ },
+ {
+  "id": "f-cuddle-v",
+  "en": "cuddle",
+  "rank": 12250,
+  "sense": "hold lovingly",
+  "pos": "v",
+  "rod": "cniadaich",
+  "root": "cniadaich",
+  "vn": "cniadachadh"
+ },
+ {
+  "en": "darius",
+  "rank": 12252,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-daunting-adj",
+  "en": "daunting",
+  "rank": 12253,
+  "sense": "intimidating",
+  "pos": "adj",
+  "rod": "mì-mhisneachail"
+ },
+ {
+  "id": "f-deviation-n",
+  "en": "deviation",
+  "rank": 12254,
+  "sense": "turning aside",
+  "pos": "n",
+  "rod": "claonadh",
+  "g": "m",
+  "pl": "claonaidhean",
+  "gen": "claonaidh"
+ },
+ {
+  "id": "f-diffusion-n",
+  "en": "diffusion",
+  "rank": 12255,
+  "sense": "spreading out",
+  "pos": "n",
+  "rod": "scaoileadh",
+  "g": "m",
+  "gen": "scaoilidh"
+ },
+ {
+  "id": "f-dildo-n",
+  "en": "dildo",
+  "rank": 12256,
+  "sense": "artificial penis",
+  "pos": "n",
+  "rod": "bod-brèige",
+  "g": "m",
+  "pl": "buid-bhrèige",
+  "gen": "buid-bhrèige"
+ },
+ {
+  "id": "f-distrust-n",
+  "en": "distrust",
+  "rank": 12257,
+  "sense": "lack of trust",
+  "pos": "n",
+  "rod": "mì-earbsa",
+  "g": "f",
+  "gen": "mì-earbsa"
+ },
+ {
+  "en": "ellison",
+  "rank": 12258,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-empires-n",
+  "en": "empires",
+  "rank": 12259,
+  "sense": "empire (plural empires)",
+  "pos": "n",
+  "rod": "ìmpireachd",
+  "g": "f",
+  "pl": "ìmpireachdan",
+  "gen": "ìmpireachd"
+ },
+ {
+  "id": "f-entrepreneurial-adj",
+  "en": "entrepreneurial",
+  "rank": 12260,
+  "sense": "enterprising",
+  "pos": "adj",
+  "rod": "iomairteach"
+ },
+ {
+  "id": "f-ether-n",
+  "en": "ether",
+  "rank": 12261,
+  "sense": "the upper air, the heavens",
+  "pos": "n",
+  "rod": "iarmailt",
+  "g": "f",
+  "gen": "iarmailte"
+ },
+ {
+  "id": "f-familiarity-n",
+  "en": "familiarity",
+  "rank": 12264,
+  "sense": "close knowledge",
+  "pos": "n",
+  "rod": "dlùth-eòlas",
+  "g": "m",
+  "gen": "dlùth-eòlais"
+ },
+ {
+  "en": "felipe",
+  "rank": 12265,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-fender-n",
+  "en": "fender",
+  "rank": 12266,
+  "sense": "guard in front of a hearth",
+  "pos": "n",
+  "rod": "dìon-teallaich",
+  "g": "m",
+  "pl": "dìonan-teallaich",
+  "gen": "dìon-teallaich"
+ },
+ {
+  "en": "feng",
+  "rank": 12267,
+  "skip": "non-English word / name"
+ },
+ {
+  "en": "ferris",
+  "rank": 12268,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-fetal-adj",
+  "en": "fetal",
+  "rank": 12269,
+  "sense": "of an unborn child",
+  "pos": "adj",
+  "rod": "toircheasach"
+ },
+ {
+  "id": "f-fiance-n",
+  "en": "fiance",
+  "rank": 12270,
+  "sense": "man engaged to marry",
+  "pos": "n",
+  "rod": "fear-gealltanais",
+  "g": "m",
+  "pl": "fir-ghealltanais",
+  "gen": "fir-ghealltanais"
+ },
+ {
+  "id": "f-flushing-n",
+  "en": "flushing",
+  "rank": 12271,
+  "sense": "washing through with water",
+  "pos": "n",
+  "rod": "sruthladh",
+  "g": "m",
+  "gen": "sruthlaidh"
+ },
+ {
+  "en": "fn",
+  "rank": 12272,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "goa",
+  "rank": 12273,
+  "skip": "place name"
+ },
+ {
+  "en": "greenwood",
+  "rank": 12275,
+  "skip": "personal name"
+ },
+ {
+  "en": "gu",
+  "rank": 12276,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-harp-n",
+  "en": "harp",
+  "rank": 12277,
+  "sense": "the instrument",
+  "pos": "n",
+  "rod": "cruit",
+  "g": "f",
+  "pl": "cruitean",
+  "gen": "cruite"
+ },
+ {
+  "en": "hartley",
+  "rank": 12278,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-heartfelt-adj",
+  "en": "heartfelt",
+  "rank": 12279,
+  "sense": "sincere",
+  "pos": "adj",
+  "rod": "dùrachdach"
+ },
+ {
+  "id": "f-hoodie-n",
+  "en": "hoodie",
+  "rank": 12280,
+  "sense": "hooded top",
+  "pos": "n",
+  "rod": "hùdaidh",
+  "g": "m",
+  "pl": "hùdaidhean",
+  "gen": "hùdaidh"
+ },
+ {
+  "id": "f-housewife-n",
+  "en": "housewife",
+  "rank": 12281,
+  "sense": "woman who keeps house",
+  "pos": "n",
+  "rod": "bean-taighe",
+  "g": "f",
+  "pl": "mnathan-taighe",
+  "gen": "mnà-taighe"
+ },
+ {
+  "id": "f-incorporation-n",
+  "en": "incorporation",
+  "rank": 12283,
+  "sense": "making into a body or company",
+  "pos": "n",
+  "rod": "corprachadh",
+  "g": "m",
+  "gen": "corprachaidh"
+ },
+ {
+  "id": "f-joyful-adj",
+  "en": "joyful",
+  "rank": 12285,
+  "sense": "full of joy",
+  "pos": "adj",
+  "rod": "aoibhneach"
+ },
+ {
+  "en": "judah",
+  "rank": 12286,
+  "skip": "personal / place name"
+ },
+ {
+  "en": "kabul",
+  "rank": 12287,
+  "skip": "place name"
+ },
+ {
+  "en": "kelley",
+  "rank": 12288,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-kickoff-n",
+  "en": "kickoff",
+  "rank": 12289,
+  "sense": "start of a football match",
+  "pos": "n",
+  "rod": "ciad-bhreab",
+  "g": "m",
+  "pl": "ciad-bhreaban",
+  "gen": "ciad-bhreaba",
+  "lit": "first-kick",
+  "scots": "breab-toisich",
+  "kenning": true
+ },
+ {
+  "en": "kimberly",
+  "rank": 12290,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-lacrosse-n",
+  "en": "lacrosse",
+  "rank": 12291,
+  "sense": "team game with netted sticks",
+  "pos": "n",
+  "rod": "cluiche-cromaig",
+  "g": "m",
+  "gen": "cluiche-cromaig",
+  "lit": "crook-play",
+  "scots": "lacrosse",
+  "kenning": true
+ },
+ {
+  "en": "lars",
+  "rank": 12292,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-latex-n",
+  "en": "latex",
+  "rank": 12293,
+  "sense": "milky tree sap, rubber",
+  "pos": "n",
+  "rod": "latacs",
+  "g": "m",
+  "gen": "latacs"
+ },
+ {
+  "id": "f-leftover-n",
+  "en": "leftover",
+  "rank": 12294,
+  "sense": "food or things left over",
+  "pos": "n",
+  "rod": "fuidheall",
+  "g": "m",
+  "pl": "fuidhill",
+  "gen": "fuidhill"
+ },
+ {
+  "id": "f-legalization-n",
+  "en": "legalization",
+  "rank": 12295,
+  "sense": "making lawful",
+  "pos": "n",
+  "rod": "laghachadh",
+  "g": "m",
+  "gen": "laghachaidh"
+ },
+ {
+  "en": "lf",
+  "rank": 12296,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-localize-v",
+  "en": "localize",
+  "rank": 12297,
+  "sense": "confine to one place",
+  "pos": "v",
+  "rod": "cuingealaich",
+  "root": "cuingealaich",
+  "vn": "cuingealachadh"
+ },
+ {
+  "en": "lori",
+  "rank": 12298,
+  "skip": "personal name"
+ },
+ {
+  "en": "malibu",
+  "rank": 12299,
+  "skip": "place name"
+ },
+ {
+  "id": "f-mammoth-n",
+  "en": "mammoth",
+  "rank": 12300,
+  "sense": "extinct hairy elephant",
+  "pos": "n",
+  "rod": "ailbhean-ciabhach",
+  "g": "m",
+  "pl": "ailbheanan-ciabhach",
+  "gen": "ailbhein-chiabhaich",
+  "lit": "long-haired-elephant",
+  "scots": "mamot",
+  "kenning": true
+ },
+ {
+  "id": "f-mammoth-adj",
+  "en": "mammoth",
+  "rank": 12300,
+  "sense": "huge",
+  "pos": "adj",
+  "rod": "ana-mhòr"
+ },
+ {
+  "id": "f-marvellous-adj",
+  "en": "marvellous",
+  "rank": 12301,
+  "sense": "wonderful",
+  "pos": "adj",
+  "rod": "iongantach"
+ },
+ {
+  "id": "f-matchup-n",
+  "en": "matchup",
+  "rank": 12302,
+  "sense": "contest between two sides",
+  "pos": "n",
+  "rod": "co-strì",
+  "g": "f",
+  "pl": "co-strìthean",
+  "gen": "co-strì"
+ },
+ {
+  "id": "f-meh-interj",
+  "en": "meh",
+  "rank": 12303,
+  "sense": "expression of indifference",
+  "pos": "interj",
+  "rod": "coma leam"
+ },
+ {
+  "en": "merkel",
+  "rank": 12304,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-modem-n",
+  "en": "modem",
+  "rank": 12305,
+  "sense": "device linking a computer to the net",
+  "pos": "n",
+  "rod": "mòdam",
+  "g": "m",
+  "pl": "mòdaman",
+  "gen": "mòdaim"
+ },
+ {
+  "en": "nic",
+  "rank": 12307,
+  "skip": "personal name / abbreviation"
+ },
+ {
+  "id": "f-oat-n",
+  "en": "oat",
+  "rank": 12308,
+  "sense": "the grain",
+  "pos": "n",
+  "rod": "coirce",
+  "g": "m",
+  "gen": "coirce"
+ },
+ {
+  "id": "f-openness-n",
+  "en": "openness",
+  "rank": 12310,
+  "sense": "frankness",
+  "pos": "n",
+  "rod": "foscailteachd",
+  "g": "f",
+  "gen": "foscailteachd"
+ },
+ {
+  "id": "f-optimize-v",
+  "en": "optimize",
+  "rank": 12311,
+  "sense": "make as good as possible",
+  "pos": "v",
+  "rod": "leasaich",
+  "root": "leasaich",
+  "vn": "leasachadh"
+ },
+ {
+  "id": "f-overhear-v",
+  "en": "overhear",
+  "rank": 12312,
+  "sense": "hear by chance",
+  "pos": "v",
+  "rod": "cluinn gun fhiosta",
+  "root": "cluinn gun fhiosta",
+  "vn": "cluinntinn gun fhiosta"
+ },
+ {
+  "id": "f-oversized-adj",
+  "en": "oversized",
+  "rank": 12313,
+  "sense": "too big",
+  "pos": "adj",
+  "rod": "ro-mhòr"
+ },
+ {
+  "en": "pak",
+  "rank": 12314,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "pandora",
+  "rank": 12315,
+  "skip": "proper name"
+ },
+ {
+  "en": "paolo",
+  "rank": 12316,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-papal-adj",
+  "en": "papal",
+  "rank": 12317,
+  "sense": "of the pope",
+  "pos": "adj",
+  "rod": "pàpanach"
+ },
+ {
+  "en": "patton",
+  "rank": 12318,
+  "skip": "personal name"
+ },
+ {
+  "en": "pepe",
+  "rank": 12319,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-peril-n",
+  "en": "peril",
+  "rank": 12320,
+  "sense": "danger",
+  "pos": "n",
+  "rod": "cunnart",
+  "g": "m",
+  "pl": "cunnartan",
+  "gen": "cunnairt"
+ },
+ {
+  "en": "pk",
+  "rank": 12321,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-playable-adj",
+  "en": "playable",
+  "rank": 12322,
+  "sense": "that can be played",
+  "pos": "adj",
+  "rod": "so-chluichte"
+ },
+ {
+  "en": "polly",
+  "rank": 12323,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-pore-n",
+  "en": "pore",
+  "rank": 12324,
+  "sense": "tiny opening in the skin",
+  "pos": "n",
+  "rod": "pòr",
+  "g": "m",
+  "pl": "pòran",
+  "gen": "pòir"
+ },
+ {
+  "id": "f-pore-v",
+  "en": "pore",
+  "rank": 12324,
+  "sense": "pore over, study closely",
+  "pos": "v",
+  "rod": "scrùd",
+  "root": "scrùd",
+  "vn": "scrùdadh"
+ },
+ {
+  "id": "f-posh-adj",
+  "en": "posh",
+  "rank": 12325,
+  "sense": "smart, upper-class",
+  "pos": "adj",
+  "rod": "spaideil"
+ },
+ {
+  "id": "f-principally-adv",
+  "en": "principally",
+  "rank": 12326,
+  "sense": "especially, mainly",
+  "pos": "adv",
+  "rod": "gu h-àraidh"
+ },
+ {
+  "id": "f-professionalism-n",
+  "en": "professionalism",
+  "rank": 12327,
+  "sense": "skill and conduct of a trade",
+  "pos": "n",
+  "rod": "ealantas",
+  "g": "m",
+  "gen": "ealantais"
+ },
+ {
+  "en": "pv",
+  "rank": 12328,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-rampage-n",
+  "en": "rampage",
+  "rank": 12329,
+  "sense": "violent spree",
+  "pos": "n",
+  "rod": "ruathar",
+  "g": "m",
+  "pl": "ruathairean",
+  "gen": "ruathair"
+ },
+ {
+  "id": "f-reassuring-adj",
+  "en": "reassuring",
+  "rank": 12330,
+  "sense": "comforting",
+  "pos": "adj",
+  "rod": "furtachail"
+ },
+ {
+  "id": "f-rebirth-n",
+  "en": "rebirth",
+  "rank": 12331,
+  "sense": "being born again",
+  "pos": "n",
+  "rod": "ath-bhreith",
+  "g": "f",
+  "gen": "ath-bhreith"
+ },
+ {
+  "id": "f-recharge-v",
+  "en": "recharge",
+  "rank": 12332,
+  "sense": "fill again (with strength or power)",
+  "pos": "v",
+  "rod": "ath-lìon",
+  "root": "ath-lìon",
+  "vn": "ath-lìonadh"
+ },
+ {
+  "id": "f-reliably-adv",
+  "en": "reliably",
+  "rank": 12333,
+  "sense": "dependably",
+  "pos": "adv",
+  "rod": "gu earbsach"
+ },
+ {
+  "id": "f-retina-n",
+  "en": "retina",
+  "rank": 12334,
+  "sense": "light-sensitive lining of the eye",
+  "pos": "n",
+  "rod": "lìon na sùla",
+  "g": "m",
+  "gen": "lìn na sùla",
+  "lit": "net of the eye",
+  "scots": "reitine",
+  "kenning": true
+ },
+ {
+  "id": "f-riff-n",
+  "en": "riff",
+  "rank": 12335,
+  "sense": "repeated musical phrase",
+  "pos": "n",
+  "rod": "car-ciùil",
+  "g": "m",
+  "pl": "caran-ciùil"
+ },
+ {
+  "en": "rosen",
+  "rank": 12336,
+  "skip": "personal name"
+ },
+ {
+  "en": "rossi",
+  "rank": 12337,
+  "skip": "personal name"
+ },
+ {
+  "en": "rr",
+  "rank": 12338,
+  "skip": "abbreviation"
+ },
+ {
+  "en": "rutgers",
+  "rank": 12339,
+  "skip": "proper name"
+ },
+ {
+  "en": "sahara",
+  "rank": 12340,
+  "skip": "place name"
+ },
+ {
+  "id": "f-scattering-n",
+  "en": "scattering",
+  "rank": 12341,
+  "sense": "spreading about",
+  "pos": "n",
+  "rod": "scapadh",
+  "g": "m",
+  "gen": "scapaidh"
+ },
+ {
+  "id": "f-scrape-v",
+  "en": "scrape",
+  "rank": 12342,
+  "sense": "scratch, rub off",
+  "pos": "v",
+  "rod": "scrìob",
+  "root": "scrìob",
+  "vn": "scrìobadh"
+ },
+ {
+  "id": "f-scripted-adj",
+  "en": "scripted",
+  "rank": 12343,
+  "sense": "written beforehand",
+  "pos": "adj",
+  "rod": "scrìobhta"
+ },
+ {
+  "id": "f-semantic-adj",
+  "en": "semantic",
+  "rank": 12344,
+  "sense": "of meaning",
+  "pos": "adj",
+  "rod": "a thaobh brìgh"
+ },
+ {
+  "id": "f-shear-v",
+  "en": "shear",
+  "rank": 12345,
+  "sense": "clip (wool)",
+  "pos": "v",
+  "rod": "lomair",
+  "root": "lomair",
+  "vn": "lomairt"
+ },
+ {
+  "id": "f-sherry-n",
+  "en": "sherry",
+  "rank": 12346,
+  "sense": "fortified Spanish wine",
+  "pos": "n",
+  "rod": "fìon Spàinnteach",
+  "g": "m",
+  "gen": "fìona Spàinntich"
+ },
+ {
+  "id": "f-silicone-n",
+  "en": "silicone",
+  "rank": 12347,
+  "sense": "rubbery synthetic material",
+  "pos": "n",
+  "rod": "sileacon",
+  "g": "m",
+  "gen": "sileacoin"
+ },
+ {
+  "id": "f-skepticism-n",
+  "en": "skepticism",
+  "rank": 12348,
+  "sense": "doubt",
+  "pos": "n",
+  "rod": "teagmhachd",
+  "g": "f",
+  "gen": "teagmhachd"
+ },
+ {
+  "en": "slovakia",
+  "rank": 12349,
+  "skip": "place name"
+ },
+ {
+  "id": "f-sly-adj",
+  "en": "sly",
+  "rank": 12350,
+  "sense": "cunning",
+  "pos": "adj",
+  "rod": "carach"
+ },
+ {
+  "id": "f-smiley-n",
+  "en": "smiley",
+  "rank": 12351,
+  "sense": "drawn smiling face",
+  "pos": "n",
+  "rod": "gnùis-ghàire",
+  "g": "f",
+  "pl": "gnùisean-gàire",
+  "gen": "gnùise-gàire",
+  "lit": "laughter-face",
+  "scots": "aodann gàire",
+  "kenning": true
+ },
+ {
+  "en": "smithsonian",
+  "rank": 12352,
+  "skip": "proper name"
+ },
+ {
+  "id": "f-snoop-v",
+  "en": "snoop",
+  "rank": 12353,
+  "sense": "pry, rummage",
+  "pos": "v",
+  "rod": "rùraich",
+  "root": "rùraich",
+  "vn": "rùrachadh"
+ },
+ {
+  "id": "f-startling-adj",
+  "en": "startling",
+  "rank": 12354,
+  "sense": "alarming, surprising",
+  "pos": "adj",
+  "rod": "clisceach"
+ },
+ {
+  "id": "f-strife-n",
+  "en": "strife",
+  "rank": 12355,
+  "sense": "conflict",
+  "pos": "n",
+  "rod": "strì",
+  "g": "f",
+  "gen": "strì"
+ },
+ {
+  "id": "f-stylist-n",
+  "en": "stylist",
+  "rank": 12356,
+  "sense": "hairdresser",
+  "pos": "n",
+  "rod": "gruagaire",
+  "g": "m",
+  "pl": "gruagairean",
+  "gen": "gruagaire"
+ },
+ {
+  "id": "f-superheroes-n",
+  "en": "superheroes",
+  "rank": 12357,
+  "sense": "hero with magic powers (superhero)",
+  "pos": "n",
+  "rod": "laoch-seunta",
+  "g": "m",
+  "pl": "laoich-sheunta",
+  "gen": "laoich-sheunta",
+  "lit": "charmed-warrior",
+  "scots": "sàr-ghaisgeach",
+  "kenning": true
+ },
+ {
+  "id": "f-tattooed-adj",
+  "en": "tattooed",
+  "rank": 12358,
+  "sense": "marked with tattoos",
+  "pos": "adj",
+  "rod": "breac-dhealbhach"
+ },
+ {
+  "id": "f-tenor-n",
+  "en": "tenor",
+  "rank": 12359,
+  "sense": "high male voice",
+  "pos": "n",
+  "rod": "teanor",
+  "g": "m",
+  "pl": "teanoran",
+  "gen": "teanoir"
+ },
+ {
+  "id": "f-thrift-n",
+  "en": "thrift",
+  "rank": 12360,
+  "sense": "careful use of money",
+  "pos": "n",
+  "rod": "caomhnadh",
+  "g": "m",
+  "gen": "caomhnaidh"
+ },
+ {
+  "id": "f-traverse-v",
+  "en": "traverse",
+  "rank": 12361,
+  "sense": "cross",
+  "pos": "v",
+  "rod": "trasnaich",
+  "root": "trasnaich",
+  "vn": "trasnadh"
+ },
+ {
+  "id": "f-turnaround-n",
+  "en": "turnaround",
+  "rank": 12362,
+  "sense": "change of direction",
+  "pos": "n",
+  "rod": "tionndadh",
+  "g": "m",
+  "pl": "tionndaidhean",
+  "gen": "tionndaidh"
+ },
+ {
+  "id": "f-uterus-n",
+  "en": "uterus",
+  "rank": 12363,
+  "sense": "womb",
+  "pos": "n",
+  "rod": "broinn",
+  "g": "f",
+  "pl": "broinnean",
+  "gen": "broinne"
+ },
+ {
+  "id": "f-validate-v",
+  "en": "validate",
+  "rank": 12364,
+  "sense": "confirm",
+  "pos": "v",
+  "rod": "dearbh",
+  "root": "dearbh",
+  "vn": "dearbhadh"
+ },
+ {
+  "en": "vid",
+  "rank": 12365,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-vocalist-n",
+  "en": "vocalist",
+  "rank": 12366,
+  "sense": "singer",
+  "pos": "n",
+  "rod": "seinneadair",
+  "g": "m",
+  "pl": "seinneadairean",
+  "gen": "seinneadair"
+ },
+ {
+  "en": "vw",
+  "rank": 12367,
+  "skip": "brand abbreviation"
+ },
+ {
+  "en": "westbrook",
+  "rank": 12368,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-wildcat-n",
+  "en": "wildcat",
+  "rank": 12369,
+  "sense": "the wild animal",
+  "pos": "n",
+  "rod": "cat fiadhaich",
+  "g": "m",
+  "pl": "cait fhiadhaich",
+  "gen": "cait fhiadhaich"
+ },
+ {
+  "id": "f-womens-phrase",
+  "en": "womens",
+  "rank": 12370,
+  "sense": "women's, of the women (genitive plural of bean)",
+  "pos": "phrase",
+  "rod": "nam ban"
+ },
+ {
+  "en": "xvi",
+  "rank": 12371,
+  "skip": "roman numeral"
+ },
+ {
+  "id": "f-yielding-adj",
+  "en": "yielding",
+  "rank": 12372,
+  "sense": "soft, giving way",
+  "pos": "adj",
+  "rod": "gèilleach"
+ },
+ {
+  "id": "f-zebra-n",
+  "en": "zebra",
+  "rank": 12373,
+  "sense": "striped African horse",
+  "pos": "n",
+  "rod": "each-stiallach",
+  "g": "m",
+  "pl": "eich-stiallach",
+  "gen": "eich-stiallaich",
+  "lit": "striped-horse",
+  "scots": "sebra",
+  "kenning": true
+ },
+ {
+  "en": "zionist",
+  "rank": 12374,
+  "skip": "proper-noun derivative"
+ },
+ {
+  "en": "abrams",
+  "rank": 12375,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-aft-adv",
+  "en": "aft",
+  "rank": 12376,
+  "sense": "toward the stern",
+  "pos": "adv",
+  "rod": "gu deireadh"
+ },
+ {
+  "en": "albion",
+  "rank": 12377,
+  "skip": "proper name"
+ },
+ {
+  "id": "f-anonymity-n",
+  "en": "anonymity",
+  "rank": 12379,
+  "sense": "namelessness",
+  "pos": "n",
+  "rod": "gun-ainmeachd",
+  "g": "f",
+  "gen": "gun-ainmeachd"
+ },
+ {
+  "en": "antoine",
+  "rank": 12380,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-appropriation-n",
+  "en": "appropriation",
+  "rank": 12381,
+  "sense": "taking for oneself",
+  "pos": "n",
+  "rod": "gabhail seilbh",
+  "g": "m"
+ },
+ {
+  "id": "f-assassinate-v",
+  "en": "assassinate",
+  "rank": 12383,
+  "sense": "murder (a leader)",
+  "pos": "v",
+  "rod": "murt",
+  "root": "murt",
+  "vn": "murt"
+ },
+ {
+  "id": "f-bandit-n",
+  "en": "bandit",
+  "rank": 12384,
+  "sense": "armed raider",
+  "pos": "n",
+  "rod": "ceathairneach",
+  "g": "m",
+  "pl": "ceathairnich",
+  "gen": "ceathairnich"
+ },
+ {
+  "id": "f-banish-v",
+  "en": "banish",
+  "rank": 12385,
+  "sense": "drive into exile",
+  "pos": "v",
+  "rod": "fògair",
+  "root": "fògair",
+  "vn": "fògradh"
+ },
+ {
+  "id": "f-barefoot-adj",
+  "en": "barefoot",
+  "rank": 12386,
+  "sense": "without shoes",
+  "pos": "adj",
+  "rod": "casruiscte"
+ },
+ {
+  "id": "f-barrage-n",
+  "en": "barrage",
+  "rank": 12387,
+  "sense": "heavy shower (of shots, questions)",
+  "pos": "n",
+  "rod": "fras",
+  "g": "f",
+  "pl": "frasan",
+  "gen": "froise"
+ },
+ {
+  "en": "bartlett",
+  "rank": 12388,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-bestow-v",
+  "en": "bestow",
+  "rank": 12389,
+  "sense": "give as a gift",
+  "pos": "v",
+  "rod": "tìodhlaic",
+  "root": "tìodhlaic",
+  "vn": "tìodhlacadh"
+ },
+ {
+  "en": "bethesda",
+  "rank": 12390,
+  "skip": "place name"
+ },
+ {
+  "en": "blackpool",
+  "rank": 12391,
+  "skip": "place name"
+ },
+ {
+  "en": "bournemouth",
+  "rank": 12392,
+  "skip": "place name"
+ },
+ {
+  "id": "f-brilliance-n",
+  "en": "brilliance",
+  "rank": 12393,
+  "sense": "brightness, splendour",
+  "pos": "n",
+  "rod": "lainnir",
+  "g": "f",
+  "gen": "lainnire"
+ },
+ {
+  "en": "britney",
+  "rank": 12394,
+  "skip": "personal name"
+ },
+ {
+  "en": "burnley",
+  "rank": 12396,
+  "skip": "place name"
+ },
+ {
+  "id": "f-centenary-n",
+  "en": "centenary",
+  "rank": 12397,
+  "sense": "hundredth anniversary",
+  "pos": "n",
+  "rod": "ceud-bliadhna",
+  "g": "m",
+  "pl": "ceudan-bliadhna",
+  "gen": "ceud-bliadhna"
+ },
+ {
+  "en": "ceos",
+  "rank": 12398,
+  "skip": "abbreviation"
+ },
+ {
+  "id": "f-checkpoint-n",
+  "en": "checkpoint",
+  "rank": 12399,
+  "sense": "guarded pass or barrier",
+  "pos": "n",
+  "rod": "bealach-faire",
+  "g": "m",
+  "pl": "bealaichean-faire",
+  "gen": "bealaich-faire"
+ },
+ {
+  "id": "f-chloride-n",
+  "en": "chloride",
+  "rank": 12400,
+  "sense": "salt of chlorine",
+  "pos": "n",
+  "rod": "clòraid",
+  "g": "m",
+  "pl": "clòraidean",
+  "gen": "clòraid"
+ },
+ {
+  "id": "f-classify-v",
+  "en": "classify",
+  "rank": 12401,
+  "sense": "sort into kinds",
+  "pos": "v",
+  "rod": "seòrsaich",
+  "root": "seòrsaich",
+  "vn": "seòrsachadh"
+ },
+ {
+  "id": "f-clinically-adv",
+  "en": "clinically",
+  "rank": 12402,
+  "sense": "medically",
+  "pos": "adv",
+  "rod": "a thaobh leigheis"
+ },
+ {
+  "id": "f-cocky-adj",
+  "en": "cocky",
+  "rank": 12403,
+  "sense": "boastful",
+  "pos": "adj",
+  "rod": "bragail"
+ },
+ {
+  "id": "f-coefficient-n",
+  "en": "coefficient",
+  "rank": 12404,
+  "sense": "multiplying number",
+  "pos": "n",
+  "rod": "iomadaiche",
+  "g": "m",
+  "pl": "iomadaichean",
+  "gen": "iomadaiche"
+ },
+ {
+  "id": "f-conditioner-n",
+  "en": "conditioner",
+  "rank": 12405,
+  "sense": "hair softener",
+  "pos": "n",
+  "rod": "bogadair-fuilt",
+  "g": "m",
+  "pl": "bogadairean-fuilt",
+  "gen": "bogadair-fuilt",
+  "lit": "hair-softener",
+  "scots": "cumhachaiche",
+  "kenning": true
+ },
+ {
+  "id": "f-conglomerate-n",
+  "en": "conglomerate",
+  "rank": 12406,
+  "sense": "group of companies",
+  "pos": "n",
+  "rod": "cuideachd-chuideachd",
+  "g": "f",
+  "pl": "cuideachdan-cuideachd",
+  "lit": "company-of-companies",
+  "scots": "co-chomann",
+  "kenning": true
+ },
+ {
+  "id": "f-cornerstone-n",
+  "en": "cornerstone",
+  "rank": 12407,
+  "sense": "foundation stone",
+  "pos": "n",
+  "rod": "clach-oisinn",
+  "g": "f",
+  "pl": "clachan-oisinn",
+  "gen": "cloiche-oisinn"
+ },
+ {
+  "id": "f-correctness-n",
+  "en": "correctness",
+  "rank": 12408,
+  "sense": "being right",
+  "pos": "n",
+  "rod": "ceartachd",
+  "g": "f",
+  "gen": "ceartachd"
+ },
+ {
+  "en": "damian",
+  "rank": 12410,
+  "skip": "personal name"
+ },
+ {
+  "id": "f-dazzle-v",
+  "en": "dazzle",
+  "rank": 12411,
+  "sense": "blind with light, amaze",
+  "pos": "v",
+  "rod": "dall",
+  "root": "dall",
+  "vn": "dalladh"
+ }
+]

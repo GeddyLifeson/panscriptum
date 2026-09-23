@@ -1,0 +1,1 @@
+var e={width:0,height:0,scale:1,x:0,y:0};function t(t,n){e.width=t,e.height=n}function n(t,n,r){e.scale=t,e.x=n,e.y=r}export{n,e as r,t};

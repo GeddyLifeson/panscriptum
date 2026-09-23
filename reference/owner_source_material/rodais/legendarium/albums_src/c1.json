@@ -1,0 +1,331 @@
+[
+ {
+  "artist": "Tool",
+  "album": "Opiate",
+  "date": "1992-03-10",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Opiate_(EP)"
+ },
+ {
+  "artist": "Tool",
+  "album": "Undertow",
+  "date": "1993-04-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Undertow_(Tool_album)"
+ },
+ {
+  "artist": "Tool",
+  "album": "Ænima",
+  "date": "1996-09-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Tool_discography"
+ },
+ {
+  "artist": "Tool",
+  "album": "Salival",
+  "date": "2000-12-12",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Salival"
+ },
+ {
+  "artist": "Tool",
+  "album": "Lateralus",
+  "date": "2001-05-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Lateralus"
+ },
+ {
+  "artist": "Tool",
+  "album": "10,000 Days",
+  "date": "2006-04-28",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/10,000_Days_(Tool_album)"
+ },
+ {
+  "artist": "Tool",
+  "album": "Fear Inoculum",
+  "date": "2019-08-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Tool_discography"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "Hesher",
+  "date": "1996-03-10",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Hesher_(EP)"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "Curb",
+  "date": "1996-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Curb_(album)"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "The State",
+  "date": "1998-09-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_State_(album)"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "Silver Side Up",
+  "date": "2001-09-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Nickelback_discography"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "The Long Road",
+  "date": "2003-09-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Long_Road"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "All the Right Reasons",
+  "date": "2005-10-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/All_the_Right_Reasons"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "Dark Horse",
+  "date": "2008-11-18",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Nickelback_discography"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "Here and Now",
+  "date": "2011-11-21",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Here_and_Now_(Nickelback_album)"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "No Fixed Address",
+  "date": "2014-11-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/No_Fixed_Address_(album)"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "Feed the Machine",
+  "date": "2017-06-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Feed_the_Machine"
+ },
+ {
+  "artist": "Nickelback",
+  "album": "Get Rollin'",
+  "date": "2022-11-18",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Get_Rollin%27"
+ },
+ {
+  "artist": "System of a Down",
+  "album": "System of a Down",
+  "date": "1998-06-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/System_of_a_Down_(album)"
+ },
+ {
+  "artist": "System of a Down",
+  "album": "Toxicity",
+  "date": "2001-09-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Toxicity_(album)"
+ },
+ {
+  "artist": "System of a Down",
+  "album": "Steal This Album!",
+  "date": "2002-11-26",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Steal_This_Album!"
+ },
+ {
+  "artist": "System of a Down",
+  "album": "Mezmerize",
+  "date": "2005-05-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Mezmerize"
+ },
+ {
+  "artist": "System of a Down",
+  "album": "Hypnotize",
+  "date": "2005-11-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Hypnotize_(album)"
+ },
+ {
+  "artist": "System of a Down",
+  "album": "Protect the Land / Genocidal Humanoidz",
+  "date": "2020-11-06",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/Protect_the_Land"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "Warmness on the Soul",
+  "date": "2001-04-10",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Warmness_on_the_Soul"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "Sounding the Seventh Trumpet",
+  "date": "2001-07-24",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Sounding_the_Seventh_Trumpet"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "Waking the Fallen",
+  "date": "2003-08-26",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Waking_the_Fallen"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "City of Evil",
+  "date": "2005-06-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/City_of_Evil"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "Avenged Sevenfold",
+  "date": "2007-10-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Avenged_Sevenfold_(album)"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "Live in the LBC & Diamonds in the Rough",
+  "date": "2008-09-16",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Live_in_the_LBC_%26_Diamonds_in_the_Rough"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "Nightmare",
+  "date": "2010-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Nightmare_(Avenged_Sevenfold_album)"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "Hail to the King",
+  "date": "2013-08-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Hail_to_the_King_(Avenged_Sevenfold_album)"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "The Stage",
+  "date": "2016-10-28",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Stage_(album)"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "Black Reign",
+  "date": "2018-09-21",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Black_Reign_(EP)"
+ },
+ {
+  "artist": "Avenged Sevenfold",
+  "album": "Life Is but a Dream...",
+  "date": "2023-06-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Life_Is_But_a_Dream..."
+ },
+ {
+  "artist": "Audioslave",
+  "album": "Audioslave",
+  "date": "2002-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Audioslave_(album)"
+ },
+ {
+  "artist": "Audioslave",
+  "album": "Out of Exile",
+  "date": "2005-05-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Out_of_Exile"
+ },
+ {
+  "artist": "Audioslave",
+  "album": "Live in Cuba",
+  "date": "2005-10-11",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Live_in_Cuba_(Audioslave_album)"
+ },
+ {
+  "artist": "Audioslave",
+  "album": "Revelations",
+  "date": "2006-09-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Revelations_(Audioslave_album)"
+ },
+ {
+  "artist": "Haken",
+  "album": "Aquarius",
+  "date": "2010-03-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Aquarius_(Haken_album)"
+ },
+ {
+  "artist": "Haken",
+  "album": "Visions",
+  "date": "2011-10-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Visions_(Haken_album)"
+ },
+ {
+  "artist": "Haken",
+  "album": "The Mountain",
+  "date": "2013-09-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Mountain_(Haken_album)"
+ },
+ {
+  "artist": "Haken",
+  "album": "Restoration",
+  "date": "2014-10-27",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Restoration_(EP)"
+ },
+ {
+  "artist": "Haken",
+  "album": "Affinity",
+  "date": "2016-04-29",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Affinity_(Haken_album)"
+ },
+ {
+  "artist": "Haken",
+  "album": "Vector",
+  "date": "2018-10-26",
+  "kind": "studio",
+  "source": "https://www.classicrockhistory.com/complete-list-of-haken-albums-and-discography/"
+ },
+ {
+  "artist": "Haken",
+  "album": "Virus",
+  "date": "2020-07-24",
+  "kind": "studio",
+  "source": "https://www.classicrockhistory.com/complete-list-of-haken-albums-and-discography/"
+ },
+ {
+  "artist": "Haken",
+  "album": "Fauna",
+  "date": "2023-03-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Fauna_(Haken_album)"
+ }
+]

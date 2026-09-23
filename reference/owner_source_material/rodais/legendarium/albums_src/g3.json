@@ -1,0 +1,471 @@
+[
+ {
+  "artist": "Radiohead",
+  "album": "Drill",
+  "date": "1992-05-05",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Drill_(EP)"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "Pablo Honey",
+  "date": "1993-04-20",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/MW0000095971"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "Itch",
+  "date": "1994-06-01",
+  "kind": "ep",
+  "source": "https://radiohead.fandom.com/wiki/Itch"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "My Iron Lung",
+  "date": "1994-09-26",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/My_Iron_Lung"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "The Bends",
+  "date": "1995-03-13",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Bends_(album)"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "OK Computer",
+  "date": "1997-07-01",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/MW0000024289"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "No Surprises / Running from Demons",
+  "date": "1997-12-10",
+  "kind": "ep",
+  "source": "https://radiohead.fandom.com/wiki/No_Surprises/Running_from_Demons"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "Airbag / How Am I Driving?",
+  "date": "1998-04-21",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Airbag_/_How_Am_I_Driving%3F"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "Kid A",
+  "date": "2000-10-02",
+  "kind": "studio",
+  "source": "https://albumsinorder.com/radiohead-albums-in-order/"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "Amnesiac",
+  "date": "2001-06-05",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/amnesiac-mw0000001712"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "I Might Be Wrong: Live Recordings",
+  "date": "2001-11-12",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/I_Might_Be_Wrong:_Live_Recordings"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "Hail to the Thief",
+  "date": "2003-06-09",
+  "kind": "studio",
+  "source": "https://ultimateclassicrock.com/radiohead-hail-to-the-thief/"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "Com Lag (2plus2isfive)",
+  "date": "2004-03-24",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Com_Lag_(2plus2isfive)"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "In Rainbows",
+  "date": "2007-10-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/In_Rainbows"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "The King of Limbs",
+  "date": "2011-02-18",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_King_of_Limbs"
+ },
+ {
+  "artist": "Radiohead",
+  "album": "A Moon Shaped Pool",
+  "date": "2016-05-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/A_Moon_Shaped_Pool"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Hybrid Theory EP",
+  "date": "1999-06",
+  "kind": "ep",
+  "source": "https://linkinpedia.com/wiki/Hybrid_Theory_EP"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Hybrid Theory",
+  "date": "2000-10-24",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Hybrid_Theory"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Reanimation",
+  "date": "2002-07-30",
+  "kind": "compilation",
+  "source": "https://en.wikipedia.org/wiki/Reanimation_(Linkin_Park_album)"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Meteora",
+  "date": "2003-03-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Meteora_(album)"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Live in Texas",
+  "date": "2003-11-18",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Live_in_Texas_(Linkin_Park_album)"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Collision Course",
+  "date": "2004-11-30",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Collision_Course_(EP)"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Minutes to Midnight",
+  "date": "2007-05-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Minutes_to_Midnight_(Linkin_Park_album)"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Road to Revolution: Live at Milton Keynes",
+  "date": "2008-11-21",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Road_to_Revolution:_Live_at_Milton_Keynes"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "A Thousand Suns",
+  "date": "2010-09-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/A_Thousand_Suns"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Living Things",
+  "date": "2012-06-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Living_Things_(Linkin_Park_album)"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Recharged",
+  "date": "2013-10-29",
+  "kind": "compilation",
+  "source": "https://en.wikipedia.org/wiki/Recharged_(album)"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "The Hunting Party",
+  "date": "2014-06-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Hunting_Party_(album)"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "One More Light",
+  "date": "2017-05-19",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/One_More_Light"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "One More Light Live",
+  "date": "2017-12-15",
+  "kind": "live",
+  "source": "https://linkinpedia.com/wiki/List_Of_Official_Live_Releases"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "Papercuts (Singles Collection 2000–2023)",
+  "date": "2024-04-12",
+  "kind": "compilation",
+  "source": "https://en.wikipedia.org/wiki/Papercuts_(Singles_Collection_2000%E2%80%932023)"
+ },
+ {
+  "artist": "Linkin Park",
+  "album": "From Zero",
+  "date": "2024-11-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/From_Zero"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Naveed",
+  "date": "1994-03-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Naveed_(album)"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Clumsy",
+  "date": "1997-01-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Clumsy_(Our_Lady_Peace_album)"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Happiness... Is Not a Fish That You Can Catch",
+  "date": "1999-09-21",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Happiness..._Is_Not_a_Fish_That_You_Can_Catch"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Spiritual Machines",
+  "date": "2000-12-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Spiritual_Machines"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Gravity",
+  "date": "2002-06-18",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Gravity_(Our_Lady_Peace_album)"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Live",
+  "date": "2003-06-24",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Live_(Our_Lady_Peace_album)"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Healthy in Paranoid Times",
+  "date": "2005-08-30",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/healthy-in-paranoid-times-mw0000209829"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "A Decade",
+  "date": "2006-11-21",
+  "kind": "compilation",
+  "source": "https://en.wikipedia.org/wiki/A_Decade"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Burn Burn",
+  "date": "2009-07-21",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Burn_Burn_(album)"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Curve",
+  "date": "2012-04-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Curve_(album)"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Somethingness",
+  "date": "2018-02-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Somethingness"
+ },
+ {
+  "artist": "Our Lady Peace",
+  "album": "Spiritual Machines 2",
+  "date": "2021-10-29",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Spiritual_Machines_2"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Aerosmith",
+  "date": "1973-01-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Aerosmith_(album)"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Get Your Wings",
+  "date": "1974-03-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Get_Your_Wings"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Toys in the Attic",
+  "date": "1975-04-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Toys_in_the_Attic_(album)"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Rocks",
+  "date": "1976-05-13",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rocks_(Aerosmith_album)"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Draw the Line",
+  "date": "1977-12-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Draw_the_Line_(Aerosmith_album)"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Live! Bootleg",
+  "date": "1978-10",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Live!_Bootleg"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Night in the Ruts",
+  "date": "1979-11-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Night_in_the_Ruts"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Rock in a Hard Place",
+  "date": "1982-08-27",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rock_in_a_Hard_Place"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Done with Mirrors",
+  "date": "1985-11-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Done_with_Mirrors"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Classics Live!",
+  "date": "1986",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Classics_Live_I_and_II"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Classics Live II",
+  "date": "1987",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Classics_Live_I_and_II"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Permanent Vacation",
+  "date": "1987-08-18",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/mw0000192978"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Pump",
+  "date": "1989-09-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Pump_(album)"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Get a Grip",
+  "date": "1993-04-20",
+  "kind": "studio",
+  "source": "https://ultimateclassicrock.com/aerosmith-get-a-grip/"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Nine Lives",
+  "date": "1997-03-18",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Nine_Lives_(Aerosmith_album)"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "A Little South of Sanity",
+  "date": "1998-10-20",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/A_Little_South_of_Sanity"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Just Push Play",
+  "date": "2001-03-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Just_Push_Play"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Honkin' on Bobo",
+  "date": "2004-03-30",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/mw0000334649"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Rockin' the Joint",
+  "date": "2005-10-25",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Rockin%27_the_Joint"
+ },
+ {
+  "artist": "Aerosmith",
+  "album": "Music from Another Dimension!",
+  "date": "2012-11-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Music_from_Another_Dimension!"
+ },
+ {
+  "artist": "Bad Company",
+  "album": "Bad Company",
+  "date": "1974-05-24",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Bad_Company_(album)"
+ },
+ {
+  "artist": "Bad Company",
+  "album": "Straight Shooter",
+  "date": "1975-03-28",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Straight_Shooter_(Bad_Company_album)"
+ },
+ {
+  "artist": "Bad Company",
+  "album": "Run with the Pack",
+  "date": "1976-01-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Run_with_the_Pack"
+ }
+]

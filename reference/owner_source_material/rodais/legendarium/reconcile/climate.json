@@ -1,0 +1,612 @@
+{
+ "layer": "climate",
+ "summary": "The owner's instruction: no ice caps or glaciers; Rodos lies between Ireland and Scotland. Record 1: latitude and longitude put the island at about 54.6-56.0 N, 5.8 W; the climate settings give a mild oceanic island (sea-level annual mean 9-10 C, colder only with height). Record 11 is recomputed from them as Azgaar computes it. The 37 Glacier cells (record 16) become Moor on the windy coast of the far north-west (17) and Grassland at the northern end of the shire of Seann Vell of the west (20); their people (record 21) are thin like the moor round them (the mean of their moor neighbours). No icebergs (record 39) and the ice layer saved empty (record 5). The rural totals of the cultures and states follow the population array (derived in map_reconcile.py). The land layer's latitude, coordinates and state rural totals are set aside: the first two are replaced here, the last is derived.",
+ "skip": [
+  {
+   "layer": "land",
+   "record": 1,
+   "path": ".geography.latitude"
+  },
+  {
+   "layer": "land",
+   "record": 1,
+   "path": ".geography.coordinates"
+  },
+  {
+   "layer": "land",
+   "record": 14,
+   "path": "[0].rural"
+  },
+  {
+   "layer": "land",
+   "record": 14,
+   "path": "[1].rural"
+  }
+ ],
+ "map_edits": [
+  {
+   "record": 1,
+   "path": ".geography.latitude",
+   "old": 20.5,
+   "value": 18.99,
+   "why": "The island lies between Ireland and Scotland: with the map 2 degrees of latitude tall (mapSize 1.13, 0.2 miles to the unit), latitude 18.99 puts the top of the map at 56.2 N and the island's coasts between about 54.6 and 56.0 N."
+  },
+  {
+   "record": 1,
+   "path": ".geography.longitude",
+   "old": 19.5,
+   "value": 51.63,
+   "why": "And between Ireland and Scotland in longitude: the map spans 8.0 to 3.6 W, the island's middle near 5.8 W, the longitude of the North Channel."
+  },
+  {
+   "record": 1,
+   "path": ".geography.coordinates",
+   "old": {
+    "latT": 59.4,
+    "latN": 65.3,
+    "latS": 5.9,
+    "lonT": 130,
+    "lonW": 5.2,
+    "lonE": 135.2
+   },
+   "value": {
+    "latT": 2,
+    "latN": 56.2,
+    "latS": 54.2,
+    "lonT": 4.4,
+    "lonW": -8,
+    "lonE": -3.6
+   },
+   "why": "Recomputed by Azgaar's own formula (Coordinates.calculate) from mapSize 1.13, latitude 18.99, longitude 51.63 and the 1536x702 canvas."
+  },
+  {
+   "record": 1,
+   "path": ".climate.temperature.equator",
+   "old": 20,
+   "value": 27,
+   "why": "A mild oceanic island: with the equator at 27 C (Azgaar's default) and the north pole at -4 C, the sea-level annual mean is 9-10 C across the island's latitudes, as on the coasts of the North Channel."
+  },
+  {
+   "record": 1,
+   "path": ".climate.temperature.northPole",
+   "old": -34,
+   "value": -4,
+   "why": "See the equator: the pole value sets the slope of the sea-level temperature with latitude; -34 made the island subarctic."
+  },
+  {
+   "record": 11,
+   "action": "recompute_temperature",
+   "why": "The grid temperatures made anew from the settings above, as Azgaar makes them: 9 C at sea level, falling only with height (to about 2 C on the highest summit, some 3,500 ft); nowhere below freezing, nowhere near the -5 C at which Azgaar lays down glacier."
+  },
+  {
+   "record": 16,
+   "path": "[55]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[97]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[98]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[164]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 21) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[166]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[167]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 21) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[236]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[238]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[329]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 21) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[330]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 21) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[333]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[428]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[443]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[447]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 20) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[448]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 20) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[451]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 20) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[552]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[553]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[555]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 21) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[571]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[573]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[677]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 20) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[695]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 20) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[700]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[702]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[704]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 20) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[807]",
+   "old": 11,
+   "value": 10,
+   "why": "Glacier on a low, dry cell (height 21) of the windy coast of the far north-west, among moor: heather moor like every cell round it (Moor)."
+  },
+  {
+   "record": 16,
+   "path": "[823]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 20) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[959]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 20) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[960]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[1085]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 20) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[1087]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 20) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[1088]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[1101]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[1102]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[1104]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 16,
+   "path": "[1105]",
+   "old": 11,
+   "value": 4,
+   "why": "Glacier on a low, dry cell (height 21) at the northern end of the shire of Seann Vell of the west, among moor: rough grass and grazing (Grassland)."
+  },
+  {
+   "record": 21,
+   "path": "[55]",
+   "old": 0.0045,
+   "value": 0.0641,
+   "why": "The people of a cell that was glacier: thin, the mean of its 5 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[97]",
+   "old": 0.0026,
+   "value": 0.0614,
+   "why": "The people of a cell that was glacier: thin, the mean of its 2 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[98]",
+   "old": 0.0043,
+   "value": 0.0673,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[164]",
+   "old": 0.0063,
+   "value": 0.0727,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[166]",
+   "old": 0.0061,
+   "value": 0.0675,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[167]",
+   "old": 0.0052,
+   "value": 0.1026,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[236]",
+   "old": 0.0049,
+   "value": 0.0873,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[238]",
+   "old": 0.0093,
+   "value": 0.1363,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[329]",
+   "old": 0.0043,
+   "value": 0.0976,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[330]",
+   "old": 0.0064,
+   "value": 0.127,
+   "why": "The people of a cell that was glacier: thin, the mean of its 5 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[333]",
+   "old": 0.0315,
+   "value": 0.2312,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[428]",
+   "old": 0.0051,
+   "value": 0.0722,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[443]",
+   "old": 0.0031,
+   "value": 0.1161,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[447]",
+   "old": 0.0188,
+   "value": 0.1893,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[448]",
+   "old": 0.0146,
+   "value": 0.1588,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[451]",
+   "old": 0.0254,
+   "value": 0.1885,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[552]",
+   "old": 0.0057,
+   "value": 0.0978,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[553]",
+   "old": 0.0042,
+   "value": 0.0629,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[555]",
+   "old": 0.0609,
+   "value": 0.1939,
+   "why": "The people of a cell that was glacier: thin, the mean of its 5 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[571]",
+   "old": 0.0249,
+   "value": 0.2295,
+   "why": "The people of a cell that was glacier: thin, the mean of its 2 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[573]",
+   "old": 0.048,
+   "value": 0.2048,
+   "why": "The people of a cell that was glacier: thin, the mean of its 5 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[677]",
+   "old": 0.005,
+   "value": 0.1071,
+   "why": "The people of a cell that was glacier: thin, the mean of its 5 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[695]",
+   "old": 0.0282,
+   "value": 0.1495,
+   "why": "The people of a cell that was glacier: thin, the mean of its 5 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[700]",
+   "old": 0.0122,
+   "value": 0.1265,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[702]",
+   "old": 0.0646,
+   "value": 0.2399,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[704]",
+   "old": 0.0292,
+   "value": 0.1872,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[807]",
+   "old": 0.0053,
+   "value": 0.1988,
+   "why": "The people of a cell that was glacier: thin, the mean of its 5 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[823]",
+   "old": 0.0624,
+   "value": 0.1812,
+   "why": "The people of a cell that was glacier: thin, the mean of its 5 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[959]",
+   "old": 0.0353,
+   "value": 0.1807,
+   "why": "The people of a cell that was glacier: thin, the mean of its 2 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[960]",
+   "old": 0.0593,
+   "value": 0.2013,
+   "why": "The people of a cell that was glacier: thin, the mean of its 7 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[1085]",
+   "old": 0.0273,
+   "value": 0.1664,
+   "why": "The people of a cell that was glacier: thin, the mean of its 5 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[1087]",
+   "old": 0.0466,
+   "value": 0.2018,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[1088]",
+   "old": 0.0414,
+   "value": 0.2053,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[1101]",
+   "old": 0.0203,
+   "value": 0.216,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[1102]",
+   "old": 0.0216,
+   "value": 0.1728,
+   "why": "The people of a cell that was glacier: thin, the mean of its 3 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[1104]",
+   "old": 0.0208,
+   "value": 0.2615,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 21,
+   "path": "[1105]",
+   "old": 0.0267,
+   "value": 0.1619,
+   "why": "The people of a cell that was glacier: thin, the mean of its 4 moor neighbours."
+  },
+  {
+   "record": 39,
+   "path": "(whole record: pack.ice)",
+   "value": [],
+   "why": "No icebergs in the North Channel: the 139 icebergs of the northern waters are gone."
+  },
+  {
+   "record": 5,
+   "action": "empty_svg_group",
+   "group": "ice",
+   "why": "The saved ice layer drew the 139 icebergs; it is saved empty, as Azgaar saves a layer with nothing in it."
+  }
+ ]
+}

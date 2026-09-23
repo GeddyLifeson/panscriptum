@@ -1,0 +1,3 @@
+# Azgaar .map files are CRLF-separated records around an SVG with plain LF newlines.
+# Any line-ending conversion (core.autocrlf on Windows) breaks the record layout, so never convert them.
+*.map -text
