@@ -1,24 +1,29 @@
 # Ròdais — phonology
 
-This is the sound system of Ròdais, the Gaelic of Rodos, and the rules that connect it to the
-spelling. `GRAMMAR.md` §1 has a one-page summary; this file is the full account. The rules here
-are implemented in `pronounce()` in `rodais_engine.py`, and the transcriptions in §15 are that
-function's output, so this file and the code agree.
+This chapter describes the sound system of Ròdais, the Gaelic of Rodos, and the rules that
+connect it to the spelling. *The grammar in brief* §1 has a one-page summary; this chapter is the
+full account.
 
-## 0. Basis, conventions and the conservative rule
+## 0. Conventions, and Ròdais beside the Gaelic languages
 
-**What it is built on.** Ròdais sounds are Scottish Gaelic sounds. The description follows the
-standard analyses of Scottish Gaelic phonology: Borgstrøm's dialect surveys of the Hebrides and
-the mainland (1937–41), Oftedal's *The Gaelic of Leurbost* (1956), Ternes's *The Phonemic
-Analysis of Scottish Gaelic* (1973), and the sound-to-spelling rules of Bauer's *Gaelic
-Orthographic Conventions* (GOC, 2005/2009). The spelling is Scottish (GOC) except for two
-signature points, *sc* for *sg* and the grave accent as the only accent mark (§11).
+**Ròdais and the Gaelic languages.** Ròdais is the language of the Ròdaich, spoken on Rodos in
+every age of the island's record. Its own history is the island's: the oldest Ròdais words in
+stone are the lines cut on the standing stones, the first letters came from the stag-teachers of Muileann
+chiar, and its books were kept by scribes and, in the kingdom, by the library at Muileann chaol.
+Of the languages known beyond the island, Ròdais most closely resembles the Gaelic languages
+(Scottish Gaelic, Irish and Manx) and Classical Gaelic, the literary language of the Gaelic bards
+(c. 1200–1650). This chapter compares Ròdais with them throughout, for readers who know them. In
+its sounds Ròdais stands closest to Scottish Gaelic: readers who know Scottish Gaelic will
+recognise the letter values, the voiceless stops and pre-aspiration. The spelling is close to
+modern Scottish spelling, with two marks of its own, *sc* where Scottish Gaelic has *sg*, and the
+grave accent as the only accent mark (§11).
 
-**The conservative rule.** Scottish Gaelic dialects differ, and where they do, Ròdais takes the
-older realisation: the one that keeps a distinction that other dialects have lost, or that stands
-closer to Classical Gaelic. Ròdais is meant to sound like an old, isolated Gaelic. Every place
-where this rule decided something is marked **[Dialect choice]** in the text and collected in §12.
-§13 traces the Ròdais sounds back to Classical Gaelic.
+**An old-sounding Gaelic.** The Scottish dialects differ among themselves, and where they do,
+Ròdais nearly always agrees with the older form: the one that keeps a distinction other dialects
+have lost, or that stands closer to Classical Gaelic. To a reader who knows Scottish Gaelic,
+Ròdais sounds like an old and conservative dialect. The points where Ròdais parts company with one
+Scottish dialect or another are noted where they arise and collected in §12. §13 sets the Ròdais
+sounds beside those of Classical Gaelic.
 
 **Transcription.** Transcriptions are broad phonemic in IPA, between square brackets: [ˈpaːʰt̪ə]
 for *bàta*. The symbols are:
@@ -50,8 +55,9 @@ the spelling.
    plain, voiceless and unaspirated. Sonorants have a parallel contrast between *tense* and *lax*:
    *nn, ll, rr* and word-initial *n l r* are tense, and single *n l r* elsewhere are lax.
 
-These two contrasts come from the same Old Irish source, the opposition between "strong"
-(geminate, initial) and "weak" (lenited, single, intervocalic) consonants (§13).
+In Irish and Scottish Gaelic these two contrasts go back to the same Old Irish source, the
+opposition between "strong" (geminate, initial) and "weak" (lenited, single, intervocalic)
+consonants, and Ròdais has them in the same places (§13).
 
 ## 2. Consonant inventory
 
@@ -95,8 +101,8 @@ vowel, *b* in *beag* [ˈpek] and in *bàta* is the same sound.
 
 ### 2.3 Stops: fortis and lenis
 
-Classical Gaelic distinguished voiced *b d g* from voiceless *p t c*. Scottish Gaelic, and Ròdais
-with it, turned voice into aspiration:
+Classical Gaelic distinguished voiced *b d g* from voiceless *p t c*. Scottish Gaelic turned voice
+into aspiration, and Ròdais has the same system:
 
 - **Fortis *p t c*.** Aspirated at the start of a word: *pòg* [ˈpʰɔːk], *tì* [ˈtʃʰiː], *cù*
   [ˈkʰuː]. Pre-aspirated after a vowel (§2.4). Plain after a consonant: *slàinte* [ˈsl̪ˠaːɲtʃə],
@@ -116,11 +122,12 @@ after a stressed vowel, and it also appears after unstressed ones (*chunnaic* [�
 *l n r* the sonorant is devoiced instead (*olc*, *cearc*). The transcription leaves this
 unmarked, because it follows automatically.
 
-**[Dialect choice]** Lewis and much of the northern mainland make pre-aspiration a full
-fricative: [xk] for *c*, and in places [xt], [xp]. Southern and eastern dialects (Arran, Kintyre,
-Perthshire) and most of Skye have the lighter [ʰ], and a few have almost none. Ròdais takes the
-light [ʰ] for all three stops. It keeps the fortis/lenis contrast audible without the heavy
-Norse-influenced velar of the north-west. So *mac* is [ˈmaʰk], not [ˈmaxk].
+**Ròdais and the Scottish dialects.** Lewis and much of the northern mainland make
+pre-aspiration a full fricative: [xk] for *c*, and in places [xt], [xp]. Southern and eastern
+dialects (Arran, Kintyre, Perthshire) and most of Skye have the lighter [ʰ], and a few have almost
+none. Ròdais has the light [ʰ] for all three stops. The fortis/lenis contrast stays audible, and
+there is none of the heavy velar of the north-west, which is usually put down to Norse contact
+there. So *mac* is [ˈmaʰk], not [ˈmaxk].
 
 ### 2.5 Fricatives and h
 
@@ -136,7 +143,7 @@ Norse-influenced velar of the north-west. So *mac* is [ˈmaʰk], not [ˈmaxk].
 ### 2.6 Sonorants: tense and lax
 
 Old Irish had four laterals, four nasals and four rhotics: tense and lax, each broad and slender.
-Scottish Gaelic dialects have reduced these systems to different degrees. Ròdais keeps more of
+Scottish Gaelic dialects have reduced these systems to different degrees. Ròdais has more of
 them than standard Scottish Gaelic does.
 
 | | broad tense | broad lax | slender tense | slender lax |
@@ -153,8 +160,8 @@ them than standard Scottish Gaelic does.
   [ˈɲɛt̪] becomes *mo nead* [mə ˈnʲɛt̪].
 - The tense sonorants lengthen or diphthongise a short vowel before them (§4.2).
 
-**[Dialect choice]** Most Scottish Gaelic dialects have merged lax slender *n* with tense
-slender [ɲ] inside words (*duine* [ˈt̪ɯɲə]) and with [n] in final position. Ròdais keeps a
+**Ròdais and the Scottish dialects.** Most Scottish Gaelic dialects have merged lax slender *n*
+with tense slender [ɲ] inside words (*duine* [ˈt̪ɯɲə]) and with [n] in final position. Ròdais has a
 separate lax slender [nʲ] everywhere: *duine* [ˈt̪ɯnʲə], *sin* [ˈʃinʲ], *Diluain* [tʃiˈl̪ˠuənʲ].
 This is the four-nasal system of the most conservative dialects (parts of Sutherland, Argyll and
 the southern Hebrides) and of Classical Gaelic. For laterals Ròdais has the ordinary Scottish
@@ -194,10 +201,10 @@ syllables only [ə], [ɪ], [a] and [i] appear, plus the long vowels of compounds
 | ɯ | *duine* [ˈt̪ɯnʲə] | *craobh* [ˈkʰɾɯːv] |
 | ɤ | *taigh* [ˈt̪ʰɤj] | (in *adh/agh* words) |
 
-**[Dialect choice]** *ò* is [ɔː] in most words (*òl, bròg, òran*) and [oː] in a closed list
-(*mòr, mòine, còig, dòigh*). Older spelling marked the two with *ò* and *ó*. GOC dropped *ó*, and
-Ròdais, which has no acute accent at all, writes both as *ò*. It keeps the distinction in speech,
-as the older dialects do, and lists the [oː] words in `PRON_EXCEPTIONS`.
+*ò* is [ɔː] in most words (*òl, bròg, òran*) and [oː] in a closed list (*mòr, mòine, còig,
+dòigh*). Older spelling marked the two with *ò* and *ó*. Modern Scottish spelling has dropped *ó*,
+and Ròdais, which has no acute accent at all, writes both as *ò*. Speakers make the distinction,
+as the older Scottish dialects do, and the [oː] words have to be learnt one by one.
 
 ### 3.2 Diphthongs
 
@@ -213,9 +220,9 @@ as the older dialects do, and lists the [oː] words in `PRON_EXCEPTIONS`.
 | ɯj | *uidh* | *shuidh* [ˈhɯj] |
 | ãũ | *amh, eamh* before a consonant | *samhradh* [ˈsãũɾəɣ], *geamhradh* [ˈkʲãũɾəɣ] |
 
-*eu* is always [iə] in Ròdais: *ceud, sceul, feur, beul*. **[Dialect choice]** Some dialects
-have [eː] in some of these words (Lewis *ceud* [kʲʰeːt̪]). Ròdais keeps the diphthong throughout,
-the older reflex of Classical *é*.
+*eu* is always [iə] in Ròdais: *ceud, sceul, feur, beul*. Some Scottish dialects have [eː] in
+some of these words (Lewis *ceud* [kʲʰeːt̪]). Ròdais has the diphthong throughout, which is also
+the older Gaelic development of Classical *é*.
 
 ### 3.3 Nasal vowels
 
@@ -361,7 +368,7 @@ Exceptions:
   *an-diugh* [ən̪ˠˈtʃu], *an-dè* [ən̪ˠˈtʃeː], *a-nochd* [əˈn̪ˠɔxk], *a-mach* [əˈmax], *ma-thà*
   [məˈhaː].
 - **Weekday names** stress the name, not *Di-*: *Diluain* [tʃiˈl̪ˠuənʲ], *Dimàirt*.
-- **A few loans and names** from outside Gaelic keep their own stress. Ròdais has almost none.
+- **A few loans and names** from other tongues keep their own stress. Ròdais has almost none.
 
 **Proclitics** have no stress: the article (*an, am, a', na, nan, nam*), the possessives (*mo, do,
 a, ar, ur*), the verbal particles (*cha, chan, an, nach, gu, gun, do*), the copula *is*, and the
@@ -382,9 +389,9 @@ is the adjective: *Cathair dhearg* [ˈkʰahɪɾʲ ˈjɛɾɛk].
   word.
 - Rising or level endings mark continuation (a list, a clause before *ach, agus*) and a polite,
   tentative question.
-- **[Dialect choice]** Like the western dialects, Ròdais has no lexical tone. The tonal accent of
-  south-west Lewis and of Sutherland, where hiatus words and helping-vowel words carry a special
-  contour, is not part of the language. The hiatus and helping-vowel words keep a single rise-fall.
+- Like the western Scottish dialects, Ròdais has no lexical tone. The tonal accent of south-west
+  Lewis and of Sutherland, where hiatus words and helping-vowel words carry a special contour, is
+  not heard on Rodos. The hiatus and helping-vowel words keep a single rise-fall.
 
 ## 9. The sounds of the mutations
 
@@ -447,17 +454,18 @@ Scottish Gaelic spelling does not write the old nasal mutation, which Irish writ
   [nə ˈɲiʎan].
 - *f* becomes [v]: *nam fear* [nə ˈvɛɾ].
 
-**[Dialect choice]** The mainland and Skye voice the stop but keep it a stop (*nam bàta*
-[nəm ˈbaːʰt̪ə]). Lewis and parts of the Outer Isles replace a lenis stop with the nasal
-throughout. Ròdais keeps the full nasal replacement where Old Irish had eclipsis, in the
-genitive plural (the Irish *na mbád* type), and uses the lighter voicing after the singular
-article, where the mutation spread later by analogy. This keeps the older distribution: the
-nasal mutation is strongest exactly where it is oldest.
+**Ròdais and the Scottish dialects.** The Scottish mainland and Skye voice the stop but keep it
+a stop (*nam bàta* [nəm ˈbaːʰt̪ə]). Lewis and parts of the Outer Isles replace a lenis stop with
+the nasal throughout. Ròdais has the full nasal replacement exactly where Old Irish had eclipsis,
+in the genitive plural (the Irish *na mbád* type), and the lighter voicing after the singular
+article, where in Irish and Scottish Gaelic the mutation spread later by analogy. The Ròdais
+pattern matches the older Gaelic distribution: the nasal mutation is strongest exactly where it
+is oldest in Gaelic.
 
 ### 9.4 Lenition blocks in sound
 
-The "dental block" (GRAMMAR.md §2) has a phonetic reason. After the *n* of *an, seann, aon*, a
-dental *d, t, s* would lenite to [ɣ, h, h] right after a dental nasal. The language keeps the
+The "dental block" (*The grammar in brief* §2) has a phonetic reason. After the *n* of *an,
+seann, aon*, a dental *d, t, s* would lenite to [ɣ, h, h] right after a dental nasal. The language keeps the
 stop instead: *seann duine* [ˈʃaun̪ˠ ˈt̪ɯnʲə], *an taigh* [ən̪ˠ ˈd̪ɤj].
 
 ## 10. From spelling to sound
@@ -539,9 +547,9 @@ Vowel + *dh/gh*:
 | -aibh, -ibh | ɪv | *agaibh* [ˈakɪv] |
 | other | ə | *rathad, fichead, agus* |
 
-**[Dialect choice]** Final *-adh* is [əɣ], with the fricative kept, as in Lewis and the older
-mainland dialects. Skye and much of the mainland reduce it to [ə] or [əv]. The fricative is the
-older form (Classical *-adh* [əð] → [əɣ]).
+Final *-adh* is [əɣ], with the fricative kept, as in Lewis and the older Scottish mainland
+dialects. Skye and much of the mainland reduce it to [ə] or [əv]. In the history of
+Gaelic the fricative is the older form (Classical *-adh* [əð] → [əɣ]).
 
 ### 10.4 Consonant letters
 
@@ -589,13 +597,12 @@ Clusters:
 | dhch, ghch | ç | *oidhche* [ˈɤiçə] |
 | lb, rg, rm … | helping vowel | §6 |
 
-**[Dialect choice]** *cn, gn, mn, tn* keep the nasal: *cnoc* [ˈkʰn̪ˠɔʰk], not [ˈkʰɾɔ̃ʰk]. Almost
-all modern Scottish Gaelic (and Ulster Irish) has changed *n* to a nasalised *r* after a stop,
-with the nasality carried over to the vowel. Ròdais keeps the Classical [kn], which Munster Irish
-also keeps. It is the most audible archaism in the language.
+*cn, gn, mn, tn* keep the nasal: *cnoc* [ˈkʰn̪ˠɔʰk], not [ˈkʰɾɔ̃ʰk]. Almost all modern Scottish
+Gaelic (and Ulster Irish) has changed *n* to a nasalised *r* after a stop, with the nasality
+carried over to the vowel. Ròdais has [kn], as Classical Gaelic had and as Munster Irish still has.
+To a reader who knows Scottish Gaelic it is the most audible old-fashioned feature of the language.
 
-**[Dialect choice]** *rd, rt, rn, rl* are plain [ɾt̪ ɾn ɾl̪ˠ]. Lewis inserts [ʃ] (*àrd*
-[aːɾʃt̪]), and Ròdais does not.
+*rd, rt, rn, rl* are plain [ɾt̪ ɾn ɾl̪ˠ]. Lewis inserts [ʃ] (*àrd* [aːɾʃt̪]), and Ròdais does not.
 
 ### 10.5 Proclitics and short words
 
@@ -624,18 +631,20 @@ also keeps. It is the most audible archaism in the language.
    [ˈeːʃkʲ]. The *c* after *s* is never aspirated or pre-aspirated. A reader must not read
    *sc* as a fortis *c*.
 2. **The grave accent marks length, and only length.** *à è ì ò ù* are the long vowels. There is
-   no acute accent: *mór, sgéul* are normalised to *mòr, sceul*. The grave accent does not show
+   no acute accent: where older or Scottish spelling has *mór, sgéul*, Ròdais writes *mòr,
+   sceul*. The grave accent does not show
    vowel quality, so *ò* covers both [ɔː] and [oː] and *è* both [eː] and the [iə] of *dèan*.
    (For *è*, [iə] occurs only in *èa*.)
-3. **Every letter has a Scottish value.** Although the consonant spelling was described as
-   "Irish" in the naming layer, the letter values are Scottish: *th* is [h], *dh/gh* are
+3. **Every letter has a Scottish value.** Although the spelling looks Irish in places (the *sc*
+   above; see also *Names*), the letter values are Scottish: *th* is [h], *dh/gh* are
    [ɣ]/[j], pre-aspiration is present, *ao* is [ɯː].
-4. **The substrate names** (*Skell, Dunn, Chwen, Bral*) are read with Gaelic values where they
-   can be: *Seann Skell* [ˈʃaun̪ˠ ˈskʲeʎ], *Seann Dunn* [ˈʃaun̪ˠ ˈt̪uːn̪ˠ], *Seann Chwen*
-   [ˈʃaun̪ˠ ˈçwenʲ]. *k* and *w* keep their foreign values [k] and [w]. They mark the names as
-   foreign, which is the point.
+4. **The substrate names** (*Skell, Dunn, Chwen, Bral*), which are older than Ròdais and come
+   from the tongue of the Seann-Dhaoine, are read with Gaelic values where they can be:
+   *Seann Skell* [ˈʃaun̪ˠ ˈskʲeʎ], *Seann Dunn* [ˈʃaun̪ˠ ˈt̪uːn̪ˠ], *Seann Chwen*
+   [ˈʃaun̪ˠ ˈçwenʲ]. *k* and *w* keep their foreign values [k] and [w], and speakers hear the
+   names as foreign because of them.
 
-## 12. Dialect choices at a glance
+## 12. Ròdais beside the Scottish dialects at a glance
 
 | feature | Lewis | Skye / mainland | older and conservative dialects | **Ròdais** |
 |---|---|---|---|---|
@@ -649,57 +658,61 @@ also keeps. It is the most audible archaism in the language.
 | nasal mutation, lenis stop | nasal | voiced stop | nasal (Old Irish) | **nasal after *nan/nam*; voiced stop after *an/am*** |
 | lexical tone | SW Lewis | none | none | **none** |
 
-## 13. From Classical Gaelic to Ròdais
+## 13. Ròdais and Classical Gaelic compared
 
 Classical Gaelic (c. 1200–1650), the standard literary language of the bardic schools of Ireland
-and Scotland, is the ancestor Ròdais claims. Its spelling is, with small changes, the spelling
-Ròdais still uses. Reading the Ròdais sound system against it shows how old each part is.
+and Scotland, is the language Ròdais most closely resembles. Its spelling is, with small changes,
+the spelling Ròdais uses. Setting the Ròdais sound system beside it, and beside what is known of
+the history of Gaelic, shows how each part of Ròdais lines up with the older and the newer layers
+of the Gaelic languages.
 
 **Lenition.** In Old Irish (c. 600–900) lenited consonants were real fricatives: *th* [θ], *dh*
 [ð], *gh* [ɣ], *ch* [x], *bh* [β], *mh* [β̃], *fh* [ɸ] or nothing, *sh* [h]. By the Classical
 period *th* had become [h], *dh* and *gh* had merged in [ɣ]/[j], and *bh, mh* were [v, ṽ]. Ròdais
-has exactly the Classical values. The spelling *dh* for a sound identical to *gh* is a relic of
-the Old Irish [ð]. So is final *-adh*, whose [əɣ] is the Classical [əð], merged.
+has exactly the Classical values. In Gaelic, the spelling *dh* for a sound identical to *gh* is a
+relic of the Old Irish [ð]. So is final *-adh*, whose [əɣ] is the Classical [əð], merged. Ròdais
+spells and says both as Classical Gaelic did.
 
-**Voice becomes aspiration.** Classical *b d g* were voiced, and *p t c* were voiceless. In
-Scotland the voiced stops lost their voicing and the voiceless ones gained aspiration, which after
-a vowel moved in front of the stop as pre-aspiration. The contrast is the same age as the
-language. Only its phonetic form is Scottish. Ròdais keeps the pre-aspiration light, closer to a
-plain aspirated stop.
+**Voice and aspiration.** Classical *b d g* were voiced, and *p t c* were voiceless. In Scotland
+the voiced stops lost their voicing and the voiceless ones gained aspiration, which after a vowel
+moved in front of the stop as pre-aspiration. The contrast is the same age as Gaelic. Only its
+phonetic form is Scottish, and Ròdais has the Scottish form. Its pre-aspiration is light, closer
+to a plain aspirated stop.
 
 **Tense and lax sonorants.** Old Irish distinguished geminate *ll, nn, rr* (and initial *l, n,
 r*) from single ones. With broad and slender this gave four of each. Classical Gaelic kept all
-twelve, and bardic metre depended on them. Ròdais keeps four nasals, three laterals and three
+twelve, and bardic metre depended on them. Ròdais has four nasals, three laterals and three
 rhotics. The diphthongs before tense sonorants (*ceann* [ˈkʲʰaun̪ˠ], *long*) are a late medieval
-Scottish development. They are the one place where the tense sonorants have changed the vowel
-before them rather than been lost.
+Scottish development, and Ròdais has them too. In Scottish Gaelic they are the one place where the
+tense sonorants have changed the vowel before them rather than been lost.
 
 **Eclipsis.** Old Irish nasalised the initial after words that had once ended in *-n*: the
 genitive plural article, the accusative, *i* "in", the numerals *seacht, ocht, naoi, deich*. Irish
 still writes this (*na mbád*, *i gcathair*). Scottish spelling dropped it, but the sound survived.
-Ròdais keeps the full nasal replacement in its oldest home, the genitive plural (*nam bàtaichean*
-[nə ˈmaːʰt̪ɪçan]).
+Ròdais has the full nasal replacement in the oldest home of eclipsis, the genitive plural (*nam
+bàtaichean* [nə ˈmaːʰt̪ɪçan]).
 
-**Long vowels.** Classical *á, ó, ú, í* are Ròdais *à, ò, ù, ì*, with the same sound. Classical
-*é* has become [iə] (*cét* → *ceud*, *scél* → *sceul*), and Classical *ae/aoi* have become [ɯː]
-(*gaol, craobh*). The diphthongs *ia, ua* are Old Irish (*ía, úa*). The spelling accent has moved
-from acute to grave, but the vowels it marks are the old long vowels.
+**Long vowels.** Classical *á, ó, ú, í* correspond to Ròdais *à, ò, ù, ì*, with the same sound.
+Classical *é* corresponds to Ròdais [iə] (*cét* : *ceud*, *scél* : *sceul*), and Classical
+*ae/aoi* to Ròdais [ɯː] (*gaol, craobh*). The diphthongs *ia, ua* are Old Irish (*ía, úa*). Ròdais
+marks its long vowels with the grave accent where Classical Gaelic used the acute, but the vowels
+it marks are the old long vowels.
 
 **The helping vowel.** Classical poets did not count the svarabhakti vowel as a syllable. A line
 with *dearg* or *Alba* scanned as if the word were one syllable shorter. This was already
 recorded in the Irish bardic grammars (the *Bardic Syntactical Tracts*). Ròdais treats the
 helping vowel the same way (§6, rule 4).
 
-**sc.** The cluster was written *sc* from the earliest Old Irish manuscripts (*scél, uisce,
-scoil*). The Scottish *sg* is a modern respelling that shows the stop is lenis. Ròdais restores the
-old letter and keeps the modern sound.
+**sc.** In Gaelic the cluster was written *sc* from the earliest Old Irish manuscripts (*scél,
+uisce, scoil*). The Scottish *sg* is a modern respelling that shows the stop is lenis. Ròdais
+writes the old letter and has the modern sound.
 
 **cn.** Classical *cnoc, gnè, mná* had [kn, gn, mn]. The change to [kɾ̃] spread in Scotland and
 Ulster after the Classical period. Ròdais does not have it.
 
-The result is a Scottish Gaelic sound system, in the details that make Scottish Gaelic Scottish
-(aspiration, pre-aspiration, [ɯː], [iə] for *é*, [h] for *th*). Wherever a Scottish dialect keeps
-something older, Ròdais keeps it too.
+The result is a sound system that shares with Scottish Gaelic the details that make Scottish
+Gaelic Scottish (aspiration, pre-aspiration, [ɯː], [iə] for *é*, [h] for *th*). Wherever a
+Scottish dialect keeps something older, Ròdais has it too.
 
 ## 14. A pronunciation key for English speakers
 
@@ -739,7 +752,13 @@ inside the one stressed beat.
 
 ## 15. Worked transcriptions
 
-All transcriptions are the output of `pronounce()`.
+The transcriptions are broad and phonemic, as everywhere in this chapter. Some things vary from
+word to word in Ròdais, as in all Gaelic, and are not predicted by the rules of §2–§10: the exact
+vowel of *ea* in some words, silent versus sounded *bh* and *th* between vowels in old words,
+secondary stress in long compounds, and elision in connected speech beyond the written
+apostrophes. The [oː] words of §3.1 are a closed list, and so are the frequent words whose sound
+the spelling does not show (*math, fhuair, fhèin, mòr, còig, thu, robh, abhainn, leabhar,
+Dòmhnall, dhomh, aig, ciamar*, the weekdays).
 
 ### 15.1 Words
 
@@ -837,7 +856,7 @@ Phrases with mutations:
 | *dh'fhàg* | [ˈɣaːk] | |
 | *Seann Dunn* | [ˈʃaun̪ˠ ˈt̪uːn̪ˠ] | dental block |
 
-### 15.2 Sentences from TEXTS.md
+### 15.2 Sentences from *Texts*
 
 **1.** *Dia dhuibh! Ciamar a tha sibh?* "Hello! How are you?"
 
@@ -883,29 +902,3 @@ element.
 
 *Oirbh* has the helping vowel [ɔɾʲɔv]. *Buinidh* shows *ui* = [ɯ] before *n* and final *-idh* =
 [i].
-
-## 16. The engine
-
-`pronounce(text)` in `rodais_engine.py` implements §2–§10:
-
-- It normalises the text (acute to grave, *sg* to *sc*), splits it into words, and handles elided
-  forms (*dh', m', d', th', b'*) and the prefixes *t-, h-, n-*.
-- It divides each word into consonant clusters and vowel groups, reads each cluster's quality
-  from its neighbouring vowel (§10.1), maps stressed and unstressed vowel groups (§10.2–10.3),
-  and maps each consonant by quality and position (§10.4). Along the way it applies
-  pre-aspiration, the helping vowel, hiatus, and lengthening before tense sonorants.
-- It applies the sentence-level mutations: unwritten lenition of *l n r* after *mo, do, glè, ro*,
-  and the nasal mutation after *an, am, nan, nam*.
-- It writes `ˈ` before each stressed word, leaves proclitics unmarked, and marks the intonation
-  breaks `|` and `‖`.
-
-`PRON_EXCEPTIONS` lists the frequent words whose sound the spelling does not predict (*math,
-fhuair, fhèin, mòr, còig, thu, robh, abhainn, leabhar, Dòmhnall, dhomh, aig, ciamar*, the
-weekdays). `PRON_CLITICS` gives the unstressed forms of the proclitics. The engine's self-test
-checks 48 transcriptions.
-
-**Limits.** The output is a broad phonemic transcription for regular spellings. Some things vary
-by word in Gaelic and are not predicted: the exact vowel of *ea* in some words, silent versus
-sounded *bh* and *th* between vowels in old words, secondary stress in long compounds, and
-connected-speech elision beyond the written apostrophes. The *[oː]* words are listed rather than
-derived. As with the rest of Ròdais, none of this has been checked by a Gaelic speaker.

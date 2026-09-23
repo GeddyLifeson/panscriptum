@@ -158,24 +158,23 @@ blockquote{margin:1em 0; padding:.2em 1em; border-left:2px solid var(--rubric); 
     <section class="front" id="top">
       <p class="eyebrow">The Gaelic of Rodos</p>
       <h1>Ròdais</h1>
-      <p class="lede">A Gaelic tongue with Scottish grammar and an old voice. It is spelled with Irish consonants
-        (<i>sc</i> for Scottish <i>sg</i>) and Scottish long vowels (a grave accent, never an acute). It takes its
-        sounds and words from the older layer of the language, the Gaelic of the bards.</p>
+      <p class="lede">The tongue of the Ròdaich, spoken on Rodos in every age of its annals: in the harbour towns and the
+        hill shires, in the courts of the kings, and in the copying-rooms of the library at Muileann chaol.</p>
       <div class="sample">
         <div class="ro">{{SAMPLE_RO}}</div>
         <div class="ipa">/{{SAMPLE_IPA}}/</div>
         <div class="en">{{SAMPLE_EN}}</div>
       </div>
-      <p>This book holds the whole language. <a href="#ch-sounds">The sounds</a> describes how Ròdais is spoken and how
-        spelling maps to sound. <a href="#ch-grammar">The grammar in brief</a> fits the language on a few pages.
-        <a href="#ch-forms">Word forms</a> and <a href="#ch-sentences">Sentences</a> give it in full, every example glossed
-        word by word. <a href="#ch-naming">The naming sheet</a> covers places and peoples, and <a href="#ch-texts">Texts</a>
-        has conversations and tales with English beside them. The <a href="#dictionary">Dictionary</a> can be searched
-        from either language.</p>
-      <p>Two rules decide the vocabulary. For anything the people of Rodos knew before about 1800, Ròdais uses the old
-        native word. For things that came later, it takes a plain loan where Gaelic borrowed one. Where Gaelic coined a
-        word, Ròdais builds its own from the oldest roots, as a bard would have: a skyscraper is <i>suathaiche-nèimh</i>,
-        “heaven-grazer”. Those words are marked ✦ in the dictionary.</p>
+      <p>This book sets the language down whole. <a href="#ch-sounds">The sounds</a> describes how Ròdais is
+        spoken and how its spelling is read. <a href="#ch-grammar">The grammar in brief</a> gives the language in a few
+        pages; <a href="#ch-forms">Word forms</a> and <a href="#ch-sentences">Sentences</a> give it in full, every example
+        glossed word by word. <a href="#ch-naming">Names</a> tells how the places and peoples of the island are named, and
+        <a href="#ch-texts">Texts</a> has conversations and tales with English beside them. The
+        <a href="#dictionary">Dictionary</a> can be searched from either language.</p>
+      <p>Ròdais keeps its old words. For the things the island knew before the humans came, about 1780, it says what
+        the bards said. Some of what the humans brought kept the humans' own names, as <i>bus</i> and <i>rèidio</i> did.
+        For the rest Ròdais made words of its own from old roots: a skyscraper is <i>suathaiche-nèimh</i>,
+        “heaven-grazer”, and a computer <i>inntinn-iarainn</i>, “iron-mind”. Those words are marked ✦ in the dictionary.</p>
     </section>
     {{CHAPTERS}}
   </article>
@@ -198,10 +197,10 @@ blockquote{margin:1em 0; padding:.2em 1em; border-left:2px solid var(--rubric); 
   <p class="note" id="note" aria-live="polite"></p>
   <ol class="entries" id="entries"></ol>
   <button class="more" id="more" hidden>Show more</button>
-  <p class="legend">Nouns show gender (m./f.), genitive and plural; verbs show the verbal noun. Pronunciation is in IPA
-    between slashes (see <a href="#ch-sounds">The sounds</a>). ✦ marks a kenning, a word built from old roots for a
-    thing that came in after about 1800, with its literal sense and the Scottish Gaelic word it stands for. The level tag
-    is A1–C2 for the teaching vocabulary, or F1–F16 for how common the English word is, in bands of a thousand.</p>
+  <p class="legend">Nouns show gender (masculine or feminine), genitive and plural; verbs show the verbal noun.
+    Pronunciation is between slashes (see <a href="#ch-sounds">The sounds</a>). ✦ marks a word Ròdais made from old roots
+    for a thing that came in after about 1780, with its literal sense, and the word Scottish Gaelic uses for the same
+    thing.</p>
 </main>
 
 <script>
@@ -232,8 +231,8 @@ function card(i) {
   const ipa = r[11] ? ' <span class="ipa">/' + esc(r[11]) + '/</span>' : '';
   const sense = r[7] ? ' <span class="sense">(' + esc(r[7]) + ')</span>' : '';
   const lit = (r[8] || r[9]) ? '<div class="lit">' + (r[8] ? 'lit. “' + esc(r[8]) + '”' : '') +
-    (r[9] ? (r[8] ? '; ' : '') + 'for Scottish Gaelic <i>' + esc(r[9]) + '</i>' : '') + '</div>' : '';
-  const lvl = r[12] ? '<span class="lvl">' + esc(r[12]) + '</span>' : '';
+    (r[9] ? (r[8] ? '; ' : '') + 'compare Scottish Gaelic <i>' + esc(r[9]) + '</i>' : '') + '</div>' : '';
+  const lvl = '';
   if (dir === 'en') return '<li class="entry"><div><span class="hw en">' + esc(r[6]) + '</span>' + sense + '</div>' + lvl +
     '<div class="gloss"><span class="ro">' + esc(r[0]) + '</span>' + k + ' <span class="gram">' + gram(r) + '</span>' + ipa + '</div>' + lit + '</li>';
   return '<li class="entry"><div><span class="hw">' + esc(r[0]) + k + '</span> <span class="gram">' + gram(r) + '</span>' + ipa + '</div>' + lvl +

@@ -7,11 +7,13 @@ build_language.py -- assemble the Ròdais language book: one page with the whole
 The book has two parts:
 
     Book         the sounds (PHONOLOGY.md), the grammar in brief (GRAMMAR.md), word forms
-                 (GRAMMAR_MORPHOLOGY.md), sentences (GRAMMAR_SYNTAX.md), the naming sheet (NAMING_LAYER.md)
+                 (GRAMMAR_MORPHOLOGY.md), sentences (GRAMMAR_SYNTAX.md), names (NAMING_LAYER.md)
                  and the texts (TEXTS.md), with a contents list
     Dictionary   every entry of LEXICON.json, searchable in both directions (Ròdais and English), with
                  gender, genitive, plural, verbal noun, pronunciation, and for a kenning its literal sense
-                 and the Scottish Gaelic word it replaces
+                 and the Scottish Gaelic word for the same thing
+
+The book is written from inside the world: the build stops if a chapter still names a file.
 
 The page needs no server: open RODAIS.html in a browser. Rebuild it after changing any of the files above.
 """
@@ -33,11 +35,11 @@ CHAPTERS = [  # (id, tab label, file, title shown)
     ('grammar', 'Grammar in brief', 'GRAMMAR.md', 'The grammar in brief'),
     ('forms', 'Word forms', 'GRAMMAR_MORPHOLOGY.md', 'Word forms'),
     ('sentences', 'Sentences', 'GRAMMAR_SYNTAX.md', 'Sentences'),
-    ('naming', 'Names', 'NAMING_LAYER.md', 'The naming sheet'),
+    ('naming', 'Names', 'NAMING_LAYER.md', 'Names'),
     ('texts', 'Texts', 'TEXTS.md', 'Texts'),
 ]
-FILE_LINK = {c[2]: '#ch-' + c[0] for c in CHAPTERS}
-FILE_LINK.update({'LEXICON.json': '#dictionary', 'LEXICON.md': '#dictionary', 'LEXICON_EN.md': '#dictionary'})
+FILE_LINK = {c[2]: ('#ch-' + c[0], c[3]) for c in CHAPTERS}   # a stray file name in the text becomes its chapter
+FILE_LINK.update({f: ('#dictionary', 'the Dictionary') for f in ('LEXICON.json', 'LEXICON.md', 'LEXICON_EN.md')})
 SAMPLE = ('Thug am bàrd am bradan do Fhionn.', 'The poet gave the salmon to Fionn.')
 POS = {'n': 'noun', 'v': 'verb', 'adj': 'adjective', 'adv': 'adverb', 'prep': 'preposition', 'conj': 'conjunction',
        'pron': 'pronoun', 'num': 'numeral', 'interj': 'interjection', 'det': 'determiner', 'part': 'particle',
@@ -57,11 +59,23 @@ def chapter_html(cid, path):
                                                       'slugify': lambda v, sep: cid + '-' + slug(v)}})
     body = md.convert(text)
     body = body.replace('<table>', '<div class="tw"><table>').replace('</table>', '</table></div>')
-    body = re.sub(r'<code>([A-Z_]+\.(?:md|json))</code>',
-                  lambda m: '<a href="%s"><code>%s</code></a>' % (FILE_LINK[m.group(1)], m.group(1))
-                  if m.group(1) in FILE_LINK else m.group(0), body)
+    body = re.sub(r'(?:<code>)?([A-Z_]+\.(?:md|json))(?:</code>)?',
+                  lambda m: '<a href="%s"><i>%s</i></a>' % FILE_LINK[m.group(1)] if m.group(1) in FILE_LINK else m.group(0), body)
+    left = re.findall(r'[\w-]+\.(?:md|json|py)\b', re.sub(r'<[^>]+>', ' ', body))
+    if left:
+        raise SystemExit('%s still names files: %s' % (path, sorted(set(left))[:10]))
     toc = [(t['id'], html.unescape(re.sub(r'<[^>]+>', '', t['name']))) for t in md.toc_tokens]
     return body, toc
+
+
+SENSE_FIX = [(re.compile(r'\((?:a )?post-1800 loan\)|\(a loan of the 1800s\)|\(a loan of the machine age\)'), "(from the humans' tongue)"),
+             (re.compile(r'\(old Scots loan\)'), '(an old loan)')]
+
+
+def sense(s):
+    for pat, rep in SENSE_FIX:
+        s = pat.sub(rep, s)
+    return s
 
 
 def dictionary_data():
@@ -69,7 +83,7 @@ def dictionary_data():
     rows = []
     for e in lex:
         rows.append([e.get('rod', ''), e.get('pos', ''), e.get('g', ''), e.get('gen', ''), e.get('pl', ''),
-                     e.get('vn', '') if e.get('vn') != e.get('rod') else '', e.get('en', ''), e.get('sense', ''),
+                     e.get('vn', '') if e.get('vn') != e.get('rod') else '', e.get('en', ''), sense(e.get('sense', '')),
                      e.get('lit', ''), e.get('scots', '') if e.get('kenning') else '', 1 if e.get('kenning') else 0,
                      e.get('ipa', ''), e.get('level', '')])
     stats = {'entries': len(rows), 'english': len({r[6].lower() for r in rows}),

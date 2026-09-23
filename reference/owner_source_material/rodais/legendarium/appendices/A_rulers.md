@@ -2,11 +2,11 @@
 
 This appendix sets out the lines of those who ruled on Rodos, age by age, as the surviving lists give them: the two oral lists of the Ancient Age; the Keepers' roll and the king-list of the Holy Age; the crown of the Age of Sundering as the custody-book and the king-list record it; the council, the Commissioners and the overseers of the Age of Strangers; and the rulers of the restored kingdom. After the tables come short accounts of each line, an account of the seven houses of custody, and an account of how the keeping of the vein and the keeping of the realm were joined and parted.
 
-The tables give only rulers whom the record names. Where a list says that names are missing, the table says so, and gives none. A reign is dated by the annal that records its beginning and the annal that records its end. Where no annal marks one or the other, the table gives "—". Where the neighbouring entries close the gap tightly enough, it gives the year the reckoning sets within that gap, marked *c.* Many rulers are known only from a single entry in the middle of their reign. For these the table gives "in office" and the year of that entry.
+The tables give only rulers whom the lists and chronicles name. Where a list says that names are missing, the table says so, and gives none. A reign is dated by the rolls that record its beginning and its end. Where no roll marks one or the other, the table gives "—". Where the rolls fix it only roughly, the year is marked *c.* Many rulers are known only from a single mention in the middle of their reign. For these the table gives "in office" and the year of that mention.
 
 ### I. The Tables
 
-**The Stone Kings of Dùn ìseal (Rìghrean na Cloiche), Age I.** The oldest oral list, held on the hill of {{place:burg:315}}. It "gives no lengths of reign" ({{date:I-0081}}). The year shown is the one the reckoning sets for each king's telling. It is not a year of accession.
+**The Stone Kings of Dùn ìseal (Rìghrean na Cloiche), Age I.** The oldest oral list, held on the hill of {{place:burg:315}}. It "gives no lengths of reign" ({{date:I-0081}}). The year shown is the year of the deed each king's telling remembers. It is not a year of accession.
 
 | No. | Name | Byname | Came to rule | Told of in | The reign |
 |---|---|---|---|---|---|
@@ -147,7 +147,7 @@ The tables give only rulers whom the record names. Where a list says that names 
 | Iain Maor | his son | {{year:IV-0180}} – {{year:IV-0258}} | Schooled at the Mission; wrote that the night shift was killing his crews, was dismissed, and was restored |
 | Mòrag nic Iain Maor | his daughter; the first woman to hold the staff | {{year:IV-0258}} – {{year:IV-0319}} | Testified at the inquiry and was struck from the record; refused the evictions and broke the staff at the Company's door |
 
-**The rulers of Rìoghachd Ròdais, Age V.** From the chronicle of the restored kingdom, which keeps this line "unbroken from here forward". The record gives these reigns nothing beyond what the chronicle says.
+**The rulers of Rìoghachd Ròdais, Age V.** From the chronicle of the restored kingdom, which keeps this line "unbroken from here forward". This appendix gives these reigns nothing beyond what the chronicle says.
 
 | Name | How they came to rule | Reign | The reign |
 |---|---|---|---|
@@ -163,7 +163,7 @@ Before the Binding, Rodos kept its rulers only in recitation. The Stone Kings' l
 
 A third office ran beside the two lines and answered to neither. From {{date:I-0151}} the keeper of the slab over the crack was chosen by lot. When Calum Ciar asked for the lot to be drawn in his sight, the households refused him, and from then on the Stone Kings ruled the grazing and not the vein ({{date:I-0158}}).
 
-Catrìona Mhòr is the hardest name in either list. The tellings set three things "in her time": the first coming of Dùn dhearg to the ford, the first recital of both lists together, and the keepers' request that their charge be declared ({{date:I-0255}}). The reckoning spreads those three over more than half a century: a long reign, but not a longer one than a life can hold. The Library does not know whether one holder saw all three or the tellings drew a neighbour's deeds to one famous name. Both lists end in her generation. The Holy Age says the Binding came "centuries before anything like a king" ({{date:II-0001}}). The Hall that kept that saying did not count the holders of the hills as kings, and the name *Rìghrean na Cloiche* is the later scribes'.
+Catrìona Mhòr is the hardest name in either list. The tellings set three things "in her time": the first coming of Dùn dhearg to the ford, the first recital of both lists together, and the keepers' request that their charge be declared ({{date:I-0255}}). The three fall across more than half a century: a long reign, but not a longer one than a life can hold. The Library does not know whether one holder saw all three or the tellings drew a neighbour's deeds to one famous name. Both lists end in her generation. The Holy Age says the Binding came "centuries before anything like a king" ({{date:II-0001}}). The Hall that kept that saying did not count the holders of the hills as kings, and the name *Rìghrean na Cloiche* is the later scribes'.
 
 ### III. The Holy Age: the Keepers and the Kings
 
@@ -171,7 +171,7 @@ The Keepers came first. The nine hearths chose each one, and for many generation
 
 Kingship began in the granaries of Dùn dhearg. The households who ate Sliochd Ìomhair's grain called Goraidh mac Ìomhair their *rìgh* ({{date:II-0077}}), and he took care to claim nothing over the vein. By the division of keeping, the rìgh held the roads, the granaries and the lowland peace, and the Keeper held the rest ({{date:II-0078}}). The early rulers were rulers of roads, and the first war between Ròdaich, Iain Garbh's War of the Roads, was fought over tolls.
 
-The king-list says plainly where it fails. It gives eleven bare names after Catrìona Ghlic ({{date:II-0108}}) and nine after Tormod Òg ({{date:II-0189}}), and Tormod Scrìobhaiche marked which of his names came from reciters ({{date:II-0112}}). The reckoning gives Goraidh Mòr, his daughter, her son and his niece some eighty years of rule apiece before the niece's son, Iain Garbh, takes the hall: more years than four lives in one line can hold one after another. There, as wherever the reckoning outruns the lives of the named, the Library takes it that the reciters' names stand for more reigns than they name, and does not correct them.
+The king-list says plainly where it fails. It gives eleven bare names after Catrìona Ghlic ({{date:II-0108}}) and nine after Tormod Òg ({{date:II-0189}}), and Tormod Scrìobhaiche marked which of his names came from reciters ({{date:II-0112}}). The list's years give Goraidh Mòr, his daughter, her son and his niece some eighty years of rule apiece before the niece's son, Iain Garbh, takes the hall: more years than four lives in one line can hold one after another. There, as wherever the list's years outrun the lives of the named, the Library takes it that the reciters' names stand for more reigns than they name, and does not correct them.
 
 Beathag Mhòr, the first *banrìgh*, moved the seat to Cathair dhearg ({{date:II-0135}}). When Oighrig nic Lachlainn died without an heir, the Four Houses met at Dùn ìseal, and the Keeper set the stone cup in the hands of Gilleasbuig Mòr of Sliochd Thormoid ({{date:II-0185}}). The house of Tormod held the red hall from then to the close of the age. Mòr nic Coinnich took the cup from the Keeper in the same way, and her name closes the king-list.
 
@@ -195,7 +195,7 @@ The overseers were the Company's rulers at the pithead, all of them Ròdaich ({{
 
 The kingdom was restored in order. The war-companies were stood down ({{date:V-0002}}), the state was styled *Rìoghachd Ròdais* ({{date:V-0007}}), and a royal council of twelve, drawn from the custodian families and the captains of the war, took its seat ({{date:V-0009}}). Only then was a king crowned. The Crown's officer in each shire took the word *maor* ({{date:V-0015}}), and the house of the Dark Unicorn at Cathair dhearg was given back the keeping of the regalia ({{date:V-0033}}).
 
-The chronicle of the restored kingdom names five rulers and records their successions and nothing more, and this record follows it. The table above gives all that is recorded of them.
+The chronicle of the restored kingdom names five rulers and records their successions and nothing more, and this appendix follows it. The table above gives all that is recorded of them.
 
 ### VII. Of the Seven Houses
 

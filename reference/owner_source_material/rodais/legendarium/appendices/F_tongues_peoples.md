@@ -1,21 +1,21 @@
 # Appendix F — The Tongues and Peoples of Rodos
 
-This appendix gathers what the record holds about the peoples who have lived on Rodos and the
-speech they used. It draws on the annals, the rolls and custody-books copied into Leabharlann
+This appendix gathers what the rolls and chronicles hold about the peoples who have lived on Rodos and the
+speech they used. It draws on the royal chronicles, the rolls and custody-books copied into Leabharlann
 Muileann chaol, the map of the kingdom, and the word-lists that survive from the Age of Strangers.
-Where the record is silent this appendix says so, and it does not fill the silence.
+Where the sources are silent this appendix says so, and it does not fill the silence.
 
 ## I. The Peoples
 
-Five peoples, or kinds of people, stand in the record. Two of them are gone. One of them, the
-*fuil-ghuail*, is not a people at all in the ordinary sense, but the record has come to treat it as
+Five peoples, or kinds of people, stand in the island's history. Two of them are gone. One of them, the
+*fuil-ghuail*, is not a people at all in the ordinary sense, but the chronicles have come to treat it as
 one, and so it is set down here with the rest.
 
-| People | Ròdais name | In the record | On the map today |
+| People | Ròdais name | In the chronicles | On the map today |
 |---|---|---|---|
 | The Old Ones | *na Seann-Dhaoine* | Age I; their works end before the Holy Age | no burg; thirty burgs and thirteen shires bear their names |
 | The people of Rodos | *na Ròdaich* (sg. *Ròdach*) | every age | 441 of 505 burgs; the capital and the sea |
-| The humans | the record's plain name for them | Age IV | none by that name; their descendants are the Tuathaich |
+| The humans | the chronicles' plain name for them | Age IV | none by that name; their descendants are the Tuathaich |
 | The northerners | *na Tuathaich* (sg. *Tuathach*) | Age V | 64 burgs in the north and north-west |
 | The coal-blooded | *an fhuil-ghuail*; in the humans' tongue, *obsidian-touched* | from Age IV | not counted on the map; counted, briefly, in the censuses |
 
@@ -41,7 +41,7 @@ At their widest reach ({{date:I-0056}}) they held every coast of the island: the
 names begin with *Seann*, and the islands off them. Their largest harbour was at the place now
 called Seann Skell.
 
-**The ruins inland** are theirs by the chronicle's own word. The canon entry on the counting of the
+**The ruins inland** are theirs by the oldest tellings. The telling of the counting of the
 dead ({{date:I-0091}}) names the Seann-Dhaoine as "the people who built Làrach an Dùin-fhaire and
 Làrach an Dùin". Làrach an Dùin-fhaire, the walled outpost on the spur above the ground where
 Cathair mhòr now stands, has its single gate facing inland and not to the sea
@@ -54,15 +54,15 @@ fortress too has never been settled. After the high places were left, every new 
 Seann-Dhaoine lies within sight of salt water ({{date:I-0064}}).
 
 **The standing stones** are harder. Carragh Cnoc bheag, Colbh Cnoc chiar and Calbh Cnoc ghorm were
-raised in the Ancient Age ({{date:I-0069}}, {{date:I-0071}}, {{date:I-0073}}), and the record
-does not say by whom. The upper face of Carragh Cnoc bheag bears a line of the unread script; the
+raised in the Ancient Age ({{date:I-0069}}, {{date:I-0071}}, {{date:I-0073}}), and no telling
+says by whom. The upper face of Carragh Cnoc bheag bears a line of the unread script; the
 four Ròdais words, *Bha teine sa chloich*, "there was fire in the stone", lie lower down, cut with
 a narrower tool by another hand, and "when that second hand came, the stone does not say"
 ({{date:I-0070}}). The stones are therefore the one place where the marks of two peoples lie on
 the same face. The wind-stone at the central Seann Chwen is another: a Ròdais wind-name cut over an
 older mark of the Seann-Dhaoine ({{date:I-0180}}).
 
-**Their counting.** Late in their record the Seann-Dhaoine began cutting single strokes on flat
+**Their counting.** Late in their time the Seann-Dhaoine began cutting single strokes on flat
 stones at the edges of their middens, one stone to a household ({{date:I-0090}}). At the eastern
 Seann Warr the counting stones were built into a wall of some three thousand strokes
 ({{date:I-0092}}); at Seann Tarr in the north-east they were cut in fives and set in the floor of a
@@ -71,16 +71,16 @@ half-cut: two strokes finished, a third begun and abandoned ({{date:I-0095}}).
 
 **Their end.** After the half-cut stone no new work of the Seann-Dhaoine can be dated. Their
 middens stop growing, their harbours silt, and their script is not cut again
-({{date:I-0096}}). How they ended the record does not know, and it will not guess. This appendix
-follows it. Nothing in the annals says they were driven out, and nothing says they were not;
+({{date:I-0096}}). How they ended no telling knows, and this appendix
+will not guess. Nothing in the chronicles says they were driven out, and nothing says they were not;
 nothing says they died, and nothing says their blood did not run on in some later people. The
 reader who wants an answer will not find one here.
 
-**The hill-folk.** Alongside, or after, the Seann-Dhaoine the record sets a second people: the
+**The hill-folk.** Alongside, or after, the Seann-Dhaoine the tellings set a second people: the
 hill-folk of the high valleys around the crack ({{date:I-0065}}), who buried their dead in the
 ground and not on islands, and cut no script. They burned the ore, though sparingly: one sliver,
 one fire, at Àth gharbh ({{date:I-0066}}). Whether they shared the island with the Old Ones or
-came after them the record does not know. Their own answer, given later, is that they were always
+came after them no telling knows. Their own answer, given later, is that they were always
 there, and it is the answer the Ròdaich give of themselves in the doctrine carried on Calbh Cnoc
 ghorm: *Cha do thàinig sinn; bha sinn ann*, "we did not come; we were here." When
 stag-scholars came to Calbh Cnoc ghorm in the Holy Age and could not read it, the people of Cnoc
@@ -89,10 +89,10 @@ ghorm told them what it said, and "the scholars write that the people say so"
 
 ### The Ròdaich
 
-The Ròdaich are the people of Rodos: the majority in every age of the record, the holders of the
+The Ròdaich are the people of Rodos: the majority in every age of the island's history, the holders of the
 capital, Cathair dhearg ({{place:burg:19}}), and of the sea. Their name is the island's name with the
 people-ending *-aich*; a single person is a *Ròdach*. English writers of the humans' time used
-*Rodian*, and the chronicle keeps that word as the English adjective.
+*Rodian*, and this history keeps that word as the English adjective.
 
 **Custodians.** The Ròdaich enter history as custodians. In the Ancient Age a custom set in across
 the hill settlements that no fire should take more of the ore than one cupped hand could hold. The
@@ -134,7 +134,7 @@ vote" ({{date:III-0003}}); the fleet set out, turning sunwise round the harbour,
 of the Diosal Era ({{date:III-0023}}). A fragmentary report told of two landfalls, not one
 ({{date:III-0027}}), and of the thinning: cut off from the vein, "by the third generation abroad,
 nothing remains that Rodos would recognize" ({{date:III-0029}}). The departed are a people of the
-record only by their absence. The island kept them in rites (the empty-harbour rite,
+chronicles only by their absence. The island kept them in rites (the empty-harbour rite,
 {{date:III-0036}}; the white sorrow, *an Tùrsa Geal*, {{date:III-0032}}) and in words, of which more
 below. When the humans came, old sailors at Cuan shean remarked that the strangers had come in from
 the same quarter of sea the Sundering fleet once sailed into. The council forbade the remark in its
@@ -145,12 +145,12 @@ whether the humans descend from the departed, and this appendix does not know ei
 
 **The Crossing.** Humans made landfall on Rodos and were granted leave to stay
 ({{date:IV-0001}}): the first contact since the Sundering. Three ships out of the west anchored off
-Cuan shean, and their master, whom the record calls Edmund Harrow, came ashore unarmed and asked by
+Cuan shean, and their master, whom the chronicles call Edmund Harrow, came ashore unarmed and asked by
 signs for water ({{date:IV-0002}}). That is the first exchange between the two peoples, and it was
 not in words.
 
 **Their homeland.** The strangers named their homeland in their own tongue, but no Ròdach scribe
-set the word down. From the first season the record calls it *an Tìr Thall*, the land beyond, and
+set the word down. From the first season the chronicles call it *an Tìr Thall*, the land beyond, and
 calls its people simply the humans ({{date:IV-0007}}). Their own name for their country is not on
 Rodos in any hand, and it will not be recovered from here.
 
@@ -194,7 +194,7 @@ shepherded to the northern territory their descendants hold today.
 
 ### The Tuathaich
 
-From the Severance the record stops calling them humans. The descendants of those left on Rodos are
+From the Severance the chronicles stop calling them humans. The descendants of those left on Rodos are
 *na Tuathaich*, the northerners, from *tuath*, north, by the same *-aich* that makes *Ròdaich*, so
 that on the page the two names read as siblings even though their circumstances do not. Their
 homeland in the north was fixed formally ({{date:V-0001}}): "a confinement, not a homecoming,
@@ -202,7 +202,7 @@ though later generations will simply call it home." A formal wall between the tw
 proposed and rejected as unnecessary, because the two were already keeping apart on their own
 ({{date:V-0046}}).
 
-What the Tuathaich call themselves in their own speech the record does not say. The name in this
+What the Tuathaich call themselves in their own speech the chronicles do not say. The name in this
 appendix is the kingdom's name for them.
 
 **Their burgs.** The map counts sixty-four Tuathaich burgs, all in the north and north-west, with
@@ -233,14 +233,14 @@ is Donn, an Sìorraidh, and its towns lie together along the north coast, in the
 ghlas, Muileann leathan, Inis mhin and Àth àrsaidh. One, Baile chrom, keeps Rùn-dìomhair na
 h-Oidhche Glaise, the Mystery of the Grey Night. Creideamh nan Tuathach keeps, quietly, the First
 Canoe fragment ({{date:V-0042}}): among coastal Tuathaich families, "a named steersman, a first
-crossing", dismissed by the Ròdach priesthood as superstition ({{date:I-0038}}). The fragment is
-entered in the annals at the head of the Ancient Age because that is where its tellers place it.
-The record does not endorse it and does not refute it. It is one of the two suppressed histories
-that bracket this chronicle, and it is not resolved here.
+crossing", dismissed by the Ròdach priesthood as superstition ({{date:I-0038}}). The fragment
+belongs at the head of the Ancient Age, because that is where its tellers place it.
+The Library neither endorses it nor refutes it. It is one of the two suppressed histories
+that bracket the island's story, and it is not resolved here.
 
 ### The fuil-ghuail
 
-This section holds to what the chronicle says.
+This section holds to what the rolls and chronicles say.
 
 A child born into the mining camps was exposed to more raw ore across her lifetime than any Rodian
 in living memory, and did not age the way the people around her did. Her name is Aisling
@@ -259,18 +259,18 @@ After the Severance the Obsidian Rite was formalized as Creideamh nan Ròdach, b
 leyline and "the unbroken line of the obsidian-touched" ({{date:V-0028}}). The first census of the
 kingdom noted, without further comment, exactly how few such people exist ({{date:V-0034}}), and
 the published census of a later generation gave a number and nothing else ({{date:V-0218}}). The
-record does not print the number in any other place, and this appendix does not either.
+number is printed nowhere else, and this appendix does not print it either.
 
 Whether the *fuil-ghuail* are a people is a question of words. They are born to Ròdach families;
 in Ròdach speech the word names the gift that sets the Ròdaich apart from the Tuathaich; and Feallsanachd an Fhèidh has asked since the Holy Age why the vein answers some hands and
-not others. The record does not settle it.
+not others. The chronicles do not settle it.
 
 ## II. The Tongues
 
 ### Ròdais
 
-Ròdais is the Gaelic of Rodos. Its grammar and core vocabulary are Scottish Gaelic's; its look on
-the page is its own. Three marks distinguish it:
+Ròdais is the Gaelic of Rodos. Of the humans' tongues it most resembles Scottish Gaelic, Irish and Manx,
+and it is closest to Scottish Gaelic in grammar and core vocabulary; its look on the page is its own. Three marks distinguish it:
 
 | Feature | Ròdais | Example |
 |---|---|---|
@@ -307,12 +307,15 @@ the small rivers are *Ciaras* but *Àrsaidheas*.
 
 The stress falls on the first syllable.
 
-**How Ròdais names new things.** Ròdais is an old dialect, long cut off, and it took almost none
-of the loanwords that other Gaelic took for new things. When it needs a word for something new, it
-builds one from old roots, naming the thing by what it does or what it is like: head first, the
-describer after, hyphenated, two elements and seldom three. The humans brought many new things,
-and the kingdom after them more, and the Ròdaich named nearly all of them in this way. A selection
-from the lexicon, with the literal sense and the word the Gaelic of other lands uses:
+**How Ròdais names new things.** Ròdais is an old dialect, long cut off, and it took few of the
+loanwords that other Gaelic took for new things, fewer than Scottish Gaelic took. The humans brought
+many new things, and the kingdom after them more. In the first generations after the Crossing the
+Ròdaich named nearly all of them from old roots, naming the thing by what it does or what it is
+like: head first, the describer after, hyphenated, two elements and seldom three. Many of these
+kennings are still the usual words. The loans Ròdais did take came mostly later, for such things
+as the bus (*bus*), the taxi (*tacsaidh*) and the radio (*rèidio*), and for many words of the
+sciences, such as *ogsaidean*, oxygen, and the names of the elements. A selection of the kennings,
+with the literal sense and the word the Gaelic of other lands uses:
 
 | English | Ròdais | literally | elsewhere |
 |---|---|---|---|
@@ -339,10 +342,10 @@ Families form of themselves: machines are *iarainn*, of iron; screens and pictur
 *scàthan*, shadow and mirror; electricity is *dealan*, spark, and *dealanach*, lightning. A
 crossing for feet is a ford, *àth*, the same word the map uses for a town at a river.
 
-**Words born of the record.** Ròdais has also given old words new senses from the events it lived
-through. The chronicle keeps a list of these; the annals date the first use of most.
+**Words born of the island's history.** Ròdais has also given old words new senses from the events it lived
+through. The royal chroniclers keep a list of these, and the rolls date the first use of most.
 
-| Word | Plain sense | Sense given by the record | First recorded |
+| Word | Plain sense | Sense given by history | First recorded |
 |---|---|---|---|
 | *roghnaich* | to choose | to have chosen the crossing; to choose exile | {{date:III-0042}} |
 | *a' Scaradh* | the Sundering | any chosen, permanent parting; later used of the Severance | Age of Sundering |
@@ -384,8 +387,8 @@ Thirty burgs on the map bear these names, and thirteen shires are named from the
 
 The Ròdaich did not translate these names; they took them over. The fishers who resettled Seann
 Mhorn in the Holy Age kept "the name they found there, which is not in their own tongue", and said
-the old name came with the stones ({{date:II-0039}}). It is the first such taking-over the record
-shows. The pattern is the one other lands know, where an older people's harbour-names outlive them
+the old name came with the stones ({{date:II-0039}}). It is the first such taking-over on
+record. The pattern is the one other lands know, where an older people's harbour-names outlive them
 inside a newer tongue: borrowed and fossilized, not translated.
 
 **What can be said.** The roots are single syllables. Seven of the ten end in a doubled consonant
@@ -398,7 +401,7 @@ counts *sk-* among the clusters that do not lenite.
 or only the Ròdaich's label for places they found already named (the second is the usual
 reading, and the likelier, but it is a reading). Whether the roots come from one tongue or several.
 Two of them look like Ròdais words, *toll*, a hole, and *dunn* beside *dùn*, a fort; the
-resemblance has tempted scholars in every age and proves nothing, and the record does not take a
+resemblance has tempted scholars in every age and proves nothing, and the Library does not take a
 side.
 
 **The script.** The Seann-Dhaoine also cut signs. Rows of them stand on the cliff above Seann Tarr
@@ -414,7 +417,7 @@ Whether the script records the Old Ones' tongue, or some other, or no tongue at 
 
 ### The humans' tongue
 
-The humans spoke a plain tongue, and this record renders it in English (see *Of Translation*
+The humans spoke a plain tongue, and this history renders it in English (see *Of Translation*
 below). The names they carried were names of that tongue: Edmund Harrow, Thomas Pike, Samuel Wren,
 Josiah Pell, Henry Maddox, Arthur Lisle, Samuel Hale, Edwin Lowe.
 
@@ -435,8 +438,8 @@ reports in the humans' tongue and his household in Ròdais ({{date:IV-0180}}). T
 read the names of the chosen at Caol mhòr from a list in the humans' tongue, and the custodians took
 the names down again in Ròdais, "so that they will know whom to look for" ({{date:IV-0182}}).
 
-**Loanwords.** Few crossed. Ròdais took the humans' goods and named them in its own way, as above;
-it did not take their words for them. The humans, for their part, so far as the record shows,
+**Loanwords.** Few crossed, and most of those late. In the first generations Ròdais took the
+humans' goods and named them in its own way, as above, and kept few of the humans' words for them. The humans, for their part, so far as the record shows,
 used the Ròdais names of places as they found them, and took *fuil-ghuail* not as a loan but as a
 translation, *obsidian-touched*; that word, and not the Ròdais, is the one the kingdom's own later
 entries use of the Rite's "unbroken line". What went the other way, into the humans' speech, is best seen after the
@@ -446,7 +449,7 @@ The Ròdais word for the humans' country, *an Tìr Thall*, is the only name the 
 
 ### Tuathaich speech
 
-The speech of the north is a mixed speech, and the record describes it only in passing. It says
+The speech of the north is a mixed speech, and the chronicles describe it only in passing. They say
 this much:
 
 The Tuathaich kept the humans' tongue. Walter Hale asked the council for leave to open schools in
@@ -464,7 +467,7 @@ usage pointedly does not take up ({{date:V-0380}}). The word *dubhan* for the fu
 north, from the name of Dubhan, a Tuathach, and it spread before the fuel did ({{date:V-0272}});
 the royal chronicler who first set it down spelled it three ways in two lines ({{date:V-0239}}).
 
-Beyond this the record does not go. The northern towns' own accounts are among the things the royal
+Beyond this the chronicles do not go. The northern towns' own accounts are among the things the royal
 record says it does not hold ({{date:V-0153}}). How far the humans' tongue has drifted in the north
 since the crossing closed, how much Ròdais is spoken at a Tuathach hearth, and in which tongue the
 First Canoe is told: this archive does not know, and it would be wrong to pretend otherwise.
@@ -520,8 +523,8 @@ The describers are colour, size and character words: *mòr, beag, dubh, geal, b�
 uaine, glas, fada, domhain, ìseal, fiadhaich, naomh, fionn, ciar, gorm, sean, òg, garbh, min, caol,
 leathan, crom, dìreach, àrsaidh*. The great rivers are *Abhainn* with a describer; the small ones
 take a root and the ending *-as* or *-eas* by broad and slender. A shire, *siorrachd*, takes the name
-of its seat. Names repeat freely; there are two Baile chrom and four Seann Skell, and the record
-tells them apart by where they are.
+of its seat. Names repeat freely; there are two Baile chrom and four Seann Skell, and the rolls
+tell them apart by where they are.
 
 Beside these stand the Old Ones' names, which follow none of the rules above except that the Ròdaich
 put *seann* before them.
@@ -537,11 +540,11 @@ the Small-Burning custom was "nowhere written and everywhere kept".
 
 **The Ròdais words on the stones.** *Bha teine sa chloich* on Carragh Cnoc bheag, *Cuimhnich an
 teine* on Colbh Cnoc chiar, *Cha do thàinig sinn; bha sinn ann* on Calbh Cnoc ghorm: these are the
-oldest Ròdais words in stone. When they were cut the record does not say. The stones were raised in
+oldest Ròdais words in stone. When they were cut no roll says. The stones were raised in
 the Ancient Age; the Ròdais on Carragh Cnoc bheag was cut later, by another hand. The words on Calbh
 Cnoc ghorm were recut along their old grooves by a hand from the Stone Kings' hill, and some later
 readers say the recutting changed a letter ({{date:I-0251}}). That there were letters to change
-then is not proved by this; the record keeps the claim and not a judgment.
+then is not proved by this; the Library keeps the claim and makes no judgment on it.
 
 **The stag-letters.** The first letters in use by the Ròdaich were made at Muileann chiar in the far
 east, where the teachers of the stag's people, the school later called Feallsanachd an Fhèidh,
@@ -573,7 +576,7 @@ provincial archives into one place ({{date:V-0226}}). This appendix is written f
 
 ## Of Translation
 
-This record is written for the next reader in English, and some account is owed of what that has
+This history is written in English for the next reader, and some account is owed of what that has
 done to the tongues it describes.
 
 **The humans' speech is rendered in English.** The humans did not speak English. They spoke the
@@ -581,15 +584,15 @@ tongue of an Tìr Thall, whose name for itself, like the name of their country, 
 Rodos. It was a plain tongue, as English is plain beside Ròdais; its speakers were strangers to the
 island and its things; and it has become, in the north, the ordinary speech of the Tuathaich. For
 those reasons it is given here as English, and its names are given as English names, as the letter-
-books would have them. When this record says the humans called the ore *coal*, it means that they
+books would have them. When this history says the humans called the ore *coal*, it means that they
 used their ordinary word for their ordinary fuel, and that *coal* is the nearest English word for
 what they meant. When it gives a custodian's title as "keepers of the coal", it is rendering Wren's
 rendering. *Obsidian-touched* is likewise an English stand-in for the humans' word, chosen because
 it keeps the plainness of the original and the error in it. The ore is not obsidian, and it is not
 coal.
 
-**Ròdais is kept as it is.** The Ròdaich are the people of this record and Ròdais is its first
-tongue, and the record does not translate it into something else. Names of places, persons, faiths,
+**Ròdais is kept as it is.** The Ròdaich are the people of this history and Ròdais is its first
+tongue, and it is not translated into something else here. Names of places, persons, faiths,
 laws and offices are left in Ròdais spelling, with the grave accent and the *sc*, and with their
 lenitions: *Cathair dhearg*, not "Red City"; *fuil-ghuail*, not "coal-blood", except where a gloss is
 wanted. Where a Ròdais phrase is translated, the translation follows it in quotation marks and is
@@ -598,7 +601,7 @@ for convenience; the English names are this archive's, not the chroniclers'. The
 is English, and is used as such.
 
 **The island's own name.** Written in Ròdais it is *Ròdos*, with the accent. In the English text of
-this record it is written *Rodos*, the form the humans used and the form in which most readers
+this history it is written *Rodos*, the form the humans used and the form in which most readers
 will have met it. It is the same word.
 
 **The Seann tongue is not translated, because it cannot be.** Its ten roots are given as the
@@ -607,6 +610,6 @@ them.
 
 **What has been lost in the rendering.** Some things do not cross. The forty colour-words on
 Gormshuil's leaf are one; the Tuathaich jokes about being long-warred are another, since *fadachadh*
-is funny, and not funny, only in a tongue where *fada* is also the name of the war. Where this record
+is funny, and not funny, only in a tongue where *fada* is also the name of the war. Where this history
 has had to choose between a translation that reads easily and one that keeps what the words did, it
 has tried to keep what they did.

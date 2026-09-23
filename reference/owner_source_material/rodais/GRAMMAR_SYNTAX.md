@@ -1,36 +1,29 @@
-# Ròdais — a reference grammar: syntax
+# Sentences
 
-This volume describes how Ròdais builds sentences: the clause and its two verbs "to be", aspect and
+This chapter describes how Ròdais builds sentences: the clause and its two verbs "to be", aspect and
 the verbal noun, the particles, the passive and the impersonal, the experiencer constructions with
 prepositions, relative and subordinate clauses, the noun phrase, and the conventions of speech and
-writing. It follows the order and method of the standard reference grammars of Scottish Gaelic
-(Calder's *A Gaelic Grammar*, Lamb's *Scottish Gaelic*), since Ròdais syntax is Scottish Gaelic
-syntax. It closes with three graded texts with interlinear glosses.
+writing. It closes with three sample texts with interlinear glosses: a dialogue, entries from the
+annals, and a proclamation.
 
-Companion volumes:
-
-- `GRAMMAR.md`: the overview grammar (spelling, mutations, the core paradigms, word order in brief).
-- `GRAMMAR_MORPHOLOGY.md`: the forms. Mutations (§1), the article (§2), noun cases and plurals
-  (§3), adjectives and comparison (§4), pronouns and prepositional pronouns (§5), the verb
-  paradigms with the impersonal and relative forms (§6), the copula (§7) and the numerals and
-  dates (§8). This volume cites a form and says how it is used, and refers to the morphology
-  volume, cited as *Morph.*, for the full paradigm.
-- `rodais_engine.py`: the rules as code. The verb forms, clauses, copula sentences and numerals in
-  this volume were checked with `clause()`, `copula()`, `verb_phrase()`, `number()`,
-  `object_particle()` and `article()`, and every Ròdais word with `normalize()` and
-  `check_agreement()`. Where the engine leaves a form to the caller (it prints a progressive object
-  in whatever case the caller supplies), this volume gives the full form and says so.
-- `TEXTS.md`: conversations and tales. Many examples here are quoted from them.
+The chapter cites a form and says how it is used. The full paradigms are in *Word forms*: the
+mutations (§1), the article (§2), noun cases and plurals (§3), adjectives and comparison (§4),
+pronouns and prepositional pronouns (§5), the verb with its impersonal and relative forms (§6), the
+copula (§7), and the numerals and dates (§8). Spelling, the mutations and a short account of word
+order are in *The grammar in brief*. Every example is numbered, written in Ròdais spelling, glossed word by
+word and translated (§0.2). Many are taken from the conversations and tales of the *Texts* chapter,
+and these are marked (T).
 
 ## 0. Conventions
 
 ### 0.1 Register: the Ròdais norm is the conservative one
 
-Ròdais is the Gaelic of an old, isolated island, and its norm is the conservative one. Where
-Scottish Gaelic has an older literary construction and a newer spoken one, the older construction
-is the Ròdais norm, in speech as well as in writing (`GRAMMAR_MORPHOLOGY.md` §0.1). The newer
-constructions occur in casual Ròdais speech, and this volume labels them *colloquial*. In practice
-this means:
+Ròdais is the Gaelic of an old, isolated island, and its norm is the conservative one. For
+centuries the island's scribes and the library at Muileann chaol have held good speech close to
+the written language. Where Scottish Gaelic has an older literary construction and a newer spoken
+one, the Ròdais norm is the construction that matches the older one, in speech as well as in
+writing (*Word forms* §0.1). Constructions that match the newer Scottish ones occur in casual
+Ròdais speech, and this chapter labels them *colloquial*. In practice this means:
 
 1. **Synthetic verb forms are preferred.** The old present-future carries habitual and general
    statements (*Òlaidh e uisce gach madainn*), the conditional carries the past habitual (*Sheasadh
@@ -45,16 +38,20 @@ this means:
    preposition before the relative particle (*an taigh anns an robh mi*, not *an taigh a bha mi
    ann*). The relative future in *-(e)as* is used after *a*, *nuair a*, *ma* and *cho fad 's a*.
    Conditional clauses keep the full sequence of tenses.
-4. **Examples use old native vocabulary.** Ròdais has no modern loans (`GRAMMAR.md` §13): a
-   teacher is an *oide*, a doctor a *lighiche*, a telephone a *guth-sreinge*. Where the lexicon
-   still lists a loan (*tidsear*, *dotair*, *oifis*), formal Ròdais avoids it.
+4. **Examples use old native vocabulary.** Where Scottish Gaelic and Irish took loans for new things,
+   Ròdais for the most part named them from its own roots (*The grammar in brief* §13): a teacher
+   is an *oide*, a doctor a *lighiche*, a telephone a *guth-sreinge*. The loans that came in with
+   the humans after 1780 and are still heard (*tidsear*, *dotair*, *oifis*) are avoided in formal
+   Ròdais.
 5. **Old registers are represented.** Proverbs, the formulas of the tale-teller, the quotative
    *arsa*, the jussive of proclamations and the terse verb-noun headings of the annals all appear
    in the examples, because a Ròdach meets them daily.
 
-Throughout, **Classical background** notes give the older Gaelic source of a construction: Old and
-Middle Irish (to about 1200) and Classical Gaelic, the literary language that bardic schools in
-Ireland and Scotland shared from about 1200 to 1650. These notes explain; they do not add rules.
+Scottish Gaelic, Irish and Classical Gaelic are the languages Ròdais most closely resembles, and
+this chapter compares with them to help readers who know them. Throughout, **Compare Classical
+Gaelic** notes set a construction beside its counterpart in Classical Gaelic, the literary
+language that bardic schools in Ireland and Scotland shared from about 1200 to 1650, and in Old
+and Middle Irish (to about 1200). These notes explain; they do not add rules.
 
 **Ròdais** notes mark the places where Ròdais differs from standard Scottish Gaelic.
 
@@ -80,7 +77,7 @@ glossed word by word, and translated. Glosses follow the Leipzig conventions:
 | at.1SG | a prepositional pronoun (*agam*) | in.3SG.M.POSS | *na* = *ann* + *a* "in his" |
 | to.the | a preposition fused with the article (*dhan, don, sa, bhon*) | that | the conjunction *gun/gum/gu* |
 
-Examples quoted from `TEXTS.md` are marked (T).
+Examples taken from the *Texts* chapter are marked (T).
 
 ## 1. The clause
 
@@ -228,7 +225,7 @@ The present copula is *is* ('*s* unstressed, and written '*S* at the start of a 
 and dialogue). Its past and conditional form is *bu* (*b'* before a vowel or *fh*), which lenites.
 Negative *chan*, *cha bu / cha b'*; interrogative *an*, *am bu*; negative interrogative *nach*,
 *nach bu*. The copula has no future of its own; the present covers it. The full table is in
-`GRAMMAR.md` §7.4 and Morph. §7.
+*The grammar in brief* §7.4 and *Word forms* §7.
 
 **Classification** ("X is a Y", Y indefinite). The oldest and most literary pattern is copula +
 predicate noun + subject. It is the Ròdais norm in formal prose, proverbs and verse:
@@ -293,7 +290,7 @@ for the subject, then the subject, then the predicate:
 ```
 
 **Ròdais.** The pronoun after the copula agrees with the subject: *e* for a man or a masculine
-noun, *i* for a woman or a feminine noun, *iad* for a plural (`rodais_engine.copula()`). Spoken
+noun, *i* for a woman or a feminine noun, *iad* for a plural. Spoken
 Scottish Gaelic often generalises *'s e* to all three; Ròdais writing does not.
 
 With a demonstrative or a personal pronoun as subject, the pronoun follows the copula directly;
@@ -339,7 +336,7 @@ expressions of opinion:
 Many fixed predicates are copula + adjective or noun + preposition: *is toil le*, *is fheàrr le*,
 *is urrainn do*, *is aithne do*, *is èiginn do*, *is fhiach* (§5).
 
-**Classical background.** The copula is the Old Irish copula *is*, negative *ní*, past *ba*;
+**Compare Classical Gaelic.** The copula matches the Old Irish copula *is*, negative *ní*, past *ba*;
 Scottish Gaelic *bu* is the old past and conditional form *budh*. The "X is in his Y" construction
 (*tha e na iascair*) is Middle Irish and spread as the copula's classifying use grew formal.
 
@@ -414,7 +411,7 @@ adjective directly after the copula (*Is fuar an oidhche!*). A cleft with *is an
 ends many tales: *Agus is ann mar sin a tha iad chun an latha an-diugh* "and that is how they are
 to this day" (T).
 
-**Classical background.** Clefting with the copula is ancient; Old Irish already fronts with *is
+**Compare Classical Gaelic.** Clefting with the copula is old in Gaelic; Old Irish already fronts with *is
 é* and with the copula + prepositional phrase. The *ann* of *is ann* is the prepositional pronoun
 "in it", used as a dummy predicate.
 
@@ -574,8 +571,7 @@ object is grammatically the possessor of the verbal noun ("at the reading of the
 ```
 
 **Ròdais.** Speech in Scottish Gaelic often leaves an indefinite object in the nominative
-(*a' leughadh leabhar*). Ròdais writing always uses the genitive, as the older language did. The
-engine's `clause()` prints the object as the caller gives it; supply the genitive form.
+(*a' leughadh leabhar*). Ròdais writing always uses the genitive, as Classical Gaelic did.
 
 In the **perfect**, and after every other preposition that governs a VN (*gus, airson, mus, gun,
 an dèidh*) and after verbs that take a VN complement (*feumaidh, is urrainn do, is toil le*), the
@@ -623,8 +619,7 @@ If the infinitive has its own **subject**, the subject is introduced by *do* "to
 ### 2.6 The object of the verbal noun: pronoun objects
 
 A pronoun object of a verbal noun becomes a **possessive** before it. In the progressive, *ag* +
-possessive fuses into *gam, gad, ga, ga, gar, gur, gan* (`OBJECT_PARTICLES`,
-`object_particle()`):
+possessive fuses into *gam, gad, ga, ga, gar, gur, gan*:
 
 | object | progressive | example | perfect / infinitive |
 |---|---|---|---|
@@ -738,19 +733,20 @@ The periphrastic forms say the same thing more plainly: *Bidh e ag òl uisce gac
 i a' seasamh aig an doras*. They are correct, but the synthetic forms are the Ròdais norm and the
 periphrasis is felt as colloquial.
 
-**Classical background.** Classical Gaelic still had a synthetic present (*do-chí* "sees",
+**Compare Classical Gaelic.** Classical Gaelic still had a synthetic present (*do-chí* "sees",
 *molaidh* "praises"). Scottish Gaelic lost it except in *bi* and turned the old present into the
-present-future, which is why *òlaidh e* is both "he will drink" and "he drinks". The verbal-noun
-periphrasis with *ag* spread from Middle Irish on. Ròdais keeps the older division of labour:
-synthetic forms for fact and habit, the periphrasis for action in progress.
+present-future. Ròdais has the same present-future, and *òlaidh e* is both "he will drink" and "he
+drinks". The verbal-noun periphrasis with *ag* spread from Middle Irish on. Ròdais divides the work
+as Classical Gaelic did: synthetic forms for fact and habit, the periphrasis for action in
+progress.
 
 
 ## 3. Tense, mood and the particles
 
 ### 3.1 Independent and dependent forms
 
-Every tense of a Ròdais verb except the imperative has two forms (`GRAMMAR.md` §7.1; paradigms
-in `GRAMMAR_MORPHOLOGY.md`). The **independent** form stands at the head of a main clause and after
+Every tense of a Ròdais verb except the imperative has two forms (*The grammar in brief* §7.1;
+paradigms in *Word forms* §6). The **independent** form stands at the head of a main clause and after
 the relative particle *a*, *nuair a*, *ma*, *ged a* and the other conjunctions built on *a*. The
 **dependent** form follows the particles that end in a nasal or come from one: *cha(n)*, *an/am*,
 *nach*, *gun/gum*, *mura*, *nan/nam*, *mus*, *gus an*, *far an*, *càite an*, and the prepositional
@@ -784,10 +780,11 @@ relative (*anns an*, *ris an*…).
       ‘I won't do that.’
 ```
 
-**Classical background.** The split descends from Old Irish, where a verb had one form when it
+**Compare Classical Gaelic.** The same split is found in Old Irish, where a verb had one form when it
 stood alone (absolute or deuterotonic) and another when a particle stood before it (conjunct or
-prototonic): *do-beir* "gives" but *ní tabair* "does not give", which is Ròdais *bheir* against
-*cha toir*. The *do* of the dependent past (*cha do sheas*) is the old perfective preverb *do/ro*.
+prototonic): *do-beir* "gives" but *ní tabair* "does not give", which match Ròdais *bheir* against
+*cha toir*. The *do* of the dependent past (*cha do sheas*) corresponds to the old perfective
+preverb *do/ro*.
 
 ### 3.2 The tenses in use
 
@@ -805,8 +802,7 @@ prototonic): *do-beir* "gives" but *ní tabair* "does not give", which is Ròdai
 ### 3.3 Negation: *cha*, *chan*, *nach*, *na*, *nar*
 
 **Cha / chan** negates a main clause. *Cha* lenites except *d* and *t*; *chan* stands before a
-vowel and before a lenited *f* that falls silent (*chan fhaca*). It takes the dependent form
-(`verb_phrase(..., negative=True)`):
+vowel and before a lenited *f* that falls silent (*chan fhaca*). It takes the dependent form:
 
 ```
 (89)  Cha  do   thill       i      tuilleadh.
@@ -962,8 +958,8 @@ Tha.* A negative question is answered as if it were positive: *Nach eil thu scì
 I am". The answer may add a word of force: *Chuala, gu dearbh* "I did indeed"; *'S urrainn, gu
 dearbh* (T).
 
-**Ròdais.** For a question with no verb to echo (a bare "yes?" or a word in a list), the lexicon
-gives *Seadh* "it is so" for "yes" and *Chan eil* for "no" (`GRAMMAR.md` §7.2). *Seadh* is also
+**Ròdais.** For a question with no verb to echo (a bare "yes?" or a word in a list), Ròdais says
+*Seadh* "it is so" for "yes" and *Chan eil* for "no" (*The grammar in brief* §7.2). *Seadh* is also
 the listener's "I see, go on".
 
 ### 3.6 The imperative and the jussive
@@ -1037,10 +1033,10 @@ Casual speech often uses *leig* + *le* "let" for the first and third persons (§
 ```
 
 **Ròdais.** Scottish Gaelic thanks with *tapadh leat*. Ròdais uses the optative *gu robh math
-agad / agaibh*, as Irish does (*go raibh maith agat*), and this is one of the four visible marks of
-the dialect (`GRAMMAR.md` §0). The reply is *'S e do bheatha / 'S e ur beatha* "you're welcome".
+agad / agaibh*, as Irish does (*go raibh maith agat*), and this is one of the four visible marks that
+set Ròdais apart from Scottish Gaelic (*The grammar in brief* §0). The reply is *'S e do bheatha / 'S e ur beatha* "you're welcome".
 
-**Classical background.** *Robh* in *gu robh* is the old subjunctive of *bi* (Classical *go raibh*
+**Compare Classical Gaelic.** *Robh* in *gu robh* corresponds to the old subjunctive of *bi* (Classical *go raibh*
 "may there be"). Scottish Gaelic lost the subjunctive as a tense, but it left its forms in the
 dependent past of *bi* and in these formulas.
 
@@ -1126,7 +1122,7 @@ Every Ròdais verb has impersonal (or "autonomous") forms: finite forms with no 
 The regular past impersonal has the same shape as the conditional third person (*thogadh*); the
 impersonal has no subject after it, and context decides. There is also an impersonal imperative
 in *-tar/-tear*, "let it be done" (*togtar*, *gleidhtear*), the voice of rules and proclamations.
-The full set, with the short conditional *faicte* of the tales, is in Morph. §6.4 and §6.9.
+The full set, with the short conditional *faicte* of the tales, is in *Word forms* §6.4 and §6.9.
 
 ```
 (126) Chunnacas     an   cabhlach  bhon      chidhe.
@@ -1163,10 +1159,10 @@ Both constructions are used in every register. The impersonal is the norm for ge
 *rugadh* "was born" has no other form. The *rach* passive is the norm when a particular event
 happens to a particular subject, especially one named by a pronoun (*chaidh mo bhualadh*).
 
-**Classical background.** The impersonal is the old Gaelic passive: Old Irish *-thar/-ther*
+**Compare Classical Gaelic.** The impersonal corresponds to the old Gaelic passive: Old Irish *-thar/-ther*
 (present), a preterite built on the past participle (*rugad* "was born"), and a conditional in
 *-tae/-tí*. Classical Gaelic kept all three as its passive (*do-chíthear*, *do chonncas*,
-*do-chífidhe*); Ròdais keeps all of them in full use.
+*do-chífidhe*); Ròdais has all of them in full use.
 
 ### 4.3 The resultant state: participles and *air* + possessive + VN
 
@@ -1213,7 +1209,7 @@ all of them with *bi* or the copula and a preposition that marks the person conc
 prepositions carry fixed meanings: *aig* "at" marks the possessor, *le* "with" the owner and the
 one who likes, *do* "to" the one who can or must, *air* "on" the one a feeling or state has come
 upon, *ri* "against, towards" the thing one is engaged with. The prepositional pronouns are in
-`GRAMMAR.md` §6.
+*The grammar in brief* §6.
 
 ### 5.1 Having: *bi* + *aig*
 
@@ -1472,8 +1468,8 @@ The negative relative is **nach** + dependent form:
 
 In a relative clause the future has its own form, the **relative future** in *-(e)as*, lenited:
 *a sheasas*, *a dh'òlas*, *a bhios*, and for the irregular verbs *a nì*, *a chì*, *a thig*, *a
-thèid*, *a gheibh*, *a bheir*, *a their* (`Verb.form('relative')`, which gives *dh'* before a
-vowel and *fh* + vowel, as the past does). It covers future and habitual meaning, like the
+thèid*, *a gheibh*, *a bheir*, *a their*, with *dh'* before a vowel
+and before *fh* + vowel, as in the past. It covers future and habitual meaning, like the
 main-clause present-future:
 
 ```
@@ -1495,9 +1491,9 @@ these are relative in origin: *nuair a thig an làn* "when the tide comes in", *
 "if you listen" (T), *cho fad 's a bhios gual fon talamh* "as long as there is coal under the
 ground" (T).
 
-**Classical background.** The *-as* ending continues the special relative forms of the Old and
+**Compare Classical Gaelic.** The *-as* ending matches the special relative forms of the Old and
 Middle Irish verb (*beires* "who carries"), which Classical Gaelic kept in the third person
-(*an tí do-bheir*, *mar a-deir*). Scottish Gaelic and Ròdais kept one of them, the future.
+(*an tí do-bheir*, *mar a-deir*). Scottish Gaelic kept one of them, the future, and Ròdais has the same one.
 
 ### 6.3 The relative copula
 
@@ -1538,7 +1534,7 @@ ris an, leis an, don, bhon, fon*:
 direct relative: *an taigh a bha mi ann*, *an duine a bhruidhinn mi ris*. This is correct and
 common, but the fronted form is the Ròdais norm.
 
-**Classical background.** The fronted preposition + *an* continues Old Irish preposition + the
+**Compare Classical Gaelic.** The fronted preposition + *an* matches Old Irish preposition + the
 nasalizing relative (*i n-a* "in which"), which Classical Gaelic wrote *ina*, *dá* ("to which"),
 *lé* ("with which").
 
@@ -1873,12 +1869,11 @@ masculine one they stay plain in the nominative (*bàta beag*). Only a few adjec
 the noun and lenite it: *seann* "old", *deagh* "good", *droch* "bad", *fìor* "true", *prìomh*
 "chief" (*seann* and the article block *d, t, s*: *seann taigh*). The demonstratives *seo* "this",
 *sin* "that", *ud* "yon" follow the adjectives, and the noun keeps its article: *an cnoc ud* "yon
-hill". Declension of nouns and adjectives is in Morph. §3–4.
+hill". Declension of nouns and adjectives is in *Word forms* §3–4.
 
 ### 8.2 The genitive and its article
 
-A noun that qualifies another follows it in the genitive. The article in the genitive (`article(...,
-case='gen')`):
+A noun that qualifies another follows it in the genitive. The article in the genitive:
 
 | | before a consonant | before *f* | before *s* + vowel, *sl, sn, sr* | before a vowel |
 |---|---|---|---|---|
@@ -1962,7 +1957,7 @@ doras seo aig an taigh*, *doras de dhorsan an taighe*.
 
 Simple prepositions govern the dative. With the article, masculine and feminine nouns are lenited
 after most prepositions (*air a' bhòrd*, *bhon a' bhaile*); feminine nouns take their slender
-dative where they have one (`GRAMMAR.md` §3):
+dative where they have one (*The grammar in brief* §3):
 
 ```
 (232) air  a'   chloich
@@ -1977,9 +1972,9 @@ dative where they have one (`GRAMMAR.md` §3):
 *Ann an* (*ann am* before *b, f, m, p*) is "in" without the article; with it *anns an, anns a'*,
 contracted *san, sa*. *Do* and *de* with the article are *don, dhan*; *bho* and *ro* are *bhon, ron*.
 A feminine noun after *dà* takes the dual, which has the shape of the dative: *dà làimh*, *dà
-chloich* (Morph. §3.6). The old dative plural in *-(a)ibh* survives only in fixed expressions and
+chloich* (*Word forms* §3.6). The old dative plural in *-(a)ibh* survives only in fixed expressions and
 verse: *air beulaibh* "in front of", *air cùlaibh* "behind", *fo chasaibh* "underfoot", *anns na
-beanntaibh* (Morph. §3.8).
+beanntaibh* (*Word forms* §3.8).
 
 ### 8.5 Emphasis: emphatic pronouns, suffixes and *fhèin*
 
@@ -2085,7 +2080,7 @@ rìoghachd* "there was neither king nor kingdom", T).
 
 ### 8.8 Numerals with nouns
 
-The numeral stands before the noun (`number()`; `GRAMMAR.md` §10):
+The numeral stands before the noun (*The grammar in brief* §10):
 
 - *aon* "one" and *dà* "two" lenite a **singular** noun (*aon* not *d, t, s*): *aon long*, *aon
   taigh*, *dà long*, *dà bhàta*. After *dà* a feminine noun takes its dative form where it has one:
@@ -2100,7 +2095,7 @@ The numeral stands before the noun (`number()`; `GRAMMAR.md` §10):
   *aon long air fhichead* "twenty-one ships", *dà fhichead bliadhna* "forty years".
 
 **Ròdais.** Ròdais counts in tens (*trithead, ceathrad, caogad…*), and joins tens and units with no
-connective: *ceathrad còig* (`number(45)`), where Scottish Gaelic writes *ceathrad 's a còig*.
+connective: *ceathrad còig*, where Scottish Gaelic writes *ceathrad 's a còig*.
 
 People are counted with the **personal numerals**, followed by the genitive plural or *de*:
 *dithis* 2, *triùir* 3, *ceathrar* 4, *còignear* 5, *sianar* 6, *seachdnar* 7, *ochdnar* 8,
@@ -2141,8 +2136,8 @@ leanabh* (T), *an naoidheamh latha deug*.
 | *Slàinte mhath!* | good health | a toast |
 | *Meal do naidheachd!* | enjoy your news | congratulations |
 
-**Ròdais.** *Dia dhut* is the only everyday "hello"; Ròdais has no loan like Scottish Gaelic *halò*
-(`LEXICON.json`, marked as a kenning over *Halò*).
+**Ròdais.** *Dia dhut* is the only everyday "hello"; Ròdais never took the loan *halò* that
+Scottish Gaelic uses.
 
 ### 9.2 *Thu* and *sibh*
 
@@ -2158,7 +2153,7 @@ emphatic *sibh fhèin*. A predicate adjective stays singular: *A bheil sibh scì
 
 A name or noun of address is preceded by the vocative particle *a*, which lenites. A masculine
 noun in the singular also slenderises (like its genitive); a feminine noun is only lenited;
-Ròdais writes *a* before a vowel too (`GRAMMAR.md` §9):
+Ròdais writes *a* before a vowel too (*The grammar in brief* §9):
 
 ```
 (248) A    Chaluim,   thig      an-seo!
@@ -2192,8 +2187,8 @@ ghràdhaich* "dear friend".
 *Obh obh!* dismay; *Mo chreach!* "my ruin!", *Mo thruaighe!* "woe is me", *Ochòin!* "alas" (old);
 *Ist!* "hush!"; *Seall!* "look!"; *Abair…!* "what a…!" (*Abair naidheachd!* "What news!", T);
 *Dha-rìribh?* "really?"; *Seadh* "I see, go on"; *Thugainn!* "come on"; *Trobhad!* "come here";
-*Siuthad!* "go on, go ahead"; *Mo nàire!* "for shame!". Ròdais does not use the English-derived
-fillers of modern speech (*uill, okay*); it says *ma-thà* "then" or *seadh*.
+*Siuthad!* "go on, go ahead"; *Mo nàire!* "for shame!". Ròdais does not use the fillers that
+modern Scottish Gaelic speech took from English (*uill, okay*); it says *ma-thà* "then" or *seadh*.
 
 ### 9.5 Sentence adverbs and discourse words
 
@@ -2216,7 +2211,7 @@ ghabh am bradan biathadh a' bhàird* "At last the salmon took the poet's bait" (
 
 ### 9.6 Twenty idioms
 
-From `LEXICON.json`, with their literal sense:
+Twenty in everyday use, with their literal sense:
 
 ```
 (253) Tha     mi   air  chall.
@@ -2316,7 +2311,7 @@ ceithir*.
 **The seasons** keep an old article: *as t-earrach* in spring, *as t-samhradh* in summer, *as
 t-fhoghar* in autumn, *sa gheamhradh* in winter.
 
-**The week** (`GRAMMAR.md` §11; `legendarium/appendices/D_reckoning.md` §V). The Ròdais week begins
+**The week** (*The grammar in brief* §11; *The Reckoning of Years* §V). The Ròdais week begins
 with *Didòmhnaich*, the day on which no ore was cut. A day name used as an adverb needs no
 preposition: *Thill i Diluain* "she came back on Monday" (T).
 
@@ -2330,7 +2325,7 @@ preposition: *Thill i Diluain* "she came back on Monday" (T).
 | 6 | *Dihaoine* | the day of the fast |
 | 7 | *Disathairne* | not known |
 
-**The months** (D_reckoning §IV). The civil year runs from *am Faoilleach*; before 1780 DE the
+**The months** (*The Reckoning of Years* §IV). The civil year runs from *am Faoilleach*; before 1780 DE the
 Ròdaich year began at *Samhain*, and the shrines still count it so. A month takes the article;
 "in" is *anns an* (*san, sa* + lenition), and a day "of" a month is *den* + lenition:
 
@@ -2373,17 +2368,15 @@ Giblean 1 DE*. It is read with an ordinal, *den* and *bliadhna*:
       ‘3000 BDE’
 ```
 
-The years themselves are *bliadhnaichean an Diosail* "the years of the Diosal" (D_reckoning §I).
+The years themselves are *bliadhnaichean an Diosail* "the years of the Diosal" (*The Reckoning of Years* §I).
 
 
 ## 10. Sample texts
 
-Three texts, graded. Each line is glossed; the notes after each text point to the sections above.
-The texts were composed for this grammar. The second and third are written in the manner of the
-annals and of a proclamation, and they follow the dates and events of the legendarium, but they
-are not documents that the legendarium quotes.
+Three texts, from the plainest to the most formal: a dialogue, entries from the annals, and a
+proclamation. Each line is glossed; the notes after each text point to the sections above.
 
-### 10.1 *Aig Doras an Leabharlainn* — At the Library Door (dialogue, B1)
+### 10.1 *Aig Doras an Leabharlainn* — At the Library Door (dialogue)
 
 Seonag, a young woman from the coast, comes to the Library at Muileann chaol. The keeper and she
 use *sibh*; Seonag and her friend Niall use *thu*.
@@ -2465,10 +2458,9 @@ with *is èiginn do* and *tha agam ri* (§5.3); permission with *faod* and its e
 *Faodaidh* (§3.5, §5.4); type 2 conditionals with the synthetic *thiginn* and *rachamaid* (§7.2);
 relative future after *cuin a* (§3.4); vocatives *a Nèill*, *a Sheonag*, *a nighean* (§9.3).
 
-### 10.2 *Às na Cunntasan: Bliadhnaichean an Scaraidh* — From the Accounts: Years of the Sundering (annal, C1)
+### 10.2 *Às na Cunntasan: Bliadhnaichean an Scaraidh* — From the Accounts: Years of the Sundering (annal)
 
-In the manner of the custody-book and the annals of the Age of Sundering (`legendarium/`, events
-III-0022 to III-0032 and III-0127). An annal gives the year and the day, then the event, often as a
+Entries in the manner of the custody-book and the annals of the Age of Sundering. An annal gives the year and the day, then the event, often as a
 bare verbal noun or participle with no finite verb, then a few plain sentences.
 
 **Bliadhna a h-aon den Diosal.**
@@ -2579,7 +2571,7 @@ Tùrsa Geal air a chumail*), the annalist's habit; dates read with ordinals and 
 and in a *that*-clause, *is ann… a*, *gur ann… a* (§1.6, §7.1); *thòisich air* + object + *a* + VN
 (§2.5); *thoir* + name + *air* "call" (§5.6); absolute *an ceann* + genitive "within".
 
-### 10.3 *Gairm an Fhir-ghleidhidh* — The Keeper's Proclamation (formal document, C2)
+### 10.3 *Gairm an Fhir-ghleidhidh* — The Keeper's Proclamation (formal document)
 
 A proclamation at the founding of Leabharlann Muileann chaol, 1 an Cèitean 1945 DE, in the register
 of public notices: the jussive, the impersonal future of rule, the relative future, the copula, and

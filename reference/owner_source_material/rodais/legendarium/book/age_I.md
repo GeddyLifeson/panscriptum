@@ -17,11 +17,10 @@ So the old tellings begin, and this book begins with them, for the library at Mu
 nothing older to set in their place. What follows is not history as the later ages kept it. There
 are no letters here and no treaties. There are hearths under turf and shell-heaps on the
 headlands, stones cut with signs no one can read, and the tellings of a people who would not be
-written down for thousands of years. The reckoning gives each thing its day, so that the order of
-things may be kept; but the Ancient Age kept no calendar that the record has found. Where the
+written down for thousands of years. The Ancient Age kept no calendar that anyone has found. Where the
 chroniclers do not know, they say so. In this age they say so often.
 
-The reckoning sets the first event on {{date:I-0001}}, and it is this. A mason was
+The first event came on {{date:I-0001}}, and it is this. A mason was
 splitting rock to sink a well. He struck, and the rock broke, and where it broke there was a black
 and glassy vein; and out of it came not dust, as comes out of all other stone, but colour, bleeding
 into the cut as though the rock were wounded. The tellings do not give the mason a name. They do
@@ -103,7 +102,7 @@ not known. There was a cliff-house at the eastern Seann Tarr, black with soot be
 the height of a man, and a curved second mole at the northern Seann Skell, built stone by stone like
 the first.
 
-At their height, which the reckoning sets in {{year:I-0056}}, they held every coast: the ten places whose
+At their height, in {{year:I-0056}}, they held every coast: the ten places whose
 names begin with *Seann*, and the islands off them, and their greatest harbour was Seann Skell. At
 the warm springs of Fuarain Theth Muileann ruadh they set stone basins, and the bones buried nearby
 show old breaks that knitted clean. It is the first place on Rodos where the sick were brought to be
@@ -111,10 +110,9 @@ made well. Let that be remembered of them also.
 
 ## Of the Three Ruins and the Deep Shafts
 
-In the three centuries that the reckoning opens at {{year:I-0032}}, the annals set as many works and
-wonders as in any stretch of the age. The chroniclers do not trust the reckoning's spacing of them to
-the year. The dates are marks, not witnesses: they hold together what the tellings hold together, a time
-when great works went up inland and great fears came in from the sea.
+The three centuries that began in {{year:I-0032}} saw as many works and wonders as any stretch of the
+age. The tellings do not fix most of them to the year. They hold them together as one time, when great
+works went up inland and great fears came in from the sea.
 
 On a spur above the ground where Cathair mhòr now stands, a walled outpost was raised, which later
 tongues called Làrach an Dùin-fhaire. Its stones are dressed on the outer face only, and its single
@@ -155,12 +153,12 @@ In those same years the fears of Rodos were born, and two of them have never lef
 Among the coastal families of the Tuathaich, in a far later age, there survives a fragment of a
 voyaging telling, a named steersman and a first crossing, which is called the First Canoe. The
 Ròdaich priesthood of later ages dismissed it as superstition, and it was suppressed, and it is only
-half-remembered. The annals set it here, at the beginning of boats, and the chroniclers set it down
+half-remembered. It belongs here, at the beginning of boats, and the chroniclers set it down
 without judgement. What is sure is smaller: below Ceann mhòr, in the tidal mud, a row of mooring
 stakes and a scrap of stitched hide, the first sure boats of the north-west coast. Who rowed them,
 and from where, the mud does not say.
 
-On {{date:I-0040}}, as the reckoning has it, the Sea-Watcher was first sighted. Old sailors
+On {{date:I-0040}} the Sea-Watcher was first sighted. Old sailors
 speak of a vast creature in the waters off the north-western coast, and no wreck has ever been
 recovered to prove them wrong. On the headland where Taigh-solais Baile chrom now stands a fire was
 kept, and its ash lies a man's height deep; the tellings say it was lit to turn boats away from the
@@ -218,7 +216,7 @@ were laid in the ground on their sides, like people. The grey geese of Eilean gh
 tellings in these years. They come with the first storm and leave with the last, and they are never
 hunted there.
 
-In the year the reckoning names {{year:I-0078}} a thing was first recorded that no naturalist has since
+In {{year:I-0078}} a thing was first recorded that no naturalist has since
 explained: the island's great cats cross the mountains by fixed roads at fixed seasons. These are the
 panther roads. The hill-folk learned the cats' timing and kept off the passes while they crossed. A
 party of eleven from the southern shore went up near Cnoc àrsaidh in the crossing season and did not
@@ -294,11 +292,11 @@ the dark half of the year. No one ever said what they were watching for.
 
 ## Of the Counting of the Dead and the Silence of the Old Ones
 
-In the year the reckoning calls {{year:I-0090}} the Seann-Dhaoine began to cut strokes on flat stones set at the
+In {{year:I-0090}} the Seann-Dhaoine began to cut strokes on flat stones set at the
 edges of their middens, one stone to a household. The strokes are not the script. They are simpler: a
 mark, and then another. They were counting their dead. Before there was a Ròdach people to inherit the
-craft, the Old Ones kept count of their own losses, and the record owns them as its first ancestors in
-it, though it cannot name one of them.
+craft, the Old Ones kept count of their own losses, and the chroniclers own them as their first ancestors
+in it, though they cannot name one of them.
 
 At the eastern Seann Warr the counting stones were built into a wall, some three thousand strokes in
 all, and the wall grew for many lifetimes. At Seann Tarr in the north-east the strokes were cut in
@@ -307,7 +305,7 @@ the tally stones of Seann Warr, Seann Tarr and Seann Chwen all thicken together:
 stone, more stones in each course. Whatever killed so many killed on three coasts at once. The strokes
 do not say what it was.
 
-At the Seann Chwen near Cuan dhearg, on {{date:I-0095}} as the reckoning has it, the last tally
+At the Seann Chwen near Cuan dhearg, on {{date:I-0095}}, the last tally
 stone was left half-cut: two strokes finished, a third begun and abandoned. The chisel marks stop
 mid-groove.
 
@@ -341,7 +339,7 @@ So the Ròdaich have always dealt with the Old Ones: as a people whose count mus
 
 ## Of the Stone Kings and the Red Hill
 
-In those same centuries of the reckoning the kings begin; and so the last of the Old Ones and the first of
+In those same centuries the kings begin; and so the last of the Old Ones and the first of
 the kings stand in the annals side by side, and neither list names the other.
 
 The oldest spoken king-list, later called *Rìghrean na Cloiche*, the Stone Kings, opens on
@@ -408,7 +406,7 @@ since have touched the stone of the wind they want before they go out.
 
 ## Of the Ròdaich Name and the Keepers of the Slab
 
-Somewhere in the age, and the reckoning sets it at {{year:I-0140}}, the hill-folk began to call themselves
+By {{year:I-0140}} the hill-folk had begun to call themselves
 **Ròdaich**, and their island **Ròdos**. No one recorded the first use. The oldest tellings already
 assume both names, and the doctrine goes with them.
 
@@ -439,7 +437,7 @@ and no reign. He is remembered only as the one who went.
 
 But it was at the slab that the heart of the age was kept.
 
-On {{date:I-0151}}, as the reckoning sets it, the families who watched the slab agreed to choose one
+On {{date:I-0151}} the families who watched the slab agreed to choose one
 keeper at a time by lot. The first lot fell to **Oighrig nic Dhòmhnaill**, and she kept the slab for the
 rest of her life. A house was built beside it at Tobar dhìreach with its door toward the stone, the first
 building on Rodos that exists only to be near the vein. Oighrig had a cup ground from grey stone to the size
@@ -569,7 +567,7 @@ At last the nine keepers came before Catrìona Mhòr at the ford and asked that 
 whole gathering, so that no king after her could draw the lot at Dùn ìseal. She did not refuse, and she did not
 agree. The matter was carried forward.
 
-So the reckoning comes to {{date:I-0256}}, and to the eve. The handful was kept in every hearth of the
+So the age came to {{date:I-0256}}, and to the eve. The handful was kept in every hearth of the
 hills; the keepers were nine; the sharing before the storms was kept on every coast; the doctrine was said at
 every gathering. The Old Ones were names on the shore. The three ruins stood empty and unquarried, the two shafts
 gave back no sound, and the slab lay over the crack as the mason's people had laid it nearly ten thousand years

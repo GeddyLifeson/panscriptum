@@ -12,7 +12,7 @@
   "id": "I-0002",
   "canon": false,
   "title": "Three wells claim the crack",
-  "body": "Tobar dhìreach, Tobar dhubh and Tobar òg each keep a telling that the mason's well was theirs. Tobar dhìreach can show a capped shaft with a dark stain on its lip; the other two can show only the telling. The record holds all three claims and chooses none.",
+  "body": "Tobar dhìreach, Tobar dhubh and Tobar òg each keep a telling that the mason's well was theirs. Tobar dhìreach can show a capped shaft with a dark stain on its lip; the other two can show only the telling. No chronicle has chosen between the three claims.",
   "place": "burg:276",
   "kind": "record"
  },
@@ -528,7 +528,7 @@
   "id": "I-0065",
   "canon": false,
   "title": "The hill-folk of the vein",
-  "body": "In the high valleys around the crack there live people who are not the Seann-Dhaoine: they bury their dead in the ground, not on islands, and cut no script. Whether they shared the island with the Seann-Dhaoine or came after them the record does not know. Their own answer, later, is that they were always there.",
+  "body": "In the high valleys around the crack there live people who are not the Seann-Dhaoine: they bury their dead in the ground, not on islands, and cut no script. Whether they shared the island with the Seann-Dhaoine or came after them no telling knows. Their own answer, later, is that they were always there.",
   "place": "burg:277",
   "kind": "people"
  },
@@ -795,7 +795,7 @@
   "id": "I-0096",
   "canon": false,
   "title": "The Seann-Dhaoine fall silent",
-  "body": "After the half-cut stone, no new work of the Seann-Dhaoine can be dated. Their middens stop growing, their harbours silt and their script is not cut again. How they ended the record does not know, and it will not guess.",
+  "body": "After the half-cut stone, no new work of the Seann-Dhaoine can be dated. Their middens stop growing, their harbours silt and their script is not cut again. How they ended no telling knows.",
   "place": null,
   "kind": "people"
  },
@@ -1869,7 +1869,7 @@
   "id": "I-0224",
   "canon": false,
   "title": "A dry year on the eastern plain",
-  "body": "The rivers of the eastern plain run low for a whole summer, and the households of Dùn ìseal and Muileann bhàn drive their cattle to the warm springs for water. The shared surplus holds; the record counts no deaths.",
+  "body": "The rivers of the eastern plain run low for a whole summer, and the households of Dùn ìseal and Muileann bhàn drive their cattle to the warm springs for water. The shared surplus holds; the tellings count no deaths.",
   "place": "burg:502",
   "kind": "disaster"
  },
@@ -2105,7 +2105,7 @@
   "id": "I-0253",
   "canon": false,
   "title": "Eilean ìseal given to the dead",
-  "body": "The households of the south-east coast begin to row their dead to Eilean ìseal, in the old Seann-Dhaoine manner. Whether they learned it from the Seann Vell graves on Eilean dhearg, or from nothing, the record does not know.",
+  "body": "The households of the south-east coast begin to row their dead to Eilean ìseal, in the old Seann-Dhaoine manner. Whether they learned it from the Seann Vell graves on Eilean dhearg, or from nothing, no telling says.",
   "place": "feature:10",
   "kind": "death"
  },

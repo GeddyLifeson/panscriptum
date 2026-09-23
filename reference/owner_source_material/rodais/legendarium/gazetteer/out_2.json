@@ -66,7 +66,7 @@
  "349": {
   "founded_age": "II",
   "founded_by": "Ròdaich road-keepers of Baile chaol",
-  "history": "The great ford carries the road from Seann Dunn inland, and for most of the record it has been the busiest crossing in the province. A path leaves the town southward to Làrach an Teampaill, and the folk of Àth mhòr have kept that path cleared for as long as there are accounts of it, though they will not say why. It is a large, plain town of carters, smiths and innkeepers.",
+  "history": "The great ford carries the road from Seann Dunn inland, and for most of its history it has been the busiest crossing in the province. A path leaves the town southward to Làrach an Teampaill, and the folk of Àth mhòr have kept that path cleared for as long as there are accounts of it, though they will not say why. It is a large, plain town of carters, smiths and innkeepers.",
   "known_for": "the great ford and the temple-ruin path"
  },
  "350": {
@@ -78,7 +78,7 @@
  "351": {
   "founded_age": "III",
   "founded_by": "Ròdaich river pilots",
-  "history": "A long spit of land made Ceann fhada a landing for river craft, and its pilots have guided boats on the Abhainn uaine for centuries. It is the old rival of Inis ìseal, a short way downstream, and the two quays have quarrelled over tolls in every age the record covers. It prospered in the Age of Strangers carrying ore-cart loads by water and has held its trade since by carrying grain.",
+  "history": "A long spit of land made Ceann fhada a landing for river craft, and its pilots have guided boats on the Abhainn uaine for centuries. It is the old rival of Inis ìseal, a short way downstream, and the two quays have quarrelled over tolls in every age the rolls cover. It prospered in the Age of Strangers carrying ore-cart loads by water and has held its trade since by carrying grain.",
   "known_for": "long quay and river pilots"
  },
  "352": {
@@ -150,7 +150,7 @@
  "363": {
   "founded_age": "II",
   "founded_by": "Ròdaich fishers settling in the ruin of Làrach an Dùin",
-  "history": "Ceann mhin is built in and around Làrach an Dùin, the ruined fortress of the old builders, and its harbour lies under the fallen walls. The Ròdaich fishers who settled there in the Holy Age reused its stones but never finished clearing it; the record admits it does not know who built the fortress. It is now a walled port town of nearly twenty thousand, the seat of its province, and the rival of Ceann chaol along the same coast.",
+  "history": "Ceann mhin is built in and around Làrach an Dùin, the ruined fortress of the old builders, and its harbour lies under the fallen walls. The Ròdaich fishers who settled there in the Holy Age reused its stones but never finished clearing it; nobody knows who built the fortress. It is now a walled port town of nearly twenty thousand, the seat of its province, and the rival of Ceann chaol along the same coast.",
   "known_for": "harbour beneath Làrach an Dùin"
  },
  "364": {
@@ -202,7 +202,7 @@
  "371": {
   "founded_age": "II",
   "founded_by": "Ròdaich seafarers of the white island",
-  "history": "Inis bhàn is the great harbour of the north-west Ròdaich coast and the seat of its province, a port of nearly forty thousand. It is a town of the Hawk, and its shrines face the sea. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It is one of several harbours that claim the dock from which the ships of the Sundering set out, a claim the others dispute and the record cannot settle.",
+  "history": "Inis bhàn is the great harbour of the north-west Ròdaich coast and the seat of its province, a port of nearly forty thousand. It is a town of the Hawk, and its shrines face the sea. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It is one of several harbours that claim the dock from which the ships of the Sundering set out, a claim the others dispute and no roll can settle.",
   "known_for": "white-island harbour and Hawk shrines"
  },
  "372": {
@@ -404,7 +404,7 @@
  "404": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "Seann Toll is a harbour in a cleft of the rock, and its lowest quay is cut in a manner the Ròdaich did not use; the record assigns it to the Seann-Dhaoine and goes no further. The Ròdaich settled it in the Holy Age as the nearest harbour for Dùn dhubh and Muileann bheag. It is a small port town of fishers and lightermen.",
+  "history": "Seann Toll is a harbour in a cleft of the rock, and its lowest quay is cut in a manner the Ròdaich did not use; it is held to be the work of the Seann-Dhaoine, and nothing more is known of it. The Ròdaich settled it in the Holy Age as the nearest harbour for Dùn dhubh and Muileann bheag. It is a small port town of fishers and lightermen.",
   "known_for": "cleft-rock harbour of the Old Ones"
  },
  "405": {
@@ -550,7 +550,7 @@
  "427": {
   "founded_age": "II",
   "founded_by": "Ròdaich followers of the Direwolf",
-  "history": "An old walled town of Creideamh a' Mhadaidh-allaidh, beside the fort of Muileann bheag. Its walls are older than the fort, and for most of the record it was the stronger of the two. It is small now, and lives on the fort's custom.",
+  "history": "An old walled town of Creideamh a' Mhadaidh-allaidh, beside the fort of Muileann bheag. Its walls are older than the fort, and for most of its history it was the stronger of the two. It is small now, and lives on the fort's custom.",
   "known_for": "old walled town of the Direwolf"
  },
  "428": {
@@ -646,7 +646,7 @@
  "443": {
   "founded_age": "II",
   "founded_by": "Ròdaich seafarers of the rough strait",
-  "history": "Caol gharbh is a walled harbour on the rough strait and the seat of its province, a village in name but a town of twenty-seven thousand in fact. Its boatyards take oak from Doire chaol and build the heavy boats the strait demands. Its quarrel with Seann Bhrenn next door is as old as the record.",
+  "history": "Caol gharbh is a walled harbour on the rough strait and the seat of its province, a village in name but a town of twenty-seven thousand in fact. Its boatyards take oak from Doire chaol and build the heavy boats the strait demands. Its quarrel with Seann Bhrenn next door is as old as the rolls.",
   "known_for": "boatyards on the rough strait"
  },
  "444": {

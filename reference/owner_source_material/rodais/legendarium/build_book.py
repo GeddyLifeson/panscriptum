@@ -341,8 +341,8 @@ def compose(rec, link_places=True):
         rn, en, cat = AGE_NAMES[k]
         body.append('<section class="book age-%s" id="%s">%s</section>' % (cat, pid, md_to_html(md, pid, toc)))
     toc.append((1, 'part-annals', 'The Annals of Rodos'))
-    body.append('<section class="annals" id="part-annals"><h2>The Annals of Rodos</h2><p class="lede">Every recorded event of the five ages, '
-                'in order, with the day the library\'s reckoning gives it. %d events.</p>%s</section>' % (len(rec.events), annals_html(rec, link_places)))
+    body.append('<section class="annals" id="part-annals"><h2>The Annals of Rodos</h2><p class="lede">Every remembered event of the five ages, '
+                'in order, each on its day. %d events.</p>%s</section>' % (len(rec.events), annals_html(rec, link_places)))
     for k in ('I', 'II', 'III', 'IV', 'V'):
         toc.append((2, 'annals-' + k, 'Age %s · %s' % (k, AGE_NAMES[k][0])))
     apps = appendix_parts(rec)
@@ -354,7 +354,7 @@ def compose(rec, link_places=True):
         toc.append((2, 'houses', 'The Houses of Rodos'))
         body.append('<section class="app">%s</section>' % houses_html(rec))
     toc.append((1, 'part-gaz', 'Gazetteer'))
-    body.append('<section class="gazetteer" id="part-gaz"><h2>A Gazetteer of Rodos</h2><p class="lede">Every town on the map, by '
+    body.append('<section class="gazetteer" id="part-gaz"><h2>A Gazetteer of Rodos</h2><p class="lede">Every town of the island, by '
                 'shire: when and by whom it was founded, its history, and what the annals record there.</p>%s</section>' % gazetteer_html(rec))
     return toc, '\n'.join(body)
 

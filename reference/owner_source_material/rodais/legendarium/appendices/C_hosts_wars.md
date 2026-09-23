@@ -58,7 +58,7 @@ On land the Administration kept no standing force until Charles Merriman brought
 
 ### The War of the Hills
 
-This record calls it the War of the Hills, after the country where it began. Later rolls call it the Severance war, after the way it ended.
+This history calls it the War of the Hills, after the country where it began. Later rolls call it the Severance war, after the way it ended.
 
 *Cause.* On {{date:IV-0324}} Ròdaich resistance, coordinated for the first time across several mining regions, passed from grievance to open war. The grievances are those listed above. The one cited most often is the confiscation edict.
 

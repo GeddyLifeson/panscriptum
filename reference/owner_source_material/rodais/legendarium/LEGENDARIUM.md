@@ -19,11 +19,10 @@ So the old tellings begin, and this book begins with them, for the library at Mu
 nothing older to set in their place. What follows is not history as the later ages kept it. There
 are no letters here and no treaties. There are hearths under turf and shell-heaps on the
 headlands, stones cut with signs no one can read, and the tellings of a people who would not be
-written down for thousands of years. The reckoning gives each thing its day, so that the order of
-things may be kept; but the Ancient Age kept no calendar that the record has found. Where the
+written down for thousands of years. The Ancient Age kept no calendar that anyone has found. Where the
 chroniclers do not know, they say so. In this age they say so often.
 
-The reckoning sets the first event on 20 am Faoilleach 12,918 BDE, and it is this. A mason was
+The first event came on 20 am Faoilleach 12,918 BDE, and it is this. A mason was
 splitting rock to sink a well. He struck, and the rock broke, and where it broke there was a black
 and glassy vein; and out of it came not dust, as comes out of all other stone, but colour, bleeding
 into the cut as though the rock were wounded. The tellings do not give the mason a name. They do
@@ -105,7 +104,7 @@ not known. There was a cliff-house at the eastern Seann Tarr, black with soot be
 the height of a man, and a curved second mole at the northern Seann Skell, built stone by stone like
 the first.
 
-At their height, which the reckoning sets in 9029 BDE, they held every coast: the ten places whose
+At their height, in 9029 BDE, they held every coast: the ten places whose
 names begin with *Seann*, and the islands off them, and their greatest harbour was Seann Skell. At
 the warm springs of Fuarain Theth Muileann ruadh they set stone basins, and the bones buried nearby
 show old breaks that knitted clean. It is the first place on Rodos where the sick were brought to be
@@ -113,10 +112,9 @@ made well. Let that be remembered of them also.
 
 ## Of the Three Ruins and the Deep Shafts
 
-In the three centuries that the reckoning opens at 10,400 BDE, the annals set as many works and
-wonders as in any stretch of the age. The chroniclers do not trust the reckoning's spacing of them to
-the year. The dates are marks, not witnesses: they hold together what the tellings hold together, a time
-when great works went up inland and great fears came in from the sea.
+The three centuries that began in 10,400 BDE saw as many works and wonders as any stretch of the
+age. The tellings do not fix most of them to the year. They hold them together as one time, when great
+works went up inland and great fears came in from the sea.
 
 On a spur above the ground where Cathair mhòr now stands, a walled outpost was raised, which later
 tongues called Làrach an Dùin-fhaire. Its stones are dressed on the outer face only, and its single
@@ -157,12 +155,12 @@ In those same years the fears of Rodos were born, and two of them have never lef
 Among the coastal families of the Tuathaich, in a far later age, there survives a fragment of a
 voyaging telling, a named steersman and a first crossing, which is called the First Canoe. The
 Ròdaich priesthood of later ages dismissed it as superstition, and it was suppressed, and it is only
-half-remembered. The annals set it here, at the beginning of boats, and the chroniclers set it down
+half-remembered. It belongs here, at the beginning of boats, and the chroniclers set it down
 without judgement. What is sure is smaller: below Ceann mhòr, in the tidal mud, a row of mooring
 stakes and a scrap of stitched hide, the first sure boats of the north-west coast. Who rowed them,
 and from where, the mud does not say.
 
-On 1 an t-Sultain 9943 BDE, as the reckoning has it, the Sea-Watcher was first sighted. Old sailors
+On 1 an t-Sultain 9943 BDE the Sea-Watcher was first sighted. Old sailors
 speak of a vast creature in the waters off the north-western coast, and no wreck has ever been
 recovered to prove them wrong. On the headland where Taigh-solais Baile chrom now stands a fire was
 kept, and its ash lies a man's height deep; the tellings say it was lit to turn boats away from the
@@ -220,7 +218,7 @@ were laid in the ground on their sides, like people. The grey geese of Eilean gh
 tellings in these years. They come with the first storm and leave with the last, and they are never
 hunted there.
 
-In the year the reckoning names 7773 BDE a thing was first recorded that no naturalist has since
+In 7773 BDE a thing was first recorded that no naturalist has since
 explained: the island's great cats cross the mountains by fixed roads at fixed seasons. These are the
 panther roads. The hill-folk learned the cats' timing and kept off the passes while they crossed. A
 party of eleven from the southern shore went up near Cnoc àrsaidh in the crossing season and did not
@@ -296,11 +294,11 @@ the dark half of the year. No one ever said what they were watching for.
 
 ## Of the Counting of the Dead and the Silence of the Old Ones
 
-In the year the reckoning calls 7293 BDE the Seann-Dhaoine began to cut strokes on flat stones set at the
+In 7293 BDE the Seann-Dhaoine began to cut strokes on flat stones set at the
 edges of their middens, one stone to a household. The strokes are not the script. They are simpler: a
 mark, and then another. They were counting their dead. Before there was a Ròdach people to inherit the
-craft, the Old Ones kept count of their own losses, and the record owns them as its first ancestors in
-it, though it cannot name one of them.
+craft, the Old Ones kept count of their own losses, and the chroniclers own them as their first ancestors
+in it, though they cannot name one of them.
 
 At the eastern Seann Warr the counting stones were built into a wall, some three thousand strokes in
 all, and the wall grew for many lifetimes. At Seann Tarr in the north-east the strokes were cut in
@@ -309,7 +307,7 @@ the tally stones of Seann Warr, Seann Tarr and Seann Chwen all thicken together:
 stone, more stones in each course. Whatever killed so many killed on three coasts at once. The strokes
 do not say what it was.
 
-At the Seann Chwen near Cuan dhearg, on 5 an Cèitean 7091 BDE as the reckoning has it, the last tally
+At the Seann Chwen near Cuan dhearg, on 5 an Cèitean 7091 BDE, the last tally
 stone was left half-cut: two strokes finished, a third begun and abandoned. The chisel marks stop
 mid-groove.
 
@@ -343,7 +341,7 @@ So the Ròdaich have always dealt with the Old Ones: as a people whose count mus
 
 ## Of the Stone Kings and the Red Hill
 
-In those same centuries of the reckoning the kings begin; and so the last of the Old Ones and the first of
+In those same centuries the kings begin; and so the last of the Old Ones and the first of
 the kings stand in the annals side by side, and neither list names the other.
 
 The oldest spoken king-list, later called *Rìghrean na Cloiche*, the Stone Kings, opens on
@@ -410,7 +408,7 @@ since have touched the stone of the wind they want before they go out.
 
 ## Of the Ròdaich Name and the Keepers of the Slab
 
-Somewhere in the age, and the reckoning sets it at 5400 BDE, the hill-folk began to call themselves
+By 5400 BDE the hill-folk had begun to call themselves
 **Ròdaich**, and their island **Ròdos**. No one recorded the first use. The oldest tellings already
 assume both names, and the doctrine goes with them.
 
@@ -441,7 +439,7 @@ and no reign. He is remembered only as the one who went.
 
 But it was at the slab that the heart of the age was kept.
 
-On 26 an t-Samhain 5198 BDE, as the reckoning sets it, the families who watched the slab agreed to choose one
+On 26 an t-Samhain 5198 BDE the families who watched the slab agreed to choose one
 keeper at a time by lot. The first lot fell to **Oighrig nic Dhòmhnaill**, and she kept the slab for the
 rest of her life. A house was built beside it at Tobar dhìreach with its door toward the stone, the first
 building on Rodos that exists only to be near the vein. Oighrig had a cup ground from grey stone to the size
@@ -571,7 +569,7 @@ At last the nine keepers came before Catrìona Mhòr at the ford and asked that 
 whole gathering, so that no king after her could draw the lot at Dùn ìseal. She did not refuse, and she did not
 agree. The matter was carried forward.
 
-So the reckoning comes to 7 an Lùnastal 3051 BDE, and to the eve. The handful was kept in every hearth of the
+So the age came to 7 an Lùnastal 3051 BDE, and to the eve. The handful was kept in every hearth of the
 hills; the keepers were nine; the sharing before the storms was kept on every coast; the doctrine was said at
 every gathering. The Old Ones were names on the shore. The three ruins stood empty and unquarried, the two shafts
 gave back no sound, and the slab lay over the crack as the mason's people had laid it nearly ten thousand years
@@ -722,7 +720,7 @@ The Hall, shamed in its own words by the rìgh's clerk, had its recited roll wri
 
 In the west a company settled at the edge of Coille Naomh Cnoc bheag, the uncleared wood, to watch for a black horned beast they said walked in it: the wood-watchers, whose own accounts are none older than the later faith that claims them. They came east and cut a black-barked tree in the stag's grove, saying the beast had shown it to them. The stag's people called it theft and sent teachers to hold lessons in the dark wood, saying the first stag had come from there. In each wood the two companies met and did not speak. This holy-wood dispute, the first recorded conflict between rival religious claims, was settled by dividing custody instead of choosing a winner. Before Fearchar Òg, rìgh some generations after Ealasaid Chiar, and the Keeper Calum Liath, the stag's people took the eastern wood and the wood-watchers the western, each free to walk the other's unarmed and without cutting. Two of the boundary stones, cut in stag-letters, survive.
 
-Calum Liath then sent cutters with knotted cords and lamps into every gallery to follow the vein and mark where it thickened and thinned. The work took several ore-seasons, and the households went short to pay for it. It was the first attempt to measure how much obsidian the mountain held. The reckoning, cut on a slab in the Hall, found that the mountain could give every household its handful for more generations than there were grains in the granaries of Dùn dhearg. It was read to the council and heard in silence, which the Hall took for assent. The chroniclers of this present age, in which the vein is nearly spent, make no comment on the slab.
+Calum Liath then sent cutters with knotted cords and lamps into every gallery to follow the vein and mark where it thickened and thinned. The work took several ore-seasons, and the households went short to pay for it. It was the first attempt to measure how much obsidian the mountain held. The sum, cut on a slab in the Hall, found that the mountain could give every household its handful for more generations than there were grains in the granaries of Dùn dhearg. It was read to the council and heard in silence, which the Hall took for assent. The chroniclers of this present age, in which the vein is nearly spent, make no comment on the slab.
 
 Two youths sent into the lower gallery without a Keeper's cutter broke the wrong face and were crushed. Their families asked what the Hall owed them, and the council had no answer. Out of that came the apprentice-binding custom: young Rodians were bound to a master custodian for seven years before they might touch the ore, and every later mining guild takes its shape from it. Oighrig Bhàn, Keeper after Calum Liath, bound the first twelve on the stone cup, and four of them later became Keepers, which is the custom's best argument. The stag's house at Cnoc bhàn took up the seven years and added a written account of every strike. These strike-books became the school's chief record, and in time they produced a question of their own.
 
@@ -793,7 +791,7 @@ Seumas Bàn of Sliochd Mhuirich, chosen Keeper, found in the Hall's roll that mo
 
 The hawk-keepers of Seann Skell sent back the Hall's cutter unheard, saying the measure was the hawk's and the hawk was not the Keeper's: the first rite to refuse the Hall's check outright. The wolf-sworn built a hall round their stone at Caol leathan and swore oaths there that were no longer guards' oaths. One god, they said, watches the whole island as the guard watches the road. At the western Seann Skell the sting-oath became a creed: one power stings the liar wherever he is, and the scorpion is only its sign. It was the first teaching on the island to call itself the only true one. Seann Vell, below Cuan shean, carved a yellow stone scorpion for worship. The wood-watchers stopped bringing disputes to the Hall and judged them under the trees. They held that the black beast has two natures, one that keeps and one that devours, and that the vein has the same two.
 
-On 11 an Gearran 144 BDE the chronicle marks the naming of the nine faiths' common ancestor: the moment when one folk practice visibly split into the threads later ages would name, and "Rodian belief" stopped being one thing. The council, which had sat by hearth and house, began to sit in companies by rite. Seumas Bàn complained that he kept the flame for eight peoples, each of which thought itself the only keeper.
+By 11 an Gearran 144 BDE the common ancestor of the nine faiths had visibly split: one folk practice had become the threads later ages would name, and Rodian belief was no longer one thing. The council, which had sat by hearth and house, began to sit in companies by rite. Seumas Bàn complained that he kept the flame for eight peoples, each of which thought itself the only keeper.
 
 Two customs stayed outside the companies. Pilgrims of every rite still walked to Allt an Àigh at the right quarter of the moon, the one custom the Hall's list set under no company, and in one season pilgrims of four rites repaved the path from Caol shean together. And the keeper of the springs at Muileann ruadh ruled that the sick of every rite should be bathed without being asked which. It was the last ruling of the age that every company accepted, and it came from the one office the Hall had made that had nothing to do with the ore.
 
@@ -805,7 +803,7 @@ When drought burned the pastures of Achadh shean, grain came from Baile chaol an
 
 Mòr nic Coinnich, granddaughter of Coinneach Bàn, received the stone cup from the Keeper Catrìona nic Mhuirich at Dùn ìseal, as Gilleasbuig Mòr had. Hers is the last name in the king-list of the Holy Age. At the close of the age the Keepers' roll held one hundred and forty names from Beathag Bhàn to Catrìona nic Mhuirich, and the king-list more than ninety from Goraidh Mòr to Mòr nic Coinnich. The Small-Burning Law had not changed by a word since Fionnlagh Dall's cup, and the cup still stood on the threshold of Talla na Lasrach.
 
-Later chroniclers look back on these years with some unease. The chronicle marks 1 an Cèitean 50 BDE within the last age of even population, the final stretch of Rodian history in which no family held meaningfully more years of life than any other. Keepers aged at the same pace as carriers, and every ruler died in their time. No one then thought of this as something that could be lost, so no one recorded it as a blessing. It is recorded here only because the record knows what came after.
+Later chroniclers look back on these years with some unease. The years about 1 an Cèitean 50 BDE belong to the last age of even population, the final stretch of Rodian history in which no family held meaningfully more years of life than any other. Keepers aged at the same pace as carriers, and every ruler died in their time. No one then thought of this as something that could be lost, so no one recorded it as a blessing. It is recorded here only because the record knows what came after.
 
 The next age began at sea, which this one had never wished to cross. Crews from the western harbours brought word of a land across open water, empty of anyone like the Ròdaich, and none of them claimed to have been first. The report would be heard in the red hall at Cathair dhearg, and it would put to the Ròdaich a question the Keepers had never had to answer: who would choose to go. The Holy Age had counted every hand that held the right to the flame. The next would count those willing to leave it. That is the Age of Sundering, An Aois Scaraidh, and it is told in the book that follows.
 
@@ -819,11 +817,11 @@ The next age began at sea, which this one had never wished to cross. Crews from 
 
 ## I. Of the Land Across the Water
 
-The Third Age begins with a rumour, and the chroniclers of Rodos have never been able to do better than that. On 6 am Faoilleach 39 BDE, as the reckoning sets it, word came back to the island of a land across open water, a coast unpeopled by anyone who resembled the Ròdaich. Who brought that word first, in what boat, after how many days at sea, no record says. The kings kept their hall at Cathair dhearg, the custodians kept the vein under the mountain, and the Small-Burning Law measured out the black ore hearth by hearth as it had since the early centuries of the Holy Age. Into that order came a story about a shore.
+The Third Age begins with a rumour, and the chroniclers of Rodos have never been able to do better than that. On 6 am Faoilleach 39 BDE word came back to the island of a land across open water, a coast unpeopled by anyone who resembled the Ròdaich. Who brought that word first, in what boat, after how many days at sea, no record says. The kings kept their hall at Cathair dhearg, the custodians kept the vein under the mountain, and the Small-Burning Law measured out the black ore hearth by hearth as it had since the early centuries of the Holy Age. Into that order came a story about a shore.
 
 By the winter the story had reached the capital. In the hall of Queen Beathag nic Dhòmhnaill, daughter of Mòr nic Coinnich, at Cathair dhearg three crews from the western harbours told it, one after another, and none of them claimed to have been first. The queen's scribe took down all three accounts and noted at the foot of them that they agreed on the coast and on nothing else. It is a fair summary of most of what Rodos has ever known about the land beyond.
 
-What followed is called the Choosing, and the later chronicles call it a vote. Whether it was one, or a word laid over something older and looser, no one who wrote it down was there to see. All the accounts agree on one thing. Those who went, went because they wished to. No lots were drawn, and no conscription is recorded. The reckoning fixes the Choosing on 8 an Dùbhlachd 39 BDE, but it was a season of choosing more than a day, and the next thing the record shows is how unsettled it was.
+What followed is called the Choosing, and the later chronicles call it a vote. Whether it was one, or a word laid over something older and looser, no one who wrote it down was there to see. All the accounts agree on one thing. Those who went, went because they wished to. No lots were drawn, and no conscription is recorded. The Choosing is remembered on 8 an Dùbhlachd 39 BDE, though it was a season of choosing more than a day, and the next thing the record shows is how unsettled it was.
 
 At Seann Skell, the western port that would give the age its harbour, the scribes opened a roll for those who meant to go. They entered it by household and not by name, as though going were something a family did together or not at all. The roll was kept on boards in the harbour-house, and a later hand notes that entries were struck out as often as they were added.
 
@@ -865,7 +863,7 @@ By the spring of that year the fleet lay complete at Seann Skell. The custody-bo
 
 On the last night before the sailing every house along the Seann Skell waterfront set a lamp on its sill and kept it burning until morning. It is the first custom of the Sundering recorded as a custom.
 
-On 19 an Giblean 1 DE, as the reckoning gives it, the volunteers departed.
+On 19 an Giblean 1 DE the volunteers departed.
 
 The island's chronicles simply stop describing them the moment the ships clear the harbour. There is no account of the crowd, or the weather, or who wept. The harbour scribe gives one thing only. Before making for open water the fleet went once round the harbour of Seann Skell sunwise, *diosal*, for luck, and the watchers on the quay counted the hulls as they passed. The record ends at the harbour mouth.
 
@@ -895,7 +893,7 @@ Then came the long work of getting used to it. At Seann Skell a ceremony grew up
 
 By 28 DE Seann Skell had found a way to go on trading. The dock the ships had left from was given a new name so that ordinary trade could keep using the old one without the association. The chronicle calls it an act of managed forgetting. In the harbour rolls the departure berth became Cidhe an Diosail, the quay of the sunwise turn, and the name Cidhe an Iar passed to the new fish-wharf at the north end of the strand, where within a few years the fishers used it without a thought.
 
-The language kept what the harbour put away. From 28 DE the custody-book uses the verb *roghnaich*, to choose, with no object at all, meaning to have chosen the crossing, and the next century's scribes use it so without explaining it. That same year the chronicle marks the first generation never to have seen the harbour with those ships in it. For them the departure was no longer an event but a fact of history. A saying of the western shore claims to come from about this time:
+The language kept what the harbour put away. From 28 DE the custody-book uses the verb *roghnaich*, to choose, with no object at all, meaning to have chosen the crossing, and the next century's scribes use it so without explaining it. By that same year a generation had grown up that had never seen the harbour with those ships in it. For them the departure was no longer an event but a fact of history. A saying of the western shore claims to come from about this time:
 
 > *Is fhada an cuan, is goirid a' chuimhne.*
 > Long is the sea, and short is memory.
@@ -1046,7 +1044,7 @@ Clann Choinnich did not bring its silver petition again, because the member who 
 
 ## Of the Three Ships and the Leave to Stay
 
-The age is reckoned from 5 am Faoilleach 1780 DE, the day on which the chroniclers set the humans' first landfall on Rodos. The roll of Cuan shean, which is the fuller witness, enters their ships on the thirteenth of that month: three hulls out of the west riding at anchor off the town, the first of their size seen from any shore of the island since the fleet of the Sundering went out sunwise from the harbour and did not come back. Where the strangers were in the days between, the rolls do not say.
+The age begins with the Crossing, on 5 am Faoilleach 1780 DE, when the humans first made landfall on Rodos. The roll of Cuan shean, which is the fuller witness, does not enter their ships until the thirteenth of that month: three hulls out of the west riding at anchor off the town, the first of their size seen from any shore of the island since the fleet of the Sundering went out sunwise from the harbour and did not come back. Where the strangers were in the days between, the rolls do not say.
 
 Their master was a captain whom the record calls Edmund Harrow. He came ashore without arms and with eleven men, and asked by signs for water. The custodians of Cuan shean gave it. They would give no more on their own word, for no custodian living had been asked such a thing, and they sent inland to the capital for counsel. For forty days the strangers were fed on the beach and not allowed beyond the dunes.
 
@@ -1228,7 +1226,7 @@ In 1915 DE the Company began to drive galleries under the hills around Cill ghla
 
 On 9 an t-Ògmhios 1916 DE, in the course of a routine excavation, a fault tore open in the hills east of the capital around Cill ghlas. This was Scàineadh Cill ghlas, the Rending. It killed dozens and closed a whole mining district for a generation. The old cutting, where the rites had been kept through the whole age and where the word *fuil-ghuail* had been agreed, was swallowed with its shrine. The custodians' roll records the loss of the shrine before the loss of the dead, and a later copyist has corrected the order; this account lets both hands stand. The Company fenced the district and left Cill ghlas and its hamlets without work, and the closed country went to thorn.
 
-Within days of the Rending the roll dates the first open clash between the two peoples. Its fuller account, entered at the year's end, places it at Muileann chrom, and the chroniclers give both entries as they stand. A gallery there flooded after the pumps were stopped to save fuel, and seven died. When the Company's agent came to the pithead the crews stoned him and his constables, and the constables fired. Four Ròdaich and one constable were killed. At the inquiry Mòrag nic Iain Maor testified that the pumps had been stopped on the agent's order. Her evidence was struck from the record. The Lamp-Watch obtained a copy anyway.
+Within days of the Rending came the first open clash between the two peoples. The roll's fuller account of it, entered at the year's end, places it at Muileann chrom. A gallery there flooded after the pumps were stopped to save fuel, and seven died. When the Company's agent came to the pithead the crews stoned him and his constables, and the constables fired. Four Ròdaich and one constable were killed. At the inquiry Mòrag nic Iain Maor testified that the pumps had been stopped on the agent's order. Her evidence was struck from the record. The Lamp-Watch obtained a copy anyway.
 
 In 1917 DE the grey fever came in on the ships, a fever of the chest that killed the young and strong before the old, and ran from the capital to the eastern farms. The camps, already hungry, buried more than the towns.
 
@@ -1323,7 +1321,7 @@ So ended the Age of Strangers. It began with a vote that three custodians did no
 
 ## I. Of the Severance and the Settling of the North
 
-The Age of Strangers ended with the crossing shut. Whatever had let the humans come over the western water closed behind their last ships, and those of them still on Rodos were sent north under the council's guard. That was the Severance, which the record sets on the first day of 1930 DE. The New Age begins in its wake, and the first thing the record says of it is that on 22 am Màrt 1930 DE the Tuathaich homeland was fixed: the human descendants stranded on the island were formally settled in the north. It was a confinement, not a homecoming. Their grandchildren would call it home anyway, because it was the only one they had. Cian and Lorccan of the immortal generation grew up in the wake of it; the chronicle says nothing more of them in this age.
+The Age of Strangers ended with the crossing shut. Whatever had let the humans come over the western water closed behind their last ships, and those of them still on Rodos were sent north under the council's guard. That was the Severance, on the first day of 1930 DE. The New Age begins in its wake. On 22 am Màrt 1930 DE the Tuathaich homeland was fixed: the human descendants stranded on the island were formally settled in the north. It was a confinement, not a homecoming. Their grandchildren would call it home anyway, because it was the only one they had. Cian and Lorccan of the immortal generation grew up in the wake of it; the chronicles of this age say nothing more of them.
 
 The victors began by putting things away. At Cathair dhearg the war-companies of the Severance were stood down, and their rolls were handed to the council instead of being burned. The companies were never abolished. They survived as names on a list, and nearly ninety years later someone would take the list out. On the roads running north, at Caol mhòr and elsewhere, stones were set where Tuathaich territory began. No wall followed them. Many still stand at the roadside, since nobody has been paid to move them.
 
@@ -1556,7 +1554,7 @@ On 22 an t-Samhain 2026 DE Sìleas nic Rath wrote at the foot of the year that t
 
 So the account stands on 21 an Dùbhlachd 2026 DE. The coal is all but gone. The economy runs on a name that once belonged to one man. The Ròdaich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, and a memory of the First Canoe that the people who twice defeated them still call folklore. The restored kingdom promised a return, and what it delivered was a continuation. It kept the humans' tariff, their surveys, their rails and their terms for the mountain, and it kept the humans' descendants where the humans had put them. It also kept faith with the drowned towns of the south, and its wells at Achadh shean still draw water. This book records both, because both are true.
 
-The chronicle does not end here. It stops at the present year. The age that follows has no name yet, because nobody can yet say what began it. It is left to the next person, who has been handed the whole record, and with it the things still missing from it: the war in its guarded room, which is to be opened fifty years from its sealing if the kingdom keeps its word; the fourth floor at Muileann chaol, built for what was not sent; the eleven books in the north; and the Moot's minutes with their hidden second set. The old reckoning is still owed. Whoever writes the next book should begin by asking for them.
+The chronicle does not end here. It stops at the present year. The age that follows has no name yet, because nobody can yet say what began it. It is left to the next chronicler, who will be handed the whole record, and with it the things still missing from it: the war in its guarded room, which is to be opened fifty years from its sealing if the kingdom keeps its word; the fourth floor at Muileann chaol, built for what was not sent; the eleven books in the north; and the Moot's minutes with their hidden second set. The old reckoning is still owed. Whoever writes the next book should begin by asking for them.
 
 
 # The Annals of Rodos
@@ -3095,11 +3093,11 @@ The chronicle does not end here. It stops at the present year. The age that foll
 
 This appendix sets out the lines of those who ruled on Rodos, age by age, as the surviving lists give them: the two oral lists of the Ancient Age; the Keepers' roll and the king-list of the Holy Age; the crown of the Age of Sundering as the custody-book and the king-list record it; the council, the Commissioners and the overseers of the Age of Strangers; and the rulers of the restored kingdom. After the tables come short accounts of each line, an account of the seven houses of custody, and an account of how the keeping of the vein and the keeping of the realm were joined and parted.
 
-The tables give only rulers whom the record names. Where a list says that names are missing, the table says so, and gives none. A reign is dated by the annal that records its beginning and the annal that records its end. Where no annal marks one or the other, the table gives "—". Where the neighbouring entries close the gap tightly enough, it gives the year the reckoning sets within that gap, marked *c.* Many rulers are known only from a single entry in the middle of their reign. For these the table gives "in office" and the year of that entry.
+The tables give only rulers whom the lists and chronicles name. Where a list says that names are missing, the table says so, and gives none. A reign is dated by the rolls that record its beginning and its end. Where no roll marks one or the other, the table gives "—". Where the rolls fix it only roughly, the year is marked *c.* Many rulers are known only from a single mention in the middle of their reign. For these the table gives "in office" and the year of that mention.
 
 ### I. The Tables
 
-**The Stone Kings of Dùn ìseal (Rìghrean na Cloiche), Age I.** The oldest oral list, held on the hill of Dùn ìseal. It "gives no lengths of reign" (9 an Lùnastal 7600 BDE). The year shown is the one the reckoning sets for each king's telling. It is not a year of accession.
+**The Stone Kings of Dùn ìseal (Rìghrean na Cloiche), Age I.** The oldest oral list, held on the hill of Dùn ìseal. It "gives no lengths of reign" (9 an Lùnastal 7600 BDE). The year shown is the year of the deed each king's telling remembers. It is not a year of accession.
 
 | No. | Name | Byname | Came to rule | Told of in | The reign |
 |---|---|---|---|---|---|
@@ -3240,7 +3238,7 @@ The tables give only rulers whom the record names. Where a list says that names 
 | Iain Maor | his son | 1866 DE – 1910 DE | Schooled at the Mission; wrote that the night shift was killing his crews, was dismissed, and was restored |
 | Mòrag nic Iain Maor | his daughter; the first woman to hold the staff | 1910 DE – 1927 DE | Testified at the inquiry and was struck from the record; refused the evictions and broke the staff at the Company's door |
 
-**The rulers of Rìoghachd Ròdais, Age V.** From the chronicle of the restored kingdom, which keeps this line "unbroken from here forward". The record gives these reigns nothing beyond what the chronicle says.
+**The rulers of Rìoghachd Ròdais, Age V.** From the chronicle of the restored kingdom, which keeps this line "unbroken from here forward". This appendix gives these reigns nothing beyond what the chronicle says.
 
 | Name | How they came to rule | Reign | The reign |
 |---|---|---|---|
@@ -3256,7 +3254,7 @@ Before the Binding, Rodos kept its rulers only in recitation. The Stone Kings' l
 
 A third office ran beside the two lines and answered to neither. From 26 an t-Samhain 5198 BDE the keeper of the slab over the crack was chosen by lot. When Calum Ciar asked for the lot to be drawn in his sight, the households refused him, and from then on the Stone Kings ruled the grazing and not the vein (7 an Cèitean 5185 BDE).
 
-Catrìona Mhòr is the hardest name in either list. The tellings set three things "in her time": the first coming of Dùn dhearg to the ford, the first recital of both lists together, and the keepers' request that their charge be declared (9 an t-Iuchar 3225 BDE). The reckoning spreads those three over more than half a century: a long reign, but not a longer one than a life can hold. The Library does not know whether one holder saw all three or the tellings drew a neighbour's deeds to one famous name. Both lists end in her generation. The Holy Age says the Binding came "centuries before anything like a king" (23 an t-Sultain 2998 BDE). The Hall that kept that saying did not count the holders of the hills as kings, and the name *Rìghrean na Cloiche* is the later scribes'.
+Catrìona Mhòr is the hardest name in either list. The tellings set three things "in her time": the first coming of Dùn dhearg to the ford, the first recital of both lists together, and the keepers' request that their charge be declared (9 an t-Iuchar 3225 BDE). The three fall across more than half a century: a long reign, but not a longer one than a life can hold. The Library does not know whether one holder saw all three or the tellings drew a neighbour's deeds to one famous name. Both lists end in her generation. The Holy Age says the Binding came "centuries before anything like a king" (23 an t-Sultain 2998 BDE). The Hall that kept that saying did not count the holders of the hills as kings, and the name *Rìghrean na Cloiche* is the later scribes'.
 
 ### III. The Holy Age: the Keepers and the Kings
 
@@ -3264,7 +3262,7 @@ The Keepers came first. The nine hearths chose each one, and for many generation
 
 Kingship began in the granaries of Dùn dhearg. The households who ate Sliochd Ìomhair's grain called Goraidh mac Ìomhair their *rìgh* (28 an Cèitean 2325 BDE), and he took care to claim nothing over the vein. By the division of keeping, the rìgh held the roads, the granaries and the lowland peace, and the Keeper held the rest (9 an t-Sultain 2305 BDE). The early rulers were rulers of roads, and the first war between Ròdaich, Iain Garbh's War of the Roads, was fought over tolls.
 
-The king-list says plainly where it fails. It gives eleven bare names after Catrìona Ghlic (1 an t-Sultain 1779 BDE) and nine after Tormod Òg (29 am Màrt 439 BDE), and Tormod Scrìobhaiche marked which of his names came from reciters (18 an t-Sultain 1668 BDE). The reckoning gives Goraidh Mòr, his daughter, her son and his niece some eighty years of rule apiece before the niece's son, Iain Garbh, takes the hall: more years than four lives in one line can hold one after another. There, as wherever the reckoning outruns the lives of the named, the Library takes it that the reciters' names stand for more reigns than they name, and does not correct them.
+The king-list says plainly where it fails. It gives eleven bare names after Catrìona Ghlic (1 an t-Sultain 1779 BDE) and nine after Tormod Òg (29 am Màrt 439 BDE), and Tormod Scrìobhaiche marked which of his names came from reciters (18 an t-Sultain 1668 BDE). The list's years give Goraidh Mòr, his daughter, her son and his niece some eighty years of rule apiece before the niece's son, Iain Garbh, takes the hall: more years than four lives in one line can hold one after another. There, as wherever the list's years outrun the lives of the named, the Library takes it that the reciters' names stand for more reigns than they name, and does not correct them.
 
 Beathag Mhòr, the first *banrìgh*, moved the seat to Cathair dhearg (12 am Faoilleach 1280 BDE). When Oighrig nic Lachlainn died without an heir, the Four Houses met at Dùn ìseal, and the Keeper set the stone cup in the hands of Gilleasbuig Mòr of Sliochd Thormoid (12 am Màrt 483 BDE). The house of Tormod held the red hall from then to the close of the age. Mòr nic Coinnich took the cup from the Keeper in the same way, and her name closes the king-list.
 
@@ -3288,7 +3286,7 @@ The overseers were the Company's rulers at the pithead, all of them Ròdaich (21
 
 The kingdom was restored in order. The war-companies were stood down (3 an t-Ògmhios 1930 DE), the state was styled *Rìoghachd Ròdais* (27 an t-Iuchar 1931 DE), and a royal council of twelve, drawn from the custodian families and the captains of the war, took its seat (23 an t-Sultain 1931 DE). Only then was a king crowned. The Crown's officer in each shire took the word *maor* (4 am Faoilleach 1933 DE), and the house of the Dark Unicorn at Cathair dhearg was given back the keeping of the regalia (26 an Gearran 1936 DE).
 
-The chronicle of the restored kingdom names five rulers and records their successions and nothing more, and this record follows it. The table above gives all that is recorded of them.
+The chronicle of the restored kingdom names five rulers and records their successions and nothing more, and this appendix follows it. The table above gives all that is recorded of them.
 
 ### VII. Of the Seven Houses
 
@@ -3492,7 +3490,7 @@ How the Tuathaich came to the Scorpion the record does not say (12 an Giblean 19
 
 **What it holds.** The Tuathaich communities of the north keep their own folk tradition (13 an Gearran 1938 DE), "including, quietly, the First Canoe fragment the Ròdaich priesthood still calls superstition." The map calls it shamanic and names its god Donn, the Eternal. Beyond that the record holds almost nothing, and what it has comes from outside the faith. Few Tuathaich would speak to the chronicle clerks (25 am Màrt 1948 DE). The north's books stayed in private keeping (3 an Lùnastal 1996 DE). The request to archive Tuathaich oral history at the library was tabled rather than rejected, and it is still tabled (15 an Gearran 2016 DE). This appendix does not know the faith's rites, its sayings, its holy places, or whether Donn is the Tuathaich's own name for their god.
 
-**The First Canoe.** The only one of the faith's tellings the record knows is the fragment the chronicle sets in the Ancient Age: "a named steersman, a first crossing" (9 an t-Samhain 10,054 BDE). The steersman's name is in no Ròdaich record. The record does not say how families whose forebears came over the water in 1780 DE came to keep a telling set so long before the Sundering. This appendix files it where the chronicle files it (21 an Dùbhlachd 2026 DE) and does not resolve it.
+**The First Canoe.** The only one of the faith's tellings known outside the north is the fragment its tellers set in the Ancient Age: "a named steersman, a first crossing" (9 an t-Samhain 10,054 BDE). The steersman's name is in no Ròdaich record. The record does not say how families whose forebears came over the water in 1780 DE came to keep a telling set so long before the Sundering. This appendix leaves it where its tellers set it, notes that the north still keeps it in the present day (21 an Dùbhlachd 2026 DE), and does not resolve it.
 
 **Where it is held now.** Twelve burgs, all Tuathaich, along the north. The largest are Doire ghlas (Doire ghlas), Muileann leathan (Muileann leathan), Inis mhin (Inis mhin) and Baile ghlas in Siorrachd Àth àrsaidh (Baile ghlas).
 
@@ -3603,7 +3601,7 @@ On land the Administration kept no standing force until Charles Merriman brought
 
 ### The War of the Hills
 
-This record calls it the War of the Hills, after the country where it began. Later rolls call it the Severance war, after the way it ended.
+This history calls it the War of the Hills, after the country where it began. Later rolls call it the Severance war, after the way it ended.
 
 *Cause.* On 6 am Faoilleach 1928 DE Ròdaich resistance, coordinated for the first time across several mining regions, passed from grievance to open war. The grievances are those listed above. The one cited most often is the confiscation edict.
 
@@ -3737,25 +3735,25 @@ The library does not claim that this list is complete. It holds only what the ro
 
 ## Appendix D — The Reckoning of Years
 
-This appendix sets out how the years of Rodos are counted in this record, how each age counted them before that, and how the library at Muileann chaol joined the counts into one; then the months, the days, and the feasts of the year.
+This appendix sets out how the years of Rodos are counted today, how each age counted them before that, and how the copyists and the library at Muileann chaol joined the counts into one; then the months, the days, and the feasts of the year.
 
 ### I. The Diosal Era
 
-Every year in this record is counted in the **Diosal Era**, written DE. Year 1 DE is the year of the Setting-Out, when the ships of the Sundering left Seann Skell. Years before it are written BDE, *before the Diosal Era*. There is no year 0: 1 BDE is followed by 1 DE, and anyone reckoning across the boundary must subtract one.
+Rodos counts its years in the **Diosal Era**, written DE. Year 1 DE is the year of the Setting-Out, when the ships of the Sundering left Seann Skell. Years before it are written BDE, *before the Diosal Era*. There is no year 0: 1 BDE is followed by 1 DE, and anyone reckoning across the boundary must subtract one.
 
-*Diosal* is the Rodos form of the old word *deiseal*, the sunwise turn: the way a hand moves, a boat rounds a point, or a procession goes about a cairn, with the right shoulder toward the centre and the course following the sun. Before making for open water the fleet went once round the harbour of Seann Skell sunwise, for luck, and the watchers on the quay counted the hulls as they passed. The harbour scribe's entry for the turn is the last thing the record says of the departed, and the island has counted its years from that turn ever since.
+*Diosal* is the Rodos form of the old word *deiseal*, the sunwise turn: the way a hand moves, a boat rounds a point, or a procession goes about a cairn, with the right shoulder toward the centre and the course following the sun. Before making for open water the fleet went once round the harbour of Seann Skell sunwise, for luck, and the watchers on the quay counted the hulls as they passed. The harbour scribe's entry for the turn is the last thing any roll says of the departed, and the island has counted its years from that turn ever since.
 
 The count was not made at the time. On 22 am Faoilleach 5 DE Donnchadh mac Thormoid, scribe of the vein-house above Muileann dhearg, began to number the years from the sunwise turn and called them *bliadhnaichean an Diosail*, the years of the Diosal. By his own reckoning only a few of them had yet passed. The count was his alone at first. The crown's scribes at Cathair dhearg took it up about a generation later, and for more than six hundred years afterwards the vein-house and the crown each kept their own version of it (section II).
 
-The record gives the day of the Setting-Out as 19 an Giblean 1 DE and the day of the sunwise turn as 19 an Giblean 1 DE. The two fall on one day. The custody-book, however, enters the turn under a later day than the sailing, after the next Samhain. No account explains that gap of half a year, and the keepers have left both entries where they stand. Section II gives what the gap did to the count. The reckoning of this record follows the harbour scribe and sets both in 1 DE.
+The harbour scribe gives the day of the Setting-Out as 19 an Giblean 1 DE and the day of the sunwise turn as 19 an Giblean 1 DE. The two fall on one day. The custody-book, however, enters the turn under a later day than the sailing, after the next Samhain. No account explains that gap of half a year, and the keepers have left both entries where they stand. Section II gives what the gap did to the count. The count now kept on Rodos follows the harbour scribe and sets both in 1 DE.
 
 ### II. How the Ages Reckoned Before the Diosal
 
-**The Ancient Age.** The Ancient Age kept no count of years that the record has found. Its people counted other things. The Seann-Dhaoine cut strokes on stones at the edges of their middens, one stone to a household, and on 29 an Lùnastal 7253 BDE the reckoning sets the start of the counting of the dead. The tally wall at Seann Warr grew to some three thousand strokes, and in one stretch the tallies of three coasts thicken together (6 an Giblean 7131 BDE). These are counts of the dead. None of them has been read as a count of years.
+**The Ancient Age.** The Ancient Age kept no count of years that anyone has found. Its people counted other things. The Seann-Dhaoine cut strokes on stones at the edges of their middens, one stone to a household, and the counting of the dead began on 29 an Lùnastal 7253 BDE. The tally wall at Seann Warr grew to some three thousand strokes, and in one stretch the tallies of three coasts thicken together (6 an Giblean 7131 BDE). These are counts of the dead. None of them has been read as a count of years.
 
 The first tide-count (28 am Faoilleach 5937 BDE), a rock on which someone marked the high-water line, comes nearer. Its marks fall at intervals regular enough that later scholars have suspected a calendar in them. The practice was carried to Ros dhomhain with the interval unchanged. Nobody knows what the interval was for, and the Library has declined to guess. The hill-folk also knew the crossing season of the great cats and kept off the passes while the panthers went over (20 am Faoilleach 7714 BDE). That was a season they kept every year, but they did not number the years.
 
-The oldest oral king-list, *Rìghrean na Cloiche*, begins with Ailean Mòr (9 an Lùnastal 7600 BDE) and "gives no lengths of reign." The Red Hill list is the same. When both lists were recited together at the ford gathering (23 an t-Iuchar 3254 BDE), the recital took from dusk to dawn, but it measured only a succession of names. The tellings of the age give no order finer than that. The reckoning therefore spaces their entries evenly between the few points the tellings tie together, and where a telling binds several entries to one another it sets them in one year or a few. This is not a claim that those years were crowded, or the years between them empty. It means only that the tellings could not be spread any finer.
+The oldest oral king-list, *Rìghrean na Cloiche*, begins with Ailean Mòr (9 an Lùnastal 7600 BDE) and "gives no lengths of reign." The Red Hill list is the same. When both lists were recited together at the ford gathering (23 an t-Iuchar 3254 BDE), the recital took from dusk to dawn, but it measured only a succession of names. The tellings of the age give no order finer than that. They tie a few things firmly to one another, and where a telling binds several deeds together they are remembered as falling in one year or a few. Between those points the tellings keep the order of things and little of the distance between them, and the years of the age are known only as well as the tellings know them.
 
 **The Holy Age.** The Holy Age counted in two ways, and neither of them ran from a fixed beginning.
 
@@ -3765,21 +3763,21 @@ The second was **by burnings**. From the Small-Burning Law (13 an Lùnastal 2857
 
 By the close of the age the Keepers' roll held one hundred and forty names and the king-list more than ninety (2 an Giblean 60 BDE). The two did not agree in every place, and the Hall's count of burnings did not always agree with either.
 
-**The Age of Sundering.** The Diosal count was born in this age, and at first it existed in two versions. Donnchadh mac Thormoid counted from the turn at the harbour, as the custody-book entered it. The crown's scribes took up the count a generation later, when the court remembered the departure as a single thing, and they counted from the year the ships sailed. Both versions began each year at the old Samhain, as the Hall had done. The custody-book sets the turn after the Samhain that followed the sailing, so by the old year the sailing and the turn lay in different years, and the two counts stood a year apart. The Library believes this is how the counts came to differ. The record does not prove it, and it does not explain why the turn is entered so long after the sailing.
+**The Age of Sundering.** The Diosal count was born in this age, and at first it existed in two versions. Donnchadh mac Thormoid counted from the turn at the harbour, as the custody-book entered it. The crown's scribes took up the count a generation later, when the court remembered the departure as a single thing, and they counted from the year the ships sailed. Both versions began each year at the old Samhain, as the Hall had done. The custody-book sets the turn after the Samhain that followed the sailing, so by the old year the sailing and the turn lay in different years, and the two counts stood a year apart. The Library believes this is how the counts came to differ. The rolls do not prove it, and it does not explain why the turn is entered so long after the sailing.
 
-The difference stood until 23 am Màrt 700 DE, when the vein-house and the crown's scribes found that their counts disagreed and settled the matter by agreement. The same agreement fixed the day of the empty-harbour rite, which the two counts had placed differently. The annal adds that later scribes "stop pretending it was fixed by evidence." From that day there was one Diosal count on Rodos, and the vein-house marked its thousandth year (15 an Dùbhlachd 1000 DE) with a single measured burning on Cidhe an Diosail, the quay of the sunwise turn.
+The difference stood until 23 am Màrt 700 DE, when the vein-house and the crown's scribes found that their counts disagreed and settled the matter by agreement. The same agreement fixed the day of the empty-harbour rite, which the two counts had placed differently. A later hand in the custody-book adds that the scribes afterwards "stop pretending it was fixed by evidence." From that day there was one Diosal count on Rodos, and the vein-house marked its thousandth year (15 an Dùbhlachd 1000 DE) with a single measured burning on Cidhe an Diosail, the quay of the sunwise turn.
 
 ### III. The Setting of the Ages into One Count
 
 By the seventeenth century of the Diosal the island's records kept time by Keepers, by reigns, by burnings and by the Diosal, and the tellings of the Ancient Age by nothing at all. The work of joining these counts began with Beathag nic Thòmais, the mill-owner's widow who bought up old copies of the custody-book and the harbour rolls and kept them in a loft over her mill at Muileann chaol (21 an Cèitean 1620 DE). She did not reckon years. She did set conflicting copies side by side and decline to choose between them (27 an Giblean 1640 DE), and that became the method of everyone who worked in Muileann chaol after her. She left her loft to the town on condition that nothing in it be burned (24 an Lùnastal 1660 DE).
 
-The joining itself was done in the cellar. From 5 am Màrt 1903 DE the custodians of the east sent copies of their rolls to Muileann chaol for safekeeping, away from the Residency's reach, and three families did the copying. While they copied, they laid the counts against each other. Where the king-list gave a ruler's years and the Hall's roll gave the burnings of the same reign, the two could be made to meet, and each meeting fixed a stretch of the older count against the newer. The copyists called the result *Clàr nan Aoisean*, the table of the ages. It is the first document that runs one numbered sequence of years from the Binding to the copyists' own day. It is also the first to divide the island's past into ages, and to set before the Holy Age an older age whose length the table admits it cannot measure. When the custodians sent what survived of the Age of Strangers to the same cellars (29 an Dùbhlachd 1929 DE), the table was carried through to the Severance, and in that form it gave the five ages the bounds this record still uses.
+The joining itself was done in the cellar. From 5 am Màrt 1903 DE the custodians of the east sent copies of their rolls to Muileann chaol for safekeeping, away from the Residency's reach, and three families did the copying. While they copied, they laid the counts against each other. Where the king-list gave a ruler's years and the Hall's roll gave the burnings of the same reign, the two could be made to meet, and each meeting fixed a stretch of the older count against the newer. The copyists called the result *Clàr nan Aoisean*, the table of the ages. It is the first document that runs one numbered sequence of years from the Binding to the copyists' own day. It is also the first to divide the island's past into ages, and to set before the Holy Age an older age whose length the table admits it cannot measure. When the custodians sent what survived of the Age of Strangers to the same cellars (29 an Dùbhlachd 1929 DE), the table was carried through to the Severance, and in that form it gave the five ages the bounds that historians of Rodos still use.
 
-Leabharlann Muileann chaol, founded 1 an Cèitean 1945 DE, took the table as one of its first possessions and extended it. When the library absorbed the provincial archives (26 an t-Iuchar 1996 DE), every event in the whole record was given a day by the table's method. For the later ages that day comes from the documents. For the earlier ages it is fixed by the table's rule, so that no event is left without a place in the order. The first keeper, Ailean Leabhar, disliked the saying *a chur san Leabharlann*, "to put it in the Library," on the ground that the library settles nothing and only keeps it (3 an t-Samhain 1945 DE). The reckoning should be read in the same spirit.
+Leabharlann Muileann chaol, founded 1 an Cèitean 1945 DE, took the table as one of its first possessions and extended it. When the library absorbed the provincial archives (26 an t-Iuchar 1996 DE), the table was checked against them and corrected where the archives knew better. The first keeper, Ailean Leabhar, disliked the saying *a chur san Leabharlann*, "to put it in the Library," on the ground that the library settles nothing and only keeps it (3 an t-Samhain 1945 DE). The table should be read in the same spirit.
 
 ### IV. The Twelve Months
 
-The months of Rodos are the twelve Gaelic months, and in this record they correspond one to one with the months of the humans' calendar, beginning with am Faoilleach. The meanings of several names were already disputed when the Hall first wrote them down. The glosses below are those the Library holds most likely. The work of each month is the island's work as the rolls of every age describe it.
+The months of Rodos are the twelve Gaelic months, and they correspond one to one with the months of the humans' calendar, beginning with am Faoilleach. The meanings of several names were already disputed when the Hall first wrote them down. The glosses below are those the Library holds most likely. The work of each month is the island's work as the rolls of every age describe it.
 
 | No. | Month | Days | Meaning of the name | The work of the month on Rodos |
 |---|---|---|---|---|
@@ -3796,7 +3794,7 @@ The months of Rodos are the twelve Gaelic months, and in this record they corres
 | 11 | an t-Samhain | 30 | summer's end | Samhain on the first; in the Holy Age the baskets filled and the galleries closed; the empty-harbour rite at Seann Skell |
 | 12 | an Dùbhlachd | 31 | the black month, the dark of the year | Midwinter; the drowned remembered in the western harbours; the panther roads closed for the year |
 
-An Gearran takes a twenty-ninth day in every fourth year, as the humans' calendar has it. It is not certain that the vein-house kept such a day before 1780. The custody-book dates by feast and by month and seldom by day. The Library's reckoning adds the day in the old ages as in the new, so that the count of days runs evenly across the whole record.
+An Gearran takes a twenty-ninth day in every fourth year, as the humans' calendar has it. It is not certain that the vein-house kept such a day before 1780. The custody-book dates by feast and by month and seldom by day, so the question cannot be settled from it.
 
 ### V. The Seven Days
 
@@ -3814,7 +3812,7 @@ The week, *seachdain*, has seven days. The names below are given in the forms th
 
 Diciadain, Diardaoin and Dihaoine name fasts that nobody on Rodos now keeps. The Library's opinion is that they were fasts from fire rather than from food. On two days of the week a Holy Age household left its hearth unlit, which fits the Small-Burning Law and the custom of the measured handful before it. The unlit hearth found under the peat (2 an Dàmhair 6699 BDE) is sometimes cited for this. It proves nothing about weeks. The other opinion, that they were fasts from meat as the humans' Mission taught, rests only on the Mission's word.
 
-When the humans came they also kept a week of seven days, and they also rested on the first day of it. The Mission made a great deal of this. The custodians made little of it, and the record adds nothing.
+When the humans came they also kept a week of seven days, and they also rested on the first day of it. The Mission made a great deal of this. The custodians made little of it, and the rolls add nothing.
 
 ### VI. The Quarter-Days
 
@@ -3822,7 +3820,7 @@ Four feasts divide the year into quarters. They are older than any rite now on t
 
 **Là Fhèill Brìghde**, 1 an Gearran, is the feast of Brìghde. Every hearth is swept and relit and the year's first work in the fields begins. The followers of Seann Spioradan nan Ròdach set a sheaf by the door. The Obsidian Rite, in both its forms, lights its first lamp of the year from the altar-flame.
 
-**Bealltainn**, 1 an Cèitean, takes its name from a bright fire, and it is the feast of summer's beginning. Cattle go up to the high pastures between two fires. In the Holy Age this was the day the Hall asked the cairn-watchers of Cnoc ghlas whether the galleries might open. The first sentence under the Small-Burning Law is dated 1 an Cèitean 2854 BDE, on Bealltainn itself. The record does not say whether the day was chosen for the sentence.
+**Bealltainn**, 1 an Cèitean, takes its name from a bright fire, and it is the feast of summer's beginning. Cattle go up to the high pastures between two fires. In the Holy Age this was the day the Hall asked the cairn-watchers of Cnoc ghlas whether the galleries might open. The first sentence under the Small-Burning Law is dated 1 an Cèitean 2854 BDE, on Bealltainn itself. The roll does not say whether the day was chosen for the sentence.
 
 **Lùnastal**, 1 an Lùnastal, is the feast of first-fruits and gathering, and the month is named for it. Markets open, contests are held, and oaths are taken before witnesses. Cathal was crowned on the feast itself, 1 an Lùnastal 2002 DE.
 
@@ -3830,7 +3828,7 @@ Four feasts divide the year into quarters. They are older than any rite now on t
 
 ### VII. Feasts and Days Particular to Rodos
 
-Beside the quarter-days Rodos keeps days rooted in its own history. The table gives those the annals attest. The column "since" names the entry in which the custom first appears.
+Beside the quarter-days Rodos keeps days rooted in its own history. The table gives those the chronicles attest. The column "since" gives the day on which the custom is first recorded.
 
 | Day | Where | What is kept | Since |
 |---|---|---|---|
@@ -3848,15 +3846,15 @@ Beside the quarter-days Rodos keeps days rooted in its own history. The table gi
 | yearly | Cnoc ghorm | The northern feast of the Yellow Scorpion | 11 an Gearran 1955 DE |
 | one night, undisclosed | Baile chrom and the north | The Grey Night of Sìne, the Peaceful Goose; outsiders are not told which night | 14 am Màrt 1938 DE |
 
-The day of the Setting-Out has never been kept as a feast. The chronicles stop describing the departed the moment the ships clear the harbour, and the island has kept its remembrance of them at the harbour, where the record stops, on the day the custody-book gives for the turn and not on the day they sailed. Since 23 am Màrt 700 DE the empty-harbour rite has fallen on that day, 25 an t-Samhain, though the reckoning of this record, following the harbour scribe, sets the turn on the day of the sailing. The Library is aware that the custody-book may have taken its day from the rite rather than the rite from the book. By the last entry of the Age of Sundering the rite was kept by eleven people (17 an t-Sultain 1764 DE). The record of the later ages does not say how many keep it now.
+The day of the Setting-Out has never been kept as a feast. The chronicles stop describing the departed the moment the ships clear the harbour, and the island has kept its remembrance of them at the harbour, where the rolls stop, on the day the custody-book gives for the turn and not on the day they sailed. Since 23 am Màrt 700 DE the empty-harbour rite has fallen on that day, 25 an t-Samhain, though the harbour scribe, whose count the island follows, sets the turn on the day of the sailing. The Library is aware that the custody-book may have taken its day from the rite rather than the rite from the book. By the last entry of the Age of Sundering the rite was kept by eleven people (17 an t-Sultain 1764 DE). The chronicles of the later ages do not say how many keep it now.
 
 **The Severance**, 1 am Faoilleach 1930 DE, is kept at Cathair dhearg by the council as the day the kingdom's modern history begins. The chronicle says the Mourning Custom of the Sundering, first made for a chosen parting, was reused uneasily for a very different departure in a later age, and the council's keeping of this day is the use most often meant. In the north the day is not kept. It is worked through like any other, and the Tuathaich say that this is their way of keeping it.
 
-**The Long War** left two days. The Battle of Àth leathan, 11 an Giblean 2020 DE, opened *An Cogadh Fada*. Tuathaich families have raised a cairn without leave on the field at Àraich Àth leathan, and it grows by a stone or two whenever the patrols pass; whether they come on the day of the battle the record does not say. The Battle of Muileann ghlas, 10 an Dùbhlachd 2021 DE, ended the war, and the regiments raised in the campaign keep that day at their stations. So the two days are kept by two peoples, and the record, whose war archive is sealed (27 an Giblean 2023 DE), holds what it can of both.
+**The Long War** left two days. The Battle of Àth leathan, 11 an Giblean 2020 DE, opened *An Cogadh Fada*. Tuathaich families have raised a cairn without leave on the field at Àraich Àth leathan, and it grows by a stone or two whenever the patrols pass; whether they come on the day of the battle nobody has written down. The Battle of Muileann ghlas, 10 an Dùbhlachd 2021 DE, ended the war, and the regiments raised in the campaign keep that day at their stations. So the two days are kept by two peoples, and the library, whose war archive is sealed (27 an Giblean 2023 DE), holds what it can of both.
 
 ### VIII. The Reckoning of the Humans, and Its Reconciling
 
-The humans who came at the Crossing (5 am Faoilleach 1780 DE) brought a calendar of their own, and in most respects it was close to the island's. Their year had twelve months of the same lengths in the same order, with the same extra day in the second month every fourth year. Samuel Wren's word-lists (13 an Dùbhlachd 1781 DE), which survive in the Administration's letter-books, give the month-names in the two tongues side by side, and the clerks needed nothing more than that list to convert months. The chronicle notes that the humans crossed "the water the Rodians once crossed." Whether the likeness between the calendars has anything to do with that, nobody on Rodos knows, and this record does not say.
+The humans who came at the Crossing (5 am Faoilleach 1780 DE) brought a calendar of their own, and in most respects it was close to the island's. Their year had twelve months of the same lengths in the same order, with the same extra day in the second month every fourth year. Samuel Wren's word-lists (13 an Dùbhlachd 1781 DE), which survive in the Administration's letter-books, give the month-names in the two tongues side by side, and the clerks needed nothing more than that list to convert months. The chronicle notes that the humans crossed "the water the Rodians once crossed." Whether the likeness between the calendars has anything to do with that, nobody on Rodos knows, and the chronicles do not say.
 
 The calendars differed in two things. The first was the beginning of the year. The humans began theirs at am Faoilleach, and the Ròdaich had begun theirs at Samhain since the Hall first filled the baskets. The second was the count of years. The humans numbered theirs from an epoch in their own land, which they named and did not explain, and their numbers were much larger than the island's. No Ròdaich scribe set down the name of that land (26 an Gearran 1781 DE), and the letter-books do not explain the epoch either.
 
@@ -3864,13 +3862,13 @@ The first written treaty (27 an Giblean 1787 DE) was drawn up in the humans' ton
 
 By the third currency reform (7 an Giblean 1908 DE) every contract on the island ran from am Faoilleach, and the Ròdaich civil year had moved to the humans' beginning without any decree. The old Samhain year survived in the shrines, in the Hall's count of burnings until it lapsed, and among the custodians of Inis bhàn, who taught "the old reckoning" in their school (7 an t-Ògmhios 1831 DE). The Administration's census (19 an Cèitean 1901 DE) and its register (26 an t-Samhain 1906 DE) were dated by the humans' year alone.
 
-The reconciling was finished after the Severance, when the humans no longer had any say in it. The council's clerks emptied the counting-houses (11 an t-Ògmhios 1931 DE) and boxed the ledgers unread, because few of them could read the humans' hand. Ailean Leabhar, the library's first keeper, spent his first years having them read (28 an t-Ògmhios 1945 DE). He had every date in them converted to the Diosal count, using the double-dated pages of the custodians' clerks as the key, and he kept the new year at am Faoilleach. His reason was that a century of contracts, ledgers and letters already stood on that footing. The kingdom has kept it since. Every year in this record, in every age, therefore runs from am Faoilleach to an Dùbhlachd. The people who lived before 1780 began their years at Samhain, and a reader of the old rolls should remember that.
+The reconciling was finished after the Severance, when the humans no longer had any say in it. The council's clerks emptied the counting-houses (11 an t-Ògmhios 1931 DE) and boxed the ledgers unread, because few of them could read the humans' hand. Ailean Leabhar, the library's first keeper, spent his first years having them read (28 an t-Ògmhios 1945 DE). He had every date in them converted to the Diosal count, using the double-dated pages of the custodians' clerks as the key, and he kept the new year at am Faoilleach. His reason was that a century of contracts, ledgers and letters already stood on that footing. The kingdom has kept it since. Every year on Rodos, in every age, is therefore now counted from am Faoilleach to an Dùbhlachd. The people who lived before 1780 began their years at Samhain, and a reader of the old rolls should remember that.
 
 The Tuathaich keep the Diosal count in their dealings with the kingdom. What count the northern parish books keep among themselves the library cannot say, since it receives few of them.
 
 ### IX. The Five Ages
 
-The five ages are the divisions of *Clàr nan Aoisean* as the library received and extended it. The table gives the first and last entries the annals set in each.
+The five ages are the divisions of *Clàr nan Aoisean* as the library received and extended it. The table gives the first and the last thing remembered in each.
 
 | Age | Ròdais name | English | Span | First event | Last event |
 |---|---|---|---|---|---|
@@ -3882,28 +3880,28 @@ The five ages are the divisions of *Clàr nan Aoisean* as the library received a
 
 Three things in the table need a word.
 
-The span of the Ancient Age opens in 12,999 BDE, but its first event, the crack in the stone, is set some decades later. The span is the table's round beginning for an age that has none. The event is the oldest thing the island remembers.
+The span of the Ancient Age opens in 12,999 BDE, but its first event, the crack in the stone, falls some decades later. The span is the table's round beginning for an age that has none. The event is the oldest thing the island remembers.
 
-The Age of Sundering is usually said to open with the Choosing, but the Choosing (8 an Dùbhlachd 39 BDE) is not its first entry. The age opens with the finding of the land (6 am Faoilleach 39 BDE), without which there would have been nothing to choose.
+The Age of Sundering is usually said to open with the Choosing, but the Choosing (8 an Dùbhlachd 39 BDE) is not the first thing in it. The age opens with the finding of the land (6 am Faoilleach 39 BDE), without which there would have been nothing to choose.
 
-The Severance closes the Age of Strangers but falls in 1930, the first year of the New Age. The first entries of the New Age follow it within that same year. The copyists of the cellar drew the boundary at the end of 1929, when the war had been decided and the columns had gone north, and they entered the Severance as the last act of the age it ended. The library has left the overlap as it found it.
+The Severance closes the Age of Strangers but falls in 1930, the first year of the New Age. The first events of the New Age follow it within that same year. The copyists of the cellar drew the boundary at the end of 1929, when the war had been decided and the columns had gone north, and they entered the Severance as the last act of the age it ended. The library has left the overlap as it found it.
 
-### X. A Note on the Dates in this Record
+### X. Where the Dates Come From
 
-Every event in this record carries a day, a month and a year. That is the work of the library's reckoning, which fixes a day for every event so that the order of events may be kept. Where the chronicle gives a year, the reckoning keeps that year. Where it gives a full day, the reckoning keeps the day. Where the record sets one thing after another, the reckoning never puts them the other way round.
+Every event in this history carries a day, a month and a year, and they come from different places in different ages.
 
-For the New Age and the Age of Strangers most of these days are remembered: they come from rolls, ledgers, letter-books and the chroniclers' own entries. For the Age of Sundering they are remembered more thinly, and a good many were settled by agreement, as the day of the empty-harbour rite was. For the Holy Age and the Ancient Age the days are reckoned, not remembered. Nobody at the ford gathering knew that Ailean Mòr's bank was thrown up in an Lùnastal, and nobody at Seann Warr knew in which year the tallies thickened. The reckoning gives them a day so that they can be set in their order, in one count with everything after. Trust such a date for the order it keeps, not as a memory.
+For the New Age and the Age of Strangers the days are remembered: they come from rolls, ledgers, letter-books and the chroniclers' own entries. For the Age of Sundering they are remembered more thinly, from the custody-book, the harbour rolls and the crown's king-list, and a good many were settled by agreement, as the day of the empty-harbour rite was. For the Holy Age the years come from the Keepers' roll, the king-lists and the Hall's count of burnings, which do not always agree, and the days mostly from the feasts and seasons the rolls name. For the Ancient Age everything rests on the tellings, the king-lists without lengths of reign, the tally walls and the tide-count. The tellings keep the order of things well and the distance between them poorly. Where they agree, the date is as sure as they are; where they disagree or fall silent, it is not, and such a date is safer for the order it keeps than for its year.
 
 
 ## Appendix E — Words Born from History
 
 This appendix gathers the words, names and sayings of Ròdais that the island's history made, or bent to a new sense. It is set out as a historical dictionary. Each entry gives the headword and its part of speech, what it says word for word, what it has come to mean, the event that gave it that meaning, and a line from the annals or the five books.
 
-The chronicle's own list of *Words Born from History* is the core, and every word on it appears here with the meaning the chronicle gives it. The rest come from the annals and the books: titles and offices, laws and customs, the names of storms, places and quarrels, and the sayings the record quotes. A few are the words Ròdais built for the strangers' things. Ròdais took almost no loanwords from the humans (Appendix F); where the humans said *train*, *engine* or *strike*, it made a name from old roots, and some of those names are entered here under the years when the annals first needed them.
+The chronicle's own list of *Words Born from History* is the core, and every word on it appears here with the meaning the chronicle gives it. The rest come from the annals and the books: titles and offices, laws and customs, the names of storms, places and quarrels, and the sayings the record quotes. A few are the words Ròdais built for the strangers' things. Ròdais took few loanwords from the humans, and most of those late (Appendix F); where the humans said *train*, *engine* or *strike*, it made a name from old roots, and some of those names are entered here under the years when the annals first needed them.
 
 ### How to Read an Entry
 
-The headword is given in full. An article (*an*, *am*, *a'*) is written with it but not counted in the order, which is the Gaelic order of eighteen letters, *a b c d e f g h i l m n o p r s t u*, with the grave accent ignored. Dates are the reckoning's (Appendix D). Where no annal marks the first use of a word, the entry says so and gives only the event the word comes from. Citations are given as the record gives them: the annals in English, as this record renders its prose, the verses in Ròdais (Appendix F, *Of Translation*).
+The headword is given in full. An article (*an*, *am*, *a'*) is written with it but not counted in the order, which is the Gaelic order of eighteen letters, *a b c d e f g h i l m n o p r s t u*, with the grave accent ignored. Dates are given in the Diosal count (Appendix D). Where no annal marks the first use of a word, the entry says so and gives only the event the word comes from. Citations are given as the sources give them: the annals in English, as this history renders their prose, the verses in Ròdais (Appendix F, *Of Translation*).
 
 *n.* noun · *m.*, *f.* masculine, feminine · *pl.* plural · *v.* verb · *v.n.* verbal noun · *adj.* adjective · *phr.* phrase or saying · *lit.* literally
 
@@ -4146,22 +4144,22 @@ The record can prove fewer first uses than a reader might want. *Scàinte*, *Ais
 
 # Appendix F — The Tongues and Peoples of Rodos
 
-This appendix gathers what the record holds about the peoples who have lived on Rodos and the
-speech they used. It draws on the annals, the rolls and custody-books copied into Leabharlann
+This appendix gathers what the rolls and chronicles hold about the peoples who have lived on Rodos and the
+speech they used. It draws on the royal chronicles, the rolls and custody-books copied into Leabharlann
 Muileann chaol, the map of the kingdom, and the word-lists that survive from the Age of Strangers.
-Where the record is silent this appendix says so, and it does not fill the silence.
+Where the sources are silent this appendix says so, and it does not fill the silence.
 
 ## I. The Peoples
 
-Five peoples, or kinds of people, stand in the record. Two of them are gone. One of them, the
-*fuil-ghuail*, is not a people at all in the ordinary sense, but the record has come to treat it as
+Five peoples, or kinds of people, stand in the island's history. Two of them are gone. One of them, the
+*fuil-ghuail*, is not a people at all in the ordinary sense, but the chronicles have come to treat it as
 one, and so it is set down here with the rest.
 
-| People | Ròdais name | In the record | On the map today |
+| People | Ròdais name | In the chronicles | On the map today |
 |---|---|---|---|
 | The Old Ones | *na Seann-Dhaoine* | Age I; their works end before the Holy Age | no burg; thirty burgs and thirteen shires bear their names |
 | The people of Rodos | *na Ròdaich* (sg. *Ròdach*) | every age | 441 of 505 burgs; the capital and the sea |
-| The humans | the record's plain name for them | Age IV | none by that name; their descendants are the Tuathaich |
+| The humans | the chronicles' plain name for them | Age IV | none by that name; their descendants are the Tuathaich |
 | The northerners | *na Tuathaich* (sg. *Tuathach*) | Age V | 64 burgs in the north and north-west |
 | The coal-blooded | *an fhuil-ghuail*; in the humans' tongue, *obsidian-touched* | from Age IV | not counted on the map; counted, briefly, in the censuses |
 
@@ -4187,7 +4185,7 @@ At their widest reach (8 an Cèitean 9029 BDE) they held every coast of the isla
 names begin with *Seann*, and the islands off them. Their largest harbour was at the place now
 called Seann Skell.
 
-**The ruins inland** are theirs by the chronicle's own word. The canon entry on the counting of the
+**The ruins inland** are theirs by the oldest tellings. The telling of the counting of the
 dead (29 an Lùnastal 7253 BDE) names the Seann-Dhaoine as "the people who built Làrach an Dùin-fhaire and
 Làrach an Dùin". Làrach an Dùin-fhaire, the walled outpost on the spur above the ground where
 Cathair mhòr now stands, has its single gate facing inland and not to the sea
@@ -4200,15 +4198,15 @@ fortress too has never been settled. After the high places were left, every new 
 Seann-Dhaoine lies within sight of salt water (9 an Dùbhlachd 8573 BDE).
 
 **The standing stones** are harder. Carragh Cnoc bheag, Colbh Cnoc chiar and Calbh Cnoc ghorm were
-raised in the Ancient Age (17 an t-Iuchar 8286 BDE, 9 an t-Sultain 8173 BDE, 6 an t-Samhain 8054 BDE), and the record
-does not say by whom. The upper face of Carragh Cnoc bheag bears a line of the unread script; the
+raised in the Ancient Age (17 an t-Iuchar 8286 BDE, 9 an t-Sultain 8173 BDE, 6 an t-Samhain 8054 BDE), and no telling
+says by whom. The upper face of Carragh Cnoc bheag bears a line of the unread script; the
 four Ròdais words, *Bha teine sa chloich*, "there was fire in the stone", lie lower down, cut with
 a narrower tool by another hand, and "when that second hand came, the stone does not say"
 (11 an Lùnastal 8229 BDE). The stones are therefore the one place where the marks of two peoples lie on
 the same face. The wind-stone at the central Seann Chwen is another: a Ròdais wind-name cut over an
 older mark of the Seann-Dhaoine (13 an Gearran 5154 BDE).
 
-**Their counting.** Late in their record the Seann-Dhaoine began cutting single strokes on flat
+**Their counting.** Late in their time the Seann-Dhaoine began cutting single strokes on flat
 stones at the edges of their middens, one stone to a household (31 an t-Iuchar 7293 BDE). At the eastern
 Seann Warr the counting stones were built into a wall of some three thousand strokes
 (3 an t-Ògmhios 7212 BDE); at Seann Tarr in the north-east they were cut in fives and set in the floor of a
@@ -4217,16 +4215,16 @@ half-cut: two strokes finished, a third begun and abandoned (5 an Cèitean 7091 
 
 **Their end.** After the half-cut stone no new work of the Seann-Dhaoine can be dated. Their
 middens stop growing, their harbours silt, and their script is not cut again
-(7 an Gearran 7050 BDE). How they ended the record does not know, and it will not guess. This appendix
-follows it. Nothing in the annals says they were driven out, and nothing says they were not;
+(7 an Gearran 7050 BDE). How they ended no telling knows, and this appendix
+will not guess. Nothing in the chronicles says they were driven out, and nothing says they were not;
 nothing says they died, and nothing says their blood did not run on in some later people. The
 reader who wants an answer will not find one here.
 
-**The hill-folk.** Alongside, or after, the Seann-Dhaoine the record sets a second people: the
+**The hill-folk.** Alongside, or after, the Seann-Dhaoine the tellings set a second people: the
 hill-folk of the high valleys around the crack (10 an t-Samhain 8514 BDE), who buried their dead in the
 ground and not on islands, and cut no script. They burned the ore, though sparingly: one sliver,
 one fire, at Àth gharbh (12 an Dàmhair 8454 BDE). Whether they shared the island with the Old Ones or
-came after them the record does not know. Their own answer, given later, is that they were always
+came after them no telling knows. Their own answer, given later, is that they were always
 there, and it is the answer the Ròdaich give of themselves in the doctrine carried on Calbh Cnoc
 ghorm: *Cha do thàinig sinn; bha sinn ann*, "we did not come; we were here." When
 stag-scholars came to Calbh Cnoc ghorm in the Holy Age and could not read it, the people of Cnoc
@@ -4235,10 +4233,10 @@ ghorm told them what it said, and "the scholars write that the people say so"
 
 ### The Ròdaich
 
-The Ròdaich are the people of Rodos: the majority in every age of the record, the holders of the
+The Ròdaich are the people of Rodos: the majority in every age of the island's history, the holders of the
 capital, Cathair dhearg (Cathair dhearg), and of the sea. Their name is the island's name with the
 people-ending *-aich*; a single person is a *Ròdach*. English writers of the humans' time used
-*Rodian*, and the chronicle keeps that word as the English adjective.
+*Rodian*, and this history keeps that word as the English adjective.
 
 **Custodians.** The Ròdaich enter history as custodians. In the Ancient Age a custom set in across
 the hill settlements that no fire should take more of the ore than one cupped hand could hold. The
@@ -4280,7 +4278,7 @@ vote" (8 an Dùbhlachd 39 BDE); the fleet set out, turning sunwise round the har
 of the Diosal Era (19 an Giblean 1 DE). A fragmentary report told of two landfalls, not one
 (24 an Dùbhlachd 5 DE), and of the thinning: cut off from the vein, "by the third generation abroad,
 nothing remains that Rodos would recognize" (3 an t-Iuchar 14 DE). The departed are a people of the
-record only by their absence. The island kept them in rites (the empty-harbour rite,
+chronicles only by their absence. The island kept them in rites (the empty-harbour rite,
 25 an t-Samhain 22 DE; the white sorrow, *an Tùrsa Geal*, 27 an Dàmhair 15 DE) and in words, of which more
 below. When the humans came, old sailors at Cuan shean remarked that the strangers had come in from
 the same quarter of sea the Sundering fleet once sailed into. The council forbade the remark in its
@@ -4291,12 +4289,12 @@ whether the humans descend from the departed, and this appendix does not know ei
 
 **The Crossing.** Humans made landfall on Rodos and were granted leave to stay
 (5 am Faoilleach 1780 DE): the first contact since the Sundering. Three ships out of the west anchored off
-Cuan shean, and their master, whom the record calls Edmund Harrow, came ashore unarmed and asked by
+Cuan shean, and their master, whom the chronicles call Edmund Harrow, came ashore unarmed and asked by
 signs for water (13 am Faoilleach 1780 DE). That is the first exchange between the two peoples, and it was
 not in words.
 
 **Their homeland.** The strangers named their homeland in their own tongue, but no Ròdach scribe
-set the word down. From the first season the record calls it *an Tìr Thall*, the land beyond, and
+set the word down. From the first season the chronicles call it *an Tìr Thall*, the land beyond, and
 calls its people simply the humans (26 an Gearran 1781 DE). Their own name for their country is not on
 Rodos in any hand, and it will not be recovered from here.
 
@@ -4340,7 +4338,7 @@ shepherded to the northern territory their descendants hold today.
 
 ### The Tuathaich
 
-From the Severance the record stops calling them humans. The descendants of those left on Rodos are
+From the Severance the chronicles stop calling them humans. The descendants of those left on Rodos are
 *na Tuathaich*, the northerners, from *tuath*, north, by the same *-aich* that makes *Ròdaich*, so
 that on the page the two names read as siblings even though their circumstances do not. Their
 homeland in the north was fixed formally (22 am Màrt 1930 DE): "a confinement, not a homecoming,
@@ -4348,7 +4346,7 @@ though later generations will simply call it home." A formal wall between the tw
 proposed and rejected as unnecessary, because the two were already keeping apart on their own
 (11 an Cèitean 1939 DE).
 
-What the Tuathaich call themselves in their own speech the record does not say. The name in this
+What the Tuathaich call themselves in their own speech the chronicles do not say. The name in this
 appendix is the kingdom's name for them.
 
 **Their burgs.** The map counts sixty-four Tuathaich burgs, all in the north and north-west, with
@@ -4379,14 +4377,14 @@ is Donn, an Sìorraidh, and its towns lie together along the north coast, in the
 ghlas, Muileann leathan, Inis mhin and Àth àrsaidh. One, Baile chrom, keeps Rùn-dìomhair na
 h-Oidhche Glaise, the Mystery of the Grey Night. Creideamh nan Tuathach keeps, quietly, the First
 Canoe fragment (13 an Gearran 1938 DE): among coastal Tuathaich families, "a named steersman, a first
-crossing", dismissed by the Ròdach priesthood as superstition (9 an t-Samhain 10,054 BDE). The fragment is
-entered in the annals at the head of the Ancient Age because that is where its tellers place it.
-The record does not endorse it and does not refute it. It is one of the two suppressed histories
-that bracket this chronicle, and it is not resolved here.
+crossing", dismissed by the Ròdach priesthood as superstition (9 an t-Samhain 10,054 BDE). The fragment
+belongs at the head of the Ancient Age, because that is where its tellers place it.
+The Library neither endorses it nor refutes it. It is one of the two suppressed histories
+that bracket the island's story, and it is not resolved here.
 
 ### The fuil-ghuail
 
-This section holds to what the chronicle says.
+This section holds to what the rolls and chronicles say.
 
 A child born into the mining camps was exposed to more raw ore across her lifetime than any Rodian
 in living memory, and did not age the way the people around her did. Her name is Aisling
@@ -4405,18 +4403,18 @@ After the Severance the Obsidian Rite was formalized as Creideamh nan Ròdach, b
 leyline and "the unbroken line of the obsidian-touched" (18 an Giblean 1935 DE). The first census of the
 kingdom noted, without further comment, exactly how few such people exist (30 an t-Iuchar 1936 DE), and
 the published census of a later generation gave a number and nothing else (8 am Faoilleach 1994 DE). The
-record does not print the number in any other place, and this appendix does not either.
+number is printed nowhere else, and this appendix does not print it either.
 
 Whether the *fuil-ghuail* are a people is a question of words. They are born to Ròdach families;
 in Ròdach speech the word names the gift that sets the Ròdaich apart from the Tuathaich; and Feallsanachd an Fhèidh has asked since the Holy Age why the vein answers some hands and
-not others. The record does not settle it.
+not others. The chronicles do not settle it.
 
 ## II. The Tongues
 
 ### Ròdais
 
-Ròdais is the Gaelic of Rodos. Its grammar and core vocabulary are Scottish Gaelic's; its look on
-the page is its own. Three marks distinguish it:
+Ròdais is the Gaelic of Rodos. Of the humans' tongues it most resembles Scottish Gaelic, Irish and Manx,
+and it is closest to Scottish Gaelic in grammar and core vocabulary; its look on the page is its own. Three marks distinguish it:
 
 | Feature | Ròdais | Example |
 |---|---|---|
@@ -4453,12 +4451,15 @@ the small rivers are *Ciaras* but *Àrsaidheas*.
 
 The stress falls on the first syllable.
 
-**How Ròdais names new things.** Ròdais is an old dialect, long cut off, and it took almost none
-of the loanwords that other Gaelic took for new things. When it needs a word for something new, it
-builds one from old roots, naming the thing by what it does or what it is like: head first, the
-describer after, hyphenated, two elements and seldom three. The humans brought many new things,
-and the kingdom after them more, and the Ròdaich named nearly all of them in this way. A selection
-from the lexicon, with the literal sense and the word the Gaelic of other lands uses:
+**How Ròdais names new things.** Ròdais is an old dialect, long cut off, and it took few of the
+loanwords that other Gaelic took for new things, fewer than Scottish Gaelic took. The humans brought
+many new things, and the kingdom after them more. In the first generations after the Crossing the
+Ròdaich named nearly all of them from old roots, naming the thing by what it does or what it is
+like: head first, the describer after, hyphenated, two elements and seldom three. Many of these
+kennings are still the usual words. The loans Ròdais did take came mostly later, for such things
+as the bus (*bus*), the taxi (*tacsaidh*) and the radio (*rèidio*), and for many words of the
+sciences, such as *ogsaidean*, oxygen, and the names of the elements. A selection of the kennings,
+with the literal sense and the word the Gaelic of other lands uses:
 
 | English | Ròdais | literally | elsewhere |
 |---|---|---|---|
@@ -4485,10 +4486,10 @@ Families form of themselves: machines are *iarainn*, of iron; screens and pictur
 *scàthan*, shadow and mirror; electricity is *dealan*, spark, and *dealanach*, lightning. A
 crossing for feet is a ford, *àth*, the same word the map uses for a town at a river.
 
-**Words born of the record.** Ròdais has also given old words new senses from the events it lived
-through. The chronicle keeps a list of these; the annals date the first use of most.
+**Words born of the island's history.** Ròdais has also given old words new senses from the events it lived
+through. The royal chroniclers keep a list of these, and the rolls date the first use of most.
 
-| Word | Plain sense | Sense given by the record | First recorded |
+| Word | Plain sense | Sense given by history | First recorded |
 |---|---|---|---|
 | *roghnaich* | to choose | to have chosen the crossing; to choose exile | 21 an Lùnastal 28 DE |
 | *a' Scaradh* | the Sundering | any chosen, permanent parting; later used of the Severance | Age of Sundering |
@@ -4530,8 +4531,8 @@ Thirty burgs on the map bear these names, and thirteen shires are named from the
 
 The Ròdaich did not translate these names; they took them over. The fishers who resettled Seann
 Mhorn in the Holy Age kept "the name they found there, which is not in their own tongue", and said
-the old name came with the stones (23 an t-Sultain 2821 BDE). It is the first such taking-over the record
-shows. The pattern is the one other lands know, where an older people's harbour-names outlive them
+the old name came with the stones (23 an t-Sultain 2821 BDE). It is the first such taking-over on
+record. The pattern is the one other lands know, where an older people's harbour-names outlive them
 inside a newer tongue: borrowed and fossilized, not translated.
 
 **What can be said.** The roots are single syllables. Seven of the ten end in a doubled consonant
@@ -4544,7 +4545,7 @@ counts *sk-* among the clusters that do not lenite.
 or only the Ròdaich's label for places they found already named (the second is the usual
 reading, and the likelier, but it is a reading). Whether the roots come from one tongue or several.
 Two of them look like Ròdais words, *toll*, a hole, and *dunn* beside *dùn*, a fort; the
-resemblance has tempted scholars in every age and proves nothing, and the record does not take a
+resemblance has tempted scholars in every age and proves nothing, and the Library does not take a
 side.
 
 **The script.** The Seann-Dhaoine also cut signs. Rows of them stand on the cliff above Seann Tarr
@@ -4560,7 +4561,7 @@ Whether the script records the Old Ones' tongue, or some other, or no tongue at 
 
 ### The humans' tongue
 
-The humans spoke a plain tongue, and this record renders it in English (see *Of Translation*
+The humans spoke a plain tongue, and this history renders it in English (see *Of Translation*
 below). The names they carried were names of that tongue: Edmund Harrow, Thomas Pike, Samuel Wren,
 Josiah Pell, Henry Maddox, Arthur Lisle, Samuel Hale, Edwin Lowe.
 
@@ -4581,8 +4582,8 @@ reports in the humans' tongue and his household in Ròdais (23 an Giblean 1866 D
 read the names of the chosen at Caol mhòr from a list in the humans' tongue, and the custodians took
 the names down again in Ròdais, "so that they will know whom to look for" (3 am Màrt 1867 DE).
 
-**Loanwords.** Few crossed. Ròdais took the humans' goods and named them in its own way, as above;
-it did not take their words for them. The humans, for their part, so far as the record shows,
+**Loanwords.** Few crossed, and most of those late. In the first generations Ròdais took the
+humans' goods and named them in its own way, as above, and kept few of the humans' words for them. The humans, for their part, so far as the record shows,
 used the Ròdais names of places as they found them, and took *fuil-ghuail* not as a loan but as a
 translation, *obsidian-touched*; that word, and not the Ròdais, is the one the kingdom's own later
 entries use of the Rite's "unbroken line". What went the other way, into the humans' speech, is best seen after the
@@ -4592,7 +4593,7 @@ The Ròdais word for the humans' country, *an Tìr Thall*, is the only name the 
 
 ### Tuathaich speech
 
-The speech of the north is a mixed speech, and the record describes it only in passing. It says
+The speech of the north is a mixed speech, and the chronicles describe it only in passing. They say
 this much:
 
 The Tuathaich kept the humans' tongue. Walter Hale asked the council for leave to open schools in
@@ -4610,7 +4611,7 @@ usage pointedly does not take up (18 an Giblean 2025 DE). The word *dubhan* for 
 north, from the name of Dubhan, a Tuathach, and it spread before the fuel did (23 an t-Sultain 2010 DE);
 the royal chronicler who first set it down spelled it three ways in two lines (21 an t-Samhain 2000 DE).
 
-Beyond this the record does not go. The northern towns' own accounts are among the things the royal
+Beyond this the chronicles do not go. The northern towns' own accounts are among the things the royal
 record says it does not hold (25 an Giblean 1972 DE). How far the humans' tongue has drifted in the north
 since the crossing closed, how much Ròdais is spoken at a Tuathach hearth, and in which tongue the
 First Canoe is told: this archive does not know, and it would be wrong to pretend otherwise.
@@ -4666,8 +4667,8 @@ The describers are colour, size and character words: *mòr, beag, dubh, geal, b�
 uaine, glas, fada, domhain, ìseal, fiadhaich, naomh, fionn, ciar, gorm, sean, òg, garbh, min, caol,
 leathan, crom, dìreach, àrsaidh*. The great rivers are *Abhainn* with a describer; the small ones
 take a root and the ending *-as* or *-eas* by broad and slender. A shire, *siorrachd*, takes the name
-of its seat. Names repeat freely; there are two Baile chrom and four Seann Skell, and the record
-tells them apart by where they are.
+of its seat. Names repeat freely; there are two Baile chrom and four Seann Skell, and the rolls
+tell them apart by where they are.
 
 Beside these stand the Old Ones' names, which follow none of the rules above except that the Ròdaich
 put *seann* before them.
@@ -4683,11 +4684,11 @@ the Small-Burning custom was "nowhere written and everywhere kept".
 
 **The Ròdais words on the stones.** *Bha teine sa chloich* on Carragh Cnoc bheag, *Cuimhnich an
 teine* on Colbh Cnoc chiar, *Cha do thàinig sinn; bha sinn ann* on Calbh Cnoc ghorm: these are the
-oldest Ròdais words in stone. When they were cut the record does not say. The stones were raised in
+oldest Ròdais words in stone. When they were cut no roll says. The stones were raised in
 the Ancient Age; the Ròdais on Carragh Cnoc bheag was cut later, by another hand. The words on Calbh
 Cnoc ghorm were recut along their old grooves by a hand from the Stone Kings' hill, and some later
 readers say the recutting changed a letter (2 an t-Samhain 3237 BDE). That there were letters to change
-then is not proved by this; the record keeps the claim and not a judgment.
+then is not proved by this; the Library keeps the claim and makes no judgment on it.
 
 **The stag-letters.** The first letters in use by the Ròdaich were made at Muileann chiar in the far
 east, where the teachers of the stag's people, the school later called Feallsanachd an Fhèidh,
@@ -4719,7 +4720,7 @@ provincial archives into one place (26 an t-Iuchar 1996 DE). This appendix is wr
 
 ## Of Translation
 
-This record is written for the next reader in English, and some account is owed of what that has
+This history is written in English for the next reader, and some account is owed of what that has
 done to the tongues it describes.
 
 **The humans' speech is rendered in English.** The humans did not speak English. They spoke the
@@ -4727,15 +4728,15 @@ tongue of an Tìr Thall, whose name for itself, like the name of their country, 
 Rodos. It was a plain tongue, as English is plain beside Ròdais; its speakers were strangers to the
 island and its things; and it has become, in the north, the ordinary speech of the Tuathaich. For
 those reasons it is given here as English, and its names are given as English names, as the letter-
-books would have them. When this record says the humans called the ore *coal*, it means that they
+books would have them. When this history says the humans called the ore *coal*, it means that they
 used their ordinary word for their ordinary fuel, and that *coal* is the nearest English word for
 what they meant. When it gives a custodian's title as "keepers of the coal", it is rendering Wren's
 rendering. *Obsidian-touched* is likewise an English stand-in for the humans' word, chosen because
 it keeps the plainness of the original and the error in it. The ore is not obsidian, and it is not
 coal.
 
-**Ròdais is kept as it is.** The Ròdaich are the people of this record and Ròdais is its first
-tongue, and the record does not translate it into something else. Names of places, persons, faiths,
+**Ròdais is kept as it is.** The Ròdaich are the people of this history and Ròdais is its first
+tongue, and it is not translated into something else here. Names of places, persons, faiths,
 laws and offices are left in Ròdais spelling, with the grave accent and the *sc*, and with their
 lenitions: *Cathair dhearg*, not "Red City"; *fuil-ghuail*, not "coal-blood", except where a gloss is
 wanted. Where a Ròdais phrase is translated, the translation follows it in quotation marks and is
@@ -4744,7 +4745,7 @@ for convenience; the English names are this archive's, not the chroniclers'. The
 is English, and is used as such.
 
 **The island's own name.** Written in Ròdais it is *Ròdos*, with the accent. In the English text of
-this record it is written *Rodos*, the form the humans used and the form in which most readers
+this history it is written *Rodos*, the form the humans used and the form in which most readers
 will have met it. It is the same word.
 
 **The Seann tongue is not translated, because it cannot be.** Its ten roots are given as the
@@ -4753,7 +4754,7 @@ them.
 
 **What has been lost in the rendering.** Some things do not cross. The forty colour-words on
 Gormshuil's leaf are one; the Tuathaich jokes about being long-warred are another, since *fadachadh*
-is funny, and not funny, only in a tongue where *fada* is also the name of the war. Where this record
+is funny, and not funny, only in a tongue where *fada* is also the name of the war. Where this history
 has had to choose between a translation that reads easily and one that keeps what the words did, it
 has tried to keep what they did.
 
@@ -4850,13 +4851,13 @@ has tried to keep what they did.
 
 **Baile dhomhain** (Cnoc bheag). Founded 2 an t-Samhain 1101 DE by Ròdaich followers of the Hawk. Baile dhomhain is a walled town in a deep valley near Cnoc bheag, one of the towns of the Hawk. Its walls were raised in the Age of Strangers and strengthened after the Severance, when the Tuathaich line was drawn close by. A' Phlàigh Uaine, the Green Death, struck it in the Age of Strangers. Its trade goes down to the quay at Ceann òg. Known for walled deep-valley town of the Hawk.
 
-**Baile dhubh** (Cnoc ghorm). Founded 22 an Dàmhair 1103 DE by Ròdaich herders of the black-soil fields. Named for the dark earth of its fields, Baile dhubh was an ordinary Ròdaich farm town until the Severance drew the northern border around it. It kept its people when the province of Cnoc ghorm passed to the Tuathaich, and has lived since as a place of exchange and quiet mutual suspicion. Its folk hold the Yellow Scorpion faith, as their northern neighbours do, which the record suggests is why they were left in peace. Known for Ròdaich enclave on the Tuathaich border.
+**Baile dhubh** (Cnoc ghorm). Founded 22 an Dàmhair 1103 DE by Ròdaich herders of the black-soil fields. Named for the dark earth of its fields, Baile dhubh was an ordinary Ròdaich farm town until the Severance drew the northern border around it. It kept its people when the province of Cnoc ghorm passed to the Tuathaich, and has lived since as a place of exchange and quiet mutual suspicion. Its folk hold the Yellow Scorpion faith, as their northern neighbours do, which is thought to be why they were left in peace. Known for Ròdaich enclave on the Tuathaich border.
 
 **Baile dhubh** (Caol mhòr). Founded 4 an t-Samhain 1865 DE by human colliers of the northern seams. Baile dhubh, "the black town", was built by human colliers in the Age of Strangers on one of the northern coal seams, which the humans worked alongside the vein in the south. After the Severance it passed to the Tuathaich with the rest of the north. Before the Long War it was one of the communities that refused the new fuel and kept working the last workable seams. Known for coal pits of the northern holdouts.
 
 **Baile dhubh** (Baile ghlas). Founded 1 an Giblean 1848 DE by human administrators near Seann Warr. Baile dhubh was built in the Age of Strangers as a clerks' town for the human administration near Seann Warr, where the fifth regiment is now stationed. After the Severance its Ròdaich people took up the Direwolf faith of the country around it. It has fewer than seven hundred people and lives on the garrison. Known for former clerks' town by Seann Warr.
 
-**Baile dhìreach** (Inis thais). Founded 14 an t-Iuchar 1353 DE by Scorpion-faith traders of the west. Baile dhìreach, the straight town, is a harbour on the west coast built around one long street to the quay. It was founded in the long quiet centuries by traders of the Yellow Scorpion faith, among Direwolf neighbours. The two faiths have shared its market without trouble the record thinks worth noting. Known for straight-street harbour of the Scorpion faith.
+**Baile dhìreach** (Inis thais). Founded 14 an t-Iuchar 1353 DE by Scorpion-faith traders of the west. Baile dhìreach, the straight town, is a harbour on the west coast built around one long street to the quay. It was founded in the long quiet centuries by traders of the Yellow Scorpion faith, among Direwolf neighbours. The two faiths have shared its market without any trouble the rolls think worth noting. Known for straight-street harbour of the Scorpion faith.
 
 **Baile dhìreach** (Cnoc gheal). Founded 6 am Màrt 1115 DE by road-builders of Cnoc gheal. A straight town on the road from Cnoc gheal to Seann Bhrenn, named for the road that made it. It follows Feallsanachd an Fhèidh and is a carters' stop on the way to the coast. Known for the straight road to Seann Bhrenn.
 
@@ -4946,7 +4947,7 @@ has tried to keep what they did.
 
 **Baile shean** (Cnoc thais). Founded 27 an Cèitean 2442 BDE by Ròdaich founders; resettled by the Tuathaich after the Severance. An old Ròdaich town with walls and a citadel, emptied at the Severance and taken over by Tuathaich families. In the years before An Cogadh Fada it was counted among the northern communities that refused the dubhan economy. Its walls still stand, and the Tuathaich guard them as the Ròdaich once did. Known for old walls held by the Tuathaich.
 
-**Baile shean** (Inis chrom). Founded 18 an t-Iuchar 1814 BDE by Ròdaich followers of the Direwolf. An old walled town of Creideamh a' Mhadaidh-allaidh, beside the fort of Muileann bheag. Its walls are older than the fort, and for most of the record it was the stronger of the two. It is small now, and lives on the fort's custom. Known for old walled town of the Direwolf.
+**Baile shean** (Inis chrom). Founded 18 an t-Iuchar 1814 BDE by Ròdaich followers of the Direwolf. An old walled town of Creideamh a' Mhadaidh-allaidh, beside the fort of Muileann bheag. Its walls are older than the fort, and for most of its history it was the stronger of the two. It is small now, and lives on the fort's custom. Known for old walled town of the Direwolf.
 
 **Baile shean** (Caol ìseal). Founded 13 an Dùbhlachd 2272 BDE by Ròdaich fishers of the northern shore. Baile shean is an old quay on the northern shore and the port of its province. The inn An Taigh-seinnse Reòta lies inland on the road south, and its pickled spinach goes out through the quay. It is one of several places named Baile shean. Known for old quay of the northern shore.
 
@@ -4990,7 +4991,7 @@ has tried to keep what they did.
 
 **Caol fhiadhaich** (Caol fhiadhaich). Founded 12 an t-Iuchar 2857 BDE by the strait-pilots of the south-west. A harbour on a wild strait whose pilots earned their living guiding ships through the rocks. It is the seat of Siorrachd Caol fhiadhaich and a large town of the Madadh-allaidh faith, trading with the great tavern-village of Doire shean on its road. The strait pilots still take no ship through without an offering to Clach at the harbour wolf-stone. Known for strait-pilots and the harbour wolf-stone.
 
-**Caol gharbh** (Caol gharbh). Founded 5 am Màrt 2276 BDE by Ròdaich seafarers of the rough strait. Caol gharbh is a walled harbour on the rough strait and the seat of its province, a village in name but a town of twenty-seven thousand in fact. Its boatyards take oak from Doire chaol and build the heavy boats the strait demands. Its quarrel with Seann Bhrenn next door is as old as the record. Known for boatyards on the rough strait.
+**Caol gharbh** (Caol gharbh). Founded 5 am Màrt 2276 BDE by Ròdaich seafarers of the rough strait. Caol gharbh is a walled harbour on the rough strait and the seat of its province, a village in name but a town of twenty-seven thousand in fact. Its boatyards take oak from Doire chaol and build the heavy boats the strait demands. Its quarrel with Seann Bhrenn next door is as old as the rolls. Known for boatyards on the rough strait.
 
 **Caol leathan** (Caol leathan). Founded 12 am Faoilleach 2784 BDE by the strait-pilots of the western shore. Caol leathan grew on the wide strait that gives it its name, where the western pilots of the Holy Age took a toll from every boat bound for the capital's waters. Its walls and citadel were raised in the Age of Sundering to hold the strait, and were manned again when the strangers' ships began to use it after the Crossing. It is the northern anchor of the Direwolf country, and its priests look south to the temple at Inis thais for their rite. Known for strait tolls and the western pilots' guild.
 
@@ -5040,7 +5041,7 @@ has tried to keep what they did.
 
 **Ceann dhubh** (Baile gharbh). Founded 26 an Cèitean 1320 DE by Ròdaich fishers of the black headland. Ceann dhubh is a harbour under a dark headland, the port of Baile gharbh province, whose boats work the cold waters of the northern coast. Travellers on the coast road break their journey at An Leòmhann Buidhe a short way west, and the inn buys most of the harbour's catch. The harbour was deepened in the Age of Strangers to take the humans' ore ships, and has been too large for its trade ever since. Known for harbour under the black headland.
 
-**Ceann fhada** (Muileann chrom). Founded 27 an Cèitean 1320 DE by Ròdaich river pilots. A long spit of land made Ceann fhada a landing for river craft, and its pilots have guided boats on the Abhainn uaine for centuries. It is the old rival of Inis ìseal, a short way downstream, and the two quays have quarrelled over tolls in every age the record covers. It prospered in the Age of Strangers carrying ore-cart loads by water and has held its trade since by carrying grain. Known for long quay and river pilots.
+**Ceann fhada** (Muileann chrom). Founded 27 an Cèitean 1320 DE by Ròdaich river pilots. A long spit of land made Ceann fhada a landing for river craft, and its pilots have guided boats on the Abhainn uaine for centuries. It is the old rival of Inis ìseal, a short way downstream, and the two quays have quarrelled over tolls in every age the rolls cover. It prospered in the Age of Strangers carrying ore-cart loads by water and has held its trade since by carrying grain. Known for long quay and river pilots.
 
 **Ceann gheal** (Cathair dhomhain). Founded 8 an Gearran 1289 DE by fishers of the white headland. Ceann gheal is a harbour town north of the capital, founded in the long quiet centuries. The hollow called Toll-dubh lies in the hills behind it; it has never been mapped, and the town's people do not go near it. It keeps the capital's faith. Known for white headland and the Toll-dubh hollow.
 
@@ -5054,7 +5055,7 @@ has tried to keep what they did.
 
 **Ceann mhin** (Ceann mhin). Founded 12 an t-Iuchar 1336 BDE by harbour-lords of the smooth headland. A smooth headland port, walled, and the seat of Siorrachd Ceann mhin. It was a trading harbour for the northern mines in the Age of Strangers and follows Feallsanachd an Fhèidh. Known for the northern ore harbour.
 
-**Ceann mhin** (Ceann mhin). Founded 17 an t-Iuchar 220 BDE by Ròdaich fishers settling in the ruin of Làrach an Dùin. Ceann mhin is built in and around Làrach an Dùin, the ruined fortress of the old builders, and its harbour lies under the fallen walls. The Ròdaich fishers who settled there in the Holy Age reused its stones but never finished clearing it; the record admits it does not know who built the fortress. It is now a walled port town of nearly twenty thousand, the seat of its province, and the rival of Ceann chaol along the same coast. Known for harbour beneath Làrach an Dùin.
+**Ceann mhin** (Ceann mhin). Founded 17 an t-Iuchar 220 BDE by Ròdaich fishers settling in the ruin of Làrach an Dùin. Ceann mhin is built in and around Làrach an Dùin, the ruined fortress of the old builders, and its harbour lies under the fallen walls. The Ròdaich fishers who settled there in the Holy Age reused its stones but never finished clearing it; nobody knows who built the fortress. It is now a walled port town of nearly twenty thousand, the seat of its province, and the rival of Ceann chaol along the same coast. Known for harbour beneath Làrach an Dùin.
 
 **Ceann mhòr** (Ceann mhòr). Founded 6 an Cèitean 1987 BDE by Ròdaich fishers; resettled by the Tuathaich. Ceann mhòr is a great harbour on a headland of the north-west, under the beacon of Taigh-solais Baile chrom. It was a Ròdaich port of the Holy Age, struck by Gorta Baile chrom in the Age of Strangers and resettled by the Tuathaich after the Severance. It keeps the Yellow Scorpion faith. Known for great headland harbour under the Baile chrom light.
 
@@ -5382,7 +5383,7 @@ has tried to keep what they did.
 
 **Inis bheag** (Seann Toll). Founded 4 an Dàmhair 755 BDE by the island-keepers of Seann Toll. A small walled island harbour on the north coast, near the holy city of Cathair naomh. It ferries pilgrims from the sea to the holy city and keeps the old spirits. Known for the pilgrims' ferry to Cathair naomh.
 
-**Inis bhàn** (Inis bhàn). Founded 16 an Giblean 2587 BDE by Ròdaich seafarers of the white island. Inis bhàn is the great harbour of the north-west Ròdaich coast and the seat of its province, a port of nearly forty thousand. It is a town of the Hawk, and its shrines face the sea. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It is one of several harbours that claim the dock from which the ships of the Sundering set out, a claim the others dispute and the record cannot settle. Known for white-island harbour and Hawk shrines.
+**Inis bhàn** (Inis bhàn). Founded 16 an Giblean 2587 BDE by Ròdaich seafarers of the white island. Inis bhàn is the great harbour of the north-west Ròdaich coast and the seat of its province, a port of nearly forty thousand. It is a town of the Hawk, and its shrines face the sea. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It is one of several harbours that claim the dock from which the ships of the Sundering set out, a claim the others dispute and no roll can settle. Known for white-island harbour and Hawk shrines.
 
 **Inis chrom** (Inis chrom). Founded 25 an Giblean 1398 BDE by Direwolf sailors of the south-west. Inis chrom is a large walled harbour on a bent island of the south-west. It has been a port since the Holy Age and its sailors keep the Direwolf's faith. It lies close to Am Buabhall Fortanach and Àth gharbh. Known for bent isle harbour and Direwolf sailors.
 
@@ -5538,7 +5539,7 @@ has tried to keep what they did.
 
 **Ros gharbh** (Ros gharbh). Founded 3 am Faoilleach 216 DE by fishers of the rough headland. Ros gharbh is a harbour town on a rough headland of the gulf and the seat of its province. It was founded in the long quiet centuries and grew with the gulf's fishing fleet. It keeps the capital's faith. Known for the gulf's fishing fleet.
 
-**Ros gheal** (Ros gheal). Founded 29 an Dùbhlachd 1990 BDE by Ròdaich fishers of the white headland. Ros gheal, Ros leathan and Seann Skell share one bay on the north-central coast, and have quarrelled over its moorings for as long as the record runs. Ros gheal is the largest of the three and the seat of its province. Its people keep the Hawk's rite of Mòd, and its white headland is the first land the northern fishing boats see coming home. Known for white headland and the disputed bay.
+**Ros gheal** (Ros gheal). Founded 29 an Dùbhlachd 1990 BDE by Ròdaich fishers of the white headland. Ros gheal, Ros leathan and Seann Skell share one bay on the north-central coast, and have quarrelled over its moorings for as long as the rolls run. Ros gheal is the largest of the three and the seat of its province. Its people keep the Hawk's rite of Mòd, and its white headland is the first land the northern fishing boats see coming home. Known for white headland and the disputed bay.
 
 **Ros leathan** (Ros gheal). Founded 30 am Faoilleach 1735 DE by Ròdaich fishers of the Hawk bay. Ros leathan is a harbour town on the Hawk bay, sharing it with Ros gheal and Seann Skell. It was founded in the long quiet centuries by fishers who would not pay Ros gheal's mooring dues. It keeps the Hawk's rite. Known for rival wharves of the Hawk bay.
 
@@ -5594,7 +5595,7 @@ has tried to keep what they did.
 
 **Seann Toll** (Muileann chrom). Founded 8 an Gearran 12,423 BDE by the Seann-Dhaoine. A Seann-Dhaoine harbour on the inner coast of the midlands, called Seann Toll by the Ròdaich for the hollow in the rock where its boats lie. It is walled and follows the Dark Unicorn, and it stands a short way west of Cill ghlas, where the Rending opened. It lies close to Ceann leathan, where the Còmhrag is fought each year, and fighters from the tournament fill its taverns. Known for the rock-hollow harbour and Còmhrag crowds.
 
-**Seann Toll** (Muileann bheag). Founded 19 an Giblean 10,605 BDE by the Seann-Dhaoine. Seann Toll is a harbour in a cleft of the rock, and its lowest quay is cut in a manner the Ròdaich did not use; the record assigns it to the Seann-Dhaoine and goes no further. The Ròdaich settled it in the Holy Age as the nearest harbour for Dùn dhubh and Muileann bheag. It is a small port town of fishers and lightermen. Known for cleft-rock harbour of the Old Ones.
+**Seann Toll** (Muileann bheag). Founded 19 an Giblean 10,605 BDE by the Seann-Dhaoine. Seann Toll is a harbour in a cleft of the rock, and its lowest quay is cut in a manner the Ròdaich did not use; it is held to be the work of the Seann-Dhaoine, and nothing more is known of it. The Ròdaich settled it in the Holy Age as the nearest harbour for Dùn dhubh and Muileann bheag. It is a small port town of fishers and lightermen. Known for cleft-rock harbour of the Old Ones.
 
 **Seann Vell** (Ros dhomhain). Founded 29 an Lùnastal 4041 BDE by the Seann-Dhaoine. Seann Vell on the capital shore stands on Seann-Dhaoine quay stones, still visible at low water beneath the later harbour. The Ròdaich resettled it in the Holy Age and walled it in the long quiet centuries. It has since been drawn into the sprawl of Ros dhomhain, but keeps its own walls and its own harbour-master. Known for old quay stones of the capital shore.
 
@@ -5734,7 +5735,7 @@ has tried to keep what they did.
 
 **Àth mhin** (Dùn chrom). Founded 7 an t-Ògmhios 1025 DE by wardens of the Dùn chrom crossings. A walled town with a citadel at the smooth ford, one of a chain of crossings east of the capital. It was a quartering place for soldiers in the Age of Strangers and again in the Long War, when it held the state's stores for the campaign that ended at Muileann ghlas. Its people are mostly carters and stable-keepers. Known for the smooth ford and its citadel.
 
-**Àth mhòr** (Baile chaol). Founded 12 an t-Samhain 581 BDE by Ròdaich road-keepers of Baile chaol. The great ford carries the road from Seann Dunn inland, and for most of the record it has been the busiest crossing in the province. A path leaves the town southward to Làrach an Teampaill, and the folk of Àth mhòr have kept that path cleared for as long as there are accounts of it, though they will not say why. It is a large, plain town of carters, smiths and innkeepers. Known for the great ford and the temple-ruin path.
+**Àth mhòr** (Baile chaol). Founded 12 an t-Samhain 581 BDE by Ròdaich road-keepers of Baile chaol. The great ford carries the road from Seann Dunn inland, and for most of its history it has been the busiest crossing in the province. A path leaves the town southward to Làrach an Teampaill, and the folk of Àth mhòr have kept that path cleared for as long as there are accounts of it, though they will not say why. It is a large, plain town of carters, smiths and innkeepers. Known for the great ford and the temple-ruin path.
 
 **Àth mhòr** (Baile Mòr dhomhain). Founded 26 an Cèitean 1401 BDE by Ròdaich ford-keepers of the northern plain. One of several towns of this name, this Àth mhòr carries the tavern road across the river near An Taigh-seinnse Reòta. It was a waypoint on the mining roads in the Holy Age and a militia halt in the years before the war. It trades oak from Doire dhìreach down the road to the towns of the plain. Known for ford on the northern tavern road.
 

@@ -7,11 +7,11 @@
 
 ## I. Of the Land Across the Water
 
-The Third Age begins with a rumour, and the chroniclers of Rodos have never been able to do better than that. On {{date:III-0001}}, as the reckoning sets it, word came back to the island of a land across open water, a coast unpeopled by anyone who resembled the Ròdaich. Who brought that word first, in what boat, after how many days at sea, no record says. The kings kept their hall at Cathair dhearg, the custodians kept the vein under the mountain, and the Small-Burning Law measured out the black ore hearth by hearth as it had since the early centuries of the Holy Age. Into that order came a story about a shore.
+The Third Age begins with a rumour, and the chroniclers of Rodos have never been able to do better than that. On {{date:III-0001}} word came back to the island of a land across open water, a coast unpeopled by anyone who resembled the Ròdaich. Who brought that word first, in what boat, after how many days at sea, no record says. The kings kept their hall at Cathair dhearg, the custodians kept the vein under the mountain, and the Small-Burning Law measured out the black ore hearth by hearth as it had since the early centuries of the Holy Age. Into that order came a story about a shore.
 
 By the winter the story had reached the capital. In the hall of Queen Beathag nic Dhòmhnaill, daughter of Mòr nic Coinnich, at Cathair dhearg three crews from the western harbours told it, one after another, and none of them claimed to have been first. The queen's scribe took down all three accounts and noted at the foot of them that they agreed on the coast and on nothing else. It is a fair summary of most of what Rodos has ever known about the land beyond.
 
-What followed is called the Choosing, and the later chronicles call it a vote. Whether it was one, or a word laid over something older and looser, no one who wrote it down was there to see. All the accounts agree on one thing. Those who went, went because they wished to. No lots were drawn, and no conscription is recorded. The reckoning fixes the Choosing on {{date:III-0003}}, but it was a season of choosing more than a day, and the next thing the record shows is how unsettled it was.
+What followed is called the Choosing, and the later chronicles call it a vote. Whether it was one, or a word laid over something older and looser, no one who wrote it down was there to see. All the accounts agree on one thing. Those who went, went because they wished to. No lots were drawn, and no conscription is recorded. The Choosing is remembered on {{date:III-0003}}, though it was a season of choosing more than a day, and the next thing the record shows is how unsettled it was.
 
 At Seann Skell, the western port that would give the age its harbour, the scribes opened a roll for those who meant to go. They entered it by household and not by name, as though going were something a family did together or not at all. The roll was kept on boards in the harbour-house, and a later hand notes that entries were struck out as often as they were added.
 
@@ -53,7 +53,7 @@ By the spring of that year the fleet lay complete at Seann Skell. The custody-bo
 
 On the last night before the sailing every house along the Seann Skell waterfront set a lamp on its sill and kept it burning until morning. It is the first custom of the Sundering recorded as a custom.
 
-On {{date:III-0023}}, as the reckoning gives it, the volunteers departed.
+On {{date:III-0023}} the volunteers departed.
 
 The island's chronicles simply stop describing them the moment the ships clear the harbour. There is no account of the crowd, or the weather, or who wept. The harbour scribe gives one thing only. Before making for open water the fleet went once round the harbour of Seann Skell sunwise, *diosal*, for luck, and the watchers on the quay counted the hulls as they passed. The record ends at the harbour mouth.
 
@@ -83,7 +83,7 @@ Then came the long work of getting used to it. At Seann Skell a ceremony grew up
 
 By {{year:III-0040}} Seann Skell had found a way to go on trading. The dock the ships had left from was given a new name so that ordinary trade could keep using the old one without the association. The chronicle calls it an act of managed forgetting. In the harbour rolls the departure berth became Cidhe an Diosail, the quay of the sunwise turn, and the name Cidhe an Iar passed to the new fish-wharf at the north end of the strand, where within a few years the fishers used it without a thought.
 
-The language kept what the harbour put away. From {{year:III-0042}} the custody-book uses the verb *roghnaich*, to choose, with no object at all, meaning to have chosen the crossing, and the next century's scribes use it so without explaining it. That same year the chronicle marks the first generation never to have seen the harbour with those ships in it. For them the departure was no longer an event but a fact of history. A saying of the western shore claims to come from about this time:
+The language kept what the harbour put away. From {{year:III-0042}} the custody-book uses the verb *roghnaich*, to choose, with no object at all, meaning to have chosen the crossing, and the next century's scribes use it so without explaining it. By that same year a generation had grown up that had never seen the harbour with those ships in it. For them the departure was no longer an event but a fact of history. A saying of the western shore claims to come from about this time:
 
 > *Is fhada an cuan, is goirid a' chuimhne.*
 > Long is the sea, and short is memory.
