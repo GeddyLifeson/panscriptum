@@ -1,0 +1,131 @@
+{
+ "layer": "faiths",
+ "summary": "The island keeps three faiths and the land that keeps none. An Creideamh Sean, the Old Faith of the gods (seat Dùn ìseal, Brìde's flame; chief god an Dagda), takes every cell of the six Ròdaich orders (Òrd Bhrìde, Òrd an t-Seabhaig, Scoiltean nan Draoidhean, Òrd Mhacha, Òrd na Cloiche, Òrd Mhanannain), the last only where the cell is Ròdaich; Na Seann Spioradan, the hearth faith of the sìth and the ancestors, keeps its own cells and seat; An Eaglais, the Church of the Tuathaich (seat Doire ghlas), takes the Tuathaich cells, the Grey Night's vigil at Baile chrom and the Tuathaich cells of the Manannan order. Burgs: An Creideamh Sean 315, Na Seann Spioradan 126, An Eaglais 64 (505). Land cells: 1,787 / 616 / 385, and 1,512 with no faith (sea included). The religions layer is saved empty and drawn from the cells when it is shown, so the SVG needs no change. Three marker notes that named an order as a faith follow the orders.",
+ "skip": [
+  {
+   "layer": "integration",
+   "record": 35,
+   "path": "[47].note",
+   "why": "replaced by the edit below: the same note, with Inis thais the temple city of the order of the Stone"
+  }
+ ],
+ "map_edits": [
+  {
+   "record": 29,
+   "action": "replace_religions",
+   "old_names": [
+    "Gun chreideamh",
+    "Creideamh nan Tuathach",
+    "Seann Spioradan nan Ròdach",
+    "Creideamh na Scairpe Buidhe",
+    "Creideamh nan Ròdach",
+    "Creideamh an t-Seabhaig",
+    "Feallsanachd an Fhèidh",
+    "Creideamh an Aon-adharcaich Dhuibh",
+    "Creideamh a' Mhadaidh-allaidh",
+    "Rùn-dìomhair na h-Oidhche Glaise"
+   ],
+   "value": [
+    {
+     "name": "Gun chreideamh",
+     "i": 0,
+     "origins": null
+    },
+    {
+     "name": "An Creideamh Sean",
+     "type": "Organized",
+     "form": "Polytheism",
+     "culture": 2,
+     "center": 3104,
+     "deity": "an Dagda",
+     "expansion": "culture",
+     "expansionism": 5,
+     "color": "#fdb462",
+     "i": 1,
+     "code": "CS",
+     "origins": [
+      2
+     ]
+    },
+    {
+     "name": "Na Seann Spioradan",
+     "type": "Folk",
+     "form": "Shamanism",
+     "culture": 2,
+     "center": 3104,
+     "deity": "na Sìthichean",
+     "expansion": "culture",
+     "expansionism": 0,
+     "color": "#fb8072",
+     "i": 2,
+     "code": "NS",
+     "origins": [
+      0
+     ]
+    },
+    {
+     "name": "An Eaglais",
+     "type": "Organized",
+     "form": "Monotheism",
+     "culture": 1,
+     "center": 480,
+     "deity": "Crìosd",
+     "expansion": "culture",
+     "expansionism": 1.5,
+     "color": "#80b1d3",
+     "i": 3,
+     "code": "AE",
+     "origins": [
+      0
+     ]
+    }
+   ],
+   "cells": {
+    "remap": {
+     "0": 0,
+     "1": 3,
+     "2": 2,
+     "4": 1,
+     "5": 1,
+     "6": 1,
+     "7": 1,
+     "8": 1,
+     "9": 3
+    },
+    "by_culture": {
+     "3": {
+      "1": 3,
+      "2": 1
+     }
+    }
+   },
+   "why": "Three faiths at most: the six Ròdaich organised faiths are orders of the one Old Faith; the Tuathaich faith, the Grey Night and the Tuathaich keepers of the Scorpion are the Church. Old ids 4-9 are gone rather than kept as removed entries, so the list, world.json and the religions editor hold only what exists."
+  },
+  {
+   "record": 35,
+   "path": "[23].note",
+   "mode": "replace-substring",
+   "old": "A forest sacred to the Feallsanachd an Fhèidh.",
+   "value": "A forest sacred to Flidais, lady of the deer, where the druid schools, Scoiltean nan Draoidhean, keep their grove and her white stag is seen.",
+   "why": "the Deer's sacred wood is the druid schools' grove of Flidais"
+  },
+  {
+   "record": 35,
+   "path": "[24].note",
+   "mode": "replace-substring",
+   "old": "A forest sacred to the Creideamh an Aon-adharcaich Dhuibh.",
+   "value": "A forest sacred to Macha, where Òrd Mhacha keeps the wood of her black horse, Dubh Sainglenn.",
+   "why": "the Dark Unicorn's forest is the wood of Macha's order and its black horse"
+  },
+  {
+   "record": 35,
+   "path": "[47].note",
+   "old": "Current location of the adventuring party.",
+   "value": "Here, at Inis thais, the temple city of Òrd na Cloiche, Buidheann an t-Seabhaig Luaidhe, the Leaden Hawk company, ended its road in the first spring of the Severance war.",
+   "why": "the integration layer's note for the company's end, with Inis thais the temple city of Òrd na Cloiche (the Wolf is now the order of the Stone)"
+  }
+ ],
+ "unsure": [
+  "An Creideamh Sean and Na Seann Spioradan share their centre cell (3104, Dùn ìseal): the Old Faith's seat is Brìde's flame at Dùn ìseal and the hearth faith's chief shrine is there too. FMG allows two centres on one cell; only its add-a-religion tool refuses a click on a taken centre."
+ ]
+}

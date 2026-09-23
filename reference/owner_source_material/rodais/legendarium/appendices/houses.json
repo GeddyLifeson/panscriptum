@@ -25,7 +25,7 @@
    {"id": "ca4", "name": "Calum mac Eachainn", "parent": "ca2", "born_between": [1814, 1818], "died_between": [1835, 1890], "note": "Sailed west on a Company ship, {{date:IV-0120}}, and is never recorded returning. No roll records his death, and the dates given for it are uncertain."},
    {"id": "ca5", "name": "Ruairidh mac Eachainn", "parent": "ca2", "born_between": [1810, 1822], "died_between": [1868, 1892], "note": "Held no seat on the council; the family's place there was not restored in the age."},
    {"id": "ca6", "name": "Seònaid nic Eachainn", "parent": "ca2", "born_between": [1812, 1825], "died_between": [1870, 1895], "note": "Kept the family's house at Ceann àrsaidh after her brother sailed."},
-   {"id": "ca7", "name": "Coinneach mac Ruairidh", "parent": "ca5", "born_between": [1845, 1858], "died_between": [1900, 1928], "note": "A custodian of the town's shrine; his name is on the petitions of the Levy years."},
+   {"id": "ca7", "name": "Coinneach mac Ruairidh", "parent": "ca5", "born_between": [1845, 1858], "died_between": [1900, 1928], "note": "A custodian of the town's shrine of Macha; his name is on the petitions of the Levy years."},
    {"id": "ca8", "name": "Anna nic Ruairidh", "parent": "ca5", "born_between": [1848, 1862], "died_between": [1905, 1930], "note": "Married inland; the family roll records her going and not where."},
    {"id": "ca9", "name": "Tormod mac Choinnich", "parent": "ca7", "born_between": [1880, 1895], "died_between": [1935, 1965], "note": "The last of the line the family roll records."}
   ]

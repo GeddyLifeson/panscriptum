@@ -28,7 +28,8 @@ not say what he said. They say only that he stopped.
 
 This is the nearest thing Rodos keeps to a telling of the making of the world. Other peoples begin
 with a sea, or a void, or a god who speaks. The Ròdaich begin with a man at work, and a thing that
-answered him as stone should not.
+answered him as stone should not. The gods of the Old Faith have their own tellings, and many of them; none
+of the gods comes into this one.
 
 Three wells claim the crack. Tobar dhìreach, Tobar dhubh and Tobar òg each keep a telling that the
 mason's well was theirs. Tobar dhìreach can show a capped shaft with a dark stain on its lip; the
@@ -151,10 +152,12 @@ stayed there. But that is the chroniclers' likeness, not a thing the stones say.
 In those same years the fears of Rodos were born, and two of them have never left it.
 
 Among the coastal families of the Tuathaich, in a far later age, there survives a fragment of a
-voyaging telling, a named steersman and a first crossing, which is called the First Canoe. The
-Ròdaich priesthood of later ages dismissed it as superstition, and it was suppressed, and it is only
-half-remembered. It belongs here, at the beginning of boats, and the chroniclers set it down
-without judgement. What is sure is smaller: below Ceann mhòr, in the tidal mud, a row of mooring
+voyaging telling, a named steersman and a first crossing, which is called the First Canoe. It is the
+voyage of Naomh Breandan, the saint of their Church who put out west over the ocean with his monks and
+came to the Isle of the Blessed; and the families who keep it hold that the isle was Rodos, and set the
+landing in this age, long before any ship of theirs. The Ròdaich priesthood of later ages dismissed it as
+superstition, and it was suppressed, and it is only half-remembered. It belongs here, at the beginning of
+boats, and the chroniclers set it down without judgement. What is sure is smaller: below Ceann mhòr, in the tidal mud, a row of mooring
 stakes and a scrap of stitched hide, the first sure boats of the north-west coast. Who rowed them,
 and from where, the mud does not say.
 
@@ -197,17 +200,19 @@ in that country still say:
 
 ## Of the Groves and the Beasts
 
-A forest near Muileann chiar was marked sacred long before any ordered faith claimed it: Coille Naomh
+A forest near Muileann chiar was marked sacred long before any order of the Old Faith claimed it: Coille Naomh
 Muileann chiar. The trees understood, the old telling goes, before the people did. The charcoal in the
 hearths around it comes from every wood but that one; the families at its edge carried their fuel a
 half-day's walk rather than cut a branch within it. There, at the edge of the trees, three hunters saw
-a white stag, and none of them drew. The stag comes back in the tellings of every age after.
+a white stag, and none of them drew. The stag comes back in the tellings of every age after, and the druid
+schools of later ages hold it to be the white stag of Flidais, lady of the deer and the wild.
 
 A second forest, older-feeling than the first, was never settled, never logged, never fully mapped:
 Coille Naomh Cnoc bheag. Paths lead toward it from three directions, and all three end at a low line of
 set stones short of the trees. Nothing is worn beyond the stones. Lifetimes later a child of Cnoc
 bheag went past the line and was not found, and the search party stopped at the stones. The telling
-does not blame them.
+does not blame them. The hearths of that country say the sìth took the child, the people of the hills and
+mounds, whose country begins where the worn paths end.
 
 Near Doire fhionn the red deer were driven down lines of stake and brush into a gully, and the antlers
 of the greatest stags were stacked apart. At Cnoc fhionn dogs were buried beside people, each with a
@@ -232,7 +237,9 @@ double; and the winter was hard.
 In the high valleys around the crack there lived people who were not the Seann-Dhaoine. They buried
 their dead in the ground, not on islands, and cut no script. Whether they shared the island with the
 Old Ones or came after them, the record does not know. Their own answer, given later, is that they were
-always there. These are the hill-folk, and from them came the Ròdaich.
+always there. These are the hill-folk, and from them came the Ròdaich. They left the green mounds of the
+valleys unbroken, and built on none of them, and the hearths of every later age give the same reason: the
+sìth live in the hills and the mounds, and a house on a mound is a house on someone else's roof.
 
 At Àth gharbh, in a hearth of ordinary peat ash, lies a sliver of black glass burnt to a bead, and the
 hearthstone round it stained through with colour. It is the earliest burning of the ore anyone has
@@ -288,7 +295,7 @@ is this:
 > The hollow of the hand, and no more.
 
 And the families near the crack began to sit by the slab laid over it, a household at a time, through
-the dark half of the year. No one ever said what they were watching for.
+the dark half of the year, from Samhain, when the dark half begins, until the light came back. No one ever said what they were watching for.
 
 ## Of the Counting of the Dead and the Silence of the Old Ones
 
@@ -396,7 +403,8 @@ bank.
 
 Things were fixed in those lifetimes that have never been unfixed. Flint was dug at Cnoc àrsaidh, the only
 good flint on Rodos, and the road of those who carried it is sunk a yard deep near Àth leathan. A hawk was
-carved on a lintel at Àth mhòr, the oldest carving of any bird on the island. Someone began to mark the
+carved on a lintel at Àth mhòr, the oldest carving of any bird on the island. The Hawk order of later
+ages claims it for the hawk of Acaill, the hawk that Fionntan became; the lintel says nothing. Someone began to mark the
 high-water line against a fixed rock, at intervals too regular for a fisherman's habit, and the practice
 was carried to Ros dhomhain with the interval unchanged; and there the marks crept upward from keeper to
 keeper, until by the age's end the lake stood a hand higher than at the first cut. The keepers kept
@@ -515,7 +523,7 @@ mhòr now stands, took no stone from the ruin, though it was the nearest quarry.
 go up to Làrach an Dùin. A path was worn round Làrach an Teampaill at a distance. At Cnoc bheag, near the
 Carragh, no house was set with its door toward the stone. Cathair fhada drank from a well the Old Ones dug and
 never said where it came from. At Cnoc naomh the hill was already called holy when the settlers came, and why
-is not known.
+is not known; the hearths say the sìth were in it, and the settlers built below it and never on it.
 
 On the hill of Muileann chaol there was a cattle-fold where the library stands now, and a cairn was raised
 above it for each head of a household at death, some forty by the age's end. The record that tells this story
@@ -554,7 +562,8 @@ Ròdaich counted their living on a cord.
 The lot for the slab was now drawn from every part of the hills, and the keepers' house at Tobar dhìreach became
 a place people walked to. Then the keepers were nine, one for each of nine districts, meeting at the slab when
 a keeper died and not otherwise. Every household burned its handful in the dark of the year, measured in a copy of
-the stone cup, all at once by agreement, so that the colour showed on every hillside on the same night. Only the
+the stone cup, all at once by agreement, so that the colour showed on every hillside on the same night. That
+night was Samhain, the night the year turns to the dark, and it has been the night of the handful ever since. Only the
 household of the Cnoc dhubh trench, the one that crushed two diggers, refused its handful for as long as anyone
 remembered: the first on record to choose not to burn at all.
 
@@ -571,6 +580,8 @@ So the age came to {{date:I-0256}}, and to the eve. The handful was kept in ever
 hills; the keepers were nine; the sharing before the storms was kept on every coast; the doctrine was said at
 every gathering. The Old Ones were names on the shore. The three ruins stood empty and unquarried, the two shafts
 gave back no sound, and the slab lay over the crack as the mason's people had laid it nearly ten thousand years
+before. No telling of the age names a god over any of it: the hearths kept the slab, the handful and their dead,
+and left the sìth their hills, and Brìde's flame and Crom's stone come into the record with the Binding and not
 before. None of it was yet declared. What had been custom waited to be law, and what had been a covered wound in
 the rock waited to be named a flame. Here the chroniclers of Muileann chaol close the first book, on the question
 Catrìona Mhòr would not answer; and they open the second with its answer. For the Holy Age begins when the thing

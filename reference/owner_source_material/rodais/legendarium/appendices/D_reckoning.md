@@ -47,7 +47,7 @@ The months of Rodos are the twelve Gaelic months, and they correspond one to one
 | No. | Month | Days | Meaning of the name | The work of the month on Rodos |
 |---|---|---|---|---|
 | 1 | am Faoilleach | 31 | the wolf-month; the storm-time at the year's dead end | Nets and boats mended ashore; the ore-hearths at their fullest; the high passes shut |
-| 2 | an Gearran | 28 (29) | the short month, or the gelding's month; the Library does not choose | Là Fhèill Brìghde on the first; the first ploughing in the lowlands; lambing in the south |
+| 2 | an Gearran | 28 (29) | the short month, or the gelding's month; the Library does not choose | Là Fhèill Brìde on the first; the first ploughing in the lowlands; lambing in the south |
 | 3 | am Màrt | 31 | the seed-time, the month of work | Sowing; the carters back on the roads; repairs to the bridges before the spring floods |
 | 4 | an Giblean | 30 | obscure; the old folk said "the gap", the month between the last of the stores and the first of the green | The hungry weeks of a poor year; granaries opened where the shared-meal law requires it |
 | 5 | an Cèitean | 31 | the first of summer | Bealltainn on the first; cattle to the high pastures; in the Holy Age, the galleries opened when the cairn-watchers allowed |
@@ -55,7 +55,7 @@ The months of Rodos are the twelve Gaelic months, and they correspond one to one
 | 7 | an t-Iuchar | 31 | the hot month | Hay; the herring off the north-west; the drovers of Àth chiar on the eastern hills |
 | 8 | an Lùnastal | 31 | the month of the Lùnastal gathering | Lùnastal on the first; first-fruits; the harvest fair at Muileann òg in its season |
 | 9 | an t-Sultain | 30 | the month of plenty | The main harvest; the grain carried to the granaries; accounts rendered |
-| 10 | an Dàmhair | 31 | the rut of the deer | The stags heard in the eastern forest; the Deer school walking the bounds of its grove; boats hauled up |
+| 10 | an Dàmhair | 31 | the rut of the deer | The stags heard in the eastern forest; the druid schools walking the bounds of Flidais's wood; boats hauled up |
 | 11 | an t-Samhain | 30 | summer's end | Samhain on the first; in the Holy Age the baskets filled and the galleries closed; the empty-harbour rite at Seann Skell |
 | 12 | an Dùbhlachd | 31 | the black month, the dark of the year | Midwinter; the drowned remembered in the western harbours; the panther roads closed for the year |
 
@@ -81,15 +81,15 @@ When the humans came they also kept a week of seven days, and they also rested o
 
 ### VI. The Quarter-Days
 
-Four feasts divide the year into quarters. They are older than any rite now on the island, and every faith on Rodos keeps them in some form, though each gives them its own reasons.
+Four feasts divide the year into quarters. They are the great feasts of the Old Faith and older than any order now on the island, and all three faiths on Rodos keep them in some form, though each gives them its own reasons (Appendix B).
 
-**Là Fhèill Brìghde**, 1 an Gearran, is the feast of Brìghde. Every hearth is swept and relit and the year's first work in the fields begins. The followers of Seann Spioradan nan Ròdach set a sheaf by the door. The Obsidian Rite, in both its forms, lights its first lamp of the year from the altar-flame.
+**Là Fhèill Brìde**, 1 an Gearran, also called Imbolc, is the feast of Brìde, whose flame was bound at Dùn ìseal. Every hearth is swept and relit and the year's first work in the fields begins. The followers of Na Seann Spioradan set a sheaf by the door. Òrd Bhrìde and the Hawk order, the two forms of her rite, light their first lamp of the year from the altar-flame. The Church keeps the day as the feast of a saint of the same name.
 
-**Bealltainn**, 1 an Cèitean, takes its name from a bright fire, and it is the feast of summer's beginning. Cattle go up to the high pastures between two fires. In the Holy Age this was the day the Hall asked the cairn-watchers of Cnoc ghlas whether the galleries might open. The first sentence under the Small-Burning Law is dated {{date:II-0028}}, on Bealltainn itself. The roll does not say whether the day was chosen for the sentence.
+**Bealltainn**, 1 an Cèitean, takes its name from a bright fire, and it is the feast of summer's beginning, when the Otherworld stands near. Cattle go up to the high pastures between two fires. In the Holy Age this was the day the Hall asked the cairn-watchers of Cnoc ghlas whether the galleries might open. The first sentence under the Small-Burning Law is dated {{date:II-0028}}, on Bealltainn itself. The roll does not say whether the day was chosen for the sentence.
 
-**Lùnastal**, 1 an Lùnastal, is the feast of first-fruits and gathering, and the month is named for it. Markets open, contests are held, and oaths are taken before witnesses. Cathal was crowned on the feast itself, {{date:V-0243}}.
+**Lùnastal**, 1 an Lùnastal, is Lugh's feast of first-fruits and gathering, and the month is named for it. Markets open, contests are held, and oaths are taken before witnesses. Cathal was crowned on the feast itself, {{date:V-0243}}.
 
-**Samhain**, 1 an t-Samhain, marks summer's end. Before the humans came it was also the beginning of the Ròdaich year. The Hall filled the baskets of the Small-Burning Law at Samhain, the galleries closed, and the dead were thought nearest. The Tuathaich, whose calendar came to them from an Tìr Thall, keep the day with the rest of the island. They have never counted the year from it.
+**Samhain**, 1 an t-Samhain, marks summer's end, when the Otherworld stands open, the sìth of the mounds are abroad, and the Old Faith names Donn and the dead of the year. Before the humans came it was also the beginning of the Ròdaich year. The Hall filled the baskets of the Small-Burning Law at Samhain, the galleries closed, and the dead were thought nearest. The Tuathaich, whose calendar came to them from an Tìr Thall, keep the day with the rest of the island, in the Church's way, as the feast of all the saints and the day of the dead. They have never counted the year from it.
 
 ### VII. Feasts and Days Particular to Rodos
 
@@ -103,13 +103,13 @@ Beside the quarter-days Rodos keeps days rooted in its own history. The table gi
 | yearly, on the shore | Inis chrom and the harbours north to Seann Warr | The drowned-feast, an empty place for each of the lost | {{date:II-0242}} |
 | yearly | Baile chrom | The wake for the boat lost off the north-west | {{date:II-0051}} |
 | the crossing days | the southern hills, Imrich nam Pantar | The panther roads kept clear, flocks driven off the paths | {{date:III-0072}} |
-| yearly | Coille Naomh Muileann chiar | The Deer school walks the bounds of its grove | {{date:III-0092}} |
+| yearly | Coille Naomh Muileann chiar | The druid schools walk the bounds of Flidais's wood | {{date:III-0092}} |
 | harvest | Fèill Muileann òg | The great fair, with its northern day | {{date:II-0130}}; the fair established {{date:V-0088}} |
 | yearly | Còmhrag Ceann leathan | The contest with staves, since edged tools were banned | {{date:II-0129}}; established {{date:V-0096}} |
-| yearly | Allt an Àigh | The walk of the old spirits to the healing water | {{date:V-0048}} |
+| yearly | Allt an Àigh | The walk of the Old Spirits to the healing water | {{date:V-0048}} |
 | yearly | Seann Dunn | The ancestors of forty families named aloud by their living heads | {{date:V-0094}} |
-| yearly | Cnoc ghorm | The northern feast of the Yellow Scorpion | {{date:V-0104}} |
-| one night, undisclosed | Baile chrom and the north | The Grey Night of Sìne, the Peaceful Goose; outsiders are not told which night | {{date:V-0043}} |
+| yearly | Cnoc ghorm | The northern feast of the sea, kept at the church as a blessing of the boats | {{date:V-0104}} |
+| one night, undisclosed | Baile chrom and the north | The vigil of the Grey Night under Sìne, the Peaceful Goose, the wild goose of the Spirit; outsiders are not told which night | {{date:V-0043}} |
 
 The day of the Setting-Out has never been kept as a feast. The chronicles stop describing the departed the moment the ships clear the harbour, and the island has kept its remembrance of them at the harbour, where the rolls stop, on the day the custody-book gives for the turn and not on the day they sailed. Since {{date:III-0127}} the empty-harbour rite has fallen on that day, 25 an t-Samhain, though the harbour scribe, whose count the island follows, sets the turn on the day of the sailing. The Library is aware that the custody-book may have taken its day from the rite rather than the rite from the book. By the last entry of the Age of Sundering the rite was kept by eleven people ({{date:III-0238}}). The chronicles of the later ages do not say how many keep it now.
 

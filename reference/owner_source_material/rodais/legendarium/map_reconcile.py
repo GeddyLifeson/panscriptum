@@ -6,6 +6,7 @@ markers and routes, the arms) was read against the annals, the gazetteer and the
 findings are in reconcile/<layer>.json; their "map_edits" say what on the map had to change. This script
 applies all of them, in a fixed order, and then the integrator's own edits in reconcile/integration.json
 (which also lists the few proposal edits it sets aside; INTEGRATION.md gives the reasons).
+Last come the faiths as they are now (reconcile/faiths.json): three, and the land that keeps none.
 
     python map_reconcile.py     # Rodos_finished.map, Rodos_Atlas/Rodos.map and world.json, in place
 
@@ -21,7 +22,15 @@ Edit forms (a .map is 53 CRLF-joined records; see finish_map.py):
     {"record": 35, "path": "[28].note", "mode": "replace-substring", "old": "...", "value": "..."}
     {"record": 31, "path": "append as name base 43 ...", "value": "Ròdais|7|18||0|..."}
     {"record": 49, "action": "delete_indices", "indices": [...], "match": [...]}  remove relief icons
+    {"record": 29, "action": "replace_religions", "old_names": [...], "value": [...],     the faiths list anew,
+     "cells": {"remap": {"4": 1, ...}, "by_culture": {"3": {"1": 3, "2": 1}}}}          and the cells to match
 "old", where given, must be what the map holds (or the value itself, when the edit is already in).
+
+replace_religions (reconcile/faiths.json) sets record 29 whole and renumbers the cell religion array (record 26):
+each cell's faith goes through "remap", or, for a faith in "by_culture", through the table for the cell's culture
+(record 19). The edits of earlier layers on records 26 and 29 were written against the old list; on a map where the
+new list is already in, the record-29 edits before it are passed over and each record-26 edit before it is checked
+against its value as renumbered, so a second run changes nothing.
 
 Beside the edits it derives what follows from them: a route regrouped to "roads" has its saved
 <path id="routeN"> moved from <g id="trails"> into <g id="roads"> (record 5), in route order as Azgaar draws
@@ -51,7 +60,7 @@ JSON_RECORDS = {1, 3, 13, 14, 15, 29, 30, 35, 37, 41, 49}
 RECORDS_TOUCHED = CELL_ARRAYS | JSON_RECORDS | {L_SVG, L_NAMEBASES}
 
 # the order the layers are applied in: the state and its shires first, the land (whole cell arrays) last
-ORDER = ['state', 'heraldry', 'religions', 'economy', 'military', 'markers_routes', 'land', 'integration']
+ORDER = ['state', 'heraldry', 'religions', 'economy', 'military', 'markers_routes', 'land', 'integration', 'faiths']
 
 
 def dump(data):
@@ -61,12 +70,12 @@ def dump(data):
 
 
 def load_edits():
-    """[(layer, edit)] in ORDER, less the edits integration.json sets aside."""
+    """[(layer, edit)] in ORDER, less the edits a later layer ("skip": integration.json, faiths.json) sets aside."""
     props = {}
     for layer in ORDER:
         path = os.path.join(RECON, layer + '.json')
         props[layer] = json.load(open(path, encoding='utf-8'))
-    skip = {(s['layer'], s['record'], s['path']) for s in props['integration'].get('skip', [])}
+    skip = {(s['layer'], s['record'], s['path']) for layer in ORDER for s in props[layer].get('skip', [])}
     out = []
     for layer in ORDER:
         for e in props[layer]['map_edits']:
@@ -171,6 +180,22 @@ def cells(text):
     return text.split(',')
 
 
+def renumber_faith(value, culture, e):
+    """A cell's faith under a replace_religions edit: by the cell's culture where the table has one."""
+    c = e['cells']
+    v = str(value)
+    if v in c.get('by_culture', {}):
+        return str(c['by_culture'][v][str(culture)])
+    return str(c['remap'][v])
+
+
+def replace_religions(parsed, arrays, e, where):
+    names = [r.get('name') for r in parsed[L_RELIGIONS]]
+    assert names == e['old_names'], '%s: the faiths on the map are %s' % (where, names)
+    arrays[L_CELL_RELIGION] = [renumber_faith(v, c, e) for v, c in zip(arrays[L_CELL_RELIGION], arrays[L_CELL_CULTURE])]
+    parsed[L_RELIGIONS] = json.loads(json.dumps(e['value']))
+
+
 def num(s):
     return float(s) if s else 0.0
 
@@ -189,9 +214,29 @@ def reconcile_records(lines, edits=None):
         assert ','.join(a) == lines[n]
     old_pop, old_culture = list(arrays[L_POP]), list(arrays[L_CELL_CULTURE])
     relief = []
-    for layer, e in edits:
+    faiths = [k for k, (_, e) in enumerate(edits) if e.get('action') == 'replace_religions']
+    assert len(faiths) <= 1
+    faiths_at = faiths[0] if faiths else None
+    faiths_in = faiths_at is not None and same(parsed[L_RELIGIONS], edits[faiths_at][1]['value'])
+    for k, (layer, e) in enumerate(edits):
         n = e['record']
         where = '%s record %d %s' % (layer, n, e.get('path') or e.get('action'))
+        if faiths_at is not None and k <= faiths_at and n in (L_RELIGIONS, L_CELL_RELIGION):
+            fe = edits[faiths_at][1]
+            if k == faiths_at:
+                if not faiths_in:
+                    replace_religions(parsed, arrays, fe, where)
+                continue
+            if not faiths_in:
+                pass                                   # the old list is still there: apply the edit as written
+            elif n == L_RELIGIONS:
+                continue                               # made on the old list, which the new one replaced
+            else:
+                assert not e['path'].startswith('(whole record'), where
+                i = parse_path(e['path'])[0]
+                want = renumber_faith(e['value'], arrays[L_CELL_CULTURE][i], fe)
+                assert arrays[n][i] == want, '%s: expected %s (renumbered), found %s' % (where, want, arrays[n][i])
+                continue
         if n == L_RELIEF:
             relief.append(e)
         elif n == L_NAMEBASES:

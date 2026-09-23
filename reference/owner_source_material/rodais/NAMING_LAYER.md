@@ -97,7 +97,7 @@ way, and the generic follows the kind of settlement being named:
 
 *(Cathair* = stone fort/city · *Dùn* = fortified hill · *Baile* =
 settlement · *Àth* = ford · *Cnoc* = hill · *Muileann* = mill · *Cill* =
-church site · *Tobar* = well · *Achadh* = field · *Doire* = oak grove ·
+holy cell, shrine · *Tobar* = well · *Achadh* = field · *Doire* = oak grove ·
 *Carraig* = rock · *Ros* = headland · *Ceann* = headland/point · *Cuan*
 = harbor · *Caol* = strait · *Inis* = island.)*
 

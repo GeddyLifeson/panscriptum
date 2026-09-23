@@ -114,16 +114,16 @@ when it was revived, was reserved for Ròdaich applicants only ({{date:V-0059}})
 **The sea.** The Ròdaich have always been a coastal people as well as a mountain one. The largest
 towns on the map today stand on the sea or on the rivers that run down to it, and the two largest carry a name older than Ròdais:
 
-| Burg | Shire | Faith | Population |
+| Burg | Shire | Faith (order) | Population |
 |---|---|---|---|
-| Seann Skell ({{place:burg:489}}) | Seann Skell | Creideamh na Scairpe Buidhe | 74,120 |
-| Seann Skell ({{place:burg:431}}) | Seann Skell | Creideamh nan Ròdach | 57,907 |
-| Ros dhomhain ({{place:burg:27}}) | Ros dhomhain | Creideamh an Aon-adharcaich Dhuibh | 51,589 |
-| Seann Bhral ({{place:burg:110}}) | Seann Bhral | Seann Spioradan nan Ròdach | 49,681 |
-| Cnoc bheag ({{place:burg:20}}) | Cnoc bheag | Creideamh an t-Seabhaig | 49,661 |
-| Cathair mhòr ({{place:burg:23}}) | Cathair mhòr | Creideamh an Aon-adharcaich Dhuibh | 49,298 |
-| Caol bheag ({{place:burg:475}}) | Caol bheag | Feallsanachd an Fhèidh | 42,649 |
-| Achadh mhòr ({{place:burg:395}}) | Achadh mhòr | Seann Spioradan nan Ròdach | 42,136 |
+| Seann Skell ({{place:burg:489}}) | Seann Skell | An Creideamh Sean (Òrd Mhanannain) | 74,120 |
+| Seann Skell ({{place:burg:431}}) | Seann Skell | An Creideamh Sean (Òrd Bhrìde) | 57,907 |
+| Ros dhomhain ({{place:burg:27}}) | Ros dhomhain | An Creideamh Sean (Òrd Mhacha) | 51,589 |
+| Seann Bhral ({{place:burg:110}}) | Seann Bhral | Na Seann Spioradan | 49,681 |
+| Cnoc bheag ({{place:burg:20}}) | Cnoc bheag | An Creideamh Sean (Òrd an t-Seabhaig) | 49,661 |
+| Cathair mhòr ({{place:burg:23}}) | Cathair mhòr | An Creideamh Sean (Òrd Mhacha) | 49,298 |
+| Caol bheag ({{place:burg:475}}) | Caol bheag | An Creideamh Sean (Scoiltean nan Draoidhean) | 42,649 |
+| Achadh mhòr ({{place:burg:395}}) | Achadh mhòr | Na Seann Spioradan | 42,136 |
 
 The capital itself is not among them. Cathair dhearg is counted at 10,274; its harbour, Ros
 dhomhain, is five times its size.
@@ -161,7 +161,8 @@ and that the humans did not ask for one ({{date:IV-0010}}). So the vein became, 
 *coal*, and the custodians of the vein became, in Samuel Wren's otherwise careful grammar, "keepers
 of the coal" ({{date:IV-0042}}). Their institutions came with English names and kept them: the
 Company, the Administration, the Mission, the Residency above Ros dhomhain ({{date:IV-0031}}), the
-Commissioner, the Levy, the constable posts. Their coin was the *mark*. The townsfolk of Muileann
+Commissioner, the Levy, the constable posts. Their faith was the Church, which the Ròdaich call *an
+Eaglais*, and the Mission was its house on Rodos. Their coin was the *mark*. The townsfolk of Muileann
 shean called the constable post there "the humans' second Residency", and did not mean it kindly
 ({{date:IV-0260}}).
 
@@ -210,11 +211,11 @@ some 543,000 people in them. The Ròdaich hold the other 441. The Tuathaich coun
 
 | Burg | Shire | Faith | Population |
 |---|---|---|---|
-| Caol mhòr ({{place:burg:95}}) | Caol mhòr | Creideamh na Scairpe Buidhe | 42,002 |
-| Doire ghlas ({{place:burg:209}}) | Doire ghlas | Creideamh nan Tuathach | 40,740 |
-| Ceann mhòr ({{place:burg:143}}) | Ceann mhòr | Creideamh na Scairpe Buidhe | 32,420 |
-| Baile chrom ({{place:burg:305}}) | Baile chrom | Rùn-dìomhair na h-Oidhche Glaise | 27,319 |
-| Cnoc ghorm ({{place:burg:142}}) | Cnoc ghorm | Creideamh na Scairpe Buidhe | 25,112 |
+| Caol mhòr ({{place:burg:95}}) | Caol mhòr | An Eaglais | 42,002 |
+| Doire ghlas ({{place:burg:209}}) | Doire ghlas | An Eaglais (Eaglais nan Tuathach) | 40,740 |
+| Ceann mhòr ({{place:burg:143}}) | Ceann mhòr | An Eaglais | 32,420 |
+| Baile chrom ({{place:burg:305}}) | Baile chrom | An Eaglais (the vigil of the Grey Night) | 27,319 |
+| Cnoc ghorm ({{place:burg:142}}) | Cnoc ghorm | An Eaglais | 25,112 |
 
 Every Tuathaich town but one bears a Ròdais name, and most of them were Ròdach towns before the
 Severance; the north-west had been thinly held since the dearth on that shore in the Age of
@@ -226,15 +227,17 @@ map.
 speaker, Walter Hale, a former harbour clerk ({{date:V-0008}}). The Moot has no standing in
 Ròdach law; it meets anyway, and its minutes run unbroken from that meeting to the present.
 
-**Their faiths.** Of the sixty-four Tuathaich burgs, fifty-one keep Creideamh na Scairpe Buidhe,
-the faith of the Yellow Scorpion, which the Ròdaich of the western coast had kept for centuries
-before them. Twelve keep Creideamh nan Tuathach, their own folk tradition; its deity on the map
-is Donn, an Sìorraidh, and its towns lie together along the north coast, in the shires of Doire
-ghlas, Muileann leathan, Inis mhin and Àth àrsaidh. One, Baile chrom, keeps Rùn-dìomhair na
-h-Oidhche Glaise, the Mystery of the Grey Night. Creideamh nan Tuathach keeps, quietly, the First
-Canoe fragment ({{date:V-0042}}): among coastal Tuathaich families, "a named steersman, a first
-crossing", dismissed by the Ròdach priesthood as superstition ({{date:I-0038}}). The fragment
-belongs at the head of the Ancient Age, because that is where its tellers place it.
+**Their faith.** All sixty-four Tuathaich burgs keep An Eaglais, the Church, which their forebears
+brought over the sea at the Crossing; no Ròdach town keeps it. Fifty-one keep it in the line the
+Mission left, and their largest church is at Cnoc ghorm. Twelve are the old congregations of the
+north coast, Eaglais nan Tuathach, whose towns lie together in the shires of Doire ghlas,
+Muileann leathan, Inis mhin and Àth àrsaidh. One, Baile chrom, keeps the vigil of the Grey Night,
+Rùn-dìomhair na h-Oidhche Glaise, which the Church's bishops call irregular. The old congregations
+keep, quietly, the First Canoe fragment ({{date:V-0042}}): among coastal Tuathaich families, "a
+named steersman, a first crossing", which their church tells as the voyage of Naomh Breandan to
+the Isle of the Blessed, and which the druids of the Old Faith dismiss as superstition
+({{date:I-0038}}). The fragment belongs at the head of the Ancient Age, because that is where its
+tellers place it.
 The Library neither endorses it nor refutes it. It is one of the two suppressed histories
 that bracket the island's story, and it is not resolved here.
 
@@ -255,14 +258,14 @@ be reported; the custodians complied by reporting none ({{date:IV-0252}}). A thi
 was born in a mining town ({{date:IV-0265}}), and a fourth, Cian, within a year of him
 ({{date:IV-0266}}).
 
-After the Severance the Obsidian Rite was formalized as Creideamh nan Ròdach, built around the
+After the Severance the Obsidian Rite, Òrd Bhrìde, was formalized within the Old Faith, built around the
 leyline and "the unbroken line of the obsidian-touched" ({{date:V-0028}}). The first census of the
 kingdom noted, without further comment, exactly how few such people exist ({{date:V-0034}}), and
 the published census of a later generation gave a number and nothing else ({{date:V-0218}}). The
 number is printed nowhere else, and this appendix does not print it either.
 
 Whether the *fuil-ghuail* are a people is a question of words. They are born to Ròdach families;
-in Ròdach speech the word names the gift that sets the Ròdaich apart from the Tuathaich; and Feallsanachd an Fhèidh has asked since the Holy Age why the vein answers some hands and
+in Ròdach speech the word names the gift that sets the Ròdaich apart from the Tuathaich; and the druid schools have asked since the Holy Age why the vein answers some hands and
 not others. The chronicles do not settle it.
 
 ## II. The Tongues
@@ -456,9 +459,9 @@ The Tuathaich kept the humans' tongue. Walter Hale asked the council for leave t
 the north teaching in it, and was refused ({{date:V-0032}}); Agnes Pike opened one at Doire ghlas
 anyway, with Moot money and without the council's leave, and within a decade there were nine
 ({{date:V-0066}}). The Moot later counted eleven such schools, and three that had begun to teach
-Ròdais as well, at the parents' asking ({{date:V-0116}}). The Scorpion house at Cnoc ghorm taught
-its priests in the humans' tongue while reading the Scorpion's scripture in the Ròdais text the
-west-coast houses use: the only place in the north where both are taught ({{date:V-0045}}).
+Ròdais as well, at the parents' asking ({{date:V-0116}}). The church at Cnoc ghorm taught its
+priests in the humans' tongue while reading the Bible in the Ròdais text its preachers use on the
+west coast: the only place in the north where both are taught ({{date:V-0045}}).
 
 The Tuathaich live among Ròdais names and use Ròdais words. The words the north has added to the
 island's speech in the present age are Ròdais in form: *fadachadh*, from *fada*, long, the name of
@@ -547,9 +550,10 @@ readers say the recutting changed a letter ({{date:I-0251}}). That there were le
 then is not proved by this; the Library keeps the claim and makes no judgment on it.
 
 **The stag-letters.** The first letters in use by the Ròdaich were made at Muileann chiar in the far
-east, where the teachers of the stag's people, the school later called Feallsanachd an Fhèidh,
-turned the cutters' tally-notches into signs for sounds, "so that a teaching can be kept without a
-teacher" ({{date:II-0088}}). Nearly every later hand on the island descends from them. From these
+east, where the teachers of the stag's people, the first of the druid schools, later called
+Feallsanachd an Fhèidh, turned the cutters' tally-notches into signs for sounds, "so that a teaching
+can be kept without a teacher" ({{date:II-0088}}). The druids call them the ogham, the gift of
+Ogma, god of letters. Nearly every later hand on the island descends from them. From these
 came the first written king-list ({{date:II-0111}}), kept by Tormod Scrìobhaiche at Dùn dhearg; the
 Keepers' own roll, written down at Dùn ìseal in answer to it ({{date:II-0113}}); boundary stones
 cut with treaty terms ({{date:II-0118}}); and the first teaching of letters for their own sake, to

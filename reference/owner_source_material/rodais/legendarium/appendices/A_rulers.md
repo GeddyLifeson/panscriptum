@@ -35,7 +35,7 @@ The tables give only rulers whom the lists and chronicles name. Where a list say
 | 6 | Peigi Dhubh | the black | after Lachlann | {{year:I-0173}} | Sent the fosterling home grown, with salt; the ford peace held a generation more |
 | 7 | Seumas Òg | the young | last in the list | {{year:I-0244}} | The list stops with him |
 
-**The Keepers of the Flame, Age II.** From the recited roll of Talla na Lasrach at Dùn ìseal, written down {{date:II-0113}}. The roll holds one hundred and forty names from Beathag Bhàn to Catrìona nic Mhuirich ({{date:II-0248}}); the annals keep fourteen.
+**The Keepers of the Flame, Age II.** The keepers of Brìde's flame and of Crom's stone, from the recited roll of Talla na Lasrach at Dùn ìseal, written down {{date:II-0113}}. The roll holds one hundred and forty names from Beathag Bhàn to Catrìona nic Mhuirich ({{date:II-0248}}); the annals keep fourteen.
 
 | Name | Byname | House | Came to the flame | Keeping | The keeping |
 |---|---|---|---|---|---|
@@ -91,7 +91,7 @@ The tables give only rulers whom the lists and chronicles name. Where a list say
 | Fearchar Donn | the brown | Clann Fhearchair | his son, without dispute | {{year:III-0061}} – — | — |
 | Sìleas nic Fhearchair | — | Clann Fhearchair | after her father | — (in office {{year:III-0069}}) – {{year:III-0077}} | The firlot of Cathair dhearg; tally-houses in the royal granaries; reigned more than half a century |
 | Uisdean mac Dhùghaill | — | line of Sìleas | her son | {{year:III-0077}} – {{year:III-0084}} | — |
-| Aonghas mac Uisdein | — | line of Sìleas | his son | {{year:III-0084}} – {{year:III-0096}} | The first king taught letters as a child; took up the Dark Unicorn; the first king so buried |
+| Aonghas mac Uisdein | — | line of Sìleas | his son | {{year:III-0084}} – {{year:III-0096}} | The first king taught letters as a child; took up the rite of Macha; the first king buried by it |
 | Iain mac Aonghais | — | line of Sìleas | his son | {{year:III-0096}} – {{year:III-0097}} | A short reign |
 | Tormod mac Iain, *Tormod Bàn* | white-haired | line of Sìleas | his son | {{year:III-0097}} – {{year:III-0103}} | His two sons drowned in the Abhainn fhionn; died without naming an heir |
 | *the War of the Three Claimants* | | | | {{year:III-0104}} – {{year:III-0112}} | Catrìona nic Aonghais, Dùghall Garbh and Raghnall Ruadh; the seven houses split |
@@ -151,7 +151,7 @@ The tables give only rulers whom the lists and chronicles name. Where a list say
 
 | Name | How they came to rule | Reign | The reign |
 |---|---|---|---|
-| Niall | the first ruler of the restored kingdom, crowned at Cathair dhearg | {{year:V-0012}} – {{year:V-0092}} | The opening name of the line |
+| Niall | the first ruler of the restored kingdom, crowned at Cathair dhearg by Macha's rite | {{year:V-0012}} – {{year:V-0092}} | The opening name of the line |
 | Brìghde | his daughter; succeeded without contest | {{year:V-0092}} – {{year:V-0111}} | Her reign ended young; no cause was recorded publicly |
 | Eòghan | her cousin | {{year:V-0111}} – {{year:V-0199}} | Came to the throne amid the first real succession tension of the restored kingdom; his reign ended in the decade the Depletion became public knowledge |
 | Mairead | crowned after Eòghan | {{year:V-0199}} – {{year:V-0243}} | Inherited a kingdom whose founding resource was visibly failing |
@@ -193,7 +193,7 @@ The overseers were the Company's rulers at the pithead, all of them Ròdaich ({{
 
 ### VI. The New Age: the Restored Kingdom
 
-The kingdom was restored in order. The war-companies were stood down ({{date:V-0002}}), the state was styled *Rìoghachd Ròdais* ({{date:V-0007}}), and a royal council of twelve, drawn from the custodian families and the captains of the war, took its seat ({{date:V-0009}}). Only then was a king crowned. The Crown's officer in each shire took the word *maor* ({{date:V-0015}}), and the house of the Dark Unicorn at Cathair dhearg was given back the keeping of the regalia ({{date:V-0033}}).
+The kingdom was restored in order. The war-companies were stood down ({{date:V-0002}}), the state was styled *Rìoghachd Ròdais* ({{date:V-0007}}), and a royal council of twelve, drawn from the custodian families and the captains of the war, took its seat ({{date:V-0009}}). Only then was a king crowned. The Crown's officer in each shire took the word *maor* ({{date:V-0015}}), and the house of Macha's order at Cathair dhearg was given back the keeping of the regalia ({{date:V-0033}}).
 
 The chronicle of the restored kingdom names five rulers and records their successions and nothing more, and this appendix follows it. The table above gives all that is recorded of them.
 
@@ -227,4 +227,4 @@ In the Age of Sundering the Hall's heir was the vein-house above {{place:burg:49
 
 In the Age of Strangers there was neither crown nor vein-house to hold the vein. The Council of Custodians sat in the crown's place and kept the vein in name only. The Law lapsed without repeal once enforcing it stopped paying ({{date:IV-0063}}). The Company's overseers, not the custodians, ruled the pitheads.
 
-The restored kingdom kept the separation in form and gave up its substance. The Crown granted the Sloc Mòr to a single house on the humans' terms with the names changed ({{date:V-0051}}), and in time bought every shaft back and worked the vein through its Board "in the Crown's name alone" ({{date:V-0204}}). The keeping of the rite passed to a high custodian of Creideamh nan Ròdach at Seann Skell ({{date:V-0029}}). When that high custodian protested that the plain coinage seal showed the kingdom no longer held the vein sacred, the council answered that the kingdom had never said it did ({{date:V-0288}}). The last face of the Sloc Mòr is kept open under the custody of the Rite, to cut ore for the altars ({{date:V-0381}}). In the present year it filled four baskets, and the high custodian divided them among the houses of the Rite by lot ({{date:V-0392}}). This is the same method the keepers of the slab used to choose their keeper.
+The restored kingdom kept the separation in form and gave up its substance. The Crown granted the Sloc Mòr to a single house on the humans' terms with the names changed ({{date:V-0051}}), and in time bought every shaft back and worked the vein through its Board "in the Crown's name alone" ({{date:V-0204}}). The keeping of the rite passed to the Àrd-choimheadaiche of Òrd Bhrìde, the order of Brìde's flame, at Seann Skell ({{date:V-0029}}). When that high custodian protested that the plain coinage seal showed the kingdom no longer held the vein sacred, the council answered that the kingdom had never said it did ({{date:V-0288}}). The last face of the Sloc Mòr is kept open under the custody of the Rite, to cut ore for the altars ({{date:V-0381}}). In the present year it filled four baskets, and the high custodian divided them among the houses of the Rite by lot ({{date:V-0392}}). This is the same method the keepers of the slab used to choose their keeper.

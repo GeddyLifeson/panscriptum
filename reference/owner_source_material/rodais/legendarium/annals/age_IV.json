@@ -3,7 +3,7 @@
   "id": "IV-0001",
   "canon": true,
   "title": "The Crossing",
-  "body": "Humans make landfall on Rodos and are granted permission to stay — the first contact since the Sundering.",
+  "body": "Humans make landfall on Rodos, bringing their Church with them, and are granted permission to stay — the first contact since the Sundering.",
   "place": null,
   "kind": "voyage",
   "canon_date": "c. 1780 DE"
@@ -72,7 +72,7 @@
   "id": "IV-0008",
   "canon": true,
   "title": "The first translation attempts",
-  "body": "Human clerics and Rodian custodians spend a full season trying to build a shared vocabulary. Neither side's account of what was actually agreed to survives intact.",
+  "body": "Clerics of the humans' Church and Rodian custodians spend a full season trying to build a shared vocabulary. Neither side's account of what was actually agreed to survives intact.",
   "place": null,
   "kind": "culture",
   "canon_date": "c. 1781 DE"
@@ -370,7 +370,7 @@
   "id": "IV-0042",
   "canon": false,
   "title": "Wren's grammar",
-  "body": "Samuel Wren completes a grammar of Ròdais for the Mission's use. It is careful and accurate in most particulars, and it renders the word for the vein's custodians as \"keepers of the coal.\"",
+  "body": "Samuel Wren completes a grammar of Ròdais for the use of the Mission, the house of the humans' Church on Rodos. It is careful and accurate in most particulars, and it renders the word for the vein's custodians as \"keepers of the coal.\"",
   "place": "burg:27",
   "kind": "culture"
  },
@@ -386,7 +386,7 @@
   "id": "IV-0044",
   "canon": false,
   "title": "The Mission chapel",
-  "body": "The Mission raises a timber chapel on the quay at Ros dhomhain. Its bell is the first iron bell on the island, and the custodians ask that it not be rung before the fishing fleet is out.",
+  "body": "The Mission raises a timber chapel on the quay at Ros dhomhain, the first church on the island. Its bell is the first iron bell on the island, and the custodians ask that it not be rung before the fishing fleet is out.",
   "place": "burg:27",
   "kind": "building"
  },
@@ -484,7 +484,7 @@
   "id": "IV-0056",
   "canon": false,
   "title": "Wren's winter at Dùn thais",
-  "body": "At Dùn thais the masters of Feallsanachd an Fhèidh receive Samuel Wren for a winter of disputation. He asks them why the vein should be holy; they ask him why his fuel should be burned. Neither account of the winter records a winner.",
+  "body": "At Dùn thais the masters of the druid school receive Samuel Wren for a winter of disputation. He asks them why the vein should be holy; they ask him why his fuel should be burned. Neither account of the winter records a winner.",
   "place": "burg:77",
   "kind": "faith"
  },
@@ -577,15 +577,15 @@
   "id": "IV-0066",
   "canon": false,
   "title": "Murchadh Seabhag preaches at Seann Skell",
-  "body": "At Seann Skell the hawk-priest Murchadh Seabhag preaches that Mòd, the Hungry Hawk, starves those who eat faster than the land can feed them. The sermon is copied and carried to the camps, where it is the first Ròdaich text the Company's agents are told to confiscate.",
+  "body": "At Seann Skell the hawk-priest Murchadh Seabhag preaches that Mòd, the Hungry Hawk of Acaill, starves those who eat faster than the land can feed them. The sermon is copied and carried to the camps, where it is the first Ròdaich text the Company's agents are told to confiscate.",
   "place": "burg:132",
   "kind": "faith"
  },
  {
   "id": "IV-0067",
   "canon": false,
-  "title": "The spirits' priests of Achadh naomh",
-  "body": "The priests of Seann Spioradan nan Ròdach at Achadh naomh, in the hills north of the workings, refuse to light their hearths with ore bought from the Company. They burn peat, as their grandparents did, and teach that ore burned for wages is ore burned without the ancestors' leave.",
+  "title": "The hearths of Achadh naomh",
+  "body": "The households of Achadh naomh, in the hills north of the workings, who keep Na Seann Spioradan, refuse to light their hearths with ore bought from the Company. They burn peat, as their grandparents did, and their elders teach that ore burned for wages is ore burned without the ancestors' leave.",
   "place": "burg:145",
   "kind": "faith"
  },
@@ -771,7 +771,7 @@
   "id": "IV-0088",
   "canon": false,
   "title": "An Taigh-seinnse Mòr reopens",
-  "body": "The old carters' house at the halfway stage of the ore road between the capital and the hills is rebuilt, and keeps the name An Taigh-seinnse Mòr. Its first keeper, Seònaid Bhàn, takes both marks and barter and is the only innkeeper on the road who will.",
+  "body": "The old carters' house at the halfway stage of the ore road between the capital and the hills is rebuilt, opens its doors at Lùnastal, and keeps the name An Taigh-seinnse Mòr. Its first keeper, Seònaid Bhàn, takes both marks and barter and is the only innkeeper on the road who will.",
   "place": "marker:10",
   "kind": "building"
  },
@@ -856,7 +856,7 @@
   "id": "IV-0095",
   "canon": false,
   "title": "Hawk-priests barred from the camps",
-  "body": "Henry Maddox bars the priests of Creideamh an t-Seabhaig from the camps, on the ground that their preaching slows the work. The order is enforced by the overseers. Several of them are hawk-faithful themselves, and the roll says so.",
+  "body": "Henry Maddox bars the priests of Òrd an t-Seabhaig from the camps, on the ground that their preaching slows the work. The order is enforced by the overseers. Several of them are hawk-faithful themselves, and the roll says so. The Mission's chaplains, who keep a chapel in every camp, are not barred.",
   "place": "province:76",
   "kind": "faith"
  },
@@ -921,7 +921,7 @@
   "id": "IV-0103",
   "canon": false,
   "title": "The Silver Compact",
-  "body": "Arthur Lisle, reading the treaties closely, finds nothing in them that covers silver. He signs a compact with the silver guild leaving the seam to the town, the first document of the age in which the Ròdaich side keeps the better terms.",
+  "body": "Arthur Lisle, reading the treaties closely, finds nothing in them that covers silver. On Là Fhèill Brìde he signs a compact with the silver guild leaving the seam to the town, the first document of the age in which the Ròdaich side keeps the better terms.",
   "place": "marker:2",
   "kind": "law"
  },
@@ -1009,14 +1009,14 @@
   "id": "IV-0114",
   "canon": false,
   "title": "Aonghas mac Coinnich's question",
-  "body": "At Dùn thais the Deer master Aonghas mac Coinnich puts a question to his students that the school's register calls new: why the humans cannot see the colour in broken ore that every Ròdaich child sees. He does not answer it, and the register notes that he said it was the wrong question.",
+  "body": "At Dùn thais the druid master Aonghas mac Coinnich puts a question to his students that the school's register calls new: why the humans cannot see the colour in broken ore that every Ròdaich child sees. He does not answer it, and the register notes that he said it was the wrong question.",
   "place": "burg:77",
   "kind": "faith"
  },
  {
   "id": "IV-0115",
   "canon": false,
-  "title": "The Deer students of Baile Mòr uaine",
+  "title": "The druid students of Baile Mòr uaine",
   "body": "Students of Aonghas mac Coinnich carry his question to Baile Mòr uaine and teach it in the town's hall of disputation. The hall's record of the argument runs to four hundred leaves and ends, like his, without an answer.",
   "place": "burg:118",
   "kind": "faith"
@@ -1070,7 +1070,7 @@
   "id": "IV-0121",
   "canon": false,
   "title": "The Mission school",
-  "body": "The Mission opens a school at Ros dhomhain for Ròdaich children, taught in the humans' tongue. It takes thirty pupils in its first year, most of them the children of overseers.",
+  "body": "The Mission opens a school at Ros dhomhain for Ròdaich children, taught in the humans' tongue. It takes thirty pupils in its first year, most of them the children of overseers, and the Mission counts its first Ròdaich converts among them.",
   "place": "burg:27",
   "kind": "culture"
  },
@@ -1170,7 +1170,7 @@
   "id": "IV-0129",
   "canon": false,
   "title": "The offerings at Doire uaine",
-  "body": "The villagers of Doire uaine leave offerings of salt and ore at the foot of the hills after the surveyors are lost, as they had in their grandparents' time after any death on the high ground. The Company forbids ore to be left lying and has the offerings collected, and the villagers change to salt alone.",
+  "body": "The villagers of Doire uaine leave offerings of salt and ore for the sìth at the foot of the hills after the surveyors are lost, as they had in their grandparents' time after any death on the high ground. The Company forbids ore to be left lying and has the offerings collected, and the villagers change to salt alone.",
   "place": "burg:148",
   "kind": "faith"
  },
@@ -1442,7 +1442,7 @@
   "id": "IV-0157",
   "canon": false,
   "title": "The dead of Cnoc naomh",
-  "body": "At Cnoc naomh the dead of the Green Death are buried in the churchyard of the town's old shrine until the ground is full, and then in a field outside it. The field is never ploughed again.",
+  "body": "At Cnoc naomh the dead of the Green Death are buried in the burial ground of the town's old shrine until the ground is full, and then in a field outside it. The field is never ploughed again.",
   "place": "burg:318",
   "kind": "disaster"
  },
@@ -1596,8 +1596,8 @@
  {
   "id": "IV-0175",
   "canon": false,
-  "title": "The Dark Unicorn blesses the coin",
-  "body": "The priests of Creideamh an Aon-adharcaich Dhuibh at Cathair dhearg, the capital's own faith, bless the Residency's new coin at Tolley's request. The dualist priesthood teaches that the dark and the light each have their due; the dissenting priests say the coin is only one of them.",
+  "title": "Macha's priests bless the coin",
+  "body": "The priests of Òrd Mhacha at Cathair dhearg, the order of the capital and the crown, bless the Residency's new coin at Tolley's request. Macha's priesthood teaches that her two horses, Dubh Sainglenn the black and Liath Macha the grey, each have their due; the dissenting priests say the coin is only one of them.",
   "place": "burg:19",
   "kind": "faith"
  },
@@ -1630,7 +1630,7 @@
   "id": "IV-0179",
   "canon": false,
   "title": "The dissenters go to Cnoc bheag",
-  "body": "Priests of the Dark Unicorn who refused the blessing leave the capital's temple and settle in the sacred forest at Cnoc bheag. Their community there keeps the older reading of the dual faith, and becomes a place where custodians who have lost their seats are received.",
+  "body": "Priests of Macha who refused the blessing leave the capital's temple and settle in the sacred forest at Cnoc bheag. Their community there keeps the older reading of Macha's two horses, and becomes a place where custodians who have lost their seats are received.",
   "place": "marker:24",
   "kind": "faith"
  },
@@ -1685,8 +1685,8 @@
  {
   "id": "IV-0186",
   "canon": false,
-  "title": "The Deer school's hall closed",
-  "body": "George Tolley closes the hall of Feallsanachd an Fhèidh at Dùn thais, citing a lecture on whether the humans' blindness to the ore's colour is a kind of sickness. The masters go on teaching in their own houses, to smaller rooms each year.",
+  "title": "The druid school's hall closed",
+  "body": "George Tolley closes the hall of the druid school at Dùn thais, citing a lecture on whether the humans' blindness to the ore's colour is a kind of sickness. The masters go on teaching in their own houses, to smaller rooms each year.",
   "place": "burg:77",
   "kind": "faith"
  },
@@ -1694,7 +1694,7 @@
   "id": "IV-0187",
   "canon": false,
   "title": "The last disputation at Doire chiar",
-  "body": "At Doire chiar, a Deer village north of the eastern workings, the masters hold the last public disputation of the school in the open air, in the village's threshing-floor. Its subject is whether a question may be forbidden. The Administration's clerk who attends records that it may.",
+  "body": "At Doire chiar, a village of the druid schools north of the eastern workings, the masters hold the last public disputation of the school in the open air on the eve of Bealltainn, in the village's threshing-floor. Its subject is whether a question may be forbidden. The Administration's clerk who attends records that it may.",
   "place": "burg:333",
   "kind": "faith"
  },
@@ -1702,7 +1702,7 @@
   "id": "IV-0188",
   "canon": false,
   "title": "Teaching in the sacred forest",
-  "body": "Masters of Feallsanachd an Fhèidh who can no longer teach in a hall begin teaching in the sacred forest near Muileann chiar, under the trees, where the Administration has no building to close.",
+  "body": "Druid masters who can no longer teach in a hall begin teaching in the sacred forest of Flidais near Muileann chiar, under the trees, where the Administration has no building to close.",
   "place": "marker:23",
   "kind": "faith"
  },
@@ -2009,7 +2009,7 @@
   "id": "IV-0222",
   "canon": false,
   "title": "Pilgrims at Allt an Àigh",
-  "body": "The spring of Allt an Àigh, said never to have failed, keeps running through all three dry years. Pilgrims of Seann Spioradan nan Ròdach come to it from across the east, and the Administration posts a watchman to charge them for the water. He is recalled after a single season.",
+  "body": "The spring of Allt an Àigh, said never to have failed, keeps running through all three dry years. Pilgrims who keep Na Seann Spioradan come to it from across the east, the first of them at Bealltainn, and the Administration posts a watchman to charge them for the water. He is recalled after a single season.",
   "place": "marker:1",
   "kind": "faith"
  },
@@ -2017,7 +2017,7 @@
   "id": "IV-0223",
   "canon": false,
   "title": "The pilgrims' road at Inis uaine",
-  "body": "Pilgrims bound for Allt an Àigh gather at Inis uaine, and the town's people feed them without charge, as the old spirits require. The town's own wells are low, and it gives away more water than it keeps.",
+  "body": "Pilgrims bound for Allt an Àigh gather at Inis uaine, and the town's people feed them without charge, as the Old Spirits require. The town's own wells are low, and it gives away more water than it keeps.",
   "place": "burg:103",
   "kind": "faith"
  },
@@ -2237,8 +2237,8 @@
  {
   "id": "IV-0247",
   "canon": false,
-  "title": "Seònaid nic Dhùghaill, last of the Deer masters",
-  "body": "The last master of Feallsanachd an Fhèidh to teach openly in the colonial age, Seònaid nic Dhùghaill, dies at Dùn thais. No successor is named, and the school's register ends with her death. It will be taken up again only long after the humans are gone.",
+  "title": "Seònaid nic Dhùghaill, last of the druid masters",
+  "body": "The last master of Scoiltean nan Draoidhean to teach openly in the colonial age, Seònaid nic Dhùghaill, dies at Dùn thais. No successor is named, and the school's register ends with her death. It will be taken up again only long after the humans are gone.",
   "place": "burg:77",
   "kind": "faith"
  },
@@ -2363,16 +2363,16 @@
  {
   "id": "IV-0262",
   "canon": false,
-  "title": "A grey-night gathering at Baile chrom",
-  "body": "The Mission at Cathair gheal reports that human labourers near Baile chrom have been meeting at night in the fields to pray to a grey goose. The Mission cannot find the source of the practice and describes it as a superstition learned from the Ròdaich. The Ròdaich of Baile chrom disown it.",
+  "title": "A grey-night vigil at Baile chrom",
+  "body": "The Mission at Cathair gheal reports that human labourers near Baile chrom have been keeping a vigil at night in the fields, praying in silence under the sign of a grey goose, which they call the wild goose of the Spirit. The Mission cannot find the source of the practice and calls it irregular, a superstition learned from the Ròdaich. The Ròdaich of Baile chrom disown it.",
   "place": "burg:305",
   "kind": "faith"
  },
  {
   "id": "IV-0262a",
   "canon": false,
-  "title": "The Scorpion's priests on the grey night",
-  "body": "The Scorpion's priests at Ceann mhòr answer the Mission's report on the grey-night gatherings. The practice was learned from the Ròdaich, they say, but from their own harbours and not from Baile chrom: the human fishing families of Ceann mhòr learned the prayer to keep the sea shut from them, and the labourers inland keep it as a night of silence, praying to a grey goose instead of Cnut. The priests call it the Scorpion gone astray and do not admit its keepers to their house.",
+  "title": "Manannan's priests on the grey night",
+  "body": "The priests of Òrd Mhanannain at Ceann mhòr answer the Mission's report on the grey-night vigils. The practice owes something to the Ròdaich, they say, but to their own harbours and not to Baile chrom: the human fishing families of Ceann mhòr learned the night prayer to keep the sea shut from them, and the labourers inland keep it as a Christian vigil, a night of silence under the wild goose of the Spirit instead of a prayer to Manannan. The priests call it Manannan's prayer gone astray and do not admit its keepers to their house.",
   "place": "burg:143",
   "kind": "faith",
   "between": [
@@ -2556,7 +2556,7 @@
   "id": "IV-0278",
   "canon": false,
   "title": "The grey fever at Dùn thais",
-  "body": "At Dùn thais the fever takes the physician who had been sent by the Administration to treat it, and two of the Mission's nurses. The Deer masters' old houses are opened as sick-rooms.",
+  "body": "At Dùn thais the fever takes the physician who had been sent by the Administration to treat it, and two of the Mission's nurses. The druid masters' old houses are opened as sick-rooms.",
   "place": "burg:77",
   "kind": "disaster",
   "between": [
@@ -2624,8 +2624,8 @@
  {
   "id": "IV-0286",
   "canon": false,
-  "title": "The hawk and the Deer at Inis bhàn",
-  "body": "At Inis bhàn the priests of the hawk and a few who still keep the Deer school's questions in private meet for a disputation, the first between the two in living memory. The record calls it inconclusive, and notes that both sides afterward signed the petition.",
+  "title": "The hawk and the druids at Inis bhàn",
+  "body": "At Inis bhàn the priests of the hawk and a few who still keep the druid school's questions in private meet for a disputation, the first between the two in living memory. The record calls it inconclusive, and notes that both sides afterward signed the petition.",
   "place": "burg:371",
   "kind": "faith"
  },
@@ -2674,7 +2674,7 @@
   "id": "IV-0292",
   "canon": false,
   "title": "An Leòmhann Buidhe",
-  "body": "An Leòmhann Buidhe, the roadside house on the northern road through the Deer country, takes on six new ostlers in a single season, none of whom know anything about horses.",
+  "body": "An Leòmhann Buidhe, the roadside house on the northern road through the druid country, takes on six new ostlers in a single season, none of whom know anything about horses.",
   "place": "marker:7",
   "kind": "building"
  },
@@ -2755,7 +2755,7 @@
   "id": "IV-0302",
   "canon": false,
   "title": "Muileann bheag in the north-east",
-  "body": "The workings at Muileann bheag in the north-east, among the Deer villages, stop with the rest. The town's custodian writes that it was the first thing the town had done in concert with the hills in a hundred years.",
+  "body": "The workings at Muileann bheag in the north-east, among the druid villages, stop with the rest. The town's custodian writes that it was the first thing the town had done in concert with the hills in a hundred years.",
   "place": "burg:240",
   "kind": "people",
   "same_day": true
@@ -2874,7 +2874,7 @@
   "id": "IV-0315",
   "canon": false,
   "title": "The council locked out",
-  "body": "Strake has the council hall at Cathair dhearg locked and its keys lodged at the Residency. The custodians meet instead in the Dark Unicorn's temple, whose priests, who had blessed the humans' coin, now shelter those who had petitioned against it.",
+  "body": "Strake has the council hall at Cathair dhearg locked and its keys lodged at the Residency. The custodians meet instead in Macha's temple, whose priests, who had blessed the humans' coin, now shelter those who had petitioned against it.",
   "place": "burg:19",
   "kind": "law"
  },
@@ -2943,7 +2943,7 @@
   "id": "IV-0322",
   "canon": false,
   "title": "The council at Cnoc bheag forest",
-  "body": "Custodians, crew-leaders of the Lamp-Watch and the dissenting priests of the Dark Unicorn meet in the sacred forest at Cnoc bheag and form a single council for the mining regions. Eilidh nic Raghnaill is chosen to speak for it. The meeting is not recorded by any human source.",
+  "body": "Custodians, crew-leaders of the Lamp-Watch and the dissenting priests of Macha meet in the sacred forest at Cnoc bheag and form a single council for the mining regions. Eilidh nic Raghnaill is chosen to speak for it. The meeting is not recorded by any human source.",
   "place": "marker:24",
   "kind": "faith"
  },
@@ -3176,7 +3176,7 @@
   "id": "IV-0342e",
   "canon": false,
   "title": "The Leaden Hawk at Inis thais",
-  "body": "Two more days by carriage, still off the roads, bring the company down to Inis thais, eight days after it left Cuan dhearg. The priests of Clach hear the council's letter in the Direwolf's temple. They will send no men, but they close the harbour of Inis thais to the Company's ships and give the hawk-faithful the use of the Wolf's roads. The Leaden Hawk ends its road there, and its seven join the hawk company when it is mustered at the western Seann Skell.",
+  "body": "Two more days by carriage, still off the roads, bring the company down to Inis thais, eight days after it left Cuan dhearg. The priests of Òrd na Cloiche hear the council's letter in the temple of the Stone. They will send no men, but they close the harbour of Inis thais to the Company's ships and give the hawk-faithful the use of the Fianna's roads. The Leaden Hawk ends its road there, and its seven join the hawk company when it is mustered at the western Seann Skell.",
   "place": "burg:166",
   "kind": "war",
   "between": [
@@ -3389,7 +3389,7 @@
   "id": "IV-0368",
   "canon": false,
   "title": "The last ship from the west",
-  "body": "The last ship recorded arriving from an Tìr Thall anchors at Ros bheag. She brings no troops and no grain, only a sealed letter for the Commissioner, and she sails again on the next tide with as many passengers as she can hold.",
+  "body": "The last ship recorded arriving from an Tìr Thall anchors at Ros bheag on Samhain. She brings no troops and no grain, only a sealed letter for the Commissioner, and she sails again on the next tide with as many passengers as she can hold.",
   "place": "feature:1",
   "kind": "voyage"
  },

@@ -65,7 +65,7 @@
   "id": "III-0006",
   "canon": false,
   "title": "The custodians count the cost",
-  "body": "The vein-house above Muileann dhearg, heir to the Keepers' Hall at Dùn ìseal, reckons which of the households holding the customary right to burn the ore have entered the roll. The custody-book puts it at nearly one household in five, and adds that the reckoning was made twice because the first figure was not believed.",
+  "body": "The vein-house above Muileann dhearg, keeper of Crom's stone and heir to the Keepers' Hall at Dùn ìseal where Brìde's flame was first bound, reckons which of the households holding the customary right to burn the ore have entered the roll. The custody-book puts it at nearly one household in five, and adds that the reckoning was made twice because the first figure was not believed.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -272,7 +272,7 @@
   "id": "III-0023",
   "canon": true,
   "title": "The Setting-Out",
-  "body": "The volunteers depart. The island's chronicles simply stop describing them the moment the ships clear the harbor.",
+  "body": "The volunteers depart west. The island's chronicles simply stop describing them the moment the ships clear the harbor; the Ròdaich tell that the fleet sailed into Manannan's mist, toward the Otherworld.",
   "place": null,
   "kind": "voyage",
   "between": [
@@ -691,7 +691,7 @@
   "id": "III-0056",
   "canon": false,
   "title": "The spirit-house at Dùn ìseal",
-  "body": "The keepers of Seann Spioradan nan Ròdach raise a house for the ancestors at Dùn ìseal, where the names of the dead of the eastern shires are cut on wooden posts. The posts are recut every generation as the old ones rot.",
+  "body": "The keepers of the Old Spirits, the faith of the hearths, raise a house for the ancestors at Dùn ìseal, where the names of the dead of the eastern shires are cut on wooden posts. The posts are recut every generation as the old ones rot.",
   "place": "burg:315",
   "kind": "building",
   "between": [
@@ -763,7 +763,7 @@
   "id": "III-0062",
   "canon": false,
   "title": "Gormshuil of the Hawk",
-  "body": "At Cnoc bheag, where the dawn-hawk rite of the Holy Age is still kept, the priestess Gormshuil nic Artair teaches that the vein is Mòd, the Hungry Hawk, who must be fed the measured handful and no more, since a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers gather the old rite into the first house of Creideamh an t-Seabhaig.",
+  "body": "At Cnoc bheag, where the dawn-hawk rite of the Holy Age is still kept, the priestess Gormshuil nic Artair teaches that the hawk of the rite is Mòd, the hawk of Fionntan mac Bòchra, the oldest of beings, who remembers everything, and that the vein is the Hungry Hawk, who must be fed the measured handful and no more, since a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers gather the old rite into the first house of Òrd an t-Seabhaig, the order of the Hawk of Acaill.",
   "place": "burg:20",
   "kind": "faith",
   "between": [
@@ -923,7 +923,7 @@
   "id": "III-0074",
   "canon": false,
   "title": "The house of disputation at Dùn thais",
-  "body": "Coinneach mac Mhàrtainn, a teacher of Feallsanachd an Fhèidh, founds a house of disputation at Dùn thais where the school's old question, why the vein answers some hands and not others, is argued by rule. Pupils come from as far as Caol bheag.",
+  "body": "Coinneach mac Mhàrtainn, a druid of the schools of Flidais, lady of the deer, founds a house of disputation at Dùn thais where the schools' old question, Carson an làmh seo?, why the vein answers some hands and not others, is argued by rule. Pupils come from as far as Caol bheag.",
   "place": "burg:77",
   "kind": "faith",
   "between": [
@@ -1067,7 +1067,7 @@
   "id": "III-0086",
   "canon": false,
   "title": "Clach first preached at Inis thais",
-  "body": "Dòmhnall mac Ailein, a net-maker of Inis thais, where the wolf-sworn's stone stands, gives the one god of the wolf-sworn a name, Clach, the Resplendent Direwolf, who keeps the island as a wolf keeps its range. His hearers are the first congregation of Creideamh a' Mhadaidh-allaidh.",
+  "body": "Dòmhnall mac Ailein, a net-maker of Inis thais, where the wolf-sworn's stone Clach stands, preaches that the stone is Lia Fàil, the stone that cries out under the rightful king, and that its sworn guards are the Fianna, who keep the island as a wolf keeps its range. His hearers are the first congregation of Òrd na Cloiche, the order of the Stone.",
   "place": "burg:166",
   "kind": "faith",
   "between": [
@@ -1079,7 +1079,7 @@
   "id": "III-0087",
   "canon": false,
   "title": "The wolf-house at Inis thais",
-  "body": "Dòmhnall mac Ailein's followers raise a temple at Inis thais, the first temple on the island raised to Clach by name. It is roofed with slate brought by sea from the north.",
+  "body": "Dòmhnall mac Ailein's followers raise a temple at Inis thais, the first temple on the island raised to Lia Fàil by name. It is roofed with slate brought by sea from the north.",
   "place": "burg:166",
   "kind": "building",
   "between": [
@@ -1091,7 +1091,7 @@
   "id": "III-0088",
   "canon": false,
   "title": "Hawk and wolf at Caol leathan",
-  "body": "Priests of the Hawk and preachers of the Wolf both claim the harbour shrine at Caol leathan. The king's reeve divides its days between them, as the Holy Age had divided the sacred woods, and the arrangement holds.",
+  "body": "Priests of the Hawk and the Fianna of the Stone both claim the harbour shrine at Caol leathan. The king's reeve divides its days between them, as the Holy Age had divided the sacred woods, and the arrangement holds.",
   "place": "burg:1",
   "kind": "faith",
   "between": [
@@ -1114,8 +1114,8 @@
  {
   "id": "III-0089",
   "canon": false,
-  "title": "The Dark Unicorn at court",
-  "body": "King Aonghas takes up the wood-watchers' teaching of Uallach, the Dark Unicorn, which holds that light and dark are two powers in balance and that the vein belongs to both. The court follows him, and Creideamh an Aon-adharcaich Dhuibh becomes the faith of Cathair dhearg.",
+  "title": "Macha at court",
+  "body": "King Aonghas takes up the wood-watchers' rite of Macha, whose black horse Dubh Sainglenn runs with its twin Liath Macha, the grey: the beast has two natures, light and dark are two powers in balance, and the vein belongs to both. The court follows him, and Òrd Mhacha, the order of Macha, becomes the order of Cathair dhearg and the crown.",
   "place": "burg:19",
   "kind": "faith",
   "between": [
@@ -1138,8 +1138,8 @@
  {
   "id": "III-0091",
   "canon": false,
-  "title": "The Unicorn's priests in Coille Naomh Cnoc bheag",
-  "body": "The share of custody over Coille Naomh Cnoc bheag, divided since the Holy Age, passes by royal grant to the priests of the Dark Unicorn. The other claimants withdraw from the wood without contest, and the record does not say why.",
+  "title": "Macha's priests in Coille Naomh Cnoc bheag",
+  "body": "The share of custody over Coille Naomh Cnoc bheag, divided since the Holy Age, passes by royal grant to the priests of Macha. The other claimants withdraw from the wood without contest, and the record does not say why.",
   "place": "marker:24",
   "kind": "faith",
   "between": [
@@ -1150,8 +1150,8 @@
  {
   "id": "III-0092",
   "canon": false,
-  "title": "The deer scholars keep Coille Naomh Muileann chiar",
-  "body": "The teachers of Feallsanachd an Fhèidh take formal keeping of Coille Naomh Muileann chiar, walking its bounds each year. The walk becomes the school's one public observance.",
+  "title": "The druid schools keep Coille Naomh Muileann chiar",
+  "body": "The druids of the schools take formal keeping of Coille Naomh Muileann chiar, the wood of Flidais's white stag, walking its bounds each year. The walk becomes the schools' one public observance.",
   "place": "marker:23",
   "kind": "faith",
   "between": [
@@ -1199,7 +1199,7 @@
   "id": "III-0096",
   "canon": false,
   "title": "Death of King Aonghas",
-  "body": "King Aonghas mac Uisdein dies at Cathair dhearg and is buried by the rite of the Dark Unicorn, the first king so buried. His son Iain mac Aonghais is crowned.",
+  "body": "King Aonghas mac Uisdein dies at Cathair dhearg and is buried by the rite of Macha, the first king so buried. His son Iain mac Aonghais is crowned.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -1335,7 +1335,7 @@
   "id": "III-0107",
   "canon": false,
   "title": "The burning of Doire mhin",
-  "body": "Raghnall Ruadh's retreating men burn the village of Doire mhin and its granary to deny it to Dùghall. The villagers winter at Cathair mhòr on the charity of the Dark Unicorn's priests.",
+  "body": "Raghnall Ruadh's retreating men burn the village of Doire mhin and its granary to deny it to Dùghall. The villagers winter at Cathair mhòr on the charity of Macha's priests.",
   "place": "burg:316",
   "kind": "war",
   "between": [
@@ -1471,7 +1471,7 @@
   "id": "III-0118",
   "canon": false,
   "title": "The sickness at Inis chrom",
-  "body": "A spotted fever kills some three hundred at Inis chrom on the south-west coast. The Wolf's preachers nurse the sick and many of them die of it, and the town becomes the Wolf's for good.",
+  "body": "A spotted fever kills some three hundred at Inis chrom on the south-west coast. The Fianna of the Stone nurse the sick and many of them die of it, and the town becomes the Stone's for good.",
   "place": "burg:92",
   "kind": "disaster",
   "between": [
@@ -1506,8 +1506,8 @@
  {
   "id": "III-0120",
   "canon": false,
-  "title": "The Yellow Scorpion preached at Seann Skell",
-  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, a preacher named Mànas mac Ruairidh proclaims its one power as Cnut, the Yellow Scorpion, and teaches that Cnut closed the western sea behind the fleet and that it must not be tried again. His hearers are the first congregation of Creideamh na Scairpe Buidhe.",
+  "title": "Manannan preached at Seann Skell",
+  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, a preacher named Mànas mac Ruairidh proclaims its one power as Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion, and teaches that Manannan shut the western sea behind the fleet with his mist and that it must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -1534,8 +1534,8 @@
  {
   "id": "III-0122",
   "canon": false,
-  "title": "The Scorpion at Ros bheag and Cuan shean",
-  "body": "The teaching of the Yellow Scorpion spreads down the west coast to Ros bheag and Cuan shean, carried by fishing families. At Cuan shean the rope-makers are among the first converts.",
+  "title": "Manannan's order at Ros bheag and Cuan shean",
+  "body": "The teaching of Manannan's order spreads down the west coast to Ros bheag and Cuan shean, carried by fishing families. At Cuan shean the rope-makers are among the first converts.",
   "place": "burg:63",
   "kind": "faith",
   "between": [
@@ -1547,7 +1547,7 @@
   "id": "III-0123",
   "canon": false,
   "title": "Within sight of land",
-  "body": "The Scorpion's priests at Ros bheag lay it down that no boat of the faithful may go beyond sight of the headlands. The rule is kept on the west coast for centuries, and the steering of boats by the stars, already half lost, is lost there entirely.",
+  "body": "Manannan's priests at Ros bheag lay it down that no boat of the faithful may go beyond sight of the headlands. The rule is kept on the west coast for centuries, and the steering of boats by the stars, already half lost, is lost there entirely.",
   "place": "burg:63",
   "kind": "law",
   "between": [
@@ -1618,7 +1618,7 @@
  {
   "id": "III-0128",
   "canon": false,
-  "title": "The deer school at Inis mhòr",
+  "title": "The druid school at Inis mhòr",
   "body": "A house of disputation is founded at Inis mhòr by pupils of Dùn thais, and the question of the vein is argued in the north for the first time. Its first master, Fionnlagh mac Aonghais, is remembered for refusing every answer offered him.",
   "place": "burg:17",
   "kind": "faith",
@@ -1762,7 +1762,7 @@
  {
   "id": "III-0138a",
   "title": "The custody's seal on the king's letters",
-  "body": "From the joining of the crown and the custody the king's letters are sealed with the vein-house's own seal: a trellis of gold on blue, which the custodians read as the galleries of the mountain, with a hollow lozenge over it for the slab laid on the first break. The crown adds a white band across the field and nothing else. From this time the seal is the arms of the kingdom.",
+  "body": "From the joining of the crown and the custody the king's letters are sealed with the vein-house's own seal: a trellis of gold on blue, which the custodians read as the galleries of the mountain, with a hollow lozenge over it for Crom's slab, laid on the first break. The crown adds a white band across the field and nothing else. From this time the seal is the arms of the kingdom.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -1930,7 +1930,7 @@
   "id": "III-0151",
   "canon": false,
   "title": "Ailean measures Làrach an Teampaill",
-  "body": "Ailean mac Dhùghaill, a scholar of the deer school at Dùn thais, measures the ruin of Làrach an Teampaill and writes that its altar faces the central mountains and not the sea. He declines to guess who set it so.",
+  "body": "Ailean mac Dhùghaill, a scholar of the druid school at Dùn thais, measures the ruin of Làrach an Teampaill and writes that its altar faces the central mountains and not the sea. He declines to guess who set it so.",
   "place": "marker:33",
   "kind": "discovery",
   "between": [
@@ -2230,7 +2230,7 @@
   "id": "III-0171",
   "canon": false,
   "title": "The table of years at Dùn thais",
-  "body": "A scholar of the deer school at Dùn thais, Raghnall mac Chaluim, sets out a table showing that the heads of the custodian houses live on average a few years longer than the tenants of their lands. He asks whether the vein answers the hand that holds it. The record notes the finding with unease and without an answer.",
+  "body": "A scholar of the druid school at Dùn thais, Raghnall mac Chaluim, sets out a table showing that the heads of the custodian houses live on average a few years longer than the tenants of their lands. He asks whether the vein answers the hand that holds it. The record notes the finding with unease and without an answer.",
   "place": "burg:77",
   "kind": "faith",
   "between": [
@@ -2278,7 +2278,7 @@
   "id": "III-0175",
   "canon": false,
   "title": "Pilgrims at Allt an Àigh",
-  "body": "The keepers of Seann Spioradan nan Ròdach renew the pilgrimage to Allt an Àigh, and a guest-house is built beside the stream for those who come to drink at the proper phase of the moon. The guest-house book records pilgrims from every shire.",
+  "body": "The keepers of the Old Spirits renew the pilgrimage to Allt an Àigh, and a guest-house is built beside the stream for those who come to drink at the proper phase of the moon. The guest-house book records pilgrims from every shire.",
   "place": "marker:1",
   "kind": "faith",
   "between": [
@@ -2446,7 +2446,7 @@
   "id": "III-0188",
   "canon": false,
   "title": "The hull that sank at launch",
-  "body": "Seumas mac Iain, a boat-builder of Seann Skell, sets out to rebuild a deep-keeled hull from the scraps of the Sundering fellowship's lore still remembered on the strand. The hull fills and sinks at its launch, and the Scorpion's priests preach on it for a year.",
+  "body": "Seumas mac Iain, a boat-builder of Seann Skell, sets out to rebuild a deep-keeled hull from the scraps of the Sundering fellowship's lore still remembered on the strand. The hull fills and sinks at its launch, and Manannan's priests preach on it for a year.",
   "place": "burg:489",
   "kind": "craft",
   "between": [
@@ -2493,8 +2493,8 @@
  {
   "id": "III-0191",
   "canon": false,
-  "title": "The Wolf's schism at Inis thais",
-  "body": "The Wolf's congregation at Inis thais divides over whether Clach may be prayed to for the dead. Those who say not keep the temple; the others build a second house at Baile gheal.",
+  "title": "The Stone's schism at Inis thais",
+  "body": "The Stone's congregation at Inis thais divides over whether the dead may be prayed for at Clach. Those who say not keep the temple; the others build a second house at Baile gheal.",
   "place": "burg:166",
   "kind": "faith",
   "between": [
@@ -2518,7 +2518,7 @@
   "id": "III-0193",
   "canon": false,
   "title": "The second wolf-house at Baile gheal",
-  "body": "The dissenters from Inis thais raise their house at Baile gheal and pray there for the dead by name. The two houses of the Wolf are not reconciled in this age.",
+  "body": "The dissenters from Inis thais raise their house at Baile gheal and pray there for the dead by name. The two houses of the Stone are not reconciled in this age.",
   "place": "burg:232",
   "kind": "faith",
   "between": [
@@ -2585,8 +2585,8 @@
  {
   "id": "III-0198",
   "canon": false,
-  "title": "The Unicorn's great house at Cathair mhòr",
-  "body": "The priests of the Dark Unicorn raise their great house at Cathair mhòr, the largest roofed building on Rodos in this age. Its black and white floor took eleven years to lay.",
+  "title": "Macha's great house at Cathair mhòr",
+  "body": "The priests of Macha raise their great house at Cathair mhòr, the largest roofed building on Rodos in this age. Its black and white floor took eleven years to lay.",
   "place": "burg:23",
   "kind": "building",
   "between": [
@@ -2753,8 +2753,8 @@
  {
   "id": "III-0212",
   "canon": false,
-  "title": "The synod of the Scorpion",
-  "body": "The priests of the Yellow Scorpion meet at Seann Skell and restate the rule of sight-of-land. They add a prayer, said at the foot of the river pool, asking Cnut to keep the sea shut.",
+  "title": "The synod of Manannan's order",
+  "body": "The priests of Manannan meet at Seann Skell and restate the rule of sight-of-land. They add a prayer, said at the foot of the river pool, asking Manannan to keep the sea shut: A Mhanannain, cùm a' mhuir dùinte.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -2901,8 +2901,8 @@
  {
   "id": "III-0223",
   "canon": false,
-  "title": "The Scorpion's harbour prayer",
-  "body": "The priests of the Yellow Scorpion at Seann Skell begin saying their prayer to keep the sea shut on the same day as the empty-harbour rite, so that the two are kept together on Cidhe an Diosail. Neither side is pleased.",
+  "title": "Manannan's harbour prayer",
+  "body": "The priests of Manannan at Seann Skell begin saying their prayer to keep the sea shut on the same day as the empty-harbour rite, so that the two are kept together on Cidhe an Diosail. Neither side is pleased.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -2986,7 +2986,7 @@
   "id": "III-0230",
   "canon": false,
   "title": "The house at Dùn thais reopened",
-  "body": "The house of disputation at Dùn thais, closed and reopened more than once since the table of years, is opened again on condition that the question of longer lives is not raised. The scholars of the deer school accept the condition and argue about the vein instead.",
+  "body": "The house of disputation at Dùn thais, closed and reopened more than once since the table of years, is opened again on condition that the question of longer lives is not raised. The druids of the schools accept the condition and argue about the vein instead.",
   "place": "burg:77",
   "kind": "faith",
   "between": [
@@ -3058,7 +3058,7 @@
   "id": "III-0236",
   "canon": false,
   "title": "Timber from the west",
-  "body": "A worked timber, longer than any tree on the island and fastened with nails of a make no smith on Rodos recognizes, comes ashore at Ceann mhòr on the north-west coast. It is carried to Seann Skell, shown to the Scorpion's priests, and burned.",
+  "body": "A worked timber, longer than any tree on the island and fastened with nails of a make no smith on Rodos recognizes, comes ashore at Ceann mhòr on the north-west coast, from beyond Manannan's mist, as the fishers say. It is carried to Seann Skell, shown to Manannan's priests, and burned.",
   "place": "burg:143",
   "kind": "omen",
   "between": [

@@ -94,15 +94,15 @@ The shires are listed in the order of the council's roll, which begins with the 
 | 12 | {{place:province:12}} | {{place:burg:395}} | 2 | Ròdaich | Holy Age | The great granary fields |
 | 13 | {{place:province:13}} | {{place:burg:110}} | 2 | Ròdaich | Ancient Age (Old Ones) | The south-east's great walled harbour |
 | 14 | {{place:province:14}} | {{place:burg:143}} | 6 | Tuathaich | Holy Age | Tuathaich; the maor keeps the old human magistrate's house ({{date:V-0015}}) |
-| 15 | {{place:province:15}} | {{place:burg:166}} | 4 | Ròdaich | Holy Age | The Wolf shires of the south-west count their own people ({{date:V-0219}}) |
+| 15 | {{place:province:15}} | {{place:burg:166}} | 4 | Ròdaich | Holy Age | The shires of the Stone in the south-west count their own people ({{date:V-0219}}) |
 | 16 | {{place:province:16}} | {{place:burg:77}} | 5 | Ròdaich | Holy Age | Dùn thais of the east; the rolls mark it east against the western Dùn thais in the shire of Ros bheag ({{date:V-0139}}) |
-| 17 | {{place:province:17}} | {{place:burg:92}} | 3 | Ròdaich | Holy Age | Bent isle harbour and Direwolf sailors |
+| 17 | {{place:province:17}} | {{place:burg:92}} | 3 | Ròdaich | Holy Age | Bent isle harbour and the Fianna's sailors |
 | 18 | {{place:province:18}} | {{place:burg:316}} | 6 | Ròdaich | Holy Age | The great grove-village of the north road |
 | 19 | {{place:province:19}} | {{place:burg:296}} | 2 | Ròdaich | Holy Age | Timber for Cathair fhada |
 | 20 | {{place:province:20}} | {{place:burg:131}} | 5 | Ròdaich | Holy Age | Rough-town wool market |
 | 21 | {{place:province:21}} | {{place:burg:30}} | 2 | Ròdaich | Holy Age | Ceann mhin of the south |
 | 22 | {{place:province:22}} | {{place:burg:45}} | 3 | Ròdaich | Holy Age | Rope-walks and sail-lofts |
-| 23 | {{place:province:23}} | {{place:burg:209}} | 3 | Tuathaich | Age of Sundering | Tuathaich; the heart of Creideamh nan Tuathach; counted from the road ({{date:V-0035}}) |
+| 23 | {{place:province:23}} | {{place:burg:209}} | 3 | Tuathaich | Age of Sundering | Tuathaich; the heart of the Church in the north; counted from the road ({{date:V-0035}}) |
 | 24 | {{place:province:24}} | {{place:burg:23}} | 1 | Ròdaich | Holy Age | The great city beside the old outpost |
 | 25 | {{place:province:25}} | {{place:burg:170}} | 2 | Ròdaich | Holy Age | Baile ghorm of the south |
 | 26 | {{place:province:26}} | {{place:burg:145}} | 4 | Ròdaich | Holy Age | Achadh naomh of the north-central country |
@@ -114,7 +114,7 @@ The shires are listed in the order of the council's roll, which begins with the 
 | 32 | {{place:province:32}} | {{place:burg:26}} | 3 | Ròdaich | Holy Age | Deep-water harbour beside the capital |
 | 33 | {{place:province:33}} | {{place:burg:32}} | 3 | Ròdaich | Holy Age | Àth shean of the centre |
 | 34 | {{place:province:34}} | {{place:burg:502}} | 3 | Ròdaich | Age of Sundering | White mills and citadel of the ore road |
-| 35 | {{place:province:35}} | {{place:burg:315}} | 8 | Ròdaich | Holy Age | The great temple of the old spirits |
+| 35 | {{place:province:35}} | {{place:burg:315}} | 8 | Ròdaich | Holy Age | The great temple of the Old Spirits, on the hill of Brìde's flame |
 | 36 | {{place:province:36}} | {{place:burg:142}} | 6 | Ròdaich 1, Tuathaich 5 | Holy Age | Tuathaich but for one Ròdaich town, Baile dhubh; the middle of the Tuathaich country lies in this shire |
 | 37 | {{place:province:37}} | {{place:burg:167}} | 5 | Ròdaich | Holy Age | The first shire to open a school in every parish, from the shire's dues ({{date:V-0173}}) |
 | 38 | {{place:province:38}} | {{place:burg:282}} | 5 | Ròdaich | Holy Age | The fourth fleet's harbour |
@@ -125,7 +125,7 @@ The shires are listed in the order of the council's roll, which begins with the 
 | 43 | {{place:province:43}} | {{place:burg:3}} | 4 | Ròdaich | Holy Age | Baile ghorm of the south-east, the market of its shire |
 | 44 | {{place:province:44}} | {{place:burg:255}} | 7 | Ròdaich | Holy Age | The citadel above Muileann ghlas |
 | 45 | {{place:province:45}} | {{place:burg:24}} | 2 | Ròdaich | Holy Age | The Hawk houses' birth-rolls ({{date:V-0221}}) |
-| 46 | {{place:province:46}} | {{place:burg:461}} | 2 | Ròdaich | Holy Age | Church-town of the Ceann leathan melee |
+| 46 | {{place:province:46}} | {{place:burg:461}} | 2 | Ròdaich | Holy Age | Chapel-town of the Ceann leathan melee |
 | 47 | {{place:province:47}} | {{place:burg:333}} | 4 | Ròdaich | Holy Age | Disputations under the oaks |
 | 48 | {{place:province:48}} | {{place:burg:197}} | 9 | Ròdaich | Holy Age | The great eastern river port, pilgrims' landing |
 | 49 | {{place:province:49}} | {{place:burg:297}} | 2 | Ròdaich | Holy Age | Merchants of the Fèill Muileann òg |
@@ -157,7 +157,7 @@ The shires are listed in the order of the council's roll, which begins with the 
 | 75 | {{place:province:75}} | {{place:burg:269}} | 4 | Tuathaich | Holy Age | Tuathaich; taken in the Long War ({{date:V-0335}}) |
 | 76 | {{place:province:76}} | {{place:burg:354}} | 11 | Ròdaich | Holy Age | The overseers' town; the stoppage began here ({{date:IV-0306}}) |
 | 77 | {{place:province:77}} | {{place:burg:63}} | 4 | Ròdaich | Holy Age | Citadel harbour of the western coast |
-| 78 | {{place:province:78}} | {{place:burg:433}} | 2 | Ròdaich | Holy Age | Direwolf shrines and the panther watch |
+| 78 | {{place:province:78}} | {{place:burg:433}} | 2 | Ròdaich | Holy Age | Shrines of the Stone and the panther watch |
 | 79 | {{place:province:79}} | {{place:burg:62}} | 6 | Ròdaich | Holy Age | Boatyards of the small isle |
 | 80 | {{place:province:80}} | {{place:burg:46}} | 1 | Ròdaich | Holy Age | Holds a corner of Eilean dhearg, whose larger part lies in the south-eastern Seann Vell |
 | 81 | {{place:province:81}} | {{place:burg:283}} | 3 | Ròdaich | Holy Age | The river quays that feed the capital |

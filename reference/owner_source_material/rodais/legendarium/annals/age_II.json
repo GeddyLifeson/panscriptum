@@ -3,7 +3,7 @@
   "id": "II-0001",
   "canon": true,
   "title": "The Binding of the First Flame",
-  "body": "A formal custodianship is declared over the vein — the first Rodian institution recognizable as a religious-political order, centuries before anything like a king.",
+  "body": "A formal custodianship is declared over the vein, and the first flame is bound at Dùn ìseal: Brìde's undying flame, kept over the stone of Crom Cruaich. Its keeping, Òrd Bhrìde, is the first Rodian institution recognizable as a religious-political order, centuries before anything like a king.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -12,7 +12,7 @@
   "id": "II-0002",
   "canon": false,
   "title": "Beathag Bhàn keeps the first flame",
-  "body": "At Dùn ìseal, under the central mountains, the keepers of the slab and the households who swore the Binding choose Beathag Bhàn to hold the first flame and answer for what is taken from the vein. The Keepers' recited roll begins with her name. Nothing is remembered of her before it.",
+  "body": "At Dùn ìseal, under the central mountains, the keepers of the slab and the households who swore the Binding choose Beathag Bhàn to hold the first flame for Brìde and answer to Crom for what is taken from the vein. The Keepers' recited roll begins with her name. Nothing is remembered of her before it.",
   "place": "burg:315",
   "kind": "faith",
   "between": [
@@ -40,7 +40,7 @@
   "id": "II-0005",
   "canon": true,
   "title": "Seann Spioradan nan Ròdach established",
-  "body": "The island's oldest continuous folk tradition takes shape: reverence for ancestors, for the vein, for the weather that decides the mining season.",
+  "body": "The island's oldest continuous folk tradition takes shape at the hearths: reverence for ancestors, for the vein, for the weather that decides the mining season, and for the sìth of the hills and mounds. It keeps no priests.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -190,8 +190,8 @@
  {
   "id": "II-0021",
   "canon": true,
-  "title": "Feallsanachd an Fhèidh founded",
-  "body": "A philosophical school forms around the question of why the vein answers some hands and not others — the first attempt to reason about the obsidian rather than simply revere it.",
+  "title": "The first school of the druids founded",
+  "body": "The first of the Scoiltean nan Draoidhean, the druid schools, forms around the question of why the vein answers some hands and not others — the first attempt within the Old Faith to reason about the obsidian rather than simply revere it.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -208,7 +208,7 @@
   "id": "II-0023",
   "canon": false,
   "title": "The stag in the grove",
-  "body": "Sìleas nic Coinnich's hearers at Muileann chiar are named for a stag that is said to have stood in the grove through a whole lesson. They call themselves the stag's people. The school's later name, and the stag's name Camaran, are first found in texts much younger than these events.",
+  "body": "Sìleas nic Coinnich's hearers at Muileann chiar are named for a stag that is said to have stood in the grove through a whole lesson. They call themselves the stag's people. The school's later name, the stag's name Camaran, and the telling that it was the white stag of Flidais, lady of the deer, are first found in texts much younger than these events.",
   "place": "burg:78",
   "kind": "culture"
  },
@@ -248,7 +248,7 @@
   "id": "II-0027",
   "canon": true,
   "title": "The Small-Burning Law",
-  "body": "A custom hardens into formal rule: no household may burn more than a measured handful of the ore in a season. It holds for centuries.",
+  "body": "A custom hardens into formal rule: no household may burn more than a measured handful of the ore in a season. It becomes the sacred law of the Keepers of Brìde's flame and Crom's stone, and it holds for centuries.",
   "place": null,
   "kind": "law",
   "canon_date": "undated"
@@ -573,7 +573,7 @@
   "id": "II-0063",
   "canon": false,
   "title": "The bath-house at Muileann ruadh",
-  "body": "A roofed bath-house is built over the warm springs below Muileann ruadh, with sleeping-places for the sick and their carriers. The Hall appoints a keeper of the springs, the first office it creates that has nothing to do with the ore.",
+  "body": "A roofed bath-house is built over the warm springs below Muileann ruadh, with sleeping-places for the sick and their carriers. The Hall appoints a keeper of the springs, the first office it creates that has nothing to do with the ore. The keeper tends the springs in the name of Dian Cècht, the healer.",
   "place": "burg:229",
   "kind": "building"
  },
@@ -589,7 +589,7 @@
   "id": "II-0064a",
   "canon": false,
   "title": "The market under the Hall",
-  "body": "A market is held under the walls of the Hall at Dùn ìseal on the quarter days, when the households of the eastern hills come up with their dues. Hides, venison, charcoal, honey and the silver of Muileann chiar change hands there, weighed on the new weights. The Keepers allow no ore to be sold on their ground, and none is.",
+  "body": "A market is held under the walls of the Hall at Dùn ìseal on the four quarter days, Samhain, Là Fhèill Brìde, Bealltainn and Lùnastal, when the households of the eastern hills come up with their dues. Hides, venison, charcoal, honey and the silver of Muileann chiar change hands there, weighed on the new weights. The Keepers allow no ore to be sold on their ground, and none is.",
   "place": "burg:315",
   "kind": "trade",
   "between": [
@@ -633,7 +633,7 @@
   "id": "II-0069",
   "canon": false,
   "title": "The shrine at Inis thais",
-  "body": "A shrine is raised at Inis thais on the western coast to the ancestors lost at sea. Its keepers burn their season's handful of ore on the shore rather than indoors, so that the drowned can see it.",
+  "body": "A shrine is raised at Inis thais on the western coast to the ancestors lost at sea. Its keepers burn their season's handful of ore on the shore rather than indoors, so that the drowned, gone west over the sea, can see it.",
   "place": "burg:166",
   "kind": "building"
  },
@@ -817,7 +817,7 @@
   "id": "II-0088",
   "canon": false,
   "title": "The stag-letters",
-  "body": "At Muileann chiar in the far east, the teachers of the stag's people turn the cutters' tally-notches into signs for sounds, so that a teaching can be kept without a teacher. These are the first letters on Rodos in use by the Ròdaich. Nearly every later hand on the island descends from them.",
+  "body": "At Muileann chiar in the far east, the teachers of the stag's people turn the cutters' tally-notches into signs for sounds, so that a teaching can be kept without a teacher. These are the first letters on Rodos in use by the Ròdaich: the ogham, which the druids call the gift of Ogma. Nearly every later hand on the island descends from them.",
   "place": "burg:78",
   "kind": "record",
   "between": [
@@ -957,7 +957,7 @@
   "id": "II-0100",
   "canon": false,
   "title": "The wolf-sworn of Caol leathan",
-  "body": "Men who fought for Caol leathan become its road-guards and swear their watch on a white stone carved as a wolf, which they keep at the town gate. They call themselves the wolf-sworn. Later ages will read more into the stone than they did.",
+  "body": "Men who fought for Caol leathan become its road-guards and swear their watch on a white stone carved as a wolf, which they keep at the town gate. They call themselves the wolf-sworn. Later ages will read more into the stone than they did, and call it Lia Fàil.",
   "place": "burg:1",
   "kind": "people",
   "within": [
@@ -1114,7 +1114,7 @@
   "id": "II-0114",
   "canon": false,
   "title": "The watchers of the dark wood",
-  "body": "A small company settles on the edge of Coille Naomh Cnoc bheag, the wood nobody had ever cleared, and keeps watch there for a black horned beast they say walks in it. The people of Cathair dhearg call them the wood-watchers. None of the watchers' own accounts are older than the later faith that claims them.",
+  "body": "A small company settles on the edge of Coille Naomh Cnoc bheag, the wood nobody had ever cleared, and keeps watch there for a black horned beast they say walks in it. The people of Cathair dhearg call them the wood-watchers. None of the watchers' own accounts are older than Òrd Mhacha, the order of Macha that later claims them and names the beast Dubh Sainglenn.",
   "place": "marker:24",
   "kind": "faith",
   "between": [
@@ -1273,7 +1273,7 @@
   "id": "II-0130",
   "canon": false,
   "title": "The fair at Muileann òg",
-  "body": "Muileann òg, burned in the War of the Roads, is rebuilt as a market town, and a fair is held there each harvest for the western and southern roads to trade. The fair is the ancestor of Fèill Muileann òg.",
+  "body": "Muileann òg, burned in the War of the Roads, is rebuilt as a market town, and a fair is held there each harvest at Lùnastal for the western and southern roads to trade. The fair is the ancestor of Fèill Muileann òg.",
   "place": "marker:38",
   "kind": "trade"
  },
@@ -1562,7 +1562,7 @@
   "id": "II-0158",
   "canon": false,
   "title": "The hawk-keepers of Seann Skell",
-  "body": "At Seann Skell on the northern coast, fowler families keep a hawk in each household and feed it before the household eats. They burn their season's handful at dawn with the hawk on the wrist, saying that the flame is a hunger and should be fed the way a hunger is fed. They call the hawk Mòd.",
+  "body": "At Seann Skell on the northern coast, fowler families keep a hawk in each household and feed it before the household eats. They burn their season's handful at dawn with the hawk on the wrist, saying that the flame is a hunger and should be fed the way a hunger is fed. They call the hawk Mòd, and say it is the Hawk of Acaill, the shape in which Fionntan mac Bòchra, oldest of all beings, lived and remembered everything. Òrd an t-Seabhaig counts its beginning from them.",
   "place": "burg:132",
   "kind": "faith"
  },
@@ -1613,8 +1613,8 @@
  {
   "id": "II-0164",
   "canon": true,
-  "title": "The founding of Feallsanachd an Fhèidh's rival school",
-  "body": "A breakaway sect argues the vein answers effort, not birth — a quiet, centuries-early rehearsal of the argument the Long War will eventually be fought over in a very different form.",
+  "title": "The founding of the rival druid school",
+  "body": "A breakaway school of druids argues the vein answers effort, not birth — a quiet, centuries-early rehearsal of the argument the Long War will eventually be fought over in a very different form.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -2064,7 +2064,7 @@
   "id": "II-0210",
   "canon": false,
   "title": "A wood-watcher in the red hall",
-  "body": "Anna Ruadh keeps a wood-watcher from Coille Naomh Cnoc bheag in her household at Cathair dhearg to read the omens of the hall. It is the first sign of the wood-watchers' rite in the capital. The Keeper sends a protest from Dùn ìseal and receives no answer that the rolls record.",
+  "body": "Anna Ruadh keeps a wood-watcher from Coille Naomh Cnoc bheag in her household at Cathair dhearg to read the omens of the hall. It is the first sign in the capital of the wood-watchers' rite, the rite of Macha, goddess of sovereignty and of horses. The Keeper sends a protest from Dùn ìseal and receives no answer that the rolls record.",
   "place": "burg:19",
   "kind": "faith"
  },
@@ -2124,7 +2124,7 @@
   "id": "II-0217",
   "canon": false,
   "title": "The wolf-sworn build a hall",
-  "body": "The wolf-sworn of Caol leathan build a hall of their own around the white wolf-stone at the town gate and take oaths there that are no longer road-guards' oaths. They say one god watches the whole island as the guard watches the road.",
+  "body": "The wolf-sworn of Caol leathan build a hall of their own around the white wolf-stone at the town gate and take oaths there that are no longer road-guards' oaths. They say the stone watches the whole island as the guard watches the road, and will cry out under the rightful king. From this hall comes Òrd na Cloiche, the order of the Stone, and the wolf-sworn begin to be called the Fianna.",
   "place": "burg:1",
   "kind": "faith"
  },
@@ -2132,7 +2132,7 @@
   "id": "II-0218",
   "canon": false,
   "title": "The sting-oath at Seann Skell",
-  "body": "At Seann Skell in the west the harbour court's sting-oath becomes a creed: its keepers say that one power stings the liar wherever he is, and that the scorpion is only its sign. The Hall's roll records it as a new teaching. It is the first on the island to call itself the only true one.",
+  "body": "At Seann Skell in the west the harbour court's sting-oath becomes a creed: its keepers say that one power stings the liar wherever he is, Manannan mac Lir, lord of the sea, and that the scorpion is only his sign. The Hall's roll records it as a new teaching. It is the first on the island to call itself the only true one. The oath is sworn from now on over a cup marked with the scorpion, called Manannan's Cup of Truth, which is said to break at a lie. Òrd Mhanannain dates itself from this court.",
   "place": "burg:489",
   "kind": "faith"
  },
@@ -2148,15 +2148,15 @@
   "id": "II-0220",
   "canon": false,
   "title": "The dark wood keeps its own rite",
-  "body": "The wood-watchers of Coille Naomh Cnoc bheag stop sending to the Hall for judgment of their disputes and judge them under the trees. They hold that the black beast has two natures, one that keeps and one that devours, and that the vein has the same.",
+  "body": "The wood-watchers of Coille Naomh Cnoc bheag stop sending to the Hall for judgment of their disputes and judge them under the trees. They hold that the black beast has two natures, one that keeps and one that devours, and that the vein has the same. In the order of Macha the two natures are told as two horses, the black Dubh Sainglenn and the grey Liath Macha.",
   "place": "marker:24",
   "kind": "faith"
  },
  {
   "id": "II-0221",
   "canon": true,
-  "title": "The naming of the nine faiths' common ancestor",
-  "body": "A single unified folk practice begins visibly splitting into the distinct threads later ages will separately name — the moment 'Rodian belief' stops being one thing.",
+  "title": "The common root of the orders",
+  "body": "A single unified folk practice begins visibly splitting into the distinct threads later ages will separately name, the orders of An Creideamh Sean, the Old Faith, and the hearth-keeping of Na Seann Spioradan, the Old Spirits — the moment 'Rodian belief' stops being one thing.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -2365,7 +2365,7 @@
   "id": "II-0246",
   "canon": false,
   "title": "Cnoc naomh's ancestor-shrine",
-  "body": "The people of Cnoc naomh keep a shrine to the ancestors in the old folk way, with no hawk, wolf, sting or stag in it. The Hall's list of rites names them among the keepers of the old reverence, which by now is a company of its own.",
+  "body": "The people of Cnoc naomh keep a shrine to the ancestors and to the sìth of the hill in the old folk way, with no hawk, wolf, sting or stag in it. The Hall's list of rites names them among the keepers of the old reverence, which by now is a company of its own.",
   "place": "burg:318",
   "kind": "faith"
  },

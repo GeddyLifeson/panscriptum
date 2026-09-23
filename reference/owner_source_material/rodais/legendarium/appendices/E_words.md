@@ -23,7 +23,7 @@ An unnaturally long youth in anyone; said half in jest of ordinary people who lo
 > "…and does not age the way the people around her do. Her name is Aisling." — annals, {{year:IV-0146}}
 
 **Àrd-choimheadaiche** *n. m.* · lit. "high watcher"
-The high custodian of Creideamh nan Ròdach, seated at Seann Skell. The office came with the formalizing of the Rite ({{date:V-0028}}), and Dòmhnall mac Thormoid was the first to hold it ({{date:V-0029}}). It is not the "high custodian" of the Age of Strangers, who headed the Council of Custodians; the two share an English name and nothing else.
+The high custodian of Òrd Bhrìde, the order of Brìde's flame, seated at Seann Skell. The office came with the formalizing of the Rite ({{date:V-0028}}), and Dòmhnall mac Thormoid was the first to hold it ({{date:V-0029}}). It is not the "high custodian" of the Age of Strangers, who headed the Council of Custodians; the two share an English name and nothing else.
 > "The Àrd-choimheadaiche at Seann Skell writes to every house of the Rite that the new fuel is not forbidden, since it is not ore, and not blessed, since it is not ore." — annals, {{year:V-0246}}
 
 #### B
@@ -101,7 +101,7 @@ The synthetic fuel, written with a small letter. From the name of Dubhan, born {
 > "'Dubhan' begins appearing in common speech to mean the fuel itself, not the man." — annals, {{year:V-0272}}
 
 **dubhan-tùsail** *n. m.* · lit. "dubhan of the beginning"
-A rough first attempt that looked like a dead end and later mattered; used in any field. From Dubhan's failed experiments ({{date:V-0207}}). First recorded in a letter of the Fèidh school at Caol shean, of the school's own revival ({{date:V-0273}}).
+A rough first attempt that looked like a dead end and later mattered; used in any field. From Dubhan's failed experiments ({{date:V-0207}}). First recorded in a letter of the druid school at Caol shean, of the school's own revival ({{date:V-0273}}).
 > "…for an early attempt at anything that looked like a dead end before it wasn't." — annals, {{year:V-0273}}
 
 #### F
@@ -132,10 +132,14 @@ The condition of those who bond with the vein and do not age as others do, and t
 The oldest storm whose name is kept ({{date:I-0159}}); the first named storm lost its name ({{date:I-0086}}). The harbour rolls went on naming storms: Am Fuath Mòr, "the great hate" ({{date:III-0066}}), and An Gàire Dubh, "the black laugh" ({{date:III-0100}}).
 > "It is the oldest storm whose name is kept." — annals, {{year:I-0159}}
 
+**gun chreideamh** *adj. phr.* · lit. "without a faith"
+Of land or people that keep none of the three faiths. The first census of the restored kingdom so entered the far north-western cape beyond Baile chrom, Eilean ghorm and the smallest islets ({{date:V-0034a}}); the phrase has stood on the map for that land since.
+> "They enter all of it as *gun chreideamh*, without a faith." — annals, {{year:V-0034a}}
+
 #### I
 
 **Ithidh Mòd an neach a dh'itheas an cnoc** *phr.* · lit. "Mòd will eat whoever eats the hill"
-The saying of the feathered doors, from the years when the hawk-priests were barred and the crews carried the Hawk's sermons themselves ({{date:IV-0162}}).
+The saying of the feathered doors, from the years when the hawk-priests were barred and the crews carried the Hawk order's sermons themselves ({{date:IV-0162}}). Mòd is the hawk of Fionntan mac Bòchra, and the hill is the vein.
 > "The overseers' reports of these years list hawk-feathers nailed above hut doors as a disciplinary matter." — annals, {{year:IV-0162}}
 
 #### L
@@ -165,6 +169,12 @@ Any unusually smooth transfer of power. From Niall's crowning ({{date:V-0012}}),
 **Marbh-bheò** *n. m.* · lit. "dead-alive"
 The Hollow Man of the Doire uaine hills, which attacked anyone who lit a fire in its sight ({{date:I-0045}}). The rule against open fires after dark came from it ({{date:I-0189}}), and shepherds still named it when they left the high pastures ({{date:III-0146}}).
 > *Na las teine far am faic e thu.* "Light no fire where it can see you." — the First Book
+
+#### O
+
+**ogham** *n. m.* · lit. "Ogma's letters"
+The letters of Rodos. The teachers of the stag's people made them from the cutters' tally-notches ({{date:II-0088}}), and the druids name them for Ogma, god of letters. Nearly every later hand on the island descends from them (Appendix F).
+> "These are the first letters on Rodos in use by the Ròdaich: the ogham, which the druids call the gift of Ogma." — annals, {{year:II-0088}}
 
 #### R
 

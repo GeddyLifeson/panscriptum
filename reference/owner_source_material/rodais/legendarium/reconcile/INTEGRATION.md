@@ -141,3 +141,20 @@ added to `check_rodais.py`: every reconcile edit is in the map (a fresh `reconci
   saved; FMG recounts them whenever an editor opens.
 - The saved cultures layer in the SVG still paints Eilean gheal's one cell (4281) in the old culture's colour
   until the layer is redrawn (toggling it redraws from data).
+
+## The three faiths (faiths.json)
+
+Applied last. Record 29 is set to four entries: 0 *Gun chreideamh*; 1 *An Creideamh Sean* (organised,
+polytheist, Ròdaich, deity *an Dagda*, centre Dùn ìseal, cell 3104); 2 *Na Seann Spioradan* (folk, shamanic,
+Ròdaich, deity *na Sìthichean*, centre Dùn ìseal as before); 3 *An Eaglais* (organised, monotheist, Tuathaich,
+deity *Crìosd*, centre Doire ghlas, cell 480). The list is compacted (ids 0–3), not kept at ten with six marked
+removed, so world.json and the Religions editor hold only what exists. The cells (record 26) are renumbered:
+the six Ròdaich orders' cells (old 4–8, and old 3 where the cell is Ròdaich) → 1; old 2 → 2; the Tuathaich
+cells (old 1, old 9, and old 3 where the cell is Tuathaich) → 3; 0 stays. Burgs: 315 / 126 / 64 (505); land
+cells 1,787 / 616 / 385. `map_reconcile.py` has a `replace_religions` edit for this; on a map that already
+holds the new list it passes over the earlier record-29 edits and checks each earlier record-26 edit against
+its renumbered value, so a second run changes nothing. A layer's `skip` list is now read from every layer file
+(faiths.json sets aside integration's note for marker 47 and gives the same note with Inis thais as the temple
+city of Òrd na Cloiche). Marker notes 23 and 24 (the sacred forests) name Flidais's grove of the druid schools
+and Macha's wood. The religions layer is saved empty in the SVG and FMG draws it from the cells when shown;
+in FMG 1.153.1 the layer draws three faiths and the Religions editor opens with the four rows.

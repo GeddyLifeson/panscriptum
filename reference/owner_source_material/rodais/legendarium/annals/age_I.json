@@ -328,7 +328,7 @@
   "id": "I-0038",
   "canon": true,
   "title": "The First Canoe",
-  "body": "A suppressed, half-remembered voyaging fragment survives among coastal Tuathaich families: a named steersman, a first crossing, dismissed by the Ròdaich priesthood as superstition.",
+  "body": "A suppressed, half-remembered voyaging fragment survives among coastal Tuathaich families: a named steersman, a first crossing to an isle of the blessed. Their church tells it as the voyage of Naomh Breandan. The druids of the Old Faith dismiss it as superstition.",
   "place": null,
   "kind": "voyage",
   "canon_date": "undated"
@@ -411,7 +411,7 @@
   "id": "I-0048",
   "canon": true,
   "title": "Coille Naomh Muileann chiar set aside",
-  "body": "A forest is marked sacred, long before any organized faith claims it formally — the trees simply understood, the old telling goes, before the people did.",
+  "body": "A forest is marked sacred, long before any order of the Old Faith claims it formally — the trees simply understood, the old telling goes, before the people did.",
   "place": "marker:23",
   "kind": "faith",
   "canon_date": "undated"
@@ -428,7 +428,7 @@
   "id": "I-0050",
   "canon": false,
   "title": "The white stag of the grove",
-  "body": "The first telling of a white stag in Coille Naomh Muileann chiar is set in this age: seen at the edge of the trees by three hunters, none of whom drew. The stag comes back in the tellings of every age after.",
+  "body": "The first telling of a white stag in Coille Naomh Muileann chiar is set in this age: seen at the edge of the trees by three hunters, none of whom drew. The stag comes back in the tellings of every age after, and the druids of later ages call it the white stag of Flidais. The tellings of this age give it no god.",
   "place": "marker:23",
   "kind": "omen"
  },
@@ -2129,7 +2129,7 @@
   "id": "I-0248",
   "canon": false,
   "title": "Ore in every hearth by the handful",
-  "body": "Every household of the hills burns its handful of ore in the dark of the year, measured in a copy of the stone cup. The burning is done at once in every house, by agreement, so the colour shows on every hillside the same night.",
+  "body": "Every household of the hills burns its handful of ore on one night in the dark of the year, the night later kept as Samhain, measured in a copy of the stone cup. The burning is done at once in every house, by agreement, so the colour shows on every hillside the same night.",
   "place": null,
   "kind": "faith"
  },
@@ -2201,7 +2201,7 @@
   "id": "I-0256",
   "canon": false,
   "title": "The eve of the Binding",
-  "body": "At the close of this age the handful custom is everywhere in the hills, the keepers are nine, the sharing before the storms is kept on every coast, and the doctrine is said at every gathering. None of it is yet declared. The next age begins when it is.",
+  "body": "At the close of this age the handful custom is everywhere in the hills, the keepers are nine, the sharing before the storms is kept on every coast, and the doctrine is said at every gathering. None of it is yet declared, and no god is yet named over the vein. The next age begins when it is.",
   "place": null,
   "kind": "record",
   "between": [
