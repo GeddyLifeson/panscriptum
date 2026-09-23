@@ -92,6 +92,13 @@ off = [b['i'] for b in live if str(b['i']) not in feat or any(b.get(k) != feat[s
        or ('port' in feat[str(b['i'])] and b.get('port'))]
 anchors = {int(i) for i in re.findall(r'<use id="anchor(\d+)" data-id="\1"', lines[5])}
 check(anchors == {b['i'] for b in live if b.get('port')}, 'map: a saved anchor icon for every port and for no other burg (%d)' % len(anchors))
+cell_burg = lines[17].split(',')
+check(all(cell_burg[b['cell']] == str(b['i']) for b in live) and sum(1 for v in cell_burg if v != '0') == len(live),
+      'map: the cells record every burg in its own cell and no other')
+moves = json.load(open(os.path.join(HERE, 'legendarium', 'burg_moves.json'), encoding='utf-8'))
+byid = {b['i']: b for b in live}
+check(all(byid[int(i)]['cell'] == m['to']['cell'] and byid[int(i)]['x'] == m['to']['x'] and byid[int(i)]['port'] == m['port'] for i, m in moves.items()),
+      'map: the %d harbour towns of legendarium/burg_moves.json stand on the coast' % len(moves))
 check(not off, 'map: every burg has the town features legendarium/burg_features.json gives it (%s)' % (', '.join(map(str, off[:8])) or '%d burgs' % len(live)))
 
 # 5. the legendarium: every event dated and in order, every reference resolves, every place is on the map

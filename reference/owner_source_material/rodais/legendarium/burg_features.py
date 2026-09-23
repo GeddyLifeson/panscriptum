@@ -22,6 +22,12 @@ the burg groups in the settings (record 1) the town-plan previews in GROUP_PREVI
 plan. It changes nothing else: not names, groups, populations, positions or cells. Each record it
 touches must round-trip byte for byte before it writes, and afterwards no other record may differ.
 
+burg_moves.json moves harbour towns whose map cell lay inland onto the nearest free coastal cell with a
+haven in the same province and state, as Azgaar's own burg editor relocates a burg (x, y, cell and the
+cells' burg array, record 17) and with the port Azgaar gives a coastal burg (the haven's water feature,
+the position at the water's edge). In the saved SVG the burg's icon and label move with it and its anchor
+is placed in its group in id order. Routes are left as they are, as Azgaar's relocate leaves them.
+
     python burg_features.py      # Rodos_finished.map, Rodos_Atlas/Rodos.map and world.json, in place
 
 finish_map.py calls apply() too, so rebuilding Rodos_finished.map from Rodos_renamed.map keeps the
@@ -36,10 +42,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 TABLE = os.path.join(HERE, 'burg_features.json')
 WORLD = os.path.join(HERE, 'world.json')
+MOVES = os.path.join(HERE, 'burg_moves.json')
 MAPS = [os.path.join(ROOT, 'Rodos_finished.map'), os.path.join(ROOT, 'Rodos_Atlas', 'Rodos.map')]
 
 FLAGS = ('citadel', 'walls', 'plaza', 'temple', 'shanty')
-RECORDS, L_SETTINGS, L_SVG, L_BURGS = 53, 1, 5, 15   # a .map is 53 CRLF-joined records (see finish_map.py)
+RECORDS, L_SETTINGS, L_SVG, L_BURGS, L_CELL_BURG = 53, 1, 5, 15, 17   # a .map is 53 CRLF-joined records (see finish_map.py)
 GROUP_PREVIEWS = {'fort': 'watabou-city'}            # Azgaar's fort group has no town plan by default
 ANCHOR = re.compile(r'<use id="anchor(\d+)" data-id="\1" href="#icon-anchor"[^>]*/>')
 
@@ -101,8 +108,69 @@ def set_group_previews(settings_text):
     return dump(settings)
 
 
+def jsnum(v):
+    return str(int(v)) if float(v).is_integer() else repr(float(v))
+
+
+def set_xy(svg, element_re, x, y):
+    m = re.search(element_re, svg)
+    if not m:
+        return svg, False
+    el = re.sub(r' x="[^"]*"', ' x="%s"' % jsnum(x), m.group(0), count=1)
+    el = re.sub(r' y="[^"]*"', ' y="%s"' % jsnum(y), el, count=1)
+    return svg[:m.start()] + el + svg[m.end():], True
+
+
+def place_anchor(svg, i, group, x, y):
+    """Put burg i's anchor into its group under <g id="anchors">, in id order (the order Azgaar draws)."""
+    svg = re.sub(r'<use id="anchor%d" data-id="%d" [^>]*/>' % (i, i), '', svg)
+    top = svg.index('<g id="anchors" data-group="anchors">')
+    g = re.compile(r'<g id="%s" data-group="%s"[^>]*data-icon="#icon-anchor"(/?)>' % (group, group)).search(svg, top)
+    assert g, 'no anchor group %s' % group
+    if g.group(1):                                   # an empty group is saved self-closing
+        svg = svg[:g.start()] + g.group(0)[:-2] + '></g>' + svg[g.end():]
+        g = re.compile(re.escape(g.group(0)[:-2] + '>')).search(svg, g.start())
+    end = svg.index('</g>', g.end())
+    at = end
+    for m in ANCHOR.finditer(svg, g.end(), end):
+        if int(m.group(1)) > i:
+            at = m.start()
+            break
+    el = '<use id="anchor%d" data-id="%d" href="#icon-anchor" x="%s" y="%s"/>' % (i, i, jsnum(x), jsnum(y))
+    return svg[:at] + el + svg[at:]
+
+
+def load_moves(path=MOVES):
+    return {int(k): v for k, v in json.load(open(path, encoding='utf-8')).items()} if os.path.isfile(path) else {}
+
+
+def move_burgs(lines, burgs, moves=None):
+    """Relocate the burgs in burg_moves.json; idempotent."""
+    moves = load_moves() if moves is None else moves
+    by_id = {b['i']: b for b in burgs if isinstance(b, dict) and b.get('i')}
+    cell_burg = lines[L_CELL_BURG].split(',')
+    svg = lines[L_SVG]
+    for i, mv in sorted(moves.items()):
+        b = by_id[i]
+        assert b['name'] == mv['name'], 'burg %d is %s on the map, %s in burg_moves.json' % (i, b['name'], mv['name'])
+        old, new = mv['from']['cell'], mv['to']['cell']
+        assert b['cell'] in (old, new), 'burg %d is at cell %s, expected %s or %s' % (i, b['cell'], old, new)
+        assert cell_burg[new] in ('0', str(i)), 'cell %d already holds burg %s' % (new, cell_burg[new])
+        if cell_burg[old] == str(i):
+            cell_burg[old] = '0'
+        cell_burg[new] = str(i)
+        b['cell'], b['x'], b['y'], b['port'] = new, mv['to']['x'], mv['to']['y'], mv['port']
+        svg, ok = set_xy(svg, r'<use id="burg%d" data-id="%d" [^>]*/>' % (i, i), b['x'], b['y'])
+        assert ok, 'no icon for burg %d' % i
+        svg, _ = set_xy(svg, r'<text id="burgLabel%d" data-label-type="burg" data-id="%d"[^>]*>' % (i, i), b['x'], b['y'])
+        svg = place_anchor(svg, i, b['group'], b['x'], b['y'])
+    lines[L_CELL_BURG] = ','.join(cell_burg)
+    lines[L_SVG] = svg
+
+
 def finish_records(lines, burgs):
-    """After apply(): the SVG anchors and the group previews, on a list of raw records."""
+    """After apply(): the moves, the SVG anchors and the group previews, on a list of raw records."""
+    move_burgs(lines, burgs)
     lines[L_SVG], gone = drop_anchors(lines[L_SVG], burgs)
     lines[L_SETTINGS] = set_group_previews(lines[L_SETTINGS])
     return gone
@@ -122,16 +190,17 @@ def apply_to_map(path, table):
     assert dump(burgs) == lines[L_BURGS], '%s: the burgs record does not round-trip; refusing to rewrite it' % path
     changes = apply(burgs, table)
     new = list(lines)
-    new[L_BURGS] = dump(burgs)
     finish_records(new, burgs)
+    new[L_BURGS] = dump(burgs)
     out = '\r\n'.join(new)
     if out != raw:
         with open(path, 'w', encoding='utf-8', newline='') as fh:
             fh.write(out)
     check = open(path, encoding='utf-8', newline='').read().split('\r\n')
     assert len(check) == RECORDS
-    assert set(n for n in range(RECORDS) if check[n] != lines[n]) <= {L_SETTINGS, L_SVG, L_BURGS}, '%s: an unexpected record changed' % path
-    assert check[L_SVG].count('<') == lines[L_SVG].count('<') - (lines[L_SVG].count('<use id="anchor') - check[L_SVG].count('<use id="anchor'))
+    assert set(n for n in range(RECORDS) if check[n] != lines[n]) <= {L_SETTINGS, L_SVG, L_BURGS, L_CELL_BURG}, '%s: an unexpected record changed' % path
+    assert check[L_SVG].count('<') - check[L_SVG].count('<use id="anchor') == lines[L_SVG].count('<') - lines[L_SVG].count('<use id="anchor') + check[L_SVG].count('></g>') - lines[L_SVG].count('></g>')
+    assert len(check[L_CELL_BURG].split(',')) == len(lines[L_CELL_BURG].split(','))
     json.loads(check[L_BURGS])
     json.loads(check[L_SETTINGS])
     return changes
@@ -152,6 +221,12 @@ def apply_to_world(table):
         if 'port' in row and b.get('port'):
             b['port'] = False
             n += 1
+    for i, mv in load_moves().items():
+        b = next(o for o in world['burgs'] if o['id'] == i)
+        for k, v in (('x', mv['to']['x']), ('y', mv['to']['y']), ('port', True)):
+            if b.get(k) != v:
+                b[k] = v
+                n += 1
     out = json.dumps(world, ensure_ascii=False, indent=0)
     if out != raw:
         open(WORLD, 'w', encoding='utf-8').write(out)
