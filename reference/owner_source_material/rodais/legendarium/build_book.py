@@ -27,10 +27,16 @@ import json
 import os
 import re
 import sys
+import unicodedata
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import reckoning  # noqa: E402
+
+
+def fold(s):
+    """Sort key: case and accents ignored, so Àth files under A."""
+    return unicodedata.normalize('NFD', s.lower()).encode('ascii', 'ignore').decode()
 
 AGE_NAMES = {
     'I': ('An Aois Àrsaidh', 'the Ancient Age', 'myth'),
@@ -314,10 +320,10 @@ def gazetteer_html(rec):
     byprov = {}
     for bid, b in sorted(rec.burg.items()):
         byprov.setdefault(b.get('province') or '—', []).append(bid)
-    for pname in sorted(byprov, key=lambda s: s.lower()):
+    for pname in sorted(byprov, key=fold):
         pid = provs.get(pname, {}).get('id')
         out.append('<h3 id="gz-p-%s">%s</h3>' % (slug(pname), html.escape(provs.get(pname, {}).get('fullName', pname))))
-        for bid in sorted(byprov[pname], key=lambda i: rec.burg[i]['name'].lower()):
+        for bid in sorted(byprov[pname], key=lambda i: fold(rec.burg[i]['name'])):
             b, g = rec.burg[bid], rec.gaz.get(bid, {})
             facts = [b.get('group', ''), b.get('culture', ''), b.get('faith', ''), 'pop. %s' % format(b.get('population', 0), ',')]
             out.append('<div class="gz" id="gz-%d"><h4><a class="pl" data-ref="burg:%d">%s</a></h4><p class="gf">%s</p>' % (
@@ -443,8 +449,12 @@ def to_markdown(rec):
     for _, _, md in appendix_parts(rec):
         out += [plain(md), '']
     out += ['# A Gazetteer of Rodos', '']
-    for bid, b in sorted(rec.burg.items(), key=lambda kv: kv[1]['name'].lower()):
+    letter = None
+    for bid, b in sorted(rec.burg.items(), key=lambda kv: fold(kv[1]['name'])):
         g = rec.gaz.get(bid)
+        if fold(b['name'])[:1].upper() != letter:
+            letter = fold(b['name'])[:1].upper()
+            out += ['#### ' + letter, '']
         out.append('**%s** (%s). ' % (b['name'], b.get('province', '')) + (
             'Founded %s%s. %s Known for %s.' % (g['founded']['date'], ' by ' + g['founded_by'] if g.get('founded_by') else '',
                                               g.get('history', ''), g.get('known_for', '').rstrip('.')) if g else ''))
