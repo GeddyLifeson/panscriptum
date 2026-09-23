@@ -1,0 +1,1031 @@
+[
+ {
+  "artist": "The Beatles",
+  "album": "Please Please Me",
+  "date": "1963-03-22",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/discography/united-kingdom/"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "With the Beatles",
+  "date": "1963-11-22",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/discography/united-kingdom/"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "A Hard Day's Night",
+  "date": "1964-07-10",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/1964/07/10/uk-single-lp-a-hard-days-night/"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Beatles for Sale",
+  "date": "1964-12-04",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/discography/united-kingdom/"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Help!",
+  "date": "1965-08-06",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/discography/united-kingdom/"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Rubber Soul",
+  "date": "1965-12-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rubber_Soul"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Revolver",
+  "date": "1966-08-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Revolver_(Beatles_album)"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Sgt. Pepper's Lonely Hearts Club Band",
+  "date": "1967-05-26",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/1967/05/26/uk-release-sgt-peppers-lonely-hearts-club-band/"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Magical Mystery Tour (US LP)",
+  "date": "1967-11-27",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Magical_Mystery_Tour"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Magical Mystery Tour (UK double EP)",
+  "date": "1967-12-08",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Magical_Mystery_Tour"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "The Beatles (White Album)",
+  "date": "1968-11-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Beatles_(album)"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Yellow Submarine",
+  "date": "1969-01-17",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Yellow_Submarine_(album)"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Abbey Road",
+  "date": "1969-09-26",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Abbey_Road"
+ },
+ {
+  "artist": "The Beatles",
+  "album": "Let It Be",
+  "date": "1970-05-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Let_It_Be_(album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Blowin' Your Mind!",
+  "date": "1967-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Blowin%27_Your_Mind!"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Astral Weeks",
+  "date": "1968-11-29",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Astral_Weeks"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Moondance",
+  "date": "1970-01-27",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Moondance"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "His Band and the Street Choir",
+  "date": "1970-11-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/His_Band_and_the_Street_Choir"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Tupelo Honey",
+  "date": "1971-10-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Tupelo_Honey"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Saint Dominic's Preview",
+  "date": "1972-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Saint_Dominic%27s_Preview"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Hard Nose the Highway",
+  "date": "1973-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Hard_Nose_the_Highway"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Veedon Fleece",
+  "date": "1974-10-05",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/veedon-fleece-mw0000197573"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "A Period of Transition",
+  "date": "1977-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/A_Period_of_Transition"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Wavelength",
+  "date": "1978-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Wavelength_(album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Into the Music",
+  "date": "1979-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Into_the_Music"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Common One",
+  "date": "1980-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Common_One"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Beautiful Vision",
+  "date": "1982-02-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Beautiful_Vision"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Inarticulate Speech of the Heart",
+  "date": "1983-03",
+  "kind": "studio",
+  "source": "https://www.discogs.com/master/16586-Van-Morrison-Inarticulate-Speech-Of-The-Heart"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "A Sense of Wonder",
+  "date": "1984-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/A_Sense_of_Wonder"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "No Guru, No Method, No Teacher",
+  "date": "1986-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/No_Guru,_No_Method,_No_Teacher"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Poetic Champions Compose",
+  "date": "1987-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Poetic_Champions_Compose"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Irish Heartbeat (with The Chieftains)",
+  "date": "1988-06-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Irish_Heartbeat"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Avalon Sunset",
+  "date": "1989-06-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Avalon_Sunset"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Enlightenment",
+  "date": "1990-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Enlightenment_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Hymns to the Silence",
+  "date": "1991-09-24",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Hymns_to_the_Silence"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Too Long in Exile",
+  "date": "1993-06-08",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/too-long-in-exile-mw0000619218"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Days Like This",
+  "date": "1995-06-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Days_Like_This_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "How Long Has This Been Going On (with Georgie Fame)",
+  "date": "1995-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Van_Morrison_discography"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Tell Me Something: The Songs of Mose Allison",
+  "date": "1996-10-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Van_Morrison_discography"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "The Healing Game",
+  "date": "1997-03-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Healing_Game"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Back on Top",
+  "date": "1999-03-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Back_on_Top_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "You Win Again (with Linda Gail Lewis)",
+  "date": "2000-10-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/You_Win_Again_(album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Down the Road",
+  "date": "2002-05-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Down_the_Road_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "What's Wrong with This Picture?",
+  "date": "2003-10-21",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/What%27s_Wrong_with_This_Picture%3F_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Magic Time",
+  "date": "2005-05-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Magic_Time_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Pay the Devil",
+  "date": "2006-03-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Pay_the_Devil"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Keep It Simple",
+  "date": "2008-03-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Keep_It_Simple"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Born to Sing: No Plan B",
+  "date": "2012-10-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Born_to_Sing:_No_Plan_B"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Duets: Re-working the Catalogue",
+  "date": "2015-03-13",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Duets:_Re-working_the_Catalogue"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Keep Me Singing",
+  "date": "2016-09-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Keep_Me_Singing"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Roll with the Punches",
+  "date": "2017-09-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Roll_with_the_Punches_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Versatile",
+  "date": "2017-12-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Versatile_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "You're Driving Me Crazy (with Joey DeFrancesco)",
+  "date": "2018-04-27",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/You%27re_Driving_Me_Crazy_(album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "The Prophet Speaks",
+  "date": "2018-12-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Prophet_Speaks"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Three Chords & the Truth",
+  "date": "2019-10-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Three_Chords_%26_the_Truth_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Latest Record Project, Volume 1",
+  "date": "2021-05-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Latest_Record_Project,_Volume_1"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "What's It Gonna Take?",
+  "date": "2022-05-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/What%27s_It_Gonna_Take%3F"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Moving On Skiffle",
+  "date": "2023-03-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Moving_On_Skiffle"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Accentuate the Positive",
+  "date": "2023-11-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Accentuate_the_Positive_(Van_Morrison_album)"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "New Arrangements and Duets",
+  "date": "2024-09-27",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/New_Arrangements_and_Duets"
+ },
+ {
+  "artist": "Van Morrison",
+  "album": "Remembering Now",
+  "date": "2025-06-13",
+  "kind": "studio",
+  "source": "https://www.vanmorrison.com/news/2025/new-album-remembering-now"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Rocka Rolla",
+  "date": "1974-09-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rocka_Rolla"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Sad Wings of Destiny",
+  "date": "1976-03-26",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Judas_Priest_discography"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Sin After Sin",
+  "date": "1977-04-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Sin_After_Sin"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Stained Class",
+  "date": "1978-02-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Judas_Priest_discography"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Killing Machine (US: Hell Bent for Leather)",
+  "date": "1978",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Killing_Machine"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "British Steel",
+  "date": "1980-04-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/British_Steel_(album)"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Point of Entry",
+  "date": "1981-02-27",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Point_of_Entry"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Screaming for Vengeance",
+  "date": "1982-07-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Screaming_for_Vengeance"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Defenders of the Faith",
+  "date": "1984-01-13",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Defenders_of_the_Faith"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Turbo",
+  "date": "1986-04-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Judas_Priest_discography"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Ram It Down",
+  "date": "1988-05-13",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Ram_It_Down"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Painkiller",
+  "date": "1990-09-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Painkiller_(Judas_Priest_album)"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Jugulator",
+  "date": "1997-10-28",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Judas_Priest_discography"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Demolition",
+  "date": "2001-07-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Demolition_(Judas_Priest_album)"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Angel of Retribution",
+  "date": "2005-02-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Angel_of_Retribution"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Nostradamus",
+  "date": "2008-06-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Nostradamus_(album)"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Redeemer of Souls",
+  "date": "2014-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Redeemer_of_Souls"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Firepower",
+  "date": "2018-03-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Firepower_(album)"
+ },
+ {
+  "artist": "Judas Priest",
+  "album": "Invincible Shield",
+  "date": "2024-03-08",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/invincible-shield-mw0004113433"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Too Fast for Love",
+  "date": "1981-11-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Too_Fast_for_Love"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Shout at the Devil",
+  "date": "1983-09-26",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Shout_at_the_Devil"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Theatre of Pain",
+  "date": "1985-06-21",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Theatre_of_Pain"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Girls, Girls, Girls",
+  "date": "1987-05-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/M%C3%B6tley_Cr%C3%BCe_discography"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Dr. Feelgood",
+  "date": "1989-09-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Dr._Feelgood_(album)"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Mötley Crüe",
+  "date": "1994-03-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/M%C3%B6tley_Cr%C3%BCe_(album)"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Quaternary",
+  "date": "1994",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Quaternary_(EP)"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Generation Swine",
+  "date": "1997-06-24",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Generation_Swine"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "New Tattoo",
+  "date": "2000-07-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/New_Tattoo"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Saints of Los Angeles",
+  "date": "2008-06-24",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/M%C3%B6tley_Cr%C3%BCe_discography"
+ },
+ {
+  "artist": "Mötley Crüe",
+  "album": "Cancelled",
+  "date": "2024-10-04",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Cancelled_(EP)"
+ },
+ {
+  "artist": "Death",
+  "album": "Scream Bloody Gore",
+  "date": "1987-05-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Scream_Bloody_Gore"
+ },
+ {
+  "artist": "Death",
+  "album": "Leprosy",
+  "date": "1988-08-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Death_discography"
+ },
+ {
+  "artist": "Death",
+  "album": "Spiritual Healing",
+  "date": "1990-02-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Death_discography"
+ },
+ {
+  "artist": "Death",
+  "album": "Human",
+  "date": "1991-10-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Death_discography"
+ },
+ {
+  "artist": "Death",
+  "album": "Individual Thought Patterns",
+  "date": "1993-06-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Individual_Thought_Patterns"
+ },
+ {
+  "artist": "Death",
+  "album": "Symbolic",
+  "date": "1995-03-21",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Symbolic_(Death_album)"
+ },
+ {
+  "artist": "Death",
+  "album": "The Sound of Perseverance",
+  "date": "1998-08-31",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Sound_of_Perseverance"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "Down on Me / Call On Me (Big Brother and the Holding Company)",
+  "date": "1967",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/Down_on_Me_(traditional_song)"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "Big Brother & the Holding Company (Big Brother and the Holding Company)",
+  "date": "1967-08-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Big_Brother_%26_the_Holding_Company_(album)"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "Cheap Thrills (Big Brother and the Holding Company)",
+  "date": "1968-08-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Cheap_Thrills_(Big_Brother_and_the_Holding_Company_album)"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "Piece of My Heart (Big Brother and the Holding Company)",
+  "date": "1968-08",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/Piece_of_My_Heart"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "I Got Dem Ol' Kozmic Blues Again Mama!",
+  "date": "1969-09-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/I_Got_Dem_Ol%27_Kozmic_Blues_Again_Mama!"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "Try (Just a Little Bit Harder)",
+  "date": "1970",
+  "kind": "single",
+  "source": "https://www.discogs.com/release/4269325-Janis-Joplin-Try-Just-A-Little-Bit-Harder"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "Be a Brother (Big Brother and the Holding Company, without Joplin)",
+  "date": "1970-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Be_a_Brother"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "Pearl",
+  "date": "1971-01-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Pearl_(Janis_Joplin_album)"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "Me and Bobby McGee",
+  "date": "1971-01-12",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/Me_and_Bobby_McGee"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "Cry Baby",
+  "date": "1971-04-23",
+  "kind": "single",
+  "source": "https://www.albumoftheyear.org/album/487226-janis-joplin-cry-baby.php"
+ },
+ {
+  "artist": "Janis Joplin",
+  "album": "How Hard It Is (Big Brother and the Holding Company, without Joplin)",
+  "date": "1971-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/How_Hard_It_Is"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Bonded by Blood",
+  "date": "1985-04-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Exodus_discography"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Pleasures of the Flesh",
+  "date": "1987-10-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Exodus_discography"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Fabulous Disaster",
+  "date": "1989-01-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Exodus_discography"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Impact Is Imminent",
+  "date": "1990-07-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Impact_Is_Imminent"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Force of Habit",
+  "date": "1992-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Force_of_Habit"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Tempo of the Damned",
+  "date": "2004",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Tempo_of_the_Damned"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Shovel Headed Kill Machine",
+  "date": "2005-10-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Shovel_Headed_Kill_Machine"
+ },
+ {
+  "artist": "Exodus",
+  "album": "The Atrocity Exhibition... Exhibit A",
+  "date": "2007-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Atrocity_Exhibition..._Exhibit_A"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Let There Be Blood",
+  "date": "2008-10-28",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Let_There_Be_Blood"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Exhibit B: The Human Condition",
+  "date": "2010-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Exhibit_B:_The_Human_Condition"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Blood In, Blood Out",
+  "date": "2014-10-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Blood_In,_Blood_Out_(Exodus_album)"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Persona Non Grata",
+  "date": "2021-11-19",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Persona_Non_Grata_(Exodus_album)"
+ },
+ {
+  "artist": "Exodus",
+  "album": "Goliath",
+  "date": "2026-03-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Goliath_(Exodus_album)"
+ },
+ {
+  "artist": "Rainbow",
+  "album": "Ritchie Blackmore's Rainbow",
+  "date": "1975-08-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Ritchie_Blackmore%27s_Rainbow"
+ },
+ {
+  "artist": "Rainbow",
+  "album": "Rising",
+  "date": "1976-05-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rising_(Rainbow_album)"
+ },
+ {
+  "artist": "Rainbow",
+  "album": "Long Live Rock 'n' Roll",
+  "date": "1978-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Long_Live_Rock_%27n%27_Roll"
+ },
+ {
+  "artist": "Rainbow",
+  "album": "Down to Earth",
+  "date": "1979-08-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Down_to_Earth_(Rainbow_album)"
+ },
+ {
+  "artist": "Rainbow",
+  "album": "Difficult to Cure",
+  "date": "1981-02-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rainbow_discography"
+ },
+ {
+  "artist": "Rainbow",
+  "album": "Straight Between the Eyes",
+  "date": "1982-04-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rainbow_discography"
+ },
+ {
+  "artist": "Rainbow",
+  "album": "Bent Out of Shape",
+  "date": "1983-09-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rainbow_discography"
+ },
+ {
+  "artist": "Rainbow",
+  "album": "Stranger in Us All",
+  "date": "1995-09-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rainbow_discography"
+ },
+ {
+  "artist": "Genesis",
+  "album": "From Genesis to Revelation",
+  "date": "1969-03-28",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/From_Genesis_to_Revelation"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Trespass",
+  "date": "1970-10-23",
+  "kind": "studio",
+  "source": "https://www.genesis-movement.org/Genesis%20Official%20Release%20Dates%20Online%20Version%20Rev%20E3%20(Oct%202022).pdf"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Nursery Cryme",
+  "date": "1971-11-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Nursery_Cryme"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Foxtrot",
+  "date": "1972",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Genesis_discography"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Selling England by the Pound",
+  "date": "1973-10",
+  "kind": "studio",
+  "source": "https://www.genesis-movement.org/Genesis%20Official%20Release%20Dates%20Online%20Version%20Rev%20E3%20(Oct%202022).pdf"
+ },
+ {
+  "artist": "Genesis",
+  "album": "The Lamb Lies Down on Broadway",
+  "date": "1974-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Lamb_Lies_Down_on_Broadway"
+ },
+ {
+  "artist": "Genesis",
+  "album": "A Trick of the Tail",
+  "date": "1976-02-13",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/A_Trick_of_the_Tail"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Wind & Wuthering",
+  "date": "1976-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Wind_%26_Wuthering"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Spot the Pigeon",
+  "date": "1977-05-20",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Spot_the_Pigeon"
+ },
+ {
+  "artist": "Genesis",
+  "album": "...And Then There Were Three...",
+  "date": "1978-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/...And_Then_There_Were_Three..."
+ },
+ {
+  "artist": "Genesis",
+  "album": "Duke",
+  "date": "1980-03-28",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Genesis_discography"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Abacab",
+  "date": "1981-09-18",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Genesis_discography"
+ },
+ {
+  "artist": "Genesis",
+  "album": "3×3",
+  "date": "1982-05-10",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/3%C3%973"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Genesis",
+  "date": "1983-10-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Genesis_discography"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Invisible Touch",
+  "date": "1986-06-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Invisible_Touch"
+ },
+ {
+  "artist": "Genesis",
+  "album": "We Can't Dance",
+  "date": "1991-11-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Genesis_discography"
+ },
+ {
+  "artist": "Genesis",
+  "album": "Calling All Stations",
+  "date": "1997-09-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Calling_All_Stations"
+ }
+]

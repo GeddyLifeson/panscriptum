@@ -1,0 +1,1038 @@
+[
+ {
+  "artist": "Elvis Presley",
+  "album": "That's All Right",
+  "date": "1954-07-19",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/That%27s_All_Right"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Heartbreak Hotel",
+  "date": "1956-01-27",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/Heartbreak_Hotel"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Elvis Presley",
+  "date": "1956-03-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Elvis_Presley_(album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Elvis",
+  "date": "1956-10-19",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Elvis_(1956_album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Loving You",
+  "date": "1957-07-01",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Elvis_Presley_albums_discography"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Elvis' Christmas Album",
+  "date": "1957-10-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Elvis_Presley_albums_discography"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "King Creole",
+  "date": "1958-09-19",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Elvis_Presley_albums_discography"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Elvis Is Back!",
+  "date": "1960-04-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Elvis_Presley_albums_discography"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "G.I. Blues",
+  "date": "1960-10-01",
+  "kind": "soundtrack",
+  "source": "https://music.apple.com/us/album/g-i-blues-original-soundtrack/948937115"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "His Hand in Mine",
+  "date": "1960-11-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/His_Hand_in_Mine"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Something for Everybody",
+  "date": "1961-05-19",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Something_for_Everybody"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Blue Hawaii",
+  "date": "1961-10-20",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Blue_Hawaii_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Pot Luck",
+  "date": "1962",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Pot_Luck_(Elvis_Presley_album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Girls! Girls! Girls!",
+  "date": "1962-11-09",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Girls!_Girls!_Girls!_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "It Happened at the World's Fair",
+  "date": "1963-04-10",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/It_Happened_at_the_World%27s_Fair_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Fun in Acapulco",
+  "date": "1963-11",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Fun_in_Acapulco_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Kissin' Cousins",
+  "date": "1964-04-02",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Kissin%27_Cousins_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Roustabout",
+  "date": "1964-10-20",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Roustabout_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Girl Happy",
+  "date": "1965-03-02",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Girl_Happy_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Harum Scarum",
+  "date": "1965-11-03",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Harum_Scarum_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Frankie and Johnny",
+  "date": "1966",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Frankie_and_Johnny_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Paradise, Hawaiian Style",
+  "date": "1966-06-10",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Paradise,_Hawaiian_Style_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Spinout",
+  "date": "1966-10-31",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Spinout_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "How Great Thou Art",
+  "date": "1967-02-27",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/How_Great_Thou_Art_(Elvis_Presley_album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Double Trouble",
+  "date": "1967-06-01",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Double_Trouble_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Clambake",
+  "date": "1967-10",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Clambake_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Speedway",
+  "date": "1968-06-25",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Speedway_(soundtrack)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Elvis (NBC TV Special)",
+  "date": "1968-11-22",
+  "kind": "soundtrack",
+  "source": "https://en.wikipedia.org/wiki/Elvis_(1968_album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "From Elvis in Memphis",
+  "date": "1969-06-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/From_Elvis_in_Memphis"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "From Memphis to Vegas / From Vegas to Memphis",
+  "date": "1969-10-14",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/From_Memphis_to_Vegas_/_From_Vegas_to_Memphis"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "That's the Way It Is",
+  "date": "1970-11-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/That%27s_the_Way_It_Is_(Elvis_Presley_album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Elvis Country (I'm 10,000 Years Old)",
+  "date": "1971-01-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Elvis_Country_(I%27m_10,000_Years_Old)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Love Letters from Elvis",
+  "date": "1971-06-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Love_Letters_from_Elvis"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Elvis Sings The Wonderful World of Christmas",
+  "date": "1971-10-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Elvis_Sings_The_Wonderful_World_of_Christmas"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Elvis Now",
+  "date": "1972-02-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Elvis_Now"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "He Touched Me",
+  "date": "1972-04-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/He_Touched_Me_(album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Aloha from Hawaii via Satellite",
+  "date": "1973-02",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Aloha_from_Hawaii_via_Satellite_(album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Elvis (The \"Fool\" Album)",
+  "date": "1973",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Elvis_(1973_album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Raised on Rock / For Ol' Times Sake",
+  "date": "1973-10-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Raised_on_Rock_/_For_Ol%27_Times_Sake"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Good Times",
+  "date": "1974-03-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Good_Times_(Elvis_Presley_album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Promised Land",
+  "date": "1975-01-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Promised_Land_(Elvis_Presley_album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Today",
+  "date": "1975-05-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Today_(Elvis_Presley_album)"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "From Elvis Presley Boulevard, Memphis, Tennessee",
+  "date": "1976-05-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/From_Elvis_Presley_Boulevard,_Memphis,_Tennessee"
+ },
+ {
+  "artist": "Elvis Presley",
+  "album": "Moody Blue",
+  "date": "1977-07-19",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Moody_Blue"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Crazy Arms",
+  "date": "1956",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Whole Lotta Shakin' Goin' On",
+  "date": "1957-04-15",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Great Balls of Fire",
+  "date": "1957-11-11",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/Great_Balls_of_Fire"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Breathless",
+  "date": "1958",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Jerry Lee Lewis",
+  "date": "1958-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_(1958_album)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "High School Confidential",
+  "date": "1958-05-20",
+  "kind": "single",
+  "source": "https://en.wikipedia.org/wiki/High_School_Confidential_(Jerry_Lee_Lewis_song)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Jerry Lee's Greatest!",
+  "date": "1961-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee%27s_Greatest!"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Live at the Star Club, Hamburg",
+  "date": "1964",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Live_at_the_Star_Club,_Hamburg"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "The Greatest Live Show on Earth",
+  "date": "1964-10",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/The_Greatest_Live_Show_on_Earth"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "The Return of Rock",
+  "date": "1965",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Return_of_Rock"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Country Songs for City Folks",
+  "date": "1965",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Memphis Beat",
+  "date": "1966",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Memphis_Beat_(album)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Soul My Way",
+  "date": "1967",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Soul_My_Way"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Another Place, Another Time",
+  "date": "1968-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Another_Place,_Another_Time_(album)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "She Still Comes Around",
+  "date": "1969",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/She_Still_Comes_Around"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Sings the Country Music Hall of Fame Hits, Vol. 1",
+  "date": "1969",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Sings_the_Country_Music_Hall_of_Fame_Hits,_Vol._1"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Sings the Country Music Hall of Fame Hits, Vol. 2",
+  "date": "1969",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Sings_the_Country_Music_Hall_of_Fame_Hits,_Vol._2"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Together (with Linda Gail Lewis)",
+  "date": "1969",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Together_(Jerry_Lee_Lewis_album)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "She Even Woke Me Up to Say Goodbye",
+  "date": "1970",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "In Loving Memories: The Jerry Lee Lewis Gospel Album",
+  "date": "1971",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "There Must Be More to Love Than This",
+  "date": "1971",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Touching Home",
+  "date": "1971",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Would You Take Another Chance on Me?",
+  "date": "1971",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "The Killer Rocks On",
+  "date": "1972",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Killer_Rocks_On"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Who's Gonna Play This Old Piano?",
+  "date": "1972",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "The Session",
+  "date": "1973",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Session_(Jerry_Lee_Lewis_album)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Sometimes a Memory Ain't Enough",
+  "date": "1973",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Sometimes_a_Memory_Ain%27t_Enough"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Southern Roots: Back Home to Memphis",
+  "date": "1973",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Southern_Roots:_Back_Home_to_Memphis"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "I-40 Country",
+  "date": "1974",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Boogie Woogie Country Man",
+  "date": "1975",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Boogie_Woogie_Country_Man"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Odd Man In",
+  "date": "1975",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Odd_Man_In"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Country Class",
+  "date": "1976",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Country Memories",
+  "date": "1977",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_discography"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Jerry Lee Keeps Rockin'",
+  "date": "1978-10-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Keeps_Rockin%27"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Jerry Lee Lewis",
+  "date": "1979-08-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jerry_Lee_Lewis_(1979_album)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "When Two Worlds Collide",
+  "date": "1980",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/When_Two_Worlds_Collide"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Killer Country",
+  "date": "1980-10-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Killer_Country"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "My Fingers Do the Talkin'",
+  "date": "1983-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/My_Fingers_Do_the_Talkin%27"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "I Am What I Am",
+  "date": "1984-04",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/I_Am_What_I_Am_(Jerry_Lee_Lewis_album)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Young Blood",
+  "date": "1995-05-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Young_Blood_(Jerry_Lee_Lewis_album)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Last Man Standing",
+  "date": "2006-09-26",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Last_Man_Standing_(Jerry_Lee_Lewis_album)"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Mean Old Man",
+  "date": "2010-09-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Mean_Old_Man"
+ },
+ {
+  "artist": "Jerry Lee Lewis",
+  "album": "Rock & Roll Time",
+  "date": "2014-11-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Rock_%26_Roll_Time"
+ },
+ {
+  "artist": "Guns N' Roses",
+  "album": "Live ?!*@ Like a Suicide",
+  "date": "1986-12-16",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Live_%3F!*@_Like_a_Suicide"
+ },
+ {
+  "artist": "Guns N' Roses",
+  "album": "Appetite for Destruction",
+  "date": "1987-07-21",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Appetite_for_Destruction"
+ },
+ {
+  "artist": "Guns N' Roses",
+  "album": "G N' R Lies",
+  "date": "1988-11-29",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/G_N%27_R_Lies"
+ },
+ {
+  "artist": "Guns N' Roses",
+  "album": "Use Your Illusion I",
+  "date": "1991-09-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Use_Your_Illusion_I"
+ },
+ {
+  "artist": "Guns N' Roses",
+  "album": "Use Your Illusion II",
+  "date": "1991-09-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Use_Your_Illusion"
+ },
+ {
+  "artist": "Guns N' Roses",
+  "album": "\"The Spaghetti Incident?\"",
+  "date": "1993-11-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/%22The_Spaghetti_Incident%3F%22"
+ },
+ {
+  "artist": "Guns N' Roses",
+  "album": "Chinese Democracy",
+  "date": "2008-11-23",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Chinese_Democracy"
+ },
+ {
+  "artist": "The Velvet Underground",
+  "album": "The Velvet Underground & Nico",
+  "date": "1967-03-12",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Velvet_Underground_%26_Nico"
+ },
+ {
+  "artist": "The Velvet Underground",
+  "album": "White Light/White Heat",
+  "date": "1968-01-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/White_Light/White_Heat"
+ },
+ {
+  "artist": "The Velvet Underground",
+  "album": "The Velvet Underground",
+  "date": "1969-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Velvet_Underground_(album)"
+ },
+ {
+  "artist": "The Velvet Underground",
+  "album": "Loaded",
+  "date": "1970-11-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Loaded_(Velvet_Underground_album)"
+ },
+ {
+  "artist": "The Velvet Underground",
+  "album": "Squeeze",
+  "date": "1973-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Squeeze_(The_Velvet_Underground_album)"
+ },
+ {
+  "artist": "Cream",
+  "album": "Fresh Cream",
+  "date": "1966-12-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Fresh_Cream"
+ },
+ {
+  "artist": "Cream",
+  "album": "Disraeli Gears",
+  "date": "1967-11-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Disraeli_Gears"
+ },
+ {
+  "artist": "Cream",
+  "album": "Wheels of Fire",
+  "date": "1968-08-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Wheels_of_Fire"
+ },
+ {
+  "artist": "Cream",
+  "album": "Goodbye",
+  "date": "1969-02-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Goodbye_(Cream_album)"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Unfinished Music No. 1: Two Virgins",
+  "date": "1968-11-11",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Unfinished_Music_No._1:_Two_Virgins"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Unfinished Music No. 2: Life with the Lions",
+  "date": "1969-05",
+  "kind": "studio",
+  "source": "https://www.johnlennon.com/music/albums/unfinished-music-no-2-life-with-the-lions/"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Wedding Album",
+  "date": "1969-10-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Wedding_Album"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "John Lennon/Plastic Ono Band",
+  "date": "1970-12-11",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/1970/12/11/album-release-john-lennon-plastic-ono-band/"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Imagine",
+  "date": "1971-09-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Imagine_(John_Lennon_album)"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Some Time in New York City",
+  "date": "1972-06-12",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/1972/06/12/us-album-release-some-time-in-new-york-city-john-lennon-yoko-ono-plastic-ono-band/"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Mind Games",
+  "date": "1973-10-29",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Mind_Games_(John_Lennon_album)"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Walls and Bridges",
+  "date": "1974-09-26",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Walls_and_Bridges"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Rock 'n' Roll",
+  "date": "1975-02-17",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/1975/02/17/us-album-release-rock-n-roll-john-lennon/"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Double Fantasy",
+  "date": "1980-11-17",
+  "kind": "studio",
+  "source": "https://www.beatlesbible.com/1980/11/17/album-release-double-fantasy-john-lennon-yoko-ono/"
+ },
+ {
+  "artist": "John Lennon",
+  "album": "Milk and Honey",
+  "date": "1984-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Milk_and_Honey_(album)"
+ },
+ {
+  "artist": "Heart",
+  "album": "Dreamboat Annie",
+  "date": "1975-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Dreamboat_Annie"
+ },
+ {
+  "artist": "Heart",
+  "album": "Magazine",
+  "date": "1977-04-19",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Heart_discography"
+ },
+ {
+  "artist": "Heart",
+  "album": "Little Queen",
+  "date": "1977-05-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Heart_discography"
+ },
+ {
+  "artist": "Heart",
+  "album": "Dog and Butterfly",
+  "date": "1978-10-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Heart_discography"
+ },
+ {
+  "artist": "Heart",
+  "album": "Bébé le Strange",
+  "date": "1980-02-14",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Heart_discography"
+ },
+ {
+  "artist": "Heart",
+  "album": "Private Audition",
+  "date": "1982-06-05",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Heart_discography"
+ },
+ {
+  "artist": "Heart",
+  "album": "Passionworks",
+  "date": "1983-08-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Heart_discography"
+ },
+ {
+  "artist": "Heart",
+  "album": "Heart",
+  "date": "1985-07-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Heart_discography"
+ },
+ {
+  "artist": "Heart",
+  "album": "Bad Animals",
+  "date": "1987-06-06",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Bad_Animals"
+ },
+ {
+  "artist": "Heart",
+  "album": "Brigade",
+  "date": "1990-03",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Brigade_(album)"
+ },
+ {
+  "artist": "Heart",
+  "album": "Desire Walks On",
+  "date": "1993-11-16",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Heart_discography"
+ },
+ {
+  "artist": "Heart",
+  "album": "Jupiters Darling",
+  "date": "2004-06-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Jupiters_Darling"
+ },
+ {
+  "artist": "Heart",
+  "album": "Red Velvet Car",
+  "date": "2010-08-31",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Red_Velvet_Car"
+ },
+ {
+  "artist": "Heart",
+  "album": "Fanatic",
+  "date": "2012-10-02",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Fanatic_(album)"
+ },
+ {
+  "artist": "Heart",
+  "album": "Beautiful Broken",
+  "date": "2016-07-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Beautiful_Broken"
+ },
+ {
+  "artist": "Eagles",
+  "album": "Eagles",
+  "date": "1972-06-01",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Eagles_(album)"
+ },
+ {
+  "artist": "Eagles",
+  "album": "Desperado",
+  "date": "1973-04-17",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Eagles_discography"
+ },
+ {
+  "artist": "Eagles",
+  "album": "On the Border",
+  "date": "1974-03-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Eagles_discography"
+ },
+ {
+  "artist": "Eagles",
+  "album": "One of These Nights",
+  "date": "1975-06-10",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Eagles_discography"
+ },
+ {
+  "artist": "Eagles",
+  "album": "Their Greatest Hits (1971–1975)",
+  "date": "1976-02-17",
+  "kind": "compilation",
+  "source": "https://en.wikipedia.org/wiki/Their_Greatest_Hits_(1971%E2%80%931975)"
+ },
+ {
+  "artist": "Eagles",
+  "album": "Hotel California",
+  "date": "1976-12-08",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Eagles_discography"
+ },
+ {
+  "artist": "Eagles",
+  "album": "The Long Run",
+  "date": "1979-09-24",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/The_Long_Run_(album)"
+ },
+ {
+  "artist": "Eagles",
+  "album": "Eagles Live",
+  "date": "1980-11-07",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Eagles_Live"
+ },
+ {
+  "artist": "Eagles",
+  "album": "Hell Freezes Over",
+  "date": "1994-11-08",
+  "kind": "live",
+  "source": "https://en.wikipedia.org/wiki/Hell_Freezes_Over"
+ },
+ {
+  "artist": "Eagles",
+  "album": "Long Road Out of Eden",
+  "date": "2007-10-30",
+  "kind": "studio",
+  "source": "https://www.allmusic.com/album/long-road-out-of-eden-mw0000497545"
+ },
+ {
+  "artist": "Mercyful Fate",
+  "album": "Mercyful Fate (Nuns Have No Fun)",
+  "date": "1982-11-08",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Mercyful_Fate_(EP)"
+ },
+ {
+  "artist": "Mercyful Fate",
+  "album": "Melissa",
+  "date": "1983-10-30",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Melissa_(Mercyful_Fate_album)"
+ },
+ {
+  "artist": "Mercyful Fate",
+  "album": "Don't Break the Oath",
+  "date": "1984-09-07",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Don%27t_Break_the_Oath"
+ },
+ {
+  "artist": "Mercyful Fate",
+  "album": "In the Shadows",
+  "date": "1993-06-22",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/In_the_Shadows_(album)"
+ },
+ {
+  "artist": "Mercyful Fate",
+  "album": "The Bell Witch",
+  "date": "1994",
+  "kind": "ep",
+  "source": "https://en.wikipedia.org/wiki/Mercyful_Fate_discography"
+ },
+ {
+  "artist": "Mercyful Fate",
+  "album": "Time",
+  "date": "1994-10-25",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Time_(Mercyful_Fate_album)"
+ },
+ {
+  "artist": "Mercyful Fate",
+  "album": "Into the Unknown",
+  "date": "1996-08-20",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Into_the_Unknown_(Mercyful_Fate_album)"
+ },
+ {
+  "artist": "Mercyful Fate",
+  "album": "Dead Again",
+  "date": "1998-06-09",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/Dead_Again_(Mercyful_Fate_album)"
+ },
+ {
+  "artist": "Mercyful Fate",
+  "album": "9",
+  "date": "1999-06-15",
+  "kind": "studio",
+  "source": "https://en.wikipedia.org/wiki/9_(Mercyful_Fate_album)"
+ }
+]

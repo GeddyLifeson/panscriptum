@@ -7,12 +7,13 @@ MONTH from another, and the YEAR from three more, combined by the reckoning of i
     year = first year of the age + (100 x ((yy(A) + yy(C)) mod 100) + yy(B)) mod (length of the age)
 
 where yy is the last two digits of an album's year. (Two albums, A and C, make the hundreds between them: no album
-in the pool has a year ending 26-44, and with A alone the reckoning could not reach 1,900 years of the Ancient Age.) Which albums made which date is not
+in the pool has a year ending 27-44, and with A alone the reckoning could not reach 1,900 years of the Ancient Age.) Which albums made which date is not
 recorded anywhere, by the owner's choice; the reckoning only needs to know that a date CAN be
 made from the pool, and it always picks one that can.
 
 Order is the writers' and the chronicle's: events are dated in the order the annals list them,
-never going backwards; a canon year from the chronicle is kept exactly; a full canon date
+never going backwards; a canon year from the chronicle is kept exactly; a date in kept_dates.json
+(the Stone Kings, kept by the owner when the pool was rebuilt) is kept whole; a full canon date
 (11 April 2020) is kept whole; an event's "between": [from, to] window is honoured. Within those
 limits each event lands as close as the pool allows to an even spread across its stretch of
 years, so the annals read as a steady record rather than a crowd at the anchors.
@@ -78,7 +79,9 @@ FULL = re.compile(r'(January|February|March|April|May|June|July|August|September
 
 
 def canon_anchor(ev):
-    """(year, month, day) fixed by the chronicle, or (year, None, None), or None."""
+    """(year, month, day) fixed by the chronicle or kept by the owner, or (year, None, None), or None."""
+    if ev.get('keep'):
+        return tuple(ev['keep'])
     cd = ev.get('canon_date') or ''
     m = FULL.search(cd)
     if m:
@@ -109,7 +112,7 @@ def date_age(events, first, last, years_ok, relaxed, extra=None):
     fixed = {}
     approx = {}
     for i, e in enumerate(events):
-        a = canon_anchor(e) if e.get('canon') else None
+        a = canon_anchor(e) if e.get('canon') or e.get('keep') else None
         if a:
             fixed[i] = a
             if (e.get('canon_date') or '').strip().startswith('c.'):
@@ -252,7 +255,7 @@ def month_days(years, events, months_ok, days_ok, floor=None):
         if floor and y == floor[0]:                    # the age before ended this year: come after it
             slots = [s_ for s_ in slots if s_ > floor[1:]] or slots[-1:]
         pinned = {i: (canon_anchor(events[i])[1], canon_anchor(events[i])[2]) for i in idxs
-                  if events[i].get('canon') and canon_anchor(events[i]) and canon_anchor(events[i])[1]}
+                  if (events[i].get('canon') or events[i].get('keep')) and canon_anchor(events[i]) and canon_anchor(events[i])[1]}
         k = len(idxs)
         picks = sorted(slots[slot_hash(events[i].get('id', str(i))) % len(slots)] for i in idxs)
         # keep picks distinct and ordered
@@ -290,6 +293,10 @@ def month_days(years, events, months_ok, days_ok, floor=None):
     return out
 
 
+KEPT = json.load(open(os.path.join(HERE, 'kept_dates.json'), encoding='utf-8'))['events'] \
+    if os.path.exists(os.path.join(HERE, 'kept_dates.json')) else {}
+
+
 def main():
     album_years, months_ok, days_ok = load_pool()
     if len(months_ok) < 12 or len(days_ok) < 31:
@@ -302,6 +309,9 @@ def main():
             print('missing', path)
             continue
         events = json.load(open(path, encoding='utf-8'))
+        for e in events:
+            if e.get('id') in KEPT:
+                e['keep'] = KEPT[e['id']]
         years_ok = reachable_years(album_years, first, last)
         relaxed = []
         years = date_age(events, first, last, years_ok, relaxed)
@@ -316,7 +326,7 @@ def main():
                 prev = datetime.date(ny if ny > 0 else 2001, nm, nd) - datetime.timedelta(days=back)
                 py = ny if prev.year == (ny if ny > 0 else 2001) else (ny - 1 if ny - 1 != 0 else -1)
                 years[i], mds[i] = py, (prev.month, prev.day)
-        dated = [dict(e, y=y, m=md[0], d=md[1], date=display(y, md[0], md[1])) for e, y, md in zip(events, years, mds)]
+        dated = [dict({k: v for k, v in e.items() if k != 'keep'}, y=y, m=md[0], d=md[1], date=display(y, md[0], md[1])) for e, y, md in zip(events, years, mds)]
         relaxed = list(dict.fromkeys(relaxed))
         if relaxed:
             print('  Age %s: %d writer windows dropped or held (they contradicted the list order): %s' % (key, len(relaxed), ', '.join(relaxed[:12])))

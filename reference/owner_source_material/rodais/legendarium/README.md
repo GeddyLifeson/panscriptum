@@ -17,7 +17,8 @@ together, or as plain text in `LEGENDARIUM.md`.
 | `world.json`, `PLACE_FACTS.txt` | The map (`../Rodos_finished.map`) as data: burgs, provinces, rivers, markers, zones, faiths, hosts; which town each marker, zone and host belongs to. |
 | `annals/age_I..V.json` | The annals as written: events in order, each with its place on the map. No dates are typed by hand. |
 | `CONTINUITY_LOG.md`, `renames.json` | The continuity pass across the five ages and the names it changed. |
-| `albums.json` | The pool of release dates the reckoning draws on. |
+| `albums.json` | The pool of release dates the reckoning draws on: 2,234 records by 139 artists (1,769 dated to the day), every one looked up on the web with its source. Built by `albums_src/build_pool.py` from the owner's own list of artists and our top 100 rock and metal artists (`albums_src/top100_rock_metal.json`, aggregated from seven published rankings by `albums_src/aggregate_top100.py`). |
+| `kept_dates.json` | Dates the owner kept when the pool was rebuilt: the 18 events of the Stone Kings. |
 | `reckoning.py` | Gives every event its day, month and year → `annals_dated.json`. |
 | `book/age_I..V.md` | The prose of each age. |
 | `appendices/*.md`, `appendices/houses.json` | The appendices; the houses' people are dated by the builder. |

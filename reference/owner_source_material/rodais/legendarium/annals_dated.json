@@ -111,10 +111,10 @@
   "body": "The longest river on the island, Abhainn ìseal, settles into the wide bed it keeps now. Fish-weirs of hazel stakes are set across its side channels, and the stakes are renewed in the same holes for generations.",
   "place": "river:16",
   "kind": "craft",
-  "y": -12274,
+  "y": -12273,
   "m": 6,
   "d": 2,
-  "date": "2 an t-Ògmhios 12,274 BDE",
+  "date": "2 an t-Ògmhios 12,273 BDE",
   "age": "I"
  },
  {
@@ -319,10 +319,10 @@
   "body": "At the Seann Bhral of the south-east coast the Seann-Dhaoine keep a landing and a line of fish-kilns like those of Seann Mhorn. The two places lie within a day's rowing of each other.",
   "place": "burg:110",
   "kind": "craft",
-  "y": -10974,
+  "y": -10973,
   "m": 6,
   "d": 2,
-  "date": "2 an t-Ògmhios 10,974 BDE",
+  "date": "2 an t-Ògmhios 10,973 BDE",
   "age": "I"
  },
  {
@@ -466,10 +466,10 @@
   "body": "A shaft is sunk straight down through the rock at the eastern Toll-dubh, its walls tooled smooth as far as a lamp can show. No spoil heap lies beside it. Whatever was taken out of it was carried away, or nothing was.",
   "place": "marker:20",
   "kind": "discovery",
-  "y": -10174,
+  "y": -10173,
   "m": 9,
   "d": 12,
-  "date": "12 an t-Sultain 10,174 BDE",
+  "date": "12 an t-Sultain 10,173 BDE",
   "age": "I"
  },
  {
@@ -559,10 +559,10 @@
   "body": "The seal-bone layers in the middens of the north-west thin out and those at Caol mhòr and Cuan bheag grow. The hunters are working the southern side of the headlands now, out of sight of the open water.",
   "place": "burg:95",
   "kind": "people",
-  "y": -9774,
+  "y": -9773,
   "m": 9,
   "d": 30,
-  "date": "30 an t-Sultain 9774 BDE",
+  "date": "30 an t-Sultain 9773 BDE",
   "age": "I"
  },
  {
@@ -652,10 +652,10 @@
   "body": "The first telling of a white stag in Coille Naomh Muileann chiar is set in this age: seen at the edge of the trees by three hunters, none of whom drew. The stag comes back in the tellings of every age after.",
   "place": "marker:23",
   "kind": "omen",
-  "y": -9374,
+  "y": -9373,
   "m": 3,
   "d": 11,
-  "date": "11 am Màrt 9374 BDE",
+  "date": "11 am Màrt 9373 BDE",
   "age": "I"
  },
  {
@@ -744,10 +744,10 @@
   "body": "Stone basins are set into the springs at Fuarain Theth Muileann ruadh, and the bones of the people buried nearby show old breaks that knitted clean. It is the first place on Rodos where the sick were brought for a cure.",
   "place": "marker:0",
   "kind": "craft",
-  "y": -8974,
+  "y": -8973,
   "m": 6,
   "d": 6,
-  "date": "6 an t-Ògmhios 8974 BDE",
+  "date": "6 an t-Ògmhios 8973 BDE",
   "age": "I"
  },
  {
@@ -838,10 +838,10 @@
   "body": "After the high places are left, every new work of the Seann-Dhaoine is within sight of salt water. The middens at the southern Seann Chwen begin to grow as fast as the old ones at Seann Dunn once did.",
   "place": "burg:14",
   "kind": "people",
-  "y": -8574,
+  "y": -8573,
   "m": 12,
   "d": 9,
-  "date": "9 an Dùbhlachd 8574 BDE",
+  "date": "9 an Dùbhlachd 8573 BDE",
   "age": "I"
  },
  {
@@ -931,10 +931,10 @@
   "place": "marker:29",
   "kind": "building",
   "canon_date": "undated",
-  "y": -8174,
+  "y": -8173,
   "m": 9,
   "d": 9,
-  "date": "9 an t-Sultain 8174 BDE",
+  "date": "9 an t-Sultain 8173 BDE",
   "age": "I"
  },
  {
@@ -1025,10 +1025,10 @@
   "place": null,
   "kind": "discovery",
   "canon_date": "undated",
-  "y": -7774,
+  "y": -7773,
   "m": 12,
   "d": 22,
-  "date": "22 an Dùbhlachd 7774 BDE",
+  "date": "22 an Dùbhlachd 7773 BDE",
   "age": "I"
  },
  {
@@ -1081,10 +1081,10 @@
   "body": "The first earthwork on the hill at Dùn ìseal is a single bank and ditch, enclosing space for some forty houses. It is the oldest defended place built by the hill-folk.",
   "place": "burg:315",
   "kind": "building",
-  "y": -7591,
+  "y": -7592,
   "m": 11,
   "d": 4,
-  "date": "4 an t-Samhain 7591 BDE",
+  "date": "4 an t-Samhain 7592 BDE",
   "age": "I"
  },
  {
@@ -1138,10 +1138,10 @@
   "place": null,
   "kind": "disaster",
   "canon_date": "undated",
-  "y": -7414,
+  "y": -7454,
   "m": 1,
   "d": 30,
-  "date": "30 am Faoilleach 7414 BDE",
+  "date": "30 am Faoilleach 7454 BDE",
   "age": "I"
  },
  {
@@ -1155,10 +1155,10 @@
    "I-0086",
    0
   ],
-  "y": -7414,
+  "y": -7454,
   "m": 2,
   "d": 28,
-  "date": "28 an Gearran 7414 BDE",
+  "date": "28 an Gearran 7454 BDE",
   "age": "I"
  },
  {
@@ -1181,10 +1181,10 @@
   "body": "Uisdean Mòr, second in the Red Hill list, digs a ditch across the neck of the hill where Cathair dhearg now stands and sets a palisade on it. The palisade burns twice in his telling and is twice rebuilt.",
   "place": "burg:19",
   "kind": "reign",
-  "y": -7333,
+  "y": -7334,
   "m": 3,
   "d": 29,
-  "date": "29 am Màrt 7333 BDE",
+  "date": "29 am Màrt 7334 BDE",
   "age": "I"
  },
  {
@@ -1208,10 +1208,10 @@
   "place": null,
   "kind": "record",
   "canon_date": "undated",
-  "y": -7252,
+  "y": -7253,
   "m": 8,
   "d": 29,
-  "date": "29 an Lùnastal 7252 BDE",
+  "date": "29 an Lùnastal 7253 BDE",
   "age": "I"
  },
  {
@@ -1234,10 +1234,10 @@
   "body": "The counting reaches Seann Tarr in the north-east, where the stones are cut with strokes in groups of five and set in the floor of a house. The house was lived in over its own dead.",
   "place": "burg:402",
   "kind": "record",
-  "y": -7174,
+  "y": -7173,
   "m": 7,
   "d": 2,
-  "date": "2 an t-Iuchar 7174 BDE",
+  "date": "2 an t-Iuchar 7173 BDE",
   "age": "I"
  },
  {
@@ -1299,10 +1299,10 @@
   "body": "Hill-folk families come down to the coast and settle in the empty harbour at Seann Skell, using the old mole and repairing none of it. It is the first time they are known to live by the sea.",
   "place": "burg:489",
   "kind": "people",
-  "y": -6974,
+  "y": -6973,
   "m": 12,
   "d": 11,
-  "date": "11 an Dùbhlachd 6974 BDE",
+  "date": "11 an Dùbhlachd 6973 BDE",
   "age": "I"
  },
  {
@@ -1394,10 +1394,10 @@
   "body": "A sheet of sea sand, a hand thick, lies over the hearths of a village on the site of Cnoc chaol, with the shells of deep-water creatures in it. The sea came far inland there once in this age, and the village was not rebuilt on the same ground.",
   "place": "zone:4",
   "kind": "disaster",
-  "y": -6774,
+  "y": -6824,
   "m": 7,
   "d": 7,
-  "date": "7 an t-Iuchar 6774 BDE",
+  "date": "7 an t-Iuchar 6824 BDE",
   "age": "I"
  },
  {
@@ -1407,10 +1407,10 @@
   "body": "A crack a man could fall into opens across the valley at Cill ghlas and a spring moves a hundred paces downhill. The hill-folk bank the crack with stones and do not build on either side of it.",
   "place": "zone:3",
   "kind": "disaster",
-  "y": -6674,
+  "y": -6774,
   "m": 8,
   "d": 5,
-  "date": "5 an Lùnastal 6674 BDE",
+  "date": "5 an Lùnastal 6774 BDE",
   "age": "I"
  },
  {
@@ -1424,10 +1424,10 @@
    "I-0106",
    20
   ],
-  "y": -6654,
+  "y": -6754,
   "m": 9,
   "d": 3,
-  "date": "3 an t-Sultain 6654 BDE",
+  "date": "3 an t-Sultain 6754 BDE",
   "age": "I"
  },
  {
@@ -1438,10 +1438,10 @@
   "place": null,
   "kind": "culture",
   "canon_date": "undated",
-  "y": -6616,
+  "y": -6699,
   "m": 10,
   "d": 2,
-  "date": "2 an Dàmhair 6616 BDE",
+  "date": "2 an Dàmhair 6699 BDE",
   "age": "I"
  },
  {
@@ -1451,10 +1451,10 @@
   "body": "The house with the unlit hearth sits under three yards of peat, its hearth laid with dry wood and a slip of the ore beside it, and none of it burned. Whoever laid it went away and did not come back to light it.",
   "place": null,
   "kind": "record",
-  "y": -6578,
+  "y": -6645,
   "m": 10,
   "d": 31,
-  "date": "31 an Dàmhair 6578 BDE",
+  "date": "31 an Dàmhair 6645 BDE",
   "age": "I"
  },
  {
@@ -1464,10 +1464,10 @@
   "body": "Across the hill settlements a custom sets in that no fire takes more of the ore than can be held in one cupped hand. It is nowhere written and everywhere kept. The Small-Burning Law of the next age is this custom hardened.",
   "place": "burg:277",
   "kind": "law",
-  "y": -6540,
+  "y": -6590,
   "m": 8,
   "d": 5,
-  "date": "5 an Lùnastal 6540 BDE",
+  "date": "5 an Lùnastal 6590 BDE",
   "age": "I"
  },
  {
@@ -1477,10 +1477,10 @@
   "body": "A household at Achadh dhìreach burns a whole basket of the ore at once. The house burns down with three people inside, and the hearth-stone is found cracked through and running with colour. The tellings use it for ever after to explain the handful.",
   "place": "burg:454",
   "kind": "disaster",
-  "y": -6502,
+  "y": -6535,
   "m": 7,
   "d": 7,
-  "date": "7 an t-Iuchar 6502 BDE",
+  "date": "7 an t-Iuchar 6535 BDE",
   "age": "I"
  },
  {
@@ -1490,10 +1490,10 @@
   "body": "Families near the crack begin taking turns to sit by the slab laid over it, a household at a time, through the dark half of the year. No one ever says what they are watching for.",
   "place": "burg:276",
   "kind": "faith",
-  "y": -6474,
+  "y": -6481,
   "m": 6,
   "d": 8,
-  "date": "8 an t-Ògmhios 6474 BDE",
+  "date": "8 an t-Ògmhios 6481 BDE",
   "age": "I"
  },
  {
@@ -1529,10 +1529,10 @@
   "body": "Murchadh Gearr holds the Red Hill after Seonag and keeps the peace of the ford. His telling says he walked the salt road himself every year to be seen on it.",
   "place": "burg:19",
   "kind": "reign",
-  "y": -6350,
+  "y": -6351,
   "m": 10,
   "d": 31,
-  "date": "31 an Dàmhair 6350 BDE",
+  "date": "31 an Dàmhair 6351 BDE",
   "age": "I"
  },
  {
@@ -1542,10 +1542,10 @@
   "body": "Households from the hills settle the bay at Ros bheag, the first of them on the west coast. They build in the hill manner, round and turf-roofed, a little back from the beach, and they fish from the shore rather than from boats.",
   "place": "burg:63",
   "kind": "founding",
-  "y": -6312,
+  "y": -6313,
   "m": 10,
   "d": 2,
-  "date": "2 an Dàmhair 6312 BDE",
+  "date": "2 an Dàmhair 6313 BDE",
   "age": "I"
  },
  {
@@ -1555,10 +1555,10 @@
   "body": "A cluster of round houses goes up by the harbour where Cathair dhomhain now stands, near enough the Red Hill to pay it salt. The Red Hill list counts it among the holder's households.",
   "place": "burg:26",
   "kind": "founding",
-  "y": -6274,
+  "y": -6276,
   "m": 9,
   "d": 3,
-  "date": "3 an t-Sultain 6274 BDE",
+  "date": "3 an t-Sultain 6276 BDE",
   "age": "I"
  },
  {
@@ -1568,10 +1568,10 @@
   "body": "Cattle bones appear in the hearths of Cnoc ghorm in the north-west for the first time. Until now the settlements there lived on seal, fish and deer. The herds must have been walked up the flint road.",
   "place": "burg:142",
   "kind": "trade",
-  "y": -6236,
+  "y": -6238,
   "m": 3,
   "d": 25,
-  "date": "25 am Màrt 6236 BDE",
+  "date": "25 am Màrt 6238 BDE",
   "age": "I"
  },
  {
@@ -1581,10 +1581,10 @@
   "body": "A long-house forty paces long is built on the rise at Cathair gheal, with byre and hall under one roof. It is the largest single building of this age in the north-west, and it burns and is rebuilt on the same footing twice.",
   "place": "burg:476",
   "kind": "building",
-  "y": -6198,
+  "y": -6200,
   "m": 2,
   "d": 24,
-  "date": "24 an Gearran 6198 BDE",
+  "date": "24 an Gearran 6200 BDE",
   "age": "I"
  },
  {
@@ -1607,10 +1607,10 @@
   "body": "A herding family, new to the hills, lights an open fire at Doire uaine against the custom. The telling says the hut was found empty and the fire still burning. The custom of the covered hearth is kept stricter after.",
   "place": "marker:22",
   "kind": "omen",
-  "y": -6122,
+  "y": -6125,
   "m": 8,
   "d": 19,
-  "date": "19 an Lùnastal 6122 BDE",
+  "date": "19 an Lùnastal 6125 BDE",
   "age": "I"
  },
  {
@@ -1620,10 +1620,10 @@
   "body": "The platforms on Loch chrom burn to the waterline, and the charred piles are left standing in the shallows. No one rebuilds on the lake in this age.",
   "place": "feature:9",
   "kind": "disaster",
-  "y": -6084,
+  "y": -6088,
   "m": 5,
   "d": 24,
-  "date": "24 an Cèitean 6084 BDE",
+  "date": "24 an Cèitean 6088 BDE",
   "age": "I"
  },
  {
@@ -1633,10 +1633,10 @@
   "body": "Stone lamps with a hollow for seal oil and a moss wick are in use at Caol leathan. They are the first light on Rodos that is not a hearth, and they make no smoke to speak of.",
   "place": "burg:1",
   "kind": "craft",
-  "y": -6046,
+  "y": -6050,
   "m": 6,
   "d": 22,
-  "date": "22 an t-Ògmhios 6046 BDE",
+  "date": "22 an t-Ògmhios 6050 BDE",
   "age": "I"
  },
  {
@@ -1646,10 +1646,10 @@
   "body": "Wattle fences are staked across the river-mouth at Caol fhiadhaich to trap salmon on the ebb. The same line of stake-holes is used and re-used through the rest of the age.",
   "place": "burg:191",
   "kind": "craft",
-  "y": -6008,
+  "y": -6012,
   "m": 3,
   "d": 27,
-  "date": "27 am Màrt 6008 BDE",
+  "date": "27 am Màrt 6012 BDE",
   "age": "I"
  },
  {
@@ -1659,10 +1659,10 @@
   "body": "Loom-weights of fired clay, lying in rows where they fell from the warp, are found in the houses at Muileann leathan in the north. Cloth is being woven there on standing frames, not twined by hand.",
   "place": "burg:234",
   "kind": "craft",
-  "y": -5974,
+  "y": -5975,
   "m": 4,
   "d": 25,
-  "date": "25 an Giblean 5974 BDE",
+  "date": "25 an Giblean 5975 BDE",
   "age": "I"
  },
  {
@@ -1673,10 +1673,10 @@
   "place": null,
   "kind": "record",
   "canon_date": "undated",
-  "y": -5932,
+  "y": -5937,
   "m": 1,
   "d": 28,
-  "date": "28 am Faoilleach 5932 BDE",
+  "date": "28 am Faoilleach 5937 BDE",
   "age": "I"
  },
  {
@@ -1686,10 +1686,10 @@
   "body": "The high-water marking is copied at Ros dhomhain on a boulder in the harbour mouth. The marks there are cut at the same intervals as on the first rock, which means someone carried the practice, and the interval with it.",
   "place": "burg:27",
   "kind": "record",
-  "y": -5894,
+  "y": -5900,
   "m": 2,
   "d": 26,
-  "date": "26 an Gearran 5894 BDE",
+  "date": "26 an Gearran 5900 BDE",
   "age": "I"
  },
  {
@@ -1712,10 +1712,10 @@
   "body": "A pit is worked for flint on the hill of Cnoc àrsaidh in the north-west, the only good flint on Rodos. Grey flakes from it are found in hearths from one end of the island to the other.",
   "place": "burg:28",
   "kind": "trade",
-  "y": -5818,
+  "y": -5824,
   "m": 4,
   "d": 8,
-  "date": "8 an Giblean 5818 BDE",
+  "date": "8 an Giblean 5824 BDE",
   "age": "I"
  },
  {
@@ -1725,10 +1725,10 @@
   "body": "A track worn by people carrying flint runs from Cnoc àrsaidh south and east toward the ford gathering. Stretches of it near Àth leathan are sunk a yard deep by feet.",
   "place": "burg:441",
   "kind": "trade",
-  "y": -5780,
+  "y": -5787,
   "m": 1,
   "d": 11,
-  "date": "11 am Faoilleach 5780 BDE",
+  "date": "11 am Faoilleach 5787 BDE",
   "age": "I"
  },
  {
@@ -1738,10 +1738,10 @@
   "body": "A lintel stone over a house door at Àth mhòr in the north is carved with a hawk, wings closed, head turned. It is the oldest hawk carving on the island and the oldest carving of any bird.",
   "place": "burg:436",
   "kind": "culture",
-  "y": -5742,
+  "y": -5749,
   "m": 12,
   "d": 13,
-  "date": "13 an Dùbhlachd 5742 BDE",
+  "date": "13 an Dùbhlachd 5749 BDE",
   "age": "I"
  },
  {
@@ -1751,10 +1751,10 @@
   "body": "The bones of wolves are found buried whole and with care at Tobar fhiadhaich, laid on their sides like people. No other beast is buried that way in this age.",
   "place": "burg:435",
   "kind": "culture",
-  "y": -5704,
+  "y": -5712,
   "m": 3,
   "d": 10,
-  "date": "10 am Màrt 5704 BDE",
+  "date": "10 am Màrt 5712 BDE",
   "age": "I"
  },
  {
@@ -1777,10 +1777,10 @@
   "body": "The hearths of the settlement on the site of the north-western Baile chrom are found with their pots full of boiled bark and seaweed, and the grave-rows beside them doubled. It is the oldest hunger on Rodos with a place to it.",
   "place": "zone:1",
   "kind": "disaster",
-  "y": -5628,
+  "y": -5635,
   "m": 5,
   "d": 7,
-  "date": "7 an Cèitean 5628 BDE",
+  "date": "7 an Cèitean 5635 BDE",
   "age": "I"
  },
  {
@@ -1790,10 +1790,10 @@
   "body": "The springs of Achadh shean in the east run dry for long enough that the field banks are abandoned and grown over. When people come back they cut new fields on a different line.",
   "place": "zone:2",
   "kind": "disaster",
-  "y": -5590,
+  "y": -5595,
   "m": 4,
   "d": 8,
-  "date": "8 an Giblean 5590 BDE",
+  "date": "8 an Giblean 5595 BDE",
   "age": "I"
  },
  {
@@ -1804,10 +1804,10 @@
   "place": null,
   "kind": "culture",
   "canon_date": "undated",
-  "y": -5552,
+  "y": -5554,
   "m": 7,
   "d": 4,
-  "date": "4 an t-Iuchar 5552 BDE",
+  "date": "4 an t-Iuchar 5554 BDE",
   "age": "I"
  },
  {
@@ -1817,10 +1817,10 @@
   "body": "Eight tall stones are set in a ring on the point at Ceann leathan, one for each of the named winds. Sailors of every later age touch the stone of the wind they want before they go out.",
   "place": "burg:22",
   "kind": "culture",
-  "y": -5514,
+  "y": -5517,
   "m": 6,
   "d": 5,
-  "date": "5 an t-Ògmhios 5514 BDE",
+  "date": "5 an t-Ògmhios 5517 BDE",
   "age": "I"
  },
  {
@@ -1830,10 +1830,10 @@
   "body": "The eight wind-names are in use on Eilean fhada as well as the main island: stone markers on its high point carry eight cut notches, one facing each way.",
   "place": "feature:4",
   "kind": "culture",
-  "y": -5476,
+  "y": -5477,
   "m": 5,
   "d": 24,
-  "date": "24 an Cèitean 5476 BDE",
+  "date": "24 an Cèitean 5477 BDE",
   "age": "I"
  },
  {
@@ -1941,10 +1941,10 @@
   "place": null,
   "kind": "law",
   "canon_date": "undated",
-  "y": -5274,
+  "y": -5273,
   "m": 5,
   "d": 7,
-  "date": "7 an Cèitean 5274 BDE",
+  "date": "7 an Cèitean 5273 BDE",
   "age": "I"
  },
  {
@@ -2010,10 +2010,10 @@
   "body": "The families who watch the slab over the crack agree to choose one keeper at a time by lot instead of taking turns by household. The first lot falls to a woman the tellings call Oighrig nic Dhòmhnaill. She keeps the slab for the rest of her life.",
   "place": "burg:276",
   "kind": "faith",
-  "y": -5197,
+  "y": -5198,
   "m": 11,
   "d": 26,
-  "date": "26 an t-Samhain 5197 BDE",
+  "date": "26 an t-Samhain 5198 BDE",
   "age": "I"
  },
  {
@@ -2023,10 +2023,10 @@
   "body": "A house is built beside the slab at Tobar dhìreach for whoever holds the lot, with a door facing the stone. It is rebuilt on the same footing many times. It is the first building on Rodos that exists only to be near the vein.",
   "place": "burg:276",
   "kind": "building",
-  "y": -5196,
+  "y": -5197,
   "m": 10,
   "d": 28,
-  "date": "28 an Dàmhair 5196 BDE",
+  "date": "28 an Dàmhair 5197 BDE",
   "age": "I"
  },
  {
@@ -2040,10 +2040,10 @@
    "I-0151",
    40
   ],
-  "y": -5194,
+  "y": -5195,
   "m": 9,
   "d": 29,
-  "date": "29 an t-Sultain 5194 BDE",
+  "date": "29 an t-Sultain 5195 BDE",
   "age": "I"
  },
  {
@@ -2053,10 +2053,10 @@
   "body": "Copies of the keeper's cup are ground at Àth gharbh, Achadh dhìreach and Cnoc chaol, each checked against the first by filling it with water. The hill settlements now measure the ore with one measure.",
   "place": "burg:415",
   "kind": "law",
-  "y": -5192,
+  "y": -5194,
   "m": 8,
   "d": 31,
-  "date": "31 an Lùnastal 5192 BDE",
+  "date": "31 an Lùnastal 5194 BDE",
   "age": "I"
  },
  {
@@ -2066,10 +2066,10 @@
   "body": "A keeper by lot named Gilleasbuig Beag is found with a basket of broken ore in his own house. The households of the hills sit in judgement at the slab and row him out to Eilean chrom and leave him there without a boat. He is the first person on record exiled for the vein.",
   "place": "feature:6",
   "kind": "law",
-  "y": -5190,
+  "y": -5192,
   "m": 8,
   "d": 2,
-  "date": "2 an Lùnastal 5190 BDE",
+  "date": "2 an Lùnastal 5192 BDE",
   "age": "I"
  },
  {
@@ -2083,10 +2083,10 @@
    "I-0155",
    5
   ],
-  "y": -5189,
-  "m": 6,
-  "d": 5,
-  "date": "5 an t-Ògmhios 5189 BDE",
+  "y": -5191,
+  "m": 7,
+  "d": 4,
+  "date": "4 an t-Iuchar 5191 BDE",
   "age": "I"
  },
  {
@@ -2126,10 +2126,10 @@
   "body": "A storm the tellings call A' Ghaoth Dhubh, the Black Wind, strips the thatch from every house on the east coast from Cuan ruadh to Ceann chiar. It is the oldest storm whose name is kept.",
   "place": "burg:119",
   "kind": "disaster",
-  "y": -5183,
-  "m": 4,
-  "d": 8,
-  "date": "8 an Giblean 5183 BDE",
+  "y": -5184,
+  "m": 2,
+  "d": 1,
+  "date": "1 an Gearran 5184 BDE",
   "age": "I"
  },
  {
@@ -2143,10 +2143,10 @@
    "I-0159",
    1
   ],
-  "y": -5182,
-  "m": 2,
-  "d": 1,
-  "date": "1 an Gearran 5182 BDE",
+  "y": -5184,
+  "m": 4,
+  "d": 8,
+  "date": "8 an Giblean 5184 BDE",
   "age": "I"
  },
  {
@@ -2156,10 +2156,10 @@
   "body": "A fire is built up on the eastern cape where Taigh-solais Baile ìseal now stands, kept by the households of the coast in turn. Its purpose, in the tellings, is to bring boats home in a storm, not to warn them off.",
   "place": "marker:13",
   "kind": "building",
-  "y": -5180,
+  "y": -5183,
   "m": 3,
   "d": 2,
-  "date": "2 am Màrt 5180 BDE",
+  "date": "2 am Màrt 5183 BDE",
   "age": "I"
  },
  {
@@ -2169,10 +2169,10 @@
   "body": "A second shore-fire is kept on the north coast, on the point where Taigh-solais Muileann bheag stands now. The ash under the modern tower goes down through three yards of fire-reddened soil.",
   "place": "marker:14",
   "kind": "building",
-  "y": -5178,
-  "m": 12,
-  "d": 5,
-  "date": "5 an Dùbhlachd 5178 BDE",
+  "y": -5182,
+  "m": 1,
+  "d": 3,
+  "date": "3 am Faoilleach 5182 BDE",
   "age": "I"
  },
  {
@@ -2182,10 +2182,10 @@
   "body": "Households of the north-east coast keep a fire on the cape where Taigh-solais Àth dhearg now stands, and cut steps up to it from the shore. The steps are narrower than those at Seann Bhral and less worn.",
   "place": "marker:15",
   "kind": "building",
-  "y": -5176,
-  "m": 1,
-  "d": 3,
-  "date": "3 am Faoilleach 5176 BDE",
+  "y": -5182,
+  "m": 12,
+  "d": 5,
+  "date": "5 an Dùbhlachd 5182 BDE",
   "age": "I"
  },
  {
@@ -2195,10 +2195,10 @@
   "body": "On the southern cape where Taigh-solais Tobar dhearg stands a fire is kept for the boats of the south coast. With the fires at Baile chrom, Baile ìseal, Muileann bheag and Àth dhearg, the island's coasts are lit at five points.",
   "place": "marker:16",
   "kind": "building",
-  "y": -5175,
-  "m": 3,
-  "d": 31,
-  "date": "31 am Màrt 5175 BDE",
+  "y": -5181,
+  "m": 5,
+  "d": 28,
+  "date": "28 an Cèitean 5181 BDE",
   "age": "I"
  },
  {
@@ -2208,10 +2208,10 @@
   "body": "Watchers on the north-western tower at Seann Skell report a back as long as three boats, rising and going under off the point. It is the first sighting of the Sea-Watcher that the tellings tie to a named place and a count of witnesses: four.",
   "place": "marker:21",
   "kind": "omen",
-  "y": -5175,
-  "m": 4,
-  "d": 29,
-  "date": "29 an Giblean 5175 BDE",
+  "y": -5180,
+  "m": 3,
+  "d": 31,
+  "date": "31 am Màrt 5180 BDE",
   "age": "I"
  },
  {
@@ -2221,10 +2221,10 @@
   "body": "Planks of stitched boats, broken small, wash up for a season along the western shore below the waters where raiders are later seen. No bodies come with them. No settlement on that coast is missing a boat.",
   "place": "marker:25",
   "kind": "omen",
-  "y": -5175,
-  "m": 5,
-  "d": 28,
-  "date": "28 an Cèitean 5175 BDE",
+  "y": -5180,
+  "m": 6,
+  "d": 26,
+  "date": "26 an t-Ògmhios 5180 BDE",
   "age": "I"
  },
  {
@@ -2234,10 +2234,10 @@
   "body": "At the ford gathering a teller from the western coast, Anndra Breac, recites a telling in which the people came to Rodos over the sea. The households of the hills shout him down and the gathering puts him out of the ford for the rest of his life. His telling is not kept, only the fact of it.",
   "place": "marker:38",
   "kind": "faith",
-  "y": -5175,
-  "m": 6,
-  "d": 26,
-  "date": "26 an t-Ògmhios 5175 BDE",
+  "y": -5179,
+  "m": 4,
+  "d": 29,
+  "date": "29 an Giblean 5179 BDE",
   "age": "I"
  },
  {
@@ -2247,10 +2247,10 @@
   "body": "After Anndra Breac, the saying cut on the column at Cnoc ghorm is spoken aloud at the opening of the ford gathering: we did not come; we were here. It is the first time the doctrine is known to be said as a rule rather than a belief.",
   "place": "marker:30",
   "kind": "faith",
-  "y": -5175,
-  "m": 6,
-  "d": 27,
-  "date": "27 an t-Ògmhios 5175 BDE",
+  "y": -5178,
+  "m": 9,
+  "d": 21,
+  "date": "21 an t-Sultain 5178 BDE",
   "age": "I"
  },
  {
@@ -2260,10 +2260,10 @@
   "body": "The tide-rock at Ros dhomhain passes to a woman remembered as Seònaid Mhòr, who cuts her marks in pairs, one for the high water and one for the low. Her pairs are still readable. The keepers after her go back to single marks.",
   "place": "burg:27",
   "kind": "record",
-  "y": -5175,
+  "y": -5177,
   "m": 7,
   "d": 25,
-  "date": "25 an t-Iuchar 5175 BDE",
+  "date": "25 an t-Iuchar 5177 BDE",
   "age": "I"
  },
  {
@@ -2273,10 +2273,10 @@
   "body": "Households at Inis thais cut their own high-water marks on the harbour rock, at the same interval as Ros dhomhain. The three rocks now run side by side. None of them says why the interval is what it is.",
   "place": "burg:166",
   "kind": "record",
-  "y": -5175,
-  "m": 8,
-  "d": 23,
-  "date": "23 an Lùnastal 5175 BDE",
+  "y": -5177,
+  "m": 10,
+  "d": 20,
+  "date": "20 an Dàmhair 5177 BDE",
   "age": "I"
  },
  {
@@ -2286,10 +2286,10 @@
   "body": "The settlement at Ros dhomhain becomes the largest on the west-central coast, with some sixty houses round the tide-rock. Its people fish from boats now, not from the shore.",
   "place": "burg:27",
   "kind": "founding",
-  "y": -5175,
-  "m": 9,
-  "d": 21,
-  "date": "21 an t-Sultain 5175 BDE",
+  "y": -5176,
+  "m": 6,
+  "d": 26,
+  "date": "26 an t-Ògmhios 5176 BDE",
   "age": "I"
  },
  {
@@ -2300,9 +2300,9 @@
   "place": "burg:19",
   "kind": "building",
   "y": -5175,
-  "m": 9,
-  "d": 22,
-  "date": "22 an t-Sultain 5175 BDE",
+  "m": 8,
+  "d": 23,
+  "date": "23 an Lùnastal 5175 BDE",
   "age": "I"
  },
  {
@@ -2317,9 +2317,9 @@
    25
   ],
   "y": -5175,
-  "m": 10,
-  "d": 20,
-  "date": "20 an Dàmhair 5175 BDE",
+  "m": 9,
+  "d": 21,
+  "date": "21 an t-Sultain 5175 BDE",
   "age": "I"
  },
  {
@@ -2346,10 +2346,10 @@
   "body": "The salt-songs of the south and west, work-songs for raking the pans, are the oldest songs on Rodos whose words are said to survive. What survives is a refrain of four lines that no one can fully translate.",
   "place": "burg:170",
   "kind": "culture",
-  "y": -5154,
+  "y": -5173,
   "m": 3,
   "d": 2,
-  "date": "2 am Màrt 5154 BDE",
+  "date": "2 am Màrt 5173 BDE",
   "age": "I"
  },
  {
@@ -2359,10 +2359,10 @@
   "body": "Pipes of hollow bird-bone, bored with four holes, are found in a house at the southern Cnoc àrsaidh near the panther road. They are the oldest instruments on the island.",
   "place": "burg:433",
   "kind": "craft",
-  "y": -5153,
-  "m": 5,
-  "d": 28,
-  "date": "28 an Cèitean 5153 BDE",
+  "y": -5173,
+  "m": 3,
+  "d": 14,
+  "date": "14 am Màrt 5173 BDE",
   "age": "I"
  },
  {
@@ -2372,10 +2372,10 @@
   "body": "In one season the great cats come down the panther road near Imrich nam Pantar and turn back at the foothills instead of crossing. The hill-folk take it as a sign of a hard winter and store double. The winter is hard.",
   "place": "marker:40",
   "kind": "omen",
-  "y": -5151,
+  "y": -5173,
   "m": 4,
   "d": 29,
-  "date": "29 an Giblean 5151 BDE",
+  "date": "29 an Giblean 5173 BDE",
   "age": "I"
  },
  {
@@ -2385,10 +2385,10 @@
   "body": "Herders from Muileann bhàn drive cattle up into the passes out of season, against the custom of the crossing. The panthers take thirty head in a night. The herders come down with nothing.",
   "place": "burg:502",
   "kind": "disaster",
-  "y": -5149,
-  "m": 3,
-  "d": 14,
-  "date": "14 am Màrt 5149 BDE",
+  "y": -5173,
+  "m": 5,
+  "d": 28,
+  "date": "28 an Cèitean 5173 BDE",
   "age": "I"
  },
  {
@@ -2398,10 +2398,10 @@
   "body": "The households at Baile dhomhain in the south cut a sign on their gateposts at the start of the crossing season and scrape it off at the end. It is the island's first mark for a season.",
   "place": "burg:257",
   "kind": "culture",
-  "y": -5147,
-  "m": 2,
-  "d": 13,
-  "date": "13 an Gearran 5147 BDE",
+  "y": -5154,
+  "m": 1,
+  "d": 15,
+  "date": "15 am Faoilleach 5154 BDE",
   "age": "I"
  },
  {
@@ -2411,10 +2411,10 @@
   "body": "One of the eight wind-names is cut in the Ròdaich manner on a boulder at the central Seann Chwen, over an older mark of the Seann-Dhaoine. It is one of the few places where the marks of the two peoples touch.",
   "place": "burg:36",
   "kind": "record",
-  "y": -5145,
-  "m": 1,
-  "d": 15,
-  "date": "15 am Faoilleach 5145 BDE",
+  "y": -5154,
+  "m": 2,
+  "d": 13,
+  "date": "13 an Gearran 5154 BDE",
   "age": "I"
  },
  {
@@ -2424,10 +2424,10 @@
   "body": "Fishing households on the north coast at Caol bheag name their boats for the winds they fish in. A boat named for the wrong wind is thought unlucky, and one that sinks has its name never used again.",
   "place": "burg:475",
   "kind": "culture",
-  "y": -5144,
+  "y": -5154,
   "m": 2,
-  "d": 13,
-  "date": "13 an Gearran 5144 BDE",
+  "d": 14,
+  "date": "14 an Gearran 5154 BDE",
   "age": "I"
  },
  {
@@ -2437,10 +2437,10 @@
   "body": "A family living by Tuam Cnoc dhìreach takes on the clearing of the thorn from the old graves. They bury no one of their own there. They only keep it.",
   "place": "marker:41",
   "kind": "death",
-  "y": -5142,
+  "y": -5154,
   "m": 3,
   "d": 14,
-  "date": "14 am Màrt 5142 BDE",
+  "date": "14 am Màrt 5154 BDE",
   "age": "I"
  },
  {
@@ -2450,10 +2450,10 @@
   "body": "Diggers laying a new row at Tuam Cnoc dhìreach break into an older grave than any they knew, lined with slabs cut in the Seann-Dhaoine way. They close it and move the row. No one opens that grave again.",
   "place": "marker:41",
   "kind": "death",
-  "y": -5140,
+  "y": -5154,
   "m": 4,
   "d": 12,
-  "date": "12 an Giblean 5140 BDE",
+  "date": "12 an Giblean 5154 BDE",
   "age": "I"
  },
  {
@@ -2463,10 +2463,10 @@
   "body": "People begin to walk to the edge of Coille Naomh Muileann chiar and sit a night at the line of the trees without entering. Hearths along the edge show the visits: small fires, a single night each.",
   "place": "marker:23",
   "kind": "faith",
-  "y": -5138,
+  "y": -5152,
   "m": 5,
   "d": 11,
-  "date": "11 an Cèitean 5138 BDE",
+  "date": "11 an Cèitean 5152 BDE",
   "age": "I"
  },
  {
@@ -2476,10 +2476,10 @@
   "body": "A child from Cnoc bheag's settlement goes past the line of stones into Coille Naomh Cnoc bheag and is not found. The search party stops at the stones. The telling does not blame them.",
   "place": "marker:24",
   "kind": "omen",
-  "y": -5137,
+  "y": -5150,
   "m": 6,
   "d": 9,
-  "date": "9 an t-Ògmhios 5137 BDE",
+  "date": "9 an t-Ògmhios 5150 BDE",
   "age": "I"
  },
  {
@@ -2489,10 +2489,10 @@
   "body": "Settlers from the Red Hill build at Cnoc bheag, near the forest's edge. They take their timber from the far side of the river, never from the unclaimed wood.",
   "place": "burg:504",
   "kind": "founding",
-  "y": -5135,
+  "y": -5148,
   "m": 7,
   "d": 8,
-  "date": "8 an t-Iuchar 5135 BDE",
+  "date": "8 an t-Iuchar 5148 BDE",
   "age": "I"
  },
  {
@@ -2502,10 +2502,10 @@
   "body": "Pilgrims come to the warm springs at Fuarain Theth Muileann ruadh in numbers, and a ring of shelters is built. The oldest cure-telling on Rodos is set there: a herder who came lame and walked home.",
   "place": "marker:0",
   "kind": "faith",
-  "y": -5133,
+  "y": -5146,
   "m": 8,
   "d": 6,
-  "date": "6 an Lùnastal 5133 BDE",
+  "date": "6 an Lùnastal 5146 BDE",
   "age": "I"
  },
  {
@@ -2515,10 +2515,10 @@
   "body": "Two herders driving past the Doire uaine hills after dark say they saw a figure walk the ridge without breath showing in the cold. They had no fire lit, and the telling says that is why they lived.",
   "place": "marker:22",
   "kind": "omen",
-  "y": -5131,
+  "y": -5144,
   "m": 5,
   "d": 28,
-  "date": "28 an Cèitean 5131 BDE",
+  "date": "28 an Cèitean 5144 BDE",
   "age": "I"
  },
  {
@@ -2528,10 +2528,10 @@
   "body": "The custom of the covered hearth, pit-dug and roofed, spreads from the Doire uaine hills to the settlements around Muileann chiar. The later rule that no open fire is lit on those slopes after dark starts here.",
   "place": "burg:355",
   "kind": "law",
-  "y": -5129,
+  "y": -5141,
   "m": 6,
   "d": 26,
-  "date": "26 an t-Ògmhios 5129 BDE",
+  "date": "26 an t-Ògmhios 5141 BDE",
   "age": "I"
  },
  {
@@ -2541,10 +2541,10 @@
   "body": "Ròdaich households settle at Caol mhòr in the north-west, on the strait where the Seann-Dhaoine once hunted seal. They find the old middens and build on them.",
   "place": "burg:95",
   "kind": "founding",
-  "y": -5128,
+  "y": -5139,
   "m": 12,
   "d": 31,
-  "date": "31 an Dùbhlachd 5128 BDE",
+  "date": "31 an Dùbhlachd 5139 BDE",
   "age": "I"
  },
  {
@@ -2554,10 +2554,10 @@
   "body": "The ground at Baile chrom that was emptied by the old hunger is settled again by households from Cnoc ghorm. They dig their pits for storage deeper than anyone else on the coast.",
   "place": "burg:305",
   "kind": "founding",
-  "y": -5126,
+  "y": -5137,
   "m": 12,
   "d": 2,
-  "date": "2 an Dùbhlachd 5126 BDE",
+  "date": "2 an Dùbhlachd 5137 BDE",
   "age": "I"
  },
  {
@@ -2567,10 +2567,10 @@
   "body": "A cluster of houses goes up on the stream at Muileann àrsaidh in the north-west. Their flint is from Cnoc àrsaidh and their salt from the south, carried the length of the island.",
   "place": "burg:244",
   "kind": "founding",
-  "y": -5124,
+  "y": -5135,
   "m": 11,
   "d": 3,
-  "date": "3 an t-Samhain 5124 BDE",
+  "date": "3 an t-Samhain 5135 BDE",
   "age": "I"
  },
  {
@@ -2580,10 +2580,10 @@
   "body": "A salt road runs from the pans of Baile ghorm through the ford gathering to the north-west. The salt reaches Muileann àrsaidh at three times its price at the pans, paid in flint and seal-skins.",
   "place": "burg:244",
   "kind": "trade",
-  "y": -5123,
-  "m": 1,
-  "d": 29,
-  "date": "29 am Faoilleach 5123 BDE",
+  "y": -5133,
+  "m": 10,
+  "d": 5,
+  "date": "5 an Dàmhair 5133 BDE",
   "age": "I"
  },
  {
@@ -2593,10 +2593,10 @@
   "body": "Households move in under the oaks at Doire ghlas in the north. The settlement grows in rings, each ring of houses built outside the last as the wood is cleared back.",
   "place": "burg:209",
   "kind": "founding",
-  "y": -5123,
-  "m": 2,
-  "d": 27,
-  "date": "27 an Gearran 5123 BDE",
+  "y": -5131,
+  "m": 4,
+  "d": 26,
+  "date": "26 an Giblean 5131 BDE",
   "age": "I"
  },
  {
@@ -2606,10 +2606,10 @@
   "body": "The hill-folk push east and build a banked enclosure at Dùn thais, on a hill above good grazing. It is the first defended place built by the Ròdaich away from Dùn ìseal and the Red Hill.",
   "place": "burg:77",
   "kind": "founding",
-  "y": -5123,
+  "y": -5128,
   "m": 3,
   "d": 28,
-  "date": "28 am Màrt 5123 BDE",
+  "date": "28 am Màrt 5128 BDE",
   "age": "I"
  },
  {
@@ -2619,10 +2619,10 @@
   "body": "Fields are cleared by fire and stone-picking at Achadh chaol in the east. The picked stones are laid in banks round each field, and the banks are still the field boundaries.",
   "place": "burg:449",
   "kind": "founding",
-  "y": -5123,
-  "m": 4,
-  "d": 26,
-  "date": "26 an Giblean 5123 BDE",
+  "y": -5126,
+  "m": 2,
+  "d": 27,
+  "date": "27 an Gearran 5126 BDE",
   "age": "I"
  },
  {
@@ -2636,10 +2636,10 @@
    "I-0159",
    60
   ],
-  "y": -5123,
-  "m": 10,
-  "d": 5,
-  "date": "5 an Dàmhair 5123 BDE",
+  "y": -5124,
+  "m": 1,
+  "d": 29,
+  "date": "29 am Faoilleach 5124 BDE",
   "age": "I"
  },
  {
@@ -2649,10 +2649,10 @@
   "body": "A settlement is founded at Cathair fhada on the south coast, between the old Seann Dunn and Seann Chwen. It takes its water from a well the Seann-Dhaoine dug and never mentions where the well came from.",
   "place": "burg:297",
   "kind": "founding",
-  "y": -5074,
+  "y": -5077,
   "m": 5,
   "d": 13,
-  "date": "13 an Cèitean 5074 BDE",
+  "date": "13 an Cèitean 5077 BDE",
   "age": "I"
  },
  {
@@ -2662,10 +2662,10 @@
   "body": "Fishing households settle Caol ruadh on the south coast and take the strait's cod on long lines. Their middens are the first on the south coast with more fish than shell in them.",
   "place": "burg:15",
   "kind": "founding",
-  "y": -5021,
+  "y": -5029,
   "m": 4,
   "d": 14,
-  "date": "14 an Giblean 5021 BDE",
+  "date": "14 an Giblean 5029 BDE",
   "age": "I"
  },
  {
@@ -2675,10 +2675,10 @@
   "body": "Houses are built at Baile Mòr mhòr, on the northern plain, around a spring that never freezes. The settlement is large for the age: some eighty houses at its height.",
   "place": "burg:365",
   "kind": "founding",
-  "y": -4974,
+  "y": -4982,
   "m": 9,
   "d": 13,
-  "date": "13 an t-Sultain 4974 BDE",
+  "date": "13 an t-Sultain 4982 BDE",
   "age": "I"
  },
  {
@@ -2688,10 +2688,10 @@
   "body": "Households settle the rough ground at Baile gharbh and live by sheep, not cattle. Their wool goes south along the coast to the ford gathering.",
   "place": "burg:131",
   "kind": "founding",
-  "y": -4927,
+  "y": -4935,
   "m": 8,
   "d": 15,
-  "date": "15 an Lùnastal 4927 BDE",
+  "date": "15 an Lùnastal 4935 BDE",
   "age": "I"
  },
  {
@@ -2701,10 +2701,10 @@
   "body": "Settlers at Baile fhiadhaich build on the western coast where boars run in the thickets. Boar tusks are hung over their doors, and boar is their main meat for the rest of the age.",
   "place": "burg:134",
   "kind": "founding",
-  "y": -4880,
+  "y": -4888,
   "m": 7,
   "d": 17,
-  "date": "17 an t-Iuchar 4880 BDE",
+  "date": "17 an t-Iuchar 4888 BDE",
   "age": "I"
  },
  {
@@ -2714,10 +2714,10 @@
   "body": "Ròdaich households take up the harbour at Cuan shean on the west coast, next to an old landing whose builders are not known. The landing is reused without repair.",
   "place": "burg:282",
   "kind": "founding",
-  "y": -4833,
+  "y": -4840,
   "m": 6,
   "d": 18,
-  "date": "18 an t-Ògmhios 4833 BDE",
+  "date": "18 an t-Ògmhios 4840 BDE",
   "age": "I"
  },
  {
@@ -2727,10 +2727,10 @@
   "body": "A banked hill-fort is raised at Dùn chrom in the centre of the island, between the Red Hill and the hills of the vein. Its bank faces both ways.",
   "place": "burg:255",
   "kind": "building",
-  "y": -4786,
+  "y": -4793,
   "m": 1,
   "d": 7,
-  "date": "7 am Faoilleach 4786 BDE",
+  "date": "7 am Faoilleach 4793 BDE",
   "age": "I"
  },
  {
@@ -2740,10 +2740,10 @@
   "body": "Households settle on the ground below Làrach an Dùin-fhaire, where Cathair mhòr now stands. They take no stone from the ruin above them, though it would have been the nearest quarry.",
   "place": "burg:23",
   "kind": "founding",
-  "y": -4739,
+  "y": -4746,
   "m": 12,
   "d": 9,
-  "date": "9 an Dùbhlachd 4739 BDE",
+  "date": "9 an Dùbhlachd 4746 BDE",
   "age": "I"
  },
  {
@@ -2753,10 +2753,10 @@
   "body": "A hill called Cnoc naomh, the holy hill, is settled by households who come there for its spring. Why the hill was already called holy when they came is not known.",
   "place": "burg:318",
   "kind": "founding",
-  "y": -4692,
+  "y": -4698,
   "m": 11,
   "d": 10,
-  "date": "10 an t-Samhain 4692 BDE",
+  "date": "10 an t-Samhain 4698 BDE",
   "age": "I"
  },
  {
@@ -2766,10 +2766,10 @@
   "body": "The households that keep the beacon at Tobar dhearg build their settlement on the cape itself, round a well whose water runs reddish from the rock. It becomes the largest place on the south coast.",
   "place": "burg:398",
   "kind": "founding",
-  "y": -4644,
+  "y": -4651,
   "m": 10,
   "d": 12,
-  "date": "12 an Dàmhair 4644 BDE",
+  "date": "12 an Dàmhair 4651 BDE",
   "age": "I"
  },
  {
@@ -2779,10 +2779,10 @@
   "body": "A settlement is founded at Muileann naomh near the south coast, between the beacon at Tobar dhearg and the old Seann Skell. Its first houses are built on stilts over a marsh and later moved to firm ground.",
   "place": "burg:326",
   "kind": "founding",
-  "y": -4597,
+  "y": -4604,
   "m": 1,
   "d": 24,
-  "date": "24 am Faoilleach 4597 BDE",
+  "date": "24 am Faoilleach 4604 BDE",
   "age": "I"
  },
  {
@@ -2792,10 +2792,10 @@
   "body": "The south-eastern Ceann mhin is settled near Làrach an Dùin. Its people are the first to live in sight of the fortress ruin, and they will not go up to it.",
   "place": "burg:363",
   "kind": "founding",
-  "y": -4550,
+  "y": -4554,
   "m": 12,
   "d": 26,
-  "date": "26 an Dùbhlachd 4550 BDE",
+  "date": "26 an Dùbhlachd 4554 BDE",
   "age": "I"
  },
  {
@@ -2805,10 +2805,10 @@
   "body": "Ròdaich households take up the old harbour at the southern Seann Skell, keeping its old name. Within a few generations it is the busiest landing on the south coast.",
   "place": "burg:431",
   "kind": "founding",
-  "y": -4503,
+  "y": -4509,
   "m": 3,
   "d": 23,
-  "date": "23 am Màrt 4503 BDE",
+  "date": "23 am Màrt 4509 BDE",
   "age": "I"
  },
  {
@@ -2831,10 +2831,10 @@
   "body": "A few households settle at Inis mhin on the eastern coast. They live by eggs and birds from the cliffs, and trade feathers inland.",
   "place": "burg:221",
   "kind": "founding",
-  "y": -4409,
+  "y": -4415,
   "m": 5,
   "d": 20,
-  "date": "20 an Cèitean 4409 BDE",
+  "date": "20 an Cèitean 4415 BDE",
   "age": "I"
  },
  {
@@ -2844,10 +2844,10 @@
   "body": "Households settle on the hill at Muileann chaol, above the upper reaches of the rivers. The ground where the library stands now is a cattle-fold in this age.",
   "place": "burg:246",
   "kind": "founding",
-  "y": -4354,
+  "y": -4373,
   "m": 6,
   "d": 18,
-  "date": "18 an t-Ògmhios 4354 BDE",
+  "date": "18 an t-Ògmhios 4373 BDE",
   "age": "I"
  },
  {
@@ -2857,10 +2857,10 @@
   "body": "The households of Muileann chaol raise a cairn for each head of a household at his or her death, on the slope above the fold. Some forty cairns stand there by the end of the age.",
   "place": "marker:34",
   "kind": "death",
-  "y": -4315,
+  "y": -4320,
   "m": 7,
   "d": 17,
-  "date": "17 an t-Iuchar 4315 BDE",
+  "date": "17 an t-Iuchar 4320 BDE",
   "age": "I"
  },
  {
@@ -2870,10 +2870,10 @@
   "body": "A settlement grows up at Baile Mòr ruadh near the eastern Seann Dunn, on land its people call empty. The Seann Dunn middens lie a morning's walk away. The settlers do not dig into them.",
   "place": "burg:387",
   "kind": "founding",
-  "y": -4274,
+  "y": -4273,
   "m": 8,
   "d": 15,
-  "date": "15 an Lùnastal 4274 BDE",
+  "date": "15 an Lùnastal 4273 BDE",
   "age": "I"
  },
  {
@@ -2883,10 +2883,10 @@
   "body": "The Ròdaich of the eastern hills pass Làrach an Teampaill on their paths without stopping and without taking stone from it. A path is worn round it at a distance.",
   "place": "marker:33",
   "kind": "faith",
-  "y": -4221,
+  "y": -4226,
   "m": 9,
   "d": 13,
-  "date": "13 an t-Sultain 4221 BDE",
+  "date": "13 an t-Sultain 4226 BDE",
   "age": "I"
  },
  {
@@ -2896,10 +2896,10 @@
   "body": "At Ceann leathan the gathering by the wind-stones is ended with wrestling and stone-lifting. The heaviest lifting-stone, a black boulder, is still on the point, and few have raised it.",
   "place": "marker:37",
   "kind": "culture",
-  "y": -4174,
+  "y": -4178,
   "m": 10,
   "d": 12,
-  "date": "12 an Dàmhair 4174 BDE",
+  "date": "12 an Dàmhair 4178 BDE",
   "age": "I"
  },
  {
@@ -2909,10 +2909,10 @@
   "body": "The ford gathering at Muileann òg now draws households from every coast. Its ground is divided into places by custom: the salt people downstream, the hill people upstream, the flint people on the far bank.",
   "place": "marker:38",
   "kind": "trade",
-  "y": -4127,
+  "y": -4131,
   "m": 8,
   "d": 3,
-  "date": "3 an Lùnastal 4127 BDE",
+  "date": "3 an Lùnastal 4131 BDE",
   "age": "I"
  },
  {
@@ -2922,10 +2922,10 @@
   "body": "Axes of polished green stone from a quarry near Àth àrsaidh in the north-west turn up across the island. They are too fine for work, and most are found unused, in graves or under house floors.",
   "place": "burg:304",
   "kind": "trade",
-  "y": -4080,
+  "y": -4084,
   "m": 9,
   "d": 1,
-  "date": "1 an t-Sultain 4080 BDE",
+  "date": "1 an t-Sultain 4084 BDE",
   "age": "I"
  },
  {
@@ -2935,10 +2935,10 @@
   "body": "The green-stone quarry at Àth àrsaidh is worked by a few households who trade nothing else. The chips around it are knee-deep. The quarry is abandoned before the age ends, and the axes stop.",
   "place": "burg:304",
   "kind": "craft",
-  "y": -4033,
+  "y": -4036,
   "m": 4,
   "d": 13,
-  "date": "13 an Giblean 4033 BDE",
+  "date": "13 an Giblean 4036 BDE",
   "age": "I"
  },
  {
@@ -2948,10 +2948,10 @@
   "body": "Stepping-stones are laid across Abhainn fhionn at its shallows, the first made crossing of any river on the island. They are older than the first bridges and in places lie under them.",
   "place": "river:28",
   "kind": "building",
-  "y": -3986,
+  "y": -3989,
   "m": 3,
   "d": 15,
-  "date": "15 am Màrt 3986 BDE",
+  "date": "15 am Màrt 3989 BDE",
   "age": "I"
  },
  {
@@ -2961,10 +2961,10 @@
   "body": "A spate on Abhainn chaol takes a party of twelve crossing with salt at its fords. After it the crossing is not made in the wet season.",
   "place": "river:1",
   "kind": "disaster",
-  "y": -3939,
+  "y": -3942,
   "m": 6,
   "d": 10,
-  "date": "10 an t-Ògmhios 3939 BDE",
+  "date": "10 an t-Ògmhios 3942 BDE",
   "age": "I"
  },
  {
@@ -2974,10 +2974,10 @@
   "body": "The people of Ceann chiar, rebuilding after the Black Wind, set a stone in the middle of their settlement and cut on it one mark for every house lost: twenty-two.",
   "place": "burg:457",
   "kind": "record",
-  "y": -3892,
+  "y": -3894,
   "m": 5,
   "d": 12,
-  "date": "12 an Cèitean 3892 BDE",
+  "date": "12 an Cèitean 3894 BDE",
   "age": "I"
  },
  {
@@ -2987,10 +2987,10 @@
   "body": "The rivers of the eastern plain run low for a whole summer, and the households of Dùn ìseal and Muileann bhàn drive their cattle to the warm springs for water. The shared surplus holds; the record counts no deaths.",
   "place": "burg:502",
   "kind": "disaster",
-  "y": -3845,
+  "y": -3848,
   "m": 8,
   "d": 7,
-  "date": "7 an Lùnastal 3845 BDE",
+  "date": "7 an Lùnastal 3848 BDE",
   "age": "I"
  },
  {
@@ -3000,10 +3000,10 @@
   "body": "The sea comes in again over the low ground at Cnoc chaol, less far than the first time. The new houses were built higher up the slope, and none is lost.",
   "place": "zone:4",
   "kind": "disaster",
-  "y": -3798,
+  "y": -3800,
   "m": 7,
   "d": 9,
-  "date": "9 an t-Iuchar 3798 BDE",
+  "date": "9 an t-Iuchar 3800 BDE",
   "age": "I"
  },
  {
@@ -3013,10 +3013,10 @@
   "body": "The old crack at Cill ghlas moves again and the spring shifts back uphill. The line of white stones is found broken in two places and relaid.",
   "place": "zone:3",
   "kind": "disaster",
-  "y": -3751,
+  "y": -3753,
   "m": 10,
   "d": 4,
-  "date": "4 an Dàmhair 3751 BDE",
+  "date": "4 an Dàmhair 3753 BDE",
   "age": "I"
  },
  {
@@ -3026,10 +3026,10 @@
   "body": "Households settle on the northern shore at Cnoc bheag, a short walk from Carragh Cnoc bheag. They set their houses so that none has its door toward the stone.",
   "place": "burg:20",
   "kind": "founding",
-  "y": -3703,
+  "y": -3705,
   "m": 9,
   "d": 5,
-  "date": "5 an t-Sultain 3703 BDE",
+  "date": "5 an t-Sultain 3705 BDE",
   "age": "I"
  },
  {
@@ -3052,10 +3052,10 @@
   "body": "The wide field at Achadh mhòr, near the warm springs, is cleared and banked, the largest single field of the age. Its bank is laid with the stones of an older wall no one claims.",
   "place": "burg:395",
   "kind": "founding",
-  "y": -3609,
+  "y": -3611,
   "m": 11,
   "d": 2,
-  "date": "2 an t-Samhain 3609 BDE",
+  "date": "2 an t-Samhain 3611 BDE",
   "age": "I"
  },
  {
@@ -3078,10 +3078,10 @@
   "body": "Settlers at Achadh naomh in the north water their fields from a spring they will not build over, and carry the water in channels round it. The spring is fenced before any house is.",
   "place": "burg:145",
   "kind": "founding",
-  "y": -3515,
+  "y": -3516,
   "m": 6,
   "d": 5,
-  "date": "5 an t-Ògmhios 3515 BDE",
+  "date": "5 an t-Ògmhios 3516 BDE",
   "age": "I"
  },
  {
@@ -3091,10 +3091,10 @@
   "body": "Households settle at Caol gharbh on the north-east coast and fish the strait in skin boats. Their graves hold paddles laid beside the dead.",
   "place": "burg:443",
   "kind": "founding",
-  "y": -3474,
+  "y": -3473,
   "m": 3,
   "d": 10,
-  "date": "10 am Màrt 3474 BDE",
+  "date": "10 am Màrt 3473 BDE",
   "age": "I"
  },
  {
@@ -3104,10 +3104,10 @@
   "body": "A settlement grows up under the dark oaks at Doire chiar in the north. Its people pen pigs in the wood and drive them out to the acorns in the fall of the year.",
   "place": "burg:333",
   "kind": "founding",
-  "y": -3421,
+  "y": -3422,
   "m": 4,
   "d": 8,
-  "date": "8 an Giblean 3421 BDE",
+  "date": "8 an Giblean 3422 BDE",
   "age": "I"
  },
  {
@@ -3160,10 +3160,10 @@
   "body": "Households settle at Àth fhiadhaich on the south-east coast, by a ford where wild cattle cross. They catch the calves and raise them, and their herds are later the best on that coast.",
   "place": "burg:12",
   "kind": "founding",
-  "y": -3277,
+  "y": -3276,
   "m": 12,
   "d": 13,
-  "date": "13 an Dùbhlachd 3277 BDE",
+  "date": "13 an Dùbhlachd 3276 BDE",
   "age": "I"
  },
  {
@@ -3173,10 +3173,10 @@
   "body": "The point at Ceann àrsaidh on the central coast is settled by households from the Red Hill. They find an old landing there and name the place for it: the ancient headland.",
   "place": "burg:88",
   "kind": "founding",
-  "y": -3274,
-  "m": 8,
-  "d": 21,
-  "date": "21 an Lùnastal 3274 BDE",
+  "y": -3273,
+  "m": 9,
+  "d": 17,
+  "date": "17 an t-Sultain 3273 BDE",
   "age": "I"
  },
  {
@@ -3186,10 +3186,10 @@
   "body": "Households settle on the damp hill at Cnoc thais in the north-west and drain it with ditches. The ditches still carry water.",
   "place": "burg:269",
   "kind": "founding",
-  "y": -3274,
+  "y": -3273,
   "m": 9,
-  "d": 17,
-  "date": "17 an t-Sultain 3274 BDE",
+  "d": 19,
+  "date": "19 an t-Sultain 3273 BDE",
   "age": "I"
  },
  {
@@ -3199,10 +3199,10 @@
   "body": "Households settle Inis mhòr on the north-east coast, and live by the fish of its sheltered bay. Their houses are built in two rows facing each other, the oldest street on Rodos.",
   "place": "burg:17",
   "kind": "founding",
-  "y": -3274,
-  "m": 9,
-  "d": 19,
-  "date": "19 an t-Sultain 3274 BDE",
+  "y": -3273,
+  "m": 10,
+  "d": 16,
+  "date": "16 an Dàmhair 3273 BDE",
   "age": "I"
  },
  {
@@ -3212,10 +3212,10 @@
   "body": "Baile gheal, on the south-western plain, is founded around a house with white-limed walls. The lime is burned from shells from the old middens along the coast.",
   "place": "burg:232",
   "kind": "founding",
-  "y": -3274,
-  "m": 10,
-  "d": 16,
-  "date": "16 an Dàmhair 3274 BDE",
+  "y": -3254,
+  "m": 4,
+  "d": 27,
+  "date": "27 an Giblean 3254 BDE",
   "age": "I"
  },
  {
@@ -3226,9 +3226,9 @@
   "place": "burg:492",
   "kind": "founding",
   "y": -3254,
-  "m": 4,
-  "d": 27,
-  "date": "27 an Giblean 3254 BDE",
+  "m": 5,
+  "d": 26,
+  "date": "26 an Cèitean 3254 BDE",
   "age": "I"
  },
  {
@@ -3252,9 +3252,9 @@
   "place": "burg:19",
   "kind": "reign",
   "y": -3254,
-  "m": 6,
-  "d": 24,
-  "date": "24 an t-Ògmhios 3254 BDE",
+  "m": 7,
+  "d": 23,
+  "date": "23 an t-Iuchar 3254 BDE",
   "age": "I"
  },
  {
@@ -3303,10 +3303,10 @@
   "body": "Every household of the hills burns its handful of ore in the dark of the year, measured in a copy of the stone cup. The burning is done at once in every house, by agreement, so the colour shows on every hillside the same night.",
   "place": null,
   "kind": "faith",
-  "y": -3245,
+  "y": -3246,
   "m": 5,
   "d": 9,
-  "date": "9 an Cèitean 3245 BDE",
+  "date": "9 an Cèitean 3246 BDE",
   "age": "I"
  },
  {
@@ -3316,10 +3316,10 @@
   "body": "The household of the Cnoc dhubh trench, the one that crushed two diggers, refuses its handful of ore for as long as anyone remembers. It is the first household on record to choose not to burn at all.",
   "place": "burg:198",
   "kind": "faith",
-  "y": -3242,
+  "y": -3243,
   "m": 4,
   "d": 10,
-  "date": "10 an Giblean 3242 BDE",
+  "date": "10 an Giblean 3243 BDE",
   "age": "I"
  },
  {
@@ -3329,10 +3329,10 @@
   "body": "Catrìona Mhòr's people count the households of the hills by knots on a cord, a knot to a hearth. The cord from Dùn ìseal is said to have had some nine hundred knots. It is the largest count made on Rodos in this age.",
   "place": "burg:315",
   "kind": "record",
-  "y": -3239,
+  "y": -3240,
   "m": 10,
   "d": 4,
-  "date": "4 an Dàmhair 3239 BDE",
+  "date": "4 an Dàmhair 3240 BDE",
   "age": "I"
  },
  {
