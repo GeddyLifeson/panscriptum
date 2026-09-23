@@ -15,7 +15,9 @@ This pass:
   * names the ocean, islands and lake; the religions and their deities; the
     war; the regiments and fleets; the markers; the named routes; the zones;
     and the quest journey -- all in Ròdais, through rodais_engine;
-  * rewrites the English notes so they name places that exist on this map.
+  * rewrites the English notes so they name places that exist on this map;
+  * gives every burg the town features (citadel, walls, plaza, temple, shanty) its history
+    supports, from legendarium/burg_features.json.
 
 Descriptive notes stay in English, as the first pass left the Azgaar UI
 text (biomes, trade goods, unit types). Only names are Ròdais.
@@ -396,6 +398,14 @@ if m and m.group(2) != state['fullName']:
     changes.append(('state label', m.group(2), state['fullName']))
     svg = svg[:m.start()] + m.group(1) + state['fullName'] + m.group(3) + svg[m.end():]
 lines[L_SVG] = svg
+
+# ---------------------------------------------------------------- 10. town features from the history
+# citadel, walls, plaza, temple and shanty for every burg, from legendarium/burg_features.json (the
+# town plans Azgaar links to are drawn from these); see legendarium/burg_features.py
+sys.path.insert(0, os.path.join(HERE, 'legendarium'))
+from burg_features import apply as apply_burg_features, finish_records  # noqa: E402
+apply_burg_features(J[L_BURGS])
+finish_records(lines, J[L_BURGS])       # anchors of cleared ports out of the SVG; the fort group's town plan
 
 # ---------------------------------------------------------------- write
 for n, data in J.items():

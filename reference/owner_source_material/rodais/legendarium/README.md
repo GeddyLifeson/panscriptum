@@ -23,6 +23,8 @@ together, or as plain text in `LEGENDARIUM.md`.
 | `book/age_I..V.md` | The prose of each age. |
 | `appendices/*.md`, `appendices/houses.json` | The appendices; the houses' people are dated by the builder. |
 | `gazetteer/out_*.json` | Every burg: founding age, founders, history, what it is known for. `CONSISTENCY_LOG.md` records the checks against the map. |
+| `burg_features.json`, `burg_features.py` | Every burg's town features (citadel, walls, plaza, temple, shanty), each with its reason from the gazetteer, annals or appendices, and `"port": 0` for the 72 burgs whose map cell lies inland with no haven (Watabou would otherwise draw a sea on a random side). Azgaar builds each town's plan link to Watabou's generators from these flags. `python burg_features.py` writes them into `../Rodos_finished.map`, `../Rodos_Atlas/Rodos.map` and `world.json`: the burgs record, the saved anchor icons of the cleared ports, and a town plan for the fort group in the settings, and nothing else. `../finish_map.py` applies them too. |
+| `town_previews.json` | Every burg's town-plan link (Watabou's City or Village Generator), as the Atlas's own Azgaar builds it from the map. The forts get a citadel town with no walls or square. |
 | `build_book.py` | Assembles `LEGENDARIUM.md`; `../build_atlas.py` uses it for the Atlas. |
 
 ## How the dates are made

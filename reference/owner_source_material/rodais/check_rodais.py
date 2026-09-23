@@ -86,6 +86,13 @@ names = [o['name'] for n in (12, 15, 29, 30, 32, 35, 37, 38) for o in parsed[n] 
 check(all(R.normalize(x) == x for x in names), 'map: every name in Ròdais spelling (%d names)' % len(names))
 mflag = sorted({w for x in names for w in words(x) if R.check_agreement(w)})
 check(not mflag, 'map: every name obeys caol le caol (%s)' % (', '.join(mflag) or 'no exceptions'))
+feat = json.load(open(os.path.join(HERE, 'legendarium', 'burg_features.json'), encoding='utf-8'))
+live = [b for b in parsed[15] if isinstance(b, dict) and b.get('i') and not b.get('removed')]
+off = [b['i'] for b in live if str(b['i']) not in feat or any(b.get(k) != feat[str(b['i'])][k] for k in ('citadel', 'walls', 'plaza', 'temple', 'shanty'))
+       or ('port' in feat[str(b['i'])] and b.get('port'))]
+anchors = {int(i) for i in re.findall(r'<use id="anchor(\d+)" data-id="\1"', lines[5])}
+check(anchors == {b['i'] for b in live if b.get('port')}, 'map: a saved anchor icon for every port and for no other burg (%d)' % len(anchors))
+check(not off, 'map: every burg has the town features legendarium/burg_features.json gives it (%s)' % (', '.join(map(str, off[:8])) or '%d burgs' % len(live)))
 
 # 5. the legendarium: every event dated and in order, every reference resolves, every place is on the map
 LEG = os.path.join(HERE, 'legendarium')
