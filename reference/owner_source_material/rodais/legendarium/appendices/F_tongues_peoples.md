@@ -29,7 +29,7 @@ known.
 Seann Dunn ({{date:I-0010}}): limpet shell, seal bone and burnt weed, laid down over many
 lifetimes, with no tool in it shaped the way any later Ròdach shaped tools. After it come the
 notched net-weights of Seann Chwen, every stone cut with the same three strokes
-({{date:I-0011}}); the unmortared mole at Seann Skell on which every later harbour wall there
+({{date:I-0011}}); the unmortared mole at Seann Skell on which every later quay wall there
 stands ({{date:I-0012}}); the two hundred and twelve steps of Seann Bhral ({{date:I-0013}}); the
 stone boxes on Eilean dhearg to which the dead of Seann Vell were rowed ({{date:I-0014}}); the
 fish-channel of Seann Toll ({{date:I-0015}}); the shell causeway of Seann Warr, the first made road
@@ -38,8 +38,8 @@ on the island that can still be walked ({{date:I-0016}}); the fish-kilns of Sean
 boat, whose hulls are gone with any telling of where they went ({{date:I-0019}}).
 
 At their widest reach ({{date:I-0056}}) they held every coast of the island: the ten places whose
-names begin with *Seann*, and the islands off them. Their largest harbour was at the place now
-called Seann Skell.
+names begin with *Seann*, and the islands off them. Their largest landing was at the place now
+called Seann Skell, on the Abhainn naomh.
 
 **The ruins inland** are theirs by the oldest tellings. The telling of the counting of the
 dead ({{date:I-0091}}) names the Seann-Dhaoine as "the people who built Làrach an Dùin-fhaire and
@@ -112,7 +112,7 @@ teach in Ròdais "and it has no others" ({{date:V-0032}}), and the old apprentic
 when it was revived, was reserved for Ròdaich applicants only ({{date:V-0059}}).
 
 **The sea.** The Ròdaich have always been a coastal people as well as a mountain one. The largest
-towns on the map today are harbours, and the two largest carry a name older than Ròdais:
+towns on the map today stand on the sea or on the rivers that run down to it, and the two largest carry a name older than Ròdais:
 
 | Burg | Shire | Faith | Population |
 |---|---|---|---|
@@ -130,7 +130,7 @@ dhomhain, is five times its size.
 
 **The departed.** Part of the Ròdaich people is not on Rodos. Land was found across the water
 ({{date:III-0001}}); volunteers chose to go, by a vote "or something the later chronicles call a
-vote" ({{date:III-0003}}); the fleet set out, turning sunwise round the harbour, in the first year
+vote" ({{date:III-0003}}); the fleet set out, turning sunwise round the river pool at Seann Skell, in the first year
 of the Diosal Era ({{date:III-0023}}). A fragmentary report told of two landfalls, not one
 ({{date:III-0027}}), and of the thinning: cut off from the vein, "by the third generation abroad,
 nothing remains that Rodos would recognize" ({{date:III-0029}}). The departed are a people of the

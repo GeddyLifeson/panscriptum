@@ -510,7 +510,7 @@
   "id": "V-0063",
   "canon": false,
   "title": "The chandlers of Ceann àrsaidh",
-  "body": "The ship-chandlers of Ceann àrsaidh, on the southern coast east of the capital, take a guild charter and a monopoly of supplying the Crown's patrol boats. The monopoly outlasts the patrol boats.",
+  "body": "The ship-chandlers of Ceann àrsaidh, on the Abhainn fhionn east of the capital, take a guild charter and a monopoly of supplying the Crown's patrol boats. The monopoly outlasts the patrol boats.",
   "place": "burg:88",
   "kind": "craft"
  },
@@ -656,7 +656,7 @@
   "id": "V-0081",
   "canon": false,
   "title": "The chest from Inis bheag",
-  "body": "The chronicle clerks at Inis bheag on the north-east coast are shown a parish book going back before the humans' coming, kept in the Seann Spioradan house there. The keeper lets it be copied and not taken.",
+  "body": "The chronicle clerks at Inis bheag in the north-east are shown a parish book going back before the humans' coming, kept in the Seann Spioradan house there. The keeper lets it be copied and not taken.",
   "place": "burg:62",
   "kind": "record"
  },
@@ -926,7 +926,7 @@
   "id": "V-0114",
   "canon": false,
   "title": "Inis bhàn's fire",
-  "body": "Fire takes the warehouse quarter of Inis bhàn on the north-central coast and burns for two days. The town's Hawk house takes in the homeless. The fire-bell the town buys afterwards is the loudest in the kingdom.",
+  "body": "Fire takes the warehouse quarter of Inis bhàn on the Abhainn ìseal in the north-central country and burns for two days. The town's Hawk house takes in the homeless. The fire-bell the town buys afterwards is the loudest in the kingdom.",
   "place": "burg:371",
   "kind": "disaster"
  },
@@ -1305,8 +1305,8 @@
  {
   "id": "V-0161",
   "canon": false,
-  "title": "The Hawk port of Cnoc bheag",
-  "body": "Cnoc bheag, the largest town of the Hawk country, passes Cathair mhòr in population. Its harbour takes the grain of the north-central coast and its Hawk house is the richest of any faith outside the capital.",
+  "title": "The Hawk river port of Cnoc bheag",
+  "body": "Cnoc bheag, the largest town of the Hawk country, passes Cathair mhòr in population. Its river quays take the grain of the north-central country and its Hawk house is the richest of any faith outside the capital.",
   "place": "burg:20",
   "kind": "people"
  },
@@ -1339,7 +1339,7 @@
   "id": "V-0165",
   "canon": false,
   "title": "The school at Caol shean",
-  "body": "The Fèidh school takes a house at Caol shean, the largest town of its faith on the east coast, and begins to teach in the wet months, when the wood is too sodden for lectures. Its students copy the census note on the obsidian-touched and debate it openly.",
+  "body": "The Fèidh school takes a house at Caol shean, the largest town of its faith in the east, and begins to teach in the wet months, when the wood is too sodden for lectures. Its students copy the census note on the obsidian-touched and debate it openly.",
   "place": "burg:197",
   "kind": "faith"
  },
@@ -1492,7 +1492,7 @@
   "id": "V-0184",
   "canon": false,
   "title": "The Circus at Inis àrsaidh",
-  "body": "An Siorcas Siubhail Do-thuigsinn is recorded again, this time pitched on the common near Inis àrsaidh on the west coast. The magistrate who licenses it enters the acts as 'various' and the fee as paid.",
+  "body": "An Siorcas Siubhail Do-thuigsinn is recorded again, this time pitched on the common near Inis àrsaidh in the west. The magistrate who licenses it enters the acts as 'various' and the fee as paid.",
   "place": "marker:35",
   "kind": "culture"
  },
@@ -1894,7 +1894,7 @@
   "id": "V-0233",
   "canon": false,
   "title": "The eastern fishing grounds fail",
-  "body": "The herring do not come to the grounds off Seann Dunn for the second year together. Boats from the east coast go north to fish the grounds off Caol mhòr, which the licence law reserves to them, and the Tuathaich boats are pushed farther out.",
+  "body": "The herring do not come to the grounds off the mouth of the Abhainn chaol below Seann Dunn for the second year together. Boats from the east coast go north to fish the grounds off Caol mhòr, which the licence law reserves to them, and the Tuathaich boats are pushed farther out.",
   "place": "burg:18",
   "kind": "trade"
  },
@@ -2186,7 +2186,7 @@
   "id": "V-0269",
   "canon": false,
   "title": "Muileann dhearg closed",
-  "body": "The last working face under Muileann dhearg is closed. The town's remaining families are moved by the Board to Seann Toll on the coast, and Muileann dhearg is left with its chapel, its graves and a caretaker.",
+  "body": "The last working face under Muileann dhearg is closed. The town's remaining families are moved by the Board to Seann Toll on the Abhainn uaine, and Muileann dhearg is left with its chapel, its graves and a caretaker.",
   "place": "burg:491",
   "kind": "people"
  },
@@ -2194,7 +2194,7 @@
   "id": "V-0270",
   "canon": false,
   "title": "The Muileann dhearg families at Seann Toll",
-  "body": "The families from Muileann dhearg are settled in a new row at the edge of Seann Toll, which the town calls the Hewers' Row. Few of them find work at sea. Most work on the dubhan tanks at the harbour.",
+  "body": "The families from Muileann dhearg are settled in a new row at the edge of Seann Toll, which the town calls the Hewers' Row. Few of them find work on the boats. Most work on the dubhan tanks at the river landing.",
   "place": "burg:313",
   "kind": "people"
  },
@@ -2455,7 +2455,7 @@
   "id": "V-0302",
   "canon": false,
   "title": "Enforcers posted to the west",
-  "body": "A company of the Board's enforcers is posted at Seann Skell on the western coast to close the pits. Beathag nic Fhionnlaigh notes that it is the first armed company the kingdom has sent toward the north since the Severance.",
+  "body": "A company of the Board's enforcers is posted at Seann Skell in the west to close the pits. Beathag nic Fhionnlaigh notes that it is the first armed company the kingdom has sent toward the north since the Severance.",
   "place": "burg:489",
   "kind": "war"
  },
@@ -2463,7 +2463,7 @@
   "id": "V-0303",
   "canon": false,
   "title": "The enforcers' depot",
-  "body": "The enforcers at Seann Skell on the west coast build a dubhan depot for their lorries at the town's edge. The town's Scorpion house refuses to bless it, and the high custodian of the Rite sends a priest to do so instead.",
+  "body": "The enforcers at Seann Skell in the west build a dubhan depot for their lorries at the town's edge. The town's Scorpion house refuses to bless it, and the high custodian of the Rite sends a priest to do so instead.",
   "place": "burg:489",
   "kind": "war"
  },
@@ -2581,7 +2581,7 @@
   "id": "V-0317",
   "canon": false,
   "title": "The regiments go west",
-  "body": "The reformed regiments set out from Cathair dhearg by the western road, their carts and lorries running on dubhan, to join the enforcers at Seann Skell on the west coast.",
+  "body": "The reformed regiments set out from Cathair dhearg by the western road, their carts and lorries running on dubhan, to join the enforcers at Seann Skell in the west.",
   "place": "burg:489",
   "kind": "war",
   "between": [
@@ -2626,7 +2626,7 @@
   "id": "V-0321",
   "canon": false,
   "title": "An seachdamh rèisimeid raised",
-  "body": "The seventh regiment is raised from the levies of the west coast and stationed at Seann Skell, the port nearest the western hills. It holds the road behind the army and the field of Àth leathan.",
+  "body": "The seventh regiment is raised from the levies of the west coast and stationed at Seann Skell, the river port nearest the western hills. It holds the road behind the army and the field of Àth leathan.",
   "place": "burg:489",
   "kind": "war",
   "between": [
@@ -2675,7 +2675,7 @@
   "id": "V-0325",
   "canon": false,
   "title": "A' chiad rèisimeid raised",
-  "body": "The first regiment is raised at Inis mhòr, the port beside the capital, from the capital's own companies. It guards the council, the mint and the bridge over the Abhainn dhomhain.",
+  "body": "The first regiment is raised at Inis mhòr, the river port beside the capital, from the capital's own companies. It guards the council, the mint and the bridge over the Abhainn dhomhain.",
   "place": "burg:2",
   "kind": "war",
   "between": [
@@ -2831,7 +2831,7 @@
   "id": "V-0338",
   "canon": false,
   "title": "An siathamh rèisimeid raised",
-  "body": "The sixth regiment is raised at Cnoc bheag, the great port of the Hawk houses on the north-central coast. It holds the northern road between the Tuathaich shires and the middle of the island, and the Hawk houses bless its colours in their own order.",
+  "body": "The sixth regiment is raised at Cnoc bheag, the great river port of the Hawk houses in the north-central country. It holds the northern road between the Tuathaich shires and the middle of the island, and the Hawk houses bless its colours in their own order.",
   "place": "burg:20",
   "kind": "war",
   "between": [
@@ -2855,7 +2855,7 @@
   "id": "V-0340",
   "canon": false,
   "title": "An ceathramh rèisimeid raised",
-  "body": "The fourth regiment is raised at Caol bheag on the north-east coast. It is shipped west round the north coast in hired dubhan hulls and landed at Ceann mhòr in the Tuathaich north.",
+  "body": "The fourth regiment is raised at Caol bheag in the north-east. It goes down the Abhainn ghorm to Ros chiar and is shipped west round the north coast in hired dubhan hulls and landed at Ceann mhòr in the Tuathaich north.",
   "place": "burg:475",
   "kind": "war",
   "between": [
@@ -2891,7 +2891,7 @@
   "id": "V-0343",
   "canon": false,
   "title": "An t-ochdamh rèisimeid raised",
-  "body": "The eighth regiment is raised at Inis uaine on the east coast to guard the dubhan depots and tanks of the eastern ports, which the council fears the holdouts might fire.",
+  "body": "The eighth regiment is raised at Inis uaine on the Abhainn chaol in the east to guard the dubhan depots and tanks of the eastern ports, which the council fears the holdouts might fire.",
   "place": "burg:103",
   "kind": "war",
   "between": [
@@ -2939,7 +2939,7 @@
   "id": "V-0347",
   "canon": false,
   "title": "An naoidheamh rèisimeid raised",
-  "body": "The ninth regiment is raised at Seann Skell on the southern coast, the second of that name in the regimental list, to guard the dubhan works the shipmasters built there. The regimental clerks tell the two apart by their coasts.",
+  "body": "The ninth regiment is raised at Seann Skell on the southern coast, the second of that name in the regimental list, to guard the dubhan works the shipmasters built there. The regimental clerks tell the two apart by river and coast.",
   "place": "burg:431",
   "kind": "war",
   "between": [

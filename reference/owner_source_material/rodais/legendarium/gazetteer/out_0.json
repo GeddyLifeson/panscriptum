@@ -8,7 +8,7 @@
  "2": {
   "founded_age": "III",
   "founded_by": "boatmen of Seann Vell",
-  "history": "An island harbour settled in the long quiet centuries by boatmen from the Seann Vell shore, Inis mhòr was walled once the capital's eastern approaches became worth defending. A' chiad rèisimeid, raised in the campaign of An Cogadh Fada, is stationed here and bears the town's name. Its barracks now outsize the old fishing quarter, and it lies within sight of the temple harbour of Cuan uaine.",
+  "history": "An island town on the Abhainn fhionn, settled in the long quiet centuries by boatmen from Seann Vell upriver, Inis mhòr was walled once the capital's eastern approaches became worth defending. A' chiad rèisimeid, raised in the campaign of An Cogadh Fada, is stationed here and bears the town's name. Its barracks now outsize the old fishing quarter, and it lies within sight of the temple town of Cuan uaine, a little downriver; what it ships goes down the river to Cathair dhomhain.",
   "known_for": "barracks of the First Regiment"
  },
  "3": {
@@ -31,9 +31,9 @@
  },
  "6": {
   "founded_age": "III",
-  "founded_by": "coasting traders of the northern shore",
-  "history": "Cuan bheag, the small harbour, was a fishing water until the Age of Strangers, when human ships wanted a sheltered anchorage on this side of the island and made it busy. The restored kingdom built its citadel to watch the northern approaches, and the town has since become one of the larger ports of the province. Its people keep the capital's faith of the Dark Unicorn.",
-  "known_for": "sheltered harbour and the northern watch"
+  "founded_by": "river traders of the northern country",
+  "history": "Cuan bheag, the small harbour, is a river port on the upper Abhainn ìseal. It was a fishing water until the Age of Strangers, when human traders wanted a sheltered mooring on this side of the island, with the river open to the sea at Ros gheal, and made it busy. The restored kingdom built its citadel to watch the northern approaches, and the town has since become one of the larger river ports of the province. Its people keep the capital's faith of the Dark Unicorn.",
+  "known_for": "sheltered river mooring and the northern watch"
  },
  "7": {
   "founded_age": "II",
@@ -55,9 +55,9 @@
  },
  "10": {
   "founded_age": "III",
-  "founded_by": "fishers of the eastern gulf",
-  "history": "Cuan dhearg is one of the ring of small harbours on the gulf below Cathair mhòr, named for the red cliffs over its anchorage. It lives on the fish and the short ferry runs between the gulf towns, and has never been walled. It is not the southern Cuan dhearg that Tonn Mhòr destroyed; the chroniclers have confused the two more than once.",
-  "known_for": "red-cliffed gulf harbour and ferries"
+  "founded_by": "river fishers of the Abhainn uaine",
+  "history": "Cuan dhearg is one of the ring of small river towns on the Abhainn uaine above Cathair mhòr, named for the red cliffs over its landing. It lives on the river fish and the short ferry runs between the river towns, and sends what it has for the sea down to Ceann leathan at the river mouth. It has never been walled. It is not the southern Cuan dhearg that Tonn Mhòr destroyed; the chroniclers have confused the two more than once.",
+  "known_for": "red-cliffed river landing and ferries"
  },
  "11": {
   "founded_age": "II",
@@ -97,14 +97,14 @@
  },
  "17": {
   "founded_age": "II",
-  "founded_by": "net-fishers of the north-eastern coast",
-  "history": "Inis mhòr of the north-east is the great island harbour of its province, a fishing town of the Holy Age that became a city under the Age of Strangers' trade. Its people follow Feallsanachd an Fhèidh, and the town's debating halls were among the first to reopen at the school's revival. It shares the coastal trade with Ceann bheag and the walled town of Baile Mòr dhìreach inland.",
-  "known_for": "north-eastern fishing fleet and debating halls"
+  "founded_by": "net-fishers of the Abhainn ghorm",
+  "history": "Inis mhòr of the north-east is the great river port of its province, on the Abhainn ghorm, a fishing town of the Holy Age that became a city under the Age of Strangers' trade; its barges run down the river to Ros chiar at the mouth. Its people follow Feallsanachd an Fhèidh, and the town's debating halls were among the first to reopen at the school's revival. It shares the river and coastal trade with Ceann bheag and the walled town of Baile Mòr dhìreach inland.",
+  "known_for": "north-eastern river fleet and debating halls"
  },
  "18": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "Seann Dunn keeps a Seann-Dhaoine name, and its citadel stands on footings no Ròdaich mason laid. It is the harbour and lodging-place for those who visit Làrach an Teampaill in the hills to the north, and its own temple serves the ancestor rite. An Taigh-seinnse Òir, one of the great taverns of the old mining circuit, stands in the town itself.",
+  "history": "Seann Dunn keeps a Seann-Dhaoine name, and its citadel stands on footings no Ròdaich mason laid. It stands on the Abhainn chaol a little above the river mouth, and is the river landing and lodging-place for those who visit Làrach an Teampaill in the hills to the north, whose ships put in at Seann Mhorn down the coast; its own temple serves the ancestor rite. An Taigh-seinnse Òir, one of the great taverns of the old mining circuit, stands in the town itself.",
   "known_for": "An Taigh-seinnse Òir and the temple road"
  },
  "19": {
@@ -115,8 +115,8 @@
  },
  "20": {
   "founded_age": "II",
-  "founded_by": "hill kindreds of the north-central coast",
-  "history": "Cnoc bheag is the small hill only in name: it is the largest town of the north-central coast and the heart of the Hawk's congregations. The standing stone Carragh Cnoc bheag, carved 'there was fire in the stone', stands a short walk to the south, and the town's older families say their fathers' fathers found it there. A' Phlàigh Uaine, the Green Death, struck the town in the Age of Strangers. Since the Severance it has faced the Tuathaich border, and An siathamh rèisimeid, raised in An Cogadh Fada, is stationed here under the town's name.",
+  "founded_by": "hill kindreds of the north-central country",
+  "history": "Cnoc bheag is the small hill only in name: it is the largest town of the north-central country, a river port on the Abhainn ìseal whose barges run down to Ros gheal on the coast, and the heart of the Hawk's congregations. The standing stone Carragh Cnoc bheag, carved 'there was fire in the stone', stands a short walk to the south, and the town's older families say their fathers' fathers found it there. A' Phlàigh Uaine, the Green Death, struck the town in the Age of Strangers. Since the Severance it has faced the Tuathaich border, and An siathamh rèisimeid, raised in An Cogadh Fada, is stationed here under the town's name.",
   "known_for": "the carved stone and the Sixth Regiment"
  },
  "21": {
@@ -146,7 +146,7 @@
  "25": {
   "founded_age": "III",
   "founded_by": "the garrison of Cnoc bheag",
-  "history": "Inis ìseal is a low island off Cnoc bheag, fortified in the long quiet centuries to guard that town's harbour and walled again in the Age of Strangers. Since the Severance it has been a frontier fortress, facing the Tuathaich coast across the water. The Green Death, A' Phlàigh Uaine, struck its garrison in the Age of Strangers, and it is a city by rank and a barracks in practice.",
+  "history": "Inis ìseal is a low island in the Abhainn ìseal above Cnoc bheag, fortified in the long quiet centuries to guard that town's river and walled again in the Age of Strangers. Since the Severance it has been a frontier fortress facing the Tuathaich border, supplied by boats that come up the river from Ros gheal. The Green Death, A' Phlàigh Uaine, struck its garrison in the Age of Strangers, and it is a city by rank and a barracks in practice.",
   "known_for": "island fortress guarding Cnoc bheag"
  },
  "26": {
@@ -257,9 +257,9 @@
  },
  "43": {
   "founded_age": "III",
-  "founded_by": "pilots of the eastern coast",
-  "history": "Ceann ghorm, the blue headland, is a harbour town of the eastern coast whose pilots have long guided ships into the waters of Ros fhionn and Seann Dunn. It was founded in the long quiet centuries and grew in the Age of Strangers. Its people follow Feallsanachd an Fhèidh.",
-  "known_for": "pilots of the eastern coast"
+  "founded_by": "river pilots of the east",
+  "history": "Ceann ghorm, the blue headland, is a river town on the Abhainn chaol in the east whose pilots have long guided boats up from Seann Mhorn on the coast to the landings of Seann Dunn and Ros fhionn. It was founded in the long quiet centuries and grew in the Age of Strangers. Its people follow Feallsanachd an Fhèidh.",
+  "known_for": "river pilots of the Abhainn chaol"
  },
  "44": {
   "founded_age": "II",
@@ -330,8 +330,8 @@
  "55": {
   "founded_age": "II",
   "founded_by": "Ròdaich fishers of the west",
-  "history": "Inis àrsaidh is an island harbour of the west coast, founded in the Holy Age. It was the nearest port to the field of Àth leathan, and in An Cogadh Fada it supplied the state's forces for the first battle. Its fairground is one of the two grounds where the travelling circus, An Siorcas Siubhail Do-thuigsinn, pitches.",
-  "known_for": "harbour near the field of Àth leathan"
+  "history": "Inis àrsaidh is an island town on the Abhainn naomh in the west, founded in the Holy Age; its ships put to sea from Ros àrsaidh at the river mouth. It was the nearest river port to the field of Àth leathan, and in An Cogadh Fada it supplied the state's forces for the first battle. Its fairground is one of the two grounds where the travelling circus, An Siorcas Siubhail Do-thuigsinn, pitches.",
+  "known_for": "river port near the field of Àth leathan"
  },
  "56": {
   "founded_age": "II",
@@ -341,9 +341,9 @@
  },
  "57": {
   "founded_age": "II",
-  "founded_by": "Ròdaich harbour-folk of the east",
-  "history": "Ros fhionn of Caol shean is a citadel harbour on the eastern coast, near the stream of Allt an Àigh. It is where most pilgrims to the stream land, and its citadel was raised in the Age of Sundering to guard them. It is not the Ros fhionn of the old bridge, which lies to the north.",
-  "known_for": "harbour of the Allt an Àigh pilgrims"
+  "founded_by": "Ròdaich river-folk of the east",
+  "history": "Ros fhionn of Caol shean is a citadel town on the Abhainn chaol in the east, near the stream of Allt an Àigh. It is where most pilgrims to the stream come ashore from the river boats that bring them up from Seann Mhorn, and its citadel was raised in the Age of Sundering to guard them. It is not the Ros fhionn of the old bridge, which lies to the north.",
+  "known_for": "river landing of the Allt an Àigh pilgrims"
  },
  "58": {
   "founded_age": "IV",
@@ -376,7 +376,7 @@
  "62": {
   "founded_age": "II",
   "founded_by": "boat-builders of the north-east",
-  "history": "Inis bheag is an island harbour of the north-east and the seat of its province. Its boatyards have built fishing craft for the coast since the Holy Age. It follows Feallsanachd an Fhèidh and shares its waters with Ros fhionn of the old bridge.",
+  "history": "Inis bheag is an island town on the Abhainn bheag in the north-east and the seat of its province. Its boatyards have built fishing craft for the coast since the Holy Age and send them down the river to the sea at Caol chrom. It follows Feallsanachd an Fhèidh and shares its river with Ros fhionn of the old bridge.",
   "known_for": "boatyards of the small isle"
  },
  "63": {
@@ -460,7 +460,7 @@
  "76": {
   "founded_age": "II",
   "founded_by": "custodians of the river crossing",
-  "history": "Ros fhionn of Inis bheag is a walled city on a headland, founded in the Holy Age where the first bridges crossed the river. Drochaid Ros fhionn, the old crossing, is still standing but has seen little traffic since the local trade dried up. Its temple is a hall of Feallsanachd an Fhèidh.",
+  "history": "Ros fhionn of Inis bheag is a walled city on a headland over the Abhainn bheag, founded in the Holy Age where the first bridges crossed the river. Drochaid Ros fhionn, the old crossing, is still standing but has seen little traffic since the local trade dried up. Its temple is a hall of Feallsanachd an Fhèidh.",
   "known_for": "Drochaid Ros fhionn, the old bridge"
  },
  "77": {
@@ -535,9 +535,9 @@
  },
  "88": {
   "founded_age": "II",
-  "founded_by": "Ròdaich harbour-folk of the east",
-  "history": "Ceann àrsaidh is a walled harbour city on an ancient headland east of the capital. It has been a port since the Holy Age and the gateway to the eastern sea road. An Taigh-seinnse Mòr stands on the road to the west.",
-  "known_for": "ancient headland on the eastern ship road"
+  "founded_by": "Ròdaich river-folk of the east",
+  "history": "Ceann àrsaidh is a walled river city on an ancient headland over the Abhainn fhionn, east of the capital. It has been a river port since the Holy Age, and its barges run down to Cathair dhomhain at the river mouth, the gateway to the eastern sea road. An Taigh-seinnse Mòr stands on the road to the west.",
+  "known_for": "ancient headland on the river road to the eastern sea"
  },
  "89": {
   "founded_age": "III",
@@ -590,8 +590,8 @@
  "97": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "Seann Vell of Baile mhin is a small harbour on a Seann-Dhaoine site in the north-east, resettled by the Ròdaich in the Holy Age. It lives on the seal-hunt and the fishing. It follows Feallsanachd an Fhèidh.",
-  "known_for": "old harbour stones and seal-hunters"
+  "history": "Seann Vell of Baile mhin is a small river landing on a Seann-Dhaoine site on the Abhainn bheag in the north-east, a short way above the river mouth at Caol chrom, resettled by the Ròdaich in the Holy Age. It lives on the seal-hunt at the river mouth and the fishing. It follows Feallsanachd an Fhèidh.",
+  "known_for": "old landing stones and seal-hunters"
  },
  "98": {
   "founded_age": "V",
@@ -612,8 +612,8 @@
  "100": {
   "founded_age": "III",
   "founded_by": "fishers of the west",
-  "history": "Àth chrom, the bent ford, is a harbour town at a river mouth on the west coast. It was founded in the long quiet centuries. Since An Cogadh Fada, troops of the regiment named for Seann Skell have been quartered close by.",
-  "known_for": "bent ford at the river mouth"
+  "history": "Àth chrom, the bent ford, is a river town at a bend of the Abhainn naomh in the west, below Seann Skell, whose boats go down to the sea at Ros àrsaidh. It was founded in the long quiet centuries. Since An Cogadh Fada, troops of the regiment named for Seann Skell have been quartered close by.",
+  "known_for": "bent ford on the lower Abhainn naomh"
  },
  "101": {
   "founded_age": "IV",
@@ -633,15 +633,15 @@
  },
  "103": {
   "founded_age": "III",
-  "founded_by": "boatmen of the eastern coast",
-  "history": "Inis uaine is a harbour town on a green island of the eastern coast, founded in the long quiet centuries. After An Cogadh Fada, An t-ochdamh rèisimeid was stationed here and took the town's name, and the barracks have changed the town's trade from fish to soldiers' wants. It keeps the ancestor rite.",
+  "founded_by": "boatmen of the Abhainn chaol",
+  "history": "Inis uaine is a river town on a green island in the Abhainn chaol in the east, founded in the long quiet centuries; its boats go down to the sea at Seann Mhorn. After An Cogadh Fada, An t-ochdamh rèisimeid was stationed here and took the town's name, and the barracks have changed the town's trade from fish to soldiers' wants. It keeps the ancestor rite.",
   "known_for": "barracks of the Eighth Regiment"
  },
  "104": {
   "founded_age": "II",
   "founded_by": "Ròdaich custodians of the capital's east",
-  "history": "Cuan uaine, the green harbour, is a walled temple city east of the capital, fortified in the Holy Age to guard the eastern shore. Its temple of the Dark Unicorn is much visited by those who cannot reach the capital's. The barracks harbour of Inis mhòr lies just to the north.",
-  "known_for": "the green harbour's temple of Uallach"
+  "history": "Cuan uaine, whose name means the green harbour, is a walled temple city on the Abhainn fhionn east of the capital, fortified in the Holy Age to guard the river road to the eastern shore. Its temple of the Dark Unicorn is much visited by those who cannot reach the capital's. The barracks town of Inis mhòr lies just upriver to the north.",
+  "known_for": "the temple of Uallach on the Abhainn fhionn"
  },
  "105": {
   "founded_age": "III",
@@ -857,8 +857,8 @@
  },
  "137": {
   "founded_age": "II",
-  "founded_by": "millers of the capital shore",
-  "history": "Muileann mhin is a large harbour town east of the capital and the seat of its province. Its flour mills have fed the capital since the Holy Age. It keeps the capital's faith and ships its flour along the shore to Cathair dhearg and Ros dhomhain.",
+  "founded_by": "millers of the capital country",
+  "history": "Muileann mhin is a large river town on the Abhainn fhionn east of the capital and the seat of its province. Its flour mills have fed the capital since the Holy Age. It keeps the capital's faith and ships its flour down the river to Cathair dhomhain and along the shore to Cathair dhearg and Ros dhomhain.",
   "known_for": "the capital's flour mills"
  },
  "138": {
@@ -899,9 +899,9 @@
  },
  "144": {
   "founded_age": "II",
-  "founded_by": "Ròdaich harbour-folk of the north-east",
-  "history": "Baile mhin is a harbour town of the north-east and the seat of its province, founded in the Holy Age. Its harbour is sheltered and its trade steady. It follows Feallsanachd an Fhèidh, and the old harbour of Seann Vell lies within its province.",
-  "known_for": "smooth harbour of the north-east"
+  "founded_by": "Ròdaich river-folk of the north-east",
+  "history": "Baile mhin is a river town on the Abhainn bheag in the north-east and the seat of its province, founded in the Holy Age. Its quays are sheltered and its trade steady, and its barges go down to Caol chrom at the river mouth. It follows Feallsanachd an Fhèidh, and the old landing of Seann Vell lies within its province.",
+  "known_for": "sheltered river quays of the north-east"
  },
  "145": {
   "founded_age": "II",
@@ -1020,8 +1020,8 @@
  "162": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "Seann Vell of the capital's east is a walled harbour on a Seann-Dhaoine site and the seat of its province. It was resettled by the Ròdaich in the Holy Age. An Taigh-seinnse Mòr stands just east of it, at the quay of Cuan chrom.",
-  "known_for": "walled harbour on the Cuan chrom road"
+  "history": "Seann Vell of the capital's east is a walled river town on a Seann-Dhaoine site on the Abhainn fhionn and the seat of its province. It was resettled by the Ròdaich in the Holy Age. An Taigh-seinnse Mòr stands just east of it, at the river quay of Cuan chrom.",
+  "known_for": "walled river town on the Cuan chrom road"
  },
  "163": {
   "founded_age": "III",

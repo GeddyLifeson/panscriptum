@@ -72,10 +72,10 @@ afterward, by others, and means only that they were before. Yet they held the sh
 than the Ròdaich have held their kingdom.
 
 At Seann Chwen they sank their nets with beach stones, and every stone was notched with the same
-three strokes: the earliest mark on Rodos repeated on purpose. At Seann Skell they laid a breakwater
-of unmortared boulders, and every harbour wall built there since stands upon it. At Seann Bhral they
+three strokes: the earliest mark on Rodos repeated on purpose. At Seann Skell they laid a mole
+of unmortared boulders out into the river, and every quay wall built there since stands upon it. At Seann Bhral they
 cut two hundred and twelve steps up the cliff, and the treads are worn hollow; no one has counted how
-many feet that took. At Seann Toll they cut a channel into a tidal pool with a slot for a gate of
+many feet that took. At Seann Toll they cut a channel into a river pool with a slot for a gate of
 wattle, and the slot is still sharp. At Seann Warr they laid a road of crushed shell across the salt
 marsh, the first made road on the island that can still be walked. At Seann Mhorn they built seven
 fish-kilns, the first buildings on Rodos made for a trade rather than for sleeping or for the dead.
@@ -103,7 +103,7 @@ the height of a man, and a curved second mole at the northern Seann Skell, built
 the first.
 
 At their height, in {{year:I-0056}}, they held every coast: the ten places whose
-names begin with *Seann*, and the islands off them, and their greatest harbour was Seann Skell. At
+names begin with *Seann*, and the islands off them, and their greatest landing was Seann Skell, on the Abhainn naomh. At
 the warm springs of Fuarain Theth Muileann ruadh they set stone basins, and the bones buried nearby
 show old breaks that knitted clean. It is the first place on Rodos where the sick were brought to be
 made well. Let that be remembered of them also.
@@ -327,9 +327,9 @@ record says:
 
 For the hill-folk went on calling the Old Ones' places by the Old Ones' names, putting only their own
 word for *old* in front: Seann Dunn, Seann Chwen, Seann Skell and the rest. They translated nothing,
-and the roots are still not understood. Hill-folk families came down and settled the empty harbour at
+and the roots are still not understood. Hill-folk families came down the Abhainn naomh and settled the empty river harbour at
 Seann Skell, using the old mole and mending none of it: the first time they are known to have lived by
-the sea. Long after, a wind-name was cut in the Ròdaich manner on a boulder at the central Seann Chwen,
+the water. Long after, a wind-name was cut in the Ròdaich manner on a boulder at the central Seann Chwen,
 over an older mark of the Seann-Dhaoine, and there the marks of the two peoples lie one upon the other.
 When diggers at Tuam Cnoc dhìreach broke into a grave lined in the Seann-Dhaoine way, they closed it and
 moved their row. When households at the eastern Seann Dunn cut into the midden there and found the tally

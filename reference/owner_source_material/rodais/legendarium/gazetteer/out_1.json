@@ -44,13 +44,13 @@
  "177": {
   "founded_age": "III",
   "founded_by": "farmers from Inis bheag",
-  "history": "Rough ground behind the port of Inis bheag, broken to the plough in the long centuries after the Sundering fleet had gone. It feeds the harbour and the fishing fleet, and it has grown larger than many towns while keeping the name and customs of a village. The Feallsanachd an Fhèidh has a strong following among its farmers, who are said to argue philosophy over the furrow.",
+  "history": "Rough ground behind the river port of Inis bheag, broken to the plough in the long centuries after the Sundering fleet had gone. It feeds the river port and its fishing boats, and it has grown larger than many towns while keeping the name and customs of a village. The Feallsanachd an Fhèidh has a strong following among its farmers, who are said to argue philosophy over the furrow.",
   "known_for": "stony fields that feed Inis bheag"
  },
  "178": {
   "founded_age": "III",
   "founded_by": "shepherds of the Cuan ghlas hills",
-  "history": "A damp hill-town above the harbour of Cuan ghlas, its name taken from the mists that sit on it most mornings. It was never walled and never fought over, and its people send wool and cheese down to the harbour and to Cnoc chiar. A small philosophers' house of Feallsanachd an Fhèidh keeps the only books in the place.",
+  "history": "A damp hill-town above the river port of Cuan ghlas, its name taken from the mists that sit on it most mornings. It was never walled and never fought over, and its people send wool and cheese down to the river quays and to Cnoc chiar. A small philosophers' house of Feallsanachd an Fhèidh keeps the only books in the place.",
   "known_for": "mist, wool and hill cheese"
  },
  "179": {
@@ -62,8 +62,8 @@
  "180": {
   "founded_age": "II",
   "founded_by": "custodians of the eastern headland",
-  "history": "A small city on a deep-water headland, with a citadel that looks out to sea and back toward the mountain roads. Ships put in here for the library town of Muileann chaol, whose scholars and copyists travel through its gate, and its harbour-masters have long kept a copy of every cargo list for the Leabharlann. The Feallsanachd an Fhèidh holds the city, and its scholars are counted among the library's oldest correspondents.",
-  "known_for": "the library's harbour and cargo registers"
+  "history": "A small city on a headland over a deep reach of the Abhainn naomh, with a citadel that looks down the river toward the sea and back toward the mountain roads. River boats put in here with the cargoes landed at Ceann mhin, at the river mouth, for the library town of Muileann chaol, whose scholars and copyists travel through its gate, and its quay-masters have long kept a copy of every cargo list for the Leabharlann. The Feallsanachd an Fhèidh holds the city, and its scholars are counted among the library's oldest correspondents.",
+  "known_for": "the library's river landing and cargo registers"
  },
  "181": {
   "founded_age": "II",
@@ -90,7 +90,7 @@
    1830
   ],
   "founded_by": "Ròdaich miners under contract",
-  "history": "A crooked hill-town raised when the extraction contracts pushed the diggings out from the central mountains toward the coast. Its walls were thrown up against the raids of the troubles before the war, and the shafts beneath it gave out before the Severance. It is now a small town of Feallsanachd an Fhèidh that sends its young to the harbour at Ros fhionn.",
+  "history": "A crooked hill-town raised when the extraction contracts pushed the diggings out from the central mountains toward the coast. Its walls were thrown up against the raids of the troubles before the war, and the shafts beneath it gave out before the Severance. It is now a small town of Feallsanachd an Fhèidh that sends its young to the river port at Ros fhionn.",
   "known_for": "abandoned shafts beneath a walled hill"
  },
  "185": {
@@ -167,9 +167,9 @@
  },
  "197": {
   "founded_age": "II",
-  "founded_by": "the strait-fishers of the east coast",
-  "history": "An old harbour on the eastern strait and one of the great ports of the island, seat of Siorrachd Caol shean. It shipped the ore of the central mountains when the extraction was at its height and now ships dubhan and grain. The spring of Allt an Àigh lies in its hinterland, and pilgrims to it land here; the town follows Feallsanachd an Fhèidh.",
-  "known_for": "the great eastern harbour, pilgrims' landing"
+  "founded_by": "the river-fishers of the east",
+  "history": "An old river port on the narrows of the Abhainn ìseal, above its meeting with the Abhainn chaol, and one of the great river ports of the island, seat of Siorrachd Caol shean. It sent the ore of the central mountains down the river to Seann Mhorn when the extraction was at its height, and now sends dubhan and grain the same way. The spring of Allt an Àigh lies in its hinterland, and pilgrims to it come up the river and land here; the town follows Feallsanachd an Fhèidh.",
+  "known_for": "the great eastern river port, pilgrims' landing"
  },
  "198": {
   "founded_age": "III",
@@ -196,7 +196,7 @@
  "201": {
   "founded_age": "II",
   "founded_by": "oak-cutters of the capital's forests",
-  "history": "A long oak grove west of the capital cut for ship-timber since the Holy Age, and the shipwrights who built the Sundering fleet are said to have taken their keels here. The village grew enormous without changing its name, and it is now the seat of Siorrachd Doire fhada and a harbour of the capital's faith. The grove itself is mostly gone, and the village keeps one old oak fenced by the quay.",
+  "history": "A long oak grove east of the capital cut for ship-timber since the Holy Age, and the shipwrights who built the Sundering fleet are said to have taken their keels here. The village grew enormous without changing its name, and it is now the seat of Siorrachd Doire fhada and a river port of the capital's faith on the Abhainn fhionn. The grove itself is mostly gone, and the village keeps one old oak fenced by the river quay.",
   "known_for": "ship-timber and the fenced oak"
  },
  "202": {
@@ -208,7 +208,7 @@
  "203": {
   "founded_age": "III",
   "founded_by": "the tavern-keepers of the white headland",
-  "history": "A walled port on a pale headland with the famous tavern An Sligeanach Fad' às at its gate, where travellers eat dried venison. It grew around the tavern road, and its walls went up in the troubles, when the roadside houses became militia posts. It keeps the old spirits and trades with the great village of Achadh mhòr inland.",
+  "history": "A walled river port on a pale headland where the Abhainn gheal meets the Abhainn bhàn, with the famous tavern An Sligeanach Fad' às at its gate, where travellers eat dried venison. It grew around the tavern road, and its walls went up in the troubles, when the roadside houses became militia posts. It keeps the old spirits, trades with the great village of Achadh mhòr close by, and sends its goods down the Abhainn bhàn to Seann Warr on the coast.",
   "known_for": "An Sligeanach Fad' às and dried venison"
  },
  "204": {
@@ -327,9 +327,9 @@
  },
  "223": {
   "founded_age": "II",
-  "founded_by": "the harbour-lords of the inner coast",
-  "history": "An ancient harbour facing Cuan bheag across the water, trading grain from the fields around Baile fhiadhaich since the Holy Age. The Green Death, A' Phlàigh Uaine, struck the harbour in the Age of Strangers. It follows the capital's faith of the Dark Unicorn. Its breakwater is held to be the oldest on the island still in use, and it is patched each generation rather than rebuilt.",
-  "known_for": "the island's oldest working breakwater"
+  "founded_by": "the river-lords of the Abhainn ìseal",
+  "history": "An ancient river port a little below Cuan bheag on the Abhainn ìseal, trading grain from the fields around Baile fhiadhaich since the Holy Age. The Green Death, A' Phlàigh Uaine, struck the town in the Age of Strangers. It follows the capital's faith of the Dark Unicorn. Its stone jetty is held to be the oldest on the island still in use, and it is patched each generation rather than rebuilt.",
+  "known_for": "the island's oldest working jetty"
  },
  "224": {
   "founded_age": "III",
@@ -470,7 +470,7 @@
  "246": {
   "founded_age": "III",
   "founded_by": "millers of the narrow race",
-  "history": "A narrow mill town in the eastern hills, and the home of Leabharlann Muileann chaol, the library that keeps the most complete record of the island. The library was founded in the new kingdom and has since taken in the provincial archives, and its war archive is sealed. The town lives on the library and on the harbour at Ceann dhomhain, and to put a thing in the Library is to settle it.",
+  "history": "A narrow mill town in the eastern hills, and the home of Leabharlann Muileann chaol, the library that keeps the most complete record of the island. The library was founded in the new kingdom and has since taken in the provincial archives, and its war archive is sealed. The town lives on the library and on the river landing at Ceann dhomhain, and to put a thing in the Library is to settle it.",
   "known_for": "Leabharlann Muileann chaol, the great library"
  },
  "247": {
@@ -618,8 +618,8 @@
  "270": {
   "founded_age": "II",
   "founded_by": "grey-water fishers of the north-east",
-  "history": "A grey harbour in the north-east with a citadel, the seat of Siorrachd Cuan ghlas, and a large village. It follows Feallsanachd an Fhèidh and is served by the hill town of Cnoc thais above it.",
-  "known_for": "the grey harbour and its citadel"
+  "history": "A grey river port on the Abhainn ghorm in the north-east with a citadel, the seat of Siorrachd Cuan ghlas, and a large village, whose barges go down to Ros chiar at the river mouth. It follows Feallsanachd an Fhèidh and is served by the hill town of Cnoc thais above it.",
+  "known_for": "the grey river port and its citadel"
  },
  "271": {
   "founded_age": "III",
@@ -666,7 +666,7 @@
  "278": {
   "founded_age": "III",
   "founded_by": "ford-keepers of Caol shean",
-  "history": "A deep ford on the road from Caol shean inland, where goods from the harbour are loaded from boats to carts. It follows Feallsanachd an Fhèidh.",
+  "history": "A deep ford on the road from Caol shean inland, where goods from the river port are loaded from boats to carts. It follows Feallsanachd an Fhèidh.",
   "known_for": "the inland ford of Caol shean"
  },
  "279": {
@@ -695,9 +695,9 @@
  },
  "283": {
   "founded_age": "II",
-  "founded_by": "the fishers of the capital's coast",
-  "history": "An ancient field village on the coast west of the capital, grown into one of the largest settlements on the island while keeping its village name. It is the seat of Siorrachd Achadh àrsaidh, and its harbour lands the fish and grain that feed Cathair dhearg. It follows the Dark Unicorn.",
-  "known_for": "the harbour that feeds the capital"
+  "founded_by": "the fishers of the capital's river",
+  "history": "An ancient field village on the Abhainn fhionn east of the capital, grown into one of the largest settlements on the island while keeping its village name. It is the seat of Siorrachd Achadh àrsaidh, and its river quays land the fish and grain that feed Cathair dhearg. It follows the Dark Unicorn.",
+  "known_for": "the river quays that feed the capital"
  },
  "284": {
   "founded_age": "III",
@@ -884,14 +884,14 @@
  "313": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "A Seann-Dhaoine harbour on the inner coast of the midlands, called Seann Toll by the Ròdaich for the hollow in the rock where its boats lie. It is walled and follows the Dark Unicorn, and it stands a short way west of Cill ghlas, where the Rending opened. It lies close to Ceann leathan, where the Còmhrag is fought each year, and fighters from the tournament fill its taverns.",
-  "known_for": "the rock-hollow harbour and Còmhrag crowds"
+  "history": "A Seann-Dhaoine river port on the Abhainn uaine in the midlands, called Seann Toll by the Ròdaich for the hollow in the rock where its boats lie. It is walled and follows the Dark Unicorn, and it stands a short way west of Cill ghlas, where the Rending opened. It lies close to Ceann leathan at the river mouth, where the Còmhrag is fought each year, and fighters from the tournament fill its taverns.",
+  "known_for": "the rock-hollow landing and Còmhrag crowds"
  },
  "314": {
   "founded_age": "III",
   "founded_by": "millers of the Ceann leathan country",
-  "history": "A fair-stoned walled mill town between Ceann leathan and Cuan dhearg, grinding grain landed at both harbours. Its walls went up in the Age of Strangers. It follows the Dark Unicorn.",
-  "known_for": "grain milled for two harbours"
+  "history": "A fair-stoned walled mill town between Ceann leathan and Cuan dhearg, grinding grain landed at Ceann leathan's harbour and Cuan dhearg's river landing. Its walls went up in the Age of Strangers. It follows the Dark Unicorn.",
+  "known_for": "grain milled for two landings"
  },
  "315": {
   "founded_age": "II",

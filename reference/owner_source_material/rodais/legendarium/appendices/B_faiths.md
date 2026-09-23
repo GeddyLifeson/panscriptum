@@ -16,7 +16,7 @@ The map counts 505 burgs and sets each under one faith. The seat is the house th
 | Feallsanachd an Fhèidh | the Philosophy of the Deer | organised; philosophical | Camaran, am Fiadh Rìoghail, the Royal Stag | 133 | Dùn thais |
 | Creideamh an Aon-adharcaich Dhuibh | the Faith of the Dark Unicorn | organised; dualist | Uallach, an t-Aon-adharcach Dubh, the Dark Unicorn | 103 | Cathair dhearg |
 | Creideamh a' Mhadaidh-allaidh | the Faith of the Wolf | organised; monotheist | Clach, am Madadh-allaidh Lainnireach, the Resplendent Direwolf | 21 | Inis thais |
-| Creideamh na Scairpe Buidhe | the Faith of the Yellow Scorpion | organised; monotheist | Cnut, an Scairp Bhuidhe, the Yellow Scorpion | 86 | Seann Skell (west coast) |
+| Creideamh na Scairpe Buidhe | the Faith of the Yellow Scorpion | organised; monotheist | Cnut, an Scairp Bhuidhe, the Yellow Scorpion | 86 | Seann Skell (west) |
 | Creideamh nan Tuathach | the Faith of the Tuathaich | folk; shamanic | Donn, an Sìorraidh, the Eternal | 12 | none recorded |
 | Rùn-dìomhair na h-Oidhche Glaise | the Mystery of the Grey Night | cult | Sìne, an Gèadh Sìtheil, the Peaceful Goose | 1 | Baile chrom (north-west) |
 
@@ -94,7 +94,7 @@ Gormshuil's sayings were written down after her death as Leabhar an t-Seabhaig, 
 
 Under the humans the Hawk resisted before any organised resistance existed. Murchadh Seabhag preached that Mòd starves those who eat faster than the land can feed them ({{date:IV-0066}}), and his sermon was the first Ròdaich text the Company's agents were told to confiscate. When hawk-priests were barred from the camps ({{date:IV-0095}}), the crews carried the sermons in themselves ({{date:IV-0162}}). Ìomhar Seabhag's shrines served as meeting houses for the Lamp-Watch ({{date:IV-0284}}), and when the war came he called it Mòd's own hunger turned back on those who fed it ({{date:IV-0348}}). In the New Age the Hawk houses refused the Rite's order of worship ({{date:V-0030}}) and named their own custodian at Inis ìseal ({{date:V-0131}}). They wrote out their order, which until then had been spoken and never written, and they keep the copy locked away ({{date:V-0132}}). They accepted a place under the high custodian only on condition that they kept that order ({{date:V-0166}}). The quarrel with the Rite has quietened, but it has not ended.
 
-**Where it is held now.** Fourteen burgs, all Ròdaich, along the north-central coast. Cnoc bheag is the largest, and its Hawk house is the richest of any faith outside the capital ({{date:V-0161}}). After it come Inis bhàn ({{place:burg:371}}), Ros gheal ({{place:burg:24}}), the northern Seann Skell and Ros leathan ({{place:burg:161}}).
+**Where it is held now.** Fourteen burgs, all Ròdaich, along the north-central coast and up the Abhainn ìseal. Cnoc bheag is the largest, and its Hawk house is the richest of any faith outside the capital ({{date:V-0161}}). After it come Inis bhàn ({{place:burg:371}}), Ros gheal ({{place:burg:24}}), the northern Seann Skell and Ros leathan ({{place:burg:161}}).
 
 ### VI. Feallsanachd an Fhèidh
 
@@ -121,7 +121,7 @@ A student who thinks he has solved it is given Aonghas mac Coinnich's answer ({{
 > *Tha dà nàdar aig a' bhèist, agus aig an fhèith.*
 > The beast has two natures, and so has the vein.
 
-**Rites and holy places.** Its priests read omens for rulers and bury by their own rite. King Aonghas mac Uisdein was the first king buried that way ({{date:III-0096}}). Its floors are laid in black and white, and the floor of its great house at Cathair mhòr ({{place:burg:23}}) took eleven years ({{date:III-0198}}). Its sacred wood is Coille Naomh Cnoc bheag ({{place:marker:24}}), near the lesser Cnoc bheag south of the capital ({{place:burg:504}}). That town is not the Hawk port of the same name.
+**Rites and holy places.** Its priests read omens for rulers and bury by their own rite. King Aonghas mac Uisdein was the first king buried that way ({{date:III-0096}}). Its floors are laid in black and white, and the floor of its great house at Cathair mhòr ({{place:burg:23}}) took eleven years ({{date:III-0198}}). Its sacred wood is Coille Naomh Cnoc bheag ({{place:marker:24}}), near the lesser Cnoc bheag south of the capital ({{place:burg:504}}). That town is not the Hawk river port of the same name.
 
 **History.** The faith began as a watch. A small company settled at the edge of a wood no one had ever cleared and watched for a black horned beast that walked in it ({{date:II-0114}}). Its quarrel with the stag's people over both sacred woods became the holy-wood dispute, "settled by dividing custody rather than choosing a winner" ({{date:II-0117}}). Anna Ruadh took a wood-watcher into her household at Cathair dhearg to read the omens ({{date:II-0210}}). Cathair dhomhain refused one, and the rivalry between the two towns took a religious turn "it never loses" ({{date:II-0211}}). Cathair dhomhain is a Unicorn town now, with its own temple. The faith was formalised when King Aonghas took up the teaching of Uallach ({{date:III-0089}}). By royal grant its priests then took sole custody of the western wood, and the other claimants withdrew for reasons the record does not give ({{date:III-0091}}).
 
@@ -155,7 +155,7 @@ Under the humans it split over the Residency's coin. The priests at Cathair dhea
 
 Since {{year:III-0223}} that prayer has been said on the day of the empty-harbour rite. So on one quay, on one day, some mourn the departed and some pray that no one follows them. Neither side is pleased.
 
-**Holy places.** Seann Skell on the west coast ({{place:burg:489}}), where the creed was declared; Baile àrsaidh ({{place:burg:420}}), where the sting-oath began; Seann Vell ({{place:burg:127}}), which has the first scorpion carved in yellow stone for worship ({{date:II-0219}}); and Cnoc ghorm ({{place:burg:142}}), the largest house in the north.
+**Holy places.** Seann Skell in the west ({{place:burg:489}}), where the creed was declared; Baile àrsaidh ({{place:burg:420}}), where the sting-oath began; Seann Vell ({{place:burg:127}}), which has the first scorpion carved in yellow stone for worship ({{date:II-0219}}); and Cnoc ghorm ({{place:burg:142}}), the largest house in the north.
 
 **History.** The sting-oath went from Baile àrsaidh up the coast to Ros bheag ({{date:II-0160}}) and became a creed at Seann Skell. The faith was formalised when Mànas mac Ruairidh named its power Cnut ({{date:III-0120}}). A worked timber longer than any tree on the island, held with nails no smith on Rodos could place, came ashore at Ceann mhòr. It was carried to Seann Skell, shown to the Scorpion's priests, and burned ({{date:III-0236}}). That was twenty-five years before the humans came.
 

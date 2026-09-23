@@ -90,7 +90,7 @@
   "id": "III-0008",
   "canon": false,
   "title": "Alasdair Saor lays the first keel",
-  "body": "On the strand below Seann Skell, the shipwright Alasdair mac Iain, called Alasdair Saor, lays down the first deep-keeled hull ever built on Rodos. The island's craft until then were sewn-plank coasters that never slept out of sight of land.",
+  "body": "On the river strand below Seann Skell, the shipwright Alasdair mac Iain, called Alasdair Saor, lays down the first deep-keeled hull ever built on Rodos. The island's craft until then were sewn-plank coasters that never slept out of sight of land.",
   "place": "burg:489",
   "kind": "craft",
   "between": [
@@ -125,8 +125,8 @@
  {
   "id": "III-0011",
   "canon": false,
-  "title": "The trial hull lost off Inis àrsaidh",
-  "body": "The first finished hull is sailed out past Inis àrsaidh to be tried in open water and founders in a following sea. Eleven are drowned. Alasdair Saor changes the setting of the keel, and every later hull of the fleet is built to the changed pattern.",
+  "title": "The trial hull lost off Inis àrsaidh's harbour",
+  "body": "The first finished hull is taken down the Abhainn naomh and sailed out past Ros àrsaidh, where the ships of Inis àrsaidh put to sea, to be tried in open water, and founders in a following sea. Eleven are drowned. Alasdair Saor changes the setting of the keel, and every later hull of the fleet is built to the changed pattern.",
   "place": "burg:55",
   "kind": "disaster",
   "between": [
@@ -235,7 +235,7 @@
   "id": "III-0020",
   "canon": false,
   "title": "Grain down Abhainn dhomhain",
-  "body": "Once the dispute is settled, grain barges are sent down Abhainn dhomhain to the capital and on by coast to Seann Skell. A tally-keeper at Drochaid Cathair dhearg counts the barges passing and makes the count forty-one.",
+  "body": "Once the dispute is settled, grain barges are sent down Abhainn dhomhain to the capital and on by coast to Ros àrsaidh and up the Abhainn naomh to Seann Skell. A tally-keeper at Drochaid Cathair dhearg counts the barges passing and makes the count forty-one.",
   "place": "river:53",
   "kind": "trade",
   "between": [
@@ -285,7 +285,7 @@
   "id": "III-0024",
   "canon": false,
   "title": "The sunwise turn",
-  "body": "Before making for open water the fleet goes once round the harbour of Seann Skell sunwise, diosal, for luck, and the watchers on the quay count the hulls as they pass. The harbour scribe's account of them ends at the harbour mouth.",
+  "body": "Before going down the Abhainn naomh to open water the fleet goes once round the river pool of Seann Skell sunwise, diosal, for luck, and the watchers on the quay count the hulls as they pass. The harbour scribe's account of them ends at the foot of the pool.",
   "place": "burg:489",
   "kind": "voyage",
   "between": [
@@ -655,7 +655,7 @@
   "id": "III-0053",
   "canon": false,
   "title": "Inis mhòr's grain fleet",
-  "body": "Inis mhòr on the north coast builds a fleet of coasting barges to carry grain east to Caol bheag and west to Cnoc bheag. They are sewn-plank boats of the old kind, and none sleeps out of sight of land.",
+  "body": "Inis mhòr in the north builds a fleet of barges to carry grain down the Abhainn ghorm to Caol bheag and, from Ros chiar at the river mouth, west along the coast to Cnoc bheag. They are sewn-plank boats of the old kind, and none sleeps out of sight of land.",
   "place": "burg:17",
   "kind": "trade",
   "between": [
@@ -775,7 +775,7 @@
   "id": "III-0063",
   "canon": false,
   "title": "The hawk-house at Ros gheal",
-  "body": "A second house of the Hawk is founded at Ros gheal by Gormshuil's pupils. Its priests take charge of the measured burning for the whole northern coast between Ros gheal and Cnoc bheag.",
+  "body": "A second house of the Hawk is founded at Ros gheal by Gormshuil's pupils. Its priests take charge of the measured burning for the whole country between Ros gheal on the coast and Cnoc bheag up the river.",
   "place": "burg:24",
   "kind": "faith",
   "between": [
@@ -971,7 +971,7 @@
   "id": "III-0079",
   "canon": false,
   "title": "Salt pans at Ros fhionn",
-  "body": "The harbour town of Ros fhionn on the north-east coast lays out salt pans on its flats and begins to send salt inland over Drochaid Ros fhionn. Within a generation Ros fhionn salt is the common measure of value in the north-eastern shires.",
+  "body": "The river town of Ros fhionn in the north-east lays out salt pans at the brine springs on its river flats and begins to send salt inland over Drochaid Ros fhionn. Within a generation Ros fhionn salt is the common measure of value in the north-eastern shires.",
   "place": "burg:76",
   "kind": "trade",
   "between": [
@@ -1571,7 +1571,7 @@
   "id": "III-0128",
   "canon": false,
   "title": "The deer school at Inis mhòr",
-  "body": "A house of disputation is founded at Inis mhòr by pupils of Dùn thais, and the question of the vein is argued on the north coast for the first time. Its first master, Fionnlagh mac Aonghais, is remembered for refusing every answer offered him.",
+  "body": "A house of disputation is founded at Inis mhòr by pupils of Dùn thais, and the question of the vein is argued in the north for the first time. Its first master, Fionnlagh mac Aonghais, is remembered for refusing every answer offered him.",
   "place": "burg:17",
   "kind": "faith",
   "between": [
@@ -1739,7 +1739,7 @@
   "id": "III-0142",
   "canon": false,
   "title": "The Fed Hawk at Seann Skell",
-  "body": "The priests of the Fed Hawk, turned out of Cnoc bheag, settle at Seann Skell on the north coast, not the western port of that name. Their teaching is written in the custody-book as an error, and the error is recorded at length.",
+  "body": "The priests of the Fed Hawk, turned out of Cnoc bheag, settle at Seann Skell on the north coast, not the western river port of that name. Their teaching is written in the custody-book as an error, and the error is recorded at length.",
   "place": "burg:132",
   "kind": "faith",
   "between": [
@@ -1799,7 +1799,7 @@
   "id": "III-0147",
   "canon": false,
   "title": "The salt fair at Ros fhionn",
-  "body": "Ros fhionn holds its great salt fair, and the reeve's count is some four thousand people on the flats in a single day. It is the town's height, and the chronicle calls it the richest place on the north-east coast.",
+  "body": "Ros fhionn holds its great salt fair, and the reeve's count is some four thousand people on the flats in a single day. It is the town's height, and the chronicle calls it the richest place in the north-east.",
   "place": "burg:76",
   "kind": "trade",
   "between": [
@@ -1895,7 +1895,7 @@
   "id": "III-0155",
   "canon": false,
   "title": "Caol shean's fishing year",
-  "body": "Caol shean on the east coast lands the largest catch in its roll, so large that salt runs short and half is dried in the wind. The dried fish sells poorly and the town goes back to salting.",
+  "body": "Caol shean, whose boats fish the east coast from the mouth of the Abhainn chaol, lands the largest catch in its roll, so large that salt runs short and half is dried in the wind. The dried fish sells poorly and the town goes back to salting.",
   "place": "burg:197",
   "kind": "trade",
   "between": [
@@ -2035,7 +2035,7 @@
   "id": "III-0166",
   "canon": false,
   "title": "The silting of Ros fhionn",
-  "body": "The harbour of Ros fhionn silts up behind a shifting bar, and the salt ships can no longer lie at the quays. The salt-masters move their trade to Caol gharbh along the coast.",
+  "body": "The Abhainn bheag silts up behind a shifting bar below Ros fhionn, and the salt barges can no longer reach the quays. The salt-masters move their trade to Caol gharbh on the coast.",
   "place": "burg:76",
   "kind": "trade",
   "between": [
@@ -2123,7 +2123,7 @@
   "id": "III-0173",
   "canon": false,
   "title": "The winter of ice at Inis mhòr",
-  "body": "The harbour of Inis mhòr freezes from shore to shore, which no one then living had seen. Boats are crushed at their moorings and the grain fleet does not sail until the thaw.",
+  "body": "The river at Inis mhòr freezes from bank to bank, which no one then living had seen. Boats are crushed at their moorings and the grain fleet does not sail until the thaw.",
   "place": "burg:17",
   "kind": "disaster",
   "between": [
@@ -2599,7 +2599,7 @@
   "id": "III-0212",
   "canon": false,
   "title": "The synod of the Scorpion",
-  "body": "The priests of the Yellow Scorpion meet at Seann Skell and restate the rule of sight-of-land. They add a prayer, said at the harbour mouth, asking Cnut to keep the sea shut.",
+  "body": "The priests of the Yellow Scorpion meet at Seann Skell and restate the rule of sight-of-land. They add a prayer, said at the foot of the river pool, asking Cnut to keep the sea shut.",
   "place": "burg:489",
   "kind": "faith",
   "between": [

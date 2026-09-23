@@ -85,8 +85,8 @@ Minutes. Above all, those of the Moot at Caol mhòr, which has no standing in R�
 #### D
 
 **diosal** *adv.*, *n. m.* · lit. "sunwise"
-The sunwise turn; the Rodos form of *deiseal*. The fleet went once round the harbour of Seann Skell sunwise ({{date:III-0024}}), and the years were counted from that turn ({{date:III-0025}}).
-> "Before making for open water the fleet went once round the harbour of Seann Skell sunwise, *diosal*, for luck." — the Third Book
+The sunwise turn; the Rodos form of *deiseal*. The fleet went once round the river pool of Seann Skell sunwise ({{date:III-0024}}), and the years were counted from that turn ({{date:III-0025}}).
+> "Before going down the Abhainn naomh to open water the fleet went once round the river pool of Seann Skell sunwise, *diosal*, for luck." — the Third Book
 
 **dòrlach** *n. m.* · lit. "a handful"
 The sealed measure of ore. The vein-house allowed one to each departing ship ({{date:III-0016}}). See *Làn na glaice*.

@@ -730,8 +730,8 @@
  {
   "id": "IV-0090",
   "canon": false,
-  "title": "Seann Toll made an ore port",
-  "body": "The Company takes over the harbour at Seann Toll, below the workings, and builds a loading stage there. The town's fishing boats are moved to the next cove.",
+  "title": "Seann Toll made an ore landing",
+  "body": "The Company takes over the river landing at Seann Toll, below the workings, and builds a loading stage there for the barges that carry the ore down the Abhainn uaine to Ceann leathan. The town's fishing boats are moved to the next reach.",
   "place": "burg:313",
   "kind": "reign"
  },
@@ -1014,7 +1014,7 @@
   "id": "IV-0124",
   "canon": false,
   "title": "Ore through Inis bheag",
-  "body": "Ore from the eastern workings is carted over the new bridge and down to the harbour of Inis bheag for shipment. The harbour is deepened by the Company, and the town's old fish market is moved to make room for the ore stage.",
+  "body": "Ore from the eastern workings is carted over the new bridge and down to the river quays of Inis bheag, to go by barge to Caol chrom at the river mouth for shipment. The river is deepened at the quays by the Company, and the town's old fish market is moved to make room for the ore stage.",
   "place": "burg:62",
   "kind": "trade"
  },
@@ -1022,7 +1022,7 @@
   "id": "IV-0125",
   "canon": false,
   "title": "Baile mhin ships the eastern ore",
-  "body": "The harbour of Baile mhin on the north-eastern coast takes the overflow of eastern ore that Inis bheag cannot load. The townsfolk are paid by the barge and the town builds its first stone houses on the proceeds.",
+  "body": "The river quays of Baile mhin, below Inis bheag on the Abhainn bheag, take the overflow of eastern ore that Inis bheag cannot load. The townsfolk are paid by the barge and the town builds its first stone houses on the proceeds.",
   "place": "burg:144",
   "kind": "trade"
  },
@@ -1099,7 +1099,7 @@
   "id": "IV-0134",
   "canon": false,
   "title": "The flux reaches Seann Vell",
-  "body": "The flux spreads to Seann Vell, the port a little east along the coast, carried by the ore barges. The custodians of the town close the barge landing for a season and are fined for it by the Company.",
+  "body": "The flux spreads to Seann Vell, the river port east of the capital on the Abhainn fhionn, carried by the ore barges. The custodians of the town close the barge landing for a season and are fined for it by the Company.",
   "place": "burg:162",
   "kind": "disaster",
   "within": [
@@ -2126,7 +2126,7 @@
   "id": "IV-0255",
   "canon": false,
   "title": "The fishwives of Inis mhòr",
-  "body": "The fishwives of Inis mhòr, who had sold by barter at the harbour steps since before the Crossing, refuse to take coin for a week in protest at the barter houses' closing. They give their fish away instead. The Company's clerks record it as a glut.",
+  "body": "The fishwives of Inis mhòr, who had sold by barter at the river steps since before the Crossing, refuse to take coin for a week in protest at the barter houses' closing. They give their fish away instead. The Company's clerks record it as a glut.",
   "place": "burg:17",
   "kind": "trade"
  },
@@ -2814,7 +2814,7 @@
   "id": "IV-0333",
   "canon": false,
   "title": "Muileann mhin takes sides",
-  "body": "At Muileann mhin, a small port just east of the capital, the townsfolk argue for three days and then send boats to the council. The boats carry food up the coast to the capital through the winter.",
+  "body": "At Muileann mhin, a river port just east of the capital, the townsfolk argue for three days and then send boats to the council. The boats carry food down the Abhainn fhionn to the capital through the winter.",
   "place": "burg:137",
   "kind": "war"
  },
@@ -2878,7 +2878,7 @@
   "id": "IV-0341",
   "canon": false,
   "title": "The eastern pits at Ros fhionn",
-  "body": "The crews of the eastern workings around Ros fhionn stop the pumps and walk out, letting the lower galleries flood. The Company's engineers there take ship for Ros dhomhain. The bridge on the eastern ore road falls silent.",
+  "body": "The crews of the eastern workings around Ros fhionn stop the pumps and walk out, letting the lower galleries flood. The Company's engineers there go down the Abhainn chaol and take ship at Seann Mhorn for Ros dhomhain. The bridge on the eastern ore road falls silent.",
   "place": "burg:57",
   "kind": "war"
  },
@@ -2886,15 +2886,15 @@
   "id": "IV-0342",
   "canon": false,
   "title": "Seann Toll shelled",
-  "body": "A Company steamship shells the ore stage at Seann Toll to deny it to the rebels, and sets the fishing town behind it burning. Twenty-three townsfolk die. It is the first time the humans turn the island's own ore, burning in their boilers, against a Ròdaich town.",
+  "body": "A Company steamship, come up the Abhainn uaine, shells the ore stage at Seann Toll to deny it to the rebels, and sets the fishing town behind it burning. Twenty-three townsfolk die. It is the first time the humans turn the island's own ore, burning in their boilers, against a Ròdaich town.",
   "place": "burg:313",
   "kind": "war"
  },
  {
   "id": "IV-0343",
   "canon": false,
-  "title": "Coaling at Inis mhòr",
-  "body": "The Company steamships coal at Inis mhòr, the harbour just east of the capital's bay, from the ore stacked on its quay. Townsfolk set the stacks alight. The ships put in at Ros dhomhain instead, and burn their own stores.",
+  "title": "Coaling from Inis mhòr",
+  "body": "The Company steamships coal from the ore stacked on the quays of Inis mhòr, the river port just east of the capital, which its barges carry down the Abhainn fhionn to the ships at Cathair dhomhain. Townsfolk set the stacks alight. The ships put in at Ros dhomhain instead, and burn their own stores.",
   "place": "burg:2",
   "kind": "war"
  },
@@ -3038,8 +3038,8 @@
  {
   "id": "IV-0361",
   "canon": false,
-  "title": "Cuan uaine opens its harbour",
-  "body": "The harbour of Cuan uaine, east of the capital, opens to the council's boats. With it and the Ros dhomhain harbour quarter both lost, the Residency can be supplied only by sea.",
+  "title": "Cuan uaine opens its quays",
+  "body": "The river quays of Cuan uaine, east of the capital, open to the council's boats. With them and the Ros dhomhain harbour quarter both lost, the Residency can be supplied only by sea.",
   "place": "burg:104",
   "kind": "war"
  },

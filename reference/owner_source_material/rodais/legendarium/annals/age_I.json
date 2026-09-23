@@ -92,7 +92,7 @@
   "id": "I-0012",
   "canon": false,
   "title": "The mole at Seann Skell",
-  "body": "A breakwater of unmortared boulders is laid out from the shore at Seann Skell, long enough to shelter a dozen boats. Its foot is still under water at the lowest tides, and every harbour wall built there since stands on it.",
+  "body": "A mole of unmortared boulders is laid out into the Abhainn naomh from the bank at Seann Skell, long enough to shelter a dozen boats from the current. Its foot is still under water at the lowest tides, and every quay wall built there since stands on it.",
   "place": "burg:489",
   "kind": "building"
  },
@@ -116,7 +116,7 @@
   "id": "I-0015",
   "canon": false,
   "title": "The fish-channel of Seann Toll",
-  "body": "At Seann Toll a channel is cut through a rock shelf into a tidal pool, with a slot for a gate of wattle. At the ebb the gate is dropped and the pool is emptied by hand. The slot is still sharp.",
+  "body": "At Seann Toll a channel is cut through a rock shelf into a pool beside the Abhainn uaine, with a slot for a gate of wattle. When the river falls the gate is dropped and the pool is emptied by hand. The slot is still sharp.",
   "place": "burg:313",
   "kind": "building"
  },
@@ -228,7 +228,7 @@
   "id": "I-0029",
   "canon": false,
   "title": "The north-eastern Seann Vell",
-  "body": "The Seann Vell on the north-east coast is a small place of four houses and a boat-shed. It is the most north-easterly of the Seann-Dhaoine sites known on the main island.",
+  "body": "The Seann Vell on the Abhainn bheag, a short way above its mouth in the north-east, is a small place of four houses and a boat-shed. It is the most north-easterly of the Seann-Dhaoine sites known on the main island.",
   "place": "burg:97",
   "kind": "people"
  },
@@ -453,7 +453,7 @@
   "id": "I-0056",
   "canon": false,
   "title": "The widest reach of the Seann-Dhaoine",
-  "body": "At their height the Seann-Dhaoine hold every coast of the island: the ten places whose names begin with Seann, and the islands off them. The largest of their harbours is at the place now called Seann Skell, where the mole already stands.",
+  "body": "At their height the Seann-Dhaoine hold every coast of the island: the ten places whose names begin with Seann, and the islands off them. The largest of their landings is at the place now called Seann Skell, up the Abhainn naomh, where the mole already stands.",
   "place": "province:3",
   "kind": "people"
  },
@@ -810,8 +810,8 @@
  {
   "id": "I-0098",
   "canon": false,
-  "title": "The harbours taken up",
-  "body": "Hill-folk families come down to the coast and settle in the empty harbour at Seann Skell, using the old mole and repairing none of it. It is the first time they are known to live by the sea.",
+  "title": "The old landings taken up",
+  "body": "Hill-folk families come down the Abhainn naomh and settle in the empty river harbour at Seann Skell, using the old mole and repairing none of it. It is the first time they are known to live by the water.",
   "place": "burg:489",
   "kind": "people"
  },
@@ -1521,7 +1521,7 @@
   "id": "I-0181",
   "canon": false,
   "title": "Boats named for the winds",
-  "body": "Fishing households on the north coast at Caol bheag name their boats for the winds they fish in. A boat named for the wrong wind is thought unlucky, and one that sinks has its name never used again.",
+  "body": "Fishing households at Caol bheag, who fish the north coast from the mouth of the Abhainn ghorm, name their boats for the winds they fish in. A boat named for the wrong wind is thought unlucky, and one that sinks has its name never used again.",
   "place": "burg:475",
   "kind": "culture"
  },
@@ -1893,7 +1893,7 @@
   "id": "I-0227",
   "canon": false,
   "title": "Cnoc bheag under the Carragh",
-  "body": "Households settle on the northern shore at Cnoc bheag, a short walk from Carragh Cnoc bheag. They set their houses so that none has its door toward the stone.",
+  "body": "Households settle on the bank of the Abhainn ìseal at Cnoc bheag, a short walk from Carragh Cnoc bheag. They set their houses so that none has its door toward the stone.",
   "place": "burg:20",
   "kind": "founding"
  },
@@ -1901,7 +1901,7 @@
   "id": "I-0228",
   "canon": false,
   "title": "The seal rocks of Inis bhàn",
-  "body": "The households of Inis bhàn on the north coast take seals from the skerries off their harbour by agreement, one household to a rock. A rock taken out of turn is the commonest quarrel in their tellings.",
+  "body": "The households of Inis bhàn on the lower Abhainn ìseal take seals from the skerries off the river mouth by agreement, one household to a rock. A rock taken out of turn is the commonest quarrel in their tellings.",
   "place": "burg:371",
   "kind": "law"
  },
@@ -1948,8 +1948,8 @@
  {
   "id": "I-0234",
   "canon": false,
-  "title": "The harbour at Caol shean",
-  "body": "Caol shean, on the coast east of the vein, becomes the landing for the hill households east of the vein. Salt, fish and seal-skins come up from it to the keepers' country.",
+  "title": "The river landing at Caol shean",
+  "body": "Caol shean, on the Abhainn ìseal east of the vein, becomes the river landing for the hill households east of the vein. Salt, fish and seal-skins come up the river to it from the coast, and on from it to the keepers' country.",
   "place": "burg:197",
   "kind": "trade"
  },
@@ -1985,7 +1985,7 @@
   "id": "I-0238",
   "canon": false,
   "title": "Ceann àrsaidh",
-  "body": "The point at Ceann àrsaidh on the central coast is settled by households from the Red Hill. They find an old landing there and name the place for it: the ancient headland.",
+  "body": "The point at Ceann àrsaidh on the Abhainn fhionn is settled by households from the Red Hill. They find an old river landing there and name the place for it: the ancient headland.",
   "place": "burg:88",
   "kind": "founding"
  },
@@ -2001,7 +2001,7 @@
   "id": "I-0240",
   "canon": false,
   "title": "Inis mhòr",
-  "body": "Households settle Inis mhòr on the north-east coast, and live by the fish of its sheltered bay. Their houses are built in two rows facing each other, the oldest street on Rodos.",
+  "body": "Households settle Inis mhòr on the Abhainn ghorm in the north-east, and live by the fish of its sheltered river pools. Their houses are built in two rows facing each other, the oldest street on Rodos.",
   "place": "burg:17",
   "kind": "founding"
  },

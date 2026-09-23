@@ -106,7 +106,7 @@
   "id": "II-0012",
   "canon": false,
   "title": "The pilgrims' path from Caol shean",
-  "body": "A path is worn from the harbour at Caol shean up the valley to Allt an Àigh, walked by night so that pilgrims reach the water in the right quarter of the moon. Fishermen who walk it are said to lose fewer boats; the record keeps no count either way.",
+  "body": "A path is worn from the river landing at Caol shean up the valley to Allt an Àigh, walked by night so that pilgrims reach the water in the right quarter of the moon. Fishermen who walk it are said to lose fewer boats; the record keeps no count either way.",
   "place": "burg:197",
   "kind": "faith"
  },
@@ -163,7 +163,7 @@
   "id": "II-0018",
   "canon": false,
   "title": "Silver for salt at Ros fhionn",
-  "body": "Carriers take Muileann chiar rings down to the harbour at Ros fhionn and trade them for salt fish and sealskin. It is the first trade in the record carried on in something other than food, and the first in which a price is remembered: one ring for a boatload.",
+  "body": "Carriers take Muileann chiar rings down to the river quays at Ros fhionn and trade them for salt fish and sealskin. It is the first trade in the record carried on in something other than food, and the first in which a price is remembered: one ring for a boatload.",
   "place": "burg:76",
   "kind": "trade"
  },
@@ -436,7 +436,7 @@
   "id": "II-0047",
   "canon": false,
   "title": "The house of Tormod at Seann Dunn",
-  "body": "Sliochd Thormoid raises a hall and a shrine at Seann Dunn, facing the mountain across the bay. The shrine keeps a lamp of ore burning at the Law's measure, and the other houses complain that Seann Dunn's measure is always fullest.",
+  "body": "Sliochd Thormoid raises a hall and a shrine at Seann Dunn, facing the mountain across the river. The shrine keeps a lamp of ore burning at the Law's measure, and the other houses complain that Seann Dunn's measure is always fullest.",
   "place": "burg:18",
   "kind": "building"
  },
@@ -1009,7 +1009,7 @@
   "id": "II-0106",
   "canon": false,
   "title": "Inis mhòr grows",
-  "body": "The harbour at Inis mhòr in the north becomes the gathering place of the northern wool trade and outgrows every other northern town. Its people petition Catrìona Ghlic for a road-guard of their own, and are given one.",
+  "body": "The river port at Inis mhòr in the north becomes the gathering place of the northern wool trade and outgrows every other northern town. Its people petition Catrìona Ghlic for a road-guard of their own, and are given one.",
   "place": "burg:17",
   "kind": "people",
   "within": [
@@ -1510,7 +1510,7 @@
   "id": "II-0156",
   "canon": false,
   "title": "Inis bheag's school of letters",
-  "body": "At Inis bheag on the northern coast a teacher of the stag's people begins teaching letters to fishers' children who will never cut ore. It is the first teaching of letters for their own sake. The Hall's roll records it with the remark that fish do not need reading.",
+  "body": "At Inis bheag on the Abhainn bheag in the north a teacher of the stag's people begins teaching letters to fishers' children who will never cut ore. It is the first teaching of letters for their own sake. The Hall's roll records it with the remark that fish do not need reading.",
   "place": "burg:62",
   "kind": "people"
  },
@@ -1533,8 +1533,8 @@
  {
   "id": "II-0159",
   "canon": false,
-  "title": "The hawk-rite spreads along the north coast",
-  "body": "The dawn burning with the hawk spreads from Seann Skell east to Inis ìseal and Cnoc bheag on the northern shore. The Keeper at Dùn ìseal writes that the rite keeps the measure exactly and is therefore no concern of the Hall's. It is the last time the Hall says so about any rite.",
+  "title": "The hawk-rite spreads up the Abhainn ìseal",
+  "body": "The dawn burning with the hawk spreads from Seann Skell on the northern shore up the Abhainn ìseal to Inis ìseal and Cnoc bheag. The Keeper at Dùn ìseal writes that the rite keeps the measure exactly and is therefore no concern of the Hall's. It is the last time the Hall says so about any rite.",
   "place": "burg:25",
   "kind": "faith"
  },
@@ -1872,7 +1872,7 @@
   "id": "II-0193",
   "canon": false,
   "title": "The bridge at Ceann àrsaidh",
-  "body": "A bridge is built at the harbour town of Ceann àrsaidh, the fourth stone crossing in the lowlands. The masons' roll lists the names of the forty who built it, all of them of Sliochd Raghnaill's fisher-kin, who had learned the trade because the boats were idle.",
+  "body": "A bridge is built at the river town of Ceann àrsaidh, the fourth stone crossing in the lowlands. The masons' roll lists the names of the forty who built it, all of them of Sliochd Raghnaill's fisher-kin, who had learned the trade because the boats were idle.",
   "place": "burg:88",
   "kind": "building"
  },
@@ -2084,7 +2084,7 @@
   "id": "II-0218",
   "canon": false,
   "title": "The sting-oath at Seann Skell",
-  "body": "At Seann Skell on the western coast the harbour court's sting-oath becomes a creed: its keepers say that one power stings the liar wherever he is, and that the scorpion is only its sign. The Hall's roll records it as a new teaching. It is the first on the island to call itself the only true one.",
+  "body": "At Seann Skell in the west the harbour court's sting-oath becomes a creed: its keepers say that one power stings the liar wherever he is, and that the scorpion is only its sign. The Hall's roll records it as a new teaching. It is the first on the island to call itself the only true one.",
   "place": "burg:489",
   "kind": "faith"
  },

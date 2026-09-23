@@ -72,7 +72,7 @@
  "350": {
   "founded_age": "II",
   "founded_by": "Ròdaich flax-growers of Seann Skell",
-  "history": "The white field is the flax country that feeds the linen-weavers of Seann Skell, and in the drying season the whole plain is laid with bleaching cloth. The village is large and prosperous for its kind, and it follows the Yellow Scorpion as the port does. Its growers' guild has sold to the same Seann Skell houses for longer than either side can prove.",
+  "history": "The white field is the flax country that feeds the linen-weavers of Seann Skell, and in the drying season the whole plain is laid with bleaching cloth. The village is large and prosperous for its kind, and it follows the Yellow Scorpion as the river port does. Its growers' guild has sold to the same Seann Skell houses for longer than either side can prove.",
   "known_for": "flax fields and bleached linen"
  },
  "351": {
@@ -201,9 +201,9 @@
  },
  "371": {
   "founded_age": "II",
-  "founded_by": "Ròdaich seafarers of the white island",
-  "history": "Inis bhàn is the great harbour of the north-west Ròdaich coast and the seat of its province, a port of nearly forty thousand. It is a town of the Hawk, and its shrines face the sea. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It is one of several harbours that claim the dock from which the ships of the Sundering set out, a claim the others dispute and no roll can settle.",
-  "known_for": "white-island harbour and Hawk shrines"
+  "founded_by": "Ròdaich boatmen of the white island",
+  "history": "Inis bhàn is the great river port of the north-west Ròdaich country and the seat of its province, a town of nearly forty thousand on the Abhainn ìseal whose barges run down to Ros gheal on the coast. It is a town of the Hawk, and its shrines face down the river toward the sea. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It is one of several towns that claim the dock from which the ships of the Sundering set out, a claim the others dispute and no roll can settle.",
+  "known_for": "white-island river port and Hawk shrines"
  },
  "372": {
   "founded_age": "II",
@@ -416,7 +416,7 @@
  "406": {
   "founded_age": "II",
   "founded_by": "a custodian house of Inis mhòr",
-  "history": "The holy hill carried a shrine before it carried a citadel; the citadel was added to guard Inis mhòr from the landward side. The shrine still stands inside the walls. The fourth regiment from Caol bheag drills on the plain below it.",
+  "history": "The holy hill carried a shrine before it carried a citadel; the citadel was added to guard Inis mhòr from the hills. The shrine still stands inside the walls. The fourth regiment from Caol bheag drills on the plain below it.",
   "known_for": "citadel on the holy hill"
  },
  "407": {
@@ -492,7 +492,7 @@
  "418": {
   "founded_age": "III",
   "founded_by": "Ròdaich innkeepers of Seann Vell",
-  "history": "Cuan chrom is a harbour town on a bent inlet, and An Taigh-seinnse Mòr, one of the great houses of the old tavern circuit, stands at its quay. The tavern was a waypoint on the mining roads and doubled as a militia halt in the years before the war. It is known across the island for its steamed carp and green brandy.",
+  "history": "Cuan chrom is a river town on a bend of the Abhainn fhionn, and An Taigh-seinnse Mòr, one of the great houses of the old tavern circuit, stands at its river quay. The tavern was a waypoint on the mining roads and doubled as a militia halt in the years before the war. It is known across the island for its steamed carp and green brandy.",
   "known_for": "An Taigh-seinnse Mòr and steamed carp"
  },
  "419": {
@@ -574,7 +574,7 @@
  "431": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "Seann Skell is the great southern port, a town of nearly sixty thousand whose harbour lies on a site the Seann-Dhaoine used before the Ròdaich; the name keeps their root. It is the seat of its province and a centre of Creideamh nan Ròdach. The ninth regiment and the second fleet, raised in the Long War, are stationed here. It shares its name with the great western port.",
+  "history": "Seann Skell is the great southern port, a town of nearly sixty thousand whose harbour lies on a site the Seann-Dhaoine used before the Ròdaich; the name keeps their root. It is the seat of its province and a centre of Creideamh nan Ròdach. The ninth regiment and the second fleet, raised in the Long War, are stationed here. It shares its name with the great western river port.",
   "known_for": "the southern fleet harbour"
  },
  "432": {
@@ -696,8 +696,8 @@
    1800
   ],
   "founded_by": "Ròdaich and human traders together",
-  "history": "Ceann òg, \"the young headland\", was built as a trading quay in the first years after the Crossing, when exchange with the humans was still reciprocal. It stands near Carragh Cnoc bheag, the stone carved Bha teine sa chloich. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It follows the Hawk, and its quay was rebuilt after the Severance for Ròdaich ships alone.",
-  "known_for": "young quay near Carragh Cnoc bheag"
+  "history": "Ceann òg, \"the young headland\", was built as a river trading quay on the Abhainn ìseal in the first years after the Crossing, when exchange with the humans was still reciprocal. It stands near Carragh Cnoc bheag, the stone carved Bha teine sa chloich. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It follows the Hawk, and its quay was rebuilt after the Severance for Ròdaich boats alone.",
+  "known_for": "young river quay near Carragh Cnoc bheag"
  },
  "451": {
   "founded_age": "III",
@@ -857,9 +857,9 @@
  },
  "475": {
   "founded_age": "II",
-  "founded_by": "Ròdaich seafarers of the small strait",
-  "history": "Caol bheag is a harbour town of more than forty thousand on the small strait, crowned by a citadel and the seat of its province. The fourth regiment, raised in the Long War, is stationed here. The mills of Muileann bheag and the wool of Cnoc chiar pass through its quays.",
-  "known_for": "fourth regiment's harbour town"
+  "founded_by": "Ròdaich boatmen of the small narrows",
+  "history": "Caol bheag is a river port of more than forty thousand on the narrows of the Abhainn ghorm, crowned by a citadel and the seat of its province; its barges run down to Ros chiar at the river mouth. The fourth regiment, raised in the Long War, is stationed here. The mills of Muileann bheag and the wool of Cnoc chiar pass through its quays.",
+  "known_for": "fourth regiment's river port"
  },
  "476": {
   "founded_age": "II",
@@ -910,7 +910,7 @@
  "483": {
   "founded_age": "II",
   "founded_by": "Ròdaich farmers of Seann Skell",
-  "history": "A village of grey-green fields on the road north from Seann Skell, whose barley and oats feed the great port. It lies just south of the Tuathaich line, and since the Severance its farmers have ploughed with one eye on the boundary. In the Long War its barns quartered soldiers of the seventh regiment on the way to Àth leathan.",
+  "history": "A village of grey-green fields on the road north from Seann Skell, whose barley and oats feed the great river port. It lies just south of the Tuathaich line, and since the Severance its farmers have ploughed with one eye on the boundary. In the Long War its barns quartered soldiers of the seventh regiment on the way to Àth leathan.",
   "known_for": "grey fields on the Seann Skell road"
  },
  "484": {
@@ -946,8 +946,8 @@
  "489": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "Seann Skell is the great port of the west, a city of seventy-four thousand and the largest place in this part of the island; the harbour is a Seann-Dhaoine site and the name keeps their root. It is walled by its citadel rather than by curtain walls, and the seventh regiment, raised in the Long War, is stationed here. The first battle of that war was fought at Àth leathan, a short march north.",
-  "known_for": "the great western port"
+  "history": "Seann Skell is the great river port of the west, a city of seventy-four thousand and the largest place in this part of the island, whose barges run down the Abhainn naomh to Ros àrsaidh; its river harbour is a Seann-Dhaoine site and the name keeps their root. It is walled by its citadel rather than by curtain walls, and the seventh regiment, raised in the Long War, is stationed here. The first battle of that war was fought at Àth leathan, a short march north.",
+  "known_for": "the great western river port"
  },
  "490": {
   "founded_age": "III",
