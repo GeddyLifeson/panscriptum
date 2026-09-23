@@ -6,7 +6,7 @@ faiths, hosts and wars, the reckoning of years, words born from history, tongues
 shires, land and waters, arms), and a gazetteer of every town on the map. Every event has a day, a month and a year.
 
 Read it in the **Rodos Atlas** (`../Rodos_Atlas/`), where the annals, the book and the live map are wired
-together, or as plain text in `LEGENDARIUM.md`.
+together, as a printed book in `../The_Rodos_Legendarium.pdf`, or as plain text in `LEGENDARIUM.md`.
 
 ## Files
 
@@ -30,6 +30,7 @@ together, or as plain text in `LEGENDARIUM.md`.
 | `map_reconcile.py` | Applies every proposal's `map_edits` and `integration.json` to the map in a fixed order, byte-safe like `burg_features.py`, and derives what follows (the regrouped roads' saved paths, the cultures' rural totals). `python map_reconcile.py` updates `../Rodos_finished.map`, `../Rodos_Atlas/Rodos.map` and regenerates `world.json`; `../finish_map.py` calls it after the burg moves, so a rebuild from `../Rodos_renamed.map` reproduces the finished map. |
 | `town_previews.json` | Every burg's town-plan link (Watabou's City or Village Generator), as the Atlas's own Azgaar builds it from the map. The forts get a citadel town with no walls or square. |
 | `build_book.py` | Assembles `LEGENDARIUM.md`; `../build_atlas.py` uses it for the Atlas. |
+| `build_pdf.py` | Typesets `LEGENDARIUM.md` as a book, `../The_Rodos_Legendarium.pdf` (WeasyPrint; fonts in `fonts/`, OFL). |
 
 ## How the dates are made
 
@@ -52,6 +53,7 @@ for a place, which the Atlas links to the map. If the annals are re-dated, the w
 ```
 python reckoning.py      # annals/*.json -> annals_dated.json
 python build_book.py     # -> LEGENDARIUM.md
+python build_pdf.py      # -> ../The_Rodos_Legendarium.pdf (pip install weasyprint markdown)
 python ../check_rodais.py
 ```
 
