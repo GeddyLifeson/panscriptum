@@ -30,7 +30,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'Rodos_Atlas')
-CHRONICLE = os.path.join(HERE, 'CHRONICLE.html')
+STYLE = os.path.join(HERE, 'atlas_style.css')
 MAP = os.path.join(HERE, 'Rodos_finished.map')
 FMG_VERSION = '1.153.1'
 
@@ -42,9 +42,8 @@ FMG = sys.argv[1]
 sys.path.insert(0, os.path.join(HERE, 'legendarium'))
 import build_book  # noqa: E402
 
-page = open(CHRONICLE, encoding='utf-8').read()
-style = re.search(r'<style>(.*?)</style>', page, re.S).group(1)
-fonts = re.search(r'<link href="(https://fonts.googleapis.com[^"]+)"', page).group(1)
+style = open(STYLE, encoding='utf-8').read()
+fonts = re.search(r'Fonts: (\S+)', style).group(1)
 rec = build_book.Record()
 toc, book = build_book.compose(rec)
 if rec.missing:

@@ -1,7 +1,7 @@
 """
 build_book.py -- assemble the legendarium of Rodos from its sources.
 
-    python build_book.py        -> LEGENDARIUM.html (the whole record, one file) and LEGENDARIUM.md
+    python build_book.py        -> LEGENDARIUM.md (the whole record as plain text; the Atlas's Book tab shows it)
 
 Sources, all in this folder:
     annals_dated.json       every event of the five ages, dated by reckoning.py
@@ -413,20 +413,6 @@ ul.tree li{margin:6px 0;}
 """
 
 
-def standalone(rec):
-    toc, body = compose(rec, link_places=True)
-    page = open(os.path.join(os.path.dirname(HERE), 'CHRONICLE.html'), encoding='utf-8').read()
-    style = re.search(r'<style>(.*?)</style>', page, re.S).group(1)
-    fonts = re.search(r'<link href="(https://fonts.googleapis.com[^"]+)"', page).group(1)
-    return ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<title>The Legendarium of Rodos</title><link rel="stylesheet" href="%s"><style>%s%s'
-            'a.pl{text-decoration:none; cursor:default;}</style></head><body><header><p class="kicker">RÌOGHACHD RÒDAIS · the whole record</p>'
-            '<h1>The Legendarium of Rodos</h1><p>The five ages of the island, told and annalled, with the appendices of the library at '
-            'Muileann chaol and a gazetteer of every town. Open the Rodos Atlas to see each place on the map.</p></header>'
-            '<div class="bookwrap"><nav class="btoc">%s</nav><article class="btext">%s</article></div></body></html>'
-            % (html.escape(fonts), style, BOOK_CSS, toc_html(toc), body))
-
-
 def to_markdown(rec):
     out = ['# The Legendarium of Rodos', '']
     for _, k, md in prose_parts(rec):
@@ -453,10 +439,9 @@ def to_markdown(rec):
 
 def main():
     rec = Record()
-    open(os.path.join(HERE, 'LEGENDARIUM.html'), 'w', encoding='utf-8').write(standalone(rec))
     open(os.path.join(HERE, 'LEGENDARIUM.md'), 'w', encoding='utf-8').write(to_markdown(rec))
     words = len(re.sub(r'<[^>]+>', ' ', compose(rec)[1]).split())
-    print('LEGENDARIUM.html / .md: %d events, %d gazetteer entries, %d houses, about %s words'
+    print('LEGENDARIUM.md: %d events, %d gazetteer entries, %d houses, about %s words'
           % (len(rec.events), len(rec.gaz), len(rec.houses), format(words, ',')))
     if rec.missing:
         print('unresolved references:', sorted(set(rec.missing))[:40])

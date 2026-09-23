@@ -5,8 +5,8 @@ Appendices: a prose book for each of the five ages, dated annals of every event,
 faiths, hosts and wars, the reckoning of years, words born from history, tongues and peoples), and a gazetteer of
 every town on the map. Every event has a day, a month and a year.
 
-Read it as `LEGENDARIUM.html` (one file, any browser) or `LEGENDARIUM.md`, or in the **Rodos Atlas**
-(`../Rodos_Atlas/`), where the annals, the book and the live map are wired together.
+Read it in the **Rodos Atlas** (`../Rodos_Atlas/`), where the annals, the book and the live map are wired
+together, or as plain text in `LEGENDARIUM.md`.
 
 ## Files
 
@@ -22,7 +22,7 @@ Read it as `LEGENDARIUM.html` (one file, any browser) or `LEGENDARIUM.md`, or in
 | `book/age_I..V.md` | The prose of each age. |
 | `appendices/*.md`, `appendices/houses.json` | The appendices; the houses' people are dated by the builder. |
 | `gazetteer/out_*.json` | Every burg: founding age, founders, history, what it is known for. `CONSISTENCY_LOG.md` records the checks against the map. |
-| `build_book.py` | Assembles `LEGENDARIUM.html` and `LEGENDARIUM.md`; `../build_atlas.py` uses it for the Atlas. |
+| `build_book.py` | Assembles `LEGENDARIUM.md`; `../build_atlas.py` uses it for the Atlas. |
 
 ## How the dates are made
 
@@ -44,7 +44,7 @@ for a place, which the Atlas links to the map. If the annals are re-dated, the w
 
 ```
 python reckoning.py      # annals/*.json -> annals_dated.json
-python build_book.py     # -> LEGENDARIUM.html, LEGENDARIUM.md
+python build_book.py     # -> LEGENDARIUM.md
 python ../check_rodais.py
 ```
 
