@@ -7,252 +7,125 @@
 >
 > — cut on the column at Cnoc ghorm
 
-## Of the Crack in the Stone
+## I. Of the Crack in the Stone
 
-Before the kings, before the keepers, before any mouth the record can hear had spoken the name of
-the island, there was the stone; and in the stone there was the vein; and the vein was dark, and
-no one knew of it.
+Before the kings and before the keepers, before any mouth had spoken the name of the island, there was the stone; and in the stone there was the vein; and the vein was dark, and no one knew of it.
 
-So the old tellings begin, and this book begins with them, for the library at Muileann chaol has
-nothing older to set in their place. What follows is not history as the later ages kept it. There
-are no letters here and no treaties. There are hearths under turf and shell-heaps on the
-headlands, stones cut with signs no one can read, and the tellings of a people who would not be
-written down for thousands of years. The Ancient Age kept no calendar that anyone has found. Where the
-chroniclers do not know, they say so. In this age they say so often.
+So the old tellings begin, and the scribes of Muileann chaol begin their first book with them, for they have nothing older to set in their place. In this age there are no letters and no treaties. There are hearths under turf and shell-heaps on the headlands, stones cut with signs that no one can read, and the tellings of a people who would not be written down for thousands of years. The Ancient Age kept no calendar that anyone has found.
 
-The first event came on {{date:I-0001}}, and it is this. A mason was
-splitting rock to sink a well. He struck, and the rock broke, and where it broke there was a black
-and glassy vein; and out of it came not dust, as comes out of all other stone, but colour, bleeding
-into the cut as though the rock were wounded. The tellings do not give the mason a name. They do
-not say what he said. They say only that he stopped.
+The library writes the first day as {{date:I-0001}}. In the hill country it is only "once", and the tale is told at the hearth in the dark of the year by whoever is oldest in the house. It goes like this.
 
-This is the nearest thing Rodos keeps to a telling of the making of the world. Other peoples begin
-with a sea, or a void, or a god who speaks. The Ròdaich begin with a man at work, and a thing that
-answered him as stone should not. The gods of the Old Faith have their own tellings, and many of them; none
-of the gods comes into this one.
+A mason was sinking a well. He had been at it since first light, with a wedge of hard stone and a maul of oak, splitting the rock a hand's depth at a time and lifting the pieces out. It was the dead of the year. The rain hung over the heather and would not fall, and his hands were raw from the wet stone.
 
-Three wells claim the crack. Tobar dhìreach, Tobar dhubh and Tobar òg each keep a telling that the
-mason's well was theirs. Tobar dhìreach can show a capped shaft with a dark stain on its lip; the
-other two can show only the telling. The record holds all three claims and chooses none.
+He set the wedge in a seam and struck. The rock broke, and it broke along a line he had not seen.
 
-On what the mason's people did next, all the tellings agree. They did not dig on. They laid a flat
-stone over the broken vein, and would not draw water beside it, and cut their well again a stone's
-throw away. Of all the deeds of the Ancient Age this is the one told most often, to children and to
-kings, and it is told the same way every time: the people found a wonder in the ground, and they
-covered it.
+Out of every stone he had ever split there had come grey dust and grit, the same dust his father had shaken from his hair. Here the break showed black, a vein as glossy as a raven's wing, and out of it welled colour. It seeped into the wet of the cut the way blood comes into a scratch, slowly and then more, red at the edge and deeper than red at the heart.
 
-## Of the Waters and the Woods
+The tellers do not give the mason a name. What he said, if he said anything, they do not give either. They say only that he stopped.
 
-In those years Rodos was not the island of the maps. The snowfields on the central mountains were
-shrinking, and their meltwater cut the bed that Abhainn uaine follows still; its gravel terraces
-hold hearth-stones at three heights, each left as the water came up to it. In the bog beneath
-Doire ghlas the birch and pine of the cold years give way to oak and hazel, and the grove the place
-is named for stands on ground that was open heath when the vein was broken. At Achadh dhìreach lie
-the first hearths of the high valleys: pine and heather charcoal, grey flint scrapers, the split
-bones of red deer. Nothing in them is black glass. Whoever sat at them either did not have the ore,
-or did not burn it.
+Of all the tales on Rodos this is the nearest to a tale of the making of the world. Other peoples begin with a sea, or a void, or a god who speaks. The Ròdaich begin with a man at work, and a thing that answered him as stone should never answer. The gods of the Old Faith have tellings of their own, and many of them; none of the gods comes into this one.
 
-And the sea rose. It drowned the low neck that joined Eilean dhubh to the main island, and the
-island's deer, cut off, grew smaller in the lifetimes after. Out on Eilean mhin seal-hunters pitched
-their camps a season at a time, reached by boat: the first sure sign that anyone on Rodos crossed
-open water on purpose. Abhainn ìseal, the longest river of the island, settled into its broad bed,
-and fish-weirs of hazel were staked across its side channels, and the stakes were renewed in the
-same holes for generations.
+Three wells claim the crack. Tobar dhìreach, Tobar dhubh and Tobar òg each keep a telling that the mason's well was theirs. Tobar dhìreach can show a capped shaft with a dark stain on its lip; the other two can show only the telling. The library holds all three claims and chooses none.
 
-These are small things. A people who leave no words leave their fires, their weirs and their bones,
-and the record must learn to read those, or read nothing.
+On what the mason's people did next, every telling agrees. They dug no further. They laid a flat stone over the broken vein, and would draw no water beside it, and cut their well again a stone's throw away. Of all the deeds of the Ancient Age this is the one told most often, to children and to kings, and it is told the same way every time: the people found a wonder in the ground, and they covered it.
 
-## Of the Seann-Dhaoine
+## II. Of the Waters and the Woods
 
-At Seann Dunn there is a mound taller than a man, made of limpet shell and seal bone and burnt weed,
-laid down over many lifetimes. It is the first sure trace of the **Seann-Dhaoine**, the Old Ones;
-and no tool in it is shaped as any later Ròdach shaped a tool.
+In those years Rodos was another shape. The snowfields on the central mountains were shrinking, and their meltwater cut the bed that Abhainn uaine follows still; its gravel terraces hold hearth-stones at three heights, each left as the water came up to it. In the bog beneath Doire ghlas the birch and pine of the colder years gave way to oak and hazel.
 
-What they called themselves the record does not know. The name this book gives them was given
-afterward, by others, and means only that they were before. Yet they held the shores of Rodos longer
-than the Ròdaich have held their kingdom.
+At Achadh dhìreach lie the first hearths of the high valleys: pine and heather charcoal, scrapers of grey flint, the split bones of red deer. Nothing in them is black glass. Whoever sat at them either had none of the ore or would not burn it.
 
-At Seann Chwen they sank their nets with beach stones, and every stone was notched with the same
-three strokes: the earliest mark on Rodos repeated on purpose. At Seann Skell they laid a mole
-of unmortared boulders out into the river, and every quay wall built there since stands upon it. At Seann Bhral they
-cut two hundred and twelve steps up the cliff, and the treads are worn hollow; no one has counted how
-many feet that took. At Seann Toll they cut a channel into a river pool with a slot for a gate of
-wattle, and the slot is still sharp. At Seann Warr they laid a road of crushed shell across the salt
-marsh, the first made road on the island that can still be walked. At Seann Mhorn they built seven
-fish-kilns, the first buildings on Rodos made for a trade rather than for sleeping or for the dead.
-At Seann Bhrenn they laid long ramps of stone into the water, wide enough for hulls bigger than any
-hide boat. The hulls are gone, and so is any telling of where they went.
+And the sea rose. It drowned the low neck that joined Eilean dhubh to the main island, and the island's deer, cut off, grew smaller in the lifetimes after. Out on Eilean mhin seal-hunters pitched their camps a season at a time, reached by boat, and that is the first sure sign that anyone on Rodos crossed open water on purpose. Abhainn ìseal, the longest river of the island, settled into its broad bed, and weirs of hazel were staked across its side channels, and the stakes were renewed in the same holes for generations.
 
-At Seann Tarr they cut rows of signs into the cliff. It is the script that turns up later on the
-standing stones. It is not Ròdais. It has not been read, and not one sign of it has an agreed
-meaning.
+These are small things. A people who leave no words leave their fires, their weirs and their bones, and whoever would know them must learn to read those.
 
-The Seann-Dhaoine of Seann Vell rowed their dead out to Eilean dhearg and laid them in stone boxes
-that face the mainland. Forty have been counted. No grave of theirs on the mainland from that time
-has been found. The dead of the Old Ones, it seems, were set to look back across the water at the
-living.
+## III. Of the Seann-Dhaoine
 
-Their works went up on every coast: platforms on oak piles in Loch chrom, though whether they or
-some other people built them the timbers do not say; round houses framed with the ribs of a stranded
-whale below the southern Seann Dunn; fourteen house-rings at the eastern Seann Vell; a hollow-walled
-tower at the north-western Seann Skell, looking over the water where the Sea-Watcher would later be
-seen; huts at the northern Seann Toll that a dune buried whole and so kept. There was a second Seann
-Mhorn, a headland of shell whose lowest oysters are larger than any taken there since, and a second
-Seann Bhrenn far to the north-east with the same ramps, whether by one people or a carried name is
-not known. There was a cliff-house at the eastern Seann Tarr, black with soot behind the hearth to
-the height of a man, and a curved second mole at the northern Seann Skell, built stone by stone like
-the first.
+At Seann Dunn there is a mound taller than a man, made of limpet shell and seal bone and burnt weed, laid down over many lifetimes. It is the first sure trace of the **Seann-Dhaoine**, the Old Ones; and no tool in it is shaped as any later Ròdach shaped a tool.
 
-At their height, in {{year:I-0056}}, they held every coast: the ten places whose
-names begin with *Seann*, and the islands off them, and their greatest landing was Seann Skell, on the Abhainn naomh. At
-the warm springs of Fuarain Theth Muileann ruadh they set stone basins, and the bones buried nearby
-show old breaks that knitted clean. It is the first place on Rodos where the sick were brought to be
-made well. Let that be remembered of them also.
+What they called themselves is lost. The name they bear was given afterward, by others, and means only that they were before. Yet they held the shores of Rodos longer than the Ròdaich have held their kingdom.
 
-## Of the Three Ruins and the Deep Shafts
+Of them it is told that at Seann Chwen they sank their nets with beach stones, and every stone was notched with the same three strokes, the earliest mark on Rodos made again and again on purpose. At Seann Skell they laid a mole of unmortared boulders out into the river, and every quay wall built there since stands upon it. At Seann Bhral they cut two hundred and twelve steps up the cliff from the shingle to the grazing, and the treads are worn hollow in the middle; no one has counted how many feet that took. At Seann Toll they cut a channel into a river pool with a slot for a gate of wattle, and the slot is still sharp. At Seann Warr they laid a road of crushed shell across the reed marsh, a forearm above the reeds, and it is the first made road on the island that can still be walked. At Seann Mhorn they built seven fish-kilns to dry the catch over peat smoke, the first buildings on Rodos raised for a trade. At Seann Bhrenn they laid long ramps of stone into the water, wide enough for hulls bigger than any hide boat. The hulls are gone, and so is any tale of where they went.
 
-The three centuries that began in {{year:I-0032}} saw as many works and wonders as any stretch of the
-age. The tellings do not fix most of them to the year. They hold them together as one time, when great
-works went up inland and great fears came in from the sea.
+At Seann Tarr they cut rows of signs into the cliff. It is the script that turns up later on the standing stones. It is no Ròdais, and it has never been read, and not one sign of it has an agreed meaning.
 
-On a spur above the ground where Cathair mhòr now stands, a walled outpost was raised, which later
-tongues called Làrach an Dùin-fhaire. Its stones are dressed on the outer face only, and its single
-gate faces inland, not to the sea. A greater work went up on the height near Ceann mhin: three rings
-of wall, a cistern cut in the bedrock, room for four hundred people with their beasts. This is Làrach
-an Dùin, and whether the outpost's builders built it too has never been settled. Near Àth fhionn run
-stretches of a kerbed track, paved with flat slabs, in the direction of both; it is the only road the
-Seann-Dhaoine are known to have built away from the shore.
+The Seann-Dhaoine of Seann Vell rowed their dead out to Eilean dhearg and laid them in stone boxes that face the mainland. Forty have been counted. No grave of theirs on the mainland from that time has been found. So the dead of the Old Ones were set to look back across the water at the living.
 
-In the eastern hills a stepped platform was built, with an altar block on its top step, and the altar
-was set square to the central mountains. That is Làrach an Teampaill. Every later temple on Rodos
-faces some other way. Seers have said since that it faces the vein, not the horizon. The chroniclers
-set down only that it faces the mountains, and that the vein is under the mountains, and leave the
-reader to join the two or not.
+Their works went up on every coast. Platforms on oak piles stood out in the shallows of Loch chrom, though whether the Old Ones raised them or some other people the timbers do not tell. Below the southern Seann Dunn the ribs of a stranded whale were raised as the frames of round houses. At the eastern Seann Vell there are fourteen house-rings of dry stone. At the north-western Seann Skell stands a hollow-walled tower with a stair in the thickness of its wall, looking over the water where the Sea-Watcher would later be seen. There was a second Seann Mhorn, a headland of oyster and whelk whose lowest oysters are larger than any taken there since, and a second Seann Bhrenn far to the north-east with the same ramps; whether one people built both or the name was carried, none can say. At the eastern Seann Tarr a long house was built into a cleft of the cliff, and the rock behind its hearth is black with soot to the height of a man.
 
-At the eastern Toll-dubh a shaft was sunk straight down through the rock, its walls tooled smooth as
-far as a lamp can show, and no spoil heap lies beside it. Whatever was taken out of it was carried
-away, or nothing was. At the western Toll-dubh, across the island, a second shaft of the same make
-was cut. Stones thrown into either are not heard to land.
+At their height, in {{year:I-0056}}, they held every coast: the ten places whose names begin with *Seann*, and the islands off them, and their greatest landing was Seann Skell on the Abhainn naomh, where the mole already stood. At the warm springs of Fuarain Theth Muileann ruadh they set stone basins, and the bones buried nearby show old breaks that knitted clean. That is the first place on Rodos where the sick were brought to be made well. Let it be remembered of them also.
 
-These works did not last. The single gate of Làrach an Dùin-fhaire was blocked with rubble from the
-inside; whoever did it left by another way, or did not leave. The outpost was abandoned, and was a
-ruin already when the first sure chronicles begin. The cistern of Làrach an Dùin was found choked with
-the bones of cattle, thrown in whole, and no one drew from it again; the fortress was left in the same
-condition and the same mystery. The top stone of the altar at Làrach an Teampaill was prised off and
-carried away. The sockets are still sharp, and the stone has never been found. Then the temple too
-was left.
+## IV. Of the Three Ruins and the Deep Shafts
 
-After the high places were left, every new work of the Seann-Dhaoine lay within sight of salt water,
-and the middens at the southern Seann Chwen grew as fast as those of Seann Dunn once had. It is as if
-a people went up into the hills, and built, and were turned back, and came down to the shore and
-stayed there. But that is the chroniclers' likeness, not a thing the stones say.
+The three centuries that began in {{year:I-0032}} saw as many works and wonders as any stretch of the age. The tellings hold them together as one time, when great works went up inland and great fears came in from the sea.
 
-## Of the Sea-Watcher and the Hollow Man
+On a spur above the ground where Cathair mhòr now stands a walled outpost was raised, which later tongues called Làrach an Dùin-fhaire. Its stones are dressed on the outer face only, and its one gate faces inland, away from the sea. A greater work went up on the height near Ceann mhin: three rings of wall, a cistern cut in the bedrock, and room for four hundred people with their beasts. That is Làrach an Dùin, and whether the outpost's builders raised it too has never been settled. Near Àth fhionn run stretches of a kerbed track, a cart's width and paved with flat slabs, heading toward both; it is the only road the Seann-Dhaoine are known to have built away from the shore.
+
+In the eastern hills a stepped platform was built with an altar block on its top step, and the altar was set square to the central mountains. That is Làrach an Teampaill. Every later temple on Rodos faces some other way. Seers have said since that it faces the vein under the mountains; each who hears it may join the two or leave them apart.
+
+At the eastern Toll-dubh a shaft was sunk straight down through the rock, its walls tooled smooth as far as a lamp can show, and no spoil heap lies beside it. Whatever was taken out of it was carried away, or nothing was. Across the island, at the western Toll-dubh, a second shaft of the same make was cut. Stones thrown into either are never heard to land.
+
+None of these works lasted. The single gate of Làrach an Dùin-fhaire was blocked with rubble from the inside; whoever did it left by another way, or never left. The outpost stood empty, and was a ruin already when the first sure chronicles begin. The cistern of Làrach an Dùin was found choked with the bones of cattle thrown in whole, and no one drew from it again, and the fortress was left in the same state and the same mystery. The top stone of the altar at Làrach an Teampaill was prised off and carried away. The sockets are still sharp. The stone has never been found. Then the temple too was left.
+
+After the high places were given up, every new work of the Seann-Dhaoine lay within sight of salt water, and the middens at the southern Seann Chwen grew as fast as those of Seann Dunn once had. It is as if a people went up into the hills, and built, and were turned back, and came down to the shore and stayed there. That is how the tellers put it, and the stones neither agree nor argue.
+
+Long after, in the days of the Stone Kings, the people of the south-east plaited a rope of hide and brought a youth to the lip of the eastern shaft. The wind came up out of the hole, cool and smelling of wet stone, and lifted the hair from his brow as he sat on the edge with the rope knotted under his arms. He had a lamp of fat in a hollowed stone, and he sat looking down into the dark.
+
+They let him go hand over hand, the men braced with their heels in the turf and the hide creaking through their fists. The lamp went down and grew small, a pin of light on the smooth wall, and then the dark closed over it and there was only the rope going out. The rope ran out to its last knot, and they held it there, and it hung straight and heavy and gave no sign.
+
+Then it jerked twice, and they hauled.
+
+He came up alive. His lamp was out and his face was the colour of ash. They asked him, and he shook his head. He never said what was at the bottom, not then and not in all the years he lived; and after him no one went down again in that age.
+
+## V. Of the Sea-Watcher and the Hollow Man
 
 In those same years the fears of Rodos were born, and two of them have never left it.
 
-Among the coastal families of the Tuathaich, in a far later age, there survives a fragment of a
-voyaging telling, a named steersman and a first crossing, which is called the First Canoe. It is the
-voyage of Naomh Breandan, the saint of their Church who put out west over the ocean with his monks and
-came to the Isle of the Blessed; and the families who keep it hold that the isle was Rodos, and set the
-landing in this age, long before any ship of theirs. The Ròdaich priesthood of later ages dismissed it as
-superstition, and it was suppressed, and it is only half-remembered. It belongs here, at the beginning of
-boats, and the chroniclers set it down without judgement. What is sure is smaller: below Ceann mhòr, in the tidal mud, a row of mooring
-stakes and a scrap of stitched hide, the first sure boats of the north-west coast. Who rowed them,
-and from where, the mud does not say.
+Among the coastal families of the Tuathaich, in a far later age, there lives a fragment of a voyaging tale, with a named steersman and a first crossing, which they call the First Canoe. It is the voyage of Naomh Breandan, the saint of their Church, who put out west with his monks and came to the Isle of the Blessed; the families who keep it hold that the isle was Rodos, and set the landing in this age. The druids of the Old Faith call it superstition, and it was put down and is half-remembered; yet it belongs here, at the beginning of boats. What is sure is smaller. Below Ceann mhòr, in the tidal mud, lie a row of mooring stakes and a scrap of stitched hide, the first sure boats of the north-west coast. Who rowed them, and from where, the mud does not say.
 
-On {{date:I-0040}} the Sea-Watcher was first sighted. Old sailors
-speak of a vast creature in the waters off the north-western coast, and no wreck has ever been
-recovered to prove them wrong. On the headland where Taigh-solais Baile chrom now stands a fire was
-kept, and its ash lies a man's height deep; the tellings say it was lit to turn boats away from the
-Watcher's water, not to guide them in. The beacon-keepers' word to the boats is kept at Baile chrom:
+On {{date:I-0040}} the Sea-Watcher was first sighted. Old sailors of the north-west speak of a creature vaster than any whale in the water off that coast, and add, before anyone else can, that no wreck has ever been raised to prove them wrong. On the headland where Taigh-solais Baile chrom now stands a fire was kept, and its ash lies a man's height deep. The tellings say it burned to turn boats away from the Watcher's water. The beacon-keepers' word to the boats is kept at Baile chrom:
 
 > *Tionndaidh air ais. Chan ann dhutsa an t-uisce seo.*
 > Turn back. This water is not for you.
 
-A telling of that coast counts seven boats gone from Ros ruadh in one calm season, with no storm to
-blame: the first loss laid to the Watcher by name. After it the seal-bone in the middens of the
-north-west thins, and the middens at Caol mhòr and Cuan bheag grow. The hunters were working the
-southern sides of the headlands now, out of sight of the open water.
+A telling of that coast counts seven boats gone from Ros ruadh in one calm season, with no storm to blame; that was the first loss laid at the Watcher's door by name. After it the seal-bone thins in the middens of the north-west, and the middens at Caol mhòr and Cuan bheag grow. The hunters were working the southern sides of the headlands now, out of sight of the open sea.
 
-Inland, the rock faces of the Doire uaine hills are cut with inscriptions, more than anywhere else on
-the island, in lines that run for yards; and some of the lines are cut over and defaced by the same
-kind of tool that cut them. They describe, so far as the tellings claim to know, something that walked
-without breathing and attacked anyone who lit a fire in its sight. This is the Hollow Man of Doire
-uaine. The chroniclers note that the script is unread and the Hollow Man is nevertheless known, and
-they do not pretend to understand how both can be true.
+Inland the rock faces of the Doire uaine hills are cut with writing, more than anywhere else on the island, in lines that run for yards; and some of the lines are cut over and defaced by the same kind of tool that cut them. The tellings say they speak of something that walked without breathing and fell upon anyone who lit a fire in its sight. This is the Hollow Man of Doire uaine. How a thing written in an unread script came to be known at all, no one has ever explained; yet known it is, in every house of those hills.
 
-After the inscriptions the hearths of those hills changed. Fires were dug into pits and roofed with
-slabs, and no open hearth showed there for many lifetimes. The people did not leave. They hid their
-light. At the hill camp later built over by Muileann chiar, nine people lie where they fell inside a
-hut, beside a hearth of fresh ash, and no wound has been found on any bone. The hut was never reopened,
-and no one was buried from it.
+After the writing, the hearths of those hills changed. Fires were dug into pits and roofed with slabs, and no open hearth showed on those slopes for many lifetimes. The people stayed. They hid their light. At the hill camp later built over by Muileann chiar nine people lie where they fell inside a hut, beside a hearth of fresh ash, and no wound has been found on any bone. The hut was never reopened, and no one was buried from it.
 
-The fear did not pass. Long after, a herding family new to the hills lit an open fire at Doire uaine
-against the custom, and the hut was found empty and the fire still burning. Later again two herders
-saw a figure walk the ridge by night with no breath showing in the cold; they had no fire lit, and the
-telling says that is why they lived. So the covered hearth spread to all the settlements round
-Muileann chiar, and the rule that no open fire is lit on those slopes after dark begins there. Mothers
-in that country still say:
+The fear did not pass. Long after, a herding family new to the hills lit an open fire at Doire uaine against the custom, and their hut was found empty with the fire still burning in it. After that the custom was kept harder.
+
+Later again, two herders were driving beasts home past the Doire uaine hills when the light went. They had stayed too long at the far pasture. Neither had flint or tinder out, for they were hill-bred and would sooner have walked blind; and so they went on in the half-dark with the beasts crowding at their heels.
+
+The younger saw it first and caught the other's arm. Up on the ridge, against the last grey of the sky, a figure was walking, upright and unhurried, along the crest. They watched it for as long as a man might count a score. It was cold enough that the herders' breath hung in clouds before them. Above the walker on the ridge nothing hung at all.
+
+They did not run, for running is noise. They stood among the cattle with their hands over their mouths until the figure passed over the crest. At home they would not let the fire be uncovered until full day. They had no fire lit on the path, the telling says, and that is why they lived.
+
+So the covered hearth spread from the Doire uaine hills to every settlement round Muileann chiar, and the rule that no open fire is lit on those slopes after dark begins there. Mothers in that country still say:
 
 > *Na las teine far am faic e thu.*
 > Light no fire where it can see you.
 
-## Of the Groves and the Beasts
+## VI. Of the Groves and the Beasts
 
-A forest near Muileann chiar was marked sacred long before any order of the Old Faith claimed it: Coille Naomh
-Muileann chiar. The trees understood, the old telling goes, before the people did. The charcoal in the
-hearths around it comes from every wood but that one; the families at its edge carried their fuel a
-half-day's walk rather than cut a branch within it. There, at the edge of the trees, three hunters saw
-a white stag, and none of them drew. The stag comes back in the tellings of every age after, and the druid
-schools of later ages hold it to be the white stag of Flidais, lady of the deer and the wild.
+A forest near Muileann chiar was hallowed long before any order of the Old Faith laid claim to it: Coille Naomh Muileann chiar. The trees understood, the old telling goes, before the people did. The charcoal in the hearths around it comes from every wood but that one; the families at its edge carried their fuel a half-day's walk rather than cut a branch within it. There, at the edge of the trees, three hunters once saw a white stag, and none of them drew. The stag comes back in the tellings of every age after. The druid schools of later days hold it to be the white stag of Flidais, lady of the deer and the wild; the tellings of this age give it no god at all.
 
-A second forest, older-feeling than the first, was never settled, never logged, never fully mapped:
-Coille Naomh Cnoc bheag. Paths lead toward it from three directions, and all three end at a low line of
-set stones short of the trees. Nothing is worn beyond the stones. Lifetimes later a child of Cnoc
-bheag went past the line and was not found, and the search party stopped at the stones. The telling
-does not blame them. The hearths of that country say the sìth took the child, the people of the hills and
-mounds, whose country begins where the worn paths end.
+A second forest, older in its feeling than the first, was never settled, never felled, never fully walked: Coille Naomh Cnoc bheag. Paths lead toward it from three sides, and all three end at a low line of set stones short of the trees. Nothing is worn beyond the stones. Lifetimes later a child of Cnoc bheag went past the line and was never found, and the searchers stopped at the stones. The telling does not blame them. The hearths of that country say the sìth took the child, the people of the hills and mounds, whose country begins where the worn paths end.
 
-Near Doire fhionn the red deer were driven down lines of stake and brush into a gully, and the antlers
-of the greatest stags were stacked apart. At Cnoc fhionn dogs were buried beside people, each with a
-shell at its head, the first beasts given graves on Rodos; and long after, at Tobar fhiadhaich, wolves
-were laid in the ground on their sides, like people. The grey geese of Eilean ghorm come into the
-tellings in these years. They come with the first storm and leave with the last, and they are never
-hunted there.
+Near Doire fhionn the red deer were driven down lines of stake and brush into a gully, and the antlers of the greatest stags were stacked apart. At Cnoc fhionn dogs were buried beside people, each with a shell at its head, the first beasts given graves on Rodos; and long after, at Tobar fhiadhaich, wolves were laid in the ground on their sides like people. The grey geese of Eilean ghorm come into the tellings in these years. They come with the first storm and leave with the last, and they are never hunted there.
 
-In {{year:I-0078}} a thing was first recorded that no naturalist has since
-explained: the island's great cats cross the mountains by fixed roads at fixed seasons. These are the
-panther roads. The hill-folk learned the cats' timing and kept off the passes while they crossed. A
-party of eleven from the southern shore went up near Cnoc àrsaidh in the crossing season and did not
-come back, and their bones were found years afterward along the line the cats still use. The
-households at Baile dhomhain came to cut a sign on their gateposts at the start of the crossing and
-scrape it off at the end, the first mark on Rodos for a season. Herders from Muileann bhàn who drove
-cattle into the passes out of season lost thirty head in a night. And once the cats came down the road
-near Imrich nam Pantar and turned back at the foothills; the hill-folk took it for a sign, and stored
-double; and the winter was hard.
+In {{year:I-0078}} a thing was first marked that no one has since explained: the great cats of the island cross the mountains by fixed roads at fixed seasons. These are the panther roads. The hill-folk learned the cats' timing and kept off the passes while they crossed. A party of eleven from the southern shore went up near Cnoc àrsaidh in the crossing season and did not come back, and their bones were found years afterward along the line the cats still use. The households at Baile dhomhain came to cut a sign on their gateposts at the start of the crossing and scrape it off at the end, the first mark on Rodos made for a season. Herders from Muileann bhàn who drove cattle into the passes out of season lost thirty head in a night and came down with nothing. And once the cats came down the road near Imrich nam Pantar and turned back at the foothills. The hill-folk took it for a sign, and stored double; and the winter was hard.
 
-## Of the Hill-Folk and the Three Stones
+## VII. Of the Hill-Folk and the Three Stones
 
-In the high valleys around the crack there lived people who were not the Seann-Dhaoine. They buried
-their dead in the ground, not on islands, and cut no script. Whether they shared the island with the
-Old Ones or came after them, the record does not know. Their own answer, given later, is that they were
-always there. These are the hill-folk, and from them came the Ròdaich. They left the green mounds of the
-valleys unbroken, and built on none of them, and the hearths of every later age give the same reason: the
-sìth live in the hills and the mounds, and a house on a mound is a house on someone else's roof.
+In the high valleys around the crack there lived people who were of another kind from the Seann-Dhaoine. They buried their dead in the ground, and cut no script. Whether they shared the island with the Old Ones or came after them, no telling knows. Their own answer, given later, is that they were always there. These are the hill-folk, and from them came the Ròdaich. They left the green mounds of the valleys unbroken, and built on none of them, and the hearths of every later age give the same reason: the sìth live in the hills and the mounds, and a house on a mound is a house on someone else's roof.
 
-At Àth gharbh, in a hearth of ordinary peat ash, lies a sliver of black glass burnt to a bead, and the
-hearthstone round it stained through with colour. It is the earliest burning of the ore anyone has
-found. It is also small: one sliver, one fire. In the graves at Achadh dhìreach is wool streaked with
-colour no plant makes, for the hill-folk rubbed broken ore into cloth for their dead, one grave in some
-thirty. And far off on the western coast, in a midden at Seann Bhral, lies a chip of the ore still
-staining the shell around it. How a piece of the vein came to a rubbish-heap of the Old Ones, by gift,
-trade or theft, is not known.
+At Àth gharbh, in a hearth of plain peat ash, lies a sliver of black glass burnt to a bead, and the hearthstone round it is stained through with colour. It is the earliest burning of the ore anyone has found. It is also small: one sliver, one fire. In the graves at Achadh dhìreach is wool streaked with colour no plant makes, for the hill-folk rubbed broken ore into cloth for their dead, one grave in some thirty. And far off on the western coast, in a midden at Seann Bhral, lies a chip of the ore still staining the shell around it. How a piece of the vein came to a rubbish-heap of the Old Ones, by gift or trade or theft, is anyone's guess.
 
 Then the stones were raised; and the Ròdaich hold them holier than any temple.
 
-The first is Carragh Cnoc bheag. On its upper face runs a line of the unread script, and lower down, cut
-with a narrower tool by another hand, are four words of Ròdais:
+The first is Carragh Cnoc bheag. On its upper face runs a line of the unread script, and lower down, cut with a narrower tool by another hand, are four words of Ròdais:
 
 > *Bha teine sa chloich.*
 > There was fire in the stone.
@@ -264,65 +137,32 @@ The second is Colbh Cnoc chiar, and it carries two words only:
 > *Cuimhnich an teine.*
 > Remember the fire.
 
-No one has ever explained the command. The ground round it is trodden hard in a ring paved with
-fire-cracked stones, where hearth-sized fires were kept again and again, and nothing else was left.
+No one has ever explained the command. The ground round it is trodden hard in a ring paved with fire-cracked stones, where hearth-sized fires were kept again and again, and nothing else was left.
 
-The third is Calbh Cnoc ghorm, and it carries the doctrine itself, complete: *Cha do thàinig sinn; bha
-sinn ann.* If the doctrine has a birthplace, it may be there. The ground round it holds the post-holes
-of shelters for some hundreds, used and rebuilt many times. Whatever was said there was said to a
-crowd.
+The third is Calbh Cnoc ghorm, and it carries the doctrine itself, whole: *Cha do thàinig sinn; bha sinn ann.* If the doctrine has a birthplace, it may be there. The ground round it holds the post-holes of shelters for some hundreds, used and rebuilt many times. Whatever was said there was said to a crowd.
 
-In those years a necropolis grew about a site that no one remembers consecrating: Tuam Cnoc dhìreach,
-whose oldest graves are older than its oldest legible names. In one of the oldest lies a child with a
-sliver of black glass closed in one hand. The sliver still stains the cloth it is kept in, and it is the
-only piece of the vein found buried with the dead in all this age. The graves came to be laid in rows,
-heads toward the central mountains; the earliest rows are straight, and the later ones bend round graves
-already there that no one would disturb.
+In those years a burial ground grew about a place that no one remembers hallowing: Tuam Cnoc dhìreach, whose oldest graves are older than its oldest names that can be read. In one of the oldest lies a child with a sliver of black glass closed in one hand. The sliver still stains the cloth it is kept in, and it is the only piece of the vein found buried with the dead in all this age. The graves came to be laid in rows, heads toward the central mountains; the earliest rows are straight, and the later ones bend round graves already there that no one would disturb.
 
-Long lifetimes after, a single dwelling was sealed by chance in the peat. Its hearth is laid with dry
-wood, and beside the wood lies a slip of the ore, and none of it was ever burned. Whoever laid it went
-away and did not come back to light it. It is the earliest witness that someone on Rodos chose not to
-burn a thing they easily could have, and the keepers of later ages call it the Unlit Hearth.
+Long lifetimes after, a single dwelling was sealed by chance under three yards of peat. Its hearth is laid with dry wood, and beside the wood lies a slip of the ore, and none of it was ever burned. Whoever laid it went away and did not come back to light it. It is the earliest witness that someone on Rodos chose to leave unburned a thing they might easily have burned, and the keepers of later ages call it the Unlit Hearth.
 
-For in those years a custom set in across the hills: that no fire should take more of the ore than can
-be held in one cupped hand. It was nowhere written and everywhere kept, and the Small-Burning Law of the
-next age is this custom hardened. The tellings give it a reason, and the reason is Achadh dhìreach,
-where a household burned a whole basket of the ore at once. The house burned down with three people in
-it, and the hearthstone was found cracked through and running with colour. The saying that goes with it
-is this:
+For in those years a custom set in across the hills, that no fire should take more of the ore than can be held in one cupped hand. It was nowhere written and everywhere kept, and the Small-Burning Law of the next age is this custom hardened. The reason is always the same tale, told to children when they first reach toward the ore-box. At Achadh dhìreach, it goes, a household once burned a whole basket of the ore at one time. The house burned down with three people in it; and when the neighbours came in the grey of morning the hearthstone was cracked through and running with colour. Then the teller cups a hand, and says:
 
 > *Làn na glaice, 's gun tuilleadh.*
 > The hollow of the hand, and no more.
 
-And the families near the crack began to sit by the slab laid over it, a household at a time, through
-the dark half of the year, from Samhain, when the dark half begins, until the light came back. No one ever said what they were watching for.
+And the families near the crack began to sit by the slab laid over it, a household at a time, through the dark half of the year, from Samhain, when the dark half begins, until the light came back. No one ever said what they were watching for.
 
-## Of the Counting of the Dead and the Silence of the Old Ones
+## VIII. Of the Counting of the Dead and the Silence of the Old Ones
 
-In {{year:I-0090}} the Seann-Dhaoine began to cut strokes on flat stones set at the
-edges of their middens, one stone to a household. The strokes are not the script. They are simpler: a
-mark, and then another. They were counting their dead. Before there was a Ròdach people to inherit the
-craft, the Old Ones kept count of their own losses, and the chroniclers own them as their first ancestors
-in it, though they cannot name one of them.
+In {{year:I-0090}} the Seann-Dhaoine began to cut strokes on flat stones set at the edges of their middens, one stone to a household. The strokes are simpler than the script: a mark, and then another. They were counting their dead. Before there was a Ròdach people to take up the craft, the Old Ones kept count of their own losses, and the chroniclers of Muileann chaol own them as their first forebears in it, though they cannot name one of them.
 
-At the eastern Seann Warr the counting stones were built into a wall, some three thousand strokes in
-all, and the wall grew for many lifetimes. At Seann Tarr in the north-east the strokes were cut in
-fives and the stones set into the floor of a house, and the house was lived in over its own dead. Then
-the tally stones of Seann Warr, Seann Tarr and Seann Chwen all thicken together: more strokes on each
-stone, more stones in each course. Whatever killed so many killed on three coasts at once. The strokes
-do not say what it was.
+At the eastern Seann Warr the counting stones were built into a wall, some three thousand strokes in all, and the wall grew for many lifetimes. At Seann Tarr in the north-east the strokes were cut in fives and the stones set into the floor of a house, and the house was lived in over its own dead. Then the tally stones of Seann Warr, Seann Tarr and Seann Chwen all thicken together, more strokes on each stone, more stones in each course. Whatever killed so many killed on three coasts at once. The strokes do not say what it was.
 
-At the Seann Chwen near Cuan dhearg, on {{date:I-0095}}, the last tally
-stone was left half-cut: two strokes finished, a third begun and abandoned. The chisel marks stop
-mid-groove.
+At the Seann Chwen near Cuan dhearg, on {{date:I-0095}}, the last tally stone was left half-cut: two strokes finished, a third begun and given up. The chisel marks stop mid-groove.
 
-After the half-cut stone no new work of the Seann-Dhaoine can be dated. Their middens stop growing,
-their harbours silt, and their script is not cut again. How they ended the record does not know, and it
-will not guess. Others have guessed in every age, and the library at Muileann chaol keeps their guesses
-in a press of their own, and lends them to no one as history.
+After the half-cut stone no new work of the Seann-Dhaoine can be dated. Their middens stop growing, their harbours silt, and their script is never cut again. How they ended, no one knows. Others have guessed in every age, and the library at Muileann chaol keeps their guesses in a press of their own and lends them to no one as history.
 
-There is a lament for them on the south coast. It is not old, as such things go, but it says what the
-record says:
+There is a lament for them on the south coast. It is young, as such things go, and it says what the stones say:
 
 > *Stràc air a' chloich, is stràc eile;*
 > *an treas stràc, cha deach a chrìochnachadh.*
@@ -332,257 +172,152 @@ record says:
 > the third stroke, it was never finished.
 > They went, and they left the names.
 
-For the hill-folk went on calling the Old Ones' places by the Old Ones' names, putting only their own
-word for *old* in front: Seann Dunn, Seann Chwen, Seann Skell and the rest. They translated nothing,
-and the roots are still not understood. Hill-folk families came down the Abhainn naomh and settled the empty river harbour at
-Seann Skell, using the old mole and mending none of it: the first time they are known to have lived by
-the water. Long after, a wind-name was cut in the Ròdaich manner on a boulder at the central Seann Chwen,
-over an older mark of the Seann-Dhaoine, and there the marks of the two peoples lie one upon the other.
-When diggers at Tuam Cnoc dhìreach broke into a grave lined in the Seann-Dhaoine way, they closed it and
-moved their row. When households at the eastern Seann Dunn cut into the midden there and found the tally
-stones, they put them back in the order they had found them, and built elsewhere.
+For the hill-folk went on calling the Old Ones' places by the Old Ones' names, putting only their own word for *old* in front: Seann Dunn, Seann Chwen, Seann Skell and the rest. They translated nothing, and the roots are still not understood. Hill-folk families came down the Abhainn naomh and settled the empty river harbour at Seann Skell, using the old mole and mending none of it, the first time they are known to have lived by the water. Long after, a wind-name was cut in the Ròdaich manner on a boulder at the central Seann Chwen, over an older mark of the Seann-Dhaoine, and there the marks of the two peoples lie one upon the other. When diggers at Tuam Cnoc dhìreach broke into a grave lined with slabs in the Seann-Dhaoine way, they closed it and moved their row, and no one opened it again.
+
+At the eastern Seann Dunn, near the end of the age, a household set about cutting a floor for a new house into the side of the old midden.
+
+The woman of the house had the spade, a blade of shoulder-bone on an ash handle, and her two sons carried the spoil away in baskets. The midden smelled of salt and long-dead fires. At a man's length in, the spade rang.
+
+She knelt and cleared it with her hands. It was a flat stone, set on its edge, and when she brushed the grit from its face she saw the strokes: one and one and one, row on row, cut clean and close, more than she could count on her hands and her sons' hands together. Beside it was another. Behind that, another.
+
+She knew what they were. Everyone on that coast knew, though no one had ever seen one: the Old Ones' counting of their dead.
+
+They lifted them out one at a time, and she laid them on the turf in the order they had come, the first on the left. She looked at them a long while in the wind off the sea. Then she and her sons put them back, the last first, each in its own place and facing the way it had faced, and they filled the cut and trod it down. They built their house elsewhere, on poorer ground.
 
 So the Ròdaich have always dealt with the Old Ones: as a people whose count must not be disturbed.
 
-## Of the Stone Kings and the Red Hill
+## IX. Of the Stone Kings and the Red Hill
 
-In those same centuries the kings begin; and so the last of the Old Ones and the first of
-the kings stand in the annals side by side, and neither list names the other.
+In those same centuries the kings begin; and so the last of the Old Ones and the first of the kings stand in the annals side by side, and neither list names the other.
 
-The oldest spoken king-list, later called *Rìghrean na Cloiche*, the Stone Kings, opens on
-{{date:I-0081}} with **Ailean Mòr**, who is said to have held the hill where Dùn ìseal now stands
-and thrown up its first bank: a single bank and ditch round some forty houses, the oldest defended place
-of the hill-folk. The list gives no lengths of reign, and it is older than the name Ròdaich. A second
-list was kept in the west, and it opens with **Beathag Ruadh**, who held the hill where Cathair dhearg now
-stands; that is the Red Hill. For long the two lists do not mention each other.
+The reciters at the ford open the oldest spoken king-list, *Rìghrean na Cloiche*, the Stone Kings, with a name, and it is the name of **Ailean Mòr**, on {{date:I-0081}}. He is said to have held the hill where Dùn ìseal now stands and thrown up its first bank: a single bank and ditch round some forty houses, the oldest defended place of the hill-folk. The list gives no lengths of reign, and it is older than the name Ròdaich. A second list was kept in the west, and it opens with **Beathag Ruadh**, who held the hill where Cathair dhearg now stands, and that is the Red Hill. For long the two lists say nothing of each other.
 
-**Gormshuil nic Ailein**, second of the Stone Kings, is the first woman in any list on Rodos, and her
-telling gives her one deed: in a hard winter she moved the herds of Dùn ìseal down to the warm springs
-and lost none. **Dòmhnall Clachach** set marker stones along the valley to divide the grazing, and some
-stand yet, and are still argued over. After him came the first named storm, whose name is lost and only
-the fact of it kept. It broke the shell causeway of Seann Warr in three places, and the Seann-Dhaoine did
-not mend it. Then came **Fearchar Bacach**, the lame king, carried to the gatherings in a chair of woven
-birch, the first ruler on Rodos remembered for a hurt. On the Red Hill, **Uisdean Mòr** dug a ditch
-across the neck of the hill and set a palisade on it, which burned twice and was twice rebuilt; and
-**Seonag nic Uisdein**, generations after him, counted her people by pebbles in a bag, one to a household, and knew by
-the weight when a household had gone.
+**Gormshuil nic Ailein**, second of the Stone Kings, is the first woman in any list on Rodos, and her telling gives her one deed: in a hard winter she moved the herds of Dùn ìseal down to the warm springs and lost none. **Dòmhnall Clachach**, third, set marker stones along the valley to part the grazing, and some stand yet, and are still quarrelled over. After him came the first named storm, whose name is lost and only the fact of it kept. It broke the shell causeway of Seann Warr in three places and the Seann-Dhaoine never mended it. Then came **Fearchar Bacach**, the lame king, carried to the gatherings in a chair of woven birch, the first ruler on Rodos remembered for a hurt. On the Red Hill **Uisdean Mòr** dug a ditch across the neck of the hill and set a palisade on it, which burned twice and was twice rebuilt; and **Seonag nic Uisdein**, who held the hill after her father, counted her people by pebbles in a bag, one to a household, and knew by the weight when a household had gone.
 
-The first war in either list was a raid for salt. **Mòrag Chruaidh**, fifth of the Stone Kings, went down
-to the pans at Baile ghorm, the island's first salt-works, and carried off the salt; seven died on the
-hill side, a number the telling keeps. **Iain Dubh**, sixth, went down to do it again and was killed on
-the shingle. The list says only that he was brought home.
+The first war in either list was a raid for salt. **Mòrag Chruaidh**, fifth of the Stone Kings, went down to the pans at Baile ghorm, shallow clay basins behind a shingle bar and the island's first salt-works, and carried off the salt. Seven died on the hill side, and the telling keeps the number. **Iain Dubh**, sixth, went down to do it again and was killed on the shingle. The list says only that he was brought home.
 
-The land was not quiet under those kings. A sheet of sea sand full of deep-water shells lies over a
-village on the site of Cnoc chaol, which was not rebuilt on that ground. At Cill ghlas a crack a man could
-fall into opened across the valley and a spring moved a hundred paces downhill; the hill-folk banked it
-and laid a line of white stones along it, and built no house within a stone's throw. The dwellings on
-Loch chrom burned to the waterline.
+The land was not quiet under those kings. A sheet of sea sand full of deep-water shells, a hand thick, lies over the hearths of a village on the site of Cnoc chaol, and the village was never rebuilt on that ground. At Cill ghlas a crack a man could fall into opened across the valley and a spring moved a hundred paces downhill; the hill-folk banked it with stones and laid a line of white stones along it, and built no house within a stone's throw. The dwellings on Loch chrom burned to the waterline, and their charred piles were left standing in the shallows.
 
-Yet the kings made peace also. **Raghnall Ceannfhionn**, seventh of the Stone Kings, met the Red Hill's
-holder at the ford where the fair of Muileann òg is held now, and they agreed on salt for wool. Both lists
-record it, and it is the first time either mentions the other. The meeting became a yearly gathering of
-salt, flint, wool, fish and pots, where marriages were agreed, and its trodden ground is the oldest
-continuous meeting-place on the island. **Murchadh Gearr** of the Red Hill kept the peace of the ford, and
-walked the salt road every year to be seen on it.
+## X. Of the Ford of Salt and Wool
 
-The hill-folk spread in those generations: to Ros bheag on the west coast; to Cathair dhomhain, paying
-salt to the Red Hill; to Cnoc ghorm with the first cattle of the north-west; to Cathair gheal, where a
-long-house forty paces long burned and was rebuilt on its footing twice. The first pots were fired at
-Doire shean. An oak dug-out long enough for six was sunk at Cidhe Beag, the oldest boat on Rodos whose
-whole shape is known. Seal-oil lamps burned at Caol leathan, the first light on the island that was not a
-hearth. And the tellings of the south-east keep the story of a youth let down on a rope of plaited hide
-into the eastern Toll-dubh, to the rope's end. He was drawn up alive, and never said what was at the
-bottom, and after him no one went down again in this age.
+**Raghnall Ceannfhionn**, seventh of the Stone Kings, came down to the ford to meet the Red Hill, and the reciters make much of his coming.
 
-Hard years came. At the site of Baile chrom in the north-west the pots are found full of boiled bark and
-seaweed and the grave-rows doubled: the oldest hunger on Rodos with a place to it. The springs of Achadh
-shean ran dry, and its fields were given up. **Sìleas Bhàn**, eighth of the Stone Kings, held Dùn ìseal
-through years of failed grazing, and her telling gives her no deed but that: she held, and the list goes
-on after her. **Tormod Liath**, ninth, outlived three heirs, and in his time Dùn ìseal got its second
-bank.
+He brought only a few with him, for more would have looked like a raid. It was early summer, the river running clear and shallow over its stones, and midges hung in clouds over the water. The Red Hill's holder, whose name the lists do not keep, waited on the far bank with as many, and the two parties looked at each other a long time across the water while the river talked between them.
 
-Things were fixed in those lifetimes that have never been unfixed. Flint was dug at Cnoc àrsaidh, the only
-good flint on Rodos, and the road of those who carried it is sunk a yard deep near Àth leathan. A hawk was
-carved on a lintel at Àth mhòr, the oldest carving of any bird on the island. The Hawk order of later
-ages claims it for the Hawk of Acaill, the grey hawk as old as Fionntan; the lintel says nothing. Someone began to mark the
-high-water line against a fixed rock, at intervals too regular for a fisherman's habit, and the practice
-was carried to Ros dhomhain with the interval unchanged; and there the marks crept upward from keeper to
-keeper, until by the age's end the lake stood a hand higher than at the first cut. The keepers kept
-cutting. And the eight winds were named, with names that translate awkwardly and have never been replaced.
-Eight stones were set in a ring on the point at Ceann leathan, one to each wind, and sailors of every age
-since have touched the stone of the wind they want before they go out.
+The two hills had never once spoken. The old salt raids were still sung on the hill side, and a king of Dùn ìseal still lay under his cairn for the salt of Baile ghorm. He also knew his hill had sheep in plenty and too little salt, and that the west had salt in plenty and was short of wool.
 
-## Of the Ròdaich Name and the Keepers of the Slab
+So he waded in, alone, to the middle of the ford, with the water to his knees and his cloak held up out of it, and stood there. After a while the other came out to meet him.
 
-By {{year:I-0140}} the hill-folk had begun to call themselves
-**Ròdaich**, and their island **Ròdos**. No one recorded the first use. The oldest tellings already
-assume both names, and the doctrine goes with them.
+What they said the reciters give short. The hill would bring wool; the west would bring salt; neither would bring spears. They clasped arms over the water and waded back, each to their own bank.
 
-With the name came the first forbidden marriage, a union of two lineages refused for reasons no text
-explains: the earliest witness that the Ròdaich ordered themselves by bloodline before they had any reason
-of the vein to do it. At the ford, households began to recite their lines seven names back before a
-marriage was agreed, and those are the first genealogies on Rodos. None survives complete.
+Both lists record it, and it is the first time either names the other. The meeting became a yearly gathering where salt, flint, wool, dried fish and pots changed hands and marriages were agreed, and its trodden ground, where the fair of Muileann òg is held now, is the oldest meeting-place on the island that has never been left. **Murchadh Gearr**, who held the Red Hill after Seonag, kept the peace of the ford, and walked the salt road himself every year to be seen on it.
 
-In the same years they went looking for another vein. Diggers from Dùn ìseal opened a trench near Cnoc
-dhubh and gave it up when two of them were crushed by a fall. A second opening elsewhere found ordinary
-rock and nothing beneath it: the first proof that the vein under the mountain is no rule but an exception.
-No one in this age tried a third. The Ròdaich took it that the vein chooses where it lies, and that the
-choosing is not theirs to test.
+The hill-folk spread in those generations: to Ros bheag on the west coast; to Cathair dhomhain, paying salt to the Red Hill; to Cnoc ghorm with the first cattle of the north-west; to Cathair gheal, where a long-house forty paces long burned and was rebuilt on its footing twice. The first pots were fired at Doire shean. An oak dug-out long enough for six was sunk at Cidhe Beag, the oldest boat on Rodos whose whole shape is known. Seal-oil lamps burned at Caol leathan, the first light on the island that was no hearth.
 
-Then came the custom that later ages lean on more than they admit: that any household with surplus food
-must share it before a storm season. At Dùn ìseal it was shared in the open within the bank, by count of
-mouths. At Àth shean a household hid its grain in a pit beneath the floor, and when the pit was found the
-household was put out with what it could carry, the first known punishment under the custom. And when the
-storm called *A' Ghaoth Dhubh*, the Black Wind, the oldest storm whose name is kept, stripped the thatch
-from every house on the east coast from Cuan ruadh to Ceann chiar, the settlements of that coast fed Cuan
-ruadh through a whole winter, and no one there is recorded as dying of hunger that season.
+Hard years came. At the site of Baile chrom in the north-west the pots are found full of boiled bark and seaweed and the grave-rows doubled: the oldest hunger on Rodos with a place to it. The springs of Achadh shean ran dry, and its fields were given up to the grass. **Sìleas Bhàn**, eighth of the Stone Kings, held Dùn ìseal through years of failed grazing, and her telling gives her no deed but that. She held, and the list goes on after her. **Tormod Liath**, ninth, outlived three heirs, and in his time Dùn ìseal got its second bank.
 
-Between the two hills there was fosterage. **Eilidh Ghlas**, tenth of the Stone Kings, sent her younger
-son to the Red Hill, and **Lachlann Ruadh** took him in, and the Red Hill list calls him for it *Lachlann an
-Altraim*, Lachlann of the fostering, more often than by his own name. **Peigi Dhubh** sent the son home
-grown, with gifts of salt. He brought the western salt-songs to Dùn ìseal, and the list gives him no name
-and no reign. He is remembered only as the one who went.
+Things were fixed in those lifetimes that have never been unfixed. Flint was dug at Cnoc àrsaidh, the only good flint on Rodos, and the road of those who carried it is sunk a yard deep near Àth leathan. A hawk was carved on a lintel at Àth mhòr, wings closed, head turned, the oldest carving of any bird on the island. The Hawk order of later ages claims it for the Hawk of Acaill, the grey hawk as old as Fionntan; the lintel keeps its own counsel. Someone began to mark the high-water line against a fixed rock, at intervals too regular for a fisherman's habit, and the practice was carried to Ros dhomhain with the interval unchanged; and there the marks crept upward from keeper to keeper, until by the age's end the lake stood a hand higher than at the first cut. The keepers kept cutting. And the eight winds were named, with names that translate awkwardly and have never been replaced. Eight stones were set in a ring on the point at Ceann leathan, one to each wind, and sailors of every age since have touched the stone of the wind they want before they go out.
 
-But it was at the slab that the heart of the age was kept.
+## XI. Of the Ròdaich Name and the Sharing before the Storms
 
-On {{date:I-0151}} the families who watched the slab agreed to choose one
-keeper at a time by lot. The first lot fell to **Oighrig nic Dhòmhnaill**, and she kept the slab for the
-rest of her life. A house was built beside it at Tobar dhìreach with its door toward the stone, the first
-building on Rodos that exists only to be near the vein. Oighrig had a cup ground from grey stone to the size
-of her own cupped hand, so that the handful should be the same for every household, and copies were ground at
-Àth gharbh, Achadh dhìreach and Cnoc chaol, each proved against the first by filling it with water. So the
-hills came to measure the ore with one measure. The tellings give her a word at the grinding, though whether
-she said it the chroniclers cannot tell:
+By {{year:I-0140}} the hill-folk had begun to call themselves **Ròdaich**, and their island **Ròdos**. The first mouth to say it is forgotten. The oldest tellings already take both names for granted, and the doctrine goes with them.
+
+With the name came the first forbidden marriage, two lineages refused to each other for reasons none can now give: the earliest sign that the Ròdaich ordered themselves by bloodline before the vein gave them any cause to. At the ford, households began to recite their lines seven names back on each side before a marriage was agreed, and those are the first genealogies on Rodos. None survives whole.
+
+In the same years they went looking for another vein. Diggers from Dùn ìseal opened a trench near Cnoc dhubh and gave it up when two of them were crushed by a fall. A second opening elsewhere struck ordinary rock with nothing beneath it, and so it was first shown that the vein under the mountain stands alone. No one in this age tried a third. The Ròdaich took it that the vein chooses where it lies, and that the choosing is not theirs to test.
+
+Then came the custom that later ages lean on more than they admit: that any household with food to spare must share it before a storm season. At Dùn ìseal it was shared in the open within the bank, by count of mouths. At Àth shean a household hid its grain in a pit beneath the floor and brought nothing, and when the pit was found the household was put out with what it could carry, the first known punishment under the custom. And when the storm called *A' Ghaoth Dhubh*, the Black Wind, the oldest storm whose name is kept, stripped the thatch from every house on the east coast from Cuan ruadh to Ceann chiar, the settlements of that coast fed Cuan ruadh through a whole winter out of what they had shared, and no one there is remembered as dying of hunger that season.
+
+Between the two hills there was fosterage. **Eilidh Ghlas**, tenth of the Stone Kings, sent her younger son to the Red Hill, the first fosterage in either list, and **Lachlann Ruadh** took him in; and the Red Hill list calls Lachlann for it *Lachlann an Altraim*, Lachlann of the fostering, more often than by his own name. **Peigi Dhubh**, who held the hill after him, sent the son home grown, with gifts of salt, and the ford peace held a generation more. He brought the western salt-songs to Dùn ìseal. The list gives him no name and no reign. He is remembered only as the one who went.
+
+## XII. Of Oighrig and the Stone Cup
+
+At the slab the heart of the age was kept, and the hearths of the hill country tell this part closest of all.
+
+It was {{date:I-0151}}, in the dark half of the year, when the families who watched the slab met beside it and agreed that they would stop taking turns by household and choose one keeper at a time by lot.
+
+**Oighrig nic Dhòmhnaill** stood among them with her shawl over her head against the drizzle. The slab lay grey in the middle of the gathering with the rain beading on it, and the old stain at its lower edge that never washed out. She had sat by it through many nights with her household, and had never once seen it do anything at all.
+
+The lots were pebbles in a bag, one marked. She put her hand in and felt the cold stones knock against her fingers, and brought one out, and opened her hand. Everyone near her saw it before she did.
+
+No one cheered. An old man touched her shoulder once and stepped back. She looked at the pebble a while, and then at the slab, and she put the pebble in her belt, and she kept the slab for the rest of her life.
+
+A house was built beside it at Tobar dhìreach with its door toward the stone, the first building on Rodos that exists only to be near the vein, and it has been rebuilt on that footing many times. Before two years of her keeping were out, Oighrig went to a man who worked stone, and set her own hand on the table before him, cupped as for water, and said she wanted a cup of grey stone that would hold what that hand held and not a grain more, so that the handful should be the same in every house. He ground it over many days and fitted it to her palm again and again, until it sat in the hollow of her hand like an egg in a nest.
+
+The tellings give her a word at the grinding, though whether she said it, only she could tell:
 
 > *Chan e mo làmh-sa a th' ann, ach làmh gach teallaich.*
 > It is not my hand; it is the hand of every hearth.
 
-The lot did not make its keepers holy. A keeper named **Gilleasbuig Beag** was found with a basket of broken
-ore in his own house. The households sat in judgement at the slab and sent him to Eilean chrom in a boat with
-no oars to come back, the first person on record exiled for the vein. The ore was not burned and not kept:
-the keeper who followed carried it back and laid it under the slab, piece by piece. The tellings say it in
-three words:
+Copies were ground at Àth gharbh, Achadh dhìreach and Cnoc chaol. Each was carried with the first to a spring on the moor between Àth gharbh and Tobar dhìreach, and the four were set side by side on a flat stone and filled from the spring in turn. The place is called Coinneachadh nan Cupan, the meeting of the cups, and the hill settlements came back to it whenever a cup was broken and a new one had to be proved. So the hills came to measure the ore with one measure.
+
+The lot did not make its keepers holy. A keeper named **Gilleasbuig Beag** was found with a basket of broken ore in his own house. The households sat in judgement at the slab and rowed him out to Eilean chrom and left him there with no boat to come back in, the first person anyone remembers exiled for the vein. The ore was neither burned nor kept. The keeper who followed him carried it back to the slab, and knelt, and laid it under the stone's edge piece by piece until the basket was empty. The tellings say it in three words:
 
 > *Chaidh a' mhèinn dhachaigh.*
 > The ore went home.
 
-Eilean chrom was left empty after, and not fished. His fire was seen on it for three nights, the tellings
-say, and then not at all.
+Eilean chrom was left empty after, and never fished. His fire was seen on it for three nights, the tellings say, and then no more.
 
-Then the kings reached for the lot. **Calum Ciar**, eleventh of the Stone Kings, asked that it be drawn at
-Dùn ìseal in his sight, and the households refused; and the list records the refusal, which is more than the
-list usually records of anything. The lot was still drawn at the slab. The Stone Kings ruled the grazing and
-the gatherings, but not the vein, and that line held for the rest of the age. It was not yet written
-anywhere.
+Then the kings reached for the lot. **Calum Ciar**, eleventh of the Stone Kings, asked that it be drawn at Dùn ìseal in his sight, and the households refused him; and the list records the refusal, which is more than the list usually records of anything. The lot was still drawn at the slab. The Stone Kings ruled the grazing and the gatherings, and the keepers ruled the vein, and that line held for the rest of the age. It was written nowhere yet.
 
-There was one who spoke against the doctrine. On {{date:I-0167}}, at the ford gathering, a teller
-from the western coast named **Anndra Breac** recited a telling in which the people came to Rodos over the
-sea. The households of the hills shouted him down, and he was put out of the ford for the rest of his life.
-His telling was not kept; only the fact of it. The chroniclers note, and weigh nothing by it, that in the
-month before, planks of stitched boats broken small had washed up along the western shore, with no bodies and
-no boat missing from any settlement there; and that that spring the Sea-Watcher had been seen from the tower at Seann
-Skell, a back as long as three boats, by four witnesses. They note it because it is in the annals. The
-reader should draw nothing from it either.
+## XIII. Of Anndra Breac and the Doctrine Spoken
 
-After Anndra Breac, the saying on the column at Cnoc ghorm was spoken aloud at the opening of every ford
-gathering. It was the first time the doctrine was said as a rule, and not only believed.
+In the spring of the year before, the watchers in the tower at Seann Skell had seen the Sea-Watcher off the point, a back as long as three boats rising and going under, and there were four of them to swear to it. That summer planks of stitched boats, broken small, washed up along the western shore, with no bodies among them and no boat missing from any settlement there. Those who tell what follows at the ford set these two things down beside it and let them lie.
 
-## Of the Beacons, the Tide-Rocks and the Long Settling
+On {{date:I-0167}} the gathering at the ford was full, and **Anndra Breac**, a teller from the western coast, stood up before the gathering to give a telling.
 
-In those years the coasts were lit. Fires were kept on the capes where Taigh-solais Baile ìseal,
-Taigh-solais Muileann bheag, Taigh-solais Àth dhearg and Taigh-solais Tobar dhearg stand now, the ash under
-the Muileann bheag tower three yards deep, the steps at Àth dhearg narrower than those of Seann Bhral and
-less worn. With the old fire at Baile chrom the coasts were lit at five points; and the new fires, the
-tellings say, were kept to bring boats home in a storm, not to warn them off.
+He was a lean man with a freckled face burnt dark by the sea wind and a voice made for the open air. The crowd settled on the trodden grass with their food in their laps, and a child slept against its mother's knee.
 
-The tide-rock at Ros dhomhain passed to **Seònaid Mhòr**, who cut her marks in pairs, high water and low;
-her pairs are still readable, and the keepers after her went back to single marks. Inis thais cut its own
-marks at the same interval, so that three rocks ran side by side, and none says why the interval is what it
-is. Ros dhomhain grew to some sixty houses, fishing now from boats and not from the shore, and the Red Hill
-built its first landing on the river-mouth below the hill, where the harbour of Cathair dhearg is now.
+He began, and for a while they listened, because he was good. Then they understood what the telling was. In it the people came to Rodos. They came over the sea, in boats, from somewhere else.
 
-The salt-songs of the pans are the oldest songs on Rodos whose words are said to survive, a refrain of four
-lines that no one can fully translate, and this book does not pretend to. At Cnoc àrsaidh near the panther
-road were found pipes of bird-bone bored with four holes, the oldest instruments on the island. At Caol
-bheag the boats were named for the winds they fished in, and a boat that sank had its name never used again.
-A family at Tuam Cnoc dhìreach took on the clearing of thorn from the old graves, burying none of their own
-there. Pilgrims sat a night at the edge of Coille Naomh Muileann chiar without entering, and came in numbers
-to the warm springs of Muileann ruadh, where the oldest cure-telling on Rodos is set: a herder who came lame
-and walked home.
+The first shout came from the hill households, and then it came from everywhere at once. Men stood up. A crust was thrown and fell short. Anndra Breac raised his voice over them, which was the worst thing he could have done, for they shouted louder to drown it; and he stood with his mouth still moving and no one hearing a word, and the child woke and cried.
 
-Then, over nearly two thousand years, the Ròdaich filled the island; the annals give each place its settling,
-and this book names only enough to show the shape of it. Baile chrom, emptied by the old hunger, was settled
-again from Cnoc ghorm. Caol mhòr was built on the Old Ones' middens. A salt road ran from the pans of Baile
-ghorm through the ford to Muileann àrsaidh, where salt sold at three times its price. Dùn thais was banked,
-the first Ròdaich fort away from Dùn ìseal and the Red Hill, and Dùn chrom was raised in the island's centre
-with a bank that faces both ways. Cuan ruadh was rebuilt in stone against the wind, and Ceann chiar set a
-stone in its midst cut with one mark for each house the Black Wind took: twenty-two.
+The gathering put him out of the ford for the rest of his life. He went west along the river path and did not look round. His telling was not kept, only the fact of it.
 
-Everywhere the settlers let the old things be. Those who built below Làrach an Dùin-fhaire, where Cathair
-mhòr now stands, took no stone from the ruin, though it was the nearest quarry. At Ceann mhin they would not
-go up to Làrach an Dùin. A path was worn round Làrach an Teampaill at a distance. At Cnoc bheag, near the
-Carragh, no house was set with its door toward the stone. Cathair fhada drank from a well the Old Ones dug and
-never said where it came from. At Cnoc naomh the hill was already called holy when the settlers came, and why
-is not known; the hearths say the sìth were in it, and the settlers built below it and never on it.
+After Anndra Breac, the saying on the column at Cnoc ghorm was spoken aloud at the opening of every ford gathering: *Cha do thàinig sinn; bha sinn ann.* It was the first time the doctrine was said as a rule that bound, where before it had only been believed.
 
-On the hill of Muileann chaol there was a cattle-fold where the library stands now, and a cairn was raised
-above it for each head of a household at death, some forty by the age's end. The record that tells this story
-began, in a manner, among those cairns. The ford gathering grew till it drew every coast, its ground parted by
-custom: salt people downstream, hill people upstream, flint people on the far bank. Green-stone axes from Àth
-àrsaidh, too fine for work, went into graves across the island until the quarry was left. Stepping-stones were
-laid across Abhainn fhionn, the first made crossing of any river; a spate on Abhainn chaol took twelve salt-
-carriers at its fords.
+## XIV. Of the Beacons, the Tide-Rocks and the Long Settling
 
-The land kept its old wounds. The sea came again over Cnoc chaol, less far, and the houses built higher were not
-lost. The crack at Cill ghlas moved and the spring went back uphill, and the white stones were relaid. A dry
-summer lay on the eastern plain, and Dùn ìseal and Muileann bhàn drove their cattle to the warm springs; and the
-shared surplus held, and the record counts no deaths.
+In those years the coasts were lit. Fires were kept on the capes where Taigh-solais Baile ìseal, Taigh-solais Muileann bheag, Taigh-solais Àth dhearg and Taigh-solais Tobar dhearg stand now. The ash under the Muileann bheag tower goes down three yards; the steps at Àth dhearg are narrower than those of Seann Bhral, and less worn. With the old fire at Baile chrom the coasts were lit at five points. The old fire warned boats off, and the tellings say these new ones were kept to bring them home in a storm.
 
-And east of the vein a double-banked fort was raised at Dùn dhearg by households who owed nothing to Dùn ìseal.
-The Stone Kings' list does not name its holders. It says only that Dùn dhearg did not come to the gatherings,
-until in the lifetime the tellings give to Catrìona Mhòr, before ever she held Dùn ìseal, its people came to the ford with seal-skins, asking for
-salt, and were given ground on the far bank. The last settlings of the age went up at Inis mhòr, whose two
-facing rows of houses are the oldest street on Rodos; at Baile gheal, round a house limed white with shells
-burned from the Old Ones' middens; and at Àth bheag, the easternmost place of the age, whose boats went out to
-the geese.
+The tide-rock at Ros dhomhain passed to **Seònaid Mhòr**, who cut her marks in pairs, high water and low; her pairs are still readable, and the keepers after her went back to single marks. Inis thais cut its own marks at the same interval, so that three rocks ran side by side, and none says why the interval is what it is. Ros dhomhain grew to some sixty houses, fishing from boats now instead of from the shore, and the Red Hill built its first landing of laid stone on the river-mouth below the hill, where the harbour of Cathair dhearg is now.
 
-## Of Catrìona Mhòr and the Eve of the Binding
+The salt-songs of the pans are the oldest songs on Rodos whose words are said to survive, a refrain of four lines that no one can fully turn into any other speech, and this book will not pretend to. At Cnoc àrsaidh near the panther road were found pipes of bird-bone bored with four holes, the oldest instruments on the island. At Caol bheag the boats were named for the winds they fished in, and a boat that sank had its name never used again. Pilgrims sat a night at the edge of Coille Naomh Muileann chiar without entering, and came in numbers to the warm springs of Muileann ruadh, where the oldest cure-tale on Rodos is set: a herder who came lame and walked home.
 
-The last name the Stone Kings' list gives is **Catrìona Mhòr**, twelfth of the line, who knew, her
-telling says, every household of the hills by its line back seven names. The last in the Red Hill's spoken list
-is **Seumas Òg**. The list stops with him; in the next age what the reciters kept of it is written down, and
-is no longer only spoken.
+Then, over nearly two thousand years, the Ròdaich filled the island. It is enough here to show the shape of it. Baile chrom, emptied by the old hunger, was settled again from Cnoc ghorm. Caol mhòr was built on the Old Ones' middens. A salt road ran from the pans of Baile ghorm through the ford to Muileann àrsaidh, where salt sold at three times its price. Dùn thais was banked, the first Ròdaich fort away from Dùn ìseal and the Red Hill, and Dùn chrom was raised in the island's middle with a bank that faces both ways. Cuan ruadh was rebuilt in stone to the eaves against the wind, and Ceann chiar set a stone in its midst cut with one mark for each house the Black Wind took: twenty-two.
 
-In Catrìona Mhòr's time the two lists were recited at the ford one after the other, from first name to last. It
-took from dusk to dawn, and it was the first time anyone heard both whole. Her people counted the households of
-the hills by knots on a cord, a knot to a hearth, and the cord from Dùn ìseal is said to have held some nine
-hundred knots, the largest count made on Rodos in this age. The Old Ones had counted their dead on stone. The
-Ròdaich counted their living on a cord.
+Everywhere the settlers let the old things be. Those who built below Làrach an Dùin-fhaire, where Cathair mhòr now stands, took no stone from the ruin, though it was the nearest quarry. At Ceann mhin they would not go up to Làrach an Dùin. A path was worn round Làrach an Teampaill at a distance. At Cnoc bheag, near the Carragh, no house was set with its door toward the stone. At Cnoc naomh the hill was already called holy when the settlers came, and why, none could tell them; the hearths say the sìth were in it, and the settlers built below it and never on it.
 
-The lot for the slab was now drawn from every part of the hills, and the keepers' house at Tobar dhìreach became
-a place people walked to. Then the keepers were nine, one for each of nine districts, meeting at the slab when
-a keeper died and not otherwise. Every household burned its handful in the dark of the year, measured in a copy of
-the stone cup, all at once by agreement, so that the colour showed on every hillside on the same night. That
-night was Samhain, the night the year turns to the dark, and it has been the night of the handful ever since. Only the
-household of the Cnoc dhubh trench, the one that crushed two diggers, refused its handful for as long as anyone
-remembered: the first on record to choose not to burn at all.
+On the hill of Muileann chaol there was a cattle-fold where the library stands now, and a cairn was raised above it for each head of a household at death, some forty by the age's end. The ford gathering grew till it drew every coast, its ground parted by custom: salt people downstream, hill people upstream, flint people on the far bank. Green-stone axes from Àth àrsaidh, too fine for work, went into graves across the island until the quarry was left. Stepping-stones were laid across Abhainn fhionn, the first made crossing of any river, and a spate on Abhainn chaol took twelve salt-carriers at its fords.
 
-The words on the column at Cnoc ghorm, worn shallow, were recut along their old grooves by a hand from the Stone
-Kings' hill. Some later readers say the recutting changed a letter; no one can prove which. And the households of
-the south-east coast began to row their dead to Eilean ìseal, in the old manner of the Seann-Dhaoine. Whether they
-learned it from the graves on Eilean dhearg, or from nothing, the record does not know.
+The land kept its old wounds. The sea came again over Cnoc chaol, less far, and the houses built higher up the slope were not lost. The crack at Cill ghlas moved and the spring went back uphill, and the white stones were found broken in two places and relaid. A dry summer lay on the eastern plain, and Dùn ìseal and Muileann bhàn drove their cattle to the warm springs; and the shared surplus held, and the tellings count no deaths.
 
-At last the nine keepers came before Catrìona Mhòr at the ford and asked that their charge be declared before the
-whole gathering, so that no king after her could draw the lot at Dùn ìseal. She did not refuse, and she did not
-agree. The matter was carried forward.
+East of the vein a double-banked fort was raised at Dùn dhearg by households who owed nothing to Dùn ìseal. The Stone Kings' list does not name its holders. It says only that Dùn dhearg did not come to the gatherings, until in the lifetime the tellings give to Catrìona Mhòr, before ever she held Dùn ìseal, its people came to the ford with seal-skins, asking for salt, and were given ground of their own on the far bank. The last settlings of the age went up at Inis mhòr, whose two facing rows of houses are the oldest street on Rodos; at Baile gheal, round a house limed white with shells burned from the Old Ones' middens; and at Àth bheag, the easternmost place of the age, whose boats went out to the geese.
 
-So the age came to {{date:I-0256}}, and to the eve. The handful was kept in every hearth of the
-hills; the keepers were nine; the sharing before the storms was kept on every coast; the doctrine was said at
-every gathering. The Old Ones were names on the shore. The three ruins stood empty and unquarried, the two shafts
-gave back no sound, and the slab lay over the crack as the mason's people had laid it nearly ten thousand years
-before. No telling of the age names a god over any of it: the hearths kept the slab, the handful and their dead,
-and left the sìth their hills, and Brìde's flame and Crom's stone come into the record with the Binding and not
-before. None of it was yet declared. What had been custom waited to be law, and what had been a covered wound in
-the rock waited to be named a flame. Here the chroniclers of Muileann chaol close the first book, on the question
-Catrìona Mhòr would not answer; and they open the second with its answer. For the Holy Age begins when the thing
-every hearth already kept was spoken aloud and bound, and that is the Binding of the First Flame.
+## XV. Of Catrìona Mhòr and the Eve of the Binding
+
+The last name the Stone Kings' list gives is **Catrìona Mhòr**, twelfth of the line, who knew, her telling says, every household of the hills by its line back seven names. The last in the Red Hill's spoken list is **Seumas Òg**. The list stops with him; in the next age what the reciters kept of it was written down.
+
+Her people counted the households of the hills by knots on a cord, a knot to a hearth, and the cord from Dùn ìseal is said to have held some nine hundred knots, the largest count made on Rodos in this age. The Old Ones had counted their dead on stone; the Ròdaich counted their living on a cord.
+
+The lot for the slab was drawn now from every part of the hills, and the keepers' house at Tobar dhìreach became a place people walked to. Then the keepers were nine, one for each of nine districts, meeting at the slab when a keeper died and at no other time. Every household burned its handful in the dark of the year, measured in a copy of the stone cup, all at once by agreement, so that the colour showed on every hillside on the same night. That night was Samhain, when the year turns to the dark, and it has been the night of the handful ever since. Only the household of the Cnoc dhubh trench, the one that crushed two diggers, refused its handful for as long as anyone remembered, the first on record to choose to burn nothing at all.
+
+The words on the column at Cnoc ghorm, worn shallow, were recut along their old grooves by a hand from the Stone Kings' hill. Some later readers say the recutting changed a letter, and no one can prove which. And the households of the south-east coast began to row their dead to Eilean ìseal in the old manner of the Seann-Dhaoine, whether they learned it from the graves on Eilean dhearg or from nothing.
+
+In the first summer of her holding the two king-lists were recited at the ford one after the other, from first name to last, and it took from dusk to dawn. The reciter of Dùn ìseal stood first, and gave Ailean Mòr and his bank, and Gormshuil and the herds, and Iain Dubh brought home from the shingle, and Calum Ciar refused; and when he came to her own name he said it and sat down, and she felt every face at the ford turn to her in the firelight. Then the reciter of the Red Hill stood, and gave Beathag Ruadh and her hill, and Seonag with her bag of pebbles, and Lachlann of the fostering, down to Seumas Òg, who had taken the Red Hill that same season and sat across the fire from her. It was the first time anyone had heard both lists whole. By the end the sky over the river was grey and the children were asleep in heaps.
+
+She held Dùn ìseal a long time after that night, and she was old when the nine keepers came to her.
+
+They came up together across the trodden ground of the ford while the gathering was full, and stood before her, and the one who spoke for them was older than she was. They asked that their charge be declared before the whole gathering: that the slab and the lot and the handful were theirs to keep, so that no king after her could draw the lot at Dùn ìseal as Calum Ciar had wanted to.
+
+Catrìona Mhòr looked at them a long while. She knew them all, and their lines, seven names back. She looked past them at the gathering, the salt people and the hill people and the flint people on the far bank, all waiting to see what she would do.
+
+"Not this year," she said. And when the old keeper opened his mouth: "Ask me again."
+
+She did not refuse, and she did not agree. The matter was carried forward.
+
+So the age came to {{date:I-0256}}, and to the eve. The handful was kept in every hearth of the hills; the keepers were nine; the sharing before the storms was kept on every coast; the doctrine was said at every gathering. The Old Ones were names on the shore. The three ruins stood empty and unquarried, the two shafts gave back no sound, and the slab lay over the crack as the mason's people had laid it nearly ten thousand years before.
+
+No telling of the age names a god over any of it. The hearths kept the slab, the handful and their dead, and left the sìth their hills; Brìde's flame and Crom's stone come into the story with the Binding and not before. What had been custom waited to be law, and what had been a covered wound in the rock waited to be named a flame.
+
+Here the chroniclers of Muileann chaol close the first book, on the question Catrìona Mhòr would not answer; and they open the second with its answer, for the Holy Age begins when the thing every hearth already kept was spoken aloud and bound, and that is the Binding of the First Flame.
