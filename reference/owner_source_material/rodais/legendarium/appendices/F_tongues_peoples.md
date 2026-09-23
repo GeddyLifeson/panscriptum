@@ -207,7 +207,7 @@ What the Tuathaich call themselves in their own speech the chronicles do not say
 appendix is the kingdom's name for them.
 
 **Their burgs.** The map counts sixty-four Tuathaich burgs, all in the north and north-west, with
-some 543,000 people in them. The Ròdaich hold the other 441. The Tuathaich country is some fifteen parts in a hundred of the island's land, the frozen coast of the far north-west among it, and the Ròdaich country the other eighty-five (Appendix H). The largest Tuathaich towns:
+some 543,000 people in them. The Ròdaich hold the other 441. The Tuathaich country is some fifteen parts in a hundred of the island's land, the windy coast of the far north-west among it, and the Ròdaich country the other eighty-five (Appendix H). The largest Tuathaich towns:
 
 | Burg | Shire | Faith | Population |
 |---|---|---|---|
@@ -511,7 +511,7 @@ pattern, kept as one might keep an old compound. The generics:
 | *Àth* | ford | town |
 | *Cnoc* | hill | town |
 | *Muileann* | mill | town |
-| *Cill* | church site | village, hamlet |
+| *Cill* | holy cell, shrine | village, hamlet |
 | *Tobar* | well | village, hamlet |
 | *Achadh* | field | village |
 | *Doire* | oak grove | village |

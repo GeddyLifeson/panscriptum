@@ -139,7 +139,7 @@ Of land or people that keep none of the three faiths. The first census of the re
 #### I
 
 **Ithidh Mòd an neach a dh'itheas an cnoc** *phr.* · lit. "Mòd will eat whoever eats the hill"
-The saying of the feathered doors, from the years when the hawk-priests were barred and the crews carried the Hawk order's sermons themselves ({{date:IV-0162}}). Mòd is the hawk of Fionntan mac Bòchra, and the hill is the vein.
+The saying of the feathered doors, from the years when the hawk-priests were barred and the crews carried the Hawk order's sermons themselves ({{date:IV-0162}}). Mòd is the Hawk of Acaill, as old as Fionntan mac Bòchra, and the hill is the vein.
 > "The overseers' reports of these years list hawk-feathers nailed above hut doors as a disciplinary matter." — annals, {{year:IV-0162}}
 
 #### L

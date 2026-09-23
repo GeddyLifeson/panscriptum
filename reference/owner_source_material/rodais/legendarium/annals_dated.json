@@ -81,8 +81,8 @@
  {
   "id": "I-0006a",
   "canon": false,
-  "title": "The ice keeps the north-west",
-  "body": "When the oak comes to the lowlands the ice of the cold years draws back from all the island but its north-western horn. There a low cap of ice holds behind the shore, and it holds there still. No hearth of any age has been found under it or on it.",
+  "title": "The bare north-west",
+  "body": "When the oak comes to the lowlands it never reaches the north-western horn of the island. The gales off the north-western sea keep the horn bare, low heather and blanket bog behind the shore with no tree on it, as it is still. No hearth of that age has been found on it.",
   "place": null,
   "kind": "record",
   "between": [
@@ -124,8 +124,8 @@
  {
   "id": "I-0008a",
   "canon": false,
-  "title": "Seals on the drift ice",
-  "body": "Hunters of the north shore go out on the drift ice that the northern sea brings down in late winter and take seals on it. The seal bones in the middens of the north coast carry the same cut-marks as those of Eilean mhin. The tellings of Eilean fhada count a hard year by how near the ice came.",
+  "title": "Seals on the skerries",
+  "body": "Hunters of the north shore go out in skin boats in the autumn gales to the skerries off Eilean fhada, where the grey seals haul out to pup, and take seals there. The seal bones in the middens of the north coast carry the same cut-marks as those of Eilean mhin. The tellings of Eilean fhada count a hard year by how many boats the gales kept on the shore.",
   "place": "feature:4",
   "kind": "craft",
   "between": [
@@ -5209,7 +5209,7 @@
   "id": "II-0114",
   "canon": false,
   "title": "The watchers of the dark wood",
-  "body": "A small company settles on the edge of Coille Naomh Cnoc bheag, the wood nobody had ever cleared, and keeps watch there for a black horned beast they say walks in it. The people of Cathair dhearg call them the wood-watchers. None of the watchers' own accounts are older than Òrd Mhacha, the order of Macha that later claims them and names the beast Dubh Sainglenn.",
+  "body": "A small company settles on the edge of Coille Naomh Cnoc bheag, the wood nobody had ever cleared, and keeps watch there for a black horned beast they say walks in it. The people of Cathair dhearg call them the wood-watchers. None of the watchers' own accounts are older than Òrd Mhacha, the order of Macha that later claims them and takes the beast for a sign of Dubh Sainglenn, the black horse.",
   "place": "marker:24",
   "kind": "faith",
   "between": [
@@ -5882,7 +5882,7 @@
   "id": "II-0158",
   "canon": false,
   "title": "The hawk-keepers of Seann Skell",
-  "body": "At Seann Skell on the northern coast, fowler families keep a hawk in each household and feed it before the household eats. They burn their season's handful at dawn with the hawk on the wrist, saying that the flame is a hunger and should be fed the way a hunger is fed. They call the hawk Mòd, and say it is the Hawk of Acaill, the shape in which Fionntan mac Bòchra, oldest of all beings, lived and remembered everything. Òrd an t-Seabhaig counts its beginning from them.",
+  "body": "At Seann Skell on the northern coast, fowler families keep a hawk in each household and feed it before the household eats. They burn their season's handful at dawn with the hawk on the wrist, saying that the flame is a hunger and should be fed the way a hunger is fed. They call the hawk Mòd, and say it is the Hawk of Acaill, the grey hawk of time, as old as Fionntan mac Bòchra, the oldest of men, who lived through the ages as a salmon, an eagle and a hawk; between them the two remember everything. Òrd an t-Seabhaig counts its beginning from them.",
   "place": "burg:132",
   "kind": "faith",
   "y": -1000,
@@ -6757,7 +6757,7 @@
   "id": "II-0218",
   "canon": false,
   "title": "The sting-oath at Seann Skell",
-  "body": "At Seann Skell in the west the harbour court's sting-oath becomes a creed: its keepers say that one power stings the liar wherever he is, Manannan mac Lir, lord of the sea, and that the scorpion is only his sign. The Hall's roll records it as a new teaching. It is the first on the island to call itself the only true one. The oath is sworn from now on over a cup marked with the scorpion, called Manannan's Cup of Truth, which is said to break at a lie. Òrd Mhanannain dates itself from this court.",
+  "body": "At Seann Skell in the west the harbour court's sting-oath becomes a creed: its keepers say that one power stings the liar wherever he is, Manannan mac Lir, lord of the sea, and that the scorpion is only his sign. The Hall's roll records it as a new teaching. It is the first on the island to call itself the only true one. The oath is sworn from now on over a cup marked with the scorpion, called Manannan's Cup of Truth, which is said to break in three at three lies spoken over it and to be made whole by three truths. Òrd Mhanannain dates itself from this court.",
   "place": "burg:489",
   "kind": "faith",
   "y": -153,
@@ -6783,7 +6783,7 @@
   "id": "II-0220",
   "canon": false,
   "title": "The dark wood keeps its own rite",
-  "body": "The wood-watchers of Coille Naomh Cnoc bheag stop sending to the Hall for judgment of their disputes and judge them under the trees. They hold that the black beast has two natures, one that keeps and one that devours, and that the vein has the same. In the order of Macha the two natures are told as two horses, the black Dubh Sainglenn and the grey Liath Macha.",
+  "body": "The wood-watchers of Coille Naomh Cnoc bheag stop sending to the Hall for judgment of their disputes and judge them under the trees. They hold that the black beast has two natures, one that keeps and one that devours, and that the vein has the same. The order of Macha later tells the saying of the two horses that drew one chariot, the black Dubh Sainglenn and the grey Liath Macha: two horses, one yoke.",
   "place": "marker:24",
   "kind": "faith",
   "y": -147,
@@ -8256,7 +8256,7 @@
   "id": "III-0062",
   "canon": false,
   "title": "Gormshuil of the Hawk",
-  "body": "At Cnoc bheag, where the dawn-hawk rite of the Holy Age is still kept, the priestess Gormshuil nic Artair teaches that the hawk of the rite is Mòd, the hawk of Fionntan mac Bòchra, the oldest of beings, who remembers everything, and that the vein is the Hungry Hawk, who must be fed the measured handful and no more, since a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers gather the old rite into the first house of Òrd an t-Seabhaig, the order of the Hawk of Acaill.",
+  "body": "At Cnoc bheag, where the dawn-hawk rite of the Holy Age is still kept, the priestess Gormshuil nic Artair teaches that the hawk of the rite is Mòd, the Hawk of Acaill, who is as old as Fionntan mac Bòchra, the oldest of men, and remembers everything with him, and that the vein is the Hungry Hawk, who must be fed the measured handful and no more, since a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers gather the old rite into the first house of Òrd an t-Seabhaig, the order of the Hawk of Acaill.",
   "place": "burg:20",
   "kind": "faith",
   "between": [
@@ -8753,7 +8753,7 @@
   "id": "III-0089",
   "canon": false,
   "title": "Macha at court",
-  "body": "King Aonghas takes up the wood-watchers' rite of Macha, whose black horse Dubh Sainglenn runs with its twin Liath Macha, the grey: the beast has two natures, light and dark are two powers in balance, and the vein belongs to both. The court follows him, and Òrd Mhacha, the order of Macha, becomes the order of Cathair dhearg and the crown.",
+  "body": "King Aonghas takes up the wood-watchers' rite of Macha, which keeps the two horses of one chariot, foaled on one night, Liath Macha, the grey, and Dubh Sainglenn, the black: two horses, one yoke; light and dark are two powers in balance, and the vein belongs to both. The court follows him, and Òrd Mhacha, the order of Macha, becomes the order of Cathair dhearg and the crown.",
   "place": "burg:19",
   "kind": "faith",
   "between": [
@@ -9305,7 +9305,7 @@
   "id": "III-0120",
   "canon": false,
   "title": "Manannan preached at Seann Skell",
-  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, a preacher named Mànas mac Ruairidh proclaims its one power as Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion, and teaches that Manannan shut the western sea behind the fleet with his mist and that it must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
+  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, a preacher named Mànas mac Ruairidh proclaims its one power as Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion, and teaches that Manannan shut the western sea behind the fleet with his mist, which hides Rodos from every ship beyond it, and that it must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -10356,8 +10356,8 @@
  {
   "id": "III-0173",
   "canon": false,
-  "title": "The winter of ice at Inis mhòr",
-  "body": "The river at Inis mhòr freezes from bank to bank before the autumn grain fleet has sailed, which no one then living had seen. Boats are crushed at their moorings and the grain fleet does not sail until the thaw.",
+  "title": "The great gale at Inis mhòr",
+  "body": "A gale out of the north-east drives the sea up the river at Inis mhòr before the autumn grain fleet has sailed, higher than anyone then living had seen it. Boats are crushed at their moorings and the grain fleet does not sail until the spring.",
   "place": "burg:17",
   "kind": "disaster",
   "between": [
@@ -11134,7 +11134,7 @@
   "id": "III-0215",
   "canon": false,
   "title": "Inis mhòr's grain fleet laid up",
-  "body": "The coasting grain barges of Inis mhòr, which had sailed Slighe-uisce reòta, the frozen way along the north coast from Ros chiar to Caol mhin, since the Holy Age, are laid up for good as the roads improve. The last of them is kept on the strand as a curiosity.",
+  "body": "The coasting grain barges of Inis mhòr, which had sailed Slighe-uisce fhuar, the cold way along the north coast from Ros chiar to Caol mhin, since the Holy Age, are laid up for good as the roads improve. The last of them is kept on the strand as a curiosity.",
   "place": "burg:17",
   "kind": "people",
   "between": [
@@ -11556,6 +11556,23 @@
   "age": "III"
  },
  {
+  "id": "III-0239a",
+  "canon": false,
+  "title": "The mist thins",
+  "body": "The priests of Manannan at Seann Skell record that the mist on the western sea, which has hidden Rodos from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and the fishers of the west coast begin to see the line of the open sea beyond the headlands on still mornings.",
+  "place": "burg:489",
+  "kind": "omen",
+  "between": [
+   1770,
+   1779
+  ],
+  "y": 1774,
+  "m": 10,
+  "d": 27,
+  "date": "27 an Dàmhair 1774 DE",
+  "age": "III"
+ },
+ {
   "id": "IV-0001",
   "canon": true,
   "title": "The Crossing",
@@ -11573,7 +11590,7 @@
   "id": "IV-0001a",
   "canon": false,
   "title": "The ships met off the north-west",
-  "body": "Two fishing boats out of Achadh àrsaidh, working the water off the north-west cape where the Sea-Watcher is seen, meet three ships out of the west and hail them. Neither side understands the other. The fishers turn south and the ships follow them down the coast toward Cuan shean. The fishers call the place of the meeting Coinneachadh nan Long, the meeting of the ships, and the boats of Achadh àrsaidh still slow there.",
+  "body": "That winter the mist that had lain on the western sea since the fleet of the Sundering sailed into it lifts. Two fishing boats out of Achadh àrsaidh, working the water off the north-west cape where the Sea-Watcher is seen, meet three ships coming out of the thin grey of it from the west and hail them. Neither side understands the other. The fishers turn south and the ships follow them down the coast toward Cuan shean. The fishers call the place of the meeting Coinneachadh nan Long, the meeting of the ships, and the boats of Achadh àrsaidh still slow there.",
   "place": "marker:45",
   "kind": "voyage",
   "between": [
@@ -13368,8 +13385,8 @@
  {
   "id": "IV-0127a",
   "canon": false,
-  "title": "A brig in the drift ice",
-  "body": "A Company brig bound for the northern landing with tools is caught in the drift ice off Eilean fhada in a late spring and crushed. Her crew walk over the ice to the harbour at Caol bheag. After it the Company's charts mark the northern passage closed from midwinter to the end of spring.",
+  "title": "A brig lost in the mist",
+  "body": "A Company brig bound for the northern landing with tools is caught by a spring gale in sea mist off Eilean fhada and driven onto the skerries. Her crew wade ashore at low water and walk to the harbour at Caol bheag. After it the Company's charts mark the northern passage closed to its ships from midwinter to the end of spring, the season of the gales.",
   "place": "burg:301",
   "kind": "disaster",
   "between": [
@@ -14088,7 +14105,7 @@
   "id": "IV-0175",
   "canon": false,
   "title": "Macha's priests bless the coin",
-  "body": "The priests of Òrd Mhacha at Cathair dhearg, the order of the capital and the crown, bless the Residency's new coin at Tolley's request. Macha's priesthood teaches that her two horses, Dubh Sainglenn the black and Liath Macha the grey, each have their due; the dissenting priests say the coin is only one of them.",
+  "body": "The priests of Òrd Mhacha at Cathair dhearg, the order of the capital and the crown, bless the Residency's new coin at Tolley's request. Macha's priesthood teaches that the two horses of her rite, Dubh Sainglenn the black and Liath Macha the grey, each have their due; the dissenting priests say the coin is only one of them.",
   "place": "burg:19",
   "kind": "faith",
   "y": 1864,
@@ -15092,7 +15109,7 @@
  {
   "id": "IV-0246a",
   "title": "The district of the outer coasts",
-  "body": "The Administration makes the outer coasts a single district and governs it from the harbour office at Seann Vell on Eilean ruadh, where its revenue cutters lie: the islands of the west and south, Eilean bhàn with Cuan dhearg and Cnoc chaol, and the southern edge of the ice in the far north-west. Its surveyors walk the ice margin and go no farther. Beyond it the district map is left blank.",
+  "body": "The Administration makes the outer coasts a single district and governs it from the harbour office at Seann Vell on Eilean ruadh, where its revenue cutters lie: the islands of the west and south, Eilean bhàn with Cuan dhearg and Cnoc chaol, and the southern edge of the windy coast in the far north-west. Its surveyors walk to the edge of the great moss there, which no chain can cross, and go no farther. Beyond it the district map is left blank.",
   "place": "burg:127",
   "y": 1902,
   "m": 4,
@@ -17169,7 +17186,7 @@
   "id": "V-0011",
   "canon": false,
   "title": "The ship sent west",
-  "body": "The council sends a ship out past the western capes to look for the crossing the humans used. It comes back after a month of open water and reports nothing: no land, no ship, no sign of the passage. No second ship is sent.",
+  "body": "The council sends a ship out past the western capes to look for the crossing the humans used. It comes back after a month of open water and reports nothing: no land, no ship, no sign of the passage. No second ship is sent. The priests of Manannan at Seann Skell say that the lord of the sea has shut the western sea again, as they have prayed him to since the Crossing.",
   "place": "feature:1",
   "kind": "voyage",
   "y": 1932,
@@ -17220,8 +17237,8 @@
  },
  {
   "id": "V-0014a",
-  "title": "The frozen coast left out",
-  "body": "The shire lines stop where the humans' survey stopped, at the ice margin of the far north-west. The frozen coast beyond, an Oirthir Reòthte, with its sealers and fowlers, is put in no shire and given no maor. The council's minute says only that it 'is not in the survey'.",
+  "title": "The windy coast left out",
+  "body": "The shire lines stop where the humans' survey stopped, at the edge of the great moss of the far north-west. The windy coast beyond, an Oirthir Ghaothach, with its sealers and fowlers, is put in no shire and given no maor. The council's minute says only that it 'is not in the survey'.",
   "place": "province:120",
   "y": 1932,
   "m": 12,
@@ -21780,8 +21797,8 @@
  },
  {
   "id": "V-0335a",
-  "title": "Onto the frozen coast",
-  "body": "Some of the holdouts of Cnoc thais go on past the hills and out onto the frozen coast of the far north-west. The regiments follow them to the edge of the shire of Seann Vell and no farther. The open record names them, as it names every enemy of the war, only as those 'of no shire'.",
+  "title": "Onto the windy coast",
+  "body": "Some of the holdouts of Cnoc thais go on past the hills and out onto the windy coast of the far north-west. The regiments follow them to the edge of the shire of Seann Vell and no farther. The open record names them, as it names every enemy of the war, only as those 'of no shire'.",
   "place": "province:75",
   "between": [
    2020,
@@ -22661,7 +22678,7 @@
  {
   "id": "V-0391a",
   "title": "The Treasury's roll of the present year",
-  "body": "The Treasury's roll for the year stands at 9,568 purses: 6,374 from the head-due, taken at eighteen purses on every hundred thousand heads, and 3,194 from the market-due, taken at seventeen in the hundred on every sale. The wartime tithe is carried on its own line under the regiments' pay. The frozen coast pays neither due.",
+  "body": "The Treasury's roll for the year stands at 9,568 purses: 6,375 from the head-due, taken at eighteen purses on every hundred thousand heads, and 3,193 from the market-due, taken at seventeen in the hundred on every sale. The wartime tithe is carried on its own line under the regiments' pay. The windy coast pays neither due.",
   "place": "burg:19",
   "between": [
    2026,
@@ -22671,6 +22688,23 @@
   "m": 7,
   "d": 29,
   "date": "29 an t-Iuchar 2026 DE",
+  "age": "V"
+ },
+ {
+  "id": "V-0391b",
+  "canon": false,
+  "title": "Dubhan's charter of export",
+  "body": "Dubhan, who made the first working fuel and is now in his sixty-ninth year, wins from the council at Cathair dhearg, after a year of letters and three sittings, the right to sell dubhan off the island. It is the first leave the kingdom has given for any good of Rodos to go beyond its waters since the Severance. The charter is narrow. The Treasury sets each year's measure; the fuel is loaded only at Ros dhomhain, where a clerk of the Treasury takes the tithe on every barrel; the kingdom's depots and the Moot's are served first; and nothing of the vein goes with it, so the custodians of Òrd Bhrìde seal every hold, since the vein's ore is not sold. Dubhan has told neither the council nor the chronicler who his buyers are. The first tank-hull loaded under the charter goes out past the western capes in the autumn, and the priests of Manannan at Seann Skell say their prayer to keep the sea shut on the day she sails.",
+  "place": "burg:27",
+  "kind": "trade",
+  "between": [
+   2026,
+   2026
+  ],
+  "y": 2026,
+  "m": 9,
+  "d": 7,
+  "date": "7 an t-Sultain 2026 DE",
   "age": "V"
  },
  {

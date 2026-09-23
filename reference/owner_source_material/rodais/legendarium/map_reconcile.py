@@ -32,14 +32,32 @@ each cell's faith goes through "remap", or, for a faith in "by_culture", through
 new list is already in, the record-29 edits before it are passed over and each record-26 edit before it is checked
 against its value as renumbered, so a second run changes nothing.
 
+The climate, the sea, dubhan and the loose ends of the roads come after the faiths (reconcile/climate.json,
+dubhan.json, loose_ends.json), and last the tellings read against the Gaelic tales (reconcile/tales.json), with four
+more edit forms:
+    {"record": 39, "path": "(whole record: pack.ice)", "value": []}      a JSON record replaced whole
+    {"record": 11, "action": "recompute_temperature"}                    grid.cells.temp made anew, as Azgaar's
+        Temperature.compute() makes it, from the settings (record 1: climate.temperature, geography.coordinates,
+        units.height.exponent, graph.height), the grid's points and cellsX (record 6) and its heights (record 7);
+        so the temperatures always agree with the latitude and climate set in record 1
+    {"record": 5, "action": "empty_svg_group", "group": "ice"}           a saved SVG group emptied (the drawn ice)
+    {"record": 37, "action": "split_route", "route": 119, "points": [...], "pieces": [{"i": 119, "from": 0,
+        "to": 3, "group": "trails", "name": "...", "d": "M..."}, {"i": 446, ...}, ...]}
+        one route cut at its junctions into pieces (the first keeps the route's id, the others are new routes
+        appended with the next free ids): each piece's points, group and name; the cells' route links
+        (record 36) of each piece's stretch; and the saved <path id="routeN"> of each piece, with the path
+        Azgaar's Routes.getPath draws for it ("d"), placed after the route's own path
+
 Beside the edits it derives what follows from them: a route regrouped to "roads" has its saved
 <path id="routeN"> moved from <g id="trails"> into <g id="roads"> (record 5), in route order as Azgaar draws
-them; and the rural totals of the cultures (record 13) follow the cell culture and population arrays.
+them; and the rural totals of the cultures (record 13) and of the states (record 14) follow the cell culture,
+state and population arrays.
 
 Byte-safe like burg_features.py: records are split on CRLF, every record it rewrites must round-trip before it
 is touched, only the records named in RECORDS_TOUCHED may change, and running it twice changes nothing.
 """
 import json
+import math
 import os
 import re
 import sys
@@ -55,12 +73,14 @@ L_SETTINGS, L_BIOMES, L_SVG, L_TEMP, L_FEATURES, L_CULTURES, L_STATES, L_BURGS =
 L_BIOME, L_CELL_BURG, L_CELL_CULTURE, L_POP, L_CELL_STATE, L_CELL_RELIGION, L_CELL_PROVINCE = 16, 17, 19, 21, 25, 26, 27
 L_RELIGIONS, L_PROVINCES, L_NAMEBASES, L_RIVERS, L_MARKERS, L_ROUTES, L_ZONES = 29, 30, 31, 32, 35, 37, 38
 L_CELL_GOOD, L_GOODS, L_RELIEF = 40, 41, 49
+L_GRID, L_HEIGHT, L_CELL_ROUTES, L_ICE = 6, 7, 36, 39
 CELL_ARRAYS = {11, 16, 19, 21, 26, 40}
-JSON_RECORDS = {1, 3, 13, 14, 15, 29, 30, 35, 37, 41, 49}
+JSON_RECORDS = {1, 3, 13, 14, 15, 29, 30, 35, 36, 37, 39, 41, 49}
 RECORDS_TOUCHED = CELL_ARRAYS | JSON_RECORDS | {L_SVG, L_NAMEBASES}
 
 # the order the layers are applied in: the state and its shires first, the land (whole cell arrays) last
-ORDER = ['state', 'heraldry', 'religions', 'economy', 'military', 'markers_routes', 'land', 'integration', 'faiths']
+ORDER = ['state', 'heraldry', 'religions', 'economy', 'military', 'markers_routes', 'land', 'integration', 'faiths',
+         'climate', 'dubhan', 'loose_ends', 'tales']
 
 
 def dump(data):
@@ -200,6 +220,105 @@ def num(s):
     return float(s) if s else 0.0
 
 
+def js_round(v, d=0):
+    """Math.round as JavaScript does it (halves up), to d places: Azgaar's rn()."""
+    m = 10 ** d
+    return math.floor(v * m + 0.5) / m
+
+
+def recompute_temperature(settings, grid, heights):
+    """grid.cells.temp, as Azgaar's Temperature.compute() makes it: a sea-level temperature for each row of the
+    grid from its latitude (between the equator's and the pole's), less a lapse with height above sea level."""
+    t = settings['climate']['temperature']
+    eq, north, south = t['equator'], t['northPole'], t['southPole']
+    tropics, flat = (16, -20), 0.15
+    tn = eq - tropics[0] * flat
+    kn = (tn - north) / (90 - tropics[0])
+    ts = eq + tropics[1] * flat
+    ks = (ts - south) / (90 + tropics[1])
+    exponent = settings['units']['height']['exponent']
+
+    def sea(lat):
+        if tropics[1] <= lat <= tropics[0]:
+            return eq - abs(lat) * flat
+        return tn - (lat - tropics[0]) * kn if lat > 0 else ts + (lat - tropics[1]) * ks
+
+    def lapse(h):
+        return 0 if h < 20 else js_round((h - 18) ** exponent / 1000 * 6.5)
+    co = settings['geography']['coordinates']
+    height = settings['graph']['height']
+    cx, points = grid['cellsX'], grid['points']
+    out = []
+    for row in range(0, len(heights), cx):
+        lat = co['latN'] - points[row][1] / height * co['latT']
+        s = sea(lat)
+        for k in range(row, row + cx):
+            out.append(str(int(max(-128, min(127, s - lapse(int(heights[k])))))))   # Int8Array: truncated
+    return out
+
+
+def empty_svg_group(svg, gid):
+    """<g id="gid" ...>...</g> saved empty, as Azgaar saves a layer with nothing in it (<g id="gid" .../>)."""
+    m = re.search(r'<g id="%s"([^>]*?)(/?)>' % re.escape(gid), svg)
+    assert m, 'no <g id="%s"> in the SVG' % gid
+    if m.group(2):
+        return svg
+    end = svg.index('</g>', m.end())
+    assert '<g' not in svg[m.end():end], 'the %s group holds groups of its own' % gid
+    return svg[:m.start()] + '<g id="%s"%s/>' % (gid, m.group(1)) + svg[end + 4:]
+
+
+def split_route(routes, links, e, where):
+    """Record 37 and the cells' route links (record 36): one route cut into the pieces the edit gives.
+    Returns [(route id, d, the route whose saved path it follows)] for the saved SVG."""
+    rid = e['route']
+    pts = e['points']
+    byid = {r['i']: r for r in routes}
+    pieces = e['pieces']
+    assert pieces[0]['i'] == rid and pieces[0]['from'] == 0 and pieces[-1]['to'] == len(pts) - 1, where
+    for a, b in zip(pieces, pieces[1:]):
+        assert a['to'] == b['from'], '%s: the pieces must meet' % where
+    done = all(p['i'] in byid and same(byid[p['i']]['points'], pts[p['from']:p['to'] + 1]) for p in pieces)
+    if not done:
+        assert same(byid[rid]['points'], pts), '%s: route %d is not the one to split' % (where, rid)
+        for p in pieces[1:]:
+            assert p['i'] not in byid, '%s: route %d already exists' % (where, p['i'])
+    for p in pieces:
+        seg = [list(x) for x in pts[p['from']:p['to'] + 1]]
+        if p['i'] in byid:
+            r = byid[p['i']]
+        else:
+            r = {'i': p['i'], 'group': p['group'], 'name': p['name'], 'feature': byid[rid]['feature'], 'points': seg}
+            routes.append(r)
+            byid[p['i']] = r
+        r['group'], r['points'] = p['group'], seg
+        if p.get('name'):
+            r['name'] = p['name']
+        for a, b in zip(seg, seg[1:]):
+            for x, y in ((a[2], b[2]), (b[2], a[2])):
+                cell = links.get(str(x), {})
+                if cell.get(str(y)) in (rid, p['i']):
+                    cell[str(y)] = p['i']
+    assert [r['i'] for r in routes] == sorted(r['i'] for r in routes), '%s: routes out of id order' % where
+    return [(p['i'], p['d'], rid) for p in pieces]
+
+
+def draw_route_splits(svg, paths):
+    """The saved path of each piece of a split route: the route's own path redrawn, each new one after the piece
+    before it."""
+    prev = None
+    for i, d, rid in paths:
+        el = '<path id="route%d" d="%s"/>' % (i, d)
+        m = re.search(r'<path id="route%d" d="[^"]*"/>' % i, svg)
+        if m:
+            svg = svg[:m.start()] + el + svg[m.end():]
+        else:
+            m = re.search(r'<path id="route%d" d="[^"]*"/>' % prev, svg)
+            svg = svg[:m.end()] + el + svg[m.end():]
+        prev = i
+    return svg
+
+
 def reconcile_records(lines, edits=None):
     """Apply every edit to a list of 53 raw records, in place. Returns the numbers of the records it changed."""
     assert len(lines) == RECORDS
@@ -213,7 +332,7 @@ def reconcile_records(lines, edits=None):
     for n, a in arrays.items():
         assert ','.join(a) == lines[n]
     old_pop, old_culture = list(arrays[L_POP]), list(arrays[L_CELL_CULTURE])
-    relief = []
+    relief, svg_groups, route_paths = [], [], []
     faiths = [k for k, (_, e) in enumerate(edits) if e.get('action') == 'replace_religions']
     assert len(faiths) <= 1
     faiths_at = faiths[0] if faiths else None
@@ -237,7 +356,17 @@ def reconcile_records(lines, edits=None):
                 want = renumber_faith(e['value'], arrays[L_CELL_CULTURE][i], fe)
                 assert arrays[n][i] == want, '%s: expected %s (renumbered), found %s' % (where, want, arrays[n][i])
                 continue
-        if n == L_RELIEF:
+        if e.get('action') == 'recompute_temperature':
+            assert n == L_TEMP, where
+            arrays[n] = recompute_temperature(parsed[L_SETTINGS], json.loads(lines[L_GRID]), cells(lines[L_HEIGHT]))
+            assert len(arrays[n]) == len(cells(before[n])), where
+        elif e.get('action') == 'empty_svg_group':
+            assert n == L_SVG, where
+            svg_groups.append(e['group'])
+        elif e.get('action') == 'split_route':
+            assert n == L_ROUTES, where
+            route_paths.extend(split_route(parsed[L_ROUTES], parsed[L_CELL_ROUTES], e, where))
+        elif n == L_RELIEF:
             relief.append(e)
         elif n == L_NAMEBASES:
             assert e['path'].startswith('append as name base'), where
@@ -256,6 +385,8 @@ def reconcile_records(lines, edits=None):
                 if 'old' in e and cur != str(e['value']):
                     assert cur == str(e['old']), '%s: expected %s, found %s' % (where, e['old'], cur)
                 arrays[n][i] = str(e['value'])
+        elif n in JSON_RECORDS and e.get('path', '').startswith('(whole record'):
+            parsed[n] = json.loads(json.dumps(e['value']))
         elif n in JSON_RECORDS:
             apply_json_edit(parsed[n], e, where)
         else:
@@ -270,6 +401,17 @@ def reconcile_records(lines, edits=None):
     for c in parsed[L_CULTURES]:
         if abs(c['rural']) < 1e-3:                    # a culture left with no cells (the cell array rounds to 4 places)
             c['rural'] = 0
+    # and so do the states' (the cell state array itself is not edited)
+    for p0, p1, st in zip(old_pop, arrays[L_POP], cells(lines[L_CELL_STATE])):
+        if p0 != p1:
+            parsed[L_STATES][int(st)]['rural'] -= num(p0)
+            parsed[L_STATES][int(st)]['rural'] += num(p1)
+    for st in parsed[L_STATES]:
+        if abs(st.get('rural', 0)) < 1e-3:
+            st['rural'] = 0
+    for gid in svg_groups:
+        lines[L_SVG] = empty_svg_group(lines[L_SVG], gid)
+    lines[L_SVG] = draw_route_splits(lines[L_SVG], route_paths)
     lines[L_SVG] = regroup_routes(lines[L_SVG], parsed[L_ROUTES])
     for n in JSON_RECORDS:
         lines[n] = dump(parsed[n])
@@ -279,7 +421,7 @@ def reconcile_records(lines, edits=None):
     assert changed <= RECORDS_TOUCHED, 'an unexpected record changed: %s' % sorted(changed - RECORDS_TOUCHED)
     for n in CELL_ARRAYS:
         assert len(cells(lines[n])) == len(cells(before[n]))
-    assert lines[L_SVG].count('<path id="route') == before[L_SVG].count('<path id="route')
+    assert lines[L_SVG].count('<path id="route') == len(parsed[L_ROUTES]), 'a route without its saved path, or a path without its route'
     return changed
 
 

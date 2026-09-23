@@ -1114,7 +1114,7 @@
   "id": "II-0114",
   "canon": false,
   "title": "The watchers of the dark wood",
-  "body": "A small company settles on the edge of Coille Naomh Cnoc bheag, the wood nobody had ever cleared, and keeps watch there for a black horned beast they say walks in it. The people of Cathair dhearg call them the wood-watchers. None of the watchers' own accounts are older than Òrd Mhacha, the order of Macha that later claims them and names the beast Dubh Sainglenn.",
+  "body": "A small company settles on the edge of Coille Naomh Cnoc bheag, the wood nobody had ever cleared, and keeps watch there for a black horned beast they say walks in it. The people of Cathair dhearg call them the wood-watchers. None of the watchers' own accounts are older than Òrd Mhacha, the order of Macha that later claims them and takes the beast for a sign of Dubh Sainglenn, the black horse.",
   "place": "marker:24",
   "kind": "faith",
   "between": [
@@ -1562,7 +1562,7 @@
   "id": "II-0158",
   "canon": false,
   "title": "The hawk-keepers of Seann Skell",
-  "body": "At Seann Skell on the northern coast, fowler families keep a hawk in each household and feed it before the household eats. They burn their season's handful at dawn with the hawk on the wrist, saying that the flame is a hunger and should be fed the way a hunger is fed. They call the hawk Mòd, and say it is the Hawk of Acaill, the shape in which Fionntan mac Bòchra, oldest of all beings, lived and remembered everything. Òrd an t-Seabhaig counts its beginning from them.",
+  "body": "At Seann Skell on the northern coast, fowler families keep a hawk in each household and feed it before the household eats. They burn their season's handful at dawn with the hawk on the wrist, saying that the flame is a hunger and should be fed the way a hunger is fed. They call the hawk Mòd, and say it is the Hawk of Acaill, the grey hawk of time, as old as Fionntan mac Bòchra, the oldest of men, who lived through the ages as a salmon, an eagle and a hawk; between them the two remember everything. Òrd an t-Seabhaig counts its beginning from them.",
   "place": "burg:132",
   "kind": "faith"
  },
@@ -2132,7 +2132,7 @@
   "id": "II-0218",
   "canon": false,
   "title": "The sting-oath at Seann Skell",
-  "body": "At Seann Skell in the west the harbour court's sting-oath becomes a creed: its keepers say that one power stings the liar wherever he is, Manannan mac Lir, lord of the sea, and that the scorpion is only his sign. The Hall's roll records it as a new teaching. It is the first on the island to call itself the only true one. The oath is sworn from now on over a cup marked with the scorpion, called Manannan's Cup of Truth, which is said to break at a lie. Òrd Mhanannain dates itself from this court.",
+  "body": "At Seann Skell in the west the harbour court's sting-oath becomes a creed: its keepers say that one power stings the liar wherever he is, Manannan mac Lir, lord of the sea, and that the scorpion is only his sign. The Hall's roll records it as a new teaching. It is the first on the island to call itself the only true one. The oath is sworn from now on over a cup marked with the scorpion, called Manannan's Cup of Truth, which is said to break in three at three lies spoken over it and to be made whole by three truths. Òrd Mhanannain dates itself from this court.",
   "place": "burg:489",
   "kind": "faith"
  },
@@ -2148,7 +2148,7 @@
   "id": "II-0220",
   "canon": false,
   "title": "The dark wood keeps its own rite",
-  "body": "The wood-watchers of Coille Naomh Cnoc bheag stop sending to the Hall for judgment of their disputes and judge them under the trees. They hold that the black beast has two natures, one that keeps and one that devours, and that the vein has the same. In the order of Macha the two natures are told as two horses, the black Dubh Sainglenn and the grey Liath Macha.",
+  "body": "The wood-watchers of Coille Naomh Cnoc bheag stop sending to the Hall for judgment of their disputes and judge them under the trees. They hold that the black beast has two natures, one that keeps and one that devours, and that the vein has the same. The order of Macha later tells the saying of the two horses that drew one chariot, the black Dubh Sainglenn and the grey Liath Macha: two horses, one yoke.",
   "place": "marker:24",
   "kind": "faith"
  },

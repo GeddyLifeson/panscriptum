@@ -190,7 +190,7 @@ for f in J[L_FEATURES]:
     if not isinstance(f, dict) or not f.get('name'):
         continue
     if f.get('type') == 'ocean':
-        rename('feature', f, 'name', 'An Cuan Siar')
+        rename('feature', f, 'name', 'Muir Mhanannain')      # Manannan's sea, round the island
     elif f.get('type') == 'island' and f.get('cells', 0) > 1000:
         rename('feature', f, 'name', 'Ròdos')          # the island itself
     elif f.get('type') == 'island':
@@ -283,7 +283,7 @@ GENERIC = {'trail': 'Slighe', 'path': 'Frith-rathad', 'pass': 'Bealach', 'track'
 ADJ = {'Misty': 'ceòthach', 'Rustic': 'dùthchail', 'Ancient': 'àrsaidh', 'Twilight': 'ciar', 'Ebon': 'dubh',
        'Cobbled': 'clachach', 'Cracked': 'sgàinte', 'Echoing': 'fuaimneach', 'Great': 'mòr', 'Obscure': 'dorcha',
        'Sacred': 'naomh', 'Shaky': 'critheanach', 'Shrouded': 'falaichte', 'Winding': 'lùbach', 'Breezy': 'gaothach',
-       'Spectral': 'taibhseil', 'Frozen': 'reòta', 'Gilded': 'òrach', 'Crimson': 'dearg', 'Divine': 'diadhaidh',
+       'Spectral': 'taibhseil', 'Frozen': 'fuar', 'Gilded': 'òrach', 'Crimson': 'dearg', 'Divine': 'diadhaidh',
        'Dusk': 'ciar', 'Enchanted': 'seunta', 'Eternal': 'sìorraidh', 'New': 'ùr', 'Old': 'sean', 'Wild': 'fiadhaich',
        'Twisted': 'lùbach', 'Forest': 'coillteach', 'Thorn': 'droighneach', 'Storm': 'stoirmeil',
        'Thunder': 'tàirneanach', 'Rain': 'fliuch', 'Sapphire': 'gorm', 'Whisperwind': 'ciùin', 'Whisper': 'ciùin'}

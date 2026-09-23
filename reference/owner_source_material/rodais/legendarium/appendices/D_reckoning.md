@@ -87,7 +87,7 @@ Four feasts divide the year into quarters. They are the great feasts of the Old 
 
 **Bealltainn**, 1 an Cèitean, takes its name from a bright fire, and it is the feast of summer's beginning, when the Otherworld stands near. Cattle go up to the high pastures between two fires. In the Holy Age this was the day the Hall asked the cairn-watchers of Cnoc ghlas whether the galleries might open. The first sentence under the Small-Burning Law is dated {{date:II-0028}}, on Bealltainn itself. The roll does not say whether the day was chosen for the sentence.
 
-**Lùnastal**, 1 an Lùnastal, is Lugh's feast of first-fruits and gathering, and the month is named for it. Markets open, contests are held, and oaths are taken before witnesses. Cathal was crowned on the feast itself, {{date:V-0243}}.
+**Lùnastal**, 1 an Lùnastal, is Lugh's feast of first-fruits and gathering, which he made in memory of his foster-mother Tailtiu, and the month is named for it. Markets open, contests are held, and oaths are taken before witnesses. Cathal was crowned on the feast itself, {{date:V-0243}}.
 
 **Samhain**, 1 an t-Samhain, marks summer's end, when the Otherworld stands open, the sìth of the mounds are abroad, and the Old Faith names Donn and the dead of the year. Before the humans came it was also the beginning of the Ròdaich year. The Hall filled the baskets of the Small-Burning Law at Samhain, the galleries closed, and the dead were thought nearest. The Tuathaich, whose calendar came to them from an Tìr Thall, keep the day with the rest of the island, in the Church's way, as the feast of all the saints and the day of the dead. They have never counted the year from it.
 

@@ -9,9 +9,12 @@ check_rodais.py -- verify everything in this folder in one run.
   3. TEXTS.json: every line paired with its translation, Ròdais spelling
   4. Rodos_finished.map: the rewritten sections parse, no pre-Ròdais name
      survives, every saved burg label matches its burg, every layer edit of
-     legendarium/reconcile/ is in, the roads are drawn as roads
+     legendarium/reconcile/ is in, the roads are drawn as roads, the climate is
+     that of an island between Ireland and Scotland (no glacier, no ice, a mild
+     sea-level temperature), and dubhan, not charcoal, is the traded fuel
   5. the legendarium: every event dated and in order, every reference
-     resolves, world.json is the digest of the map as it stands
+     resolves, world.json is the digest of the map as it stands, and no glacier,
+     ice cap or iceberg anywhere in the history
 
 Exit status 0 only when every check holds.  python check_rodais.py
 """
@@ -119,6 +122,19 @@ road_ids = {r['i'] for r in routes if r.get('group') == 'roads'}
 g = re.search(r'<g id="roads" data-group="roads"[^>]*>(.*?)</g>', lines[5])
 check(road_ids and g and {int(i) for i in re.findall(r'<path id="route(\d+)"', g.group(1))} == road_ids,
       'map: the %d roads are drawn in the roads group and nowhere else' % len(road_ids))
+# the climate of an island between Ireland and Scotland: no glacier, no ice, a mild sea-level temperature
+biomes = json.loads(lines[3])
+glacier = [b['i'] for b in biomes if b['name'] == 'Glacier']
+cell_biome = lines[16].split(',')
+check(not any(v in {str(i) for i in glacier} for v in cell_biome), 'map: no Glacier biome cell (%d cells)' % len(cell_biome))
+ice = re.search(r'<g id="ice"[^>]*?(/?)>', lines[5])
+check(json.loads(lines[39]) == [] and ice and ice.group(1) == '/', 'map: no icebergs, and the ice layer saved empty')
+geo = json.loads(lines[1])['geography']['coordinates']
+temps = [int(v) for v in lines[11].split(',')]
+check(54 <= geo['latS'] and geo['latN'] <= 57 and min(temps) > -5,
+      'map: the island at %s-%s N, and no grid cell cold enough for ice (the coldest %d C)' % (geo['latS'], geo['latN'], min(temps)))
+goods = [g['name'] for g in json.loads(lines[41]) if isinstance(g, dict)]
+check('Dubhan' in goods and 'Charcoal' not in goods and 'Coal' not in goods, 'map: dubhan is a trade good, and charcoal and coal are not')
 world = json.load(open(os.path.join(HERE, 'legendarium', 'world.json'), encoding='utf-8'))
 digest = map_reconcile.world_digest(lines)
 check(all(world[k] == digest[k] for k in digest), 'legendarium/world.json is the digest of the map as it stands')
@@ -144,6 +160,11 @@ build_book.compose(rec)
 check(not rec.missing, 'legendarium: every {{date}}/{{year}}/{{place}} reference resolves (%s)' % (', '.join(sorted(set(rec.missing))[:8]) or 'all'))
 srcs = [open(f, encoding='utf-8').read() for f in glob.glob(os.path.join(LEG, 'book', '*.md')) + glob.glob(os.path.join(LEG, 'appendices', '*.md'))]
 check(not any(re.search('[\u00e1\u00e9\u00ed\u00f3\u00fa]', t) for t in srcs), 'legendarium: no acute accents in the books and appendices')
+history = srcs + [open(f, encoding='utf-8').read() for f in glob.glob(os.path.join(LEG, 'annals', 'age_*.json'))
+                  + glob.glob(os.path.join(LEG, 'gazetteer', 'out_*.json')) + [os.path.join(LEG, 'appendices', 'houses.json')]]
+history += [m.get('note', '') for m in json.loads(lines[35])]
+icy = sorted({m.group(0).lower() for t in history for m in re.finditer(r'(?i)\bglacier|\bice[ -]?caps?\b|\biceberg|\bdrift[ -]ice\b', t)})
+check(not icy, 'legendarium: no glacier, ice cap or iceberg in the history (%s)' % (', '.join(icy) or 'none'))
 
 print('\n%s' % ('ALL CHECKS HOLD' if not fails else '%d CHECK(S) FAILED' % len(fails)))
 sys.exit(1 if fails else 0)

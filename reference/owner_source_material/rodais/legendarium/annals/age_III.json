@@ -763,7 +763,7 @@
   "id": "III-0062",
   "canon": false,
   "title": "Gormshuil of the Hawk",
-  "body": "At Cnoc bheag, where the dawn-hawk rite of the Holy Age is still kept, the priestess Gormshuil nic Artair teaches that the hawk of the rite is Mòd, the hawk of Fionntan mac Bòchra, the oldest of beings, who remembers everything, and that the vein is the Hungry Hawk, who must be fed the measured handful and no more, since a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers gather the old rite into the first house of Òrd an t-Seabhaig, the order of the Hawk of Acaill.",
+  "body": "At Cnoc bheag, where the dawn-hawk rite of the Holy Age is still kept, the priestess Gormshuil nic Artair teaches that the hawk of the rite is Mòd, the Hawk of Acaill, who is as old as Fionntan mac Bòchra, the oldest of men, and remembers everything with him, and that the vein is the Hungry Hawk, who must be fed the measured handful and no more, since a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers gather the old rite into the first house of Òrd an t-Seabhaig, the order of the Hawk of Acaill.",
   "place": "burg:20",
   "kind": "faith",
   "between": [
@@ -1115,7 +1115,7 @@
   "id": "III-0089",
   "canon": false,
   "title": "Macha at court",
-  "body": "King Aonghas takes up the wood-watchers' rite of Macha, whose black horse Dubh Sainglenn runs with its twin Liath Macha, the grey: the beast has two natures, light and dark are two powers in balance, and the vein belongs to both. The court follows him, and Òrd Mhacha, the order of Macha, becomes the order of Cathair dhearg and the crown.",
+  "body": "King Aonghas takes up the wood-watchers' rite of Macha, which keeps the two horses of one chariot, foaled on one night, Liath Macha, the grey, and Dubh Sainglenn, the black: two horses, one yoke; light and dark are two powers in balance, and the vein belongs to both. The court follows him, and Òrd Mhacha, the order of Macha, becomes the order of Cathair dhearg and the crown.",
   "place": "burg:19",
   "kind": "faith",
   "between": [
@@ -1507,7 +1507,7 @@
   "id": "III-0120",
   "canon": false,
   "title": "Manannan preached at Seann Skell",
-  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, a preacher named Mànas mac Ruairidh proclaims its one power as Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion, and teaches that Manannan shut the western sea behind the fleet with his mist and that it must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
+  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, a preacher named Mànas mac Ruairidh proclaims its one power as Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion, and teaches that Manannan shut the western sea behind the fleet with his mist, which hides Rodos from every ship beyond it, and that it must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -2253,8 +2253,8 @@
  {
   "id": "III-0173",
   "canon": false,
-  "title": "The winter of ice at Inis mhòr",
-  "body": "The river at Inis mhòr freezes from bank to bank before the autumn grain fleet has sailed, which no one then living had seen. Boats are crushed at their moorings and the grain fleet does not sail until the thaw.",
+  "title": "The great gale at Inis mhòr",
+  "body": "A gale out of the north-east drives the sea up the river at Inis mhòr before the autumn grain fleet has sailed, higher than anyone then living had seen it. Boats are crushed at their moorings and the grain fleet does not sail until the spring.",
   "place": "burg:17",
   "kind": "disaster",
   "between": [
@@ -2806,7 +2806,7 @@
   "id": "III-0215",
   "canon": false,
   "title": "Inis mhòr's grain fleet laid up",
-  "body": "The coasting grain barges of Inis mhòr, which had sailed Slighe-uisce reòta, the frozen way along the north coast from Ros chiar to Caol mhin, since the Holy Age, are laid up for good as the roads improve. The last of them is kept on the strand as a curiosity.",
+  "body": "The coasting grain barges of Inis mhòr, which had sailed Slighe-uisce fhuar, the cold way along the north coast from Ros chiar to Caol mhin, since the Holy Age, are laid up for good as the roads improve. The last of them is kept on the strand as a curiosity.",
   "place": "burg:17",
   "kind": "people",
   "between": [
@@ -3099,6 +3099,18 @@
   "kind": "law",
   "between": [
    1755,
+   1779
+  ]
+ },
+ {
+  "id": "III-0239a",
+  "canon": false,
+  "title": "The mist thins",
+  "body": "The priests of Manannan at Seann Skell record that the mist on the western sea, which has hidden Rodos from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and the fishers of the west coast begin to see the line of the open sea beyond the headlands on still mornings.",
+  "place": "burg:489",
+  "kind": "omen",
+  "between": [
+   1770,
    1779
   ]
  }

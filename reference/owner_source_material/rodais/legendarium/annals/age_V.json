@@ -85,7 +85,7 @@
   "id": "V-0011",
   "canon": false,
   "title": "The ship sent west",
-  "body": "The council sends a ship out past the western capes to look for the crossing the humans used. It comes back after a month of open water and reports nothing: no land, no ship, no sign of the passage. No second ship is sent.",
+  "body": "The council sends a ship out past the western capes to look for the crossing the humans used. It comes back after a month of open water and reports nothing: no land, no ship, no sign of the passage. No second ship is sent. The priests of Manannan at Seann Skell say that the lord of the sea has shut the western sea again, as they have prayed him to since the Crossing.",
   "place": "feature:1",
   "kind": "voyage"
  },
@@ -116,8 +116,8 @@
  },
  {
   "id": "V-0014a",
-  "title": "The frozen coast left out",
-  "body": "The shire lines stop where the humans' survey stopped, at the ice margin of the far north-west. The frozen coast beyond, an Oirthir Reòthte, with its sealers and fowlers, is put in no shire and given no maor. The council's minute says only that it 'is not in the survey'.",
+  "title": "The windy coast left out",
+  "body": "The shire lines stop where the humans' survey stopped, at the edge of the great moss of the far north-west. The windy coast beyond, an Oirthir Ghaothach, with its sealers and fowlers, is put in no shire and given no maor. The council's minute says only that it 'is not in the survey'.",
   "place": "province:120"
  },
  {
@@ -2986,8 +2986,8 @@
  },
  {
   "id": "V-0335a",
-  "title": "Onto the frozen coast",
-  "body": "Some of the holdouts of Cnoc thais go on past the hills and out onto the frozen coast of the far north-west. The regiments follow them to the edge of the shire of Seann Vell and no farther. The open record names them, as it names every enemy of the war, only as those 'of no shire'.",
+  "title": "Onto the windy coast",
+  "body": "Some of the holdouts of Cnoc thais go on past the hills and out onto the windy coast of the far north-west. The regiments follow them to the edge of the shire of Seann Vell and no farther. The open record names them, as it names every enemy of the war, only as those 'of no shire'.",
   "place": "province:75",
   "between": [
    2020,
@@ -3567,8 +3567,20 @@
  {
   "id": "V-0391a",
   "title": "The Treasury's roll of the present year",
-  "body": "The Treasury's roll for the year stands at 9,568 purses: 6,374 from the head-due, taken at eighteen purses on every hundred thousand heads, and 3,194 from the market-due, taken at seventeen in the hundred on every sale. The wartime tithe is carried on its own line under the regiments' pay. The frozen coast pays neither due.",
+  "body": "The Treasury's roll for the year stands at 9,568 purses: 6,375 from the head-due, taken at eighteen purses on every hundred thousand heads, and 3,193 from the market-due, taken at seventeen in the hundred on every sale. The wartime tithe is carried on its own line under the regiments' pay. The windy coast pays neither due.",
   "place": "burg:19",
+  "between": [
+   2026,
+   2026
+  ]
+ },
+ {
+  "id": "V-0391b",
+  "canon": false,
+  "title": "Dubhan's charter of export",
+  "body": "Dubhan, who made the first working fuel and is now in his sixty-ninth year, wins from the council at Cathair dhearg, after a year of letters and three sittings, the right to sell dubhan off the island. It is the first leave the kingdom has given for any good of Rodos to go beyond its waters since the Severance. The charter is narrow. The Treasury sets each year's measure; the fuel is loaded only at Ros dhomhain, where a clerk of the Treasury takes the tithe on every barrel; the kingdom's depots and the Moot's are served first; and nothing of the vein goes with it, so the custodians of Òrd Bhrìde seal every hold, since the vein's ore is not sold. Dubhan has told neither the council nor the chronicler who his buyers are. The first tank-hull loaded under the charter goes out past the western capes in the autumn, and the priests of Manannan at Seann Skell say their prayer to keep the sea shut on the day she sails.",
+  "place": "burg:27",
+  "kind": "trade",
   "between": [
    2026,
    2026

@@ -26,7 +26,7 @@
  "174": {
   "founded_age": "III",
   "founded_by": "Ròdaich ford-wardens, resettled by the Tuathaich",
-  "history": "A long ford on the north-western roads, held by a Ròdaich warden-family through the quiet centuries of the Sundering. After the Severance its houses were emptied and given to Tuathaich families shepherded north, who raised the present walls and made it one of the chief towns of their homeland. The Tuathaich here keep the faith of the Church, and their church stands among the shrines the Ròdaich left behind; the ford is still paid for in toll. Charcoal-burning is the chief trade of its woods, and it binds books, a craft the Tuathaich learned at Muileann leathan.",
+  "history": "A long ford on the north-western roads, held by a Ròdaich warden-family through the quiet centuries of the Sundering. After the Severance its houses were emptied and given to Tuathaich families shepherded north, who raised the present walls and made it one of the chief towns of their homeland. The Tuathaich here keep the faith of the Church, and their church stands among the shrines the Ròdaich left behind; the ford is still paid for in toll. Its dubhan works, the largest in the north-west, is now its chief trade, and it binds books, a craft the Tuathaich learned at Muileann leathan.",
   "known_for": "the long ford and its toll"
  },
  "175": {
@@ -108,7 +108,7 @@
  "187": {
   "founded_age": "III",
   "founded_by": "the tithe-reeves of Cathair mhòr",
-  "history": "A walled town on a bend of the road below Cathair mhòr, raised to store and guard the tithe-grain of the Doire mhin country. Its walls were strengthened when the human administration raised the tithe, and the chroniclers note that the grain was guarded but not shared. It keeps the order of Macha and serves Cill fhada and Muileann ruadh as their market. The charcoal-burners of its woods supply the forges of the gulf, and the town boils soap.",
+  "history": "A walled town on a bend of the road below Cathair mhòr, raised to store and guard the tithe-grain of the Doire mhin country. Its walls were strengthened when the human administration raised the tithe, and the chroniclers note that the grain was guarded but not shared. It keeps the order of Macha and serves Cill fhada and Muileann ruadh as their market. The dubhan works under its walls supply the forges of the gulf, and the town boils soap.",
   "known_for": "the walled tithe-granaries"
  },
  "188": {
@@ -138,7 +138,7 @@
  "192": {
   "founded_age": "I",
   "founded_by": "unknown builders, later the Ròdaich keepers of the Old Spirits",
-  "history": "The holy city of the north grew around a ring of stones older than the Ròdaich, and the chroniclers do not claim to know who raised them. The Ròdaich made it a place of the Old Spirits in the Holy Age and it has never had walls, since the ancestors' ground was held to need none. It is a city of pilgrims and hostels, and the spirit-house keepers of Cnoc chiar and Inis bheag answer to its elders. Charcoal from its woods and books copied in its hostels are its trades.",
+  "history": "The holy city of the north grew around a ring of stones older than the Ròdaich, and the chroniclers do not claim to know who raised them. The Ròdaich made it a place of the Old Spirits in the Holy Age and it has never had walls, since the ancestors' ground was held to need none. It is a city of pilgrims and hostels, and the spirit-house keepers of Cnoc chiar and Inis bheag answer to its elders. Dubhan from the works below the town and books copied in its hostels are its trades; the elders have never blessed the works, since dubhan is not of the vein.",
   "known_for": "the unwalled ring of the ancestors"
  },
  "193": {
@@ -280,7 +280,7 @@
  "215": {
   "founded_age": "II",
   "founded_by": "the headland-lords of Ceann bheag",
-  "history": "A dusky headland city on the north coast, walled, with a citadel on the rock and a harbour below. It was one of the harbours the human traders first used after the Crossing, and its citadel was taken and retaken in the war before the Severance. It follows the druid schools of the Old Faith and competes with Caol bheag for the northern trade. Slighe-uisce reòta, the frozen way along the north coast to Caol mhin, begins at its harbour; the grain barges of Inis mhòr sailed it until the roads took their trade.",
+  "history": "A dusky headland city on the north coast, walled, with a citadel on the rock and a harbour below. It was one of the harbours the human traders first used after the Crossing, and its citadel was taken and retaken in the war before the Severance. It follows the druid schools of the Old Faith and competes with Caol bheag for the northern trade. Slighe-uisce fhuar, the cold way along the north coast to Caol mhin, begins at its harbour; the grain barges of Inis mhòr sailed it until the roads took their trade.",
   "known_for": "the fortified headland harbour"
  },
  "216": {

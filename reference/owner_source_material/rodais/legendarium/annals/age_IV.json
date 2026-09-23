@@ -12,7 +12,7 @@
   "id": "IV-0001a",
   "canon": false,
   "title": "The ships met off the north-west",
-  "body": "Two fishing boats out of Achadh àrsaidh, working the water off the north-west cape where the Sea-Watcher is seen, meet three ships out of the west and hail them. Neither side understands the other. The fishers turn south and the ships follow them down the coast toward Cuan shean. The fishers call the place of the meeting Coinneachadh nan Long, the meeting of the ships, and the boats of Achadh àrsaidh still slow there.",
+  "body": "That winter the mist that had lain on the western sea since the fleet of the Sundering sailed into it lifts. Two fishing boats out of Achadh àrsaidh, working the water off the north-west cape where the Sea-Watcher is seen, meet three ships coming out of the thin grey of it from the west and hail them. Neither side understands the other. The fishers turn south and the ships follow them down the coast toward Cuan shean. The fishers call the place of the meeting Coinneachadh nan Long, the meeting of the ships, and the boats of Achadh àrsaidh still slow there.",
   "place": "marker:45",
   "kind": "voyage",
   "between": [
@@ -1137,8 +1137,8 @@
  {
   "id": "IV-0127a",
   "canon": false,
-  "title": "A brig in the drift ice",
-  "body": "A Company brig bound for the northern landing with tools is caught in the drift ice off Eilean fhada in a late spring and crushed. Her crew walk over the ice to the harbour at Caol bheag. After it the Company's charts mark the northern passage closed from midwinter to the end of spring.",
+  "title": "A brig lost in the mist",
+  "body": "A Company brig bound for the northern landing with tools is caught by a spring gale in sea mist off Eilean fhada and driven onto the skerries. Her crew wade ashore at low water and walk to the harbour at Caol bheag. After it the Company's charts mark the northern passage closed to its ships from midwinter to the end of spring, the season of the gales.",
   "place": "burg:301",
   "kind": "disaster",
   "between": [
@@ -1597,7 +1597,7 @@
   "id": "IV-0175",
   "canon": false,
   "title": "Macha's priests bless the coin",
-  "body": "The priests of Òrd Mhacha at Cathair dhearg, the order of the capital and the crown, bless the Residency's new coin at Tolley's request. Macha's priesthood teaches that her two horses, Dubh Sainglenn the black and Liath Macha the grey, each have their due; the dissenting priests say the coin is only one of them.",
+  "body": "The priests of Òrd Mhacha at Cathair dhearg, the order of the capital and the crown, bless the Residency's new coin at Tolley's request. Macha's priesthood teaches that the two horses of her rite, Dubh Sainglenn the black and Liath Macha the grey, each have their due; the dissenting priests say the coin is only one of them.",
   "place": "burg:19",
   "kind": "faith"
  },
@@ -2231,7 +2231,7 @@
  {
   "id": "IV-0246a",
   "title": "The district of the outer coasts",
-  "body": "The Administration makes the outer coasts a single district and governs it from the harbour office at Seann Vell on Eilean ruadh, where its revenue cutters lie: the islands of the west and south, Eilean bhàn with Cuan dhearg and Cnoc chaol, and the southern edge of the ice in the far north-west. Its surveyors walk the ice margin and go no farther. Beyond it the district map is left blank.",
+  "body": "The Administration makes the outer coasts a single district and governs it from the harbour office at Seann Vell on Eilean ruadh, where its revenue cutters lie: the islands of the west and south, Eilean bhàn with Cuan dhearg and Cnoc chaol, and the southern edge of the windy coast in the far north-west. Its surveyors walk to the edge of the great moss there, which no chain can cross, and go no farther. Beyond it the district map is left blank.",
   "place": "burg:127"
  },
  {

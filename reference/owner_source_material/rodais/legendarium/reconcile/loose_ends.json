@@ -1,0 +1,214 @@
+{
+ "layer": "loose_ends",
+ "summary": "Two routes left open by the markers and routes layer (INTEGRATION.md, 'Left open'): route 119 (Ceum Àth shean) carried, as a trail, the stretch of Rathad na Mèinne between Cnoc òg and Baile ìseal and the stretch of Rathad na Banrighinn between Baile ìseal and Baile chiar, so both roads showed gaps south of the capital; route 233 carried the queen's road between Baile Mòr fhionn and Àth fhiadhaich. Each is cut at the towns where the roads meet it, and the road stretches become roads joining the road routes at both ends: route 119 keeps Àth shean to Cnoc òg as a trail, 446 is the ore road from Cnoc òg to Baile ìseal, 447 the queen's road from Baile ìseal to Baile chiar, 448 the trail on from Baile chiar by Baile dhubh to Seann Vell; route 233 is the queen's road from Baile Mòr fhionn to Àth fhiadhaich, and 449 the trail on from Àth fhiadhaich to Inis thais. All the pieces run over land; the paths are those Azgaar's Routes.getPath draws for them.",
+ "map_edits": [
+  {
+   "record": 37,
+   "action": "split_route",
+   "route": 119,
+   "points": [
+    [
+     688.63,
+     472.84,
+     3745
+    ],
+    [
+     677.82,
+     475.62,
+     3744
+    ],
+    [
+     673.17,
+     470.51,
+     3743
+    ],
+    [
+     667.7,
+     457.85,
+     3668
+    ],
+    [
+     660.25,
+     457.31,
+     3587
+    ],
+    [
+     651.57,
+     460.42,
+     3666
+    ],
+    [
+     637.76,
+     452.87,
+     3585
+    ],
+    [
+     627.04,
+     445.38,
+     3496
+    ],
+    [
+     620.52,
+     454.52,
+     3583
+    ],
+    [
+     610.51,
+     443.9,
+     3494
+    ],
+    [
+     594.17,
+     436.87,
+     3493
+    ],
+    [
+     590.88,
+     430.57,
+     3408
+    ],
+    [
+     585.94,
+     427.03,
+     3407
+    ],
+    [
+     574,
+     426.4,
+     3406
+    ],
+    [
+     578.85,
+     417.55,
+     3319
+    ],
+    [
+     590.26,
+     408.59,
+     3238
+    ],
+    [
+     594.36,
+     401.51,
+     3156
+    ],
+    [
+     597.38,
+     391.53,
+     3065
+    ],
+    [
+     597.62,
+     383.45,
+     2976
+    ],
+    [
+     591.35,
+     369.98,
+     2882
+    ]
+   ],
+   "pieces": [
+    {
+     "i": 119,
+     "from": 0,
+     "to": 3,
+     "group": "trails",
+     "name": "Ceum Àth shean",
+     "d": "M688.6,472.8C688.6,472.8,680.4,476.1,677.8,475.6C675.4,475.2,674.8,473.3,673.2,470.5C671.4,467.5,667.7,457.9,667.7,457.9"
+    },
+    {
+     "i": 446,
+     "from": 3,
+     "to": 6,
+     "group": "roads",
+     "name": "Rathad na Mèinne",
+     "d": "M667.7,457.9C667.7,457.9,662.9,456.9,660.3,457.3C657.5,457.7,655.2,461,651.6,460.4C647.8,459.8,637.8,452.9,637.8,452.9"
+    },
+    {
+     "i": 447,
+     "from": 6,
+     "to": 8,
+     "group": "roads",
+     "name": "Rathad na Banrighinn",
+     "d": "M637.8,452.9C637.8,452.9,629.9,445.1,627,445.4C624.2,445.7,620.5,454.5,620.5,454.5"
+    },
+    {
+     "i": 448,
+     "from": 8,
+     "to": 19,
+     "group": "trails",
+     "name": "Ceum Baile chiar",
+     "d": "M620.5,454.5C620.5,454.5,614.8,446.8,610.5,443.9C606.1,440.9,597.4,439.2,594.2,436.9C591.2,434.8,592.3,432.2,590.9,430.6C589.5,429,588.6,427.7,585.9,427C583.1,426.3,575.1,428,574,426.4C572.9,424.8,576.2,420.5,578.9,417.6C581.6,414.5,587.7,411.3,590.3,408.6C592.7,406,593.2,404.3,594.4,401.5C595.6,398.6,596.8,394.6,597.4,391.5C597.9,388.6,598.5,386.9,597.6,383.5C596.7,379.8,591.4,370,591.4,370"
+    }
+   ],
+   "why": "The ore road's gap between route 115 (from Cnoc òg) and route 131 (to Baile ìseal), and the queen's road's gap between Baile ìseal and route 173 (from Baile chiar), closed by the stretches of route 119 that ran there."
+  },
+  {
+   "record": 37,
+   "action": "split_route",
+   "route": 233,
+   "points": [
+    [
+     528.09,
+     448.32,
+     3574
+    ],
+    [
+     526.92,
+     463.24,
+     3654
+    ],
+    [
+     515.83,
+     462.47,
+     3653
+    ],
+    [
+     504.39,
+     461.31,
+     3651
+    ],
+    [
+     506.69,
+     453.94,
+     3572
+    ],
+    [
+     510.95,
+     450.25,
+     3573
+    ],
+    [
+     511.81,
+     444.61,
+     3485
+    ],
+    [
+     509.41,
+     439.79,
+     3400
+    ]
+   ],
+   "pieces": [
+    {
+     "i": 233,
+     "from": 0,
+     "to": 1,
+     "group": "roads",
+     "name": "Rathad na Banrighinn",
+     "d": "M528.1,448.3L526.9,463.2"
+    },
+    {
+     "i": 449,
+     "from": 1,
+     "to": 7,
+     "group": "trails",
+     "name": "Slighe Àth fhiadhaich",
+     "d": "M526.9,463.2C526.9,463.2,519.6,462.8,515.8,462.5C512.1,462.1,505.9,462.8,504.4,461.3C503,459.9,505.6,455.8,506.7,453.9C507.8,452.1,510.1,451.8,511,450.3C511.8,448.7,512.1,446.4,511.8,444.6C511.6,442.9,509.4,439.8,509.4,439.8"
+    }
+   ],
+   "why": "The queen's road's gap between route 248 (at Baile Mòr fhionn) and route 229 (at Àth fhiadhaich), closed by the first stretch of route 233."
+  }
+ ]
+}

@@ -404,7 +404,7 @@ bank.
 Things were fixed in those lifetimes that have never been unfixed. Flint was dug at Cnoc àrsaidh, the only
 good flint on Rodos, and the road of those who carried it is sunk a yard deep near Àth leathan. A hawk was
 carved on a lintel at Àth mhòr, the oldest carving of any bird on the island. The Hawk order of later
-ages claims it for the hawk of Acaill, the hawk that Fionntan became; the lintel says nothing. Someone began to mark the
+ages claims it for the Hawk of Acaill, the grey hawk as old as Fionntan; the lintel says nothing. Someone began to mark the
 high-water line against a fixed rock, at intervals too regular for a fisherman's habit, and the practice
 was carried to Ros dhomhain with the interval unchanged; and there the marks crept upward from keeper to
 keeper, until by the age's end the lake stood a hand higher than at the first cut. The keepers kept

@@ -77,7 +77,7 @@ Words in map names that break caol le caol: none.
 
 | before | after |
 |---|---|
-| Salty | An Cuan Siar |
+| Salty | Muir Mhanannain |
 | Endless | Ròdos |
 | Bostedbury | Eilean dhubh |
 | Horshead | Eilean fhada |
@@ -362,7 +362,7 @@ Words in map names that break caol le caol: none.
 | Wild route | Slighe-mhara fhiadhaich |
 | Foketonese route | Slighe-mhara Caol fhiadhaich |
 | Eternal route | Slighe-mhara shìorraidh |
-| Frozen route | Slighe-mhara reòta |
+| Frozen route | Slighe-mhara fhuar |
 | The Rustic Flower passage | Caolas dhùthchail |
 | Moonlit lane | Seòlaid na gealaich |
 | Feltashan lane | Seòlaid Ros gheal |
@@ -379,7 +379,7 @@ Words in map names that break caol le caol: none.
 | Holworth route | Slighe-mhara Cuan bheag |
 | Stansbobury route | Slighe-mhara Caol bheag |
 | Serpent water way | Slighe-uisce na nathrach |
-| Frozen water way | Slighe-uisce reòta |
+| Frozen water way | Slighe-uisce fhuar |
 | Chisteran route | Slighe-mhara Ceann thais |
 | The Shaky Sapphire route | Slighe-mhara chritheanach |
 | Gilded route | Slighe-mhara òrach |

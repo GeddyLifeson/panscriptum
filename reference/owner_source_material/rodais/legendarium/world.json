@@ -10033,7 +10033,7 @@
 "name": "Coille Naomh Cnoc bheag",
 "x": 644.95,
 "y": 438.76,
-"note": "A forest sacred to Macha, where Òrd Mhacha keeps the wood of her black horse, Dubh Sainglenn.",
+"note": "A forest sacred to Macha, where Òrd Mhacha keeps the wood of Dubh Sainglenn, the black horse, yoke-fellow of Liath Macha, the Grey of Macha: the two horses of one chariot, foaled on one night.",
 "nearest_burg": 504
 },
 {
@@ -10409,7 +10409,7 @@
 {
 "id": 1,
 "type": "ocean",
-"name": "An Cuan Siar"
+"name": "Muir Mhanannain"
 },
 {
 "id": 2,

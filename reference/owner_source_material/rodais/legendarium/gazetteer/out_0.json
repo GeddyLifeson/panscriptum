@@ -110,7 +110,7 @@
  "19": {
   "founded_age": "II",
   "founded_by": "the custodian-kings of the Holy Age",
-  "history": "Cathair dhearg, the red city, began as the stone-walled seat of the Holy Age custodians where the mining roads came down to the water on the Abhainn dhomhain, just above Loch chrom; Drochaid Cathair dhearg, heir of the first bridges, still carries the road across the river. It kept its walls, citadel and temple through the Sundering and the Age of Strangers, and after the Severance Rìoghachd Ròdais was declared here and Niall was crowned in it, first of the restored line. The royal precinct is small for a capital, ringed by the great harbours of Ros dhomhain, Cathair dhomhain and Baile ghlas, and its temple is the first house of Macha, where kings are made by her rite and her black horse, Dubh Sainglenn, is honoured. The royal quays build seagoing hulls for the Crown.",
+  "history": "Cathair dhearg, the red city, began as the stone-walled seat of the Holy Age custodians where the mining roads came down to the water on the Abhainn dhomhain, just above Loch chrom; Drochaid Cathair dhearg, heir of the first bridges, still carries the road across the river. It kept its walls, citadel and temple through the Sundering and the Age of Strangers, and after the Severance Rìoghachd Ròdais was declared here and Niall was crowned in it, first of the restored line. The royal precinct is small for a capital, ringed by the great harbours of Ros dhomhain, Cathair dhomhain and Baile ghlas, and its temple is the first house of Macha, where kings are made by her rite and the two horses of her rite, Liath Macha the grey and Dubh Sainglenn the black, are honoured. The royal quays build seagoing hulls for the Crown.",
   "known_for": "royal seat and temple of Macha"
  },
  "20": {
@@ -158,7 +158,7 @@
  "27": {
   "founded_age": "III",
   "founded_by": "merchant families of the capital shore",
-  "history": "Ros dhomhain is the most populous place of the capital country, a merchant port that outgrew every wall it was ever given until no one built another. The first human traders lodged here after the Crossing, and its counting-houses have served every master of the island's trade since. It sits between the capital and the old harbour of Seann Vell, and the three have run together into one shore. The Company's railway, the ore line, came down to its deep-water quay from the pits at Muileann chrom in the last years of Edward Vane's commission, and the first steamer seen on Rodos had come into its harbour half a century before.",
+  "history": "Ros dhomhain is the most populous place of the capital country, a merchant port that outgrew every wall it was ever given until no one built another. The first human traders lodged here after the Crossing, and its counting-houses have served every master of the island's trade since. It sits between the capital and the old harbour of Seann Vell, and the three have run together into one shore. The Company's railway, the ore line, came down to its deep-water quay from the pits at Muileann chrom in the last years of Edward Vane's commission, and the first steamer seen on Rodos had come into its harbour half a century before. In the present year its quay became the one place on the island where dubhan may be loaded for beyond the island, under the charter Dubhan won from the council: a clerk of the Treasury takes the tithe on every barrel, and the custodians of Brìde's order seal every hold.",
   "known_for": "the capital country's great merchant port"
  },
  "28": {
@@ -798,7 +798,7 @@
  "127": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "Seann Vell of the west coast is a small harbour on a Seann-Dhaoine site, the seat of its province. It was resettled by the Ròdaich in the Holy Age and took up the order of Manannan with the rest of the coast. An ceathramh cabhlach is stationed at Cuan shean, a short way up the coast. Its shire is the humans' old district of the outer coasts, kept whole: the islands of the west and south, Eilean bhàn with Cuan dhearg and Cnoc chaol, and the southern edge of the frozen coast in the far north-west.",
+  "history": "Seann Vell of the west coast is a small harbour on a Seann-Dhaoine site, the seat of its province. It was resettled by the Ròdaich in the Holy Age and took up the order of Manannan with the rest of the coast. An ceathramh cabhlach is stationed at Cuan shean, a short way up the coast. Its shire is the humans' old district of the outer coasts, kept whole: the islands of the west and south, Eilean bhàn with Cuan dhearg and Cnoc chaol, and the southern edge of the windy coast in the far north-west.",
   "known_for": "old harbour of the west coast"
  },
  "128": {

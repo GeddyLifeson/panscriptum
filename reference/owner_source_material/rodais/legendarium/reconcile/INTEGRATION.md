@@ -12,7 +12,7 @@ where two of them, or a proposal and the rest of the record, disagreed.
   military, markers_routes, land, integration. `../../finish_map.py` calls it after
   `burg_features.finish_records`, so a moved town's faith is set on its new cell. It checks every record it
   rewrites round-trips, that only the intended records change (1, 3, 5, 11, 13, 14, 15, 16, 19, 21, 26, 29, 30,
-  31, 35, 37, 40, 41, 49) and that a second run changes nothing. `finish_map.py` from `Rodos_renamed.map`
+  31, 35, 36, 37, 39, 40, 41, 49) and that a second run changes nothing. `finish_map.py` from `Rodos_renamed.map`
   reproduces `Rodos_finished.map` byte for byte, and `MAP_CHANGES.md` is unchanged.
 - **Derived on the map, not written in any proposal:** the 16 routes regrouped as roads have their saved
   `<path id="routeN">` moved from `<g id="trails">` into `<g id="roads">` (record 5), in route order; the
@@ -134,19 +134,19 @@ added to `check_rodais.py`: every reconcile edit is in the map (a fresh `reconci
 
 ## Left open
 
-- Routes 119 and 233 carry short stretches of the queen's and ore roads but stay trails (markers_routes' note);
-  the roads show small gaps there.
+- Routes 119 and 233 carried short stretches of the queen's and ore roads as trails; they are now cut into road
+  and trail pieces (loose_ends.json, below), and the roads have no gaps.
 - The railway cannot be drawn: FMG has no railway route group.
-- Religion, province and state statistics other than the cultures' rural totals (e.g. faith areas) are left as
-  saved; FMG recounts them whenever an editor opens.
-- The saved cultures layer in the SVG still paints Eilean gheal's one cell (4281) in the old culture's colour
-  until the layer is redrawn (toggling it redraws from data).
+- The states' rural totals now follow the cells as the cultures' do (below). The religions and provinces records
+  carry no statistics in this map; FMG counts them whenever an editor opens.
+- The saved cultures layer in the SVG is what FMG draws from the cells: redrawn in FMG 1.153.1 on the rebuilt map
+  (Layers.hide/show/draw), it serialises byte for byte as saved, so it is not stale.
 
 ## The three faiths (faiths.json)
 
 Applied last. Record 29 is set to four entries: 0 *Gun chreideamh*; 1 *An Creideamh Sean* (organised,
 polytheist, Ròdaich, deity *an Dagda*, centre Dùn ìseal, cell 3104); 2 *Na Seann Spioradan* (folk, shamanic,
-Ròdaich, deity *na Sìthichean*, centre Dùn ìseal as before); 3 *An Eaglais* (organised, monotheist, Tuathaich,
+Ròdaich, deity *na Sìthichean*, centre Seann Dunn of the east coast, cell 2933, since the climate pass); 3 *An Eaglais* (organised, monotheist, Tuathaich,
 deity *Crìosd*, centre Doire ghlas, cell 480). The list is compacted (ids 0–3), not kept at ten with six marked
 removed, so world.json and the Religions editor hold only what exists. The cells (record 26) are renumbered:
 the six Ròdaich orders' cells (old 4–8, and old 3 where the cell is Ròdaich) → 1; old 2 → 2; the Tuathaich
@@ -158,3 +158,54 @@ its renumbered value, so a second run changes nothing. A layer's `skip` list is 
 city of Òrd na Cloiche). Marker notes 23 and 24 (the sacred forests) name Flidais's grove of the druid schools
 and Macha's wood. The religions layer is saved empty in the SVG and FMG draws it from the cells when shown;
 in FMG 1.153.1 the layer draws three faiths and the Religions editor opens with the four rows.
+
+## The climate, Manannan's sea, dubhan and the loose ends (climate.json, dubhan.json, loose_ends.json)
+
+The owner: "there should be no ice caps or glaciers, this is an island that sits between Ireland and Scotland";
+"change charcoal to dubhan and just change the history to say that as of the current day Dubhan negotiated to be
+able to export the stuff". Applied after the faiths, in this order.
+
+- **climate.json.** Record 1: latitude 20.5 → 18.99 and longitude 19.5 → 51.63 with the coordinates Azgaar's
+  Coordinates.calculate gives (56.2–54.2 N, 8.0–3.6 W; the island's coasts about 56.0–54.6 N, its middle near
+  5.8 W); climate equator 20 → 27 and north pole −34 → −4 C. Record 11 is recomputed by a new edit form,
+  `recompute_temperature`, exactly as Azgaar's Temperature.compute() does (checked: with the old settings it
+  reproduces the old record for all 10,064 grid cells): sea level 9 C everywhere, land 2–9 C, coldest the
+  summits of the massif. Record 16: the 37 Glacier cells become Moor on the unshired windy coast (17) and
+  Grassland at the north end of shire 120 (20); none is left. Record 21: their people are the mean of their moor
+  neighbours (0.80 → 5.59 thousand in all). Record 39 is `[]` (the 139 icebergs gone) and the SVG's ice group is
+  saved empty (`empty_svg_group`). The land layer's latitude, coordinates and its two state rural edits are set
+  aside (`skip`); the states' rural totals are now derived from the cells like the cultures' (Neutrals 7.26 →
+  8.94, the kingdom 30,457.73 → 30,460.84 thousand; Tuathaich rural 3,240.81 → 3,245.59).
+- **The sea.** finish_map.py names the ocean *Muir Mhanannain* (was *An Cuan Siar*), and the generator's
+  "Frozen" routes are *fuar*, not *reòta* (*Slighe-mhara fhuar*, *Slighe-uisce fhuar*); MAP_CHANGES.md follows.
+  No sea label is drawn on the saved map, so nothing in record 5 changes for it.
+- **dubhan.json.** Good 34 (Coal, then the economy layer's Charcoal) is *Dubhan*, by the barrel, made from Stone
+  (the spoil) instead of Wood. Markets and deals refer to it by id. The economy layer's rename is set aside.
+- **loose_ends.json.** A new edit form, `split_route`, cuts a route into pieces (points, group, name, the cells'
+  route links in record 36, and the saved paths Azgaar's Routes.getPath draws). Route 119 → 119 trail (Àth shean
+  – Cnoc òg), 446 Rathad na Mèinne (Cnoc òg – Baile ìseal), 447 Rathad na Banrighinn (Baile ìseal – Baile chiar),
+  448 trail *Ceum Baile chiar* (Baile chiar – Seann Vell); route 233 → 233 Rathad na Banrighinn (Baile Mòr fhionn –
+  Àth fhiadhaich), 449 trail *Slighe Àth fhiadhaich* (on to Inis thais). 19 roads now, all drawn in the roads group.
+- **faiths.json.** Na Seann Spioradan's centre is Seann Dunn (burg 18, cell 2933), the seat Appendix B now gives it.
+- **The history.** The frozen coast is *an Oirthir Ghaothach*, the windy coast: bare heather moor and blanket bog
+  behind the great moss, open to the north-western gales. Rewritten, ids and dates kept: I-0006a (the bare
+  north-west), I-0008a (seals on the skerries), III-0173 (the great gale at Inis mhòr), IV-0127a (a brig lost in
+  the mist), V-0014a, V-0335a; edited: III-0120, III-0215, IV-0001a, IV-0246a, V-0011, V-0391a. Added:
+  III-0239a (the mist thins, 1774) and V-0391b (Dubhan's charter of export, 2026). No other event changed date.
+  H and G carry the recount: 35,415,000 heads, head-due 6,375 and market-due 3,193 purses (the roll still
+  9,568), Tuathaich in the country 3,237,000 within the shires, the Moot's tally of the windy coast near nine
+  thousand. Appendix I's climate is the new temperature record read in the humans' degrees.
+- **Checks added to check_rodais.py:** no Glacier cell, no icebergs and the ice layer empty, the island between
+  54 and 57 N with no grid cell cold enough for ice, Dubhan a good and Charcoal/Coal not, and no glacier, ice cap,
+  iceberg or drift ice anywhere in the history (annals, books, appendices, houses, gazetteer, marker notes).
+
+## The tales (tales.json)
+
+The owner: the island's Gaelic tellings may be older and fuller than the Irish and Scottish tales, but never
+contradict them. Applied last. Record 35: marker 24's note (set by faiths.json, now in its `skip`) names Dubh
+Sainglenn and Liath Macha as the two horses of one chariot, foaled on one night, not one beast. The history was
+edited once by exact old text (annals 7 events, books 11 passages, B 19, J 4, D 1, E 1, one gazetteer line): Macha's
+two horses; Fionntan mac Bòchra the oldest of men and the Hawk of Acaill (Mòd) his fellow in memory, not his
+shape; Manannan's Cup of Truth broken by three lies and whole at three truths; Crom Cruaich "of the mound" and his
+stone on Magh Slèacht; Lia Fàil set up at Teamhair; Taigh Dhuinn a rock in the south-western sea; Lugh's feast
+for Tailtiu; Dian Cècht's silver hand for Nuadha. No event, id or date changed.

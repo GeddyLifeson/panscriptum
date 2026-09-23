@@ -52,7 +52,7 @@
      "type": "Folk",
      "form": "Shamanism",
      "culture": 2,
-     "center": 3104,
+     "center": 2933,
      "deity": "na Sìthichean",
      "expansion": "culture",
      "expansionism": 0,
@@ -126,6 +126,6 @@
   }
  ],
  "unsure": [
-  "An Creideamh Sean and Na Seann Spioradan share their centre cell (3104, Dùn ìseal): the Old Faith's seat is Brìde's flame at Dùn ìseal and the hearth faith's chief shrine is there too. FMG allows two centres on one cell; only its add-a-religion tool refuses a click on a taken centre."
+  "The Old Faith's centre is Dùn ìseal (cell 3104), Brìde's flame. Na Seann Spioradan first shared that cell; its centre is now Seann Dunn of the east coast (burg 18, cell 2933), where the houses built their common hall for naming the ancestors (V-0094), the seat Appendix B gives it."
  ]
 }
