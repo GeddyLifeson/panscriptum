@@ -1,6 +1,6 @@
 # English – Ròdais dictionary
 
-21285 entries, sorted by English headword. See `LEXICON.md` for the full Ròdais – English entries.
+The same 21296 words, in the order of their English headwords. The full entries, with sound and literal sense, stand in `LEXICON.md`.
 
 
 ## 3
@@ -217,7 +217,7 @@
 - **ace** (the one in a suit of cards) — *aon* n. m., gen. *aoin*, pl. *aonan*
 - **ace** (champion, expert at something) — *laoch* n. m., gen. *laoich*, pl. *laoich*
 - **acetate** (salt of vinegar's acid) — *salann-geur* ✦ n. m., gen. *salainn-ghèir*, pl. *salainn-gheura*
-- **acetone** (solvent liquid (post-1800 loan)) — *aiceatòn* n. m., gen. *aiceatòin*
+- **acetone** (solvent liquid (from the humans' tongue)) — *aiceatòn* n. m., gen. *aiceatòin*
 - **ach** (exclamation of annoyance or regret) — *och*
 - **ache** (dull pain) — *cràdh* n. m., gen. *cràidh*, pl. *cràdhan*
 - **achievable** (that can be done) — *so-dhèanta*
@@ -466,6 +466,10 @@
 - **agate** (banded stone) — *agat* n. m., gen. *agait*, pl. *agatan*
 - **age** — *aois* n. f., pl. *aoisean*
 - **age** (verbal-noun phrase; the verb is fàs) — *fàs sean*
+- **Age of Dubhan** (the sixth age, from the first working dubhan to the present) — *An Aois Dhubhain* n. f.
+- **Age of Strangers** (the fourth age, from the Crossing to the Severance) — *An Aois Choigreach* n. f.
+- **Age of Sundering** (the third age, from the finding of the land to the Crossing) — *An Aois Scaraidh* n. f.
+- **Age of the Kingdom** (the fifth age, from the Severance to the first working dubhan) — *An Aois Rìoghachd* n. f.
 - **aged** (old, aged (aged twenty: fichead bliadhna a dh'aois)) — *aosta*
 - **ageing** (growing old) — *fàs aosta* n. m.
 - **agency** (agency, a body acting for others) — *buidheann* n. f., gen. *buidhne*, pl. *buidhnean*
@@ -592,7 +596,7 @@
 - **alive** (living) — *beò*
 - **alkali** (substance that neutralizes acid) — *alcail* n. m., gen. *alcail*, pl. *alcailean*
 - **alkaline** (of an alkali, not acid) — *alcaileach*
-- **alkyl** (chemical group (post-1800 loan)) — *alcail* n. m., gen. *alcail*
+- **alkyl** (chemical group (from the humans' tongue)) — *alcail* n. m., gen. *alcail*
 - **all** — *uile*
 - **all things considered** — *a' toirt a h-uile càil san àireamh*
 - **allegation** (accusation, allegation) — *casaid* n. f., gen. *casaide*, pl. *casaidean*
@@ -707,7 +711,7 @@
 - **amicable** (friendly, without quarrel) — *càirdeil*
 - **amid** (in the midst of (+ genitive)) — *am measc*
 - **amidst** (among, in the middle of (+ gen.)) — *am measc*
-- **amine** (compound of ammonia (post-1800 loan)) — *aimìn* n. m., gen. *aimìn*, pl. *aimìnean*
+- **amine** (compound of ammonia (from the humans' tongue)) — *aimìn* n. m., gen. *aimìn*, pl. *aimìnean*
 - **Amish** (of the Amish) — *Aimiseach*
 - **Amish** (the Amish (plural: Aimisich)) — *Aimiseach* n. m., gen. *Aimisich*, pl. *Aimisich*
 - **amiss** (wrong, out of order) — *ceàrr*
@@ -772,8 +776,10 @@
 - **ancestry** (line of ancestors) — *sinnsearachd* n. f., gen. *sinnsearachd*
 - **anchor** (anchor) — *acair* n. f., gen. *acrach*, pl. *acraichean*
 - **anchor (news)** — *beul-naidheachd* ✦ n. m.
+- **Anchor Era** (the era of the Age of Strangers, counted from the Crossing; AE) — *Linn an Acair* n. f.
 - **anchorage** (place to anchor) — *acarsaid* n. f., gen. *acarsaide*, pl. *acarsaidean*
 - **ancient** (very old) — *àrsaidh*
+- **Ancient Age** (the first age of the island, from the crack in the stone to the Binding) — *An Aois Àrsaidh* n. f.
 - **ancillary** (supporting, subsidiary) — *taiceil*
 - **and** — *agus*
 - **And you?** — *Agus thu fhèin?*
@@ -793,7 +799,6 @@
 - **angle** (corner between two lines) — *uillinn* n. f., gen. *uillinne*, pl. *uillinnean*
 - **angler** (one who fishes with a rod) — *iascair-slaite* n. m., gen. *iascair-slaite*, pl. *iascairean-slaite*
 - **Anglican** (of the Church of England) — *Anglacanach*
-- **Anglo** (English person) — *Sasannach* n. m., gen. *Sasannaich*, pl. *Sasannaich*
 - **angrily** (in an angry way) — *gu feargach*
 - **angry** — *feargach*
 - **angst** (anxiety, dread) — *iomagain* n. f., gen. *iomagaine*
@@ -804,7 +809,7 @@
 - **animate** (bring to life, animate) — *beothaich* v. vn. *beothachadh*
 - **animation** — *beothachadh* n. m.
 - **animator** (maker of animated films) — *beothadair* n. m., gen. *beothadair*, pl. *beothadairean*
-- **anime** (Japanese-style drawn moving pictures (post-1800 loan)) — *anime* n. m.
+- **anime** (Japanese-style drawn moving pictures (from the humans' tongue)) — *anime* n. m.
 - **animosity** (enmity, rancour) — *gamhlas* n. m., gen. *gamhlais*
 - **ankle** — *adhbrann* n. m., pl. *adhbrannan*
 - **annals** (year-by-year record (usually plural)) — *annal* n. m., gen. *annail*, pl. *annalan*
@@ -920,7 +925,7 @@
 - **apocalypse** (the end of the world) — *deireadh an t-saoghail* n. m., gen. *deireadh an t-saoghail*
 - **apocalyptic** (catastrophic, of the end of the world) — *scriosail*
 - **apologetic** (expressing regret) — *leisceulach*
-- **apologise** (say sorry (British spelling of apologize)) — *gabh leisceul* v. vn. *gabhail leisceul*
+- **apologise** (say sorry (another spelling of apologize)) — *gabh leisceul* v. vn. *gabhail leisceul*
 - **apologist** (defender of a cause or belief) — *fear-dìona* n. m., gen. *fir-dhìona*, pl. *fir-dhìona*
 - **apologize** — *gabh leisceul* v. vn. *gabhail leisceul*
 - **apology** (apology, excuse) — *leisceul* n. m., gen. *leisceil*, pl. *leisceulan*
@@ -1181,7 +1186,7 @@
 - **asphalt** (road surface of pitch and gravel) — *asfalt* n. m., gen. *asfailt*
 - **aspiration** (hope, ambition) — *miann* n. m., gen. *miann*, pl. *miannan*
 - **aspire** (long for, aim at) — *miannaich* v. vn. *miannachadh*
-- **aspirin** (common pain pill (post-1800 loan)) — *aspairin* n. m., gen. *aspairin*
+- **aspirin** (common pain pill (from the humans' tongue)) — *aspairin* n. m., gen. *aspairin*
 - **ass** (ass, donkey) — *asal* n. f., gen. *asail*, pl. *asail*
 - **ass** (arse, backside) — *tòn* n. f., gen. *tòine*, pl. *tònan*
 - **assail** (verbal-noun phrase; the verb is thoir) — *toirt ionnsaigh air*
@@ -1351,7 +1356,7 @@
 - **augmentation** (increase) — *meudachadh* n. m., gen. *meudachaidh*, pl. *meudachaidhean*
 - **augmented reality** — *aisling-lèirsinne* ✦ n. f.
 - **August** — *an Lùnastal* n. m.
-- **auld** (old (Scots)) — *sean*
+- **auld** (old (dialect)) — *sean*
 - **aunt** (aunt: father's sister (mother's sister: piuthar-màthar)) — *piuthar-athar* n. f., pl. *peathraichean-athar*
 - **aunt** (aunt: mother's sister) — *piuthar-màthar* n. f., gen. *peathar-màthar*, pl. *peathraichean-màthar*
 - **auntie** (aunt (familiar)) — *antaidh* n. f., gen. *antaidh*, pl. *antaidhean*
@@ -1375,7 +1380,7 @@
 - **authentication** (proving identity or genuineness) — *dearbhadh-aithne* n. m., gen. *dearbhaidh-aithne*
 - **authenticity** (being genuine) — *fìorachd* n. f., gen. *fìorachd*
 - **author** — *ùghdar* n. m., pl. *ùghdaran*
-- **authorise** (give authority for (British spelling)) — *ùghdarraich* v. vn. *ùghdarrachadh*
+- **authorise** (give authority for (another spelling)) — *ùghdarraich* v. vn. *ùghdarrachadh*
 - **authoritarian** (domineering, ruling by force) — *ceannsalach*
 - **authoritarianism** (strict rule over freedom) — *aintighearnas* n. m., gen. *aintighearnais*
 - **authoritative** (commanding, reliable) — *ùghdarrasach*
@@ -1426,7 +1431,7 @@
 - **avoidable** (that can be avoided) — *so-sheachnaidh*
 - **avoidance** (keeping away from something) — *seachnadh* n. m., gen. *seachnaidh*
 - **aw** (expression of sympathy or disappointment) — *och*
-- **awa** (away (Scots)) — *air falbh*
+- **awa** (away (dialect)) — *air falbh*
 - **await** (wait for (fuirich ri)) — *fuirich* v. vn. *fuireach*
 - **awake** (awake (na dhùisg, lit. in his waking)) — *na dhùisc*
 - **awaken** (wake up) — *dùisc* v. vn. *dùscadh*
@@ -1875,6 +1880,7 @@
 - **Better safe than sorry** — *Is fheàrr a bhith cinnteach na bhith duilich.*
 - **betterment** (improvement) — *feabhas* n. m., gen. *feabhais*
 - **between** — *eadar*
+- **between-moon** (Eadrach, the thirteenth moon-month, put in at the end of the old year about every thirty moons to keep the moons with the sun) — *Eadrach* n. m.
 - **beverage** (drink) — *deoch* n. f., gen. *dighe*, pl. *deochan*
 - **beware** (be on guard (thoir an aire!)) — *thoir an aire* v. vn. *toirt an aire*
 - **bewilder** (verbal-noun phrase; the verb is cuir) — *cur an imcheist*
@@ -1982,6 +1988,7 @@
 - **black** — *dubh*
 - **black hole** — *slugaire-solais* ✦ n. m., pl. *slugairean-solais*
 - **black ice** — *deigh dhubh* n. f.
+- **black moon** (Dubhlas, the second moon-month of the old year, the dark of the year; an Dùbhlachd is named from it) — *Dubhlas* n. m.
 - **black out** (verbal-noun phrase; the verb is rach) — *dol an neul*
 - **blackberry** (bramble fruit) — *smeur* n. f., gen. *smeura*, pl. *smeuran*
 - **blackbird** (black thrush) — *lon-dubh* n. m., gen. *loin-duibh*, pl. *loin-dhubha*
@@ -2171,7 +2178,7 @@
 - **bongo** (small hand drum) — *tiompan-làimhe* ✦ n. m., gen. *tiompain-làimhe*, pl. *tiompain-làimhe*
 - **bonkers** (crazy) — *às a chiall*
 - **bonnet** (hat tied under the chin) — *currac* n. m., gen. *curraic*, pl. *curracan*
-- **bonnie** (pretty, fine (Scots)) — *àlainn*
+- **bonnie** (pretty, fine (dialect)) — *àlainn*
 - **bonny** (pretty) — *bòidheach*
 - **bonsai** (dwarfed potted tree) — *craobh-abhaic* ✦ n. f., gen. *craoibhe-abhaic*, pl. *craobhan-abhaic*
 - **bonus** (extra reward on top of pay) — *bàrr-duaise* n. m., gen. *bàrr-duaise*, pl. *bàrran-duaise*
@@ -2219,7 +2226,7 @@
 - **boredom** — *leamhachas* n. m.
 - **boring** — *liosda*
 - **born** (be born: rugadh (past passive of beir: rugadh e 'he was born')) — *beir* v. vn. *breith*
-- **boron** (the element boron (post-1800 loan)) — *bòron* n. m., gen. *bòroin*
+- **boron** (the element boron (from the humans' tongue)) — *bòron* n. m., gen. *bòroin*
 - **borough** (chartered town, district) — *baile* n. m., gen. *baile*, pl. *bailtean*
 - **borrow** — *faigh air iasad* v. vn. *faighinn air iasad*
 - **borrower** (one who borrows) — *neach-iasaid* n. m., gen. *neach-iasaid*, pl. *luchd-iasaid*
@@ -2387,6 +2394,8 @@
 - **brigadier** (commander of a brigade) — *ceann-feadhna* n. m., gen. *cinn-fheadhna*, pl. *cinn-fheadhna*
 - **bright** (clever, sharp-witted) — *geur*
 - **bright** (shining, clear) — *soilleir*
+- **bright half** (the waxing half of a moon-month, from the dark of the moon to the full) — *leth geal* n. m.
+- **bright-fire moon** (Bealltach, the seventh moon-month of the old year, the first of summer; Bealltainn falls on its first night) — *Bealltach* n. m.
 - **brighten** (make or become brighter) — *soillsich* v. vn. *soillseachadh*
 - **brightly** (with brightness) — *gu soilleir*
 - **brightness** (shining, clarity) — *soilleireachd* n. f., gen. *soilleireachd*
@@ -2405,8 +2414,6 @@
 - **brisk** (quick and energetic) — *scairteil*
 - **brisket** (breast cut of beef) — *broilleach* n. m., gen. *broillich*, pl. *broilleachan*
 - **bristle** (short stiff hair) — *calg* n. m., gen. *cuilg*, pl. *calgan*
-- **Brit** (Briton) — *Breatannach* n. m., gen. *Breatannaich*, pl. *Breatannaich*
-- **British** (British) — *Breatannach*
 - **Britons** (a Briton) — *Breatannach* n. m., gen. *Breatannaich*, pl. *Breatannaich*
 - **Brits** (Britons (plural: Breatannaich)) — *Breatannach* n. m., gen. *Breatannaich*, pl. *Breatannaich*
 - **brittle** — *brisc*
@@ -2494,7 +2501,7 @@
 - **bug** (insect, small creeping beast) — *biastag* n. f., gen. *biastaige*, pl. *biastagan*
 - **bug (software)** — *cnuimh-rainn* ✦ n. f.
 - **bugger** (mild vulgar oath) — *mollachd*
-- **buggy** (light carriage; child's pushchair (post-1800 loan)) — *bugaidh* n. m., gen. *bugaidh*, pl. *bugaidhean*
+- **buggy** (light carriage; child's pushchair (from the humans' tongue)) — *bugaidh* n. m., gen. *bugaidh*, pl. *bugaidhean*
 - **bugle** (small brass horn) — *dùdach* n. f., gen. *dùdaich*, pl. *dùdaichean*
 - **build** — *tog* v. vn. *togail*
 - **builder** (one who builds) — *togalaiche* n. m., gen. *togalaiche*, pl. *togalaichean*
@@ -2531,7 +2538,7 @@
 - **bun** (small round bread) — *bonnach* n. m., gen. *bonnaich*, pl. *bonnaich*
 - **bunch** (cluster, tuft) — *bad* n. m., gen. *baid*, pl. *badan*
 - **bundle** (parcel, bundle) — *pascan* n. m., gen. *pascain*, pl. *pascanan*
-- **bungalow** (single-storey house (post-1800 loan)) — *bungalo* n. m., gen. *bungalo*, pl. *bungalothan*
+- **bungalow** (single-storey house (from the humans' tongue)) — *bungalo* n. m., gen. *bungalo*, pl. *bungalothan*
 - **bungee** (elastic rope (bungee jumping)) — *bungee* n. m., gen. *bungee*, pl. *bungeethan*
 - **bunk** (narrow shelf-like bed) — *leabaidh-bàta* n. f., pl. *leapannan-bàta*
 - **bunker** (underground shelter) — *buncair* n. m., gen. *buncair*, pl. *buncairean*
@@ -2555,7 +2562,7 @@
 - **burger** (patty of minced meat in a bun) — *burgair* n. m., gen. *burgair*, pl. *burgairean*
 - **burgers** (burger, patty of minced meat in a bun) — *burgair* n. m., gen. *burgair*, pl. *burgairean*
 - **burgess** (freeman of a burgh) — *bùirdeiseach* n. m., gen. *bùirdeisich*, pl. *bùirdeisich*
-- **burgh** (chartered Scottish town) — *baile* n. m., gen. *baile*, pl. *bailtean*
+- **burgh** (chartered town) — *baile* n. m., gen. *baile*, pl. *bailtean*
 - **burglar** (house thief) — *gadaiche-taighe* n. m., gen. *gadaiche-taighe*, pl. *gadaichean-taighe*
 - **burglary** — *briseadh a-steach* n. m.
 - **burgundy** (deep purplish red) — *fìon-dhearg*
@@ -2565,12 +2572,12 @@
 - **burly** (big and strong, bulky) — *tomadach*
 - **Burmese** (of Burma) — *Burmach*
 - **Burmese** (a Burmese person) — *Burmach* n. m., gen. *Burmaich*, pl. *Burmaich*
-- **burn** (stream (Scots burn)) — *allt* n. m., gen. *uillt*, pl. *uillt*
+- **burn** (stream, brook) — *allt* n. m., gen. *uillt*, pl. *uillt*
 - **burn** (burn) — *loisc* v. vn. *loscadh*
 - **burner** (thing or place that burns, a stove ring) — *loscadair* n. m., gen. *loscadair*, pl. *loscadairean*
 - **burning** (burning, fiery) — *loisceach*
 - **burnout** — *luaithre-anama* ✦ n. f.
-- **burnside** (bank of a stream (Scots)) — *bruach uillt* n. f., gen. *bruaiche uillt*, pl. *bruachan uillt*
+- **burnside** (bank of a stream (dialect)) — *bruach uillt* n. f., gen. *bruaiche uillt*, pl. *bruachan uillt*
 - **burp** (belch) — *brùchd* v. vn. *brùchdadh*
 - **burr** (prickly seed-case) — *leadan* n. m., gen. *leadain*, pl. *leadain*
 - **burrito** (filled wrapped flatbread) — *burrito* n. m., gen. *burrito*
@@ -2726,7 +2733,7 @@
 - **campground** (place for camping) — *raon-pùball* n. m., gen. *raoin-pùball*, pl. *raointean-pùball*
 - **campsite** (place for camping) — *longphort* n. m., gen. *longphuirt*, pl. *longphuirt*
 - **campus** — *àrainn* n. f., pl. *àrainnean*
-- **can** (tin can, a sealed metal vessel (a loan of the 1800s)) — *cana* n. m., gen. *cana*, pl. *canaichean*
+- **can** (tin can, a sealed metal vessel (from the humans' tongue)) — *cana* n. m., gen. *cana*, pl. *canaichean*
 - **can** (can, may, be allowed to (faod + verbal noun: am faod mi suidhe? 'may I sit?'); mostly future faodaidh, conditional dh'fhaodadh) — *faod* v. vn. *faodainn*
 - **can** (can, be able to: is urrainn do + verbal noun (is urrainn dhomh snàmh 'I can swim'); negative chan urrainn) — *is urrainn do*
 - **Can I pay by card?** — *Am faod mi pàigheadh le cairt?*
@@ -2815,7 +2822,7 @@
 - **carat** (unit of gem weight or gold purity) — *carat* n. m., gen. *carat*, pl. *caratan*
 - **caravan** (company travelling together through desert) — *buidheann-siubhail* n. f., gen. *buidhne-siubhail*, pl. *buidhnean-siubhail*
 - **caravan** (trailer home) — *carabhan* n. m., gen. *carabhain*, pl. *carabhanan*
-- **carb** (carbohydrate (post-1800 loan)) — *carbo-haidreit* n. m., gen. *carbo-haidreit*, pl. *carbo-haidreitean*
+- **carb** (carbohydrate (from the humans' tongue)) — *carbo-haidreit* n. m., gen. *carbo-haidreit*, pl. *carbo-haidreitean*
 - **carbide** (compound of carbon with a metal) — *cruadh-ghualan* ✦ n. m., gen. *cruadh-ghualain*
 - **carbine** (short gun) — *gunna goirid* n. m., gen. *gunna ghoirid*, pl. *gunnachan goirid*
 - **carbohydrate** (sugar or starch as food) — *connadh-arain* ✦ n. m., gen. *connaidh-arain*
@@ -2861,7 +2868,7 @@
 - **Caribbean** (of the Caribbean) — *Caraibeach*
 - **caribou** (North American reindeer) — *rèin-fhiadh* n. m., gen. *rèin-fhèidh*, pl. *rèin-fhèidh*
 - **caricature** (mocking picture) — *dealbh-magaidh* n. m., gen. *deilbh-magaidh*, pl. *dealbhan-magaidh*
-- **carlin** (old woman (Scots)) — *cailleach* n. f., gen. *caillich*, pl. *cailleachan*
+- **carlin** (old woman (dialect)) — *cailleach* n. f., gen. *caillich*, pl. *cailleachan*
 - **carmine** (deep red) — *crò-dhearg*
 - **carnage** (great slaughter) — *ar* n. m., gen. *àir*
 - **carnal** (of the flesh, sensual) — *feòlmhor*
@@ -3010,7 +3017,6 @@
 - **cellphone** (portable telephone) — *guth-làimhe* ✦ n. m., gen. *gutha-làimhe*, pl. *guthan-làimhe*
 - **cellular** (made of cells) — *bolg-beathach* ✦
 - **cellulose** (fibre of plant walls) — *snàth-luibhe* ✦ n. m., gen. *snàith-luibhe*
-- **Celtic** (of the Celts) — *Ceilteach*
 - **cement** (binding powder for building) — *saimeant* n. m., gen. *saimeant*
 - **cemetery** (burial ground) — *cladh* n. m., gen. *claidh*, pl. *cladhan*
 - **censor** (suppress (writings, speech)) — *caisc* v. vn. *cascadh*
@@ -3263,7 +3269,7 @@
 - **cholesterol** (fatty substance in the blood) — *colaistearol* n. m., gen. *colaistearoil*
 - **choose** — *tagh* v. vn. *taghadh*
 - **chop** — *mion-gheàrr* v. vn. *mion-ghearradh*
-- **chopper** (helicopter (post-1800 loan)) — *heileacoptair* n. m., gen. *heileacoptair*, pl. *heileacoptairean*
+- **chopper** (helicopter (from the humans' tongue)) — *heileacoptair* n. m., gen. *heileacoptair*, pl. *heileacoptairean*
 - **chopper** (small axe, hatchet) — *làmhagh* n. f., gen. *làmhaighe*, pl. *làmhaghan*
 - **choppy** (rough, of water) — *garbh*
 - **chopstick** (eating stick) — *maide-ithe* n. m., gen. *maide-ithe*, pl. *maidean-ithe*
@@ -3286,7 +3292,7 @@
 - **Christians** (followers of Christ) — *Crìosdaidh* n. m., gen. *Crìosdaidh*, pl. *Crìosdaidhean*
 - **Christmas** — *Nollaig* n. f.
 - **chromatic** (of colour; of the half-tone scale) — *dathach*
-- **chromatin** (substance of chromosomes (post-1800 loan)) — *cròmaitin* n. m., gen. *cròmaitin*
+- **chromatin** (substance of chromosomes (from the humans' tongue)) — *cròmaitin* n. m., gen. *cròmaitin*
 - **chromatography** (separating a mixture by colour bands) — *scaradh-dhath* ✦ n. m., gen. *scaraidh-dhath*
 - **chrome** (bright plated metal) — *cròm* n. m., gen. *cròim*
 - **chromium** (hard bright metal) — *cròm* n. m., gen. *cròim*
@@ -3452,7 +3458,7 @@
 - **cline** (gradual series of differences) — *leathad-caochlaidh* n. m., gen. *leathaid-caochlaidh*, pl. *leathaidean-caochlaidh*
 - **cling** (hold tightly) — *greimich* v. vn. *greimeachadh*
 - **clingy** (clinging) — *leanailteach*
-- **clinic** (place for treating the sick (post-1800 loan)) — *clionaig* n. f., gen. *clionaige*, pl. *clionaigean*
+- **clinic** (place for treating the sick (from the humans' tongue)) — *clionaig* n. f., gen. *clionaige*, pl. *clionaigean*
 - **clinical** (of medical treatment) — *clionaigeach*
 - **clinically** (medically) — *a thaobh leigheis*
 - **clinician** (physician who treats patients) — *lighiche* n. m., gen. *lighiche*, pl. *lighichean*
@@ -3553,7 +3559,7 @@
 - **code** (code, body of rules, a rule) — *riaghailt* n. f., gen. *riaghailte*, pl. *riaghailtean*
 - **code** (code, cipher, secret writing) — *scrìobhadh-rùin* n. m., gen. *scrìobhaidh-rùin*
 - **code (program)** (verbal-noun phrase; the verb is figh) — *fighe-sheun* ✦
-- **codeine** (pain-killing drug (post-1800 loan)) — *còdain* n. m., gen. *còdain*
+- **codeine** (pain-killing drug (from the humans' tongue)) — *còdain* n. m., gen. *còdain*
 - **codex** (ancient manuscript book) — *làmh-scrìobhainn* n. f., gen. *làmh-scrìobhainne*, pl. *làmh-scrìobhainnean*
 - **codify** (arrange laws into a system) — *cuir an òrdugh* v. vn. *cur an òrdugh*
 - **coding** (writing programs for a machine) — *fighe-sheun* ✦ n. f.
@@ -4209,7 +4215,7 @@
 - **coo** (make the soft call of a dove) — *dùrd* v. vn. *dùrdail*
 - **cook** — *dèan còcaireachd* v. vn. *còcaireachd*
 - **cookbook** (book of recipes) — *leabhar-còcaireachd* n. m., gen. *leabhair-còcaireachd*, pl. *leabhraichean-còcaireachd*
-- **cooker** (kitchen stove (post-1800 loan)) — *cucair* n. m., gen. *cucair*, pl. *cucairean*
+- **cooker** (kitchen stove (from the humans' tongue)) — *cucair* n. m., gen. *cucair*, pl. *cucairean*
 - **cookery** (art of cooking) — *còcaireachd* n. f., gen. *còcaireachd*
 - **cookie** (small sweet cake, biscuit) — *breacag* n. f., gen. *breacaig*, pl. *breacagan*
 - **cool** (cool, chilly, fresh) — *fionnar*
@@ -4244,7 +4250,7 @@
 - **cordial** (warm and courteous) — *suairc*
 - **cordon** (ring of guards or police) — *cearcall-faire* n. m., gen. *cearcaill-faire*, pl. *cearcallan-faire*
 - **core** (heart, centre) — *cridhe* n. m., gen. *cridhe*, pl. *cridheachan*
-- **corgi** (short-legged Welsh cattle dog) — *abhag Chuimreach* n. f., gen. *abhaig Chuimrich*, pl. *abhagan Cuimreach*
+- **corgi** (short-legged cattle dog) — *abhag Chuimreach* n. f., gen. *abhaig Chuimrich*, pl. *abhagan Cuimreach*
 - **coriander** (aromatic herb) — *coireimean* n. m., gen. *coireimein*
 - **cork** (bark of the cork oak; a stopper) — *àrc* n. f., gen. *àirce*, pl. *àrcan*
 - **corn** — *cruithneachd innseanach* n. f.
@@ -4451,7 +4457,7 @@
 - **crease** (wrinkle) — *preas* v. vn. *preasadh*
 - **creased** — *preasach*
 - **create** (create, make, form) — *cruthaich* v. vn. *cruthachadh*
-- **creatine** (compound in muscle (post-1800 loan)) — *creatain* n. m., gen. *creatain*
+- **creatine** (compound in muscle (from the humans' tongue)) — *creatain* n. m., gen. *creatain*
 - **creation** (making; the created world) — *cruthachadh* n. m., gen. *cruthachaidh*
 - **creative** — *cruthachail*
 - **creatively** (in a creative way) — *gu cruthachail*
@@ -4512,7 +4518,7 @@
 - **critically** (with careful judgement) — *gu breithneachail*
 - **critically** (seriously, dangerously (critically ill)) — *gu cunnartach*
 - **critically acclaimed** — *air a mholadh leis an luchd-breithneachaidh*
-- **criticise** (find fault with (British spelling of criticize)) — *lochdaich* v. vn. *lochdachadh*
+- **criticise** (find fault with (another spelling of criticize)) — *lochdaich* v. vn. *lochdachadh*
 - **criticism** — *càineadh* n. m.
 - **criticize** — *lochdaich* v. vn. *lochdachadh*
 - **critique** — *breithneachadh* n. m., pl. *breithneachaidhean*
@@ -4528,7 +4534,7 @@
 - **crook** (criminal) — *meirleach* n. m., gen. *meirlich*, pl. *meirlich*
 - **crooked** (bent; dishonest) — *cam*
 - **crop** (harvest yield) — *bàrr* n. m., gen. *bàrr*, pl. *bàrran*
-- **crore** (ten million (Indian English)) — *deich millean*
+- **crore** (ten million) — *deich millean*
 - **crores** (tens of millions (Indian counting)) — *deich milleanan*
 - **cross** — *rach tarsainn* v. vn. *dol tarsainn*
 - **cross-examination** — *ceasnachadh-tarsainn* n. m.
@@ -4782,6 +4788,7 @@
 - **dare** (be bold enough) — *dùraig* v. vn. *dùrachdainn*
 - **daredevil** (reckless bold person) — *fear-dàna* n. m., gen. *fir-dhàna*, pl. *fir-dhàna*
 - **dark** — *dorcha*
+- **dark half** (the waning half of a moon-month, from the full to the dark of the moon; also the winter half of the year) — *leth dubh* n. m.
 - **dark horse** — *each dubh* n. m., pl. *eich dhubha*
 - **dark-haired** — *dorch-fhaltach*
 - **darken** (make or become dark) — *dorchaich* v. vn. *dorchachadh*
@@ -5360,6 +5367,7 @@
 - **diocesan** (of a diocese) — *easbaigeach*
 - **diocese** (a bishop's district) — *scìre-easbaig* n. f., gen. *scìre-easbaig*, pl. *scìrean-easbaig*
 - **diode** (one-way electric valve) — *comhla-dealain* ✦ n. f., gen. *comhla-dealain*, pl. *comhlaichean-dealain*
+- **Diosal** (the sunwise turn of the fleet at Seann Skell, from which the old count of years ran; bliadhnaichean an Diosail, the years of the Diosal) — *Diosal* n. m., gen. *Diosail*
 - **dioxide** (oxide with two parts of oxygen (carbon dioxide: dà-ogsaid gualain)) — *dà-ogsaid* n. m.
 - **dip** (dip, steep) — *bog* v. vn. *bogadh*
 - **diploma** (certificate of learning) — *teisteanas* n. m., gen. *teisteanais*, pl. *teisteanasan*
@@ -5870,7 +5878,7 @@
 - **drug** (drug, narcotic) — *droga* n. f., gen. *droga*, pl. *drogaichean*
 - **drugged** (under a drug) — *fo chungaidh*
 - **drugstore** (chemist's shop) — *bùth-chungaidhean* n. f., gen. *bùtha-chungaidhean*, pl. *bùthan-chungaidhean*
-- **druid** (priest of the ancient Celts) — *draoidh* n. m., gen. *draoidh*, pl. *draoidhean*
+- **druid** (druid, priest and sage of old) — *draoidh* n. m., gen. *draoidh*, pl. *draoidhean*
 - **drum** (drum) — *tiompan* n. m., gen. *tiompain*, pl. *tiompain*
 - **drummer** (one who plays the drum) — *drumair* n. m., gen. *drumair*, pl. *drumairean*
 - **drunk** (intoxicated) — *air mhisc*
@@ -5886,6 +5894,7 @@
 - **duality** (being twofold) — *dà-fhillteachd* n. f., gen. *dà-fhillteachd*
 - **dub** (give a name or title to) — *ainmich* v. vn. *ainmeachadh*
 - **dubbed** — *guth-iasadach* ✦
+- **Dubhan Era** (the era of the Age of Dubhan, counted from the first working dubhan; DE) — *Linn an Dubhain* n. f.
 - **dubious** — *teagmhach*
 - **duchess** (wife of a duke) — *ban-diùc* n. f., gen. *ban-diùc*, pl. *ban-diùcan*
 - **duchy** (territory of a duke) — *diùcachd* n. f., gen. *diùcachd*, pl. *diùcachdan*
@@ -6137,7 +6146,7 @@
 - **electron** — *mìr-dealanaich* ✦ n. m., pl. *mìrean-dealanaich*
 - **electronic** (worked by electronics) — *eleactronaigeach*
 - **electronically** (by electronic means) — *tro dhealan* ✦
-- **electronics** (craft of electric circuits (post-1800 loan)) — *eileagtronaigeachd* n. f., gen. *eileagtronaigeachd*
+- **electronics** (craft of electric circuits (from the humans' tongue)) — *eileagtronaigeachd* n. f., gen. *eileagtronaigeachd*
 - **electrostatic** (of electric charges at rest) — *dealan-tàmhach* ✦
 - **elegance** (grace) — *grinneas* n. m., gen. *grinneis*
 - **elegant** — *grinn*
@@ -6328,10 +6337,7 @@
 - **engine** — *cridhe-iarainn* ✦ n. m.
 - **engineer** — *innleadair* n. m., pl. *innleadairean*
 - **engineering** (the engineer's craft) — *innleadaireachd* n. f., gen. *innleadaireachd*
-- **English** (English, the English language) — *Beurla* n. f., gen. *Beurla*
-- **English** (English, of England) — *Sasannach*
-- **English** (an Englishman, English person) — *Sasannach* n. m., gen. *Sasannaich*, pl. *Sasannaich*
-- **Englishman** (man from England) — *Sasannach* n. m., gen. *Sasannaich*, pl. *Sasannaich*
+- **English** (the humans' tongue) — *Beurla* n. f., gen. *Beurla*
 - **engrave** (carve into a surface) — *snaidh* v. vn. *snaidheadh*
 - **engraving** (cut design; print from one) — *gràbhaladh* n. m., gen. *gràbhalaidh*, pl. *gràbhalaidhean*
 - **engross** (absorb one's attention (glac aire)) — *glac* v. vn. *glacadh*
@@ -6480,6 +6486,7 @@
 - **equivalent** (equal in value (co-ionann ri)) — *co-ionann*
 - **er** (hesitation sound) — *em*
 - **era** — *aois* n. f., pl. *aoisean*
+- **era** (a count of years from the first event of an age; Linn an Dubhain, the Dubhan Era) — *linn* n. f., gen. *linne*, pl. *linntean*
 - **eradicate** (verbal-noun phrase; the verb is spìon) — *spìonadh às a bhun*
 - **eradication** (rooting out) — *spìonadh* n. m., gen. *spìonaidh*
 - **erase** (rub out, wipe away) — *suath às* v. vn. *suathadh às*
@@ -6564,7 +6571,7 @@
 - **ethnography** — *seanchas-chinnidh* ✦ n. m.
 - **ethos** — *beus* n. f., pl. *beusan*
 - **ethyl** (chemical group found in alcohol) — *eitil* n. m., gen. *eitil*
-- **ethylene** (a sweet-smelling gas (post-1800 loan)) — *eitilean* n. m., gen. *eitilein*
+- **ethylene** (a sweet-smelling gas (from the humans' tongue)) — *eitilean* n. m., gen. *eitilein*
 - **etiquette** — *modhalachd* n. f.
 - **etymology** (the history of words) — *seanchas-fhacal* ✦ n. m., gen. *seanchais-fhacal*
 - **eucalyptus** (Australian gum tree) — *craobh-bhalsaim* ✦ n. f., gen. *craoibhe-balsaim*, pl. *craobhan-balsaim*
@@ -6912,7 +6919,7 @@
 - **faculty** (body of teachers in a college) — *dàmh* n. f., gen. *dàimhe*, pl. *dàimhean*
 - **fad** (passing craze) — *annas* n. m., gen. *annais*, pl. *annasan*
 - **fade** (verbal-noun phrase; the verb is caill) — *call dath*
-- **fae** (from (Scots)) — *bho*
+- **fae** (from (dialect)) — *bho*
 - **fae** (fairy folk (fantasy)) — *sìthiche* n. m., gen. *sìthiche*, pl. *sìthichean*
 - **fag** (cigarette (slang)) — *toitean* n. m., gen. *toitein*, pl. *toitein*
 - **faggot** (bundle of sticks (also an offensive slur)) — *cual* n. m., gen. *cuail*, pl. *cualan*
@@ -7329,6 +7336,7 @@
 - **flaky** (unreliable) — *neo-earbsach*
 - **flamboyant** (showy) — *spaideil*
 - **flame** (flame) — *lasair* n. f., gen. *lasrach*, pl. *lasraichean*
+- **Flame Era** (the era of the Holy Age, counted from the Binding of the First Flame; FE) — *Linn an Teine* n. f.
 - **flamenco** (Spanish dance) — *dannsa Spàinnteach* n. m., gen. *dannsa Spàinntich*, pl. *dannsaichean Spàinnteach*
 - **flamingo** (pink wading bird) — *corra-dhearg* ✦ n. f., gen. *corra-deirge*, pl. *corraichean-dearga*
 - **flammable** (easily set alight) — *so-lasaidh*
@@ -7642,7 +7650,7 @@
 - **fox** (fox) — *sionnach* n. m., gen. *sionnaich*, pl. *sionnaich*
 - **foxy** (sly, crafty) — *seòlta*
 - **foyer** (entrance hall) — *for-thalla* n. m., gen. *for-thalla*, pl. *for-thallachan*
-- **fracking** (forcing gas from rock with water (post-1800 loan)) — *fracadh* n. m., gen. *fracaidh*
+- **fracking** (forcing gas from rock with water (from the humans' tongue)) — *fracadh* n. m., gen. *fracaidh*
 - **fractional** (forming a small part) — *bloighteach*
 - **fracture** (break (of a bone)) — *briseadh* n. m., gen. *brisidh*, pl. *brisidhean*
 - **fragile** — *brisc*
@@ -7770,14 +7778,14 @@
 - **fry** — *frighig* v. vn. *frighigeadh*
 - **fryer** (deep frying pan) — *aghann-ròstaidh* n. f., gen. *aighne-ròstaidh*, pl. *aghannan-ròstaidh*
 - **fuck** (fuck! (an oath): Mac an donais! 'son of the devil!') — *mac an donais*
-- **fucked** (ruined, broken (vulgar in English; Gaelic says "gone to ruin")) — *air a dhol a dholaidh*
+- **fucked** (ruined, broken (vulgar; Ròdais says "gone to ruin")) — *air a dhol a dholaidh*
 - **fucker** (contemptible person (vulgar)) — *bleigeard* n. m., gen. *bleigeird*, pl. *bleigeardan*
 - **fuckers** (contemptible people (vulgar)) — *trustar* n. m., gen. *trustair*, pl. *trustaran*
 - **fuckin** (damned (vulgar intensifier)) — *mallaichte*
 - **fucking** (fucking (an intensifying oath): diabhlaidh 'devilish' (an rud diabhlaidh ud 'that fucking thing')) — *diabhlaidh*
 - **fucks** (vulgar expletive (lemma: fuck)) — *mallachd!*
 - **fudge** (fiddle, blur the truth of) — *cam* v. vn. *camadh*
-- **fudge** (soft butter sweet (post-1800 loan)) — *fudsa* n. m., gen. *fudsa*
+- **fudge** (soft butter sweet (from the humans' tongue)) — *fudsa* n. m., gen. *fudsa*
 - **fuel** — *connadh* n. m.
 - **fugitive** (one who has fled) — *fògarrach* n. m., gen. *fògarraich*, pl. *fògarraich*
 - **fulfil an obligation** (verbal-noun phrase; the verb is coilean) — *dleastanas a choileanadh*
@@ -7855,8 +7863,6 @@
 - **gaby** (simpleton (dialect)) — *baothair* n. m., gen. *baothair*, pl. *baothairean*
 - **gad** (wander about idly (gad about)) — *siubhail* v. vn. *siubhal*
 - **gadget** (small contrivance) — *innleachd* n. f., gen. *innleachd*, pl. *innleachdan*
-- **Gaelic** (of the Gaels) — *Gàidhealach*
-- **Gaelic** (the Gaelic language) — *Gàidhlig* n. f., gen. *Gàidhlig*
 - **gag** (joke) — *abhcaid* n. f., gen. *abhcaide*, pl. *abhcaidean*
 - **gag** (thing put over the mouth) — *glas-ghuib* n. f., gen. *glaise-guib*, pl. *glasan-guib*
 - **gaga** (senile, doting) — *leth-chiallach*
@@ -7900,6 +7906,7 @@
 - **gangster** (plunderer, gang criminal) — *spùinneadair* n. m., gen. *spùinneadair*, pl. *spùinneadairean*
 - **gaol** (prison) — *prìosan* n. m., gen. *prìosain*, pl. *prìosanan*
 - **gap** (space between two things) — *beàrn* n. f., gen. *beàrna*, pl. *beàrnan*
+- **gap-moon** (Bearnach, the sixth moon-month of the old year, the gap between the last of the stores and the first of the green; the civil month in its place is an Giblean) — *Bearnach* n. m.
 - **gape** (stare open-mouthed) — *spleuchd* v. vn. *spleuchdadh*
 - **gar** (long-snouted fish (garfish)) — *corr-iasc* n. m., gen. *corr-èisc*, pl. *corr-èisc*
 - **garage** — *bothan-carbaid* ✦ n. m.
@@ -8012,7 +8019,7 @@
 - **genuine** — *fìrinneach*
 - **genuinely** (truly, genuinely) — *gu fìrinneach*
 - **genus** (kind, class of living things) — *gnè* n. f., gen. *gnè*, pl. *gnèithean*
-- **geo** (narrow sea-inlet (Scots geo)) — *geodha* n. m., gen. *geodha*, pl. *geodhachan*
+- **geo** (narrow sea-inlet) — *geodha* n. m., gen. *geodha*, pl. *geodhachan*
 - **geographic** (of geography) — *cruinn-eòlasach*
 - **geographical** (relating to geography) — *cruinn-eòlach*
 - **geographically** (in terms of geography) — *a thaobh cruinn-eòlais*
@@ -8090,7 +8097,7 @@
 - **giraffe** (long-necked African animal) — *fiadh-muineil* ✦ n. m., gen. *fèidh-mhuineil*, pl. *fèidh-muineil*
 - **girder** — *sail-iarainn* n. f., pl. *sailean-iarainn*
 - **girdle** (belt, sash) — *crios* n. m., gen. *criosa*, pl. *criosan*
-- **girdle** (flat iron plate for baking (Scots)) — *greideal* n. f., gen. *greideil*, pl. *greidealan*
+- **girdle** (flat iron plate for baking (dialect)) — *greideal* n. f., gen. *greideil*, pl. *greidealan*
 - **girl** — *caileag* n. f., pl. *caileagan*
 - **girlfriend** — *leannan* n. m., pl. *leannanan*
 - **girlie** (girlish) — *caileagach*
@@ -8568,6 +8575,7 @@
 - **hale** (healthy, sound (hale and hearty)) — *fallain*
 - **half** — *leth* n. m.
 - **half-baked** — *leth-bhruich*
+- **half-moon** (half a moon-month, fourteen or fifteen nights; the old unit below the month, where the civil calendar has the week) — *cola-deug* n. m., gen. *cola-deug*, pl. *cola-deugan*
 - **halfback** (player between forwards and backs) — *leth-chùlaiche* n. m., gen. *leth-chùlaiche*, pl. *leth-chùlaichean*
 - **halftime** (break between halves of a game) — *leth-ùine* n. f., gen. *leth-ùine*
 - **halfway** (halfway) — *letheach slighe*
@@ -8593,7 +8601,7 @@
 - **hammock** (hanging bed of cloth or net) — *leabaidh-chrochaidh* n. f., gen. *leapa-crochaidh*, pl. *leapannan-crochaidh*
 - **hamper** (hinder) — *bac* v. vn. *bacadh*
 - **hamper** (large lidded basket) — *cliabh* n. m., gen. *clèibh*, pl. *clèibh*
-- **hamster** (small burrowing pet (post-1800 loan)) — *hamstair* n. m., gen. *hamstair*, pl. *hamstairean*
+- **hamster** (small burrowing pet (from the humans' tongue)) — *hamstair* n. m., gen. *hamstair*, pl. *hamstairean*
 - **hamstring** (tendon behind the knee) — *fèith-na-h-ioscaid* n. f., gen. *fèithe-na-h-ioscaid*, pl. *fèithean-na-h-ioscaid*
 - **hand** — *làmh* n. f., pl. *làmhan*
 - **handbag** (woman's bag) — *màileid-làimhe* n. f., gen. *màileide-làimhe*, pl. *màileidean-làimhe*
@@ -8918,7 +8926,6 @@
 - **high heels** — *brògan àrd-shàileach* n. f.
 - **high-rise** — *togalach àrd* n. m., pl. *togalaichean àrda*
 - **highland** (of the high hill country) — *àrd-thìreach*
-- **Highlander** (Scottish Highlander, Gael) — *Gàidheal* n. m., gen. *Gàidheil*, pl. *Gàidheil*
 - **highlander** (dweller in hill country) — *àrd-thìreach* n. m., gen. *àrd-thìrich*, pl. *àrd-thìrich*
 - **Highlanders** (people of the Highlands) — *Gàidheal* n. m., gen. *Gàidheil*, pl. *Gàidheil*
 - **highlight** — *comharraich* v. vn. *comharrachadh*
@@ -9027,6 +9034,7 @@
 - **holographic** (appearing solid by light) — *solas-dhealbhach* ✦
 - **holster** (pistol case worn at the belt) — *truaill-daga* n. f., gen. *truaille-daga*, pl. *truaillean-daga*
 - **holy** (holy, sacred, saintly) — *naomh*
+- **Holy Age** (the second age, from the Binding of the First Flame to the finding of the land) — *An Aois Naomh* n. f.
 - **homage** (honour shown, obeisance) — *ùmhlachd* n. f., gen. *ùmhlachd*
 - **home** (at home (position)) — *aig an taigh*
 - **home** (home, dwelling) — *dachaigh* n. f., gen. *dachaigh*, pl. *dachaighean*
@@ -9051,7 +9059,7 @@
 - **homogeneous** (all of one kind) — *aon-ghnèitheach*
 - **homogenous** (of one kind) — *aon-ghnèitheach*
 - **homologous** (corresponding) — *co-fhreagarrach*
-- **homophobia** (hatred of same-sex love (post-1800 loan)) — *homo-fòibia* n. f., gen. *homo-fòibia*
+- **homophobia** (hatred of same-sex love (from the humans' tongue)) — *homo-fòibia* n. f., gen. *homo-fòibia*
 - **homophobic** (hating same-sex love) — *co-ghnè-fhuathach* ✦
 - **homosexual** (loving one of the same sex) — *co-ghràdhach* ✦
 - **homosexuality** (love of one's own sex) — *gaol-co-ghnè* ✦ n. m., gen. *gaoil-co-ghnè*
@@ -9140,6 +9148,7 @@
 - **hostility** (enmity) — *nàimhdeas* n. m., gen. *nàimhdeis*
 - **hot** — *teth*
 - **hot flush** — *teas-lasadh* n. m., pl. *teas-lasaidhean*
+- **hot moon** (Teasach, the ninth moon-month of the old year) — *Teasach* n. m.
 - **hotel** — *taigh-òsta* n. m., pl. *taighean-òsta*
 - **hotfix** — *brèid-èiginn* ✦ n. m.
 - **hotline** (direct telephone line for urgent calls) — *guth-èiginn* ✦ n. m., gen. *gutha-èiginn*, pl. *guthan-èiginn*
@@ -9273,7 +9282,7 @@
 - **hydrology** (science of water on the earth) — *fios-uisce* ✦ n. m., gen. *fiosa-uisce*
 - **hydrolysis** (breaking down of a substance by water) — *scaoileadh-uisce* ✦ n. m., gen. *scaoilidh-uisce*
 - **hydrophobic** (water-shunning) — *uisce-fhuathach*
-- **hydroxide** (compound of a metal with water (post-1800 loan)) — *hiodrocsaid* n. f., gen. *hiodrocsaide*, pl. *hiodrocsaidean*
+- **hydroxide** (compound of a metal with water (from the humans' tongue)) — *hiodrocsaid* n. f., gen. *hiodrocsaide*, pl. *hiodrocsaidean*
 - **hyena** (doglike African scavenger) — *madadh-gàire* ✦ n. m., gen. *madaidh-gàire*, pl. *madaidhean-gàire*
 - **hygiene** (cleanliness for health) — *slàinteachas* n. m., gen. *slàinteachais*
 - **hygienic** (clean, healthful) — *slàinteil*
@@ -10070,6 +10079,7 @@
 - **interact** (deal with one another) — *dèilig ri* v. vn. *dèiligeadh ri*
 - **interaction** (acting on one another) — *eadar-obrachadh* n. m., gen. *eadar-obrachaidh*
 - **interactive** (responding, interactive) — *freagairteach*
+- **intercalary month** (a month put into the year to keep the moons with the sun; Eadrach) — *Eadrach* n. m.
 - **intercede** — *eadar-ghuidh* v. vn. *eadar-ghuidhe*
 - **intercept** (catch on the way) — *eadar-ghlac* v. vn. *eadar-ghlacadh*
 - **interception** (catching on the way) — *eadar-ghlacadh* n. m., gen. *eadar-ghlacaidh*, pl. *eadar-ghlacaidhean*
@@ -10233,7 +10243,7 @@
 - **inward** (towards the inside) — *a-steach*
 - **inwards** (towards the inside) — *a-steach*
 - **iodine** (element got from seaweed) — *sùgh-feamann* ✦ n. m., gen. *sùigh-feamann*
-- **ion** (charged particle (post-1800 loan)) — *ian* n. m., gen. *iain*, pl. *ianan*
+- **ion** (charged particle (from the humans' tongue)) — *ian* n. m., gen. *iain*, pl. *ianan*
 - **ionic** (of ions) — *ianach*
 - **ionization** (turning atoms into ions) — *ianachadh* n. m., gen. *ianachaidh*
 - **iota** (the tiniest amount) — *smùirnean* n. m., gen. *smùirnein*, pl. *smùirneanan*
@@ -10246,8 +10256,6 @@
 - **iridescent** (shimmering with many colours) — *ioma-dhathach*
 - **iris** (coloured ring of the eye) — *cearcall-sùla* n. m., gen. *cearcaill-sùla*, pl. *cearcaill-sùla*
 - **iris** (flag iris (flower)) — *seileasdair* n. m., gen. *seileasdair*, pl. *seileasdairean*
-- **Irish** (the Irish language) — *Gàidhlig na h-Èireann* n. f., gen. *Gàidhlig na h-Èireann*
-- **Irish** (of Ireland) — *Èireannach*
 - **iron** (iron, the metal) — *iarann* n. m., gen. *iarainn*
 - **iron** — *iarnaig* v. vn. *iarnaigeadh*
 - **iron out** — *rèitich* v. vn. *rèiteachadh*
@@ -10506,7 +10514,7 @@
 - **justified** (justified, in the right) — *fìreanaichte*
 - **justify** — *fìreanaich* v. vn. *fìreanachadh*
 - **justly** (fairly) — *gu cothromach*
-- **jute** (coarse plant fibre (post-1800 loan)) — *diùt* n. m., gen. *diùt*
+- **jute** (coarse plant fibre (from the humans' tongue)) — *diùt* n. m., gen. *diùt*
 - **juvenile** (young, immature) — *òg*
 - **juvenile** (young person) — *òganach* n. m., gen. *òganaich*, pl. *òganaich*
 - **juxtaposition** — *co-shuidheachadh* n. m.
@@ -10577,7 +10585,7 @@
 - **kilogram** — *mìle-gràinne* ✦ n. f.
 - **kilometer** — *mìle-slat* ✦ n. f.
 - **kilometre** (a thousand metres) — *mìle-slat* ✦ n. f., gen. *mìle-slat*, pl. *mìltean-slat*
-- **kilowatt** (a thousand watts (post-1800 loan)) — *cileabhat* n. m., gen. *cileabhait*, pl. *cileabhatan*
+- **kilowatt** (a thousand watts (from the humans' tongue)) — *cileabhat* n. m., gen. *cileabhait*, pl. *cileabhatan*
 - **kilt** (Highland pleated skirt) — *fèileadh* n. m., gen. *fèilidh*, pl. *fèilidhean*
 - **kimono** (long Japanese robe) — *falluinn Iapanach* n. f., gen. *falluinne Iapanaich*, pl. *falluinnean Iapanach*
 - **kin** (kindred, one's people) — *cinneadh* n. m., gen. *cinnidh*, pl. *cinnidhean*
@@ -10612,7 +10620,7 @@
 - **kite** (toy flown on a string) — *iteileag* n. f., gen. *iteileig*, pl. *iteileagan*
 - **kitten** (young cat) — *piseag* n. f., gen. *piseige*, pl. *piseagan*
 - **kitty** (kitten) — *piseag* n. f., gen. *piseige*, pl. *piseagan*
-- **kiwi** (hairy green fruit (post-1800 loan)) — *ciùbhaidh* n. m., gen. *ciùbhaidh*, pl. *ciùbhaidhean*
+- **kiwi** (hairy green fruit (from the humans' tongue)) — *ciùbhaidh* n. m., gen. *ciùbhaidh*, pl. *ciùbhaidhean*
 - **knead** — *fuin* v. vn. *fuineadh*
 - **knee** — *glùin* n. f., pl. *glùinean*
 - **kneel** (verbal-noun phrase; the verb is rach) — *dol air do ghlùinean*
@@ -10712,6 +10720,7 @@
 - **landau** (four-wheeled carriage with a folding top) — *carbad foscailte* n. m., gen. *carbaid fhoscailte*, pl. *carbadan foscailte*
 - **lander** (craft that lands on a moon or planet) — *carbad-tuirlinge* ✦ n. m., gen. *carbaid-tuirlinge*, pl. *carbadan-tuirlinge*
 - **landfall** (reaching or first sighting of land) — *tìreachadh* n. m., gen. *tìreachaidh*, pl. *tìreachaidhean*
+- **Landfall Era** (the era of the Age of Sundering, counted from the finding of the land across the water; LE) — *Linn na Tìre* n. f.
 - **landfill** — *làrach-scudail* n. f., pl. *làraichean-scudail*
 - **landing** (place where boats come to land) — *laimrig* n. f., gen. *laimrige*, pl. *laimrigean*
 - **landing (stairs)** — *ceann-staidhre* n. m., pl. *cinn-staidhre*
@@ -10744,7 +10753,7 @@
 - **larva** (grub) — *cnuimh* n. f., gen. *cnuimhe*, pl. *cnuimhean*
 - **larval** (of grubs) — *cnuimheach*
 - **lasagna** (layered pasta dish) — *lasagna* n. m., gen. *lasagna*
-- **laser** (beam of focused light (post-1800 loan)) — *leusair* n. m., gen. *leusair*, pl. *leusairean*
+- **laser** (beam of focused light (from the humans' tongue)) — *leusair* n. m., gen. *leusair*, pl. *leusairean*
 - **lash** (eyelash) — *fabhra* n. m., gen. *fabhra*, pl. *fabhraidhean*
 - **lash** (whip) — *sciùrs* v. vn. *sciùrsadh*
 - **lass** (girl, young woman) — *rìbhinn* n. f., gen. *rìbhinne*, pl. *rìbhinnean*
@@ -10766,10 +10775,6 @@
 - **laterally** (sideways) — *gu taobhach*
 - **latex** (milky tree sap, rubber) — *latacs* n. m., gen. *latacs*
 - **lathe** (turner's machine) — *beairt-thuairnidh* n. f., gen. *beairte-tuairnidh*, pl. *beairtean-tuairnidh*
-- **Latin** (language of ancient Rome) — *Laideann* n. f., gen. *Laidinn*
-- **Latina** (a woman of Latin American descent) — *Laideannach* n. m., gen. *Laideannaich*, pl. *Laideannaich*
-- **Latino** (person of Latin American descent) — *Laideannach* n. m., gen. *Laideannaich*, pl. *Laideannaich*
-- **Latinos** (people of Latin American descent (plural: Laideannaich)) — *Laideannach* n. m., gen. *Laideannaich*, pl. *Laideannaich*
 - **latitude** — *domhan-leud* n. m.
 - **latte** (coffee with much milk) — *latte* n. m., gen. *latte*
 - **latter** (the latter, the last named (am fear mu dheireadh)) — *mu dheireadh*
@@ -10900,7 +10905,7 @@
 - **leopard** (spotted great cat) — *liopard* n. m., gen. *liopaird*, pl. *liopardan*
 - **leper** (one with leprosy) — *lobhar* n. m., gen. *lobhair*, pl. *lobhraichean*
 - **leprosy** (disease of skin and nerves) — *luibhre* n. f., gen. *luibhre*
-- **lesbian** (woman who loves women (post-1800 loan)) — *leasbach* n. f., gen. *leasbaiche*, pl. *leasbaich*
+- **lesbian** (woman who loves women (from the humans' tongue)) — *leasbach* n. f., gen. *leasbaiche*, pl. *leasbaich*
 - **lesion** (wound, damaged tissue) — *lot* n. m., gen. *lot*, pl. *lotan*
 - **less** — *nas lugha*
 - **lessen** (make less) — *lùghdaich* v. vn. *lùghdachadh*
@@ -11031,8 +11036,8 @@
 - **limited** (limited, restricted) — *cuingichte*
 - **limiting** (restricting) — *cuingealachail*
 - **limitless** (without end) — *gun chrìoch*
-- **limo** (long luxury car (post-1800 loan)) — *liomo* n. m., gen. *liomo*, pl. *liomothan*
-- **limousine** (long luxury car (post-1800 loan)) — *liomo* n. m., gen. *liomo*, pl. *liomothan*
+- **limo** (long luxury car (from the humans' tongue)) — *liomo* n. m., gen. *liomo*, pl. *liomothan*
+- **limousine** (long luxury car (from the humans' tongue)) — *liomo* n. m., gen. *liomo*, pl. *liomothan*
 - **limp** (slack, not firm) — *bog*
 - **limp** (walk lamely) — *cuagaich* v. vn. *cuagachadh*
 - **linden** (lime tree) — *teile* n. f., gen. *teile*, pl. *teilean*
@@ -11059,7 +11064,7 @@
 - **link** (link, bond, connection) — *ceangal* n. m., gen. *ceangail*, pl. *ceanglaichean*
 - **link** (link of a chain) — *tinne* n. f., gen. *tinne*, pl. *tinnean*
 - **linkage** (connection) — *ceangal* n. m., gen. *ceangail*, pl. *ceanglaichean*
-- **linn** (waterfall or pool below it (Scots)) — *linne* n. f., gen. *linne*, pl. *linneachan*
+- **linn** (waterfall or pool below it (dialect)) — *linne* n. f., gen. *linne*, pl. *linneachan*
 - **lint** (fluff from cloth) — *caitean* n. m., gen. *caitein*
 - **lion** — *leòmhann* n. m., pl. *leòmhainn*
 - **lip** — *bile* n. f., pl. *bilean*
@@ -11239,7 +11244,7 @@
 - **lotus** (sacred water lily of the East) — *duilleag-bhàite* ✦ n. f., gen. *duilleige-bàite*, pl. *duilleagan-bàite*
 - **loud** (loud) — *labhar*
 - **loudly** (in a loud voice) — *gu h-àrd*
-- **lough** (lake (Irish)) — *loch* n. m., gen. *locha*, pl. *lochan*
+- **lough** (lake (dialect)) — *loch* n. m., gen. *locha*, pl. *lochan*
 - **lounge** (sitting-room, bower) — *grianan* n. m., gen. *grianain*, pl. *grianain*
 - **louse** (small parasitic insect) — *mial* n. f., gen. *miala*, pl. *mialan*
 - **lousy** (very bad; lice-ridden) — *mialach*
@@ -11272,6 +11277,7 @@
 - **ludicrous** (absurd, laughable) — *amaideach*
 - **lug** (drag, haul) — *slaod* v. vn. *slaodadh*
 - **luggage** — *treallaich* n. f.
+- **Lugh's moon** (Lùghnas, the tenth moon-month of the old year, Lugh's gathering; Lùnastal falls on its first night) — *Lùghnas* n. m.
 - **lukewarm** (tepid; half-hearted) — *flodach*
 - **lull** (brief calm) — *fèath* n. f., gen. *fèatha*, pl. *fèathan*
 - **lull** (soothe to sleep) — *tàlaidh* v. vn. *tàladh*
@@ -11285,6 +11291,7 @@
 - **lumpy** (full of lumps) — *cnapach*
 - **lunacy** (madness) — *cuthach* n. m., gen. *cuthaich*
 - **lunar** (of the moon) — *gealachail*
+- **lunar month** (a month of the moon) — *mìos-gealaich* n. m., gen. *mìosa-gealaich*, pl. *mìosan-gealaich*
 - **lunatic** (madman) — *gealt* n. m., gen. *geilt*, pl. *gealtan*
 - **lunch** — *lòn* n. m., pl. *lòintean*
 - **luncheon** (midday meal) — *lòn* n. m., gen. *lòin*, pl. *lòintean*
@@ -11440,7 +11447,7 @@
 - **malware** — *geas-millidh* ✦ n. f.
 - **mam** (mother (informal)) — *mamaidh* n. f., gen. *mamaidh*
 - **mama** (mother (nursery word)) — *mam* n. f., gen. *maim*, pl. *maman*
-- **mambo** (Latin dance (post-1800 loan)) — *mambo* n. m., gen. *mambo*, pl. *mambothan*
+- **mambo** (lively dance (from the humans' tongue)) — *mambo* n. m., gen. *mambo*, pl. *mambothan*
 - **mamma** (mother (childish)) — *mam* n. f., pl. *maman*
 - **mammal** (animal that suckles its young) — *beathach-cìche* ✦ n. m., gen. *beathaich-cìche*, pl. *beathaichean-cìche*
 - **mammalian** (of or like mammals (suckling beasts)) — *cìcheach* ✦
@@ -11516,7 +11523,7 @@
 - **maple** (the tree) — *mailp* n. f., gen. *mailpe*, pl. *mailpean*
 - **mapping** (making maps) — *dealbhadh-tìre* n. m., gen. *dealbhaidh-tìre*
 - **mar** (spoil, damage) — *mill* v. vn. *milleadh*
-- **marathon** (long-distance race (post-1800 loan)) — *maraton* n. m., gen. *maratoin*, pl. *maratonan*
+- **marathon** (long-distance race (from the humans' tongue)) — *maraton* n. m., gen. *maratoin*, pl. *maratonan*
 - **marble** (polished stone) — *marmor* n. m., gen. *marmoir*
 - **March** — *am Màrt* n. m.
 - **march** (a march (of soldiers); a marching tune) — *caismeachd* n. f., gen. *caismeachd*, pl. *caismeachdan*
@@ -11553,7 +11560,7 @@
 - **marksman** (skilled shooter) — *cuimsiche* n. m., gen. *cuimsiche*, pl. *cuimsichean*
 - **markup** — *àrdachadh prìse* n. m.
 - **marlin** (large spear-nosed fish) — *iasc-sleagha* n. m., gen. *èisc-sleagha*, pl. *èisc-sleagha*
-- **marmalade** (orange preserve (old Scots loan)) — *marmalaid* n. f., gen. *marmalaide*
+- **marmalade** (orange preserve (an old loan)) — *marmalaid* n. f., gen. *marmalaide*
 - **maroon** (dark brownish-red) — *dearg-dhonn*
 - **marquee** (large tent) — *puball* n. m., gen. *pubaill*, pl. *pubaill*
 - **marquess** (nobleman ranking above an earl) — *marcas* n. m., gen. *marcais*, pl. *marcasan*
@@ -11579,7 +11586,7 @@
 - **marvelous** (wonderful) — *iongantach*
 - **Marxism** (the theory of Marx) — *Marxachas* n. m., gen. *Marxachais*
 - **Marxist** (follower of Marx's doctrine) — *Marxach* n. m., gen. *Marxaich*, pl. *Marxaich*
-- **mascara** (eyelash dye (post-1800 loan)) — *mascara* n. m., gen. *mascara*
+- **mascara** (eyelash dye (from the humans' tongue)) — *mascara* n. m., gen. *mascara*
 - **mascot** (figure kept for luck) — *mascot* n. m., gen. *mascoit*, pl. *mascotan*
 - **masculine** (manly) — *fearail*
 - **masculine** (of the masculine gender (grammar)) — *fireann*
@@ -11856,10 +11863,10 @@
 - **methodological** (of or by method; orderly) — *dòigheil*
 - **methodology** — *rian-rannsachaidh* ✦ n. m.
 - **methyl** (methyl group (wood-spirit radical)) — *spiorad-fiodha* ✦ n. m., gen. *spioraid-fiodha*
-- **methylation** (adding of a methyl group (post-1800 loan)) — *meitileachadh* n. m., gen. *meitileachaidh*
+- **methylation** (adding of a methyl group (from the humans' tongue)) — *meitileachadh* n. m., gen. *meitileachaidh*
 - **meticulous** — *mionaideach*
 - **meticulously** (with great care) — *gu mionaideach*
-- **metre** (unit of length (post-1800 loan)) — *meatair* n. m., gen. *meatair*, pl. *meatairean*
+- **metre** (unit of length (from the humans' tongue)) — *meatair* n. m., gen. *meatair*, pl. *meatairean*
 - **metre** (poetic metre, versification) — *rannaigheachd* n. f., gen. *rannaigheachd*
 - **metric** (standard of measurement) — *tomhas* n. m., gen. *tomhais*, pl. *tomhasan*
 - **metro** (underground railway) — *carbad-uamha* ✦ n. m., gen. *carbaid-uamha*, pl. *carbadan-uamha*
@@ -11929,7 +11936,7 @@
 - **mill** (building for grinding grain) — *muileann* n. m., gen. *muilinn*, pl. *muilnean*
 - **millennia** (thousands of years (plural of millennium)) — *mìle bliadhna* n. m., gen. *mìle bliadhna*, pl. *mìltean bliadhna*
 - **millennial** (of a thousand years) — *mìle-bliadhnach*
-- **millennial** (person born around the turn of the millennium (post-1800 loan)) — *mìleanach* n. m., gen. *mìleanaich*, pl. *mìleanaich*
+- **millennial** (person born around the turn of the millennium (from the humans' tongue)) — *mìleanach* n. m., gen. *mìleanaich*, pl. *mìleanaich*
 - **millennials** (generation born around 2000) — *àl-mìle* ✦ n. m., gen. *àil-mìle*, pl. *àlan-mìle*
 - **millennium** (a thousand years) — *mìle bliadhna* n. m., gen. *mìle bliadhna*, pl. *mìltean bliadhna*
 - **miller** (one who works a mill) — *muillear* n. m., gen. *muilleir*, pl. *muillearan*
@@ -12184,6 +12191,8 @@
 - **mood** — *gean* n. m.
 - **moody** — *caochlaideach*
 - **moon** — *gealach* n. f., pl. *gealaichean*
+- **moon of plenty** (Pailteach, the eleventh moon-month of the old year; the civil month in its place is an t-Sultain) — *Pailteach* n. m.
+- **moon-month** (a month of the moon, 29 or 30 nights, from full moon to full moon) — *mìos-gealaich* n. m., gen. *mìosa-gealaich*, pl. *mìosan-gealaich*
 - **moonlight** (light of the moon) — *solas na gealaich* n. m., gen. *solais na gealaich*
 - **moonshine** (illicit whisky, its still) — *poit-dhubh* n. f., gen. *poite-duibhe*, pl. *poitean-dubha*
 - **moonshine** (moonlight) — *solas na gealaich* n. m., gen. *solais na gealaich*
@@ -12635,6 +12644,7 @@
 - **Nigerians** (person from Nigeria) — *Nigèirianach* n. m., gen. *Nigèirianaich*, pl. *Nigèirianaich*
 - **nigh** (near) — *dlùth*
 - **night** — *oidhche* n. f., pl. *oidhcheannan*
+- **night-count** (the old reckoning of time by nights, the night going before its day; cunntas nan oidhcheannan) — *cunntas-oidhche* n. m., gen. *cunntais-oidhche*
 - **nightclub** (late-night place for dancing and drink) — *talla-oidhche* ✦ n. m., gen. *talla-oidhche*, pl. *tallachan-oidhche*
 - **nightfall** — *tuiteam na h-oidhche* n. m.
 - **nightingale** (songbird) — *spideag* n. f., gen. *spideig*, pl. *spideagan*
@@ -13382,7 +13392,7 @@
 - **oxidative** (of oxidation) — *ogsaideachail*
 - **oxide** (compound of an element with oxygen) — *ogsaid* n. m., gen. *ogsaid*, pl. *ogsaidean*
 - **oxidize** (rust, combine with oxygen) — *meirgich* v. vn. *meirgeadh*
-- **oxygen** (the gas that keeps life (post-1800 loan)) — *ogsaidean* n. m., gen. *ogsaidein*
+- **oxygen** (the gas that keeps life (from the humans' tongue)) — *ogsaidean* n. m., gen. *ogsaidein*
 - **oxymoron** — *frith-ràdh* n. m., pl. *frith-ràdhan*
 - **oxytocin** (hormone of birth and bonding) — *brìgh-gaoil* ✦ n. f., gen. *brìgh-gaoil*
 - **oy** (exclamation of dismay) — *och*
@@ -13539,7 +13549,7 @@
 - **pardon** (pardon me? (asking to repeat)) — *gabh mo leisceul*
 - **pardon** (forgiveness) — *mathanas* n. m., gen. *mathanais*
 - **pare** (peel, trim) — *rùisc* v. vn. *rùscadh*
-- **parent** (parent, begetter, progenitor) — *gineadair* n. m., gen. *gineadair*, pl. *gineadairean*
+- **parent** (parent, begetter) — *gineadair* n. m., gen. *gineadair*, pl. *gineadairean*
 - **parent** (parent) — *pàrant* n. m., gen. *pàrant*, pl. *pàrantan*
 - **parentage** (lineage, descent) — *sliochd* n. m., gen. *sliochda*
 - **parental** (of a father and mother) — *athar is màthar*
@@ -13963,7 +13973,7 @@
 - **photographer** (one who takes photographs) — *glacadair-scàile* ✦ n. m., gen. *glacadair-scàile*, pl. *glacadairean-scàile*
 - **photographic** (of photography) — *scàil-ghlacach* ✦
 - **photography** — *glacadh-scàile* ✦ n. m.
-- **photon** (particle of light (post-1800 loan)) — *fòton* n. m., gen. *fòtoin*, pl. *fòtonan*
+- **photon** (particle of light (from the humans' tongue)) — *fòton* n. m., gen. *fòtoin*, pl. *fòtonan*
 - **photoshopped** (falsely altered (of a picture)) — *breug-dhealbhaichte* ✦
 - **photosynthesis** — *beathachadh-grèine* ✦ n. m.
 - **photovoltaic** (turning sunlight into electricity) — *grian-dhealanach* ✦
@@ -14269,7 +14279,7 @@
 - **politico** (politician) — *neach-poileataics* n. m., gen. *neach-poileataics*, pl. *luchd-poileataics*
 - **politics** — *poileataics* n. f.
 - **polity** (realm, organised state) — *flaitheas* n. m., gen. *flaitheis*, pl. *flaitheasan*
-- **polka** (lively dance (post-1800 loan)) — *polca* n. m., gen. *polca*, pl. *polcaichean*
+- **polka** (lively dance (from the humans' tongue)) — *polca* n. m., gen. *polca*, pl. *polcaichean*
 - **poll** (count of opinion) — *àireamh-barail* ✦ n. f., gen. *àireimh-barail*, pl. *àireamhan-barail*
 - **pollack** (sea fish of the cod family, lythe) — *liùbh* n. m., gen. *liùibh*, pl. *liùbhan*
 - **polled** (asked in a survey) — *ceasnaichte*
@@ -14293,7 +14303,7 @@
 - **pomp** (splendid display) — *greadhnachas* n. m., gen. *greadhnachais*
 - **pompous** (self-important) — *mòrchuiseach*
 - **pon** (upon (dialect 'pon)) — *air*
-- **ponce** (pimp (Brit. slang)) — *fear-siùrsachd* n. m., gen. *fir-shiùrsachd*, pl. *fir-shiùrsachd*
+- **ponce** (pimp (slang)) — *fear-siùrsachd* n. m., gen. *fir-shiùrsachd*, pl. *fir-shiùrsachd*
 - **poncho** (blanket cloak with a head-hole) — *plaide-chinn* ✦ n. f., gen. *plaide-chinn*, pl. *plaideachan-cinn*
 - **pond** (small pool of water) — *lòn* n. m., gen. *lòin*, pl. *lòintean*
 - **ponder** — *beachd-smaoinich* v. vn. *beachd-smaoineachadh*
@@ -14799,7 +14809,7 @@
 - **propane** (fuel gas) — *pròpan* n. m., gen. *pròpan*
 - **propel** — *iomain*
 - **propellant** (fuel that drives a missile forward) — *connadh-sàthaidh* ✦ n. m., gen. *connaidh-sàthaidh*
-- **propeller** (spinning blades that drive a ship or aircraft (post-1800 loan)) — *proipeilear* n. m., gen. *proipeileir*, pl. *proipeilearan*
+- **propeller** (spinning blades that drive a ship or aircraft (from the humans' tongue)) — *proipeilear* n. m., gen. *proipeileir*, pl. *proipeilearan*
 - **propensity** (inclination) — *aomadh* n. m., gen. *aomaidh*, pl. *aomaidhean*
 - **proper** (correct, right) — *ceart*
 - **proper** (fitting, becoming) — *cubhaidh*
@@ -14913,7 +14923,7 @@
 - **psychologically** (in terms of the mind) — *a thaobh inntinn*
 - **psychologist** (one who studies the mind) — *saoi-inntinne* ✦ n. m., gen. *saoi-inntinne*, pl. *saoithean-inntinne*
 - **psychology** (study of the mind) — *fios-anama* ✦ n. m., gen. *fiosa-anama*
-- **psychopath** (person without conscience (post-1800 loan)) — *saidhcopat* n. m., gen. *saidhcopait*, pl. *saidhcopatan*
+- **psychopath** (person without conscience (from the humans' tongue)) — *saidhcopat* n. m., gen. *saidhcopait*, pl. *saidhcopatan*
 - **psychopathic** (without conscience) — *gun chogais*
 - **psychosis** (severe mental disorder) — *breisleach* n. f., gen. *breislich*
 - **psychosocial** (of mind and fellowship) — *inntinn-chomannach* ✦
@@ -14975,7 +14985,7 @@
 - **punishment** (penalty) — *peanas* n. m., gen. *peanais*, pl. *peanasan*
 - **punitive** (intended as punishment) — *peanasach*
 - **Punjabi** (person from the Punjab) — *Panjabach* n. m., gen. *Panjabaich*, pl. *Panjabaich*
-- **punk** (rebellious youth style and music (post-1800 loan)) — *punc* n. m., gen. *puinc*, pl. *puncan*
+- **punk** (rebellious youth style and music (from the humans' tongue)) — *punc* n. m., gen. *puinc*, pl. *puncan*
 - **punt** (kick the ball) — *breab* v. vn. *breabadh*
 - **punt** (flat-bottomed boat) — *coite* n. f., pl. *coiteachan*
 - **punter** (one who bets; customer) — *geallaiche* n. m., gen. *geallaiche*, pl. *geallaichean*
@@ -15145,13 +15155,13 @@
 - **racket** (loud noise) — *ùpraid* n. f., gen. *ùpraide*, pl. *ùpraidean*
 - **racketeering** — *creach-buidhne* ✦ n. f.
 - **racy** (risqué, bawdy) — *drabasta*
-- **radar** (detection by radio echoes (post-1800 loan)) — *radar* n. m., gen. *radair*
+- **radar** (detection by radio echoes (from the humans' tongue)) — *radar* n. m., gen. *radair*
 - **radial** (spreading out like rays) — *gathach*
 - **radiance** (shining brightness) — *lainnir* n. f., gen. *lainnire*
 - **radiant** (shining brightly) — *lainnreach*
 - **radiate** (send out rays, heat or feeling) — *dealraich* v. vn. *dealrachadh*
 - **radiation** — *gath-nimhe* ✦ n. m., pl. *gathan-nimhe*
-- **radiator** (heating panel (post-1800 loan)) — *rèidiatar* n. m., gen. *rèidiatair*, pl. *rèidiataran*
+- **radiator** (heating panel (from the humans' tongue)) — *rèidiatar* n. m., gen. *rèidiatair*, pl. *rèidiataran*
 - **radical** (going to the root; extreme in change) — *freumhach*
 - **radicalism** (seeking change at the root) — *freumhachas* ✦ n. m., gen. *freumhachais*
 - **radically** (fundamentally) — *gu bunaiteach*
@@ -15163,9 +15173,9 @@
 - **radiologist** — *saoi-scàile* ✦ n. m.
 - **radiology** (medicine of inner images) — *eòlas-scàile* ✦ n. m., gen. *eòlais-scàile*
 - **radiotherapy** (treatment by rays) — *leigheas-ghathan* ✦ n. m., gen. *leighis-ghathan*
-- **radium** (radioactive metal (post-1800 loan)) — *rèidiam* n. m., gen. *rèidiam*
+- **radium** (radioactive metal (from the humans' tongue)) — *rèidiam* n. m., gen. *rèidiam*
 - **radius** (line from centre to rim) — *gath* n. m., gen. *gatha*, pl. *gathan*
-- **radon** (the gas radon (post-1800 loan)) — *radon* n. m., gen. *radoin*
+- **radon** (the gas radon (from the humans' tongue)) — *radon* n. m., gen. *radoin*
 - **raffle** (lottery for a prize) — *crannchur* n. m., gen. *crannchuir*, pl. *crannchuir*
 - **raft** (flat floating platform) — *ràth* n. m., gen. *ràith*, pl. *ràthan*
 - **rafter** — *taobhan* n. m., pl. *taobhain*
@@ -15480,7 +15490,7 @@
 - **reef** — *sceir* n. f., pl. *sceirean*
 - **reek** (strong bad smell) — *tòchd* n. m., gen. *tòchd*
 - **reel** (spool, bobbin) — *piorna* n. f., gen. *piorna*, pl. *piornaichean*
-- **reel** (lively Scottish dance) — *ruidhle* n. m., gen. *ruidhle*, pl. *ruidhlean*
+- **reel** (lively round dance) — *ruidhle* n. m., gen. *ruidhle*, pl. *ruidhlean*
 - **reelection** (being elected again) — *ath-thaghadh* n. m., gen. *ath-thaghaidh*, pl. *ath-thaghaidhean*
 - **reeve** (local official, steward) — *maor* n. m., gen. *maoir*, pl. *maoir*
 - **refer** (mention, refer to) — *thoir iomradh air* v. vn. *toirt iomradh air*
@@ -15894,6 +15904,7 @@
 - **rest** (the rest, the remainder) — *còrr* n. m., gen. *còrra*
 - **rest** (rest, repose) — *fois* n. f., gen. *foise*
 - **rest** — *gabh fois* v. vn. *gabhail fois*
+- **rest-night** (a night of the full or the dark of the moon, on which no ore was cut and no nets set) — *oidhche-thàmh* n. f., gen. *oidhche-thàmh*, pl. *oidhcheannan-tàmh*
 - **restart** (begin again) — *tòisich a-rithist* v. vn. *tòiseachadh a-rithist*
 - **restaurant** — *taigh-bìdh* n. m., pl. *taighean-bìdh*
 - **rested** (having had rest) — *air fois a ghabhail*
@@ -16221,7 +16232,7 @@
 - **royalty** (royal status; the royal family) — *rìoghalachd* n. f., gen. *rìoghalachd*
 - **rub** — *suath* v. vn. *suathadh*
 - **rub shoulders with** (verbal-noun phrase; the verb is suath) — *suathadh ri*
-- **rubber** (elastic tree-gum (post-1800 loan)) — *rubair* n. m., gen. *rubair*
+- **rubber** (elastic tree-gum (from the humans' tongue)) — *rubair* n. m., gen. *rubair*
 - **rubbing** (rubbing, chafing) — *suathadh* n. m., gen. *suathaidh*
 - **rubbish** (trash) — *scudal* n. m., gen. *scudail*
 - **rubble** (broken stone) — *sprùilleach* n. m., gen. *sprùillich*
@@ -16458,7 +16469,6 @@
 - **sawmill** (mill for sawing timber) — *muileann-sàbhaidh* n. m., gen. *muilinn-sàbhaidh*, pl. *muilnean-sàbhaidh*
 - **sawyer** (one who saws timber) — *sàbhadair* n. m., gen. *sàbhadair*, pl. *sàbhadairean*
 - **sax** (saxophone (short)) — *sacsafon* n. m., gen. *sacsafoin*, pl. *sacsafonan*
-- **Saxon** (Saxon, Englishman) — *Sasannach* n. m., gen. *Sasannaich*, pl. *Sasannaich*
 - **saxophone** (brass reed instrument) — *sacsafon* n. m., gen. *sacsafoin*, pl. *sacsafonan*
 - **say** — *abair* v. vn. *ràdh*
 - **Say no more** — *Na can an còrr.*
@@ -16564,11 +16574,6 @@
 - **scorn** — *tàir* n. f.
 - **Scorpio** (star sign of the scorpion) — *an Scairp* n. f., gen. *na Scairpe*
 - **scorpion** (stinging arachnid) — *scairp* n. f., gen. *scairpe*, pl. *scairpean*
-- **Scot** (person from Scotland) — *Albannach* n. m., gen. *Albannaich*, pl. *Albannaich*
-- **scotch** (Scotch whisky) — *uisce-beatha* n. m., gen. *uisce-beatha*
-- **Scots** (Scottish people) — *Albannach* n. m., gen. *Albannaich*, pl. *Albannaich*
-- **Scots** (the Scots language) — *Beurla Ghallda* n. f., gen. *Beurla Ghallda*
-- **Scottish** (of Scotland) — *Albannach*
 - **scour** (search thoroughly) — *rannsaich* v. vn. *rannsachadh*
 - **scour** (scrub hard) — *scùr* v. vn. *scùradh*
 - **scourge** (great affliction) — *plàigh* n. f., gen. *plàighe*, pl. *plàighean*
@@ -16613,7 +16618,7 @@
 - **scrum** (tight pack of players in rugby) — *scrum* n. m., gen. *scruim*, pl. *scrumaichean*
 - **scrutinize** — *scrùd* v. vn. *scrùdadh*
 - **scrutiny** (close examination) — *scrùdadh* n. m., gen. *scrùdaidh*
-- **scuba** (underwater breathing gear (post-1800 loan)) — *scuba* n. m., gen. *scuba*
+- **scuba** (underwater breathing gear (from the humans' tongue)) — *scuba* n. m., gen. *scuba*
 - **scuffle** (brief confused fight) — *tuasaid* n. f., gen. *tuasaide*, pl. *tuasaidean*
 - **sculpt** (carve, shape) — *snaidh* v. vn. *snaidheadh*
 - **sculptor** (carver of statues) — *snaidheadair* n. m., gen. *snaidheadair*, pl. *snaidheadairean*
@@ -16705,6 +16710,7 @@
 - **see you soon** — *chì mi a dh'aithghearr thu*
 - **see you tomorrow** — *chì mi a-màireach thu*
 - **seed** (grain from which a plant grows) — *sìol* n. m., gen. *sìl*, pl. *sìl*
+- **seed-moon** (Sìolach, the fifth moon-month of the old year, the seed-time; the civil month in its place is am Màrt) — *Sìolach* n. m.
 - **seeding** (sowing seed; ranking of players) — *cur-sìl* n. m., gen. *cuir-sìl*
 - **seedling** (young plant grown from seed) — *ògan* n. m., gen. *ògain*, pl. *ògain*
 - **seedy** — *mì-chliùiteach*
@@ -16731,7 +16737,7 @@
 - **selectively** (by choosing) — *gu roghnach*
 - **selectivity** (being selective) — *roghnachas* n. m., gen. *roghnachais*
 - **selector** (one who chooses) — *taghadair* n. m., gen. *taghadair*, pl. *taghadairean*
-- **selenium** (the element selenium (post-1800 loan)) — *seilèinium* n. m., gen. *seilèinium*
+- **selenium** (the element selenium (from the humans' tongue)) — *seilèinium* n. m., gen. *seilèinium*
 - **self** (self, one's own person (fèin- in compounds: fèin-spèis 'self-esteem')) — *fèin* n. m.
 - **self-awareness** — *fèin-mhothachadh* n. m.
 - **self-confidence** — *fèin-mhisneachd* n. f.
@@ -16871,6 +16877,7 @@
 - **sever** (cut off) — *scath* v. vn. *scathadh*
 - **several** — *grunn* n. m.
 - **severance** (separation; payment on dismissal) — *dealachadh* n. m., gen. *dealachaidh*, pl. *dealachaidhean*
+- **Severance Era** (the era of the Age of the Kingdom, counted from the Severance and the settling of the north; SE) — *Linn an Dealachaidh* n. f.
 - **severe** (harsh) — *cruaidh*
 - **severe** (intense) — *dian*
 - **severely** (harshly, severely) — *gu cruaidh*
@@ -16924,7 +16931,7 @@
 - **shameless** (without shame) — *gun nàire*
 - **shamelessly** (without shame) — *gu mì-nàrach*
 - **shampoo** (hair soap) — *seampù* n. m., gen. *seampù*, pl. *seampùthan*
-- **shamrock** (three-leaved clover, emblem of Ireland) — *seamrag* n. f., gen. *seamraig*, pl. *seamragan*
+- **shamrock** (three-leaved clover) — *seamrag* n. f., gen. *seamraig*, pl. *seamragan*
 - **shank** (shin; shaft) — *lurga* n. f., gen. *lurgainn*, pl. *luirgnean*
 - **shape** — *cumadh* n. m., pl. *cumaidhean*
 - **shard** (broken piece) — *spealg* n. f., gen. *spealg*, pl. *spealgan*
@@ -17029,6 +17036,7 @@
 - **shoreline** (edge of sea or lake) — *cladach* n. m., gen. *cladaich*, pl. *cladaichean*
 - **short (height)** — *beag*
 - **short (length)** — *goirid*
+- **short moon** (Gearras, the fourth moon-month of the old year, the short moon or the gelding's moon; Là Fhèill Brìde falls on its first night; an Gearran is named from it) — *Gearras* n. m.
 - **short-term** — *geàrr-ùine*
 - **shortage** (scarcity) — *gainnead* n. m., gen. *gainnid*
 - **shortcoming** (failing, fault) — *fàillinn* n. f., gen. *fàillinne*, pl. *fàillinnean*
@@ -17491,7 +17499,7 @@
 - **social engineering** — *mealladh-cainnte* ✦ n. m.
 - **social media** — *lìon-còmhraidh* ✦ n. m.
 - **socialism** (doctrine of common ownership) — *sòisealachas* n. m., gen. *sòisealachais*
-- **socialist** (follower of common ownership (post-1800 loan)) — *sòisealach* n. m., gen. *sòisealaich*, pl. *sòisealaich*
+- **socialist** (follower of common ownership (from the humans' tongue)) — *sòisealach* n. m., gen. *sòisealaich*, pl. *sòisealaich*
 - **socialite** (one prominent in fashionable society) — *neach-cuideachd* n. m., gen. *neach-cuideachd*, pl. *luchd-cuideachd*
 - **socialization** (learning the ways of society) — *altram-sluaigh* ✦ n. m., gen. *altraim-sluaigh*
 - **socialize** (mix with others, visit) — *dèan cèilidh* v. vn. *dèanamh cèilidh*
@@ -17499,7 +17507,7 @@
 - **societal** (of society as a whole) — *coitcheann*
 - **society** (society, the community, people at large) — *coimhearsnachd* n. f., gen. *coimhearsnachd*, pl. *coimhearsnachdan*
 - **society** (society, association, fellowship) — *comann* n. m., gen. *comainn*, pl. *comainn*
-- **socioeconomic** (of society and wealth (post-1800 loan)) — *sòisio-eaconamach*
+- **socioeconomic** (of society and wealth (from the humans' tongue)) — *sòisio-eaconamach*
 - **sociolinguistics** — *fios-cainnt-sluaigh* ✦ n. m.
 - **sociological** (of sociology) — *comannach*
 - **sociologist** (student of society) — *saoi-comainn* ✦ n. m., gen. *saoi-comainn*, pl. *saoithean-comainn*
@@ -17921,6 +17929,7 @@
 - **stagnant** — *marbh*
 - **stagnate** (verbal-noun phrase; the verb is fàs) — *fàs marbhanta*
 - **stagnation** (lack of flow or growth) — *marbhantachd* n. f., gen. *marbhantachd*
+- **stags' moon** (Damhrach, the twelfth moon-month of the old year, the rut of the deer; an Dàmhair is named from it) — *Damhrach* n. m.
 - **stain** — *smal* n. m., pl. *smalan*
 - **staining** (colouring, soiling) — *dathadh* n. m., gen. *dathaidh*
 - **stainless** (without stain (stainless steel: stàilinn gun smal)) — *gun smal*
@@ -18063,7 +18072,6 @@
 - **sterilization** (making infertile) — *seascachadh* n. m., gen. *seascachaidh*
 - **sterilize** (make barren) — *neo-thorraich* v. vn. *neo-thorrachadh*
 - **sterilize** (cleanse of germs) — *scùr* v. vn. *scùradh*
-- **sterling** (British money, pound sterling) — *airgead Sasannach* n. m., gen. *airgid Shasannaich*
 - **stern** (rear of a ship) — *deireadh* n. m., gen. *deiridh*, pl. *deiridhean*
 - **stern** (severe, grim) — *gruamach*
 - **steroid** (hormone-like drug) — *stearoid* n. m., gen. *stearoid*, pl. *stearoidean*
@@ -18430,6 +18438,7 @@
 - **summary** — *geàrr-chunntas* n. m., pl. *geàrr-chunntasan*
 - **summation** (adding up; summing-up) — *suim* n. f., gen. *suime*, pl. *suimean*
 - **summer** — *samhradh* n. m., pl. *samhraidhean*
+- **summer's-end moon** (Samhnas, the first moon-month of the old year; Samhain falls on its first night; an t-Samhain is named from it) — *Samhnas* n. m.
 - **summertime** (the summer season) — *samhradh* n. m., gen. *samhraidh*, pl. *samhraidhean*
 - **summit** — *mullach* n. m., pl. *mullaichean*
 - **summit (meeting)** — *àrd-choinneamh* n. f., pl. *àrd-choinneamhan*
@@ -18453,6 +18462,7 @@
 - **sunscreen** (cream against sunburn) — *dìon-grèine* ✦ n. m., gen. *dìon-grèine*
 - **sunset** — *dol fodha na grèine* n. m.
 - **sunshine** (light of the sun) — *solas-grèine* n. m., gen. *solais-grèine*
+- **sunwise** (with the right shoulder to the centre, following the sun) — *diosal*
 - **sup** (sip) — *srùb* v. vn. *srùbadh*
 - **super** (super, excellent (before the noun, lenites)) — *sàr*
 - **superannuation** (pension) — *peinnsean* n. m., gen. *peinnsein*, pl. *peinnseanan*
@@ -18673,7 +18683,7 @@
 - **synchronous** (happening at the same time) — *co-aimsireil*
 - **syndicate** (association of partners) — *co-bhuidheann* n. f., gen. *co-bhuidhne*, pl. *co-bhuidhnean*
 - **syndication** (selling for joint publication) — *co-scaoileadh* ✦ n. m., gen. *co-scaoilidh*
-- **syndrome** (group of signs of a disease (post-1800 loan)) — *siondrom* n. m., gen. *siondroim*, pl. *siondroman*
+- **syndrome** (group of signs of a disease (from the humans' tongue)) — *siondrom* n. m., gen. *siondroim*, pl. *siondroman*
 - **synergy** — *co-obrachadh* n. m.
 - **synod** (church council) — *seanadh* n. m., gen. *seanaidh*, pl. *seanaidhean*
 - **synonym** (word of the same meaning) — *co-fhacal* n. m., gen. *co-fhacail*, pl. *co-fhaclan*
@@ -18681,7 +18691,7 @@
 - **synopsis** (brief summary) — *geàrr-chunntas* n. m., gen. *geàrr-chunntais*, pl. *geàrr-chunntasan*
 - **syntactic** (of syntax) — *co-chàraideach*
 - **syntax** (arrangement of words) — *co-chàradh* n. m., gen. *co-chàraidh*
-- **synth** (electronic music keyboard (post-1800 loan)) — *sinteasaidhear* n. m., gen. *sinteasaidheir*, pl. *sinteasaidhearan*
+- **synth** (electronic music keyboard (from the humans' tongue)) — *sinteasaidhear* n. m., gen. *sinteasaidheir*, pl. *sinteasaidhearan*
 - **synthesis** (putting together) — *co-chur* n. m., gen. *co-chuir*
 - **synthesize** — *co-chuir* v. vn. *co-chur*
 - **synthesizer** (electronic musical instrument) — *sinteasaidear* n. m., gen. *sinteasaidear*, pl. *sinteasaidearan*
@@ -18704,6 +18714,7 @@
 - **tabby** (striped cat) — *cat-riabhach* n. m., gen. *cait-riabhaich*, pl. *cait-riabhach*
 - **tabernacle** (tent-shrine, house of worship) — *pàillean* n. m., gen. *pàillein*, pl. *pàilleanan*
 - **table** — *bòrd* n. m., pl. *bùird*
+- **table of the ages** (Clàr nan Aoisean, the Library's table dividing the island's past into ages) — *Clàr nan Aoisean* n. m.
 - **tableau** (still living picture) — *dealbh-beò* n. m., gen. *deilbh-bheò*, pl. *dealbhan-beò*
 - **tablespoon** (large spoon) — *spàin-mhòr* n. f., gen. *spàine-mòire*, pl. *spàinean-mòra*
 - **tablet** (flat slab of stone for writing) — *clàr-cloiche* n. m., gen. *clàir-cloiche*, pl. *clàran-cloiche*
@@ -18880,7 +18891,7 @@
 - **technological** (relating to devices and craft) — *innleachdail*
 - **technologically** (as regards technology) — *gu h-innleachdail*
 - **technologist** (expert in technology) — *teicneòlaiche* n. m., gen. *teicneòlaiche*, pl. *teicneòlaichean*
-- **technology** (technology, the applied science of machines (a loan of the machine age)) — *teicneòlas* n. m., gen. *teicneòlais*, pl. *teicneòlasan*
+- **technology** (technology, the applied science of machines (from the humans' tongue)) — *teicneòlas* n. m., gen. *teicneòlais*, pl. *teicneòlasan*
 - **tectonic** (of the plates of the earth's crust) — *clàr-thalmhainneach* ✦
 - **teddy** (toy bear) — *teadaidh* n. m., gen. *teadaidh*, pl. *teadaidhean*
 - **tedious** (tiresome) — *liosda*
@@ -19023,7 +19034,7 @@
 - **Thai** (of Thailand) — *Tàidheach*
 - **Thai** (a Thai person) — *Tàidheach* n. m., gen. *Tàidhich*, pl. *Tàidhich*
 - **than** (than, after a comparative: na, na h- before a vowel (nas motha na taigh 'bigger than a house')) — *na*
-- **thane** (Scottish lord holding land of the king) — *tòiseach* n. m., gen. *tòisich*, pl. *tòisich*
+- **thane** (lord holding land of the king) — *tòiseach* n. m., gen. *tòisich*, pl. *tòisich*
 - **thank** — *thoir taing* v. vn. *toirt taing*
 - **thank you** — *gu robh math agad*
 - **thankful** (grateful) — *taingeil*
@@ -19133,11 +19144,11 @@
 - **this month** — *am mìos seo*
 - **thistle** (prickly plant) — *cluaran* n. m., gen. *cluarain*, pl. *cluarain*
 - **tho** (though, however (informal)) — *ge-tà*
-- **thon** (that yonder (Scots)) — *ud*
+- **thon** (that yonder (dialect)) — *ud*
 - **thong** (leather strap) — *iall* n. f., gen. *èille*, pl. *iallan*
 - **thoracic** (of the chest) — *uchdach*
 - **thorax** (chest of the body or of an insect) — *broilleach* n. m., gen. *broillich*, pl. *broilleachan*
-- **thorium** (radioactive metal (post-1800 loan)) — *tòiriam* n. m., gen. *tòiriam*
+- **thorium** (radioactive metal (from the humans' tongue)) — *tòiriam* n. m., gen. *tòiriam*
 - **thorn** (sharp spine on a plant) — *dealg* n. f., gen. *deilge*, pl. *dealgan*
 - **thorny** (full of thorns; difficult) — *droighneach*
 - **thorough** — *mionaideach*
@@ -19316,7 +19327,7 @@
 - **toddler** (small child learning to walk) — *leanaban* n. m., gen. *leanabain*, pl. *leanabain*
 - **toe** (toe) — *òrdag-coise* n. f., gen. *òrdaig-coise*, pl. *òrdagan-coise*
 - **toenail** (nail of a toe) — *ìne-coise* n. f., gen. *ìne-coise*, pl. *ìnean-coise*
-- **toffee** (chewy sweet of boiled sugar (post-1800 loan)) — *tofaidh* n. m., gen. *tofaidh*, pl. *tofaidhean*
+- **toffee** (chewy sweet of boiled sugar (from the humans' tongue)) — *tofaidh* n. m., gen. *tofaidh*, pl. *tofaidhean*
 - **tofu** (curd of soy beans) — *tofu* n. m., gen. *tofu*
 - **together** (together, in company) — *còmhla*
 - **together** (together, with one another) — *le chèile*
@@ -19857,7 +19868,7 @@
 - **ultra** (extreme) — *anabarrach*
 - **ultrasonic** (above the range of hearing) — *os-chluasach* ✦
 - **ultrasound** — *dealbh-fuaime* ✦ n. m.
-- **ultraviolet** (beyond violet in the spectrum (post-1800 loan)) — *ultra-bhiolait*
+- **ultraviolet** (beyond violet in the spectrum (from the humans' tongue)) — *ultra-bhiolait*
 - **um** (hesitation filler) — *uill*
 - **umami** — *blas-eanraich* ✦ n. m.
 - **umbilical** (umbilical cord) — *sreang-imleig* n. f., gen. *sreinge-imleig*, pl. *sreangan-imleig*
@@ -20438,6 +20449,7 @@
 - **vehicular** (of vehicles) — *carbadach*
 - **veil** (cloth covering the face) — *scàile* n. f., gen. *scàile*, pl. *scàilean*
 - **vein** — *cuisle* n. f., pl. *cuislean*
+- **Vein Era** (the era of the Ancient Age, counted from the crack in the stone; VE) — *Linn na Fèithe* n. f.
 - **velocity** — *astar* n. m., pl. *astaran*
 - **velvet** (soft thick-piled cloth) — *meileabhaid* n. f., gen. *meileabhaide*
 - **vend** (sell) — *reic*
@@ -20649,7 +20661,7 @@
 - **volition** (free will, one's own choosing) — *toil* n. f., gen. *toile*, pl. *toilean*
 - **volley** (shower of shots or blows) — *fras* n. f., gen. *froise*, pl. *frasan*
 - **volleyball** — *cluiche-lìn* ✦ n. m.
-- **volt** (unit of electric force (post-1800 loan)) — *bholt* n. m., gen. *bhuilt*, pl. *bholtaichean*
+- **volt** (unit of electric force (from the humans' tongue)) — *bholt* n. m., gen. *bhuilt*, pl. *bholtaichean*
 - **voltage** (electrical force, voltage) — *bholtachd* n. f., gen. *bholtachd*
 - **volume** — *neart fuaime* n. m.
 - **voluminous** (bulky) — *tomadach*
@@ -20880,9 +20892,6 @@
 - **wellbeing** — *sunnd* n. m.
 - **wellness** (good health) — *fallaineachd* n. f., gen. *fallaineachd*
 - **welp** (well (resigned)) — *uill*
-- **Welsh** (of Wales) — *Cuimreach*
-- **Welsh** (a Welsh person) — *Cuimreach* n. m., gen. *Cuimrich*, pl. *Cuimrich*
-- **Welsh** (the Welsh language) — *Cuimris* n. f., gen. *Cuimris*
 - **welt** (raised mark on the skin from a blow) — *làrach-buille* n. f., gen. *làraich-buille*, pl. *làraichean-buille*
 - **welterweight** (boxing weight between light and middle) — *meadhan-chuideam* n. m., gen. *meadhan-chuideim*
 - **werent** (were not (weren't)) — *cha robh*
@@ -21126,6 +21135,7 @@
 - **woefully** (wretchedly, lamentably) — *gu truagh*
 - **wok** (deep round frying pan) — *friochtan-cruinn* ✦ n. m., gen. *friochtain-chruinn*, pl. *friochtain-chruinn*
 - **wolf** (wild dog-like beast) — *mac-tìre* n. m., gen. *mic-thìre*, pl. *mic-thìre*
+- **wolf-moon** (Faolach, the third moon-month of the old year, the storm-time; am Faoilleach is named from it) — *Faolach* n. m.
 - **wolverine** (the animal (the glutton)) — *craosaire* n. m., gen. *craosaire*, pl. *craosairean*
 - **woman** — *boireannach* n. m., pl. *boireannaich*
 - **womanhood** (state of being a woman) — *banas* n. m., gen. *banais*
@@ -21248,7 +21258,7 @@
 ## X
 
 - **x-ray** — *gath-cnàimh* ✦ n. m.
-- **xenon** (the gas xenon (post-1800 loan)) — *seanon* n. m., gen. *seanoin*
+- **xenon** (the gas xenon (from the humans' tongue)) — *seanon* n. m., gen. *seanoin*
 - **xenophobia** (hatred of foreigners) — *gràin-choigreach* n. f., gen. *gràine-choigreach*
 - **Xmas** (Christmas) — *Nollaig* n. f., gen. *Nollaige*, pl. *Nollaigean*
 
@@ -21316,6 +21326,7 @@
 - **You've got to be kidding me** — *Chan eil thu dha-rìribh!*
 - **youd** (you'd (you would: conditional, bhiodh tu / -adh tu)) — *bhiodh tu*
 - **young** — *òg*
+- **young moon** (Ògach, the eighth moon-month of the old year; an t-Ògmhios is named from it) — *Ògach* n. m.
 - **younger sister** — *piuthar as òige*
 - **youngster** (young person) — *òganach* n. m., gen. *òganaich*, pl. *òganaich*
 - **your** (your (one person, familiar): do + lenition (do cheann), d' before a vowel (d' athair), t' before fh + vowel) — *do*

@@ -1,0 +1,273 @@
+{
+ "layer": "calendar: the map's era and year, the war's years, and every date in the regiments' and battlefields' notes (records 1, 14, 35)",
+ "summary": "The map still reckoned by the old continuous count ('Diosal Era', year 2026): the calendar setting (record 1), the years of An Cogadh Fada in the state's campaigns (record 14), the 13 regiment and fleet notes (formed '2020 Diosal Era', composition in '2026 DE') and the 2 battlefield notes (English dates in the old count, record 35). All 18 conflict with the history's six eras and are brought to it: the calendar is the Dubhan Era, year 27 (DE); the war runs DE 21-22; the regiments were raised in DE 21 and their composition is given for DE 27; the battles are dated 11 an Giblean, DE 21 and 10 an Dùbhlachd, DE 22 as in the annals. Nothing was missing from the history.",
+ "map_edits": [
+  {
+   "record": 1,
+   "path": ".lore.calendar.year",
+   "old": 2026,
+   "value": 27,
+   "why": "The map's calendar was the old continuous count named after the Diosal, a count the kingdom gave up in SE 18 (V-0078a); the present year is DE 27 of the Dubhan Era, proclaimed DE 15 (VI-0049a) and counted from the first working dubhan (VI-0001). Azgaar keeps the calendar in options.lore.calendar {year, era, eraShort}."
+  },
+  {
+   "record": 1,
+   "path": ".lore.calendar.era",
+   "old": "Diosal Era",
+   "value": "Dubhan Era",
+   "why": "The map's calendar was the old continuous count named after the Diosal, a count the kingdom gave up in SE 18 (V-0078a); the present year is DE 27 of the Dubhan Era, proclaimed DE 15 (VI-0049a) and counted from the first working dubhan (VI-0001). Azgaar keeps the calendar in options.lore.calendar {year, era, eraShort}."
+  },
+  {
+   "record": 1,
+   "path": ".lore.calendar.eraShort",
+   "old": "DE",
+   "value": "DE",
+   "why": "The Dubhan Era's letters, DE (kept)."
+  },
+  {
+   "record": 14,
+   "path": "[1].campaigns[0].start",
+   "old": 2020,
+   "value": 21,
+   "why": "An Cogadh Fada began DE 21 (VI-0079, VI-0081) and ended DE 22 (VI-0118); the campaign's years in the era the map's calendar now counts."
+  },
+  {
+   "record": 14,
+   "path": "[1].campaigns[0].end",
+   "old": 2021,
+   "value": 22,
+   "why": "An Cogadh Fada ended DE 22 (VI-0118)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[0].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[0].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[1].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[1].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[2].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[2].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[3].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[3].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[4].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[4].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[5].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[5].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[6].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[6].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[7].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[7].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[8].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[8].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[9].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[9].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[10].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[10].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[11].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[11].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[12].note",
+   "mode": "replace-substring",
+   "old": "Regiment was formed in 2020 Diosal Era during",
+   "value": "Regiment was formed in DE 21 during",
+   "why": "Every regiment and fleet was raised in DE 21 (VI-0084 .. VI-0110); the year in the Dubhan Era."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[12].note",
+   "mode": "replace-substring",
+   "old": "Regiment composition in 2026 DE:",
+   "value": "Regiment composition in DE 27:",
+   "why": "The present year, DE 27."
+  },
+  {
+   "record": 35,
+   "path": "[17].note",
+   "mode": "replace-substring",
+   "old": "Date: December 10, 2021 Diosal Era.",
+   "value": "Date: 10 an Dùbhlachd, DE 22.",
+   "why": "The Battle of Muileann ghlas, VI-0115, in the civil month and the Dubhan Era."
+  },
+  {
+   "record": 35,
+   "path": "[18].note",
+   "mode": "replace-substring",
+   "old": "Date: April 11, 2020 Diosal Era.",
+   "value": "Date: 11 an Giblean, DE 21.",
+   "why": "The Battle of Àth leathan, VI-0081, in the civil month and the Dubhan Era."
+  }
+ ],
+ "annals_add": [],
+ "annals_edit": [],
+ "gazetteer_edit": [],
+ "text_edit": [],
+ "new_files": [],
+ "unsure": [
+  "Azgaar writes a regiment's note once, when the regiment is made, from the calendar setting of that moment; the notes are edited here to match the new setting. A regiment newly made in the Atlas will be dated in the Dubhan Era by Azgaar itself."
+ ]
+}

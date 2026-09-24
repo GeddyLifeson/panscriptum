@@ -50,26 +50,30 @@ Sìleas, Tormod…), with patronymics (*mac*/*nic*) and bynames (*Ailean Gobha*,
 smith"). Humans get names from their own tongue (plain, English-like, not Gaelic). No invented
 person may be a parent, child, spouse, lover, rival or teacher of the owner's characters.
 
-## The five ages and the reckoning of years
+## The six ages and the reckoning of years
 
-Years are counted in the **Diosal Era** (DE). Year 1 DE is the year the ships of the Sundering set
-out. *Diosal* is the Rodos form of Gaelic *deiseal*, the sunwise turn: the fleet went out turning
-sunwise round the harbour, for luck. Years before it are **BDE** (before the Diosal Era). There is
-no year 0.
+Each age is an era with its own count of years. Year 1 of an era is the year of the age's opening
+event; there is no year 0, and the era changes on the day the next age opens. A date is written
+"12 am Màrt, AE 67"; a bare year "AE 67". (The old count by the Diosal, from the year the ships of
+the Sundering set out, was used for many centuries and then given up; Appendix D tells it.)
 
-| Age | Ròdais name | Span | Opens with |
+| Age | Ròdais name | Era | Opens with (year 1) |
 |---|---|---|---|
-| I | An Aois Àrsaidh, the Ancient Age | 12,999 – 3,001 BDE | the crack in the stone |
-| II | An Aois Naomh, the Holy Age | 3,000 – 40 BDE | the Binding of the First Flame |
-| III | An Aois Scaraidh, the Age of Sundering | 39 BDE – 1779 DE | the Choosing |
-| IV | An Aois Choigreach, the Age of Strangers | 1780 – 1929 DE | the Crossing |
-| V | An Aois Ùr, the New Age | 1930 – 2026 DE | the Severance |
+| I | An Aois Àrsaidh, the Ancient Age | Linn na Fèithe, the Vein Era (VE) | the crack in the stone |
+| II | An Aois Naomh, the Holy Age | Linn an Teine, the Flame Era (FE) | the Binding of the First Flame |
+| III | An Aois Scaraidh, the Age of Sundering | Linn na Tìre, the Landfall Era (LE) | land found across the water |
+| IV | An Aois Choigreach, the Age of Strangers | Linn an Acair, the Anchor Era (AE) | the Crossing |
+| V | An Aois Rìoghachd, the Age of the Kingdom | Linn an Dealachaidh, the Severance Era (SE) | the Tuathaich homeland, after the Severance |
+| VI | An Aois Dhubhain, the Age of Dubhan | Linn an Dubhain, the Dubhan Era (DE) | the first working dubhan |
+
+Windows and chronicle years below are given in the tooling's continuous count (negative before
+its year 1, no year 0; 1780 is AE 1, 1930 SE 1, 2000 DE 1, the present year 2026 is DE 27).
 
 Every event gets an exact day, month and year. **Writers do not choose dates.** A separate
 reckoning assigns every date from the order you put events in, holding the chronicle's years
 fixed. So what you control is ORDER: list events in the order they happened. When an event must
-fall in a particular stretch of years, say so with `"between": [from, to]` (negative numbers are
-BDE), for example `"between": [1850, 1860]`.
+fall in a particular stretch of years, say so with `"between": [from, to]` in the continuous count
+(negative numbers before its year 1), for example `"between": [1850, 1860]` (AE 71 to AE 81).
 
 Months are the Gaelic months, one to one with the Gregorian: am Faoilleach, an Gearran, am Màrt,
 an Giblean, an Cèitean, an t-Ògmhios, an t-Iuchar, an Lùnastal, an t-Sultain, an Dàmhair, an

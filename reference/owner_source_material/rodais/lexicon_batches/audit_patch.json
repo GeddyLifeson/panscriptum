@@ -72885,46 +72885,12 @@
   {
    "id": "f-english-n1",
    "set": {
-    "en": "English"
+    "en": "English",
+    "sense": "the humans' tongue"
    },
    "old": {
-    "en": "english"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-english-adj1",
-   "set": {
-    "en": "English"
-   },
-   "old": {
-    "en": "english"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-english-n2",
-   "set": {
-    "en": "English"
-   },
-   "old": {
-    "en": "english"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-british-adj1",
-   "set": {
-    "en": "British"
-   },
-   "old": {
-    "en": "british"
+    "en": "english",
+    "sense": "English, the English language"
    },
    "why": [
     "1 case: proper noun: English capitalised, article lower case"
@@ -73630,18 +73596,6 @@
    ]
   },
   {
-   "id": "f-scottish-adj",
-   "set": {
-    "en": "Scottish"
-   },
-   "old": {
-    "en": "scottish"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
    "id": "f-excuse-v",
    "set": {
     "vn": "gabhail leisceul"
@@ -73660,30 +73614,6 @@
    },
    "old": {
     "en": "catholic"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-irish-adj",
-   "set": {
-    "en": "Irish"
-   },
-   "old": {
-    "en": "irish"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-irish-n",
-   "set": {
-    "en": "Irish"
-   },
-   "old": {
-    "en": "irish"
    },
    "why": [
     "1 case: proper noun: English capitalised, article lower case"
@@ -73811,18 +73741,6 @@
    },
    "old": {
     "en": "olympic"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-latin-n",
-   "set": {
-    "en": "Latin"
-   },
-   "old": {
-    "en": "latin"
    },
    "why": [
     "1 case: proper noun: English capitalised, article lower case"
@@ -74701,18 +74619,6 @@
    ]
   },
   {
-   "id": "f-celtic-adj",
-   "set": {
-    "en": "Celtic"
-   },
-   "old": {
-    "en": "celtic"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
    "id": "f-escort-n",
    "set": {
     "pl": "freiceadanan"
@@ -75290,18 +75196,6 @@
    ]
   },
   {
-   "id": "f-anglo-n1",
-   "set": {
-    "en": "Anglo"
-   },
-   "old": {
-    "en": "anglo"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
    "id": "f-bash-n",
    "set": {
     "gen": "fleidh"
@@ -75440,18 +75334,6 @@
    },
    "old": {
     "en": "hungarian"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-latino-n",
-   "set": {
-    "en": "Latino"
-   },
-   "old": {
-    "en": "latino"
    },
    "why": [
     "1 case: proper noun: English capitalised, article lower case"
@@ -75613,30 +75495,6 @@
    },
    "why": [
     "4 conflict: genitive of cairt-iùil is cairte-iùil"
-   ]
-  },
-  {
-   "id": "f-scots-n1",
-   "set": {
-    "en": "Scots"
-   },
-   "old": {
-    "en": "scots"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-scots-n2",
-   "set": {
-    "en": "Scots"
-   },
-   "old": {
-    "en": "scots"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
    ]
   },
   {
@@ -76244,18 +76102,6 @@
    ]
   },
   {
-   "id": "f-brit-n",
-   "set": {
-    "en": "Brit"
-   },
-   "old": {
-    "en": "brit"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
    "id": "f-kurdish-adj",
    "set": {
     "en": "Kurdish"
@@ -76322,18 +76168,6 @@
    },
    "old": {
     "en": "judaism"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-saxon-n",
-   "set": {
-    "en": "Saxon"
-   },
-   "old": {
-    "en": "saxon"
    },
    "why": [
     "1 case: proper noun: English capitalised, article lower case"
@@ -77151,18 +76985,6 @@
    ]
   },
   {
-   "id": "f-englishman-n",
-   "set": {
-    "en": "Englishman"
-   },
-   "old": {
-    "en": "englishman"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
    "id": "f-headquarter-n",
    "set": {
     "rod": "prìomh oifis",
@@ -77836,18 +77658,6 @@
    ]
   },
   {
-   "id": "f-scot-n",
-   "set": {
-    "en": "Scot"
-   },
-   "old": {
-    "en": "scot"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
    "id": "f-tam-n",
    "set": {
     "pl": "curracan"
@@ -78268,30 +78078,6 @@
    },
    "why": [
     "5a loan: Scottish Gaelic borrows cabaret for this post-1800 thing; kenning cuirm-oidhche dropped"
-   ]
-  },
-  {
-   "id": "f-gaelic-n",
-   "set": {
-    "en": "Gaelic"
-   },
-   "old": {
-    "en": "gaelic"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
-   "id": "f-gaelic-adj",
-   "set": {
-    "en": "Gaelic"
-   },
-   "old": {
-    "en": "gaelic"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
    ]
   },
   {
@@ -81500,18 +81286,6 @@
    ]
   },
   {
-   "id": "f-highlander-n2",
-   "set": {
-    "en": "Highlander"
-   },
-   "old": {
-    "en": "highlander"
-   },
-   "why": [
-    "1 case: proper noun: English capitalised, article lower case"
-   ]
-  },
-  {
    "id": "f-squeak-n",
    "set": {
     "gen": "bìoga"
@@ -82529,6 +82303,1050 @@
    "why": [
     "5a loan: Scottish Gaelic borrows inbhearsair for this post-1800 thing; kenning tionndaiche-dealain dropped"
    ]
+  },
+  {
+   "id": "f-fucked-adj",
+   "set": {
+    "sense": "ruined, broken (vulgar; Ròdais says \"gone to ruin\")"
+   },
+   "old": {
+    "sense": "ruined, broken (vulgar in English; Gaelic says \"gone to ruin\")"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-burn-n",
+   "set": {
+    "sense": "stream, brook"
+   },
+   "old": {
+    "sense": "stream (Scots burn)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-apologise-v",
+   "set": {
+    "sense": "say sorry (another spelling of apologize)"
+   },
+   "old": {
+    "sense": "say sorry (British spelling of apologize)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-criticise-v",
+   "set": {
+    "sense": "find fault with (another spelling of criticize)"
+   },
+   "old": {
+    "sense": "find fault with (British spelling of criticize)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-authorise-v",
+   "set": {
+    "sense": "give authority for (another spelling)"
+   },
+   "old": {
+    "sense": "give authority for (British spelling)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-bonnie-adj",
+   "set": {
+    "sense": "pretty, fine (dialect)"
+   },
+   "old": {
+    "sense": "pretty, fine (Scots)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-geo-n",
+   "set": {
+    "sense": "narrow sea-inlet"
+   },
+   "old": {
+    "sense": "narrow sea-inlet (Scots geo)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-carlin-n",
+   "set": {
+    "sense": "old woman (dialect)"
+   },
+   "old": {
+    "sense": "old woman (Scots)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-linn-n",
+   "set": {
+    "sense": "waterfall or pool below it (dialect)"
+   },
+   "old": {
+    "sense": "waterfall or pool below it (Scots)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-auld-adj",
+   "set": {
+    "sense": "old (dialect)"
+   },
+   "old": {
+    "sense": "old (Scots)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-burnside-n",
+   "set": {
+    "sense": "bank of a stream (dialect)"
+   },
+   "old": {
+    "sense": "bank of a stream (Scots)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-thon-det",
+   "set": {
+    "sense": "that yonder (dialect)"
+   },
+   "old": {
+    "sense": "that yonder (Scots)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-awa-adv",
+   "set": {
+    "sense": "away (dialect)"
+   },
+   "old": {
+    "sense": "away (Scots)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-fae-prep",
+   "set": {
+    "sense": "from (dialect)"
+   },
+   "old": {
+    "sense": "from (Scots)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-girdle-n2",
+   "set": {
+    "sense": "flat iron plate for baking (dialect)"
+   },
+   "old": {
+    "sense": "flat iron plate for baking (Scots)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-lough-n",
+   "set": {
+    "sense": "lake (dialect)"
+   },
+   "old": {
+    "sense": "lake (Irish)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-crore-num",
+   "set": {
+    "sense": "ten million"
+   },
+   "old": {
+    "sense": "ten million (Indian English)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-ponce-n",
+   "set": {
+    "sense": "pimp (slang)"
+   },
+   "old": {
+    "sense": "pimp (Brit. slang)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-reel-n1",
+   "set": {
+    "sense": "lively round dance"
+   },
+   "old": {
+    "sense": "lively Scottish dance"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-thane-n",
+   "set": {
+    "sense": "lord holding land of the king"
+   },
+   "old": {
+    "sense": "Scottish lord holding land of the king"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-burgh-n",
+   "set": {
+    "sense": "chartered town"
+   },
+   "old": {
+    "sense": "chartered Scottish town"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-shamrock-n",
+   "set": {
+    "sense": "three-leaved clover"
+   },
+   "old": {
+    "sense": "three-leaved clover, emblem of Ireland"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-corgi-n",
+   "set": {
+    "sense": "short-legged cattle dog"
+   },
+   "old": {
+    "sense": "short-legged Welsh cattle dog"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-druid-n",
+   "set": {
+    "sense": "druid, priest and sage of old"
+   },
+   "old": {
+    "sense": "priest of the ancient Celts"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-mambo-n",
+   "set": {
+    "sense": "lively dance (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "Latin dance (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-parent-n2",
+   "set": {
+    "sense": "parent, begetter"
+   },
+   "old": {
+    "sense": "parent, begetter, progenitor"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-marmalade-n",
+   "set": {
+    "sense": "orange preserve (an old loan)"
+   },
+   "old": {
+    "sense": "orange preserve (old Scots loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-can-n1",
+   "set": {
+    "sense": "tin can, a sealed metal vessel (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "tin can, a sealed metal vessel (a loan of the 1800s)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-technology-n1",
+   "set": {
+    "sense": "technology, the applied science of machines (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "technology, the applied science of machines (a loan of the machine age)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-anime-n",
+   "set": {
+    "sense": "Japanese-style drawn moving pictures (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "Japanese-style drawn moving pictures (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-oxygen-n",
+   "set": {
+    "sense": "the gas that keeps life (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "the gas that keeps life (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-rubber-n",
+   "set": {
+    "sense": "elastic tree-gum (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "elastic tree-gum (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-syndrome-n",
+   "set": {
+    "sense": "group of signs of a disease (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "group of signs of a disease (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-socialist-n",
+   "set": {
+    "sense": "follower of common ownership (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "follower of common ownership (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-clinic-n",
+   "set": {
+    "sense": "place for treating the sick (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "place for treating the sick (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-laser-n",
+   "set": {
+    "sense": "beam of focused light (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "beam of focused light (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-punk-n",
+   "set": {
+    "sense": "rebellious youth style and music (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "rebellious youth style and music (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-radar-n",
+   "set": {
+    "sense": "detection by radio echoes (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "detection by radio echoes (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-electronics-n",
+   "set": {
+    "sense": "craft of electric circuits (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "craft of electric circuits (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-metre-n1",
+   "set": {
+    "sense": "unit of length (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "unit of length (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-marathon-n",
+   "set": {
+    "sense": "long-distance race (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "long-distance race (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-ion-n",
+   "set": {
+    "sense": "charged particle (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "charged particle (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-lesbian-n",
+   "set": {
+    "sense": "woman who loves women (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "woman who loves women (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-synth-n",
+   "set": {
+    "sense": "electronic music keyboard (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "electronic music keyboard (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-aspirin-n",
+   "set": {
+    "sense": "common pain pill (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "common pain pill (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-bungalow-n",
+   "set": {
+    "sense": "single-storey house (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "single-storey house (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-cooker-n",
+   "set": {
+    "sense": "kitchen stove (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "kitchen stove (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-homophobia-n",
+   "set": {
+    "sense": "hatred of same-sex love (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "hatred of same-sex love (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-radiator-n",
+   "set": {
+    "sense": "heating panel (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "heating panel (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-socioeconomic-adj",
+   "set": {
+    "sense": "of society and wealth (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "of society and wealth (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-carb-n",
+   "set": {
+    "sense": "carbohydrate (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "carbohydrate (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-fudge-n",
+   "set": {
+    "sense": "soft butter sweet (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "soft butter sweet (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-kiwi-n",
+   "set": {
+    "sense": "hairy green fruit (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "hairy green fruit (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-limo-n",
+   "set": {
+    "sense": "long luxury car (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "long luxury car (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-mascara-n",
+   "set": {
+    "sense": "eyelash dye (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "eyelash dye (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-millennial-n",
+   "set": {
+    "sense": "person born around the turn of the millennium (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "person born around the turn of the millennium (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-propeller-n",
+   "set": {
+    "sense": "spinning blades that drive a ship or aircraft (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "spinning blades that drive a ship or aircraft (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-ultraviolet-adj",
+   "set": {
+    "sense": "beyond violet in the spectrum (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "beyond violet in the spectrum (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-buggy-n",
+   "set": {
+    "sense": "light carriage; child's pushchair (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "light carriage; child's pushchair (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-photon-n",
+   "set": {
+    "sense": "particle of light (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "particle of light (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-psychopath-n",
+   "set": {
+    "sense": "person without conscience (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "person without conscience (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-volt-n",
+   "set": {
+    "sense": "unit of electric force (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "unit of electric force (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-chopper-n1",
+   "set": {
+    "sense": "helicopter (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "helicopter (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-fracking-n",
+   "set": {
+    "sense": "forcing gas from rock with water (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "forcing gas from rock with water (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-hamster-n",
+   "set": {
+    "sense": "small burrowing pet (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "small burrowing pet (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-scuba-n",
+   "set": {
+    "sense": "underwater breathing gear (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "underwater breathing gear (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-limousine-n",
+   "set": {
+    "sense": "long luxury car (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "long luxury car (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-polka-n",
+   "set": {
+    "sense": "lively dance (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "lively dance (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-boron-n",
+   "set": {
+    "sense": "the element boron (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "the element boron (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-selenium-n",
+   "set": {
+    "sense": "the element selenium (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "the element selenium (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-ethylene-n",
+   "set": {
+    "sense": "a sweet-smelling gas (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "a sweet-smelling gas (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-hydroxide-n",
+   "set": {
+    "sense": "compound of a metal with water (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "compound of a metal with water (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-methylation-n",
+   "set": {
+    "sense": "adding of a methyl group (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "adding of a methyl group (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-xenon-n",
+   "set": {
+    "sense": "the gas xenon (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "the gas xenon (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-radon-n",
+   "set": {
+    "sense": "the gas radon (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "the gas radon (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-toffee-n",
+   "set": {
+    "sense": "chewy sweet of boiled sugar (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "chewy sweet of boiled sugar (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-codeine-n",
+   "set": {
+    "sense": "pain-killing drug (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "pain-killing drug (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-alkyl-n",
+   "set": {
+    "sense": "chemical group (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "chemical group (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-creatine-n",
+   "set": {
+    "sense": "compound in muscle (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "compound in muscle (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-kilowatt-n",
+   "set": {
+    "sense": "a thousand watts (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "a thousand watts (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-radium-n",
+   "set": {
+    "sense": "radioactive metal (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "radioactive metal (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-acetone-n",
+   "set": {
+    "sense": "solvent liquid (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "solvent liquid (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-amine-n",
+   "set": {
+    "sense": "compound of ammonia (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "compound of ammonia (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-chromatin-n",
+   "set": {
+    "sense": "substance of chromosomes (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "substance of chromosomes (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-jute-n",
+   "set": {
+    "sense": "coarse plant fibre (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "coarse plant fibre (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "f-thorium-n",
+   "set": {
+    "sense": "radioactive metal (from the humans' tongue)"
+   },
+   "old": {
+    "sense": "radioactive metal (post-1800 loan)"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
+  },
+  {
+   "id": "a1-do-you-speak-english",
+   "set": {
+    "lit": "is the humans' tongue at you?"
+   },
+   "old": {
+    "lit": "is English at you?"
+   },
+   "why": [
+    "8 in-world: no outside reference in the gloss"
+   ]
   }
  ],
  "add": [
@@ -82745,38 +83563,6 @@
    "pl": "Ruiseanaich",
    "gen": "Ruiseanaich",
    "why": "3 peoples: skipped in out_04 as \"proper noun (people)\"; nationalities and peoples are entries"
-  },
-  {
-   "id": "f-welsh-adj",
-   "en": "Welsh",
-   "rank": 4199,
-   "sense": "of Wales",
-   "pos": "adj",
-   "rod": "Cuimreach",
-   "why": "3 peoples: skipped in out_04 as \"proper adjective from a place name\"; nationalities and peoples are entries"
-  },
-  {
-   "id": "f-welsh-n",
-   "en": "Welsh",
-   "rank": 4199,
-   "sense": "a Welsh person",
-   "pos": "n",
-   "rod": "Cuimreach",
-   "g": "m",
-   "pl": "Cuimrich",
-   "gen": "Cuimrich",
-   "why": "3 peoples: skipped in out_04 as \"proper adjective from a place name\"; nationalities and peoples are entries"
-  },
-  {
-   "id": "f-welsh-n2",
-   "en": "Welsh",
-   "rank": 4199,
-   "sense": "the Welsh language",
-   "pos": "n",
-   "rod": "Cuimris",
-   "g": "f",
-   "gen": "Cuimris",
-   "why": "3 peoples: skipped in out_04 as \"proper adjective from a place name\"; nationalities and peoples are entries"
   },
   {
    "id": "f-caribbean-adj",
@@ -83339,30 +84125,6 @@
    "pl": "Hùnaich",
    "gen": "Hùnaich",
    "why": "3 peoples: skipped in out_15 as \"ethnonym (proper noun)\"; nationalities and peoples are entries"
-  },
-  {
-   "id": "f-latina-n",
-   "en": "Latina",
-   "rank": 12632,
-   "sense": "a woman of Latin American descent",
-   "pos": "n",
-   "rod": "Laideannach",
-   "g": "m",
-   "pl": "Laideannaich",
-   "gen": "Laideannaich",
-   "why": "3 peoples: skipped in out_15 as \"ethnonym / non-English\"; nationalities and peoples are entries"
-  },
-  {
-   "id": "f-latinos-n",
-   "en": "Latinos",
-   "rank": 13507,
-   "sense": "people of Latin American descent (plural: Laideannaich)",
-   "pos": "n",
-   "rod": "Laideannach",
-   "g": "m",
-   "pl": "Laideannaich",
-   "gen": "Laideannaich",
-   "why": "3 peoples: skipped in out_16 as \"demonym (proper noun)\"; nationalities and peoples are entries"
   },
   {
    "id": "f-kurds-n",
@@ -84687,6 +85449,387 @@
    "pos": "adv",
    "rod": "air adhart",
    "why": "7 sense: main sense of a top-5,000 word missing from LEXICON.json"
+  },
+  {
+   "id": "f-samhnas-n",
+   "en": "summer's-end moon",
+   "rank": 16000,
+   "sense": "Samhnas, the first moon-month of the old year; Samhain falls on its first night; an t-Samhain is named from it",
+   "pos": "n",
+   "rod": "Samhnas",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-dubhlas-n",
+   "en": "black moon",
+   "rank": 16000,
+   "sense": "Dubhlas, the second moon-month of the old year, the dark of the year; an Dùbhlachd is named from it",
+   "pos": "n",
+   "rod": "Dubhlas",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-faolach-n",
+   "en": "wolf-moon",
+   "rank": 16000,
+   "sense": "Faolach, the third moon-month of the old year, the storm-time; am Faoilleach is named from it",
+   "pos": "n",
+   "rod": "Faolach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-gearras-n",
+   "en": "short moon",
+   "rank": 16000,
+   "sense": "Gearras, the fourth moon-month of the old year, the short moon or the gelding's moon; Là Fhèill Brìde falls on its first night; an Gearran is named from it",
+   "pos": "n",
+   "rod": "Gearras",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-siolach-n",
+   "en": "seed-moon",
+   "rank": 16000,
+   "sense": "Sìolach, the fifth moon-month of the old year, the seed-time; the civil month in its place is am Màrt",
+   "pos": "n",
+   "rod": "Sìolach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-bearnach-n",
+   "en": "gap-moon",
+   "rank": 16000,
+   "sense": "Bearnach, the sixth moon-month of the old year, the gap between the last of the stores and the first of the green; the civil month in its place is an Giblean",
+   "pos": "n",
+   "rod": "Bearnach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-bealltach-n",
+   "en": "bright-fire moon",
+   "rank": 16000,
+   "sense": "Bealltach, the seventh moon-month of the old year, the first of summer; Bealltainn falls on its first night",
+   "pos": "n",
+   "rod": "Bealltach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-ogach-n",
+   "en": "young moon",
+   "rank": 16000,
+   "sense": "Ògach, the eighth moon-month of the old year; an t-Ògmhios is named from it",
+   "pos": "n",
+   "rod": "Ògach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-teasach-n",
+   "en": "hot moon",
+   "rank": 16000,
+   "sense": "Teasach, the ninth moon-month of the old year",
+   "pos": "n",
+   "rod": "Teasach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-lughnas-n",
+   "en": "Lugh's moon",
+   "rank": 16000,
+   "sense": "Lùghnas, the tenth moon-month of the old year, Lugh's gathering; Lùnastal falls on its first night",
+   "pos": "n",
+   "rod": "Lùghnas",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-pailteach-n",
+   "en": "moon of plenty",
+   "rank": 16000,
+   "sense": "Pailteach, the eleventh moon-month of the old year; the civil month in its place is an t-Sultain",
+   "pos": "n",
+   "rod": "Pailteach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-damhrach-n",
+   "en": "stags' moon",
+   "rank": 16000,
+   "sense": "Damhrach, the twelfth moon-month of the old year, the rut of the deer; an Dàmhair is named from it",
+   "pos": "n",
+   "rod": "Damhrach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-eadrach-n",
+   "en": "between-moon",
+   "rank": 16000,
+   "sense": "Eadrach, the thirteenth moon-month, put in at the end of the old year about every thirty moons to keep the moons with the sun",
+   "pos": "n",
+   "rod": "Eadrach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-intercalary-month-n",
+   "en": "intercalary month",
+   "rank": 16000,
+   "sense": "a month put into the year to keep the moons with the sun; Eadrach",
+   "pos": "n",
+   "rod": "Eadrach",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-moon-month-n",
+   "en": "moon-month",
+   "rank": 16000,
+   "sense": "a month of the moon, 29 or 30 nights, from full moon to full moon",
+   "pos": "n",
+   "rod": "mìos-gealaich",
+   "g": "m",
+   "pl": "mìosan-gealaich",
+   "gen": "mìosa-gealaich",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-lunar-month-n",
+   "en": "lunar month",
+   "rank": 16000,
+   "sense": "a month of the moon",
+   "pos": "n",
+   "rod": "mìos-gealaich",
+   "g": "m",
+   "pl": "mìosan-gealaich",
+   "gen": "mìosa-gealaich",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-night-count-n",
+   "en": "night-count",
+   "rank": 16000,
+   "sense": "the old reckoning of time by nights, the night going before its day; cunntas nan oidhcheannan",
+   "pos": "n",
+   "rod": "cunntas-oidhche",
+   "g": "m",
+   "gen": "cunntais-oidhche",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-bright-half-n",
+   "en": "bright half",
+   "rank": 16000,
+   "sense": "the waxing half of a moon-month, from the dark of the moon to the full",
+   "pos": "n",
+   "rod": "leth geal",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-dark-half-n",
+   "en": "dark half",
+   "rank": 16000,
+   "sense": "the waning half of a moon-month, from the full to the dark of the moon; also the winter half of the year",
+   "pos": "n",
+   "rod": "leth dubh",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-half-moon-n",
+   "en": "half-moon",
+   "rank": 16000,
+   "sense": "half a moon-month, fourteen or fifteen nights; the old unit below the month, where the civil calendar has the week",
+   "pos": "n",
+   "rod": "cola-deug",
+   "g": "m",
+   "pl": "cola-deugan",
+   "gen": "cola-deug",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-rest-night-n",
+   "en": "rest-night",
+   "rank": 16000,
+   "sense": "a night of the full or the dark of the moon, on which no ore was cut and no nets set",
+   "pos": "n",
+   "rod": "oidhche-thàmh",
+   "g": "f",
+   "pl": "oidhcheannan-tàmh",
+   "gen": "oidhche-thàmh",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-era-n2",
+   "en": "era",
+   "rank": 16000,
+   "sense": "a count of years from the first event of an age; Linn an Dubhain, the Dubhan Era",
+   "pos": "n",
+   "rod": "linn",
+   "g": "f",
+   "pl": "linntean",
+   "gen": "linne",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-sunwise-adv",
+   "en": "sunwise",
+   "rank": 16000,
+   "sense": "with the right shoulder to the centre, following the sun",
+   "pos": "adv",
+   "rod": "diosal",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-diosal-n",
+   "en": "Diosal",
+   "rank": 16000,
+   "sense": "the sunwise turn of the fleet at Seann Skell, from which the old count of years ran; bliadhnaichean an Diosail, the years of the Diosal",
+   "pos": "n",
+   "rod": "Diosal",
+   "g": "m",
+   "gen": "Diosail",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-table-of-the-ages-n",
+   "en": "table of the ages",
+   "rank": 16000,
+   "sense": "Clàr nan Aoisean, the Library's table dividing the island's past into ages",
+   "pos": "n",
+   "rod": "Clàr nan Aoisean",
+   "g": "m",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-vein-era-n",
+   "en": "Vein Era",
+   "rank": 16000,
+   "sense": "the era of the Ancient Age, counted from the crack in the stone; VE",
+   "pos": "n",
+   "rod": "Linn na Fèithe",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-flame-era-n",
+   "en": "Flame Era",
+   "rank": 16000,
+   "sense": "the era of the Holy Age, counted from the Binding of the First Flame; FE",
+   "pos": "n",
+   "rod": "Linn an Teine",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-landfall-era-n",
+   "en": "Landfall Era",
+   "rank": 16000,
+   "sense": "the era of the Age of Sundering, counted from the finding of the land across the water; LE",
+   "pos": "n",
+   "rod": "Linn na Tìre",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-anchor-era-n",
+   "en": "Anchor Era",
+   "rank": 16000,
+   "sense": "the era of the Age of Strangers, counted from the Crossing; AE",
+   "pos": "n",
+   "rod": "Linn an Acair",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-severance-era-n",
+   "en": "Severance Era",
+   "rank": 16000,
+   "sense": "the era of the Age of the Kingdom, counted from the Severance and the settling of the north; SE",
+   "pos": "n",
+   "rod": "Linn an Dealachaidh",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-dubhan-era-n",
+   "en": "Dubhan Era",
+   "rank": 16000,
+   "sense": "the era of the Age of Dubhan, counted from the first working dubhan; DE",
+   "pos": "n",
+   "rod": "Linn an Dubhain",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-ancient-age-n",
+   "en": "Ancient Age",
+   "rank": 16000,
+   "sense": "the first age of the island, from the crack in the stone to the Binding",
+   "pos": "n",
+   "rod": "An Aois Àrsaidh",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-holy-age-n",
+   "en": "Holy Age",
+   "rank": 16000,
+   "sense": "the second age, from the Binding of the First Flame to the finding of the land",
+   "pos": "n",
+   "rod": "An Aois Naomh",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-age-of-sundering-n",
+   "en": "Age of Sundering",
+   "rank": 16000,
+   "sense": "the third age, from the finding of the land to the Crossing",
+   "pos": "n",
+   "rod": "An Aois Scaraidh",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-age-of-strangers-n",
+   "en": "Age of Strangers",
+   "rank": 16000,
+   "sense": "the fourth age, from the Crossing to the Severance",
+   "pos": "n",
+   "rod": "An Aois Choigreach",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-age-of-the-kingdom-n",
+   "en": "Age of the Kingdom",
+   "rank": 16000,
+   "sense": "the fifth age, from the Severance to the first working dubhan",
+   "pos": "n",
+   "rod": "An Aois Rìoghachd",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-age-of-dubhan-n",
+   "en": "Age of Dubhan",
+   "rank": 16000,
+   "sense": "the sixth age, from the first working dubhan to the present",
+   "pos": "n",
+   "rod": "An Aois Dhubhain",
+   "g": "f",
+   "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
   }
  ],
  "drop": [
@@ -85133,6 +86276,110 @@
   {
    "id": "f-letter-n2",
    "why": "4 conflict: duplicate of f-letter-n1 (same English, Ròdais and part of speech)"
+  },
+  {
+   "id": "f-british-adj1",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-scottish-adj",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-irish-adj",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-irish-n",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-celtic-adj",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-scots-n1",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-scots-n2",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-scotch-n",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-brit-n",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-scot-n",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-gaelic-n",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-gaelic-adj",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-highlander-n2",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-welsh-adj",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-welsh-n",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-welsh-n2",
+   "why": "names a land or people outside the island; not in the island dictionary"
+  },
+  {
+   "id": "f-english-adj1",
+   "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-english-n2",
+   "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-latin-n",
+   "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-sterling-n",
+   "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-anglo-n1",
+   "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-latino-n",
+   "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-saxon-n",
+   "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-englishman-n",
+   "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-latina-n",
+   "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-latinos-n",
+   "why": "names a land or people outside the island"
   }
  ]
 }

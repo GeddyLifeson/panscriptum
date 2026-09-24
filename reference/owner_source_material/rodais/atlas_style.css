@@ -2,7 +2,7 @@
    Fonts: https://fonts.googleapis.com/css2?family=Almendra+SC&family=Lugrasimo&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap */
   :root{
     --obsidian:#0c0a10; --parchment:#e9ddc8; --parchment-dim:#b6ab97;
-    --myth:#9d6bff; --holy:#d4af37; --sunder:#5fa8a0; --colonial:#b06a3a; --new:#5c7a5e;
+    --myth:#9d6bff; --holy:#d4af37; --sunder:#5fa8a0; --colonial:#b06a3a; --new:#5c7a5e; --kingdom:#5c7a5e; --dubhan:#8fa3c0;
     --hair:#332c3d;
     box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
   }
@@ -50,6 +50,7 @@
   .event[data-cat="myth"]::before{background:var(--myth);} .event[data-cat="holy"]::before{background:var(--holy);}
   .event[data-cat="sunder"]::before{background:var(--sunder);} .event[data-cat="colonial"]::before{background:var(--colonial);}
   .event[data-cat="new"]::before{background:var(--new);}
+  .event[data-cat="kingdom"]::before{background:var(--kingdom);} .event[data-cat="dubhan"]::before{background:var(--dubhan);}
   .event-meta{display:flex; align-items:baseline; gap:10px; margin-bottom:4px; flex-wrap:wrap;}
   .event-date{font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.05em; color:var(--parchment-dim);}
   .event-title{font-family:'Cinzel',serif; font-weight:600; font-size:16px; margin:0 0 5px; display:inline;}
@@ -67,6 +68,7 @@
     background:var(--myth); border:2px solid var(--obsidian); cursor:pointer; box-shadow:0 0 0 0 rgba(157,107,255,0.6);}
   .pin[data-cat="holy"]{background:var(--holy);} .pin[data-cat="sunder"]{background:var(--sunder);}
   .pin[data-cat="colonial"]{background:var(--colonial);} .pin[data-cat="new"]{background:var(--new);}
+  .pin[data-cat="kingdom"]{background:var(--kingdom);} .pin[data-cat="dubhan"]{background:var(--dubhan);}
   .pin.pulse{animation:pulse 1.4s ease-out 2;}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(157,107,255,0.7);} 100%{box-shadow:0 0 0 22px rgba(157,107,255,0);}}
   .popup{position:absolute; z-index:30; max-width:280px; background:rgba(15,12,20,0.97); border:1px solid var(--hair);

@@ -156,9 +156,9 @@ blockquote{margin:1em 0; padding:.2em 1em; border-left:2px solid var(--rubric); 
   <article class="text">
     <button class="more toc-toggle" id="toc-toggle" aria-controls="toc" aria-expanded="false">Contents</button>
     <section class="front" id="top">
-      <p class="eyebrow">The Gaelic of Rodos</p>
+      <p class="eyebrow">The Tongue of Rodos</p>
       <h1>Ròdais</h1>
-      <p class="lede">The tongue of the Ròdaich, spoken on Rodos in every age of its annals: in the harbour towns and the
+      <p class="lede">The tongue of the Ròdaich, spoken on Rodos since the Ancient Age: in the harbour towns and the
         hill shires, in the courts of the kings, and in the copying-rooms of the library at Muileann chaol.</p>
       <div class="sample">
         <div class="ro">{{SAMPLE_RO}}</div>
@@ -171,10 +171,10 @@ blockquote{margin:1em 0; padding:.2em 1em; border-left:2px solid var(--rubric); 
         glossed word by word. <a href="#ch-naming">Names</a> tells how the places and peoples of the island are named, and
         <a href="#ch-texts">Texts</a> has conversations and tales with English beside them. The
         <a href="#dictionary">Dictionary</a> can be searched from either language.</p>
-      <p>Ròdais keeps its old words. For the things the island knew before the humans came, about 1780, it says what
-        the bards said. Some of what the humans brought kept the humans' own names, as <i>bus</i> and <i>rèidio</i> did.
-        For the rest Ròdais made words of its own from old roots: a skyscraper is <i>suathaiche-nèimh</i>,
-        “heaven-grazer”, and a computer <i>inntinn-iarainn</i>, “iron-mind”. Those words are marked ✦ in the dictionary.</p>
+      <p>Ròdais keeps its old words. For the things the island knew before the Crossing it still says what the bards
+        said. Some of the things the humans brought kept the names they came with, as <i>bus</i> and <i>rèidio</i> did.
+        For the rest the island made words of its own from old roots: a skyscraper is <i>suathaiche-nèimh</i>,
+        “heaven-grazer”, and a computer <i>inntinn-iarainn</i>, “iron-mind”. Such words are marked ✦ in the dictionary.</p>
     </section>
     {{CHAPTERS}}
   </article>
@@ -198,15 +198,14 @@ blockquote{margin:1em 0; padding:.2em 1em; border-left:2px solid var(--rubric); 
   <ol class="entries" id="entries"></ol>
   <button class="more" id="more" hidden>Show more</button>
   <p class="legend">Nouns show gender (masculine or feminine), genitive and plural; verbs show the verbal noun.
-    Pronunciation is between slashes (see <a href="#ch-sounds">The sounds</a>). ✦ marks a word Ròdais made from old roots
-    for a thing that came in after about 1780, with its literal sense, and the word Scottish Gaelic uses for the same
-    thing.</p>
+    Pronunciation is between slashes (see <a href="#ch-sounds">The sounds</a>). ✦ marks a word the island made from old roots
+    for a thing that came with the humans or after them, and its literal sense is given beneath it.</p>
 </main>
 
 <script>
 const POS = {{POS}};
 const D = {{DATA}};
-// columns: 0 rod, 1 pos, 2 g, 3 gen, 4 pl, 5 vn, 6 en, 7 sense, 8 lit, 9 scots, 10 kenning, 11 ipa, 12 level
+// columns: 0 rod, 1 pos, 2 g, 3 gen, 4 pl, 5 vn, 6 en, 7 sense, 8 lit, 9 (unused, always empty), 10 kenning, 11 ipa, 12 level
 const fold = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const rkey = s => fold(s).replace(/^(an t-|an |am |a' |na h-|na |'s |')/, '');
 const FR = D.map(r => fold(r[0])), FE = D.map(r => fold(r[6])), FS = D.map(r => fold((r[7] || '') + ' ' + (r[8] || '')));
@@ -230,8 +229,7 @@ function card(i) {
   const r = D[i], k = r[10] ? '<span class="k" title="kenning">✦</span>' : '';
   const ipa = r[11] ? ' <span class="ipa">/' + esc(r[11]) + '/</span>' : '';
   const sense = r[7] ? ' <span class="sense">(' + esc(r[7]) + ')</span>' : '';
-  const lit = (r[8] || r[9]) ? '<div class="lit">' + (r[8] ? 'lit. “' + esc(r[8]) + '”' : '') +
-    (r[9] ? (r[8] ? '; ' : '') + 'compare Scottish Gaelic <i>' + esc(r[9]) + '</i>' : '') + '</div>' : '';
+  const lit = r[8] ? '<div class="lit">lit. “' + esc(r[8]) + '”</div>' : '';
   const lvl = '';
   if (dir === 'en') return '<li class="entry"><div><span class="hw en">' + esc(r[6]) + '</span>' + sense + '</div>' + lvl +
     '<div class="gloss"><span class="ro">' + esc(r[0]) + '</span>' + k + ' <span class="gram">' + gram(r) + '</span>' + ipa + '</div>' + lit + '</li>';

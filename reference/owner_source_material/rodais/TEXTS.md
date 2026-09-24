@@ -1,6 +1,6 @@
 # Ròdais texts
 
-Four conversations and six tales as they are spoken and told on Rodos, each with a line-by-line English translation. Three of the tales have their like in Scottish and Irish tradition; three belong to Rodos alone. A short note under each title points to the grammar it shows.
+Here are four conversations and six tales as they are spoken and told on Rodos, each set line by line beside its English. The first three tales are old, and are told up and down the coasts and the glens; the last three are the island's own legends of the Old Ones, of the coal-blood and of the Tuathaich. A short note under each title says what part of the grammar it shows.
 
 ## Aig a' Chala — *At the Harbour*
 
@@ -21,7 +21,7 @@ Conversation. Polite 'sibh' greetings, 'Is mise...' (copula) for giving a name, 
 
 ## Aig a' Mhargadh — *At the Market*
 
-Conversation. The object of a progressive in the genitive (a' sireadh arain agus èisg, from aran and iasg), the future for an offer or decision (gabhaidh mi), the passive with 'chaidh' (chaidh a dhèanamh), 'is toil leam', and 'dà' + singular noun.
+Conversation. The object of a progressive in the genitive (a' sireadh arain agus èisc, from aran and iasc), the future for an offer or decision (gabhaidh mi), the passive with 'chaidh' (chaidh a dhèanamh), 'is toil leam', and 'dà' + singular noun.
 
 | Ròdais | English |
 |---|---|
@@ -71,7 +71,7 @@ Conversation. Independent and dependent past side by side (An cuala tu? Chuala; 
 
 ## Bean an Ròin — *The Seal Wife*
 
-Tale. Told on the Rodos coast: the seal wife (bean an ròin). Readers will know its like from the selkie legends of the Gaelic west and the Northern Isles. Shows narrative past tense (independent chunnaic, ghoid; dependent cha do thill), the conditional as a habitual past (sheasadh i), and 'nan'/'na' + noun for 'as' (leum iad dhan uisge nan ròin; bha i na bean-phòsta).
+Tale. Told at Ceann Dubh and along the west coast of Rodos: the seal wife (bean an ròin). It shows narrative past tense (independent chunnaic, ghoid; dependent cha do thill), the conditional as a habitual past (sheasadh i), and 'nan'/'na' + noun for 'as' (leum iad dhan uisce nan ròin; bha i na bean-phòsta).
 
 | Ròdais | English |
 |---|---|
@@ -85,7 +85,7 @@ Tale. Told on the Rodos coast: the seal wife (bean an ròin). Readers will know 
 
 ## An t-Each-Uisce — *The Water Horse*
 
-Tale. Told of a loch on Rodos: the water horse (each-uisce) that lengthens as children climb onto it, and the one boy who escapes by cutting off his finger. Readers will know its like from the Highland legends of the each-uisge. Shows the conditional as a habitual past (thigeadh, sheasadh, ruitheadh), impersonal past forms (chan fhacas, cha d' fhuaireadh), the pluperfect with 'air' + object + lenited verbal noun (air an t-each fhaicinn), and an indefinite masculine genitive with lenited, slenderised adjectives (ann an riochd eich bhrèagha ghil).
+Tale. Told of Loch Dubh in the high glens: the water horse (each-uisce) that grows longer as the children climb onto it, and the one boy who gets free by cutting off his own finger. It shows the conditional as a habitual past (thigeadh, sheasadh, ruitheadh), impersonal past forms (chan fhacas, cha d' fhuaireadh), the pluperfect with 'air' + object + lenited verbal noun (air an t-each fhaicinn), and an indefinite masculine genitive with lenited, slenderised adjectives (ann an riochd eich bhrèagha ghil).
 
 | Ròdais | English |
 |---|---|
@@ -100,7 +100,7 @@ Tale. Told of a loch on Rodos: the water horse (each-uisce) that lengthens as ch
 
 ## Fionn agus Bradan an Eòlais — *Fionn and the Salmon of Knowledge*
 
-Tale. Told of a river on Rodos: Fionn and the Salmon of Knowledge. Readers will know its like from the Fenian tales of Fionn mac Cumhaill in Irish and Scottish Gaelic. Shows the dependent past in question and answer (An do bhlais thu? Cha do bhlais), the vocative with lenition and slenderising (a Fhinn), the conditional in reported speech and purpose clauses (gum faigheadh, gus nach loisgeadh), and genitives after compound prepositions (os cionn an teine, ri taobh na linne).
+Tale. Told of a deep pool on the Abhainn mhòr, from the days before there was a king in Cathair dhearg: Fionn and the Salmon of Knowledge. It shows the dependent past in question and answer (An do bhlais thu? Cha do bhlais), the vocative with lenition and slenderising (a Fhinn), the conditional in reported speech and purpose clauses (gum faigheadh, gus nach loisceadh), and genitives after compound prepositions (os cionn an teine, ri taobh na linne).
 
 | Ròdais | English |
 |---|---|
@@ -115,7 +115,7 @@ Tale. Told of a river on Rodos: Fionn and the Salmon of Knowledge. Readers will 
 
 ## Mar a Dh'fhalbh na Seann-Dhaoine — *How the Old Ones Left*
 
-Tale. A Rodos legend of the Old Ones' going. Shows the negative past in subordinate clauses (nuair nach do dh'fhàs, nach do dh'fhalbh), the impersonal past (chan fhacas iad), the relative future after 'ma' (ma dh'èisteas tu), the pre-nominal 'seann', which lenites (Seann Chwen) except before d, t, s and sk (Seann Dunn, Seann Skell), and a feminine genitive with adjective (oidhche na gealaich ùire).
+Tale. The legend of the Old Ones' going, as the fishermen of Seann Dunn tell it. It shows the negative past in subordinate clauses (nuair nach do dh'fhàs, nach do dh'fhalbh), the impersonal past (chan fhacas iad), the relative future after 'ma' (ma dh'èisteas tu), the pre-nominal 'seann', which lenites (Seann Chwen) except before d, t, s and sk (Seann Dunn, Seann Skell), and a feminine genitive with adjective (oidhche na gealaich ùire).
 
 | Ròdais | English |
 |---|---|
@@ -130,7 +130,7 @@ Tale. A Rodos legend of the Old Ones' going. Shows the negative past in subordin
 
 ## Mar a Thàinig an Gual dhan Fhuil — *How Coal Came into the Blood*
 
-Tale. A folk legend, not history: in the chronicle the gift comes from exposure to the ore in the mining camps, first in Aisling (1848 DE). A Rodos legend of the fuil-ghuail (coal-blood), told as hearsay. Shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Ròdaich...).
+Tale. A hearth-tale of the fuil-ghuail (coal-blood), told as hearsay. The chronicles tell it otherwise: there the gift comes from the ore of the mining camps, first in Aisling, in AE 69. It shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Ròdaich...).
 
 | Ròdais | English |
 |---|---|
@@ -145,7 +145,7 @@ Tale. A folk legend, not history: in the chronicle the gift comes from exposure 
 
 ## Carson a Chaidh na Tuathaich gu Tuath — *Why the Tuathaich Went North*
 
-Tale. A folk legend, not history: in the chronicle the Tuathaich descend from the humans settled in the north after the Severance (c. 1930 DE). A Rodos legend told from the Tuathaich side, following on from the coal-blood tale. Shows the relative future after 'nuair a' (nuair a dh'fhaighnicheas), a reported prohibition in the conditional (nach fhaodadh duine...), fronting with 'is ann' and 'cha b' e', 'dà' + lenited singular (an dà shluagh), and genitives after verbal nouns and 'an àite' (a' losgadh mònach an àite guail, clann nan Tuathach).
+Tale. The Tuathaich's own telling, which takes up where the tale of the coal-blood leaves off. The chronicles tell it otherwise: there the Tuathaich come of the humans who settled in the north after the Severance, in SE 1. It shows the relative future after 'nuair a' (nuair a dh'fhaighnicheas), a reported prohibition in the conditional (nach fhaodadh duine...), fronting with 'is ann' and 'cha b' e', 'dà' + lenited singular (an dà shluagh), and genitives after verbal nouns and 'an àite' (a' loscadh mònach an àite guail, clann nan Tuathach).
 
 | Ròdais | English |
 |---|---|

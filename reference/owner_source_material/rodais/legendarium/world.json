@@ -9817,7 +9817,7 @@
 "name": "Fuarain Theth Muileann ruadh",
 "x": 968.56,
 "y": 372.49,
-"note": "A geothermal springs with naturally heated water that provide relaxation and medicinal benefits. Average temperature is 104°F.",
+"note": "Warm springs below Muileann ruadh, whose water comes up out of the mountain at about a hundred and four degrees of the humans' scale. The sick have been bathed here since the Ancient Age for their ease and their healing, and the bath-house over the basins takes in the sick of every rite.",
 "nearest_burg": 229
 },
 {
@@ -9826,7 +9826,7 @@
 "name": "Allt an Àigh",
 "x": 1004.4,
 "y": 328.7,
-"note": "This legendary water source is whispered about in ancient tales and believed to possess mystical properties. The spring emanates crystal-clear water, shimmering with an otherworldly iridescence that sparkles even in the dimmest light.",
+"note": "A holy stream in the east. It is told that whoever drinks of it in the right quarter of the moon will have good fortune, and pilgrims of every rite have walked to it since the Holy Age. Its water is clear as glass and carries a sheen of many colours that glints even in the dimmest light, and it is said never to have failed.",
 "nearest_burg": 279
 },
 {
@@ -9844,7 +9844,7 @@
 "name": "Drochaid Cathair dhearg",
 "x": 614.71,
 "y": 395.79,
-"note": "A stone bridge spans over the river Abhainn dhomhain near Cathair dhearg.",
+"note": "A stone bridge over the Abhainn dhomhain at Cathair dhearg, rebuilt and widened more than once on the same piers. Queen Sìleas's name is cut on the downstream parapet.",
 "nearest_burg": 19
 },
 {
@@ -9853,7 +9853,7 @@
 "name": "Drochaid Ros fhionn",
 "x": 1003.89,
 "y": 233.87,
-"note": "An old crossing of the Ros fhionn River, rarely used since the drying up of local trade.",
+"note": "An old stone crossing of the river above Ros fhionn, first built by Ailean Clachair, whose hearth-sign is still sharp in the keystone. Few have used it since the trade of the district fell away.",
 "nearest_burg": 76
 },
 {
@@ -9862,7 +9862,7 @@
 "name": "Am Buabhall Fortanach",
 "x": 516.81,
 "y": 496.62,
-"note": "A big and famous roadside tavern. Delicious jugged buffalo with shiny water is served here.",
+"note": "A great road-house of the old mining roads, and one of the best known. Its first keeper was Mòr nic Dhùghaill, a widow of Doire shean, and it still serves her jugged buffalo, with shiny water to drink. The War of the Roads was ended under its roof.",
 "nearest_burg": 324
 },
 {
@@ -9871,7 +9871,7 @@
 "name": "An Taigh-òsta Grianach",
 "x": 1052.12,
 "y": 460.49,
-"note": "A big and famous roadside inn. Delicious pan-fried spinach with black wine is served here.",
+"note": "A great road-house on the eastern road, where the carriers from Cnoc leathan meet the southern coast path. It faces south and is known for its warmth, for the songs of Fearchar Bàrd, and for pan-fried spinach with black wine, which it once set before the queen's progress.",
 "nearest_burg": 322
 },
 {
@@ -9880,7 +9880,7 @@
 "name": "An Leòmhann Buidhe",
 "x": 941.34,
 "y": 169.73,
-"note": "A big and famous roadside tavern. Delicious oatcakes fried in linseed oil are served here with fire water.",
+"note": "A great road-house on the northern road above Inis mhòr, raised by Catrìona Ghlic for the carriers of the Hall's baskets. It serves oatcakes fried in linseed oil, with the barley spirit the carriers call fire water.",
 "nearest_burg": 215
 },
 {
@@ -9889,7 +9889,7 @@
 "name": "An Taigh-seinnse Reòta",
 "x": 829.64,
 "y": 222.68,
-"note": "A big and famous roadside tavern. Delicious pickled spinach with fire milk is served here.",
+"note": "A great stone road-house on the bare moor of the northern road, built for carriers caught by the snow. Its fare is pickled spinach with fire milk; a party of reeves once lived on nothing else through a whole season snowed in.",
 "nearest_burg": 74
 },
 {
@@ -9898,7 +9898,7 @@
 "name": "An Taigh-seinnse Òir",
 "x": 1109.4,
 "y": 370.25,
-"note": "A big and famous roadside tavern. Delicious syrupped beef with hot juice is served here.",
+"note": "A great road-house on the eastern road north of Seann Dunn, the first to be raised by a ruler's order, by Mòrag nan Rathad. It is known for syrupped beef, served with hot juice.",
 "nearest_burg": 18
 },
 {
@@ -9907,7 +9907,7 @@
 "name": "An Taigh-seinnse Mòr",
 "x": 727.74,
 "y": 355.92,
-"note": "A big and famous roadside tavern. Delicious steamed carp with green brandy is served here.",
+"note": "The great road-house at the halfway stage of the central mining road, where the ox-teams of the mountain wait out the snow. The brothers Iain Ciar and Alasdair Bàn made their peace under its roof. It serves steamed carp with green brandy.",
 "nearest_burg": 418
 },
 {
@@ -9916,7 +9916,7 @@
 "name": "An Sligeanach Fad' às",
 "x": 972.82,
 "y": 432.54,
-"note": "A big and famous roadside tavern. Delicious dried deer with black water is served here.",
+"note": "The far-off house on the eastern road near the silver country, so far from any town that carriers say one is never nearer to it than halfway. The road-peace was first kept here, and no feud may be followed under its roof. Its fare is dried deer with black water.",
 "nearest_burg": 203
 },
 {
@@ -9925,7 +9925,7 @@
 "name": "Taigh-solais Baile chrom",
 "x": 387.78,
 "y": 170.34,
-"note": "A lighthouse to serve as a beacon for ships in the open sea.",
+"note": "The sea-light on the north-western headland at Baile chrom, the last of the five towers to be built. A fire was kept on this headland in the Ancient Age to warn boats off the water where the Sea-Watcher was seen; the tower is a beacon for ships in the open sea.",
 "nearest_burg": 305
 },
 {
@@ -9934,7 +9934,7 @@
 "name": "Taigh-solais Baile ìseal",
 "x": 1180.71,
 "y": 405.43,
-"note": "A lighthouse to serve as a beacon for ships in the open sea.",
+"note": "The sea-light on the eastern cape at Baile ìseal, the second of the five towers. The households of the coast kept a fire here in the Ancient Age to bring the boats home in a storm, and the tower is a beacon for ships in the open sea.",
 "nearest_burg": 285
 },
 {
@@ -9943,7 +9943,7 @@
 "name": "Taigh-solais Muileann bheag",
 "x": 639.24,
 "y": 91.4,
-"note": "A lighthouse to serve as a beacon for ships in the open sea.",
+"note": "The sea-light on the northern point at Muileann bheag, the fourth of the five towers and the first to burn ore. The ash of the old shore-fire lies three yards deep beneath it. It is a beacon for ships in the open sea.",
 "nearest_burg": 327
 },
 {
@@ -9952,7 +9952,7 @@
 "name": "Taigh-solais Àth dhearg",
 "x": 1080.73,
 "y": 121.83,
-"note": "A lighthouse to serve as a beacon for ships in the open sea.",
+"note": "The sea-light on the north-eastern cape at Àth dhearg, the third of the five towers, marking the passage in toward Seann Tarr. Its keeper Tormod mac Pheadair kept a daybook of every ship he saw. It is a beacon for ships in the open sea.",
 "nearest_burg": 258
 },
 {
@@ -9961,7 +9961,7 @@
 "name": "Taigh-solais Tobar dhearg",
 "x": 961.01,
 "y": 546.3,
-"note": "A lighthouse to serve as a beacon for ships in the open sea.",
+"note": "The sea-light on the southern cape at Tobar dhearg, the first of the five towers. Here the island's first sea-light was raised above the ground, a stone tower with the fire on its top, and it is a beacon for ships in the open sea.",
 "nearest_burg": 398
 },
 {
@@ -9970,7 +9970,7 @@
 "name": "Àraich Muileann ghlas",
 "x": 713,
 "y": 422.23,
-"note": "A historical battle of An Cogadh Fada (the Long War). \r\nDate: December 10, 2021 Diosal Era.",
+"note": "The field of the last great battle of An Cogadh Fada, the Long War, fought on 10 an Dùbhlachd, DE 22. The first and third regiments stood here, and the holdouts were broken.",
 "nearest_burg": 360
 },
 {
@@ -9979,7 +9979,7 @@
 "name": "Àraich Àth leathan",
 "x": 431.89,
 "y": 282.15,
-"note": "A historical battle of An Cogadh Fada (the Long War). \r\nDate: April 11, 2020 Diosal Era.",
+"note": "The field of the first great battle of An Cogadh Fada, the Long War, fought on 11 an Giblean, DE 21. It has been left unploughed, and the Tuathaich have raised a cairn on it.",
 "nearest_burg": 346
 },
 {
@@ -10006,7 +10006,7 @@
 "name": "Uilebheist na Mara",
 "x": 301.8,
 "y": 156.27,
-"note": "Old sailors tell stories of a gigantic sea monster inhabiting these dangerous waters. Rumors say it can be 30 ft long.",
+"note": "Uilebheist na Mara, the Sea-Watcher. Sailors have told of a great beast in these dangerous waters since the Ancient Age, and boats of Baile chrom have been lost here in a calm sea. Some say it is thirty feet long.",
 "nearest_burg": 242
 },
 {
@@ -10015,7 +10015,7 @@
 "name": "Marbh-bheò Doire uaine",
 "x": 942.89,
 "y": 352.07,
-"note": "Inscriptions speak of a feared Undead who inhabits Doire uaine hills and attacks anyone who dares to approach its lair.",
+"note": "Marbh-bheò, the Hollow Man of the Doire uaine hills. Old inscriptions there tell of a thing that walks without breath and falls on any who dare come near its lair or light a fire in its sight. No fire is lit where these hills can see it.",
 "nearest_burg": 148
 },
 {
@@ -10042,7 +10042,7 @@
 "name": "Spùinneadairean-mara",
 "x": 245.26,
 "y": 187.51,
-"note": "Pirate ships have been spotted in these waters.",
+"note": "The raiders' water off the north-west coast. Outlaws put off in boats here in the Holy Age and lived by plundering the fishing strands, and raiders' ships have been seen in these waters in every age since.",
 "nearest_burg": 73
 },
 {
@@ -10051,7 +10051,7 @@
 "name": "Spùinneadairean-mara",
 "x": 1210,
 "y": 383.9,
-"note": "Pirate ships have been spotted in these waters.",
+"note": "The raiders' water off the east coast. Outlaws have raided the eastern strands from the islets offshore since the Holy Age. In the Age of Strangers they burned a Company ore ship here and ran rifles for the silver guild, and their low black boats are still seen.",
 "nearest_burg": 285
 },
 {
@@ -10060,7 +10060,7 @@
 "name": "Spùinneadairean-mara",
 "x": 310.7,
 "y": 216.4,
-"note": "Pirate ships have been spotted in these waters.",
+"note": "The raiders' bays off Cathair gheal on the north-west coast. Raiders have taken the dried fish from these strands since the Holy Age. The fourth fleet found the bays empty after the Long War, but the fishermen say the raiders will be back.",
 "nearest_burg": 73
 },
 {
@@ -10096,7 +10096,7 @@
 "name": "Làrach an Dùin-fhaire",
 "x": 868.47,
 "y": 426.89,
-"note": "Ruins of a walled outpost of the Old Ones on a spur above Cathair mhòr. Its stones are dressed on the outer face only, and its single gate faces inland and was blocked with rubble from the inside. No one knows who built it.",
+"note": "Ruins of a walled outpost of the Old Ones on a spur above Cathair mhòr. Its stones are dressed on the outer face only, and its single gate faces inland and was blocked with rubble from the inside. Who built it is not known.",
 "nearest_burg": 22
 },
 {
@@ -10123,7 +10123,7 @@
 "name": "Leabharlann Muileann chaol",
 "x": 1018.96,
 "y": 286.03,
-"note": "A vast collection of knowledge, including many rare and ancient tomes.",
+"note": "The great library of Muileann chaol, founded in the Age of the Kingdom, with Ailean Leabhar for its first keeper. It holds the fullest record of the island's history that has come down, and many rare and ancient books. 'A chur san Leabharlann', to put it in the Library, is said of anything settled beyond dispute.",
 "nearest_burg": 246
 },
 {
@@ -10132,7 +10132,7 @@
 "name": "An Siorcas Siubhail Do-thuigsinn",
 "x": 470.83,
 "y": 301.98,
-"note": "Roll up, roll up, this incomprehensible circus is here for a limited time only.",
+"note": "An Siorcas Siubhail Do-thuigsinn, the travelling circus that no one understands, pitched on the common near Inis àrsaidh. It stays only a little while and moves on. The magistrate who licensed it entered its acts as 'various'.",
 "nearest_burg": 55
 },
 {
@@ -10141,7 +10141,7 @@
 "name": "An Siorcas Siubhail Do-thuigsinn",
 "x": 646.47,
 "y": 489.78,
-"note": "Roll up, roll up, this incomprehensible circus is here for a limited time only.",
+"note": "An Siorcas Siubhail Do-thuigsinn, the travelling circus that no one understands, where it was first seen, on the southern coast near Seann Chwen. It never stays long, and no one has yet said what its acts are meant to show.",
 "nearest_burg": 14
 },
 {
@@ -10150,7 +10150,7 @@
 "name": "Còmhrag Ceann leathan",
 "x": 856.43,
 "y": 387.73,
-"note": "Warriors from around the land gather for a melee of brutality in Ceann leathan, with fame, fortune and favour on offer to the victor.",
+"note": "The field of the Còmhrag at Ceann leathan. Fighters come from all over the island to its yearly melee, and men have died in it. The winner takes fame and fortune, and the crowd's favour.",
 "nearest_burg": 314
 },
 {
@@ -10159,7 +10159,7 @@
 "name": "Fèill Muileann òg",
 "x": 701.03,
 "y": 442.77,
-"note": "A fair is being held in Muileann òg, with all manner of local and foreign goods and services on offer.",
+"note": "The fair of Muileann òg, held at the ford where the Stone King Raghnall Ceannfhionn and the holder of the Red Hill agreed salt for wool, the oldest meeting-place on the island. Goods of Rodos and of lands over the sea change hands here, and every craft and service is to be had.",
 "nearest_burg": 151
 },
 {
@@ -10168,7 +10168,7 @@
 "name": "Cidhe Beag",
 "x": 858.37,
 "y": 348.11,
-"note": "A small location along the river Abhainn uaine to launch boats from sits here, along with a weary looking owner, willing to sell passage along the river.",
+"note": "Cidhe Beag, the little quay: an old landing on the Abhainn uaine, where boats have been put into the river since the Ancient Age. A ferryman keeps it, a weary-looking man, and he will sell passage along the river.",
 "nearest_burg": 44
 },
 {
@@ -10186,7 +10186,7 @@
 "name": "Tuam Cnoc dhìreach",
 "x": 1076.39,
 "y": 517.05,
-"note": "An eerie necropolis where nature intertwines with death. Overgrown tombstones are entwined by thorny vines, and mournful spirits wander among the fading petals of once-vibrant flowers.",
+"note": "Tuam Cnoc dhìreach, the old burial ground on the hill, whose oldest graves are older than any name that can be read. The thorn grows back over the stones faster than the keepers can clear it, the flowers fade among them, and it is said that the dead walk there and mourn.",
 "nearest_burg": 432
 },
 {

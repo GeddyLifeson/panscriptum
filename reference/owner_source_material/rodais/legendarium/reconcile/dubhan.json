@@ -1,6 +1,6 @@
 {
  "layer": "dubhan",
- "summary": "The owner: 'change charcoal to dubhan'. The good the markets trade as fuel for the forges (record 41, good 34, first Coal, then Charcoal) is dubhan, the fuel made from the spoil of the old workings since 2000 (V-0238). Its 24 hill cells are the spoil-heaps and works it is made at; it is sold by the barrel, as the pumps, tanks and tank-hulls of the annals sell and carry it; its recipe is the spoil (Stone), not wood. Every recipe that burns it (bronze, tools, arms, gunpowder, artillery, coin) keeps it. Markets (42) and deals (43) refer to goods by id and need no change. The economy layer's rename of good 34 to Charcoal is set aside and replaced by this one.",
+ "summary": "The owner: 'change charcoal to dubhan'. The good the markets trade as fuel for the forges (record 41, good 34, first Coal, then Charcoal) is dubhan, the fuel made from the spoil of the old workings since 2000 (VI-0001). Its 24 hill cells are the spoil-heaps and works it is made at; it is sold by the barrel, as the pumps, tanks and tank-hulls of the annals sell and carry it; its recipe is the spoil (Stone), not wood. Every recipe that burns it (bronze, tools, arms, gunpowder, artillery, coin) keeps it. Markets (42) and deals (43) refer to goods by id and need no change. The economy layer's rename of good 34 to Charcoal is set aside and replaced by this one.",
  "skip": [
   {
    "layer": "economy",
@@ -14,14 +14,14 @@
    "path": "[33].name",
    "old": "Coal",
    "value": "Dubhan",
-   "why": "The traded fuel of the present-day markets is dubhan (V-0391: every lamp, engine, ship and lorry runs on it); since the Board's coal and the vein's ore are closed (V-0359, V-0381), the good that feeds the forges is dubhan."
+   "why": "The traded fuel of the present-day markets is dubhan (VI-0154: every lamp, engine, ship and lorry runs on it); since the Board's coal and the vein's ore are closed (VI-0122, VI-0144), the good that feeds the forges is dubhan."
   },
   {
    "record": 41,
    "path": "[33].unit",
    "old": "wain",
    "value": "barrel",
-   "why": "Dubhan is pumped and carried in tanks (V-0254, V-0266, V-0344); the markets count it by the barrel."
+   "why": "Dubhan is pumped and carried in tanks (VI-0017, VI-0029, VI-0107); the markets count it by the barrel."
   },
   {
    "record": 41,

@@ -1,6 +1,6 @@
 # The Second Book: An Aois Naomh, the Holy Age
 
-*3,000 – 40 BDE*
+*FE 1 – 2,960*
 
 > *Làn an dà bhois, agus gun tuilleadh.*
 > The fill of the two palms, and no more.
@@ -175,7 +175,7 @@ The Hall blessed neither side. When Iain's messengers asked at Dùn ìseal for t
 > *Cha bhlàthaich an lasair fir a tha a' dol a mharbhadh.*
 > The flame will not warm men who are going to kill.
 
-"Then we'll burn peat," said Iain. The warband wintered on peat, coughing. The division of keeping had been tried, and it held: the rìgh had the spears and the Keeper had the flame, and neither could take the other's.
+"Then we'll burn peat," said Iain. The warband wintered on peat, coughing. So the division of keeping was tried, and it held. The rìgh had the spears and the Keeper had the flame, and neither could take the other's.
 
 At the ford of Àth fhiadhaich the men of Caol leathan stood in the water and held it for a day. Iain went in with the second rank. He remembered afterward the cold that took his legs at the first step, and the noise, and a man of Caol leathan who fought on with a split shield until a spear from behind Iain found him. By evening they had given way. Forty lay dead of the two sides, and the carriers long called it the ford of the forty, and said the Morrìgan's crows were on it before the light went.
 
@@ -254,7 +254,7 @@ The Keeper Raonaid Dhubh heard both druid schools at Dùn ìseal and gave no rul
 
 No refusal in the Hall's history was quoted more often.
 
-Once more the Old Ones stepped into the tale, as a question. Scholars from Muileann chaol could not read the pillar at Cnoc ghorm, and the people of Cnoc ghorm told them it said *Cha do thàinig sinn; bha sinn ann*: we did not come; we were here. The scholars wrote that the people said so, and no one has explained the stone or the saying since. Men of Baile ghorm dug under Làrach an Dùin for its rumoured riches and found only ash. The Keeper sentenced them as lawbreakers though no law covered the case, and the sentence became the rule for every old place after. The diggers' families did their penance by keeping the road to Tuam Cnoc dhìreach in repair, and it is still called the diggers' road.
+Once more the Old Ones stepped into the tale, as a question. Scholars from Muileann chaol could not read the pillar at Cnoc ghorm, and the people of Cnoc ghorm told them it said *Cha do thàinig sinn; bha sinn ann*: we did not come; we were here. The scholars wrote that the people said so, and there the matter has rested. Men of Baile ghorm dug under Làrach an Dùin for its rumoured riches and found only ash. The Keeper sentenced them as lawbreakers though no law covered the case, and the sentence became the rule for every old place after. The diggers' families did their penance by keeping the road to Tuam Cnoc dhìreach in repair, and it is still called the diggers' road.
 
 ## XI. Of the Shared Meal and the Lean Year
 
@@ -268,7 +268,7 @@ On {{date:II-0179}} the first famine on Rodos was turned back. The shared-meal l
 
 The reeves of Dùn dhearg, who had refused Cathair dhearg their accounts for generations, opened the old granaries of the house of Ìomhar without waiting for an order. The queen wrote that she would have given the order had they waited. The clerk wrote beneath it that they had not waited. The Keepers of later days named that winter in the same breath as the Binding.
 
-Oighrig nic Lachlainn died without an heir of her body, and the line of Goraidh Mòr, as the list reckons it, ended with her. The red hall was shut, and its clerks kept it. The Four Houses met at Dùn ìseal to choose a ruler, since no custom covered a hall without an heir. Sliochd Ìomhair claimed by blood, Sliochd Thormoid through the clerks, and Sliochd Raghnaill through its boats. Sliochd Mhuirich, which held the Keeper's office, made no claim at all. How long the houses sat, and whether the hall stood empty all that while, the tellers cannot say; the rolls put the choosing some years after the meeting, and there the tale moves on.
+Oighrig nic Lachlainn died without an heir of her body, and the line of Goraidh Mòr, as the list reckons it, ended with her. The red hall was shut, and its clerks kept it. The Four Houses met at Dùn ìseal to choose a ruler, since no custom covered a hall without an heir. Sliochd Ìomhair claimed by blood, Sliochd Thormoid through the clerks, and Sliochd Raghnaill through its boats. Sliochd Mhuirich, which held the Keeper's office, made no claim at all. How long the houses sat, and whether the hall stood empty all that while, is not told; the rolls put the choosing some years after the meeting.
 
 ## XII. Of the House of Tormod
 
@@ -314,6 +314,6 @@ When drought burned the pastures of Achadh shean, grain came from Baile chaol an
 
 Mòr nic Coinnich, granddaughter of Coinneach Bàn, received the stone cup from the Keeper Catrìona nic Mhuirich at Dùn ìseal, as Gilleasbuig Mòr had. Hers is the last name in the king-list of the Holy Age. At the close of the age the Keepers' roll held one hundred and forty names from Beathag Bhàn to Catrìona nic Mhuirich, and the king-list more than ninety from Goraidh Mòr to Mòr nic Coinnich. The Small-Burning Law had not changed by a word since Fionnlagh Dall filled the cup, and the cup still stood on the threshold of Talla na Lasrach.
 
-Later chroniclers look back on those years with some unease. The years about {{date:II-0249}} belong to the last age of even population, the final stretch of Rodian history in which no family held meaningfully more years of life than any other. Keepers aged at the pace of carriers, and every ruler died in their time. No one then dreamed this could be lost, so no one wrote it down as a blessing. It is told now because the tellers know what came after.
+Later chroniclers look back on those years with some unease. They call the years about {{year:II-0249}} the last age of even population, the last stretch of the island's history in which no family had more years of life than any other. Keepers aged at the pace of carriers, and every ruler died in their time. No one then dreamed this could be lost, so no one wrote it down as a blessing. It is told now because the tellers know what came after.
 
 Thus ended the Holy Age, with the cup on the threshold and the sea at the island's back, uncrossed and unwished-for. The next age began on that sea. Crews from the western harbours brought word of a land across open water, empty of anyone like the Ròdaich, and none of them claimed to have been first. The report would be heard in the red hall at Cathair dhearg, and it would put to the Ròdaich a question the Keepers had never had to answer: who would choose to go. The Holy Age had counted every hand that held the right to the flame. The next would count those willing to leave it. That is the Age of Sundering, An Aois Scaraidh, and the chroniclers of Muileann chaol tell it in the book that follows.

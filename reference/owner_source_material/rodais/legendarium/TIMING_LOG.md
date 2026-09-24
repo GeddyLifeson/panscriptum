@@ -159,10 +159,10 @@ Counts: Age I 14, Age II 78, Age III 13, Age IV 24, Age V 5 (total 134).
 | Event | Field | Now dated | Why | Phrase |
 |---|---|---|---|---|
 | V-0215 The hungry year that was not | `within` ["V-0210", 1, 1] | 15 an Lùnastal 1992 DE | the harvest of the year after the panthers' crossing | "The harvest after the panthers' crossing is a good one" |
-| V-0322 The field of Àth leathan after | `within` ["V-0318", 0] | 21 an Giblean 2020 DE | the aftermath of Àth leathan in the battle's year | "After Àth leathan" |
-| V-0348 The column goes south | `within` ["V-0318", 0] | 27 an Dùbhlachd 2020 DE | the western campaign (sieges, the last towns, the column's departure) runs in 2020 | "The last two western towns ... open their roads" |
-| V-0351 The fair-ground emptied | `eve` true | 9 an Dùbhlachd 2021 DE | the regiments camp on the fair-ground the night before the battle; the fair's books end without a closing entry | "to give the first and third regiments room to camp" |
-| V-0363 The stone at Cathair mhòr | `within` ["V-0352", 1, 1] | 28 an Dùbhlachd 2022 DE | the stone for the regiments' dead is set up the year after Muileann ghlas | "named on a stone at Cathair mhòr, set up the following year" |
+| VI-0085 The field of Àth leathan after | `within` ["VI-0081", 0] | 21 an Giblean 2020 DE | the aftermath of Àth leathan in the battle's year | "After Àth leathan" |
+| VI-0111 The column goes south | `within` ["VI-0081", 0] | 27 an Dùbhlachd 2020 DE | the western campaign (sieges, the last towns, the column's departure) runs in 2020 | "The last two western towns ... open their roads" |
+| VI-0114 The fair-ground emptied | `eve` true | 9 an Dùbhlachd 2021 DE | the regiments camp on the fair-ground the night before the battle; the fair's books end without a closing entry | "to give the first and third regiments room to camp" |
+| VI-0126 The stone at Cathair mhòr | `within` ["VI-0115", 1, 1] | 28 an Dùbhlachd 2022 DE | the stone for the regiments' dead is set up the year after Muileann ghlas | "named on a stone at Cathair mhòr, set up the following year" |
 
 ## Unresolved, or left by design
 
@@ -183,8 +183,8 @@ Counts: Age I 14, Age II 78, Age III 13, Age IV 24, Age V 5 (total 134).
   Wind "remembered" at Ceann chiar); I-0211 (Achadh shean resettled: I-0135 leaves the date of the return open). The Stone
   Kings' list and the Red Hill list are treated as mythic apart from adjacent pairs, so Seonag nic Uisdein still follows her
   father Uisdean Mòr about 430 years later. Other later mentions: "rìgh after Ealasaid", "great-granddaughter of", "a descendant of".
-- **Months come from a hash.** The Muileann ghlas column (V-0349, V-0350) still camps in June 2021 for a December battle. Only
-  the clearing of the fair-ground (V-0351) is tied to the battle, as its eve. Tolley arrives (IV-0160) a year after Crane dies,
+- **Months come from a hash.** The Muileann ghlas column (VI-0112, VI-0113) still camps in June 2021 for a December battle. Only
+  the clearing of the fair-ground (VI-0114) is tied to the battle, as its eve. Tolley arrives (IV-0160) a year after Crane dies,
   where the text says "months".
 - `reckoning.py` was re-run and `annals_dated.json` rewritten. The years of about 390 events changed (I 123, II 214, III 23, IV 24,
   V 3). `build_book.py` was not re-run, and dates quoted in the books or appendices were not checked.

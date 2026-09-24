@@ -158,14 +158,14 @@ Bare-name follow-ons were handled too: "Ailean claims nothing" became "Goraidh c
 | V-0053 | "and its hall of Feallsanachd an Fhèidh is enlarged twice in the same span" -> "and its hall of Feallsanachd an Fhèidh, shut since the humans' time, is taken for a hewers' lodging and enlarged twice in the same span" | The Deer school is dormant from IV-0247 until the canon revival V-0162. |
 | V-0071 | "He brings with him the council's minute-books … and spends" -> added "takes in the custodians' rolls kept in the town's cellars since the Severance war," | Library hand-off: the rolls the custodians sent to Muileann chaol (IV-0248, IV-0376) pass into the new library. |
 | V-0074 | "A bath-house is built over the hot springs" -> "A new bath-house is built over the hot springs" | The springs have had a bath-house since Age II (II-0063, III-0130, IV-0170). |
-| V-0075 | "At Taigh-solais Baile chrom, the one beacon on the Tuathaich coast," -> "At Taigh-solais Baile chrom, on the Tuathaich coast," | Muileann bheag (marker:14, burg:327) is also a Tuathaich town, as V-0253 says. |
+| V-0075 | "At Taigh-solais Baile chrom, the one beacon on the Tuathaich coast," -> "At Taigh-solais Baile chrom, on the Tuathaich coast," | Muileann bheag (marker:14, burg:327) is also a Tuathaich town, as VI-0016 says. |
 | V-0103 | "the oldest on the west coast" -> "one of the oldest on the west coast" | The Scorpion creed begins at Seann Skell (II-0218, III-0120). |
 | V-0123 | "The lighthouse on the Tuathaich coast" -> "A lighthouse on the Tuathaich coast" | As V-0075. |
 | V-0137 | "The town's silversmiths are chartered as a guild." -> "The town's old silver guild takes a charter under the restored custom." | The silver guild of Muileann chiar already exists and holds the seam in Age IV (IV-0102, IV-0337). |
 | V-0152 | rename "Tormod mac Ailein" -> "Tormod mac Sheumais" | Tormod mac Ailein is the high custodian who signed the first treaty (IV-0005); renamed the royal chronicler Tormod Pinn. |
 | V-0163 | "where the Fèidh had last met before the humans came" -> "where the Fèidh had last met under the humans" | Deer masters taught in this wood during the humans' time (IV-0188). |
 | V-0210 | "named in the Holy Age lists and not seen since." -> "named in the Holy Age lists and not seen in living memory." | A great panther crossing is recorded in Age III (III-0225). |
-| V-0275 | rename "Tormod mac Coinnich" -> "Tormod mac Dhonnchaidh" | Tormod mac Coinnich is the granary reeve of Àth shean in Age III (III-0019); renamed the last master of the Guild of Hewers. |
+| VI-0038 | rename "Tormod mac Coinnich" -> "Tormod mac Dhonnchaidh" | Tormod mac Coinnich is the granary reeve of Àth shean in Age III (III-0019); renamed the last master of the Guild of Hewers. |
 
 ## Checked and left alone
 
@@ -174,5 +174,5 @@ Bare-name follow-ons were handled too: "Ailean claims nothing" became "Goraidh c
 - **Tensions inside the canon itself.** These were left because canon cannot change. II-0001 puts the custodianship "centuries before anything like a king", yet Age I has Stone Kings. The non-canon text already says the list was only "later called" Rìghrean na Cloiche, and the Stone Kings' list now ends with Catrìona Mhòr. V-0176 calls the first failed vein search a Holy Age attempt, but canon I-0144 sets it in Age I. V-0177 follows V-0176.
 - **Four Muileann chiars.** Place refs were checked: burg:419 is the silver town (marker:2), burg:78 has the sacred forest (marker:23) and zone:2, and burg:355 is the "new town" of IV-0172. Every event is on the right one.
 - **Regiments and fleets.** All thirteen stations in Age V match PLACE_FACTS, including the two Seann Skells (seventh regiment at burg:489; ninth regiment and second fleet at burg:431).
-- **The five lighthouses.** The arc now runs as follows. Age I lights fires at all five sites. Age II relights and rebuilds them, with the first stone tower at Tobar dhearg (II-0231). Age IV raises new towers on the old sites under the humans (IV-0048 onward; canon IV-0191). Age V converts them (canon V-0251).
+- **The five lighthouses.** The arc now runs as follows. Age I lights fires at all five sites. Age II relights and rebuilds them, with the first stone tower at Tobar dhearg (II-0231). Age IV raises new towers on the old sites under the humans (IV-0048 onward; canon IV-0191). Age V converts them (canon VI-0014).
 

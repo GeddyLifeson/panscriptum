@@ -7,42 +7,38 @@ and *Sentences*.
 
 ## 0. What Ròdais is
 
-Ròdais is the Gaelic of the island of Rodos, the language of the Ròdaich, who have been the people
-of the island in every age of its record. It is the tongue of the kingdom's schools and courts, of
-the annals and the custody-books, and of nearly every place name on the island; the Tuathaich of the
-north, who keep the humans' tongue at home, live among its names and use its words. Before the
-Ròdaich the Seann-Dhaoine, the Old Ones, held the coasts, and of their speech only place names
-survive, carried inside Ròdais (see *Names*).
+Ròdais is the tongue of the island of Rodos and of the Ròdaich, who have been the people of the
+island since the Ancient Age. It is the tongue of the kingdom's schools and
+courts, of the annals and the custody-books, and of nearly every place name on the island; the
+Tuathaich of the north, who keep the humans' tongue at home, live among its names and use its
+words. Before the Ròdaich the Seann-Dhaoine, the Old Ones, held the coasts, and of their speech
+nothing is left but place names, carried inside Ròdais (see *Names*).
 
-Of the languages beyond Rodos, Ròdais most closely resembles the Gaelic tongues: Scottish Gaelic,
-Irish and the Classical Gaelic of the old bards. Readers who know Scottish Gaelic will recognise its
-grammar and most of its words, and this book compares the two throughout to help them. Ròdais stands
-apart from Scottish Gaelic in three visible ways, and in each it looks Irish in its consonants and
-Scottish in its vowels:
+Four things mark Ròdais at once on the page, and a reader who has them by heart will seldom be
+misled:
 
-| Feature | Scottish Gaelic | Irish | **Ròdais** |
-|---|---|---|---|
-| Long vowels | grave: *mòr, sìth* | acute: *mór, síth* | **grave**: *mòr, sìth* |
-| The cluster /sk/ | *sg*: *sgoil, uisge, sgeul* | *sc*: *scoil, uisce, scéal* | **sc**: *scoil, uisce, sceul* |
-| "Thank you" | *tapadh leat* | *go raibh maith agat* | **gu robh math agad** |
-| "City" | *baile mòr* | *cathair* | **cathair** |
+| Feature | **Ròdais** |
+|---|---|
+| Long vowels | **grave**: *mòr, sìth* |
+| The cluster /sk/ | **sc**: *scoil, uisce, sceul* |
+| "Thank you" | **gu robh math agad** |
+| "City" | **cathair** |
 
-Two of these are matters of spelling and hold without exception in the island's writing: Ròdais
-has no acute accent, only the grave, and inside a word it writes *sc* where Scottish Gaelic writes
-*sg*. So a reader of Scottish Gaelic can read written Ròdais almost at sight. The other two are
-choices of word.
+The first two are matters of spelling and hold without exception in the island's writing: Ròdais
+has no acute accent, only the grave, and it writes the cluster /sk/ as *sc* and never otherwise.
+The other two are matters of the word-hoard, and the most often heard.
 
-A few words exist only on Rodos: *Ròdos* (the island), *Ròdais* (the language), *Ròdach* (a
-Ròdais person, pl. *Ròdaich*), *Tuathach* (a northerner, pl. *Tuathaich*), *Seann-Dhaoine* (the
-Old Ones), *Rìoghachd Ròdais* (the kingdom), *Cathair dhearg* (the capital). *Gual* (coal) carries
-extra weight: *fuil-ghuail* "coal-blood" is what the Ròdaich call the gift that sets them apart
-from the Tuathaich.
+Some words belong to the island's own story more than others: *Ròdos* (the island), *Ròdais* (the
+language), *Ròdach* (a Ròdais person, pl. *Ròdaich*), *Tuathach* (a northerner, pl. *Tuathaich*),
+*Seann-Dhaoine* (the Old Ones), *Rìoghachd Ròdais* (the kingdom), *Cathair dhearg* (the capital).
+*Gual* (coal) is heavier with meaning than its plain sense: *fuil-ghuail*, "coal-blood", is what the
+Ròdaich call the gift that sets them apart from the Tuathaich.
 
 ## 1. Sounds and spelling
 
-The full sound system (inventory, allophony, the helping vowel, hiatus, stress, the sound of every
-mutation, letter-by-letter reading rules, a key for English speakers and worked transcriptions) is
-set out in *The sounds*. In short:
+The full sound system (the sounds themselves and their variants, the helping vowel, hiatus, stress,
+the sound of every mutation, the rules for reading each letter, a key for the reader and worked
+transcriptions) is set out in *The sounds*. In short:
 
 **Vowels.** Short *a e i o u*, long *à è ì ò ù*. Broad: *a o u à ò ù*. Slender: *e i è ì*. The
 grave accent marks length only; Ròdais has no acute.
@@ -67,16 +63,17 @@ g* are plain, voiceless *p t k*. *h* after a consonant marks lenition:
 | sh, th | h | *shuidh, thuirt* |
 | sc | sk (unaspirated) | *scoil* |
 
-Where the Gaelic tongues differ, Ròdais sides with the older sound: *cnoc* is [kʰn̪ˠɔʰk] with the
-old *kn*, which most Scottish dialects have lost, not the modern [kʰɾɔ̃ʰk] (*The sounds* §12–13).
+Ròdais is conservative in its sounds and keeps old ones that the spelling might tempt a reader to
+let slip: *cnoc* is [kʰn̪ˠɔʰk], with the *n* fully sounded after the *c*, never [kʰɾɔ̃ʰk] with the *n*
+turned to a nasal *r* (*The sounds* §12–13).
 
 **Stress** falls on the first syllable of a word, except in a few adverbs that begin with a
 particle: *a-màireach*, *an-diugh*, *an-dè*. Between *l, n, r* and a following *b, bh, g, ch, m,
-mh* a helping vowel is heard: *dearg* [ˈtʃɛɾɛk], *Alba* [ˈal̪ˠapə].
+mh* a helping vowel is heard: *dearg* [ˈtʃɛɾɛk], *albam* [ˈal̪ˠapəm].
 
-**Hyphens and apostrophes.** Written as in Scottish Gaelic: *t-* and *h-* and *n-* prefixes are
-hyphenated (*an t-uisce, na h-eileanan, ar n-athair*); elision uses a plain apostrophe (*a'
-bhean, dh'òl, m' athair*).
+**Hyphens and apostrophes.** The *t-* and *h-* and *n-* prefixes are hyphenated (*an t-uisce, na
+h-eileanan, ar n-athair*); elision is marked with a plain apostrophe (*a' bhean, dh'òl, m'
+athair*).
 
 ## 2. Mutations
 
@@ -87,8 +84,8 @@ Ròdais has two initial mutations.
     b > bh   c > ch   d > dh   f > fh   g > gh   m > mh   p > ph   s > sh   t > th
 
 Not lenited: vowels; *l, n, r* (lenited in speech, never in writing); *sc, sp, st, sm* (and the
-*sk-* of substrate roots: *Seann Skell*); and, after a word ending in *n* (the article, *seann*,
-*aon*), words beginning *d, t, s* — the "dental block": *an taigh, seann duine, aon sagart*.
+*sk-* of the Old Ones' roots: *Seann Skell*); and, after a word ending in *n* (the article, *seann*,
+*aon*), words beginning *d, t, s*: this is the "dental block", as in *an taigh, seann duine, aon sagart*.
 After *cha* only *d* and *t* are blocked.
 
 Lenition is caused by: the possessives *mo, do, a* "his"; *glè* "very"; *ro* "too"; the past tense
@@ -146,8 +143,8 @@ Plural adjectives add *-a/-e*: *taighean mòra*. A few adjectives go before the 
 
 **Place names are the exception.** In a place name the qualifier is lenited after every generic,
 masculine or feminine: *Baile ghorm, Cnoc bheag, Dùn thais*. In speech an adjective after a
-masculine noun stays plain (*baile gorm*). Ròdais keeps the always-lenited form as a fixed naming
-pattern, the way English keeps *Newcastle* as one word (see *Names*).
+masculine noun stays plain (*baile gorm*). Ròdais keeps the always-lenited form as a fixed usage of
+naming, as old compounds are kept whole after the speech around them has moved on (see *Names*).
 
 **Predicate adjectives** use *tha*: *Tha an taigh mòr* "the house is big". With *gu* before them
 they become adverbs: *gu math* "well", *gu luath* "quickly". *Glè* "very" lenites: *glè mhath*.
@@ -170,7 +167,7 @@ gile*. Irregulars: *math → fheàrr*, *dona → miosa*, *mòr → motha*, *beag
 | you (pl. and polite) | sibh | sibhse |
 | they | iad | iadsan |
 
-*Sibh* is the polite singular as well as the plural, as in Scottish Gaelic.
+*Sibh* is the polite singular as well as the plural.
 
 **Possessives** come before the noun:
 
@@ -184,8 +181,7 @@ gile*. Irregulars: *math → fheàrr*, *dona → miosa*, *mòr → motha*, *beag
 | your (pl.) | ur | ur n- |
 | their | an (am before b, f, m, p) | an |
 
-For many relationships (friends, possessions not part of oneself) Ròdais, like Scottish Gaelic,
-prefers *aig* + article: *an taigh agam* "my house" (lit. the house at-me). Body parts, close
+For many relationships (friends, possessions not part of oneself) Ròdais prefers *aig* + article: *an taigh agam* "my house" (lit. the house at-me). Body parts, close
 family and the like take the possessive: *mo cheann*, *mo mhàthair*.
 
 ## 6. Prepositions and prepositional pronouns
@@ -279,7 +275,7 @@ verb to echo.
 | imperative | **bi!**, **bithibh!** | | **na bi** |
 | verbal noun | **bhith** (*a bhith*) | | |
 
-*Bi* is for existence, location and states: *Tha mi scìth* "I am tired" (Scottish *sgìth*),
+*Bi* is for existence, location and states: *Tha mi scìth* "I am tired",
 *Tha e anns a' chidsin* "he is in the kitchen".
 
 ### 7.4 The copula *is*
@@ -299,7 +295,7 @@ welcome).
 
 ### 7.5 Irregular verbs
 
-Ten verbs are irregular, the same ten that are irregular in Scottish Gaelic.
+Ten verbs are irregular. They are among the commonest in the language, and much use has worn them.
 
 | root | meaning | past | dep. past | future | dep. future | conditional | verbal noun |
 |---|---|---|---|---|---|---|---|
@@ -361,8 +357,8 @@ unchanged: *a Aisling!*
 | 100 | ceud | |
 | 1000 | mìle | |
 
-Ròdais counts in tens (the modern decimal system); the older vigesimal forms (*dà fhichead* "40")
-are understood and used for ages and in old texts. Ordinals: *a' chiad* "first" (lenites),
+Ròdais now counts in tens; the older count by twenties (*dà fhichead* "40") is understood by all
+and still used for ages and in old texts. Ordinals: *a' chiad* "first" (lenites),
 *an dàrna*, *an treas*, *an ceathramh*, *an còigeamh*.
 
 ## 11. Time and weekdays
@@ -370,67 +366,64 @@ are understood and used for ages and in old texts. Ordinals: *a' chiad* "first" 
 *an-diugh* today, *a-màireach* tomorrow, *an-dè* yesterday, *a-nochd* tonight, *a-nis* now,
 *an-uiridh* last year. Days: *Diluain, Dimàirt, Diciadain, Diardaoin, Dihaoine, Disathairne,
 Didòmhnaich*. Months: *am Faoilleach, an Gearran, am Màrt, an Giblean, an Cèitean, an t-Ògmhios,
-an t-Iuchar, an Lùnastal, an t-Sultain, an Dàmhair, an t-Samhain, an Dùbhlachd*.
+an t-Iuchar, an Lùnastal, an t-Sultain, an Dàmhair, an t-Samhain, an Dùbhlachd*. The week and its
+day names came with the Mission; the months are the civil months. The older reckoning by the moon
+has its own names, *Samhnas, Dubhlas, Faolach, Gearras, Sìolach, Bearnach, Bealltach, Ògach, Teasach,
+Lùghnas, Pailteach, Damhrach* and the between-moon *Eadrach*. Years are counted by eras, *linntean*
+(*Sentences* §9.7).
 
-## 12. Ròdais beside Scottish Gaelic and Irish
+## 12. Ròdais on the page
 
-For a reader who knows Scottish Gaelic or Irish, Ròdais on the page lines up with them in a few
-steady ways:
+The written usage of the island is steady, and a few points of it are worth having in one place:
 
-1. Its spelling follows the same conventions as standard Scottish Gaelic (the Gaelic Orthographic
-   Conventions), except as below.
-2. Ròdais says *cathair* for "city", as Irish does, and *gu robh math agad / agaibh* for "thank
-   you", close to the Irish *go raibh maith agat*.
-3. Ròdais has no acute accent: every long vowel carries the grave, where Irish writes the acute.
-   Where Scottish Gaelic writes *sg*, Ròdais writes *sc*, as Irish does. The apostrophe is always
-   the plain straight one.
-4. *Caol le caol* holds in Ròdais as in Scottish Gaelic, and the same handful of common words stand
-   outside it (§1).
+1. The spelling is the one the scribes of the kingdom write and the Library at Muileann chaol keeps
+   in its books; the rules of letter and sound are set out in *The sounds*.
+2. Ròdais says *cathair* for "city", and *gu robh math agad / agaibh* for "thank you".
+3. Ròdais has no acute accent: every long vowel carries the grave. The cluster /sk/ is written
+   *sc*. The apostrophe is always the plain straight one.
+4. *Caol le caol* holds throughout, and only a small handful of common words stand outside it
+   (§1).
 
 ## 13. How Ròdais names new things
 
-Ròdais keeps an old voice. The line falls at about 1800, a generation after the humans came in
-1780, when the peoples of Rodos began to mix:
+Ròdais keeps an old voice. The line falls at about AE 20, a generation after the Crossing brought the
+humans in AE 1, when the peoples of Rodos began to mix:
 
-- **Things known on Rodos before about 1800 kept the old native word**, and where two words were
-  current and the old one was still understood, the older or bardic word (*lighiche*, not
+- **Things known on Rodos before about AE 20 kept the old native word**, and where two words were
+  current and the old one was still understood, the older or the bards' word held (*lighiche*, not
   *dotair*; *filidh*, *cath*, *laoch*). Old borrowings stayed (*leabhar, eaglais*).
-- **Things that came in from about 1800 on could keep a plain loan** from the humans' tongue,
-  written in Ròdais spelling: *bus, tacsaidh, rèidio, ogsaidean*. Scottish Gaelic took the same
-  words in the same way.
-- **Where Scottish Gaelic coined a word** (a compound or calque made up for the new thing, like
-  *bàta-smùide* "steam-boat"), Ròdais made its own instead, a **kenning** built from the oldest
-  known synonym of each part, as a bard would have named the thing. In the first generations after
-  the Crossing the Ròdaich named nearly every new thing in this way, loans to hand or not, and many
-  of those kennings are still the usual words, so some of the examples below stand where Scottish
-  Gaelic has a plain loan.
+- **Things that came in from about AE 20 onward could keep a plain loan** from the humans' tongue,
+  written in Ròdais spelling: *bus, tacsaidh, rèidio, ogsaidean*.
+- **Where a new thing wanted a name of its own**, Ròdais made a **kenning**: a compound built from
+  the oldest known word for each part, as a bard would have named the thing. In the first
+  generations after the Crossing the Ròdaich named nearly every new thing in this way, whether a
+  loan lay to hand or not, and many of those kennings are still the common words.
 
-| English | Ròdais | literally | modern Scottish Gaelic |
-|---|---|---|---|
-| skyscraper | *suathaiche-nèimh* | heaven-grazer | *tùr-speur* |
-| jet lag | *suain-siubhail* | travel-drowsiness | *sgìths-itealaich* |
-| computer | *inntinn-iarainn* | iron-mind | *coimpiutair* |
-| aeroplane | *eun-iarainn* | iron-bird | *plèana* |
-| television | *scàthan-sceòil* | tale-mirror | *telebhisean* |
-| telephone | *guth-sreinge* | string-voice | *fòn* |
-| robot | *gille-iarainn* | iron-lad | *robot* |
-| black hole | *slugaire-solais* | light-swallower | *toll dubh* |
+| English | Ròdais | literally |
+|---|---|---|
+| skyscraper | *suathaiche-nèimh* | heaven-grazer |
+| jet lag | *suain-siubhail* | travel-drowsiness |
+| computer | *inntinn-iarainn* | iron-mind |
+| aeroplane | *eun-iarainn* | iron-bird |
+| television | *scàthan-sceòil* | tale-mirror |
+| telephone | *guth-sreinge* | string-voice |
+| robot | *gille-iarainn* | iron-lad |
+| black hole | *slugaire-solais* | light-swallower |
 
-Families formed of themselves: machines are *iarainn* (of iron), films and screens are *scàil* and
-*scàthan* (shadow, mirror), electricity is *dealan* (spark) and *dealanach* (lightning).
+The kennings soon fell into families of their own accord: machines are *iarainn* (of iron), films
+and screens are *scàil* and *scàthan* (shadow, mirror), electricity is *dealan* (spark) and
+*dealanach* (lightning).
 
-The kennings are made in a steady way:
+They are made after a settled fashion:
 
-1. **Old roots only.** The parts are old words of the language, the words of the bards' verse
-   (readers of the Gaelic tongues will know them from Old, Middle and Classical Gaelic and early
-   Scottish Gaelic): *nèamh, speur, teine, gual, iarann, guth, dealbh, cuimhne, siubhal, suain,
-   sceul*. For each part the oldest word for it is taken; a modern international root (*tele-,
-   fòn-, eileactr-, meatair*) never enters a kenning.
-2. **Head first, then the describer**, hyphenated, the describer in the genitive where Gaelic
+1. **Old roots only.** The parts are old words of the language, the words of the bards' verse and
+   the old tales: *nèamh, speur, teine, gual, iarann, guth, dealbh, cuimhne, siubhal, suain,
+   sceul*. For each part the oldest word for it is taken; a root that came in with the humans'
+   learning (*tele-, fòn-, eileactr-, meatair*) never enters a kenning.
+2. **Head first, then the describer**, hyphenated, the describer in the genitive where the grammar
    wants it: *suain-siubhail* (drowsiness of travel), *guth-sreinge* (voice of a string).
 3. **Two elements, three at most.**
-4. **Each part obeys caol le caol**, which old words do anyway.
+4. **Each part obeys caol le caol**, as old words do of themselves.
 
-In the Dictionary these words are marked ✦, with their literal English sense and the modern
-Scottish Gaelic word in the same place (written in Ròdais spelling), so the difference between the
-two tongues stays on record.
+In the Dictionary these words are marked ✦ and given with their literal sense, so that the picture
+in each name is not lost as the name grows common.

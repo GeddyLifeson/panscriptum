@@ -7,7 +7,7 @@
    "path": ".units.distance.scale",
    "old": 4,
    "value": 0.2,
-   "why": "At 4 miles to the map unit Rodos would be some 3,500 miles across, which no line of the history allows: Cathair dhomhain and the capital are 'a few miles apart' (II-0138, 36 units), Muileann ghlas is 'within a day's walk' of Cathair dhearg (V-0350, 109 units), and the northern wool goes to Muileann òg 'a week on the road' by cart (V-0147, about 330 units). 0.2 miles to the unit fits all three (7 mi, 22 mi, 66 mi) and makes the island about 175 miles from west to east. It also makes the quest journey (record 52) take nine days instead of five months, and the ruler (record 46) read 221 miles. Azgaar redraws the scale bar from this value on load; the saved scale-bar text in record 5 may show the old figure until then."
+   "why": "At 4 miles to the map unit Rodos would be some 3,500 miles across, which no line of the history allows: Cathair dhomhain and the capital are 'a few miles apart' (II-0138, 36 units), Muileann ghlas is 'within a day's walk' of Cathair dhearg (VI-0113, 109 units), and the northern wool goes to Muileann òg 'a week on the road' by cart (V-0147, about 330 units). 0.2 miles to the unit fits all three (7 mi, 22 mi, 66 mi) and makes the island about 175 miles from west to east. It also makes the quest journey (record 52) take nine days instead of five months, and the ruler (record 46) read 221 miles. Azgaar redraws the scale bar from this value on load; the saved scale-bar text in record 5 may show the old figure until then."
   },
   {
    "record": 35,
@@ -388,7 +388,7 @@
    "path": "[3].name",
    "old": "Frith-rathad Cuan bheag",
    "value": "An Rathad Tuath",
-   "why": "Named for the history: the high northern road from the central mountains through Baile Mòr dhomhain and the pass at Muileann fhada, where An Taigh-seinnse Reòta stands (II-0105, III-0187, V-0268)."
+   "why": "Named for the history: the high northern road from the central mountains through Baile Mòr dhomhain and the pass at Muileann fhada, where An Taigh-seinnse Reòta stands (II-0105, III-0187, VI-0031)."
   },
   {
    "record": 37,

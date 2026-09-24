@@ -11,7 +11,6 @@ The book has two parts:
                  and the texts (TEXTS.md), with a contents list
     Dictionary   every entry of LEXICON.json, searchable in both directions (Ròdais and English), with
                  gender, genitive, plural, verbal noun, pronunciation, and for a kenning its literal sense
-                 and the Scottish Gaelic word for the same thing
 
 The book is written from inside the world: the build stops if a chapter still names a file.
 
@@ -69,7 +68,7 @@ def chapter_html(cid, path):
 
 
 SENSE_FIX = [(re.compile(r'\((?:a )?post-1800 loan\)|\(a loan of the 1800s\)|\(a loan of the machine age\)'), "(from the humans' tongue)"),
-             (re.compile(r'\(old Scots loan\)'), '(an old loan)')]
+             (re.compile(r'\(old Scots loan\)'), '(an old loan)')]   # older LEXICON.json files; merge_lexicon now writes these in-world
 
 
 def sense(s):
@@ -84,7 +83,7 @@ def dictionary_data():
     for e in lex:
         rows.append([e.get('rod', ''), e.get('pos', ''), e.get('g', ''), e.get('gen', ''), e.get('pl', ''),
                      e.get('vn', '') if e.get('vn') != e.get('rod') else '', e.get('en', ''), sense(e.get('sense', '')),
-                     e.get('lit', ''), e.get('scots', '') if e.get('kenning') else '', 1 if e.get('kenning') else 0,
+                     e.get('lit', ''), '', 1 if e.get('kenning') else 0,
                      e.get('ipa', ''), e.get('level', '')])
     stats = {'entries': len(rows), 'english': len({r[6].lower() for r in rows}),
              'kennings': sum(r[10] for r in rows)}

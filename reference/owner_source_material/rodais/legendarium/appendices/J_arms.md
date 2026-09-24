@@ -1,12 +1,12 @@
 ## Appendix J — The Arms of Rodos
 
-This appendix sets down the arms of the kingdom, of its hundred and twenty-three shires and of its towns, as Clàr nan Suaicheantas, the roll of arms kept by the council and copied to Leabharlann Muileann chaol, records them. It gives each shire's arms in full, the arms of the capital and of the great cities, and an account of the town arms by kind. Where the record says what a charge means, or when and why it was granted, this appendix says so. Where it does not, the arms are given and nothing more is claimed.
+Here are set down the arms of the kingdom, of its hundred and twenty-three shires and of its towns, as they stand in Clàr nan Suaicheantas, the roll of arms kept by the council and copied to Leabharlann Muileann chaol. Each shire's arms are given in full, with the arms of the capital and of the great cities, and an account of the town arms by kind. Where the roll tells what a charge means, or when and why it was granted, that is told here; where it does not, the arms are given and no more is said.
 
 ### I. How Rodos came by its arms
 
-**Signs before arms.** Rodos had carved signs long before it had arms. The oldest is the hawk over a door at Àth mhòr, older than any rite ({{date:I-0131}}). The road-guards of Caol leathan swore on a white stone carved as a wolf ({{date:II-0100}}). At Seann Vell a scorpion was cut in yellow stone for worship ({{date:II-0219}}), and the harbours of the order of the Stone still line their quays with wolf-head posts. These are the signs of the orders and of towns. None of them was borne on a shield, and none of them is a grant.
+**Signs before arms.** Rodos had carved signs long before it had arms. The oldest is the hawk over a door at Àth mhòr, older than any rite ({{date:I-0131}}). The road-guards of Caol leathan swore on a white stone carved as a wolf ({{date:II-0100}}). At Seann Vell a scorpion was cut in yellow stone for worship ({{date:II-0219}}), and the harbours of the order of the Stone still line their quays with wolf-head posts. These are the signs of the orders and of towns. None was ever borne on a shield, and none was ever granted.
 
-**The custody's seal.** The first arms on the island were the seal of the vein-house above Muileann dhearg: a trellis of gold on blue with a hollow lozenge, the mascle, laid over it. The custodians read the trellis as the galleries of the mountain and the mascle as the slab laid over the first break ({{date:I-0003}}). No roll says when the seal was first cut. When the crown and the custody were joined, the king's letters were sealed with it, and the crown added only a white band across the field ({{date:III-0138a}}). Those are the arms of the kingdom still. The seven houses of custody sealed with the custody's seal and kept no badges of their own that the record knows.
+**The custody's seal.** The first arms on the island were the seal of the vein-house above Muileann dhearg: a trellis of gold on blue with a hollow lozenge, the mascle, laid over it. The custodians read the trellis as the galleries of the mountain and the mascle as the slab laid over the first break ({{date:I-0003}}). No roll says when the seal was first cut. When the crown and the custody were joined, the king's letters were sealed with it, and the crown added only a white band across the field ({{date:III-0138a}}). Those are the arms of the kingdom still. The seven houses of custody sealed with the custody's seal, and if they had badges of their own no roll remembers them.
 
 **Under the humans.** The Residency and the Company sealed with their own devices, and the custody's seal went out of use. The Administration's district seals were cut in the humans' manner, on a shield with a rounded foot.
 
@@ -14,11 +14,11 @@ This appendix sets down the arms of the kingdom, of its hundred and twenty-three
 
 **The town arms.** The clerks of the first chronicle circuit copied the seal of every town they visited into the roll ({{date:V-0080a}}), and from then on the roll held the arms of all five hundred and five places. In the north most of the arms were copied from the humans' old town seals, because few Tuathaich would show the clerks their own.
 
-**Changes since.** The roll has been changed once at an order's asking. The Hawk houses of Siorrachd Cnoc bheag, having seated their own custodian, asked for a hawk on the shire's arms, and the council granted it ({{date:V-0132a}}). The coinage seal lost its obsidian ink ({{date:V-0287}}), but the arms on it were not changed, and the high custodian's protest was about the ink ({{date:V-0288}}).
+**Changes since.** The roll has been changed once at an order's asking. The Hawk houses of Siorrachd Cnoc bheag, having seated their own custodian, asked for a hawk on the shire's arms, and the council granted it ({{date:V-0132a}}). The coinage seal lost its obsidian ink ({{date:VI-0050}}), but the arms on it were not changed, and the high custodian's protest was about the ink ({{date:VI-0051}}).
 
 ### II. How the arms are read
 
-The arms are given here in plain heraldic English. The field is named first, then any partition, then the ordinaries (the broad bands and crosses), then the charges. The colours are:
+The arms are blazoned here in the plain terms of heraldry, rendered in English. The field is named first, then any partition, then the ordinaries (the broad bands and crosses), then the charges. The colours are:
 
 | Tincture | Colour |
 |---|---|
@@ -39,7 +39,7 @@ The arms are given here in plain heraldic English. The field is named first, the
 
 The trellis and the mascle are the custody's. The fess, a white band between two thin ones, is the crown's addition at the joining ({{date:III-0138a}}). Macha's order had been the court's order for four centuries before the joining ({{date:III-0089}}), and no king put her horses on the seal. The house of Òrd Mhacha at Cathair dhearg keeps the regalia ({{date:V-0033}}), and the seal has never been in its keeping.
 
-Nineteen shires and a hundred and five towns bear the crown's trellis in their own arms, and sixty-seven towns bear the mascle. The roll says only that the trellis was granted where a shire asked for the crown's colours. It does not say why these asked and others did not. No Tuathaich town bears the trellis. The mascle is on the arms of one Tuathaich shire, Siorrachd Caol mhòr, and of two Tuathaich towns, Caol mhòr and Cnoc uaine.
+Nineteen shires and a hundred and five towns bear the crown's trellis in their own arms, and sixty-seven towns bear the mascle. The roll says only that the trellis was granted where a shire asked for the crown's colours; why these asked and others did not, it does not tell. No Tuathaich town bears the trellis. The mascle is on the arms of one Tuathaich shire, Siorrachd Caol mhòr, and of two Tuathaich towns, Caol mhòr and Cnoc uaine.
 
 ### IV. The arms of the shires
 
@@ -51,7 +51,7 @@ The shires are given in the order of the roll.
 | 2 | {{place:province:2}} | {{place:burg:1}} | Argent, on a fess cotised gules three lions passant argent. | The roll calls the three beasts on the fess lions. In Caol leathan they are called the wolves of the gate, after the white stone on which the road-guards swore their watch ({{date:II-0100}}). |
 | 3 | {{place:province:3}} | {{place:burg:489}} | Per bend sinister azure and argent, a point in base counterchanged, over all a scorpion Or. | Seann Skell of the west. The shire of Manannan's order, whose teaching was declared at Seann Skell ({{date:III-0120}}). The scorpion, badge of Manannan's Cup of Truth, was set over the arms at the house's asking when the roll was made ({{date:V-0015b}}). No other shire bears one. |
 | 4 | {{place:province:4}} | {{place:burg:431}} | Per fess barbed azure and argent, a pair of bones in saltire Or in chief, a compass rose gules in base. | Seann Skell of the south. The seat of the high custodian of Òrd Bhrìde ({{date:V-0029}}). |
-| 5 | {{place:province:5}} | {{place:burg:27}} | Gules, three Maltese crosses Or, two and one. |  |
+| 5 | {{place:province:5}} | {{place:burg:27}} | Gules, three crosses of eight points Or, two and one. |  |
 | 6 | {{place:province:6}} | {{place:burg:20}} | Per fess gules and Or, within an orle of twelve crescent moons argent a falcon argent. | The shire of the Hawk order. The roll first gave it a white billet. The hawk replaced it at the Hawk houses' asking ({{date:V-0132a}}). |
 | 7 | {{place:province:7}} | {{place:burg:95}} | Argent, three mascles purpure, two and one. | Heater shield. |
 | 8 | {{place:province:8}} | {{place:burg:475}} | Per pale azure and Or, on the dexter side an anchor argent, on the sinister side a feather vert. | Caol bheag of the north-east. |
@@ -100,7 +100,7 @@ The shires are given in the order of the roll.
 | 51 | {{place:province:51}} | {{place:burg:132}} | Azure trellised Or, an armillary sphere Or. | Seann Skell of the north. Where the dawn-hawk rite began ({{date:II-0158}}) and where the Fed Hawk were sent ({{date:III-0142}}). It bears the crown's field and no hawk. |
 | 52 | {{place:province:52}} | {{place:burg:106}} | Or, on a canton sable a mascle Or. | The crown's mascle in a canton. |
 | 53 | {{place:province:53}} | {{place:burg:31}} | Sable, three bulls' heads caboshed Or, two and one. |  |
-| 54 | {{place:province:54}} | {{place:burg:435}} | Quarterly dentilly purpure and argent, in the first quarter a cross of Toulouse Or; in the second quarter a rabbit sejant purpure; in the third quarter a dragon passant azure; in the fourth quarter an orb argent. |  |
+| 54 | {{place:province:54}} | {{place:burg:435}} | Quarterly dentilly purpure and argent, in the first quarter a cross clechy voided and pommetty Or; in the second quarter a rabbit sejant purpure; in the third quarter a dragon passant azure; in the fourth quarter an orb argent. |  |
 | 55 | {{place:province:55}} | {{place:burg:90}} | Azure, a longship argent. |  |
 | 56 | {{place:province:56}} | {{place:burg:438}} | Argent, a stirrup azure. |  |
 | 57 | {{place:province:57}} | {{place:burg:12}} | Papelonny gules and argent, a pall argent. |  |
@@ -183,7 +183,7 @@ Of the hundred and twenty-three shires, twelve bear the heater: the eleven Tuath
 |---|---|---|---|---|
 | {{place:burg:19}} | {{place:province:1}} | 10,300 | Ermine, flaunches gules. | The capital reads its ermine as the black and white of Macha's floors, and the flaunches as the red of the red city. |
 | {{place:burg:489}} | {{place:province:3}} | 74,100 | Or, a cross azure, three dolphins Or in pale. | The seat of Manannan's order and the largest town on Rodos. Its own arms bear dolphins; the scorpion is on its shire's arms. |
-| {{place:burg:27}} | {{place:province:5}} | 51,600 | Argent, a Maltese cross purpure. |  |
+| {{place:burg:27}} | {{place:province:5}} | 51,600 | Argent, a cross of eight points purpure. |  |
 | {{place:burg:23}} | {{place:province:24}} | 49,300 | Gules, a cross paty argent. |  |
 | {{place:burg:365}} | {{place:province:27}} | 35,900 | Azure trellised Or, three mascles argent, two and one. | The crown's field with the hollow stone three times over. |
 | {{place:burg:166}} | {{place:province:15}} | 34,900 | Per chevron reversed argent masoned sable and gules, a pale azure. | Masoned, like the arms of its shire. |
@@ -198,7 +198,7 @@ Of the hundred and twenty-three shires, twelve bear the heater: the eleven Tuath
 | {{place:burg:255}} | {{place:province:44}} | 21,100 | Quarterly azure trellised Or and argent, an orle Or. |  |
 | {{place:burg:297}} | {{place:province:49}} | 20,900 | Azure trellised Or, four mascles argent, two, one and one. |  |
 
-**The seats and holy towns.** Towns not among the great cities whose arms the record has cause to mention.
+**The seats and holy towns.** Other towns whose arms have a part in the history.
 
 | Town | Shire | People | Arms | Notes |
 |---|---|---|---|---|
@@ -211,9 +211,9 @@ Of the hundred and twenty-three shires, twelve bear the heater: the eleven Tuath
 
 ### VI. The beasts of the orders on the roll
 
-Most of the orders of the Old Faith have a beast: the Hawk order its hawk, the druid schools Flidais's stag, Macha's order the black horse and the grey, the order of the Stone the wolf of its Fianna, and Manannan's order the yellow scorpion of his Cup. The roll does not carry them as a reader of the orders might expect, and the orders have asked for them only twice.
+Most of the orders of the Old Faith have a beast: the Hawk order its hawk, the druid schools Flidais's stag, Macha's order the black horse and the grey, the order of the Stone the wolf of its Fianna, and Manannan's order the yellow scorpion of his Cup. The roll bears them seldom, and seldom where one who knows the orders would look for them; the orders have asked for them only twice.
 
-**The Hawk.** Mòd, the Hawk of Acaill, is on one shield in the roll, the arms of Siorrachd Cnoc bheag, and only since the Hawk houses asked for him ({{date:V-0132a}}). No town bears a hawk. The northern Seann Skell, where the rite began, bears the crown's field, and Àth mhòr, with the oldest hawk on the island over a door, bears ploughshares. The three falcons of Siorrachd Doire shean are in the country of the Stone, and the record does not explain them.
+**The Hawk.** Mòd, the Hawk of Acaill, is on one shield in the roll, the arms of Siorrachd Cnoc bheag, and only since the Hawk houses asked for him ({{date:V-0132a}}). No town bears a hawk. The northern Seann Skell, where the rite began, bears the crown's field, and Àth mhòr, with the oldest hawk on the island over a door, bears ploughshares. The three falcons of Siorrachd Doire shean are in the country of the Stone, and no roll explains them.
 
 **Macha's horses.** No arms on the roll bear Dubh Sainglenn as the wood-watchers told of him, the black horned beast of the wood. The order's houses show the black horse and the grey only in the black and white of their floors ({{date:III-0198}}), and the capital reads its own ermine, black on white, in that way. The capital's shire bears a horseman, and {{place:burg:165}}, a town of Macha's order, a horse's head; the roll does not say that either is hers. The horses on the arms of Muileann leathan and its shire are in Tuathaich church country, and nobody reads them as Macha's.
 

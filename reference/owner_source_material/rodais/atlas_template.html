@@ -85,8 +85,9 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
   <header>
     <p class="kicker">RÌOGHACHD RÒDAIS · the annals</p>
     <h1>The Annals of Rodos</h1>
-    <p>Every remembered event of the five ages, from the crack in the stone to the present year, each on its day.
-      Events with a place carry a map button: it opens the map and flies there. ◆ marks the events of the
+    <p>Every remembered deed of the six ages, from the crack in the stone to the present year, each set on its day
+      and dated in the era of its age.
+      Where a deed has a place, a map button stands beside it and carries you there. ◆ marks the entries of the
       royal chronicle itself.</p>
   </header>
   <div class="tl-tools">
@@ -114,7 +115,7 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
 <script>
 var EVENTS = /*EVENTS*/[];          // [id, age, date, title, body, placeRef|null, canon]
 var PLACES = /*PLACES*/{};          // ref -> {name, kind, facts, founded, by, history, known}
-var AGES = /*AGES*/[];              // [key, ròdais name, english name, css var, span]
+var AGES = /*AGES*/[];              // [key, ròdais name, english name, css var, span in its era, era, era abbreviation]
 var ready = false, pending = null;
 
 function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -132,12 +133,12 @@ var ageOn = {}, canonOnly = false;
 function buildTimeline(){
   var chips = '', html = '', cur = null;
   AGES.forEach(function(a){ ageOn[a[0]] = true;
-    chips += '<button class="chip" style="--c:var(' + a[3] + ')" aria-pressed="true" data-age="' + a[0] + '" onclick="toggleAge(\'' + a[0] + '\')">' + a[0] + '</button> '; });
+    chips += '<button class="chip" style="--c:var(' + a[3] + ')" aria-pressed="true" data-age="' + a[0] + '" title="' + esc(a[2] + ' · ' + a[5] + ', ' + a[4]) + '" onclick="toggleAge(\'' + a[0] + '\')">' + a[0] + ' · ' + a[6] + '</button> '; });
   document.getElementById('agechips').innerHTML = chips;
   var agec = {}; AGES.forEach(function(a){ agec[a[0]] = a; });
   EVENTS.forEach(function(e, n){
     if (e[1] !== cur) { cur = e[1]; var a = agec[cur];
-      html += '<h2 class="tl-age" id="age-' + cur + '" data-age="' + cur + '" style="color:var(' + a[3] + ')">Age ' + cur + ' · ' + a[1] + '<small>' + a[2] + ', ' + a[4] + '</small></h2>'; }
+      html += '<h2 class="tl-age" id="age-' + cur + '" data-age="' + cur + '" style="color:var(' + a[3] + ')">Age ' + cur + ' · ' + a[1] + '<small>' + a[2] + ' · ' + a[5] + ', ' + a[4] + '</small></h2>'; }
     var go = e[5] && PLACES[e[5]] ? '<button class="go" onclick="flyToEvent(' + n + ')">◎ ' + esc(PLACES[e[5]].name) + '</button>' : '';
     html += '<div class="te' + (e[6] ? ' canon' : '') + '" id="te-' + n + '" data-age="' + e[1] + '" style="--c:var(' + agec[e[1]][3] + ')"><span></span><div>' +
       '<div class="d">' + esc(e[2]) + '</div><div class="t">' + md(e[3]) + (e[6] ? ' <span style="color:var(--holy);font-size:.7em">◆</span>' : '') + '</div><div class="b">' + md(e[4]) + '</div></div>' + go + '</div>';
