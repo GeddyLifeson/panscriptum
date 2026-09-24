@@ -1,10 +1,11 @@
 """
-build_book.py -- assemble the legendarium of Rodos from its sources.
+build_book.py -- assemble the legendarium of Dia-thìr from its sources.
 
     python build_book.py        -> LEGENDARIUM.md (the whole record as plain text; the Atlas's Book tab shows it)
 
 Sources, all in this folder:
     annals_dated.json       every event of the six ages, dated by reckoning.py
+    book/creation.md        the Telling of the Making, which stands before the Six Books
     book/age_I..VI.md       the prose account of each age
     appendices/*.md         the appendices, in file-name order
     appendices/houses.json  the houses and their people (optional), dated here
@@ -20,7 +21,7 @@ Writers never type dates. In any .md source:
     {{reckonyear:A:B:KEY}}  just its year
     {{place:REF}}           a place by map id (burg:19, marker:3, province:1, zone:0, river:5, feature:2)
 
-build_atlas.py imports this module to put the same record into the Rodos Atlas.
+build_atlas.py imports this module to put the same record into the Dia-thìr Atlas.
 """
 import glob
 import html
@@ -262,6 +263,14 @@ def md_to_html(md, prefix, toc):
 
 
 # ---------------------------------------------------------------- the parts of the book
+def creation_part(rec):
+    """The Telling of the Making (book/creation.md), set before the Six Books; None if it is missing."""
+    p = os.path.join(HERE, 'book', 'creation.md')
+    if not os.path.exists(p):
+        return None
+    return ('book-creation', None, rec.resolve(open(p, encoding='utf-8').read()))
+
+
 def prose_parts(rec):
     parts = []
     for k in AGES:
@@ -282,7 +291,7 @@ def appendix_parts(rec):
 def houses_html(rec):
     if not rec.houses:
         return ''
-    out = ['<h2 id="houses">The Houses of Rodos</h2>']
+    out = ['<h2 id="houses">The Houses of Dia-thìr</h2>']
     for h in rec.houses:
         hid = 'house-' + slug(h.get('house', ''))
         out.append('<h3 id="%s">%s</h3>' % (hid, inline(h.get('house', ''))))
@@ -361,14 +370,17 @@ def gazetteer_html(rec):
 def compose(rec, link_places=True):
     """(toc, body html) of the whole record: prose, annals, appendices, houses, gazetteer."""
     toc, body = [], []
+    making = creation_part(rec)
+    if making:
+        body.append('<section class="book prologue age-myth" id="%s">%s</section>' % (making[0], md_to_html(making[2], making[0], toc)))
     prose = prose_parts(rec)
     if prose:
         toc.append((1, 'part-tale', 'The Tale of the Six Ages'))
     for pid, k, md in prose:
         rn, en, cat = AGE_NAMES[k]
         body.append('<section class="book age-%s" id="%s">%s</section>' % (cat, pid, md_to_html(md, pid, toc)))
-    toc.append((1, 'part-annals', 'The Annals of Rodos'))
-    body.append('<section class="annals" id="part-annals"><h2>The Annals of Rodos</h2><p class="lede">Every remembered event of the six ages, '
+    toc.append((1, 'part-annals', 'The Annals of Dia-thìr'))
+    body.append('<section class="annals" id="part-annals"><h2>The Annals of Dia-thìr</h2><p class="lede">Every remembered event of the six ages, '
                 'in order, each on its day. %d events.</p>%s</section>' % (len(rec.events), annals_html(rec, link_places)))
     for k in AGES:
         toc.append((2, 'annals-' + k, 'Age %s · %s' % (k, AGE_NAMES[k][0])))
@@ -378,10 +390,10 @@ def compose(rec, link_places=True):
     for pid, _, md in apps:
         body.append('<section class="app" id="%s">%s</section>' % (pid, md_to_html(md, pid, toc)))
     if rec.houses:
-        toc.append((2, 'houses', 'The Houses of Rodos'))
+        toc.append((2, 'houses', 'The Houses of Dia-thìr'))
         body.append('<section class="app">%s</section>' % houses_html(rec))
     toc.append((1, 'part-gaz', 'Gazetteer'))
-    body.append('<section class="gazetteer" id="part-gaz"><h2>A Gazetteer of Rodos</h2><p class="lede">Every town of the island, by '
+    body.append('<section class="gazetteer" id="part-gaz"><h2>A Gazetteer of Dia-thìr</h2><p class="lede">Every town of the island, by '
                 'shire: when and by whom it was founded, its history, and what the annals record there.</p>%s</section>' % gazetteer_html(rec))
     return toc, '\n'.join(body)
 
@@ -453,10 +465,13 @@ ul.tree li{margin:6px 0;}
 
 
 def to_markdown(rec):
-    out = ['# The Legendarium of Rodos', '']
+    out = ['# The Legendarium of Dia-thìr', '']
+    making = creation_part(rec)
+    if making:
+        out += [plain(making[2]), '']
     for _, k, md in prose_parts(rec):
         out += [plain(md), '']
-    out += ['# The Annals of Rodos', '']
+    out += ['# The Annals of Dia-thìr', '']
     for k in AGES:
         out += ['## Age %s · %s' % (k, AGE_NAMES[k][0]), '', '*%s · %s, %s*' % (AGE_NAMES[k][1][0].upper() + AGE_NAMES[k][1][1:],
                                                                          reckoning.ERA[k][4], reckoning.display_span(k)), '']
@@ -467,7 +482,7 @@ def to_markdown(rec):
         out.append('')
     for _, _, md in appendix_parts(rec):
         out += [plain(md), '']
-    out += ['# A Gazetteer of Rodos', '']
+    out += ['# A Gazetteer of Dia-thìr', '']
     letter = None
     for bid, b in sorted(rec.burg.items(), key=lambda kv: fold(kv[1]['name'])):
         g = rec.gaz.get(bid)

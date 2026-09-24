@@ -80,7 +80,7 @@ where two of them, or a proposal and the rest of the record, disagreed.
 8. **H's totals after the land layer lowered the frozen coast's people.** Land cut the rural population of the
    81 unshired cells and the ice edge of shire 120 (1.22 million → about 21 thousand). Recounted from the map:
    heads within the shires 36,225,000 → 35,412,000; head-due 6,521 → 6,374 purses; market-due (the rest of the
-   9,568-purse roll) 3,047 → 3,194; Tuathaich in the country within the shires 4,046,000 → 3,234,000; Ròdaich
+   9,568-purse roll) 3,047 → 3,194; Tuathaich in the country within the shires 4,046,000 → 3,234,000; Dia-thìrich
    unchanged; still one in seven in a burg and two parts in three of the roll from heads. The Moot's tally of the
    frozen coast is seven thousand (land's own text edit). The shire table's burg counts and cultures do not
    depend on population or biome and did not change. Two table notes that land's terrain corrections made wrong
@@ -92,7 +92,7 @@ where two of them, or a proposal and the rest of the record, disagreed.
    (state's V-0014b island shires keeps its id) and G's three references follow. V-0015a (state's dues, heraldry's
    roll of arms): heraldry's became V-0015b and J's references follow. Events sharing an anchor are listed in id
    order; chains (IV-0342a..e) follow their parent.
-10. **The ore line twice.** Military's IV-0243a (1899) and markers' IV-0236a (1895–1905) were the same railway.
+10. **The coal line twice.** Military's IV-0243a (1899) and markers' IV-0236a (1895–1905) were the same railway.
     One event is kept, IV-0243a, with military's date and place and the markers layer's carters of Doire chaol on
     Rathad na Mèinne; IV-0236a is dropped. Its line runs Muileann chrom – Cathair dhearg – Ros dhomhain, which
     agrees with V-0058a and VI-0022.
@@ -134,7 +134,7 @@ added to `check_rodais.py`: every reconcile edit is in the map (a fresh `reconci
 
 ## Left open
 
-- Routes 119 and 233 carried short stretches of the queen's and ore roads as trails; they are now cut into road
+- Routes 119 and 233 carried short stretches of the queen's and coal roads as trails; they are now cut into road
   and trail pieces (loose_ends.json, below), and the roads have no gaps.
 - The railway cannot be drawn: FMG has no railway route group.
 - The states' rural totals now follow the cells as the cultures' do (below). The religions and provinces records
@@ -145,11 +145,11 @@ added to `check_rodais.py`: every reconcile edit is in the map (a fresh `reconci
 ## The three faiths (faiths.json)
 
 Applied last. Record 29 is set to four entries: 0 *Gun chreideamh*; 1 *An Creideamh Sean* (organised,
-polytheist, Ròdaich, deity *an Dagda*, centre Dùn ìseal, cell 3104); 2 *Na Seann Spioradan* (folk, shamanic,
-Ròdaich, deity *na Sìthichean*, centre Seann Dunn of the east coast, cell 2933, since the climate pass); 3 *An Eaglais* (organised, monotheist, Tuathaich,
+polytheist, Dia-thìrich, deity *an Dagda*, centre Dùn ìseal, cell 3104); 2 *Na Seann Spioradan* (folk, shamanic,
+Dia-thìrich, deity *na Sìthichean*, centre Seann Dunn of the east coast, cell 2933, since the climate pass); 3 *An Eaglais* (organised, monotheist, Tuathaich,
 deity *Crìosd*, centre Doire ghlas, cell 480). The list is compacted (ids 0–3), not kept at ten with six marked
 removed, so world.json and the Religions editor hold only what exists. The cells (record 26) are renumbered:
-the six Ròdaich orders' cells (old 4–8, and old 3 where the cell is Ròdaich) → 1; old 2 → 2; the Tuathaich
+the six Dia-thìrich orders' cells (old 4–8, and old 3 where the cell is Dia-thìrich) → 1; old 2 → 2; the Tuathaich
 cells (old 1, old 9, and old 3 where the cell is Tuathaich) → 3; 0 stays. Burgs: 315 / 126 / 64 (505); land
 cells 1,787 / 616 / 385. `map_reconcile.py` has a `replace_religions` edit for this; on a map that already
 holds the new list it passes over the earlier record-29 edits and checks each earlier record-26 edit against

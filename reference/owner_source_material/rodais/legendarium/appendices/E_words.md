@@ -1,12 +1,12 @@
 ## Appendix E — Words Born from History
 
-Here are gathered the words, names and sayings of Ròdais that the island's history made, or bent to a new sense. They are set out in the manner of a historical dictionary. Each entry gives the headword and its part of speech, what it says word for word, what it has come to mean, the event that gave it that meaning, and a line from the annals or the six books.
+Here are gathered the words, names and sayings of Dia-thìris that the island's history made, or bent to a new sense. They are set out in the manner of a historical dictionary. Each entry gives the headword and its part of speech, what it says word for word, what it has come to mean, the event that gave it that meaning, and a line from the annals or the six books.
 
-At the heart of it stands the chronicle's own list of *Words Born from History*, and every word on that list is entered here with the meaning the chronicle gives it. The rest are taken from the annals and the books: titles and offices, laws and customs, the names of storms, places and quarrels, and the sayings that the annals quote. A few are the words that Ròdais made for the strangers' things. Ròdais took few words from the humans, and most of those late (Appendix F). Where the humans said *train*, *engine* or *strike*, the island made a name out of old roots, and some of those names are entered here under the years in which the annals first had need of them.
+At the heart of it stands the chronicle's own list of *Words Born from History*, and every word on that list is entered here with the meaning the chronicle gives it. The rest are taken from the annals and the books: titles and offices, laws and customs, the names of storms, places and quarrels, and the sayings that the annals quote. A few are the words that Dia-thìris made for the strangers' things. Dia-thìris took few words from the humans, and most of those late (Appendix F). Where the humans said *train*, *engine* or *strike*, the island made a name out of old roots, and some of those names are entered here under the years in which the annals first had need of them.
 
 ### How to Read an Entry
 
-The headword is given in full. An article (*an*, *am*, *a'*) is written with it but not counted in the order, which is the island's order of eighteen letters, *a b c d e f g h i l m n o p r s t u*, the grave accent being ignored. Dates are given in the era of each age (Appendix D). Where no annal marks the first use of a word, the entry says so and gives only the event from which the word comes. Citations are given as the sources give them: the annals as this history renders their prose, the verses in Ròdais (Appendix F, *Of Translation*).
+The headword is given in full. An article (*an*, *am*, *a'*) is written with it but not counted in the order, which is the island's order of eighteen letters, *a b c d e f g h i l m n o p r s t u*, the grave accent being ignored. Dates are given in the era of each age (Appendix D). Where no annal marks the first use of a word, the entry says so and gives only the event from which the word comes. Citations are given as the sources give them: the annals as this history renders their prose, the verses in Dia-thìris (Appendix F, *Of Translation*).
 
 *n.* noun · *m.*, *f.* masculine, feminine · *pl.* plural · *v.* verb · *v.n.* verbal noun · *adj.* adjective · *phr.* phrase or saying · *lit.* literally
 
@@ -24,19 +24,27 @@ An unnaturally long youth in anyone; said half in jest of ordinary people who lo
 
 **Àrd-choimheadaiche** *n. m.* · lit. "high watcher"
 The high custodian of Òrd Bhrìde, the order of Brìde's flame, seated at Seann Skell. The office came when the Rite was set in order ({{date:V-0028}}), and Dòmhnall mac Thormoid was the first to hold it ({{date:V-0029}}). It is not the "high custodian" of the Age of Strangers, who headed the Council of Custodians; the two share a name in translation, and nothing more.
-> "The Àrd-choimheadaiche at Seann Skell writes to every house of the Rite that the new fuel is not forbidden, since it is not ore, and not blessed, since it is not ore." — annals, {{year:VI-0009}}
+> "The Àrd-choimheadaiche at Seann Skell writes to every house of the Rite that the new fuel is not forbidden, since it is not coal, and not blessed, since it is not coal." — annals, {{year:VI-0009}}
 
 #### B
 
+**Binnean a' Chlachair** *n. m.* · lit. "the Mason's point"
+The highest summit of the island. When the gold coal had woken in the sea, the Mason's children carried the coals that were left to the highest point they knew and dropped them from it, and the snowflake coal took fire in the falling; from that day the height has borne their name. The tellers say that Lugh stood on it with Caoran on the first evening and named the winds. See *Seachd Guail, na*.
+> "It was Lugh who stood with Caoran on the highest summit of the island on the first evening and named the winds for him, and so the snowflake coal is his in honour." — the Telling of the Making
+
 **bonn-rìoghachd** *n. m.* · lit. "realm-coin"
-Currency. Under the humans the coin was the mark, and barter was driven out in three reforms ({{date:IV-0052}}, {{date:IV-0176}}, {{date:IV-0253}}). The Ròdais word belongs to the coinage struck when the humans' coin was withdrawn ({{date:V-0023}}). Its first mint-master was called Fearchar Bonn from his work ({{date:V-0024}}). After the re-pegging to dubhan ({{date:VI-0049}}) the realm-coin no longer rested on the vein.
-> "Within a year a new coinage of the Rìoghachd takes its place, minted with ink of obsidian dust in its seal." — annals, {{year:V-0023}}
+Currency. Under the humans the coin was the mark, and barter was driven out in three reforms ({{date:IV-0052}}, {{date:IV-0176}}, {{date:IV-0253}}). The Dia-thìris word belongs to the coinage struck when the humans' coin was withdrawn ({{date:V-0023}}). Its first mint-master was called Fearchar Bonn from his work ({{date:V-0024}}). After the re-pegging to dubhan ({{date:VI-0049}}) the realm-coin no longer rested on the vein.
+> "Within a year a new coinage of the Rìoghachd takes its place, minted with ink of coal dust in its seal." — annals, {{year:V-0023}}
 
 #### C
 
+**Caoran** *n. m.* · lit. "ember"
+The Young God, *an Dia Òg*, youngest son of an Dagda and Danu. Each god of his line made a world of the thing dearest to him when he came of age; Caoran chose coal, and out of coal he made all that is, the earth last of all and the island after it, and in the island's coal he hid the elements. He is the maker of this world and the god of the coal. The Old Faith still honours an Dagda first, as father of the gods (Appendix B). The name is the word for an ember such as lies in the ash of a spent fire, for it was from such an ember, under his father's cauldron, that he took the first coal.
+> "He looked at the coal in his son's hand for a long time, and then he said, 'It will do.' It is said that no word of his was ever dearer to Caoran." — the Telling of the Making
+
 **carbad-iarainn** *n. m.* · lit. "iron-chariot"
-A train; the first of the *iarainn* words Ròdais made for machines. The kingdom mended the humans' ore line ({{date:V-0039}}) and ran its own first train on {{date:V-0056}}.
-> "The first ore train runs from the Sloc Mòr to Cathair dhearg in the kingdom's name, on the humans' rails." — annals, {{year:V-0056}}
+A train; the first of the *iarainn* words Dia-thìris made for machines. The kingdom mended the humans' coal line ({{date:V-0039}}) and ran its own first train on {{date:V-0056}}.
+> "The first coal train runs from the Sloc Mòr to Cathair dhearg in the kingdom's name, on the humans' rails." — annals, {{year:V-0056}}
 
 **Cha do chaill sinn blàr, ach chaill sinn an teine** *phr.* · lit. "we did not lose a battle, but we lost the fire"
 A defeat without fighting. An unsigned verse of the cold shires, from the day Raghnall Ruadh refused the measured handful to every hearth that stood against him ({{date:III-0109}}).
@@ -47,24 +55,40 @@ The doctrine of the Ancient Age, complete on Calbh Cnoc ghorm ({{date:I-0073}}).
 > "Here, it may be, the belief was first spoken." — annals, {{year:I-0073}}
 
 **Cha loisc clach na beinne do choigrich** *phr.* · lit. "the mountain's stone will not burn for strangers"
-The Keepers' ruling that no ore might feed a beacon ({{date:II-0029}}). It held until the humans' towers were lit with an ore flame ({{date:IV-0193}}).
-> "The Keepers rule that no ore may feed a beacon, since a beacon burns for strangers." — annals, {{year:II-0029}}
+The Keepers' ruling that no coal might feed a beacon ({{date:II-0029}}). It held until the humans' towers were lit with a coal flame ({{date:IV-0193}}).
+> "The Keepers rule that no coal may feed a beacon, since a beacon burns for strangers." — annals, {{year:II-0029}}
 
 **Cha tàinig long** *phr.* · lit. "no ship came"
 The entry in the beacon-keepers' daybooks from the Severance on, after the council had the five beacons relit ({{date:IV-0375}}).
 > "The keepers' daybooks, which had counted human ships since the ring was finished, are still kept, with nothing in them." — annals, {{year:IV-0375}}
 
-**Chaidh a' mhèinn dhachaigh** *phr.* · lit. "the ore went home"
-The tellings' words for the ore taken by Gilleasbuig Beag ({{date:I-0155}}), which was neither burned nor kept but laid back under the slab ({{date:I-0156}}).
-> "The tellings make much of it: the ore went home." — annals, {{year:I-0156}}
+**Chaidh an gual dhachaigh** *phr.* · lit. "the coal went home"
+The tellings' words for the coal taken by Gilleasbuig Beag ({{date:I-0155}}), which was neither burned nor kept but laid back under the slab ({{date:I-0156}}).
+> "The tellings make much of it: the coal went home." — annals, {{year:I-0156}}
 
 **Cidhe an Diosail** *n. m.* · lit. "the quay of the sunwise turn"
 The berth at Seann Skell from which the fleet of the Sundering sailed. Its old name, Cidhe an Iar, passed to a new fish-wharf so that trade could go on without the memory ({{date:III-0040}}, {{date:III-0041}}).
 > "The departure berth is entered in the harbour rolls of Seann Skell as Cidhe an Diosail, the quay of the sunwise turn." — annals, {{year:III-0041}}
 
+**Clann a' Chlachair** *n. pl.* · lit. "the Mason's children"
+The line of the mason who broke into the coal vein and carried home the first fire ({{date:I-0001}}). It is recited from the mason down, each son of each father (Appendix A, *The Line of the Mason*). To one of this line the Keeper of the Kin gave the Telling of the Making, and in this line the seven coals were woken, one by one, over many generations. By the waking of the fire coal its people were known as *Luchd-ceasnachaidh a' Ghuail Dhìomhair*.
+> "The mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down." — the Telling of the Making
+
+**Clann na Ceiste** *n. pl.* · lit. "the children of the question"
+The short name of *Luchd-ceasnachaidh a' Ghuail Dhìomhair*, the name the recited lists use. The question is the one their forebear put to the Keeper in the grove of Doire ghlas: why the coal has colours in it. Ailean Mòr, first of the Stone Kings, was of them ({{date:I-0081}}).
+> "…who had asked it why the coal of Dia-thìr has colours in it when the coal of the common earth has none." — the Telling of the Making
+
+**Clann nan Dè** *n. pl.* · lit. "the children of the gods"
+The godkin: the people of the island, descended from the godfolk, *an Dia-shluagh*. The name is kept in the Old Faith and in the style of the first king, *Rìgh Chlann nan Dè*. Only the eyes of the godkin see the colours of the coal; the humans, when they came, saw black coal and nothing more ({{date:IV-0010}}).
+> "And the Young God set the colours so that only the eyes of the godfolk and their children should see them." — the Telling of the Making
+
 **Cogadh nam Bràithrean** *n. m.* · lit. "the war of the brothers"
 The war between Iain Ciar and Alasdair Bàn, named from its first battle ({{date:III-0177}}).
 > "The houses divide four to three, and from this battle Cogadh nam Bràithrean, the Brothers' War, takes its name." — annals, {{year:III-0177}}
+
+**Coimhdeach na Fine** *n. m.* · lit. "the keeper of the kin"
+The spirit that watches over the island's people for Caoran. It is neither god nor ghost; it has no feast and no house, and when it shows itself it comes as a figure of smoke. It came to one of the Mason's line in the grove of Doire ghlas, told him the Telling of the Making and gave him the riddle (see *Luchd-ceasnachaidh a' Ghuail Dhìomhair*); generations later it came again to the grove, lit the rainbow coal, and bade Ailean Mòr keep watch over the coals until they were cold ({{date:I-0080a}}). The Keepers of Brìde's flame in the Holy Age share its name in the common tongue and nothing else.
+> "It is neither a god nor a ghost." — the Telling of the Making
 
 **Comann nan Saor-luinge** *n. m.* · lit. "the fellowship of the ship-wrights"
 The guild that built the fleet of the Sundering ({{date:III-0010}}). It melted away when no more ocean-going hulls were wanted ({{date:III-0045}}).
@@ -79,17 +103,25 @@ An engine. The annals first have need of it for the shunting engines at Muileann
 > "The families of the yard, who work the small engines that move the wagons, are counted apart by the Board and live apart in rows beside the lines." — annals, {{year:V-0058}}
 
 **cuimhne-coinneimh** *n. f.* · lit. "meeting-memory"
-Minutes. Above all, those of the Moot at Caol mhòr, which has no standing in Ròdach law and has kept its minutes since its first sitting ({{date:V-0008}}). See *Tha e scrìobhte a-nis*.
+Minutes. Above all, those of the Moot at Caol mhòr, which has no standing in Dia-thìreach law and has kept its minutes since its first sitting ({{date:V-0008}}). See *Tha e scrìobhte a-nis*.
 > "It meets all the same and keeps its own minutes, which run unbroken from that day to this." — annals, {{year:V-0008}}
 
 #### D
+
+**Dia Òg, an** *n. m.* · lit. "the young god"
+Caoran, youngest of the Tuath Dè. The making of the world was his coming of age, for in his line a god was a child until he had made a thing and kept it. See *Caoran*.
+> "He is called an Dia Òg, the Young God, and he is young still, as the gods reckon it." — the Telling of the Making
+
+**Dia-shluagh, an** *n. m.* · lit. "the god-host"
+The godfolk, the first people of the earth, whom Caoran woke out of the island itself and gave the island to keep. They found the coloured coal in their first days, did not understand it and let it lie. Their children are *Clann nan Dè*. The doctrine *Cha do thàinig sinn; bha sinn ann* is theirs in its oldest sense.
+> "'This is yours,' the Young God said to them. 'Keep it, and it will keep you.'" — the Telling of the Making
 
 **diosal** *adv.*, *n. m.* · lit. "sunwise"
 The sunwise turn. The fleet went once round the river pool of Seann Skell sunwise ({{date:III-0024}}), and the years were counted from that turn ({{date:III-0025}}).
 > "Before going down the Abhainn naomh to open water the fleet went once round the river pool of Seann Skell sunwise, *diosal*, for luck." — the Third Book
 
 **dòrlach** *n. m.* · lit. "a handful"
-The sealed measure of ore. The vein-house allowed one to each departing ship ({{date:III-0016}}). See *Làn na glaice*.
+The sealed measure of coal. The vein-house allowed one to each departing ship ({{date:III-0016}}). See *Làn na glaice*.
 > *Dòrlach airson an teallaich ùir, / is an seann teallach fhathast blàth.* "A handful for the new hearth, and the old hearth still warm." — the Third Book
 
 **Dubh an gual, 's dubh an dubhan** *phr.* · lit. "black the coal, and black the dubhan"
@@ -123,7 +155,7 @@ The road-peace, the oldest law on the island that no Keeper made ({{date:II-0038
 > "…no feud may be pursued under an inn roof or within a spear's throw of its door." — annals, {{year:II-0038}}
 
 **fuil-ghuail** *n. f.* · lit. "coal-blood"
-The condition of those who bond with the vein and do not age as others do, and the people who have it. For half a century it had no name ({{date:IV-0149}}), until the custodians made this one ({{date:IV-0250}}). The humans rendered it *obsidian-touched*.
+The condition of those who bond with the vein and do not age as others do, and the people who have it. For half a century it had no name ({{date:IV-0149}}), until the custodians made this one ({{date:IV-0250}}). The humans rendered it *coal-touched*.
 > "It is meant as a physician's word. It outlives that meaning." — annals, {{year:IV-0250}}
 
 #### G
@@ -131,6 +163,10 @@ The condition of those who bond with the vein and do not age as others do, and t
 **Gaoth Dhubh, A'** *n. f.* · lit. "the black wind"
 The oldest storm whose name is kept ({{date:I-0159}}); the first named storm lost its name ({{date:I-0086}}). The harbour rolls went on naming storms: Am Fuath Mòr, "the great hate" ({{date:III-0066}}), and An Gàire Dubh, "the black laugh" ({{date:III-0100}}).
 > "Of all storms it is the eldest whose name is kept." — annals, {{year:I-0159}}
+
+**gual dathach, an** *n. m.* · lit. "the coloured coal"
+The coal of Dia-thìr, in which Caoran hid the elements, each in its own colour; there is none anywhere else in the world. Its seven kinds are *na Seachd Guail*. Only the godkin see its colours: to the humans it was black coal and no more ({{date:IV-0010}}), where Gormshuil nic Fhearchair had forty words for the colours of it broken ({{date:IV-0009}}). *Gual* alone is coal of any kind, and the Library writes *an gual dathach* where it must be plain which is meant.
+> "Together they are called an gual dathach, the coloured coal. There is no coloured coal anywhere in the world but on Dia-thìr, for the gift was for Dia-thìr alone." — the Telling of the Making
 
 **gun chreideamh** *adj. phr.* · lit. "without a faith"
 Of land or people that keep none of the three faiths. The first census of the restored kingdom so entered the far north-western cape beyond Baile chrom, Eilean ghorm and the smallest islets ({{date:V-0034a}}); the phrase has stood on the map for that land since.
@@ -145,7 +181,7 @@ The saying of the feathered doors, from the years when the hawk-priests were bar
 #### L
 
 **Lagh an Loscaidh Bhig** *n. m.* · lit. "the law of the small burning"
-The Small-Burning Law: no household might burn more than a measured handful of ore in a season ({{date:II-0027}}). The ruling of the hearth bound the custodians never to withhold that handful ({{date:III-0113}}). The Law was never repealed; it lapsed ({{date:IV-0063}}).
+The Small-Burning Law: no household might burn more than a measured handful of coal in a season ({{date:II-0027}}). The ruling of the hearth bound the custodians never to withhold that handful ({{date:III-0113}}). The Law was never repealed; it lapsed ({{date:IV-0063}}).
 > "The Law is never repealed; once its keeping no longer pays, it is no longer kept." — annals, {{year:IV-0063}}
 
 **Làn na glaice, 's gun tuilleadh** *phr.* · lit. "the fill of the hollow hand, and no more"
@@ -156,11 +192,15 @@ The measure of the Ancient Age ({{date:I-0110}}). When Fionnlagh Dall re-cut the
 Said of the raids on the tithe ledgers ({{date:IV-0355}}).
 > "Later chroniclers make much of it; it did little." — annals, {{year:IV-0355}}
 
+**Luchd-ceasnachaidh a' Ghuail Dhìomhair** *n. pl.* · lit. "the questioners of the hidden coal"
+The Inquisitors of the Mystic Coal: the name that *Clann a' Chlachair* bore by the time the fire coal was woken, from the generations they had spent in asking what the Keeper's riddle meant. *Dìomhair* is hidden, secret, holy in the way of things not told. The recited lists shorten it to *Clann na Ceiste*.
+> *Tha spiorad fa leth san speur, san talamh agus sa mhuir. Meascaich na spioradan agus bidh iad uile-chumhachdach.* "The sky, the earth and the sea each carry their own spirit. Merge the spirits, and they become almighty." — the Keeper's riddle, the Telling of the Making
+
 #### M
 
 **maor** *n. m.*, *pl.* **maoir** · lit. "steward"
-Under the humans, an overseer: a Ròdach set over Ròdaich for the Company. Raghnall mac Dhòmhnaill took his byname from the office ({{date:IV-0091}}, {{date:IV-0092}}). The kingdom gave the word to the Crown's officer in each shire ({{date:V-0015}}). The kenning *maor-obrach*, "work-steward", is a manager.
-> "…from the office the Ròdaich give him his byname: Raghnall Maor, Raghnall the steward." — annals, {{year:IV-0092}}
+Under the humans, an overseer: a Dia-thìreach set over Dia-thìrich for the Company. Raghnall mac Dhòmhnaill took his byname from the office ({{date:IV-0091}}, {{date:IV-0092}}). The kingdom gave the word to the Crown's officer in each shire ({{date:V-0015}}). The kenning *maor-obrach*, "work-steward", is a manager.
+> "…from the office the Dia-thìrich give him his byname: Raghnall Maor, Raghnall the steward." — annals, {{year:IV-0092}}
 
 **mar a thàinig Niall** *phr.* · lit. "the way Niall came"
 Any passing of power that goes uncommonly smoothly. From Niall's crowning ({{date:V-0012}}), which passed without dispute ({{date:V-0013}}).
@@ -173,18 +213,22 @@ The Hollow Man of the Doire uaine hills, which attacked anyone who lit a fire in
 #### O
 
 **ogham** *n. m.* · lit. "Ogma's letters"
-The letters of Rodos. The teachers of the stag's people made them from the cutters' tally-notches ({{date:II-0088}}), and the druids name them for Ogma, god of letters. Nearly every later hand on the island descends from them (Appendix F).
-> "These are the first letters the Ròdaich use: the ogham, which the druids call the gift of Ogma." — annals, {{year:II-0088}}
+The letters of Dia-thìr. The teachers of the stag's people made them from the cutters' tally-notches ({{date:II-0088}}), and the druids name them for Ogma, god of letters. Nearly every later hand on the island descends from them (Appendix F).
+> "These are the first letters the Dia-thìrich use: the ogham, which the druids call the gift of Ogma." — annals, {{year:II-0088}}
 
 #### R
 
 **rìgh** *n. m.* · lit. "king"
-A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhair was the first so called ({{date:II-0077}}); under the division of keeping the rìgh had the roads and the granaries, the Keeper the flame ({{date:II-0078}}).
-> "None before him was ever so called." — annals, {{year:II-0077}}
+A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhair was the first of them so called ({{date:II-0077}}); the word had been heard once before, in the grove, when Caoran named Ailean Mòr *Rìgh Chlann nan Dè* ({{date:I-0080b}}), but only the Line of the Mason kept it; under the division of keeping the rìgh had the roads and the granaries, the Keeper the flame ({{date:II-0078}}).
+> "No ruler of the lowlands was so called before him." — annals, {{year:II-0077}}
+
+**Rìgh Chlann nan Dè** *n. m.* · lit. "king of the children of the gods"
+The style of the first king of the island's people. After the seven coals had burned together and the seven-night vigil was kept, Caoran came with the Tuath Dè, named Ailean Mòr so, and put into him the power that had been in the coals. Ailean told no one of it, all his life; with it he took the hill of Dùn ìseal and made the first kingdom ({{date:I-0081}}).
+> "When the godfolk woke, Macha looked them over, one by one, and said that there was no king among them yet." — the Telling of the Making
 
 **Rìghrean na Cloiche** *n. pl.* · lit. "the kings of the stone"
 The oldest oral king-list, opening with Ailean Mòr ({{date:I-0081}}). The name was given to it later.
-> "…it gives no lengths of reign, and it is older than the name Ròdaich." — annals, {{year:I-0081}}
+> "…it gives no lengths of reign, and it is older than the name Dia-thìrich." — annals, {{year:I-0081}}
 
 **roghnaich** *v.* · lit. "choose"
 With no object: to have chosen the crossing, to choose exile for good. From the Choosing ({{date:III-0003}}); the narrow sense is in the custody-book from {{date:III-0042}}. The plain sense was never lost.
@@ -200,12 +244,28 @@ Reeling, shaken, of a person as well as a building. From Scàineadh Cill ghlas, 
 The Sundering ({{date:III-0023}}); loosely, any lasting parting, chosen, between people who belonged together. Later it was used also of the Severance ({{date:IV-0377}}), which was not chosen, and the one word now serves for both.
 > "The chronicles of the island fall silent on them as the ships clear the harbour…" — annals, {{year:III-0023}}
 
+**Seachd Guail, na** *n. pl.* · lit. "the seven coals"
+The seven kinds of the coloured coal, each holding one element and each woken by its own element and by nothing else. The Mason's line learned to wake them over many generations, the gold coal first and the rainbow coal last; that is why the Ancient Age is so long.
+
+| Coal | Colour | Holds | How it was woken |
+|---|---|---|---|
+| *gual dubh* | black | the earth | buried deep; warm on the next day |
+| *gual teine* | the colour of fire | fire | dust on the hands, at the snap of the fingers |
+| *gual sneachda* | snowflake | the air | dropped from Binnean a' Chlachair |
+| *gual òir* | gold sheen | the sea | thrown into the sea |
+| *gual airgid* | silver sheen | river water | thrown into a river |
+| *gual donn-ruadh* | mahogany | life | the blood of a misstrike, in the grove |
+| *gual bogha-froise* | rainbow | the spirit | lit by the Keeper when the six were brought together |
+
+The first king kept watch over them seven nights, one for each coal, and on the eighth they were cold ({{date:I-0081}}).
+> "These are na Seachd Guail, the Seven Coals, and this is what each holds." — the Telling of the Making
+
 **seann-chunntas** *n. m.* · lit. "old account"
 A grievance nobody in power acts on and nobody cancels. Tuathaich speakers coined it ({{date:VI-0143}}) for the tabled archive request ({{date:VI-0059}}) and the reparations motion left to die ({{date:VI-0138}}).
-> "The Ròdaich in office do not take up the word." — annals, {{year:VI-0143}}
+> "The Dia-thìrich in office do not take up the word." — annals, {{year:VI-0143}}
 
 **Seann-Dhaoine** *n. pl.* · lit. "old people"
-The Old Ones, the people before the Ròdaich. The name is a plain Ròdais description, and no annal dates it. Their first sure trace is the midden at Seann Dunn ({{date:I-0010}}).
+The Old Ones, the people before the Dia-thìrich. The name is a plain Dia-thìris description, and no annal dates it. Their first sure trace is the midden at Seann Dunn ({{date:I-0010}}).
 > "The Seann-Dhaoine, whoever they were, who built Làrach an Dùin-fhaire and Làrach an Dùin…" — annals, {{year:I-0091}}
 
 **siorrachd** *n. f.*, *pl.* **siorrachdan** · lit. "shire"
@@ -223,7 +283,7 @@ A strike. The first lasted eleven days ({{date:IV-0165}}); the first held in sev
 #### T
 
 **Tha an long ag ithe a' chnuic** *phr.* · lit. "the ship is eating the hill"
-Fearchar Bàrd's most quoted song, made when the Company's steamships began to burn the island's ore to carry it away ({{date:IV-0211}}).
+Fearchar Bàrd's most quoted song, made when the Company's steamships began to burn the island's coal to carry it away ({{date:IV-0211}}).
 > *Tha an long ag ithe a' chnuic / gus an cnoc a ghiùlan air falbh.* "The ship is eating the hill to carry the hill away." — the Fourth Book
 
 **Tha e scrìobhte a-nis** *phr.* · lit. "it is written now"
@@ -231,7 +291,7 @@ The Moot's whole minute on the day the census figures were read at Caol mhòr ({
 > "The Moot's minute says only: 'Now written.'" — annals, {{year:V-0217}}
 
 **Tìr Thall, an** *n. f.* · lit. "the land beyond"
-The humans' homeland, whose own name no Ròdach scribe set down ({{date:IV-0007}}).
+The humans' homeland, whose own name no Dia-thìreach scribe set down ({{date:IV-0007}}).
 > "From the first season the scribes call it an Tìr Thall, the land beyond, and its people simply the humans." — annals, {{year:IV-0007}}
 
 **tonn** *n. m.* · lit. "wave"

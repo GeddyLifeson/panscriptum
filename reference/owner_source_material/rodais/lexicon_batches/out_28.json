@@ -542,7 +542,7 @@
 {"id": "f-neve-n", "en": "neve", "rank": 26892, "sense": "granular snow at the head of a glacier (névé)", "pos": "n", "rod": "sneachd-grànach", "g": "m", "gen": "sneachda-ghrànaich"},
 {"id": "f-neverland-n", "en": "neverland", "rank": 26893, "sense": "imaginary land of eternal youth", "pos": "n", "rod": "Tìr na h-Òige", "g": "f", "gen": "Tìre na h-Òige"},
 {"id": "f-newsworthy-adj", "en": "newsworthy", "rank": 26894, "sense": "interesting enough to report", "pos": "adj", "rod": "airidh air naidheachd"},
-{"id": "f-northerner-n", "en": "northerner", "rank": 26896, "sense": "person from the north (on Rodos, one of the Tuathaich)", "pos": "n", "rod": "Tuathach", "g": "m", "pl": "Tuathaich", "gen": "Tuathaich"},
+{"id": "f-northerner-n", "en": "northerner", "rank": 26896, "sense": "person from the north (on Dia-thìr, one of the Tuathaich)", "pos": "n", "rod": "Tuathach", "g": "m", "pl": "Tuathaich", "gen": "Tuathaich"},
 {"id": "f-omnipresent-adj", "en": "omnipresent", "rank": 26901, "sense": "present everywhere", "pos": "adj", "rod": "uile-làthaireach"},
 {"en": "ordinator", "rank": 26903, "skip": "non-English word"},
 {"id": "f-osmosis-n", "en": "osmosis", "rank": 26904, "sense": "passing of liquid through a membrane; gradual absorption", "pos": "n", "rod": "tro-shùghadh", "g": "m", "gen": "tro-shùghaidh", "kenning": true, "lit": "through-soaking", "scots": "osmosas"},

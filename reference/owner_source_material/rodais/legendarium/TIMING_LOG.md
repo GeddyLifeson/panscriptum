@@ -15,7 +15,7 @@ Counts: Age I 14, Age II 78, Age III 13, Age IV 24, Age V 5 (total 134).
 | I-0107 The fault-line kept clear | `within` ["I-0106", 20] | 3 an t-Sultain 6654 BDE | the crack is marked soon after it opens | "A line of white stones is laid along the old crack" |
 | I-0150 Lachlann Ruadh takes the fosterling | `within` ["I-0149", 1] | 25 an Dùbhlachd 5200 BDE | the fosterling sent and taken in | "takes Eilidh Ghlas's son into his house" |
 | I-0153 The stone cup | `within` ["I-0151", 40] | 2 an Lùnastal 5189 BDE | Oighrig's own act within her keeping | "She keeps the slab for the rest of her life" |
-| I-0156 The ore returned to the crack | `within` ["I-0155", 5] | 28 an Dàmhair 5189 BDE | the ore returned by his immediate successor | "by the keeper who followed him" |
+| I-0156 The coal returned to the crack | `within` ["I-0155", 5] | 28 an Dàmhair 5189 BDE | the coal returned by his immediate successor | "by the keeper who followed him" |
 | I-0157 Calum Ciar asks for the lot | `within` ["I-0149", 12] | 26 an t-Samhain 5189 BDE | Calum Ciar, eleventh king, follows Eilidh Ghlas (tenth); spreads the capped stretch | "Calum Ciar, eleventh of the Stone Kings" |
 | I-0160 The sharing holds after the Black Wind | `within` ["I-0159", 1] | 2 am Màrt 5175 BDE | the winter after the storm | "After the Black Wind ... through a whole winter" |
 | I-0173 Peigi Dhubh of the Red Hill | `within` ["I-0150", 25] | 5 an Dùbhlachd 5175 BDE | the fosterling sent home grown by Lachlann's successor | "sends the fostered son of Dùn ìseal home grown" |
@@ -69,7 +69,7 @@ Counts: Age I 14, Age II 78, Age III 13, Age IV 24, Age V 5 (total 134).
 | II-0114 The watchers of the dark wood | `between` [-1440, -1420] | 15 an t-Samhain 1430 BDE | the wood-watchers' story leads straight into Fearchar Òg's division; his reign must reach Beathag Mhòr's move (II-0135, window -1300..-1150) within a life | "Fearchar Òg, rìgh after Ealasaid Chiar" |
 | II-0116 The stag's people claim the dark wood | `within` ["II-0115", 5] | 12 am Faoilleach 1415 BDE | the stag's people answer the cutting | "In answer" |
 | II-0118 The boundary stones of the woods | `within` ["II-0115", 25] | 11 am Màrt 1395 BDE | the wood dispute is settled by the division | "The division of the woods is made" |
-| II-0121 The reckoning of the cords | `within` ["II-0119", 5] | 26 an Dùbhlachd 1376 BDE | the survey took three seasons | "takes the cutters out of the ore-season for three seasons" |
+| II-0121 The reckoning of the cords | `within` ["II-0119", 5] | 26 an Dùbhlachd 1376 BDE | the survey took three seasons | "takes the cutters out of the coal-season for three seasons" |
 | II-0124 Oighrig Bhàn's first bound | `within` ["II-0118", 50] | 21 an Giblean 1345 BDE | Oighrig Bhàn, Keeper after Calum Liath | "Keeper after Calum Liath" |
 | II-0126 The long reign of Fearchar Òg | `within` ["II-0118", 70] | 9 an Giblean 1325 BDE | Fearchar Òg's long reign (acceded as a boy) | "rules long ... from his accession as a boy" |
 | II-0127 The silver tokens | `within` ["II-0118", 70] | 8 an Cèitean 1325 BDE | Fearchar Òg's reign | "Fearchar Òg's clerks" |
@@ -143,7 +143,7 @@ Counts: Age I 14, Age II 78, Age III 13, Age IV 24, Age V 5 (total 134).
 | IV-0231 The case of Thomas Hale | `within` ["IV-0230", 0] | 4 am Màrt 1890 DE | names the case of the canon entry | "The child in the case was Thomas Hale" |
 | IV-0238 The night crews at Cnoc chaol | `within` ["IV-0237", 0] | 23 an t-Sultain 1895 DE | the order is felt first at Cnoc chaol | "The order is felt first at Cnoc chaol" |
 | IV-0251 The custodians who named it | `within` ["IV-0250", 0] | 21 an Gearran 1905 DE | names the meeting that coined the canon word | "The word was agreed by a meeting of custodians" |
-| IV-0264 Seann Vell's dockers stay out | `within` ["IV-0263", 0] | 29 an Dàmhair 1912 DE | during the nine-day strike | "refuse to load the ore diverted to them during the strike" |
+| IV-0264 Seann Vell's dockers stay out | `within` ["IV-0263", 0] | 29 an Dàmhair 1912 DE | during the nine-day strike | "refuse to load the coal diverted to them during the strike" |
 | IV-0274 The clash at Muileann chrom | `within` ["IV-0270", 0] | 13 an Dùbhlachd 1916 DE | names the accident of the canon clash (c. 1915, held as 1916) | "The accident that began the clash" |
 | IV-0302 Muileann bheag in the north-east | `same_day` true | 27 am Màrt 1922 DE | stops with the rest on the day | "stop with the rest" |
 | IV-0303 The northern pits at Àth dhomhain | `same_day` true | 27 am Màrt 1922 DE | on the day of the stoppage | "on the day of the stoppage" |
@@ -151,7 +151,7 @@ Counts: Age I 14, Age II 78, Age III 13, Age IV 24, Age V 5 (total 134).
 | IV-0305 The quarrymen of Cnoc gheal | `same_day` true | 27 am Màrt 1922 DE | on the day of the stoppage | "on the day of the stoppage" |
 | IV-0306 The day the pits stopped | `same_day` true | 27 am Màrt 1922 DE | the day of the stoppage itself | "On the day of the stoppage every working ... halted at once" |
 | IV-0306 The day the pits stopped | `within` ["IV-0301", 0] | 27 am Màrt 1922 DE | all the stoppage-day entries share the canon stoppage's year (and day) | "on the same day for the first time" |
-| IV-0307 The ore ships wait | `same_day` true | 27 am Màrt 1922 DE | the ships' six-day wait starts on the day of the stoppage | "wait at Ros dhomhain for six days with empty holds" |
+| IV-0307 The coal ships wait | `same_day` true | 27 am Màrt 1922 DE | the ships' six-day wait starts on the day of the stoppage | "wait at Ros dhomhain for six days with empty holds" |
 | IV-0308 The stoppage broken | `within` ["IV-0306", 0] | 30 an Dùbhlachd 1922 DE | the stoppage is broken soon after | "The stoppage ends when the constables close the Company stores" |
 
 ## Age V

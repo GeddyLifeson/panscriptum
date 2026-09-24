@@ -51,7 +51,7 @@
   "id": "f-a-det1",
   "en": "a",
   "rank": 5,
-  "sense": "indefinite article: Ròdais has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant",
+  "sense": "indefinite article: Dia-thìris has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant",
   "pos": "det",
   "rod": "—"
  },
@@ -139,7 +139,7 @@
   "id": "f-an-det1",
   "en": "an",
   "rank": 27,
-  "sense": "indefinite article (the form of 'a' before a vowel): Ròdais has none; a bare noun is indefinite (ubhal 'an apple')",
+  "sense": "indefinite article (the form of 'a' before a vowel): Dia-thìris has none; a bare noun is indefinite (ubhal 'an apple')",
   "pos": "det",
   "rod": "—"
  },
@@ -10873,7 +10873,7 @@
   "id": "f-northern-adj1",
   "en": "northern",
   "rank": 1196,
-  "sense": "northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Rodos",
+  "sense": "northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Dia-thìr",
   "pos": "adj",
   "rod": "mu thuath"
  },

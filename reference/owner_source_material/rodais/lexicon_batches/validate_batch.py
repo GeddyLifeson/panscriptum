@@ -3,8 +3,8 @@ validate_batch.py -- check one translated lexicon batch before it is merged into
 
     python validate_batch.py out_07.json      (run from this folder)
 
-Checks every entry: schema, part of speech, noun gender/plural, verb root/verbal noun, that the Ròdais
-is already in Ròdais spelling (normalize() leaves it unchanged: grave accents only, sc not sg), and
+Checks every entry: schema, part of speech, noun gender/plural, verb root/verbal noun, that the Dia-thìris
+is already in Dia-thìris spelling (normalize() leaves it unchanged: grave accents only, sc not sg), and
 caol le caol inside each word (check_agreement(), reported as warnings: some real words break it).
 Also checks the batch covers every word of its in_NN.json. Exits non-zero on any error.
 """
@@ -50,7 +50,7 @@ def main(path):
             if not v:
                 continue
             if R.normalize(v) != v:
-                errors.append('%s: %s %r is not in Ròdais spelling (normalize gives %r)' % (where, f, v, R.normalize(v)))
+                errors.append('%s: %s %r is not in Dia-thìris spelling (normalize gives %r)' % (where, f, v, R.normalize(v)))
             if re.search('[áéíóú]', v):
                 errors.append('%s: %s %r has an acute accent' % (where, f, v))
             for w in re.findall(r"[^\s\-'’,.!?;:()]+", v):

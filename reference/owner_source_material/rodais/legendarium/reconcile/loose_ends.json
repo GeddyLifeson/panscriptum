@@ -1,6 +1,6 @@
 {
  "layer": "loose_ends",
- "summary": "Two routes left open by the markers and routes layer (INTEGRATION.md, 'Left open'): route 119 (Ceum Àth shean) carried, as a trail, the stretch of Rathad na Mèinne between Cnoc òg and Baile ìseal and the stretch of Rathad na Banrighinn between Baile ìseal and Baile chiar, so both roads showed gaps south of the capital; route 233 carried the queen's road between Baile Mòr fhionn and Àth fhiadhaich. Each is cut at the towns where the roads meet it, and the road stretches become roads joining the road routes at both ends: route 119 keeps Àth shean to Cnoc òg as a trail, 446 is the ore road from Cnoc òg to Baile ìseal, 447 the queen's road from Baile ìseal to Baile chiar, 448 the trail on from Baile chiar by Baile dhubh to Seann Vell; route 233 is the queen's road from Baile Mòr fhionn to Àth fhiadhaich, and 449 the trail on from Àth fhiadhaich to Inis thais. All the pieces run over land; the paths are those Azgaar's Routes.getPath draws for them.",
+ "summary": "Two routes left open by the markers and routes layer (INTEGRATION.md, 'Left open'): route 119 (Ceum Àth shean) carried, as a trail, the stretch of Rathad na Mèinne between Cnoc òg and Baile ìseal and the stretch of Rathad na Banrighinn between Baile ìseal and Baile chiar, so both roads showed gaps south of the capital; route 233 carried the queen's road between Baile Mòr fhionn and Àth fhiadhaich. Each is cut at the towns where the roads meet it, and the road stretches become roads joining the road routes at both ends: route 119 keeps Àth shean to Cnoc òg as a trail, 446 is the coal road from Cnoc òg to Baile ìseal, 447 the queen's road from Baile ìseal to Baile chiar, 448 the trail on from Baile chiar by Baile dhubh to Seann Vell; route 233 is the queen's road from Baile Mòr fhionn to Àth fhiadhaich, and 449 the trail on from Àth fhiadhaich to Inis thais. All the pieces run over land; the paths are those Azgaar's Routes.getPath draws for them.",
  "map_edits": [
   {
    "record": 37,
@@ -142,7 +142,7 @@
      "d": "M620.5,454.5C620.5,454.5,614.8,446.8,610.5,443.9C606.1,440.9,597.4,439.2,594.2,436.9C591.2,434.8,592.3,432.2,590.9,430.6C589.5,429,588.6,427.7,585.9,427C583.1,426.3,575.1,428,574,426.4C572.9,424.8,576.2,420.5,578.9,417.6C581.6,414.5,587.7,411.3,590.3,408.6C592.7,406,593.2,404.3,594.4,401.5C595.6,398.6,596.8,394.6,597.4,391.5C597.9,388.6,598.5,386.9,597.6,383.5C596.7,379.8,591.4,370,591.4,370"
     }
    ],
-   "why": "The ore road's gap between route 115 (from Cnoc òg) and route 131 (to Baile ìseal), and the queen's road's gap between Baile ìseal and route 173 (from Baile chiar), closed by the stretches of route 119 that ran there."
+   "why": "The coal road's gap between route 115 (from Cnoc òg) and route 131 (to Baile ìseal), and the queen's road's gap between Baile ìseal and route 173 (from Baile chiar), closed by the stretches of route 119 that ran there."
   },
   {
    "record": 37,

@@ -1,5 +1,5 @@
 """
-audit.py -- consistency and archaism audit of the Ròdais dictionary, written as a reviewable patch.
+audit.py -- consistency and archaism audit of the Dia-thìris dictionary, written as a reviewable patch.
 
     python audit.py            (from this folder)
 
@@ -133,8 +133,8 @@ PROPER_ORIG = {'a1-monday', 'a1-tuesday', 'a1-wednesday', 'a1-thursday', 'a1-fri
                'a1-sunday', 'a1-january', 'a1-february', 'a1-march', 'a1-april', 'a1-may', 'a1-june',
                'a1-july', 'a1-august', 'a1-september', 'a1-october', 'a1-november', 'a1-december',
                'a2-christmas', 'a2-new-year'}
-# Ròdais words that are capitalised wherever they stand
-PROPER_WORDS = {'Dia', 'Dhia', 'Crìosd', 'Ròdos', 'Ròdais', 'Ròdach', 'Alba', 'Èirinn', 'Beurla', 'Gàidhlig',
+# Dia-thìris words that are capitalised wherever they stand
+PROPER_WORDS = {'Dia', 'Dhia', 'Crìosd', 'Dia-thìr', 'Dia-thìris', 'Dia-thìreach', 'Alba', 'Èirinn', 'Beurla', 'Gàidhlig',
                 'Nollaig', 'Càisc', 'Sasainn', 'Sasannach'}
 # English of proper-noun batch entries that English writes in lower case all the same
 LOWER_EN = {'doomsday', 'mayday', 'wop', 'westerner', 'southerner', 'northerner', 'occidental'}
@@ -495,7 +495,7 @@ RENAME = [  # (id, fields, why) -- one translation per sense
     ('f-telecom-n', {'rod': 'fios-cèine', 'lit': 'far-tidings'}, 'as out_07 telecommunications (same sense)'),
     ('f-lab-n', {'rod': 'ceàrdach-dheuchainn', 'kenning': True, 'lit': 'trial-smithy', 'scots': 'obair-lann',
                  'pl': 'ceàrdaichean-dheuchainn', 'gen': 'ceàrdaich-dheuchainn', 'g': 'f'},
-     'obair-lann is a Scottish Gaelic coinage; the Ròdais kenning is out_07 ceàrdach-dheuchainn (labs)'),
+     'obair-lann is a Scottish Gaelic coinage; the Dia-thìris kenning is out_07 ceàrdach-dheuchainn (labs)'),
     ('f-euros-n', {'rod': 'iùro'}, 'as out_05 euro'),
     ('f-smartphones-n', {'rod': 'scàthan-pòca', 'lit': 'pocket-mirror'}, 'as out_05 smartphone'),
     ('f-processors-n', {'rod': 'cridhe-iarainn', 'kenning': True, 'lit': 'iron-heart', 'scots': 'pròiseasar'},
@@ -618,10 +618,10 @@ def fix_conflicts(W):
         if not W.is_orig(e['id']) and e['id'] in W.E:
             k = (base(e['en']), e['rod'].lower(), e.get('pos'))
             if k in orig_keys:
-                W.drop(e['id'], '4 conflict', 'repeats LEXICON.json %s (same English word, Ròdais and part of speech)'
+                W.drop(e['id'], '4 conflict', 'repeats LEXICON.json %s (same English word, Dia-thìris and part of speech)'
                        % orig_keys[k])
 
-    # exact duplicates: same English, same Ròdais, same part of speech
+    # exact duplicates: same English, same Dia-thìris, same part of speech
     seen = {}
     for e in W.live():
         k = (e['en'].lower(), e['rod'].lower(), e.get('pos'))
@@ -631,7 +631,7 @@ def fix_conflicts(W):
                 if e.get('sense') and e['sense'] not in (keep.get('sense') or '') and keep['id'] in W.E:
                     W.set(keep['id'], '4 conflict', 'took in the sense of its duplicate %s' % e['id'],
                           sense='%s; %s' % (keep['sense'], e['sense']) if keep.get('sense') else e['sense'])
-                W.drop(e['id'], '4 conflict', 'duplicate of %s (same English, Ròdais and part of speech)' % seen[k])
+                W.drop(e['id'], '4 conflict', 'duplicate of %s (same English, Dia-thìris and part of speech)' % seen[k])
         else:
             seen[k] = e['id']
 

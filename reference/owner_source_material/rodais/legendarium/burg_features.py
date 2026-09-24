@@ -1,5 +1,5 @@
 """
-burg_features.py -- give every burg on the Rodos map the town features its history supports.
+burg_features.py -- give every burg on the Dia-thìr map the town features its history supports.
 
 Azgaar's Fantasy Map Generator draws no town plans itself. Each burg's preview is a link to Watabou's
 generators, built from the burg's data: for a capital, city or town the City Generator gets citadel,
@@ -31,7 +31,7 @@ each route that ended at a moved town's old cell on to its new cell (over adjace
 boat routes, by water and river cells where it can), with the path Azgaar's Routes.getPath draws for the
 new points, the saved <path id="routeN"> in the SVG, and the cells' route links (record 36).
 
-    python burg_features.py      # Rodos_finished.map, Rodos_Atlas/Rodos.map and world.json, in place
+    python burg_features.py      # Rodos_finished.map, Diathir_Atlas/Diathir.map and world.json, in place
 
 finish_map.py calls apply() too, so rebuilding Rodos_finished.map from Rodos_renamed.map keeps the
 features. Running this twice changes nothing the second time.
@@ -47,7 +47,7 @@ TABLE = os.path.join(HERE, 'burg_features.json')
 WORLD = os.path.join(HERE, 'world.json')
 MOVES = os.path.join(HERE, 'burg_moves.json')
 ROUTE_EXT = os.path.join(HERE, 'route_extensions.json')
-MAPS = [os.path.join(ROOT, 'Rodos_finished.map'), os.path.join(ROOT, 'Rodos_Atlas', 'Rodos.map')]
+MAPS = [os.path.join(ROOT, 'Rodos_finished.map'), os.path.join(ROOT, 'Diathir_Atlas', 'Diathir.map')]
 
 FLAGS = ('citadel', 'walls', 'plaza', 'temple', 'shanty')
 RECORDS, L_SETTINGS, L_SVG, L_BURGS, L_CELL_BURG = 53, 1, 5, 15, 17   # a .map is 53 CRLF-joined records (see finish_map.py)

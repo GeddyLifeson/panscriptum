@@ -3,7 +3,7 @@
   "id": "II-0001",
   "canon": true,
   "title": "The Binding of the First Flame",
-  "body": "Custody is declared over the vein, and the first flame is bound at Dùn ìseal: the undying flame of Brìde, kept over the stone of Crom Cruaich. Its keepers, Òrd Bhrìde, are the first order on Rodos to govern both rite and people, and they are older by centuries than any king.",
+  "body": "Custody is declared over the vein, and the first flame is bound at Dùn ìseal: the undying flame of Brìde, kept over the stone of Crom Cruaich. Its keepers, Òrd Bhrìde, are the first order on Dia-thìr to govern both rite and people, and they are older by centuries than any king.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -39,7 +39,7 @@
  {
   "id": "II-0005",
   "canon": true,
-  "title": "Seann Spioradan nan Ròdach established",
+  "title": "Seann Spioradan nan Dia-thìreach established",
   "body": "At the hearths the eldest of the island's folk-ways takes shape: reverence for the ancestors, for the vein, for the weather that rules the mining season, and for the sìth of the hills and mounds. It keeps no priests, and it has never ceased.",
   "place": null,
   "kind": "faith",
@@ -57,7 +57,7 @@
   "id": "II-0007",
   "canon": false,
   "title": "The ban on fires in sight of Doire uaine",
-  "body": "In obedience to the old inscriptions the Keepers forbid any fire, of wood or of ore, to be lit in sight of the Doire uaine hills. Herders who winter on those slopes eat cold for the season. The ban is never lifted, and none is known to have owned to breaking it.",
+  "body": "In obedience to the old inscriptions the Keepers forbid any fire, of wood or of coal, to be lit in sight of the Doire uaine hills. Herders who winter on those slopes eat cold for the season. The ban is never lifted, and none is known to have owned to breaking it.",
   "place": "marker:22",
   "kind": "law"
  },
@@ -88,8 +88,8 @@
  {
   "id": "II-0010",
   "canon": false,
-  "title": "Ore by the basket",
-  "body": "Muireach Liath fixes the first common measure for ore carried down from the galleries: a lidded basket of plaited heather, one to a household, filled once a season. Baskets of that weave are made at Dùn ìseal still, for no purpose but the making.",
+  "title": "Coal by the basket",
+  "body": "Muireach Liath fixes the first common measure for coal carried down from the galleries: a lidded basket of plaited heather, one to a household, filled once a season. Baskets of that weave are made at Dùn ìseal still, for no purpose but the making.",
   "place": "province:35",
   "kind": "craft"
  },
@@ -134,7 +134,7 @@
   "id": "II-0015",
   "canon": true,
   "title": "Muileann chiar founded",
-  "body": "A seam of silver is found near the great vein but apart from it. It is the first wealth of the island other than the ore.",
+  "body": "A seam of silver is found near the great vein but apart from it. It is the first wealth of the island other than the coal.",
   "place": "marker:2",
   "kind": "discovery",
   "canon_date": "undated"
@@ -151,7 +151,7 @@
   "id": "II-0017",
   "canon": false,
   "title": "Silver is not holy",
-  "body": "Asked whether the new seam falls under the flame, Muireach Liath answers that silver does not bleed and so is not the mountain's. Muileann chiar is left free to dig as deep as it likes, and it digs. Every later quarrel over the silver begins from these words.",
+  "body": "Asked whether the new seam falls under the flame, Muireach Liath answers that silver shows no colour when it breaks and so is not the mountain's. Muileann chiar is left free to dig as deep as it likes, and it digs. Every later quarrel over the silver begins from these words.",
   "place": "burg:419",
   "kind": "law",
   "within": [
@@ -191,7 +191,7 @@
   "id": "II-0021",
   "canon": true,
   "title": "The first school of the druids founded",
-  "body": "The first of the Scoiltean nan Draoidhean, the druid schools, gathers about one question: why the vein answers some hands and not others. For the first time within the Old Faith the ore is reasoned about, and not only revered.",
+  "body": "The first of the Scoiltean nan Draoidhean, the druid schools, gathers about one question: why the vein answers some hands and not others. For the first time within the Old Faith the coal is reasoned about, and not only revered.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -200,7 +200,7 @@
   "id": "II-0022",
   "canon": false,
   "title": "Sìleas nic Coinnich in the wood",
-  "body": "Sìleas nic Coinnich, a cutter from Muileann chiar in the far east, begins to teach in Coille Naomh Muileann chiar. At the galleries she had seen the ore bleed colour freely under some cutters' picks and sullenly under others, and she will not let the question be.",
+  "body": "Sìleas nic Coinnich, a cutter from Muileann chiar in the far east, begins to teach in Coille Naomh Muileann chiar. At the galleries she had seen the coal break bright with its colours under some cutters' picks and dull under others, and she will not let the question be.",
   "place": "marker:23",
   "kind": "faith"
  },
@@ -228,7 +228,7 @@
   "id": "II-0025",
   "canon": false,
   "title": "The smoke at Cnoc dhubh",
-  "body": "In a hard winter a household at Cnoc dhubh burns its ore by the basketful and not by the handful. The smoke settles in the valley, and three of the household and two neighbours die of it. The Keepers are sent for, and the case is argued at Dùn ìseal for the rest of the season.",
+  "body": "In a hard winter a household at Cnoc dhubh burns its coal by the basketful and not by the handful. The smoke settles in the valley, and three of the household and two neighbours die of it. The Keepers are sent for, and the case is argued at Dùn ìseal for the rest of the season.",
   "place": "burg:198",
   "kind": "disaster"
  },
@@ -248,7 +248,7 @@
   "id": "II-0027",
   "canon": true,
   "title": "The Small-Burning Law",
-  "body": "The custom of the handful is made law: no household may burn more than a measured handful of the ore in a season. It becomes the holy law of the Keepers of Brìde's flame and Crom's stone, and it holds for centuries.",
+  "body": "The custom of the handful is made law: no household may burn more than a measured handful of the coal in a season. It becomes the holy law of the Keepers of Brìde's flame and Crom's stone, and it holds for centuries.",
   "place": null,
   "kind": "law",
   "canon_date": "undated"
@@ -257,15 +257,15 @@
   "id": "II-0028",
   "canon": false,
   "title": "The first sentence under the Law",
-  "body": "A household of Seann Tarr burns twice its measure in a season and loses its right to the ore for the season after, the first sentence given under the Small-Burning Law. Its name is set on the roll with the offence beside it, and for many centuries its descendants petition to have the offence struck out.",
+  "body": "A household of Seann Tarr burns twice its measure in a season and loses its right to the coal for the season after, the first sentence given under the Small-Burning Law. Its name is set on the roll with the offence beside it, and for many centuries its descendants petition to have the offence struck out.",
   "place": "burg:34",
   "kind": "law"
  },
  {
   "id": "II-0029",
   "canon": false,
-  "title": "No ore on the beacons",
-  "body": "The Keepers rule that no ore may feed a beacon, since a beacon burns for strangers. The fire on the headland at Tobar dhearg is kept with driftwood and seal fat, and so are all the sea-lights of the island after it.",
+  "title": "No coal on the beacons",
+  "body": "The Keepers rule that no coal may feed a beacon, since a beacon burns for strangers. The fire on the headland at Tobar dhearg is kept with driftwood and seal fat, and so are all the sea-lights of the island after it.",
   "place": "marker:16",
   "kind": "law"
  },
@@ -281,7 +281,7 @@
   "id": "II-0031",
   "canon": false,
   "title": "The carriers drowned on the Abhainn dhomhain",
-  "body": "The Abhainn dhomhain rises in the night and takes eleven carriers and their baskets at a ford. The Hall mourns the ore with the carriers, and Fionnlagh Dall asks the council for a way across that the river cannot take.",
+  "body": "The Abhainn dhomhain rises in the night and takes eleven carriers and their baskets at a ford. The Hall mourns the coal with the carriers, and Fionnlagh Dall asks the council for a way across that the river cannot take.",
   "place": "river:63",
   "kind": "disaster",
   "within": [
@@ -314,7 +314,7 @@
   "id": "II-0034",
   "canon": false,
   "title": "The masons' custom",
-  "body": "The bridge-masons form a fellowship bound by an oath sworn on the stone cup at Dùn ìseal: no span to be closed in the dark, and none to be paid for in ore. Their lodge is kept near the western crossing, in the country of Ros dhomhain.",
+  "body": "The bridge-masons form a fellowship bound by an oath sworn on the stone cup at Dùn ìseal: no span to be closed in the dark, and none to be paid for in coal. Their lodge is kept near the western crossing, in the country of Ros dhomhain.",
   "place": "province:5",
   "kind": "craft"
  },
@@ -404,7 +404,7 @@
   "id": "II-0044",
   "canon": false,
   "title": "The grave-keepers of Cnoc dhìreach",
-  "body": "A few families settle at Cnoc dhìreach to tend Tuam Cnoc dhìreach after the Keeper's burial. The Hall pays them in ore, a handful each a season, the only payment in ore the Law ever allows.",
+  "body": "A few families settle at Cnoc dhìreach to tend Tuam Cnoc dhìreach after the Keeper's burial. The Hall pays them in coal, a handful each a season, the only payment in coal the Law ever allows.",
   "place": "burg:432",
   "kind": "people",
   "within": [
@@ -436,7 +436,7 @@
   "id": "II-0047",
   "canon": false,
   "title": "The house of Tormod at Seann Dunn",
-  "body": "Sliochd Thormoid raises a hall and a shrine at Seann Dunn, facing the mountain across the river. A lamp of ore burns in the shrine at the Law's measure. The other houses complain that the measure of Seann Dunn is always the fullest.",
+  "body": "Sliochd Thormoid raises a hall and a shrine at Seann Dunn, facing the mountain across the river. A lamp of coal burns in the shrine at the Law's measure. The other houses complain that the measure of Seann Dunn is always the fullest.",
   "place": "burg:18",
   "kind": "building"
  },
@@ -573,7 +573,7 @@
   "id": "II-0063",
   "canon": false,
   "title": "The bath-house at Muileann ruadh",
-  "body": "A roofed bath-house is built over the warm springs below Muileann ruadh, with sleeping-places for the sick and their bearers. The Hall appoints a keeper of the springs, who tends them in the name of Dian Cècht, the healer. It is the first office the Hall makes that has nothing to do with the ore.",
+  "body": "A roofed bath-house is built over the warm springs below Muileann ruadh, with sleeping-places for the sick and their bearers. The Hall appoints a keeper of the springs, who tends them in the name of Dian Cècht, the healer. It is the first office the Hall makes that has nothing to do with the coal.",
   "place": "burg:229",
   "kind": "building"
  },
@@ -589,7 +589,7 @@
   "id": "II-0064a",
   "canon": false,
   "title": "The market under the Hall",
-  "body": "A market is held under the walls of the Hall at Dùn ìseal on the four quarter days, Samhain, Là Fhèill Brìde, Bealltainn and Lùnastal, when the households of the eastern hills come up with their dues. Hides, venison, charcoal, honey and the silver of Muileann chiar change hands there on the new weights. The Keepers allow no ore to be sold on their ground, and none is.",
+  "body": "A market is held under the walls of the Hall at Dùn ìseal on the four quarter days, Samhain, Là Fhèill Brìde, Bealltainn and Lùnastal, when the households of the eastern hills come up with their dues. Hides, venison, charcoal, honey and the silver of Muileann chiar change hands there on the new weights. The Keepers allow no coal to be sold on their ground, and none is.",
   "place": "burg:315",
   "kind": "trade",
   "between": [
@@ -601,7 +601,7 @@
   "id": "II-0065",
   "canon": false,
   "title": "The stag's people at Cnoc bhàn",
-  "body": "A house of the stag's people is founded at Cnoc bhàn, north of the mountain, and after the long exclusion takes cutters again. Its teachers keep the question of Sìleas nic Coinnich as she left it: why does the ore bleed for one hand and not another?",
+  "body": "A house of the stag's people is founded at Cnoc bhàn, north of the mountain, and after the long exclusion takes cutters again. Its teachers keep the question of Sìleas nic Coinnich as she left it: why does the coal show its colours for one hand and not another?",
   "place": "burg:343",
   "kind": "people"
  },
@@ -701,7 +701,7 @@
   "id": "II-0077",
   "canon": false,
   "title": "Goraidh mac Ìomhair called rìgh",
-  "body": "At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Goraidh mac Ìomhair, their rìgh, their king. None before him was ever so called. Goraidh claims nothing over the vein, and is careful to tell the Hall so.",
+  "body": "At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Goraidh mac Ìomhair, their rìgh, their king. No ruler of the lowlands was so called before him. Goraidh claims nothing over the vein, and is careful to tell the Hall so.",
   "place": "burg:422",
   "kind": "reign",
   "between": [
@@ -817,7 +817,7 @@
   "id": "II-0088",
   "canon": false,
   "title": "The stag-letters",
-  "body": "At Muileann chiar in the far east the teachers of the stag's people make the cutters' tally-notches into signs for sounds, so that a teaching may be kept without a teacher. These are the first letters the Ròdaich use: the ogham, which the druids call the gift of Ogma. From them come nearly all the later hands of the island.",
+  "body": "At Muileann chiar in the far east the teachers of the stag's people make the cutters' tally-notches into signs for sounds, so that a teaching may be kept without a teacher. These are the first letters the Dia-thìrich use: the ogham, which the druids call the gift of Ogma. From them come nearly all the later hands of the island.",
   "place": "burg:78",
   "kind": "record",
   "between": [
@@ -829,7 +829,7 @@
   "id": "II-0089",
   "canon": false,
   "title": "The letters set against the obelisk",
-  "body": "Scholars of the stag carry their new letters to Carragh Cnoc bheag and set them beside the marks on the obelisk. They match nothing. The scholars write that the stone's makers were not their teachers, and that is the first thing the Ròdaich ever write of the old people.",
+  "body": "Scholars of the stag carry their new letters to Carragh Cnoc bheag and set them beside the marks on the obelisk. They match nothing. The scholars write that the stone's makers were not their teachers, and that is the first thing the Dia-thìrich ever write of the old people.",
   "place": "marker:28",
   "kind": "record"
  },
@@ -869,7 +869,7 @@
   "id": "II-0093",
   "canon": false,
   "title": "The War of the Roads begins at Muileann òg",
-  "body": "Iain Garbh marches west with the road-guards and the lowland levies, and burns the toll-house at Muileann òg that the men of Lachlann Ciar had taken. It is the first war of Ròdach against Ròdach. The Hall will bless neither side.",
+  "body": "Iain Garbh marches west with the road-guards and the lowland levies, and burns the toll-house at Muileann òg that the men of Lachlann Ciar had taken. It is the first war of Dia-thìreach against Dia-thìreach. The Hall will bless neither side.",
   "place": "burg:151",
   "kind": "war",
   "between": [
@@ -1167,7 +1167,7 @@
   "id": "II-0119",
   "canon": false,
   "title": "Calum Liath's surveyors",
-  "body": "The Keeper Calum Liath sends cutters with knotted cords and lamps into every gallery at Dùn ìseal, to follow the vein as far as it can be followed and mark where it thickens and thins. The work keeps the cutters from the ore for three seasons, and the households go short to pay for it.",
+  "body": "The Keeper Calum Liath sends cutters with knotted cords and lamps into every gallery at Dùn ìseal, to follow the vein as far as it can be followed and mark where it thickens and thins. The work keeps the cutters from the coal for three seasons, and the households go short to pay for it.",
   "place": "burg:315",
   "kind": "faith"
  },
@@ -1175,7 +1175,7 @@
   "id": "II-0120",
   "canon": true,
   "title": "The measuring of the vein",
-  "body": "For the first time men try to reckon how much ore the mountain holds. Their reckoning proves far too hopeful.",
+  "body": "For the first time men try to reckon how much coal the mountain holds. Their reckoning proves far too hopeful.",
   "place": null,
   "kind": "discovery",
   "canon_date": "undated"
@@ -1204,7 +1204,7 @@
   "id": "II-0123",
   "canon": true,
   "title": "The apprentice-binding custom",
-  "body": "Young Ròdaich are first bound for seven years to a master of the vein's custody before they may go near the ore themselves. Every later guild of the mines is shaped on this binding.",
+  "body": "Young Dia-thìrich are first bound for seven years to a master of the vein's custody before they may go near the coal themselves. Every later guild of the mines is shaped on this binding.",
   "place": null,
   "kind": "craft",
   "canon_date": "undated"
@@ -1245,7 +1245,7 @@
   "id": "II-0127",
   "canon": false,
   "title": "The silver tokens",
-  "body": "The clerks of Fearchar Òg begin to pay the road-guards in small silver rings of the Muileann chiar weight, stamped with the hall's mark. It is the first payment in metal by any ruler on Rodos. The rings travel further than the guards do.",
+  "body": "The clerks of Fearchar Òg begin to pay the road-guards in small silver rings of the Muileann chiar weight, stamped with the hall's mark. It is the first payment in metal by any ruler on Dia-thìr. The rings travel further than the guards do.",
   "place": "burg:419",
   "kind": "trade",
   "within": [
@@ -1333,7 +1333,7 @@
   "id": "II-0135",
   "canon": false,
   "title": "The hall moves to Cathair dhearg",
-  "body": "Beathag Mhòr moves her hall from Dùn dhearg to the town at the western bridge-foot, Cathair dhearg, to sit where the roads, the river and the western harbours meet. Dùn dhearg keeps the old granaries and the graves of the house of Ìomhar. From this reign Cathair dhearg is the seat of rule on Rodos, whatever else changes.",
+  "body": "Beathag Mhòr moves her hall from Dùn dhearg to the town at the western bridge-foot, Cathair dhearg, to sit where the roads, the river and the western harbours meet. Dùn dhearg keeps the old granaries and the graves of the house of Ìomhar. From this reign Cathair dhearg is the seat of rule on Dia-thìr, whatever else changes.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1401,7 +1401,7 @@
   "id": "II-0142",
   "canon": true,
   "title": "The census of hands",
-  "body": "The households that hold the old right to burn the ore are counted across the whole island for the first time. So it is shown that the burning of the ore was already rationed by rule.",
+  "body": "The households that hold the old right to burn the coal are counted across the whole island for the first time. So it is shown that the burning of the coal was already rationed by rule.",
   "place": null,
   "kind": "record",
   "canon_date": "undated"
@@ -1422,7 +1422,7 @@
   "id": "II-0144",
   "canon": false,
   "title": "The refused of Seann Tarr",
-  "body": "Most of the refused households of the north-eastern coast are fisher-families about Seann Tarr who had never burned ore at all, and now find they have no right to begin. Sliochd Raghnaill takes up their cause at the council and loses. The fisher-families burn peat and say it is warmer.",
+  "body": "Most of the refused households of the north-eastern coast are fisher-families about Seann Tarr who had never burned coal at all, and now find they have no right to begin. Sliochd Raghnaill takes up their cause at the council and loses. The fisher-families burn peat and say it is warmer.",
   "place": "burg:34",
   "kind": "people"
  },
@@ -1546,7 +1546,7 @@
   "id": "II-0156",
   "canon": false,
   "title": "Inis bheag's school of letters",
-  "body": "At Inis bheag on the Abhainn bheag in the north a teacher of the stag's people begins to teach letters to fishers' children who will never cut ore. It is the first teaching of letters for their own sake. The Hall's roll notes it, and adds that fish do not need reading.",
+  "body": "At Inis bheag on the Abhainn bheag in the north a teacher of the stag's people begins to teach letters to fishers' children who will never cut coal. It is the first teaching of letters for their own sake. The Hall's roll notes it, and adds that fish do not need reading.",
   "place": "burg:62",
   "kind": "people"
  },
@@ -1594,7 +1594,7 @@
   "id": "II-0162",
   "canon": false,
   "title": "The strike-books compared",
-  "body": "Donnchadh mac Iain, a teacher of the stag's people at Cnoc bhàn, reads through the strike-books of many generations of apprentices. He finds that the ore bleeds brighter for cutters in their later years than in their first, whatever their house, and argues that the vein answers practice. The elders answer that it answers what a cutter was born with, and that practice only shows it.",
+  "body": "Donnchadh mac Iain, a teacher of the stag's people at Cnoc bhàn, reads through the strike-books of many generations of apprentices. He finds that the coal breaks brighter in its colours for cutters in their later years than in their first, whatever their house, and argues that the vein answers practice. The elders answer that it answers what a cutter was born with, and that practice only shows it.",
   "place": "burg:343",
   "kind": "record"
  },
@@ -1751,7 +1751,7 @@
   "id": "II-0178",
   "canon": false,
   "title": "The poor season in the mountain",
-  "body": "The galleries open late and close early, and the ore carried down is a third of a common season's. The mountain households of Muileann gheal, Doire uaine and Àth dhìreach, who trade their carrying for grain, have nothing to trade, and by the season's end they are eating their seed.",
+  "body": "The galleries open late and close early, and the coal carried down is a third of a common season's. The mountain households of Muileann gheal, Doire uaine and Àth dhìreach, who trade their carrying for grain, have nothing to trade, and by the season's end they are eating their seed.",
   "place": "province:112",
   "kind": "disaster",
   "within": [
@@ -1856,7 +1856,7 @@
   "id": "II-0187",
   "canon": false,
   "title": "The shrine at Seann Dunn enlarged",
-  "body": "Gilleasbuig Mòr enlarges his house's shrine at Seann Dunn into a temple with a court for pilgrims. The other houses say still that its ore-lamp burns fuller than the measure, and every season a Keeper's cutter is sent to try it.",
+  "body": "Gilleasbuig Mòr enlarges his house's shrine at Seann Dunn into a temple with a court for pilgrims. The other houses say still that its coal-lamp burns fuller than the measure, and every season a Keeper's cutter is sent to try it.",
   "place": "burg:18",
   "kind": "building"
  },
@@ -1960,7 +1960,7 @@
   "id": "II-0198",
   "canon": false,
   "title": "Seal-oil from Ceann mhòr",
-  "body": "Ceann mhòr on the north-west coast begins to trade seal-oil down the western coast to Ros bheag for silver rings, and its beacons burn it. For many generations the seal-oil lamps of the western harbours are the brightest light on Rodos.",
+  "body": "Ceann mhòr on the north-west coast begins to trade seal-oil down the western coast to Ros bheag for silver rings, and its beacons burn it. For many generations the seal-oil lamps of the western harbours are the brightest light on Dia-thìr.",
   "place": "burg:143",
   "kind": "trade"
  },
@@ -2156,7 +2156,7 @@
   "id": "II-0221",
   "canon": true,
   "title": "The common root of the orders",
-  "body": "The one folk-faith of the island begins plainly to divide into the several ways that later ages name apart: the orders of An Creideamh Sean, the Old Faith, and the hearth-keeping of Na Seann Spioradan, the Old Spirits. From this time the belief of the Ròdaich is no longer one.",
+  "body": "The one folk-faith of the island begins plainly to divide into the several ways that later ages name apart: the orders of An Creideamh Sean, the Old Faith, and the hearth-keeping of Na Seann Spioradan, the Old Spirits. From this time the belief of the Dia-thìrich is no longer one.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -2397,7 +2397,7 @@
   "id": "II-0249",
   "canon": true,
   "title": "The last age of even population",
-  "body": "So ends the Holy Age. The chroniclers of after days look back on it with some unease: it is the last time in the history of Rodos that no family's lives ran longer than any other's.",
+  "body": "So ends the Holy Age. The chroniclers of after days look back on it with some unease: it is the last time in the history of Dia-thìr that no family's lives ran longer than any other's.",
   "place": null,
   "kind": "record",
   "canon_date": "undated"

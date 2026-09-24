@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Rodos Atlas</title>
+<title>Dia-thìr Atlas</title>
 <link rel="icon" type="image/png" href="fmg/images/icons/favicon-32x32.png">
 <link rel="stylesheet" href="FONTS_URL">
 <style>
@@ -48,7 +48,7 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
 .stage{flex:1; position:relative; min-width:0; background:#1d2230;}
 #fmg{position:absolute; inset:0; width:100%; height:100%; border:0; display:block;}
 .loading{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
-  background:var(--obsidian); color:var(--parchment-dim); font-family:'Cinzel',serif; letter-spacing:.06em; font-size:14px; z-index:5;}
+  background:var(--coal); color:var(--parchment-dim); font-family:'Cinzel',serif; letter-spacing:.06em; font-size:14px; z-index:5;}
 .loading[hidden]{display:none;}
 .loading b{color:var(--parchment); font-weight:600; font-size:18px;}
 .drawer{flex:none; width:370px; max-width:88vw; overflow:auto; background:rgba(12,10,16,.97); border-left:1px solid var(--hair);
@@ -84,7 +84,7 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
 <div class="panel" id="panel-timeline">
   <header>
     <p class="kicker">RÌOGHACHD RÒDAIS · the annals</p>
-    <h1>The Annals of Rodos</h1>
+    <h1>The Annals of Dia-thìr</h1>
     <p>Every remembered deed of the six ages, from the crack in the stone to the present year, each set on its day
       and dated in the era of its age.
       Where a deed has a place, a map button stands beside it and carries you there. ◆ marks the entries of the
@@ -101,8 +101,8 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
 
 <div class="panel" id="panel-map">
   <div class="stage">
-    <iframe id="fmg" title="The map of Rodos"></iframe>
-    <div class="loading" id="loading"><b>Opening the map of Rodos</b><span>The map is being unrolled</span></div>
+    <iframe id="fmg" title="The map of Dia-thìr"></iframe>
+    <div class="loading" id="loading"><b>Opening the map of Dia-thìr</b><span>The map is being unrolled</span></div>
     <button class="drawtoggle" id="drawtoggle" onclick="toggleDrawer()">Record ◂</button>
   </div>
   <aside class="drawer" id="drawer" aria-label="The record of a place"></aside>
@@ -115,7 +115,7 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
 <script>
 var EVENTS = /*EVENTS*/[];          // [id, age, date, title, body, placeRef|null, canon]
 var PLACES = /*PLACES*/{};          // ref -> {name, kind, facts, founded, by, history, known}
-var AGES = /*AGES*/[];              // [key, ròdais name, english name, css var, span in its era, era, era abbreviation]
+var AGES = /*AGES*/[];              // [key, dia-thìris name, english name, css var, span in its era, era, era abbreviation]
 var ready = false, pending = null;
 
 function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -160,19 +160,19 @@ function filterTl(){
   document.getElementById('count').textContent = shown + ' of ' + EVENTS.length;
 }
 
-/* ---- the map: Azgaar's own generator, loading Rodos.map from this folder ---- */
+/* ---- the map: Azgaar's own generator, loading Dia-thìr.map from this folder ---- */
 var started = false;
 function startMap(){
   if (started) return; started = true;
   try { localStorage.setItem('version', 'FMG_VERSION'); } catch(e){}   // skip the generator's "what's new" window
-  var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'Rodos.map';
+  var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'Dia-thìr.map';
   document.getElementById('fmg').src = 'fmg/index.html?maplink=' + encodeURIComponent(link);
   var tries = 0, t = setInterval(function(){
     var w = fmg(); tries++;
     if (w && w.pack && w.pack.burgs && w.pack.burgs.length > 500 && w.pack.cells && w.pack.cells.p && w.zoomTo && w.Layers && w.document.getElementById('viewbox')) {
       clearInterval(t); onMapReady(w);
     } else if (tries > 240) { clearInterval(t);
-      document.getElementById('loading').innerHTML = '<b>The map did not load</b><span>Close this tab and run Rodos Atlas again.</span>'; }
+      document.getElementById('loading').innerHTML = '<b>The map did not load</b><span>Close this tab and run Dia-thìr Atlas again.</span>'; }
   }, 250);
 }
 

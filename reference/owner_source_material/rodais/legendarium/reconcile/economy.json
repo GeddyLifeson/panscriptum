@@ -7,7 +7,7 @@
    "path": "[30].name",
    "old": "Slaves",
    "value": "Seal-oil",
-   "why": "No age of the annals knows slavery on Rodos; the five shore cells and Ceann mhòr's export of this good to Ceann leathan match the seal-oil trade of the north-west (II-0198). Renaming the good keeps its cells, burg production and deals consistent."
+   "why": "No age of the annals knows slavery on Dia-thìr; the five shore cells and Ceann mhòr's export of this good to Ceann leathan match the seal-oil trade of the north-west (II-0198). Renaming the good keeps its cells, burg production and deals consistent."
   },
   {
    "record": 41,
@@ -28,7 +28,7 @@
    "path": "[18].name",
    "old": "Elephants",
    "value": "Oxen",
-   "why": "Rodos is a cold northern island with no elephants in any age; the good (supply/military beast, 2 cells on the Caol leathan plain, exported to Ceann leathan) matches the ox-teams and drovers of the annals (III-0098, VI-0023/0024)."
+   "why": "Dia-thìr is a cold northern island with no elephants in any age; the good (supply/military beast, 2 cells on the Caol leathan plain, exported to Ceann leathan) matches the ox-teams and drovers of the annals (III-0098, VI-0023/0024)."
   },
   {
    "record": 41,
@@ -155,7 +155,7 @@
      }
     ]
    },
-   "why": "Muileann chaol, the first paper mill on Rodos (III-0218) and the library's copyists and binders (V-0076)."
+   "why": "Muileann chaol, the first paper mill on Dia-thìr (III-0218) and the library's copyists and binders (V-0076)."
   },
   {
    "record": 15,
@@ -267,7 +267,7 @@
     "id": "II-0064a",
     "canon": false,
     "title": "The market under the Hall",
-    "body": "A market is held under the walls of the Hall at Dùn ìseal on the quarter days, when the households of the eastern hills come up with their dues. Hides, venison, charcoal, honey and the silver of Muileann chiar change hands there, weighed on the new weights. The Keepers allow no ore to be sold on their ground, and none is.",
+    "body": "A market is held under the walls of the Hall at Dùn ìseal on the quarter days, when the households of the eastern hills come up with their dues. Hides, venison, charcoal, honey and the silver of Muileann chiar change hands there, weighed on the new weights. The Keepers allow no coal to be sold on their ground, and none is.",
     "place": "burg:315",
     "kind": "trade",
     "between": [
@@ -459,7 +459,7 @@
     "id": "IV-0122a",
     "canon": false,
     "title": "Tobacco on the concession farms",
-    "body": "Human farmers of the northern concession plant tobacco on the sheltered slopes behind Ceann mhòr and sell the dried leaf to the Company's ships. It is the one crop the humans brought that is still grown on Rodos.",
+    "body": "Human farmers of the northern concession plant tobacco on the sheltered slopes behind Ceann mhòr and sell the dried leaf to the Company's ships. It is the one crop the humans brought that is still grown on Dia-thìr.",
     "place": "burg:143",
     "kind": "trade",
     "between": [
@@ -491,7 +491,7 @@
     "id": "IV-0142a",
     "canon": false,
     "title": "The glass-house at Baile Mòr dhìreach",
-    "body": "Peter Voss, a glazier left behind when his Company contract ended, builds a glass-house at Baile Mòr dhìreach and melts the white sand of Cuan ruadh with charcoal from the hills. It is the first glass made on Rodos. His Ròdaich apprentices take the craft to the towns of the capital shore within a generation.",
+    "body": "Peter Voss, a glazier left behind when his Company contract ended, builds a glass-house at Baile Mòr dhìreach and melts the white sand of Cuan ruadh with charcoal from the hills. It is the first glass made on Dia-thìr. His Dia-thìrich apprentices take the craft to the towns of the capital shore within a generation.",
     "place": "burg:136",
     "kind": "craft",
     "between": [
@@ -635,7 +635,7 @@
    "burg": 22,
    "field": "history",
    "old": null,
-   "new": "It is the market town of the gulf and the old vein country, fifty-two towns in all, and the dearest market on Rodos. Its own trade is in cheese and salted food, and its yards build seagoing hulls.",
+   "new": "It is the market town of the gulf and the old vein country, fifty-two towns in all, and the dearest market on Dia-thìr. Its own trade is in cheese and salted food, and its yards build seagoing hulls.",
    "name": "Ceann leathan"
   },
   {
@@ -691,7 +691,7 @@
    "burg": 136,
    "field": "history",
    "old": null,
-   "new": "It is the market town of the east coast. The first glass-house on Rodos was built here and still works, and the town also makes cheese, boots and sail-cloth.",
+   "new": "It is the market town of the east coast. The first glass-house on Dia-thìr was built here and still works, and the town also makes cheese, boots and sail-cloth.",
    "name": "Baile Mòr dhìreach"
   },
   {
@@ -726,7 +726,7 @@
    "burg": 160,
    "field": "history",
    "old": null,
-   "new": "Since the Severance it has been the market town of the north-western interior and the greatest cattle-market on Rodos. Its own trade is in paper and books.",
+   "new": "Since the Severance it has been the market town of the north-western interior and the greatest cattle-market on Dia-thìr. Its own trade is in paper and books.",
    "name": "Muileann fhionn"
   },
   {
@@ -747,7 +747,7 @@
    "burg": 18,
    "field": "history",
    "old": null,
-   "new": "Its yards are the largest shipyard on Rodos, and the town cuts the sails and makes the cheese of the east coast.",
+   "new": "Its yards are the largest shipyard on Dia-thìr, and the town cuts the sails and makes the cheese of the east coast.",
    "name": "Seann Dunn"
   },
   {
@@ -859,7 +859,7 @@
    "burg": 290,
    "field": "history",
    "old": null,
-   "new": "The clay of its hill makes it the largest pottery on Rodos, and Cathair fhada sells its ware to the north.",
+   "new": "The clay of its hill makes it the largest pottery on Dia-thìr, and Cathair fhada sells its ware to the north.",
    "name": "Dùn fhiadhaich"
   },
   {
@@ -1046,7 +1046,7 @@
   "The present economy runs on dubhan (VI-0041, VI-0154) but the goods list has no dubhan. The nearest good is Oil (i35: fuel, 1 sea cell, recipes olives/whales, produced by no burg). It could be renamed 'Dubhan' and given to the dubhan works at the southern Seann Skell (burg 431, VI-0008, VI-0045) as a crafted good; left alone because its recipes (olive oil, whale oil) do not fit dubhan and whale-oil is written into the history as lamp oil.",
   "Coins are crafted in 27 small burgs (Baile naomh 48, Doire dhearg 81, ... Baile dhìreach 384, Muileann gheal 288, Àth fhiadhaich 12). The history has one mint (Cathair dhearg, V-0024). Written in as coin-blanks refined for the mint (new V-0137a) rather than editing 27 burgs and their deals.",
   "Ships are built at Ros fhionn (burg 76, port 0), whose harbour silted in III-0166. Written as river barges and hulls on its river; if that is not wanted, its Ships/Sails/Ropes production entries could be removed.",
-  "Muileann fhionn (160) is a market centre; its gazetteer says human-built fort and mill of the Age of Strangers, but IV-0288 (1920) calls it 'a Ròdaich mill town'. Not an economy question; flagged for the burg/gazetteer layer. New V-0044a follows the gazetteer.",
+  "Muileann fhionn (160) is a market centre; its gazetteer says human-built fort and mill of the Age of Strangers, but IV-0288 (1920) calls it 'a Dia-thìrich mill town'. Not an economy question; flagged for the burg/gazetteer layer. New V-0044a follows the gazetteer.",
   "Perfume (27 producers, the costliest good traded between markets) is kept and written in as scent-waters of bog-myrtle and meadowsweet (new V-0107a); renaming it was not needed.",
   "The biome record labels 616 farmed land cells 'Glacier' and 567 'Tundra' although they grow grain, wood, hemp and honey (the goods were placed under other biome rules). The appendix describes these as 'the high bare north' and does not use the biome names; the biome layer may want to relabel them.",
   "Section V of G_trade.md cites new events by {{date:...}} (VI-0131a, V-0036a, etc.); if an annals_add is not applied, the matching token in the appendix must be dropped too. Every new event id cited in G_trade.md: I-0116a, II-0064a, II-0106a, II-0134a, III-0070a, III-0088a, III-0119a, III-0126a, III-0135a, III-0156a, III-0168a, III-0181a, III-0214a, IV-0122a, IV-0127a, IV-0142a, V-0014a, V-0036a, V-0044a, V-0107a, V-0137a, VI-0120a, VI-0131a, VI-0132a.",

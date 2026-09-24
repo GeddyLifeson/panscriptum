@@ -45,7 +45,7 @@ Words in map names that break caol le caol: none.
 
 | before | after |
 |---|---|
-| Rodos | Ròdos |
+| Rodos | Dia-thìr |
 | Republic | Monarchy |
 | City-state | Kingdom |
 
@@ -78,7 +78,7 @@ Words in map names that break caol le caol: none.
 | before | after |
 |---|---|
 | Salty | Muir Mhanannain |
-| Endless | Ròdos |
+| Endless | Dia-thìr |
 | Bostedbury | Eilean dhubh |
 | Horshead | Eilean fhada |
 | Lympsinby | Eilean bheag |
@@ -99,9 +99,9 @@ Words in map names that break caol le caol: none.
 |---|---|
 | No religion | Gun chreideamh |
 | Kiverton Beliefs | Creideamh nan Tuathach |
-| Old Marltash Spirits | Seann Spioradan nan Ròdach |
+| Old Marltash Spirits | Seann Spioradan nan Dia-thìreach |
 | Knutskirkism | Creideamh na Scairpe Buidhe |
-| Marltash Faith | Creideamh nan Ròdach |
+| Marltash Faith | Creideamh nan Dia-thìreach |
 | Marltashism | Creideamh an t-Seabhaig |
 | Clitlese Philosophy | Feallsanachd an Fhèidh |
 | Axbridan Faith | Creideamh an Aon-adharcaich Dhuibh |

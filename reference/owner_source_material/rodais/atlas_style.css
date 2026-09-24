@@ -1,18 +1,18 @@
-/* The Rodos Atlas stylesheet, used by build_atlas.py.
+/* The Dia-thìr Atlas stylesheet, used by build_atlas.py.
    Fonts: https://fonts.googleapis.com/css2?family=Almendra+SC&family=Lugrasimo&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap */
   :root{
-    --obsidian:#0c0a10; --parchment:#e9ddc8; --parchment-dim:#b6ab97;
+    --coal:#0c0a10; --parchment:#e9ddc8; --parchment-dim:#b6ab97;
     --myth:#9d6bff; --holy:#d4af37; --sunder:#5fa8a0; --colonial:#b06a3a; --new:#5c7a5e; --kingdom:#5c7a5e; --dubhan:#8fa3c0;
     --hair:#332c3d;
     box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
   }
   *{box-sizing:inherit;}
   html{scroll-padding-top:env(safe-area-inset-top,0px);}
-  html,body{background:var(--obsidian); color:var(--parchment); margin:0; font-family:'Cormorant Garamond',serif; -webkit-font-smoothing:antialiased; height:100%;}
+  html,body{background:var(--coal); color:var(--parchment); margin:0; font-family:'Cormorant Garamond',serif; -webkit-font-smoothing:antialiased; height:100%;}
   body{background:
     radial-gradient(ellipse 900px 500px at 15% -10%, rgba(157,107,255,0.09), transparent 60%),
     radial-gradient(ellipse 700px 500px at 100% 20%, rgba(176,106,58,0.07), transparent 60%),
-    var(--obsidian);}
+    var(--coal);}
 
   .tabbar{position:sticky; top:env(safe-area-inset-top,0px); z-index:40; display:flex; gap:0;
     background:rgba(12,10,16,0.94); backdrop-filter:blur(6px); border-bottom:1px solid var(--hair);}
@@ -58,14 +58,14 @@
   .event-body em{color:var(--parchment); font-style:italic;}
   .maplink{font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.03em; color:var(--myth);
     background:none; border:1px solid var(--myth); border-radius:3px; padding:2px 8px; margin-left:8px; cursor:pointer; vertical-align:middle;}
-  .maplink:hover{background:var(--myth); color:var(--obsidian);}
+  .maplink:hover{background:var(--myth); color:var(--coal);}
 
   #panel-map{padding:16px;}
   .map-wrap{max-width:1536px; margin:0 auto; position:relative; overflow:auto; border:1px solid var(--hair); border-radius:4px;}
   .map-inner{position:relative; width:1536px; max-width:none;}
   .map-inner > svg{display:block; width:1536px; height:702px;}
   .pin{position:absolute; width:11px; height:11px; margin:-5.5px 0 0 -5.5px; border-radius:50%;
-    background:var(--myth); border:2px solid var(--obsidian); cursor:pointer; box-shadow:0 0 0 0 rgba(157,107,255,0.6);}
+    background:var(--myth); border:2px solid var(--coal); cursor:pointer; box-shadow:0 0 0 0 rgba(157,107,255,0.6);}
   .pin[data-cat="holy"]{background:var(--holy);} .pin[data-cat="sunder"]{background:var(--sunder);}
   .pin[data-cat="colonial"]{background:var(--colonial);} .pin[data-cat="new"]{background:var(--new);}
   .pin[data-cat="kingdom"]{background:var(--kingdom);} .pin[data-cat="dubhan"]{background:var(--dubhan);}

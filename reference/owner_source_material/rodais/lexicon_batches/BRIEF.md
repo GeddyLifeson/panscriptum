@@ -1,6 +1,6 @@
 # Lexicon batches — translators' brief
 
-Ròdais is getting a dictionary of the 16,000 most common English words (ranked by the `wordfreq`
+Dia-thìris is getting a dictionary of the 16,000 most common English words (ranked by the `wordfreq`
 frequency list, lemmatized). 2,749 of them are already in `../LEXICON.json`; the other ~15,600 are
 split into `in_01.json` … `in_22.json`: `[{"rank": 57, "en": "people"}, ...]` (rank 1 = most common).
 You translate one batch into `out_NN.json` and check it with `python validate_batch.py out_NN.json`.
@@ -9,21 +9,21 @@ You translate one batch into `out_NN.json` and check it with `python validate_ba
 
 - `../README.md`, `../GRAMMAR.md` (all of it, and §13 on naming new things), `../NAMING_LAYER.md`.
 - `../LEXICON.json`: the existing 5,005 entries. **Reuse its choices**: if a word you are translating
-  (or its root) already has a Ròdais form there, use the same one so the dictionary agrees with
-  itself (`grep -i '"en": "word' ../LEXICON.json`, or search by the Ròdais form).
+  (or its root) already has a Dia-thìris form there, use the same one so the dictionary agrees with
+  itself (`grep -i '"en": "word' ../LEXICON.json`, or search by the Dia-thìris form).
 - `../rodais_engine.py`: `normalize()`, `check_agreement()`, `lenite()`.
 
-## What Ròdais is
+## What Dia-thìris is
 
-Scottish Gaelic grammar and vocabulary, in Ròdais spelling: **grave accents only** (never acute),
+Scottish Gaelic grammar and vocabulary, in Dia-thìris spelling: **grave accents only** (never acute),
 **sc for Scottish sg** (*uisce*, *scoil*, *loisc*). Write the standard Scottish Gaelic word, then
 put it through `normalize()`. Where Scottish Gaelic has a well-established native word, use it.
 
-**New things: loans from 1800 on are fine, coinages are Ròdais's own (owner's rule).** The humans
+**New things: loans from 1800 on are fine, coinages are Dia-thìris's own (owner's rule).** The humans
 arrived around 1780, so a word Gaelic *borrowed* from English/Scots for a thing that came in from
-~1800 on is a real Ròdais loan: keep it, in Ròdais spelling (plain loans like *bus*, *tacsaidh*,
+~1800 on is a real Dia-thìris loan: keep it, in Dia-thìris spelling (plain loans like *bus*, *tacsaidh*,
 *rèidio* stay; *bàta-smùide* "steam-boat" is a coinage, so it is replaced). But where Scottish Gaelic uses a *coinage* (a compound
-or calque made up for the new thing), Ròdais makes its own compound instead, built from the
+or calque made up for the new thing), Dia-thìris makes its own compound instead, built from the
 **oldest known synonym** of each part (skyscraper → *suathaiche-nèimh* "heaven-grazer"; computer →
 *inntinn-iarainn* "iron-mind"; jet lag → "travel-drowsiness"). Such an entry has `"kenning": true`,
 `"lit"` (the literal English of the compound) and `"scots"` (the Scottish Gaelic word it replaces).
@@ -31,7 +31,7 @@ Look at the 609 existing kennings (`"kenning": true`) and match their style.
 
 ## It must feel OLD (the owner's rule)
 
-Ròdais should feel like old Irish / Scottish Gaelic, not modern broadcast Gaelic. When choosing a
+Dia-thìris should feel like old Irish / Scottish Gaelic, not modern broadcast Gaelic. When choosing a
 word:
 
 - For things that existed before 1800, prefer the **old native Gaelic word** over a borrowing from
@@ -42,7 +42,7 @@ word:
   real, recognisable word: e.g. *àrd-rìgh*, *filidh*, *cath* (battle), *laoch*, *dàn*, *slòigh*,
   *tìr*, *cèill*.
 - Build kennings from the oldest known synonym of each part, as a medieval poet would have named the thing.
-- Keep Scottish Gaelic grammar and the Ròdais spelling (grave accents, sc). Do not write Old Irish
+- Keep Scottish Gaelic grammar and the Dia-thìris spelling (grave accents, sc). Do not write Old Irish
   spelling; the old feel comes from word choice and kennings.
 - Keep agreement with existing LEXICON.json choices.
 
@@ -64,7 +64,7 @@ word:
 - Verbs: `rod` = the root (imperative 2sg), `root` = same, `vn` = verbal noun.
 - Adjectives: `rod` = the plain form. Add `"comp"` (comparative, e.g. *nas motha* → give *motha*) where irregular.
 - Give each word its main senses (1–3 entries); don't split hairs.
-- Function words (the, of, would, that...) translate by their Ròdais equivalents, with a `sense`
+- Function words (the, of, would, that...) translate by their Dia-thìris equivalents, with a `sense`
   explaining the construction (e.g. "of" → *de* / genitive construction; "would" → conditional
   ending, `pos: "part"`, `rod: "-adh"`, sense "conditional mood of the verb").
 - **Skip** what is not a common English word: personal names, place names, brand names,

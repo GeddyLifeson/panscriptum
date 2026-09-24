@@ -23,7 +23,7 @@
   "seed": "V-0240",
   "canon": false,
   "title": "The Board's inquiry",
-  "body": "The Mine Board sends two surveyors north to learn whether the new fuel burns as men say. Their report, which came to the library, says that it burns, that it stinks, and that it is not ore.",
+  "body": "The Mine Board sends two surveyors north to learn whether the new fuel burns as men say. Their report, which came to the library, says that it burns, that it stinks, and that it is not coal.",
   "place": "burg:95",
   "kind": "discovery"
  },
@@ -32,7 +32,7 @@
   "seed": "V-0241",
   "canon": false,
   "title": "The lamp-houses of the capital",
-  "body": "The street-lamps of Cathair dhearg, which have burned ore since the humans set them up, are left dark in the poorer streets to save fuel. When dubhan comes, the dark streets are the first lit again.",
+  "body": "The street-lamps of Cathair dhearg, which have burned coal since the humans set them up, are left dark in the poorer streets to save fuel. When dubhan comes, the dark streets are the first lit again.",
   "place": "burg:19",
   "kind": "building"
  },
@@ -40,8 +40,8 @@
   "id": "VI-0005",
   "seed": "V-0242",
   "canon": false,
-  "title": "The last ore sale at the fair",
-  "body": "The court of the fair at Muileann òg records its last sale of ore-fuel by the cartload. After this ore is sold at the fair only by the sack, and at last only by the lump, for altars.",
+  "title": "The last coal sale at the fair",
+  "body": "The court of the fair at Muileann òg records its last sale of coal-fuel by the cartload. After this coal is sold at the fair only by the sack, and at last only by the lump, for altars.",
   "place": "marker:38",
   "kind": "trade"
  },
@@ -60,7 +60,7 @@
   "seed": "V-0244",
   "canon": false,
   "title": "The mint's new dies",
-  "body": "The mint at Cathair dhearg cuts new dies for the coinage of the reign. They are the first not cut by a pupil of Fearchar Bonn's workshop, and the obsidian ink is still pressed into the seal.",
+  "body": "The mint at Cathair dhearg cuts new dies for the coinage of the reign. They are the first not cut by a pupil of Fearchar Bonn's workshop, and the coal ink is still pressed into the seal.",
   "place": "burg:19",
   "kind": "craft"
  },
@@ -78,7 +78,7 @@
   "seed": "V-0246",
   "canon": false,
   "title": "The high custodian's letter",
-  "body": "The Àrd-choimheadaiche at Seann Skell writes to every house of the Rite that the new fuel is not forbidden, since it is not ore, and not blessed, since it is not ore. The letter is read in the houses and argued in the druid schools for years.",
+  "body": "The Àrd-choimheadaiche at Seann Skell writes to every house of the Rite that the new fuel is not forbidden, since it is not coal, and not blessed, since it is not coal. The letter is read in the houses and argued in the druid schools for years.",
   "place": "burg:431",
   "kind": "faith"
  },
@@ -123,7 +123,7 @@
   "seed": "V-0251",
   "canon": true,
   "title": "The lights turned to dubhan",
-  "body": "The five beacons of the coast, which have burned obsidian-lit flame for more than a century, are the first works of the kingdom turned by order to dubhan.",
+  "body": "The five beacons of the coast, which have burned coal-lit flame for more than a century, are the first works of the kingdom turned by order to dubhan.",
   "place": "marker:12",
   "kind": "building",
   "canon_date": "c. 2005 DE"
@@ -132,8 +132,8 @@
   "id": "VI-0015",
   "seed": "V-0252",
   "canon": false,
-  "title": "The last obsidian flame",
-  "body": "The obsidian flame of Taigh-solais Tobar dhearg is borne in a closed lantern to the Rite's house at Seann Skell and let burn out on the altar. Custodians from four shires attend, and Ciorstaidh nic Artair, keeper of the light, carries the lantern.",
+  "title": "The last coal flame",
+  "body": "The coal flame of Taigh-solais Tobar dhearg is borne in a closed lantern to the Rite's house at Seann Skell and let burn out on the altar. Custodians from four shires attend, and Ciorstaidh nic Artair, keeper of the light, carries the lantern.",
   "place": "marker:16",
   "kind": "faith"
  },
@@ -195,8 +195,8 @@
   "id": "VI-0022",
   "seed": "V-0259",
   "canon": false,
-  "title": "The ore line's first dubhan engine",
-  "body": "The Rail Board runs its first dubhan engine on the ore line, from the yards at Muileann chrom to Cathair dhearg. It carries no ore. It carries dubhan to the lamp-houses of the capital, and comes back empty.",
+  "title": "The coal line's first dubhan engine",
+  "body": "The Rail Board runs its first dubhan engine on the coal line, from the yards at Muileann chrom to Cathair dhearg. It carries no coal. It carries dubhan to the lamp-houses of the capital, and comes back empty.",
   "place": "burg:354",
   "kind": "craft"
  },
@@ -264,7 +264,7 @@
   "seed": "V-0265",
   "canon": false,
   "title": "The Taigh-seinnse Mòr's hall",
-  "body": "An Taigh-seinnse Mòr, on the old ore road above Cuan chrom, opens a second hall lit wholly by dubhan. It is let for weddings, wakes and the meetings of the Guild of Hewers, whose own hall at Achadh dhomhain has been sold.",
+  "body": "An Taigh-seinnse Mòr, on the old coal road above Cuan chrom, opens a second hall lit wholly by dubhan. It is let for weddings, wakes and the meetings of the Guild of Hewers, whose own hall at Achadh dhomhain has been sold.",
   "place": "marker:10",
   "kind": "building"
  },
@@ -281,8 +281,8 @@
   "id": "VI-0030",
   "seed": "V-0267",
   "canon": false,
-  "title": "The ore engines laid up",
-  "body": "The Rail Board's ore-fired engines are laid up in a siding at Muileann chrom and never run again. The yard families who drove them are taught the dubhan engines, such of them as will learn.",
+  "title": "The coal engines laid up",
+  "body": "The Rail Board's coal-fired engines are laid up in a siding at Muileann chrom and never run again. The yard families who drove them are taught the dubhan engines, such of them as will learn.",
   "place": "burg:354",
   "kind": "craft"
  },
@@ -346,7 +346,7 @@
   "seed": "V-0274",
   "canon": false,
   "title": "The Rail Board's new name",
-  "body": "In its own timetables the Rail Board drops 'ore' from the name of its main line and calls it only the line. Everyone else still calls it the ore line.",
+  "body": "In its own timetables the Rail Board drops 'coal' from the name of its main line and calls it only the line. Everyone else still calls it the coal line.",
   "place": "burg:354",
   "kind": "trade"
  },
@@ -355,7 +355,7 @@
   "seed": "V-0275",
   "canon": false,
   "title": "The Guild of Hewers dissolved",
-  "body": "The Guild of Hewers, chartered at Achadh dhomhain in the first years of the restored custom, dissolves itself. Its rolls, its oath-stone of ore and its sick-roll go to the library. Its last master, Tormod mac Dhonnchaidh, writes that the guild had outlived the mountain's patience.",
+  "body": "The Guild of Hewers, chartered at Achadh dhomhain in the first years of the restored custom, dissolves itself. Its rolls, its oath-stone of coal and its sick-roll go to the library. Its last master, Tormod mac Dhonnchaidh, writes that the guild had outlived the mountain's patience.",
   "place": "burg:135",
   "kind": "craft"
  },
@@ -382,7 +382,7 @@
   "seed": "V-0278",
   "canon": true,
   "title": "The trade turns to dubhan",
-  "body": "Markets, the supply of the host and the shipping turn wholly to the new fuel. The obsidian caste sees the source of its own power fail, and makes no objection.",
+  "body": "Markets, the supply of the host and the shipping turn wholly to the new fuel. The coal caste sees the source of its own power fail, and makes no objection.",
   "place": null,
   "kind": "trade",
   "canon_date": "c. 2012 DE"
@@ -392,7 +392,7 @@
   "seed": "V-0278a",
   "canon": false,
   "title": "Buses and hired cars",
-  "body": "Dubhan buses begin to run between Cathair dhearg, Inis mhòr and Cathair mhòr, and hired cars wait at the bridge in the capital. Ròdais takes the names of both from the humans' tongue as it found them, bus and tacsaidh; for the engine and the train it had made words of its own.",
+  "body": "Dubhan buses begin to run between Cathair dhearg, Inis mhòr and Cathair mhòr, and hired cars wait at the bridge in the capital. Dia-thìris takes the names of both from the humans' tongue as it found them, bus and tacsaidh; for the engine and the train it had made words of its own.",
   "place": "burg:19",
   "kind": "trade",
   "between": [
@@ -423,7 +423,7 @@
   "seed": "V-0281",
   "canon": false,
   "title": "Raiders taken to Ros dhomhain",
-  "body": "The crews of the raider hulks brought into Ros dhomhain are tried at the court of the sea there. Several of them are Tuathaich. The court hangs none; it sends the Ròdaich among them to the quarries at Achadh dhomhain and the Tuathaich home to the north.",
+  "body": "The crews of the raider hulks brought into Ros dhomhain are tried at the court of the sea there. Several of them are Tuathaich. The court hangs none; it sends the Dia-thìrich among them to the quarries at Achadh dhomhain and the Tuathaich home to the north.",
   "place": "burg:27",
   "kind": "law"
  },
@@ -432,7 +432,7 @@
   "seed": "V-0282",
   "canon": false,
   "title": "The Fuel-Fitters chartered",
-  "body": "The fitters of dubhan engines, who have worked outside every guild, are chartered as the Guild of Fuel-Fitters at Seann Skell on the southern coast. Its rolls, like those of every guild before it, are open to Ròdaich only. The Tuathaich fitters already in the trade are let go.",
+  "body": "The fitters of dubhan engines, who have worked outside every guild, are chartered as the Guild of Fuel-Fitters at Seann Skell on the southern coast. Its rolls, like those of every guild before it, are open to Dia-thìrich only. The Tuathaich fitters already in the trade are let go.",
   "place": "burg:431",
   "kind": "craft"
  },
@@ -468,7 +468,7 @@
   "seed": "V-0286",
   "canon": true,
   "title": "The fourth currency reform",
-  "body": "For the first time the coin of the Rìoghachd is pegged to the making of dubhan and not to the stores of obsidian. So the kingdom owns, quietly, which of the two now runs it.",
+  "body": "For the first time the coin of the Rìoghachd is pegged to the making of dubhan and not to the stores of coal. So the kingdom owns, quietly, which of the two now runs it.",
   "place": null,
   "kind": "trade",
   "canon_date": "c. 2014 DE"
@@ -488,7 +488,7 @@
   "seed": "V-0287",
   "canon": false,
   "title": "The plain seal",
-  "body": "The mint at Cathair dhearg ceases to press obsidian ink into the seal of the coinage. The new seal is plain. Fearchar Bonn's first dies are given to the library and kept in the case beside the oath-stone of the Guild of Hewers.",
+  "body": "The mint at Cathair dhearg ceases to press coal ink into the seal of the coinage. The new seal is plain. Fearchar Bonn's first dies are given to the library and kept in the case beside the oath-stone of the Guild of Hewers.",
   "place": "burg:19",
   "kind": "craft"
  },
@@ -570,7 +570,7 @@
   "seed": "V-0296",
   "canon": true,
   "title": "The library's Tuathaich wing proposed",
-  "body": "A request is laid before Leabharlann Muileann chaol that the Tuathaich tellings be kept beside the Ròdaich record. It is laid on the table and not refused, and there it lies to this day.",
+  "body": "A request is laid before Leabharlann Muileann chaol that the Tuathaich tellings be kept beside the Dia-thìrich record. It is laid on the table and not refused, and there it lies to this day.",
   "place": "marker:34",
   "kind": "record",
   "canon_date": "c. 2016 DE"
@@ -743,8 +743,8 @@
   "id": "VI-0078",
   "seed": "V-0315",
   "canon": false,
-  "title": "Arms by the ore line",
-  "body": "The Rail Board carries arms and dubhan from Cathair dhearg to Seann Bhral on the ore line and its western branch. The yard at Muileann chrom works day and night on the trains.",
+  "title": "Arms by the coal line",
+  "body": "The Rail Board carries arms and dubhan from Cathair dhearg to Seann Bhral on the coal line and its western branch. The yard at Muileann chrom works day and night on the trains.",
   "place": "burg:47",
   "kind": "war"
  },
@@ -1061,7 +1061,7 @@
   "seed": "V-0339",
   "canon": false,
   "title": "An dàrna rèisimeid raised",
-  "body": "The second regiment is raised at Àth dhìreach in the east and set to guard the ore line and the library road. Its camp is the first soldiery the town of Muileann chaol has seen.",
+  "body": "The second regiment is raised at Àth dhìreach in the east and set to guard the coal line and the library road. Its camp is the first soldiery the town of Muileann chaol has seen.",
   "place": "burg:338",
   "kind": "war",
   "between": [
@@ -1430,7 +1430,7 @@
   "seed": "V-0369",
   "canon": false,
   "title": "The Fuel-Fitters and the regiments",
-  "body": "The Guild of Fuel-Fitters at Seann Skell on the southern coast is given the contract for the regiments' engines and the fleets' hulls, and doubles its rolls. The charter rule holds, and all its new fitters are Ròdaich.",
+  "body": "The Guild of Fuel-Fitters at Seann Skell on the southern coast is given the contract for the regiments' engines and the fleets' hulls, and doubles its rolls. The charter rule holds, and all its new fitters are Dia-thìrich.",
   "place": "burg:431",
   "kind": "craft"
  },
@@ -1543,7 +1543,7 @@
   "seed": "V-0380",
   "canon": false,
   "title": "Seann-chunntas",
-  "body": "Tuathaich speakers begin to name the tabled request to the library and the dead motion for amends together as 'seann-chunntas', an old reckoning that none in power will settle and none has cancelled. The Ròdaich in office do not take up the word.",
+  "body": "Tuathaich speakers begin to name the tabled request to the library and the dead motion for amends together as 'seann-chunntas', an old reckoning that none in power will settle and none has cancelled. The Dia-thìrich in office do not take up the word.",
   "place": "burg:95",
   "kind": "culture"
  },
@@ -1552,7 +1552,7 @@
   "seed": "V-0381",
   "canon": false,
   "title": "The Sloc Mòr closed",
-  "body": "The Mine Board shuts the upper galleries of the Sloc Mòr at Achadh dhomhain. One face is kept open in the Rite's keeping, to cut ore for the altars, a few baskets a year.",
+  "body": "The Mine Board shuts the upper galleries of the Sloc Mòr at Achadh dhomhain. One face is kept open in the Rite's keeping, to cut coal for the altars, a few baskets a year.",
   "place": "burg:135",
   "kind": "craft"
  },
@@ -1561,7 +1561,7 @@
   "seed": "V-0382",
   "canon": false,
   "title": "The last hewers",
-  "body": "Twelve hewers are kept at the Sloc Mòr to cut the altar-ore in the Rite's keeping. They are the last of their trade to work the vein on the island, and the Rite gives them its own oath, not the dissolved guild's.",
+  "body": "Twelve hewers are kept at the Sloc Mòr to cut the altar-coal in the Rite's keeping. They are the last of their trade to work the vein on the island, and the Rite gives them its own oath, not the dissolved guild's.",
   "place": "burg:135",
   "kind": "craft"
  },
@@ -1587,8 +1587,8 @@
   "id": "VI-0148",
   "seed": "V-0385",
   "canon": false,
-  "title": "The ore line carries no ore",
-  "body": "The last ore train runs from Achadh dhomhain to Cathair dhearg. The ore line keeps its name and carries dubhan, wool and soldiers.",
+  "title": "The coal line carries no coal",
+  "body": "The last coal train runs from Achadh dhomhain to Cathair dhearg. The coal line keeps its name and carries dubhan, wool and soldiers.",
   "place": "burg:135",
   "kind": "trade"
  },
@@ -1606,7 +1606,7 @@
   "seed": "V-0387",
   "canon": false,
   "title": "The fair of the present year",
-  "body": "The fair at Muileann òg draws traders from every shire the state holds. Tuathaich wool is sold there on its northern day, through Ròdaich factors, as it has been since the first fair.",
+  "body": "The fair at Muileann òg draws traders from every shire the state holds. Tuathaich wool is sold there on its northern day, through Dia-thìrich factors, as it has been since the first fair.",
   "place": "marker:38",
   "kind": "trade"
  },
@@ -1633,7 +1633,7 @@
   "seed": "V-0390",
   "canon": false,
   "title": "The Moot of the present year",
-  "body": "The Moot at Caol mhòr meets under Peter Hale. Its minute-books run unbroken from Walter Hale's first meeting. It has no standing in Ròdaich law and has never asked for any.",
+  "body": "The Moot at Caol mhòr meets under Peter Hale. Its minute-books run unbroken from Walter Hale's first meeting. It has no standing in Dia-thìrich law and has never asked for any.",
   "place": "burg:95",
   "kind": "people"
  },
@@ -1662,7 +1662,7 @@
   "seed": "V-0391b",
   "canon": false,
   "title": "Dubhan's charter of export",
-  "body": "Dubhan, who made the first working fuel and is now in his sixty-ninth year, wins from the council at Cathair dhearg, after a year of letters and three sittings, leave to sell dubhan beyond the island. It is the first leave the kingdom has given since the Severance for any good of Rodos to pass beyond its waters. The charter is narrow. The Treasury sets each year's measure. The fuel is loaded only at Ros dhomhain, where a clerk of the Treasury takes the tithe on every barrel. The kingdom's depots and the Moot's are served first. Nothing of the vein goes with it: the vein's ore is not sold, and the custodians of Òrd Bhrìde seal every hold. Dubhan has told neither the council nor the chronicler who buys from him. In the autumn the first tank-hull loaded under the charter goes out past the western capes, and on the day she sails the priests of Manannan at Seann Skell say their prayer to keep the sea shut.",
+  "body": "Dubhan, who made the first working fuel and is now in his sixty-ninth year, wins from the council at Cathair dhearg, after a year of letters and three sittings, leave to sell dubhan beyond the island. It is the first leave the kingdom has given since the Severance for any good of Dia-thìr to pass beyond its waters. The charter is narrow. The Treasury sets each year's measure. The fuel is loaded only at Ros dhomhain, where a clerk of the Treasury takes the tithe on every barrel. The kingdom's depots and the Moot's are served first. Nothing of the vein goes with it: the vein's coal is not sold, and the custodians of Òrd Bhrìde seal every hold. Dubhan has told neither the council nor the chronicler who buys from him. In the autumn the first tank-hull loaded under the charter goes out past the western capes, and on the day she sails the priests of Manannan at Seann Skell say their prayer to keep the sea shut.",
   "place": "burg:27",
   "kind": "trade",
   "between": [
@@ -1674,8 +1674,8 @@
   "id": "VI-0155",
   "seed": "V-0392",
   "canon": false,
-  "title": "The altar-ore",
-  "body": "The Rite's twelve hewers at the Sloc Mòr cut the year's altar-ore. It fills four baskets. The high custodian at Seann Skell shares it among the houses of the Rite by lot.",
+  "title": "The altar-coal",
+  "body": "The Rite's twelve hewers at the Sloc Mòr cut the year's altar-coal. It fills four baskets. The high custodian at Seann Skell shares it among the houses of the Rite by lot.",
   "place": "burg:431",
   "kind": "faith"
  },
@@ -1693,7 +1693,7 @@
   "seed": "V-0394",
   "canon": true,
   "title": "The present",
-  "body": "The coal is all but gone. The trade of the island runs on a name that once belonged to one man. The Ròdaich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, their Church, and the memory of the First Canoe, Naomh Breandan's voyage to the Isle of the Blessed, which the people who have twice defeated them still call folklore.",
+  "body": "The coal is all but gone. The trade of the island runs on a name that once belonged to one man. The Dia-thìrich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, their Church, and the memory of the First Canoe, Naomh Breandan's voyage to the Isle of the Blessed, which the people who have twice defeated them still call folklore.",
   "place": "burg:19",
   "kind": "record",
   "canon_date": "2026 DE"

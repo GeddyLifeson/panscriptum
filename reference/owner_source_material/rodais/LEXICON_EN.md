@@ -1,6 +1,6 @@
-# English – Ròdais dictionary
+# English – Dia-thìris dictionary
 
-The same 21296 words, in the order of their English headwords. The full entries, with sound and literal sense, stand in `LEXICON.md`.
+The same 21306 words, in the order of their English headwords. The full entries, with sound and literal sense, stand in `LEXICON.md`.
 
 
 ## 3
@@ -9,7 +9,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 
 ## A
 
-- **a** (indefinite article: Ròdais has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant) — *—*
+- **a** (indefinite article: Dia-thìris has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant) — *—*
 - **A bird in the hand is worth two in the bush** — *Is fheàrr eun san làimh na dhà air a' chraoibh.*
 - **a bit** — *beagan*
 - **a blessing in disguise** — *beannachd am falach*
@@ -748,7 +748,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **amusing** (funny, entertaining) — *èibhinn*
 - **amygdala** (almond-shaped part of the brain tied to fear) — *cnò-eagail* ✦ n. f., gen. *cnò-eagail*, pl. *cnòthan-eagail*
 - **amyloid** (starch-like protein deposit in the body) — *amaloid* n. m., gen. *amaloid*
-- **an** (indefinite article (the form of 'a' before a vowel): Ròdais has none; a bare noun is indefinite (ubhal 'an apple')) — *—*
+- **an** (indefinite article (the form of 'a' before a vowel): Dia-thìris has none; a bare noun is indefinite (ubhal 'an apple')) — *—*
 - **anaconda** (great South American water snake) — *nathair-uisce* n. f., gen. *nathrach-uisce*, pl. *nathraichean-uisce*
 - **anaerobic** (living or working without air) — *gun àile* ✦
 - **anal** (of the anus) — *tòineach*
@@ -1986,6 +1986,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **bitumen** (natural pitch, asphalt) — *bìth-thalmhainn* n. f., gen. *bìthe-talmhainn*
 - **bizarre** (odd, bizarre) — *annasach*
 - **black** — *dubh*
+- **black coal** (the coloured coal that holds the earth; woken by burial) — *gual dubh* n. m.
 - **black hole** — *slugaire-solais* ✦ n. m., pl. *slugairean-solais*
 - **black ice** — *deigh dhubh* n. f.
 - **black moon** (Dubhlas, the second moon-month of the old year, the dark of the year; an Dùbhlachd is named from it) — *Dubhlas* n. m.
@@ -3526,7 +3527,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **clutch (car)** — *greim-cuibhle* ✦ n. m.
 - **clutter** (untidy heap of things) — *trealaich* n. f., gen. *trealaich*
 - **coach** — *oide-cluiche* ✦ n. m.
-- **coal** (coal) — *gual* n. m., gen. *guail*
+- **coal** (coal; the coloured coal of the island is an gual dathach, and its seven kinds na Seachd Guail) — *gual* n. m., gen. *guail*
 - **coalesce** — *co-leagh* v. vn. *co-leaghadh*
 - **coalition** — *co-bhanntachd* n. f., pl. *co-bhanntachdan*
 - **coarse** — *garbh*
@@ -3653,6 +3654,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **colossus** (giant statue; giant) — *famhair* n. m., gen. *famhair*, pl. *famhairean*
 - **colour** (colour) — *dath* n. m., gen. *datha*, pl. *dathan*
 - **coloured** (having colour) — *dathte*
+- **coloured coal** (the coal of the island, in which the elements are hidden, each in its own colour; seen only by the godkin) — *gual dathach* n. m.
 - **colourful** (many-coloured) — *ioma-dhathach*
 - **colt** (young male horse) — *searrach* n. m., gen. *searraich*, pl. *searraich*
 - **columbine** (flower with spurred petals) — *lus-a'-chalmain* n. m., gen. *luis-a'-chalmain*, pl. *lusan-a'-chalmain*
@@ -7259,6 +7261,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **fir** (evergreen tree) — *giuthas* n. m., gen. *giuthais*, pl. *giuthais*
 - **fire** — *teine* n. m., pl. *teintean*
 - **fire (someone)** — *cuir à dreuchd* v. vn. *cur à dreuchd*
+- **fire coal** (the coloured coal that holds fire; woken by the snap of the fingers) — *gual teine* n. m.
 - **firearm** (gun) — *arm-teine* n. m., gen. *airm-theine*, pl. *airm-theine*
 - **fireball** (ball of fire, meteor) — *caor-theine* n. f., gen. *caoire-teine*, pl. *caoran-teine*
 - **firefighter** — *bàthaiche-teine* ✦ n. m.
@@ -7778,7 +7781,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **fry** — *frighig* v. vn. *frighigeadh*
 - **fryer** (deep frying pan) — *aghann-ròstaidh* n. f., gen. *aighne-ròstaidh*, pl. *aghannan-ròstaidh*
 - **fuck** (fuck! (an oath): Mac an donais! 'son of the devil!') — *mac an donais*
-- **fucked** (ruined, broken (vulgar; Ròdais says "gone to ruin")) — *air a dhol a dholaidh*
+- **fucked** (ruined, broken (vulgar; Dia-thìris says "gone to ruin")) — *air a dhol a dholaidh*
 - **fucker** (contemptible person (vulgar)) — *bleigeard* n. m., gen. *bleigeird*, pl. *bleigeardan*
 - **fuckers** (contemptible people (vulgar)) — *trustar* n. m., gen. *trustair*, pl. *trustaran*
 - **fuckin** (damned (vulgar intensifier)) — *mallaichte*
@@ -8208,6 +8211,8 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **goddamn** (curse of anger) — *mallachd air*
 - **goddess** (goddess) — *ban-dia* n. f., gen. *ban-dè*, pl. *ban-diathan*
 - **godfather** (baptismal sponsor) — *goistidh* n. m., gen. *goistidh*, pl. *goistidhean*
+- **godfolk** (the first people of the earth, whom the Young God woke out of the island) — *Dia-shluagh* n. m.
+- **godkin** (the people of the island, descended from the godfolk) — *Clann nan Dè* n. f.
 - **godless** (without God, wicked) — *aindiadhaidh*
 - **godly** (devout, pious) — *diadhaidh*
 - **godmother** (woman sponsor at a baptism) — *muime* n. f., gen. *muime*, pl. *muimeachan*
@@ -8218,6 +8223,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **going** (going: a' dol (verbal noun of rach); going to (intent): a' dol a + verbal noun (tha mi a' dol a sheinn 'I'm going to sing')) — *a' dol*
 - **gold** (golden, of gold) — *òir*
 - **gold** (gold) — *òr* n. m., gen. *òir*
+- **gold-sheen coal** (the coloured coal that holds the sea; woken in the sea) — *gual òir* n. m.
 - **golden** (golden, of gold) — *òrach*
 - **goldfish** (small golden pond fish) — *iasc-òir* n. m., gen. *èisc-òir*, pl. *èisc-òir*
 - **goldsmith** (worker in gold) — *òr-cheàrd* n. m., gen. *òr-cheàird*, pl. *òr-cheàrdan*
@@ -11386,6 +11392,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **magpie** (black-and-white chattering bird) — *pioghaid* n. f., gen. *pioghaide*, pl. *pioghaidean*
 - **mahatma** (great soul, revered sage) — *àrd-shaoi* n. m., gen. *àrd-shaoi*, pl. *àrd-shaoithean*
 - **mahogany** (red-brown tropical hardwood) — *fiodh-ruadh* ✦ n. m., gen. *fiodha-ruaidh*
+- **mahogany coal** (the red-brown coloured coal that holds life; woken by blood) — *gual donn-ruadh* n. m.
 - **maid** (maiden) — *maighdeann* n. f., gen. *maighdinn*, pl. *maighdeannan*
 - **maid** (female servant) — *searbhanta* n. f., gen. *searbhanta*, pl. *searbhantan*
 - **maiden** (young unmarried woman) — *maighdeann* n. f., gen. *maighdinn*, pl. *maighdeannan*
@@ -12731,8 +12738,8 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **northeast** (the northeast) — *ear-thuath* n. m.
 - **northeastern** (of the north-east) — *ear-thuathach*
 - **northerly** (from or towards the north) — *on tuath*
-- **northern** (northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Rodos) — *mu thuath*
-- **northerner** (person from the north (on Rodos, one of the Tuathaich)) — *Tuathach* n. m., gen. *Tuathaich*, pl. *Tuathaich*
+- **northern** (northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Dia-thìr) — *mu thuath*
+- **northerner** (person from the north (on Dia-thìr, one of the Tuathaich)) — *Tuathach* n. m., gen. *Tuathaich*, pl. *Tuathaich*
 - **northward** (towards the north) — *gu tuath*
 - **northwest** (the north-west (an iar-thuath)) — *iar-thuath* n. f., gen. *iar-thuath*
 - **northwestern** (of the north-west) — *iar-thuathach*
@@ -12884,7 +12891,6 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **obsess** (fill someone's mind wholly) — *gabh greim air inntinn* v. vn. *gabhail greim air inntinn*
 - **obsession** — *beò-ghlacadh* n. m.
 - **obsessive** (fixated) — *dian-smuainteach*
-- **obsidian** (black volcanic glass) — *clach-ghloine* n. f., gen. *cloiche-gloine*, pl. *clachan-gloine*
 - **obsolete** — *bho fheum*
 - **obstacle** (thing in the way) — *cnap-starra* n. m., gen. *cnaip-starra*, pl. *cnapan-starra*
 - **obstetrics** (medicine of childbirth) — *eòlas-breith* ✦ n. m., gen. *eòlais-breith*
@@ -15191,6 +15197,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **railway** (track for trains) — *slighe-iarainn* ✦ n. f., gen. *slighe-iarainn*, pl. *slighean-iarainn*
 - **rain** — *uisce* n. m.
 - **rainbow** — *bogha-frois* n. m., pl. *boghachan-frois*
+- **rainbow coal** (the coloured coal that holds the spirit; the last of the seven to be woken) — *gual bogha-froise* n. m.
 - **rainfall** (fall of rain) — *sileadh* n. m., gen. *silidh*
 - **rainforest** — *coille-uisce* n. f., pl. *coilltean-uisce*
 - **rainy** (showery, wet) — *frasach*
@@ -15904,7 +15911,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **rest** (the rest, the remainder) — *còrr* n. m., gen. *còrra*
 - **rest** (rest, repose) — *fois* n. f., gen. *foise*
 - **rest** — *gabh fois* v. vn. *gabhail fois*
-- **rest-night** (a night of the full or the dark of the moon, on which no ore was cut and no nets set) — *oidhche-thàmh* n. f., gen. *oidhche-thàmh*, pl. *oidhcheannan-tàmh*
+- **rest-night** (a night of the full or the dark of the moon, on which no coal was cut and no nets set) — *oidhche-thàmh* n. f., gen. *oidhche-thàmh*, pl. *oidhcheannan-tàmh*
 - **restart** (begin again) — *tòisich a-rithist* v. vn. *tòiseachadh a-rithist*
 - **restaurant** — *taigh-bìdh* n. m., pl. *taighean-bìdh*
 - **rested** (having had rest) — *air fois a ghabhail*
@@ -16869,6 +16876,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **settler** (one who settles a new land) — *tuiniche* n. m., gen. *tuiniche*, pl. *tuinichean*
 - **setup** (arrangement, setup) — *suidheachadh* n. m., gen. *suidheachaidh*, pl. *suidheachaidhean*
 - **seven** — *a seachd*
+- **Seven Coals** (the seven kinds of the coloured coal, each holding one element: black, fire, snowflake, gold sheen, silver sheen, mahogany and rainbow) — *na Seachd Guail* n. m.
 - **sevens** (at sixes and sevens, in disorder) — *troimh-a-chèile*
 - **seventeen** — *a seachd deug*
 - **seventeenth** (ordinal 17th; the noun goes between the parts (an seachdamh latha deug)) — *seachdamh deug*
@@ -17168,6 +17176,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **silt** (fine mud left by water) — *làthach* n. f., gen. *làthaich*
 - **silver** (the metal silver (also money)) — *airgead* n. m., gen. *airgid*
 - **silver** (silvery, made of silver) — *airgeadach*
+- **silver-sheen coal** (the coloured coal that holds river water; woken in a river) — *gual airgid* n. m.
 - **silver-tongued** — *deas-bhriathrach*
 - **silverware** (silver dishes and cutlery) — *airgead-bùird* n. m., gen. *airgid-bùird*
 - **silvery** (like silver) — *airgeadach*
@@ -17472,6 +17481,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **snowboard** (board for sliding on snow) — *clàr-sneachda* ✦ n. m., gen. *clàir-sneachda*, pl. *clàran-sneachda*
 - **snowfall** (fall of snow) — *cur-sneachda* n. m., gen. *cuir-shneachda*
 - **snowflake** (flake of snow) — *bleideag-shneachda* n. f., gen. *bleideig-shneachda*, pl. *bleideagan-sneachda*
+- **snowflake coal** (the coloured coal that holds the air, flecked with white; woken by falling from a height) — *gual sneachda* n. m.
 - **snowman** (figure of snow) — *bodach-sneachda* n. m., gen. *bodaich-shneachda*, pl. *bodaich-shneachda*
 - **snowstorm** (storm of snow) — *stoirm-shneachda* n. f., gen. *stoirme-sneachda*, pl. *stoirmean-sneachda*
 - **snowy** (covered with snow) — *sneachdach*
@@ -20449,7 +20459,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **vehicular** (of vehicles) — *carbadach*
 - **veil** (cloth covering the face) — *scàile* n. f., gen. *scàile*, pl. *scàilean*
 - **vein** — *cuisle* n. f., pl. *cuislean*
-- **Vein Era** (the era of the Ancient Age, counted from the crack in the stone; VE) — *Linn na Fèithe* n. f.
+- **Vein Era** (the era of the Ancient Age, counted from the crack in the stone, when a mason broke into the coal vein and the lightning set it burning; VE) — *Linn na Fèithe* n. f.
 - **velocity** — *astar* n. m., pl. *astaran*
 - **velvet** (soft thick-piled cloth) — *meileabhaid* n. f., gen. *meileabhaide*
 - **vend** (sell) — *reic*
@@ -21166,7 +21176,7 @@ The same 21296 words, in the order of their English headwords. The full entries,
 - **wool** — *clòimh* n. f.
 - **woolly** (vague, muddled) — *ceòthach*
 - **woolly** (made of or like wool) — *olannach*
-- **wop** (offensive slur for an Italian (Ròdais uses the plain demonym)) — *Eadailteach* n. m., gen. *Eadailtich*, pl. *Eadailtich*
+- **wop** (offensive slur for an Italian (Dia-thìris uses the plain demonym)) — *Eadailteach* n. m., gen. *Eadailtich*, pl. *Eadailtich*
 - **word** — *facal* n. m., pl. *faclan*
 - **work** (work, labour; a job) — *obair* n. f., gen. *obrach*, pl. *obraichean*
 - **work** — *obraich* v. vn. *obair*

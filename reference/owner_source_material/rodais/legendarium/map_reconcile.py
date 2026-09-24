@@ -1,5 +1,5 @@
 """
-map_reconcile.py -- bring the Rodos map into line with its history, layer by layer.
+map_reconcile.py -- bring the Dia-thìr map into line with its history, layer by layer.
 
 Every layer Azgaar generated (faiths, goods and markets, the state and its shires, the regiments, the land,
 markers and routes, the arms) was read against the annals, the gazetteer and the appendices. Each layer's
@@ -8,7 +8,7 @@ applies all of them, in a fixed order, and then the integrator's own edits in re
 (which also lists the few proposal edits it sets aside; INTEGRATION.md gives the reasons).
 Last come the faiths as they are now (reconcile/faiths.json): three, and the land that keeps none.
 
-    python map_reconcile.py     # Rodos_finished.map, Rodos_Atlas/Rodos.map and world.json, in place
+    python map_reconcile.py     # Rodos_finished.map, Diathir_Atlas/Diathir.map and world.json, in place
 
 finish_map.py calls reconcile_records() after burg_features.finish_records(), so the edits land on the map
 as it stands after the harbour towns were moved (the faith of a moved town is set on its NEW cell).
@@ -19,8 +19,9 @@ Edit forms (a .map is 53 CRLF-joined records; see finish_map.py):
     {"record": 26, "path": "[2973]", "old": 3, "value": 7}              comma record (a cell array): set one cell
     {"record": 16, "path": "(whole record: ...)", "value": "0,0,..."}   replace a cell array whole
     {"record": 15, "path": "[419].production", "op": "append", "value": {...}}   append to a list, once
+    {"record": 35, "path": "", "op": "append", "value": {...}}          append to a record that is itself a list, once
     {"record": 35, "path": "[28].note", "mode": "replace-substring", "old": "...", "value": "..."}
-    {"record": 31, "path": "append as name base 43 ...", "value": "Ròdais|7|18||0|..."}
+    {"record": 31, "path": "append as name base 43 ...", "value": "Dia-thìris|7|18||0|..."}
     {"record": 49, "action": "delete_indices", "indices": [...], "match": [...]}  remove relief icons
     {"record": 29, "action": "replace_religions", "old_names": [...], "value": [...],     the faiths list anew,
      "cells": {"remap": {"4": 1, ...}, "by_culture": {"3": {"1": 3, "2": 1}}}}          and the cells to match
@@ -48,7 +49,10 @@ dubhan.json, loose_ends.json), then the tellings read against the Gaelic tales (
         (record 36) of each piece's stretch; and the saved <path id="routeN"> of each piece, with the path
         Azgaar's Routes.getPath draws for it ("d"), placed after the route's own path
 
-After the calendar comes the prose (reconcile/prose.json): the map's visible notes, the markers' (record 35) and
+After the calendar comes the creation (reconcile/creation.json): the summit of the island named for the Mason's
+line, Binnean a' Chlachair, as a marker of its own (record 35).
+
+After the creation comes the prose (reconcile/prose.json): the map's visible notes, the markers' (record 35) and
 the regiments' and fleets' (record 14), each set whole in the voice of the island's place-lore; the earlier edits
 of those same notes are set aside by its "skip" list, so the notes as they stand are the only ones checked.
 
@@ -70,7 +74,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 RECON = os.path.join(HERE, 'reconcile')
 WORLD = os.path.join(HERE, 'world.json')
-MAPS = [os.path.join(ROOT, 'Rodos_finished.map'), os.path.join(ROOT, 'Rodos_Atlas', 'Rodos.map')]
+MAPS = [os.path.join(ROOT, 'Rodos_finished.map'), os.path.join(ROOT, 'Diathir_Atlas', 'Diathir.map')]
 
 RECORDS = 53
 L_SETTINGS, L_BIOMES, L_SVG, L_TEMP, L_FEATURES, L_CULTURES, L_STATES, L_BURGS = 1, 3, 5, 11, 12, 13, 14, 15
@@ -84,7 +88,7 @@ RECORDS_TOUCHED = CELL_ARRAYS | JSON_RECORDS | {L_SVG, L_NAMEBASES}
 
 # the order the layers are applied in: the state and its shires first, the land (whole cell arrays) last
 ORDER = ['state', 'heraldry', 'religions', 'economy', 'military', 'markers_routes', 'land', 'integration', 'faiths',
-         'climate', 'dubhan', 'loose_ends', 'tales', 'calendar', 'prose']
+         'climate', 'dubhan', 'loose_ends', 'tales', 'calendar', 'creation', 'prose']
 
 
 def dump(data):
@@ -135,6 +139,14 @@ def same(a, b):
 
 # ---------------------------------------------------------------- one edit
 def apply_json_edit(data, e, where):
+    if e.get('op') == 'append' and e['path'] == '':      # the record is itself the list (markers: once by id,
+        v = e['value']                                   # so a later layer may still set the new one's note)
+        had = [x for x in data if same(x, v) or (isinstance(x, dict) and 'i' in v and x.get('i') == v['i'])]
+        if had:
+            assert had[0].get('name') == v.get('name'), '%s: id %s is already taken by %r' % (where, v.get('i'), had[0].get('name'))
+        else:
+            data.append(v)
+        return
     keys = parse_path(e['path'])
     parent, k = walk(data, keys)
     if e.get('op') == 'append':

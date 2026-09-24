@@ -1,19 +1,19 @@
 {
  "I": {
   "age_title": "An Aois Àrsaidh",
-  "intro": "No chronicle claims to know how the first people came to Rodos. Ask, and the answer is doctrine, not history: cha do thàinig sinn — bha sinn ann, \"we did not come — we were here.\"",
+  "intro": "No chronicle claims to know how the first people came to Dia-thìr. Ask, and the answer is doctrine, not history: cha do thàinig sinn — bha sinn ann, \"we did not come — we were here.\"",
   "events": [
    {
     "canon": true,
     "title": "The crack in the stone",
-    "body": "A mason splitting rock for a well breaks a black, glassy vein — and it bleeds color instead of dust. The closest thing Rodos keeps to a creation myth.",
+    "body": "A mason splitting rock for a well breaks into a vein of coal that shows every colour. That night lightning strikes the broken vein and it catches fire; he carries the fire home, the first fire of the Dia-thìrich. Year 1 of the Vein Era. The making of the world before it is told in the Telling of the Making (Caoran and the seven coals).",
     "canon_date": "undated",
     "place": null
    },
    {
     "canon": true,
     "title": "The First Canoe",
-    "body": "A suppressed, half-remembered voyaging fragment survives among coastal Tuathaich families: a named steersman, a first crossing, dismissed by the Ròdaich priesthood as superstition.",
+    "body": "A suppressed, half-remembered voyaging fragment survives among coastal Tuathaich families: a named steersman, a first crossing, dismissed by the Dia-thìrich priesthood as superstition.",
     "canon_date": "undated",
     "place": null
    },
@@ -48,7 +48,7 @@
    {
     "canon": true,
     "title": "The Làrach an Dùin-fhaire abandoned",
-    "body": "An outpost, already ruined when the first reliable chronicles begin, predates every known Rodian settlement pattern. No one knows who built it.",
+    "body": "An outpost, already ruined when the first reliable chronicles begin, predates every known Dia-thìrian settlement pattern. No one knows who built it.",
     "canon_date": "undated",
     "place": "marker:31"
    },
@@ -111,7 +111,7 @@
    {
     "canon": true,
     "title": "The counting of the dead begins",
-    "body": "The Seann-Dhaoine, whoever they were, the people who built Làrach an Dùin-fhaire and Làrach an Dùin, also began keeping count of its own losses — record-keeping as instinct, before there was a Ròdaich people to inherit it.",
+    "body": "The Seann-Dhaoine, whoever they were, the people who built Làrach an Dùin-fhaire and Làrach an Dùin, also began keeping count of its own losses — record-keeping as instinct, before there was a Dia-thìrich people to inherit it.",
     "canon_date": "undated",
     "place": null
    },
@@ -132,14 +132,14 @@
    {
     "canon": true,
     "title": "The naming of the wind directions",
-    "body": "The eight-point wind system every later Ròdaich sailor still uses is fixed in this period, with names that translate awkwardly and have simply never been replaced.",
+    "body": "The eight-point wind system every later Dia-thìrich sailor still uses is fixed in this period, with names that translate awkwardly and have simply never been replaced.",
     "canon_date": "undated",
     "place": null
    },
    {
     "canon": true,
     "title": "The first forbidden marriage",
-    "body": "A union between two lineages is refused for reasons no surviving text explains — the earliest evidence that Rodian society organized itself by bloodline before it had any obsidian-caste reason to.",
+    "body": "A union between two lineages is refused for reasons no surviving text explains — the earliest evidence that Dia-thìrian society organized itself by bloodline before it had any coal-caste reason to.",
     "canon_date": "undated",
     "place": null
    },
@@ -161,18 +161,18 @@
  },
  "II": {
   "age_title": "An Aois Naomh",
-  "intro": "The people who found the vein call themselves, in their own tongue, Ròdaich. For centuries they treat the ore the way jade was treated, not gold: burned in small measured quantities, never mass-excavated, never anything but sacred. In this age, nobody bonds with it. The power this story knows as obsidian-touched does not exist yet.",
+  "intro": "The people who found the vein call themselves, in their own tongue, Dia-thìrich. For centuries they treat the coal the way jade was treated, not gold: burned in small measured quantities, never mass-excavated, never anything but sacred. In this age, nobody bonds with it. The power this story knows as coal-touched does not exist yet.",
   "events": [
    {
     "canon": true,
     "title": "The Binding of the First Flame",
-    "body": "A formal custodianship is declared over the vein — the first Rodian institution recognizable as a religious-political order, centuries before anything like a king.",
+    "body": "A formal custodianship is declared over the vein — the first Dia-thìrian institution recognizable as a religious-political order, centuries before anything like a king.",
     "canon_date": "undated",
     "place": null
    },
    {
     "canon": true,
-    "title": "Seann Spioradan nan Ròdach established",
+    "title": "Seann Spioradan nan Dia-thìreach established",
     "body": "The island's oldest continuous folk tradition takes shape: reverence for ancestors, for the vein, for the weather that decides the mining season.",
     "canon_date": "undated",
     "place": null
@@ -187,21 +187,21 @@
    {
     "canon": true,
     "title": "Muileann chiar founded",
-    "body": "A silver seam is found near, but distinct from, the great vein — the island's first confirmed resource that isn't obsidian.",
+    "body": "A silver seam is found near, but distinct from, the great vein — the island's first confirmed resource that isn't coal.",
     "canon_date": "undated",
     "place": "marker:2"
    },
    {
     "canon": true,
     "title": "Feallsanachd an Fhèidh founded",
-    "body": "A philosophical school forms around the question of why the vein answers some hands and not others — the first attempt to reason about the obsidian rather than simply revere it.",
+    "body": "A philosophical school forms around the question of why the vein answers some hands and not others — the first attempt to reason about the coal rather than simply revere it.",
     "canon_date": "undated",
     "place": null
    },
    {
     "canon": true,
     "title": "The Small-Burning Law",
-    "body": "A custom hardens into formal rule: no household may burn more than a measured handful of the ore in a season. It holds for centuries.",
+    "body": "A custom hardens into formal rule: no household may burn more than a measured handful of the coal in a season. It holds for centuries.",
     "canon_date": "undated",
     "place": null
    },
@@ -250,21 +250,21 @@
    {
     "canon": true,
     "title": "The measuring of the vein",
-    "body": "The first attempt to estimate how much obsidian the mountain holds. The estimate will prove wildly optimistic.",
+    "body": "The first attempt to estimate how much coal the mountain holds. The estimate will prove wildly optimistic.",
     "canon_date": "undated",
     "place": null
    },
    {
     "canon": true,
     "title": "The apprentice-binding custom",
-    "body": "Young Rodians are first formally bound to a master custodian of the vein for seven years before being trusted near the ore themselves — the origin of every later mining guild's structure.",
+    "body": "Young Dia-thìrians are first formally bound to a master custodian of the vein for seven years before being trusted near the coal themselves — the origin of every later mining guild's structure.",
     "canon_date": "undated",
     "place": null
    },
    {
     "canon": true,
     "title": "The census of hands",
-    "body": "The first attempt to count, island-wide, how many households hold a customary right to burn obsidian at all — proof the reverent tradition was already being formally rationed, not simply assumed.",
+    "body": "The first attempt to count, island-wide, how many households hold a customary right to burn the coal at all — proof the reverent tradition was already being formally rationed, not simply assumed.",
     "canon_date": "undated",
     "place": null
    },
@@ -285,14 +285,14 @@
    {
     "canon": true,
     "title": "The naming of the nine faiths' common ancestor",
-    "body": "A single unified folk practice begins visibly splitting into the distinct threads later ages will separately name — the moment 'Rodian belief' stops being one thing.",
+    "body": "A single unified folk practice begins visibly splitting into the distinct threads later ages will separately name — the moment 'Dia-thìrian belief' stops being one thing.",
     "canon_date": "undated",
     "place": null
    },
    {
     "canon": true,
     "title": "The last age of even population",
-    "body": "Chroniclers later look back and note, with some unease, that this is the final stretch of Rodian history in which no single family held meaningfully more years of life than any other.",
+    "body": "Chroniclers later look back and note, with some unease, that this is the final stretch of Dia-thìrian history in which no single family held meaningfully more years of life than any other.",
     "canon_date": "undated",
     "place": null
    }
@@ -300,12 +300,12 @@
  },
  "III": {
   "age_title": "An Aois Scaraidh",
-  "intro": "A group of Rodians find another land — barren of people like themselves — and volunteer to cross the water and settle it. Nothing forces them out. This is the Sundering, and it is chosen.",
+  "intro": "A group of Dia-thìrians find another land — barren of people like themselves — and volunteer to cross the water and settle it. Nothing forces them out. This is the Sundering, and it is chosen.",
   "events": [
    {
     "canon": true,
     "title": "Land is found",
-    "body": "Word returns of a land across open water, unpeopled by anyone resembling the Ròdaich. No record survives of who found it first.",
+    "body": "Word returns of a land across open water, unpeopled by anyone resembling the Dia-thìrich. No record survives of who found it first.",
     "canon_date": "undated",
     "place": null
    },
@@ -319,7 +319,7 @@
    {
     "canon": true,
     "title": "The ships are built",
-    "body": "The island's shipwrights, used to modest coastal craft, build vessels meant to survive open water for the first time in Rodian memory.",
+    "body": "The island's shipwrights, used to modest coastal craft, build vessels meant to survive open water for the first time in Dia-thìrian memory.",
     "canon_date": "undated",
     "place": null
    },
@@ -347,21 +347,21 @@
    {
     "canon": true,
     "title": "The thinning",
-    "body": "Cut off from the vein, whatever strength the crossing required fades across the departed's own children. By the third generation abroad, nothing remains that Rodos would recognize.",
+    "body": "Cut off from the vein, whatever strength the crossing required fades across the departed's own children. By the third generation abroad, nothing remains that Dia-thìr would recognize.",
     "canon_date": "undated",
     "place": null
    },
    {
     "canon": true,
     "title": "The Mourning Custom",
-    "body": "Rodos formalizes a mourning rite for the departed that is not quite grief and not quite celebration — reused, uneasily, for a very different departure in a much later age.",
+    "body": "Dia-thìr formalizes a mourning rite for the departed that is not quite grief and not quite celebration — reused, uneasily, for a very different departure in a much later age.",
     "canon_date": "undated",
     "place": null
    },
    {
     "canon": true,
     "title": "Population correction",
-    "body": "With a portion of the obsidian-bonded population gone, Rodian society reorganizes around a smaller, more concentrated custodian class — the shape every later aristocracy inherits.",
+    "body": "With a portion of the coal-bonded population gone, Dia-thìrian society reorganizes around a smaller, more concentrated custodian class — the shape every later aristocracy inherits.",
     "canon_date": "undated",
     "place": null
    },
@@ -404,54 +404,54 @@
  },
  "IV": {
   "age_title": "An Aois Choigreach",
-  "intro": "Humans find their way back across the water the Rodians once crossed, and are permitted access to Rodian land. What follows is not the usual colonial pattern — greed meeting reverence. The humans who arrive don't want the ore for what it is. They can't see what it is. To them it's coal: a burnable fuel, not a worship source, and the color it glows when broken reads as ungodly, not precious.",
+  "intro": "Humans find their way back across the water the Dia-thìrians once crossed, and are permitted access to Dia-thìrian land. What follows is not the usual colonial pattern — greed meeting reverence. The humans who arrive don't want the coal for what it is. They can't see what it is. To them it's coal: a burnable fuel, not a worship source, and the color it glows when broken reads as ungodly, not precious.",
   "events": [
    {
     "canon": true,
     "title": "The Crossing",
-    "body": "Humans make landfall on Rodos and are granted permission to stay — the first contact since the Sundering.",
+    "body": "Humans make landfall on Dia-thìr and are granted permission to stay — the first contact since the Sundering.",
     "canon_date": "c. 1780 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The first translation attempts",
-    "body": "Human clerics and Rodian custodians spend a full season trying to build a shared vocabulary. Neither side's account of what was actually agreed to survives intact.",
+    "body": "Human clerics and Dia-thìrian custodians spend a full season trying to build a shared vocabulary. Neither side's account of what was actually agreed to survives intact.",
     "canon_date": "c. 1781 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "Trade begins",
-    "body": "Early exchange is genuinely reciprocal: Rodian goods for tools and knowledge the isolated island lacks. For a few years, the arrangement looks sustainable.",
+    "body": "Early exchange is genuinely reciprocal: Dia-thìrian goods for tools and knowledge the isolated island lacks. For a few years, the arrangement looks sustainable.",
     "canon_date": "c. 1782 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The first mixed settlement",
-    "body": "A small coastal town accepts both Rodian and human residents under a single administration — an experiment later history will not repeat.",
+    "body": "A small coastal town accepts both Dia-thìrian and human residents under a single administration — an experiment later history will not repeat.",
     "canon_date": "c. 1784 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The lighthouses proposed",
-    "body": "Human navigators, unused to Rodos's coastline, request permanent beacons. Ròdaich engineers agree, not yet understanding what the request will enable.",
+    "body": "Human navigators, unused to Dia-thìr's coastline, request permanent beacons. Dia-thìrich engineers agree, not yet understanding what the request will enable.",
     "canon_date": "c. 1785 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The first written treaty",
-    "body": "Terms of the human presence are set down formally for the first time — in the humans' language only, a detail no one on the Rodian side objects to at the time.",
+    "body": "Terms of the human presence are set down formally for the first time — in the humans' language only, a detail no one on the Dia-thìrian side objects to at the time.",
     "canon_date": "c. 1787 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "First extraction contracts",
-    "body": "What begins as trade curdles into arrangement: Rodian labor mines the vein at a scale no reverent tradition ever used.",
+    "body": "What begins as trade curdles into arrangement: Dia-thìrian labor mines the vein at a scale no reverent tradition ever used.",
     "canon_date": "c. 1790 DE",
     "place": null
    },
@@ -479,34 +479,34 @@
    {
     "canon": true,
     "title": "The first mining deaths blamed on speed",
-    "body": "A tunnel collapse, worked faster than any Rodian crew would have chosen to work it, kills eleven. It is recorded as an accident.",
+    "body": "A tunnel collapse, worked faster than any Dia-thìrian crew would have chosen to work it, kills eleven. It is recorded as an accident.",
     "canon_date": "c. 1804 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "Mass excavation begins in earnest",
-    "body": "The mountain is worked by the ton for the first time in Rodian history, for purposes no Rodian tradition would have chosen.",
+    "body": "The mountain is worked by the ton for the first time in Dia-thìrian history, for purposes no Dia-thìrian tradition would have chosen.",
     "canon_date": "c. 1810 DE",
     "place": null
    },
    {
     "canon": true,
-    "title": "The first Rodian overseer appointed",
-    "body": "A Ròdaich is given authority over other Rodian miners, answerable to human administrators — the first visible fracture within Rodian society itself, not just between it and the humans.",
+    "title": "The first Dia-thìrian overseer appointed",
+    "body": "A Dia-thìreach is given authority over other Dia-thìrian miners, answerable to human administrators — the first visible fracture within Dia-thìrian society itself, not just between it and the humans.",
     "canon_date": "c. 1815 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The Muileann chiar silver dispute",
-    "body": "Human interests attempt to claim the silver seam at Muileann chiar as well. It is one of the few resources the Ròdaich successfully keep fully under their own control throughout this age.",
+    "body": "Human interests attempt to claim the silver seam at Muileann chiar as well. It is one of the few resources the Dia-thìrich successfully keep fully under their own control throughout this age.",
     "canon_date": "c. 1822 DE",
     "place": "marker:2"
    },
    {
     "canon": true,
-    "title": "The first Rodian child sent abroad",
+    "title": "The first Dia-thìrian child sent abroad",
     "body": "A single family, hoping to secure better treatment, sends a son to be educated in the humans' home country. He is never recorded returning.",
     "canon_date": "c. 1830 DE",
     "place": null
@@ -514,14 +514,14 @@
    {
     "canon": true,
     "title": "The tithe increase",
-    "body": "The portion of mined obsidian claimed by human administrators rises sharply, with no corresponding rise in what Rodian communities receive.",
+    "body": "The portion of mined coal claimed by human administrators rises sharply, with no corresponding rise in what Dia-thìrian communities receive.",
     "canon_date": "c. 1836 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The first of the immortal generation",
-    "body": "A child born into the mining camps is exposed to more raw ore across her lifetime than any Rodian in living memory — and does not age the way the people around her do. Her name is Aisling.",
+    "body": "A child born into the mining camps is exposed to more raw coal across her lifetime than any Dia-thìrian in living memory — and does not age the way the people around her do. Her name is Aisling.",
     "canon_date": "1848 DE",
     "place": null
    },
@@ -535,7 +535,7 @@
    {
     "canon": true,
     "title": "A' Phlàigh Uaine",
-    "body": "The Green Death moves through the mining camps — the ore dust itself is blamed, though no formal study is ever completed. Twenty-six settlements record cases.",
+    "body": "The Green Death moves through the mining camps — the coal dust itself is blamed, though no formal study is ever completed. Twenty-six settlements record cases.",
     "canon_date": "c. 1852 DE",
     "place": null
    },
@@ -549,14 +549,14 @@
    {
     "canon": true,
     "title": "Muileann chiar expands",
-    "body": "The silver town grows alongside the obsidian operation, human demand for both metals accelerating extraction the reverent tradition never would have permitted.",
+    "body": "The silver town grows alongside the coal workings, human demand for both metals accelerating extraction the reverent tradition never would have permitted.",
     "canon_date": "c. 1860 DE",
     "place": "marker:2"
    },
    {
     "canon": true,
     "title": "The second currency reform",
-    "body": "Rodian barter goods are formally devalued against human coinage a second time, on terms set entirely by the human administration.",
+    "body": "Dia-thìrian barter goods are formally devalued against human coinage a second time, on terms set entirely by the human administration.",
     "canon_date": "c. 1865 DE",
     "place": null
    },
@@ -577,14 +577,14 @@
    {
     "canon": true,
     "title": "The first organized petition",
-    "body": "Rodian custodians, for the first time acting jointly rather than settlement by settlement, submit a formal grievance to the human administration. It is not answered.",
+    "body": "Dia-thìrian custodians, for the first time acting jointly rather than settlement by settlement, submit a formal grievance to the human administration. It is not answered.",
     "canon_date": "c. 1878 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "Resentment first recorded",
-    "body": "The earliest surviving Ròdaich grievance texts date from this period — not yet organized resistance, but the first written acknowledgment that something has gone wrong.",
+    "body": "The earliest surviving Dia-thìrich grievance texts date from this period — not yet organized resistance, but the first written acknowledgment that something has gone wrong.",
     "canon_date": "c. 1880 DE",
     "place": null
    },
@@ -598,7 +598,7 @@
    {
     "canon": true,
     "title": "The first mixed-blood inheritance dispute",
-    "body": "A legal case over whether a child of one Rodian and one human parent may inherit customary mining rights sets a precedent the administration writes entirely to its own benefit.",
+    "body": "A legal case over whether a child of one Dia-thìrian and one human parent may inherit customary mining rights sets a precedent the administration writes entirely to its own benefit.",
     "canon_date": "c. 1890 DE",
     "place": null
    },
@@ -619,14 +619,14 @@
    {
     "canon": true,
     "title": "The word finally coined",
-    "body": "Facing two confirmed cases, Rodian custodians settle on a term for what's happening: fuil-ghuail, \"coal-blood\" — rendered in the humans' tongue as obsidian-touched. It is meant clinically. It will outlive that intention.",
+    "body": "Facing two confirmed cases, Dia-thìrian custodians settle on a term for what's happening: fuil-ghuail, \"coal-blood\" — rendered in the humans' tongue as coal-touched. It is meant clinically. It will outlive that intention.",
     "canon_date": "c. 1905 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The third currency reform",
-    "body": "Traditional Rodian barter is formally abolished as legal tender entirely. Every transaction on the island now runs through human coinage.",
+    "body": "Traditional Dia-thìrian barter is formally abolished as legal tender entirely. Every transaction on the island now runs through human coinage.",
     "canon_date": "c. 1908 DE",
     "place": null
    },
@@ -654,14 +654,14 @@
    {
     "canon": true,
     "title": "The first open confrontation",
-    "body": "A mining accident, blamed by Rodian workers on human indifference to safety, becomes the first recorded violent clash between the two populations.",
+    "body": "A mining accident, blamed by Dia-thìrian workers on human indifference to safety, becomes the first recorded violent clash between the two populations.",
     "canon_date": "c. 1915 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The second organized petition",
-    "body": "This one includes an implicit threat rather than a plea. It is the first Rodian document the human administration bothers to respond to — with increased security, not concessions.",
+    "body": "This one includes an implicit threat rather than a plea. It is the first Dia-thìrian document the human administration bothers to respond to — with increased security, not concessions.",
     "canon_date": "c. 1918 DE",
     "place": null
    },
@@ -675,28 +675,28 @@
    {
     "canon": true,
     "title": "The first coordinated work stoppage",
-    "body": "Multiple mining regions halt extraction on the same day for the first time — proof that Rodian resistance, for all its scattering, could act as one when it chose to.",
+    "body": "Multiple mining regions halt extraction on the same day for the first time — proof that Dia-thìrian resistance, for all its scattering, could act as one when it chose to.",
     "canon_date": "c. 1922 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "Imperial overreach begins openly",
-    "body": "Human administrators begin issuing directives with no Rodian counsel sought at all — the polite fiction of permission finally dropped.",
+    "body": "Human administrators begin issuing directives with no Dia-thìrian counsel sought at all — the polite fiction of permission finally dropped.",
     "canon_date": "c. 1925 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The confiscation edict",
-    "body": "Human authorities formally claim the right to seize any Rodian dwelling deemed necessary for extraction expansion. It is the single most-cited grievance in every surviving account of what came next.",
+    "body": "Human authorities formally claim the right to seize any Dia-thìrian dwelling deemed necessary for extraction expansion. It is the single most-cited grievance in every surviving account of what came next.",
     "canon_date": "c. 1926 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "War declared",
-    "body": "Rodian resistance, coordinated for the first time across multiple mining regions, moves from grievance to open conflict.",
+    "body": "Dia-thìrian resistance, coordinated for the first time across multiple mining regions, moves from grievance to open conflict.",
     "canon_date": "1928 DE",
     "place": null
    },
@@ -710,7 +710,7 @@
    {
     "canon": true,
     "title": "The Severance",
-    "body": "The war ends with the crossing itself closed. Whatever let humans reach Rodos shuts. The humans still on the island are shepherded to the northern territory their descendants hold today. Cian and Lorccan, not yet twenty, grow up in its immediate wake.",
+    "body": "The war ends with the crossing itself closed. Whatever let humans reach Dia-thìr shuts. The humans still on the island are shepherded to the northern territory their descendants hold today. Cian and Lorccan, not yet twenty, grow up in its immediate wake.",
     "canon_date": "c. 1930 DE",
     "place": null
    }
@@ -718,7 +718,7 @@
  },
  "V": {
   "age_title": "An Aois Ùr",
-  "intro": "The Ròdaich reclaim the whole island. They do not restore the old reverent practice. The mine keeps running at the scale the occupiers built it to, because by now the extraction benefits the people holding power directly. The colonizers are gone. Their method isn't.",
+  "intro": "The Dia-thìrich reclaim the whole island. They do not restore the old reverent practice. The mine keeps running at the scale the occupiers built it to, because by now the extraction benefits the people holding power directly. The colonizers are gone. Their method isn't.",
   "events": [
    {
     "canon": true,
@@ -729,7 +729,7 @@
    },
    {
     "canon": true,
-    "title": "Rìoghachd Ròdais declared",
+    "title": "Rìoghachd Dia-thìr declared",
     "body": "The state formally restyles itself a kingdom in form, whatever it remains in function — the same contradiction its own records still carry today.",
     "canon_date": "c. 1931 DE",
     "place": "burg:19"
@@ -751,35 +751,35 @@
    {
     "canon": true,
     "title": "The old human coinage withdrawn",
-    "body": "Every remaining piece of human currency is formally demonetized. A new Rìoghachd coinage, minted with obsidian-dust ink in its seal, replaces it within a year.",
+    "body": "Every remaining piece of human currency is formally demonetized. A new Rìoghachd coinage, minted with coal-dust ink in its seal, replaces it within a year.",
     "canon_date": "c. 1934 DE",
     "place": null
    },
    {
     "canon": true,
-    "title": "Creideamh nan Ròdach formalized",
-    "body": "The Obsidian Rite becomes organized doctrine rather than diffuse folk reverence, built around the leyline and the unbroken line of the obsidian-touched.",
+    "title": "Creideamh nan Dia-thìreach formalized",
+    "body": "The Coal Rite becomes organized doctrine rather than diffuse folk reverence, built around the leyline and the unbroken line of the coal-touched.",
     "canon_date": "c. 1935 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The first post-Severance census",
-    "body": "The state counts its own population for the first time since reclaiming the island — and quietly notes, without further comment, exactly how few obsidian-touched individuals actually exist.",
+    "body": "The state counts its own population for the first time since reclaiming the island — and quietly notes, without further comment, exactly how few coal-touched individuals actually exist.",
     "canon_date": "c. 1936 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "Creideamh nan Tuathach persists",
-    "body": "Tuathaich communities keep their own folk-shamanic tradition alive in the north — including, quietly, the First Canoe fragment the Ròdaich priesthood still calls superstition.",
+    "body": "Tuathaich communities keep their own folk-shamanic tradition alive in the north — including, quietly, the First Canoe fragment the Dia-thìrich priesthood still calls superstition.",
     "canon_date": "c. 1938 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The border wall proposed",
-    "body": "A formal boundary between Ròdaich and Tuathaich territory is proposed for the first time. It is rejected — not out of principle, records suggest, but because it's considered unnecessary. The two populations are already staying apart on their own.",
+    "body": "A formal boundary between Dia-thìrich and Tuathaich territory is proposed for the first time. It is rejected — not out of principle, records suggest, but because it's considered unnecessary. The two populations are already staying apart on their own.",
     "canon_date": "c. 1939 DE",
     "place": null
    },
@@ -793,7 +793,7 @@
    {
     "canon": true,
     "title": "The guild system restored",
-    "body": "The old apprentice-binding custom from the Holy Age is revived in modified form, now explicitly reserved for Ròdaich applicants only.",
+    "body": "The old apprentice-binding custom from the Holy Age is revived in modified form, now explicitly reserved for Dia-thìrich applicants only.",
     "canon_date": "c. 1942 DE",
     "place": null
    },
@@ -863,21 +863,21 @@
    {
     "canon": true,
     "title": "The second post-Severance census",
-    "body": "The gap between Ròdaich and Tuathaich living standards is, for the first time, measured rather than simply observed. The report is not made public.",
+    "body": "The gap between Dia-thìrich and Tuathaich living standards is, for the first time, measured rather than simply observed. The report is not made public.",
     "canon_date": "c. 1962 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The mine-safety reforms",
-    "body": "New excavation rules are introduced after a smaller echo of the old Scàineadh Cill ghlas collapse. They apply to Ròdaich workers. Enforcement in Tuathaich-adjacent sites is inconsistent, records suggest deliberately so.",
+    "body": "New excavation rules are introduced after a smaller echo of the old Scàineadh Cill ghlas collapse. They apply to Dia-thìrich workers. Enforcement in Tuathaich-adjacent sites is inconsistent, records suggest deliberately so.",
     "canon_date": "c. 1968 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "Dubhan's childhood",
-    "body": "He grows up watching an eternally young caste hold every real advantage on an island his own ancestors were pushed to the edge of. The obsidian was never his to inherit.",
+    "body": "He grows up watching an eternally young caste hold every real advantage on an island his own ancestors were pushed to the edge of. The coal was never his to inherit.",
     "canon_date": "c. 1970 DE",
     "place": null
    },
@@ -891,7 +891,7 @@
    {
     "canon": true,
     "title": "The failed vein expansion",
-    "body": "A costly attempt to locate a second obsidian deposit elsewhere on the island turns up nothing — the same result the Holy Age's failed attempt found centuries earlier, forgotten and rediscovered the hard way.",
+    "body": "A costly attempt to locate a second deposit of the coloured coal elsewhere on the island turns up nothing — the same result the Holy Age's failed attempt found centuries earlier, forgotten and rediscovered the hard way.",
     "canon_date": "c. 1980 DE",
     "place": null
    },
@@ -926,7 +926,7 @@
    {
     "canon": true,
     "title": "The library expansion",
-    "body": "Leabharlann Muileann chaol doubles its holdings, absorbing several smaller provincial archives into one central record — the moment Rodian history starts being kept in one place instead of many.",
+    "body": "Leabharlann Muileann chaol doubles its holdings, absorbing several smaller provincial archives into one central record — the moment Dia-thìrian history starts being kept in one place instead of many.",
     "canon_date": "c. 1996 DE",
     "place": "marker:34"
    },
@@ -947,7 +947,7 @@
    {
     "canon": true,
     "title": "The lighthouses converted",
-    "body": "The five coastal beacons, still running on obsidian-lit flame for over a century, are the first infrastructure formally converted to dubhan power.",
+    "body": "The five coastal beacons, still running on coal-lit flame for over a century, are the first infrastructure formally converted to dubhan power.",
     "canon_date": "c. 2005 DE",
     "place": "marker:12"
    },
@@ -968,14 +968,14 @@
    {
     "canon": true,
     "title": "The dubhan economy takes shape",
-    "body": "Markets, military logistics, and shipping begin shifting wholesale to the new fuel. The obsidian caste, watching its own power source fail, does not object.",
+    "body": "Markets, military logistics, and shipping begin shifting wholesale to the new fuel. The coal caste, watching its own power source fail, does not object.",
     "canon_date": "c. 2012 DE",
     "place": null
    },
    {
     "canon": true,
     "title": "The fourth currency reform",
-    "body": "Rìoghachd coinage is re-pegged to dubhan output rather than obsidian reserves for the first time — an economic admission, quietly made, of which resource actually runs the kingdom now.",
+    "body": "Rìoghachd coinage is re-pegged to dubhan output rather than coal reserves for the first time — an economic admission, quietly made, of which resource actually runs the kingdom now.",
     "canon_date": "c. 2014 DE",
     "place": null
    },
@@ -989,7 +989,7 @@
    {
     "canon": true,
     "title": "The library's Tuathaich wing proposed",
-    "body": "A formal request to archive Tuathaich oral history alongside the official Ròdaich record is submitted to Leabharlann Muileann chaol. It is tabled, not rejected — and remains tabled to this day.",
+    "body": "A formal request to archive Tuathaich oral history alongside the official Dia-thìrich record is submitted to Leabharlann Muileann chaol. It is tabled, not rejected — and remains tabled to this day.",
     "canon_date": "c. 2016 DE",
     "place": "marker:34"
    },
@@ -1059,7 +1059,7 @@
    {
     "canon": true,
     "title": "The present",
-    "body": "The coal is all but gone. The dubhan economy runs on a name that used to belong to one man. The Ròdaich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, and a First-Canoe memory the people who twice defeated them still call folklore.",
+    "body": "The coal is all but gone. The dubhan economy runs on a name that used to belong to one man. The Dia-thìrich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, and a First-Canoe memory the people who twice defeated them still call folklore.",
     "canon_date": "2026 DE",
     "place": "burg:19"
    }

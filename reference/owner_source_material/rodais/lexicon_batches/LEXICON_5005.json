@@ -1,6 +1,6 @@
 {
- "language": "Ròdais",
- "source": "English headwords and CEFR levels from the Polyglot Voyager ladder (A1-C2, 5,005 entries); Ròdais written as Scottish Gaelic and normalized by rodais_engine.normalize(); entries marked \"kenning\" are Ròdais words built from old roots in place of a modern Scottish Gaelic coinage or loan, which is kept in \"scots\"",
+ "language": "Dia-thìris",
+ "source": "English headwords and CEFR levels from the Polyglot Voyager ladder (A1-C2, 5,005 entries); Dia-thìris written as Scottish Gaelic and normalized by rodais_engine.normalize(); entries marked \"kenning\" are Dia-thìris words built from old roots in place of a modern Scottish Gaelic coinage or loan, which is kept in \"scots\"",
  "entries": [
   {
    "id": "a1-hello",
@@ -65,7 +65,7 @@
    "topic": "people",
    "rod": "Seadh",
    "pos": "interj",
-   "lit": "it is so; a Ròdach usually answers by repeating the verb (Tha. / Bha. / Bidh.)"
+   "lit": "it is so; a Dia-thìreach usually answers by repeating the verb (Tha. / Bha. / Bidh.)"
   },
   {
    "id": "a1-no",
@@ -74,7 +74,7 @@
    "topic": "people",
    "rod": "Chan eil",
    "pos": "interj",
-   "lit": "it is not; a Ròdach usually answers by repeating the verb in the negative (Cha robh. / Cha bhi.)"
+   "lit": "it is not; a Dia-thìreach usually answers by repeating the verb in the negative (Cha robh. / Cha bhi.)"
   },
   {
    "id": "a1-my-name-is-alex",

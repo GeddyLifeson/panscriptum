@@ -1,20 +1,20 @@
-## Appendix J — The Arms of Rodos
+## Appendix J — The Arms of Dia-thìr
 
 Here are set down the arms of the kingdom, of its hundred and twenty-three shires and of its towns, as they stand in Clàr nan Suaicheantas, the roll of arms kept by the council and copied to Leabharlann Muileann chaol. Each shire's arms are given in full, with the arms of the capital and of the great cities, and an account of the town arms by kind. Where the roll tells what a charge means, or when and why it was granted, that is told here; where it does not, the arms are given and no more is said.
 
-### I. How Rodos came by its arms
+### I. How Dia-thìr came by its arms
 
-**Signs before arms.** Rodos had carved signs long before it had arms. The oldest is the hawk over a door at Àth mhòr, older than any rite ({{date:I-0131}}). The road-guards of Caol leathan swore on a white stone carved as a wolf ({{date:II-0100}}). At Seann Vell a scorpion was cut in yellow stone for worship ({{date:II-0219}}), and the harbours of the order of the Stone still line their quays with wolf-head posts. These are the signs of the orders and of towns. None was ever borne on a shield, and none was ever granted.
+**Signs before arms.** Dia-thìr had carved signs long before it had arms. The oldest is the hawk over a door at Àth mhòr, older than any rite ({{date:I-0131}}). The road-guards of Caol leathan swore on a white stone carved as a wolf ({{date:II-0100}}). At Seann Vell a scorpion was cut in yellow stone for worship ({{date:II-0219}}), and the harbours of the order of the Stone still line their quays with wolf-head posts. These are the signs of the orders and of towns. None was ever borne on a shield, and none was ever granted.
 
 **The custody's seal.** The first arms on the island were the seal of the vein-house above Muileann dhearg: a trellis of gold on blue with a hollow lozenge, the mascle, laid over it. The custodians read the trellis as the galleries of the mountain and the mascle as the slab laid over the first break ({{date:I-0003}}). No roll says when the seal was first cut. When the crown and the custody were joined, the king's letters were sealed with it, and the crown added only a white band across the field ({{date:III-0138a}}). Those are the arms of the kingdom still. The seven houses of custody sealed with the custody's seal, and if they had badges of their own no roll remembers them.
 
 **Under the humans.** The Residency and the Company sealed with their own devices, and the custody's seal went out of use. The Administration's district seals were cut in the humans' manner, on a shield with a rounded foot.
 
-**The roll of arms.** When the council drew the shires ({{date:V-0014}}) and set a maor over each ({{date:V-0015}}), every maor needed a seal for his court. The council's clerks made the roll of arms for them ({{date:V-0015b}}). The kingdom's arms were cut again from the custody's seal, and each shire was given arms of its own. The Ròdaich shires took the pointed wedge of the custody's seal. The Tuathaich shires kept the heater of the district seals they had used before, and every Tuathaich town has kept it since. Many of the charges on the roll were drawn from a book of arms left at the Residency, as the shire lines were drawn from the humans' surveys. That is why lions, parrots, dragons and crocodiles stand on the seals of shires where no one has ever seen one.
+**The roll of arms.** When the council drew the shires ({{date:V-0014}}) and set a maor over each ({{date:V-0015}}), every maor needed a seal for his court. The council's clerks made the roll of arms for them ({{date:V-0015b}}). The kingdom's arms were cut again from the custody's seal, and each shire was given arms of its own. The Dia-thìrich shires took the pointed wedge of the custody's seal. The Tuathaich shires kept the heater of the district seals they had used before, and every Tuathaich town has kept it since. Many of the charges on the roll were drawn from a book of arms left at the Residency, as the shire lines were drawn from the humans' surveys. That is why lions, parrots, dragons and crocodiles stand on the seals of shires where no one has ever seen one.
 
 **The town arms.** The clerks of the first chronicle circuit copied the seal of every town they visited into the roll ({{date:V-0080a}}), and from then on the roll held the arms of all five hundred and five places. In the north most of the arms were copied from the humans' old town seals, because few Tuathaich would show the clerks their own.
 
-**Changes since.** The roll has been changed once at an order's asking. The Hawk houses of Siorrachd Cnoc bheag, having seated their own custodian, asked for a hawk on the shire's arms, and the council granted it ({{date:V-0132a}}). The coinage seal lost its obsidian ink ({{date:VI-0050}}), but the arms on it were not changed, and the high custodian's protest was about the ink ({{date:VI-0051}}).
+**Changes since.** The roll has been changed once at an order's asking. The Hawk houses of Siorrachd Cnoc bheag, having seated their own custodian, asked for a hawk on the shire's arms, and the council granted it ({{date:V-0132a}}). The coinage seal lost its coal ink ({{date:VI-0050}}), but the arms on it were not changed, and the high custodian's protest was about the ink ({{date:VI-0051}}).
 
 ### II. How the arms are read
 
@@ -35,7 +35,7 @@ The arms are blazoned here in the plain terms of heraldry, rendered in English. 
 
 ### III. The arms of the kingdom
 
-**Rìoghachd Ròdais.** *Azure trellised Or, a fess cotised argent, over all a mascle argent.*
+**Rìoghachd Dia-thìr.** *Azure trellised Or, a fess cotised argent, over all a mascle argent.*
 
 The trellis and the mascle are the custody's. The fess, a white band between two thin ones, is the crown's addition at the joining ({{date:III-0138a}}). Macha's order had been the court's order for four centuries before the joining ({{date:III-0089}}), and no king put her horses on the seal. The house of Òrd Mhacha at Cathair dhearg keeps the regalia ({{date:V-0033}}), and the seal has never been in its keeping.
 
@@ -81,7 +81,7 @@ The shires are given in the order of the roll.
 | 32 | {{place:province:32}} | {{place:burg:26}} | Argent, a bone sable. |  |
 | 33 | {{place:province:33}} | {{place:burg:32}} | Or, a stag passant vert. | Àth shean of the north. |
 | 34 | {{place:province:34}} | {{place:burg:502}} | Ermine, a plaice azure. |  |
-| 35 | {{place:province:35}} | {{place:burg:315}} | Argent, three parrots azure in pale. | The hill of the Keepers' Hall ({{date:II-0004}}) and the seat of the Old Spirits. The parrots are birds no one on Rodos has seen. |
+| 35 | {{place:province:35}} | {{place:burg:315}} | Argent, three parrots azure in pale. | The hill of the Keepers' Hall ({{date:II-0004}}) and the seat of the Old Spirits. The parrots are birds no one on Dia-thìr has seen. |
 | 36 | {{place:province:36}} | {{place:burg:142}} | Per fess, chequy Or and gules, and sable, a chevron reversed vert. | Heater shield. |
 | 37 | {{place:province:37}} | {{place:burg:167}} | Azure, a pair of scales Or. |  |
 | 38 | {{place:province:38}} | {{place:burg:282}} | Per fess dancetty sable and argent, a fusil Or in chief, an inescutcheon gules in base. |  |
@@ -157,7 +157,7 @@ The shires are given in the order of the roll.
 | 108 | {{place:province:108}} | {{place:burg:232}} | Purpure, five annulets argent in saltire. | The seat of the second house of the Stone ({{date:III-0193}}). |
 | 109 | {{place:province:109}} | {{place:burg:363}} | Per bend sinister argent and gules, a lighthouse counterchanged. | Ceann mhin of the south-east. |
 | 110 | {{place:province:110}} | {{place:burg:198}} | Purpure, a lozenge ploye argent. |  |
-| 111 | {{place:province:111}} | {{place:burg:273}} | Azure, a wing argent. | The seat of Clann Fhearchair, the first house to give Rodos a chosen king ({{date:III-0058}}). The house roll does not say whether the wing was ever the house's. |
+| 111 | {{place:province:111}} | {{place:burg:273}} | Azure, a wing argent. | The seat of Clann Fhearchair, the first house to give Dia-thìr a chosen king ({{date:III-0058}}). The house roll does not say whether the wing was ever the house's. |
 | 112 | {{place:province:112}} | {{place:burg:355}} | Vert, on a chief potenty argent three inescutcheons purpure. |  |
 | 113 | {{place:province:113}} | {{place:burg:261}} | Argent, three parrots gules, two and one. | Doire fhionn of the north. |
 | 114 | {{place:province:114}} | {{place:burg:343}} | Per fess argent and vert, in chief a palace azure, in base a paschal lamb Or. |  |
@@ -175,14 +175,14 @@ Of the hundred and twenty-three shires, twelve bear the heater: the eleven Tuath
 
 ### V. The arms of the towns
 
-**By kind.** The roll holds the arms of five hundred and five towns. Four hundred and forty-one are on the wedge and sixty-four on the heater, one heater for every Tuathaich town. A hundred and five are on the crown's trellis, and seventeen of these carry the mascle as well, so that their arms come close to the kingdom's own. Of the other fields, argent is the commonest, then azure, Or and gules, then sable, purpure and vert. Ninety-five towns bear no charge, and eighteen of those bear nothing but their field and its partition. The commonest charge is the mascle. Crosses of one kind or another are on sixty-three town arms. A hundred and five towns bear a beast, and thirty-one of those are beasts no one on Rodos has seen: lions, griffins, dragons, crocodiles, elephants, a rhinoceros. Twenty bear figures: horsemen, archers, monks, angels and two skeletons. Ships and anchors are on the harbours, and ploughs, scythes, saws and anvils on the farm and mill towns, but only twenty-eight of the hundred and thirty-three harbour towns carry anything from the sea.
+**By kind.** The roll holds the arms of five hundred and five towns. Four hundred and forty-one are on the wedge and sixty-four on the heater, one heater for every Tuathaich town. A hundred and five are on the crown's trellis, and seventeen of these carry the mascle as well, so that their arms come close to the kingdom's own. Of the other fields, argent is the commonest, then azure, Or and gules, then sable, purpure and vert. Ninety-five towns bear no charge, and eighteen of those bear nothing but their field and its partition. The commonest charge is the mascle. Crosses of one kind or another are on sixty-three town arms. A hundred and five towns bear a beast, and thirty-one of those are beasts no one on Dia-thìr has seen: lions, griffins, dragons, crocodiles, elephants, a rhinoceros. Twenty bear figures: horsemen, archers, monks, angels and two skeletons. Ships and anchors are on the harbours, and ploughs, scythes, saws and anvils on the farm and mill towns, but only twenty-eight of the hundred and thirty-three harbour towns carry anything from the sea.
 
 **The capital and the great cities.** The capital and every city of more than twenty thousand people, largest first.
 
 | Town | Shire | People | Arms | Notes |
 |---|---|---|---|---|
 | {{place:burg:19}} | {{place:province:1}} | 10,300 | Ermine, flaunches gules. | The capital reads its ermine as the black and white of Macha's floors, and the flaunches as the red of the red city. |
-| {{place:burg:489}} | {{place:province:3}} | 74,100 | Or, a cross azure, three dolphins Or in pale. | The seat of Manannan's order and the largest town on Rodos. Its own arms bear dolphins; the scorpion is on its shire's arms. |
+| {{place:burg:489}} | {{place:province:3}} | 74,100 | Or, a cross azure, three dolphins Or in pale. | The seat of Manannan's order and the largest town on Dia-thìr. Its own arms bear dolphins; the scorpion is on its shire's arms. |
 | {{place:burg:27}} | {{place:province:5}} | 51,600 | Argent, a cross of eight points purpure. |  |
 | {{place:burg:23}} | {{place:province:24}} | 49,300 | Gules, a cross paty argent. |  |
 | {{place:burg:365}} | {{place:province:27}} | 35,900 | Azure trellised Or, three mascles argent, two and one. | The crown's field with the hollow stone three times over. |

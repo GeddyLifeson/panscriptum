@@ -1,6 +1,6 @@
 {
  "layer": "faiths",
- "summary": "The island keeps three faiths and the land that keeps none. An Creideamh Sean, the Old Faith of the gods (seat Dùn ìseal, Brìde's flame; chief god an Dagda), takes every cell of the six Ròdaich orders (Òrd Bhrìde, Òrd an t-Seabhaig, Scoiltean nan Draoidhean, Òrd Mhacha, Òrd na Cloiche, Òrd Mhanannain), the last only where the cell is Ròdaich; Na Seann Spioradan, the hearth faith of the sìth and the ancestors, keeps its own cells and seat; An Eaglais, the Church of the Tuathaich (seat Doire ghlas), takes the Tuathaich cells, the Grey Night's vigil at Baile chrom and the Tuathaich cells of the Manannan order. Burgs: An Creideamh Sean 315, Na Seann Spioradan 126, An Eaglais 64 (505). Land cells: 1,787 / 616 / 385, and 1,512 with no faith (sea included). The religions layer is saved empty and drawn from the cells when it is shown, so the SVG needs no change. Three marker notes that named an order as a faith follow the orders.",
+ "summary": "The island keeps three faiths and the land that keeps none. An Creideamh Sean, the Old Faith of the gods (seat Dùn ìseal, Brìde's flame; chief god an Dagda), takes every cell of the six Dia-thìrich orders (Òrd Bhrìde, Òrd an t-Seabhaig, Scoiltean nan Draoidhean, Òrd Mhacha, Òrd na Cloiche, Òrd Mhanannain), the last only where the cell is Dia-thìrich; Na Seann Spioradan, the hearth faith of the sìth and the ancestors, keeps its own cells and seat; An Eaglais, the Church of the Tuathaich (seat Doire ghlas), takes the Tuathaich cells, the Grey Night's vigil at Baile chrom and the Tuathaich cells of the Manannan order. Burgs: An Creideamh Sean 315, Na Seann Spioradan 126, An Eaglais 64 (505). Land cells: 1,787 / 616 / 385, and 1,512 with no faith (sea included). The religions layer is saved empty and drawn from the cells when it is shown, so the SVG needs no change. Three marker notes that named an order as a faith follow the orders.",
  "skip": [
   {
    "layer": "integration",
@@ -16,9 +16,9 @@
    "old_names": [
     "Gun chreideamh",
     "Creideamh nan Tuathach",
-    "Seann Spioradan nan Ròdach",
+    "Seann Spioradan nan Dia-thìreach",
     "Creideamh na Scairpe Buidhe",
-    "Creideamh nan Ròdach",
+    "Creideamh nan Dia-thìreach",
     "Creideamh an t-Seabhaig",
     "Feallsanachd an Fhèidh",
     "Creideamh an Aon-adharcaich Dhuibh",
@@ -99,7 +99,7 @@
      }
     }
    },
-   "why": "Three faiths at most: the six Ròdaich organised faiths are orders of the one Old Faith; the Tuathaich faith, the Grey Night and the Tuathaich keepers of the Scorpion are the Church. Old ids 4-9 are gone rather than kept as removed entries, so the list, world.json and the religions editor hold only what exists."
+   "why": "Three faiths at most: the six Dia-thìrich organised faiths are orders of the one Old Faith; the Tuathaich faith, the Grey Night and the Tuathaich keepers of the Scorpion are the Church. Old ids 4-9 are gone rather than kept as removed entries, so the list, world.json and the religions editor hold only what exists."
   },
   {
    "record": 35,

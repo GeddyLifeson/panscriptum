@@ -1,12 +1,12 @@
-# Ròdais — phonology
+# Dia-thìris — phonology
 
-This chapter describes the sounds of Ròdais, the tongue of Rodos, and the rules that bind them to
+This chapter describes the sounds of Dia-thìris, the tongue of Dia-thìr, and the rules that bind them to
 the spelling. *The grammar in brief* §1 has a summary on one page; here is the full account.
 
 ## 0. Conventions, and the age of the sounds
 
-**Ròdais and its record.** Ròdais is the tongue of the Ròdaich, spoken on Rodos since the Ancient
-Age. Its history is the island's own: the oldest Ròdais words in stone are the lines cut
+**Dia-thìris and its record.** Dia-thìris is the tongue of the Dia-thìrich, spoken on Dia-thìr since the Ancient
+Age. Its history is the island's own: the oldest Dia-thìris words in stone are the lines cut
 on the standing stones, the first letters came from the stag-teachers of Muileann chiar, and its
 books were kept by scribes and, in the kingdom, by the Library at Muileann chaol. The spelling was
 settled early and has changed little since, while the sounds beneath it have moved a little, as
@@ -14,8 +14,8 @@ sounds will. So the letters often remember an older sound than the one now spoke
 says where they do. The spelling has two marks that set it apart at a glance: *sc* for the cluster
 /sk/, and the grave accent as its only accent mark (§11).
 
-**An old-sounding tongue.** Ròdais is conservative in its sounds. Where a sound might have fallen
-together with another, or worn away, Ròdais nearly always keeps the older: it holds apart what a
+**An old-sounding tongue.** Dia-thìris is conservative in its sounds. Where a sound might have fallen
+together with another, or worn away, Dia-thìris nearly always keeps the older: it holds apart what a
 looser speech would merge, and it keeps consonants that a quicker speech would slur. These points are
 noted where they arise; §12 gathers them at a glance, and §13 tells what the spelling shows of the
 older sounds of the tongue.
@@ -117,7 +117,7 @@ never pre-aspirated (*èisc* [ˈeːʃkʲ]). It is this breath that keeps *bàta*
 unstressed ones too (*chunnaic* [ˈxun̪ˠɪʰkʲ]). After *l n r* the sonorant is made voiceless instead
 (*olc*, *cearc*). The transcription leaves this unmarked, since it follows of itself.
 
-**The weight of the breath.** Ròdais has a light [ʰ] before all three stops. It is never thickened
+**The weight of the breath.** Dia-thìris has a light [ʰ] before all three stops. It is never thickened
 into a full rasp at the back of the mouth, so *mac* is [ˈmaʰk], not [ˈmaxk], and the difference of
 fortis and lenis is always plain to hear.
 
@@ -135,7 +135,7 @@ fortis and lenis is always plain to hear.
 ### 2.6 Sonorants: tense and lax
 
 The older tongue had four of each kind, four nasals, four laterals and four rhotics: tense and lax,
-each broad and slender. Ròdais has kept all four nasals, and three each of the laterals and the
+each broad and slender. Dia-thìris has kept all four nasals, and three each of the laterals and the
 rhotics.
 
 | | broad tense | broad lax | slender tense | slender lax |
@@ -152,7 +152,7 @@ rhotics.
   [ˈɲɛt̪] becomes *mo nead* [mə ˈnʲɛt̪].
 - The tense sonorants lengthen or diphthongise a short vowel before them (§4.2).
 
-**The four nasals kept.** Ròdais holds lax slender [nʲ] apart from tense slender [ɲ] in every
+**The four nasals kept.** Dia-thìris holds lax slender [nʲ] apart from tense slender [ɲ] in every
 place: inside a word, where a careless mouth would say [ˈt̪ɯɲə] for *duine*, and at the end, where
 it would say a plain [n]. So *duine* is [ˈt̪ɯnʲə], *sin* [ˈʃinʲ], *Diluain* [tʃiˈl̪ˠuənʲ]; the old
 system of four nasals stands whole. The laterals are three, [l̪ˠ ʎ lʲ], for broad lax *l* has
@@ -193,7 +193,7 @@ syllables only [ə], [ɪ], [a] and [i] appear, plus the long vowels of compounds
 | ɤ | *taigh* [ˈt̪ʰɤj] | (in *adh/agh* words) |
 
 *ò* is [ɔː] in most words (*òl, bròg, òran*) and [oː] in a closed list (*mòr, mòine, còig,
-dòigh*). Ròdais, which has no acute accent at all, writes both as *ò*. Speakers make the
+dòigh*). Dia-thìris, which has no acute accent at all, writes both as *ò*. Speakers make the
 distinction nonetheless, and the [oː] words must be learned one by one.
 
 ### 3.2 Diphthongs
@@ -210,7 +210,7 @@ distinction nonetheless, and the [oː] words must be learned one by one.
 | ɯj | *uidh* | *shuidh* [ˈhɯj] |
 | ãũ | *amh, eamh* before a consonant | *samhradh* [ˈsãũɾəɣ], *geamhradh* [ˈkʲãũɾəɣ] |
 
-*eu* is always [iə] in Ròdais: *ceud, sceul, feur, beul*, never a plain long [eː]. The diphthong
+*eu* is always [iə] in Dia-thìris: *ceud, sceul, feur, beul*, never a plain long [eː]. The diphthong
 grew out of an old long *e*, and in these words it has grown the same way throughout.
 
 ### 3.3 Nasal vowels
@@ -223,7 +223,7 @@ this is automatic and is not written in the phonemic transcription.
 ### 3.4 Unstressed vowels
 
 - Final *-a, -e* are [ə]: *bàta* [ˈpaːʰt̪ə], *duine* [ˈt̪ɯnʲə].
-- *ai, i, ei, ui* in unstressed syllables are [ɪ]: *athair* [ˈahɪɾʲ], *Ròdais* [ˈr̪ˠɔːt̪ɪʃ],
+- *ai, i, ei, ui* in unstressed syllables are [ɪ]: *athair* [ˈahɪɾʲ], *Dia-thìris* [ˈtʃiəˈhiːɾʲɪʃ],
   *madainn* [ˈmat̪ɪɲ].
 - *a, ea* before *n*, and in final *-ag/-eag*, keep [a]: *òran* [ˈɔːɾan], *eilean* [ˈelʲan],
   *caileag* [ˈkʰalʲak].
@@ -295,7 +295,7 @@ The maximal syllable is **CCCVVCCC**, but most syllables are CV, CVC or CVV.
 
 ## 6. Epenthesis (the helping vowel)
 
-Between a lax sonorant (*l, n, r*) and a following *b, bh, g, ch, m, mh*, Ròdais puts in a vowel
+Between a lax sonorant (*l, n, r*) and a following *b, bh, g, ch, m, mh*, Dia-thìris puts in a vowel
 that the spelling does not show, the *helping vowel*. It is an echo of the stressed vowel before
 it:
 
@@ -357,7 +357,7 @@ Exceptions:
   *an-diugh* [ən̪ˠˈtʃu], *an-dè* [ən̪ˠˈtʃeː], *a-nochd* [əˈn̪ˠɔxk], *a-mach* [əˈmax], *ma-thà*
   [məˈhaː].
 - **Weekday names** stress the name, not *Di-*: *Diluain* [tʃiˈl̪ˠuənʲ], *Dimàirt*.
-- **A few loans and names** from other tongues keep their own stress. Ròdais has almost none.
+- **A few loans and names** from other tongues keep their own stress. Dia-thìris has almost none.
 
 **Proclitics** have no stress: the article (*an, am, a', na, nan, nam*), the possessives (*mo, do,
 a, ar, ur*), the verbal particles (*cha, chan, an, nach, gu, gun, do*), the copula *is*, and the
@@ -369,7 +369,7 @@ compound: *taigh-òsta* [ˈt̪ʰɤjˈɔːst̪ə], *each-uisce* [ˈɛxˈɯʃkʲə
 **Phrase stress** falls on the last stressed word of a phrase. In a noun + adjective phrase that
 is the adjective: *Cathair dhearg* [ˈkʰahɪɾʲ ˈjɛɾɛk].
 
-**Intonation.** The tunes of Ròdais are these:
+**Intonation.** The tunes of Dia-thìris are these:
 
 - Statements fall on the last stressed syllable: *Tha e fuar.*
 - Questions introduced by a particle (*an, am, nach*) also fall. The particle marks the question,
@@ -378,7 +378,7 @@ is the adjective: *Cathair dhearg* [ˈkʰahɪɾʲ ˈjɛɾɛk].
   word.
 - Rising or level endings mark continuation (a list, a clause before *ach, agus*) and a polite,
   tentative question.
-- Ròdais has no tone belonging to the word itself. Hiatus words and helping-vowel words are given
+- Dia-thìris has no tone belonging to the word itself. Hiatus words and helping-vowel words are given
   no special contour of their own: they keep a single rise-fall, as a long syllable does.
 
 ## 9. The sounds of the mutations
@@ -424,7 +424,7 @@ vowel), *dh'fhàg* [ˈɣaːk]. Three very common words have an irregular [h] ins
 
 ### 9.3 Nasalisation (eclipsis) after the nasal-final article
 
-Ròdais spelling does not write the old nasal mutation, called eclipsis, except by the final *-n* or
+Dia-thìris spelling does not write the old nasal mutation, called eclipsis, except by the final *-n* or
 *-m* of the word that causes it; but it is still heard. It works as follows.
 
 **After *an, am* (singular article, the question particle, the possessive "their"):**
@@ -442,12 +442,12 @@ Ròdais spelling does not write the old nasal mutation, called eclipsis, except 
   [nə ˈɲiʎan].
 - *f* becomes [v]: *nam fear* [nə ˈvɛɾ].
 
-**Where the mutation is strongest.** Ròdais neither voices the stop everywhere and keeps it a stop
+**Where the mutation is strongest.** Dia-thìris neither voices the stop everywhere and keeps it a stop
 (so that *nam bàta* would be [nəm ˈbaːʰt̪ə]), nor puts the nasal in its place everywhere. It has the
 full nasal replacement in the genitive plural, and the lighter voicing after the singular article.
 The genitive plural article is the oldest home of eclipsis, where the old final *-n* stood from the
 beginning; after the singular article the mutation came later, by likeness. So the nasal mutation
-in Ròdais is strongest exactly where it is oldest.
+in Dia-thìris is strongest exactly where it is oldest.
 
 ### 9.4 Lenition blocks in sound
 
@@ -523,14 +523,14 @@ Vowel + *dh/gh*:
 | spelling | sound | examples |
 |---|---|---|
 | -a, -e (final) | ə | *bàta, duine* |
-| ai, i, ei, ui | ɪ | *athair, madainn, Ròdais* |
+| ai, i, ei, ui | ɪ | *athair, madainn, Dia-thìris* |
 | -aidh, -idh, -igh (final) | i | *òlaidh, Eilidh* |
 | a, ea + n | a | *òran, eilean, eileanan* |
 | -ag, -eag | a | *caileag* |
 | -adh, -eadh | əɣ | *sireadh* [ˈʃiɾʲəɣ], *samhradh* |
 | -amh | əv | *seasamh* [ˈʃɛsəv] |
 | -ach | əx | *balach* [ˈpal̪ˠəx] |
-| -aich, -ich | ɪç | *Ròdaich* [ˈr̪ˠɔːt̪ɪç] |
+| -aich, -ich | ɪç | *Dia-thìrich* [ˈtʃiəˈhiːɾʲɪç] |
 | -aibh, -ibh | ɪv | *agaibh* [ˈakɪv] |
 | other | ə | *rathad, fichead, agus* |
 
@@ -584,7 +584,7 @@ Clusters:
 | lb, rg, rm … | helping vowel | §6 |
 
 *cn, gn, mn, tn* keep the nasal: *cnoc* [ˈkʰn̪ˠɔʰk], not [ˈkʰɾɔ̃ʰk]. The *n* is never turned to a
-nasalised *r* after the stop, with its nasal sound shifted onto the vowel. Ròdais says [kn] as the
+nasalised *r* after the stop, with its nasal sound shifted onto the vowel. Dia-thìris says [kn] as the
 letters show and as it was said of old, and to a careful ear it is the most plainly
 old-fashioned sound in the language.
 
@@ -609,9 +609,9 @@ old-fashioned sound in the language.
 *thu* [u] after verbs is the old lenited form with its [h] lost. The form *tu* [t̪u] appears after
 *-s* and *-dh* (*bidh tu*).
 
-## 11. What is particular to Ròdais
+## 11. What is particular to Dia-thìris
 
-1. **sc is [sk], always unaspirated.** Ròdais writes the cluster *sc*, the letter the scribes have
+1. **sc is [sk], always unaspirated.** Dia-thìris writes the cluster *sc*, the letter the scribes have
    used for it from the first, and says it with a plain, unbreathed stop: *uisce* [ˈɯʃkʲə], *scoil*
    [ˈskɔlʲ], *iasc* [ˈiəsk], *èisc* [ˈeːʃkʲ]. The *c* after *s* is never aspirated or
    pre-aspirated. A reader must not take *sc* for a fortis *c*.
@@ -622,18 +622,18 @@ old-fashioned sound in the language.
 3. **Old letters, present values.** The spelling keeps letters made for older sounds (the *sc*
    above; see also *Names*), but every letter is read with the value it has in speech now: *th* is
    [h], *dh/gh* are [ɣ]/[j], pre-aspiration is present, *ao* is [ɯː].
-4. **The names of the Old Ones** (*Skell, Dunn, Chwen, Bral*), which are older than Ròdais and
-   come from the tongue of the Seann-Dhaoine, are read with Ròdais values where they can be:
+4. **The names of the Old Ones** (*Skell, Dunn, Chwen, Bral*), which are older than Dia-thìris and
+   come from the tongue of the Seann-Dhaoine, are read with Dia-thìris values where they can be:
    *Seann Skell* [ˈʃaun̪ˠ ˈskʲeʎ], *Seann Dunn* [ˈʃaun̪ˠ ˈt̪uːn̪ˠ], *Seann Chwen*
    [ˈʃaun̪ˠ ˈçwenʲ]. *k* and *w* keep their foreign values [k] and [w], and by these the hearer
    knows the names for strangers.
 
 ## 12. The old sounds at a glance
 
-Here are gathered the points at which Ròdais keeps an older sound, with the looser sound it does not
+Here are gathered the points at which Dia-thìris keeps an older sound, with the looser sound it does not
 use beside it, so that a learner may be warned.
 
-| feature | **Ròdais** | not heard in Ròdais |
+| feature | **Dia-thìris** | not heard in Dia-thìris |
 |---|---|---|
 | pre-aspiration of *c* | **[ʰk]** | [xk] |
 | *cn, gn, mn* | **[kn]** | [kɾ̃] |
@@ -647,29 +647,29 @@ use beside it, so that a learner may be warned.
 
 ## 13. What the spelling remembers
 
-The spelling of Ròdais was settled long ago, and it has kept the shape of sounds that speech has
+The spelling of Dia-thìris was settled long ago, and it has kept the shape of sounds that speech has
 since changed. Read with care, it tells something of what the tongue was like in its older days.
 
-**Lenition.** In the oldest Ròdais the lenited consonants were true fricatives, and the letters were
+**Lenition.** In the oldest Dia-thìris the lenited consonants were true fricatives, and the letters were
 made for them: *th* [θ], *dh* [ð], *gh* [ɣ], *ch* [x], *bh* [β], *mh* [β̃], *fh* [ɸ] or nothing,
 *sh* [h]. In time *th* became [h], *dh* and *gh* fell together in [ɣ]/[j], and *bh, mh* became
-[v, ṽ]; and these are the values Ròdais has now. The spelling *dh* for a sound that is the same as
+[v, ṽ]; and these are the values Dia-thìris has now. The spelling *dh* for a sound that is the same as
 *gh* is the memory of the old [ð]. So is final *-adh*, whose [əɣ] was once [əð].
 
 **Voice and aspiration.** In the older tongue *b d g* were voiced and *p t c* voiceless. The voiced
 stops lost their voice, and the voiceless ones gained breath, which after a vowel moved in front of
 the stop as pre-aspiration. The contrast is as old as the tongue; only its sound has changed. The
-pre-aspiration of Ròdais is light, near to a plain aspirated stop.
+pre-aspiration of Dia-thìris is light, near to a plain aspirated stop.
 
 **Tense and lax sonorants.** The older tongue set doubled *ll, nn, rr* (and initial *l, n, r*)
 against single ones, and with broad and slender this gave four of each, twelve in all, on which the
-bards' metre depended. Ròdais has four nasals, three laterals and three rhotics. The diphthongs
+bards' metre depended. Dia-thìris has four nasals, three laterals and three rhotics. The diphthongs
 before tense sonorants (*ceann* [ˈkʲʰaun̪ˠ], *long*) are a later growth. They are the one place
 where the tense sonorants have changed the vowel before them instead of being lost.
 
 **Eclipsis.** The older tongue nasalised the first sound of a word after words that had once ended
 in *-n*, and the genitive plural article first among them. The spelling ceased to write it, but the
-sound lived on. Ròdais has the full nasal replacement in the oldest home of eclipsis, the genitive
+sound lived on. Dia-thìris has the full nasal replacement in the oldest home of eclipsis, the genitive
 plural (*nam bàtaichean* [nə ˈmaːʰt̪ɪçan]).
 
 **Long vowels.** *à, ò, ù, ì* are the old long vowels, with their old sounds. The old long *e* has
@@ -678,19 +678,19 @@ diphthongs *ia, ua* are old. The grave accent marks the same long vowels it has 
 
 **The helping vowel.** The bards did not count the helping vowel as a syllable. A line with *dearg*
 in it scanned as if the word were one syllable shorter, and the teachers of verse held it so from
-early days. Ròdais treats the helping vowel in the same way (§6, rule 4).
+early days. Dia-thìris treats the helping vowel in the same way (§6, rule 4).
 
 **sc.** The cluster has been written *sc* from the earliest writing (*sceul, uisce, scoil*). In
-speech the stop has since become lenis; Ròdais keeps the old letter and says the newer sound.
+speech the stop has since become lenis; Dia-thìris keeps the old letter and says the newer sound.
 
-**cn.** *Cnoc, gnè, mnathan* had [kn, gn, mn] of old, and have them still. Ròdais has not let the
+**cn.** *Cnoc, gnè, mnathan* had [kn, gn, mn] of old, and have them still. Dia-thìris has not let the
 *n* go.
 
 ## 14. A pronunciation key for the reader
 
 These are approximations for readers who want to say names aloud. §2–§10 give the real values.
 
-| Ròdais | say it like | example |
+| Dia-thìris | say it like | example |
 |---|---|---|
 | a | *a* in *cat* | *mac* "mahk" |
 | à | *a* in *father* | *bàta* "BAH-htuh" |
@@ -725,7 +725,7 @@ inside the one stressed beat.
 ## 15. Worked transcriptions
 
 The transcriptions are broad and phonemic, as everywhere in this chapter. Some things vary from
-word to word in Ròdais, as in any living tongue, and are not predicted by the rules of §2–§10: the exact
+word to word in Dia-thìris, as in any living tongue, and are not predicted by the rules of §2–§10: the exact
 vowel of *ea* in some words, silent versus sounded *bh* and *th* between vowels in old words,
 secondary stress in long compounds, and elision in connected speech beyond the written
 apostrophes. The [oː] words of §3.1 are a closed list, and so are the frequent words whose sound
@@ -749,13 +749,13 @@ Dòmhnall, dhomh, aig, ciamar*, the weekdays).
 | *geal* | white | [ˈkʲal̪ˠ] | *ea* = [a] before *l* |
 | *dearg* | red | [ˈtʃɛɾɛk] | helping vowel |
 | *gorm* | blue | [ˈkɔɾɔm] | helping vowel |
-| *ruadh* | red-brown | [ˈr̪ˠuəɣ] | final broad *dh* |
+| *ruadh* | red-brown | [ˈr̪ˠuəɣ] | tense initial *r*; final broad *dh* |
 | *uaine* | green | [ˈuənʲə] | lax slender [nʲ] |
 | *oidhche* | night | [ˈɤiçə] | *oidh* = [ɤi], *dh* silent |
 | *latha* | day | [ˈl̪ˠa.ə] | hiatus |
 | *nàidhlean* | nylon | [ˈn̪ˠaːlʲan] | *àidh* + consonant = [aː] |
-| *Ròdais* | the language | [ˈr̪ˠɔːt̪ɪʃ] | tense initial *r* |
-| *Ròdos* | the island | [ˈr̪ˠɔːt̪əs] | |
+| *Dia-thìris* | the language | [ˈtʃiəˈhiːɾʲɪʃ] | slender *d* is [tʃ]; *th* after the hyphen is [h] |
+| *Dia-thìr* | the island | [ˈtʃiəˈhiːɾʲ] | *dia* "god" + *tìr* "land", the godkin's land; two stresses |
 | *taigh* | house | [ˈt̪ʰɤj] | *aigh* = [ɤj] |
 | *cnoc* | hill | [ˈkʰn̪ˠɔʰk] | conservative *cn* |
 | *loch* | loch | [ˈl̪ˠɔx] | |

@@ -3,7 +3,7 @@
   "id": "IV-0001",
   "canon": true,
   "title": "The Crossing",
-  "body": "Humans come ashore on Rodos, bringing their Church with them, and are given leave to stay. They are the first strangers met since the Sundering.",
+  "body": "Humans come ashore on Dia-thìr, bringing their Church with them, and are given leave to stay. They are the first strangers met since the Sundering.",
   "place": null,
   "kind": "voyage",
   "canon_date": "c. 1780 DE"
@@ -24,7 +24,7 @@
   "id": "IV-0002",
   "canon": false,
   "title": "Three ships off Cuan shean",
-  "body": "Three ships out of the west anchor off Cuan shean, the first hulls of their size seen from Rodos since the fleet of the Sundering. Their master, a captain the rolls name Edmund Harrow, comes ashore unarmed with eleven men and asks by signs for water.",
+  "body": "Three ships out of the west anchor off Cuan shean, the first hulls of their size seen from Dia-thìr since the fleet of the Sundering. Their master, a captain the rolls name Edmund Harrow, comes ashore unarmed with eleven men and asks by signs for water.",
   "place": "burg:282",
   "kind": "voyage"
  },
@@ -64,7 +64,7 @@
   "id": "IV-0007",
   "canon": false,
   "title": "The land beyond",
-  "body": "The strangers name their homeland in their own tongue, but no scribe of the Ròdaich writes the word down. From the first season the scribes call it an Tìr Thall, the land beyond, and its people simply the humans.",
+  "body": "The strangers name their homeland in their own tongue, but no scribe of the Dia-thìrich writes the word down. From the first season the scribes call it an Tìr Thall, the land beyond, and its people simply the humans.",
   "place": null,
   "kind": "record"
  },
@@ -72,7 +72,7 @@
   "id": "IV-0008",
   "canon": true,
   "title": "The first attempts at speech",
-  "body": "For a whole season clerics of the humans' Church and custodians of Rodos labour to make a store of words in common. Neither side's account of what was agreed survives whole.",
+  "body": "For a whole season clerics of the humans' Church and custodians of Dia-thìr labour to make a store of words in common. Neither side's account of what was agreed survives whole.",
   "place": null,
   "kind": "culture",
   "canon_date": "c. 1781 DE"
@@ -81,15 +81,15 @@
   "id": "IV-0009",
   "canon": false,
   "title": "Wren's word-lists",
-  "body": "The human cleric Samuel Wren and the custodian Gormshuil nic Fhearchair keep word-lists side by side through the season of speech-making. Wren's list survives in the Administration's letter-books. Gormshuil's is lost; only its first leaf, with forty words for the colours of broken ore, is known from a copy.",
+  "body": "The human cleric Samuel Wren and the custodian Gormshuil nic Fhearchair keep word-lists side by side through the season of speech-making. Wren's list survives in the Administration's letter-books. Gormshuil's is lost; only its first leaf, with forty words for the colours of broken coal, is known from a copy.",
   "place": "burg:19",
   "kind": "culture"
  },
  {
   "id": "IV-0010",
   "canon": false,
-  "title": "One word for the ore",
-  "body": "The humans have a single word for the black ore, and it is their word for the fuel they burn at home. Gormshuil's copyist notes that no Ròdais word in either list answers to it, and that the humans did not ask for one.",
+  "title": "One word for the coal",
+  "body": "The humans have a single word for the coloured coal, and it is their word for the black fuel they burn at home. Gormshuil's copyist notes that no Dia-thìris word in either list answers to it, and that the humans did not ask for one.",
   "place": "burg:19",
   "kind": "record"
  },
@@ -97,7 +97,7 @@
   "id": "IV-0011",
   "canon": true,
   "title": "Trade begins",
-  "body": "At first the trade is fair on both sides: the goods of Rodos for tools and knowledge the lonely island lacks. For a few years it seems it may last.",
+  "body": "At first the trade is fair on both sides: the goods of Dia-thìr for tools and knowledge the lonely island lacks. For a few years it seems it may last.",
   "place": null,
   "kind": "trade",
   "canon_date": "c. 1782 DE"
@@ -114,7 +114,7 @@
   "id": "IV-0012a",
   "canon": false,
   "title": "The first hull on Loch chrom",
-  "body": "Pilots of Caol leathan bring the first of the strangers' ships up the Abhainn gheal into Loch chrom, towing her with boats through the shallows below Baile ghlas, and she anchors off Ros dhomhain. Thereafter the humans' goods come to the capital shore by water, and the pilots charge a stranger's hull twice the toll of a Ròdaich boat.",
+  "body": "Pilots of Caol leathan bring the first of the strangers' ships up the Abhainn gheal into Loch chrom, towing her with boats through the shallows below Baile ghlas, and she anchors off Ros dhomhain. Thereafter the humans' goods come to the capital shore by water, and the pilots charge a stranger's hull twice the toll of a Dia-thìrich boat.",
   "place": "river:115",
   "kind": "voyage",
   "between": [
@@ -174,7 +174,7 @@
   "id": "IV-0019",
   "canon": false,
   "title": "Salt from Seann Warr",
-  "body": "The salt-pans of Seann Warr begin to sell to Pike's post by the barrel. It is the first goods of Rodos that the humans come back asking for twice.",
+  "body": "The salt-pans of Seann Warr begin to sell to Pike's post by the barrel. It is the first goods of Dia-thìr that the humans come back asking for twice.",
   "place": "burg:64",
   "kind": "trade"
  },
@@ -190,7 +190,7 @@
   "id": "IV-0021",
   "canon": true,
   "title": "The first mixed settlement",
-  "body": "A small coastal town takes in both Ròdaich and humans under one rule. It is not tried again.",
+  "body": "A small coastal town takes in both Dia-thìrich and humans under one rule. It is not tried again.",
   "place": null,
   "kind": "founding",
   "canon_date": "c. 1784 DE"
@@ -199,7 +199,7 @@
   "id": "IV-0022",
   "canon": false,
   "title": "Baile dhìreach under one council",
-  "body": "The small port of Baile dhìreach on the south-west coast takes Ròdaich and humans under one council of six, three of each. Its founding compact is written twice, once in each tongue, the only such compact of the age.",
+  "body": "The small port of Baile dhìreach on the south-west coast takes Dia-thìrich and humans under one council of six, three of each. Its founding compact is written twice, once in each tongue, the only such compact of the age.",
   "place": "burg:105",
   "kind": "founding"
  },
@@ -231,7 +231,7 @@
   "id": "IV-0026",
   "canon": true,
   "title": "The beacons asked for",
-  "body": "Human seamen, strange to the coasts of Rodos, ask for standing beacons. The builders of the Ròdaich agree, not yet seeing what the beacons will bring.",
+  "body": "Human seamen, strange to the coasts of Dia-thìr, ask for standing beacons. The builders of the Dia-thìrich agree, not yet seeing what the beacons will bring.",
   "place": null,
   "kind": "building",
   "canon_date": "c. 1785 DE"
@@ -240,7 +240,7 @@
   "id": "IV-0027",
   "canon": false,
   "title": "The beacon headlands walked",
-  "body": "The human navigator James Fenn and the Ròdaich mason Torcall Clachair walk the coast together to choose the places of the new beacons, and mark the five headlands of the old fires. Fenn's chart survives; Torcall's cairns for the most part do not.",
+  "body": "The human navigator James Fenn and the Dia-thìrich mason Torcall Clachair walk the coast together to choose the places of the new beacons, and mark the five headlands of the old fires. Fenn's chart survives; Torcall's cairns for the most part do not.",
   "place": "marker:16",
   "kind": "building"
  },
@@ -248,7 +248,7 @@
   "id": "IV-0027a",
   "canon": false,
   "title": "Fenn's line",
-  "body": "On the same survey James Fenn runs a line of sights across the whole island, from the open sea off the north-west, where ships from the west first raise the land, to the water off the eastern cape. He makes it two hundred and twenty-one miles, some forty-five of them sea at the western end. It is the first measure of Rodos from side to side, and every chart the Company draws afterwards is scaled to it.",
+  "body": "On the same survey James Fenn runs a line of sights across the whole island, from the open sea off the north-west, where ships from the west first raise the land, to the water off the eastern cape. He makes it two hundred and twenty-one miles, some forty-five of them sea at the western end. It is the first measure of Dia-thìr from side to side, and every chart the Company draws afterwards is scaled to it.",
   "place": "feature:2",
   "kind": "record"
  },
@@ -264,7 +264,7 @@
   "id": "IV-0029",
   "canon": true,
   "title": "The first written treaty",
-  "body": "The terms on which the humans stay are first set down in writing, in the humans' tongue only. No one among the Ròdaich speaks against it at the time.",
+  "body": "The terms on which the humans stay are first set down in writing, in the humans' tongue only. No one among the Dia-thìrich speaks against it at the time.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1787 DE"
@@ -289,7 +289,7 @@
   "id": "IV-0032",
   "canon": false,
   "title": "The Company chartered",
-  "body": "Harrow and Pike found a trading house under licence of the Administration, known on Rodos simply as the Company. Its charter gives it first refusal of \"all fuels, ores and minerals the island may yield.\"",
+  "body": "Harrow and Pike found a trading house under licence of the Administration, known on Dia-thìr simply as the Company. Its charter gives it first refusal of \"all fuels, ores and minerals the island may yield.\"",
   "place": "burg:27",
   "kind": "trade"
  },
@@ -297,7 +297,7 @@
   "id": "IV-0033",
   "canon": false,
   "title": "The warehouse at Cathair dhomhain",
-  "body": "The Company leases a stone warehouse at Cathair dhomhain, along the lake shore from the capital, to keep its tools from the harbour thieves of Ros dhomhain. It is the first building on Rodos the Company owns outright.",
+  "body": "The Company leases a stone warehouse at Cathair dhomhain, along the lake shore from the capital, to keep its tools from the harbour thieves of Ros dhomhain. It is the first building on Dia-thìr the Company owns outright.",
   "place": "burg:26",
   "kind": "trade"
  },
@@ -305,7 +305,7 @@
   "id": "IV-0034",
   "canon": false,
   "title": "The strangers' fever",
-  "body": "A fever comes ashore at Cuan shean with a crowded ship and runs down the west coast. Ninety-one Ròdaich die, and eleven humans. The custodians shut the town to ships for a season, and Pell protests in writing.",
+  "body": "A fever comes ashore at Cuan shean with a crowded ship and runs down the west coast. Ninety-one Dia-thìrich die, and eleven humans. The custodians shut the town to ships for a season, and Pell protests in writing.",
   "place": "burg:282",
   "kind": "disaster"
  },
@@ -329,7 +329,7 @@
   "id": "IV-0037",
   "canon": false,
   "title": "Prospectors in the central hills",
-  "body": "The Company sends two prospectors, Abel Stone and Hugh Mercer, into the hills east of the capital. They come back with sacks of broken ore, and word that the black seam runs \"further than can be walked in a day.\"",
+  "body": "The Company sends two prospectors, Abel Stone and Hugh Mercer, into the hills east of the capital. They come back with sacks of broken coal, and word that the black seam runs \"further than can be walked in a day.\"",
   "place": "province:76",
   "kind": "discovery"
  },
@@ -337,7 +337,7 @@
   "id": "IV-0038",
   "canon": false,
   "title": "The sacks returned to the rock",
-  "body": "The custodians of the vein demand the broken ore back, to lay it in the rock again with the proper words. The Company returns half. The custodians' roll enters the other half as \"carried west.\"",
+  "body": "The custodians of the vein demand the broken coal back, to lay it in the rock again with the proper words. The Company returns half. The custodians' roll enters the other half as \"carried west.\"",
   "place": "province:76",
   "kind": "faith"
  },
@@ -345,7 +345,7 @@
   "id": "IV-0039",
   "canon": true,
   "title": "The first mining contracts",
-  "body": "Trade sours into bargain. Ròdaich hands mine the vein on a scale that no reverent custom had ever used.",
+  "body": "Trade sours into bargain. Dia-thìrich hands mine the vein on a scale that no reverent custom had ever used.",
   "place": null,
   "kind": "trade",
   "canon_date": "c. 1790 DE"
@@ -354,15 +354,15 @@
   "id": "IV-0040",
   "canon": false,
   "title": "The first pit at Muileann chrom",
-  "body": "Under the first contract a Ròdaich crew of thirty opens a working at Muileann chrom, paid by the ton in iron tools and lamp-oil. The custodians' own cuttings had never been measured by weight at all.",
+  "body": "Under the first contract a Dia-thìrich crew of thirty opens a working at Muileann chrom, paid by the ton in iron tools and lamp-oil. The custodians' own cuttings had never been measured by weight at all.",
   "place": "burg:354",
   "kind": "craft"
  },
  {
   "id": "IV-0041",
   "canon": false,
-  "title": "An ore quay at Ceann fhada",
-  "body": "The Company builds a stone quay at Ceann fhada, a fishing hamlet below the hills, for loading ore into coasting barges. The fishermen are paid for their foreshore in iron nails, by weight.",
+  "title": "A coal quay at Ceann fhada",
+  "body": "The Company builds a stone quay at Ceann fhada, a fishing hamlet below the hills, for loading coal into coasting barges. The fishermen are paid for their foreshore in iron nails, by weight.",
   "place": "burg:351",
   "kind": "founding"
  },
@@ -370,7 +370,7 @@
   "id": "IV-0042",
   "canon": false,
   "title": "Wren's grammar",
-  "body": "Samuel Wren finishes a grammar of Ròdais for the Mission, the house of the humans' Church on Rodos. It is careful and true in most things, and it gives the word for the vein's custodians as \"keepers of the coal.\"",
+  "body": "Samuel Wren finishes a grammar of Dia-thìris for the Mission, the house of the humans' Church on Dia-thìr. It is careful and true in most things, and it gives the word for the vein's custodians as \"keepers of the coal.\"",
   "place": "burg:27",
   "kind": "culture"
  },
@@ -419,7 +419,7 @@
   "id": "IV-0048",
   "canon": false,
   "title": "Taigh-solais Tobar dhearg lit",
-  "body": "The first of the new beacons is finished on the southern headland at Tobar dhearg: a round tower of grey stone raised over the old fire-tower, paid for by the Company, with a Ròdaich keeper. Torcall Clachair builds it; James Fenn sets its lens.",
+  "body": "The first of the new beacons is finished on the southern headland at Tobar dhearg: a round tower of grey stone raised over the old fire-tower, paid for by the Company, with a Dia-thìrich keeper. Torcall Clachair builds it; James Fenn sets its lens.",
   "place": "marker:16",
   "kind": "building"
  },
@@ -443,7 +443,7 @@
   "id": "IV-0051",
   "canon": false,
   "title": "The obelisk at Cnoc bheag copied",
-  "body": "Samuel Wren copies the writing on the obelisk near Cnoc bheag and sends it west to the scholars of an Tìr Thall. No answer comes. The custodians tell him the stone is older than the Ròdaich and that none living can read it.",
+  "body": "Samuel Wren copies the writing on the obelisk near Cnoc bheag and sends it west to the scholars of an Tìr Thall. No answer comes. The custodians tell him the stone is older than the Dia-thìrich and that none living can read it.",
   "place": "marker:28",
   "kind": "record"
  },
@@ -460,7 +460,7 @@
   "id": "IV-0053",
   "canon": false,
   "title": "The mark and its hundred pence",
-  "body": "The coins are struck at Ros dhomhain from silver and copper shipped from an Tìr Thall: the mark and its hundred pence. The first striking bears a ship on one face, and nothing of Rodos on either.",
+  "body": "The coins are struck at Ros dhomhain from silver and copper shipped from an Tìr Thall: the mark and its hundred pence. The first striking bears a ship on one face, and nothing of Dia-thìr on either.",
   "place": "burg:27",
   "kind": "trade"
  },
@@ -492,7 +492,7 @@
   "id": "IV-0057",
   "canon": false,
   "title": "Drochaid Cathair dhearg rebuilt",
-  "body": "Company masons rebuild in dressed stone the old bridge over Abhainn dhomhain at Cathair dhearg, wide enough for ore-carts to pass two abreast.",
+  "body": "Company masons rebuild in dressed stone the old bridge over Abhainn dhomhain at Cathair dhearg, wide enough for coal-carts to pass two abreast.",
   "place": "marker:3",
   "kind": "building"
  },
@@ -544,7 +544,7 @@
   "id": "IV-0062",
   "canon": false,
   "title": "Harrow lost at sea",
-  "body": "Edmund Harrow's ship does not come back from the western crossing. The Company passes wholly into Thomas Pike's hands, and the humans' letter-books mourn Harrow as the man who found Rodos.",
+  "body": "Edmund Harrow's ship does not come back from the western crossing. The Company passes wholly into Thomas Pike's hands, and the humans' letter-books mourn Harrow as the man who found Dia-thìr.",
   "place": "feature:1",
   "kind": "voyage"
  },
@@ -561,7 +561,7 @@
   "id": "IV-0064",
   "canon": false,
   "title": "The last count at Doire mhin",
-  "body": "The custodians of Doire mhin keep the old count of the Small-Burning Law, the measure of ore that might be burned in a year, one season longer than any others. They enter it in their roll with the note that no one asked for it.",
+  "body": "The custodians of Doire mhin keep the old count of the Small-Burning Law, the measure of coal that might be burned in a year, one season longer than any others. They enter it in their roll with the note that no one asked for it.",
   "place": "burg:316",
   "kind": "record"
  },
@@ -569,7 +569,7 @@
   "id": "IV-0065",
   "canon": false,
   "title": "A defence of the Law at Dùn dhearg",
-  "body": "Fionnghal nic Artair, a custodian of Dùn dhearg, writes to the council in defence of the Small-Burning Law, the only such defence that survives. She holds that the Law was never for the ore's sake but for the people, who would become whatever the burning made them.",
+  "body": "Fionnghal nic Artair, a custodian of Dùn dhearg, writes to the council in defence of the Small-Burning Law, the only such defence that survives. She holds that the Law was never for the coal's sake but for the people, who would become whatever the burning made them.",
   "place": "burg:422",
   "kind": "culture"
  },
@@ -577,7 +577,7 @@
   "id": "IV-0066",
   "canon": false,
   "title": "Murchadh Seabhag preaches at Seann Skell",
-  "body": "At Seann Skell the hawk-priest Murchadh Seabhag preaches that Mòd, the Hungry Hawk of Acaill, starves those who eat faster than the land can feed them. The sermon is copied and carried to the camps, and it is the first writing of the Ròdaich that the Company's agents are told to seize.",
+  "body": "At Seann Skell the hawk-priest Murchadh Seabhag preaches that Mòd, the Hungry Hawk of Acaill, starves those who eat faster than the land can feed them. The sermon is copied and carried to the camps, and it is the first writing of the Dia-thìrich that the Company's agents are told to seize.",
   "place": "burg:132",
   "kind": "faith"
  },
@@ -585,7 +585,7 @@
   "id": "IV-0067",
   "canon": false,
   "title": "The hearths of Achadh naomh",
-  "body": "The households of Achadh naomh, in the hills north of the workings, who keep Na Seann Spioradan, will not light their hearths with ore bought of the Company. They burn peat as their grandparents did, and their elders teach that ore burned for wages is burned without the ancestors' leave.",
+  "body": "The households of Achadh naomh, in the hills north of the workings, who keep Na Seann Spioradan, will not light their hearths with coal bought of the Company. They burn peat as their grandparents did, and their elders teach that coal burned for wages is burned without the ancestors' leave.",
   "place": "burg:145",
   "kind": "faith"
  },
@@ -593,7 +593,7 @@
   "id": "IV-0068",
   "canon": false,
   "title": "Burning by the cartload",
-  "body": "The Company's furnaces at Muileann chrom burn ore by the cartload to drive the new pumps, and no heed is paid to the custodians' tally of what the hill may give in a year. Coinneach Glas's council asks that the tally be kept, and is sent a copy of the Company's accounts.",
+  "body": "The Company's furnaces at Muileann chrom burn coal by the cartload to drive the new pumps, and no heed is paid to the custodians' tally of what the hill may give in a year. Coinneach Glas's council asks that the tally be kept, and is sent a copy of the Company's accounts.",
   "place": "burg:354",
   "kind": "trade"
  },
@@ -617,7 +617,7 @@
   "id": "IV-0071",
   "canon": true,
   "title": "The first deaths of haste",
-  "body": "A tunnel worked faster than any Ròdaich crew would have worked it falls in and kills eleven. It is entered as an accident.",
+  "body": "A tunnel worked faster than any Dia-thìrich crew would have worked it falls in and kills eleven. It is entered as an accident.",
   "place": null,
   "kind": "disaster",
   "canon_date": "c. 1804 DE"
@@ -626,7 +626,7 @@
   "id": "IV-0072",
   "canon": false,
   "title": "The eleven of Cnoc fhiadhaich",
-  "body": "The fall was at Cnoc fhiadhaich, in a gallery driven forward without the timbering the Ròdaich crews had asked for. The custodians' roll names all eleven dead. The Company's report names none, and calls the gallery \"unsound ground.\"",
+  "body": "The fall was at Cnoc fhiadhaich, in a gallery driven forward without the timbering the Dia-thìrich crews had asked for. The custodians' roll names all eleven dead. The Company's report names none, and calls the gallery \"unsound ground.\"",
   "place": "burg:280",
   "kind": "people",
   "within": [
@@ -638,7 +638,7 @@
   "id": "IV-0073",
   "canon": false,
   "title": "The coughing sickness",
-  "body": "A dry cough runs through the camps at Muileann chrom and Cnoc fhiadhaich, worst among the boys who break ore at the pit-mouth, and thirty-eight die of it. The Mission's surgeon calls it a winter complaint. It lasts through the summer.",
+  "body": "A dry cough runs through the camps at Muileann chrom and Cnoc fhiadhaich, worst among the boys who break coal at the pit-mouth, and thirty-eight die of it. The Mission's surgeon calls it a winter complaint. It lasts through the summer.",
   "place": "burg:354",
   "kind": "disaster"
  },
@@ -682,7 +682,7 @@
   "id": "IV-0077",
   "canon": false,
   "title": "The camp at Àth ìseal",
-  "body": "The Company builds a camp of timber huts at Àth ìseal, at the ford below the new workings, for crews brought in from the coast. It is the first settlement on Rodos made for nothing but the pit.",
+  "body": "The Company builds a camp of timber huts at Àth ìseal, at the ford below the new workings, for crews brought in from the coast. It is the first settlement on Dia-thìr made for nothing but the pit.",
   "place": "burg:383",
   "kind": "founding"
  },
@@ -690,7 +690,7 @@
   "id": "IV-0078",
   "canon": false,
   "title": "Doire mhòr's water taken",
-  "body": "The Company turns the stream that watered Doire mhòr to wash ore at Cnoc fhiadhaich. No order is written; the stream is dammed one season and not let go. Beathag Dhubh's people carry water by hand for two summers, and then begin to leave.",
+  "body": "The Company turns the stream that watered Doire mhòr to wash coal at Cnoc fhiadhaich. No order is written; the stream is dammed one season and not let go. Beathag Dhubh's people carry water by hand for two summers, and then begin to leave.",
   "place": "burg:101",
   "kind": "law"
  },
@@ -714,7 +714,7 @@
   "id": "IV-0081",
   "canon": true,
   "title": "The mountain dug by the ton",
-  "body": "For the first time in the history of Rodos the mountain is worked by the ton, and for ends no custom of the Ròdaich would have chosen.",
+  "body": "For the first time in the history of Dia-thìr the mountain is worked by the ton, and for ends no custom of the Dia-thìrich would have chosen.",
   "place": null,
   "kind": "craft",
   "canon_date": "c. 1810 DE"
@@ -731,7 +731,7 @@
   "id": "IV-0083",
   "canon": false,
   "title": "The Company's second charter",
-  "body": "The Company is chartered again in an Tìr Thall, with new money and a new name the Ròdaich never take up. Its agents at Ros dhomhain now outnumber the Administration's own clerks four to one.",
+  "body": "The Company is chartered again in an Tìr Thall, with new money and a new name the Dia-thìrich never take up. Its agents at Ros dhomhain now outnumber the Administration's own clerks four to one.",
   "place": "burg:27",
   "kind": "trade"
  },
@@ -739,7 +739,7 @@
   "id": "IV-0084",
   "canon": false,
   "title": "Barges at Cidhe Beag",
-  "body": "Ore barges begin to load at Cidhe Beag on Abhainn uaine and float the black ore down to the coast. The old canoe landing, used since before the Sundering, is widened with cut stone, and its shrine is moved uphill.",
+  "body": "Coal barges begin to load at Cidhe Beag on Abhainn uaine and float the black coal down to the coast. The old canoe landing, used since before the Sundering, is widened with cut stone, and its shrine is moved uphill.",
   "place": "marker:39",
   "kind": "voyage"
  },
@@ -747,7 +747,7 @@
   "id": "IV-0085",
   "canon": false,
   "title": "Abhainn uaine silts black",
-  "body": "The washing of ore upstream fills Abhainn uaine with black slurry, and within a few seasons the salmon runs at its mouth fail. The river keeps its name, the green river, and the fishermen speak it bitterly.",
+  "body": "The washing of coal upstream fills Abhainn uaine with black slurry, and within a few seasons the salmon runs at its mouth fail. The river keeps its name, the green river, and the fishermen speak it bitterly.",
   "place": "river:15",
   "kind": "disaster"
  },
@@ -755,7 +755,7 @@
   "id": "IV-0086",
   "canon": false,
   "title": "Baile Mòr dhomhain a barge town",
-  "body": "As the ore comes down to it from Cidhe Beag, Baile Mòr dhomhain on the river road grows into the busiest barge town of the north. Its people double in number, most of the newcomers bargemen from the coast.",
+  "body": "As the coal comes down to it from Cidhe Beag, Baile Mòr dhomhain on the river road grows into the busiest barge town of the north. Its people double in number, most of the newcomers bargemen from the coast.",
   "place": "burg:273",
   "kind": "trade"
  },
@@ -763,7 +763,7 @@
   "id": "IV-0087",
   "canon": false,
   "title": "Baile dhomhain raised as a camp town",
-  "body": "A Company surveyor lays out a second camp, Baile dhomhain, on a grid, the first town of the Ròdaich drawn on paper before it was built. Within two seasons it houses four hundred.",
+  "body": "A Company surveyor lays out a second camp, Baile dhomhain, on a grid, the first town of the Dia-thìrich drawn on paper before it was built. Within two seasons it houses four hundred.",
   "place": "burg:224",
   "kind": "founding"
  },
@@ -771,7 +771,7 @@
   "id": "IV-0088",
   "canon": false,
   "title": "An Taigh-seinnse Mòr reopens",
-  "body": "The old carters' house at the half-way stage of the ore road between the capital and the hills is built again, opens its doors at Lùnastal, and keeps the name An Taigh-seinnse Mòr. Its first keeper, Seònaid Bhàn, takes both marks and barter, the only innkeeper on the road who will.",
+  "body": "The old carters' house at the half-way stage of the coal road between the capital and the hills is built again, opens its doors at Lùnastal, and keeps the name An Taigh-seinnse Mòr. Its first keeper, Seònaid Bhàn, takes both marks and barter, the only innkeeper on the road who will.",
   "place": "marker:10",
   "kind": "building"
  },
@@ -779,7 +779,7 @@
   "id": "IV-0088a",
   "canon": false,
   "title": "Rathad na Mèinne",
-  "body": "The Company's road-gangs finish metalling the carriers' road from Cathair dhearg by Doire chaol and the ford of Àth chiar to the workings at Achadh dhomhain, wide enough for ore-carts to pass both ways. The carters call it Rathad na Mèinne, the ore road. The posts with the crown's sign that had marked it since the Age of Sundering are left standing along it.",
+  "body": "The Company's road-gangs finish metalling the carriers' road from Cathair dhearg by Doire chaol and the ford of Àth chiar to the workings at Achadh dhomhain, wide enough for coal-carts to pass both ways. The carters call it Rathad na Mèinne, the mine road. The posts with the crown's sign that had marked it since the Age of Sundering are left standing along it.",
   "place": "burg:163",
   "kind": "building",
   "between": [
@@ -791,23 +791,23 @@
   "id": "IV-0089",
   "canon": false,
   "title": "The carters of Doire chaol",
-  "body": "The carters of Doire chaol, on the road just east of the capital, band together in a guild to bargain with the Company over the rates for hauling ore. It is the first Ròdaich guild of the age, and the Company owns it because that is cheaper than breaking it.",
+  "body": "The carters of Doire chaol, on the road just east of the capital, band together in a guild to bargain with the Company over the rates for hauling coal. It is the first Dia-thìrich guild of the age, and the Company owns it because that is cheaper than breaking it.",
   "place": "burg:164",
   "kind": "trade"
  },
  {
   "id": "IV-0090",
   "canon": false,
-  "title": "Seann Toll made an ore landing",
-  "body": "The Company takes the river landing at Seann Toll, below the workings, and builds a loading stage there for the barges that carry the ore down the Abhainn uaine to Ceann leathan. The town's fishing boats are moved to the next reach.",
+  "title": "Seann Toll made a coal landing",
+  "body": "The Company takes the river landing at Seann Toll, below the workings, and builds a loading stage there for the barges that carry the coal down the Abhainn uaine to Ceann leathan. The town's fishing boats are moved to the next reach.",
   "place": "burg:313",
   "kind": "reign"
  },
  {
   "id": "IV-0090a",
   "canon": false,
-  "title": "The ore ships' lane",
-  "body": "From the landing at Seann Toll the ore barges go down the Abhainn uaine to Ceann leathan, where the Company's ships load at the river mouth and go out by the southern lane, Slighe-mhara Caol fhiadhaich, west along the south coast to the wild strait and the open sea. The fishers of the south coast, who had used the lane for five hundred years, learn to keep out of the ore ships' way.",
+  "title": "The coal ships' lane",
+  "body": "From the landing at Seann Toll the coal barges go down the Abhainn uaine to Ceann leathan, where the Company's ships load at the river mouth and go out by the southern lane, Slighe-mhara Caol fhiadhaich, west along the south coast to the wild strait and the open sea. The fishers of the south coast, who had used the lane for five hundred years, learn to keep out of the coal ships' way.",
   "place": "burg:22",
   "kind": "trade",
   "between": [
@@ -818,8 +818,8 @@
  {
   "id": "IV-0091",
   "canon": true,
-  "title": "The first Ròdaich overseer",
-  "body": "A Ròdaich is set over other Ròdaich miners, answerable to human masters. It is the first open crack within the Ròdaich themselves, and not only between them and the humans.",
+  "title": "The first Dia-thìrich overseer",
+  "body": "A Dia-thìreach is set over other Dia-thìrich miners, answerable to human masters. It is the first open crack within the Dia-thìrich themselves, and not only between them and the humans.",
   "place": null,
   "kind": "people",
   "canon_date": "c. 1815 DE"
@@ -828,7 +828,7 @@
   "id": "IV-0092",
   "canon": false,
   "title": "Raghnall Maor",
-  "body": "The first overseer is Raghnall mac Dhòmhnaill of Muileann chrom, a crew-leader who had worked the pits since the first contract. He is given the Company's staff and a house with a slate roof, and from the office the Ròdaich give him his byname: Raghnall Maor, Raghnall the steward.",
+  "body": "The first overseer is Raghnall mac Dhòmhnaill of Muileann chrom, a crew-leader who had worked the pits since the first contract. He is given the Company's staff and a house with a slate roof, and from the office the Dia-thìrich give him his byname: Raghnall Maor, Raghnall the steward.",
   "place": "burg:354",
   "kind": "people",
   "within": [
@@ -840,7 +840,7 @@
   "id": "IV-0093",
   "canon": false,
   "title": "The overseers multiply",
-  "body": "Within a few years there are overseers at every working in the district, all Ròdaich, all answerable to the Company's agents. The custodians' roll no longer names them, and gives only their number.",
+  "body": "Within a few years there are overseers at every working in the district, all Dia-thìrich, all answerable to the Company's agents. The custodians' roll no longer names them, and gives only their number.",
   "place": "burg:354",
   "kind": "people"
  },
@@ -848,7 +848,7 @@
   "id": "IV-0094",
   "canon": false,
   "title": "Seumas Dubh killed at Cnoc mhòr",
-  "body": "Seumas Dubh, overseer of the new pits at Cnoc mhòr, is killed by his own crew after a boy is crushed on a haulage he had ordered hurried. The Company hangs two men at Ros dhomhain, the first hanging done by the Administration on Rodos.",
+  "body": "Seumas Dubh, overseer of the new pits at Cnoc mhòr, is killed by his own crew after a boy is crushed on a haulage he had ordered hurried. The Company hangs two men at Ros dhomhain, the first hanging done by the Administration on Dia-thìr.",
   "place": "burg:31",
   "kind": "people"
  },
@@ -864,7 +864,7 @@
   "id": "IV-0096",
   "canon": false,
   "title": "The pox at Ros dhomhain",
-  "body": "A spotted pox comes ashore at Ros dhomhain on a Company ship and climbs the ore road into the camps. The Mission counts four hundred and six dead. The custodians count more, and write the difference in the margin of the Mission's list.",
+  "body": "A spotted pox comes ashore at Ros dhomhain on a Company ship and climbs the coal road into the camps. The Mission counts four hundred and six dead. The custodians count more, and write the difference in the margin of the Mission's list.",
   "place": "burg:27",
   "kind": "disaster"
  },
@@ -888,7 +888,7 @@
   "id": "IV-0099",
   "canon": false,
   "title": "Arthur Lisle Commissioner",
-  "body": "Henry Maddox leaves Rodos a rich man. Arthur Lisle, a lawyer, comes after him, and his first act is to have every compact since the first treaty copied into one bound book.",
+  "body": "Henry Maddox leaves Dia-thìr a rich man. Arthur Lisle, a lawyer, comes after him, and his first act is to have every compact since the first treaty copied into one bound book.",
   "place": "burg:27",
   "kind": "reign"
  },
@@ -904,7 +904,7 @@
   "id": "IV-0101",
   "canon": true,
   "title": "The silver of Muileann chiar",
-  "body": "The humans seek to claim the silver seam at Muileann chiar as well. It is one of the few things the Ròdaich keep wholly in their own hands through all this age.",
+  "body": "The humans seek to claim the silver seam at Muileann chiar as well. It is one of the few things the Dia-thìrich keep wholly in their own hands through all this age.",
   "place": "marker:2",
   "kind": "trade",
   "canon_date": "c. 1822 DE"
@@ -921,7 +921,7 @@
   "id": "IV-0103",
   "canon": false,
   "title": "The Silver Compact",
-  "body": "Arthur Lisle, reading the treaties closely, finds nothing in them touching silver. On Là Fhèill Brìde he signs a compact with the silver guild leaving the seam to the town, the first writing of the age in which the Ròdaich keep the better terms.",
+  "body": "Arthur Lisle, reading the treaties closely, finds nothing in them touching silver. On Là Fhèill Brìde he signs a compact with the silver guild leaving the seam to the town, the first writing of the age in which the Dia-thìrich keep the better terms.",
   "place": "marker:2",
   "kind": "law"
  },
@@ -961,7 +961,7 @@
   "id": "IV-0108",
   "canon": false,
   "title": "Pirates off the eastern coast",
-  "body": "Raiders in low black boats take a Company ore ship off the eastern coast and burn her to the waterline, cargo and all. The Company says the silver guild paid them. The silver guild says nothing.",
+  "body": "Raiders in low black boats take a Company coal ship off the eastern coast and burn her to the waterline, cargo and all. The Company says the silver guild paid them. The silver guild says nothing.",
   "place": "marker:26",
   "kind": "voyage"
  },
@@ -977,7 +977,7 @@
   "id": "IV-0110",
   "canon": false,
   "title": "The end of the joint council",
-  "body": "The mixed council of Baile dhìreach breaks up in a quarrel over a boundary wall and never meets again. The human families go to Ros bheag and Ros dhomhain; the Ròdaich families stay. Households that were both split or fell silent, and which did which is not told.",
+  "body": "The mixed council of Baile dhìreach breaks up in a quarrel over a boundary wall and never meets again. The human families go to Ros bheag and Ros dhomhain; the Dia-thìrich families stay. Households that were both split or fell silent, and which did which is not told.",
   "place": "burg:105",
   "kind": "people"
  },
@@ -1001,7 +1001,7 @@
   "id": "IV-0113",
   "canon": false,
   "title": "Baile ruadh loses its seed",
-  "body": "At Baile ruadh in the east the drought kills the seed corn in the ground, and the town borrows seed from the Company's store at Seann Dunn, at a price paid back over five harvests. It is the first Ròdaich town to owe the Company a debt in grain.",
+  "body": "At Baile ruadh in the east the drought kills the seed corn in the ground, and the town borrows seed from the Company's store at Seann Dunn, at a price paid back over five harvests. It is the first Dia-thìrich town to owe the Company a debt in grain.",
   "place": "burg:241",
   "kind": "disaster"
  },
@@ -1009,7 +1009,7 @@
   "id": "IV-0114",
   "canon": false,
   "title": "Aonghas mac Coinnich's question",
-  "body": "At Dùn thais the druid master Aonghas mac Coinnich puts to his students a question the school's register calls new: why the humans cannot see the colour in broken ore that every Ròdaich child sees. He does not answer it, and the register notes that he called it the wrong question.",
+  "body": "At Dùn thais the druid master Aonghas mac Coinnich puts to his students a question the school's register calls new: why the humans cannot see the colour in broken coal that every Dia-thìrich child sees. He does not answer it, and the register notes that he called it the wrong question.",
   "place": "burg:77",
   "kind": "faith"
  },
@@ -1033,7 +1033,7 @@
   "id": "IV-0117",
   "canon": false,
   "title": "Human farms at Cnoc ghorm",
-  "body": "Human farmers of the concession clear land beside the Ròdaich village of Cnoc ghorm in the upland north-west, and build a mill. The villagers sell them grain until the mill is working, and then stop.",
+  "body": "Human farmers of the concession clear land beside the Dia-thìrich village of Cnoc ghorm in the upland north-west, and build a mill. The villagers sell them grain until the mill is working, and then stop.",
   "place": "burg:142",
   "kind": "founding"
  },
@@ -1048,7 +1048,7 @@
  {
   "id": "IV-0119",
   "canon": true,
-  "title": "The first Ròdaich child sent over the sea",
+  "title": "The first Dia-thìrich child sent over the sea",
   "body": "One family, hoping for better treatment, sends a son to be schooled in the humans' homeland. He is never known to return.",
   "place": null,
   "kind": "people",
@@ -1070,7 +1070,7 @@
   "id": "IV-0121",
   "canon": false,
   "title": "The Mission school",
-  "body": "The Mission opens a school at Ros dhomhain for Ròdaich children, taught in the humans' tongue. It takes thirty pupils in its first year, most of them overseers' children, and among them the Mission counts its first Ròdaich converts.",
+  "body": "The Mission opens a school at Ros dhomhain for Dia-thìrich children, taught in the humans' tongue. It takes thirty pupils in its first year, most of them overseers' children, and among them the Mission counts its first Dia-thìrich converts.",
   "place": "burg:27",
   "kind": "culture"
  },
@@ -1086,7 +1086,7 @@
   "id": "IV-0122a",
   "canon": false,
   "title": "Tobacco on the concession farms",
-  "body": "Human farmers of the northern concession plant tobacco on the sheltered slopes behind Ceann mhòr and sell the dried leaf to the Company's ships. Of the crops the humans brought, it alone is still grown on Rodos.",
+  "body": "Human farmers of the northern concession plant tobacco on the sheltered slopes behind Ceann mhòr and sell the dried leaf to the Company's ships. Of the crops the humans brought, it alone is still grown on Dia-thìr.",
   "place": "burg:143",
   "kind": "trade",
   "between": [
@@ -1098,23 +1098,23 @@
   "id": "IV-0123",
   "canon": false,
   "title": "Drochaid Ros fhionn",
-  "body": "The Company rebuilds the old bridge over the river at Ros fhionn to carry the eastern ore road. While the carts run it is the busiest crossing on that side of the island.",
+  "body": "The Company rebuilds the old bridge over the river at Ros fhionn to carry the eastern coal road. While the carts run it is the busiest crossing on that side of the island.",
   "place": "marker:4",
   "kind": "building"
  },
  {
   "id": "IV-0124",
   "canon": false,
-  "title": "Ore through Inis bheag",
-  "body": "Ore from the eastern workings is carted over the new bridge and down to the river quays of Inis bheag, and goes by barge to Caol chrom at the river mouth for shipping. The Company deepens the river at the quays, and the town's old fish market is moved to make room for the ore stage.",
+  "title": "Coal through Inis bheag",
+  "body": "Coal from the eastern workings is carted over the new bridge and down to the river quays of Inis bheag, and goes by barge to Caol chrom at the river mouth for shipping. The Company deepens the river at the quays, and the town's old fish market is moved to make room for the coal stage.",
   "place": "burg:62",
   "kind": "trade"
  },
  {
   "id": "IV-0125",
   "canon": false,
-  "title": "Baile mhin ships the eastern ore",
-  "body": "The river quays of Baile mhin, below Inis bheag on the Abhainn bheag, take the eastern ore that Inis bheag cannot load. The townsfolk are paid by the barge, and with the gain the town builds its first stone houses.",
+  "title": "Baile mhin ships the eastern coal",
+  "body": "The river quays of Baile mhin, below Inis bheag on the Abhainn bheag, take the eastern coal that Inis bheag cannot load. The townsfolk are paid by the barge, and with the gain the town builds its first stone houses.",
   "place": "burg:144",
   "kind": "trade"
  },
@@ -1122,7 +1122,7 @@
   "id": "IV-0126",
   "canon": false,
   "title": "Caol gharbh passed by",
-  "body": "The ore road to Inis bheag passes Caol gharbh by a mile, and the town, which had hoped for the traffic, gets only its dust. Its custodians write that they had not known a town could be harmed by a road it was not on.",
+  "body": "The coal road to Inis bheag passes Caol gharbh by a mile, and the town, which had hoped for the traffic, gets only its dust. Its custodians write that they had not known a town could be harmed by a road it was not on.",
   "place": "burg:443",
   "kind": "trade"
  },
@@ -1130,7 +1130,7 @@
   "id": "IV-0127",
   "canon": false,
   "title": "The thing in the north-western sea",
-  "body": "The crew of a Company brig see a beast greater than their ship off the north-western headlands. The Administration's clerk files their report with the complaints about pirates, and the Ròdaich sailors of the coast say they had wondered when the humans would see it.",
+  "body": "The crew of a Company brig see a beast greater than their ship off the north-western headlands. The Administration's clerk files their report with the complaints about pirates, and the Dia-thìrich sailors of the coast say they had wondered when the humans would see it.",
   "place": "marker:21",
   "kind": "voyage"
  },
@@ -1170,7 +1170,7 @@
   "id": "IV-0129",
   "canon": false,
   "title": "The offerings at Doire uaine",
-  "body": "After the surveyors are lost the villagers of Doire uaine leave salt and ore for the sìth at the foot of the hills, as their grandparents did after any death on the high ground. The Company forbids ore to be left lying and has the offerings gathered up, and the villagers leave salt alone.",
+  "body": "After the surveyors are lost the villagers of Doire uaine leave salt and coal for the sìth at the foot of the hills, as their grandparents did after any death on the high ground. The Company forbids coal to be left lying and has the offerings gathered up, and the villagers leave salt alone.",
   "place": "burg:148",
   "kind": "faith"
  },
@@ -1178,7 +1178,7 @@
   "id": "IV-0130",
   "canon": true,
   "title": "The tithe raised",
-  "body": "The share of mined obsidian taken by the humans' Administration rises steeply. What the Ròdaich receive does not rise with it.",
+  "body": "The share of mined coal taken by the humans' Administration rises steeply. What the Dia-thìrich receive does not rise with it.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1836 DE"
@@ -1199,7 +1199,7 @@
   "id": "IV-0132",
   "canon": false,
   "title": "Weighing the grain at Dùn fhiadhaich",
-  "body": "At Dùn fhiadhaich the tithe-gatherers begin to weigh grain as well as ore, saying the town's farms feed the pits and share in their gain. The custodians' roll calls it the tithe on the tithe.",
+  "body": "At Dùn fhiadhaich the tithe-gatherers begin to weigh grain as well as coal, saying the town's farms feed the pits and share in their gain. The custodians' roll calls it the tithe on the tithe.",
   "place": "burg:290",
   "kind": "trade"
  },
@@ -1215,7 +1215,7 @@
   "id": "IV-0134",
   "canon": false,
   "title": "The flux reaches Seann Vell",
-  "body": "The ore barges carry the flux to Seann Vell, the river port east of the capital on the Abhainn fhionn. The custodians of the town shut the barge landing for a season, and the Company fines them for it.",
+  "body": "The coal barges carry the flux to Seann Vell, the river port east of the capital on the Abhainn fhionn. The custodians of the town shut the barge landing for a season, and the Company fines them for it.",
   "place": "burg:162",
   "kind": "disaster",
   "within": [
@@ -1251,7 +1251,7 @@
   "id": "IV-0138",
   "canon": false,
   "title": "Taigh-solais Muileann bheag lit",
-  "body": "The fourth beacon is lit on the northern shore at Muileann bheag, the first to burn ore and not oil. Its keepers say the flame throws a colour on the water that no oil lamp ever did.",
+  "body": "The fourth beacon is lit on the northern shore at Muileann bheag, the first to burn coal and not oil. Its keepers say the flame throws a colour on the water that no oil lamp ever did.",
   "place": "marker:14",
   "kind": "building"
  },
@@ -1259,7 +1259,7 @@
   "id": "IV-0139",
   "canon": false,
   "title": "The fishermen of Muileann bheag",
-  "body": "The fishermen of Muileann bheag complain that the colour the ore flame casts on the water drives the herring off. The keepers do not change the lamp. Within a season the herring come back, and the complaint is withdrawn in a letter the Company keeps.",
+  "body": "The fishermen of Muileann bheag complain that the colour the coal flame casts on the water drives the herring off. The keepers do not change the lamp. Within a season the herring come back, and the complaint is withdrawn in a letter the Company keeps.",
   "place": "burg:327",
   "kind": "people"
  },
@@ -1275,7 +1275,7 @@
   "id": "IV-0141",
   "canon": false,
   "title": "The pillar at Cnoc chiar",
-  "body": "Edwin Lowe copies the writing on the pillar near Cnoc chiar and sets it beside Wren's copy of the obelisk at Cnoc bheag. He judges that the two scripts are not the same, and that neither is of the Ròdaich. His notes stop there.",
+  "body": "Edwin Lowe copies the writing on the pillar near Cnoc chiar and sets it beside Wren's copy of the obelisk at Cnoc bheag. He judges that the two scripts are not the same, and that neither is of the Dia-thìrich. His notes stop there.",
   "place": "marker:29",
   "kind": "record"
  },
@@ -1283,7 +1283,7 @@
   "id": "IV-0142",
   "canon": false,
   "title": "The column at Cnoc ghorm",
-  "body": "Lowe's last copy is of the column near Cnoc ghorm, and beside it he writes that its marks are like the pillar's, but not near enough to help. He leaves Rodos the next year and takes his notebooks with him.",
+  "body": "Lowe's last copy is of the column near Cnoc ghorm, and beside it he writes that its marks are like the pillar's, but not near enough to help. He leaves Dia-thìr the next year and takes his notebooks with him.",
   "place": "marker:30",
   "kind": "record"
  },
@@ -1291,7 +1291,7 @@
   "id": "IV-0142a",
   "canon": false,
   "title": "The glass-house at Baile Mòr dhìreach",
-  "body": "Peter Voss, a glazier left behind when his Company contract ended, builds a glass-house at Baile Mòr dhìreach and melts the white sand of Cuan ruadh with charcoal from the hills. It is the first glass made on Rodos. Within a generation his Ròdaich apprentices carry the craft to the towns of the capital shore.",
+  "body": "Peter Voss, a glazier left behind when his Company contract ended, builds a glass-house at Baile Mòr dhìreach and melts the white sand of Cuan ruadh with charcoal from the hills. It is the first glass made on Dia-thìr. Within a generation his Dia-thìrich apprentices carry the craft to the towns of the capital shore.",
   "place": "burg:136",
   "kind": "craft",
   "between": [
@@ -1319,7 +1319,7 @@
   "id": "IV-0145",
   "canon": false,
   "title": "Cloth for the camps at Dùn chiar",
-  "body": "The weavers of Dùn chiar take a Company contract for canvas for the camp tents and sacks for the ore, and the town thrives on it. Its custodians note that never before had the town made anything for a use it did not approve.",
+  "body": "The weavers of Dùn chiar take a Company contract for canvas for the camp tents and sacks for the coal, and the town thrives on it. Its custodians note that never before had the town made anything for a use it did not approve.",
   "place": "burg:358",
   "kind": "craft"
  },
@@ -1327,7 +1327,7 @@
   "id": "IV-0146",
   "canon": true,
   "title": "The first of the undying generation",
-  "body": "A girl is born in the mining camps who takes more raw ore into her body over her life than any Ròdaich in living memory, and she does not age as the folk about her age. Her name is Aisling.",
+  "body": "A girl is born in the mining camps who takes more raw coal into her body over her life than any Dia-thìreach in living memory, and she does not age as the folk about her age. Her name is Aisling.",
   "place": null,
   "kind": "birth",
   "canon_date": "1848 DE"
@@ -1347,7 +1347,7 @@
  {
   "id": "IV-0147",
   "canon": false,
-  "title": "The ore weighed at the quay",
+  "title": "The coal weighed at the quay",
   "body": "The Company sets up a great steelyard at the Ros dhomhain quay, and thenceforth the island's yield is known by the ton and the hundredweight. The custodians' old count, kept in seasons of labour, is no longer entered in the roll.",
   "place": "burg:27",
   "kind": "trade"
@@ -1355,8 +1355,8 @@
  {
   "id": "IV-0148",
   "canon": false,
-  "title": "Ros dhìreach the second ore port",
-  "body": "The Company opens a second ore stage at Ros dhìreach on the southern coast for the workings south of the hills. Its first cargo is lost in a squall off the harbour mouth, and the fishermen moved to make room for the stage will not go out after it.",
+  "title": "Ros dhìreach the second coal port",
+  "body": "The Company opens a second coal stage at Ros dhìreach on the southern coast for the workings south of the hills. Its first cargo is lost in a squall off the harbour mouth, and the fishermen moved to make room for the stage will not go out after it.",
   "place": "burg:152",
   "kind": "trade"
  },
@@ -1373,7 +1373,7 @@
   "id": "IV-0149a",
   "canon": false,
   "title": "The first steamer",
-  "body": "The first ship driven by an engine comes into Ros dhomhain, a Company paddle-steamer out of an Tìr Thall. The fishermen row out to look at a ship going against the wind with no sail set. Within a generation the Company's ore goes out in nothing else.",
+  "body": "The first ship driven by an engine comes into Ros dhomhain, a Company paddle-steamer out of an Tìr Thall. The fishermen row out to look at a ship going against the wind with no sail set. Within a generation the Company's coal goes out in nothing else.",
   "place": "burg:27",
   "kind": "voyage",
   "between": [
@@ -1385,7 +1385,7 @@
   "id": "IV-0150",
   "canon": false,
   "title": "The shrine at Cill dhìreach",
-  "body": "At Cill dhìreach, a village at the edge of the workings, the custodians keep a small shrine where the pit crews leave the first piece of ore from each new gallery. The Company suffers the custom, for it costs a stone a gallery.",
+  "body": "At Cill dhìreach, a village at the edge of the workings, the custodians keep a small shrine where the pit crews leave the first piece of coal from each new gallery. The Company suffers the custom, for it costs a stone a gallery.",
   "place": "burg:461",
   "kind": "faith"
  },
@@ -1401,7 +1401,7 @@
   "id": "IV-0152",
   "canon": true,
   "title": "A' Phlàigh Uaine",
-  "body": "The Green Death goes through the mining camps. The ore dust is blamed, though no study of it is ever finished. Twenty-six settlements have cases.",
+  "body": "The Green Death goes through the mining camps. The coal dust is blamed, though no study of it is ever finished. Twenty-six settlements have cases.",
   "place": null,
   "kind": "disaster",
   "canon_date": "c. 1852 DE"
@@ -1418,7 +1418,7 @@
   "id": "IV-0154",
   "canon": false,
   "title": "Twenty-six settlements",
-  "body": "The sickness spreads along the ore roads from the camps at Muileann chrom, Àth ìseal and Cnoc fhiadhaich, and falls hardest on Ros dhìreach, Ceann òg, Inis ìseal, Baile dhomhain, Achadh fhada, Cnoc bheag, Muileann uaine, Cuan àrsaidh and Inis bhàn. The custodians' roll lists the twenty-six settlements that had cases, and leaves a blank line after the last, as though waiting for another.",
+  "body": "The sickness spreads along the coal roads from the camps at Muileann chrom, Àth ìseal and Cnoc fhiadhaich, and falls hardest on Ros dhìreach, Ceann òg, Inis ìseal, Baile dhomhain, Achadh fhada, Cnoc bheag, Muileann uaine, Cuan àrsaidh and Inis bhàn. The custodians' roll lists the twenty-six settlements that had cases, and leaves a blank line after the last, as though waiting for another.",
   "place": "zone:0",
   "kind": "disaster"
  },
@@ -1466,7 +1466,7 @@
   "id": "IV-0160",
   "canon": false,
   "title": "George Tolley Commissioner",
-  "body": "George Tolley comes from an Tìr Thall with orders that the yield must not fall for the sickness. He does not visit the camps. His letter-book blames the dust, the Ròdaich custom of sleeping near the fire, and the custodians' shrines, in that order.",
+  "body": "George Tolley comes from an Tìr Thall with orders that the yield must not fall for the sickness. He does not visit the camps. His letter-book blames the dust, the Dia-thìrich custom of sleeping near the fire, and the custodians' shrines, in that order.",
   "place": "burg:27",
   "kind": "reign",
   "within": [
@@ -1479,7 +1479,7 @@
   "id": "IV-0161",
   "canon": false,
   "title": "Quarantine at Caol mhin",
-  "body": "Tolley sets a quarantine station at Caol mhin on the northern coast for ships from an Tìr Thall, and holds them offshore until their crews are looked over. It is the first order of his rule the Ròdaich approve, and they say so.",
+  "body": "Tolley sets a quarantine station at Caol mhin on the northern coast for ships from an Tìr Thall, and holds them offshore until their crews are looked over. It is the first order of his rule the Dia-thìrich approve, and they say so.",
   "place": "burg:366",
   "kind": "law"
  },
@@ -1520,7 +1520,7 @@
   "id": "IV-0166",
   "canon": false,
   "title": "The strike at Baile thais",
-  "body": "The settlement was Baile thais, below Cill ghlas, and the crew-leader Catrìona nic Eachainn called the halt after the Company would not close the galleries where the Green Death had been worst. For eleven days no ore left the town. On the twelfth the Company's store, the only store, was empty.",
+  "body": "The settlement was Baile thais, below Cill ghlas, and the crew-leader Catrìona nic Eachainn called the halt after the Company would not close the galleries where the Green Death had been worst. For eleven days no coal left the town. On the twelfth the Company's store, the only store, was empty.",
   "place": "burg:44",
   "kind": "people",
   "within": [
@@ -1556,7 +1556,7 @@
   "id": "IV-0170",
   "canon": false,
   "title": "The springs at Muileann ruadh",
-  "body": "The Administration builds a new bath-house at the hot springs near Muileann ruadh for its officers mending from fevers. Ròdaich who had bathed there for centuries are let in on certain days, and charged a penny.",
+  "body": "The Administration builds a new bath-house at the hot springs near Muileann ruadh for its officers mending from fevers. Dia-thìrich who had bathed there for centuries are let in on certain days, and charged a penny.",
   "place": "marker:0",
   "kind": "building"
  },
@@ -1564,7 +1564,7 @@
   "id": "IV-0171",
   "canon": true,
   "title": "Muileann chiar grows",
-  "body": "The silver town grows beside the obsidian workings, for the humans want both, and the digging goes faster than the old reverence would ever have allowed.",
+  "body": "The silver town grows beside the coal workings, for the humans want both, and the digging goes faster than the old reverence would ever have allowed.",
   "place": "marker:2",
   "kind": "founding",
   "canon_date": "c. 1860 DE"
@@ -1581,7 +1581,7 @@
   "id": "IV-0173",
   "canon": false,
   "title": "Silver for marks",
-  "body": "The silver guild begins to sell bar silver to the Company for marks, at a price the guild sets. It is the only ware on Rodos in this age priced by Ròdaich hands, and the guild's hall fills with human coin.",
+  "body": "The silver guild begins to sell bar silver to the Company for marks, at a price the guild sets. It is the only ware on Dia-thìr in this age priced by Dia-thìrich hands, and the guild's hall fills with human coin.",
   "place": "burg:419",
   "kind": "trade"
  },
@@ -1589,7 +1589,7 @@
   "id": "IV-0174",
   "canon": false,
   "title": "Silversmiths at Muileann bhàn",
-  "body": "Silversmiths settle at Muileann bhàn on the road to the silver town and live by working the guild's bar into ornaments for the humans' market. Theirs is the one Ròdaich craft sold in an Tìr Thall under a Ròdaich name.",
+  "body": "Silversmiths settle at Muileann bhàn on the road to the silver town and live by working the guild's bar into ornaments for the humans' market. Theirs is the one Dia-thìrich craft sold in an Tìr Thall under a Dia-thìrich name.",
   "place": "burg:502",
   "kind": "craft"
  },
@@ -1605,7 +1605,7 @@
   "id": "IV-0176",
   "canon": true,
   "title": "The second change of coin",
-  "body": "The barter goods of the Ròdaich are marked down against the humans' coin a second time, on terms the humans' Administration alone sets.",
+  "body": "The barter goods of the Dia-thìrich are marked down against the humans' coin a second time, on terms the humans' Administration alone sets.",
   "place": null,
   "kind": "trade",
   "canon_date": "c. 1865 DE"
@@ -1638,7 +1638,7 @@
   "id": "IV-0180",
   "canon": false,
   "title": "Iain Maor",
-  "body": "Dòmhnall mac Raghnaill Maor dies, and his son Iain takes the overseer's staff. Iain Maor is the first overseer schooled at the Mission; he keeps his reports in the humans' tongue and his household in Ròdais.",
+  "body": "Dòmhnall mac Raghnaill Maor dies, and his son Iain takes the overseer's staff. Iain Maor is the first overseer schooled at the Mission; he keeps his reports in the humans' tongue and his household in Dia-thìris.",
   "place": "burg:354",
   "kind": "reign"
  },
@@ -1654,7 +1654,7 @@
   "id": "IV-0182",
   "canon": false,
   "title": "Levy officers at Caol mhòr",
-  "body": "The Levy's officers take their first tally at Caol mhòr in the north-west, reading the names of the chosen from a list in the humans' tongue. The custodians of the town write the names again in Ròdais, that they may know whom to look for.",
+  "body": "The Levy's officers take their first tally at Caol mhòr in the north-west, reading the names of the chosen from a list in the humans' tongue. The custodians of the town write the names again in Dia-thìris, that they may know whom to look for.",
   "place": "burg:95",
   "kind": "people"
  },
@@ -1662,7 +1662,7 @@
   "id": "IV-0183",
   "canon": false,
   "title": "The Levy in the north-west",
-  "body": "The Levy falls hardest on the villages about Baile chrom and the northern concession, which had never sent crews to the pits. The Ròdaich of the concession are taken; its human farmers are spared.",
+  "body": "The Levy falls hardest on the villages about Baile chrom and the northern concession, which had never sent crews to the pits. The Dia-thìrich of the concession are taken; its human farmers are spared.",
   "place": "province:105",
   "kind": "people"
  },
@@ -1686,7 +1686,7 @@
   "id": "IV-0186",
   "canon": false,
   "title": "The druid school's hall shut",
-  "body": "George Tolley shuts the hall of the druid school at Dùn thais over a lecture on whether the humans' blindness to the ore's colour is a kind of sickness. The masters go on teaching in their own houses, to smaller rooms each year.",
+  "body": "George Tolley shuts the hall of the druid school at Dùn thais over a lecture on whether the humans' blindness to the coal's colour is a kind of sickness. The masters go on teaching in their own houses, to smaller rooms each year.",
   "place": "burg:77",
   "kind": "faith"
  },
@@ -1743,7 +1743,7 @@
   "id": "IV-0193",
   "canon": false,
   "title": "Taigh-solais Baile chrom lit",
-  "body": "The beacon at Baile chrom is lit with an ore flame, and the ring is whole. The Company's ships can now round the island by night, and the keepers' daybooks show the sailings doubled within a few years.",
+  "body": "The beacon at Baile chrom is lit with a coal flame, and the ring is whole. The Company's ships can now round the island by night, and the keepers' daybooks show the sailings doubled within a few years.",
   "place": "marker:12",
   "kind": "building",
   "within": [
@@ -1848,7 +1848,7 @@
   "id": "IV-0204",
   "canon": true,
   "title": "The first petition",
-  "body": "For the first time the custodians of the Ròdaich act together, and not settlement by settlement, and lay a written grievance before the humans' Administration. It is not answered.",
+  "body": "For the first time the custodians of the Dia-thìrich act together, and not settlement by settlement, and lay a written grievance before the humans' Administration. It is not answered.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1878 DE"
@@ -1877,7 +1877,7 @@
   "id": "IV-0207",
   "canon": true,
   "title": "Grievance first written",
-  "body": "From these years come the oldest writings of grievance among the Ròdaich that survive. No hand is yet raised in them; yet in them it is first written that something has gone wrong.",
+  "body": "From these years come the oldest writings of grievance among the Dia-thìrich that survive. No hand is yet raised in them; yet in them it is first written that something has gone wrong.",
   "place": null,
   "kind": "record",
   "canon_date": "c. 1880 DE"
@@ -1894,7 +1894,7 @@
   "id": "IV-0209",
   "canon": false,
   "title": "The songs of Fearchar Bàrd",
-  "body": "The poet Fearchar Bàrd, a breaker of ore at Muileann dhearg since boyhood, makes songs of the Levy and the famine, and they are sung in the camps. The overseers forbid them, and because they were forbidden several were written down.",
+  "body": "The poet Fearchar Bàrd, a breaker of coal at Muileann dhearg since boyhood, makes songs of the Levy and the famine, and they are sung in the camps. The overseers forbid them, and because they were forbidden several were written down.",
   "place": "province:42",
   "kind": "culture"
  },
@@ -1910,7 +1910,7 @@
   "id": "IV-0211",
   "canon": false,
   "title": "The Company's deep-water quay",
-  "body": "The Company builds at Ros dhomhain a deep-water quay for the new iron steamships, which burn the island's own ore to carry it away. Fearchar Bàrd makes a song of that, the most quoted of all his songs.",
+  "body": "The Company builds at Ros dhomhain a deep-water quay for the new iron steamships, which burn the island's own coal to carry it away. Fearchar Bàrd makes a song of that, the most quoted of all his songs.",
   "place": "burg:27",
   "kind": "trade"
  },
@@ -1918,7 +1918,7 @@
   "id": "IV-0212",
   "canon": false,
   "title": "The deep quay at Ceann chaol",
-  "body": "A second deep-water quay is built at Ceann chaol in the south-east for the eastern ore. Its builders are brought from the coast, and the village of forty houses becomes a town of four hundred.",
+  "body": "A second deep-water quay is built at Ceann chaol in the south-east for the eastern coal. Its builders are brought from the coast, and the village of forty houses becomes a town of four hundred.",
   "place": "burg:397",
   "kind": "trade"
  },
@@ -1926,7 +1926,7 @@
   "id": "IV-0213",
   "canon": false,
   "title": "Baile thais walls its pithead",
-  "body": "The Company rings the pithead at Baile thais with a stone wall and a gate, and pays a watchman to count who goes in. It is the first working on Rodos walled against its own crews.",
+  "body": "The Company rings the pithead at Baile thais with a stone wall and a gate, and pays a watchman to count who goes in. It is the first working on Dia-thìr walled against its own crews.",
   "place": "burg:44",
   "kind": "founding"
  },
@@ -1942,7 +1942,7 @@
   "id": "IV-0215",
   "canon": false,
   "title": "The quay fire",
-  "body": "A fire starts in the Company's ore sheds at Ros dhomhain and burns three days, taking two streets of the harbour quarter with it. The Company's inquiry finds no cause; the harbour quarter's own account has several.",
+  "body": "A fire starts in the Company's coal sheds at Ros dhomhain and burns three days, taking two streets of the harbour quarter with it. The Company's inquiry finds no cause; the harbour quarter's own account has several.",
   "place": "burg:27",
   "kind": "disaster"
  },
@@ -2057,7 +2057,7 @@
   "id": "IV-0228",
   "canon": false,
   "title": "The tally not lowered",
-  "body": "The ore tally is not lowered in the drought. The custodians of the east, their joint petition unanswered, each write to Haskins alone; to each he answers that the matter is under consideration.",
+  "body": "The coal tally is not lowered in the drought. The custodians of the east, their joint petition unanswered, each write to Haskins alone; to each he answers that the matter is under consideration.",
   "place": "burg:136",
   "kind": "people"
  },
@@ -2073,7 +2073,7 @@
   "id": "IV-0230",
   "canon": true,
   "title": "The first inheritance of mixed blood",
-  "body": "A suit over whether a child of one Ròdaich and one human parent may inherit the customary rights of mining is decided, and the Administration makes the ruling wholly to its own gain.",
+  "body": "A suit over whether a child of one Dia-thìrich and one human parent may inherit the customary rights of mining is decided, and the Administration makes the ruling wholly to its own gain.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1890 DE"
@@ -2082,7 +2082,7 @@
   "id": "IV-0231",
   "canon": false,
   "title": "The case of Thomas Hale",
-  "body": "The child was Thomas Hale, grandson of the marriage at Baile dhìreach of Eilidh nic Ruairidh and Samuel Hale, who claimed a share in a customary cutting through his Ròdaich grandmother. Oliver Dunstan, magistrate at Ros dhomhain, ruled that customary rights descend only through the line the Administration owns, and that it owns only its own.",
+  "body": "The child was Thomas Hale, grandson of the marriage at Baile dhìreach of Eilidh nic Ruairidh and Samuel Hale, who claimed a share in a customary cutting through his Dia-thìrich grandmother. Oliver Dunstan, magistrate at Ros dhomhain, ruled that customary rights descend only through the line the Administration owns, and that it owns only its own.",
   "place": "burg:27",
   "kind": "law",
   "within": [
@@ -2118,7 +2118,7 @@
   "id": "IV-0235",
   "canon": false,
   "title": "Edward Vane Commissioner",
-  "body": "Robert Haskins is called home after a quarrel with the Company over the price of steamship berths, and Edward Vane follows him. Vane is the first Commissioner born on Rodos, at the Residency, and he speaks Ròdais, badly, but he speaks it.",
+  "body": "Robert Haskins is called home after a quarrel with the Company over the price of steamship berths, and Edward Vane follows him. Vane is the first Commissioner born on Dia-thìr, at the Residency, and he speaks Dia-thìris, badly, but he speaks it.",
   "place": "burg:27",
   "kind": "reign"
  },
@@ -2126,7 +2126,7 @@
   "id": "IV-0236",
   "canon": false,
   "title": "The tram-road to Ros dhìreach",
-  "body": "Vane lays an iron tram-road, drawn by mules, from the southern workings down to the ore port at Ros dhìreach. It halves the cost of shipping ore, and ends the carting trade of the villages on the old road.",
+  "body": "Vane lays an iron tram-road, drawn by mules, from the southern workings down to the coal port at Ros dhìreach. It halves the cost of shipping coal, and ends the carting trade of the villages on the old road.",
   "place": "burg:152",
   "kind": "building"
  },
@@ -2143,7 +2143,7 @@
   "id": "IV-0238",
   "canon": false,
   "title": "The night crews at Cnoc chaol",
-  "body": "The order falls first on Cnoc chaol, where the Company's newest galleries are opened to crews working by ore-lamp in two shifts. The custodians' roll writes that the hill was given no silence at all, and leaves the rest of the page blank.",
+  "body": "The order falls first on Cnoc chaol, where the Company's newest galleries are opened to crews working by coal-lamp in two shifts. The custodians' roll writes that the hill was given no silence at all, and leaves the rest of the page blank.",
   "place": "burg:415",
   "kind": "people",
   "within": [
@@ -2171,7 +2171,7 @@
   "id": "IV-0241",
   "canon": false,
   "title": "Matthew Dunne's sermon",
-  "body": "Matthew Dunne, the Mission's minister at Ros dhomhain, preaches against the night-shift order from the chapel pulpit, saying the Ròdaich are right that even the ground must rest. The Company complains to the Mission, and Dunne is called back to an Tìr Thall. The Lamp-Watch copies the sermon and reads it in the camps.",
+  "body": "Matthew Dunne, the Mission's minister at Ros dhomhain, preaches against the night-shift order from the chapel pulpit, saying the Dia-thìrich are right that even the ground must rest. The Company complains to the Mission, and Dunne is called back to an Tìr Thall. The Lamp-Watch copies the sermon and reads it in the camps.",
   "place": "burg:27",
   "kind": "faith"
  },
@@ -2194,8 +2194,8 @@
  {
   "id": "IV-0243a",
   "canon": false,
-  "title": "The ore line",
-  "body": "The Company opens its railway from the pits at Muileann chrom down by Cathair dhearg to the deep-water quay at Ros dhomhain. Its engines burn the island's own ore, as the steamships do, and the tram-road to Ros dhìreach is left to the mules. Within a year the carters' guild of Doire chaol, which had hauled the ore on Rathad na Mèinne for eighty years, loses the long haul. From the first day the Ròdaich call the engine carbad-iarainn, the iron chariot, and the railway the ore line.",
+  "title": "The coal line",
+  "body": "The Company opens its railway from the pits at Muileann chrom down by Cathair dhearg to the deep-water quay at Ros dhomhain. Its engines burn the island's own coal, as the steamships do, and the tram-road to Ros dhìreach is left to the mules. Within a year the carters' guild of Doire chaol, which had hauled the coal on Rathad na Mèinne for eighty years, loses the long haul. From the first day the Dia-thìrich call the engine carbad-iarainn, the iron chariot, and the railway the coal line.",
   "place": "burg:354",
   "kind": "building",
   "between": [
@@ -2206,7 +2206,7 @@
  {
   "id": "IV-0244",
   "canon": false,
-  "title": "Ore-lamps from Baile ghorm",
+  "title": "Coal-lamps from Baile ghorm",
   "body": "The potteries of Baile ghorm take a contract for clay lamp-bodies for the night crews, thousands in a year. The potters' own book notes that they are the first lamps made on the island for work in the dark by command.",
   "place": "burg:3",
   "kind": "craft"
@@ -2215,7 +2215,7 @@
   "id": "IV-0245",
   "canon": true,
   "title": "Fionnan born",
-  "body": "A second child is born bound to the ore as Aisling was, half a century after her. So it is known that the thing is no chance of one birth: it comes of the digging, and it will go on.",
+  "body": "A second child is born bound to the coal as Aisling was, half a century after her. So it is known that the thing is no chance of one birth: it comes of the digging, and it will go on.",
   "place": null,
   "kind": "birth",
   "canon_date": "1900 DE"
@@ -2224,7 +2224,7 @@
   "id": "IV-0246",
   "canon": false,
   "title": "The Administration's count of the people",
-  "body": "The Administration counts the people of Rodos by district for the first time. Its figures for the humans are true to the household; for the Ròdaich they are rounded to the hundred, and in the hill districts to the thousand.",
+  "body": "The Administration counts the people of Dia-thìr by district for the first time. Its figures for the humans are true to the household; for the Dia-thìrich they are rounded to the hundred, and in the hill districts to the thousand.",
   "place": "burg:27",
   "kind": "record"
  },
@@ -2262,7 +2262,7 @@
   "id": "IV-0250",
   "canon": true,
   "title": "The word found at last",
-  "body": "With two children now known, the custodians agree on a word for what is befalling them: fuil-ghuail, \"coal-blood\", rendered in the humans' tongue as obsidian-touched. It is meant as a physician's word. It outlives that meaning.",
+  "body": "With two children now known, the custodians agree on a word for what is befalling them: fuil-ghuail, \"coal-blood\", rendered in the humans' tongue as coal-touched. It is meant as a physician's word. It outlives that meaning.",
   "place": null,
   "kind": "record",
   "canon_date": "c. 1905 DE"
@@ -2283,7 +2283,7 @@
   "id": "IV-0252",
   "canon": false,
   "title": "The Administration's register",
-  "body": "The Residency, hearing of the word, orders that any Ròdaich child showing the change be reported to the Commissioner's office. The custodians obey by reporting none.",
+  "body": "The Residency, hearing of the word, orders that any Dia-thìrich child showing the change be reported to the Commissioner's office. The custodians obey by reporting none.",
   "place": "burg:27",
   "kind": "law"
  },
@@ -2291,7 +2291,7 @@
   "id": "IV-0253",
   "canon": true,
   "title": "The third change of coin",
-  "body": "The old barter of the Ròdaich is struck down as lawful payment altogether. Every bargain on the island now goes by the humans' coin.",
+  "body": "The old barter of the Dia-thìrich is struck down as lawful payment altogether. Every bargain on the island now goes by the humans' coin.",
   "place": null,
   "kind": "trade",
   "canon_date": "c. 1908 DE"
@@ -2340,7 +2340,7 @@
   "id": "IV-0259",
   "canon": false,
   "title": "Charles Merriman Commissioner",
-  "body": "Edward Vane dies at the Residency. Charles Merriman comes after him with a small company of armed constables, the first standing force the Administration has kept on Rodos.",
+  "body": "Edward Vane dies at the Residency. Charles Merriman comes after him with a small company of armed constables, the first standing force the Administration has kept on Dia-thìr.",
   "place": "burg:27",
   "kind": "reign"
  },
@@ -2348,7 +2348,7 @@
   "id": "IV-0260",
   "canon": false,
   "title": "The constable post at Muileann shean",
-  "body": "Merriman's first constable post is built at Muileann shean on the northern ore road, a stone house with a yard for horses. The townsfolk call it the humans' second Residency, and do not mean it kindly.",
+  "body": "Merriman's first constable post is built at Muileann shean on the northern coal road, a stone house with a yard for horses. The townsfolk call it the humans' second Residency, and do not mean it kindly.",
   "place": "burg:212",
   "kind": "building"
  },
@@ -2364,7 +2364,7 @@
   "id": "IV-0262",
   "canon": false,
   "title": "A grey-night vigil at Baile chrom",
-  "body": "The Mission at Cathair gheal reports that human labourers near Baile chrom keep vigil by night in the fields, praying in silence under the sign of a grey goose, which they call the wild goose of the Spirit. The Mission cannot find whence the practice came, and calls it irregular, a superstition learned of the Ròdaich. The Ròdaich of Baile chrom disown it.",
+  "body": "The Mission at Cathair gheal reports that human labourers near Baile chrom keep vigil by night in the fields, praying in silence under the sign of a grey goose, which they call the wild goose of the Spirit. The Mission cannot find whence the practice came, and calls it irregular, a superstition learned of the Dia-thìrich. The Dia-thìrich of Baile chrom disown it.",
   "place": "burg:305",
   "kind": "faith"
  },
@@ -2372,7 +2372,7 @@
   "id": "IV-0262a",
   "canon": false,
   "title": "Manannan's priests on the grey night",
-  "body": "The priests of Òrd Mhanannain at Ceann mhòr answer the Mission's report of the grey-night vigils. The practice owes something to the Ròdaich, they say, but to their own harbours and not to Baile chrom: the human fishing families of Ceann mhòr learned from them the night prayer to keep the sea shut, and the labourers inland keep it as a vigil of their Church, a night of silence under the wild goose of the Spirit in place of a prayer to Manannan. The priests call it Manannan's prayer gone astray, and do not admit its keepers to their house.",
+  "body": "The priests of Òrd Mhanannain at Ceann mhòr answer the Mission's report of the grey-night vigils. The practice owes something to the Dia-thìrich, they say, but to their own harbours and not to Baile chrom: the human fishing families of Ceann mhòr learned from them the night prayer to keep the sea shut, and the labourers inland keep it as a vigil of their Church, a night of silence under the wild goose of the Spirit in place of a prayer to Manannan. The priests call it Manannan's prayer gone astray, and do not admit its keepers to their house.",
   "place": "burg:143",
   "kind": "faith",
   "between": [
@@ -2384,7 +2384,7 @@
   "id": "IV-0263",
   "canon": false,
   "title": "The dockers' strike at Ros dhomhain",
-  "body": "The dockers of Ros dhomhain, Ròdaich and human alike, refuse to load ore for nine days over the new berth charges. It is the only strike of the age in which human workers stand with Ròdaich. Merriman's constables break it, and the human dockers are shipped west.",
+  "body": "The dockers of Ros dhomhain, Dia-thìrich and human alike, refuse to load coal for nine days over the new berth charges. It is the only strike of the age in which human workers stand with Dia-thìrich. Merriman's constables break it, and the human dockers are shipped west.",
   "place": "burg:27",
   "kind": "people"
  },
@@ -2392,7 +2392,7 @@
   "id": "IV-0264",
   "canon": false,
   "title": "Seann Vell's dockers stay out",
-  "body": "The dockers of Seann Vell, the harbour next to Ros dhomhain, refuse to load the ore sent to them during the strike. When it ends they are not shipped west, for there are no humans among them; but they are not hired again either.",
+  "body": "The dockers of Seann Vell, the harbour next to Ros dhomhain, refuse to load the coal sent to them during the strike. When it ends they are not shipped west, for there are no humans among them; but they are not hired again either.",
   "place": "burg:29",
   "kind": "people",
   "within": [
@@ -2447,7 +2447,7 @@
   "id": "IV-0270",
   "canon": true,
   "title": "The first open fight",
-  "body": "A mining death, which the Ròdaich workers lay at the door of the humans' carelessness, leads to the first bloodshed between the two peoples.",
+  "body": "A mining death, which the Dia-thìrich workers lay at the door of the humans' carelessness, leads to the first bloodshed between the two peoples.",
   "place": null,
   "kind": "battle",
   "canon_date": "c. 1915 DE"
@@ -2492,7 +2492,7 @@
   "id": "IV-0273",
   "canon": false,
   "title": "Achadh chaol raised by the dispossessed",
-  "body": "Folk of the closed district build a new village at Achadh chaol, at the edge of the fenced ground, on land lent by the custodians of Muileann dhomhain. It is the only settlement of the age founded by Ròdaich for Ròdaich with no Company surveyor's hand in it.",
+  "body": "Folk of the closed district build a new village at Achadh chaol, at the edge of the fenced ground, on land lent by the custodians of Muileann dhomhain. It is the only settlement of the age founded by Dia-thìrich for Dia-thìrich with no Company surveyor's hand in it.",
   "place": "burg:389",
   "kind": "founding",
   "between": [
@@ -2504,7 +2504,7 @@
   "id": "IV-0274",
   "canon": false,
   "title": "The fight at Muileann chrom",
-  "body": "The death that began it was a flooded gallery at Muileann chrom, where seven died after the pumps were stopped to save fuel. When the Company's agent came to the pithead the crews stoned him and his constables, and the constables fired. Four Ròdaich and one constable were killed.",
+  "body": "The death that began it was a flooded gallery at Muileann chrom, where seven died after the pumps were stopped to save fuel. When the Company's agent came to the pithead the crews stoned him and his constables, and the constables fired. Four Dia-thìrich and one constable were killed.",
   "place": "burg:354",
   "kind": "people",
   "between": [
@@ -2568,7 +2568,7 @@
   "id": "IV-0279",
   "canon": true,
   "title": "The second petition",
-  "body": "This one carries a threat beneath its words, not a plea. It is the first writing of the Ròdaich the Administration troubles to answer, and it answers with more guards, not with concessions.",
+  "body": "This one carries a threat beneath its words, not a plea. It is the first writing of the Dia-thìrich the Administration troubles to answer, and it answers with more guards, not with concessions.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1918 DE"
@@ -2633,7 +2633,7 @@
   "id": "IV-0287",
   "canon": false,
   "title": "The grey fever in the north-west",
-  "body": "The grey fever returns and settles in the north-west, about Baile chrom and the towns of the concession, where it kills humans as readily as Ròdaich. The Mission's hospital at Cathair gheal overflows, and for the first time Ròdaich and human sick lie in the same wards.",
+  "body": "The grey fever returns and settles in the north-west, about Baile chrom and the towns of the concession, where it kills humans as readily as Dia-thìrich. The Mission's hospital at Cathair gheal overflows, and for the first time Dia-thìrich and human sick lie in the same wards.",
   "place": "burg:305",
   "kind": "disaster"
  },
@@ -2641,7 +2641,7 @@
   "id": "IV-0288",
   "canon": false,
   "title": "Muileann fhionn shut in",
-  "body": "Muileann fhionn, a Ròdaich mill town in the north-west, shuts its roads against the fever and keeps them shut for a season. Human carters of the concession are turned back with their loads at the town's edge.",
+  "body": "Muileann fhionn, a Dia-thìrich mill town in the north-west, shuts its roads against the fever and keeps them shut for a season. Human carters of the concession are turned back with their loads at the town's edge.",
   "place": "burg:160",
   "kind": "disaster"
  },
@@ -2738,7 +2738,7 @@
   "id": "IV-0300",
   "canon": false,
   "title": "Seònaid's house",
-  "body": "An Taigh-seinnse Mòr, the carters' house on the ore road that Seònaid Bhàn opened again in the early years of the digging, is kept now by her great-grandson Aonghas. It is the busiest of the walled houses, the one the constables search most often and find least in.",
+  "body": "An Taigh-seinnse Mòr, the carters' house on the coal road that Seònaid Bhàn opened again in the early years of the digging, is kept now by her great-grandson Aonghas. It is the busiest of the walled houses, the one the constables search most often and find least in.",
   "place": "marker:10",
   "kind": "people"
  },
@@ -2746,7 +2746,7 @@
   "id": "IV-0301",
   "canon": true,
   "title": "The first stoppage together",
-  "body": "For the first time the mining country stops work on one day in many places at once. Scattered as it is, the resistance of the Ròdaich can act as one when it chooses.",
+  "body": "For the first time the mining country stops work on one day in many places at once. Scattered as it is, the resistance of the Dia-thìrich can act as one when it chooses.",
   "place": null,
   "kind": "people",
   "canon_date": "c. 1922 DE"
@@ -2773,7 +2773,7 @@
   "id": "IV-0304",
   "canon": false,
   "title": "Ceann bheag stops",
-  "body": "The ore stage at Ceann bheag on the northern coast stops loading the same day. Its dockers had not been told; they stop because the ore stops coming.",
+  "body": "The coal stage at Ceann bheag on the northern coast stops loading the same day. Its dockers had not been told; they stop because the coal stops coming.",
   "place": "burg:42",
   "kind": "people",
   "same_day": true
@@ -2803,7 +2803,7 @@
  {
   "id": "IV-0307",
   "canon": false,
-  "title": "The ore ships wait",
+  "title": "The coal ships wait",
   "body": "The Company's steamships lie six days at Ros dhomhain with empty holds. The agents at the quay write that they have never seen the harbour so quiet, and that it frightened them more than the crowds.",
   "place": "burg:27",
   "kind": "trade",
@@ -2857,7 +2857,7 @@
   "id": "IV-0313",
   "canon": true,
   "title": "Leave no longer asked",
-  "body": "The humans' Administration begins to give commands without seeking the counsel of the Ròdaich at all. The pretence of leave asked and given is dropped.",
+  "body": "The humans' Administration begins to give commands without seeking the counsel of the Dia-thìrich at all. The pretence of leave asked and given is dropped.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1925 DE"
@@ -2866,7 +2866,7 @@
   "id": "IV-0314",
   "canon": false,
   "title": "Lionel Strake Commissioner",
-  "body": "Charles Merriman leaves Rodos in ill health, and Lionel Strake, a soldier, comes after him. His commission, read aloud at the Residency, makes no mention of the Council of Custodians, and he does not call on it.",
+  "body": "Charles Merriman leaves Dia-thìr in ill health, and Lionel Strake, a soldier, comes after him. His commission, read aloud at the Residency, makes no mention of the Council of Custodians, and he does not call on it.",
   "place": "burg:27",
   "kind": "reign"
  },
@@ -2882,7 +2882,7 @@
   "id": "IV-0315a",
   "canon": false,
   "title": "The iron bird",
-  "body": "Strake brings a flying machine from an Tìr Thall in the hold of a Company steamship and has it flown from a field above the Residency over the ore country, to count the workings from the air. The Ròdaich call it eun-iarainn, the iron bird. The custodians enter it in the roll as the first thing seen over Rodos that flew and was not alive.",
+  "body": "Strake brings a flying machine from an Tìr Thall in the hold of a Company steamship and has it flown from a field above the Residency over the coal country, to count the workings from the air. The Dia-thìrich call it eun-iarainn, the iron bird. The custodians enter it in the roll as the first thing seen over Dia-thìr that flew and was not alive.",
   "place": "burg:27",
   "kind": "discovery",
   "between": [
@@ -2894,7 +2894,7 @@
   "id": "IV-0316",
   "canon": true,
   "title": "The edict of seizure",
-  "body": "The humans' Administration claims the right to take any dwelling of the Ròdaich it deems needful for the widening of the workings. Of all the grievances it is the one most often named in every surviving account of what followed.",
+  "body": "The humans' Administration claims the right to take any dwelling of the Dia-thìrich it deems needful for the widening of the workings. Of all the grievances it is the one most often named in every surviving account of what followed.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1926 DE"
@@ -2959,7 +2959,7 @@
   "id": "IV-0324",
   "canon": true,
   "title": "War",
-  "body": "The Ròdaich, acting together across the whole mining country for the first time, pass from grievance to open war.",
+  "body": "The Dia-thìrich, acting together across the whole mining country for the first time, pass from grievance to open war.",
   "place": null,
   "kind": "war",
   "canon_date": "1928 DE"
@@ -2976,7 +2976,7 @@
   "id": "IV-0326",
   "canon": false,
   "title": "The quay at Ceann fhada seized",
-  "body": "Crews from the camps take the Company's ore quay at Ceann fhada and sink two barges across its mouth. No ore leaves the hills by water again in this age.",
+  "body": "Crews from the camps take the Company's coal quay at Ceann fhada and sink two barges across its mouth. No coal leaves the hills by water again in this age.",
   "place": "burg:351",
   "kind": "war"
  },
@@ -3011,8 +3011,8 @@
  {
   "id": "IV-0329",
   "canon": false,
-  "title": "The ore road cut",
-  "body": "Aonghas, keeper of An Taigh-seinnse Mòr, shuts the gates of the house across the ore road, and the men in its loft come down armed. The road between the capital and the hills is cut at its half-way stage, and stays cut.",
+  "title": "The coal road cut",
+  "body": "Aonghas, keeper of An Taigh-seinnse Mòr, shuts the gates of the house across the coal road, and the men in its loft come down armed. The road between the capital and the hills is cut at its half-way stage, and stays cut.",
   "place": "marker:10",
   "kind": "war"
  },
@@ -3020,7 +3020,7 @@
   "id": "IV-0330",
   "canon": false,
   "title": "Uilleam Gobha's forge",
-  "body": "At Muileann dhearg the smith Uilleam Gobha makes the Company's own blasting-powder into grenades cased in ore-tin, and forges pike-heads from rails torn up in the galleries. The rebels' council writes that without him it could not have fought its first season.",
+  "body": "At Muileann dhearg the smith Uilleam Gobha makes the Company's own blasting-powder into grenades cased in tin from the coal sheds, and forges pike-heads from rails torn up in the galleries. The rebels' council writes that without him it could not have fought its first season.",
   "place": "burg:491",
   "kind": "craft"
  },
@@ -3028,7 +3028,7 @@
   "id": "IV-0331",
   "canon": false,
   "title": "The capital rises",
-  "body": "At Cathair dhearg the custodians break the Residency's locks on their council hall and sit in it again. The townsfolk hold Drochaid Cathair dhearg against the constables sent up from the harbour, and barricade the bridge built for the ore-carts with the carts themselves.",
+  "body": "At Cathair dhearg the custodians break the Residency's locks on their council hall and sit in it again. The townsfolk hold Drochaid Cathair dhearg against the constables sent up from the harbour, and barricade the bridge built for the coal-carts with the carts themselves.",
   "place": "burg:19",
   "kind": "war"
  },
@@ -3036,7 +3036,7 @@
   "id": "IV-0332",
   "canon": false,
   "title": "Cathair dhomhain joins",
-  "body": "At Cathair dhomhain the townsfolk break open the Company's warehouse, the first building on Rodos the Company ever owned, and carry off its tools for the council's companies.",
+  "body": "At Cathair dhomhain the townsfolk break open the Company's warehouse, the first building on Dia-thìr the Company ever owned, and carry off its tools for the council's companies.",
   "place": "burg:26",
   "kind": "war"
  },
@@ -3052,7 +3052,7 @@
   "id": "IV-0334",
   "canon": false,
   "title": "The Residency fortified",
-  "body": "Lionel Strake draws the Administration back into the Residency above Ros dhomhain and fortifies the Company's quarter of the harbour. The city below, Ròdaich almost to a man, neither joins the rising nor withstands it, and the constables do not trust it enough to leave the walls.",
+  "body": "Lionel Strake draws the Administration back into the Residency above Ros dhomhain and fortifies the Company's quarter of the harbour. The city below, Dia-thìrich almost to a man, neither joins the rising nor withstands it, and the constables do not trust it enough to leave the walls.",
   "place": "burg:27",
   "kind": "war"
  },
@@ -3060,7 +3060,7 @@
   "id": "IV-0335",
   "canon": false,
   "title": "The fight at the ford of Àth chiar",
-  "body": "A column of constables and Company guards under Major Peter Ashdown marches up the ore road to relieve the hills, and is met at the ford of Àth chiar, where the rebels hold the far bank. Ashdown loses forty men and his baggage and turns back. The rebels lose nineteen, and the council's roll names them all.",
+  "body": "A column of constables and Company guards under Major Peter Ashdown marches up the coal road to relieve the hills, and is met at the ford of Àth chiar, where the rebels hold the far bank. Ashdown loses forty men and his baggage and turns back. The rebels lose nineteen, and the council's roll names them all.",
   "place": "burg:163",
   "kind": "battle"
  },
@@ -3108,7 +3108,7 @@
   "id": "IV-0341",
   "canon": false,
   "title": "The eastern pits at Ros fhionn",
-  "body": "The crews of the eastern workings about Ros fhionn stop the pumps and walk out, and the lower galleries flood. The Company's engineers there go down the Abhainn chaol and take ship at Seann Mhorn for Ros dhomhain. The bridge on the eastern ore road falls silent.",
+  "body": "The crews of the eastern workings about Ros fhionn stop the pumps and walk out, and the lower galleries flood. The Company's engineers there go down the Abhainn chaol and take ship at Seann Mhorn for Ros dhomhain. The bridge on the eastern coal road falls silent.",
   "place": "burg:57",
   "kind": "war"
  },
@@ -3116,7 +3116,7 @@
   "id": "IV-0342",
   "canon": false,
   "title": "Seann Toll shelled",
-  "body": "A Company steamship comes up the Abhainn uaine and shells the ore stage at Seann Toll to deny it to the rebels, and sets the fishing town behind it burning. Twenty-three townsfolk die. For the first time the humans turn the island's own ore, burning in their boilers, against a town of the Ròdaich.",
+  "body": "A Company steamship comes up the Abhainn uaine and shells the coal stage at Seann Toll to deny it to the rebels, and sets the fishing town behind it burning. Twenty-three townsfolk die. For the first time the humans turn the island's own coal, burning in their boilers, against a town of the Dia-thìrich.",
   "place": "burg:313",
   "kind": "war"
  },
@@ -3188,7 +3188,7 @@
   "id": "IV-0343",
   "canon": false,
   "title": "Coaling from Inis mhòr",
-  "body": "The Company's steamships take their fuel from the ore stacked on the quays of Inis mhòr, the river port just east of the capital, whose barges carry it down the Abhainn fhionn to the ships at Cathair dhomhain. The townsfolk set the stacks alight. The ships put in at Ros dhomhain instead, and burn their own stores.",
+  "body": "The Company's steamships take their fuel from the coal stacked on the quays of Inis mhòr, the river port just east of the capital, whose barges carry it down the Abhainn fhionn to the ships at Cathair dhomhain. The townsfolk set the stacks alight. The ships put in at Ros dhomhain instead, and burn their own stores.",
   "place": "burg:2",
   "kind": "war"
  },
@@ -3309,7 +3309,7 @@
   "id": "IV-0358",
   "canon": false,
   "title": "The weigh-house at Muileann chrom",
-  "body": "The third raid burned the Company's weigh-house at Muileann chrom with its steelyard ledgers, where the ore of the hills had been entered by the ton since the first contract. The rebels' own chronicler writes that the fire burned green.",
+  "body": "The third raid burned the Company's weigh-house at Muileann chrom with its steelyard ledgers, where the coal of the hills had been entered by the ton since the first contract. The rebels' own chronicler writes that the fire burned green.",
   "place": "burg:354",
   "kind": "war"
  },
@@ -3325,7 +3325,7 @@
   "id": "IV-0360",
   "canon": false,
   "title": "The harbour quarter changes sides",
-  "body": "After the raid on the counting-house the Ròdaich of the Ros dhomhain harbour quarter open the lower gates to the council's companies, and Strake is left holding only the Residency and the Company's quays. The same night men of the quarter burn the Company's flying machine in its shed above the town. It had not flown since the war began, for want of the spirit its engine burned, and nothing has flown over Rodos since that was not a bird.",
+  "body": "After the raid on the counting-house the Dia-thìrich of the Ros dhomhain harbour quarter open the lower gates to the council's companies, and Strake is left holding only the Residency and the Company's quays. The same night men of the quarter burn the Company's flying machine in its shed above the town. It had not flown since the war began, for want of the spirit its engine burned, and nothing has flown over Dia-thìr since that was not a bird.",
   "place": "burg:27",
   "kind": "war"
  },
@@ -3365,7 +3365,7 @@
   "id": "IV-0365",
   "canon": false,
   "title": "Hunger in Ros bheag",
-  "body": "The roads cut and no ships coming from the west, Ros bheag runs short of food within months. By Strake's order the Company's stores are opened to the human families and the Ròdaich townsfolk alike, the one deed of his the Ròdaich rolls give him credit for.",
+  "body": "The roads cut and no ships coming from the west, Ros bheag runs short of food within months. By Strake's order the Company's stores are opened to the human families and the Dia-thìrich townsfolk alike, the one deed of his the Dia-thìrich rolls give him credit for.",
   "place": "burg:63",
   "kind": "disaster"
  },
@@ -3397,7 +3397,7 @@
   "id": "IV-0369",
   "canon": false,
   "title": "The truce of Àth àrsaidh",
-  "body": "Envoys of the council and of the Administration meet at Àth àrsaidh, on the edge of the northern concession, and agree a truce: the humans left on Rodos shall withdraw into the north-west under the council's safe-conduct, and the council shall leave the towns of the concession standing.",
+  "body": "Envoys of the council and of the Administration meet at Àth àrsaidh, on the edge of the northern concession, and agree a truce: the humans left on Dia-thìr shall withdraw into the north-west under the council's safe-conduct, and the council shall leave the towns of the concession standing.",
   "place": "burg:304",
   "kind": "law"
  },
@@ -3405,7 +3405,7 @@
   "id": "IV-0370",
   "canon": false,
   "title": "Baile Mòr ruadh receives the columns",
-  "body": "The truce names Baile Mòr ruadh, the greatest town of the north-west, as the place where the columns will be received. Its Ròdaich folk are given the choice of staying or going south. The roll gives the numbers of each, and they are close.",
+  "body": "The truce names Baile Mòr ruadh, the greatest town of the north-west, as the place where the columns will be received. Its Dia-thìrich folk are given the choice of staying or going south. The roll gives the numbers of each, and they are close.",
   "place": "burg:303",
   "kind": "people"
  },
@@ -3421,7 +3421,7 @@
   "id": "IV-0372",
   "canon": false,
   "title": "The columns at Àth chrom",
-  "body": "The columns cross the ford at Àth chrom on their way north. The custodians of the town stand at the ford and count them over, and it is the last count the Ròdaich make of the humans on Rodos in this age.",
+  "body": "The columns cross the ford at Àth chrom on their way north. The custodians of the town stand at the ford and count them over, and it is the last count the Dia-thìrich make of the humans on Dia-thìr in this age.",
   "place": "burg:412",
   "kind": "people"
  },
@@ -3437,7 +3437,7 @@
   "id": "IV-0374",
   "canon": false,
   "title": "The ship that sailed west",
-  "body": "Lionel Strake, the last Commissioner, sails west from Cuan shean with his officers in the last ship on the island able to make the crossing. The keeper at Taigh-solais Baile chrom sets down her passing in his daybook. Nothing on Rodos tells of her coming anywhere.",
+  "body": "Lionel Strake, the last Commissioner, sails west from Cuan shean with his officers in the last ship on the island able to make the crossing. The keeper at Taigh-solais Baile chrom sets down her passing in his daybook. Nothing on Dia-thìr tells of her coming anywhere.",
   "place": "burg:282",
   "kind": "voyage"
  },
@@ -3461,7 +3461,7 @@
   "id": "IV-0377",
   "canon": true,
   "title": "The Severance",
-  "body": "The war ends, and the crossing itself is shut: whatever way let the humans reach Rodos closes. The humans still on the island are led into the northern country that their children's children hold to this day. Cian and Lorccan, not yet twenty, grow up in the wake of it.",
+  "body": "The war ends, and the crossing itself is shut: whatever way let the humans reach Dia-thìr closes. The humans still on the island are led into the northern country that their children's children hold to this day. Cian and Lorccan, not yet twenty, grow up in the wake of it.",
   "place": null,
   "kind": "war",
   "canon_date": "c. 1930 DE",
