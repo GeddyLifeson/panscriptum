@@ -8,15 +8,14 @@
 <link rel="stylesheet" href="FONTS_URL">
 <style>
 /*STYLE*/
-/*BOOKCSS*/
 
-/* ---- the atlas: annals, book and live map, one program ---- */
+/* ---- the atlas: annals and live map, one program ---- */
 html, body{height:100%;}
 body{display:flex; flex-direction:column;}
 .tabbar{flex:none;}
 .panel{display:none; flex:1; min-height:0; overflow:auto;}
-body[data-tab] #panel-timeline, body[data-tab] #panel-map, body[data-tab] #panel-book{display:none;}
-body[data-tab="timeline"] #panel-timeline, body[data-tab="book"] #panel-book{display:block;}
+body[data-tab] #panel-timeline, body[data-tab] #panel-map{display:none;}
+body[data-tab="timeline"] #panel-timeline{display:block;}
 body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative;}
 
 /* timeline */
@@ -70,7 +69,6 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
   border-radius:3px; padding:4px 9px; cursor:pointer; margin:0 6px 10px 0;}
 .drawtoggle{position:absolute; top:10px; right:10px; z-index:6; font-family:'Cinzel',serif; font-size:12px; letter-spacing:.06em;
   background:rgba(12,10,16,.9); color:var(--parchment); border:1px solid var(--hair); border-radius:3px; padding:6px 10px; cursor:pointer;}
-#panel-book a.pl{cursor:pointer;}
 @media (max-width:760px){ .drawer{position:absolute; right:0; top:0; bottom:0; z-index:7;} }
 </style>
 </head>
@@ -78,14 +76,13 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
 <div class="tabbar">
   <button class="tabbtn" data-tab="timeline" data-active="true" onclick="showTab('timeline')">Annals</button>
   <button class="tabbtn" data-tab="map" data-active="false" onclick="showTab('map')">Map</button>
-  <button class="tabbtn" data-tab="book" data-active="false" onclick="showTab('book')">Book</button>
 </div>
 
 <div class="panel" id="panel-timeline">
   <header>
-    <p class="kicker">RÌOGHACHD RÒDAIS · the annals</p>
+    <p class="kicker">RÌOGHACHD DIA-THÌR · the annals</p>
     <h1>The Annals of Dia-thìr</h1>
-    <p>Every remembered deed of the seven ages, from the crack in the stone to the present year, each set on its day
+    <p>Every remembered deed of the seven ages, from the mason's fire to the present year, each set on its day
       and dated in the era of its age.
       Where a deed has a place, a map button stands beside it and carries you there. ◆ marks the entries of the
       royal chronicle itself.</p>
@@ -106,10 +103,6 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
     <button class="drawtoggle" id="drawtoggle" onclick="toggleDrawer()">Record ◂</button>
   </div>
   <aside class="drawer" id="drawer" aria-label="The record of a place"></aside>
-</div>
-
-<div class="panel" id="panel-book">
-  <div class="bookwrap"><nav class="btoc"><!--TOC--></nav><article class="btext"><!--BOOK--></article></div>
 </div>
 
 <script>
@@ -165,7 +158,7 @@ var started = false;
 function startMap(){
   if (started) return; started = true;
   try { localStorage.setItem('version', 'FMG_VERSION'); } catch(e){}   // skip the generator's "what's new" window
-  var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'Dia-thìr.map';
+  var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'Diathir.map';
   document.getElementById('fmg').src = 'fmg/index.html?maplink=' + encodeURIComponent(link);
   var tries = 0, t = setInterval(function(){
     var w = fmg(); tries++;
@@ -287,13 +280,6 @@ function toggleDrawer(){
   document.getElementById('drawtoggle').textContent = d.hidden ? 'Record ▸' : 'Record ◂';
 }
 
-/* ---- the book: every place named in it opens the map ---- */
-document.getElementById('panel-book').addEventListener('click', function(ev){
-  var a = ev.target.closest('a.pl'); if (a && PLACES[a.dataset.ref]) { ev.preventDefault(); flyTo(a.dataset.ref); return; }
-  var h = ev.target.closest('a[href^="#ev-"]');
-  if (h) { ev.preventDefault(); var id = h.getAttribute('href').slice(4);
-    for (var n = 0; n < EVENTS.length; n++) if (EVENTS[n][0] === id) { showInAnnals(n); return; } }
-});
 buildTimeline();
 showList();
 </script>
