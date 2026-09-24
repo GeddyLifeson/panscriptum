@@ -4,9 +4,9 @@ build_book.py -- assemble the legendarium of Dia-thìr from its sources.
     python build_book.py        -> LEGENDARIUM.md (the whole record as plain text; the Atlas's Book tab shows it)
 
 Sources, all in this folder:
-    annals_dated.json       every event of the six ages, dated by reckoning.py
-    book/creation.md        the Telling of the Making, which stands before the Six Books
-    book/age_I..VI.md       the prose account of each age
+    annals_dated.json       every event of the seven ages, dated by reckoning.py
+    book/creation.md        the Telling of the Making, which stands before the Seven Books
+    book/age_I..VII.md       the prose account of each age
     appendices/*.md         the appendices, in file-name order
     appendices/houses.json  the houses and their people (optional), dated here
     gazetteer/out_*.json    every burg of the map: founding, history, what it is known for
@@ -42,21 +42,29 @@ def fold(s):
 
 AGE_NAMES = {
     'I': ('An Aois Àrsaidh', 'the Ancient Age', 'myth'),
-    'II': ('An Aois Naomh', 'the Holy Age', 'holy'),
-    'III': ('An Aois Scaraidh', 'the Age of Sundering', 'sunder'),
-    'IV': ('An Aois Choigreach', 'the Age of Strangers', 'colonial'),
-    'V': ('An Aois Rìoghachd', 'the Age of the Kingdom', 'kingdom'),
-    'VI': ('An Aois Dhubhain', 'the Age of Dubhan', 'dubhan'),
+    'II': ('An Aois Ailein', 'the Age of Ailean', 'grove'),
+    'III': ('An Aois Naomh', 'the Holy Age', 'holy'),
+    'IV': ('An Aois Scaraidh', 'the Age of Sundering', 'sunder'),
+    'V': ('An Aois Choigreach', 'the Age of Strangers', 'colonial'),
+    'VI': ('An Aois Rìoghachd', 'the Age of the Kingdom', 'kingdom'),
+    'VII': ('An Aois Dhubhain', 'the Age of Dubhan', 'dubhan'),
 }
 AGES = reckoning.AGE_KEYS
 # a town's founding is dated in the stretch of years its age is dated in (reckoning.STRETCHES)
 AGE_SPAN = {k: (a, b) for a, b, keys in reckoning.STRETCHES for k in keys}
 BOOK_TITLES = {'I': 'The First Book', 'II': 'The Second Book', 'III': 'The Third Book',
-               'IV': 'The Fourth Book', 'V': 'The Fifth Book', 'VI': 'The Sixth Book'}
+               'IV': 'The Fourth Book', 'V': 'The Fifth Book', 'VI': 'The Sixth Book', 'VII': 'The Seventh Book'}
 
 
 def load(name):
     return json.load(open(os.path.join(HERE, name), encoding='utf-8'))
+
+
+def read_md(path):
+    """A book or appendix source, without its <!-- ... --> notes to the writers (placeholders are never printed)."""
+    text = open(path, encoding='utf-8').read()
+    text = re.sub(r'\n?[ \t]*<!--.*?-->[ \t]*(?=\n|$)', '', text, flags=re.S)
+    return re.sub(r'<!--.*?-->', '', text, flags=re.S)
 
 
 # ---------------------------------------------------------------- the record
@@ -102,7 +110,7 @@ class Record:
             if ev:                                     # the annals tell the founding itself: take its day
                 g['founded'] = {'y': ev['y'], 'm': ev['m'], 'd': ev['d'], 'date': ev['date']}
                 continue
-            first, last = AGE_SPAN.get(g.get('founded_age') or 'II', AGE_SPAN['II'])
+            first, last = AGE_SPAN.get(g.get('founded_age') or 'III', AGE_SPAN['III'])
             lo, hi = first, last
             if g.get('founded_between'):
                 lo, hi = max(lo, g['founded_between'][0]), min(hi, g['founded_between'][1])
@@ -115,7 +123,7 @@ class Record:
                 hi = lo
             y, m, d = self.reckon(lo, hi, 'founding:%d' % bid)
             # never before its age opens (the eras count from the opening event): held to the year after it
-            opens = reckoning.openings().get(g.get('founded_age') or 'II')
+            opens = reckoning.openings().get(g.get('founded_age') or 'III')
             if opens and (y, m, d) < opens:
                 y1 = reckoning.nz(opens[0] + 1)
                 y, m, d = self.reckon(y1, y1, 'founding:%d' % bid)
@@ -264,11 +272,11 @@ def md_to_html(md, prefix, toc):
 
 # ---------------------------------------------------------------- the parts of the book
 def creation_part(rec):
-    """The Telling of the Making (book/creation.md), set before the Six Books; None if it is missing."""
+    """The Telling of the Making (book/creation.md), set before the Seven Books; None if it is missing."""
     p = os.path.join(HERE, 'book', 'creation.md')
     if not os.path.exists(p):
         return None
-    return ('book-creation', None, rec.resolve(open(p, encoding='utf-8').read()))
+    return ('book-creation', None, rec.resolve(read_md(p)))
 
 
 def prose_parts(rec):
@@ -276,7 +284,7 @@ def prose_parts(rec):
     for k in AGES:
         p = os.path.join(HERE, 'book', 'age_%s.md' % k)
         if os.path.exists(p):
-            parts.append(('book-' + k, k, rec.resolve(open(p, encoding='utf-8').read())))
+            parts.append(('book-' + k, k, rec.resolve(read_md(p))))
     return parts
 
 
@@ -284,7 +292,7 @@ def appendix_parts(rec):
     parts = []
     for p in sorted(glob.glob(os.path.join(HERE, 'appendices', '*.md'))):
         key = os.path.splitext(os.path.basename(p))[0]
-        parts.append(('app-' + slug(key), None, rec.resolve(open(p, encoding='utf-8').read())))
+        parts.append(('app-' + slug(key), None, rec.resolve(read_md(p))))
     return parts
 
 
@@ -375,12 +383,12 @@ def compose(rec, link_places=True):
         body.append('<section class="book prologue age-myth" id="%s">%s</section>' % (making[0], md_to_html(making[2], making[0], toc)))
     prose = prose_parts(rec)
     if prose:
-        toc.append((1, 'part-tale', 'The Tale of the Six Ages'))
+        toc.append((1, 'part-tale', 'The Tale of the Seven Ages'))
     for pid, k, md in prose:
         rn, en, cat = AGE_NAMES[k]
         body.append('<section class="book age-%s" id="%s">%s</section>' % (cat, pid, md_to_html(md, pid, toc)))
     toc.append((1, 'part-annals', 'The Annals of Dia-thìr'))
-    body.append('<section class="annals" id="part-annals"><h2>The Annals of Dia-thìr</h2><p class="lede">Every remembered event of the six ages, '
+    body.append('<section class="annals" id="part-annals"><h2>The Annals of Dia-thìr</h2><p class="lede">Every remembered event of the seven ages, '
                 'in order, each on its day. %d events.</p>%s</section>' % (len(rec.events), annals_html(rec, link_places)))
     for k in AGES:
         toc.append((2, 'annals-' + k, 'Age %s · %s' % (k, AGE_NAMES[k][0])))

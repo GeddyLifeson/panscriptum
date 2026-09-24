@@ -30,7 +30,16 @@ what the chronicle already says. No new actions, words, thoughts, relatives, rel
 places, feelings or fates. Refer to them plainly when the record needs them; otherwise leave
 them alone.
 
-- **Aisling**, born 1848 DE in the mining camps: the first of the immortal generation.
+- **Aisling**, born 1848 DE in the mining camps (at Achadh dhomhain): the first of the immortal generation. Owner's
+  canon since: she is distantly of the first king's line, and her father is named (the one exception to the rule
+  below): **Donnchadh mac Thormoid**, a Dia-thìreach hewer of the deep galleries. The Keeper of the Kin met him in a
+  gallery (AE 68) and gave him, in his breath, the secret gift (*Tìodhlac a' Choimhdich*) it had laid in the dust of
+  the deep places for the kin, so that they could stand against the occupiers; the Mission's surgeon took it for the
+  miners' lung-rot; his cough stopped the night she was born, and it woke in her. The camps called her *nighean an
+  rìgh*, the king's daughter, half in jest; in AE 126 the copyist Cailean mac Eachainn and the reciter Ealasaid of
+  Clann na Ceiste traced her line and found it true (IV-0251a). The full line is Appendix A, *The Line of Aisling*.
+  She is a deliverer figure of the camps, always "a daughter of the king's line"; never name or allude to any
+  real-world parallel.
 - **Fionnan**, born 1900 DE: the second case.
 - **Lorccan**, born 1913 DE in a mining town: the third.
 - **Cian**, born 1914 DE: the fourth. Cian and Lorccan grew up in the wake of the Severance.
@@ -48,9 +57,10 @@ Holy Age, the leaders of the Sundering. Give them Dia-thìris names (Scottish Ga
 Ailean, Beathag, Catrìona, Dòmhnall, Eilidh, Fearchar, Gormshuil, Iain, Mòrag, Raghnall,
 Sìleas, Tormod…), with patronymics (*mac*/*nic*) and bynames (*Ailean Gobha*, "Ailean the
 smith"). Humans get names from their own tongue (plain, English-like, not Gaelic). No invented
-person may be a parent, child, spouse, lover, rival or teacher of the owner's characters.
+person may be a parent, child, spouse, lover, rival or teacher of the owner's characters (the owner has since
+named Aisling's father and her line himself; see above).
 
-## The six ages and the reckoning of years
+## The seven ages and the reckoning of years
 
 Each age is an era with its own count of years. Year 1 of an era is the year of the age's opening
 event; there is no year 0, and the era changes on the day the next age opens. A date is written
@@ -60,11 +70,16 @@ the Sundering set out, was used for many centuries and then given up; Appendix D
 | Age | Dia-thìris name | Era | Opens with (year 1) |
 |---|---|---|---|
 | I | An Aois Àrsaidh, the Ancient Age | Linn na Fèithe, the Vein Era (VE) | the crack in the stone |
-| II | An Aois Naomh, the Holy Age | Linn an Teine, the Flame Era (FE) | the Binding of the First Flame |
-| III | An Aois Scaraidh, the Age of Sundering | Linn na Tìre, the Landfall Era (LE) | land found across the water |
-| IV | An Aois Choigreach, the Age of Strangers | Linn an Acair, the Anchor Era (AE) | the Crossing |
-| V | An Aois Rìoghachd, the Age of the Kingdom | Linn an Dealachaidh, the Severance Era (SE) | the Tuathaich homeland, after the Severance |
-| VI | An Aois Dhubhain, the Age of Dubhan | Linn an Dubhain, the Dubhan Era (DE) | the first working dubhan |
+| II | An Aois Ailein, the Age of Ailean | Linn na Doire, the Grove Era (GE) | the vigil and the crowning in the grove (VE 5,324 = GE 1) |
+| III | An Aois Naomh, the Holy Age | Linn an Teine, the Flame Era (FE) | the Binding of the First Flame |
+| IV | An Aois Scaraidh, the Age of Sundering | Linn na Tìre, the Landfall Era (LE) | land found across the water |
+| V | An Aois Choigreach, the Age of Strangers | Linn an Acair, the Anchor Era (AE) | the Crossing |
+| VI | An Aois Rìoghachd, the Age of the Kingdom | Linn an Dealachaidh, the Severance Era (SE) | the Tuathaich homeland, after the Severance |
+| VII | An Aois Dhubhain, the Age of Dubhan | Linn an Dubhain, the Dubhan Era (DE) | the first working dubhan |
+
+An event's age is the annals file it stands in (`annals/age_I..VII.json`), not the numeral of its id: the ids
+were given when there were fewer ages and are kept unchanged. The Age of Ailean's events are `I-` ids in
+`age_II.json`, the Holy Age's are `II-` ids in `age_III.json`, and so on.
 
 Windows and chronicle years below are given in the tooling's continuous count (negative before
 its year 1, no year 0; 1780 is AE 1, 1930 SE 1, 2000 DE 1, the present year 2026 is DE 27).
@@ -87,31 +102,52 @@ reckoning supplies them.
   made all that is, then the island and its first people, the godfolk (*an Dia-shluagh*), whose children are the
   godkin (*Clann nan Dè*). In the island's coal he hid the elements, one to each colour: *na Seachd Guail*, the Seven
   Coals (black/earth, fire/fire, snowflake/air, gold sheen/sea, silver sheen/river water, mahogany/life,
-  rainbow/spirit). The spirit Coimhdeach na Fine, the Keeper of the Kin, a figure of grey smoke, watches the kin for
-  him. See legendarium/book/creation.md. The word for the stuff is always **coal**, never any kind of glass.
+  rainbow/spirit). The island was born of drops of fire from his last coal; the godfolk grew out of it like grass
+  (*feur uaine an eilein*). The spirit Coimhdeach na Fine, the Keeper of the Kin, a figure of grey smoke that stands
+  still in a wind, watches the kin for him.
+- **The first king and the long years.** Ailean Mòr (born VE 5,300; crowned at 24 in the grove, VE 5,324, which is GE 1)
+  alone received the coals' power. He is king until his death and never gives the kingship up. The Stone Kings after
+  him are his children and kin who HOLD THE HILL of Dùn ìseal under him (Gormshuil his daughter, born before the grove
+  and so without the long years; Dòmhnall, Fearchar, Iain Dubh his sons; Mòrag, Raghnall, Tormod grandchildren; the
+  rest "of his blood"); after Catrìona Mhòr he holds the hill himself (I-0255a). The Red Hill is a line of the western
+  lake shore, not of his blood, that knelt to him in Uisdean Mòr's day (I-0089a) and swore to the king, not to Dùn ìseal.
+  He dies in war: Blàr Àth na Fala, the ford below Dùn dhearg (I-0098a, 2 an t-Sultain FE 1, first event of the Holy
+  Age), holding it alone three days against the host of the east, aged 4,626, worn down by the whole host because his
+  kin, quarrelling over the shares, did not come. His children born after the grove live thousands of years, each
+  generation less. Somhairle (born in Ailean's 62nd year) died GE 3,025 (I-0104a) aged 2,987, before his father; then
+  Beathan 2,213, six unnamed (1,594, 1,148, 826, 597, 431, 308), Gille-Brìde 224 (alive at the Binding), Ceallach 140
+  (died FE 79), after whom the line lives as others do. That fading is why it all became myth: from the Holy Age on,
+  the first king and his long years are the reciters' tale, and the Library keeps them in its book of tellings. At the
+  vigil the Keeper promised that when strangers hold the island the fire will wake again in his line: in Aisling it is
+  a new waking, not a survival. See legendarium/book/creation.md. The word for the stuff is always **coal**, never any
+  kind of glass.
 - **The vein.** Under the island's central mountains runs the coloured coal, *an gual dathach*, a hard coal that takes a
   polish and shows its colours when broken; VE 1 is the mason's breaking of the vein and the lightning fire. Only the
   godkin see the colours. The Dia-thìrich call it sacred; the humans saw only black coal. Bonding with it, first in Aisling
   (1848), makes the *fuil-ghuail*, "coal-blood" (in the humans' tongue, "coal-touched"):
   those who do not age as others do. By 2026 the vein is nearly spent and the island runs on
   *dubhan*.
-- **Age I**: before record. The doctrine *Cha do thàinig sinn; bha sinn ann*, "we did not come;
+- **Ages I and II**: before record. The doctrine *Cha do thàinig sinn; bha sinn ann*, "we did not come;
   we were here." The **Seann-Dhaoine**, the Old Ones, a people before the Dia-thìrich, built the
   ruins (Làrach an Dùin-fhaire, Làrach an Dùin, Làrach an Teampaill) and the standing stones, and
   left only their place names: Seann Dunn, Seann Chwen, Seann Skell, Seann Bhral, Seann Tarr,
   Seann Vell, Seann Morn, Seann Brenn, Seann Toll, Seann Warr (the roots are not Gaelic). How they
   ended is not known; don't resolve it.
-- **Age II**: the Dia-thìrich, custodians of the vein. The Small-Burning Law. The first king-list.
+- **Age II** is also the Age of Ailean: the first kingdom, won from Dùn ìseal, and the one reign of Ailean Mòr over it
+  (see above), with his kin holding its hills under him.
+- **Age III**: opens with the king's fall at Blàr Àth na Fala and the parting of the kingdom among his kin
+  (*Roinn na Rìoghachd*, with its feuds, *Aimhreit nan Oighrean*); the heirs bind the vein in common, which is the
+  Binding. The Dia-thìrich, custodians of the vein. The Small-Burning Law. The first king-list.
   Faiths splitting from one folk practice. The last age of even population.
-- **Age III**: a land is found across the water; volunteers choose to go; the fleet sets out (1
+- **Age IV**: a land is found across the water; volunteers choose to go; the fleet sets out (1
   DE); two landfalls; the thinning of the departed; the long quiet centuries on Dia-thìr after.
   Keep the chronicle's hint unresolved: the humans who came back in 1780 crossed "the water the
   Dia-thìrians once crossed". Nobody on Dia-thìr knows whether they descend from the departed.
-- **Age IV**: the humans' Crossing (c. 1780); trade that became extraction; the humans'
+- **Age V**: the humans' Crossing (c. 1780); trade that became extraction; the humans'
   treaties, coinage and tithe; the mining camps; plagues, famines, droughts; the immortal
   generation; the Long War's forerunners; war declared 1928; the Severance c. 1930, which
   closed the crossing and sent the remaining humans north.
-- **Age V**: the restored kingdom, Rìoghachd Dia-thìr; the same extraction under new owners; the
+- **Ages VI and VII**: the restored kingdom, Rìoghachd Dia-thìr; the same extraction under new owners; the
   Tuathaich in the north; the Depletion; dubhan; the Tuathaich coal-holdouts; **An Cogadh Fada**,
   the Long War (2020–2021), with its battles at Àth leathan (11 April 2020) and Muileann ghlas
   (10 December 2021); 2026, the present.

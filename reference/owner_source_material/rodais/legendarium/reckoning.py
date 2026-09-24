@@ -7,7 +7,7 @@ MONTH from another, and the YEAR from three more, combined by the reckoning of i
     year = first year of the age + (100 x ((yy(A) + yy(C)) mod 100) + yy(B)) mod (length of the age)
 
 where yy is the last two digits of an album's year. (Two albums, A and C, make the hundreds between them: no album
-in the pool has a year ending 27-44, and with A alone the reckoning could not reach 1,900 years of the Ancient Age.) Which albums made which date is not
+in the pool has a year ending 27-44, and with A alone the reckoning could not reach 1,900 years into the first stretch (the Ancient Age and the Age of Ailean).) Which albums made which date is not
 recorded anywhere, by the owner's choice; the reckoning only needs to know that a date CAN be
 made from the pool, and it always picks one that can.
 
@@ -28,31 +28,36 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# The six ages. Each age is an era with its own count of years: year 1 of an era is the year of its age's opening
+# The seven ages. Each age is an era with its own count of years: year 1 of an era is the year of its age's opening
 # event, there is no year 0, and a date is written "12 am Màrt, AE 67" (a bare year "AE 67"). The era changes on
 # the day the next age opens, so the year an age opens is the last year of the era before it and year 1 of its own.
 # first/last are years of the continuous count the annals are sorted by (negative before 1, no year 0), kept only
 # inside the tooling: first is year 1 of the era, last the year the next age opens (or the present year).
+# An age's events are the events of its annals file (annals/age_<key>.json); an event's id is only a key for the
+# {{date:ID}} tokens, and its roman numeral is NOT its age (the I-xxxx events of the Age of Ailean live in age_II.json,
+# the II-xxxx events of the Holy Age in age_III.json, and so on: the ids were given when there were fewer ages).
 #   (key, first, last, era abbreviation, era, era in Dia-thìris)
 AGES = [
-    ('I', -12923, -2998, 'VE', 'the Vein Era', 'Linn na Fèithe'),
-    ('II', -2998, -39, 'FE', 'the Flame Era', 'Linn an Teine'),
-    ('III', -39, 1780, 'LE', 'the Landfall Era', 'Linn na Tìre'),
-    ('IV', 1780, 1930, 'AE', 'the Anchor Era', 'Linn an Acair'),
-    ('V', 1930, 2000, 'SE', 'the Severance Era', 'Linn an Dealachaidh'),
-    ('VI', 2000, 2026, 'DE', 'the Dubhan Era', 'Linn an Dubhain'),
+    ('I', -12923, -7600, 'VE', 'the Vein Era', 'Linn na Fèithe'),
+    ('II', -7600, -2998, 'GE', 'the Grove Era', 'Linn na Doire'),
+    ('III', -2998, -39, 'FE', 'the Flame Era', 'Linn an Teine'),
+    ('IV', -39, 1780, 'LE', 'the Landfall Era', 'Linn na Tìre'),
+    ('V', 1780, 1930, 'AE', 'the Anchor Era', 'Linn an Acair'),
+    ('VI', 1930, 2000, 'SE', 'the Severance Era', 'Linn an Dealachaidh'),
+    ('VII', 2000, 2026, 'DE', 'the Dubhan Era', 'Linn an Dubhain'),
 ]
 AGE_KEYS = [a[0] for a in AGES]
 ERA = {a[0]: a for a in AGES}
 # The stretches of years the annals are dated across, in the continuous count, and the ages each one holds.
-# They are the old table's round bounds and are not the eras: the Kingdom and the Dubhan ages are dated as one
-# stretch, as they were before the Sixth Age was counted apart, so that no event moves.
+# They are the old table's round bounds and are not the eras: the Ancient Age and the Age of Ailean are dated as one
+# stretch, as they were before the Age of Ailean was counted apart, and so are the Kingdom and the Dubhan ages, as
+# they were before the Age of Dubhan was counted apart, so that no event moves.
 STRETCHES = [
-    (-12999, -3001, ('I',)),
-    (-3000, -40, ('II',)),
-    (-39, 1779, ('III',)),
-    (1780, 1929, ('IV',)),
-    (1930, 2026, ('V', 'VI')),
+    (-12999, -3001, ('I', 'II')),
+    (-3000, -40, ('III',)),
+    (-39, 1779, ('IV',)),
+    (1780, 1929, ('V',)),
+    (1930, 2026, ('VI', 'VII')),
 ]
 MONTHS = ['am Faoilleach', 'an Gearran', 'am Màrt', 'an Giblean', 'an Cèitean', 'an t-Ògmhios', 'an t-Iuchar',
           'an Lùnastal', 'an t-Sultain', 'an Dàmhair', 'an t-Samhain', 'an Dùbhlachd']
@@ -156,7 +161,7 @@ def display(y, m, d, age=None):
 
 
 def display_span(key):
-    """An age's span in its own era: 'VE 1 – 9,926'."""
+    """An age's span in its own era: 'VE 1 – 5,324'."""
     _, first, last, abbr = ERA[key][:4]
     return '%s 1 – %s' % (abbr, year_count(era_year(last, key)))
 

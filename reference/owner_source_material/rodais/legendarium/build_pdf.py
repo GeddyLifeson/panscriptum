@@ -5,7 +5,7 @@ build_pdf.py -- typeset the legendarium as a book: The_Diathir_Legendarium.pdf
 
 Reads LEGENDARIUM.md (run build_book.py first) and lays it out with WeasyPrint (pip install weasyprint
 markdown) as a printed book: half-title, title page, contents with page numbers, the Telling of the Making
-(the prologue, opening like a book), the Six Books (each opening
+(the prologue, opening like a book), the Seven Books (each opening
 on a right-hand page with its epigraph and a drop capital), the Annals, the Appendices and the Gazetteer, with
 running heads and folios. fonts-dir holds EB Garamond (EBGaramond[wght].ttf, EBGaramond-Italic[wght].ttf),
 Cinzel[wght].ttf and UncialAntiqua-Regular.ttf from github.com/google/fonts (OFL); without them the book
@@ -22,9 +22,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 FONTS = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else os.path.join(HERE, 'fonts')
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(HERE), 'The_Diathir_Legendarium.pdf')
 
-PROLOGUE = 'The Prologue'     # the label over the Telling of the Making, which stands before the Six Books
+PROLOGUE = 'The Prologue'     # the label over the Telling of the Making, which stands before the Seven Books
 ORD = {'First': 'The First Book', 'Second': 'The Second Book', 'Third': 'The Third Book',
-       'Fourth': 'The Fourth Book', 'Fifth': 'The Fifth Book', 'Sixth': 'The Sixth Book'}
+       'Fourth': 'The Fourth Book', 'Fifth': 'The Fifth Book', 'Sixth': 'The Sixth Book', 'Seventh': 'The Seventh Book'}
 
 
 def md(text):
@@ -153,7 +153,7 @@ def build():
     rows, part_one = [], False
     for kind, hid, text in toc:
         if kind == 'book' and not part_one:
-            rows.append('<p class="toc-part">Part One · The Six Books</p>')
+            rows.append('<p class="toc-part">Part One · The Seven Books</p>')
             part_one = True
         if kind == 'prologue':
             rows.append('<a class="toc-book toc-prologue" href="#%s">%s</a>' % (hid, html.escape(text)))
@@ -279,7 +279,7 @@ tr{break-inside:avoid}
 <div class="titlepage">
   <p class="t1">Leabhar nan Aoisean</p>
   <h1>The Legendarium<br>of Dia-thìr</h1>
-  <p class="t2">being the Telling of the Making, the Six Books of the island,<br>the Annals of its years, the Appendices, and a Gazetteer of its towns</p>
+  <p class="t2">being the Telling of the Making, the Seven Books of the island,<br>the Annals of its years, the Appendices, and a Gazetteer of its towns</p>
   <div class="rule"></div>
   <p class="t3">as they are kept in the Library at Muileann chaol<br>and told at the hearths of the island</p>
 </div>

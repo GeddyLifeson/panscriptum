@@ -13,11 +13,11 @@ of it as one, and so it is set down here with the rest.
 
 | People | Dia-thìris name | In the chronicles | On the map today |
 |---|---|---|---|
-| The Old Ones | *na Seann-Dhaoine* | Age I; their works end before the Holy Age | no town; thirty towns and thirteen shires bear their names |
+| The Old Ones | *na Seann-Dhaoine* | Ages I and II; their works end before the Holy Age | no town; thirty towns and thirteen shires bear their names |
 | The people of Dia-thìr | *na Dia-thìrich* (sg. *Dia-thìreach*) | every age | 441 of 505 towns; the capital and the sea |
-| The humans | the chronicles' plain name for them | Age IV | none by that name; their descendants are the Tuathaich |
-| The northerners | *na Tuathaich* (sg. *Tuathach*) | Age V | 64 towns in the north and north-west |
-| The coal-blooded | *an fhuil-ghuail*; in the humans' tongue, *coal-touched* | from Age IV | not counted on the map; counted, briefly, in the censuses |
+| The humans | the chronicles' plain name for them | Age V | none by that name; their descendants are the Tuathaich |
+| The northerners | *na Tuathaich* (sg. *Tuathach*) | Age VI | 64 towns in the north and north-west |
+| The coal-blooded | *an fhuil-ghuail*; in the humans' tongue, *coal-touched* | from Age V | not counted on the map; counted, briefly, in the censuses |
 
 #### The Seann-Dhaoine
 
@@ -93,12 +93,15 @@ capital, {{place:burg:19}}, and of the sea. Their name is the island's name with
 people-ending, written *-ich* after the slender vowel of *thìr*; a single person is a *Dia-thìreach*. Writers of the humans' tongue called them
 *Dia-thìrian*, and that word is kept in this history for the adjective.
 
-**Custodians.** The Dia-thìrich enter history as custodians. In the Ancient Age a custom set in across
+**Custodians.** The Dia-thìrich enter history as custodians. In the Age of Ailean a custom set in across
 the hill settlements that no fire should take more of the coal than one cupped hand could hold. The
 Binding of the First Flame ({{date:II-0001}}) made the custodianship of the vein a formal order,
-"older by centuries than any king", and the Small-Burning Law ({{date:II-0027}}) made the
-custom into rule. The first ruler of the lowlands to be called *rìgh* was Goraidh mac Ìomhair at Dùn
-dhearg ({{date:II-0077}}), and he claimed nothing over the vein. For the whole of the Holy Age the
+"older by centuries than any rìgh after Ailean", and the Small-Burning Law ({{date:II-0027}}) made the
+custom into rule. The Binding was sworn by the heirs of Ailean Mòr, gathered to part his kingdom, and the
+parting they swore after it, *Roinn na Rìoghachd* ({{date:II-0001b}}), cut the Dia-thìrich into
+great shares, provinces, counties and holdings under the king's kin, whose feuds, *Aimhreit nan
+Oighrean*, ran until the Peace of the Threshold ({{date:II-0064c}}). The first after Ailean to be
+called *rìgh* was Goraidh mac Ìomhair at Dùn dhearg ({{date:II-0077}}), and he claimed nothing over the vein. For the whole of the Holy Age the
 kings ruled the roads and the granaries, and the Keepers at Dùn ìseal ruled the mountain. The
 Holy Age closes on the last age of even population ({{date:II-0249}}). After it, the chroniclers
 note with some unease, there was never again a time on Dia-thìr when no family held more years of life
@@ -256,6 +259,13 @@ who proposed it ({{date:IV-0251}}). The Residency ordered every Dia-thìreach ch
 be reported; the custodians complied by reporting none ({{date:IV-0252}}). A third case, Lorccan,
 was born in a mining town ({{date:IV-0265}}), and a fourth, Cian, within a year of him
 ({{date:IV-0266}}).
+
+The camps say more than the rolls. They tell that Aisling's father, Donnchadh mac Thormoid, a hewer
+of the deep galleries at Achadh dhomhain, coughed a year with what the Mission's surgeon wrote down as
+the lung-rot, and that the cough left him on the night she was born; that what he carried was no rot
+but the Keeper's gift, *Tìodhlac a' Choimhdich* (Appendix B); and that she was of the first king's
+line. That last the copyists of Muileann chaol found to stand in the lines ({{date:IV-0251a}};
+Appendix A, *The Line of Aisling*). The rest is the camps' own, and is set down here as theirs.
 
 After the Severance the Coal Rite, Òrd Bhrìde, was set in order within the Old Faith, built around the
 leyline and "the unbroken line of the coal-touched" ({{date:V-0028}}). The first census of the
@@ -534,7 +544,7 @@ put *seann* before them.
 **Before letters.** The first marks on Dia-thìr made on purpose are the Seann-Dhaoine's: the notched
 net-weights of Seann Chwen, their unread script, and their tally strokes. The Dia-thìrich's forebears
 kept counts too, but not in letters. Someone began marking the high-water line against a fixed rock
-in the Ancient Age ({{date:I-0126}}), and at Ros dhomhain Seònaid Mhòr cut her marks in pairs, one
+in the Age of Ailean ({{date:I-0126}}), and at Ros dhomhain Seònaid Mhòr cut her marks in pairs, one
 for the high water and one for the low ({{date:I-0169}}). The king-lists of that age were oral, and
 the Small-Burning custom was "nowhere written and everywhere kept".
 
@@ -597,7 +607,7 @@ tongue, and it is not translated into something else here. Names of places, pers
 laws and offices are left in Dia-thìris spelling, with the grave accent and the *sc*, and with their
 lenitions: *Cathair dhearg*, not "Red City"; *fuil-ghuail*, not "coal-blood", except where a gloss is
 wanted. Where a Dia-thìris phrase is translated, the translation follows it in quotation marks, as a help
-to the reader; the Dia-thìris stands first. The six ages have Dia-thìris names and are also given English ones
+to the reader; the Dia-thìris stands first. The seven ages have Dia-thìris names and are also given English ones
 for convenience; the English names are this archive's, not the chroniclers'. The adjective *Dia-thìrian*
 is English, and is used as such.
 
