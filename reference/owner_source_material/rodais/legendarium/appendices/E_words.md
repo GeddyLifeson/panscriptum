@@ -32,6 +32,10 @@ The high custodian of Òrd Bhrìde, the order of Brìde's flame, seated at Seann
 The highest summit of the island. When the gold coal had woken in the sea, the Mason's children carried the coals that were left to the highest point they knew and dropped them from it, and the snowflake coal took fire in the falling; from that day the height has borne their name. The tellers say that Lugh stood on it with Caoran on the first evening and named the winds. See *Seachd Guail, na*.
 > "It was Lugh who stood with Caoran on the highest summit of the island on the first evening and named the winds for him, and so the snowflake coal is his in honour." — the Telling of the Making
 
+**Bliadhnachan Fada, na** *n. pl.* · lit. "the long years"
+The long lives of Ailean Mòr and his children, as the reciters of Clann na Ceiste tell them. The first king lived six hundred and ninety-five years ({{date:I-0098a}}); his youngest son Somhairle five hundred and forty, outliving him by fifty-five years ({{date:I-0104a}}); and after Somhairle the years thinned in each generation, four hundred and eight, two hundred and ninety-six, two hundred and twenty-one, a hundred and seventy-three, and a hundred and forty in Ceallach, until they were gone. The Mason's line keeps these years beside the names, as it keeps the years of all its dead. The power of the coals was Ailean's alone, and the long years were his children's portion of it. Since the Holy Age the long years have belonged to the tellings, and the Library keeps them in its book of tellings, apart from the lines. Said of a very old person the phrase is kindly; said of a claim, it means a tale.
+> "When there was no one left alive who had seen a man of three hundred, there was no one to swear to it, and a thing no one can swear to goes into the tellings." — the First Book
+
 **bonn-rìoghachd** *n. m.* · lit. "realm-coin"
 Currency. Under the humans the coin was the mark, and barter was driven out in three reforms ({{date:IV-0052}}, {{date:IV-0176}}, {{date:IV-0253}}). The Dia-thìris word belongs to the coinage struck when the humans' coin was withdrawn ({{date:V-0023}}). Its first mint-master was called Fearchar Bonn from his work ({{date:V-0024}}). After the re-pegging to dubhan ({{date:VI-0049}}) the realm-coin no longer rested on the vein.
 > "Within a year a new coinage of the Rìoghachd takes its place, minted with ink of coal dust in its seal." — annals, {{year:V-0023}}
@@ -87,7 +91,7 @@ The war between Iain Ciar and Alasdair Bàn, named from its first battle ({{date
 > "The houses divide four to three, and from this battle Cogadh nam Bràithrean, the Brothers' War, takes its name." — annals, {{year:III-0177}}
 
 **Coimhdeach na Fine** *n. m.* · lit. "the keeper of the kin"
-The spirit that watches over the island's people for Caoran. It is neither god nor ghost; it has no feast and no house, and when it shows itself it comes as a figure of smoke. It came to one of the Mason's line in the grove of Doire ghlas, told him the Telling of the Making and gave him the riddle (see *Luchd-ceasnachaidh a' Ghuail Dhìomhair*); generations later it came again to the grove, lit the rainbow coal, and bade Ailean Mòr keep watch over the coals until they were cold ({{date:I-0080a}}). The Keepers of Brìde's flame in the Holy Age share its name in the common tongue and nothing else.
+The spirit that watches over the island's people for Caoran. It is neither god nor ghost; it has no feast and no house, and when it shows itself it comes as a figure of smoke. It came to one of the Mason's line in the grove of Doire ghlas, told him the Telling of the Making and gave him the riddle (see *Luchd-ceasnachaidh a' Ghuail Dhìomhair*); generations later it came again to the grove, lit the rainbow coal, and bade Ailean Mòr keep watch over the coals until they were cold ({{date:I-0080a}}). In the Age of Strangers, the camps say, it stood in a deep gallery at Achadh dhomhain before Donnchadh mac Thormoid, a hewer of Ailean's line, and gave him the gift that woke in his daughter Aisling (see *Tìodhlac a' Choimhdich*). The Keepers of Brìde's flame in the Holy Age share its name in the common tongue and nothing else.
 > "It is neither a god nor a ghost." — the Telling of the Making
 
 **Comann nan Saor-luinge** *n. m.* · lit. "the fellowship of the ship-wrights"
@@ -113,7 +117,7 @@ Caoran, youngest of the Tuath Dè. The making of the world was his coming of age
 > "He is called an Dia Òg, the Young God, and he is young still, as the gods reckon it." — the Telling of the Making
 
 **Dia-shluagh, an** *n. m.* · lit. "the god-host"
-The godfolk, the first people of the earth, whom Caoran woke out of the island itself and gave the island to keep. They found the coloured coal in their first days, did not understand it and let it lie. Their children are *Clann nan Dè*. The doctrine *Cha do thàinig sinn; bha sinn ann* is theirs in its oldest sense.
+The godfolk, the first people of the earth. Caoran did not shape them: he laid his palms on the warm ground in the middle of the island and called, and they grew out of it like grass after spring rain, and he gave them the island to keep (see *feur uaine an eilein*). They found the coloured coal in their first days, did not understand it and let it lie. Their children are *Clann nan Dè*. The doctrine *Cha do thàinig sinn; bha sinn ann* is theirs in its oldest sense.
 > "'This is yours,' the Young God said to them. 'Keep it, and it will keep you.'" — the Telling of the Making
 
 **diosal** *adv.*, *n. m.* · lit. "sunwise"
@@ -150,12 +154,16 @@ A shift. The annals first have need of it for the humans' night-shift order ({{d
 With a town's name, a fair; above all Fèill Muileann òg ({{date:V-0088}}), heir to the harvest fair held there after the War of the Roads ({{date:II-0130}}).
 > "A fair is held each year at Muileann òg, and it becomes the greatest gathering on the island." — annals, {{year:V-0088}}
 
+**feur uaine an eilein** *phr.* · lit. "the green grass of the island"
+The people of the island, in the oldest tellings. The godfolk grew up out of Dia-thìr on the first morning as the green grass comes up after the spring rain, and so the island is the elder of their line: they spring up and are cut down and spring up again, and the island is their root. A line said in full at a naming ends in it (see *sloinneadh*), as the Line of Aisling does ({{date:IV-0251a}}).
+> "So the tellings call the people of the island *feur uaine an eilein*, the green grass of the island." — the Telling of the Making
+
 **Fo mhullach an taighe, chan eil nàmh ann** *phr.* · lit. "under the roof of the house there is no enemy"
 The road-peace, the oldest law on the island that no Keeper made ({{date:II-0038}}). The War of the Roads ended under such a roof ({{date:II-0099}}).
 > "…no feud may be pursued under an inn roof or within a spear's throw of its door." — annals, {{year:II-0038}}
 
 **fuil-ghuail** *n. f.* · lit. "coal-blood"
-The condition of those who bond with the vein and do not age as others do, and the people who have it. For half a century it had no name ({{date:IV-0149}}), until the custodians made this one ({{date:IV-0250}}). The humans rendered it *coal-touched*.
+The condition of those who bond with the vein and do not age as others do, and the people who have it. For half a century it had no name ({{date:IV-0149}}), until the custodians made this one ({{date:IV-0250}}). The humans rendered it *coal-touched*. The custodians' word names only what the thing looked like to them. The camps hold that it is the Keeper's gift woken (see *Tìodhlac a' Choimhdich*), and that the first to have it, Aisling, was of the first king's line; and that much the copyists of Muileann chaol found to stand in the lines ({{date:IV-0251a}}).
 > "It is meant as a physician's word. It outlives that meaning." — annals, {{year:IV-0250}}
 
 #### G
@@ -210,6 +218,12 @@ Any passing of power that goes uncommonly smoothly. From Niall's crowning ({{dat
 The Hollow Man of the Doire uaine hills, which attacked anyone who lit a fire in its sight ({{date:I-0045}}). The rule against open fires after dark came from it ({{date:I-0189}}), and shepherds still named it when they left the high pastures ({{date:III-0146}}).
 > *Na las teine far am faic e thu.* "Light no fire where it can see you." — the First Book
 
+#### N
+
+**nighean an rìgh** *phr.* · lit. "the king's daughter"
+What the camps called Aisling ({{date:IV-0146}}), half in jest and half not, from the whisper that she was of the blood of Ailean Mòr, the first king: a hope drawn from an old tale, in a people whose hill was going out in ships. The copyists of Muileann chaol later found it stand in the lines ({{date:IV-0251a}}). No annal marks its first use.
+> "In the camps they called her *nighean an rìgh*, the king's daughter, half in jest, as *Aisling-aois* is said now of anyone who keeps her youth; and half not." — the Fourth Book
+
 #### O
 
 **ogham** *n. m.* · lit. "Ogma's letters"
@@ -223,7 +237,7 @@ A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhai
 > "No ruler of the lowlands was so called before him." — annals, {{year:II-0077}}
 
 **Rìgh Chlann nan Dè** *n. m.* · lit. "king of the children of the gods"
-The style of the first king of the island's people. After the seven coals had burned together and the seven-night vigil was kept, Caoran came with the Tuath Dè, named Ailean Mòr so, and put into him the power that had been in the coals. Ailean told no one of it, all his life; with it he took the hill of Dùn ìseal and made the first kingdom ({{date:I-0081}}).
+The style of the first king of the island's people. After the seven coals had burned together and the seven-night vigil was kept, Caoran came with the Tuath Dè, named Ailean Mòr so, and put into him the power that had been in the coals. Ailean told no one of it, all his life. It was his alone and went with him, and his children had of it only their long years (see *Bliadhnachan Fada, na*); with it he took the hill of Dùn ìseal and made the first kingdom ({{date:I-0081}}).
 > "When the godfolk woke, Macha looked them over, one by one, and said that there was no king among them yet." — the Telling of the Making
 
 **Rìghrean na Cloiche** *n. pl.* · lit. "the kings of the stone"
@@ -276,6 +290,10 @@ Named in the annals from the Age of Sundering ({{date:III-0013}}). The kingdom r
 A house of custody known by a founder's name, not a hearth. Sliochd Mhuirich was the first ({{date:II-0020}}); four were bound to the Keepers' office ({{date:II-0046}}).
 > "…the first house of custody known by a name and not by a hearth." — annals, {{year:II-0020}}
 
+**sloinneadh** *n. m.* · lit. "surname, pedigree"
+A line of descent said aloud, and above all the naming-line, which Clann na Ceiste give at a child's naming backward from the child to the fire, and on to the godfolk and the island. Of a stranger's child they give it in short form, the long stretches told as a count of generations. The Line of Aisling was given so, by Ealasaid of Clann na Ceiste to the copyist Cailean mac Eachainn ({{date:IV-0251a}}).
+> "…son of Neachdan, who found the fire; son of the godfolk, who grew out of the island like grass; and the island was born of Caoran's fire." — the Fourth Book
+
 **stad-oibre** *n. m.* · lit. "work-halt"
 A strike. The first lasted eleven days ({{date:IV-0165}}); the first held in several regions on one day came in {{year:IV-0301}}.
 > "The strike ends when the food, which the humans' Administration holds, runs out." — annals, {{year:IV-0165}}
@@ -289,6 +307,10 @@ Fearchar Bàrd's most quoted song, made when the Company's steamships began to b
 **Tha e scrìobhte a-nis** *phr.* · lit. "it is written now"
 The Moot's whole minute on the day the census figures were read at Caol mhòr ({{date:V-0217}}). The Fifth Book takes it for its epigraph.
 > "The Moot's minute says only: 'Now written.'" — annals, {{year:V-0217}}
+
+**Tìodhlac a' Choimhdich** *n. m.* · lit. "the Keeper's gift"
+What the Keeper of the Kin gave the kin in the deep galleries in the Age of Strangers. The Keeper will not fight for the kin; this it gave them so that a people with its hill dug out from under it should have something of its own to stand with against the strangers. It was breathed first by Donnchadh mac Thormoid at Achadh dhomhain, in the first winter of that camp ({{date:IV-0144}}); the Mission's surgeon took it for the lung-rot; and it woke in his daughter Aisling ({{date:IV-0146}}). The camps say it lies in the dust of the deep places for every one of the kin who goes down, and that the coal-blood children after her came of it. The name is the camps'. The rolls do not use it.
+> "A gift. It is not for you. You will carry it, and the carrying will not be easy. It will wake in your daughter." — the Fourth Book
 
 **Tìr Thall, an** *n. f.* · lit. "the land beyond"
 The humans' homeland, whose own name no Dia-thìreach scribe set down ({{date:IV-0007}}).

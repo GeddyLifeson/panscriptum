@@ -153,7 +153,7 @@ A reciter of Clann na Ceiste in the Holy Age gave it thus to a scribe of the Hal
 
 "Suibhne was the father of Ailean, whom men call Ailean Mòr, and he is the first king."
 
-There the Line of the Mason ends, as a line of fathers; for after Ailean it is the list of the Stone Kings, and his daughter comes next in that.
+There the Line of the Mason ends, as a line of fathers; for after Ailean it is the list of the Stone Kings, and his daughter comes next in that. The line of his youngest son, Somhairle, the reciters keep apart, and they do not say it at the hearth.
 
 ## V. Of the Vigil in the Grove
 
@@ -176,6 +176,16 @@ Ailean said afterward that he could not tell the colour of that flame, because i
 "Why?"
 
 "So that the spirits, being merged, may know one keeper, and the fire go into no hand but the hand that did not leave it."
+
+"And after me?" said Ailean. "Will my children have it?"
+
+The Keeper was quiet so long that he thought it would not answer. The six fires and the seventh burned between them without a sound.
+
+"It will be yours," it said, "and no one's after you. Your children will have a little of it, and their children less, as a hearthstone keeps the heat a while when the fire is out; and then your line will not have it, and will forget that it ever had, and the island will call you a tale. But hear this, and keep it. When strangers hold this island, the fire will wake again in your line."
+
+"What strangers?"
+
+"That is not given to me to say."
 
 He stayed. He kept the watch seven nights, a night for each coal, in the ring of fires under the oaks, and he ate nothing, and drank from the grove's spring only when the fires were steady. The first nights he was hungry and then he was not. The fires did not burn down as fires do. They burned through the nights at their full height and did not need feeding. On the fifth night he thought he heard voices in them. On the seventh he could not tell whether he slept.
 
@@ -206,7 +216,19 @@ The tellers do not say how. They say that the holders of the hill came out again
 
 So the first kingdom of the godkin was made: a hill and the valleys round it and the households that came in. Ailean threw up the hill's first bank, a single bank and ditch round some forty houses, the oldest defended place of the hill-folk. With him the reciters at the ford open the oldest spoken king-list, *Rìghrean na Cloiche*, the Stone Kings, and some of Clann na Ceiste say the stone of the name is the mason's stone. The list gives no lengths of reign, and it is older than the name Dia-thìrich.
 
-He was king a long time, and the coals' power was in him all of it, and he used it for nothing but the hill. Of what became of it when he died the tellings say nothing. His daughter Gormshuil stands after him in the list. The coloured coal lay under the slab and in the pots of Clann na Ceiste, and the other households of the hills went on burning it in their common fires, dark-flamed, and never knew what it held.
+He was king six and twenty years, and he used the power for nothing but the hill. Then he gave the hill to his daughter Gormshuil, who stands after him in the list, and went back up into the high valleys to Clann na Ceiste, and made his house by the slab at Tobar dhìreach. There he lived a very long time.
+
+He did not grow old as other men do. The tellers say his hair was grey in his third hundred years and white in his fifth, and that his hands were strong to the end. The children he had known grew old and were buried, and their children, and the children of those; and the young of the high valleys, who knew him only as the old man by the slab, heard from their grandmothers that their grandmothers' grandmothers had called him old. All that while he said nothing of what had gone into him in the grove. The power was his alone. It had gone, as the Keeper said, into the one hand that did not leave the fire, and there was no other hand it could go into.
+
+His children had a portion of it all the same, as a child has something of the father's face. Gormshuil lived four lifetimes and more. Somhairle, the youngest of them, born to Ailean when he was past his second hundred, lived longer than any of them.
+
+Ailean Mòr died on {{date:I-0098a}}, in the dead of the winter, at Tobar dhìreach, more than six hundred years after the grove. The Line of the Mason, which keeps the years of its dead beside their names, gives his as six hundred and ninety-five. They found him in the morning sitting by his hearth, and the hearth was out, but the stones of it were warm, and the tellers say they stayed warm through the rest of that winter with no fire laid on them. Before the month was out Mòrag Chruaidh went down to the salt-pans at Baile ghorm, and the first war in either list began. The reciters of the hill note it, and make nothing of it.
+
+Somhairle outlived his father by fifty-five years, the last of Ailean's children ({{date:I-0104a}}), and the line gives him five hundred and forty. After him the long years thinned, as the Keeper had said they would. His son lived four hundred and eight years, and that son's son two hundred and ninety-six, and the next two hundred and twenty-one, and the next a hundred and seventy-three, each shorter than the one before; Ceallach, the last of them in whom the long years showed, lived a hundred and forty. The sixth generation after Somhairle lived and died as other people do, and no one could tell them from their neighbours.
+
+That fading is why the island came to hold the whole of it a tale. When there was no one left alive who had seen a man of three hundred, there was no one to swear to it, and a thing no one can swear to goes into the tellings. By the Holy Age no one outside Clann na Ceiste believed that any king had lived six hundred years. The scribes of the Hall wrote the long years down as the reciters' tale, and set Ailean Mòr among the tellings beside the Hollow Man, and so he has stood since in every hall but the reciters' own. Clann na Ceiste kept the younger line all the same, by mouth, Somhairle's children and their children after them, as they keep everything; and what came of that keeping is told in the Fourth Book.
+
+The coloured coal lay under the slab and in the pots of Clann na Ceiste, and the other households of the hills went on burning it in their common fires, dark-flamed, and never knew what it held.
 
 ## VII. Of the Waters and the Woods
 
@@ -372,6 +394,8 @@ In those same centuries the kings begin; and so the last of the Old Ones and the
 The list of the Stone Kings opens with **Ailean Mòr** and his bank on the hill of Dùn ìseal, and of him enough has been told. A second list was kept in the west, and it opens with **Beathag Ruadh**, who held the hill where Cathair dhearg now stands, and that is the Red Hill. For long the two lists say nothing of each other.
 
 **Gormshuil nic Ailein**, second of the Stone Kings, is the first woman in any list on Dia-thìr, and her telling gives her one deed: in a hard winter she moved the herds of Dùn ìseal down to the warm springs and lost none. **Dòmhnall Clachach**, third, set marker stones along the valley to part the grazing, and some stand yet, and are still quarrelled over. After him came the first named storm, whose name is lost and only the fact of it kept. It broke the shell causeway of Seann Warr in three places and the Seann-Dhaoine never mended it. Then came **Fearchar Bacach**, the lame king, carried to the gatherings in a chair of woven birch, the first ruler on Dia-thìr remembered for a hurt. On the Red Hill **Uisdean Mòr** dug a ditch across the neck of the hill and set a palisade on it, which burned twice and was twice rebuilt; and **Seonag nic Uisdein**, who held the hill after her father, counted her people by pebbles in a bag, one to a household, and knew by the weight when a household had gone.
+
+The list gives no lengths of reign, and its names stand far apart: eighty years between Gormshuil's deed and Dòmhnall Clachach's, and more than four hundred between Fearchar Bacach and Mòrag Chruaidh. The reciters of the hill say that the gaps are the long years; that the kings after Gormshuil were of her blood and had the long years in their measure, less in each, until by Raghnall Ceannfhionn's day a king of Dùn ìseal lived no longer than his own herdsmen. The Library, which does not hold with the long years, says that the list has lost names, as later lists have. The list itself says nothing either way, and goes on.
 
 The first war in either list was a raid for salt. **Mòrag Chruaidh**, fifth of the Stone Kings, went down to the pans at Baile ghorm, shallow clay basins behind a shingle bar and the island's first salt-works, and carried off the salt. Seven died on the hill side, and the telling keeps the number. **Iain Dubh**, sixth, went down to do it again and was killed on the shingle. The list says only that he was brought home.
 

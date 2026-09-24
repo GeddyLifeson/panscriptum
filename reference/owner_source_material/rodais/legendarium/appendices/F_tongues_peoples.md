@@ -257,6 +257,13 @@ be reported; the custodians complied by reporting none ({{date:IV-0252}}). A thi
 was born in a mining town ({{date:IV-0265}}), and a fourth, Cian, within a year of him
 ({{date:IV-0266}}).
 
+The camps say more than the rolls. They tell that Aisling's father, Donnchadh mac Thormoid, a hewer
+of the deep galleries at Achadh dhomhain, coughed a year with what the Mission's surgeon wrote down as
+the lung-rot, and that the cough left him on the night she was born; that what he carried was no rot
+but the Keeper's gift, *Tìodhlac a' Choimhdich* (Appendix B); and that she was of the first king's
+line. That last the copyists of Muileann chaol found to stand in the lines ({{date:IV-0251a}};
+Appendix A, *The Line of Aisling*). The rest is the camps' own, and is set down here as theirs.
+
 After the Severance the Coal Rite, Òrd Bhrìde, was set in order within the Old Faith, built around the
 leyline and "the unbroken line of the coal-touched" ({{date:V-0028}}). The first census of the
 kingdom noted, without further comment, exactly how few such people exist ({{date:V-0034}}), and

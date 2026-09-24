@@ -29,13 +29,15 @@ So the Young God went out from the hall into the empty dark, and he made the wor
 
 He breathed on the coal in his hand until it woke, and he cast it out, and it broke into sparks, and the sparks flew wide and did not fall. Those are the stars. The greatest of them he fanned until it was all fire through and through, and it is the sun. One he let burn down to its grey ash, cool and pale, and hung it where the sun could find it at night; that is the moon, and the pocks in its face are where the fire went out. Then out of the black coal, the heaviest and most patient of all, he made the earth, and laid it down in the middle of his sparks. He pressed the hills up with his thumbs. He drew the long valleys with one finger. The seas he poured out of the dark between the stars, and the rivers he let run down from the high places to find them. He set the winds over all. He made the grass and the trees and the beasts after their kinds, and the fish in the waters and the birds in the air, and he was glad of all of it; and it was all made of coal, though nothing in it looked like coal any more.
 
-Last of all, when the wide earth was done, he made the island.
+Last of all, when the wide earth was done, he made the island; and the island he did not make as he had made the rest. It was born.
 
-He made it small, and he made it with care, as a craftsman makes the last and dearest piece of a work: a close thing of hills and moor, with mountains at its heart and a grey sea round it on every side. He gave it rivers, and a lake of fresh water, and soft rain, and a mild sky. Then he walked it end to end, and his kin came down to walk it with him and see what the youngest had made; for the gods were on the island before any people were. When they had looked their fill they went up again, and Caoran was alone on his island in the grey before the first morning.
+He went out over the grey sea where no land was, and he took from the heart of his fire the last coal of all, the one he had been saving, and he held it up over the water and let it burn. Drops of fire fell from it, one by one, into the sea. Where each drop fell the water hissed and smoked and the drop grew hard and black, and the next fell on the one before, and the next on that, until a rock stood up out of the sea, and then a hill, and then the mountains that are the heart of the island; and when the coal in his hand was spent there lay Dia-thìr under him, still steaming in the dawn wind, with the sea round it on every side. That is why the island's coal is not like the coal of the wide earth. The wide earth was made out of coal. Dia-thìr was born of the fire in it.
 
-Then he made the godfolk, an Dia-shluagh, the first people of the earth.
+He loved it as a man loves the youngest child. He gave it rivers, and a lake of fresh water, and soft rain, and a mild sky. He gave a spirit to every spring on it and to every hill, to the old trees and the standing stones and the pools under the falls, so that no part of the island should be without someone to keep it; and those are the old spirits of the land, that the hearths honour still. Then he walked it end to end, and his kin came down to walk it with him and see what the youngest had begotten; for the gods were on the island before any people were. When they had looked their fill they went up again, and Caoran was alone on his island in the grey before the first morning.
 
-He did not bring them from anywhere. He knelt on the heather in the middle of the island and put his hands on the ground and called, and they woke out of the island itself, as the dew wakes on the grass; and when the sun came up they were sitting on the hillsides, blinking, with the heather in their hair. They were a tall people and a quiet one, and their eyes were made to see what he would give them. This is the oldest meaning of the saying of the island, *bha sinn ann*, we were here. The kin did not come to Dia-thìr. They were there on the first morning, because the island was where they were made.
+Then the godfolk came, an Dia-shluagh, the first people of the earth.
+
+He did not bring them from anywhere, and he did not shape them with his hands. He knelt on the heather in the middle of the island and laid his palms on the warm ground and called, and they grew. They came up out of the island as the green grass comes up after the spring rain, blade by blade, too many to count and each its own; and when the sun rose they were standing on the hillsides, blinking, with the soil still on their feet and the heather in their hair. So the tellings call the people of the island *feur uaine an eilein*, the green grass of the island: they spring up and are cut down and spring up again, and the island is their root. They were a tall people and a quiet one, and their eyes were made to see what he would give them. This is the oldest meaning of the saying of the island, *bha sinn ann*, we were here. The kin did not come to Dia-thìr. They grew out of it on the first morning, and the island is the elder of their line.
 
 "This is yours," the Young God said to them. "Keep it, and it will keep you."
 
@@ -293,7 +295,7 @@ A reciter of Clann na Ceiste in the Holy Age gave it thus to a scribe of the Hal
 
 "Suibhne was the father of Ailean, whom men call Ailean Mòr, and he is the first king."
 
-There the Line of the Mason ends, as a line of fathers; for after Ailean it is the list of the Stone Kings, and his daughter comes next in that.
+There the Line of the Mason ends, as a line of fathers; for after Ailean it is the list of the Stone Kings, and his daughter comes next in that. The line of his youngest son, Somhairle, the reciters keep apart, and they do not say it at the hearth.
 
 ## V. Of the Vigil in the Grove
 
@@ -316,6 +318,16 @@ Ailean said afterward that he could not tell the colour of that flame, because i
 "Why?"
 
 "So that the spirits, being merged, may know one keeper, and the fire go into no hand but the hand that did not leave it."
+
+"And after me?" said Ailean. "Will my children have it?"
+
+The Keeper was quiet so long that he thought it would not answer. The six fires and the seventh burned between them without a sound.
+
+"It will be yours," it said, "and no one's after you. Your children will have a little of it, and their children less, as a hearthstone keeps the heat a while when the fire is out; and then your line will not have it, and will forget that it ever had, and the island will call you a tale. But hear this, and keep it. When strangers hold this island, the fire will wake again in your line."
+
+"What strangers?"
+
+"That is not given to me to say."
 
 He stayed. He kept the watch seven nights, a night for each coal, in the ring of fires under the oaks, and he ate nothing, and drank from the grove's spring only when the fires were steady. The first nights he was hungry and then he was not. The fires did not burn down as fires do. They burned through the nights at their full height and did not need feeding. On the fifth night he thought he heard voices in them. On the seventh he could not tell whether he slept.
 
@@ -346,7 +358,19 @@ The tellers do not say how. They say that the holders of the hill came out again
 
 So the first kingdom of the godkin was made: a hill and the valleys round it and the households that came in. Ailean threw up the hill's first bank, a single bank and ditch round some forty houses, the oldest defended place of the hill-folk. With him the reciters at the ford open the oldest spoken king-list, *Rìghrean na Cloiche*, the Stone Kings, and some of Clann na Ceiste say the stone of the name is the mason's stone. The list gives no lengths of reign, and it is older than the name Dia-thìrich.
 
-He was king a long time, and the coals' power was in him all of it, and he used it for nothing but the hill. Of what became of it when he died the tellings say nothing. His daughter Gormshuil stands after him in the list. The coloured coal lay under the slab and in the pots of Clann na Ceiste, and the other households of the hills went on burning it in their common fires, dark-flamed, and never knew what it held.
+He was king six and twenty years, and he used the power for nothing but the hill. Then he gave the hill to his daughter Gormshuil, who stands after him in the list, and went back up into the high valleys to Clann na Ceiste, and made his house by the slab at Tobar dhìreach. There he lived a very long time.
+
+He did not grow old as other men do. The tellers say his hair was grey in his third hundred years and white in his fifth, and that his hands were strong to the end. The children he had known grew old and were buried, and their children, and the children of those; and the young of the high valleys, who knew him only as the old man by the slab, heard from their grandmothers that their grandmothers' grandmothers had called him old. All that while he said nothing of what had gone into him in the grove. The power was his alone. It had gone, as the Keeper said, into the one hand that did not leave the fire, and there was no other hand it could go into.
+
+His children had a portion of it all the same, as a child has something of the father's face. Gormshuil lived four lifetimes and more. Somhairle, the youngest of them, born to Ailean when he was past his second hundred, lived longer than any of them.
+
+Ailean Mòr died on 3 am Faoilleach, VE 5,995, in the dead of the winter, at Tobar dhìreach, more than six hundred years after the grove. The Line of the Mason, which keeps the years of its dead beside their names, gives his as six hundred and ninety-five. They found him in the morning sitting by his hearth, and the hearth was out, but the stones of it were warm, and the tellers say they stayed warm through the rest of that winter with no fire laid on them. Before the month was out Mòrag Chruaidh went down to the salt-pans at Baile ghorm, and the first war in either list began. The reciters of the hill note it, and make nothing of it.
+
+Somhairle outlived his father by fifty-five years, the last of Ailean's children (7 an t-Iuchar, VE 6,050), and the line gives him five hundred and forty. After him the long years thinned, as the Keeper had said they would. His son lived four hundred and eight years, and that son's son two hundred and ninety-six, and the next two hundred and twenty-one, and the next a hundred and seventy-three, each shorter than the one before; Ceallach, the last of them in whom the long years showed, lived a hundred and forty. The sixth generation after Somhairle lived and died as other people do, and no one could tell them from their neighbours.
+
+That fading is why the island came to hold the whole of it a tale. When there was no one left alive who had seen a man of three hundred, there was no one to swear to it, and a thing no one can swear to goes into the tellings. By the Holy Age no one outside Clann na Ceiste believed that any king had lived six hundred years. The scribes of the Hall wrote the long years down as the reciters' tale, and set Ailean Mòr among the tellings beside the Hollow Man, and so he has stood since in every hall but the reciters' own. Clann na Ceiste kept the younger line all the same, by mouth, Somhairle's children and their children after them, as they keep everything; and what came of that keeping is told in the Fourth Book.
+
+The coloured coal lay under the slab and in the pots of Clann na Ceiste, and the other households of the hills went on burning it in their common fires, dark-flamed, and never knew what it held.
 
 ## VII. Of the Waters and the Woods
 
@@ -512,6 +536,8 @@ In those same centuries the kings begin; and so the last of the Old Ones and the
 The list of the Stone Kings opens with **Ailean Mòr** and his bank on the hill of Dùn ìseal, and of him enough has been told. A second list was kept in the west, and it opens with **Beathag Ruadh**, who held the hill where Cathair dhearg now stands, and that is the Red Hill. For long the two lists say nothing of each other.
 
 **Gormshuil nic Ailein**, second of the Stone Kings, is the first woman in any list on Dia-thìr, and her telling gives her one deed: in a hard winter she moved the herds of Dùn ìseal down to the warm springs and lost none. **Dòmhnall Clachach**, third, set marker stones along the valley to part the grazing, and some stand yet, and are still quarrelled over. After him came the first named storm, whose name is lost and only the fact of it kept. It broke the shell causeway of Seann Warr in three places and the Seann-Dhaoine never mended it. Then came **Fearchar Bacach**, the lame king, carried to the gatherings in a chair of woven birch, the first ruler on Dia-thìr remembered for a hurt. On the Red Hill **Uisdean Mòr** dug a ditch across the neck of the hill and set a palisade on it, which burned twice and was twice rebuilt; and **Seonag nic Uisdein**, who held the hill after her father, counted her people by pebbles in a bag, one to a household, and knew by the weight when a household had gone.
+
+The list gives no lengths of reign, and its names stand far apart: eighty years between Gormshuil's deed and Dòmhnall Clachach's, and more than four hundred between Fearchar Bacach and Mòrag Chruaidh. The reciters of the hill say that the gaps are the long years; that the kings after Gormshuil were of her blood and had the long years in their measure, less in each, until by Raghnall Ceannfhionn's day a king of Dùn ìseal lived no longer than his own herdsmen. The Library, which does not hold with the long years, says that the list has lost names, as later lists have. The list itself says nothing either way, and goes on.
 
 The first war in either list was a raid for salt. **Mòrag Chruaidh**, fifth of the Stone Kings, went down to the pans at Baile ghorm, shallow clay basins behind a shingle bar and the island's first salt-works, and carried off the salt. Seven died on the hill side, and the telling keeps the number. **Iain Dubh**, sixth, went down to do it again and was killed on the shingle. The list says only that he was brought home.
 
@@ -1425,11 +1451,45 @@ The fourth beacon was lit at Muileann bheag in AE 63. It was the first to burn c
 
 In AE 67 the Company agent Martha Gale offered the silver guild a partnership, on terms its own ledger calls generous. Ùna nic Choinnich was very old by then. She had the offer read aloud twice in the guild hall, slowly, and then put it to a show of hands, and the hands refused it. That same year a new camp was opened at Achadh dhomhain for the deep galleries. Its houses were built of spoil.
 
-## VII. Of the Child in the Camps, and the Green Death
+## VII. Of the Smoke in the Gallery, the Child in the Camps, and the Green Death
 
-When the women of the camps tell of the Green Death, they begin with a child, for she was born in the same years and the same dust, and the one tale has grown into the other.
+When the women of the camps tell of the Green Death, they begin with a child, for she was born in the same years and the same dust, and the one tale has grown into the other. And when they tell of the child, they begin with her father, and with what he met in the dark.
 
-On 7 am Màrt, AE 69, a girl was born in the mining camps. Her whole life long she was steeped in more raw coal than any Dia-thìreach in living memory, and she did not age as the people around her aged. Her name was Aisling, and she was the first of the generation that would be called immortal. Of her the rolls give three things, her birth, her name and her condition, and the tellers are content to leave her there.
+His name was Donnchadh mac Thormoid, and he was a hewer. His grandfather Ruairidh had stood behind Beathag Dhubh at Doire mhòr on the day she sent the Company's agent back down the hill. His father Tormod had carried water up to Doire mhòr for two summers after the Company took the stream, and then gone down with the rest to the huts at Àth ìseal; and there Donnchadh was born, and broke coal at the pit-mouth before he could read, and went below at twelve. When the Company opened its camp at Achadh dhomhain for the deep galleries under the hill (AE 68), he went with the first crews. The pay was better below. It always is where the dying is.
+
+In the first winter of that camp he was working a face at the far end of the deepest gallery, alone, with a coal-lamp hung on a nail behind him. The Company had sunk a shaft from the hillside to draw the air, and a draught came along the gallery from it all day long, cold and steady, so that the flame of his lamp lay over on its side and the dust of his cutting went away from him in a thin drift toward the dark.
+
+He stopped to spit, and turned, and saw that the drift was parting.
+
+Something was standing in the gallery between him and the shaft. It was the height of a tall man, and it was grey, and it was made of smoke, such smoke as a peat fire gives in a shut room. The draught went past it on either side. His lamp flame streamed and the dust streamed, and the smoke that stood in the middle of them did not stir by a thread.
+
+Every child of the hills has heard of the smoke in the grove. Donnchadh had heard it on his grandmother's knee, with the Hollow Man and the white stag, and had put it away with them when he went below. He did not run. There was nowhere to run but past it, and he said afterward that he had not wanted to.
+
+"You are Tormod's son," it said. Its voice was low and very clear, and the draught did not carry it off.
+
+"I am."
+
+"And Somhairle's, and Ailean's." It seemed to him to be looking about the gallery, at the black walls and the props and the cut face, as a guest looks round a house where things have gone badly. "They are taking the hill."
+
+"They are," said Donnchadh.
+
+"I will not fight for the kin. I never have; that is not my charge. But I was set to keep the kin, and a kin with its hill dug out from under it is not kept." It came nearer, and he smelt it: a hearth in the morning, when the fire has been banked all night. "I made a promise once, in the grove, to the one you come from. Breathe."
+
+He breathed, because it had told him to. The smoke went into him with the dust of the gallery, and it was warm, and it went down into his chest and stayed there, like a coal carried home under a cloak.
+
+"What is it?" he said, when he could speak.
+
+"A gift. It is not for you. You will carry it, and the carrying will not be easy. It will wake in your daughter." The draught had begun to move through it, and it was thinning. "It is in the dust of the deep places now, for every one of the kin who goes down; and where it wakes, it wakes. Tell no one of it but the one who will bear the child."
+
+Then the draught went through the place where it had stood, and his lamp flame lay over again on its side, and there was nothing in the gallery but the dust.
+
+He coughed from that day. It was a deep cough, and he brought up black with it, and he grew thin through the spring, and the men of his crew moved their bread away from him at the break. The Mission's surgeon listened at his chest and wrote him down with the miners' lung, the dust-rot the humans knew from the pits of their own country, which the crews called the lung-rot; and he gave him a year. The coal of Dia-thìr rots the lungs of the humans as their own coal does. It does not rot the lungs of the kin in that way, and what Donnchadh carried was no rot at all. But it looked like one to a physician who could not see the colour in the coal, and nobody else was asked.
+
+On 7 am Màrt, AE 69, his daughter was born in a house of spoil at Achadh dhomhain. That night Donnchadh's cough stopped, and it never came back. He told his wife then what he had met in the gallery, and long afterward she told the women of the camp; and that is all the witness there is, and the camps have never asked for more.
+
+The child's whole life long she was steeped in more raw coal than any Dia-thìreach in living memory, and she did not age as the people around her aged. Her name was Aisling, and she was the first of the generation that would be called immortal. Of her the rolls give three things, her birth, her name and her condition. The camps gave her more.
+
+It was the women who laid out the camp's dead who first said it, over the washing, as they said most things: that the child was of the old king's blood. They meant Ailean Mòr, whom the gods crowned in the grove, and his children who lived six hundred years. Not one of them believed a word of the six hundred years. Ailean Mòr was a tale for the dark of the year, the scribes of the Hall had set him among the tellings long ago, and nobody in the camps had ever heard the Line of the Mason said. But the years went over the child and left her as they found her, and the whisper grew with her. In the camps they called her *nighean an rìgh*, the king's daughter, half in jest, as *Aisling-aois* is said now of anyone who keeps her youth; and half not. A people whose hill is going out in ships will take its hope where it finds it, and the camps found theirs in an old tale and a girl of the spoil-houses who did not grow old. Nobody could prove a word of it. That came later, and is told in its place.
 
 The next year the Company set up a great steelyard on the quay at Ros dhomhain, and from then on the island's yield was known by the ton, and the custodians' old count, kept in seasons of labour, was no longer entered. What was happening to the child had no name in any tongue on the island, and decades passed before anyone tried to find one. At Cill ghlas the custodians of Òrd Bhrìde kept the old rites of the flame and the stone at the mouth of the oldest cutting, while the pits deepened all around them. It was the last shrine in the district the crews still climbed to on the old feast days, at Samhain and Imbolc, Bealltainn and Lùnastal. Remember it.
 
@@ -1507,7 +1567,7 @@ Haskins was recalled in AE 114 after a quarrel with the Company over steamship b
 
 In AE 116 came the night-shift order, and from then on the mountain was given no season of rest. It was felt first at Cnoc chaol, in the newest galleries, where the crews worked by coal-lamp in two shifts. The custodians' roll records that the hill was given no silence at all, and leaves the rest of the page empty. The crews at Cnoc chaol refused the night shift and were replaced within a week by crews brought from the coast. The Lamp-Watch paid the strikers' families for a season, and then its money ran out. The Mission's minister at Ros dhomhain, Matthew Dunne, preached from the chapel pulpit that the Dia-thìrich were right, and that even the ground must rest. The Company complained, and Dunne was called home to an Tìr Thall, and the Lamp-Watch copied his sermon and read it aloud in the camps.
 
-A wasting sickness of the lungs spread among the night crews of Cnoc chaol and Baile thais. Unlike the Green Death it killed slowly. The Company paid the widows a pension for a year, and then stopped. In AE 119 Iain Maor wrote to the Company that the night shift was killing his crews faster than it paid for them. The letter survives because it was filed with his dismissal, which was reversed a month later for want of anyone else to do the work.
+A wasting sickness of the lungs spread among the night crews of Cnoc chaol and Baile thais. Unlike the Green Death it killed slowly. It killed the humans among the crews brought in from the coast, as the dust of their own country's pits had killed their fathers. The Dia-thìreach hewers coughed as hard, and the Mission's physicians wrote the same word against them; but the custodians' roll, which knew the crews by name, notes that of the Dia-thìrich who coughed few died of it, and the old women of the camps called it Donnchadh's cough and would say no more. The Company paid the widows a pension for a year, and then stopped. In AE 119 Iain Maor wrote to the Company that the night shift was killing his crews faster than it paid for them. The letter survives because it was filed with his dismissal, which was reversed a month later for want of anyone else to do the work.
 
 ## XI. Of the Second Child, and the Word that was Coined
 
@@ -1539,7 +1599,69 @@ That year the dockers of Ros dhomhain, Dia-thìrich and human alike, refused for
 
 In AE 134 a third child of the condition was born, Lorccan, the first of them born in a mining town outside the camps, and the custodians knew from it that the thing had outgrown any one place. In AE 135 a fourth was born, Cian, within a year of the third: the nearest the generation of the coal-blood ever came to being born together.
 
-## XII. Of the Rending of Cill ghlas, and the First Blood
+## XII. Of the Copyist and the Line of Aisling
+
+Cailean mac Eachainn was a copyist in the cellar at Muileann chaol, one of the hands of the three households that were turning the rolls of the east into copies the Residency could not reach; and in the autumn after the word was agreed (21 an Dàmhair, AE 126) he was copying the roll of the camp at Àth ìseal, whose custodian had kept the new camp at Achadh dhomhain on the same pages from its first winter.
+
+It was dull work, and he was glad of it. A camp's roll is births and burials, fines and fevers and shifts lost, set down in a custodian's hand that grows worse in the winters; and among them the marriages, which the custodians write as the ford has written them since the Ancient Age, each side with its line seven names back. He had copied a hundred such lines that month and never read one.
+
+This one he read. The name at the head of it was Donnchadh mac Thormoid, hewer; and further down the same roll, in the same hand, a birth was written with a mark beside it that he had seen before, on the other copies, against one name only. *Aisling.* Every copyist in the cellar knew what the camps said of her. Cailean had said it himself, as a boy, as boys said it, with a grin.
+
+He sat with the seven names a long while by the lamp. The last of them was a name nobody gives a child now. Then he copied them onto a slip, and put it in his coat, and in the morning he walked out to Tobar dhìreach.
+
+Clann na Ceiste were few by then, and fewer every winter, and the one of them who still said the lines at the hearth on the night of the lightning was an old woman named Ealasaid, in a house not far from the slab. She let him in, because it was raining. When he told her what he wanted she looked at him as the reciters look at a stranger, which is to say not unkindly and not at all as if she meant to help; but she let him read the seven names aloud.
+
+She sat with her eyes shut while he read. At the seventh she opened them.
+
+"Where did you get that?"
+
+He told her.
+
+"That is Somhairle's line," she said. "The youngest son's. We have kept it since Somhairle, and no one of it has come asking in four hundred years. They went down into the valleys and forgot us." She was quiet a while. "Whose is the child?"
+
+"Donnchadh's. Her name is Aisling."
+
+Ealasaid said nothing for so long that he thought she had not heard. Then she said, not to him, and as though she were reading it off the wall: "When strangers hold this island, the fire will wake again in your line." She looked at him. "That is the end of the vigil, as we have it. I have said it every winter of my life, and I never thought to see what it meant."
+
+She stood up, for the lines are said standing, and she gave it him as it is given at a naming, from the child back to the fire. The Mason's line has kept the years of its dead beside their names since the mason, and keeps them still, but it says them to no stranger except where they are strange; and so in the short form only the long lives are given their years. Cailean wrote it down as she said it:
+
+> "Aisling, daughter of Donnchadh, who hewed in the deep galleries of Achadh dhomhain;
+> son of Tormod, who carried water up to Doire mhòr two summers, and then went down to Àth ìseal;
+> son of Ruairidh of Doire mhòr, who stood behind Beathag Dhubh when she sent the Company down the hill;
+> and seventy generations whose names we keep;
+> son of Fionnlagh, who stood on the quay at Seann Skell when the ships went west, and did not go;
+> and a hundred and nineteen generations whose names we keep;
+> son of Gille-Brìde, who carried a coal of the First Flame home to the hills;
+> and a hundred and thirty-nine generations whose names we keep;
+> son of Beathan, who sat by the slab through the dark half of the year;
+> and sixteen generations whose names we keep;
+> son of Ceallach, the last of us whose years were long; and all the days of Ceallach were a hundred and forty years, and he died;
+> and four generations whose names we keep, each shorter-lived than the one before, and their days were a hundred and seventy-three years, and two hundred and twenty-one, and two hundred and ninety-six, and four hundred and eight;
+> son of Somhairle, the youngest child of Ailean, who outlived his father and all his father's children; and all the days of Somhairle were five hundred and forty years, and he died;
+> son of Ailean Mòr, the first king, whom the gods crowned in the grove; and all the days of Ailean Mòr were six hundred and ninety-five years, and he died;
+> son of Suibhne, and fourteen fathers whose names we keep;
+> son of Seathan, who snapped his fingers, and the fire was in his hand; and ten fathers;
+> son of Colla, in whose days they called us the Inquisitors of the Mystic Coal; and fifteen fathers;
+> son of Eòghann, who tasted the river; and twenty-one fathers;
+> son of Cormac of the Misstrike, who bled in the grove; and thirty fathers;
+> son of Brian, who buried the five like the dead; and twenty-eight fathers;
+> son of Fearghas, who climbed to the top of the island; and thirty-one fathers;
+> son of Aodh, who threw the seven into the sea; and eighteen fathers;
+> son of Diarmad, who spoke with the Keeper in the grove; and thirty-four fathers;
+> son of Conall, who laid the slab over the burnt vein;
+> son of Neachdan, who found the fire;
+> son of the godfolk, who grew out of the island like grass;
+> and the island was born of Caoran's fire."
+
+When it was done she sat down again, and the rain went on against the shutter.
+
+"They'll say it's a tale," said Cailean.
+
+"The six hundred years, they will," said Ealasaid. "Let them. I never told you a man lived six hundred years. I told you whose son he was."
+
+Cailean walked back to Muileann chaol, and wrote the line in the margin of the Àth ìseal roll, small, beside the birth; and it stands there still. So the whisper of the camps was found true, as far as a line of names can make a thing true: the girl of the spoil-houses was a daughter of the first king's line. What else it proved the copyists did not say, and the camps did not ask them to.
+
+## XIII. Of the Rending of Cill ghlas, and the First Blood
 
 In AE 136 the Company began to drive galleries under the hills around Cill ghlas with blasting-powder shipped from an Tìr Thall. The custodians of the shrine asked that no charge be set within sight of the old cutting. The Company's engineer marked their request on his plan, and set the charges below it.
 
@@ -1569,7 +1691,7 @@ At Seann Skell, where Murchadh Seabhag had preached the hawk's hunger in AE 22, 
 
 The grey fever came back in AE 140 and settled in the north-west, and there it killed humans as readily as Dia-thìrich. In the Mission's crowded hospital at Cathair gheal the two peoples lay in the same wards for the first time.
 
-## XIII. Of the Houses on the Roads, and the Day the Pits Stopped
+## XIV. Of the Houses on the Roads, and the Day the Pits Stopped
 
 The carters of the old coal roads tell these years as a tale of inns. From AE 141 the roadside houses of the mining routes began, unbidden, to serve as waystations for a nameless militia in a war not yet declared. The singing house, An Taigh-òsta Grianach, walled its yard and set a watch on its gate. Am Buabhall Fortanach on the south-western road barred its gates at dusk and kept a man on its roof, and its keeper Tormod Buabhall sent a list of travellers up the road every week, and never told the constables whose hands it reached. At An Taigh-seinnse Reòta on the northern road the stables were rebuilt with a loft for sleeping men, and the carters noticed that the loft was never empty and never held the same men twice. An Sligeanach Fad' às, near the silver country, became the post-house through which the Lamp-Watch sent word to Muileann chiar and the silver guild paid its rent. And An Taigh-seinnse Mòr, the carters' house that Seònaid Bhàn had opened in the first years of the extraction, was kept now by her great-grandson Aonghas. It was the busiest of the fortified houses, the one the constables searched most often and found least in.
 
@@ -1589,7 +1711,7 @@ In AE 146 the Administration began to issue its orders with no Dia-thìreach cou
 
 In AE 147 the Administration claimed the right to take any Dia-thìreach dwelling it judged needful for the widening of the workings. Of all the wrongs of the age, the edict of seizure is the one named most often in every telling of what came after. The first houses taken under it were those of Doire mhòr, for a new shaft beneath the hill, and the last households there were carried out by constables. The village that had refused the first contract was the first to be emptied by the last. At Baile dhomhain, the first camp laid out on paper, two streets were pulled down for a spoil-tip.
 
-## XIV. Of the Breaking of the Staff
+## XV. Of the Breaking of the Staff
 
 In AE 148 the order came to Mòrag nic Iain Maor to clear the houses of her district.
 
@@ -1601,7 +1723,7 @@ Three other overseers resigned that month, and the Company put humans in their p
 
 That summer the silver guild of Muileann chiar, still holding its seam under the compact of a century before, began to buy rifles from the raiders of the eastern waters, where no gunboat had patrolled for years, and paid them in bar silver by weight. Its ledger enters the rifles as refining tools. Custodians, crew-leaders of the Lamp-Watch and the dissenting priests of Macha met in the sacred forest at Cnoc bheag and made themselves one council for the mining country, and chose Eilidh nic Raghnaill to speak for it. No human hand wrote down that meeting. Strake learned of it all the same, and ordered the arrest of Eilidh and the forest council; and the constables went to Baile thais, and found her house empty and the town silent.
 
-## XV. Of the War of the Hills
+## XVI. Of the War of the Hills
 
 On 20 an Gearran, AE 149, the grievance of the Dia-thìrich, joined at last under one council across the mining country, became war.
 
@@ -1639,7 +1761,7 @@ The second raid burned the tithe-house at Ceann àrsaidh, where the portion owed
 
 On 25 an Lùnastal, AE 150, Company guards and constables sallying from the harbour to win back the eastern road were driven back at Cnoc ghorm, in the hills beyond the capital, and it was the Administration's last attempt of the war to reach the mining country. The next day the Dia-thìrich of the Ros dhomhain harbour quarter opened the lower gates to the council's companies, and Strake held only the Residency and the Company's quays. On 21 an t-Sultain, AE 150, Strake took his officials, the Mission's clergy and the Company's agents away by water to Ros bheag. The council's companies came into the Residency the next morning and found it stripped of everything but its furniture and the letter-books, from which so much of this history is drawn, and which the humans had not troubled to take.
 
-## XVI. Of the Truce of Àth àrsaidh, and the Closing of the Crossing
+## XVII. Of the Truce of Àth àrsaidh, and the Closing of the Crossing
 
 Ros bheag, the western port the humans had used since the early years, became the last seat of the Administration, and the human families of the west and south, a few thousand in all, gathered behind its walls. With the roads cut and no ships from the west the town went short within months, and Strake ordered the Company's stores opened to the human families and the Dia-thìreach townsfolk alike. It is the one deed of his that the Dia-thìreach rolls give him credit for.
 
@@ -1669,7 +1791,7 @@ On 1 am Faoilleach, AE 151, the war ended with the crossing itself closed. Whate
 
 *The Stewards of Muileann chrom, as the custodians' roll gives them.* Raghnall mac Dhòmhnaill, Raghnall Maor, AE 36 to AE 62; Dòmhnall mac Raghnaill, AE 62 to AE 87; Iain Maor, AE 87 to AE 131; Mòrag nic Iain, AE 131 to AE 148, who broke the staff.
 
-Thus ended the Age of Strangers. It began with a vote that three custodians did not attend, and with forty words for the colours of the coal that the strangers never asked to learn; and it ended with the hill cut to its roots, the Small-Burning Law a hundred and thirty years forgotten, and the tithe ledgers burning green at Muileann chrom. What was lost the rolls can count only in part: the shrine at Cill ghlas and the water of Doire mhòr, the salmon of the green river, the Deer school's hall and the barter houses, the eight who were shipped west, and all the names the Company's reports never gave. What was kept is shorter to tell: the silver of Muileann chiar, the copies in the cellar at Muileann chaol, and the four children of the coal-blood, whom the strangers' pits had made and the strangers' registers never held. The hill was the island's again. But the island knew no way to use it save the way the strangers had taught, and of that, and of the kingdom restored at Cathair dhearg, and of the same digging under new masters, and of the northerners in their new country, the next book tells, which is the book of An Aois Rìoghachd, the Age of the Kingdom.
+Thus ended the Age of Strangers. It began with a vote that three custodians did not attend, and with forty words for the colours of the coal that the strangers never asked to learn; and it ended with the hill cut to its roots, the Small-Burning Law a hundred and thirty years forgotten, and the tithe ledgers burning green at Muileann chrom. What was lost the rolls can count only in part: the shrine at Cill ghlas and the water of Doire mhòr, the salmon of the green river, the Deer school's hall and the barter houses, the eight who were shipped west, and all the names the Company's reports never gave. What was kept is shorter to tell: the silver of Muileann chiar, the copies in the cellar at Muileann chaol, and the four children of the coal-blood, whom the strangers' pits had woken and the strangers' registers never held. The hill was the island's again. But the island knew no way to use it save the way the strangers had taught, and of that, and of the kingdom restored at Cathair dhearg, and of the same digging under new masters, and of the northerners in their new country, the next book tells, which is the book of An Aois Rìoghachd, the Age of the Kingdom.
 
 
 # The Fifth Book: An Aois Rìoghachd, the Age of the Kingdom
@@ -1792,6 +1914,8 @@ He spent years having them read, and as they were read he had every date in them
 "The library settles nothing," said Ailean Leabhar, for so they called him by then. "It only keeps."
 
 The phrase outlived him all the same. The library now keeps the fullest surviving record of everything told in this book, and the reader should bear that in mind.
+
+Among the camp rolls he came on the margin of the Àth ìseal roll where Cailean mac Eachainn had written the Line of Aisling. He had it copied fair into the Library's book of lines, where it stands after the Line of the Mason; and the long years of Ailean Mòr and his children he entered in the book of tellings, with the Hollow Man and the white stag. A clerk asked him which of the two books was right. "Both," said Ailean Leabhar, who had been named for the first king, as half the boys of the hills were. "The one keeps names. The other keeps what people said."
 
 In SE 18, as the nights drew in, an office was made to keep the kingdom's record, and from its books this book is drawn. The first royal chronicler, Gormshuil nic Dhùghaill, a council clerk, kept her record at Muileann chaol and would not keep it at the capital. She wrote in her first entry that a record kept beside the throne is kept for the throne. The same order that made her office bade the kingdom's records count their years as Ailean Leabhar counted them, each age from its own first event, and Gormshuil headed her first year the eighteenth of the Severance Era. It was the first year so written in the kingdom's own record, and the years of the Diosal went into the old books. She sent clerks to every shire to copy parish books, grave-lists and harbour rolls. The south filled forty chests. The northern shires filled one, for few of the Tuathaich would talk to the clerks.
 
@@ -2159,12 +2283,14 @@ Here the Sixth Book stops, at the present year, for the chronicle itself goes on
 - **7 an Gearran, VE 5,874** — *The Seann-Dhaoine fall silent*. After the half-cut stone no work of the Seann-Dhaoine can be dated. Their middens stop growing, their harbours silt, and their script is cut no more. How they ended no telling knows.
 - **8 am Màrt, VE 5,914** — *The old names kept* (Seann Skell). The hill-folk keep the names of the Seann-Dhaoine places and set before them only their own word for 'old': Seann Dunn, Seann Chwen, Seann Skell and the rest. They turn nothing into their own tongue, and the roots of those names are not understood.
 - **11 an Dùbhlachd, VE 5,951** — *The old landings taken up* (Seann Skell). Families of the hill-folk come down the Abhainn naomh and settle in the empty river harbour at Seann Skell, using the old mole and mending none of it. They are not known to have dwelt by the water before.
+- **3 am Faoilleach, VE 5,995** — *Ailean Mòr dies* (Tobar dhìreach). Ailean Mòr, first of the Stone Kings, dies in the high valleys at Tobar dhìreach, more than six hundred years after the grove at six hundred and ninety-five years of age, the reciters say. He gave the hill to his daughter long before, and lived on among Clann na Ceiste, and told no one what had gone into him. The power was his alone, and it goes with him; his children have of it only their long years.
 - **9 am Faoilleach, VE 5,995** — *Mòrag Chruaidh and the salt-flats raid* (Baile ghorm). Mòrag Chruaidh, fifth of the Stone Kings, raids the salt-pans on the southern shore at Baile ghorm and carries off the salt. It is the first war in either list. Seven fall on the hill side, and the number is kept.
 - **12 an Gearran, VE 6,006** — *The salt-pans of Baile ghorm* (Baile ghorm). Shallow clay basins are made behind a shingle bar at Baile ghorm, the first salt-works of the island. From this time their salt is found in the hill settlements.
 - **13 am Màrt, VE 6,017** — *Seonag of the Red Hill* (Cathair dhearg). Seonag nic Uisdein holds the Red Hill after her father. It is told that she counted her people by pebbles in a bag, one to a household, and knew by the weight when a household was gone.
 - **11 an Giblean, VE 6,028** — *The first pots at Doire shean* (Doire shean). Pots of coiled clay, fired in open bonfires, are first made at Doire shean on the south-west coast. Within a few lifetimes the whole southern shore uses them.
 - **10 an Cèitean, VE 6,039** — *The dug-out at Cidhe Beag* (Cidhe Beag). A boat hollowed from a single oak trunk, long enough for six, is sunk and left at the landing on Abhainn uaine now called Cidhe Beag. No older boat on Dia-thìr is known in its whole shape.
 - **8 an t-Ògmhios, VE 6,050** — *Iain Dubh killed* (Baile ghorm). Iain Dubh, sixth of the Stone Kings, goes down to raid the salt-pans as Mòrag Chruaidh had done, and is slain on the shingle at Baile ghorm. The list says only that he was brought home.
+- **7 an t-Iuchar, VE 6,050** — *Somhairle, last of the children of Ailean* (Tobar dhìreach). Somhairle mac Ailein, the youngest child of Ailean Mòr, dies in the high valleys at five hundred and forty years, the last of his father's children and fifty-five years after him. After Somhairle the long years thin in his line, each generation shorter-lived than the one before, until the sixth generation after him lives and dies as other people do.
 - **7 an t-Iuchar, VE 6,100** — *The wave at Cnoc chaol* (Tonn Mhòr Cnoc chaol). The sea comes far inland over a village on the site of Cnoc chaol and leaves a sheet of sand a hand thick upon its hearths, with the shells of deep-water creatures in it. The village is not rebuilt on the same ground.
 - **5 an Lùnastal, VE 6,150** — *The ground opens at Cill ghlas* (Scàineadh Cill ghlas). A crack a man could fall into opens across the valley at Cill ghlas, and a spring moves a hundred paces downhill. The hill-folk bank the crack with stones and build on neither side of it.
 - **3 an t-Sultain, VE 6,170** — *The fault-line kept clear* (Cill ghlas). A line of white stones is laid along the old crack at Cill ghlas, and for the rest of the age no house is built within a stone's throw of it. Part of the line remains.
@@ -3109,6 +3235,7 @@ Here the Sixth Book stops, at the present year, for the chronicle itself goes on
 - **5 am Faoilleach, AE 125** — *The second Muileann chaol* (Muileann chaol). Some of the copies bound for Muileann chaol go by mistake to the smaller town of that name further north, and are kept there for years before the mistake is found. The custodians note that they were kept just as well.
 - **23 am Faoilleach, AE 126** — *The word found at last*. With two children now known, the custodians agree on a word for what is befalling them: fuil-ghuail, "coal-blood", rendered in the humans' tongue as coal-touched. It is meant as a physician's word. It outlives that meaning.
 - **21 an Gearran, AE 126** — *The custodians who named it* (Cill ghlas). The word was agreed at a meeting of custodians at the shrine of Cill ghlas, where the oldest cutting still stood open. They chose a plain word, fit for the physician's book. The roll gives the vote; who first put the word forward it does not say.
+- **21 an Dàmhair, AE 126** — *The Line of Aisling found* (Muileann chaol). Cailean mac Eachainn, a copyist in the cellar at Muileann chaol, finds in the roll of the camp at Àth ìseal the marriage of Aisling's father, Donnchadh mac Thormoid, with his line written seven names back, as the custodians write a marriage. He carries the seven names up to Tobar dhìreach, to Ealasaid of Clann na Ceiste, the last who says the lines, and she knows them for the line of Somhairle son of Ailean Mòr. She says Aisling's line to him backward, from her father to the mason who found the fire. So what the camps whispered at Aisling's birth is found to be true. Cailean writes the line in the margin beside her birth.
 - **26 an t-Samhain, AE 127** — *The Administration's register* (Ros dhomhain). The Residency, hearing of the word, orders that any Dia-thìrich child showing the change be reported to the Commissioner's office. The custodians obey by reporting none.
 - **7 an Giblean, AE 129** — *The third change of coin*. The old barter of the Dia-thìrich is struck down as lawful payment altogether. Every bargain on the island now goes by the humans' coin.
 - **17 an t-Sultain, AE 129** — *The barter houses closed* (Ros dhomhain). The barter houses at Ros dhomhain and Cathair dhearg, where cloth and fish had changed hands without coin since before the Crossing, are shut by order. A clerk of the Residency writes that the ledgers are now "complete for the first time."
@@ -3676,7 +3803,7 @@ Here the Sixth Book stops, at the present year, for the chronicle itself goes on
 
 ## Appendix A — The Rulers and Houses of Dia-thìr
 
-Here are set down the lines of those who ruled in Dia-thìr, age by age, so far as the lists that survive allow. For the Ancient Age there are the Line of the Mason and the two oral lists; for the Holy Age the Keepers' roll and the king-list; for the Age of Sundering the crown as the custody-book and the king-list record it; for the Age of Strangers the council, the Commissioners and the overseers; and after them the rulers of the restored kingdom. The tables come first. After them are told the lines one by one, then the seven houses of custody, and last how the keeping of the vein and the keeping of the realm were joined and parted again.
+Here are set down the lines of those who ruled in Dia-thìr, age by age, so far as the lists that survive allow. For the Ancient Age there are the Line of the Mason and the two oral lists, and out of the Line of the Mason runs the Line of Aisling, which comes down to the Age of Strangers; for the Holy Age the Keepers' roll and the king-list; for the Age of Sundering the crown as the custody-book and the king-list record it; for the Age of Strangers the council, the Commissioners and the overseers; and after them the rulers of the restored kingdom. The tables come first. After them are told the lines one by one, then the seven houses of custody, and last how the keeping of the vein and the keeping of the realm were joined and parted again.
 
 No ruler stands in the tables whom the lists and chronicles do not name. Where a list owns that names are missing, the table says so and supplies none. A reign is dated by the rolls that mark its beginning and its end; where no roll marks the one or the other, the table gives "—", and where the rolls fix it only roughly the year is marked *c.* Of many rulers there is but a single mention, somewhere in the middle of the reign, and for these the table gives "in office" and the year of that mention.
 
@@ -3684,20 +3811,37 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 
 **The Line of the Mason (Clann a' Chlachair, later Clann na Ceiste), Age I.** The eldest genealogy on Dia-thìr, recited by the Mason's line from the mason who broke the vein to the first king, each son of each father. In the short form given to strangers only the fathers who did something are named, and the stretches between them are given as a count of generations; the reciters keep the rest. The year shown is that of the deed, as the Library reckons it.
 
-| No. | Name | The deed | Told of in | Generations after him to the next named |
-|---|---|---|---|---|
-| 1 | Neachdan, the Mason | Broke into the coloured vein; the lightning fired it, and he carried the first fire home | VE 1 | none: his son follows |
-| 2 | Conall mac Neachdain | Laid the slab over the burnt vein | VE 151 | thirty-four |
-| 3 | Diarmad | Asked the Keeper why the coal has colours, at Doire ghlas, and was given the riddle | VE 890 | eighteen |
-| 4 | Aodh | Threw the seven into the sea; the gold coal took fire on the water | VE 1,370 | thirty-one |
-| 5 | Fearghas | Let the six fall from the highest ground; the snowflake coal took fire in the air, and the summit was named Binnean a' Chlachair | VE 2,170 | twenty-eight |
-| 6 | Brian | Buried the five; the black coal was warm on the next day | VE 2,885 | thirty |
-| 7 | Cormac, *of the Misstrike* | Bled on the four in the grove; the red-brown coal, the coal of life, took fire | VE 3,670 | twenty-one |
-| 8 | Eòghann | Tasted the river; the silver coal took fire under the water | VE 4,225 | fifteen |
-| 9 | Colla | In his days the line was named Luchd-ceasnachaidh a' Ghuail Dhìomhair, Clann na Ceiste | VE 4,625 | ten |
-| 10 | Seathan | Snapped his fingers, and the fire coal's dust took fire in his hand | VE 4,905 | fifteen, the last of them Suibhne |
-| 11 | Suibhne | Father of Ailean | — | none: his son follows |
-| 12 | Ailean Mòr mac Shuibhne | Brought the six lit coals to the grove; the Keeper lit the rainbow coal; after a vigil of seven nights he was crowned Rìgh Chlann nan Dè | VE 5,324 | first of the Stone Kings |
+| No. | Name | The deed | Told of in | Age at death | Generations after him to the next named |
+|---|---|---|---|---|---|
+| 1 | Neachdan, the Mason | Broke into the coloured vein; the lightning fired it, and he carried the first fire home | VE 1 |  | none: his son follows |
+| 2 | Conall mac Neachdain | Laid the slab over the burnt vein | VE 151 |  | thirty-four |
+| 3 | Diarmad | Asked the Keeper why the coal has colours, at Doire ghlas, and was given the riddle | VE 890 |  | eighteen |
+| 4 | Aodh | Threw the seven into the sea; the gold coal took fire on the water | VE 1,370 |  | thirty-one |
+| 5 | Fearghas | Let the six fall from the highest ground; the snowflake coal took fire in the air, and the summit was named Binnean a' Chlachair | VE 2,170 |  | twenty-eight |
+| 6 | Brian | Buried the five; the black coal was warm on the next day | VE 2,885 |  | thirty |
+| 7 | Cormac, *of the Misstrike* | Bled on the four in the grove; the red-brown coal, the coal of life, took fire | VE 3,670 |  | twenty-one |
+| 8 | Eòghann | Tasted the river; the silver coal took fire under the water | VE 4,225 |  | fifteen |
+| 9 | Colla | In his days the line was named Luchd-ceasnachaidh a' Ghuail Dhìomhair, Clann na Ceiste | VE 4,625 |  | ten |
+| 10 | Seathan | Snapped his fingers, and the fire coal's dust took fire in his hand | VE 4,905 |  | fifteen, the last of them Suibhne |
+| 11 | Suibhne | Father of Ailean | — |  | none: his son follows |
+| 12 | Ailean Mòr mac Shuibhne | Brought the six lit coals to the grove; the Keeper lit the rainbow coal; after a vigil of seven nights he was crowned Rìgh Chlann nan Dè | VE 5,324 | 695 years | first of the Stone Kings |
+
+**The Line of Aisling, Ages I to IV.** The line of Ailean Mòr's youngest son, Somhairle, kept apart by the reciters of Clann na Ceiste and not said at the hearth. It was given whole, backward from the child to the fire as a line is given at a naming, by Ealasaid of Clann na Ceiste at Tobar dhìreach to the copyist Cailean mac Eachainn (21 an Dàmhair, AE 126), and it runs on from the Line of the Mason. The first six after Ailean are those in whom the reciters say the long years showed, each shorter-lived than the one before; the Library enters the long years among the tellings (Section II). The Mason's line keeps the years of its dead beside their names, as it has since the mason, but gives them to no stranger save where they are strange; so the column of ages is filled only for the long lives, and left empty for the ordinary. The year shown under *Told of in* is that of the deed, or of the event in whose days it was done.
+
+| No. | Name | The deed | Told of in | Age at death | Generations after him to the next named |
+|---|---|---|---|---|---|
+| 12 | Ailean Mòr mac Shuibhne | Crowned in the grove; gave the hill to his daughter and lived on by the slab at Tobar dhìreach more than six hundred years, telling no one what was in him | VE 5,995 | 695 years | none: his youngest son follows |
+| 13 | Somhairle mac Ailein | Youngest child of Ailean, born when his father was past two hundred; outlived his father by fifty-five years and all his father's children | VE 6,050 | 540 years | four, each shorter-lived than the one before: 408, 296, 221 and 173 years |
+| 14 | Ceallach | The last of the line in whom the long years showed; his son lived as other men live | — | 140 years | sixteen |
+| 15 | Beathan | Sat by the slab through the dark half of the year, as the households near the crack did | VE 6,443 |  | a hundred and thirty-nine |
+| 16 | Gille-Brìde | Carried a coal of the First Flame home to the hills | FE 1 |  | a hundred and nineteen |
+| 17 | Fionnlagh | Stood on the quay at Seann Skell when the ships went west, and did not go | LE 40 |  | seventy, the last of them the father of Ruairidh |
+| 18 | Ruairidh of Doire mhòr | Stood behind Beathag Dhubh when Doire mhòr refused the Company | AE 14 |  | none: his son follows |
+| 19 | Tormod mac Ruairidh | Carried water up to Doire mhòr two summers when the stream was taken, then went down to the camp at Àth ìseal | AE 30 |  | none: his son follows |
+| 20 | Donnchadh mac Thormoid | Hewer of the deep galleries at Achadh dhomhain; coughed a year with what the physicians took for the lung-rot, and the cough left him the night his daughter was born | AE 68 |  | none: his daughter follows |
+| 21 | Aisling nic Dhonnchaidh | First of the *fuil-ghuail*; called in the camps *nighean an rìgh*, the king's daughter | AE 69 |  | — |
+
+The years agree with the annals as the Library reckons them. Ailean was crowned a young man of four and twenty (28 an t-Iuchar, VE 5,324) and died at six hundred and ninety-five (3 am Faoilleach, VE 5,995); Somhairle, born in Ailean's two hundred and tenth year, died at five hundred and forty (7 an t-Iuchar, VE 6,050); and the four after him, each born late in the life of the one before, bring the line to Ceallach, born some twenty years before Ailean died. From Ceallach's son on, the generations run at about five and twenty years, as they do in the Line of the Mason.
 
 **The Stone Kings of Dùn ìseal (Rìghrean na Cloiche), Age I.** The oldest oral list, held on the hill of Dùn ìseal. It "gives no lengths of reign" (9 an Lùnastal, VE 5,324). The year shown is that of the deed for which each king is remembered, and not the year of his coming to rule.
 
@@ -3854,6 +3998,10 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 
 Before the Binding the rulers of Dia-thìr were kept only in recitation. The eldest recital is the Line of the Mason, which runs from Neachdan, who broke the vein (20 am Faoilleach, VE 1), through the long generations of the Seven Coals, to Ailean son of Suibhne. It ends in a crowning. Ailean carried the six coals his forefathers had learned to light, each lit again by its own way, to the oak grove at Doire ghlas, where the Keeper of the kin had first given the riddle; the Keeper lit the rainbow coal among them (21 an t-Iuchar, VE 5,324); and he kept watch by the seven fires for seven nights, fasting, until they were cold. On the eighth night, the line says, Caoran came into the grove with the Tuath Dè and named him Rìgh Chlann nan Dè, king of the godkin, and put into him the power that had been in the coals (28 an t-Iuchar, VE 5,324). Of that power Ailean told no one. With it, the line holds, he took the hill of Dùn ìseal and the valleys about it, which is the first kingdom (9 an Lùnastal, VE 5,324), and his is the first name in the list of the Stone Kings. No other king in either list is said to have been crowned by the gods, and no other list keeps the title; the Stone Kings' list itself calls him only Ailean Mòr.
 
+The line says also that Ailean did not die when he gave up the hill. He gave it to his daughter Gormshuil and went back to Clann na Ceiste at Tobar dhìreach, and lived there by the slab until 3 am Faoilleach, VE 5,995, more than six hundred years after the grove; the line gives all his days as six hundred and ninety-five years. The power was his alone and went with him; his children had of it only their long years. Somhairle, the youngest, outlived him by fifty-five years and was the last of them (7 an t-Iuchar, VE 6,050), and after him the long years thinned, generation by generation, until the sixth after Somhairle lived as other people live. The reciters of the hill say that the long years are why the list of the Stone Kings stands so far apart in its names; the Library holds, as it holds of the later lists, that names have been lost. It enters the Line of the Mason and the Line of Aisling in its book of lines, and the long years in its book of tellings, and has not moved them.
+
+The Line of Aisling is the younger line. Clann na Ceiste kept it apart from the Stone Kings and did not say it at the hearth, and Somhairle's children went down into the valleys and forgot whose they were. Seven names of it came up again in the roll of the camp at Àth ìseal, in the marriage of Donnchadh mac Thormoid, and the copyist Cailean mac Eachainn carried them to Tobar dhìreach, where Ealasaid of Clann na Ceiste knew them and said the rest (21 an Dàmhair, AE 126). So what the camps had whispered at Aisling's birth, that she was of the old king's blood, was found to stand in the lines. As a line of names the Library holds it as good as any it keeps. Of the six hundred years it holds what it holds of all the tellings.
+
 The Stone Kings' list belonged to the hill of Dùn ìseal and is older than the name Dia-thìrich (9 an Lùnastal, VE 5,324). The Red Hill list belonged to the hill where Cathair dhearg now stands. Each list remembers a holder for a single deed and gives no length of reign, and for a long while neither speaks of the other. They first meet at the ford where the fair of Muileann òg is now held, when Raghnall Ceannfhionn traded salt for wool with the Red Hill (10 an Cèitean, VE 6,498). The peace of the ford held through a fosterage: Eilidh Ghlas's son went west to Lachlann an Altraim and came home grown under Peigi Dhubh (31 am Màrt, VE 7,750). Neither list keeps the foster-son's name.
 
 A third office ran beside the two lines and answered to neither. From 26 an t-Samhain, VE 7,726, the keeper of the slab over the crack was chosen by lot. When Calum Ciar asked for the lot to be drawn in his sight, the households refused him, and from then on the Stone Kings ruled the grazing and not the vein (7 an Cèitean, VE 7,739).
@@ -3998,9 +4146,9 @@ By the end of the Holy Age the Hall could no longer hold the island to one rite.
 
 ### III. The Gods
 
-The gods of the Old Faith are *na Dè*, and their people are the *Tuath Dè*, the people of the gods. The tellings of Dia-thìr are the oldest that hold them. The Dia-thìrich say the gods were on the island before the people were, for the Tuath Dè walked it with the Young God in its first days, before the godfolk woke; as the people were on it before anyone came: *bha sinn ann*. The priests of the Old Faith are the *draoidhean*, the druids; its poets are the *filidhean* and its judges the *britheamhan*. Most of the gods have no house of their own. The orders each serve one god or one pair above the rest, and honour the others at the feasts and in need.
+The gods of the Old Faith are *na Dè*, and their people are the *Tuath Dè*, the people of the gods. The tellings of Dia-thìr are the oldest that hold them. The Dia-thìrich say the gods were on the island before the people were, for the Tuath Dè walked it with the Young God in its first days, before the godfolk grew; as the people were on it before anyone came: *bha sinn ann*. The priests of the Old Faith are the *draoidhean*, the druids; its poets are the *filidhean* and its judges the *britheamhan*. Most of the gods have no house of their own. The orders each serve one god or one pair above the rest, and honour the others at the feasts and in need.
 
-**Caoran**, *an Dia Òg*, the Young God, is the maker of this world and the god of the coal. His name is *ember*. He is the youngest son of an Dagda and Danu, of a long line of gods and goddesses, each of whom on coming of age went out and made a world of their own out of some other thing: one of song, one of salt and bone, one of wind and horn. Caoran chose coal, and took his first coal from the ash under his father's cauldron. Of it he made all that is, then the earth, and last the island; and on the island he woke the first people, *an Dia-shluagh*, the godfolk, from whom the Dia-thìrich, *Clann nan Dè*, the godkin, are descended. He gave them the island to keep, and as a hidden gift he laid the elements in the coal under its mountains, each in its own colour. These are *na Seachd Guail*, the Seven Coals; together they are *an gual dathach*, the coloured coal:
+**Caoran**, *an Dia Òg*, the Young God, is the maker of this world and the god of the coal. His name is *ember*. He is the youngest son of an Dagda and Danu, of a long line of gods and goddesses, each of whom on coming of age went out and made a world of their own out of some other thing: one of song, one of salt and bone, one of wind and horn. Caoran chose coal, and took his first coal from the ash under his father's cauldron. Of it he made all that is, then the earth. The island he did not make as he made the rest: it was born. He held the last coal of all over the empty sea and let drops of fire fall from it, and they hardened where they fell, one on another, until the island stood up out of the water; and that, the Telling says, is why its coal is not the coal of the wide earth. He gave a spirit to every spring and hill on it, to the old trees, the standing stones and the pools under the falls, and these are the old spirits of the land that the hearths honour, whom Na Seann Spioradan keep (Section VI). Then he laid his palms on the warm ground and called, and the first people grew up out of the island like grass after spring rain: *an Dia-shluagh*, the godfolk, whom the tellings call *feur uaine an eilein*, the green grass of the island, and from whom the Dia-thìrich, *Clann nan Dè*, the godkin, are descended. The island is the elder of their line. He gave them the island to keep, and as a hidden gift he laid the elements in the coal under its mountains, each in its own colour. These are *na Seachd Guail*, the Seven Coals; together they are *an gual dathach*, the coloured coal:
 
 | Coal | Dia-thìris | Holds |
 |---|---|---|
@@ -4050,6 +4198,8 @@ There is coloured coal nowhere but on Dia-thìr, and only the eyes of the godkin
 
 > *Tha spiorad fa leth san speur, san talamh agus sa mhuir. Meascaich na spioradan agus bidh iad uile-chumhachdach.*
 > The sky, the earth and the sea each carry their own spirit. Merge the spirits, and they become almighty.
+
+It came again to the grove to light the rainbow coal before Ailean Mòr (21 an t-Iuchar, VE 5,324), and at his vigil, the Children of the Question say, it told him that the power of the coals would be his alone and fade out of his line, and that when strangers held the island the fire would wake again in it. Once more, and in secret, it came in the Age of Strangers. The camps tell that it stood in the draught of a deep gallery at Achadh dhomhain before Donnchadh mac Thormoid, a hewer of Ailean's younger line, and bade him breathe; and what went into him with the dust the Mission's surgeon took for the lung-rot. It was a gift, *Tìodhlac a' Choimhdich*, given in the dust of the deep places to the kin who went down, so that a people with its hill dug out from under it should have something of its own to stand against the strangers with; for the Keeper does not fight for the kin. It woke in Donnchadh's daughter Aisling (7 am Màrt, AE 69), the first of the *fuil-ghuail*, and the camps hold that the coal-blood children after her came of it. No order keeps this as doctrine. The Rite, which holds the vein itself holy and no spirit in it, neither affirms the gift nor denies it (Section VIII).
 
 ### IV. The Four Feasts and the Otherworld
 
@@ -4173,7 +4323,7 @@ Since LE 1,714 that prayer has been said on the day of the empty-harbour rite. S
 
 ### VI. Na Seann Spioradan
 
-**What it holds.** The Old Spirits keep the reverence of the hearths as it was before the Hall: "reverence for the ancestors, for the vein, for the weather that rules the mining season" (17 am Faoilleach, FE 21). The chronicle calls it the oldest custom on the island that has never been broken. It has no priests, no order of worship and no council. Its powers, as the map gives them, are na Sìthichean, the people of the mounds, and its tellings speak of the ancestors, the sìth of the hills and mounds, and the spirits of weather, wells and streams, not of any one power over them. The gods belong to the Old Faith. When the hearths first gave the powers of the mounds that name, or who first gave it, is not known.
+**What it holds.** The Old Spirits keep the reverence of the hearths as it was before the Hall: "reverence for the ancestors, for the vein, for the weather that rules the mining season" (17 am Faoilleach, FE 21). The chronicle calls it the oldest custom on the island that has never been broken. It has no priests, no order of worship and no council. Its powers, as the map gives them, are na Sìthichean, the people of the mounds, and its tellings speak of the ancestors, the sìth of the hills and mounds, and the spirits of weather, wells and streams, not of any one power over them. The Telling of the Making says that Caoran gave a spirit to every spring and hill when the island was born; the hearths of the Old Spirits do not deny it, and do not name him at their rites. The gods belong to the Old Faith. When the hearths first gave the powers of the mounds that name, or who first gave it, is not known.
 
 **Rites and sayings.** The living heads of families name their ancestors aloud. The names of the dead are cut on wooden posts, which are recut each generation as the old ones rot (7 an Dàmhair, LE 179). The faith keeps the walk to Allt an Àigh as its own, and after the Keepers declined the stream it took Muireach Liath's ruling for its saying:
 
@@ -4216,7 +4366,7 @@ The vigil holds one town, Baile chrom in the far north-west (Baile chrom), and w
 
 The Rite is older than any name it has borne. Its root is the slab over the crack and the handful in the cup. What the chronicle calls the Coal Rite, and the Old Faith calls Òrd Bhrìde, is the part of the old reverence that holds the vein itself to be sacred. The vein is Crom's, and Brìde's flame is lit from what it gives; yet the Rite does not hold it to be the token of a god or the dwelling of a spirit. It is itself the holy thing.
 
-**The vein as sacred.** The Rite holds that the vein bleeds because it is alive, in some fashion the Dia-thìrich are not asked to understand. What is broken from it must be burned in measure or returned. The vein answers a line of people, and that answering is itself holy. The doctrine of SE 6 is "built upon the leyline and the unbroken line of the coal-touched" (18 an Giblean, SE 6): the vein under the ground and the blood of those it has answered. Fionnghal nic Artair's defence of the Small-Burning Law, the only one that survives, argued that "the Law was never for the coal's sake but for the people, who would become whatever the burning made them" (11 an t-Ògmhios, AE 22). She wrote it two generations before Aisling was born, and it has been read as prophecy since; she made no such claim herself.
+**The vein as sacred.** The Rite holds that the vein bleeds because it is alive, in some fashion the Dia-thìrich are not asked to understand. What is broken from it must be burned in measure or returned. The vein answers a line of people, and that answering is itself holy. The doctrine of SE 6 is "built upon the leyline and the unbroken line of the coal-touched" (18 an Giblean, SE 6): the vein under the ground and the blood of those it has answered. Fionnghal nic Artair's defence of the Small-Burning Law, the only one that survives, argued that "the Law was never for the coal's sake but for the people, who would become whatever the burning made them" (11 an t-Ògmhios, AE 22). She wrote it two generations before Aisling was born, and it has been read as prophecy since; she made no such claim herself. Since the copyists found Aisling's line (21 an Dàmhair, AE 126), some of the Rite have read "the unbroken line" as the line that runs from the first king to her; the doctrine does not say which line it means.
 
 **Under the Keepers.** In the Holy Age the Rite belonged to the Hall. The Keepers held the cup, took the census of hands (22 an t-Ògmhios, FE 1,735) and sentenced households that burned beyond the measure (1 an Cèitean, FE 145). Their roll holds one hundred and forty names (2 an Giblean, FE 2,939).
 
@@ -4694,6 +4844,10 @@ The high custodian of Òrd Bhrìde, the order of Brìde's flame, seated at Seann
 The highest summit of the island. When the gold coal had woken in the sea, the Mason's children carried the coals that were left to the highest point they knew and dropped them from it, and the snowflake coal took fire in the falling; from that day the height has borne their name. The tellers say that Lugh stood on it with Caoran on the first evening and named the winds. See *Seachd Guail, na*.
 > "It was Lugh who stood with Caoran on the highest summit of the island on the first evening and named the winds for him, and so the snowflake coal is his in honour." — the Telling of the Making
 
+**Bliadhnachan Fada, na** *n. pl.* · lit. "the long years"
+The long lives of Ailean Mòr and his children, as the reciters of Clann na Ceiste tell them. The first king lived six hundred and ninety-five years (3 am Faoilleach, VE 5,995); his youngest son Somhairle five hundred and forty, outliving him by fifty-five years (7 an t-Iuchar, VE 6,050); and after Somhairle the years thinned in each generation, four hundred and eight, two hundred and ninety-six, two hundred and twenty-one, a hundred and seventy-three, and a hundred and forty in Ceallach, until they were gone. The Mason's line keeps these years beside the names, as it keeps the years of all its dead. The power of the coals was Ailean's alone, and the long years were his children's portion of it. Since the Holy Age the long years have belonged to the tellings, and the Library keeps them in its book of tellings, apart from the lines. Said of a very old person the phrase is kindly; said of a claim, it means a tale.
+> "When there was no one left alive who had seen a man of three hundred, there was no one to swear to it, and a thing no one can swear to goes into the tellings." — the First Book
+
 **bonn-rìoghachd** *n. m.* · lit. "realm-coin"
 Currency. Under the humans the coin was the mark, and barter was driven out in three reforms (13 an Gearran, AE 17, 2 an Dàmhair, AE 86, 7 an Giblean, AE 129). The Dia-thìris word belongs to the coinage struck when the humans' coin was withdrawn (30 an Giblean, SE 5). Its first mint-master was called Fearchar Bonn from his work (9 an Dàmhair, SE 5). After the re-pegging to dubhan (5 an Cèitean, DE 15) the realm-coin no longer rested on the vein.
 > "Within a year a new coinage of the Rìoghachd takes its place, minted with ink of coal dust in its seal." — annals, SE 5
@@ -4749,7 +4903,7 @@ The war between Iain Ciar and Alasdair Bàn, named from its first battle (8 an t
 > "The houses divide four to three, and from this battle Cogadh nam Bràithrean, the Brothers' War, takes its name." — annals, LE 1,270
 
 **Coimhdeach na Fine** *n. m.* · lit. "the keeper of the kin"
-The spirit that watches over the island's people for Caoran. It is neither god nor ghost; it has no feast and no house, and when it shows itself it comes as a figure of smoke. It came to one of the Mason's line in the grove of Doire ghlas, told him the Telling of the Making and gave him the riddle (see *Luchd-ceasnachaidh a' Ghuail Dhìomhair*); generations later it came again to the grove, lit the rainbow coal, and bade Ailean Mòr keep watch over the coals until they were cold (21 an t-Iuchar, VE 5,324). The Keepers of Brìde's flame in the Holy Age share its name in the common tongue and nothing else.
+The spirit that watches over the island's people for Caoran. It is neither god nor ghost; it has no feast and no house, and when it shows itself it comes as a figure of smoke. It came to one of the Mason's line in the grove of Doire ghlas, told him the Telling of the Making and gave him the riddle (see *Luchd-ceasnachaidh a' Ghuail Dhìomhair*); generations later it came again to the grove, lit the rainbow coal, and bade Ailean Mòr keep watch over the coals until they were cold (21 an t-Iuchar, VE 5,324). In the Age of Strangers, the camps say, it stood in a deep gallery at Achadh dhomhain before Donnchadh mac Thormoid, a hewer of Ailean's line, and gave him the gift that woke in his daughter Aisling (see *Tìodhlac a' Choimhdich*). The Keepers of Brìde's flame in the Holy Age share its name in the common tongue and nothing else.
 > "It is neither a god nor a ghost." — the Telling of the Making
 
 **Comann nan Saor-luinge** *n. m.* · lit. "the fellowship of the ship-wrights"
@@ -4775,7 +4929,7 @@ Caoran, youngest of the Tuath Dè. The making of the world was his coming of age
 > "He is called an Dia Òg, the Young God, and he is young still, as the gods reckon it." — the Telling of the Making
 
 **Dia-shluagh, an** *n. m.* · lit. "the god-host"
-The godfolk, the first people of the earth, whom Caoran woke out of the island itself and gave the island to keep. They found the coloured coal in their first days, did not understand it and let it lie. Their children are *Clann nan Dè*. The doctrine *Cha do thàinig sinn; bha sinn ann* is theirs in its oldest sense.
+The godfolk, the first people of the earth. Caoran did not shape them: he laid his palms on the warm ground in the middle of the island and called, and they grew out of it like grass after spring rain, and he gave them the island to keep (see *feur uaine an eilein*). They found the coloured coal in their first days, did not understand it and let it lie. Their children are *Clann nan Dè*. The doctrine *Cha do thàinig sinn; bha sinn ann* is theirs in its oldest sense.
 > "'This is yours,' the Young God said to them. 'Keep it, and it will keep you.'" — the Telling of the Making
 
 **diosal** *adv.*, *n. m.* · lit. "sunwise"
@@ -4812,12 +4966,16 @@ A shift. The annals first have need of it for the humans' night-shift order (25 
 With a town's name, a fair; above all Fèill Muileann òg (16 an Dàmhair, SE 21), heir to the harvest fair held there after the War of the Roads (5 an t-Iuchar, FE 1,665).
 > "A fair is held each year at Muileann òg, and it becomes the greatest gathering on the island." — annals, SE 21
 
+**feur uaine an eilein** *phr.* · lit. "the green grass of the island"
+The people of the island, in the oldest tellings. The godfolk grew up out of Dia-thìr on the first morning as the green grass comes up after the spring rain, and so the island is the elder of their line: they spring up and are cut down and spring up again, and the island is their root. A line said in full at a naming ends in it (see *sloinneadh*), as the Line of Aisling does (21 an Dàmhair, AE 126).
+> "So the tellings call the people of the island *feur uaine an eilein*, the green grass of the island." — the Telling of the Making
+
 **Fo mhullach an taighe, chan eil nàmh ann** *phr.* · lit. "under the roof of the house there is no enemy"
 The road-peace, the oldest law on the island that no Keeper made (22 an Dàmhair, FE 175). The War of the Roads ended under such a roof (4 an Dàmhair, FE 1,006).
 > "…no feud may be pursued under an inn roof or within a spear's throw of its door." — annals, FE 175
 
 **fuil-ghuail** *n. f.* · lit. "coal-blood"
-The condition of those who bond with the vein and do not age as others do, and the people who have it. For half a century it had no name (13 am Faoilleach, AE 71), until the custodians made this one (23 am Faoilleach, AE 126). The humans rendered it *coal-touched*.
+The condition of those who bond with the vein and do not age as others do, and the people who have it. For half a century it had no name (13 am Faoilleach, AE 71), until the custodians made this one (23 am Faoilleach, AE 126). The humans rendered it *coal-touched*. The custodians' word names only what the thing looked like to them. The camps hold that it is the Keeper's gift woken (see *Tìodhlac a' Choimhdich*), and that the first to have it, Aisling, was of the first king's line; and that much the copyists of Muileann chaol found to stand in the lines (21 an Dàmhair, AE 126).
 > "It is meant as a physician's word. It outlives that meaning." — annals, AE 126
 
 #### G
@@ -4872,6 +5030,12 @@ Any passing of power that goes uncommonly smoothly. From Niall's crowning (19 an
 The Hollow Man of the Doire uaine hills, which attacked anyone who lit a fire in its sight (9 an Giblean, VE 3,251). The rule against open fires after dark came from it (26 an t-Ògmhios, VE 7,783), and shepherds still named it when they left the high pastures (17 an Lùnastal, LE 949).
 > *Na las teine far am faic e thu.* "Light no fire where it can see you." — the First Book
 
+#### N
+
+**nighean an rìgh** *phr.* · lit. "the king's daughter"
+What the camps called Aisling (7 am Màrt, AE 69), half in jest and half not, from the whisper that she was of the blood of Ailean Mòr, the first king: a hope drawn from an old tale, in a people whose hill was going out in ships. The copyists of Muileann chaol later found it stand in the lines (21 an Dàmhair, AE 126). No annal marks its first use.
+> "In the camps they called her *nighean an rìgh*, the king's daughter, half in jest, as *Aisling-aois* is said now of anyone who keeps her youth; and half not." — the Fourth Book
+
 #### O
 
 **ogham** *n. m.* · lit. "Ogma's letters"
@@ -4885,7 +5049,7 @@ A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhai
 > "No ruler of the lowlands was so called before him." — annals, FE 674
 
 **Rìgh Chlann nan Dè** *n. m.* · lit. "king of the children of the gods"
-The style of the first king of the island's people. After the seven coals had burned together and the seven-night vigil was kept, Caoran came with the Tuath Dè, named Ailean Mòr so, and put into him the power that had been in the coals. Ailean told no one of it, all his life; with it he took the hill of Dùn ìseal and made the first kingdom (9 an Lùnastal, VE 5,324).
+The style of the first king of the island's people. After the seven coals had burned together and the seven-night vigil was kept, Caoran came with the Tuath Dè, named Ailean Mòr so, and put into him the power that had been in the coals. Ailean told no one of it, all his life. It was his alone and went with him, and his children had of it only their long years (see *Bliadhnachan Fada, na*); with it he took the hill of Dùn ìseal and made the first kingdom (9 an Lùnastal, VE 5,324).
 > "When the godfolk woke, Macha looked them over, one by one, and said that there was no king among them yet." — the Telling of the Making
 
 **Rìghrean na Cloiche** *n. pl.* · lit. "the kings of the stone"
@@ -4938,6 +5102,10 @@ Named in the annals from the Age of Sundering (9 an t-Samhain, LE 9). The kingdo
 A house of custody known by a founder's name, not a hearth. Sliochd Mhuirich was the first (11 an t-Sultain, FE 96); four were bound to the Keepers' office (29 an Giblean, FE 385).
 > "…the first house of custody known by a name and not by a hearth." — annals, FE 96
 
+**sloinneadh** *n. m.* · lit. "surname, pedigree"
+A line of descent said aloud, and above all the naming-line, which Clann na Ceiste give at a child's naming backward from the child to the fire, and on to the godfolk and the island. Of a stranger's child they give it in short form, the long stretches told as a count of generations. The Line of Aisling was given so, by Ealasaid of Clann na Ceiste to the copyist Cailean mac Eachainn (21 an Dàmhair, AE 126).
+> "…son of Neachdan, who found the fire; son of the godfolk, who grew out of the island like grass; and the island was born of Caoran's fire." — the Fourth Book
+
 **stad-oibre** *n. m.* · lit. "work-halt"
 A strike. The first lasted eleven days (13 an Dàmhair, AE 77); the first held in several regions on one day came in AE 143.
 > "The strike ends when the food, which the humans' Administration holds, runs out." — annals, AE 77
@@ -4951,6 +5119,10 @@ Fearchar Bàrd's most quoted song, made when the Company's steamships began to b
 **Tha e scrìobhte a-nis** *phr.* · lit. "it is written now"
 The Moot's whole minute on the day the census figures were read at Caol mhòr (6 an t-Samhain, SE 64). The Fifth Book takes it for its epigraph.
 > "The Moot's minute says only: 'Now written.'" — annals, SE 64
+
+**Tìodhlac a' Choimhdich** *n. m.* · lit. "the Keeper's gift"
+What the Keeper of the Kin gave the kin in the deep galleries in the Age of Strangers. The Keeper will not fight for the kin; this it gave them so that a people with its hill dug out from under it should have something of its own to stand with against the strangers. It was breathed first by Donnchadh mac Thormoid at Achadh dhomhain, in the first winter of that camp (1 am Faoilleach, AE 68); the Mission's surgeon took it for the lung-rot; and it woke in his daughter Aisling (7 am Màrt, AE 69). The camps say it lies in the dust of the deep places for every one of the kin who goes down, and that the coal-blood children after her came of it. The name is the camps'. The rolls do not use it.
+> "A gift. It is not for you. You will carry it, and the carrying will not be easy. It will wake in your daughter." — the Fourth Book
 
 **Tìr Thall, an** *n. f.* · lit. "the land beyond"
 The humans' homeland, whose own name no Dia-thìreach scribe set down (26 an Gearran, AE 2).
@@ -5237,6 +5409,13 @@ who proposed it (21 an Gearran, AE 126). The Residency ordered every Dia-thìrea
 be reported; the custodians complied by reporting none (26 an t-Samhain, AE 127). A third case, Lorccan,
 was born in a mining town (29 an Cèitean, AE 134), and a fourth, Cian, within a year of him
 (3 am Màrt, AE 135).
+
+The camps say more than the rolls. They tell that Aisling's father, Donnchadh mac Thormoid, a hewer
+of the deep galleries at Achadh dhomhain, coughed a year with what the Mission's surgeon wrote down as
+the lung-rot, and that the cough left him on the night she was born; that what he carried was no rot
+but the Keeper's gift, *Tìodhlac a' Choimhdich* (Appendix B); and that she was of the first king's
+line. That last the copyists of Muileann chaol found to stand in the lines (21 an Dàmhair, AE 126;
+Appendix A, *The Line of Aisling*). The rest is the camps' own, and is set down here as theirs.
 
 After the Severance the Coal Rite, Òrd Bhrìde, was set in order within the Old Faith, built around the
 leyline and "the unbroken line of the coal-touched" (18 an Giblean, SE 6). The first census of the

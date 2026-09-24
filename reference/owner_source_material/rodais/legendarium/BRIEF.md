@@ -30,7 +30,16 @@ what the chronicle already says. No new actions, words, thoughts, relatives, rel
 places, feelings or fates. Refer to them plainly when the record needs them; otherwise leave
 them alone.
 
-- **Aisling**, born 1848 DE in the mining camps: the first of the immortal generation.
+- **Aisling**, born 1848 DE in the mining camps (at Achadh dhomhain): the first of the immortal generation. Owner's
+  canon since: she is distantly of the first king's line, and her father is named (the one exception to the rule
+  below): **Donnchadh mac Thormoid**, a Dia-thìreach hewer of the deep galleries. The Keeper of the Kin met him in a
+  gallery (AE 68) and gave him, in his breath, the secret gift (*Tìodhlac a' Choimhdich*) it had laid in the dust of
+  the deep places for the kin, so that they could stand against the occupiers; the Mission's surgeon took it for the
+  miners' lung-rot; his cough stopped the night she was born, and it woke in her. The camps called her *nighean an
+  rìgh*, the king's daughter, half in jest; in AE 126 the copyist Cailean mac Eachainn and the reciter Ealasaid of
+  Clann na Ceiste traced her line and found it true (IV-0251a). The full line is Appendix A, *The Line of Aisling*.
+  She is a deliverer figure of the camps, always "a daughter of the king's line"; never name or allude to any
+  real-world parallel.
 - **Fionnan**, born 1900 DE: the second case.
 - **Lorccan**, born 1913 DE in a mining town: the third.
 - **Cian**, born 1914 DE: the fourth. Cian and Lorccan grew up in the wake of the Severance.
@@ -48,7 +57,8 @@ Holy Age, the leaders of the Sundering. Give them Dia-thìris names (Scottish Ga
 Ailean, Beathag, Catrìona, Dòmhnall, Eilidh, Fearchar, Gormshuil, Iain, Mòrag, Raghnall,
 Sìleas, Tormod…), with patronymics (*mac*/*nic*) and bynames (*Ailean Gobha*, "Ailean the
 smith"). Humans get names from their own tongue (plain, English-like, not Gaelic). No invented
-person may be a parent, child, spouse, lover, rival or teacher of the owner's characters.
+person may be a parent, child, spouse, lover, rival or teacher of the owner's characters (the owner has since
+named Aisling's father and her line himself; see above).
 
 ## The six ages and the reckoning of years
 
@@ -87,8 +97,16 @@ reckoning supplies them.
   made all that is, then the island and its first people, the godfolk (*an Dia-shluagh*), whose children are the
   godkin (*Clann nan Dè*). In the island's coal he hid the elements, one to each colour: *na Seachd Guail*, the Seven
   Coals (black/earth, fire/fire, snowflake/air, gold sheen/sea, silver sheen/river water, mahogany/life,
-  rainbow/spirit). The spirit Coimhdeach na Fine, the Keeper of the Kin, a figure of grey smoke, watches the kin for
-  him. See legendarium/book/creation.md. The word for the stuff is always **coal**, never any kind of glass.
+  rainbow/spirit). The island was born of drops of fire from his last coal; the godfolk grew out of it like grass
+  (*feur uaine an eilein*). The spirit Coimhdeach na Fine, the Keeper of the Kin, a figure of grey smoke that stands
+  still in a wind, watches the kin for him.
+- **The first king and the long years.** Ailean Mòr (crowned VE 5,324) alone received the coals' power. He gave the
+  hill to his daughter Gormshuil and lived on by the slab at Tobar dhìreach, keeping his secret, until VE 5,995
+  (I-0098a), aged 695 (crowned at 24). His children had only a portion, their long years; Somhairle, his youngest, died VE 6,050 (I-0104a) aged 540, and
+  the years thinned each generation (408, 296, 221, 173, then Ceallach 140) until the sixth after Somhairle lived as others do. That fading is why it all
+  became myth: from the Holy Age on, the first king and his long years are the reciters' tale, and the Library keeps
+  them in its book of tellings. At the vigil the Keeper promised that when strangers hold the island the fire will wake
+  again in his line: in Aisling it is a new waking, not a survival. See legendarium/book/creation.md. The word for the stuff is always **coal**, never any kind of glass.
 - **The vein.** Under the island's central mountains runs the coloured coal, *an gual dathach*, a hard coal that takes a
   polish and shows its colours when broken; VE 1 is the mason's breaking of the vein and the lightning fire. Only the
   godkin see the colours. The Dia-thìrich call it sacred; the humans saw only black coal. Bonding with it, first in Aisling

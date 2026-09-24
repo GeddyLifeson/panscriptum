@@ -1,6 +1,6 @@
 ## Appendix A — The Rulers and Houses of Dia-thìr
 
-Here are set down the lines of those who ruled in Dia-thìr, age by age, so far as the lists that survive allow. For the Ancient Age there are the Line of the Mason and the two oral lists; for the Holy Age the Keepers' roll and the king-list; for the Age of Sundering the crown as the custody-book and the king-list record it; for the Age of Strangers the council, the Commissioners and the overseers; and after them the rulers of the restored kingdom. The tables come first. After them are told the lines one by one, then the seven houses of custody, and last how the keeping of the vein and the keeping of the realm were joined and parted again.
+Here are set down the lines of those who ruled in Dia-thìr, age by age, so far as the lists that survive allow. For the Ancient Age there are the Line of the Mason and the two oral lists, and out of the Line of the Mason runs the Line of Aisling, which comes down to the Age of Strangers; for the Holy Age the Keepers' roll and the king-list; for the Age of Sundering the crown as the custody-book and the king-list record it; for the Age of Strangers the council, the Commissioners and the overseers; and after them the rulers of the restored kingdom. The tables come first. After them are told the lines one by one, then the seven houses of custody, and last how the keeping of the vein and the keeping of the realm were joined and parted again.
 
 No ruler stands in the tables whom the lists and chronicles do not name. Where a list owns that names are missing, the table says so and supplies none. A reign is dated by the rolls that mark its beginning and its end; where no roll marks the one or the other, the table gives "—", and where the rolls fix it only roughly the year is marked *c.* Of many rulers there is but a single mention, somewhere in the middle of the reign, and for these the table gives "in office" and the year of that mention.
 
@@ -8,20 +8,37 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 
 **The Line of the Mason (Clann a' Chlachair, later Clann na Ceiste), Age I.** The eldest genealogy on Dia-thìr, recited by the Mason's line from the mason who broke the vein to the first king, each son of each father. In the short form given to strangers only the fathers who did something are named, and the stretches between them are given as a count of generations; the reciters keep the rest. The year shown is that of the deed, as the Library reckons it.
 
-| No. | Name | The deed | Told of in | Generations after him to the next named |
-|---|---|---|---|---|
-| 1 | Neachdan, the Mason | Broke into the coloured vein; the lightning fired it, and he carried the first fire home | {{year:I-0001}} | none: his son follows |
-| 2 | Conall mac Neachdain | Laid the slab over the burnt vein | {{year:I-0003}} | thirty-four |
-| 3 | Diarmad | Asked the Keeper why the coal has colours, at Doire ghlas, and was given the riddle | {{year:I-0011a}} | eighteen |
-| 4 | Aodh | Threw the seven into the sea; the gold coal took fire on the water | {{year:I-0017a}} | thirty-one |
-| 5 | Fearghas | Let the six fall from the highest ground; the snowflake coal took fire in the air, and the summit was named Binnean a' Chlachair | {{year:I-0027a}} | twenty-eight |
-| 6 | Brian | Buried the five; the black coal was warm on the next day | {{year:I-0038a}} | thirty |
-| 7 | Cormac, *of the Misstrike* | Bled on the four in the grove; the red-brown coal, the coal of life, took fire | {{year:I-0052a}} | twenty-one |
-| 8 | Eòghann | Tasted the river; the silver coal took fire under the water | {{year:I-0062a}} | fifteen |
-| 9 | Colla | In his days the line was named Luchd-ceasnachaidh a' Ghuail Dhìomhair, Clann na Ceiste | {{year:I-0068a}} | ten |
-| 10 | Seathan | Snapped his fingers, and the fire coal's dust took fire in his hand | {{year:I-0073a}} | fifteen, the last of them Suibhne |
-| 11 | Suibhne | Father of Ailean | — | none: his son follows |
-| 12 | Ailean Mòr mac Shuibhne | Brought the six lit coals to the grove; the Keeper lit the rainbow coal; after a vigil of seven nights he was crowned Rìgh Chlann nan Dè | {{year:I-0080b}} | first of the Stone Kings |
+| No. | Name | The deed | Told of in | Age at death | Generations after him to the next named |
+|---|---|---|---|---|---|
+| 1 | Neachdan, the Mason | Broke into the coloured vein; the lightning fired it, and he carried the first fire home | {{year:I-0001}} |  | none: his son follows |
+| 2 | Conall mac Neachdain | Laid the slab over the burnt vein | {{year:I-0003}} |  | thirty-four |
+| 3 | Diarmad | Asked the Keeper why the coal has colours, at Doire ghlas, and was given the riddle | {{year:I-0011a}} |  | eighteen |
+| 4 | Aodh | Threw the seven into the sea; the gold coal took fire on the water | {{year:I-0017a}} |  | thirty-one |
+| 5 | Fearghas | Let the six fall from the highest ground; the snowflake coal took fire in the air, and the summit was named Binnean a' Chlachair | {{year:I-0027a}} |  | twenty-eight |
+| 6 | Brian | Buried the five; the black coal was warm on the next day | {{year:I-0038a}} |  | thirty |
+| 7 | Cormac, *of the Misstrike* | Bled on the four in the grove; the red-brown coal, the coal of life, took fire | {{year:I-0052a}} |  | twenty-one |
+| 8 | Eòghann | Tasted the river; the silver coal took fire under the water | {{year:I-0062a}} |  | fifteen |
+| 9 | Colla | In his days the line was named Luchd-ceasnachaidh a' Ghuail Dhìomhair, Clann na Ceiste | {{year:I-0068a}} |  | ten |
+| 10 | Seathan | Snapped his fingers, and the fire coal's dust took fire in his hand | {{year:I-0073a}} |  | fifteen, the last of them Suibhne |
+| 11 | Suibhne | Father of Ailean | — |  | none: his son follows |
+| 12 | Ailean Mòr mac Shuibhne | Brought the six lit coals to the grove; the Keeper lit the rainbow coal; after a vigil of seven nights he was crowned Rìgh Chlann nan Dè | {{year:I-0080b}} | 695 years | first of the Stone Kings |
+
+**The Line of Aisling, Ages I to IV.** The line of Ailean Mòr's youngest son, Somhairle, kept apart by the reciters of Clann na Ceiste and not said at the hearth. It was given whole, backward from the child to the fire as a line is given at a naming, by Ealasaid of Clann na Ceiste at Tobar dhìreach to the copyist Cailean mac Eachainn ({{date:IV-0251a}}), and it runs on from the Line of the Mason. The first six after Ailean are those in whom the reciters say the long years showed, each shorter-lived than the one before; the Library enters the long years among the tellings (Section II). The Mason's line keeps the years of its dead beside their names, as it has since the mason, but gives them to no stranger save where they are strange; so the column of ages is filled only for the long lives, and left empty for the ordinary. The year shown under *Told of in* is that of the deed, or of the event in whose days it was done.
+
+| No. | Name | The deed | Told of in | Age at death | Generations after him to the next named |
+|---|---|---|---|---|---|
+| 12 | Ailean Mòr mac Shuibhne | Crowned in the grove; gave the hill to his daughter and lived on by the slab at Tobar dhìreach more than six hundred years, telling no one what was in him | {{year:I-0098a}} | 695 years | none: his youngest son follows |
+| 13 | Somhairle mac Ailein | Youngest child of Ailean, born when his father was past two hundred; outlived his father by fifty-five years and all his father's children | {{year:I-0104a}} | 540 years | four, each shorter-lived than the one before: 408, 296, 221 and 173 years |
+| 14 | Ceallach | The last of the line in whom the long years showed; his son lived as other men live | — | 140 years | sixteen |
+| 15 | Beathan | Sat by the slab through the dark half of the year, as the households near the crack did | {{year:I-0112}} |  | a hundred and thirty-nine |
+| 16 | Gille-Brìde | Carried a coal of the First Flame home to the hills | {{year:II-0001}} |  | a hundred and nineteen |
+| 17 | Fionnlagh | Stood on the quay at Seann Skell when the ships went west, and did not go | {{year:III-0023}} |  | seventy, the last of them the father of Ruairidh |
+| 18 | Ruairidh of Doire mhòr | Stood behind Beathag Dhubh when Doire mhòr refused the Company | {{year:IV-0046}} |  | none: his son follows |
+| 19 | Tormod mac Ruairidh | Carried water up to Doire mhòr two summers when the stream was taken, then went down to the camp at Àth ìseal | {{year:IV-0078}} |  | none: his son follows |
+| 20 | Donnchadh mac Thormoid | Hewer of the deep galleries at Achadh dhomhain; coughed a year with what the physicians took for the lung-rot, and the cough left him the night his daughter was born | {{year:IV-0144}} |  | none: his daughter follows |
+| 21 | Aisling nic Dhonnchaidh | First of the *fuil-ghuail*; called in the camps *nighean an rìgh*, the king's daughter | {{year:IV-0146}} |  | — |
+
+The years agree with the annals as the Library reckons them. Ailean was crowned a young man of four and twenty ({{date:I-0080b}}) and died at six hundred and ninety-five ({{date:I-0098a}}); Somhairle, born in Ailean's two hundred and tenth year, died at five hundred and forty ({{date:I-0104a}}); and the four after him, each born late in the life of the one before, bring the line to Ceallach, born some twenty years before Ailean died. From Ceallach's son on, the generations run at about five and twenty years, as they do in the Line of the Mason.
 
 **The Stone Kings of Dùn ìseal (Rìghrean na Cloiche), Age I.** The oldest oral list, held on the hill of {{place:burg:315}}. It "gives no lengths of reign" ({{date:I-0081}}). The year shown is that of the deed for which each king is remembered, and not the year of his coming to rule.
 
@@ -177,6 +194,10 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 ### II. The Ancient Age: the Two Lists
 
 Before the Binding the rulers of Dia-thìr were kept only in recitation. The eldest recital is the Line of the Mason, which runs from Neachdan, who broke the vein ({{date:I-0001}}), through the long generations of the Seven Coals, to Ailean son of Suibhne. It ends in a crowning. Ailean carried the six coals his forefathers had learned to light, each lit again by its own way, to the oak grove at Doire ghlas, where the Keeper of the kin had first given the riddle; the Keeper lit the rainbow coal among them ({{date:I-0080a}}); and he kept watch by the seven fires for seven nights, fasting, until they were cold. On the eighth night, the line says, Caoran came into the grove with the Tuath Dè and named him Rìgh Chlann nan Dè, king of the godkin, and put into him the power that had been in the coals ({{date:I-0080b}}). Of that power Ailean told no one. With it, the line holds, he took the hill of Dùn ìseal and the valleys about it, which is the first kingdom ({{date:I-0081}}), and his is the first name in the list of the Stone Kings. No other king in either list is said to have been crowned by the gods, and no other list keeps the title; the Stone Kings' list itself calls him only Ailean Mòr.
+
+The line says also that Ailean did not die when he gave up the hill. He gave it to his daughter Gormshuil and went back to Clann na Ceiste at Tobar dhìreach, and lived there by the slab until {{date:I-0098a}}, more than six hundred years after the grove; the line gives all his days as six hundred and ninety-five years. The power was his alone and went with him; his children had of it only their long years. Somhairle, the youngest, outlived him by fifty-five years and was the last of them ({{date:I-0104a}}), and after him the long years thinned, generation by generation, until the sixth after Somhairle lived as other people live. The reciters of the hill say that the long years are why the list of the Stone Kings stands so far apart in its names; the Library holds, as it holds of the later lists, that names have been lost. It enters the Line of the Mason and the Line of Aisling in its book of lines, and the long years in its book of tellings, and has not moved them.
+
+The Line of Aisling is the younger line. Clann na Ceiste kept it apart from the Stone Kings and did not say it at the hearth, and Somhairle's children went down into the valleys and forgot whose they were. Seven names of it came up again in the roll of the camp at Àth ìseal, in the marriage of Donnchadh mac Thormoid, and the copyist Cailean mac Eachainn carried them to Tobar dhìreach, where Ealasaid of Clann na Ceiste knew them and said the rest ({{date:IV-0251a}}). So what the camps had whispered at Aisling's birth, that she was of the old king's blood, was found to stand in the lines. As a line of names the Library holds it as good as any it keeps. Of the six hundred years it holds what it holds of all the tellings.
 
 The Stone Kings' list belonged to the hill of Dùn ìseal and is older than the name Dia-thìrich ({{date:I-0081}}). The Red Hill list belonged to the hill where Cathair dhearg now stands. Each list remembers a holder for a single deed and gives no length of reign, and for a long while neither speaks of the other. They first meet at the ford where the fair of Muileann òg is now held, when Raghnall Ceannfhionn traded salt for wool with the Red Hill ({{date:I-0113}}). The peace of the ford held through a fosterage: Eilidh Ghlas's son went west to Lachlann an Altraim and came home grown under Peigi Dhubh ({{date:I-0174}}). Neither list keeps the foster-son's name.
 

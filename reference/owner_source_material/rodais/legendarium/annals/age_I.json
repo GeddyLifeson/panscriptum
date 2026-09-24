@@ -970,6 +970,19 @@
   "kind": "people"
  },
  {
+  "id": "I-0098a",
+  "canon": false,
+  "title": "Ailean Mòr dies",
+  "body": "Ailean Mòr, first of the Stone Kings, dies in the high valleys at Tobar dhìreach, more than six hundred years after the grove at six hundred and ninety-five years of age, the reciters say. He gave the hill to his daughter long before, and lived on among Clann na Ceiste, and told no one what had gone into him. The power was his alone, and it goes with him; his children have of it only their long years.",
+  "place": "burg:276",
+  "kind": "death",
+  "between": [
+   -6929,
+   -6929
+  ],
+  "seed": "I-0098adp"
+ },
+ {
   "id": "I-0099",
   "canon": false,
   "title": "Mòrag Chruaidh and the salt-flats raid",
@@ -1019,6 +1032,18 @@
   "within": [
    "I-0099",
    60
+  ]
+ },
+ {
+  "id": "I-0104a",
+  "canon": false,
+  "title": "Somhairle, last of the children of Ailean",
+  "body": "Somhairle mac Ailein, the youngest child of Ailean Mòr, dies in the high valleys at five hundred and forty years, the last of his father's children and fifty-five years after him. After Somhairle the long years thin in his line, each generation shorter-lived than the one before, until the sixth generation after him lives and dies as other people do.",
+  "place": "burg:276",
+  "kind": "death",
+  "between": [
+   -6874,
+   -6874
   ]
  },
  {

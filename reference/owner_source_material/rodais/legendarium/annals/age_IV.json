@@ -2280,6 +2280,19 @@
   ]
  },
  {
+  "id": "IV-0251a",
+  "canon": false,
+  "title": "The Line of Aisling found",
+  "body": "Cailean mac Eachainn, a copyist in the cellar at Muileann chaol, finds in the roll of the camp at Àth ìseal the marriage of Aisling's father, Donnchadh mac Thormoid, with his line written seven names back, as the custodians write a marriage. He carries the seven names up to Tobar dhìreach, to Ealasaid of Clann na Ceiste, the last who says the lines, and she knows them for the line of Somhairle son of Ailean Mòr. She says Aisling's line to him backward, from her father to the mason who found the fire. So what the camps whispered at Aisling's birth is found to be true. Cailean writes the line in the margin beside her birth.",
+  "place": "burg:246",
+  "kind": "record",
+  "between": [
+   1905,
+   1905
+  ],
+  "seed": "IV-0251aad"
+ },
+ {
   "id": "IV-0252",
   "canon": false,
   "title": "The Administration's register",
