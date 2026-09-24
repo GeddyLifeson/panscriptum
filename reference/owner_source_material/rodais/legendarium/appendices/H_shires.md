@@ -1,10 +1,10 @@
 ## Appendix H — The Shires of Dia-thìr
 
-Here is set out how Rìoghachd Dia-thìris is divided and governed: the shires, their seats and how they came to be; the Crown's dues and the Treasury; the windy coast of the far north-west, which no shire holds; and the extent of the island's peoples in the present year. It is drawn from the council's minute-books, the Treasury's rolls, the shire record-chests called in to Leabharlann Muileann chaol ({{date:V-0223}}), and the humans' district surveys the kingdom inherited.
+Here is set out how Rìoghachd Dia-thìr is divided and governed: the shires, their seats and how they came to be; the Crown's dues and the Treasury; the windy coast of the far north-west, which no shire holds; and the extent of the island's peoples in the present year. It is drawn from the council's minute-books, the Treasury's rolls, the shire record-chests called in to Leabharlann Muileann chaol ({{date:V-0223}}), and the humans' district surveys the kingdom inherited.
 
 ### I. The Kingdom
 
-The state styled itself Rìoghachd Dia-thìris, the Kingdom of Dia-thìr, on {{date:V-0007}}, and Niall was crowned at {{place:burg:19}} on {{date:V-0012}}. In form it is a monarchy. The crown, a royal council of twelve ({{date:V-0009}}) and the Treasury sit at Cathair dhearg, and Cathal reigns in the present year. The kingdom counts its years by the eras of the six ages, and the present year is {{year:VI-0157}} (Appendix D).
+The state styled itself Rìoghachd Dia-thìr, the Kingdom of Dia-thìr, on {{date:V-0007}}, and Niall was crowned at {{place:burg:19}} on {{date:V-0012}}. In form it is a monarchy. The crown, a royal council of twelve ({{date:V-0009}}) and the Treasury sit at Cathair dhearg, and Cathal reigns in the present year. The kingdom counts its years by the eras of the six ages, and the present year is {{year:VI-0157}} (Appendix D).
 
 The kingdom holds every coast of Dia-thìr and every island off it but one stretch of windswept shore in the far north-west (§ V). It has no neighbour but that shore and the sea. Since the crossing closed there has been no other state within reach of its ships ({{date:V-0011}}), and it keeps no envoys and makes no treaties. Its one war has been fought on its own ground, against its own people: An Cogadh Fada, the Long War of {{year:VI-0081}} and {{year:VI-0115}} (Appendix C). The regiments raised for it were not stood down ({{date:VI-0120}}).
 
@@ -20,7 +20,7 @@ The kingdom grew along the island's waters, as the island's people had always do
 
 **The drawing.** On {{date:V-0014}} the council divided the kingdom into shires, each named for its seat, and kept most of the human district lines under the new names. No other survey of the whole island had ever been made. Where the council did not keep a district seat it chose the old shire seat instead; so in the shire of Seann Tarr the seat went back from Baile Mòr ruadh, the humans' district town, to the old harbour. A *maor* was appointed to each shire to collect the Crown's dues and keep its peace ({{date:V-0015}}). In the Tuathaich shires the maoir were Dia-thìrich, lodged in the seat towns. Circuit justices were set to ride among the shires a few years later ({{date:V-0036}}).
 
-The drawing made one hundred and twenty-two shires. One more was cut later: Doire chaol, the village of the royal household south of the capital, was taken out of the shire of Baile chiar once it had grown large enough to need its own maor ({{date:V-0139a}}). Since then Rìoghachd Dia-thìris has had one hundred and twenty-three shires, and no more.
+The drawing made one hundred and twenty-two shires. One more was cut later: Doire chaol, the village of the royal household south of the capital, was taken out of the shire of Baile chiar once it had grown large enough to need its own maor ({{date:V-0139a}}). Since then Rìoghachd Dia-thìr has had one hundred and twenty-three shires, and no more.
 
 ### III. The Shape of the Shires
 

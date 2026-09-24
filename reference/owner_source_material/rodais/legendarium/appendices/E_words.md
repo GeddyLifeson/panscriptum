@@ -71,7 +71,7 @@ The berth at Seann Skell from which the fleet of the Sundering sailed. Its old n
 > "The departure berth is entered in the harbour rolls of Seann Skell as Cidhe an Diosail, the quay of the sunwise turn." — annals, {{year:III-0041}}
 
 **Clann a' Chlachair** *n. pl.* · lit. "the Mason's children"
-The line of the mason who broke into the coal vein and carried home the first fire ({{date:I-0001}}). It is recited from the mason down, each son of each father, in the manner of the old begats (Appendix A, *The Line of the Mason*). To one of this line the Keeper of the Kin gave the Telling of the Making, and in this line the seven coals were woken, one by one, over many generations. By the waking of the fire coal its people were known as *Luchd-ceasnachaidh a' Ghuail Dhìomhair*.
+The line of the mason who broke into the coal vein and carried home the first fire ({{date:I-0001}}). It is recited from the mason down, each son of each father (Appendix A, *The Line of the Mason*). To one of this line the Keeper of the Kin gave the Telling of the Making, and in this line the seven coals were woken, one by one, over many generations. By the waking of the fire coal its people were known as *Luchd-ceasnachaidh a' Ghuail Dhìomhair*.
 > "The mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down." — the Telling of the Making
 
 **Clann na Ceiste** *n. pl.* · lit. "the children of the question"
@@ -87,7 +87,7 @@ The war between Iain Ciar and Alasdair Bàn, named from its first battle ({{date
 > "The houses divide four to three, and from this battle Cogadh nam Bràithrean, the Brothers' War, takes its name." — annals, {{year:III-0177}}
 
 **Coimhdeach na Fine** *n. m.* · lit. "the keeper of the kin"
-The spirit that watches over the island's people for Caoran. It is neither god nor ghost; it has no feast and no house, and when it shows itself it comes as a figure of smoke. It came to one of the Mason's line in the grove of Doire ghlas, told him the Telling of the Making and gave him the riddle (see *Luchd-ceasnachaidh a' Ghuail Dhìomhair*); generations later it came again to the grove, lit the rainbow coal, and bade Ailean Mòr keep watch over the coals until they were cold ({{date:I-0081}}). The Keepers of Brìde's flame in the Holy Age share its name in the common tongue and nothing else.
+The spirit that watches over the island's people for Caoran. It is neither god nor ghost; it has no feast and no house, and when it shows itself it comes as a figure of smoke. It came to one of the Mason's line in the grove of Doire ghlas, told him the Telling of the Making and gave him the riddle (see *Luchd-ceasnachaidh a' Ghuail Dhìomhair*); generations later it came again to the grove, lit the rainbow coal, and bade Ailean Mòr keep watch over the coals until they were cold ({{date:I-0080a}}). The Keepers of Brìde's flame in the Holy Age share its name in the common tongue and nothing else.
 > "It is neither a god nor a ghost." — the Telling of the Making
 
 **Comann nan Saor-luinge** *n. m.* · lit. "the fellowship of the ship-wrights"
@@ -219,8 +219,8 @@ The letters of Dia-thìr. The teachers of the stag's people made them from the c
 #### R
 
 **rìgh** *n. m.* · lit. "king"
-A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhair was the first so called ({{date:II-0077}}); under the division of keeping the rìgh had the roads and the granaries, the Keeper the flame ({{date:II-0078}}).
-> "None before him was ever so called." — annals, {{year:II-0077}}
+A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhair was the first of them so called ({{date:II-0077}}); the word had been heard once before, in the grove, when Caoran named Ailean Mòr *Rìgh Chlann nan Dè* ({{date:I-0080b}}), but only the Line of the Mason kept it; under the division of keeping the rìgh had the roads and the granaries, the Keeper the flame ({{date:II-0078}}).
+> "No ruler of the lowlands was so called before him." — annals, {{year:II-0077}}
 
 **Rìgh Chlann nan Dè** *n. m.* · lit. "king of the children of the gods"
 The style of the first king of the island's people. After the seven coals had burned together and the seven-night vigil was kept, Caoran came with the Tuath Dè, named Ailean Mòr so, and put into him the power that had been in the coals. Ailean told no one of it, all his life; with it he took the hill of Dùn ìseal and made the first kingdom ({{date:I-0081}}).

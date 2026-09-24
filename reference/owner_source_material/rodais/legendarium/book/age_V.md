@@ -23,7 +23,7 @@ Meanwhile the council's clerks went through the humans' counting-houses at Catha
 
 ## II. Of the Moot and the Kingdom
 
-In the south the kingdom was making itself. On {{date:V-0007}}, in the high summer, the state styled itself Rìoghachd Dia-thìris: a kingdom in its form, whatever it was in its working, and its own records carry that contradiction still.
+In the south the kingdom was making itself. On {{date:V-0007}}, in the high summer, the state styled itself Rìoghachd Dia-thìr: a kingdom in its form, whatever it was in its working, and its own records carry that contradiction still.
 
 A month before the council was seated, the householders of the northern towns came to Caol mhòr.
 

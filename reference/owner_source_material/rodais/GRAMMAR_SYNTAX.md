@@ -377,7 +377,7 @@ what is fronted:
       COP  1SG.EMPH  REL  do.PST  3SG.M
       ‘It was I who did it.’
 
-(40)  Is   ann       à     Dhia-thìr  a    tha     mi.
+(40)  Is   ann       à     Dia-thìr  a    tha     mi.
       COP  in.3SG.M  from  Dia-thìr  REL  be.PRS  1SG
       ‘I am from Dia-thìr.’
 
@@ -1892,7 +1892,7 @@ A noun that qualifies another follows it in the genitive. The article in the gen
 ```
 
 An indefinite masculine genitive is lenited: *pìos arain* "a piece of bread", *làn dhaoine* "full of
-people" (T), *glinn àrda Dia-thìris* "the high glens of Dia-thìr" (a name after a noun is genitive).
+people" (T), *Conall mac Neachdain* "Conall son of Neachdan" (a name after a noun is genitive).
 
 An adjective agrees with its noun in the genitive: masculine singular lenited and slenderised,
 feminine singular with *-e*:

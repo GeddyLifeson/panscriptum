@@ -111,7 +111,7 @@ reckoning supplies them.
   treaties, coinage and tithe; the mining camps; plagues, famines, droughts; the immortal
   generation; the Long War's forerunners; war declared 1928; the Severance c. 1930, which
   closed the crossing and sent the remaining humans north.
-- **Age V**: the restored kingdom, Rìoghachd Dia-thìris; the same extraction under new owners; the
+- **Age V**: the restored kingdom, Rìoghachd Dia-thìr; the same extraction under new owners; the
   Tuathaich in the north; the Depletion; dubhan; the Tuathaich coal-holdouts; **An Cogadh Fada**,
   the Long War (2020–2021), with its battles at Àth leathan (11 April 2020) and Muileann ghlas
   (10 December 2021); 2026, the present.

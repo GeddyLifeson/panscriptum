@@ -75,7 +75,7 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 
 | Name | Byname | House | How they came to rule | Reign | The reign |
 |---|---|---|---|---|---|
-| Goraidh mac Ìomhair, *Goraidh Mòr* | the great | Sliochd Ìomhair | called rìgh by the households who ate from his granaries | {{year:II-0077}} – {{year:II-0081}} | The first so called; the division of keeping with the Hall; the first road-toll |
+| Goraidh mac Ìomhair, *Goraidh Mòr* | the great | Sliochd Ìomhair | called rìgh by the households who ate from his granaries | {{year:II-0077}} – {{year:II-0081}} | The first ruler of the lowlands so called; the division of keeping with the Hall; the first road-toll |
 | Mòrag nic Ghoraidh, *Mòrag nan Rathad* | of the roads | line of Goraidh Mòr | his daughter | {{year:II-0081}} – {{year:II-0084}} | Walked every carriers' road; the golden house; the bridge-foot rebuilt |
 | Dòmhnall Crùbach | the lame | line of Goraidh Mòr | her son | {{year:II-0084}} – {{year:II-0090}} | Governed through the waypoint-keepers, who grew powerful |
 | Sìleas Dhonn | the brown | line of Goraidh Mòr | his niece | {{year:II-0090}} – {{year:II-0092}} | Made the waypoint-keepers render account once a year |
@@ -164,7 +164,7 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 | Iain Maor | his son | {{year:IV-0180}} – {{year:IV-0258}} | Schooled at the Mission; wrote that the night shift was killing his crews, was dismissed, and was restored |
 | Mòrag nic Iain Maor | his daughter; the first woman to hold the staff | {{year:IV-0258}} – {{year:IV-0319}} | Testified at the inquiry and was struck from the record; refused the evictions and broke the staff at the Company's door |
 
-**The rulers of Rìoghachd Dia-thìris, Ages V and VI.** From the chronicle of the restored kingdom, which keeps this line "unbroken from this year on". Nothing is here added to what that chronicle says of them.
+**The rulers of Rìoghachd Dia-thìr, Ages V and VI.** From the chronicle of the restored kingdom, which keeps this line "unbroken from this year on". Nothing is here added to what that chronicle says of them.
 
 | Name | How they came to rule | Reign | The reign |
 |---|---|---|---|
@@ -212,7 +212,7 @@ The overseers were the Company's rulers at the pithead, all of them Dia-thìrich
 
 ### VI. The Age of the Kingdom and the Age of Dubhan: the Restored Kingdom
 
-The kingdom was restored step by step. The war-companies were stood down ({{date:V-0002}}), the state was styled *Rìoghachd Dia-thìris* ({{date:V-0007}}), and a royal council of twelve, drawn from the custodian families and the captains of the war, took its seat ({{date:V-0009}}). Only then was a king crowned. The Crown's officer in each shire took the word *maor* ({{date:V-0015}}), and the house of Macha's order at Cathair dhearg was given back the keeping of the regalia ({{date:V-0033}}).
+The kingdom was restored step by step. The war-companies were stood down ({{date:V-0002}}), the state was styled *Rìoghachd Dia-thìr* ({{date:V-0007}}), and a royal council of twelve, drawn from the custodian families and the captains of the war, took its seat ({{date:V-0009}}). Only then was a king crowned. The Crown's officer in each shire took the word *maor* ({{date:V-0015}}), and the house of Macha's order at Cathair dhearg was given back the keeping of the regalia ({{date:V-0033}}).
 
 The chronicle of the restored kingdom names five rulers and tells of their successions, and of little else. All that it records of them stands in the table above.
 

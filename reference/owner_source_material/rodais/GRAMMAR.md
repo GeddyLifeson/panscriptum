@@ -29,8 +29,8 @@ has no acute accent, only the grave, and it writes the cluster /sk/ as *sc* and 
 The other two are matters of the word-hoard, and the most often heard.
 
 Some words belong to the island's own story more than others: *Dia-thìr* (the island), *Dia-thìris* (the
-language), *Dia-thìreach* (a Dia-thìris person, pl. *Dia-thìrich*), *Tuathach* (a northerner, pl. *Tuathaich*),
-*Seann-Dhaoine* (the Old Ones), *Rìoghachd Dia-thìris* (the kingdom), *Cathair dhearg* (the capital).
+language), *Dia-thìreach* (one of the people of Dia-thìr, pl. *Dia-thìrich*), *Tuathach* (a northerner, pl. *Tuathaich*),
+*Seann-Dhaoine* (the Old Ones), *Rìoghachd Dia-thìr* (the kingdom; the island's name keeps the one form in every case), *Cathair dhearg* (the capital).
 *Gual* (coal) is heavier with meaning than its plain sense. The coal of the island is *an gual dathach*,
 the coloured coal, in which the Young God, Caoran, hid the elements; its seven kinds, *na Seachd Guail*,
 are named by their colours, *gual dubh*, *gual teine*, *gual òir* and the rest. *Fuil-ghuail*, "coal-blood",

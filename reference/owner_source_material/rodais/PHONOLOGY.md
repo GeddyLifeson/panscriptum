@@ -749,7 +749,7 @@ Dòmhnall, dhomh, aig, ciamar*, the weekdays).
 | *geal* | white | [ˈkʲal̪ˠ] | *ea* = [a] before *l* |
 | *dearg* | red | [ˈtʃɛɾɛk] | helping vowel |
 | *gorm* | blue | [ˈkɔɾɔm] | helping vowel |
-| *ruadh* | red-brown | [ˈr̪ˠuəɣ] | final broad *dh* |
+| *ruadh* | red-brown | [ˈr̪ˠuəɣ] | tense initial *r*; final broad *dh* |
 | *uaine* | green | [ˈuənʲə] | lax slender [nʲ] |
 | *oidhche* | night | [ˈɤiçə] | *oidh* = [ɤi], *dh* silent |
 | *latha* | day | [ˈl̪ˠa.ə] | hiatus |

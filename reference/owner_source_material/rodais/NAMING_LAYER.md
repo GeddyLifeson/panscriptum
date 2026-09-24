@@ -127,14 +127,15 @@ the patterns of this chapter.
 ## The state and its peoples
 - **Dia-thìrich**: the greater part, the people of Dia-thìr. **The coal-blooded, the *fuil-ghuail*, are
   born among them**: Aisling, Cian, Lorccan and Fionnan are Dia-thìrich. The name is made in the
-  ordinary Dia-thìris way, a root with *-aich* ("the people of X"). They hold the capital, *Cathair
+  ordinary Dia-thìris way, a root with the people-ending *-aich*, written *-ich* after a slender
+  vowel ("the people of X"). They hold the capital, *Cathair
   dhearg*.
 - **Tuathaich**: the northern minority, **ordinary humans**, Dubhan's people, mortal and at the
   edge of things: without power, pushed to the northern rim of the island, and holding no part of
-  the capital. The name is from *tuath*, "north," by the same *-aich* as Dia-thìrich; on the page the
+  the capital. The name is from *tuath*, "north," by the same people-ending as Dia-thìrich; on the page the
   two names stand side by side like brothers, though their fortunes do not.
 - **Seann-Dhaoine**: "the Old Ones," the people who held the coasts before the Dia-thìrich and are now
   all but vanished; from them come the coastal names marked *Seann*, told of above.
-- The state's full title is **Rìoghachd Dia-thìris**, "the Kingdom of Dia-thìr," which bears the
+- The state's full title is **Rìoghachd Dia-thìr**, "the Kingdom of Dia-thìr," which bears the
   island's own name in its own tongue.
 - The capital is **Cathair dhearg**, "the red city."

@@ -90,21 +90,21 @@ ghorm told them what it said, and "the scholars write that the people say so"
 
 The Dia-thìrich are the people of Dia-thìr: the majority in every age of the island's history, the holders of the
 capital, {{place:burg:19}}, and of the sea. Their name is the island's name with the
-people-ending *-aich*; a single person is a *Dia-thìreach*. Writers of the humans' tongue called them
+people-ending, written *-ich* after the slender vowel of *thìr*; a single person is a *Dia-thìreach*. Writers of the humans' tongue called them
 *Dia-thìrian*, and that word is kept in this history for the adjective.
 
 **Custodians.** The Dia-thìrich enter history as custodians. In the Ancient Age a custom set in across
 the hill settlements that no fire should take more of the coal than one cupped hand could hold. The
 Binding of the First Flame ({{date:II-0001}}) made the custodianship of the vein a formal order,
 "older by centuries than any king", and the Small-Burning Law ({{date:II-0027}}) made the
-custom into rule. The first man in any roll to be called *rìgh* was Goraidh mac Ìomhair at Dùn
+custom into rule. The first ruler of the lowlands to be called *rìgh* was Goraidh mac Ìomhair at Dùn
 dhearg ({{date:II-0077}}), and he claimed nothing over the vein. For the whole of the Holy Age the
 kings ruled the roads and the granaries, and the Keepers at Dùn ìseal ruled the mountain. The
 Holy Age closes on the last age of even population ({{date:II-0249}}). After it, the chroniclers
 note with some unease, there was never again a time on Dia-thìr when no family held more years of life
 than any other.
 
-**The kingdom.** After the Severance the state restyled itself Rìoghachd Dia-thìris, the Kingdom of
+**The kingdom.** After the Severance the state restyled itself Rìoghachd Dia-thìr, the Kingdom of
 Dia-thìr ({{date:V-0007}}), and Niall was crowned at Cathair dhearg ({{date:V-0012}}). The rulers since
 are set down in Appendix A. Here it is enough to say that the kingdom is a Dia-thìreach kingdom: its schools
 teach in Dia-thìris "and it has no others" ({{date:V-0032}}), and the old apprentice-binding custom,
@@ -195,7 +195,7 @@ herded to the northern country their descendants hold today.
 #### The Tuathaich
 
 From the Severance the chronicles stop calling them humans. The descendants of those left on Dia-thìr are
-*na Tuathaich*, the northerners, from *tuath*, north, with the same *-aich* that makes *Dia-thìrich*;
+*na Tuathaich*, the northerners, from *tuath*, north, with the same people-ending that makes *Dia-thìrich*;
 on the page the two names stand like brothers, though the two peoples' fortunes have been far apart. Their
 homeland in the north was fixed formally ({{date:V-0001}}): "It is a confinement;
 yet their children's children call it home." A formal wall between the two peoples was
@@ -601,9 +601,10 @@ to the reader; the Dia-thìris stands first. The six ages have Dia-thìris names
 for convenience; the English names are this archive's, not the chroniclers'. The adjective *Dia-thìrian*
 is English, and is used as such.
 
-**The island's own name.** Written in Dia-thìris it is *Dia-thìr*, with the accent. In the English text of
-this history it is written *Dia-thìr*, the form the humans used, and the one most readers will have
-met. It is the same word.
+**The island's own name.** It is *Dia-thìr*, the god's land, of *dia*, god, and *tìr*, land, and it is written
+the same in the English text of this history as in Dia-thìris, accent, hyphen and all. The hyphen is
+the law of the spelling: the broad *a* of *dia* may not stand against the slender *ì* of *thìr* within one
+word, so the two are written apart and each keeps its own stress.
 
 **The Seann tongue is left untranslated, for it cannot be translated.** Its ten roots are given as the
 Dia-thìrich wrote them, with the foreign letters the Dia-thìrich kept. No meaning is offered for any of

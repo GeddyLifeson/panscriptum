@@ -35,7 +35,7 @@ The arms are blazoned here in the plain terms of heraldry, rendered in English. 
 
 ### III. The arms of the kingdom
 
-**Rìoghachd Dia-thìris.** *Azure trellised Or, a fess cotised argent, over all a mascle argent.*
+**Rìoghachd Dia-thìr.** *Azure trellised Or, a fess cotised argent, over all a mascle argent.*
 
 The trellis and the mascle are the custody's. The fess, a white band between two thin ones, is the crown's addition at the joining ({{date:III-0138a}}). Macha's order had been the court's order for four centuries before the joining ({{date:III-0089}}), and no king put her horses on the seal. The house of Òrd Mhacha at Cathair dhearg keeps the regalia ({{date:V-0033}}), and the seal has never been in its keeping.
 

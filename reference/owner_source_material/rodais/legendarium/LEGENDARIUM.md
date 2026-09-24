@@ -340,7 +340,7 @@ When he could see again it was morning, and the gods were gone, and the ring of 
 
 Ailean Mòr, as they called him from then on, told his kin that the gods had come to the grove and named him king of the godkin. That much he never hid, and Clann na Ceiste believed him. What had gone into him with Caoran's hand he told to no one: not his wife, nor his daughter, nor the reciters. How then is it known? The line answers that the Keeper knows everything it watches over, and tells what it chooses to whom it chooses; and there the question stops.
 
-He walked home from the grove and did not stop at the high valleys. He went on east with a few of his kin to the hill where Dùn ìseal now stands, which was held then by households that answered to no one, and on 9 an Lùnastal, VE 5,324, he took it.
+He walked home from the grove and did not stop at the high valleys. He went on south with a few of his kin to the hill where Dùn ìseal now stands, which was held then by households that answered to no one, and on 9 an Lùnastal, VE 5,324, he took it.
 
 The tellers do not say how. They say that the holders of the hill came out against him with spears, many against few, and that when they came near him they stopped, and some sat down on the grass, and some went home; and that none of them could ever say afterward why. They say that the households of the valleys about the hill came in to him one after another that year, and brought him their grazing and their quarrels; and that he judged the quarrels and was feared, and loved a little too; and that no one ever saw him lift a hand. A girl of Dùn ìseal said in her old age that she had once stood near him on a winter night and been warm, as if she stood by a fire, and that there was no fire.
 
@@ -438,7 +438,7 @@ In VE 5,170 a thing was first marked that is a wonder still: the great cats of t
 
 ## XII. Of the Hill-Folk and the Three Stones
 
-In the high valleys around the crack there lived people who were of another kind from the Seann-Dhaoine. They called themselves Clann nan Dè, the godkin, and the Mason's line was one household among them. They buried their dead in the ground, and cut no script. Whether they shared the island with the Old Ones or came after them, no telling knows. Their own answer, given later, is that they were always there. These are the hill-folk, and from them came the Dia-thìrich. They left the green mounds of the valleys unbroken, and built on none of them, and the hearths of every later age give the same reason: the sìth live in the hills and the mounds, and a house on a mound is a house on someone else's roof.
+In the high valleys around the crack there lived people who were of another kind from the Seann-Dhaoine. They called themselves Clann nan Dè, the godkin, and the Mason's line was one household among them. They buried their dead in the ground, and cut no script. When the Old Ones came to the island, or whether they too woke on it, no telling knows; the Telling of the Making names no people on Dia-thìr but the godfolk and their children. The hill-folk's own answer is that they were always there. These are the hill-folk, and from them came the Dia-thìrich. They left the green mounds of the valleys unbroken, and built on none of them, and the hearths of every later age give the same reason: the sìth live in the hills and the mounds, and a house on a mound is a house on someone else's roof.
 
 At Àth gharbh, in a hearth of plain peat ash, lies a sliver of the coloured coal burnt to a bead, and the hearthstone round it is stained through with colour. It is the earliest burning of the coal by any hand outside the Mason's line that anyone has found, and it burned as the mason's coals had burned, low and dark; whoever fed it to that fire knew nothing of the riddle. It is also small: one sliver, one fire. In the graves at Achadh dhìreach is wool streaked with colour no plant makes, for the hill-folk rubbed broken coal from the vein into cloth for their dead, one grave in some thirty. And far off on the western coast, in a midden at Seann Bhral, lies a chip of the coloured coal still staining the shell around it. How a piece of the vein came to a rubbish-heap of the Old Ones, by gift or trade or theft, is anyone's guess.
 
@@ -655,7 +655,7 @@ Here the chroniclers of Muileann chaol close the first book, on the question Cat
 
 In the days before the Binding the hill-folk of Dia-thìr burned the coloured coal by the handful and shared their grain before the storms, and at every gathering they said that they had always been on the island and had come from nowhere. Nine keepers, one drawn by lot for each district of the hills, watched the slab over the crack at Tobar dhìreach. All of it was custom, and none of it was law. So the tellers close the Ancient Age: everything in its place, and nothing yet sworn.
 
-The Holy Age opens with an oath. On 23 an t-Sultain, FE 1, a custodianship was declared over the vein beneath the central mountains, and that swearing is called the Binding of the First Flame. The flame bound that day was Brìde's undying flame. The tellers of the Mason's line hold that it was first kindled from the mason's fire, which the lightning lit in the broken vein at the beginning of the count; but they keep the two apart, as the Keepers did. The mason's fire is the first fire, and the First Flame is the flame that was sworn to. The vein and the slab over it were given to Crom Cruaich, the bent one of the mound, whose price is measured. One order took both into its keeping, Òrd Bhrìde, the order of Brìde's flame, eldest of the orders of the Old Faith. It was a faith and a government at once, the first such thing on Dia-thìr, and it stood for centuries before anything like a king. Whoever came after to rule the roads and harbours ruled beside it and never over it, for as long as the age lasted.
+The Holy Age opens with an oath. On 23 an t-Sultain, FE 1, a custodianship was declared over the vein beneath the central mountains, and that swearing is called the Binding of the First Flame. The flame bound that day was Brìde's undying flame. The tellers of the Mason's line hold that it was first kindled from the mason's fire, which the lightning lit in the broken vein at the beginning of the count; but they keep the two apart, as the Keepers did. The mason's fire is the first fire, and the First Flame is the flame that was sworn to. The vein and the slab over it were given to Crom Cruaich, the bent one of the mound, whose price is measured. One order took both into its keeping, Òrd Bhrìde, the order of Brìde's flame, eldest of the orders of the Old Faith. It was a faith and a government at once, the first such thing on Dia-thìr, and it stood for centuries before any king of the lowlands. Whoever came after to rule the roads and harbours ruled beside it and never over it, for as long as the age lasted.
 
 The choosing came after, at Dùn ìseal under the mountain, on 28 an t-Ògmhios, FE 4.
 
@@ -780,7 +780,7 @@ The silversmiths of Muileann chiar cast weights from a barley-corn to a newborn 
 
 Carriers founded Cathair dhomhain above the western harbour, proud of keeping the measure strictly. A few miles off, at the bridge-foot on the Abhainn dhomhain below Loch chrom, the Red Hill's old settlement, long shrunk to a fishing town on red stone, began to grow again. In those days Cathair dhearg was a place carriers passed through on the way to somewhere else.
 
-At Dùn dhearg the lowland households who ate from Sliochd Ìomhair's granaries began to call the head of that house their rìgh, their king. He was Goraidh mac Ìomhair, and no one before him in any record had borne the word. The granaries gave it to him.
+At Dùn dhearg the lowland households who ate from Sliochd Ìomhair's granaries began to call the head of that house their rìgh, their king. He was Goraidh mac Ìomhair, and no ruler of the lowlands before him had borne the word; only the Line of the Mason remembered that the gods had once given it to Ailean Mòr in the grove. The granaries gave it to him.
 
 He went up to Dùn ìseal in the spring to meet the council, on foot, as a carrier would.
 
@@ -1697,7 +1697,7 @@ Meanwhile the council's clerks went through the humans' counting-houses at Catha
 
 ## II. Of the Moot and the Kingdom
 
-In the south the kingdom was making itself. On 27 an t-Iuchar, SE 2, in the high summer, the state styled itself Rìoghachd Dia-thìris: a kingdom in its form, whatever it was in its working, and its own records carry that contradiction still.
+In the south the kingdom was making itself. On 27 an t-Iuchar, SE 2, in the high summer, the state styled itself Rìoghachd Dia-thìr: a kingdom in its form, whatever it was in its working, and its own records carry that contradiction still.
 
 A month before the council was seated, the householders of the northern towns came to Caol mhòr.
 
@@ -2402,7 +2402,7 @@ Here the Sixth Book stops, at the present year, for the chronicle itself goes on
 - **23 an Lùnastal, FE 614** — *The fall in the high gallery* (Dùn ìseal). A roof falls in the highest gallery at Dùn ìseal and kills four cutters. The gallery is walled up and left. Seonaid Chiar orders props of oak set in every gallery after, and for the first time the Hall spends timber on the mountain.
 - **25 an t-Iuchar, FE 634** — *Cathair dhomhain founded* (Cathair dhomhain). Carriers settled at the mouth of the western road raise a town on the rise above the harbour and name it Cathair dhomhain. Its shrine keeps the Law's measure strictly, and its people are proud of it.
 - **26 an t-Ògmhios, FE 654** — *A fishing town at Cathair dhearg* (Cathair dhearg). The old settlement of the Red Hill, shrunk to a small fishing town, grows again at the western bridge-foot on the Abhainn dhomhain, a little above its meeting with the Abhainn gheal below Loch chrom. The ground is afterwards called Cathair dhearg, for its red stone. As yet it is a place carriers pass through on the way to somewhere else.
-- **28 an Cèitean, FE 674** — *Goraidh mac Ìomhair called rìgh* (Dùn dhearg). At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Goraidh mac Ìomhair, their rìgh, their king. None before him was ever so called. Goraidh claims nothing over the vein, and is careful to tell the Hall so.
+- **28 an Cèitean, FE 674** — *Goraidh mac Ìomhair called rìgh* (Dùn dhearg). At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Goraidh mac Ìomhair, their rìgh, their king. No ruler of the lowlands was so called before him. Goraidh claims nothing over the vein, and is careful to tell the Hall so.
 - **9 an t-Sultain, FE 694** — *The division of keeping* (Dùn ìseal). The council at Dùn ìseal and Goraidh mac Ìomhair agree on a division. The Keeper keeps the flame and the galleries; the rìgh keeps the roads, the granaries and the peace of the lowlands. The rìgh may not enter the galleries, and the Keeper may not raise spears. On this division the island is governed for the rest of the age.
 - **11 an Lùnastal, FE 714** — *Goraidh Mòr's hall* (Dùn dhearg). Goraidh mac Ìomhair, called Goraidh Mòr, builds a timber hall on the hill at Dùn dhearg, with a granary at each corner. Its post-holes could still be seen when the surveyors of the Library walked the hill, and they measured and drew them.
 - **22 an t-Sultain, FE 719** — *The first road-toll* (An Taigh-seinnse Mòr). Goraidh Mòr sets a toll on the carriers' roads, one fish in twenty or its worth, to pay the road-guards and keep up the bridges. The keepers of the waypoint houses gather it, and keep a share of it, and the rolls say so.
@@ -2939,7 +2939,7 @@ Here the Sixth Book stops, at the present year, for the chronicle itself goes on
 - **20 an Giblean, AE 35** — *The carters of Doire chaol* (Doire chaol). The carters of Doire chaol, on the road just east of the capital, band together in a guild to bargain with the Company over the rates for hauling coal. It is the first Dia-thìrich guild of the age, and the Company owns it because that is cheaper than breaking it.
 - **3 an t-Iuchar, AE 35** — *Seann Toll made a coal landing* (Seann Toll). The Company takes the river landing at Seann Toll, below the workings, and builds a loading stage there for the barges that carry the coal down the Abhainn uaine to Ceann leathan. The town's fishing boats are moved to the next reach.
 - **31 am Faoilleach, AE 36** — *The coal ships' lane* (Ceann leathan). From the landing at Seann Toll the coal barges go down the Abhainn uaine to Ceann leathan, where the Company's ships load at the river mouth and go out by the southern lane, Slighe-mhara Caol fhiadhaich, west along the south coast to the wild strait and the open sea. The fishers of the south coast, who had used the lane for five hundred years, learn to keep out of the coal ships' way.
-- **19 an Cèitean, AE 36** — *The first Dia-thìrich overseer*. A Dia-thìrich is set over other Dia-thìrich miners, answerable to human masters. It is the first open crack within the Dia-thìrich themselves, and not only between them and the humans.
+- **19 an Cèitean, AE 36** — *The first Dia-thìrich overseer*. A Dia-thìreach is set over other Dia-thìrich miners, answerable to human masters. It is the first open crack within the Dia-thìrich themselves, and not only between them and the humans.
 - **17 an t-Ògmhios, AE 36** — *Raghnall Maor* (Muileann chrom). The first overseer is Raghnall mac Dhòmhnaill of Muileann chrom, a crew-leader who had worked the pits since the first contract. He is given the Company's staff and a house with a slate roof, and from the office the Dia-thìrich give him his byname: Raghnall Maor, Raghnall the steward.
 - **21 an Lùnastal, AE 37** — *The overseers multiply* (Muileann chrom). Within a few years there are overseers at every working in the district, all Dia-thìrich, all answerable to the Company's agents. The custodians' roll no longer names them, and gives only their number.
 - **14 an Lùnastal, AE 38** — *Seumas Dubh killed at Cnoc mhòr* (Cnoc mhòr). Seumas Dubh, overseer of the new pits at Cnoc mhòr, is killed by his own crew after a boy is crushed on a haulage he had ordered hurried. The Company hangs two men at Ros dhomhain, the first hanging done by the Administration on Dia-thìr.
@@ -2998,7 +2998,7 @@ Here the Sixth Book stops, at the present year, for the chronicle itself goes on
 - **29 am Màrt, AE 67** — *The silver guild refuses again* (Muileann chiar — baile mèinne airgid). Martha Gale, an agent of the Company, offers the silver guild of Muileann chiar a partnership, on terms the guild's ledger calls generous. Ùna nic Choinnich, now very old, has the offer read aloud twice in the guild hall, and it is refused by show of hands.
 - **1 am Faoilleach, AE 68** — *The camp at Achadh dhomhain* (Achadh dhomhain). A new camp is opened at Achadh dhomhain for the deep galleries under the hill, and within a few seasons it is the most crowded place in the district. Its houses are built of spoil.
 - **30 am Faoilleach, AE 68** — *Cloth for the camps at Dùn chiar* (Dùn chiar). The weavers of Dùn chiar take a Company contract for canvas for the camp tents and sacks for the coal, and the town thrives on it. Its custodians note that never before had the town made anything for a use it did not approve.
-- **7 am Màrt, AE 69** — *The first of the undying generation*. A girl is born in the mining camps who takes more raw coal into her body over her life than any Dia-thìrich in living memory, and she does not age as the folk about her age. Her name is Aisling.
+- **7 am Màrt, AE 69** — *The first of the undying generation*. A girl is born in the mining camps who takes more raw coal into her body over her life than any Dia-thìreach in living memory, and she does not age as the folk about her age. Her name is Aisling.
 - **26 an t-Iuchar, AE 69** — *The coach to the camps* (Muileann chrom). The Company puts a coach on the road between the quay at Ros dhomhain and the camps at Muileann chrom, twice a week each way, changing horses at the old waypoint houses. Clerks and overseers ride in it. The crews walk.
 - **3 an Dùbhlachd, AE 70** — *The coal weighed at the quay* (Ros dhomhain). The Company sets up a great steelyard at the Ros dhomhain quay, and thenceforth the island's yield is known by the ton and the hundredweight. The custodians' old count, kept in seasons of labour, is no longer entered in the roll.
 - **15 an Dùbhlachd, AE 70** — *Ros dhìreach the second coal port* (Ros dhìreach). The Company opens a second coal stage at Ros dhìreach on the southern coast for the workings south of the hills. Its first cargo is lost in a squall off the harbour mouth, and the fishermen moved to make room for the stage will not go out after it.
@@ -3255,7 +3255,7 @@ Here the Sixth Book stops, at the present year, for the chronicle itself goes on
 - **9 an Dùbhlachd, SE 1** — *The hungry year at Doire ghlas* (Doire ghlas). The stores that came over the water from an Tìr Thall come no more, and in their first year alone the northern settlements go short of grain. Tuathaich memory, taken down long after, puts the dead at Doire ghlas above two hundred. The Dia-thìrich made no count.
 - **11 an t-Ògmhios, SE 2** — *The human counting-houses emptied* (Ros dhomhain). Clerks of the council enter the human administration's counting-houses at Cathair dhearg, Ros dhomhain and Seann Skell and carry off every written thing. What the raids of the war have left of the tithe ledgers is boxed with the rest, unread, for few of the clerks can read the humans' hand.
 - **10 an t-Iuchar, SE 2** — *The north-west ports without a master* (Inis àrsaidh). At Ceann mhòr, Cathair gheal and Inis àrsaidh the humans' harbour officers sail with the last ships before the crossing closes, and take their keys with them. The Tuathaich fishermen break the locks of the harbour stores and share out what they find, house by house.
-- **27 an t-Iuchar, SE 2** — *Rìoghachd Dia-thìris declared* (Cathair dhearg). The state names itself a kingdom, though it is ruled as before. Its own records carry the same contradiction to this day.
+- **27 an t-Iuchar, SE 2** — *Rìoghachd Dia-thìr declared* (Cathair dhearg). The state names itself a kingdom, though it is ruled as before. Its own records carry the same contradiction to this day.
 - **25 an Lùnastal, SE 2** — *The Moot at Caol mhòr* (Caol mhòr). Tuathaich householders of the northern towns meet at Caol mhòr and choose for their speaker Walter Hale, once a harbour clerk. The Moot has no standing in Dia-thìrich law. It meets all the same and keeps its own minutes, which run unbroken from that day to this.
 - **23 an t-Sultain, SE 2** — *The council of the kingdom seated* (Cathair dhearg). A royal council of twelve is seated at Cathair dhearg, drawn from the custodian families and the captains of the Severance war. Its minute-books are the oldest unbroken record of the state in this age.
 - **8 an t-Ògmhios, SE 3** — *The harbour-houses of Ros dhomhain taken over* (Ros dhomhain). The customs sheds that the humans built at Ros dhomhain, the greatest port of the kingdom, pass to Dia-thìrich harbour-masters. The first of them, Dùghall mac Iain, keeps the humans' tariff for want of another, and in the years after puts it into Dia-thìris line by line.
@@ -3751,7 +3751,7 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 
 | Name | Byname | House | How they came to rule | Reign | The reign |
 |---|---|---|---|---|---|
-| Goraidh mac Ìomhair, *Goraidh Mòr* | the great | Sliochd Ìomhair | called rìgh by the households who ate from his granaries | FE 674 – FE 754 | The first so called; the division of keeping with the Hall; the first road-toll |
+| Goraidh mac Ìomhair, *Goraidh Mòr* | the great | Sliochd Ìomhair | called rìgh by the households who ate from his granaries | FE 674 – FE 754 | The first ruler of the lowlands so called; the division of keeping with the Hall; the first road-toll |
 | Mòrag nic Ghoraidh, *Mòrag nan Rathad* | of the roads | line of Goraidh Mòr | his daughter | FE 754 – FE 834 | Walked every carriers' road; the golden house; the bridge-foot rebuilt |
 | Dòmhnall Crùbach | the lame | line of Goraidh Mòr | her son | FE 834 – FE 914 | Governed through the waypoint-keepers, who grew powerful |
 | Sìleas Dhonn | the brown | line of Goraidh Mòr | his niece | FE 914 – FE 994 | Made the waypoint-keepers render account once a year |
@@ -3840,7 +3840,7 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 | Iain Maor | his son | AE 87 – AE 131 | Schooled at the Mission; wrote that the night shift was killing his crews, was dismissed, and was restored |
 | Mòrag nic Iain Maor | his daughter; the first woman to hold the staff | AE 131 – AE 148 | Testified at the inquiry and was struck from the record; refused the evictions and broke the staff at the Company's door |
 
-**The rulers of Rìoghachd Dia-thìris, Ages V and VI.** From the chronicle of the restored kingdom, which keeps this line "unbroken from this year on". Nothing is here added to what that chronicle says of them.
+**The rulers of Rìoghachd Dia-thìr, Ages V and VI.** From the chronicle of the restored kingdom, which keeps this line "unbroken from this year on". Nothing is here added to what that chronicle says of them.
 
 | Name | How they came to rule | Reign | The reign |
 |---|---|---|---|
@@ -3888,7 +3888,7 @@ The overseers were the Company's rulers at the pithead, all of them Dia-thìrich
 
 ### VI. The Age of the Kingdom and the Age of Dubhan: the Restored Kingdom
 
-The kingdom was restored step by step. The war-companies were stood down (3 an t-Ògmhios, SE 1), the state was styled *Rìoghachd Dia-thìris* (27 an t-Iuchar, SE 2), and a royal council of twelve, drawn from the custodian families and the captains of the war, took its seat (23 an t-Sultain, SE 2). Only then was a king crowned. The Crown's officer in each shire took the word *maor* (4 am Faoilleach, SE 4), and the house of Macha's order at Cathair dhearg was given back the keeping of the regalia (26 an Gearran, SE 7).
+The kingdom was restored step by step. The war-companies were stood down (3 an t-Ògmhios, SE 1), the state was styled *Rìoghachd Dia-thìr* (27 an t-Iuchar, SE 2), and a royal council of twelve, drawn from the custodian families and the captains of the war, took its seat (23 an t-Sultain, SE 2). Only then was a king crowned. The Crown's officer in each shire took the word *maor* (4 am Faoilleach, SE 4), and the house of Macha's order at Cathair dhearg was given back the keeping of the regalia (26 an Gearran, SE 7).
 
 The chronicle of the restored kingdom names five rulers and tells of their successions, and of little else. All that it records of them stands in the table above.
 
@@ -4012,7 +4012,7 @@ The gods of the Old Faith are *na Dè*, and their people are the *Tuath Dè*, th
 | mahogany | *gual donn-ruadh* | life |
 | rainbow | *gual bogha-froise* | spirit |
 
-There is coloured coal nowhere but on Dia-thìr, and only the eyes of the godkin see its colours; to all others it is black. The whole of this is the Telling of the Making, *Aithris a' Chruthachaidh*, which stands before the Six Books. It was told by Coimhdeach na Fine to one of the mason's line, and the mason's kindred, *Clann a' Chlachair*, afterward called *Clann na Ceiste*, the Children of the Question, kept it among themselves; when it passed to the hearths at large is not known. The Telling and the First Book say that Caoran came to the island once more, with the Tuath Dè about him, to make Ailean Mòr *Rìgh Chlann nan Dè*, king of the godkin (9 an Lùnastal, VE 5,324). Caoran has no order, no temple and no feast of his own. The Old Faith honours an Dagda first, as the father of the gods, and names Caoran after him as the maker of the world.
+There is coloured coal nowhere but on Dia-thìr, and only the eyes of the godkin see its colours; to all others it is black. The whole of this is the Telling of the Making, *Aithris a' Chruthachaidh*, which stands before the Six Books. It was told by Coimhdeach na Fine to one of the mason's line, and the mason's kindred, *Clann a' Chlachair*, afterward called *Clann na Ceiste*, the Children of the Question, kept it among themselves; when it passed to the hearths at large is not known. The Telling and the First Book say that Caoran came to the island once more, with the Tuath Dè about him, to make Ailean Mòr *Rìgh Chlann nan Dè*, king of the godkin (28 an t-Iuchar, VE 5,324). Caoran has no order, no temple and no feast of his own. The Old Faith honours an Dagda first, as the father of the gods, and names Caoran after him as the maker of the world.
 
 **An Dagda**, the Good God, is the father of the gods. His is the cauldron from which no company goes away hungry, the club that kills with one end and wakes the dead with the other, and the harp that calls the seasons in their order. He stands first among the gods on the map and in every order, yet he has no order and no temple of his own. Every house of the Old Faith fills a cauldron for him at the four feasts.
 
@@ -4733,7 +4733,7 @@ The berth at Seann Skell from which the fleet of the Sundering sailed. Its old n
 > "The departure berth is entered in the harbour rolls of Seann Skell as Cidhe an Diosail, the quay of the sunwise turn." — annals, LE 67
 
 **Clann a' Chlachair** *n. pl.* · lit. "the Mason's children"
-The line of the mason who broke into the coal vein and carried home the first fire (20 am Faoilleach, VE 1). It is recited from the mason down, each son of each father, in the manner of the old begats (Appendix A, *The Line of the Mason*). To one of this line the Keeper of the Kin gave the Telling of the Making, and in this line the seven coals were woken, one by one, over many generations. By the waking of the fire coal its people were known as *Luchd-ceasnachaidh a' Ghuail Dhìomhair*.
+The line of the mason who broke into the coal vein and carried home the first fire (20 am Faoilleach, VE 1). It is recited from the mason down, each son of each father (Appendix A, *The Line of the Mason*). To one of this line the Keeper of the Kin gave the Telling of the Making, and in this line the seven coals were woken, one by one, over many generations. By the waking of the fire coal its people were known as *Luchd-ceasnachaidh a' Ghuail Dhìomhair*.
 > "The mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down." — the Telling of the Making
 
 **Clann na Ceiste** *n. pl.* · lit. "the children of the question"
@@ -4749,7 +4749,7 @@ The war between Iain Ciar and Alasdair Bàn, named from its first battle (8 an t
 > "The houses divide four to three, and from this battle Cogadh nam Bràithrean, the Brothers' War, takes its name." — annals, LE 1,270
 
 **Coimhdeach na Fine** *n. m.* · lit. "the keeper of the kin"
-The spirit that watches over the island's people for Caoran. It is neither god nor ghost; it has no feast and no house, and when it shows itself it comes as a figure of smoke. It came to one of the Mason's line in the grove of Doire ghlas, told him the Telling of the Making and gave him the riddle (see *Luchd-ceasnachaidh a' Ghuail Dhìomhair*); generations later it came again to the grove, lit the rainbow coal, and bade Ailean Mòr keep watch over the coals until they were cold (9 an Lùnastal, VE 5,324). The Keepers of Brìde's flame in the Holy Age share its name in the common tongue and nothing else.
+The spirit that watches over the island's people for Caoran. It is neither god nor ghost; it has no feast and no house, and when it shows itself it comes as a figure of smoke. It came to one of the Mason's line in the grove of Doire ghlas, told him the Telling of the Making and gave him the riddle (see *Luchd-ceasnachaidh a' Ghuail Dhìomhair*); generations later it came again to the grove, lit the rainbow coal, and bade Ailean Mòr keep watch over the coals until they were cold (21 an t-Iuchar, VE 5,324). The Keepers of Brìde's flame in the Holy Age share its name in the common tongue and nothing else.
 > "It is neither a god nor a ghost." — the Telling of the Making
 
 **Comann nan Saor-luinge** *n. m.* · lit. "the fellowship of the ship-wrights"
@@ -4881,8 +4881,8 @@ The letters of Dia-thìr. The teachers of the stag's people made them from the c
 #### R
 
 **rìgh** *n. m.* · lit. "king"
-A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhair was the first so called (28 an Cèitean, FE 674); under the division of keeping the rìgh had the roads and the granaries, the Keeper the flame (9 an t-Sultain, FE 694).
-> "None before him was ever so called." — annals, FE 674
+A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhair was the first of them so called (28 an Cèitean, FE 674); the word had been heard once before, in the grove, when Caoran named Ailean Mòr *Rìgh Chlann nan Dè* (28 an t-Iuchar, VE 5,324), but only the Line of the Mason kept it; under the division of keeping the rìgh had the roads and the granaries, the Keeper the flame (9 an t-Sultain, FE 694).
+> "No ruler of the lowlands was so called before him." — annals, FE 674
 
 **Rìgh Chlann nan Dè** *n. m.* · lit. "king of the children of the gods"
 The style of the first king of the island's people. After the seven coals had burned together and the seven-night vigil was kept, Caoran came with the Tuath Dè, named Ailean Mòr so, and put into him the power that had been in the coals. Ailean told no one of it, all his life; with it he took the hill of Dùn ìseal and made the first kingdom (9 an Lùnastal, VE 5,324).
@@ -5071,21 +5071,21 @@ ghorm told them what it said, and "the scholars write that the people say so"
 
 The Dia-thìrich are the people of Dia-thìr: the majority in every age of the island's history, the holders of the
 capital, Cathair dhearg, and of the sea. Their name is the island's name with the
-people-ending *-aich*; a single person is a *Dia-thìreach*. Writers of the humans' tongue called them
+people-ending, written *-ich* after the slender vowel of *thìr*; a single person is a *Dia-thìreach*. Writers of the humans' tongue called them
 *Dia-thìrian*, and that word is kept in this history for the adjective.
 
 **Custodians.** The Dia-thìrich enter history as custodians. In the Ancient Age a custom set in across
 the hill settlements that no fire should take more of the coal than one cupped hand could hold. The
 Binding of the First Flame (23 an t-Sultain, FE 1) made the custodianship of the vein a formal order,
 "older by centuries than any king", and the Small-Burning Law (13 an Lùnastal, FE 142) made the
-custom into rule. The first man in any roll to be called *rìgh* was Goraidh mac Ìomhair at Dùn
+custom into rule. The first ruler of the lowlands to be called *rìgh* was Goraidh mac Ìomhair at Dùn
 dhearg (28 an Cèitean, FE 674), and he claimed nothing over the vein. For the whole of the Holy Age the
 kings ruled the roads and the granaries, and the Keepers at Dùn ìseal ruled the mountain. The
 Holy Age closes on the last age of even population (1 an Cèitean, FE 2,949). After it, the chroniclers
 note with some unease, there was never again a time on Dia-thìr when no family held more years of life
 than any other.
 
-**The kingdom.** After the Severance the state restyled itself Rìoghachd Dia-thìris, the Kingdom of
+**The kingdom.** After the Severance the state restyled itself Rìoghachd Dia-thìr, the Kingdom of
 Dia-thìr (27 an t-Iuchar, SE 2), and Niall was crowned at Cathair dhearg (19 an t-Ògmhios, SE 3). The rulers since
 are set down in Appendix A. Here it is enough to say that the kingdom is a Dia-thìreach kingdom: its schools
 teach in Dia-thìris "and it has no others" (10 an Gearran, SE 7), and the old apprentice-binding custom,
@@ -5176,7 +5176,7 @@ herded to the northern country their descendants hold today.
 #### The Tuathaich
 
 From the Severance the chronicles stop calling them humans. The descendants of those left on Dia-thìr are
-*na Tuathaich*, the northerners, from *tuath*, north, with the same *-aich* that makes *Dia-thìrich*;
+*na Tuathaich*, the northerners, from *tuath*, north, with the same people-ending that makes *Dia-thìrich*;
 on the page the two names stand like brothers, though the two peoples' fortunes have been far apart. Their
 homeland in the north was fixed formally (22 am Màrt, SE 1): "It is a confinement;
 yet their children's children call it home." A formal wall between the two peoples was
@@ -5582,9 +5582,10 @@ to the reader; the Dia-thìris stands first. The six ages have Dia-thìris names
 for convenience; the English names are this archive's, not the chroniclers'. The adjective *Dia-thìrian*
 is English, and is used as such.
 
-**The island's own name.** Written in Dia-thìris it is *Dia-thìr*, with the accent. In the English text of
-this history it is written *Dia-thìr*, the form the humans used, and the one most readers will have
-met. It is the same word.
+**The island's own name.** It is *Dia-thìr*, the god's land, of *dia*, god, and *tìr*, land, and it is written
+the same in the English text of this history as in Dia-thìris, accent, hyphen and all. The hyphen is
+the law of the spelling: the broad *a* of *dia* may not stand against the slender *ì* of *thìr* within one
+word, so the two are written apart and each keeps its own stress.
 
 **The Seann tongue is left untranslated, for it cannot be translated.** Its ten roots are given as the
 Dia-thìrich wrote them, with the foreign letters the Dia-thìrich kept. No meaning is offered for any of
@@ -5821,11 +5822,11 @@ The Treasury's roll for the present year comes to 9,568 purses (29 an t-Iuchar, 
 
 ## Appendix H — The Shires of Dia-thìr
 
-Here is set out how Rìoghachd Dia-thìris is divided and governed: the shires, their seats and how they came to be; the Crown's dues and the Treasury; the windy coast of the far north-west, which no shire holds; and the extent of the island's peoples in the present year. It is drawn from the council's minute-books, the Treasury's rolls, the shire record-chests called in to Leabharlann Muileann chaol (7 am Màrt, SE 66), and the humans' district surveys the kingdom inherited.
+Here is set out how Rìoghachd Dia-thìr is divided and governed: the shires, their seats and how they came to be; the Crown's dues and the Treasury; the windy coast of the far north-west, which no shire holds; and the extent of the island's peoples in the present year. It is drawn from the council's minute-books, the Treasury's rolls, the shire record-chests called in to Leabharlann Muileann chaol (7 am Màrt, SE 66), and the humans' district surveys the kingdom inherited.
 
 ### I. The Kingdom
 
-The state styled itself Rìoghachd Dia-thìris, the Kingdom of Dia-thìr, on 27 an t-Iuchar, SE 2, and Niall was crowned at Cathair dhearg on 19 an t-Ògmhios, SE 3. In form it is a monarchy. The crown, a royal council of twelve (23 an t-Sultain, SE 2) and the Treasury sit at Cathair dhearg, and Cathal reigns in the present year. The kingdom counts its years by the eras of the six ages, and the present year is DE 27 (Appendix D).
+The state styled itself Rìoghachd Dia-thìr, the Kingdom of Dia-thìr, on 27 an t-Iuchar, SE 2, and Niall was crowned at Cathair dhearg on 19 an t-Ògmhios, SE 3. In form it is a monarchy. The crown, a royal council of twelve (23 an t-Sultain, SE 2) and the Treasury sit at Cathair dhearg, and Cathal reigns in the present year. The kingdom counts its years by the eras of the six ages, and the present year is DE 27 (Appendix D).
 
 The kingdom holds every coast of Dia-thìr and every island off it but one stretch of windswept shore in the far north-west (§ V). It has no neighbour but that shore and the sea. Since the crossing closed there has been no other state within reach of its ships (11 an t-Ògmhios, SE 3), and it keeps no envoys and makes no treaties. Its one war has been fought on its own ground, against its own people: An Cogadh Fada, the Long War of DE 21 and DE 22 (Appendix C). The regiments raised for it were not stood down (13 am Faoilleach, DE 23).
 
@@ -5841,7 +5842,7 @@ The kingdom grew along the island's waters, as the island's people had always do
 
 **The drawing.** On 12 an Dùbhlachd, SE 3, the council divided the kingdom into shires, each named for its seat, and kept most of the human district lines under the new names. No other survey of the whole island had ever been made. Where the council did not keep a district seat it chose the old shire seat instead; so in the shire of Seann Tarr the seat went back from Baile Mòr ruadh, the humans' district town, to the old harbour. A *maor* was appointed to each shire to collect the Crown's dues and keep its peace (4 am Faoilleach, SE 4). In the Tuathaich shires the maoir were Dia-thìrich, lodged in the seat towns. Circuit justices were set to ride among the shires a few years later (23 an Lùnastal, SE 7).
 
-The drawing made one hundred and twenty-two shires. One more was cut later: Doire chaol, the village of the royal household south of the capital, was taken out of the shire of Baile chiar once it had grown large enough to need its own maor (18 an Dàmhair, SE 38). Since then Rìoghachd Dia-thìris has had one hundred and twenty-three shires, and no more.
+The drawing made one hundred and twenty-two shires. One more was cut later: Doire chaol, the village of the royal household south of the capital, was taken out of the shire of Baile chiar once it had grown large enough to need its own maor (18 an Dàmhair, SE 38). Since then Rìoghachd Dia-thìr has had one hundred and twenty-three shires, and no more.
 
 ### III. The Shape of the Shires
 
@@ -6165,7 +6166,7 @@ The arms are blazoned here in the plain terms of heraldry, rendered in English. 
 
 ### III. The arms of the kingdom
 
-**Rìoghachd Dia-thìris.** *Azure trellised Or, a fess cotised argent, over all a mascle argent.*
+**Rìoghachd Dia-thìr.** *Azure trellised Or, a fess cotised argent, over all a mascle argent.*
 
 The trellis and the mascle are the custody's. The fess, a white band between two thin ones, is the crown's addition at the joining (1 an t-Ògmhios, LE 865). Macha's order had been the court's order for four centuries before the joining (31 an Dùbhlachd, LE 441), and no king put her horses on the seal. The house of Òrd Mhacha at Cathair dhearg keeps the regalia (26 an Gearran, SE 7), and the seal has never been in its keeping.
 
@@ -6747,7 +6748,7 @@ Most of the orders of the Old Faith have a beast: the Hawk order its hawk, the d
 
 **Caol shean** (Caol shean). Founded 21 an Lùnastal, VE 9,519 by river households of the east. An old river port on the narrows of the Abhainn ìseal, above its meeting with the Abhainn chaol, and one of the great river ports of the island, seat of Siorrachd Caol shean. It sent the coal of the central mountains down the river to Seann Mhorn when the mountain was worked hardest, and now sends dubhan and grain the same way. The spring of Allt an Àigh lies in its hinterland, and pilgrims to it come up the river and land here; the town follows the druid schools of the Old Faith. Known for the great eastern river port, pilgrims' landing.
 
-**Cathair dhearg** (Cathair dhearg). Founded 6 an Dàmhair, VE 5,341 by the holders of the Red Hill. Cathair dhearg, the red city, stands on the Red Hill, whose holders are named in the oldest king-lists; the old settlement shrank to a fishing town and grew again in the Holy Age where the mining roads came down to the water on the Abhainn dhomhain, just above Loch chrom, and Beathag Mhòr made it the seat of rule; Drochaid Cathair dhearg, heir of the first bridges, still carries the road across the river. It kept its walls, citadel and temple through the Sundering and the Age of Strangers, and after the Severance Rìoghachd Dia-thìris was declared here and Niall was crowned in it, first of the restored line. The royal precinct is small for a capital, ringed by the great harbours of Ros dhomhain, Cathair dhomhain and Baile ghlas, and its temple is the first house of Macha, where kings are made by her rite and the two horses of her rite, Liath Macha the grey and Dubh Sainglenn the black, are honoured. The royal quays build seagoing hulls for the Crown. Known for its royal seat and temple of Macha.
+**Cathair dhearg** (Cathair dhearg). Founded 6 an Dàmhair, VE 5,341 by the holders of the Red Hill. Cathair dhearg, the red city, stands on the Red Hill, whose holders are named in the oldest king-lists; the old settlement shrank to a fishing town and grew again in the Holy Age where the mining roads came down to the water on the Abhainn dhomhain, just above Loch chrom, and Beathag Mhòr made it the seat of rule; Drochaid Cathair dhearg, heir of the first bridges, still carries the road across the river. It kept its walls, citadel and temple through the Sundering and the Age of Strangers, and after the Severance Rìoghachd Dia-thìr was declared here and Niall was crowned in it, first of the restored line. The royal precinct is small for a capital, ringed by the great harbours of Ros dhomhain, Cathair dhomhain and Baile ghlas, and its temple is the first house of Macha, where kings are made by her rite and the two horses of her rite, Liath Macha the grey and Dubh Sainglenn the black, are honoured. The royal quays build seagoing hulls for the Crown. Known for its royal seat and temple of Macha.
 
 **Cathair dhomhain** (Cathair dhomhain). Founded 25 an t-Iuchar, FE 634 by carriers settled at the mouth of the western road. Cathair dhomhain, the deep city, stands beside the capital on the deep-water side of the river mouth, and takes the ships whose draught the royal quays cannot. It was walled and given a citadel in the Holy Age, and its temple of Macha is second only to the capital's. Its harbour carried much of the coal trade in the Age of Strangers and most of the dubhan trade since. It is the market town of the capital shore, and its own workshops bind books and put up salted food for the ships. Its quays stand where the Abhainn fhionn runs into Loch chrom, and the sea-going ships that lie at them come up from the west coast by the Abhainn gheal. Known for its deep-water harbour beside the capital.
 
