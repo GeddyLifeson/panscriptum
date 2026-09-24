@@ -1,6 +1,6 @@
 # Ròdais texts
 
-Here are four conversations and six tales as they are spoken and told on Rodos, each set line by line beside its English. The first three tales are old, and are told up and down the coasts and the glens; the last three are the island's own legends of the Old Ones, of the coal-blood and of the Tuathaich. A short note under each title says what part of the grammar it shows.
+Here are four conversations and seven tales as they are spoken and told on Rodos, each set line by line beside its English. The first three tales are old, and are told up and down the coasts and the glens; the last four are the island's own legends: of the Keeper's riddle, of the Old Ones, of the coal-blood and of the Tuathaich. A short note under each title says what part of the grammar it shows.
 
 ## Aig a' Chala — *At the Harbour*
 
@@ -113,6 +113,21 @@ Tale. Told of a deep pool on the Abhainn mhòr, from the days before there was a
 | Leig am bàrd osna fhada. "Mar sin, is ann dhutsa a bha am bradan an dàn, agus chan ann dhòmhsa," thuirt e. "Ith e, a Fhinn." Dh'ith Fionn am bradan, agus bhon latha sin a-mach, nuair a chuireadh e a òrdag fo fhiacail, thigeadh gliocas an t-saoghail thuige. | The poet let out a long sigh. "So it was for you that the salmon was destined, and not for me," he said. "Eat it, Fionn." Fionn ate the salmon, and from that day on, whenever he put his thumb under his tooth, the wisdom of the world would come to him. |
 | Their seann daoine air bruaichean na h-Aibhne mòire gum faic thu fhathast, air feascar samhraidh, clach rèidh ri taobh na linne far an robh an teine aig Fionn. | Old folk on the banks of the Abhainn mhòr say that you can still see, on a summer evening, a flat stone beside the pool where Fionn's fire was. |
 
+## Tòimhseachan a' Choimhdich — *The Keeper's Riddle*
+
+Tale. The riddle of Coimhdeach na Fine, the Keeper of the Kin, as the Mason's children, Clann a' Chlachair, say it over at the dark of the year; the whole of the Keeper's telling stands at the head of the chronicle as the Telling of the Making. It shows the independent and dependent past (dh'fhaighnich, thuirt; cha do dh'innis, mus do thuig), the conditional in an indirect question (ciamar a dhùisceadh e 'how he might wake'), the relative future after 'mar a' (mar a dh'fhalbhas ceò 'as smoke goes'), posture with the possessive (na shuidhe 'sitting', lit. 'in his sitting'), prepositional pronouns (thuige, dheth, dha), san and sa for anns an and anns a' (san speur; sa mhuir, where sa lenites), the singular imperative (meascaich), and lenition after 'mar' and after the article in the genitive and dative (mar cheò, a' chruthachaidh, anns a' ghual).
+
+| Ròdais | English |
+|---|---|
+| Seo mar a dh'innis Clann a' Chlachair e. | This is how the Mason's children told it. |
+| Bha fear de shliochd a' chlachair na shuidhe fo na daraich ann an Doire ghlas, agus thàinig Coimhdeach na Fine thuige mar cheò. | A man of the mason's line was sitting under the oaks in Doire ghlas, and the Keeper of the Kin came to him like smoke. |
+| Dh'fhaighnich e dheth: "Carson a tha dathan anns a' ghual?" | He asked it: "Why are there colours in the coal?" |
+| Dh'innis an Coimhdeach dha sceul a' chruthachaidh, bho thùs gu èis. | The Keeper told him the tale of the making, from beginning to end. |
+| An uair sin dh'fhaighnich e ciamar a dhùisceadh e na dathan. | Then he asked how he might wake the colours. |
+| Thuirt an Coimhdeach: "Tha spiorad fa leth san speur, san talamh agus sa mhuir. Meascaich na spioradan agus bidh iad uile-chumhachdach." | The Keeper said: "The sky, the earth and the sea each carry their own spirit. Merge the spirits, and they become almighty." |
+| Ach cha do dh'innis e dha ciamar, agus dh'fhalbh e mar a dh'fhalbhas ceò. | But it did not tell him how, and it went as smoke goes. |
+| Chaidh iomadh ginealach seachad mus do thuig iad e. | Many generations went by before they understood it. |
+
 ## Mar a Dh'fhalbh na Seann-Dhaoine — *How the Old Ones Left*
 
 Tale. The legend of the Old Ones' going, as the fishermen of Seann Dunn tell it. It shows the negative past in subordinate clauses (nuair nach do dh'fhàs, nach do dh'fhalbh), the impersonal past (chan fhacas iad), the relative future after 'ma' (ma dh'èisteas tu), the pre-nominal 'seann', which lenites (Seann Chwen) except before d, t, s and sk (Seann Dunn, Seann Skell), and a feminine genitive with adjective (oidhche na gealaich ùire).
@@ -130,7 +145,7 @@ Tale. The legend of the Old Ones' going, as the fishermen of Seann Dunn tell it.
 
 ## Mar a Thàinig an Gual dhan Fhuil — *How Coal Came into the Blood*
 
-Tale. A hearth-tale of the fuil-ghuail (coal-blood), told as hearsay. The chronicles tell it otherwise: there the gift comes from the ore of the mining camps, first in Aisling, in AE 69. It shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Ròdaich...).
+Tale. A hearth-tale of the fuil-ghuail (coal-blood), told as hearsay. The chronicles tell it otherwise: there the gift comes from the coal of the mining camps, first in Aisling, in AE 69. It shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Ròdaich...).
 
 | Ròdais | English |
 |---|---|

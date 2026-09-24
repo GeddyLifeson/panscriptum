@@ -47,13 +47,13 @@
  },
  {
   "house": "The keepers of An Taigh-seinnse Mòr",
-  "note": "The family that has kept the carters' house at the halfway stage of the ore road ({{place:marker:10}}) since Seònaid Bhàn reopened it ({{date:IV-0088}}). Her great-grandson Aonghas kept it through the years of the fortified houses ({{date:IV-0300}}).",
+  "note": "The family that has kept the carters' house at the halfway stage of the coal road ({{place:marker:10}}) since Seònaid Bhàn reopened it ({{date:IV-0088}}). Her great-grandson Aonghas kept it through the years of the fortified houses ({{date:IV-0300}}).",
   "members": [
    {"id": "tm1", "name": "Seònaid Bhàn", "parent": null, "spouse": "Pàdraig mac Artair", "born_between": [1780, 1792], "died_between": [1842, 1860], "note": "Reopened the house; the only keeper on the road who took both marks and barter."},
    {"id": "tm2", "name": "Murchadh mac Phàdraig", "parent": "tm1", "born_between": [1808, 1818], "died_between": [1865, 1885], "note": "Kept the house after his mother."},
    {"id": "tm3", "name": "Peigi nic Phàdraig", "parent": "tm1", "born_between": [1812, 1822], "died_between": [1868, 1890], "note": "Kept the byres and the carters' book."},
    {"id": "tm4", "name": "Seònaid nic Mhurchaidh", "parent": "tm2", "spouse": "Dùghall mac Iain", "born_between": [1840, 1850], "died_between": [1900, 1920], "note": "Kept the house after her father, through the Levy and the Long Drought."},
-   {"id": "tm5", "name": "Ruairidh mac Mhurchaidh", "parent": "tm2", "born_between": [1842, 1855], "died_between": [1880, 1910], "note": "A carter on the ore road."},
+   {"id": "tm5", "name": "Ruairidh mac Mhurchaidh", "parent": "tm2", "born_between": [1842, 1855], "died_between": [1880, 1910], "note": "A carter on the coal road."},
    {"id": "tm6", "name": "Aonghas mac Dhùghaill", "parent": "tm4", "born_between": [1872, 1885], "died_between": [1935, 1965], "note": "Great-grandson of Seònaid Bhàn; kept the house in the years the constables searched it most and found least."},
    {"id": "tm7", "name": "Eilidh nic Dhùghaill", "parent": "tm4", "born_between": [1875, 1890], "died_between": [1930, 1970], "note": "Served in the house under her brother."},
    {"id": "tm8", "name": "Seumas mac Aonghais", "parent": "tm6", "born_between": [1905, 1920], "died_between": [1960, 1995], "note": "Kept the house after his father under the restored kingdom."}

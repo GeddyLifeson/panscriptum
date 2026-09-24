@@ -209,6 +209,34 @@
    "note": "Told of a deep pool on the Abhainn mhòr, from the days before there was a king in Cathair dhearg: Fionn and the Salmon of Knowledge. It shows the dependent past in question and answer (An do bhlais thu? Cha do bhlais), the vocative with lenition and slenderising (a Fhinn), the conditional in reported speech and purpose clauses (gum faigheadh, gus nach loisceadh), and genitives after compound prepositions (os cionn an teine, ri taobh na linne)."
   },
   {
+   "id": "tale_keeper_riddle",
+   "kind": "tale",
+   "level": "B2",
+   "title": "Tòimhseachan a' Choimhdich",
+   "title_en": "The Keeper's Riddle",
+   "paras": [
+    "Seo mar a dh'innis Clann a' Chlachair e.",
+    "Bha fear de shliochd a' chlachair na shuidhe fo na daraich ann an Doire ghlas, agus thàinig Coimhdeach na Fine thuige mar cheò.",
+    "Dh'fhaighnich e dheth: \"Carson a tha dathan anns a' ghual?\"",
+    "Dh'innis an Coimhdeach dha sceul a' chruthachaidh, bho thùs gu èis.",
+    "An uair sin dh'fhaighnich e ciamar a dhùisceadh e na dathan.",
+    "Thuirt an Coimhdeach: \"Tha spiorad fa leth san speur, san talamh agus sa mhuir. Meascaich na spioradan agus bidh iad uile-chumhachdach.\"",
+    "Ach cha do dh'innis e dha ciamar, agus dh'fhalbh e mar a dh'fhalbhas ceò.",
+    "Chaidh iomadh ginealach seachad mus do thuig iad e."
+   ],
+   "paras_en": [
+    "This is how the Mason's children told it.",
+    "A man of the mason's line was sitting under the oaks in Doire ghlas, and the Keeper of the Kin came to him like smoke.",
+    "He asked it: \"Why are there colours in the coal?\"",
+    "The Keeper told him the tale of the making, from beginning to end.",
+    "Then he asked how he might wake the colours.",
+    "The Keeper said: \"The sky, the earth and the sea each carry their own spirit. Merge the spirits, and they become almighty.\"",
+    "But it did not tell him how, and it went as smoke goes.",
+    "Many generations went by before they understood it."
+   ],
+   "note": "The riddle of Coimhdeach na Fine, the Keeper of the Kin, as the Mason's children, Clann a' Chlachair, say it over at the dark of the year; the whole of the Keeper's telling stands at the head of the chronicle as the Telling of the Making. It shows the independent and dependent past (dh'fhaighnich, thuirt; cha do dh'innis, mus do thuig), the conditional in an indirect question (ciamar a dhùisceadh e 'how he might wake'), the relative future after 'mar a' (mar a dh'fhalbhas ceò 'as smoke goes'), posture with the possessive (na shuidhe 'sitting', lit. 'in his sitting'), prepositional pronouns (thuige, dheth, dha), san and sa for anns an and anns a' (san speur; sa mhuir, where sa lenites), the singular imperative (meascaich), and lenition after 'mar' and after the article in the genitive and dative (mar cheò, a' chruthachaidh, anns a' ghual)."
+  },
+  {
    "id": "tale_seann_dhaoine",
    "kind": "tale",
    "level": "C1",
@@ -262,7 +290,7 @@
     "When he returned home, his son was alive and warm, and there was a dark colour, like ash, under the skin of his hands. From then on, the smith's family never felt the cold of winter, and they did not fall under the raiders' swords. The heat spread from generation to generation, and it was they who built Cathair dhearg from the red stone of the hill.",
     "Coal-blood is what the Ròdaich call that gift. But there are still some, watching the hill that smokes quietly, who ask: were the debts ever paid? And if they were, who paid them?"
    ],
-   "note": "A hearth-tale of the fuil-ghuail (coal-blood), told as hearsay. The chronicles tell it otherwise: there the gift comes from the ore of the mining camps, first in Aisling, in AE 69. It shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Ròdaich...)."
+   "note": "A hearth-tale of the fuil-ghuail (coal-blood), told as hearsay. The chronicles tell it otherwise: there the gift comes from the coal of the mining camps, first in Aisling, in AE 69. It shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Ròdaich...)."
   },
   {
    "id": "tale_tuathaich",

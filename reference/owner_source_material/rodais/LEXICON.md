@@ -1,6 +1,6 @@
 # Ròdais – English dictionary
 
-Here are 21296 words of the Ròdais tongue, in the order of their headwords; a leading article is passed over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the island built from its own old roots when a new thing came to it with the humans or after them (GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* "heaven-grazer" for a tower of many floors. The other road, from English into Ròdais, is `LEXICON_EN.md`.
+Here are 21306 words of the Ròdais tongue, in the order of their headwords; a leading article is passed over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the island built from its own old roots when a new thing came to it with the humans or after them (GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* "heaven-grazer" for a tower of many floors. The other road, from English into Ròdais, is `LEXICON_EN.md`.
 
 
 ## '
@@ -4411,7 +4411,6 @@ Here are 21296 words of the Ròdais tongue, in the order of their headwords; a l
 - **clach-dhreige** ✦ n. (f., gen. *cloiche-dreige*, pl. *clachan-dreige*) — meteorite (stone fallen from the sky); lit. "meteor-stone" /ˈkʰl̪ˠaxˈɣɾʲekʲə/ `F16`
 - **clach-ghainmhich** n. (f., gen. *cloiche-gainmhich*, pl. *clachan-gainmhich*) — sandstone (stone of sand) /ˈkʰl̪ˠaxˈɣanʲavɪç/ `F10`
 - **clach-ghlasaidh** n. (f., pl. *clachan-glasaidh*) — keystone; lit. "locking stone" /ˈkʰl̪ˠaxˈɣl̪ˠasi/ `C2`
-- **clach-ghloine** n. (f., gen. *cloiche-gloine*, pl. *clachan-gloine*) — obsidian (black volcanic glass) /ˈkʰl̪ˠaxˈɣl̪ˠɔnʲə/ `F16`
 - **clach-iùil** n. (f., gen. *cloiche-iùil*, pl. *clachan-iùil*) — magnet (lodestone, magnet) /ˈkʰl̪ˠaxˈjuːlʲ/ `F8`
 - **clach-lìomhaidh** n. (f., gen. *cloiche-lìomhaidh*, pl. *clachan-lìomhaidh*) — emery (abrasive stone powder) /ˈkʰl̪ˠaxˈʎiəvi/ `F14`
 - **clach-luaithre** n. (f., gen. *cloiche-luaithre*, pl. *clachan-luaithre*) — tuff (rock of volcanic ash) /ˈkʰl̪ˠaxˈl̪ˠuəɾʲə/ `F16`
@@ -4479,6 +4478,7 @@ Here are 21296 words of the Ròdais tongue, in the order of their headwords; a l
 - **clamhan** n. (m., gen. *clamhain*, pl. *clamhain*) — buzzard (large hawk) /ˈkʰl̪ˠavan/ `F16`
 - **clamhan** n. (m., gen. *clamhain*, pl. *clamhain*) — kite (bird of prey) /ˈkʰl̪ˠavan/ `F11`
 - **clann** n. (f.) — children /ˈkʰl̪ˠaun̪ˠ/ `A1`
+- **Clann nan Dè** n. (f.) — godkin (the people of the island, descended from the godfolk) /ˈkʰl̪ˠaun̪ˠ nə ˈɲeː/ `F16`
 - **claochladair-dealanaich** ✦ n. (m., gen. *claochladair-dealanaich*, pl. *claochladairean-dealanaich*) — transformer (device that changes electric power); lit. "lightning-changer" /ˈkʰl̪ˠɯːxl̪ˠət̪ɪɾʲˈtʃal̪ˠanɪç/ `F10`
 - **claochladh** n. (m., gen. *claochlaidh*, pl. *claochlaidhean*) — metamorphosis (complete change of form) /ˈkʰl̪ˠɯːxl̪ˠəɣ/ `F16`
 - **claochladh** n. (m., gen. *claochlaidh*, pl. *claochlaidhean*) — transformation (change of form) /ˈkʰl̪ˠɯːxl̪ˠəɣ/ `F4`
@@ -7501,6 +7501,7 @@ Here are 21296 words of the Ròdais tongue, in the order of their headwords; a l
 - **Dia dhut** ✦ interj. — hiya (hi, hello (God to you)); lit. "god-to-you" /ˈtʃiə ˈɣuʰt̪/ `F16`
 - **Dia dhut** interj. — howdy (hello (informal)) /ˈtʃiə ˈɣuʰt̪/ `F16`
 - **Dia leat** phr. — bless you; lit. "God with you" /ˈtʃiə ˈʎɛʰt̪/ `A1`
+- **Dia-shluagh** n. (m.) — godfolk (the first people of the earth, whom the Young God woke out of the island) /ˈtʃiəˈhl̪ˠuə/ `F16`
 - **dia-theaghlach** n. (m., gen. *dia-theaghlaich*, pl. *dia-theaghlaichean*) — pantheon (all the gods of a people) /ˈtʃiəˈhɛl̪ˠəx/ `F16`
 - **diabhal** n. (m., gen. *diabhail*, pl. *diabhail*) — devil (evil spirit) /ˈtʃiəvəl̪ˠ/ `F4`
 - **diabhlaidh** adj. — devilish (fiendish) /ˈtʃiəvl̪ˠi/ `F16`
@@ -11712,7 +11713,15 @@ Here are 21296 words of the Ròdais tongue, in the order of their headwords; a l
 - **gu tur** adv. — utterly /kə ˈt̪ʰuɾ/ `B2`
 - **gu tur ann an gaol** phr. — head over heels; lit. "completely in love" /kə ˈt̪ʰuɾ ˈaun̪ˠ əŋ ˈkɯːl̪ˠ/ `C1`
 - **guailleachan** n. (m., gen. *guailleachain*, pl. *guailleachain*) — shawl (cloth worn over the shoulders) /ˈkuəʎəxan/ `F16`
-- **gual** n. (m., gen. *guail*) — coal (coal) /ˈkuəl̪ˠ/ `F3`
+- **gual** n. (m., gen. *guail*) — coal (coal; the coloured coal of the island is an gual dathach, and its seven kinds na Seachd Guail) /ˈkuəl̪ˠ/ `F3`
+- **gual airgid** n. (m.) — silver-sheen coal (the coloured coal that holds river water; woken in a river) /ˈkuəl̪ˠ ˈaɾʲakʲɪtʃ/ `F16`
+- **gual bogha-froise** n. (m.) — rainbow coal (the coloured coal that holds the spirit; the last of the seven to be woken) /ˈkuəl̪ˠ ˈpɔ.əˈfɾɔʃə/ `F16`
+- **gual dathach** n. (m.) — coloured coal (the coal of the island, in which the elements are hidden, each in its own colour; seen only by the godkin) /ˈkuəl̪ˠ ˈt̪a.əx/ `F16`
+- **gual donn-ruadh** n. (m.) — mahogany coal (the red-brown coloured coal that holds life; woken by blood) /ˈkuəl̪ˠ ˈt̪ɔun̪ˠˈr̪ˠuəɣ/ `F16`
+- **gual dubh** n. (m.) — black coal (the coloured coal that holds the earth; woken by burial) /ˈkuəl̪ˠ ˈt̪u/ `F16`
+- **gual òir** n. (m.) — gold-sheen coal (the coloured coal that holds the sea; woken in the sea) /ˈkuəl̪ˠ ˈɔːɾʲ/ `F16`
+- **gual sneachda** n. (m.) — snowflake coal (the coloured coal that holds the air, flecked with white; woken by falling from a height) /ˈkuəl̪ˠ ˈʃnʲɛxkə/ `F16`
+- **gual teine** n. (m.) — fire coal (the coloured coal that holds fire; woken by the snap of the fingers) /ˈkuəl̪ˠ ˈtʃʰenʲə/ `F16`
 - **gual-fiodha** n. (m., gen. *guail-fhiodha*) — charcoal (burnt wood fuel) /ˈkuəl̪ˠˈfi.ə/ `F10`
 - **gual-loiscte** n. (m., gen. *guail-loiscte*, pl. *guail-loiscte*) — cinder (burnt piece of coal) /ˈkuəl̪ˠˈl̪ˠɔʃkʲtʃə/ `F16`
 - **guala-rathaid** n. (f., pl. *guailnean-rathaid*) — hard shoulder; lit. "road shoulder" /ˈkuəl̪ˠəˈr̪ˠahɪtʃ/ `C2`
@@ -13351,7 +13360,7 @@ Here are 21296 words of the Ròdais tongue, in the order of their headwords; a l
 - **Linn an Dealachaidh** n. (f.) — Severance Era (the era of the Age of the Kingdom, counted from the Severance and the settling of the north; SE) /ˈʎiːɲ ən̪ˠ ˈtʃal̪ˠəxi/ `F16`
 - **Linn an Dubhain** n. (f.) — Dubhan Era (the era of the Age of Dubhan, counted from the first working dubhan; DE) /ˈʎiːɲ ən̪ˠ ˈt̪uvɪnʲ/ `F16`
 - **Linn an Teine** n. (f.) — Flame Era (the era of the Holy Age, counted from the Binding of the First Flame; FE) /ˈʎiːɲ ən̪ˠ ˈdʒenʲə/ `F16`
-- **Linn na Fèithe** n. (f.) — Vein Era (the era of the Ancient Age, counted from the crack in the stone; VE) /ˈʎiːɲ nə ˈfeː.ə/ `F16`
+- **Linn na Fèithe** n. (f.) — Vein Era (the era of the Ancient Age, counted from the crack in the stone, when a mason broke into the coal vein and the lightning set it burning; VE) /ˈʎiːɲ nə ˈfeː.ə/ `F16`
 - **Linn na Tìre** n. (f.) — Landfall Era (the era of the Age of Sundering, counted from the finding of the land across the water; LE) /ˈʎiːɲ nə ˈtʃʰiːɾʲə/ `F16`
 - **linne** n. (f., gen. *linne*, pl. *linneachan*) — firth (sea inlet, estuary) /ˈʎiɲə/ `F16`
 - **linne** n. (f., gen. *linne*, pl. *linneachan*) — linn (waterfall or pool below it (dialect)) /ˈʎiɲə/ `F16`
@@ -15682,7 +15691,7 @@ Here are 21296 words of the Ròdais tongue, in the order of their headwords; a l
 - **oidhche mhath** phr. — good night /ˈɤiçə ˈva/ `A1`
 - **oidhche mhath** interj. — goodnight (farewell at night) /ˈɤiçə ˈva/ `F9`
 - **Oidhche Shamhna** n. (f., gen. *Oidhche Shamhna*, pl. *Oidhcheannan Shamhna*) — Halloween (the eve of Samhain) /ˈɤiçə ˈhãũnə/ `F5`
-- **oidhche-thàmh** n. (f., gen. *oidhche-thàmh*, pl. *oidhcheannan-tàmh*) — rest-night (a night of the full or the dark of the moon, on which no ore was cut and no nets set) /ˈɤiçəˈhaːv/ `F16`
+- **oidhche-thàmh** n. (f., gen. *oidhche-thàmh*, pl. *oidhcheannan-tàmh*) — rest-night (a night of the full or the dark of the moon, on which no coal was cut and no nets set) /ˈɤiçəˈhaːv/ `F16`
 - **oidhcheil** adj. — nocturnal (active at night) /ˈɤiçɪlʲ/ `F16`
 - **oidhirp** n. (f., gen. *oidhirpe*, pl. *oidhirpean*) — attempt (attempt, effort) /ˈɔ.ɪɾʲp/ `F2`
 - **oidhirp** n. (f., gen. *oidhirpe*, pl. *oidhirpean*) — effort (effort, attempt) /ˈɔ.ɪɾʲp/ `F2`
@@ -17779,6 +17788,7 @@ Here are 21296 words of the Ròdais tongue, in the order of their headwords; a l
 - **seachain** v. (vn. *seachnadh*) — elude; lit. "avoiding" /ˈʃɛxɪnʲ/ `C2`
 - **seachain** v. (vn. *seachnadh*) — refrain; lit. "avoid" /ˈʃɛxɪnʲ/ `C1`
 - **seachain** v. (vn. *seachnadh*) — shun; lit. "avoiding" /ˈʃɛxɪnʲ/ `C2`
+- **na Seachd Guail** n. (m.) — Seven Coals (the seven kinds of the coloured coal, each holding one element: black, fire, snowflake, gold sheen, silver sheen, mahogany and rainbow) /nə ˈʃɛxk ˈkuəlʲ/ `F16`
 - **seachd scìth** phr. — fed up; lit. "seven times tired" /ˈʃɛxk ˈskʲiː/ `C1`
 - **seachdad** num. — seventy /ˈʃɛxkət̪/ `A1`
 - **seachdain** n. (f., pl. *seachdainean*) — week /ˈʃɛxkɪnʲ/ `A1`

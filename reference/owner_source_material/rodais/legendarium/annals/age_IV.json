@@ -81,15 +81,15 @@
   "id": "IV-0009",
   "canon": false,
   "title": "Wren's word-lists",
-  "body": "The human cleric Samuel Wren and the custodian Gormshuil nic Fhearchair keep word-lists side by side through the season of speech-making. Wren's list survives in the Administration's letter-books. Gormshuil's is lost; only its first leaf, with forty words for the colours of broken ore, is known from a copy.",
+  "body": "The human cleric Samuel Wren and the custodian Gormshuil nic Fhearchair keep word-lists side by side through the season of speech-making. Wren's list survives in the Administration's letter-books. Gormshuil's is lost; only its first leaf, with forty words for the colours of broken coal, is known from a copy.",
   "place": "burg:19",
   "kind": "culture"
  },
  {
   "id": "IV-0010",
   "canon": false,
-  "title": "One word for the ore",
-  "body": "The humans have a single word for the black ore, and it is their word for the fuel they burn at home. Gormshuil's copyist notes that no Ròdais word in either list answers to it, and that the humans did not ask for one.",
+  "title": "One word for the coal",
+  "body": "The humans have a single word for the coloured coal, and it is their word for the black fuel they burn at home. Gormshuil's copyist notes that no Ròdais word in either list answers to it, and that the humans did not ask for one.",
   "place": "burg:19",
   "kind": "record"
  },
@@ -329,7 +329,7 @@
   "id": "IV-0037",
   "canon": false,
   "title": "Prospectors in the central hills",
-  "body": "The Company sends two prospectors, Abel Stone and Hugh Mercer, into the hills east of the capital. They come back with sacks of broken ore, and word that the black seam runs \"further than can be walked in a day.\"",
+  "body": "The Company sends two prospectors, Abel Stone and Hugh Mercer, into the hills east of the capital. They come back with sacks of broken coal, and word that the black seam runs \"further than can be walked in a day.\"",
   "place": "province:76",
   "kind": "discovery"
  },
@@ -337,7 +337,7 @@
   "id": "IV-0038",
   "canon": false,
   "title": "The sacks returned to the rock",
-  "body": "The custodians of the vein demand the broken ore back, to lay it in the rock again with the proper words. The Company returns half. The custodians' roll enters the other half as \"carried west.\"",
+  "body": "The custodians of the vein demand the broken coal back, to lay it in the rock again with the proper words. The Company returns half. The custodians' roll enters the other half as \"carried west.\"",
   "place": "province:76",
   "kind": "faith"
  },
@@ -361,8 +361,8 @@
  {
   "id": "IV-0041",
   "canon": false,
-  "title": "An ore quay at Ceann fhada",
-  "body": "The Company builds a stone quay at Ceann fhada, a fishing hamlet below the hills, for loading ore into coasting barges. The fishermen are paid for their foreshore in iron nails, by weight.",
+  "title": "A coal quay at Ceann fhada",
+  "body": "The Company builds a stone quay at Ceann fhada, a fishing hamlet below the hills, for loading coal into coasting barges. The fishermen are paid for their foreshore in iron nails, by weight.",
   "place": "burg:351",
   "kind": "founding"
  },
@@ -492,7 +492,7 @@
   "id": "IV-0057",
   "canon": false,
   "title": "Drochaid Cathair dhearg rebuilt",
-  "body": "Company masons rebuild in dressed stone the old bridge over Abhainn dhomhain at Cathair dhearg, wide enough for ore-carts to pass two abreast.",
+  "body": "Company masons rebuild in dressed stone the old bridge over Abhainn dhomhain at Cathair dhearg, wide enough for coal-carts to pass two abreast.",
   "place": "marker:3",
   "kind": "building"
  },
@@ -561,7 +561,7 @@
   "id": "IV-0064",
   "canon": false,
   "title": "The last count at Doire mhin",
-  "body": "The custodians of Doire mhin keep the old count of the Small-Burning Law, the measure of ore that might be burned in a year, one season longer than any others. They enter it in their roll with the note that no one asked for it.",
+  "body": "The custodians of Doire mhin keep the old count of the Small-Burning Law, the measure of coal that might be burned in a year, one season longer than any others. They enter it in their roll with the note that no one asked for it.",
   "place": "burg:316",
   "kind": "record"
  },
@@ -569,7 +569,7 @@
   "id": "IV-0065",
   "canon": false,
   "title": "A defence of the Law at Dùn dhearg",
-  "body": "Fionnghal nic Artair, a custodian of Dùn dhearg, writes to the council in defence of the Small-Burning Law, the only such defence that survives. She holds that the Law was never for the ore's sake but for the people, who would become whatever the burning made them.",
+  "body": "Fionnghal nic Artair, a custodian of Dùn dhearg, writes to the council in defence of the Small-Burning Law, the only such defence that survives. She holds that the Law was never for the coal's sake but for the people, who would become whatever the burning made them.",
   "place": "burg:422",
   "kind": "culture"
  },
@@ -585,7 +585,7 @@
   "id": "IV-0067",
   "canon": false,
   "title": "The hearths of Achadh naomh",
-  "body": "The households of Achadh naomh, in the hills north of the workings, who keep Na Seann Spioradan, will not light their hearths with ore bought of the Company. They burn peat as their grandparents did, and their elders teach that ore burned for wages is burned without the ancestors' leave.",
+  "body": "The households of Achadh naomh, in the hills north of the workings, who keep Na Seann Spioradan, will not light their hearths with coal bought of the Company. They burn peat as their grandparents did, and their elders teach that coal burned for wages is burned without the ancestors' leave.",
   "place": "burg:145",
   "kind": "faith"
  },
@@ -593,7 +593,7 @@
   "id": "IV-0068",
   "canon": false,
   "title": "Burning by the cartload",
-  "body": "The Company's furnaces at Muileann chrom burn ore by the cartload to drive the new pumps, and no heed is paid to the custodians' tally of what the hill may give in a year. Coinneach Glas's council asks that the tally be kept, and is sent a copy of the Company's accounts.",
+  "body": "The Company's furnaces at Muileann chrom burn coal by the cartload to drive the new pumps, and no heed is paid to the custodians' tally of what the hill may give in a year. Coinneach Glas's council asks that the tally be kept, and is sent a copy of the Company's accounts.",
   "place": "burg:354",
   "kind": "trade"
  },
@@ -638,7 +638,7 @@
   "id": "IV-0073",
   "canon": false,
   "title": "The coughing sickness",
-  "body": "A dry cough runs through the camps at Muileann chrom and Cnoc fhiadhaich, worst among the boys who break ore at the pit-mouth, and thirty-eight die of it. The Mission's surgeon calls it a winter complaint. It lasts through the summer.",
+  "body": "A dry cough runs through the camps at Muileann chrom and Cnoc fhiadhaich, worst among the boys who break coal at the pit-mouth, and thirty-eight die of it. The Mission's surgeon calls it a winter complaint. It lasts through the summer.",
   "place": "burg:354",
   "kind": "disaster"
  },
@@ -690,7 +690,7 @@
   "id": "IV-0078",
   "canon": false,
   "title": "Doire mhòr's water taken",
-  "body": "The Company turns the stream that watered Doire mhòr to wash ore at Cnoc fhiadhaich. No order is written; the stream is dammed one season and not let go. Beathag Dhubh's people carry water by hand for two summers, and then begin to leave.",
+  "body": "The Company turns the stream that watered Doire mhòr to wash coal at Cnoc fhiadhaich. No order is written; the stream is dammed one season and not let go. Beathag Dhubh's people carry water by hand for two summers, and then begin to leave.",
   "place": "burg:101",
   "kind": "law"
  },
@@ -739,7 +739,7 @@
   "id": "IV-0084",
   "canon": false,
   "title": "Barges at Cidhe Beag",
-  "body": "Ore barges begin to load at Cidhe Beag on Abhainn uaine and float the black ore down to the coast. The old canoe landing, used since before the Sundering, is widened with cut stone, and its shrine is moved uphill.",
+  "body": "Coal barges begin to load at Cidhe Beag on Abhainn uaine and float the black coal down to the coast. The old canoe landing, used since before the Sundering, is widened with cut stone, and its shrine is moved uphill.",
   "place": "marker:39",
   "kind": "voyage"
  },
@@ -747,7 +747,7 @@
   "id": "IV-0085",
   "canon": false,
   "title": "Abhainn uaine silts black",
-  "body": "The washing of ore upstream fills Abhainn uaine with black slurry, and within a few seasons the salmon runs at its mouth fail. The river keeps its name, the green river, and the fishermen speak it bitterly.",
+  "body": "The washing of coal upstream fills Abhainn uaine with black slurry, and within a few seasons the salmon runs at its mouth fail. The river keeps its name, the green river, and the fishermen speak it bitterly.",
   "place": "river:15",
   "kind": "disaster"
  },
@@ -755,7 +755,7 @@
   "id": "IV-0086",
   "canon": false,
   "title": "Baile Mòr dhomhain a barge town",
-  "body": "As the ore comes down to it from Cidhe Beag, Baile Mòr dhomhain on the river road grows into the busiest barge town of the north. Its people double in number, most of the newcomers bargemen from the coast.",
+  "body": "As the coal comes down to it from Cidhe Beag, Baile Mòr dhomhain on the river road grows into the busiest barge town of the north. Its people double in number, most of the newcomers bargemen from the coast.",
   "place": "burg:273",
   "kind": "trade"
  },
@@ -771,7 +771,7 @@
   "id": "IV-0088",
   "canon": false,
   "title": "An Taigh-seinnse Mòr reopens",
-  "body": "The old carters' house at the half-way stage of the ore road between the capital and the hills is built again, opens its doors at Lùnastal, and keeps the name An Taigh-seinnse Mòr. Its first keeper, Seònaid Bhàn, takes both marks and barter, the only innkeeper on the road who will.",
+  "body": "The old carters' house at the half-way stage of the coal road between the capital and the hills is built again, opens its doors at Lùnastal, and keeps the name An Taigh-seinnse Mòr. Its first keeper, Seònaid Bhàn, takes both marks and barter, the only innkeeper on the road who will.",
   "place": "marker:10",
   "kind": "building"
  },
@@ -779,7 +779,7 @@
   "id": "IV-0088a",
   "canon": false,
   "title": "Rathad na Mèinne",
-  "body": "The Company's road-gangs finish metalling the carriers' road from Cathair dhearg by Doire chaol and the ford of Àth chiar to the workings at Achadh dhomhain, wide enough for ore-carts to pass both ways. The carters call it Rathad na Mèinne, the ore road. The posts with the crown's sign that had marked it since the Age of Sundering are left standing along it.",
+  "body": "The Company's road-gangs finish metalling the carriers' road from Cathair dhearg by Doire chaol and the ford of Àth chiar to the workings at Achadh dhomhain, wide enough for coal-carts to pass both ways. The carters call it Rathad na Mèinne, the mine road. The posts with the crown's sign that had marked it since the Age of Sundering are left standing along it.",
   "place": "burg:163",
   "kind": "building",
   "between": [
@@ -791,23 +791,23 @@
   "id": "IV-0089",
   "canon": false,
   "title": "The carters of Doire chaol",
-  "body": "The carters of Doire chaol, on the road just east of the capital, band together in a guild to bargain with the Company over the rates for hauling ore. It is the first Ròdaich guild of the age, and the Company owns it because that is cheaper than breaking it.",
+  "body": "The carters of Doire chaol, on the road just east of the capital, band together in a guild to bargain with the Company over the rates for hauling coal. It is the first Ròdaich guild of the age, and the Company owns it because that is cheaper than breaking it.",
   "place": "burg:164",
   "kind": "trade"
  },
  {
   "id": "IV-0090",
   "canon": false,
-  "title": "Seann Toll made an ore landing",
-  "body": "The Company takes the river landing at Seann Toll, below the workings, and builds a loading stage there for the barges that carry the ore down the Abhainn uaine to Ceann leathan. The town's fishing boats are moved to the next reach.",
+  "title": "Seann Toll made a coal landing",
+  "body": "The Company takes the river landing at Seann Toll, below the workings, and builds a loading stage there for the barges that carry the coal down the Abhainn uaine to Ceann leathan. The town's fishing boats are moved to the next reach.",
   "place": "burg:313",
   "kind": "reign"
  },
  {
   "id": "IV-0090a",
   "canon": false,
-  "title": "The ore ships' lane",
-  "body": "From the landing at Seann Toll the ore barges go down the Abhainn uaine to Ceann leathan, where the Company's ships load at the river mouth and go out by the southern lane, Slighe-mhara Caol fhiadhaich, west along the south coast to the wild strait and the open sea. The fishers of the south coast, who had used the lane for five hundred years, learn to keep out of the ore ships' way.",
+  "title": "The coal ships' lane",
+  "body": "From the landing at Seann Toll the coal barges go down the Abhainn uaine to Ceann leathan, where the Company's ships load at the river mouth and go out by the southern lane, Slighe-mhara Caol fhiadhaich, west along the south coast to the wild strait and the open sea. The fishers of the south coast, who had used the lane for five hundred years, learn to keep out of the coal ships' way.",
   "place": "burg:22",
   "kind": "trade",
   "between": [
@@ -864,7 +864,7 @@
   "id": "IV-0096",
   "canon": false,
   "title": "The pox at Ros dhomhain",
-  "body": "A spotted pox comes ashore at Ros dhomhain on a Company ship and climbs the ore road into the camps. The Mission counts four hundred and six dead. The custodians count more, and write the difference in the margin of the Mission's list.",
+  "body": "A spotted pox comes ashore at Ros dhomhain on a Company ship and climbs the coal road into the camps. The Mission counts four hundred and six dead. The custodians count more, and write the difference in the margin of the Mission's list.",
   "place": "burg:27",
   "kind": "disaster"
  },
@@ -961,7 +961,7 @@
   "id": "IV-0108",
   "canon": false,
   "title": "Pirates off the eastern coast",
-  "body": "Raiders in low black boats take a Company ore ship off the eastern coast and burn her to the waterline, cargo and all. The Company says the silver guild paid them. The silver guild says nothing.",
+  "body": "Raiders in low black boats take a Company coal ship off the eastern coast and burn her to the waterline, cargo and all. The Company says the silver guild paid them. The silver guild says nothing.",
   "place": "marker:26",
   "kind": "voyage"
  },
@@ -1009,7 +1009,7 @@
   "id": "IV-0114",
   "canon": false,
   "title": "Aonghas mac Coinnich's question",
-  "body": "At Dùn thais the druid master Aonghas mac Coinnich puts to his students a question the school's register calls new: why the humans cannot see the colour in broken ore that every Ròdaich child sees. He does not answer it, and the register notes that he called it the wrong question.",
+  "body": "At Dùn thais the druid master Aonghas mac Coinnich puts to his students a question the school's register calls new: why the humans cannot see the colour in broken coal that every Ròdaich child sees. He does not answer it, and the register notes that he called it the wrong question.",
   "place": "burg:77",
   "kind": "faith"
  },
@@ -1098,23 +1098,23 @@
   "id": "IV-0123",
   "canon": false,
   "title": "Drochaid Ros fhionn",
-  "body": "The Company rebuilds the old bridge over the river at Ros fhionn to carry the eastern ore road. While the carts run it is the busiest crossing on that side of the island.",
+  "body": "The Company rebuilds the old bridge over the river at Ros fhionn to carry the eastern coal road. While the carts run it is the busiest crossing on that side of the island.",
   "place": "marker:4",
   "kind": "building"
  },
  {
   "id": "IV-0124",
   "canon": false,
-  "title": "Ore through Inis bheag",
-  "body": "Ore from the eastern workings is carted over the new bridge and down to the river quays of Inis bheag, and goes by barge to Caol chrom at the river mouth for shipping. The Company deepens the river at the quays, and the town's old fish market is moved to make room for the ore stage.",
+  "title": "Coal through Inis bheag",
+  "body": "Coal from the eastern workings is carted over the new bridge and down to the river quays of Inis bheag, and goes by barge to Caol chrom at the river mouth for shipping. The Company deepens the river at the quays, and the town's old fish market is moved to make room for the coal stage.",
   "place": "burg:62",
   "kind": "trade"
  },
  {
   "id": "IV-0125",
   "canon": false,
-  "title": "Baile mhin ships the eastern ore",
-  "body": "The river quays of Baile mhin, below Inis bheag on the Abhainn bheag, take the eastern ore that Inis bheag cannot load. The townsfolk are paid by the barge, and with the gain the town builds its first stone houses.",
+  "title": "Baile mhin ships the eastern coal",
+  "body": "The river quays of Baile mhin, below Inis bheag on the Abhainn bheag, take the eastern coal that Inis bheag cannot load. The townsfolk are paid by the barge, and with the gain the town builds its first stone houses.",
   "place": "burg:144",
   "kind": "trade"
  },
@@ -1122,7 +1122,7 @@
   "id": "IV-0126",
   "canon": false,
   "title": "Caol gharbh passed by",
-  "body": "The ore road to Inis bheag passes Caol gharbh by a mile, and the town, which had hoped for the traffic, gets only its dust. Its custodians write that they had not known a town could be harmed by a road it was not on.",
+  "body": "The coal road to Inis bheag passes Caol gharbh by a mile, and the town, which had hoped for the traffic, gets only its dust. Its custodians write that they had not known a town could be harmed by a road it was not on.",
   "place": "burg:443",
   "kind": "trade"
  },
@@ -1170,7 +1170,7 @@
   "id": "IV-0129",
   "canon": false,
   "title": "The offerings at Doire uaine",
-  "body": "After the surveyors are lost the villagers of Doire uaine leave salt and ore for the sìth at the foot of the hills, as their grandparents did after any death on the high ground. The Company forbids ore to be left lying and has the offerings gathered up, and the villagers leave salt alone.",
+  "body": "After the surveyors are lost the villagers of Doire uaine leave salt and coal for the sìth at the foot of the hills, as their grandparents did after any death on the high ground. The Company forbids coal to be left lying and has the offerings gathered up, and the villagers leave salt alone.",
   "place": "burg:148",
   "kind": "faith"
  },
@@ -1178,7 +1178,7 @@
   "id": "IV-0130",
   "canon": true,
   "title": "The tithe raised",
-  "body": "The share of mined obsidian taken by the humans' Administration rises steeply. What the Ròdaich receive does not rise with it.",
+  "body": "The share of mined coal taken by the humans' Administration rises steeply. What the Ròdaich receive does not rise with it.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1836 DE"
@@ -1199,7 +1199,7 @@
   "id": "IV-0132",
   "canon": false,
   "title": "Weighing the grain at Dùn fhiadhaich",
-  "body": "At Dùn fhiadhaich the tithe-gatherers begin to weigh grain as well as ore, saying the town's farms feed the pits and share in their gain. The custodians' roll calls it the tithe on the tithe.",
+  "body": "At Dùn fhiadhaich the tithe-gatherers begin to weigh grain as well as coal, saying the town's farms feed the pits and share in their gain. The custodians' roll calls it the tithe on the tithe.",
   "place": "burg:290",
   "kind": "trade"
  },
@@ -1215,7 +1215,7 @@
   "id": "IV-0134",
   "canon": false,
   "title": "The flux reaches Seann Vell",
-  "body": "The ore barges carry the flux to Seann Vell, the river port east of the capital on the Abhainn fhionn. The custodians of the town shut the barge landing for a season, and the Company fines them for it.",
+  "body": "The coal barges carry the flux to Seann Vell, the river port east of the capital on the Abhainn fhionn. The custodians of the town shut the barge landing for a season, and the Company fines them for it.",
   "place": "burg:162",
   "kind": "disaster",
   "within": [
@@ -1251,7 +1251,7 @@
   "id": "IV-0138",
   "canon": false,
   "title": "Taigh-solais Muileann bheag lit",
-  "body": "The fourth beacon is lit on the northern shore at Muileann bheag, the first to burn ore and not oil. Its keepers say the flame throws a colour on the water that no oil lamp ever did.",
+  "body": "The fourth beacon is lit on the northern shore at Muileann bheag, the first to burn coal and not oil. Its keepers say the flame throws a colour on the water that no oil lamp ever did.",
   "place": "marker:14",
   "kind": "building"
  },
@@ -1259,7 +1259,7 @@
   "id": "IV-0139",
   "canon": false,
   "title": "The fishermen of Muileann bheag",
-  "body": "The fishermen of Muileann bheag complain that the colour the ore flame casts on the water drives the herring off. The keepers do not change the lamp. Within a season the herring come back, and the complaint is withdrawn in a letter the Company keeps.",
+  "body": "The fishermen of Muileann bheag complain that the colour the coal flame casts on the water drives the herring off. The keepers do not change the lamp. Within a season the herring come back, and the complaint is withdrawn in a letter the Company keeps.",
   "place": "burg:327",
   "kind": "people"
  },
@@ -1319,7 +1319,7 @@
   "id": "IV-0145",
   "canon": false,
   "title": "Cloth for the camps at Dùn chiar",
-  "body": "The weavers of Dùn chiar take a Company contract for canvas for the camp tents and sacks for the ore, and the town thrives on it. Its custodians note that never before had the town made anything for a use it did not approve.",
+  "body": "The weavers of Dùn chiar take a Company contract for canvas for the camp tents and sacks for the coal, and the town thrives on it. Its custodians note that never before had the town made anything for a use it did not approve.",
   "place": "burg:358",
   "kind": "craft"
  },
@@ -1327,7 +1327,7 @@
   "id": "IV-0146",
   "canon": true,
   "title": "The first of the undying generation",
-  "body": "A girl is born in the mining camps who takes more raw ore into her body over her life than any Ròdaich in living memory, and she does not age as the folk about her age. Her name is Aisling.",
+  "body": "A girl is born in the mining camps who takes more raw coal into her body over her life than any Ròdaich in living memory, and she does not age as the folk about her age. Her name is Aisling.",
   "place": null,
   "kind": "birth",
   "canon_date": "1848 DE"
@@ -1347,7 +1347,7 @@
  {
   "id": "IV-0147",
   "canon": false,
-  "title": "The ore weighed at the quay",
+  "title": "The coal weighed at the quay",
   "body": "The Company sets up a great steelyard at the Ros dhomhain quay, and thenceforth the island's yield is known by the ton and the hundredweight. The custodians' old count, kept in seasons of labour, is no longer entered in the roll.",
   "place": "burg:27",
   "kind": "trade"
@@ -1355,8 +1355,8 @@
  {
   "id": "IV-0148",
   "canon": false,
-  "title": "Ros dhìreach the second ore port",
-  "body": "The Company opens a second ore stage at Ros dhìreach on the southern coast for the workings south of the hills. Its first cargo is lost in a squall off the harbour mouth, and the fishermen moved to make room for the stage will not go out after it.",
+  "title": "Ros dhìreach the second coal port",
+  "body": "The Company opens a second coal stage at Ros dhìreach on the southern coast for the workings south of the hills. Its first cargo is lost in a squall off the harbour mouth, and the fishermen moved to make room for the stage will not go out after it.",
   "place": "burg:152",
   "kind": "trade"
  },
@@ -1373,7 +1373,7 @@
   "id": "IV-0149a",
   "canon": false,
   "title": "The first steamer",
-  "body": "The first ship driven by an engine comes into Ros dhomhain, a Company paddle-steamer out of an Tìr Thall. The fishermen row out to look at a ship going against the wind with no sail set. Within a generation the Company's ore goes out in nothing else.",
+  "body": "The first ship driven by an engine comes into Ros dhomhain, a Company paddle-steamer out of an Tìr Thall. The fishermen row out to look at a ship going against the wind with no sail set. Within a generation the Company's coal goes out in nothing else.",
   "place": "burg:27",
   "kind": "voyage",
   "between": [
@@ -1385,7 +1385,7 @@
   "id": "IV-0150",
   "canon": false,
   "title": "The shrine at Cill dhìreach",
-  "body": "At Cill dhìreach, a village at the edge of the workings, the custodians keep a small shrine where the pit crews leave the first piece of ore from each new gallery. The Company suffers the custom, for it costs a stone a gallery.",
+  "body": "At Cill dhìreach, a village at the edge of the workings, the custodians keep a small shrine where the pit crews leave the first piece of coal from each new gallery. The Company suffers the custom, for it costs a stone a gallery.",
   "place": "burg:461",
   "kind": "faith"
  },
@@ -1401,7 +1401,7 @@
   "id": "IV-0152",
   "canon": true,
   "title": "A' Phlàigh Uaine",
-  "body": "The Green Death goes through the mining camps. The ore dust is blamed, though no study of it is ever finished. Twenty-six settlements have cases.",
+  "body": "The Green Death goes through the mining camps. The coal dust is blamed, though no study of it is ever finished. Twenty-six settlements have cases.",
   "place": null,
   "kind": "disaster",
   "canon_date": "c. 1852 DE"
@@ -1418,7 +1418,7 @@
   "id": "IV-0154",
   "canon": false,
   "title": "Twenty-six settlements",
-  "body": "The sickness spreads along the ore roads from the camps at Muileann chrom, Àth ìseal and Cnoc fhiadhaich, and falls hardest on Ros dhìreach, Ceann òg, Inis ìseal, Baile dhomhain, Achadh fhada, Cnoc bheag, Muileann uaine, Cuan àrsaidh and Inis bhàn. The custodians' roll lists the twenty-six settlements that had cases, and leaves a blank line after the last, as though waiting for another.",
+  "body": "The sickness spreads along the coal roads from the camps at Muileann chrom, Àth ìseal and Cnoc fhiadhaich, and falls hardest on Ros dhìreach, Ceann òg, Inis ìseal, Baile dhomhain, Achadh fhada, Cnoc bheag, Muileann uaine, Cuan àrsaidh and Inis bhàn. The custodians' roll lists the twenty-six settlements that had cases, and leaves a blank line after the last, as though waiting for another.",
   "place": "zone:0",
   "kind": "disaster"
  },
@@ -1520,7 +1520,7 @@
   "id": "IV-0166",
   "canon": false,
   "title": "The strike at Baile thais",
-  "body": "The settlement was Baile thais, below Cill ghlas, and the crew-leader Catrìona nic Eachainn called the halt after the Company would not close the galleries where the Green Death had been worst. For eleven days no ore left the town. On the twelfth the Company's store, the only store, was empty.",
+  "body": "The settlement was Baile thais, below Cill ghlas, and the crew-leader Catrìona nic Eachainn called the halt after the Company would not close the galleries where the Green Death had been worst. For eleven days no coal left the town. On the twelfth the Company's store, the only store, was empty.",
   "place": "burg:44",
   "kind": "people",
   "within": [
@@ -1564,7 +1564,7 @@
   "id": "IV-0171",
   "canon": true,
   "title": "Muileann chiar grows",
-  "body": "The silver town grows beside the obsidian workings, for the humans want both, and the digging goes faster than the old reverence would ever have allowed.",
+  "body": "The silver town grows beside the coal workings, for the humans want both, and the digging goes faster than the old reverence would ever have allowed.",
   "place": "marker:2",
   "kind": "founding",
   "canon_date": "c. 1860 DE"
@@ -1686,7 +1686,7 @@
   "id": "IV-0186",
   "canon": false,
   "title": "The druid school's hall shut",
-  "body": "George Tolley shuts the hall of the druid school at Dùn thais over a lecture on whether the humans' blindness to the ore's colour is a kind of sickness. The masters go on teaching in their own houses, to smaller rooms each year.",
+  "body": "George Tolley shuts the hall of the druid school at Dùn thais over a lecture on whether the humans' blindness to the coal's colour is a kind of sickness. The masters go on teaching in their own houses, to smaller rooms each year.",
   "place": "burg:77",
   "kind": "faith"
  },
@@ -1743,7 +1743,7 @@
   "id": "IV-0193",
   "canon": false,
   "title": "Taigh-solais Baile chrom lit",
-  "body": "The beacon at Baile chrom is lit with an ore flame, and the ring is whole. The Company's ships can now round the island by night, and the keepers' daybooks show the sailings doubled within a few years.",
+  "body": "The beacon at Baile chrom is lit with a coal flame, and the ring is whole. The Company's ships can now round the island by night, and the keepers' daybooks show the sailings doubled within a few years.",
   "place": "marker:12",
   "kind": "building",
   "within": [
@@ -1894,7 +1894,7 @@
   "id": "IV-0209",
   "canon": false,
   "title": "The songs of Fearchar Bàrd",
-  "body": "The poet Fearchar Bàrd, a breaker of ore at Muileann dhearg since boyhood, makes songs of the Levy and the famine, and they are sung in the camps. The overseers forbid them, and because they were forbidden several were written down.",
+  "body": "The poet Fearchar Bàrd, a breaker of coal at Muileann dhearg since boyhood, makes songs of the Levy and the famine, and they are sung in the camps. The overseers forbid them, and because they were forbidden several were written down.",
   "place": "province:42",
   "kind": "culture"
  },
@@ -1910,7 +1910,7 @@
   "id": "IV-0211",
   "canon": false,
   "title": "The Company's deep-water quay",
-  "body": "The Company builds at Ros dhomhain a deep-water quay for the new iron steamships, which burn the island's own ore to carry it away. Fearchar Bàrd makes a song of that, the most quoted of all his songs.",
+  "body": "The Company builds at Ros dhomhain a deep-water quay for the new iron steamships, which burn the island's own coal to carry it away. Fearchar Bàrd makes a song of that, the most quoted of all his songs.",
   "place": "burg:27",
   "kind": "trade"
  },
@@ -1918,7 +1918,7 @@
   "id": "IV-0212",
   "canon": false,
   "title": "The deep quay at Ceann chaol",
-  "body": "A second deep-water quay is built at Ceann chaol in the south-east for the eastern ore. Its builders are brought from the coast, and the village of forty houses becomes a town of four hundred.",
+  "body": "A second deep-water quay is built at Ceann chaol in the south-east for the eastern coal. Its builders are brought from the coast, and the village of forty houses becomes a town of four hundred.",
   "place": "burg:397",
   "kind": "trade"
  },
@@ -1942,7 +1942,7 @@
   "id": "IV-0215",
   "canon": false,
   "title": "The quay fire",
-  "body": "A fire starts in the Company's ore sheds at Ros dhomhain and burns three days, taking two streets of the harbour quarter with it. The Company's inquiry finds no cause; the harbour quarter's own account has several.",
+  "body": "A fire starts in the Company's coal sheds at Ros dhomhain and burns three days, taking two streets of the harbour quarter with it. The Company's inquiry finds no cause; the harbour quarter's own account has several.",
   "place": "burg:27",
   "kind": "disaster"
  },
@@ -2057,7 +2057,7 @@
   "id": "IV-0228",
   "canon": false,
   "title": "The tally not lowered",
-  "body": "The ore tally is not lowered in the drought. The custodians of the east, their joint petition unanswered, each write to Haskins alone; to each he answers that the matter is under consideration.",
+  "body": "The coal tally is not lowered in the drought. The custodians of the east, their joint petition unanswered, each write to Haskins alone; to each he answers that the matter is under consideration.",
   "place": "burg:136",
   "kind": "people"
  },
@@ -2126,7 +2126,7 @@
   "id": "IV-0236",
   "canon": false,
   "title": "The tram-road to Ros dhìreach",
-  "body": "Vane lays an iron tram-road, drawn by mules, from the southern workings down to the ore port at Ros dhìreach. It halves the cost of shipping ore, and ends the carting trade of the villages on the old road.",
+  "body": "Vane lays an iron tram-road, drawn by mules, from the southern workings down to the coal port at Ros dhìreach. It halves the cost of shipping coal, and ends the carting trade of the villages on the old road.",
   "place": "burg:152",
   "kind": "building"
  },
@@ -2143,7 +2143,7 @@
   "id": "IV-0238",
   "canon": false,
   "title": "The night crews at Cnoc chaol",
-  "body": "The order falls first on Cnoc chaol, where the Company's newest galleries are opened to crews working by ore-lamp in two shifts. The custodians' roll writes that the hill was given no silence at all, and leaves the rest of the page blank.",
+  "body": "The order falls first on Cnoc chaol, where the Company's newest galleries are opened to crews working by coal-lamp in two shifts. The custodians' roll writes that the hill was given no silence at all, and leaves the rest of the page blank.",
   "place": "burg:415",
   "kind": "people",
   "within": [
@@ -2194,8 +2194,8 @@
  {
   "id": "IV-0243a",
   "canon": false,
-  "title": "The ore line",
-  "body": "The Company opens its railway from the pits at Muileann chrom down by Cathair dhearg to the deep-water quay at Ros dhomhain. Its engines burn the island's own ore, as the steamships do, and the tram-road to Ros dhìreach is left to the mules. Within a year the carters' guild of Doire chaol, which had hauled the ore on Rathad na Mèinne for eighty years, loses the long haul. From the first day the Ròdaich call the engine carbad-iarainn, the iron chariot, and the railway the ore line.",
+  "title": "The coal line",
+  "body": "The Company opens its railway from the pits at Muileann chrom down by Cathair dhearg to the deep-water quay at Ros dhomhain. Its engines burn the island's own coal, as the steamships do, and the tram-road to Ros dhìreach is left to the mules. Within a year the carters' guild of Doire chaol, which had hauled the coal on Rathad na Mèinne for eighty years, loses the long haul. From the first day the Ròdaich call the engine carbad-iarainn, the iron chariot, and the railway the coal line.",
   "place": "burg:354",
   "kind": "building",
   "between": [
@@ -2206,7 +2206,7 @@
  {
   "id": "IV-0244",
   "canon": false,
-  "title": "Ore-lamps from Baile ghorm",
+  "title": "Coal-lamps from Baile ghorm",
   "body": "The potteries of Baile ghorm take a contract for clay lamp-bodies for the night crews, thousands in a year. The potters' own book notes that they are the first lamps made on the island for work in the dark by command.",
   "place": "burg:3",
   "kind": "craft"
@@ -2215,7 +2215,7 @@
   "id": "IV-0245",
   "canon": true,
   "title": "Fionnan born",
-  "body": "A second child is born bound to the ore as Aisling was, half a century after her. So it is known that the thing is no chance of one birth: it comes of the digging, and it will go on.",
+  "body": "A second child is born bound to the coal as Aisling was, half a century after her. So it is known that the thing is no chance of one birth: it comes of the digging, and it will go on.",
   "place": null,
   "kind": "birth",
   "canon_date": "1900 DE"
@@ -2262,7 +2262,7 @@
   "id": "IV-0250",
   "canon": true,
   "title": "The word found at last",
-  "body": "With two children now known, the custodians agree on a word for what is befalling them: fuil-ghuail, \"coal-blood\", rendered in the humans' tongue as obsidian-touched. It is meant as a physician's word. It outlives that meaning.",
+  "body": "With two children now known, the custodians agree on a word for what is befalling them: fuil-ghuail, \"coal-blood\", rendered in the humans' tongue as coal-touched. It is meant as a physician's word. It outlives that meaning.",
   "place": null,
   "kind": "record",
   "canon_date": "c. 1905 DE"
@@ -2348,7 +2348,7 @@
   "id": "IV-0260",
   "canon": false,
   "title": "The constable post at Muileann shean",
-  "body": "Merriman's first constable post is built at Muileann shean on the northern ore road, a stone house with a yard for horses. The townsfolk call it the humans' second Residency, and do not mean it kindly.",
+  "body": "Merriman's first constable post is built at Muileann shean on the northern coal road, a stone house with a yard for horses. The townsfolk call it the humans' second Residency, and do not mean it kindly.",
   "place": "burg:212",
   "kind": "building"
  },
@@ -2384,7 +2384,7 @@
   "id": "IV-0263",
   "canon": false,
   "title": "The dockers' strike at Ros dhomhain",
-  "body": "The dockers of Ros dhomhain, Ròdaich and human alike, refuse to load ore for nine days over the new berth charges. It is the only strike of the age in which human workers stand with Ròdaich. Merriman's constables break it, and the human dockers are shipped west.",
+  "body": "The dockers of Ros dhomhain, Ròdaich and human alike, refuse to load coal for nine days over the new berth charges. It is the only strike of the age in which human workers stand with Ròdaich. Merriman's constables break it, and the human dockers are shipped west.",
   "place": "burg:27",
   "kind": "people"
  },
@@ -2392,7 +2392,7 @@
   "id": "IV-0264",
   "canon": false,
   "title": "Seann Vell's dockers stay out",
-  "body": "The dockers of Seann Vell, the harbour next to Ros dhomhain, refuse to load the ore sent to them during the strike. When it ends they are not shipped west, for there are no humans among them; but they are not hired again either.",
+  "body": "The dockers of Seann Vell, the harbour next to Ros dhomhain, refuse to load the coal sent to them during the strike. When it ends they are not shipped west, for there are no humans among them; but they are not hired again either.",
   "place": "burg:29",
   "kind": "people",
   "within": [
@@ -2738,7 +2738,7 @@
   "id": "IV-0300",
   "canon": false,
   "title": "Seònaid's house",
-  "body": "An Taigh-seinnse Mòr, the carters' house on the ore road that Seònaid Bhàn opened again in the early years of the digging, is kept now by her great-grandson Aonghas. It is the busiest of the walled houses, the one the constables search most often and find least in.",
+  "body": "An Taigh-seinnse Mòr, the carters' house on the coal road that Seònaid Bhàn opened again in the early years of the digging, is kept now by her great-grandson Aonghas. It is the busiest of the walled houses, the one the constables search most often and find least in.",
   "place": "marker:10",
   "kind": "people"
  },
@@ -2773,7 +2773,7 @@
   "id": "IV-0304",
   "canon": false,
   "title": "Ceann bheag stops",
-  "body": "The ore stage at Ceann bheag on the northern coast stops loading the same day. Its dockers had not been told; they stop because the ore stops coming.",
+  "body": "The coal stage at Ceann bheag on the northern coast stops loading the same day. Its dockers had not been told; they stop because the coal stops coming.",
   "place": "burg:42",
   "kind": "people",
   "same_day": true
@@ -2803,7 +2803,7 @@
  {
   "id": "IV-0307",
   "canon": false,
-  "title": "The ore ships wait",
+  "title": "The coal ships wait",
   "body": "The Company's steamships lie six days at Ros dhomhain with empty holds. The agents at the quay write that they have never seen the harbour so quiet, and that it frightened them more than the crowds.",
   "place": "burg:27",
   "kind": "trade",
@@ -2882,7 +2882,7 @@
   "id": "IV-0315a",
   "canon": false,
   "title": "The iron bird",
-  "body": "Strake brings a flying machine from an Tìr Thall in the hold of a Company steamship and has it flown from a field above the Residency over the ore country, to count the workings from the air. The Ròdaich call it eun-iarainn, the iron bird. The custodians enter it in the roll as the first thing seen over Rodos that flew and was not alive.",
+  "body": "Strake brings a flying machine from an Tìr Thall in the hold of a Company steamship and has it flown from a field above the Residency over the coal country, to count the workings from the air. The Ròdaich call it eun-iarainn, the iron bird. The custodians enter it in the roll as the first thing seen over Rodos that flew and was not alive.",
   "place": "burg:27",
   "kind": "discovery",
   "between": [
@@ -2976,7 +2976,7 @@
   "id": "IV-0326",
   "canon": false,
   "title": "The quay at Ceann fhada seized",
-  "body": "Crews from the camps take the Company's ore quay at Ceann fhada and sink two barges across its mouth. No ore leaves the hills by water again in this age.",
+  "body": "Crews from the camps take the Company's coal quay at Ceann fhada and sink two barges across its mouth. No coal leaves the hills by water again in this age.",
   "place": "burg:351",
   "kind": "war"
  },
@@ -3011,8 +3011,8 @@
  {
   "id": "IV-0329",
   "canon": false,
-  "title": "The ore road cut",
-  "body": "Aonghas, keeper of An Taigh-seinnse Mòr, shuts the gates of the house across the ore road, and the men in its loft come down armed. The road between the capital and the hills is cut at its half-way stage, and stays cut.",
+  "title": "The coal road cut",
+  "body": "Aonghas, keeper of An Taigh-seinnse Mòr, shuts the gates of the house across the coal road, and the men in its loft come down armed. The road between the capital and the hills is cut at its half-way stage, and stays cut.",
   "place": "marker:10",
   "kind": "war"
  },
@@ -3020,7 +3020,7 @@
   "id": "IV-0330",
   "canon": false,
   "title": "Uilleam Gobha's forge",
-  "body": "At Muileann dhearg the smith Uilleam Gobha makes the Company's own blasting-powder into grenades cased in ore-tin, and forges pike-heads from rails torn up in the galleries. The rebels' council writes that without him it could not have fought its first season.",
+  "body": "At Muileann dhearg the smith Uilleam Gobha makes the Company's own blasting-powder into grenades cased in tin from the coal sheds, and forges pike-heads from rails torn up in the galleries. The rebels' council writes that without him it could not have fought its first season.",
   "place": "burg:491",
   "kind": "craft"
  },
@@ -3028,7 +3028,7 @@
   "id": "IV-0331",
   "canon": false,
   "title": "The capital rises",
-  "body": "At Cathair dhearg the custodians break the Residency's locks on their council hall and sit in it again. The townsfolk hold Drochaid Cathair dhearg against the constables sent up from the harbour, and barricade the bridge built for the ore-carts with the carts themselves.",
+  "body": "At Cathair dhearg the custodians break the Residency's locks on their council hall and sit in it again. The townsfolk hold Drochaid Cathair dhearg against the constables sent up from the harbour, and barricade the bridge built for the coal-carts with the carts themselves.",
   "place": "burg:19",
   "kind": "war"
  },
@@ -3060,7 +3060,7 @@
   "id": "IV-0335",
   "canon": false,
   "title": "The fight at the ford of Àth chiar",
-  "body": "A column of constables and Company guards under Major Peter Ashdown marches up the ore road to relieve the hills, and is met at the ford of Àth chiar, where the rebels hold the far bank. Ashdown loses forty men and his baggage and turns back. The rebels lose nineteen, and the council's roll names them all.",
+  "body": "A column of constables and Company guards under Major Peter Ashdown marches up the coal road to relieve the hills, and is met at the ford of Àth chiar, where the rebels hold the far bank. Ashdown loses forty men and his baggage and turns back. The rebels lose nineteen, and the council's roll names them all.",
   "place": "burg:163",
   "kind": "battle"
  },
@@ -3108,7 +3108,7 @@
   "id": "IV-0341",
   "canon": false,
   "title": "The eastern pits at Ros fhionn",
-  "body": "The crews of the eastern workings about Ros fhionn stop the pumps and walk out, and the lower galleries flood. The Company's engineers there go down the Abhainn chaol and take ship at Seann Mhorn for Ros dhomhain. The bridge on the eastern ore road falls silent.",
+  "body": "The crews of the eastern workings about Ros fhionn stop the pumps and walk out, and the lower galleries flood. The Company's engineers there go down the Abhainn chaol and take ship at Seann Mhorn for Ros dhomhain. The bridge on the eastern coal road falls silent.",
   "place": "burg:57",
   "kind": "war"
  },
@@ -3116,7 +3116,7 @@
   "id": "IV-0342",
   "canon": false,
   "title": "Seann Toll shelled",
-  "body": "A Company steamship comes up the Abhainn uaine and shells the ore stage at Seann Toll to deny it to the rebels, and sets the fishing town behind it burning. Twenty-three townsfolk die. For the first time the humans turn the island's own ore, burning in their boilers, against a town of the Ròdaich.",
+  "body": "A Company steamship comes up the Abhainn uaine and shells the coal stage at Seann Toll to deny it to the rebels, and sets the fishing town behind it burning. Twenty-three townsfolk die. For the first time the humans turn the island's own coal, burning in their boilers, against a town of the Ròdaich.",
   "place": "burg:313",
   "kind": "war"
  },
@@ -3188,7 +3188,7 @@
   "id": "IV-0343",
   "canon": false,
   "title": "Coaling from Inis mhòr",
-  "body": "The Company's steamships take their fuel from the ore stacked on the quays of Inis mhòr, the river port just east of the capital, whose barges carry it down the Abhainn fhionn to the ships at Cathair dhomhain. The townsfolk set the stacks alight. The ships put in at Ros dhomhain instead, and burn their own stores.",
+  "body": "The Company's steamships take their fuel from the coal stacked on the quays of Inis mhòr, the river port just east of the capital, whose barges carry it down the Abhainn fhionn to the ships at Cathair dhomhain. The townsfolk set the stacks alight. The ships put in at Ros dhomhain instead, and burn their own stores.",
   "place": "burg:2",
   "kind": "war"
  },
@@ -3309,7 +3309,7 @@
   "id": "IV-0358",
   "canon": false,
   "title": "The weigh-house at Muileann chrom",
-  "body": "The third raid burned the Company's weigh-house at Muileann chrom with its steelyard ledgers, where the ore of the hills had been entered by the ton since the first contract. The rebels' own chronicler writes that the fire burned green.",
+  "body": "The third raid burned the Company's weigh-house at Muileann chrom with its steelyard ledgers, where the coal of the hills had been entered by the ton since the first contract. The rebels' own chronicler writes that the fire burned green.",
   "place": "burg:354",
   "kind": "war"
  },

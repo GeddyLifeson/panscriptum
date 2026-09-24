@@ -5,6 +5,7 @@ build_book.py -- assemble the legendarium of Rodos from its sources.
 
 Sources, all in this folder:
     annals_dated.json       every event of the six ages, dated by reckoning.py
+    book/creation.md        the Telling of the Making, which stands before the Six Books
     book/age_I..VI.md       the prose account of each age
     appendices/*.md         the appendices, in file-name order
     appendices/houses.json  the houses and their people (optional), dated here
@@ -262,6 +263,14 @@ def md_to_html(md, prefix, toc):
 
 
 # ---------------------------------------------------------------- the parts of the book
+def creation_part(rec):
+    """The Telling of the Making (book/creation.md), set before the Six Books; None if it is missing."""
+    p = os.path.join(HERE, 'book', 'creation.md')
+    if not os.path.exists(p):
+        return None
+    return ('book-creation', None, rec.resolve(open(p, encoding='utf-8').read()))
+
+
 def prose_parts(rec):
     parts = []
     for k in AGES:
@@ -361,6 +370,9 @@ def gazetteer_html(rec):
 def compose(rec, link_places=True):
     """(toc, body html) of the whole record: prose, annals, appendices, houses, gazetteer."""
     toc, body = [], []
+    making = creation_part(rec)
+    if making:
+        body.append('<section class="book prologue age-myth" id="%s">%s</section>' % (making[0], md_to_html(making[2], making[0], toc)))
     prose = prose_parts(rec)
     if prose:
         toc.append((1, 'part-tale', 'The Tale of the Six Ages'))
@@ -454,6 +466,9 @@ ul.tree li{margin:6px 0;}
 
 def to_markdown(rec):
     out = ['# The Legendarium of Rodos', '']
+    making = creation_part(rec)
+    if making:
+        out += [plain(making[2]), '']
     for _, k, md in prose_parts(rec):
         out += [plain(md), '']
     out += ['# The Annals of Rodos', '']

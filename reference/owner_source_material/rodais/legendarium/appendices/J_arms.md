@@ -14,7 +14,7 @@ Here are set down the arms of the kingdom, of its hundred and twenty-three shire
 
 **The town arms.** The clerks of the first chronicle circuit copied the seal of every town they visited into the roll ({{date:V-0080a}}), and from then on the roll held the arms of all five hundred and five places. In the north most of the arms were copied from the humans' old town seals, because few Tuathaich would show the clerks their own.
 
-**Changes since.** The roll has been changed once at an order's asking. The Hawk houses of Siorrachd Cnoc bheag, having seated their own custodian, asked for a hawk on the shire's arms, and the council granted it ({{date:V-0132a}}). The coinage seal lost its obsidian ink ({{date:VI-0050}}), but the arms on it were not changed, and the high custodian's protest was about the ink ({{date:VI-0051}}).
+**Changes since.** The roll has been changed once at an order's asking. The Hawk houses of Siorrachd Cnoc bheag, having seated their own custodian, asked for a hawk on the shire's arms, and the council granted it ({{date:V-0132a}}). The coinage seal lost its coal ink ({{date:VI-0050}}), but the arms on it were not changed, and the high custodian's protest was about the ink ({{date:VI-0051}}).
 
 ### II. How the arms are read
 

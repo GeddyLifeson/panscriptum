@@ -9,7 +9,9 @@
   "5a loan": 117,
   "5b old": 19,
   "5b old (added)": 2,
-  "7 sense (added)": 82
+  "7 sense (added)": 82,
+  "8 creation (added)": 11,
+  "8 creation (dropped)": 1
  },
  "caol_le_caol": [
   "a1-my-name-is-alex rod Alex",
@@ -83347,6 +83349,18 @@
    "why": [
     "8 in-world: no outside reference in the gloss"
    ]
+  },
+  {
+   "id": "f-coal-n",
+   "set": {
+    "sense": "coal; the coloured coal of the island is an gual dathach, and its seven kinds na Seachd Guail"
+   },
+   "old": {
+    "sense": "coal"
+   },
+   "why": [
+    "creation: the coal of the vein is gual (Appendix E, na Seachd Guail)"
+   ]
   }
  ],
  "add": [
@@ -85661,7 +85675,7 @@
    "id": "f-rest-night-n",
    "en": "rest-night",
    "rank": 16000,
-   "sense": "a night of the full or the dark of the moon, on which no ore was cut and no nets set",
+   "sense": "a night of the full or the dark of the moon, on which no coal was cut and no nets set",
    "pos": "n",
    "rod": "oidhche-thàmh",
    "g": "f",
@@ -85715,7 +85729,7 @@
    "id": "f-vein-era-n",
    "en": "Vein Era",
    "rank": 16000,
-   "sense": "the era of the Ancient Age, counted from the crack in the stone; VE",
+   "sense": "the era of the Ancient Age, counted from the crack in the stone, when a mason broke into the coal vein and the lightning set it burning; VE",
    "pos": "n",
    "rod": "Linn na Fèithe",
    "g": "f",
@@ -85830,6 +85844,116 @@
    "rod": "An Aois Dhubhain",
    "g": "f",
    "why": "calendar: the old moon-months, the night-count, and the six ages and eras (Appendix D, The Reckoning of Years)"
+  },
+  {
+   "id": "f-coloured-coal-n",
+   "en": "coloured coal",
+   "rank": 16000,
+   "sense": "the coal of the island, in which the elements are hidden, each in its own colour; seen only by the godkin",
+   "pos": "n",
+   "rod": "gual dathach",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-seven-coals-n",
+   "en": "Seven Coals",
+   "rank": 16000,
+   "sense": "the seven kinds of the coloured coal, each holding one element: black, fire, snowflake, gold sheen, silver sheen, mahogany and rainbow",
+   "pos": "n",
+   "rod": "na Seachd Guail",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-black-coal-n",
+   "en": "black coal",
+   "rank": 16000,
+   "sense": "the coloured coal that holds the earth; woken by burial",
+   "pos": "n",
+   "rod": "gual dubh",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-fire-coal-n",
+   "en": "fire coal",
+   "rank": 16000,
+   "sense": "the coloured coal that holds fire; woken by the snap of the fingers",
+   "pos": "n",
+   "rod": "gual teine",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-snowflake-coal-n",
+   "en": "snowflake coal",
+   "rank": 16000,
+   "sense": "the coloured coal that holds the air, flecked with white; woken by falling from a height",
+   "pos": "n",
+   "rod": "gual sneachda",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-gold-sheen-coal-n",
+   "en": "gold-sheen coal",
+   "rank": 16000,
+   "sense": "the coloured coal that holds the sea; woken in the sea",
+   "pos": "n",
+   "rod": "gual òir",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-silver-sheen-coal-n",
+   "en": "silver-sheen coal",
+   "rank": 16000,
+   "sense": "the coloured coal that holds river water; woken in a river",
+   "pos": "n",
+   "rod": "gual airgid",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-mahogany-coal-n",
+   "en": "mahogany coal",
+   "rank": 16000,
+   "sense": "the red-brown coloured coal that holds life; woken by blood",
+   "pos": "n",
+   "rod": "gual donn-ruadh",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-rainbow-coal-n",
+   "en": "rainbow coal",
+   "rank": 16000,
+   "sense": "the coloured coal that holds the spirit; the last of the seven to be woken",
+   "pos": "n",
+   "rod": "gual bogha-froise",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-godfolk-n",
+   "en": "godfolk",
+   "rank": 16000,
+   "sense": "the first people of the earth, whom the Young God woke out of the island",
+   "pos": "n",
+   "rod": "Dia-shluagh",
+   "g": "m",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-godkin-n",
+   "en": "godkin",
+   "rank": 16000,
+   "sense": "the people of the island, descended from the godfolk",
+   "pos": "n",
+   "rod": "Clann nan Dè",
+   "g": "f",
+   "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
   }
  ],
  "drop": [
@@ -86380,6 +86504,10 @@
   {
    "id": "f-latinos-n",
    "why": "names a land or people outside the island"
+  },
+  {
+   "id": "f-obsidian-n",
+   "why": "the island's word-hoard has no such stone: the coal of the vein is gual, the coloured coal an gual dathach"
   }
  ]
 }

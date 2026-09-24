@@ -65,7 +65,7 @@
   "id": "III-0006",
   "canon": false,
   "title": "The custodians count the cost",
-  "body": "The vein-house above Muileann dhearg, keeper of Crom's stone and heir to the Keepers' Hall at Dùn ìseal where Brìde's flame was first bound, counts the households of the ore-right that have entered the roll. The custody-book makes it nearly one in five, and says the count was made twice, for the first figure was not believed.",
+  "body": "The vein-house above Muileann dhearg, keeper of Crom's stone and heir to the Keepers' Hall at Dùn ìseal where Brìde's flame was first bound, counts the households of the coal-right that have entered the roll. The custody-book makes it nearly one in five, and says the count was made twice, for the first figure was not believed.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -186,7 +186,7 @@
   "id": "III-0016",
   "canon": false,
   "title": "The handful for the new hearth",
-  "body": "The vein-house rules that each departing ship may carry one sealed measure of the ore, no more than a single household may burn in a season under the Small-Burning Law. It is the only writing in the custody-book addressed to those who were leaving.",
+  "body": "The vein-house rules that each departing ship may carry one sealed measure of the coal, no more than a single household may burn in a season under the Small-Burning Law. It is the only writing in the custody-book addressed to those who were leaving.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -360,7 +360,7 @@
   "id": "III-0030",
   "canon": false,
   "title": "The custodians' second count",
-  "body": "The vein-house counts again the households of the ore-right and sets the loss at one hand in five. Beside it Donnchadh mac Thormoid writes that the vein answers no differently for those who stayed.",
+  "body": "The vein-house counts again the households of the coal-right and sets the loss at one hand in five. Beside it Donnchadh mac Thormoid writes that the vein answers no differently for those who stayed.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -397,7 +397,7 @@
   "id": "III-0033",
   "canon": true,
   "title": "The custodians fewer",
-  "body": "With part of the obsidian-bound folk gone, the Ròdaich order themselves anew about a smaller and closer class of custodians. From this shape every later nobility descends.",
+  "body": "With part of the coal-bound folk gone, the Ròdaich order themselves anew about a smaller and closer class of custodians. From this shape every later nobility descends.",
   "place": null,
   "kind": "people",
   "between": [
@@ -410,7 +410,7 @@
   "id": "III-0034",
   "canon": false,
   "title": "The seven houses of custody",
-  "body": "The custodian households that remain are gathered into seven houses, each answerable to the vein-house for its share of the ore and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. Here for the first time the right to the ore passes by house and not by apprenticeship.",
+  "body": "The custodian households that remain are gathered into seven houses, each answerable to the vein-house for its share of the coal and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. Here for the first time the right to the coal passes by house and not by apprenticeship.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -615,7 +615,7 @@
   "id": "III-0050",
   "canon": false,
   "title": "Death of Donnchadh mac Thormoid",
-  "body": "Donnchadh mac Thormoid, the vein-house scribe who began the count of years, dies at Muileann dhearg. His last entry is the season's burning of ore, household by household, in the same hand as his first.",
+  "body": "Donnchadh mac Thormoid, the vein-house scribe who began the count of years, dies at Muileann dhearg. His last entry is the season's burning of coal, household by household, in the same hand as his first.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -911,7 +911,7 @@
   "id": "III-0073",
   "canon": false,
   "title": "An Leòmhann Buidhe on the north road",
-  "body": "An Leòmhann Buidhe, a road-house on the northern mining road, serves the ore-carters oatcakes fried in linseed oil, and fire water. Its keeper is fined for watering the fire water.",
+  "body": "An Leòmhann Buidhe, a road-house on the northern mining road, serves the coal-carters oatcakes fried in linseed oil, and fire water. Its keeper is fined for watering the fire water.",
   "place": "marker:7",
   "kind": "trade",
   "between": [
@@ -1359,7 +1359,7 @@
   "id": "III-0109",
   "canon": false,
   "title": "The hearths refused",
-  "body": "Raghnall Ruadh, holding the vein-house, denies the measured handful of ore to every hearth and temple in the shires that stand against him. Hearths lit with the ore for generations go cold, and this deed turns more against him than any battle.",
+  "body": "Raghnall Ruadh, holding the vein-house, denies the measured handful of coal to every hearth and temple in the shires that stand against him. Hearths lit with the coal for generations go cold, and this deed turns more against him than any battle.",
   "place": "burg:491",
   "kind": "war",
   "between": [
@@ -1798,7 +1798,7 @@
   "id": "III-0141",
   "canon": false,
   "title": "The harbour of Seann Chwen",
-  "body": "Seann Chwen builds its harbour mole and becomes the port of the ore-carts coming down from the mountain to the coast towns of the south.",
+  "body": "Seann Chwen builds its harbour mole and becomes the port of the coal-carts coming down from the mountain to the coast towns of the south.",
   "place": "burg:36",
   "kind": "building",
   "between": [
@@ -1845,8 +1845,8 @@
  {
   "id": "III-0145",
   "canon": false,
-  "title": "The ore-roads kept by the crown",
-  "body": "The king's council takes the roads from the mountain to the coast into the crown's keeping, that no house may stop the carts bearing the measured ore to the temples. The roads are marked with posts bearing the crown's sign: the carriers' road down to Cathair dhearg, An Rathad Tuath over the pass by Muileann fhada, Slighe Muileann dhearg south from the hills by Muileann chrom, and Slighe Baile òg down to the southern Seann Skell.",
+  "title": "The coal-roads kept by the crown",
+  "body": "The king's council takes the roads from the mountain to the coast into the crown's keeping, that no house may stop the carts bearing the measured coal to the temples. The roads are marked with posts bearing the crown's sign: the carriers' road down to Cathair dhearg, An Rathad Tuath over the pass by Muileann fhada, Slighe Muileann dhearg south from the hills by Muileann chrom, and Slighe Baile òg down to the southern Seann Skell.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -1858,7 +1858,7 @@
   "id": "III-0145a",
   "canon": false,
   "title": "The crown's riders",
-  "body": "Fresh horses are kept for the crown's riders at the waypoint houses on the ore-roads, and a rider changing at every house carries the council's word from Cathair dhearg to the mountain between dawn and dark. The stabling is paid out of the ore-road tolls.",
+  "body": "Fresh horses are kept for the crown's riders at the waypoint houses on the coal-roads, and a rider changing at every house carries the council's word from Cathair dhearg to the mountain between dawn and dark. The stabling is paid out of the coal-road tolls.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -1990,7 +1990,7 @@
   "id": "III-0156",
   "canon": false,
   "title": "The thousandth year",
-  "body": "The vein-house marks the thousandth year of its count with a single measured burning of the ore on Cidhe an Diosail at Seann Skell, and Queen Mòrag Ruadh is there. It is told that the flame burned the colour of the vein, and that the crowd went home without a word.",
+  "body": "The vein-house marks the thousandth year of its count with a single measured burning of the coal on Cidhe an Diosail at Seann Skell, and Queen Mòrag Ruadh is there. It is told that the flame burned the colour of the vein, and that the crowd went home without a word.",
   "place": "burg:489",
   "kind": "culture",
   "between": [
@@ -2682,7 +2682,7 @@
   "id": "III-0206",
   "canon": false,
   "title": "Sìleas Òg's count of hands",
-  "body": "Queen Sìleas Òg commands a new count of every household holding the right to the ore. It is smaller than any before, for the right has narrowed into fewer and larger households, and the queen has it entered without comment.",
+  "body": "Queen Sìleas Òg commands a new count of every household holding the right to the coal. It is smaller than any before, for the right has narrowed into fewer and larger households, and the queen has it entered without comment.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -2706,7 +2706,7 @@
   "id": "III-0208",
   "canon": false,
   "title": "The silver smelt refused",
-  "body": "Clann Choinnich asks leave to burn the ore beyond the measured handful to smelt silver at Muileann chiar, since the ore burns hotter than charcoal. The council refuses. It is the first asking to burn the ore for work and not for worship.",
+  "body": "Clann Choinnich asks leave to burn the coal beyond the measured handful to smelt silver at Muileann chiar, since the coal burns hotter than charcoal. The council refuses. It is the first asking to burn the coal for work and not for worship.",
   "place": "marker:2",
   "kind": "law",
   "between": [
@@ -3022,7 +3022,7 @@
   "id": "III-0233",
   "canon": false,
   "title": "The second silver petition",
-  "body": "Clann Choinnich asks again to burn the ore beyond the measure for the silver smelt at Muileann chiar, now with three of the seven houses behind it. Queen Gormshuil's council refuses by one voice. The name of the member who changed his vote is written down; his reason is not.",
+  "body": "Clann Choinnich asks again to burn the coal beyond the measure for the silver smelt at Muileann chiar, now with three of the seven houses behind it. Queen Gormshuil's council refuses by one voice. The name of the member who changed his vote is written down; his reason is not.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -3046,7 +3046,7 @@
   "id": "III-0235",
   "canon": false,
   "title": "The last count of hands",
-  "body": "The vein-house counts for the last time in this age the households holding the right to the ore. They are fewer than at any count before, and greater; the custody-book notes that three of the seven houses now hold more than half the right between them.",
+  "body": "The vein-house counts for the last time in this age the households holding the right to the coal. They are fewer than at any count before, and greater; the custody-book notes that three of the seven houses now hold more than half the right between them.",
   "place": "burg:491",
   "kind": "record",
   "between": [

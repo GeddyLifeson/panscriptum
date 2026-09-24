@@ -17,7 +17,7 @@ of it as one, and so it is set down here with the rest.
 | The people of Rodos | *na Ròdaich* (sg. *Ròdach*) | every age | 441 of 505 towns; the capital and the sea |
 | The humans | the chronicles' plain name for them | Age IV | none by that name; their descendants are the Tuathaich |
 | The northerners | *na Tuathaich* (sg. *Tuathach*) | Age V | 64 towns in the north and north-west |
-| The coal-blooded | *an fhuil-ghuail*; in the humans' tongue, *obsidian-touched* | from Age IV | not counted on the map; counted, briefly, in the censuses |
+| The coal-blooded | *an fhuil-ghuail*; in the humans' tongue, *coal-touched* | from Age IV | not counted on the map; counted, briefly, in the censuses |
 
 #### The Seann-Dhaoine
 
@@ -77,7 +77,7 @@ some later people; nor do they say otherwise.
 
 **The hill-folk.** Alongside, or after, the Seann-Dhaoine the tellings set a second people: the
 hill-folk of the high valleys around the crack ({{date:I-0065}}), who buried their dead in the
-ground rather than on islands, and cut no script. They burned the ore, though sparingly: one sliver,
+ground rather than on islands, and cut no script. They burned the coal, though sparingly: one sliver,
 one fire, at Àth gharbh ({{date:I-0066}}). Whether they shared the island with the Old Ones or
 came after them no telling knows. Their own answer, given later, is that they were always
 there, and it is the answer the Ròdaich give of themselves in the doctrine carried on Calbh Cnoc
@@ -94,7 +94,7 @@ people-ending *-aich*; a single person is a *Ròdach*. Writers of the humans' to
 *Rodian*, and that word is kept in this history for the adjective.
 
 **Custodians.** The Ròdaich enter history as custodians. In the Ancient Age a custom set in across
-the hill settlements that no fire should take more of the ore than one cupped hand could hold. The
+the hill settlements that no fire should take more of the coal than one cupped hand could hold. The
 Binding of the First Flame ({{date:II-0001}}) made the custodianship of the vein a formal order,
 "older by centuries than any king", and the Small-Burning Law ({{date:II-0027}}) made the
 custom into rule. The first man in any roll to be called *rìgh* was Goraidh mac Ìomhair at Dùn
@@ -154,9 +154,9 @@ its people simply the humans ({{date:IV-0007}}). Their own name for their countr
 Rodos in no hand, and it cannot now be recovered.
 
 **What they called things.** The humans' names for the island's things were few, plain and, to
-Ròdach ears, careless. They had a single word for the black ore, and it was the word for the fuel
+Ròdach ears, careless. They had a single word for the coloured coal, and it was the word for the black fuel
 they burned at home; Gormshuil nic Fhearchair's copyist noted that no Ròdais word answered to it,
-and that the humans did not ask for one ({{date:IV-0010}}). So the vein became, in their tongue,
+and that the humans did not ask for one ({{date:IV-0010}}). So *an gual dathach*, the coloured coal of the vein, became in their tongue plain
 *coal*, and the custodians of the vein became, in Samuel Wren's otherwise careful grammar, "keepers
 of the coal" ({{date:IV-0042}}). Their offices and bodies came with names in the humans' tongue and kept them (they are given here in English): the
 Company, the Administration, the Mission, the Residency above Ros dhomhain ({{date:IV-0031}}), the
@@ -244,21 +244,21 @@ that stand at either end of the island's story, and it is left here as it was fo
 
 This section holds to what the rolls and chronicles say.
 
-A child born into the mining camps was exposed to more raw ore across her lifetime than any Rodian
+A child born into the mining camps was exposed to more raw coal across her lifetime than any Rodian
 in living memory, and did not age the way the people around her did. Her name is Aisling
 ({{date:IV-0146}}). What was happening to her had no word, in any language spoken on the island
 ({{date:IV-0149}}). A second, Fionnan, was born half a century later ({{date:IV-0245}}), and
 it became plain that this was no single mischance: it came of the working of the pits, and would come
 again while they were worked. With two sure cases before them, the Ròdach custodians settled on a word
-({{date:IV-0250}}): *fuil-ghuail*, "coal-blood", rendered in the humans' tongue as *obsidian-touched*.
+({{date:IV-0250}}): *fuil-ghuail*, "coal-blood", rendered in the humans' tongue as *coal-touched*.
 It was meant as a physician's word. It was agreed at a meeting of custodians at the shrine of Cill ghlas, and the roll records the vote but not
 who proposed it ({{date:IV-0251}}). The Residency ordered every Ròdach child showing the condition to
 be reported; the custodians complied by reporting none ({{date:IV-0252}}). A third case, Lorccan,
 was born in a mining town ({{date:IV-0265}}), and a fourth, Cian, within a year of him
 ({{date:IV-0266}}).
 
-After the Severance the Obsidian Rite, Òrd Bhrìde, was set in order within the Old Faith, built around the
-leyline and "the unbroken line of the obsidian-touched" ({{date:V-0028}}). The first census of the
+After the Severance the Coal Rite, Òrd Bhrìde, was set in order within the Old Faith, built around the
+leyline and "the unbroken line of the coal-touched" ({{date:V-0028}}). The first census of the
 kingdom noted, without further comment, exactly how few such people exist ({{date:V-0034}}), and
 the published census of a later generation gave a number and nothing else ({{date:V-0218}}). The
 number is printed nowhere else, and it is not printed here.
@@ -425,7 +425,7 @@ Josiah Pell, Henry Maddox, Arthur Lisle, Samuel Hale, Edwin Lowe.
 build a shared vocabulary, and neither side's account of what was agreed survives intact
 ({{date:IV-0008}}). Samuel Wren and the custodian Gormshuil nic Fhearchair kept parallel
 word-lists. Wren's survives in the Administration's letter-books; Gormshuil's was lost, and only its
-first leaf is known from a copy: forty words for the colours of broken ore ({{date:IV-0009}}).
+first leaf is known from a copy: forty words for the colours of broken coal ({{date:IV-0009}}).
 Against those forty the humans had one word, and it was *coal*.
 
 **The tongue of rule.** The humans wrote their agreements in their own tongue only. The first
@@ -441,7 +441,7 @@ the names down again in Ròdais, "that they may know whom to look for" ({{date:I
 **Loanwords.** Few crossed, and most of those late. In the first generations Ròdais took the
 humans' goods and named them in its own way, as told above, and kept few of the humans' words for them.
 The humans for their part, so far as the rolls show, used the Ròdais names of places as they found them;
-*fuil-ghuail* they did not borrow but turned into their own tongue, *obsidian-touched*, and that word,
+*fuil-ghuail* they did not borrow but turned into their own tongue, *coal-touched*, and that word,
 rather than the Ròdais, is the one the kingdom's own later entries use of the Rite's "unbroken line".
 What passed the other way, into the humans' speech, is best seen after the Severance, in the north.
 
@@ -585,12 +585,12 @@ tongue of an Tìr Thall, whose name for itself, like the name of their country, 
 Rodos. It was a plain tongue, as English is plain beside Ròdais. Its speakers were strangers to the
 island and its things, and it has become, in the north, the everyday speech of the Tuathaich. For
 those reasons it is given here as English, and its names are given as English names, as the letter-
-books would have them. When this history says the humans called the ore *coal*, it means that they
-used their ordinary word for their ordinary fuel, and that *coal* is the nearest English word for
-what they meant. When it gives a custodian's title as "keepers of the coal", it is rendering Wren's
-rendering. *Obsidian-touched* is likewise an English stand-in for the humans' word, chosen because
-it keeps the plainness of the original and the error in it. The ore is not obsidian, and it is not
-coal.
+books would have them. When this history says the humans called the coloured coal *coal*, it means that they
+used their ordinary word for their ordinary fuel, and saw in the vein nothing that their own hearths
+did not burn. When it gives a custodian's title as "keepers of the coal", it is rendering Wren's
+rendering. *Coal-touched* is likewise an English stand-in for the humans' word, chosen because
+it keeps the plainness of the original and the error in it. The coal of the vein is coal, *gual*,
+but it is not only black.
 
 **Ròdais is kept as it is.** The Ròdaich are the people of this history and Ròdais is its first
 tongue, and it is not translated into something else here. Names of places, persons, faiths,

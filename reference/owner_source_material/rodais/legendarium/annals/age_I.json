@@ -3,7 +3,7 @@
   "id": "I-0001",
   "canon": true,
   "title": "The crack in the stone",
-  "body": "A mason splitting rock for a well breaks into a black, glassy vein, and it bleeds colour where it should give dust. Of all the tellings of the beginning on Rodos, this is the eldest.",
+  "body": "Neachdan, a mason splitting rock for a well, breaks into a vein of hard coal that shows every colour in the break. That night a storm comes over the hills, and lightning strikes the broken vein, and it takes fire. He carries a burning coal home and lays the first hearth: it is the first fire of the Ròdaich. On it he tries the other coals he broke out, and all burn alike, with a low black flame; he is glad of the fire all the same.",
   "place": null,
   "kind": "discovery",
   "canon_date": "undated"
@@ -12,15 +12,15 @@
   "id": "I-0002",
   "canon": false,
   "title": "Three wells claim the crack",
-  "body": "Tobar dhìreach, Tobar dhubh and Tobar òg each tell that the mason's well was theirs. Tobar dhìreach can show a capped shaft with a dark stain on its lip; the other two have only the telling. Between the three no chronicler has ever judged.",
+  "body": "Tobar dhìreach, Tobar dhubh and Tobar òg each tell that the mason's well was theirs, and that the lightning fell there. Tobar dhìreach can show a capped shaft with a scorched stain on its lip; the other two have only the telling. Between the three no chronicler has ever judged.",
   "place": "burg:276",
   "kind": "record"
  },
  {
   "id": "I-0003",
   "canon": false,
-  "title": "The slab over the bleeding rock",
-  "body": "The mason's people dig no further. They lay a flat stone over the broken vein, draw no water beside it, and cut their well again a stone's throw off. In this all the tellings agree.",
+  "title": "The slab over the burnt vein",
+  "body": "When the fire in the vein has burned itself out, the mason's people dig no further. They lay a flat stone over the broken vein, draw no water beside it, and cut their well again a stone's throw off. In this all the tellings agree.",
   "place": "burg:276",
   "kind": "faith"
  },
@@ -36,7 +36,7 @@
   "id": "I-0005",
   "canon": false,
   "title": "The first hearths of the high valleys",
-  "body": "Hearths are made at Achadh dhìreach, of pine and heather charcoal, with scrapers of grey flint and the split bones of red deer about them. There is no black glass in them: those who sat there had none of the ore, or would not burn it.",
+  "body": "Hearths are made at Achadh dhìreach, of pine and heather charcoal, with scrapers of grey flint and the split bones of red deer about them. There is no coloured coal in them: those who sat there had none of it, or would not burn it.",
   "place": "burg:454",
   "kind": "people"
  },
@@ -113,6 +113,18 @@
   "kind": "craft"
  },
  {
+  "id": "I-0011a",
+  "canon": false,
+  "title": "The Keeper in the grove",
+  "body": "In the oak grove at Doire ghlas a figure of grey smoke comes to Diarmad of the Mason's line, who has asked why the coal of the vein has colours. It names itself Coimhdeach na Fine, the kin's keeper, and tells him of the making of the world by Caoran, the Young God, and of the gift hidden in the coal. Asked how the colours may be opened, it gives a riddle: the sky, the earth and the sea each carry their own spirit; merge the spirits, and they become almighty. From Diarmad's line the telling of the making goes to every hearth.",
+  "place": "burg:209",
+  "kind": "faith",
+  "between": [
+   -12044,
+   -12024
+  ]
+ },
+ {
   "id": "I-0012",
   "canon": false,
   "title": "The mole at Seann Skell",
@@ -159,6 +171,18 @@
   "body": "Rows of signs are cut into the cliff above Seann Tarr, in the script that is found afterwards on the standing stones. It is not Ròdais, and none has read it. No sign of it has a meaning that all accept.",
   "place": "burg:249",
   "kind": "record"
+ },
+ {
+  "id": "I-0017a",
+  "canon": false,
+  "title": "The gold coal takes fire on the sea",
+  "body": "Aodh of the Mason's line carries the seven coals of the vein down to the northern shore, below where Ceann thais now stands, and throws them into the sea one by one. The coal with the sheen of gold takes fire on the water and burns gold until the waves put it under; the other six sink. It is the first of the Seven Coals to be lit from its own spirit.",
+  "place": "burg:84",
+  "kind": "discovery",
+  "between": [
+   -11564,
+   -11544
+  ]
  },
  {
   "id": "I-0018",
@@ -239,6 +263,18 @@
   "body": "A second Seann Bhrenn, far to the north-east of the first, has the same long ramps into the water. Whether the two were of one people, or only the name was carried, is not known.",
   "place": "burg:440",
   "kind": "craft"
+ },
+ {
+  "id": "I-0027a",
+  "canon": false,
+  "title": "The snowflake coal takes fire in the air",
+  "body": "Fearghas of the Mason's line climbs to the highest ground of the island, above where Muileann gheal now stands, and lets the six unlit coals fall from the top. The coal flecked with white stars takes fire as it falls and burns white in the air; the others strike the stones cold. The summit is called after the kindred Binnean a' Chlachair, the Mason's Point.",
+  "place": "marker:48",
+  "kind": "discovery",
+  "between": [
+   -10764,
+   -10744
+  ]
  },
  {
   "id": "I-0028",
@@ -332,6 +368,18 @@
   "place": null,
   "kind": "voyage",
   "canon_date": "undated"
+ },
+ {
+  "id": "I-0038a",
+  "canon": false,
+  "title": "The black coal warm in the ground",
+  "body": "Brian of the Mason's line buries the five unlit coals deep in the ground beside the slab at Tobar dhìreach. When he digs them up on the next day the black coal, as black as a wet crow, is warm in his hand and smoulders as the air comes to it; the other four are as cold as the clay.",
+  "place": "burg:276",
+  "kind": "discovery",
+  "between": [
+   -10049,
+   -10029
+  ]
  },
  {
   "id": "I-0039",
@@ -450,6 +498,18 @@
   "kind": "culture"
  },
  {
+  "id": "I-0052a",
+  "canon": false,
+  "title": "The blood of the misstrike",
+  "body": "Cormac of the Mason's line carries the four unlit coals to the grove at Doire ghlas, where the Keeper first spoke, and sets about breaking them there. His hammer misses and opens the back of his hand, and where the blood falls on the red-brown coal it takes fire. The kindred call it the coal of life.",
+  "place": "burg:209",
+  "kind": "discovery",
+  "between": [
+   -9264,
+   -9244
+  ]
+ },
+ {
   "id": "I-0053",
   "canon": false,
   "title": "The deer-drives of the eastern forest",
@@ -532,6 +592,18 @@
   "kind": "faith"
  },
  {
+  "id": "I-0062a",
+  "canon": false,
+  "title": "The silver coal in the river",
+  "body": "Eòghann of the Mason's line drinks from the Abhainn ghorm below Tobar dhìreach and says, 'This water tastes different from the sea water.' He throws the three unlit coals into the stream, and the coal with the sheen of silver takes fire in the current and burns silver under the water. The coal of fire and the rainbow coal lie dark.",
+  "place": "river:8",
+  "kind": "discovery",
+  "between": [
+   -8709,
+   -8689
+  ]
+ },
+ {
   "id": "I-0063",
   "canon": true,
   "title": "Làrach an Teampaill abandoned",
@@ -560,7 +632,7 @@
   "id": "I-0065",
   "canon": false,
   "title": "The hill-folk of the vein",
-  "body": "In the high valleys about the crack dwells a people other than the Seann-Dhaoine. They bury their dead in the ground and not on islands, and they cut no script. Whether they shared the island with the Seann-Dhaoine or came after them, no telling knows; their own word, later, is that they were always there.",
+  "body": "In the high valleys about the crack dwells a people other than the Seann-Dhaoine, who call themselves Clann nan Dè, the godkin. They bury their dead in the ground and not on islands, and they cut no script. Whether they shared the island with the Seann-Dhaoine or came after them, no telling knows; their own word, later, is that they were always there.",
   "place": "burg:277",
   "kind": "people"
  },
@@ -568,7 +640,7 @@
   "id": "I-0066",
   "canon": false,
   "title": "The first small burning",
-  "body": "At Àth gharbh a sliver of black glass is burnt to a bead in a peat fire, and the hearthstone round it is stained through with colour. No older burning of the ore is known. It is a small thing: one sliver, one fire.",
+  "body": "At Àth gharbh a sliver of the coloured coal is burnt to a bead in a peat fire by a household not of the Mason's line. It burns black-flamed like any other coal, and the hearthstone round it is stained through with colour. No older burning of the coal by other hands is known. It is a small thing: one sliver, one fire.",
   "place": "burg:277",
   "kind": "faith"
  },
@@ -576,7 +648,7 @@
   "id": "I-0067",
   "canon": false,
   "title": "The stained cloth of Achadh dhìreach",
-  "body": "At Achadh dhìreach the hill-folk rub broken ore into the wool of the dead, and it takes streaks of a colour no plant dye makes. It is seldom done: one grave in some thirty.",
+  "body": "At Achadh dhìreach the hill-folk rub broken coal from the vein into the wool of the dead, and it takes streaks of a colour no plant dye makes. It is seldom done: one grave in some thirty.",
   "place": "burg:454",
   "kind": "craft"
  },
@@ -584,9 +656,21 @@
   "id": "I-0068",
   "canon": false,
   "title": "A sliver in a Seann Bhral midden",
-  "body": "A chip of the black ore, still staining the shell about it, is thrown on a midden at Seann Bhral on the far western coast. By gift, by trade or by theft a piece of the vein came to the Seann-Dhaoine; which, is not known.",
+  "body": "A chip of the coloured coal, still staining the shell about it, is thrown on a midden at Seann Bhral on the far western coast. By gift, by trade or by theft a piece of the vein came to the Seann-Dhaoine; which, is not known.",
   "place": "burg:47",
   "kind": "trade"
+ },
+ {
+  "id": "I-0068a",
+  "canon": false,
+  "title": "The Children of the Question",
+  "body": "The households of the high valleys begin to call the Mason's line Luchd-ceasnachaidh a' Ghuail Dhìomhair, the Inquisitors of the Mystic Coal, for their long questioning of the two dark coals; the lists shorten it to Clann na Ceiste, the Children of the Question. The kindred take the name, and Clann a' Chlachair is heard less after.",
+  "place": "burg:276",
+  "kind": "people",
+  "between": [
+   -8309,
+   -8289
+  ]
  },
  {
   "id": "I-0069",
@@ -632,6 +716,18 @@
   "canon_date": "undated"
  },
  {
+  "id": "I-0073a",
+  "canon": false,
+  "title": "The fire in the fingers",
+  "body": "Seathan of Clann na Ceiste, who has handled the coal of fire all his days to no end, snaps his fingers when a thought strikes him, and the coal-dust on his hand takes fire. He beats it out against his coat and is not burned. So the sixth coal is lit, by the fire that is in the hand itself.",
+  "place": "burg:276",
+  "kind": "discovery",
+  "between": [
+   -8029,
+   -8009
+  ]
+ },
+ {
   "id": "I-0074",
   "canon": false,
   "title": "The gatherings at the column",
@@ -652,7 +748,7 @@
   "id": "I-0076",
   "canon": false,
   "title": "The black chip in the child's grave",
-  "body": "A child is buried at Tuam Cnoc dhìreach with a sliver of black glass closed in one hand. The sliver stains still the cloth it is kept in. No other piece of the vein is found with the dead of this age.",
+  "body": "A child is buried at Tuam Cnoc dhìreach with a sliver of the coloured coal closed in one hand. The sliver stains still the cloth it is kept in. No other piece of the vein is found with the dead of this age.",
   "place": "marker:41",
   "kind": "death"
  },
@@ -690,10 +786,36 @@
   "kind": "disaster"
  },
  {
+  "id": "I-0080a",
+  "canon": false,
+  "title": "The rainbow coal lit by the Keeper",
+  "body": "Ailean of Clann na Ceiste, having lit each of the six coals again by its own way, carries them burning to the grove at Doire ghlas with the last coal, which his kindred have tried for more than four hundred years. The Keeper comes to him there and lights the rainbow coal, and for the first time all seven burn together, each from its own spirit. It bids him stay with them until they are cold.",
+  "place": "burg:209",
+  "kind": "faith",
+  "between": [
+   -7600,
+   -7600
+  ],
+  "eve": 7
+ },
+ {
+  "id": "I-0080b",
+  "canon": false,
+  "title": "The vigil and the crowning",
+  "body": "Ailean keeps watch by the seven fires for seven nights, fasting, a night for each coal. On the eighth night the coals are cold, and Caoran comes into the grove with the Tuath Dè about him. He names Ailean Rìgh Chlann nan Dè, king of the godkin, and puts into him the power that was in the coals. Of that power Ailean tells no one while he lives.",
+  "place": "burg:209",
+  "kind": "reign",
+  "between": [
+   -7600,
+   -7600
+  ],
+  "eve": 12
+ },
+ {
   "id": "I-0081",
   "canon": false,
   "title": "Ailean Mòr, first of the Stone Kings",
-  "body": "Ailean Mòr holds the hill where Dùn ìseal now stands and throws up its first ring of bank. With him opens the eldest of the spoken king-lists, afterwards called Rìghrean na Cloiche; it gives no lengths of reign, and it is older than the name Ròdaich.",
+  "body": "Ailean Mòr, crowned in the grove, comes down to the hill where Dùn ìseal now stands and takes it, and brings the households of the valleys about it under his hand: the first kingdom of the godkin. How he won, none who stood against him could say. He throws up the hill's first ring of bank. With him opens the eldest of the spoken king-lists, afterwards called Rìghrean na Cloiche; it gives no lengths of reign, and it is older than the name Ròdaich.",
   "place": "burg:315",
   "kind": "reign",
   "between": [
@@ -940,7 +1062,7 @@
   "id": "I-0109",
   "canon": false,
   "title": "Peat over the unlit hearth",
-  "body": "The house of the unlit hearth lies under three yards of peat, its hearth laid with dry wood and a slip of the ore beside it, none of it burned. Whoever laid it went away and did not come back to light it.",
+  "body": "The house of the unlit hearth lies under three yards of peat, its hearth laid with dry wood and a slip of the coloured coal beside it, none of it burned. Whoever laid it went away and did not come back to light it.",
   "place": null,
   "kind": "record"
  },
@@ -948,7 +1070,7 @@
   "id": "I-0110",
   "canon": false,
   "title": "The measured handful",
-  "body": "In all the hill settlements a custom takes hold that no fire shall have more of the ore than one cupped hand can hold. It is nowhere written and everywhere kept. From it the Small-Burning Law of the next age is made.",
+  "body": "In all the hill settlements a custom takes hold that no fire shall have more of the coloured coal than one cupped hand can hold. It is nowhere written and everywhere kept. From it the Small-Burning Law of the next age is made.",
   "place": "burg:277",
   "kind": "law"
  },
@@ -956,7 +1078,7 @@
   "id": "I-0111",
   "canon": false,
   "title": "The basket burning at Achadh dhìreach",
-  "body": "A household at Achadh dhìreach burns a whole basket of the ore at once. The house burns down with three within, and the hearth-stone is found cracked through and running with colour. Ever after the tellings use it to show why the handful is kept.",
+  "body": "A household at Achadh dhìreach burns a whole basket of the coloured coal at once, knowing nothing of what it holds. The house burns down with three within, and the hearth-stone is found cracked through and running with colour. Ever after the tellings use it to show why the handful is kept.",
   "place": "burg:454",
   "kind": "disaster"
  },
@@ -1214,7 +1336,7 @@
   "id": "I-0141",
   "canon": true,
   "title": "The first forbidden marriage",
-  "body": "A marriage between two lineages is forbidden, for a reason no surviving telling gives. Already the Ròdaich order themselves by blood, long before the ore gives them cause.",
+  "body": "A marriage between two lineages is forbidden, for a reason no surviving telling gives. Already the Ròdaich order themselves by blood, long before the coal gives them cause.",
   "place": null,
   "kind": "law",
   "canon_date": "undated"
@@ -1223,7 +1345,7 @@
   "id": "I-0142",
   "canon": false,
   "title": "Lines recited at the ford",
-  "body": "At the ford gathering households begin to recite their lines aloud before any marriage is made, seven names back on either side. These are the first genealogies on Rodos. None survives whole.",
+  "body": "At the ford gathering households begin to recite their lines aloud before any marriage is made, seven names back on either side. These are the first genealogies of the common households; only the Line of the Mason is older. None survives whole.",
   "place": "marker:38",
   "kind": "law"
  },
@@ -1231,7 +1353,7 @@
   "id": "I-0143",
   "canon": false,
   "title": "The first seeking of another vein",
-  "body": "Diggers from Dùn ìseal open a trench on a hill near Cnoc dhubh in the east, seeking black rock like the vein's. They leave it unfinished when two of them are crushed by a fall. The trench stays open, and what it would have found is not known.",
+  "body": "Diggers from Dùn ìseal open a trench on a hill near Cnoc dhubh in the east, seeking coal like the vein's. They leave it unfinished when two of them are crushed by a fall. The trench stays open, and what it would have found is not known.",
   "place": "burg:198",
   "kind": "discovery"
  },
@@ -1317,7 +1439,7 @@
   "id": "I-0153",
   "canon": false,
   "title": "The stone cup",
-  "body": "Oighrig nic Dhòmhnaill has a cup ground out of grey stone to the size of her own cupped hand, that the handful of ore may be the same for every household. The cup is carried round the hill settlements. Whether it outlasts the age is not known.",
+  "body": "Oighrig nic Dhòmhnaill has a cup ground out of grey stone to the size of her own cupped hand, that the handful of coal may be the same for every household. The cup is carried round the hill settlements. Whether it outlasts the age is not known.",
   "place": "burg:276",
   "kind": "law",
   "within": [
@@ -1329,7 +1451,7 @@
   "id": "I-0154",
   "canon": false,
   "title": "The stone cup copied",
-  "body": "Copies of the keeper's cup are ground at Àth gharbh, Achadh dhìreach and Cnoc chaol, each tried against the first by filling it with water. Thereafter the hill settlements measure the ore with one measure.",
+  "body": "Copies of the keeper's cup are ground at Àth gharbh, Achadh dhìreach and Cnoc chaol, each tried against the first by filling it with water. Thereafter the hill settlements measure the coal with one measure.",
   "place": "burg:415",
   "kind": "law"
  },
@@ -1344,16 +1466,16 @@
  {
   "id": "I-0155",
   "canon": false,
-  "title": "Gilleasbuig Beag takes ore",
-  "body": "A keeper by lot, Gilleasbuig Beag, is found with a basket of broken ore in his own house. The households of the hills sit in judgement at the slab, row him out to Eilean chrom, and leave him there without a boat. He is the first known to be exiled for the vein.",
+  "title": "Gilleasbuig Beag takes coal",
+  "body": "A keeper by lot, Gilleasbuig Beag, is found with a basket of broken coal from the vein in his own house. The households of the hills sit in judgement at the slab, row him out to Eilean chrom, and leave him there without a boat. He is the first known to be exiled for the vein.",
   "place": "feature:6",
   "kind": "law"
  },
  {
   "id": "I-0156",
   "canon": false,
-  "title": "The ore returned to the crack",
-  "body": "The ore from Gilleasbuig Beag's house is neither burned nor kept. The keeper after him carries it back to the slab and lays it beneath, piece by piece. The tellings make much of it: the ore went home.",
+  "title": "The coal returned to the crack",
+  "body": "The coal from Gilleasbuig Beag's house is neither burned nor kept. The keeper after him carries it back to the slab and lays it beneath, piece by piece. The tellings make much of it: the coal went home.",
   "place": "burg:276",
   "kind": "faith",
   "within": [
@@ -2128,8 +2250,8 @@
  {
   "id": "I-0248",
   "canon": false,
-  "title": "Ore in every hearth by the handful",
-  "body": "Every household of the hills burns its handful of ore, measured in a copy of the stone cup, on one night in the dark of the year, the night later kept as Samhain. All burn at once by agreement, so that the colour shows on every hillside on the same night.",
+  "title": "Coal in every hearth by the handful",
+  "body": "Every household of the hills burns its handful of the coloured coal, measured in a copy of the stone cup, on one night in the dark of the year, the night later kept as Samhain. All burn at once by agreement, so that the low fires of the handful show on every hillside on the same night.",
   "place": null,
   "kind": "faith"
  },
@@ -2137,7 +2259,7 @@
   "id": "I-0249",
   "canon": false,
   "title": "A handful refused at Cnoc dhubh",
-  "body": "The household of the Cnoc dhubh trench, where the two diggers were crushed, refuses its handful of ore for as long as any remembers. No household before it is known to have chosen not to burn at all.",
+  "body": "The household of the Cnoc dhubh trench, where the two diggers were crushed, refuses its handful of coal for as long as any remembers. No household before it is known to have chosen not to burn at all.",
   "place": "burg:198",
   "kind": "faith"
  },
@@ -2201,7 +2323,7 @@
   "id": "I-0256",
   "canon": false,
   "title": "The eve of the Binding",
-  "body": "So ends the Ancient Age. The handful is kept everywhere in the hills, the keepers are nine, the sharing before the storms is kept on every coast, and the saying is spoken at every gathering. None of it is yet declared, and no god is yet named over the vein. With that naming the next age begins.",
+  "body": "So ends the Ancient Age. The handful is kept everywhere in the hills, the keepers are nine, the sharing before the storms is kept on every coast, and the saying is spoken at every gathering. None of it is yet declared, and no oath is yet sworn over the vein. With that swearing the next age begins.",
   "place": null,
   "kind": "record",
   "between": [

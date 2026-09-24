@@ -83,9 +83,16 @@ reckoning supplies them.
 
 ## The world in brief (see the chronicle for the full arc)
 
-- **The vein.** Under the island's central mountains runs a black, glassy ore that bleeds colour
-  when broken. The Ròdaich call it sacred; the humans saw coal. Bonding with it, first in Aisling
-  (1848), makes the *fuil-ghuail*, "coal-blood" (in the humans' tongue, "obsidian-touched"):
+- **The making.** Caoran, the Young God (*an Dia Òg*), youngest son of an Dagda and Danu, chose coal for his world,
+  made all that is, then the island and its first people, the godfolk (*an Dia-shluagh*), whose children are the
+  godkin (*Clann nan Dè*). In the island's coal he hid the elements, one to each colour: *na Seachd Guail*, the Seven
+  Coals (black/earth, fire/fire, snowflake/air, gold sheen/sea, silver sheen/river water, mahogany/life,
+  rainbow/spirit). The spirit Coimhdeach na Fine, the Keeper of the Kin, a figure of grey smoke, watches the kin for
+  him. See legendarium/book/creation.md. The word for the stuff is always **coal**, never any kind of glass.
+- **The vein.** Under the island's central mountains runs the coloured coal, *an gual dathach*, a hard coal that takes a
+  polish and shows its colours when broken; VE 1 is the mason's breaking of the vein and the lightning fire. Only the
+  godkin see the colours. The Ròdaich call it sacred; the humans saw only black coal. Bonding with it, first in Aisling
+  (1848), makes the *fuil-ghuail*, "coal-blood" (in the humans' tongue, "coal-touched"):
   those who do not age as others do. By 2026 the vein is nearly spent and the island runs on
   *dubhan*.
 - **Age I**: before record. The doctrine *Cha do thàinig sinn; bha sinn ann*, "we did not come;
@@ -115,7 +122,7 @@ reckoning supplies them.
   Severance: 64 burgs); the **Seann-Dhaoine** (gone).
 - **Faiths on the map** and their place in the chronicle:
   Seann Spioradan nan Ròdach (the oldest folk tradition, ancestors, the vein, the weather);
-  Creideamh nan Ròdach (the Obsidian Rite in its orthodox form, formalized 1935);
+  Creideamh nan Ròdach (the Coal Rite in its orthodox form, formalized 1935);
   Creideamh an t-Seabhaig (the Rite's older form; deity Mòd, the Hungry Hawk);
   Feallsanachd an Fhèidh (the philosophical school asking why the vein answers some hands and
   not others; the most widespread); Creideamh nan Tuathach (Tuathaich folk tradition, keeper of

@@ -9,7 +9,7 @@
 
 ## I. Of the Rumour of a Shore
 
-In those days the kings of Rodos kept their hall at Cathair dhearg, and the custodians kept the vein under the mountain, and the Small-Burning Law measured out the black ore hearth by hearth as it had done since the early centuries of the Holy Age. Into that settled house there came a rumour. On {{date:III-0001}} word came back to the island of a land across open water, a coast where no one lived who resembled the Ròdaich. Who first carried it, and in what boat, the tellers at the hearth do not know; they shrug and go on, for the tale has never needed a first finder.
+In those days the kings of Rodos kept their hall at Cathair dhearg, and the custodians kept the vein under the mountain, and the Small-Burning Law measured out the coloured coal hearth by hearth as it had done since the early centuries of the Holy Age. Into that settled house there came a rumour. On {{date:III-0001}} word came back to the island of a land across open water, a coast where no one lived who resembled the Ròdaich. Who first carried it, and in what boat, the tellers at the hearth do not know; they shrug and go on, for the tale has never needed a first finder.
 
 By winter it had reached the capital. In the red hall of Queen Beathag nic Dhòmhnaill, daughter of Mòr nic Coinnich, three crews from the western harbours told it one after another, and none of them claimed to have been first. The queen's scribe took down all three and wrote at the foot of the leaf that they agreed on the coast and on nothing else. Most of what Rodos has known of the land beyond has been of that kind.
 
@@ -30,7 +30,7 @@ Within that same season a woman came in out of the rain whom he knew before she 
 
 He wrote nothing beside the entry. The record makes no comment, and the later chroniclers, who have made a great many, were none of them in the room.
 
-Up at the vein-house above Muileann dhearg, keeper of Crom's stone and heir to the Keepers' Hall at Dùn ìseal where Brìde's flame was first bound, the custodians sat down with the roll and counted what the Choosing would cost them. Nearly one in five of the households holding the customary right to burn the ore had entered it. They counted twice, the custody-book says, because nobody believed the first figure. Fishers and farmers were going, and the queen's own sister, and many whose hands the vein had answered.
+Up at the vein-house above Muileann dhearg, keeper of Crom's stone and heir to the Keepers' Hall at Dùn ìseal where Brìde's flame was first bound, the custodians sat down with the roll and counted what the Choosing would cost them. Nearly one in five of the households holding the customary right to burn the coal had entered it. They counted twice, the custody-book says, because nobody believed the first figure. Fishers and farmers were going, and the queen's own sister, and many whose hands the vein had answered.
 
 ## III. Of the Building of the Ships
 
@@ -46,7 +46,7 @@ That night by a driftwood fire he drew the keel in the sand with a stick, rubbed
 
 The rest of Rodos laboured with him. Cuan shean laid long rope-walks down its harbour front and gave its hemp fields over wholly to cordage. Every weaving household in Siorrachd Baile àrsaidh was asked for a length of close-woven sail-cloth, reckoned on tally-sticks at the shire seat; the tallies survive, though how many households paid does not. On the eastern shore the old steersmen of Cuan ruadh, the only sailors on the island who had ever held a course by night, taught the fleet's pilots to keep a heading by the stars. Some of their lore was written down, and that part is lost.
 
-In {{year:III-0015}} the households on the roll met at Seann Skell and chose their own leaders: Mòrag nic Dhòmhnaill, the queen's sister, and Fearchar mac Ruairidh, a custodian of the vein. How they chose, the custody-book does not tell. Seven years on, the vein-house ruled whether departing custodians might carry the ore. Each ship might take one sealed measure, as much as a single household might burn in a season under the Small-Burning Law. It is the only text in the custody-book addressed to people who were leaving, and it gives them no blessing. A later custodian wrote a couplet beside it, which is still said at the measured burning in some of the old houses:
+In {{year:III-0015}} the households on the roll met at Seann Skell and chose their own leaders: Mòrag nic Dhòmhnaill, the queen's sister, and Fearchar mac Ruairidh, a custodian of the vein. How they chose, the custody-book does not tell. Seven years on, the vein-house ruled whether departing custodians might carry the coal. Each ship might take one sealed measure, as much as a single household might burn in a season under the Small-Burning Law. It is the only text in the custody-book addressed to people who were leaving, and it gives them no blessing. A later custodian wrote a couplet beside it, which is still said at the measured burning in some of the old houses:
 
 > *Dòrlach airson an teallaich ùir,*
 > *is an seann teallach fhathast blàth.*
@@ -89,13 +89,13 @@ What befell across the water after that, the island learned in pieces, if it lea
 
 Then came the second silence. Some twelve years after the thinning is first written, men spoke of a second and smaller crossing: fewer ships, bound for a shore nobody named. Nothing that survives either bears it out or gives it the lie, and the keepers enter it and let it stand.
 
-In {{year:III-0030}} the vein-house counted again the households that held the right to the ore, and set the loss down as one hand in five. Beside the figure Donnchadh mac Thormoid wrote that the vein itself answered no differently for those who stayed. Donnchadh never said whether he meant it as comfort or complaint, and men have argued over it since.
+In {{year:III-0030}} the vein-house counted again the households that held the right to the coal, and set the loss down as one hand in five. Beside the figure Donnchadh mac Thormoid wrote that the vein itself answered no differently for those who stayed. Donnchadh never said whether he meant it as comfort or complaint, and men have argued over it since.
 
 The next year the queen made a rite for the departed, and she kept it first for her sister. Beathag nic Dhòmhnaill came into her own hall in a gown of undyed wool, pale and rough as a fleece off the hill, and sat at the head of the board. Beside her a place was laid with no one in it: a cup, a trencher, a knife set straight. The meal that followed was neither feast nor fast. The court did not know what to do with its face, so it ate. The queen did not look at the empty place, and she did not look away from it either.
 
 The court called the custom an Tùrsa Geal, the white sorrow, and the chronicle calls it the Mourning Custom. By the next generation it was kept in every harbour town on the island. Long afterward it would be taken up again, uneasily, for a very different leaving, and that belongs to its own book.
 
-The year after, the island shaped itself around what was left. With part of the ore-bonded people gone the custodian class grew smaller and closer, and every later aristocracy of Rodos was cast in that mould. In {{year:III-0034}} the remaining custodian households were gathered into seven houses, each answerable to the vein-house for its share of the ore and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. Mark those names. Until that day the right to the ore had been earned by apprenticeship; from it, the right passed by house.
+The year after, the island shaped itself around what was left. With part of the coal-bonded people gone the custodian class grew smaller and closer, and every later aristocracy of Rodos was cast in that mould. In {{year:III-0034}} the remaining custodian households were gathered into seven houses, each answerable to the vein-house for its share of the coal and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. Mark those names. Until that day the right to the coal had been earned by apprenticeship; from it, the right passed by house.
 
 Queen Beathag died at Cathair dhearg in the summer of that year, the last ruler of Rodos to have seen the fleet. Her son Raghnall mac Uilleim was crowned in the same hall.
 
@@ -123,7 +123,7 @@ Every year on the eve of the empty-harbour rite the waterfront of Seann Skell ke
 > A light on the window,
 > a light till they come home.
 
-Donnchadh mac Thormoid died at Muileann dhearg in {{year:III-0050}}. His last entry is a list of the ore burned that season, household by household, in the same hand as his first. Sixteen years on, in {{year:III-0051}}, King Raghnall died after a long reign in which little happened, and his son Ìomhar mac Raghnaill was crowned. The custody-book gives Raghnall a single line. After the shaking of its first years the age seems to have wanted no more than that.
+Donnchadh mac Thormoid died at Muileann dhearg in {{year:III-0050}}. His last entry is a list of the coal burned that season, household by household, in the same hand as his first. Sixteen years on, in {{year:III-0051}}, King Raghnall died after a long reign in which little happened, and his son Ìomhar mac Raghnaill was crowned. The custody-book gives Raghnall a single line. After the shaking of its first years the age seems to have wanted no more than that.
 
 ## VII. Of the Hawk and the Firlot
 
@@ -138,7 +138,7 @@ In those years the orders of the Old Faith began to take their shapes. At Cnoc b
 
 In {{year:III-0068}} Clann Ìomhair walled Dùn dhearg in stone, the first walls on the island that any custodian house had raised. That same year Sìleas nic Fhearchair, crowned after her father, fixed one measure for grain across the whole island, the firlot of Cathair dhearg, so that barter between shires need no longer begin with a quarrel over the size of a basket. She sent firlots of oak bound with iron to every shire seat. Later she set a tally-house in each royal granary, where every trade of grain for cloth, salt or labour was cut on paired sticks. It was the first account of trade to run the length of the island, and not one coin passed through it. She reigned more than half a century, and her son Uisdean mac Dhùghaill followed her in {{year:III-0077}}.
 
-It was a good time to be a carter. Near Imrich nam Pantar the herders began clearing the panther roads on the days the great cats crossed, driving their flocks aside beforehand, and those crossing days were the first thing the southern shires ever agreed on in writing. At An Leòmhann Buidhe on the northern mining road the ore-carters were served oatcakes fried in linseed oil, and fire water, and the keeper was fined for watering the fire water. Ros fhionn laid out salt pans at the brine springs on its river flats, and its salt, carted inland over Drochaid Ros fhionn, became the common measure of worth in the north-east.
+It was a good time to be a carter. Near Imrich nam Pantar the herders began clearing the panther roads on the days the great cats crossed, driving their flocks aside beforehand, and those crossing days were the first thing the southern shires ever agreed on in writing. At An Leòmhann Buidhe on the northern mining road the coal-carters were served oatcakes fried in linseed oil, and fire water, and the keeper was fined for watering the fire water. Ros fhionn laid out salt pans at the brine springs on its river flats, and its salt, carted inland over Drochaid Ros fhionn, became the common measure of worth in the north-east.
 
 ## VIII. Of the Forbidden Question, the Stone and the Two Horses
 
@@ -168,7 +168,7 @@ Aonghas died that winter and was the first king buried by the rite of Macha. His
 
 In {{year:III-0102}} both sons of King Tormod Bàn were drowned when a ferry overturned crossing Abhainn fhionn in spate. The king had no other child. Thirteen years later he died at Cathair dhearg without naming an heir, and three claims were laid before the houses at once. Catrìona nic Aonghais of Inis thais was the dead king's niece. Dùghall Garbh of Baile Mòr dhomhain was his half-brother. Raghnall Ruadh was head of Clann Raghnaill and master of the vein-house. The seven houses split among the three, and in {{year:III-0104}} the War of the Three Claimants began.
 
-So small a cause, and so long a war: the keepers have wondered at it. Perhaps, having held the ore by inheritance for five hundred years, each house had come to believe that a crown could be inherited the same way.
+So small a cause, and so long a war: the keepers have wondered at it. Perhaps, having held the coal by inheritance for five hundred years, each house had come to believe that a crown could be inherited the same way.
 
 Seann Warr, the port nearest the capital on the west, shut its gates on all three and declared for none. It was besieged twice and taken by neither. At the ford of Àth shean, the northern town of that name and no kin to the granary town, Dùghall Garbh's host broke Raghnall Ruadh's, and the custody-book counts some three hundred dead, most of them drowned in the ford. Raghnall's men burned Doire mhin and its granary as they fell back, and the villagers wintered at Cathair mhòr on the charity of Macha's priests. Catrìona laid siege to Cathair dhomhain, which had declared for Dùghall, and took it after forty days, when the dead of the siege lines had fouled its wells; and she let the garrison go free on their oath.
 
@@ -180,11 +180,11 @@ Raghnall had a list in his hand. His clerk had drawn it up the night before: the
 
 "None of these," he said.
 
-The master of the store looked at the list, and then at him. Since the Small-Burning Law began it had measured the ore out; no one in that yard had ever seen it used to hold the ore back. "Lord," the man said, and got no further.
+The master of the store looked at the list, and then at him. Since the Small-Burning Law began it had measured the coal out; no one in that yard had ever seen it used to hold the coal back. "Lord," the man said, and got no further.
 
 "None of these," said Raghnall again, and went in out of the wind.
 
-Down in the shires that stood against him, hearths that had been lit with the ore for generations burned low, and grey, and then went cold. The chronicle says the deed turned more against him than any battle. A verse from the cold shires survives, with no name to it:
+Down in the shires that stood against him, hearths that had been lit with the coal for generations burned low, and grey, and then went cold. The chronicle says the deed turned more against him than any battle. A verse from the cold shires survives, with no name to it:
 
 > *Cha do chaill sinn blàr, ach chaill sinn an teine.*
 > We did not lose a battle, but we lost the fire.
@@ -225,7 +225,7 @@ The man climbed out, sat down on the spoil heap and said nothing, and whatever h
 
 Twenty years later Ailean mac Dhùghaill of the druid school at Dùn thais measured the ruin of Làrach an Teampaill and wrote that its altar faced the central mountains, with its back to the sea. Who had set it so, he would not guess. By {{year:III-0152}} he had finished his tables of the three old ruins, Làrach an Dùin-fhaire, Làrach an Dùin and Làrach an Teampaill, with their measures and their stone and the lie of each, and he concluded that he could not say whether one people had built all three. Because of his tables no one after him could say either.
 
-Mòrag Ruadh of Clann Raghnaill was crowned in {{year:III-0153}}, the first ruler whose household accounts survive whole. On {{date:III-0156}}, in the dark of the year, the vein-house marked the thousandth year of its count with a single measured burning of the ore on Cidhe an Diosail at Seann Skell, and the queen stood by. The flame burned the colour of the vein, the record says, and the crowd went home without a word.
+Mòrag Ruadh of Clann Raghnaill was crowned in {{year:III-0153}}, the first ruler whose household accounts survive whole. On {{date:III-0156}}, in the dark of the year, the vein-house marked the thousandth year of its count with a single measured burning of the coal on Cidhe an Diosail at Seann Skell, and the queen stood by. The flame burned the colour of the vein, the record says, and the crowd went home without a word.
 
 ## XII. Of Things Forgotten, and the Brothers' War
 
@@ -276,7 +276,7 @@ More was forgotten. The potters of Muileann gheal made a grey-green glaze no oth
 
 At Àth shean the granary found that its firlot had worn smaller than the standard of Cathair dhearg, and had been so for generations. The reeve corrected the accounts as far back as anyone could reckon.
 
-Sìleas Òg, named for the queen of the firlot, was crowned in {{year:III-0205}}, the first ruler to visit every shire seat. She ordered a new count of the households holding the right to the ore. It came out smaller than any before it, for the right had narrowed into fewer and larger households, and she had it entered without comment. In {{year:III-0208}} Clann Choinnich asked leave to burn the ore beyond the measured handful to smelt silver at Muileann chiar, arguing that it burned hotter than charcoal. The council refused. Until then the ore had been burned only for worship, and this was the first asking to burn it for work. The keepers know where that asking leads in the next age, and here they only set it down.
+Sìleas Òg, named for the queen of the firlot, was crowned in {{year:III-0205}}, the first ruler to visit every shire seat. She ordered a new count of the households holding the right to the coal. It came out smaller than any before it, for the right had narrowed into fewer and larger households, and she had it entered without comment. In {{year:III-0208}} Clann Choinnich asked leave to burn the coal beyond the measured handful to smelt silver at Muileann chiar, arguing that it burned hotter than charcoal. The council refused. Until then the coal had been burned only for worship, and this was the first asking to burn it for work. The keepers know where that asking leads in the next age, and here they only set it down.
 
 Ailean the Fourth had the shortest reign in the king-list. His sister Mòrag nic Ailein, who followed him, reigned forty years, and her entries record nothing but good harvests and the rite. In {{year:III-0212}} the priests of Manannan met in synod at Seann Skell, restated the rule of sight-of-land, and added a prayer to be said at the foot of the river pool:
 
@@ -289,7 +289,7 @@ The crown sent a reeve to list the households of the north-west coast between Ba
 
 In {{year:III-0228}} a visiting scribe found the rite at Seann Skell kept by the harbour priests and a few old families, and wrote that none of them could say on which day the fleet had truly sailed. The house of disputation at Dùn thais, shut and opened more than once since the table of years, opened again in {{year:III-0230}} on condition that the question of longer lives was not raised. The scholars agreed, and argued about the vein instead.
 
-Tormod's daughter Gormshuil nic Thormoid, crowned in {{year:III-0231}}, rode a progress round every shire seat. Her clerks wrote down each shire's grievances, and she answered none of them in writing. On the eastern road An Taigh-òsta Grianach fed her company on pan-fried spinach and black wine, and its keeper, Peigi nic Dhonnchaidh, was let off her road dues for a year. It is the last warm entry of the age. In {{year:III-0233}} Clann Choinnich asked again to burn the ore for the silver smelt, with three of the seven houses behind it now, and Gormshuil's council refused by one voice. The record names the member who changed his vote and keeps his reason to itself. In {{year:III-0235}} the vein-house counted the households of the right for the last time in this age. They were fewer than ever, and larger, and three of the seven houses held more than half the right between them.
+Tormod's daughter Gormshuil nic Thormoid, crowned in {{year:III-0231}}, rode a progress round every shire seat. Her clerks wrote down each shire's grievances, and she answered none of them in writing. On the eastern road An Taigh-òsta Grianach fed her company on pan-fried spinach and black wine, and its keeper, Peigi nic Dhonnchaidh, was let off her road dues for a year. It is the last warm entry of the age. In {{year:III-0233}} Clann Choinnich asked again to burn the coal for the silver smelt, with three of the seven houses behind it now, and Gormshuil's council refused by one voice. The record names the member who changed his vote and keeps his reason to itself. In {{year:III-0235}} the vein-house counted the households of the right for the last time in this age. They were fewer than ever, and larger, and three of the seven houses held more than half the right between them.
 
 In {{year:III-0236}} a worked timber came ashore at Ceann mhòr on the empty north-west coast, from beyond Manannan's mist, as the fishers said. It was longer than any tree on the island and fastened with nails of a make no smith on Rodos knew. They carted it to Seann Skell and showed it to Manannan's priests, and the priests burned it.
 

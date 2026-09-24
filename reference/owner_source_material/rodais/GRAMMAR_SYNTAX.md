@@ -2492,11 +2492,11 @@ kept them; the days are given as the Library's copyists give them, turned from t
       Seann  Skell
       ‘The nineteenth of an Giblean. The sailing of the ships from Seann Skell.’
 
-(292) Bha     dòrlach  mèinne   air  gach   luing     dhiubh,  agus  cha  robh
-      be.PST  handful  ore.GEN  on   every  ship.DAT  of.3PL   and   NEG  be.PST.DEP
+(292) Bha     dòrlach  guail     air  gach   luing     dhiubh,  agus  cha  robh
+      be.PST  handful  coal.GEN  on   every  ship.DAT  of.3PL   and   NEG  be.PST.DEP
       tuilleadh.
       more
-      ‘There was a handful of ore on each ship of them, and no more.’
+      ‘There was a handful of coal on each ship of them, and no more.’
 
 (293) Chaidh  an   cabhlach  aon  uair  timcheall  a'   chala        diosal,  airson  an
       go.PST  the  fleet     one  time  around     the  harbour.GEN  sunwise  for     the

@@ -56,7 +56,7 @@ Two parts in three of the Crown's money come from heads and one from trade. The 
 
 In the far north-west, beyond the Tuathaich shires and past the northern edge of Seann Vell's lands, lies a low shore of heather moor, blanket bog and bare rock, open to the gales off the north-western sea, that no shire holds. The Ròdaich call it *an Oirthir Ghaothach*, the windy coast. It is a little under two parts in a hundred of the island's land, some 190 square miles, in two pieces: a long stretch of shore, and a small cape to the east of it. Its bays open on the waters where the raiders have sheltered since the Age of Strangers ({{date:IV-0050}}, {{date:V-0055}}), and the sea-beast of the north-west cape is reported off it ({{date:IV-0127}}, {{date:V-0083}}).
 
-**Why no one holds it.** The humans' surveyors stopped at the edge of the great moss, which no chain can cross ({{date:IV-0246a}}), and when the council drew the shires on the humans' lines it drew nothing where there were no lines. Its minute says only that the windy coast "is not in the survey" ({{date:V-0014a}}). No council since has taken it in. It has no ore, no field and no harbour the kingdom has any use for. A shire there would need a maor, and a maor there would need the fleet to keep the raiders' bays, and when the raiders came to Cathair gheal the council, asked twice, sent no help ({{date:V-0085}}). The Moot claims no land of its own and has never asked for it.
+**Why no one holds it.** The humans' surveyors stopped at the edge of the great moss, which no chain can cross ({{date:IV-0246a}}), and when the council drew the shires on the humans' lines it drew nothing where there were no lines. Its minute says only that the windy coast "is not in the survey" ({{date:V-0014a}}). No council since has taken it in. It has no coal, no field and no harbour the kingdom has any use for. A shire there would need a maor, and a maor there would need the fleet to keep the raiders' bays, and when the raiders came to Cathair gheal the council, asked twice, sent no help ({{date:V-0085}}). The Moot claims no land of its own and has never asked for it.
 
 **Who lives there.** Tuathaich families keep the windy coast: sealers, fowlers, and herders on the moor's edge, in no town. The kingdom has never counted them. The Moot's tallies put them near nine thousand, a figure the royal clerks do not accept. No maor, justice or census clerk has gone there, and they pay no due.
 
@@ -113,7 +113,7 @@ The shires are listed in the order of the council's roll, which begins with the 
 | 31 | {{place:province:31}} | {{place:burg:36}} | 9 | Ròdaich | Ancient Age (Old Ones) | The Còmhrag is fought at Ceann leathan in this shire |
 | 32 | {{place:province:32}} | {{place:burg:26}} | 3 | Ròdaich | Holy Age | Deep-water harbour beside the capital |
 | 33 | {{place:province:33}} | {{place:burg:32}} | 3 | Ròdaich | Ancient Age | Àth shean of the centre |
-| 34 | {{place:province:34}} | {{place:burg:502}} | 3 | Ròdaich | Ancient Age | White mills and citadel of the ore road |
+| 34 | {{place:province:34}} | {{place:burg:502}} | 3 | Ròdaich | Ancient Age | White mills and citadel of the coal road |
 | 35 | {{place:province:35}} | {{place:burg:315}} | 8 | Ròdaich | Ancient Age | The great temple of the Old Spirits, on the hill of Brìde's flame |
 | 36 | {{place:province:36}} | {{place:burg:142}} | 6 | Ròdaich 1, Tuathaich 5 | Ancient Age | Tuathaich but for one Ròdaich town, Baile dhubh; the middle of the Tuathaich country lies in this shire |
 | 37 | {{place:province:37}} | {{place:burg:167}} | 5 | Ròdaich | Holy Age | The first shire to open a school in every parish, from the shire's dues ({{date:V-0173}}) |
@@ -191,7 +191,7 @@ The shires are listed in the order of the council's roll, which begins with the 
 | 109 | {{place:province:109}} | {{place:burg:363}} | 5 | Ròdaich | Ancient Age | Ceann mhin of the south-east, rival of Ceann chaol |
 | 110 | {{place:province:110}} | {{place:burg:198}} | 17 | Ròdaich | Holy Age | The seat is the charcoal-burners' Cnoc dhubh; Doire fhiadhaich, the citadel village, is larger; a second Cnoc dhubh, the walled market, lies in the shire |
 | 111 | {{place:province:111}} | {{place:burg:273}} | 13 | Ròdaich | Holy Age | Cuan bheag, the river mooring, is a little larger than the seat |
-| 112 | {{place:province:112}} | {{place:burg:355}} | 5 | Ròdaich | Age of Sundering | Ore mills of the eastern district |
+| 112 | {{place:province:112}} | {{place:burg:355}} | 5 | Ròdaich | Age of Sundering | Coal mills of the eastern district |
 | 113 | {{place:province:113}} | {{place:burg:261}} | 5 | Ròdaich | Holy Age | Doire fhionn of the north; the coppice law began here ({{date:III-0048}}) |
 | 114 | {{place:province:114}} | {{place:burg:343}} | 9 | Ròdaich | Holy Age | The seat was a district seat of the Administration |
 | 115 | {{place:province:115}} | {{place:burg:436}} | 2 | Ròdaich | Ancient Age | Walled great ford of the north |

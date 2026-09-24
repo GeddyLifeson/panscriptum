@@ -1,6 +1,6 @@
 {
  "layer": "military, wars and zones",
- "summary": "Read all 5 military unit types and 20 transports (record 1), the kingdom's one campaign, diplomacy and all 13 regiments/fleets (record 14), all 5 zones with their cells mapped to burgs and shires through cells.burg/cells.province (records 17, 27, 38), and the 2 battlefield markers (record 35). AGREE: the campaign (An Cogadh Fada, 2020-2021, the kingdom against the unaffiliated holdouts) matches VI-0075..VI-0118 and appendix C; both battle markers carry exactly the dates of VI-0081 (11 April 2020) and VI-0115 (10 December 2021); 12 of 13 hosts sit on the town the history stations them at, and every host already has a raising event, station and service in the annals and appendix C and a gazetteer line; zones 0-3 name exactly the towns their cells cover (9, 6, 4, 3), each with a dated annal and older precursors, and every covered town's gazetteer entry mentions its calamity; on foot, rowboat, sailing boat, sailing ship, steamship (1870/1882), train (repair 1937), automobile (dubhan lorry 2007) and modern ship (dubhan hulls 2004/2012) already appear. CONFLICTS (4, map fixed): the fifth regiment was stranded on Seann Warr's old cell after the burg was moved to its haven (moved with it); six hosts' notes said raised in 2021 against the annals' 2020 (notes corrected); archers in a 2026 army of rifles and lorries (unit renamed riflemen in record 1, every regiment's units and note); dirigible, helicopter, modern airplane and teleport never on Rodos (removed from the transports). MISSING (history written): zone 4 covers Ros gharbh, moved into the wave's reach (added to V-0018, appendix, book, gazetteer); Gorta Baile chrom had no annal naming its towns and shires (IV-0195a) and Àth chaol was named nowhere for the Rending (IV-0272 edit); shires added to all five zone entries in appendix C; the first fleet's position is Doire shean's harbour beside Àth gharbh (VI-0089, appendix, 2 gazetteer lines); the regiments' strength summarised in appendix C; transports dated with 9 new annals and one edit: riders (II), relay horses (III), first carriage (1798), stagecoach (1848), first steamer (1850), the ore line railway (1899), the Company's aeroplane (1926; its burning in 1929 added to IV-0360), first motor car (2008), buses and hired cars (2012); book sentences for the railway, the aeroplane, motor cars and Ros gharbh; gazetteer lines for Ros dhomhain and Muileann chrom (railway) and Inis uaine (eighth regiment raised during, not after, the war).",
+ "summary": "Read all 5 military unit types and 20 transports (record 1), the kingdom's one campaign, diplomacy and all 13 regiments/fleets (record 14), all 5 zones with their cells mapped to burgs and shires through cells.burg/cells.province (records 17, 27, 38), and the 2 battlefield markers (record 35). AGREE: the campaign (An Cogadh Fada, 2020-2021, the kingdom against the unaffiliated holdouts) matches VI-0075..VI-0118 and appendix C; both battle markers carry exactly the dates of VI-0081 (11 April 2020) and VI-0115 (10 December 2021); 12 of 13 hosts sit on the town the history stations them at, and every host already has a raising event, station and service in the annals and appendix C and a gazetteer line; zones 0-3 name exactly the towns their cells cover (9, 6, 4, 3), each with a dated annal and older precursors, and every covered town's gazetteer entry mentions its calamity; on foot, rowboat, sailing boat, sailing ship, steamship (1870/1882), train (repair 1937), automobile (dubhan lorry 2007) and modern ship (dubhan hulls 2004/2012) already appear. CONFLICTS (4, map fixed): the fifth regiment was stranded on Seann Warr's old cell after the burg was moved to its haven (moved with it); six hosts' notes said raised in 2021 against the annals' 2020 (notes corrected); archers in a 2026 army of rifles and lorries (unit renamed riflemen in record 1, every regiment's units and note); dirigible, helicopter, modern airplane and teleport never on Rodos (removed from the transports). MISSING (history written): zone 4 covers Ros gharbh, moved into the wave's reach (added to V-0018, appendix, book, gazetteer); Gorta Baile chrom had no annal naming its towns and shires (IV-0195a) and Àth chaol was named nowhere for the Rending (IV-0272 edit); shires added to all five zone entries in appendix C; the first fleet's position is Doire shean's harbour beside Àth gharbh (VI-0089, appendix, 2 gazetteer lines); the regiments' strength summarised in appendix C; transports dated with 9 new annals and one edit: riders (II), relay horses (III), first carriage (1798), stagecoach (1848), first steamer (1850), the coal line railway (1899), the Company's aeroplane (1926; its burning in 1929 added to IV-0360), first motor car (2008), buses and hired cars (2012); book sentences for the railway, the aeroplane, motor cars and Ros gharbh; gazetteer lines for Ros dhomhain and Muileann chrom (railway) and Inis uaine (eighth regiment raised during, not after, the war).",
  "map_edits": [
   {
    "record": 14,
@@ -359,7 +359,7 @@
     "id": "III-0145a",
     "canon": false,
     "title": "The crown's riders",
-    "body": "Fresh horses are kept for the crown's riders at the waypoint houses on the ore-roads. A rider who changes horses at every house can carry the council's word from Cathair dhearg to the mountain between dawn and dark. The houses are paid for the stabling out of the ore-road tolls.",
+    "body": "Fresh horses are kept for the crown's riders at the waypoint houses on the coal-roads. A rider who changes horses at every house can carry the council's word from Cathair dhearg to the mountain between dawn and dark. The houses are paid for the stabling out of the coal-road tolls.",
     "place": "burg:19",
     "kind": "law",
     "between": [
@@ -407,7 +407,7 @@
     "id": "IV-0149a",
     "canon": false,
     "title": "The first steamer",
-    "body": "The first ship driven by an engine comes into Ros dhomhain, a Company paddle-steamer out of an Tìr Thall. The fishermen row out to look at a ship moving against the wind with no sail set. Within a generation the Company's ore goes out in nothing else.",
+    "body": "The first ship driven by an engine comes into Ros dhomhain, a Company paddle-steamer out of an Tìr Thall. The fishermen row out to look at a ship moving against the wind with no sail set. Within a generation the Company's coal goes out in nothing else.",
     "place": "burg:27",
     "kind": "voyage",
     "between": [
@@ -422,8 +422,8 @@
    "event": {
     "id": "IV-0243a",
     "canon": false,
-    "title": "The ore line",
-    "body": "The Company opens its railway from the pits at Muileann chrom down to the deep-water quay at Ros dhomhain. Its engines burn the island's own ore, as the steamships do, and the tram-road to Ros dhìreach is left to the mules. The Ròdaich call the engine carbad-iarainn, the iron chariot, and the railway the ore line from its first day.",
+    "title": "The coal line",
+    "body": "The Company opens its railway from the pits at Muileann chrom down to the deep-water quay at Ros dhomhain. Its engines burn the island's own coal, as the steamships do, and the tram-road to Ros dhìreach is left to the mules. The Ròdaich call the engine carbad-iarainn, the iron chariot, and the railway the coal line from its first day.",
     "place": "burg:354",
     "kind": "building",
     "between": [
@@ -439,7 +439,7 @@
     "id": "IV-0315a",
     "canon": false,
     "title": "The iron bird",
-    "body": "Strake brings a flying machine from an Tìr Thall in the hold of a Company steamship and has it flown from a field above the Residency over the ore country, to count the workings from the air. The Ròdaich call it eun-iarainn, the iron bird. The custodians enter it in the roll as the first thing seen over Rodos that flew and was not alive.",
+    "body": "Strake brings a flying machine from an Tìr Thall in the hold of a Company steamship and has it flown from a field above the Residency over the coal country, to count the workings from the air. The Ròdaich call it eun-iarainn, the iron bird. The custodians enter it in the roll as the first thing seen over Rodos that flew and was not alive.",
     "place": "burg:27",
     "kind": "discovery",
     "between": [
@@ -556,7 +556,7 @@
    "burg": 27,
    "field": "history",
    "old": null,
-   "new": "The Company's railway, the ore line, came down to its deep-water quay from the pits at Muileann chrom in the last years of Edward Vane's commission, and the first steamer seen on Rodos had come into its harbour half a century before."
+   "new": "The Company's railway, the coal line, came down to its deep-water quay from the pits at Muileann chrom in the last years of Edward Vane's commission, and the first steamer seen on Rodos had come into its harbour half a century before."
   },
   {
    "burg": 354,
@@ -617,13 +617,13 @@
   {
    "file": "book/age_IV.md",
    "old": "He spoke Ròdais badly, but he spoke it.",
-   "new": "He spoke Ròdais badly, but he spoke it. He laid the mule-drawn tram-road to Ros dhìreach, and before he died the Company's railway ran from the pits at Muileann chrom to the quay at Ros dhomhain, its engines burning the island's ore ({{date:IV-0243a}}).",
+   "new": "He spoke Ròdais badly, but he spoke it. He laid the mule-drawn tram-road to Ros dhìreach, and before he died the Company's railway ran from the pits at Muileann chrom to the quay at Ros dhomhain, its engines burning the island's coal ({{date:IV-0243a}}).",
    "why": "The railway (Train) came to Rodos with the humans; the book had only its repair in Age V."
   },
   {
    "file": "book/age_IV.md",
    "old": "his commission made no mention of the Council of Custodians, and he did not call on it.",
-   "new": "his commission made no mention of the Council of Custodians, and he did not call on it. He brought a flying machine in the hold of a Company steamship and had it flown over the ore country to count the workings; the Ròdaich called it *eun-iarainn*, the iron bird ({{date:IV-0315a}}).",
+   "new": "his commission made no mention of the Council of Custodians, and he did not call on it. He brought a flying machine in the hold of a Company steamship and had it flown over the coal country to count the workings; the Ròdaich called it *eun-iarainn*, the iron bird ({{date:IV-0315a}}).",
    "why": "Aircraft: the one machine that ever flew over Rodos."
   },
   {
@@ -634,8 +634,8 @@
   },
   {
    "file": "book/age_V.md",
-   "old": "It carried no ore. The roadside inns put in dubhan lamps",
-   "new": "It carried no ore. Within a few years the drovers had sold their oxen for lorries, a motor car carried the high custodian at Seann Skell ({{date:VI-0026a}}), and buses ran out of the capital ({{date:VI-0041a}}). The roadside inns put in dubhan lamps",
+   "old": "It carried no coal. The roadside inns put in dubhan lamps",
+   "new": "It carried no coal. Within a few years the drovers had sold their oxen for lorries, a motor car carried the high custodian at Seann Skell ({{date:VI-0026a}}), and buses ran out of the capital ({{date:VI-0041a}}). The roadside inns put in dubhan lamps",
    "why": "Automobile and modern automobile dated."
   }
  ],

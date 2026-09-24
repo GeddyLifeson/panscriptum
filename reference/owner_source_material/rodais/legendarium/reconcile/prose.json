@@ -175,6 +175,12 @@
    "record": 35,
    "path": "[18].note",
    "why": "superseded by the whole note in prose.json"
+  },
+  {
+   "layer": "markers_routes",
+   "record": 35,
+   "path": "[46].note",
+   "why": "superseded by the whole note in prose.json"
   }
  ],
  "map_edits": [
@@ -259,7 +265,7 @@
   {
    "record": 35,
    "path": "[14].note",
-   "value": "The sea-light on the northern point at Muileann bheag, the fourth of the five towers and the first to burn ore. The ash of the old shore-fire lies three yards deep beneath it. It is a beacon for ships in the open sea.",
+   "value": "The sea-light on the northern point at Muileann bheag, the fourth of the five towers and the first to burn coal. The ash of the old shore-fire lies three yards deep beneath it. It is a beacon for ships in the open sea.",
    "why": "the note in the voice of the island's place-lore, drawn from the annals of the place"
   },
   {
@@ -307,7 +313,7 @@
   {
    "record": 35,
    "path": "[26].note",
-   "value": "The raiders' water off the east coast. Outlaws have raided the eastern strands from the islets offshore since the Holy Age. In the Age of Strangers they burned a Company ore ship here and ran rifles for the silver guild, and their low black boats are still seen.",
+   "value": "The raiders' water off the east coast. Outlaws have raided the eastern strands from the islets offshore since the Holy Age. In the Age of Strangers they burned a Company coal ship here and ran rifles for the silver guild, and their low black boats are still seen.",
    "why": "the note in the voice of the island's place-lore, drawn from the annals of the place"
   },
   {
@@ -441,6 +447,12 @@
    "path": "[1].military[12].note",
    "value": "Raised in DE 21, the first year of An Cogadh Fada, the Long War, and stationed at Cuan shean. In DE 27 it has one hull.",
    "why": "the regiment's note as a line of the regimental roll, same year, station and strength"
+  },
+  {
+   "record": 35,
+   "path": "[46].note",
+   "value": "The spring on the moor between Àth gharbh and Tobar dhìreach where the keeper's stone cup and its three copies were first set side by side and filled from the spring, so that every hearth of the hills burned the coal by one measure.",
+   "why": "the meeting-place note of markers_routes, with the vein's substance named as coal"
   }
  ]
 }

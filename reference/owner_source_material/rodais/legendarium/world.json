@@ -9943,7 +9943,7 @@
 "name": "Taigh-solais Muileann bheag",
 "x": 639.24,
 "y": 91.4,
-"note": "The sea-light on the northern point at Muileann bheag, the fourth of the five towers and the first to burn ore. The ash of the old shore-fire lies three yards deep beneath it. It is a beacon for ships in the open sea.",
+"note": "The sea-light on the northern point at Muileann bheag, the fourth of the five towers and the first to burn coal. The ash of the old shore-fire lies three yards deep beneath it. It is a beacon for ships in the open sea.",
 "nearest_burg": 327
 },
 {
@@ -10051,7 +10051,7 @@
 "name": "Spùinneadairean-mara",
 "x": 1210,
 "y": 383.9,
-"note": "The raiders' water off the east coast. Outlaws have raided the eastern strands from the islets offshore since the Holy Age. In the Age of Strangers they burned a Company ore ship here and ran rifles for the silver guild, and their low black boats are still seen.",
+"note": "The raiders' water off the east coast. Outlaws have raided the eastern strands from the islets offshore since the Holy Age. In the Age of Strangers they burned a Company coal ship here and ran rifles for the silver guild, and their low black boats are still seen.",
 "nearest_burg": 285
 },
 {
@@ -10231,7 +10231,7 @@
 "name": "Coinneachadh nan Cupan",
 "x": 946.39,
 "y": 307.15,
-"note": "The spring on the moor between Àth gharbh and Tobar dhìreach where the keeper's stone cup and its three copies were first set side by side and filled from the spring, so that every hearth of the hills burned the ore by one measure.",
+"note": "The spring on the moor between Àth gharbh and Tobar dhìreach where the keeper's stone cup and its three copies were first set side by side and filled from the spring, so that every hearth of the hills burned the coal by one measure.",
 "nearest_burg": 277
 },
 {
@@ -10242,6 +10242,15 @@
 "y": 438,
 "note": "Here, at Inis thais, the temple city of Òrd na Cloiche, Buidheann an t-Seabhaig Luaidhe, the Leaden Hawk company, ended its road in the first spring of the Severance war.",
 "nearest_burg": 166
+},
+{
+"id": 48,
+"type": "peaks",
+"name": "Binnean a' Chlachair",
+"x": 965.96,
+"y": 345.3,
+"note": "Binnean a' Chlachair, the Mason's Point: the highest ground of Rodos, a little under three thousand six hundred feet, on the bare moor above Muileann gheal in the Doire uaine hills. The Line of the Mason tells that Fearghas of that line carried the six unlit coals up here and let them fall, and that the coal flecked with white stars took fire in the air as it fell. The summit has borne the kindred's name since. Herders of Muileann gheal leave a stone on the top when they pass, and none will light a fire there.",
+"nearest_burg": 493
 }
 ],
 "zones": [

@@ -92,7 +92,7 @@ where two of them, or a proposal and the rest of the record, disagreed.
    (state's V-0014b island shires keeps its id) and G's three references follow. V-0015a (state's dues, heraldry's
    roll of arms): heraldry's became V-0015b and J's references follow. Events sharing an anchor are listed in id
    order; chains (IV-0342a..e) follow their parent.
-10. **The ore line twice.** Military's IV-0243a (1899) and markers' IV-0236a (1895–1905) were the same railway.
+10. **The coal line twice.** Military's IV-0243a (1899) and markers' IV-0236a (1895–1905) were the same railway.
     One event is kept, IV-0243a, with military's date and place and the markers layer's carters of Doire chaol on
     Rathad na Mèinne; IV-0236a is dropped. Its line runs Muileann chrom – Cathair dhearg – Ros dhomhain, which
     agrees with V-0058a and VI-0022.
@@ -134,7 +134,7 @@ added to `check_rodais.py`: every reconcile edit is in the map (a fresh `reconci
 
 ## Left open
 
-- Routes 119 and 233 carried short stretches of the queen's and ore roads as trails; they are now cut into road
+- Routes 119 and 233 carried short stretches of the queen's and coal roads as trails; they are now cut into road
   and trail pieces (loose_ends.json, below), and the roads have no gaps.
 - The railway cannot be drawn: FMG has no railway route group.
 - The states' rural totals now follow the cells as the cultures' do (below). The religions and provinces records

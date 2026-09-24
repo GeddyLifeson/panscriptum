@@ -4,7 +4,8 @@ build_pdf.py -- typeset the legendarium as a book: The_Rodos_Legendarium.pdf
     python3 build_pdf.py [fonts-dir] [out.pdf]
 
 Reads LEGENDARIUM.md (run build_book.py first) and lays it out with WeasyPrint (pip install weasyprint
-markdown) as a printed book: half-title, title page, contents with page numbers, the Six Books (each opening
+markdown) as a printed book: half-title, title page, contents with page numbers, the Telling of the Making
+(the prologue, opening like a book), the Six Books (each opening
 on a right-hand page with its epigraph and a drop capital), the Annals, the Appendices and the Gazetteer, with
 running heads and folios. fonts-dir holds EB Garamond (EBGaramond[wght].ttf, EBGaramond-Italic[wght].ttf),
 Cinzel[wght].ttf and UncialAntiqua-Regular.ttf from github.com/google/fonts (OFL); without them the book
@@ -21,6 +22,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 FONTS = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else os.path.join(HERE, 'fonts')
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(HERE), 'The_Rodos_Legendarium.pdf')
 
+PROLOGUE = 'The Prologue'     # the label over the Telling of the Making, which stands before the Six Books
 ORD = {'First': 'The First Book', 'Second': 'The Second Book', 'Third': 'The Third Book',
        'Fourth': 'The Fourth Book', 'Fifth': 'The Fifth Book', 'Sixth': 'The Sixth Book'}
 
@@ -39,13 +41,17 @@ def slug(s, seen):
 
 
 def split_parts(lines):
-    """-> list of (kind, heading, body-lines): book / annals / appendix / gazetteer."""
+    """-> list of (kind, heading, body-lines): prologue / book / annals / appendix / gazetteer."""
     parts, cur = [], None
     for ln in lines:
         m_book = re.match(r'^# (The \w+ Book): (.*)$', ln)
+        m_pro = re.match(r"^# (Aithris a' Chruthachaidh: .*)$", ln)
         m_app = re.match(r'^#{1,2} (Appendix [A-Z]) — (.*)$', ln)
         if m_book:
             cur = ['book', (m_book.group(1), m_book.group(2)), []]
+        elif m_pro:
+            # the Telling of the Making: laid out as a book, under its own label
+            cur = ['prologue', (PROLOGUE, m_pro.group(1).replace(': ', ', ', 1)), []]
         elif ln.startswith('# The Annals of Rodos'):
             cur = ['annals', ('The Annals of Rodos', ''), []]
         elif m_app:
@@ -108,13 +114,13 @@ def build():
     first_app = True
     for kind, (label, title), body in parts:
         cid = slug(label, seen)
-        if kind == 'book':
+        if kind in ('book', 'prologue'):
             # the date line and the epigraph come first in the body
             head, i = [], 0
             while i < len(body) and not body[i].startswith('## '):
                 head.append(body[i]); i += 1
             sub = title.split(', ', 1)
-            toc.append(('book', cid, '%s: %s' % (label, title)))
+            toc.append((kind, cid, '%s: %s' % (label, title)))
             chunks.append(
                 '<section class="book" id="%s"><div class="opener">'
                 '<p class="booklabel">%s</p><h1 data-run="%s">%s</h1>%s'
@@ -144,9 +150,14 @@ def build():
                           % (cid, md('\n'.join(body))))
 
     # contents: books with their sections; the annals' ages; each appendix; the gazetteer
-    rows = ['<p class="toc-part">Part One · The Six Books</p>']
+    rows, part_one = [], False
     for kind, hid, text in toc:
-        if kind == 'book':
+        if kind == 'book' and not part_one:
+            rows.append('<p class="toc-part">Part One · The Six Books</p>')
+            part_one = True
+        if kind == 'prologue':
+            rows.append('<a class="toc-book toc-prologue" href="#%s">%s</a>' % (hid, html.escape(text)))
+        elif kind == 'book':
             rows.append('<a class="toc-book" href="#%s">%s</a>' % (hid, html.escape(text)))
         elif kind == 'sec':
             rows.append('<a class="toc-sec" href="#%s">%s</a>' % (hid, html.escape(text)))
@@ -210,6 +221,7 @@ blockquote p{text-indent:0!important; text-align:left}
 .toc a::after{content:leader('.') target-counter(attr(href url), page)}
 .toc-part{font-family:'Cinzel',serif; font-size:8.5pt; letter-spacing:.18em; text-transform:uppercase; color:#6d1f14; margin:5mm 0 1.5mm; text-align:left}
 .toc-book{font-weight:600; margin-top:2.6mm}
+.toc-prologue{margin-top:5mm}
 .toc-sec{font-size:9.4pt; padding-left:5mm; line-height:1.35}
 .toc-partline{font-family:'Cinzel',serif; font-size:9pt; letter-spacing:.14em; text-transform:uppercase; color:#6d1f14; margin-top:6mm}
 
@@ -267,7 +279,7 @@ tr{break-inside:avoid}
 <div class="titlepage">
   <p class="t1">Leabhar nan Aoisean</p>
   <h1>The Legendarium<br>of Rodos</h1>
-  <p class="t2">being the Six Books of the island, the Annals of its years,<br>the Appendices, and a Gazetteer of its towns</p>
+  <p class="t2">being the Telling of the Making, the Six Books of the island,<br>the Annals of its years, the Appendices, and a Gazetteer of its towns</p>
   <div class="rule"></div>
   <p class="t3">as they are kept in the Library at Muileann chaol<br>and told at the hearths of the island</p>
 </div>

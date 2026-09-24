@@ -62,13 +62,13 @@ When the tallies from Cnoc chaol and Achadh mhin came in and were added to his, 
 
 It was the first disaster the new state met on its own terms, and it met it well. The council moved the survivors of Achadh mhin off their salted fields and paid for their seed out of the treasury, the first relief the restored kingdom ever gave. The old site is called an Tràigh Bhàthte, the drowned strand, and nobody builds there. From the survivors the south took a word: *tonn*, wave, for anything sudden and overwhelming. *Tha e san tonn*, they say, he is in the wave of it. The south would have need of the phrase again.
 
-In {{year:V-0023}} the human coinage was called in. In the old counting-house at Cathair dhearg, Fearchar mac Dhòmhnaill, whom men called Fearchar Bonn, set up the mint and struck the coin of the Rìoghachd. He pressed each coin's seal with an ink ground from obsidian dust, so that a clipped coin bled colour at its edge. The coin was honest and holy, and the kingdom liked it both ways.
+In {{year:V-0023}} the human coinage was called in. In the old counting-house at Cathair dhearg, Fearchar mac Dhòmhnaill, whom men called Fearchar Bonn, set up the mint and struck the coin of the Rìoghachd. He pressed each coin's seal with an ink ground from coal dust, so that a clipped coin showed the coal's colour at its edge. The coin was honest and holy, and the kingdom liked it both ways.
 
 The north paid for it. The Tuathaich households had put by their savings in human coin, and those savings were now worth their weight as metal and no more. The Moot petitioned for an exchange. The petition was received and filed. It is the first petition in this book to end that way, and not the last. At Doire mhin a smith named Joseph Marlow gathered up his neighbours' dead coin, melted it down and cast it into ploughshares, and sold the shares back to them for the price of the charcoal. The Tuathaich sing of him still in their own tongue. A library clerk once set down a verse of the song in plain prose: *he turned the king's silence into iron, and the iron into bread.*
 
 ## IV. Of the Rite, the Orders and the Law
 
-In the spring of {{year:V-0028}}, Òrd Bhrìde, the order of Brìde's flame and Crom's stone, which had kept the Hall's rite since the Binding, was drawn up into ordered doctrine, where before there had been only a wide and loose reverence. It was built about the leyline and the unbroken line of the obsidian-touched, and the kingdom calls it simply the Rite. Dòmhnall mac Thormoid was named Àrd-choimheadaiche, the first high custodian of the Rite, and seated at Seann Skell on the southern coast, where the order's greatest house stands. His first labour was to write down an order of worship. In all the long keeping of the flame no one had ever written one.
+In the spring of {{year:V-0028}}, Òrd Bhrìde, the order of Brìde's flame and Crom's stone, which had kept the Hall's rite since the Binding, was drawn up into ordered doctrine, where before there had been only a wide and loose reverence. It was built about the leyline and the unbroken line of the coal-touched, and the kingdom calls it simply the Rite. Dòmhnall mac Thormoid was named Àrd-choimheadaiche, the first high custodian of the Rite, and seated at Seann Skell on the southern coast, where the order's greatest house stands. His first labour was to write down an order of worship. In all the long keeping of the flame no one had ever written one.
 
 The Hawk houses round Cnoc bheag would have none of it. Òrd an t-Seabhaig, the older form of the Rite, had never needed a custodian above the local altar, they said, and had no need of one now. Nobody forced them, and here begins the long quarrel between the two forms of the Rite. Only the southernmost hawk-house, at Muileann naomh, far from Cnoc bheag, took up the written order, and it has been a house of the Rite ever since. The houses of the Stone in the south-west, whose Clach was never Crom's stone, sent no witnesses, only a letter wishing the Rite well. Òrd Mhacha, the capital's own order, which makes the kings, was given the coronation regalia to keep, as it had kept them before the humans came, and it gave the high custodian no share in them. Within a year the orthodox Rite had one house that disowned it, one that ignored it with great courtesy, and one that outranked it at court. The orders of the Old Faith stood so for the rest of the age.
 
@@ -97,9 +97,9 @@ The Crown granted the Sloc Mòr, the great shaft at Achadh dhomhain, to Uisdean 
 > The mountain never got its rest,
 > and neither did we.
 
-Families from the hungry east came to the vein-towns for wages, and Muileann dhearg doubled in three years. The humans' railway was mended to the pithead, and in an Dàmhair of {{year:V-0056}} the first ore train ran from the Sloc Mòr to Cathair dhearg, under the kingdom's name, on the humans' rails. At Muileann chrom the families who worked the little shunting engines were counted apart and lived apart, in rows beside the lines. For forty years the public buildings of the south went up in the Sloc Mòr's grey spoil-stone, sold under the Mac Ùisdein quarry-mark.
+Families from the hungry east came to the vein-towns for wages, and Muileann dhearg doubled in three years. The humans' railway was mended to the pithead, and in an Dàmhair of {{year:V-0056}} the first coal train ran from the Sloc Mòr to Cathair dhearg, under the kingdom's name, on the humans' rails. At Muileann chrom the families who worked the little shunting engines were counted apart and lived apart, in rows beside the lines. For forty years the public buildings of the south went up in the Sloc Mòr's grey spoil-stone, sold under the Mac Ùisdein quarry-mark.
 
-In {{year:V-0059}} the apprentice-binding of the Holy Age was taken up again, and this time the charters said in so many words that it was for Ròdaich applicants. The Guild of Hewers came first, its oath sworn with a hand laid on a lump of ore, and the shipwrights, chandlers, lamp-makers and weavers came after. The Tuathaich boys already bound to Ròdaich masters were released from their indentures. Some went north. Most stayed on as day-labour, outside the guilds and beneath their wages. The rule kept them where the pay was worst.
+In {{year:V-0059}} the apprentice-binding of the Holy Age was taken up again, and this time the charters said in so many words that it was for Ròdaich applicants. The Guild of Hewers came first, its oath sworn with a hand laid on a lump of coal, and the shipwrights, chandlers, lamp-makers and weavers came after. The Tuathaich boys already bound to Ròdaich masters were released from their indentures. Some went north. Most stayed on as day-labour, outside the guilds and beneath their wages. The rule kept them where the pay was worst.
 
 Off Cathair gheal, ships that flew no flag began to raid the north-western coast, and some of their crews were men who had served the human administration. The Tuathaich towns suffered first, undefended. In {{year:V-0085}}, having asked twice and been sent nothing, the fishermen of Cathair gheal armed their own boats and drove the raiders out of the bay. The council then fined the town for bearing arms without a licence. The town paid.
 
@@ -159,13 +159,13 @@ On the first day of an t-Iuchar in {{year:V-0141}} a gallery gave way under Muil
 
 After Muileann dhearg the Guild of Hewers bound sixty apprentices to fill its rolls, and not one of them was Tuathaich. On Samhain eve of {{year:V-0146}} fire ran through the fair at Muileann òg. Its court sat in a field the next morning, and the fair went on, and Oighrig nic Mhathain died of her burns. That winter the Rail Board refused to carry the Moot's goods, and the north's wool went south by cart, a week on the road. The north calls that way the Carters' Road. The south has no name for it.
 
-In the dark of the year's end in {{year:V-0150}} the Moot began a register of Tuathaich hewers killed or maimed in the western pits, since no Ròdaich book counted them. It has been kept ever since, and never sent south. In those years Dubhan was a child in the north, watching a caste that did not age hold every true advantage on an island to whose edge his own forebears had been pushed. The obsidian was never his to inherit.
+In the dark of the year's end in {{year:V-0150}} the Moot began a register of Tuathaich hewers killed or maimed in the western pits, since no Ròdaich book counted them. It has been kept ever since, and never sent south. In those years Dubhan was a child in the north, watching a caste that did not age hold every true advantage on an island to whose edge his own forebears had been pushed. The coal was never his to inherit.
 
-The age had its good keepers too. When the dry years came back to Achadh shean in {{year:V-0154}}, the council sent grain up the ore line out of the Sloc Mòr's share, and nobody in the shire died of hunger. The maor had twelve wells dug to the rock, and four of them are still drawn from.
+The age had its good keepers too. When the dry years came back to Achadh shean in {{year:V-0154}}, the council sent grain up the coal line out of the Sloc Mòr's share, and nobody in the shire died of hunger. The maor had twelve wells dug to the rock, and four of them are still drawn from.
 
 Of Ciorstaidh nic Artair it is told at Tobar dhearg that her father, the keeper of the light there, drowned going out to a boat on the reef, and that she went out after him and brought the boat's crew in. She took his warrant, and set a belled post on the reef. While she kept the light, no boat went aground there.
 
-On {{date:V-0162}}, when the leaves were down, the druid schools, Scoiltean nan Draoidhean, whom many still call Feallsanachd an Fhèidh, woke out of their long sleep. Their founding question, why the vein answers some hands and not others, mattered again now that the vein was running short. Seonaid nic Ghill-Eathain lectured in Flidais's sacred wood near Muileann chiar, and at Caol shean her students copied the census line on the obsidian-touched and argued over it in the open, which the Rite did not do. They set the old pillars and the obelisk side by side and found signs in common, and no meaning. Seonaid wrote that the Old Ones had been here and had said so, and that nobody living could hear them.
+On {{date:V-0162}}, when the leaves were down, the druid schools, Scoiltean nan Draoidhean, whom many still call Feallsanachd an Fhèidh, woke out of their long sleep. Their founding question, why the vein answers some hands and not others, mattered again now that the vein was running short. Seonaid nic Ghill-Eathain lectured in Flidais's sacred wood near Muileann chiar, and at Caol shean her students copied the census line on the coal-touched and argued over it in the open, which the Rite did not do. They set the old pillars and the obelisk side by side and found signs in common, and no meaning. Seonaid wrote that the Old Ones had been here and had said so, and that nobody living could hear them.
 
 In {{year:V-0174}} Alasdair mac Ùisdein, grandson of the first holder of the Sloc Mòr, borrowed against his house's share to go looking for a second vein. The Board lent its surveyors and the Crown lent its name. Seonaid wrote to the Board that the search asked the wrong question. Her school had always asked why the vein answered some hands; nobody had asked why there was only one vein. The Board filed the letter.
 
@@ -183,7 +183,7 @@ She published her map. She sent the library a copy of Iain Mapa's survey, with a
 
 Muileann dhearg lost a third of its households. Its Fèidh hall was shut, and its bell was sold to Caol shean, where it still rings the students in to their lectures.
 
-## IX. Of Mairead and the Failing of the Ore
+## IX. Of Mairead and the Failing of the Coal
 
 Mairead was crowned on {{date:V-0199}}, in the fall of the leaf. Eòghan's reign had ended in the decade the Depletion came into the open, and she was heir to a kingdom whose founding wealth was plainly failing. That year the Guild of Hewers bound no apprentices, for the first time since its charter.
 
@@ -191,9 +191,9 @@ The north began building things that did not hang on the mountain. In {{year:V-0
 
 In {{year:V-0204}} the Crown bought the last of the house of Mac Ùisdein's working shafts, and from then on the Board worked the vein in the Crown's name alone.
 
-On {{date:V-0207}} Dubhan began his experiments, trying to make a fuel to stand in for the ore out of what the mines threw away. They all failed, and the record of those years scarcely troubles to name them. In that same month the lowest galleries of the Sloc Mòr were let flood, because the pumps cost more to run than the ore beneath them was worth. The Board's minute calls it a pause.
+On {{date:V-0207}} Dubhan began his experiments, trying to make a fuel to stand in for the coal out of what the mines threw away. They all failed, and the record of those years scarcely troubles to name them. In that same month the lowest galleries of the Sloc Mòr were let flood, because the pumps cost more to run than the coal beneath them was worth. The Board's minute calls it a pause.
 
-The chronicle of those years is full of small alarms. Panthers came across the south-west, beasts named in the Holy Age lists and not seen in living memory, and the old list named the year after them as a hungry one. At Muileann chrom the yard families stopped the ore trains for three days over cut wages; the Board settled on the fourth day and dismissed eleven men on the fifth. Then the harvest after the panthers came in good, and Tormod Pinn drew a line through his own note of the year before. This book has always liked him for it.
+The chronicle of those years is full of small alarms. Panthers came across the south-west, beasts named in the Holy Age lists and not seen in living memory, and the old list named the year after them as a hungry one. At Muileann chrom the yard families stopped the coal trains for three days over cut wages; the Board settled on the fourth day and dismissed eleven men on the fifth. Then the harvest after the panthers came in good, and Tormod Pinn drew a line through his own note of the year before. This book has always liked him for it.
 
 In the autumn of {{year:V-0216}} the third census published its figures openly, the first census in the kingdom's history to do so. It was a small reform, and nothing in the frame of the kingdom moved because of it.
 
@@ -201,7 +201,7 @@ A month later the figures were read at Caol mhòr. Daniel Frayne sat in the Moot
 
 When the clerk had done, there was a long quiet. Then Daniel Frayne drew the minute-book towards him and wrote two words, and the words are the whole of the minute: *Now written.*
 
-The census carried a line for the obsidian-touched, as the first one had, giving a number and nothing else. Tormod Pinn copied it into the chronicle without comment, as Gormshuil had done before him.
+The census carried a line for the coal-touched, as the first one had, giving a number and nothing else. Tormod Pinn copied it into the chronicle without comment, as Gormshuil had done before him.
 
 Tormod Pinn died at his desk in {{year:V-0220}} and Beathag nic Fhionnlaigh became royal chronicler. She was the first to add, at the foot of each year, a note of what the record could not learn. Her first concerned the northern shires. The census clerks there had been told the figures and had not counted them, and the figures they were told were the Moot's. So the kingdom's first honest census was honest in the north because the Moot had supplied the numbers.
 
@@ -211,7 +211,7 @@ No Tuathaich record was called in. The Moot's minute-books, the schools' registe
 
 In the west the Board was drawing back. In {{year:V-0229}} it closed the branch line to Àth leathan, citing the falling yield of the western pits. The Tuathaich hewers there kept working under their own pit captains and paid the Crown's fifth by the Leòid ruling, and the Board took the payments and entered them as arrears. At Cnoc thais the pits passed to their hewers in the same way. The south did not notice; it wanted nothing in the western hills any longer.
 
-In {{year:V-0235}} Raghnall mac Mhuirich became keeper of the library. The price of ore-fuel at the fair doubled, and at Cnoc fhiadhaich households were found picking ore off the spoil-heaps to burn. The Board posted watchmen from the town, who saw nothing.
+In {{year:V-0235}} Raghnall mac Mhuirich became keeper of the library. The price of coal-fuel at the fair doubled, and at Cnoc fhiadhaich households were found picking coal off the spoil-heaps to burn. The Board posted watchmen from the town, who saw nothing.
 
 ## X. Of the Eve of Dubhan
 

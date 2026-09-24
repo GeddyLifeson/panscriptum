@@ -129,13 +129,13 @@ Bare-name follow-ons were handled too: "Ailean claims nothing" became "Goraidh c
 | IV-0075 | rename "Ailean Clachair" -> "Torcall Clachair" | Ailean Clachair is the Holy Age founder of the bridge-masons (II-0033); renamed the Age IV beacon mason. |
 | IV-0078 | rename "Beathag Ruadh" -> "Beathag Dhubh" | Beathag Ruadh already names the Red Hill holder (Age I) and a queen (Age III); renamed the custodian of Doire mhòr. |
 | IV-0088 | "An Taigh-seinnse Mòr opens" -> "An Taigh-seinnse Mòr reopens" | The house on this site is built in Age II (II-0037) and named in Age III (III-0098, III-0180). |
-| IV-0088 | "A carters' house is built at the halfway stage of the ore road between the capital and the hills, and becomes An Taigh-seinnse Mòr." -> "The old carters' house at the halfway stage of the ore road between the capital and the hills is rebuilt, and keeps the name An Taigh-seinnse Mòr." | As above. |
+| IV-0088 | "A carters' house is built at the halfway stage of the coal road between the capital and the hills, and becomes An Taigh-seinnse Mòr." -> "The old carters' house at the halfway stage of the coal road between the capital and the hills is rebuilt, and keeps the name An Taigh-seinnse Mòr." | As above. |
 | IV-0102 | rename "Sìleas nic Choinnich" -> "Ùna nic Choinnich" | Sìleas nic Coinnich founded the stag's school in Age II (II-0022); renamed the silver-guild leader (kept nic Choinnich, which ties her to Clann Choinnich's silver petitions in Age III). |
 | IV-0106 | rename "Tormod mac Iain" -> "Tormod mac Pheadair" | Tormod mac Iain already names Tormod Scrìobhaiche (II-0109) and King Tormod Bàn (III-0097); renamed the Àth dhearg beacon keeper. |
 | IV-0107 | rename "Tormod mac Iain" -> "Tormod mac Pheadair" | Tormod mac Iain already names Tormod Scrìobhaiche (II-0109) and King Tormod Bàn (III-0097); renamed the Àth dhearg beacon keeper. |
 | IV-0123 | "The Company builds a bridge over the river at Ros fhionn" -> "The Company rebuilds the old bridge over the river at Ros fhionn" | Drochaid Ros fhionn stands from Age II (II-0033, II-0191) through Age III (III-0081, III-0162, III-0168). |
 | IV-0143 | rename "Sìleas nic Choinnich" -> "Ùna nic Choinnich" | Sìleas nic Coinnich founded the stag's school in Age II (II-0022); renamed the silver-guild leader (kept nic Choinnich, which ties her to Clann Choinnich's silver petitions in Age III). |
-| IV-0154 | "The sickness spreads along the ore roads to Muileann chrom, Baile dhomhain, Àth ìseal, Cnoc fhiadhaich and Seann Toll, and from there to the coast." -> "The sickness spreads along the ore roads from the camps at Muileann chrom, Àth ìseal and Cnoc fhiadhaich, and falls hardest on Ros dhìreach, Ceann òg, Inis ìseal, Baile dhomhain, Achadh fhada, Cnoc bheag, Muileann uaine, Cuan àrsaidh and Inis bhàn." | The event is placed at zone:0, whose struck burgs (PLACE_FACTS) are those nine. The old text named other towns as the zone. |
+| IV-0154 | "The sickness spreads along the coal roads to Muileann chrom, Baile dhomhain, Àth ìseal, Cnoc fhiadhaich and Seann Toll, and from there to the coast." -> "The sickness spreads along the coal roads from the camps at Muileann chrom, Àth ìseal and Cnoc fhiadhaich, and falls hardest on Ros dhìreach, Ceann òg, Inis ìseal, Baile dhomhain, Achadh fhada, Cnoc bheag, Muileann uaine, Cuan àrsaidh and Inis bhàn." | The event is placed at zone:0, whose struck burgs (PLACE_FACTS) are those nine. The old text named other towns as the zone. |
 | IV-0170 | "The Administration builds a bath-house at the hot springs" -> "The Administration builds a new bath-house at the hot springs" | A bath-house stands on the springs from Age II (II-0063, III-0130). |
 | IV-0175 | rename "Black Unicorn" -> "Dark Unicorn" | Same faith is 'the Dark Unicorn' in the brief and in Ages III and V; one English name for Uallach's faith. |
 | IV-0179 | rename "Black Unicorn" -> "Dark Unicorn" | Same faith is 'the Dark Unicorn' in the brief and in Ages III and V; one English name for Uallach's faith. |
@@ -175,4 +175,17 @@ Bare-name follow-ons were handled too: "Ailean claims nothing" became "Goraidh c
 - **Four Muileann chiars.** Place refs were checked: burg:419 is the silver town (marker:2), burg:78 has the sacred forest (marker:23) and zone:2, and burg:355 is the "new town" of IV-0172. Every event is on the right one.
 - **Regiments and fleets.** All thirteen stations in Age V match PLACE_FACTS, including the two Seann Skells (seventh regiment at burg:489; ninth regiment and second fleet at burg:431).
 - **The five lighthouses.** The arc now runs as follows. Age I lights fires at all five sites. Age II relights and rebuilds them, with the first stone tower at Tobar dhearg (II-0231). Age IV raises new towers on the old sites under the humans (IV-0048 onward; canon IV-0191). Age V converts them (canon VI-0014).
+
+## The coal sweep (the Telling of the Making)
+
+The substance of the vein is coal, *gual*: the coloured coal, *an gual dathach*, in seven kinds, *na Seachd Guail*.
+Every description of it as a kind of glass or stone was taken out of Ages II–VI (annals and books),
+Appendices C–J, the reconcile files, burg_features.json and the workshop canons, and "ore" became "coal" wherever
+it meant that substance ("the coal road", "the coal line", "coal-carts"). The generic "fuels, ores and minerals" of
+the Company's charter (IV) is left as it is. Rathad na Mèinne is glossed "the mine road". Names that followed:
+the Rite is **the Coal Rite**; the humans' word for the *fuil-ghuail* is **coal-touched**; the ink, dust, flame,
+caste, workings and reserves of the vein are coal ink, coal dust and so on. Where a passage had the vein
+"bleeding" colour, the coal now shows or breaks bright with its colours. II-0001's book passage notes that the
+First Flame was kindled from the mason's fire, and keeps the two apart; Appendix D dates VE 1 from the mason's
+breaking of the coal vein and the lightning fire.
 
