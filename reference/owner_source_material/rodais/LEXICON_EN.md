@@ -1,6 +1,6 @@
 # English – Dia-thìris dictionary
 
-The same 21308 words, in the order of their English headwords. The full entries, with sound and literal sense, stand in `LEXICON.md`.
+The same 21313 words, in the order of their English headwords. The full entries, with sound and literal sense, stand in `LEXICON.md`.
 
 
 ## 3
@@ -780,7 +780,7 @@ The same 21308 words, in the order of their English headwords. The full entries,
 - **Anchor Era** (the era of the Age of Strangers, counted from the Crossing; AE) — *Linn an Acair* n. f.
 - **anchorage** (place to anchor) — *acarsaid* n. f., gen. *acarsaide*, pl. *acarsaidean*
 - **ancient** (very old) — *àrsaidh*
-- **Ancient Age** (the first age of the island, from the crack in the stone to the crowning in the grove) — *An Aois Àrsaidh* n. f.
+- **Ancient Age** (the first age of the island, from the mason's fire to the crowning in the grove) — *An Aois Àrsaidh* n. f.
 - **ancillary** (supporting, subsidiary) — *taiceil*
 - **and** — *agus*
 - **And you?** — *Agus thu fhèin?*
@@ -5261,6 +5261,11 @@ The same 21308 words, in the order of their English headwords. The full entries,
 - **devout** (deeply religious) — *diadhaidh*
 - **dew** — *driùchd* n. m.
 - **dexterity** (skill of hand) — *deas-làmhachd* n. f., gen. *deas-làmhachd*
+- **Dia-thìr** (the island of the Dia-thìrich; its name keeps one form in every case (Rìoghachd Dia-thìr)) — *Dia-thìr* n. f.
+- **Dia-thìrian** (one of the people of Dia-thìr, a Dia-thìreach; pl. Dia-thìrich) — *Dia-thìreach* n. m., gen. *Dia-thìrich*, pl. *Dia-thìrich*
+- **Dia-thìrian** (of Dia-thìr or its people) — *Dia-thìreach*
+- **Dia-thìrich** (the people of Dia-thìr, the godkin's descendants (plural of Dia-thìreach)) — *Dia-thìrich* n. m.
+- **Dia-thìris** (the tongue of Dia-thìr and of the Dia-thìrich) — *Dia-thìris* n. f., gen. *Dia-thìris*
 - **diabetes** — *tinneas an t-siùcair* n. m.
 - **diabetic** (having diabetes) — *le tinneas an t-siùcair*
 - **diabolical** (devilish) — *diabhlaidh*
@@ -7340,7 +7345,7 @@ The same 21308 words, in the order of their English headwords. The full entries,
 - **flaky** (unreliable) — *neo-earbsach*
 - **flamboyant** (showy) — *spaideil*
 - **flame** (flame) — *lasair* n. f., gen. *lasrach*, pl. *lasraichean*
-- **Flame Era** (the era of the Holy Age, counted from the Binding of the First Flame; FE) — *Linn an Teine* n. f.
+- **Flame Era** (the era of the Holy Age, named for the Binding of the First Flame and counted from its year, which opened with the fall of Ailean Mòr at the Ford of Blood three weeks before; FE) — *Linn an Teine* n. f.
 - **flamenco** (Spanish dance) — *dannsa Spàinnteach* n. m., gen. *dannsa Spàinntich*, pl. *dannsaichean Spàinnteach*
 - **flamingo** (pink wading bird) — *corra-dhearg* ✦ n. f., gen. *corra-deirge*, pl. *corraichean-dearga*
 - **flammable** (easily set alight) — *so-lasaidh*
@@ -8212,7 +8217,7 @@ The same 21308 words, in the order of their English headwords. The full entries,
 - **goddamn** (curse of anger) — *mallachd air*
 - **goddess** (goddess) — *ban-dia* n. f., gen. *ban-dè*, pl. *ban-diathan*
 - **godfather** (baptismal sponsor) — *goistidh* n. m., gen. *goistidh*, pl. *goistidhean*
-- **godfolk** (the first people of the earth, whom the Young God woke out of the island) — *Dia-shluagh* n. m.
+- **godfolk** (the first people of the earth, who grew out of the island like grass on the first morning) — *Dia-shluagh* n. m.
 - **godkin** (the people of the island, descended from the godfolk) — *Clann nan Dè* n. f.
 - **godless** (without God, wicked) — *aindiadhaidh*
 - **godly** (devout, pious) — *diadhaidh*
@@ -20461,7 +20466,7 @@ The same 21308 words, in the order of their English headwords. The full entries,
 - **vehicular** (of vehicles) — *carbadach*
 - **veil** (cloth covering the face) — *scàile* n. f., gen. *scàile*, pl. *scàilean*
 - **vein** — *cuisle* n. f., pl. *cuislean*
-- **Vein Era** (the era of the Ancient Age, counted from the crack in the stone, when a mason broke into the coal vein and the lightning set it burning; VE) — *Linn na Fèithe* n. f.
+- **Vein Era** (the era of the Ancient Age, counted from the mason's fire, when a mason broke into the coal vein and the lightning set it burning; VE) — *Linn na Fèithe* n. f.
 - **velocity** — *astar* n. m., pl. *astaran*
 - **velvet** (soft thick-piled cloth) — *meileabhaid* n. f., gen. *meileabhaide*
 - **vend** (sell) — *reic*

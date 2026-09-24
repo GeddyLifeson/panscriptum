@@ -120,7 +120,7 @@ Tale. The riddle of Coimhdeach na Fine, the Keeper of the Kin, as the Mason's ch
 | Dia-thìris | English |
 |---|---|
 | Seo mar a dh'innis Clann a' Chlachair e. | This is how the Mason's children told it. |
-| Bha fear de shliochd a' chlachair na shuidhe fo na daraich ann an Doire ghlas, agus thàinig Coimhdeach na Fine thuige mar cheò. | A man of the mason's line was sitting under the oaks in Doire ghlas, and the Keeper of the Kin came to him like smoke. |
+| Bha fear de shliochd a' Chlachair na shuidhe fo na daraich ann an Doire ghlas, agus thàinig Coimhdeach na Fine thuige mar cheò. | A man of the Mason's line was sitting under the oaks in Doire ghlas, and the Keeper of the Kin came to him like smoke. |
 | Dh'fhaighnich e dheth: "Carson a tha dathan anns a' ghual?" | He asked it: "Why are there colours in the coal?" |
 | Dh'innis an Coimhdeach dha sceul a' chruthachaidh, bho thùs gu èis. | The Keeper told him the tale of the making, from beginning to end. |
 | An uair sin dh'fhaighnich e ciamar a dhùisceadh e na dathan. | Then he asked how he might wake the colours. |
@@ -145,7 +145,7 @@ Tale. The legend of the Old Ones' going, as the fishermen of Seann Dunn tell it.
 
 ## Mar a Thàinig an Gual dhan Fhuil — *How Coal Came into the Blood*
 
-Tale. A hearth-tale of the fuil-ghuail (coal-blood), told as hearsay. The chronicles tell it otherwise: there the gift comes from the coal of the mining camps, first in Aisling, in AE 69. It shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Dia-thìrich...).
+Tale. A hearth-tale of the fuil-ghuail (coal-blood), told as hearsay. The chronicles tell it otherwise: there the gift is the Keeper's, breathed in the deep galleries by the hewer Donnchadh mac Thormoid and woken in his daughter Aisling, in AE 69. It shows irregular verbs in narration (thoir: bheir mi / cha toir mi; rach: cha rachadh; faic: chitheadh), relative forms of 'bi' (aig am bi, cho fad 's a bhios), the passive with 'rach' (an deach na fiachan a phàigheadh), and fronting with the copula (is e fuil-ghuail a chanas na Dia-thìrich...).
 
 | Dia-thìris | English |
 |---|---|

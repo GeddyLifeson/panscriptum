@@ -5,16 +5,16 @@ two things here:
 
 1. **The language: `DIATHIRIS.html`.** Open it in any browser. **Book** has the sounds, the grammar in
    brief, word forms, sentences, the naming sheet, and texts with English beside them. **Dictionary**
-   has 21,285 entries covering 19,518 English words, searchable from either language. Every word among
+   has 21,313 entries covering 19,552 English words, searchable from either language. Every word among
    the 18,500 most frequent in English is in it, unless it is a name, an abbreviation or not English. Dia-thìris is a Gaelic dialect with
    Scottish Gaelic grammar and vocabulary, spelled with Irish consonants (*sc* for Scottish *sg*) and
    Scottish vowels (grave accents, never acute), and it takes the older word wherever Gaelic has two.
 2. **The map, timeline and history: `Diathir_Atlas/`.** Double-click `Diathir Atlas.bat` (or run
-   `python atlas.py`). It opens in your browser with three tabs: **Annals** (all 1,515 dated events,
-   filter by age, search), **Map** (Azgaar's Fantasy Map Generator itself, running the Dia-thìr map) and
-   **Book** (the legendarium: seven prose ages, appendices, a gazetteer of all 505 towns). An event's
-   map button flies to where it happened; clicking a town shows its history; every place named in the
-   book opens the map. Needs only Python 3.7+.
+   `python atlas.py`). It opens in your browser with two tabs: **Annals** (all 1,616 dated events,
+   filter by age, search) and **Map** (Azgaar's Fantasy Map Generator itself, running the Dia-thìr map).
+   An event's map button flies to where it happened, and clicking a town shows its history. The
+   legendarium itself (the Telling of the Making, seven prose ages, appendices, a gazetteer of all 505
+   towns) is the book `The_Diathir_Legendarium.pdf`. Needs only Python 3.7+.
 
 Everything else in this folder is the source for one of those two.
 
@@ -29,7 +29,7 @@ Everything else in this folder is the source for one of those two.
 | `GRAMMAR_SYNTAX.md` | Sentences in full: clause types, aspect, particles, questions and commands, the passive, possession and modality, relative and subordinate clauses, reported speech, the noun phrase, discourse, sample texts; 312 glossed examples. |
 | `NAMING_LAYER.md` | The original reference sheet: lenition, broad/slender agreement, place-name generics, the peoples. |
 | `TEXTS.json`, `TEXTS.md` | Four everyday conversations and seven tales with line-by-line English. |
-| `LEXICON.json` | The dictionary data: 21,285 entries. Each has the headword, part of speech, gender, genitive and plural for nouns, root and verbal noun for verbs, the pronunciation in IPA, and a level: A1–C2 for the original teaching vocabulary, F1–F16 for the frequency band of the English word (F1 = the thousand most common). 1,634 are kennings, old-root compounds for new things (*inntinn-iarainn*, "iron-mind", for computer), each with its literal sense and the Scottish Gaelic word it replaces. |
+| `LEXICON.json` | The dictionary data: 21,313 entries. Each has the headword, part of speech, gender, genitive and plural for nouns, root and verbal noun for verbs, the pronunciation in IPA, and a level: A1–C2 for the original teaching vocabulary, F1–F16 for the frequency band of the English word (F1 = the thousand most common). 1,634 are kennings, old-root compounds for new things (*inntinn-iarainn*, "iron-mind", for computer), each with its literal sense. |
 | `LEXICON.md`, `LEXICON_EN.md` | The dictionary as text, Dia-thìris–English and English–Dia-thìris. |
 | `lexicon_batches/` | How the dictionary was extended past the original 5,005 entries: the frequency-ranked word lists (`in_NN.json`), the translated batches (`out_NN.json`), the translators' brief, the batch checker, the consistency audit (`audit.py`, `audit_patch.json`) and `merge_lexicon.py`, which rebuilds `LEXICON.json`, `LEXICON.md` and `LEXICON_EN.md` from `LEXICON_5005.json` and the batches. |
 | `rodais_engine.py` | The rules as code: `normalize`, `lenite`, `check_agreement`, `article`, `possessive`, `Verb` / `IRREGULAR` / `BI` (every tense, the impersonal, the imperative in all persons), `verb_phrase`, `clause`, `copula`, `prep_pronoun`, `number`, `place_name`, `pronounce` (spelling to IPA). `python rodais_engine.py` runs its 261-check self-test. |

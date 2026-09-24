@@ -3,7 +3,7 @@
  "counts": {
   "1 case": 5166,
   "2 verbs": 1070,
-  "3 peoples (added)": 114,
+  "3 peoples (added)": 119,
   "4 conflict": 324,
   "4 conflict (dropped)": 111,
   "5a loan": 117,
@@ -85729,7 +85729,7 @@
    "id": "f-vein-era-n",
    "en": "Vein Era",
    "rank": 16000,
-   "sense": "the era of the Ancient Age, counted from the crack in the stone, when a mason broke into the coal vein and the lightning set it burning; VE",
+   "sense": "the era of the Ancient Age, counted from the mason's fire, when a mason broke into the coal vein and the lightning set it burning; VE",
    "pos": "n",
    "rod": "Linn na Fèithe",
    "g": "f",
@@ -85749,7 +85749,7 @@
    "id": "f-flame-era-n",
    "en": "Flame Era",
    "rank": 16000,
-   "sense": "the era of the Holy Age, counted from the Binding of the First Flame; FE",
+   "sense": "the era of the Holy Age, named for the Binding of the First Flame and counted from its year, which opened with the fall of Ailean Mòr at the Ford of Blood three weeks before; FE",
    "pos": "n",
    "rod": "Linn an Teine",
    "g": "f",
@@ -85799,7 +85799,7 @@
    "id": "f-ancient-age-n",
    "en": "Ancient Age",
    "rank": 16000,
-   "sense": "the first age of the island, from the crack in the stone to the crowning in the grove",
+   "sense": "the first age of the island, from the mason's fire to the crowning in the grove",
    "pos": "n",
    "rod": "An Aois Àrsaidh",
    "g": "f",
@@ -85959,7 +85959,7 @@
    "id": "f-godfolk-n",
    "en": "godfolk",
    "rank": 16000,
-   "sense": "the first people of the earth, whom the Young God woke out of the island",
+   "sense": "the first people of the earth, who grew out of the island like grass on the first morning",
    "pos": "n",
    "rod": "Dia-shluagh",
    "g": "m",
@@ -85974,6 +85974,58 @@
    "rod": "Clann nan Dè",
    "g": "f",
    "why": "creation: the coloured coal, the seven coals and the first people (the Telling of the Making; Appendix E)"
+  },
+  {
+   "id": "f-dia-thir-n",
+   "en": "Dia-thìr",
+   "rank": 16000,
+   "sense": "the island of the Dia-thìrich; its name keeps one form in every case (Rìoghachd Dia-thìr)",
+   "pos": "n",
+   "rod": "Dia-thìr",
+   "g": "f",
+   "why": "3 peoples: the island, its tongue and its people had no headword; a people and its island are entries, as Tuathach is"
+  },
+  {
+   "id": "f-dia-thiris-n",
+   "en": "Dia-thìris",
+   "rank": 16000,
+   "sense": "the tongue of Dia-thìr and of the Dia-thìrich",
+   "pos": "n",
+   "rod": "Dia-thìris",
+   "g": "f",
+   "gen": "Dia-thìris",
+   "why": "3 peoples: the island, its tongue and its people had no headword; a people and its island are entries, as Tuathach is"
+  },
+  {
+   "id": "f-dia-thirian-n",
+   "en": "Dia-thìrian",
+   "rank": 16000,
+   "sense": "one of the people of Dia-thìr, a Dia-thìreach; pl. Dia-thìrich",
+   "pos": "n",
+   "rod": "Dia-thìreach",
+   "g": "m",
+   "pl": "Dia-thìrich",
+   "gen": "Dia-thìrich",
+   "why": "3 peoples: the island, its tongue and its people had no headword; a people and its island are entries, as Tuathach is"
+  },
+  {
+   "id": "f-dia-thirian-adj",
+   "en": "Dia-thìrian",
+   "rank": 16000,
+   "sense": "of Dia-thìr or its people",
+   "pos": "adj",
+   "rod": "Dia-thìreach",
+   "why": "3 peoples: the island, its tongue and its people had no headword; a people and its island are entries, as Tuathach is"
+  },
+  {
+   "id": "f-dia-thirich-n",
+   "en": "Dia-thìrich",
+   "rank": 16000,
+   "sense": "the people of Dia-thìr, the godkin's descendants (plural of Dia-thìreach)",
+   "pos": "n",
+   "rod": "Dia-thìrich",
+   "g": "m",
+   "why": "3 peoples: the island, its tongue and its people had no headword; a people and its island are entries, as Tuathach is"
   }
  ],
  "drop": [

@@ -5,8 +5,8 @@ Appendices: a prose book for each of the seven ages, dated annals of every event
 faiths, hosts and wars, the reckoning of years, words born from history, tongues and peoples, goods and markets,
 shires, land and waters, arms), and a gazetteer of every town on the map. Every event has a day, a month and a year.
 
-Read it in the **Dia-thìr Atlas** (`../Diathir_Atlas/`), where the annals, the book and the live map are wired
-together, as a printed book in `../The_Diathir_Legendarium.pdf`, or as plain text in `LEGENDARIUM.md`.
+Read the annals in the **Dia-thìr Atlas** (`../Diathir_Atlas/`), where they are wired to the live map, and the
+whole record as a printed book in `../The_Diathir_Legendarium.pdf`, or as plain text in `LEGENDARIUM.md`.
 
 ## Files
 
@@ -16,11 +16,11 @@ together, as a printed book in `../The_Diathir_Legendarium.pdf`, or as plain tex
 | `chronicle_canon.json`, `canon_by_age.json`, `canon_words_and_faiths.txt` | The owner's chronicle, the canon every other file defers to. |
 | `world.json`, `PLACE_FACTS.txt` | The map (`../Rodos_finished.map`) as data: burgs, provinces, rivers, markers, zones, faiths, hosts; which town each marker, zone and host belongs to. |
 | `annals/age_I..VII.json` | The annals as written: events in order, each with its place on the map. No dates are typed by hand. An event's age is the file it stands in, not the numeral of its id: the ids were given when there were fewer ages and are kept as they are, because the books' `{{date:ID}}` tokens use them. Age II (the Age of Ailean, from the crowning in the grove) was split from the old Age I, so its events keep `I-` ids and the Holy Age's keep `II-` ids, and so on down to Age VII (from the first working dubhan), which was split from the Age of the Kingdom; its events keep, as `seed`, the id they were first dated under, so their days do not move. |
-| `CONTINUITY_LOG.md`, `renames.json` | The continuity pass across the five ages and the names it changed. |
+| `CONTINUITY_LOG.md`, `renames.json` | The continuity pass, made when the record had five ages, and the names it changed. |
 | `albums.json` | The pool of release dates the reckoning draws on: 2,234 records by 139 artists (1,769 dated to the day), every one looked up on the web with its source. Built by `albums_src/build_pool.py` from the owner's own list of artists and our top 100 rock and metal artists (`albums_src/top100_rock_metal.json`, aggregated from seven published rankings by `albums_src/aggregate_top100.py`). |
 | `kept_dates.json` | Dates the owner kept when the pool was rebuilt: the 18 events of the Stone Kings. |
 | `reckoning.py` | Gives every event its day, month and year → `annals_dated.json`, and holds the seven ages and their eras (`AGES`) and the stretches of years they are dated across (`STRETCHES`). |
-| `book/age_I..VII.md` | The prose of each age, one book to each. |
+| `book/creation.md`, `book/age_I..VII.md` | The Telling of the Making, set before the books, and the prose of each age, one book to each. |
 | `appendices/*.md`, `appendices/houses.json` | The appendices, A–J: rulers, faiths, hosts and wars, the reckoning, words, tongues and peoples, and (from the layer reconciliation) G goods and markets, H shires, I land and waters, J arms. The houses' people are dated by the builder. |
 | `gazetteer/out_*.json` | Every burg: founding age, founders, history, what it is known for. `CONSISTENCY_LOG.md` records the checks against the map. |
 | `burg_features.json`, `burg_features.py` | Every burg's town features (citadel, walls, plaza, temple, shanty), each with its reason from the gazetteer, annals or appendices, and `"port": 0` for the 72 burgs whose map cell lies inland with no haven (Watabou would otherwise draw a sea on a random side). Azgaar builds each town's plan link to Watabou's generators from these flags. `python burg_features.py` writes them into `../Rodos_finished.map`, `../Diathir_Atlas/Diathir.map` and `world.json`: the burgs record, the saved anchor icons of the cleared ports, and a town plan for the fort group in the settings, and nothing else. `../finish_map.py` applies them too. |
@@ -40,7 +40,7 @@ the era before it). Dates are written `12 am Màrt, AE 67`; a bare year is `AE 6
 
 | Age | Dia-thìris | English | Era | Year 1 |
 |---|---|---|---|---|
-| I | An Aois Àrsaidh | the Ancient Age | Linn na Fèithe, the Vein Era (VE) | the crack in the stone, I-0001 |
+| I | An Aois Àrsaidh | the Ancient Age | Linn na Fèithe, the Vein Era (VE) | the mason's fire, I-0001 |
 | II | An Aois Ailein | the Age of Ailean | Linn na Doire, the Grove Era (GE) | the vigil and the crowning in the grove, I-0080b (VE 5,324 = GE 1) |
 | III | An Aois Naomh | the Holy Age | Linn an Teine, the Flame Era (FE) | Ailean Mòr falls at Àth na Fala, I-0098a (the Binding, II-0001, three weeks after) |
 | IV | An Aois Scaraidh | the Age of Sundering | Linn na Tìre, the Landfall Era (LE) | land found across the water, III-0001 |

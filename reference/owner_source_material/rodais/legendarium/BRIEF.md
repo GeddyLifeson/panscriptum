@@ -69,9 +69,9 @@ the Sundering set out, was used for many centuries and then given up; Appendix D
 
 | Age | Dia-thìris name | Era | Opens with (year 1) |
 |---|---|---|---|
-| I | An Aois Àrsaidh, the Ancient Age | Linn na Fèithe, the Vein Era (VE) | the crack in the stone |
+| I | An Aois Àrsaidh, the Ancient Age | Linn na Fèithe, the Vein Era (VE) | the mason's fire |
 | II | An Aois Ailein, the Age of Ailean | Linn na Doire, the Grove Era (GE) | the vigil and the crowning in the grove (VE 5,324 = GE 1) |
-| III | An Aois Naomh, the Holy Age | Linn an Teine, the Flame Era (FE) | the Binding of the First Flame |
+| III | An Aois Naomh, the Holy Age | Linn an Teine, the Flame Era (FE) | Ailean Mòr's fall at Blàr Àth na Fala (I-0098a); the Binding of the First Flame three weeks after |
 | IV | An Aois Scaraidh, the Age of Sundering | Linn na Tìre, the Landfall Era (LE) | land found across the water |
 | V | An Aois Choigreach, the Age of Strangers | Linn an Acair, the Anchor Era (AE) | the Crossing |
 | VI | An Aois Rìoghachd, the Age of the Kingdom | Linn an Dealachaidh, the Severance Era (SE) | the Tuathaich homeland, after the Severance |
@@ -99,8 +99,8 @@ reckoning supplies them.
 ## The world in brief (see the chronicle for the full arc)
 
 - **The making.** Caoran, the Young God (*an Dia Òg*), youngest son of an Dagda and Danu, chose coal for his world,
-  made all that is, then the island and its first people, the godfolk (*an Dia-shluagh*), whose children are the
-  godkin (*Clann nan Dè*). In the island's coal he hid the elements, one to each colour: *na Seachd Guail*, the Seven
+  made all that is, then the earth; the island was born, and its first people, the godfolk (*an Dia-shluagh*), whose
+  children are the godkin (*Clann nan Dè*), grew out of it. In the island's coal he hid the elements, one to each colour: *na Seachd Guail*, the Seven
   Coals (black/earth, fire/fire, snowflake/air, gold sheen/sea, silver sheen/river water, mahogany/life,
   rainbow/spirit). The island was born of drops of fire from his last coal; the godfolk grew out of it like grass
   (*feur uaine an eilein*). The spirit Coimhdeach na Fine, the Keeper of the Kin, a figure of grey smoke that stands

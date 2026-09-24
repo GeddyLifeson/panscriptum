@@ -79,7 +79,7 @@ These are the gods of the Tuath Dè, the people of the gods, the kin of the Youn
 
 **Lugh Làmhfhada**, Lugh of the long arm, is the master of every craft, and he loves the high places, from which a long arm can reach far. It was Lugh who stood with Caoran on the highest summit of the island on the first evening and named the winds for him, and so the snowflake coal is his in honour. His feast is Lùnastal, when markets open and oaths are sworn before witnesses.
 
-**Macha** is the lady of sovereignty, of kingship and of horses. Two horses draw her chariot, Liath Macha the grey and Dubh Sainglenn the black, and they run as one under one yoke. No king is king until she allows it. When the godfolk woke, Macha looked them over, one by one, and said that there was no king among them yet; and she said it gently, as a mother says that a child has not yet grown.
+**Macha** is the lady of sovereignty, of kingship and of horses. Two horses draw her chariot, Liath Macha the grey and Dubh Sainglenn the black, and they run as one under one yoke. No king is king until she allows it. When the godfolk had grown up out of the heather, Macha looked them over, one by one, and said that there was no king among them yet; and she said it gently, as a mother says that a child has not yet grown.
 
 **Dian Cècht** is the healer of the gods, who made a hand of silver for Nuadha when his own was lost. The life that lies in the mahogany coal is the thing he tends, and he knows it better than any. The warm springs of the island are his.
 

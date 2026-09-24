@@ -1,6 +1,6 @@
 # Dia-thìris – English dictionary
 
-Here are 21308 words of the Dia-thìris tongue, in the order of their headwords; a leading article is passed over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the island built from its own old roots when a new thing came to it with the humans or after them (GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* "heaven-grazer" for a tower of many floors. The other road, from English into Dia-thìris, is `LEXICON_EN.md`.
+Here are 21313 words of the Dia-thìris tongue, in the order of their headwords; a leading article is passed over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the island built from its own old roots when a new thing came to it with the humans or after them (GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* "heaven-grazer" for a tower of many floors. The other road, from English into Dia-thìris, is `LEXICON_EN.md`.
 
 
 ## '
@@ -1201,7 +1201,7 @@ Here are 21308 words of the Dia-thìris tongue, in the order of their headwords;
 - **aois** n. (f., pl. *aoisean*) — age /ˈɯːʃ/ `A2`
 - **aois** n. (f., pl. *aoisean*) — era; lit. "age" /ˈɯːʃ/ `B1`
 - **An Aois Ailein** n. (f.) — Age of Ailean (the second age, from the crowning of Ailean Mòr in the grove to his fall at the Ford of Blood) /ən̪ˠ ˈɯːʃ ˈalʲɪnʲ/ `F16`
-- **An Aois Àrsaidh** n. (f.) — Ancient Age (the first age of the island, from the crack in the stone to the crowning in the grove) /ən̪ˠ ˈɯːʃ ˈaːɾsi/ `F16`
+- **An Aois Àrsaidh** n. (f.) — Ancient Age (the first age of the island, from the mason's fire to the crowning in the grove) /ən̪ˠ ˈɯːʃ ˈaːɾsi/ `F16`
 - **An Aois Choigreach** n. (f.) — Age of Strangers (the fifth age, from the Crossing to the Severance) /ən̪ˠ ˈɯːʃ ˈxɔkʲɾʲəx/ `F16`
 - **An Aois Dhubhain** n. (f.) — Age of Dubhan (the seventh age, from the first working dubhan to the present) /ən̪ˠ ˈɯːʃ ˈɣuvɪnʲ/ `F16`
 - **An Aois Naomh** n. (f.) — Holy Age (the third age, from the fall of Ailean Mòr and the Binding of the First Flame to the finding of the land) /ən̪ˠ ˈɯːʃ ˈn̪ˠɯːv/ `F16`
@@ -7502,8 +7502,13 @@ Here are 21308 words of the Dia-thìris tongue, in the order of their headwords;
 - **Dia dhut** ✦ interj. — hiya (hi, hello (God to you)); lit. "god-to-you" /ˈtʃiə ˈɣuʰt̪/ `F16`
 - **Dia dhut** interj. — howdy (hello (informal)) /ˈtʃiə ˈɣuʰt̪/ `F16`
 - **Dia leat** phr. — bless you; lit. "God with you" /ˈtʃiə ˈʎɛʰt̪/ `A1`
-- **Dia-shluagh** n. (m.) — godfolk (the first people of the earth, whom the Young God woke out of the island) /ˈtʃiəˈhl̪ˠuə/ `F16`
+- **Dia-shluagh** n. (m.) — godfolk (the first people of the earth, who grew out of the island like grass on the first morning) /ˈtʃiəˈhl̪ˠuə/ `F16`
 - **dia-theaghlach** n. (m., gen. *dia-theaghlaich*, pl. *dia-theaghlaichean*) — pantheon (all the gods of a people) /ˈtʃiəˈhɛl̪ˠəx/ `F16`
+- **Dia-thìr** n. (f.) — Dia-thìr (the island of the Dia-thìrich; its name keeps one form in every case (Rìoghachd Dia-thìr)) /ˈtʃiəˈhiːɾʲ/ `F16`
+- **Dia-thìreach** n. (m., gen. *Dia-thìrich*, pl. *Dia-thìrich*) — Dia-thìrian (one of the people of Dia-thìr, a Dia-thìreach; pl. Dia-thìrich) /ˈtʃiəˈhiːɾʲəx/ `F16`
+- **Dia-thìreach** adj. — Dia-thìrian (of Dia-thìr or its people) /ˈtʃiəˈhiːɾʲəx/ `F16`
+- **Dia-thìrich** n. (m.) — Dia-thìrich (the people of Dia-thìr, the godkin's descendants (plural of Dia-thìreach)) /ˈtʃiəˈhiːɾʲɪç/ `F16`
+- **Dia-thìris** n. (f., gen. *Dia-thìris*) — Dia-thìris (the tongue of Dia-thìr and of the Dia-thìrich) /ˈtʃiəˈhiːɾʲɪʃ/ `F16`
 - **diabhal** n. (m., gen. *diabhail*, pl. *diabhail*) — devil (evil spirit) /ˈtʃiəvəl̪ˠ/ `F4`
 - **diabhlaidh** adj. — devilish (fiendish) /ˈtʃiəvl̪ˠi/ `F16`
 - **diabhlaidh** adj. — diabolical (devilish) /ˈtʃiəvl̪ˠi/ `F16`
@@ -13360,9 +13365,9 @@ Here are 21308 words of the Dia-thìris tongue, in the order of their headwords;
 - **Linn an Acair** n. (f.) — Anchor Era (the era of the Age of Strangers, counted from the Crossing; AE) /ˈʎiːɲ ən̪ˠ ˈaʰkɪɾʲ/ `F16`
 - **Linn an Dealachaidh** n. (f.) — Severance Era (the era of the Age of the Kingdom, counted from the Severance and the settling of the north; SE) /ˈʎiːɲ ən̪ˠ ˈtʃal̪ˠəxi/ `F16`
 - **Linn an Dubhain** n. (f.) — Dubhan Era (the era of the Age of Dubhan, counted from the first working dubhan; DE) /ˈʎiːɲ ən̪ˠ ˈt̪uvɪnʲ/ `F16`
-- **Linn an Teine** n. (f.) — Flame Era (the era of the Holy Age, counted from the Binding of the First Flame; FE) /ˈʎiːɲ ən̪ˠ ˈdʒenʲə/ `F16`
+- **Linn an Teine** n. (f.) — Flame Era (the era of the Holy Age, named for the Binding of the First Flame and counted from its year, which opened with the fall of Ailean Mòr at the Ford of Blood three weeks before; FE) /ˈʎiːɲ ən̪ˠ ˈdʒenʲə/ `F16`
 - **Linn na Doire** n. (f.) — Grove Era (the era of the Age of Ailean, counted from the crowning of Ailean Mòr in the grove at Doire ghlas; GE) /ˈʎiːɲ nə ˈt̪ɔɾʲə/ `F16`
-- **Linn na Fèithe** n. (f.) — Vein Era (the era of the Ancient Age, counted from the crack in the stone, when a mason broke into the coal vein and the lightning set it burning; VE) /ˈʎiːɲ nə ˈfeː.ə/ `F16`
+- **Linn na Fèithe** n. (f.) — Vein Era (the era of the Ancient Age, counted from the mason's fire, when a mason broke into the coal vein and the lightning set it burning; VE) /ˈʎiːɲ nə ˈfeː.ə/ `F16`
 - **Linn na Tìre** n. (f.) — Landfall Era (the era of the Age of Sundering, counted from the finding of the land across the water; LE) /ˈʎiːɲ nə ˈtʃʰiːɾʲə/ `F16`
 - **linne** n. (f., gen. *linne*, pl. *linneachan*) — firth (sea inlet, estuary) /ˈʎiɲə/ `F16`
 - **linne** n. (f., gen. *linne*, pl. *linneachan*) — linn (waterfall or pool below it (dialect)) /ˈʎiɲə/ `F16`

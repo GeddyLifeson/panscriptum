@@ -14,12 +14,12 @@ Output: Diathir_Atlas/ next to this file --
     Diathir Atlas.bat     double-click on Windows
     atlas.py            the launcher: serves the folder on 127.0.0.1 and opens the browser
     index.html          two tabs: the Annals (every dated event) and the Map; the book itself is the PDF (legendarium/build_pdf.py)
-    Rodos.map           Rodos_finished.map
+    Diathir.map         a copy of Rodos_finished.map, the finished map
     fmg/                Azgaar's Fantasy Map Generator (MIT, see fmg/LICENSE)
 
 An annals event that happened somewhere has a place; its map button switches to the map, flies there
 and marks the spot, and the Record panel shows that place's history and every event recorded there.
-Clicking a town or marker on the map opens the same record; every place named in the Book opens the map.
+Clicking a town or marker on the map, or a place in the Record's list, opens the same record.
 """
 import html
 import json
