@@ -1,5 +1,5 @@
 """
-build_atlas.py -- assemble the Dia-thìr Atlas: the annals, the book and the live Azgaar map in one program.
+build_atlas.py -- assemble the Dia-thìr Atlas: the annals and the live Azgaar map in one program.
 
     python build_atlas.py <azgaar-build-dir>
 
@@ -13,13 +13,13 @@ Output: Diathir_Atlas/ next to this file --
 
     Diathir Atlas.bat     double-click on Windows
     atlas.py            the launcher: serves the folder on 127.0.0.1 and opens the browser
-    index.html          three tabs: the Annals (every dated event), the Map, and the Book (legendarium/build_book.py)
-    Rodos.map           Rodos_finished.map
+    index.html          two tabs: the Annals (every dated event) and the Map; the book itself is the PDF (legendarium/build_pdf.py)
+    Diathir.map         a copy of Rodos_finished.map, the finished map
     fmg/                Azgaar's Fantasy Map Generator (MIT, see fmg/LICENSE)
 
 An annals event that happened somewhere has a place; its map button switches to the map, flies there
 and marks the spot, and the Record panel shows that place's history and every event recorded there.
-Clicking a town or marker on the map opens the same record; every place named in the Book opens the map.
+Clicking a town or marker on the map, or a place in the Record's list, opens the same record.
 """
 import html
 import json
@@ -99,9 +99,9 @@ def js(o):
     return json.dumps(o, ensure_ascii=False).replace('</', '<\\/')
 
 
-index = (TEMPLATE.replace('/*STYLE*/', style).replace('/*BOOKCSS*/', build_book.BOOK_CSS).replace('FONTS_URL', html.escape(fonts))
+index = (TEMPLATE.replace('/*STYLE*/', style).replace('FONTS_URL', html.escape(fonts))
          .replace('/*EVENTS*/[]', js(events)).replace('/*PLACES*/{}', js(places)).replace('/*AGES*/[]', js(ages))
-         .replace('<!--TOC-->', build_book.toc_html(toc)).replace('<!--BOOK-->', book)
+         
          .replace('FMG_VERSION', FMG_VERSION))
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(index)
 shutil.copy(os.path.join(HERE, 'atlas.py'), os.path.join(OUT, 'atlas.py'))

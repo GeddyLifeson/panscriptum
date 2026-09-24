@@ -73,7 +73,7 @@ Then he asked them what the keepers had asked Catrìona Mhòr, and what she had 
 
 The heirs were quiet for a long while. Then Eithne nic Ailein laughed, and said that she would sooner nobody had it than Murchadh. Murchadh said that he would sooner nobody had it than Eithne. So it went down the house, line by line, each of them willing to give the thing away sooner than see a cousin get it; and the tellers of Dùn ìseal, who love the Binding, admit that this is how it was won.
 
-The Holy Age opens with that oath. On {{date:II-0001}}, three weeks after the king fell at the ford, a custodianship was declared over the vein beneath the central mountains, and that swearing is called the Binding of the First Flame. The heirs swore it first of all, before they had agreed on anything else, and it was the one oath all seven hundred and twelve of them could take.
+The Holy Age, which opened at the ford, takes its name from that oath. On {{date:II-0001}}, three weeks after the king fell there, a custodianship was declared over the vein beneath the central mountains, and that swearing is called the Binding of the First Flame. The heirs swore it first of all, before they had agreed on anything else, and it was the one oath all seven hundred and twelve of them could take.
 
 The flame bound that day was Brìde's undying flame. The tellers of the Mason's line hold that it was first kindled from the mason's fire, which the lightning lit in the broken vein at the beginning of the count; but they keep the two apart, as the Keepers did. The mason's fire is the first fire, and the First Flame is the flame that was sworn to. The vein and the slab over it were given to Crom Cruaich, the bent one of the mound, whose price is measured. One order took both into its keeping, Òrd Bhrìde, the order of Brìde's flame, eldest of the orders of the Old Faith. It was a faith and a government at once, the first such thing on Dia-thìr that no one of the king's blood could hold, and it stood for centuries before any rìgh rose again in the lowlands. Through all the parting and the strife that came after, it was the one thing on the island that every share had sworn to. Whoever came after to rule the roads and harbours ruled beside it and never over it, for as long as the age lasted.
 
@@ -266,7 +266,7 @@ On {{date:II-0064c}} they swore *Sìth an Stairsnich*, the Peace of the Threshol
 
 After the Peace the shares no longer shrank. They grew instead, by marriages and by lords dying without heirs, and the map of the island, which had been broken smaller at every burial since the Roinn, began slowly to gather. Many of the stones set that morning stand still, on the bounds of fields and parishes and shires, and the carriers who walk past them have long ago stopped reading the signs cut on their faces.
 
-## XI. Of the First Rìgh and the Division of Keeping
+## XI. Of the First Rìgh of the Lowlands and the Division of Keeping
 
 In the generations after Coinneach Mòr the rolls grow fuller, and in them the island can be watched filling out, as a field fills with barley.
 
@@ -308,7 +308,7 @@ Iain Garbh, Iain the Rough, son of Sìleas Dhonn, sent west to demand the tolls.
 
 He looked at them a long time. Then he laughed, which frightened his household more than shouting would have, and called for the road-guards.
 
-He marched west with the road-guards and the lowland levies and burned the toll-house at Muileann òg that Lachlann Ciar's people had taken, and he watched the thatch go up with his arms folded. It was the first war on the island since the Peace of the Threshold. Every war before it had been fought over a share, and this one was fought over the roads the first rìgh had been made to keep.
+He marched west with the road-guards and the lowland levies and burned the toll-house at Muileann òg that Lachlann Ciar's people had taken, and he watched the thatch go up with his arms folded. It was the first war on the island since the Peace of the Threshold. Every war before it had been fought over a share, and this one was fought over the roads the first rìgh of the lowlands had been made to keep.
 
 The Hall blessed neither side. When Iain's messengers asked at Dùn ìseal for the Hall's handful to light the warband's hearths, the Keeper Uisdean mac Ruairidh sent them back empty, and made them repeat his answer before they went:
 

@@ -51,7 +51,7 @@ Currency. Under the humans the coin was the mark, and barter was driven out in t
 #### C
 
 **Caoran** *n. m.* · lit. "ember"
-The Young God, *an Dia Òg*, youngest son of an Dagda and Danu. Each god of his line made a world of the thing dearest to him when he came of age; Caoran chose coal, and out of coal he made all that is, the earth last of all and the island after it, and in the island's coal he hid the elements. He is the maker of this world and the god of the coal. The Old Faith still honours an Dagda first, as father of the gods (Appendix B). The name is the word for an ember such as lies in the ash of a spent fire, for it was from such an ember, under his father's cauldron, that he took the first coal.
+The Young God, *an Dia Òg*, youngest son of an Dagda and Danu. Each god of his line made a world of the thing dearest to him when he came of age; Caoran chose coal, and out of coal he made all that is, the earth last of all; the island was not made but born, of drops of fire from his last coal, and in the island's coal he hid the elements. He is the maker of this world and the god of the coal. The Old Faith still honours an Dagda first, as father of the gods (Appendix B). The name is the word for an ember such as lies in the ash of a spent fire, for it was from such an ember, under his father's cauldron, that he took the first coal.
 > "He looked at the coal in his son's hand for a long time, and then he said, 'It will do.' It is said that no word of his was ever dearer to Caoran." — the Telling of the Making
 
 **carbad-iarainn** *n. m.* · lit. "iron-chariot"
@@ -125,7 +125,7 @@ Caoran, youngest of the Tuath Dè. The making of the world was his coming of age
 > "He is called an Dia Òg, the Young God, and he is young still, as the gods reckon it." — the Telling of the Making
 
 **Dia-shluagh, an** *n. m.* · lit. "the god-host"
-The godfolk, the first people of the earth. Caoran did not shape them: he laid his palms on the warm ground in the middle of the island and called, and they grew out of it like grass after spring rain, and he gave them the island to keep (see *feur uaine an eilein*). They found the coloured coal in their first days, did not understand it and let it lie. Their children are *Clann nan Dè*. The doctrine *Cha do thàinig sinn; bha sinn ann* is theirs in its oldest sense.
+The godfolk, the first people of the earth. Caoran did not shape them: he laid his palms on the warm ground in the middle of the island and called, and they grew out of it like grass after spring rain, and he gave them the island to keep (see *feur uaine an eilein*). Many lives after, when they had forgotten that the island was ever new, they found the coloured coal, did not understand it and let it lie. Their children are *Clann nan Dè*. The doctrine *Cha do thàinig sinn; bha sinn ann* is theirs in its oldest sense.
 > "'This is yours,' the Young God said to them. 'Keep it, and it will keep you.'" — the Telling of the Making
 
 **diosal** *adv.*, *n. m.* · lit. "sunwise"
@@ -241,12 +241,12 @@ The letters of Dia-thìr. The teachers of the stag's people made them from the c
 #### R
 
 **rìgh** *n. m.* · lit. "king"
-A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhair was the first of them so called ({{date:II-0077}}); the word had been heard once before, in the grove, when Caoran named Ailean Mòr *Rìgh Chlann nan Dè* ({{date:I-0080b}}), but only the Line of the Mason kept it; under the division of keeping the rìgh had the roads and the granaries, the Keeper the flame ({{date:II-0078}}).
-> "No ruler of the lowlands was so called before him." — annals, {{year:II-0077}}
+A ruler of the lowlands, as against the Keeper of the flame. Goraidh mac Ìomhair was the first of them so called ({{date:II-0077}}). Before him only Ailean Mòr had borne the word, named *Rìgh Chlann nan Dè* by Caoran in the grove ({{date:I-0080b}}); at the Roinn his heirs swore that none of them would take it ({{date:II-0001b}}). Under the division of keeping the rìgh had the roads and the granaries, the Keeper the flame ({{date:II-0078}}).
+> "No one had been so called since Ailean Mòr, for at the Roinn the heirs swore that none of them would take the word." — annals, {{year:II-0077}}
 
 **Rìgh Chlann nan Dè** *n. m.* · lit. "king of the children of the gods"
 The style of the first king of the island's people. After the seven coals had burned together and the seven-night vigil was kept, Caoran came with the Tuath Dè, named Ailean Mòr so, and put into him the power that had been in the coals. Ailean told no one of it, all his life, and he was king from that night until he fell at the Ford of Blood (see *Blàr Àth na Fala*). It was his alone and went with him, and his children had of it only their long years (see *Bliadhnachan Fada, na*); with it he took the hill of Dùn ìseal and made the first kingdom ({{date:I-0081}}).
-> "When the godfolk woke, Macha looked them over, one by one, and said that there was no king among them yet." — the Telling of the Making
+> "When the godfolk had grown up out of the heather, Macha looked them over, one by one, and said that there was no king among them yet." — the Telling of the Making
 
 **Rìghrean na Cloiche** *n. pl.* · lit. "the kings of the stone"
 The oldest oral king-list, opening with Ailean Mòr ({{date:I-0081}}). It names those who held the hill of Dùn ìseal, the king first and after him those of his blood who held it under him, and it ends with Catrìona Mhòr, after whom the king held the hill himself ({{date:I-0255a}}). The name was given to it later.
@@ -279,7 +279,7 @@ The seven kinds of the coloured coal, each holding one element and each woken by
 | *gual donn-ruadh* | mahogany | life | the blood of a misstrike, in the grove |
 | *gual bogha-froise* | rainbow | the spirit | lit by the Keeper when the six were brought together |
 
-The first king kept watch over them seven nights, one for each coal, and on the eighth they were cold ({{date:I-0081}}).
+The first king kept watch over them seven nights, one for each coal, and on the eighth they were cold ({{date:I-0080b}}).
 > "These are na Seachd Guail, the Seven Coals, and this is what each holds." — the Telling of the Making
 
 **seann-chunntas** *n. m.* · lit. "old account"

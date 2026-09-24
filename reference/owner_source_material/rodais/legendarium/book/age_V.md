@@ -310,7 +310,7 @@ This one he read. The name at the head of it was Donnchadh mac Thormoid, hewer; 
 
 He sat with the seven names a long while by the lamp. The last of them was a name nobody gives a child now. Then he copied them onto a slip, and put it in his coat, and in the morning he walked out to Tobar dhìreach.
 
-Clann na Ceiste were few by then, and fewer every winter, and the one of them who still said the lines at the hearth on the night of the lightning was an old woman named Ealasaid, in a house not far from the slab. She let him in, because it was raining. When he told her what he wanted she looked at him as the reciters look at a stranger, which is to say not unkindly and not at all as if she meant to help; but she let him read the seven names aloud.
+Clann na Ceiste were few by then, and fewer every winter, and the one of them who still said the lines at the hearth on the night of the lightning was an old woman named Ealasaid, in a house not far from the slab. She let him in, because it was raining. When he told her what he wanted she looked at him as the reciters look at a stranger, not unkindly and not at all as if she meant to help; but she let him read the seven names aloud.
 
 She sat with her eyes shut while he read. At the seventh she opened them.
 
