@@ -42,7 +42,7 @@ the era before it). Dates are written `12 am Màrt, AE 67`; a bare year is `AE 6
 |---|---|---|---|---|
 | I | An Aois Àrsaidh | the Ancient Age | Linn na Fèithe, the Vein Era (VE) | the crack in the stone, I-0001 |
 | II | An Aois Ailein | the Age of Ailean | Linn na Doire, the Grove Era (GE) | the vigil and the crowning in the grove, I-0080b (VE 5,324 = GE 1) |
-| III | An Aois Naomh | the Holy Age | Linn an Teine, the Flame Era (FE) | the Binding of the First Flame, II-0001 |
+| III | An Aois Naomh | the Holy Age | Linn an Teine, the Flame Era (FE) | Ailean Mòr falls at Àth na Fala, I-0098a (the Binding, II-0001, three weeks after) |
 | IV | An Aois Scaraidh | the Age of Sundering | Linn na Tìre, the Landfall Era (LE) | land found across the water, III-0001 |
 | V | An Aois Choigreach | the Age of Strangers | Linn an Acair, the Anchor Era (AE) | the Crossing, IV-0001 |
 | VI | An Aois Rìoghachd | the Age of the Kingdom | Linn an Dealachaidh, the Severance Era (SE) | the Tuathaich homeland, V-0001 |

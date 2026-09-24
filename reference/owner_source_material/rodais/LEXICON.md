@@ -1200,11 +1200,11 @@ Here are 21308 words of the Dia-thìris tongue, in the order of their headwords;
 - **aoireil** adj. — satirical (mocking, satiric) /ˈɯːɾʲɪlʲ/ `F13`
 - **aois** n. (f., pl. *aoisean*) — age /ˈɯːʃ/ `A2`
 - **aois** n. (f., pl. *aoisean*) — era; lit. "age" /ˈɯːʃ/ `B1`
-- **An Aois Ailein** n. (f.) — Age of Ailean (the second age, from the crowning of Ailean Mòr in the grove to the Binding of the First Flame) /ən̪ˠ ˈɯːʃ ˈalʲɪnʲ/ `F16`
+- **An Aois Ailein** n. (f.) — Age of Ailean (the second age, from the crowning of Ailean Mòr in the grove to his fall at the Ford of Blood) /ən̪ˠ ˈɯːʃ ˈalʲɪnʲ/ `F16`
 - **An Aois Àrsaidh** n. (f.) — Ancient Age (the first age of the island, from the crack in the stone to the crowning in the grove) /ən̪ˠ ˈɯːʃ ˈaːɾsi/ `F16`
 - **An Aois Choigreach** n. (f.) — Age of Strangers (the fifth age, from the Crossing to the Severance) /ən̪ˠ ˈɯːʃ ˈxɔkʲɾʲəx/ `F16`
 - **An Aois Dhubhain** n. (f.) — Age of Dubhan (the seventh age, from the first working dubhan to the present) /ən̪ˠ ˈɯːʃ ˈɣuvɪnʲ/ `F16`
-- **An Aois Naomh** n. (f.) — Holy Age (the third age, from the Binding of the First Flame to the finding of the land) /ən̪ˠ ˈɯːʃ ˈn̪ˠɯːv/ `F16`
+- **An Aois Naomh** n. (f.) — Holy Age (the third age, from the fall of Ailean Mòr and the Binding of the First Flame to the finding of the land) /ən̪ˠ ˈɯːʃ ˈn̪ˠɯːv/ `F16`
 - **An Aois Rìoghachd** n. (f.) — Age of the Kingdom (the sixth age, from the Severance to the first working dubhan) /ən̪ˠ ˈɯːʃ ˈr̪ˠiə.əxk/ `F16`
 - **An Aois Scaraidh** n. (f.) — Age of Sundering (the fourth age, from the finding of the land to the Crossing) /ən̪ˠ ˈɯːʃ ˈskaɾi/ `F16`
 - **aois-inbhe** n. (f.) — puberty (age of maturing) /ˈɯːʃˈinʲivə/ `F12`

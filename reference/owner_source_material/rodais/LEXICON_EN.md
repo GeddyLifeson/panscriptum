@@ -466,7 +466,7 @@ The same 21308 words, in the order of their English headwords. The full entries,
 - **agate** (banded stone) — *agat* n. m., gen. *agait*, pl. *agatan*
 - **age** — *aois* n. f., pl. *aoisean*
 - **age** (verbal-noun phrase; the verb is fàs) — *fàs sean*
-- **Age of Ailean** (the second age, from the crowning of Ailean Mòr in the grove to the Binding of the First Flame) — *An Aois Ailein* n. f.
+- **Age of Ailean** (the second age, from the crowning of Ailean Mòr in the grove to his fall at the Ford of Blood) — *An Aois Ailein* n. f.
 - **Age of Dubhan** (the seventh age, from the first working dubhan to the present) — *An Aois Dhubhain* n. f.
 - **Age of Strangers** (the fifth age, from the Crossing to the Severance) — *An Aois Choigreach* n. f.
 - **Age of Sundering** (the fourth age, from the finding of the land to the Crossing) — *An Aois Scaraidh* n. f.
@@ -9042,7 +9042,7 @@ The same 21308 words, in the order of their English headwords. The full entries,
 - **holographic** (appearing solid by light) — *solas-dhealbhach* ✦
 - **holster** (pistol case worn at the belt) — *truaill-daga* n. f., gen. *truaille-daga*, pl. *truaillean-daga*
 - **holy** (holy, sacred, saintly) — *naomh*
-- **Holy Age** (the third age, from the Binding of the First Flame to the finding of the land) — *An Aois Naomh* n. f.
+- **Holy Age** (the third age, from the fall of Ailean Mòr and the Binding of the First Flame to the finding of the land) — *An Aois Naomh* n. f.
 - **homage** (honour shown, obeisance) — *ùmhlachd* n. f., gen. *ùmhlachd*
 - **home** (at home (position)) — *aig an taigh*
 - **home** (home, dwelling) — *dachaigh* n. f., gen. *dachaigh*, pl. *dachaighean*
