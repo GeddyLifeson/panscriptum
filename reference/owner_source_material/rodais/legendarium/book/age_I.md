@@ -153,7 +153,7 @@ A reciter of Clann na Ceiste in the Holy Age gave it thus to a scribe of the Hal
 
 "Suibhne was the father of Ailean, whom men call Ailean Mòr, and he is the first king."
 
-There the Line of the Mason ends, as a line of fathers; for after Ailean it is the list of the Stone Kings, and his daughter comes next in that. The line of his youngest son, Somhairle, the reciters keep apart, and they do not say it at the hearth.
+There the Line of the Mason ends, as a line of fathers; for after Ailean it is the list of the Stone Kings, and the king himself stands first in that. The line of his son Somhairle the reciters keep apart, and they do not say it at the hearth.
 
 ## V. Of the Waters and the Woods
 
@@ -269,11 +269,4 @@ The third is Calbh Cnoc ghorm, and it carries the doctrine itself, whole: *Cha d
 
 In those years a burial ground grew about a place that no one remembers hallowing: Tuam Cnoc dhìreach, whose oldest graves are older than its oldest names that can be read. In one of the oldest lies a child with a sliver of the coloured coal closed in one hand. The sliver still stains the cloth it is kept in, and it is the only piece of the vein found buried with the dead in all this age. The graves came to be laid in rows, heads toward the central mountains; the earliest rows are straight, and the later ones bend round graves already there that no one would disturb.
 
-Long lifetimes after, a single dwelling was sealed by chance under three yards of peat. Its hearth is laid with dry wood, and beside the wood lies a slip of the coloured coal, and none of it was ever burned. Whoever laid it went away and did not come back to light it. It is the earliest witness on Dia-thìr of coal that might easily have been burned and was left, and the keepers of later ages call it the Unlit Hearth.
-
-For in those years a custom set in across the hills, that no fire should take more of the coloured coal than can be held in one cupped hand. It was nowhere written and everywhere kept, and the Small-Burning Law of the Holy Age is this custom hardened. The reason is always the same tale, told to children when they first reach toward the coal-box. At Achadh dhìreach, it goes, a household once burned a whole basket of the coloured coal at one time, knowing no more of what was in it than the basket did. The house burned down with three people in it; and when the neighbours came in the grey of morning the hearthstone was cracked through and running with colour. Then the teller cups a hand, and says:
-
-> *Làn na glaice, 's gun tuilleadh.*
-> The hollow of the hand, and no more.
-
-And the families near the crack began to sit by the slab laid over it, a household at a time, through the dark half of the year, from Samhain, when the dark half begins, until the light came back. No one ever said what they were watching for.
+So the Ancient Age draws to its close, in the high valleys, among people who burned the coal and did not know it. It closes as it opened, with a fire. Far to the north, at the grove of Doire ghlas, a young man of Clann na Ceiste had set six burning pots in a ring under the oaks and laid the dark seventh coal among them, and the Keeper came to him there out of the evening ({{date:I-0080a}}); and for the first time since the making of the world all seven coals burned together. What came of that fire is the matter of the Second Book, and of an age that the reckoners of Muileann chaol would afterwards give to one man.

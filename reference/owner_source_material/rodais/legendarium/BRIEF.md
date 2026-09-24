@@ -105,13 +105,22 @@ reckoning supplies them.
   rainbow/spirit). The island was born of drops of fire from his last coal; the godfolk grew out of it like grass
   (*feur uaine an eilein*). The spirit Coimhdeach na Fine, the Keeper of the Kin, a figure of grey smoke that stands
   still in a wind, watches the kin for him.
-- **The first king and the long years.** Ailean Mòr (crowned VE 5,324, which is GE 1) alone received the coals' power. He gave the
-  hill to his daughter Gormshuil and lived on by the slab at Tobar dhìreach, keeping his secret, until GE 672
-  (I-0098a), aged 695 (crowned at 24). His children had only a portion, their long years; Somhairle, his youngest, died GE 727 (I-0104a) aged 540, and
-  the years thinned each generation (408, 296, 221, 173, then Ceallach 140) until the sixth after Somhairle lived as others do. That fading is why it all
-  became myth: from the Holy Age on, the first king and his long years are the reciters' tale, and the Library keeps
-  them in its book of tellings. At the vigil the Keeper promised that when strangers hold the island the fire will wake
-  again in his line: in Aisling it is a new waking, not a survival. See legendarium/book/creation.md. The word for the stuff is always **coal**, never any kind of glass.
+- **The first king and the long years.** Ailean Mòr (born VE 5,300; crowned at 24 in the grove, VE 5,324, which is GE 1)
+  alone received the coals' power. He is king until his death and never gives the kingship up. The Stone Kings after
+  him are his children and kin who HOLD THE HILL of Dùn ìseal under him (Gormshuil his daughter, born before the grove
+  and so without the long years; Dòmhnall, Fearchar, Iain Dubh his sons; Mòrag, Raghnall, Tormod grandchildren; the
+  rest "of his blood"); after Catrìona Mhòr he holds the hill himself (I-0255a). The Red Hill is a line of the western
+  lake shore, not of his blood, that knelt to him in Uisdean Mòr's day (I-0089a) and swore to the king, not to Dùn ìseal.
+  He dies in war: Blàr Àth na Fala, the ford below Dùn dhearg (I-0098a, 2 an t-Sultain FE 1, first event of the Holy
+  Age), holding it alone three days against the host of the east, aged 4,626, worn down by the whole host because his
+  kin, quarrelling over the shares, did not come. His children born after the grove live thousands of years, each
+  generation less. Somhairle (born in Ailean's 62nd year) died GE 3,025 (I-0104a) aged 2,987, before his father; then
+  Beathan 2,213, six unnamed (1,594, 1,148, 826, 597, 431, 308), Gille-Brìde 224 (alive at the Binding), Ceallach 140
+  (died FE 79), after whom the line lives as others do. That fading is why it all became myth: from the Holy Age on,
+  the first king and his long years are the reciters' tale, and the Library keeps them in its book of tellings. At the
+  vigil the Keeper promised that when strangers hold the island the fire will wake again in his line: in Aisling it is
+  a new waking, not a survival. See legendarium/book/creation.md. The word for the stuff is always **coal**, never any
+  kind of glass.
 - **The vein.** Under the island's central mountains runs the coloured coal, *an gual dathach*, a hard coal that takes a
   polish and shows its colours when broken; VE 1 is the mason's breaking of the vein and the lightning fire. Only the
   godkin see the colours. The Dia-thìrich call it sacred; the humans saw only black coal. Bonding with it, first in Aisling
@@ -124,7 +133,11 @@ reckoning supplies them.
   left only their place names: Seann Dunn, Seann Chwen, Seann Skell, Seann Bhral, Seann Tarr,
   Seann Vell, Seann Morn, Seann Brenn, Seann Toll, Seann Warr (the roots are not Gaelic). How they
   ended is not known; don't resolve it.
-- **Age III**: the Dia-thìrich, custodians of the vein. The Small-Burning Law. The first king-list.
+- **Age II** is also the Age of Ailean: the first kingdom, won from Dùn ìseal, and the one reign of Ailean Mòr over it
+  (see above), with his kin holding its hills under him.
+- **Age III**: opens with the king's fall at Blàr Àth na Fala and the parting of the kingdom among his kin
+  (*Roinn na Rìoghachd*, with its feuds, *Aimhreit nan Oighrean*); the heirs bind the vein in common, which is the
+  Binding. The Dia-thìrich, custodians of the vein. The Small-Burning Law. The first king-list.
   Faiths splitting from one folk practice. The last age of even population.
 - **Age IV**: a land is found across the water; volunteers choose to go; the fleet sets out (1
   DE); two landfalls; the thinning of the departed; the long quiet centuries on Dia-thìr after.

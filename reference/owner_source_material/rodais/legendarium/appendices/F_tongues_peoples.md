@@ -96,9 +96,12 @@ people-ending, written *-ich* after the slender vowel of *thìr*; a single perso
 **Custodians.** The Dia-thìrich enter history as custodians. In the Age of Ailean a custom set in across
 the hill settlements that no fire should take more of the coal than one cupped hand could hold. The
 Binding of the First Flame ({{date:II-0001}}) made the custodianship of the vein a formal order,
-"older by centuries than any king", and the Small-Burning Law ({{date:II-0027}}) made the
-custom into rule. The first ruler of the lowlands to be called *rìgh* was Goraidh mac Ìomhair at Dùn
-dhearg ({{date:II-0077}}), and he claimed nothing over the vein. For the whole of the Holy Age the
+"older by centuries than any rìgh after Ailean", and the Small-Burning Law ({{date:II-0027}}) made the
+custom into rule. The Binding was sworn by the heirs of Ailean Mòr, gathered to part his kingdom, and the
+parting they swore after it, *Roinn na Rìoghachd* ({{date:II-0001b}}), cut the Dia-thìrich into
+great shares, provinces, counties and holdings under the king's kin, whose feuds, *Aimhreit nan
+Oighrean*, ran until the Peace of the Threshold ({{date:II-0064c}}). The first after Ailean to be
+called *rìgh* was Goraidh mac Ìomhair at Dùn dhearg ({{date:II-0077}}), and he claimed nothing over the vein. For the whole of the Holy Age the
 kings ruled the roads and the granaries, and the Keepers at Dùn ìseal ruled the mountain. The
 Holy Age closes on the last age of even population ({{date:II-0249}}). After it, the chroniclers
 note with some unease, there was never again a time on Dia-thìr when no family held more years of life

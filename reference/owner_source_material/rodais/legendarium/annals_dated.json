@@ -1466,7 +1466,7 @@
   "id": "I-0081",
   "canon": false,
   "title": "Ailean Mòr, first of the Stone Kings",
-  "body": "Ailean Mòr, crowned in the grove, comes down to the hill where Dùn ìseal now stands and takes it, and brings the households of the valleys about it under his hand: the first kingdom of the godkin. How he won, none who stood against him could say. He throws up the hill's first ring of bank. With him opens the eldest of the spoken king-lists, afterwards called Rìghrean na Cloiche; it gives no lengths of reign, and it is older than the name Dia-thìrich.",
+  "body": "Ailean Mòr, crowned in the grove, comes down to the hill where Dùn ìseal now stands and takes it, and brings the households of the valleys about it under his hand: the first kingdom of the godkin. How he won, none who stood against him could say. He throws up the hill's first ring of bank. He is king from that day until his death, and gives the kingship to no one. With him opens the eldest of the spoken king-lists, afterwards called Rìghrean na Cloiche, which names those who held the hill; it gives no lengths of reign, and it is older than the name Dia-thìrich.",
   "place": "burg:315",
   "kind": "reign",
   "between": [
@@ -1515,7 +1515,7 @@
   "id": "I-0084",
   "canon": false,
   "title": "Gormshuil nic Ailein",
-  "body": "Gormshuil nic Ailein, second of the Stone Kings, is the first woman named in any list on Dia-thìr. One deed is told of her: in a hard winter she moves the herds of Dùn ìseal down to the warm springs and loses none.",
+  "body": "Gormshuil nic Ailein, the king's daughter, holds the hill of Dùn ìseal for her father while he rides beyond it, and the list names her second of the Stone Kings; she is the first woman named in any list on Dia-thìr. She was born before the grove, and has none of the long years. One deed is told of her: in a hard winter she moves the herds of Dùn ìseal down to the warm springs and loses none.",
   "place": "burg:315",
   "kind": "reign",
   "within": [
@@ -1534,7 +1534,7 @@
   "id": "I-0085",
   "canon": false,
   "title": "Dòmhnall Clachach sets the boundary stones",
-  "body": "Dòmhnall Clachach, third of the Stone Kings, sets marker stones along the valley below the hill to part the grazing of Dùn ìseal from its neighbours'. Some stand yet, and are argued over yet.",
+  "body": "Dòmhnall Clachach, a son of the king and third of the Stone Kings, holds the hill after Gormshuil and sets marker stones along the valley below it to part the grazing of Dùn ìseal from its neighbours'. Some stand yet, and are argued over yet.",
   "place": "burg:315",
   "kind": "law",
   "y": -7494,
@@ -1584,7 +1584,7 @@
   "id": "I-0088",
   "canon": false,
   "title": "Fearchar Bacach",
-  "body": "Fearchar Bacach, the lame king, rules at Dùn ìseal after the storm and after Dòmhnall Clachach, and is carried to the gatherings in a chair of woven birch. He is the first ruler on Dia-thìr remembered for a hurt.",
+  "body": "Fearchar Bacach, the lame, a son of the king lamed in his father's wars, holds Dùn ìseal under him after the storm and after Dòmhnall Clachach, and is carried to the gatherings in a chair of woven birch. He is the first ruler on Dia-thìr remembered for a hurt.",
   "place": "burg:315",
   "kind": "reign",
   "y": -7374,
@@ -1602,6 +1602,10 @@
   "body": "Uisdean Mòr, second of the Red Hill list, digs a ditch across the neck of the hill where Cathair dhearg now stands and sets a palisade on it. In his time the palisade burns twice and is twice rebuilt.",
   "place": "burg:19",
   "kind": "reign",
+  "between": [
+   -7334,
+   -7334
+  ],
   "y": -7334,
   "m": 3,
   "d": 29,
@@ -1611,12 +1615,35 @@
   "date": "29 am Màrt, GE 267"
  },
  {
+  "id": "I-0089a",
+  "canon": false,
+  "title": "The Red Hill bends the knee",
+  "body": "Ailean Mòr comes west to the Red Hill, where the palisade of Uisdean Mòr has twice burned. Uisdean comes down to the lake shore and kneels to him. The Red Hill keeps its own holders and its own list, and swears to the king and not to Dùn ìseal; so neither list names the other.",
+  "place": "burg:19",
+  "kind": "war",
+  "between": [
+   -7311,
+   -7311
+  ],
+  "y": -7311,
+  "m": 6,
+  "d": 7,
+  "age": "II",
+  "era": "GE",
+  "ey": 290,
+  "date": "7 an t-Ògmhios, GE 290"
+ },
+ {
   "id": "I-0090",
   "canon": false,
   "title": "Strokes on the midden stones",
   "body": "The Seann-Dhaoine begin to cut single strokes on flat stones set at the edges of their middens, one stone to a household. The strokes are not the script. They are simpler: a mark, and then another.",
   "place": "burg:36",
   "kind": "record",
+  "between": [
+   -7293,
+   -7293
+  ],
   "y": -7293,
   "m": 7,
   "d": 31,
@@ -1633,6 +1660,10 @@
   "place": null,
   "kind": "record",
   "canon_date": "undated",
+  "between": [
+   -7253,
+   -7253
+  ],
   "y": -7253,
   "m": 8,
   "d": 29,
@@ -1648,6 +1679,10 @@
   "body": "At the eastern Seann Warr the counting stones are built into a wall, each cut with its strokes, some three thousand strokes in all. The wall grows for many lifetimes.",
   "place": "burg:128",
   "kind": "record",
+  "between": [
+   -7212,
+   -7212
+  ],
   "y": -7212,
   "m": 6,
   "d": 3,
@@ -1663,6 +1698,10 @@
   "body": "The counting comes to Seann Tarr in the north-east. There the stones are cut with strokes in fives and set in the floor of a house, and the house is lived in over its own dead.",
   "place": "burg:402",
   "kind": "record",
+  "between": [
+   -7173,
+   -7173
+  ],
   "y": -7173,
   "m": 7,
   "d": 2,
@@ -1678,6 +1717,10 @@
   "body": "The tally stones at Seann Warr, Seann Tarr and Seann Chwen thicken together: more strokes to each stone, more stones to each course. Death comes on three coasts at once. What it was the strokes do not tell.",
   "place": "burg:128",
   "kind": "disaster",
+  "between": [
+   -7131,
+   -7131
+  ],
   "y": -7131,
   "m": 4,
   "d": 6,
@@ -1693,6 +1736,10 @@
   "body": "At the Seann Chwen near Cuan dhearg the last tally stone is left half-cut: two strokes finished, a third begun and forsaken. The chisel marks stop in mid-groove.",
   "place": "burg:139",
   "kind": "record",
+  "between": [
+   -7091,
+   -7091
+  ],
   "y": -7091,
   "m": 5,
   "d": 5,
@@ -1708,6 +1755,10 @@
   "body": "After the half-cut stone no work of the Seann-Dhaoine can be dated. Their middens stop growing, their harbours silt, and their script is cut no more. How they ended no telling knows.",
   "place": null,
   "kind": "people",
+  "between": [
+   -7050,
+   -7050
+  ],
   "y": -7050,
   "m": 2,
   "d": 7,
@@ -1723,6 +1774,10 @@
   "body": "The hill-folk keep the names of the Seann-Dhaoine places and set before them only their own word for 'old': Seann Dunn, Seann Chwen, Seann Skell and the rest. They turn nothing into their own tongue, and the roots of those names are not understood.",
   "place": "burg:489",
   "kind": "culture",
+  "between": [
+   -7010,
+   -7010
+  ],
   "y": -7010,
   "m": 3,
   "d": 8,
@@ -1747,30 +1802,10 @@
   "date": "11 an Dùbhlachd, GE 628"
  },
  {
-  "id": "I-0098a",
-  "canon": false,
-  "title": "Ailean Mòr dies",
-  "body": "Ailean Mòr, first of the Stone Kings, dies in the high valleys at Tobar dhìreach, more than six hundred years after the grove at six hundred and ninety-five years of age, the reciters say. He gave the hill to his daughter long before, and lived on among Clann na Ceiste, and told no one what had gone into him. The power was his alone, and it goes with him; his children have of it only their long years.",
-  "place": "burg:276",
-  "kind": "death",
-  "between": [
-   -6929,
-   -6929
-  ],
-  "seed": "I-0098adp",
-  "y": -6929,
-  "m": 1,
-  "d": 3,
-  "age": "II",
-  "era": "GE",
-  "ey": 672,
-  "date": "3 am Faoilleach, GE 672"
- },
- {
   "id": "I-0099",
   "canon": false,
   "title": "Mòrag Chruaidh and the salt-flats raid",
-  "body": "Mòrag Chruaidh, fifth of the Stone Kings, raids the salt-pans on the southern shore at Baile ghorm and carries off the salt. It is the first war in either list. Seven fall on the hill side, and the number is kept.",
+  "body": "Mòrag Chruaidh, the king's granddaughter and fifth of the Stone Kings, raids the salt-pans on the southern shore at Baile ghorm, which do not yet own the king, and carries off the salt. It is the first war in either list. Seven fall on the hill side, and the number is kept.",
   "place": "burg:170",
   "kind": "war",
   "y": -6929,
@@ -1845,7 +1880,7 @@
   "id": "I-0104",
   "canon": false,
   "title": "Iain Dubh killed",
-  "body": "Iain Dubh, sixth of the Stone Kings, goes down to raid the salt-pans as Mòrag Chruaidh had done, and is slain on the shingle at Baile ghorm. The list says only that he was brought home.",
+  "body": "Iain Dubh, a son of the king and sixth of the Stone Kings, goes down to raid the salt-pans as Mòrag Chruaidh had done, and is slain on the shingle at Baile ghorm. He is the first of Ailean's children to die by a spear. The list says only that he was brought home.",
   "place": "burg:170",
   "kind": "death",
   "within": [
@@ -1861,23 +1896,23 @@
   "date": "8 an t-Ògmhios, GE 727"
  },
  {
-  "id": "I-0104a",
+  "id": "I-0104b",
   "canon": false,
-  "title": "Somhairle, last of the children of Ailean",
-  "body": "Somhairle mac Ailein, the youngest child of Ailean Mòr, dies in the high valleys at five hundred and forty years, the last of his father's children and fifty-five years after him. After Somhairle the long years thin in his line, each generation shorter-lived than the one before, until the sixth generation after him lives and dies as other people do.",
-  "place": "burg:276",
-  "kind": "death",
+  "title": "The king at Baile ghorm",
+  "body": "Ailean Mòr comes down alone to the shingle at Baile ghorm where his son was slain. The salt-folk come out against him with spears, and none strikes. They bring him the salt of the pans, and the southern shore is his. No blood is shed there, and none is paid.",
+  "place": "burg:170",
+  "kind": "war",
   "between": [
-   -6874,
-   -6874
+   -6873,
+   -6873
   ],
-  "y": -6874,
-  "m": 7,
-  "d": 7,
+  "y": -6873,
+  "m": 8,
+  "d": 5,
   "age": "II",
   "era": "GE",
-  "ey": 727,
-  "date": "7 an t-Iuchar, GE 727"
+  "ey": 728,
+  "date": "5 an Lùnastal, GE 728"
  },
  {
   "id": "I-0105",
@@ -2008,7 +2043,7 @@
   "id": "I-0113",
   "canon": false,
   "title": "Raghnall Ceannfhionn makes peace",
-  "body": "Raghnall Ceannfhionn, seventh of the Stone Kings, meets the holder of the Red Hill at the ford where the fair of Muileann òg is held now, and they agree on salt for wool. Both lists tell of the meeting, and in neither is the other named before it.",
+  "body": "Raghnall Ceannfhionn, seventh of the Stone Kings, meets the holder of the Red Hill at the ford where the fair of Muileann òg is held now, and they agree on salt for wool. Both hills are the king's, and neither is the other's. Both lists tell of the meeting, and in neither is the other named before it.",
   "place": "marker:38",
   "kind": "trade",
   "y": -6426,
@@ -2328,7 +2363,7 @@
   "id": "I-0133",
   "canon": false,
   "title": "Sìleas Bhàn and the hungry years",
-  "body": "Sìleas Bhàn, eighth of the Stone Kings, holds Dùn ìseal through years of failed grazing. No deed is told of her but that she held, and the list goes on after her.",
+  "body": "Sìleas Bhàn, eighth of the Stone Kings, of the king's blood, holds Dùn ìseal through years of failed grazing. No deed is told of her but that she held, and the list goes on after her.",
   "place": "burg:315",
   "kind": "reign",
   "y": -5674,
@@ -2419,7 +2454,7 @@
   "id": "I-0139",
   "canon": false,
   "title": "Tormod Liath",
-  "body": "Tormod Liath, ninth of the Stone Kings, outlives three heirs, and is remembered as old. In his time Dùn ìseal is given its second bank, and its ground is doubled.",
+  "body": "Tormod Liath, ninth of the Stone Kings, a grandson of the king, holds the hill so long that he outlives three heirs, and is remembered as old. In his time Dùn ìseal is given its second bank, and its ground is doubled.",
   "place": "burg:315",
   "kind": "reign",
   "y": -5438,
@@ -2576,7 +2611,7 @@
   "id": "I-0149",
   "canon": false,
   "title": "Eilidh Ghlas",
-  "body": "Eilidh Ghlas, tenth of the Stone Kings, sends her younger son to the Red Hill to be fostered, the first fostering in either list. The son's name is not kept; only that he went, and that the peace of the ford held while he was there.",
+  "body": "Eilidh Ghlas, tenth of the Stone Kings, of the king's blood, sends her younger son to the Red Hill to be fostered, the first fostering in either list. The son's name is not kept; only that he went, and that the peace of the ford held while he was there.",
   "place": "burg:315",
   "kind": "reign",
   "y": -5201,
@@ -2723,7 +2758,7 @@
   "id": "I-0157",
   "canon": false,
   "title": "Calum Ciar asks for the lot",
-  "body": "Calum Ciar, eleventh of the Stone Kings, asks that the keeper's lot be drawn at Dùn ìseal in his sight. The households at the slab refuse him. The list sets down the refusal, which is more than it sets down of most things.",
+  "body": "Calum Ciar, the elder son of Eilidh Ghlas and eleventh of the Stone Kings, asks that the keeper's lot be drawn at Dùn ìseal in his sight. The households at the slab refuse him. The list sets down the refusal, which is more than it sets down of most things.",
   "place": "burg:315",
   "kind": "reign",
   "within": [
@@ -2742,7 +2777,7 @@
   "id": "I-0158",
   "canon": false,
   "title": "The kings and the keepers",
-  "body": "After the refusal of Calum Ciar the lot is still drawn at the slab. The Stone Kings rule the grazing and the gatherings but not the vein, and the line between the two holds for the rest of the age. It is not yet written anywhere.",
+  "body": "After the refusal of Calum Ciar the lot is still drawn at the slab. The holders of the hill rule the grazing and the gatherings under the king, but not the vein, and the king does not overrule the slab. The line between the two holds for the rest of the age. It is not yet written anywhere.",
   "place": "burg:315",
   "kind": "law",
   "y": -5185,
@@ -3361,6 +3396,10 @@
   "body": "Cathair fhada is founded on the south coast, between the old Seann Dunn and Seann Chwen. It draws its water from a well the Seann-Dhaoine dug, and never speaks of where the well came from.",
   "place": "burg:297",
   "kind": "founding",
+  "between": [
+   -5078,
+   -5078
+  ],
   "y": -5078,
   "m": 5,
   "d": 13,
@@ -3376,6 +3415,10 @@
   "body": "Fishing households settle Caol ruadh on the south coast and take the cod of the strait on long lines. Their middens are the first on the south coast to hold more fish than shell.",
   "place": "burg:15",
   "kind": "founding",
+  "between": [
+   -5031,
+   -5031
+  ],
   "y": -5031,
   "m": 4,
   "d": 14,
@@ -3391,6 +3434,10 @@
   "body": "Houses are built at Baile Mòr mhòr on the northern plain, round a spring that never freezes. At its height it has some eighty houses, a great place for the age.",
   "place": "burg:365",
   "kind": "founding",
+  "between": [
+   -4985,
+   -4985
+  ],
   "y": -4985,
   "m": 9,
   "d": 13,
@@ -3406,6 +3453,10 @@
   "body": "Households settle the rough ground at Baile gharbh and live by sheep, not cattle. Their wool goes south along the coast to the ford gathering.",
   "place": "burg:131",
   "kind": "founding",
+  "between": [
+   -4939,
+   -4939
+  ],
   "y": -4939,
   "m": 8,
   "d": 15,
@@ -3421,6 +3472,10 @@
   "body": "Settlers build at Baile fhiadhaich on the western coast, where boars run in the thickets. They hang boar tusks over their doors, and boar is their chief meat for the rest of the age.",
   "place": "burg:134",
   "kind": "founding",
+  "between": [
+   -4892,
+   -4892
+  ],
   "y": -4892,
   "m": 7,
   "d": 17,
@@ -3436,6 +3491,10 @@
   "body": "Dia-thìreach households take up the harbour at Cuan shean on the west coast, beside an old landing of unknown builders, and use the landing without mending it.",
   "place": "burg:282",
   "kind": "founding",
+  "between": [
+   -4846,
+   -4846
+  ],
   "y": -4846,
   "m": 6,
   "d": 18,
@@ -3451,6 +3510,10 @@
   "body": "A banked hill-fort is raised at Dùn chrom in the midst of the island, between the Red Hill and the hills of the vein. Its bank faces both ways.",
   "place": "burg:255",
   "kind": "building",
+  "between": [
+   -4800,
+   -4800
+  ],
   "y": -4800,
   "m": 1,
   "d": 7,
@@ -3466,6 +3529,10 @@
   "body": "Households settle on the ground below Làrach an Dùin-fhaire, where Cathair mhòr now stands. They take no stone from the ruin above them, though it is the nearest quarry.",
   "place": "burg:23",
   "kind": "founding",
+  "between": [
+   -4754,
+   -4754
+  ],
   "y": -4754,
   "m": 12,
   "d": 9,
@@ -3481,6 +3548,10 @@
   "body": "Households come to settle on a hill for its spring, and the hill is already called Cnoc naomh, the holy hill. Why, is not known.",
   "place": "burg:318",
   "kind": "founding",
+  "between": [
+   -4707,
+   -4707
+  ],
   "y": -4707,
   "m": 11,
   "d": 10,
@@ -3496,6 +3567,10 @@
   "body": "The keepers of the beacon at Tobar dhearg build their settlement on the cape itself, round a well whose water runs reddish from the rock. It becomes the greatest place on the south coast.",
   "place": "burg:398",
   "kind": "founding",
+  "between": [
+   -4654,
+   -4654
+  ],
   "y": -4654,
   "m": 10,
   "d": 12,
@@ -3511,6 +3586,10 @@
   "body": "Muileann naomh is founded near the south coast, between the beacon at Tobar dhearg and the old Seann Skell. Its first houses stand on stilts over a marsh, and are afterwards moved to firm ground.",
   "place": "burg:326",
   "kind": "founding",
+  "between": [
+   -4615,
+   -4615
+  ],
   "y": -4615,
   "m": 1,
   "d": 24,
@@ -3520,12 +3599,54 @@
   "date": "24 am Faoilleach, GE 2,986"
  },
  {
+  "id": "I-0208a",
+  "canon": false,
+  "title": "The great gathering at the ford",
+  "body": "In the height of his days Ailean Mòr keeps a gathering at the ford of the salt and wool. The holders of the hill, the Red Hill, the salt shore, the north and the west set their hands in his. Some four hundred of his own blood stand about him, children and their children, more than the reciters can name in a night. Only the households east of the vein send no one.",
+  "place": "marker:38",
+  "kind": "reign",
+  "between": [
+   -4601,
+   -4601
+  ],
+  "y": -4601,
+  "m": 12,
+  "d": 2,
+  "age": "II",
+  "era": "GE",
+  "ey": 3000,
+  "date": "2 an Dùbhlachd, GE 3,000"
+ },
+ {
+  "id": "I-0104a",
+  "canon": false,
+  "title": "Somhairle mac Ailein dies",
+  "body": "Somhairle mac Ailein, a son of Ailean Mòr born in his father's sixty-second year, dies in the high valleys at two thousand nine hundred and eighty-seven years, before his father. His line lives among Clann na Ceiste and holds no share of the hill. In each generation after him the long years are shorter.",
+  "place": "burg:276",
+  "kind": "death",
+  "between": [
+   -4576,
+   -4576
+  ],
+  "y": -4576,
+  "m": 7,
+  "d": 7,
+  "age": "II",
+  "era": "GE",
+  "ey": 3025,
+  "date": "7 an t-Iuchar, GE 3,025"
+ },
+ {
   "id": "I-0209",
   "canon": false,
   "title": "Ceann mhin on the south-eastern shore",
   "body": "The south-eastern Ceann mhin is settled near Làrach an Dùin. Its people are the first to live in sight of the fortress ruin, and they will not go up to it.",
   "place": "burg:363",
   "kind": "founding",
+  "between": [
+   -4573,
+   -4573
+  ],
   "y": -4573,
   "m": 12,
   "d": 26,
@@ -3541,6 +3662,10 @@
   "body": "Dia-thìreach households take up the old harbour at the southern Seann Skell and keep its old name. Within a few generations it is the busiest landing on the south coast.",
   "place": "burg:431",
   "kind": "founding",
+  "between": [
+   -4522,
+   -4522
+  ],
   "y": -4522,
   "m": 3,
   "d": 23,
@@ -3556,6 +3681,10 @@
   "body": "Households return to Achadh shean after the drought and cut new fields on the higher ground. They sink a deep well first and plant after, and the well does not fail again in this age.",
   "place": "burg:411",
   "kind": "founding",
+  "between": [
+   -4476,
+   -4476
+  ],
   "y": -4476,
   "m": 4,
   "d": 21,
@@ -3571,6 +3700,10 @@
   "body": "A few households settle at Inis mhin on the eastern coast. They live by the eggs and birds of the cliffs, and trade feathers inland.",
   "place": "burg:221",
   "kind": "founding",
+  "between": [
+   -4429,
+   -4429
+  ],
   "y": -4429,
   "m": 5,
   "d": 20,
@@ -3586,6 +3719,10 @@
   "body": "Households settle on the hill at Muileann chaol, above the upper reaches of the rivers. Where the library stands now there is a cattle-fold.",
   "place": "burg:246",
   "kind": "founding",
+  "between": [
+   -4383,
+   -4383
+  ],
   "y": -4383,
   "m": 6,
   "d": 18,
@@ -3601,6 +3738,10 @@
   "body": "At Muileann chaol a cairn is raised for each head of a household at death, on the slope above the fold. By the end of the age some forty stand there.",
   "place": "marker:34",
   "kind": "death",
+  "between": [
+   -4337,
+   -4337
+  ],
   "y": -4337,
   "m": 7,
   "d": 17,
@@ -3616,6 +3757,10 @@
   "body": "Baile Mòr ruadh grows up near the eastern Seann Dunn, on land its people call empty. The middens of Seann Dunn lie a morning's walk away, and the settlers do not dig into them.",
   "place": "burg:387",
   "kind": "founding",
+  "between": [
+   -4290,
+   -4290
+  ],
   "y": -4290,
   "m": 8,
   "d": 15,
@@ -3631,6 +3776,10 @@
   "body": "The Dia-thìrich of the eastern hills pass Làrach an Teampaill without stopping and take no stone from it. A path is worn round it at a distance.",
   "place": "marker:33",
   "kind": "faith",
+  "between": [
+   -4244,
+   -4244
+  ],
   "y": -4244,
   "m": 9,
   "d": 13,
@@ -3646,6 +3795,10 @@
   "body": "At Ceann leathan the gathering by the wind-stones ends with wrestling and the lifting of stones. The heaviest, a black boulder, lies on the point still, and few have raised it.",
   "place": "marker:37",
   "kind": "culture",
+  "between": [
+   -4198,
+   -4198
+  ],
   "y": -4198,
   "m": 10,
   "d": 12,
@@ -3661,6 +3814,10 @@
   "body": "The ford gathering at Muileann òg now draws households from every coast. Its ground is parted by custom: the salt people downstream, the hill people upstream, the flint people on the far bank.",
   "place": "marker:38",
   "kind": "trade",
+  "between": [
+   -4151,
+   -4151
+  ],
   "y": -4151,
   "m": 8,
   "d": 3,
@@ -3676,6 +3833,10 @@
   "body": "Axes of polished green stone from a quarry near Àth àrsaidh in the north-west are carried all over the island. They are too fine for work; most are laid unused in graves or under house floors.",
   "place": "burg:304",
   "kind": "trade",
+  "between": [
+   -4105,
+   -4105
+  ],
   "y": -4105,
   "m": 9,
   "d": 1,
@@ -4056,7 +4217,7 @@
   "id": "I-0243",
   "canon": false,
   "title": "Catrìona Mhòr",
-  "body": "Catrìona Mhòr, twelfth of the Stone Kings, holds Dùn ìseal; hers is the last name in the spoken list. It is told that she knew every household of the hills by its line seven names back.",
+  "body": "Catrìona Mhòr, twelfth of the Stone Kings and of the king's blood, holds Dùn ìseal under him; hers is the last name in the spoken list. It is told that she knew every household of the hills by its line seven names back.",
   "place": "burg:315",
   "kind": "reign",
   "y": -3254,
@@ -4256,10 +4417,48 @@
   "date": "9 an t-Iuchar, GE 4,376"
  },
  {
+  "id": "I-0255a",
+  "canon": false,
+  "title": "The king takes back the hill",
+  "body": "Catrìona Mhòr dies, and with her the list of the Stone Kings ends. Her kin put forward many claims to Dùn ìseal, and Ailean Mòr gives the hill to none of them. He comes to it himself and holds it in his own hand, as in the first days.",
+  "place": "burg:315",
+  "kind": "reign",
+  "between": [
+   -3210,
+   -3210
+  ],
+  "y": -3210,
+  "m": 3,
+  "d": 12,
+  "age": "II",
+  "era": "GE",
+  "ey": 4391,
+  "date": "12 am Màrt, GE 4,391"
+ },
+ {
+  "id": "I-0255b",
+  "canon": false,
+  "title": "Dùn dhearg will not bow",
+  "body": "The king sends to Dùn dhearg and to the households east of the vein, bidding them come in to him. They send his messenger back with nothing, and swear among themselves that they will owe nothing to Dùn ìseal nor to its king. From that year the spears of the east are gathered at Dùn dhearg.",
+  "place": "burg:422",
+  "kind": "war",
+  "between": [
+   -3081,
+   -3081
+  ],
+  "y": -3081,
+  "m": 2,
+  "d": 11,
+  "age": "II",
+  "era": "GE",
+  "ey": 4520,
+  "date": "11 an Gearran, GE 4,520"
+ },
+ {
   "id": "I-0256",
   "canon": false,
   "title": "The eve of the Binding",
-  "body": "So ends the Age of Ailean. The handful is kept everywhere in the hills, the keepers are nine, the sharing before the storms is kept on every coast, and the saying is spoken at every gathering. None of it is yet declared, and no oath is yet sworn over the vein. With that swearing the next age begins.",
+  "body": "The handful is kept everywhere in the hills, the keepers are nine, the sharing before the storms is kept on every coast, and the saying is spoken at every gathering. None of it is yet declared, and no oath is yet sworn over the vein. The king holds Dùn ìseal in his own hand, his kin wait about him for their shares, and the spears of the east gather at Dùn dhearg.",
   "place": null,
   "kind": "record",
   "between": [
@@ -4275,10 +4474,30 @@
   "date": "7 an Lùnastal, GE 4,550"
  },
  {
+  "id": "I-0098a",
+  "canon": false,
+  "title": "Ailean Mòr falls at Àth na Fala",
+  "body": "The host of Dùn dhearg and the eastern households who never bowed come against the king at the ford below Dùn dhearg. Ailean Mòr holds the ford alone three days and three nights, and the dead of the host dam the river. On the third night he falls, worn down by the whole host; no one man overcame him, and age had not touched him. His kin, quarrelling already over the shares of the kingdom, did not come. He was four thousand six hundred and twenty-six years old, and had been king since the grove. The ford is called Àth na Fala after.",
+  "place": "burg:422",
+  "kind": "death",
+  "between": [
+   -2998,
+   -2998
+  ],
+  "seed": "I-0098afe326",
+  "y": -2998,
+  "m": 9,
+  "d": 2,
+  "age": "III",
+  "era": "FE",
+  "ey": 1,
+  "date": "2 an t-Sultain, FE 1"
+ },
+ {
   "id": "II-0001",
   "canon": true,
   "title": "The Binding of the First Flame",
-  "body": "Custody is declared over the vein, and the first flame is bound at Dùn ìseal: the undying flame of Brìde, kept over the stone of Crom Cruaich. Its keepers, Òrd Bhrìde, are the first order on Dia-thìr to govern both rite and people, and they are older by centuries than any king.",
+  "body": "Custody is declared over the vein, and the first flame is bound at Dùn ìseal: the undying flame of Brìde, kept over the stone of Crom Cruaich. The heirs of Ailean Mòr, gathered to part his kingdom, cannot part the vein, and swear it to no one of the blood. Its keepers, Òrd Bhrìde, are the first order on Dia-thìr to govern both rite and people, and they are older by centuries than any rìgh after Ailean.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated",
@@ -4291,10 +4510,90 @@
   "date": "23 an t-Sultain, FE 1"
  },
  {
+  "id": "II-0001a",
+  "canon": false,
+  "title": "The heirs sit at Dùn ìseal",
+  "body": "The kin of Ailean Mòr, come too late to the ford, stay on at Dùn ìseal after the Binding to part his kingdom. The knot-keeper Sìne nan Snaidhm ties a knot on a cord for every heir who stands up to claim: seven hundred and twelve. The eldest of them, Murchadh Mòr, is near two thousand nine hundred years old; the youngest who claims is a child in arms.",
+  "place": "burg:315",
+  "kind": "people",
+  "between": [
+   -2998,
+   -2998
+  ],
+  "seed": "II-0001a-26",
+  "y": -2998,
+  "m": 10,
+  "d": 13,
+  "age": "III",
+  "era": "FE",
+  "ey": 1,
+  "date": "13 an Dàmhair, FE 1"
+ },
+ {
+  "id": "II-0001b",
+  "canon": false,
+  "title": "Roinn na Rìoghachd",
+  "body": "On the night of the handful the heirs swear the parting of the kingdom, Roinn na Rìoghachd. The island below the mountain is cut into nine great shares, earrannan mòra, for the nine eldest lines of the king's blood, and the lines of his dead children are given the portion of the dead, cuid nam marbh, out of all nine. No heir is to be called rìgh. The ground of the Hall is in no share. Dùn dhearg, which Ìomhar Dearg had taken with the sword after the ford, is let stand as his share, over the protest of four lines.",
+  "place": "burg:315",
+  "kind": "law",
+  "between": [
+   -2997,
+   -2997
+  ],
+  "seed": "II-0001b-1454",
+  "y": -2997,
+  "m": 11,
+  "d": 1,
+  "age": "III",
+  "era": "FE",
+  "ey": 2,
+  "date": "1 an t-Samhain, FE 2"
+ },
+ {
+  "id": "II-0001c",
+  "canon": false,
+  "title": "First blood among the heirs",
+  "body": "At Dùn thais, on the line between the great share of the north and the Red Share, the men of Aonghas Bàn mac Mhurchaidh and of Ruairidh Glas of the line of Ìomhar come to blows over which share the fort lies in. Aonghas Bàn is killed. With his death begins Aimhreit nan Oighrean, the strife of the heirs, between the line of Murchadh and the line of Ìomhar and then between many lines.",
+  "place": "burg:77",
+  "kind": "war",
+  "between": [
+   -2996,
+   -2996
+  ],
+  "seed": "II-0001c-17",
+  "y": -2996,
+  "m": 4,
+  "d": 17,
+  "age": "III",
+  "era": "FE",
+  "ey": 3,
+  "date": "17 an Giblean, FE 3"
+ },
+ {
+  "id": "II-0001d",
+  "canon": false,
+  "title": "Shares of shares",
+  "body": "The great shares are parted again among their holders' children and grandchildren, into countries, provinces, counties and holdings, until the lesser blood of the portion of the dead is fitted in. Many holdings owe oaths to two lords, and some to three. The boundary stones of the Roinn are set up, and moved, and set up again.",
+  "place": null,
+  "kind": "law",
+  "between": [
+   -2995,
+   -2995
+  ],
+  "seed": "II-0001d-13",
+  "y": -2995,
+  "m": 3,
+  "d": 25,
+  "age": "III",
+  "era": "FE",
+  "ey": 4,
+  "date": "25 am Màrt, FE 4"
+ },
+ {
   "id": "II-0002",
   "canon": false,
   "title": "Beathag Bhàn keeps the first flame",
-  "body": "At Dùn ìseal under the central mountains the keepers of the slab and the households sworn to the Binding choose Beathag Bhàn to hold the first flame for Brìde and to answer to Crom for what is taken from the vein. The spoken roll of the Keepers begins with her name. Of her life before it nothing is remembered.",
+  "body": "At Dùn ìseal under the central mountains the keepers of the slab and the households sworn to the Binding choose Beathag Bhàn to hold the first flame for Brìde and to answer to Crom for what is taken from the vein. She is of no heir's blood and holds no share, and the heirs let her be chosen for that. The spoken roll of the Keepers begins with her name. Of her life before it nothing is remembered.",
   "place": "burg:315",
   "kind": "faith",
   "between": [
@@ -4999,7 +5298,7 @@
   "id": "II-0045",
   "canon": false,
   "title": "Eilidh nic Ìomhair keeps the flame",
-  "body": "The nine hearths choose a Keeper from outside the house of Muireach for the first time: Eilidh nic Ìomhair, of Dùn dhearg. Sliochd Mhuirich refuses for a season, then yields at Dùn ìseal, on the condition that the stone cup never leaves Talla na Lasrach.",
+  "body": "The nine hearths choose a Keeper from outside the house of Muireach for the first time: Eilidh nic Ìomhair, of Dùn dhearg, of the line of Ìomhar Dearg and so of the king's blood. Sliochd Mhuirich, holding to the Binding, refuses for a season, then yields at Dùn ìseal, on the condition that the stone cup never leaves Talla na Lasrach.",
   "place": "burg:315",
   "kind": "faith",
   "y": -2618,
@@ -5176,7 +5475,7 @@
   "id": "II-0056",
   "canon": false,
   "title": "The granaries of Dùn dhearg",
-  "body": "Sliochd Ìomhair builds stone granaries at Dùn dhearg and fills them from the lowland fields, holding grain against the storm season as the old custom of sharing asks. So the house gains what the Hall never had: people who owe it their bread.",
+  "body": "Sliochd Ìomhair builds stone granaries at Dùn dhearg and fills them from the lowland fields of its share, holding grain against the storm season as the old custom of sharing asks. So the house gains what the Hall never had: people who owe it their bread.",
   "place": "burg:422",
   "kind": "trade",
   "y": -2565,
@@ -5206,7 +5505,7 @@
   "id": "II-0058",
   "canon": true,
   "title": "The reverent centuries",
-  "body": "Generation after generation mines the same small measure and burns the same small measure, and the people neither grow nor dwindle. The rolls call them the reverent centuries.",
+  "body": "Generation after generation mines the same small measure and burns the same small measure, and the people neither grow nor dwindle, whichever lord's share they live in. The rolls call them the reverent centuries.",
   "place": null,
   "kind": "record",
   "canon_date": "undated",
@@ -5307,6 +5606,46 @@
   "era": "FE",
   "ey": 542,
   "date": "30 an Dùbhlachd, FE 542"
+ },
+ {
+  "id": "II-0064b",
+  "canon": false,
+  "title": "The burning of Achadh mhòr",
+  "body": "Cogadh an Dà Mhionn, the War of the Two Oaths, ends where it began. Fearghas Dà-Mhionn, lord of the granary fields of Achadh mhòr, sworn both to the line of Ìomhar and to the lords of Cathair mhòr, is called to arms by each against the other, and both come to take his fields. The fields are burned to the stubble, and Fearghas dies in his hall.",
+  "place": "burg:395",
+  "kind": "battle",
+  "between": [
+   -2449,
+   -2437
+  ],
+  "seed": "II-0064b-3",
+  "y": -2443,
+  "m": 8,
+  "d": 24,
+  "age": "III",
+  "era": "FE",
+  "ey": 556,
+  "date": "24 an Lùnastal, FE 556"
+ },
+ {
+  "id": "II-0064c",
+  "canon": false,
+  "title": "Sìth an Stairsnich",
+  "body": "The lords of the shares swear the Peace of the Threshold, Sìth an Stairsnich, on the threshold of Talla na Lasrach, beside the stone cup, with the Keeper as witness. No share may be parted again at a death: a holding passes whole to one heir. No man may swear to two lords. The boundary stones are set where they stand that day. So ends Aimhreit nan Oighrean.",
+  "place": "burg:315",
+  "kind": "law",
+  "between": [
+   -2449,
+   -2437
+  ],
+  "seed": "II-0064c-132",
+  "y": -2443,
+  "m": 11,
+  "d": 1,
+  "age": "III",
+  "era": "FE",
+  "ey": 556,
+  "date": "1 an t-Samhain, FE 556"
  },
  {
   "id": "II-0064a",
@@ -5512,10 +5851,30 @@
   "date": "26 an t-Ògmhios, FE 654"
  },
  {
+  "id": "II-0076a",
+  "canon": false,
+  "title": "Goraidh gathers the shares of the east",
+  "body": "By two cousins dead without heirs and a marriage to a third, Goraidh mac Ìomhair holds in one hand three of the old counties of the east round Dùn dhearg, parted since the Roinn. He is the first of the kin to gather again what the Roinn had divided, and the Peace of the Threshold lets him keep it whole.",
+  "place": "burg:422",
+  "kind": "reign",
+  "between": [
+   -2400,
+   -2250
+  ],
+  "seed": "II-0076a-8",
+  "y": -2325,
+  "m": 4,
+  "d": 3,
+  "age": "III",
+  "era": "FE",
+  "ey": 674,
+  "date": "3 an Giblean, FE 674"
+ },
+ {
   "id": "II-0077",
   "canon": false,
   "title": "Goraidh mac Ìomhair called rìgh",
-  "body": "At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Goraidh mac Ìomhair, their rìgh, their king. No ruler of the lowlands was so called before him. Goraidh claims nothing over the vein, and is careful to tell the Hall so.",
+  "body": "At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Goraidh mac Ìomhair, their rìgh, their king. No one had been so called since Ailean Mòr, for at the Roinn the heirs swore that none of them would take the word. Goraidh claims nothing over the vein, and is careful to tell the Hall so.",
   "place": "burg:422",
   "kind": "reign",
   "between": [
@@ -5795,7 +6154,7 @@
   "id": "II-0093",
   "canon": false,
   "title": "The War of the Roads begins at Muileann òg",
-  "body": "Iain Garbh marches west with the road-guards and the lowland levies, and burns the toll-house at Muileann òg that the men of Lachlann Ciar had taken. It is the first war of Dia-thìreach against Dia-thìreach. The Hall will bless neither side.",
+  "body": "Iain Garbh marches west with the road-guards and the lowland levies, and burns the toll-house at Muileann òg that the men of Lachlann Ciar had taken. It is the first war of Dia-thìreach against Dia-thìreach since the Peace of the Threshold, and the first fought over a road; every war before it was fought over a share. The Hall will bless neither side.",
   "place": "burg:151",
   "kind": "war",
   "between": [
@@ -6052,6 +6411,26 @@
   "era": "FE",
   "ey": 1089,
   "date": "11 am Màrt, FE 1,089"
+ },
+ {
+  "id": "II-0106b",
+  "canon": false,
+  "title": "Death of Eithne nic Ailein, last of the nine",
+  "body": "Eithne nic Ailein, daughter of Ailean Mòr and youngest of the nine who took the great shares at the Roinn, dies in her hall at Cathair mhòr. And all the days of Eithne were three thousand and twenty-one years, and she died. After her none of the nine is living, and the great shares are names on the boundary stones.",
+  "place": "burg:23",
+  "kind": "death",
+  "between": [
+   -1909,
+   -1845
+  ],
+  "seed": "II-0106b-1",
+  "y": -1877,
+  "m": 6,
+  "d": 28,
+  "age": "III",
+  "era": "FE",
+  "ey": 1122,
+  "date": "28 an t-Ògmhios, FE 1,122"
  },
  {
   "id": "II-0106a",
@@ -8436,7 +8815,7 @@
   "id": "II-0249",
   "canon": true,
   "title": "The last age of even population",
-  "body": "So ends the Holy Age. The chroniclers of after days look back on it with some unease: it is the last time in the history of Dia-thìr that no family's lives ran longer than any other's.",
+  "body": "So ends the Holy Age. The chroniclers of after days look back on it with some unease: it is the last time in the history of Dia-thìr that no family's lives ran longer than any other's. The long years had gone out of the king's kin many generations before.",
   "place": null,
   "kind": "record",
   "canon_date": "undated",

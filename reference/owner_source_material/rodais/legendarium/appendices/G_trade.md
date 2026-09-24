@@ -163,7 +163,7 @@ The Crown takes two dues, both set by the council in the first weeks of the king
 
 The Treasury's roll for the present year comes to 9,568 purses ({{date:VI-0154a}}). The towns' own chests hold about 12,660 purses together, and the towns' yearly product is about 11,460.
 
-**Earlier taxes and currencies.** The first toll on Dia-thìr was Goraidh Mòr's road-toll of one fish in twenty ({{date:II-0080}}). The silver weights of Muileann chiar gave the carriers' roads a common measure ({{date:II-0064}}), and the Hall's clerks first paid in stamped silver rings ({{date:II-0127}}). In the Age of Sundering Queen Sìleas fixed the firlot of Cathair dhearg as the measure of grain ({{date:III-0069}}) and set up the tally-houses, the first account of trade kept across the whole island ({{date:III-0070}}). Ros fhionn salt was the measure of value in the north-east ({{date:III-0079}}), and wool was the measure on the western plain. The humans' mark and its hundred pence were struck at Ros dhomhain ({{date:IV-0053}}), and three currency reforms pushed barter out ({{date:IV-0052}}, {{date:IV-0176}}, {{date:IV-0253}}). The Company's tithe on coal rose without any matching return ({{date:IV-0130}}) and was extended to grain ({{date:IV-0132}}). The rebels burned the tithe ledgers ({{date:IV-0355}}). The restored kingdom struck its own realm-coin ({{date:V-0023}}) and pegged it to dubhan in {{year:VI-0049}}.
+**Earlier taxes and currencies.** Before any toll the lords of the shares of the Roinn took their dues from the holdings in kind, a sheaf, a fleece or a sack of meal, and from a holding sworn to two lords both took them ({{date:II-0001d}}); the Peace of the Threshold ended the double dues with the double oaths ({{date:II-0064c}}). The first toll on Dia-thìr was Goraidh Mòr's road-toll of one fish in twenty ({{date:II-0080}}). The silver weights of Muileann chiar gave the carriers' roads a common measure ({{date:II-0064}}), and the Hall's clerks first paid in stamped silver rings ({{date:II-0127}}). In the Age of Sundering Queen Sìleas fixed the firlot of Cathair dhearg as the measure of grain ({{date:III-0069}}) and set up the tally-houses, the first account of trade kept across the whole island ({{date:III-0070}}). Ros fhionn salt was the measure of value in the north-east ({{date:III-0079}}), and wool was the measure on the western plain. The humans' mark and its hundred pence were struck at Ros dhomhain ({{date:IV-0053}}), and three currency reforms pushed barter out ({{date:IV-0052}}, {{date:IV-0176}}, {{date:IV-0253}}). The Company's tithe on coal rose without any matching return ({{date:IV-0130}}) and was extended to grain ({{date:IV-0132}}). The rebels burned the tithe ledgers ({{date:IV-0355}}). The restored kingdom struck its own realm-coin ({{date:V-0023}}) and pegged it to dubhan in {{year:VI-0049}}.
 
 ### VI. A Chronology of Trade
 
@@ -172,7 +172,9 @@ The Treasury's roll for the present year comes to 9,568 purses ({{date:VI-0154a}
 - {{date:I-0114}} — the ford gathering at Muileann òg: salt, flint, wool, dried fish and pots.
 - {{date:I-0116a}} — amber from the Hawk bay.
 - {{date:I-0193}} — the salt road to the north-west.
+- {{date:II-0001d}} — the shares of shares: dues in kind to the lords of the Roinn, from some holdings twice.
 - {{date:II-0018}} — silver for salt at Ros fhionn, the first remembered price.
+- {{date:II-0064c}} — the Peace of the Threshold; no holding to pay dues to two lords.
 - {{date:II-0064a}} — the market under the Hall at Dùn ìseal.
 - {{date:II-0068}} — Ceann leathan's fish-market.
 - {{date:II-0080}} — the first road-toll.

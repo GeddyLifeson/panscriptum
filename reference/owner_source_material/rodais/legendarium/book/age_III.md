@@ -7,20 +7,129 @@
 >
 > — said of the stone cup at Dùn ìseal
 
-<!-- PLACEHOLDER (content writers): the Division of the kingdom among the kin of Ailean Mòr goes here, at the
-     opening of the Third Book: Roinn na Rìoghachd, "the parting of the kingdom", and its feuds, Aimhreit nan
-     Oighrean, "the strife of the heirs", leading into the Binding of the First Flame (II-0001) as the one thing
-     all the heirs could swear to. -->
+## I. Of the Ford of Blood and the Gathering of the Heirs
 
-## I. Of the Binding of the First Flame
+*At Dùn ìseal the knot-keepers tell this, and they tell it with a cord across their knees.*
 
-In the days before the Binding the hill-folk of Dia-thìr burned the coloured coal by the handful and shared their grain before the storms, and at every gathering they said that they had always been on the island and had come from nowhere. Nine keepers, one drawn by lot for each district of the hills, watched the slab over the crack at Tobar dhìreach. All of it was custom, and none of it was law. So the tellers close the Age of Ailean: everything in its place, and nothing yet sworn.
+In the last summer of the Age of Ailean the valley under Dùn ìseal was full of tents. The king held the hill in his own hand, as he had in the first days, and his kin had come in from every coast to wait about him for their shares. Some of them had been waiting a long time. There were sons of his in that valley who had stood about him at the great gathering at the ford when they were already old men by any other reckoning, and daughters who had seen the salt shore come under him, and grandchildren and great-grandchildren and the children of those, more than any reciter could name in a night. Each of them had a fire in the valley, and a steward to argue for it, and a grievance against the fire next to it.
 
-The Holy Age opens with an oath. On {{date:II-0001}} a custodianship was declared over the vein beneath the central mountains, and that swearing is called the Binding of the First Flame. The flame bound that day was Brìde's undying flame. The tellers of the Mason's line hold that it was first kindled from the mason's fire, which the lightning lit in the broken vein at the beginning of the count; but they keep the two apart, as the Keepers did. The mason's fire is the first fire, and the First Flame is the flame that was sworn to. The vein and the slab over it were given to Crom Cruaich, the bent one of the mound, whose price is measured. One order took both into its keeping, Òrd Bhrìde, the order of Brìde's flame, eldest of the orders of the Old Faith. It was a faith and a government at once, the first such thing on Dia-thìr, and it stood for centuries before any king of the lowlands. Whoever came after to rule the roads and harbours ruled beside it and never over it, for as long as the age lasted.
+So when the spears of the east came out of Dùn dhearg, the king went down to meet them, and his kin stayed by their fires. Each of them meant to follow in a day or two, once a water-meadow or a hill-grazing or a stretch of shore had been settled in their favour. The tellers of the Second Book have told what came of that at Àth na Fala. Here it is told as it came to the valley.
 
-The choosing came after, at Dùn ìseal under the mountain, on {{date:II-0002}}.
+Sìne nan Snaidhm kept the cord at Dùn ìseal that year. It was the cord of the households, of the kind Catrìona Mhòr's people had first made, a knot to a hearth. Sìne was of no one's blood that mattered, and she had the tying of it because her fingers were quick and her memory was good and she could not be bribed, having nothing that she wanted.
 
-Beathag Bhàn stood at the back of the crowd, with the mud of the path still wet on her shins. A wind came down off the high passes and tugged at every cloak on the slope. The keepers of the slab sat on stones in a half-ring, and behind them stood the households who had sworn the Binding, smelling of wet wool and peat-smoke and the coal-dust that never quite washes out of a hill-woman's hands.
+She was at the spring below the hill with her pails, on the fourth evening after the battle, when the runner came up the valley road. He was a herd-boy of the eastern hills, barefoot, and he had run so far that he could not stop when he reached the spring; he went on past it three or four steps, and then his legs folded and he sat down in the mud. Sìne gave him water from her pail. He drank half and was sick, and drank the rest.
+
+"Where is the camp of the king's son?" he said. "Any of them. I was told to tell the king's sons."
+
+"There are sixty camps of the king's sons," said Sìne. "Tell me, and I'll tell them."
+
+He told her. He had watched from the ridge above the ford. The king had held it alone, three days and three nights, and the host of the east had come at him down both banks and through the water, and the water was so full of their dead that it rose behind them and spread out over the meadow. On the third night the king went down. No one man had done it. They had come at him until there were no more of him to come at.
+
+"And his kin?" said the boy, looking at the tents. He had come a long way. "Where were his kin?"
+
+Sìne did not answer that, and she took him up to the tents.
+
+She remembered afterward, and told it to her daughters, that the first thing said when the news went into the camps was a question about the hill. A steward in a blue cloak came out of the nearest fire-circle, heard the boy through, and turned round to the men behind him and said, "Who holds the hill now?" She watched that question go through the valley faster than the grief did. For a while no one keened at all. Then a woman in one of the upper camps, a daughter of the king, so old that her hair had gone white and then gone thin, began to keen alone, and the valley took it up from her fire to the next, until the whole of it was crying in the dark, and the herd-boy with it.
+
+Of all the kin only one had gone after the king, and he had gone late. Ìomhar Dearg, a son of the king some fourteen hundred years old, had stayed in the valley three days to argue for a stretch of river-grazing, and then had called up his household and ridden east ashamed. He came to Àth na Fala on the morning after the king fell. He found the river dammed and the meadow drowned, and on the dam his father, and beyond it the host of the east lying spent in the heather, too tired to stand. Ìomhar Dearg fell on them. By evening he held the ford, and in the days after he took Dùn dhearg and burned the halls within its double bank, and those of its people who lived he took under his own hand. He sent his father's body up to Dùn ìseal on a bier made of the host's spears. He did not come himself for nine days, and when he came, he came as the lord of Dùn dhearg. His holding was called afterward *an Earrann Dhearg*, the Red Share, for the hill and for the blood; and it was the one share on the island that was won with a sword before the parting and never given in it.
+
+They carried the king up the valley road, and the heirs came out of the tents to see him go by. Sìne stood among them. She had seen him three times in her life, and each time far off, a tall man on a horse at the edge of a gathering. She saw now that he had not grown old. His hair was dark and his face was a young man's face, and the wounds were all in front. Behind the bier walked two of his sons, and both of them were grey.
+
+Where they laid him, the tellers of Dùn ìseal and the tellers of the Mason's line do not agree, and each has a mound to show.
+
+Then the heirs sent to every coast, and the kin who had not been in the valley came in, and the eldest keeper of the slab came down to Sìne's house and asked her for a new cord.
+
+"The households are counted," she said.
+
+"Not the households," said the keeper. "The heirs. They will want to know how many there are before they start. And they will not believe each other."
+
+So Sìne sat at the door of the long gathering-house below the hill, with the new cord in her lap and a basket of flax beside her, and every one of the kin who stood up to claim came before her and said the line of their claim, and she tied a knot. That gathering is called *Cruinneachadh nan Oighrean*, the Gathering of the Heirs.
+
+The eldest to come before her was Murchadh Mòr, the king's eldest living son, near two thousand nine hundred years old. He was the first of them that she knotted, and he stood over her the whole time she tied it, as if she might tie it loose. He had a voice like a door on a cold hinge, and he gave his line in two words, "Ailean's son," and looked down the valley to see who would argue. Nobody did.
+
+The sharpest was Eithne nic Ailein, a daughter of the king, some nineteen hundred years old, small and quick, who had brought her own knot-keeper with her and set him on the step beside Sìne to count the count after her. On the fourth day he told Eithne that Sìne had made no mistake, and Eithne sent him home.
+
+The one who laughed was Niall Òg. He was a grandson of the king, and at nine hundred years he was a boy beside his uncles and aunts; so they called him the Young, and he never got rid of it. He gave his line through his mother and then through his father, and when Sìne looked up at the second he grinned and said, "I'm owed twice," and she tied the knot once.
+
+The youngest to be knotted was a child in arms, a great-great-grandchild of the king, whose mother held it up in both hands to be seen.
+
+Not every line came. The line of Somhairle, who had lived among Clann na Ceiste and died long before his father, held no share of the hill and sent no one to claim. One of that line, Gille-Brìde, came up to Dùn ìseal for the Binding and was there when the flame was sworn; and he carried a coal of it home to the hills and asked for nothing, and no knot was tied for him.
+
+The cord took eleven days. At the end it held seven hundred and twelve knots, and it was laid out down the whole length of the gathering-house floor, from the hearth to the door and back, and the heirs walked along it in their good cloaks, looking for their own knots and counting the knots on either side.
+
+## II. Of the Binding of the First Flame
+
+Under the king the hill-folk of Dia-thìr had burned the coloured coal by the handful and shared their grain before the storms, and at every gathering they said that they had always been on the island and had come from nowhere. Nine keepers, one drawn by lot for each district of the hills, watched the slab over the crack at Tobar dhìreach. All of it was custom. The king's word was the only law, and the king was dead.
+
+So the first quarrel of the heirs was over the hill of Dùn ìseal, and it came before any other, because the hill stands over the vein. The king had held it in his own hand at the last, and had given it to no one. Every line in the gathering-house claimed it, and each by a different rule.
+
+Murchadh Mòr claimed it by the rule of the eldest. Eithne nic Ailein rose and said that the eldest had only to die for the hill to be parted among his eleven sons, and that she for one would sooner not live to see it; and Murchadh said that she was not likely to, and there was nearly blood on the floor of the gathering-house on the first day. Others claimed the hill by the rule of the living, who were children of the king, over the dead, whose lines were only grandchildren; and the lines of the dead answered that the king had loved their fathers as well as anyone. A cousin from the western shore, whose name the tellers have let go, stood up and said that the hill could be cut like any other ground. Give each of the great lines a gallery, he said, and let each dig its own.
+
+The nine keepers of the slab were sitting at the back of the house on a bench of their own. The eldest of them got up then. He was older than any keeper had been before him, and younger than the youngest of the king's sons.
+
+"Cut the vein, and it bleeds," he said. "You will be parting it for as long as there is any of it left to part, and then you will part the hole."
+
+Then he asked them what the keepers had asked Catrìona Mhòr, and what she had told them to ask again: that the keepers' charge be declared before the whole gathering. He asked more than that. He asked that the vein and the hill over it be put into no share at all, and that no one of the king's blood hold it.
+
+The heirs were quiet for a long while. Then Eithne nic Ailein laughed, and said that she would sooner nobody had it than Murchadh. Murchadh said that he would sooner nobody had it than Eithne. So it went down the house, line by line, each of them willing to give the thing away sooner than see a cousin get it; and the tellers of Dùn ìseal, who love the Binding, admit that this is how it was won.
+
+The Holy Age opens with that oath. On {{date:II-0001}}, three weeks after the king fell at the ford, a custodianship was declared over the vein beneath the central mountains, and that swearing is called the Binding of the First Flame. The heirs swore it first of all, before they had agreed on anything else, and it was the one oath all seven hundred and twelve of them could take.
+
+The flame bound that day was Brìde's undying flame. The tellers of the Mason's line hold that it was first kindled from the mason's fire, which the lightning lit in the broken vein at the beginning of the count; but they keep the two apart, as the Keepers did. The mason's fire is the first fire, and the First Flame is the flame that was sworn to. The vein and the slab over it were given to Crom Cruaich, the bent one of the mound, whose price is measured. One order took both into its keeping, Òrd Bhrìde, the order of Brìde's flame, eldest of the orders of the Old Faith. It was a faith and a government at once, the first such thing on Dia-thìr that no one of the king's blood could hold, and it stood for centuries before any rìgh rose again in the lowlands. Through all the parting and the strife that came after, it was the one thing on the island that every share had sworn to. Whoever came after to rule the roads and harbours ruled beside it and never over it, for as long as the age lasted.
+
+## III. Of the Parting of the Kingdom
+
+With the hill out of the reckoning the heirs turned to the rest, and they sat on at Dùn ìseal to part it ({{date:II-0001a}}). They sat through that winter and the summer after it, and the tellers say that the grass of the valley did not grow back for three years where their tents had stood.
+
+Four rules were put before them, and each rule had a hundred heirs behind it. By the rule of the eldest the kingdom went to Murchadh Mòr, and the rest could be his men. By the rule of the living every living child of the king took an equal share, and there were more than a score of them. By the rule of the dead every child of the king who had ever lived took a share, living or not, to be held by their lines; and the dead children of the king outnumbered the living, for he had been having children for four thousand years. And by the rule of the lot, which only the youngest heirs wanted, the whole island was to be parted into seven hundred and twelve pieces and drawn for.
+
+What they agreed at last was all four rules at once, and no one ever pretended it was simple. The kingdom was cut into nine great shares, *earrannan mòra*, one for each of the nine eldest lines of the king's blood that had living heirs to hold them. Out of all nine a part was set aside for the lines of the dead, and it was called *cuid nam marbh*, the portion of the dead; so every great share owed land to cousins who were not its own. The Red Share of Ìomhar Dearg was let stand, over the protest of four lines, because nobody could see how to take it from him. And by a clause that every heir swore to with some private reservation, none of them was to be called rìgh. There had been one rìgh, and none of them was fit to follow him, and each of them was sure that the others were less fit still.
+
+Then there was the matter of who among the seven hundred and twelve belonged to which of the nine. It was settled with Sìne nan Snaidhm's cord.
+
+Niall Òg was there, and in later centuries he told it often, to anyone who would sit with him.
+
+They had laid the cord along the floor of the gathering-house again, he said, from the hearth to the door, and the heads of the nine lines were to cut it into nine lengths, each length with the knots of the heirs who would hold under that share. It was the night of the handful, the dark of the year, and every hearth in the hills was burning its measure at once, and the gathering-house was so full of smoke and people that he could hardly see the floor. Each of the nine had a knife. Each of the nine walked the cord first, bent over with a lamp, counting, and then walked it again. The rest of them stood along the walls and watched their own knots.
+
+Murchadh Mòr cut first, and he cut where he meant to. After him it went worse. Eithne nic Ailein knelt a long time over the place she wanted, and when she cut, her knife went through a knot. The house went quiet. Somebody asked whose knot it was, and it was a cousin of Niall's, a woman of the salt shore, who stood by the wall with her hand over her mouth. Was she Eithne's, or was she the next share's? Eithne said she was hers. The head of the next share said she was his. The woman said she would take both, if they would let her.
+
+"And that," said Niall Òg, when he told it, "is where the whole of the trouble came from. There were eleven knots cut through before the night was done. I watched every one. I'd have given a year of my life to be one of them, and I've a good many years."
+
+Eleven heirs, cut through, were heirs of two shares and owed oaths to two lords. Theirs were the first double oaths on Dia-thìr, and they were not the last.
+
+On {{date:II-0001b}}, the night of the handful, the heirs swore the parting of the kingdom, *Roinn na Rìoghachd*. Murchadh Mòr took the great share of the north, with his seat at Baile Mòr mhòr. Eithne nic Ailein took the lowland plain about Cathair mhòr. The western share had its seat at Ros dhomhain on the harbour, and the share of the salt shore at Baile ghorm. The tellers name the rest each in a different order, and they are not agreed on which share had Dùn chrom in the middle of the island, or which had Dùn thais, which is a fair picture of how it was.
+
+The Red Hill was the worst of it. Its holders had bent the knee to the king himself and to no one else, and never to Dùn ìseal. Now its holder stood up in the gathering-house and said that the Red Hill had sworn to Ailean Mòr, and Ailean Mòr was dead, and so the Red Hill was sworn to nobody. Three of the great shares claimed it that same evening. It stayed sworn to three and served none, and it dwindled, as a thing does that everyone claims and nobody keeps.
+
+The great shares were only the beginning. Every holder of a great share had children, and grandchildren, and the lesser blood of the portion of the dead to fit in, and so each share was parted again, and its parts parted again, before the heirs had gone home from the valley ({{date:II-0001d}}). The great shares were cut into countries, the countries into provinces, the provinces into counties, and the counties into holdings, and under every holding there were households who had never asked to be anybody's and now found that they were three people's. The clerks of the Hall, who kept the roll of what the heirs had sworn, counted nine great shares, forty-four countries and a hundred and thirty-one provinces. At the counties they gave up. A mill on the Abhainn dhomhain paid a sack of meal to one lord and its pond to another, and its miller was sworn to a third, and the three of them met in the mill-yard every autumn to quarrel over the eels.
+
+The boundaries were marked with stones, *clachan-crìche*, cut with the sign of each share on the face that looked into it. They were set up, and moved in the night, and set up again, and moved again, until the carriers learned to walk a road by the stones and to take no notice of what was cut on them.
+
+## IV. Of the First Blood and the Strife of the Heirs
+
+Dùn thais stands on its hill north of Dùn dhearg, the first fort the Dia-thìrich ever banked away from Dùn ìseal and the Red Hill. At the Roinn the knives on the cord put it on the line between the great share of the north and the Red Share of Ìomhar Dearg, and nobody could say on which side of the line it fell. The men who set the stones set one on each side of the bank. Neither share would let the other's stone stand.
+
+Ruairidh Glas was a grandson of Ìomhar Dearg, some three hundred years old, and on {{date:II-0001c}} he came up to Dùn thais in the rain with twenty men to drive the cattle off the northern slope, which his grandfather said was theirs. Aonghas Bàn mac Mhurchaidh, a grandson of Murchadh Mòr, was on the bank above with twenty men of his own to see that nobody did.
+
+It was a small, cold, stupid fight, and Ruairidh Glas remembered all of it. He remembered the cattle bawling and the mud over the tops of his shoes. He remembered Aonghas Bàn coming down the bank at him with a stick, a herding-stick, shouting that the stone was on the wrong side; and he remembered that his own spear was already up, because he had been afraid of the men on the bank, and that Aonghas ran onto it.
+
+He knelt by him in the mud afterward. Aonghas Bàn was four hundred years old, and he had the face of a man of thirty, and by the long years of his line he had perhaps a thousand more to come. Ruairidh Glas said so, over and over, to the men who came to lift him. "I have killed a thousand years," he said. They took him home. He lived a long time after that, and he did not come back to Dùn thais.
+
+With that death began *Aimhreit nan Oighrean*, the strife of the heirs. It was a feud first between the line of Murchadh and the line of Ìomhar, and then, as the lines married and quarrelled and married again, between nearly every line of the king's blood and some other.
+
+It was a strange kind of strife, and the tellers have never found another like it. Among other peoples a feud outlives the men who began it. Among the heirs of Ailean the men who began it lived on, sometimes for a thousand years, and remembered every word. A grandson of the king who had been insulted at a wedding could carry the insult for four centuries and take it to the wedding of the insulter's great-grandchild. An heir killed in a feud was a loss beyond counting, for he took with him all the centuries he would have lived; so the kin fought seldom, and they fought bitterly, and they never forgot. And there were more heirs every generation, living shorter lives, which gave them less time to hate one another in and did not make them hate one another less.
+
+The worse trouble was that the Roinn was never finished. At every death of a holder the share was parted again among the heirs, smaller, and every parting was a new quarrel. Murchadh Mòr died in the Hall's first century, close on three thousand years old, and his great share of the north was cut among his eleven sons, and then among their sons, until the north was a floor of counties that could none of them raise twenty spears. Ìomhar Dearg did not wait for age. He was killed by a cousin's spear at a ford in the Hall's second century, one more child of the king to die as Iain Dubh had died, and the Red Share passed whole to his eldest, because nobody in that line would let it be cut. The tellers say that this was the only wise thing the line of Ìomhar ever did, and that it did it for the wrong reasons.
+
+In all of it the Hall at Dùn ìseal took no side. The Keepers fed no warband and blessed no raid. The Binding held in every share alike: the same handful was burned in the north and in the Red Share, and a household sworn to three lords burned it once. The ground of the Hall was the one place on the island no feud could follow a man to, and heirs who had not spoken for two hundred years would stand side by side in the valley at Samhain and not look at one another. So in the years of the strife the Hall was the one thing that every share still held in common, and it grew great on that.
+
+Under the lords the households went on as households do. They cut the coal at the measure, and carried it, and burned it, and paid their dues to whichever lord came for them first, and their neighbours paid the other one. The tellers of Dùn ìseal, when they have finished with the heirs, like to say that the island was never so well governed as when all its governors were busy with each other.
+
+## V. Of Beathag Bhàn and the First Keepers
+
+A flame that no heir might hold still wanted a hand to hold it. The heirs had sworn the Binding in the first weeks; they found a Keeper only when the Roinn was sworn and its first blood shed, and the choosing came at Dùn ìseal under the mountain, on {{date:II-0002}}.
+
+Beathag Bhàn stood at the back of the crowd, with the mud of the path still wet on her shins. A wind came down off the high passes and tugged at every cloak on the slope. The keepers of the slab sat on stones in a half-ring, and behind them stood the households who had sworn the Binding, smelling of wet wool and peat-smoke and the coal-dust that never quite washes out of a hill-woman's hands. Further up the slope, in their good cloaks and a little apart from one another, stood the heirs who had sworn it first.
 
 Someone spoke her name. Then the crowd parted, as barley parts when a hare runs through it, and she found herself walking down the lane it made. The eldest of the keepers held out a lit rush in his cupped hands, as a man holds water he is afraid to spill.
 
@@ -28,7 +137,7 @@ Someone spoke her name. Then the crowd parted, as barley parts when a hare runs 
 
 She took the rush. It stank of tallow, and the little flame leaned away from the wind toward the mountain. She found she had nothing to say, so she said nothing; and the Keepers after her counted that silence in her favour.
 
-Of what she had been before that morning, nothing is kept. The Keepers' recited roll begins with her name, and no name stands before it. The Library mistrusts a roll that begins so bare, but it has found nothing to set against this one.
+Of what she had been before that morning, nothing is kept, except that she was of no heir's blood and held no share, and could be claimed by no line in the valley. The tellers of Dùn ìseal say that the heirs let her be chosen for that reason and for no other, and that it was the best reason they ever had. The Keepers' recited roll begins with her name, and no name stands before it. The Library mistrusts a roll that begins so bare, but it has found nothing to set against this one.
 
 Nine households round the mountain's foot, one for each district of the old keepers of the slab, took the tending of the flame by turns, each sending a son or a daughter to sit with it through a season. These were the nine hearths, and more houses in later days claimed descent from them than nine hearths could ever have bred. Over the flame they raised Talla na Lasrach, the Hall of the Flame, of dry stone and turf, with one door facing the vein and none facing the sea. Brìde's flame burned within; Crom's stone lay under the mountain beyond the door. Many times the Hall was rebuilt on the same footings, and the footings are all that anyone can now swear to.
 
@@ -40,7 +149,7 @@ Once Beathag Bhàn walked to Làrach an Teampaill, the ruined temple of the Old 
 
 She died at Dùn ìseal, and they laid her on the slope with her face to the vein and her back to the sea, though it is over the sea, in Taigh Dhuinn, that the dead are gone. The nine hearths chose her sister's son, Muireach Liath, to keep the flame after her.
 
-## II. Of Muireach Liath and the Silver
+## VI. Of Muireach Liath and the Silver
 
 *At Muileann chiar, when a crucible is set on the coals, the old smiths tell this while they wait for the metal to run.*
 
@@ -57,11 +166,11 @@ When the Hall was asked whether the seam fell under the flame, Muireach Liath tu
 > *Chan eil fuil san airgead, agus chan ann leis a' bheinn a tha e.*
 > There is no blood in silver, and it is not the mountain's.
 
-Silver shows no colour when broken, and so it was not holy to Crom. The smiths gave their first ring to Goibhniu, the smith of the gods, and the Hall said nothing against it. Muileann chiar was left free to dig as deep as it liked, and it dug. Every later quarrel over the silver began from that sentence. Carriers took the rings down to Ros fhionn and traded them for salt fish and sealskin, the first trade on the island made in anything but food, and the first whose price is remembered. One ring bought a boatload.
+Silver shows no colour when broken, and so it was not holy to Crom. The smiths gave their first ring to Goibhniu, the smith of the gods, and the Hall said nothing against it. Muileann chiar was left free to dig as deep as it liked, and it dug. The seam lay in a county of the eastern share that two cousins had claimed since the Roinn, and since the Hall would not take the silver, the cousins went on quarrelling over it; the smiths paid a ring to each of them and dug on. Every later quarrel over the silver began from that sentence. Carriers took the rings down to Ros fhionn and traded them for salt fish and sealskin, the first trade on the island made in anything but food, and the first whose price is remembered. One ring bought a boatload.
 
 Muireach Liath died at Dùn ìseal, keeping the flame. The nine hearths passed over three candidates of other lines and chose his daughter, Gormshuil nic Mhuirich. Her kin came to be called Sliochd Mhuirich, the house of Muireach, the first custodian house known by a name and no longer by a hearth, and the office stayed with them for many generations. The other hearths made no complaint that anyone kept, say the smiths; but then, they add, it was Muireach's own people who did the keeping.
 
-## III. Of the Stag and the Stone Cup
+## VII. Of the Stag and the Stone Cup
 
 In Gormshuil's years a school arose in the east that would spread wider than any order on the island: the first of the druid schools, Scoiltean nan Draoidhean, which the east still calls Feallsanachd an Fhèidh, the Philosophy of the Stag. It began with one stubborn woman. Sìleas nic Coinnich, a cutter of Muileann chiar, had seen the coal break bright with its colours under some picks and dull under others, and she would not leave the thing alone. The old tellers said that she had caught the question of the Mason's children, who in the Ancient Age had asked what the seven coals were for. She taught in Coille Naomh Muileann chiar, and her hearers kept her question as she left it:
 
@@ -84,7 +193,7 @@ He had brought the old keepers' stone cup, a thing of the Age of Ailean, re-cut 
 
 They poured it for him, a little at a time. He did not know whose hand poured, and he did not ask. When the black grains rose to touch his palm, level with the rim, he said, "Enough," and took his hand away and let them look. No one afterward could say he had favoured anyone's hands.
 
-On {{date:II-0027}} the custom hardened into the Small-Burning Law: no household might burn more than a measured handful of coal in a season. It held for centuries.
+On {{date:II-0027}} the custom hardened into the Small-Burning Law: no household might burn more than a measured handful of coal in a season. It held for centuries. It was the first law that ran in every share alike, and no lord of any share had made it; the lords grumbled at it, and burned their handful like everyone else.
 
 Its first sentence fell on a household of Seann Tarr that had burned twice its measure. It lost its right for the season after, and its name went on the roll with the offence beside it. Its descendants petitioned for many centuries to have the offence struck out, and never won, and the offence is the only reason anyone remembers them.
 
@@ -95,7 +204,7 @@ The Keepers carried the Law to the coasts. No coal, they ruled, might feed a bea
 
 So the fire on the headland at Tobar dhearg was kept with driftwood and seal fat, and so was every sea-light on the island after it.
 
-## IV. Of the Roads, the Bridges and the Road-Peace
+## VIII. Of the Roads, the Bridges and the Road-Peace
 
 *This is how the carriers tell it at the long table of the house that is now Am Buabhall Fortanach, while the jugged buffalo sits on the fire.*
 
@@ -105,7 +214,7 @@ Above Ros fhionn, Ailean Clachair and forty masons of the nine hearths threw a s
 
 Houses grew along the roads to feed the people on them, the forebears of Am Buabhall Fortanach, An Taigh-òsta Grianach and the rest of the circuit. The carriers always begin with this one. Its first keeper was Mòr nic Dhùghaill, a widow of Doire shean, who served carriers jugged buffalo from her own herd, and here the carriers bang the table, for the house serves it still. Where An Taigh-seinnse Mòr stands there was then a turf longhouse with a hearth at each end, one for carriers going up and one for carriers coming down.
 
-Then the keepers of the houses made a law of their own: no feud might be pursued under an inn roof, nor within a spear's throw of its door. It was first kept at the house where An Sligeanach Fad' às now stands, and it is the oldest law on the island that no Keeper made. The carriers put it plainly:
+The roads ran from share to share, and a carrier on them might pass a dozen boundary stones in a day, and the feuds of every lord whose stones they were. So the keepers of the houses made a law of their own: no feud might be pursued under an inn roof, nor within a spear's throw of its door. It was first kept at the house where An Sligeanach Fad' às now stands, and it is the oldest law on the island that no Keeper made. It was made against the strife of the heirs, and heirs who would not speak to one another in the valley at Samhain sat at the same long table under that roof, and did not speak there either. The carriers put it plainly:
 
 > *Fo mhullach an taighe, chan eil nàmh ann.*
 > Under the roof of the house, there is no enemy.
@@ -117,11 +226,11 @@ The roads carried settlers too, to coasts that had names already. Fishers of the
 
 Fionnlagh Dall died at Dùn ìseal. At his own asking he was not laid on the slope with the Keepers before him. He was carried south to the old graves near Cnoc dhìreach, which no living people had claimed, and his bearers took eleven days over the road and laid him among graves older than any name. Why he asked it, the Keepers after him gave two answers and would not choose between them, and the carriers do not choose either. So Tuam Cnoc dhìreach, ancient already, received its first burial that anyone set down, and a graveyard that no one owned became one that somebody did. Families settled nearby to tend it, and the Hall paid them one handful of coal each a season. It was the only payment in coal the Law ever allowed, and the carriers, who carried every other handful on the island, find that fitting.
 
-## V. Of the Four Houses and the Reverent Centuries
+## IX. Of the Four Houses and the Reverent Centuries
 
-In time the nine hearths chose a Keeper from outside the house of Muireach: Eilidh nic Ìomhair of Dùn dhearg. Sliochd Mhuirich refused her for a season, and then accepted her on one condition, that the stone cup never leave Talla na Lasrach. It never did.
+In time the nine hearths chose a Keeper from outside the house of Muireach: Eilidh nic Ìomhair of Dùn dhearg. She was of the line of Ìomhar Dearg, and so of the king's blood, and the Binding had sworn the flame to no one of the blood. Her friends answered that by then there was hardly a household in the hills without a drop of the king in it somewhere, which was true, and changed nothing. Sliochd Mhuirich refused her for a season, and then accepted her on one condition, that the stone cup never leave Talla na Lasrach. It never did.
 
-Under Eilidh the office was bound to four houses of custody: Sliochd Mhuirich of Dùn ìseal, Sliochd Ìomhair of Dùn dhearg, Sliochd Thormoid of Seann Dunn, and Sliochd Raghnaill of Seann Tarr. The other hearths kept their council seats but lost their claim to the flame. Most of the island's later nobility comes down from one of the four, or says it does, and from here onward the tale of the age is largely theirs.
+Under Eilidh the office was bound to four houses of custody: Sliochd Mhuirich of Dùn ìseal, Sliochd Ìomhair of Dùn dhearg, Sliochd Thormoid of Seann Dunn, and Sliochd Raghnaill of Seann Tarr. The other hearths kept their council seats but lost their claim to the flame. Sliochd Thormoid claimed for its root Tormod Liath, who had held the hill under the king, and Sliochd Raghnaill claimed Raghnall Ceannfhionn; so three of the four were of the blood, or said they were, and only the house of Muireach was not. Most of the island's later nobility comes down from one of the four, or says it does, and from here onward the tale of the age is largely theirs.
 
 Sliochd Thormoid raised a hall and a shrine at Seann Dunn, facing the mountain across the river. Its coal-lamp burned at the Law's measure, and the other houses grumbled that Seann Dunn's measure was always the fullest. Sliochd Raghnaill made its seat at Seann Tarr, the very town first sentenced under the Law, kept boats where the others kept galleries, and grew rich on fish. Its boats sailed round Eilean dhubh and came home, the first voyage ever made only to look at a coast.
 
@@ -129,19 +238,45 @@ Not everyone lived inside the Law. Households stripped of their right for a thir
 
 Fishers resettled Seann Bhrenn, kept its old name, and used the stone quay they found under the silt. At Cathair naomh a cairn for the dead was begun that is growing yet. When the great cats' crossing was found to run over the southern road, Eilidh ruled that no panther might be killed there in its season, and the rule held, for it cost the carriers only time.
 
-At Dùn dhearg, Sliochd Ìomhair built granaries of stone and filled them from the lowland fields against the storm season, as the old custom of sharing asked. The granaries gave that house something the Hall had never had: people who owed it their bread.
+At Dùn dhearg, Sliochd Ìomhair built granaries of stone and filled them from the lowland fields of the Red Share against the storm season, as the old custom of sharing asked. The granaries gave that house something the Hall had never had: people who owed it their bread.
 
-In those days, the reverent centuries, each generation mined the same modest measure and burned the same modest measure, and the number of the people stood still. Shepherds took the uplands at Achadh chaol; their headman sat one season on the council, was found to hold no hearth-right, and went home. Coinneach Mòr mac Tormoid, first Keeper of his house, kept the flame longer than any before him and changed nothing at all. He sent walkers out to list the ruins of the Old Ones, and they came back with Làrach an Dùin-fhaire, Làrach an Dùin, Làrach an Teampaill and the standing stones. Beside each place the list says who does not own it. It does not say who built it, for the Keepers ruled that it should not guess. At Cnoc bheag the people fenced the old obelisk with stakes against the cattle, and every generation since has renewed the fence. Over the springs at Muileann ruadh a bath-house was roofed, and the Hall named a keeper of the springs in Dian Cècht's name, the first office it made that had nothing to do with the coal.
+In those days, the reverent centuries, the lords fought over the shares and the households under them went on as before. Each generation mined the same modest measure and burned the same modest measure, whichever lord's stones it lived between, and the number of the people stood still. Shepherds took the uplands at Achadh chaol; their headman sat one season on the council, was found to hold no hearth-right, and went home. Coinneach Mòr mac Tormoid, first Keeper of his house, kept the flame longer than any before him and changed nothing at all. He sent walkers out to list the ruins of the Old Ones, and they came back with Làrach an Dùin-fhaire, Làrach an Dùin, Làrach an Teampaill and the standing stones. Beside each place the list says who does not own it. It does not say who built it, for the Keepers ruled that it should not guess. At Cnoc bheag the people fenced the old obelisk with stakes against the cattle, and every generation since has renewed the fence. Over the springs at Muileann ruadh a bath-house was roofed, and the Hall named a keeper of the springs in Dian Cècht's name, the first office it made that had nothing to do with the coal.
 
-## VI. Of the First Rìgh and the Division of Keeping
+## X. Of the War of the Two Oaths and the Peace of the Threshold
+
+*The reapers of Achadh mhòr tell this at the end of harvest, when the last sheaf is cut, and they cut it high.*
+
+By the Hall's sixth century few were left of the seven hundred and twelve who had stood up at the Roinn. The long years had thinned in every line. The holders of the shares were great-grandchildren of the heirs and further, who lived long lives by any other people's reckoning and short ones by their grandfathers', and the shares had been parted at so many burials that most holdings could not raise a score of spears. The strong were the lines that had kept a share whole, as Ìomhar's had, and the few of the old heirs still living. Among those was Eithne nic Ailein, in her hall at Cathair mhòr, who had cut a knot on the cord and never let anyone forget it.
+
+Between Eithne's plain and the Red Share lay Achadh mhòr, the great granary fields. Its lord in those days was Fearghas, whose grandmother had been one of the eleven knots the knives went through, and who held his fields by oath both to the lord of Dùn dhearg and to Eithne. The island called him Fearghas Dà-Mhionn, Fearghas of the Two Oaths, and for most of his life it was a joke. He sent his sheaves to both lords, a little short to each, and each of them thought the other was getting the full measure.
+
+The joke ended over a marriage. A great-grandson of Eithne took a daughter of the line of Ìomhar to wife, to heal the old feud, and she died in the first winter, and both houses claimed the lands she had brought. Each lord sent to Fearghas to bring his spears against the other. By then there were some hundreds of holdings on the island sworn to two lords, and every one of them had to choose, and the ones that chose were burned by the side they had not chosen, and the ones that would not choose were burned by both. That was *Cogadh an Dà Mhionn*, the War of the Two Oaths, and it went on in fits for some forty years.
+
+Fearghas Dà-Mhionn chose nobody. He was old by the end, and he had seen a good deal of burning.
+
+In the heat of Lùnastal the word came to him that both hosts were on the road, the Red Share's from the east and Cathair mhòr's from the west, each to take his harvest before the other could. The barley was standing ripe to the edge of the sky. He walked out into it in the evening with his steward behind him, and ran his hand over the ears, and looked east, where there was dust on the road, and west, where there was more.
+
+"Whichever I feed, the other burns me," he said. "I've sworn to both of them. Let them both have it."
+
+He took the torch himself. On {{date:II-0064b}} the fields of Achadh mhòr burned from the eastern stones to the western, and the two hosts came over the rises at either end and found nothing to take but smoke. The fire went into the steadings and took the hall, and Fearghas with it, for he had gone back inside and shut the door. That winter the middle of the island went hungry, and the rolls of the Hall count the dead of that winter among the dead of the war.
+
+It was the hunger that made the peace, where forty years of burning had not. The lords of the shares came to Dùn ìseal at Samhain. They would not meet in any hall of their own, for no lord would go under another's roof, and so they met at Talla na Lasrach, on its threshold, where the stone cup stood. Eithne nic Ailein came up the path in a chair, two thousand four hundred years old and the last living of the nine who had cut the cord, and she swore first.
+
+On {{date:II-0064c}} they swore *Sìth an Stairsnich*, the Peace of the Threshold, with the Keeper for witness. No share was to be parted again at a death: a holding was to pass whole to one heir, named by the dying lord, or, if he named none, by the Keeper. No one was to swear to two lords, and whoever held such an oath that day was to give up one of them before the spring. The boundary stones were to stand where they stood that morning, and whoever moved one after was to answer at Dùn ìseal. So ended Aimhreit nan Oighrean, the strife of the heirs, some five hundred and fifty years after the first blood at Dùn thais.
+
+After the Peace the shares no longer shrank. They grew instead, by marriages and by lords dying without heirs, and the map of the island, which had been broken smaller at every burial since the Roinn, began slowly to gather. Many of the stones set that morning stand still, on the bounds of fields and parishes and shires, and the carriers who walk past them have long ago stopped reading the signs cut on their faces.
+
+## XI. Of the First Rìgh and the Division of Keeping
 
 In the generations after Coinneach Mòr the rolls grow fuller, and in them the island can be watched filling out, as a field fills with barley.
 
-The silversmiths of Muileann chiar cast weights from a barley-corn to a newborn lamb, and a thing weighed there was weighed fairly. The stag's people founded a house at Cnoc bhàn, and the Keeper Seonaid Chiar let their cutters back into the galleries on oath to ask nothing of the vein aloud. The Hall called it a reconciliation; the school still calls it a truce. Cathair mhòr built the first town wall on the island and never said what it feared. Ceann leathan's harbour-master kept notched tally-sticks, and they lie now at Muileann chaol, the oldest counted things there. Inis thais burned its handful on the shore so that the drowned could see it, and the salt of Cuan shean kept the fish of half the island. The sunny house rose where An Taigh-òsta Grianach stands. A roof fell in the highest gallery and killed four cutters, and Seonaid Chiar propped every gallery with oak.
+The silversmiths of Muileann chiar cast weights from a barley-corn to a newborn lamb, and a thing weighed there was weighed fairly. The stag's people founded a house at Cnoc bhàn, and the Keeper Seonaid Chiar let their cutters back into the galleries on oath to ask nothing of the vein aloud. The Hall called it a reconciliation; the school still calls it a truce. Cathair mhòr built the first town wall on the island and never said what it feared; the reapers of Achadh mhòr say that it had not forgotten the smoke. Ceann leathan's harbour-master kept notched tally-sticks, and they lie now at Muileann chaol, the oldest counted things there. Inis thais burned its handful on the shore so that the drowned could see it, and the salt of Cuan shean kept the fish of half the island. The sunny house rose where An Taigh-òsta Grianach stands. A roof fell in the highest gallery and killed four cutters, and Seonaid Chiar propped every gallery with oak.
 
 Carriers founded Cathair dhomhain above the western harbour, proud of keeping the measure strictly. A few miles off, at the bridge-foot on the Abhainn dhomhain below Loch chrom, the Red Hill's old settlement, long shrunk to a fishing town on red stone, began to grow again. In those days Cathair dhearg was a place carriers passed through on the way to somewhere else.
 
-At Dùn dhearg the lowland households who ate from Sliochd Ìomhair's granaries began to call the head of that house their rìgh, their king. He was Goraidh mac Ìomhair, and no ruler of the lowlands before him had borne the word; only the Line of the Mason remembered that the gods had once given it to Ailean Mòr in the grove. The granaries gave it to him.
+The Peace of the Threshold had stopped the shares from breaking, and after it they began to gather. The first to gather them was of the line of Ìomhar. Goraidh mac Ìomhair, head of Sliochd Ìomhair, held the Red Share whole, as his fathers had; and by the deaths of two cousins without heirs, and by his marriage to a third, he came to hold three of the old counties of the east beside it, parted since the Roinn and now in one hand again ({{date:II-0076a}}). By the Peace no one could part them at his death.
+
+Then the lowland households who ate from Sliochd Ìomhair's granaries began to call him their rìgh, their king. No one had borne the word since Ailean Mòr. At the Roinn the heirs had sworn that none of them would take it, and in the centuries since, the Line of the Mason had been nearly alone in remembering that the gods had once given it to Ailean in the grove. The heirs of Ailean did not give it to Goraidh. The granaries did.
 
 He went up to Dùn ìseal in the spring to meet the council, on foot, as a carrier would.
 
@@ -165,7 +300,7 @@ At Muileann chiar the stag's teachers turned the cutters' tally-notches into sig
 
 Dòmhnall's niece Sìleas Dhonn made the waypoint-keepers come to her hall once a year and render account of the tolls. Several of them did.
 
-## VII. Of the War of the Roads
+## XII. Of the War of the Roads
 
 Caol leathan in the south-west grew fat on the western fishing and the southern end of the carriers' road, and its leading family under Lachlann Ciar began to keep the road-toll and send none to Dùn dhearg.
 
@@ -173,7 +308,7 @@ Iain Garbh, Iain the Rough, son of Sìleas Dhonn, sent west to demand the tolls.
 
 He looked at them a long time. Then he laughed, which frightened his household more than shouting would have, and called for the road-guards.
 
-He marched west with the road-guards and the lowland levies and burned the toll-house at Muileann òg that Lachlann Ciar's people had taken, and he watched the thatch go up with his arms folded. It was the first war between Dia-thìrich and Dia-thìrich, and it was fought over the roads the first rìgh had been made to keep.
+He marched west with the road-guards and the lowland levies and burned the toll-house at Muileann òg that Lachlann Ciar's people had taken, and he watched the thatch go up with his arms folded. It was the first war on the island since the Peace of the Threshold. Every war before it had been fought over a share, and this one was fought over the roads the first rìgh had been made to keep.
 
 The Hall blessed neither side. When Iain's messengers asked at Dùn ìseal for the Hall's handful to light the warband's hearths, the Keeper Uisdean mac Ruairidh sent them back empty, and made them repeat his answer before they went:
 
@@ -194,7 +329,9 @@ It left three things. Caol leathan's fighters became its road-guards and swore t
 
 Catrìona Ghlic, Catrìona the Wise, mended the breach. She sent her own son to sit with the flame for a season, the first of the royal house to do so since the division, and by the end of her reign the Hall and the hall were speaking again. She had houses built on the northern road where An Leòmhann Buidhe and An Taigh-seinnse Reòta stand, the second out on the open moor for carriers caught by snow; its keepers were paid in grain by the Hall and in cloth by the crown, and grumbled at both. Inis mhòr, on the wool trade, outgrew every northern town.
 
-## VIII. Of the Letters, the Woods and the Measuring of the Vein
+In those years, on {{date:II-0106b}}, Eithne nic Ailein died in her hall at Cathair mhòr, the last of the nine who had cut the cord at the Roinn. She had been born in the height of her father's days, and she had outlived nearly every heir who stood up in the gathering-house and all the feuds they made. The rolls of Cathair mhòr give her the old formula, as the reciters give it to the king's children: and all the days of Eithne were three thousand and twenty-one years, and she died. After her the great shares were names on the boundary stones, and the long years went on thinning in the king's kin, generation by generation, until there was no telling his blood from anyone else's by the length of its life.
+
+## XIII. Of the Letters, the Woods and the Measuring of the Vein
 
 *The scholars of Muileann chaol count the clerk at the start of this chapter their first forebear, and they tell it with the care of heirs.*
 
@@ -210,7 +347,7 @@ Two youths sent into the lower gallery without a Keeper's cutter broke the wrong
 
 Fearchar Òg reigned long and is remembered mostly for dying old. His clerks paid the road-guards in stamped silver rings, the first payment in metal by any ruler, and the rings travelled further than the guards did. The southern guards began meeting at Ceann leathan each year to fight with blunted staves for a ring, and the meeting outlived its purpose: its field is the one where Còmhrag Ceann leathan was fought long after. The first winner whose name is kept was a woman, Mòrag Dhubh of Cnoc mhòr. Burned Muileann òg was built again, and its harvest fair, held at Lùnastal, the feast of Lugh, became Fèill Muileann òg. At Cidhe Beag on the Abhainn uaine a landing was built for river-boats over the carriers' protest, and the hide boatmen of Muileann chrom swore their fellowship on a paddle.
 
-## IX. Of the Red Hall and the Census of Hands
+## XIV. Of the Red Hall and the Census of Hands
 
 Beathag Mhòr, great-granddaughter of Fearchar Òg, is the first ruler the list calls banrìgh, queen, and the change of word is the list's own. On {{date:II-0135}} she moved her hall from Dùn dhearg to the town at the western bridge-foot, Cathair dhearg, where the roads, the river and the western harbours met. It has been the seat of rule on Dia-thìr ever since. Her hall was built of the town's red stone on the rise above the harbour, and its foundations lie under the later citadel. The masons cut the hearth-sign in its lintel as if it were a bridge.
 
@@ -232,7 +369,7 @@ The crown took one ring in ten, the workings reopened, and both sides went home 
 
 Ruairidh Liath's granddaughter Seonag Chrom gave the clerks a room in the red hall, and from her reign the king-list was kept year by year. At Inis bheag a stag-teacher taught letters to fishers' children, and the Hall's roll remarked that fish do not need reading. In the red hall Peigi nic Tormoid, of Tormod Scrìobhaiche's line, became the first clerk whose hand can be told from the others, and much of what the Library knows of the middle of the age is in her hand or copied from it.
 
-## X. Of the Hawk, the Cup, the Wolf and the Two Schools
+## XV. Of the Hawk, the Cup, the Wolf and the Two Schools
 
 In the later centuries of the age the one practice of the Dia-thìrich began to come apart, in each place for its own reason.
 
@@ -261,7 +398,7 @@ No refusal in the Hall's history was quoted more often.
 
 Once more the Old Ones stepped into the tale, as a question. Scholars from Muileann chaol could not read the pillar at Cnoc ghorm, and the people of Cnoc ghorm told them it said *Cha do thàinig sinn; bha sinn ann*: we did not come; we were here. The scholars wrote that the people said so, and there the matter has rested. Men of Baile ghorm dug under Làrach an Dùin for its rumoured riches and found only ash. The Keeper sentenced them as lawbreakers though no law covered the case, and the sentence became the rule for every old place after. The diggers' families did their penance by keeping the road to Tuam Cnoc dhìreach in repair, and it is still called the diggers' road.
 
-## XI. Of the Shared Meal and the Lean Year
+## XVI. Of the Shared Meal and the Lean Year
 
 *At Àth dhìreach, high in the mountain country, they tell this at the turn of the year, and set out an extra bowl for the carriers.*
 
@@ -275,7 +412,7 @@ The reeves of Dùn dhearg, who had refused Cathair dhearg their accounts for gen
 
 Oighrig nic Lachlainn died without an heir of her body, and the line of Goraidh Mòr, as the list reckons it, ended with her. The red hall was shut, and its clerks kept it. The Four Houses met at Dùn ìseal to choose a ruler, since no custom covered a hall without an heir. Sliochd Ìomhair claimed by blood, Sliochd Thormoid through the clerks, and Sliochd Raghnaill through its boats. Sliochd Mhuirich, which held the Keeper's office, made no claim at all. How long the houses sat, and whether the hall stood empty all that while, is not told; the rolls put the choosing some years after the meeting.
 
-## XII. Of the House of Tormod
+## XVII. Of the House of Tormod
 
 The houses chose Gilleasbuig Mòr mac Tormoid of Seann Dunn, a grandson of the clerks' line. The Keeper set the stone cup in his hands before the council, the first time a ruler was made at Dùn ìseal, and it looked very much, as more than one chronicler has dryly said, as if the Hall had made the king. Sliochd Ìomhair consented on condition that its graves at Dùn dhearg stay the kings' burying-place. Gilleasbuig had the king-list recopied with a line drawn under Oighrig nic Lachlainn, and the line is in every later copy. He made his house's shrine at Seann Dunn a temple, whose lamp a Keeper's cutter still checked every season, and he was buried at Dùn dhearg as agreed. His son Tormod Òg succeeded without any meeting of the houses, and nobody asked for one.
 
@@ -291,7 +428,7 @@ Anna Ruadh of the house of Tormod walked the whole road circuit, as Mòrag nan R
 
 Anna Ruadh was buried at Dùn dhearg. Her son Coinneach Bàn reigned long and quietly and had the rolls copied for every province seat. Several of those copies have lasted where the originals have not, and much of what the Library knows of these reigns rests on them.
 
-## XIII. Of the Parting of the Rites
+## XVIII. Of the Parting of the Rites
 
 Seumas Bàn of Sliochd Mhuirich was chosen Keeper, and in his first winter he sat down in the Hall with the Keepers' roll, meaning only to learn the names of those before him.
 
@@ -311,14 +448,14 @@ Seumas Bàn looked down the Hall on the first day they sat so, at the knots of p
 
 Two customs stayed outside the companies. Pilgrims of every rite still walked to Allt an Àigh at the right quarter of the moon, the one custom the Hall's list set under no company, and in one season pilgrims of four rites repaved the path from Caol shean together. And the keeper of the springs at Muileann ruadh ruled that the sick of every rite should be bathed without being asked which. It was the last ruling of the age that every company accepted, and it came from the one office the Hall had made that had nothing to do with the coal.
 
-## XIV. Of the Last Quiet Years and the Close of the Age
+## XIX. Of the Last Quiet Years and the Close of the Age
 
 The last generations of the age live in the provincial rolls, which care about what was made and what was owed. The eastern Cnoc dhìreach wove the carriers' heavy cloth, and Muileann bhàn dyed it a pale hill-blue; the Keepers wore theirs undyed, and said so. A flood at Àth chiar took six townsfolk, but the granary on its rise fed the town through the winter. The south-eastern Seann Vell grew into a city on fish and silver and built the island's first stone quay. The beacon at Tobar dhearg was raised on a stone tower. At Muileann naomh a mill and a shrine shared a roof, and the Keeper's cutter found the measure kept and the flour good. Dùn thais built the stag's first temple of stone, a hall of the druid schools. Baile Mòr mhòr sent a member to the council, and the Four Houses seated him at the foot of the hall.
 
 When drought burned the pastures of Achadh shean, grain came from Baile chaol and Cuan ruadh under the shared-meal law, and the rolls at Baile chaol record it repaid measure by measure, the first such debt repaid in full. At Baile ruadh a timber watch-tower was manned against island raiders, the only tower of war the age built. At Inis chrom the families of the drowned set an empty place for each of the lost at a yearly feast on the shore, and the custom spread north to Seann Warr. At Cnoc naomh the ancestors were still kept in the old way, with no hawk or wolf, sting or stag, and the Hall's list counted the old reverence as one company among the others.
 
-Mòr nic Coinnich, granddaughter of Coinneach Bàn, received the stone cup from the Keeper Catrìona nic Mhuirich at Dùn ìseal, as Gilleasbuig Mòr had. Hers is the last name in the king-list of the Holy Age. At the close of the age the Keepers' roll held one hundred and forty names from Beathag Bhàn to Catrìona nic Mhuirich, and the king-list more than ninety from Goraidh Mòr to Mòr nic Coinnich. The Small-Burning Law had not changed by a word since Fionnlagh Dall filled the cup, and the cup still stood on the threshold of Talla na Lasrach.
+Mòr nic Coinnich, granddaughter of Coinneach Bàn, received the stone cup from the Keeper Catrìona nic Mhuirich at Dùn ìseal, as Gilleasbuig Mòr had. Hers is the last name in the king-list of the Holy Age. At the close of the age the Keepers' roll held one hundred and forty names from Beathag Bhàn to Catrìona nic Mhuirich, and the king-list more than ninety from Goraidh Mòr to Mòr nic Coinnich. The Small-Burning Law had not changed by a word since Fionnlagh Dall filled the cup, and the cup still stood on the threshold of Talla na Lasrach, where the lords of the shares had sworn their peace beside it. Of the Roinn itself little was left but the stones on the bounds of the provinces, and the names of a few great shares that the provinces still answered to when the clerks were not listening.
 
-Later chroniclers look back on those years with some unease. They call the years about {{year:II-0249}} the last age of even population, the last stretch of the island's history in which no family had more years of life than any other. Keepers aged at the pace of carriers, and every ruler died in their time. No one then dreamed this could be lost, so no one wrote it down as a blessing. It is told now because the tellers know what came after.
+Later chroniclers look back on those years with some unease. They call the years about {{year:II-0249}} the last age of even population, the last stretch of the island's history in which no family had more years of life than any other. The long years of the king's kin had run out many generations before, and in the halls of those days Eithne nic Ailein and Murchadh Mòr were already names in a telling. Keepers aged at the pace of carriers, and every ruler died in their time. No one then dreamed this could be lost, so no one wrote it down as a blessing. It is told now because the tellers know what came after.
 
 Thus ended the Holy Age, with the cup on the threshold and the sea at the island's back, uncrossed and unwished-for. The next age began on that sea. Crews from the western harbours brought word of a land across open water, empty of anyone like the Dia-thìrich, and none of them claimed to have been first. The report would be heard in the red hall at Cathair dhearg, and it would put to the Dia-thìrich a question the Keepers had never had to answer: who would choose to go. The Holy Age had counted every hand that held the right to the flame. The next would count those willing to leave it. That is the Age of Sundering, An Aois Scaraidh, and the chroniclers of Muileann chaol tell it in the book that follows.

@@ -1,18 +1,83 @@
 [
  {
+  "id": "I-0098a",
+  "canon": false,
+  "title": "Ailean Mòr falls at Àth na Fala",
+  "body": "The host of Dùn dhearg and the eastern households who never bowed come against the king at the ford below Dùn dhearg. Ailean Mòr holds the ford alone three days and three nights, and the dead of the host dam the river. On the third night he falls, worn down by the whole host; no one man overcame him, and age had not touched him. His kin, quarrelling already over the shares of the kingdom, did not come. He was four thousand six hundred and twenty-six years old, and had been king since the grove. The ford is called Àth na Fala after.",
+  "place": "burg:422",
+  "kind": "death",
+  "between": [
+   -2998,
+   -2998
+  ],
+  "seed": "I-0098afe326"
+ },
+ {
   "id": "II-0001",
   "canon": true,
   "title": "The Binding of the First Flame",
-  "body": "Custody is declared over the vein, and the first flame is bound at Dùn ìseal: the undying flame of Brìde, kept over the stone of Crom Cruaich. Its keepers, Òrd Bhrìde, are the first order on Dia-thìr to govern both rite and people, and they are older by centuries than any king.",
+  "body": "Custody is declared over the vein, and the first flame is bound at Dùn ìseal: the undying flame of Brìde, kept over the stone of Crom Cruaich. The heirs of Ailean Mòr, gathered to part his kingdom, cannot part the vein, and swear it to no one of the blood. Its keepers, Òrd Bhrìde, are the first order on Dia-thìr to govern both rite and people, and they are older by centuries than any rìgh after Ailean.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
  },
  {
+  "id": "II-0001a",
+  "canon": false,
+  "title": "The heirs sit at Dùn ìseal",
+  "body": "The kin of Ailean Mòr, come too late to the ford, stay on at Dùn ìseal after the Binding to part his kingdom. The knot-keeper Sìne nan Snaidhm ties a knot on a cord for every heir who stands up to claim: seven hundred and twelve. The eldest of them, Murchadh Mòr, is near two thousand nine hundred years old; the youngest who claims is a child in arms.",
+  "place": "burg:315",
+  "kind": "people",
+  "between": [
+   -2998,
+   -2998
+  ],
+  "seed": "II-0001a-26"
+ },
+ {
+  "id": "II-0001b",
+  "canon": false,
+  "title": "Roinn na Rìoghachd",
+  "body": "On the night of the handful the heirs swear the parting of the kingdom, Roinn na Rìoghachd. The island below the mountain is cut into nine great shares, earrannan mòra, for the nine eldest lines of the king's blood, and the lines of his dead children are given the portion of the dead, cuid nam marbh, out of all nine. No heir is to be called rìgh. The ground of the Hall is in no share. Dùn dhearg, which Ìomhar Dearg had taken with the sword after the ford, is let stand as his share, over the protest of four lines.",
+  "place": "burg:315",
+  "kind": "law",
+  "between": [
+   -2997,
+   -2997
+  ],
+  "seed": "II-0001b-1454"
+ },
+ {
+  "id": "II-0001c",
+  "canon": false,
+  "title": "First blood among the heirs",
+  "body": "At Dùn thais, on the line between the great share of the north and the Red Share, the men of Aonghas Bàn mac Mhurchaidh and of Ruairidh Glas of the line of Ìomhar come to blows over which share the fort lies in. Aonghas Bàn is killed. With his death begins Aimhreit nan Oighrean, the strife of the heirs, between the line of Murchadh and the line of Ìomhar and then between many lines.",
+  "place": "burg:77",
+  "kind": "war",
+  "between": [
+   -2996,
+   -2996
+  ],
+  "seed": "II-0001c-17"
+ },
+ {
+  "id": "II-0001d",
+  "canon": false,
+  "title": "Shares of shares",
+  "body": "The great shares are parted again among their holders' children and grandchildren, into countries, provinces, counties and holdings, until the lesser blood of the portion of the dead is fitted in. Many holdings owe oaths to two lords, and some to three. The boundary stones of the Roinn are set up, and moved, and set up again.",
+  "place": null,
+  "kind": "law",
+  "between": [
+   -2995,
+   -2995
+  ],
+  "seed": "II-0001d-13"
+ },
+ {
   "id": "II-0002",
   "canon": false,
   "title": "Beathag Bhàn keeps the first flame",
-  "body": "At Dùn ìseal under the central mountains the keepers of the slab and the households sworn to the Binding choose Beathag Bhàn to hold the first flame for Brìde and to answer to Crom for what is taken from the vein. The spoken roll of the Keepers begins with her name. Of her life before it nothing is remembered.",
+  "body": "At Dùn ìseal under the central mountains the keepers of the slab and the households sworn to the Binding choose Beathag Bhàn to hold the first flame for Brìde and to answer to Crom for what is taken from the vein. She is of no heir's blood and holds no share, and the heirs let her be chosen for that. The spoken roll of the Keepers begins with her name. Of her life before it nothing is remembered.",
   "place": "burg:315",
   "kind": "faith",
   "between": [
@@ -416,7 +481,7 @@
   "id": "II-0045",
   "canon": false,
   "title": "Eilidh nic Ìomhair keeps the flame",
-  "body": "The nine hearths choose a Keeper from outside the house of Muireach for the first time: Eilidh nic Ìomhair, of Dùn dhearg. Sliochd Mhuirich refuses for a season, then yields at Dùn ìseal, on the condition that the stone cup never leaves Talla na Lasrach.",
+  "body": "The nine hearths choose a Keeper from outside the house of Muireach for the first time: Eilidh nic Ìomhair, of Dùn dhearg, of the line of Ìomhar Dearg and so of the king's blood. Sliochd Mhuirich, holding to the Binding, refuses for a season, then yields at Dùn ìseal, on the condition that the stone cup never leaves Talla na Lasrach.",
   "place": "burg:315",
   "kind": "faith"
  },
@@ -516,7 +581,7 @@
   "id": "II-0056",
   "canon": false,
   "title": "The granaries of Dùn dhearg",
-  "body": "Sliochd Ìomhair builds stone granaries at Dùn dhearg and fills them from the lowland fields, holding grain against the storm season as the old custom of sharing asks. So the house gains what the Hall never had: people who owe it their bread.",
+  "body": "Sliochd Ìomhair builds stone granaries at Dùn dhearg and fills them from the lowland fields of its share, holding grain against the storm season as the old custom of sharing asks. So the house gains what the Hall never had: people who owe it their bread.",
   "place": "burg:422",
   "kind": "trade"
  },
@@ -532,7 +597,7 @@
   "id": "II-0058",
   "canon": true,
   "title": "The reverent centuries",
-  "body": "Generation after generation mines the same small measure and burns the same small measure, and the people neither grow nor dwindle. The rolls call them the reverent centuries.",
+  "body": "Generation after generation mines the same small measure and burns the same small measure, and the people neither grow nor dwindle, whichever lord's share they live in. The rolls call them the reverent centuries.",
   "place": null,
   "kind": "record",
   "canon_date": "undated"
@@ -584,6 +649,32 @@
   "body": "The silversmiths of Muileann chiar cast a set of weights, the least the weight of a barley-corn and the greatest that of a newborn lamb. Every trader on the carriers' roads comes to use them, and for the rest of the age a thing weighed at Muileann chiar is said to be weighed fairly.",
   "place": "burg:419",
   "kind": "craft"
+ },
+ {
+  "id": "II-0064b",
+  "canon": false,
+  "title": "The burning of Achadh mhòr",
+  "body": "Cogadh an Dà Mhionn, the War of the Two Oaths, ends where it began. Fearghas Dà-Mhionn, lord of the granary fields of Achadh mhòr, sworn both to the line of Ìomhar and to the lords of Cathair mhòr, is called to arms by each against the other, and both come to take his fields. The fields are burned to the stubble, and Fearghas dies in his hall.",
+  "place": "burg:395",
+  "kind": "battle",
+  "between": [
+   -2449,
+   -2437
+  ],
+  "seed": "II-0064b-3"
+ },
+ {
+  "id": "II-0064c",
+  "canon": false,
+  "title": "Sìth an Stairsnich",
+  "body": "The lords of the shares swear the Peace of the Threshold, Sìth an Stairsnich, on the threshold of Talla na Lasrach, beside the stone cup, with the Keeper as witness. No share may be parted again at a death: a holding passes whole to one heir. No man may swear to two lords. The boundary stones are set where they stand that day. So ends Aimhreit nan Oighrean.",
+  "place": "burg:315",
+  "kind": "law",
+  "between": [
+   -2449,
+   -2437
+  ],
+  "seed": "II-0064c-132"
  },
  {
   "id": "II-0064a",
@@ -698,10 +789,23 @@
   "kind": "people"
  },
  {
+  "id": "II-0076a",
+  "canon": false,
+  "title": "Goraidh gathers the shares of the east",
+  "body": "By two cousins dead without heirs and a marriage to a third, Goraidh mac Ìomhair holds in one hand three of the old counties of the east round Dùn dhearg, parted since the Roinn. He is the first of the kin to gather again what the Roinn had divided, and the Peace of the Threshold lets him keep it whole.",
+  "place": "burg:422",
+  "kind": "reign",
+  "between": [
+   -2400,
+   -2250
+  ],
+  "seed": "II-0076a-8"
+ },
+ {
   "id": "II-0077",
   "canon": false,
   "title": "Goraidh mac Ìomhair called rìgh",
-  "body": "At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Goraidh mac Ìomhair, their rìgh, their king. No ruler of the lowlands was so called before him. Goraidh claims nothing over the vein, and is careful to tell the Hall so.",
+  "body": "At Dùn dhearg the lowland households who eat from the granaries of Sliochd Ìomhair begin to call its head, Goraidh mac Ìomhair, their rìgh, their king. No one had been so called since Ailean Mòr, for at the Roinn the heirs swore that none of them would take the word. Goraidh claims nothing over the vein, and is careful to tell the Hall so.",
   "place": "burg:422",
   "kind": "reign",
   "between": [
@@ -869,7 +973,7 @@
   "id": "II-0093",
   "canon": false,
   "title": "The War of the Roads begins at Muileann òg",
-  "body": "Iain Garbh marches west with the road-guards and the lowland levies, and burns the toll-house at Muileann òg that the men of Lachlann Ciar had taken. It is the first war of Dia-thìreach against Dia-thìreach. The Hall will bless neither side.",
+  "body": "Iain Garbh marches west with the road-guards and the lowland levies, and burns the toll-house at Muileann òg that the men of Lachlann Ciar had taken. It is the first war of Dia-thìreach against Dia-thìreach since the Peace of the Threshold, and the first fought over a road; every war before it was fought over a share. The Hall will bless neither side.",
   "place": "burg:151",
   "kind": "war",
   "between": [
@@ -1028,6 +1132,19 @@
    "II-0102",
    45
   ]
+ },
+ {
+  "id": "II-0106b",
+  "canon": false,
+  "title": "Death of Eithne nic Ailein, last of the nine",
+  "body": "Eithne nic Ailein, daughter of Ailean Mòr and youngest of the nine who took the great shares at the Roinn, dies in her hall at Cathair mhòr. And all the days of Eithne were three thousand and twenty-one years, and she died. After her none of the nine is living, and the great shares are names on the boundary stones.",
+  "place": "burg:23",
+  "kind": "death",
+  "between": [
+   -1909,
+   -1845
+  ],
+  "seed": "II-0106b-1"
  },
  {
   "id": "II-0106a",
@@ -2397,7 +2514,7 @@
   "id": "II-0249",
   "canon": true,
   "title": "The last age of even population",
-  "body": "So ends the Holy Age. The chroniclers of after days look back on it with some unease: it is the last time in the history of Dia-thìr that no family's lives ran longer than any other's.",
+  "body": "So ends the Holy Age. The chroniclers of after days look back on it with some unease: it is the last time in the history of Dia-thìr that no family's lives ran longer than any other's. The long years had gone out of the king's kin many generations before.",
   "place": null,
   "kind": "record",
   "canon_date": "undated"

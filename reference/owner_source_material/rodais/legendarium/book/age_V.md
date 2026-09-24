@@ -190,7 +190,7 @@ On {{date:IV-0146}} his daughter was born in a house of spoil at Achadh dhomhain
 
 The child's whole life long she was steeped in more raw coal than any Dia-thìreach in living memory, and she did not age as the people around her aged. Her name was Aisling, and she was the first of the generation that would be called immortal. Of her the rolls give three things, her birth, her name and her condition. The camps gave her more.
 
-It was the women who laid out the camp's dead who first said it, over the washing, as they said most things: that the child was of the old king's blood. They meant Ailean Mòr, whom the gods crowned in the grove, and his children who lived six hundred years. Not one of them believed a word of the six hundred years. Ailean Mòr was a tale for the dark of the year, the scribes of the Hall had set him among the tellings long ago, and nobody in the camps had ever heard the Line of the Mason said. But the years went over the child and left her as they found her, and the whisper grew with her. In the camps they called her *nighean an rìgh*, the king's daughter, half in jest, as *Aisling-aois* is said now of anyone who keeps her youth; and half not. A people whose hill is going out in ships will take its hope where it finds it, and the camps found theirs in an old tale and a girl of the spoil-houses who did not grow old. Nobody could prove a word of it. That came later, and is told in its place.
+It was the women who laid out the camp's dead who first said it, over the washing, as they said most things: that the child was of the old king's blood. They meant Ailean Mòr, whom the gods crowned in the grove, who was king four thousand years and fell at the Ford of Blood, and whose children lived thousands of years. Not one of them believed a word of the thousands of years. Ailean Mòr was a tale for the dark of the year, the scribes of the Hall had set him among the tellings long ago, and nobody in the camps had ever heard the Line of the Mason said. But the years went over the child and left her as they found her, and the whisper grew with her. In the camps they called her *nighean an rìgh*, the king's daughter, half in jest, as *Aisling-aois* is said now of anyone who keeps her youth; and half not. A people whose hill is going out in ships will take its hope where it finds it, and the camps found theirs in an old tale and a girl of the spoil-houses who did not grow old. Nobody could prove a word of it. That came later, and is told in its place.
 
 The next year the Company set up a great steelyard on the quay at Ros dhomhain, and from then on the island's yield was known by the ton, and the custodians' old count, kept in seasons of labour, was no longer entered. What was happening to the child had no name in any tongue on the island, and decades passed before anyone tried to find one. At Cill ghlas the custodians of Òrd Bhrìde kept the old rites of the flame and the stone at the mouth of the oldest cutting, while the pits deepened all around them. It was the last shrine in the district the crews still climbed to on the old feast days, at Samhain and Imbolc, Bealltainn and Lùnastal. Remember it.
 
@@ -318,7 +318,7 @@ She sat with her eyes shut while he read. At the seventh she opened them.
 
 He told her.
 
-"That is Somhairle's line," she said. "The youngest son's. We have kept it since Somhairle, and no one of it has come asking in four hundred years. They went down into the valleys and forgot us." She was quiet a while. "Whose is the child?"
+"That is Somhairle's line," she said. "The son who asked for nothing. We have kept it since Somhairle, and no one of it has come asking in a thousand years. They went down into the valleys and forgot us." She was quiet a while. "Whose is the child?"
 
 "Donnchadh's. Her name is Aisling."
 
@@ -331,15 +331,13 @@ She stood up, for the lines are said standing, and she gave it him as it is give
 > son of Ruairidh of Doire mhòr, who stood behind Beathag Dhubh when she sent the Company down the hill;
 > and seventy generations whose names we keep;
 > son of Fionnlagh, who stood on the quay at Seann Skell when the ships went west, and did not go;
-> and a hundred and nineteen generations whose names we keep;
-> son of Gille-Brìde, who carried a coal of the First Flame home to the hills;
-> and a hundred and thirty-nine generations whose names we keep;
-> son of Beathan, who sat by the slab through the dark half of the year;
-> and sixteen generations whose names we keep;
+> and a hundred and sixteen generations whose names we keep;
 > son of Ceallach, the last of us whose years were long; and all the days of Ceallach were a hundred and forty years, and he died;
-> and four generations whose names we keep, each shorter-lived than the one before, and their days were a hundred and seventy-three years, and two hundred and twenty-one, and two hundred and ninety-six, and four hundred and eight;
-> son of Somhairle, the youngest child of Ailean, who outlived his father and all his father's children; and all the days of Somhairle were five hundred and forty years, and he died;
-> son of Ailean Mòr, the first king, whom the gods crowned in the grove; and all the days of Ailean Mòr were six hundred and ninety-five years, and he died;
+> son of Gille-Brìde, who carried a coal of the First Flame home to the hills; and all the days of Gille-Brìde were two hundred and twenty-four years, and he died;
+> and six generations whose names we keep, each longer-lived than the one after, and their days were three hundred and eight years, and four hundred and thirty-one, and five hundred and ninety-seven, and eight hundred and twenty-six, and one thousand one hundred and forty-eight, and one thousand five hundred and ninety-four;
+> son of Beathan, who sat by the slab through the dark half of the year; and all the days of Beathan were two thousand two hundred and thirteen years, and he died;
+> son of Somhairle, son of Ailean, who asked for no share of the kingdom and went before his father to the grave; and all the days of Somhairle were two thousand nine hundred and eighty-seven years, and he died;
+> son of Ailean Mòr, the first king, whom the gods crowned in the grove, and who was king until he fell at the Ford of Blood; and all the days of Ailean Mòr were four thousand six hundred and twenty-six years, and he died;
 > son of Suibhne, and fourteen fathers whose names we keep;
 > son of Seathan, who snapped his fingers, and the fire was in his hand; and ten fathers;
 > son of Colla, in whose days they called us the Inquisitors of the Mystic Coal; and fifteen fathers;
@@ -358,7 +356,7 @@ When it was done she sat down again, and the rain went on against the shutter.
 
 "They'll say it's a tale," said Cailean.
 
-"The six hundred years, they will," said Ealasaid. "Let them. I never told you a man lived six hundred years. I told you whose son he was."
+"The four thousand years, they will," said Ealasaid. "Let them. I never told you a man lived four thousand years. I told you whose son he was."
 
 Cailean walked back to Muileann chaol, and wrote the line in the margin of the Àth ìseal roll, small, beside the birth; and it stands there still. So the whisper of the camps was found true, as far as a line of names can make a thing true: the girl of the spoil-houses was a daughter of the first king's line. What else it proved the copyists did not say, and the camps did not ask them to.
 
