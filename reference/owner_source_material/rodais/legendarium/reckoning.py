@@ -28,12 +28,31 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-AGES = [  # (key, first year, last year); negative = BDE, and there is no year 0
-    ('I', -12999, -3001),
-    ('II', -3000, -40),
-    ('III', -39, 1779),
-    ('IV', 1780, 1929),
-    ('V', 1930, 2026),
+# The six ages. Each age is an era with its own count of years: year 1 of an era is the year of its age's opening
+# event, there is no year 0, and a date is written "12 am Màrt, AE 67" (a bare year "AE 67"). The era changes on
+# the day the next age opens, so the year an age opens is the last year of the era before it and year 1 of its own.
+# first/last are years of the continuous count the annals are sorted by (negative before 1, no year 0), kept only
+# inside the tooling: first is year 1 of the era, last the year the next age opens (or the present year).
+#   (key, first, last, era abbreviation, era, era in Ròdais)
+AGES = [
+    ('I', -12923, -2998, 'VE', 'the Vein Era', 'Linn na Fèithe'),
+    ('II', -2998, -39, 'FE', 'the Flame Era', 'Linn an Teine'),
+    ('III', -39, 1780, 'LE', 'the Landfall Era', 'Linn na Tìre'),
+    ('IV', 1780, 1930, 'AE', 'the Anchor Era', 'Linn an Acair'),
+    ('V', 1930, 2000, 'SE', 'the Severance Era', 'Linn an Dealachaidh'),
+    ('VI', 2000, 2026, 'DE', 'the Dubhan Era', 'Linn an Dubhain'),
+]
+AGE_KEYS = [a[0] for a in AGES]
+ERA = {a[0]: a for a in AGES}
+# The stretches of years the annals are dated across, in the continuous count, and the ages each one holds.
+# They are the old table's round bounds and are not the eras: the Kingdom and the Dubhan ages are dated as one
+# stretch, as they were before the Sixth Age was counted apart, so that no event moves.
+STRETCHES = [
+    (-12999, -3001, ('I',)),
+    (-3000, -40, ('II',)),
+    (-39, 1779, ('III',)),
+    (1780, 1929, ('IV',)),
+    (1930, 2026, ('V', 'VI')),
 ]
 MONTHS = ['am Faoilleach', 'an Gearran', 'am Màrt', 'an Giblean', 'an Cèitean', 'an t-Ògmhios', 'an t-Iuchar',
           'an Lùnastal', 'an t-Sultain', 'an Dàmhair', 'an t-Samhain', 'an Dùbhlachd']
@@ -92,9 +111,54 @@ def canon_anchor(ev):
     return None
 
 
-def display(y, m, d):
-    era = 'DE' if y > 0 else 'BDE'
-    return '%d %s %s %s' % (d, MONTHS[m - 1], format(abs(y), ',') if abs(y) >= 10000 else abs(y), era)
+def year_count(n):
+    return format(n, ',')
+
+
+def era_year(y, key):
+    """The year y of the continuous count, as a year of age key's era."""
+    first = ERA[key][1]
+    n = y - first + 1
+    if first < 0 < y:
+        n -= 1                                                         # no year 0
+    return n
+
+
+_OPEN = {}
+
+
+def openings():
+    """age -> (y, m, d) of its opening event, from annals_dated.json (reckoning.py sets it while it dates)."""
+    if not _OPEN:
+        p = os.path.join(HERE, 'annals_dated.json')
+        if os.path.exists(p):
+            for e in json.load(open(p, encoding='utf-8')):
+                _OPEN.setdefault(e['age'], (e['y'], e['m'], e['d']))
+    return _OPEN
+
+
+def era_of(y, m=1, d=1):
+    """The age whose era a day falls in: the last age opened on or before it."""
+    op, key = openings(), AGE_KEYS[0]
+    for k in AGE_KEYS:
+        if k in op and (y, m, d) >= op[k]:
+            key = k
+    return key
+
+
+def display_year(y, m=1, d=1, age=None):
+    key = age or era_of(y, m, d)
+    return '%s %s' % (ERA[key][3], year_count(era_year(y, key)))
+
+
+def display(y, m, d, age=None):
+    return '%d %s, %s' % (d, MONTHS[m - 1], display_year(y, m, d, age))
+
+
+def display_span(key):
+    """An age's span in its own era: 'VE 1 – 9,926'."""
+    _, first, last, abbr = ERA[key][:4]
+    return '%s 1 – %s' % (abbr, year_count(era_year(last, key)))
 
 
 def ordinal(y, m, d):
@@ -257,7 +321,7 @@ def month_days(years, events, months_ok, days_ok, floor=None):
         pinned = {i: (canon_anchor(events[i])[1], canon_anchor(events[i])[2]) for i in idxs
                   if (events[i].get('canon') or events[i].get('keep')) and canon_anchor(events[i]) and canon_anchor(events[i])[1]}
         k = len(idxs)
-        picks = sorted(slots[slot_hash(events[i].get('id', str(i))) % len(slots)] for i in idxs)
+        picks = sorted(slots[slot_hash(events[i].get('seed') or events[i].get('id', str(i))) % len(slots)] for i in idxs)
         # keep picks distinct and ordered
         for a in range(1, k):
             if picks[a] <= picks[a - 1]:
@@ -303,12 +367,15 @@ def main():
         print('warning: the pool makes only months %s and days %s' % (months_ok, days_ok))
     all_dated = []
     floor = None
-    for key, first, last in AGES:
-        path = os.path.join(HERE, 'annals', 'age_%s.json' % key)
-        if not os.path.exists(path):
-            print('missing', path)
-            continue
-        events = json.load(open(path, encoding='utf-8'))
+    for first, last, keys in STRETCHES:
+        events = []
+        for key in keys:
+            path = os.path.join(HERE, 'annals', 'age_%s.json' % key)
+            if not os.path.exists(path):
+                sys.exit('missing %s' % path)
+            for e in json.load(open(path, encoding='utf-8')):
+                e['age'] = key
+                events.append(e)
         for e in events:
             if e.get('id') in KEPT:
                 e['keep'] = KEPT[e['id']]
@@ -326,18 +393,29 @@ def main():
                 prev = datetime.date(ny if ny > 0 else 2001, nm, nd) - datetime.timedelta(days=back)
                 py = ny if prev.year == (ny if ny > 0 else 2001) else (ny - 1 if ny - 1 != 0 else -1)
                 years[i], mds[i] = py, (prev.month, prev.day)
-        dated = [dict({k: v for k, v in e.items() if k != 'keep'}, y=y, m=md[0], d=md[1], date=display(y, md[0], md[1])) for e, y, md in zip(events, years, mds)]
+        dated = [dict({k: v for k, v in e.items() if k not in ('keep', 'age')}, y=y, m=md[0], d=md[1], age=e['age'])
+                 for e, y, md in zip(events, years, mds)]
         relaxed = list(dict.fromkeys(relaxed))
         if relaxed:
-            print('  Age %s: %d writer windows dropped or held (they contradicted the list order): %s' % (key, len(relaxed), ', '.join(relaxed[:12])))
-        for e in dated:
-            e['age'] = key
+            print('  Age %s: %d writer windows dropped or held (they contradicted the list order): %s' % ('/'.join(keys), len(relaxed), ', '.join(relaxed[:12])))
         # never backwards
         for a, b in zip(dated, dated[1:]):
             assert (a['y'], a['m'], a['d']) <= (b['y'], b['m'], b['d']), (a['id'], b['id'])
         all_dated.extend(dated)
         floor = (dated[-1]['y'], dated[-1]['m'], dated[-1]['d'])
-        print('Age %-3s %4d events  %s .. %s   (%d years reachable)' % (key, len(dated), dated[0]['date'], dated[-1]['date'], len(years_ok)))
+    # the eras: each age's era begins with its opening event, in year 1 of that era
+    _OPEN.clear()
+    for e in all_dated:
+        _OPEN.setdefault(e['age'], (e['y'], e['m'], e['d']))
+    for key, first, last, abbr in [a[:4] for a in AGES]:
+        assert key in _OPEN and _OPEN[key][0] == first, 'Age %s opens in %s, not in year 1 of %s' % (key, _OPEN.get(key), abbr)
+    for e in all_dated:
+        assert era_of(e['y'], e['m'], e['d']) == e['age'], '%s falls outside the era of its age' % e['id']
+        e['era'], e['ey'] = ERA[e['age']][3], era_year(e['y'], e['age'])
+        e['date'] = display(e['y'], e['m'], e['d'], e['age'])
+    for key in AGE_KEYS:
+        dated = [e for e in all_dated if e['age'] == key]
+        print('Age %-3s %4d events  %s .. %s   (%s)' % (key, len(dated), dated[0]['date'], dated[-1]['date'], display_span(key)))
     json.dump(all_dated, open(os.path.join(HERE, 'annals_dated.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('annals_dated.json:', len(all_dated), 'events')
 

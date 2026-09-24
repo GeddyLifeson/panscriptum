@@ -74,8 +74,8 @@ for ref, name in rec.names.items():
     if kind == 'burg' or ref in rec.at:
         places[ref] = p
 ages = [[k, build_book.AGE_NAMES[k][0], build_book.AGE_NAMES[k][1], '--' + build_book.AGE_NAMES[k][2],
-         '%s – %s' % (build_book.year_of(build_book.reckoning.display(a, 1, 1)),
-                      build_book.year_of(build_book.reckoning.display(b, 1, 1)))] for k, a, b in build_book.reckoning.AGES]
+         build_book.reckoning.display_span(k), build_book.reckoning.ERA[k][4], build_book.reckoning.ERA[k][3]]
+        for k in build_book.reckoning.AGE_KEYS]
 
 records = open(MAP, encoding='utf-8', newline='').read().split('\r\n')
 assert len(records) == 53, 'Rodos_finished.map should have 53 CRLF records'

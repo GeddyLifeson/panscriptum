@@ -4,7 +4,7 @@ build_pdf.py -- typeset the legendarium as a book: The_Rodos_Legendarium.pdf
     python3 build_pdf.py [fonts-dir] [out.pdf]
 
 Reads LEGENDARIUM.md (run build_book.py first) and lays it out with WeasyPrint (pip install weasyprint
-markdown) as a printed book: half-title, title page, contents with page numbers, the Five Books (each opening
+markdown) as a printed book: half-title, title page, contents with page numbers, the Six Books (each opening
 on a right-hand page with its epigraph and a drop capital), the Annals, the Appendices and the Gazetteer, with
 running heads and folios. fonts-dir holds EB Garamond (EBGaramond[wght].ttf, EBGaramond-Italic[wght].ttf),
 Cinzel[wght].ttf and UncialAntiqua-Regular.ttf from github.com/google/fonts (OFL); without them the book
@@ -22,7 +22,7 @@ FONTS = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else os.path.join(HERE
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(HERE), 'The_Rodos_Legendarium.pdf')
 
 ORD = {'First': 'The First Book', 'Second': 'The Second Book', 'Third': 'The Third Book',
-       'Fourth': 'The Fourth Book', 'Fifth': 'The Fifth Book'}
+       'Fourth': 'The Fourth Book', 'Fifth': 'The Fifth Book', 'Sixth': 'The Sixth Book'}
 
 
 def md(text):
@@ -144,7 +144,7 @@ def build():
                           % (cid, md('\n'.join(body))))
 
     # contents: books with their sections; the annals' ages; each appendix; the gazetteer
-    rows = ['<p class="toc-part">Part One · The Five Books</p>']
+    rows = ['<p class="toc-part">Part One · The Six Books</p>']
     for kind, hid, text in toc:
         if kind == 'book':
             rows.append('<a class="toc-book" href="#%s">%s</a>' % (hid, html.escape(text)))
@@ -267,7 +267,7 @@ tr{break-inside:avoid}
 <div class="titlepage">
   <p class="t1">Leabhar nan Aoisean</p>
   <h1>The Legendarium<br>of Rodos</h1>
-  <p class="t2">being the Five Books of the island, the Annals of its years,<br>the Appendices, and a Gazetteer of its towns</p>
+  <p class="t2">being the Six Books of the island, the Annals of its years,<br>the Appendices, and a Gazetteer of its towns</p>
   <div class="rule"></div>
   <p class="t3">as they are kept in the Library at Muileann chaol<br>and told at the hearths of the island</p>
 </div>

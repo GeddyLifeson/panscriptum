@@ -15,29 +15,26 @@ of every word.
 
 ## 0. Conventions, and the fuller forms
 
-### 0.1 Ròdais and the Gaelic languages
+### 0.1 The fuller forms
 
-Readers who know Scottish Gaelic will find Ròdais grammar and core vocabulary close to it. Ròdais
-writes long vowels with the grave (*mòr, sìth*, never *mór*) and writes *sc* where Scottish Gaelic
-writes *sg* (*uisce, scoil, sceul, loisc, faisc, measc, seascad*). Its word forms are, for the most
-part, those of Scottish Gaelic in that spelling, with three standing differences:
+Ròdais writes long vowels with the grave (*mòr, sìth*) and never with an acute, and writes the
+cluster /sk/ as *sc* (*uisce, scoil, sceul, loisc, faisc, measc, seascad*). Three things about its
+word forms are best known from the start:
 
-1. **Ròdais has the fuller forms.** Spoken for centuries on an island apart, Ròdais has kept the
-   fuller forms that Scottish Gaelic has been losing in speech since the nineteenth century: the
-   full dative and genitive singular, the strong genitive plural (*nam balach, nam bròg*), the
-   dual after *dà* (*dà làimh, dà bhròig*), the synthetic verb forms in *-inn* and *-eamaid* and
-   the synthetic imperatives of all persons, the relative future (*a sheasas*), the impersonal
-   forms of every tense, and the older verbal nouns (*fantainn, labhairt, cantainn*). What a
-   modern Scottish grammar marks as "literary" or "older" is here the norm of speech. Where it
-   helps, the Classical Gaelic (c. 1200–1650) forms are given for comparison, because Ròdais
-   stands closer to Classical Gaelic than modern Scottish Gaelic does.
+1. **Ròdais keeps the fuller forms.** Spoken for many centuries on an island apart, Ròdais has not
+   worn its forms down: the full dative and genitive singular, the strong genitive plural (*nam
+   balach, nam bròg*), the dual after *dà* (*dà làimh, dà bhròig*), the synthetic verb forms in
+   *-inn* and *-eamaid* and the synthetic imperatives of all persons, the relative future (*a
+   sheasas*), the impersonal forms of every tense, and the older verbal nouns (*fantainn,
+   labhairt, cantainn*). These are the plain speech of the island, not the stiff forms of books.
+   Where the older tongue had a form that throws light on a Ròdais one, it is noted.
 2. **Ròdais names new things from old roots.** It took few of the humans' words for the things
-   they brought after 1780, and none of the dictionary coinages of other Gaelic (§10). Examples in
-   this chapter use old native vocabulary: *oide* "tutor", not *tidsear*; *long, curach, bàta*,
-   not *càr*.
-3. **Some settled usages differ from Scottish Gaelic.** Ròdais counts by tens as *ceathrad
-   còig*, writes the vocative particle before a vowel (*a Aisling*), lenites the qualifier in
-   every place name, and spells *aisde*. Each is noted where it comes up.
+   they brought after the Crossing, and for most of them made names of its own (§10). The examples
+   in this chapter are old native words: *oide* "tutor", not *tidsear*; *long, curach, bàta*, not
+   *càr*.
+3. **Some usages are its own, and settled.** Ròdais counts by tens as *ceathrad còig*, writes the
+   vocative particle before a vowel (*a Aisling*), lenites the qualifier in every place name, and
+   spells *aisde*. Each is noted where it comes up.
 
 ### 0.2 Notation
 
@@ -58,11 +55,11 @@ part, those of Scottish Gaelic in that spelling, with three standing differences
 
 ## 1. Initial mutations
 
-Gaelic words change their first sound according to the word before them. Ròdais has one full
-mutation, **lenition**, and a set of **prefixed consonants** (*t-, h-, n-*) which answer to the
-older mutations and lost final consonants of Classical Gaelic. Ròdais spells its consonants the
-Irish way but does **not** have Irish eclipsis (*bhfuil, gcat, dtaigh*): like Scottish Gaelic, it
-writes the nasal mutation only as a final *-n/-m* on the word before (§1.6).
+Ròdais words change their first sound according to the word before them. There is one full
+mutation, **lenition**, and a set of **prefixed consonants** (*t-, h-, n-*), which are what is left
+of older mutations and of final consonants the tongue has since lost. The old nasal mutation,
+eclipsis, is **not** written on the word it changes: the spelling shows it only as the final
+*-n/-m* of the word before (§1.6).
 
 ### 1.1 Lenition: the rule
 
@@ -142,8 +139,8 @@ Seann Tarr, Seann Toll* beside *Seann Chwen, Seann Bhral*.
 | masc. dat. sg. | *s* + vowel, *sl, sn, sr* | *anns an t-sabhal, air an t-sliabh* |
 
 Where the article would lenite an *s*, it prefixes *t-* instead, and the *s* goes silent: *an
-t-sùil* /ən̪ˠ ˈt̪uːl/. Compare Classical Gaelic *an tṡúil*, where the *t* is the article's final *-t*. *sc,
-sp, st, sm* take nothing: *an sporan, an stòl, an sceul*.
+t-sùil* /ən̪ˠ ˈt̪uːl/. The *t* is the article's own old final consonant, kept where the *s* has given
+way to it. *sc, sp, st, sm* take nothing: *an sporan, an stòl, an sceul*.
 
 ### 1.6 The prefixed *h-* and *n-*; traces of eclipsis
 
@@ -161,10 +158,10 @@ sp, st, sm* take nothing: *an sporan, an stòl, an sceul*.
 
 **n-** stands before a vowel after *ar* "our" and *ur* "your (pl.)": *ar n-athair, ur n-eilean*.
 
-**Traces of eclipsis.** Classical Gaelic had a full nasal mutation (eclipsis, *urú*) after words
-that had once ended in *-n*: the genitive plural article *na n-*, the possessives *ar, bhur, a*
-"their", the interrogative *an*, the conjunction *go n-*, the preposition *i n-* "in". Irish still
-writes it (*ár mbád, i gcathair*). Ròdais, like Scottish Gaelic, has only:
+**Traces of eclipsis.** The older tongue had a full nasal mutation, eclipsis, after words that had
+once ended in *-n*: the genitive plural article, the possessives *ar, ur* and *an* "their", the
+interrogative *an*, the conjunction *gun*, and the preposition "in". Of it Ròdais keeps only these
+traces:
 
 | trace | written | example |
 |---|---|---|
@@ -256,10 +253,10 @@ pattern above:
 na mara* (*Sentences* §8.4). The plural article with a preposition is
 *na*: *air na creagan, dha na daoine, bho na bailtean*.
 
-### 2.3 Uses particular to Gaelic
+### 2.3 Where the article stands
 
 The article is used, where English has none, with abstract and generic nouns (*tha an t-acras
-orm* "I am hungry", *an fhìrinn*), languages (*a' Ghàidhlig, an Ròdais*), seasons and months (*an
+orm* "I am hungry", *an fhìrinn*), the names of tongues (*an Ròdais*), seasons and months (*an
 t-earrach, an Giblean*), many place names (*an Àird, an Cuan Siar*), and before a noun that has a
 definite genitive (*taigh a' bhàird*, never *\*an taigh a' bhàird*). These are syntax (*Sentences* §8.2–8.3); the forms are those above.
 
@@ -269,9 +266,9 @@ definite genitive (*taigh a' bhàird*, never *\*an taigh a' bhàird*). These are
 A Ròdais noun has a **gender** (masculine or feminine), a **number** (singular, plural, and a
 dual that survives after *dà*), and a **case** (nominative, genitive, dative, vocative). Case is
 marked by changes to the end of the word (slenderising, broadening, suffixes) and by the
-mutations the article and prepositions cause. Scottish Gaelic in speech has let much of this go:
-the dative singular of feminine nouns, the genitive after verbal nouns, the strong genitive
-plural. Ròdais keeps all of it (§0.1).
+mutations the article and prepositions cause. Ròdais keeps all of it in speech, the dative
+singular of feminine nouns, the genitive after verbal nouns and the strong genitive plural among
+the rest (§0.1).
 
 ### 3.1 Gender
 
@@ -290,7 +287,7 @@ m.), with well-known exceptions: *boireannach* "woman" is masculine (by its endi
 | abstract *-achd, -eachd* | f. | *rìoghachd, eachdraidh* (f.), *bàrdachd, sìorrachd, fàisneachd* |
 | abstract *-e* formed from adjectives | f. | *gile* "whiteness", *òige* "youth", *doimhne* "depth", *àirde* "height" |
 | most nouns ending in a slender consonant after a single syllable of long vowel | f. (tendency) | *sùil, sràid, cathair, beinn, abhainn, fìrinn* |
-| names of most rivers, many countries and languages | f. | *an Abhainn mhòr, a' Ghàidhlig, an Ròdais* |
+| names of most rivers, many countries and languages | f. | *an Abhainn mhòr, an Ròdais* |
 | diminutive *-an* | m. | *lochan, bothan, cnocan, balachan* |
 | agent nouns *-(a)ir, -adair, -aiche, -iche* | m. | *iascair, sealgair, scrìobhadair, suathaiche, stiùiriche* |
 | abstract *-as, -adas* | m. | *sonas, dorchadas, maitheas, càirdeas* |
@@ -310,16 +307,17 @@ Adjectives used as nouns take the gender of what they refer to: *am Bàn* "the f
 | **dative** | after simple prepositions (*air a' bhròig*) | m.: = nominative; f.: slenderised (*bròg → bròig*) |
 | **vocative** | address, after the particle *a* + *L* | m.: = genitive (*a bhalaich!*); f.: = nominative (*a bhròg!*) |
 
-**Compare Classical Gaelic.** These patterns match the old stem classes of Classical Gaelic,
-reduced to four. Classical masculine *o*-stems (*fear, gen. fir*) slenderise in the genitive; feminine *ā*-stems
-(*bróg, gen. bróige, dat. bróig*) add *-e* in the genitive and slenderise the dative; *i*- and
-*u*-stems (*muir, sùil, fuil, loch*) take *-a*; consonant stems keep a lost consonant in the
-genitive (*cathair, cathrach*; *athair, athar*; *abhainn, aibhne*). Ròdais's declension classes
-below correspond to these families.
+**The old stem classes.** These patterns are what remains of the stem classes of the older
+tongue, which the grammarians name after the vowel or consonant that once closed the stem. The
+masculine *o*-stems (*fear, gen. fir*) slenderise in the genitive; the feminine *ā*-stems (*bròg,
+gen. bròige, dat. bròig*) add *-e* in the genitive and slenderise the dative; the *i*- and
+*u*-stems (*muir, sùil, fuil, loch*) take *-a*; the consonant stems keep in the genitive a
+consonant lost elsewhere (*cathair, cathrach*; *athair, athar*; *abhainn, aibhne*). The declension
+classes below follow these families.
 
 ### 3.3 Declension classes
 
-| class | gender | gen. sg. | dat. sg. | voc. sg. | Classical Gaelic class | models |
+| class | gender | gen. sg. | dat. sg. | voc. sg. | old stem class | models |
 |---|---|---|---|---|---|---|
 | **I** | m. | slenderised (sometimes with vowel change) | = nom. | slenderised + *L* | *o*-stems | *balach, bàrd, fear, each, iasc, cnoc, eun, ceann, mac, sagart, òran* |
 | **II** | f. | slenderised + *-e* | slenderised | = nom. + *L* | *ā*-stems | *bròg, cas, làmh, clach, caileag, long, craobh, sràid, uinneag* |
@@ -352,8 +350,8 @@ Class II feminines add *-e* after slenderising; the dative is the slenderised st
 | *gealach* | *gealaich* | *gealaich* | *cearc* | *circe* | *circ* |
 
 Polysyllables in *-ach* (*gealach, cailleach*) take no *-e*: *oidhche na gealaich ùire* "the night
-of the new moon". Scottish speech has dropped both the *-e* of the genitive (*na caileig*) and the
-separate dative (*air a' chaileag*); in Ròdais they are the norm.
+of the new moon". In Ròdais both the *-e* of the genitive and the separate dative are the norm, in
+speech as in writing.
 
 ### 3.4 Model paradigms
 
@@ -442,8 +440,8 @@ after *dà* (§3.6). For the genitive plural, see §3.8.
 | nom. pl. | *cathraichean / na cathraichean* | *màthraichean / na màthraichean* | *athraichean / na h-athraichean* | *aibhnichean / na h-aibhnichean* |
 | gen. pl. | *nan cathraichean* | *nam màthraichean* | *nan athraichean* | *nan aibhnichean* |
 
-*Cathair* is Ròdais's word for "city" (Scottish Gaelic has *baile mòr*; *cathair* there means
-"chair"); it declines as a consonant stem, like Classical Gaelic *cathair, gen. cathrach*.
+*Cathair* is the Ròdais word for "city": first a stone fort, and then the town that grew within its
+walls. It declines as a consonant stem.
 **Place names are not declined**: *à Cathair dhearg, ann an Cathair dhearg*,
 *Siorrachd Cathair mhòr*. That is a naming convention, like the always-lenited qualifier
 (*The grammar in brief* §4); in running text the common noun declines (*ballachan na cathrach* "the city
@@ -484,7 +482,7 @@ Other irregulars: *dia* "god" (gen. *dè*, pl. *diathan*); *leabaidh* "bed" (gen
    *loch, locha*; *sneachd, sneachda*; *sruth, srutha*.
 4. **Vowel-final nouns** do not change (class IV).
 5. **Consonant stems** add *-ach*, *-ar*, *-n* or syncopate (class V): *cathair, cathrach*;
-   *lasair, lasrach*; *caora, caorach*; *athair, athar*; *abhainn, aibhne*; *Alba, Albann*.
+   *lasair, lasrach*; *caora, caorach*; *athair, athar*; *abhainn, aibhne*.
 6. **Verbal nouns** have a genitive in *-idh/-aidh* for the *-adh* class (*briseadh, brisidh*;
    *dealachadh, dealachaidh*) and in *-ain* for *-amh* (*seasamh, seasaimh*):
    *àm an dealachaidh* "the time of parting"; *ionad-feithimh* "waiting-place" (from
@@ -500,8 +498,8 @@ chariot". This is the pattern of the kennings (§10.3).
 ### 3.6 The dual
 
 After *dà* "two" a noun stands in the **dual**: the **singular**, lenited, and for feminine nouns
-the **dative singular** form. It matches the Old Gaelic dual, whose feminine form coincided with the
-dative; Scottish Gaelic still writes *dà làimh*, *dà chois*, and Ròdais uses the form throughout.
+the **dative singular** form. It is the old dual of the tongue, whose feminine was the same as the
+dative, and Ròdais uses it throughout: *dà làimh*, *dà chois*.
 
 | | masculine | feminine (class II) | feminine (other classes) |
 |---|---|---|---|
@@ -518,8 +516,8 @@ dative; Scottish Gaelic still writes *dà làimh*, *dà chois*, and Ròdais uses
 
 ### 3.7 The vocative
 
-The vocative follows the particle *a*, which lenites (Scottish Gaelic drops *a* in writing before a
-vowel; Ròdais writes it: *a Aisling!*, *The grammar in brief* §9).
+The vocative follows the particle *a*, which lenites. Before a vowel the particle is still written
+(*a Aisling!*, *The grammar in brief* §9).
 
 | | masculine | feminine |
 |---|---|---|
@@ -530,12 +528,12 @@ vowel; Ròdais writes it: *a Aisling!*, *The grammar in brief* §9).
 
 *Cian* → *a Chiain*, *Dubhan* → *a Dhubhain*: Ròdais slenderises every masculine name in the
 vocative, by the class I rule (*The grammar in brief* §9). The vocative plural in *-a* (*a fheara!*)
-is the Classical Gaelic form too (*a fheara*), and Scottish speech has lost it outside fixed phrases; Ròdais uses it in formal address and in
-tales, and the weak plural (*a dhaoine!*) everywhere else.
+is the old form; Ròdais uses it in formal address and in tales, and the weak plural (*a dhaoine!*)
+everywhere else.
 
 ### 3.8 The genitive plural
 
-Ròdais has two genitive plurals, as Classical Gaelic did:
+Ròdais has two genitive plurals, and both are old:
 
 | | form | when | examples |
 |---|---|---|---|
@@ -548,8 +546,8 @@ bhalach* "a boys' horse". In kennings, lenition of an indefinite genitive plural
 after a masculine head: *nimh-bhiastan* "beastie-bane", *cladhaire-chnàmh* "bone-digger",
 *seanchas-dhaoine* "people-lore" (§10.3).
 
-**Old dative plural.** Classical Gaelic had a dative plural in *-(a)ibh*. Ròdais has it only in
-fixed expressions, which Scottish Gaelic also keeps: *air beulaibh* "in front of" (lit.
+**Old dative plural.** The older tongue had a dative plural in *-(a)ibh*. Ròdais keeps it only in
+fixed expressions: *air beulaibh* "in front of" (lit.
 "on mouths"), *air cùlaibh* "behind" (lit. "on backs"), *fo chasaibh* "underfoot", and in verse:
 *anns na beanntaibh*.
 
@@ -569,8 +567,8 @@ Each noun's plural is given in the Dictionary, but plurals fall into classes:
 | **-(e)an with syncope** | a medial unstressed vowel drops | *muileann → muilnean, ùbhal → ùbhlan, seòmar → seòmraichean, dorus → dorsan, tùr → tùir* |
 | **irregular** | | *bean → mnathan, duine → daoine, bò → bà, piuthar → peathraichean, bràthair → bràithrean, latha → làithean, taigh → taighean, dia → diathan, sluagh → slòigh* |
 
-**Older plurals.** Where Scottish Gaelic has replaced a strong plural with *-an* in speech, Ròdais
-has the strong one, as the Dictionary records: *cnuic* (not *cnocan*, which Ròdais keeps for the
+**Older plurals.** Ròdais keeps its strong plurals and has not let *-an* take their place, as the
+Dictionary records: *cnuic* (not *cnocan*, which Ròdais keeps for the
 diminutive "hillock"), *eòin, cinn, èisc, coin*. A noun with two plurals keeps them apart in
 meaning: *cnuic* "hills" beside *cnocan* "hillocks"; *lochan* is both the plural of *loch* and a
 noun of its own, "a small loch" (pl. *lochain*).
@@ -680,9 +678,9 @@ So *oidhche na gealaich ùire* "the night of the new moon", *air bruaichean na h
 red walls of the castle", *eich bhrèagha ghil* "(in the shape) of a beautiful white horse" (gen.
 sg. m., both lenited, in the tale of the water horse: *ann an riochd eich bhrèagha ghil*).
 
-**Compare Classical Gaelic.** Classical Gaelic declined adjectives fully, like nouns of the same
-stem class. Scottish Gaelic in speech has kept little beyond lenition and the plural; Ròdais
-declines monosyllables in the genitive and dative as the norm, as the tales do.
+**The older declension.** The older tongue declined its adjectives fully, like nouns of the same
+stem class. Ròdais still declines the monosyllables in the genitive and dative as a matter of
+course, as the tales do.
 
 ### 4.3 Polysyllabic adjectives
 
@@ -721,13 +719,14 @@ alone), so that for regular adjectives it is identical with the feminine genitiv
 | *teth* "hot" | *teotha* | |
 | *goirid* "short" | *giorra* | |
 | *làidir* "strong" | *treasa* (also *làidire*) | |
-| *faisc* "near" | *faisce* | Scottish *faisg, faisge* |
+| *faisc* "near" | *faisce* | |
 | *ionmhainn* "dear" | *annsa* | old; in verse and in *is annsa leam* "I love best" |
 | *tric* "frequent" | *trice* | |
 | *cumhang* "narrow" | *cumhainge* | |
 
-The *fh-* of *fheàrr, fhaide, fhasa* is written in all positions. Compare the Classical Gaelic
-particle *ní as* "a thing that is", which lenited, and which answers to *nas* and *as*.
+The *fh-* of *fheàrr, fhaide, fhasa* is written in all positions. It is the mark of an old
+lenition: *nas* and *as* go back to a phrase meaning "a thing that is", which lenited the word after
+it.
 
 **Degrees and particles**
 
@@ -749,7 +748,7 @@ deach sianar dhiubh air a mhuin* "it was so calm that six of them got on its bac
 **Nouns of degree.** Beside the comparative, most common adjectives have a noun of degree, used
 for "how big", "its length": *meud* "size" (*a mheud*), *fad* "length" (*fad na h-oidhche* "all
 night"), *leud* "breadth", *àirde* "height", *doimhne* "depth", *luaths* "speed", *teas* "heat",
-*fuachd* "cold". *Cia mheud?* "how many?" answers to Classical Gaelic *cia méad* "what amount".
+*fuachd* "cold". *Cia mheud?* "how many?" is at root "what amount?".
 
 **Intensifiers.** *glè* "very" + *L* (*glè mhath, glè bheag, glè thoilichte*: *glè* lenites every consonant, dentals included); *ro* "too" + *L* (*ro fhadalach, ro
 mhòr*); *fìor* "truly" + *L* (*fìor mhath*); *gu math* "quite" (*gu math fuar*); *uabhasach*
@@ -781,8 +780,8 @@ adjective does not inflect.
 | *gach* | each | none | *gach feascar, gach latha* |
 | *a h-uile* | every | none | *a h-uile duine, a h-uile nì* |
 
-*Seann* before a noun and *sean* after the copula or *tha* are the same word (compare Classical Gaelic
-*sen*, proclitic): *seann duine* "an old man", *tha e sean* "he is old".
+*Seann* before a noun and *sean* after the copula or *tha* are the same word, *seann* being the old
+form that leans on the noun after it: *seann duine* "an old man", *tha e sean* "he is old".
 
 ### 4.6 Adjective compounds
 
@@ -843,8 +842,8 @@ a synthetic verb form) is carried by a suffix:
 | 3 pl. | *-san* | *acasan, orrasan, dhaibhsan* | *an taigh-san* | — |
 
 The suffix is written solid after a prepositional pronoun and hyphenated after a noun. Like
-*esan*, the suffixes stand outside the *caol le caol* law; in Classical Gaelic they were separate
-words (*agam-sa*). Where a solid form would clash, the hyphen is written (*leis-san, ris-san,
+*esan*, the suffixes stand outside the *caol le caol* law; in the older tongue they were words of
+their own, and they keep the freedom of separate words still. Where a solid form would clash, the hyphen is written (*leis-san, ris-san,
 às-san, dheth-san*); the traditional solid forms *aigesan, airsan, leathase, bhuaithesan,
 uimesan, thuigesan, dhaibhsan* are correct Ròdais, and stand outside the law as *esan* and
 *iadsan* do. The texts use them freely: *is ann
@@ -866,9 +865,9 @@ not for *me*".
 The three *a*'s ("his", "her", and the vocative particle) are told apart by their mutations
 alone: *a chù* "his dog", *a cù* "her dog", *a choin!* "O dog!".
 
-**Compare Classical Gaelic.** *ar n-, ur n-* and *am/an* "their" answer to the eclipsing
-possessives of Classical Gaelic (*ár n-athair*, *a mbád* "their boat"); only the *n-* before vowels and the
-nasal assimilation of *an → am* are written in Ròdais (§1.6).
+**Traces of eclipsis.** *ar n-, ur n-* and *am/an* "their" are the old eclipsing possessives; of
+their mutation only the *n-* before vowels and the nasal assimilation of *an → am* are written in
+Ròdais (§1.6).
 
 **Possessive or *aig*?** Inalienable things (body, kin, mind, name) take the possessive: *mo
 cheann, mo mhàthair, m' ainm*. Alienable possessions usually take the article + *aig*: *an taigh
@@ -940,8 +939,7 @@ then the emphatic (§5.2).
 | 2 pl. | *annaibh / annaibhse* | *asaibh / asaibhse* | *bhuaibh / bhuaibhse* (*uaibh*) | *dhibh / dhibhse* |
 | 3 pl. | *annta / anntasan* | *asta / astasan* | *bhuapa / bhuapasan* (*uapa*) | *dhiubh / dhiubhsan* |
 
-*Aisde* "out of her" is the Ròdais spelling where Scottish Gaelic writes *aiste*; the *d* is
-written as in Classical Gaelic *aisde*. *Ann* "in it (m.)" is also the
+*Aisde* "out of her" is written with *d*, the older spelling, which Ròdais has kept. *Ann* "in it (m.)" is also the
 adverb "there, in existence": *Bha siud ann uair* "there was once (that)".
 
 **ri "to, against", fo "under", mu "about", gu "to, towards"**
@@ -981,7 +979,7 @@ necessity *tha agam ri falbh*; "there" *tha e ann*; naming *ris an canadh daoine
 ### 5.6 Preposition + possessive
 
 The possessives fuse with some prepositions. Ròdais writes these contractions as single words
-without an apostrophe, as the Scottish Gaelic Orthographic Conventions do; the tales use them:
+without an apostrophe, and the tales use them so:
 *na mhuing* "in its mane", *nam bheul* "in my mouth", *na fhuil* "in his blood", *leum iad dhan
 uisce nan ròin* "they leapt into the water as seals (lit. in their seals)".
 
@@ -1026,16 +1024,15 @@ noun (*tha mi a' togail* "I am lifting", *tha mi air togail* "I have lifted"); t
 
 Every tense has an **independent** form, used when the verb begins its clause or follows *ma* or
 the relative *a*, and a **dependent** form, used after the particles *cha, an, nach, gun, mura*
-and the like. It corresponds to the Old and Classical Gaelic distinction of **absolute** and
-**conjunct** forms, which Scottish Gaelic keeps in its future (*togaidh / tog*) and in the irregular verbs
-(*chunnaic / faca*), and marks in the past with the particle *do*.
+and the like. It is the old distinction of **absolute** and **conjunct** forms, which Ròdais keeps
+in the future (*togaidh / tog*) and in the irregular verbs (*chunnaic / faca*), and marks in the
+past with the particle *do*.
 
 Person is marked by a following pronoun (**analytic** forms: *thog mi, thog thu*), except in a
 set of **synthetic** forms where the ending carries the person: the first person singular and
 plural of the conditional (*thogainn, thogamaid*) and of the imperative (*togam, togamaid*).
-Classical Gaelic had synthetic forms throughout; Scottish Gaelic kept these few, and in speech has
-been replacing even them (*thogadh sinn*). **Ròdais uses the synthetic forms as the norm** and
-does not add a pronoun to them: *thogainn* "I would lift", not *\*thogainn mi*.
+The older tongue had synthetic forms throughout, and these few are what is left of them.
+**Ròdais uses the synthetic forms as the norm** and does not add a pronoun to them: *thogainn* "I would lift", not *\*thogainn mi*.
 
 ### 6.2 The regular verb: full paradigms
 
@@ -1137,7 +1134,7 @@ vowel:
 | *labhair* | speak (formal) | *labhraidh* | *labhradh* | *labhraibh* | *labhairt* |
 | *iomair* | row | *iomraidh* | *dh'iomradh* | *iomraibh* | *iomradh* |
 
-*Foscail* is Scottish Gaelic *fosgail*, with the Ròdais *sc*. These eight and a dozen more
+These eight and a dozen more
 (*ceangail, fuascail, seachain, coisinn, siubhail, tadhail…*) syncopate before every
 vowel-initial ending, and keep the full root in the past, the 2 sg. imperative and the
 consonant-initial impersonals (*chaidil, caidil, chaidilteadh*).
@@ -1148,8 +1145,8 @@ consonant-initial impersonals (*chaidil, caidil, chaidilteadh*).
 ### 6.4 The impersonal (autonomous) forms
 
 Every tense has an impersonal form, "one lifts / it is lifted", with no subject; the agent, if
-named, follows *le*. They answer to the Old Gaelic passive and "autonomous" forms, and Ròdais uses
-them in every register: *Chan fhacas iad a-riamh tuilleadh* "they were never seen again"; *cha d'
+named, follows *le*. They are the old passive of the tongue, and Ròdais uses them in every
+register: *Chan fhacas iad a-riamh tuilleadh* "they were never seen again"; *cha d'
 fhuaireadh sceul orra* "no trace of them was found"; *rugadh mi ann an Seann Dunn* "I was born in
 Seann Dunn"; *gum faicte ròn mòr glas* "that a big grey seal would be seen".
 
@@ -1172,13 +1169,13 @@ the **relative future** in *-as/-eas*, lenited: *an duine a sheasas* "the man wh
 *ma thogas tu* "if you lift", *nuair a dh'fhaighnicheas clann nan Tuathach* "when the children of
 the Tuathaich ask", *cho fad 's a bhios gual fon talamh* "as long as there is coal under the
 ground". The irregular verbs use their independent future (§6.9): *a nì, a chì, a thèid*.
-Classical Gaelic had relative forms in *-as* in the present; Scottish Gaelic kept them in the
-future, and Ròdais uses them wherever a relative future is possible; the plain future after *a*
+The older tongue had relative forms in *-as* in the present; they have lived on in the future, and
+Ròdais uses them wherever a relative future is possible; the plain future after *a*
 (*\*an duine a seasaidh*) is not Ròdais.
 
 ### 6.6 Verbal noun formation
 
-The verbal noun names the action and serves as the non-finite verb (*Sentences* §2).
+The verbal noun names the action and does the work of the non-finite verb (*Sentences* §2).
 It is lexical, but most verbs fall into these classes:
 
 | class | formation | examples |
@@ -1197,8 +1194,8 @@ It is lexical, but most verbs fall into these classes:
 | **zero** | verbal noun = root | *òl, ruith, fàs, snàmh, seinn, leum, dìon, gairm, cluich, falbh, ràn* |
 | **irregular** | | *rach → dol, thig → tighinn, abair → ràdh, thoir → toirt, beir → breith, bi → bhith, dèan → dèanamh, faic → faicinn, faigh → faighinn* |
 
-**Older verbal nouns.** Where Scottish speech has levelled a verbal noun, Ròdais has the
-older one: *fantainn* "staying" (from *fan*), *cantainn* "saying" (from *can*), *labhairt*
+**Older verbal nouns.** Where a verbal noun might have been levelled to a commoner pattern, Ròdais
+keeps the older one: *fantainn* "staying" (from *fan*), *cantainn* "saying" (from *can*), *labhairt*
 "speaking" (from *labhair*), *sealltainn* "looking", *trèigsinn* "forsaking". *Fuireach* (from
 *fuirich*) is the usual word for "living, dwelling"; *fantainn* is "waiting, remaining".
 
@@ -1226,8 +1223,7 @@ take a plural ending.
 
 *An cnoc loiscte* "the burnt hill" (tale of the coal-blood), *bean phòsta* "a married woman", *bròg
 thollta* "a holed shoe" (the kenning for "flat tyre"). The ending is written *-te* after
-a broad consonant too (*togte, pòsta* beside *loiscte*); the ending stands outside *caol le caol*,
-as in Scottish Gaelic spelling.
+a broad consonant too (*togte, pòsta* beside *loiscte*); the ending stands outside *caol le caol*.
 
 Two other adjectival forms of the verb:
 
@@ -1257,9 +1253,9 @@ morphology:
 ---
 ### 6.9 The irregular verbs
 
-Eleven verbs are irregular: *bi* and ten others, the same eleven as in Scottish Gaelic. Most
-irregular verbs build their tenses on more than one stem (*faic*: past *chunnaic*, future *chì*;
-compare the Old Gaelic suppletive forms *con-acca* and *ad-cí*). The tables below give every
+Eleven verbs are irregular: *bi* and ten others. Most of them build their tenses on more than one
+stem, old roots of different shape brought together under one meaning (*faic*: past *chunnaic*,
+future *chì*). The tables below give every
 form: past, future, conditional (1 sg., 1 pl. and other persons), relative, the imperative of
 every person, and the impersonals.
 In each table, **indep.** is the independent form and **dep.** the dependent.
@@ -1293,7 +1289,7 @@ present.
 | imperative | *abram, abair, abradh e, abramaid, abraibh, abradh iad* | | |
 | verbal noun, participle | *ràdh* (*ag ràdh*); *ràite* | | |
 
-The defective *arsa, ars* "said" (compare Classical Gaelic *ar sé*) introduces or follows direct speech: *ars an
+The defective *arsa, ars* "said" introduces or follows direct speech: *ars an
 guth* "said the voice", *ars esan*. *Abair* is also the exclamation "what a …!": *Abair
 naidheachd!*
 
@@ -1359,8 +1355,8 @@ mhuing* "look at its mane").
 | imperative | *faigheam, faigh, faigheadh e, faigheamaid, faighibh, faigheadh iad* | | |
 | verbal noun, participle | *faighinn*; *faighte* | | |
 
-The past impersonal is *fhuaireadh* in Ròdais (*cha d' fhuaireadh sceul orra*, tale of the water
-horse), where standard Scottish Gaelic writes *fhuaradh*. The dependent past is written
+The past impersonal is *fhuaireadh* (*cha d' fhuaireadh sceul orra*, tale of the water horse).
+The dependent past is written
 *d' fhuair*, with a space.
 
 **rach "go"**
@@ -1455,9 +1451,8 @@ dhomh, is urrainn dhomh, tha agam ri*): *Sentences* §5.3–5.4.
 The copula *is* links two noun phrases and fronts a stressed element; *bi* is used for location,
 state and existence (*Sentences* §1.2–1.4). The copula has two tense forms: a **present**
 (also used for the future) and a **past** that is also the conditional. It is unstressed and has
-no verbal noun or imperative. Classical Gaelic distinguished present *is*, past *ba*, conditional
-*budh*, and relative *as*; Scottish Gaelic and Ròdais alike have one form, *bu*, for past and
-conditional.
+no verbal noun or imperative. The older tongue kept past and conditional apart; Ròdais has one
+form, *bu*, for both.
 
 ### 7.1 Forms
 
@@ -1540,7 +1535,7 @@ and an **attributive form**, used before a noun. The counting form of 1–19 tak
 | 30 | *trithead* | *trithead* | singular |
 | 40 | *ceathrad* | | |
 | 50 | *caogad* | | |
-| 60 | *seascad* | | Scottish Gaelic *seasgad* |
+| 60 | *seascad* | | |
 | 70 | *seachdad* | | |
 | 80 | *ochdad* | | |
 | 90 | *naochad* | | |
@@ -1549,11 +1544,11 @@ and an **attributive form**, used before a noun. The counting form of 1–19 tak
 | 1,000,000 | *millean* | *millean* | singular |
 
 **Tens and units.** Ròdais joins a ten and a unit without a conjunction: *fichead aon* 21,
-*ceathrad còig* 45, *naochad naoi* 99. Scottish Gaelic decimal counting says *fichead 's a h-aon,
-ceathrad 's a còig*; Ròdais sets the two side by side. The noun follows the whole numeral in the singular: *ceathrad còig bàta*.
+*ceathrad còig* 45, *naochad naoi* 99. No *'s* "and" stands between them, as it does in the count
+by twenties (§8.2); the two are simply set side by side. The noun follows the whole numeral in the singular: *ceathrad còig bàta*.
 
 **13–19.** A noun between the unit and *deug* stands in the plural in careful speech and in
-writing, as in Classical Gaelic and written Scottish Gaelic: *trì bàtaichean deug, còig coin deug*.
+writing, as it has been of old: *trì bàtaichean deug, còig coin deug*.
 The singular (*trì bàta deug*) is heard in everyday speech, and is the only form for the nouns that
 stay singular after every numeral, such as *bliadhna, latha*.
 
@@ -1621,7 +1616,8 @@ Persons are counted with the personal numerals, nouns that take a following **ge
 | 10 | *deichnear* | |
 
 They are used for people only, and above ten the cardinals take over. They take the genitive
-as collectives do; compare the Classical Gaelic abstract collectives (*triar* "a group of three").
+as collectives do, for at root each is a noun for a company of so many: *triùir*, a group of
+three.
 
 ### 8.5 Fractions, multiples, distributives
 
@@ -1651,8 +1647,9 @@ Dimàirt, Diciadain, Diardaoin, Dihaoine, Disathairne, Didòmhnaich*. Months tak
 
 A date is the ordinal + *latha* + *de*: *an ceathramh latha den Ghiblean* "the fourth of April";
 *Diluain, an treas latha deug den t-Samhain* "Monday the thirteenth of November". A year: *anns a'
-bhliadhna mìle ochd ceud ceathrad ochd* "in the year 1848"; the chronicle's era follows the
-number (*1848 DE*). Genitives of the months appear in *mìos na Samhna* "the month of November",
+bhliadhna mìle ochd ceud ceathrad ochd* "in the year 1848", as the old count of the Diosal
+wrote it. A year of one of the eras now in use takes the era after it in the genitive: *anns a'
+bhliadhna fichead seachd de Linn an Dubhain* "in the year 27 of the Dubhan Era", written *DE 27*. Genitives of the months appear in *mìos na Samhna* "the month of November",
 *Latha Bealltainn* "May Day".
 
 Time of day uses *uair* "hour": *aig uair* "at one o'clock", *aig dà uair*, *aig trì uairean*,
@@ -1662,7 +1659,7 @@ Time of day uses *uair* "hour": *aig uair* "at one o'clock", *aig dà uair*, *ai
 
 ## 9. Derivational morphology
 
-Ròdais builds words from Gaelic stems with Gaelic suffixes and prefixes, and by compounding.
+Ròdais builds words from its own stems with its own suffixes and prefixes, and by compounding.
 Every derived word obeys *caol le caol* inside itself, so suffixes come in broad and slender
 pairs chosen by the last vowel of the stem.
 
@@ -1704,8 +1701,8 @@ slugaire-solais, bàthaiche-teine, cuiriche-òir, cladhaire-chnàmh*.
 | *-te / -ta* | participle (§6.7) | *briste, pòsta, loiscte, tollta* |
 | *so- / do-* | prefix: easy / hard to (§9.5) | *so-dhèanta, do-dhèanta* |
 
-*-mhor* is written the same after either class of vowel and stands outside *caol le caol*;
-compare Classical Gaelic *mór* "great", a separate word.
+*-mhor* is written the same after either class of vowel and stands outside *caol le caol*; it was
+once a word of its own, *mòr* "great", and keeps the freedom of one.
 
 ### 9.4 Diminutives
 
@@ -1744,7 +1741,7 @@ hyphenated, except a few fused long ago (*banacharaid* "female friend", *aineola
 
 ### 9.6 Compounding
 
-Ròdais has two kinds of compound, as Scottish Gaelic and Classical Gaelic do.
+Ròdais has two kinds of compound, and both are old.
 
 **1. Close compounds (modifier first).** An adjective, a preposed noun or a prefix comes first and
 lenites the head: *àrd-rìgh* "high king", *prìomh-bhaile* "chief town", *mòr-shluagh* "multitude",
@@ -1778,13 +1775,12 @@ is Ròdais's main word-building pattern and the pattern of every kenning (§10).
 
 ### 10.1 How the kennings came about
 
-Rodos had no word for most of what the humans brought when they came, from about 1780, and
-later the kingdom needed words for things of its own making. Ròdais took few of the humans' words
-for these things (*The grammar in brief* §13). For most of them its speakers built a name the way
-the language had long named the *each-uisce* and the *taigh-òsta*, and the way Old Norse and Old
-English poetry named things by kenning: a loose compound of old roots that says what the thing
-does or is like. The Dictionary lists 609 of these kennings, each with its literal sense and the
-Scottish Gaelic word for the same thing.
+Rodos had no word for most of what the humans brought when they came, in the first years of the
+Anchor Era, and later the kingdom needed words for things of its own making. Ròdais took few of the
+humans' words for these things (*The grammar in brief* §13). For most of them its speakers made a
+name as the language had long named the *each-uisce* and the *taigh-òsta*: a loose compound of old
+roots that says what the thing does or what it is like. Such a name is called a kenning. The
+Dictionary lists 609 of them, each with its literal sense.
 
 In its forms a kenning is an ordinary **head-first loose compound** (§9.6): a head noun, a
 describer in the genitive (or an adjective, a genitive plural, a prepositional phrase),
@@ -1796,9 +1792,8 @@ what makes a new kenning easy to understand the first time it is heard.
 
 1. **Old roots.** Speakers build from words long in the language, the words of the tales and of
    the bards (*nèamh, speur, teine, gual, iarann, guth, dealbh, cuimhne, siubhal, suain, sceul*),
-   nearly all of which readers will know from Old, Middle or Classical Gaelic or early Scottish
-   Gaelic, and from old borrowings for things known before about 1800 (*leabhar, cofaidh*). Modern
-   international roots (*tele-, fòn-, eileactr-, meatair*) are not used.
+   and from old borrowings for things known before about AE 20 (*leabhar, cofaidh*). Roots that
+   came in with the humans' learning (*tele-, fòn-, eileactr-, meatair*) are not used.
 2. **Head first, then the describer**, hyphenated, the describer in the genitive where the grammar
    wants it.
 3. **Two elements, three at most.** Three-element kennings use a preposition or the article
@@ -1812,40 +1807,40 @@ what makes a new kenning easy to understand the first time it is heard.
 
 Genders and plurals are those of everyday use.
 
-| # | kenning | gender, plural | literally | English | Scottish Gaelic | pattern |
-|---|---|---|---|---|---|---|
-| 1 | *inntinn-iarainn* | f., *inntinnean-iarainn* | iron-mind | computer | *coimpiutair* | head + gen. sg. |
-| 2 | *eun-iarainn* | m., *eòin-iarainn* | iron-bird | aeroplane | *plèana* | head + gen. sg.; strong plural head |
-| 3 | *carbad-iarainn* | m., *carbadan-iarainn* | iron-chariot | train | *trèana* | head + gen. sg. |
-| 4 | *gille-iarainn* | m. | iron-lad | robot | *robot* | head + gen. sg. |
-| 5 | *gealach-iarainn* | f. | iron-moon | satellite | *saideal* | head + gen. sg. |
-| 6 | *cridhe-iarainn* | m. | iron-heart | engine | *einnsean* | head + gen. sg. |
-| 7 | *scàthan-sceòil* | m., *scàthain-sceòil* | tale-mirror | television | *telebhisean* | head + gen. sg. |
-| 8 | *sceul-scàile* | m., *sceulan-scàile* | shadow-tale | film | *film* | head + gen. sg. |
-| 9 | *talla-scàile* | m., *tallachan-scàile* | shadow-hall | cinema | *taigh-dhealbh* | head + gen. sg. |
-| 10 | *tobar-dealain* | m., *tobraichean-dealain* | lightning-well | charger | *inneal-teàirrdsidh* | head + gen. sg. |
-| 11 | *carbad-dealanaich* | m. | lightning-chariot | electric car | *càr dealain* | head + gen. sg. |
-| 12 | *ceàrd-dealanaich* | m. | lightning-smith | electrician | *dealanair* | trade head + gen. sg. |
-| 13 | *guth-sreinge* | m., *guthan-sreinge* | string-voice | telephone | *fòn* | head + gen. sg. |
-| 14 | *lìon-fiosa* | m. | tidings-net | internet | *eadar-lìon* | head + gen. sg. |
-| 15 | *litir-lìn* | f., *litrichean-lìn* | net-letter | email | *post-d* | head + gen. sg. |
-| 16 | *muileann-nighe* | m., *muilnean-nighe* | washing-mill | washing machine | *inneal-nighe* | head + gen. of verbal noun |
-| 17 | *suathaiche-nèimh* | m., *suathaichean-nèimh* | heaven-grazer | skyscraper | *tùr-speur* | agent noun + gen. object |
-| 18 | *slugaire-solais* | m., *slugairean-solais* | light-swallower | black hole | *toll dubh* | agent noun + gen. object |
-| 19 | *bàthaiche-teine* | m. | fire-drowner | firefighter | *neach-smàlaidh* | agent noun + gen. object |
-| 20 | *cuiriche-òir* | m. | gold-sower | investor | *neach-tascaidh* | agent noun + gen. object |
-| 21 | *cladhaire-chnàmh* | m., *cladhairean-chnàmh* | bone-digger | palaeontologist | *fosail-eòlaiche* | agent noun + gen. pl. (lenited) |
-| 22 | *nimh-bhiastan* | m. | beastie-bane | antibiotic | *antibiotaig* | head + gen. pl. (lenited) |
-| 23 | *each-cuibhle* | m., *eich-chuibhle* | wheel-horse | bicycle | *baidhsagal* | head + gen. sg.; describer lenites after slender plural |
-| 24 | *ubhal-gaoil* | m., *ùbhlan-gaoil* | love-apple | tomato | *tomàto* | head + gen. sg.; syncopated plural |
-| 25 | *suain-siubhail* | f. | travel-drowsiness | jet lag | *scìths-itealaich* | fem. head + gen. sg. (plain) |
-| 26 | *anail-gheamhraidh* | f. | winter-breath | air conditioner | *inneal fionnarachaidh* | fem. head + gen. sg. (lenited) |
-| 27 | *luaithre-anama* | f. | soul-ash | burnout | *claoidheadh obrach* | fem. head + gen. sg. (vowel) |
-| 28 | *cèir-chruaidh* | f. | hard-wax | plastic | *plastaig* | fem. head + adjective (lenited) |
-| 29 | *teine-gun-lasair* | m. | flameless fire | heater | *teasadair* | head + prepositional phrase |
-| 30 | *gille-nan-soithichean* | m. | lad of the dishes | dishwasher | *nigheadair-shoithichean* | head + article + gen. pl. |
-| 31 | *leth-inbheach* | m., *leth-inbhich* | half-grown | teenager | *deugaire* | prefix + noun (§9.5) |
-| 32 | *fiabhras-talmhainn* | m. | earth-fever | global warming | *blàthachadh na cruinne* | head + gen. sg. of class V noun (*talamh, talmhainn*) |
+| # | kenning | gender, plural | literally | English | pattern |
+|---|---|---|---|---|---|
+| 1 | *inntinn-iarainn* | f., *inntinnean-iarainn* | iron-mind | computer | head + gen. sg. |
+| 2 | *eun-iarainn* | m., *eòin-iarainn* | iron-bird | aeroplane | head + gen. sg.; strong plural head |
+| 3 | *carbad-iarainn* | m., *carbadan-iarainn* | iron-chariot | train | head + gen. sg. |
+| 4 | *gille-iarainn* | m. | iron-lad | robot | head + gen. sg. |
+| 5 | *gealach-iarainn* | f. | iron-moon | satellite | head + gen. sg. |
+| 6 | *cridhe-iarainn* | m. | iron-heart | engine | head + gen. sg. |
+| 7 | *scàthan-sceòil* | m., *scàthain-sceòil* | tale-mirror | television | head + gen. sg. |
+| 8 | *sceul-scàile* | m., *sceulan-scàile* | shadow-tale | film | head + gen. sg. |
+| 9 | *talla-scàile* | m., *tallachan-scàile* | shadow-hall | cinema | head + gen. sg. |
+| 10 | *tobar-dealain* | m., *tobraichean-dealain* | lightning-well | charger | head + gen. sg. |
+| 11 | *carbad-dealanaich* | m. | lightning-chariot | electric car | head + gen. sg. |
+| 12 | *ceàrd-dealanaich* | m. | lightning-smith | electrician | trade head + gen. sg. |
+| 13 | *guth-sreinge* | m., *guthan-sreinge* | string-voice | telephone | head + gen. sg. |
+| 14 | *lìon-fiosa* | m. | tidings-net | internet | head + gen. sg. |
+| 15 | *litir-lìn* | f., *litrichean-lìn* | net-letter | email | head + gen. sg. |
+| 16 | *muileann-nighe* | m., *muilnean-nighe* | washing-mill | washing machine | head + gen. of verbal noun |
+| 17 | *suathaiche-nèimh* | m., *suathaichean-nèimh* | heaven-grazer | skyscraper | agent noun + gen. object |
+| 18 | *slugaire-solais* | m., *slugairean-solais* | light-swallower | black hole | agent noun + gen. object |
+| 19 | *bàthaiche-teine* | m. | fire-drowner | firefighter | agent noun + gen. object |
+| 20 | *cuiriche-òir* | m. | gold-sower | investor | agent noun + gen. object |
+| 21 | *cladhaire-chnàmh* | m., *cladhairean-chnàmh* | bone-digger | palaeontologist | agent noun + gen. pl. (lenited) |
+| 22 | *nimh-bhiastan* | m. | beastie-bane | antibiotic | head + gen. pl. (lenited) |
+| 23 | *each-cuibhle* | m., *eich-chuibhle* | wheel-horse | bicycle | head + gen. sg.; describer lenites after slender plural |
+| 24 | *ubhal-gaoil* | m., *ùbhlan-gaoil* | love-apple | tomato | head + gen. sg.; syncopated plural |
+| 25 | *suain-siubhail* | f. | travel-drowsiness | jet lag | fem. head + gen. sg. (plain) |
+| 26 | *anail-gheamhraidh* | f. | winter-breath | air conditioner | fem. head + gen. sg. (lenited) |
+| 27 | *luaithre-anama* | f. | soul-ash | burnout | fem. head + gen. sg. (vowel) |
+| 28 | *cèir-chruaidh* | f. | hard-wax | plastic | fem. head + adjective (lenited) |
+| 29 | *teine-gun-lasair* | m. | flameless fire | heater | head + prepositional phrase |
+| 30 | *gille-nan-soithichean* | m. | lad of the dishes | dishwasher | head + article + gen. pl. |
+| 31 | *leth-inbheach* | m., *leth-inbhich* | half-grown | teenager | prefix + noun (§9.5) |
+| 32 | *fiabhras-talmhainn* | m. | earth-fever | global warming | head + gen. sg. of class V noun (*talamh, talmhainn*) |
 
 ### 10.4 Families: heads and describers with fixed meanings
 
@@ -1881,6 +1876,6 @@ A kenning is a noun, and declines by its head (§3). Taking *carbad-iarainn* m. 
 
 A kenning can itself become a head or a describer. *Carbad* gives *stiùiriche-carbaid* "driver"
 and *bothan-carbaid* "garage"; *dealanach* gives *carbad-dealanaich* and *tobar-dealanaich*
-"socket". In this way the kennings work as living derivation: the heads and describers of §10.4 are, in
-effect, derivational elements with fixed meanings, and a speaker names a new thing by choosing a
+"socket". So the kennings have become a living way of making words. The heads and describers of
+§10.4 are as good as suffixes with fixed meanings, and a speaker names a new thing by choosing a
 head for what it is and a describer for what it does.

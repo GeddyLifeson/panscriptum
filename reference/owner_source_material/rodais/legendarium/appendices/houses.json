@@ -3,7 +3,7 @@
   "house": "Clann Fhearchair of Baile Mòr dhomhain",
   "note": "One of the seven houses of custody regrouped after the Sundering ({{date:III-0034}}). Its seat at {{place:burg:273}} gave Rodos the first king chosen by the houses ({{date:III-0058}}), and the double court near the mountain lasted as long as the house held the crown. After Sìleas nic Fhearchair the crown went to her son Uisdean mac Dhùghaill and his line.",
   "members": [
-   {"id": "cf1", "name": "Lachlann mac Fhearchair", "parent": null, "born_between": [78, 88], "died_between": [130, 150], "note": "Father of the first king of the house; the house roll gives his name and nothing more."},
+   {"id": "cf1", "name": "Lachlann mac Fhearchair", "parent": null, "born_between": [78, 88], "died_between": [130, 150], "note": "Father of the first king of the house; the house roll gives his name and no more."},
    {"id": "cf2", "name": "Fearchar mac Lachlainn", "parent": "cf1", "spouse": "Eilidh nic Dhùghaill", "born_between": [108, 118], "died_between": [172, 172], "note": "Chosen by the heads of the seven houses and crowned at Cathair dhearg {{date:III-0058}}; kept part of each year's court at Baile Mòr dhomhain."},
    {"id": "cf3", "name": "Iain mac Lachlainn", "parent": "cf1", "born_between": [112, 125], "died_between": [165, 185], "note": "The king's younger brother; kept the house's hall at Baile Mòr dhomhain in the seasons the court was away."},
    {"id": "cf4", "name": "Fearchar Donn", "parent": "cf2", "spouse": "Mòrag nic Iain", "born_between": [145, 155], "died_between": [215, 222], "note": "Crowned after his father without dispute, {{date:III-0061}}."},
@@ -22,11 +22,11 @@
    {"id": "ca1", "name": "Coinneach Glas", "parent": null, "spouse": "Mòrag nic Uilleim", "born_between": [1748, 1758], "died_between": [1804, 1822], "note": "High custodian after Tormod mac Ailein; had never met a human before the Crossing and dealt with little else after it."},
    {"id": "ca2", "name": "Eachann Mòr", "parent": "ca1", "spouse": "Seonag nic Dhòmhnaill", "born_between": [1778, 1790], "died_between": [1835, 1858], "note": "A custodian of Ceann àrsaidh who lost his place on the council; sent his son west with the Mission's letter."},
    {"id": "ca3", "name": "Iseabail nic Choinnich", "parent": "ca1", "born_between": [1780, 1792], "died_between": [1830, 1860], "note": "Kept her father's copies of the council roll after his death."},
-   {"id": "ca4", "name": "Calum mac Eachainn", "parent": "ca2", "born_between": [1814, 1818], "died_between": [1835, 1890], "note": "Sailed west on a Company ship, {{date:IV-0120}}, and is never recorded returning. No roll records his death, and the dates given for it are uncertain."},
+   {"id": "ca4", "name": "Calum mac Eachainn", "parent": "ca2", "born_between": [1814, 1818], "died_between": [1835, 1890], "note": "Sailed west on a Company ship, {{date:IV-0120}}, and is never recorded returning."},
    {"id": "ca5", "name": "Ruairidh mac Eachainn", "parent": "ca2", "born_between": [1810, 1822], "died_between": [1868, 1892], "note": "Held no seat on the council; the family's place there was not restored in the age."},
    {"id": "ca6", "name": "Seònaid nic Eachainn", "parent": "ca2", "born_between": [1812, 1825], "died_between": [1870, 1895], "note": "Kept the family's house at Ceann àrsaidh after her brother sailed."},
    {"id": "ca7", "name": "Coinneach mac Ruairidh", "parent": "ca5", "born_between": [1845, 1858], "died_between": [1900, 1928], "note": "A custodian of the town's shrine of Macha; his name is on the petitions of the Levy years."},
-   {"id": "ca8", "name": "Anna nic Ruairidh", "parent": "ca5", "born_between": [1848, 1862], "died_between": [1905, 1930], "note": "Married inland; the family roll records her going and not where."},
+   {"id": "ca8", "name": "Anna nic Ruairidh", "parent": "ca5", "born_between": [1848, 1862], "died_between": [1905, 1930], "note": "Married inland; the family roll records that she went, but not where."},
    {"id": "ca9", "name": "Tormod mac Choinnich", "parent": "ca7", "born_between": [1880, 1895], "died_between": [1935, 1965], "note": "The last of the line the family roll records."}
   ]
  },
@@ -61,7 +61,7 @@
  },
  {
   "house": "Clann Choinnich of the silver guild",
-  "note": "The family at the head of the refiners' guild that held the silver seam of {{place:burg:419}} against the Company ({{date:IV-0102}}) and kept it under the Silver Compact until the rising. Its name is the name of the house of custody that brought the silver petitions of the Sundering age; the record does not trace the descent.",
+  "note": "The family at the head of the refiners' guild that held the silver seam of {{place:burg:419}} against the Company ({{date:IV-0102}}) and kept it under the Silver Compact until the rising. Its name is the name of the house of custody that brought the silver petitions of the Sundering age, but no roll traces the descent.",
   "members": [
    {"id": "cc1", "name": "Coinneach mac Dhonnchaidh", "parent": null, "born_between": [1728, 1740], "died_between": [1785, 1810], "note": "A refiner of the seam; the guild ledger names him among its members at the Crossing."},
    {"id": "cc2", "name": "Ùna nic Choinnich", "parent": "cc1", "spouse": "Alasdair mac Ruairidh", "born_between": [1762, 1770], "died_between": [1847, 1856], "note": "Led the guild; met the Company's surveyors at the adit with the whole guild and its ledgers; refused Martha Gale's partnership when very old, {{date:IV-0143}}."},
@@ -91,7 +91,7 @@
  },
  {
   "house": "The Hales",
-  "note": "The family of the first marriage in two tongues on the record, made at {{place:burg:105}} ({{date:IV-0028}}). The Moot's own genealogy traces its first speaker, Walter Hale, to that marriage. His great-grandson Peter Hale holds the Moot's chair in the present year ({{date:V-0390}}).",
+  "note": "The family of the first marriage in two tongues that any roll records, made at {{place:burg:105}} ({{date:IV-0028}}). The Moot's own genealogy traces its first speaker, Walter Hale, to that marriage. His great-grandson Peter Hale holds the Moot's chair in the present year ({{date:VI-0153}}).",
   "members": [
    {"id": "hl1", "name": "Samuel Hale", "parent": null, "spouse": "Eilidh nic Ruairidh, net-maker of Baile dhìreach", "born_between": [1755, 1765], "died_between": [1812, 1835], "note": "A human cooper; his marriage was entered in both the council's books."},
    {"id": "hl2", "name": "John Hale", "parent": "hl1", "born_between": [1787, 1800], "died_between": [1840, 1870], "note": "A cooper of Baile dhìreach, like his father."},
@@ -106,7 +106,7 @@
  },
  {
   "house": "The house of Mac Ùisdein of Cathair mhòr",
-  "note": "A Ròdaich house of {{place:burg:23}} that held an overseer's post under the humans and the Sloc Mòr concession under the Crown ({{date:V-0051}}). It sold the concession back piece by piece, and it was the only house of the vein to move its money out before the vein failed it ({{date:V-0279}}).",
+  "note": "A Ròdaich house of {{place:burg:23}} that held an overseer's post under the humans and the Sloc Mòr concession under the Crown ({{date:V-0051}}). It sold the concession back piece by piece, and it was the only house of the vein to move its money out before the vein failed it ({{date:VI-0042}}).",
   "members": [
    {"id": "mu1", "name": "Ùisdean mac Ruairidh", "parent": null, "born_between": [1850, 1862], "died_between": [1912, 1935], "note": "Held the house's overseer's post under the Company; the post is the house's first entry in any roll."},
    {"id": "mu2", "name": "Uisdean mac Ùisdein", "parent": "mu1", "spouse": "Beathag nic Iain", "born_between": [1885, 1898], "died_between": [1960, 1972], "note": "Given the Sloc Mòr on the humans' terms with the names changed; raised the market cross and the stone house at Cathair mhòr."},

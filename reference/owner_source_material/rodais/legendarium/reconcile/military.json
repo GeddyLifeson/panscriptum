@@ -1,36 +1,36 @@
 {
  "layer": "military, wars and zones",
- "summary": "Read all 5 military unit types and 20 transports (record 1), the kingdom's one campaign, diplomacy and all 13 regiments/fleets (record 14), all 5 zones with their cells mapped to burgs and shires through cells.burg/cells.province (records 17, 27, 38), and the 2 battlefield markers (record 35). AGREE: the campaign (An Cogadh Fada, 2020-2021, the kingdom against the unaffiliated holdouts) matches V-0312..V-0355 and appendix C; both battle markers carry exactly the dates of V-0318 (11 April 2020) and V-0352 (10 December 2021); 12 of 13 hosts sit on the town the history stations them at, and every host already has a raising event, station and service in the annals and appendix C and a gazetteer line; zones 0-3 name exactly the towns their cells cover (9, 6, 4, 3), each with a dated annal and older precursors, and every covered town's gazetteer entry mentions its calamity; on foot, rowboat, sailing boat, sailing ship, steamship (1870/1882), train (repair 1937), automobile (dubhan lorry 2007) and modern ship (dubhan hulls 2004/2012) already appear. CONFLICTS (4, map fixed): the fifth regiment was stranded on Seann Warr's old cell after the burg was moved to its haven (moved with it); six hosts' notes said raised in 2021 against the annals' 2020 (notes corrected); archers in a 2026 army of rifles and lorries (unit renamed riflemen in record 1, every regiment's units and note); dirigible, helicopter, modern airplane and teleport never on Rodos (removed from the transports). MISSING (history written): zone 4 covers Ros gharbh, moved into the wave's reach (added to V-0018, appendix, book, gazetteer); Gorta Baile chrom had no annal naming its towns and shires (IV-0195a) and Àth chaol was named nowhere for the Rending (IV-0272 edit); shires added to all five zone entries in appendix C; the first fleet's position is Doire shean's harbour beside Àth gharbh (V-0326, appendix, 2 gazetteer lines); the regiments' strength summarised in appendix C; transports dated with 9 new annals and one edit: riders (II), relay horses (III), first carriage (1798), stagecoach (1848), first steamer (1850), the ore line railway (1899), the Company's aeroplane (1926; its burning in 1929 added to IV-0360), first motor car (2008), buses and hired cars (2012); book sentences for the railway, the aeroplane, motor cars and Ros gharbh; gazetteer lines for Ros dhomhain and Muileann chrom (railway) and Inis uaine (eighth regiment raised during, not after, the war).",
+ "summary": "Read all 5 military unit types and 20 transports (record 1), the kingdom's one campaign, diplomacy and all 13 regiments/fleets (record 14), all 5 zones with their cells mapped to burgs and shires through cells.burg/cells.province (records 17, 27, 38), and the 2 battlefield markers (record 35). AGREE: the campaign (An Cogadh Fada, 2020-2021, the kingdom against the unaffiliated holdouts) matches VI-0075..VI-0118 and appendix C; both battle markers carry exactly the dates of VI-0081 (11 April 2020) and VI-0115 (10 December 2021); 12 of 13 hosts sit on the town the history stations them at, and every host already has a raising event, station and service in the annals and appendix C and a gazetteer line; zones 0-3 name exactly the towns their cells cover (9, 6, 4, 3), each with a dated annal and older precursors, and every covered town's gazetteer entry mentions its calamity; on foot, rowboat, sailing boat, sailing ship, steamship (1870/1882), train (repair 1937), automobile (dubhan lorry 2007) and modern ship (dubhan hulls 2004/2012) already appear. CONFLICTS (4, map fixed): the fifth regiment was stranded on Seann Warr's old cell after the burg was moved to its haven (moved with it); six hosts' notes said raised in 2021 against the annals' 2020 (notes corrected); archers in a 2026 army of rifles and lorries (unit renamed riflemen in record 1, every regiment's units and note); dirigible, helicopter, modern airplane and teleport never on Rodos (removed from the transports). MISSING (history written): zone 4 covers Ros gharbh, moved into the wave's reach (added to V-0018, appendix, book, gazetteer); Gorta Baile chrom had no annal naming its towns and shires (IV-0195a) and Àth chaol was named nowhere for the Rending (IV-0272 edit); shires added to all five zone entries in appendix C; the first fleet's position is Doire shean's harbour beside Àth gharbh (VI-0089, appendix, 2 gazetteer lines); the regiments' strength summarised in appendix C; transports dated with 9 new annals and one edit: riders (II), relay horses (III), first carriage (1798), stagecoach (1848), first steamer (1850), the ore line railway (1899), the Company's aeroplane (1926; its burning in 1929 added to IV-0360), first motor car (2008), buses and hired cars (2012); book sentences for the railway, the aeroplane, motor cars and Ros gharbh; gazetteer lines for Ros dhomhain and Muileann chrom (railway) and Inis uaine (eighth regiment raised during, not after, the war).",
  "map_edits": [
   {
    "record": 14,
    "path": "[1].military[4].cell",
    "value": 2972,
-   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (V-0330, V-0377), appendix C and the gazetteer all station it at Seann Warr."
+   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (VI-0093, VI-0140), appendix C and the gazetteer all station it at Seann Warr."
   },
   {
    "record": 14,
    "path": "[1].military[4].x",
    "value": 565.3,
-   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (V-0330, V-0377), appendix C and the gazetteer all station it at Seann Warr."
+   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (VI-0093, VI-0140), appendix C and the gazetteer all station it at Seann Warr."
   },
   {
    "record": 14,
    "path": "[1].military[4].y",
    "value": 375.29,
-   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (V-0330, V-0377), appendix C and the gazetteer all station it at Seann Warr."
+   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (VI-0093, VI-0140), appendix C and the gazetteer all station it at Seann Warr."
   },
   {
    "record": 14,
    "path": "[1].military[4].bx",
    "value": 565.3,
-   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (V-0330, V-0377), appendix C and the gazetteer all station it at Seann Warr."
+   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (VI-0093, VI-0140), appendix C and the gazetteer all station it at Seann Warr."
   },
   {
    "record": 14,
    "path": "[1].military[4].by",
    "value": 375.29,
-   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (V-0330, V-0377), appendix C and the gazetteer all station it at Seann Warr."
+   "why": "Seann Warr was moved from cell 3235 to its lake-shore haven (cell 2972) by burg_moves.json after finish_map.py had named the regiment for it; the regiment was left behind on the old, now empty cell 3235, 36 map units from its town. The annals (VI-0093, VI-0140), appendix C and the gazetteer all station it at Seann Warr."
   },
   {
    "record": 1,
@@ -110,7 +110,7 @@
    "record": 14,
    "path": "[1].military[3].note",
    "value": "Regiment was formed in 2020 Diosal Era during An Cogadh Fada (the Long War). An ceathramh rèisimeid (Caol bheag) is stationed in Caol bheag. \r\n\r\nRegiment composition in 2026 DE:\r\n— infantry: 684\r\n— cavalry: 266\r\n— artillery: 7\r\n— riflemen: 364.",
-   "why": "the annals raise every regiment and fleet in 2020 (V-0321 to V-0347, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021; archers renamed riflemen."
+   "why": "the annals raise every regiment and fleet in 2020 (VI-0084 to VI-0110, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021; archers renamed riflemen."
   },
   {
    "record": 14,
@@ -178,7 +178,7 @@
    "record": 14,
    "path": "[1].military[7].note",
    "value": "Regiment was formed in 2020 Diosal Era during An Cogadh Fada (the Long War). An t-ochdamh rèisimeid (Inis uaine) is stationed in Inis uaine. \r\n\r\nRegiment composition in 2026 DE:\r\n— infantry: 474\r\n— riflemen: 281\r\n— cavalry: 93\r\n— artillery: 4.",
-   "why": "the annals raise every regiment and fleet in 2020 (V-0321 to V-0347, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021; archers renamed riflemen."
+   "why": "the annals raise every regiment and fleet in 2020 (VI-0084 to VI-0110, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021; archers renamed riflemen."
   },
   {
    "record": 14,
@@ -195,25 +195,25 @@
    "record": 14,
    "path": "[1].military[8].note",
    "value": "Regiment was formed in 2020 Diosal Era during An Cogadh Fada (the Long War). An naoidheamh rèisimeid (Seann Skell) is stationed in Seann Skell. \r\n\r\nRegiment composition in 2026 DE:\r\n— riflemen: 321\r\n— infantry: 451\r\n— artillery: 10\r\n— cavalry: 68.",
-   "why": "the annals raise every regiment and fleet in 2020 (V-0321 to V-0347, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021; archers renamed riflemen."
+   "why": "the annals raise every regiment and fleet in 2020 (VI-0084 to VI-0110, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021; archers renamed riflemen."
   },
   {
    "record": 14,
    "path": "[1].military[10].note",
    "value": "Regiment was formed in 2020 Diosal Era during An Cogadh Fada (the Long War). An dàrna cabhlach (Seann Skell) is based in Seann Skell. \r\n\r\nRegiment composition in 2026 DE:\r\n— fleet: 2.",
-   "why": "the annals raise every regiment and fleet in 2020 (V-0321 to V-0347, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021."
+   "why": "the annals raise every regiment and fleet in 2020 (VI-0084 to VI-0110, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021."
   },
   {
    "record": 14,
    "path": "[1].military[11].note",
    "value": "Regiment was formed in 2020 Diosal Era during An Cogadh Fada (the Long War). An treas cabhlach (Baile ghorm) is based in Baile ghorm. \r\n\r\nRegiment composition in 2026 DE:\r\n— fleet: 1.",
-   "why": "the annals raise every regiment and fleet in 2020 (V-0321 to V-0347, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021."
+   "why": "the annals raise every regiment and fleet in 2020 (VI-0084 to VI-0110, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021."
   },
   {
    "record": 14,
    "path": "[1].military[12].note",
    "value": "Regiment was formed in 2020 Diosal Era during An Cogadh Fada (the Long War). An ceathramh cabhlach (Cuan shean) is based in Cuan shean. \r\n\r\nRegiment composition in 2026 DE:\r\n— fleet: 1.",
-   "why": "the annals raise every regiment and fleet in 2020 (V-0321 to V-0347, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021."
+   "why": "the annals raise every regiment and fleet in 2020 (VI-0084 to VI-0110, all dated 2020; the book: 'Through the autumn the kingdom went on raising regiments'; appendix C: all raised in the first year of the war), while the note said 2021."
   },
   {
    "record": 1,
@@ -450,9 +450,9 @@
   },
   {
    "age": "V",
-   "after": "V-0263",
+   "after": "VI-0026",
    "event": {
-    "id": "V-0263a",
+    "id": "VI-0026a",
     "canon": false,
     "title": "The first motor car",
     "body": "Fitters at Seann Skell on the southern coast put a lorry's dubhan engine under a closed carriage for the high custodian of the Rite. It is the first carriage on the island that needs no horse. Within a few years the council and the Mine Board have them too.",
@@ -466,9 +466,9 @@
   },
   {
    "age": "V",
-   "after": "V-0278",
+   "after": "VI-0041",
    "event": {
-    "id": "V-0278a",
+    "id": "VI-0041a",
     "canon": false,
     "title": "Buses and hired cars",
     "body": "Dubhan buses begin to run between Cathair dhearg, Inis mhòr and Cathair mhòr, and hired cars wait at the bridge in the capital. Ròdais takes the names of both from the humans' tongue as it found them, bus and tacsaidh, where for the engine and the train it had made its own words.",
@@ -520,7 +520,7 @@
    "why": "Àth chaol (burg 228) lies inside the Rending zone and is named in appendix C, but no annal names it."
   },
   {
-   "id": "V-0326",
+   "id": "VI-0089",
    "field": "body",
    "old": "The first fleet is raised from the south-west harbours and stationed at Àth gharbh.",
    "new": "The first fleet is raised from the south-west harbours and stationed at Àth gharbh, its hulls lying in the harbour of Doire shean a short walk away.",
@@ -610,8 +610,8 @@
   },
   {
    "file": "appendices/C_hosts_wars.md",
-   "old": "| **An naoidheamh rèisimeid**, the ninth | {{place:burg:431}} | {{date:V-0347}} | Last raised, to guard the dubhan works. Its fighter won the first Còmhrag the regiments entered ({{date:V-0383}}). |\n",
-   "new": "| **An naoidheamh rèisimeid**, the ninth | {{place:burg:431}} | {{date:V-0347}} | Last raised, to guard the dubhan works. Its fighter won the first Còmhrag the regiments entered ({{date:V-0383}}). |\n\nThe regimental rolls of the present year count 5,577 foot, 3,022 riflemen and 2,322 horse in the nine regiments, with seventy-nine guns. The first regiment is the largest, at 1,818 men, and the eighth and ninth are the smallest, at about 850 each. The horse are kept for the hill roads of the west and the north, where lorries cannot go and the dubhan depots are far apart. The four fleets are small. The first and second have two hulls each and the third and fourth one each, with about a hundred men to a hull.\n",
+   "old": "| **An naoidheamh rèisimeid**, the ninth | {{place:burg:431}} | {{date:VI-0110}} | Last raised, to guard the dubhan works. Its fighter won the first Còmhrag the regiments entered ({{date:VI-0146}}). |\n",
+   "new": "| **An naoidheamh rèisimeid**, the ninth | {{place:burg:431}} | {{date:VI-0110}} | Last raised, to guard the dubhan works. Its fighter won the first Còmhrag the regiments entered ({{date:VI-0146}}). |\n\nThe regimental rolls of the present year count 5,577 foot, 3,022 riflemen and 2,322 horse in the nine regiments, with seventy-nine guns. The first regiment is the largest, at 1,818 men, and the eighth and ninth are the smallest, at about 850 each. The horse are kept for the hill roads of the west and the north, where lorries cannot go and the dubhan depots are far apart. The four fleets are small. The first and second have two hulls each and the third and fourth one each, with about a hundred men to a hull.\n",
    "why": "Summarise the regiments' composition from the map (unit counts), with archers as riflemen."
   },
   {
@@ -635,7 +635,7 @@
   {
    "file": "book/age_V.md",
    "old": "It carried no ore. The roadside inns put in dubhan lamps",
-   "new": "It carried no ore. Within a few years the drovers had sold their oxen for lorries, a motor car carried the high custodian at Seann Skell ({{date:V-0263a}}), and buses ran out of the capital ({{date:V-0278a}}). The roadside inns put in dubhan lamps",
+   "new": "It carried no ore. Within a few years the drovers had sold their oxen for lorries, a motor car carried the high custodian at Seann Skell ({{date:VI-0026a}}), and buses ran out of the capital ({{date:VI-0041a}}). The roadside inns put in dubhan lamps",
    "why": "Automobile and modern automobile dated."
   }
  ],
@@ -647,6 +647,6 @@
   "The first fleet keeps its name (Àth gharbh) while lying at Doire shean; renaming it to Doire shean would be the alternative map-side fix.",
   "V-0229 (1997) closes a branch line to Àth leathan whose building is not in the annals; left alone.",
   "The quest journey (record 52) travels by Carriage; its date is not in the history, and carriages exist from 1798 on, so any date after that fits.",
-  "Positions were chosen to move as few existing dates as possible: with these 10 additions 24 existing events shift, all by months or a few years (II-0189..II-0203 by up to 7 years; IV-0242..0244, IV-0316..0318, V-0263..0265 within a year). No war, battle or canon date moves. New events carry 'between' windows equal to the years of their neighbours so they do not pull neighbouring dates; the reckoning will re-space the stretch slightly."
+  "Positions were chosen to move as few existing dates as possible: with these 10 additions 24 existing events shift, all by months or a few years (II-0189..II-0203 by up to 7 years; IV-0242..0244, IV-0316..0318, VI-0026..0028 within a year). No war, battle or canon date moves. New events carry 'between' windows equal to the years of their neighbours so they do not pull neighbouring dates; the reckoning will re-space the stretch slightly."
  ]
 }

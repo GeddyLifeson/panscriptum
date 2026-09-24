@@ -8,7 +8,8 @@ Reads LEXICON_5005.json (the original 5,005 entries, kept as they were before th
 
     ../LEXICON.json      all entries, keyed by English; new entries carry their frequency rank and
                          band ("F1" = the 1,000 most common English words ... "F16"), and every entry
-                         gets "ipa" from rodais_engine.pronounce() when the engine has it
+                         gets "ipa" from rodais_engine.pronounce() when the engine has it; the "scots"
+                         field of the batches (the outside word a kenning stands for) is dropped
     ../LEXICON.md        Ròdais - English, sorted by Ròdais headword
     ../LEXICON_EN.md     English - Ròdais, sorted by English headword
     coverage.txt         how many of the most common English words the dictionary now covers
@@ -113,9 +114,13 @@ def main():
                 e['ipa'] = pron(e['rod'])
             except Exception:  # noqa: BLE001 -- a pronunciation failure must not stop the merge
                 pass
+    for e in entries:   # the dictionary is written from inside the island: no outside word stands beside a kenning
+        e.pop('scots', None)
     base['entries'] = entries
-    base['source'] = (base.get('source', '') + '; extended to the most common English words by frequency rank '
-                      '(wordfreq, lemmatized), levels F1-F16 = frequency bands of 1,000 words').strip('; ')
+    base['source'] = ('The word-hoard of the Ròdais tongue, set down at the Library at Muileann chaol: English headwords '
+                      'with their Ròdais, the first 5,005 graded by level (A1-C2) and the rest by how often the English '
+                      'word is used (levels F1-F16, bands of 1,000 words). An entry marked "kenning" is a word the island '
+                      'built from old roots for a thing that came with the humans or after them; "lit" gives its literal sense.')
     json.dump(base, open(os.path.join(OUT, 'LEXICON.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
     # coverage of the frequency list
@@ -149,11 +154,13 @@ def main():
         return ', '.join(bits)
 
     out = ['# Ròdais – English dictionary', '',
-           '%d entries, sorted by Ròdais headword (ignoring a leading article). Nouns show gender, genitive and '
-           'plural; verbs show the verbal noun. The pronunciation is given in IPA between slashes. ✦ marks a word '
-           'built from old roots for a thing that came in from about 1800 on (GRAMMAR.md §13), with its literal '
-           'sense and the Scottish Gaelic word it replaces. The English–Ròdais direction is in `LEXICON_EN.md`; '
-           'the data is `LEXICON.json`.' % len(entries), '']
+           'Here are %d words of the Ròdais tongue, in the order of their headwords; a leading article is passed '
+           'over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its '
+           'verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the '
+           'island built from its own old roots when a new thing came to it with the humans or after them '
+           '(GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* '
+           '"heaven-grazer" for a tower of many floors. The other road, from English into Ròdais, is `LEXICON_EN.md`.'
+           % len(entries), '']
     letter = None
     for e in sorted(entries, key=lambda e: (key(e['rod']), e['en'].lower())):
         k = key(e['rod'])[:1].upper() or "'"
@@ -170,8 +177,6 @@ def main():
             s += ' (%s)' % e['sense']
         if e.get('lit'):
             s += '; lit. "%s"' % e['lit']
-        if e.get('kenning') and e.get('scots'):
-            s += '; for Sc.G. *%s*' % e['scots']
         if extra:
             s += ' ' + ' '.join(extra)
         s += ' `%s`' % e.get('level', '')
@@ -179,8 +184,8 @@ def main():
     open(os.path.join(OUT, 'LEXICON.md'), 'w', encoding='utf-8').write('\n'.join(out) + '\n')
 
     # English - Ròdais
-    out = ['# English – Ròdais dictionary', '', '%d entries, sorted by English headword. See `LEXICON.md` for the '
-           'full Ròdais – English entries.' % len(entries), '']
+    out = ['# English – Ròdais dictionary', '', 'The same %d words, in the order of their English headwords. The full '
+           'entries, with sound and literal sense, stand in `LEXICON.md`.' % len(entries), '']
     letter = None
     for e in sorted(entries, key=lambda e: (key(e['en']), e['rod'].lower())):
         k = key(e['en'])[:1].upper() or '?'

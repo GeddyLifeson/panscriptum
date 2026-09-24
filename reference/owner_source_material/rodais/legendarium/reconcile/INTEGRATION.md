@@ -65,16 +65,16 @@ where two of them, or a proposal and the rest of the record, disagreed.
    removed; ids kept) was applied and tested in the real FMG 1.153.1: the map loads with no errors, the Transport
    Types editor lists 16 types, the Journeys overview and the journey editor open and compute the Leaden Hawk
    journey. FMG looks transports up by name, so the shortened list is kept.
-6. **Dubhan has no good.** The history sells dubhan at the works' depots and pumps (V-0266, V-0277, V-0285,
-   V-0324), not in markets, so there is nothing for a market good to represent. G now says so in its account of
+6. **Dubhan has no good.** The history sells dubhan at the works' depots and pumps (VI-0029, VI-0040, VI-0048,
+   VI-0087), not in markets, so there is nothing for a market good to represent. G now says so in its account of
    what the roll leaves out: dubhan is not sold in the sixteen markets but at the works' own depots and pumps and
    at inns that keep a pump, with the wartime tithe taken at the pump.
 7. **The Crown's dues were described twice.** Economy had a "sale-tithe" fixed in 2023 out of the dubhan war
-   tithe and a "head-tax" of eighteen in the hundred of a reckoned wage (V-0036a, V-0368a, G § V); state had a
+   tithe and a "head-tax" of eighteen in the hundred of a reckoned wage (V-0036a, VI-0131a, G § V); state had a
    head-due and a market-due set in 1933 (V-0015a), eighteen purses per hundred thousand heads, with the dubhan
-   tithe on its own line (H § IV, V-0391a). State's frame was kept because it is what the map's pollTax/salesTax
+   tithe on its own line (H § IV, VI-0154a). State's frame was kept because it is what the map's pollTax/salesTax
    arithmetic gives and it keeps the dubhan tithe apart. Economy's two events now fit inside it: V-0036a is the
-   head-due first collected on the 1936 census, V-0368a is the Treasury fixing the market-due at seventeen in the
+   head-due first collected on the 1936 census, VI-0131a is the Treasury fixing the market-due at seventeen in the
    hundred after the war and setting a clerk in each market town. G § V was rewritten to match, the unit is the
    purse of the realm-coin throughout, and G's "Treasury holds 9,568 ... the whole reserve" became the year's roll.
 8. **H's totals after the land layer lowered the frozen coast's people.** Land cut the rural population of the
@@ -95,7 +95,7 @@ where two of them, or a proposal and the rest of the record, disagreed.
 10. **The ore line twice.** Military's IV-0243a (1899) and markers' IV-0236a (1895–1905) were the same railway.
     One event is kept, IV-0243a, with military's date and place and the markers layer's carters of Doire chaol on
     Rathad na Mèinne; IV-0236a is dropped. Its line runs Muileann chrom – Cathair dhearg – Ros dhomhain, which
-    agrees with V-0058a and V-0259.
+    agrees with V-0058a and VI-0022.
 11. **The southern sea-lane and Baile thais.** Markers sent the lane "up the river to the quays of Baile thais";
     land moved Baile thais up to where the Abhainn uaine leaves the hills, with Cidhe Beag just below it. The lane
     now ends at the landing of Cidhe Beag below Baile thais (III-0189a and the Baile thais gazetteer line).
@@ -190,8 +190,8 @@ able to export the stuff". Applied after the faiths, in this order.
 - **The history.** The frozen coast is *an Oirthir Ghaothach*, the windy coast: bare heather moor and blanket bog
   behind the great moss, open to the north-western gales. Rewritten, ids and dates kept: I-0006a (the bare
   north-west), I-0008a (seals on the skerries), III-0173 (the great gale at Inis mhòr), IV-0127a (a brig lost in
-  the mist), V-0014a, V-0335a; edited: III-0120, III-0215, IV-0001a, IV-0246a, V-0011, V-0391a. Added:
-  III-0239a (the mist thins, 1774) and V-0391b (Dubhan's charter of export, 2026). No other event changed date.
+  the mist), V-0014a, VI-0098a; edited: III-0120, III-0215, IV-0001a, IV-0246a, V-0011, VI-0154a. Added:
+  III-0239a (the mist thins, 1774) and VI-0154b (Dubhan's charter of export, 2026). No other event changed date.
   H and G carry the recount: 35,415,000 heads, head-due 6,375 and market-due 3,193 purses (the roll still
   9,568), Tuathaich in the country 3,237,000 within the shires, the Moot's tally of the windy coast near nine
   thousand. Appendix I's climate is the new temperature record read in the humans' degrees.
@@ -209,3 +209,8 @@ two horses; Fionntan mac Bòchra the oldest of men and the Hawk of Acaill (Mòd)
 shape; Manannan's Cup of Truth broken by three lies and whole at three truths; Crom Cruaich "of the mound" and his
 stone on Magh Slèacht; Lia Fàil set up at Teamhair; Taigh Dhuinn a rock in the south-western sea; Lugh's feast
 for Tailtiu; Dian Cècht's silver hand for Nuadha. No event, id or date changed.
+
+**Later: the Sixth Age.** When the Age of Dubhan was counted apart from the Age of the Kingdom, the events from the first
+working dubhan onward (V-0238 to V-0394) moved to `annals/age_VI.json` as VI-0001 to VI-0157, suffixes kept
+(V-0263a became VI-0026a); every reference in this document and in the layer proposals follows the new ids, and no
+date moved.

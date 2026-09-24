@@ -33,8 +33,8 @@ new list is already in, the record-29 edits before it are passed over and each r
 against its value as renumbered, so a second run changes nothing.
 
 The climate, the sea, dubhan and the loose ends of the roads come after the faiths (reconcile/climate.json,
-dubhan.json, loose_ends.json), and last the tellings read against the Gaelic tales (reconcile/tales.json), with four
-more edit forms:
+dubhan.json, loose_ends.json), then the tellings read against the Gaelic tales (reconcile/tales.json), and last the calendar
+(reconcile/calendar.json: the map's era and year, and every dated note, in the Dubhan Era), with four more edit forms:
     {"record": 39, "path": "(whole record: pack.ice)", "value": []}      a JSON record replaced whole
     {"record": 11, "action": "recompute_temperature"}                    grid.cells.temp made anew, as Azgaar's
         Temperature.compute() makes it, from the settings (record 1: climate.temperature, geography.coordinates,
@@ -47,6 +47,10 @@ more edit forms:
         appended with the next free ids): each piece's points, group and name; the cells' route links
         (record 36) of each piece's stretch; and the saved <path id="routeN"> of each piece, with the path
         Azgaar's Routes.getPath draws for it ("d"), placed after the route's own path
+
+After the calendar comes the prose (reconcile/prose.json): the map's visible notes, the markers' (record 35) and
+the regiments' and fleets' (record 14), each set whole in the voice of the island's place-lore; the earlier edits
+of those same notes are set aside by its "skip" list, so the notes as they stand are the only ones checked.
 
 Beside the edits it derives what follows from them: a route regrouped to "roads" has its saved
 <path id="routeN"> moved from <g id="trails"> into <g id="roads"> (record 5), in route order as Azgaar draws
@@ -80,7 +84,7 @@ RECORDS_TOUCHED = CELL_ARRAYS | JSON_RECORDS | {L_SVG, L_NAMEBASES}
 
 # the order the layers are applied in: the state and its shires first, the land (whole cell arrays) last
 ORDER = ['state', 'heraldry', 'religions', 'economy', 'military', 'markers_routes', 'land', 'integration', 'faiths',
-         'climate', 'dubhan', 'loose_ends', 'tales']
+         'climate', 'dubhan', 'loose_ends', 'tales', 'calendar', 'prose']
 
 
 def dump(data):

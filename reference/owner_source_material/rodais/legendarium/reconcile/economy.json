@@ -1,6 +1,6 @@
 {
  "layer": "economy",
- "summary": "Economy layer (records 14, 15, 40-44). Read all 71 goods, 4,300 cell goods (record 40; 689 land/sea cells carry a good), 505 burgs' production/treasury/product, 16 markets with their 71-good stock and prices (record 42), 8,058 deals (record 43: 6,235 market->burg, 1,759 burg->market, 64 market->market) and the kingdom's taxes (salesTax 0.17, pollTax 0.18, treasury 9,568). AGREES (no change): the sale-tithe of 17% equals the history's tithe on every sale (V-0323/0368/0391); Ceann leathan's market (II-0068), Ros fhionn's salt fair (III-0147), Cathair dhomhain's toll charter (II-0138), Ros bheag's trade court (II-0160), Baile Mòr dhomhain as the hill market (V-0198), Baile Mòr fhionn as the plain's market and Cathair fhada's merchants of the Fèill (gazetteer); silver in the eastern hills, gold near Baile dhìreach, the Baile ghorm salt cell (I-0100), olives (III-0073), honey, grain, cattle, sheep, fish, hemp/rope, dyes, clay/pottery, wool, timber, venison; all 16 market centres have plaza=1 and no history market town lacks a plaza. CONFLICTS (map edited to the history): Slaves -> Seal-oil and Elephants -> Oxen (goods foreign to the island's history), Coal -> Charcoal (the history closes every coal working by 2022-25), no silver at Muileann chiar, no copper at Àth fhiadhaich, salt at only one cell although the history gives Àth bheag, Seann Warr and Caol ìseal salt-pans, no paper at Muileann chaol/Tobar dhìreach, no rope at Seann Tarr/Baile ghlas, no cloth at Doire ghlas/Baile chiar (22 map edits). MISSING FROM THE HISTORY (written in): the whole present-day economy (new appendix G_trade.md), market rights for 11 market centres that had none, amber, marble, wine, tobacco, whaling, glass, scent, the coin-blank trade (27 villages craft Coins), the regiments' arms trade (arms are the top good sold back to towns in every market), the head-tax and the 17% sale-tithe (24 annals events); 58 gazetteer history additions (all 16 market centres and the big producers).",
+ "summary": "Economy layer (records 14, 15, 40-44). Read all 71 goods, 4,300 cell goods (record 40; 689 land/sea cells carry a good), 505 burgs' production/treasury/product, 16 markets with their 71-good stock and prices (record 42), 8,058 deals (record 43: 6,235 market->burg, 1,759 burg->market, 64 market->market) and the kingdom's taxes (salesTax 0.17, pollTax 0.18, treasury 9,568). AGREES (no change): the sale-tithe of 17% equals the history's tithe on every sale (VI-0086/0131/0154); Ceann leathan's market (II-0068), Ros fhionn's salt fair (III-0147), Cathair dhomhain's toll charter (II-0138), Ros bheag's trade court (II-0160), Baile Mòr dhomhain as the hill market (V-0198), Baile Mòr fhionn as the plain's market and Cathair fhada's merchants of the Fèill (gazetteer); silver in the eastern hills, gold near Baile dhìreach, the Baile ghorm salt cell (I-0100), olives (III-0073), honey, grain, cattle, sheep, fish, hemp/rope, dyes, clay/pottery, wool, timber, venison; all 16 market centres have plaza=1 and no history market town lacks a plaza. CONFLICTS (map edited to the history): Slaves -> Seal-oil and Elephants -> Oxen (goods foreign to the island's history), Coal -> Charcoal (the history closes every coal working by 2022-25), no silver at Muileann chiar, no copper at Àth fhiadhaich, salt at only one cell although the history gives Àth bheag, Seann Warr and Caol ìseal salt-pans, no paper at Muileann chaol/Tobar dhìreach, no rope at Seann Tarr/Baile ghlas, no cloth at Doire ghlas/Baile chiar (22 map edits). MISSING FROM THE HISTORY (written in): the whole present-day economy (new appendix G_trade.md), market rights for 11 market centres that had none, amber, marble, wine, tobacco, whaling, glass, scent, the coin-blank trade (27 villages craft Coins), the regiments' arms trade (arms are the top good sold back to towns in every market), the head-tax and the 17% sale-tithe (24 annals events); 58 gazetteer history additions (all 16 market centres and the big producers).",
  "map_edits": [
   {
    "record": 41,
@@ -28,7 +28,7 @@
    "path": "[18].name",
    "old": "Elephants",
    "value": "Oxen",
-   "why": "Rodos is a cold northern island with no elephants in any age; the good (supply/military beast, 2 cells on the Caol leathan plain, exported to Ceann leathan) matches the ox-teams and drovers of the annals (III-0098, V-0260/0261)."
+   "why": "Rodos is a cold northern island with no elephants in any age; the good (supply/military beast, 2 cells on the Caol leathan plain, exported to Ceann leathan) matches the ox-teams and drovers of the annals (III-0098, VI-0023/0024)."
   },
   {
    "record": 41,
@@ -42,7 +42,7 @@
    "path": "[33].name",
    "old": "Coal",
    "value": "Charcoal",
-   "why": "The annals close every coal working before the present: the western seams flooded and capped in 2022 (V-0359: no coal dug outside the Board's works), the Sloc Mòr upper galleries closed 2025 (V-0381), 'the coal is all but gone' (V-0394). The map's 24 hill cells and four producing towns (Àth fhada 174, Baile chrom 187, Cathair naomh 192, Dùn dhubh 471) plus the good's own recipe (1.5 wood -> 1) are charcoal-burning, which the annals know (III-0199, V-0026)."
+   "why": "The annals close every coal working before the present: the western seams flooded and capped in 2022 (VI-0122: no coal dug outside the Board's works), the Sloc Mòr upper galleries closed 2025 (VI-0144), 'the coal is all but gone' (VI-0157). The map's 24 hill cells and four producing towns (Àth fhada 174, Baile chrom 187, Cathair naomh 192, Dùn dhubh 471) plus the good's own recipe (1.5 wood -> 1) are charcoal-burning, which the annals know (III-0199, V-0026)."
   },
   {
    "record": 40,
@@ -83,7 +83,7 @@
    "path": "[2767]",
    "old": 41,
    "value": 16,
-   "why": "Salt on the cell of Àth bheag (burg 492), whose pans 'supply the whole eastern seaboard' from 1961 (V-0124, V-0157, V-0260, V-0337); the map has one Salt cell on the whole island and Àth bheag makes clay."
+   "why": "Salt on the cell of Àth bheag (burg 492), whose pans 'supply the whole eastern seaboard' from 1961 (V-0124, V-0157, VI-0023, VI-0100); the map has one Salt cell on the whole island and Àth bheag makes clay."
   },
   {
    "record": 15,
@@ -191,7 +191,7 @@
      }
     ]
    },
-   "why": "The rope-makers of Seann Tarr, chartered 1982 (V-0182, V-0254 'the rope-walk at Seann Tarr')."
+   "why": "The rope-makers of Seann Tarr, chartered 1982 (V-0182, VI-0017 'the rope-walk at Seann Tarr')."
   },
   {
    "record": 15,
@@ -223,7 +223,7 @@
      }
     ]
    },
-   "why": "The wool mills of Doire ghlas (V-0202, V-0191, V-0299); the town makes only tools on the map."
+   "why": "The wool mills of Doire ghlas (V-0202, V-0191, VI-0062); the town makes only tools on the map."
   },
   {
    "record": 15,
@@ -582,9 +582,9 @@
   },
   {
    "age": "V",
-   "after": "V-0357",
+   "after": "VI-0120",
    "event": {
-    "id": "V-0357a",
+    "id": "VI-0120a",
     "canon": false,
     "title": "The market charter of Caol ruadh",
     "body": "Caol ruadh, whose harbour victualled the garrisons and the second fleet through the war, is given a market right for the southern strait. It is the sixteenth market town and the last to be chartered.",
@@ -598,9 +598,9 @@
   },
   {
    "age": "V",
-   "after": "V-0368",
+   "after": "VI-0131",
    "event": {
-    "id": "V-0368a",
+    "id": "VI-0131a",
     "canon": false,
     "title": "The sale-tithe",
     "body": "The Treasury fixes the tithe carried forward from the war at seventeen in the hundred and lays it on every sale a town makes into its market and on every sale between markets, whether of dubhan or of anything else. A clerk of the Treasury is set in each of the sixteen market towns to take it and to keep the market roll.",
@@ -614,9 +614,9 @@
   },
   {
    "age": "V",
-   "after": "V-0369",
+   "after": "VI-0132",
    "event": {
-    "id": "V-0369a",
+    "id": "VI-0132a",
     "canon": false,
     "title": "The regiments' arms contracts",
     "body": "The forges of Àth naomh in the west and Caol ìseal on the north coast, which smelt the bog-iron of their districts, take the Crown's contract for the regiments' small arms and field-guns. The forge-towns of the old vein country follow. Arms become the dearest common goods in every market of the kingdom.",
@@ -1043,13 +1043,13 @@
   "appendices/G_trade.md"
  ],
  "unsure": [
-  "The present economy runs on dubhan (V-0278, V-0391) but the goods list has no dubhan. The nearest good is Oil (i35: fuel, 1 sea cell, recipes olives/whales, produced by no burg). It could be renamed 'Dubhan' and given to the dubhan works at the southern Seann Skell (burg 431, V-0245, V-0282) as a crafted good; left alone because its recipes (olive oil, whale oil) do not fit dubhan and whale-oil is written into the history as lamp oil.",
+  "The present economy runs on dubhan (VI-0041, VI-0154) but the goods list has no dubhan. The nearest good is Oil (i35: fuel, 1 sea cell, recipes olives/whales, produced by no burg). It could be renamed 'Dubhan' and given to the dubhan works at the southern Seann Skell (burg 431, VI-0008, VI-0045) as a crafted good; left alone because its recipes (olive oil, whale oil) do not fit dubhan and whale-oil is written into the history as lamp oil.",
   "Coins are crafted in 27 small burgs (Baile naomh 48, Doire dhearg 81, ... Baile dhìreach 384, Muileann gheal 288, Àth fhiadhaich 12). The history has one mint (Cathair dhearg, V-0024). Written in as coin-blanks refined for the mint (new V-0137a) rather than editing 27 burgs and their deals.",
   "Ships are built at Ros fhionn (burg 76, port 0), whose harbour silted in III-0166. Written as river barges and hulls on its river; if that is not wanted, its Ships/Sails/Ropes production entries could be removed.",
   "Muileann fhionn (160) is a market centre; its gazetteer says human-built fort and mill of the Age of Strangers, but IV-0288 (1920) calls it 'a Ròdaich mill town'. Not an economy question; flagged for the burg/gazetteer layer. New V-0044a follows the gazetteer.",
   "Perfume (27 producers, the costliest good traded between markets) is kept and written in as scent-waters of bog-myrtle and meadowsweet (new V-0107a); renaming it was not needed.",
   "The biome record labels 616 farmed land cells 'Glacier' and 567 'Tundra' although they grow grain, wood, hemp and honey (the goods were placed under other biome rules). The appendix describes these as 'the high bare north' and does not use the biome names; the biome layer may want to relabel them.",
-  "Section V of G_trade.md cites new events by {{date:...}} (V-0368a, V-0036a, etc.); if an annals_add is not applied, the matching token in the appendix must be dropped too. Every new event id cited in G_trade.md: I-0116a, II-0064a, II-0106a, II-0134a, III-0070a, III-0088a, III-0119a, III-0126a, III-0135a, III-0156a, III-0168a, III-0181a, III-0214a, IV-0122a, IV-0127a, IV-0142a, V-0014a, V-0036a, V-0044a, V-0107a, V-0137a, V-0357a, V-0368a, V-0369a.",
+  "Section V of G_trade.md cites new events by {{date:...}} (VI-0131a, V-0036a, etc.); if an annals_add is not applied, the matching token in the appendix must be dropped too. Every new event id cited in G_trade.md: I-0116a, II-0064a, II-0106a, II-0134a, III-0070a, III-0088a, III-0119a, III-0126a, III-0135a, III-0156a, III-0168a, III-0181a, III-0214a, IV-0122a, IV-0127a, IV-0142a, V-0014a, V-0036a, V-0044a, V-0107a, V-0137a, VI-0120a, VI-0131a, VI-0132a.",
   "Prices in the appendix are given in 'the realm-coin' (bonn-rìoghachd); the map's treasury/price units have no named denomination, and the history names none for the restored coinage."
  ]
 }

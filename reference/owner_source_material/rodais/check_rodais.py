@@ -15,6 +15,14 @@ check_rodais.py -- verify everything in this folder in one run.
   5. the legendarium: every event dated and in order, every reference
      resolves, world.json is the digest of the map as it stands, and no glacier,
      ice cap or iceberg anywhere in the history
+  6. the six ages and their eras: six contiguous ages, each opening in year 1
+     of its era, every date written in the era form ("12 am Màrt, AE 67") with
+     an era year of at least 1, no date left in the old continuous count
+     (BDE / DE / Diosal Era) and no "New Age" anywhere that is delivered (the
+     books, annals, appendices and gazetteer, the language book's chapters and
+     texts, the dictionary, world.json, the map's notes), the map's calendar the
+     Dubhan Era at the present year and its wars dated in that era, each book's
+     date line its age's span, and every age and era name in Ròdais spelling
 
 Exit status 0 only when every check holds.  python check_rodais.py
 """
@@ -51,7 +59,7 @@ check(all(e.get('rod') and e.get('pos') and e.get('en') for e in lex), 'lexicon:
 check(all(e.get('g') in ('m', 'f') for e in lex if e['pos'] == 'n'), 'lexicon: every noun has a gender')
 check(all(e.get('root') for e in lex if e['pos'] == 'v'), 'lexicon: every verb has a root')
 ken = [e for e in lex if e.get('kenning')]
-check(all(e.get('lit') and e.get('scots') for e in ken), 'lexicon: every old-root compound has its literal sense and the word it replaces (%d)' % len(ken))
+check(all(e.get('lit') for e in ken), 'lexicon: every old-root compound has its literal sense (%d)' % len(ken))
 kl = {}
 for e in ken:
     kl.setdefault(e['rod'].lower(), set()).add(e['lit'].lower())
@@ -165,6 +173,64 @@ history = srcs + [open(f, encoding='utf-8').read() for f in glob.glob(os.path.jo
 history += [m.get('note', '') for m in json.loads(lines[35])]
 icy = sorted({m.group(0).lower() for t in history for m in re.finditer(r'(?i)\bglacier|\bice[ -]?caps?\b|\biceberg|\bdrift[ -]ice\b', t)})
 check(not icy, 'legendarium: no glacier, ice cap or iceberg in the history (%s)' % (', '.join(icy) or 'none'))
+
+# 6. the six ages and their eras
+RK = build_book.reckoning
+keys = RK.AGE_KEYS
+check(keys == ['I', 'II', 'III', 'IV', 'V', 'VI'] and all(os.path.exists(os.path.join(LEG, 'annals', 'age_%s.json' % k)) for k in keys)
+      and all(os.path.exists(os.path.join(LEG, 'book', 'age_%s.md' % k)) for k in keys),
+      'ages: six ages, each with its annals and its book (%s)' % ', '.join(keys))
+check([e['age'] for e in evs] == sorted((e['age'] for e in evs), key=keys.index) and set(e['age'] for e in evs) == set(keys),
+      'ages: every event in one of the six ages, the ages in order and none empty')
+check(all(RK.AGES[i][2] == RK.AGES[i + 1][1] for i in range(len(keys) - 1)),
+      'ages: contiguous, each era ending in the year the next age opens')
+opens = {}
+for e in evs:
+    opens.setdefault(e['age'], e)
+check(all(opens[k]['y'] == RK.ERA[k][1] and RK.era_year(opens[k]['y'], k) == 1 for k in keys),
+      'ages: every age opens in year 1 of its era (%s)' % ', '.join('%s %s' % (k, opens[k]['id']) for k in keys))
+check(all(RK.era_of(e['y'], e['m'], e['d']) == e['age'] and e.get('era') == RK.ERA[e['age']][3] for e in evs),
+      'ages: every event falls in the era of its own age')
+ERA_DATE = re.compile(r'^\d{1,2} (%s), (%s) [1-9][\d,]*$' % ('|'.join(RK.MONTHS), '|'.join(a[3] for a in RK.AGES)))
+dates = [e['date'] for e in evs] + [g['founded']['date'] for g in rec.gaz.values()] + \
+        [p[f] for h in rec.houses for p in h.get('members', []) for f in ('born', 'died') if p.get(f + '_between')]
+bad = [d for d in dates if not ERA_DATE.match(d)]
+check(not bad, 'eras: all %d dates (events, foundings, houses) in the era form with a year of at least 1 (%s)' % (len(dates), ', '.join(bad[:5]) or 'all'))
+check(all(e.get('ey', 0) >= 1 for e in evs) and all(RK.era_year(y, k) >= 1 for k, y in
+      [(RK.era_of(g['founded']['y'], g['founded']['m'], g['founded']['d']), g['founded']['y']) for g in rec.gaz.values()]),
+      'eras: every era year is at least 1')
+text = build_book.to_markdown(rec) + re.sub(r'<[^>]+>', ' ', build_book.compose(rec)[1])
+old = sorted({m.group(0) for m in re.finditer(r'\d[\d,]*\s+B?DE\b|\bBDE\b|Diosal (?:Era|Age)|\bNew Age\b', text)})
+check(not old, 'eras: no date left in the old continuous count in the book, annals, appendices or gazetteer (%s)' % (', '.join(old[:8]) or 'none'))
+# the same for everything else that is delivered: the language book's chapters and texts, the dictionary, the
+# map's digest and the map itself (its calendar, the state's war, the regiments' and markers' notes)
+OLD_COUNT = re.compile(r'\d[\d,]*\s+B?DE\b|\bBDE\b|Diosal (?:Era|Age)|\bNew Age\b')
+delivered = {f: open(os.path.join(HERE, f), encoding='utf-8').read() for f in
+             ('PHONOLOGY.md', 'GRAMMAR.md', 'GRAMMAR_MORPHOLOGY.md', 'GRAMMAR_SYNTAX.md', 'NAMING_LAYER.md', 'TEXTS.md', 'TEXTS.json')}
+delivered['LEXICON.json'] = json.dumps([[e.get('en'), e.get('sense'), e.get('rod')] for e in lex], ensure_ascii=False)
+delivered['legendarium/world.json'] = json.dumps(world, ensure_ascii=False)
+delivered['the annals'] = json.dumps([[e['title'], e['body']] for e in evs], ensure_ascii=False)
+for n in (1, 14, 35):
+    delivered['map record %d' % n] = json.dumps(json.loads(lines[n]), ensure_ascii=False)
+old = sorted({'%s: %s' % (k, m.group(0)) for k, t in delivered.items() for m in OLD_COUNT.finditer(t)})
+check(not old, 'eras: no "Diosal Era", "New Age" or year of the old continuous count in the language book, the dictionary, '
+      'the annals, world.json or the map (%s)' % (', '.join(old[:6]) or 'none'))
+cal = json.loads(lines[1])['lore']['calendar']
+now = RK.era_year(evs[-1]['y'], evs[-1]['age'])
+check(cal == {'year': now, 'era': 'Dubhan Era', 'eraShort': RK.ERA[keys[-1]][3]},
+      'eras: the map reckons in the Dubhan Era, year %d, the present year (%s)' % (now, cal))
+war = [c for st in parsed[14] if isinstance(st, dict) for c in (st.get('campaigns') or [])]
+check(all(1 <= c['start'] <= c.get('end', c['start']) <= now for c in war),
+      'eras: the map\'s wars are dated in years of the Dubhan Era (%s)' % ', '.join('%s %s-%s' % (c['name'], c['start'], c.get('end')) for c in war))
+span_bad = []
+for k in keys:
+    ln = open(os.path.join(LEG, 'book', 'age_%s.md' % k), encoding='utf-8').read().split('\n')
+    if ln[2] != '*%s*' % RK.display_span(k) or not ln[0].startswith('# %s: %s, %s' % (build_book.BOOK_TITLES[k], build_book.AGE_NAMES[k][0], build_book.AGE_NAMES[k][1])):
+        span_bad.append(k)
+check(not span_bad, 'eras: every book opens with its age\'s name and its span in its era (%s)' % (', '.join(span_bad) or 'all six'))
+rnames = [build_book.AGE_NAMES[k][0] for k in keys] + [RK.ERA[k][5] for k in keys]
+check(all(R.normalize(x) == x and not [w for w in x.split() if R.check_agreement(w)] for x in rnames),
+      'eras: every age and era name in Ròdais spelling and caol le caol (%s)' % ', '.join(rnames))
 
 print('\n%s' % ('ALL CHECKS HOLD' if not fails else '%d CHECK(S) FAILED' % len(fails)))
 sys.exit(1 if fails else 0)

@@ -4,18 +4,19 @@ build_book.py -- assemble the legendarium of Rodos from its sources.
     python build_book.py        -> LEGENDARIUM.md (the whole record as plain text; the Atlas's Book tab shows it)
 
 Sources, all in this folder:
-    annals_dated.json       every event of the five ages, dated by reckoning.py
-    book/age_I..V.md        the prose account of each age
+    annals_dated.json       every event of the six ages, dated by reckoning.py
+    book/age_I..VI.md       the prose account of each age
     appendices/*.md         the appendices, in file-name order
     appendices/houses.json  the houses and their people (optional), dated here
     gazetteer/out_*.json    every burg of the map: founding, history, what it is known for
     world.json              the map's names and ids
 
 Writers never type dates. In any .md source:
-    {{date:ID}}             the full date of annals event ID          -> 30 am Faoilleach 1854 DE
-    {{year:ID}}             its year                                   -> 1854 DE
-    {{reckon:A:B:KEY}}      a day the reckoning makes between years A and B (negative = BDE),
-                            the same for the same KEY every time        -> 4 an Dàmhair 1622 DE
+    {{date:ID}}             the full date of annals event ID, in the era of its age   -> 30 am Faoilleach, AE 75
+    {{year:ID}}             its year                                                  -> AE 75
+    {{reckon:A:B:KEY}}      a day the reckoning makes between years A and B of the continuous count
+                            (negative before its year 1), the same for the same KEY every time,
+                            in the era the day falls in                               -> 4 an Dàmhair, LE 1,661
     {{reckonyear:A:B:KEY}}  just its year
     {{place:REF}}           a place by map id (burg:19, marker:3, province:1, zone:0, river:5, feature:2)
 
@@ -43,11 +44,14 @@ AGE_NAMES = {
     'II': ('An Aois Naomh', 'the Holy Age', 'holy'),
     'III': ('An Aois Scaraidh', 'the Age of Sundering', 'sunder'),
     'IV': ('An Aois Choigreach', 'the Age of Strangers', 'colonial'),
-    'V': ('An Aois Ùr', 'the New Age', 'new'),
+    'V': ('An Aois Rìoghachd', 'the Age of the Kingdom', 'kingdom'),
+    'VI': ('An Aois Dhubhain', 'the Age of Dubhan', 'dubhan'),
 }
-AGE_SPAN = {k: (a, b) for k, a, b in reckoning.AGES}
+AGES = reckoning.AGE_KEYS
+# a town's founding is dated in the stretch of years its age is dated in (reckoning.STRETCHES)
+AGE_SPAN = {k: (a, b) for a, b, keys in reckoning.STRETCHES for k in keys}
 BOOK_TITLES = {'I': 'The First Book', 'II': 'The Second Book', 'III': 'The Third Book',
-               'IV': 'The Fourth Book', 'V': 'The Fifth Book'}
+               'IV': 'The Fourth Book', 'V': 'The Fifth Book', 'VI': 'The Sixth Book'}
 
 
 def load(name):
@@ -61,7 +65,7 @@ class Record:
         self.by_id = {e['id']: e for e in self.events}
         self.world = load('world.json')
         album_years, self.months_ok, self.days_ok = reckoning.load_pool()
-        self.years_ok = sorted({y for _, a, b in reckoning.AGES for y in reckoning.reachable_years(album_years, a, b)})
+        self.years_ok = sorted({y for a, b, _ in reckoning.STRETCHES for y in reckoning.reachable_years(album_years, a, b)})
         self.names = {}
         for kind in ('burgs', 'provinces', 'rivers', 'markers', 'zones', 'features'):
             for o in self.world[kind]:
@@ -93,6 +97,10 @@ class Record:
     def date_founding(self):
         """Every burg's founding: in its age (and the writer's window), before anything else recorded there."""
         for bid, g in self.gaz.items():
+            ev = self.by_id.get(g.get('founded_event') or '')
+            if ev:                                     # the annals tell the founding itself: take its day
+                g['founded'] = {'y': ev['y'], 'm': ev['m'], 'd': ev['d'], 'date': ev['date']}
+                continue
             first, last = AGE_SPAN.get(g.get('founded_age') or 'II', AGE_SPAN['II'])
             lo, hi = first, last
             if g.get('founded_between'):
@@ -105,6 +113,11 @@ class Record:
             if lo > hi:
                 hi = lo
             y, m, d = self.reckon(lo, hi, 'founding:%d' % bid)
+            # never before its age opens (the eras count from the opening event): held to the year after it
+            opens = reckoning.openings().get(g.get('founded_age') or 'II')
+            if opens and (y, m, d) < opens:
+                y1 = reckoning.nz(opens[0] + 1)
+                y, m, d = self.reckon(y1, y1, 'founding:%d' % bid)
             g['founded'] = {'y': y, 'm': m, 'd': d, 'date': reckoning.display(y, m, d)}
 
     def load_houses(self):
@@ -138,7 +151,7 @@ class Record:
                     return '[?%s]' % arg
                 if kind == 'date':
                     return e['date']
-                return '%s %s' % (format(abs(e['y']), ',') if abs(e['y']) >= 10000 else abs(e['y']), 'DE' if e['y'] > 0 else 'BDE')
+                return reckoning.display_year(e['y'], e['m'], e['d'], e['age'])
             if kind in ('reckon', 'reckonyear'):
                 a, b, key = arg.split(':', 2)
                 y, mo, d = self.reckon(int(a), int(b), key)
@@ -150,6 +163,10 @@ class Record:
                     self.missing.append(arg)
                 return '\u27e6%s|%s\u27e7' % (arg, name) if link else name
             return m.group(0)
+        # a full date in the middle of a sentence takes a comma after its year, as a written-out date does
+        # ("On 19 an Giblean, LE 40, the fleet sailed"), unless and/or/to/until joins it to what follows
+        text = re.sub(r'(\{\{(?:date|reckon):[^}]+\}\})(?= (?!(?:and|or|nor|to|until|till)\b)(?:[^\W\d_]|\{\{place:|\*\*))',
+                      r'\1,', text)
         return re.sub(r'\{\{(date|year|reckon|reckonyear|place):([^}]+)\}\}', sub, text)
 
 
@@ -158,7 +175,7 @@ def plain(md):
 
 
 def year_of(full):
-    """'4 an Dàmhair 1622 DE' -> '1622 DE'"""
+    """'4 an Dàmhair, LE 1,661' -> 'LE 1,661'"""
     parts = full.split(' ')
     return ' '.join(parts[-2:])
 
@@ -247,7 +264,7 @@ def md_to_html(md, prefix, toc):
 # ---------------------------------------------------------------- the parts of the book
 def prose_parts(rec):
     parts = []
-    for k in ('I', 'II', 'III', 'IV', 'V'):
+    for k in AGES:
         p = os.path.join(HERE, 'book', 'age_%s.md' % k)
         if os.path.exists(p):
             parts.append(('book-' + k, k, rec.resolve(open(p, encoding='utf-8').read())))
@@ -298,12 +315,13 @@ def houses_html(rec):
 
 def annals_html(rec, link_places=True):
     out = []
-    for k in ('I', 'II', 'III', 'IV', 'V'):
+    for k in AGES:
         evs = [e for e in rec.events if e['age'] == k]
         if not evs:
             continue
         rn, en, cat = AGE_NAMES[k]
-        out.append('<h3 id="annals-%s" class="agehd" style="color:var(--%s)">Age %s · %s <span>%s</span></h3>' % (k, cat, k, rn, en))
+        out.append('<h3 id="annals-%s" class="agehd" style="color:var(--%s)">Age %s · %s <span>%s · %s, %s</span></h3>' % (
+            k, cat, k, rn, en, reckoning.ERA[k][4], reckoning.display_span(k)))
         for e in evs:
             pl = ''
             if e.get('place'):
@@ -345,14 +363,14 @@ def compose(rec, link_places=True):
     toc, body = [], []
     prose = prose_parts(rec)
     if prose:
-        toc.append((1, 'part-tale', 'The Tale of the Five Ages'))
+        toc.append((1, 'part-tale', 'The Tale of the Six Ages'))
     for pid, k, md in prose:
         rn, en, cat = AGE_NAMES[k]
         body.append('<section class="book age-%s" id="%s">%s</section>' % (cat, pid, md_to_html(md, pid, toc)))
     toc.append((1, 'part-annals', 'The Annals of Rodos'))
-    body.append('<section class="annals" id="part-annals"><h2>The Annals of Rodos</h2><p class="lede">Every remembered event of the five ages, '
+    body.append('<section class="annals" id="part-annals"><h2>The Annals of Rodos</h2><p class="lede">Every remembered event of the six ages, '
                 'in order, each on its day. %d events.</p>%s</section>' % (len(rec.events), annals_html(rec, link_places)))
-    for k in ('I', 'II', 'III', 'IV', 'V'):
+    for k in AGES:
         toc.append((2, 'annals-' + k, 'Age %s · %s' % (k, AGE_NAMES[k][0])))
     apps = appendix_parts(rec)
     if apps or rec.houses:
@@ -439,8 +457,9 @@ def to_markdown(rec):
     for _, k, md in prose_parts(rec):
         out += [plain(md), '']
     out += ['# The Annals of Rodos', '']
-    for k in ('I', 'II', 'III', 'IV', 'V'):
-        out += ['## Age %s · %s' % (k, AGE_NAMES[k][0]), '']
+    for k in AGES:
+        out += ['## Age %s · %s' % (k, AGE_NAMES[k][0]), '', '*%s · %s, %s*' % (AGE_NAMES[k][1][0].upper() + AGE_NAMES[k][1][1:],
+                                                                         reckoning.ERA[k][4], reckoning.display_span(k)), '']
         for e in rec.events:
             if e['age'] == k:
                 pl = ' (%s)' % rec.place_name(e['place']) if e.get('place') else ''

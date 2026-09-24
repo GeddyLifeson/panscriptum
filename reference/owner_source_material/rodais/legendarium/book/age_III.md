@@ -1,5 +1,7 @@
 # The Third Book: An Aois Scaraidh, the Age of Sundering
 
+*LE 1 – 1,819*
+
 > *Roghnaich iadsan, agus dh'fhuirich sinne.*
 > They chose, and we stayed.
 >
@@ -17,7 +19,7 @@ At Seann Skell, the western river port that would give the age its fleet, the ha
 
 ## II. Of the Queen's Word and the Queen's Sister
 
-The harbour scribe of Seann Skell learned that year to dread the sound of his own door. All summer they came in off the quay: fishers with tar on their hands, farm wives from up the river with a child on the hip. They stood before the boards and said a household's name, and he cut it. A week later, as often as not, the same man came back grey in the face and asked to have it struck out, and he struck it.
+The harbour scribe of Seann Skell learned that year to dread the sound of his own door. All summer they came in off the quay: fishers with tar on their hands, farm wives from up the river with a child on the hip. They stood before the boards and said a household's name, and he cut it. Before the moon was out, as often as not, the same man came back grey in the face and asked to have it struck out, and he struck it.
 
 In the autumn of {{year:III-0005}} a rider came down from the capital with the queen's word, and the scribe read it out at the harbour-house door. The crown would send no one across the water, and the crown would keep no one back. The custody-book gives her words only in substance. The harbour songs of Seann Skell, younger and less careful, give them like this:
 
@@ -32,7 +34,7 @@ Up at the vein-house above Muileann dhearg, keeper of Crom's stone and heir to t
 
 ## III. Of the Building of the Ships
 
-The island had no ship fit for the crossing. Her craft until then were sewn-plank coasters that never slept out of sight of land, and a fleet had to be made such as Rodian memory had never seen. The making took the better part of a generation.
+The island had no ship fit for the crossing. Her craft until then were sewn-plank coasters that never slept out of sight of land, and a fleet had to be made such as the island had never seen. The making took the better part of a generation.
 
 In {{year:III-0008}}, on the river strand below Seann Skell, the shipwright Alasdair mac Iain, called Alasdair Saor, laid down the first deep-keeled hull ever built on Rodos. Its oaks came from the grove that had given Doire fhionn its name. They went down to the coast on ox-sleds, and the grove never grew again, so the village kept a name it no longer had a reason for. Alasdair bound the wrights of the strand into one fellowship, each apprentice sworn for seven years after the manner of the vein custodians. The custody-book calls it Comann nan Saor-luinge, the fellowship of the ship-wrights.
 
@@ -61,7 +63,7 @@ In the spring of that year the fleet lay complete at Seann Skell. The custody-bo
 
 On the last night before the sailing every house along the Seann Skell waterfront set a lamp on its sill and kept it burning until morning. It is the first custom of the Sundering that anyone wrote down as a custom.
 
-A boy of the harbour sat that night on the wall of the west quay with his knees drawn up to his chin and watched the lamps come out along the strand, one and then another, until the whole curve of the water was pricked with light. The April air was sharp. Below him the hulls lay against the new stones, so close that he could have dropped a pebble onto a deck. He smelt pitch and wet hemp and the sheep's fat the crews had rubbed into the blocks. Somewhere aboard, someone was singing under her breath, and someone else told her to hush.
+A boy of the harbour sat that night on the wall of the west quay with his knees drawn up to his chin and watched the lamps come out along the strand, one and then another, until the whole curve of the water was pricked with light. It was the moon of Bearnach, the gap between the last of the stores and the first of the green, and the air was sharp. Below him the hulls lay against the new stones, so close that he could have dropped a pebble onto a deck. He smelt pitch and wet hemp and the sheep's fat the crews had rubbed into the blocks. Somewhere aboard, someone was singing under her breath, and someone else told her to hush.
 
 He was to be one of the counters. The harbour scribe had given him a hazel stick and a knife, and told him: one notch for each hull as she passes, and no talking.
 
@@ -75,7 +77,7 @@ Whether the boy's stick said nineteen or twenty-one, no one thought to ask him.
 
 ## V. Of the Two Landfalls and the White Sorrow
 
-The years of Rodos are counted from that turn, though not at once. In {{year:III-0025}} Donnchadh mac Thormoid, scribe of the vein-house, began to number the years from the sunwise turn at Seann Skell and called them the years of the Diosal. The crown's scribes took up his count only a generation later. So an island that had reckoned its time by kings and harvests began, in one clerk's hand, to reckon it by an absence.
+For nineteen centuries the years of Rodos were counted from that turn, though not at once, and not for ever. In {{year:III-0025}} Donnchadh mac Thormoid, scribe of the vein-house, began to number the years from the sunwise turn at Seann Skell and called them the years of the Diosal. The crown's scribes took up his count only a generation later. So an island that had reckoned its time by kings and harvests began, in one clerk's hand, to reckon it by an absence.
 
 That same year a report of the fleet came into Seann Skell. By whom it came, or in what boat, the custody-book will not say; only that the harbour scribe copied it in a hand that shook. The copy came down to later keepers stained by water, and its end is gone.
 
@@ -91,7 +93,7 @@ In {{year:III-0030}} the vein-house counted again the households that held the r
 
 The next year the queen made a rite for the departed, and she kept it first for her sister. Beathag nic Dhòmhnaill came into her own hall in a gown of undyed wool, pale and rough as a fleece off the hill, and sat at the head of the board. Beside her a place was laid with no one in it: a cup, a trencher, a knife set straight. The meal that followed was neither feast nor fast. The court did not know what to do with its face, so it ate. The queen did not look at the empty place, and she did not look away from it either.
 
-The court called the custom an Tùrsa Geal, the white sorrow, and the chronicle calls it the Mourning Custom, a rite that was never quite grief and never quite gladness. By the next generation it was kept in every harbour town on the island. Long afterward it would be taken up again, uneasily, for a very different leaving, and that belongs to its own book.
+The court called the custom an Tùrsa Geal, the white sorrow, and the chronicle calls it the Mourning Custom. By the next generation it was kept in every harbour town on the island. Long afterward it would be taken up again, uneasily, for a very different leaving, and that belongs to its own book.
 
 The year after, the island shaped itself around what was left. With part of the ore-bonded people gone the custodian class grew smaller and closer, and every later aristocracy of Rodos was cast in that mould. In {{year:III-0034}} the remaining custodian households were gathered into seven houses, each answerable to the vein-house for its share of the ore and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. Mark those names. Until that day the right to the ore had been earned by apprenticeship; from it, the right passed by house.
 
@@ -201,7 +203,7 @@ In {{year:III-0120}} a preacher named Mànas mac Ruairidh stood up at Seann Skel
 
 The teaching went down the west coast with the fishing families. At Cuan shean the rope-makers, whose walks had been laid out for the fleet, were among the first to take it up. In {{year:III-0123}} Manannan's priests at Ros bheag laid it down that no boat of the faithful might go beyond sight of the headlands. The west coast kept that rule for centuries, and there the steering of boats by the stars, half lost already, was lost entirely. Of all the orders of the Old Faith the keepers have been least easy with Manannan's, the one order whose teaching stands on the Sundering; and what it teaches is that the island must never again do what the fleet did.
 
-In {{year:III-0127}} the vein-house and the crown's scribes found that their counts of years since the Setting-Out disagreed. They settled the difference by agreement, and by the same agreement fixed the day of the empty-harbour rite, which the two counts had placed differently. Later scribes gave up pretending it had been fixed by evidence. Every year in this book stands on that bargain between two offices, and the reader should know it.
+In {{year:III-0127}} the vein-house and the crown's scribes found that their counts of years since the Setting-Out disagreed. They settled the difference by agreement, and by the same agreement fixed the day of the empty-harbour rite, which the two counts had placed differently. Later scribes gave up pretending it had been fixed by evidence. Every year counted from the Diosal stands on that bargain between two offices, and whoever reads the old rolls should know it.
 
 Eilidh Bhàn, fifth ruler of the house of Catrìona, was crowned in {{year:III-0129}}, and the record of her long reign is nearly all harvests. The north-west had no share in them. From {{year:III-0131}} boats out of the small islands off that coast fell on the coasting traders and took their fish and grain. The sea-thieves were Ròdaich of the north-west shore, and the harbour rolls give some of their names. Baile chrom reported half its houses empty, and the crown remitted its grain dues. In {{year:III-0133}} a force sent by Eilidh Bhàn landed on Eilean dhubh and burned the thieves' boats on the strand, and their leader, Uilleam Ruadh, was hanged at Cathair dhearg. It did not save the coast. In {{year:III-0134}} a run of failed harvests brought a dearth to the north-west shore that the shared-meal custom could not carry. Families went inland and east, and the north-west stayed thinly held until the age was out.
 

@@ -3,7 +3,7 @@
   "id": "III-0001",
   "canon": true,
   "title": "Land is found",
-  "body": "Word returns of a land across open water, unpeopled by anyone resembling the Ròdaich. No record survives of who found it first.",
+  "body": "Word comes of a land across the open water, where no people like the Ròdaich dwell. Who first found it is not told.",
   "place": null,
   "kind": "discovery",
   "between": [
@@ -15,8 +15,8 @@
  {
   "id": "III-0002",
   "canon": false,
-  "title": "The report heard at Cathair dhearg",
-  "body": "The report of the far land is repeated at Cathair dhearg in the hall of Queen Beathag nic Dhòmhnaill, daughter of Mòr nic Coinnich, by three separate crews from the western harbours, none of whom claims to have been first. The queen's scribe takes down all three accounts and notes that they agree on the coast and on nothing else.",
+  "title": "The tidings at Cathair dhearg",
+  "body": "Three crews from the western harbours bring word of the far land to the hall of Queen Beathag nic Dhòmhnaill, daughter of Mòr nic Coinnich, at Cathair dhearg. None claims to have been first. The queen's scribe takes down all three tellings; they agree on the coast and on nothing else.",
   "place": "burg:19",
   "kind": "discovery",
   "between": [
@@ -28,7 +28,7 @@
   "id": "III-0003",
   "canon": true,
   "title": "The Choosing",
-  "body": "A vote — or something the later chronicles call a vote — decides who will go. Volunteers only. No lots are drawn, no conscription recorded.",
+  "body": "A vote, or what the later chroniclers call a vote, settles who will go. Only the willing go; no lots are drawn and none are pressed.",
   "place": null,
   "kind": "people",
   "between": [
@@ -41,7 +41,7 @@
   "id": "III-0004",
   "canon": false,
   "title": "The roll of the willing",
-  "body": "At Seann Skell the harbour scribes open a roll for those who mean to go, entered by household rather than by name. The roll is kept on boards in the harbour-house, and a later hand notes that entries were struck out as often as they were added.",
+  "body": "The harbour scribes of Seann Skell open a roll of those who mean to go, written by household and not by name, on boards in the harbour-house. A later hand notes that names were struck out as often as they were added.",
   "place": "burg:489",
   "kind": "record",
   "between": [
@@ -53,7 +53,7 @@
   "id": "III-0005",
   "canon": false,
   "title": "The queen neither commands nor forbids",
-  "body": "Queen Beathag declares that the crown will neither send anyone across the water nor keep anyone back. Her younger sister, Mòrag nic Dhòmhnaill, enters her own household on the roll at Seann Skell within the season.",
+  "body": "Queen Beathag declares that the crown will send no one across the water and keep no one back. Within the season her younger sister, Mòrag nic Dhòmhnaill, enters her own household on the roll at Seann Skell.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -65,7 +65,7 @@
   "id": "III-0006",
   "canon": false,
   "title": "The custodians count the cost",
-  "body": "The vein-house above Muileann dhearg, keeper of Crom's stone and heir to the Keepers' Hall at Dùn ìseal where Brìde's flame was first bound, reckons which of the households holding the customary right to burn the ore have entered the roll. The custody-book puts it at nearly one household in five, and adds that the reckoning was made twice because the first figure was not believed.",
+  "body": "The vein-house above Muileann dhearg, keeper of Crom's stone and heir to the Keepers' Hall at Dùn ìseal where Brìde's flame was first bound, counts the households of the ore-right that have entered the roll. The custody-book makes it nearly one in five, and says the count was made twice, for the first figure was not believed.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -77,7 +77,7 @@
   "id": "III-0007",
   "canon": true,
   "title": "The ships are built",
-  "body": "The island's shipwrights, used to modest coastal craft, build vessels meant to survive open water for the first time in Rodian memory.",
+  "body": "The shipwrights of the island, used to small coasting craft, build ships to keep the open sea, the first in the memory of Rodos.",
   "place": null,
   "kind": "craft",
   "between": [
@@ -90,7 +90,7 @@
   "id": "III-0008",
   "canon": false,
   "title": "Alasdair Saor lays the first keel",
-  "body": "On the river strand below Seann Skell, the shipwright Alasdair mac Iain, called Alasdair Saor, lays down the first deep-keeled hull ever built on Rodos. The island's craft until then were sewn-plank coasters that never slept out of sight of land.",
+  "body": "On the river strand below Seann Skell the shipwright Alasdair mac Iain, called Alasdair Saor, lays down the first deep-keeled hull built on Rodos. Until then the island's boats were sewn-plank coasters that never lay a night out of sight of land.",
   "place": "burg:489",
   "kind": "craft",
   "between": [
@@ -102,7 +102,7 @@
   "id": "III-0009",
   "canon": false,
   "title": "The oaks of Doire fhionn",
-  "body": "The oak grove that gave Doire fhionn its name is felled for the fleet's keels and carried down to the coast by ox-sled. The grove never regrew, and the village kept a name it no longer had a reason for.",
+  "body": "The oak grove that named Doire fhionn is felled for the keels of the fleet and drawn to the coast on ox-sleds. It never grew again, and the village kept a name it had no more cause for.",
   "place": "burg:261",
   "kind": "trade",
   "between": [
@@ -113,8 +113,8 @@
  {
   "id": "III-0010",
   "canon": false,
-  "title": "The shipwrights' fellowship bound",
-  "body": "Alasdair Saor takes the wrights of the Seann Skell strand into a single fellowship, binding each apprentice for seven years in the manner of the vein custodians. The custody-book calls it Comann nan Saor-luinge, the fellowship of the ship-wrights.",
+  "title": "The shipwrights' fellowship",
+  "body": "Alasdair Saor gathers the wrights of the Seann Skell strand into one fellowship, and binds each apprentice for seven years after the manner of the vein custodians. The custody-book names it Comann nan Saor-luinge, the fellowship of the ship-wrights.",
   "place": "burg:489",
   "kind": "craft",
   "between": [
@@ -125,8 +125,8 @@
  {
   "id": "III-0011",
   "canon": false,
-  "title": "The trial hull lost off Inis àrsaidh's harbour",
-  "body": "The first finished hull is taken down the Abhainn naomh and sailed out past Ros àrsaidh, where the ships of Inis àrsaidh put to sea, to be tried in open water, and founders in a following sea. Eleven are drowned. Alasdair Saor changes the setting of the keel, and every later hull of the fleet is built to the changed pattern.",
+  "title": "The trial hull lost off Ros àrsaidh",
+  "body": "The first finished hull is taken down the Abhainn naomh and out past Ros àrsaidh, where the ships of Inis àrsaidh put to sea, for trial in open water. It founders in a following sea and eleven are drowned. Alasdair Saor alters the setting of the keel, and every later hull of the fleet is built to the new pattern.",
   "place": "burg:55",
   "kind": "disaster",
   "between": [
@@ -138,7 +138,7 @@
   "id": "III-0012",
   "canon": false,
   "title": "The rope-walks of Cuan shean",
-  "body": "Cuan shean lays out long rope-walks along its harbour front and turns its hemp fields over entirely to cordage for the fleet. The town's rope trade outlasts the Sundering by some centuries.",
+  "body": "Cuan shean lays out long rope-walks along its harbour front and gives all its hemp fields to cordage for the fleet. Its rope trade lasts some centuries beyond the Sundering.",
   "place": "burg:282",
   "kind": "trade",
   "between": [
@@ -150,7 +150,7 @@
   "id": "III-0013",
   "canon": false,
   "title": "The sail-cloth levy",
-  "body": "Every weaving household in Siorrachd Baile àrsaidh is asked for a set length of close-woven cloth for sails, reckoned on tally-sticks at the shire seat. The tallies survive; how many households paid does not.",
+  "body": "Every weaving household in Siorrachd Baile àrsaidh owes a set length of close-woven sail-cloth, scored on tally-sticks at the shire seat. The tallies survive; how many paid is not known.",
   "place": "province:64",
   "kind": "law",
   "between": [
@@ -161,8 +161,8 @@
  {
   "id": "III-0014",
   "canon": false,
-  "title": "The star-lore taught at Cuan ruadh",
-  "body": "Old steersmen of Cuan ruadh on the eastern coast, the only sailors on the island who had ever kept a course by night, teach the fleet's pilots to hold a heading by the stars. Their lore was written down only in part, and that part has not survived.",
+  "title": "The star-lore of Cuan ruadh",
+  "body": "The old steersmen of Cuan ruadh on the eastern coast, the only sailors of the island who had ever held a course by night, teach the pilots of the fleet to steer by the stars. Their lore was written down only in part, and that part is lost.",
   "place": "burg:119",
   "kind": "craft",
   "between": [
@@ -173,8 +173,8 @@
  {
   "id": "III-0015",
   "canon": false,
-  "title": "The volunteers name their leaders",
-  "body": "The households on the roll meet at Seann Skell and choose their own leaders: Mòrag nic Dhòmhnaill, the queen's sister, and Fearchar mac Ruairidh, a custodian of the vein. The custody-book records the choice and nothing of how it was made.",
+  "title": "The willing choose their leaders",
+  "body": "The households of the roll meet at Seann Skell and choose Mòrag nic Dhòmhnaill, the queen's sister, and Fearchar mac Ruairidh, a custodian of the vein, to lead them. The custody-book records the choice; how it was made is not told.",
   "place": "burg:489",
   "kind": "people",
   "between": [
@@ -186,7 +186,7 @@
   "id": "III-0016",
   "canon": false,
   "title": "The handful for the new hearth",
-  "body": "The vein-house rules on whether departing custodians may carry the ore. Each ship may take one sealed measure, no more than a single household may burn in a season under the Small-Burning Law. The ruling is the only text in the custody-book addressed to people who were leaving.",
+  "body": "The vein-house rules that each departing ship may carry one sealed measure of the ore, no more than a single household may burn in a season under the Small-Burning Law. It is the only writing in the custody-book addressed to those who were leaving.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -198,7 +198,7 @@
   "id": "III-0017",
   "canon": false,
   "title": "The west quay lengthened",
-  "body": "The west quay at Seann Skell is lengthened with dressed stone so that the deep hulls can lie alongside it at low water. Masons are brought from the capital to do the work, and the new stones are the ones the later rite would be held on.",
+  "body": "Masons from the capital lengthen the west quay at Seann Skell with dressed stone, so that the deep hulls may lie alongside at low water. On these stones the later rite was held.",
   "place": "burg:489",
   "kind": "building",
   "between": [
@@ -209,8 +209,8 @@
  {
   "id": "III-0018",
   "canon": true,
-  "title": "The provisioning debate",
-  "body": "A dispute over how much of the island's stored grain the departing ships may take nearly cancels the whole expedition. It is resolved, unrecorded how, within a season.",
+  "title": "The strife over the grain",
+  "body": "Strife over how much of the island's stored grain the ships may take all but ends the venture. Within a season it is settled; how is not recorded.",
   "place": null,
   "kind": "trade",
   "between": [
@@ -223,7 +223,7 @@
   "id": "III-0019",
   "canon": false,
   "title": "Àth shean shuts its granaries",
-  "body": "During the dispute over the fleet's grain, the reeve of the granaries at Àth shean, Tormod mac Coinnich, bars the store-houses and sets a watch on them. The watch is kept until the matter is settled, and Tormod is not recorded as holding office afterward.",
+  "body": "In the strife over the fleet's grain Tormod mac Coinnich, reeve of the granaries at Àth shean, bars the store-houses and sets a watch on them until the matter is settled. He holds no office afterward.",
   "place": "burg:67",
   "kind": "trade",
   "between": [
@@ -235,7 +235,7 @@
   "id": "III-0020",
   "canon": false,
   "title": "Grain down Abhainn dhomhain",
-  "body": "Once the dispute is settled, grain barges are sent down Abhainn dhomhain to the capital and on by coast to Ros àrsaidh and up the Abhainn naomh to Seann Skell. A tally-keeper at Drochaid Cathair dhearg counts the barges passing and makes the count forty-one.",
+  "body": "The strife settled, grain barges go down Abhainn dhomhain to the capital, on by the coast to Ros àrsaidh, and up the Abhainn naomh to Seann Skell. A tally-keeper at Drochaid Cathair dhearg counts forty-one barges passing.",
   "place": "river:53",
   "kind": "trade",
   "between": [
@@ -247,7 +247,7 @@
   "id": "III-0021",
   "canon": false,
   "title": "The fleet assembled",
-  "body": "The fleet lies at Seann Skell complete. The custody-book gives it as nineteen hulls; a later hand in the margin corrects this to twenty-one, and no one since has been able to settle which is right.",
+  "body": "The fleet lies complete at Seann Skell. The custody-book gives nineteen hulls; a later hand in the margin makes it twenty-one. Which is right has never been settled.",
   "place": "burg:489",
   "kind": "voyage",
   "between": [
@@ -259,7 +259,7 @@
   "id": "III-0022",
   "canon": false,
   "title": "The night of lamps",
-  "body": "On the last night before the sailing, every house along the Seann Skell waterfront sets a lamp on its sill and keeps it burning until morning. It is the first custom of the Sundering recorded as a custom, and the town kept it long after the reason was a story.",
+  "body": "On the last night before the sailing every house on the Seann Skell waterfront sets a lamp on its sill and keeps it burning till morning. It is the first custom of the Sundering written down as a custom, and the town kept it long after its cause had become a tale.",
   "place": "burg:489",
   "kind": "culture",
   "between": [
@@ -272,7 +272,7 @@
   "id": "III-0023",
   "canon": true,
   "title": "The Setting-Out",
-  "body": "The volunteers depart west. The island's chronicles simply stop describing them the moment the ships clear the harbor; the Ròdaich tell that the fleet sailed into Manannan's mist, toward the Otherworld.",
+  "body": "The willing sail west. The chronicles of the island fall silent on them as the ships clear the harbour; the Ròdaich tell that the fleet sailed into Manannan's mist, toward the Otherworld.",
   "place": null,
   "kind": "voyage",
   "between": [
@@ -285,7 +285,7 @@
   "id": "III-0024",
   "canon": false,
   "title": "The sunwise turn",
-  "body": "Before going down the Abhainn naomh to open water the fleet goes once round the river pool of Seann Skell sunwise, diosal, for luck, and the watchers on the quay count the hulls as they pass. The harbour scribe's account of them ends at the foot of the pool.",
+  "body": "Before going down the Abhainn naomh to the open sea the fleet goes once round the river pool of Seann Skell sunwise, diosal, for luck, and the watchers on the quay count the hulls as they pass. The harbour scribe's account ends at the foot of the pool.",
   "place": "burg:489",
   "kind": "voyage",
   "between": [
@@ -298,7 +298,7 @@
   "id": "III-0025",
   "canon": false,
   "title": "The years counted from the turn",
-  "body": "Donnchadh mac Thormoid, scribe of the vein-house, begins to number the years from the sunwise turn at Seann Skell, and calls them the years of the Diosal. The count is his; the crown's scribes adopt it only a generation later.",
+  "body": "Donnchadh mac Thormoid, scribe of the vein-house, begins to number the years from the sunwise turn at Seann Skell, and calls them the years of the Diosal. The count is his; the crown's scribes take it up a generation later.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -309,8 +309,8 @@
  {
   "id": "III-0026",
   "canon": false,
-  "title": "A report reaches Seann Skell",
-  "body": "A report of the fleet reaches Seann Skell. The custody-book does not say how or by whom it came, only that the harbour scribe copied it in a hand that shook. The copy came down to later keepers stained by water and missing its end.",
+  "title": "Tidings reach Seann Skell",
+  "body": "Tidings of the fleet reach Seann Skell, by what road or whose mouth is not told. The harbour scribe copies them in a shaking hand; the copy came down to later keepers water-stained and lacking its end.",
   "place": "burg:489",
   "kind": "record",
   "between": [
@@ -322,7 +322,7 @@
   "id": "III-0027",
   "canon": true,
   "title": "Two landfalls",
-  "body": "What fragmentary report ever returns describes two separate coasts reached, not one — the seed, in this telling, of two later peoples rather than one.",
+  "body": "Such broken tidings as come back tell of two coasts reached, not one. In this telling lies the seed of the two peoples that came after.",
   "place": null,
   "kind": "voyage",
   "between": [
@@ -335,7 +335,7 @@
   "id": "III-0028",
   "canon": false,
   "title": "Mòrag's line struck",
-  "body": "Queen Beathag removes her sister Mòrag and Mòrag's children from the order of succession, as persons no longer on Rodos. The act is entered without comment between a grain ruling and the repair of a bridge.",
+  "body": "Queen Beathag strikes her sister Mòrag and Mòrag's children from the succession, as no longer on Rodos. The act stands without comment between a grain ruling and the mending of a bridge.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -347,7 +347,7 @@
   "id": "III-0029",
   "canon": true,
   "title": "The thinning",
-  "body": "Cut off from the vein, whatever strength the crossing required fades across the departed's own children. By the third generation abroad, nothing remains that Rodos would recognize.",
+  "body": "Cut off from the vein, the strength the crossing asked of them fades in the children of those who went. By the third generation over the water nothing is left that Rodos would know.",
   "place": null,
   "kind": "people",
   "between": [
@@ -359,8 +359,8 @@
  {
   "id": "III-0030",
   "canon": false,
-  "title": "The custodians' second reckoning",
-  "body": "The vein-house counts again the households that hold the right to the ore. The loss is set down as one hand in five, and beside it Donnchadh mac Thormoid writes that the vein itself answers no differently for those who stayed.",
+  "title": "The custodians' second count",
+  "body": "The vein-house counts again the households of the ore-right and sets the loss at one hand in five. Beside it Donnchadh mac Thormoid writes that the vein answers no differently for those who stayed.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -372,7 +372,7 @@
   "id": "III-0031",
   "canon": true,
   "title": "The Mourning Custom",
-  "body": "Rodos formalizes a mourning rite for the departed that is not quite grief and not quite celebration — reused, uneasily, for a very different departure in a much later age.",
+  "body": "Rodos sets in order a rite of mourning for the departed, neither wholly grief nor wholly feast. In a far later age it was used again, uneasily, for a very different leaving.",
   "place": null,
   "kind": "faith",
   "between": [
@@ -385,7 +385,7 @@
   "id": "III-0032",
   "canon": false,
   "title": "The white sorrow first kept at court",
-  "body": "Queen Beathag keeps the new mourning for her sister in undyed wool, with one place set empty at a meal that is neither feast nor fast. The court calls it an Tùrsa Geal, the white sorrow, and by the next generation it is kept in every harbour town on the island.",
+  "body": "Queen Beathag mourns her sister in undyed wool, with one place left empty at a meal that is neither feast nor fast. The court calls it an Tùrsa Geal, the white sorrow, and within a generation it is kept in every harbour town of the island.",
   "place": "burg:19",
   "kind": "faith",
   "between": [
@@ -396,8 +396,8 @@
  {
   "id": "III-0033",
   "canon": true,
-  "title": "Population correction",
-  "body": "With a portion of the obsidian-bonded population gone, Rodian society reorganizes around a smaller, more concentrated custodian class — the shape every later aristocracy inherits.",
+  "title": "The custodians fewer",
+  "body": "With part of the obsidian-bound folk gone, the Ròdaich order themselves anew about a smaller and closer class of custodians. From this shape every later nobility descends.",
   "place": null,
   "kind": "people",
   "between": [
@@ -410,7 +410,7 @@
   "id": "III-0034",
   "canon": false,
   "title": "The seven houses of custody",
-  "body": "The remaining custodian households are regrouped into seven houses, each answerable to the vein-house for its share of the ore and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. The division is the first in the record to treat the right to the ore as something inherited by house rather than earned by apprenticeship.",
+  "body": "The custodian households that remain are gathered into seven houses, each answerable to the vein-house for its share of the ore and of the measured burning: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. Here for the first time the right to the ore passes by house and not by apprenticeship.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -422,7 +422,7 @@
   "id": "III-0035",
   "canon": false,
   "title": "Death of Queen Beathag",
-  "body": "Queen Beathag nic Dhòmhnaill dies at Cathair dhearg, the last ruler of Rodos to have seen the fleet. Her son Raghnall mac Uilleim is crowned in the same hall.",
+  "body": "Queen Beathag nic Dhòmhnaill dies at Cathair dhearg, the last ruler of Rodos who saw the fleet. Her son Raghnall mac Uilleim is crowned in the same hall.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -437,8 +437,8 @@
  {
   "id": "III-0036",
   "canon": true,
-  "title": "The empty harbor rite",
-  "body": "A ceremony develops around the specific dock the ships departed from, still observed in reduced form on an anniversary no one can precisely date anymore.",
+  "title": "The rite of the empty harbour",
+  "body": "A rite grows up about the quay the ships sailed from. It is still kept, lessened, on a day that none can now date truly.",
   "place": null,
   "kind": "faith",
   "between": [
@@ -451,7 +451,7 @@
   "id": "III-0037",
   "canon": false,
   "title": "The harbour at half trade",
-  "body": "Seann Skell's harbour-master records his berths at half their former use. The fishing households that had crewed the fleet are simply gone, and the rope-walks at Cuan shean lay off hands for the first time.",
+  "body": "The harbour-master of Seann Skell finds his berths at half their old use, for the fishing households that crewed the fleet are gone. The rope-walks of Cuan shean turn off hands for the first time.",
   "place": "burg:489",
   "kind": "trade",
   "between": [
@@ -463,7 +463,7 @@
   "id": "III-0038",
   "canon": true,
   "title": "The second silence",
-  "body": "A rumor of a second, smaller crossing — fewer ships, no surviving record of a destination — is neither confirmed nor denied by anything that survives.",
+  "body": "There is a rumour of a second, smaller crossing, with fewer ships and no word of where they went. Nothing that survives confirms or denies it.",
   "place": null,
   "kind": "voyage",
   "between": [
@@ -476,7 +476,7 @@
   "id": "III-0039",
   "canon": false,
   "title": "The watch at Ceann mhòr",
-  "body": "Fishing families at Ceann mhòr on the north-west coast keep a watch from the headland for returning sails, taking turns by household. The watch lapses within a generation, and no sail is recorded.",
+  "body": "The fishing families of Ceann mhòr on the north-west coast keep a watch from the headland for returning sails, household by household in turn. The watch lapses within a generation. No sail is seen.",
   "place": "burg:143",
   "kind": "omen",
   "between": [
@@ -487,8 +487,8 @@
  {
   "id": "III-0040",
   "canon": true,
-  "title": "The renaming of the west quay",
-  "body": "The dock the ships departed from is given a new name specifically so ordinary trade could resume using the old one without the association — an early, quiet act of managed forgetting.",
+  "title": "The west quay renamed",
+  "body": "The quay the ships sailed from is given a new name, so that common trade might go on under the old one without the memory. It is an early and quiet forgetting, made on purpose.",
   "place": null,
   "kind": "record",
   "between": [
@@ -501,7 +501,7 @@
   "id": "III-0041",
   "canon": false,
   "title": "Cidhe an Diosail",
-  "body": "In the harbour rolls of Seann Skell the departure berth is entered as Cidhe an Diosail, the quay of the sunwise turn. The name Cidhe an Iar passes to the new fish-wharf at the north end of the strand, and within a few years the fishers use it without a thought.",
+  "body": "The departure berth is entered in the harbour rolls of Seann Skell as Cidhe an Diosail, the quay of the sunwise turn. The name Cidhe an Iar passes to the new fish-wharf at the north end of the strand, and within a few years the fishers use it without a thought.",
   "place": "burg:489",
   "kind": "record",
   "between": [
@@ -513,7 +513,7 @@
   "id": "III-0042",
   "canon": false,
   "title": "Roghnaich takes its narrow sense",
-  "body": "In the custody-book the verb roghnaich, to choose, begins to appear with no object at all, meaning to have chosen the crossing. Scribes of the next century use it this way without explaining it, which is the surest sign it had become ordinary speech.",
+  "body": "In the custody-book the verb roghnaich, to choose, begins to stand with no object, meaning to have chosen the crossing. The scribes of the next century use it so without explaining it, the surest sign that it had passed into common speech.",
   "place": null,
   "kind": "culture",
   "between": [
@@ -524,8 +524,8 @@
  {
   "id": "III-0043",
   "canon": true,
-  "title": "The first generation to never see the sea empty",
-  "body": "Children born just after the Setting-Out grow up never having known the harbour with those particular ships in it. For them the departure is already history.",
+  "title": "The first generation that never saw the fleet",
+  "body": "Children born soon after the Setting-Out grow up never having seen the harbour with those ships in it. To them the leaving is already history.",
   "place": null,
   "kind": "people",
   "between": [
@@ -553,8 +553,8 @@
  {
   "id": "III-0045",
   "canon": true,
-  "title": "The closing of the shipwrights' guild",
-  "body": "With no more ocean-crossing vessels needed, the guild that built the Sundering fleet quietly dissolves — its techniques half-forgotten by the time anyone thinks to need them again.",
+  "title": "The shipwrights' fellowship ends",
+  "body": "No more sea-going ships being wanted, the fellowship that built the fleet of the Sundering quietly breaks up. Its craft is half forgotten by the time anyone needs it again.",
   "place": null,
   "kind": "craft",
   "between": [
@@ -567,7 +567,7 @@
   "id": "III-0046",
   "canon": false,
   "title": "The keel-moulds burned",
-  "body": "The patterns and moulds of the dissolved fellowship, kept in a shed on the strand at Seann Skell, are broken up and burned as firewood during a hard season. The harbour-master notes the loss of the shed, not of what was in it.",
+  "body": "In a hard season the patterns and moulds of the broken fellowship, kept in a shed on the strand at Seann Skell, are burned for firewood. The harbour-master notes the loss of the shed and not of what was in it.",
   "place": "burg:489",
   "kind": "craft",
   "between": [
@@ -579,7 +579,7 @@
   "id": "III-0047",
   "canon": false,
   "title": "The mountain divided among the houses",
-  "body": "The seven houses draw lots at the vein-house for the galleries each will keep, and the vein-house confirms the Small-Burning measure for each of them. The lot-stones were kept in a bag at Muileann dhearg and shown to visitors for centuries after.",
+  "body": "The seven houses draw lots at the vein-house for the galleries each will keep, and the vein-house confirms each its Small-Burning measure. The lot-stones were kept in a bag at Muileann dhearg and shown to visitors for centuries after.",
   "place": "province:96",
   "kind": "law",
   "between": [
@@ -591,7 +591,7 @@
   "id": "III-0048",
   "canon": false,
   "title": "The coppice law of Doire fhionn",
-  "body": "With the great oaks gone to the fleet, the shire of Doire fhionn forbids the felling of any living oak without the reeve's mark and begins to cut its woods by coppice. The law spreads to every shire with a Doire in its name.",
+  "body": "The great oaks gone to the fleet, the shire of Doire fhionn forbids the felling of any living oak without the reeve's mark and begins to cut its woods by coppice. The law spreads to every shire with a Doire in its name.",
   "place": "province:113",
   "kind": "law",
   "between": [
@@ -603,7 +603,7 @@
   "id": "III-0049",
   "canon": false,
   "title": "The lamps kept at Seann Skell",
-  "body": "The waterfront of Seann Skell keeps the night of lamps each year on the eve of the empty-harbour rite. Children are told the lamps are for ships coming home, which the priests do not correct.",
+  "body": "The waterfront of Seann Skell keeps the night of lamps each year on the eve of the rite of the empty harbour. The children are told the lamps are for ships coming home, and the priests do not gainsay it.",
   "place": "burg:489",
   "kind": "culture",
   "between": [
@@ -615,7 +615,7 @@
   "id": "III-0050",
   "canon": false,
   "title": "Death of Donnchadh mac Thormoid",
-  "body": "Donnchadh mac Thormoid, the vein-house scribe who began the count of years, dies at Muileann dhearg. His last entry is a list of the ore burned that season, household by household, in the same hand as his first.",
+  "body": "Donnchadh mac Thormoid, the vein-house scribe who began the count of years, dies at Muileann dhearg. His last entry is the season's burning of ore, household by household, in the same hand as his first.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -631,7 +631,7 @@
   "id": "III-0051",
   "canon": false,
   "title": "Raghnall dies; Ìomhar crowned",
-  "body": "King Raghnall mac Uilleim dies at Cathair dhearg after a long and uneventful reign, and his son Ìomhar mac Raghnaill is crowned. The custody-book gives Raghnall's reign a single line.",
+  "body": "King Raghnall mac Uilleim dies at Cathair dhearg after a long and quiet reign, and his son Ìomhar mac Raghnaill is crowned. The custody-book gives Raghnall's reign a single line.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -643,7 +643,7 @@
   "id": "III-0052",
   "canon": false,
   "title": "The silversmiths of Muileann chiar",
-  "body": "The silver of the seam at Muileann chiar, mined since the Holy Age, is worked into neck-rings for the heads of the seven houses. The smiths' fellowship of the seam, heir to Sliochd Fhearchair, closes its methods within four families.",
+  "body": "Silver of the seam at Muileann chiar, mined since the Holy Age, is wrought into neck-rings for the heads of the seven houses. The smiths' fellowship of the seam, heirs of Sliochd Fhearchair, keeps its craft within four families.",
   "place": "marker:2",
   "kind": "craft",
   "between": [
@@ -655,7 +655,7 @@
   "id": "III-0053",
   "canon": false,
   "title": "Inis mhòr's grain fleet",
-  "body": "Inis mhòr in the north builds a fleet of barges to carry grain down the Abhainn ghorm to Caol bheag and, from Ros chiar at the river mouth, west along the coast to Cnoc bheag. They are sewn-plank boats of the old kind, and none sleeps out of sight of land.",
+  "body": "Inis mhòr in the north builds barges to carry grain down the Abhainn ghorm to Caol bheag, and from Ros chiar at the river mouth west along the coast to Cnoc bheag. They are sewn-plank boats of the old kind, and none lies a night out of sight of land.",
   "place": "burg:17",
   "kind": "trade",
   "between": [
@@ -667,7 +667,7 @@
   "id": "III-0054",
   "canon": false,
   "title": "The coughing sickness at Caol fhiadhaich",
-  "body": "A coughing sickness runs through Caol fhiadhaich on the south-west coast and kills some two hundred before it burns out. The shared-meal custom is kept throughout, and the town's reeve credits it with the survival of the rest.",
+  "body": "A coughing sickness runs through Caol fhiadhaich on the south-west coast and kills some two hundred before it burns out. The shared meal is kept throughout, and the reeve holds that it saved the rest.",
   "place": "burg:191",
   "kind": "disaster",
   "between": [
@@ -679,7 +679,7 @@
   "id": "III-0055",
   "canon": false,
   "title": "Am Buabhall Fortanach rebuilt in stone",
-  "body": "The old road-house of Am Buabhall Fortanach burns to its footings and is rebuilt in stone by its keeper, Eilidh nic Chaluim. The account of her rebuilding mentions the jugged buffalo it was already known for.",
+  "body": "The old road-house of Am Buabhall Fortanach burns to its footings, and its keeper, Eilidh nic Chaluim, rebuilds it in stone. It is already known for its jugged buffalo.",
   "place": "marker:5",
   "kind": "building",
   "between": [
@@ -691,7 +691,7 @@
   "id": "III-0056",
   "canon": false,
   "title": "The spirit-house at Dùn ìseal",
-  "body": "The keepers of the Old Spirits, the faith of the hearths, raise a house for the ancestors at Dùn ìseal, where the names of the dead of the eastern shires are cut on wooden posts. The posts are recut every generation as the old ones rot.",
+  "body": "The keepers of the Old Spirits, the faith of the hearths, raise a house for the ancestors at Dùn ìseal, and cut the names of the dead of the eastern shires on wooden posts. The posts are cut anew each generation as the old ones rot.",
   "place": "burg:315",
   "kind": "building",
   "between": [
@@ -703,7 +703,7 @@
   "id": "III-0057",
   "canon": false,
   "title": "Ìomhar dies without an heir",
-  "body": "King Ìomhar mac Raghnaill dies at Cathair dhearg with no living child, and the line of Beathag ends with him. The heads of the seven houses are summoned to the capital to name a successor.",
+  "body": "King Ìomhar mac Raghnaill dies at Cathair dhearg with no living child, and with him ends the line of Beathag. The heads of the seven houses are summoned to the capital to name a king.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -715,7 +715,7 @@
   "id": "III-0058",
   "canon": false,
   "title": "Fearchar mac Lachlainn chosen",
-  "body": "The heads of the houses choose Fearchar mac Lachlainn of Baile Mòr dhomhain, of Clann Fhearchair, and he is crowned at Cathair dhearg. It is the first crowning in the record decided by the custodian houses rather than by descent.",
+  "body": "The heads of the houses choose Fearchar mac Lachlainn of Baile Mòr dhomhain, of Clann Fhearchair, and he is crowned at Cathair dhearg. He is the first king made by the custodian houses and not by descent.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -727,7 +727,7 @@
   "id": "III-0059",
   "canon": false,
   "title": "A court at Baile Mòr dhomhain",
-  "body": "King Fearchar keeps his court for part of each year at Baile Mòr dhomhain, near the mountain, so that the vein-house may be consulted without a journey. The custom of the double court lasts as long as his house.",
+  "body": "King Fearchar keeps his court part of each year at Baile Mòr dhomhain, near the mountain, that he may take counsel of the vein-house without a journey. The double court lasts as long as his house.",
   "place": "burg:273",
   "kind": "reign",
   "between": [
@@ -739,7 +739,7 @@
   "id": "III-0060",
   "canon": false,
   "title": "The fishers of Àth fhiadhaich",
-  "body": "The fishing families of Àth fhiadhaich form a single fellowship to share boats and nets after a season of losses. It is the first fishers' fellowship on the east coast.",
+  "body": "After a season of losses the fishing families of Àth fhiadhaich join in one fellowship to share boats and nets. It is the first fishers' fellowship on the east coast.",
   "place": "province:57",
   "kind": "people",
   "between": [
@@ -751,7 +751,7 @@
   "id": "III-0061",
   "canon": false,
   "title": "Fearchar Donn crowned",
-  "body": "Fearchar mac Lachlainn dies and his son, called Fearchar Donn, is crowned at Cathair dhearg without dispute.",
+  "body": "Fearchar mac Lachlainn dies, and his son, called Fearchar Donn, is crowned at Cathair dhearg without dispute.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -763,7 +763,7 @@
   "id": "III-0062",
   "canon": false,
   "title": "Gormshuil of the Hawk",
-  "body": "At Cnoc bheag, where the dawn-hawk rite of the Holy Age is still kept, the priestess Gormshuil nic Artair teaches that the hawk of the rite is Mòd, the Hawk of Acaill, who is as old as Fionntan mac Bòchra, the oldest of men, and remembers everything with him, and that the vein is the Hungry Hawk, who must be fed the measured handful and no more, since a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers gather the old rite into the first house of Òrd an t-Seabhaig, the order of the Hawk of Acaill.",
+  "body": "At Cnoc bheag, where the dawn-hawk rite of the Holy Age is still kept, the priestess Gormshuil nic Artair teaches that the hawk of the rite is Mòd, the Hawk of Acaill, as old as Fionntan mac Bòchra, eldest of men, and remembering all things with him. The vein, she teaches, is the Hungry Hawk, to be fed the measured handful and no more, for a hawk overfed will not hunt and a hawk starved will turn on the hand. Her followers gather the old rite into the first house of Òrd an t-Seabhaig, the order of the Hawk of Acaill.",
   "place": "burg:20",
   "kind": "faith",
   "between": [
@@ -775,7 +775,7 @@
   "id": "III-0063",
   "canon": false,
   "title": "The hawk-house at Ros gheal",
-  "body": "A second house of the Hawk is founded at Ros gheal by Gormshuil's pupils. Its priests take charge of the measured burning for the whole country between Ros gheal on the coast and Cnoc bheag up the river.",
+  "body": "Gormshuil's pupils found a second house of the Hawk at Ros gheal. Its priests take charge of the measured burning for all the country between Ros gheal on the coast and Cnoc bheag up the river.",
   "place": "burg:24",
   "kind": "faith",
   "between": [
@@ -787,7 +787,7 @@
   "id": "III-0064",
   "canon": false,
   "title": "Flood at Seann Vell",
-  "body": "The river at Seann Vell on the south-east coast breaks its banks in a wet spring and carries away the lower mills. The mill-wrights rebuild them on the higher bank.",
+  "body": "In a wet spring the river at Seann Vell on the south-east coast breaks its banks and carries away the lower mills. The mill-wrights build them again on the higher bank.",
   "place": "burg:94",
   "kind": "disaster",
   "between": [
@@ -799,7 +799,7 @@
   "id": "III-0065",
   "canon": false,
   "title": "The sayings of Gormshuil written",
-  "body": "After Gormshuil's death her sayings are written down at Cnoc bheag as Leabhar an t-Seabhaig, the Book of the Hawk. The copyist, Ùisdean mac Pàdraig, marks every saying he did not hear from her own mouth, and there are more of these than of the rest.",
+  "body": "After Gormshuil's death her sayings are written at Cnoc bheag as Leabhar an t-Seabhaig, the Book of the Hawk. The copyist, Ùisdean mac Pàdraig, marks every saying he did not hear from her own mouth, and these are the greater part.",
   "place": "burg:20",
   "kind": "record",
   "between": [
@@ -811,7 +811,7 @@
   "id": "III-0066",
   "canon": false,
   "title": "The storm that took Seann Toll's boats",
-  "body": "A northern storm, named in the harbour rolls Am Fuath Mòr, breaks the harbour wall of Seann Toll and sinks forty boats at their moorings. Eighteen fishers are drowned.",
+  "body": "A northern storm, named Am Fuath Mòr in the harbour rolls, breaks the harbour wall of Seann Toll and sinks forty boats at their moorings. Eighteen fishers drown.",
   "place": "burg:37",
   "kind": "disaster",
   "between": [
@@ -823,7 +823,7 @@
   "id": "III-0067",
   "canon": false,
   "title": "Seann Toll walls its harbour again",
-  "body": "Seann Toll rebuilds its harbour wall higher and with a hooked end, to a plan the reeve had from the masons of the capital. The wall stands through every later storm in this age.",
+  "body": "Seann Toll builds its harbour wall again, higher and with a hooked end, to a plan the reeve had from the masons of the capital. The wall stands through every storm of this age.",
   "place": "burg:37",
   "kind": "building",
   "between": [
@@ -835,7 +835,7 @@
   "id": "III-0068",
   "canon": false,
   "title": "The walls of Dùn dhearg",
-  "body": "Dùn dhearg in the eastern hills is walled in stone by Clann Ìomhair, who hold the land around it. The walls are the first on the island built by a custodian house rather than the crown.",
+  "body": "Clann Ìomhair, who hold the land about Dùn dhearg in the eastern hills, wall it in stone. These are the first walls on the island raised by a custodian house and not by the crown.",
   "place": "burg:422",
   "kind": "building",
   "between": [
@@ -847,7 +847,7 @@
   "id": "III-0069",
   "canon": false,
   "title": "Queen Sìleas's measures",
-  "body": "Sìleas nic Fhearchair, crowned after her father Fearchar Donn, fixes a single measure for grain across the island, the firlot of Cathair dhearg, so that barter between shires need not begin with a quarrel over the size of a basket. Standard firlots of oak bound with iron are sent to every shire seat.",
+  "body": "Sìleas nic Fhearchair, crowned after her father Fearchar Donn, fixes one measure for grain across the island, the firlot of Cathair dhearg, so that barter between shires need not begin with a quarrel over the size of a basket. Firlots of oak bound with iron are sent to every shire seat.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -863,7 +863,7 @@
   "id": "III-0070",
   "canon": false,
   "title": "Tally-houses in the royal granaries",
-  "body": "Queen Sìleas sets a tally-house in each royal granary, where every exchange of grain for cloth, salt or labour is cut on paired sticks, one for each party. It is the first island-wide account of trade, and it runs entirely without coin.",
+  "body": "Queen Sìleas sets a tally-house in each royal granary, where every exchange of grain for cloth, salt or labour is cut on paired sticks, one for each party. It is the first reckoning of trade across the whole island, and it runs without coin.",
   "place": "burg:19",
   "kind": "record",
   "between": [
@@ -875,7 +875,7 @@
   "id": "III-0070a",
   "canon": false,
   "title": "The market charter of Cathair fhada",
-  "body": "Queen Sìleas grants Cathair fhada a market each week on its ridge and a tally-house for the south, the first market right cut on paired sticks. The long city's merchants carry the honey, hemp, wax and pots of the south to the capital, and they begin to go to the harvest fair at Muileann òg as one company.",
+  "body": "Queen Sìleas grants Cathair fhada a market on its ridge at every full moon, with a tally-house for the south; it is the first market right cut on paired sticks. The merchants of the long city carry the honey, hemp, wax and pots of the south to the capital, and begin to go as one company to the harvest fair at Muileann òg.",
   "place": "burg:297",
   "kind": "law",
   "between": [
@@ -887,7 +887,7 @@
   "id": "III-0071",
   "canon": false,
   "title": "Drochaid Cathair dhearg widened",
-  "body": "The old stone bridge over Abhainn dhomhain at Cathair dhearg is widened so that two carts can pass. Queen Sìleas's name is cut on the downstream parapet, where it can still be read.",
+  "body": "The old stone bridge over Abhainn dhomhain at Cathair dhearg is widened for two carts to pass. Queen Sìleas's name is cut on the downstream parapet, and may still be read there.",
   "place": "marker:3",
   "kind": "building",
   "between": [
@@ -899,7 +899,7 @@
   "id": "III-0072",
   "canon": false,
   "title": "The crossing days of the panthers",
-  "body": "Herders in the southern hills near Imrich nam Pantar begin keeping the panther roads clear on the days the great cats cross, driving their flocks off the paths beforehand. The crossing days are the first thing the southern shires agree on in writing.",
+  "body": "In the southern hills near Imrich nam Pantar the herders keep the panther roads clear on the days the great cats cross, and drive their flocks off the paths beforehand. The crossing days are the first thing the southern shires agree on in writing.",
   "place": "marker:40",
   "kind": "culture",
   "between": [
@@ -911,7 +911,7 @@
   "id": "III-0073",
   "canon": false,
   "title": "An Leòmhann Buidhe on the north road",
-  "body": "An Leòmhann Buidhe, a road-house on the northern mining road, is recorded as serving oatcakes fried in linseed oil, and fire water, to the ore-carters. Its keeper is fined for watering the fire water.",
+  "body": "An Leòmhann Buidhe, a road-house on the northern mining road, serves the ore-carters oatcakes fried in linseed oil, and fire water. Its keeper is fined for watering the fire water.",
   "place": "marker:7",
   "kind": "trade",
   "between": [
@@ -923,7 +923,7 @@
   "id": "III-0074",
   "canon": false,
   "title": "The house of disputation at Dùn thais",
-  "body": "Coinneach mac Mhàrtainn, a druid of the schools of Flidais, lady of the deer, founds a house of disputation at Dùn thais where the schools' old question, Carson an làmh seo?, why the vein answers some hands and not others, is argued by rule. Pupils come from as far as Caol bheag.",
+  "body": "Coinneach mac Mhàrtainn, a druid of the schools of Flidais, lady of the deer, founds a house of disputation at Dùn thais, where the old question of the schools, Carson an làmh seo?, why the vein answers some hands and not others, is argued by rule. Pupils come from as far as Caol bheag.",
   "place": "burg:77",
   "kind": "faith",
   "between": [
@@ -935,7 +935,7 @@
   "id": "III-0075",
   "canon": false,
   "title": "Coinneach's question",
-  "body": "Coinneach mac Mhàrtainn asks in open disputation whether the hands that went with the fleet were the ones the vein answered best, and whether it now answers fewer. The seven houses forbid the question at their own tables, which the record notes is the first time they forbade a question rather than an act.",
+  "body": "In open disputation Coinneach mac Mhàrtainn asks whether the hands that went with the fleet were those the vein answered best, and whether it now answers fewer. The seven houses forbid the question at their own tables; it is the first time they forbid a question and not a deed.",
   "place": "burg:77",
   "kind": "faith",
   "between": [
@@ -947,7 +947,7 @@
   "id": "III-0076",
   "canon": false,
   "title": "Baile Mòr mhòr grows",
-  "body": "Baile Mòr mhòr on the northern plain takes in families from the upland farms after a run of poor seasons and doubles in size within a generation. Its reeve divides the common grazing anew.",
+  "body": "After a run of poor seasons Baile Mòr mhòr on the northern plain takes in families from the upland farms and doubles within a generation. Its reeve divides the common grazing anew.",
   "place": "burg:365",
   "kind": "people",
   "between": [
@@ -959,7 +959,7 @@
   "id": "III-0077",
   "canon": false,
   "title": "Death of Queen Sìleas",
-  "body": "Queen Sìleas nic Fhearchair dies at Cathair dhearg after a reign of more than half a century. Her son Uisdean mac Dhùghaill is crowned.",
+  "body": "Queen Sìleas nic Fhearchair dies at Cathair dhearg after a reign of more than fifty years. Her son Uisdean mac Dhùghaill is crowned.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -971,7 +971,7 @@
   "id": "III-0078",
   "canon": false,
   "title": "The deep hull that would not float true",
-  "body": "A merchant of Inis àrsaidh pays to have a deep-keeled hull built for the long coast run to the east. The wrights cannot remember how Alasdair Saor's keels were scarfed, and the hull lists so badly at launch that it is broken up for timber.",
+  "body": "A merchant of Inis àrsaidh has a deep-keeled hull built for the long coast run eastward. The wrights no longer remember how Alasdair Saor scarfed his keels; the hull lists so badly at launch that it is broken up for timber.",
   "place": "burg:55",
   "kind": "craft",
   "between": [
@@ -983,7 +983,7 @@
   "id": "III-0079",
   "canon": false,
   "title": "Salt pans at Ros fhionn",
-  "body": "The river town of Ros fhionn in the north-east lays out salt pans at the brine springs on its river flats and begins to send salt inland over Drochaid Ros fhionn. Within a generation Ros fhionn salt is the common measure of value in the north-eastern shires.",
+  "body": "The river town of Ros fhionn in the north-east lays out salt pans at the brine springs on its river flats and sends salt inland over Drochaid Ros fhionn. Within a generation Ros fhionn salt is the common measure of worth in the north-eastern shires.",
   "place": "burg:76",
   "kind": "trade",
   "between": [
@@ -995,7 +995,7 @@
   "id": "III-0080",
   "canon": false,
   "title": "The wool of Baile gharbh",
-  "body": "The weavers of Baile gharbh make a heavy undyed cloth that sheds rain, and it becomes the common cloak of the north-east. It is also the cloth in which the white sorrow is kept.",
+  "body": "The weavers of Baile gharbh make a heavy undyed cloth that sheds rain, and it becomes the common cloak of the north-east. In this cloth the white sorrow is kept.",
   "place": "burg:131",
   "kind": "craft",
   "between": [
@@ -1007,7 +1007,7 @@
   "id": "III-0081",
   "canon": false,
   "title": "Salt over Drochaid Ros fhionn",
-  "body": "Traffic over Drochaid Ros fhionn grows so heavy with salt carts that the bridge-keeper is given the right to take a handful from each load. The keeper's salt-box is recorded as holding more than some villages' granaries.",
+  "body": "So many salt carts cross Drochaid Ros fhionn that the bridge-keeper is granted a handful from each load. His salt-box is said to hold more than some villages' granaries.",
   "place": "marker:4",
   "kind": "trade",
   "between": [
@@ -1019,7 +1019,7 @@
   "id": "III-0082",
   "canon": false,
   "title": "The wells crack at Cill ghlas",
-  "body": "An earth tremor in the hills around Cill ghlas cracks three wells and brings down a byre. The custodians of the vein-house note it and note also that the galleries were untouched.",
+  "body": "An earth tremor in the hills about Cill ghlas cracks three wells and brings down a byre. The custodians of the vein-house note it, and note that the galleries were untouched.",
   "place": "zone:3",
   "kind": "disaster",
   "between": [
@@ -1031,7 +1031,7 @@
   "id": "III-0083",
   "canon": false,
   "title": "The Hollow Man spoken of again",
-  "body": "Shepherds of the Doire uaine hills refuse to light fires on the high pastures, citing the old inscriptions of Marbh-bheò Doire uaine. A reeve sent from Muileann chiar to make them see sense does not stay the night.",
+  "body": "The shepherds of the Doire uaine hills will light no fires on the high pastures, for the old inscriptions of Marbh-bheò Doire uaine. A reeve sent from Muileann chiar to make them see sense does not stay the night.",
   "place": "marker:22",
   "kind": "omen",
   "between": [
@@ -1043,7 +1043,7 @@
   "id": "III-0084",
   "canon": false,
   "title": "Aonghas mac Uisdein crowned",
-  "body": "Uisdean mac Dhùghaill dies and his son Aonghas mac Uisdein is crowned at Cathair dhearg. Aonghas is recorded as the first king to learn his letters as a child.",
+  "body": "Uisdean mac Dhùghaill dies, and his son Aonghas mac Uisdein is crowned at Cathair dhearg. Aonghas is the first king to learn his letters as a child.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1055,7 +1055,7 @@
   "id": "III-0085",
   "canon": false,
   "title": "Àth fhiadhaich salt fish",
-  "body": "Àth fhiadhaich begins to salt its catch with Ros fhionn salt and send it inland to the mining towns. The mining shires eat salt fish in the lean season from this time on.",
+  "body": "Àth fhiadhaich begins to salt its catch with Ros fhionn salt and send it inland to the mining towns. From this time the mining shires eat salt fish in the lean season.",
   "place": "burg:12",
   "kind": "trade",
   "between": [
@@ -1067,7 +1067,7 @@
   "id": "III-0086",
   "canon": false,
   "title": "Clach first preached at Inis thais",
-  "body": "Dòmhnall mac Ailein, a net-maker of Inis thais, where the wolf-sworn's stone Clach stands, preaches that the stone is Lia Fàil, the stone that cries out under the rightful king, and that its sworn guards are the Fianna, who keep the island as a wolf keeps its range. His hearers are the first congregation of Òrd na Cloiche, the order of the Stone.",
+  "body": "Dòmhnall mac Ailein, a net-maker of Inis thais, where the wolf-sworn's stone Clach stands, preaches that the stone is Lia Fàil, which cries out under the rightful king, and that its sworn guards are the Fianna, who keep the island as a wolf keeps its range. His hearers are the first congregation of Òrd na Cloiche, the order of the Stone.",
   "place": "burg:166",
   "kind": "faith",
   "between": [
@@ -1079,7 +1079,7 @@
   "id": "III-0087",
   "canon": false,
   "title": "The wolf-house at Inis thais",
-  "body": "Dòmhnall mac Ailein's followers raise a temple at Inis thais, the first temple on the island raised to Lia Fàil by name. It is roofed with slate brought by sea from the north.",
+  "body": "The followers of Dòmhnall mac Ailein raise at Inis thais the first temple on the island to Lia Fàil by name. It is roofed with slate brought by sea from the north.",
   "place": "burg:166",
   "kind": "building",
   "between": [
@@ -1091,7 +1091,7 @@
   "id": "III-0088",
   "canon": false,
   "title": "Hawk and wolf at Caol leathan",
-  "body": "Priests of the Hawk and the Fianna of the Stone both claim the harbour shrine at Caol leathan. The king's reeve divides its days between them, as the Holy Age had divided the sacred woods, and the arrangement holds.",
+  "body": "The priests of the Hawk and the Fianna of the Stone both claim the harbour shrine at Caol leathan. The king's reeve divides its days between them, as the sacred woods were divided in the Holy Age, and the division holds.",
   "place": "burg:1",
   "kind": "faith",
   "between": [
@@ -1103,7 +1103,7 @@
   "id": "III-0088a",
   "canon": false,
   "title": "The market inside the new gate",
-  "body": "Seann Skell on the Hawk bay is walled, and a market is chartered inside the new landward gate. Amber, whale-oil, honey and the sheep of the northern moors are sold there, and the amber-workers of the bay agree to sell no rough amber outside the walls.",
+  "body": "Seann Skell on the Hawk bay is walled, and a market is granted inside the new landward gate, where amber, whale-oil, honey and the sheep of the northern moors are sold. The amber-workers of the bay swear to sell no rough amber outside the walls.",
   "place": "burg:132",
   "kind": "trade",
   "between": [
@@ -1115,7 +1115,7 @@
   "id": "III-0089",
   "canon": false,
   "title": "Macha at court",
-  "body": "King Aonghas takes up the wood-watchers' rite of Macha, which keeps the two horses of one chariot, foaled on one night, Liath Macha, the grey, and Dubh Sainglenn, the black: two horses, one yoke; light and dark are two powers in balance, and the vein belongs to both. The court follows him, and Òrd Mhacha, the order of Macha, becomes the order of Cathair dhearg and the crown.",
+  "body": "King Aonghas takes up the wood-watchers' rite of Macha, which keeps the two horses of one chariot, foaled on one night, Liath Macha the grey and Dubh Sainglenn the black: two horses, one yoke, light and dark two powers in balance, and the vein belonging to both. The court follows him, and Òrd Mhacha, the order of Macha, becomes the order of Cathair dhearg and the crown.",
   "place": "burg:19",
   "kind": "faith",
   "between": [
@@ -1127,7 +1127,7 @@
   "id": "III-0090",
   "canon": false,
   "title": "Fire at Tobar dhearg",
-  "body": "A fire in the thatch spreads through Tobar dhearg and burns most of the village. The villagers rebuild with slate from the quarries nearby, and the village is known for its slate roofs after.",
+  "body": "Fire runs through the thatch of Tobar dhearg and burns most of the village. It is rebuilt with slate from the quarries nearby, and is known thereafter for its slate roofs.",
   "place": "burg:398",
   "kind": "disaster",
   "between": [
@@ -1139,7 +1139,7 @@
   "id": "III-0091",
   "canon": false,
   "title": "Macha's priests in Coille Naomh Cnoc bheag",
-  "body": "The share of custody over Coille Naomh Cnoc bheag, divided since the Holy Age, passes by royal grant to the priests of Macha. The other claimants withdraw from the wood without contest, and the record does not say why.",
+  "body": "The custody of Coille Naomh Cnoc bheag, shared since the Holy Age, passes by royal grant to the priests of Macha. The other claimants leave the wood without contest. Why is not told.",
   "place": "marker:24",
   "kind": "faith",
   "between": [
@@ -1151,7 +1151,7 @@
   "id": "III-0092",
   "canon": false,
   "title": "The druid schools keep Coille Naomh Muileann chiar",
-  "body": "The druids of the schools take formal keeping of Coille Naomh Muileann chiar, the wood of Flidais's white stag, walking its bounds each year. The walk becomes the schools' one public observance.",
+  "body": "The druids of the schools take the keeping of Coille Naomh Muileann chiar, the wood of Flidais's white stag, and walk its bounds each year. The walk becomes the one open rite of the schools.",
   "place": "marker:23",
   "kind": "faith",
   "between": [
@@ -1163,7 +1163,7 @@
   "id": "III-0093",
   "canon": false,
   "title": "The drovers of Àth chiar",
-  "body": "Drovers from Àth chiar begin driving cattle over the eastern hills to the mining towns each year. Their routes are the first on the island to be marked with cairns.",
+  "body": "Drovers of Àth chiar begin to drive cattle each year over the eastern hills to the mining towns. Theirs are the first roads on the island marked with cairns.",
   "place": "burg:256",
   "kind": "people",
   "between": [
@@ -1175,7 +1175,7 @@
   "id": "III-0094",
   "canon": false,
   "title": "Eilidh Dhubh's tracts",
-  "body": "At Doire chiar, Eilidh nic Iain, called Eilidh Dhubh, revives the teaching of the Holy Age's rival school, that the vein answers effort and not birth, and writes it out in tracts copied by her pupils. The tracts are read aloud at harvest gatherings across the north-east.",
+  "body": "At Doire chiar Eilidh nic Iain, called Eilidh Dhubh, wakes again the teaching of the rival school of the Holy Age, that the vein answers labour and not birth, and sets it out in tracts that her pupils copy. The tracts are read aloud at harvest gatherings across the north-east.",
   "place": "burg:333",
   "kind": "faith",
   "between": [
@@ -1187,7 +1187,7 @@
   "id": "III-0095",
   "canon": false,
   "title": "The tracts burned at Muileann dhearg",
-  "body": "The vein-house orders every copy of Eilidh Dhubh's tracts brought to Muileann dhearg and burned. Some hundred copies are surrendered. Eilidh herself is not punished and dies at Doire chiar, still teaching.",
+  "body": "The vein-house commands every copy of Eilidh Dhubh's tracts brought to Muileann dhearg and burned, and some hundred are given up. Eilidh is not punished. She dies at Doire chiar, still teaching.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -1211,7 +1211,7 @@
   "id": "III-0097",
   "canon": false,
   "title": "Tormod Bàn crowned",
-  "body": "Iain mac Aonghais dies after a short reign and his son Tormod mac Iain, called Tormod Bàn for his white hair, is crowned at Cathair dhearg. The houses swear to him without dispute.",
+  "body": "Iain mac Aonghais dies after a short reign, and his son Tormod mac Iain, called Tormod Bàn for his white hair, is crowned at Cathair dhearg. The houses swear to him without dispute.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1227,7 +1227,7 @@
   "id": "III-0098",
   "canon": false,
   "title": "Winter at An Taigh-seinnse Mòr",
-  "body": "An Taigh-seinnse Mòr, on the central mining road, becomes the house where the ox-teams of the mountain wait out the worst of the snow. Its keeper, Iain mac Mhurchaidh, builds a second byre for them and keeps a book of the teams that lodged.",
+  "body": "An Taigh-seinnse Mòr on the central mining road becomes the house where the ox-teams of the mountain wait out the worst of the snow. Its keeper, Iain mac Mhurchaidh, builds them a second byre and keeps a book of the teams that lodged.",
   "place": "marker:10",
   "kind": "trade",
   "between": [
@@ -1239,7 +1239,7 @@
   "id": "III-0099",
   "canon": false,
   "title": "The bell-founders of Muileann naomh",
-  "body": "A family at Muileann naomh casts the first bronze bell on Rodos hung in a hawk-house. The bell cracks in its first frost, and the second holds.",
+  "body": "A family of Muileann naomh casts the first bronze bell on Rodos to hang in a hawk-house. It cracks in its first frost; the second holds.",
   "place": "burg:326",
   "kind": "craft",
   "between": [
@@ -1251,7 +1251,7 @@
   "id": "III-0100",
   "canon": false,
   "title": "An Gàire Dubh",
-  "body": "A storm named in the south-coast rolls An Gàire Dubh, the Black Laugh, drives the sea over the waterfront of Cuan dhearg and ruins the season's salt fish. The town is rebuilt a street further back from the shore.",
+  "body": "A storm named in the south-coast rolls An Gàire Dubh, the Black Laugh, drives the sea over the waterfront of Cuan dhearg and spoils the season's salt fish. The town is built again a street further from the shore.",
   "place": "burg:190",
   "kind": "disaster",
   "between": [
@@ -1263,7 +1263,7 @@
   "id": "III-0101",
   "canon": false,
   "title": "The hawk-house at Muileann naomh",
-  "body": "Muileann naomh in the south becomes the southernmost house of the Hawk, its bell rung at each measured burning. The Hawk's teaching holds there when it fades elsewhere in the south.",
+  "body": "Muileann naomh in the south becomes the southernmost house of the Hawk, and rings its bell at each measured burning. There the Hawk's teaching holds when it fades elsewhere in the south.",
   "place": "burg:326",
   "kind": "faith",
   "between": [
@@ -1275,7 +1275,7 @@
   "id": "III-0102",
   "canon": false,
   "title": "The king's sons drowned in Abhainn fhionn",
-  "body": "Both sons of King Tormod Bàn are drowned when a ferry overturns crossing Abhainn fhionn in spate. The king has no other child.",
+  "body": "Both sons of King Tormod Bàn drown when a ferry overturns on Abhainn fhionn in spate. The king has no other child.",
   "place": "river:28",
   "kind": "death",
   "between": [
@@ -1287,7 +1287,7 @@
   "id": "III-0103",
   "canon": false,
   "title": "Death of Tormod Bàn",
-  "body": "King Tormod Bàn dies at Cathair dhearg without naming an heir. Three claims are laid before the houses at once.",
+  "body": "King Tormod Bàn dies at Cathair dhearg without naming an heir, and three claims are laid before the houses at once.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -1299,7 +1299,7 @@
   "id": "III-0104",
   "canon": false,
   "title": "The three claimants",
-  "body": "The crown is claimed by Catrìona nic Aonghais of Inis thais, the late king's niece; by Dùghall Garbh of Baile Mòr dhomhain, his half-brother; and by Raghnall Ruadh, head of Clann Raghnaill and master of the vein-house. The seven houses split among them and the War of the Three Claimants begins.",
+  "body": "The crown is claimed by Catrìona nic Aonghais of Inis thais, niece of the late king; by Dùghall Garbh of Baile Mòr dhomhain, his half-brother; and by Raghnall Ruadh, head of Clann Raghnaill and master of the vein-house. The seven houses divide among them, and the War of the Three Claimants begins.",
   "place": "burg:19",
   "kind": "war",
   "between": [
@@ -1311,7 +1311,7 @@
   "id": "III-0105",
   "canon": false,
   "title": "Seann Warr shuts its gates",
-  "body": "Seann Warr, the port nearest the capital on the west, closes its gates to all three claimants and declares for none. It is besieged twice in the war and taken by neither.",
+  "body": "Seann Warr, the port nearest the capital on the west, shuts its gates to all three claimants and declares for none. Twice besieged in the war, it is taken by neither.",
   "place": "burg:64",
   "kind": "war",
   "between": [
@@ -1323,7 +1323,7 @@
   "id": "III-0106",
   "canon": false,
   "title": "The ford at Àth shean",
-  "body": "Dùghall Garbh's host meets Raghnall Ruadh's at the ford of Àth shean and breaks it. The custody-book counts some three hundred dead, most of them drowned in the ford.",
+  "body": "The host of Dùghall Garbh meets that of Raghnall Ruadh at the ford of Àth shean and breaks it. The custody-book counts some three hundred dead, most of them drowned in the ford.",
   "place": "burg:32",
   "kind": "battle",
   "between": [
@@ -1335,7 +1335,7 @@
   "id": "III-0107",
   "canon": false,
   "title": "The burning of Doire mhin",
-  "body": "Raghnall Ruadh's retreating men burn the village of Doire mhin and its granary to deny it to Dùghall. The villagers winter at Cathair mhòr on the charity of Macha's priests.",
+  "body": "Raghnall Ruadh's men in retreat burn the village of Doire mhin and its granary, to deny them to Dùghall. The villagers winter at Cathair mhòr on the charity of Macha's priests.",
   "place": "burg:316",
   "kind": "war",
   "between": [
@@ -1347,7 +1347,7 @@
   "id": "III-0108",
   "canon": false,
   "title": "The siege of Cathair dhomhain",
-  "body": "Catrìona nic Aonghais besieges Cathair dhomhain, which had declared for Dùghall, and takes it after forty days when its wells are poisoned by the dead of the siege lines. She lets the garrison go free on their oath.",
+  "body": "Catrìona nic Aonghais besieges Cathair dhomhain, which had declared for Dùghall, and takes it after forty days, when its wells are fouled by the dead of the siege lines. She lets the garrison go free on their oath.",
   "place": "burg:26",
   "kind": "battle",
   "between": [
@@ -1359,7 +1359,7 @@
   "id": "III-0109",
   "canon": false,
   "title": "The hearths refused",
-  "body": "Raghnall Ruadh, holding the vein-house, refuses the measured handful of ore to every hearth and temple in the shires that stand against him. Hearths that had been lit with the ore for generations go cold, and the act turns more people against him than any battle.",
+  "body": "Raghnall Ruadh, holding the vein-house, denies the measured handful of ore to every hearth and temple in the shires that stand against him. Hearths lit with the ore for generations go cold, and this deed turns more against him than any battle.",
   "place": "burg:491",
   "kind": "war",
   "between": [
@@ -1371,7 +1371,7 @@
   "id": "III-0110",
   "canon": false,
   "title": "The battle of Muileann chrom",
-  "body": "The hosts of Catrìona and Dùghall, joined for the purpose, meet Raghnall Ruadh below Muileann chrom. Raghnall is killed on the field and the vein-house is opened by his own custodians the next day.",
+  "body": "The hosts of Catrìona and Dùghall, joined for the purpose, meet Raghnall Ruadh below Muileann chrom. Raghnall falls on the field, and the next day his own custodians open the vein-house.",
   "place": "burg:354",
   "kind": "battle",
   "between": [
@@ -1383,7 +1383,7 @@
   "id": "III-0111",
   "canon": false,
   "title": "Death of Dùghall Garbh",
-  "body": "Dùghall Garbh dies of his wounds from Muileann chrom at Baile Mòr dhomhain. His followers go over to Catrìona without a further fight.",
+  "body": "Dùghall Garbh dies at Baile Mòr dhomhain of the wounds he took at Muileann chrom. His followers go over to Catrìona without further fighting.",
   "place": "burg:273",
   "kind": "death",
   "between": [
@@ -1399,7 +1399,7 @@
   "id": "III-0112",
   "canon": false,
   "title": "Catrìona Bhuadhach crowned",
-  "body": "Catrìona nic Aonghais is crowned at Cathair dhearg and is known after as Catrìona Bhuadhach. The War of the Three Claimants ends with her crowning, having lasted about a decade.",
+  "body": "Catrìona nic Aonghais is crowned at Cathair dhearg, and is known thereafter as Catrìona Bhuadhach. So ends the War of the Three Claimants, after some ten years.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1411,7 +1411,7 @@
   "id": "III-0113",
   "canon": false,
   "title": "The ruling of the hearth",
-  "body": "Catrìona Bhuadhach and the vein-house fix in law that no claimant, house or king may withhold the measured handful from any lawful hearth. It is the first law in the record written to bind the custodians themselves.",
+  "body": "Catrìona Bhuadhach and the vein-house set down in law that no claimant, house or king may withhold the measured handful from any lawful hearth. It is the first law written to bind the custodians themselves.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -1423,7 +1423,7 @@
   "id": "III-0114",
   "canon": false,
   "title": "Catrìona's road south",
-  "body": "Queen Catrìona has the road from the capital south by Baile shean and Am Buabhall Fortanach at Doire shean laid with stone, so that her own town of Inis thais may be reached in any weather. The road is known as Rathad na Banrighinn.",
+  "body": "Queen Catrìona has the road south from the capital by Baile shean and Am Buabhall Fortanach at Doire shean laid with stone, that her own town of Inis thais may be reached in any weather. It is called Rathad na Banrighinn.",
   "place": "marker:5",
   "kind": "building",
   "between": [
@@ -1435,7 +1435,7 @@
   "id": "III-0115",
   "canon": false,
   "title": "Seann Warr's gates honoured",
-  "body": "Queen Catrìona grants Seann Warr the right to keep its own gates and levy its own tolls, in memory of its standing aside in the war. The grant is cut over the landward gate.",
+  "body": "In memory of its standing aside in the war, Queen Catrìona grants Seann Warr the right to keep its own gates and take its own tolls. The grant is cut over the landward gate.",
   "place": "burg:64",
   "kind": "building",
   "between": [
@@ -1447,7 +1447,7 @@
   "id": "III-0116",
   "canon": false,
   "title": "Death of Catrìona Bhuadhach",
-  "body": "Catrìona Bhuadhach dies at Cathair dhearg. Her son Lachlann mac Iain is crowned, and the houses swear to him in one day, which the record remarks on.",
+  "body": "Catrìona Bhuadhach dies at Cathair dhearg. Her son Lachlann mac Iain is crowned, and the houses swear to him in a single day, a thing the chroniclers remark on.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1459,7 +1459,7 @@
   "id": "III-0117",
   "canon": false,
   "title": "The Book of the Three Claimants",
-  "body": "A clerk of Queen Catrìona's household, Seònaid nic Coinnich, writes an account of the war from the custody-book and from the testimony of those who fought. It is the oldest surviving history on Rodos written as a single narrative rather than as entries.",
+  "body": "Seònaid nic Coinnich, a clerk of Queen Catrìona's household, writes the story of the war from the custody-book and from the witness of those who fought. It is the oldest history of Rodos that survives written as one tale and not as entries.",
   "place": "burg:19",
   "kind": "record",
   "between": [
@@ -1471,7 +1471,7 @@
   "id": "III-0118",
   "canon": false,
   "title": "The sickness at Inis chrom",
-  "body": "A spotted fever kills some three hundred at Inis chrom on the south-west coast. The Fianna of the Stone nurse the sick and many of them die of it, and the town becomes the Stone's for good.",
+  "body": "A spotted fever kills some three hundred at Inis chrom on the south-west coast. The Fianna of the Stone nurse the sick, and many of them die of it; thereafter the town is the Stone's.",
   "place": "burg:92",
   "kind": "disaster",
   "between": [
@@ -1483,7 +1483,7 @@
   "id": "III-0119",
   "canon": false,
   "title": "The oyster beds of Doire shean",
-  "body": "Doire shean, a village on the southern shore, lays out oyster beds in its shallow bay and sends oysters by cart to the capital. The trade makes the village rich enough to be a shire seat.",
+  "body": "Doire shean, a village on the southern shore, lays out oyster beds in its shallow bay and sends oysters by cart to the capital. The trade makes it rich enough to be a shire seat.",
   "place": "burg:324",
   "kind": "trade",
   "between": [
@@ -1495,7 +1495,7 @@
   "id": "III-0119a",
   "canon": false,
   "title": "The feast-market at Seann Tarr",
-  "body": "The crowds that come to the ancestor shrine at Seann Tarr for the great feasts begin to hold a market on the three feast days. Its chief goods are honey, beeswax for the shrine lights and the dyes of Baile fhiadhaich. The wax lights of Seann Tarr are soon burned at ancestor shrines along the whole north-eastern coast.",
+  "body": "The crowds that come to the ancestor shrine at Seann Tarr for the great feasts begin to hold a market on the three feast days, chiefly of honey, beeswax for the shrine lights, and the dyes of Baile fhiadhaich. The wax lights of Seann Tarr are soon burned at ancestor shrines all along the north-eastern coast.",
   "place": "burg:34",
   "kind": "trade",
   "between": [
@@ -1507,7 +1507,7 @@
   "id": "III-0120",
   "canon": false,
   "title": "Manannan preached at Seann Skell",
-  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, a preacher named Mànas mac Ruairidh proclaims its one power as Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion, and teaches that Manannan shut the western sea behind the fleet with his mist, which hides Rodos from every ship beyond it, and that it must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
+  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, the preacher Mànas mac Ruairidh proclaims its one power to be Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion. He teaches that Manannan shut the western sea behind the fleet with his mist, which hides Rodos from every ship beyond it, and that the crossing must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -1519,7 +1519,7 @@
   "id": "III-0121",
   "canon": false,
   "title": "Death of Lachlann mac Iain",
-  "body": "Lachlann mac Iain, son of Catrìona Bhuadhach, dies at Cathair dhearg, and his daughter Anna is crowned. The record calls his reign quiet and means it as praise.",
+  "body": "Lachlann mac Iain, son of Catrìona Bhuadhach, dies at Cathair dhearg, and his daughter Anna is crowned. The chroniclers call his reign quiet, and mean it as praise.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1535,7 +1535,7 @@
   "id": "III-0122",
   "canon": false,
   "title": "Manannan's order at Ros bheag and Cuan shean",
-  "body": "The teaching of Manannan's order spreads down the west coast to Ros bheag and Cuan shean, carried by fishing families. At Cuan shean the rope-makers are among the first converts.",
+  "body": "Fishing families carry the teaching of Manannan's order down the west coast to Ros bheag and Cuan shean. At Cuan shean the rope-makers are among the first to turn to it.",
   "place": "burg:63",
   "kind": "faith",
   "between": [
@@ -1547,7 +1547,7 @@
   "id": "III-0123",
   "canon": false,
   "title": "Within sight of land",
-  "body": "Manannan's priests at Ros bheag lay it down that no boat of the faithful may go beyond sight of the headlands. The rule is kept on the west coast for centuries, and the steering of boats by the stars, already half lost, is lost there entirely.",
+  "body": "The priests of Manannan at Ros bheag lay down that no boat of the faithful may go out of sight of the headlands. The rule is kept on the west coast for centuries, and steering by the stars, already half lost, is lost there wholly.",
   "place": "burg:63",
   "kind": "law",
   "between": [
@@ -1559,7 +1559,7 @@
   "id": "III-0124",
   "canon": false,
   "title": "The granaries of Àth shean rebuilt",
-  "body": "The royal granaries at Àth shean, old since before the Sundering, are pulled down and rebuilt in stone on raised floors against the rats. The tally-house is rebuilt with them.",
+  "body": "The royal granaries at Àth shean, standing since before the Sundering, are pulled down and built again in stone on raised floors against the rats. The tally-house is rebuilt with them.",
   "place": "burg:67",
   "kind": "building",
   "between": [
@@ -1571,7 +1571,7 @@
   "id": "III-0125",
   "canon": false,
   "title": "The rope-walks shortened",
-  "body": "Cuan shean takes up half its rope-walks and puts the ground to barley. The rope trade had lived on the fleet and then on the fishing, and the fishing no longer needs rope of that length.",
+  "body": "Cuan shean takes up half its rope-walks and sows the ground with barley. The rope trade had lived on the fleet and then on the fishing, and the fishing no longer needs rope of such length.",
   "place": "burg:282",
   "kind": "trade",
   "between": [
@@ -1583,7 +1583,7 @@
   "id": "III-0126",
   "canon": false,
   "title": "Wave at Cnoc chaol",
-  "body": "A great swell, with no storm behind it, runs up the beach at Cnoc chaol on the south coast and carries off the drying racks and two children. The village moves its racks further up the shore.",
+  "body": "A great swell with no storm behind it runs up the beach at Cnoc chaol on the south coast and carries off the drying racks and two children. The village sets its racks higher up the shore.",
   "place": "burg:364",
   "kind": "disaster",
   "between": [
@@ -1595,7 +1595,7 @@
   "id": "III-0126a",
   "canon": false,
   "title": "The market of the eastern road",
-  "body": "Baile Mòr dhìreach, the citadel on the eastern straight road, is given a market for the east coast. The fish and sail-cloth of the coast towns meet the furs, hides and dyes of the hills there, and the dyers of Baile Mòr ruadh sell their colours nowhere else.",
+  "body": "Baile Mòr dhìreach, the citadel on the straight eastern road, is granted a market for the east coast. There the fish and sail-cloth of the coast towns meet the furs, hides and dyes of the hills, and the dyers of Baile Mòr ruadh sell their colours nowhere else.",
   "place": "burg:136",
   "kind": "trade",
   "between": [
@@ -1607,7 +1607,7 @@
   "id": "III-0127",
   "canon": false,
   "title": "The two counts reconciled",
-  "body": "The vein-house and the crown's scribes find that their counts of years since the Setting-Out differ, and settle the difference by agreement. The day of the empty-harbour rite, which each count had placed differently, is fixed by the same agreement, and later scribes stop pretending it was fixed by evidence.",
+  "body": "The vein-house and the crown's scribes find that their counts of years since the Setting-Out differ, and settle the difference by agreement. The same agreement fixes the day of the rite of the empty harbour, which each count had placed otherwise; later scribes cease to pretend it was fixed by proof.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -1619,7 +1619,7 @@
   "id": "III-0128",
   "canon": false,
   "title": "The druid school at Inis mhòr",
-  "body": "A house of disputation is founded at Inis mhòr by pupils of Dùn thais, and the question of the vein is argued in the north for the first time. Its first master, Fionnlagh mac Aonghais, is remembered for refusing every answer offered him.",
+  "body": "Pupils of Dùn thais found a house of disputation at Inis mhòr, and the question of the vein is argued in the north for the first time. Its first master, Fionnlagh mac Aonghais, is remembered for refusing every answer offered him.",
   "place": "burg:17",
   "kind": "faith",
   "between": [
@@ -1631,7 +1631,7 @@
   "id": "III-0129",
   "canon": false,
   "title": "Queen Eilidh Bhàn crowned",
-  "body": "Eilidh Bhàn, the fifth ruler of the house of Catrìona, is crowned at Cathair dhearg. The record of her long reign is almost entirely one of harvests.",
+  "body": "Eilidh Bhàn, fifth ruler of the house of Catrìona, is crowned at Cathair dhearg. The annals of her long reign are almost wholly of harvests.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1643,7 +1643,7 @@
   "id": "III-0130",
   "canon": false,
   "title": "The bath-house at the hot springs",
-  "body": "Clann Choinnich rebuilds the old bath-house over the hot springs of Fuarain Theth Muileann ruadh in dressed stone and admits the sick of any house on one day in seven. The house's physicians keep a book of cures that is later lost.",
+  "body": "Clann Choinnich rebuilds in dressed stone the old bath-house over the hot springs of Fuarain Theth Muileann ruadh, and admits the sick of any house one day in seven. Its physicians keep a book of cures, afterwards lost.",
   "place": "marker:0",
   "kind": "building",
   "between": [
@@ -1655,7 +1655,7 @@
   "id": "III-0131",
   "canon": false,
   "title": "The sea-thieves of the north-west",
-  "body": "Boats working out of the small islands off the north-west coast begin taking fish and grain from coasting traders. The sea-thieves are Ròdaich, men of the north-west shore, and the harbour rolls give some of their names.",
+  "body": "Boats out of the small islands off the north-west coast begin to rob the coasting traders of fish and grain. The sea-thieves are Ròdaich, men of the north-west shore, and the harbour rolls name some of them.",
   "place": "marker:25",
   "kind": "war",
   "between": [
@@ -1667,7 +1667,7 @@
   "id": "III-0132",
   "canon": false,
   "title": "Baile chrom half empty",
-  "body": "The reeve of Baile chrom on the north-west coast reports half the town's houses empty, their families gone east after the sea-thieves and the poor harvests. The crown remits the town's grain dues.",
+  "body": "The reeve of Baile chrom on the north-west coast reports half the houses of the town empty, their families gone east before the sea-thieves and the poor harvests. The crown remits the town's grain dues.",
   "place": "burg:305",
   "kind": "people",
   "between": [
@@ -1691,7 +1691,7 @@
   "id": "III-0134",
   "canon": false,
   "title": "The dearth on the north-west shore",
-  "body": "A run of failed harvests along the north-west shore brings a dearth that the shared-meal custom cannot carry. Families leave the coast for the interior and the east, and the north-west is thinly held from this time until the end of the age.",
+  "body": "Harvest after harvest fails along the north-west shore, and the dearth is more than the shared meal can bear. Families leave the coast for the inland shires and the east, and the north-west is thinly held from this time to the end of the age.",
   "place": "zone:1",
   "kind": "disaster",
   "between": [
@@ -1703,7 +1703,7 @@
   "id": "III-0135",
   "canon": false,
   "title": "The king-list recopied",
-  "body": "The scribes of Queen Eilidh Bhàn recopy the king-list of Rodos from its oldest surviving roll, adding the rulers since the Sundering. The new copy begins its account of the present age with the Choosing and not with the fleet.",
+  "body": "The scribes of Queen Eilidh Bhàn copy the king-list of Rodos afresh from its oldest surviving roll, adding the rulers since the Sundering. The new copy begins the present age with the Choosing and not with the fleet.",
   "place": "burg:19",
   "kind": "record",
   "between": [
@@ -1715,7 +1715,7 @@
   "id": "III-0135a",
   "canon": false,
   "title": "The strand-market at Àth fhionn",
-  "body": "Àth fhionn, the ford town where the coast road crosses the clear river, holds a market on the strand for the north coast. Fish, the flesh and oil of stranded whales, wool and barley are sold there, and the fishers of the north coast stop carrying their catch to Inis mhòr.",
+  "body": "Àth fhionn, the ford town where the coast road crosses the clear river, holds a market on the strand for the north coast, of fish, the flesh and oil of stranded whales, wool and barley. The fishers of the north coast no longer carry their catch to Inis mhòr.",
   "place": "burg:113",
   "kind": "trade",
   "between": [
@@ -1727,7 +1727,7 @@
   "id": "III-0136",
   "canon": false,
   "title": "Eilidh Bhàn dies without an heir",
-  "body": "Queen Eilidh Bhàn dies at Cathair dhearg with no child, and the house of Catrìona ends with her. The seven houses meet at the vein-house rather than at the capital.",
+  "body": "Queen Eilidh Bhàn dies at Cathair dhearg without a child, and the house of Catrìona ends with her. The seven houses meet at the vein-house and not at the capital.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -1739,7 +1739,7 @@
   "id": "III-0137",
   "canon": false,
   "title": "Dòmhnall Ruadh crowned",
-  "body": "The houses name Dòmhnall Ruadh of Clann Raghnaill, a descendant of the claimant killed at Muileann chrom. He is crowned at Cathair dhearg and keeps the mastery of the vein-house as well as the crown.",
+  "body": "The houses name Dòmhnall Ruadh of Clann Raghnaill, of the line of the claimant slain at Muileann chrom. He is crowned at Cathair dhearg and keeps the mastery of the vein-house with the crown.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1751,7 +1751,7 @@
   "id": "III-0138",
   "canon": false,
   "title": "The crown and the custody joined",
-  "body": "Dòmhnall Ruadh's reeves write it into the custody-book that the ruler of Rodos is also master of the vein-house. From this time the heads of the seven houses sit as the king's council, and the custodian class and the court are one body.",
+  "body": "Dòmhnall Ruadh's reeves write into the custody-book that the ruler of Rodos is also master of the vein-house. Thereafter the heads of the seven houses sit as the king's council, and the custodians and the court are one body.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -1762,7 +1762,7 @@
  {
   "id": "III-0138a",
   "title": "The custody's seal on the king's letters",
-  "body": "From the joining of the crown and the custody the king's letters are sealed with the vein-house's own seal: a trellis of gold on blue, which the custodians read as the galleries of the mountain, with a hollow lozenge over it for Crom's slab, laid on the first break. The crown adds a white band across the field and nothing else. From this time the seal is the arms of the kingdom.",
+  "body": "From the joining of the crown and the custody the king's letters bear the vein-house's own seal: a trellis of gold on blue, which the custodians read as the galleries of the mountain, and over it a hollow lozenge for Crom's slab, laid on the first break. The crown adds a white band across the field and nothing more. From this time the seal is the arms of the kingdom.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -1774,7 +1774,7 @@
   "id": "III-0139",
   "canon": false,
   "title": "Death of Dòmhnall Ruadh",
-  "body": "Dòmhnall Ruadh, the first ruler to hold both the crown and the vein-house, dies at Cathair dhearg and is buried at Muileann dhearg. His son Raghnall Òg is crowned.",
+  "body": "Dòmhnall Ruadh, the first to hold both the crown and the vein-house, dies at Cathair dhearg and is buried at Muileann dhearg. His son Raghnall Òg is crowned.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -1786,7 +1786,7 @@
   "id": "III-0140",
   "canon": false,
   "title": "The schism of the Hawk",
-  "body": "A council of the Hawk at Cnoc bheag divides over whether Mòd's measure may ever be raised. Those who hold it fixed forever keep the name of the Hungry Hawk and the house at Cnoc bheag; those who hold that a larger flock may be fed a larger handful are called the Fed Hawk.",
+  "body": "A council of the Hawk at Cnoc bheag divides over whether Mòd's measure may ever be raised. Those who hold it fixed for ever keep the name of the Hungry Hawk and the house at Cnoc bheag; those who hold that a greater flock may be fed a greater handful are called the Fed Hawk.",
   "place": "burg:20",
   "kind": "faith",
   "between": [
@@ -1798,7 +1798,7 @@
   "id": "III-0141",
   "canon": false,
   "title": "The harbour of Seann Chwen",
-  "body": "The port of Seann Chwen builds its harbour mole, and becomes the port for the ore-carts coming down from the mountain to the coast towns of the south.",
+  "body": "Seann Chwen builds its harbour mole and becomes the port of the ore-carts coming down from the mountain to the coast towns of the south.",
   "place": "burg:36",
   "kind": "building",
   "between": [
@@ -1810,7 +1810,7 @@
   "id": "III-0142",
   "canon": false,
   "title": "The Fed Hawk at Seann Skell",
-  "body": "The priests of the Fed Hawk, turned out of Cnoc bheag, settle at Seann Skell on the north coast, not the western river port of that name. Their teaching is written in the custody-book as an error, and the error is recorded at length.",
+  "body": "The priests of the Fed Hawk, driven from Cnoc bheag, settle at Seann Skell on the north coast, not the western river port of that name. The custody-book writes their teaching down as an error, and at length.",
   "place": "burg:132",
   "kind": "faith",
   "between": [
@@ -1822,7 +1822,7 @@
   "id": "III-0143",
   "canon": false,
   "title": "The Fed Hawk's petition",
-  "body": "The Fed Hawk petitions the king's council from Seann Skell to raise the measured handful by a quarter for the hearths of the north coast. The council refuses. The petition is the first recorded request to alter the Small-Burning Law.",
+  "body": "From Seann Skell the Fed Hawk asks the king's council to raise the measured handful by a quarter for the hearths of the north coast. The council refuses. It is the first plea on record to alter the Small-Burning Law.",
   "place": "burg:132",
   "kind": "record",
   "between": [
@@ -1834,7 +1834,7 @@
   "id": "III-0144",
   "canon": false,
   "title": "The gallery at Cill ghlas",
-  "body": "A second tremor in the hills of Cill ghlas brings down a gallery of the vein and kills fourteen custodians' labourers. The vein-house closes the gallery and sets a stone at its mouth with the fourteen names.",
+  "body": "A second tremor in the hills of Cill ghlas brings down a gallery of the vein and kills fourteen labourers of the custodians. The vein-house closes the gallery and sets at its mouth a stone with the fourteen names.",
   "place": "burg:123",
   "kind": "disaster",
   "between": [
@@ -1846,7 +1846,7 @@
   "id": "III-0145",
   "canon": false,
   "title": "The ore-roads kept by the crown",
-  "body": "The king's council takes the roads from the mountain to the coast into the keeping of the crown, so that the carts carrying the measured ore to the temples may not be stopped by any house. The roads are marked with posts bearing the crown's sign: the carriers' road down to Cathair dhearg, An Rathad Tuath over the pass by Muileann fhada, Slighe Muileann dhearg south from the hills by Muileann chrom, and Slighe Baile òg down to the southern Seann Skell.",
+  "body": "The king's council takes the roads from the mountain to the coast into the crown's keeping, that no house may stop the carts bearing the measured ore to the temples. The roads are marked with posts bearing the crown's sign: the carriers' road down to Cathair dhearg, An Rathad Tuath over the pass by Muileann fhada, Slighe Muileann dhearg south from the hills by Muileann chrom, and Slighe Baile òg down to the southern Seann Skell.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -1858,7 +1858,7 @@
   "id": "III-0145a",
   "canon": false,
   "title": "The crown's riders",
-  "body": "Fresh horses are kept for the crown's riders at the waypoint houses on the ore-roads. A rider who changes horses at every house can carry the council's word from Cathair dhearg to the mountain between dawn and dark. The houses are paid for the stabling out of the ore-road tolls.",
+  "body": "Fresh horses are kept for the crown's riders at the waypoint houses on the ore-roads, and a rider changing at every house carries the council's word from Cathair dhearg to the mountain between dawn and dark. The stabling is paid out of the ore-road tolls.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -1869,8 +1869,8 @@
  {
   "id": "III-0146",
   "canon": false,
-  "title": "The high pastures of Doire uaine abandoned",
-  "body": "The last shepherd families leave the high pastures of the Doire uaine hills for the valley villages. The reason given is the grazing; everyone asked also mentions the Marbh-bheò.",
+  "title": "The high pastures of Doire uaine forsaken",
+  "body": "The last shepherd families leave the high pastures of the Doire uaine hills for the valley villages. They give the grazing as the reason; every one of them speaks also of the Marbh-bheò.",
   "place": "marker:22",
   "kind": "people",
   "between": [
@@ -1882,7 +1882,7 @@
   "id": "III-0147",
   "canon": false,
   "title": "The salt fair at Ros fhionn",
-  "body": "Ros fhionn holds its great salt fair, and the reeve's count is some four thousand people on the flats in a single day. It is the town's height, and the chronicle calls it the richest place in the north-east.",
+  "body": "Ros fhionn holds its great salt fair, and the reeve counts some four thousand people on the flats in a single day. It is the height of the town, and the chronicle calls it the richest place in the north-east.",
   "place": "burg:76",
   "kind": "trade",
   "between": [
@@ -1894,7 +1894,7 @@
   "id": "III-0148",
   "canon": false,
   "title": "Cathair mhòr the largest town",
-  "body": "Cathair mhòr passes the capital in size, its market drawing trade from the whole south of the island. The capital remains the seat of the crown and the smaller place.",
+  "body": "Cathair mhòr, its market drawing the trade of all the south, grows greater than the capital. The capital remains the seat of the crown, and the lesser town.",
   "place": "burg:23",
   "kind": "people",
   "between": [
@@ -1906,7 +1906,7 @@
   "id": "III-0149",
   "canon": false,
   "title": "The stair at Toll-dubh",
-  "body": "Quarrymen north of the capital break into Toll-dubh, the shaft of the old tellings, long lost, and find a stair cut into the rock going down beyond their lamps. The custodians of the vein-house have the entrance walled up; the one quarryman who went down is not recorded as saying what he saw.",
+  "body": "Quarrymen north of the capital break into Toll-dubh, the shaft of the old tales, long lost, and find a stair cut in the rock going down beyond their lamps. The custodians of the vein-house wall up the entrance. The one quarryman who went down never tells what he saw.",
   "place": "marker:19",
   "kind": "discovery",
   "between": [
@@ -1918,7 +1918,7 @@
   "id": "III-0150",
   "canon": false,
   "title": "The copper-workers of Cathair mhòr",
-  "body": "Copper-workers at Cathair mhòr begin making cooking pots that are sold on every road on the island. The pots are marked with the maker's sign, and some survive in the ground.",
+  "body": "The copper-workers of Cathair mhòr begin to make cooking pots, which are sold on every road of the island. Each bears its maker's sign, and some are still found in the ground.",
   "place": "burg:23",
   "kind": "craft",
   "between": [
@@ -1930,7 +1930,7 @@
   "id": "III-0151",
   "canon": false,
   "title": "Ailean measures Làrach an Teampaill",
-  "body": "Ailean mac Dhùghaill, a scholar of the druid school at Dùn thais, measures the ruin of Làrach an Teampaill and writes that its altar faces the central mountains and not the sea. He declines to guess who set it so.",
+  "body": "Ailean mac Dhùghaill, a scholar of the druid school at Dùn thais, measures the ruin of Làrach an Teampaill and writes that its altar faces the central mountains and not the sea. Who set it so he will not guess.",
   "place": "marker:33",
   "kind": "discovery",
   "between": [
@@ -1942,7 +1942,7 @@
   "id": "III-0152",
   "canon": false,
   "title": "Ailean's tables of the old ruins",
-  "body": "Ailean mac Dhùghaill completes his tables of Làrach an Dùin-fhaire, Làrach an Dùin and Làrach an Teampaill, giving their measures, their stone and the lie of each. He concludes that he cannot say whether one people built all three, and his tables are the reason later scholars could not say either.",
+  "body": "Ailean mac Dhùghaill finishes his tables of Làrach an Dùin-fhaire, Làrach an Dùin and Làrach an Teampaill, with the measure, stone and lie of each. He cannot say whether one people built all three, and because of his tables no scholar after him could say either.",
   "place": "marker:31",
   "kind": "record",
   "between": [
@@ -1954,7 +1954,7 @@
   "id": "III-0153",
   "canon": false,
   "title": "Queen Mòrag Ruadh crowned",
-  "body": "Mòrag Ruadh, of Clann Raghnaill, is crowned at Cathair dhearg. She is the first ruler whose household accounts survive whole.",
+  "body": "Mòrag Ruadh of Clann Raghnaill is crowned at Cathair dhearg. Hers are the first household accounts of a ruler that survive whole.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1966,7 +1966,7 @@
   "id": "III-0154",
   "canon": false,
   "title": "The obelisk at Carragh Cnoc bheag cleaned",
-  "body": "The priests of the Hawk at Cnoc bheag clear the moss from the obelisk of Carragh Cnoc bheag and try to read the old letters on it. They cannot, and they record the attempt.",
+  "body": "The priests of the Hawk at Cnoc bheag clear the moss from the obelisk of Carragh Cnoc bheag and try to read the old letters on it. They cannot, and they write down that they tried.",
   "place": "marker:28",
   "kind": "omen",
   "between": [
@@ -1978,7 +1978,7 @@
   "id": "III-0155",
   "canon": false,
   "title": "Caol shean's fishing year",
-  "body": "Caol shean, whose boats fish the east coast from the mouth of the Abhainn chaol, lands the largest catch in its roll, so large that salt runs short and half is dried in the wind. The dried fish sells poorly and the town goes back to salting.",
+  "body": "Caol shean, whose boats fish the east coast from the mouth of the Abhainn chaol, lands the greatest catch in its rolls, so great that the salt runs short and half is dried in the wind. The dried fish sells poorly, and the town goes back to salting.",
   "place": "burg:197",
   "kind": "trade",
   "between": [
@@ -1990,7 +1990,7 @@
   "id": "III-0156",
   "canon": false,
   "title": "The thousandth year",
-  "body": "The vein-house marks the thousandth year of its count with a single measured burning of the ore on Cidhe an Diosail at Seann Skell. Queen Mòrag Ruadh attends. The record says the flame burned the colour of the vein and that the crowd went home without a word.",
+  "body": "The vein-house marks the thousandth year of its count with a single measured burning of the ore on Cidhe an Diosail at Seann Skell, and Queen Mòrag Ruadh is there. It is told that the flame burned the colour of the vein, and that the crowd went home without a word.",
   "place": "burg:489",
   "kind": "culture",
   "between": [
@@ -2002,7 +2002,7 @@
   "id": "III-0156a",
   "canon": false,
   "title": "The market above the mill-race",
-  "body": "The hill-lords of Baile ghorm hold a market at Cnoc bhàn, above the long mill-race of Muileann fhada, for the farms of the south-east. Grain, clay and honey are its common goods. Its rare good is pearls, which the women of the shore take from the mussel beds in the shallows and which are sold in no other market.",
+  "body": "The hill-lords of Baile ghorm hold a market for the farms of the south-east at Cnoc bhàn, above the long mill-race of Muileann fhada. Its common goods are grain, clay and honey. Its rare good is pearls, which the women of the shore take from the mussel beds in the shallows, and which no other market sells.",
   "place": "burg:233",
   "kind": "trade",
   "between": [
@@ -2014,7 +2014,7 @@
   "id": "III-0157",
   "canon": false,
   "title": "The blue dyers of Baile ghorm",
-  "body": "The dyers of Baile ghorm in the south-east make a fast blue from a marsh plant and a mordant of their own. Cloth of Baile ghorm blue becomes the dress of the seven houses on feast days.",
+  "body": "The dyers of Baile ghorm in the south-east make a fast blue from a marsh plant and a mordant of their own. Cloth of Baile ghorm blue becomes the feast-day dress of the seven houses.",
   "place": "burg:3",
   "kind": "craft",
   "between": [
@@ -2038,7 +2038,7 @@
   "id": "III-0159",
   "canon": false,
   "title": "The cough at Seann Bhral",
-  "body": "The swallowing cough reaches the port of Seann Bhral. The harbour is closed by the townsfolk themselves, and the shared-meal custom is kept by leaving food at the town's gate.",
+  "body": "The swallowing cough comes to the port of Seann Bhral. The townsfolk themselves close the harbour, and keep the shared meal by leaving food at the town gate.",
   "place": "burg:110",
   "kind": "disaster",
   "between": [
@@ -2053,8 +2053,8 @@
  {
   "id": "III-0160",
   "canon": false,
-  "title": "Queen Beathag Fhionn's closing of the roads",
-  "body": "Beathag Fhionn, crowned after her mother Mòrag, closes the coast road between Seann Bhral and Muileann dhomhain and sets reeves at the fords to turn back travellers. The cough goes no further west.",
+  "title": "Queen Beathag Fhionn closes the roads",
+  "body": "Beathag Fhionn, crowned after her mother Mòrag, closes the coast road between Seann Bhral and Muileann dhomhain and sets reeves at the fords to turn travellers back. The cough goes no further west.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -2070,7 +2070,7 @@
   "id": "III-0161",
   "canon": false,
   "title": "Muileann dhomhain resettled",
-  "body": "Muileann dhomhain, emptied by the swallowing cough, is resettled by families from the hills around it, who take the empty houses by lot. The town's older families say they never again knew half their neighbours.",
+  "body": "Families from the hills about Muileann dhomhain settle the town that the swallowing cough emptied, and take the empty houses by lot. The older families of the town say they never again knew half their neighbours.",
   "place": "burg:466",
   "kind": "people",
   "between": [
@@ -2082,7 +2082,7 @@
   "id": "III-0162",
   "canon": false,
   "title": "Drochaid Ros fhionn repaired",
-  "body": "The arches of Drochaid Ros fhionn, worn by seven centuries of salt carts, are rebuilt at the cost of the Ros fhionn salt-masters. Their names are cut on the keystones.",
+  "body": "The arches of Drochaid Ros fhionn, worn by seven centuries of salt carts, are built anew at the cost of the salt-masters of Ros fhionn, whose names are cut on the keystones.",
   "place": "marker:4",
   "kind": "building",
   "between": [
@@ -2094,7 +2094,7 @@
   "id": "III-0163",
   "canon": false,
   "title": "Death of Queen Beathag Fhionn",
-  "body": "Queen Beathag Fhionn, who closed the coast road against the cough, dies at Cathair dhearg. Her son Ailean is crowned, the first of four kings of that name in the house of Raghnall.",
+  "body": "Queen Beathag Fhionn, who closed the coast road against the cough, dies at Cathair dhearg. Her son Ailean is crowned, first of four kings of that name in the house of Raghnall.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2106,7 +2106,7 @@
   "id": "III-0164",
   "canon": false,
   "title": "The Baile ghorm blue fades",
-  "body": "The last dyer who knew the Baile ghorm mordant dies without apprentices, having quarrelled with both of hers. The blue that comes after is the ordinary blue of the rest of the island.",
+  "body": "The last dyer who knew the Baile ghorm mordant dies without apprentices, having quarrelled with both of hers. The blue that follows is the common blue of the rest of the island.",
   "place": "burg:3",
   "kind": "craft",
   "between": [
@@ -2118,7 +2118,7 @@
   "id": "III-0165",
   "canon": false,
   "title": "The ancestor-posts of Dùn ìseal burned",
-  "body": "The ancestor-posts at Dùn ìseal burn in a lightning fire. The keepers recut the names from memory and from the custody-book, and admit in their roll that some are guesses.",
+  "body": "Lightning fires the ancestor-posts at Dùn ìseal. The keepers cut the names again from memory and from the custody-book, and own in their roll that some are guesses.",
   "place": "burg:315",
   "kind": "faith",
   "between": [
@@ -2130,7 +2130,7 @@
   "id": "III-0166",
   "canon": false,
   "title": "The silting of Ros fhionn",
-  "body": "The Abhainn bheag silts up behind a shifting bar below Ros fhionn, and the salt barges can no longer reach the quays. The salt-masters move their trade to Caol gharbh on the coast.",
+  "body": "A shifting bar below Ros fhionn silts up the Abhainn bheag, and the salt barges can no longer reach the quays. The salt-masters take their trade to Caol gharbh on the coast.",
   "place": "burg:76",
   "kind": "trade",
   "between": [
@@ -2142,7 +2142,7 @@
   "id": "III-0167",
   "canon": false,
   "title": "Caol gharbh takes the salt",
-  "body": "Caol gharbh, a fishing village, becomes the salt port of the north-east, and its harbour is dug out and walled with the Ros fhionn masters' money.",
+  "body": "Caol gharbh, a fishing village, becomes the salt port of the north-east, and its harbour is dug out and walled with the money of the Ros fhionn masters.",
   "place": "burg:443",
   "kind": "trade",
   "between": [
@@ -2158,7 +2158,7 @@
   "id": "III-0167a",
   "canon": false,
   "title": "The stone on the neck",
-  "body": "Caol gharbh and Caol chrom, the two harbours of the strait, send their headmen to a stone on the neck of land between them and settle the dues the salt-boats pay to each. They meet at the same stone over every quarrel about the strait after, and it is called Coinneachadh na h-Amhaich, the meeting of the neck.",
+  "body": "Caol gharbh and Caol chrom, the two harbours of the strait, send their headmen to a stone on the neck of land between them, and there settle the dues the salt-boats pay to each. Thereafter they meet at that stone over every quarrel of the strait, and it is called Coinneachadh na h-Amhaich, the meeting of the neck.",
   "place": "marker:44",
   "kind": "trade",
   "between": [
@@ -2169,8 +2169,8 @@
  {
   "id": "III-0168",
   "canon": false,
-  "title": "Traffic falls on Drochaid Ros fhionn",
-  "body": "With the salt going by sea from Caol gharbh, the carts stop crossing Drochaid Ros fhionn. The bridge-keeper's office is abolished, and the bridge is little used from this time.",
+  "title": "Drochaid Ros fhionn falls quiet",
+  "body": "The salt going by sea from Caol gharbh, the carts no longer cross Drochaid Ros fhionn. The office of bridge-keeper is done away with, and from this time the bridge is little used.",
   "place": "marker:4",
   "kind": "trade",
   "between": [
@@ -2182,7 +2182,7 @@
   "id": "III-0168a",
   "canon": false,
   "title": "The market-court stays at Ros fhionn",
-  "body": "The salt-masters take their ships to Caol gharbh but leave their market-court on the headland at Ros fhionn, where the weights and the tally-sticks are kept. The farms and forges of the north-eastern hills go on bringing their goods to it, and the town keeps its market after it has lost its harbour.",
+  "body": "The salt-masters take their ships to Caol gharbh but leave their market-court on the headland at Ros fhionn, where the weights and tally-sticks are kept. The farms and forges of the north-eastern hills still bring their goods there, and the town keeps its market after it has lost its harbour.",
   "place": "burg:76",
   "kind": "law",
   "between": [
@@ -2194,7 +2194,7 @@
   "id": "III-0168b",
   "canon": false,
   "title": "Seòlaid Ros fhionn",
-  "body": "With the salt of Ros fhionn going by sea, its boats run down the river past Caol gharbh, round the north-east cape, south along the eastern shore past Seann Tarr and Àth bheag, and back west into the bay below Caol shean, where the salt goes inland. The lane is called Seòlaid Ros fhionn after the town whose salt made it, and the eastern boats keep it long after the salt-pans fail.",
+  "body": "The salt of Ros fhionn now goes by sea: its boats run down the river past Caol gharbh, round the north-east cape, south along the eastern shore past Seann Tarr and Àth bheag, and west again into the bay below Caol shean, where the salt goes inland. The lane is called Seòlaid Ros fhionn after the town whose salt made it, and the eastern boats keep it long after the salt-pans fail.",
   "place": "burg:76",
   "kind": "voyage",
   "between": [
@@ -2206,7 +2206,7 @@
   "id": "III-0169",
   "canon": false,
   "title": "The millers of Muileann shean",
-  "body": "The mills of Muileann shean are fitted with a new kind of gearing, cut in oak, that turns two stones from one wheel. The gearing spreads to the mills of the north within a lifetime.",
+  "body": "The mills of Muileann shean are fitted with a new gearing, cut in oak, that turns two stones from one wheel. Within a lifetime it spreads to the mills of the north.",
   "place": "burg:212",
   "kind": "craft",
   "between": [
@@ -2218,7 +2218,7 @@
   "id": "III-0170",
   "canon": false,
   "title": "The Sea-Watcher off the north-west",
-  "body": "Fishers from the thinned north-west coast report the Sea-Watcher, Uilebheist na Mara, close enough to foul their nets. The few boats still working those waters draw further in.",
+  "body": "Fishers of the thinned north-west coast see the Sea-Watcher, Uilebheist na Mara, near enough to foul their nets. The few boats still working those waters draw further in.",
   "place": "marker:21",
   "kind": "omen",
   "between": [
@@ -2230,7 +2230,7 @@
   "id": "III-0171",
   "canon": false,
   "title": "The table of years at Dùn thais",
-  "body": "A scholar of the druid school at Dùn thais, Raghnall mac Chaluim, sets out a table showing that the heads of the custodian houses live on average a few years longer than the tenants of their lands. He asks whether the vein answers the hand that holds it. The record notes the finding with unease and without an answer.",
+  "body": "Raghnall mac Chaluim, a scholar of the druid school at Dùn thais, sets out a table showing that the heads of the custodian houses live some years longer, on the whole, than the tenants of their lands. He asks whether the vein answers the hand that holds it. The finding is set down with unease, and no answer.",
   "place": "burg:77",
   "kind": "faith",
   "between": [
@@ -2242,7 +2242,7 @@
   "id": "III-0172",
   "canon": false,
   "title": "The table forbidden",
-  "body": "The king's council forbids the copying of Raghnall mac Chaluim's table of years, and the house of disputation at Dùn thais is closed for a generation. Raghnall's own copy is kept in the vein-house and entered in its inventory.",
+  "body": "The king's council forbids the copying of Raghnall mac Chaluim's table of years, and the house of disputation at Dùn thais is shut for a generation. Raghnall's own copy is kept in the vein-house and entered in its inventory.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -2254,7 +2254,7 @@
   "id": "III-0173",
   "canon": false,
   "title": "The great gale at Inis mhòr",
-  "body": "A gale out of the north-east drives the sea up the river at Inis mhòr before the autumn grain fleet has sailed, higher than anyone then living had seen it. Boats are crushed at their moorings and the grain fleet does not sail until the spring.",
+  "body": "Before the autumn grain fleet has sailed, a gale out of the north-east drives the sea up the river at Inis mhòr higher than any then living had seen. Boats are crushed at their moorings, and the grain fleet does not sail until spring.",
   "place": "burg:17",
   "kind": "disaster",
   "between": [
@@ -2266,7 +2266,7 @@
   "id": "III-0174",
   "canon": false,
   "title": "Baile ruadh's quarrel with Achadh naomh",
-  "body": "Baile ruadh and Achadh naomh in the far north-east go to law over the grazing on the hills between them. The case is heard three times at Cathair dhearg and settled by dividing the hills along a stream.",
+  "body": "Baile ruadh and Achadh naomh in the far north-east go to law over the grazing on the hills between them. The case is heard three times at Cathair dhearg, and settled by dividing the hills along a stream.",
   "place": "burg:241",
   "kind": "people",
   "between": [
@@ -2278,7 +2278,7 @@
   "id": "III-0175",
   "canon": false,
   "title": "Pilgrims at Allt an Àigh",
-  "body": "The keepers of the Old Spirits renew the pilgrimage to Allt an Àigh, and a guest-house is built beside the stream for those who come to drink at the proper phase of the moon. The guest-house book records pilgrims from every shire.",
+  "body": "The keepers of the Old Spirits renew the pilgrimage to Allt an Àigh, and a guest-house is built beside the stream for those who come to drink at the right phase of the moon. Its book names pilgrims from every shire.",
   "place": "marker:1",
   "kind": "faith",
   "between": [
@@ -2290,7 +2290,7 @@
   "id": "III-0176",
   "canon": false,
   "title": "Death of King Ailean mac Raghnaill",
-  "body": "King Ailean mac Raghnaill dies at Cathair dhearg, leaving two sons of different mothers, Iain Ciar and Alasdair Bàn, each of whom has been told he is the heir.",
+  "body": "King Ailean mac Raghnaill dies at Cathair dhearg, leaving two sons by different mothers, Iain Ciar and Alasdair Bàn, and each has been told he is the heir.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -2302,7 +2302,7 @@
   "id": "III-0177",
   "canon": false,
   "title": "The battle of Cnoc naomh",
-  "body": "The brothers' war opens when Alasdair Bàn's men seize Cnoc naomh and Iain Ciar retakes it. The houses divide, four to three, and Cogadh nam Bràithrean, the Brothers' War, is named from this battle.",
+  "body": "Alasdair Bàn's men seize Cnoc naomh and Iain Ciar takes it back. The houses divide four to three, and from this battle Cogadh nam Bràithrean, the Brothers' War, takes its name.",
   "place": "burg:318",
   "kind": "war",
   "between": [
@@ -2314,7 +2314,7 @@
   "id": "III-0178",
   "canon": false,
   "title": "The fire at Ceann mhin",
-  "body": "Alasdair Bàn's ships burn the waterfront of Ceann mhin, which held for his brother. The fire takes the rope stores and the granary, and the town begs its bread from Cathair mhòr.",
+  "body": "Alasdair Bàn's ships burn the waterfront of Ceann mhin, which held for his brother. The fire takes the rope stores and the granary, and the town begs its bread of Cathair mhòr.",
   "place": "burg:30",
   "kind": "war",
   "between": [
@@ -2326,7 +2326,7 @@
   "id": "III-0179",
   "canon": false,
   "title": "The battle of Muileann ghlas",
-  "body": "Iain Ciar defeats Alasdair Bàn below Muileann ghlas. Alasdair is taken alive, and his captains are allowed to go home.",
+  "body": "Iain Ciar defeats Alasdair Bàn below Muileann ghlas. Alasdair is taken alive; his captains are let go home.",
   "place": "burg:360",
   "kind": "battle",
   "between": [
@@ -2338,7 +2338,7 @@
   "id": "III-0180",
   "canon": false,
   "title": "The brothers' peace at An Taigh-seinnse Mòr",
-  "body": "The brothers make peace at An Taigh-seinnse Mòr, on neutral ground between their lands. Alasdair Bàn gives up his claim and receives the lordship of Seann Chwen for life. Iain Ciar is crowned.",
+  "body": "The brothers make peace at An Taigh-seinnse Mòr, on neutral ground between their lands. Alasdair Bàn gives up his claim and has the lordship of Seann Chwen for life. Iain Ciar is crowned.",
   "place": "marker:10",
   "kind": "law",
   "between": [
@@ -2362,7 +2362,7 @@
   "id": "III-0181a",
   "canon": false,
   "title": "White stone from Baile Mòr dhomhain",
-  "body": "Masons from Ceann leathan buy a veined white stone from the hills above Baile Mòr dhomhain for the new front of their temple. The quarry is worked from this time on, and its marble goes south by the carriers' road to every town that can pay for it.",
+  "body": "Masons of Ceann leathan buy a veined white stone from the hills above Baile Mòr dhomhain for the new front of their temple. From this time the quarry is worked, and its marble goes south by the carriers' road to every town that can pay for it.",
   "place": "burg:273",
   "kind": "craft",
   "between": [
@@ -2374,7 +2374,7 @@
   "id": "III-0182",
   "canon": false,
   "title": "Iain Ciar's grain law",
-  "body": "King Iain Ciar orders that every shire seat keep a year's grain in store against the next war, having seen Ceann mhin beg its bread. The law is enforced for as long as he lives.",
+  "body": "Having seen Ceann mhin beg its bread, King Iain Ciar commands that every shire seat keep a year's grain in store against the next war. The law is kept as long as he lives.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -2386,7 +2386,7 @@
   "id": "III-0183",
   "canon": false,
   "title": "The account of the Brothers' War",
-  "body": "A clerk of King Iain Ciar, Pàdraig mac Ruairidh, writes the account of the Brothers' War. It praises the king at every turn and is the only account that survives, which later readers have found inconvenient.",
+  "body": "Pàdraig mac Ruairidh, a clerk of King Iain Ciar, writes the story of the Brothers' War. It praises the king at every turn, and it is the only account that survives, to the vexation of later readers.",
   "place": "burg:19",
   "kind": "record",
   "between": [
@@ -2398,7 +2398,7 @@
   "id": "III-0184",
   "canon": false,
   "title": "The inns of the mining roads chartered",
-  "body": "The crown grants a charter to the seven great road-houses of the mining circuit, An Sligeanach Fad' às among them, making their keepers answerable for the roads between them. The keepers meet once a year at An Sligeanach Fad' às to settle their accounts.",
+  "body": "The crown grants a charter to the seven great road-houses of the mining circuit, An Sligeanach Fad' às among them, and makes their keepers answerable for the roads between them. The keepers meet once a year at An Sligeanach Fad' às to settle their accounts.",
   "place": "marker:11",
   "kind": "trade",
   "between": [
@@ -2410,7 +2410,7 @@
   "id": "III-0185",
   "canon": false,
   "title": "Death of Iain Ciar",
-  "body": "King Iain Ciar dies at Cathair dhearg. His grain law lapses within a few years of his death, as he had foreseen in a note in his own hand.",
+  "body": "King Iain Ciar dies at Cathair dhearg. His grain law lapses within a few years, as he had foreseen in a note in his own hand.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2422,7 +2422,7 @@
   "id": "III-0186",
   "canon": false,
   "title": "An Taigh-seinnse Òir's beef",
-  "body": "An Taigh-seinnse Òir, on the eastern end of the circuit, is written into the charter-roll as keeping syrupped beef for the custodians' reeves on their rounds. It is the first recorded dish of that house; the rest of the entry is a complaint about the price.",
+  "body": "An Taigh-seinnse Òir, at the eastern end of the circuit, is written into the charter-roll as keeping syrupped beef for the custodians' reeves on their rounds. It is the first dish of that house on record; the rest of the entry is a complaint about the price.",
   "place": "marker:9",
   "kind": "trade",
   "between": [
@@ -2434,7 +2434,7 @@
   "id": "III-0187",
   "canon": false,
   "title": "An Taigh-seinnse Reòta",
-  "body": "An Taigh-seinnse Reòta, the road-house on the bare northern road, is snowed in for a whole season with a party of custodians' reeves inside. They live on its pickled spinach and fire milk, and their complaint to the charter-roll is recorded in full.",
+  "body": "An Taigh-seinnse Reòta, the road-house on the bare northern road, is snowed in for a whole season with a party of custodians' reeves within. They live on its pickled spinach and fire milk, and their complaint stands in full in the charter-roll.",
   "place": "marker:8",
   "kind": "trade",
   "between": [
@@ -2446,7 +2446,7 @@
   "id": "III-0188",
   "canon": false,
   "title": "The hull that sank at launch",
-  "body": "Seumas mac Iain, a boat-builder of Seann Skell, sets out to rebuild a deep-keeled hull from the scraps of the Sundering fellowship's lore still remembered on the strand. The hull fills and sinks at its launch, and Manannan's priests preach on it for a year.",
+  "body": "Seumas mac Iain, a boat-builder of Seann Skell, tries to build a deep-keeled hull again from the scraps of the Sundering fellowship's lore still remembered on the strand. At its launch it fills and sinks, and Manannan's priests preach on it for a year.",
   "place": "burg:489",
   "kind": "craft",
   "between": [
@@ -2458,7 +2458,7 @@
   "id": "III-0189",
   "canon": false,
   "title": "The Caol ìseal fishers go east",
-  "body": "Fishing families of Caol ìseal on the north coast move east to Caol bheag after their own harbour silts. Caol ìseal becomes a farming town.",
+  "body": "Their own harbour silted, the fishing families of Caol ìseal on the north coast move east to Caol bheag. Caol ìseal becomes a farming town.",
   "place": "burg:86",
   "kind": "people",
   "between": [
@@ -2470,7 +2470,7 @@
   "id": "III-0189a",
   "canon": false,
   "title": "The southern lane",
-  "body": "The fishers of Caol fhiadhaich, on the wild strait of the west coast, take their boats round into the southern sea and along the whole south coast to the mouth of the Abhainn uaine, and up it to the landing of Cidhe Beag below Baile thais, where they sell dried fish for grain. The older harbours of the south coast, which had not sailed beyond their own capes, begin to follow them. The lane is named for its first sailors: Slighe-mhara Caol fhiadhaich.",
+  "body": "The fishers of Caol fhiadhaich, on the wild strait of the west coast, take their boats round into the southern sea, along the whole south coast to the mouth of the Abhainn uaine, and up it to the landing of Cidhe Beag below Baile thais, where they sell dried fish for grain. The older harbours of the south coast, which had never sailed beyond their own capes, begin to follow. The lane is named for its first sailors: Slighe-mhara Caol fhiadhaich.",
   "place": "burg:49",
   "kind": "voyage",
   "between": [
@@ -2482,7 +2482,7 @@
   "id": "III-0190",
   "canon": false,
   "title": "The keel-song of Cuan shean",
-  "body": "A folk-collector of the royal household, Iseabail nic Lachlainn, takes down a work-song still sung by the rope-makers of Cuan shean that names the parts of a deep keel. Half its words have no meaning to anyone who sings it. It is the only record of the Sundering fleet's techniques that survives in any form.",
+  "body": "Iseabail nic Lachlainn, a gatherer of songs for the royal household, takes down a work-song of the rope-makers of Cuan shean that names the parts of a deep keel. Half its words mean nothing to those who sing it. It is all that survives, in any form, of the craft of the Sundering fleet.",
   "place": "burg:282",
   "kind": "culture",
   "between": [
@@ -2494,7 +2494,7 @@
   "id": "III-0191",
   "canon": false,
   "title": "The Stone's schism at Inis thais",
-  "body": "The Stone's congregation at Inis thais divides over whether the dead may be prayed for at Clach. Those who say not keep the temple; the others build a second house at Baile gheal.",
+  "body": "The Stone's congregation at Inis thais divides over whether the dead may be prayed for at Clach. Those who say no keep the temple; the others build a second house at Baile gheal.",
   "place": "burg:166",
   "kind": "faith",
   "between": [
@@ -2506,7 +2506,7 @@
   "id": "III-0192",
   "canon": false,
   "title": "The grey storm at Seann Tarr",
-  "body": "A storm named Gailleann Ghlas comes in from the east and destroys the harbour of Seann Tarr. The village is rebuilt, but the harbour is not, and its boats move to Cuan ruadh.",
+  "body": "A storm named Gailleann Ghlas comes out of the east and destroys the harbour of Seann Tarr. The village is rebuilt and the harbour is not; its boats go to Cuan ruadh.",
   "place": "burg:249",
   "kind": "disaster",
   "between": [
@@ -2534,7 +2534,7 @@
   "id": "III-0194",
   "canon": false,
   "title": "Cuan ruadh's new harbour",
-  "body": "Cuan ruadh builds a second harbour arm to take the boats from Seann Tarr. The town prospers on the east-coast fishing for the rest of the age.",
+  "body": "Cuan ruadh builds a second harbour arm for the boats from Seann Tarr, and thrives on the east-coast fishing for the rest of the age.",
   "place": "burg:119",
   "kind": "building",
   "between": [
@@ -2550,7 +2550,7 @@
   "id": "III-0195",
   "canon": false,
   "title": "Queen Catrìona Bheag crowned",
-  "body": "Catrìona Bheag, of Clann Raghnaill, is crowned at Cathair dhearg, the first queen in more than three centuries. The record notes that she was small, and that no one said so twice.",
+  "body": "Catrìona Bheag of Clann Raghnaill is crowned at Cathair dhearg, the first queen in more than three centuries. It is written that she was small, and that no one said so twice.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2574,7 +2574,7 @@
   "id": "III-0197",
   "canon": false,
   "title": "The oath of the seven",
-  "body": "Queen Catrìona Bheag has the heads of the seven houses swear to the ruling of the hearth in her presence, the first renewal of the oath since Catrìona Bhuadhach. Clann Choinnich swears last.",
+  "body": "Queen Catrìona Bheag has the heads of the seven houses swear to the ruling of the hearth before her, the first renewal of the oath since Catrìona Bhuadhach. Clann Choinnich swears last.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -2586,7 +2586,7 @@
   "id": "III-0198",
   "canon": false,
   "title": "Macha's great house at Cathair mhòr",
-  "body": "The priests of Macha raise their great house at Cathair mhòr, the largest roofed building on Rodos in this age. Its black and white floor took eleven years to lay.",
+  "body": "The priests of Macha raise their great house at Cathair mhòr, the largest roofed building on Rodos in this age. Its floor of black and white was eleven years in the laying.",
   "place": "burg:23",
   "kind": "building",
   "between": [
@@ -2598,7 +2598,7 @@
   "id": "III-0199",
   "canon": false,
   "title": "The eastern Toll-dubh",
-  "body": "Charcoal-burners in the east find again the eastern Toll-dubh of the old tellings, with the same cut stair as the one walled up in the west. The custodians wall this one too, and the two entries in the custody-book are cross-referenced by the scribe.",
+  "body": "Charcoal-burners in the east find again the eastern Toll-dubh of the old tales, with the same cut stair as the one walled up in the west. The custodians wall this one too, and the scribe binds the two entries of the custody-book each to the other.",
   "place": "marker:20",
   "kind": "discovery",
   "between": [
@@ -2610,7 +2610,7 @@
   "id": "III-0200",
   "canon": false,
   "title": "The dry years at Achadh shean",
-  "body": "Three dry seasons in succession empty the wells of the eastern shires around Achadh shean. The shared-meal custom holds, and grain is carted in from the south by the crown.",
+  "body": "Three dry seasons one after another empty the wells of the eastern shires about Achadh shean. The shared meal holds, and the crown carts grain in from the south.",
   "place": "zone:2",
   "kind": "disaster",
   "between": [
@@ -2622,7 +2622,7 @@
   "id": "III-0201",
   "canon": false,
   "title": "The water-rights of Achadh shean",
-  "body": "The reeves of Achadh shean divide the use of the deep wells among the households by lot and by turn, and write the division on a board at the well-head. The board is renewed each generation and the lots are never redrawn.",
+  "body": "The reeves of Achadh shean share the deep wells among the households by lot and by turn, and write the sharing on a board at the well-head. The board is renewed each generation; the lots are never drawn again.",
   "place": "burg:411",
   "kind": "law",
   "between": [
@@ -2634,7 +2634,7 @@
   "id": "III-0202",
   "canon": false,
   "title": "The firlot of Àth shean",
-  "body": "The granary of Àth shean discovers its firlot has been worn smaller than the standard of Cathair dhearg, and has been for generations. The reeve's accounts are corrected back as far as anyone can reckon.",
+  "body": "The granary of Àth shean finds that its firlot has worn smaller than the standard of Cathair dhearg, and has been so for generations. The reeve's accounts are put right as far back as anyone can reckon.",
   "place": "burg:67",
   "kind": "trade",
   "between": [
@@ -2646,7 +2646,7 @@
   "id": "III-0203",
   "canon": false,
   "title": "The grey glaze lost",
-  "body": "The last of Clann Mhic Phàil dies at Muileann gheal without passing on the glaze. Potters of the town try for a generation to match it and fail.",
+  "body": "The last of Clann Mhic Phàil dies at Muileann gheal without passing on the glaze. For a generation the potters of the town try to match it, and fail.",
   "place": "burg:288",
   "kind": "craft",
   "between": [
@@ -2658,7 +2658,7 @@
   "id": "III-0204",
   "canon": false,
   "title": "Baile Mòr ruadh's fair",
-  "body": "Baile Mòr ruadh in the east holds a cattle fair drawing drovers from Àth chiar and the eastern hills. The fair becomes yearly and is the largest in the east.",
+  "body": "Baile Mòr ruadh in the east holds a cattle fair that draws drovers from Àth chiar and the eastern hills. It becomes yearly, and the greatest fair in the east.",
   "place": "burg:387",
   "kind": "people",
   "between": [
@@ -2670,7 +2670,7 @@
   "id": "III-0205",
   "canon": false,
   "title": "Queen Sìleas Òg crowned",
-  "body": "Sìleas Òg, of Clann Raghnaill, is crowned at Cathair dhearg, named for the queen of the firlot. She is the first ruler in the record to have visited every shire seat.",
+  "body": "Sìleas Òg of Clann Raghnaill, named for the queen of the firlot, is crowned at Cathair dhearg. She is the first ruler known to have visited every shire seat.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2681,8 +2681,8 @@
  {
   "id": "III-0206",
   "canon": false,
-  "title": "Sìleas Òg's census of hands",
-  "body": "Queen Sìleas Òg orders a new count of every household holding the right to the ore. The count is smaller than any before it, the right having narrowed into fewer and larger households, and the queen has it entered without comment.",
+  "title": "Sìleas Òg's count of hands",
+  "body": "Queen Sìleas Òg commands a new count of every household holding the right to the ore. It is smaller than any before, for the right has narrowed into fewer and larger households, and the queen has it entered without comment.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -2694,7 +2694,7 @@
   "id": "III-0207",
   "canon": false,
   "title": "The fire of Ceann mhin",
-  "body": "A second great fire burns Ceann mhin, this time without a war to blame. The town is rebuilt with stone gable walls between houses by order of its reeve.",
+  "body": "A second great fire burns Ceann mhin, and this time there is no war to blame. By order of its reeve the town is rebuilt with gable walls of stone between the houses.",
   "place": "burg:30",
   "kind": "disaster",
   "between": [
@@ -2706,7 +2706,7 @@
   "id": "III-0208",
   "canon": false,
   "title": "The silver smelt refused",
-  "body": "Clann Choinnich asks leave to burn the ore beyond the measured handful to smelt silver at Muileann chiar, on the ground that the ore burns hotter than charcoal. The council refuses. It is the first request to burn the ore for work rather than worship.",
+  "body": "Clann Choinnich asks leave to burn the ore beyond the measured handful to smelt silver at Muileann chiar, since the ore burns hotter than charcoal. The council refuses. It is the first asking to burn the ore for work and not for worship.",
   "place": "marker:2",
   "kind": "law",
   "between": [
@@ -2718,7 +2718,7 @@
   "id": "III-0209",
   "canon": false,
   "title": "The lost smithing at Dùn dhearg",
-  "body": "The smiths of Dùn dhearg, who had made the custodian houses' ceremonial blades since the walls were built, lose the last man who knew how their layered steel was folded. Later blades from Dùn dhearg are ordinary.",
+  "body": "The smiths of Dùn dhearg, makers of the ceremonial blades of the custodian houses since the walls were built, lose the last man who knew how their layered steel was folded. After him the blades of Dùn dhearg are ordinary.",
   "place": "burg:422",
   "kind": "craft",
   "between": [
@@ -2730,7 +2730,7 @@
   "id": "III-0210",
   "canon": false,
   "title": "The houses bury at Tuam Cnoc dhìreach",
-  "body": "The custodian houses begin to bury their heads at Tuam Cnoc dhìreach, among graves older than any name on them. The tenants of the surrounding land call it an unwise thing to do and continue to bury their own dead elsewhere.",
+  "body": "The custodian houses begin to bury their heads at Tuam Cnoc dhìreach, among graves older than any name on them. The tenants of the land about call it unwise, and go on burying their own dead elsewhere.",
   "place": "marker:41",
   "kind": "culture",
   "between": [
@@ -2742,7 +2742,7 @@
   "id": "III-0211",
   "canon": false,
   "title": "King Ailean the Fourth crowned",
-  "body": "Ailean mac Raghnaill, the fourth king of that name, is crowned at Cathair dhearg. He is remembered only because his reign is the shortest in the king-list.",
+  "body": "Ailean mac Raghnaill, fourth king of that name, is crowned at Cathair dhearg. He is remembered only for the shortest reign in the king-list.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2754,7 +2754,7 @@
   "id": "III-0212",
   "canon": false,
   "title": "The synod of Manannan's order",
-  "body": "The priests of Manannan meet at Seann Skell and restate the rule of sight-of-land. They add a prayer, said at the foot of the river pool, asking Manannan to keep the sea shut: A Mhanannain, cùm a' mhuir dùinte.",
+  "body": "The priests of Manannan meet at Seann Skell and lay down again the rule of sight-of-land. To it they add a prayer, said at the foot of the river pool, that Manannan keep the sea shut: A Mhanannain, cùm a' mhuir dùinte.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -2766,7 +2766,7 @@
   "id": "III-0213",
   "canon": false,
   "title": "Queen Mòrag nic Ailein crowned",
-  "body": "Ailean's sister Mòrag nic Ailein is crowned after him. She reigns for forty years and leaves the king-list its longest run of entries recording nothing but good harvests and the rite.",
+  "body": "Ailean's sister Mòrag nic Ailein is crowned after him. She reigns forty years, and the king-list has for her its longest run of entries telling of nothing but good harvests and the rite.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2782,7 +2782,7 @@
   "id": "III-0214",
   "canon": false,
   "title": "The ferry at Cidhe Beag",
-  "body": "A ferry family sets up at Cidhe Beag on Abhainn uaine, taking passengers and goods down the river by canoe. The family holds the landing for the rest of the age.",
+  "body": "A ferry family settles at Cidhe Beag on Abhainn uaine and carries folk and goods down the river by canoe. They hold the landing for the rest of the age.",
   "place": "marker:39",
   "kind": "trade",
   "between": [
@@ -2806,7 +2806,7 @@
   "id": "III-0215",
   "canon": false,
   "title": "Inis mhòr's grain fleet laid up",
-  "body": "The coasting grain barges of Inis mhòr, which had sailed Slighe-uisce fhuar, the cold way along the north coast from Ros chiar to Caol mhin, since the Holy Age, are laid up for good as the roads improve. The last of them is kept on the strand as a curiosity.",
+  "body": "The coasting grain barges of Inis mhòr, which had sailed Slighe-uisce fhuar, the cold way along the north coast from Ros chiar to Caol mhin, since the Holy Age, are laid up for good as the roads grow better. The last is kept on the strand as a wonder.",
   "place": "burg:17",
   "kind": "people",
   "between": [
@@ -2818,7 +2818,7 @@
   "id": "III-0216",
   "canon": false,
   "title": "Earthquake at Dùn ìseal",
-  "body": "An earthquake shakes Dùn ìseal and cracks the spirit-house. No one is killed, and the keepers read it as a warning without being able to agree what of.",
+  "body": "An earthquake shakes Dùn ìseal and cracks the spirit-house. No one is killed. The keepers take it for a warning, but cannot agree of what.",
   "place": "burg:315",
   "kind": "disaster",
   "between": [
@@ -2830,7 +2830,7 @@
   "id": "III-0217",
   "canon": false,
   "title": "Beathag nic Thòmais gathers the old copies",
-  "body": "Beathag nic Thòmais, a mill-owner's widow of Muileann chaol, begins to buy up old copies of the custody-book and the harbour rolls from the houses that no longer read them. She keeps them in a loft over her mill.",
+  "body": "Beathag nic Thòmais, widow of a mill-owner of Muileann chaol, begins to buy old copies of the custody-book and the harbour rolls from houses that no longer read them. She keeps them in a loft over her mill.",
   "place": "burg:246",
   "kind": "record",
   "between": [
@@ -2842,7 +2842,7 @@
   "id": "III-0218",
   "canon": false,
   "title": "The paper mill at Muileann chaol",
-  "body": "A mill at Muileann chaol begins making paper from rags, the first on Rodos. The custody-book is copied onto paper for the first time in this generation.",
+  "body": "A mill at Muileann chaol begins to make paper from rags, the first on Rodos. In this generation the custody-book is first copied onto paper.",
   "place": "burg:246",
   "kind": "craft",
   "between": [
@@ -2853,8 +2853,8 @@
  {
   "id": "III-0219",
   "canon": false,
-  "title": "Three copies of the landfall report",
-  "body": "Among her papers Beathag nic Thòmais finds three copies of the report of the two landfalls. They differ in the order of the coasts and in the number of hulls. She writes out all three side by side and does not choose between them.",
+  "title": "Three copies of the landfall tidings",
+  "body": "Among her papers Beathag nic Thòmais finds three copies of the tidings of the two landfalls. They differ in the order of the coasts and the number of hulls. She writes out all three side by side and does not choose between them.",
   "place": "burg:246",
   "kind": "record",
   "between": [
@@ -2865,7 +2865,7 @@
  {
   "id": "III-0220",
   "canon": false,
-  "title": "The north-west coast charted",
+  "title": "The north-west coast counted",
   "body": "The crown sends a reeve to list the households of the thinned north-west coast between Baile chrom and Ceann mhòr. He counts fewer households than there are harbour berths.",
   "place": "burg:305",
   "kind": "people",
@@ -2878,7 +2878,7 @@
   "id": "III-0221",
   "canon": false,
   "title": "The loft at Muileann chaol",
-  "body": "Beathag nic Thòmais dies and leaves her loft of papers to the town of Muileann chaol, on condition that nothing in it is burned. The town keeps the condition and very little else of her wishes.",
+  "body": "Beathag nic Thòmais dies, and leaves her loft of papers to the town of Muileann chaol on condition that nothing in it be burned. The town keeps that condition and very little else of her wishes.",
   "place": "burg:246",
   "kind": "record",
   "between": [
@@ -2890,7 +2890,7 @@
   "id": "III-0222",
   "canon": false,
   "title": "King Tormod mac Ruairidh crowned",
-  "body": "Tormod mac Ruairidh, of Clann Raghnaill, is crowned at Cathair dhearg. His reign is remembered for its roads and for its length.",
+  "body": "Tormod mac Ruairidh of Clann Raghnaill is crowned at Cathair dhearg. His reign is remembered for its roads and its length.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2902,7 +2902,7 @@
   "id": "III-0223",
   "canon": false,
   "title": "Manannan's harbour prayer",
-  "body": "The priests of Manannan at Seann Skell begin saying their prayer to keep the sea shut on the same day as the empty-harbour rite, so that the two are kept together on Cidhe an Diosail. Neither side is pleased.",
+  "body": "The priests of Manannan at Seann Skell begin to say their prayer for the shut sea on the day of the rite of the empty harbour, so that both are kept together on Cidhe an Diosail. Neither side is pleased.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -2914,7 +2914,7 @@
   "id": "III-0224",
   "canon": false,
   "title": "Tormod's bridges",
-  "body": "King Tormod has stone bridges built across the fords of the south-central shires, one of them at Cnoc ìseal. Ferry-keepers who lose their living are given land in compensation.",
+  "body": "King Tormod builds stone bridges over the fords of the south-central shires, one of them at Cnoc ìseal. Ferry-keepers who lose their living are given land in amends.",
   "place": "burg:91",
   "kind": "building",
   "between": [
@@ -2926,7 +2926,7 @@
   "id": "III-0225",
   "canon": false,
   "title": "The panther year",
-  "body": "The panthers cross the southern roads in numbers no herder can remember, and for a whole season the crossing days run into one another. Flocks are kept in folds from Cnoc àrsaidh to the coast.",
+  "body": "The panthers cross the southern roads in numbers beyond any herder's memory, and for a whole season the crossing days run into one another. Flocks are kept in folds from Cnoc àrsaidh to the coast.",
   "place": "marker:40",
   "kind": "culture",
   "between": [
@@ -2938,7 +2938,7 @@
   "id": "III-0226",
   "canon": false,
   "title": "Caol gharbh loses the salt",
-  "body": "The salt pans of Caol gharbh fail as the sea rises over them, and salt comes to the north-east from the south instead. The town that took Ros fhionn's trade is poorer than Ros fhionn had been.",
+  "body": "The sea rises over the salt pans of Caol gharbh and they fail, and salt comes to the north-east from the south instead. The town that took the trade of Ros fhionn is poorer than Ros fhionn had been.",
   "place": "burg:443",
   "kind": "trade",
   "between": [
@@ -2962,7 +2962,7 @@
   "id": "III-0228",
   "canon": false,
   "title": "The rite kept by few",
-  "body": "The empty-harbour rite on Cidhe an Diosail at Seann Skell is kept by the harbour priests and a few old families. A visiting scribe writes that no one present could say on which day the fleet had actually sailed.",
+  "body": "The rite of the empty harbour on Cidhe an Diosail at Seann Skell is kept by the harbour priests and a few old families. A visiting scribe writes that none there could say on what day the fleet had in truth sailed.",
   "place": "burg:489",
   "kind": "record",
   "between": [
@@ -2986,7 +2986,7 @@
   "id": "III-0230",
   "canon": false,
   "title": "The house at Dùn thais reopened",
-  "body": "The house of disputation at Dùn thais, closed and reopened more than once since the table of years, is opened again on condition that the question of longer lives is not raised. The druids of the schools accept the condition and argue about the vein instead.",
+  "body": "The house of disputation at Dùn thais, shut and opened more than once since the table of years, is opened again on condition that the question of longer lives is not raised. The druids of the schools accept it and argue about the vein instead.",
   "place": "burg:77",
   "kind": "faith",
   "between": [
@@ -3010,7 +3010,7 @@
   "id": "III-0232",
   "canon": false,
   "title": "Queen Gormshuil's progress",
-  "body": "Queen Gormshuil nic Thormoid makes a progress round every shire seat on the island, the first ruler to do so since Sìleas Òg. Her clerks record the grievances of each shire and the queen answers none of them in writing.",
+  "body": "Queen Gormshuil nic Thormoid rides round every shire seat of the island, the first ruler to do so since Sìleas Òg. Her clerks write down the grievances of each shire; the queen answers none of them in writing.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -3022,7 +3022,7 @@
   "id": "III-0233",
   "canon": false,
   "title": "The second silver petition",
-  "body": "Clann Choinnich again asks to burn the ore beyond the measure for the silver smelt at Muileann chiar, now with the support of three of the seven houses. Queen Gormshuil's council refuses by one voice. The record gives the name of the member who changed his vote and not his reason.",
+  "body": "Clann Choinnich asks again to burn the ore beyond the measure for the silver smelt at Muileann chiar, now with three of the seven houses behind it. Queen Gormshuil's council refuses by one voice. The name of the member who changed his vote is written down; his reason is not.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -3034,7 +3034,7 @@
   "id": "III-0234",
   "canon": false,
   "title": "An Taigh-òsta Grianach's spinach",
-  "body": "An Taigh-òsta Grianach, on the eastern road, is recorded in the charter-roll as feeding the queen's progress with pan-fried spinach and black wine. The keeper, Peigi nic Dhonnchaidh, is excused her road dues for a year.",
+  "body": "An Taigh-òsta Grianach on the eastern road feeds the queen's progress with pan-fried spinach and black wine, as the charter-roll records. Its keeper, Peigi nic Dhonnchaidh, is spared her road dues for a year.",
   "place": "marker:6",
   "kind": "trade",
   "between": [
@@ -3045,8 +3045,8 @@
  {
   "id": "III-0235",
   "canon": false,
-  "title": "The last census of hands",
-  "body": "The vein-house counts the households holding the right to the ore for the last time in this age. They are fewer than at any count before, and larger. The custody-book notes that three of the seven houses now hold more than half the right between them.",
+  "title": "The last count of hands",
+  "body": "The vein-house counts for the last time in this age the households holding the right to the ore. They are fewer than at any count before, and greater; the custody-book notes that three of the seven houses now hold more than half the right between them.",
   "place": "burg:491",
   "kind": "record",
   "between": [
@@ -3058,7 +3058,7 @@
   "id": "III-0236",
   "canon": false,
   "title": "Timber from the west",
-  "body": "A worked timber, longer than any tree on the island and fastened with nails of a make no smith on Rodos recognizes, comes ashore at Ceann mhòr on the north-west coast, from beyond Manannan's mist, as the fishers say. It is carried to Seann Skell, shown to Manannan's priests, and burned.",
+  "body": "A worked timber, longer than any tree on the island and fastened with nails of a make no smith of Rodos knows, comes ashore at Ceann mhòr on the north-west coast, from beyond Manannan's mist, as the fishers say. It is carried to Seann Skell, shown to Manannan's priests, and burned.",
   "place": "burg:143",
   "kind": "omen",
   "between": [
@@ -3070,7 +3070,7 @@
   "id": "III-0237",
   "canon": false,
   "title": "The lamps at Seann Skell go out",
-  "body": "The night of lamps is kept at Seann Skell by fewer and fewer houses, and at last by none on the waterfront. An old woman sets a lamp in a window of the harbour-house, and the scribe records that it was she and not the town.",
+  "body": "Fewer houses at Seann Skell keep the night of lamps each year, and at last none on the waterfront. An old woman sets a lamp in a window of the harbour-house, and the scribe writes that it was she and not the town.",
   "place": "burg:489",
   "kind": "culture",
   "between": [
@@ -3081,8 +3081,13 @@
  {
   "id": "III-0238",
   "canon": false,
-  "title": "The empty-harbour rite, last entry of the age",
-  "body": "The empty-harbour rite is kept at Seann Skell by eleven people. The harbour scribe enters their number, the weather and the state of the tide, and nothing else.",
+  "keep": [
+   1764,
+   11,
+   25
+  ],
+  "title": "The last rite of the empty harbour in this age",
+  "body": "Eleven people keep the rite of the empty harbour at Seann Skell. The harbour scribe enters their number, the weather and the state of the tide, and nothing more.",
   "place": "burg:489",
   "kind": "record",
   "between": [
@@ -3094,7 +3099,7 @@
   "id": "III-0239",
   "canon": false,
   "title": "The silver petition laid aside",
-  "body": "Clann Choinnich does not bring its silver petition to the council again, the member who had turned it having died. The petition is left in the vein-house unanswered, and the record of the age ends with the Small-Burning Law still kept.",
+  "body": "The member who had turned the vote being dead, Clann Choinnich does not bring its silver petition to the council again. It lies unanswered in the vein-house, and the age ends with the Small-Burning Law still kept.",
   "place": "marker:2",
   "kind": "law",
   "between": [
@@ -3106,7 +3111,7 @@
   "id": "III-0239a",
   "canon": false,
   "title": "The mist thins",
-  "body": "The priests of Manannan at Seann Skell record that the mist on the western sea, which has hidden Rodos from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and the fishers of the west coast begin to see the line of the open sea beyond the headlands on still mornings.",
+  "body": "The priests of Manannan at Seann Skell write that the mist on the western sea, which has hidden Rodos from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and on still mornings the fishers of the west coast begin to see the line of the open sea beyond the headlands.",
   "place": "burg:489",
   "kind": "omen",
   "between": [
