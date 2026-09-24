@@ -1,6 +1,6 @@
 # English – Dia-thìris dictionary
 
-The same 21306 words, in the order of their English headwords. The full entries, with sound and literal sense, stand in `LEXICON.md`.
+The same 21308 words, in the order of their English headwords. The full entries, with sound and literal sense, stand in `LEXICON.md`.
 
 
 ## 3
@@ -466,10 +466,11 @@ The same 21306 words, in the order of their English headwords. The full entries,
 - **agate** (banded stone) — *agat* n. m., gen. *agait*, pl. *agatan*
 - **age** — *aois* n. f., pl. *aoisean*
 - **age** (verbal-noun phrase; the verb is fàs) — *fàs sean*
-- **Age of Dubhan** (the sixth age, from the first working dubhan to the present) — *An Aois Dhubhain* n. f.
-- **Age of Strangers** (the fourth age, from the Crossing to the Severance) — *An Aois Choigreach* n. f.
-- **Age of Sundering** (the third age, from the finding of the land to the Crossing) — *An Aois Scaraidh* n. f.
-- **Age of the Kingdom** (the fifth age, from the Severance to the first working dubhan) — *An Aois Rìoghachd* n. f.
+- **Age of Ailean** (the second age, from the crowning of Ailean Mòr in the grove to the Binding of the First Flame) — *An Aois Ailein* n. f.
+- **Age of Dubhan** (the seventh age, from the first working dubhan to the present) — *An Aois Dhubhain* n. f.
+- **Age of Strangers** (the fifth age, from the Crossing to the Severance) — *An Aois Choigreach* n. f.
+- **Age of Sundering** (the fourth age, from the finding of the land to the Crossing) — *An Aois Scaraidh* n. f.
+- **Age of the Kingdom** (the sixth age, from the Severance to the first working dubhan) — *An Aois Rìoghachd* n. f.
 - **aged** (old, aged (aged twenty: fichead bliadhna a dh'aois)) — *aosta*
 - **ageing** (growing old) — *fàs aosta* n. m.
 - **agency** (agency, a body acting for others) — *buidheann* n. f., gen. *buidhne*, pl. *buidhnean*
@@ -779,7 +780,7 @@ The same 21306 words, in the order of their English headwords. The full entries,
 - **Anchor Era** (the era of the Age of Strangers, counted from the Crossing; AE) — *Linn an Acair* n. f.
 - **anchorage** (place to anchor) — *acarsaid* n. f., gen. *acarsaide*, pl. *acarsaidean*
 - **ancient** (very old) — *àrsaidh*
-- **Ancient Age** (the first age of the island, from the crack in the stone to the Binding) — *An Aois Àrsaidh* n. f.
+- **Ancient Age** (the first age of the island, from the crack in the stone to the crowning in the grove) — *An Aois Àrsaidh* n. f.
 - **ancillary** (supporting, subsidiary) — *taiceil*
 - **and** — *agus*
 - **And you?** — *Agus thu fhèin?*
@@ -8457,6 +8458,7 @@ The same 21306 words, in the order of their English headwords. The full entries,
 - **grouse** (grumble) — *gearain* v. vn. *gearan*
 - **grout** — *taois-leacan* n. f.
 - **grove** — *doire* n. f., pl. *doireachan*
+- **Grove Era** (the era of the Age of Ailean, counted from the crowning of Ailean Mòr in the grove at Doire ghlas; GE) — *Linn na Doire* n. f.
 - **grovel** — *snàg* v. vn. *snàgadh*
 - **grow** — *fàs*
 - **grow up** — *fàs suas*
@@ -9040,7 +9042,7 @@ The same 21306 words, in the order of their English headwords. The full entries,
 - **holographic** (appearing solid by light) — *solas-dhealbhach* ✦
 - **holster** (pistol case worn at the belt) — *truaill-daga* n. f., gen. *truaille-daga*, pl. *truaillean-daga*
 - **holy** (holy, sacred, saintly) — *naomh*
-- **Holy Age** (the second age, from the Binding of the First Flame to the finding of the land) — *An Aois Naomh* n. f.
+- **Holy Age** (the third age, from the Binding of the First Flame to the finding of the land) — *An Aois Naomh* n. f.
 - **homage** (honour shown, obeisance) — *ùmhlachd* n. f., gen. *ùmhlachd*
 - **home** (at home (position)) — *aig an taigh*
 - **home** (home, dwelling) — *dachaigh* n. f., gen. *dachaigh*, pl. *dachaighean*

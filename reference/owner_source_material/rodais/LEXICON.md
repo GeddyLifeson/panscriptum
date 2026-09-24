@@ -1,6 +1,6 @@
 # Dia-thìris – English dictionary
 
-Here are 21306 words of the Dia-thìris tongue, in the order of their headwords; a leading article is passed over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the island built from its own old roots when a new thing came to it with the humans or after them (GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* "heaven-grazer" for a tower of many floors. The other road, from English into Dia-thìris, is `LEXICON_EN.md`.
+Here are 21308 words of the Dia-thìris tongue, in the order of their headwords; a leading article is passed over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the island built from its own old roots when a new thing came to it with the humans or after them (GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* "heaven-grazer" for a tower of many floors. The other road, from English into Dia-thìris, is `LEXICON_EN.md`.
 
 
 ## '
@@ -1200,12 +1200,13 @@ Here are 21306 words of the Dia-thìris tongue, in the order of their headwords;
 - **aoireil** adj. — satirical (mocking, satiric) /ˈɯːɾʲɪlʲ/ `F13`
 - **aois** n. (f., pl. *aoisean*) — age /ˈɯːʃ/ `A2`
 - **aois** n. (f., pl. *aoisean*) — era; lit. "age" /ˈɯːʃ/ `B1`
-- **An Aois Àrsaidh** n. (f.) — Ancient Age (the first age of the island, from the crack in the stone to the Binding) /ən̪ˠ ˈɯːʃ ˈaːɾsi/ `F16`
-- **An Aois Choigreach** n. (f.) — Age of Strangers (the fourth age, from the Crossing to the Severance) /ən̪ˠ ˈɯːʃ ˈxɔkʲɾʲəx/ `F16`
-- **An Aois Dhubhain** n. (f.) — Age of Dubhan (the sixth age, from the first working dubhan to the present) /ən̪ˠ ˈɯːʃ ˈɣuvɪnʲ/ `F16`
-- **An Aois Naomh** n. (f.) — Holy Age (the second age, from the Binding of the First Flame to the finding of the land) /ən̪ˠ ˈɯːʃ ˈn̪ˠɯːv/ `F16`
-- **An Aois Rìoghachd** n. (f.) — Age of the Kingdom (the fifth age, from the Severance to the first working dubhan) /ən̪ˠ ˈɯːʃ ˈr̪ˠiə.əxk/ `F16`
-- **An Aois Scaraidh** n. (f.) — Age of Sundering (the third age, from the finding of the land to the Crossing) /ən̪ˠ ˈɯːʃ ˈskaɾi/ `F16`
+- **An Aois Ailein** n. (f.) — Age of Ailean (the second age, from the crowning of Ailean Mòr in the grove to the Binding of the First Flame) /ən̪ˠ ˈɯːʃ ˈalʲɪnʲ/ `F16`
+- **An Aois Àrsaidh** n. (f.) — Ancient Age (the first age of the island, from the crack in the stone to the crowning in the grove) /ən̪ˠ ˈɯːʃ ˈaːɾsi/ `F16`
+- **An Aois Choigreach** n. (f.) — Age of Strangers (the fifth age, from the Crossing to the Severance) /ən̪ˠ ˈɯːʃ ˈxɔkʲɾʲəx/ `F16`
+- **An Aois Dhubhain** n. (f.) — Age of Dubhan (the seventh age, from the first working dubhan to the present) /ən̪ˠ ˈɯːʃ ˈɣuvɪnʲ/ `F16`
+- **An Aois Naomh** n. (f.) — Holy Age (the third age, from the Binding of the First Flame to the finding of the land) /ən̪ˠ ˈɯːʃ ˈn̪ˠɯːv/ `F16`
+- **An Aois Rìoghachd** n. (f.) — Age of the Kingdom (the sixth age, from the Severance to the first working dubhan) /ən̪ˠ ˈɯːʃ ˈr̪ˠiə.əxk/ `F16`
+- **An Aois Scaraidh** n. (f.) — Age of Sundering (the fourth age, from the finding of the land to the Crossing) /ən̪ˠ ˈɯːʃ ˈskaɾi/ `F16`
 - **aois-inbhe** n. (f.) — puberty (age of maturing) /ˈɯːʃˈinʲivə/ `F12`
 - **aol** n. (m., gen. *aoil*) — lime (quicklime) /ˈɯːl̪ˠ/ `F7`
 - **aol** v. (vn. *aoladh*) — whitewash (coat with lime wash; cover up) /ˈɯːl̪ˠ/ `F16`
@@ -13360,6 +13361,7 @@ Here are 21306 words of the Dia-thìris tongue, in the order of their headwords;
 - **Linn an Dealachaidh** n. (f.) — Severance Era (the era of the Age of the Kingdom, counted from the Severance and the settling of the north; SE) /ˈʎiːɲ ən̪ˠ ˈtʃal̪ˠəxi/ `F16`
 - **Linn an Dubhain** n. (f.) — Dubhan Era (the era of the Age of Dubhan, counted from the first working dubhan; DE) /ˈʎiːɲ ən̪ˠ ˈt̪uvɪnʲ/ `F16`
 - **Linn an Teine** n. (f.) — Flame Era (the era of the Holy Age, counted from the Binding of the First Flame; FE) /ˈʎiːɲ ən̪ˠ ˈdʒenʲə/ `F16`
+- **Linn na Doire** n. (f.) — Grove Era (the era of the Age of Ailean, counted from the crowning of Ailean Mòr in the grove at Doire ghlas; GE) /ˈʎiːɲ nə ˈt̪ɔɾʲə/ `F16`
 - **Linn na Fèithe** n. (f.) — Vein Era (the era of the Ancient Age, counted from the crack in the stone, when a mason broke into the coal vein and the lightning set it burning; VE) /ˈʎiːɲ nə ˈfeː.ə/ `F16`
 - **Linn na Tìre** n. (f.) — Landfall Era (the era of the Age of Sundering, counted from the finding of the land across the water; LE) /ˈʎiːɲ nə ˈtʃʰiːɾʲə/ `F16`
 - **linne** n. (f., gen. *linne*, pl. *linneachan*) — firth (sea inlet, estuary) /ˈʎiɲə/ `F16`

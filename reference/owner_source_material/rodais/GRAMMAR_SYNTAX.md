@@ -2352,7 +2352,7 @@ The quarter-days are feasts on the first of their civil month: *Là Fhèill Brì
 *Bealltainn* (1 an Cèitean), *Lùnastal* (1 an Lùnastal), *Samhain* (1 an t-Samhain). The Old Faith
 keeps them on the first night of their moons. "At Samhain" is *aig an t-Samhain* or *air Samhain*.
 
-**Dates and years.** Years are counted by eras, *linntean*, one to each of the six ages, each from
+**Dates and years.** Years are counted by eras, *linntean*, one to each of the seven ages, each from
 its age's first event (*The Reckoning of Years* §I). The Library writes a date as day, month, era
 and year: *19 an t-Ògmhios, DE 1*. It is read with an ordinal, *den*, *bliadhna* and the era's
 name in the genitive:

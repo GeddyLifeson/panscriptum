@@ -16,7 +16,7 @@ Dia-thìr is a wet and windy island, mild for so northerly a place, and most of 
 
 **The oak country of the capital and the east.** Around the capital and along the eastern road the woods are broad-leaved and the soil is deeper. This is the island's best mixed farming: cattle and sheep, grain, wine, hemp, and the horses of the Doire chaol country. Its farms sell through {{place:burg:26}}, {{place:burg:22}} and Dùn ìseal.
 
-**The eastern plain and the mosses.** The open grassland east of Dùn ìseal, where the herders of the Ancient Age drove their cattle to the warm springs ({{date:I-0224}}), is thin pasture and bees. The wet mosses of the west coast and the western plain give peat, reeds and wildfowl, and at {{place:burg:170}} the salt-pans the Stone Kings fought over ({{date:I-0100}}).
+**The eastern plain and the mosses.** The open grassland east of Dùn ìseal, where the herders of the Age of Ailean drove their cattle to the warm springs ({{date:I-0224}}), is thin pasture and bees. The wet mosses of the west coast and the western plain give peat, reeds and wildfowl, and at {{place:burg:170}} the salt-pans the Stone Kings fought over ({{date:I-0100}}).
 
 Some goods grow in only one or two places. Flax grows only in the lake-shore fields of Seann Warr, and its seed is pressed there for linseed oil, in which the road-houses were frying their oatcakes as early as {{year:III-0073}}. Tobacco grows only on the old concession farms behind Ceann mhòr, where the humans first planted it ({{date:IV-0122a}}). Gold is washed only from the streams below {{place:burg:384}} and Cnoc dhìreach, and the pearl-mussels lie only in the shallows of the south-eastern coast off Cnoc bhàn and Caol ruadh.
 
@@ -63,7 +63,7 @@ Dubhan is also the one good of Dia-thìr sold off the island. In the present yea
 
 The greater part of the worth that passes through the markets lies in goods made in the towns. In the order of their worth in the last roll they are these.
 
-**Salted and smoked food.** Salt fish, salt meat and smoked meat are made in almost every town and are the largest trade on the island by value. Salting is as old as the fish-kilns of Seann Mhorn ({{date:I-0018}}) and the salt road of the Ancient Age ({{date:I-0193}}); the mining shires have eaten salt fish in the lean season since {{year:III-0085}}. The biggest salting towns are Cathair mhòr, Dùn ìseal, Seann Dunn and the harbours of the gulf.
+**Salted and smoked food.** Salt fish, salt meat and smoked meat are made in almost every town and are the largest trade on the island by value. Salting is as old as the fish-kilns of Seann Mhorn ({{date:I-0018}}) and the salt road of the Age of Ailean ({{date:I-0193}}); the mining shires have eaten salt fish in the lean season since {{year:III-0085}}. The biggest salting towns are Cathair mhòr, Dùn ìseal, Seann Dunn and the harbours of the gulf.
 
 **Arms and field-guns.** The forges of the old vein country, of Àth naomh in the west and of Caol ìseal on the north coast smelt bog-iron and bronze into arms, and a few of them cast field-guns. Every market in the kingdom sells arms back to its towns, where the regiments and fleets raised in An Cogadh Fada are stationed. The trade is young. It grew from the Crown's contracts for the regiments ({{date:VI-0132a}}), and arms are now the dearest common goods in every market. The forge-town of {{place:burg:491}}, where Uilleam Gobha made the rebels' grenades ({{date:IV-0330}}), stands in the same hills.
 
@@ -112,7 +112,7 @@ Every town on Dia-thìr belongs to one of sixteen markets. A town sells its surp
 
 **Ros fhionn** has the most towns of any market, fifty-three, from Muileann chaol and the library in the south to Caol bheag on the north coast. The salt that made the town ({{date:III-0079}}, {{date:III-0147}}) left it when the harbour silted ({{date:III-0166}}), but the market-court the salt-masters had set up stayed on the headland ({{date:III-0168a}}), and the hill towns still bring their goods to it. The forge-towns of Baile Mòr uaine and Baile Mòr dhìreach make it the first market in arms. It has no goods of its own to spare for other markets and buys scent, pottery, pearls and amber from them.
 
-**Seann Skell of the Hawk bay** gathers the north-central coast from Doire ghlas and Muileann leathan to Seann Toll. The amber of its strands has been prized since the Ancient Age ({{date:I-0116a}}), and it is the one good the market sends out, mostly to Ceann leathan. Whale-oil, honey and sheep are its other raw goods. The Tuathaich towns of the Doire ghlas country are in its reach and sell their cloth through it.
+**Seann Skell of the Hawk bay** gathers the north-central coast from Doire ghlas and Muileann leathan to Seann Toll. The amber of its strands has been prized since the Age of Ailean ({{date:I-0116a}}), and it is the one good the market sends out, mostly to Ceann leathan. Whale-oil, honey and sheep are its other raw goods. The Tuathaich towns of the Doire ghlas country are in its reach and sell their cloth through it.
 
 **Ros bheag** is the market of the west coast between Cuan shean and the western Seann Skell. Its harbour court was swearing trade oaths on the scorpion's sting by {{year:II-0160}}. Its clay, honey and the bog-iron of Àth naomh are worked into pottery and arms, and its surplus cattle and sheep go north to Seann Skell.
 

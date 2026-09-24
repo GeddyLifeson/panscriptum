@@ -1,6 +1,6 @@
 ## Appendix A — The Rulers and Houses of Dia-thìr
 
-Here are set down the lines of those who ruled in Dia-thìr, age by age, so far as the lists that survive allow. For the Ancient Age there are the Line of the Mason and the two oral lists, and out of the Line of the Mason runs the Line of Aisling, which comes down to the Age of Strangers; for the Holy Age the Keepers' roll and the king-list; for the Age of Sundering the crown as the custody-book and the king-list record it; for the Age of Strangers the council, the Commissioners and the overseers; and after them the rulers of the restored kingdom. The tables come first. After them are told the lines one by one, then the seven houses of custody, and last how the keeping of the vein and the keeping of the realm were joined and parted again.
+Here are set down the lines of those who ruled in Dia-thìr, age by age, so far as the lists that survive allow. For the Ancient Age there is the Line of the Mason, and for the Age of Ailean the two oral lists, and out of the Line of the Mason runs the Line of Aisling, which comes down to the Age of Strangers; for the Holy Age the Keepers' roll and the king-list; for the Age of Sundering the crown as the custody-book and the king-list record it; for the Age of Strangers the council, the Commissioners and the overseers; and after them the rulers of the restored kingdom. The tables come first. After them are told the lines one by one, then the seven houses of custody, and last how the keeping of the vein and the keeping of the realm were joined and parted again.
 
 No ruler stands in the tables whom the lists and chronicles do not name. Where a list owns that names are missing, the table says so and supplies none. A reign is dated by the rolls that mark its beginning and its end; where no roll marks the one or the other, the table gives "—", and where the rolls fix it only roughly the year is marked *c.* Of many rulers there is but a single mention, somewhere in the middle of the reign, and for these the table gives "in office" and the year of that mention.
 
@@ -23,7 +23,7 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 | 11 | Suibhne | Father of Ailean | — |  | none: his son follows |
 | 12 | Ailean Mòr mac Shuibhne | Brought the six lit coals to the grove; the Keeper lit the rainbow coal; after a vigil of seven nights he was crowned Rìgh Chlann nan Dè | {{year:I-0080b}} | 695 years | first of the Stone Kings |
 
-**The Line of Aisling, Ages I to IV.** The line of Ailean Mòr's youngest son, Somhairle, kept apart by the reciters of Clann na Ceiste and not said at the hearth. It was given whole, backward from the child to the fire as a line is given at a naming, by Ealasaid of Clann na Ceiste at Tobar dhìreach to the copyist Cailean mac Eachainn ({{date:IV-0251a}}), and it runs on from the Line of the Mason. The first six after Ailean are those in whom the reciters say the long years showed, each shorter-lived than the one before; the Library enters the long years among the tellings (Section II). The Mason's line keeps the years of its dead beside their names, as it has since the mason, but gives them to no stranger save where they are strange; so the column of ages is filled only for the long lives, and left empty for the ordinary. The year shown under *Told of in* is that of the deed, or of the event in whose days it was done.
+**The Line of Aisling, Ages II to V.** The line of Ailean Mòr's youngest son, Somhairle, kept apart by the reciters of Clann na Ceiste and not said at the hearth. It was given whole, backward from the child to the fire as a line is given at a naming, by Ealasaid of Clann na Ceiste at Tobar dhìreach to the copyist Cailean mac Eachainn ({{date:IV-0251a}}), and it runs on from the Line of the Mason. The first six after Ailean are those in whom the reciters say the long years showed, each shorter-lived than the one before; the Library enters the long years among the tellings (Section II). The Mason's line keeps the years of its dead beside their names, as it has since the mason, but gives them to no stranger save where they are strange; so the column of ages is filled only for the long lives, and left empty for the ordinary. The year shown under *Told of in* is that of the deed, or of the event in whose days it was done.
 
 | No. | Name | The deed | Told of in | Age at death | Generations after him to the next named |
 |---|---|---|---|---|---|
@@ -40,7 +40,7 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 
 The years agree with the annals as the Library reckons them. Ailean was crowned a young man of four and twenty ({{date:I-0080b}}) and died at six hundred and ninety-five ({{date:I-0098a}}); Somhairle, born in Ailean's two hundred and tenth year, died at five hundred and forty ({{date:I-0104a}}); and the four after him, each born late in the life of the one before, bring the line to Ceallach, born some twenty years before Ailean died. From Ceallach's son on, the generations run at about five and twenty years, as they do in the Line of the Mason.
 
-**The Stone Kings of Dùn ìseal (Rìghrean na Cloiche), Age I.** The oldest oral list, held on the hill of {{place:burg:315}}. It "gives no lengths of reign" ({{date:I-0081}}). The year shown is that of the deed for which each king is remembered, and not the year of his coming to rule.
+**The Stone Kings of Dùn ìseal (Rìghrean na Cloiche), Age II.** The oldest oral list, held on the hill of {{place:burg:315}}. It "gives no lengths of reign" ({{date:I-0081}}). The year shown is that of the deed for which each king is remembered, and not the year of his coming to rule.
 
 | No. | Name | Byname | Came to rule | Told of in | The reign |
 |---|---|---|---|---|---|
@@ -57,7 +57,7 @@ The years agree with the annals as the Library reckons them. Ailean was crowned 
 | 11 | Calum Ciar | the dusky | eleventh in the list | {{year:I-0157}} | Asked that the keeper's lot be drawn in his sight, and was refused |
 | 12 | Catrìona Mhòr | the great | twelfth and last | {{year:I-0236}} – — | Knew every household of the hills back seven names; the last name the list gives |
 
-**The holders of the Red Hill, Age I.** The second oral list, kept in the west on the hill where {{place:burg:19}} now stands. It gives no more lengths of reign than the list of the Stone Kings.
+**The holders of the Red Hill, Age II.** The second oral list, kept in the west on the hill where {{place:burg:19}} now stands. It gives no more lengths of reign than the list of the Stone Kings.
 
 | No. | Name | Byname | Came to rule | Told of in | The reign |
 |---|---|---|---|---|---|
@@ -69,7 +69,7 @@ The years agree with the annals as the Library reckons them. Ailean was crowned 
 | 6 | Peigi Dhubh | the black | after Lachlann | {{year:I-0173}} | Sent the fosterling home grown, with salt; the ford peace held a generation more |
 | 7 | Seumas Òg | the young | last in the list | {{year:I-0244}} | The list stops with him |
 
-**The Keepers of the Flame, Age II.** The keepers of Brìde's flame and of Crom's stone, from the recited roll of Talla na Lasrach at Dùn ìseal, written down {{date:II-0113}}. The roll holds one hundred and forty names, from Beathag Bhàn to Catrìona nic Mhuirich ({{date:II-0248}}); fourteen of them are found in the annals.
+**The Keepers of the Flame, Age III.** The keepers of Brìde's flame and of Crom's stone, from the recited roll of Talla na Lasrach at Dùn ìseal, written down {{date:II-0113}}. The roll holds one hundred and forty names, from Beathag Bhàn to Catrìona nic Mhuirich ({{date:II-0248}}); fourteen of them are found in the annals.
 
 | Name | Byname | House | Came to the flame | Keeping | The keeping |
 |---|---|---|---|---|---|
@@ -148,7 +148,7 @@ The years agree with the annals as the Library reckons them. Ailean was crowned 
 | Tormod mac Ruairidh | — | Clann Raghnaill | — | {{year:III-0222}} – {{year:III-0231}} | Roads and bridges; a reign of more than fifty years |
 | Gormshuil nic Thormoid | — | Clann Raghnaill | his daughter | {{year:III-0231}} – — | Went round every shire seat and answered no grievance in writing; the last crowned ruler of the age |
 
-**The Council of Custodians and the council of the rising, Age IV.** The council sat at Cathair dhearg "in the crown's place since the crown fell empty at the close of the Age of Sundering" ({{date:IV-0005}}).
+**The Council of Custodians and the council of the rising, Age V.** The council sat at Cathair dhearg "in the crown's place since the crown fell empty at the close of the Age of Sundering" ({{date:IV-0005}}).
 
 | Name | Office | How they came to it | Held | The tenure |
 |---|---|---|---|---|
@@ -157,7 +157,7 @@ The years agree with the annals as the Library reckons them. Ailean was crowned 
 | *the seat empty* | | the council could not agree | {{year:IV-0216}} – | The Commissioner found the council easier to deal with |
 | Eilidh nic Raghnaill | speaker of the forest council | chosen at Coille Naomh Cnoc bheag | {{year:IV-0322}} – | Drafted the second petition; sent the constables of Baile thais to the coast unharmed |
 
-**The Commissioners of the Administration, Age IV.** The humans' governors, seated at the Residency in {{place:burg:27}}.
+**The Commissioners of the Administration, Age V.** The humans' governors, seated at the Residency in {{place:burg:27}}.
 
 | Name | How they came to office | Held | The tenure |
 |---|---|---|---|
@@ -172,7 +172,7 @@ The years agree with the annals as the Library reckons them. Ailean was crowned 
 | Charles Merriman | successor to Vane | {{year:IV-0259}} – {{year:IV-0314}} | Brought the first armed constables; left in ill health |
 | Lionel Strake | a soldier | {{year:IV-0314}} – {{year:IV-0374}} | Locked the council out; the last Commissioner; sailed west, and of his landing nothing is known |
 
-**The Maoir of Muileann chrom, Age IV.** The Company's overseers at {{place:burg:354}}, holders of its staff. The Dia-thìrich called the first of them *maor*, steward, and the byname went down the line.
+**The Maoir of Muileann chrom, Age V.** The Company's overseers at {{place:burg:354}}, holders of its staff. The Dia-thìrich called the first of them *maor*, steward, and the byname went down the line.
 
 | Name | How they came to the staff | Held | The tenure |
 |---|---|---|---|
@@ -181,7 +181,7 @@ The years agree with the annals as the Library reckons them. Ailean was crowned 
 | Iain Maor | his son | {{year:IV-0180}} – {{year:IV-0258}} | Schooled at the Mission; wrote that the night shift was killing his crews, was dismissed, and was restored |
 | Mòrag nic Iain Maor | his daughter; the first woman to hold the staff | {{year:IV-0258}} – {{year:IV-0319}} | Testified at the inquiry and was struck from the record; refused the evictions and broke the staff at the Company's door |
 
-**The rulers of Rìoghachd Dia-thìr, Ages V and VI.** From the chronicle of the restored kingdom, which keeps this line "unbroken from this year on". Nothing is here added to what that chronicle says of them.
+**The rulers of Rìoghachd Dia-thìr, Ages VI and VII.** From the chronicle of the restored kingdom, which keeps this line "unbroken from this year on". Nothing is here added to what that chronicle says of them.
 
 | Name | How they came to rule | Reign | The reign |
 |---|---|---|---|
@@ -191,7 +191,7 @@ The years agree with the annals as the Library reckons them. Ailean was crowned 
 | Mairead | crowned after Eòghan | {{year:V-0199}} – {{year:VI-0006}} | Came to a kingdom founded on the vein, when the vein could be seen to fail |
 | Cathal | crowned after Mairead | {{year:VI-0006}} – | Reigning in {{year:VI-0157}} |
 
-### II. The Ancient Age: the Two Lists
+### II. The Age of Ailean: the Two Lists
 
 Before the Binding the rulers of Dia-thìr were kept only in recitation. The eldest recital is the Line of the Mason, which runs from Neachdan, who broke the vein ({{date:I-0001}}), through the long generations of the Seven Coals, to Ailean son of Suibhne. It ends in a crowning. Ailean carried the six coals his forefathers had learned to light, each lit again by its own way, to the oak grove at Doire ghlas, where the Keeper of the kin had first given the riddle; the Keeper lit the rainbow coal among them ({{date:I-0080a}}); and he kept watch by the seven fires for seven nights, fasting, until they were cold. On the eighth night, the line says, Caoran came into the grove with the Tuath Dè and named him Rìgh Chlann nan Dè, king of the godkin, and put into him the power that had been in the coals ({{date:I-0080b}}). Of that power Ailean told no one. With it, the line holds, he took the hill of Dùn ìseal and the valleys about it, which is the first kingdom ({{date:I-0081}}), and his is the first name in the list of the Stone Kings. No other king in either list is said to have been crowned by the gods, and no other list keeps the title; the Stone Kings' list itself calls him only Ailean Mòr.
 
@@ -261,10 +261,10 @@ Two of the seven names answer to no house of the Holy Age, and of the other five
 
 In every age the rulers of the island had one question to answer: who keeps the vein, and who keeps the people. Four times the answer changed.
 
-In the Ancient Age the two were kept apart. The keepers of the slab were chosen by lot, and the kings of the hills were refused a hand in the lot ({{date:I-0157}}). In the Holy Age that parting was made law. The Keeper at Dùn ìseal held the flame and the galleries, and the rìgh held the roads and the granaries. Neither might do the other's work ({{date:II-0078}}). Twice the Hall lent its authority to the crown: once when the line of kings failed and the stone cup was set in Gilleasbuig Mòr's hands ({{date:II-0185}}), and once when it was set in the hands of Mòr nic Coinnich.
+In the Age of Ailean the two were kept apart. The keepers of the slab were chosen by lot, and the kings of the hills were refused a hand in the lot ({{date:I-0157}}). In the Holy Age that parting was made law. The Keeper at Dùn ìseal held the flame and the galleries, and the rìgh held the roads and the granaries. Neither might do the other's work ({{date:II-0078}}). Twice the Hall lent its authority to the crown: once when the line of kings failed and the stone cup was set in Gilleasbuig Mòr's hands ({{date:II-0185}}), and once when it was set in the hands of Mòr nic Coinnich.
 
 In the Age of Sundering the heir of the Hall was the vein-house above {{place:burg:491}} ({{date:III-0006}}), and the parting did not hold. Raghnall Ruadh first broke it: he was master of the vein-house and a claimant to the crown, and he made a weapon of the coal ({{date:III-0109}}). Catrìona Bhuadhach's ruling of the hearth was written to bind the custodians themselves. The second break came when the houses crowned the next master of the vein-house, and his reeves wrote into the custody-book that the ruler of Dia-thìr is also master of the vein-house ({{date:III-0138}}). Dòmhnall Ruadh was buried at Muileann dhearg, by the vein-house. His successors took the coal-roads into the crown's keeping ({{date:III-0145}}). For nine centuries one ruler held both the vein and the realm of Dia-thìr, and in all that time the Small-Burning Law was not changed. Every petition to change it was refused or left unanswered.
 
 In the Age of Strangers there was neither crown nor vein-house to hold the vein. The Council of Custodians sat in the crown's place and kept the vein in name only. The Law was never repealed; it lapsed when it no longer paid to enforce it ({{date:IV-0063}}). At the pitheads the Company's overseers ruled, and the custodians did not.
 
-The restored kingdom kept the form of the old parting and little more. The Crown granted the Sloc Mòr to a single house on the humans' terms with the names changed ({{date:V-0051}}), and in time bought every shaft back and worked the vein through its Board "in the Crown's name alone" ({{date:V-0204}}). The keeping of the rite passed to the Àrd-choimheadaiche of Òrd Bhrìde, the order of Brìde's flame, at Seann Skell ({{date:V-0029}}). When that high custodian protested that the plain coinage seal showed the kingdom no longer held the vein sacred, the council answered that the kingdom had never said it did ({{date:VI-0051}}). The last face of the Sloc Mòr is kept open under the custody of the Rite, to cut coal for the altars ({{date:VI-0144}}). In the present year it filled four baskets, and the high custodian shared them among the houses of the Rite by lot ({{date:VI-0155}}), as the keeper of the slab was chosen by lot in the Ancient Age.
+The restored kingdom kept the form of the old parting and little more. The Crown granted the Sloc Mòr to a single house on the humans' terms with the names changed ({{date:V-0051}}), and in time bought every shaft back and worked the vein through its Board "in the Crown's name alone" ({{date:V-0204}}). The keeping of the rite passed to the Àrd-choimheadaiche of Òrd Bhrìde, the order of Brìde's flame, at Seann Skell ({{date:V-0029}}). When that high custodian protested that the plain coinage seal showed the kingdom no longer held the vein sacred, the council answered that the kingdom had never said it did ({{date:VI-0051}}). The last face of the Sloc Mòr is kept open under the custody of the Rite, to cut coal for the altars ({{date:VI-0144}}). In the present year it filled four baskets, and the high custodian shared them among the houses of the Rite by lot ({{date:VI-0155}}), as the keeper of the slab was chosen by lot in the Age of Ailean.

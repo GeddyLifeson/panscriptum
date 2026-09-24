@@ -15,8 +15,9 @@ check_rodais.py -- verify everything in this folder in one run.
   5. the legendarium: every event dated and in order, every reference
      resolves, world.json is the digest of the map as it stands, and no glacier,
      ice cap or iceberg anywhere in the history
-  6. the six ages and their eras: six contiguous ages, each opening in year 1
-     of its era, every date written in the era form ("12 am Màrt, AE 67") with
+  6. the seven ages and their eras: seven contiguous ages, each opening in year 1
+     of its era, each age's annals holding exactly the events dated in its era
+     (an event's age is its annals file, never the numeral of its id), every date written in the era form ("12 am Màrt, AE 67") with
      an era year of at least 1, no date left in the old continuous count
      (BDE / DE / Diosal Era) and no "New Age" anywhere that is delivered (the
      books, annals, appendices and gazetteer, the language book's chapters and
@@ -174,14 +175,22 @@ history += [m.get('note', '') for m in json.loads(lines[35])]
 icy = sorted({m.group(0).lower() for t in history for m in re.finditer(r'(?i)\bglacier|\bice[ -]?caps?\b|\biceberg|\bdrift[ -]ice\b', t)})
 check(not icy, 'legendarium: no glacier, ice cap or iceberg in the history (%s)' % (', '.join(icy) or 'none'))
 
-# 6. the six ages and their eras
+# 6. the seven ages and their eras
 RK = build_book.reckoning
 keys = RK.AGE_KEYS
-check(keys == ['I', 'II', 'III', 'IV', 'V', 'VI'] and all(os.path.exists(os.path.join(LEG, 'annals', 'age_%s.json' % k)) for k in keys)
-      and all(os.path.exists(os.path.join(LEG, 'book', 'age_%s.md' % k)) for k in keys),
-      'ages: six ages, each with its annals and its book (%s)' % ', '.join(keys))
+check(keys == ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'] and all(os.path.exists(os.path.join(LEG, 'annals', 'age_%s.json' % k)) for k in keys)
+      and all(os.path.exists(os.path.join(LEG, 'book', 'age_%s.md' % k)) for k in keys)
+      and sorted(os.path.basename(f) for f in glob.glob(os.path.join(LEG, 'annals', 'age_*.json'))) == sorted('age_%s.json' % k for k in keys)
+      and sorted(os.path.basename(f) for f in glob.glob(os.path.join(LEG, 'book', 'age_*.md'))) == sorted('age_%s.md' % k for k in keys),
+      'ages: seven ages, each with its annals and its book, and no annals or book outside them (%s)' % ', '.join(keys))
+in_file = {}
+for k in keys:
+    for e in json.load(open(os.path.join(LEG, 'annals', 'age_%s.json' % k), encoding='utf-8')):
+        in_file[e['id']] = k
+check(all(in_file.get(e['id']) == e['age'] for e in evs) and len(in_file) == len(evs),
+      'ages: every event dated in the age of the annals file it stands in (an id\'s numeral is not its age)')
 check([e['age'] for e in evs] == sorted((e['age'] for e in evs), key=keys.index) and set(e['age'] for e in evs) == set(keys),
-      'ages: every event in one of the six ages, the ages in order and none empty')
+      'ages: every event in one of the seven ages, the ages in order and none empty')
 check(all(RK.AGES[i][2] == RK.AGES[i + 1][1] for i in range(len(keys) - 1)),
       'ages: contiguous, each era ending in the year the next age opens')
 opens = {}
@@ -227,7 +236,7 @@ for k in keys:
     ln = open(os.path.join(LEG, 'book', 'age_%s.md' % k), encoding='utf-8').read().split('\n')
     if ln[2] != '*%s*' % RK.display_span(k) or not ln[0].startswith('# %s: %s, %s' % (build_book.BOOK_TITLES[k], build_book.AGE_NAMES[k][0], build_book.AGE_NAMES[k][1])):
         span_bad.append(k)
-check(not span_bad, 'eras: every book opens with its age\'s name and its span in its era (%s)' % (', '.join(span_bad) or 'all six'))
+check(not span_bad, 'eras: every book opens with its age\'s name and its span in its era (%s)' % (', '.join(span_bad) or 'all seven'))
 rnames = [build_book.AGE_NAMES[k][0] for k in keys] + [RK.ERA[k][5] for k in keys]
 check(all(R.normalize(x) == x and not [w for w in x.split() if R.check_agreement(w)] for x in rnames),
       'eras: every age and era name in Dia-thìris spelling and caol le caol (%s)' % ', '.join(rnames))

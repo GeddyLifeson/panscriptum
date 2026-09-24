@@ -9,7 +9,7 @@
 
 ## I. Of Caoran and the Coals
 
-This is the telling that Coimhdeach na Fine, the Keeper of the Kin, gave in the grove of Doire ghlas to one of the mason's line, who had asked it why the coal of Dia-thìr has colours in it when the coal of the common earth has none. The Keeper answered from the beginning, as the old do when a child asks a short question. The mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down. It is set here before the Six Books because it is older than any of them.
+This is the telling that Coimhdeach na Fine, the Keeper of the Kin, gave in the grove of Doire ghlas to one of the mason's line, who had asked it why the coal of Dia-thìr has colours in it when the coal of the common earth has none. The Keeper answered from the beginning, as the old do when a child asks a short question. The mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down. It is set here before the Seven Books because it is older than any of them.
 
 Before there was a world there were the gods, and they were many, and they were a line. Mother bore daughter and father begot son, back and back into a dark where no name is kept; and every one of that line, when he came to the fullness of his years, went out from the hall of his kin and made a world. That was their coming of age. A god of that line was a child until he had made a thing and kept it, and was grown when it lived.
 
@@ -65,7 +65,7 @@ Then he set Crom Cruaich, the bent one of the mound, at the door between the mou
 
 ## II. Of the Tuath Dè
 
-These are the gods of the Tuath Dè, the people of the gods, the kin of the Young God, who came down with him to see his island in its first days; and they came again, once, on the night the first king of the island was made, as the First Book tells. The Old Faith honours them still, each at their feasts and in need. Caoran made the world and all that is in it, and he is the god of the coal. Yet the island honours an Dagda first, for he is the father of the gods, and it was his word that made the Young God's choice good.
+These are the gods of the Tuath Dè, the people of the gods, the kin of the Young God, who came down with him to see his island in its first days; and they came again, once, on the night the first king of the island was made, as the Second Book tells. The Old Faith honours them still, each at their feasts and in need. Caoran made the world and all that is in it, and he is the god of the coal. Yet the island honours an Dagda first, for he is the father of the gods, and it was his word that made the Young God's choice good.
 
 **An Dagda**, the Good God, is the father. His is the cauldron from which no company goes away hungry, and it was from the ash under it that Caoran took the first coal. His is the club that kills with one end and wakes the dead with the other, and the harp that calls the seasons in their order; when the island's first year turned, it was his harp that turned it. He is slow of speech, and generous, and he laughs more than any of the gods.
 

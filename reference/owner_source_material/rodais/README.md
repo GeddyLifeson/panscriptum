@@ -12,7 +12,7 @@ two things here:
 2. **The map, timeline and history: `Diathir_Atlas/`.** Double-click `Diathir Atlas.bat` (or run
    `python atlas.py`). It opens in your browser with three tabs: **Annals** (all 1,515 dated events,
    filter by age, search), **Map** (Azgaar's Fantasy Map Generator itself, running the Dia-thìr map) and
-   **Book** (the legendarium: six prose ages, appendices, a gazetteer of all 505 towns). An event's
+   **Book** (the legendarium: seven prose ages, appendices, a gazetteer of all 505 towns). An event's
    map button flies to where it happened; clicking a town shows its history; every place named in the
    book opens the map. Needs only Python 3.7+.
 
@@ -39,7 +39,7 @@ Everything else in this folder is the source for one of those two.
 | File | What it is |
 |---|---|
 | `Diathir_Atlas/` | The program (see above). Built by `build_atlas.py`. |
-| `legendarium/` | The history: the dated annals, the six prose books, the appendices A–J (among them G goods and markets, H shires, I land and waters, J arms), the gazetteer, the reckoning of years from album release dates (`reckoning.py`, `albums.json`, `albums_src/`), and the map's layers reconciled with the history (`reconcile/`, applied by `map_reconcile.py`). `LEGENDARIUM.md` is the whole record as plain text. See `legendarium/README.md`. |
+| `legendarium/` | The history: the dated annals, the seven prose books, the appendices A–J (among them G goods and markets, H shires, I land and waters, J arms), the gazetteer, the reckoning of years from album release dates (`reckoning.py`, `albums.json`, `albums_src/`), and the map's layers reconciled with the history (`reconcile/`, applied by `map_reconcile.py`). `LEGENDARIUM.md` is the whole record as plain text. See `legendarium/README.md`. |
 | `Rodos_finished.map` | The finished map. Open it in Azgaar's Fantasy Map Generator 1.153.1. |
 | `Rodos_renamed.map`, `finish_map.py`, `MAP_CHANGES.md` | The map as the first renaming pass left it, the script that finishes the renaming through the engine (and then applies the town features, the harbour moves and the layer reconciliation from `legendarium/`), and every name it changed (425). |
 | `build_atlas.py`, `atlas.py`, `atlas_template.html`, `atlas_style.css` | Rebuild `Diathir_Atlas/` from an Azgaar build, the map and the legendarium (instructions at the top of `build_atlas.py`). |

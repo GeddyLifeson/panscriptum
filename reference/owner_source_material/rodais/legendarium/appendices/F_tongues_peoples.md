@@ -13,11 +13,11 @@ of it as one, and so it is set down here with the rest.
 
 | People | Dia-thìris name | In the chronicles | On the map today |
 |---|---|---|---|
-| The Old Ones | *na Seann-Dhaoine* | Age I; their works end before the Holy Age | no town; thirty towns and thirteen shires bear their names |
+| The Old Ones | *na Seann-Dhaoine* | Ages I and II; their works end before the Holy Age | no town; thirty towns and thirteen shires bear their names |
 | The people of Dia-thìr | *na Dia-thìrich* (sg. *Dia-thìreach*) | every age | 441 of 505 towns; the capital and the sea |
-| The humans | the chronicles' plain name for them | Age IV | none by that name; their descendants are the Tuathaich |
-| The northerners | *na Tuathaich* (sg. *Tuathach*) | Age V | 64 towns in the north and north-west |
-| The coal-blooded | *an fhuil-ghuail*; in the humans' tongue, *coal-touched* | from Age IV | not counted on the map; counted, briefly, in the censuses |
+| The humans | the chronicles' plain name for them | Age V | none by that name; their descendants are the Tuathaich |
+| The northerners | *na Tuathaich* (sg. *Tuathach*) | Age VI | 64 towns in the north and north-west |
+| The coal-blooded | *an fhuil-ghuail*; in the humans' tongue, *coal-touched* | from Age V | not counted on the map; counted, briefly, in the censuses |
 
 #### The Seann-Dhaoine
 
@@ -93,7 +93,7 @@ capital, {{place:burg:19}}, and of the sea. Their name is the island's name with
 people-ending, written *-ich* after the slender vowel of *thìr*; a single person is a *Dia-thìreach*. Writers of the humans' tongue called them
 *Dia-thìrian*, and that word is kept in this history for the adjective.
 
-**Custodians.** The Dia-thìrich enter history as custodians. In the Ancient Age a custom set in across
+**Custodians.** The Dia-thìrich enter history as custodians. In the Age of Ailean a custom set in across
 the hill settlements that no fire should take more of the coal than one cupped hand could hold. The
 Binding of the First Flame ({{date:II-0001}}) made the custodianship of the vein a formal order,
 "older by centuries than any king", and the Small-Burning Law ({{date:II-0027}}) made the
@@ -541,7 +541,7 @@ put *seann* before them.
 **Before letters.** The first marks on Dia-thìr made on purpose are the Seann-Dhaoine's: the notched
 net-weights of Seann Chwen, their unread script, and their tally strokes. The Dia-thìrich's forebears
 kept counts too, but not in letters. Someone began marking the high-water line against a fixed rock
-in the Ancient Age ({{date:I-0126}}), and at Ros dhomhain Seònaid Mhòr cut her marks in pairs, one
+in the Age of Ailean ({{date:I-0126}}), and at Ros dhomhain Seònaid Mhòr cut her marks in pairs, one
 for the high water and one for the low ({{date:I-0169}}). The king-lists of that age were oral, and
 the Small-Burning custom was "nowhere written and everywhere kept".
 
@@ -604,7 +604,7 @@ tongue, and it is not translated into something else here. Names of places, pers
 laws and offices are left in Dia-thìris spelling, with the grave accent and the *sc*, and with their
 lenitions: *Cathair dhearg*, not "Red City"; *fuil-ghuail*, not "coal-blood", except where a gloss is
 wanted. Where a Dia-thìris phrase is translated, the translation follows it in quotation marks, as a help
-to the reader; the Dia-thìris stands first. The six ages have Dia-thìris names and are also given English ones
+to the reader; the Dia-thìris stands first. The seven ages have Dia-thìris names and are also given English ones
 for convenience; the English names are this archive's, not the chroniclers'. The adjective *Dia-thìrian*
 is English, and is used as such.
 

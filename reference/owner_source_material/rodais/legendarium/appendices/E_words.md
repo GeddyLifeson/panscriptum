@@ -1,6 +1,6 @@
 ## Appendix E — Words Born from History
 
-Here are gathered the words, names and sayings of Dia-thìris that the island's history made, or bent to a new sense. They are set out in the manner of a historical dictionary. Each entry gives the headword and its part of speech, what it says word for word, what it has come to mean, the event that gave it that meaning, and a line from the annals or the six books.
+Here are gathered the words, names and sayings of Dia-thìris that the island's history made, or bent to a new sense. They are set out in the manner of a historical dictionary. Each entry gives the headword and its part of speech, what it says word for word, what it has come to mean, the event that gave it that meaning, and a line from the annals or the seven books.
 
 At the heart of it stands the chronicle's own list of *Words Born from History*, and every word on that list is entered here with the meaning the chronicle gives it. The rest are taken from the annals and the books: titles and offices, laws and customs, the names of storms, places and quarrels, and the sayings that the annals quote. A few are the words that Dia-thìris made for the strangers' things. Dia-thìris took few words from the humans, and most of those late (Appendix F). Where the humans said *train*, *engine* or *strike*, the island made a name out of old roots, and some of those names are entered here under the years in which the annals first had need of them.
 
@@ -34,7 +34,7 @@ The highest summit of the island. When the gold coal had woken in the sea, the M
 
 **Bliadhnachan Fada, na** *n. pl.* · lit. "the long years"
 The long lives of Ailean Mòr and his children, as the reciters of Clann na Ceiste tell them. The first king lived six hundred and ninety-five years ({{date:I-0098a}}); his youngest son Somhairle five hundred and forty, outliving him by fifty-five years ({{date:I-0104a}}); and after Somhairle the years thinned in each generation, four hundred and eight, two hundred and ninety-six, two hundred and twenty-one, a hundred and seventy-three, and a hundred and forty in Ceallach, until they were gone. The Mason's line keeps these years beside the names, as it keeps the years of all its dead. The power of the coals was Ailean's alone, and the long years were his children's portion of it. Since the Holy Age the long years have belonged to the tellings, and the Library keeps them in its book of tellings, apart from the lines. Said of a very old person the phrase is kindly; said of a claim, it means a tale.
-> "When there was no one left alive who had seen a man of three hundred, there was no one to swear to it, and a thing no one can swear to goes into the tellings." — the First Book
+> "When there was no one left alive who had seen a man of three hundred, there was no one to swear to it, and a thing no one can swear to goes into the tellings." — the Second Book
 
 **bonn-rìoghachd** *n. m.* · lit. "realm-coin"
 Currency. Under the humans the coin was the mark, and barter was driven out in three reforms ({{date:IV-0052}}, {{date:IV-0176}}, {{date:IV-0253}}). The Dia-thìris word belongs to the coinage struck when the humans' coin was withdrawn ({{date:V-0023}}). Its first mint-master was called Fearchar Bonn from his work ({{date:V-0024}}). After the re-pegging to dubhan ({{date:VI-0049}}) the realm-coin no longer rested on the vein.
@@ -122,15 +122,15 @@ The godfolk, the first people of the earth. Caoran did not shape them: he laid h
 
 **diosal** *adv.*, *n. m.* · lit. "sunwise"
 The sunwise turn. The fleet went once round the river pool of Seann Skell sunwise ({{date:III-0024}}), and the years were counted from that turn ({{date:III-0025}}).
-> "Before going down the Abhainn naomh to open water the fleet went once round the river pool of Seann Skell sunwise, *diosal*, for luck." — the Third Book
+> "Before going down the Abhainn naomh to open water the fleet went once round the river pool of Seann Skell sunwise, *diosal*, for luck." — the Fourth Book
 
 **dòrlach** *n. m.* · lit. "a handful"
 The sealed measure of coal. The vein-house allowed one to each departing ship ({{date:III-0016}}). See *Làn na glaice*.
-> *Dòrlach airson an teallaich ùir, / is an seann teallach fhathast blàth.* "A handful for the new hearth, and the old hearth still warm." — the Third Book
+> *Dòrlach airson an teallaich ùir, / is an seann teallach fhathast blàth.* "A handful for the new hearth, and the old hearth still warm." — the Fourth Book
 
 **Dubh an gual, 's dubh an dubhan** *phr.* · lit. "black the coal, and black the dubhan"
 A rhyme of the north, heard in both tongues, from the years when the coinage was pegged to the new fuel ({{date:VI-0049}}).
-> *Dubh an gual, 's dubh an dubhan, / ach cò leis an teine?* "Black the coal, and black the dubhan; but whose is the fire?" — the Sixth Book
+> *Dubh an gual, 's dubh an dubhan, / ach cò leis an teine?* "Black the coal, and black the dubhan; but whose is the fire?" — the Seventh Book
 
 **dubhan** *n. m.* · lit. "the black one" (*dubh* + *-an*)
 The made fuel, written with a small letter. From the name of Dubhan, born {{year:V-0115}}, whose first working fuel came on {{date:VI-0001}}. So a man's name wore down into a common noun.
@@ -148,7 +148,7 @@ To be crushed after holding out too long; *am fadachadh*, a total and final defe
 
 **faire-obrach** *n. f.* · lit. "work-watch"
 A shift. The annals first have need of it for the humans' night-shift order ({{date:IV-0237}}), which the kingdom kept ({{date:V-0052}}).
-> *Cha d' fhuair a' bheinn fois a-riamh, / is cha d' fhuair sinne.* "The mountain never got its rest, and neither did we." — the hewers' saying, the Fifth Book
+> *Cha d' fhuair a' bheinn fois a-riamh, / is cha d' fhuair sinne.* "The mountain never got its rest, and neither did we." — the hewers' saying, the Sixth Book
 
 **Fèill** *n. f.* · lit. "feast-day, fair"
 With a town's name, a fair; above all Fèill Muileann òg ({{date:V-0088}}), heir to the harvest fair held there after the War of the Roads ({{date:II-0130}}).
@@ -193,7 +193,7 @@ The Small-Burning Law: no household might burn more than a measured handful of c
 > "The Law is never repealed; once its keeping no longer pays, it is no longer kept." — annals, {{year:IV-0063}}
 
 **Làn na glaice, 's gun tuilleadh** *phr.* · lit. "the fill of the hollow hand, and no more"
-The measure of the Ancient Age ({{date:I-0110}}). When Fionnlagh Dall re-cut the stone cup to hold two palms ({{date:II-0026}}), the saying became *Làn an dà bhois, agus gun tuilleadh*.
+The measure of the Age of Ailean ({{date:I-0110}}). When Fionnlagh Dall re-cut the stone cup to hold two palms ({{date:II-0026}}), the saying became *Làn an dà bhois, agus gun tuilleadh*.
 > "It is nowhere written and everywhere kept." — annals, {{year:I-0110}}
 
 **Loisc iad an leabhar, ach cha do loisc iad an cnoc** *phr.* · lit. "they burned the book, but they did not burn the hill"
@@ -222,7 +222,7 @@ The Hollow Man of the Doire uaine hills, which attacked anyone who lit a fire in
 
 **nighean an rìgh** *phr.* · lit. "the king's daughter"
 What the camps called Aisling ({{date:IV-0146}}), half in jest and half not, from the whisper that she was of the blood of Ailean Mòr, the first king: a hope drawn from an old tale, in a people whose hill was going out in ships. The copyists of Muileann chaol later found it stand in the lines ({{date:IV-0251a}}). No annal marks its first use.
-> "In the camps they called her *nighean an rìgh*, the king's daughter, half in jest, as *Aisling-aois* is said now of anyone who keeps her youth; and half not." — the Fourth Book
+> "In the camps they called her *nighean an rìgh*, the king's daughter, half in jest, as *Aisling-aois* is said now of anyone who keeps her youth; and half not." — the Fifth Book
 
 #### O
 
@@ -246,7 +246,7 @@ The oldest oral king-list, opening with Ailean Mòr ({{date:I-0081}}). The name 
 
 **roghnaich** *v.* · lit. "choose"
 With no object: to have chosen the crossing, to choose exile for good. From the Choosing ({{date:III-0003}}); the narrow sense is in the custody-book from {{date:III-0042}}. The plain sense was never lost.
-> *Roghnaich iadsan, agus dh'fhuirich sinne.* "They chose, and we stayed." — the Third Book
+> *Roghnaich iadsan, agus dh'fhuirich sinne.* "They chose, and we stayed." — the Fourth Book
 
 #### S
 
@@ -292,7 +292,7 @@ A house of custody known by a founder's name, not a hearth. Sliochd Mhuirich was
 
 **sloinneadh** *n. m.* · lit. "surname, pedigree"
 A line of descent said aloud, and above all the naming-line, which Clann na Ceiste give at a child's naming backward from the child to the fire, and on to the godfolk and the island. Of a stranger's child they give it in short form, the long stretches told as a count of generations. The Line of Aisling was given so, by Ealasaid of Clann na Ceiste to the copyist Cailean mac Eachainn ({{date:IV-0251a}}).
-> "…son of Neachdan, who found the fire; son of the godfolk, who grew out of the island like grass; and the island was born of Caoran's fire." — the Fourth Book
+> "…son of Neachdan, who found the fire; son of the godfolk, who grew out of the island like grass; and the island was born of Caoran's fire." — the Fifth Book
 
 **stad-oibre** *n. m.* · lit. "work-halt"
 A strike. The first lasted eleven days ({{date:IV-0165}}); the first held in several regions on one day came in {{year:IV-0301}}.
@@ -302,15 +302,15 @@ A strike. The first lasted eleven days ({{date:IV-0165}}); the first held in sev
 
 **Tha an long ag ithe a' chnuic** *phr.* · lit. "the ship is eating the hill"
 Fearchar Bàrd's most quoted song, made when the Company's steamships began to burn the island's coal to carry it away ({{date:IV-0211}}).
-> *Tha an long ag ithe a' chnuic / gus an cnoc a ghiùlan air falbh.* "The ship is eating the hill to carry the hill away." — the Fourth Book
+> *Tha an long ag ithe a' chnuic / gus an cnoc a ghiùlan air falbh.* "The ship is eating the hill to carry the hill away." — the Fifth Book
 
 **Tha e scrìobhte a-nis** *phr.* · lit. "it is written now"
-The Moot's whole minute on the day the census figures were read at Caol mhòr ({{date:V-0217}}). The Fifth Book takes it for its epigraph.
+The Moot's whole minute on the day the census figures were read at Caol mhòr ({{date:V-0217}}). The Sixth Book takes it for its epigraph.
 > "The Moot's minute says only: 'Now written.'" — annals, {{year:V-0217}}
 
 **Tìodhlac a' Choimhdich** *n. m.* · lit. "the Keeper's gift"
 What the Keeper of the Kin gave the kin in the deep galleries in the Age of Strangers. The Keeper will not fight for the kin; this it gave them so that a people with its hill dug out from under it should have something of its own to stand with against the strangers. It was breathed first by Donnchadh mac Thormoid at Achadh dhomhain, in the first winter of that camp ({{date:IV-0144}}); the Mission's surgeon took it for the lung-rot; and it woke in his daughter Aisling ({{date:IV-0146}}). The camps say it lies in the dust of the deep places for every one of the kin who goes down, and that the coal-blood children after her came of it. The name is the camps'. The rolls do not use it.
-> "A gift. It is not for you. You will carry it, and the carrying will not be easy. It will wake in your daughter." — the Fourth Book
+> "A gift. It is not for you. You will carry it, and the carrying will not be easy. It will wake in your daughter." — the Fifth Book
 
 **Tìr Thall, an** *n. f.* · lit. "the land beyond"
 The humans' homeland, whose own name no Dia-thìreach scribe set down ({{date:IV-0007}}).
