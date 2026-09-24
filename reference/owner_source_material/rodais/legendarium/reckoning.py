@@ -1,5 +1,5 @@
 """
-reckoning.py -- give every event in the annals of Rodos an exact day, month and year.
+reckoning.py -- give every event in the annals of Dia-thìr an exact day, month and year.
 
 Every date is assembled from album release dates (albums.json): the DAY from one album, the
 MONTH from another, and the YEAR from three more, combined by the reckoning of its age:
@@ -33,7 +33,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # the day the next age opens, so the year an age opens is the last year of the era before it and year 1 of its own.
 # first/last are years of the continuous count the annals are sorted by (negative before 1, no year 0), kept only
 # inside the tooling: first is year 1 of the era, last the year the next age opens (or the present year).
-#   (key, first, last, era abbreviation, era, era in Ròdais)
+#   (key, first, last, era abbreviation, era, era in Dia-thìris)
 AGES = [
     ('I', -12923, -2998, 'VE', 'the Vein Era', 'Linn na Fèithe'),
     ('II', -2998, -39, 'FE', 'the Flame Era', 'Linn an Teine'),

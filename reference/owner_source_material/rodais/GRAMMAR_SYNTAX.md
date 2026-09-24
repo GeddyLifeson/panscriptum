@@ -1,6 +1,6 @@
 # Sentences
 
-This chapter describes how Ròdais builds sentences: the clause and its two verbs "to be", aspect and
+This chapter describes how Dia-thìris builds sentences: the clause and its two verbs "to be", aspect and
 the verbal noun, the particles, the passive and the impersonal, the experiencer constructions with
 prepositions, relative and subordinate clauses, the noun phrase, and the conventions of speech and
 writing. It closes with three sample texts with interlinear glosses: a dialogue, entries from the
@@ -10,15 +10,15 @@ The chapter cites a form and says how it is used. The full paradigms are in *Wor
 mutations (§1), the article (§2), noun cases and plurals (§3), adjectives and comparison (§4),
 pronouns and prepositional pronouns (§5), the verb with its impersonal and relative forms (§6), the
 copula (§7), and the numerals and dates (§8). Spelling, the mutations and a short account of word
-order are in *The grammar in brief*. Every example is numbered, written in Ròdais spelling, glossed word by
+order are in *The grammar in brief*. Every example is numbered, written in Dia-thìris spelling, glossed word by
 word and translated (§0.2). Many are taken from the conversations and tales of the *Texts* chapter,
 and these are marked (T).
 
 ## 0. Conventions
 
-### 0.1 Register: the Ròdais norm is the conservative one
+### 0.1 Register: the Dia-thìris norm is the conservative one
 
-Ròdais is the tongue of an old island that has long kept to itself, and its norm is the
+Dia-thìris is the tongue of an old island that has long kept to itself, and its norm is the
 conservative one. For centuries the island's scribes and the library at Muileann chaol have held
 good speech close to the written language. Where the language has an older, literary construction
 beside a newer spoken one, the norm is the older, in speech as well as in writing (*Word forms*
@@ -41,20 +41,20 @@ beside a newer spoken one, the norm is the older, in speech as well as in writin
 4. **Examples use old native vocabulary.** When new things came to the island, it named most of
    them from its own old roots (*The grammar in brief* §13): a teacher is an *oide*, a doctor a
    *lighiche*, a telephone a *guth-sreinge*. The loans that came in with the humans at the Crossing
-   and after, and are still heard (*tidsear*, *dotair*, *oifis*), are shunned in formal Ròdais.
+   and after, and are still heard (*tidsear*, *dotair*, *oifis*), are shunned in formal Dia-thìris.
 5. **Old registers are represented.** Proverbs, the formulas of the tale-teller, the quotative
    *arsa*, the jussive of proclamations and the terse verb-noun headings of the annals all appear
-   in the examples, because a Ròdach meets them daily.
+   in the examples, because a Dia-thìreach meets them daily.
 
 Two kinds of note stand beside the rules. A note headed **Older usage** sets a construction beside
 its shape in the older language: the tongue of the bardic schools, whose verse the Library keeps,
 and the older speech behind it, known from the oldest leaves. Such notes
-explain, and add no rule. A note headed **Usage** marks a point where good Ròdais holds to a form
+explain, and add no rule. A note headed **Usage** marks a point where good Dia-thìris holds to a form
 that careless speech lets go.
 
 ### 0.2 Examples
 
-Every example is numbered, written in Ròdais spelling (grave accents only; *sc*, never *sg*),
+Every example is numbered, written in Dia-thìris spelling (grave accents only; *sc*, never *sg*),
 glossed word by word, and translated. The glosses use the abbreviations of the Library's
 grammarians:
 
@@ -81,7 +81,7 @@ Examples taken from the *Texts* chapter are marked (T).
 
 ### 1.1 Verb, subject, object
 
-The Ròdais clause begins with the verb. The subject follows the verb, the object follows the
+The Dia-thìris clause begins with the verb. The subject follows the verb, the object follows the
 subject, and everything else (prepositional phrases, adverbs of place, then adverbs of time) comes
 after that:
 
@@ -131,13 +131,13 @@ a heavy noun object stays next to the verb or moves to the end in its place:
       ‘She put on the skin. (T)’
 ```
 
-The verb is followed by its subject even when the subject is long; Ròdais does not move a heavy
-subject forward. What English does with a heavy subject Ròdais does with a relative clause after
+The verb is followed by its subject even when the subject is long; Dia-thìris does not move a heavy
+subject forward. What English does with a heavy subject Dia-thìris does with a relative clause after
 the subject, or with a cleft (§1.6).
 
 ### 1.2 The two verbs "to be"
 
-Ròdais has two verbs that English translates as "to be":
+Dia-thìris has two verbs that English translates as "to be":
 
 - the **substantive verb** *bi* (*tha, bha, bidh, bhiodh…*), which says that something exists, is
   somewhere, or is in some state;
@@ -146,7 +146,7 @@ Ròdais has two verbs that English translates as "to be":
 
 The choice is never free. It depends on what kind of thing follows.
 
-| After "be" in English | Ròdais | Example |
+| After "be" in English | Dia-thìris | Example |
 |---|---|---|
 | an adjective (a state) | *bi* | *Tha an cala beag.* |
 | a place, a prepositional phrase | *bi* | *Tha e air a' chladach.* |
@@ -226,16 +226,16 @@ Negative *chan*, *cha bu / cha b'*; interrogative *an*, *am bu*; negative interr
 *The grammar in brief* §7.4 and *Word forms* §7.
 
 **Classification** ("X is a Y", Y indefinite). The oldest and most literary pattern is copula +
-predicate noun + subject. It is the Ròdais norm in formal prose, proverbs and verse:
+predicate noun + subject. It is the Dia-thìris norm in formal prose, proverbs and verse:
 
 ```
 (17)  Is   iascair    e.
       COP  fisherman  3SG.M
       ‘He is a fisherman.’
 
-(18)  Is   Ròdach  mi,  agus  is   Tuathach    i.
-      COP  Ròdach  1SG  and   COP  northerner  3SG.F
-      ‘I am a Ròdach, and she is a Tuathach.’
+(18)  Is   Dia-thìreach  mi,  agus  is   Tuathach    i.
+      COP  Dia-thìreach  1SG  and   COP  northerner  3SG.F
+      ‘I am a Dia-thìreach, and she is a Tuathach.’
 
 (19)  Bu       ghobha  a    athair.
       COP.PST  smith   his  father
@@ -278,9 +278,9 @@ for the subject, then the subject, then the predicate:
       COP  3SG.F  Eilidh  the  poetess
       ‘Eilidh is the poetess.’
 
-(26)  Is   iad  na   Ròdaich  sluagh  an   eilein.
-      COP  3PL  the  Ròdaich  people  the  island.GEN
-      ‘The Ròdaich are the people of the island.’
+(26)  Is   iad  na   Dia-thìrich  sluagh  an   eilein.
+      COP  3PL  the  Dia-thìrich  people  the  island.GEN
+      ‘The Dia-thìrich are the people of the island.’
 
 (27)  B'       e      Fionn  an   t-ainm  a    bh'     air.
       COP.PST  3SG.M  Fionn  the  name    REL  be.PST  on.3SG.M
@@ -377,9 +377,9 @@ what is fronted:
       COP  1SG.EMPH  REL  do.PST  3SG.M
       ‘It was I who did it.’
 
-(40)  Is   ann       à     Ròdos  a    tha     mi.
-      COP  in.3SG.M  from  Ròdos  REL  be.PRS  1SG
-      ‘I am from Rodos.’
+(40)  Is   ann       à     Dhia-thìr  a    tha     mi.
+      COP  in.3SG.M  from  Dia-thìr  REL  be.PRS  1SG
+      ‘I am from Dia-thìr.’
 
 (41)  Is   ann       scìth  a    tha     mi,  chan     ann       tinn.
       COP  in.3SG.M  tired  REL  be.PRS  1SG  NEG.COP  in.3SG.M  ill
@@ -416,7 +416,7 @@ with the copula + a prepositional phrase. The *ann* of *is ann* is the prepositi
 
 ## 2. Aspect and the verbal noun
 
-Ròdais tense is carried by the inflected verb; aspect is carried by *bi* + a preposition + the
+Dia-thìris tense is carried by the inflected verb; aspect is carried by *bi* + a preposition + the
 verbal noun (VN). The verbal noun is a noun: it takes the article, governs a genitive, and takes a
 possessive for a pronoun object. The preposition says where the subject stands in relation to the
 action: *ag* "at" it (in progress), *air* "on, after" it (done), *ri* "at, engaged in" it, *gu*
@@ -704,7 +704,7 @@ The simple (synthetic) tenses carry aspect of their own:
 
 - The **past** (*sheas, chunnaic*) is perfective: a completed event in a narrative.
 - The **present-future** (*seasaidh, chì*) is a future, and also a **habitual or timeless present**:
-  what always happens, what one does as a rule. This is the Ròdais norm for habits:
+  what always happens, what one does as a rule. This is the Dia-thìris norm for habits:
 
 ```
 (81)  Òlaidh     e      uisce  gach   madainn.
@@ -729,13 +729,13 @@ The simple (synthetic) tenses carry aspect of their own:
 ```
 
 The periphrastic forms say the same thing more plainly: *Bidh e ag òl uisce gach madainn*, *Bhiodh
-i a' seasamh aig an doras*. They are correct, but the synthetic forms are the Ròdais norm and the
+i a' seasamh aig an doras*. They are correct, but the synthetic forms are the Dia-thìris norm and the
 periphrasis is felt as colloquial.
 
 **Older usage.** The tongue of the bards still had a synthetic present (*do-chì* "sees", *molaidh*
 "praises"). Afterwards the language lost it everywhere but in *bi*, and the old present became the
 present-future; so *òlaidh e* is both "he will drink" and "he drinks". The verbal-noun periphrasis
-with *ag* spread in the middle period. Ròdais still divides the work as the bards did: synthetic
+with *ag* spread in the middle period. Dia-thìris still divides the work as the bards did: synthetic
 forms for fact and habit, the periphrasis for action in progress.
 
 
@@ -743,7 +743,7 @@ forms for fact and habit, the periphrasis for action in progress.
 
 ### 3.1 Independent and dependent forms
 
-Every tense of a Ròdais verb except the imperative has two forms (*The grammar in brief* §7.1;
+Every tense of a Dia-thìris verb except the imperative has two forms (*The grammar in brief* §7.1;
 paradigms in *Word forms* §6). The **independent** form stands at the head of a main clause and after
 the relative particle *a*, *nuair a*, *ma*, *ged a* and the other conjunctions built on *a*. The
 **dependent** form follows the particles that end in a nasal or come from one: *cha(n)*, *an/am*,
@@ -826,7 +826,7 @@ particle (§3.4, §6.2, §7.1): *Nach eil thu scìth?* "Aren't you tired?", *Thu
 
 **Na** negates the imperative, and **nar** the optative (§3.6, §3.7).
 
-Negative words need *cha* with them. Ròdais has no word for "nobody, nothing, never" that negates
+Negative words need *cha* with them. Dia-thìris has no word for "nobody, nothing, never" that negates
 by itself:
 
 ```
@@ -932,7 +932,7 @@ the relative clause takes the relative form (§6.2). *Cia mheud* takes the singu
 
 ### 3.5 Answers: echo, not "yes" and "no"
 
-Ròdais has no words for "yes" and "no". An answer repeats the verb of the question, positive or
+Dia-thìris has no words for "yes" and "no". An answer repeats the verb of the question, positive or
 negative, in the tense of the question and without its subject; a copula question is answered by
 the copula and the word after it.
 
@@ -956,14 +956,14 @@ Tha.* A negative question is answered as if it were positive: *Nach eil thu scì
 I am". The answer may add a word of force: *Chuala, gu dearbh* "I did indeed"; *'S urrainn, gu
 dearbh* (T).
 
-**Usage.** For a question with no verb to echo (a bare "yes?" or a word in a list), Ròdais says
+**Usage.** For a question with no verb to echo (a bare "yes?" or a word in a list), Dia-thìris says
 *Seadh* "it is so" for "yes" and *Chan eil* for "no" (*The grammar in brief* §7.2). *Seadh* is also
 the listener's "I see, go on".
 
 ### 3.6 The imperative and the jussive
 
 The imperative has a full set of persons. The second persons are the everyday forms; the first and
-third persons ("let me, let us, let him") are the old synthetic jussive. Ròdais keeps it in full
+third persons ("let me, let us, let him") are the old synthetic jussive. Dia-thìris keeps it in full
 use: it is the only form in proclamations, prayers and oaths, and ordinary in speech:
 
 | | *seas* "stand" | *bi* "be" | *rach* "go" |
@@ -1056,7 +1056,7 @@ third-person commands:
 
 ## 4. The passive and the impersonal
 
-Ròdais has three ways of leaving out or demoting the agent: *rach* + VN, the impersonal forms of
+Dia-thìris has three ways of leaving out or demoting the agent: *rach* + VN, the impersonal forms of
 the verb, and the resultant state with *air* + possessive + VN.
 
 ### 4.1 The passive with *rach*
@@ -1101,7 +1101,7 @@ is in *do* (T).
 
 ### 4.2 The impersonal forms
 
-Every Ròdais verb has impersonal (or "autonomous") forms: finite forms with no subject, meaning
+Every Dia-thìris verb has impersonal (or "autonomous") forms: finite forms with no subject, meaning
 "someone does, one does, it is done". The object, if any, stays an object. The main forms:
 
 | | past | future | conditional |
@@ -1159,7 +1159,7 @@ happens to a particular subject, especially one named by a pronoun (*chaidh mo b
 **Older usage.** The impersonal is the old passive of the language. The oldest verse has a present
 in *-thar/-ther*, a preterite built on the past participle (*rugad* "was born"), and a conditional
 in *-tae/-tì*. The bards kept all three as their passive (*do-chìthear*, *do chonncas*,
-*do-chìfidhe*), and Ròdais has all three in full use still.
+*do-chìfidhe*), and Dia-thìris has all three in full use still.
 
 ### 4.3 The resultant state: participles and *air* + possessive + VN
 
@@ -1201,7 +1201,7 @@ seen", *Tha e ri fhaighinn* "it is to be had".
 
 ## 5. Possession, modality and the experiencer
 
-Ròdais has no verb "to have", and few verbs of feeling, liking, needing or knowing. It expresses
+Dia-thìris has no verb "to have", and few verbs of feeling, liking, needing or knowing. It expresses
 all of them with *bi* or the copula and a preposition that marks the person concerned. The
 prepositions carry fixed meanings: *aig* "at" marks the possessor, *le* "with" the owner and the
 one who likes, *do* "to" the one who can or must, *air* "on" the one a feeling or state has come
@@ -1223,13 +1223,13 @@ upon, *ri* "against, towards" the thing one is engaged with. The prepositional p
       NEG   be.PRS.DEP  money    at   the  fisherman
       ‘The fisherman has no money.’
 
-(141) Tha     Ròdais  aice.
-      be.PRS  Ròdais  at.3SG.F
-      ‘She speaks Ròdais. (lit. Ròdais is at her)’
+(141) Tha     Dia-thìris  aice.
+      be.PRS  Dia-thìris  at.3SG.F
+      ‘She speaks Dia-thìris. (lit. Dia-thìris is at her)’
 ```
 
 Possessive pronouns are for the body, kin and what is part of oneself (*mo cheann, mo mhàthair*);
-for ordinary possessions Ròdais prefers the article + noun + *aig*: *an taigh agam* "my house", *an
+for ordinary possessions Dia-thìris prefers the article + noun + *aig*: *an taigh agam* "my house", *an
 long aca* "their ship". This *aig* phrase follows any adjective: *an taigh mòr agam*.
 
 ### 5.2 Belonging: the copula + *le*
@@ -1391,7 +1391,7 @@ started".
 
 ### 5.7 Knowing: *is aithne do* and *tha fios aig*
 
-Ròdais distinguishes knowing a person or place (acquaintance) from knowing a fact:
+Dia-thìris distinguishes knowing a person or place (acquaintance) from knowing a fact:
 
 ```
 (166) Is   aithne        dhomh   an   t-iascair  sin.
@@ -1500,7 +1500,7 @@ aca de ghoireasan* "whatever goods they had" (T). Negative *nach*: *an rud nach 
 
 ### 6.4 Indirect and prepositional relatives
 
-When the noun is the object of a preposition in the relative clause, the Ròdais norm puts the
+When the noun is the object of a preposition in the relative clause, the Dia-thìris norm puts the
 preposition first, followed by the relative particle *an* (*am* before *b, f, m, p*) and the
 dependent form. The preposition takes the article's forms before *an*: *anns an, aig an, air an,
 ris an, leis an, don, bhon, fon*:
@@ -1529,14 +1529,14 @@ ris an, leis an, don, bhon, fon*:
 
 **Colloquial.** Speech leaves the preposition at the end, as a prepositional pronoun, after a
 direct relative: *an taigh a bha mi ann*, *an duine a bhruidhinn mi ris*. This is correct and
-common, but the fronted form is the Ròdais norm.
+common, but the fronted form is the Dia-thìris norm.
 
 **Older usage.** The fronted preposition + *an* is the old preposition + the nasalizing relative
 (*i n-a* "in which"), which the bards wrote *ina*, *dà* ("to which"), *lè* ("with which").
 
 ### 6.5 Genitive relatives ("whose")
 
-Ròdais has no relative pronoun "whose". It uses a relative clause with a possessive that refers
+Dia-thìris has no relative pronoun "whose". It uses a relative clause with a possessive that refers
 back to the noun, or turns the possession into *aig*:
 
 ```
@@ -1573,7 +1573,7 @@ as after a preposition. The spoken form *am fear a tha a mhac…* uses the indep
 
 ## 7. Subordinate clauses
 
-Ròdais conjunctions fall into two groups by what they take. Those built on the relative particle
+Dia-thìris conjunctions fall into two groups by what they take. Those built on the relative particle
 *a* take the **independent** form (and the relative future): *nuair a, ma, ged a, mar a, cho luath
 's a, fhad 's a, on a*. Those that end in a nasal take the **dependent** form: *gun/gum, nach,
 mura, nan/nam, mus, gus an, far an, a chionn 's gun*. The clause keeps verb-first order after all
@@ -1607,7 +1607,7 @@ The *gun* clause cannot be left out as English "that" can.
 
 ### 7.2 Conditionals: *ma*, *nan*, *mura*
 
-Ròdais has three conjunctions for "if": **ma** for an open condition, **nan** (*nam* before *b, f,
+Dia-thìris has three conjunctions for "if": **ma** for an open condition, **nan** (*nam* before *b, f,
 m, p*) for an unreal one, **mura** (*mur* before a vowel) for "if not, unless" of either kind.
 *Ma* takes the independent form; *nan* and *mura* the dependent. Future and habitual *ma* clauses
 take the relative future.
@@ -1736,11 +1736,11 @@ them got on its back" (T).
 event; negative *nuair nach*:
 
 ```
-(207) Nuair  a    thàinig   na   Ròdaich  gu  na   cladaichean  sin,   fhuair   iad
-      when   REL  come.PST  the  Ròdaich  to  the  shores       those  get.PST  3PL
+(207) Nuair  a    thàinig   na   Dia-thìrich  gu  na   cladaichean  sin,   fhuair   iad
+      when   REL  come.PST  the  Dia-thìrich  to  the  shores       those  get.PST  3PL
       bailtean  falamh.
       towns     empty
-      ‘When the Ròdaich came to those shores, they found empty towns. (T)’
+      ‘When the Dia-thìrich came to those shores, they found empty towns. (T)’
 
 (208) Nuair  a    thig          an   làn,  falbhaidh  an   long.
       when   REL  come.REL.FUT  the  tide  leave.FUT  the  ship
@@ -1829,7 +1829,7 @@ reported commands the verbal noun. After a verb of saying in the past, the tense
       ‘He told me not to go there.’
 ```
 
-The shift is the Ròdais norm in narrative. A statement still true when it is reported may keep its
+The shift is the Dia-thìris norm in narrative. A statement still true when it is reported may keep its
 tense, as in *Thuirt na h-iascairean gum bi stoirm ann a-nochd* (T).
 
 Direct speech is introduced by *thuirt* or, in narrative and verse, by the old quotative *arsa*
@@ -1892,7 +1892,7 @@ A noun that qualifies another follows it in the genitive. The article in the gen
 ```
 
 An indefinite masculine genitive is lenited: *pìos arain* "a piece of bread", *làn dhaoine* "full of
-people" (T), *glinn àrda Ròdais* "the high glens of Rodos" (a name after a noun is genitive).
+people" (T), *glinn àrda Dia-thìris* "the high glens of Dia-thìr" (a name after a noun is genitive).
 
 An adjective agrees with its noun in the genitive: masculine singular lenited and slenderised,
 feminine singular with *-e*:
@@ -2090,7 +2090,7 @@ The numeral stands before the noun (*The grammar in brief* §10):
 - In the vigesimal count, used for ages and in old texts, the noun comes before *air fhichead*:
   *aon long air fhichead* "twenty-one ships", *dà fhichead bliadhna* "forty years".
 
-**Usage.** Ròdais counts in tens (*trithead, ceathrad, caogad…*), and joins tens and units with
+**Usage.** Dia-thìris counts in tens (*trithead, ceathrad, caogad…*), and joins tens and units with
 nothing between them: *ceathrad còig*, not *ceathrad 's a còig*.
 
 People are counted with the **personal numerals**, followed by the genitive plural or *de*:
@@ -2116,7 +2116,7 @@ leanabh* (T), *an naoidheamh latha deug*.
 
 ### 9.1 Greetings and leave-taking
 
-| Ròdais | literally | use |
+| Dia-thìris | literally | use |
 |---|---|---|
 | *Dia dhut* / *Dia dhuibh* | God to you | hello; the reply returns it: *Dia dhut fhèin* |
 | *Madainn mhath* / *Feascar math* / *Oidhche mhath* | good morning / evening / night | greeting; *oidhche mhath* also at parting |
@@ -2149,7 +2149,7 @@ emphatic *sibh fhèin*. A predicate adjective stays singular: *A bheil sibh scì
 
 A name or noun of address is preceded by the vocative particle *a*, which lenites. A masculine
 noun in the singular also slenderises (like its genitive); a feminine noun is only lenited;
-Ròdais writes *a* before a vowel too (*The grammar in brief* §9):
+Dia-thìris writes *a* before a vowel too (*The grammar in brief* §9):
 
 ```
 (248) A    Chaluim,   thig      an-seo!
@@ -2323,7 +2323,7 @@ came back on Monday" (T).
 | 7 | *Disathairne* | the day of another old god of the humans, from the church-tongue |
 
 **The months** (*The Reckoning of Years* §VII). The civil year runs from *am Faoilleach*. Before the
-Crossing the Ròdaich year began at *Samhain* and was reckoned by the moon, and the Old Faith still
+Crossing the Dia-thìrich year began at *Samhain* and was reckoned by the moon, and the Old Faith still
 reckons it so. A month takes the article; "in" is *anns an* (*san, sa* + lenition), and a day "of"
 a month is *den* + lenition:
 

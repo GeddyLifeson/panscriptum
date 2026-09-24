@@ -1,7 +1,7 @@
 """
-Rodos Atlas -- the chronicle of Rodos and its map, as one program.
+Dia-thìr Atlas -- the chronicle of Dia-thìr and its map, as one program.
 
-Double-click "Rodos Atlas.bat" (Windows), or run:  python atlas.py
+Double-click "Diathir Atlas.bat" (Windows), or run:  python atlas.py
 
 It serves this folder to your own machine only (127.0.0.1), opens your browser on the chronicle,
 and keeps running until you close this window. Nothing is sent anywhere: the map generator runs
@@ -46,7 +46,7 @@ def main():
     port = free_port()
     server = http.server.ThreadingHTTPServer(('127.0.0.1', port), functools.partial(Quiet, directory=HERE))
     url = 'http://127.0.0.1:%d/index.html' % server.server_address[1]
-    print('Rodos Atlas is running at', url)
+    print('Dia-thìr Atlas is running at', url)
     print('Close this window, or press Ctrl+C, to stop it.')
     threading.Timer(0.6, lambda: webbrowser.open(url)).start()
     try:
@@ -59,5 +59,5 @@ def main():
 
 if __name__ == '__main__':
     if sys.version_info < (3, 7):
-        sys.exit('Rodos Atlas needs Python 3.7 or newer.')
+        sys.exit('Dia-thìr Atlas needs Python 3.7 or newer.')
     main()

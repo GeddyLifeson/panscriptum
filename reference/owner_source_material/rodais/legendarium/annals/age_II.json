@@ -3,7 +3,7 @@
   "id": "II-0001",
   "canon": true,
   "title": "The Binding of the First Flame",
-  "body": "Custody is declared over the vein, and the first flame is bound at Dùn ìseal: the undying flame of Brìde, kept over the stone of Crom Cruaich. Its keepers, Òrd Bhrìde, are the first order on Rodos to govern both rite and people, and they are older by centuries than any king.",
+  "body": "Custody is declared over the vein, and the first flame is bound at Dùn ìseal: the undying flame of Brìde, kept over the stone of Crom Cruaich. Its keepers, Òrd Bhrìde, are the first order on Dia-thìr to govern both rite and people, and they are older by centuries than any king.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -39,7 +39,7 @@
  {
   "id": "II-0005",
   "canon": true,
-  "title": "Seann Spioradan nan Ròdach established",
+  "title": "Seann Spioradan nan Dia-thìreach established",
   "body": "At the hearths the eldest of the island's folk-ways takes shape: reverence for the ancestors, for the vein, for the weather that rules the mining season, and for the sìth of the hills and mounds. It keeps no priests, and it has never ceased.",
   "place": null,
   "kind": "faith",
@@ -817,7 +817,7 @@
   "id": "II-0088",
   "canon": false,
   "title": "The stag-letters",
-  "body": "At Muileann chiar in the far east the teachers of the stag's people make the cutters' tally-notches into signs for sounds, so that a teaching may be kept without a teacher. These are the first letters the Ròdaich use: the ogham, which the druids call the gift of Ogma. From them come nearly all the later hands of the island.",
+  "body": "At Muileann chiar in the far east the teachers of the stag's people make the cutters' tally-notches into signs for sounds, so that a teaching may be kept without a teacher. These are the first letters the Dia-thìrich use: the ogham, which the druids call the gift of Ogma. From them come nearly all the later hands of the island.",
   "place": "burg:78",
   "kind": "record",
   "between": [
@@ -829,7 +829,7 @@
   "id": "II-0089",
   "canon": false,
   "title": "The letters set against the obelisk",
-  "body": "Scholars of the stag carry their new letters to Carragh Cnoc bheag and set them beside the marks on the obelisk. They match nothing. The scholars write that the stone's makers were not their teachers, and that is the first thing the Ròdaich ever write of the old people.",
+  "body": "Scholars of the stag carry their new letters to Carragh Cnoc bheag and set them beside the marks on the obelisk. They match nothing. The scholars write that the stone's makers were not their teachers, and that is the first thing the Dia-thìrich ever write of the old people.",
   "place": "marker:28",
   "kind": "record"
  },
@@ -869,7 +869,7 @@
   "id": "II-0093",
   "canon": false,
   "title": "The War of the Roads begins at Muileann òg",
-  "body": "Iain Garbh marches west with the road-guards and the lowland levies, and burns the toll-house at Muileann òg that the men of Lachlann Ciar had taken. It is the first war of Ròdach against Ròdach. The Hall will bless neither side.",
+  "body": "Iain Garbh marches west with the road-guards and the lowland levies, and burns the toll-house at Muileann òg that the men of Lachlann Ciar had taken. It is the first war of Dia-thìreach against Dia-thìreach. The Hall will bless neither side.",
   "place": "burg:151",
   "kind": "war",
   "between": [
@@ -1204,7 +1204,7 @@
   "id": "II-0123",
   "canon": true,
   "title": "The apprentice-binding custom",
-  "body": "Young Ròdaich are first bound for seven years to a master of the vein's custody before they may go near the coal themselves. Every later guild of the mines is shaped on this binding.",
+  "body": "Young Dia-thìrich are first bound for seven years to a master of the vein's custody before they may go near the coal themselves. Every later guild of the mines is shaped on this binding.",
   "place": null,
   "kind": "craft",
   "canon_date": "undated"
@@ -1245,7 +1245,7 @@
   "id": "II-0127",
   "canon": false,
   "title": "The silver tokens",
-  "body": "The clerks of Fearchar Òg begin to pay the road-guards in small silver rings of the Muileann chiar weight, stamped with the hall's mark. It is the first payment in metal by any ruler on Rodos. The rings travel further than the guards do.",
+  "body": "The clerks of Fearchar Òg begin to pay the road-guards in small silver rings of the Muileann chiar weight, stamped with the hall's mark. It is the first payment in metal by any ruler on Dia-thìr. The rings travel further than the guards do.",
   "place": "burg:419",
   "kind": "trade",
   "within": [
@@ -1333,7 +1333,7 @@
   "id": "II-0135",
   "canon": false,
   "title": "The hall moves to Cathair dhearg",
-  "body": "Beathag Mhòr moves her hall from Dùn dhearg to the town at the western bridge-foot, Cathair dhearg, to sit where the roads, the river and the western harbours meet. Dùn dhearg keeps the old granaries and the graves of the house of Ìomhar. From this reign Cathair dhearg is the seat of rule on Rodos, whatever else changes.",
+  "body": "Beathag Mhòr moves her hall from Dùn dhearg to the town at the western bridge-foot, Cathair dhearg, to sit where the roads, the river and the western harbours meet. Dùn dhearg keeps the old granaries and the graves of the house of Ìomhar. From this reign Cathair dhearg is the seat of rule on Dia-thìr, whatever else changes.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1960,7 +1960,7 @@
   "id": "II-0198",
   "canon": false,
   "title": "Seal-oil from Ceann mhòr",
-  "body": "Ceann mhòr on the north-west coast begins to trade seal-oil down the western coast to Ros bheag for silver rings, and its beacons burn it. For many generations the seal-oil lamps of the western harbours are the brightest light on Rodos.",
+  "body": "Ceann mhòr on the north-west coast begins to trade seal-oil down the western coast to Ros bheag for silver rings, and its beacons burn it. For many generations the seal-oil lamps of the western harbours are the brightest light on Dia-thìr.",
   "place": "burg:143",
   "kind": "trade"
  },
@@ -2156,7 +2156,7 @@
   "id": "II-0221",
   "canon": true,
   "title": "The common root of the orders",
-  "body": "The one folk-faith of the island begins plainly to divide into the several ways that later ages name apart: the orders of An Creideamh Sean, the Old Faith, and the hearth-keeping of Na Seann Spioradan, the Old Spirits. From this time the belief of the Ròdaich is no longer one.",
+  "body": "The one folk-faith of the island begins plainly to divide into the several ways that later ages name apart: the orders of An Creideamh Sean, the Old Faith, and the hearth-keeping of Na Seann Spioradan, the Old Spirits. From this time the belief of the Dia-thìrich is no longer one.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -2397,7 +2397,7 @@
   "id": "II-0249",
   "canon": true,
   "title": "The last age of even population",
-  "body": "So ends the Holy Age. The chroniclers of after days look back on it with some unease: it is the last time in the history of Rodos that no family's lives ran longer than any other's.",
+  "body": "So ends the Holy Age. The chroniclers of after days look back on it with some unease: it is the last time in the history of Dia-thìr that no family's lives ran longer than any other's.",
   "place": null,
   "kind": "record",
   "canon_date": "undated"

@@ -1,5 +1,5 @@
 """
-map_reconcile.py -- bring the Rodos map into line with its history, layer by layer.
+map_reconcile.py -- bring the Dia-thìr map into line with its history, layer by layer.
 
 Every layer Azgaar generated (faiths, goods and markets, the state and its shires, the regiments, the land,
 markers and routes, the arms) was read against the annals, the gazetteer and the appendices. Each layer's
@@ -8,7 +8,7 @@ applies all of them, in a fixed order, and then the integrator's own edits in re
 (which also lists the few proposal edits it sets aside; INTEGRATION.md gives the reasons).
 Last come the faiths as they are now (reconcile/faiths.json): three, and the land that keeps none.
 
-    python map_reconcile.py     # Rodos_finished.map, Rodos_Atlas/Rodos.map and world.json, in place
+    python map_reconcile.py     # Rodos_finished.map, Diathir_Atlas/Diathir.map and world.json, in place
 
 finish_map.py calls reconcile_records() after burg_features.finish_records(), so the edits land on the map
 as it stands after the harbour towns were moved (the faith of a moved town is set on its NEW cell).
@@ -21,7 +21,7 @@ Edit forms (a .map is 53 CRLF-joined records; see finish_map.py):
     {"record": 15, "path": "[419].production", "op": "append", "value": {...}}   append to a list, once
     {"record": 35, "path": "", "op": "append", "value": {...}}          append to a record that is itself a list, once
     {"record": 35, "path": "[28].note", "mode": "replace-substring", "old": "...", "value": "..."}
-    {"record": 31, "path": "append as name base 43 ...", "value": "Ròdais|7|18||0|..."}
+    {"record": 31, "path": "append as name base 43 ...", "value": "Dia-thìris|7|18||0|..."}
     {"record": 49, "action": "delete_indices", "indices": [...], "match": [...]}  remove relief icons
     {"record": 29, "action": "replace_religions", "old_names": [...], "value": [...],     the faiths list anew,
      "cells": {"remap": {"4": 1, ...}, "by_culture": {"3": {"1": 3, "2": 1}}}}          and the cells to match
@@ -74,7 +74,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 RECON = os.path.join(HERE, 'reconcile')
 WORLD = os.path.join(HERE, 'world.json')
-MAPS = [os.path.join(ROOT, 'Rodos_finished.map'), os.path.join(ROOT, 'Rodos_Atlas', 'Rodos.map')]
+MAPS = [os.path.join(ROOT, 'Rodos_finished.map'), os.path.join(ROOT, 'Diathir_Atlas', 'Diathir.map')]
 
 RECORDS = 53
 L_SETTINGS, L_BIOMES, L_SVG, L_TEMP, L_FEATURES, L_CULTURES, L_STATES, L_BURGS = 1, 3, 5, 11, 12, 13, 14, 15

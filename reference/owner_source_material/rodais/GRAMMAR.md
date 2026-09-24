@@ -5,36 +5,36 @@ pronouns, prepositions, verbs, the copula, numbers and word order. The sounds ar
 *The sounds*, place names in *Names*, and the fuller account of forms and sentences in *Word forms*
 and *Sentences*.
 
-## 0. What Ròdais is
+## 0. What Dia-thìris is
 
-Ròdais is the tongue of the island of Rodos and of the Ròdaich, who have been the people of the
+Dia-thìris is the tongue of the island of Dia-thìr and of the Dia-thìrich, who have been the people of the
 island since the Ancient Age. It is the tongue of the kingdom's schools and
 courts, of the annals and the custody-books, and of nearly every place name on the island; the
 Tuathaich of the north, who keep the humans' tongue at home, live among its names and use its
-words. Before the Ròdaich the Seann-Dhaoine, the Old Ones, held the coasts, and of their speech
-nothing is left but place names, carried inside Ròdais (see *Names*).
+words. Before the Dia-thìrich the Seann-Dhaoine, the Old Ones, held the coasts, and of their speech
+nothing is left but place names, carried inside Dia-thìris (see *Names*).
 
-Four things mark Ròdais at once on the page, and a reader who has them by heart will seldom be
+Four things mark Dia-thìris at once on the page, and a reader who has them by heart will seldom be
 misled:
 
-| Feature | **Ròdais** |
+| Feature | **Dia-thìris** |
 |---|---|
 | Long vowels | **grave**: *mòr, sìth* |
 | The cluster /sk/ | **sc**: *scoil, uisce, sceul* |
 | "Thank you" | **gu robh math agad** |
 | "City" | **cathair** |
 
-The first two are matters of spelling and hold without exception in the island's writing: Ròdais
+The first two are matters of spelling and hold without exception in the island's writing: Dia-thìris
 has no acute accent, only the grave, and it writes the cluster /sk/ as *sc* and never otherwise.
 The other two are matters of the word-hoard, and the most often heard.
 
-Some words belong to the island's own story more than others: *Ròdos* (the island), *Ròdais* (the
-language), *Ròdach* (a Ròdais person, pl. *Ròdaich*), *Tuathach* (a northerner, pl. *Tuathaich*),
-*Seann-Dhaoine* (the Old Ones), *Rìoghachd Ròdais* (the kingdom), *Cathair dhearg* (the capital).
+Some words belong to the island's own story more than others: *Dia-thìr* (the island), *Dia-thìris* (the
+language), *Dia-thìreach* (a Dia-thìris person, pl. *Dia-thìrich*), *Tuathach* (a northerner, pl. *Tuathaich*),
+*Seann-Dhaoine* (the Old Ones), *Rìoghachd Dia-thìris* (the kingdom), *Cathair dhearg* (the capital).
 *Gual* (coal) is heavier with meaning than its plain sense. The coal of the island is *an gual dathach*,
 the coloured coal, in which the Young God, Caoran, hid the elements; its seven kinds, *na Seachd Guail*,
 are named by their colours, *gual dubh*, *gual teine*, *gual òir* and the rest. *Fuil-ghuail*, "coal-blood",
-is what the Ròdaich call the gift that sets them apart from the Tuathaich.
+is what the Dia-thìrich call the gift that sets them apart from the Tuathaich.
 
 ## 1. Sounds and spelling
 
@@ -43,7 +43,7 @@ the sound of every mutation, the rules for reading each letter, a key for the re
 transcriptions) is set out in *The sounds*. In short:
 
 **Vowels.** Short *a e i o u*, long *à è ì ò ù*. Broad: *a o u à ò ù*. Slender: *e i è ì*. The
-grave accent marks length only; Ròdais has no acute.
+grave accent marks length only; Dia-thìris has no acute.
 
 **Caol le caol, leathan le leathan.** A consonant or consonant cluster inside one word has vowels
 of the same class on both sides: *bris-ead-h*, *òl-adh*, *cuir-idh*, *seas-aidh*. That is why
@@ -65,7 +65,7 @@ g* are plain, voiceless *p t k*. *h* after a consonant marks lenition:
 | sh, th | h | *shuidh, thuirt* |
 | sc | sk (unaspirated) | *scoil* |
 
-Ròdais is conservative in its sounds and keeps old ones that the spelling might tempt a reader to
+Dia-thìris is conservative in its sounds and keeps old ones that the spelling might tempt a reader to
 let slip: *cnoc* is [kʰn̪ˠɔʰk], with the *n* fully sounded after the *c*, never [kʰɾɔ̃ʰk] with the *n*
 turned to a nasal *r* (*The sounds* §12–13).
 
@@ -79,7 +79,7 @@ athair*).
 
 ## 2. Mutations
 
-Ròdais has two initial mutations.
+Dia-thìris has two initial mutations.
 
 **Lenition** (the main one). At the start of a word:
 
@@ -145,7 +145,7 @@ Plural adjectives add *-a/-e*: *taighean mòra*. A few adjectives go before the 
 
 **Place names are the exception.** In a place name the qualifier is lenited after every generic,
 masculine or feminine: *Baile ghorm, Cnoc bheag, Dùn thais*. In speech an adjective after a
-masculine noun stays plain (*baile gorm*). Ròdais keeps the always-lenited form as a fixed usage of
+masculine noun stays plain (*baile gorm*). Dia-thìris keeps the always-lenited form as a fixed usage of
 naming, as old compounds are kept whole after the speech around them has moved on (see *Names*).
 
 **Predicate adjectives** use *tha*: *Tha an taigh mòr* "the house is big". With *gu* before them
@@ -183,7 +183,7 @@ gile*. Irregulars: *math → fheàrr*, *dona → miosa*, *mòr → motha*, *beag
 | your (pl.) | ur | ur n- |
 | their | an (am before b, f, m, p) | an |
 
-For many relationships (friends, possessions not part of oneself) Ròdais prefers *aig* + article: *an taigh agam* "my house" (lit. the house at-me). Body parts, close
+For many relationships (friends, possessions not part of oneself) Dia-thìris prefers *aig* + article: *an taigh agam* "my house" (lit. the house at-me). Body parts, close
 family and the like take the possessive: *mo cheann*, *mo mhàthair*.
 
 ## 6. Prepositions and prepositional pronouns
@@ -214,7 +214,7 @@ take the possessive: *mu mo dheidhinn* "about me".
 
 ## 7. Verbs
 
-Ròdais verbs are cited in two forms: the **root** (the imperative singular: *seas* "stand!")
+Dia-thìris verbs are cited in two forms: the **root** (the imperative singular: *seas* "stand!")
 and the **verbal noun** (*seasamh*). The verbal noun is lexical and is what the Dictionary gives
 for "to X".
 
@@ -260,9 +260,9 @@ you". The full table is in *Sentences* §2.
 | **a** | who, which (relative) | lenites; takes the relative future |
 | **na** | don't | *na seas!* |
 
-**Yes and no.** Ròdais has no words for yes and no. An answer repeats the verb: *An robh thu
+**Yes and no.** Dia-thìris has no words for yes and no. An answer repeats the verb: *An robh thu
 ann? — Bha.* "Were you there? — (I) was." / *Cha robh.* In the Dictionary, *Seadh* ("it is so") stands
-for "yes" and *Chan eil* for "no", the forms a Ròdach would give to a bare yes/no question with no
+for "yes" and *Chan eil* for "no", the forms a Dia-thìreach would give to a bare yes/no question with no
 verb to echo.
 
 ### 7.3 The verb *bi* "be"
@@ -359,7 +359,7 @@ unchanged: *a Aisling!*
 | 100 | ceud | |
 | 1000 | mìle | |
 
-Ròdais now counts in tens; the older count by twenties (*dà fhichead* "40") is understood by all
+Dia-thìris now counts in tens; the older count by twenties (*dà fhichead* "40") is understood by all
 and still used for ages and in old texts. Ordinals: *a' chiad* "first" (lenites),
 *an dàrna*, *an treas*, *an ceathramh*, *an còigeamh*.
 
@@ -374,34 +374,34 @@ has its own names, *Samhnas, Dubhlas, Faolach, Gearras, Sìolach, Bearnach, Beal
 Lùghnas, Pailteach, Damhrach* and the between-moon *Eadrach*. Years are counted by eras, *linntean*
 (*Sentences* §9.7).
 
-## 12. Ròdais on the page
+## 12. Dia-thìris on the page
 
 The written usage of the island is steady, and a few points of it are worth having in one place:
 
 1. The spelling is the one the scribes of the kingdom write and the Library at Muileann chaol keeps
    in its books; the rules of letter and sound are set out in *The sounds*.
-2. Ròdais says *cathair* for "city", and *gu robh math agad / agaibh* for "thank you".
-3. Ròdais has no acute accent: every long vowel carries the grave. The cluster /sk/ is written
+2. Dia-thìris says *cathair* for "city", and *gu robh math agad / agaibh* for "thank you".
+3. Dia-thìris has no acute accent: every long vowel carries the grave. The cluster /sk/ is written
    *sc*. The apostrophe is always the plain straight one.
 4. *Caol le caol* holds throughout, and only a small handful of common words stand outside it
    (§1).
 
-## 13. How Ròdais names new things
+## 13. How Dia-thìris names new things
 
-Ròdais keeps an old voice. The line falls at about AE 20, a generation after the Crossing brought the
-humans in AE 1, when the peoples of Rodos began to mix:
+Dia-thìris keeps an old voice. The line falls at about AE 20, a generation after the Crossing brought the
+humans in AE 1, when the peoples of Dia-thìr began to mix:
 
-- **Things known on Rodos before about AE 20 kept the old native word**, and where two words were
+- **Things known on Dia-thìr before about AE 20 kept the old native word**, and where two words were
   current and the old one was still understood, the older or the bards' word held (*lighiche*, not
   *dotair*; *filidh*, *cath*, *laoch*). Old borrowings stayed (*leabhar, eaglais*).
 - **Things that came in from about AE 20 onward could keep a plain loan** from the humans' tongue,
-  written in Ròdais spelling: *bus, tacsaidh, rèidio, ogsaidean*.
-- **Where a new thing wanted a name of its own**, Ròdais made a **kenning**: a compound built from
+  written in Dia-thìris spelling: *bus, tacsaidh, rèidio, ogsaidean*.
+- **Where a new thing wanted a name of its own**, Dia-thìris made a **kenning**: a compound built from
   the oldest known word for each part, as a bard would have named the thing. In the first
-  generations after the Crossing the Ròdaich named nearly every new thing in this way, whether a
+  generations after the Crossing the Dia-thìrich named nearly every new thing in this way, whether a
   loan lay to hand or not, and many of those kennings are still the common words.
 
-| English | Ròdais | literally |
+| English | Dia-thìris | literally |
 |---|---|---|
 | skyscraper | *suathaiche-nèimh* | heaven-grazer |
 | jet lag | *suain-siubhail* | travel-drowsiness |

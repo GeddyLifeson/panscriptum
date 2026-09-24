@@ -3,7 +3,7 @@
   "id": "I-0001",
   "canon": true,
   "title": "The crack in the stone",
-  "body": "Neachdan, a mason splitting rock for a well, breaks into a vein of hard coal that shows every colour in the break. That night a storm comes over the hills, and lightning strikes the broken vein, and it takes fire. He carries a burning coal home and lays the first hearth: it is the first fire of the Ròdaich. On it he tries the other coals he broke out, and all burn alike, with a low black flame; he is glad of the fire all the same.",
+  "body": "Neachdan, a mason splitting rock for a well, breaks into a vein of hard coal that shows every colour in the break. That night a storm comes over the hills, and lightning strikes the broken vein, and it takes fire. He carries a burning coal home and lays the first hearth: it is the first fire of the Dia-thìrich. On it he tries the other coals he broke out, and all burn alike, with a low black flame; he is glad of the fire all the same.",
   "place": null,
   "kind": "discovery",
   "canon_date": "undated"
@@ -72,7 +72,7 @@
   "id": "I-0008",
   "canon": false,
   "title": "Hunters on Eilean mhin",
-  "body": "Seal-hunters pitch camps on Eilean mhin, coming there by boat: the first sure sign that anyone on Rodos crossed open water of set purpose. The camps are kept a season at a time and left.",
+  "body": "Seal-hunters pitch camps on Eilean mhin, coming there by boat: the first sure sign that anyone on Dia-thìr crossed open water of set purpose. The camps are kept a season at a time and left.",
   "place": "feature:14",
   "kind": "voyage"
  },
@@ -100,7 +100,7 @@
   "id": "I-0010",
   "canon": false,
   "title": "The middens of Seann Dunn",
-  "body": "The Seann-Dhaoine begin the great mound at Seann Dunn: limpet shell, seal bone and burnt weed, laid down over many lifetimes until it stands taller than a man. It is the first sure trace of them. No tool in it is shaped as any later Ròdach shaped tools.",
+  "body": "The Seann-Dhaoine begin the great mound at Seann Dunn: limpet shell, seal bone and burnt weed, laid down over many lifetimes until it stands taller than a man. It is the first sure trace of them. No tool in it is shaped as any later Dia-thìreach shaped tools.",
   "place": "burg:347",
   "kind": "people"
  },
@@ -108,7 +108,7 @@
   "id": "I-0011",
   "canon": false,
   "title": "The notched net-weights of Seann Chwen",
-  "body": "At Seann Chwen the Seann-Dhaoine sink their nets with beach stones, and every stone is notched with the same three strokes. It is the eldest mark on Rodos made again and again of purpose.",
+  "body": "At Seann Chwen the Seann-Dhaoine sink their nets with beach stones, and every stone is notched with the same three strokes. It is the eldest mark on Dia-thìr made again and again of purpose.",
   "place": "burg:36",
   "kind": "craft"
  },
@@ -168,7 +168,7 @@
   "id": "I-0017",
   "canon": false,
   "title": "The script appears at Seann Tarr",
-  "body": "Rows of signs are cut into the cliff above Seann Tarr, in the script that is found afterwards on the standing stones. It is not Ròdais, and none has read it. No sign of it has a meaning that all accept.",
+  "body": "Rows of signs are cut into the cliff above Seann Tarr, in the script that is found afterwards on the standing stones. It is not Dia-thìris, and none has read it. No sign of it has a meaning that all accept.",
   "place": "burg:249",
   "kind": "record"
  },
@@ -188,7 +188,7 @@
   "id": "I-0018",
   "canon": false,
   "title": "The fish-kilns of Seann Mhorn",
-  "body": "Stone-lined pits with short flues are built above the beach at Seann Mhorn, to dry the catch over peat smoke. Seven are known. They are the first buildings on Rodos made for a trade, and not for sleep or for the dead.",
+  "body": "Stone-lined pits with short flues are built above the beach at Seann Mhorn, to dry the catch over peat smoke. Seven are known. They are the first buildings on Dia-thìr made for a trade, and not for sleep or for the dead.",
   "place": "burg:186",
   "kind": "craft"
  },
@@ -340,7 +340,7 @@
   "id": "I-0035",
   "canon": false,
   "title": "Làrach an Teampaill raised",
-  "body": "A stepped platform of fitted stone is built in the eastern hills, with an altar block on its top step. The altar is set square to the central mountains. Every later temple on Rodos faces some other way.",
+  "body": "A stepped platform of fitted stone is built in the eastern hills, with an altar block on its top step. The altar is set square to the central mountains. Every later temple on Dia-thìr faces some other way.",
   "place": "marker:33",
   "kind": "faith"
  },
@@ -521,7 +521,7 @@
   "id": "I-0054",
   "canon": false,
   "title": "The first dog graves",
-  "body": "At Cnoc fhionn in the east dogs are buried beside people, each with a shell at its head. No beast was given a grave on Rodos before.",
+  "body": "At Cnoc fhionn in the east dogs are buried beside people, each with a shell at its head. No beast was given a grave on Dia-thìr before.",
   "place": "burg:61",
   "kind": "death"
  },
@@ -545,7 +545,7 @@
   "id": "I-0057",
   "canon": false,
   "title": "The warm springs used",
-  "body": "Stone basins are set into the springs at Fuarain Theth Muileann ruadh. The people buried near them have old breaks that knitted clean. Here the sick of Rodos are first brought for healing.",
+  "body": "Stone basins are set into the springs at Fuarain Theth Muileann ruadh. The people buried near them have old breaks that knitted clean. Here the sick of Dia-thìr are first brought for healing.",
   "place": "marker:0",
   "kind": "craft"
  },
@@ -561,7 +561,7 @@
   "id": "I-0059",
   "canon": true,
   "title": "Làrach an Dùin-fhaire abandoned",
-  "body": "The outpost is deserted. It lay in ruin before the first trusty chronicles, and it is older than any dwelling of the Ròdaich. Who built it none knows.",
+  "body": "The outpost is deserted. It lay in ruin before the first trusty chronicles, and it is older than any dwelling of the Dia-thìrich. Who built it none knows.",
   "place": "marker:31",
   "kind": "building",
   "canon_date": "undated"
@@ -624,7 +624,7 @@
   "id": "I-0064a",
   "canon": false,
   "title": "The ancient sea-way",
-  "body": "The boats of the Seann-Dhaoine keep a lane along the south-east coast, from the river mouth below Seann Dunn round the cape where Taigh-solais Tobar dhearg now stands to the bay of Ceann chaol. Flat landing-stones lie along it a day's rowing apart, some grooved still by hauled keels. The Ròdaich call it Slighe-mhara àrsaidh, the ancient sea-way, and the fishers of that coast keep to it yet.",
+  "body": "The boats of the Seann-Dhaoine keep a lane along the south-east coast, from the river mouth below Seann Dunn round the cape where Taigh-solais Tobar dhearg now stands to the bay of Ceann chaol. Flat landing-stones lie along it a day's rowing apart, some grooved still by hauled keels. The Dia-thìrich call it Slighe-mhara àrsaidh, the ancient sea-way, and the fishers of that coast keep to it yet.",
   "place": "burg:18",
   "kind": "voyage"
  },
@@ -685,7 +685,7 @@
   "id": "I-0070",
   "canon": false,
   "title": "The older face of Carragh Cnoc bheag",
-  "body": "On the upper face of the stone runs a line of the unread script. The four Ròdais words lie lower, cut with a narrower tool by another hand. When that second hand came is not known.",
+  "body": "On the upper face of the stone runs a line of the unread script. The four Dia-thìris words lie lower, cut with a narrower tool by another hand. When that second hand came is not known.",
   "place": "marker:28",
   "kind": "record"
  },
@@ -815,7 +815,7 @@
   "id": "I-0081",
   "canon": false,
   "title": "Ailean Mòr, first of the Stone Kings",
-  "body": "Ailean Mòr, crowned in the grove, comes down to the hill where Dùn ìseal now stands and takes it, and brings the households of the valleys about it under his hand: the first kingdom of the godkin. How he won, none who stood against him could say. He throws up the hill's first ring of bank. With him opens the eldest of the spoken king-lists, afterwards called Rìghrean na Cloiche; it gives no lengths of reign, and it is older than the name Ròdaich.",
+  "body": "Ailean Mòr, crowned in the grove, comes down to the hill where Dùn ìseal now stands and takes it, and brings the households of the valleys about it under his hand: the first kingdom of the godkin. How he won, none who stood against him could say. He throws up the hill's first ring of bank. With him opens the eldest of the spoken king-lists, afterwards called Rìghrean na Cloiche; it gives no lengths of reign, and it is older than the name Dia-thìrich.",
   "place": "burg:315",
   "kind": "reign",
   "between": [
@@ -843,7 +843,7 @@
   "id": "I-0084",
   "canon": false,
   "title": "Gormshuil nic Ailein",
-  "body": "Gormshuil nic Ailein, second of the Stone Kings, is the first woman named in any list on Rodos. One deed is told of her: in a hard winter she moves the herds of Dùn ìseal down to the warm springs and loses none.",
+  "body": "Gormshuil nic Ailein, second of the Stone Kings, is the first woman named in any list on Dia-thìr. One deed is told of her: in a hard winter she moves the herds of Dùn ìseal down to the warm springs and loses none.",
   "place": "burg:315",
   "kind": "reign",
   "within": [
@@ -884,7 +884,7 @@
   "id": "I-0088",
   "canon": false,
   "title": "Fearchar Bacach",
-  "body": "Fearchar Bacach, the lame king, rules at Dùn ìseal after the storm and after Dòmhnall Clachach, and is carried to the gatherings in a chair of woven birch. He is the first ruler on Rodos remembered for a hurt.",
+  "body": "Fearchar Bacach, the lame king, rules at Dùn ìseal after the storm and after Dòmhnall Clachach, and is carried to the gatherings in a chair of woven birch. He is the first ruler on Dia-thìr remembered for a hurt.",
   "place": "burg:315",
   "kind": "reign"
  },
@@ -908,7 +908,7 @@
   "id": "I-0091",
   "canon": true,
   "title": "The counting of the dead begins",
-  "body": "The Seann-Dhaoine, whoever they were, who built Làrach an Dùin-fhaire and Làrach an Dùin, begin to keep count of their dead. They keep it before ever there were Ròdaich to take up the custom.",
+  "body": "The Seann-Dhaoine, whoever they were, who built Làrach an Dùin-fhaire and Làrach an Dùin, begin to keep count of their dead. They keep it before ever there were Dia-thìrich to take up the custom.",
   "place": null,
   "kind": "record",
   "canon_date": "undated"
@@ -1005,7 +1005,7 @@
   "id": "I-0103",
   "canon": false,
   "title": "The dug-out at Cidhe Beag",
-  "body": "A boat hollowed from a single oak trunk, long enough for six, is sunk and left at the landing on Abhainn uaine now called Cidhe Beag. No older boat on Rodos is known in its whole shape.",
+  "body": "A boat hollowed from a single oak trunk, long enough for six, is sunk and left at the landing on Abhainn uaine now called Cidhe Beag. No older boat on Dia-thìr is known in its whole shape.",
   "place": "marker:39",
   "kind": "craft"
  },
@@ -1186,7 +1186,7 @@
   "id": "I-0123",
   "canon": false,
   "title": "Seal-oil lamps at Caol leathan",
-  "body": "Stone lamps with a hollow for seal oil and a wick of moss are used at Caol leathan. They are the first light on Rodos that is not a hearth, and they give little smoke.",
+  "body": "Stone lamps with a hollow for seal oil and a wick of moss are used at Caol leathan. They are the first light on Dia-thìr that is not a hearth, and they give little smoke.",
   "place": "burg:1",
   "kind": "craft"
  },
@@ -1235,7 +1235,7 @@
   "id": "I-0129",
   "canon": false,
   "title": "The flint of Cnoc àrsaidh",
-  "body": "A pit is worked for flint on the hill of Cnoc àrsaidh in the north-west, the only good flint on Rodos. Its grey flakes are carried to hearths from one end of the island to the other.",
+  "body": "A pit is worked for flint on the hill of Cnoc àrsaidh in the north-west, the only good flint on Dia-thìr. Its grey flakes are carried to hearths from one end of the island to the other.",
   "place": "burg:28",
   "kind": "trade"
  },
@@ -1275,7 +1275,7 @@
   "id": "I-0134",
   "canon": false,
   "title": "The hunger at Baile chrom",
-  "body": "Hunger comes to the settlement on the site of the north-western Baile chrom. Its pots are left full of boiled bark and seaweed, and its grave-rows are doubled. No older hunger on Rodos is tied to a place.",
+  "body": "Hunger comes to the settlement on the site of the north-western Baile chrom. Its pots are left full of boiled bark and seaweed, and its grave-rows are doubled. No older hunger on Dia-thìr is tied to a place.",
   "place": "zone:1",
   "kind": "disaster"
  },
@@ -1291,7 +1291,7 @@
   "id": "I-0136",
   "canon": true,
   "title": "The naming of the wind directions",
-  "body": "The eight winds are named, and every Ròdach sailor after uses the names. Their meaning is dark even to those who speak them, and they have never been changed.",
+  "body": "The eight winds are named, and every Dia-thìreach sailor after uses the names. Their meaning is dark even to those who speak them, and they have never been changed.",
   "place": null,
   "kind": "culture",
   "canon_date": "undated"
@@ -1323,8 +1323,8 @@
  {
   "id": "I-0140",
   "canon": false,
-  "title": "The Ròdaich name",
-  "body": "In this age the hill-folk begin to call themselves Ròdaich and the island Ròdos. The first use is not known; the eldest tellings take both names for granted. With the names goes the belief: they did not come; they were here.",
+  "title": "The Dia-thìrich name",
+  "body": "In this age the hill-folk begin to call themselves Dia-thìrich and the island Dia-thìr. The first use is not known; the eldest tellings take both names for granted. With the names goes the belief: they did not come; they were here.",
   "place": null,
   "kind": "people",
   "between": [
@@ -1336,7 +1336,7 @@
   "id": "I-0141",
   "canon": true,
   "title": "The first forbidden marriage",
-  "body": "A marriage between two lineages is forbidden, for a reason no surviving telling gives. Already the Ròdaich order themselves by blood, long before the coal gives them cause.",
+  "body": "A marriage between two lineages is forbidden, for a reason no surviving telling gives. Already the Dia-thìrich order themselves by blood, long before the coal gives them cause.",
   "place": null,
   "kind": "law",
   "canon_date": "undated"
@@ -1370,7 +1370,7 @@
   "id": "I-0145",
   "canon": false,
   "title": "The prospecting ends",
-  "body": "No one tries a third opening in this age. The Ròdaich hold that the vein chooses where it lies, and that the choice is not theirs to try.",
+  "body": "No one tries a third opening in this age. The Dia-thìrich hold that the vein chooses where it lies, and that the choice is not theirs to try.",
   "place": null,
   "kind": "faith"
  },
@@ -1431,7 +1431,7 @@
   "id": "I-0152",
   "canon": false,
   "title": "The keepers' house",
-  "body": "A house is built beside the slab at Tobar dhìreach for the holder of the lot, its door facing the stone. It is rebuilt on the same footing many times. It is the first building on Rodos made only to be near the vein.",
+  "body": "A house is built beside the slab at Tobar dhìreach for the holder of the lot, its door facing the stone. It is rebuilt on the same footing many times. It is the first building on Dia-thìr made only to be near the vein.",
   "place": "burg:276",
   "kind": "building"
  },
@@ -1575,7 +1575,7 @@
   "id": "I-0167",
   "canon": false,
   "title": "Anndra Breac says 'we came'",
-  "body": "At the ford gathering Anndra Breac, a teller of the western coast, recites a telling in which the people came to Rodos over the sea. The households of the hills shout him down, and he is put out of the ford for the rest of his life. His telling is not kept; only the memory that he told it.",
+  "body": "At the ford gathering Anndra Breac, a teller of the western coast, recites a telling in which the people came to Dia-thìr over the sea. The households of the hills shout him down, and he is put out of the ford for the rest of his life. His telling is not kept; only the memory that he told it.",
   "place": "marker:38",
   "kind": "faith"
  },
@@ -1647,7 +1647,7 @@
   "id": "I-0175",
   "canon": false,
   "title": "The first songs kept",
-  "body": "The salt-songs of the south and west are sung at the raking of the pans. They are the oldest songs on Rodos whose words are said to survive: a refrain of four lines, which no one can now wholly construe.",
+  "body": "The salt-songs of the south and west are sung at the raking of the pans. They are the oldest songs on Dia-thìr whose words are said to survive: a refrain of four lines, which no one can now wholly construe.",
   "place": "burg:170",
   "kind": "culture"
  },
@@ -1687,7 +1687,7 @@
   "id": "I-0180",
   "canon": false,
   "title": "The wind-stone at Seann Chwen",
-  "body": "One of the eight wind-names is cut in the Ròdach manner on a boulder at the central Seann Chwen, over an older mark of the Seann-Dhaoine. In few places do the marks of the two peoples touch.",
+  "body": "One of the eight wind-names is cut in the Dia-thìreach manner on a boulder at the central Seann Chwen, over an older mark of the Seann-Dhaoine. In few places do the marks of the two peoples touch.",
   "place": "burg:36",
   "kind": "record"
  },
@@ -1743,7 +1743,7 @@
   "id": "I-0187",
   "canon": false,
   "title": "The spring at Muileann ruadh",
-  "body": "Pilgrims come in numbers to the warm springs at Fuarain Theth Muileann ruadh, and a ring of shelters is built there. Here is set the eldest healing-tale of Rodos: a herder came lame and walked home.",
+  "body": "Pilgrims come in numbers to the warm springs at Fuarain Theth Muileann ruadh, and a ring of shelters is built there. Here is set the eldest healing-tale of Dia-thìr: a herder came lame and walked home.",
   "place": "marker:0",
   "kind": "faith"
  },
@@ -1767,7 +1767,7 @@
   "id": "I-0190",
   "canon": false,
   "title": "Settlers at Caol mhòr",
-  "body": "Ròdach households settle at Caol mhòr in the north-west, on the strait where the Seann-Dhaoine once hunted seal. They find the old middens and build on them.",
+  "body": "Dia-thìreach households settle at Caol mhòr in the north-west, on the strait where the Seann-Dhaoine once hunted seal. They find the old middens and build on them.",
   "place": "burg:95",
   "kind": "founding"
  },
@@ -1807,7 +1807,7 @@
   "id": "I-0195",
   "canon": false,
   "title": "The east settled at Dùn thais",
-  "body": "The hill-folk push east and build a banked enclosure at Dùn thais, on a hill above good grazing. It is the first stronghold of the Ròdaich away from Dùn ìseal and the Red Hill.",
+  "body": "The hill-folk push east and build a banked enclosure at Dùn thais, on a hill above good grazing. It is the first stronghold of the Dia-thìrich away from Dùn ìseal and the Red Hill.",
   "place": "burg:77",
   "kind": "founding"
  },
@@ -1875,7 +1875,7 @@
   "id": "I-0203",
   "canon": false,
   "title": "Cuan shean settled",
-  "body": "Ròdach households take up the harbour at Cuan shean on the west coast, beside an old landing of unknown builders, and use the landing without mending it.",
+  "body": "Dia-thìreach households take up the harbour at Cuan shean on the west coast, beside an old landing of unknown builders, and use the landing without mending it.",
   "place": "burg:282",
   "kind": "founding"
  },
@@ -1931,7 +1931,7 @@
   "id": "I-0210",
   "canon": false,
   "title": "Seann Skell of the south",
-  "body": "Ròdach households take up the old harbour at the southern Seann Skell and keep its old name. Within a few generations it is the busiest landing on the south coast.",
+  "body": "Dia-thìreach households take up the old harbour at the southern Seann Skell and keep its old name. Within a few generations it is the busiest landing on the south coast.",
   "place": "burg:431",
   "kind": "founding"
  },
@@ -1979,7 +1979,7 @@
   "id": "I-0216",
   "canon": false,
   "title": "The temple ruin avoided",
-  "body": "The Ròdaich of the eastern hills pass Làrach an Teampaill without stopping and take no stone from it. A path is worn round it at a distance.",
+  "body": "The Dia-thìrich of the eastern hills pass Làrach an Teampaill without stopping and take no stone from it. A path is worn round it at a distance.",
   "place": "marker:33",
   "kind": "faith"
  },
@@ -2187,7 +2187,7 @@
   "id": "I-0240",
   "canon": false,
   "title": "Inis mhòr",
-  "body": "Households settle Inis mhòr on the Abhainn ghorm in the north-east and live by the fish of its sheltered pools. They build their houses in two rows facing each other, the oldest street on Rodos.",
+  "body": "Households settle Inis mhòr on the Abhainn ghorm in the north-east and live by the fish of its sheltered pools. They build their houses in two rows facing each other, the oldest street on Dia-thìr.",
   "place": "burg:17",
   "kind": "founding"
  },
@@ -2267,7 +2267,7 @@
   "id": "I-0250",
   "canon": false,
   "title": "Counting the households",
-  "body": "The people of Catrìona Mhòr count the households of the hills by knots on a cord, a knot to a hearth. The cord of Dùn ìseal is said to have borne some nine hundred knots, the greatest count made on Rodos in this age.",
+  "body": "The people of Catrìona Mhòr count the households of the hills by knots on a cord, a knot to a hearth. The cord of Dùn ìseal is said to have borne some nine hundred knots, the greatest count made on Dia-thìr in this age.",
   "place": "burg:315",
   "kind": "record"
  },

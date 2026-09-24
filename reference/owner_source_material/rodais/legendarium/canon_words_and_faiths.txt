@@ -1,6 +1,6 @@
 
 Words Born from History
-Twelve entries where a specific dated event left a permanent mark on the language itself — the same mechanism as "dubhan," repeated. Each is built from real Ròdais vocabulary and real grammar, not invented from nothing.
+Twelve entries where a specific dated event left a permanent mark on the language itself — the same mechanism as "dubhan," repeated. Each is built from real Dia-thìris vocabulary and real grammar, not invented from nothing.
 dubhan
 n., lowercase
 diesel; the synthetic fuel itself
@@ -49,7 +49,7 @@ seann-chunntas
 n.
 an old grievance nobody in power will act on but nobody has cancelled either
 from: The tabled Tuathaich archive request (c. 2016 DE) / the dead reparations debate (c. 2024 DE)
-Sean (old) + cunntas (an account, a reckoning) — coined by Tuathaich speakers specifically, and pointedly never adopted into official Ròdaich usage.
+Sean (old) + cunntas (an account, a reckoning) — coined by Tuathaich speakers specifically, and pointedly never adopted into official Dia-thìrich usage.
 roghnaich
 v., narrowed sense
 to choose permanent exile specifically, as opposed to its plain general sense "to choose"
@@ -65,5 +65,5 @@ n.
 an unnaturally long span of youth in anyone, used half-jokingly of ordinary people who simply look young for their years
 from: The first of the immortal generation (1848 DE)
 Aisling's own name + aois (age) — the rare case of an in-story, in-language nod: an eponym coined from the exact person this whole project has already spent hours discussing, and the one entry on this list where the "joke" and the "myth" are the same word.
-Nine named faiths are on record for Rodos, spanning the full chronicle: Seann Spioradan nan Ròdach (ancestral, Holy Age), Creideamh nan Ròdach and Creideamh an t-Seabhaig (the Coal Rite's orthodox and older forms), Creideamh nan Tuathach (Tuathaich folk tradition), Creideamh na Scairpe Buidhe, Feallsanachd an Fhèidh, Creideamh an Aon-adharcaich Dhuibh, Creideamh a' Mhadaidh-allaidh, and Rùn-dìomhair na h-Oidhche Glaise — a heterodox cult whose name translates, roughly, to "the Mystery of the Grey Night."
+Nine named faiths are on record for Dia-thìr, spanning the full chronicle: Seann Spioradan nan Dia-thìreach (ancestral, Holy Age), Creideamh nan Dia-thìreach and Creideamh an t-Seabhaig (the Coal Rite's orthodox and older forms), Creideamh nan Tuathach (Tuathaich folk tradition), Creideamh na Scairpe Buidhe, Feallsanachd an Fhèidh, Creideamh an Aon-adharcaich Dhuibh, Creideamh a' Mhadaidh-allaidh, and Rùn-dìomhair na h-Oidhche Glaise — a heterodox cult whose name translates, roughly, to "the Mystery of the Grey Night."
 Two suppressed histories bracket this chronicle on purpose: the First Canoe legend at one end, the Tuathaich's own memory of the Long War at the other. Both are filed as folklore by whoever currently holds power. Neither is resolved here.

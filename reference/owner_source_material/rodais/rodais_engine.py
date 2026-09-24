@@ -1,5 +1,5 @@
 """
-Ròdais engine — a small, inspectable rule system for the Rodos dialect,
+Dia-thìris engine — a small, inspectable rule system for the Dia-thìr dialect,
 built in the same spirit as Vulgarlang's phonology tools (phoneme
 classes, sound-change notation A > B / _C) but running on real Irish /
 Scottish Gaelic phonology instead of randomly generated sound systems.
@@ -14,7 +14,7 @@ The naming layer (the first pass) needed three pieces:
      rule you can read.
 
 The grammar layer (this pass) adds what a sentence needs:
-  4. normalize(): the Ròdais spelling rules (grave accents, sc for sg).
+  4. normalize(): the Dia-thìris spelling rules (grave accents, sc for sg).
   5. article(), possessive(): the article and the possessives, with the
      mutations they cause.
   6. Verb / IRREGULAR / BI: every tense of a regular verb, the ten
@@ -26,7 +26,7 @@ The grammar layer (this pass) adds what a sentence needs:
   9. number(): numerals with the mutations they cause.
 
 The sound layer adds:
- 10. pronounce(): Ròdais spelling to broad phonemic IPA, following
+ 10. pronounce(): Dia-thìris spelling to broad phonemic IPA, following
      PHONOLOGY.md (broad/slender, fortis/lenis with pre-aspiration, tense
      and lax sonorants, lenition, the helping vowel, eclipsis).
 
@@ -60,19 +60,19 @@ def last_vowel_class(word):
 
 
 # ---------------------------------------------------------------
-# Spelling: the Ròdais signature
+# Spelling: the Dia-thìris signature
 # ---------------------------------------------------------------
 _ACUTE_TO_GRAVE = str.maketrans("áéíóúÁÉÍÓÚ", "àèìòùÀÈÌÒÙ")
 
 
 def normalize(text):
     """
-    Turn standard Scottish Gaelic spelling into Ròdais spelling:
+    Turn standard Scottish Gaelic spelling into Dia-thìris spelling:
       * long vowels take the grave accent, never the acute (the Scottish half);
       * the cluster written sg in Scotland is written sc (the Irish half):
         sgoil -> scoil, uisge -> uisce, Sgeul -> Sceul;
       * curly apostrophes become the plain one used for elision (a' bhean).
-    Idempotent: normalizing Ròdais text changes nothing.
+    Idempotent: normalizing Dia-thìris text changes nothing.
     """
     t = text.translate(_ACUTE_TO_GRAVE)
     t = t.replace("’", "'").replace("‘", "'")
@@ -80,7 +80,7 @@ def normalize(text):
 
 
 # Real words that break caol le caol. The rule is a spelling law with
-# historical exceptions; these are the ones Ròdais inherits from Scottish
+# historical exceptions; these are the ones Dia-thìris inherits from Scottish
 # Gaelic. Two whole classes are exempt as well (see check_agreement): the
 # past participle in -te (dearbhte, crochte, mùchte) and the adjective
 # suffix -mhor (brìghmhor), which are written the same after either class.
@@ -553,7 +553,7 @@ def clause(v, tense, subject, obj=None, negative=False, question=False, extra=No
       imperative follows it (togadh e, "let him lift").
       impersonal=True: the impersonal form, with no subject (pass None); obj follows the verb
       (chan fhacas iad).
-    Returns the clause with a capital and final punctuation, in Ròdais spelling.
+    Returns the clause with a capital and final punctuation, in Dia-thìris spelling.
     """
     person = subject if subject in PRONOUNS else None
     subj = PRONOUNS.get(subject, subject)
@@ -655,7 +655,7 @@ def number(n, noun=None, plural=None):
 def place_name(generic, qualifier):
     """
     Generic + qualifier, as on the map: the qualifier is lenited whatever the
-    generic's gender (Baile ghorm, Cathair mhòr). This is a Ròdais naming
+    generic's gender (Baile ghorm, Cathair mhòr). This is a Dia-thìris naming
     convention, not everyday grammar; in speech an adjective after a
     masculine noun stays plain (baile gorm).
     """
@@ -670,14 +670,14 @@ def substrate_name(root):
 # ---------------------------------------------------------------
 # Pronunciation (PHONOLOGY.md, implemented)
 # ---------------------------------------------------------------
-# pronounce() turns Ròdais spelling into a broad phonemic IPA transcription.
+# pronounce() turns Dia-thìris spelling into a broad phonemic IPA transcription.
 # It follows the rules of PHONOLOGY.md for regular spellings: broad and
 # slender consonants, the fortis/lenis stops with light pre-aspiration,
 # the tense and lax sonorants (four nasals, three laterals, three rhotics),
 # lenited consonants, the helping vowel, hiatus, the lengthening and
 # diphthongisation before tense sonorants, unstressed reduction, the
 # prefixed t-/h-/n-, and eclipsis after the nasal-final article.
-# Where Gaelic dialects differ Ròdais takes the conservative realisation
+# Where Gaelic dialects differ Dia-thìris takes the conservative realisation
 # (cn [kn], four-way nasals, [əɣ] for final -adh, no r-glide before t/d).
 # Words the rules get wrong are listed in PRON_EXCEPTIONS.
 
@@ -978,7 +978,7 @@ def _first_vowel_slender(word):
 
 def pronounce(text):
     """
-    Ròdais spelling -> broad phonemic IPA (PHONOLOGY.md).
+    Dia-thìris spelling -> broad phonemic IPA (PHONOLOGY.md).
     Each stressed word carries ˈ on its first syllable (unstressed proclitics
     like an, a', mo, gu carry none); a comma or colon gives |, a sentence end ‖.
     pronounce("uisce") -> 'ˈɯʃkʲə';  pronounce("an cù") -> 'əŋ ˈɡuː'
@@ -1253,7 +1253,7 @@ def _selftest():
     eq(number(19, 'latha'), "naoi latha deug")         # no plural given: bliadhna, latha stay singular
     # place names
     eq(place_name('Cathair', 'mòr'), "Cathair mhòr"); eq(place_name('Abhainn', 'sgìth'), "Abhainn scìth")
-    # pronunciation (PHONOLOGY.md): well-known Scottish Gaelic values in Ròdais spelling
+    # pronunciation (PHONOLOGY.md): well-known Scottish Gaelic values in Dia-thìris spelling
     P = pronounce
     for word, ipa in [
         ("bàta", "ˈpaːʰt̪ə"), ("uisce", "ˈɯʃkʲə"), ("athair", "ˈahɪɾʲ"), ("beag", "ˈpek"),
@@ -1264,7 +1264,7 @@ def _selftest():
         ("caileag", "ˈkʰalʲak"), ("latha", "ˈl̪ˠa.ə"), ("piuthar", "ˈpʲʰu.əɾ"), ("iasc", "ˈiəsk"),
         ("scoil", "ˈskɔlʲ"), ("sràid", "ˈst̪ɾaːtʃ"), ("ceud", "ˈkʲʰiət̪"), ("gille", "ˈkʲiʎə"),
         ("ruadh", "ˈr̪ˠuəɣ"), ("craobh", "ˈkʰɾɯːv"), ("dèan", "ˈtʃiən"), ("seachd", "ˈʃɛxk"),
-        ("chaidh", "ˈxaj"), ("tighinn", "ˈtʃʰi.ɪɲ"), ("mac", "ˈmaʰk"), ("Ròdais", "ˈr̪ˠɔːt̪ɪʃ"),
+        ("chaidh", "ˈxaj"), ("tighinn", "ˈtʃʰi.ɪɲ"), ("mac", "ˈmaʰk"), ("Dia-thìris", "ˈtʃiəˈhiːɾʲɪʃ"),
         ("ceòl", "ˈkʲʰɔːl̪ˠ"), ("slàinte", "ˈsl̪ˠaːɲtʃə"), ("samhradh", "ˈsãũɾəɣ"),
     ]:
         eq(P(word), ipa)

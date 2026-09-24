@@ -1,12 +1,12 @@
-# Ròdais – English dictionary
+# Dia-thìris – English dictionary
 
-Here are 21306 words of the Ròdais tongue, in the order of their headwords; a leading article is passed over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the island built from its own old roots when a new thing came to it with the humans or after them (GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* "heaven-grazer" for a tower of many floors. The other road, from English into Ròdais, is `LEXICON_EN.md`.
+Here are 21306 words of the Dia-thìris tongue, in the order of their headwords; a leading article is passed over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the island built from its own old roots when a new thing came to it with the humans or after them (GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* "heaven-grazer" for a tower of many floors. The other road, from English into Dia-thìris, is `LEXICON_EN.md`.
 
 
 ## '
 
-- **—** det. — a (indefinite article: Ròdais has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant) `F1`
-- **—** det. — an (indefinite article (the form of 'a' before a vowel): Ròdais has none; a bare noun is indefinite (ubhal 'an apple')) `F1`
+- **—** det. — a (indefinite article: Dia-thìris has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant) `F1`
+- **—** det. — an (indefinite article (the form of 'a' before a vowel): Dia-thìris has none; a bare noun is indefinite (ubhal 'an apple')) `F1`
 - **—** part. — of ('of' as possession or belonging: the genitive case, the possessed thing first (taigh a' bhàird 'the house of the poet', doras na h-eaglaise 'the door of the church')) `F1`
 
 ## -
@@ -578,7 +578,7 @@ Here are 21306 words of the Ròdais tongue, in the order of their headwords; a l
 - **air a dhèanamh suas de** phr. — to consist of; lit. "made up of" /ˈɛɾʲ ə ˈjiənəv ˈsuəs tʃə/ `B2`
 - **air a dhibhearsanachadh** adj. — amused; lit. "entertained" /ˈɛɾʲ ə ˈjivəɾsanəxəɣ/ `B1`
 - **air a dhol à cleachdadh** adj. — deprecated; lit. "gone out of use" /ˈɛɾʲ ə ˈɣɔl̪ˠ ˈaː ˈkʲʰlʲɛxkəɣ/ `C2`
-- **air a dhol a dholaidh** adj. — fucked (ruined, broken (vulgar; Ròdais says "gone to ruin")) /ˈɛɾʲ ə ˈɣɔl̪ˠ ə ˈɣɔl̪ˠi/ `F2`
+- **air a dhol a dholaidh** adj. — fucked (ruined, broken (vulgar; Dia-thìris says "gone to ruin")) /ˈɛɾʲ ə ˈɣɔl̪ˠ ə ˈɣɔl̪ˠi/ `F2`
 - **air a dhol bhuaithe** adj. — dilapidated; lit. "gone to ruin" /ˈɛɾʲ ə ˈɣɔl̪ˠ ˈvuə.ə/ `C1`
 - **air a dhol bhuaithe** phr. — run-down (place); lit. "gone from itself" /ˈɛɾʲ ə ˈɣɔl̪ˠ ˈvuə.ə/ `C1`
 - **air a ghabhail thairis** adj. — superseded (replaced by something newer) /ˈɛɾʲ ə ˈɣavɪlʲ ˈhaɾʲɪʃ/ `F16`
@@ -4182,7 +4182,7 @@ Here are 21306 words of the Ròdais tongue, in the order of their headwords; a l
 - **chan eil** interj. — nah (no (informal)) /xan ˈelʲ/ `F3`
 - **chan eil** interj. — naw (no (informal)) /xan ˈelʲ/ `F16`
 - **chan eil** interj. — nay (no (old-fashioned)) /xan ˈelʲ/ `F12`
-- **chan eil** interj. — no; lit. "it is not; a Ròdach usually answers by repeating the verb in the negative (Cha robh. / Cha bhi.)" /xan ˈelʲ/ `A1`
+- **chan eil** interj. — no; lit. "it is not; a Dia-thìreach usually answers by repeating the verb in the negative (Cha robh. / Cha bhi.)" /xan ˈelʲ/ `A1`
 - **chan eil** interj. — nope (no (the bare negative answer)) /xan ˈelʲ/ `F4`
 - **chan eil dona** phr. — not bad /xan ˈelʲ ˈt̪ɔnə/ `B1`
 - **chan eil duilgheadas ann** phr. — no problem; lit. "there is no difficulty" /xan ˈelʲ ˈt̪ulʲət̪əs ˈaun̪ˠ/ `A1`
@@ -8376,7 +8376,7 @@ Here are 21306 words of the Ròdais tongue, in the order of their headwords; a l
 - **eaconamachd** n. (f., gen. *eaconamachd*) — economics (study of wealth and trade) /ˈeʰkənəməxk/ `F3`
 - **Eadailteach** adj. — Italian (of Italy) /ˈɛt̪ɪlʲtʃəx/ `F2`
 - **Eadailteach** n. (m., gen. *Eadailtich*, pl. *Eadailtich*) — Italians (people of Italy (plural)) /ˈɛt̪ɪlʲtʃəx/ `F9`
-- **Eadailteach** n. (m., gen. *Eadailtich*, pl. *Eadailtich*) — wop (offensive slur for an Italian (Ròdais uses the plain demonym)) /ˈɛt̪ɪlʲtʃəx/ `F16`
+- **Eadailteach** n. (m., gen. *Eadailtich*, pl. *Eadailtich*) — wop (offensive slur for an Italian (Dia-thìris uses the plain demonym)) /ˈɛt̪ɪlʲtʃəx/ `F16`
 - **Eadailtis** n. (f., gen. *Eadailtis*) — Italian (the Italian language) /ˈɛt̪ɪlʲtʃɪʃ/ `F2`
 - **eadar** prep. — between /ˈɛt̪əɾ/ `A2`
 - **eadar** prep. — tween (between (poetic)) /ˈɛt̪əɾ/ `F16`
@@ -14900,7 +14900,7 @@ Here are 21306 words of the Ròdais tongue, in the order of their headwords; a l
 - **mu thimcheall** phr. — in the region of; lit. "about" /mə ˈhimçəl̪ˠ/ `C1`
 - **mu thràth** adv. — already /mə ˈhɾaː/ `A2`
 - **mu thuaiream** adv. — approximately (roughly, about) /mə ˈhuəɾʲəm/ `F2`
-- **mu thuath** adj. — northern (northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Rodos) /mə ˈhuə/ `F2`
+- **mu thuath** adj. — northern (northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Dia-thìr) /mə ˈhuə/ `F2`
 - **muc** n. (f., gen. *muice*, pl. *mucan*) — hog (pig) /ˈmuʰk/ `F10`
 - **muc** n. (f., pl. *mucan*) — pig /ˈmuʰk/ `A2`
 - **muc** n. (f., gen. *muice*, pl. *mucan*) — sow (female pig) /ˈmuʰk/ `F13`
@@ -17814,7 +17814,7 @@ Here are 21306 words of the Ròdais tongue, in the order of their headwords; a l
 - **seadh** interj. — yea (yes (it is so)) /ˈʃɛɣ/ `F4`
 - **seadh** interj. — yeah (yeah, yes: Seadh 'it is so'; usually one echoes the verb (Tha. / Bha.)) /ˈʃɛɣ/ `F1`
 - **seadh** interj. — yep (yes (informal)) /ˈʃɛɣ/ `F3`
-- **seadh** interj. — yes; lit. "it is so; a Ròdach usually answers by repeating the verb (Tha. / Bha. / Bidh.)" /ˈʃɛɣ/ `A1`
+- **seadh** interj. — yes; lit. "it is so; a Dia-thìreach usually answers by repeating the verb (Tha. / Bha. / Bidh.)" /ˈʃɛɣ/ `A1`
 - **seadh** interj. — yup (yes (informal)) /ˈʃɛɣ/ `F5`
 - **Seadh gu dearbh!** phr. — I'll say; lit. "yes indeed" /ˈʃɛɣ kə ˈtʃɛɾɛv/ `C2`
 - **seagal** n. (m., gen. *seagail*) — rye (rye grain) /ˈʃekəl̪ˠ/ `F11`
@@ -20888,7 +20888,7 @@ Here are 21306 words of the Ròdais tongue, in the order of their headwords; a l
 - **tuata** adj. — lay (of the laity, not clergy) /ˈt̪ʰuəʰt̪ə/ `F2`
 - **tuath** n. (f.) — north (north (an àird a tuath 'the north'; mu thuath 'northwards, in the north')) /ˈt̪ʰuə/ `F1`
 - **tuath** adj. — north (north, northern (mu thuath: an ceann mu thuath 'the north end')) /ˈt̪ʰuə/ `F1`
-- **Tuathach** n. (m., gen. *Tuathaich*, pl. *Tuathaich*) — northerner (person from the north (on Rodos, one of the Tuathaich)) /ˈt̪ʰuə.əx/ `F16`
+- **Tuathach** n. (m., gen. *Tuathaich*, pl. *Tuathaich*) — northerner (person from the north (on Dia-thìr, one of the Tuathaich)) /ˈt̪ʰuə.əx/ `F16`
 - **tuathan** n. (f.) — counties (counties, districts (pl. of tuath)) /ˈt̪ʰuəhan/ `F4`
 - **tuathanach** n. (m., pl. *tuathanaich*) — farmer /ˈt̪ʰuəhanəx/ `A2`
 - **tuathanach-cruidh** n. (m., gen. *tuathanaich-chruidh*, pl. *tuathanaich-chruidh*) — rancher (owner of a cattle ranch) /ˈt̪ʰuəhanəxˈkʰɾɯj/ `F16`

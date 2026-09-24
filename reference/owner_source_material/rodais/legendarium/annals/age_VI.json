@@ -392,7 +392,7 @@
   "seed": "V-0278a",
   "canon": false,
   "title": "Buses and hired cars",
-  "body": "Dubhan buses begin to run between Cathair dhearg, Inis mhòr and Cathair mhòr, and hired cars wait at the bridge in the capital. Ròdais takes the names of both from the humans' tongue as it found them, bus and tacsaidh; for the engine and the train it had made words of its own.",
+  "body": "Dubhan buses begin to run between Cathair dhearg, Inis mhòr and Cathair mhòr, and hired cars wait at the bridge in the capital. Dia-thìris takes the names of both from the humans' tongue as it found them, bus and tacsaidh; for the engine and the train it had made words of its own.",
   "place": "burg:19",
   "kind": "trade",
   "between": [
@@ -423,7 +423,7 @@
   "seed": "V-0281",
   "canon": false,
   "title": "Raiders taken to Ros dhomhain",
-  "body": "The crews of the raider hulks brought into Ros dhomhain are tried at the court of the sea there. Several of them are Tuathaich. The court hangs none; it sends the Ròdaich among them to the quarries at Achadh dhomhain and the Tuathaich home to the north.",
+  "body": "The crews of the raider hulks brought into Ros dhomhain are tried at the court of the sea there. Several of them are Tuathaich. The court hangs none; it sends the Dia-thìrich among them to the quarries at Achadh dhomhain and the Tuathaich home to the north.",
   "place": "burg:27",
   "kind": "law"
  },
@@ -432,7 +432,7 @@
   "seed": "V-0282",
   "canon": false,
   "title": "The Fuel-Fitters chartered",
-  "body": "The fitters of dubhan engines, who have worked outside every guild, are chartered as the Guild of Fuel-Fitters at Seann Skell on the southern coast. Its rolls, like those of every guild before it, are open to Ròdaich only. The Tuathaich fitters already in the trade are let go.",
+  "body": "The fitters of dubhan engines, who have worked outside every guild, are chartered as the Guild of Fuel-Fitters at Seann Skell on the southern coast. Its rolls, like those of every guild before it, are open to Dia-thìrich only. The Tuathaich fitters already in the trade are let go.",
   "place": "burg:431",
   "kind": "craft"
  },
@@ -570,7 +570,7 @@
   "seed": "V-0296",
   "canon": true,
   "title": "The library's Tuathaich wing proposed",
-  "body": "A request is laid before Leabharlann Muileann chaol that the Tuathaich tellings be kept beside the Ròdaich record. It is laid on the table and not refused, and there it lies to this day.",
+  "body": "A request is laid before Leabharlann Muileann chaol that the Tuathaich tellings be kept beside the Dia-thìrich record. It is laid on the table and not refused, and there it lies to this day.",
   "place": "marker:34",
   "kind": "record",
   "canon_date": "c. 2016 DE"
@@ -1430,7 +1430,7 @@
   "seed": "V-0369",
   "canon": false,
   "title": "The Fuel-Fitters and the regiments",
-  "body": "The Guild of Fuel-Fitters at Seann Skell on the southern coast is given the contract for the regiments' engines and the fleets' hulls, and doubles its rolls. The charter rule holds, and all its new fitters are Ròdaich.",
+  "body": "The Guild of Fuel-Fitters at Seann Skell on the southern coast is given the contract for the regiments' engines and the fleets' hulls, and doubles its rolls. The charter rule holds, and all its new fitters are Dia-thìrich.",
   "place": "burg:431",
   "kind": "craft"
  },
@@ -1543,7 +1543,7 @@
   "seed": "V-0380",
   "canon": false,
   "title": "Seann-chunntas",
-  "body": "Tuathaich speakers begin to name the tabled request to the library and the dead motion for amends together as 'seann-chunntas', an old reckoning that none in power will settle and none has cancelled. The Ròdaich in office do not take up the word.",
+  "body": "Tuathaich speakers begin to name the tabled request to the library and the dead motion for amends together as 'seann-chunntas', an old reckoning that none in power will settle and none has cancelled. The Dia-thìrich in office do not take up the word.",
   "place": "burg:95",
   "kind": "culture"
  },
@@ -1606,7 +1606,7 @@
   "seed": "V-0387",
   "canon": false,
   "title": "The fair of the present year",
-  "body": "The fair at Muileann òg draws traders from every shire the state holds. Tuathaich wool is sold there on its northern day, through Ròdaich factors, as it has been since the first fair.",
+  "body": "The fair at Muileann òg draws traders from every shire the state holds. Tuathaich wool is sold there on its northern day, through Dia-thìrich factors, as it has been since the first fair.",
   "place": "marker:38",
   "kind": "trade"
  },
@@ -1633,7 +1633,7 @@
   "seed": "V-0390",
   "canon": false,
   "title": "The Moot of the present year",
-  "body": "The Moot at Caol mhòr meets under Peter Hale. Its minute-books run unbroken from Walter Hale's first meeting. It has no standing in Ròdaich law and has never asked for any.",
+  "body": "The Moot at Caol mhòr meets under Peter Hale. Its minute-books run unbroken from Walter Hale's first meeting. It has no standing in Dia-thìrich law and has never asked for any.",
   "place": "burg:95",
   "kind": "people"
  },
@@ -1662,7 +1662,7 @@
   "seed": "V-0391b",
   "canon": false,
   "title": "Dubhan's charter of export",
-  "body": "Dubhan, who made the first working fuel and is now in his sixty-ninth year, wins from the council at Cathair dhearg, after a year of letters and three sittings, leave to sell dubhan beyond the island. It is the first leave the kingdom has given since the Severance for any good of Rodos to pass beyond its waters. The charter is narrow. The Treasury sets each year's measure. The fuel is loaded only at Ros dhomhain, where a clerk of the Treasury takes the tithe on every barrel. The kingdom's depots and the Moot's are served first. Nothing of the vein goes with it: the vein's coal is not sold, and the custodians of Òrd Bhrìde seal every hold. Dubhan has told neither the council nor the chronicler who buys from him. In the autumn the first tank-hull loaded under the charter goes out past the western capes, and on the day she sails the priests of Manannan at Seann Skell say their prayer to keep the sea shut.",
+  "body": "Dubhan, who made the first working fuel and is now in his sixty-ninth year, wins from the council at Cathair dhearg, after a year of letters and three sittings, leave to sell dubhan beyond the island. It is the first leave the kingdom has given since the Severance for any good of Dia-thìr to pass beyond its waters. The charter is narrow. The Treasury sets each year's measure. The fuel is loaded only at Ros dhomhain, where a clerk of the Treasury takes the tithe on every barrel. The kingdom's depots and the Moot's are served first. Nothing of the vein goes with it: the vein's coal is not sold, and the custodians of Òrd Bhrìde seal every hold. Dubhan has told neither the council nor the chronicler who buys from him. In the autumn the first tank-hull loaded under the charter goes out past the western capes, and on the day she sails the priests of Manannan at Seann Skell say their prayer to keep the sea shut.",
   "place": "burg:27",
   "kind": "trade",
   "between": [
@@ -1693,7 +1693,7 @@
   "seed": "V-0394",
   "canon": true,
   "title": "The present",
-  "body": "The coal is all but gone. The trade of the island runs on a name that once belonged to one man. The Ròdaich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, their Church, and the memory of the First Canoe, Naomh Breandan's voyage to the Isle of the Blessed, which the people who have twice defeated them still call folklore.",
+  "body": "The coal is all but gone. The trade of the island runs on a name that once belonged to one man. The Dia-thìrich hold the capital and the sea. The Tuathaich hold the north, a grievance five years old, their Church, and the memory of the First Canoe, Naomh Breandan's voyage to the Isle of the Blessed, which the people who have twice defeated them still call folklore.",
   "place": "burg:19",
   "kind": "record",
   "canon_date": "2026 DE"

@@ -9,7 +9,7 @@
 
 ## I. Of Caoran and the Coals
 
-This is the telling that Coimhdeach na Fine, the Keeper of the Kin, gave in the grove of Doire ghlas to one of the mason's line, who had asked it why the coal of Rodos has colours in it when the coal of the common earth has none. The Keeper answered from the beginning, as the old do when a child asks a short question. The mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down. It is set here before the Six Books because it is older than any of them.
+This is the telling that Coimhdeach na Fine, the Keeper of the Kin, gave in the grove of Doire ghlas to one of the mason's line, who had asked it why the coal of Dia-thìr has colours in it when the coal of the common earth has none. The Keeper answered from the beginning, as the old do when a child asks a short question. The mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down. It is set here before the Six Books because it is older than any of them.
 
 Before there was a world there were the gods, and they were many, and they were a line. Mother bore daughter and father begot son, back and back into a dark where no name is kept; and every one of that line, when he came to the fullness of his years, went out from the hall of his kin and made a world. That was their coming of age. A god of that line was a child until he had made a thing and kept it, and was grown when it lived.
 
@@ -33,17 +33,17 @@ He made it small, and he made it with care, as a craftsman makes the last and de
 
 Then he made the godfolk, an Dia-shluagh, the first people of the earth.
 
-He did not bring them from anywhere. He knelt on the heather in the middle of the island and put his hands on the ground and called, and they woke out of the island itself, as the dew wakes on the grass; and when the sun came up they were sitting on the hillsides, blinking, with the heather in their hair. They were a tall people and a quiet one, and their eyes were made to see what he would give them. This is the oldest meaning of the saying of the island, *bha sinn ann*, we were here. The kin did not come to Rodos. They were there on the first morning, because the island was where they were made.
+He did not bring them from anywhere. He knelt on the heather in the middle of the island and put his hands on the ground and called, and they woke out of the island itself, as the dew wakes on the grass; and when the sun came up they were sitting on the hillsides, blinking, with the heather in their hair. They were a tall people and a quiet one, and their eyes were made to see what he would give them. This is the oldest meaning of the saying of the island, *bha sinn ann*, we were here. The kin did not come to Dia-thìr. They were there on the first morning, because the island was where they were made.
 
 "This is yours," the Young God said to them. "Keep it, and it will keep you."
 
-In the wide lands beyond the sea he let other peoples wake after, each in its own time and place, and he gave them the common coal of the earth, which is black and burns and is only coal. Rodos he did not give to them. Rodos was the godfolk's to care for, and in Rodos he hid his gift.
+In the wide lands beyond the sea he let other peoples wake after, each in its own time and place, and he gave them the common coal of the earth, which is black and burns and is only coal. Dia-thìr he did not give to them. Dia-thìr was the godfolk's to care for, and in Dia-thìr he hid his gift.
 
 For the Young God had a secret, and he was glad of it, as a father is glad who hides a present under a child's pillow for the morning. When he laid the island down he took the coal that was deepest under its mountains, and into it he put the elements themselves, each in its own colour, where they would lie asleep until they were found. These are na Seachd Guail, the Seven Coals, and this is what each holds.
 
 The first is *gual dubh*, the black coal, and it holds the earth. It is as black as a wet crow, and it takes a polish like still water at night, and it is heavy in the hand beyond its size. In it lies the patience of the ground: the weight of hills, and the strength of roots that hold.
 
-The second is *gual teine*, the fire coal, and it holds fire. Its colour is the colour of flame itself, red and gold together; when it is turned in the light the colour moves in it, as flame moves when it is seen through closed eyelids. Every fire that was ever to burn on the island was folded into this coal and waited there, for Caoran let no other fire into Rodos.
+The second is *gual teine*, the fire coal, and it holds fire. Its colour is the colour of flame itself, red and gold together; when it is turned in the light the colour moves in it, as flame moves when it is seen through closed eyelids. Every fire that was ever to burn on the island was folded into this coal and waited there, for Caoran let no other fire into Dia-thìr.
 
 The third is *gual sneachda*, the snowflake coal, and it holds the air. It is dark and flecked all through with small white stars, like snow falling on black water, and it is the lightest of the seven. In it lie the winds and the breath of the high places.
 
@@ -55,7 +55,7 @@ The sixth is *gual donn-ruadh*, the mahogany coal, and it holds life. It is the 
 
 The seventh is *gual bogha-froise*, the rainbow coal, and it holds the spirit. All the colours are in it and none of them stays: it shifts as oil shifts on water, as the bow stands in the rain, and no two who look at it see the same. In it lies the spirit that makes the other six more than stuff; and it is the last of the seven, and the hardest to wake.
 
-Together they are called *an gual dathach*, the coloured coal. There is no coloured coal anywhere in the world but on Rodos, for the gift was for Rodos alone. And the Young God set the colours so that only the eyes of the godfolk and their children should see them. To every other eye the coloured coal is black, and it is only coal.
+Together they are called *an gual dathach*, the coloured coal. There is no coloured coal anywhere in the world but on Dia-thìr, for the gift was for Dia-thìr alone. And the Young God set the colours so that only the eyes of the godfolk and their children should see them. To every other eye the coloured coal is black, and it is only coal.
 
 He locked each colour with its own key, so that each should wake only to the thing that it held, and to nothing else. And he told no one what he had done, not the godfolk, and not his own kin. He wanted the island to find it for itself.
 
@@ -73,7 +73,7 @@ These are the gods of the Tuath Dè, the people of the gods, the kin of the Youn
 
 **Crom Cruaich**, the bent one of the mound, is the god of the vein. When the coal was laid under the mountains, Caoran set him at its door, and so his oldest name is Dòrsair, Uilebheist nan Geataichean, the Monster of the Gates. He is exact. He gives what is asked of the mountain, and he takes his price for it, and his price is measured.
 
-**Manannan mac Lir** is the lord of the sea, and the sea round Rodos is his. When the gods came down to the new island he walked round its coasts in one night, and in the morning he drew up his mist about it, so that no ship from beyond should find it until its time. The gold coal is his in honour. His Cup of Truth breaks at a lie, and is whole again at the truth.
+**Manannan mac Lir** is the lord of the sea, and the sea round Dia-thìr is his. When the gods came down to the new island he walked round its coasts in one night, and in the morning he drew up his mist about it, so that no ship from beyond should find it until its time. The gold coal is his in honour. His Cup of Truth breaks at a lie, and is whole again at the truth.
 
 **Lugh Làmhfhada**, Lugh of the long arm, is the master of every craft, and he loves the high places, from which a long arm can reach far. It was Lugh who stood with Caoran on the highest summit of the island on the first evening and named the winds for him, and so the snowflake coal is his in honour. His feast is Lùnastal, when markets open and oaths are sworn before witnesses.
 

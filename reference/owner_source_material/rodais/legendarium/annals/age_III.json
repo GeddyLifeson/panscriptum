@@ -3,7 +3,7 @@
   "id": "III-0001",
   "canon": true,
   "title": "Land is found",
-  "body": "Word comes of a land across the open water, where no people like the Ròdaich dwell. Who first found it is not told.",
+  "body": "Word comes of a land across the open water, where no people like the Dia-thìrich dwell. Who first found it is not told.",
   "place": null,
   "kind": "discovery",
   "between": [
@@ -77,7 +77,7 @@
   "id": "III-0007",
   "canon": true,
   "title": "The ships are built",
-  "body": "The shipwrights of the island, used to small coasting craft, build ships to keep the open sea, the first in the memory of Rodos.",
+  "body": "The shipwrights of the island, used to small coasting craft, build ships to keep the open sea, the first in the memory of Dia-thìr.",
   "place": null,
   "kind": "craft",
   "between": [
@@ -90,7 +90,7 @@
   "id": "III-0008",
   "canon": false,
   "title": "Alasdair Saor lays the first keel",
-  "body": "On the river strand below Seann Skell the shipwright Alasdair mac Iain, called Alasdair Saor, lays down the first deep-keeled hull built on Rodos. Until then the island's boats were sewn-plank coasters that never lay a night out of sight of land.",
+  "body": "On the river strand below Seann Skell the shipwright Alasdair mac Iain, called Alasdair Saor, lays down the first deep-keeled hull built on Dia-thìr. Until then the island's boats were sewn-plank coasters that never lay a night out of sight of land.",
   "place": "burg:489",
   "kind": "craft",
   "between": [
@@ -272,7 +272,7 @@
   "id": "III-0023",
   "canon": true,
   "title": "The Setting-Out",
-  "body": "The willing sail west. The chronicles of the island fall silent on them as the ships clear the harbour; the Ròdaich tell that the fleet sailed into Manannan's mist, toward the Otherworld.",
+  "body": "The willing sail west. The chronicles of the island fall silent on them as the ships clear the harbour; the Dia-thìrich tell that the fleet sailed into Manannan's mist, toward the Otherworld.",
   "place": null,
   "kind": "voyage",
   "between": [
@@ -335,7 +335,7 @@
   "id": "III-0028",
   "canon": false,
   "title": "Mòrag's line struck",
-  "body": "Queen Beathag strikes her sister Mòrag and Mòrag's children from the succession, as no longer on Rodos. The act stands without comment between a grain ruling and the mending of a bridge.",
+  "body": "Queen Beathag strikes her sister Mòrag and Mòrag's children from the succession, as no longer on Dia-thìr. The act stands without comment between a grain ruling and the mending of a bridge.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -347,7 +347,7 @@
   "id": "III-0029",
   "canon": true,
   "title": "The thinning",
-  "body": "Cut off from the vein, the strength the crossing asked of them fades in the children of those who went. By the third generation over the water nothing is left that Rodos would know.",
+  "body": "Cut off from the vein, the strength the crossing asked of them fades in the children of those who went. By the third generation over the water nothing is left that Dia-thìr would know.",
   "place": null,
   "kind": "people",
   "between": [
@@ -372,7 +372,7 @@
   "id": "III-0031",
   "canon": true,
   "title": "The Mourning Custom",
-  "body": "Rodos sets in order a rite of mourning for the departed, neither wholly grief nor wholly feast. In a far later age it was used again, uneasily, for a very different leaving.",
+  "body": "Dia-thìr sets in order a rite of mourning for the departed, neither wholly grief nor wholly feast. In a far later age it was used again, uneasily, for a very different leaving.",
   "place": null,
   "kind": "faith",
   "between": [
@@ -397,7 +397,7 @@
   "id": "III-0033",
   "canon": true,
   "title": "The custodians fewer",
-  "body": "With part of the coal-bound folk gone, the Ròdaich order themselves anew about a smaller and closer class of custodians. From this shape every later nobility descends.",
+  "body": "With part of the coal-bound folk gone, the Dia-thìrich order themselves anew about a smaller and closer class of custodians. From this shape every later nobility descends.",
   "place": null,
   "kind": "people",
   "between": [
@@ -422,7 +422,7 @@
   "id": "III-0035",
   "canon": false,
   "title": "Death of Queen Beathag",
-  "body": "Queen Beathag nic Dhòmhnaill dies at Cathair dhearg, the last ruler of Rodos who saw the fleet. Her son Raghnall mac Uilleim is crowned in the same hall.",
+  "body": "Queen Beathag nic Dhòmhnaill dies at Cathair dhearg, the last ruler of Dia-thìr who saw the fleet. Her son Raghnall mac Uilleim is crowned in the same hall.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -1239,7 +1239,7 @@
   "id": "III-0099",
   "canon": false,
   "title": "The bell-founders of Muileann naomh",
-  "body": "A family of Muileann naomh casts the first bronze bell on Rodos to hang in a hawk-house. It cracks in its first frost; the second holds.",
+  "body": "A family of Muileann naomh casts the first bronze bell on Dia-thìr to hang in a hawk-house. It cracks in its first frost; the second holds.",
   "place": "burg:326",
   "kind": "craft",
   "between": [
@@ -1459,7 +1459,7 @@
   "id": "III-0117",
   "canon": false,
   "title": "The Book of the Three Claimants",
-  "body": "Seònaid nic Coinnich, a clerk of Queen Catrìona's household, writes the story of the war from the custody-book and from the witness of those who fought. It is the oldest history of Rodos that survives written as one tale and not as entries.",
+  "body": "Seònaid nic Coinnich, a clerk of Queen Catrìona's household, writes the story of the war from the custody-book and from the witness of those who fought. It is the oldest history of Dia-thìr that survives written as one tale and not as entries.",
   "place": "burg:19",
   "kind": "record",
   "between": [
@@ -1507,7 +1507,7 @@
   "id": "III-0120",
   "canon": false,
   "title": "Manannan preached at Seann Skell",
-  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, the preacher Mànas mac Ruairidh proclaims its one power to be Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion. He teaches that Manannan shut the western sea behind the fleet with his mist, which hides Rodos from every ship beyond it, and that the crossing must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
+  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, the preacher Mànas mac Ruairidh proclaims its one power to be Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion. He teaches that Manannan shut the western sea behind the fleet with his mist, which hides Dia-thìr from every ship beyond it, and that the crossing must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -1655,7 +1655,7 @@
   "id": "III-0131",
   "canon": false,
   "title": "The sea-thieves of the north-west",
-  "body": "Boats out of the small islands off the north-west coast begin to rob the coasting traders of fish and grain. The sea-thieves are Ròdaich, men of the north-west shore, and the harbour rolls name some of them.",
+  "body": "Boats out of the small islands off the north-west coast begin to rob the coasting traders of fish and grain. The sea-thieves are Dia-thìrich, men of the north-west shore, and the harbour rolls name some of them.",
   "place": "marker:25",
   "kind": "war",
   "between": [
@@ -1703,7 +1703,7 @@
   "id": "III-0135",
   "canon": false,
   "title": "The king-list recopied",
-  "body": "The scribes of Queen Eilidh Bhàn copy the king-list of Rodos afresh from its oldest surviving roll, adding the rulers since the Sundering. The new copy begins the present age with the Choosing and not with the fleet.",
+  "body": "The scribes of Queen Eilidh Bhàn copy the king-list of Dia-thìr afresh from its oldest surviving roll, adding the rulers since the Sundering. The new copy begins the present age with the Choosing and not with the fleet.",
   "place": "burg:19",
   "kind": "record",
   "between": [
@@ -1751,7 +1751,7 @@
   "id": "III-0138",
   "canon": false,
   "title": "The crown and the custody joined",
-  "body": "Dòmhnall Ruadh's reeves write into the custody-book that the ruler of Rodos is also master of the vein-house. Thereafter the heads of the seven houses sit as the king's council, and the custodians and the court are one body.",
+  "body": "Dòmhnall Ruadh's reeves write into the custody-book that the ruler of Dia-thìr is also master of the vein-house. Thereafter the heads of the seven houses sit as the king's council, and the custodians and the court are one body.",
   "place": "burg:491",
   "kind": "law",
   "between": [
@@ -2586,7 +2586,7 @@
   "id": "III-0198",
   "canon": false,
   "title": "Macha's great house at Cathair mhòr",
-  "body": "The priests of Macha raise their great house at Cathair mhòr, the largest roofed building on Rodos in this age. Its floor of black and white was eleven years in the laying.",
+  "body": "The priests of Macha raise their great house at Cathair mhòr, the largest roofed building on Dia-thìr in this age. Its floor of black and white was eleven years in the laying.",
   "place": "burg:23",
   "kind": "building",
   "between": [
@@ -2842,7 +2842,7 @@
   "id": "III-0218",
   "canon": false,
   "title": "The paper mill at Muileann chaol",
-  "body": "A mill at Muileann chaol begins to make paper from rags, the first on Rodos. In this generation the custody-book is first copied onto paper.",
+  "body": "A mill at Muileann chaol begins to make paper from rags, the first on Dia-thìr. In this generation the custody-book is first copied onto paper.",
   "place": "burg:246",
   "kind": "craft",
   "between": [
@@ -3058,7 +3058,7 @@
   "id": "III-0236",
   "canon": false,
   "title": "Timber from the west",
-  "body": "A worked timber, longer than any tree on the island and fastened with nails of a make no smith of Rodos knows, comes ashore at Ceann mhòr on the north-west coast, from beyond Manannan's mist, as the fishers say. It is carried to Seann Skell, shown to Manannan's priests, and burned.",
+  "body": "A worked timber, longer than any tree on the island and fastened with nails of a make no smith of Dia-thìr knows, comes ashore at Ceann mhòr on the north-west coast, from beyond Manannan's mist, as the fishers say. It is carried to Seann Skell, shown to Manannan's priests, and burned.",
   "place": "burg:143",
   "kind": "omen",
   "between": [
@@ -3111,7 +3111,7 @@
   "id": "III-0239a",
   "canon": false,
   "title": "The mist thins",
-  "body": "The priests of Manannan at Seann Skell write that the mist on the western sea, which has hidden Rodos from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and on still mornings the fishers of the west coast begin to see the line of the open sea beyond the headlands.",
+  "body": "The priests of Manannan at Seann Skell write that the mist on the western sea, which has hidden Dia-thìr from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and on still mornings the fishers of the west coast begin to see the line of the open sea beyond the headlands.",
   "place": "burg:489",
   "kind": "omen",
   "between": [

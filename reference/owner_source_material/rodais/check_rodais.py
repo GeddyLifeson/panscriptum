@@ -2,11 +2,11 @@
 check_rodais.py -- verify everything in this folder in one run.
 
   1. the engine's self-test (rodais_engine.py)
-  2. LEXICON.json: every entry complete, every Ròdais field already in Ròdais
+  2. LEXICON.json: every entry complete, every Dia-thìris field already in Dia-thìris
      spelling, and a caol-le-caol report (real exceptions are exempt in the
      engine; what remains is loanwords, names and unhyphenated compounds,
      listed, not failed)
-  3. TEXTS.json: every line paired with its translation, Ròdais spelling
+  3. TEXTS.json: every line paired with its translation, Dia-thìris spelling
   4. Rodos_finished.map: the rewritten sections parse, no pre-Ròdais name
      survives, every saved burg label matches its burg, every layer edit of
      legendarium/reconcile/ is in, the roads are drawn as roads, the climate is
@@ -22,7 +22,7 @@ check_rodais.py -- verify everything in this folder in one run.
      books, annals, appendices and gazetteer, the language book's chapters and
      texts, the dictionary, world.json, the map's notes), the map's calendar the
      Dubhan Era at the present year and its wars dated in that era, each book's
-     date line its age's span, and every age and era name in Ròdais spelling
+     date line its age's span, and every age and era name in Dia-thìris spelling
 
 Exit status 0 only when every check holds.  python check_rodais.py
 """
@@ -66,14 +66,14 @@ for e in ken:
 check(all(len(v) == 1 for v in kl.values()), 'lexicon: an old-root compound means one thing (a headword shared by kennings has one literal sense)')
 check(not [e for e in ken if R.check_agreement(e['rod'].strip('?!.'))], 'lexicon: every old-root compound obeys caol le caol')
 fields = [(e['id'], e[k]) for e in lex for k in ('rod', 'pl', 'root') if e.get(k)]
-check(all(R.normalize(v) == v for _, v in fields), 'lexicon: every Ròdais field is in Ròdais spelling (no acute, no sg)')
+check(all(R.normalize(v) == v for _, v in fields), 'lexicon: every Dia-thìris field is in Dia-thìris spelling (no acute, no sg)')
 flag = sorted({w for _, v in fields for w in words(v) if R.check_agreement(w)}, key=str.lower)
 print('      caol le caol: %d words left outside the rule (loanwords, names, unhyphenated compounds): %s' % (len(flag), ', '.join(flag)))
 
 # 3. texts
 texts = json.load(open(os.path.join(HERE, 'TEXTS.json'), encoding='utf-8'))['texts']
 check(all(len(t['paras']) == len(t['paras_en']) for t in texts), 'texts: every line paired with its English (%d texts)' % len(texts))
-check(all(R.normalize(p) == p for t in texts for p in t['paras'] + [t['title']]), 'texts: Ròdais spelling throughout')
+check(all(R.normalize(p) == p for t in texts for p in t['paras'] + [t['title']]), 'texts: Dia-thìris spelling throughout')
 tflag = sorted({w for t in texts for p in t['paras'] for w in words(p) if R.check_agreement(w)}, key=str.lower)
 print('      caol le caol in texts: %s' % (', '.join(tflag) or 'none'))
 
@@ -97,7 +97,7 @@ burgs = {b['i']: b['name'] for b in parsed[15] if isinstance(b, dict) and b.get(
 labels = re.findall(r'<text id="burgLabel\d+" data-label-type="burg" data-id="(\d+)"[^>]*>([^<]*)</text>', lines[5])
 check(labels and all(burgs.get(int(i)) == t for i, t in labels), 'map: all %d saved burg labels match their burgs' % len(labels))
 names = [o['name'] for n in (12, 15, 29, 30, 32, 35, 37, 38) for o in parsed[n] if isinstance(o, dict) and o.get('name')]
-check(all(R.normalize(x) == x for x in names), 'map: every name in Ròdais spelling (%d names)' % len(names))
+check(all(R.normalize(x) == x for x in names), 'map: every name in Dia-thìris spelling (%d names)' % len(names))
 mflag = sorted({w for x in names for w in words(x) if R.check_agreement(w)})
 check(not mflag, 'map: every name obeys caol le caol (%s)' % (', '.join(mflag) or 'no exceptions'))
 feat = json.load(open(os.path.join(HERE, 'legendarium', 'burg_features.json'), encoding='utf-8'))
@@ -230,7 +230,7 @@ for k in keys:
 check(not span_bad, 'eras: every book opens with its age\'s name and its span in its era (%s)' % (', '.join(span_bad) or 'all six'))
 rnames = [build_book.AGE_NAMES[k][0] for k in keys] + [RK.ERA[k][5] for k in keys]
 check(all(R.normalize(x) == x and not [w for w in x.split() if R.check_agreement(w)] for x in rnames),
-      'eras: every age and era name in Ròdais spelling and caol le caol (%s)' % ', '.join(rnames))
+      'eras: every age and era name in Dia-thìris spelling and caol le caol (%s)' % ', '.join(rnames))
 
 print('\n%s' % ('ALL CHECKS HOLD' if not fails else '%d CHECK(S) FAILED' % len(fails)))
 sys.exit(1 if fails else 0)

@@ -425,7 +425,6 @@
 {"id": "f-navel-n", "en": "navel", "rank": 22052, "sense": "belly button", "pos": "n", "rod": "imleag", "g": "f", "pl": "imleagan", "gen": "imleig"},
 {"id": "f-nitric-adj", "en": "nitric", "rank": 22056, "sense": "containing nitrogen", "pos": "adj", "rod": "nàitreach"},
 {"id": "f-northerly-adj", "en": "northerly", "rank": 22057, "sense": "from or towards the north", "pos": "adj", "rod": "on tuath"},
-{"id": "f-obsidian-n", "en": "obsidian", "rank": 22058, "sense": "black volcanic glass", "pos": "n", "rod": "clach-ghloine", "g": "f", "pl": "clachan-gloine", "gen": "cloiche-gloine"},
 {"id": "f-parliamentarian-n", "en": "parliamentarian", "rank": 22059, "sense": "member of parliament", "pos": "n", "rod": "ball-pàrlamaid", "g": "m", "pl": "buill-phàrlamaid", "gen": "buill-phàrlamaid"},
 {"en": "penang", "rank": 22062, "skip": "place name"},
 {"id": "f-pent-adj", "en": "pent", "rank": 22064, "sense": "shut in, pent up", "pos": "adj", "rod": "dùinte"},

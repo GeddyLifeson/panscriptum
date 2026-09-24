@@ -1,6 +1,6 @@
 {
  "layer": "state, shires and cultures",
- "summary": "Read all of record 14 (Neutrals and the kingdom), all 123 provinces in record 30 (index 0 is a placeholder: 123 shires, not 124), record 13 (3 cultures), record 31 (43 default name bases), record 1 lore/calendar, and the cells' state/province/culture arrays (records 25/27/19, with geometry from the live FMG pack). AGREE: kingdom form Monarchy/Kingdom 'Rìoghachd Ròdais' (V-0007), capital Cathair dhearg (burg 19, centre = its cell), culture Ròdaich, no foreign neighbours or diplomacy (V-0011); lore Diosal Era, 2026 (Appendix D); all 505 burgs in state 1, every burg's culture matches its cell and the gazetteer (441 Ròdaich / 64 Tuathaich, 543,205 Tuathaich townsfolk, as F says); 13 shires named from Seann roots and 30 Seann burgs (F); all 29 moved towns (burg_moves.json) are still in the province their gazetteer/in-files give (0 mismatches over all 505 burgs); every other gazetteer 'seat of its province' claim (about 80) matches the province's seat burg; all annal province: refs and 'Siorrachd X' names exist. CONFLICTS (fixed): 123 generator formNames (Province/Governorate/Prefecture/Department/Island(s)/Area) -> 'Siorrachd'; provinces 122/123 had no seat and doubled names ('Siorrachd Siorrachd fhionn/àrsaidh') -> named for their one-cell islands Eilean dhìreach / Eilean ìseal (coordinate with the heraldry pass, which also touches their fullName: take these values); one land cell (4281, Eilean gheal) was culture 0 Seann-Dhaoine with 2,167 people although F says the Old Ones are gone -> Ròdaich, culture stats adjusted; all cultures used the English name base -> new 'Ròdais' base 43 of the island's 245 burg names; culture codes Ki/Ma -> Tu/Rò; Seann-Dhaoine type Generic -> Naval (F: a coastal people); 12 province centres still on moved seats' old cells (optional); gazetteer: burgs 54 and 352 claimed to be seats but are not (seats 244 and 198), 387 'principal city' of Seann Tarr's shire, 365 'royal seat in the Holy Age' against Appendix A (seat at Dùn dhearg then Cathair dhearg); F said 'two Baile chrom' (map has four). MISSING (written): Appendix H (new file) with the kingdom, how the shires came to be (Holy Age provinces, Sundering shires, humans' districts, the drawing of V-0014), the shape of the shires (11 doubled names, island shires, scattered shires 120/121 and four island/exclave shires, 5 seats smaller than another town, the 11 Tuathaich shires, one kind of shire), the Crown's dues and Treasury (salesTax 0.17 = market-due 17 in 100; pollTax 0.18 = 18 purses per 100,000 heads on 36,225,000 heads; treasury 9,568.04 = 6,520.51 head-due + 3,047.53 market-due), the unclaimed Neutral land (81 cells, two pieces of the NW frozen shore, all Tuathaich, glacier, 397,430 rural, no burgs, bordering only province 120; the map's campaign defender) and why no one holds it, culture extents (Ròdaich 2,404 cells / ~84.6% of land, Tuathaich 536 / ~15.4% incl. the unclaimed 1.7%), and a table of all 123 shires with seat, burgs, people, seat's age and notes; 7 annals (IV-0246a district of the outer coasts; V-0014a frozen coast left out; V-0014b island shires; V-0015a dues set; V-0139a Doire chaol shire, since its seat was founded after 1932; VI-0098a holdouts onto the frozen coast; VI-0154a Treasury roll 2026); 2 gazetteer appends (127 Seann Vell's scattered shire, 164 Doire chaol); text edits in F, E and book V. Counts: map edits 153 (123 formName + 4 names + 12 centres + 1 cell + 12 culture fields + 1 name base); annals 7 added; gazetteer 8; text 6; new file 1. Areas in Appendix H use the agreed scale of 0.2 miles per map unit (0.04 sq mi per unit of area): island 272,668 units = ~10,900 sq mi; shires 267,917 = ~10,720; frozen coast 4,751 = ~190; Ròdaich 230,591 = ~9,220; Tuathaich 42,077 = ~1,680. No distances are written.",
+ "summary": "Read all of record 14 (Neutrals and the kingdom), all 123 provinces in record 30 (index 0 is a placeholder: 123 shires, not 124), record 13 (3 cultures), record 31 (43 default name bases), record 1 lore/calendar, and the cells' state/province/culture arrays (records 25/27/19, with geometry from the live FMG pack). AGREE: kingdom form Monarchy/Kingdom 'Rìoghachd Dia-thìris' (V-0007), capital Cathair dhearg (burg 19, centre = its cell), culture Dia-thìrich, no foreign neighbours or diplomacy (V-0011); lore Diosal Era, 2026 (Appendix D); all 505 burgs in state 1, every burg's culture matches its cell and the gazetteer (441 Dia-thìrich / 64 Tuathaich, 543,205 Tuathaich townsfolk, as F says); 13 shires named from Seann roots and 30 Seann burgs (F); all 29 moved towns (burg_moves.json) are still in the province their gazetteer/in-files give (0 mismatches over all 505 burgs); every other gazetteer 'seat of its province' claim (about 80) matches the province's seat burg; all annal province: refs and 'Siorrachd X' names exist. CONFLICTS (fixed): 123 generator formNames (Province/Governorate/Prefecture/Department/Island(s)/Area) -> 'Siorrachd'; provinces 122/123 had no seat and doubled names ('Siorrachd Siorrachd fhionn/àrsaidh') -> named for their one-cell islands Eilean dhìreach / Eilean ìseal (coordinate with the heraldry pass, which also touches their fullName: take these values); one land cell (4281, Eilean gheal) was culture 0 Seann-Dhaoine with 2,167 people although F says the Old Ones are gone -> Dia-thìrich, culture stats adjusted; all cultures used the English name base -> new 'Dia-thìris' base 43 of the island's 245 burg names; culture codes Ki/Ma -> Tu/Rò; Seann-Dhaoine type Generic -> Naval (F: a coastal people); 12 province centres still on moved seats' old cells (optional); gazetteer: burgs 54 and 352 claimed to be seats but are not (seats 244 and 198), 387 'principal city' of Seann Tarr's shire, 365 'royal seat in the Holy Age' against Appendix A (seat at Dùn dhearg then Cathair dhearg); F said 'two Baile chrom' (map has four). MISSING (written): Appendix H (new file) with the kingdom, how the shires came to be (Holy Age provinces, Sundering shires, humans' districts, the drawing of V-0014), the shape of the shires (11 doubled names, island shires, scattered shires 120/121 and four island/exclave shires, 5 seats smaller than another town, the 11 Tuathaich shires, one kind of shire), the Crown's dues and Treasury (salesTax 0.17 = market-due 17 in 100; pollTax 0.18 = 18 purses per 100,000 heads on 36,225,000 heads; treasury 9,568.04 = 6,520.51 head-due + 3,047.53 market-due), the unclaimed Neutral land (81 cells, two pieces of the NW frozen shore, all Tuathaich, glacier, 397,430 rural, no burgs, bordering only province 120; the map's campaign defender) and why no one holds it, culture extents (Dia-thìrich 2,404 cells / ~84.6% of land, Tuathaich 536 / ~15.4% incl. the unclaimed 1.7%), and a table of all 123 shires with seat, burgs, people, seat's age and notes; 7 annals (IV-0246a district of the outer coasts; V-0014a frozen coast left out; V-0014b island shires; V-0015a dues set; V-0139a Doire chaol shire, since its seat was founded after 1932; VI-0098a holdouts onto the frozen coast; VI-0154a Treasury roll 2026); 2 gazetteer appends (127 Seann Vell's scattered shire, 164 Doire chaol); text edits in F, E and book V. Counts: map edits 153 (123 formName + 4 names + 12 centres + 1 cell + 12 culture fields + 1 name base); annals 7 added; gazetteer 8; text 6; new file 1. Areas in Appendix H use the agreed scale of 0.2 miles per map unit (0.04 sq mi per unit of area): island 272,668 units = ~10,900 sq mi; shires 267,917 = ~10,720; frozen coast 4,751 = ~190; Dia-thìrich 230,591 = ~9,220; Tuathaich 42,077 = ~1,680. No distances are written.",
  "map_edits": [
   {
    "record": 30,
@@ -840,7 +840,7 @@
    "record": 19,
    "path": "[4281]",
    "value": 2,
-   "why": "cells.culture: the only land cell of culture 0 (Seann-Dhaoine), on Eilean gheal in the Ròdaich shire of Seann Vell (121), 2,167 people. Appendix F: the Old Ones ended in the Ancient Age and no burg or household of theirs is counted. Neighbour cells 4261, 4262, 4282 are Ròdaich."
+   "why": "cells.culture: the only land cell of culture 0 (Seann-Dhaoine), on Eilean gheal in the Dia-thìrich shire of Seann Vell (121), 2,167 people. Appendix F: the Old Ones ended in the Ancient Age and no burg or household of theirs is counted. Neighbour cells 4261, 4262, 4282 are Dia-thìrich."
   },
   {
    "record": 13,
@@ -864,19 +864,19 @@
    "record": 13,
    "path": "[2].rural",
    "value": 27224.18622124195,
-   "why": "Ròdaich + the 2.1671 of cell 4281."
+   "why": "Dia-thìrich + the 2.1671 of cell 4281."
   },
   {
    "record": 13,
    "path": "[2].area",
    "value": 230591,
-   "why": "Ròdaich + 70 (cell 4281)."
+   "why": "Dia-thìrich + 70 (cell 4281)."
   },
   {
    "record": 13,
    "path": "[2].cells",
    "value": 2404,
-   "why": "Ròdaich + 1 (cell 4281)."
+   "why": "Dia-thìrich + 1 (cell 4281)."
   },
   {
    "record": 13,
@@ -894,31 +894,31 @@
    "record": 13,
    "path": "[2].code",
    "value": "Rò",
-   "why": "Generated abbreviation 'Ma' means nothing; Ròdaich."
+   "why": "Generated abbreviation 'Ma' means nothing; Dia-thìrich."
   },
   {
    "record": 31,
    "path": "append as name base 43 (after the last '/')",
-   "value": "Ròdais|7|18||0|Achadh chaol,Achadh dhomhain,Achadh dhìreach,Achadh fhada,Achadh fhiadhaich,Achadh fhionn,Achadh gharbh,Achadh gheal,Achadh ghlas,Achadh mhin,Achadh mhòr,Achadh naomh,Achadh shean,Achadh àrsaidh,Achadh ìseal,Baile Mòr dhomhain,Baile Mòr dhìreach,Baile Mòr fhionn,Baile Mòr mhòr,Baile Mòr ruadh,Baile Mòr uaine,Baile Mòr àrsaidh,Baile bheag,Baile bhàn,Baile chaol,Baile chiar,Baile chrom,Baile dhearg,Baile dhomhain,Baile dhubh,Baile dhìreach,Baile fhada,Baile fhiadhaich,Baile fhionn,Baile gharbh,Baile gheal,Baile ghlas,Baile ghorm,Baile leathan,Baile mhin,Baile mhòr,Baile naomh,Baile ruadh,Baile shean,Baile thais,Baile uaine,Baile àrsaidh,Baile ìseal,Baile òg,Caol bheag,Caol chrom,Caol dhomhain,Caol fhiadhaich,Caol gharbh,Caol leathan,Caol mhin,Caol mhòr,Caol naomh,Caol ruadh,Caol shean,Caol ìseal,Cathair dhearg,Cathair dhomhain,Cathair fhada,Cathair gheal,Cathair mhòr,Cathair naomh,Ceann bheag,Ceann bhàn,Ceann chaol,Ceann chiar,Ceann dhomhain,Ceann dhubh,Ceann fhada,Ceann gheal,Ceann ghorm,Ceann leathan,Ceann mhin,Ceann mhòr,Ceann thais,Ceann àrsaidh,Ceann òg,Cill bhàn,Cill chaol,Cill chiar,Cill dhearg,Cill dhìreach,Cill fhada,Cill gharbh,Cill ghlas,Cill ghorm,Cill leathan,Cill thais,Cill àrsaidh,Cill ìseal,Cnoc bheag,Cnoc bhàn,Cnoc chaol,Cnoc chiar,Cnoc chrom,Cnoc dhearg,Cnoc dhubh,Cnoc dhìreach,Cnoc fhada,Cnoc fhiadhaich,Cnoc fhionn,Cnoc gharbh,Cnoc gheal,Cnoc ghlas,Cnoc ghorm,Cnoc leathan,Cnoc mhòr,Cnoc naomh,Cnoc ruadh,Cnoc shean,Cnoc thais,Cnoc uaine,Cnoc àrsaidh,Cnoc ìseal,Cnoc òg,Cuan bheag,Cuan chrom,Cuan dhearg,Cuan ghlas,Cuan ruadh,Cuan shean,Cuan uaine,Cuan àrsaidh,Doire bheag,Doire bhàn,Doire chaol,Doire chiar,Doire dhearg,Doire dhubh,Doire dhìreach,Doire fhada,Doire fhiadhaich,Doire fhionn,Doire gharbh,Doire gheal,Doire ghlas,Doire ghorm,Doire mhin,Doire mhòr,Doire naomh,Doire ruadh,Doire shean,Doire uaine,Dùn chiar,Dùn chrom,Dùn dhearg,Dùn dhubh,Dùn fhiadhaich,Dùn gheal,Dùn thais,Dùn ìseal,Inis bheag,Inis bhàn,Inis chrom,Inis leathan,Inis mhin,Inis mhòr,Inis naomh,Inis thais,Inis uaine,Inis àrsaidh,Inis ìseal,Muileann bheag,Muileann bhàn,Muileann chaol,Muileann chiar,Muileann chrom,Muileann dhearg,Muileann dhomhain,Muileann dhubh,Muileann dhìreach,Muileann fhada,Muileann fhionn,Muileann gharbh,Muileann gheal,Muileann ghlas,Muileann leathan,Muileann mhin,Muileann naomh,Muileann ruadh,Muileann shean,Muileann uaine,Muileann àrsaidh,Muileann òg,Ros bheag,Ros bhàn,Ros chiar,Ros dhomhain,Ros dhìreach,Ros fhionn,Ros gharbh,Ros gheal,Ros leathan,Ros mhòr,Ros ruadh,Ros àrsaidh,Seann Bhral,Seann Bhrenn,Seann Chwen,Seann Dunn,Seann Mhorn,Seann Skell,Seann Tarr,Seann Toll,Seann Vell,Seann Warr,Tobar bhàn,Tobar dhearg,Tobar dhomhain,Tobar dhubh,Tobar dhìreach,Tobar fhiadhaich,Tobar ghorm,Tobar shean,Tobar ìseal,Tobar òg,Àth bheag,Àth chaol,Àth chiar,Àth chrom,Àth dhearg,Àth dhomhain,Àth dhubh,Àth dhìreach,Àth fhada,Àth fhiadhaich,Àth fhionn,Àth gharbh,Àth gheal,Àth ghlas,Àth ghorm,Àth leathan,Àth mhin,Àth mhòr,Àth naomh,Àth ruadh,Àth shean,Àth uaine,Àth àrsaidh,Àth ìseal",
-   "why": "All three cultures used name base 1 'English', so any name the editor generates would be English. Appendix F: every place on Rodos bears a Ròdais name and the Tuathaich have added none of their own. New base 43 'Ròdais' = the island's 245 distinct burg names (min 7, max 18, no doubled letters rule, multi-word rate 0). Record 31 is '/'-separated, fields name|min|max|dupl|multi|names; FMG's loader takes a names list with more than two entries as given."
+   "value": "Dia-thìris|7|18||0|Achadh chaol,Achadh dhomhain,Achadh dhìreach,Achadh fhada,Achadh fhiadhaich,Achadh fhionn,Achadh gharbh,Achadh gheal,Achadh ghlas,Achadh mhin,Achadh mhòr,Achadh naomh,Achadh shean,Achadh àrsaidh,Achadh ìseal,Baile Mòr dhomhain,Baile Mòr dhìreach,Baile Mòr fhionn,Baile Mòr mhòr,Baile Mòr ruadh,Baile Mòr uaine,Baile Mòr àrsaidh,Baile bheag,Baile bhàn,Baile chaol,Baile chiar,Baile chrom,Baile dhearg,Baile dhomhain,Baile dhubh,Baile dhìreach,Baile fhada,Baile fhiadhaich,Baile fhionn,Baile gharbh,Baile gheal,Baile ghlas,Baile ghorm,Baile leathan,Baile mhin,Baile mhòr,Baile naomh,Baile ruadh,Baile shean,Baile thais,Baile uaine,Baile àrsaidh,Baile ìseal,Baile òg,Caol bheag,Caol chrom,Caol dhomhain,Caol fhiadhaich,Caol gharbh,Caol leathan,Caol mhin,Caol mhòr,Caol naomh,Caol ruadh,Caol shean,Caol ìseal,Cathair dhearg,Cathair dhomhain,Cathair fhada,Cathair gheal,Cathair mhòr,Cathair naomh,Ceann bheag,Ceann bhàn,Ceann chaol,Ceann chiar,Ceann dhomhain,Ceann dhubh,Ceann fhada,Ceann gheal,Ceann ghorm,Ceann leathan,Ceann mhin,Ceann mhòr,Ceann thais,Ceann àrsaidh,Ceann òg,Cill bhàn,Cill chaol,Cill chiar,Cill dhearg,Cill dhìreach,Cill fhada,Cill gharbh,Cill ghlas,Cill ghorm,Cill leathan,Cill thais,Cill àrsaidh,Cill ìseal,Cnoc bheag,Cnoc bhàn,Cnoc chaol,Cnoc chiar,Cnoc chrom,Cnoc dhearg,Cnoc dhubh,Cnoc dhìreach,Cnoc fhada,Cnoc fhiadhaich,Cnoc fhionn,Cnoc gharbh,Cnoc gheal,Cnoc ghlas,Cnoc ghorm,Cnoc leathan,Cnoc mhòr,Cnoc naomh,Cnoc ruadh,Cnoc shean,Cnoc thais,Cnoc uaine,Cnoc àrsaidh,Cnoc ìseal,Cnoc òg,Cuan bheag,Cuan chrom,Cuan dhearg,Cuan ghlas,Cuan ruadh,Cuan shean,Cuan uaine,Cuan àrsaidh,Doire bheag,Doire bhàn,Doire chaol,Doire chiar,Doire dhearg,Doire dhubh,Doire dhìreach,Doire fhada,Doire fhiadhaich,Doire fhionn,Doire gharbh,Doire gheal,Doire ghlas,Doire ghorm,Doire mhin,Doire mhòr,Doire naomh,Doire ruadh,Doire shean,Doire uaine,Dùn chiar,Dùn chrom,Dùn dhearg,Dùn dhubh,Dùn fhiadhaich,Dùn gheal,Dùn thais,Dùn ìseal,Inis bheag,Inis bhàn,Inis chrom,Inis leathan,Inis mhin,Inis mhòr,Inis naomh,Inis thais,Inis uaine,Inis àrsaidh,Inis ìseal,Muileann bheag,Muileann bhàn,Muileann chaol,Muileann chiar,Muileann chrom,Muileann dhearg,Muileann dhomhain,Muileann dhubh,Muileann dhìreach,Muileann fhada,Muileann fhionn,Muileann gharbh,Muileann gheal,Muileann ghlas,Muileann leathan,Muileann mhin,Muileann naomh,Muileann ruadh,Muileann shean,Muileann uaine,Muileann àrsaidh,Muileann òg,Ros bheag,Ros bhàn,Ros chiar,Ros dhomhain,Ros dhìreach,Ros fhionn,Ros gharbh,Ros gheal,Ros leathan,Ros mhòr,Ros ruadh,Ros àrsaidh,Seann Bhral,Seann Bhrenn,Seann Chwen,Seann Dunn,Seann Mhorn,Seann Skell,Seann Tarr,Seann Toll,Seann Vell,Seann Warr,Tobar bhàn,Tobar dhearg,Tobar dhomhain,Tobar dhubh,Tobar dhìreach,Tobar fhiadhaich,Tobar ghorm,Tobar shean,Tobar ìseal,Tobar òg,Àth bheag,Àth chaol,Àth chiar,Àth chrom,Àth dhearg,Àth dhomhain,Àth dhubh,Àth dhìreach,Àth fhada,Àth fhiadhaich,Àth fhionn,Àth gharbh,Àth gheal,Àth ghlas,Àth ghorm,Àth leathan,Àth mhin,Àth mhòr,Àth naomh,Àth ruadh,Àth shean,Àth uaine,Àth àrsaidh,Àth ìseal",
+   "why": "All three cultures used name base 1 'English', so any name the editor generates would be English. Appendix F: every place on Dia-thìr bears a Dia-thìris name and the Tuathaich have added none of their own. New base 43 'Dia-thìris' = the island's 245 distinct burg names (min 7, max 18, no doubled letters rule, multi-word rate 0). Record 31 is '/'-separated, fields name|min|max|dupl|multi|names; FMG's loader takes a names list with more than two entries as given."
   },
   {
    "record": 13,
    "path": "[0].base",
    "value": 43,
-   "why": "Ròdais name base (see record 31 edit); the Old Ones' names survive only in Ròdais form (Seann X)."
+   "why": "Dia-thìris name base (see record 31 edit); the Old Ones' names survive only in Dia-thìris form (Seann X)."
   },
   {
    "record": 13,
    "path": "[1].base",
    "value": 43,
-   "why": "Ròdais name base: the Tuathaich live among Ròdais names and have added none (Appendix F)."
+   "why": "Dia-thìris name base: the Tuathaich live among Dia-thìris names and have added none (Appendix F)."
   },
   {
    "record": 13,
    "path": "[2].base",
    "value": 43,
-   "why": "Ròdais name base."
+   "why": "Dia-thìris name base."
   }
  ],
  "annals_add": [
@@ -1010,8 +1010,8 @@
   {
    "burg": 54,
    "field": "history",
-   "old": "Muileann àrsaidh, the ancient mill, is the seat of its province in the Tuathaich north-west, founded as a Ròdaich mill town in the Holy Age.",
-   "new": "Muileann àrsaidh, the ancient mill, is the younger of the two Muileann àrsaidh in the Tuathaich north-west, founded as a Ròdaich mill town in the Holy Age; the seat of the shire is the elder town close by.",
+   "old": "Muileann àrsaidh, the ancient mill, is the seat of its province in the Tuathaich north-west, founded as a Dia-thìrich mill town in the Holy Age.",
+   "new": "Muileann àrsaidh, the ancient mill, is the younger of the two Muileann àrsaidh in the Tuathaich north-west, founded as a Dia-thìrich mill town in the Holy Age; the seat of the shire is the elder town close by.",
    "why": "The seat of province 105 is burg 244 (the elder Muileann àrsaidh), not 54."
   },
   {
@@ -1073,9 +1073,9 @@
   },
   {
    "file": "appendices/F_tongues_peoples.md",
-   "old": "some 543,000 people in them. The Ròdaich hold the other 441. The largest Tuathaich towns:",
-   "new": "some 543,000 people in them. The Ròdaich hold the other 441. The Tuathaich country is some fifteen parts in a hundred of the island's land, the frozen coast of the far north-west among it, and the Ròdaich country the other eighty-five (Appendix H). The largest Tuathaich towns:",
-   "why": "Culture extents (cells: Ròdaich 2,404, Tuathaich 536 incl. 81 unclaimed; area 230,591 / 42,077 of 272,668)."
+   "old": "some 543,000 people in them. The Dia-thìrich hold the other 441. The largest Tuathaich towns:",
+   "new": "some 543,000 people in them. The Dia-thìrich hold the other 441. The Tuathaich country is some fifteen parts in a hundred of the island's land, the frozen coast of the far north-west among it, and the Dia-thìrich country the other eighty-five (Appendix H). The largest Tuathaich towns:",
+   "why": "Culture extents (cells: Dia-thìrich 2,404, Tuathaich 536 incl. 81 unclaimed; area 230,591 / 42,077 of 272,668)."
   },
   {
    "file": "appendices/E_words.md",
@@ -1109,7 +1109,7 @@
   "Coordinator note checked: the islands Eilean ghorm, Eilean dhubh and Eilean gheal are NOT in the Neutrals: every island cell is state 1 (Eilean ghorm in province 120, Eilean dhubh in 119, Eilean gheal in 121). The only state-0 land is 81 cells of the main island (feature 2) in the far north-west, in two pieces (76 cells round x171,y127 and 5 cells round x254,y113).",
   "Province 120 (Seann Vell of the west) is left scattered on the map and explained in the history (the humans' 'district of the outer coasts', IV-0246a) rather than re-drawn: reassigning its 89 north-western cells would also need the saved SVG province borders redrawn. If the integrator prefers a map fix, the NW piece could go to province 105 (Muileann àrsaidh) or to the Neutrals; then H § III/V, IV-0246a, V-0014a and gazetteer 127 need their outer-coast wording trimmed.",
   "Population on the ice: the Neutral cells hold 397,430 rural people and the NW piece of province 120 771,425, on glacier/tundra (habitability 0). The history hedges the Neutral figure as 'the Moot's tallies ... which the royal clerks do not accept'. Lowering those cells' pop (record 21) would be the map-side alternative.",
-  "Culture origins: FMG roots every culture at culture 0 (origins [0]), so the tree reads Tuathaich and Ròdaich as 'from the Seann-Dhaoine'. The loader forces this; left as it is. The history (F) stays agnostic on descent, and the Tuathaich descend from the humans.",
+  "Culture origins: FMG roots every culture at culture 0 (origins [0]), so the tree reads Tuathaich and Dia-thìrich as 'from the Seann-Dhaoine'. The loader forces this; left as it is. The history (F) stays agnostic on descent, and the Tuathaich descend from the humans.",
   "State 0 keeps the name 'Neutrals' (it also covers the sea). It could be renamed 'An Oirthir Reòthte' if the integrator wants the unclaimed land named in the states editor.",
   "world.json still has province 122/123 as 'Siorrachd fhionn'/'Siorrachd àrsaidh'. H does not use {{place:province:122/123}} tokens, but world.json should be regenerated after the map edit.",
   "The campaign record (An Cogadh Fada, attacker 1, defender 0) belongs to the military pass. The history here calls the enemy 'those of no shire' (VI-0098a, H § V), which fits their reading ('unaffiliated holdouts').",

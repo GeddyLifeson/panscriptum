@@ -28,7 +28,7 @@
   "id": "V-0004",
   "canon": false,
   "title": "The hungry year at Doire ghlas",
-  "body": "The stores that came over the water from an Tìr Thall come no more, and in their first year alone the northern settlements go short of grain. Tuathaich memory, taken down long after, puts the dead at Doire ghlas above two hundred. The Ròdaich made no count.",
+  "body": "The stores that came over the water from an Tìr Thall come no more, and in their first year alone the northern settlements go short of grain. Tuathaich memory, taken down long after, puts the dead at Doire ghlas above two hundred. The Dia-thìrich made no count.",
   "place": "burg:209",
   "kind": "disaster"
  },
@@ -51,7 +51,7 @@
  {
   "id": "V-0007",
   "canon": true,
-  "title": "Rìoghachd Ròdais declared",
+  "title": "Rìoghachd Dia-thìris declared",
   "body": "The state names itself a kingdom, though it is ruled as before. Its own records carry the same contradiction to this day.",
   "place": "burg:19",
   "kind": "founding",
@@ -61,7 +61,7 @@
   "id": "V-0008",
   "canon": false,
   "title": "The Moot at Caol mhòr",
-  "body": "Tuathaich householders of the northern towns meet at Caol mhòr and choose for their speaker Walter Hale, once a harbour clerk. The Moot has no standing in Ròdaich law. It meets all the same and keeps its own minutes, which run unbroken from that day to this.",
+  "body": "Tuathaich householders of the northern towns meet at Caol mhòr and choose for their speaker Walter Hale, once a harbour clerk. The Moot has no standing in Dia-thìrich law. It meets all the same and keeps its own minutes, which run unbroken from that day to this.",
   "place": "burg:95",
   "kind": "founding"
  },
@@ -77,7 +77,7 @@
   "id": "V-0010",
   "canon": false,
   "title": "The harbour-houses of Ros dhomhain taken over",
-  "body": "The customs sheds that the humans built at Ros dhomhain, the greatest port of the kingdom, pass to Ròdaich harbour-masters. The first of them, Dùghall mac Iain, keeps the humans' tariff for want of another, and in the years after puts it into Ròdais line by line.",
+  "body": "The customs sheds that the humans built at Ros dhomhain, the greatest port of the kingdom, pass to Dia-thìrich harbour-masters. The first of them, Dùghall mac Iain, keeps the humans' tariff for want of another, and in the years after puts it into Dia-thìris line by line.",
   "place": "burg:27",
   "kind": "trade"
  },
@@ -142,7 +142,7 @@
   "id": "V-0015",
   "canon": false,
   "title": "The maoir appointed",
-  "body": "A maor is set over each shire to gather the Crown's dues and keep its peace. In the Tuathaich shires the maoir are Ròdaich, lodged in the seat towns. At Ceann mhòr the maor lives in the old human magistrate's house, and the townsfolk call it by its old name.",
+  "body": "A maor is set over each shire to gather the Crown's dues and keep its peace. In the Tuathaich shires the maoir are Dia-thìrich, lodged in the seat towns. At Ceann mhòr the maor lives in the old human magistrate's house, and the townsfolk call it by its old name.",
   "place": "burg:143",
   "kind": "law"
  },
@@ -155,7 +155,7 @@
  {
   "id": "V-0015b",
   "title": "The roll of arms",
-  "body": "The council's clerks make Clàr nan Suaicheantas, a roll of arms, so that each maor may seal the letters of his court. The kingdom's arms are cut anew from the old seal of the custody, and every shire is given arms of its own. Many charges are copied from a book of arms left at the Residency, and so lions, parrots and crocodiles stand on the seals of shires where none was ever seen. The Ròdaich shires bear the pointed shield of the custody's seal; the Tuathaich shires keep the rounded shield of the humans' district seals. At Seann Skell in the west the house of Òrd Mhanannain asks for its badge, the yellow scorpion of Manannan's cup, and that shire alone of all the roll bears a scorpion.",
+  "body": "The council's clerks make Clàr nan Suaicheantas, a roll of arms, so that each maor may seal the letters of his court. The kingdom's arms are cut anew from the old seal of the custody, and every shire is given arms of its own. Many charges are copied from a book of arms left at the Residency, and so lions, parrots and crocodiles stand on the seals of shires where none was ever seen. The Dia-thìrich shires bear the pointed shield of the custody's seal; the Tuathaich shires keep the rounded shield of the humans' district seals. At Seann Skell in the west the house of Òrd Mhanannain asks for its badge, the yellow scorpion of Manannan's cup, and that shire alone of all the roll bears a scorpion.",
   "place": "province:1",
   "kind": "law",
   "between": [
@@ -310,7 +310,7 @@
   "id": "V-0032",
   "canon": false,
   "title": "The Moot's schoolhouse petition",
-  "body": "Walter Hale asks the council for leave to open schools in the north that teach in the humans' tongue. The council answers that the kingdom's schools teach in Ròdais and it has no others. The Moot's minute calls the answer 'clear, at least'.",
+  "body": "Walter Hale asks the council for leave to open schools in the north that teach in the humans' tongue. The council answers that the kingdom's schools teach in Dia-thìris and it has no others. The Moot's minute calls the answer 'clear, at least'.",
   "place": "burg:95",
   "kind": "law"
  },
@@ -347,7 +347,7 @@
   "id": "V-0035",
   "canon": false,
   "title": "The count taken from the road",
-  "body": "Ròdaich census clerks count the Tuathaich towns of Siorrachd Doire ghlas from the road and enter few of the houses. That same year the Moot keeps its own tally. The two totals differ by nearly a fifth, and each side holds to its own.",
+  "body": "Dia-thìrich census clerks count the Tuathaich towns of Siorrachd Doire ghlas from the road and enter few of the houses. That same year the Moot keeps its own tally. The two totals differ by nearly a fifth, and each side holds to its own.",
   "place": "province:23",
   "kind": "record"
  },
@@ -399,7 +399,7 @@
   "id": "V-0040",
   "canon": false,
   "title": "The bridge at Cathair dhearg re-dedicated",
-  "body": "The stone bridge over the Abhainn dhomhain below the capital, rebuilt in the humans' day, is hallowed anew with a name-stone in Ròdais. The humans' stone is left in its place and turned to face the river.",
+  "body": "The stone bridge over the Abhainn dhomhain below the capital, rebuilt in the humans' day, is hallowed anew with a name-stone in Dia-thìris. The humans' stone is left in its place and turned to face the river.",
   "place": "marker:3",
   "kind": "building"
  },
@@ -415,7 +415,7 @@
   "id": "V-0042",
   "canon": true,
   "title": "Eaglais nan Tuathach persists",
-  "body": "The Tuathaich communities keep their Church alive in the north. Quietly they keep also the telling of the First Canoe, the voyage of Naomh Breandan to the Isle of the Blessed, which the Ròdaich priesthood calls superstition still.",
+  "body": "The Tuathaich communities keep their Church alive in the north. Quietly they keep also the telling of the First Canoe, the voyage of Naomh Breandan to the Isle of the Blessed, which the Dia-thìrich priesthood calls superstition still.",
   "place": null,
   "kind": "faith",
   "canon_date": "c. 1938 DE"
@@ -432,7 +432,7 @@
   "id": "V-0044",
   "canon": false,
   "title": "The churches of the north",
-  "body": "Most Tuathaich towns keep An Eaglais, the Church their forebears brought at the Crossing; the Ròdaich of the west coast beside them keep Manannan's order. A church is built at Cnoc ghorm, the greatest in the north.",
+  "body": "Most Tuathaich towns keep An Eaglais, the Church their forebears brought at the Crossing; the Dia-thìrich of the west coast beside them keep Manannan's order. A church is built at Cnoc ghorm, the greatest in the north.",
   "place": "burg:142",
   "kind": "faith"
  },
@@ -452,7 +452,7 @@
   "id": "V-0045",
   "canon": false,
   "title": "The church school at Cnoc ghorm",
-  "body": "The church at Cnoc ghorm opens a school for its priests. It teaches in the humans' tongue and reads the Bible in the Ròdais text its preachers use on the west coast. In all the north, both are taught there only.",
+  "body": "The church at Cnoc ghorm opens a school for its priests. It teaches in the humans' tongue and reads the Bible in the Dia-thìris text its preachers use on the west coast. In all the north, both are taught there only.",
   "place": "burg:142",
   "kind": "faith"
  },
@@ -460,7 +460,7 @@
   "id": "V-0046",
   "canon": true,
   "title": "The border wall proposed",
-  "body": "A fixed boundary between the Ròdaich and the Tuathaich country is proposed for the first time. It is refused as needless, for the two peoples already keep apart of their own will.",
+  "body": "A fixed boundary between the Dia-thìrich and the Tuathaich country is proposed for the first time. It is refused as needless, for the two peoples already keep apart of their own will.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1939 DE"
@@ -518,7 +518,7 @@
   "id": "V-0053",
   "canon": false,
   "title": "The pit towns fill",
-  "body": "Ròdaich families from the hungry east go to the vein-towns for wages. Muileann dhearg doubles in size within three years. Its hall of the druid school, shut since the humans' time, is taken for a hewers' lodging and twice enlarged in those same years.",
+  "body": "Dia-thìrich families from the hungry east go to the vein-towns for wages. Muileann dhearg doubles in size within three years. Its hall of the druid school, shut since the humans' time, is taken for a hewers' lodging and twice enlarged in those same years.",
   "place": "burg:491",
   "kind": "people"
  },
@@ -578,7 +578,7 @@
   "id": "V-0059",
   "canon": true,
   "title": "The guilds restored",
-  "body": "The old custom of binding apprentices, from the Holy Age, is taken up again in a changed form. It is now kept for Ròdaich alone.",
+  "body": "The old custom of binding apprentices, from the Holy Age, is taken up again in a changed form. It is now kept for Dia-thìrich alone.",
   "place": null,
   "kind": "craft",
   "canon_date": "c. 1942 DE"
@@ -587,7 +587,7 @@
   "id": "V-0060",
   "canon": false,
   "title": "The Guild of Hewers chartered",
-  "body": "The first guild under the restored custom, the Guild of Hewers, is chartered at Achadh dhomhain. Its oath is sworn with a hand on a piece of coal. By the charter its rolls are open to Ròdaich only.",
+  "body": "The first guild under the restored custom, the Guild of Hewers, is chartered at Achadh dhomhain. Its oath is sworn with a hand on a piece of coal. By the charter its rolls are open to Dia-thìrich only.",
   "place": "burg:135",
   "kind": "craft"
  },
@@ -603,7 +603,7 @@
   "id": "V-0062",
   "canon": false,
   "title": "The indentures broken",
-  "body": "At Cuan shean and Seann Bhral the Tuathaich boys already bound to Ròdaich masters are loosed from their indentures under the charter rule. Some go north. Most stay on as day-labourers, outside the guilds and their wages.",
+  "body": "At Cuan shean and Seann Bhral the Tuathaich boys already bound to Dia-thìrich masters are loosed from their indentures under the charter rule. Some go north. Most stay on as day-labourers, outside the guilds and their wages.",
   "place": "burg:282",
   "kind": "people"
  },
@@ -708,7 +708,7 @@
   "id": "V-0075",
   "canon": false,
   "title": "The keepers of the five lights",
-  "body": "The five lighthouses built under the humans are given Ròdaich keepers by royal warrant. At Taigh-solais Baile chrom on the Tuathaich coast the keeper is a Ròdaich man lodged in a Tuathaich town, and his warrant bids him report what he sees on land as well as at sea.",
+  "body": "The five lighthouses built under the humans are given Dia-thìrich keepers by royal warrant. At Taigh-solais Baile chrom on the Tuathaich coast the keeper is a Dia-thìrich man lodged in a Tuathaich town, and his warrant bids him report what he sees on land as well as at sea.",
   "place": "marker:12",
   "kind": "building"
  },
@@ -843,7 +843,7 @@
   "id": "V-0089",
   "canon": false,
   "title": "Oighrig nic Mhathain's rules",
-  "body": "Oighrig nic Mhathain, first toll-mistress of the fair at Muileann òg, sets its rules: a stall-fee in coin, a court of the fair for disputes, and Tuathaich goods to be sold only through Ròdaich factors. The rules are read aloud at the opening of every fair to this day.",
+  "body": "Oighrig nic Mhathain, first toll-mistress of the fair at Muileann òg, sets its rules: a stall-fee in coin, a court of the fair for disputes, and Tuathaich goods to be sold only through Dia-thìrich factors. The rules are read aloud at the opening of every fair to this day.",
   "place": "marker:38",
   "kind": "trade"
  },
@@ -958,7 +958,7 @@
   "id": "V-0103",
   "canon": false,
   "title": "Manannan's feast at Seann Bhral",
-  "body": "The house of Òrd Mhanannain at Seann Bhral, one of the oldest on the west coast, will not admit the Tuathaich from the north who come to its feast of the sea, as their forebears learned to do from the Ròdaich harbours. Its keeper says the sea is the same and the house is not.",
+  "body": "The house of Òrd Mhanannain at Seann Bhral, one of the oldest on the west coast, will not admit the Tuathaich from the north who come to its feast of the sea, as their forebears learned to do from the Dia-thìrich harbours. Its keeper says the sea is the same and the house is not.",
   "place": "burg:47",
   "kind": "faith"
  },
@@ -1011,7 +1011,7 @@
   "id": "V-0108",
   "canon": false,
   "title": "The Grey Night forbidden",
-  "body": "A Ròdaich magistrate at Baile chrom forbids the gatherings of the Grey Night sect as disorderly. Hannah Crane is fined. The vigil goes indoors and goes on.",
+  "body": "A Dia-thìrich magistrate at Baile chrom forbids the gatherings of the Grey Night sect as disorderly. Hannah Crane is fined. The vigil goes indoors and goes on.",
   "place": "burg:305",
   "kind": "law"
  },
@@ -1077,7 +1077,7 @@
   "id": "V-0116",
   "canon": false,
   "title": "The Tuathaich schools counted",
-  "body": "The Moot counts eleven schools in the north that teach in the humans' tongue, and three that have begun to teach Ròdais as well, at the parents' asking. Agnes Pike's school at Doire ghlas is one of the three.",
+  "body": "The Moot counts eleven schools in the north that teach in the humans' tongue, and three that have begun to teach Dia-thìris as well, at the parents' asking. Agnes Pike's school at Doire ghlas is one of the three.",
   "place": "burg:209",
   "kind": "culture"
  },
@@ -1093,7 +1093,7 @@
   "id": "V-0118",
   "canon": false,
   "title": "The northern fishing grounds",
-  "body": "Licences to fish the waters south and east of Caol mhòr are kept for Ròdaich boats. The Tuathaich boats are left the northern grounds, where the raiders also fish.",
+  "body": "Licences to fish the waters south and east of Caol mhòr are kept for Dia-thìrich boats. The Tuathaich boats are left the northern grounds, where the raiders also fish.",
   "place": "burg:95",
   "kind": "law"
  },
@@ -1109,7 +1109,7 @@
   "id": "V-0120",
   "canon": false,
   "title": "Trenches at Làrach an Dùin",
-  "body": "Diggers sent by the library open trenches at Làrach an Dùin on the south-east coast. They find walls older than any Ròdaich building, and no writing at all. Ailean Leabhar has the finds entered as of the Old Ones, purpose unknown.",
+  "body": "Diggers sent by the library open trenches at Làrach an Dùin on the south-east coast. They find walls older than any Dia-thìrich building, and no writing at all. Ailean Leabhar has the finds entered as of the Old Ones, purpose unknown.",
   "place": "marker:32",
   "kind": "discovery"
  },
@@ -1133,7 +1133,7 @@
   "id": "V-0123",
   "canon": false,
   "title": "A lighthouse on the Tuathaich coast",
-  "body": "The Ròdaich keeper of Taigh-solais Baile chrom reports to the council that the Grey Night sect keeps its vigil in the dark of the lighthouse's own shadow. The council does nothing.",
+  "body": "The Dia-thìrich keeper of Taigh-solais Baile chrom reports to the council that the Grey Night sect keeps its vigil in the dark of the lighthouse's own shadow. The council does nothing.",
   "place": "marker:12",
   "kind": "faith"
  },
@@ -1157,7 +1157,7 @@
   "id": "V-0126",
   "canon": true,
   "title": "The second census after the Severance",
-  "body": "The second census measures for the first time how far the Tuathaich live below the Ròdaich; until now it was only seen. The report is not made public.",
+  "body": "The second census measures for the first time how far the Tuathaich live below the Dia-thìrich; until now it was only seen. The report is not made public.",
   "place": null,
   "kind": "record",
   "canon_date": "c. 1962 DE"
@@ -1182,7 +1182,7 @@
   "id": "V-0129",
   "canon": false,
   "title": "The Tuathaich doctors",
-  "body": "The Moot pays for two Tuathaich women to be taught medicine by a Ròdaich physician at Àth àrsaidh, who takes them against the will of his guild. He is struck from its rolls. They practise in the north for forty years.",
+  "body": "The Moot pays for two Tuathaich women to be taught medicine by a Dia-thìrich physician at Àth àrsaidh, who takes them against the will of his guild. He is struck from its rolls. They practise in the north for forty years.",
   "place": "burg:304",
   "kind": "people"
  },
@@ -1257,7 +1257,7 @@
   "id": "V-0137",
   "canon": false,
   "title": "The silver at depth",
-  "body": "The silver seam at Muileann chiar, which the Ròdaich kept hidden from the humans, is found richer at depth than any had looked for. The town's old silver guild takes a charter under the restored custom. Iain Mapa, working there since the Board sent him, measures the new faces.",
+  "body": "The silver seam at Muileann chiar, which the Dia-thìrich kept hidden from the humans, is found richer at depth than any had looked for. The town's old silver guild takes a charter under the restored custom. Iain Mapa, working there since the Board sent him, measures the new faces.",
   "place": "marker:2",
   "kind": "craft"
  },
@@ -1319,7 +1319,7 @@
   "id": "V-0142",
   "canon": true,
   "title": "The rules of the shafts",
-  "body": "After this lesser echo of the old fall of Scàineadh Cill ghlas, new rules for digging are made. They are for Ròdaich workers. In the workings where Tuathaich labour they are kept loosely, and by intent.",
+  "body": "After this lesser echo of the old fall of Scàineadh Cill ghlas, new rules for digging are made. They are for Dia-thìrich workers. In the workings where Tuathaich labour they are kept loosely, and by intent.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1968 DE"
@@ -1328,7 +1328,7 @@
   "id": "V-0143",
   "canon": false,
   "title": "The timber at Àth leathan",
-  "body": "At the pits about Àth leathan, where Ròdaich overseers work Tuathaich hands, the new rules of timbering are posted and not paid for. The overseers' books, which came later to the library, show the timber ordered and never delivered.",
+  "body": "At the pits about Àth leathan, where Dia-thìrich overseers work Tuathaich hands, the new rules of timbering are posted and not paid for. The overseers' books, which came later to the library, show the timber ordered and never delivered.",
   "place": "burg:346",
   "kind": "law"
  },
@@ -1385,7 +1385,7 @@
   "id": "V-0150",
   "canon": false,
   "title": "The Moot's pit register",
-  "body": "The Moot at Caol mhòr begins a register of Tuathaich hewers killed or maimed in the western pits, for no Ròdaich book counts them. Mary Coyle's clerks enter the first year's names on the families' own word. The register is kept to this day and has never been sent south.",
+  "body": "The Moot at Caol mhòr begins a register of Tuathaich hewers killed or maimed in the western pits, for no Dia-thìrich book counts them. Mary Coyle's clerks enter the first year's names on the families' own word. The register is kept to this day and has never been sent south.",
   "place": "burg:95",
   "kind": "record"
  },
@@ -1530,7 +1530,7 @@
   "id": "V-0168",
   "canon": false,
   "title": "Daniel Frayne's copying school",
-  "body": "At Muileann leathan in the north Daniel Frayne, a clerk of the Moot, teaches young Tuathaich to copy and bind books, since the guilds of that craft in the south will not take them. The bindings of Muileann leathan are found afterwards in Ròdaich libraries without their makers' names.",
+  "body": "At Muileann leathan in the north Daniel Frayne, a clerk of the Moot, teaches young Tuathaich to copy and bind books, since the guilds of that craft in the south will not take them. The bindings of Muileann leathan are found afterwards in Dia-thìrich libraries without their makers' names.",
   "place": "burg:234",
   "kind": "craft"
  },
@@ -1707,7 +1707,7 @@
   "id": "V-0190",
   "canon": false,
   "title": "The Fèill's northern day",
-  "body": "The court of the fair at Muileann òg sets aside one day of the fair for goods from the northern shires. They are still sold through Ròdaich factors, but under the northern makers' own marks. It is the first time a Tuathaich name is written on anything sold there.",
+  "body": "The court of the fair at Muileann òg sets aside one day of the fair for goods from the northern shires. They are still sold through Dia-thìrich factors, but under the northern makers' own marks. It is the first time a Tuathaich name is written on anything sold there.",
   "place": "marker:38",
   "kind": "trade"
  },
@@ -1813,7 +1813,7 @@
   "id": "V-0203",
   "canon": false,
   "title": "The Seann Bhral ruling",
-  "body": "Ruairidh mac Phàdraig, circuit justice at Seann Bhral, rules that the Rail Board is a carrier of the Crown and must carry for any who pay. It is the first ruling the Moot wins in a Ròdaich court. The Board appeals, and the council lets the appeal lapse.",
+  "body": "Ruairidh mac Phàdraig, circuit justice at Seann Bhral, rules that the Rail Board is a carrier of the Crown and must carry for any who pay. It is the first ruling the Moot wins in a Dia-thìrich court. The Board appeals, and the council lets the appeal lapse.",
   "place": "burg:47",
   "kind": "law"
  },
@@ -1932,7 +1932,7 @@
   "id": "V-0217",
   "canon": false,
   "title": "The figures read at the Moot",
-  "body": "The published figures are read aloud at the Moot at Caol mhòr. They show the northern towns at about half the Ròdaich measure in every column the clerks chose to take. The Moot's minute says only: 'Now written.'",
+  "body": "The published figures are read aloud at the Moot at Caol mhòr. They show the northern towns at about half the Dia-thìrich measure in every column the clerks chose to take. The Moot's minute says only: 'Now written.'",
   "place": "burg:95",
   "kind": "record"
  },
@@ -2004,7 +2004,7 @@
   "id": "V-0226",
   "canon": true,
   "title": "The library enlarged",
-  "body": "Leabharlann Muileann chaol doubles its holdings and takes several lesser archives of the provinces into one record. From this time the history of Rodos is kept in one place and not in many.",
+  "body": "Leabharlann Muileann chaol doubles its holdings and takes several lesser archives of the provinces into one record. From this time the history of Dia-thìr is kept in one place and not in many.",
   "place": "marker:34",
   "kind": "record",
   "canon_date": "c. 1996 DE"

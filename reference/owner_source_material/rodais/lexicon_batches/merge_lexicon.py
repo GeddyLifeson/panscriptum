@@ -1,5 +1,5 @@
 """
-merge_lexicon.py -- fold the translated batches into the Ròdais dictionary.
+merge_lexicon.py -- fold the translated batches into the Dia-thìris dictionary.
 
     python merge_lexicon.py            (from this folder)
     python merge_lexicon.py /tmp/x     (dry run: write the outputs to /tmp/x instead)
@@ -10,14 +10,14 @@ Reads LEXICON_5005.json (the original 5,005 entries, kept as they were before th
                          band ("F1" = the 1,000 most common English words ... "F16"), and every entry
                          gets "ipa" from rodais_engine.pronounce() when the engine has it; the "scots"
                          field of the batches (the outside word a kenning stands for) is dropped
-    ../LEXICON.md        Ròdais - English, sorted by Ròdais headword
-    ../LEXICON_EN.md     English - Ròdais, sorted by English headword
+    ../LEXICON.md        Dia-thìris - English, sorted by Dia-thìris headword
+    ../LEXICON_EN.md     English - Dia-thìris, sorted by English headword
     coverage.txt         how many of the most common English words the dictionary now covers
 
 After loading, audit_patch.json (written by audit.py: case, verb form, peoples, conflicts, loans vs
 kennings, old native words, missing main senses) is applied to the original and the new entries alike:
 its edits by id, its drops, its additions. A new entry is then added only if no entry already has the
-same English, the same Ròdais form and the same part of speech (so a demonym keeps both its noun and its
+same English, the same Dia-thìris form and the same part of speech (so a demonym keeps both its noun and its
 adjective).
 """
 import glob
@@ -117,8 +117,8 @@ def main():
     for e in entries:   # the dictionary is written from inside the island: no outside word stands beside a kenning
         e.pop('scots', None)
     base['entries'] = entries
-    base['source'] = ('The word-hoard of the Ròdais tongue, set down at the Library at Muileann chaol: English headwords '
-                      'with their Ròdais, the first 5,005 graded by level (A1-C2) and the rest by how often the English '
+    base['source'] = ('The word-hoard of the Dia-thìris tongue, set down at the Library at Muileann chaol: English headwords '
+                      'with their Dia-thìris, the first 5,005 graded by level (A1-C2) and the rest by how often the English '
                       'word is used (levels F1-F16, bands of 1,000 words). An entry marked "kenning" is a word the island '
                       'built from old roots for a thing that came with the humans or after them; "lit" gives its literal sense.')
     json.dump(base, open(os.path.join(OUT, 'LEXICON.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
@@ -140,7 +140,7 @@ def main():
     open(os.path.join(HERE if OUT == ROOT else OUT, 'coverage.txt'), 'w').write('\n'.join(lines) + '\n')
     print('\n'.join(lines))
 
-    # Ròdais - English
+    # Dia-thìris - English
     def gloss(e):
         bits = []
         if e.get('pos') == 'n' and e.get('g'):
@@ -153,13 +153,13 @@ def main():
             bits.append('vn. *%s*' % e['vn'])
         return ', '.join(bits)
 
-    out = ['# Ròdais – English dictionary', '',
-           'Here are %d words of the Ròdais tongue, in the order of their headwords; a leading article is passed '
+    out = ['# Dia-thìris – English dictionary', '',
+           'Here are %d words of the Dia-thìris tongue, in the order of their headwords; a leading article is passed '
            'over in the ordering. A noun is given with its gender, its genitive and its plural, a verb with its '
            'verbal noun, and every word with its sound between slashes. The mark ✦ follows a word that the '
            'island built from its own old roots when a new thing came to it with the humans or after them '
            '(GRAMMAR.md §13); the literal sense of such a word is set after it, as *suathaiche-nèimh* '
-           '"heaven-grazer" for a tower of many floors. The other road, from English into Ròdais, is `LEXICON_EN.md`.'
+           '"heaven-grazer" for a tower of many floors. The other road, from English into Dia-thìris, is `LEXICON_EN.md`.'
            % len(entries), '']
     letter = None
     for e in sorted(entries, key=lambda e: (key(e['rod']), e['en'].lower())):
@@ -183,8 +183,8 @@ def main():
         out.append(s)
     open(os.path.join(OUT, 'LEXICON.md'), 'w', encoding='utf-8').write('\n'.join(out) + '\n')
 
-    # English - Ròdais
-    out = ['# English – Ròdais dictionary', '', 'The same %d words, in the order of their English headwords. The full '
+    # English - Dia-thìris
+    out = ['# English – Dia-thìris dictionary', '', 'The same %d words, in the order of their English headwords. The full '
            'entries, with sound and literal sense, stand in `LEXICON.md`.' % len(entries), '']
     letter = None
     for e in sorted(entries, key=lambda e: (key(e['en']), e['rod'].lower())):

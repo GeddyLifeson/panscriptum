@@ -1,4 +1,4 @@
-# English – Ròdais dictionary
+# English – Dia-thìris dictionary
 
 The same 21306 words, in the order of their English headwords. The full entries, with sound and literal sense, stand in `LEXICON.md`.
 
@@ -9,7 +9,7 @@ The same 21306 words, in the order of their English headwords. The full entries,
 
 ## A
 
-- **a** (indefinite article: Ròdais has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant) — *—*
+- **a** (indefinite article: Dia-thìris has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant) — *—*
 - **A bird in the hand is worth two in the bush** — *Is fheàrr eun san làimh na dhà air a' chraoibh.*
 - **a bit** — *beagan*
 - **a blessing in disguise** — *beannachd am falach*
@@ -748,7 +748,7 @@ The same 21306 words, in the order of their English headwords. The full entries,
 - **amusing** (funny, entertaining) — *èibhinn*
 - **amygdala** (almond-shaped part of the brain tied to fear) — *cnò-eagail* ✦ n. f., gen. *cnò-eagail*, pl. *cnòthan-eagail*
 - **amyloid** (starch-like protein deposit in the body) — *amaloid* n. m., gen. *amaloid*
-- **an** (indefinite article (the form of 'a' before a vowel): Ròdais has none; a bare noun is indefinite (ubhal 'an apple')) — *—*
+- **an** (indefinite article (the form of 'a' before a vowel): Dia-thìris has none; a bare noun is indefinite (ubhal 'an apple')) — *—*
 - **anaconda** (great South American water snake) — *nathair-uisce* n. f., gen. *nathrach-uisce*, pl. *nathraichean-uisce*
 - **anaerobic** (living or working without air) — *gun àile* ✦
 - **anal** (of the anus) — *tòineach*
@@ -7781,7 +7781,7 @@ The same 21306 words, in the order of their English headwords. The full entries,
 - **fry** — *frighig* v. vn. *frighigeadh*
 - **fryer** (deep frying pan) — *aghann-ròstaidh* n. f., gen. *aighne-ròstaidh*, pl. *aghannan-ròstaidh*
 - **fuck** (fuck! (an oath): Mac an donais! 'son of the devil!') — *mac an donais*
-- **fucked** (ruined, broken (vulgar; Ròdais says "gone to ruin")) — *air a dhol a dholaidh*
+- **fucked** (ruined, broken (vulgar; Dia-thìris says "gone to ruin")) — *air a dhol a dholaidh*
 - **fucker** (contemptible person (vulgar)) — *bleigeard* n. m., gen. *bleigeird*, pl. *bleigeardan*
 - **fuckers** (contemptible people (vulgar)) — *trustar* n. m., gen. *trustair*, pl. *trustaran*
 - **fuckin** (damned (vulgar intensifier)) — *mallaichte*
@@ -12738,8 +12738,8 @@ The same 21306 words, in the order of their English headwords. The full entries,
 - **northeast** (the northeast) — *ear-thuath* n. m.
 - **northeastern** (of the north-east) — *ear-thuathach*
 - **northerly** (from or towards the north) — *on tuath*
-- **northern** (northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Rodos) — *mu thuath*
-- **northerner** (person from the north (on Rodos, one of the Tuathaich)) — *Tuathach* n. m., gen. *Tuathaich*, pl. *Tuathaich*
+- **northern** (northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Dia-thìr) — *mu thuath*
+- **northerner** (person from the north (on Dia-thìr, one of the Tuathaich)) — *Tuathach* n. m., gen. *Tuathaich*, pl. *Tuathaich*
 - **northward** (towards the north) — *gu tuath*
 - **northwest** (the north-west (an iar-thuath)) — *iar-thuath* n. f., gen. *iar-thuath*
 - **northwestern** (of the north-west) — *iar-thuathach*
@@ -21176,7 +21176,7 @@ The same 21306 words, in the order of their English headwords. The full entries,
 - **wool** — *clòimh* n. f.
 - **woolly** (vague, muddled) — *ceòthach*
 - **woolly** (made of or like wool) — *olannach*
-- **wop** (offensive slur for an Italian (Ròdais uses the plain demonym)) — *Eadailteach* n. m., gen. *Eadailtich*, pl. *Eadailtich*
+- **wop** (offensive slur for an Italian (Dia-thìris uses the plain demonym)) — *Eadailteach* n. m., gen. *Eadailtich*, pl. *Eadailtich*
 - **word** — *facal* n. m., pl. *faclan*
 - **work** (work, labour; a job) — *obair* n. f., gen. *obrach*, pl. *obraichean*
 - **work** — *obraich* v. vn. *obair*

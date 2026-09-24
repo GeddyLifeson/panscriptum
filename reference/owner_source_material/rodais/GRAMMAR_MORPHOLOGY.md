@@ -1,8 +1,8 @@
 # Word forms
 
-This chapter sets out the forms of Ròdais words: the initial mutations, the article, nouns and
+This chapter sets out the forms of Dia-thìris words: the initial mutations, the article, nouns and
 their cases, adjectives, pronouns and prepositional pronouns, the verb, the copula, numerals, and
-word-formation, ending with the kennings by which Ròdais names new things. Paradigm tables come
+word-formation, ending with the kennings by which Dia-thìris names new things. Paradigm tables come
 first, then the rules that produce them, then the exceptions.
 
 **Other chapters.** *The grammar in brief* is the short statement of the language; where it and
@@ -17,22 +17,22 @@ of every word.
 
 ### 0.1 The fuller forms
 
-Ròdais writes long vowels with the grave (*mòr, sìth*) and never with an acute, and writes the
+Dia-thìris writes long vowels with the grave (*mòr, sìth*) and never with an acute, and writes the
 cluster /sk/ as *sc* (*uisce, scoil, sceul, loisc, faisc, measc, seascad*). Three things about its
 word forms are best known from the start:
 
-1. **Ròdais keeps the fuller forms.** Spoken for many centuries on an island apart, Ròdais has not
+1. **Dia-thìris keeps the fuller forms.** Spoken for many centuries on an island apart, Dia-thìris has not
    worn its forms down: the full dative and genitive singular, the strong genitive plural (*nam
    balach, nam bròg*), the dual after *dà* (*dà làimh, dà bhròig*), the synthetic verb forms in
    *-inn* and *-eamaid* and the synthetic imperatives of all persons, the relative future (*a
    sheasas*), the impersonal forms of every tense, and the older verbal nouns (*fantainn,
    labhairt, cantainn*). These are the plain speech of the island, not the stiff forms of books.
-   Where the older tongue had a form that throws light on a Ròdais one, it is noted.
-2. **Ròdais names new things from old roots.** It took few of the humans' words for the things
+   Where the older tongue had a form that throws light on a Dia-thìris one, it is noted.
+2. **Dia-thìris names new things from old roots.** It took few of the humans' words for the things
    they brought after the Crossing, and for most of them made names of its own (§10). The examples
    in this chapter are old native words: *oide* "tutor", not *tidsear*; *long, curach, bàta*, not
    *càr*.
-3. **Some usages are its own, and settled.** Ròdais counts by tens as *ceathrad còig*, writes the
+3. **Some usages are its own, and settled.** Dia-thìris counts by tens as *ceathrad còig*, writes the
    vocative particle before a vowel (*a Aisling*), lenites the qualifier in every place name, and
    spells *aisde*. Each is noted where it comes up.
 
@@ -55,7 +55,7 @@ word forms are best known from the start:
 
 ## 1. Initial mutations
 
-Ròdais words change their first sound according to the word before them. There is one full
+Dia-thìris words change their first sound according to the word before them. There is one full
 mutation, **lenition**, and a set of **prefixed consonants** (*t-, h-, n-*), which are what is left
 of older mutations and of final consonants the tongue has since lost. The old nasal mutation,
 eclipsis, is **not** written on the word it changes: the spelling shows it only as the final
@@ -121,7 +121,7 @@ is the rule behind:
 The first six rows block all three dentals; *cha* blocks only *d* and *t*. The lenited *s* after
 *cha* is old and sure: *cha sheas poca falamh* "an empty sack won't stand" is the proverb.
 
-**A Ròdais fixed name breaks the rule.** The free phrase *seann daoine* "old people" keeps the
+**A Dia-thìris fixed name breaks the rule.** The free phrase *seann daoine* "old people" keeps the
 dental plain, as in the tale *Mar a Dh'fhalbh na Seann-Dhaoine* (*na seann daoine glic aca*); the
 hyphenated proper name of the vanished people is *Seann-Dhaoine*, lenited through the dental, as
 close compounds often are (§9.6). The island's oldest place names follow the free rule: *Seann Dunn,
@@ -151,7 +151,7 @@ way to it. *sc, sp, st, sm* take nothing: *an sporan, an stòl, an sceul*.
 | *na* (gen. sg. fem., all plural cases but gen.) | *na h-eaglaise, na h-eileanan, na h-aibhne* |
 | *a* "her" | *a h-athair, a h-ainm, ga h-ithe* |
 | *gu* (adverbs, "to") | *gu h-àrd, gu h-obann, gu h-iomlan* |
-| *le, ri* before a vowel-initial noun (the older written practice Ròdais keeps) | *le h-aoibhneas, ri h-ùine* |
+| *le, ri* before a vowel-initial noun (the older written practice Dia-thìris keeps) | *le h-aoibhneas, ri h-ùine* |
 | the counting particle *a* | *a h-aon, a h-ochd, a h-aon deug* |
 | the negative imperative *na* | *na h-òl sin!, na h-ith e!* |
 | *a h-uile* "every" | *a h-uile duine* |
@@ -160,7 +160,7 @@ way to it. *sc, sp, st, sm* take nothing: *an sporan, an stòl, an sceul*.
 
 **Traces of eclipsis.** The older tongue had a full nasal mutation, eclipsis, after words that had
 once ended in *-n*: the genitive plural article, the possessives *ar, ur* and *an* "their", the
-interrogative *an*, the conjunction *gun*, and the preposition "in". Of it Ròdais keeps only these
+interrogative *an*, the conjunction *gun*, and the preposition "in". Of it Dia-thìris keeps only these
 traces:
 
 | trace | written | example |
@@ -196,7 +196,7 @@ The assimilation of *n* to *m* before *b, f, m, p* is written everywhere a parti
 
 ## 2. The article
 
-Ròdais has a definite article and no indefinite one: *cù* "a dog", *an cù* "the dog". The article
+Dia-thìris has a definite article and no indefinite one: *cù* "a dog", *an cù* "the dog". The article
 agrees with its noun in gender, number and case, and it mutates the noun. The noun's own case form
 (*balaich, bròige, mnà*) belongs to the noun and is given in the Dictionary; the article adds the
 mutation.
@@ -256,17 +256,17 @@ na mara* (*Sentences* §8.4). The plural article with a preposition is
 ### 2.3 Where the article stands
 
 The article is used, where English has none, with abstract and generic nouns (*tha an t-acras
-orm* "I am hungry", *an fhìrinn*), the names of tongues (*an Ròdais*), seasons and months (*an
+orm* "I am hungry", *an fhìrinn*), the names of tongues (*an Dia-thìris*), seasons and months (*an
 t-earrach, an Giblean*), many place names (*an Àird, an Cuan Siar*), and before a noun that has a
 definite genitive (*taigh a' bhàird*, never *\*an taigh a' bhàird*). These are syntax (*Sentences* §8.2–8.3); the forms are those above.
 
 ---
 ## 3. Nouns
 
-A Ròdais noun has a **gender** (masculine or feminine), a **number** (singular, plural, and a
+A Dia-thìris noun has a **gender** (masculine or feminine), a **number** (singular, plural, and a
 dual that survives after *dà*), and a **case** (nominative, genitive, dative, vocative). Case is
 marked by changes to the end of the word (slenderising, broadening, suffixes) and by the
-mutations the article and prepositions cause. Ròdais keeps all of it in speech, the dative
+mutations the article and prepositions cause. Dia-thìris keeps all of it in speech, the dative
 singular of feminine nouns, the genitive after verbal nouns and the strong genitive plural among
 the rest (§0.1).
 
@@ -287,12 +287,12 @@ m.), with well-known exceptions: *boireannach* "woman" is masculine (by its endi
 | abstract *-achd, -eachd* | f. | *rìoghachd, eachdraidh* (f.), *bàrdachd, sìorrachd, fàisneachd* |
 | abstract *-e* formed from adjectives | f. | *gile* "whiteness", *òige* "youth", *doimhne* "depth", *àirde* "height" |
 | most nouns ending in a slender consonant after a single syllable of long vowel | f. (tendency) | *sùil, sràid, cathair, beinn, abhainn, fìrinn* |
-| names of most rivers, many countries and languages | f. | *an Abhainn mhòr, an Ròdais* |
+| names of most rivers, many countries and languages | f. | *an Abhainn mhòr, an Dia-thìris* |
 | diminutive *-an* | m. | *lochan, bothan, cnocan, balachan* |
 | agent nouns *-(a)ir, -adair, -aiche, -iche* | m. | *iascair, sealgair, scrìobhadair, suathaiche, stiùiriche* |
 | abstract *-as, -adas* | m. | *sonas, dorchadas, maitheas, càirdeas* |
 | verbal nouns in *-adh, -eadh, -amh, -ail* | m. | *briseadh, seasamh, togail, cadal* |
-| nouns in *-ach* denoting persons | m. | *balach, Ròdach, Tuathach, boireannach, coigreach* |
+| nouns in *-ach* denoting persons | m. | *balach, Dia-thìreach, Tuathach, boireannach, coigreach* |
 | compounds | the gender of the **head** (first element) | *taigh-òsta* m., *bean-phòsta* f., *inntinn-iarainn* f. |
 
 Adjectives used as nouns take the gender of what they refer to: *am Bàn* "the fair-haired man",
@@ -350,7 +350,7 @@ Class II feminines add *-e* after slenderising; the dative is the slenderised st
 | *gealach* | *gealaich* | *gealaich* | *cearc* | *circe* | *circ* |
 
 Polysyllables in *-ach* (*gealach, cailleach*) take no *-e*: *oidhche na gealaich ùire* "the night
-of the new moon". In Ròdais both the *-e* of the genitive and the separate dative are the norm, in
+of the new moon". In Dia-thìris both the *-e* of the genitive and the separate dative are the norm, in
 speech as in writing.
 
 ### 3.4 Model paradigms
@@ -440,7 +440,7 @@ after *dà* (§3.6). For the genitive plural, see §3.8.
 | nom. pl. | *cathraichean / na cathraichean* | *màthraichean / na màthraichean* | *athraichean / na h-athraichean* | *aibhnichean / na h-aibhnichean* |
 | gen. pl. | *nan cathraichean* | *nam màthraichean* | *nan athraichean* | *nan aibhnichean* |
 
-*Cathair* is the Ròdais word for "city": first a stone fort, and then the town that grew within its
+*Cathair* is the Dia-thìris word for "city": first a stone fort, and then the town that grew within its
 walls. It declines as a consonant stem.
 **Place names are not declined**: *à Cathair dhearg, ann an Cathair dhearg*,
 *Siorrachd Cathair mhòr*. That is a naming convention, like the always-lenited qualifier
@@ -499,7 +499,7 @@ chariot". This is the pattern of the kennings (§10.3).
 
 After *dà* "two" a noun stands in the **dual**: the **singular**, lenited, and for feminine nouns
 the **dative singular** form. It is the old dual of the tongue, whose feminine was the same as the
-dative, and Ròdais uses it throughout: *dà làimh*, *dà chois*.
+dative, and Dia-thìris uses it throughout: *dà làimh*, *dà chois*.
 
 | | masculine | feminine (class II) | feminine (other classes) |
 |---|---|---|---|
@@ -526,14 +526,14 @@ The vocative follows the particle *a*, which lenites. Before a vowel the particl
 | vowel-final nouns | *a dhuine!, a ghobha!, a ghille!* (unchanged but lenited) | *a nighean!* |
 | plural | strong plurals: nom. sg. + *-a*: *a fheara!, a bhalacha!, a bhàrda!*; weak plurals: nom. pl. + *L*: *a chàirdean!, a dhaoine!* | *a mhnathan!, a chaileagan!* |
 
-*Cian* → *a Chiain*, *Dubhan* → *a Dhubhain*: Ròdais slenderises every masculine name in the
+*Cian* → *a Chiain*, *Dubhan* → *a Dhubhain*: Dia-thìris slenderises every masculine name in the
 vocative, by the class I rule (*The grammar in brief* §9). The vocative plural in *-a* (*a fheara!*)
-is the old form; Ròdais uses it in formal address and in tales, and the weak plural (*a dhaoine!*)
+is the old form; Dia-thìris uses it in formal address and in tales, and the weak plural (*a dhaoine!*)
 everywhere else.
 
 ### 3.8 The genitive plural
 
-Ròdais has two genitive plurals, and both are old:
+Dia-thìris has two genitive plurals, and both are old:
 
 | | form | when | examples |
 |---|---|---|---|
@@ -546,7 +546,7 @@ bhalach* "a boys' horse". In kennings, lenition of an indefinite genitive plural
 after a masculine head: *nimh-bhiastan* "beastie-bane", *cladhaire-chnàmh* "bone-digger",
 *seanchas-dhaoine* "people-lore" (§10.3).
 
-**Old dative plural.** The older tongue had a dative plural in *-(a)ibh*. Ròdais keeps it only in
+**Old dative plural.** The older tongue had a dative plural in *-(a)ibh*. Dia-thìris keeps it only in
 fixed expressions: *air beulaibh* "in front of" (lit.
 "on mouths"), *air cùlaibh* "behind" (lit. "on backs"), *fo chasaibh* "underfoot", and in verse:
 *anns na beanntaibh*.
@@ -557,7 +557,7 @@ Each noun's plural is given in the Dictionary, but plurals fall into classes:
 
 | class | rule | examples |
 |---|---|---|
-| **internal (slenderising)** | slenderise the final consonant, with the class I vowel changes | *balach → balaich, cat → cait, each → eich, fear → fir, cù → coin, mac → mic, ceann → cinn, eun → eòin, bàrd → bàird, iasc → èisc, cnoc → cnuic, Ròdach → Ròdaich, Tuathach → Tuathaich* |
+| **internal (slenderising)** | slenderise the final consonant, with the class I vowel changes | *balach → balaich, cat → cait, each → eich, fear → fir, cù → coin, mac → mic, ceann → cinn, eun → eòin, bàrd → bàird, iasc → èisc, cnoc → cnuic, Dia-thìreach → Dia-thìrich, Tuathach → Tuathaich* |
 | **-an** | after a broad final | *craobh → craobhan, làmh → làmhan, cas → casan, caileag → caileagan, uinneag → uinneagan, eilean → eileanan, loch → lochan, bròg → brògan* |
 | **-ean** | after a slender final | *sràid → sràidean, sùil → sùilean, seachdain → seachdainean, iascair → iascairean* |
 | **-tan / -tean** | adds *t*; often syncopates or changes the vowel | *beinn → beanntan, baile → bailtean, teine → teintean, coille → coilltean, cùil → cùiltean, buaile → buailtean, sliabh → slèibhtean* |
@@ -567,8 +567,8 @@ Each noun's plural is given in the Dictionary, but plurals fall into classes:
 | **-(e)an with syncope** | a medial unstressed vowel drops | *muileann → muilnean, ùbhal → ùbhlan, seòmar → seòmraichean, dorus → dorsan, tùr → tùir* |
 | **irregular** | | *bean → mnathan, duine → daoine, bò → bà, piuthar → peathraichean, bràthair → bràithrean, latha → làithean, taigh → taighean, dia → diathan, sluagh → slòigh* |
 
-**Older plurals.** Ròdais keeps its strong plurals and has not let *-an* take their place, as the
-Dictionary records: *cnuic* (not *cnocan*, which Ròdais keeps for the
+**Older plurals.** Dia-thìris keeps its strong plurals and has not let *-an* take their place, as the
+Dictionary records: *cnuic* (not *cnocan*, which Dia-thìris keeps for the
 diminutive "hillock"), *eòin, cinn, èisc, coin*. A noun with two plurals keeps them apart in
 meaning: *cnuic* "hills" beside *cnocan* "hillocks"; *lochan* is both the plural of *loch* and a
 noun of its own, "a small loch" (pl. *lochain*).
@@ -630,7 +630,7 @@ exceptions apply (§1.2): *bean làidir, bean rìoghail, sràid stàiteil, clach
 
 **Place names.** In place names the qualifier is lenited after every generic, masculine or feminine:
 *Baile ghorm, Cnoc bheag, Dùn thais, Cathair mhòr*. In speech an adjective after a masculine
-noun follows rule 3 above (*baile gorm*). Ròdais keeps the always-lenited form as a fixed naming
+noun follows rule 3 above (*baile gorm*). Dia-thìris keeps the always-lenited form as a fixed naming
 pattern (*The grammar in brief* §4; *Names*).
 
 ### 4.2 Case and number endings
@@ -679,7 +679,7 @@ red walls of the castle", *eich bhrèagha ghil* "(in the shape) of a beautiful w
 sg. m., both lenited, in the tale of the water horse: *ann an riochd eich bhrèagha ghil*).
 
 **The older declension.** The older tongue declined its adjectives fully, like nouns of the same
-stem class. Ròdais still declines the monosyllables in the genitive and dative as a matter of
+stem class. Dia-thìris still declines the monosyllables in the genitive and dative as a matter of
 course, as the tales do.
 
 ### 4.3 Polysyllabic adjectives
@@ -845,7 +845,7 @@ The suffix is written solid after a prepositional pronoun and hyphenated after a
 *esan*, the suffixes stand outside the *caol le caol* law; in the older tongue they were words of
 their own, and they keep the freedom of separate words still. Where a solid form would clash, the hyphen is written (*leis-san, ris-san,
 às-san, dheth-san*); the traditional solid forms *aigesan, airsan, leathase, bhuaithesan,
-uimesan, thuigesan, dhaibhsan* are correct Ròdais, and stand outside the law as *esan* and
+uimesan, thuigesan, dhaibhsan* are correct Dia-thìris, and stand outside the law as *esan* and
 *iadsan* do. The texts use them freely: *is ann
 dhutsa a bha am bradan an dàn, agus chan ann dhòmhsa* "it was for *you* the salmon was destined,
 not for *me*".
@@ -867,7 +867,7 @@ alone: *a chù* "his dog", *a cù* "her dog", *a choin!* "O dog!".
 
 **Traces of eclipsis.** *ar n-, ur n-* and *am/an* "their" are the old eclipsing possessives; of
 their mutation only the *n-* before vowels and the nasal assimilation of *an → am* are written in
-Ròdais (§1.6).
+Dia-thìris (§1.6).
 
 **Possessive or *aig*?** Inalienable things (body, kin, mind, name) take the possessive: *mo
 cheann, mo mhàthair, m' ainm*. Alienable possessions usually take the article + *aig*: *an taigh
@@ -939,7 +939,7 @@ then the emphatic (§5.2).
 | 2 pl. | *annaibh / annaibhse* | *asaibh / asaibhse* | *bhuaibh / bhuaibhse* (*uaibh*) | *dhibh / dhibhse* |
 | 3 pl. | *annta / anntasan* | *asta / astasan* | *bhuapa / bhuapasan* (*uapa*) | *dhiubh / dhiubhsan* |
 
-*Aisde* "out of her" is written with *d*, the older spelling, which Ròdais has kept. *Ann* "in it (m.)" is also the
+*Aisde* "out of her" is written with *d*, the older spelling, which Dia-thìris has kept. *Ann* "in it (m.)" is also the
 adverb "there, in existence": *Bha siud ann uair* "there was once (that)".
 
 **ri "to, against", fo "under", mu "about", gu "to, towards"**
@@ -978,7 +978,7 @@ necessity *tha agam ri falbh*; "there" *tha e ann*; naming *ris an canadh daoine
 
 ### 5.6 Preposition + possessive
 
-The possessives fuse with some prepositions. Ròdais writes these contractions as single words
+The possessives fuse with some prepositions. Dia-thìris writes these contractions as single words
 without an apostrophe, and the tales use them so:
 *na mhuing* "in its mane", *nam bheul* "in my mouth", *na fhuil* "in his blood", *leum iad dhan
 uisce nan ròin* "they leapt into the water as seals (lit. in their seals)".
@@ -996,7 +996,7 @@ uisce nan ròin* "they leapt into the water as seals (lit. in their seals)".
 *Ann an* + possessive is also the predicative "as": *bha i na bean-phòsta chòir* "she was a kind
 wife (lit. in her kind wife)", *tha e na iascair* "he is a fisherman". See *Sentences* §1.3 and §2.7.
 
-With the other prepositions Ròdais writes the possessive in full, as the tales do (*fo a chòta*
+With the other prepositions Dia-thìris writes the possessive in full, as the tales do (*fo a chòta*
 "under his coat", *le a òrdag* "with his thumb", *bho mo sheanmhair* "from my grandmother", *gu a
 màthair* "to her mother"); in speech these run together as *fom, lem, bhom, gum*, and that
 pronunciation may be written in dialogue:
@@ -1012,7 +1012,7 @@ pronunciation may be written in dialogue:
 
 ### 6.1 The shape of the verb
 
-A Ròdais verb is cited by its **root**, which is the second person singular imperative (*tog!*
+A Dia-thìris verb is cited by its **root**, which is the second person singular imperative (*tog!*
 "lift!", *bris!* "break!"), and its **verbal noun** (*togail, briseadh*), which is lexical. The
 Dictionary gives both.
 
@@ -1024,7 +1024,7 @@ noun (*tha mi a' togail* "I am lifting", *tha mi air togail* "I have lifted"); t
 
 Every tense has an **independent** form, used when the verb begins its clause or follows *ma* or
 the relative *a*, and a **dependent** form, used after the particles *cha, an, nach, gun, mura*
-and the like. It is the old distinction of **absolute** and **conjunct** forms, which Ròdais keeps
+and the like. It is the old distinction of **absolute** and **conjunct** forms, which Dia-thìris keeps
 in the future (*togaidh / tog*) and in the irregular verbs (*chunnaic / faca*), and marks in the
 past with the particle *do*.
 
@@ -1032,7 +1032,7 @@ Person is marked by a following pronoun (**analytic** forms: *thog mi, thog thu*
 set of **synthetic** forms where the ending carries the person: the first person singular and
 plural of the conditional (*thogainn, thogamaid*) and of the imperative (*togam, togamaid*).
 The older tongue had synthetic forms throughout, and these few are what is left of them.
-**Ròdais uses the synthetic forms as the norm** and does not add a pronoun to them: *thogainn* "I would lift", not *\*thogainn mi*.
+**Dia-thìris uses the synthetic forms as the norm** and does not add a pronoun to them: *thogainn* "I would lift", not *\*thogainn mi*.
 
 ### 6.2 The regular verb: full paradigms
 
@@ -1145,7 +1145,7 @@ consonant-initial impersonals (*chaidil, caidil, chaidilteadh*).
 ### 6.4 The impersonal (autonomous) forms
 
 Every tense has an impersonal form, "one lifts / it is lifted", with no subject; the agent, if
-named, follows *le*. They are the old passive of the tongue, and Ròdais uses them in every
+named, follows *le*. They are the old passive of the tongue, and Dia-thìris uses them in every
 register: *Chan fhacas iad a-riamh tuilleadh* "they were never seen again"; *cha d'
 fhuaireadh sceul orra* "no trace of them was found"; *rugadh mi ann an Seann Dunn* "I was born in
 Seann Dunn"; *gum faicte ròn mòr glas* "that a big grey seal would be seen".
@@ -1170,8 +1170,8 @@ the **relative future** in *-as/-eas*, lenited: *an duine a sheasas* "the man wh
 the Tuathaich ask", *cho fad 's a bhios gual fon talamh* "as long as there is coal under the
 ground". The irregular verbs use their independent future (§6.9): *a nì, a chì, a thèid*.
 The older tongue had relative forms in *-as* in the present; they have lived on in the future, and
-Ròdais uses them wherever a relative future is possible; the plain future after *a*
-(*\*an duine a seasaidh*) is not Ròdais.
+Dia-thìris uses them wherever a relative future is possible; the plain future after *a*
+(*\*an duine a seasaidh*) is not Dia-thìris.
 
 ### 6.6 Verbal noun formation
 
@@ -1194,7 +1194,7 @@ It is lexical, but most verbs fall into these classes:
 | **zero** | verbal noun = root | *òl, ruith, fàs, snàmh, seinn, leum, dìon, gairm, cluich, falbh, ràn* |
 | **irregular** | | *rach → dol, thig → tighinn, abair → ràdh, thoir → toirt, beir → breith, bi → bhith, dèan → dèanamh, faic → faicinn, faigh → faighinn* |
 
-**Older verbal nouns.** Where a verbal noun might have been levelled to a commoner pattern, Ròdais
+**Older verbal nouns.** Where a verbal noun might have been levelled to a commoner pattern, Dia-thìris
 keeps the older one: *fantainn* "staying" (from *fan*), *cantainn* "saying" (from *can*), *labhairt*
 "speaking" (from *labhair*), *sealltainn* "looking", *trèigsinn* "forsaking". *Fuireach* (from
 *fuirich*) is the usual word for "living, dwelling"; *fantainn* is "waiting, remaining".
@@ -1341,7 +1341,7 @@ naidheachd!*
 | verbal noun, participle | *faicinn*; *faicte* | | |
 
 *Gum faicte ròn mòr glas* (tale of the seal wife) uses the short dependent impersonal *faicte*;
-both it and *faicteadh* are Ròdais. *Seall* "look" is the usual imperative in speech (*seall air a
+both it and *faicteadh* are Dia-thìris. *Seall* "look" is the usual imperative in speech (*seall air a
 mhuing* "look at its mane").
 
 **faigh "get"**
@@ -1451,7 +1451,7 @@ dhomh, is urrainn dhomh, tha agam ri*): *Sentences* §5.3–5.4.
 The copula *is* links two noun phrases and fronts a stressed element; *bi* is used for location,
 state and existence (*Sentences* §1.2–1.4). The copula has two tense forms: a **present**
 (also used for the future) and a **past** that is also the conditional. It is unstressed and has
-no verbal noun or imperative. The older tongue kept past and conditional apart; Ròdais has one
+no verbal noun or imperative. The older tongue kept past and conditional apart; Dia-thìris has one
 form, *bu*, for both.
 
 ### 7.1 Forms
@@ -1543,7 +1543,7 @@ and an **attributive form**, used before a noun. The counting form of 1–19 tak
 | 1000 | *mìle* | *mìle* | singular: *mìle long* |
 | 1,000,000 | *millean* | *millean* | singular |
 
-**Tens and units.** Ròdais joins a ten and a unit without a conjunction: *fichead aon* 21,
+**Tens and units.** Dia-thìris joins a ten and a unit without a conjunction: *fichead aon* 21,
 *ceathrad còig* 45, *naochad naoi* 99. No *'s* "and" stands between them, as it does in the count
 by twenties (§8.2); the two are simply set side by side. The noun follows the whole numeral in the singular: *ceathrad còig bàta*.
 
@@ -1659,7 +1659,7 @@ Time of day uses *uair* "hour": *aig uair* "at one o'clock", *aig dà uair*, *ai
 
 ## 9. Derivational morphology
 
-Ròdais builds words from its own stems with its own suffixes and prefixes, and by compounding.
+Dia-thìris builds words from its own stems with its own suffixes and prefixes, and by compounding.
 Every derived word obeys *caol le caol* inside itself, so suffixes come in broad and slender
 pairs chosen by the last vowel of the stem.
 
@@ -1673,7 +1673,7 @@ All are masculine; a woman is named with *ban-* (§9.5) or with *bean-*.
 | *-adair / -eadair* | verbs and nouns | *scrìobhadair* "writer", *creachadair* "raider" (*creach*), *sealbhadair* "owner" (*sealbh*), *dealbhadair* "painter", *lìonadair* "filler" |
 | *-aiche / -iche* | verbs, esp. *-ich* verbs | *suathaiche* "grazer" (*suath*), *stiùiriche* "steerer" (*stiùir*), *rannsaiche* "searcher" (*rannsaich*), *cuiriche* "sower" (*cuir*), *bàthaiche* "drowner" (*bàth*) |
 | *-aire / -eire* | verbs | *slugaire* "swallower" (*sluig*), *cladhaire* "digger" (*cladhaich*), *snìomhaire* "twister" (*snìomh*) |
-| *-ach / -each* | places, qualities | *Ròdach, Tuathach, coigreach* "stranger" |
+| *-ach / -each* | places, qualities | *Dia-thìreach, Tuathach, coigreach* "stranger" |
 | periphrastic | *fear-, bean-, neach-, luchd-* + genitive or participle | *fear-pòsta* "husband", *bean-phòsta* "wife", *neach-cuibhrinn* "stakeholder", *luchd-turais* "travellers" |
 
 *Fear-* and *neach-* compounds pluralise as *luchd-* (*luchd-turais*) or by the head (*fir-phòsta*).
@@ -1741,7 +1741,7 @@ hyphenated, except a few fused long ago (*banacharaid* "female friend", *aineola
 
 ### 9.6 Compounding
 
-Ròdais has two kinds of compound, and both are old.
+Dia-thìris has two kinds of compound, and both are old.
 
 **1. Close compounds (modifier first).** An adjective, a preposed noun or a prefix comes first and
 lenites the head: *àrd-rìgh* "high king", *prìomh-bhaile* "chief town", *mòr-shluagh* "multitude",
@@ -1754,7 +1754,7 @@ The dental block applies loosely: free phrases keep it (*seann taigh*), fixed na
 genitive, or an adjective, and the pair is hyphenated once it names one thing: *taigh-òsta* "inn"
 (house of hosting), *each-uisce* "water-horse", *bean-phòsta* "wife", *craiceann-ròin* "seal-skin"
 (pl. *craicnean-ròin*), *clach-chuimhne* "memorial stone", *taigh-freiceadain* "watch-house". This
-is Ròdais's main word-building pattern and the pattern of every kenning (§10).
+is Dia-thìris's main word-building pattern and the pattern of every kenning (§10).
 
 - The **head** (first element) gives the gender and takes every inflection: *an t-each-uisce, an
   eich-uisce* (gen.), *na h-eich-uisce*; *stad a' charbaid-iarainn* "the stop of the train".
@@ -1771,12 +1771,12 @@ is Ròdais's main word-building pattern and the pattern of every kenning (§10).
 
 ---
 
-## 10. The kennings: how Ròdais names new things
+## 10. The kennings: how Dia-thìris names new things
 
 ### 10.1 How the kennings came about
 
-Rodos had no word for most of what the humans brought when they came, in the first years of the
-Anchor Era, and later the kingdom needed words for things of its own making. Ròdais took few of the
+Dia-thìr had no word for most of what the humans brought when they came, in the first years of the
+Anchor Era, and later the kingdom needed words for things of its own making. Dia-thìris took few of the
 humans' words for these things (*The grammar in brief* §13). For most of them its speakers made a
 name as the language had long named the *each-uisce* and the *taigh-òsta*: a loose compound of old
 roots that says what the thing does or what it is like. Such a name is called a kenning. The

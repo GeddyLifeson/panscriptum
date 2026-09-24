@@ -1,5 +1,5 @@
 """
-finish_map.py -- finish the Ròdais renaming of the Rodos map.
+finish_map.py -- finish the Dia-thìris renaming of the Dia-thìr map.
 
 The first pass (Rodos_renamed.map) renamed the 505 burgs, 157 rivers and 123
 provinces, the three cultures and the state's full name. It left the rest of
@@ -14,7 +14,7 @@ This pass:
     the change into the provinces named after those burgs;
   * names the ocean, islands and lake; the religions and their deities; the
     war; the regiments and fleets; the markers; the named routes; the zones;
-    and the quest journey -- all in Ròdais, through rodais_engine;
+    and the quest journey -- all in Dia-thìris, through rodais_engine;
   * rewrites the English notes so they name places that exist on this map;
   * gives every burg the town features (citadel, walls, plaza, temple, shanty) its history
     supports, from legendarium/burg_features.json;
@@ -23,7 +23,7 @@ This pass:
     legendarium/map_reconcile.py.
 
 Descriptive notes stay in English, as the first pass left the Azgaar UI
-text (biomes, trade goods, unit types). Only names are Ròdais.
+text (biomes, trade goods, unit types). Only names are Dia-thìris.
 
 Run:  python finish_map.py            (reads Rodos_renamed.map, writes Rodos_finished.map + MAP_CHANGES.md)
 Deterministic: the same input gives the same output byte for byte.
@@ -133,7 +133,7 @@ for p in J[L_PROVINCES]:
 
 # ---------------------------------------------------------------- 2. the state and the war
 state = J[L_STATES][1]
-rename('state', state, 'name', 'Ròdos')
+rename('state', state, 'name', 'Dia-thìr')
 rename('state', state, 'form', 'Monarchy')
 rename('state', state, 'formName', 'Kingdom')
 WAR, WAR_EN = 'An Cogadh Fada', 'the Long War'
@@ -192,7 +192,7 @@ for f in J[L_FEATURES]:
     if f.get('type') == 'ocean':
         rename('feature', f, 'name', 'Muir Mhanannain')      # Manannan's sea, round the island
     elif f.get('type') == 'island' and f.get('cells', 0) > 1000:
-        rename('feature', f, 'name', 'Ròdos')          # the island itself
+        rename('feature', f, 'name', 'Dia-thìr')          # the island itself
     elif f.get('type') == 'island':
         rename('feature', f, 'name', pick_qualifier('Eilean', f['name']))
     elif f.get('type') == 'lake':
@@ -202,9 +202,9 @@ for f in J[L_FEATURES]:
 RELIGIONS = {
     'No religion':               ('Gun chreideamh', None),
     'Kiverton Beliefs':          ('Creideamh nan Tuathach', 'Donn, an Sìorraidh'),
-    'Old Marltash Spirits':      ('Seann Spioradan nan Ròdach', 'Crom, an t-Àrd-Spiorad'),
+    'Old Marltash Spirits':      ('Seann Spioradan nan Dia-thìreach', 'Crom, an t-Àrd-Spiorad'),
     'Knutskirkism':              ('Creideamh na Sgairpe Buidhe', 'Cnut, an Sgairp Bhuidhe'),
-    'Marltash Faith':            ('Creideamh nan Ròdach', 'Dòrsair, Uilebheist nan Geataichean'),
+    'Marltash Faith':            ('Creideamh nan Dia-thìreach', 'Dòrsair, Uilebheist nan Geataichean'),
     'Marltashism':               ('Creideamh an t-Seabhaig', 'Mòd, an Seabhag Acrach'),
     'Clitlese Philosophy':       ('Feallsanachd an Fhèidh', 'Camaran, am Fiadh Rìoghail'),
     'Axbridan Faith':            ('Creideamh an Aon-adharcaich Dhuibh', 'Uallach, an t-Aon-adharcach Dubh'),
@@ -232,7 +232,7 @@ FIXED = {
     'Minor Jetty': 'Cidhe Beag', 'Panthers migration': 'Imrich nam Pantar', 'Random encounter': 'Coinneachadh',
     'The Party': 'A\' Bhuidheann', 'Berkeham Creek of Luck': "Allt an Àigh", 'Miden Monster': 'Uilebheist na Mara',
 }
-PATTERNS = [   # (regex on the English name, Ròdais template; {b} = nearest burg, {r} = nearest river)
+PATTERNS = [   # (regex on the English name, Dia-thìris template; {b} = nearest burg, {r} = nearest river)
     (r'^Hot Springs of (\w+)$', 'Fuarain Theth {b}'),
     (r'^(\w+) — silver mining town$', '{b} — baile mèinne airgid'),
     (r'^(\w+) Bridge$', 'Drochaid {b}'),
@@ -315,7 +315,7 @@ ZONE = {'Disease': ("A' Phlàigh Uaine", None), 'Disaster': (None, None), 'Fault
         'Tsunami': ('Tonn Mhòr {b}', None)}
 for z in J[L_ZONES]:
     b = burg_near_cells(z.get('cells', []))
-    bn = b['name'] if b else 'Ròdos'
+    bn = b['name'] if b else 'Dia-thìr'
     eng = z['name']
     if eng.endswith('Famine'):
         new = 'Gorta ' + bn
@@ -339,8 +339,8 @@ for jr in J[L_JOURNEYS]:
     for seg in jr.get('segments', []):
         eng = seg['name']
         pts = seg.get('points', [])
-        start = nearest_burg(pts[0][0], pts[0][1])['name'] if pts else 'Ròdos'
-        end = nearest_burg(pts[-1][0], pts[-1][1])['name'] if pts else 'Ròdos'
+        start = nearest_burg(pts[0][0], pts[0][1])['name'] if pts else 'Dia-thìr'
+        end = nearest_burg(pts[-1][0], pts[-1][1])['name'] if pts else 'Dia-thìr'
         m = re.match(r'^Meeting at (.+)$', eng)
         if m:
             new = 'Coinneamh aig ' + inn_by_eng.get(m.group(1), 'an taigh-òsta')
@@ -415,6 +415,13 @@ for n, data in J.items():
     # the source carries some surrogates as \\u escapes (half-emoji in generated notes); write them back the same way
     text = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     lines[n] = re.sub('[\ud800-\udfff]', lambda m: '\\u%04x' % ord(m.group()), text)
+
+# ---------------------------------------------------------------- 10b. the island's own name
+# Dia-thìr, the godkin's land: the kingdom's full name and label, the people's culture and the map's title
+for n in range(len(lines)):
+    lines[n] = (lines[n].replace('Rìoghachd Ròdais', 'Rìoghachd Dia-thìr')
+                        .replace('"name":"Ròdaich"', '"name":"Dia-thìrich"')
+                        .replace('"lore":{"name":"Rodos"', '"lore":{"name":"Dia-thìr"'))
 
 # ---------------------------------------------------------------- 11. the map brought into line with the history
 # every layer (faiths, goods and markets, shires, regiments, land, markers and routes, arms) as reconciled with

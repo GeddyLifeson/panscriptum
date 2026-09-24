@@ -1,6 +1,6 @@
 {
- "language": "Ròdais",
- "source": "The word-hoard of the Ròdais tongue, set down at the Library at Muileann chaol: English headwords with their Ròdais, the first 5,005 graded by level (A1-C2) and the rest by how often the English word is used (levels F1-F16, bands of 1,000 words). An entry marked \"kenning\" is a word the island built from old roots for a thing that came with the humans or after them; \"lit\" gives its literal sense.",
+ "language": "Dia-thìris",
+ "source": "The word-hoard of the Dia-thìris tongue, set down at the Library at Muileann chaol: English headwords with their Dia-thìris, the first 5,005 graded by level (A1-C2) and the rest by how often the English word is used (levels F1-F16, bands of 1,000 words). An entry marked \"kenning\" is a word the island built from old roots for a thing that came with the humans or after them; \"lit\" gives its literal sense.",
  "entries": [
   {
    "id": "a1-hello",
@@ -70,7 +70,7 @@
    "topic": "people",
    "rod": "seadh",
    "pos": "interj",
-   "lit": "it is so; a Ròdach usually answers by repeating the verb (Tha. / Bha. / Bidh.)",
+   "lit": "it is so; a Dia-thìreach usually answers by repeating the verb (Tha. / Bha. / Bidh.)",
    "ipa": "ˈʃɛɣ"
   },
   {
@@ -80,7 +80,7 @@
    "topic": "people",
    "rod": "chan eil",
    "pos": "interj",
-   "lit": "it is not; a Ròdach usually answers by repeating the verb in the negative (Cha robh. / Cha bhi.)",
+   "lit": "it is not; a Dia-thìreach usually answers by repeating the verb in the negative (Cha robh. / Cha bhi.)",
    "ipa": "xan ˈelʲ"
   },
   {
@@ -54834,7 +54834,7 @@
    "id": "f-a-det1",
    "en": "a",
    "rank": 5,
-   "sense": "indefinite article: Ròdais has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant",
+   "sense": "indefinite article: Dia-thìris has none; a bare noun is indefinite (cù 'a dog'); aon 'one' only when the number is meant",
    "pos": "det",
    "rod": "—",
    "level": "F1",
@@ -54954,7 +54954,7 @@
    "id": "f-an-det1",
    "en": "an",
    "rank": 27,
-   "sense": "indefinite article (the form of 'a' before a vowel): Ròdais has none; a bare noun is indefinite (ubhal 'an apple')",
+   "sense": "indefinite article (the form of 'a' before a vowel): Dia-thìris has none; a bare noun is indefinite (ubhal 'an apple')",
    "pos": "det",
    "rod": "—",
    "level": "F1",
@@ -67996,7 +67996,7 @@
    "id": "f-northern-adj1",
    "en": "northern",
    "rank": 1196,
-   "sense": "northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Rodos",
+   "sense": "northern, in the north: mu thuath (after the noun: an ceann mu thuath 'the northern end'); a Tuathach is a northerner of Dia-thìr",
    "pos": "adj",
    "rod": "mu thuath",
    "level": "F2",
@@ -75554,7 +75554,7 @@
    "id": "f-fucked-adj",
    "en": "fucked",
    "rank": 1966,
-   "sense": "ruined, broken (vulgar; Ròdais says \"gone to ruin\")",
+   "sense": "ruined, broken (vulgar; Dia-thìris says \"gone to ruin\")",
    "pos": "adj",
    "rod": "air a dhol a dholaidh",
    "level": "F2",
@@ -247361,7 +247361,7 @@
    "id": "f-wop-n",
    "en": "wop",
    "rank": 24543,
-   "sense": "offensive slur for an Italian (Ròdais uses the plain demonym)",
+   "sense": "offensive slur for an Italian (Dia-thìris uses the plain demonym)",
    "pos": "n",
    "rod": "Eadailteach",
    "g": "m",
@@ -260529,7 +260529,7 @@
    "id": "f-northerner-n",
    "en": "northerner",
    "rank": 26896,
-   "sense": "person from the north (on Rodos, one of the Tuathaich)",
+   "sense": "person from the north (on Dia-thìr, one of the Tuathaich)",
    "pos": "n",
    "rod": "Tuathach",
    "g": "m",

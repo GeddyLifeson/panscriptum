@@ -184,7 +184,7 @@
 {"id": "f-welt-n", "en": "welt", "rank": 24538, "sense": "raised mark on the skin from a blow", "pos": "n", "rod": "làrach-buille", "g": "f", "pl": "làraichean-buille", "gen": "làraich-buille"},
 {"en": "wer", "rank": 24539, "skip": "non-English word"},
 {"id": "f-winded-adj", "en": "winded", "rank": 24542, "sense": "out of breath", "pos": "adj", "rod": "gun anail"},
-{"id": "f-wop-n", "en": "wop", "rank": 24543, "sense": "offensive slur for an Italian (Ròdais uses the plain demonym)", "pos": "n", "rod": "Eadailteach", "g": "m", "pl": "Eadailtich", "gen": "Eadailtich"},
+{"id": "f-wop-n", "en": "wop", "rank": 24543, "sense": "offensive slur for an Italian (Dia-thìris uses the plain demonym)", "pos": "n", "rod": "Eadailteach", "g": "m", "pl": "Eadailtich", "gen": "Eadailtich"},
 {"id": "f-yaw-v", "en": "yaw", "rank": 24545, "sense": "swing off course (ship, aircraft)", "pos": "v", "rod": "fiar", "vn": "fiaradh", "root": "fiar"},
 {"id": "f-accidently-adv", "en": "accidently", "rank": 24547, "sense": "by accident, unawares", "pos": "adv", "rod": "gun fhiosta"},
 {"id": "f-adaptability-n", "en": "adaptability", "rank": 24548, "sense": "ability to adapt", "pos": "n", "rod": "sùbailteachd", "g": "f", "gen": "sùbailteachd"},

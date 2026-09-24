@@ -1,17 +1,17 @@
 """
-build_atlas.py -- assemble the Rodos Atlas: the annals, the book and the live Azgaar map in one program.
+build_atlas.py -- assemble the Dia-thìr Atlas: the annals, the book and the live Azgaar map in one program.
 
     python build_atlas.py <azgaar-build-dir>
 
 <azgaar-build-dir> is Azgaar's Fantasy Map Generator built in its desktop mode (relative paths, no
-analytics), version 1.153.1, the version that saved the Rodos map:
+analytics), version 1.153.1, the version that saved the Dia-thìr map:
 
     git clone https://github.com/Azgaar/Fantasy-Map-Generator && cd Fantasy-Map-Generator
     npm ci --ignore-scripts && npx vite build --mode electron      # -> dist-electron/renderer
 
-Output: Rodos_Atlas/ next to this file --
+Output: Diathir_Atlas/ next to this file --
 
-    Rodos Atlas.bat     double-click on Windows
+    Diathir Atlas.bat     double-click on Windows
     atlas.py            the launcher: serves the folder on 127.0.0.1 and opens the browser
     index.html          three tabs: the Annals (every dated event), the Map, and the Book (legendarium/build_book.py)
     Rodos.map           Rodos_finished.map
@@ -29,7 +29,7 @@ import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, 'Rodos_Atlas')
+OUT = os.path.join(HERE, 'Diathir_Atlas')
 STYLE = os.path.join(HERE, 'atlas_style.css')
 MAP = os.path.join(HERE, 'Rodos_finished.map')
 FMG_VERSION = '1.153.1'
@@ -90,7 +90,7 @@ for lic in (os.path.join(FMG, 'LICENSE'), os.path.join(FMG, '..', '..', 'LICENSE
         break
 else:
     sys.exit('Azgaar\'s LICENSE (MIT) not found next to the build; it must ship with the program')
-with open(os.path.join(OUT, 'Rodos.map'), 'w', encoding='utf-8', newline='') as fh:
+with open(os.path.join(OUT, 'Diathir.map'), 'w', encoding='utf-8', newline='') as fh:
     fh.write('\r\n'.join(records))
 
 TEMPLATE = open(os.path.join(HERE, 'atlas_template.html'), encoding='utf-8').read()
@@ -105,8 +105,8 @@ index = (TEMPLATE.replace('/*STYLE*/', style).replace('/*BOOKCSS*/', build_book.
          .replace('FMG_VERSION', FMG_VERSION))
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(index)
 shutil.copy(os.path.join(HERE, 'atlas.py'), os.path.join(OUT, 'atlas.py'))
-with open(os.path.join(OUT, 'Rodos Atlas.bat'), 'w', encoding='utf-8', newline='\r\n') as fh:
+with open(os.path.join(OUT, 'Diathir Atlas.bat'), 'w', encoding='utf-8', newline='\r\n') as fh:
     fh.write('@echo off\ncd /d "%~dp0"\nwhere py >nul 2>nul && (py atlas.py) || (python atlas.py)\n'
              'if errorlevel 1 pause\n')
-print('Rodos_Atlas written: %d events, %d with a place on the map; %d places; book of about %s words'
+print('Diathir_Atlas written: %d events, %d with a place on the map; %d places; book of about %s words'
       % (len(events), sum(1 for e in events if e[5]), len(places), format(len(re.sub(r'<[^>]+>', ' ', book).split()), ',')))

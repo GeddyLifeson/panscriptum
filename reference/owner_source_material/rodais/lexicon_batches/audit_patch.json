@@ -73909,7 +73909,7 @@
     "gen": "obair-lainne"
    },
    "why": [
-    "4 conflict: obair-lann is a Scottish Gaelic coinage; the Ròdais kenning is out_07 ceàrdach-dheuchainn (labs)"
+    "4 conflict: obair-lann is a Scottish Gaelic coinage; the Dia-thìris kenning is out_07 ceàrdach-dheuchainn (labs)"
    ]
   },
   {
@@ -82309,7 +82309,7 @@
   {
    "id": "f-fucked-adj",
    "set": {
-    "sense": "ruined, broken (vulgar; Ròdais says \"gone to ruin\")"
+    "sense": "ruined, broken (vulgar; Dia-thìris says \"gone to ruin\")"
    },
    "old": {
     "sense": "ruined, broken (vulgar in English; Gaelic says \"gone to ruin\")"
@@ -85963,443 +85963,443 @@
   },
   {
    "id": "f-will-n2",
-   "why": "4 conflict: repeats LEXICON.json b2-will-testament (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-will-testament (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-back-n1",
-   "why": "4 conflict: repeats LEXICON.json a1-back-body (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-back-body (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-old-adj1",
-   "why": "4 conflict: repeats LEXICON.json a1-old-thing (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-old-thing (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-old-adj2",
-   "why": "4 conflict: repeats LEXICON.json a2-old-person (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-old-person (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-free-adv1",
-   "why": "4 conflict: repeats LEXICON.json a1-free-no-cost (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-free-no-cost (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-hard-adj1",
-   "why": "4 conflict: repeats LEXICON.json a2-hard-firm (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-hard-firm (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-order-v1",
-   "why": "4 conflict: repeats LEXICON.json a2-to-order-online (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-order-online (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-lose-v1",
-   "why": "4 conflict: repeats LEXICON.json a2-to-lose-a-game (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-lose-a-game (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-lose-v2",
-   "why": "4 conflict: repeats LEXICON.json a2-to-lose-a-game (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-lose-a-game (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-nice-adj2",
-   "why": "4 conflict: repeats LEXICON.json a2-nice-person (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-nice-person (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-move-v2",
-   "why": "4 conflict: repeats LEXICON.json a2-to-move-house (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-move-house (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-watch-n2",
-   "why": "4 conflict: repeats LEXICON.json a1-watch-wrist (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-watch-wrist (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-light-adj1",
-   "why": "4 conflict: repeats LEXICON.json a2-light-weight (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-light-weight (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-light-adj2",
-   "why": "4 conflict: repeats LEXICON.json a1-light-color (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-light-color (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-short-adj1",
-   "why": "4 conflict: repeats LEXICON.json a1-short-length (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-short-length (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-short-adj2",
-   "why": "4 conflict: repeats LEXICON.json a2-short-height (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-short-height (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-deal-n1",
-   "why": "4 conflict: repeats LEXICON.json b1-deal-agreement (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-deal-agreement (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-reason-n1",
-   "why": "4 conflict: repeats LEXICON.json b1-reason-cause (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-reason-cause (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-current-n1",
-   "why": "4 conflict: repeats LEXICON.json b2-current-water (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-current-water (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-meet-v2",
-   "why": "4 conflict: repeats LEXICON.json a2-to-meet-someone-new (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-meet-someone-new (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-fine-n1",
-   "why": "4 conflict: repeats LEXICON.json b1-fine-penalty (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-fine-penalty (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-date-v1",
-   "why": "4 conflict: repeats LEXICON.json b1-to-date-someone (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-to-date-someone (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-miss-v1",
-   "why": "4 conflict: repeats LEXICON.json a2-to-miss-someone (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-miss-someone (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-interest-n2",
-   "why": "4 conflict: repeats LEXICON.json a2-interest-bank (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-interest-bank (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-bill-n3",
-   "why": "4 conflict: repeats LEXICON.json a2-bill-utility (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-bill-utility (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-source-n1",
-   "why": "4 conflict: repeats LEXICON.json c1-source-journalism (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-source-journalism (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-save-v2",
-   "why": "4 conflict: repeats LEXICON.json a2-to-save-money (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-save-money (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-match-v1",
-   "why": "4 conflict: repeats LEXICON.json b1-to-match-clothes (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-to-match-clothes (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-trade-n1",
-   "why": "4 conflict: repeats LEXICON.json b2-trade-commerce (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-trade-commerce (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-character-n2",
-   "why": "4 conflict: repeats LEXICON.json b1-character-story (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-character-story (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-title-n3",
-   "why": "4 conflict: repeats LEXICON.json c1-title-property (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-title-property (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-release-n1",
-   "why": "4 conflict: repeats LEXICON.json c1-release-version (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-release-version (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-loss-n1",
-   "why": "4 conflict: repeats LEXICON.json b1-loss-financial (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-loss-financial (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-pass-v2",
-   "why": "4 conflict: repeats LEXICON.json a2-to-pass-an-exam (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-pass-an-exam (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-fan-n1",
-   "why": "4 conflict: repeats LEXICON.json a2-fan-supporter (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-fan-supporter (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-fan-n2",
-   "why": "4 conflict: repeats LEXICON.json b1-fan-appliance (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-fan-appliance (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-charge-v2",
-   "why": "4 conflict: repeats LEXICON.json b2-to-charge-with-a-crime (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-to-charge-with-a-crime (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-spend-v1",
-   "why": "4 conflict: repeats LEXICON.json a2-to-spend-money (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-spend-money (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-track-v1",
-   "why": "4 conflict: repeats LEXICON.json b1-to-track-a-package (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-to-track-a-package (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-pressure-n2",
-   "why": "4 conflict: repeats LEXICON.json c1-pressure-physics (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-pressure-physics (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-floor-n2",
-   "why": "4 conflict: repeats LEXICON.json a1-floor-level (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-floor-level (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-defense-n1",
-   "why": "4 conflict: repeats LEXICON.json b2-defense-legal (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-defense-legal (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-commission-n2",
-   "why": "4 conflict: repeats LEXICON.json c1-commission-fee (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-commission-fee (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-closed-adj1",
-   "why": "4 conflict: repeats LEXICON.json a1-closed-shop (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-closed-shop (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-fish-n1",
-   "why": "4 conflict: repeats LEXICON.json a1-fish-food (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-fish-food (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-sick-adj1",
-   "why": "4 conflict: repeats LEXICON.json a1-sick-unwell (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-sick-unwell (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-cell-n2",
-   "why": "4 conflict: repeats LEXICON.json b2-cell-biology (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-cell-biology (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-exchange-v1",
-   "why": "4 conflict: repeats LEXICON.json a2-to-exchange-money (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-exchange-money (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-glass-n1",
-   "why": "4 conflict: repeats LEXICON.json a1-glass-cup (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-glass-cup (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-partner-n1",
-   "why": "4 conflict: repeats LEXICON.json b1-partner-romantic (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-partner-romantic (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-scale-n1",
-   "why": "4 conflict: repeats LEXICON.json b2-scale-magnitude (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-scale-magnitude (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-fail-v1",
-   "why": "4 conflict: repeats LEXICON.json a2-to-fail-an-exam (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-to-fail-an-exam (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-foundation-n1",
-   "why": "4 conflict: repeats LEXICON.json b2-foundation-building (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-foundation-building (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-memory-n1",
-   "why": "4 conflict: repeats LEXICON.json b1-memory-recollection (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-memory-recollection (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-waste-n",
-   "why": "4 conflict: repeats LEXICON.json b1-waste-garbage (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-waste-garbage (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-grade-n1",
-   "why": "4 conflict: repeats LEXICON.json a2-grade-mark (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-grade-mark (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-treat-v2",
-   "why": "4 conflict: repeats LEXICON.json b1-to-treat-pay-for-someone (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-to-treat-pay-for-someone (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-quarter-n2",
-   "why": "4 conflict: repeats LEXICON.json b2-quarter-business (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-quarter-business (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-appeal-n1",
-   "why": "4 conflict: repeats LEXICON.json b2-appeal-legal (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-appeal-legal (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-quiet-adj",
-   "why": "4 conflict: repeats LEXICON.json a2-quiet-person (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a2-quiet-person (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-argument-n1",
-   "why": "4 conflict: repeats LEXICON.json b1-argument-quarrel (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-argument-quarrel (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-argument-n2",
-   "why": "4 conflict: repeats LEXICON.json b1-argument-reasoning (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-argument-reasoning (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-orange-adj",
-   "why": "4 conflict: repeats LEXICON.json a1-orange-color (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json a1-orange-color (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-hang-v",
-   "why": "4 conflict: repeats LEXICON.json b1-to-hang-a-picture (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-to-hang-a-picture (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-branch-n2",
-   "why": "4 conflict: repeats LEXICON.json b2-branch-office (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-branch-office (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-conduct-v",
-   "why": "4 conflict: repeats LEXICON.json b2-to-conduct-carry-out (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-to-conduct-carry-out (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-exclusive-n",
-   "why": "4 conflict: repeats LEXICON.json c1-exclusive-story (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-exclusive-story (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-sample-n",
-   "why": "4 conflict: repeats LEXICON.json c1-sample-study (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-sample-study (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-license-n",
-   "why": "4 conflict: repeats LEXICON.json c1-license-permit (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-license-permit (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-pride-n1",
-   "why": "4 conflict: repeats LEXICON.json b2-pride-self-respect (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-pride-self-respect (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-tape-n2",
-   "why": "4 conflict: repeats LEXICON.json b1-tape-adhesive (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-tape-adhesive (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-custom-n1",
-   "why": "4 conflict: repeats LEXICON.json b1-custom-tradition (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-custom-tradition (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-remote-adj",
-   "why": "4 conflict: repeats LEXICON.json c1-remote-place (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-remote-place (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-decline-v",
-   "why": "4 conflict: repeats LEXICON.json b2-to-decline-refuse (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-to-decline-refuse (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-landing-n2",
-   "why": "4 conflict: repeats LEXICON.json c2-landing-stairs (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-landing-stairs (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-reflect-v1",
-   "why": "4 conflict: repeats LEXICON.json b1-to-reflect-think-over (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-to-reflect-think-over (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-frequency-n",
-   "why": "4 conflict: repeats LEXICON.json c1-frequency-physics (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-frequency-physics (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-chemistry-n2",
-   "why": "4 conflict: repeats LEXICON.json c1-chemistry-between-people (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-chemistry-between-people (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-veteran-n1",
-   "why": "4 conflict: repeats LEXICON.json c1-veteran-experienced (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-veteran-experienced (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-commit-v2",
-   "why": "4 conflict: repeats LEXICON.json b2-to-commit-to (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-to-commit-to (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-default-n",
-   "why": "4 conflict: repeats LEXICON.json c1-default-loan (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-default-loan (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-segment-n",
-   "why": "4 conflict: repeats LEXICON.json c1-segment-tv (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-segment-tv (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-custody-n1",
-   "why": "4 conflict: repeats LEXICON.json c2-custody-detention (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-custody-detention (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-backup-n2",
-   "why": "4 conflict: repeats LEXICON.json c1-backup-data (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-backup-data (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-nail-n1",
-   "why": "4 conflict: repeats LEXICON.json b1-nail-metal (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-nail-metal (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-occupation-n2",
-   "why": "4 conflict: repeats LEXICON.json c1-occupation-military (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-occupation-military (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-conviction-n1",
-   "why": "4 conflict: repeats LEXICON.json c2-conviction-guilty-verdict (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-conviction-guilty-verdict (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-migration-n",
-   "why": "4 conflict: repeats LEXICON.json c2-migration-animal (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-migration-animal (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-scan-n",
-   "why": "4 conflict: repeats LEXICON.json b2-scan-medical (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b2-scan-medical (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-outlet-n2",
-   "why": "4 conflict: repeats LEXICON.json b1-outlet-socket (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json b1-outlet-socket (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-vault-n1",
-   "why": "4 conflict: repeats LEXICON.json c2-vault-ceiling (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-vault-ceiling (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-clutch-n1",
-   "why": "4 conflict: repeats LEXICON.json c2-clutch-car (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-clutch-car (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-bark-n1",
-   "why": "4 conflict: repeats LEXICON.json c2-bark-of-a-tree (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-bark-of-a-tree (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-vulnerability-n",
-   "why": "4 conflict: repeats LEXICON.json c2-vulnerability-security (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-vulnerability-security (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-canopy-n2",
-   "why": "4 conflict: repeats LEXICON.json c2-canopy-forest (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-canopy-forest (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-diversion-n1",
-   "why": "4 conflict: repeats LEXICON.json c2-diversion-route (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-diversion-route (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-bland-adj",
-   "why": "4 conflict: repeats LEXICON.json c2-bland-flavorless (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-bland-flavorless (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-primer-n1",
-   "why": "4 conflict: repeats LEXICON.json c1-primer-paint (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-primer-paint (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-interchange-n2",
-   "why": "4 conflict: repeats LEXICON.json c2-interchange-highway (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-interchange-highway (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-redundancy-n1",
-   "why": "4 conflict: repeats LEXICON.json c2-redundancy-backup (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-redundancy-backup (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-waffle-v",
-   "why": "4 conflict: repeats LEXICON.json c2-to-waffle-be-vague (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-to-waffle-be-vague (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-molding-n2",
-   "why": "4 conflict: repeats LEXICON.json c1-molding-trim (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-molding-trim (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-veterinarian-n",
-   "why": "4 conflict: repeats LEXICON.json c2-veterinarian-specialist (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-veterinarian-specialist (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-slant-n",
-   "why": "4 conflict: repeats LEXICON.json c1-slant-bias (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c1-slant-bias (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-grating-adj",
-   "why": "4 conflict: repeats LEXICON.json c2-grating-sound (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-grating-sound (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-savor-v",
-   "why": "4 conflict: repeats LEXICON.json c2-to-savor-the-moment (same English word, Ròdais and part of speech)"
+   "why": "4 conflict: repeats LEXICON.json c2-to-savor-the-moment (same English word, Dia-thìris and part of speech)"
   },
   {
    "id": "f-order-n2",
-   "why": "4 conflict: duplicate of f-order-n1 (same English, Ròdais and part of speech)"
+   "why": "4 conflict: duplicate of f-order-n1 (same English, Dia-thìris and part of speech)"
   },
   {
    "id": "f-text-n2",
-   "why": "4 conflict: duplicate of f-text-n1 (same English, Ròdais and part of speech)"
+   "why": "4 conflict: duplicate of f-text-n1 (same English, Dia-thìris and part of speech)"
   },
   {
    "id": "f-nature-n2",
-   "why": "4 conflict: duplicate of f-nature-n1 (same English, Ròdais and part of speech)"
+   "why": "4 conflict: duplicate of f-nature-n1 (same English, Dia-thìris and part of speech)"
   },
   {
    "id": "f-letter-n2",
-   "why": "4 conflict: duplicate of f-letter-n1 (same English, Ròdais and part of speech)"
+   "why": "4 conflict: duplicate of f-letter-n1 (same English, Dia-thìris and part of speech)"
   },
   {
    "id": "f-british-adj1",
@@ -86504,10 +86504,6 @@
   {
    "id": "f-latinos-n",
    "why": "names a land or people outside the island"
-  },
-  {
-   "id": "f-obsidian-n",
-   "why": "the island's word-hoard has no such stone: the coal of the vein is gual, the coloured coal an gual dathach"
   }
  ]
 }

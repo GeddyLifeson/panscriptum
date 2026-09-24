@@ -1,7 +1,7 @@
 [
  {
   "house": "Clann Fhearchair of Baile Mòr dhomhain",
-  "note": "One of the seven houses of custody regrouped after the Sundering ({{date:III-0034}}). Its seat at {{place:burg:273}} gave Rodos the first king chosen by the houses ({{date:III-0058}}), and the double court near the mountain lasted as long as the house held the crown. After Sìleas nic Fhearchair the crown went to her son Uisdean mac Dhùghaill and his line.",
+  "note": "One of the seven houses of custody regrouped after the Sundering ({{date:III-0034}}). Its seat at {{place:burg:273}} gave Dia-thìr the first king chosen by the houses ({{date:III-0058}}), and the double court near the mountain lasted as long as the house held the crown. After Sìleas nic Fhearchair the crown went to her son Uisdean mac Dhùghaill and his line.",
   "members": [
    {"id": "cf1", "name": "Lachlann mac Fhearchair", "parent": null, "born_between": [78, 88], "died_between": [130, 150], "note": "Father of the first king of the house; the house roll gives his name and no more."},
    {"id": "cf2", "name": "Fearchar mac Lachlainn", "parent": "cf1", "spouse": "Eilidh nic Dhùghaill", "born_between": [108, 118], "died_between": [172, 172], "note": "Chosen by the heads of the seven houses and crowned at Cathair dhearg {{date:III-0058}}; kept part of each year's court at Baile Mòr dhomhain."},
@@ -17,7 +17,7 @@
  },
  {
   "house": "The custodians of Ceann àrsaidh",
-  "note": "A custodian family of {{place:burg:88}} that gave the Council of Custodians its second high custodian under the humans ({{date:IV-0061}}), lost its seat on the council in the next generation, and sent the first Ròdaich child to an Tìr Thall ({{date:IV-0120}}).",
+  "note": "A custodian family of {{place:burg:88}} that gave the Council of Custodians its second high custodian under the humans ({{date:IV-0061}}), lost its seat on the council in the next generation, and sent the first Dia-thìrich child to an Tìr Thall ({{date:IV-0120}}).",
   "members": [
    {"id": "ca1", "name": "Coinneach Glas", "parent": null, "spouse": "Mòrag nic Uilleim", "born_between": [1748, 1758], "died_between": [1804, 1822], "note": "High custodian after Tormod mac Ailein; had never met a human before the Crossing and dealt with little else after it."},
    {"id": "ca2", "name": "Eachann Mòr", "parent": "ca1", "spouse": "Seonag nic Dhòmhnaill", "born_between": [1778, 1790], "died_between": [1835, 1858], "note": "A custodian of Ceann àrsaidh who lost his place on the council; sent his son west with the Mission's letter."},
@@ -32,13 +32,13 @@
  },
  {
   "house": "Na Maoir of Muileann chrom",
-  "note": "The line of the Company's overseers at {{place:burg:354}}. The Ròdaich gave the first of them the byname Maor, steward ({{date:IV-0092}}), and the staff and the byname went from father to son until Mòrag nic Iain Maor broke the staff at the Company's door ({{date:IV-0319}}).",
+  "note": "The line of the Company's overseers at {{place:burg:354}}. The Dia-thìrich gave the first of them the byname Maor, steward ({{date:IV-0092}}), and the staff and the byname went from father to son until Mòrag nic Iain Maor broke the staff at the Company's door ({{date:IV-0319}}).",
   "members": [
    {"id": "mm1", "name": "Dòmhnall", "parent": null, "born_between": [1740, 1752], "died_between": [1795, 1815], "note": "A hewer of Muileann chrom; known only from his son's name."},
    {"id": "mm2", "name": "Raghnall mac Dhòmhnaill, Raghnall Maor", "parent": "mm1", "spouse": "Catrìona nic Ailein", "born_between": [1765, 1772], "died_between": [1841, 1841], "note": "A crew-leader since the first contract; the first overseer, given the Company's staff and a slate-roofed house, {{date:IV-0092}}."},
    {"id": "mm3", "name": "Seonag nic Raghnaill", "parent": "mm2", "born_between": [1795, 1810], "died_between": [1850, 1878], "note": "Kept her father's house after his death; not named in the Company's letters."},
    {"id": "mm4", "name": "Dòmhnall mac Raghnaill Maor", "parent": "mm2", "spouse": "Peigi nic Mhurchaidh", "born_between": [1795, 1808], "died_between": [1866, 1866], "note": "Given his father's staff, {{date:IV-0137}}; signed the order that the camps keep no grain beyond a week's ration."},
-   {"id": "mm5", "name": "Iain Maor", "parent": "mm4", "spouse": "Oighrig nic Thormoid", "born_between": [1824, 1830], "died_between": [1910, 1910], "note": "Schooled at the Mission; kept his reports in the humans' tongue and his household in Ròdais; wrote against the night shift, {{date:IV-0243}}."},
+   {"id": "mm5", "name": "Iain Maor", "parent": "mm4", "spouse": "Oighrig nic Thormoid", "born_between": [1824, 1830], "died_between": [1910, 1910], "note": "Schooled at the Mission; kept his reports in the humans' tongue and his household in Dia-thìris; wrote against the night shift, {{date:IV-0243}}."},
    {"id": "mm6", "name": "Ailean mac Dhòmhnaill", "parent": "mm4", "born_between": [1830, 1842], "died_between": [1862, 1895], "note": "Worked the galleries under his brother's staff."},
    {"id": "mm7", "name": "Ruairidh mac Iain", "parent": "mm5", "born_between": [1862, 1872], "died_between": [1898, 1925], "note": "A hewer; the staff passed over him to his sister."},
    {"id": "mm8", "name": "Mòrag nic Iain Maor", "parent": "mm5", "born_between": [1866, 1878], "died_between": [1932, 1960], "note": "The first woman to hold the staff, {{date:IV-0258}}; fourth and last of her line to hold it."},
@@ -76,7 +76,7 @@
  },
  {
   "house": "The Pikes",
-  "note": "A human family descended, by its own account, from Thomas Pike, who kept the first tally-book of the trading post at {{place:burg:27}} ({{date:IV-0012}}) and held the Company alone after Harrow was lost. Its later members stayed on Rodos after the Severance and are counted among the Tuathaich of the north.",
+  "note": "A human family descended, by its own account, from Thomas Pike, who kept the first tally-book of the trading post at {{place:burg:27}} ({{date:IV-0012}}) and held the Company alone after Harrow was lost. Its later members stayed on Dia-thìr after the Severance and are counted among the Tuathaich of the north.",
   "members": [
    {"id": "pk1", "name": "Thomas Pike", "parent": null, "spouse": "Anne", "born_between": [1745, 1757], "died_between": [1802, 1825], "note": "Trader at Ros dhomhain; partner of Harrow in the Company, and its sole holder from {{year:IV-0062}}."},
    {"id": "pk2", "name": "John Pike", "parent": "pk1", "born_between": [1784, 1792], "died_between": [1840, 1865], "note": "Clerk of the Company's post at Ros dhomhain."},
@@ -96,7 +96,7 @@
    {"id": "hl1", "name": "Samuel Hale", "parent": null, "spouse": "Eilidh nic Ruairidh, net-maker of Baile dhìreach", "born_between": [1755, 1765], "died_between": [1812, 1835], "note": "A human cooper; his marriage was entered in both the council's books."},
    {"id": "hl2", "name": "John Hale", "parent": "hl1", "born_between": [1787, 1800], "died_between": [1840, 1870], "note": "A cooper of Baile dhìreach, like his father."},
    {"id": "hl3", "name": "Mary Hale", "parent": "hl1", "born_between": [1789, 1802], "died_between": [1845, 1875], "note": "A net-maker, like her mother."},
-   {"id": "hl4", "name": "Thomas Hale", "parent": "hl2", "born_between": [1820, 1834], "died_between": [1892, 1910], "note": "Claimed a customary cutting through his Ròdaich grandmother and lost it by Dunstan's rule, {{date:IV-0231}}."},
+   {"id": "hl4", "name": "Thomas Hale", "parent": "hl2", "born_between": [1820, 1834], "died_between": [1892, 1910], "note": "Claimed a customary cutting through his Dia-thìrich grandmother and lost it by Dunstan's rule, {{date:IV-0231}}."},
    {"id": "hl5", "name": "Richard Hale", "parent": "hl4", "born_between": [1850, 1862], "died_between": [1905, 1935], "note": "A harbour hand in the north-west."},
    {"id": "hl6", "name": "Walter Hale", "parent": "hl5", "born_between": [1880, 1892], "died_between": [1962, 1962], "note": "A former harbour clerk; first speaker of the Moot at Caol mhòr, {{date:V-0008}}."},
    {"id": "hl7", "name": "David Hale", "parent": "hl6", "born_between": [1910, 1922], "died_between": [1970, 2000], "note": "Kept the Moot's minute-books in his father's time."},
@@ -106,7 +106,7 @@
  },
  {
   "house": "The house of Mac Ùisdein of Cathair mhòr",
-  "note": "A Ròdaich house of {{place:burg:23}} that held an overseer's post under the humans and the Sloc Mòr concession under the Crown ({{date:V-0051}}). It sold the concession back piece by piece, and it was the only house of the vein to move its money out before the vein failed it ({{date:VI-0042}}).",
+  "note": "A Dia-thìrich house of {{place:burg:23}} that held an overseer's post under the humans and the Sloc Mòr concession under the Crown ({{date:V-0051}}). It sold the concession back piece by piece, and it was the only house of the vein to move its money out before the vein failed it ({{date:VI-0042}}).",
   "members": [
    {"id": "mu1", "name": "Ùisdean mac Ruairidh", "parent": null, "born_between": [1850, 1862], "died_between": [1912, 1935], "note": "Held the house's overseer's post under the Company; the post is the house's first entry in any roll."},
    {"id": "mu2", "name": "Uisdean mac Ùisdein", "parent": "mu1", "spouse": "Beathag nic Iain", "born_between": [1885, 1898], "died_between": [1960, 1972], "note": "Given the Sloc Mòr on the humans' terms with the names changed; raised the market cross and the stone house at Cathair mhòr."},

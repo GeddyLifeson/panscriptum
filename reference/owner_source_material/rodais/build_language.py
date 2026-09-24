@@ -1,20 +1,20 @@
 """
-build_language.py -- assemble the Ròdais language book: one page with the whole language.
+build_language.py -- assemble the Dia-thìris language book: one page with the whole language.
 
     pip install markdown
-    python build_language.py            (from this folder; writes RODAIS.html)
+    python build_language.py            (from this folder; writes DIATHIRIS.html)
 
 The book has two parts:
 
     Book         the sounds (PHONOLOGY.md), the grammar in brief (GRAMMAR.md), word forms
                  (GRAMMAR_MORPHOLOGY.md), sentences (GRAMMAR_SYNTAX.md), names (NAMING_LAYER.md)
                  and the texts (TEXTS.md), with a contents list
-    Dictionary   every entry of LEXICON.json, searchable in both directions (Ròdais and English), with
+    Dictionary   every entry of LEXICON.json, searchable in both directions (Dia-thìris and English), with
                  gender, genitive, plural, verbal noun, pronunciation, and for a kenning its literal sense
 
 The book is written from inside the world: the build stops if a chapter still names a file.
 
-The page needs no server: open RODAIS.html in a browser. Rebuild it after changing any of the files above.
+The page needs no server: open DIATHIRIS.html in a browser. Rebuild it after changing any of the files above.
 """
 import html
 import json
@@ -27,7 +27,7 @@ import markdown
 import rodais_engine as R
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, 'RODAIS.html')
+OUT = os.path.join(HERE, 'DIATHIRIS.html')
 
 CHAPTERS = [  # (id, tab label, file, title shown)
     ('sounds', 'Sounds', 'PHONOLOGY.md', 'The sounds'),

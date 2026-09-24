@@ -1,4 +1,4 @@
-# Continuity log: the annals of Rodos, Ages I–V
+# Continuity log: the annals of Dia-thìr, Ages I–V
 
 Continuity pass over annals/age_I.json … age_V.json, checked against BRIEF.md, PLACE_FACTS.txt and canon_by_age.json.
 
@@ -87,7 +87,7 @@ Bare-name follow-ons were handled too: "Ailean claims nothing" became "Goraidh c
 | III-0086 | "Dòmhnall mac Ailein, a net-maker of Inis thais, preaches a single god, Clach," -> "Dòmhnall mac Ailein, a net-maker of Inis thais, where the wolf-sworn's stone stands, gives the one god of the wolf-sworn a name, Clach," | The wolf-sworn, their wolf-stone at Inis thais and their one god are in Age II (II-0100, II-0161, II-0217). This is now a naming, not a founding. |
 | III-0087 | "the first building on the island made for a god of one name only" -> "the first temple on the island raised to Clach by name" | The wolf-sworn already built a hall to their one god (II-0217). |
 | III-0089 | "takes up the teaching of Uallach" -> "takes up the wood-watchers' teaching of Uallach" | The black horned beast of two natures and the wood-watchers at court come from Age II (II-0114, II-0210, II-0220). |
-| III-0099 | "casts the first bronze bell on Rodos for its hawk-house" -> "casts the first bronze bell on Rodos hung in a hawk-house" | The bronze-casters of Muileann dhearg were already casting bells in Age II (II-0154). |
+| III-0099 | "casts the first bronze bell on Dia-thìr for its hawk-house" -> "casts the first bronze bell on Dia-thìr hung in a hawk-house" | The bronze-casters of Muileann dhearg were already casting bells in Age II (II-0154). |
 | III-0105 | place burg:95 -> burg:64 | The text is about Seann Warr, which is burg:64 (the western port; burg:95 is Caol mhòr in the Tuathaich north-west). |
 | III-0112 | rename "Catrìona Mhòr" -> "Catrìona Bhuadhach" | Catrìona Mhòr is the twelfth Stone King in Age I (I-0243); renamed the Age III queen. |
 | III-0113 | rename "Catrìona Mhòr" -> "Catrìona Bhuadhach" | Catrìona Mhòr is the twelfth Stone King in Age I (I-0243); renamed the Age III queen. |
