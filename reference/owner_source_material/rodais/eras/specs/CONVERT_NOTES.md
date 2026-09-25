@@ -298,7 +298,7 @@ Counts: name from NAMES.json 4; name from the English gloss 25; state arms from 
 
 **labels**
 
-- label "the departed: north-about, beyond Ceò Mhanannain": no Dia-thìris text; not drawn
+- label "the departed: north-about, beyond the mist": no Dia-thìris text; drawn as "Am Falbh" (the Setting-Out, NAMES.json) at the north-westernmost port, Ceann mhòr (the fleet went north-about)
 - label "the cold way of the grain barges (laid up LE 1,634)": no Dia-thìris text; not drawn
 
 **land**
@@ -360,7 +360,8 @@ Counts: name from NAMES.json 4; name from the English gloss 25; state arms from 
 
 **zones**
 
-- IV-Z01: a sea zone with no cells in the draft; drawn on the coastal water west of x=354
+- IV-Z01: its `sea` says west, its name east; the name is followed
+- IV-Z01: a sea zone with no cells in the draft; drawn on the coastal water to the north and east (from its name, its sea and the age's mist land changes)
 
 ## Age V
 
@@ -457,7 +458,7 @@ Counts: diplomacy: "allies" -> Ally 1; diplomacy: "truce (the truce of Àth àrs
 **zones**
 
 - V-Z07: the front is drawn as the ground of all its sides (123 shires)
-- V-Z09: a sea zone with no cells in the draft; drawn on the coastal water west of x=354
+- V-Z09: a sea zone with no cells in the draft; drawn on the coastal water to the north and east (from its name, its sea and the age's mist land changes)
 
 ## Age VI
 
@@ -616,10 +617,20 @@ Age VII is the master (`Diathir_Atlas/Diathir.map`, DE 27) with the draft's addi
 | added labels | 0 | 3 | the draft's three Dia-thìris labels |
 | regiments, markets, deals, journeys | 13, 16, 8058, 1 | same | the master state is used as the base (`base: 1`), so arms, treasury, regiments and the campaign are unchanged |
 
-Other differences: 63 burgs change state (those in the Moot's shires); Caol mhòr (burg 95) is the Moot's capital (group `capital`); 328 burgs get a note (their order or church body, `inferred`, citations); the state label is placed anew by Azgaar; `lore.description` names the age and date. Master marker, zone and route notes are kept. The distance scale is 0.14 mi/px, as the master's.
+Other differences: 63 burgs change state (those in the Moot's shires); Caol mhòr (burg 95) is the Moot's capital (group `capital`); 328 burgs get a note (their order or church body, `inferred`, citations); the state label is placed anew by Azgaar; `lore.description` names the age and date. Master marker, zone and route notes are kept. Scale and geography are the master's (0.14 mi/px; latN 57.54, latS 56.12, lonW −13.56, lonE −7.87).
 
 ## The name check
 
 `python3 eras/quality/names_check.py eras/specs/age_<K>.json` still reports a few hits. They are false positives or citations:
 the Dia-thìris form contains the English core (`Na Seann-Dhaoine`, `An Sloc Mòr`, `Roinn na Rìoghachd`, `fuil-ghuail`), or
 the hit is inside a citation such as `App.A holders of the Red Hill`, which is kept as written because it names an appendix section.
+
+## Where the humans came from
+
+The humans' homeland lies east. Manannan's mist lies on the northern and eastern seas, and the only passage runs
+north-about, round the north cape and down to the north-west coast. The converter draws the mist zones (IV-Z01 and
+V-Z09) on the coastal water north and east of the island. It follows each zone's English name and the age's land
+changes about the mist. IV-Z01's stale `sea` field says "west", and the converter logs it and does not follow it.
+The departed's label in Age IV has no Dia-thìris text. It is drawn as "Am Falbh" (the Setting-Out) at the
+north-westernmost port standing in that age. No note in the specs places the humans or the mist in the west. The
+drafts' English prose, which `--prose-notes` would carry, is the drafts' own to correct.

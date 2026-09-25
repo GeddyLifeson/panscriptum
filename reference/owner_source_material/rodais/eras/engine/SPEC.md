@@ -237,7 +237,7 @@ These are used by `assign`, provinces, zones and `split`. The keys combine:
 - `cells`, `burgs` (the burgs' cells), `from_culture`, `from_religion`;
 - `where_culture` (this narrows the other keys, or selects on its own).
 - `around: {cells: [...], steps: 2}` (those cells and every cell within `steps` neighbours of them);
-- `water_box: [x0, y0, x1, y1]` (the water cells inside the box, for a sea zone; the pack keeps only water near
+- `water_box: [x0, y0, x1, y1]` or a list of such boxes (the water cells inside, for a sea zone; the pack keeps only water near
   the coast, so this is a coastal band).
 
 ## routes

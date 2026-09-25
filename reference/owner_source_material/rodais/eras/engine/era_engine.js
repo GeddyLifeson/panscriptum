@@ -106,11 +106,11 @@
       }
       seen.forEach((c) => out.add(c));
     }
-    if (sel.water_box) {                              // water cells inside [x0, y0, x1, y1] (a sea zone)
-      const [x0, y0, x1, y1] = sel.water_box;
+    if (sel.water_box) {                              // water cells inside [x0, y0, x1, y1], or any of several boxes
+      const boxes = Array.isArray(sel.water_box[0]) ? sel.water_box : [sel.water_box];
       for (const c of pack.cells.i) {
         const [x, y] = pack.cells.p[c];
-        if (!isLand(c) && x >= x0 && x <= x1 && y >= y0 && y <= y1) out.add(c);
+        if (!isLand(c) && boxes.some(([x0, y0, x1, y1]) => x >= x0 && x <= x1 && y >= y0 && y <= y1)) out.add(c);
       }
     }
     if (sel.burgs) refs('burg', sel.burgs, where).forEach((b) => out.add(pack.burgs[b].cell));

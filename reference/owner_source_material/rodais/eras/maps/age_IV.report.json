@@ -64,7 +64,7 @@
   "routes": 413,
   "markers": 60,
   "zones": 13,
-  "addedLabels": 2,
+  "addedLabels": 3,
   "regiments": 0,
   "markets": 16,
   "deals": 7623,
@@ -80,7 +80,7 @@
   "dialogs": [],
   "loaded": true
  },
- "bytes": 4523234,
+ "bytes": 4523200,
  "records": 53,
  "verify": {
   "load": {
@@ -100,7 +100,7 @@
    "routes": 413,
    "markers": 60,
    "zones": 13,
-   "addedLabels": 2,
+   "addedLabels": 3,
    "regiments": 0,
    "markets": 16,
    "deals": 7623,
@@ -130,7 +130,7 @@
     "legend"
    ],
    "burgIcons": 565,
-   "labels": 4,
+   "labels": 5,
    "routes": 413,
    "stateBordersLength": 265,
    "provinceBordersLength": 70701

@@ -62,7 +62,10 @@ class Master:
         self.burg_province = {i: self.cell_province[b['cell']] for i, b in self.burgs.items()}
         self.cell_burg = {b['cell']: i for i, b in self.burgs.items()}
         self.scale = self.options['units']['distance']['scale']
-        self.min_burg_x = min(b['x'] for b in self.burgs.values())
+        xs = [b['x'] for b in self.burgs.values()]
+        ys = [b['y'] for b in self.burgs.values()]
+        self.bbox = (min(xs), min(ys), max(xs), max(ys))    # the island, by its burgs
+        self.width = self.options['graph']['width']
         self.height = self.options['graph']['height']
 
 
@@ -884,7 +887,6 @@ class Converter:
     def zones(self):
         d, M = self.d, self.M
         keep, edit, add = [], {}, []
-        west = [0, 0, M.min_burg_x + 25, M.height]
         for z in d['zones']:
             where = 'zone %s' % z['key']
             mz = z.get('master_zone')
@@ -911,9 +913,10 @@ class Converter:
                 a['cells'] = z['cells']
             if not provs and not z.get('cells'):
                 if z.get('sea') or z['type'] == 'sea':
-                    a['water_box'] = west
-                    self.note('zones', '%s: a sea zone with no cells in the draft; drawn on the coastal water west of '
-                                       'x=%d' % (z['key'], west[2]))
+                    dirs = self.sea_directions(z)
+                    a['water_box'] = [self.sea_box(k) for k in dirs]
+                    self.note('zones', '%s: a sea zone with no cells in the draft; drawn on the coastal water to the %s '
+                                       '(from its name, its sea and the age\'s mist land changes)' % (z['key'], ' and '.join(dirs)))
                 else:
                     self.note('zones', '%s (%s): no ground in the draft; not drawn' % (z['key'], a['name']))
                     continue
@@ -943,6 +946,35 @@ class Converter:
                           % (i + 1, txt[:110]))
         self.spec['zones'] = {'keep': keep, 'edit': edit, 'add': add}
 
+    SEA_DIRS = ('north', 'east', 'south', 'west')
+
+    def sea_directions(self, z):
+        """Where a sea zone lies: the directions its English name gives (else its `sea`), with those of the age's
+        land changes about the mist when the zone is the mist (Manannan's mist lies north-about and east)."""
+        found = lambda t: [k for k in self.SEA_DIRS if re.search(r'\b%s' % k, (t or '').lower())]  # noqa: E731
+        dirs = found(z.get('name_en')) or found(z.get('sea')) or found(z.get('note'))
+        if re.search(r'mist', (z.get('name_en') or '') + (z.get('note') or ''), re.I):
+            for lc in self.d.get('land_changes', []):
+                if re.search(r'mist', lc.get('what', ''), re.I):
+                    dirs += [k for k in found(lc['what']) if k != 'west' or 'west' in dirs]
+        stale = [k for k in found(z.get('sea')) if k not in dirs]
+        if stale:
+            self.note('zones', '%s: its `sea` says %s, its name %s; the name is followed' % (
+                z['key'], '/'.join(stale), '/'.join(found(z.get('name_en'))) or '(none)'))
+        return sorted(set(dirs), key=self.SEA_DIRS.index) or ['west']
+
+    def sea_box(self, k):
+        x0, y0, x1, y1 = self.M.bbox
+        W, H = self.M.width, self.M.height
+        return {'north': [0, 0, W, y0 + 15], 'south': [0, y1 - 15, W, H],
+                'east': [x1 - 15, 0, W, H], 'west': [0, 0, x0 + 25, H]}[k]
+
+    def nw_port(self):
+        """The north-westernmost port standing in this age (by its master position)."""
+        ports = [b for b in self.d['burgs'] if self.M.burgs[b['id']].get('port')]
+        b = min(ports, key=lambda b: self.M.burgs[b['id']]['x'] + 2 * self.M.burgs[b['id']]['y'])
+        return b
+
     def cells_named(self, txt):
         """Cells of the burgs whose master or era names appear in the text."""
         out = []
@@ -967,6 +999,16 @@ class Converter:
     def labels(self):
         add = self.spec.get('labels', {}).get('add', [])
         for l in self.d.get('labels', []):
+            if not l.get('text') and re.match(r'the departed\b', l.get('text_en') or ''):
+                # the departed sailed from the north-west ports, north-about: the label is the Setting-Out there
+                b = self.nw_port()
+                text = self.N.lookup('the Setting-Out')
+                add.append({'text': text, 'cell': self.M.burgs[b['id']]['cell'], 'fontSize': 14,
+                            'note': joined(cites(l))})
+                self.note('labels', 'label "%s": no Dia-thìris text; drawn as "%s" (the Setting-Out, NAMES.json) at the '
+                                    'north-westernmost port, %s (the fleet went north-about)' % (
+                                        l['text_en'], text, b.get('era_name') or b['master_name']))
+                continue
             if not l.get('text'):
                 self.note('labels', 'label "%s": no Dia-thìris text; not drawn' % self.N.sub(l['text_en']))
                 continue

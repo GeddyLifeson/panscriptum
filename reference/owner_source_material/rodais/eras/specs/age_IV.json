@@ -4918,10 +4918,18 @@
     "type": "Custom",
     "note": "cites: III-0023, III-0120, III-0239a",
     "water_box": [
-     0,
-     0,
-     354.94,
-     702
+     [
+      0,
+      0,
+      1536,
+      106.1
+     ],
+     [
+      1183.47,
+      0,
+      1536,
+      702
+     ]
     ],
     "color": "url(#hatch4)"
    },
@@ -5147,6 +5155,12 @@
  },
  "labels": {
   "add": [
+   {
+    "text": "Am Falbh",
+    "cell": 1242,
+    "fontSize": 14,
+    "note": "cites: III-0023, III-0027"
+   },
    {
     "text": "A Mhanannain, cùm a' mhuir dùinte",
     "cell": 2410,
