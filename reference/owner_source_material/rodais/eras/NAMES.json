@@ -2165,6 +2165,19 @@
    "status": "existing"
   },
   {
+   "en": "the Old Reverence",
+   "dt": "An Seann Urram",
+   "gloss": "the old reverence of the hearths, before the orders parted",
+   "kind": "faith",
+   "first": "II-0221",
+   "status": "coined",
+   "variants": [
+    "the old reverence",
+    "the Old Reverence and Its Parting"
+   ],
+   "note": "promoted"
+  },
+  {
    "en": "the order of Brìde",
    "dt": "Òrd Bhrìde",
    "gloss": "the order of Brìde's flame",
@@ -2693,6 +2706,15 @@
    "variants": [
     "First Flame"
    ]
+  },
+  {
+   "en": "the Forgotten Coal",
+   "dt": "An Gual Dìochuimhnichte",
+   "gloss": "the forgotten coal of the godfolk",
+   "kind": "event",
+   "first": null,
+   "status": "coined",
+   "note": "promoted"
   },
   {
    "en": "the Mason's Point",
@@ -3482,6 +3504,15 @@
    ]
   },
   {
+   "en": "the Years of Fair Exchange",
+   "dt": "Bliadhnachan na Malairt Cothromaich",
+   "gloss": "the years of fair exchange after the Crossing",
+   "kind": "era",
+   "first": null,
+   "status": "coined",
+   "note": "promoted"
+  },
+  {
    "en": "the Seal Wife",
    "dt": "Bean an Ròin",
    "gloss": "the Seal Wife",
@@ -3838,19 +3869,6 @@
    "note": "ambiguous"
   },
   {
-   "en": "the Old Reverence",
-   "dt": "An Seann Urram",
-   "gloss": "the old reverence of the hearths, before the orders parted",
-   "kind": "faith",
-   "first": "II-0221",
-   "status": "coined",
-   "variants": [
-    "the old reverence",
-    "the Old Reverence and Its Parting"
-   ],
-   "note": "ambiguous"
-  },
-  {
    "en": "the sting-oath",
    "dt": "Mionnan a' Ghatha",
    "gloss": "the sting-oath of the western merchants",
@@ -3933,15 +3951,6 @@
     "the Seven Lightings"
    ],
    "note": "ambiguous"
-  },
-  {
-   "en": "the Forgotten Coal",
-   "dt": "An Gual Dìochuimhnichte",
-   "gloss": "the forgotten coal of the godfolk",
-   "kind": "event",
-   "first": null,
-   "status": "coined",
-   "note": "ambiguous: a chapter title in the Telling"
   },
   {
    "en": "the misstrike",
@@ -4087,15 +4096,6 @@
    "first": "II-0093",
    "status": "coined",
    "note": "ambiguous"
-  },
-  {
-   "en": "the Years of Fair Exchange",
-   "dt": "Bliadhnachan na Malairt Cothromaich",
-   "gloss": "the years of fair exchange after the Crossing",
-   "kind": "era",
-   "first": null,
-   "status": "coined",
-   "note": "ambiguous: a chapter title in the Fifth Book"
   }
  ]
 }

@@ -9,7 +9,7 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 - The glosses are matched case-sensitively, so write the form exactly as given, article and all.
 - Additions go through the lead.
 
-**331 names** (171 existing, 160 coined) and **52 ambiguous cases** for the lead.
+**334 names** (171 existing, 163 coined) and **49 ambiguous cases** for the lead.
 
 ## Ages (7)
 
@@ -23,7 +23,7 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 | the Age of the Kingdom <br>*also:* Age of the Kingdom; Age VI | **An Aois Rìoghachd** | the Age of the Kingdom | V-0001 | existing |
 | the Age of Dubhan <br>*also:* Age of Dubhan; Age VII | **An Aois Dhubhain** | the Age of Dubhan | VI-0001 | existing |
 
-## Eras and periods (9)
+## Eras and periods (10)
 
 | English | Dia-thìris | Gloss | First | Status |
 |---|---|---|---|---|
@@ -36,6 +36,7 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 | the Dubhan Era <br>*also:* Dubhan Era; DE | **Linn an Dubhain** | the Dubhan Era (DE); lit. 'the era of Dubhan' <br>*note:* The map calendar field reads "Dubhan Era" and check_rodais.py requires that exact English string there. | VI-0049a | existing |
 | the long years <br>*also:* the Long Years | **na Bliadhnachan Fada** | the long years of Ailean's kin | I-0084 | existing |
 | the Reverent Centuries <br>*also:* the reverent centuries | **Na Linntean Urramach** | the Reverent Centuries of the Holy Age; lit. 'the reverent centuries' | II-0058 | coined |
+| the Years of Fair Exchange | **Bliadhnachan na Malairt Cothromaich** | the years of fair exchange after the Crossing <br>*note:* promoted | — | coined |
 
 ## Wars (8)
 
@@ -261,7 +262,7 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 | the house of Ìomhar | **Sliochd Ìomhair** | the house of Ìomhar | II-0046 | existing |
 | the house of Mac Ùisdein | **Taigh Mhic Ùisdein** | the house of Mac Ùisdein | V-0117 | coined |
 
-## Faiths (8)
+## Faiths (9)
 
 | English | Dia-thìris | Gloss | First | Status |
 |---|---|---|---|---|
@@ -272,6 +273,7 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 | the Church <br>*also:* Church | **An Eaglais** | the Church | IV-0001 | existing |
 | the Tuathaich Church <br>*also:* the old congregations of the north coast | **Eaglais nan Tuathach** | the Tuathaich Church; the old congregations of the north coast | V-0042 | existing |
 | without a faith | **gun chreideamh** | without a faith | V-0034a | existing |
+| the Old Reverence <br>*also:* the old reverence; the Old Reverence and Its Parting | **An Seann Urram** | the old reverence of the hearths, before the orders parted <br>*note:* promoted | II-0221 | coined |
 | the Mystery of the Grey Night | **Rùn-dìomhair na h-Oidhche Glaise** | the Mystery of the Grey Night | V-0043 | existing |
 
 ## Orders and schools (9)
@@ -356,7 +358,7 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 | the rainbow coal | **gual bogha-froise** | the rainbow coal, of spirit | I-0080a | existing |
 | the First Flame <br>*also:* First Flame | **A' Chiad Lasair** | the First Flame, Brìde's flame bound at Dùn ìseal | II-0001 | coined |
 
-## Events used as names (17)
+## Events used as names (18)
 
 | English | Dia-thìris | Gloss | First | Status |
 |---|---|---|---|---|
@@ -376,6 +378,7 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 | the Depletion <br>*also:* Depletion | **An Traoghadh** | the Depletion of the vein; lit. 'the draining' | V-0105 | coined |
 | the Keeper's gift | **Tìodhlac a' Choimhdich** | the Keeper's gift | IV-0144 | existing |
 | the mason's fire <br>*also:* the first fire | **Teine a' Chlachair** | the mason's fire, the first fire | I-0001 | coined |
+| the Forgotten Coal | **An Gual Dìochuimhnichte** | the forgotten coal of the godfolk <br>*note:* promoted | — | coined |
 | the panther roads <br>*also:* the panther road; the crossing days | **Imrich nam Pantar** | the panthers' crossing | I-0078 | existing |
 
 ## Calamities (5)
@@ -542,7 +545,7 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 | How Coal Came into the Blood | **Mar a Thàinig an Gual dhan Fhuil** | How Coal Came into the Blood (a tale) | — | existing |
 | Why the Tuathaich Went North | **Carson a Chaidh na Tuathaich gu Tuath** | Why the Tuathaich Went North (a tale) | — | existing |
 
-## Ambiguous cases for the lead (52)
+## Ambiguous cases for the lead (49)
 
 These may be common nouns rather than names. Each has a proposed form; the build ignores them until the lead moves them into `names`.
 
@@ -575,7 +578,6 @@ These may be common nouns rather than names. Each has a proposed form; the build
 | the plain seal | **An Seula Lom** | the plain seal of the kingdom <br>*note:* ambiguous | VI-0050 | coined |
 | the hill-folk <br>*also:* the Hill-Folk | **Muinntir a' Chnuic** | the hill-folk of the vein <br>*note:* ambiguous | I-0065 | coined |
 | the undying generation | **Na Daoine gun Aois** | the undying generation of the coal-blooded <br>*note:* ambiguous | IV-0146 | coined |
-| the Old Reverence <br>*also:* the old reverence; the Old Reverence and Its Parting | **An Seann Urram** | the old reverence of the hearths, before the orders parted <br>*note:* ambiguous | II-0221 | coined |
 | the sting-oath | **Mionnan a' Ghatha** | the sting-oath of the western merchants <br>*note:* ambiguous | II-0160 | coined |
 | the dawn-hawk rite <br>*also:* the dawn-hawk | **Deas-ghnàth Seabhag na Camhanaich** | the dawn-hawk rite of the north coast <br>*note:* ambiguous | II-0159 | coined |
 | the ancestor rite | **Deas-ghnàth nan Sinnsearan** | the ancestor rite of the Old Spirits <br>*note:* ambiguous | II-0005 | coined |
@@ -584,7 +586,6 @@ These may be common nouns rather than names. Each has a proposed form; the build
 | the shared meal <br>*also:* the shared-meal custom | **Am Biadh Roinnte** | the shared-meal custom <br>*note:* ambiguous | II-0179 | coined |
 | the white stag <br>*also:* the White Stag | **An Damh Geal** | the white stag of Flidais's wood <br>*note:* ambiguous | I-0050 | coined |
 | the seven lightings <br>*also:* the Seven Lightings | **Na Seachd Lasaidhean** | the seven lightings of the coals <br>*note:* ambiguous | — | coined |
-| the Forgotten Coal | **An Gual Dìochuimhnichte** | the forgotten coal of the godfolk <br>*note:* ambiguous: a chapter title in the Telling | — | coined |
 | the misstrike <br>*also:* Cormac of the Misstrike | **An Droch Bhuille** | the misstrike that lit the mahogany coal <br>*note:* ambiguous | I-0052a | coined |
 | the slab | **An Leac** | the slab over the burnt vein <br>*note:* ambiguous | I-0003 | coined |
 | the vein <br>*also:* the Vein | **An Fhèith** | the vein of coloured coal <br>*note:* ambiguous: a common noun in most places; Linn na Fèithe is built on it | I-0001 | coined |
@@ -599,4 +600,3 @@ These may be common nouns rather than names. Each has a proposed form; the build
 | the northern concession <br>*also:* the concession towns | **Ceadachd a' Chinn a Tuath** | the humans' northern concession <br>*note:* ambiguous | IV-0060 | coined |
 | the eastern pirates <br>*also:* the pirates | **Spùinneadairean-mara an Ear** | the eastern pirates <br>*note:* ambiguous: spùinneadair-mara is a common noun; the map's markers are named Spùinneadairean-mara | IV-0108 | existing |
 | the first war | **A' Chiad Chogadh** | the first war (the War of the Roads) <br>*note:* ambiguous | II-0093 | coined |
-| the Years of Fair Exchange | **Bliadhnachan na Malairt Cothromaich** | the years of fair exchange after the Crossing <br>*note:* ambiguous: a chapter title in the Fifth Book | — | coined |
