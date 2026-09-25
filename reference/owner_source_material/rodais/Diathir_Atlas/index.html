@@ -302,23 +302,50 @@ function startMap(){
     mapFailed('The map could not be fetched', 'Diathir.map did not load (' + err.message + '). Close this tab and start the Atlas again with its launcher.');
   });
 }
+var fmgErrors = [];
+function showDiagnostics(){
+  var l = document.getElementById('loading');
+  if (document.getElementById('ldDiag')) return;
+  var d = document.createElement('div'); d.id = 'ldDiag'; d.className = 'note';
+  d.innerHTML = 'This is taking longer than it should. <button onclick="peekMap()">Show the map-maker</button>' +
+    '<div id="ldErr" style="margin-top:8px; font-size:13px; opacity:.85"></div>';
+  l.appendChild(d); updateErrors();
+}
+function updateErrors(){
+  var el = document.getElementById('ldErr'); if (!el) return;
+  el.textContent = fmgErrors.length ? 'The map-maker reported: ' + fmgErrors.slice(-3).join(' | ') : 'No errors reported yet.';
+}
+function peekMap(){ document.getElementById('loading').hidden = true; }
 function openGenerator(link){
   progress(50, 'Starting the map-maker');
-  document.getElementById('fmg').src = 'fmg/index.html?maplink=' + encodeURIComponent(link);
+  var frame = document.getElementById('fmg');
+  frame.addEventListener('load', function(){
+    try {   // collect the map-maker's own errors so a stall can say what went wrong
+      var w = frame.contentWindow;
+      w.addEventListener('error', function(ev){ fmgErrors.push((ev.message || 'a file failed to load') + (ev.filename ? ' (' + ev.filename.split('/').pop() + ')' : '')); updateErrors(); }, true);
+      w.addEventListener('unhandledrejection', function(ev){ fmgErrors.push(String(ev.reason && ev.reason.message || ev.reason)); updateErrors(); });
+    } catch(e){}
+  });
+  frame.src = 'fmg/index.html?maplink=' + encodeURIComponent(link);
   var t0 = Date.now(), t = setInterval(function(){
     var w = fmg(), secs = (Date.now() - t0) / 1000;
     try {
       if (w && w.pack && w.pack.burgs && w.pack.burgs.length > 500 && w.pack.cells && w.pack.cells.p && w.zoomTo && w.Layers && w.document.getElementById('viewbox')) {
         clearInterval(t); progress(100, 'Ready'); onMapReady(w); return;
       }
+      // the map-maker is asking something (a dialog): step aside so it can be answered
+      var dlg = w && w.document && Array.prototype.some.call(w.document.querySelectorAll('.ui-dialog'), function(x){ return x.offsetParent !== null; });
+      if (dlg && !document.getElementById('loading').hidden) peekMap();
       var labels = w && w.document ? w.document.querySelectorAll('#burgLabels text').length : 0;
       if (labels) progress(85 + 14 * Math.min(1, labels / 500), 'Drawing the towns');
       else if (w && w.pack && w.pack.cells && w.pack.cells.p) progress(78, 'Laying out the land');
       else if (w && w.Layers) progress(65, 'Reading the map');
       else progress(Math.min(64, 50 + secs), 'Starting the map-maker');
     } catch(e){}
+    if (secs > 20) showDiagnostics();
     if (secs > 300) { clearInterval(t);
-      mapFailed('The map did not finish loading', 'Five minutes passed without the map appearing. Close this tab and start the Atlas again; on a slow computer give it a little longer.'); }
+      mapFailed('The map did not finish loading', 'Five minutes passed without the map appearing. ' +
+        (fmgErrors.length ? 'The map-maker reported: ' + fmgErrors.slice(-3).join(' | ') : 'Close this tab and start the Atlas again.')); }
   }, 250);
 }
 
