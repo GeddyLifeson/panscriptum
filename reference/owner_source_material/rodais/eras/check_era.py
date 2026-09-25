@@ -122,7 +122,8 @@ def section_words(k, rec, md):
             return ''
         j = md.find(b, i + 1) if b else -1
         return md[i:j if j >= 0 else len(md)]
-    books = between('\n# The ', '\n# The Annals of the Age')
+    b0 = md.find('\n# The ')
+    books = '' if b0 < 0 or md.startswith('\n# The Annals of the Age', b0) else between('\n# The ', '\n# The Annals of the Age')
     annals = between('\n# The Annals of the Age', '\n# A Gazetteer of the Age' if '\n# A Gazetteer of the Age' in md else '\n# Appendix')
     gaz = between('\n# A Gazetteer of the Age', '\n# Appendix')
     i = md.find('\n# Appendix')

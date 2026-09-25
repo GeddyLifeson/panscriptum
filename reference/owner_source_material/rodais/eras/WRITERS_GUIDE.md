@@ -3,6 +3,7 @@
 Each of the seven ages gets its own legendarium: a book of 500–600 pages in the house design of the master
 `The_Diathir_Legendarium.pdf`, covering that age alone. This guide is the working contract for everyone writing one.
 Read `../legendarium/BRIEF.md`, the TOLKIEN and BOOK_STYLE briefs and the master record of your age before you start.
+Avoid the tells listed in `quality/TELLS_FOR_WRITERS.md`; `python quality/tells_scan.py <K>` finds them in your files.
 **Era detail adds to the master canon and never contradicts it.**
 
 ## 1. The files
