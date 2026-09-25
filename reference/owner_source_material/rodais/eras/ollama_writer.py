@@ -162,7 +162,7 @@ def write_chapter(k, n, model, verbose=True):
     open(fn, 'w', encoding='utf-8').write(prose)
     # checks and one repair pass
     for tool in ('tells_scan.py', 'future_check.py'):
-        args = ['python3', f'eras/quality/{tool}', os.path.relpath(fn, ROOT)] + ([k] if tool == 'future_check.py' else [])
+        args = [sys.executable, f'eras/quality/{tool}', os.path.relpath(fn, ROOT)] + ([k] if tool == 'future_check.py' else [])
         rc, out = run(args)
         if rc != 0 or re.search(r'\b[1-9]\d* (hits?|forward|tells?)\b', out):
             say(f'[{k} {n:02d}] repairing after {tool}')
