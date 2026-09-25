@@ -937,12 +937,12 @@
   ],
   "edit": {
    "1": {
-    "population": 1.0,
+    "population": 3.0,
     "group": "village",
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B1"
    },
    "2": {
-    "population": 0.48,
+    "population": 1.4,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -952,11 +952,11 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B2"
    },
    "3": {
-    "population": 2.8,
+    "population": 8.2,
     "note": "inferred · cites: gazetteer B3"
    },
    "4": {
-    "population": 0.38,
+    "population": 1.1,
     "group": "village",
     "features": {
      "plaza": 0
@@ -964,19 +964,19 @@
     "note": "inferred · cites: gazetteer B4"
    },
    "5": {
-    "population": 0.72,
+    "population": 2.2,
     "features": {
      "plaza": 0
     },
     "note": "inferred · cites: gazetteer B5"
    },
    "6": {
-    "population": 2.2,
+    "population": 6.4,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B6"
    },
    "7": {
-    "population": 0.53,
+    "population": 1.6,
     "features": {
      "plaza": 0,
      "temple": 0
@@ -984,17 +984,17 @@
     "note": "inferred · cites: gazetteer B7"
    },
    "8": {
-    "population": 1.0,
+    "population": 3.0,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B8"
    },
    "9": {
-    "population": 1.5,
+    "population": 4.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B9"
    },
    "10": {
-    "population": 0.38,
+    "population": 1.1,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1002,7 +1002,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B10"
    },
    "11": {
-    "population": 0.95,
+    "population": 2.8,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1010,19 +1010,19 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B11"
    },
    "12": {
-    "population": 2.3,
+    "population": 6.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B12"
    },
    "13": {
-    "population": 0.17,
+    "population": 0.5,
     "features": {
      "plaza": 0
     },
     "note": "inferred · cites: gazetteer B13"
    },
    "14": {
-    "population": 0.28,
+    "population": 0.8,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1031,12 +1031,12 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B14"
    },
    "15": {
-    "population": 1.4,
+    "population": 4.2,
     "group": "village",
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B15"
    },
    "16": {
-    "population": 0.12,
+    "population": 0.3,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1045,43 +1045,42 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B16"
    },
    "17": {
-    "population": 3.0,
+    "population": 8.8,
     "group": "town",
     "note": "Scoiltean nan Draoidhean · inferred · cites: III-0053, III-0128, III-0173, III-0215"
    },
    "18": {
-    "population": 1.8,
+    "population": 5.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B18"
    },
    "19": {
-    "population": 6.0,
     "note": "Òrd Mhacha · inferred · cites: III-0069, III-0070, III-0148, IV-0005"
    },
    "20": {
-    "population": 3.5,
+    "population": 10.2,
     "note": "Òrd an t-Seabhaig · inferred · cites: III-0062, III-0065, III-0140"
    },
    "21": {
-    "population": 0.41,
+    "population": 1.2,
     "group": "village",
     "note": "inferred · cites: gazetteer B21"
    },
    "22": {
-    "population": 1.1,
+    "population": 3.2,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B22"
    },
    "23": {
-    "population": 12.0,
+    "population": 34.0,
     "note": "Òrd Mhacha · inferred · cites: III-0148, III-0150, III-0198"
    },
    "24": {
-    "population": 3.2,
+    "population": 9.2,
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B24"
    },
    "25": {
-    "population": 0.39,
+    "population": 1.1,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1091,68 +1090,62 @@
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B25"
    },
    "26": {
-    "population": 3.5,
+    "population": 10.2,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B26"
    },
    "27": {
-    "population": 6.2,
+    "population": 18.0,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B27"
    },
    "28": {
-    "population": 0.14,
+    "population": 0.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B28"
    },
    "29": {
-    "population": 1.4,
+    "population": 4.2,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B29"
    },
    "30": {
-    "population": 2.6,
+    "population": 7.6,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: III-0178, III-0207"
    },
    "31": {
-    "population": 3.0,
+    "population": 8.8,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B31"
    },
    "32": {
-    "population": 2.8,
+    "population": 8.2,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B32"
    },
    "33": {
-    "population": 0.55,
+    "population": 1.6,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B33"
    },
    "34": {
-    "population": 0.7,
     "group": "village",
-    "features": {
-     "citadel": 0,
-     "plaza": 0,
-     "temple": 0
-    },
     "note": "Scoiltean nan Draoidhean · inferred · cites: III-0119a"
    },
    "35": {
-    "population": 1.4,
+    "population": 4.0,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B35"
    },
    "36": {
-    "population": 4.4,
+    "population": 12.8,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B36"
    },
    "37": {
-    "population": 2.3,
+    "population": 6.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B37"
    },
    "39": {
-    "population": 0.96,
+    "population": 2.8,
     "group": "village",
     "features": {
      "walls": 0,
@@ -1161,7 +1154,7 @@
     "note": "inferred · cites: gazetteer B39"
    },
    "40": {
-    "population": 0.43,
+    "population": 1.3,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1170,40 +1163,40 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B40"
    },
    "41": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B41"
    },
    "42": {
-    "population": 2.7,
+    "population": 8.0,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B42"
    },
    "43": {
-    "population": 1.5,
+    "population": 4.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B43"
    },
    "44": {
-    "population": 1.6,
+    "population": 4.6,
     "group": "village",
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B44"
    },
    "45": {
-    "population": 4.2,
+    "population": 12.4,
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B45"
    },
    "46": {
-    "population": 1.9,
+    "population": 5.4,
     "group": "village",
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B46"
    },
    "47": {
-    "population": 2.4,
+    "population": 7.2,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B47"
    },
    "48": {
-    "population": 0.36,
+    "population": 1.0,
     "group": "village",
     "features": {
      "temple": 0
@@ -1211,12 +1204,12 @@
     "note": "inferred · cites: gazetteer B48"
    },
    "49": {
-    "population": 1.4,
+    "population": 4.0,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B49"
    },
    "50": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1225,23 +1218,23 @@
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B50"
    },
    "51": {
-    "population": 0.36,
+    "population": 1.0,
     "features": {
      "temple": 0
     },
     "note": "inferred · cites: gazetteer B51"
    },
    "52": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B52"
    },
    "53": {
-    "population": 1.1,
+    "population": 3.2,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B53"
    },
    "54": {
-    "population": 0.08,
+    "population": 0.2,
     "group": "hamlet",
     "features": {
      "walls": 0
@@ -1249,16 +1242,16 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B54"
    },
    "55": {
-    "population": 1.3,
+    "population": 3.8,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B55"
    },
    "56": {
-    "population": 0.31,
+    "population": 0.9,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B56"
    },
    "57": {
-    "population": 0.53,
+    "population": 1.5,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1267,11 +1260,11 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B57"
    },
    "59": {
-    "population": 0.31,
+    "population": 0.9,
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B59"
    },
    "60": {
-    "population": 0.6,
+    "population": 1.8,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1279,39 +1272,39 @@
     "note": "inferred · cites: gazetteer B60"
    },
    "61": {
-    "population": 1.3,
+    "population": 4.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B61"
    },
    "62": {
-    "population": 2.5,
+    "population": 7.4,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B62"
    },
    "63": {
-    "population": 2.9,
+    "population": 8.4,
     "group": "town",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B63"
    },
    "64": {
-    "population": 2.4,
+    "population": 7.0,
     "note": "Òrd Mhanannain · inferred · cites: III-0105, III-0115"
    },
    "65": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B65"
    },
    "66": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B66"
    },
    "67": {
-    "population": 4.5,
+    "population": 13.2,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B67"
    },
    "68": {
-    "population": 0.34,
+    "population": 1.0,
     "group": "village",
     "features": {
      "walls": 0
@@ -1319,7 +1312,7 @@
     "note": "inferred · cites: gazetteer B68"
    },
    "69": {
-    "population": 0.29,
+    "population": 0.9,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1328,7 +1321,7 @@
     "note": "inferred · cites: gazetteer B69"
    },
    "70": {
-    "population": 0.19,
+    "population": 0.5,
     "group": "village",
     "features": {
      "citadel": 0
@@ -1336,7 +1329,7 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B70"
    },
    "71": {
-    "population": 0.25,
+    "population": 0.7,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1346,16 +1339,16 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B71"
    },
    "72": {
-    "population": 0.42,
+    "population": 1.2,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B72"
    },
    "73": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B73"
    },
    "74": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "features": {
      "walls": 0
@@ -1363,21 +1356,26 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B74"
    },
    "75": {
-    "population": 0.29,
+    "population": 0.8,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B75"
    },
    "76": {
-    "population": 1.5,
     "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
     "note": "Scoiltean nan Draoidhean · inferred · cites: III-0079, III-0147, III-0166, III-0168a"
    },
    "77": {
-    "population": 2.0,
+    "population": 5.8,
     "group": "town",
     "note": "Scoiltean nan Draoidhean · inferred · cites: III-0074, III-0171, III-0172, III-0230"
    },
    "78": {
-    "population": 0.25,
+    "population": 0.7,
     "group": "village",
     "features": {
      "walls": 0,
@@ -1386,62 +1384,62 @@
     "note": "inferred · cites: gazetteer B78"
    },
    "79": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B79"
    },
    "80": {
-    "population": 1.5,
+    "population": 4.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B80"
    },
    "82": {
-    "population": 0.21,
+    "population": 0.6,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B82"
    },
    "83": {
-    "population": 0.82,
+    "population": 2.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B83"
    },
    "84": {
-    "population": 0.31,
+    "population": 0.9,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B84"
    },
    "85": {
-    "population": 0.23,
+    "population": 0.7,
     "group": "village",
     "note": "inferred · cites: gazetteer B85"
    },
    "86": {
-    "population": 2.0,
+    "population": 5.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B86"
    },
    "87": {
-    "population": 0.51,
+    "population": 1.5,
     "features": {
      "walls": 0
     },
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B87"
    },
    "88": {
-    "population": 2.2,
+    "population": 6.6,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B88"
    },
    "89": {
-    "population": 0.29,
+    "population": 0.8,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B89"
    },
    "90": {
-    "population": 2.3,
+    "population": 6.6,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B90"
    },
    "91": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "features": {
      "walls": 0
@@ -1449,16 +1447,16 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B91"
    },
    "92": {
-    "population": 3.8,
+    "population": 11.2,
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B92"
    },
    "93": {
-    "population": 0.81,
+    "population": 2.4,
     "group": "village",
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B93"
    },
    "94": {
-    "population": 0.79,
+    "population": 2.2,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1467,41 +1465,41 @@
     "note": "inferred · cites: gazetteer B94"
    },
    "95": {
-    "population": 3.0,
+    "population": 8.8,
     "note": "inferred · cites: gazetteer B95"
    },
    "96": {
-    "population": 0.6,
+    "population": 1.7,
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B96"
    },
    "97": {
-    "population": 0.35,
+    "population": 1.0,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B97"
    },
    "99": {
-    "population": 1.2,
+    "population": 3.4,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B99"
    },
    "100": {
-    "population": 0.51,
+    "population": 1.5,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B100"
    },
    "101": {
-    "population": 0.21,
+    "population": 0.6,
     "features": {
      "shanty": 0
     },
     "note": "Òrd Mhacha · inferred · cites: gazetteer B101"
    },
    "102": {
-    "population": 2.0,
+    "population": 5.8,
     "note": "inferred · cites: gazetteer B102"
    },
    "103": {
-    "population": 0.63,
+    "population": 1.8,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1510,7 +1508,7 @@
     "note": "inferred · cites: gazetteer B103"
    },
    "104": {
-    "population": 0.78,
+    "population": 2.2,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1520,7 +1518,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B104"
    },
    "105": {
-    "population": 0.36,
+    "population": 1.1,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1528,26 +1526,26 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B105"
    },
    "106": {
-    "population": 2.9,
+    "population": 8.4,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B106"
    },
    "109": {
-    "population": 2.3,
+    "population": 6.6,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B109"
    },
    "110": {
-    "population": 6.0,
+    "population": 17.4,
     "note": "inferred · cites: gazetteer B110"
    },
    "111": {
-    "population": 0.37,
+    "population": 1.1,
     "features": {
      "citadel": 0
     },
     "note": "inferred · cites: gazetteer B111"
    },
    "113": {
-    "population": 0.32,
+    "population": 0.9,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1555,27 +1553,27 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B113"
    },
    "114": {
-    "population": 0.72,
+    "population": 2.2,
     "group": "village",
     "note": "inferred · cites: gazetteer B114"
    },
    "115": {
-    "population": 1.2,
+    "population": 3.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B115"
    },
    "116": {
-    "population": 0.33,
+    "population": 1.0,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B116"
    },
    "117": {
-    "population": 2.6,
+    "population": 7.6,
     "group": "town",
     "note": "inferred · cites: gazetteer B117"
    },
    "118": {
-    "population": 0.97,
+    "population": 2.8,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1584,17 +1582,17 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B118"
    },
    "119": {
-    "population": 1.2,
+    "population": 3.6,
     "group": "village",
     "note": "inferred · cites: III-0014, III-0194"
    },
    "120": {
-    "population": 0.52,
+    "population": 1.5,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B120"
    },
    "122": {
-    "population": 0.49,
+    "population": 1.4,
     "group": "village",
     "features": {
      "walls": 0
@@ -1602,21 +1600,21 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B122"
    },
    "123": {
-    "population": 0.33,
+    "population": 1.0,
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B123"
    },
    "125": {
-    "population": 0.93,
+    "population": 2.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B125"
    },
    "126": {
-    "population": 1.7,
+    "population": 5.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B126"
    },
    "127": {
-    "population": 0.16,
+    "population": 0.5,
     "group": "village",
     "features": {
      "plaza": 0,
@@ -1625,12 +1623,12 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B127"
    },
    "128": {
-    "population": 0.4,
+    "population": 1.2,
     "group": "village",
     "note": "inferred · cites: gazetteer B128"
    },
    "129": {
-    "population": 0.26,
+    "population": 0.8,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1638,7 +1636,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B129"
    },
    "130": {
-    "population": 0.45,
+    "population": 1.3,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1647,16 +1645,16 @@
     "note": "inferred · cites: gazetteer B130"
    },
    "131": {
-    "population": 4.2,
+    "population": 12.4,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B131"
    },
    "132": {
-    "population": 2.7,
+    "population": 7.8,
     "group": "town",
     "note": "Òrd an t-Seabhaig · inferred · cites: III-0088a, III-0142, III-0143"
    },
    "133": {
-    "population": 0.38,
+    "population": 1.1,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1665,50 +1663,50 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B133"
    },
    "134": {
-    "population": 3.1,
+    "population": 9.0,
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B134"
    },
    "135": {
-    "population": 1.7,
+    "population": 5.0,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B135"
    },
    "136": {
-    "population": 1.4,
+    "population": 4.2,
     "group": "village",
     "note": "inferred · cites: gazetteer B136"
    },
    "137": {
-    "population": 3.6,
+    "population": 10.6,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B137"
    },
    "138": {
-    "population": 0.31,
+    "population": 0.9,
     "features": {
      "temple": 0
     },
     "note": "inferred · cites: gazetteer B138"
    },
    "139": {
-    "population": 1.3,
+    "population": 3.8,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B139"
    },
    "140": {
-    "population": 0.4,
+    "population": 1.1,
     "group": "village",
     "note": "inferred · cites: gazetteer B140"
    },
    "141": {
-    "population": 1.2,
+    "population": 3.4,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B141"
    },
    "142": {
-    "population": 1.8,
+    "population": 5.2,
     "group": "village",
     "note": "inferred · cites: gazetteer B142"
    },
    "143": {
-    "population": 0.25,
+    "population": 0.7,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1716,36 +1714,36 @@
     "note": "Òrd Mhanannain · inferred · cites: III-0039, III-0236"
    },
    "144": {
-    "population": 2.5,
+    "population": 7.4,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B144"
    },
    "145": {
-    "population": 3.2,
+    "population": 9.4,
     "group": "town",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B145"
    },
    "146": {
-    "population": 1.4,
+    "population": 4.2,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B146"
    },
    "147": {
-    "population": 0.96,
+    "population": 2.8,
     "note": "inferred · cites: gazetteer B147"
    },
    "148": {
-    "population": 0.19,
+    "population": 0.6,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B148"
    },
    "149": {
-    "population": 1.3,
+    "population": 3.8,
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B149"
    },
    "150": {
-    "population": 0.78,
+    "population": 2.2,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B150"
    },
    "151": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1753,7 +1751,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B151"
    },
    "152": {
-    "population": 0.53,
+    "population": 1.6,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1761,27 +1759,27 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B152"
    },
    "153": {
-    "population": 0.58,
+    "population": 1.7,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B153"
    },
    "155": {
-    "population": 1.0,
+    "population": 3.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B155"
    },
    "156": {
-    "population": 1.3,
+    "population": 3.8,
     "group": "village",
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B156"
    },
    "157": {
-    "population": 1.4,
+    "population": 4.0,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B157"
    },
    "158": {
-    "population": 0.56,
+    "population": 1.6,
     "group": "village",
     "features": {
      "walls": 0,
@@ -1790,53 +1788,53 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B158"
    },
    "159": {
-    "population": 1.1,
+    "population": 3.2,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B159"
    },
    "161": {
-    "population": 1.5,
+    "population": 4.4,
     "group": "village",
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B161"
    },
    "162": {
-    "population": 3.1,
+    "population": 9.2,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B162"
    },
    "163": {
-    "population": 1.2,
+    "population": 3.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B163"
    },
    "165": {
-    "population": 1.4,
+    "population": 4.0,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B165"
    },
    "166": {
-    "population": 3.5,
+    "population": 10.2,
     "group": "town",
     "note": "Òrd Mhanannain · inferred · cites: III-0087, III-0104, III-0114"
    },
    "167": {
-    "population": 2.9,
+    "population": 8.4,
     "note": "inferred · cites: gazetteer B167"
    },
    "168": {
-    "population": 1.5,
+    "population": 4.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B168"
    },
    "169": {
-    "population": 0.22,
+    "population": 0.6,
     "note": "inferred · cites: gazetteer B169"
    },
    "170": {
-    "population": 3.3,
+    "population": 9.6,
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B170"
    },
    "171": {
-    "population": 0.27,
+    "population": 0.8,
     "group": "village",
     "features": {
      "walls": 0
@@ -1844,7 +1842,7 @@
     "note": "inferred · cites: gazetteer B171"
    },
    "172": {
-    "population": 0.19,
+    "population": 0.6,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1852,24 +1850,24 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B172"
    },
    "173": {
-    "population": 0.2,
+    "population": 0.6,
     "features": {
      "citadel": 0
     },
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B173"
    },
    "174": {
-    "population": 1.1,
+    "population": 3.2,
     "group": "village",
     "note": "inferred · cites: gazetteer B174"
    },
    "175": {
-    "population": 2.1,
+    "population": 6.0,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B175"
    },
    "176": {
-    "population": 0.66,
+    "population": 1.9,
     "group": "village",
     "features": {
      "plaza": 0,
@@ -1878,21 +1876,21 @@
     "note": "inferred · cites: gazetteer B176"
    },
    "177": {
-    "population": 1.2,
+    "population": 3.4,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B177"
    },
    "178": {
-    "population": 0.19,
+    "population": 0.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B178"
    },
    "179": {
-    "population": 0.4,
+    "population": 1.2,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B179"
    },
    "180": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1901,7 +1899,7 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B180"
    },
    "181": {
-    "population": 0.3,
+    "population": 0.9,
     "group": "village",
     "features": {
      "plaza": 0
@@ -1909,22 +1907,22 @@
     "note": "inferred · cites: gazetteer B181"
    },
    "182": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B182"
    },
    "183": {
-    "population": 1.0,
+    "population": 3.0,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B183"
    },
    "185": {
-    "population": 0.92,
+    "population": 2.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B185"
    },
    "186": {
-    "population": 0.61,
+    "population": 1.8,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1933,7 +1931,7 @@
     "note": "inferred · cites: gazetteer B186"
    },
    "187": {
-    "population": 0.4,
+    "population": 1.2,
     "group": "village",
     "features": {
      "walls": 0,
@@ -1942,7 +1940,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B187"
    },
    "188": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "features": {
      "temple": 0
@@ -1950,27 +1948,27 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B188"
    },
    "189": {
-    "population": 0.25,
+    "population": 0.7,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B189"
    },
    "190": {
-    "population": 0.72,
+    "population": 2.0,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B190"
    },
    "191": {
-    "population": 2.3,
+    "population": 6.6,
     "group": "village",
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B191"
    },
    "192": {
-    "population": 1.6,
+    "population": 4.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B192"
    },
    "193": {
-    "population": 0.9,
+    "population": 2.6,
     "group": "village",
     "features": {
      "walls": 0,
@@ -1979,12 +1977,12 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B193"
    },
    "194": {
-    "population": 0.72,
+    "population": 2.2,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B194"
    },
    "195": {
-    "population": 0.23,
+    "population": 0.7,
     "group": "village",
     "features": {
      "walls": 0
@@ -1992,7 +1990,7 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B195"
    },
    "196": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "features": {
      "citadel": 0
@@ -2000,31 +1998,31 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B196"
    },
    "197": {
-    "population": 3.8,
+    "population": 11.2,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B197"
    },
    "198": {
-    "population": 1.3,
+    "population": 3.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B198"
    },
    "200": {
-    "population": 0.33,
+    "population": 1.0,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B200"
    },
    "201": {
-    "population": 2.6,
+    "population": 7.6,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B201"
    },
    "202": {
-    "population": 2.0,
+    "population": 5.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B202"
    },
    "203": {
-    "population": 0.76,
+    "population": 2.2,
     "group": "village",
     "features": {
      "walls": 0,
@@ -2033,12 +2031,12 @@
     "note": "inferred · cites: gazetteer B203"
    },
    "204": {
-    "population": 2.3,
+    "population": 6.6,
     "group": "village",
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B204"
    },
    "205": {
-    "population": 0.33,
+    "population": 1.0,
     "group": "village",
     "features": {
      "temple": 0
@@ -2046,33 +2044,33 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B205"
    },
    "206": {
-    "population": 0.25,
+    "population": 0.7,
     "note": "inferred · cites: gazetteer B206"
    },
    "207": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B207"
    },
    "208": {
-    "population": 0.35,
+    "population": 1.0,
     "features": {
      "citadel": 0
     },
     "note": "inferred · cites: gazetteer B208"
    },
    "209": {
-    "population": 2.9,
+    "population": 8.6,
     "group": "town",
     "note": "inferred · cites: gazetteer B209"
    },
    "210": {
-    "population": 0.77,
+    "population": 2.2,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B210"
    },
    "211": {
-    "population": 0.23,
+    "population": 0.7,
     "group": "village",
     "features": {
      "temple": 0
@@ -2080,17 +2078,17 @@
     "note": "inferred · cites: gazetteer B211"
    },
    "212": {
-    "population": 2.4,
+    "population": 6.8,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B212"
    },
    "213": {
-    "population": 1.3,
+    "population": 3.6,
     "group": "village",
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B213"
    },
    "214": {
-    "population": 0.45,
+    "population": 1.3,
     "group": "village",
     "features": {
      "plaza": 0
@@ -2098,7 +2096,7 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B214"
    },
    "215": {
-    "population": 0.55,
+    "population": 1.6,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2108,14 +2106,14 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B215"
    },
    "216": {
-    "population": 0.72,
+    "population": 2.0,
     "features": {
      "temple": 0
     },
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B216"
    },
    "217": {
-    "population": 0.78,
+    "population": 2.2,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2124,7 +2122,7 @@
     "note": "inferred · cites: gazetteer B217"
    },
    "218": {
-    "population": 0.7,
+    "population": 2.0,
     "group": "village",
     "features": {
      "walls": 0
@@ -2132,7 +2130,7 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B218"
    },
    "219": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "features": {
      "plaza": 0
@@ -2140,7 +2138,7 @@
     "note": "inferred · cites: gazetteer B219"
    },
    "220": {
-    "population": 0.78,
+    "population": 2.2,
     "group": "village",
     "features": {
      "walls": 0
@@ -2148,7 +2146,7 @@
     "note": "inferred · cites: gazetteer B220"
    },
    "221": {
-    "population": 0.43,
+    "population": 1.3,
     "group": "village",
     "features": {
      "walls": 0,
@@ -2157,31 +2155,31 @@
     "note": "inferred · cites: gazetteer B221"
    },
    "222": {
-    "population": 0.13,
+    "population": 0.4,
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B222"
    },
    "223": {
-    "population": 1.4,
+    "population": 4.2,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B223"
    },
    "225": {
-    "population": 0.45,
+    "population": 1.3,
     "group": "village",
     "note": "inferred · cites: gazetteer B225"
    },
    "226": {
-    "population": 0.23,
+    "population": 0.7,
     "group": "village",
     "note": "inferred · cites: gazetteer B226"
    },
    "227": {
-    "population": 0.24,
+    "population": 0.7,
     "group": "village",
     "note": "inferred · cites: gazetteer B227"
    },
    "229": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "features": {
      "walls": 0,
@@ -2190,31 +2188,31 @@
     "note": "inferred · cites: gazetteer B229"
    },
    "230": {
-    "population": 0.74,
+    "population": 2.2,
     "note": "inferred · cites: gazetteer B230"
    },
    "231": {
-    "population": 1.7,
+    "population": 5.0,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B231"
    },
    "232": {
-    "population": 2.3,
+    "population": 6.6,
     "group": "village",
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B232"
    },
    "233": {
-    "population": 1.3,
+    "population": 3.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B233"
    },
    "234": {
-    "population": 1.6,
+    "population": 4.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B234"
    },
    "235": {
-    "population": 0.9,
+    "population": 2.6,
     "group": "village",
     "features": {
      "plaza": 0
@@ -2222,7 +2220,7 @@
     "note": "inferred · cites: gazetteer B235"
    },
    "236": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "features": {
      "walls": 0
@@ -2230,7 +2228,7 @@
     "note": "inferred · cites: gazetteer B236"
    },
    "237": {
-    "population": 0.33,
+    "population": 1.0,
     "group": "village",
     "features": {
      "walls": 0
@@ -2238,37 +2236,37 @@
     "note": "inferred · cites: gazetteer B237"
    },
    "238": {
-    "population": 0.37,
+    "population": 1.1,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B238"
    },
    "239": {
-    "population": 2.3,
+    "population": 6.8,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B239"
    },
    "240": {
-    "population": 1.4,
+    "population": 4.2,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B240"
    },
    "241": {
-    "population": 2.4,
+    "population": 7.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B241"
    },
    "242": {
-    "population": 0.085,
+    "population": 0.2,
     "group": "hamlet",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B242"
    },
    "243": {
-    "population": 0.39,
+    "population": 1.1,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B243"
    },
    "244": {
-    "population": 0.64,
+    "population": 1.8,
     "group": "village",
     "features": {
      "walls": 0,
@@ -2278,14 +2276,14 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B244"
    },
    "245": {
-    "population": 0.37,
+    "population": 1.1,
     "features": {
      "temple": 0
     },
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B245"
    },
    "246": {
-    "population": 0.8,
+    "population": 2.4,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2294,24 +2292,24 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: III-0217, III-0218, III-0221"
    },
    "247": {
-    "population": 1.2,
+    "population": 3.6,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B247"
    },
    "248": {
-    "population": 0.32,
+    "population": 0.9,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B248"
    },
    "249": {
-    "population": 0.9,
+    "population": 2.6,
     "features": {
      "plaza": 0
     },
     "note": "inferred · cites: III-0192"
    },
    "250": {
-    "population": 0.8,
+    "population": 2.4,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2320,93 +2318,93 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B250"
    },
    "251": {
-    "population": 0.21,
+    "population": 0.6,
     "features": {
      "temple": 0
     },
     "note": "Òrd Mhacha · inferred · cites: gazetteer B251"
    },
    "253": {
-    "population": 0.26,
+    "population": 0.8,
     "features": {
      "temple": 0
     },
     "note": "inferred · cites: gazetteer B253"
    },
    "254": {
-    "population": 2.2,
+    "population": 6.2,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B254"
    },
    "255": {
-    "population": 2.5,
+    "population": 7.4,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B255"
    },
    "256": {
-    "population": 2.3,
+    "population": 6.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B256"
    },
    "257": {
-    "population": 1.1,
+    "population": 3.2,
     "group": "village",
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B257"
    },
    "258": {
-    "population": 1.0,
+    "population": 3.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B258"
    },
    "259": {
-    "population": 1.3,
+    "population": 4.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B259"
    },
    "260": {
-    "population": 0.22,
+    "population": 0.7,
     "group": "village",
     "note": "inferred · cites: gazetteer B260"
    },
    "261": {
-    "population": 1.7,
+    "population": 4.8,
     "note": "inferred · cites: gazetteer B261"
    },
    "262": {
-    "population": 1.7,
+    "population": 5.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B262"
    },
    "263": {
-    "population": 0.13,
+    "population": 0.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B263"
    },
    "264": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B264"
    },
    "265": {
-    "population": 0.79,
+    "population": 2.4,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B265"
    },
    "266": {
-    "population": 0.32,
+    "population": 0.9,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B266"
    },
    "267": {
-    "population": 1.4,
+    "population": 4.2,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B267"
    },
    "268": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B268"
    },
    "269": {
-    "population": 0.92,
+    "population": 2.8,
     "group": "village",
     "features": {
      "plaza": 0,
@@ -2415,24 +2413,24 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B269"
    },
    "270": {
-    "population": 1.8,
+    "population": 5.2,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B270"
    },
    "271": {
-    "population": 0.2,
+    "population": 0.6,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B271"
    },
    "272": {
-    "population": 0.76,
+    "population": 2.2,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B272"
    },
    "273": {
-    "population": 2.5,
+    "population": 7.2,
     "group": "town",
     "note": "Scoiltean nan Draoidhean · inferred · cites: III-0058, III-0059, III-0181a"
    },
    "274": {
-    "population": 0.67,
+    "population": 2.0,
     "group": "village",
     "features": {
      "temple": 0
@@ -2440,33 +2438,33 @@
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B274"
    },
    "275": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B275"
    },
    "276": {
-    "population": 0.97,
+    "population": 2.8,
     "features": {
      "temple": 0
     },
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B276"
    },
    "277": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B277"
    },
    "278": {
-    "population": 0.63,
+    "population": 1.8,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B278"
    },
    "279": {
-    "population": 1.3,
+    "population": 3.8,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B279"
    },
    "280": {
-    "population": 0.24,
+    "population": 0.7,
     "group": "village",
     "features": {
      "walls": 0
@@ -2474,31 +2472,31 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B280"
    },
    "281": {
-    "population": 0.56,
+    "population": 1.6,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B281"
    },
    "282": {
-    "population": 3.9,
+    "population": 11.4,
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B282"
    },
    "283": {
-    "population": 3.9,
+    "population": 11.4,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B283"
    },
    "284": {
-    "population": 0.8,
+    "population": 2.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B284"
    },
    "285": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B285"
    },
    "286": {
-    "population": 0.33,
+    "population": 1.0,
     "group": "village",
     "features": {
      "temple": 0
@@ -2506,36 +2504,36 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B286"
    },
    "287": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B287"
    },
    "288": {
-    "population": 0.4,
+    "population": 1.2,
     "group": "village",
     "note": "inferred · cites: III-0196, III-0203"
    },
    "289": {
-    "population": 1.2,
+    "population": 3.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B289"
    },
    "290": {
-    "population": 0.32,
+    "population": 0.9,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B290"
    },
    "291": {
-    "population": 0.82,
+    "population": 2.4,
     "note": "inferred · cites: gazetteer B291"
    },
    "292": {
-    "population": 0.96,
+    "population": 2.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B292"
    },
    "293": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "features": {
      "citadel": 0
@@ -2543,26 +2541,26 @@
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B293"
    },
    "294": {
-    "population": 1.1,
+    "population": 3.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B294"
    },
    "295": {
-    "population": 1.7,
+    "population": 5.0,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B295"
    },
    "296": {
-    "population": 3.3,
+    "population": 9.6,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B296"
    },
    "297": {
-    "population": 2.5,
+    "population": 7.2,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: III-0070a"
    },
    "298": {
-    "population": 0.32,
+    "population": 0.9,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2571,7 +2569,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B298"
    },
    "299": {
-    "population": 0.63,
+    "population": 1.8,
     "group": "village",
     "features": {
      "temple": 0
@@ -2579,7 +2577,7 @@
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B299"
    },
    "300": {
-    "population": 0.59,
+    "population": 1.7,
     "group": "village",
     "features": {
      "walls": 0
@@ -2587,7 +2585,7 @@
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B300"
    },
    "301": {
-    "population": 0.26,
+    "population": 0.8,
     "group": "village",
     "features": {
      "plaza": 0
@@ -2595,7 +2593,7 @@
     "note": "inferred · cites: gazetteer B301"
    },
    "302": {
-    "population": 0.68,
+    "population": 2.0,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2604,7 +2602,7 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B302"
    },
    "303": {
-    "population": 0.72,
+    "population": 2.0,
     "group": "village",
     "features": {
      "walls": 0
@@ -2612,12 +2610,12 @@
     "note": "inferred · cites: gazetteer B303"
    },
    "304": {
-    "population": 1.2,
+    "population": 3.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B304"
    },
    "305": {
-    "population": 0.3,
+    "population": 0.9,
     "group": "village",
     "features": {
      "plaza": 0,
@@ -2626,12 +2624,12 @@
     "note": "Òrd Mhanannain · inferred · cites: III-0132, III-0220"
    },
    "306": {
-    "population": 1.3,
+    "population": 3.6,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B306"
    },
    "309": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "features": {
      "temple": 0
@@ -2639,29 +2637,29 @@
     "note": "inferred · cites: gazetteer B309"
    },
    "310": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B310"
    },
    "311": {
-    "population": 2.1,
+    "population": 6.2,
     "group": "village",
     "note": "inferred · cites: gazetteer B311"
    },
    "312": {
-    "population": 0.41,
+    "population": 1.2,
     "features": {
      "walls": 0
     },
     "note": "inferred · cites: gazetteer B312"
    },
    "313": {
-    "population": 1.0,
+    "population": 3.0,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B313"
    },
    "314": {
-    "population": 0.36,
+    "population": 1.0,
     "group": "village",
     "features": {
      "walls": 0
@@ -2669,34 +2667,34 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B314"
    },
    "315": {
-    "population": 2.7,
+    "population": 12.0,
     "group": "town",
     "note": "inferred · cites: III-0056, III-0165, III-0216"
    },
    "316": {
-    "population": 4.0,
+    "population": 11.8,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B316"
    },
    "317": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B317"
    },
    "318": {
-    "population": 2.4,
+    "population": 7.0,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B318"
    },
    "319": {
-    "population": 0.22,
+    "population": 0.6,
     "features": {
      "temple": 0
     },
     "note": "Òrd Mhacha · inferred · cites: gazetteer B319"
    },
    "320": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "features": {
      "walls": 0
@@ -2704,77 +2702,77 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B320"
    },
    "321": {
-    "population": 1.3,
+    "population": 3.8,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B321"
    },
    "322": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B322"
    },
    "323": {
-    "population": 0.3,
+    "population": 0.9,
     "group": "village",
     "note": "inferred · cites: gazetteer B323"
    },
    "324": {
-    "population": 1.6,
+    "population": 4.6,
     "note": "Òrd na Cloiche · inferred · cites: III-0119"
    },
    "325": {
-    "population": 0.19,
+    "population": 0.6,
     "group": "village",
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B325"
    },
    "326": {
-    "population": 1.5,
+    "population": 4.4,
     "group": "village",
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B326"
    },
    "327": {
-    "population": 0.16,
+    "population": 0.5,
     "group": "village",
     "note": "inferred · cites: gazetteer B327"
    },
    "328": {
-    "population": 2.1,
+    "population": 6.0,
     "note": "inferred · cites: gazetteer B328"
    },
    "329": {
-    "population": 0.12,
+    "population": 0.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B329"
    },
    "330": {
-    "population": 0.2,
+    "population": 0.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B330"
    },
    "331": {
-    "population": 0.32,
+    "population": 0.9,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B331"
    },
    "332": {
-    "population": 0.34,
+    "population": 1.0,
     "features": {
      "plaza": 0
     },
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B332"
    },
    "333": {
-    "population": 2.8,
+    "population": 8.2,
     "group": "town",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B333"
    },
    "334": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B334"
    },
    "335": {
-    "population": 0.19,
+    "population": 0.6,
     "group": "village",
     "features": {
      "walls": 0
@@ -2782,14 +2780,14 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B335"
    },
    "336": {
-    "population": 0.62,
+    "population": 1.8,
     "features": {
      "temple": 0
     },
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B336"
    },
    "337": {
-    "population": 0.05,
+    "population": 0.1,
     "group": "hamlet",
     "features": {
      "citadel": 0
@@ -2797,16 +2795,16 @@
     "note": "inferred · cites: gazetteer B337"
    },
    "339": {
-    "population": 1.3,
+    "population": 3.8,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B339"
    },
    "340": {
-    "population": 1.0,
+    "population": 3.0,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B340"
    },
    "341": {
-    "population": 0.33,
+    "population": 1.0,
     "group": "village",
     "features": {
      "walls": 0
@@ -2814,17 +2812,17 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B341"
    },
    "342": {
-    "population": 0.51,
+    "population": 1.5,
     "group": "village",
     "note": "inferred · cites: gazetteer B342"
    },
    "343": {
-    "population": 1.9,
+    "population": 5.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B343"
    },
    "344": {
-    "population": 0.19,
+    "population": 0.6,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2833,7 +2831,7 @@
     "note": "inferred · cites: gazetteer B344"
    },
    "346": {
-    "population": 0.08,
+    "population": 0.2,
     "group": "hamlet",
     "features": {
      "shanty": 0
@@ -2841,26 +2839,26 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B346"
    },
    "347": {
-    "population": 1.1,
+    "population": 3.2,
     "group": "village",
     "note": "inferred · cites: gazetteer B347"
    },
    "348": {
-    "population": 0.99,
+    "population": 2.8,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B348"
    },
    "349": {
-    "population": 1.6,
+    "population": 4.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B349"
    },
    "350": {
-    "population": 1.1,
+    "population": 3.2,
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B350"
    },
    "351": {
-    "population": 0.78,
+    "population": 2.2,
     "group": "village",
     "features": {
      "plaza": 0
@@ -2868,12 +2866,12 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B351"
    },
    "352": {
-    "population": 1.2,
+    "population": 3.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B352"
    },
    "353": {
-    "population": 0.12,
+    "population": 0.4,
     "features": {
      "citadel": 0,
      "temple": 0
@@ -2881,12 +2879,12 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B353"
    },
    "354": {
-    "population": 2.2,
+    "population": 6.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B354"
    },
    "355": {
-    "population": 0.3,
+    "population": 0.9,
     "group": "village",
     "features": {
      "plaza": 0,
@@ -2895,12 +2893,12 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: IV-0172, gazetteer B355"
    },
    "356": {
-    "population": 0.97,
+    "population": 2.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B356"
    },
    "357": {
-    "population": 0.61,
+    "population": 1.8,
     "group": "village",
     "features": {
      "walls": 0
@@ -2908,7 +2906,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B357"
    },
    "358": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2917,17 +2915,17 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B358"
    },
    "359": {
-    "population": 0.32,
+    "population": 0.9,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B359"
    },
    "360": {
-    "population": 0.59,
+    "population": 1.7,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B360"
    },
    "361": {
-    "population": 0.32,
+    "population": 0.9,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2936,7 +2934,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B361"
    },
    "362": {
-    "population": 0.27,
+    "population": 0.8,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2945,22 +2943,22 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B362"
    },
    "363": {
-    "population": 2.3,
+    "population": 6.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B363"
    },
    "364": {
-    "population": 0.26,
+    "population": 0.8,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B364"
    },
    "365": {
-    "population": 4.3,
+    "population": 12.6,
     "group": "town",
     "note": "inferred · cites: gazetteer B365"
    },
    "366": {
-    "population": 0.8,
+    "population": 2.4,
     "group": "village",
     "features": {
      "walls": 0,
@@ -2969,27 +2967,27 @@
     "note": "inferred · cites: gazetteer B366"
    },
    "367": {
-    "population": 0.38,
+    "population": 1.1,
     "note": "inferred · cites: gazetteer B367"
    },
    "368": {
-    "population": 1.3,
+    "population": 3.8,
     "group": "village",
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B368"
    },
    "369": {
-    "population": 0.12,
+    "population": 0.4,
     "features": {
      "temple": 0
     },
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B369"
    },
    "371": {
-    "population": 4.6,
+    "population": 13.2,
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B371"
    },
    "372": {
-    "population": 0.6,
+    "population": 1.8,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -2999,40 +2997,40 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B372"
    },
    "373": {
-    "population": 0.62,
+    "population": 1.8,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B373"
    },
    "374": {
-    "population": 1.5,
+    "population": 4.4,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B374"
    },
    "375": {
-    "population": 0.32,
+    "population": 0.9,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B375"
    },
    "376": {
-    "population": 0.21,
+    "population": 0.6,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B376"
    },
    "377": {
-    "population": 0.55,
+    "population": 1.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B377"
    },
    "378": {
-    "population": 1.4,
+    "population": 4.0,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B378"
    },
    "379": {
-    "population": 0.33,
+    "population": 1.0,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B379"
    },
    "380": {
-    "population": 0.51,
+    "population": 1.5,
     "group": "village",
     "features": {
      "walls": 0,
@@ -3041,7 +3039,7 @@
     "note": "inferred · cites: gazetteer B380"
    },
    "381": {
-    "population": 0.97,
+    "population": 2.8,
     "group": "village",
     "features": {
      "plaza": 0
@@ -3049,7 +3047,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B381"
    },
    "382": {
-    "population": 0.19,
+    "population": 0.6,
     "group": "village",
     "features": {
      "plaza": 0
@@ -3057,7 +3055,7 @@
     "note": "inferred · cites: gazetteer B382"
    },
    "383": {
-    "population": 0.24,
+    "population": 0.7,
     "group": "village",
     "features": {
      "shanty": 0
@@ -3065,7 +3063,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B383"
    },
    "384": {
-    "population": 0.44,
+    "population": 1.3,
     "group": "village",
     "features": {
      "plaza": 0
@@ -3073,99 +3071,99 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B384"
    },
    "385": {
-    "population": 0.085,
+    "population": 0.2,
     "group": "hamlet",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B385"
    },
    "386": {
-    "population": 0.35,
+    "population": 1.0,
     "features": {
      "temple": 0
     },
     "note": "inferred · cites: gazetteer B386"
    },
    "387": {
-    "population": 1.8,
+    "population": 5.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B387"
    },
    "388": {
-    "population": 1.5,
+    "population": 4.4,
     "note": "inferred · cites: gazetteer B388"
    },
    "390": {
-    "population": 0.47,
+    "population": 1.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B390"
    },
    "391": {
-    "population": 2.7,
+    "population": 7.8,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B391"
    },
    "392": {
-    "population": 2.0,
+    "population": 5.8,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B392"
    },
    "393": {
-    "population": 2.1,
+    "population": 6.2,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B393"
    },
    "394": {
-    "population": 1.5,
+    "population": 4.4,
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B394"
    },
    "395": {
-    "population": 5.1,
+    "population": 14.8,
     "group": "town",
     "note": "inferred · cites: gazetteer B395"
    },
    "396": {
-    "population": 0.36,
+    "population": 1.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B396"
    },
    "397": {
-    "population": 1.1,
+    "population": 3.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B397"
    },
    "398": {
-    "population": 2.8,
+    "population": 8.0,
     "group": "town",
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B398"
    },
    "400": {
-    "population": 0.52,
+    "population": 1.5,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B400"
    },
    "401": {
-    "population": 0.53,
+    "population": 1.5,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B401"
    },
    "402": {
-    "population": 0.34,
+    "population": 1.0,
     "note": "inferred · cites: gazetteer B402"
    },
    "403": {
-    "population": 0.78,
+    "population": 2.2,
     "note": "inferred · cites: gazetteer B403"
    },
    "404": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B404"
    },
    "405": {
-    "population": 3.0,
+    "population": 8.8,
     "group": "town",
     "note": "inferred · cites: gazetteer B405"
    },
    "406": {
-    "population": 0.94,
+    "population": 2.8,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -3175,14 +3173,14 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B406"
    },
    "407": {
-    "population": 0.21,
+    "population": 0.6,
     "features": {
      "temple": 0
     },
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B407"
    },
    "408": {
-    "population": 0.2,
+    "population": 0.6,
     "features": {
      "temple": 0,
      "shanty": 0
@@ -3190,8 +3188,8 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B408"
    },
    "409": {
-    "population": 0.09,
-    "group": "hamlet",
+    "population": 0.3,
+    "group": "village",
     "features": {
      "citadel": 0,
      "walls": 0,
@@ -3200,32 +3198,32 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B409"
    },
    "410": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B410"
    },
    "411": {
-    "population": 3.0,
+    "population": 8.6,
     "group": "town",
     "note": "inferred · cites: gazetteer B411"
    },
    "412": {
-    "population": 0.28,
+    "population": 0.8,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B412"
    },
    "413": {
-    "population": 1.3,
+    "population": 3.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B413"
    },
    "414": {
-    "population": 0.47,
+    "population": 1.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B414"
    },
    "415": {
-    "population": 0.08,
+    "population": 0.2,
     "group": "hamlet",
     "features": {
      "shanty": 0
@@ -3233,21 +3231,21 @@
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B415"
    },
    "416": {
-    "population": 1.2,
+    "population": 3.4,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B416"
    },
    "417": {
-    "population": 1.3,
+    "population": 3.8,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B417"
    },
    "418": {
-    "population": 0.5,
+    "population": 1.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B418"
    },
    "419": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "features": {
      "plaza": 0,
@@ -3256,36 +3254,36 @@
     "note": "inferred · cites: gazetteer B419"
    },
    "420": {
-    "population": 2.4,
+    "population": 7.0,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B420"
    },
    "421": {
-    "population": 0.56,
+    "population": 1.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B421"
    },
    "422": {
-    "population": 3.5,
+    "population": 10.2,
     "group": "town",
     "note": "inferred · cites: III-0068, III-0209"
    },
    "424": {
-    "population": 2.6,
+    "population": 7.4,
     "note": "inferred · cites: gazetteer B424"
    },
    "425": {
-    "population": 0.43,
+    "population": 1.3,
     "group": "village",
     "note": "inferred · cites: gazetteer B425"
    },
    "426": {
-    "population": 0.22,
+    "population": 0.7,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B426"
    },
    "427": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "features": {
      "walls": 0
@@ -3293,7 +3291,7 @@
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B427"
    },
    "428": {
-    "population": 0.31,
+    "population": 0.9,
     "group": "village",
     "features": {
      "citadel": 0
@@ -3301,7 +3299,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B428"
    },
    "429": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "features": {
      "walls": 0
@@ -3309,16 +3307,16 @@
     "note": "inferred · cites: gazetteer B429"
    },
    "430": {
-    "population": 1.6,
+    "population": 4.8,
     "group": "village",
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B430"
    },
    "431": {
-    "population": 6.9,
+    "population": 20.0,
     "note": "Òrd Bhrìde · inferred · cites: gazetteer B431"
    },
    "432": {
-    "population": 0.15,
+    "population": 0.4,
     "group": "village",
     "features": {
      "temple": 0
@@ -3326,54 +3324,54 @@
     "note": "inferred · cites: gazetteer B432"
    },
    "433": {
-    "population": 2.0,
+    "population": 5.8,
     "group": "village",
     "note": "Òrd na Cloiche · inferred · cites: gazetteer B433"
    },
    "434": {
-    "population": 0.5,
+    "population": 1.5,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B434"
    },
    "435": {
-    "population": 2.0,
+    "population": 5.8,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B435"
    },
    "436": {
-    "population": 1.5,
+    "population": 4.2,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B436"
    },
    "437": {
-    "population": 0.24,
+    "population": 0.7,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B437"
    },
    "438": {
-    "population": 3.0,
+    "population": 8.8,
     "group": "town",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B438"
    },
    "439": {
-    "population": 0.23,
+    "population": 0.7,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B439"
    },
    "440": {
-    "population": 1.0,
+    "population": 3.0,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B440"
    },
    "441": {
-    "population": 0.19,
+    "population": 0.5,
     "group": "village",
     "note": "inferred · cites: gazetteer B441"
    },
    "442": {
-    "population": 1.0,
+    "population": 2.8,
     "note": "inferred · cites: gazetteer B442"
    },
    "443": {
-    "population": 0.9,
+    "population": 2.6,
     "features": {
      "walls": 0,
      "plaza": 0
@@ -3381,7 +3379,7 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: III-0167, III-0226"
    },
    "444": {
-    "population": 0.23,
+    "population": 0.7,
     "group": "village",
     "features": {
      "walls": 0,
@@ -3390,45 +3388,44 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B444"
    },
    "445": {
-    "population": 0.27,
+    "population": 0.8,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B445"
    },
    "446": {
-    "population": 0.34,
+    "population": 1.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B446"
    },
    "448": {
-    "population": 0.21,
+    "population": 0.6,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B448"
    },
    "449": {
-    "population": 1.7,
+    "population": 5.0,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B449"
    },
    "451": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B451"
    },
    "452": {
-    "population": 0.09,
-    "group": "hamlet",
+    "population": 0.3,
+    "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B452"
    },
    "453": {
-    "population": 0.77,
+    "population": 2.2,
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B453"
    },
    "454": {
-    "population": 0.095,
-    "group": "hamlet",
+    "population": 0.3,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B454"
    },
    "455": {
-    "population": 0.22,
+    "population": 0.6,
     "group": "village",
     "features": {
      "citadel": 0
@@ -3436,12 +3433,12 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B455"
    },
    "456": {
-    "population": 2.0,
+    "population": 5.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B456"
    },
    "457": {
-    "population": 0.74,
+    "population": 2.2,
     "group": "village",
     "features": {
      "walls": 0
@@ -3449,7 +3446,7 @@
     "note": "inferred · cites: gazetteer B457"
    },
    "458": {
-    "population": 0.34,
+    "population": 1.0,
     "group": "village",
     "features": {
      "walls": 0
@@ -3457,7 +3454,7 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B458"
    },
    "460": {
-    "population": 0.62,
+    "population": 1.8,
     "group": "village",
     "features": {
      "citadel": 0
@@ -3465,50 +3462,51 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B460"
    },
    "461": {
-    "population": 2.9,
+    "population": 8.4,
     "group": "town",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B461"
    },
    "462": {
-    "population": 2.3,
+    "population": 6.6,
     "group": "village",
     "note": "inferred · cites: gazetteer B462"
    },
    "463": {
-    "population": 2.0,
+    "population": 5.8,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B463"
    },
    "464": {
-    "population": 1.4,
+    "population": 4.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B464"
    },
    "465": {
-    "population": 0.36,
+    "population": 1.0,
     "note": "inferred · cites: gazetteer B465"
    },
    "466": {
-    "population": 2.5,
+    "population": 7.2,
+    "group": "village",
     "note": "inferred · cites: gazetteer B466"
    },
    "467": {
-    "population": 0.12,
+    "population": 0.3,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B467"
    },
    "468": {
-    "population": 0.14,
+    "population": 0.4,
     "features": {
      "temple": 0
     },
     "note": "inferred · cites: gazetteer B468"
    },
    "469": {
-    "population": 0.22,
+    "population": 0.7,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B469"
    },
    "471": {
-    "population": 0.34,
+    "population": 1.0,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -3517,7 +3515,7 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B471"
    },
    "472": {
-    "population": 0.44,
+    "population": 1.3,
     "group": "village",
     "features": {
      "plaza": 0
@@ -3525,7 +3523,7 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B472"
    },
    "473": {
-    "population": 0.59,
+    "population": 1.7,
     "group": "village",
     "features": {
      "shanty": 0
@@ -3533,16 +3531,16 @@
     "note": "inferred · cites: gazetteer B473"
    },
    "474": {
-    "population": 0.4,
+    "population": 1.2,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B474"
    },
    "475": {
-    "population": 5.1,
+    "population": 15.0,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B475"
    },
    "476": {
-    "population": 0.48,
+    "population": 1.4,
     "group": "village",
     "features": {
      "walls": 0,
@@ -3552,12 +3550,12 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B476"
    },
    "477": {
-    "population": 1.7,
+    "population": 5.2,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B477"
    },
    "479": {
-    "population": 0.28,
+    "population": 0.8,
     "group": "village",
     "features": {
      "walls": 0
@@ -3565,17 +3563,17 @@
     "note": "Òrd an t-Seabhaig · inferred · cites: gazetteer B479"
    },
    "480": {
-    "population": 0.28,
+    "population": 0.8,
     "group": "village",
     "note": "inferred · cites: gazetteer B480"
    },
    "481": {
-    "population": 0.24,
+    "population": 0.7,
     "group": "village",
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B481"
    },
    "482": {
-    "population": 0.33,
+    "population": 1.0,
     "group": "village",
     "features": {
      "temple": 0
@@ -3583,11 +3581,11 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B482"
    },
    "483": {
-    "population": 0.6,
+    "population": 1.7,
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B483"
    },
    "484": {
-    "population": 0.72,
+    "population": 2.0,
     "group": "village",
     "features": {
      "plaza": 0
@@ -3595,46 +3593,46 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B484"
    },
    "485": {
-    "population": 1.2,
+    "population": 3.4,
     "group": "village",
     "note": "inferred · cites: gazetteer B485"
    },
    "486": {
-    "population": 0.62,
+    "population": 1.8,
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B486"
    },
    "487": {
-    "population": 1.4,
+    "population": 4.0,
     "group": "village",
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B487"
    },
    "488": {
-    "population": 0.23,
+    "population": 0.7,
     "features": {
      "temple": 0
     },
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B488"
    },
    "489": {
-    "population": 8.5,
+    "population": 24.0,
     "group": "town",
     "note": "Òrd Mhanannain · inferred · cites: III-0004, III-0008, III-0021, III-0041, III-0120"
    },
    "490": {
-    "population": 0.83,
+    "population": 2.4,
     "note": "inferred · cites: gazetteer B490"
    },
    "491": {
-    "population": 3.0,
+    "population": 8.8,
     "note": "Òrd Bhrìde · inferred · cites: III-0006, III-0034, III-0047, III-0138, III-0139"
    },
    "492": {
-    "population": 2.4,
+    "population": 7.0,
     "group": "village",
     "note": "inferred · cites: gazetteer B492"
    },
    "493": {
-    "population": 0.085,
+    "population": 0.2,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -3643,16 +3641,16 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B493"
    },
    "494": {
-    "population": 0.7,
+    "population": 2.0,
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B494"
    },
    "495": {
-    "population": 1.1,
+    "population": 3.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B495"
    },
    "496": {
-    "population": 0.37,
+    "population": 1.1,
     "group": "village",
     "features": {
      "shanty": 0
@@ -3660,7 +3658,7 @@
     "note": "Scoiltean nan Draoidhean · inferred · cites: gazetteer B496"
    },
    "497": {
-    "population": 0.47,
+    "population": 1.4,
     "group": "village",
     "features": {
      "walls": 0
@@ -3668,11 +3666,11 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B497"
    },
    "498": {
-    "population": 0.22,
+    "population": 0.6,
     "note": "Òrd Mhacha · inferred · cites: gazetteer B498"
    },
    "499": {
-    "population": 0.32,
+    "population": 0.9,
     "features": {
      "citadel": 0,
      "temple": 0
@@ -3680,12 +3678,12 @@
     "note": "Òrd Mhanannain · inferred · cites: gazetteer B499"
    },
    "500": {
-    "population": 1.3,
+    "population": 3.6,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B500"
    },
    "501": {
-    "population": 0.56,
+    "population": 1.6,
     "group": "village",
     "features": {
      "shanty": 0
@@ -3693,16 +3691,16 @@
     "note": "Òrd Mhacha · inferred · cites: gazetteer B501"
    },
    "502": {
-    "population": 4.1,
+    "population": 12.0,
     "note": "inferred · cites: gazetteer B502"
    },
    "504": {
-    "population": 1.5,
+    "population": 4.4,
     "group": "village",
     "note": "Òrd Mhacha · inferred · cites: gazetteer B504"
    },
    "505": {
-    "population": 0.5,
+    "population": 1.4,
     "group": "village",
     "features": {
      "walls": 0
@@ -3716,7 +3714,7 @@
     "id": 4001,
     "name": "the guest-house at Allt an Àigh",
     "cell": 2559,
-    "population": 0.02,
+    "population": 0.4,
     "group": "monastery",
     "note": "inferred · cites: III-0175",
     "culture": 2
@@ -3726,7 +3724,7 @@
     "id": 4002,
     "name": "the ferry landing at Cidhe Beag",
     "cell": 2734,
-    "population": 0.015,
+    "population": 0.3,
     "group": "hamlet",
     "note": "inferred · cites: III-0214",
     "culture": 2
@@ -5182,6 +5180,6 @@
   "keep": []
  },
  "rural_population": {
-  "scale": 0.1105
+  "scale": 0.3213
  }
 }

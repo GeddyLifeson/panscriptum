@@ -16,6 +16,7 @@ Headline figures (land 272,668 map units of area; frame 1536 x 702 units):
 | the Leaden Hawk (IV-0342a..e) | 80 mi on foot in 3+ days; 2 + 2 days by carriage; 8 days in all | 55 mi in 2+ days; 1½ + 1½ days; 6 days |
 | the map frame | 307 x 140 mi, 54.2-56.2 N, 8.0-3.6 W | 215 x 98 mi, 56.12-57.54 N, 13.56-7.87 W |
 | people within the shires (35,415,000, unchanged) | ~3,300 a sq mi | ~6,750 a sq mi (~2,600 a km²) |
+| (since cut to 1,770,800 by the owner's later decision: ~337 a sq mi; see POP_LOG.md) | | |
 
 The map: legendarium/reconcile/place.json (the last layer of map_reconcile.py) sets the scale and the frame and sets aside the earlier layers' scale and frame edits; the climate layer's temperatures are computed for the frame they were set in (recompute_temperature 'frame'), so the weather does not change. The land's middle is near 56.9 N 11.1 W; the eastern cape is some 62 miles west of Barra, the south coast some 100 miles north-west of the Donegal coast, the north-east of the island some 50 miles south-west of St Kilda; the frame holds no real coast. The Leaden Hawk's eves in annals/age_V.json were set to 2, 1, 1, 2 days.
 

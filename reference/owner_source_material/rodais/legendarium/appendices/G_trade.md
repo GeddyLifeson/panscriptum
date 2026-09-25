@@ -159,7 +159,7 @@ The Crown takes two dues, both set by the council in the first weeks of the king
 
 **The market-due.** Seventeen in every hundred of the price is taken on every sale a town makes into its market and on every sale between markets. Sales from a market back to its own towns are not charged. The Treasury fixed the due at that rate after An Cogadh Fada and set a clerk in each of the sixteen market towns to take it and keep the market roll ({{date:VI-0131a}}). It is kept apart from the wartime tithe on every sale of dubhan ({{date:VI-0086}}), which is still taken at the pumps ({{date:VI-0087}}) and which the Treasury carried forward after the war as a line of its own under the regiments' pay ({{date:VI-0131}}). In the last roll the towns' sales into their markets were worth about 18,580 purses, the markets' sales back to their towns about 9,700 and the sales between markets about 200, and the market-due brought the Treasury 3,193 purses.
 
-**The head-due.** Each household pays the head-due for every head in it. It was first collected on the count of {{year:V-0034}} ({{date:V-0036a}}) and stands at eighteen purses on every hundred thousand heads. It brought in 6,375 purses in the last roll, two parts in three of the Crown's money.
+**The head-due.** Each household pays the head-due for every head in it. It was first collected on the count of {{year:V-0034}} ({{date:V-0036a}}) and stands at eighteen purses on every five thousand heads. It brought in 6,375 purses in the last roll, two parts in three of the Crown's money.
 
 The Treasury's roll for the present year comes to 9,568 purses ({{date:VI-0154a}}). The towns' own chests hold about 12,660 purses together, and the towns' yearly product is about 11,460.
 

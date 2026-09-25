@@ -68,7 +68,9 @@ verification.
 - **Only land cells** (height ≥ 20) take a state, province, culture or faith, as on the master.
 - A section left out means "as on the master". For lists, `keep` gives the master ids to keep; everything
   else is dropped. `remove` drops the listed ids and keeps the rest.
-- Populations are in Azgaar's units: a burg's `population` is in thousands (8.6 = 8,600).
+- Populations are in Azgaar's units: a burg's `population` times the master's `units.population.scale`
+  (50 people to the unit since the owner's decision of 2026-09-25) is its people (8.6 = 430). The drafts give
+  people; `convert_draft.py` divides by the master's scale.
 - Units follow `options.map.military.units`: `infantry`, `cavalry`, `riflemen`, `artillery` and `fleet`.
 
 ## Top level

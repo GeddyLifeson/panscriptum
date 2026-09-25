@@ -64,6 +64,11 @@
    ]
   }
  ],
+ "population_scale": {
+  "people_per_unit": 50,
+  "kind_scale": 1.0,
+  "note": "populations are people; the master counts 50 to its population unit; kinds are read from population / kind_scale"
+ },
  "burgs": [
   {
    "id": 1,

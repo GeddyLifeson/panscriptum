@@ -1,6 +1,6 @@
 {
  "layer": "place",
- "summary": "The owner's decisions of 2026-09-25: Dia-thìr is about the size of Northern Ireland, and it lies alone in the Atlantic west of the Outer Hebrides and north-west of Donegal, hidden by Manannan's mist. Record 1: the distance scale 0.2 -> 0.14 miles to the map unit (lengths x0.7, areas x0.49: the land 272,668 units is some 5,340 square miles, about 13,840 km2; the island about 154 by 72 miles), and the map frame (215 x 98 miles) set at 56.12-57.54 N, 13.56-7.87 W, the island's middle near 56.9 N 11.1 W, with no real coast inside the frame (Barra is about 62 miles east of the eastern cape, the Donegal coast about 100 miles south-east of the south coast). The humans' homeland lies east; the mist never cleared on the eastern sea, and the one passage through it ran north-about and came down on the north-west, which is why every port of the Crossing is on the west coast. The note of the ships' meeting off the north-west cape (markers_routes, record 35 [45]) now has them coming down from the north. The latitude is metadata: the grid temperatures stay those the climate layer computed (its recompute_temperature edit names the frame it was computed for), so the climate stays mild and oceanic.",
+ "summary": "The owner's decisions of 2026-09-25: Dia-thìr is about the size of Northern Ireland, and it lies alone in the Atlantic west of the Outer Hebrides and north-west of Donegal, hidden by Manannan's mist. Record 1: the distance scale 0.2 -> 0.14 miles to the map unit (lengths x0.7, areas x0.49: the land 272,668 units is some 5,340 square miles, about 13,840 km2; the island about 154 by 72 miles), and the map frame (215 x 98 miles) set at 56.12-57.54 N, 13.56-7.87 W, the island's middle near 56.9 N 11.1 W, with no real coast inside the frame (Barra is about 62 miles east of the eastern cape, the Donegal coast about 100 miles south-east of the south coast). The humans' homeland lies east; the mist never cleared on the eastern sea, and the one passage through it ran north-about and came down on the north-west, which is why every port of the Crossing is on the west coast. The note of the ships' meeting off the north-west cape (markers_routes, record 35 [45]) now has them coming down from the north. The latitude is metadata: the grid temperatures stay those the climate layer computed (its recompute_temperature edit names the frame it was computed for), so the climate stays mild and oceanic. The owner's decision on the numbers (2026-09-25): 50 people to the population unit, some 1.8 million on the island (Northern Ireland's), and the regiments at three tenths of their strength, set after the military layer's (eras/POP_LOG.md).",
  "skip": [
   {
    "layer": "markers_routes",
@@ -78,6 +78,229 @@
     "lonE": -7.87
    },
    "why": "The owner: out of the North Channel into the open Atlantic, west of the Outer Hebrides and north-west of Donegal. The frame is 215 x 98 miles (1536 x 702 units at 0.14 miles); 1.42 degrees of latitude at 69 miles to the degree, 5.69 degrees of longitude at 37.8 miles to the degree at 56.9 N. The land (x 115-1213, y 60-574) lies at 56.38-57.42 N, 13.13-9.07 W, its middle near 56.9 N 11.1 W. No real coast is inside the frame: the eastern edge (7.87 W) is west of Barra (7.45 W) and Mingulay, the southern edge (56.12 N) north of Donegal (55.2 N), the northern edge (57.54 N) south of St Kilda (57.8 N)."
+  },
+  {
+   "record": 1,
+   "path": ".units.population.scale",
+   "old": 1000,
+   "value": 50,
+   "why": "The owner: about as many people as Northern Ireland, some 1.8 million in DE 27, where the generator gave the island 35.4 million (some 6,750 to the square mile). At 50 people to the unit the land holds 1,771,220 people and the shires 1,770,774 (about 337 to the square mile), 247,732 of them in towns, one in seven as before; every town, shire, people and faith keeps its share. The urbanization rate stays 1. Every figure in the history that follows from these is scaled with them (eras/POP_LOG.md)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[0].u",
+   "old": {
+    "infantry": 826,
+    "cavalry": 581,
+    "riflemen": 398,
+    "artillery": 13
+   },
+   "value": {
+    "infantry": 248,
+    "cavalry": 174,
+    "riflemen": 119,
+    "artillery": 4
+   },
+   "why": "The regiments cut with the people: three tenths of the generator's strength, a standing army of some 3,297 men and 23 guns for 1.8 million people (a twentieth, as the population, would leave 550 men)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[0].a",
+   "old": 1818,
+   "value": 545,
+   "why": "The regiment's total, as Azgaar sums its units."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[1].u",
+   "old": {
+    "infantry": 862,
+    "riflemen": 487,
+    "cavalry": 234,
+    "artillery": 11
+   },
+   "value": {
+    "infantry": 259,
+    "riflemen": 146,
+    "cavalry": 70,
+    "artillery": 3
+   },
+   "why": "The regiments cut with the people: three tenths of the generator's strength, a standing army of some 3,297 men and 23 guns for 1.8 million people (a twentieth, as the population, would leave 550 men)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[1].a",
+   "old": 1594,
+   "value": 478,
+   "why": "The regiment's total, as Azgaar sums its units."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[2].u",
+   "old": {
+    "riflemen": 314,
+    "artillery": 7,
+    "infantry": 732,
+    "cavalry": 302
+   },
+   "value": {
+    "riflemen": 94,
+    "artillery": 2,
+    "infantry": 220,
+    "cavalry": 91
+   },
+   "why": "The regiments cut with the people: three tenths of the generator's strength, a standing army of some 3,297 men and 23 guns for 1.8 million people (a twentieth, as the population, would leave 550 men)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[2].a",
+   "old": 1355,
+   "value": 407,
+   "why": "The regiment's total, as Azgaar sums its units."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[3].u",
+   "old": {
+    "infantry": 684,
+    "cavalry": 266,
+    "artillery": 7,
+    "riflemen": 364
+   },
+   "value": {
+    "infantry": 205,
+    "cavalry": 80,
+    "artillery": 2,
+    "riflemen": 109
+   },
+   "why": "The regiments cut with the people: three tenths of the generator's strength, a standing army of some 3,297 men and 23 guns for 1.8 million people (a twentieth, as the population, would leave 550 men)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[3].a",
+   "old": 1321,
+   "value": 396,
+   "why": "The regiment's total, as Azgaar sums its units."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[4].u",
+   "old": {
+    "infantry": 614,
+    "cavalry": 360,
+    "artillery": 14,
+    "riflemen": 319
+   },
+   "value": {
+    "infantry": 184,
+    "cavalry": 108,
+    "artillery": 4,
+    "riflemen": 96
+   },
+   "why": "The regiments cut with the people: three tenths of the generator's strength, a standing army of some 3,297 men and 23 guns for 1.8 million people (a twentieth, as the population, would leave 550 men)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[4].a",
+   "old": 1307,
+   "value": 392,
+   "why": "The regiment's total, as Azgaar sums its units."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[5].u",
+   "old": {
+    "infantry": 497,
+    "cavalry": 194,
+    "artillery": 8,
+    "riflemen": 308
+   },
+   "value": {
+    "infantry": 149,
+    "cavalry": 58,
+    "artillery": 2,
+    "riflemen": 92
+   },
+   "why": "The regiments cut with the people: three tenths of the generator's strength, a standing army of some 3,297 men and 23 guns for 1.8 million people (a twentieth, as the population, would leave 550 men)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[5].a",
+   "old": 1007,
+   "value": 301,
+   "why": "The regiment's total, as Azgaar sums its units."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[6].u",
+   "old": {
+    "infantry": 437,
+    "cavalry": 224,
+    "riflemen": 230,
+    "artillery": 5
+   },
+   "value": {
+    "infantry": 131,
+    "cavalry": 67,
+    "riflemen": 69,
+    "artillery": 2
+   },
+   "why": "The regiments cut with the people: three tenths of the generator's strength, a standing army of some 3,297 men and 23 guns for 1.8 million people (a twentieth, as the population, would leave 550 men)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[6].a",
+   "old": 896,
+   "value": 269,
+   "why": "The regiment's total, as Azgaar sums its units."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[7].u",
+   "old": {
+    "infantry": 474,
+    "riflemen": 281,
+    "cavalry": 93,
+    "artillery": 4
+   },
+   "value": {
+    "infantry": 142,
+    "riflemen": 84,
+    "cavalry": 28,
+    "artillery": 1
+   },
+   "why": "The regiments cut with the people: three tenths of the generator's strength, a standing army of some 3,297 men and 23 guns for 1.8 million people (a twentieth, as the population, would leave 550 men)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[7].a",
+   "old": 852,
+   "value": 255,
+   "why": "The regiment's total, as Azgaar sums its units."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[8].u",
+   "old": {
+    "riflemen": 321,
+    "infantry": 451,
+    "artillery": 10,
+    "cavalry": 68
+   },
+   "value": {
+    "riflemen": 96,
+    "infantry": 135,
+    "artillery": 3,
+    "cavalry": 20
+   },
+   "why": "The regiments cut with the people: three tenths of the generator's strength, a standing army of some 3,297 men and 23 guns for 1.8 million people (a twentieth, as the population, would leave 550 men)."
+  },
+  {
+   "record": 14,
+   "path": "[1].military[8].a",
+   "old": 850,
+   "value": 254,
+   "why": "The regiment's total, as Azgaar sums its units."
   }
  ]
 }

@@ -285,7 +285,7 @@ def build():
             dt(name, 'zone ' + key)
         return z
     d['zones'] = [
-        Zz('VI-Z01', dt('Tonn Mhòr Cnoc chaol', 'zone'), 'the Great Wave (SE 4)', 'tsunami', [120, 93, 55], 'Cnoc chaol, Cuan dhearg and Achadh mhin laid waste in one night; a little over nine hundred dead; the wave ran up the gulf to Ros gharbh.', ['V-0017', 'V-0018', 'V-0019', 'V-0022'], master_zone=4),
+        Zz('VI-Z01', dt('Tonn Mhòr Cnoc chaol', 'zone'), 'the Great Wave (SE 4)', 'tsunami', [120, 93, 55], 'Cnoc chaol, Cuan dhearg and Achadh mhin laid waste in one night; a little over forty dead; the wave ran up the gulf to Ros gharbh.', ['V-0017', 'V-0018', 'V-0019', 'V-0022'], master_zone=4),
         Zz('VI-Z02', None, 'the Tuathaich homeland (SE 1)', 'homeland', TUATH_SHIRES, 'Fixed by law; a confinement, yet their children\'s children call it home.', ['V-0001', 'V-0003']),
         Zz('VI-Z03', None, 'the windy coast (in no shire)', 'unclaimed', [0], 'The shire lines stop at the great moss where the humans\' survey stopped; sealers, fowlers and herders, uncounted.', ['V-0014a', 'App.H §V']),
         Zz('VI-Z04', None, 'the Depletion: the vein\'s last unworked stretches (SE 56)', 'mining', [76, 96, 112, 35], 'Catrìona nic Neacail\'s map fits on one sheet.', ['V-0105', 'V-0106', 'V-0192', 'V-0193']),

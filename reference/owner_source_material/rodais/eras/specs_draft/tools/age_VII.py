@@ -1,4 +1,5 @@
 """Age VII, the Age of Dubhan (Dubhan Era): the present, DE 27, at full era density."""
+# populations at the master's 50 people to the unit (eras/pop_sweep.py)
 from common import *  # noqa: F401,F403
 from age_VI import faith_setup, shires_unit, named_routes
 
@@ -83,7 +84,7 @@ def build():
         if body:
             e['church_body'] = body
     s.new_burg('VII-N01', None, 'the Àth leathan post', ('burg', 346),
-               population=120, kind='regimental post', role='a company of the seventh regiment on the road below Àth leathan',
+               population=35, kind='regimental post', role='a company of the seventh regiment on the road below Àth leathan',
                culture='dia-thirich', faith='old-faith', polity='kingdom',
                reason='built by the seventh regiment after the Long War; called the Àth leathan post in the regimental lists and something else in the town',
                cites=['VI-0125', 'VI-0130'], inferred=False)
@@ -149,7 +150,7 @@ def build():
         Zz('VII-Z05', dt('An Cogadh Fada', 'zone'), 'the Long War (DE 21–22)', 'war', [3, 105, 75, 107, 117, 44, 1],
            'The regiments against the holdouts of the five western towns; the column\'s road south-east to Muileann ghlas.', ['VI-0081', 'VI-0091', 'VI-0098', 'VI-0109', 'VI-0111', 'VI-0115', 'VI-0118']),
         Zz('VII-Z06', None, 'the holdout towns of the western hills', 'war', [3, 105, 75, 117], 'Àth leathan, Muileann àrsaidh, Cnoc thais, Àth naomh and Tobar dhearg of the hills; their pits flooded.', ['VI-0055', 'VI-0122']),
-        Zz('VII-Z07', None, 'the windy coast, of no shire', 'unclaimed', [0], 'Sealers, fowlers and herders, near nine thousand by the Moot\'s tally; holdouts of Cnoc thais went out onto it and the regiments did not follow.', ['VI-0098a', 'App.H §V']),
+        Zz('VII-Z07', None, 'the windy coast, of no shire', 'unclaimed', [0], 'Sealers, fowlers and herders, near four hundred and fifty by the Moot\'s tally; holdouts of Cnoc thais went out onto it and the regiments did not follow.', ['VI-0098a', 'App.H §V']),
         Zz('VII-Z08', None, 'the Tuathaich homeland and the pass line', 'homeland', TUATH_SHIRES, 'Behind the boundary stones; a pass needed to go south since DE 26.', ['V-0001', 'V-0003', 'VI-0149']),
     ]
     d['zones'] = Z

@@ -18,7 +18,7 @@
   "d": 1,
   "last_event_shown": "IV-0377",
   "next_event": "V-0001",
-  "description": "The War of the Hills is over and the crossing is shut. The Administration is gone: its last Commissioner sailed from Cuan shean for an Tìr Thall with his officers, the Residency above Ros dhomhain stands stripped, the Company's ledgers are ash, and its steamships no longer come. The custodians sit again in their council hall at Cathair dhearg, and the council of the mining country chosen in the forest at Cnoc bheag, with Eilidh nic Raghnaill for its voice, holds the hills, the east, the capital and every coast; its companies, the silver guild's riflemen and the hawk-faithful stand to arms still. Under the truce of Àth àrsaidh the humans left on Dia-thìr, a few thousand of them, go north in columns under safe-conduct into the country of the old concession, where Cathair gheal kept its gates and the Dia-thìrich of the north-west are choosing whether to stay or go south. The pits are flooded or idle, the coal line is broken in three places, the Small-Burning Law is long lapsed, and four children of the coal-blood are alive. The five beacons burn coal again, and their daybooks count no ships.",
+  "description": "The War of the Hills is over and the crossing is shut. The Administration is gone: its last Commissioner sailed west from Cuan shean with his officers, the Residency above Ros dhomhain stands stripped, the Company's ledgers are ash, and its steamships no longer come. The custodians sit again in their council hall at Cathair dhearg, and the council of the mining country chosen in the forest at Cnoc bheag, with Eilidh nic Raghnaill for its voice, holds the hills, the east, the capital and every coast; its companies, the silver guild's riflemen and the hawk-faithful stand to arms still. Under the truce of Àth àrsaidh the humans left on Dia-thìr, a few thousand of them, go north in columns under safe-conduct into the country of the old concession, where Cathair gheal kept its gates and the Dia-thìrich of the north-west are choosing whether to stay or go south. The pits are flooded or idle, the coal line is broken in three places, the Small-Burning Law is long lapsed, and four children of the coal-blood are alive. The five beacons burn coal again, and their daybooks count no ships.",
   "cites": [
    "IV-0377",
    "IV-0374",
@@ -74,11 +74,16 @@
    ]
   }
  ],
+ "population_scale": {
+  "people_per_unit": 50,
+  "kind_scale": 0.066667,
+  "note": "populations are people; the master counts 50 to its population unit; kinds are read from population / kind_scale"
+ },
  "burgs": [
   {
    "id": 1,
    "master_name": "Caol leathan",
-   "population": 3900,
+   "population": 260,
    "kind": "town",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -93,7 +98,7 @@
   {
    "id": 2,
    "master_name": "Inis mhòr",
-   "population": 1800,
+   "population": 120,
    "kind": "large village",
    "role": "river-island village",
    "culture": "dia-thirich",
@@ -108,7 +113,7 @@
   {
    "id": 3,
    "master_name": "Baile ghorm",
-   "population": 10000,
+   "population": 700,
    "kind": "city",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -122,7 +127,7 @@
   {
    "id": 4,
    "master_name": "Baile dhubh",
-   "population": 1700,
+   "population": 110,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -136,7 +141,7 @@
   {
    "id": 5,
    "master_name": "Doire mhin",
-   "population": 3200,
+   "population": 210,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -150,7 +155,7 @@
   {
    "id": 6,
    "master_name": "Cuan bheag",
-   "population": 8200,
+   "population": 540,
    "kind": "town",
    "role": "harbour",
    "culture": "dia-thirich",
@@ -165,7 +170,7 @@
   {
    "id": 7,
    "master_name": "Tobar bhàn",
-   "population": 2000,
+   "population": 130,
    "kind": "large village",
    "role": "well village",
    "culture": "dia-thirich",
@@ -179,7 +184,7 @@
   {
    "id": 8,
    "master_name": "Dùn thais",
-   "population": 3700,
+   "population": 250,
    "kind": "town",
    "role": "hill-fort",
    "culture": "dia-thirich",
@@ -194,7 +199,7 @@
   {
    "id": 9,
    "master_name": "Inis mhin",
-   "population": 5800,
+   "population": 380,
    "kind": "town",
    "role": "river-island village with a landing",
    "culture": "dia-thirich",
@@ -208,7 +213,7 @@
   {
    "id": 10,
    "master_name": "Cuan dhearg",
-   "population": 1400,
+   "population": 95,
    "kind": "large village",
    "role": "harbour",
    "culture": "dia-thirich",
@@ -223,7 +228,7 @@
   {
    "id": 11,
    "master_name": "Cnoc ghlas",
-   "population": 3600,
+   "population": 240,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -238,7 +243,7 @@
   {
    "id": 12,
    "master_name": "Àth fhiadhaich",
-   "population": 8700,
+   "population": 580,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -252,7 +257,7 @@
   {
    "id": 13,
    "master_name": "Achadh àrsaidh",
-   "population": 650,
+   "population": 45,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -266,7 +271,7 @@
   {
    "id": 14,
    "master_name": "Seann Chwen",
-   "population": 1100,
+   "population": 70,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -281,7 +286,7 @@
   {
    "id": 15,
    "master_name": "Caol ruadh",
-   "population": 5400,
+   "population": 360,
    "kind": "town",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -296,7 +301,7 @@
   {
    "id": 16,
    "master_name": "Seann Skell",
-   "population": 550,
+   "population": 35,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -311,7 +316,7 @@
   {
    "id": 17,
    "master_name": "Inis mhòr",
-   "population": 11000,
+   "population": 720,
    "kind": "city",
    "role": "river-island village",
    "culture": "dia-thirich",
@@ -326,7 +331,7 @@
   {
    "id": 18,
    "master_name": "Seann Dunn",
-   "population": 6900,
+   "population": 460,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -340,7 +345,7 @@
   {
    "id": 19,
    "master_name": "Cathair dhearg",
-   "population": 4500,
+   "population": 514,
    "kind": "town",
    "role": "the custodians' hall, its locks broken; the bridge barricaded with coal-carts in the rising; hungry since the winter, the grain shared by household",
    "culture": "dia-thirich",
@@ -357,7 +362,7 @@
   {
    "id": 20,
    "master_name": "Cnoc bheag",
-   "population": 22000,
+   "population": 1500,
    "kind": "city",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -372,7 +377,7 @@
   {
    "id": 21,
    "master_name": "Cnoc bhàn",
-   "population": 1500,
+   "population": 100,
    "kind": "large village",
    "role": "hill village with a landing",
    "culture": "dia-thirich",
@@ -386,7 +391,7 @@
   {
    "id": 22,
    "master_name": "Ceann leathan",
-   "population": 4000,
+   "population": 270,
    "kind": "town",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -401,7 +406,7 @@
   {
    "id": 23,
    "master_name": "Cathair mhòr",
-   "population": 22000,
+   "population": 1500,
    "kind": "city",
    "role": "town",
    "culture": "dia-thirich",
@@ -416,7 +421,7 @@
   {
    "id": 24,
    "master_name": "Ros gheal",
-   "population": 12000,
+   "population": 800,
    "kind": "city",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -431,7 +436,7 @@
   {
    "id": 25,
    "master_name": "Inis ìseal",
-   "population": 1400,
+   "population": 95,
    "kind": "large village",
    "role": "river-island village",
    "culture": "dia-thirich",
@@ -446,7 +451,7 @@
   {
    "id": 26,
    "master_name": "Cathair dhomhain",
-   "population": 12000,
+   "population": 800,
    "kind": "city",
    "role": "the Company's first warehouse, broken open for the council's companies",
    "culture": "dia-thirich",
@@ -462,7 +467,7 @@
   {
    "id": 27,
    "master_name": "Ros dhomhain",
-   "population": 20000,
+   "population": 1300,
    "kind": "city",
    "role": "the capital's great harbour: the Residency above it stripped, the Company's quays and deep-water quay, the burned counting-house and the Mission chapel; the harbour quarter opened its gates to the council",
    "culture": "dia-thirich",
@@ -482,7 +487,7 @@
   {
    "id": 28,
    "master_name": "Cnoc àrsaidh",
-   "population": 630,
+   "population": 40,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -496,7 +501,7 @@
   {
    "id": 29,
    "master_name": "Seann Vell",
-   "population": 5400,
+   "population": 360,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -511,7 +516,7 @@
   {
    "id": 30,
    "master_name": "Ceann mhin",
-   "population": 15000,
+   "population": 970,
    "kind": "city",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -526,7 +531,7 @@
   {
    "id": 31,
    "master_name": "Cnoc mhòr",
-   "population": 11000,
+   "population": 760,
    "kind": "city",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -541,7 +546,7 @@
   {
    "id": 32,
    "master_name": "Àth shean",
-   "population": 11000,
+   "population": 710,
    "kind": "city",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -556,7 +561,7 @@
   {
    "id": 33,
    "master_name": "Ros ruadh",
-   "population": 2000,
+   "population": 140,
    "kind": "large village",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -571,7 +576,7 @@
   {
    "id": 34,
    "master_name": "Seann Tarr",
-   "population": 1700,
+   "population": 110,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -586,7 +591,7 @@
   {
    "id": 35,
    "master_name": "Doire fhiadhaich",
-   "population": 5200,
+   "population": 340,
    "kind": "town",
    "role": "grove village with a landing",
    "culture": "dia-thirich",
@@ -601,7 +606,7 @@
   {
    "id": 36,
    "master_name": "Seann Chwen",
-   "population": 16000,
+   "population": 1100,
    "kind": "city",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -616,7 +621,7 @@
   {
    "id": 37,
    "master_name": "Seann Toll",
-   "population": 8700,
+   "population": 580,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -630,7 +635,7 @@
   {
    "id": 39,
    "master_name": "Àth gheal",
-   "population": 4100,
+   "population": 270,
    "kind": "town",
    "role": "ford village with a landing",
    "culture": "dia-thirich",
@@ -644,7 +649,7 @@
   {
    "id": 40,
    "master_name": "Ros bhàn",
-   "population": 1600,
+   "population": 110,
    "kind": "large village",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -659,7 +664,7 @@
   {
    "id": 41,
    "master_name": "Cnoc chaol",
-   "population": 790,
+   "population": 55,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -674,7 +679,7 @@
   {
    "id": 42,
    "master_name": "Ceann bheag",
-   "population": 10000,
+   "population": 680,
    "kind": "city",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -689,7 +694,7 @@
   {
    "id": 43,
    "master_name": "Ceann ghorm",
-   "population": 5700,
+   "population": 380,
    "kind": "town",
    "role": "headland village",
    "culture": "dia-thirich",
@@ -703,7 +708,7 @@
   {
    "id": 44,
    "master_name": "Baile thais",
-   "population": 6000,
+   "population": 400,
    "kind": "town",
    "role": "the strike town and home of the Lamp-Watch: the walled pithead held eleven days, the book of complaints",
    "culture": "dia-thirich",
@@ -722,7 +727,7 @@
   {
    "id": 45,
    "master_name": "Baile ghlas",
-   "population": 16000,
+   "population": 1100,
    "kind": "city",
    "role": "farm town with a landing",
    "culture": "dia-thirich",
@@ -737,7 +742,7 @@
   {
    "id": 46,
    "master_name": "Àth fhionn",
-   "population": 7000,
+   "population": 470,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -752,7 +757,7 @@
   {
    "id": 47,
    "master_name": "Seann Bhral",
-   "population": 9100,
+   "population": 610,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -767,7 +772,7 @@
   {
    "id": 48,
    "master_name": "Baile naomh",
-   "population": 1400,
+   "population": 90,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -781,7 +786,7 @@
   {
    "id": 49,
    "master_name": "Caol fhiadhaich",
-   "population": 5100,
+   "population": 340,
    "kind": "town",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -796,7 +801,7 @@
   {
    "id": 50,
    "master_name": "Àth gharbh",
-   "population": 1200,
+   "population": 75,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -811,7 +816,7 @@
   {
    "id": 51,
    "master_name": "Cill àrsaidh",
-   "population": 1300,
+   "population": 90,
    "kind": "large village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -825,7 +830,7 @@
   {
    "id": 52,
    "master_name": "Cnoc ìseal",
-   "population": 760,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -840,7 +845,7 @@
   {
    "id": 53,
    "master_name": "Cill àrsaidh",
-   "population": 4200,
+   "population": 280,
    "kind": "town",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -855,7 +860,7 @@
   {
    "id": 54,
    "master_name": "Muileann àrsaidh",
-   "population": 700,
+   "population": 45,
    "kind": "large village",
    "role": "a town of the concession that blocked its road with carts against both sides to the end of the war",
    "culture": "humans",
@@ -869,7 +874,7 @@
   {
    "id": 55,
    "master_name": "Inis àrsaidh",
-   "population": 5000,
+   "population": 330,
    "kind": "town",
    "role": "river-island village",
    "culture": "dia-thirich",
@@ -884,7 +889,7 @@
   {
    "id": 56,
    "master_name": "Doire fhionn",
-   "population": 1100,
+   "population": 75,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -899,7 +904,7 @@
   {
    "id": 57,
    "master_name": "Ros fhionn",
-   "population": 2000,
+   "population": 130,
    "kind": "large village",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -914,7 +919,7 @@
   {
    "id": 58,
    "master_name": "Muileann uaine",
-   "population": 770,
+   "population": 50,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -929,7 +934,7 @@
   {
    "id": 59,
    "master_name": "Doire ghorm",
-   "population": 1100,
+   "population": 75,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -944,7 +949,7 @@
   {
    "id": 60,
    "master_name": "Ros mhòr",
-   "population": 2700,
+   "population": 180,
    "kind": "town",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -958,7 +963,7 @@
   {
    "id": 61,
    "master_name": "Cnoc fhionn",
-   "population": 5000,
+   "population": 330,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -972,7 +977,7 @@
   {
    "id": 62,
    "master_name": "Inis bheag",
-   "population": 9600,
+   "population": 640,
    "kind": "town",
    "role": "river-island village",
    "culture": "dia-thirich",
@@ -987,7 +992,7 @@
   {
    "id": 63,
    "master_name": "Ros bheag",
-   "population": 6000,
+   "population": 400,
    "kind": "town",
    "role": "the last seat of the Administration, hungry behind its walls; the last ship from the east anchored here; its human families gone north in the columns",
    "culture": "dia-thirich",
@@ -1005,7 +1010,7 @@
   {
    "id": 64,
    "master_name": "Seann Warr",
-   "population": 8900,
+   "population": 600,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -1020,7 +1025,7 @@
   {
    "id": 65,
    "master_name": "Cnoc àrsaidh",
-   "population": 730,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1034,7 +1039,7 @@
   {
    "id": 66,
    "master_name": "Àth fhiadhaich",
-   "population": 740,
+   "population": 50,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -1049,7 +1054,7 @@
   {
    "id": 67,
    "master_name": "Àth shean",
-   "population": 17000,
+   "population": 1100,
    "kind": "city",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -1064,7 +1069,7 @@
   {
    "id": 68,
    "master_name": "Baile fhiadhaich",
-   "population": 1300,
+   "population": 85,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -1078,7 +1083,7 @@
   {
    "id": 69,
    "master_name": "Cnoc uaine",
-   "population": 1100,
+   "population": 75,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1092,7 +1097,7 @@
   {
    "id": 70,
    "master_name": "Cnoc gheal",
-   "population": 700,
+   "population": 45,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1107,7 +1112,7 @@
   {
    "id": 71,
    "master_name": "Baile Mòr dhìreach",
-   "population": 950,
+   "population": 65,
    "kind": "large village",
    "role": "great farm town",
    "culture": "dia-thirich",
@@ -1122,7 +1127,7 @@
   {
    "id": 72,
    "master_name": "Achadh fhiadhaich",
-   "population": 1600,
+   "population": 100,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -1137,7 +1142,7 @@
   {
    "id": 73,
    "master_name": "Cnoc bhàn",
-   "population": 1400,
+   "population": 95,
    "kind": "large village",
    "role": "hill village with a landing",
    "culture": "dia-thirich",
@@ -1152,7 +1157,7 @@
   {
    "id": 74,
    "master_name": "Muileann fhada",
-   "population": 770,
+   "population": 50,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -1167,7 +1172,7 @@
   {
    "id": 75,
    "master_name": "Inis leathan",
-   "population": 1100,
+   "population": 70,
    "kind": "large village",
    "role": "river-island village",
    "culture": "dia-thirich",
@@ -1182,7 +1187,7 @@
   {
    "id": 76,
    "master_name": "Ros fhionn",
-   "population": 1300,
+   "population": 85,
    "kind": "large village",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -1197,7 +1202,7 @@
   {
    "id": 77,
    "master_name": "Dùn thais",
-   "population": 12000,
+   "population": 800,
    "kind": "city",
    "role": "the druid school's hall shut; the grey fever took the Administration's physician; the masters' houses opened as sick-rooms",
    "culture": "dia-thirich",
@@ -1214,7 +1219,7 @@
   {
    "id": 78,
    "master_name": "Muileann chiar",
-   "population": 940,
+   "population": 60,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -1228,7 +1233,7 @@
   {
    "id": 79,
    "master_name": "Cnoc dhearg",
-   "population": 770,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1243,7 +1248,7 @@
   {
    "id": 80,
    "master_name": "Ceann gheal",
-   "population": 5700,
+   "population": 380,
    "kind": "town",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -1258,7 +1263,7 @@
   {
    "id": 81,
    "master_name": "Doire dhearg",
-   "population": 750,
+   "population": 50,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -1272,7 +1277,7 @@
   {
    "id": 82,
    "master_name": "Achadh fhada",
-   "population": 780,
+   "population": 50,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -1287,7 +1292,7 @@
   {
    "id": 83,
    "master_name": "Cnoc ruadh",
-   "population": 3100,
+   "population": 200,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1302,7 +1307,7 @@
   {
    "id": 84,
    "master_name": "Ceann thais",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -1317,7 +1322,7 @@
   {
    "id": 85,
    "master_name": "Caol naomh",
-   "population": 980,
+   "population": 65,
    "kind": "large village",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -1331,7 +1336,7 @@
   {
    "id": 86,
    "master_name": "Caol ìseal",
-   "population": 7500,
+   "population": 500,
    "kind": "town",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -1345,7 +1350,7 @@
   {
    "id": 87,
    "master_name": "Ros dhìreach",
-   "population": 1900,
+   "population": 130,
    "kind": "large village",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -1360,7 +1365,7 @@
   {
    "id": 88,
    "master_name": "Ceann àrsaidh",
-   "population": 8400,
+   "population": 560,
    "kind": "town",
    "role": "headland village",
    "culture": "dia-thirich",
@@ -1375,7 +1380,7 @@
   {
    "id": 89,
    "master_name": "Cnoc ìseal",
-   "population": 1100,
+   "population": 75,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1390,7 +1395,7 @@
   {
    "id": 90,
    "master_name": "Ros gharbh",
-   "population": 8600,
+   "population": 570,
    "kind": "town",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -1405,7 +1410,7 @@
   {
    "id": 91,
    "master_name": "Cnoc ìseal",
-   "population": 830,
+   "population": 55,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1420,7 +1425,7 @@
   {
    "id": 92,
    "master_name": "Inis chrom",
-   "population": 14000,
+   "population": 960,
    "kind": "city",
    "role": "river-island village with a landing",
    "culture": "dia-thirich",
@@ -1435,7 +1440,7 @@
   {
    "id": 93,
    "master_name": "Àth fhionn",
-   "population": 3000,
+   "population": 200,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -1450,7 +1455,7 @@
   {
    "id": 94,
    "master_name": "Seann Vell",
-   "population": 2900,
+   "population": 200,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -1464,7 +1469,7 @@
   {
    "id": 95,
    "master_name": "Caol mhòr",
-   "population": 13000,
+   "population": 910,
    "kind": "city",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -1478,7 +1483,7 @@
   {
    "id": 96,
    "master_name": "Doire ruadh",
-   "population": 2200,
+   "population": 150,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -1493,7 +1498,7 @@
   {
    "id": 97,
    "master_name": "Seann Vell",
-   "population": 1300,
+   "population": 90,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -1508,7 +1513,7 @@
   {
    "id": 99,
    "master_name": "Cnoc ruadh",
-   "population": 4400,
+   "population": 290,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1523,7 +1528,7 @@
   {
    "id": 100,
    "master_name": "Àth chrom",
-   "population": 1900,
+   "population": 130,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -1538,7 +1543,7 @@
   {
    "id": 102,
    "master_name": "Doire fhiadhaich",
-   "population": 7300,
+   "population": 490,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -1552,7 +1557,7 @@
   {
    "id": 103,
    "master_name": "Inis uaine",
-   "population": 2400,
+   "population": 160,
    "kind": "large village",
    "role": "river-island village",
    "culture": "dia-thirich",
@@ -1566,7 +1571,7 @@
   {
    "id": 104,
    "master_name": "Cuan uaine",
-   "population": 2900,
+   "population": 200,
    "kind": "town",
    "role": "harbour",
    "culture": "dia-thirich",
@@ -1581,7 +1586,7 @@
   {
    "id": 105,
    "master_name": "Baile dhìreach",
-   "population": 800,
+   "population": 55,
    "kind": "large village",
    "role": "the old joint town of two tongues; its children of both peoples would not say which they were",
    "culture": "dia-thirich",
@@ -1599,7 +1604,7 @@
   {
    "id": 106,
    "master_name": "Baile chiar",
-   "population": 11000,
+   "population": 710,
    "kind": "city",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -1614,7 +1619,7 @@
   {
    "id": 107,
    "master_name": "Cnoc chrom",
-   "population": 770,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1629,7 +1634,7 @@
   {
    "id": 108,
    "master_name": "Àth dhearg",
-   "population": 860,
+   "population": 60,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -1643,7 +1648,7 @@
   {
    "id": 109,
    "master_name": "Cill thais",
-   "population": 8500,
+   "population": 570,
    "kind": "town",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -1658,7 +1663,7 @@
   {
    "id": 110,
    "master_name": "Seann Bhral",
-   "population": 22000,
+   "population": 1500,
    "kind": "city",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -1672,7 +1677,7 @@
   {
    "id": 111,
    "master_name": "Caol dhomhain",
-   "population": 1400,
+   "population": 90,
    "kind": "large village",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -1686,7 +1691,7 @@
   {
    "id": 112,
    "master_name": "Baile leathan",
-   "population": 500,
+   "population": 35,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -1700,7 +1705,7 @@
   {
    "id": 113,
    "master_name": "Àth fhionn",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -1715,7 +1720,7 @@
   {
    "id": 114,
    "master_name": "Àth uaine",
-   "population": 3200,
+   "population": 210,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -1729,7 +1734,7 @@
   {
    "id": 115,
    "master_name": "Muileann ruadh",
-   "population": 4600,
+   "population": 300,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -1743,7 +1748,7 @@
   {
    "id": 116,
    "master_name": "Cnoc uaine",
-   "population": 1600,
+   "population": 100,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1758,7 +1763,7 @@
   {
    "id": 117,
    "master_name": "Doire fhionn",
-   "population": 9700,
+   "population": 650,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -1772,7 +1777,7 @@
   {
    "id": 118,
    "master_name": "Baile Mòr uaine",
-   "population": 3600,
+   "population": 240,
    "kind": "town",
    "role": "great farm town",
    "culture": "dia-thirich",
@@ -1787,7 +1792,7 @@
   {
    "id": 119,
    "master_name": "Cuan ruadh",
-   "population": 8600,
+   "population": 580,
    "kind": "town",
    "role": "harbour",
    "culture": "dia-thirich",
@@ -1801,7 +1806,7 @@
   {
    "id": 120,
    "master_name": "Muileann mhin",
-   "population": 2000,
+   "population": 130,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -1816,7 +1821,7 @@
   {
    "id": 121,
    "master_name": "Muileann gharbh",
-   "population": 660,
+   "population": 45,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -1830,7 +1835,7 @@
   {
    "id": 122,
    "master_name": "Ros àrsaidh",
-   "population": 1800,
+   "population": 120,
    "kind": "large village",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -1845,7 +1850,7 @@
   {
    "id": 124,
    "master_name": "Àth uaine",
-   "population": 1900,
+   "population": 130,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -1859,7 +1864,7 @@
   {
    "id": 125,
    "master_name": "Baile ruadh",
-   "population": 3500,
+   "population": 230,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -1873,7 +1878,7 @@
   {
    "id": 126,
    "master_name": "Ceann leathan",
-   "population": 6400,
+   "population": 420,
    "kind": "town",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -1887,7 +1892,7 @@
   {
    "id": 127,
    "master_name": "Seann Vell",
-   "population": 750,
+   "population": 50,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -1902,7 +1907,7 @@
   {
    "id": 128,
    "master_name": "Seann Warr",
-   "population": 1500,
+   "population": 100,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -1916,7 +1921,7 @@
   {
    "id": 129,
    "master_name": "Cnoc shean",
-   "population": 980,
+   "population": 65,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -1931,7 +1936,7 @@
   {
    "id": 130,
    "master_name": "Dùn thais",
-   "population": 1700,
+   "population": 110,
    "kind": "large village",
    "role": "hill-fort",
    "culture": "dia-thirich",
@@ -1945,7 +1950,7 @@
   {
    "id": 131,
    "master_name": "Baile gharbh",
-   "population": 16000,
+   "population": 1100,
    "kind": "city",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -1960,7 +1965,7 @@
   {
    "id": 132,
    "master_name": "Seann Skell",
-   "population": 9000,
+   "population": 600,
    "kind": "town",
    "role": "Ìomhar Seabhag's hawk-shrine, where the hawk company was called",
    "culture": "dia-thirich",
@@ -1976,7 +1981,7 @@
   {
    "id": 133,
    "master_name": "Caol chrom",
-   "population": 1400,
+   "population": 95,
    "kind": "large village",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -1991,7 +1996,7 @@
   {
    "id": 134,
    "master_name": "Baile fhiadhaich",
-   "population": 12000,
+   "population": 770,
    "kind": "city",
    "role": "farm town with a landing",
    "culture": "dia-thirich",
@@ -2006,7 +2011,7 @@
   {
    "id": 135,
    "master_name": "Achadh dhomhain",
-   "population": 6000,
+   "population": 400,
    "kind": "town",
    "role": "the camp of the deep galleries under the hill, houses built of spoil; the green acre where the Green Death was first marked; the Sloc Mòr is here",
    "culture": "dia-thirich",
@@ -2022,7 +2027,7 @@
   {
    "id": 136,
    "master_name": "Baile Mòr dhìreach",
-   "population": 5300,
+   "population": 350,
    "kind": "town",
    "role": "great farm town",
    "culture": "dia-thirich",
@@ -2036,7 +2041,7 @@
   {
    "id": 137,
    "master_name": "Muileann mhin",
-   "population": 14000,
+   "population": 900,
    "kind": "city",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -2051,7 +2056,7 @@
   {
    "id": 138,
    "master_name": "Cill bhàn",
-   "population": 1200,
+   "population": 75,
    "kind": "large village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -2065,7 +2070,7 @@
   {
    "id": 139,
    "master_name": "Seann Chwen",
-   "population": 4800,
+   "population": 320,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -2080,7 +2085,7 @@
   {
    "id": 141,
    "master_name": "Cill leathan",
-   "population": 4500,
+   "population": 300,
    "kind": "town",
    "role": "chapel village with a landing",
    "culture": "dia-thirich",
@@ -2095,7 +2100,7 @@
   {
    "id": 142,
    "master_name": "Cnoc ghorm",
-   "population": 5000,
+   "population": 330,
    "kind": "town",
    "role": "the Dia-thìreach village with the human farms and mill of the concession beside it",
    "culture": "dia-thirich",
@@ -2110,7 +2115,7 @@
   {
    "id": 143,
    "master_name": "Ceann mhòr",
-   "population": 5000,
+   "population": 330,
    "kind": "town",
    "role": "a Dia-thìreach harbour with the concession's human fishing families and their tobacco slopes behind it",
    "culture": "dia-thirich",
@@ -2128,7 +2133,7 @@
   {
    "id": 144,
    "master_name": "Baile mhin",
-   "population": 9400,
+   "population": 630,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -2143,7 +2148,7 @@
   {
    "id": 145,
    "master_name": "Achadh naomh",
-   "population": 12000,
+   "population": 800,
    "kind": "city",
    "role": "field village",
    "culture": "dia-thirich",
@@ -2158,7 +2163,7 @@
   {
    "id": 146,
    "master_name": "Achadh dhomhain",
-   "population": 5300,
+   "population": 350,
    "kind": "town",
    "role": "field village",
    "culture": "dia-thirich",
@@ -2173,7 +2178,7 @@
   {
    "id": 147,
    "master_name": "Doire ghlas",
-   "population": 3600,
+   "population": 240,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -2187,7 +2192,7 @@
   {
    "id": 148,
    "master_name": "Doire uaine",
-   "population": 720,
+   "population": 50,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -2202,7 +2207,7 @@
   {
    "id": 149,
    "master_name": "Doire fhada",
-   "population": 4900,
+   "population": 330,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -2217,7 +2222,7 @@
   {
    "id": 150,
    "master_name": "Achadh mhin",
-   "population": 2900,
+   "population": 190,
    "kind": "town",
    "role": "field village",
    "culture": "dia-thirich",
@@ -2232,7 +2237,7 @@
   {
    "id": 151,
    "master_name": "Muileann òg",
-   "population": 750,
+   "population": 50,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -2247,7 +2252,7 @@
   {
    "id": 152,
    "master_name": "Ros dhìreach",
-   "population": 2500,
+   "population": 170,
    "kind": "large village",
    "role": "the Company's second coal port, end of the mule tram-road",
    "culture": "dia-thirich",
@@ -2263,7 +2268,7 @@
   {
    "id": 153,
    "master_name": "Cnoc bheag",
-   "population": 2200,
+   "population": 150,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2278,7 +2283,7 @@
   {
    "id": 154,
    "master_name": "Cnoc ghlas",
-   "population": 660,
+   "population": 45,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2292,7 +2297,7 @@
   {
    "id": 155,
    "master_name": "Cnoc ghorm",
-   "population": 3800,
+   "population": 250,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2306,7 +2311,7 @@
   {
    "id": 156,
    "master_name": "Àth uaine",
-   "population": 4900,
+   "population": 320,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2321,7 +2326,7 @@
   {
    "id": 157,
    "master_name": "Àth fhada",
-   "population": 5100,
+   "population": 340,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2336,7 +2341,7 @@
   {
    "id": 158,
    "master_name": "Inis naomh",
-   "population": 2100,
+   "population": 140,
    "kind": "large village",
    "role": "river-island village with a landing",
    "culture": "dia-thirich",
@@ -2351,7 +2356,7 @@
   {
    "id": 159,
    "master_name": "Àth gheal",
-   "population": 4200,
+   "population": 280,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2366,7 +2371,7 @@
   {
    "id": 160,
    "master_name": "Muileann fhionn",
-   "population": 700,
+   "population": 45,
    "kind": "large village",
    "role": "a fort and mill of the Administration guarding the northern landing",
    "culture": "humans",
@@ -2382,7 +2387,7 @@
   {
    "id": 161,
    "master_name": "Ros leathan",
-   "population": 5700,
+   "population": 380,
    "kind": "town",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -2397,7 +2402,7 @@
   {
    "id": 162,
    "master_name": "Seann Vell",
-   "population": 12000,
+   "population": 790,
    "kind": "city",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -2412,7 +2417,7 @@
   {
    "id": 163,
    "master_name": "Àth chiar",
-   "population": 4400,
+   "population": 300,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2427,7 +2432,7 @@
   {
    "id": 164,
    "master_name": "Doire chaol",
-   "population": 11000,
+   "population": 730,
    "kind": "city",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -2442,7 +2447,7 @@
   {
    "id": 165,
    "master_name": "Cnoc dhubh",
-   "population": 5100,
+   "population": 340,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2457,7 +2462,7 @@
   {
    "id": 166,
    "master_name": "Inis thais",
-   "population": 16000,
+   "population": 1000,
    "kind": "city",
    "role": "river-island village with a landing",
    "culture": "dia-thirich",
@@ -2472,7 +2477,7 @@
   {
    "id": 167,
    "master_name": "Cnoc leathan",
-   "population": 11000,
+   "population": 720,
    "kind": "city",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2486,7 +2491,7 @@
   {
    "id": 168,
    "master_name": "Baile àrsaidh",
-   "population": 5500,
+   "population": 370,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -2501,7 +2506,7 @@
   {
    "id": 169,
    "master_name": "Achadh fhionn",
-   "population": 810,
+   "population": 55,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -2515,7 +2520,7 @@
   {
    "id": 170,
    "master_name": "Baile ghorm",
-   "population": 12000,
+   "population": 830,
    "kind": "city",
    "role": "farm town with a landing",
    "culture": "dia-thirich",
@@ -2530,7 +2535,7 @@
   {
    "id": 171,
    "master_name": "Muileann fhada",
-   "population": 1000,
+   "population": 70,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -2544,7 +2549,7 @@
   {
    "id": 172,
    "master_name": "Baile mhòr",
-   "population": 710,
+   "population": 45,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -2559,7 +2564,7 @@
   {
    "id": 173,
    "master_name": "Tobar ìseal",
-   "population": 760,
+   "population": 50,
    "kind": "large village",
    "role": "well village",
    "culture": "dia-thirich",
@@ -2574,7 +2579,7 @@
   {
    "id": 174,
    "master_name": "Àth fhada",
-   "population": 4900,
+   "population": 330,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2588,7 +2593,7 @@
   {
    "id": 175,
    "master_name": "Àth dhomhain",
-   "population": 7700,
+   "population": 510,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2603,7 +2608,7 @@
   {
    "id": 176,
    "master_name": "Baile gheal",
-   "population": 2800,
+   "population": 190,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -2617,7 +2622,7 @@
   {
    "id": 177,
    "master_name": "Achadh gharbh",
-   "population": 4500,
+   "population": 300,
    "kind": "town",
    "role": "field village",
    "culture": "dia-thirich",
@@ -2632,7 +2637,7 @@
   {
    "id": 178,
    "master_name": "Cnoc thais",
-   "population": 730,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2647,7 +2652,7 @@
   {
    "id": 179,
    "master_name": "Àth shean",
-   "population": 1500,
+   "population": 100,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2662,7 +2667,7 @@
   {
    "id": 180,
    "master_name": "Ceann dhomhain",
-   "population": 1200,
+   "population": 75,
    "kind": "large village",
    "role": "headland village",
    "culture": "dia-thirich",
@@ -2677,7 +2682,7 @@
   {
    "id": 181,
    "master_name": "Àth ruadh",
-   "population": 1100,
+   "population": 75,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2691,7 +2696,7 @@
   {
    "id": 182,
    "master_name": "Àth ghlas",
-   "population": 740,
+   "population": 50,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2706,7 +2711,7 @@
   {
    "id": 183,
    "master_name": "Cnoc bhàn",
-   "population": 3800,
+   "population": 260,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2721,7 +2726,7 @@
   {
    "id": 184,
    "master_name": "Cnoc chrom",
-   "population": 770,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2736,7 +2741,7 @@
   {
    "id": 185,
    "master_name": "Muileann leathan",
-   "population": 3400,
+   "population": 230,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -2750,7 +2755,7 @@
   {
    "id": 186,
    "master_name": "Seann Mhorn",
-   "population": 2300,
+   "population": 150,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -2764,7 +2769,7 @@
   {
    "id": 187,
    "master_name": "Baile chrom",
-   "population": 1500,
+   "population": 100,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -2779,7 +2784,7 @@
   {
    "id": 188,
    "master_name": "Muileann ruadh",
-   "population": 750,
+   "population": 50,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -2794,7 +2799,7 @@
   {
    "id": 189,
    "master_name": "Baile chrom",
-   "population": 930,
+   "population": 60,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -2809,7 +2814,7 @@
   {
    "id": 190,
    "master_name": "Cuan dhearg",
-   "population": 3300,
+   "population": 220,
    "kind": "town",
    "role": "harbour",
    "culture": "dia-thirich",
@@ -2824,7 +2829,7 @@
   {
    "id": 191,
    "master_name": "Caol fhiadhaich",
-   "population": 8600,
+   "population": 570,
    "kind": "town",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -2839,7 +2844,7 @@
   {
    "id": 192,
    "master_name": "Cathair naomh",
-   "population": 5800,
+   "population": 390,
    "kind": "town",
    "role": "town",
    "culture": "dia-thirich",
@@ -2853,7 +2858,7 @@
   {
    "id": 193,
    "master_name": "Baile gheal",
-   "population": 3400,
+   "population": 230,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -2868,7 +2873,7 @@
   {
    "id": 194,
    "master_name": "Baile bhàn",
-   "population": 2700,
+   "population": 180,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -2883,7 +2888,7 @@
   {
    "id": 195,
    "master_name": "Àth chaol",
-   "population": 870,
+   "population": 60,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -2898,7 +2903,7 @@
   {
    "id": 196,
    "master_name": "Muileann chaol",
-   "population": 770,
+   "population": 50,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -2913,7 +2918,7 @@
   {
    "id": 197,
    "master_name": "Caol shean",
-   "population": 14000,
+   "population": 950,
    "kind": "city",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -2928,7 +2933,7 @@
   {
    "id": 198,
    "master_name": "Cnoc dhubh",
-   "population": 5000,
+   "population": 330,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2942,7 +2947,7 @@
   {
    "id": 199,
    "master_name": "Cnoc òg",
-   "population": 850,
+   "population": 55,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -2956,7 +2961,7 @@
   {
    "id": 200,
    "master_name": "Cnoc ìseal",
-   "population": 1200,
+   "population": 85,
    "kind": "large village",
    "role": "hill village with a landing",
    "culture": "dia-thirich",
@@ -2971,7 +2976,7 @@
   {
    "id": 201,
    "master_name": "Doire fhada",
-   "population": 9900,
+   "population": 660,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -2986,7 +2991,7 @@
   {
    "id": 202,
    "master_name": "Muileann dhomhain",
-   "population": 7300,
+   "population": 490,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -3001,7 +3006,7 @@
   {
    "id": 203,
    "master_name": "Ceann bhàn",
-   "population": 2800,
+   "population": 190,
    "kind": "town",
    "role": "headland village",
    "culture": "dia-thirich",
@@ -3015,7 +3020,7 @@
   {
    "id": 204,
    "master_name": "Baile Mòr fhionn",
-   "population": 8500,
+   "population": 570,
    "kind": "town",
    "role": "great farm town",
    "culture": "dia-thirich",
@@ -3030,7 +3035,7 @@
   {
    "id": 205,
    "master_name": "Caol naomh",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -3045,7 +3050,7 @@
   {
    "id": 206,
    "master_name": "Achadh ìseal",
-   "population": 950,
+   "population": 65,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -3059,7 +3064,7 @@
   {
    "id": 207,
    "master_name": "Àth fhionn",
-   "population": 820,
+   "population": 55,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -3073,7 +3078,7 @@
   {
    "id": 208,
    "master_name": "Caol ìseal",
-   "population": 1300,
+   "population": 90,
    "kind": "large village",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -3087,7 +3092,7 @@
   {
    "id": 209,
    "master_name": "Doire ghlas",
-   "population": 13000,
+   "population": 840,
    "kind": "city",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -3101,7 +3106,7 @@
   {
    "id": 210,
    "master_name": "Cnoc dhubh",
-   "population": 2900,
+   "population": 190,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3116,7 +3121,7 @@
   {
    "id": 211,
    "master_name": "Cnoc chiar",
-   "population": 870,
+   "population": 60,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3130,7 +3135,7 @@
   {
    "id": 212,
    "master_name": "Muileann shean",
-   "population": 8800,
+   "population": 590,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -3145,7 +3150,7 @@
   {
    "id": 213,
    "master_name": "Muileann chrom",
-   "population": 4700,
+   "population": 310,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -3160,7 +3165,7 @@
   {
    "id": 214,
    "master_name": "Cnoc mhòr",
-   "population": 1700,
+   "population": 110,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3175,7 +3180,7 @@
   {
    "id": 215,
    "master_name": "Ros chiar",
-   "population": 2100,
+   "population": 140,
    "kind": "large village",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -3190,7 +3195,7 @@
   {
    "id": 216,
    "master_name": "Cill ìseal",
-   "population": 3400,
+   "population": 220,
    "kind": "town",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -3205,7 +3210,7 @@
   {
    "id": 217,
    "master_name": "Cnoc bhàn",
-   "population": 3400,
+   "population": 220,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3219,7 +3224,7 @@
   {
    "id": 218,
    "master_name": "Àth chiar",
-   "population": 2600,
+   "population": 180,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -3234,7 +3239,7 @@
   {
    "id": 219,
    "master_name": "Àth chaol",
-   "population": 1200,
+   "population": 75,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -3248,7 +3253,7 @@
   {
    "id": 220,
    "master_name": "Cnoc bheag",
-   "population": 2900,
+   "population": 190,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3262,7 +3267,7 @@
   {
    "id": 221,
    "master_name": "Inis mhin",
-   "population": 1600,
+   "population": 110,
    "kind": "large village",
    "role": "river-island village with a landing",
    "culture": "dia-thirich",
@@ -3276,7 +3281,7 @@
   {
    "id": 222,
    "master_name": "Achadh fhiadhaich",
-   "population": 600,
+   "population": 40,
    "kind": "large village",
    "role": "field village with a landing",
    "culture": "dia-thirich",
@@ -3291,7 +3296,7 @@
   {
    "id": 223,
    "master_name": "Cuan àrsaidh",
-   "population": 5300,
+   "population": 350,
    "kind": "town",
    "role": "harbour",
    "culture": "dia-thirich",
@@ -3306,7 +3311,7 @@
   {
    "id": 224,
    "master_name": "Baile dhomhain",
-   "population": 1500,
+   "population": 83,
    "kind": "large village",
    "role": "the first town drawn on paper, a Company camp on a grid; two streets pulled down for a spoil-tip",
    "culture": "dia-thirich",
@@ -3322,7 +3327,7 @@
   {
    "id": 225,
    "master_name": "Àth chaol",
-   "population": 1700,
+   "population": 110,
    "kind": "large village",
    "role": "ford village with a landing",
    "culture": "dia-thirich",
@@ -3336,7 +3341,7 @@
   {
    "id": 226,
    "master_name": "Baile òg",
-   "population": 850,
+   "population": 55,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -3350,7 +3355,7 @@
   {
    "id": 227,
    "master_name": "Àth àrsaidh",
-   "population": 910,
+   "population": 60,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -3364,7 +3369,7 @@
   {
    "id": 229,
    "master_name": "Muileann ruadh",
-   "population": 1200,
+   "population": 75,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -3378,7 +3383,7 @@
   {
    "id": 230,
    "master_name": "Doire bhàn",
-   "population": 2800,
+   "population": 180,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -3392,7 +3397,7 @@
   {
    "id": 231,
    "master_name": "Cathair naomh",
-   "population": 6300,
+   "population": 420,
    "kind": "town",
    "role": "town",
    "culture": "dia-thirich",
@@ -3407,7 +3412,7 @@
   {
    "id": 232,
    "master_name": "Baile gheal",
-   "population": 8600,
+   "population": 570,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -3422,7 +3427,7 @@
   {
    "id": 233,
    "master_name": "Cnoc bhàn",
-   "population": 4800,
+   "population": 320,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3436,7 +3441,7 @@
   {
    "id": 234,
    "master_name": "Muileann leathan",
-   "population": 7000,
+   "population": 470,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -3450,7 +3455,7 @@
   {
    "id": 235,
    "master_name": "Baile ghlas",
-   "population": 3900,
+   "population": 260,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -3464,7 +3469,7 @@
   {
    "id": 236,
    "master_name": "Baile àrsaidh",
-   "population": 910,
+   "population": 60,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -3478,7 +3483,7 @@
   {
    "id": 237,
    "master_name": "Inis bheag",
-   "population": 1200,
+   "population": 85,
    "kind": "large village",
    "role": "river-island village with a landing",
    "culture": "dia-thirich",
@@ -3492,7 +3497,7 @@
   {
    "id": 238,
    "master_name": "Ros ruadh",
-   "population": 1800,
+   "population": 120,
    "kind": "large village",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -3507,7 +3512,7 @@
   {
    "id": 239,
    "master_name": "Ceann mhin",
-   "population": 8800,
+   "population": 590,
    "kind": "town",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -3522,7 +3527,7 @@
   {
    "id": 240,
    "master_name": "Muileann bheag",
-   "population": 5400,
+   "population": 360,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -3537,7 +3542,7 @@
   {
    "id": 241,
    "master_name": "Baile ruadh",
-   "population": 9000,
+   "population": 600,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -3551,7 +3556,7 @@
   {
    "id": 242,
    "master_name": "Achadh àrsaidh",
-   "population": 400,
+   "population": 30,
    "kind": "village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -3566,7 +3571,7 @@
   {
    "id": 243,
    "master_name": "Cnoc chiar",
-   "population": 1500,
+   "population": 100,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3581,7 +3586,7 @@
   {
    "id": 244,
    "master_name": "Muileann àrsaidh",
-   "population": 2900,
+   "population": 200,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -3596,7 +3601,7 @@
   {
    "id": 245,
    "master_name": "Doire naomh",
-   "population": 1400,
+   "population": 90,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -3611,7 +3616,7 @@
   {
    "id": 246,
    "master_name": "Muileann chaol",
-   "population": 2500,
+   "population": 170,
    "kind": "large village",
    "role": "the cellars of the custodians' rolls, beyond the Residency's reach; the rolls of the age sent here at the war's end; the Line of Aisling found",
    "culture": "dia-thirich",
@@ -3628,7 +3633,7 @@
   {
    "id": 247,
    "master_name": "Muileann naomh",
-   "population": 4600,
+   "population": 300,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -3643,7 +3648,7 @@
   {
    "id": 248,
    "master_name": "Àth bheag",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -3658,7 +3663,7 @@
   {
    "id": 249,
    "master_name": "Seann Tarr",
-   "population": 10000,
+   "population": 690,
    "kind": "city",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -3672,7 +3677,7 @@
   {
    "id": 250,
    "master_name": "Cathair mhòr",
-   "population": 3000,
+   "population": 200,
    "kind": "town",
    "role": "town",
    "culture": "dia-thirich",
@@ -3687,7 +3692,7 @@
   {
    "id": 251,
    "master_name": "Cill fhada",
-   "population": 800,
+   "population": 55,
    "kind": "large village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -3702,7 +3707,7 @@
   {
    "id": 252,
    "master_name": "Cnoc òg",
-   "population": 4400,
+   "population": 290,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3716,7 +3721,7 @@
   {
    "id": 253,
    "master_name": "Tobar ìseal",
-   "population": 980,
+   "population": 65,
    "kind": "large village",
    "role": "well village",
    "culture": "dia-thirich",
@@ -3730,7 +3735,7 @@
   {
    "id": 254,
    "master_name": "Baile ruadh",
-   "population": 8100,
+   "population": 540,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -3745,7 +3750,7 @@
   {
    "id": 255,
    "master_name": "Dùn chrom",
-   "population": 6000,
+   "population": 400,
    "kind": "town",
    "role": "the rope-walks turned to winding-rope; the constables' barracks; it shut its gates behind Ashdown and nursed his wounded",
    "culture": "dia-thirich",
@@ -3762,7 +3767,7 @@
   {
    "id": 256,
    "master_name": "Àth chiar",
-   "population": 8500,
+   "population": 570,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -3776,7 +3781,7 @@
   {
    "id": 257,
    "master_name": "Baile dhomhain",
-   "population": 4000,
+   "population": 270,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -3791,7 +3796,7 @@
   {
    "id": 258,
    "master_name": "Àth dhearg",
-   "population": 3700,
+   "population": 250,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -3805,7 +3810,7 @@
   {
    "id": 259,
    "master_name": "Baile ruadh",
-   "population": 5000,
+   "population": 340,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -3819,7 +3824,7 @@
   {
    "id": 260,
    "master_name": "Ceann dhubh",
-   "population": 980,
+   "population": 65,
    "kind": "large village",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -3833,7 +3838,7 @@
   {
    "id": 261,
    "master_name": "Doire fhionn",
-   "population": 6200,
+   "population": 420,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -3847,7 +3852,7 @@
   {
    "id": 262,
    "master_name": "Cnoc gheal",
-   "population": 6500,
+   "population": 430,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3861,7 +3866,7 @@
   {
    "id": 263,
    "master_name": "Cnoc ghlas",
-   "population": 550,
+   "population": 35,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3875,7 +3880,7 @@
   {
    "id": 264,
    "master_name": "Baile dhìreach",
-   "population": 830,
+   "population": 55,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -3889,7 +3894,7 @@
   {
    "id": 265,
    "master_name": "Doire uaine",
-   "population": 3000,
+   "population": 200,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -3904,7 +3909,7 @@
   {
    "id": 266,
    "master_name": "Muileann dhearg",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -3919,7 +3924,7 @@
   {
    "id": 267,
    "master_name": "Cill àrsaidh",
-   "population": 5300,
+   "population": 360,
    "kind": "town",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -3934,7 +3939,7 @@
   {
    "id": 268,
    "master_name": "Cnoc fhiadhaich",
-   "population": 1200,
+   "population": 75,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3949,7 +3954,7 @@
   {
    "id": 269,
    "master_name": "Cnoc thais",
-   "population": 4400,
+   "population": 290,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -3964,7 +3969,7 @@
   {
    "id": 270,
    "master_name": "Cuan ghlas",
-   "population": 6800,
+   "population": 450,
    "kind": "town",
    "role": "harbour",
    "culture": "dia-thirich",
@@ -3979,7 +3984,7 @@
   {
    "id": 271,
    "master_name": "Achadh gharbh",
-   "population": 760,
+   "population": 50,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -3994,7 +3999,7 @@
   {
    "id": 272,
    "master_name": "Tobar òg",
-   "population": 2800,
+   "population": 190,
    "kind": "town",
    "role": "well village",
    "culture": "dia-thirich",
@@ -4009,7 +4014,7 @@
   {
    "id": 273,
    "master_name": "Baile Mòr dhomhain",
-   "population": 7900,
+   "population": 530,
    "kind": "town",
    "role": "great farm town",
    "culture": "dia-thirich",
@@ -4024,7 +4029,7 @@
   {
    "id": 274,
    "master_name": "Muileann uaine",
-   "population": 2500,
+   "population": 170,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -4039,7 +4044,7 @@
   {
    "id": 275,
    "master_name": "Baile òg",
-   "population": 810,
+   "population": 55,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4054,7 +4059,7 @@
   {
    "id": 276,
    "master_name": "Tobar dhìreach",
-   "population": 3600,
+   "population": 240,
    "kind": "town",
    "role": "well village",
    "culture": "dia-thirich",
@@ -4069,7 +4074,7 @@
   {
    "id": 277,
    "master_name": "Àth gharbh",
-   "population": 730,
+   "population": 50,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -4084,7 +4089,7 @@
   {
    "id": 278,
    "master_name": "Àth dhomhain",
-   "population": 2400,
+   "population": 160,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -4099,7 +4104,7 @@
   {
    "id": 279,
    "master_name": "Achadh gharbh",
-   "population": 4800,
+   "population": 320,
    "kind": "town",
    "role": "field village",
    "culture": "dia-thirich",
@@ -4114,7 +4119,7 @@
   {
    "id": 280,
    "master_name": "Cnoc fhiadhaich",
-   "population": 880,
+   "population": 60,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4129,7 +4134,7 @@
   {
    "id": 281,
    "master_name": "Cnoc ghorm",
-   "population": 2100,
+   "population": 140,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4144,7 +4149,7 @@
   {
    "id": 282,
    "master_name": "Cuan shean",
-   "population": 9000,
+   "population": 600,
    "kind": "town",
    "role": "where the humans first came ashore and whence the last Commissioner sailed; its custodians shut the harbour to the Company's ships",
    "culture": "dia-thirich",
@@ -4161,7 +4166,7 @@
   {
    "id": 283,
    "master_name": "Achadh àrsaidh",
-   "population": 15000,
+   "population": 980,
    "kind": "city",
    "role": "field village",
    "culture": "dia-thirich",
@@ -4176,7 +4181,7 @@
   {
    "id": 284,
    "master_name": "Baile ìseal",
-   "population": 3000,
+   "population": 200,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4191,7 +4196,7 @@
   {
    "id": 285,
    "master_name": "Baile ìseal",
-   "population": 790,
+   "population": 55,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4205,7 +4210,7 @@
   {
    "id": 286,
    "master_name": "Àth naomh",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -4220,7 +4225,7 @@
   {
    "id": 287,
    "master_name": "Cnoc chiar",
-   "population": 770,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4235,7 +4240,7 @@
   {
    "id": 288,
    "master_name": "Muileann gheal",
-   "population": 5700,
+   "population": 380,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -4249,7 +4254,7 @@
   {
    "id": 289,
    "master_name": "Cnoc fhada",
-   "population": 4400,
+   "population": 300,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4263,7 +4268,7 @@
   {
    "id": 290,
    "master_name": "Dùn fhiadhaich",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "hill-fort",
    "culture": "dia-thirich",
@@ -4278,7 +4283,7 @@
   {
    "id": 291,
    "master_name": "Achadh fhionn",
-   "population": 3100,
+   "population": 200,
    "kind": "town",
    "role": "field village",
    "culture": "dia-thirich",
@@ -4292,7 +4297,7 @@
   {
    "id": 292,
    "master_name": "Cnoc mhòr",
-   "population": 3600,
+   "population": 240,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4306,7 +4311,7 @@
   {
    "id": 293,
    "master_name": "Cnoc shean",
-   "population": 800,
+   "population": 55,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4321,7 +4326,7 @@
   {
    "id": 294,
    "master_name": "Muileann chiar",
-   "population": 3900,
+   "population": 260,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -4335,7 +4340,7 @@
   {
    "id": 295,
    "master_name": "Seann Dunn",
-   "population": 6400,
+   "population": 430,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -4350,7 +4355,7 @@
   {
    "id": 296,
    "master_name": "Doire fhiadhaich",
-   "population": 12000,
+   "population": 820,
    "kind": "city",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -4365,7 +4370,7 @@
   {
    "id": 297,
    "master_name": "Cathair fhada",
-   "population": 9400,
+   "population": 630,
    "kind": "town",
    "role": "town",
    "culture": "dia-thirich",
@@ -4380,7 +4385,7 @@
   {
    "id": 298,
    "master_name": "Àth ghorm",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -4395,7 +4400,7 @@
   {
    "id": 299,
    "master_name": "Baile gharbh",
-   "population": 2400,
+   "population": 160,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4410,7 +4415,7 @@
   {
    "id": 300,
    "master_name": "Cnoc uaine",
-   "population": 2200,
+   "population": 150,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4425,7 +4430,7 @@
   {
    "id": 301,
    "master_name": "Caol bheag",
-   "population": 990,
+   "population": 65,
    "kind": "large village",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -4439,7 +4444,7 @@
   {
    "id": 302,
    "master_name": "Àth shean",
-   "population": 2600,
+   "population": 170,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -4454,7 +4459,7 @@
   {
    "id": 303,
    "master_name": "Baile Mòr ruadh",
-   "population": 2500,
+   "population": 170,
    "kind": "town",
    "role": "the greatest town of the north-west, named in the truce to receive the columns; its Dia-thìrich given the choice of staying or going south",
    "culture": "dia-thirich",
@@ -4468,7 +4473,7 @@
   {
    "id": 304,
    "master_name": "Àth àrsaidh",
-   "population": 4000,
+   "population": 270,
    "kind": "town",
    "role": "the truce was agreed here, on the edge of the concession",
    "culture": "dia-thirich",
@@ -4482,7 +4487,7 @@
   {
    "id": 305,
    "master_name": "Baile chrom",
-   "population": 3000,
+   "population": 200,
    "kind": "town",
    "role": "the hunger was worst here, within sight of the new beacon; the Mission kitchen; the human labourers' vigil of the Grey Night in the fields near it",
    "culture": "dia-thirich",
@@ -4499,7 +4504,7 @@
   {
    "id": 306,
    "master_name": "Baile ìseal",
-   "population": 5400,
+   "population": 360,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4514,7 +4519,7 @@
   {
    "id": 307,
    "master_name": "Doire gheal",
-   "population": 260,
+   "population": 20,
    "kind": "village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -4529,7 +4534,7 @@
   {
    "id": 308,
    "master_name": "Tobar dhomhain",
-   "population": 300,
+   "population": 20,
    "kind": "village",
    "role": "well village",
    "culture": "dia-thirich",
@@ -4544,7 +4549,7 @@
   {
    "id": 309,
    "master_name": "Baile shean",
-   "population": 760,
+   "population": 50,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4558,7 +4563,7 @@
   {
    "id": 310,
    "master_name": "Cnoc àrsaidh",
-   "population": 780,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4572,7 +4577,7 @@
   {
    "id": 311,
    "master_name": "Baile chaol",
-   "population": 8100,
+   "population": 540,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4586,7 +4591,7 @@
   {
    "id": 312,
    "master_name": "Tobar shean",
-   "population": 1500,
+   "population": 100,
    "kind": "large village",
    "role": "well village",
    "culture": "dia-thirich",
@@ -4600,9 +4605,9 @@
   {
    "id": 313,
    "master_name": "Seann Toll",
-   "population": 2000,
+   "population": 130,
    "kind": "large village",
-   "role": "its coal stage shelled by a Company steamship from the river and the fishing town behind it set burning; twenty-three dead",
+   "role": "its coal stage shelled by a Company steamship from the river and the fishing town behind it set burning; three dead",
    "culture": "dia-thirich",
    "faith": "old-faith",
    "order": "macha",
@@ -4616,7 +4621,7 @@
   {
    "id": 314,
    "master_name": "Muileann fhionn",
-   "population": 1300,
+   "population": 90,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -4631,7 +4636,7 @@
   {
    "id": 315,
    "master_name": "Dùn ìseal",
-   "population": 10000,
+   "population": 680,
    "kind": "city",
    "role": "hill-fort",
    "culture": "dia-thirich",
@@ -4645,7 +4650,7 @@
   {
    "id": 316,
    "master_name": "Doire mhin",
-   "population": 15000,
+   "population": 1000,
    "kind": "city",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -4660,7 +4665,7 @@
   {
    "id": 317,
    "master_name": "Àth chrom",
-   "population": 780,
+   "population": 50,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -4675,7 +4680,7 @@
   {
    "id": 318,
    "master_name": "Cnoc naomh",
-   "population": 9000,
+   "population": 600,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4690,7 +4695,7 @@
   {
    "id": 319,
    "master_name": "Cill chiar",
-   "population": 830,
+   "population": 55,
    "kind": "large village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -4705,7 +4710,7 @@
   {
    "id": 320,
    "master_name": "Baile ìseal",
-   "population": 820,
+   "population": 55,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4720,7 +4725,7 @@
   {
    "id": 321,
    "master_name": "Cnoc òg",
-   "population": 4900,
+   "population": 320,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4735,7 +4740,7 @@
   {
    "id": 322,
    "master_name": "Cnoc dhìreach",
-   "population": 830,
+   "population": 55,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4749,7 +4754,7 @@
   {
    "id": 323,
    "master_name": "Cnoc thais",
-   "population": 1100,
+   "population": 75,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4763,7 +4768,7 @@
   {
    "id": 324,
    "master_name": "Doire shean",
-   "population": 16000,
+   "population": 1100,
    "kind": "city",
    "role": "grove village with a landing",
    "culture": "dia-thirich",
@@ -4778,7 +4783,7 @@
   {
    "id": 325,
    "master_name": "Cnoc dhìreach",
-   "population": 710,
+   "population": 45,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4793,7 +4798,7 @@
   {
    "id": 326,
    "master_name": "Muileann naomh",
-   "population": 5600,
+   "population": 370,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -4808,7 +4813,7 @@
   {
    "id": 327,
    "master_name": "Muileann bheag",
-   "population": 690,
+   "population": 45,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -4822,7 +4827,7 @@
   {
    "id": 328,
    "master_name": "Seann Bhrenn",
-   "population": 7800,
+   "population": 520,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -4836,7 +4841,7 @@
   {
    "id": 329,
    "master_name": "Baile fhionn",
-   "population": 510,
+   "population": 35,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4850,7 +4855,7 @@
   {
    "id": 330,
    "master_name": "Inis àrsaidh",
-   "population": 840,
+   "population": 55,
    "kind": "large village",
    "role": "river-island village with a landing",
    "culture": "dia-thirich",
@@ -4864,7 +4869,7 @@
   {
    "id": 331,
    "master_name": "Muileann fhada",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -4879,7 +4884,7 @@
   {
    "id": 332,
    "master_name": "Ros chiar",
-   "population": 1300,
+   "population": 85,
    "kind": "large village",
    "role": "headland harbour",
    "culture": "dia-thirich",
@@ -4894,7 +4899,7 @@
   {
    "id": 333,
    "master_name": "Doire chiar",
-   "population": 11000,
+   "population": 710,
    "kind": "city",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -4909,7 +4914,7 @@
   {
    "id": 334,
    "master_name": "Baile dhearg",
-   "population": 1100,
+   "population": 75,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -4924,7 +4929,7 @@
   {
    "id": 335,
    "master_name": "Muileann àrsaidh",
-   "population": 900,
+   "population": 60,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -4939,7 +4944,7 @@
   {
    "id": 336,
    "master_name": "Achadh fhada",
-   "population": 2300,
+   "population": 160,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -4954,7 +4959,7 @@
   {
    "id": 337,
    "master_name": "Cnoc àrsaidh",
-   "population": 220,
+   "population": 15,
    "kind": "village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -4968,7 +4973,7 @@
   {
    "id": 338,
    "master_name": "Àth dhìreach",
-   "population": 1200,
+   "population": 85,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -4983,7 +4988,7 @@
   {
    "id": 339,
    "master_name": "Muileann dhìreach",
-   "population": 4900,
+   "population": 330,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -4998,7 +5003,7 @@
   {
    "id": 340,
    "master_name": "Doire dhìreach",
-   "population": 3800,
+   "population": 250,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -5013,7 +5018,7 @@
   {
    "id": 341,
    "master_name": "Muileann fhada",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -5028,7 +5033,7 @@
   {
    "id": 342,
    "master_name": "Baile ghorm",
-   "population": 1900,
+   "population": 130,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -5042,7 +5047,7 @@
   {
    "id": 343,
    "master_name": "Cnoc bhàn",
-   "population": 7200,
+   "population": 480,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5057,7 +5062,7 @@
   {
    "id": 344,
    "master_name": "Àth uaine",
-   "population": 710,
+   "population": 45,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5071,7 +5076,7 @@
   {
    "id": 346,
    "master_name": "Àth leathan",
-   "population": 310,
+   "population": 20,
    "kind": "village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5086,7 +5091,7 @@
   {
    "id": 347,
    "master_name": "Seann Dunn",
-   "population": 4000,
+   "population": 270,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -5100,7 +5105,7 @@
   {
    "id": 348,
    "master_name": "Cnoc ìseal",
-   "population": 3700,
+   "population": 250,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5115,7 +5120,7 @@
   {
    "id": 349,
    "master_name": "Àth mhòr",
-   "population": 6000,
+   "population": 400,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5129,7 +5134,7 @@
   {
    "id": 350,
    "master_name": "Achadh gheal",
-   "population": 4100,
+   "population": 280,
    "kind": "town",
    "role": "field village",
    "culture": "dia-thirich",
@@ -5144,7 +5149,7 @@
   {
    "id": 351,
    "master_name": "Ceann fhada",
-   "population": 3000,
+   "population": 200,
    "kind": "town",
    "role": "the Company's coal quay, seized by the crews and its mouth blocked with two sunk barges",
    "culture": "dia-thirich",
@@ -5160,7 +5165,7 @@
   {
    "id": 352,
    "master_name": "Cnoc dhubh",
-   "population": 4700,
+   "population": 310,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5174,7 +5179,7 @@
   {
    "id": 353,
    "master_name": "Cill ghorm",
-   "population": 460,
+   "population": 30,
    "kind": "village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -5189,7 +5194,7 @@
   {
    "id": 354,
    "master_name": "Muileann chrom",
-   "population": 12000,
+   "population": 800,
    "kind": "city",
    "role": "the heart of the Company's pits: overseers' town, weigh-house burned, the store taken at first light by Mòrag nic Iain's crews; the coal line runs from here",
    "culture": "dia-thirich",
@@ -5208,7 +5213,7 @@
   {
    "id": 355,
    "master_name": "Muileann chiar",
-   "population": 7000,
+   "population": 470,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -5223,7 +5228,7 @@
   {
    "id": 356,
    "master_name": "Muileann dhomhain",
-   "population": 3600,
+   "population": 240,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -5237,7 +5242,7 @@
   {
    "id": 357,
    "master_name": "Àth dhubh",
-   "population": 2300,
+   "population": 150,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5252,7 +5257,7 @@
   {
    "id": 358,
    "master_name": "Dùn chiar",
-   "population": 1100,
+   "population": 75,
    "kind": "large village",
    "role": "hill-fort",
    "culture": "dia-thirich",
@@ -5267,7 +5272,7 @@
   {
    "id": 359,
    "master_name": "Cnoc leathan",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5282,7 +5287,7 @@
   {
    "id": 360,
    "master_name": "Muileann ghlas",
-   "population": 2200,
+   "population": 150,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -5297,7 +5302,7 @@
   {
    "id": 361,
    "master_name": "Àth mhin",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5312,7 +5317,7 @@
   {
    "id": 362,
    "master_name": "Dùn gheal",
-   "population": 990,
+   "population": 65,
    "kind": "large village",
    "role": "hill-fort",
    "culture": "dia-thirich",
@@ -5327,7 +5332,7 @@
   {
    "id": 363,
    "master_name": "Ceann mhin",
-   "population": 8700,
+   "population": 580,
    "kind": "town",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -5341,7 +5346,7 @@
   {
    "id": 364,
    "master_name": "Cnoc chaol",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5356,7 +5361,7 @@
   {
    "id": 365,
    "master_name": "Baile Mòr mhòr",
-   "population": 16000,
+   "population": 1100,
    "kind": "city",
    "role": "great farm town",
    "culture": "dia-thirich",
@@ -5370,7 +5375,7 @@
   {
    "id": 366,
    "master_name": "Caol mhin",
-   "population": 3000,
+   "population": 200,
    "kind": "town",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -5384,7 +5389,7 @@
   {
    "id": 367,
    "master_name": "Doire fhionn",
-   "population": 1700,
+   "population": 110,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -5398,7 +5403,7 @@
   {
    "id": 368,
    "master_name": "Àth shean",
-   "population": 4800,
+   "population": 320,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5413,7 +5418,7 @@
   {
    "id": 369,
    "master_name": "Doire chaol",
-   "population": 600,
+   "population": 40,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -5428,7 +5433,7 @@
   {
    "id": 371,
    "master_name": "Inis bhàn",
-   "population": 17000,
+   "population": 1100,
    "kind": "city",
    "role": "river-island village",
    "culture": "dia-thirich",
@@ -5443,7 +5448,7 @@
   {
    "id": 372,
    "master_name": "Àth naomh",
-   "population": 2900,
+   "population": 200,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5458,7 +5463,7 @@
   {
    "id": 373,
    "master_name": "Baile ghorm",
-   "population": 2300,
+   "population": 160,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -5473,7 +5478,7 @@
   {
    "id": 374,
    "master_name": "Cnoc chiar",
-   "population": 5700,
+   "population": 380,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5488,7 +5493,7 @@
   {
    "id": 375,
    "master_name": "Baile mhin",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -5503,7 +5508,7 @@
   {
    "id": 376,
    "master_name": "Achadh fhionn",
-   "population": 790,
+   "population": 50,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -5518,7 +5523,7 @@
   {
    "id": 377,
    "master_name": "Àth mhòr",
-   "population": 2100,
+   "population": 140,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5533,7 +5538,7 @@
   {
    "id": 378,
    "master_name": "Baile thais",
-   "population": 5200,
+   "population": 350,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -5548,7 +5553,7 @@
   {
    "id": 379,
    "master_name": "Tobar dhubh",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "well village",
    "culture": "dia-thirich",
@@ -5563,7 +5568,7 @@
   {
    "id": 380,
    "master_name": "Àth dhearg",
-   "population": 1900,
+   "population": 130,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5577,7 +5582,7 @@
   {
    "id": 381,
    "master_name": "Baile chrom",
-   "population": 3600,
+   "population": 240,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -5592,7 +5597,7 @@
   {
    "id": 382,
    "master_name": "Cnoc bheag",
-   "population": 730,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5606,7 +5611,7 @@
   {
    "id": 383,
    "master_name": "Àth ìseal",
-   "population": 900,
+   "population": 60,
    "kind": "large village",
    "role": "the Company's camp of timber huts at the ford below the new workings, the first settlement made for the pit alone",
    "culture": "dia-thirich",
@@ -5622,7 +5627,7 @@
   {
    "id": 384,
    "master_name": "Baile dhìreach",
-   "population": 1600,
+   "population": 110,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -5637,7 +5642,7 @@
   {
    "id": 385,
    "master_name": "Doire bheag",
-   "population": 310,
+   "population": 20,
    "kind": "village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -5652,7 +5657,7 @@
   {
    "id": 386,
    "master_name": "Cill dhìreach",
-   "population": 1300,
+   "population": 90,
    "kind": "large village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -5666,7 +5671,7 @@
   {
    "id": 387,
    "master_name": "Baile Mòr ruadh",
-   "population": 6800,
+   "population": 450,
    "kind": "town",
    "role": "great farm town",
    "culture": "dia-thirich",
@@ -5680,7 +5685,7 @@
   {
    "id": 388,
    "master_name": "Doire gharbh",
-   "population": 5700,
+   "population": 380,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -5694,7 +5699,7 @@
   {
    "id": 389,
    "master_name": "Achadh chaol",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -5709,7 +5714,7 @@
   {
    "id": 390,
    "master_name": "Cnoc ghlas",
-   "population": 1800,
+   "population": 120,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5723,7 +5728,7 @@
   {
    "id": 391,
    "master_name": "Muileann dhearg",
-   "population": 10000,
+   "population": 670,
    "kind": "city",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -5738,7 +5743,7 @@
   {
    "id": 392,
    "master_name": "Cnoc ghorm",
-   "population": 7400,
+   "population": 490,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5753,7 +5758,7 @@
   {
    "id": 393,
    "master_name": "Àth ghlas",
-   "population": 8000,
+   "population": 530,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -5768,7 +5773,7 @@
   {
    "id": 394,
    "master_name": "Doire gharbh",
-   "population": 5600,
+   "population": 370,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -5783,7 +5788,7 @@
   {
    "id": 395,
    "master_name": "Achadh mhòr",
-   "population": 19000,
+   "population": 1300,
    "kind": "city",
    "role": "field village",
    "culture": "dia-thirich",
@@ -5797,7 +5802,7 @@
   {
    "id": 396,
    "master_name": "Baile gheal",
-   "population": 1400,
+   "population": 90,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -5811,7 +5816,7 @@
   {
    "id": 397,
    "master_name": "Ceann chaol",
-   "population": 2400,
+   "population": 400,
    "kind": "large village",
    "role": "the deep-water quay for the eastern coal; a village of forty houses become a town of four hundred",
    "culture": "dia-thirich",
@@ -5825,7 +5830,7 @@
   {
    "id": 398,
    "master_name": "Tobar dhearg",
-   "population": 10000,
+   "population": 690,
    "kind": "city",
    "role": "well village",
    "culture": "dia-thirich",
@@ -5840,7 +5845,7 @@
   {
    "id": 399,
    "master_name": "Cnoc leathan",
-   "population": 700,
+   "population": 50,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5854,7 +5859,7 @@
   {
    "id": 400,
    "master_name": "Muileann mhin",
-   "population": 1900,
+   "population": 130,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -5869,7 +5874,7 @@
   {
    "id": 401,
    "master_name": "Ceann dhubh",
-   "population": 2000,
+   "population": 130,
    "kind": "large village",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -5884,7 +5889,7 @@
   {
    "id": 402,
    "master_name": "Seann Tarr",
-   "population": 1300,
+   "population": 85,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -5898,7 +5903,7 @@
   {
    "id": 403,
    "master_name": "Tobar ghorm",
-   "population": 2900,
+   "population": 190,
    "kind": "town",
    "role": "well village",
    "culture": "dia-thirich",
@@ -5912,7 +5917,7 @@
   {
    "id": 404,
    "master_name": "Seann Toll",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -5927,7 +5932,7 @@
   {
    "id": 405,
    "master_name": "Achadh naomh",
-   "population": 11000,
+   "population": 750,
    "kind": "city",
    "role": "field village",
    "culture": "dia-thirich",
@@ -5941,7 +5946,7 @@
   {
    "id": 406,
    "master_name": "Cnoc naomh",
-   "population": 3500,
+   "population": 240,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -5956,7 +5961,7 @@
   {
    "id": 407,
    "master_name": "Cill dhearg",
-   "population": 790,
+   "population": 55,
    "kind": "large village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -5971,7 +5976,7 @@
   {
    "id": 408,
    "master_name": "Tobar dhearg",
-   "population": 950,
+   "population": 60,
    "kind": "large village",
    "role": "well village",
    "culture": "dia-thirich",
@@ -5986,7 +5991,7 @@
   {
    "id": 409,
    "master_name": "Baile shean",
-   "population": 440,
+   "population": 30,
    "kind": "village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6001,7 +6006,7 @@
   {
    "id": 410,
    "master_name": "Àth chaol",
-   "population": 830,
+   "population": 55,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6016,7 +6021,7 @@
   {
    "id": 411,
    "master_name": "Achadh shean",
-   "population": 11000,
+   "population": 740,
    "kind": "city",
    "role": "field village",
    "culture": "dia-thirich",
@@ -6030,7 +6035,7 @@
   {
    "id": 412,
    "master_name": "Àth chrom",
-   "population": 1100,
+   "population": 70,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6045,7 +6050,7 @@
   {
    "id": 413,
    "master_name": "Baile leathan",
-   "population": 4700,
+   "population": 310,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6060,7 +6065,7 @@
   {
    "id": 414,
    "master_name": "Baile fhiadhaich",
-   "population": 1800,
+   "population": 120,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6075,7 +6080,7 @@
   {
    "id": 415,
    "master_name": "Cnoc chaol",
-   "population": 290,
+   "population": 20,
    "kind": "village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6090,7 +6095,7 @@
   {
    "id": 416,
    "master_name": "Achadh fhiadhaich",
-   "population": 4500,
+   "population": 300,
    "kind": "town",
    "role": "field village",
    "culture": "dia-thirich",
@@ -6105,7 +6110,7 @@
   {
    "id": 417,
    "master_name": "Inis ìseal",
-   "population": 4900,
+   "population": 330,
    "kind": "town",
    "role": "river-island village",
    "culture": "dia-thirich",
@@ -6120,7 +6125,7 @@
   {
    "id": 418,
    "master_name": "Cuan chrom",
-   "population": 1900,
+   "population": 120,
    "kind": "large village",
    "role": "harbour",
    "culture": "dia-thirich",
@@ -6135,7 +6140,7 @@
   {
    "id": 419,
    "master_name": "Muileann chiar",
-   "population": 3000,
+   "population": 89,
    "kind": "town",
    "role": "the silver guild's town under the Silver Compact; rose for the council and escorted the Company's agents to the coast",
    "culture": "dia-thirich",
@@ -6151,7 +6156,7 @@
   {
    "id": 420,
    "master_name": "Baile àrsaidh",
-   "population": 9000,
+   "population": 600,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6166,7 +6171,7 @@
   {
    "id": 421,
    "master_name": "Baile mhòr",
-   "population": 2100,
+   "population": 140,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6180,7 +6185,7 @@
   {
    "id": 422,
    "master_name": "Dùn dhearg",
-   "population": 12000,
+   "population": 770,
    "kind": "city",
    "role": "hill-fort",
    "culture": "dia-thirich",
@@ -6194,7 +6199,7 @@
   {
    "id": 424,
    "master_name": "Cnoc shean",
-   "population": 9600,
+   "population": 640,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6208,7 +6213,7 @@
   {
    "id": 425,
    "master_name": "Àth ghorm",
-   "population": 1600,
+   "population": 110,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6222,7 +6227,7 @@
   {
    "id": 426,
    "master_name": "Baile uaine",
-   "population": 840,
+   "population": 55,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6237,7 +6242,7 @@
   {
    "id": 427,
    "master_name": "Baile shean",
-   "population": 830,
+   "population": 55,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6252,7 +6257,7 @@
   {
    "id": 428,
    "master_name": "Baile fhada",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6267,7 +6272,7 @@
   {
    "id": 429,
    "master_name": "Muileann leathan",
-   "population": 810,
+   "population": 55,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -6281,7 +6286,7 @@
   {
    "id": 430,
    "master_name": "Muileann bheag",
-   "population": 6200,
+   "population": 410,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -6296,7 +6301,7 @@
   {
    "id": 431,
    "master_name": "Seann Skell",
-   "population": 26000,
+   "population": 1700,
    "kind": "city",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -6311,7 +6316,7 @@
   {
    "id": 432,
    "master_name": "Cnoc dhìreach",
-   "population": 560,
+   "population": 40,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6325,7 +6330,7 @@
   {
    "id": 433,
    "master_name": "Cnoc àrsaidh",
-   "population": 7600,
+   "population": 510,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6340,7 +6345,7 @@
   {
    "id": 434,
    "master_name": "Muileann chrom",
-   "population": 1900,
+   "population": 130,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -6355,7 +6360,7 @@
   {
    "id": 435,
    "master_name": "Tobar fhiadhaich",
-   "population": 7400,
+   "population": 490,
    "kind": "town",
    "role": "well village",
    "culture": "dia-thirich",
@@ -6370,7 +6375,7 @@
   {
    "id": 436,
    "master_name": "Àth mhòr",
-   "population": 5500,
+   "population": 370,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6385,7 +6390,7 @@
   {
    "id": 437,
    "master_name": "Baile bheag",
-   "population": 880,
+   "population": 60,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6400,7 +6405,7 @@
   {
    "id": 438,
    "master_name": "Tobar ghorm",
-   "population": 11000,
+   "population": 760,
    "kind": "city",
    "role": "well village",
    "culture": "dia-thirich",
@@ -6415,7 +6420,7 @@
   {
    "id": 439,
    "master_name": "Doire chaol",
-   "population": 870,
+   "population": 60,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -6430,7 +6435,7 @@
   {
    "id": 440,
    "master_name": "Seann Bhrenn",
-   "population": 3900,
+   "population": 260,
    "kind": "town",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -6445,7 +6450,7 @@
   {
    "id": 441,
    "master_name": "Àth leathan",
-   "population": 840,
+   "population": 55,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6459,7 +6464,7 @@
   {
    "id": 442,
    "master_name": "Doire mhòr",
-   "population": 4400,
+   "population": 290,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -6473,7 +6478,7 @@
   {
    "id": 443,
    "master_name": "Caol gharbh",
-   "population": 12000,
+   "population": 800,
    "kind": "city",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -6488,7 +6493,7 @@
   {
    "id": 444,
    "master_name": "Baile bheag",
-   "population": 850,
+   "population": 55,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6503,7 +6508,7 @@
   {
    "id": 445,
    "master_name": "Àth dhearg",
-   "population": 1300,
+   "population": 85,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6518,7 +6523,7 @@
   {
    "id": 446,
    "master_name": "Baile shean",
-   "population": 1300,
+   "population": 85,
    "kind": "large village",
    "role": "farm town with a landing",
    "culture": "dia-thirich",
@@ -6532,7 +6537,7 @@
   {
    "id": 447,
    "master_name": "Àth fhionn",
-   "population": 270,
+   "population": 20,
    "kind": "village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6546,7 +6551,7 @@
   {
    "id": 448,
    "master_name": "Àth ghlas",
-   "population": 810,
+   "population": 55,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6561,7 +6566,7 @@
   {
    "id": 449,
    "master_name": "Achadh chaol",
-   "population": 6500,
+   "population": 430,
    "kind": "town",
    "role": "field village",
    "culture": "dia-thirich",
@@ -6576,7 +6581,7 @@
   {
    "id": 450,
    "master_name": "Ceann òg",
-   "population": 1500,
+   "population": 100,
    "kind": "large village",
    "role": "headland village",
    "culture": "dia-thirich",
@@ -6591,7 +6596,7 @@
   {
    "id": 451,
    "master_name": "Àth chrom",
-   "population": 810,
+   "population": 55,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6605,7 +6610,7 @@
   {
    "id": 452,
    "master_name": "Cnoc gheal",
-   "population": 420,
+   "population": 30,
    "kind": "village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6620,7 +6625,7 @@
   {
    "id": 453,
    "master_name": "Achadh mhòr",
-   "population": 2900,
+   "population": 190,
    "kind": "town",
    "role": "field village",
    "culture": "dia-thirich",
@@ -6635,7 +6640,7 @@
   {
    "id": 454,
    "master_name": "Achadh dhìreach",
-   "population": 350,
+   "population": 25,
    "kind": "village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -6650,7 +6655,7 @@
   {
    "id": 455,
    "master_name": "Muileann àrsaidh",
-   "population": 820,
+   "population": 55,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -6665,7 +6670,7 @@
   {
    "id": 456,
    "master_name": "Cnoc uaine",
-   "population": 7500,
+   "population": 500,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6679,7 +6684,7 @@
   {
    "id": 457,
    "master_name": "Ceann chiar",
-   "population": 2800,
+   "population": 180,
    "kind": "town",
    "role": "headland village with a landing",
    "culture": "dia-thirich",
@@ -6693,7 +6698,7 @@
   {
    "id": 458,
    "master_name": "Muileann dhearg",
-   "population": 1300,
+   "population": 85,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -6708,7 +6713,7 @@
   {
    "id": 459,
    "master_name": "Cnoc òg",
-   "population": 1300,
+   "population": 90,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6723,7 +6728,7 @@
   {
    "id": 460,
    "master_name": "Baile bhàn",
-   "population": 2300,
+   "population": 150,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6738,7 +6743,7 @@
   {
    "id": 461,
    "master_name": "Cill dhìreach",
-   "population": 11000,
+   "population": 730,
    "kind": "city",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -6753,7 +6758,7 @@
   {
    "id": 462,
    "master_name": "Cnoc dhìreach",
-   "population": 8500,
+   "population": 560,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6767,7 +6772,7 @@
   {
    "id": 463,
    "master_name": "Àth ghlas",
-   "population": 7400,
+   "population": 500,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6782,7 +6787,7 @@
   {
    "id": 464,
    "master_name": "Cnoc thais",
-   "population": 5200,
+   "population": 340,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6796,7 +6801,7 @@
   {
    "id": 465,
    "master_name": "Seann Mhorn",
-   "population": 1300,
+   "population": 90,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -6810,7 +6815,7 @@
   {
    "id": 466,
    "master_name": "Muileann dhomhain",
-   "population": 9200,
+   "population": 620,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -6824,7 +6829,7 @@
   {
    "id": 467,
    "master_name": "Achadh gharbh",
-   "population": 430,
+   "population": 30,
    "kind": "village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -6839,7 +6844,7 @@
   {
    "id": 468,
    "master_name": "Cill chaol",
-   "population": 600,
+   "population": 40,
    "kind": "large village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -6853,7 +6858,7 @@
   {
    "id": 469,
    "master_name": "Achadh mhin",
-   "population": 840,
+   "population": 55,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -6868,7 +6873,7 @@
   {
    "id": 470,
    "master_name": "Baile dhubh",
-   "population": 540,
+   "population": 35,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -6882,7 +6887,7 @@
   {
    "id": 471,
    "master_name": "Dùn dhubh",
-   "population": 1300,
+   "population": 85,
    "kind": "large village",
    "role": "hill-fort",
    "culture": "dia-thirich",
@@ -6897,7 +6902,7 @@
   {
    "id": 472,
    "master_name": "Àth fhionn",
-   "population": 2000,
+   "population": 140,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -6912,7 +6917,7 @@
   {
    "id": 473,
    "master_name": "Cnoc dhubh",
-   "population": 2600,
+   "population": 180,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -6926,7 +6931,7 @@
   {
    "id": 474,
    "master_name": "Muileann dhubh",
-   "population": 1500,
+   "population": 100,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -6941,7 +6946,7 @@
   {
    "id": 475,
    "master_name": "Caol bheag",
-   "population": 19000,
+   "population": 1300,
    "kind": "city",
    "role": "strait harbour",
    "culture": "dia-thirich",
@@ -6956,7 +6961,7 @@
   {
    "id": 476,
    "master_name": "Cathair gheal",
-   "population": 4000,
+   "population": 270,
    "kind": "town",
    "role": "the human market town of the concession, with its magistrate's stone hall and chapel; it kept its gates and militia out of the war",
    "culture": "humans",
@@ -6974,7 +6979,7 @@
   {
    "id": 477,
    "master_name": "Muileann bheag",
-   "population": 6600,
+   "population": 440,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -6989,7 +6994,7 @@
   {
    "id": 479,
    "master_name": "Baile dhomhain",
-   "population": 1000,
+   "population": 70,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -7004,7 +7009,7 @@
   {
    "id": 480,
    "master_name": "Baile ghlas",
-   "population": 1100,
+   "population": 70,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -7018,7 +7023,7 @@
   {
    "id": 481,
    "master_name": "Baile dhìreach",
-   "population": 880,
+   "population": 60,
    "kind": "large village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -7033,7 +7038,7 @@
   {
    "id": 482,
    "master_name": "Cnoc gheal",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -7048,7 +7053,7 @@
   {
    "id": 483,
    "master_name": "Achadh ghlas",
-   "population": 2200,
+   "population": 150,
    "kind": "large village",
    "role": "field village",
    "culture": "dia-thirich",
@@ -7063,7 +7068,7 @@
   {
    "id": 484,
    "master_name": "Baile Mòr àrsaidh",
-   "population": 2700,
+   "population": 180,
    "kind": "town",
    "role": "great farm town",
    "culture": "dia-thirich",
@@ -7078,7 +7083,7 @@
   {
    "id": 485,
    "master_name": "Baile dhìreach",
-   "population": 4400,
+   "population": 290,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -7092,7 +7097,7 @@
   {
    "id": 486,
    "master_name": "Doire dhubh",
-   "population": 2300,
+   "population": 150,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -7107,7 +7112,7 @@
   {
    "id": 487,
    "master_name": "Àth dhomhain",
-   "population": 5100,
+   "population": 340,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -7122,7 +7127,7 @@
   {
    "id": 488,
    "master_name": "Cill gharbh",
-   "population": 880,
+   "population": 60,
    "kind": "large village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -7137,7 +7142,7 @@
   {
    "id": 489,
    "master_name": "Seann Skell",
-   "population": 30000,
+   "population": 2000,
    "kind": "city",
    "role": "the hawk company mustered here and held the road from Ros bheag to the north-west",
    "culture": "dia-thirich",
@@ -7152,7 +7157,7 @@
   {
    "id": 490,
    "master_name": "Doire fhiadhaich",
-   "population": 3100,
+   "population": 210,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -7166,7 +7171,7 @@
   {
    "id": 491,
    "master_name": "Muileann dhearg",
-   "population": 6300,
+   "population": 420,
    "kind": "town",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -7181,7 +7186,7 @@
   {
    "id": 492,
    "master_name": "Àth bheag",
-   "population": 9100,
+   "population": 610,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -7195,7 +7200,7 @@
   {
    "id": 493,
    "master_name": "Muileann gheal",
-   "population": 310,
+   "population": 20,
    "kind": "village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -7210,7 +7215,7 @@
   {
    "id": 494,
    "master_name": "Doire chaol",
-   "population": 2600,
+   "population": 180,
    "kind": "town",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -7225,7 +7230,7 @@
   {
    "id": 495,
    "master_name": "Baile bhàn",
-   "population": 4300,
+   "population": 280,
    "kind": "town",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -7240,7 +7245,7 @@
   {
    "id": 496,
    "master_name": "Àth dhìreach",
-   "population": 1400,
+   "population": 90,
    "kind": "large village",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -7255,7 +7260,7 @@
   {
    "id": 497,
    "master_name": "Seann Bhral",
-   "population": 1800,
+   "population": 120,
    "kind": "large village",
    "role": "harbour on an Old Ones' site",
    "culture": "dia-thirich",
@@ -7270,7 +7275,7 @@
   {
    "id": 498,
    "master_name": "Doire bhàn",
-   "population": 830,
+   "population": 55,
    "kind": "large village",
    "role": "grove village",
    "culture": "dia-thirich",
@@ -7285,7 +7290,7 @@
   {
    "id": 499,
    "master_name": "Cill thais",
-   "population": 1200,
+   "population": 80,
    "kind": "large village",
    "role": "chapel village",
    "culture": "dia-thirich",
@@ -7300,7 +7305,7 @@
   {
    "id": 500,
    "master_name": "Àth fhiadhaich",
-   "population": 4700,
+   "population": 310,
    "kind": "town",
    "role": "ford village",
    "culture": "dia-thirich",
@@ -7315,7 +7320,7 @@
   {
    "id": 501,
    "master_name": "Cnoc gharbh",
-   "population": 2100,
+   "population": 140,
    "kind": "large village",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -7330,7 +7335,7 @@
   {
    "id": 502,
    "master_name": "Muileann bhàn",
-   "population": 16000,
+   "population": 1000,
    "kind": "city",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -7344,7 +7349,7 @@
   {
    "id": 503,
    "master_name": "Baile dhubh",
-   "population": 310,
+   "population": 20,
    "kind": "village",
    "role": "farm town",
    "culture": "dia-thirich",
@@ -7359,7 +7364,7 @@
   {
    "id": 504,
    "master_name": "Cnoc bheag",
-   "population": 5600,
+   "population": 370,
    "kind": "town",
    "role": "hill village",
    "culture": "dia-thirich",
@@ -7374,7 +7379,7 @@
   {
    "id": 505,
    "master_name": "Muileann ruadh",
-   "population": 1900,
+   "population": 120,
    "kind": "large village",
    "role": "mill village",
    "culture": "dia-thirich",
@@ -7545,7 +7550,7 @@
    "near": {
     "burg": 280
    },
-   "population": 800,
+   "population": 55,
    "kind": "mining camp",
    "role": "the Company's working opened round Doire mhòr's fields; the gallery that killed eleven; the coughing sickness",
    "culture": "dia-thirich",

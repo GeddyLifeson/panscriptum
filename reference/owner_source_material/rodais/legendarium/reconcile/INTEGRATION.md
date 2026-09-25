@@ -73,7 +73,7 @@ where two of them, or a proposal and the rest of the record, disagreed.
    at inns that keep a pump, with the wartime tithe taken at the pump.
 7. **The Crown's dues were described twice.** Economy had a "sale-tithe" fixed in 2023 out of the dubhan war
    tithe and a "head-tax" of eighteen in the hundred of a reckoned wage (V-0036a, VI-0131a, G § V); state had a
-   head-due and a market-due set in 1933 (V-0015a), eighteen purses per hundred thousand heads, with the dubhan
+   head-due and a market-due set in 1933 (V-0015a), eighteen purses per five thousand heads, with the dubhan
    tithe on its own line (H § IV, VI-0154a). State's frame was kept because it is what the map's pollTax/salesTax
    arithmetic gives and it keeps the dubhan tithe apart. Economy's two events now fit inside it: V-0036a is the
    head-due first collected on the 1936 census, VI-0131a is the Treasury fixing the market-due at seventeen in the

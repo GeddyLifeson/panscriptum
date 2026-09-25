@@ -59,7 +59,8 @@ the regiments' and fleets' (record 14), each set whole in the voice of the islan
 of those same notes are set aside by its "skip" list, so the notes as they stand are the only ones checked.
 
 Last comes the place (reconcile/place.json): the distance scale (0.14 miles to the unit, an island about the size
-of Northern Ireland) and the map's frame in the Atlantic west of the Hebrides; its "skip" list sets aside the
+of Northern Ireland), the population scale (50 people to the unit, some 1.8 million, and the regiments cut with
+them; ../eras/POP_LOG.md) and the map's frame in the Atlantic west of the Hebrides; its "skip" list sets aside the
 earlier layers' scale and frame, and its temperatures stay those computed for the climate layer's frame.
 
 Beside the edits it derives what follows from them: a route regrouped to "roads" has its saved
@@ -466,6 +467,9 @@ def world_digest(lines):
     cell_prov = cells(lines[L_CELL_PROVINCE])
     cell_burg = cells(lines[L_CELL_BURG])
     state = J[L_STATES][1]
+    # a burg's people: Azgaar's units times the map's population scale (50 people to the unit; place.json)
+    units = json.loads(lines[L_SETTINGS])['units']['population']
+    rate = units['scale'] * units.get('urbanization', {}).get('rate', 1)
     burgs = [b for b in J[L_BURGS] if isinstance(b, dict) and b.get('i') and not b.get('removed')]
     by_id = {b['i']: b for b in burgs}
     w = {'state': {'name': state['name'], 'fullName': state['fullName'],
@@ -477,7 +481,7 @@ def world_digest(lines):
                       for p in J[L_PROVINCES] if isinstance(p, dict)]
     w['burgs'] = [{'id': b['i'], 'name': b['name'], 'x': b['x'], 'y': b['y'], 'culture': cult[b['culture']],
                    'province': prov.get(int(cell_prov[b['cell']]), ''), 'faith': rel[int(cell_rel[b['cell']])],
-                   'population': int(round(b['population'] * 1000)), 'port': bool(b.get('port')),
+                   'population': int(round(b['population'] * rate)), 'port': bool(b.get('port')),
                    'capital': bool(b.get('capital')), 'citadel': bool(b.get('citadel')), 'walls': bool(b.get('walls')),
                    'temple': bool(b.get('temple')), 'group': b['group']} for b in burgs]
     w['rivers'] = [{'id': r['i'], 'name': r['name'], 'length': int(round(r.get('length', 0))), 'type': r.get('type')}

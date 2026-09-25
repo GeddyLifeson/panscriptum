@@ -50,11 +50,11 @@ The Treasury reckons in purses, *sporain*, of the realm's coin. Its roll for the
 
 | Due | Rate | Yield in the present year |
 |---|---|---|
-| Head-due (*cìs-cinn*) | eighteen purses on every hundred thousand heads | 6,375 purses |
+| Head-due (*cìs-cinn*) | eighteen purses on every five thousand heads | 6,375 purses |
 | Market-due (*cìs-margaidh*) | seventeen in the hundred of the price | 3,193 purses |
 | **The roll** | | **9,568 purses** |
 
-Two parts in three of the Crown's money come from heads and one from trade. The kingdom counted 35,415,000 heads for the head-due in the present year. The head-due has stood at its rate since it was first collected ({{date:V-0036a}}), and the market-due at seventeen in the hundred since the Treasury fixed it after the Long War ({{date:VI-0131a}}). The windy coast pays neither due, and the roll carries no line for it.
+Two parts in three of the Crown's money come from heads and one from trade. The kingdom counted 1,770,800 heads for the head-due in the present year. The head-due has stood at its rate since it was first collected ({{date:V-0036a}}), and the market-due at seventeen in the hundred since the Treasury fixed it after the Long War ({{date:VI-0131a}}). The windy coast pays neither due, and the roll carries no line for it.
 
 ### V. The Windy Coast
 
@@ -62,7 +62,7 @@ In the far north-west, beyond the Tuathaich shires and past the northern edge of
 
 **Why no one holds it.** The humans' surveyors stopped at the edge of the great moss, which no chain can cross ({{date:IV-0246a}}), and when the council drew the shires on the humans' lines it drew nothing where there were no lines. Its minute says only that the windy coast "is not in the survey" ({{date:V-0014a}}). No council since has taken it in. It has no coal, no field and no harbour the kingdom has any use for. A shire there would need a maor, and a maor there would need the fleet to keep the raiders' bays, and when the raiders came to Cathair gheal the council, asked twice, sent no help ({{date:V-0085}}). The Moot claims no land of its own and has never asked for it.
 
-**Who lives there.** Tuathaich families keep the windy coast: sealers, fowlers, and herders on the moor's edge, in no town. The kingdom has never counted them. The Moot's tallies put them near nine thousand, a figure the royal clerks do not accept. No maor, justice or census clerk has gone there, and they pay no due.
+**Who lives there.** Tuathaich families keep the windy coast: sealers, fowlers, and herders on the moor's edge, in no town. The kingdom has never counted them. The Moot's tallies put them near four hundred and fifty, a figure the royal clerks do not accept. No maor, justice or census clerk has gone there, and they pay no due.
 
 **In the Long War.** When Cnoc thais fell, some of its holdouts went on past the hills and out onto the windy coast, and the regiments did not follow them beyond the shire line ({{date:VI-0098a}}). The open record of the war names the kingdom's enemy only as those "of no shire". The holdouts who came down to the seventh regiment's posts after Muileann ghlas ({{date:VI-0117}}) came from the hills; whether any came back from the coast, no roll says.
 
@@ -72,11 +72,11 @@ The land of Dia-thìr, with its islands, is some 5,340 square miles, of which th
 
 | People | Towns | Share of the island's land | In the towns | In the country |
 |---|---|---|---|---|
-| Dia-thìrich | 441 | some eighty-five parts in a hundred (about 4,520 square miles) | 4,411,000 | 27,224,000 |
-| Tuathaich | 64 | some fifteen parts in a hundred (about 825 square miles), of which the windy coast is nearly two | 543,000 | 3,237,000 within the shires; the windy coast uncounted |
+| Dia-thìrich | 441 | some eighty-five parts in a hundred (about 4,520 square miles) | 220,600 | 1,361,200 |
+| Tuathaich | 64 | some fifteen parts in a hundred (about 825 square miles), of which the windy coast is nearly two | 27,200 | 161,800 within the shires; the windy coast uncounted |
 | Seann-Dhaoine | none | none | — | — |
 
-The figures are the kingdom's count for the present year, on which the head-due is laid. The Dia-thìrich country is the capital's shire and every shire of the south, the east and the centre. The Tuathaich country is the north and north-west, and its middle lies in the shire of Cnoc ghorm. Together the two peoples number some 35,415,000 within the shires, one in seven of them in a town.
+The figures are the kingdom's count for the present year, on which the head-due is laid. The Dia-thìrich country is the capital's shire and every shire of the south, the east and the centre. The Tuathaich country is the north and north-west, and its middle lies in the shire of Cnoc ghorm. Together the two peoples number some 1,770,800 within the shires, one in seven of them in a town.
 
 ### VII. The Table of Shires
 

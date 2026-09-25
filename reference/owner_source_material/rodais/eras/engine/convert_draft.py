@@ -62,6 +62,7 @@ class Master:
         self.burg_province = {i: self.cell_province[b['cell']] for i, b in self.burgs.items()}
         self.cell_burg = {b['cell']: i for i, b in self.burgs.items()}
         self.scale = self.options['units']['distance']['scale']
+        self.rate = self.options['units']['population']['scale']     # people to Azgaar's population unit (50)
         xs = [b['x'] for b in self.burgs.values()]
         ys = [b['y'] for b in self.burgs.values()]
         self.bbox = (min(xs), min(ys), max(xs), max(ys))    # the island, by its burgs
@@ -255,6 +256,8 @@ class Converter:
         self.K, self.n, self.M, self.N, self.prose = K, NUM[K], master, names, prose
         self.d = json.load(open(os.path.join(DRAFTS, 'age_%s.json' % K), encoding='utf-8'))
         assert self.d.get('schema') == 'era-spec-draft/1', 'age %s: schema %s' % (K, self.d.get('schema'))
+        # the drafts give people; the kinds and town works below are read at the sizes they were set for
+        self.kind_scale = self.d.get('population_scale', {}).get('kind_scale', 1.0)
         self.log = defaultdict(list)          # section -> [lines]
         self.counts = Counter()
         self.spec = {}
@@ -585,11 +588,11 @@ class Converter:
             nm = b.get('era_name') or b['master_name']
             if nm != mb['name']:
                 e['name'] = nm
-            pop = round(max(b['population'], 1) / 1000.0, 3)
-            if abs(pop - mb.get('population', 0)) > 0.0005:
+            pop = round(max(b['population'], 1) / float(M.rate), 3)
+            if abs(b['population'] - mb.get('population', 0) * M.rate) > 0.5:       # more than the rounding to a person
                 e['population'] = pop
             if b['id'] not in capitals:
-                g = group_for(b['kind'], b['population'])
+                g = group_for(b['kind'], b['population'] / self.kind_scale)
                 if g != mb.get('group'):
                     e['group'] = g
             feats = self.features(b, mb)
@@ -625,7 +628,8 @@ class Converter:
             pid = self.place_ids[nb['key']]
             nm = self.name(nb, 'new burg %s' % nb['key'])
             a = {'key': nb['key'].replace('-', '_'), 'id': pid, 'name': nm, 'cell': nb['cell'],
-                 'population': round(max(nb['population'], 1) / 1000.0, 3), 'group': group_for(nb['kind'], nb['population']),
+                 'population': round(max(nb['population'], 1) / float(M.rate), 3),
+                 'group': group_for(nb['kind'], nb['population'] / self.kind_scale),
                  'note': self.pnote(nb, prose_keys=('role', 'reason'))}
             if nb['cell'] in M.cell_burg:
                 raise ValueError('new burg %s: cell %d holds master burg %d' % (nb['key'], nb['cell'], M.cell_burg[nb['cell']]))
@@ -655,7 +659,7 @@ class Converter:
             want = {k: int(k in f) for k in ('citadel', 'walls', 'temple')}
         elif b.get('walls'):
             want = {'walls': 1}
-        elif self.K != 'VII' and b['population'] < 1000:
+        elif self.K != 'VII' and b['population'] / self.kind_scale < 1000:
             want = {k: 0 for k in keys}
         else:
             return None
@@ -1025,7 +1029,7 @@ class Converter:
         if self.K != 'VII':
             self.note('map', 'the master\'s journey (%s) is later than this age; dropped' % ', '.join(j.get('name', '?') for j in M.journeys))
             master_pop = sum(b.get('population', 0) for b in M.burgs.values())
-            era_pop = (sum(b['population'] for b in d['burgs']) + sum(nb['population'] for nb in d['new_burgs'])) / 1000.0
+            era_pop = (sum(b['population'] for b in d['burgs']) + sum(nb['population'] for nb in d['new_burgs'])) / float(M.rate)
             scale = round(max(0.002, min(1.0, era_pop / master_pop)), 4)
             self.spec['rural_population'] = {'scale': scale}
             self.note('map', 'rural population scaled by %.4f (the era\'s town population over the master\'s)' % scale)

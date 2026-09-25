@@ -193,7 +193,7 @@ Catrìona and Dùghall joined their hosts against him, and on {{date:III-0110}},
 
 Three years later she did the deed she is remembered for. With the vein-house she fixed it in law that no claimant, house or king might withhold the measured handful from any lawful hearth. This was the ruling of the hearth, the first law in the record written to bind the custodians themselves. To Seann Warr she granted the right to keep its own gates and tolls, in memory of its standing aside, and had the grant cut over the landward gate. When she died in {{year:III-0116}} the houses swore to her son Lachlann mac Iain in a single day, and the record remarks on it.
 
-In {{year:III-0117}} Seònaid nic Coinnich, a clerk of the late queen's household, wrote the history of the war from the custody-book and from the mouths of those who had fought. It is the oldest history on Dia-thìr told as one tale from end to end, and every later history of the island descends from it, this book among them. That same year a spotted fever killed some three hundred at Inis chrom. The Fianna of the Stone nursed the sick, and many of them died of it, and after that the town was the Stone's for good.
+In {{year:III-0117}} Seònaid nic Coinnich, a clerk of the late queen's household, wrote the history of the war from the custody-book and from the mouths of those who had fought. It is the oldest history on Dia-thìr told as one tale from end to end, and every later history of the island descends from it, this book among them. That same year a spotted fever killed some forty at Inis chrom. The Fianna of the Stone nursed the sick, and many of them died of it, and after that the town was the Stone's for good.
 
 ## X. Of Manannan's Mist, and the Crown Joined to the Vein
 

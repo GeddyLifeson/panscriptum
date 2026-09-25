@@ -118,16 +118,16 @@ towns on the map today stand on the sea or on the rivers that run down to it, an
 
 | Town | Shire | Faith (order) | Population |
 |---|---|---|---|
-| {{place:burg:489}} | Seann Skell | An Creideamh Sean (Òrd Mhanannain) | 74,120 |
-| {{place:burg:431}} | Seann Skell | An Creideamh Sean (Òrd Bhrìde) | 57,907 |
-| {{place:burg:27}} | Ros dhomhain | An Creideamh Sean (Òrd Mhacha) | 51,589 |
-| {{place:burg:110}} | Seann Bhral | Na Seann Spioradan | 49,681 |
-| {{place:burg:20}} | Cnoc bheag | An Creideamh Sean (Òrd an t-Seabhaig) | 49,661 |
-| {{place:burg:23}} | Cathair mhòr | An Creideamh Sean (Òrd Mhacha) | 49,298 |
-| {{place:burg:475}} | Caol bheag | An Creideamh Sean (Scoiltean nan Draoidhean) | 42,649 |
-| {{place:burg:395}} | Achadh mhòr | Na Seann Spioradan | 42,136 |
+| {{place:burg:489}} | Seann Skell | An Creideamh Sean (Òrd Mhanannain) | 3,706 |
+| {{place:burg:431}} | Seann Skell | An Creideamh Sean (Òrd Bhrìde) | 2,895 |
+| {{place:burg:27}} | Ros dhomhain | An Creideamh Sean (Òrd Mhacha) | 2,579 |
+| {{place:burg:110}} | Seann Bhral | Na Seann Spioradan | 2,484 |
+| {{place:burg:20}} | Cnoc bheag | An Creideamh Sean (Òrd an t-Seabhaig) | 2,483 |
+| {{place:burg:23}} | Cathair mhòr | An Creideamh Sean (Òrd Mhacha) | 2,465 |
+| {{place:burg:475}} | Caol bheag | An Creideamh Sean (Scoiltean nan Draoidhean) | 2,132 |
+| {{place:burg:395}} | Achadh mhòr | Na Seann Spioradan | 2,107 |
 
-The capital itself is not among them. Cathair dhearg is counted at 10,274; its harbour, Ros
+The capital itself is not among them. Cathair dhearg is counted at 514; its harbour, Ros
 dhomhain, is five times its size.
 
 **The departed.** Part of the Dia-thìrich people is not on Dia-thìr. Land was found across the water
@@ -173,7 +173,7 @@ timber huts at Àth ìseal was the first settlement on the island raised for the
 ({{date:IV-0077}}); Baile dhomhain was laid out on a grid by a Company surveyor, the first Dia-thìreach
 town drawn on paper before it was built ({{date:IV-0087}}); the camp at Achadh dhomhain was built
 of spoil ({{date:IV-0144}}). Dia-thìreach hands worked the camps and human officers ruled them, and the
-record of them is kept in two tongues that seldom agree: the Mission counts four hundred and six
+record of them is kept in two tongues that seldom agree: the Mission counts twenty-seven
 dead of the spotted pox, and the custodians count more, and write the difference in the margin of
 the Mission's list ({{date:IV-0096}}). Human families lived on Dia-thìr as well as human officers:
 upland pasture in the north-west, around Muileann àrsaidh, was granted for human families who would
@@ -209,15 +209,15 @@ What the Tuathaich call themselves in their own speech the chronicles do not say
 is the kingdom's name for them.
 
 **Their towns.** The kingdom's map counts sixty-four Tuathaich towns, all in the north and north-west, with
-some 543,000 people in them. The Dia-thìrich hold the other 441. The Tuathaich country is some fifteen parts in a hundred of the island's land, the windy coast of the far north-west among it, and the Dia-thìrich country the other eighty-five (Appendix H). The largest Tuathaich towns are these:
+some 27,200 people in them. The Dia-thìrich hold the other 441. The Tuathaich country is some fifteen parts in a hundred of the island's land, the windy coast of the far north-west among it, and the Dia-thìrich country the other eighty-five (Appendix H). The largest Tuathaich towns are these:
 
 | Town | Shire | Faith | Population |
 |---|---|---|---|
-| {{place:burg:95}} | Caol mhòr | An Eaglais | 42,002 |
-| {{place:burg:209}} | Doire ghlas | An Eaglais (Eaglais nan Tuathach) | 40,740 |
-| {{place:burg:143}} | Ceann mhòr | An Eaglais | 32,420 |
-| {{place:burg:305}} | Baile chrom | An Eaglais (the vigil of the Grey Night) | 27,319 |
-| {{place:burg:142}} | Cnoc ghorm | An Eaglais | 25,112 |
+| {{place:burg:95}} | Caol mhòr | An Eaglais | 2,100 |
+| {{place:burg:209}} | Doire ghlas | An Eaglais (Eaglais nan Tuathach) | 2,037 |
+| {{place:burg:143}} | Ceann mhòr | An Eaglais | 1,621 |
+| {{place:burg:305}} | Baile chrom | An Eaglais (the vigil of the Grey Night) | 1,366 |
+| {{place:burg:142}} | Cnoc ghorm | An Eaglais | 1,256 |
 
 Every Tuathaich town but one bears a Dia-thìris name, and most of them were Dia-thìreach towns before the
 Severance; the north-west had been thinly held since the dearth on that shore in the Age of

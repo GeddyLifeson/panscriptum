@@ -52,7 +52,7 @@ Counts: diplomacy: "kin (a kindred of the hill-folk)" -> Friendly 1; diplomacy: 
 **map**
 
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
-- rural population scaled by 0.0020 (the era's town population over the master's)
+- rural population scaled by 0.0102 (the era's town population over the master's)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
 - draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
 
@@ -138,7 +138,7 @@ Counts: diplomacy: "none recorded; the handful is burned in " -> Neutral 1; dipl
 **map**
 
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
-- rural population scaled by 0.0031 (the era's town population over the master's)
+- rural population scaled by 0.0628 (the era's town population over the master's)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
 - draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
 
@@ -221,7 +221,7 @@ Counts: diplomacy: "the division of keeping" -> Neutral 1; diplomacy: "tributary
 **map**
 
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
-- rural population scaled by 0.0296 (the era's town population over the master's)
+- rural population scaled by 0.1694 (the era's town population over the master's)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
 - draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
 
@@ -237,7 +237,7 @@ Counts: diplomacy: "the division of keeping" -> Neutral 1; diplomacy: "tributary
 - new burg III-N02: no Dia-thìris name; English gloss used: "the pilgrims' guest-shelters at Allt an Àigh"
 - new burg III-N03: no Dia-thìris name; English gloss used: "the summer shelters on Eilean ruadh"
 - province "the ground of the Hall and the galleries": no Dia-thìris name; named after its largest burg, "Dùn ìseal"
-- province "the slab at Tobar dhìreach and the schools' hill": no Dia-thìris name; named after its largest burg, "Cnoc bhàn"
+- province "the slab at Tobar dhìreach and the schools' hill": no Dia-thìris name; named after its largest burg, "Tobar dhìreach"
 - marker III-K03: no Dia-thìris name; English gloss used: "the double stones of Dùn thais (first blood of the heirs)"
 - marker III-K04: no Dia-thìris name; English gloss used: "the stone of the two oaths"
 - marker III-K05: no Dia-thìris name; English gloss used: "the boundary stones of the woods (east)"
@@ -311,7 +311,7 @@ Counts: name from NAMES.json 4; name from the English gloss 25; state arms from 
 **map**
 
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
-- rural population scaled by 0.1105 (the era's town population over the master's)
+- rural population scaled by 0.3213 (the era's town population over the master's)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
 - draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
 
@@ -400,7 +400,7 @@ Counts: diplomacy: "allies" -> Ally 1; diplomacy: "truce (the truce of Àth àrs
 **map**
 
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
-- rural population scaled by 0.4233 (the era's town population over the master's)
+- rural population scaled by 0.5775 (the era's town population over the master's)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
 - draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
 
@@ -493,7 +493,7 @@ Counts: diplomacy: "a homeland held apart without standing i" -> Neutral 1; name
 **map**
 
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
-- rural population scaled by 0.8499 (the era's town population over the master's)
+- rural population scaled by 0.8506 (the era's town population over the master's)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
 - draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
 

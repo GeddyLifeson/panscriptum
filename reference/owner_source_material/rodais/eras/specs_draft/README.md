@@ -58,8 +58,11 @@ all annals ids to `legendarium/annals_dated.json`.
 ## Populations
 
 - **Ages I–II** use explicit small figures. Age II defaults to √(master pop), clamped to 30–220.
-- **Ages III–VI** default to the master population × 0.035, 0.12, 0.45 or 0.85, clamped per age, with overrides
-  for towns the annals give a size to. The north-west is reduced in IV and V (the dearth country ×0.4, then ×0.5).
+- **Ages III–VI** default to the master population × 0.2, 0.35, 0.6 or 0.85, clamped per age, with overrides
+  for towns the annals give a size to (never above the town's present size). The master counts 50 people to
+  its population unit, some 1.8 million on the island (see `../POP_LOG.md`); the shares keep every age between
+  the Age of Ailean, whose figures come from the tellings, and the present. Each age's kinds are read from its
+  populations as they were when the shares were first set (`KIND_SCALE` in `tools/common.py`). The north-west is reduced in IV and V (the dearth country ×0.4, then ×0.5).
 - **Age VII** uses the master populations as they are.
 - `kind` is derived from population per age (camp, hamlet, village, town, city…), except in VII, where it is the
   master `group`.

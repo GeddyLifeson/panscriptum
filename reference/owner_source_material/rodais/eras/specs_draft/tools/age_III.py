@@ -1,4 +1,5 @@
 """Age III, the Holy Age (Flame Era): the island at FE 2,960, on the eve of the Sundering."""
+# populations at the master's 50 people to the unit (eras/pop_sweep.py)
 from common import *  # noqa: F401,F403
 
 AGE = 'III'
@@ -231,33 +232,33 @@ def build():
     d['faiths'][0]['orders'][6]['towns'] = [246]
 
     SPECIAL = {
-        19: dict(population=3000, kind='town', role='seat of the realm since Beathag Mhòr: the red hall on the rise above the harbour, the clerks\' room, the bridge-foot of the Abhainn dhomhain', cites=['II-0135', 'II-0137', 'II-0155', 'II-0213']),
-        315: dict(population=1200, kind='large village', role='Talla na Lasrach over the flame, the stone cup on its threshold, the galleries, the market under the Hall on the quarter days', cites=['II-0004', 'II-0026', 'II-0064a', 'II-0248']),
-        422: dict(population=1500, kind='town', role='the old kings\' hill: Goraidh Mòr\'s hall with a granary at each corner, the graves of the house of Ìomhar and of the kings; its reeves keep their own accounts', cites=['II-0056', 'II-0079', 'II-0136', 'II-0182', 'II-0185']),
-        26: dict(population=2500, kind='town', role='the older and larger harbour at the mouth of the western road; chartered to its own tolls; strict keeper of the Law\'s measure; refuses the wood-watchers', cites=['II-0075', 'II-0138', 'II-0211']),
-        23: dict(population=2200, kind='town', walls=True, role='the first walled town on the island; Eithne\'s hall; the first granary behind a wall', cites=['II-0067', 'II-0106b', 'II-0174']),
-        94: dict(population=1800, kind='town', role='a city on the southern fishing and the silver of the eastern road; the first stone quay on the island', cites=['II-0230']),
-        17: dict(population=1500, kind='town', role='the gathering-place of the northern wool trade, with its own road-guard; the wool-fair at every shearing', cites=['II-0106', 'II-0234']),
-        489: dict(population=2200, kind='town', role='the western river port where the sting-oath became a creed and Manannan\'s court was held', cites=['II-0218']),
-        419: dict(population=600, kind='large village', role='the silver town of Sliochd Fhearchair: the seam, the weights every trader uses, the stamped rings', cites=['II-0015', 'II-0016', 'II-0064', 'II-0127', 'II-0152', 'II-0153']),
-        1: dict(population=1500, kind='town', role='the lords\' harbour of the western strait; half the western tolls; the wolf-sworn\'s hall about the white stone at the gate', cites=['II-0091', 'II-0098', 'II-0099', 'II-0100', 'II-0217']),
-        166: dict(population=1200, kind='large village', role='the shrine to the ancestors lost at sea, where the handful is burned on the shore; the second wolf-stone', cites=['II-0069', 'II-0161']),
-        273: dict(population=1000, kind='large village', role='at the foot of the high pass: the market at the fords on the day after each new moon', cites=['II-0057', 'II-0106a']),
-        18: dict(population=900, kind='large village', role='seat of Sliochd Thormoid: hall and temple with a court for pilgrims, its coal-lamp said to burn fuller than the measure', cites=['II-0047', 'II-0059', 'II-0187']),
-        34: dict(population=700, kind='large village', role='seat of Sliochd Raghnaill: boats and not galleries, the first household sentenced under the Law, the refused fisher-families', cites=['II-0028', 'II-0048', 'II-0144', 'II-0203']),
-        343: dict(population=500, kind='village', role='the house of the stag\'s people north of the mountain, keepers of the strike-books', cites=['II-0065', 'II-0125', 'II-0162']),
-        246: dict(population=300, kind='village', role='the school of Donnchadh mac Iain, the younger school of the stag', cites=['II-0163', 'II-0165']),
-        77: dict(population=900, kind='large village', walls=True, role='walled; the first stone temple of the stag\'s people', cites=['II-0233']),
-        22: dict(population=900, kind='large village', role='the market of the southern fishing; the road-guards\' games in a stone-walled field', cites=['II-0068', 'II-0129', 'II-0209']),
-        276: dict(population=250, kind='village', role='the slab over the crack; Clann na Ceiste keep the lines', cites=['I-0247', 'IV-0251a']),
-        432: dict(population=120, kind='village', role='the grave-keepers of Tuam Cnoc dhìreach, paid by the Hall a handful of coal a season', cites=['II-0044']),
-        229: dict(population=250, kind='village', role='the roofed bath-house over the warm springs and its keeper for Dian Cècht', cites=['II-0063', 'II-0224']),
-        151: dict(population=400, kind='village', role='rebuilt as a market town after the War of the Roads; the harvest fair at Lùnastal', cites=['II-0093', 'II-0130']),
-        365: dict(population=1300, kind='town', role='great enough on the fishing to send its own member to the council at Dùn ìseal, seated at the foot of the hall', cites=['II-0235']),
-        37: dict(population=700, kind='large village', role='the home of the northern fishing fleet', cites=['II-0236']),
-        241: dict(population=300, kind='village', role='the timber watch-tower against the island raiders, manned by the fisher-kin of Sliochd Raghnaill', cites=['II-0240']),
-        119: dict(population=500, kind='village', role='gives boats and men to the watch; a place on the council beside Sliochd Raghnaill', cites=['II-0241']),
-        95: dict(population=600, kind='large village', role='the fisher-families of the north-west gather here under their own headman', cites=['II-0197']),
+        19: dict(population=514, kind='town', role='seat of the realm since Beathag Mhòr: the red hall on the rise above the harbour, the clerks\' room, the bridge-foot of the Abhainn dhomhain', cites=['II-0135', 'II-0137', 'II-0155', 'II-0213']),
+        315: dict(population=600, kind='large village', role='Talla na Lasrach over the flame, the stone cup on its threshold, the galleries, the market under the Hall on the quarter days', cites=['II-0004', 'II-0026', 'II-0064a', 'II-0248']),
+        422: dict(population=500, kind='town', role='the old kings\' hill: Goraidh Mòr\'s hall with a granary at each corner, the graves of the house of Ìomhar and of the kings; its reeves keep their own accounts', cites=['II-0056', 'II-0079', 'II-0136', 'II-0182', 'II-0185']),
+        26: dict(population=710, kind='town', role='the older and larger harbour at the mouth of the western road; chartered to its own tolls; strict keeper of the Law\'s measure; refuses the wood-watchers', cites=['II-0075', 'II-0138', 'II-0211']),
+        23: dict(population=630, kind='town', walls=True, role='the first walled town on the island; Eithne\'s hall; the first granary behind a wall', cites=['II-0067', 'II-0106b', 'II-0174']),
+        94: dict(population=327, kind='town', role='a city on the southern fishing and the silver of the eastern road; the first stone quay on the island', cites=['II-0230']),
+        17: dict(population=430, kind='town', role='the gathering-place of the northern wool trade, with its own road-guard; the wool-fair at every shearing', cites=['II-0106', 'II-0234']),
+        489: dict(population=630, kind='town', role='the western river port where the sting-oath became a creed and Manannan\'s court was held', cites=['II-0218']),
+        419: dict(population=89, kind='large village', role='the silver town of Sliochd Fhearchair: the seam, the weights every trader uses, the stamped rings', cites=['II-0015', 'II-0016', 'II-0064', 'II-0127', 'II-0152', 'II-0153']),
+        1: dict(population=430, kind='town', role='the lords\' harbour of the western strait; half the western tolls; the wolf-sworn\'s hall about the white stone at the gate', cites=['II-0091', 'II-0098', 'II-0099', 'II-0100', 'II-0217']),
+        166: dict(population=340, kind='large village', role='the shrine to the ancestors lost at sea, where the handful is burned on the shore; the second wolf-stone', cites=['II-0069', 'II-0161']),
+        273: dict(population=290, kind='large village', role='at the foot of the high pass: the market at the fords on the day after each new moon', cites=['II-0057', 'II-0106a']),
+        18: dict(population=260, kind='large village', role='seat of Sliochd Thormoid: hall and temple with a court for pilgrims, its coal-lamp said to burn fuller than the measure', cites=['II-0047', 'II-0059', 'II-0187']),
+        34: dict(population=190, kind='large village', role='seat of Sliochd Raghnaill: boats and not galleries, the first household sentenced under the Law, the refused fisher-families', cites=['II-0028', 'II-0048', 'II-0144', 'II-0203']),
+        343: dict(population=140, kind='village', role='the house of the stag\'s people north of the mountain, keepers of the strike-books', cites=['II-0065', 'II-0125', 'II-0162']),
+        246: dict(population=85, kind='village', role='the school of Donnchadh mac Iain, the younger school of the stag', cites=['II-0163', 'II-0165']),
+        77: dict(population=260, kind='large village', walls=True, role='walled; the first stone temple of the stag\'s people', cites=['II-0233']),
+        22: dict(population=260, kind='large village', role='the market of the southern fishing; the road-guards\' games in a stone-walled field', cites=['II-0068', 'II-0129', 'II-0209']),
+        276: dict(population=150, kind='village', role='the slab over the crack; Clann na Ceiste keep the lines', cites=['I-0247', 'IV-0251a']),
+        432: dict(population=35, kind='village', role='the grave-keepers of Tuam Cnoc dhìreach, paid by the Hall a handful of coal a season', cites=['II-0044']),
+        229: dict(population=70, kind='village', role='the roofed bath-house over the warm springs and its keeper for Dian Cècht', cites=['II-0063', 'II-0224']),
+        151: dict(population=83, kind='village', role='rebuilt as a market town after the War of the Roads; the harvest fair at Lùnastal', cites=['II-0093', 'II-0130']),
+        365: dict(population=480, kind='town', role='great enough on the fishing to send its own member to the council at Dùn ìseal, seated at the foot of the hall', cites=['II-0235']),
+        37: dict(population=200, kind='large village', role='the home of the northern fishing fleet', cites=['II-0236']),
+        241: dict(population=85, kind='village', role='the timber watch-tower against the island raiders, manned by the fisher-kin of Sliochd Raghnaill', cites=['II-0240']),
+        119: dict(population=180, kind='village', role='gives boats and men to the watch; a place on the council beside Sliochd Raghnaill', cites=['II-0241']),
+        95: dict(population=200, kind='large village', role='the fisher-families of the north-west gather here under their own headman', cites=['II-0197']),
     }
     present = set()
     for i in sorted(BURGS):
