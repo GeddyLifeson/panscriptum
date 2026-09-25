@@ -73,11 +73,15 @@
   }
 
   // cells of master shires (the master's provinces, as the master map has them)
+  // shire 0 is the master's land in no shire (the windy coast): its land cells only
   function shireCells(ids, where) {
     const set = new Set(ids.map(Number));
-    for (const id of set) if (!master.provinceIds.has(id)) throw new Error(`${where}: no master shire ${id}`);
+    for (const id of set) if (id !== 0 && !master.provinceIds.has(id)) throw new Error(`${where}: no master shire ${id}`);
     const out = [];
-    for (const c of pack.cells.i) if (set.has(master.cellProvince[c])) out.push(c);
+    for (const c of pack.cells.i) {
+      const p = master.cellProvince[c];
+      if (set.has(p) && (p !== 0 || isLand(c))) out.push(c);
+    }
     return out;
   }
   function checkCells(list, where) {
@@ -92,6 +96,23 @@
     const out = new Set();
     if (sel.shires) shireCells(sel.shires, where).forEach((c) => out.add(c));
     if (sel.cells) checkCells(sel.cells, where).forEach((c) => out.add(c));
+    if (sel.around) {                                 // cells within `steps` neighbours of the given cells
+      let front = checkCells(sel.around.cells, where);
+      const seen = new Set(front);
+      for (let k = 0; k < (sel.around.steps ?? 1); k++) {
+        const next = [];
+        for (const c of front) for (const nb of pack.cells.c[c]) if (!seen.has(nb)) { seen.add(nb); next.push(nb); }
+        front = next;
+      }
+      seen.forEach((c) => out.add(c));
+    }
+    if (sel.water_box) {                              // water cells inside [x0, y0, x1, y1] (a sea zone)
+      const [x0, y0, x1, y1] = sel.water_box;
+      for (const c of pack.cells.i) {
+        const [x, y] = pack.cells.p[c];
+        if (!isLand(c) && x >= x0 && x <= x1 && y >= y0 && y <= y1) out.add(c);
+      }
+    }
     if (sel.burgs) refs('burg', sel.burgs, where).forEach((b) => out.add(pack.burgs[b].cell));
     if (sel.provinces) {
       const set = new Set(refs('province', sel.provinces, where));
@@ -139,6 +160,18 @@
       lore.calendar = lore.calendar || {};
       for (const k of ['year', 'era', 'eraShort']) if (L.calendar[k] !== undefined) lore.calendar[k] = L.calendar[k];
     }
+  }
+  // map units (options.map.units): e.g. {"distance": {"scale": 0.14}}; merged into the master's
+  function applyUnits(spec) {
+    const U = spec.units;
+    if (!U) return;
+    const merge = (dst, src) => {
+      for (const [k, v] of Object.entries(src)) {
+        if (v && typeof v === 'object' && !Array.isArray(v) && dst[k] && typeof dst[k] === 'object') merge(dst[k], v);
+        else dst[k] = clone(v);
+      }
+    };
+    merge(options.map.units, U);
   }
   function applyRenames(spec) {
     for (const [id, name] of Object.entries(spec.features?.rename || {})) {
@@ -966,6 +999,7 @@
       Goods.sync();
       Markets.sync();
       applyLore(spec);
+      applyUnits(spec);
       applyRenames(spec);
       const culturesAssigned = applyCultures(spec);
       applyReligions(spec);

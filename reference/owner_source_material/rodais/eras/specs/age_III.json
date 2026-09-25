@@ -1,0 +1,4661 @@
+{
+ "name": "Diathir_Age_III",
+ "seed": "era-age-III",
+ "comment": "Made by eras/engine/convert_draft.py from eras/specs_draft/age_III.json (era-spec-draft/1). Do not edit; edit the draft and convert again.",
+ "master": "../../Diathir_Atlas/Diathir.map",
+ "lore": {
+  "name": "Dia-thìr",
+  "description": "An Aois Naomh · 5 am Faoilleach, FE 2,960",
+  "calendar": {
+   "year": 2960,
+   "era": "Flame Era",
+   "eraShort": "FE"
+  }
+ },
+ "units": {
+  "distance": {
+   "scale": 0.14
+  }
+ },
+ "cultures": {
+  "edit": {
+   "2": {
+    "name": "Na Dia-thìrich"
+   }
+  },
+  "assign": [
+   {
+    "culture": 2,
+    "shires": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57,
+     58,
+     59,
+     60,
+     61,
+     62,
+     63,
+     64,
+     65,
+     66,
+     67,
+     68,
+     69,
+     70,
+     71,
+     72,
+     73,
+     74,
+     75,
+     76,
+     77,
+     78,
+     79,
+     80,
+     81,
+     82,
+     83,
+     84,
+     85,
+     86,
+     87,
+     88,
+     89,
+     90,
+     91,
+     92,
+     93,
+     94,
+     95,
+     96,
+     97,
+     98,
+     99,
+     100,
+     101,
+     102,
+     103,
+     104,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115,
+     116,
+     117,
+     118,
+     119,
+     120,
+     121,
+     122,
+     123
+    ]
+   }
+  ],
+  "remove": {
+   "1": 2
+  }
+ },
+ "religions": {
+  "edit": {
+   "2": {
+    "deity": "the ancestors"
+   }
+  },
+  "assign": [
+   {
+    "religion": 1,
+    "shires": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     8,
+     9,
+     10,
+     11,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     24,
+     25,
+     26,
+     29,
+     30,
+     31,
+     32,
+     33,
+     35,
+     38,
+     40,
+     41,
+     42,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     58,
+     61,
+     62,
+     63,
+     64,
+     65,
+     66,
+     67,
+     71,
+     72,
+     73,
+     74,
+     76,
+     77,
+     78,
+     79,
+     80,
+     81,
+     87,
+     89,
+     90,
+     93,
+     94,
+     95,
+     96,
+     97,
+     98,
+     99,
+     100,
+     103,
+     104,
+     106,
+     108,
+     110,
+     111,
+     112,
+     114,
+     115,
+     116,
+     117,
+     120
+    ]
+   },
+   {
+    "religion": 2,
+    "shires": [
+     7,
+     12,
+     13,
+     14,
+     23,
+     27,
+     28,
+     34,
+     36,
+     37,
+     39,
+     43,
+     57,
+     59,
+     60,
+     68,
+     69,
+     70,
+     75,
+     82,
+     83,
+     84,
+     85,
+     86,
+     88,
+     91,
+     92,
+     101,
+     102,
+     105,
+     107,
+     109,
+     113,
+     118,
+     119,
+     121,
+     122,
+     123
+    ]
+   }
+  ],
+  "remove": {
+   "3": 1
+  }
+ },
+ "states": {
+  "list": [
+   {
+    "key": "realm",
+    "name": "Rìoghachd Cathair dhearg",
+    "fullName": "Rìoghachd Cathair dhearg",
+    "form": "Monarchy",
+    "formName": "Kingdom",
+    "capital": 19,
+    "shires": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57,
+     58,
+     59,
+     60,
+     61,
+     62,
+     63,
+     64,
+     65,
+     66,
+     67,
+     68,
+     69,
+     70,
+     71,
+     72,
+     73,
+     74,
+     76,
+     77,
+     78,
+     79,
+     80,
+     81,
+     82,
+     83,
+     84,
+     85,
+     87,
+     88,
+     89,
+     90,
+     91,
+     92,
+     93,
+     94,
+     95,
+     96,
+     97,
+     98,
+     99,
+     100,
+     101,
+     102,
+     103,
+     104,
+     106,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     115,
+     116,
+     117,
+     118,
+     119,
+     121,
+     123
+    ],
+    "culture": 2,
+    "color": "#b03a2e",
+    "coa": "generate",
+    "note": "Beathag nic Dhòmhnaill · inferred · cites: II-0077, II-0078, II-0135, II-0185, II-0247"
+   },
+   {
+    "key": "hall",
+    "name": "Talla na Lasrach",
+    "fullName": "Talla na Lasrach",
+    "form": "Theocracy",
+    "formName": "Theocracy",
+    "capital": 315,
+    "shires": [
+     35,
+     114
+    ],
+    "culture": 2,
+    "color": "#e0a526",
+    "coa": "generate",
+    "note": "Catrìona nic Mhuirich · cites: II-0001, II-0004, II-0046, II-0078, II-0248"
+   },
+   {
+    "key": "north-west",
+    "name": "Caol mhòr",
+    "fullName": "Caol mhòr",
+    "form": "Anarchy",
+    "formName": "Tribes",
+    "capital": 95,
+    "shires": [
+     7,
+     14,
+     28,
+     36,
+     75,
+     86,
+     105,
+     107,
+     120,
+     122
+    ],
+    "culture": 2,
+    "color": "#4f7d8c",
+    "coa": "generate",
+    "note": "cites: II-0197, II-0198, II-0200"
+   }
+  ],
+  "cell_state": {
+   "2832": "@realm"
+  },
+  "neutral_name": "Neutrals"
+ },
+ "burgs": {
+  "keep": [
+   1,
+   3,
+   5,
+   7,
+   8,
+   9,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   34,
+   36,
+   37,
+   42,
+   44,
+   45,
+   46,
+   47,
+   48,
+   50,
+   51,
+   53,
+   54,
+   55,
+   56,
+   57,
+   61,
+   62,
+   63,
+   64,
+   65,
+   67,
+   71,
+   74,
+   76,
+   77,
+   78,
+   85,
+   86,
+   88,
+   92,
+   94,
+   95,
+   97,
+   99,
+   102,
+   104,
+   106,
+   109,
+   110,
+   114,
+   115,
+   117,
+   118,
+   119,
+   122,
+   123,
+   126,
+   127,
+   128,
+   129,
+   130,
+   131,
+   132,
+   134,
+   135,
+   136,
+   137,
+   138,
+   139,
+   141,
+   142,
+   143,
+   144,
+   145,
+   146,
+   147,
+   148,
+   150,
+   151,
+   155,
+   156,
+   157,
+   158,
+   162,
+   165,
+   166,
+   167,
+   168,
+   169,
+   170,
+   172,
+   173,
+   176,
+   179,
+   180,
+   181,
+   185,
+   186,
+   190,
+   191,
+   192,
+   196,
+   197,
+   198,
+   200,
+   201,
+   202,
+   204,
+   207,
+   208,
+   209,
+   211,
+   212,
+   214,
+   215,
+   217,
+   219,
+   221,
+   223,
+   227,
+   229,
+   231,
+   232,
+   234,
+   236,
+   237,
+   238,
+   239,
+   240,
+   241,
+   242,
+   243,
+   244,
+   245,
+   246,
+   247,
+   249,
+   250,
+   255,
+   256,
+   257,
+   258,
+   259,
+   260,
+   261,
+   262,
+   265,
+   267,
+   269,
+   270,
+   273,
+   274,
+   276,
+   277,
+   279,
+   282,
+   283,
+   290,
+   293,
+   295,
+   296,
+   297,
+   301,
+   302,
+   303,
+   304,
+   305,
+   309,
+   311,
+   313,
+   315,
+   316,
+   318,
+   324,
+   326,
+   328,
+   330,
+   333,
+   337,
+   339,
+   340,
+   341,
+   343,
+   347,
+   348,
+   349,
+   350,
+   352,
+   353,
+   354,
+   356,
+   358,
+   360,
+   362,
+   363,
+   365,
+   366,
+   368,
+   371,
+   372,
+   374,
+   377,
+   378,
+   379,
+   380,
+   384,
+   386,
+   387,
+   390,
+   391,
+   392,
+   393,
+   394,
+   395,
+   397,
+   398,
+   402,
+   403,
+   404,
+   405,
+   406,
+   407,
+   408,
+   409,
+   411,
+   413,
+   415,
+   419,
+   420,
+   422,
+   424,
+   427,
+   431,
+   432,
+   433,
+   435,
+   436,
+   438,
+   440,
+   442,
+   443,
+   445,
+   446,
+   449,
+   453,
+   454,
+   455,
+   456,
+   457,
+   461,
+   462,
+   463,
+   465,
+   466,
+   468,
+   471,
+   472,
+   475,
+   476,
+   483,
+   484,
+   486,
+   487,
+   488,
+   489,
+   492,
+   493,
+   496,
+   497,
+   499,
+   500,
+   502,
+   504
+  ],
+  "edit": {
+   "1": {
+    "population": 1.5,
+    "group": "town",
+    "note": "inferred · cites: II-0091, II-0098, II-0099, II-0100, II-0217"
+   },
+   "3": {
+    "population": 0.82,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B3"
+   },
+   "5": {
+    "population": 0.35,
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B5"
+   },
+   "7": {
+    "population": 0.16,
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B7"
+   },
+   "8": {
+    "population": 0.29,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B8"
+   },
+   "9": {
+    "population": 0.45,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B9"
+   },
+   "11": {
+    "population": 0.28,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B11"
+   },
+   "12": {
+    "population": 0.68,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B12"
+   },
+   "13": {
+    "population": 0.05,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B13"
+   },
+   "14": {
+    "population": 0.08,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B14"
+   },
+   "15": {
+    "population": 0.42,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B15"
+   },
+   "16": {
+    "population": 0.085,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B16"
+   },
+   "17": {
+    "population": 1.5,
+    "group": "town",
+    "note": "Òrd Bhrìde · inferred · cites: II-0106, II-0234"
+   },
+   "18": {
+    "population": 0.9,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: II-0047, II-0059, II-0187"
+   },
+   "19": {
+    "population": 3.0,
+    "note": "inferred · cites: II-0135, II-0137, II-0155, II-0213"
+   },
+   "20": {
+    "population": 1.7,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B20"
+   },
+   "22": {
+    "population": 0.9,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: II-0068, II-0129, II-0209"
+   },
+   "23": {
+    "population": 2.2,
+    "group": "town",
+    "note": "Òrd Bhrìde · inferred · cites: II-0067, II-0106b, II-0174"
+   },
+   "24": {
+    "population": 0.93,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B24"
+   },
+   "25": {
+    "population": 0.11,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B25"
+   },
+   "26": {
+    "population": 2.5,
+    "group": "town",
+    "note": "Òrd Bhrìde · inferred · cites: II-0075, II-0138, II-0211"
+   },
+   "27": {
+    "population": 1.8,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B27"
+   },
+   "28": {
+    "population": 0.07,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B28"
+   },
+   "29": {
+    "population": 0.42,
+    "group": "village",
+    "features": {
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B29"
+   },
+   "30": {
+    "population": 1.1,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B30"
+   },
+   "31": {
+    "population": 0.88,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B31"
+   },
+   "32": {
+    "population": 0.83,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B32"
+   },
+   "34": {
+    "population": 0.7,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: II-0028, II-0048, II-0144, II-0203"
+   },
+   "36": {
+    "population": 1.3,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B36"
+   },
+   "37": {
+    "population": 0.7,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: II-0236"
+   },
+   "42": {
+    "population": 0.79,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B42"
+   },
+   "44": {
+    "population": 0.46,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B44"
+   },
+   "45": {
+    "population": 1.2,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B45"
+   },
+   "46": {
+    "population": 0.54,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B46"
+   },
+   "47": {
+    "population": 0.71,
+    "group": "village",
+    "features": {
+     "temple": 0,
+     "shanty": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B47"
+   },
+   "48": {
+    "population": 0.11,
+    "group": "village",
+    "features": {
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B48"
+   },
+   "50": {
+    "population": 0.09,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B50"
+   },
+   "51": {
+    "population": 0.1,
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B51"
+   },
+   "53": {
+    "population": 0.32,
+    "features": {
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B53"
+   },
+   "54": {
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "walls": 0
+    },
+    "note": "inferred · cites: gazetteer B54"
+   },
+   "55": {
+    "population": 0.39,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B55"
+   },
+   "56": {
+    "population": 0.09,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B56"
+   },
+   "57": {
+    "population": 0.15,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: gazetteer B57"
+   },
+   "61": {
+    "population": 0.39,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B61"
+   },
+   "62": {
+    "population": 0.74,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B62"
+   },
+   "63": {
+    "population": 0.83,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B63"
+   },
+   "64": {
+    "population": 0.69,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B64"
+   },
+   "65": {
+    "population": 0.055,
+    "group": "hamlet",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B65"
+   },
+   "67": {
+    "population": 1.3,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B67"
+   },
+   "71": {
+    "population": 0.075,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B71"
+   },
+   "74": {
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B74"
+   },
+   "76": {
+    "population": 0.1,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B76"
+   },
+   "77": {
+    "population": 0.9,
+    "group": "village",
+    "note": "inferred · cites: II-0233"
+   },
+   "78": {
+    "population": 0.075,
+    "group": "hamlet",
+    "features": {
+     "walls": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B78"
+   },
+   "85": {
+    "population": 0.11,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B85"
+   },
+   "86": {
+    "population": 0.58,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B86"
+   },
+   "88": {
+    "population": 0.65,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B88"
+   },
+   "92": {
+    "population": 1.1,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B92"
+   },
+   "94": {
+    "population": 1.8,
+    "group": "town",
+    "note": "inferred · cites: II-0230"
+   },
+   "95": {
+    "population": 0.6,
+    "features": {
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: II-0197"
+   },
+   "97": {
+    "population": 0.1,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B97"
+   },
+   "99": {
+    "population": 0.34,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B99"
+   },
+   "102": {
+    "population": 0.57,
+    "features": {
+     "citadel": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B102"
+   },
+   "104": {
+    "population": 0.23,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B104"
+   },
+   "106": {
+    "population": 0.83,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B106"
+   },
+   "109": {
+    "population": 0.66,
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B109"
+   },
+   "110": {
+    "population": 1.7,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B110"
+   },
+   "114": {
+    "population": 0.35,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B114"
+   },
+   "115": {
+    "population": 0.35,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "inferred · cites: gazetteer B115"
+   },
+   "117": {
+    "population": 0.76,
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B117"
+   },
+   "118": {
+    "population": 0.28,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B118"
+   },
+   "119": {
+    "population": 0.5,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: II-0241"
+   },
+   "122": {
+    "population": 0.14,
+    "group": "village",
+    "features": {
+     "walls": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B122"
+   },
+   "123": {
+    "population": 0.095,
+    "group": "hamlet",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B123"
+   },
+   "126": {
+    "population": 0.49,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B126"
+   },
+   "127": {
+    "population": 0.12,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B127"
+   },
+   "128": {
+    "population": 0.12,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B128"
+   },
+   "129": {
+    "population": 0.075,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B129"
+   },
+   "130": {
+    "population": 0.13,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "inferred · cites: gazetteer B130"
+   },
+   "131": {
+    "population": 1.2,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B131"
+   },
+   "132": {
+    "population": 0.77,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: gazetteer B132"
+   },
+   "134": {
+    "population": 0.9,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B134"
+   },
+   "135": {
+    "population": 0.49,
+    "features": {
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B135"
+   },
+   "136": {
+    "population": 0.41,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B136"
+   },
+   "137": {
+    "population": 1.1,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B137"
+   },
+   "138": {
+    "population": 0.09,
+    "group": "hamlet",
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B138"
+   },
+   "139": {
+    "population": 0.38,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B139"
+   },
+   "141": {
+    "population": 0.35,
+    "features": {
+     "citadel": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B141"
+   },
+   "142": {
+    "population": 0.88,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B142"
+   },
+   "143": {
+    "population": 1.1,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B143"
+   },
+   "144": {
+    "population": 0.73,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B144"
+   },
+   "145": {
+    "population": 0.93,
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B145"
+   },
+   "146": {
+    "population": 0.41,
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B146"
+   },
+   "147": {
+    "population": 0.28,
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B147"
+   },
+   "148": {
+    "population": 0.055,
+    "group": "hamlet",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B148"
+   },
+   "150": {
+    "population": 0.23,
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B150"
+   },
+   "151": {
+    "population": 0.4,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: II-0093, II-0130"
+   },
+   "155": {
+    "population": 0.29,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B155"
+   },
+   "156": {
+    "population": 0.38,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B156"
+   },
+   "157": {
+    "population": 0.4,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B157"
+   },
+   "158": {
+    "population": 0.16,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B158"
+   },
+   "162": {
+    "population": 0.92,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B162"
+   },
+   "165": {
+    "population": 0.4,
+    "group": "village",
+    "features": {
+     "citadel": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B165"
+   },
+   "166": {
+    "population": 1.2,
+    "group": "village",
+    "note": "inferred · cites: II-0069, II-0161"
+   },
+   "167": {
+    "population": 0.84,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B167"
+   },
+   "168": {
+    "population": 0.43,
+    "group": "village",
+    "features": {
+     "citadel": 0
+    },
+    "note": "inferred · cites: gazetteer B168"
+   },
+   "169": {
+    "population": 0.065,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B169"
+   },
+   "170": {
+    "population": 0.97,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B170"
+   },
+   "172": {
+    "population": 0.055,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B172"
+   },
+   "173": {
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B173"
+   },
+   "176": {
+    "population": 0.31,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B176"
+   },
+   "179": {
+    "population": 0.12,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B179"
+   },
+   "180": {
+    "population": 0.09,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B180"
+   },
+   "181": {
+    "population": 0.09,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B181"
+   },
+   "185": {
+    "population": 0.27,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B185"
+   },
+   "186": {
+    "population": 0.18,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B186"
+   },
+   "190": {
+    "population": 0.51,
+    "group": "village",
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B190"
+   },
+   "191": {
+    "population": 0.67,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B191"
+   },
+   "192": {
+    "population": 0.45,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B192"
+   },
+   "196": {
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B196"
+   },
+   "197": {
+    "population": 1.1,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B197"
+   },
+   "198": {
+    "population": 0.39,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B198"
+   },
+   "200": {
+    "population": 0.095,
+    "group": "hamlet",
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B200"
+   },
+   "201": {
+    "population": 0.77,
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B201"
+   },
+   "202": {
+    "population": 0.57,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B202"
+   },
+   "204": {
+    "population": 0.66,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B204"
+   },
+   "207": {
+    "population": 0.065,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B207"
+   },
+   "208": {
+    "population": 0.1,
+    "features": {
+     "citadel": 0
+    },
+    "note": "inferred · cites: gazetteer B208"
+   },
+   "209": {
+    "population": 1.4,
+    "note": "inferred · cites: gazetteer B209"
+   },
+   "211": {
+    "population": 0.07,
+    "group": "hamlet",
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B211"
+   },
+   "212": {
+    "population": 0.69,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B212"
+   },
+   "214": {
+    "population": 0.13,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B214"
+   },
+   "215": {
+    "population": 0.16,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B215"
+   },
+   "217": {
+    "population": 0.38,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "inferred · cites: gazetteer B217"
+   },
+   "219": {
+    "population": 0.09,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B219"
+   },
+   "221": {
+    "population": 0.13,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B221"
+   },
+   "223": {
+    "population": 0.41,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B223"
+   },
+   "227": {
+    "population": 0.07,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B227"
+   },
+   "229": {
+    "population": 0.25,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: II-0063, II-0224"
+   },
+   "231": {
+    "population": 0.49,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B231"
+   },
+   "232": {
+    "population": 0.67,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B232"
+   },
+   "234": {
+    "population": 0.78,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B234"
+   },
+   "236": {
+    "population": 0.1,
+    "group": "village",
+    "features": {
+     "walls": 0
+    },
+    "note": "inferred · cites: gazetteer B236"
+   },
+   "237": {
+    "population": 0.095,
+    "group": "hamlet",
+    "features": {
+     "walls": 0
+    },
+    "note": "inferred · cites: gazetteer B237"
+   },
+   "238": {
+    "population": 0.27,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B238"
+   },
+   "239": {
+    "population": 0.68,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B239"
+   },
+   "240": {
+    "population": 0.42,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B240"
+   },
+   "241": {
+    "population": 0.3,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: II-0240"
+   },
+   "242": {
+    "population": 0.06,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B242"
+   },
+   "243": {
+    "population": 0.11,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B243"
+   },
+   "244": {
+    "population": 0.45,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: gazetteer B244"
+   },
+   "245": {
+    "population": 0.11,
+    "features": {
+     "temple": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B245"
+   },
+   "246": {
+    "population": 0.3,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: II-0163, II-0165"
+   },
+   "247": {
+    "population": 0.35,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B247"
+   },
+   "249": {
+    "population": 0.81,
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B249"
+   },
+   "250": {
+    "population": 0.23,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B250"
+   },
+   "255": {
+    "population": 0.74,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B255"
+   },
+   "256": {
+    "population": 0.66,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B256"
+   },
+   "257": {
+    "population": 0.31,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B257"
+   },
+   "258": {
+    "population": 0.29,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B258"
+   },
+   "259": {
+    "population": 0.39,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B259"
+   },
+   "260": {
+    "population": 0.11,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B260"
+   },
+   "261": {
+    "population": 0.49,
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B261"
+   },
+   "262": {
+    "population": 0.51,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B262"
+   },
+   "265": {
+    "population": 0.23,
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B265"
+   },
+   "267": {
+    "population": 0.42,
+    "features": {
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B267"
+   },
+   "269": {
+    "population": 0.68,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: gazetteer B269"
+   },
+   "270": {
+    "population": 0.53,
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B270"
+   },
+   "273": {
+    "population": 1.0,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: II-0057, II-0106a"
+   },
+   "274": {
+    "population": 0.2,
+    "group": "village",
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B274"
+   },
+   "276": {
+    "population": 0.25,
+    "features": {
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: I-0247, IV-0251a"
+   },
+   "277": {
+    "population": 0.055,
+    "group": "hamlet",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B277"
+   },
+   "279": {
+    "population": 0.37,
+    "features": {
+     "citadel": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B279"
+   },
+   "282": {
+    "population": 1.1,
+    "group": "village",
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B282"
+   },
+   "283": {
+    "population": 1.1,
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B283"
+   },
+   "290": {
+    "population": 0.095,
+    "group": "hamlet",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B290"
+   },
+   "293": {
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B293"
+   },
+   "295": {
+    "population": 0.5,
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B295"
+   },
+   "296": {
+    "population": 0.96,
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B296"
+   },
+   "297": {
+    "population": 0.73,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B297"
+   },
+   "301": {
+    "population": 0.075,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B301"
+   },
+   "302": {
+    "population": 0.2,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B302"
+   },
+   "303": {
+    "population": 0.34,
+    "group": "village",
+    "features": {
+     "walls": 0
+    },
+    "note": "inferred · cites: gazetteer B303"
+   },
+   "304": {
+    "population": 0.58,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B304"
+   },
+   "305": {
+    "population": 0.96,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B305"
+   },
+   "309": {
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B309"
+   },
+   "311": {
+    "population": 0.63,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B311"
+   },
+   "313": {
+    "population": 0.3,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B313"
+   },
+   "315": {
+    "population": 1.2,
+    "note": "Òrd Bhrìde · inferred · cites: II-0004, II-0026, II-0064a, II-0248"
+   },
+   "316": {
+    "population": 1.2,
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B316"
+   },
+   "318": {
+    "population": 0.7,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B318"
+   },
+   "324": {
+    "population": 1.2,
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B324"
+   },
+   "326": {
+    "population": 0.43,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B326"
+   },
+   "328": {
+    "population": 0.61,
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B328"
+   },
+   "330": {
+    "population": 0.095,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B330"
+   },
+   "333": {
+    "population": 0.83,
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B333"
+   },
+   "337": {
+    "population": 0.04,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0
+    },
+    "note": "inferred · cites: gazetteer B337"
+   },
+   "339": {
+    "population": 0.38,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B339"
+   },
+   "340": {
+    "population": 0.29,
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B340"
+   },
+   "341": {
+    "population": 0.095,
+    "group": "hamlet",
+    "features": {
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B341"
+   },
+   "343": {
+    "population": 0.5,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: II-0065, II-0125, II-0162"
+   },
+   "347": {
+    "population": 0.31,
+    "group": "village",
+    "features": {
+     "citadel": 0
+    },
+    "note": "inferred · cites: gazetteer B347"
+   },
+   "348": {
+    "population": 0.29,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B348"
+   },
+   "349": {
+    "population": 0.47,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B349"
+   },
+   "350": {
+    "population": 0.32,
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B350"
+   },
+   "352": {
+    "population": 0.36,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B352"
+   },
+   "353": {
+    "population": 0.04,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B353"
+   },
+   "354": {
+    "population": 0.65,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B354"
+   },
+   "356": {
+    "population": 0.28,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B356"
+   },
+   "358": {
+    "population": 0.09,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B358"
+   },
+   "360": {
+    "population": 0.17,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B360"
+   },
+   "362": {
+    "population": 0.075,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B362"
+   },
+   "363": {
+    "population": 0.68,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B363"
+   },
+   "365": {
+    "population": 1.3,
+    "group": "town",
+    "note": "inferred · cites: II-0235"
+   },
+   "366": {
+    "population": 0.23,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B366"
+   },
+   "368": {
+    "population": 0.37,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B368"
+   },
+   "371": {
+    "population": 1.3,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B371"
+   },
+   "372": {
+    "population": 0.45,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "temple": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: gazetteer B372"
+   },
+   "374": {
+    "population": 0.44,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B374"
+   },
+   "377": {
+    "population": 0.16,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B377"
+   },
+   "378": {
+    "population": 0.4,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B378"
+   },
+   "379": {
+    "population": 0.095,
+    "group": "hamlet",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B379"
+   },
+   "380": {
+    "population": 0.15,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B380"
+   },
+   "384": {
+    "population": 0.13,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B384"
+   },
+   "386": {
+    "population": 0.1,
+    "features": {
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B386"
+   },
+   "387": {
+    "population": 0.53,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B387"
+   },
+   "390": {
+    "population": 0.14,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B390"
+   },
+   "391": {
+    "population": 0.79,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B391"
+   },
+   "392": {
+    "population": 0.58,
+    "group": "village",
+    "features": {
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B392"
+   },
+   "393": {
+    "population": 0.62,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B393"
+   },
+   "394": {
+    "population": 0.43,
+    "features": {
+     "walls": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B394"
+   },
+   "395": {
+    "population": 1.5,
+    "note": "inferred · cites: gazetteer B395"
+   },
+   "397": {
+    "population": 0.33,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B397"
+   },
+   "398": {
+    "population": 0.81,
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B398"
+   },
+   "402": {
+    "population": 0.1,
+    "note": "inferred · cites: gazetteer B402"
+   },
+   "403": {
+    "population": 0.23,
+    "note": "inferred · cites: gazetteer B403"
+   },
+   "404": {
+    "population": 0.09,
+    "group": "hamlet",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B404"
+   },
+   "405": {
+    "population": 0.87,
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B405"
+   },
+   "406": {
+    "population": 0.27,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B406"
+   },
+   "407": {
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B407"
+   },
+   "408": {
+    "population": 0.15,
+    "features": {
+     "temple": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: gazetteer B408"
+   },
+   "409": {
+    "population": 0.07,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: gazetteer B409"
+   },
+   "411": {
+    "population": 0.86,
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B411"
+   },
+   "413": {
+    "population": 0.36,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B413"
+   },
+   "415": {
+    "population": 0.04,
+    "group": "hamlet",
+    "features": {
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B415"
+   },
+   "419": {
+    "population": 0.6,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: II-0015, II-0016, II-0064, II-0127, II-0152, II-0153"
+   },
+   "420": {
+    "population": 0.7,
+    "group": "village",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B420"
+   },
+   "422": {
+    "population": 1.5,
+    "group": "town",
+    "note": "inferred · cites: II-0056, II-0079, II-0136, II-0182, II-0185"
+   },
+   "424": {
+    "population": 0.75,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B424"
+   },
+   "427": {
+    "population": 0.065,
+    "group": "hamlet",
+    "features": {
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B427"
+   },
+   "431": {
+    "population": 2.0,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B431"
+   },
+   "432": {
+    "population": 0.12,
+    "group": "village",
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: II-0044"
+   },
+   "433": {
+    "population": 0.59,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B433"
+   },
+   "435": {
+    "population": 0.58,
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B435"
+   },
+   "436": {
+    "population": 0.43,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B436"
+   },
+   "438": {
+    "population": 0.89,
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B438"
+   },
+   "440": {
+    "population": 0.3,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B440"
+   },
+   "442": {
+    "population": 0.49,
+    "note": "inferred · cites: gazetteer B442"
+   },
+   "443": {
+    "population": 0.94,
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B443"
+   },
+   "445": {
+    "population": 0.2,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B445"
+   },
+   "446": {
+    "population": 0.1,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B446"
+   },
+   "449": {
+    "population": 0.51,
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B449"
+   },
+   "453": {
+    "population": 0.22,
+    "note": "inferred · cites: gazetteer B453"
+   },
+   "454": {
+    "population": 0.04,
+    "group": "hamlet",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B454"
+   },
+   "455": {
+    "population": 0.065,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0
+    },
+    "note": "inferred · cites: gazetteer B455"
+   },
+   "456": {
+    "population": 0.58,
+    "group": "village",
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B456"
+   },
+   "457": {
+    "population": 0.22,
+    "group": "village",
+    "features": {
+     "walls": 0
+    },
+    "note": "inferred · cites: gazetteer B457"
+   },
+   "461": {
+    "population": 0.85,
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B461"
+   },
+   "462": {
+    "population": 0.66,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B462"
+   },
+   "463": {
+    "population": 0.58,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B463"
+   },
+   "465": {
+    "population": 0.1,
+    "note": "inferred · cites: gazetteer B465"
+   },
+   "466": {
+    "population": 0.72,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B466"
+   },
+   "468": {
+    "population": 0.065,
+    "group": "hamlet",
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B468"
+   },
+   "471": {
+    "population": 0.1,
+    "group": "village",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B471"
+   },
+   "472": {
+    "population": 0.31,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B472"
+   },
+   "475": {
+    "population": 1.5,
+    "group": "village",
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B475"
+   },
+   "476": {
+    "population": 0.34,
+    "group": "village",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B476"
+   },
+   "483": {
+    "population": 0.17,
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B483"
+   },
+   "484": {
+    "population": 0.21,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B484"
+   },
+   "486": {
+    "population": 0.18,
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B486"
+   },
+   "487": {
+    "population": 0.4,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B487"
+   },
+   "488": {
+    "population": 0.07,
+    "group": "hamlet",
+    "features": {
+     "temple": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B488"
+   },
+   "489": {
+    "population": 2.2,
+    "group": "town",
+    "note": "Òrd Mhanannain · inferred · cites: II-0218"
+   },
+   "492": {
+    "population": 0.71,
+    "group": "village",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B492"
+   },
+   "493": {
+    "population": 0.04,
+    "group": "hamlet",
+    "features": {
+     "walls": 0,
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B493"
+   },
+   "496": {
+    "population": 0.11,
+    "group": "village",
+    "features": {
+     "shanty": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B496"
+   },
+   "497": {
+    "population": 0.14,
+    "group": "village",
+    "features": {
+     "walls": 0
+    },
+    "note": "Òrd Bhrìde · inferred · cites: gazetteer B497"
+   },
+   "499": {
+    "population": 0.095,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "temple": 0
+    },
+    "note": "Òrd Mhanannain · inferred · cites: gazetteer B499"
+   },
+   "500": {
+    "population": 0.37,
+    "group": "village",
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: gazetteer B500"
+   },
+   "502": {
+    "population": 1.2,
+    "group": "village",
+    "note": "inferred · cites: gazetteer B502"
+   },
+   "504": {
+    "population": 0.44,
+    "group": "village",
+    "features": {
+     "citadel": 0
+    },
+    "note": "inferred · cites: gazetteer B504"
+   }
+  },
+  "add": [
+   {
+    "key": "III_N01",
+    "id": 3001,
+    "name": "the masons' lodge by the western An t-Aiseag",
+    "cell": 3064,
+    "population": 0.04,
+    "group": "monastery",
+    "note": "inferred · cites: II-0034",
+    "culture": 2
+   },
+   {
+    "key": "III_N02",
+    "id": 3002,
+    "name": "the pilgrims' guest-shelters at Allt an Àigh",
+    "cell": 2559,
+    "population": 0.015,
+    "group": "hamlet",
+    "note": "inferred · cites: II-0011, II-0012, II-0223, III-0175",
+    "culture": 2
+   },
+   {
+    "key": "III_N03",
+    "id": 3003,
+    "name": "the summer shelters on Eilean ruadh",
+    "cell": 704,
+    "population": 0.001,
+    "group": "hamlet",
+    "note": "inferred · cites: II-0204",
+    "culture": 2
+   }
+  ]
+ },
+ "provinces": {
+  "merge": [
+   {
+    "name": "Baile chiar",
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile chiar",
+    "burg": 106,
+    "note": "inferred",
+    "into": 52,
+    "from": [
+     67
+    ]
+   },
+   {
+    "name": "Àth bheag",
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Àth bheag",
+    "burg": 492,
+    "note": "inferred",
+    "into": 70,
+    "from": [
+     123
+    ]
+   },
+   {
+    "name": "Muileann chrom",
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann chrom",
+    "burg": 354,
+    "note": "inferred",
+    "into": 76,
+    "from": [
+     96
+    ]
+   },
+   {
+    "name": "Cnoc dhìreach",
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cnoc dhìreach",
+    "burg": 462,
+    "note": "inferred",
+    "into": 87,
+    "from": [
+     112
+    ]
+   },
+   {
+    "name": "Àth ghlas",
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Àth ghlas",
+    "burg": 393,
+    "note": "inferred",
+    "into": 55,
+    "from": [
+     94
+    ]
+   },
+   {
+    "name": "Ceann bheag",
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Ceann bheag",
+    "burg": 42,
+    "note": "inferred",
+    "into": 97,
+    "from": [
+     104
+    ]
+   }
+  ],
+  "edit": {
+   "1": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cathair dhearg",
+    "note": "inferred"
+   },
+   "2": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Caol leathan",
+    "note": "inferred"
+   },
+   "3": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Skell",
+    "note": "inferred"
+   },
+   "4": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Skell",
+    "note": "inferred"
+   },
+   "5": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Ros dhomhain",
+    "note": "inferred"
+   },
+   "6": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cnoc bheag",
+    "note": "inferred"
+   },
+   "8": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Caol bheag",
+    "note": "inferred"
+   },
+   "9": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Inis bhàn",
+    "note": "inferred"
+   },
+   "10": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Doire shean",
+    "note": "inferred"
+   },
+   "11": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Àth shean",
+    "note": "inferred"
+   },
+   "12": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Achadh mhòr",
+    "note": "inferred"
+   },
+   "13": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Bhral",
+    "note": "inferred"
+   },
+   "15": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Inis thais",
+    "note": "inferred"
+   },
+   "16": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Dùn thais",
+    "note": "inferred"
+   },
+   "17": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Inis chrom",
+    "note": "inferred"
+   },
+   "18": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Doire mhin",
+    "note": "inferred"
+   },
+   "19": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Doire fhiadhaich",
+    "note": "inferred"
+   },
+   "20": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile gharbh",
+    "note": "inferred"
+   },
+   "21": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Ceann mhin",
+    "note": "inferred"
+   },
+   "22": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile ghlas",
+    "note": "inferred"
+   },
+   "23": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Doire ghlas",
+    "note": "inferred"
+   },
+   "24": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cathair mhòr",
+    "note": "inferred"
+   },
+   "25": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile ghorm",
+    "note": "inferred"
+   },
+   "26": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Achadh naomh",
+    "note": "inferred"
+   },
+   "27": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile Mòr mhòr",
+    "note": "inferred"
+   },
+   "29": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann mhin",
+    "note": "inferred"
+   },
+   "30": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Caol gharbh",
+    "note": "inferred"
+   },
+   "31": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Chwen",
+    "note": "inferred"
+   },
+   "32": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cathair dhomhain",
+    "note": "inferred"
+   },
+   "33": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Àth shean",
+    "note": "inferred"
+   },
+   "34": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann bhàn",
+    "note": "inferred"
+   },
+   "37": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cnoc leathan",
+    "note": "inferred"
+   },
+   "38": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cuan shean",
+    "note": "inferred"
+   },
+   "39": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Àth chiar",
+    "note": "inferred"
+   },
+   "40": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Doire fhada",
+    "note": "inferred"
+   },
+   "41": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Achadh naomh",
+    "note": "inferred"
+   },
+   "42": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann dhearg",
+    "note": "inferred"
+   },
+   "43": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile ghorm",
+    "note": "inferred"
+   },
+   "44": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Dùn chrom",
+    "note": "inferred"
+   },
+   "45": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Ros gheal",
+    "note": "inferred"
+   },
+   "46": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cill dhìreach",
+    "note": "inferred"
+   },
+   "47": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Doire chiar",
+    "note": "inferred"
+   },
+   "48": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Caol shean",
+    "note": "inferred"
+   },
+   "49": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cathair fhada",
+    "note": "inferred"
+   },
+   "50": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile mhin",
+    "note": "inferred"
+   },
+   "51": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Skell",
+    "note": "inferred"
+   },
+   "53": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cnoc mhòr",
+    "note": "inferred"
+   },
+   "54": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Tobar fhiadhaich",
+    "note": "inferred"
+   },
+   "56": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Tobar ghorm",
+    "note": "inferred"
+   },
+   "57": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Àth fhiadhaich",
+    "note": "inferred"
+   },
+   "58": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile chaol",
+    "note": "inferred"
+   },
+   "59": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann dhomhain",
+    "note": "inferred"
+   },
+   "60": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Tarr",
+    "note": "inferred"
+   },
+   "61": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Achadh shean",
+    "note": "inferred"
+   },
+   "62": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann shean",
+    "note": "inferred"
+   },
+   "63": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Tobar dhearg",
+    "note": "inferred"
+   },
+   "64": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile àrsaidh",
+    "note": "inferred"
+   },
+   "65": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cuan ghlas",
+    "note": "inferred"
+   },
+   "66": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Doire fhionn",
+    "note": "inferred"
+   },
+   "68": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Toll",
+    "note": "inferred"
+   },
+   "69": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile ruadh",
+    "note": "inferred"
+   },
+   "71": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Ceann àrsaidh",
+    "note": "inferred"
+   },
+   "72": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Caol fhiadhaich",
+    "note": "inferred"
+   },
+   "73": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile fhiadhaich",
+    "note": "inferred"
+   },
+   "74": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Vell",
+    "note": "inferred"
+   },
+   "77": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Ros bheag",
+    "note": "inferred"
+   },
+   "78": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cnoc àrsaidh",
+    "note": "inferred"
+   },
+   "79": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Inis bheag",
+    "note": "inferred"
+   },
+   "80": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Àth fhionn",
+    "note": "inferred"
+   },
+   "81": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Achadh àrsaidh",
+    "note": "inferred"
+   },
+   "82": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cuan ruadh",
+    "note": "inferred"
+   },
+   "83": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Bhrenn",
+    "note": "inferred"
+   },
+   "84": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cnoc shean",
+    "note": "inferred"
+   },
+   "85": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Dùn dhearg",
+    "note": "inferred"
+   },
+   "88": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann leathan",
+    "note": "inferred"
+   },
+   "89": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Achadh chaol",
+    "note": "inferred"
+   },
+   "90": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann dhomhain",
+    "note": "inferred"
+   },
+   "91": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Inis mhin",
+    "note": "inferred"
+   },
+   "92": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Caol ìseal",
+    "note": "inferred"
+   },
+   "93": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cnoc naomh",
+    "note": "inferred"
+   },
+   "95": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Warr",
+    "note": "inferred"
+   },
+   "98": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Inis mhòr",
+    "note": "inferred"
+   },
+   "99": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Ceann mhin",
+    "note": "inferred"
+   },
+   "100": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Dunn",
+    "note": "inferred"
+   },
+   "101": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Ceann leathan",
+    "note": "inferred"
+   },
+   "102": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cnoc gheal",
+    "note": "inferred"
+   },
+   "103": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann bheag",
+    "note": "inferred"
+   },
+   "106": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cill thais",
+    "note": "inferred"
+   },
+   "108": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile gheal",
+    "note": "inferred"
+   },
+   "109": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Ceann mhin",
+    "note": "inferred"
+   },
+   "110": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Cnoc dhubh",
+    "note": "inferred"
+   },
+   "111": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Baile Mòr dhomhain",
+    "note": "inferred"
+   },
+   "113": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Doire fhionn",
+    "note": "inferred"
+   },
+   "115": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Àth mhòr",
+    "note": "inferred"
+   },
+   "116": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann naomh",
+    "note": "inferred"
+   },
+   "117": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Muileann naomh",
+    "note": "inferred"
+   },
+   "118": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Caol bheag",
+    "note": "inferred"
+   },
+   "119": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Caol mhin",
+    "note": "inferred"
+   },
+   "121": {
+    "formName": "Mòr-roinn",
+    "fullName": "Mòr-roinn Seann Vell",
+    "note": "inferred"
+   }
+  },
+  "remove": [
+   7,
+   14,
+   28,
+   35,
+   36,
+   75,
+   86,
+   105,
+   107,
+   114,
+   120,
+   122
+  ],
+  "add": [
+   {
+    "key": "u0",
+    "name": "Dùn ìseal",
+    "formName": "",
+    "fullName": "Dùn ìseal",
+    "shires": [
+     35
+    ],
+    "note": "cites: II-0001b, II-0004, II-0078"
+   },
+   {
+    "key": "u1",
+    "name": "Cnoc bhàn",
+    "formName": "",
+    "fullName": "Cnoc bhàn",
+    "shires": [
+     114
+    ],
+    "note": "inferred · cites: I-0247, II-0065"
+   }
+  ]
+ },
+ "diplomacy": [
+  [
+   "@realm",
+   "@hall",
+   "Neutral"
+  ],
+  [
+   "@realm",
+   "@north-west",
+   "Suzerain"
+  ]
+ ],
+ "diplomacy_default": "Neutral",
+ "markers": {
+  "keep": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   37,
+   38,
+   39,
+   40,
+   41,
+   46,
+   48
+  ],
+  "edit": {
+   "0": {
+    "note": "cites: II-0014, II-0063, II-0224"
+   },
+   "1": {
+    "note": "cites: II-0011, II-0013, II-0223"
+   },
+   "2": {
+    "note": "cites: II-0015, II-0017, II-0152"
+   },
+   "3": {
+    "note": "cites: II-0032, II-0083, II-0190"
+   },
+   "4": {
+    "note": "cites: II-0033, II-0191"
+   },
+   "5": {
+    "name": "Taigh Mòr nic Dhùghaill",
+    "note": "cites: II-0036, II-0099, II-0206, III-0055"
+   },
+   "6": {
+    "note": "cites: II-0072, II-0207"
+   },
+   "7": {
+    "note": "cites: II-0104, II-0196"
+   },
+   "8": {
+    "note": "cites: II-0105"
+   },
+   "9": {
+    "note": "cites: II-0082"
+   },
+   "10": {
+    "note": "cites: II-0037, II-0080, II-0141"
+   },
+   "11": {
+    "note": "cites: II-0038, II-0195"
+   },
+   "12": {
+    "icon": "🔥",
+    "note": "cites: II-0051, II-0052"
+   },
+   "13": {
+    "icon": "🔥",
+    "note": "cites: II-0145, II-0029"
+   },
+   "14": {
+    "icon": "🔥",
+    "note": "cites: II-0146"
+   },
+   "15": {
+    "icon": "🔥",
+    "note": "cites: II-0147"
+   },
+   "16": {
+    "icon": "🗼",
+    "note": "cites: II-0029, II-0231"
+   },
+   "19": {
+    "note": "cites: I-0037, III-0149"
+   },
+   "20": {
+    "note": "cites: I-0120, III-0199"
+   },
+   "21": {
+    "note": "cites: II-0051, II-0202"
+   },
+   "22": {
+    "note": "cites: II-0007"
+   },
+   "23": {
+    "note": "cites: II-0022, II-0115, II-0118"
+   },
+   "24": {
+    "note": "cites: II-0114, II-0118, II-0220"
+   },
+   "25": {
+    "note": "cites: II-0050"
+   },
+   "26": {
+    "note": "cites: II-0175"
+   },
+   "27": {
+    "note": "cites: II-0201"
+   },
+   "28": {
+    "note": "cites: II-0062, II-0089"
+   },
+   "29": {
+    "note": "cites: I-0071"
+   },
+   "30": {
+    "note": "cites: II-0167"
+   },
+   "31": {
+    "note": "cites: II-0061"
+   },
+   "32": {
+    "note": "cites: II-0061, II-0168"
+   },
+   "33": {
+    "note": "cites: II-0008"
+   },
+   "34": {
+    "note": "cites: II-0163, II-0165"
+   },
+   "37": {
+    "note": "cites: II-0129, II-0209"
+   },
+   "38": {
+    "icon": "🎪",
+    "note": "cites: II-0130"
+   },
+   "39": {
+    "note": "cites: II-0131"
+   },
+   "40": {
+    "note": "cites: II-0055, II-0239"
+   },
+   "41": {
+    "note": "cites: II-0042, II-0043, II-0044"
+   },
+   "46": {
+    "note": "inferred · cites: I-0154a, II-0026"
+   },
+   "48": {
+    "note": "cites: I-0027a"
+   }
+  },
+  "add": [
+   {
+    "key": "III_K01",
+    "type": "battlefields",
+    "icon": "⚔️",
+    "name": "Blàr Àth na Fala",
+    "cell": 3107,
+    "note": "event I-0098a · cites: I-0098a, App.C Blàr Àth na Fala"
+   },
+   {
+    "key": "III_K02",
+    "type": "custom",
+    "icon": "🔥",
+    "name": "Talla na Lasrach",
+    "cell": 3104,
+    "note": "event II-0004 · cites: II-0001, II-0004, II-0026, II-0064c"
+   },
+   {
+    "key": "III_K03",
+    "type": "custom",
+    "icon": "🪨",
+    "name": "the double stones of Dùn thais (first blood of the heirs)",
+    "cell": 2017,
+    "note": "event II-0001c · cites: II-0001c, book III"
+   },
+   {
+    "key": "III_K04",
+    "type": "custom",
+    "icon": "🪨",
+    "name": "the stone of the two oaths",
+    "cell": 3451,
+    "note": "event II-0064b · cites: II-0064b, App.H §II"
+   },
+   {
+    "key": "III_K05",
+    "type": "custom",
+    "icon": "🪨",
+    "name": "the boundary stones of the woods (east)",
+    "cell": 2205,
+    "note": "event II-0118 · cites: II-0118"
+   },
+   {
+    "key": "III_K06",
+    "type": "custom",
+    "icon": "🪨",
+    "name": "the boundary stones of the woods (west)",
+    "cell": 3498,
+    "note": "event II-0118 · cites: II-0118"
+   },
+   {
+    "key": "III_K07",
+    "type": "custom",
+    "icon": "🌥️",
+    "name": "the weather-cairns of Cnoc ghlas",
+    "cell": 3106,
+    "note": "event II-0006 · cites: II-0006, II-0177"
+   },
+   {
+    "key": "III_K08",
+    "type": "custom",
+    "icon": "🪨",
+    "name": "the ancestor-cairn of Cathair naomh",
+    "cell": 887,
+    "note": "event II-0054 · cites: II-0054"
+   },
+   {
+    "key": "III_K09",
+    "type": "custom",
+    "icon": "🏛️",
+    "name": "An Talla Dearg",
+    "cell": 3158,
+    "note": "event II-0137 · cites: II-0137, II-0155, II-0157"
+   },
+   {
+    "key": "III_K10",
+    "type": "custom",
+    "icon": "⚱️",
+    "name": "Goraidh Mòr's hall and the kings' graves",
+    "cell": 3019,
+    "note": "event II-0079 · cites: II-0079, II-0148, II-0188, II-0212"
+   },
+   {
+    "key": "III_K11",
+    "type": "custom",
+    "icon": "🐺",
+    "name": "the white wolf-stone at the gate",
+    "cell": 3485,
+    "note": "event II-0100 · cites: II-0100, II-0217"
+   },
+   {
+    "key": "III_K12",
+    "type": "custom",
+    "icon": "🕯️",
+    "name": "the shrine of the drowned",
+    "cell": 3400,
+    "note": "event II-0069 · cites: II-0069, II-0161"
+   },
+   {
+    "key": "III_K13",
+    "type": "battlefields",
+    "icon": "⚔️",
+    "name": "Àth an Dà Fhichead",
+    "cell": 3325,
+    "note": "event II-0095 · cites: II-0095"
+   },
+   {
+    "key": "III_K14",
+    "type": "custom",
+    "icon": "🪙",
+    "name": "the toll-house at Àth ghlas",
+    "cell": 3346,
+    "note": "event II-0128 · cites: II-0128"
+   },
+   {
+    "key": "III_K15",
+    "type": "custom",
+    "icon": "🗼",
+    "name": "the watch-tower of Baile ruadh",
+    "cell": 1436,
+    "note": "event II-0240 · cites: II-0240"
+   },
+   {
+    "key": "III_K16",
+    "type": "custom",
+    "icon": "🌉",
+    "name": "the bridge below Dùn chrom",
+    "cell": 3421,
+    "note": "event II-0192 · cites: II-0192"
+   },
+   {
+    "key": "III_K17",
+    "type": "custom",
+    "icon": "🌉",
+    "name": "the bridge at Ceann àrsaidh",
+    "cell": 2724,
+    "note": "event II-0193 · cites: II-0193"
+   },
+   {
+    "key": "III_K18",
+    "type": "custom",
+    "icon": "🌉",
+    "name": "the bridge at Doire mhin",
+    "cell": 3172,
+    "note": "event II-0194 · cites: II-0194"
+   },
+   {
+    "key": "III_K19",
+    "type": "custom",
+    "icon": "⚓",
+    "name": "the stone quay of Seann Vell",
+    "cell": 3937,
+    "note": "event II-0230 · cites: II-0230"
+   },
+   {
+    "key": "III_K20",
+    "type": "custom",
+    "icon": "🔤",
+    "name": "the stag-letters",
+    "cell": 2114,
+    "note": "event II-0088 · cites: II-0023, II-0088"
+   },
+   {
+    "key": "III_K21",
+    "type": "custom",
+    "icon": "🛕",
+    "name": "the temple of Sliochd Thormoid",
+    "cell": 2933,
+    "note": "event II-0187 · cites: II-0047, II-0187"
+   },
+   {
+    "key": "III_K22",
+    "type": "custom",
+    "icon": "⚙️",
+    "name": "the mill-shrine",
+    "cell": 4065,
+    "note": "event II-0232 · cites: II-0232"
+   },
+   {
+    "key": "III_K23",
+    "type": "custom",
+    "icon": "📜",
+    "name": "the school of letters at Inis bheag",
+    "cell": 1533,
+    "note": "event II-0156 · cites: II-0156"
+   },
+   {
+    "key": "III_K24",
+    "type": "custom",
+    "icon": "⛏️",
+    "name": "the sealed high gallery",
+    "cell": 3104,
+    "note": "event II-0074 · cites: II-0074, II-0122"
+   }
+  ]
+ },
+ "routes": {
+  "keep": [
+   3,
+   5,
+   7,
+   8,
+   11,
+   16,
+   24,
+   30,
+   31,
+   39,
+   41,
+   43,
+   44,
+   48,
+   52,
+   57,
+   58,
+   59,
+   61,
+   64,
+   65,
+   66,
+   69,
+   70,
+   72,
+   73,
+   75,
+   76,
+   77,
+   78,
+   79,
+   80,
+   87,
+   90,
+   93,
+   96,
+   104,
+   111,
+   115,
+   116,
+   120,
+   122,
+   126,
+   129,
+   130,
+   131,
+   132,
+   136,
+   137,
+   138,
+   142,
+   143,
+   148,
+   154,
+   157,
+   159,
+   163,
+   171,
+   173,
+   177,
+   180,
+   183,
+   184,
+   187,
+   192,
+   194,
+   196,
+   197,
+   201,
+   206,
+   207,
+   208,
+   209,
+   214,
+   217,
+   224,
+   226,
+   227,
+   228,
+   231,
+   240,
+   248,
+   250,
+   251,
+   260,
+   262,
+   264,
+   265,
+   269,
+   273,
+   274,
+   278,
+   286,
+   299,
+   300,
+   303,
+   306,
+   310,
+   314,
+   315,
+   316,
+   317,
+   318,
+   320,
+   321,
+   322,
+   325,
+   326,
+   327,
+   331,
+   332,
+   334,
+   335,
+   338,
+   341,
+   346,
+   353,
+   355,
+   356,
+   358,
+   359,
+   361,
+   362,
+   363,
+   364,
+   365,
+   367,
+   368,
+   370,
+   372,
+   373,
+   374,
+   375,
+   377,
+   378,
+   380,
+   381,
+   382,
+   386,
+   387,
+   388,
+   389,
+   390,
+   391,
+   392,
+   394,
+   395,
+   396,
+   397,
+   398,
+   399,
+   400,
+   401,
+   402,
+   404,
+   405,
+   406,
+   407,
+   408,
+   409,
+   410,
+   412,
+   413,
+   414,
+   415,
+   416,
+   417,
+   418,
+   419,
+   420,
+   421,
+   422,
+   423,
+   424,
+   425,
+   426,
+   427,
+   428,
+   429,
+   430,
+   431,
+   434,
+   436,
+   437,
+   438,
+   439,
+   440,
+   441,
+   442,
+   444,
+   446
+  ],
+  "edit": {},
+  "add": [
+   {
+    "key": "III_R01",
+    "name": "the pilgrims' path from Caol shean to Allt an Àigh",
+    "group": "trails",
+    "stops": [
+     2463,
+     2559
+    ],
+    "note": "cites: II-0012, II-0223"
+   },
+   {
+    "key": "III_R02",
+    "name": "the carriers' path to Ceann chaol",
+    "group": "trails",
+    "stops": [
+     3104,
+     3949
+    ],
+    "note": "cites: II-0030"
+   },
+   {
+    "key": "III_R03",
+    "name": "the diggers' road",
+    "group": "trails",
+    "stops": [
+     4146,
+     4092
+    ],
+    "note": "cites: II-0169"
+   },
+   {
+    "key": "III_R04",
+    "name": "the river-boats of the Abhainn uaine",
+    "group": "trails",
+    "stops": [
+     2734,
+     2907
+    ],
+    "note": "cites: II-0131, II-0132, II-0133"
+   },
+   {
+    "key": "III_R05",
+    "name": "round the islands (Sliochd Raghnaill's voyage)",
+    "group": "searoutes",
+    "stops": [
+     1195,
+     3856,
+     3384,
+     420,
+     1195
+    ],
+    "note": "inferred · cites: II-0203, II-0049"
+   },
+   {
+    "key": "III_R06",
+    "name": "the western road (salt inland from Cuan shean)",
+    "group": "trails",
+    "stops": [
+     3048,
+     2312,
+     3158
+    ],
+    "note": "inferred · cites: II-0070, II-0071"
+   }
+  ]
+ },
+ "zones": {
+  "keep": [],
+  "edit": {},
+  "add": [
+   {
+    "key": "III_Z_S1",
+    "name": "Earrann Mhurchaidh",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, II-0001b, II-0001c, book III",
+    "shires": [
+     8,
+     16,
+     20,
+     23,
+     27,
+     30,
+     47,
+     50,
+     54,
+     56,
+     62,
+     68,
+     79,
+     83,
+     88,
+     91,
+     92,
+     97,
+     98,
+     99,
+     102,
+     103,
+     104,
+     113,
+     115,
+     118,
+     119
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_S2",
+    "name": "Earrann Eithne",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, II-0106b, II-0064b, book III",
+    "shires": [
+     12,
+     18,
+     21,
+     24,
+     31,
+     34,
+     42,
+     44,
+     46,
+     53,
+     55,
+     90,
+     93,
+     94
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_S3",
+    "name": "Earrann Ros dhomhain",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, book III",
+    "shires": [
+     2,
+     3,
+     5,
+     15,
+     22,
+     29,
+     32,
+     38,
+     52,
+     64,
+     67,
+     73,
+     77,
+     95,
+     108,
+     117
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_S4",
+    "name": "Earrann Baile ghorm",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, book III",
+    "shires": [
+     10,
+     11,
+     17,
+     19,
+     25,
+     49,
+     72,
+     78,
+     100,
+     106
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_S5",
+    "name": "Earrann Caol shean",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, book III",
+    "shires": [
+     41,
+     48,
+     58,
+     60,
+     61,
+     66,
+     69,
+     70,
+     82,
+     87,
+     89,
+     110,
+     123
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_S6",
+    "name": "Earrann Muileann àrsaidh",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II",
+    "shires": [
+     7,
+     14,
+     28,
+     36,
+     75,
+     86,
+     105,
+     107,
+     120,
+     122
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_S7",
+    "name": "Earrann Ceann àrsaidh",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II",
+    "shires": [
+     33,
+     40,
+     71,
+     74,
+     76,
+     81,
+     96
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_S8",
+    "name": "Earrann Tobar dhearg",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II",
+    "shires": [
+     4,
+     13,
+     37,
+     39,
+     43,
+     57,
+     59,
+     63,
+     80,
+     84,
+     101,
+     109,
+     116,
+     121
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_S9",
+    "name": "Earrann Cnoc bheag",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II",
+    "shires": [
+     6,
+     9,
+     26,
+     45,
+     51,
+     65,
+     111
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_RED",
+    "name": "An Earrann Dhearg",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, II-0001b, App.C Blàr Àth na Fala, book III",
+    "shires": [
+     85
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_HALL",
+    "name": "the ground of Talla na Lasrach (in no share)",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, II-0001b, II-0004",
+    "shires": [
+     35,
+     112,
+     114
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z_HILL",
+    "name": "An Cnoc Ruadh, claimed by three shares and serving none",
+    "type": "Custom",
+    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, book III",
+    "shires": [
+     1
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "III_Z10",
+    "name": "Aimhreit nan Oighrean",
+    "type": "Invasion",
+    "note": "cites: II-0001c, II-0064c, App.C Aimhreit nan Oighrean",
+    "shires": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57,
+     58,
+     59,
+     60,
+     61,
+     62,
+     63,
+     64,
+     65,
+     66,
+     67,
+     68,
+     69,
+     70,
+     71,
+     72,
+     73,
+     74,
+     75,
+     76,
+     77,
+     78,
+     79,
+     80,
+     81,
+     82,
+     83,
+     84,
+     85,
+     86,
+     87,
+     88,
+     89,
+     90,
+     91,
+     92,
+     93,
+     94,
+     95,
+     96,
+     97,
+     98,
+     99,
+     100,
+     101,
+     102,
+     103,
+     104,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115,
+     116,
+     117,
+     118,
+     119,
+     120,
+     121,
+     122,
+     123
+    ]
+   },
+   {
+    "key": "III_Z11",
+    "name": "Cogadh an Dà Mhionn",
+    "type": "Invasion",
+    "note": "cites: II-0064b, App.C Aimhreit nan Oighrean",
+    "shires": [
+     12,
+     24,
+     31,
+     34,
+     57,
+     84,
+     85,
+     90,
+     94
+    ]
+   },
+   {
+    "key": "III_Z12",
+    "name": "Cogadh nan Rathad",
+    "type": "Invasion",
+    "note": "cites: II-0093, II-0095, II-0096, II-0097, II-0098, II-0099",
+    "shires": [
+     2,
+     22,
+     32,
+     44,
+     52,
+     67,
+     85
+    ]
+   },
+   {
+    "key": "III_Z13",
+    "name": "Falachd an Airgid",
+    "type": "Invasion",
+    "note": "cites: II-0150, II-0151, II-0152",
+    "shires": [
+     35,
+     112
+    ]
+   },
+   {
+    "key": "III_Z14",
+    "name": "the poor season in the mountain (FE 2,472–2,474)",
+    "type": "Disaster",
+    "note": "cites: II-0177, II-0178, II-0179, II-0180, II-0182",
+    "shires": [
+     112
+    ]
+   },
+   {
+    "key": "III_Z15",
+    "name": "drought at Achadh shean (FE 2,900)",
+    "type": "Disaster",
+    "note": "cites: II-0237, II-0238",
+    "shires": [
+     61
+    ]
+   },
+   {
+    "key": "III_Z16",
+    "name": "Oirthir an t-Seabhaig",
+    "type": "Proselytism",
+    "note": "cites: II-0158, II-0159",
+    "shires": [
+     6,
+     9,
+     45,
+     51
+    ]
+   },
+   {
+    "key": "III_Z17",
+    "name": "the sting-oath coast (FE 879–2,849)",
+    "type": "Proselytism",
+    "note": "cites: II-0086, II-0160, II-0218, II-0219",
+    "shires": [
+     3,
+     38,
+     64,
+     73,
+     77,
+     120
+    ]
+   }
+  ]
+ },
+ "labels": {
+  "add": [
+   {
+    "text": "Roinn na Rìoghachd",
+    "cell": 3104,
+    "fontSize": 14,
+    "note": "cites: II-0001b"
+   },
+   {
+    "text": "Sìth an Stairsnich",
+    "cell": 3104,
+    "fontSize": 14,
+    "note": "cites: II-0064c"
+   }
+  ]
+ },
+ "economy": {
+  "mode": "prune"
+ },
+ "journeys": {
+  "keep": []
+ },
+ "rural_population": {
+  "scale": 0.0296
+ }
+}

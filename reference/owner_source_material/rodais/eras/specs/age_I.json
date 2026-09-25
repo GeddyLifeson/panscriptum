@@ -1,0 +1,1503 @@
+{
+ "name": "Diathir_Age_I",
+ "seed": "era-age-I",
+ "comment": "Made by eras/engine/convert_draft.py from eras/specs_draft/age_I.json (era-spec-draft/1). Do not edit; edit the draft and convert again.",
+ "master": "../../Diathir_Atlas/Diathir.map",
+ "lore": {
+  "name": "Dia-thìr",
+  "description": "An Aois Àrsaidh · 8 an Lùnastal, VE 5,324",
+  "calendar": {
+   "year": 5324,
+   "era": "Vein Era",
+   "eraShort": "VE"
+  }
+ },
+ "units": {
+  "distance": {
+   "scale": 0.14
+  }
+ },
+ "cultures": {
+  "edit": {
+   "2": {
+    "name": "Clann nan Dè"
+   }
+  },
+  "add": [
+   {
+    "key": "c_seann-dhaoine",
+    "name": "Na Seann-Dhaoine",
+    "base": 43,
+    "type": "Naval",
+    "shield": "round",
+    "code": "Na"
+   }
+  ],
+  "assign": [
+   {
+    "culture": 0,
+    "shires": [
+     6,
+     12,
+     18,
+     20,
+     26,
+     28,
+     29,
+     33,
+     37,
+     40,
+     42,
+     44,
+     46,
+     47,
+     57,
+     67,
+     71,
+     73,
+     75,
+     79,
+     81,
+     84,
+     85,
+     93,
+     94,
+     97,
+     98,
+     106,
+     107,
+     117
+    ]
+   },
+   {
+    "culture": "@c_seann-dhaoine",
+    "shires": [
+     2,
+     3,
+     4,
+     8,
+     9,
+     10,
+     11,
+     13,
+     15,
+     17,
+     19,
+     24,
+     25,
+     27,
+     30,
+     31,
+     38,
+     39,
+     43,
+     45,
+     49,
+     50,
+     51,
+     53,
+     54,
+     55,
+     56,
+     58,
+     59,
+     60,
+     62,
+     63,
+     64,
+     68,
+     70,
+     72,
+     74,
+     76,
+     77,
+     78,
+     80,
+     82,
+     83,
+     91,
+     92,
+     95,
+     99,
+     100,
+     101,
+     102,
+     103,
+     104,
+     105,
+     108,
+     109,
+     110,
+     113,
+     115,
+     116,
+     118,
+     119,
+     120,
+     121,
+     122,
+     123
+    ]
+   },
+   {
+    "culture": 2,
+    "shires": [
+     1,
+     5,
+     7,
+     14,
+     16,
+     21,
+     22,
+     23,
+     32,
+     34,
+     35,
+     36,
+     41,
+     48,
+     52,
+     61,
+     65,
+     66,
+     69,
+     86,
+     87,
+     88,
+     89,
+     90,
+     96,
+     111,
+     112,
+     114
+    ]
+   }
+  ],
+  "remove": {
+   "1": 2
+  }
+ },
+ "religions": {
+  "edit": {
+   "2": {
+    "name": "An Seann Urram",
+    "form": "Ancestor Worship",
+    "deity": null
+   },
+   "1": {
+    "name": "Aithris a' Chruthachaidh",
+    "type": "Folk",
+    "deity": "Caoran the Young God"
+   }
+  },
+  "add": [
+   {
+    "key": "f_old-ones-rite",
+    "name": "the rites of Seann-Dhaoine (unknown)",
+    "type": "Folk",
+    "form": "Animism",
+    "deity": null,
+    "expansion": "culture",
+    "code": "th"
+   }
+  ],
+  "assign": [
+   {
+    "religion": 0,
+    "shires": [
+     6,
+     12,
+     18,
+     20,
+     26,
+     28,
+     29,
+     33,
+     37,
+     40,
+     42,
+     44,
+     46,
+     47,
+     57,
+     67,
+     71,
+     73,
+     75,
+     79,
+     81,
+     84,
+     85,
+     93,
+     94,
+     97,
+     98,
+     106,
+     107,
+     117
+    ]
+   },
+   {
+    "religion": 2,
+    "shires": [
+     1,
+     5,
+     7,
+     14,
+     16,
+     21,
+     22,
+     23,
+     32,
+     34,
+     35,
+     36,
+     41,
+     48,
+     52,
+     61,
+     65,
+     66,
+     69,
+     86,
+     87,
+     88,
+     89,
+     90,
+     96,
+     111,
+     112
+    ]
+   },
+   {
+    "religion": 1,
+    "shires": [
+     114
+    ]
+   },
+   {
+    "religion": "@f_old-ones-rite",
+    "shires": [
+     2,
+     3,
+     4,
+     8,
+     9,
+     10,
+     11,
+     13,
+     15,
+     17,
+     19,
+     24,
+     25,
+     27,
+     30,
+     31,
+     38,
+     39,
+     43,
+     45,
+     49,
+     50,
+     51,
+     53,
+     54,
+     55,
+     56,
+     58,
+     59,
+     60,
+     62,
+     63,
+     64,
+     68,
+     70,
+     72,
+     74,
+     76,
+     77,
+     78,
+     80,
+     82,
+     83,
+     91,
+     92,
+     95,
+     99,
+     100,
+     101,
+     102,
+     103,
+     104,
+     105,
+     108,
+     109,
+     110,
+     113,
+     115,
+     116,
+     118,
+     119,
+     120,
+     121,
+     122,
+     123
+    ]
+   }
+  ],
+  "remove": {
+   "3": 1
+  }
+ },
+ "states": {
+  "list": [
+   {
+    "key": "seann-dhaoine",
+    "name": "Na Seann-Dhaoine",
+    "fullName": "Na Seann-Dhaoine",
+    "form": "Republic",
+    "formName": "Republic",
+    "capital": 489,
+    "shires": [
+     2,
+     3,
+     4,
+     8,
+     9,
+     10,
+     11,
+     13,
+     15,
+     17,
+     19,
+     24,
+     25,
+     27,
+     30,
+     31,
+     38,
+     39,
+     43,
+     45,
+     49,
+     50,
+     51,
+     53,
+     54,
+     55,
+     56,
+     58,
+     59,
+     60,
+     62,
+     63,
+     64,
+     68,
+     70,
+     72,
+     74,
+     76,
+     77,
+     78,
+     80,
+     82,
+     83,
+     91,
+     92,
+     95,
+     99,
+     100,
+     101,
+     102,
+     103,
+     104,
+     105,
+     108,
+     109,
+     110,
+     113,
+     115,
+     116,
+     118,
+     119,
+     120,
+     121,
+     122,
+     123
+    ],
+    "culture": "@c_seann-dhaoine",
+    "color": "#7f8fa6",
+    "coa": "generate",
+    "note": "cites: I-0056, I-0064, I-0012"
+   },
+   {
+    "key": "clann-na-ceiste",
+    "name": "Clann na Ceiste",
+    "fullName": "Clann na Ceiste",
+    "form": "Theocracy",
+    "formName": "Theocracy",
+    "capital": 276,
+    "shires": [
+     114
+    ],
+    "culture": 2,
+    "color": "#c8a24a",
+    "coa": "generate",
+    "note": "Suibhne · cites: I-0068a, I-0073a, I-0080a, App.A Line of the Mason"
+   },
+   {
+    "key": "hill-folk",
+    "name": "Clann nan Dè",
+    "fullName": "Clann nan Dè",
+    "form": "Anarchy",
+    "formName": "Tribes",
+    "capital": 315,
+    "shires": [
+     21,
+     34,
+     35,
+     48,
+     65,
+     87,
+     90,
+     96,
+     111,
+     112
+    ],
+    "culture": 2,
+    "color": "#8c6d46",
+    "coa": "generate",
+    "note": "cites: I-0065, I-0005, I-0046, I-0066"
+   },
+   {
+    "key": "eastern-hearths",
+    "name": "Teaghlaichean an Ear",
+    "fullName": "Teaghlaichean an Ear",
+    "form": "Monarchy",
+    "formName": "Kingdom",
+    "capital": 61,
+    "shires": [
+     16,
+     41,
+     61,
+     66,
+     69,
+     89
+    ],
+    "culture": 2,
+    "color": "#5f8a4e",
+    "coa": "generate",
+    "note": "inferred · cites: I-0053, I-0054, gazetteer B61"
+   },
+   {
+    "key": "north-shore",
+    "name": "Sealgairean a' Chladaich",
+    "fullName": "Sealgairean a' Chladaich",
+    "form": "Monarchy",
+    "formName": "Kingdom",
+    "capital": 238,
+    "shires": [
+     7,
+     14,
+     23,
+     36,
+     86,
+     88
+    ],
+    "culture": 2,
+    "color": "#4f7d8c",
+    "coa": "generate",
+    "note": "inferred · cites: I-0039, I-0042, I-0043, I-0008a, gazetteer B238"
+   },
+   {
+    "key": "red-hill",
+    "name": "Muinntir a' Chnuic Dheirg",
+    "fullName": "Muinntir a' Chnuic Dheirg",
+    "form": "Monarchy",
+    "formName": "Kingdom",
+    "capital": 19,
+    "shires": [
+     1,
+     5,
+     22,
+     32,
+     52
+    ],
+    "culture": 2,
+    "color": "#a8443a",
+    "coa": "generate",
+    "note": "inferred · cites: I-0083, I-0020, App.A holders of the Red Hill"
+   }
+  ],
+  "cell_state": {
+   "4226": 0,
+   "420": "@north-shore",
+   "4113": 0,
+   "4108": 0
+  },
+  "neutral_name": "Neutrals"
+ },
+ "burgs": {
+  "keep": [
+   14,
+   16,
+   18,
+   19,
+   34,
+   36,
+   37,
+   47,
+   61,
+   64,
+   94,
+   95,
+   97,
+   110,
+   127,
+   128,
+   132,
+   139,
+   148,
+   162,
+   186,
+   238,
+   249,
+   276,
+   277,
+   295,
+   313,
+   315,
+   328,
+   347,
+   392,
+   402,
+   404,
+   440,
+   454,
+   465,
+   489
+  ],
+  "edit": {
+   "489": {
+    "name": "Skell",
+    "population": 0.3,
+    "features": {
+     "citadel": 0,
+     "plaza": 0,
+     "temple": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: I-0012, I-0056, I-0097"
+   },
+   "16": {
+    "name": "Skell",
+    "population": 0.025,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: I-0023, I-0097"
+   },
+   "132": {
+    "name": "Skell",
+    "population": 0.08,
+    "group": "hamlet",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: I-0030, I-0097"
+   },
+   "18": {
+    "name": "Dunn",
+    "population": 0.15,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: I-0010, I-0064a, I-0097"
+   },
+   "295": {
+    "name": "Dunn",
+    "population": 0.03,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: I-0021, I-0097"
+   },
+   "347": {
+    "name": "Dunn",
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0
+    },
+    "note": "inferred · cites: gazetteer B347, I-0097"
+   },
+   "36": {
+    "name": "Cwen",
+    "population": 0.12,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: I-0011, I-0097"
+   },
+   "14": {
+    "name": "Cwen",
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: I-0064, I-0097"
+   },
+   "139": {
+    "name": "Cwen",
+    "population": 0.08,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B139, I-0097"
+   },
+   "47": {
+    "name": "Bral",
+    "population": 0.09,
+    "group": "hamlet",
+    "features": {
+     "temple": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: I-0013, I-0068, I-0097"
+   },
+   "110": {
+    "name": "Bral",
+    "population": 0.08,
+    "group": "hamlet",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: I-0025, I-0097"
+   },
+   "186": {
+    "name": "Morn",
+    "population": 0.07,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "walls": 0
+    },
+    "note": "inferred · cites: I-0018, I-0097"
+   },
+   "465": {
+    "name": "Morn",
+    "population": 0.05,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0026, I-0097"
+   },
+   "328": {
+    "name": "Brenn",
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: I-0019, I-0097"
+   },
+   "440": {
+    "name": "Brenn",
+    "population": 0.04,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0027, I-0097"
+   },
+   "37": {
+    "name": "Toll",
+    "population": 0.04,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: I-0024, I-0097"
+   },
+   "313": {
+    "name": "Toll",
+    "population": 0.05,
+    "group": "hamlet",
+    "features": {
+     "walls": 0,
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: I-0015, I-0097"
+   },
+   "404": {
+    "name": "Toll",
+    "population": 0.03,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B404, I-0097"
+   },
+   "94": {
+    "name": "Vell",
+    "population": 0.09,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: I-0022, I-0014, I-0097"
+   },
+   "97": {
+    "name": "Vell",
+    "population": 0.025,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0029, I-0097"
+   },
+   "127": {
+    "name": "Vell",
+    "population": 0.05,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: I-0031, I-0097"
+   },
+   "162": {
+    "name": "Vell",
+    "population": 0.04,
+    "group": "hamlet",
+    "features": {
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: gazetteer B162, I-0097"
+   },
+   "64": {
+    "name": "Warr",
+    "population": 0.07,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0
+    },
+    "note": "inferred · cites: I-0016, I-0097"
+   },
+   "128": {
+    "name": "Warr",
+    "population": 0.04,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B128, I-0097"
+   },
+   "249": {
+    "name": "Tarr",
+    "population": 0.06,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0
+    },
+    "note": "inferred · cites: I-0017, I-0097"
+   },
+   "34": {
+    "name": "Tarr",
+    "population": 0.03,
+    "group": "hamlet",
+    "features": {
+     "citadel": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: I-0028, I-0097"
+   },
+   "402": {
+    "name": "Tarr",
+    "population": 0.04,
+    "group": "hamlet",
+    "note": "inferred · cites: gazetteer B402, I-0097"
+   },
+   "276": {
+    "population": 0.09,
+    "features": {
+     "temple": 0
+    },
+    "note": "cites: I-0001, I-0002, I-0003, I-0038a, I-0068a, I-0073a"
+   },
+   "277": {
+    "population": 0.04,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0065, I-0066"
+   },
+   "454": {
+    "population": 0.035,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0005, I-0067"
+   },
+   "148": {
+    "population": 0.05,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0044, I-0046"
+   },
+   "392": {
+    "population": 0.02,
+    "group": "hamlet",
+    "features": {
+     "temple": 0
+    },
+    "note": "inferred · cites: I-0073, I-0074"
+   },
+   "315": {
+    "population": 0.08,
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: I-0081, I-0082"
+   },
+   "61": {
+    "population": 0.06,
+    "note": "cites: I-0054, gazetteer B61"
+   },
+   "238": {
+    "population": 0.04,
+    "note": "cites: I-0042, gazetteer B238"
+   },
+   "95": {
+    "population": 0.03,
+    "group": "hamlet",
+    "features": {
+     "plaza": 0,
+     "shanty": 0
+    },
+    "note": "inferred · cites: I-0043"
+   },
+   "19": {
+    "population": 0.06,
+    "features": {
+     "citadel": 0,
+     "walls": 0,
+     "plaza": 0,
+     "temple": 0
+    },
+    "note": "inferred · cites: I-0083, App.A holders of the Red Hill"
+   }
+  },
+  "add": [
+   {
+    "key": "I_N01",
+    "id": 1001,
+    "name": "the seal-hunters' camp on Eilean mhin",
+    "cell": 4226,
+    "population": 0.015,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0008, V-0022",
+    "culture": 2
+   },
+   {
+    "key": "I_N02",
+    "id": 1002,
+    "name": "the autumn seal camp on Eilean fhada",
+    "cell": 420,
+    "population": 0.015,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0008a",
+    "culture": 2
+   },
+   {
+    "key": "I_N03",
+    "id": 1003,
+    "name": "Crannagan Loch chrom",
+    "cell": 3064,
+    "population": 0.06,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0020, I-0122",
+    "culture": 2
+   },
+   {
+    "key": "I_N04",
+    "id": 1004,
+    "name": "the summer camps in the passes",
+    "cell": 4113,
+    "population": 0.001,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0079",
+    "culture": 2
+   },
+   {
+    "key": "I_N05",
+    "id": 1005,
+    "name": "the deer-drive camp of the eastern forest",
+    "cell": 1834,
+    "population": 0.025,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0053",
+    "culture": 2
+   },
+   {
+    "key": "I_N06",
+    "id": 1006,
+    "name": "the hearths of the southern shore",
+    "cell": 4108,
+    "population": 0.04,
+    "group": "hamlet",
+    "note": "inferred · cites: I-0080",
+    "culture": 2
+   }
+  ]
+ },
+ "provinces": {
+  "base": "none",
+  "add": [
+   {
+    "key": "u0",
+    "name": "Doire uaine",
+    "formName": "",
+    "fullName": "Doire uaine",
+    "shires": [
+     112
+    ],
+    "note": "cites: I-0046"
+   },
+   {
+    "key": "u1",
+    "name": "Dùn ìseal",
+    "formName": "",
+    "fullName": "Dùn ìseal",
+    "shires": [
+     35,
+     48,
+     65,
+     96,
+     111
+    ],
+    "note": "cites: I-0005, I-0065, I-0066"
+   }
+  ]
+ },
+ "diplomacy": [
+  [
+   "@seann-dhaoine",
+   "@hill-folk",
+   "Unknown"
+  ],
+  [
+   "@clann-na-ceiste",
+   "@hill-folk",
+   "Friendly"
+  ],
+  [
+   "@hill-folk",
+   "@eastern-hearths",
+   "Friendly"
+  ],
+  [
+   "@hill-folk",
+   "@red-hill",
+   "Neutral"
+  ],
+  [
+   "@north-shore",
+   "@seann-dhaoine",
+   "Friendly"
+  ]
+ ],
+ "diplomacy_default": "Neutral",
+ "markers": {
+  "keep": [
+   0,
+   12,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   40,
+   41,
+   48
+  ],
+  "edit": {
+   "0": {
+    "note": "cites: I-0057"
+   },
+   "12": {
+    "icon": "🔥",
+    "note": "cites: I-0041"
+   },
+   "19": {
+    "note": "cites: I-0037"
+   },
+   "20": {
+    "note": "cites: I-0036"
+   },
+   "21": {
+    "note": "cites: I-0040, I-0042"
+   },
+   "22": {
+    "note": "cites: I-0044, I-0045"
+   },
+   "23": {
+    "note": "cites: I-0048, I-0049, I-0050"
+   },
+   "24": {
+    "note": "cites: I-0051, I-0052"
+   },
+   "28": {
+    "note": "cites: I-0069, I-0070"
+   },
+   "29": {
+    "note": "cites: I-0071, I-0072"
+   },
+   "30": {
+    "note": "cites: I-0073, I-0074"
+   },
+   "31": {
+    "note": "cites: I-0032, I-0058, I-0059"
+   },
+   "32": {
+    "note": "cites: I-0033, I-0060, I-0061"
+   },
+   "33": {
+    "note": "cites: I-0035, I-0062, I-0063"
+   },
+   "40": {
+    "note": "cites: I-0078, I-0079, I-0080"
+   },
+   "41": {
+    "note": "cites: I-0075, I-0076, I-0077"
+   },
+   "48": {
+    "note": "cites: I-0027a"
+   }
+  },
+  "add": [
+   {
+    "key": "I_K01",
+    "type": "custom",
+    "icon": "🔥",
+    "name": "Teine a' Chlachair and the slab over the vein",
+    "cell": 2096,
+    "note": "event I-0001 · cites: I-0001, I-0002, I-0003"
+   },
+   {
+    "key": "I_K02",
+    "type": "custom",
+    "icon": "🌫️",
+    "name": "Coimhdeach na Fine in the grove",
+    "cell": 482,
+    "note": "event I-0011a · cites: I-0011a, I-0006"
+   },
+   {
+    "key": "I_K03",
+    "type": "custom",
+    "icon": "🟡",
+    "name": "the first lighting: gual òir on the sea",
+    "cell": 909,
+    "note": "event I-0017a · cites: I-0017a"
+   },
+   {
+    "key": "I_K04",
+    "type": "custom",
+    "icon": "⚫",
+    "name": "the third lighting: gual dubh warm in the ground",
+    "cell": 2096,
+    "note": "event I-0038a · cites: I-0038a"
+   },
+   {
+    "key": "I_K05",
+    "type": "custom",
+    "icon": "🟤",
+    "name": "the fourth lighting: the blood of the misstrike",
+    "cell": 482,
+    "note": "event I-0052a · cites: I-0052a"
+   },
+   {
+    "key": "I_K06",
+    "type": "custom",
+    "icon": "⚪",
+    "name": "the fifth lighting: gual airgid in the river",
+    "cell": 2097,
+    "note": "event I-0062a · cites: I-0062a"
+   },
+   {
+    "key": "I_K07",
+    "type": "custom",
+    "icon": "🔥",
+    "name": "the sixth lighting: the fire in the fingers",
+    "cell": 2096,
+    "note": "event I-0073a · cites: I-0073a"
+   },
+   {
+    "key": "I_K08",
+    "type": "custom",
+    "icon": "🌈",
+    "name": "the seventh lighting: gual bogha-froise and the vigil",
+    "cell": 482,
+    "note": "event I-0080a · cites: I-0080a"
+   },
+   {
+    "key": "I_K09",
+    "type": "custom",
+    "icon": "🪨",
+    "name": "hearth-stones on the terraces of the Abhainn uaine",
+    "cell": 2818,
+    "note": "event I-0004 · cites: I-0004"
+   },
+   {
+    "key": "I_K10",
+    "type": "custom",
+    "icon": "🐟",
+    "name": "the fish-weirs of the Abhainn ìseal",
+    "cell": 1500,
+    "note": "event I-0009 · cites: I-0009"
+   },
+   {
+    "key": "I_K11",
+    "type": "custom",
+    "icon": "⚱️",
+    "name": "the stone boxes of Eilean dhearg",
+    "cell": 3856,
+    "note": "event I-0014 · cites: I-0014"
+   },
+   {
+    "key": "I_K12",
+    "type": "custom",
+    "icon": "🪜",
+    "name": "the steps of Bral",
+    "cell": 2957,
+    "note": "event I-0013 · cites: I-0013"
+   },
+   {
+    "key": "I_K13",
+    "type": "custom",
+    "icon": "🔣",
+    "name": "the script in the cliff at Tarr",
+    "cell": 2578,
+    "note": "event I-0017 · cites: I-0017"
+   },
+   {
+    "key": "I_K14",
+    "type": "custom",
+    "icon": "💀",
+    "name": "the hut of the nine",
+    "cell": 3008,
+    "note": "event I-0047 · cites: I-0047"
+   },
+   {
+    "key": "I_K15",
+    "type": "custom",
+    "icon": "🪿",
+    "name": "the geese of Eilean ghorm",
+    "cell": 1751,
+    "note": "event I-0055 · cites: I-0055"
+   },
+   {
+    "key": "I_K16",
+    "type": "custom",
+    "icon": "🌊",
+    "name": "the drowned hearths of the neck",
+    "cell": 67,
+    "note": "event I-0007 · cites: I-0007"
+   },
+   {
+    "key": "I_K17",
+    "type": "custom",
+    "icon": "🐆",
+    "name": "where the eleven were lost",
+    "cell": 4161,
+    "note": "event I-0080 · cites: I-0080"
+   }
+  ]
+ },
+ "routes": {
+  "keep": [
+   410
+  ],
+  "edit": {},
+  "add": [
+   {
+    "key": "I_R01",
+    "name": "the kerbed way between the forts",
+    "group": "roads",
+    "stops": [
+     3438,
+     3701,
+     3954
+    ],
+    "note": "cites: I-0034, I-0059, I-0061"
+   },
+   {
+    "key": "I_R02",
+    "name": "the shell causeway of Warr",
+    "group": "roads",
+    "stops": [
+     2972,
+     3235
+    ],
+    "note": "cites: I-0016, I-0087"
+   },
+   {
+    "key": "I_R03",
+    "name": "the paths that stop at a line of stones",
+    "group": "trails",
+    "stops": [
+     3158,
+     3498
+    ],
+    "note": "inferred · cites: I-0052"
+   },
+   {
+    "key": "I_R04",
+    "name": "the seal-hunters' An t-Aiseag to Eilean mhin",
+    "group": "searoutes",
+    "stops": [
+     3937,
+     4226
+    ],
+    "note": "inferred · cites: I-0008"
+   },
+   {
+    "key": "I_R05",
+    "name": "the skin boats to the skerries of Eilean fhada",
+    "group": "searoutes",
+    "stops": [
+     1059,
+     420
+    ],
+    "note": "inferred · cites: I-0008a"
+   },
+   {
+    "key": "I_R06",
+    "name": "the way of the lightings (Tobar dhìreach to the grove)",
+    "group": "trails",
+    "stops": [
+     2096,
+     3104,
+     482
+    ],
+    "note": "inferred · cites: I-0052a, I-0080a"
+   }
+  ]
+ },
+ "zones": {
+  "keep": [],
+  "edit": {},
+  "add": [
+   {
+    "key": "I_Z01",
+    "name": "the widest reach of Seann-Dhaoine (VE 3,872)",
+    "type": "Custom",
+    "note": "cites: I-0056",
+    "shires": [
+     2,
+     3,
+     4,
+     8,
+     9,
+     10,
+     11,
+     13,
+     15,
+     17,
+     19,
+     24,
+     25,
+     27,
+     30,
+     31,
+     38,
+     39,
+     43,
+     45,
+     49,
+     50,
+     51,
+     53,
+     54,
+     55,
+     56,
+     58,
+     59,
+     60,
+     62,
+     63,
+     64,
+     68,
+     70,
+     72,
+     74,
+     76,
+     77,
+     78,
+     80,
+     82,
+     83,
+     91,
+     92,
+     95,
+     99,
+     100,
+     101,
+     102,
+     103,
+     104,
+     105,
+     108,
+     109,
+     110,
+     113,
+     115,
+     116,
+     118,
+     119,
+     120,
+     121,
+     122,
+     123
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "I_Z02",
+    "name": "the covered hearths of the Doire uaine hills",
+    "type": "Custom",
+    "note": "cites: I-0046, I-0045",
+    "shires": [
+     112
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "I_Z03",
+    "name": "the drowned neck of Eilean dhubh (VE 506)",
+    "type": "Custom",
+    "note": "cites: I-0007",
+    "shires": [
+     119
+    ],
+    "cells": [
+     67
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "I_Z04",
+    "name": "the oak of the northern lowlands",
+    "type": "Custom",
+    "note": "cites: I-0006, I-0220a",
+    "shires": [
+     7,
+     8,
+     9,
+     20,
+     23,
+     26,
+     27,
+     45,
+     51,
+     54,
+     56,
+     62,
+     68,
+     83,
+     86,
+     88,
+     91,
+     92,
+     98,
+     104,
+     113,
+     115
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "I_Z05",
+    "name": "the snowfields of the central mountains (to VE 227)",
+    "type": "Custom",
+    "note": "cites: I-0004",
+    "shires": [
+     35,
+     65,
+     96,
+     112,
+     114
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "I_Z06",
+    "name": "the high places left by Seann-Dhaoine (VE 4,325)",
+    "type": "Custom",
+    "note": "cites: I-0064",
+    "shires": [
+     24,
+     31,
+     109,
+     110
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "I_Z07",
+    "name": "Imrich nam Pantar",
+    "type": "Custom",
+    "note": "cites: I-0078, I-0079",
+    "shires": [
+     10,
+     25,
+     78,
+     100
+    ],
+    "color": "url(#hatch4)"
+   }
+  ]
+ },
+ "labels": {
+  "add": [
+   {
+    "text": "Clann nan Dè",
+    "cell": 2184,
+    "fontSize": 14,
+    "note": "cites: I-0065"
+   },
+   {
+    "text": "Na Seann-Dhaoine",
+    "cell": 2410,
+    "fontSize": 14,
+    "note": "cites: I-0056"
+   },
+   {
+    "text": "Cha do thàinig sinn; bha sinn ann",
+    "cell": 3342,
+    "fontSize": 14,
+    "note": "cites: I-0073"
+   }
+  ]
+ },
+ "economy": {
+  "mode": "prune"
+ },
+ "journeys": {
+  "keep": []
+ },
+ "rural_population": {
+  "scale": 0.002
+ }
+}

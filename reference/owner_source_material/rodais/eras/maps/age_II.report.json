@@ -1,0 +1,205 @@
+{
+ "warnings": [
+  "market 3: centre burg 76 is gone; moved to 131 (Baile gharbh)",
+  "market 4: centre burg 132 is gone; moved to 365 (Baile Mòr mhòr)",
+  "market 6: centre burg 34 is gone; moved to 449 (Achadh chaol)",
+  "market 8: centre burg 273 is gone; moved to 145 (Achadh naomh)",
+  "market 9: centre burg 136 is gone; moved to 119 (Cuan ruadh)",
+  "market 10: centre burg 204 is gone; moved to 170 (Baile ghorm)",
+  "market 12: centre burg 143 is gone; moved to 142 (Cnoc ghorm)",
+  "market 13: centre burg 113 is gone; moved to 475 (Caol bheag)",
+  "market 14: centre burg 160 is gone; moved to 95 (Caol mhòr)",
+  "market 15: centre burg 233 is gone; moved to 363 (Ceann mhin)",
+  "economy: 6558 deals with burgs or markets not on this map dropped"
+ ],
+ "ids": {
+  "burg": {
+   "II_N01": 506,
+   "II_N02": 507,
+   "II_N03": 508,
+   "II_N04": 509
+  },
+  "state": {
+   "rioghachd": 1,
+   "red-hill": 2,
+   "dun-dhearg": 3,
+   "keepers": 4
+  },
+  "province": {
+   "u0": 124,
+   "u1": 125,
+   "u2": 126,
+   "u3": 127,
+   "u4": 128
+  },
+  "culture": {},
+  "religion": {},
+  "marker": {
+   "II_K01": 49,
+   "II_K02": 50,
+   "II_K03": 51,
+   "II_K04": 52,
+   "II_K05": 53,
+   "II_K06": 54,
+   "II_K07": 55,
+   "II_K08": 56,
+   "II_K09": 57,
+   "II_K10": 58,
+   "II_K11": 59,
+   "II_K12": 60,
+   "II_K13": 61,
+   "II_K14": 62,
+   "II_K15": 63,
+   "II_K16": 64,
+   "II_K17": 65,
+   "II_K18": 66,
+   "II_K19": 67
+  },
+  "zone": {
+   "II_Z01": 5,
+   "II_Z02": 6,
+   "II_Z03": 7,
+   "II_Z04": 8,
+   "II_Z09": 9,
+   "II_Z10": 10,
+   "II_Z11": 11,
+   "II_Z12": 12
+  },
+  "route": {
+   "II_R01": 445,
+   "II_R02": 446,
+   "II_R03": 447,
+   "II_R04": 448
+  },
+  "label": {}
+ },
+ "placeIds": {
+  "2001": 506,
+  "2002": 507,
+  "2003": 508,
+  "2004": 509
+ },
+ "counts": {
+  "states": 4,
+  "provinces": 5,
+  "burgs": 80,
+  "cultures": 1,
+  "religions": 2,
+  "routes": 30,
+  "markers": 45,
+  "zones": 12,
+  "addedLabels": 2,
+  "regiments": 0,
+  "markets": 16,
+  "deals": 1500,
+  "journeys": 0
+ },
+ "integrity": [],
+ "drawErrors": [],
+ "masterLoad": {
+  "pageErrors": [],
+  "consoleErrors": [],
+  "integrity": [],
+  "warnings": [],
+  "dialogs": [],
+  "loaded": true
+ },
+ "bytes": 3092220,
+ "records": 53,
+ "verify": {
+  "load": {
+   "pageErrors": [],
+   "consoleErrors": [],
+   "integrity": [],
+   "warnings": [],
+   "dialogs": [],
+   "loaded": true
+  },
+  "counts": {
+   "states": 4,
+   "provinces": 5,
+   "burgs": 80,
+   "cultures": 1,
+   "religions": 2,
+   "routes": 30,
+   "markers": 45,
+   "zones": 12,
+   "addedLabels": 2,
+   "regiments": 0,
+   "markets": 16,
+   "deals": 1500,
+   "journeys": 0
+  },
+  "integrity": [],
+  "layers": {
+   "active": [
+    "ocean",
+    "landmass",
+    "heightmap",
+    "lakes",
+    "cells",
+    "compass",
+    "rivers",
+    "cultures",
+    "borders",
+    "routes",
+    "coastline",
+    "ice",
+    "burgIcons",
+    "labels",
+    "fogging",
+    "debug",
+    "scaleBar",
+    "vignette",
+    "legend"
+   ],
+   "burgIcons": 102,
+   "labels": 10,
+   "routes": 30,
+   "stateBordersLength": 13016,
+   "provinceBordersLength": 8834
+  },
+  "roundTrip": {
+   "identical": true,
+   "records": [
+    53,
+    53
+   ],
+   "differing": []
+  },
+  "draw": {
+   "statesBody": 7,
+   "provinces": 10,
+   "cultures": 2,
+   "religions": 3,
+   "routes": 30,
+   "markers": 90,
+   "zones": 12,
+   "military": 4,
+   "burgs": 102,
+   "emblems": 9
+  },
+  "drawErrors": [],
+  "shots": {
+   "states": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_II_states.png",
+   "cultures": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_II_cultures.png",
+   "religions": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_II_religions.png",
+   "routes": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_II_routes.png",
+   "provinces": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_II_provinces.png"
+  },
+  "pageErrorsAfterDraw": [],
+  "shires": {
+   "cells_checked": 2854,
+   "problems": []
+  },
+  "expected_counts": {
+   "states": 4,
+   "burgs": 80,
+   "markers": 45,
+   "routes": 30,
+   "zones": 12
+  },
+  "count_mismatches": {},
+  "ok": true
+ }
+}

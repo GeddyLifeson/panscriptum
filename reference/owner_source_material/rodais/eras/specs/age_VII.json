@@ -1,0 +1,2483 @@
+{
+ "name": "Diathir_Age_VII",
+ "seed": "era-age-VII",
+ "comment": "Made by eras/engine/convert_draft.py from eras/specs_draft/age_VII.json (era-spec-draft/1). Do not edit; edit the draft and convert again.",
+ "master": "../../Diathir_Atlas/Diathir.map",
+ "lore": {
+  "name": "Dia-thìr",
+  "description": "An Aois Dhubhain · 21 an Dùbhlachd, DE 27",
+  "calendar": {
+   "year": 27,
+   "era": "Dubhan Era",
+   "eraShort": "DE"
+  }
+ },
+ "units": {
+  "distance": {
+   "scale": 0.14
+  }
+ },
+ "cultures": {
+  "edit": {
+   "2": {
+    "name": "Na Dia-thìrich"
+   },
+   "1": {
+    "name": "Na Tuathaich"
+   }
+  }
+ },
+ "religions": {},
+ "states": {
+  "list": [
+   {
+    "key": "kingdom",
+    "name": "Dia-thìr",
+    "fullName": "Rìoghachd Dia-thìr",
+    "form": "Monarchy",
+    "formName": "Kingdom",
+    "capital": 19,
+    "shires": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     24,
+     25,
+     26,
+     27,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57,
+     58,
+     59,
+     60,
+     61,
+     62,
+     63,
+     64,
+     65,
+     66,
+     67,
+     68,
+     69,
+     70,
+     71,
+     72,
+     73,
+     74,
+     76,
+     77,
+     78,
+     79,
+     80,
+     81,
+     82,
+     83,
+     84,
+     85,
+     87,
+     89,
+     90,
+     91,
+     92,
+     93,
+     94,
+     95,
+     96,
+     97,
+     98,
+     99,
+     100,
+     101,
+     102,
+     103,
+     104,
+     106,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115,
+     116,
+     117,
+     118,
+     119,
+     120,
+     121,
+     123
+    ],
+    "culture": 2,
+    "color": "#66c2a5",
+    "base": 1,
+    "military": "keep",
+    "note": "Cathal · cites: V-0007, VI-0154a, App.H §I"
+   },
+   {
+    "key": "moot",
+    "name": "Tional nan Tuathach",
+    "fullName": "Tional nan Tuathach",
+    "form": "Republic",
+    "formName": "Republic",
+    "capital": 95,
+    "shires": [
+     7,
+     14,
+     23,
+     28,
+     36,
+     75,
+     86,
+     88,
+     105,
+     107,
+     122
+    ],
+    "culture": 1,
+    "color": "#dababf",
+    "coa": "generate",
+    "note": "Peter Hale · cites: V-0008, VI-0153, App.H §III"
+   }
+  ],
+  "cell_state": {},
+  "neutral_name": "Neutrals"
+ },
+ "burgs": {
+  "keep": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58,
+   59,
+   60,
+   61,
+   62,
+   63,
+   64,
+   65,
+   66,
+   67,
+   68,
+   69,
+   70,
+   71,
+   72,
+   73,
+   74,
+   75,
+   76,
+   77,
+   78,
+   79,
+   80,
+   81,
+   82,
+   83,
+   84,
+   85,
+   86,
+   87,
+   88,
+   89,
+   90,
+   91,
+   92,
+   93,
+   94,
+   95,
+   96,
+   97,
+   98,
+   99,
+   100,
+   101,
+   102,
+   103,
+   104,
+   105,
+   106,
+   107,
+   108,
+   109,
+   110,
+   111,
+   112,
+   113,
+   114,
+   115,
+   116,
+   117,
+   118,
+   119,
+   120,
+   121,
+   122,
+   123,
+   124,
+   125,
+   126,
+   127,
+   128,
+   129,
+   130,
+   131,
+   132,
+   133,
+   134,
+   135,
+   136,
+   137,
+   138,
+   139,
+   140,
+   141,
+   142,
+   143,
+   144,
+   145,
+   146,
+   147,
+   148,
+   149,
+   150,
+   151,
+   152,
+   153,
+   154,
+   155,
+   156,
+   157,
+   158,
+   159,
+   160,
+   161,
+   162,
+   163,
+   164,
+   165,
+   166,
+   167,
+   168,
+   169,
+   170,
+   171,
+   172,
+   173,
+   174,
+   175,
+   176,
+   177,
+   178,
+   179,
+   180,
+   181,
+   182,
+   183,
+   184,
+   185,
+   186,
+   187,
+   188,
+   189,
+   190,
+   191,
+   192,
+   193,
+   194,
+   195,
+   196,
+   197,
+   198,
+   199,
+   200,
+   201,
+   202,
+   203,
+   204,
+   205,
+   206,
+   207,
+   208,
+   209,
+   210,
+   211,
+   212,
+   213,
+   214,
+   215,
+   216,
+   217,
+   218,
+   219,
+   220,
+   221,
+   222,
+   223,
+   224,
+   225,
+   226,
+   227,
+   228,
+   229,
+   230,
+   231,
+   232,
+   233,
+   234,
+   235,
+   236,
+   237,
+   238,
+   239,
+   240,
+   241,
+   242,
+   243,
+   244,
+   245,
+   246,
+   247,
+   248,
+   249,
+   250,
+   251,
+   252,
+   253,
+   254,
+   255,
+   256,
+   257,
+   258,
+   259,
+   260,
+   261,
+   262,
+   263,
+   264,
+   265,
+   266,
+   267,
+   268,
+   269,
+   270,
+   271,
+   272,
+   273,
+   274,
+   275,
+   276,
+   277,
+   278,
+   279,
+   280,
+   281,
+   282,
+   283,
+   284,
+   285,
+   286,
+   287,
+   288,
+   289,
+   290,
+   291,
+   292,
+   293,
+   294,
+   295,
+   296,
+   297,
+   298,
+   299,
+   300,
+   301,
+   302,
+   303,
+   304,
+   305,
+   306,
+   307,
+   308,
+   309,
+   310,
+   311,
+   312,
+   313,
+   314,
+   315,
+   316,
+   317,
+   318,
+   319,
+   320,
+   321,
+   322,
+   323,
+   324,
+   325,
+   326,
+   327,
+   328,
+   329,
+   330,
+   331,
+   332,
+   333,
+   334,
+   335,
+   336,
+   337,
+   338,
+   339,
+   340,
+   341,
+   342,
+   343,
+   344,
+   345,
+   346,
+   347,
+   348,
+   349,
+   350,
+   351,
+   352,
+   353,
+   354,
+   355,
+   356,
+   357,
+   358,
+   359,
+   360,
+   361,
+   362,
+   363,
+   364,
+   365,
+   366,
+   367,
+   368,
+   369,
+   370,
+   371,
+   372,
+   373,
+   374,
+   375,
+   376,
+   377,
+   378,
+   379,
+   380,
+   381,
+   382,
+   383,
+   384,
+   385,
+   386,
+   387,
+   388,
+   389,
+   390,
+   391,
+   392,
+   393,
+   394,
+   395,
+   396,
+   397,
+   398,
+   399,
+   400,
+   401,
+   402,
+   403,
+   404,
+   405,
+   406,
+   407,
+   408,
+   409,
+   410,
+   411,
+   412,
+   413,
+   414,
+   415,
+   416,
+   417,
+   418,
+   419,
+   420,
+   421,
+   422,
+   423,
+   424,
+   425,
+   426,
+   427,
+   428,
+   429,
+   430,
+   431,
+   432,
+   433,
+   434,
+   435,
+   436,
+   437,
+   438,
+   439,
+   440,
+   441,
+   442,
+   443,
+   444,
+   445,
+   446,
+   447,
+   448,
+   449,
+   450,
+   451,
+   452,
+   453,
+   454,
+   455,
+   456,
+   457,
+   458,
+   459,
+   460,
+   461,
+   462,
+   463,
+   464,
+   465,
+   466,
+   467,
+   468,
+   469,
+   470,
+   471,
+   472,
+   473,
+   474,
+   475,
+   476,
+   477,
+   478,
+   479,
+   480,
+   481,
+   482,
+   483,
+   484,
+   485,
+   486,
+   487,
+   488,
+   489,
+   490,
+   491,
+   492,
+   493,
+   494,
+   495,
+   496,
+   497,
+   498,
+   499,
+   500,
+   501,
+   502,
+   503,
+   504,
+   505
+  ],
+  "edit": {
+   "1": {
+    "note": "Òrd na Cloiche · cites: gazetteer B1, map Rodos_finished.map record 15"
+   },
+   "2": {
+    "note": "Òrd Mhacha · cites: gazetteer B2, map Rodos_finished.map record 15"
+   },
+   "4": {
+    "culture": 2,
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B4, map Rodos_finished.map record 15"
+   },
+   "6": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B6, map Rodos_finished.map record 15"
+   },
+   "8": {
+    "note": "Òrd Mhanannain · cites: gazetteer B8, map Rodos_finished.map record 15"
+   },
+   "9": {
+    "culture": 1,
+    "note": "Eaglais nan Tuathach · cites: gazetteer B9, map Rodos_finished.map record 15"
+   },
+   "10": {
+    "note": "Òrd Mhacha · cites: gazetteer B10, map Rodos_finished.map record 15"
+   },
+   "11": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B11, map Rodos_finished.map record 15"
+   },
+   "14": {
+    "note": "Òrd Mhacha · cites: gazetteer B14, map Rodos_finished.map record 15"
+   },
+   "15": {
+    "note": "Òrd Bhrìde · cites: gazetteer B15, map Rodos_finished.map record 15"
+   },
+   "17": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B17, map Rodos_finished.map record 15"
+   },
+   "19": {
+    "note": "Òrd Mhacha · cites: gazetteer B19, map Rodos_finished.map record 15"
+   },
+   "20": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B20, map Rodos_finished.map record 15"
+   },
+   "22": {
+    "note": "Òrd Mhacha · cites: gazetteer B22, map Rodos_finished.map record 15"
+   },
+   "23": {
+    "note": "Òrd Mhacha · cites: gazetteer B23, map Rodos_finished.map record 15"
+   },
+   "24": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B24, map Rodos_finished.map record 15"
+   },
+   "25": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B25, map Rodos_finished.map record 15"
+   },
+   "26": {
+    "note": "Òrd Mhacha · cites: gazetteer B26, map Rodos_finished.map record 15"
+   },
+   "27": {
+    "note": "Òrd Mhacha · cites: gazetteer B27, map Rodos_finished.map record 15"
+   },
+   "29": {
+    "note": "Òrd Mhacha · cites: gazetteer B29, map Rodos_finished.map record 15"
+   },
+   "30": {
+    "note": "Òrd Mhacha · cites: gazetteer B30, map Rodos_finished.map record 15"
+   },
+   "31": {
+    "note": "Òrd Mhacha · cites: gazetteer B31, map Rodos_finished.map record 15"
+   },
+   "32": {
+    "note": "Òrd Mhacha · cites: gazetteer B32, map Rodos_finished.map record 15"
+   },
+   "33": {
+    "note": "Òrd Mhacha · cites: gazetteer B33, map Rodos_finished.map record 15"
+   },
+   "35": {
+    "note": "Òrd Mhacha · cites: gazetteer B35, map Rodos_finished.map record 15"
+   },
+   "36": {
+    "note": "Òrd Mhacha · cites: gazetteer B36, map Rodos_finished.map record 15"
+   },
+   "40": {
+    "note": "Òrd Mhacha · cites: gazetteer B40, map Rodos_finished.map record 15"
+   },
+   "41": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B41, map Rodos_finished.map record 15"
+   },
+   "42": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B42, map Rodos_finished.map record 15"
+   },
+   "43": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B43, map Rodos_finished.map record 15"
+   },
+   "44": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B44, map Rodos_finished.map record 15"
+   },
+   "45": {
+    "note": "Òrd na Cloiche · cites: gazetteer B45, map Rodos_finished.map record 15"
+   },
+   "47": {
+    "note": "Òrd Mhanannain · cites: gazetteer B47, map Rodos_finished.map record 15"
+   },
+   "49": {
+    "note": "Òrd Mhanannain · cites: gazetteer B49, map Rodos_finished.map record 15"
+   },
+   "50": {
+    "note": "Òrd na Cloiche · cites: gazetteer B50, map Rodos_finished.map record 15"
+   },
+   "52": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B52, map Rodos_finished.map record 15"
+   },
+   "53": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B53, map Rodos_finished.map record 15"
+   },
+   "55": {
+    "note": "Òrd Mhanannain · cites: gazetteer B55, map Rodos_finished.map record 15"
+   },
+   "56": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B56, map Rodos_finished.map record 15"
+   },
+   "57": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B57, map Rodos_finished.map record 15"
+   },
+   "58": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B58, map Rodos_finished.map record 15"
+   },
+   "59": {
+    "note": "Òrd Bhrìde · cites: gazetteer B59, map Rodos_finished.map record 15"
+   },
+   "62": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B62, map Rodos_finished.map record 15"
+   },
+   "63": {
+    "note": "Òrd Mhanannain · cites: gazetteer B63, map Rodos_finished.map record 15"
+   },
+   "64": {
+    "note": "Òrd Mhanannain · cites: gazetteer B64, map Rodos_finished.map record 15"
+   },
+   "66": {
+    "note": "Òrd na Cloiche · cites: gazetteer B66, map Rodos_finished.map record 15"
+   },
+   "67": {
+    "note": "Òrd Mhacha · cites: gazetteer B67, map Rodos_finished.map record 15"
+   },
+   "70": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B70, map Rodos_finished.map record 15"
+   },
+   "71": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B71, map Rodos_finished.map record 15"
+   },
+   "72": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B72, map Rodos_finished.map record 15"
+   },
+   "74": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B74, map Rodos_finished.map record 15"
+   },
+   "75": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B75, map Rodos_finished.map record 15"
+   },
+   "76": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B76, map Rodos_finished.map record 15"
+   },
+   "77": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B77, map Rodos_finished.map record 15"
+   },
+   "79": {
+    "note": "Òrd Mhanannain · cites: gazetteer B79, map Rodos_finished.map record 15"
+   },
+   "80": {
+    "note": "Òrd Mhacha · cites: gazetteer B80, map Rodos_finished.map record 15"
+   },
+   "82": {
+    "note": "Òrd Mhacha · cites: gazetteer B82, map Rodos_finished.map record 15"
+   },
+   "83": {
+    "note": "Òrd Mhacha · cites: gazetteer B83, map Rodos_finished.map record 15"
+   },
+   "84": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B84, map Rodos_finished.map record 15"
+   },
+   "87": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B87, map Rodos_finished.map record 15"
+   },
+   "88": {
+    "note": "Òrd Mhacha · cites: gazetteer B88, map Rodos_finished.map record 15"
+   },
+   "89": {
+    "note": "Òrd Mhacha · cites: gazetteer B89, map Rodos_finished.map record 15"
+   },
+   "90": {
+    "note": "Òrd Mhacha · cites: gazetteer B90, map Rodos_finished.map record 15"
+   },
+   "91": {
+    "note": "Òrd Mhacha · cites: gazetteer B91, map Rodos_finished.map record 15"
+   },
+   "92": {
+    "note": "Òrd na Cloiche · cites: gazetteer B92, map Rodos_finished.map record 15"
+   },
+   "93": {
+    "note": "Òrd Bhrìde · cites: gazetteer B93, map Rodos_finished.map record 15"
+   },
+   "96": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B96, map Rodos_finished.map record 15"
+   },
+   "97": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B97, map Rodos_finished.map record 15"
+   },
+   "100": {
+    "note": "Òrd Mhanannain · cites: gazetteer B100, map Rodos_finished.map record 15"
+   },
+   "101": {
+    "note": "Òrd Mhacha · cites: gazetteer B101, map Rodos_finished.map record 15"
+   },
+   "104": {
+    "note": "Òrd Mhacha · cites: gazetteer B104, map Rodos_finished.map record 15"
+   },
+   "105": {
+    "note": "Òrd Mhanannain · cites: gazetteer B105, map Rodos_finished.map record 15"
+   },
+   "106": {
+    "note": "Òrd Mhacha · cites: gazetteer B106, map Rodos_finished.map record 15"
+   },
+   "107": {
+    "note": "Òrd Mhacha · cites: gazetteer B107, map Rodos_finished.map record 15"
+   },
+   "109": {
+    "note": "Òrd Mhacha · cites: gazetteer B109, map Rodos_finished.map record 15"
+   },
+   "112": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B112, map Rodos_finished.map record 15"
+   },
+   "113": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B113, map Rodos_finished.map record 15"
+   },
+   "115": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B115, map Rodos_finished.map record 15"
+   },
+   "118": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B118, map Rodos_finished.map record 15"
+   },
+   "120": {
+    "note": "Òrd Mhanannain · cites: gazetteer B120, map Rodos_finished.map record 15"
+   },
+   "121": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B121, map Rodos_finished.map record 15"
+   },
+   "122": {
+    "note": "Òrd Mhanannain · cites: gazetteer B122, map Rodos_finished.map record 15"
+   },
+   "123": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B123, map Rodos_finished.map record 15"
+   },
+   "127": {
+    "culture": 2,
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B127, map Rodos_finished.map record 15"
+   },
+   "129": {
+    "note": "Òrd Mhacha · cites: gazetteer B129, map Rodos_finished.map record 15"
+   },
+   "131": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B131, map Rodos_finished.map record 15"
+   },
+   "132": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B132, map Rodos_finished.map record 15"
+   },
+   "133": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B133, map Rodos_finished.map record 15"
+   },
+   "134": {
+    "note": "Òrd Mhanannain · cites: gazetteer B134, map Rodos_finished.map record 15"
+   },
+   "135": {
+    "note": "Òrd Mhacha · cites: gazetteer B135, map Rodos_finished.map record 15"
+   },
+   "137": {
+    "note": "Òrd Mhacha · cites: gazetteer B137, map Rodos_finished.map record 15"
+   },
+   "139": {
+    "note": "Òrd Mhacha · cites: gazetteer B139, map Rodos_finished.map record 15"
+   },
+   "140": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B140, map Rodos_finished.map record 15"
+   },
+   "141": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B141, map Rodos_finished.map record 15"
+   },
+   "144": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B144, map Rodos_finished.map record 15"
+   },
+   "146": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B146, map Rodos_finished.map record 15"
+   },
+   "148": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B148, map Rodos_finished.map record 15"
+   },
+   "149": {
+    "note": "Òrd na Cloiche · cites: gazetteer B149, map Rodos_finished.map record 15"
+   },
+   "150": {
+    "note": "Òrd Mhacha · cites: gazetteer B150, map Rodos_finished.map record 15"
+   },
+   "151": {
+    "note": "Òrd Mhacha · cites: gazetteer B151, map Rodos_finished.map record 15"
+   },
+   "152": {
+    "note": "Òrd Mhacha · cites: gazetteer B152, map Rodos_finished.map record 15"
+   },
+   "153": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B153, map Rodos_finished.map record 15"
+   },
+   "157": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B157, map Rodos_finished.map record 15"
+   },
+   "158": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B158, map Rodos_finished.map record 15"
+   },
+   "161": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B161, map Rodos_finished.map record 15"
+   },
+   "162": {
+    "note": "Òrd Mhacha · cites: gazetteer B162, map Rodos_finished.map record 15"
+   },
+   "163": {
+    "note": "Òrd Mhacha · cites: gazetteer B163, map Rodos_finished.map record 15"
+   },
+   "164": {
+    "note": "Òrd Mhacha · cites: gazetteer B164, map Rodos_finished.map record 15"
+   },
+   "165": {
+    "note": "Òrd Mhacha · cites: gazetteer B165, map Rodos_finished.map record 15"
+   },
+   "166": {
+    "note": "Òrd Mhanannain · cites: gazetteer B166, map Rodos_finished.map record 15"
+   },
+   "168": {
+    "note": "Òrd Mhacha · cites: gazetteer B168, map Rodos_finished.map record 15"
+   },
+   "170": {
+    "note": "Òrd na Cloiche · cites: gazetteer B170, map Rodos_finished.map record 15"
+   },
+   "172": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B172, map Rodos_finished.map record 15"
+   },
+   "173": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B173, map Rodos_finished.map record 15"
+   },
+   "175": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B175, map Rodos_finished.map record 15"
+   },
+   "176": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B176, map Rodos_finished.map record 15"
+   },
+   "177": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B177, map Rodos_finished.map record 15"
+   },
+   "178": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B178, map Rodos_finished.map record 15"
+   },
+   "179": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B179, map Rodos_finished.map record 15"
+   },
+   "180": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B180, map Rodos_finished.map record 15"
+   },
+   "182": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B182, map Rodos_finished.map record 15"
+   },
+   "183": {
+    "note": "Òrd Mhacha · cites: gazetteer B183, map Rodos_finished.map record 15"
+   },
+   "184": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B184, map Rodos_finished.map record 15"
+   },
+   "187": {
+    "note": "Òrd Mhacha · cites: gazetteer B187, map Rodos_finished.map record 15"
+   },
+   "188": {
+    "note": "Òrd Mhacha · cites: gazetteer B188, map Rodos_finished.map record 15"
+   },
+   "189": {
+    "note": "Òrd Mhacha · cites: gazetteer B189, map Rodos_finished.map record 15"
+   },
+   "190": {
+    "culture": 2
+   },
+   "191": {
+    "note": "Òrd na Cloiche · cites: gazetteer B191, map Rodos_finished.map record 15"
+   },
+   "193": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B193, map Rodos_finished.map record 15"
+   },
+   "194": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B194, map Rodos_finished.map record 15"
+   },
+   "195": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B195, map Rodos_finished.map record 15"
+   },
+   "196": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B196, map Rodos_finished.map record 15"
+   },
+   "197": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B197, map Rodos_finished.map record 15"
+   },
+   "198": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B198, map Rodos_finished.map record 15"
+   },
+   "199": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B199, map Rodos_finished.map record 15"
+   },
+   "200": {
+    "note": "Òrd Mhanannain · cites: gazetteer B200, map Rodos_finished.map record 15"
+   },
+   "201": {
+    "note": "Òrd Mhacha · cites: gazetteer B201, map Rodos_finished.map record 15"
+   },
+   "204": {
+    "note": "Òrd na Cloiche · cites: gazetteer B204, map Rodos_finished.map record 15"
+   },
+   "205": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B205, map Rodos_finished.map record 15"
+   },
+   "209": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B209, map Rodos_finished.map record 15"
+   },
+   "210": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B210, map Rodos_finished.map record 15"
+   },
+   "212": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B212, map Rodos_finished.map record 15"
+   },
+   "213": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B213, map Rodos_finished.map record 15"
+   },
+   "214": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B214, map Rodos_finished.map record 15"
+   },
+   "215": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B215, map Rodos_finished.map record 15"
+   },
+   "218": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B218, map Rodos_finished.map record 15"
+   },
+   "222": {
+    "culture": 2,
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B222, map Rodos_finished.map record 15"
+   },
+   "223": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B223, map Rodos_finished.map record 15"
+   },
+   "224": {
+    "note": "Òrd Mhacha · cites: gazetteer B224, map Rodos_finished.map record 15"
+   },
+   "228": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B228, map Rodos_finished.map record 15"
+   },
+   "231": {
+    "note": "Òrd Mhacha · cites: gazetteer B231, map Rodos_finished.map record 15"
+   },
+   "232": {
+    "note": "Òrd na Cloiche · cites: gazetteer B232, map Rodos_finished.map record 15"
+   },
+   "234": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B234, map Rodos_finished.map record 15"
+   },
+   "235": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B235, map Rodos_finished.map record 15"
+   },
+   "239": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B239, map Rodos_finished.map record 15"
+   },
+   "240": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B240, map Rodos_finished.map record 15"
+   },
+   "243": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B243, map Rodos_finished.map record 15"
+   },
+   "245": {
+    "note": "Òrd Mhanannain · cites: gazetteer B245, map Rodos_finished.map record 15"
+   },
+   "246": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B246, map Rodos_finished.map record 15"
+   },
+   "247": {
+    "note": "Òrd Mhanannain · cites: gazetteer B247, map Rodos_finished.map record 15"
+   },
+   "248": {
+    "note": "Òrd Mhanannain · cites: gazetteer B248, map Rodos_finished.map record 15"
+   },
+   "250": {
+    "note": "Òrd Mhacha · cites: gazetteer B250, map Rodos_finished.map record 15"
+   },
+   "251": {
+    "note": "Òrd Mhacha · cites: gazetteer B251, map Rodos_finished.map record 15"
+   },
+   "252": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B252, map Rodos_finished.map record 15"
+   },
+   "254": {
+    "note": "Òrd Mhanannain · cites: gazetteer B254, map Rodos_finished.map record 15"
+   },
+   "255": {
+    "note": "Òrd Mhacha · cites: gazetteer B255, map Rodos_finished.map record 15"
+   },
+   "257": {
+    "note": "Òrd na Cloiche · cites: gazetteer B257, map Rodos_finished.map record 15"
+   },
+   "262": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B262, map Rodos_finished.map record 15"
+   },
+   "264": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B264, map Rodos_finished.map record 15"
+   },
+   "266": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B266, map Rodos_finished.map record 15"
+   },
+   "267": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B267, map Rodos_finished.map record 15"
+   },
+   "268": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B268, map Rodos_finished.map record 15"
+   },
+   "270": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B270, map Rodos_finished.map record 15"
+   },
+   "271": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B271, map Rodos_finished.map record 15"
+   },
+   "272": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B272, map Rodos_finished.map record 15"
+   },
+   "273": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B273, map Rodos_finished.map record 15"
+   },
+   "274": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B274, map Rodos_finished.map record 15"
+   },
+   "275": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B275, map Rodos_finished.map record 15"
+   },
+   "276": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B276, map Rodos_finished.map record 15"
+   },
+   "277": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B277, map Rodos_finished.map record 15"
+   },
+   "278": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B278, map Rodos_finished.map record 15"
+   },
+   "279": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B279, map Rodos_finished.map record 15"
+   },
+   "280": {
+    "note": "Òrd Mhacha · cites: gazetteer B280, map Rodos_finished.map record 15"
+   },
+   "281": {
+    "note": "Òrd Mhacha · cites: gazetteer B281, map Rodos_finished.map record 15"
+   },
+   "282": {
+    "note": "Òrd Mhanannain · cites: gazetteer B282, map Rodos_finished.map record 15"
+   },
+   "283": {
+    "note": "Òrd Mhacha · cites: gazetteer B283, map Rodos_finished.map record 15"
+   },
+   "284": {
+    "note": "Òrd Mhacha · cites: gazetteer B284, map Rodos_finished.map record 15"
+   },
+   "286": {
+    "note": "Òrd Mhanannain · cites: gazetteer B286, map Rodos_finished.map record 15"
+   },
+   "287": {
+    "note": "Òrd Mhacha · cites: gazetteer B287, map Rodos_finished.map record 15"
+   },
+   "290": {
+    "note": "Òrd Mhacha · cites: gazetteer B290, map Rodos_finished.map record 15"
+   },
+   "293": {
+    "note": "Òrd na Cloiche · cites: gazetteer B293, map Rodos_finished.map record 15"
+   },
+   "295": {
+    "note": "Òrd Mhacha · cites: gazetteer B295, map Rodos_finished.map record 15"
+   },
+   "296": {
+    "note": "Òrd Mhacha · cites: gazetteer B296, map Rodos_finished.map record 15"
+   },
+   "297": {
+    "note": "Òrd Mhacha · cites: gazetteer B297, map Rodos_finished.map record 15"
+   },
+   "298": {
+    "note": "Òrd Mhacha · cites: gazetteer B298, map Rodos_finished.map record 15"
+   },
+   "299": {
+    "note": "Òrd Bhrìde · cites: gazetteer B299, map Rodos_finished.map record 15"
+   },
+   "300": {
+    "note": "Òrd na Cloiche · cites: gazetteer B300, map Rodos_finished.map record 15"
+   },
+   "302": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B302, map Rodos_finished.map record 15"
+   },
+   "305": {
+    "note": "Rùn-dìomhair na h-Oidhche Glaise · cites: gazetteer B305, map Rodos_finished.map record 15"
+   },
+   "308": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B308, map Rodos_finished.map record 15"
+   },
+   "310": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B310, map Rodos_finished.map record 15"
+   },
+   "313": {
+    "note": "Òrd Mhacha · cites: gazetteer B313, map Rodos_finished.map record 15"
+   },
+   "314": {
+    "note": "Òrd Mhacha · cites: gazetteer B314, map Rodos_finished.map record 15"
+   },
+   "316": {
+    "note": "Òrd Mhacha · cites: gazetteer B316, map Rodos_finished.map record 15"
+   },
+   "317": {
+    "note": "Òrd Mhacha · cites: gazetteer B317, map Rodos_finished.map record 15"
+   },
+   "318": {
+    "note": "Òrd Mhacha · cites: gazetteer B318, map Rodos_finished.map record 15"
+   },
+   "319": {
+    "note": "Òrd Mhacha · cites: gazetteer B319, map Rodos_finished.map record 15"
+   },
+   "320": {
+    "note": "Òrd Mhacha · cites: gazetteer B320, map Rodos_finished.map record 15"
+   },
+   "321": {
+    "note": "Òrd Mhacha · cites: gazetteer B321, map Rodos_finished.map record 15"
+   },
+   "324": {
+    "note": "Òrd na Cloiche · cites: gazetteer B324, map Rodos_finished.map record 15"
+   },
+   "325": {
+    "note": "Òrd na Cloiche · cites: gazetteer B325, map Rodos_finished.map record 15"
+   },
+   "326": {
+    "note": "Òrd Bhrìde · cites: gazetteer B326, map Rodos_finished.map record 15"
+   },
+   "327": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B327, map Rodos_finished.map record 15"
+   },
+   "329": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B329, map Rodos_finished.map record 15"
+   },
+   "331": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B331, map Rodos_finished.map record 15"
+   },
+   "332": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B332, map Rodos_finished.map record 15"
+   },
+   "333": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B333, map Rodos_finished.map record 15"
+   },
+   "336": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B336, map Rodos_finished.map record 15"
+   },
+   "338": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B338, map Rodos_finished.map record 15"
+   },
+   "339": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B339, map Rodos_finished.map record 15"
+   },
+   "340": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B340, map Rodos_finished.map record 15"
+   },
+   "341": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B341, map Rodos_finished.map record 15"
+   },
+   "343": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B343, map Rodos_finished.map record 15"
+   },
+   "345": {
+    "note": "Òrd Mhanannain · cites: gazetteer B345, map Rodos_finished.map record 15"
+   },
+   "346": {
+    "culture": 1
+   },
+   "348": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B348, map Rodos_finished.map record 15"
+   },
+   "350": {
+    "note": "Òrd Mhanannain · cites: gazetteer B350, map Rodos_finished.map record 15"
+   },
+   "351": {
+    "note": "Òrd Mhacha · cites: gazetteer B351, map Rodos_finished.map record 15"
+   },
+   "352": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B352, map Rodos_finished.map record 15"
+   },
+   "353": {
+    "note": "Òrd Mhacha · cites: gazetteer B353, map Rodos_finished.map record 15"
+   },
+   "354": {
+    "note": "Òrd Mhacha · cites: gazetteer B354, map Rodos_finished.map record 15"
+   },
+   "355": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B355, map Rodos_finished.map record 15"
+   },
+   "357": {
+    "note": "Òrd Mhacha · cites: gazetteer B357, map Rodos_finished.map record 15"
+   },
+   "358": {
+    "note": "Òrd Mhacha · cites: gazetteer B358, map Rodos_finished.map record 15"
+   },
+   "359": {
+    "note": "Òrd Mhacha · cites: gazetteer B359, map Rodos_finished.map record 15"
+   },
+   "360": {
+    "note": "Òrd Mhacha · cites: gazetteer B360, map Rodos_finished.map record 15"
+   },
+   "361": {
+    "note": "Òrd Mhacha · cites: gazetteer B361, map Rodos_finished.map record 15"
+   },
+   "362": {
+    "note": "Òrd Mhacha · cites: gazetteer B362, map Rodos_finished.map record 15"
+   },
+   "364": {
+    "culture": 2
+   },
+   "367": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B367, map Rodos_finished.map record 15"
+   },
+   "368": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B368, map Rodos_finished.map record 15"
+   },
+   "371": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B371, map Rodos_finished.map record 15"
+   },
+   "373": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B373, map Rodos_finished.map record 15"
+   },
+   "374": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B374, map Rodos_finished.map record 15"
+   },
+   "375": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B375, map Rodos_finished.map record 15"
+   },
+   "376": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B376, map Rodos_finished.map record 15"
+   },
+   "377": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B377, map Rodos_finished.map record 15"
+   },
+   "378": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B378, map Rodos_finished.map record 15"
+   },
+   "379": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B379, map Rodos_finished.map record 15"
+   },
+   "381": {
+    "note": "Òrd Mhacha · cites: gazetteer B381, map Rodos_finished.map record 15"
+   },
+   "382": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B382, map Rodos_finished.map record 15"
+   },
+   "383": {
+    "note": "Òrd Mhacha · cites: gazetteer B383, map Rodos_finished.map record 15"
+   },
+   "384": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B384, map Rodos_finished.map record 15"
+   },
+   "385": {
+    "note": "Òrd Mhacha · cites: gazetteer B385, map Rodos_finished.map record 15"
+   },
+   "386": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B386, map Rodos_finished.map record 15"
+   },
+   "389": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B389, map Rodos_finished.map record 15"
+   },
+   "391": {
+    "note": "Òrd Mhacha · cites: gazetteer B391, map Rodos_finished.map record 15"
+   },
+   "392": {
+    "note": "Òrd Mhacha · cites: gazetteer B392, map Rodos_finished.map record 15"
+   },
+   "393": {
+    "note": "Òrd Mhacha · cites: gazetteer B393, map Rodos_finished.map record 15"
+   },
+   "394": {
+    "note": "Òrd Mhanannain · cites: gazetteer B394, map Rodos_finished.map record 15"
+   },
+   "398": {
+    "note": "Òrd Bhrìde · cites: gazetteer B398, map Rodos_finished.map record 15"
+   },
+   "399": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B399, map Rodos_finished.map record 15"
+   },
+   "400": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B400, map Rodos_finished.map record 15"
+   },
+   "401": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B401, map Rodos_finished.map record 15"
+   },
+   "404": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B404, map Rodos_finished.map record 15"
+   },
+   "406": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B406, map Rodos_finished.map record 15"
+   },
+   "407": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B407, map Rodos_finished.map record 15"
+   },
+   "410": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B410, map Rodos_finished.map record 15"
+   },
+   "412": {
+    "culture": 1
+   },
+   "413": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B413, map Rodos_finished.map record 15"
+   },
+   "414": {
+    "note": "Òrd Mhacha · cites: gazetteer B414, map Rodos_finished.map record 15"
+   },
+   "415": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B415, map Rodos_finished.map record 15"
+   },
+   "416": {
+    "note": "Òrd Mhacha · cites: gazetteer B416, map Rodos_finished.map record 15"
+   },
+   "417": {
+    "note": "Òrd Mhacha · cites: gazetteer B417, map Rodos_finished.map record 15"
+   },
+   "418": {
+    "note": "Òrd Mhacha · cites: gazetteer B418, map Rodos_finished.map record 15"
+   },
+   "419": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B419, map Rodos_finished.map record 15"
+   },
+   "420": {
+    "note": "Òrd Mhanannain · cites: gazetteer B420, map Rodos_finished.map record 15"
+   },
+   "423": {
+    "note": "Òrd Mhacha · cites: gazetteer B423, map Rodos_finished.map record 15"
+   },
+   "426": {
+    "note": "Òrd Mhacha · cites: gazetteer B426, map Rodos_finished.map record 15"
+   },
+   "427": {
+    "note": "Òrd na Cloiche · cites: gazetteer B427, map Rodos_finished.map record 15"
+   },
+   "428": {
+    "note": "Òrd Mhacha · cites: gazetteer B428, map Rodos_finished.map record 15"
+   },
+   "430": {
+    "note": "Òrd na Cloiche · cites: gazetteer B430, map Rodos_finished.map record 15"
+   },
+   "431": {
+    "note": "Òrd Bhrìde · cites: gazetteer B431, map Rodos_finished.map record 15"
+   },
+   "433": {
+    "note": "Òrd na Cloiche · cites: gazetteer B433, map Rodos_finished.map record 15"
+   },
+   "434": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B434, map Rodos_finished.map record 15"
+   },
+   "435": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B435, map Rodos_finished.map record 15"
+   },
+   "436": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B436, map Rodos_finished.map record 15"
+   },
+   "437": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B437, map Rodos_finished.map record 15"
+   },
+   "438": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B438, map Rodos_finished.map record 15"
+   },
+   "439": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B439, map Rodos_finished.map record 15"
+   },
+   "440": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B440, map Rodos_finished.map record 15"
+   },
+   "443": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B443, map Rodos_finished.map record 15"
+   },
+   "444": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B444, map Rodos_finished.map record 15"
+   },
+   "446": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B446, map Rodos_finished.map record 15"
+   },
+   "448": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B448, map Rodos_finished.map record 15"
+   },
+   "449": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B449, map Rodos_finished.map record 15"
+   },
+   "450": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B450, map Rodos_finished.map record 15"
+   },
+   "453": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B453, map Rodos_finished.map record 15"
+   },
+   "454": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B454, map Rodos_finished.map record 15"
+   },
+   "455": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B455, map Rodos_finished.map record 15"
+   },
+   "458": {
+    "note": "Òrd Mhacha · cites: gazetteer B458, map Rodos_finished.map record 15"
+   },
+   "459": {
+    "note": "Òrd Mhacha · cites: gazetteer B459, map Rodos_finished.map record 15"
+   },
+   "460": {
+    "note": "Òrd Mhacha · cites: gazetteer B460, map Rodos_finished.map record 15"
+   },
+   "461": {
+    "note": "Òrd Mhacha · cites: gazetteer B461, map Rodos_finished.map record 15"
+   },
+   "463": {
+    "note": "Òrd Mhanannain · cites: gazetteer B463, map Rodos_finished.map record 15"
+   },
+   "467": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B467, map Rodos_finished.map record 15"
+   },
+   "468": {
+    "note": "Eaglais nan Tuathach · cites: gazetteer B468, map Rodos_finished.map record 15"
+   },
+   "469": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B469, map Rodos_finished.map record 15"
+   },
+   "471": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B471, map Rodos_finished.map record 15"
+   },
+   "475": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B475, map Rodos_finished.map record 15"
+   },
+   "477": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B477, map Rodos_finished.map record 15"
+   },
+   "479": {
+    "note": "Òrd an t-Seabhaig · cites: gazetteer B479, map Rodos_finished.map record 15"
+   },
+   "481": {
+    "note": "Òrd Mhanannain · cites: gazetteer B481, map Rodos_finished.map record 15"
+   },
+   "482": {
+    "note": "Òrd Mhanannain · cites: gazetteer B482, map Rodos_finished.map record 15"
+   },
+   "483": {
+    "note": "Òrd Mhanannain · cites: gazetteer B483, map Rodos_finished.map record 15"
+   },
+   "484": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B484, map Rodos_finished.map record 15"
+   },
+   "486": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B486, map Rodos_finished.map record 15"
+   },
+   "487": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B487, map Rodos_finished.map record 15"
+   },
+   "488": {
+    "note": "Òrd Mhanannain · cites: gazetteer B488, map Rodos_finished.map record 15"
+   },
+   "489": {
+    "note": "Òrd Mhanannain · cites: gazetteer B489, map Rodos_finished.map record 15"
+   },
+   "491": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B491, map Rodos_finished.map record 15"
+   },
+   "493": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B493, map Rodos_finished.map record 15"
+   },
+   "494": {
+    "note": "Òrd Mhanannain · cites: gazetteer B494, map Rodos_finished.map record 15"
+   },
+   "495": {
+    "note": "Òrd Mhacha · cites: gazetteer B495, map Rodos_finished.map record 15"
+   },
+   "496": {
+    "note": "Scoiltean nan Draoidhean · cites: gazetteer B496, map Rodos_finished.map record 15"
+   },
+   "497": {
+    "note": "Òrd Mhacha · cites: gazetteer B497, map Rodos_finished.map record 15"
+   },
+   "498": {
+    "note": "Òrd Mhacha · cites: gazetteer B498, map Rodos_finished.map record 15"
+   },
+   "499": {
+    "note": "Òrd Mhanannain · cites: gazetteer B499, map Rodos_finished.map record 15"
+   },
+   "500": {
+    "note": "Òrd Mhacha · cites: gazetteer B500, map Rodos_finished.map record 15"
+   },
+   "501": {
+    "note": "Òrd Mhacha · cites: gazetteer B501, map Rodos_finished.map record 15"
+   },
+   "503": {
+    "note": "Òrd na Cloiche · cites: gazetteer B503, map Rodos_finished.map record 15"
+   },
+   "504": {
+    "note": "Òrd Mhacha · cites: gazetteer B504, map Rodos_finished.map record 15"
+   }
+  },
+  "add": [
+   {
+    "key": "VII_N01",
+    "id": 7001,
+    "name": "the Àth leathan post",
+    "cell": 2136,
+    "population": 0.12,
+    "group": "fort",
+    "note": "cites: VI-0125, VI-0130",
+    "culture": 2
+   }
+  ]
+ },
+ "provinces": {},
+ "diplomacy": [
+  [
+   "@kingdom",
+   "@moot",
+   "Suzerain"
+  ]
+ ],
+ "diplomacy_default": "Neutral",
+ "markers": {
+  "keep": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48
+  ],
+  "edit": {},
+  "add": [
+   {
+    "key": "VII_K01",
+    "type": "custom",
+    "icon": "🏭",
+    "name": "the dubhan works of Seann Skell",
+    "cell": 3931,
+    "note": "event VI-0008 · cites: VI-0008, VI-0010, VI-0154"
+   },
+   {
+    "key": "VII_K02",
+    "type": "custom",
+    "icon": "🛢️",
+    "name": "the dubhan depots of the north",
+    "cell": 1242,
+    "note": "event VI-0048 · cites: VI-0048"
+   },
+   {
+    "key": "VII_K03",
+    "type": "custom",
+    "icon": "🏘️",
+    "name": "Comann nan Gualadairean' Row",
+    "cell": 2818,
+    "note": "event VI-0033 · cites: VI-0032, VI-0033"
+   },
+   {
+    "key": "VII_K04",
+    "type": "custom",
+    "icon": "🔒",
+    "name": "Ciste-chuimhne Dhùinte of An Cogadh Fada",
+    "cell": 2193,
+    "note": "event VI-0128 · cites: VI-0128, VI-0147"
+   },
+   {
+    "key": "VII_K05",
+    "type": "custom",
+    "icon": "🪦",
+    "name": "Clach nan Rèisimeidean",
+    "cell": 3437,
+    "note": "event VI-0126 · cites: VI-0126"
+   },
+   {
+    "key": "VII_K06",
+    "type": "custom",
+    "icon": "🛂",
+    "name": "the pass posts on the northern road",
+    "cell": 865,
+    "note": "event VI-0149 · cites: VI-0149"
+   },
+   {
+    "key": "VII_K07",
+    "type": "custom",
+    "icon": "🚫",
+    "name": "the capped western seams",
+    "cell": 2137,
+    "note": "event VI-0122 · cites: VI-0122"
+   },
+   {
+    "key": "VII_K08",
+    "type": "custom",
+    "icon": "⛏️",
+    "name": "the last face of An Sloc Mòr",
+    "cell": 2542,
+    "note": "event VI-0144 · cites: VI-0144, VI-0145, VI-0155"
+   },
+   {
+    "key": "VII_K09",
+    "type": "custom",
+    "icon": "🛳️",
+    "name": "the charter of export",
+    "cell": 2975,
+    "note": "event VI-0154b · cites: VI-0154b"
+   },
+   {
+    "key": "VII_K10",
+    "type": "custom",
+    "icon": "🪨",
+    "name": "Càrn nan Tuathach",
+    "cell": 2136,
+    "note": "event VI-0130 · cites: VI-0130"
+   },
+   {
+    "key": "VII_K11",
+    "type": "custom",
+    "icon": "🏰",
+    "name": "An còigeamh rèisimeid's barracks",
+    "cell": 2972,
+    "note": "event VI-0140 · cites: VI-0140"
+   },
+   {
+    "key": "VII_K12",
+    "type": "custom",
+    "icon": "🕯️",
+    "name": "the Leòmhann lamp",
+    "cell": 1044,
+    "note": "event VI-0026 · cites: VI-0026"
+   }
+  ]
+ },
+ "routes": {
+  "keep": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58,
+   59,
+   60,
+   61,
+   62,
+   63,
+   64,
+   65,
+   66,
+   67,
+   68,
+   69,
+   70,
+   71,
+   72,
+   73,
+   74,
+   75,
+   76,
+   77,
+   78,
+   79,
+   80,
+   81,
+   82,
+   83,
+   84,
+   85,
+   86,
+   87,
+   88,
+   89,
+   90,
+   91,
+   92,
+   93,
+   94,
+   95,
+   96,
+   97,
+   98,
+   99,
+   100,
+   101,
+   102,
+   103,
+   104,
+   105,
+   106,
+   107,
+   108,
+   109,
+   110,
+   111,
+   112,
+   113,
+   114,
+   115,
+   116,
+   117,
+   118,
+   119,
+   120,
+   121,
+   122,
+   123,
+   124,
+   125,
+   126,
+   127,
+   128,
+   129,
+   130,
+   131,
+   132,
+   133,
+   134,
+   135,
+   136,
+   137,
+   138,
+   139,
+   140,
+   141,
+   142,
+   143,
+   144,
+   145,
+   146,
+   147,
+   148,
+   149,
+   150,
+   151,
+   152,
+   153,
+   154,
+   155,
+   156,
+   157,
+   158,
+   159,
+   160,
+   161,
+   162,
+   163,
+   164,
+   165,
+   166,
+   167,
+   168,
+   169,
+   170,
+   171,
+   172,
+   173,
+   174,
+   175,
+   176,
+   177,
+   178,
+   179,
+   180,
+   181,
+   182,
+   183,
+   184,
+   185,
+   186,
+   187,
+   188,
+   189,
+   190,
+   191,
+   192,
+   193,
+   194,
+   195,
+   196,
+   197,
+   198,
+   199,
+   200,
+   201,
+   202,
+   203,
+   204,
+   205,
+   206,
+   207,
+   208,
+   209,
+   210,
+   211,
+   212,
+   213,
+   214,
+   215,
+   216,
+   217,
+   218,
+   219,
+   220,
+   221,
+   222,
+   223,
+   224,
+   225,
+   226,
+   227,
+   228,
+   229,
+   230,
+   231,
+   232,
+   233,
+   234,
+   235,
+   236,
+   237,
+   238,
+   239,
+   240,
+   241,
+   242,
+   243,
+   244,
+   245,
+   246,
+   247,
+   248,
+   249,
+   250,
+   251,
+   252,
+   253,
+   254,
+   255,
+   256,
+   257,
+   258,
+   259,
+   260,
+   261,
+   262,
+   263,
+   264,
+   265,
+   266,
+   267,
+   268,
+   269,
+   270,
+   271,
+   272,
+   273,
+   274,
+   275,
+   276,
+   277,
+   278,
+   279,
+   280,
+   281,
+   282,
+   283,
+   284,
+   285,
+   286,
+   287,
+   288,
+   289,
+   290,
+   291,
+   292,
+   293,
+   294,
+   295,
+   296,
+   297,
+   298,
+   299,
+   300,
+   301,
+   302,
+   303,
+   304,
+   305,
+   306,
+   307,
+   308,
+   309,
+   310,
+   311,
+   312,
+   313,
+   314,
+   315,
+   316,
+   317,
+   318,
+   319,
+   320,
+   321,
+   322,
+   323,
+   324,
+   325,
+   326,
+   327,
+   328,
+   329,
+   330,
+   331,
+   332,
+   333,
+   334,
+   335,
+   336,
+   337,
+   338,
+   339,
+   340,
+   341,
+   342,
+   343,
+   344,
+   345,
+   346,
+   347,
+   348,
+   349,
+   350,
+   351,
+   352,
+   353,
+   354,
+   355,
+   356,
+   357,
+   358,
+   359,
+   360,
+   361,
+   362,
+   363,
+   364,
+   365,
+   366,
+   367,
+   368,
+   369,
+   370,
+   371,
+   372,
+   373,
+   374,
+   375,
+   376,
+   377,
+   378,
+   379,
+   380,
+   381,
+   382,
+   383,
+   384,
+   385,
+   386,
+   387,
+   388,
+   389,
+   390,
+   391,
+   392,
+   393,
+   394,
+   395,
+   396,
+   397,
+   398,
+   399,
+   400,
+   401,
+   402,
+   403,
+   404,
+   405,
+   406,
+   407,
+   408,
+   409,
+   410,
+   411,
+   412,
+   413,
+   414,
+   415,
+   416,
+   417,
+   418,
+   419,
+   420,
+   421,
+   422,
+   423,
+   424,
+   425,
+   426,
+   427,
+   428,
+   429,
+   430,
+   431,
+   432,
+   433,
+   434,
+   435,
+   436,
+   437,
+   438,
+   439,
+   440,
+   441,
+   442,
+   443,
+   444,
+   445,
+   446,
+   447,
+   448,
+   449
+  ],
+  "edit": {},
+  "add": [
+   {
+    "key": "VII_R01",
+    "name": "the line (Slighe a' Ghuail)",
+    "group": "roads",
+    "stops": [
+     2542,
+     2907,
+     3158,
+     2975
+    ],
+    "note": "cites: VI-0022, VI-0037, VI-0148"
+   },
+   {
+    "key": "VII_R02",
+    "name": "the western branch",
+    "group": "roads",
+    "stops": [
+     3158,
+     2957
+    ],
+    "note": "cites: V-0058a, VI-0078"
+   },
+   {
+    "key": "VII_R03",
+    "name": "the line to Ceann leathan",
+    "group": "roads",
+    "stops": [
+     2907,
+     3350
+    ],
+    "note": "cites: V-0135"
+   },
+   {
+    "key": "VII_R04",
+    "name": "Rathad nan Cairtearan",
+    "group": "trails",
+    "stops": [
+     1124,
+     997,
+     2321
+    ],
+    "note": "cites: V-0148"
+   },
+   {
+    "key": "VII_R05",
+    "name": "the dubhan tank-hulls up the west coast",
+    "group": "searoutes",
+    "stops": [
+     4166,
+     3048,
+     1242
+    ],
+    "note": "inferred · cites: VI-0107, VI-0135"
+   }
+  ]
+ },
+ "zones": {
+  "keep": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "edit": {},
+  "add": [
+   {
+    "key": "VII_Z05",
+    "name": "An Cogadh Fada",
+    "type": "Invasion",
+    "note": "cites: VI-0081, VI-0091, VI-0098, VI-0109, VI-0111, VI-0115, VI-0118",
+    "shires": [
+     1,
+     3,
+     44,
+     75,
+     105,
+     107,
+     117
+    ]
+   },
+   {
+    "key": "VII_Z06",
+    "name": "the holdout towns of the western hills",
+    "type": "Invasion",
+    "note": "cites: VI-0055, VI-0122",
+    "shires": [
+     3,
+     75,
+     105,
+     117
+    ]
+   },
+   {
+    "key": "VII_Z07",
+    "name": "an Oirthir Ghaothach, of no shire",
+    "type": "Custom",
+    "note": "cites: VI-0098a, App.H §V",
+    "shires": [
+     0
+    ],
+    "color": "url(#hatch4)"
+   },
+   {
+    "key": "VII_Z08",
+    "name": "Tìr-dhùthchais nan Tuathach and the pass line",
+    "type": "Custom",
+    "note": "cites: V-0001, V-0003, VI-0149",
+    "shires": [
+     7,
+     14,
+     23,
+     28,
+     36,
+     75,
+     86,
+     88,
+     105,
+     107,
+     122
+    ],
+    "color": "url(#hatch4)"
+   }
+  ]
+ },
+ "labels": {
+  "add": [
+   {
+    "text": "seann-chunntas",
+    "cell": 865,
+    "fontSize": 14,
+    "note": "cites: VI-0143"
+   },
+   {
+    "text": "chaidh am fadachadh",
+    "cell": 2136,
+    "fontSize": 14,
+    "note": "cites: VI-0119"
+   },
+   {
+    "text": "dubhan-tùsail",
+    "cell": 2463,
+    "fontSize": 14,
+    "note": "cites: VI-0036"
+   }
+  ]
+ },
+ "economy": {
+  "mode": "prune"
+ },
+ "journeys": {
+  "keep": [
+   0
+  ]
+ }
+}

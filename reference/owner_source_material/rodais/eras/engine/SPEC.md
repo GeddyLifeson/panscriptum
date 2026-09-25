@@ -78,6 +78,7 @@ verification.
 | `name`, `seed`, `comment` | Name, random seed, free comment. |
 | `master` | The master map, relative to the spec (default `Rodos_finished.map`). |
 | `lore` | `{name, description, calendar: {year, era, eraShort}}`, which is `options.map.lore`. |
+| `units` | Merged into `options.map.units`, e.g. `{"distance": {"scale": 0.14}}` (the scale bar is redrawn from it). |
 | `features` | `{rename: {featureId: name}}`: islands, lakes and the ocean. |
 | `rivers` | `{rename: {riverId: name or {name, type, ...}}}` |
 | `cultures`, `religions`, `burgs`, `states`, `provinces` | See below (applied in the order cultures, religions, burgs, states, provinces). |
@@ -230,11 +231,14 @@ These are the era's own administrative units. They start from the master's shire
 ## Cell selectors
 
 These are used by `assign`, provinces, zones and `split`. The keys combine:
-- `shires` (master provinces);
+- `shires` (master provinces; `0` is the master's land in no shire, the windy coast);
 - `provinces` (era provinces, as they stand at that step);
 - `states` (era states: only after the states are set, so for zones);
 - `cells`, `burgs` (the burgs' cells), `from_culture`, `from_religion`;
 - `where_culture` (this narrows the other keys, or selects on its own).
+- `around: {cells: [...], steps: 2}` (those cells and every cell within `steps` neighbours of them);
+- `water_box: [x0, y0, x1, y1]` (the water cells inside the box, for a sea zone; the pack keeps only water near
+  the coast, so this is a coastal band).
 
 ## routes
 
