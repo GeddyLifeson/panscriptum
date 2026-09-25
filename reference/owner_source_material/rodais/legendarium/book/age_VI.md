@@ -15,9 +15,9 @@ In the last days of the Age of Strangers, whatever road had brought the humans o
 
 On {{date:V-0001}}, with the lambs coming, the homeland of the Tuathaich was fixed. The children of the stranded humans were settled in the north by the council's word, and its guard stood at the head of the roads. It was a confinement, and everyone on both sides of the guard knew it. Their grandchildren would call it home all the same, having no other. Cian and Lorccan of the immortal generation grew up in the wake of those days; of them the chronicles of this age tell nothing further.
 
-The victors began by putting things away. At Cathair dhearg the war-companies of the Severance were stood down, and their rolls went into the council's chests instead of the fire. Nobody ever abolished the companies. They lived on as names on a list, and the list lay quiet for nearly ninety years. On the roads running north, at Caol mhòr and elsewhere, stones were set to mark where the Tuathaich country began. No wall came after them. Many still stand at the roadside, since nobody has ever been paid to shift them.
+The victors began by putting things away. At Cathair dhearg the war-companies of the Severance were stood down, and their rolls went into the council's chests instead of the fire. Nobody ever abolished the companies. They lived on as names on a list, and the list lay quiet through all the rest of the age. On the roads running north, at Caol mhòr and elsewhere, stones were set to mark where the Tuathaich country began. No wall came after them. Many still stand at the roadside, since nobody has ever been paid to shift them.
 
-That first year the north went hungry alone. The stores that had come over the water from an Tìr Thall came no more, and the grain ran out before the spring. At Doire ghlas, the old people say, more than two hundred were buried that winter; they had it from their grandmothers, and it was written down long afterwards. The Dia-thìrich made no count.
+That first year the north went hungry alone. The stores that had come over the water from an Tìr Thall came no more, and the grain ran out before the spring. At Doire ghlas, the old people say, more than two hundred were buried that winter; they had it from their grandmothers. The Dia-thìrich made no count.
 
 Meanwhile the council's clerks went through the humans' counting-houses at Cathair dhearg, Ros dhomhain and Seann Skell like rooks through stubble, and carried off every written leaf. The tithe ledgers, or what the raids of the war had left of them, they boxed unread, for few of them could make out the humans' hand. In the north-west things went otherwise. At Ceann mhòr, Cathair gheal and Inis àrsaidh the human harbour officers had sailed with the last ships and taken their keys with them. The Tuathaich fishermen took hammers to the locks of the harbour stores and shared out what they found, house by house. The north tells that part with some relish.
 
@@ -60,7 +60,7 @@ The relief party out of Cathair dhearg came down the coast road to Cuan dhearg, 
 
 When the tallies from Cnoc chaol and Achadh mhin came in and were added to his, the dead of the three towns came to a little over nine hundred. The wave had run on up the gulf as far as Ros gharbh and broken its quays. That town stood high and lost few of its people, and nearly every boat.
 
-It was the first disaster the new state met on its own terms, and it met it well. The council moved the survivors of Achadh mhin off their salted fields and paid for their seed out of the treasury, the first relief the restored kingdom ever gave. The old site is called an Tràigh Bhàthte, the drowned strand, and nobody builds there. From the survivors the south took a word: *tonn*, wave, for anything sudden and overwhelming. *Tha e san tonn*, they say, he is in the wave of it. The south would have need of the phrase again.
+It was the first disaster the new state met on its own terms, and it met it well. The council moved the survivors of Achadh mhin off their salted fields and paid for their seed out of the treasury, the first relief the restored kingdom ever gave. The old site is called an Tràigh Bhàthte, the drowned strand, and nobody builds there. From the survivors the south took a word: *tonn*, wave, for anything sudden and overwhelming. *Tha e san tonn*, they say, he is in the wave of it.
 
 In {{year:V-0023}} the human coinage was called in. In the old counting-house at Cathair dhearg, Fearchar mac Dhòmhnaill, whom men called Fearchar Bonn, set up the mint and struck the coin of the Rìoghachd. He pressed each coin's seal with an ink ground from coal dust, so that a clipped coin showed the coal's colour at its edge. The coin was honest and holy, and the kingdom liked it both ways.
 
@@ -105,7 +105,7 @@ Off Cathair gheal, ships that flew no flag began to raid the north-western coast
 
 On {{date:V-0088}}, in the reddening of the year, the fair at Muileann òg was established, and it grew to be the greatest recurring gathering on the island. Its first toll-mistress, Oighrig nic Mhathain, set down its rules, and one of them was this: that Tuathaich goods be sold only through Dia-thìreach factors. They are still read aloud when each fair opens. Two years after, the Còmhrag began at Ceann leathan, a yearly melee that the south called an old custom of arms, and where, more and more, men who had nowhere else to spend their anger spent it. Two men died in the first one that anyone remembers.
 
-On {{date:V-0100}}, in the green of early summer, there was a cluster of births among the shunting families, the generation called Splatter and Dodge's. Seachran and Brean were among them. They would grow up to be the closest allies of a man not yet born.
+On {{date:V-0100}}, in the green of early summer, there was a cluster of births among the shunting families, the generation called Splatter and Dodge's. Seachran and Brean were among them.
 
 ## VI. Of the Library at Muileann chaol
 
@@ -131,7 +131,7 @@ When Ailean Leabhar died in {{year:V-0144}}, Mòrag nic Coinnich became keeper. 
 
 ## VII. Of Brìghde and Eòghan, and the First Word of the Depletion
 
-Niall died, and his daughter Brìghde was crowned on {{date:V-0092}}, at summer's end, and no one contested it. It was a mortal succession in an aristocracy that stood very near the undying. It seemed nothing strange then. Gormshuil wrote that the succession came *mar a thàinig Niall*, and that is the only idiom she let into the chronicle in all her years.
+Niall died, and his daughter Brìghde was crowned on {{date:V-0092}}, at summer's end, and no one contested it. It was a mortal succession in an aristocracy that stood very near the undying, and it seemed nothing strange. Gormshuil wrote that the succession came *mar a thàinig Niall*, and that is the only idiom she let into the chronicle in all her years.
 
 On {{date:V-0105}}, in the raw end of winter, the survey reports first began to say, very quietly, that the vein's yield was falling.
 
@@ -219,6 +219,6 @@ In {{year:V-0235}} Raghnall mac Mhuirich became keeper of the Library. The price
 
 The summer of {{year:V-0237}} came in dry and dear. The poorer streets of the capital were darker than they had been since the humans first lit them, the Guild of Hewers bound no apprentices, and the fair's court could not hold its price. So far as the kingdom's own record knew, its seventy-first year held nothing larger than a watch set on the spoil-heaps, whose watchmen saw nothing.
 
-In the north Dubhan was at his work still, as he had been for ten years, boiling and burning what the pits threw away. Nobody in the capital was watching him, and nobody in the Library knew his name. One night near midsummer, the tellers of the north say, he banked his fire and slept beside it, as he had on a hundred nights before, and did not know that the morning would open a new count of the island's years, which no one would begin to keep for fourteen years yet.
+In the north Dubhan was at his work still, as he had been for ten years, boiling and burning what the pits threw away. Nobody in the capital was watching him, and nobody in the Library knew his name. One night near midsummer, the tellers of the north say, he banked his fire and slept beside it, as he had on a hundred nights before.
 
-Here the Sixth Book ends, on the eve of dubhan. The Library closes the Age of the Kingdom on that night and not an hour after it, and the Severance Era with it. The Seventh Book begins in the morning.
+Here the Sixth Book ends, with the fire banked in the north and the kingdom asleep. The Library closes the Age of the Kingdom on that night, and the Severance Era with it.

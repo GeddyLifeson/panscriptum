@@ -25,6 +25,9 @@ check_rodais.py -- verify everything in this folder in one run.
      Dubhan Era at the present year and its wars dated in that era, each book's
      date line its age's span, and every age and era name in Dia-thìris spelling
 
+  7. the books: the Telling of the Making and the seven Books speak only of their own age and before, with nothing
+     of a later age in them (eras/quality/future_check.py, the owner's rule)
+
 Exit status 0 only when every check holds.  python check_rodais.py
 """
 import glob
@@ -244,6 +247,16 @@ check(not span_bad, 'eras: every book opens with its age\'s name and its span in
 rnames = [build_book.AGE_NAMES[k][0] for k in keys] + [RK.ERA[k][5] for k in keys]
 check(all(R.normalize(x) == x and not [w for w in x.split() if R.check_agreement(w)] for x in rnames),
       'eras: every age and era name in Dia-thìris spelling and caol le caol (%s)' % ', '.join(rnames))
+
+# 7. the owner's rule: a book speaks only of its present and its past. The Telling of the Making and each of the seven
+# Books name nothing of a later age: no token, era, name or town of it, and no foreshadowing (eras/quality/future_check.py)
+sys.path.insert(0, os.path.join(HERE, 'eras', 'quality'))
+import future_check  # noqa: E402
+ahead = future_check.check_master()
+for where, rule, matched, why, snip in ahead[:12]:
+    print('      %s: %s "%s" (%s)' % (where, rule, matched, why))
+check(not ahead, 'books: the Telling and the seven Books speak only of their own age and before (%s)'
+      % ('%d forward reference(s); python eras/quality/future_check.py master' % len(ahead) if ahead else 'none'))
 
 print('\n%s' % ('ALL CHECKS HOLD' if not fails else '%d CHECK(S) FAILED' % len(fails)))
 sys.exit(1 if fails else 0)

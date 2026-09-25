@@ -20,7 +20,7 @@ labels follow the Atlas timeline (ERA_PLAN.md, modelled on the Middle-earth inte
 resolve(universe) takes every event that can be linked ({id: event}, each with age, date, title and 'master'
 for a master event) and returns {id: [link, ...]} with both directions, each
     {"to", "type", "dir": "out" | "in", "arrow", "label", "note"?, "age", "era", "date", "year", "title", "master"}
-footnote_html() prints one entry's links for the PDFs. build_book.py (the master) and ../eras/build_era.py (the
+footnote_html() prints one entry's links for the PDFs, backward links only. build_book.py (the master) and ../eras/build_era.py (the
 era legendaria and the Atlas data) both use this module.
 """
 import html
@@ -104,13 +104,32 @@ def anchor(eid):
     return 'ev-' + re.sub(r'[^A-Za-z0-9_-]', '-', eid)
 
 
-def footnote_html(links, here_age=None, other_book=None, age_name=None):
+AGE_ORDER = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
+
+
+def points_back(ln, source, when=None):
+    """True when a resolved link leads to its source event's own day or earlier. The PDFs read as a book, front to
+    back, and point back only (the owner's rule); the Atlas keeps every link both ways. source: the entry's event
+    ({age, y, m, d}); when(id) -> (y, m, d) or None for a target of the same age."""
+    a, b = source.get('age'), ln.get('age')
+    if a in AGE_ORDER and b in AGE_ORDER and a != b:
+        return AGE_ORDER.index(b) < AGE_ORDER.index(a)
+    day = when(ln['to']) if when else None
+    if day is None or source.get('y') is None:
+        return True
+    return tuple(day) <= (source['y'], source['m'], source['d'])
+
+
+def footnote_html(links, here_age=None, other_book=None, age_name=None, source=None, when=None):
     """One annals entry's links as a PDF footnote (<span class="fn">, which build_pdf.py floats to the page foot).
     A link into this book (here_age None: the master, where every master event stands; else the same age) jumps to
     the entry; a link into another age prints '→ <age in Dia-thìris>, <year>' and opens that age's own book:
-    other_book(age) gives the href (build_era.py makes it a relative GoToR link)."""
+    other_book(age) gives the href (build_era.py makes it a relative GoToR link). Given the entry's own event
+    (source), a link to anything later than it is left out: the book points back only (see points_back)."""
     rows = []
     for ln in links:
+        if source is not None and not points_back(ln, source, when):
+            continue
         title = html.escape(ln.get('title') or ln['to'], quote=False)
         note = ' (%s)' % html.escape(ln['note'], quote=False) if ln.get('note') else ''
         head = '%s %s' % (ln['arrow'], ln['label'])

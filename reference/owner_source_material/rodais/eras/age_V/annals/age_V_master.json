@@ -993,7 +993,7 @@
   "id": "IV-0112",
   "canon": false,
   "title": "The dry year in the east",
-  "body": "For a single season the rain fails over the eastern farmlands about Achadh shean. It is remembered after as a warning no one heeded, for the next drought, long after, came three years together.",
+  "body": "For a single season the rain fails over the eastern farmlands about Achadh shean. It is a warning, and no one heeds it.",
   "place": "province:61",
   "kind": "disaster"
  },
@@ -2337,7 +2337,7 @@
   "id": "IV-0257",
   "canon": false,
   "title": "The old market at Muileann òg",
-  "body": "The old barter market at Muileann òg, where hill and coast had met to trade since the Holy Age, closes after its last season. The ground stands empty until, long after, it is used for a fair.",
+  "body": "The old barter market at Muileann òg, where hill and coast had met to trade since the Holy Age, closes after its last season, and the ground stands empty.",
   "place": "burg:151",
   "kind": "trade"
  },

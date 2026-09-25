@@ -19,6 +19,9 @@ run it before you hand in. The full reasoning is in the TOLKIEN and BOOK_STYLE b
    weight, itself, very, moment. The scan lists any you use more than 6 times in 10,000 words.
 9. **Tidy triplets and balanced pairs** for rhythm alone, and abstractions where a thing would do. Name the thing:
    the ford, the ledger, the burnt roof.
+10. **Looking ahead.** "ages later", "as would be seen", "was to become", "what became", "the Library would one day",
+   "where Cathair mhòr now stands" in a book of an age before the town, "the next book tells". A book speaks only of
+   its own age and what came before (WRITERS_GUIDE §0 and §10); `python quality/future_check.py <K>` finds these.
 
 Write instead: concrete nouns, strong old verbs, sentences of different lengths, plain statement. "In that year…",
 "Thereafter…", "It is told that…", "So ended…". Keep the archaism light.

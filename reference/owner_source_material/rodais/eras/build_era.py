@@ -538,11 +538,13 @@ def resolved_links(k, events):
     return event_links.resolve(uni, lambda e: year_of_event(e) if e.get('y') is not None else None), uni, undated
 
 
-def link_note(k, links):
-    """One annals entry's links, as a footnote: same-age links jump to the entry in this book; a link into another
-    age prints '→ <age>, <year>' and opens that age's own legendarium (era-pdf: becomes a GoToR link in relink_pdf)."""
+def link_note(k, links, source=None, when=None):
+    """One annals entry's links, as a footnote: same-age links jump to the entry in this book; a link into an earlier
+    age prints '→ <age>, <year>' and opens that age's own legendarium (era-pdf: becomes a GoToR link in relink_pdf).
+    Given the entry's event (source), links to later events are left out: the volume points back only, and the
+    forward links live in the Atlas (atlas.json)."""
     return event_links.footnote_html(links, k, lambda a: 'era-pdf:../age_%s/%s' % (a, pdf_name(a)),
-                                     lambda a: build_book.AGE_NAMES[a][0])
+                                     lambda a: build_book.AGE_NAMES[a][0], source=source, when=when)
 
 
 def _registry(name, key):
@@ -743,6 +745,7 @@ def gazetteer_md(rec):
 def to_markdown(k, rec, links=None):
     rn, en, _ = build_book.AGE_NAMES[k]
     links = links or {}
+    days = {e['id']: (e['y'], e['m'], e['d']) for e in rec.events if e.get('y') is not None}
     out = ['# ' + full_title(k), '']
     for md in book_parts(k, rec):
         out += [build_book.plain(md).rstrip(), '']
@@ -753,7 +756,7 @@ def to_markdown(k, rec, links=None):
             pl = ' (%s)' % rec.place_name(e['place']) if e.get('place') else ''
             out.append('- <a id="%s"></a>**%s** — *%s*%s. %s%s' % (
                 event_links.anchor(e['id']), e['date'], rec.resolve(e['title'], link=False), pl,
-                rec.resolve(e['body'], link=False), link_note(k, links.get(e['id'], []))))
+                rec.resolve(e['body'], link=False), link_note(k, links.get(e['id'], []), e, days.get)))
         out.append('')
     if rec.era_gaz:
         out += ['# A Gazetteer of the Age', ''] + gazetteer_md(rec)

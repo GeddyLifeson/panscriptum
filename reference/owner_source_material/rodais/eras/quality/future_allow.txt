@@ -1,0 +1,14 @@
+# future_allow.txt -- the hits future_check.py lets stand, each with its reason. Keep it tight: fix the text first.
+# <file, relative to rodais/> | <rule> | <matched text> | <snippet that must be on the same line> | <reason>
+legendarium/book/creation.md | burg | Doire ghlas | grove of Doire ghlas | the oak grove's own name, where the Keeper spoke (I-0011a); the town founded in Age II took it from the grove
+legendarium/book/creation.md | name | Cup of Truth | His Cup of Truth breaks at a lie | Manannan's cup in the Keeper's account of the gods, a myth as old as the telling; the relic of that name comes later and is not meant
+legendarium/book/age_I.md | burg | Doire ghlas | oak grove at Doire ghlas | the grove's own name (I-0011a), older than the town that took it
+legendarium/book/age_I.md | burg | Doire ghlas | north to Doire ghlas, to the grove | the grove's own name (I-0052a)
+legendarium/book/age_I.md | burg | Doire ghlas | bog beneath Doire ghlas | the grove's own name (I-0011a)
+legendarium/book/age_I.md | burg | Doire ghlas | at the grove of Doire ghlas | the grove's own name (I-0080a)
+legendarium/book/age_I.md | burg | Doire uaine | Doire uaine hills | the hills' own name, in "the Hollow Man of Doire uaine" (NAMES.json, first I-0045); the village of Age III took its name from them
+legendarium/book/age_I.md | burg | Doire uaine | open fire at Doire uaine | the hills' own name (see above)
+legendarium/book/age_I.md | name | Clann nan Dè | They called themselves Clann nan Dè | the hill-folk's own name in the Age I annals (I-0065); NAMES.json dates it only from Ailean's crowning
+legendarium/book/age_II.md | name | the Stone | ## X. Of Oighrig and the Stone Cup | "the Stone Cup" of the heading is Oighrig's stone cup, not Lia Fàil
+legendarium/book/age_III.md | name | the Hawk of Acaill | said it was the Hawk of Acaill | the dawn-hawk rite's own name for its hawk in the Holy Age annals ("They call the hawk Mòd, the Hawk of Acaill")
+legendarium/book/age_IV.md | name | the Crown | and the Crown Joined to the Vein | a heading in title case: the crown of the Age of Sundering, not the Crown of the kingdom of Age VI

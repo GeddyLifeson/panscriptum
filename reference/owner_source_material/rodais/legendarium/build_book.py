@@ -496,15 +496,20 @@ def to_markdown(rec):
     out += ['# The Annals of Dia-thìr', '']
     links = event_links.resolve({e['id']: e for e in rec.events},
                                 lambda e: reckoning.display_year(e['y'], e['m'], e['d'], e['age']))
+
+    def day(i):
+        t = rec.by_id.get(i)
+        return (t['y'], t['m'], t['d']) if t else None
     for k in AGES:
         out += ['## Age %s · %s' % (k, AGE_NAMES[k][0]), '', '*%s · %s, %s*' % (AGE_NAMES[k][1][0].upper() + AGE_NAMES[k][1][1:],
                                                                          reckoning.ERA[k][4], reckoning.display_span(k)), '']
         for e in rec.events:
             if e['age'] == k:
                 pl = ' (%s)' % rec.place_name(e['place']) if e.get('place') else ''
-                # an event linked to another (event_links.py) takes an anchor and its links as a footnote
-                ln = links.get(e['id'])
-                out.append('- %s**%s** — *%s*%s. %s%s' % ('<a id="%s"></a>' % event_links.anchor(e['id']) if ln else '',
+                # an event linked to another (event_links.py) takes an anchor and its links as a footnote; the book
+                # points back only, so a link to a later event is left to the Atlas
+                ln = [x for x in links.get(e['id'], []) if event_links.points_back(x, e, day)]
+                out.append('- %s**%s** — *%s*%s. %s%s' % ('<a id="%s"></a>' % event_links.anchor(e['id']) if e['id'] in links else '',
                                                         e['date'], e['title'], pl, e['body'],
                                                         event_links.footnote_html(ln) if ln else ''))
         out.append('')

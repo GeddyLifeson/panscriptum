@@ -249,6 +249,20 @@ that existed in this age but not on the master map needs an id declared by the l
 (`{"burg:4001": {"name": …, "province": …}}`, ids from 1000 × age number + n, e.g. 4001). Every town must stand by the
 end of the age. One town is one entry: two files can't both hold burg 19.
 
+**Only the present and the past** (the owner's rule, permanent canon; §0): "if a book is writing about its history in
+the legendarium, it doesn't reference events into the future. Books should only talk about their present and their
+past." Everything in `age_<K>/` (Books, epigraph, annals notes, gazetteer, appendices) is written as at the close of
+Age K, and an annals entry looks no further than its own day. So:
+- no foreshadowing: not "ages later", "as would be seen", "was to become", "what became", "in the time of the humans",
+  "the Library would later…", "the next book tells";
+- no later name for an earlier place: use the name it had then, and if that is not known, describe it ("the
+  headland", "the hills east of the mountain"), never "where Cathair mhòr now stands";
+- no later title, institution, order, era, age or date: no `{{date:}}`, `{{year:}}` or `{{reckon:}}` of a later age,
+  no `{{place:burg:N}}` for a town founded later, no FE/LE/AE… of a later era;
+- the close of the Book is the close of the age: end on the age's last moment, not on what the next age made of it.
+`python quality/future_check.py <K>` lists every hit as file:line, and `check_era.py` fails on any. A true false
+positive (a grove whose name the later town took) goes in `quality/future_allow.txt` with its reason, one line each.
+
 **An appendix** (`appendices/L_slug.md`) opens `# Title` (or `# Appendix C — Title`; otherwise the build letters
 them in file order), with `##` sections. Rulers, faiths, wars, words, peoples, trade, shires or shares, land and
 arms, all as they stood in this age.
@@ -274,6 +288,7 @@ Run `check_era.py` before every hand-in. It checks:
 - tokens, places and the gazetteer's burgs;
 - Dia-thìris spelling;
 - forbidden words;
+- nothing ahead of the age (`quality/future_check.py`, §10);
 - size.
 
 ## 12. Size

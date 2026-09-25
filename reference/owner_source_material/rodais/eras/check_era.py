@@ -23,6 +23,8 @@ Checks (FAIL stops the exit status at 1; "note" lines are information):
      record already uses that very word (the names and loanwords check_rodais.py lets stand)
   8. no "obsidian", no Rodos / Ròdais / Ròdaich, no glacier or ice cap, no date in the old continuous count;
      a note for every English form of a NAMES.json proper noun left in the text (humans' personal names excepted)
+  8b. future: nothing ahead of the age (quality/future_check.py): no token, era, name or town of a later age, no
+     foreshadowing phrase; an era annals entry looks no further than its own day
   9. size: words per section and an estimated page count against the 500-600 page target
 """
 import argparse
@@ -41,6 +43,8 @@ import build_era as B  # noqa: E402
 import rodais_engine as R  # noqa: E402
 import event_links as EL  # noqa: E402
 import glosses as G  # noqa: E402
+sys.path.insert(0, os.path.join(ERAS, 'quality'))
+import future_check as FC  # noqa: E402
 
 LEG = B.LEG
 RK = B.reckoning
@@ -320,6 +324,13 @@ def check(k, final=False, n_fuzz=0):
     hits = sorted({'%s in %s' % (label, where) for where, t in srcs for rx, label in BANNED if rx.search(t)})
     report.check(not hits, 'words: no obsidian, no Rodos/Ròdais/Ròdaich, no glacier or ice, no old continuous count (%s)'
                  % (', '.join(hits[:8]) or 'none'))
+    # the owner's rule: a volume speaks only of its own age and what came before (quality/future_check.py)
+    ahead = FC.check_era(k)
+    for where, rule, matched, why, snip in ahead[:20]:
+        report.note('forward reference: %s: %s "%s" (%s)' % (where, rule, matched, why))
+    report.check(not ahead, 'future: the book, annals, gazetteer and appendices speak only of Age %s and before, no later '
+                 'event, era, name, town or foreshadowing (%s)' % (k, '%d hit(s), quality/future_check.py %s' % (len(ahead), k)
+                                                                    if ahead else 'none'))
     # size
     words = section_words(k, rec, md)
     pages = 10 + sum(words[s] / DENSITY[s] for s in DENSITY)        # the densities include the openers
