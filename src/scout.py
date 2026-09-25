@@ -610,7 +610,9 @@ def sweep(limit=None, register=True):
     # preference, kept as the TIE-BREAK it should always have been.
     order = sorted(todo, key=lambda s: (float(seen.get(s) or 0.0), -len(todo[s])))
     deferred = []
-    if limit:
+    # `is not None`, NOT TRUTHINESS (sweep61 batch 13): `--limit 0` is an explicit "scout none",
+    # and `if limit:` read it as "no limit" and scouted the whole hostless queue.
+    if limit is not None:
         deferred = order[limit:]
         order = order[:limit]
     print(f"{len(todo)} source(s) have nowhere to read from; scouting {len(order)}")

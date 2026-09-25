@@ -308,10 +308,11 @@ def main():
                 # THE PROVENANCE MARK IS SHOWN, NOT ONLY COMPUTED (order 901e441aae1d).
                 # `compute()` derives a mark for every axis and --full printed the axis, the
                 # score and the citation and nothing else, so the one view a curator would use
-                # was the one view that hid the gap. `compute()`'s own docstring says the entire
-                # purpose of the 'unattributed' default is that it "leaves the gap VISIBLE for
-                # the curatorial pass, instead of hiding it behind a tag that reads as if the
-                # work had been done" -- and every axis entry in this ROSTER is a 2-tuple, so all
+                # was the one view that hid the gap. `compute()`'s own docstring gives the reason
+                # the 'unattributed' default exists at all: a 2-tuple axis should say so out loud
+                # instead of inheriting a neighbour's tag, which keeps a gap in the reading
+                # visible rather than hidden behind a mark that reads as if the work had been
+                # done -- and every axis entry in this ROSTER is a 2-tuple, so all
                 # 55 are 'unattributed' today and --full showed none of it. The mark survived
                 # only into data/WH40K_ASSAYS.json, which is not what a person reads. Mirrored
                 # from the twin at zfighters.py, including `.get` rather than `[...]` and the

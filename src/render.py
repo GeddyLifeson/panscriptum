@@ -306,9 +306,20 @@ def main():
 
     import worldseed as WS
     import address_space as AS
-    w = WS.build_all(limit=1)[0]
+    # CHECK BEFORE INDEXING (order 9f75ae0b8d96), as `write_views()` below already does. On a
+    # fresh tree with no worlds these two lookups raised IndexError / StopIteration instead of
+    # saying what was missing.
+    built = WS.build_all(limit=1)
+    worlds = tree.get("worlds") or {}
+    if not built or not worlds:
+        print("nothing to render: %s" % "; ".join(
+            m for m, empty in (("worldseed.build_all() returned no worlds", not built),
+                               ("SEVENFOLD.json charts no worlds, so no coordinate names a node",
+                                not worlds)) if empty))
+        return 1
+    w = built[0]
     seed = AS.map_seed(w["seed"])
-    sample = next(iter(tree["worlds"].values()))
+    sample = next(iter(worlds.values()))
 
     rows = []
     probes = {}

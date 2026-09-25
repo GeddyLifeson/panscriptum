@@ -882,7 +882,7 @@ JOURNAL = os.path.join(HERE, "state", "MUTANTS_SURVIVED.jsonl")
 # genuinely equivalent mutation is a settled question; without somewhere to write the ruling down
 # the harness re-files the identical order on the next pass and the ruling ends up in the closed
 # log sitting BEHIND an open copy of the thing it settled. Measured: `a380a696d364`
-# (escalation.py:409, `landed, why = False, "not attempted"` -> True) was ruled equivalent and
+# (escalation.py's `clear()`, the `landed, why = False, "not attempted"` assignment -> True) was ruled equivalent and
 # closed on 2026-09-01, re-filed and re-closed on the same ruling on 2026-09-02, and is open
 # again today with `seen: 2`; `aebfcf414477` (assay.py:593, `strict=True` -> `False`) has been
 # closed three times on the same reading. See `ruled_equivalent`.
@@ -1426,7 +1426,7 @@ def sandbox():
     apart -- and name exactly the files a live crawl/pipeline rewrites continuously: TIERS.json,
     COVERAGE.json, SHELFMARKS.json, ONOMASTICON.json, CHARACTER_SWEEP.json, FOREMAN.json. This is
     the leading and, per order 58a00e909217's direct re-attack, the only surviving explanation
-    for the one CONFIRMED false kill on record: `escalation.py:409` was scored KILLED by a
+    for the one CONFIRMED false kill on record: escalation.py's `clear()` (the `landed, why = False, "not attempted"` assignment) was scored KILLED by a
     16.3-hour run and SURVIVES cleanly when re-attacked in a fresh, short-lived sandbox.
 
     Now every top-level FILE directly under `data/` is HARDLINKED at sandbox build time instead,
@@ -2222,7 +2222,7 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
         # scored KILLED for a change that was never its doing.
         #
         # That is not hypothetical. The 2026-09-03 pass reported 299 mutants, 298 killed, ZERO
-        # survivors -- and `escalation.py:409 False -> True` was re-attacked directly in a fresh
+        # survivors -- and escalation.py's `clear()` (the `landed, why = False, "not attempted"` assignment, False -> True) was re-attacked directly in a fresh
         # sandbox afterwards and SURVIVED cleanly, every gate signature identical to baseline.
         # A confirmed FALSE KILL. Short-run flakiness was ruled out separately
         # (`--check-flaky` reported all gates reproducible), so the difference is the sixteen

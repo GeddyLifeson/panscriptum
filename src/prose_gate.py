@@ -532,7 +532,11 @@ def unearned_instrument(text, cited_names):
     out = []
     for b in _entry_blocks(text):
         head = b.splitlines()[0] if b.splitlines() else ""
-        name = head.strip().strip("*").strip()
+        # THE SAME DECORATION SET EVERY LABEL MATCH IN THIS FILE TOLERATES (sweep61 batch15).
+        # This stripped only `*`, so a CITED entity whose name line arrived as `### Name` or
+        # `_Name_` failed the lookup below and was refused as unearned. Over-refusal, but a
+        # refusal of earned work all the same. Internal characters are untouched.
+        name = re.sub(r"^[\s*_#>-]+|[\s*_#>-]+$", "", head)
         if not _AXIS_RE.search(b):
             continue
         base = re.sub(r"\s*\(.*", "", name).strip()

@@ -467,7 +467,7 @@ def audit(only=None, workers=6):
 
         `probe_failures` AND `probes_run` ARE EMITTED AS ZEROS AND ARE NOT PARAMETERS (order
         fc2e8e735f6c). They used to be arguments with 0 defaults, and none of this function's
-        four call sites -- :473, :477, :489, :560 -- ever passed either, so they were two knobs
+        call sites ever passed either, so they were two knobs
         nothing turned sitting in a signature whose whole purpose is to document the row shape.
         They died when order 1065e3eb7cd3 removed `probe_failures=len(probes)` from the
         unreachable-host branch and moved the declined-probe count into the `unreliable` prose

@@ -853,7 +853,7 @@ def adjudicate_mutuals(edges, prov):
         """-> (epoch, its own sentences' disagreement, whether anything probed) for one side.
 
         EVERY PROVENANCE SENTENCE, NOT THE FIRST (order 0d71cb2b08df). `prov[e].append(src)` runs
-        once per KEPT OUTCOME in `extract` (:492), so `len(prov[e]) == edges[e]` and this side
+        once per KEPT OUTCOME in `extract`'s result loop, so `len(prov[e]) == edges[e]` and this side
         can carry several sentences. Reading only `[0]` meant a side whose first sentence happens
         not to date itself was recorded as a genuine disagreement even when a later sentence for
         the very same edge does date it -- an adjudication reached on one sentence of several,

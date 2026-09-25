@@ -681,11 +681,11 @@ def _local_carded(c, system, prompt, schema):
     # total transport failure on every piece came back as {"feats": []} -- ANSWERED, not
     # unanswered, permanently caching an empty result over a passage nobody actually read. The
     # ordinary chunk path -- the `len(prompt) <= CHUNK + 2000` branch at the top of THIS function
-    # (:554-564) -- treats a None as unanswered and benches the GPU; this path has to make the
+    # -- treats a None as unanswered and benches the GPU; this path has to make the
     # same promise, not a weaker one just because it is rarer.
     # (Order ce9735ec93ba: that citation read ":521-524", which is `def _local` and the opening
     # of its docstring -- a different function, saying nothing about a None or about benching.
-    # The branch is named as well as numbered now, so the proof survives the next line shift.)
+    # The branch is named, not numbered, now, so the proof does not rot with the next line shift.)
     head, _, body = prompt.partition(chr(10) + chr(10))
     merged = {"feats": []}
     for i in range(0, len(body), CHUNK):

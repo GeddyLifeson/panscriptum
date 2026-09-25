@@ -121,6 +121,12 @@ def load_json(path, default):
 def save_json(path, obj):
     """-> True if the file actually landed.
 
+    NO CALLER ANY MORE (order bcd9737c5447). catalog.json is now landed only through
+    `_land_catalog` and failures.json only through `_land_failures`, both compare-and-swap; the
+    call sites the history below describes are gone, and drill pins that no whole-file
+    `save_json` of either comes back. Kept, not deleted, because deletion is a review-cycle
+    decision. The history is left as written: it is why the replacements exist.
+
     ATOMIC: catalog.json and failures.json are rewritten repeatedly across an hours-long
     generation run while estate.py and catalog.py read them; a truncate-then-fill here hands
     those readers an empty or half-written file. 2026-08-25.
@@ -1115,9 +1121,15 @@ def main():
             failures_own[job["address"]] = _FAILURE_CLEARED
             _land_failures(cfg["paths"]["failures"], failures_own)
 
-        # save incrementally so Ctrl-C doesn't lose progress
-        if done_count % 5 == 0:
-            _land_catalog(cfg["paths"]["catalog"], catalog_own)
+        # SAVE AFTER EVERY CHAPTER, NOT EVERY FIFTH (maintenance run #61, 2026-09-16). The raw
+        # chapter is already on disk by this point, so every chapter between two saves was a book
+        # on the shelf in no catalogue. On 2026-09-16 the owner paused the library at 21:31
+        # between saves, `output/raw/II_L_7_4_Frontmatter.md` was left uncatalogued, and drill's
+        # "the catalog and the shelf agree in BOTH directions" HALTED the library -- a halt
+        # overnight.py cannot work its way out of, because it starts this module only on a green
+        # drill. At minutes per chapter the extra CAS write costs nothing. The window between the
+        # raw write and this landing still exists; it is now one chapter wide, not four.
+        _land_catalog(cfg["paths"]["catalog"], catalog_own)
 
     # THE FINAL WRITES DECIDE THE EXIT CODE. The incremental saves above can be made good by the
     # next one five chapters later; these two cannot, and they are the run's entire durable

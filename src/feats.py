@@ -215,8 +215,13 @@ def _throttle(host):
         # The strike ledger is per host (see `_HOST_LOCKS`); the pace is per edge. `_BACKOFF`
         # only ever gains a key from `note_throttled`, so this scan is over the hosts that have
         # actually been throttled -- a handful, not the roll.
+        # ITERATED OVER A SNAPSHOT (order 549e7df722a0). This lock is the EDGE's, and
+        # `note_throttled` inserts new keys under a DIFFERENT edge's lock, so a live
+        # `_BACKOFF.items()` walk could meet "dictionary changed size during iteration" with two
+        # edges active. `tuple()` copies the view in one C call under the GIL, and the dict is a
+        # handful of throttled hosts, so the copy costs nothing beside the request it paces.
         mult = _BACKOFF.get(host, 1.0)
-        for h, m in _BACKOFF.items():
+        for h, m in tuple(_BACKOFF.items()):
             if m > mult and registrable_domain(h) == dom:
                 mult = m
         last = _HOST_LAST.get(dom, 0.0)
@@ -281,7 +286,8 @@ def note_ok(host):
 
 def backoff_state():
     """-> {host: multiplier} for hosts currently slowed. Reported, never silent."""
-    return {h: round(m, 2) for h, m in _BACKOFF.items() if m > 1.0}
+    # A SNAPSHOT, for the same reason as `_throttle` (order 549e7df722a0): no lock is held here.
+    return {h: round(m, 2) for h, m in tuple(_BACKOFF.items()) if m > 1.0}
 
 
 # THE QUARANTINE, READ ONCE A MINUTE INSTEAD OF ONCE AN ENTITY (order 5be28f56946c).

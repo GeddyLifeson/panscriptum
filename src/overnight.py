@@ -1480,7 +1480,16 @@ def main():
         raise SystemExit(
             "REFUSING TO START: the escalation chain (src/escalation.py) could not be "
             "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
-    _ESC.assert_clear(os.path.basename(__file__))
+    # A STANDING HALT STILL REFUSES THE START, and now says so in overnight.log the way the
+    # per-cycle interlock below does, rather than as a traceback in overnight_stderr.log
+    # (sweep61 batch11). `autostart --watch` relaunches this process, so under a halt this is
+    # the line a person reading the log finds on every attempt.
+    try:
+        _ESC.assert_clear(os.path.basename(__file__))
+    except _ESC.SystemHalted as _halt:
+        log("  " + str(_halt).splitlines()[0])
+        log("  The library is halted. The supervisor will not start until a person rules on it.")
+        raise SystemExit("REFUSING TO START: the library is halted. Hard Rule -1.") from _halt
     # THE SUPERVISOR IS A STANDING JOB TOO (order 2cb8756deb0a). Every daemon in `STANDING`
     # stamps its source at startup and exits rc=17 when `src/` moves under it, because a Python
     # process is a photograph of the code it started with. This process runs for DAYS across
@@ -1796,13 +1805,24 @@ def main():
         # `drill_rc != 1` is the halt interlock generate.py does not carry -- see the safety
         # drill note above. It does NOT open or widen the owner's gate: `_prose_enabled()` is
         # untouched and still decides whether prose runs at all.
-        if os.path.exists(manifest) and _prose_enabled() and drill_rc != 1:
+        #
+        # AND IT NOW FAILS CLOSED: `== 0`, NOT `!= 1` (maintenance run #61, sweep61 batch11). The
+        # note above reads None or an unnamed code as "not evidence of a breach", which is true,
+        # and it is also not evidence of NO breach -- Hard Rule -1 answers "I don't know" with
+        # STOP. The cost of refusing is one cycle: generate.py is resumable and the next cycle's
+        # drill decides again. The other stages keep their own interlocks and are not gated here.
+        if os.path.exists(manifest) and _prose_enabled() and drill_rc == 0:
             start("prose", [os.path.join(SRC, "generate.py"), "--manifest", manifest],
                   "prose_auto.log")
         elif os.path.exists(manifest) and _prose_enabled() and drill_rc == 1:
             log("  prose: NOT started -- a safety net was breached this cycle and the library "
                 "has halted itself. generate.py carries no halt interlock of its own, so it is "
                 "the one stage that would keep writing through a halt.")
+        elif os.path.exists(manifest) and _prose_enabled():
+            log("  prose: NOT started -- the safety drill did not complete this cycle (%s), so "
+                "whether a net is breached is unknown, and generate.py would not notice a halt. "
+                "The next cycle's drill decides again." % (
+                    "it did not run" if drill_rc is None else name_rc(drill_rc)))
         roll = start("roll", [os.path.join(SRC, "feats.py"), "--roll", "--workers", "12"],
                      LN.ROLL)
 

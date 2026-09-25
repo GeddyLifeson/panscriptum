@@ -429,11 +429,13 @@ def scan():
     the findings below -- checked directly, not assumed, because that was the entire risk the
     order was held against.
 
-    The one new finding, `context_budget.py:276 report()`, is GENUINE: no caller of any spelling
-    exists in `src/`, confirmed by grep as well as by this pass. It was already suspected before
-    this landed (see the order's own text) and is left standing rather than filed by hand,
-    because the point of the order was the DETECTOR, and a hand-filed instance is what having no
-    instrument looks like.
+    The one new finding, `context_budget.py`'s `report()`, was GENUINE when this landed: no
+    caller of any spelling existed in `src/` at the time, confirmed by grep as well as by this
+    pass. It was already suspected before this landed (see the order's own text) and was left
+    standing rather than filed by hand, because the point of the order was the DETECTOR, and a
+    hand-filed instance is what having no instrument looks like. IT HAS SINCE GAINED A CALLER:
+    `drill.py`'s `an_unmeasurable_scaffold_never_yields_a_budget()` net (sweep58) calls
+    `CB.report(cfg)`, so the live scan no longer lists it here.
     """
     trees, used, unparsed = {}, set(), []
     for name, path in _modules():
@@ -824,10 +826,30 @@ def _function_line_ranges(path):
     tree, _reason = _parse(path)
     if tree is None:
         return {}
-    out = {}
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            out[node.name] = (node.lineno, getattr(node, "end_lineno", None) or node.lineno)
+    # QUALIFIED, AND A BARE NAME ONLY WHEN IT IS UNIQUE (sweep61 batch14). This was keyed by
+    # `node.name` alone, so two same-named methods in different classes overwrote each other and
+    # a DECLARED_UNREACHABLE ruling excused whichever span landed last. Now every def is keyed
+    # `Outer.name` (nesting joined with dots); the bare `name` is kept as an alias only when one
+    # def carries it, and maps to None when several do -- `reachability` then excuses NOTHING
+    # for that ruling and says so, which is the fail-closed reading of an ambiguous declaration.
+    out, bare = {}, {}
+
+    def _walk(node, prefix):
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                qual = prefix + child.name
+                if not isinstance(child, ast.ClassDef):
+                    span = (child.lineno, getattr(child, "end_lineno", None) or child.lineno)
+                    out[qual] = span
+                    bare.setdefault(child.name, []).append(span)
+                _walk(child, qual + ".")
+            else:
+                _walk(child, prefix)
+
+    _walk(tree, "")
+    for name, spans in bare.items():
+        if name not in out:
+            out[name] = spans[0] if len(spans) == 1 else None
     return out
 
 
@@ -958,7 +980,11 @@ def reachability(modules=GATE_MODULES, runner="verify_math.py", timeout_s=1800):
             ranges = _function_line_ranges(path)
             declared_fns = DECLARED_UNREACHABLE.get(m, {})
             declared_lines = set()
+            ambiguous = []
             for fn_name in declared_fns:
+                if fn_name in ranges and ranges[fn_name] is None:
+                    ambiguous.append(fn_name)     # names several defs: excuses nothing
+                    continue
                 span = ranges.get(fn_name)
                 if span:
                     declared_lines.update(range(span[0], span[1] + 1))
@@ -968,6 +994,7 @@ def reachability(modules=GATE_MODULES, runner="verify_math.py", timeout_s=1800):
                 "unreached": missing_sorted,
                 "unreached_undeclared": undeclared,
                 "declared_unreachable_functions": sorted(declared_fns),
+                "ambiguous_declarations": sorted(ambiguous),
             }
         return out
     finally:
@@ -1003,6 +1030,10 @@ def main():
                 if info["declared_unreachable_functions"]:
                     print("      declared unreachable (ruled, not a gap): %s"
                           % ", ".join(info["declared_unreachable_functions"]))
+                if info.get("ambiguous_declarations"):
+                    print("      AMBIGUOUS RULING -- these names match several defs, so they "
+                          "excuse NOTHING; qualify them as Class.method: %s"
+                          % ", ".join(info["ambiguous_declarations"]))
                 if info["unreached_undeclared"]:
                     print("      UNDECLARED -- no check reaches these lines and nobody has "
                           "ruled on why (the roster, in full, never a count alone):")

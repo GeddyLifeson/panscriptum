@@ -948,7 +948,19 @@ def round_once(limit=6, local=True, skip_model=False):
     for fid, f in list(led["findings"].items()):
         if f.get("state") != "open":
             continue
-        d = _digest(os.path.join(SRC, f["module"] + ".py"))
+        _mp = os.path.join(SRC, f["module"] + ".py")
+        # A FILE THAT IS GONE HAS CHANGED TOO (sweep61 batch06). `_digest` answers "" for any
+        # read failure, and "" never passed the test below, so a finding against a module later
+        # deleted or moved stayed open for ever -- and `verify_open` sorts oldest-verified first
+        # and `continue`s on the unreadable file without stamping it, so such findings also held
+        # the front of its per-round budget indefinitely. Only a genuinely ABSENT file retires
+        # here; a file that exists but could not be read (a lock, AV) is left for the next round.
+        if not os.path.exists(_mp):
+            f["state"] = "retired"
+            f["retired_at"] = led["last_run"]
+            f["retired_why"] = "module file no longer exists"
+            continue
+        d = _digest(_mp)
         if d and d != f.get("digest"):
             f["state"] = "retired"
             f["retired_at"] = led["last_run"]

@@ -2361,6 +2361,18 @@ def drill_assay():
         lambda: PG.unearned_instrument("◈ A\n**Strength**: 30\n", set()) != [],
         "the other half of AUDIT DEFEAT 4: bold around the LABEL hides an axis score just as "
         "well as bold around the whole line, and the model emits both")
+    # sweep61 batch15: the name line was stripped of `*` only, so a CITED entity written as a
+    # heading or in underscore italics was refused as unearned. Both directions are pinned:
+    # the decorated cited name passes, and the same decoration on an UNCITED name still refuses.
+    net(a, "a cited entity whose name line is a heading or italic is still recognised",
+        lambda: (PG.unearned_instrument("◈ ### Athuri\nWisdom: 28\n", {"Athuri"}) == []
+                 and PG.unearned_instrument("◈ _Athuri_\nWisdom: 28\n", {"Athuri"}) == []),
+        "an earned number refused over markdown on the name line is earned work thrown away")
+    net(a, "the same decoration on an UNCITED name still refuses its number",
+        lambda: (PG.unearned_instrument("◈ ### Athuri\nWisdom: 28\n", set()) == ["Athuri"]
+                 and PG.unearned_instrument("◈ > _Athuri_\nWisdom: 28\n", {"Other"})
+                 == ["Athuri"]),
+        "normalising the name must never become a way past Hard Rule 3")
     # THIS NET WAS SATISFIED BY THE CONDITION ITS OWN EXPECTATION NAMES AS THE DEFEAT (order
     # 29fceddad360). It asserted `cited_names_for(...) is not None and isinstance(..., set)` --
     # and AUDIT DEFEAT 5 is an ALWAYS-EMPTY set, which is a `set`, and passes both clauses. It
@@ -12393,6 +12405,177 @@ def drill_inspector():
         "a catalog entry with no file is a book the library thinks it has; a file in no catalog "
         "entry is prose from a writer nobody knows about")
 
+    def generate_lands_catalog_every_chapter(src_text=None):
+        """generate.py's job loop lands the catalog after EVERY chapter, unconditionally.
+
+        Maintenance run #61 (2026-09-16). The loop used to land it only when `done_count % 5 == 0`,
+        so a kill between saves left up to four written chapters in no catalogue, and the net
+        above HALTED the library over them -- a halt overnight.py cannot clear by itself, since it
+        starts generate.py only on a green drill. Holds when some `_land_catalog(...)` call is a
+        direct statement of the loop body that counts `done_count`, not nested under an `if`.
+        """
+        import ast
+        if src_text is None:
+            with open(os.path.join(HERE, "src", "generate.py"), encoding="utf-8") as fh:
+                src_text = fh.read()
+        tree = ast.parse(src_text)
+        for loop in ast.walk(tree):
+            if not isinstance(loop, (ast.For, ast.While)):
+                continue
+            counts = any(isinstance(s, ast.AugAssign) and isinstance(s.target, ast.Name)
+                         and s.target.id == "done_count" for s in loop.body)
+            if not counts:
+                continue
+            for s in loop.body:
+                if (isinstance(s, ast.Expr) and isinstance(s.value, ast.Call)
+                        and isinstance(s.value.func, ast.Name)
+                        and s.value.func.id == "_land_catalog"):
+                    return True
+            return False
+        return False                        # the loop itself vanished: not a pass
+    net(a, "generate.py lands the catalog after every chapter, not every fifth",
+        generate_lands_catalog_every_chapter,
+        "a chapter written to output/raw and not yet catalogued is exactly the shelf/catalog "
+        "disagreement that halts the library when a pause lands between saves")
+
+    def _every_fifth_is_refused():
+        fixture = ("def run(jobs):\n"
+                   "    done_count = 0\n"
+                   "    for j in jobs:\n"
+                   "        done_count += 1\n"
+                   "        if done_count % 5 == 0:\n"
+                   "            _land_catalog(p, own)\n")
+        return not generate_lands_catalog_every_chapter(fixture)
+    net(a, "[control] the every-chapter net refuses the old every-fifth save",
+        _every_fifth_is_refused,
+        "a net that cannot see the save nested under a modulo guard would pass the bug it names")
+
+    def ledger_needs_real_headings(check=None):
+        """A BUGS.md whose `## Open`/`## Resolved` survive only in PROSE is refused, not crashed.
+
+        Maintenance run #61 (sweep61 batch05). `check_structure` tested presence with `sec not in
+        text`, so a file quoting its own section names passed, then died on `span["## Open"]`
+        with a bare KeyError. Holds when the real check returns (False, problems naming both
+        sections) for a prose-only fixture, and the live BUGS.md still passes.
+        """
+        import ledger_guard as LG
+        check = check or LG.check_structure
+        prose = ("# BUGS\n\n> moved to `## Resolved (paper trail)` from `## Open` last week\n"
+                 + "filler line\n" * 900)
+        try:
+            ok, problems = check("BUGS.md", prose)
+        except Exception:
+            return False                    # a crash is not a refusal
+        named = " ".join(problems)
+        return (not ok and "no '## Open' section" in named
+                and "no '## Resolved' section" in named and LG.check_structure("BUGS.md")[0])
+    net(a, "a ledger whose section headings survive only in prose is refused, not crashed",
+        ledger_needs_real_headings,
+        "a substring test for a heading passes on any mention of it, and the span lookup then "
+        "raises instead of refusing")
+
+    def overnight_prose_needs_a_clean_drill(src_text=None):
+        """overnight.py starts generate.py only when the drill returned exactly 0.
+
+        Maintenance run #61 (sweep61 batch11). The start condition was `drill_rc != 1`, so a
+        drill that timed out, crashed (None) or exited on an unnamed code let prose start, on the
+        one stage with no halt interlock of its own. Holds when every `start("prose", ...)` call
+        sits under an `if` whose test contains `drill_rc == 0`, and no test says `drill_rc != 1`.
+        """
+        import ast
+        if src_text is None:
+            with open(os.path.join(HERE, "src", "overnight.py"), encoding="utf-8") as fh:
+                src_text = fh.read()
+        tree = ast.parse(src_text)
+        found = False
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.If):
+                continue
+            test = ast.unparse(node.test)
+            starts_prose = any(
+                isinstance(s, ast.Expr) and isinstance(s.value, ast.Call)
+                and isinstance(s.value.func, ast.Name) and s.value.func.id == "start"
+                and s.value.args and isinstance(s.value.args[0], ast.Constant)
+                and s.value.args[0].value == "prose" for s in node.body)
+            if not starts_prose:
+                continue
+            found = True
+            if "drill_rc == 0" not in test or "drill_rc != 1" in test:
+                return False
+        return found                        # no prose start at all is not a pass
+    net(a, "overnight starts prose only on a drill that returned exactly 0",
+        overnight_prose_needs_a_clean_drill,
+        "a drill that did not complete is not evidence of no breach; generate.py would not "
+        "notice a halt")
+
+    def _old_prose_gate_is_refused():
+        fixture = ("if os.path.exists(manifest) and _prose_enabled() and drill_rc != 1:\n"
+                   "    start('prose', [g], 'prose_auto.log')\n")
+        return overnight_prose_needs_a_clean_drill(fixture) is False
+    net(a, "[control] the prose-gate net refuses the old `!= 1` condition",
+        _old_prose_gate_is_refused,
+        "a net that passes the fail-open condition it was written against proves nothing")
+
+    def throttle_iterates_a_snapshot(src_text=None):
+        """feats._throttle walks a tuple() snapshot of _BACKOFF, never the live dict.
+
+        Maintenance run #61 (order 549e7df722a0): note_throttled inserts keys under a different
+        edge's lock, so a live `.items()` walk can raise "dictionary changed size". Holds when
+        every `for` over `_BACKOFF.items()` inside `_throttle` wraps it in tuple() or list().
+        """
+        import ast
+        if src_text is None:
+            with open(os.path.join(HERE, "src", "feats.py"), encoding="utf-8") as fh:
+                src_text = fh.read()
+        for fn in ast.walk(ast.parse(src_text)):
+            if isinstance(fn, ast.FunctionDef) and fn.name == "_throttle":
+                loops = [n for n in ast.walk(fn) if isinstance(n, ast.For)
+                         and "_BACKOFF.items()" in ast.unparse(n.iter)]
+                return bool(loops) and all(
+                    isinstance(n.iter, ast.Call) and isinstance(n.iter.func, ast.Name)
+                    and n.iter.func.id in ("tuple", "list") for n in loops)
+        return False
+    net(a, "the crawl's throttle walks a snapshot of the shared backoff table",
+        throttle_iterates_a_snapshot,
+        "a live walk of a dict another thread inserts into can die mid-crawl")
+    def _ranges_keep_same_named_methods_apart(ranges_of=None):
+        """Two same-named methods in different classes get two spans, and the bare name excuses
+        nothing. sweep61 batch14: the map was keyed by bare name, so one overwrote the other and
+        a DECLARED_UNREACHABLE ruling excused whichever landed last."""
+        import tempfile
+        import liveness as LV
+        ranges_of = ranges_of or LV._function_line_ranges
+        d = tempfile.mkdtemp(prefix="drill_ranges_")
+        try:
+            p = os.path.join(d, "twins.py")
+            with open(p, "w", encoding="utf-8") as fh:
+                fh.write("class A:\n    def go(self):\n        return 1\n"
+                         "class B:\n    def go(self):\n        return 2\n")
+            r = ranges_of(p)
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        return r.get("A.go") == (2, 3) and r.get("B.go") == (5, 6) and r.get("go", 0) is None
+    net(a, "the reachability ruling map keeps same-named methods apart",
+        _ranges_keep_same_named_methods_apart,
+        "a bare-name map lets a ruling on one method excuse another method's unreached lines")
+
+    def _bare_name_ranges_are_refused():
+        import ast as _ast
+
+        def old(path):
+            tree = _ast.parse(open(path, encoding="utf-8").read())
+            return {n.name: (n.lineno, n.end_lineno) for n in _ast.walk(tree)
+                    if isinstance(n, (_ast.FunctionDef, _ast.AsyncFunctionDef))}
+        return _ranges_keep_same_named_methods_apart(old) is False
+    net(a, "[control] the same-named-methods net refuses the old bare-name map",
+        _bare_name_ranges_are_refused,
+        "a net the original keying passes would prove nothing about the fix")
+
+    net(a, "[control] the snapshot net refuses a live `.items()` walk",
+        lambda: throttle_iterates_a_snapshot(
+            "def _throttle(host):\n    for h, m in _BACKOFF.items():\n        pass\n") is False,
+        "a net blind to the live walk would pass the race it names")
+
     def coverage_totals_never_exceed_their_entry_count(path=None):
         """No source's states may sum PAST its own entry count. One direction, and only one.
 
@@ -17604,6 +17787,11 @@ def drill_codewatch():
              "python -c that merely imports it"),
             ([r"C:/py/python.exe", "/tmp/sandbox/src/publish.py"], "publish", False,
              "ANOTHER TREE's copy of the same file"),
+            # sweep61 batch09: a flag that takes a SEPARATE value stopped the scan at the value
+            ([r"C:/py/python.exe", "-X", "utf8", here + "/publish.py"], "publish", True,
+             "the daemon with a value-taking interpreter flag"),
+            ([r"C:/py/python.exe", "-c", "print(1)", here + "/publish.py"], "publish", False,
+             "python -c whose trailing argument happens to name the file"),
         ]
         for argv, module, want, _what in cases:
             if CW.runs_script(argv, module, root=here) is not want:
@@ -21964,6 +22152,58 @@ def drill_hostcheck():
     """
     a = "THE HOST SCORE — can less evidence buy more permission?"
 
+    # THE REPLY IS THE ONE MEASURED ON en.wikipedia 2026-09-16 (sweep61 batch14): four of five
+    # names resolve, three by redirect and one by normalisation, and `pages` holds ONE live
+    # entry. Nothing here touches the network -- `_api` and `_get` are replaced for the call.
+    _REDIRECT_REPLY = {"query": {
+        "normalized": [{"from": "united states", "to": "United states"}],
+        "redirects": [{"from": "USA", "to": "United States"},
+                      {"from": "United States of America", "to": "United States"},
+                      {"from": "United states", "to": "United States"}],
+        "pages": {"-1": {"ns": 0, "title": "Nonexistentpagexyz123", "missing": ""},
+                  "3434750": {"pageid": 3434750, "ns": 0, "title": "United States"}}}}
+    _REDIRECT_NAMES = ["USA", "United States of America", "United States", "united states",
+                       "Nonexistentpagexyz123"]
+
+    # `probe()` asks `endpoint.detect(host)` for the host's mode BEFORE it reaches `_api`/`_get`,
+    # so the stubs below were never the whole seam. `detect` answers from data/ENDPOINTS.json and
+    # re-probes a DEAD verdict after DEAD_TTL (24h). Tonight's net held only while the supervisor ran
+    # drill more often than that: after the library had been halted for a week the cached
+    # "drill.invalid: dead" aged out, `detect` went to the network, and two URLErrors reached the
+    # live failure ledger (run #62, 2026-09-23; the ledger nets breached on it). It is stubbed too,
+    # so this net touches neither the network nor data/ENDPOINTS.json.
+    def _probe_with_reply(probe_fn=None):
+        import hostcheck as HC
+        import endpoint as EP
+        probe_fn = probe_fn or HC.probe
+        saved = (HC._api, HC._get, EP.detect)
+        HC._api = lambda host: "https://drill.invalid/w/api.php"
+        HC._get = lambda url, *a_, **k_: _REDIRECT_REPLY
+        EP.detect = lambda host, force=False: {"mode": EP.MODE_API, "path": "/w/api.php"}
+        try:
+            return probe_fn("drill.invalid", list(_REDIRECT_NAMES))
+        finally:
+            HC._api, HC._get, EP.detect = saved
+
+    net(a, "a probe counts every NAME that resolves, not every distinct page returned",
+        lambda: _probe_with_reply().get("hits") == 4
+        and _probe_with_reply().get("titles") == ["United States"],
+        "names that redirect to one article collapsed into one hit and lowered the host's rate")
+
+    def _page_count_probe_is_refused():
+        import hostcheck as HC
+
+        def old(host, names):
+            d = HC._get("x")
+            pages = (d.get("query") or {}).get("pages") or {}
+            live = [p for p in pages.values()
+                    if "missing" not in p and int(p.get("pageid", 0)) > 0]
+            return {"hits": len(live), "titles": [p.get("title") for p in live]}
+        return _probe_with_reply(old).get("hits") != 4
+    net(a, "[control] the per-name net refuses the old per-page count",
+        _page_count_probe_is_refused,
+        "a net the original count passes proves nothing about the fix")
+
     def zero_readable_bodies_is_the_thinnest_evidence_and_buys_the_least():
         """`relevance()` answers (None, 0) when no article body could be read at all -- a
         throttle, a 403, a network fault swallowed by its own silence.note, or a wiki serving no
@@ -23243,9 +23483,10 @@ def main(areas=None):
     #     being logged as a normal pass. `overnight.name_rc` does NOT yet name 3, so the log will
     #     say `rc=3` with no diagnosis; that file is not this one's to edit and the gap is
     #     reported with this change rather than left silent.
-    #   * `overnight`'s only other use is `drill_rc != 1`, the prose interlock for `generate.py`,
-    #     which is unaffected: a verdict that did not land is not a breach and must not read as
-    #     one.
+    #   * `overnight`'s only other use is the prose interlock for `generate.py`. Since maintenance
+    #     run #61 it is `drill_rc == 0`, so a verdict that did not land (rc=3 included) does not
+    #     read as a breach AND does not start prose either: an unknown is refused, and the next
+    #     cycle's drill decides again.
     #   * `mutate`'s `drill` gate folds rc into the gate SIGNATURE it judges mutants by
     #     difference from. rc=3 in a baseline is classified by `mutate.red_gates` (anything not
     #     starting `rc=0|`), so the run says "RED IN THE BASELINE ... THESE GATES ARE DISABLED:

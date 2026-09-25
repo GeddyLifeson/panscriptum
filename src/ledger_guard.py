@@ -216,12 +216,19 @@ def check_structure(name, text=None):
     if floor and len(text.encode("utf-8")) < floor:
         problems.append("%s is %d bytes, below the %d-byte floor — a ledger this short has lost "
                         "something" % (name, len(text.encode("utf-8")), floor))
+    # A SECTION IS PRESENT WHEN ITS HEADING IS, not when its name appears somewhere (sweep61
+    # batch05). This was `sec not in text`, a substring test, and BUGS.md quotes its own section
+    # names in prose dozens of times -- so deleting the real `## Open` heading passed this check,
+    # and the block below then died on `span["## Open"]` with a bare KeyError instead of saying
+    # what was wrong. The same heading-versus-mention fault the block below records fixing.
+    headed = {sec for sec in REQUIRED_SECTIONS.get(name, ())
+              if re.search(r"(?m)^" + re.escape(sec), text)}
     for sec in REQUIRED_SECTIONS.get(name, ()):
-        if sec not in text:
+        if sec not in headed:
             problems.append("%s has no '%s' section" % (name, sec))
     if name == "HANDOFF.md":
         problems.extend(_handoff_journal_problems(text))
-    if name == "BUGS.md" and "## Open" in text and "## Resolved" in text:
+    if name == "BUGS.md" and {"## Open", "## Resolved"} <= headed:
         # SECTIONS BOUNDED BY THE ORDER THEY ARE FOUND IN, not by an assumed Open-then-Resolved
         # layout. The earlier version sliced `text[i:j]` on that assumption; reorder the file --
         # a human edit, a template change -- and `i > j` makes Python answer the slice with `""`,

@@ -371,13 +371,25 @@ def runs_script(argv, module, root=None, cwd=None):
     if "python" not in os.path.basename(str(argv[0])).lower():
         return False
     script = None
-    for arg in argv[1:]:
-        a = str(arg).replace("\\", "/")
+    # FLAGS THAT TAKE A SEPARATE VALUE ARE STEPPED OVER WHOLE (sweep61 batch09), the way
+    # `whoruns.script_of` already does: `python -X utf8 x.py` used to stop at `utf8` as a bare
+    # non-flag and report no script. `-m` and `-c` end the search, since what follows them is a
+    # module name or code, never the script being run.
+    args = [str(x).replace("\\", "/") for x in argv[1:]]
+    i = 0
+    while i < len(args):
+        a = args[i]
+        if a in ("-m", "-c"):
+            break
+        if a in ("-X", "-W", "--check-hash-based-pycs"):
+            i += 2
+            continue
         if a.endswith(".py"):
             script = a
             break
         if not a.startswith("-"):
             break            # a non-flag, non-.py argument: this is not `python x.py`
+        i += 1
     if not script or os.path.basename(script) != needle:
         return False
     resolved = script

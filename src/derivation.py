@@ -641,7 +641,11 @@ def scan_constants_with_reason(mod):
     path = os.path.join(HERE, mod + ".py")
     if not os.path.exists(path):
         return None, "absent"
-    with open(path, encoding="utf-8") as f:
+    # errors="replace", matching sweep_plan.modules()'s own read of this same tree (order
+    # 98301c3da870): a bare utf-8 read here would let one undecodable byte anywhere under
+    # src/ raise UnicodeDecodeError out of the whole ledger report instead of costing just
+    # this one module.
+    with open(path, encoding="utf-8", errors="replace") as f:
         src = f.read()
     try:
         tree = ast.parse(src)

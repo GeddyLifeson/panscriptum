@@ -435,11 +435,33 @@ def probe(host, names):
                 # WHOLE, not cut at 60 with no marker (sweep59-batch16, Hard Rule 0): this lands
                 # in data/HOST_FITNESS.json and is the only record of WHY a probe failed.
                 "error": f"{type(e).__name__} {e}"}
-    pages = ((d.get("query") or {}).get("pages") or {})
+    query = d.get("query") or {}
+    pages = query.get("pages") or {}
     live = [p for p in pages.values() if "missing" not in p and int(p.get("pageid", 0)) > 0]
     found = [p.get("title") for p in live][:5]
-    return {"host": host, "probed": len(names), "hits": len(live),
-            "rate": round(len(live) / len(names), 3), "examples": found,
+    # HITS ARE COUNTED PER PROBED NAME, NOT PER RETURNED PAGE (sweep61 batch14). With
+    # `redirects=1` MediaWiki answers ONE `pages` entry per resolved article, so names that
+    # normalise or redirect to the same page collapsed into one hit. Measured on en.wikipedia
+    # 2026-09-16: "USA", "United States of America", "United States" and "united states" all
+    # resolve, and `pages` held one live entry -- four hits read as one. Each name is followed
+    # through `normalized` and then `redirects` (hops bounded, since a wiki can hold a loop) to
+    # the page it lands on. `titles` stays the distinct live pages, which is what callers read.
+    hops = {}
+    for m in (query.get("normalized") or []) + (query.get("redirects") or []):
+        if m.get("from") and m.get("to"):
+            hops[m["from"]] = m["to"]
+    live_titles = {p.get("title") for p in live}
+    hits = 0
+    for n in names:
+        t = n.replace("|", " ")
+        for _ in range(len(hops) + 1):
+            if t not in hops:
+                break
+            t = hops[t]
+        if t in live_titles:
+            hits += 1
+    return {"host": host, "probed": len(names), "hits": hits,
+            "rate": round(hits / len(names), 3), "examples": found,
             "titles": [p.get("title") for p in live]}
 
 

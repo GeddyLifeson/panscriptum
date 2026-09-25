@@ -1241,13 +1241,23 @@ def check(state=None):
             if not os.path.isdir(_readfeats):
                 raise FileNotFoundError(_readfeats)
             unans_files = 0
+            # THE WHOLE RECORD IS PARSED, NOT ITS FIRST 700 BYTES (sweep61 batch07). read.py
+            # writes the uncapped `pages` list BEFORE `chunks_unanswered`, so on a record with
+            # many pages the key sat past the cut and the "written before the guard existed" arm
+            # counted a COMPLETE record -- measured 2026-09-16: 40 of 3,463 flagged, 0 genuinely
+            # unanswered -- under a remedy that tells the reader to DELETE them. Parsing all of
+            # them costs ~0.2s more, once per 120s. An unparseable record still counts: it cannot
+            # be shown complete, and the note says which kind it was.
             for fp in _g.glob(os.path.join(_readfeats, "**", "*.json"), recursive=True):
-                with open(fp, encoding="utf-8") as f:
-                    head = f.read(700)
-                if '"chunks_unanswered": 0' not in head and "chunks_unanswered" in head:
+                try:
+                    with open(fp, encoding="utf-8") as f:
+                        rec = json.load(f)
+                except ValueError:
+                    silence.note("standards.py:unanswered-record-unparseable")
                     unans_files += 1
-                elif "chunks_unanswered" not in head:
-                    unans_files += 1          # written before the guard existed
+                    continue
+                if not isinstance(rec, dict) or rec.get("chunks_unanswered") != 0:
+                    unans_files += 1          # nonzero, or written before the guard existed
             _UNANS_CACHE.update({"at": now_m, "n": unans_files})
         out.append(_s(
             "cached records that were fully read", unans_files <= MAX_UNANSWERED_RECORDS,
@@ -1480,8 +1490,8 @@ def check(state=None):
         out.append(_s(
             "the automation reproduces the charter", holds, obs,
             # INTERPOLATED, NOT HAND-COPIED (order f18c50e8a513). This was the literal `26h`,
-            # restated by hand from CHARTER_REGRESSION_MAX_AGE_H (:525) the way every other
-            # floor in this function is not -- MAX_SWEEP_AGE_H, MAX_PUBLISH_AGE_H,
+            # restated by hand from the module-level CHARTER_REGRESSION_MAX_AGE_H constant the
+            # way every other floor in this function is not -- MAX_SWEEP_AGE_H, MAX_PUBLISH_AGE_H,
             # MAX_COVERAGE_AGE_H, MIN_DISK_GB and MAX_SWALLOWED_NEW are all f-string-interpolated
             # from their constants. A restated literal silently disagrees with what is actually
             # enforced the moment the constant moves, and the module's own "every declared floor

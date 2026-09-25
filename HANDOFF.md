@@ -27,6 +27,305 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-24 — RUN #63 (DAILY) — STILL HALTED, STILL PAUSED; BATTERY ONLY, AND THE DISK IS DOWN TO 6 GB
+
+**FOR THE OWNER, AT THE TOP:**
+
+* **THE LIBRARY IS STILL HALTED, AND THIS RUN DID NOT LIFT IT.** This is the same `DRILL_BREACH`
+  from 09-16: `output/raw/II_L_7_4_Frontmatter.md` is on the shelf and not in the catalog. A run
+  found it and no run caused it, so under Hard Rule -1 it stays up. The cause is already fixed
+  (M112). **Your ruling is order `f25d3d5be9b1`.** The recommendation is unchanged: move that
+  one file aside, re-run `drill.py`, then clear. `autostart.py --watch` is running (pythonw PIDs
+  31088/27888) and starts the supervisor within the hour after the lift.
+* **DRIVE C: HAS 6.1 GB FREE OF 931 GB.** allsweep grades it `DISK NEARLY FULL` and it sits on
+  order `2d6c9343cd32` (OWNER, MAJOR), bundled with the dandwiki preflight row. The kit itself
+  is 5.6 GB and Ollama's models are 4.9 GB, so the library is not what filled the disk. Nothing
+  was deleted. When the roll resumes it writes hundreds of MB an hour, so **free space before
+  lifting the halt**, or the first night back will run the disk out.
+* **NOTHING IS PUBLISHED.** `publish.py --push` refuses under the halt. Runs #61, #62 and #63 are
+  all waiting for the first push after the lift.
+* **NOT A COMPLETE RUN BY THE TASK'S STANDARD.** There was no sweep, no mutation pass
+  (`mutate.py` refuses under a halt) and no push. **Open orders the run could not close:** RUN
+  `058fa19d4e65` (GPU chain re-run, which is a job under the halt), RUN `58a00e909217` (needs a
+  mutation pass), RUN `573ab7b04b6f` (needs the publish daemon running), BOTS `0a7cc18747e5`
+  (binding-health canary 9 days old; the supervisor runs it and the supervisor is down), SESSION
+  `a74678936964` (the drill's own filing of the halt). The other 48 are OWNER.
+* **No committed secrets.** detect-secrets 0, `publish.scan_for_secrets` 0.
+* **Mutation pass:** none ran. The survivor count is unchanged from run #61's report.
+
+### THE SHIFT
+
+Opened 22:01 CDT. The guard was claimed (run #62's record said `done:true`), with a token. No owner
+session has touched the kit since run #62: the only other transcript newer than NEXT_STEPS.md is
+run #62's own, and no kit process runs except the two `autostart --watch` pythonw watchers. The
+pause stands, so nothing was restarted. The battery pinned `qwen3:8b` again and it was unloaded
+at the end (`/api/ps` empty).
+
+`corpus_db --rebuild`: 216 sources, 282,822 entries, 280,508 evidence rows. These are the same
+figures as runs #61 and #62, because nothing has crawled since 09-16.
+
+Queue at open: 54 (48 OWNER / 3 RUN / 2 BOTS / 1 SESSION). Running the battery closed BOTS
+`7dea8a4f49d2` (PREFLIGHT_STALE). Queue at close: **53** (48 OWNER / 3 RUN / 1 BOTS / 1 SESSION).
+No order was filed. The one new-looking fault, the disk, was already on `2d6c9343cd32`, and the
+BATTERY_GRADED route in `workorders.battery_faults` carried it there as designed, so no detector
+gap was found.
+
+### THE BATTERY
+
+* `drill.py`: **633 attacked, 632 held, 1 BREACHED**. The breach is the halt's own net (catalog
+  and shelf agree in both directions), re-read on a tree still for 86,247s.
+* `verify_math`: **1308 passed, 0 FAILED** · pyflakes clean
+* `liveness` 47 (unchanged) · `silence` unchanged
+* `secondopinion`: ruff, vulture and detect-secrets all RAN; 0 secrets from both scanners
+* `axis_correlation`: 45 entities, unchanged, so no `--write`
+* `health --preflight`: 1 problem (dandwiki's login wall)
+* `allsweep`: 2 bad (the dandwiki preflight verifier and DISK NEARLY FULL, both on `2d6c9343cd32`)
+* `codewatch`: src/ fingerprint `ff1da03e076867c1`. No daemon is running, so none is on stale code.
+
+### WHY NO SWEEP
+
+`src/` has not changed since run #62. Its one edit, the M118 stub of `endpoint.detect` in
+`drill.py`'s host-score nets, was re-read this shift and is correct: `_probe_with_reply` saves
+and restores all three seams in a `finally`. Sweep61 covered all 119 modules. Findings from a
+fresh 16-agent sweep could be neither published nor exercised by a running library under the
+halt, so the sweep was not worth its cost tonight. **The first run after the lift owes a sweep,
+a mutation pass and the push.**
+
+---
+
+## 2026-09-23 — RUN #62 (DAILY) — THE HALT FROM 09-16 STILL STANDS; A SHORT SHIFT THAT FIXED ONE DRILL DEFECT AND LEFT THE REST FOR THE OWNER
+
+**FOR THE OWNER, AT THE TOP:**
+
+* **THE LIBRARY IS STILL HALTED, AND THIS RUN DID NOT LIFT IT.** This is the same `DRILL_BREACH`
+  run #61 found (catalog/shelf, one uncatalogued chapter left by the 09-16 pause). It was found by
+  a run, not caused by one, so under Hard Rule -1 it stays standing. Its cause is already fixed
+  (M112). **Your ruling is order `f25d3d5be9b1`.** Run #61 recommended option (a): move
+  `output/raw/II_L_7_4_Frontmatter.md` aside, re-run the drill, then clear. After that,
+  `autostart.py --watch`, which is already running since your 20:52 logon, starts the supervisor
+  within the hour without further action.
+* **NOTHING IS PUBLISHED.** `publish.py --push` refuses under the halt. Run #61's changes and this
+  run's one fix are both waiting for the first push after the lift.
+* **THIS WAS NOT A COMPLETE RUN BY THE TASK'S STANDARD.** There was no sweep and no mutation pass,
+  and the push was refused. The reasons are below. **Open orders the run could not close:**
+  RUN `058fa19d4e65` (a GPU chain re-run, a job under the halt), RUN `58a00e909217` (needs a
+  mutation pass, and `mutate.py` refuses under a halt), RUN `573ab7b04b6f` (needs the publish
+  daemon running), BOTS `0a7cc18747e5` (binding-health canary 8 days old; it is a network crawl
+  the supervisor runs, and the supervisor is down under the halt), SESSION `a74678936964` (drill's
+  own filing of the halt). The other 48 are OWNER.
+* **No committed secrets.** detect-secrets 0, `publish.scan_for_secrets` 0.
+* **Mutation pass:** none ran (it refuses under a halt). The survivor count is unchanged from
+  run #61's report.
+
+### THE SHIFT
+
+Opened 22:01 CDT. The guard was claimed (run #61's record was `done:true`). No maintenance run had
+fired since 09-16: `MAINTENANCE_RUN.json` and every state file were last written 09-16 22:59, and
+the autostart log has nothing between 09-16 20:44 and 09-23 20:52. `corpus_db --rebuild` gave
+216 sources, 282,822 entries and 280,508 evidence rows, identical to run #61's figures. Nothing
+has crawled since then.
+
+Queue at open: 55 (48 OWNER / 3 RUN / 3 BOTS / 1 SESSION). The three new BOTS orders were
+staleness from the idle week. Running the battery closed `BATTERY_STALE` and `PREFLIGHT_STALE`.
+Queue at close: **53** (48 OWNER / 3 RUN / 1 BOTS / 1 SESSION). One order was filed and closed
+(`922c7dd54a74`, M118).
+
+### M118 — A DRILL PROBE REACHED THE NETWORK ONCE THE LIBRARY HAD BEEN IDLE FOR A DAY
+
+This shift's first drill went 633/630/**3**. Besides the known catalog/shelf net, two more
+breached: *"no probe anywhere in this drill writes into the live failure ledger"* and *"nothing
+this drill did reached the ledger by a route the in-process spy cannot see"*. Both were
+REPRODUCED on the re-read, and the breach was recorded on the halt that was already standing.
+The cause is run #61's net for `hostcheck.probe`, which stubbed `_api` and `_get` but not
+`endpoint.detect`, the function `probe` calls first. `detect` re-probes a cached DEAD verdict
+after 24h. While the supervisor ran the drill every cycle, `drill.invalid: dead` stayed fresh, so
+the missing stub had no effect. After a week of halt the cached verdict had expired, so the
+probe went to the network and two URLErrors reached `health.LEDGER`. **Fix:** stub `detect` as
+well. The two nets were red before the fix and HELD after it (633/632/1). This is a defect in
+the drill's own probe, not in the library, and it does not bear on the halt. Details are in
+BUGS.md M118. The harmless `drill.invalid` entry in `data/ENDPOINTS.json` was left in place,
+because deleting it needs a review cycle.
+
+### BATTERY (at close)
+
+drill 633/632/1 (the owner-held net only) · verify_math 1308/0 · pyflakes clean ·
+codewatch rc=0 · liveness 47 findings (38 dead, 9 dead module; standing) · silence 315 silent of
+1,212 sites (standing audit, rc=1 as usual) · secondopinion: ruff, vulture and detect-secrets all
+RAN (none missing), 0 secrets · axis_correlation n_entities 45, unchanged, not rewritten ·
+preflight 1 problem (dandwiki API needs a login, OWNER order `9029a484a13c`) · allsweep
+"1 subsystem bad" = the preflight verifier. Every daemon except autostart is NOT RUNNING, which
+is deliberate under the halt.
+
+### WHAT WAS SKIPPED, AND WHY
+
+* **§4 sweep.** `src/` is byte-for-byte what sweep61 read (16 batches, all 119 modules,
+  `missing()` empty) seven days ago, apart from the ten-line M118 edit. Nothing found now could be
+  published under the halt. Sixteen agents re-reading unchanged code would have spent tokens
+  and found nothing new, so the sweep was skipped. The first run after the lift owes one.
+* **§3b mutation:** `mutate.py` refuses under a halt.
+* **§5 push:** `publish.py` refuses under a halt (`assert_clear`). It was not worked around.
+* **binding_health canary:** it is a crawl the supervisor owns, and the supervisor is down
+  on purpose.
+
+---
+
+## 2026-09-16 — RUN #61 (DAILY) — THE OWNER PAUSED THE LIBRARY FOR A FILM, THE PAUSE LEFT ONE CHAPTER UNCATALOGUED, AND THE DRILL HALTED THE LIBRARY OVER IT
+
+**FOR THE OWNER, AT THE TOP:**
+
+* **THE LIBRARY IS HALTED, AND THIS RUN DID NOT LIFT IT.** At 22:38 CDT this run's drill breached
+  *"the catalog and the shelf agree in BOTH directions"* and raised `DRILL_BREACH`. This run did
+  not cause the condition; it found it. `output/raw/II_L_7_4_Frontmatter.md` (Arcanum Worlds,
+  authorised prose, written 20:50) was left uncatalogued when your 21:31 pause killed `generate.py`
+  between two catalog saves. Under Hard Rule -1 a halt that was found stays standing. **The halt
+  cannot clear itself:** `overnight.py` starts `generate.py` only on a green drill, and
+  `generate.py` is the only thing that would re-write and catalogue that chapter. **Order
+  `f25d3d5be9b1`** has the one-line decision; this run's reading is to move that one file aside,
+  re-run the drill, then clear. The cause is fixed (bug M112): the catalog now lands after every
+  chapter.
+* **THE LIBRARY IS STILL PAUSED, AS YOU ASKED.** At 21:31 you told another session "PAUSE ALL THE
+  STUFF IM WATCHING A MOVIE", and it stopped every kit process, the mutation pass included. This
+  run fired at 22:09, found that in the transcript, and **restarted nothing, gave the local model
+  no work, and did not launch a mutation pass.** `mutate.py` refuses to run under a halt anyway.
+  The battery's live checks did load `qwen3:8b` twice (the library pins it with keep_alive -1);
+  this run unloaded it both times, and the GPU was empty at close. There is no first-class
+  "paused" state for anything to respect; that is order `8454be695dc7`
+  (OWNER, a question).
+  **To resume: clear the halt first (above), then** `pythonw src/autostart.py --watch`.
+* **THE PUBLISH DAEMON HAS PUSHED NOTHING SINCE THE REBOOT.** Every cycle from 16:37 onward ended
+  "PUSH HELD", with git's credential helper reporting that `gh.exe` does not exist while it does.
+  Your session's hand pushes carried origin/main until 18:40; at 22:13 the export was 17 commits
+  ahead. **This run could not push either, and nothing from tonight is published:**
+  `publish.py --push` refuses under a halt (`assert_clear`), correctly, and this run did not work
+  around it. Once the halt is cleared, one `publish.py --push` carries the 17 held export commits
+  and tonight's src/ changes, ledgers and sweep61 audits together. The daemon's
+  `_credential_probe` now also prints its process token (AppContainer / restricted), because
+  gh.exe's ACL carries an AppContainer capability SID and the likeliest cause is a supervisor tree
+  started from a sandboxed context. **Read the first PUSH HELD line after resuming** (order
+  `573ab7b04b6f`).
+* **dandwiki's API now needs a login.** `/w/api.php` answers HTTP 403, "restrict this action to
+  logged in users only", while article pages answer 200. That is the standing red preflight row.
+  Order `9029a484a13c` moved to OWNER: make an account, mine the HTML, or shelve the source.
+* **No committed secrets.** `detect-secrets` and `publish.scan_for_secrets` both report zero.
+* **Mutation pass:** run #60's pass (pid 30232) **did not finish.** assay.py: 154 mutants, 150
+  killed, 2 SURVIVED, 2 INDETERMINATE, and its drill baseline DRIFTED mid-pass (so 5 of its kills
+  are not evidence). prose_gate.py: 77/77 killed, but drill was red at that baseline and killed
+  nothing. **escalation.py never completed again**; the pass was stopped by the pause. Both assay
+  survivors were read and ruled EQUIVALENT (details below). No pass ran tonight. Order
+  `58a00e909217` still waits for one.
+
+---
+
+### THE SHIFT
+
+Queue at open: **62** (42 OWNER / 10 LOCAL / 8 RUN / 2 BOTS). At close: **52** (48 OWNER /
+3 RUN / 1 SESSION / **0 LOCAL / 0 BOTS**). **Seventeen closed, seven filed (one of them by the
+drill itself), three re-routed to OWNER.**
+`corpus_db --rebuild` ran before any number was read: 216 sources, 282,822 entries, 280,508
+evidence rows.
+
+**The LOCAL rung got no turn again, on purpose this time.** Its model was off-limits during the
+pause. The LOCAL orders were small, so this run did them itself instead of leaving ten open for
+another day. That is recorded here because it spends Claude tokens the owner prefers kept.
+
+**Still open at RUN, each with the reason it cannot close tonight:**
+* `058fa19d4e65`: the durable half (a recipe digest that invalidates the harvest index) already
+  exists and is netted. What remains is re-running `chain.py`, a GPU job. **`data/CHAIN.json` is
+  still dated 2026-08-22.**
+* `58a00e909217`: needs a completed mutation pass over escalation.py.
+* `573ab7b04b6f`: needs the daemon running to read its own token.
+* SESSION `a74678936964` is drill's own filing of tonight's halt; `f25d3d5be9b1` is the ruling
+  it needs.
+
+---
+
+### 1. WHAT THE PAUSE DID, AND WHY IT HALTED THE LIBRARY (bug M112, order `f25d3d5be9b1`)
+
+`generate.py` wrote each chapter to `output/raw` and landed `catalog.json` only every fifth
+chapter. The kill at 21:31 fell between saves: one chapter was on the shelf and 0 were in the
+catalogue. Drill's inspector net is right to call that "prose from a writer nobody knows about",
+and it re-read the breach on a tree still for 13,630 s before halting.
+
+Fixed by landing the catalog after every chapter (CAS, at minutes per chapter). New net pins it
+with an AST check over the real loop: HELD live, **RED on the original**, with a control that
+refuses the every-fifth fixture. The halt itself was left alone.
+
+### 2. PROSE NO LONGER STARTS ON A DRILL THAT DID NOT FINISH (bug M113)
+
+Sweep61 batch 11 read `overnight.py`'s gate: `drill_rc != 1`. A drill that timed out, crashed or
+exited on an unnamed code let `generate.py` start, and generate carries no halt interlock. Now
+`== 0`, with a log line when prose is held for an incomplete drill. Net plus control: RED on the
+original. Startup under a halt also now logs the refusal the way the per-cycle check does.
+
+### 3. A STANDARD THAT WOULD HAVE HAD 40 GOOD RECORDS DELETED (bug M115)
+
+`standards.check()` graded "fully read" from each cache file's first 700 bytes. Measured tonight:
+**40 of 3,463** flagged, **0** actually unanswered. The standard is HIGH severity and its remedy
+says to delete flagged files. It now parses whole.
+
+### 4. THE OTHER SAFETY-ADJACENT FIXES
+
+* **M114**: `ledger_guard` presence check was a substring (M109's fault one line up); a missing
+  heading crashed instead of refusing. Net RED on original.
+* **M116**: the Assay gate refused earned numbers when the name line was a heading. Two nets pin
+  both directions; the uncited case still refuses. `prose_enabled` untouched.
+* **M117**: the crawl's throttle iterated a dict other threads grow. Snapshot; net RED on original.
+* `hostcheck.probe` counted pages, not names. **Measured on en.wikipedia** (not fandom): four
+  resolving names returned one page. Fixed; net replays that exact reply with no network.
+* `codewatch.runs_script` missed `python -X utf8 x.py`; `overwatch` never retired findings
+  against deleted modules; `liveness` rulings were keyed by bare name; `scout --limit 0`; the
+  verify_math self-citation hole (`eb496bfb4db3`); `render`, `profile`, `derivation` and
+  `address_space.citation_card` from the LOCAL queue.
+
+### 5. ORDERS CLOSED WITHOUT CODE, AND WHY
+
+* Five `CODEWATCH_RESTART` orders are designed rc=17 restarts (the owner question about whether
+  they should file at all is `f7d7769075c0`). `3dc2832846bc`'s stalled crawl ended with the pause.
+* **Mutation survivors `792a944d06e9` (assay line 826) and `319df6cd8318` (908):** EQUIVALENT.
+  Each zips two sequences built by a comprehension over the same `order`, so `strict=` can never
+  change the result, and each only formats an error already being raised. 826 is registered in
+  `MUTANTS_RULED_EQUIVALENT.json`. 908 moved to 909 under a comment edit this shift, and
+  `rule_equivalent` accepts a ruling only where a survivor is on record, so it is not registered;
+  if the next pass refiles it at 909, register it there.
+* `89503c58409f` (sixty rotted citations): four agents worked every row. Most were already
+  symbol citations; the rest were converted. `bcd9737c5447` (six false self-descriptions): all six
+  repaired. Every agent AST-checked its diff against a pre-edit copy. `citecheck`: 0.
+
+### 6. RE-ROUTED TO OWNER
+
+`cb4fbedeb0db` (Groq output cap: the Cascade engine never surfaces `finish_reason`, so the fix
+starts in another project) · `9029a484a13c` (dandwiki login wall) · `7354d54f0e27` (two dead
+branches; the dangerous half repaired, deletion left for a ruling) · plus new
+`28f335ecefd3` (sweep61 question bundle, six small design questions) and `8454be695dc7` (no
+paused state).
+
+### 7. SWEEP61
+
+16 batches, **all 119 modules**, `missing()` empty, audits in `handoff/sweep61/`. Nine verified
+defects; every one was re-read against source before acting and fixed this shift. One was already
+an OWNER order (`0aceab8473e1`, the discarded `physiology` field). One SUSPECTED theory was
+rejected after checking (batch 10's `LOCALAPPDATA` idea: the helper path in git's config is
+absolute, so PATH cannot matter). Sonnet agents, background, no subagents.
+
+### 8. THE BATTERY AT CLOSE (settled tree, src/ fingerprint after the last edit)
+
+* `drill.py`: **633 attacked, 632 held, 1 BREACHED**. The one is the pre-existing uncatalogued
+  chapter above; **all 13 nets added tonight HELD** (seven nets, six controls), and each fix's net was watched
+  RED on the original code.
+* `verify_math`: **1308 passed, 0 FAILED** · pyflakes clean · `citecheck` 0
+* `liveness` 47 (unchanged) · `silence` 315 silent (+1: the deliberate note-and-count arm for an
+  unparseable cache record in `standards`)
+* `secondopinion`: ruff, vulture and detect-secrets all RAN; 0 secrets by two scanners
+* `axis_correlation`: `n_entities` 45, unchanged, not written
+* `health --preflight`: 1 problem, the dandwiki login wall · `allsweep`: 1 bad, the same row
+* `ledger_guard.check_all()`: empty · halt: **STANDING** (above)
+
+**NOT PUSHED.** `publish.py --push` (with this run's guard token) exited 1 on
+`escalation.SystemHalted`, by design. Nothing reached the export repo or origin tonight, and the
+export stays 17 commits ahead of origin from the daemon's held cycles.
+
+---
+
 ## 2026-09-16 — OWNER-DIRECTED — PHASE 4.5: THE PROSE GATE IS OPEN, PER SOURCE, FOR THE SEVEN THAT CLEAR
 
 **FOR THE OWNER, AT THE TOP:** `prose_enabled` is now **true**, by your ruling in session. The

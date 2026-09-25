@@ -169,6 +169,14 @@ def encode(address, genre, register, features, band="unassayed", attested=0):
                 silence.note("profile.py:band-out-of-range")
                 tier = 10
             b = B32[tier]
+    # `attested` IS REFUSED, NOT CLAMPED (order e3472496a133). It is a count of the four world
+    # axes the sources attested, and `_PROFILE_RE` reads exactly one digit 0-4 there, so anything
+    # else produced a profile `decode()` could not read back. Refused rather than clamped like
+    # `band` above: a band degrades to "unassayed", which is a true statement, but no clamped
+    # count is a true statement about the world. `build_all()` passes `attested_axes`, which is
+    # 0-4 by construction, so this has no live path today.
+    if isinstance(attested, bool) or not isinstance(attested, int) or not 0 <= attested <= 4:
+        raise ValueError(f"attested must be an int 0-4 (axes attested of four), got {attested!r}")
     return f"PS-{a}-{g}-{f}-{b}{attested}"
 
 

@@ -224,7 +224,7 @@ def _records_sig():
 
     NO BYPASS PARAMETER (order dae0f99306db). This read `def _records_sig(fresh=False)` and
     this line promised `fresh=True` as an escape hatch from the memo, and NOTHING ever passed
-    it -- the only two call sites in the tree, :111 and :288, are both bare. A documented
+    it -- every call site in the tree was bare. A documented
     control with no caller reads to the next maintainer as an available lever, and the
     paragraph below is the argument that no caller needs one: the hot callers iterate a record
     list captured once, so a per-call bypass would only make an already-fictional freshness

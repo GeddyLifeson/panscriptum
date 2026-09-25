@@ -329,8 +329,13 @@ def shelfmark(addr, uncharted=()):
 
 def citation_card(name, addr, band="unassayed", decimal=None, interval=None,
                   epoch=None, attestation="Transcribed", worksheet=None, endonym=None,
-                  threads=()):
+                  threads=(), uncharted=()):
     """The formal citation block of Part Seven, as a dict.
+
+    `uncharted` IS PASSED THROUGH TO `shelfmark` (order 7354d54f0e27). Without it a tier the weave
+    never charted printed as a charted integer (H0 where Part Two prints ?), which is Hard Rule 4's
+    prohibition. This function has no caller today; the parameter makes a revival safe rather
+    than wrong. Pass `charted_gaps(tiers)`, as `assign_and_mark()` does.
 
     Split deliberately into two halves, because the seed depends on which is which:
 
@@ -343,7 +348,7 @@ def citation_card(name, addr, band="unassayed", decimal=None, interval=None,
         "identity": {
             "name": name,
             "endonym": endonym,
-            "shelfmark": shelfmark(addr),
+            "shelfmark": shelfmark(addr, uncharted=uncharted),
         },
         "measurement": {
             "assay": ("𝔄: DECLINED" if band == "declined" else

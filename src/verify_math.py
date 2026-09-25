@@ -12363,13 +12363,17 @@ def _self_cites20ad(_text20ad):
             # retroactively excuse it -- which is how the `_own_nodes20p` docstring's four
             # drifted drill.py numbers were found: the block mentioned config.yaml, but only
             # further along than the citation it would have excused.
+            # NAMING THIS FILE DOES NOT EXCUSE WHAT FOLLOWS (order eb496bfb4db3). A bare number
+            # after `verify_math.py` belongs to verify_math.py -- it is a self-citation -- so
+            # only ANOTHER file's name sets `_named20ad`, and this file's name clears it again.
             _hits20ad = sorted(
-                [(_m.start(), None) for _m in _FILE20ad.finditer(_s20ad)]
+                [(_m.start(), (_m.group(0).rsplit("/", 1)[-1] == "verify_math.py"))
+                 for _m in _FILE20ad.finditer(_s20ad)]
                 + [(_m.start(), _m.group(1)) for _m in _BARE20ad.finditer(_s20ad)]
                 + [(_m.start(), "~" + _m.group(1)) for _m in _LINEW20ad.finditer(_s20ad)])
             for _pos20ad, _num20ad in _hits20ad:
-                if _num20ad is None:
-                    _named20ad = True
+                if isinstance(_num20ad, bool):
+                    _named20ad = not _num20ad
                 elif not _named20ad:
                     # UNCUT (order c8491264e6dc): this was `[:90]`, an unmarked cut inside the
                     # one diagnostic a red row here prints.
@@ -12408,6 +12412,12 @@ _FIX20ad = {
         'check("x", 1, 1, note="standards.py:67 and then :214")\n', 0),
     "a 'line ~NNNN' in prose": ("# the section at line ~2494 moved\n", 1),
     "a fixture string that is not a note": ('_F = {"k": ("# the doctrine at :2358", 1)}\n', 0),
+    # order eb496bfb4db3: naming THIS file first must not excuse the bare number after it, and
+    # naming another file after this one excuses only what follows that other name
+    "a bare number after naming this file": (
+        "# verify_math.py handles this at :4273-4301, see the device\n", 1),
+    "this file, then another file's citation": (
+        "# verify_math.py and then standards.py (:214)\n", 0),
 }
 check("[control] the self-citation scan flags exactly the citations it should",
       sorted("%s:%d" % (_k20ad, len(_self_cites20ad(_v20ad[0])))

@@ -839,8 +839,9 @@ def _check_constants():
     # are load-bearing for every published plus-or-minus and are guarded unevenly).
     # `axis_score` scales a quantity into `(log(hi) - log(lo))`, so a rung whose ceiling is not
     # above its floor is a ZeroDivisionError when they are equal and a SILENTLY INVERTED score
-    # when they cross. axis_score already refuses that -- and the mutation survivor at L228 is
-    # what exposed the problem: the refusal has never once been WATCHED refuse, because the
+    # when they cross. axis_score already refuses that -- and the mutation survivor in
+    # axis_score()'s `if not hi or hi <= lo` guard is what exposed the problem: the refusal has
+    # never once been WATCHED refuse, because the
     # table happens to be well-ordered, so a mutant that deleted the refusal outright changed
     # nothing anybody was looking at. This turns a property the table currently HAS into a
     # property it must KEEP. Measured green when written: 11 rungs x 5 axes, complete,
@@ -918,8 +919,9 @@ def _check_constants():
     #
     # INSTRUMENT_WINDOWS: `instrument()` refuses an anchor missing from this table with the
     # message "anchor must be one of {LADDER}" -- so a rung that IS on the Ladder but absent
-    # here is refused by a sentence that names it as acceptable. anchors.py:427 is worse: it
-    # indexes INSTRUMENT_WINDOWS[b] for every b in LADDER with no guard at all, so the same
+    # here is refused by a sentence that names it as acceptable. anchors.py's run(), in its
+    # `collapsed` check, is worse: it indexes INSTRUMENT_WINDOWS[b] for every b in LADDER with no
+    # guard at all, so the same
     # divergence arrives as a KeyError raised from inside production code rather than as a
     # refusal anybody can read. Measured green when written: the two key sets are equal.
     _iw_off = sorted(b for b in INSTRUMENT_WINDOWS if b not in LADDER)
@@ -1897,7 +1899,8 @@ def interval_from_hands(readings, attestation="Transcribed"):
         # a live check the moment anything stops the loop covering -- a bound on the widening, a
         # non-finite reading, a future centre that is not the mean. A check that cannot fail
         # looks exactly like a check that passed, so the two fields below say which of the two
-        # this is. The mutation survivor at :1392 (`<=` flipped to `>`) is what exposed it:
+        # this is. The mutation survivor in this function's `covers_all_signatures` field
+        # (`<=` flipped to `>`) is what exposed it:
         # nothing in the battery ever read this field, so a token that inverts it on EVERY input
         # -- it is not an equivalent mutant, it flips True to False for every non-empty
         # `readings` -- changed nothing anybody was looking at.

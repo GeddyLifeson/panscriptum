@@ -1,163 +1,116 @@
-# NEXT STEPS — written by run #60 (2026-09-15) for the run that comes after it
+# NEXT STEPS — written by run #61 (2026-09-16), re-checked and amended by run #62 (2026-09-23)
 
 *Overwritten every run. The queue in `state/workorders.json` is the authority; this file is the
 reading order, and the short list of things a fresh run would otherwise spend its first hour
 rediscovering.*
 
----
+**RUN #63's AMENDMENT (2026-09-24).** No change: still halted and still paused, with no owner
+session since. The battery matches run #62's (drill 633/632/1, verify_math 1308/0). Queue
+53 (48 OWNER / 3 RUN / 1 BOTS / 1 SESSION). **New for the owner: drive C: has 6.1 GB free**
+(order `2d6c9343cd32`). Free space before the lift, because the roll writes hundreds of MB an
+hour. No sweep ran, since `src/` is unchanged since run #62. No mutation pass ran and nothing
+was pushed, because both refuse under the halt. The first run after the lift still owes all three.
 
-## 0. NOTHING IS BLOCKED AND NOTHING IS HALTED
-
-`escalation.py --status` was clear at the start of this shift and is clear at the end of it. No
-halt was raised by run #60 and none was found standing. The library is running: the watchdog,
-overnight, dashboard, publish, foreman, overwatch, pipeline, read and the `feats.py --roll` crawl
-were all live in the process table at close.
-
----
-
-## 1. THE ONE THING WORTH DOING FIRST: LET THE CHAIN FINISH
-
-**`data/CHAIN.json` is still dated 2026-08-22.** It is the only deliverable this run set out to
-refresh and did not.
-
-WHY IT IS STALE, and this part is now fixed: `chain.extract` died on `AttributeError: 'str' object
-has no attribute 'get'` when a model answered with a list of strings instead of objects. The pass
-had already harvested **31,927 contest sentences** and threw all of it away. That guard is in
-(bug **M110**, with a drill net that reproduces the exact crash), so **the pipeline's own chain
-phase can now complete on its own** — it could not before.
-
-WHAT THE NEXT RUN SHOULD DO: check `data/CHAIN.json`'s mtime before anything else.
-* If the pipeline has refreshed it — nothing to do; close order `058fa19d4e65`, whose remaining
-  half was only ever "re-run the chain so CHAIN.json carries the current shape"
-  (`fit_error`, `unmatched`, `unanswered`).
-* If it has NOT, run `python src/chain.py --workers 12` directly and watch it. **Expect it to be
-  slow for a reason that is filed, not mysterious** — see §2.
-
-Run #60 started that pass by hand and then **killed it deliberately**: it holds the chain
-singleton lock, so while it ran the pipeline's own chain phase was being refused, and it was
-competing with the local agent for the one saturated GPU. Killing it was the cheaper trade. The
-singleton guard retakes a dead holder's claim, so nothing is stuck.
+**RUN #62's AMENDMENT (2026-09-23).** Nothing below changed in the week between. No maintenance run
+fired 09-17 to 09-22. The autostart log is silent from 09-16 20:44 to 09-23 20:52, which is
+consistent with the machine being off. The halt still stands and the owner has not ruled on
+`f25d3d5be9b1`. `autostart.py --watch` is running again (a logon at 20:52 on 09-23) and deliberately
+holds the supervisor down under the halt, so **step 3 of section 1 happens by itself within an hour
+of the halt being lifted**. Run #62 fixed one drill defect (M118: a probe reached the network once
+`drill.invalid`'s cached DEAD verdict aged past 24h). The drill is back to 633/632/1, and the one
+breach is the owner-held net. Run #62 skipped the sweep: `src/` was unchanged since sweep61 apart
+from that fix, and nothing can be published under the halt. **After the halt is lifted, the first
+full run owes a sweep, a mutation pass and the push.**
 
 ---
 
-## 2. WHY EVERYTHING MODEL-SHAPED IS SLOW RIGHT NOW — ORDER `3e6283e6dd78`, OWNER
+## 0. TWO THINGS ARE TRUE AT ONCE: THE LIBRARY IS PAUSED, AND IT IS HALTED
 
-The cascade cloud lane has **no working Groq bucket**, and it is not a quota problem.
-`catalogue_models.py`, run live against the provider APIs this shift:
+**PAUSED, by the owner.** At 21:31 CDT on 2026-09-16 the owner told another session "PAUSE ALL
+THE STUFF IM WATCHING A MOVIE", and every kit process was stopped, the mutation pass included.
+Nothing in the tree records a pause (order `8454be695dc7` asks whether something should). So
+**before restarting anything, check whether the owner has resumed**: look for live kit processes
+and a recent owner session. If nothing is running and nobody has said "resume", do what run #61
+did: restart nothing and give the GPU no work.
 
-```
-groq   13 model(s) available   CONFIG ASKS FOR 1 THAT NO LONGER EXIST
-    stale: qwen/qwen3.6-27b
-```
+**HALTED, by run #61's drill, over a condition the pause created.** `DRILL_BREACH` on "the catalog
+and the shelf agree in BOTH directions": `output/raw/II_L_7_4_Frontmatter.md` is on the shelf and
+`catalog.json` holds 0 entries. **This halt was FOUND, not caused, by any maintenance run, so no
+maintenance run may lift it.** Order `f25d3d5be9b1` (OWNER, BLOCKING) holds the decision. It will
+not clear itself: overnight starts generate only on a green drill.
 
-Every call 404s, `cascade_bridge` removes the bucket at runtime — correctly, and from scratch,
-every single run — and everything falls back to one local 8B model. This run's chain pass was
-reduced to **"2 answering, 8% ok over 90 calls"**.
-
-The replacement is already on offer and is the same family and size: **`qwen/qwen3.8-27b`**. The
-config is `C:/Users/imarl/cascade/config.json` line 510, which belongs to the **Cascade project,
-not this kit** — which is why run #60 filed it instead of editing it. A one-line change there
-would give the library its cloud lane back.
-
-*(Run #59's handoff said this id lives in Cascade's config. It was right. `PROVIDER_MODELS.json`
-here is only a mirror of what was asked for.)*
+**The cause is fixed** (bug M112, generate now lands the catalog after every chapter), so once the
+owner rules, the same pause cannot do this again.
 
 ---
 
-## 3. THE LOCAL MODEL GOT NOTHING DONE THIS SHIFT, AND THE REASON MATTERS
+## 1. WHEN THE OWNER RESUMES
 
-`local_agent.py` was given order `98301c3da870` (a genuinely small, mechanical fix) and after
-**15 minutes produced no output and changed no file** before hitting its timeout. It was starved:
-the chain pass and the agent were both queued against the same single loaded `qwen3:8b`.
-
-So **do not read this as the local model failing the task** — it never got a turn. Retry the
-LOCAL rung when nothing else is holding the GPU (check `curl.exe -s http://localhost:11434/api/ps`
-first), and give it one order at a time. There are now **9 LOCAL orders** waiting, most of them
-small:
-
-| order | what |
-|---|---|
-| `98301c3da870` | `derivation.py` — read with `errors="replace"` like `sweep_plan` already does |
-| `9f75ae0b8d96` | `render.py` — guard `main()` against an empty library |
-| `e3472496a133` | `profile.py` — validate `attested`, or say why it needs no validation |
-| `bcd9737c5447` | six comments that describe their own module wrongly (cite by symbol) |
-| `7354d54f0e27` | two dead branches — INFO, and **deletion is not a maintenance-rung call** |
-| `d7efd67caa6f` | refiles from `citecheck`; see §4 before touching it |
-
----
-
-## 4. A NOTE ON `d7efd67caa6f` SO IT IS NOT RE-FOUGHT
-
-Run #60 closed this by **fixing the detector, not the two sites** — both were false positives
-(a `silence.note` tag being quoted as a corpse, and a comment recording a citation that was
-already repaired). `citecheck` now tells a **use** from a **mention**, and reports what it set
-aside by kind. It is currently **0 findings, 9 + 24 + 4 set aside**.
-
-It refiled once during the shift — on a net description **this run had just written**, which
-spelled a pointer-shaped token in prose. That was fixed the same way: write "feats.py line 139",
-not the colon form. **If it refiles again, check first whether the citation is real or whether
-someone wrote the colon form in running prose.**
-
-Orders `89503c58409f` (sixty rotted citations) and `386c0d66e31e` are a different, real class and
-are untouched by any of this.
+In this order:
+1. The owner clears the halt (after moving or cataloguing that one file, per `f25d3d5be9b1`).
+2. **Publish first:** `PANSCRIPTUM_EXPORT="C:\Users\imarl\panscriptum-export" python src/publish.py --push`.
+   Run #61's push was refused by the halt, so its src/ fixes, ledgers and `handoff/sweep61/` are
+   unpublished, and the export is 17 commits ahead of origin from the daemon's held cycles.
+3. `pythonw src/autostart.py --watch` brings the supervisor and every job back.
+4. **Read the first `PUSH HELD` line in `state/publish.log`** after `publish` starts. It now ends
+   with `token: appcontainer=... restricted=...`. True names the cause of order `573ab7b04b6f`:
+   restart the supervisor from an unsandboxed context. False/False rules that lead out. If pushes
+   succeed, close the order with that measurement. Also note which process launched
+   `autostart.py --watch`.
+5. Launch the mutation pass **once the tree is settled and the halt is clear**. `mutate.py`
+   refuses under a halt:
+   `python src/mutate.py --target all --file-orders --detach`
+   Run #60's pass never finished escalation.py (killed by the pause). Order `58a00e909217` still
+   needs the long pass that scores escalation's `clear()` mutant, the
+   `landed, why = False, "not attempted"` assignment.
+   If assay's former line-908 survivor comes back at **line 909**, it is already proven
+   equivalent (see closed order `319df6cd8318`): register it with
+   `mutate.py --rule-equivalent assay.py:909` and that proof.
+6. **`data/CHAIN.json` is still dated 2026-08-22** (order `058fa19d4e65`). The pipeline's own chain
+   phase can finish it now (M110). If it hasn't after a day of running, run
+   `python src/chain.py --workers 12` when the GPU is free. The Groq lane answers again but refuses
+   large outputs (order `cb4fbedeb0db`, now OWNER), so expect it to lean on the local model.
 
 ---
 
-## 5. STILL OPEN AND DELIBERATELY NOT CLOSED
+## 2. THE QUEUE AT CLOSE: 52 (48 OWNER / 3 RUN / 1 SESSION / 0 LOCAL / 0 BOTS)
 
-* **`58a00e909217` (RUN, MAJOR) — the one confirmed FALSE KILL.** Its only surviving explanation
-  (gates reading the live corpus through the `data/` junction) is fixed, and run #60 added the net
-  that was missing: *"a hardlinked data file keeps the bytes it was taken from when the live name
-  is replaced"*, HELD, and RED when `silence.write_json` stops landing by atomic replace.
-  **It stays open because the decisive measurement does not exist yet** — a long pass scoring
-  `escalation.py:409` as SURVIVED rather than KILLED. Closing it on the strength of the fix is
-  precisely what the order itself warns against. **Run the mutation pass and read that mutant.**
-* **`4c2101d54c10` (OWNER, BLOCKING) — nothing watches the watchdog.** Unchanged. The library was
-  restored by hand on 2026-09-10 and the detection gap is still an operations ruling nobody has
-  made.
-* **43 OWNER orders.** Most are questions that four or more shifts have now each re-read and
-  re-deferred. Order `e114b2d0fe48` is about exactly that cost.
+The three RUN orders are each blocked on something above: `058fa19d4e65` (GPU),
+`58a00e909217` (a mutation pass), `573ab7b04b6f` (the daemon running). SESSION `a74678936964` is
+the drill's own filing of the halt; its ruling is `f25d3d5be9b1`.
 
----
+New OWNER items from run #61: `f25d3d5be9b1` (the halt), `8454be695dc7` (no paused state),
+`28f335ecefd3` (six small sweep61 design questions), `9029a484a13c` (dandwiki's API now requires
+a login: HTTP 403 "restrict this action to logged in users only"), `cb4fbedeb0db` (the Groq
+output cap needs the Cascade engine to surface `finish_reason`), `7354d54f0e27` (two dead
+branches; deletion is the question).
 
-## 6. THE MUTATION PASS
-
-Launch it early and let it run overnight:
-
-```
-python src/mutate.py --target all --file-orders --detach
-```
-
-**Run #60 launched one at 23:16 — pid 30232, log `state/mutate_20260915.log`, sandbox fingerprint
-860af1f51f1757ca.** It was launched LAST rather than first on purpose: this run edited six `src/`
-modules, `mutate` snapshots `src/` at launch, and run #59's own log recorded its baseline being
-taken from a half-edited tree. So the pass waited until `src/` was settled, the halt was cleared
-and the push had landed.
-
-**Check whether it is still alive before doing anything else, and do NOT relaunch while it is.**
-Read the log and put the survivor count in the handoff. If it did not finish, say so — a pass
-killed halfway is not a pass with fewer survivors.
-
-`escalation.py` — the module the whole chain of command rests on — **has still never completed a
-mutation pass.** Both of the deaths that stopped it are now explained and guarded (order
-`9ea4d3545524`, closed this shift), so this is the first run with a real chance of finishing one.
+`4c2101d54c10` (BLOCKING, nothing watches the watchdog) is unchanged.
 
 ---
 
-## 7. THE BATTERY AT CLOSE OF RUN #60
+## 3. THINGS A FRESH RUN WOULD OTHERWISE REDISCOVER
 
-Green, and the one red thing is the standing owner item, not a regression:
+* **The battery loads `qwen3:8b` and pins it** (the library runs with keep_alive -1). allsweep's
+  live checks did it twice tonight. If the owner wants the GPU, unload after the battery:
+  `curl.exe -s http://localhost:11434/api/generate -d "{\"model\":\"qwen3:8b\",\"keep_alive\":0}"`
+* **The preflight row that stays red is dandwiki's login wall**, not an outage. Nothing but an
+  owner decision changes it.
+* `standards`' "cached records that were fully read" used to read 40. It now reads 0, which is the
+  truth (M115). A jump back up means a real unanswered record.
+* Sweep61 covered all 119 modules; audits in `handoff/sweep61/`. Nine verified defects, all fixed.
 
-* `drill.py` — see the handoff entry for the final count; **0 BREACHED**
-* `verify_math.py` — **1307 passed, 0 FAILED**
-* `pyflakes` over `src/` — clean
-* `liveness` 47 findings (unchanged) · `silence` 314 silent of 1208 (unchanged)
-* `secondopinion` — ruff, vulture and detect-secrets all RAN; **0 secrets by two independent
-  scanners**
-* `axis_correlation` — `n_entities` 45, unchanged, so nothing was `--write`n
-* `health.py --preflight` — **1 problem**: `dandwiki.com` does not answer its API. Standing owner
-  item, same as run #59.
-* `allsweep` — 2 bad subsystems: the cascade live call (§2) and that same preflight row.
-* `corpus_db --rebuild` — 216 sources, **282,822 entries**, 280,401 evidence rows.
-* `binding_health --run` — 134 hosts, **0 failed**.
-* `sweep60` — 16 batches, **all 119 modules**, `missing()` empty.
+---
+
+## 4. THE BATTERY AT CLOSE OF RUN #61
+
+* `drill.py`: **633 attacked, 632 held, 1 BREACHED**. The one breach is the halt above, and it will
+  stay red until that file is dealt with. All 13 nets added by run #61 HELD.
+* `verify_math`: **1308 passed, 0 FAILED** · pyflakes clean · `citecheck` 0 findings
+* `liveness` 47 (unchanged) · `silence` 315 silent of the tree (+1, deliberate: `standards`
+  counts an unparseable cache record and notes it)
+* `secondopinion`: all three tools RAN, 0 secrets by two scanners
+* `axis_correlation`: `n_entities` 45, unchanged
+* `health --preflight`: 1 problem (dandwiki) · `allsweep`: 1 bad (the same)
+* `corpus_db --rebuild`: 216 sources, **282,822 entries**, 280,508 evidence rows
+* `ledger_guard.check_all()`: empty

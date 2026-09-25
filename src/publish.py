@@ -802,7 +802,51 @@ def _credential_probe(err):
         silence.note("publish.py:credential-probe")
         facts.append("python CANNOT exec it directly: %s: %s" % (type(x).__name__, x))
     facts.append("which git=%s sh=%s bash=%s" % (_sh.which("git"), _sh.which("sh"), _sh.which("bash")))
+    facts.append(_token_facts())
     return " [credential probe, display only (maintenance run #59): " + "; ".join(facts) + "]"
+
+
+def _token_facts():
+    """-> one display-only line about THIS process's Windows token. Never raises.
+
+    MAINTENANCE RUN #61'S LEAD, UNPROVEN. From inside the failing daemon `os.path.isfile` said
+    False for a gh.exe that is on disk, which is a process that cannot SEE the file rather than a
+    file that is missing. gh.exe's ACL carries an AppContainer capability SID (S-1-15-3-...),
+    and a process running under an AppContainer or a restricted token -- a sandboxed shell that
+    launched the supervisor, for instance -- is refused paths an ordinary process of the same
+    user reads. This asks the token directly so the next failure says which it is.
+    """
+    if os.name != "nt":
+        return "token: not Windows"
+    try:
+        import ctypes
+        from ctypes import wintypes
+        # PRIVATE HANDLES, so the signatures set here never leak onto `ctypes.windll`'s shared
+        # objects that other modules in this process may call.
+        adv = ctypes.WinDLL("advapi32", use_last_error=True)
+        k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        k32.GetCurrentProcess.restype = wintypes.HANDLE
+        k32.GetCurrentProcess.argtypes = []
+        k32.CloseHandle.argtypes = [wintypes.HANDLE]
+        adv.OpenProcessToken.argtypes = [wintypes.HANDLE, wintypes.DWORD,
+                                         ctypes.POINTER(wintypes.HANDLE)]
+        adv.GetTokenInformation.argtypes = [wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p,
+                                            wintypes.DWORD, ctypes.POINTER(wintypes.DWORD)]
+        adv.IsTokenRestricted.argtypes = [wintypes.HANDLE]
+        h = wintypes.HANDLE()
+        if not adv.OpenProcessToken(k32.GetCurrentProcess(), 0x0008, ctypes.byref(h)):
+            return "token: OpenProcessToken failed (%d)" % ctypes.get_last_error()
+        try:
+            val, ret = wintypes.DWORD(), wintypes.DWORD()
+            ok = adv.GetTokenInformation(h, 29, ctypes.byref(val), 4, ctypes.byref(ret))
+            appc = bool(val.value) if ok else "unknown(%d)" % ctypes.get_last_error()
+            restricted = bool(adv.IsTokenRestricted(h))
+        finally:
+            k32.CloseHandle(h)
+        return "token: appcontainer=%s restricted=%s" % (appc, restricted)
+    except Exception as x:
+        silence.note("publish.py:token-facts")
+        return "token: could not be read (%s: %s)" % (type(x).__name__, x)
 
 
 def _unpushed():

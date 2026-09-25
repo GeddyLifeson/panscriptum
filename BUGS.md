@@ -1542,6 +1542,114 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+### Resolved by run #62 (2026-09-23 daily maintenance, under the standing halt)
+
+*Found and fixed in the same shift. Export commit: NONE YET -- `publish.py --push` refuses under
+the halt, so this rides with run #61's held changes.*
+
+- **[M118 — RESOLVED 2026-09-23, run #62] A DRILL PROBE REACHED THE NETWORK AND THE LIVE FAILURE
+  LEDGER ONCE THE LIBRARY HAD BEEN IDLE FOR MORE THAN A DAY.** The net *"a probe counts every NAME
+  that resolves, not every distinct page returned"* (added run #61) stubbed `hostcheck._api` and
+  `_get`, but `hostcheck.probe` calls `endpoint.detect(host)` first. `detect` answers from
+  `data/ENDPOINTS.json` and re-probes a DEAD verdict after `DEAD_TTL` (24h). While the supervisor
+  ran drill every cycle, the cached `drill.invalid: dead` never aged out. After a week halted it
+  did: `detect` went to the network, and two URLErrors (`silent:endpoint.py:detect-api`/`-raw`)
+  reached `health.LEDGER`. The drill's own ledger nets caught it: *"no probe anywhere in this
+  drill writes into the live failure ledger"* and *"nothing this drill did reached the ledger by
+  a route the in-process spy cannot see"* both BREACHED, and the breach was REPRODUCED on the re-read.
+  The breach was recorded as a further fault on the halt that was already standing, not as a new halt.
+  - **FIX:** `_probe_with_reply` in `drill.py` also stubs `endpoint.detect` (same
+    `(host, force=False)` signature the file's other `detect` stubs use) and restores it.
+  - **PROVEN:** the two nets were RED on the original (this shift's first drill, 633/630/3). After
+    the fix they HELD (633/632/1; the one remaining breach is the owner-held catalog/shelf net).
+    verify_math 1308/0, pyflakes clean.
+  - **LEFT ALONE:** the live `data/ENDPOINTS.json` still holds a `drill.invalid` entry written by
+    this leak (and probably by an earlier one when the net was new). It is harmless. It was not
+    deleted, because a deletion needs a review cycle.
+
+### Resolved by run #61 (2026-09-16 daily maintenance, sweep 61)
+
+*Found and fixed in the same shift, so none of these ever sat in `## Open`. The six majors are
+defects in or next to a SAFETY. Export commit: NONE YET -- run #61's push was refused by the
+standing halt; the first push after the owner clears it carries these fixes.*
+
+- **[M112 — RESOLVED 2026-09-16, run #61] A PAUSE BETWEEN TWO CATALOG SAVES HALTED THE LIBRARY,
+  AND THE HALT CANNOT BE WORKED OUT OF AUTOMATICALLY.** `generate.py` landed `catalog.json` only
+  when `done_count % 5 == 0`, after each raw chapter was already on disk. The owner's 21:31 pause
+  killed it between saves, `output/raw/II_L_7_4_Frontmatter.md` was left in no catalogue, and
+  drill's *"the catalog and the shelf agree in BOTH directions"* HALTED the library at 22:38.
+  - **ROOT CAUSE:** a performance choice (save every fifth) that made every kill a shelf/catalogue
+    disagreement. And `overnight.py` starts `generate.py` only on a green drill, while
+    `generate.py` is the only thing that would repair the disagreement.
+  - **FIX:** land the catalog after every chapter. The window between the raw write and the
+    landing still exists, but it is now one chapter wide.
+  - **PROVEN:** drill net *"generate.py lands the catalog after every chapter, not every fifth"*
+    (AST over the real job loop) HELD, and RED on the original. Its control refuses the
+    every-fifth fixture.
+  - **NOT CLOSED BY THIS:** the halt itself. It was FOUND, not caused, by this run, so it stands
+    for the owner (order `f25d3d5be9b1`).
+
+- **[M113 — RESOLVED 2026-09-16, run #61] PROSE STARTED ON A DRILL THAT DID NOT COMPLETE.**
+  `overnight.py` started `generate.py` when `drill_rc != 1`. `safety_drill()` returns None on a
+  timeout or crash, and the raw code on an unnamed exit, so an unknown verdict let prose start on
+  the one stage with no halt interlock of its own. Hard Rule -1 answers "I don't know" with STOP.
+  - **FIX:** `drill_rc == 0`, with a log line naming why prose was held. One cycle is the whole cost,
+    since generate is resumable. Startup under a halt now logs the refusal instead of a traceback.
+  - **PROVEN:** drill net *"overnight starts prose only on a drill that returned exactly 0"* HELD,
+    and RED on the original condition. Its control refuses the `!= 1` fixture. Found by sweep61
+    batch 11.
+
+- **[M114 — RESOLVED 2026-09-16, run #61] THE LEDGER'S SECTION CHECK PASSED ON A MENTION AND
+  CRASHED ON THE MISSING HEADING.** `ledger_guard.check_structure` tested presence with
+  `sec not in text`. BUGS.md quotes its own section names in prose, so a deleted `## Open` heading
+  passed, and the duplicate check then died on `span["## Open"]` with a bare KeyError. This is
+  M109's heading-versus-mention fault, one line above M109's fix.
+  - **FIX:** presence is a line-anchored heading, and the duplicate check runs only when both are
+    headed.
+  - **PROVEN:** drill net *"a ledger whose section headings survive only in prose is refused, not
+    crashed"* HELD, and RED on the original (it crashed). The live BUGS.md still passes. Found by
+    sweep61 batch 05.
+
+- **[M115 — RESOLVED 2026-09-16, run #61] A HIGH-SEVERITY STANDARD TOLD THE READER TO DELETE 40
+  COMPLETE RECORDS.** `standards.check()`'s *"cached records that were fully read"* read only the
+  first 700 bytes of each `data/readfeats` file. `read.py` writes the uncapped `pages` list before
+  `chunks_unanswered`, so on long records the key fell past the cut and the "written before the
+  guard existed" arm counted them.
+  - **MEASURED:** 40 of 3,463 flagged by the head probe. A full parse shows **0** genuinely
+    unanswered. The remedy text says to delete flagged files and re-read them from the model.
+  - **FIX:** parse each record whole (about 0.2 s more per 120 s cache). An unparseable record
+    still counts, with its own note. Found by sweep61 batch 07.
+
+- **[M116 — RESOLVED 2026-09-16, run #61] THE ASSAY GATE REFUSED EARNED NUMBERS OVER MARKDOWN ON
+  THE NAME LINE.** `prose_gate.unearned_instrument` stripped only `*` from an entry's name, while
+  every other label match in the file tolerates `#`, `_`, `>` and `-`. A cited entity written as
+  `### Name` was refused as unearned. This was over-refusal: Hard Rule 3 was never weakened, but
+  earned work was discarded.
+  - **FIX:** strip the same decoration set from both ends of the name line.
+  - **PROVEN, BOTH DIRECTIONS:** *"a cited entity whose name line is a heading or italic is still
+    recognised"* HELD, and RED on the original. *"the same decoration on an UNCITED name still
+    refuses its number"* HELD. `prose_enabled` was not touched. Found by sweep61 batch 15.
+
+- **[M117 — RESOLVED 2026-09-16, run #61] THE CRAWL COULD DIE ITERATING A DICT ANOTHER THREAD WAS
+  GROWING.** `feats._throttle` walked `_BACKOFF.items()` under one edge's lock while
+  `note_throttled` inserted keys under another's (order `549e7df722a0`).
+  - **FIX:** iterate `tuple(_BACKOFF.items())` there and in `backoff_state()`.
+  - **PROVEN:** *"the crawl's throttle walks a snapshot of the shared backoff table"* HELD, and RED
+    on the original. Its control refuses a live walk.
+
+- **Minor, same shift, each with its order closed and its verification recorded there:**
+  `codewatch.runs_script` stopped at the value of `-X`/`-W` (sweep61 batch09; two new cases in
+  the twin-detection net). `overwatch` never retired a finding whose module was deleted, and such
+  findings held the front of the verify budget (batch06). `liveness._function_line_ranges` keyed
+  by bare name, so a ruling could excuse the wrong method (batch14; new net plus control).
+  `hostcheck.probe` counted pages instead of names, so four redirected hits read as one, measured
+  on en.wikipedia (batch14; new net plus control). `scout.sweep` read `--limit 0` as "no limit"
+  (batch13). verify_math's self-citation scan let "verify_math.py … :NNNN" through (order
+  `eb496bfb4db3`; two fixtures). `render.main` indexed an empty library; `profile.encode` spliced
+  an unchecked `attested`; `derivation` could die on one undecodable file;
+  `address_space.citation_card` could print an invented charted tier. Two assay mutation
+  survivors were ruled EQUIVALENT with proof (strict= on zips of equal-length comprehensions).
+
 ### Resolved by run #60 (2026-09-15 daily maintenance, sweep 60)
 
 *All three were FOUND AND FIXED in the same shift, so none of them ever sat in `## Open`. They are
