@@ -12,6 +12,7 @@ analytics), version 1.153.1, the version that saved the Dia-thìr map:
 Output: Diathir_Atlas/ next to this file --
 
     Diathir Atlas.bat     double-click on Windows
+    Diathir Atlas.command double-click on a Mac
     atlas.py            the launcher: serves the folder on 127.0.0.1 and opens the browser
     index.html          two tabs: the Annals (every dated event) and the Map; the book itself is the PDF (legendarium/build_pdf.py)
     Diathir.map         a copy of Rodos_finished.map, the finished map
@@ -107,6 +108,9 @@ open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(index)
 shutil.copy(os.path.join(HERE, 'atlas.py'), os.path.join(OUT, 'atlas.py'))
 with open(os.path.join(OUT, 'Diathir Atlas.bat'), 'w', encoding='utf-8', newline='\r\n') as fh:
     fh.write('@echo off\ncd /d "%~dp0"\nwhere py >nul 2>nul && (py atlas.py) || (python atlas.py)\n'
-             'if errorlevel 1 pause\n')
+             'if errorlevel 1 (echo. & echo The Atlas needs Python 3 from python.org. & pause)\n')
+with open(os.path.join(OUT, 'Diathir Atlas.command'), 'w', encoding='utf-8', newline='\n') as fh:
+    fh.write('#!/bin/sh\ncd "$(dirname "$0")"\npython3 atlas.py || python atlas.py\n')
+os.chmod(os.path.join(OUT, 'Diathir Atlas.command'), 0o755)
 print('Diathir_Atlas written: %d events, %d with a place on the map; %d places; book of about %s words'
       % (len(events), sum(1 for e in events if e[5]), len(places), format(len(re.sub(r'<[^>]+>', ' ', book).split()), ',')))

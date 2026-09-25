@@ -50,6 +50,12 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
   background:var(--coal); color:var(--parchment-dim); font-family:'Cinzel',serif; letter-spacing:.06em; font-size:14px; z-index:5;}
 .loading[hidden]{display:none;}
 .loading b{color:var(--parchment); font-weight:600; font-size:18px;}
+.loading .bar{width:min(360px,80%); height:8px; border:1px solid var(--hair); border-radius:5px; overflow:hidden; background:rgba(255,255,255,.05);}
+.loading .fill{height:100%; width:0; background:linear-gradient(90deg,#b8862b,#e3c27a); transition:width .3s ease;}
+.loading .pct{font-family:inherit; font-size:13px; color:var(--parchment-dim); min-height:1em;}
+.loading .note{max-width:520px; text-align:center; line-height:1.5; font-family:Georgia,serif; letter-spacing:0; font-size:15px; padding:0 16px;}
+.loading .note b{font-size:inherit;}
+.loading button{font:inherit; background:none; color:var(--parchment); border:1px solid var(--hair); border-radius:3px; padding:6px 14px; cursor:pointer;}
 .drawer{flex:none; width:370px; max-width:88vw; overflow:auto; background:rgba(12,10,16,.97); border-left:1px solid var(--hair);
   padding:14px 16px 40px; font-size:16px;}
 .drawer[hidden]{display:none;}
@@ -101,7 +107,7 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
 <div class="panel" id="panel-map">
   <div class="stage">
     <iframe id="fmg" title="The map of Dia-thìr"></iframe>
-    <div class="loading" id="loading"><b>Opening the map of Dia-thìr</b><span>The map is being unrolled</span></div>
+    <div class="loading" id="loading"><b id="ldTitle">Opening the map of Dia-thìr</b><span id="ldStage">Starting</span><div class="bar" id="ldBar"><div class="fill" id="ldFill"></div></div><span class="pct" id="ldPct">0%</span></div>
     <button class="drawtoggle" id="drawtoggle" onclick="toggleDrawer()">Record ◂</button>
   </div>
   <aside class="drawer" id="drawer" aria-label="The record of a place"></aside>
@@ -155,20 +161,63 @@ function filterTl(){
   document.getElementById('count').textContent = shown + ' of ' + EVENTS.length;
 }
 
-/* ---- the map: Azgaar's own generator, loading Dia-thìr.map from this folder ---- */
+/* ---- the map: Azgaar's own generator, loading Diathir.map from this folder, with a progress bar ---- */
 var started = false;
+function progress(pct, stage){
+  document.getElementById('ldFill').style.width = Math.max(0, Math.min(100, pct)) + '%';
+  document.getElementById('ldPct').textContent = Math.round(pct) + '%';
+  if (stage) document.getElementById('ldStage').textContent = stage;
+}
+function mapFailed(title, note){
+  var l = document.getElementById('loading');
+  l.innerHTML = '<b>' + title + '</b><span class="note">' + note + '</span>' +
+    (location.protocol === 'file:' ? '' : '<button onclick="location.reload()">Try again</button>');
+}
 function startMap(){
   if (started) return; started = true;
+  if (location.protocol === 'file:') {   // the browser will not let a page opened from disk load the map
+    mapFailed('The map needs the Atlas launcher',
+      'This page was opened straight from the folder, and browsers block the map when a page is opened that way. ' +
+      'Close this tab and start the Atlas with <b>Diathir Atlas.bat</b> (Windows) or <b>Diathir Atlas.command</b> (Mac), ' +
+      'or run <code>python3 atlas.py</code> in this folder. It needs Python 3 (python.org). The Annals tab works either way.');
+    return;
+  }
   try { localStorage.setItem('version', 'FMG_VERSION'); } catch(e){}   // skip the generator's "what's new" window
   if (!pending && window.matchMedia('(max-width:760px)').matches) toggleDrawer();   // a phone sees the map first
   var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'Diathir.map';
+  progress(2, 'Fetching the map');
+  // fetch the map once ourselves so the bar can show the download; the generator then reads it from the cache
+  fetch(link).then(function(r){
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    var total = Number(r.headers.get('Content-Length')) || 0;
+    if (!r.body || !r.body.getReader || !total) return r.text();
+    var reader = r.body.getReader(), got = 0;
+    function pump(){ return reader.read().then(function(x){
+      if (x.done) return;
+      got += x.value.length; progress(2 + 48 * got / total, 'Fetching the map (' + (got / 1048576).toFixed(1) + ' of ' + (total / 1048576).toFixed(1) + ' MB)');
+      return pump(); }); }
+    return pump();
+  }).then(function(){ openGenerator(link); }, function(err){
+    mapFailed('The map could not be fetched', 'Diathir.map did not load (' + err.message + '). Close this tab and start the Atlas again with its launcher.');
+  });
+}
+function openGenerator(link){
+  progress(50, 'Starting the map-maker');
   document.getElementById('fmg').src = 'fmg/index.html?maplink=' + encodeURIComponent(link);
-  var tries = 0, t = setInterval(function(){
-    var w = fmg(); tries++;
-    if (w && w.pack && w.pack.burgs && w.pack.burgs.length > 500 && w.pack.cells && w.pack.cells.p && w.zoomTo && w.Layers && w.document.getElementById('viewbox')) {
-      clearInterval(t); onMapReady(w);
-    } else if (tries > 240) { clearInterval(t);
-      document.getElementById('loading').innerHTML = '<b>The map did not load</b><span>Close this tab and run Dia-thìr Atlas again.</span>'; }
+  var t0 = Date.now(), t = setInterval(function(){
+    var w = fmg(), secs = (Date.now() - t0) / 1000;
+    try {
+      if (w && w.pack && w.pack.burgs && w.pack.burgs.length > 500 && w.pack.cells && w.pack.cells.p && w.zoomTo && w.Layers && w.document.getElementById('viewbox')) {
+        clearInterval(t); progress(100, 'Ready'); onMapReady(w); return;
+      }
+      var labels = w && w.document ? w.document.querySelectorAll('#burgLabels text').length : 0;
+      if (labels) progress(85 + 14 * Math.min(1, labels / 500), 'Drawing the towns');
+      else if (w && w.pack && w.pack.cells && w.pack.cells.p) progress(78, 'Laying out the land');
+      else if (w && w.Layers) progress(65, 'Reading the map');
+      else progress(Math.min(64, 50 + secs), 'Starting the map-maker');
+    } catch(e){}
+    if (secs > 300) { clearInterval(t);
+      mapFailed('The map did not finish loading', 'Five minutes passed without the map appearing. Close this tab and start the Atlas again; on a slow computer give it a little longer.'); }
   }, 250);
 }
 

@@ -9,7 +9,7 @@ two things here:
    the 18,500 most frequent in English is in it, unless it is a name, an abbreviation or not English. Dia-thìris is a Gaelic dialect with
    Scottish Gaelic grammar and vocabulary, spelled with Irish consonants (*sc* for Scottish *sg*) and
    Scottish vowels (grave accents, never acute), and it takes the older word wherever Gaelic has two.
-2. **The map, timeline and history: `Diathir_Atlas/`.** Double-click `Diathir Atlas.bat` (or run
+2. **The map, timeline and history: `Diathir_Atlas/`.** Double-click `Diathir Atlas.bat` (Windows) or `Diathir Atlas.command` (Mac) (or run
    `python atlas.py`). It opens in your browser with two tabs: **Annals** (all 1,616 dated events,
    filter by age, search) and **Map** (Azgaar's Fantasy Map Generator itself, running the Dia-thìr map).
    An event's map button flies to where it happened, and clicking a town shows its history. The
