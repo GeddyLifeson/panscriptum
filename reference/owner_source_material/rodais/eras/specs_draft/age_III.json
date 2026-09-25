@@ -10783,15 +10783,69 @@
    }
   ],
   "absent": [
-   17,
-   18,
-   35,
-   36,
-   42,
-   43,
-   44,
-   45,
-   47
+   {
+    "id": 17,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 18,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 35,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 36,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 42,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 43,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 44,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 45,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 47,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   }
   ],
   "new": [
    {

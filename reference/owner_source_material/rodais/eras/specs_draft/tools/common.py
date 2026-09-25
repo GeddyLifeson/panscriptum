@@ -428,6 +428,8 @@ def reset_names():
 
 def write(spec, age):
     path = os.path.join(DRAFT, 'age_%s.json' % age)
+    ma = spec.get('markers', {}).get('absent', [])
+    ma[:] = [m if isinstance(m, dict) else {'id': m, 'reason': 'not yet made or founded in this age', 'cites': ['map Rodos_finished.map record 35']} for m in ma]
     with open(path, 'w', encoding='utf-8') as fh:
         json.dump(spec, fh, ensure_ascii=False, indent=1)
         fh.write('\n')
@@ -586,3 +588,20 @@ def present_order(p):
     if x < 880 and y > 280:
         return 'macha'
     return 'sgoiltean'
+
+
+def shire_arms():
+    """App.J §IV: {province id: (blazon, note)} for the 123 shires of the roll of arms (SE 4)."""
+    out = {}
+    txt = open(os.path.join(RODAIS, 'legendarium', 'appendices', 'J_arms.md'), encoding='utf-8').read()
+    for line in txt.split('\n'):
+        m = re.match(r'^\| (\d+) \| (?:\{\{place:province:(\d+)\}\}|[^|]+) \| [^|]* \| ([^|]+) \| ([^|]*) \|$', line)
+        if m and int(m.group(1)) <= 123:
+            p = int(m.group(1))
+            note = re.sub(r'\{\{[^}]+\}\}', '', m.group(4)).replace('()', '').strip()
+            note = re.sub(r'\s+([.,;])', r'\1', note)
+            out[p] = (m.group(3).strip(), note)
+    return out
+
+
+TUATH_SHIRES = [7, 14, 23, 28, 36, 75, 86, 88, 105, 107, 122]

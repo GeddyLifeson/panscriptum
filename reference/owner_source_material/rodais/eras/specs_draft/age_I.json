@@ -6567,38 +6567,230 @@
    }
   ],
   "absent": [
-   1,
-   2,
-   3,
-   4,
-   5,
-   6,
-   7,
-   8,
-   9,
-   10,
-   11,
-   13,
-   14,
-   15,
-   16,
-   17,
-   18,
-   25,
-   26,
-   27,
-   34,
-   35,
-   36,
-   37,
-   38,
-   39,
-   42,
-   43,
-   44,
-   45,
-   46,
-   47
+   {
+    "id": 1,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 2,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 3,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 4,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 5,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 6,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 7,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 8,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 9,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 10,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 11,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 13,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 14,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 15,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 16,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 17,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 18,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 25,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 26,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 27,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 34,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 35,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 36,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 37,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 38,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 39,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 42,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 43,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 44,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 45,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 46,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   },
+   {
+    "id": 47,
+    "reason": "not yet made or founded in this age",
+    "cites": [
+     "map Rodos_finished.map record 35"
+    ]
+   }
   ],
   "new": [
    {
@@ -7151,6 +7343,7 @@
   "warnings": [],
   "dia_thiris_names_checked": 33,
   "dia_thiris_name_problems": [],
+  "canon_personal_names_reported": [],
   "checks": "every burg, province, route and marker id is in Rodos_finished.map; every annals id is in legendarium/annals_dated.json; every province 1-123 has a polity; every master route and marker is classified present or absent; every Dia-thìris name registered is unchanged by rodais_engine.normalize() and clean under check_agreement() (Old Ones' roots are checked for normalize only)."
  }
 }
