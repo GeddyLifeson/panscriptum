@@ -34,6 +34,8 @@ import unicodedata
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import reckoning  # noqa: E402
+import event_links  # noqa: E402
+import glosses  # noqa: E402
 
 
 def fold(s):
@@ -376,33 +378,36 @@ def gazetteer_html(rec):
 
 
 def compose(rec, link_places=True):
-    """(toc, body html) of the whole record: prose, annals, appendices, houses, gazetteer."""
+    """(toc, body html) of the whole record: prose, annals, appendices, houses, gazetteer. The first mention of a
+    Dia-thìris name of ../eras/NAMES.json in each section, annals entry and gazetteer entry carries its English
+    gloss as a hover tooltip (glosses.py; nothing changes while there is no NAMES.json)."""
     toc, body = [], []
+    tip = lambda h, scope: glosses.gloss_html(h, scope, 'tooltip')  # noqa: E731
     making = creation_part(rec)
     if making:
-        body.append('<section class="book prologue age-myth" id="%s">%s</section>' % (making[0], md_to_html(making[2], making[0], toc)))
+        body.append('<section class="book prologue age-myth" id="%s">%s</section>' % (making[0], tip(md_to_html(making[2], making[0], toc), r'<h[23]\b')))
     prose = prose_parts(rec)
     if prose:
         toc.append((1, 'part-tale', 'The Tale of the Seven Ages'))
     for pid, k, md in prose:
         rn, en, cat = AGE_NAMES[k]
-        body.append('<section class="book age-%s" id="%s">%s</section>' % (cat, pid, md_to_html(md, pid, toc)))
+        body.append('<section class="book age-%s" id="%s">%s</section>' % (cat, pid, tip(md_to_html(md, pid, toc), r'<h[23]\b')))
     toc.append((1, 'part-annals', 'The Annals of Dia-thìr'))
     body.append('<section class="annals" id="part-annals"><h2>The Annals of Dia-thìr</h2><p class="lede">Every remembered event of the seven ages, '
-                'in order, each on its day. %d events.</p>%s</section>' % (len(rec.events), annals_html(rec, link_places)))
+                'in order, each on its day. %d events.</p>%s</section>' % (len(rec.events), tip(annals_html(rec, link_places), r'<div class="an\b')))
     for k in AGES:
         toc.append((2, 'annals-' + k, 'Age %s · %s' % (k, AGE_NAMES[k][0])))
     apps = appendix_parts(rec)
     if apps or rec.houses:
         toc.append((1, 'part-app', 'Appendices'))
     for pid, _, md in apps:
-        body.append('<section class="app" id="%s">%s</section>' % (pid, md_to_html(md, pid, toc)))
+        body.append('<section class="app" id="%s">%s</section>' % (pid, tip(md_to_html(md, pid, toc), r'<h[23]\b')))
     if rec.houses:
         toc.append((2, 'houses', 'The Houses of Dia-thìr'))
         body.append('<section class="app">%s</section>' % houses_html(rec))
     toc.append((1, 'part-gaz', 'Gazetteer'))
     body.append('<section class="gazetteer" id="part-gaz"><h2>A Gazetteer of Dia-thìr</h2><p class="lede">Every town of the island, by '
-                'shire: when and by whom it was founded, its history, and what the annals record there.</p>%s</section>' % gazetteer_html(rec))
+                'shire: when and by whom it was founded, its history, and what the annals record there.</p>%s</section>' % tip(gazetteer_html(rec), r'<div class="gz"'))
     return toc, '\n'.join(body)
 
 
@@ -467,6 +472,7 @@ ul.tree{list-style:none; padding-left:18px; border-left:1px solid var(--hair); m
 ul.tree li{margin:6px 0;}
 .tree .life{font-family:'Cinzel',serif; font-size:11.5px; color:var(--parchment-dim); letter-spacing:.03em;}
 .tree .pn{font-size:16px; color:var(--parchment-dim);}
+.gl{text-decoration:underline dotted; text-decoration-color:var(--parchment-dim); text-underline-offset:3px; cursor:help;}
 @media (max-width:860px){ .bookwrap{padding:0 16px;} .btoc{display:none;} .btext{padding:20px 0 100px; font-size:18px;}
   .btext h2{font-size:25px;} .btext h3{font-size:19px;} }
 """
@@ -480,13 +486,19 @@ def to_markdown(rec):
     for _, k, md in prose_parts(rec):
         out += [plain(md), '']
     out += ['# The Annals of Dia-thìr', '']
+    links = event_links.resolve({e['id']: e for e in rec.events},
+                                lambda e: reckoning.display_year(e['y'], e['m'], e['d'], e['age']))
     for k in AGES:
         out += ['## Age %s · %s' % (k, AGE_NAMES[k][0]), '', '*%s · %s, %s*' % (AGE_NAMES[k][1][0].upper() + AGE_NAMES[k][1][1:],
                                                                          reckoning.ERA[k][4], reckoning.display_span(k)), '']
         for e in rec.events:
             if e['age'] == k:
                 pl = ' (%s)' % rec.place_name(e['place']) if e.get('place') else ''
-                out.append('- **%s** — *%s*%s. %s' % (e['date'], e['title'], pl, e['body']))
+                # an event linked to another (event_links.py) takes an anchor and its links as a footnote
+                ln = links.get(e['id'])
+                out.append('- %s**%s** — *%s*%s. %s%s' % ('<a id="%s"></a>' % event_links.anchor(e['id']) if ln else '',
+                                                        e['date'], e['title'], pl, e['body'],
+                                                        event_links.footnote_html(ln) if ln else ''))
         out.append('')
     for _, _, md in appendix_parts(rec):
         out += [plain(md), '']

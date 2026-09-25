@@ -31,6 +31,8 @@ whole record as a printed book in `../The_Diathir_Legendarium.pdf`, or as plain 
 | `town_previews.json` | Every burg's town-plan link (Watabou's City or Village Generator), as the Atlas's own Azgaar builds it from the map. The forts get a citadel town with no walls or square. |
 | `build_book.py` | Assembles `LEGENDARIUM.md`; `../build_atlas.py` uses it for the Atlas. |
 | `build_pdf.py` | Typesets `LEGENDARIUM.md` as a book, `../The_Diathir_Legendarium.pdf` (WeasyPrint; fonts in `fonts/`, OFL). |
+| `event_links.py` | Typed links between annals events (`"links": [{"to", "type", "note"}]`, eight types), added both ways, and the nine event categories; shared with `../eras/build_era.py`. A linked master event takes its links as a footnote in the PDF. |
+| `glosses.py` | The English gloss of each Dia-thìris proper noun of `../eras/NAMES.json` on its first mention: a numbered footnote in the PDF, a hover gloss in the Atlas. With no NAMES.json, or with `build_pdf.py --no-glosses`, the books are exactly as before. |
 
 ## The seven ages and their eras
 
