@@ -18,7 +18,15 @@ import webbrowser
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
+class Server(http.server.ThreadingHTTPServer):
+    # the map-maker asks for about a hundred files at once when it starts; Python's default queue holds only 5
+    # waiting connections, and on Windows the rest are refused outright, so random files fail to load
+    request_queue_size = 1024
+    daemon_threads = True
+
+
 class Quiet(http.server.SimpleHTTPRequestHandler):
+    protocol_version = 'HTTP/1.1'   # keep connections open between files, so far fewer are needed
     extensions_map = {**http.server.SimpleHTTPRequestHandler.extensions_map,
                       '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml',
                       '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.map': 'text/plain'}
@@ -67,7 +75,7 @@ def check_files():
 def main():
     check_files()
     port = free_port()
-    server = http.server.ThreadingHTTPServer(('127.0.0.1', port), functools.partial(Quiet, directory=HERE))
+    server = Server(('127.0.0.1', port), functools.partial(Quiet, directory=HERE))
     url = 'http://127.0.0.1:%d/index.html' % server.server_address[1]
     print('Dia-thìr Atlas is running at', url)
     print('Close this window, or press Ctrl+C, to stop it.')
