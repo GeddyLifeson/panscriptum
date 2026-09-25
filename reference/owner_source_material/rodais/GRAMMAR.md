@@ -46,7 +46,7 @@ transcriptions) is set out in *The sounds*. In short:
 grave accent marks length only; Dia-thìris has no acute.
 
 **Caol le caol, leathan le leathan.** A consonant or consonant cluster inside one word has vowels
-of the same class on both sides: *bris-ead-h*, *òl-adh*, *cuir-idh*, *seas-aidh*. That is why
+of the same class on both sides: *bris-eadh*, *òl-adh*, *cuir-idh*, *seas-aidh*. That is why
 most endings come in a broad and a slender form. A handful of common words break it (*esan, seo,
 an-seo, ceudna…*).
 
@@ -123,13 +123,13 @@ masculine: *an* + lenition (like the feminine nominative): *taigh a' bhàird* "t
 Singular feminine: *na* (*na h-* before vowel): *doras na h-eaglaise*. Plural: *nan* (*nam* before
 b, f, m, p). A noun without an article in the genitive is lenited if masculine: *pìos arain*
 "a piece of bread". The genitive form of the noun itself is lexical (usually slenderised for
-masculines: *bàta → bàta*, *balach → balaich*; *-e* added for feminines: *sràid → sràide*); the
-Dictionary gives it where it differs.
+masculines: *balach → balaich*, though a noun ending in a vowel, such as *bàta*, does not change; *-e*
+added for feminines: *sràid → sràide*); the Dictionary gives it where it differs.
 
 **Plurals** are lexical. Common patterns: *-an/-ean* (*bàta → bàtaichean*, *leabhar →
 leabhraichean*, *craobh → craobhan*), slenderising (*balach → balaich*, *cat → cait*), *-(e)achan*
-and irregulars (*bean → mnathan*, *duine → daoine*, *cù → coin*). After numerals the singular is
-used (§10).
+and irregulars (*bean → mnathan*, *duine → daoine*, *cù → coin*). After *aon*, *dà*, *fichead*, *ceud* and *mìle* the
+noun is singular; from three to ten it is plural (§10).
 
 **Dative.** After a simple preposition with the article, masculine nouns take the forms of the
 nominative; feminine nouns are slenderised where a form exists: *air a' bhòrd* "on the table",

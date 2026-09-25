@@ -16,7 +16,7 @@ The headword is given in full. An article (*an*, *am*, *a'*) is written with it 
 
 **a chur san Leabharlann** *phr.* · lit. "to put it in the Library"
 To make a thing official and past dispute. From the founding of Leabharlann Muileann chaol ({{date:V-0070}}); within a few years it was said of anything settled ({{date:V-0072}}).
-> "Ailean Leabhar is said to have disliked the phrase, for the library settles nothing, he said, and only keeps." — annals, {{year:V-0072}}
+> "Ailean Leabhar is said to have disliked the phrase, for the Library settles nothing, he said, and only keeps." — annals, {{year:V-0072}}
 
 **Aisling-aois** *n. f.* · lit. "Aisling-age"
 An unnaturally long youth in anyone; said half in jest of ordinary people who look young for their years. From the first of the immortal generation, born in the mining camps ({{date:IV-0146}}). No annal marks its first use. Of all the words on the chronicle's list, in this one alone the jest and the legend are the same.
@@ -130,7 +130,7 @@ The godfolk, the first people of the earth. Caoran did not shape them: he laid h
 
 **diosal** *adv.*, *n. m.* · lit. "sunwise"
 The sunwise turn. The fleet went once round the river pool of Seann Skell sunwise ({{date:III-0024}}), and the years were counted from that turn ({{date:III-0025}}).
-> "Before going down the Abhainn naomh to open water the fleet went once round the river pool of Seann Skell sunwise, *diosal*, for luck." — the Fourth Book
+> "…they meant to go round the river pool, sunwise, *diosal*, as you walk round a well or a new-built house for luck." — the Fourth Book
 
 **dòrlach** *n. m.* · lit. "a handful"
 The sealed measure of coal. The vein-house allowed one to each departing ship ({{date:III-0016}}). See *Làn na glaice*.
@@ -167,7 +167,7 @@ The people of the island, in the oldest tellings. The godfolk grew up out of Dia
 > "So the tellings call the people of the island *feur uaine an eilein*, the green grass of the island." — the Telling of the Making
 
 **Fo mhullach an taighe, chan eil nàmh ann** *phr.* · lit. "under the roof of the house there is no enemy"
-The road-peace, the oldest law on the island that no Keeper made ({{date:II-0038}}). The War of the Roads ended under such a roof ({{date:II-0099}}).
+The road-peace, the oldest law on the island that neither Keeper nor lord made ({{date:II-0038}}). The War of the Roads ended under such a roof ({{date:II-0099}}).
 > "…no feud may be pursued under an inn roof or within a spear's throw of its door." — annals, {{year:II-0038}}
 
 **fuil-ghuail** *n. f.* · lit. "coal-blood"

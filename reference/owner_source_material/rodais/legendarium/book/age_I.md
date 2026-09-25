@@ -9,7 +9,7 @@
 
 ## I. Of the Mason and the Lightning
 
-The library at Muileann chaol writes the first day of the count as {{date:I-0001}}. In the hill country it is only "the night of the lightning", and the tale is told at the hearth in the dark of the year by whoever is oldest in the house; and every hearth that tells it is itself the tale, for before that night there was no hearth on Dia-thìr at all. It goes like this.
+The Library at Muileann chaol writes the first day of the count as {{date:I-0001}}. In the hill country it is only "the night of the lightning", and the tale is told at the hearth in the dark of the year by whoever is oldest in the house; and every hearth that tells it is itself the tale, for before that night there was no hearth on Dia-thìr at all. It goes like this.
 
 Neachdan the mason was sinking a well. He had been at it since the grey of the morning, with a wedge of hard stone and a maul of oak, splitting the rock a hand's depth at a time and lifting the pieces out. It was the dead of the year. The wind came over the heather with sleet in it, and his hands were split at the knuckles from the wet stone, and there was nothing in all the world to warm them but his own breath and the work.
 
@@ -29,7 +29,7 @@ He took a flat stone and lifted a burning piece out onto it, and carried it home
 
 So the Dia-thìrich say that fire came to them out of the sky and the stone together.
 
-Three wells claim the crack. Tobar dhìreach, Tobar dhubh and Tobar òg each keep a telling that the mason's well was theirs, and that the lightning fell there. Tobar dhìreach can show a capped shaft with a scorched stain on its lip; the other two can show only the telling. The library holds all three claims and chooses none.
+Three wells claim the crack. Tobar dhìreach, Tobar dhubh and Tobar òg each keep a telling that the mason's well was theirs, and that the lightning fell there. Tobar dhìreach can show a capped shaft with a scorched stain on its lip; the other two can show only the telling. The Library holds all three claims and chooses none.
 
 On what the mason's people did next, every telling agrees. They let the fire in the vein burn until it had burned itself out. Then they dug no further. They laid a flat stone over the broken vein, and would draw no water beside it, and cut their well again a stone's throw away. Of all the deeds of the Ancient Age this is the one told most often, to children and to kings, and it is told the same way every time: the people found a wonder in the ground, and they covered it.
 
@@ -133,7 +133,7 @@ The Line of the Mason is the eldest genealogy on Dia-thìr, older by thousands o
 
 A reciter of Clann na Ceiste in the Holy Age gave it thus to a scribe of the Hall, and the scribe wrote it down as he heard it:
 
-"Neachdan the Mason broke the stone, and the lightning came into it, and he carried the first fire home. Neachdan was the father of Conall, who laid the slab over the burnt vein. And after Conall came thirty-four fathers, each the son of the one before, whose names we keep; and the last of them was the father of Diarmad.
+"Neachdan the Mason broke the stone, and the lightning came into it, and he carried the first fire home. Neachdan was the father of Conall, who kept the vein while it burned. And after Conall came thirty-four fathers, each the son of the one before, whose names we keep; and the last of them was the father of Diarmad.
 
 "Diarmad asked the question in the grove, and the Keeper answered him, and gave him the riddle. And after Diarmad came eighteen fathers whose names we keep; and the last of them was the father of Aodh.
 
@@ -157,7 +157,7 @@ There the Line of the Mason ends, as a line of fathers; for after Ailean it is t
 
 ## V. Of the Waters and the Woods
 
-The tellers go back now to the first years of the count, for while the Mason's line questioned the coal the island went its own way. In the years after the lightning Dia-thìr was another shape. The snowfields on the central mountains were shrinking, and their meltwater cut the bed that Abhainn uaine follows still; its gravel terraces hold hearth-stones at three heights, each left as the water came up to it. In the bog beneath Doire ghlas the birch and pine of the colder years gave way to oak and hazel, and the grove grew up on the old heath where the Keeper would afterwards stand.
+The tellers go back now to the first years of the count, for while the Mason's line questioned the coal the island went its own way. In the years after the lightning Dia-thìr was another shape. The snowfields on the central mountains were shrinking, and their meltwater cut the bed that Abhainn uaine follows still; its gravel terraces hold hearth-stones at three heights, each left as the water came up to it. In the bog beneath Doire ghlas the birch and pine of the colder years gave way to oak and hazel, and the grove grew up on the old heath where the Keeper would afterward stand.
 
 At Achadh dhìreach lie the first hearths of the high valleys, lit from the mason's fire or from fires lit from it: pine and heather charcoal, scrapers of grey flint, the split bones of red deer. There is no coloured coal in them. Whoever sat at them either had none of it or would not burn it, and fed the fire with wood.
 
@@ -169,7 +169,7 @@ These are small things. A people who leave no words leave their fires and their 
 
 At Seann Dunn there is a mound taller than a man, made of limpet shell and seal bone and burnt weed, laid down over many lifetimes. It is the first sure trace of the **Seann-Dhaoine**, the Old Ones; and no tool in it is shaped as any later Dia-thìreach shaped a tool.
 
-What they called themselves is lost. The name they bear was given afterward, by others, and means only that they were before. Yet they held the shores of Dia-thìr longer than the Dia-thìrich have held their kingdom.
+What they called themselves is lost. The name they bear was given afterward, by others, and means only that they were before. Yet they held the shores of Dia-thìr for five thousand years and more.
 
 Of them it is told that at Seann Chwen they sank their nets with beach stones, and every stone was notched with the same three strokes, the earliest mark on Dia-thìr made again and again on purpose. At Seann Skell they laid a mole of unmortared boulders out into the river, and every quay wall built there since stands upon it. At Seann Bhral they cut two hundred and twelve steps up the cliff from the shingle to the grazing, and the treads are worn hollow in the middle; no one has counted how many feet that took. At Seann Toll they cut a channel into a river pool with a slot for a gate of wattle, and the slot is still sharp. At Seann Warr they laid a road of crushed shell across the reed marsh, a forearm above the reeds, and it is the first made road on the island that can still be walked. At Seann Mhorn they built seven fish-kilns to dry the catch over peat smoke, the first buildings on Dia-thìr raised for a trade. At Seann Bhrenn they laid long ramps of stone into the water, wide enough for hulls bigger than any hide boat. The hulls are gone, and so is any tale of where they went.
 
@@ -183,7 +183,7 @@ At their height, in {{year:I-0056}}, they held every coast: the ten places whose
 
 ## VII. Of the Three Ruins and the Deep Shafts
 
-The three centuries that began in {{year:I-0032}} saw as many works and wonders as any stretch of the age. The tellings hold them together as one time, when great works went up inland and great fears came in from the sea.
+The long centuries that began in {{year:I-0032}} saw as many works and wonders as any stretch of the age. The tellings hold them together as one time, when great works went up inland and great fears came in from the sea.
 
 On a spur above the ground where Cathair mhòr now stands a walled outpost was raised, which later tongues called Làrach an Dùin-fhaire. Its stones are dressed on the outer face only, and its one gate faces inland, away from the sea. A greater work went up on the height near Ceann mhin: three rings of wall, a cistern cut in the bedrock, and room for four hundred people with their beasts. That is Làrach an Dùin, and whether the outpost's builders raised it too has never been settled. Near Àth fhionn run stretches of a kerbed track, a cart's width and paved with flat slabs, heading toward both; it is the only road the Seann-Dhaoine are known to have built away from the shore.
 
@@ -207,7 +207,7 @@ He came up alive. His lamp was out and his face was the colour of ash. They aske
 
 In those same years the fears of Dia-thìr were born, and two of them have never left it.
 
-Among the coastal families of the Tuathaich, in a far later age, there lives a fragment of a voyaging tale, with a named steersman and a first crossing, which they call the First Canoe. It is the voyage of Naomh Breandan, the saint of their Church, who put out west with his monks and came to the Isle of the Blessed; the families who keep it hold that the isle was Dia-thìr, and set the landing in this age. The druids of the Old Faith call it superstition, and it was put down, and is half-remembered; yet it belongs here, at the beginning of boats. What is sure is smaller. Below Ceann mhòr, in the tidal mud, lie a row of mooring stakes and a scrap of stitched hide, the first sure boats of the north-west coast. Who rowed them, and from where, the mud does not say.
+Among the coastal families of the Tuathaich, in a far later age, there lives a fragment of a voyaging tale, with a named steersman and a first crossing, which they call the First Canoe. It is the voyage of Naomh Breandan, the saint of their Church, who put out west with his monks and came to the Isle of the Blessed; the families who keep it hold that the isle was Dia-thìr, and set the landing in this age. The druids of the Old Faith called it superstition, and it was hushed, and it is half-remembered now; yet it belongs here, at the beginning of boats. What is sure is smaller. Below Ceann mhòr, in the tidal mud, lie a row of mooring stakes and a scrap of stitched hide, the first sure boats of the north-west coast. Who rowed them, and from where, the mud does not say.
 
 On {{date:I-0040}} the Sea-Watcher was first sighted. Old sailors of the north-west speak of a creature vaster than any whale in the water off that coast, and add, before anyone else can, that no wreck has ever been raised to prove them wrong. On the headland where Taigh-solais Baile chrom now stands a fire was kept, and its ash lies a man's height deep. The tellings say it burned to turn boats away from the Watcher's water. The beacon-keepers' word to the boats is kept at Baile chrom:
 
@@ -258,7 +258,7 @@ The first is Carragh Cnoc bheag. On its upper face runs a line of the unread scr
 
 When that second hand came, the stone does not say. Clann na Ceiste hold that it was one of theirs, and that the fire in the stone is the mason's.
 
-The second is Colbh Cnoc chiar, and it carries two words only:
+The second is Colbh Cnoc chiar, and it carries three words only:
 
 > *Cuimhnich an teine.*
 > Remember the fire.
@@ -269,4 +269,4 @@ The third is Calbh Cnoc ghorm, and it carries the doctrine itself, whole: *Cha d
 
 In those years a burial ground grew about a place that no one remembers hallowing: Tuam Cnoc dhìreach, whose oldest graves are older than its oldest names that can be read. In one of the oldest lies a child with a sliver of the coloured coal closed in one hand. The sliver still stains the cloth it is kept in, and it is the only piece of the vein found buried with the dead in all this age. The graves came to be laid in rows, heads toward the central mountains; the earliest rows are straight, and the later ones bend round graves already there that no one would disturb.
 
-So the Ancient Age draws to its close, in the high valleys, among people who burned the coal and did not know it. It closes as it opened, with a fire. Far to the north, at the grove of Doire ghlas, a young man of Clann na Ceiste had set six burning pots in a ring under the oaks and laid the dark seventh coal among them, and the Keeper came to him there out of the evening ({{date:I-0080a}}); and for the first time since the making of the world all seven coals burned together. What came of that fire is the matter of the Second Book, and of an age that the reckoners of Muileann chaol would afterwards give to one man.
+So the Ancient Age draws to its close, in the high valleys, among people who burned the coal and did not know it. It closes as it opened, with a fire. Far to the north, at the grove of Doire ghlas, a young man of Clann na Ceiste had set six burning pots in a ring under the oaks and laid the dark seventh coal among them, and the Keeper came to him there out of the evening ({{date:I-0080a}}); and for the first time since the making of the world all seven coals burned together. What came of that fire is the matter of the Second Book, and of an age that the reckoners of Muileann chaol would afterward give to one man.

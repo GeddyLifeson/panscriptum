@@ -96,11 +96,11 @@ that is named:
 | Hamlet | Tobar, Cill, Carraig |
 | Port (any size) | + Ros, Ceann, Cuan, Caol, Inis |
 
-*(Cathair* = stone fort/city · *Dùn* = fortified hill · *Baile* =
+(*Cathair* = stone fort/city · *Dùn* = fortified hill · *Baile* =
 settlement · *Àth* = ford · *Cnoc* = hill · *Muileann* = mill · *Cill* =
 holy cell, shrine · *Tobar* = well · *Achadh* = field · *Doire* = oak grove ·
 *Carraig* = rock · *Ros* = headland · *Ceann* = headland/point · *Cuan*
-= harbour · *Caol* = strait · *Inis* = island.)*
+= harbour · *Caol* = strait · *Inis* = island.)
 
 ## Qualifiers
 Words of colour, size and character, always lenited when they follow a

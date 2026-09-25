@@ -41,7 +41,7 @@ Everything else in this folder is the source for one of those two.
 | `Diathir_Atlas/` | The program (see above). Built by `build_atlas.py`. |
 | `legendarium/` | The history: the dated annals, the seven prose books, the appendices A–J (among them G goods and markets, H shires, I land and waters, J arms), the gazetteer, the reckoning of years from album release dates (`reckoning.py`, `albums.json`, `albums_src/`), and the map's layers reconciled with the history (`reconcile/`, applied by `map_reconcile.py`). `LEGENDARIUM.md` is the whole record as plain text. See `legendarium/README.md`. |
 | `Rodos_finished.map` | The finished map. Open it in Azgaar's Fantasy Map Generator 1.153.1. |
-| `Rodos_renamed.map`, `finish_map.py`, `MAP_CHANGES.md` | The map as the first renaming pass left it, the script that finishes the renaming through the engine (and then applies the town features, the harbour moves and the layer reconciliation from `legendarium/`), and every name it changed (425). |
+| `Rodos_renamed.map`, `finish_map.py`, `MAP_CHANGES.md` | The map as the first renaming pass left it, the script that finishes the renaming through the engine (and then applies the town features, the harbour moves and the layer reconciliation from `legendarium/`), and every name it changed (426). |
 | `build_atlas.py`, `atlas.py`, `atlas_template.html`, `atlas_style.css` | Rebuild `Diathir_Atlas/` from an Azgaar build, the map and the legendarium (instructions at the top of `build_atlas.py`). |
 
 | Both | |
@@ -53,10 +53,11 @@ Everything else in this folder is the source for one of those two.
 The first pass renamed the burgs, rivers and provinces in the map data. It left:
 
 - **The labels drawn on the map.** The 52 burg labels saved in the SVG still read *Luteley,
-  Salington, Whitford…*, and the state label read *City-State Dia-thìr*. Azgaar shows the saved
+  Salington, Whitford…*, and the state label read *City-State Rodos*. Azgaar shows the saved
   labels on load, so the map opened with the old English names. They now match the data.
-- **Seann Shkell and Seann Dhunn.** See the errata in `NAMING_LAYER.md`: *Seann Skell, Seann
-  Dunn, Seann Tarr, Seann Toll*, carried into the provinces named after them.
+- **Seann Shkell, Seann Dhunn, Seann Tharr, Seann Tholl.** Now *Seann Skell, Seann Dunn, Seann
+  Tarr, Seann Toll* (the rule for *seann* is in `NAMING_LAYER.md`), carried into the provinces
+  named after them.
 - **Everything else in English:** the ocean, the main island (now *Dia-thìr*), 12 small islands and
   the lake; the 10 religion entries and 9 deities; the war (*An Cogadh Fada*); 13 regiments and fleets; 48 markers; 236 named routes;
   5 zones; the quest journey. The English notes now name places that exist on the map.
@@ -85,7 +86,7 @@ Nothing here is under `src/`, so none of the library's daemons, audits or linter
   take old native words; later things may be plain loans (*bus, rèidio*); where Scottish Gaelic
   coined a word, Dia-thìris has its own kenning from old roots (GRAMMAR.md §13). A Scottish Gaelic
   speaker would not know the kennings, which is the point.
-- **465 headwords are shared by more than one English entry** (*uisce* for both "water" and
+- **3,593 headwords are shared by more than one English entry** (*uisce* for both "water" and
   "rain", *iasc* for fish as food and as animal). That is how Gaelic works; the lexicon does not
   invent distinctions it doesn't have.
 - **The map is checked in Azgaar itself.** `Rodos_finished.map` loads in Fantasy Map Generator

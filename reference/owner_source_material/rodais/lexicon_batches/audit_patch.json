@@ -83361,6 +83361,65 @@
    "why": [
     "creation: the coal of the vein is gual (Appendix E, na Seachd Guail)"
    ]
+  },
+  {
+   "id": "f-queen-n1",
+   "set": {
+    "rod": "ban-rìgh",
+    "pl": "ban-rìghrean",
+    "gen": "ban-rìgh",
+    "ipa": "ˈpanˈr̪ˠiː"
+   },
+   "why": [
+    "one spelling for queen everywhere: ban-rìgh (a compound of ban- and rìgh; keeps caol le caol when lenited, a' bhan-rìgh)"
+   ]
+  },
+  {
+   "id": "f-rani-n",
+   "set": {
+    "rod": "ban-rìgh",
+    "pl": "ban-rìghrean",
+    "gen": "ban-rìgh",
+    "ipa": "ˈpanˈr̪ˠiː"
+   },
+   "why": [
+    "one spelling for queen everywhere: ban-rìgh (a compound of ban- and rìgh; keeps caol le caol when lenited, a' bhan-rìgh)"
+   ]
+  },
+  {
+   "id": "a1-camera",
+   "set": {
+    "rod": "ciste-scàile",
+    "ipa": "ˈkʲʰiʃtʃəˈskaːlʲə",
+    "pl": "cistean-scàile"
+   },
+   "why": [
+    "ciste has a short vowel, as in every other ciste- compound"
+   ]
+  },
+  {
+   "id": "f-locker-n",
+   "set": {
+    "rod": "ciste-ghlais",
+    "pl": "cistean-glais",
+    "gen": "ciste-glais",
+    "ipa": "ˈkʲʰiʃtʃəˈɣl̪ˠaʃ"
+   },
+   "why": [
+    "ciste has a short vowel, as in every other ciste- compound"
+   ]
+  },
+  {
+   "id": "f-incubator-n",
+   "set": {
+    "rod": "ciste-guir",
+    "pl": "cistean-guir",
+    "gen": "ciste-guir",
+    "ipa": "ˈkʲʰiʃtʃəˈkuɾʲ"
+   },
+   "why": [
+    "ciste has a short vowel, as in every other ciste- compound"
+   ]
   }
  ],
  "add": [

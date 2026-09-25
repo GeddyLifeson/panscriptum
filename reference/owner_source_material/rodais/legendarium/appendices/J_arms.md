@@ -39,7 +39,7 @@ The arms are blazoned here in the plain terms of heraldry, rendered in English. 
 
 The trellis and the mascle are the custody's. The fess, a white band between two thin ones, is the crown's addition at the joining ({{date:III-0138a}}). Macha's order had been the court's order for four centuries before the joining ({{date:III-0089}}), and no king put her horses on the seal. The house of Òrd Mhacha at Cathair dhearg keeps the regalia ({{date:V-0033}}), and the seal has never been in its keeping.
 
-Nineteen shires and a hundred and five towns bear the crown's trellis in their own arms, and sixty-seven towns bear the mascle. The roll says only that the trellis was granted where a shire asked for the crown's colours; why these asked and others did not, it does not tell. No Tuathaich town bears the trellis. The mascle is on the arms of one Tuathaich shire, Siorrachd Caol mhòr, and of two Tuathaich towns, Caol mhòr and Cnoc uaine.
+Nineteen shires and a hundred and five towns bear the crown's trellis in their own arms, and sixty-seven towns bear the mascle. The roll says only that the trellis was granted where a shire asked for the crown's colours; why these asked and others did not, it does not tell. No Tuathaich town bears the trellis. The mascle is on the arms of two Tuathaich shires, Siorrachd Caol mhòr and, in the crown's canton, the island shire of Eilean dhìreach, and of two Tuathaich towns, Caol mhòr and Cnoc uaine.
 
 ### IV. The arms of the shires
 
@@ -67,7 +67,7 @@ The shires are given in the order of the roll.
 | 18 | {{place:province:18}} | {{place:burg:316}} | Or, on a fess cotised indented purpure a sun in splendour Or. |  |
 | 19 | {{place:province:19}} | {{place:burg:296}} | Gules, three ploughs contourny argent in chief. |  |
 | 20 | {{place:province:20}} | {{place:burg:131}} | Gules honeycombed Or, on a chief Or three keys gules. |  |
-| 21 | {{place:province:21}} | {{place:burg:30}} | Per pale azure trellised Or and Or, on the dexter side a mascle argent, on the sinister side a sun gules. | Ceann mhin of the gulf. |
+| 21 | {{place:province:21}} | {{place:burg:30}} | Per pale azure trellised Or and Or, on the dexter side a mascle argent, on the sinister side a sun gules. | Ceann mhin of the south. |
 | 22 | {{place:province:22}} | {{place:burg:45}} | Sable, on a fess double cotised Or an anchor azure. |  |
 | 23 | {{place:province:23}} | {{place:burg:209}} | Or, a cock vert. | Heater shield. The largest Tuathaich place and the heart of the Church in the north. |
 | 24 | {{place:province:24}} | {{place:burg:23}} | Per fess barbed gules and Or, a cross paty argent in chief, a hand vert in base. |  |
@@ -79,7 +79,7 @@ The shires are given in the order of the roll.
 | 30 | {{place:province:30}} | {{place:burg:443}} | Or, three ships' wheels sable, two and one. |  |
 | 31 | {{place:province:31}} | {{place:burg:36}} | Per saltire, paly gules and Or, and argent, an orle Or. |  |
 | 32 | {{place:province:32}} | {{place:burg:26}} | Argent, a bone sable. |  |
-| 33 | {{place:province:33}} | {{place:burg:32}} | Or, a stag passant vert. | Àth shean of the north. |
+| 33 | {{place:province:33}} | {{place:burg:32}} | Or, a stag passant vert. | Àth shean of the centre. |
 | 34 | {{place:province:34}} | {{place:burg:502}} | Ermine, a plaice azure. |  |
 | 35 | {{place:province:35}} | {{place:burg:315}} | Argent, three parrots azure in pale. | The hill of the Keepers' Hall ({{date:II-0004}}) and the seat of the Old Spirits. The parrots are birds no one on Dia-thìr has seen. |
 | 36 | {{place:province:36}} | {{place:burg:142}} | Per fess, chequy Or and gules, and sable, a chevron reversed vert. | Heater shield. |
@@ -112,7 +112,7 @@ The shires are given in the order of the roll.
 | 63 | {{place:province:63}} | {{place:burg:398}} | Chevronny argent and purpure, a trefoil gules. |  |
 | 64 | {{place:province:64}} | {{place:burg:420}} | Argent, a goutte gules. | Where the sting-oath began ({{date:II-0086}}). The town reads the red drop as the drop the sting draws. |
 | 65 | {{place:province:65}} | {{place:burg:270}} | Purpure, a lymphad argent. |  |
-| 66 | {{place:province:66}} | {{place:burg:117}} | Or, a mullet azure. | Doire fhionn of the north-east. |
+| 66 | {{place:province:66}} | {{place:burg:117}} | Or, a mullet azure. | Doire fhionn of the east. |
 | 67 | {{place:province:67}} | {{place:burg:164}} | Argent, a terrace in base rayonny gules, three crosses fleury gules in fess. |  |
 | 68 | {{place:province:68}} | {{place:burg:37}} | Azure, an escallop Or. |  |
 | 69 | {{place:province:69}} | {{place:burg:241}} | Per bend sable and argent, a crescent reversed counterchanged. |  |
@@ -206,7 +206,7 @@ Of the hundred and twenty-three shires, twelve bear the heater: the eleven Tuath
 | {{place:burg:431}} | {{place:province:4}} | 57,900 | Or, an orle gules, three inescutcheons purpure in pale, each charged with a mullet of four points Or. | The seat of the high custodian. |
 | {{place:burg:1}} | {{place:province:2}} | 8,600 | Argent, two mascles purpure in pale. | The mascle of the custody, in purple. The wolf-stone is not on the town's arms. |
 | {{place:burg:491}} | {{place:province:96}} | 14,100 | Azure trellised Or, three mascles argent in chief. | The vein-house town. It bears the custody's field and three mascles. |
-| {{place:burg:246}} | {{place:province:114}} | 5,500 | Argent, a pale invected gules, a lion rampant azure in dexter chief. | The library town. |
+| {{place:burg:246}} | {{place:province:114}} | 5,500 | Argent, a pale invected gules, a lion rampant azure in dexter chief. | The Library town. |
 | {{place:burg:305}} | {{place:province:28}} | 27,300 | Argent, a chief gules, two lymphads azure. | The town of the Grey Night. |
 
 ### VI. The beasts of the orders on the roll

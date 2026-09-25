@@ -715,7 +715,7 @@
   "id": "III-0058",
   "canon": false,
   "title": "Fearchar mac Lachlainn chosen",
-  "body": "The heads of the houses choose Fearchar mac Lachlainn of Baile Mòr dhomhain, of Clann Fhearchair, and he is crowned at Cathair dhearg. He is the first king made by the custodian houses and not by descent.",
+  "body": "The heads of the houses choose Fearchar mac Lachlainn of Baile Mòr dhomhain, of Clann Fhearchair, and he is crowned at Cathair dhearg. He is the first king made by the seven houses and not by descent.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1459,7 +1459,7 @@
   "id": "III-0117",
   "canon": false,
   "title": "The Book of the Three Claimants",
-  "body": "Seònaid nic Coinnich, a clerk of Queen Catrìona's household, writes the story of the war from the custody-book and from the witness of those who fought. It is the oldest history of Dia-thìr that survives written as one tale and not as entries.",
+  "body": "Seònaid nic Coinnich, once a clerk of Queen Catrìona's household, writes the story of the war from the custody-book and from the witness of those who fought. It is the oldest history of Dia-thìr that survives written as one tale and not as entries.",
   "place": "burg:19",
   "kind": "record",
   "between": [
@@ -2765,8 +2765,8 @@
  {
   "id": "III-0213",
   "canon": false,
-  "title": "Queen Mòrag nic Ailein crowned",
-  "body": "Ailean's sister Mòrag nic Ailein is crowned after him. She reigns forty years, and the king-list has for her its longest run of entries telling of nothing but good harvests and the rite.",
+  "title": "Queen Mòrag nic Raghnaill crowned",
+  "body": "Ailean's sister Mòrag nic Raghnaill is crowned after him. She reigns forty years, and the king-list has for her its longest run of entries telling of nothing but good harvests and the rite.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -2806,7 +2806,7 @@
   "id": "III-0215",
   "canon": false,
   "title": "Inis mhòr's grain fleet laid up",
-  "body": "The coasting grain barges of Inis mhòr, which had sailed Slighe-uisce fhuar, the cold way along the north coast from Ros chiar to Caol mhin, since the Holy Age, are laid up for good as the roads grow better. The last is kept on the strand as a wonder.",
+  "body": "The coasting grain barges of Inis mhòr, which had sailed Slighe-uisce fhuar, the cold way along the north coast from Ros chiar to Caol mhin, since the early years of the Sundering, are laid up for good as the roads grow better. The last is kept on the strand as a wonder.",
   "place": "burg:17",
   "kind": "people",
   "between": [

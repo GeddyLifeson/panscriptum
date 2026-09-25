@@ -54,7 +54,7 @@
  "347": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "The harbour stones of Seann Dunn are older than any Dia-thìrich work, and the name the Dia-thìrich gave the place keeps a root that is not their own. It became a Dia-thìrich port in the Holy Age, and its citadel was raised above the harbour to guard the eastern approaches. It is now a city of shipping and salt-fish, and its oldest families still claim that the harbour wall was only repaired, never built, by their ancestors. Its yards build seagoing hulls and cut their sails.",
+  "history": "The harbour stones of Seann Dunn are older than any Dia-thìreach work, and the name the Dia-thìrich gave the place keeps a root that is not their own. It became a Dia-thìreach port in the Holy Age, and its citadel was raised above the harbour to guard the eastern approaches. It is now a city of shipping and salt-fish, and its oldest families still claim that the harbour wall was only repaired, never built, by their ancestors. Its yards build seagoing hulls and cut their sails.",
   "known_for": "its Seann-Dhaoine harbour stones and its citadel"
  },
  "348": {
@@ -184,13 +184,13 @@
  "367": {
   "founded_age": "IV",
   "founded_by": "Dia-thìrich woodwards; resettled by the Tuathaich after the Severance",
-  "history": "A Dia-thìrich village in a grove of pale oaks, left empty at the Severance and resettled by Tuathaich families sent north. Its people keep the Tuathaich Church, and it is one of the northern households where the voyage of Naomh Breandan is still told at the hearth, a telling the Dia-thìrich druids call superstition. It lives on timber and on the fort at Cnoc leathan nearby.",
+  "history": "A Dia-thìreach village in a grove of pale oaks, left empty at the Severance and resettled by Tuathaich families sent north. Its people keep the Tuathaich Church, and it is one of the northern households where the voyage of Naomh Breandan is still told at the hearth, a telling the Dia-thìrich druids call superstition. It lives on timber and on the fort at Cnoc leathan nearby.",
   "known_for": "its pale oaks and Tuathaich hearth-tellings"
  },
  "368": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich keepers of the northern ford",
-  "history": "An old ford on the road north out of the Dia-thìrich country, walled in the Age of Strangers and strengthened again after the Severance, when the Tuathaich country began a short way to the west. It is a town of the Hawk order, Òrd an t-Seabhaig, and its temple is one of the oldest of the order, whose rite is the older form of Òrd Bhrìde's. It trades with Inis bhàn to the south and, warily, with the Tuathaich villages over the line.",
+  "history": "An old ford on the road north out of the Dia-thìrich country, walled in the Age of Strangers and strengthened again after the Severance, when the Tuathaich country began a short way to the west. It is a town of the Hawk order, Òrd an t-Seabhaig, and its temple is one of the oldest of the order. It trades with Inis bhàn to the south and, warily, with the Tuathaich villages over the line.",
   "known_for": "its old ford on the northern march"
  },
  "369": {
@@ -216,13 +216,13 @@
    -3647
   ],
   "founded_by": "seal-taking households of the lower river",
-  "history": "Inis bhàn is the great river port of the north-west Dia-thìrich country and the seat of its province, a town of nearly forty thousand on the Abhainn ìseal whose barges run down to Ros gheal on the coast. It is a town of the Hawk order, and its shrines face down the river toward the sea. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It is one of several towns that claim the dock from which the ships of the Sundering set out, a claim the others dispute and no roll can settle.",
+  "history": "Inis bhàn is the great river port of the north-west Dia-thìrich country and the seat of its province, a town of nearly forty thousand on the Abhainn ìseal whose barges run down to Ros gheal on the coast. It is a town of the Hawk order, and its shrines face down the river toward the sea. The Green Death, A' Phlàigh Uaine, struck it in the Age of Strangers. It is one of several towns that claim to have built ships for the fleet of the Sundering, which sailed from Seann Skell; no roll bears the claim out.",
   "known_for": "its white-island river port and Hawk-order shrines"
  },
  "372": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich druids of the holy ford; resettled by the Tuathaich after the Severance",
-  "history": "The holy ford was a Dia-thìrich shrine and crossing, and a citadel was raised over it in the Holy Age. At the Severance the Dia-thìrich left and Tuathaich families took the town, which is now one of the largest they hold. They keep the citadel manned and the old shrine open as their church.",
+  "history": "The holy ford was a Dia-thìreach shrine and crossing, and a citadel was raised over it in the Holy Age. At the Severance the Dia-thìrich left and Tuathaich families took the town, which is now one of the largest they hold. They keep the citadel manned and the old shrine open as their church.",
   "known_for": "its citadel over the holy ford"
  },
  "373": {
@@ -362,7 +362,7 @@
  "393": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich ford-keepers of the central country",
-  "history": "The grey ford is the seat of its province, a large town beside Cathair mhòr and a short way from the ruin of Làrach an Dùin-fhaire. The ruin is older than any other dwelling-place known on the island, and the town has kept its people out of it by custom. It lives on trade between Cathair mhòr and the eastern towns.",
+  "history": "The grey ford is the seat of its province, a large town beside Cathair mhòr and a short way from the ruin of Làrach an Dùin-fhaire. The ruin is older than any dwelling of the Dia-thìrich, and the town has kept its people out of it by custom. It lives on trade between Cathair mhòr and the eastern towns.",
   "known_for": "its grey ford below the ruined outpost"
  },
  "394": {
@@ -434,7 +434,7 @@
  "402": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "Seann Tarr is a small harbour whose landing stones are older than any Dia-thìrich work, and the root in its name is not of the Dia-thìrich tongue. Dia-thìrich fishers settled it in the Holy Age and gave it the name it bears, and the name marks it as a place of the Old Ones. On clear nights the lighthouse of Àth dhearg can be seen from its quay, and its boats steer by it.",
+  "history": "Seann Tarr is a small harbour whose landing stones are older than any Dia-thìreach work, and the root in its name is not of the Dia-thìrich tongue. Dia-thìrich fishers settled it in the Holy Age and gave it the name it bears, and the name marks it as a place of the Old Ones. On clear nights the lighthouse of Àth dhearg can be seen from its quay, and its boats steer by it.",
   "known_for": "the Old Ones' landing stones"
  },
  "403": {
@@ -470,7 +470,7 @@
  "408": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich well-keepers; resettled by the Tuathaich after the Severance",
-  "history": "A Dia-thìrich village around a well of red water, resettled by Tuathaich families after the Severance. Like several villages of this coast it made the shrine of Manannan that it inherited its church rather than raising its own. It lives on sheep and on the market at Cathair gheal.",
+  "history": "A Dia-thìreach village around a well of red water, resettled by Tuathaich families after the Severance. Like several villages of this coast it made the shrine of Manannan that it inherited its church rather than raising its own. It lives on sheep and on the market at Cathair gheal.",
   "known_for": "its red well of the western Tuathaich"
  },
  "409": {
@@ -637,7 +637,7 @@
  "432": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich keepers of Tuam Cnoc dhìreach",
-  "history": "A small town on the Sìtheas beside Tuam Cnoc dhìreach, the necropolis whose oldest graves are older than its oldest legible names. Its families have kept the necropolis since the Holy Age, when the first burial there was written down. It lives on the burials of the eastern coast and on the masons who cut the stones.",
+  "history": "A small town on the Sìtheas beside Tuam Cnoc dhìreach, the necropolis whose oldest graves are older than its oldest legible names. Its families have kept the necropolis since the Holy Age, when the first burial there was written down. It lived on the burials of the eastern coast until the shire closed the old ground to new graves in the first years of the restored kingdom, and lives now on the masons who cut and mend the stones.",
   "known_for": "its keepers of Tuam Cnoc dhìreach"
  },
  "433": {
@@ -901,7 +901,7 @@
   "founded_age": "III",
   "founded_by": "Dia-thìrich druids; resettled by the Tuathaich after the Severance",
   "history": "Cill chaol was a narrow Dia-thìrich chapel village near the northern coast, emptied at the Severance and taken by Tuathaich families. They made its chapel a church of the Tuathaich, and the Dia-thìrich carvings on its doorposts were left in place beside theirs. It is a small place near the lighthouse of Muileann bheag.",
-  "known_for": "a Tuathaich church in a Dia-thìrich chapel"
+  "known_for": "a Tuathaich church in a Dia-thìreach chapel"
  },
  "469": {
   "founded_age": "IV",
@@ -960,7 +960,7 @@
    -6186
   ],
   "founded_by": "builders of the western coast; resettled by the Tuathaich after the Severance",
-  "history": "Cathair gheal is a walled city of white stone on the far western coast, built by the Dia-thìrich and resettled by the Tuathaich after the Severance. Its walls face the sea, where pirate ships have been seen offshore. It is the market for the Tuathaich villages of Muileann àrsaidh province. Its smiths make the tools of the north-west.",
+  "history": "Cathair gheal is a walled city of white stone on the far western coast. It was a Dia-thìreach settlement until the human families of the northern concession made it their market town in the Age of Strangers, and it passed to their Tuathaich children at the Severance. Its walls face the sea, where pirate ships have been seen offshore. It is the market for the Tuathaich villages of Muileann àrsaidh province. Its smiths make the tools of the north-west.",
   "known_for": "its white walls against the pirate coast"
  },
  "477": {
@@ -1054,7 +1054,7 @@
  "491": {
   "founded_age": "IV",
   "founded_by": "coal-breakers of the central diggings",
-  "history": "Muileann dhearg, seat of its province, is a mill town a short way from Cill ghlas. Scàineadh Cill ghlas tore open the hills nearby and killed dozens, and the town's mills stood idle for a generation after. It follows the druid schools of the Old Faith.",
+  "history": "Muileann dhearg, seat of its province, is a mill town a short way from Cill ghlas. Above it stood the vein-house, heir of the Keepers' Hall, where the custody-book was kept through the Age of Sundering. Scàineadh Cill ghlas tore open the hills nearby and killed dozens, and the town's mills stood idle for a generation after. It follows the druid schools of the Old Faith.",
   "known_for": "its red mill beside Cill ghlas"
  },
  "492": {
