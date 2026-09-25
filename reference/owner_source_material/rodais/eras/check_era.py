@@ -49,8 +49,8 @@ RK = B.reckoning
 # ~540, the appendices ~445 (tables), the gazetteer ~620 (two columns), each counting its own opener and part pages;
 # plus ~10 pages of front matter and contents. On the master this estimate gives 596 pages, as built.
 DENSITY = {'books': 405, 'annals': 540, 'appendices': 445, 'gazetteer': 620}
-TARGET = {'annals': (90000, 130000), 'books': (100000, 130000), 'gazetteer': (40000, 60000), 'appendices': (30000, 50000)}
-ENTRIES = (1200, 1800)
+TARGET = {'annals': (30000, 45000), 'books': (170000, 200000), 'gazetteer': (10000, 15000), 'appendices': (10000, 20000)}
+ENTRIES = (500, 800)
 PAGES = (500, 600)
 
 WORD = re.compile(r"[^\W\d_](?:[^\W\d_]|['’-](?=[^\W\d_]))*")

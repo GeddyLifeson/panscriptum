@@ -6,6 +6,19 @@ Read `../legendarium/BRIEF.md`, the TOLKIEN and BOOK_STYLE briefs and the master
 Avoid the tells listed in `quality/TELLS_FOR_WRITERS.md`; `python quality/tells_scan.py <K>` finds them in your files.
 **Era detail adds to the master canon and never contradicts it.**
 
+## 0. It reads like a novel
+
+Each era legendarium is one volume in a series of novels, read front to back. The owner's words: "the atlas can bounce
+forward and backward but the legendarium should feel like reading a book … a series of novels more or less."
+- **Story first.** The Books carry the age as connected narrative: people, scenes, speech, journeys, consequences, in
+  the high recollection voice of the master Books. Not an encyclopedia, not a list of events retold.
+- **Forward only in time, never ahead of itself.** A volume speaks only of its own age and what came before. No
+  foreshadowing, no later names, eras, dates or events, no "ages later". `eras/quality/future_check.py` enforces it.
+- **No jumping about inside the book.** Footnotes gloss names and point back only; no forward cross-references.
+  Clickable related-event links, cross-era jumps and "see also" belong to the Atlas, not the PDF.
+- **Continuity across the series.** Each volume opens where the last closed and closes where the next opens; a reader
+  who has read the earlier volumes should never be surprised by a fact the earlier volumes contradict.
+
 ## 1. The files
 
 ```
@@ -267,16 +280,14 @@ Run `check_era.py` before every hand-in. It checks:
 
 | Section | Target |
 |---|---|
-| Annals | 1,200–1,800 dated entries, ~90–130k words |
-| Books | ~100–130k words |
-| Gazetteer | ~40–60k words |
-| Appendices | ~30–50k words |
+| Books (the novel) | ~170–200k words, about 420–490 pages |
+| Annals (the chronicle at the back) | 500–800 dated entries, ~30–45k words |
+| Gazetteer | ~10–15k words |
+| Appendices | ~10–20k words |
 | **The book** | **500–600 pages** |
 
-These ranges are ceilings for each section alone, not all at once. At the house design's densities (measured on the
-master PDF: annals ~540 words a page, books ~405, appendices ~445, gazetteer ~620), all four at their midpoints come
-to ~660 pages. **Aim for about 250–270k words in all.** For example: annals ~95k, books ~100–105k, gazetteer ~40k,
-appendices ~30k, which comes to about 565–580 pages. `check_era.py` prints the running estimate.
+The Books are most of the volume. The annals, gazetteer and appendices are short back matter; the Atlas carries the
+full reference. `check_era.py` prints the running estimate.
 
 ## 13. The island: geography, distance and compass
 
