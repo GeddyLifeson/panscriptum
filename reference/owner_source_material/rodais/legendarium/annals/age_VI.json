@@ -44,7 +44,7 @@
   "id": "V-0006",
   "canon": false,
   "title": "The north-west ports without a master",
-  "body": "At Ceann mhòr, Cathair gheal and Inis àrsaidh the humans' harbour officers sail with the last ships before the crossing closes, and take their keys with them. The Tuathaich fishermen break the locks of the harbour stores and share out what they find, house by house.",
+  "body": "At Ceann mhòr, Cathair gheal and Inis àrsaidh the humans' harbour officers had sailed with the last ships before the crossing closed, and taken their keys with them. The Tuathaich fishermen break the locks of the harbour stores and share out what they find, house by house.",
   "place": "burg:330",
   "kind": "people"
  },
@@ -265,7 +265,7 @@
   "id": "V-0028",
   "canon": true,
   "title": "Òrd Bhrìde given its doctrine",
-  "body": "The Coal Rite, Òrd Bhrìde, the order that keeps Brìde's flame and Crom's stone, is given a settled doctrine within the Old Faith. Until now it was a scattered folk reverence; now it is built upon the leyline and the unbroken line of the coal-touched.",
+  "body": "The Coal Rite, Òrd Bhrìde, the order that keeps Brìde's flame and Crom's stone, is given a settled doctrine within the Old Faith. Through the long ages it had kept its flame by custom and by no written creed; now its doctrine is built upon the leyline and the unbroken line of the coal-touched.",
   "place": null,
   "kind": "faith",
   "canon_date": "c. 1935 DE"
@@ -318,7 +318,7 @@
   "id": "V-0033",
   "canon": false,
   "title": "The crown's order and the court",
-  "body": "The house of Òrd Mhacha at Cathair dhearg, the order of the capital and the crown, is given the keeping of the coronation regalia, as it had before the humans came. The Rite's high custodian asks a share in the keeping and is refused.",
+  "body": "The house of Òrd Mhacha at Cathair dhearg, the order of the capital and the crown, is given the keeping of the coronation regalia, which it had kept before the humans came. The Rite's high custodian asks a share in the keeping and is refused.",
   "place": "burg:19",
   "kind": "faith"
  },
@@ -684,7 +684,7 @@
   "id": "V-0072",
   "canon": false,
   "title": "A chur san Leabharlann",
-  "body": "Within a few years 'a chur san Leabharlann', to put it in the Library, is said of anything settled beyond dispute. Ailean Leabhar is said to have disliked the phrase, for the library settles nothing, he said, and only keeps.",
+  "body": "Within a few years 'a chur san Leabharlann', to put it in the Library, is said of anything settled beyond dispute. Ailean Leabhar is said to have disliked the phrase, for the Library settles nothing, he said, and only keeps.",
   "place": "marker:34",
   "kind": "culture"
  },
@@ -708,7 +708,7 @@
   "id": "V-0075",
   "canon": false,
   "title": "The keepers of the five lights",
-  "body": "The five lighthouses built under the humans are given Dia-thìrich keepers by royal warrant. At Taigh-solais Baile chrom on the Tuathaich coast the keeper is a Dia-thìrich man lodged in a Tuathaich town, and his warrant bids him report what he sees on land as well as at sea.",
+  "body": "The five lighthouses built under the humans are given Dia-thìrich keepers by royal warrant. At Taigh-solais Baile chrom on the Tuathaich coast the keeper is a Dia-thìreach man lodged in a Tuathaich town, and his warrant bids him report what he sees on land as well as at sea.",
   "place": "marker:12",
   "kind": "building"
  },
@@ -924,7 +924,7 @@
  {
   "id": "V-0099",
   "canon": false,
-  "title": "The coal-ships of Ros gheal",
+  "title": "The grain-ships of Ros gheal",
   "body": "Ros gheal on the north-central coast builds a dock for the grain-ships of the Hawk country. The Hawk houses bless the dock and ask a tithe of its dues. The shire gives them a twentieth.",
   "place": "burg:24",
   "kind": "trade"
@@ -1011,7 +1011,7 @@
   "id": "V-0108",
   "canon": false,
   "title": "The Grey Night forbidden",
-  "body": "A Dia-thìrich magistrate at Baile chrom forbids the gatherings of the Grey Night sect as disorderly. Hannah Crane is fined. The vigil goes indoors and goes on.",
+  "body": "A Dia-thìreach magistrate at Baile chrom forbids the gatherings of the Grey Night sect as disorderly. Hannah Crane is fined. The vigil goes indoors and goes on.",
   "place": "burg:305",
   "kind": "law"
  },
@@ -1109,7 +1109,7 @@
   "id": "V-0120",
   "canon": false,
   "title": "Trenches at Làrach an Dùin",
-  "body": "Diggers sent by the library open trenches at Làrach an Dùin on the south-east coast. They find walls older than any Dia-thìrich building, and no writing at all. Ailean Leabhar has the finds entered as of the Old Ones, purpose unknown.",
+  "body": "Diggers sent by the library open trenches at Làrach an Dùin on the south-east coast. They find walls older than any Dia-thìreach building, and no writing at all. Ailean Leabhar has the finds entered as of the Old Ones, purpose unknown.",
   "place": "marker:32",
   "kind": "discovery"
  },
@@ -1133,7 +1133,7 @@
   "id": "V-0123",
   "canon": false,
   "title": "A lighthouse on the Tuathaich coast",
-  "body": "The Dia-thìrich keeper of Taigh-solais Baile chrom reports to the council that the Grey Night sect keeps its vigil in the dark of the lighthouse's own shadow. The council does nothing.",
+  "body": "The Dia-thìreach keeper of Taigh-solais Baile chrom reports to the council that the Grey Night sect keeps its vigil in the dark of the lighthouse's own shadow. The council does nothing.",
   "place": "marker:12",
   "kind": "faith"
  },
@@ -1182,7 +1182,7 @@
   "id": "V-0129",
   "canon": false,
   "title": "The Tuathaich doctors",
-  "body": "The Moot pays for two Tuathaich women to be taught medicine by a Dia-thìrich physician at Àth àrsaidh, who takes them against the will of his guild. He is struck from its rolls. They practise in the north for forty years.",
+  "body": "The Moot pays for two Tuathaich women to be taught medicine by a Dia-thìreach physician at Àth àrsaidh, who takes them against the will of his guild. He is struck from its rolls. They practise in the north for forty years.",
   "place": "burg:304",
   "kind": "people"
  },
@@ -1257,7 +1257,7 @@
   "id": "V-0137",
   "canon": false,
   "title": "The silver at depth",
-  "body": "The silver seam at Muileann chiar, which the Dia-thìrich kept hidden from the humans, is found richer at depth than any had looked for. The town's old silver guild takes a charter under the restored custom. Iain Mapa, working there since the Board sent him, measures the new faces.",
+  "body": "The silver seam at Muileann chiar, which the Dia-thìrich kept in their own hands through the humans' time, is found richer at depth than any had looked for. The town's old silver guild takes a charter under the restored custom. Iain Mapa, working there since the Board sent him, measures the new faces.",
   "place": "marker:2",
   "kind": "craft"
  },
@@ -1385,7 +1385,7 @@
   "id": "V-0150",
   "canon": false,
   "title": "The Moot's pit register",
-  "body": "The Moot at Caol mhòr begins a register of Tuathaich hewers killed or maimed in the western pits, for no Dia-thìrich book counts them. Mary Coyle's clerks enter the first year's names on the families' own word. The register is kept to this day and has never been sent south.",
+  "body": "The Moot at Caol mhòr begins a register of Tuathaich hewers killed or maimed in the western pits, for no Dia-thìreach book counts them. Mary Coyle's clerks enter the first year's names on the families' own word. The register is kept to this day and has never been sent south.",
   "place": "burg:95",
   "kind": "record"
  },
@@ -1409,7 +1409,7 @@
   "id": "V-0153",
   "canon": false,
   "title": "Gormshuil nic Dhùghaill's last entry",
-  "body": "Her last entry as chronicler is a list of what the record lacks: the northern towns' own accounts, the humans' treaties in their own tongue, and the Board's surveys. Tormod Pinn copies the list into the front of his first book and adds nothing to it.",
+  "body": "Tormod Pinn copies into the front of his first book the last entry Gormshuil nic Dhùghaill made as chronicler, a list of what the record lacks: the northern towns' own accounts, the humans' treaties in their own tongue, and the Board's surveys. He adds nothing to it.",
   "place": "marker:34",
   "kind": "record"
  },
@@ -1594,7 +1594,7 @@
   "id": "V-0176",
   "canon": true,
   "title": "The search for a second vein",
-  "body": "The search for a second seam of the coloured coal elsewhere on the island is costly, and finds nothing. The Holy Age made the same search and failed in the same way centuries before; it had been forgotten.",
+  "body": "The search for a second seam of the coloured coal elsewhere on the island is costly, and finds nothing. The same search had been made in the Age of Ailean, thousands of years before, and had failed in the same way; it had been forgotten.",
   "place": null,
   "kind": "discovery",
   "canon_date": "c. 1980 DE"
@@ -1813,7 +1813,7 @@
   "id": "V-0203",
   "canon": false,
   "title": "The Seann Bhral ruling",
-  "body": "Ruairidh mac Phàdraig, circuit justice at Seann Bhral, rules that the Rail Board is a carrier of the Crown and must carry for any who pay. It is the first ruling the Moot wins in a Dia-thìrich court. The Board appeals, and the council lets the appeal lapse.",
+  "body": "Ruairidh mac Phàdraig, circuit justice at Seann Bhral, rules that the Rail Board is a carrier of the Crown and must carry for any who pay. It is the first ruling the Moot wins in a Dia-thìreach court. The Board appeals, and the council lets the appeal lapse.",
   "place": "burg:47",
   "kind": "law"
  },

@@ -417,7 +417,7 @@ vowel), *dh'fhàg* [ˈɣaːk]. Three very common words have an irregular [h] ins
 - **t-** (after the article *an*): before a vowel it is fortis [t̪ʰ]/[tʃʰ], taking its quality
   from the vowel: *an t-uisce* [ən̪ˠ ˈt̪ʰɯʃkʲə], *an t-iascair* [ən̪ˠ ˈtʃʰiəskɪɾʲ]. Before *s*
   (*sl, sn, sr*, *s* + vowel) the *s* goes silent and the *t* is lenis: *an t-sràid*
-  [ən̪ˠ ˈt̪ɾaːtʃ], *an t-sagart* [ən̪ˠ ˈt̪akəɾt̪].
+  [ən̪ˠ ˈt̪ɾaːtʃ], *an t-sùil* [ən̪ˠ ˈt̪uːlʲ].
 - **h-** is [h] before the vowel: *na h-eileanan* [nə ˈhelʲanan], *a h-athair* [ə ˈhahɪɾʲ].
 - **n-** (after *ar, ur*) is the tense nasal of the vowel's quality: *ar n-athair*
   [əɾ ˈn̪ˠahɪɾʲ], *ur n-eilean* [əɾ ˈɲelʲan].
@@ -436,7 +436,7 @@ Dia-thìris spelling does not write the old nasal mutation, called eclipsis, exc
 
 **After *nan, nam* (genitive plural), the full old eclipsis:**
 
-- A fortis stop is voiced, as above: *nan coin* [nəŋ ˈɡɔnʲ], *nan cat* [nəŋ ˈɡaʰt̪].
+- A fortis stop is voiced, as above: *nan con* [nəŋ ˈɡɔn], *nan cat* [nəŋ ˈɡaʰt̪].
 - A lenis stop becomes the nasal itself, and the article loses its final nasal:
   *nam bàtaichean* [nə ˈmaːʰt̪ɪçan], *nan daoine* [nə ˈn̪ˠɯːnʲə], *nan gillean*
   [nə ˈɲiʎan].
@@ -606,7 +606,7 @@ old-fashioned sound in the language.
 | agus | ˈakəs | | seo | ˈʃɔ |
 | robh | ˈr̪ˠɔ | | math | ˈma |
 
-*thu* [u] after verbs is the old lenited form with its [h] lost. The form *tu* [t̪u] appears after
+*thu* [u] after verbs is the old lenited form with its [h] lost. The form *tu* [t̪ʰu] appears after
 *-s* and *-dh* (*bidh tu*).
 
 ## 11. What is particular to Dia-thìris

@@ -61,7 +61,7 @@
  },
  {
   "house": "Clann Choinnich of the silver guild",
-  "note": "The family at the head of the refiners' guild that held the silver seam of {{place:burg:419}} against the Company ({{date:IV-0102}}) and kept it under the Silver Compact until the rising. Its name is the name of the house of custody that brought the silver petitions of the Sundering age, but no roll traces the descent.",
+  "note": "The family at the head of the refiners' guild that held the silver seam of {{place:burg:419}} against the Company ({{date:IV-0102}}) and kept it under the Silver Compact until the rising. Its name is the name of the house of custody that brought the silver petitions of the Age of Sundering, but no roll traces the descent.",
   "members": [
    {"id": "cc1", "name": "Coinneach mac Dhonnchaidh", "parent": null, "born_between": [1728, 1740], "died_between": [1785, 1810], "note": "A refiner of the seam; the guild ledger names him among its members at the Crossing."},
    {"id": "cc2", "name": "Ùna nic Choinnich", "parent": "cc1", "spouse": "Alasdair mac Ruairidh", "born_between": [1762, 1770], "died_between": [1847, 1856], "note": "Led the guild; met the Company's surveyors at the adit with the whole guild and its ledgers; refused Martha Gale's partnership when very old, {{date:IV-0143}}."},

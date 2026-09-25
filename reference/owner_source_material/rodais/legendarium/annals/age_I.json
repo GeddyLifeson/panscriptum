@@ -268,7 +268,7 @@
   "id": "I-0027a",
   "canon": false,
   "title": "The snowflake coal takes fire in the air",
-  "body": "Fearghas of the Mason's line climbs to the highest ground of the island, above where Muileann gheal now stands, and lets the six unlit coals fall from the top. The coal flecked with white stars takes fire as it falls and burns white in the air; the others strike the stones cold. The summit is called after the kindred Binnean a' Chlachair, the Mason's Point.",
+  "body": "Fearghas of the Mason's line climbs to the highest ground of the island, above where Muileann gheal now stands, and lets the six unlit coals fall from the top. The coal flecked with white stars takes fire as it falls and burns white in the air; the others strike the stones cold. The summit is called after the kindred: Binnean a' Chlachair, the Mason's Point.",
   "place": "marker:48",
   "kind": "discovery",
   "between": [
@@ -418,7 +418,7 @@
   "id": "I-0043",
   "canon": false,
   "title": "The seal hunt moves south",
-  "body": "The hunters of the north-west leave the open water and work the southern side of the headlands, out of its sight. The seal bones thin in the middens of the north-west and grow at Caol mhòr and Cuan bheag.",
+  "body": "The hunters of the north-west leave the open water and work the southern side of the headlands, out of the Sea-Watcher's sight. The seal bones thin in the middens of the north-west and grow at Caol mhòr and Cuan bheag.",
   "place": "burg:95",
   "kind": "people"
  },
@@ -693,7 +693,7 @@
   "id": "I-0071",
   "canon": true,
   "title": "Colbh Cnoc chiar raised",
-  "body": "A second stone is raised, bearing only two words: Cuimhnich an teine, \"remember the fire.\" Who is bidden, and why, none has ever said.",
+  "body": "A second stone is raised, bearing only three words: Cuimhnich an teine, \"remember the fire.\" Who is bidden, and why, none has ever said.",
   "place": "marker:29",
   "kind": "building",
   "canon_date": "undated"

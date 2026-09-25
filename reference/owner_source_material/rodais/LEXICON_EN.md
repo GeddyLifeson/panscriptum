@@ -2722,7 +2722,7 @@ The same 21313 words, in the order of their English headwords. The full entries,
 - **Cambodian** (of Cambodia) — *Cambòidianach*
 - **camel** (humped desert animal) — *càmhal* n. m., gen. *càmhail*, pl. *càmhalan*
 - **cameo** — *nochdadh goirid* n. m.
-- **camera** — *cìste-scàile* ✦ n. f., pl. *cìstean-scàile*
+- **Camera** — *ciste-scàile* ✦ n. f., pl. *cistean-scàile*
 - **cameraman** (person who operates a camera) — *glacair-scàile* ✦ n. m., gen. *glacair-scàile*, pl. *glacairean-scàile*
 - **camo** (camouflage) — *breug-riochd* n. m., gen. *breug-riochd*, pl. *breug-riochdan*
 - **camouflage** (disguise that blends in) — *breug-riochd* n. m., gen. *breug-riochd*, pl. *breug-riochdan*
@@ -9712,7 +9712,7 @@ The same 21313 words, in the order of their English headwords. The full entries,
 - **incriminate** (make appear guilty) — *ciontaich* v. vn. *ciontachadh*
 - **incubate** (brood, hatch) — *guir* v. vn. *gur*
 - **incubation** (brooding of eggs; development period of a disease) — *gur* n. m., gen. *guir*
-- **incubator** (heated box for hatching eggs or tending newborns) — *cìste-guir* ✦ n. f., gen. *cìste-guir*, pl. *cìstean-guir*
+- **incubator** (heated box for hatching eggs or tending newborns) — *ciste-guir* ✦ n. f., gen. *ciste-guir*, pl. *cistean-guir*
 - **incumbent** (holder of an office) — *sealbhadair-dreuchd* n. m., gen. *sealbhadair-dreuchd*, pl. *sealbhadairean-dreuchd*
 - **incur** (bring (cost, anger) upon oneself (tarraing ort)) — *tarraing*
 - **incur a cost** (verbal-noun phrase; the verb is gabh) — *coscais a ghabhail*
@@ -11169,7 +11169,7 @@ The same 21313 words, in the order of their English headwords. The full entries,
 - **lock** — *glais* v. vn. *glasadh*
 - **lock** (lock) — *glas* n. f., gen. *glaise*, pl. *glasan*
 - **lockdown** (shutting people in their homes) — *glasadh-baile* ✦ n. m., gen. *glasaidh-baile*
-- **locker** (lockable chest or cupboard) — *cìste-ghlais* n. f., gen. *cìste-glais*, pl. *cìstean-glais*
+- **locker** (lockable chest or cupboard) — *ciste-ghlais* n. f., gen. *ciste-glais*, pl. *cistean-glais*
 - **locket** (small case worn on a neck-chain) — *seud-muineil* n. m., gen. *seuda-muineil*, pl. *seudan-muineil*
 - **lockout** (shutting workers out) — *glasadh-a-mach* n. m., gen. *glasaidh-a-mach*, pl. *glasaidhean-a-mach*
 - **locksmith** — *glasadair* n. m., pl. *glasadairean*
@@ -15102,7 +15102,7 @@ The same 21313 words, in the order of their English headwords. The full entries,
 - **quaternary** (fourth in order; of four parts) — *ceathramh*
 - **quay** (landing wharf) — *cidhe* n. m., gen. *cidhe*, pl. *cidhean*
 - **queasy** — *sleogach*
-- **queen** (queen) — *banrigh* n. f., gen. *banrigh*, pl. *banrighrean*
+- **queen** (queen) — *ban-rìgh* n. f., gen. *ban-rìgh*, pl. *ban-rìghrean*
 - **queer** (strange, odd) — *neònach*
 - **quell** — *mùch* v. vn. *mùchadh*
 - **quench** (slake (thirst); put out) — *caisc* v. vn. *cascadh*
@@ -15239,7 +15239,7 @@ The same 21313 words, in the order of their English headwords. The full entries,
 - **range** (range, extent, scope) — *raon* n. m., gen. *raoin*, pl. *raointean*
 - **range** (range of hills, a row, a series) — *sreath* n. f., gen. *sreatha*, pl. *sreathan*
 - **ranger** (keeper of forest or wild land) — *maor-coille* n. m., gen. *maoir-choille*, pl. *maoir-choille*
-- **rani** (Hindu queen) — *banrigh* n. f., gen. *banrigh*, pl. *banrighrean*
+- **rani** (Hindu queen) — *ban-rìgh* n. f., gen. *ban-rìgh*, pl. *ban-rìghrean*
 - **rank** (position in a hierarchy) — *inbhe* n. f., gen. *inbhe*, pl. *inbhean*
 - **rank** (row of soldiers) — *sreath* n. f., gen. *sreatha*, pl. *sreathan*
 - **ranking** (rank, standing) — *inbhe* n. f., gen. *inbhe*, pl. *inbhean*

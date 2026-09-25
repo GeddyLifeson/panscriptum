@@ -5596,16 +5596,16 @@
   },
   {
    "id": "a1-camera",
-   "en": "camera",
+   "en": "Camera",
    "level": "A1",
    "topic": "objects",
-   "rod": "cìste-scàile",
+   "rod": "ciste-scàile",
    "pos": "n",
    "g": "f",
-   "pl": "cìstean-scàile",
+   "pl": "cistean-scàile",
    "lit": "shadow-chest",
    "kenning": true,
-   "ipa": "ˈkʲʰiːʃtʃəˈskaːlʲə"
+   "ipa": "ˈkʲʰiʃtʃəˈskaːlʲə"
   },
   {
    "id": "a1-box",
@@ -67759,13 +67759,13 @@
    "rank": 1180,
    "sense": "queen",
    "pos": "n",
-   "rod": "banrigh",
+   "rod": "ban-rìgh",
    "g": "f",
-   "pl": "banrighrean",
-   "gen": "banrigh",
+   "pl": "ban-rìghrean",
+   "gen": "ban-rìgh",
+   "ipa": "ˈpanˈr̪ˠiː",
    "level": "F2",
-   "topic": "",
-   "ipa": "ˈpanʲɾʲi"
+   "topic": ""
   },
   {
    "id": "f-sitting-adj1",
@@ -106863,13 +106863,13 @@
    "rank": 5647,
    "sense": "lockable chest or cupboard",
    "pos": "n",
-   "rod": "cìste-ghlais",
+   "rod": "ciste-ghlais",
    "g": "f",
-   "pl": "cìstean-glais",
-   "gen": "cìste-glais",
+   "pl": "cistean-glais",
+   "gen": "ciste-glais",
+   "ipa": "ˈkʲʰiʃtʃəˈɣl̪ˠaʃ",
    "level": "F6",
-   "topic": "",
-   "ipa": "ˈkʲʰiːʃtʃəˈɣl̪ˠaʃ"
+   "topic": ""
   },
   {
    "id": "f-mainland-n",
@@ -202513,15 +202513,15 @@
    "rank": 17479,
    "sense": "heated box for hatching eggs or tending newborns",
    "pos": "n",
-   "rod": "cìste-guir",
+   "rod": "ciste-guir",
    "g": "f",
-   "pl": "cìstean-guir",
-   "gen": "cìste-guir",
+   "pl": "cistean-guir",
+   "gen": "ciste-guir",
    "kenning": true,
    "lit": "brooding-chest",
+   "ipa": "ˈkʲʰiʃtʃəˈkuɾʲ",
    "level": "F16",
-   "topic": "",
-   "ipa": "ˈkʲʰiːʃtʃəˈkuɾʲ"
+   "topic": ""
   },
   {
    "id": "f-inept-adj",
@@ -226854,13 +226854,13 @@
    "rank": 21008,
    "sense": "Hindu queen",
    "pos": "n",
-   "rod": "banrigh",
+   "rod": "ban-rìgh",
    "g": "f",
-   "pl": "banrighrean",
-   "gen": "banrigh",
+   "pl": "ban-rìghrean",
+   "gen": "ban-rìgh",
+   "ipa": "ˈpanˈr̪ˠiː",
    "level": "F16",
-   "topic": "",
-   "ipa": "ˈpanʲɾʲi"
+   "topic": ""
   },
   {
    "id": "f-rayon-n",

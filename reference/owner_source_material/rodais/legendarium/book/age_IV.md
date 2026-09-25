@@ -30,7 +30,7 @@ Within that same season a woman came in out of the rain whom he knew before she 
 
 He wrote nothing beside the entry. The record makes no comment, and the later chroniclers, who have made a great many, were none of them in the room.
 
-Up at the vein-house above Muileann dhearg, keeper of Crom's stone and heir to the Keepers' Hall at Dùn ìseal where Brìde's flame was first bound, the custodians sat down with the roll and counted what the Choosing would cost them. Nearly one in five of the households holding the customary right to burn the coal had entered it. They counted twice, the custody-book says, because nobody believed the first figure. Fishers and farmers were going, and the queen's own sister, and many whose hands the vein had answered.
+Up at the vein-house above Muileann dhearg, which kept Crom's stone and was heir to the Keepers' Hall at Dùn ìseal where Brìde's flame was first bound, the custodians sat down with the roll and counted what the Choosing would cost them. Nearly one in five of the households holding the customary right to burn the coal had entered it. They counted twice, the custody-book says, because nobody believed the first figure. Fishers and farmers were going, and the queen's own sister, and many whose hands the vein had answered.
 
 ## III. Of the Building of the Ships
 
@@ -81,7 +81,7 @@ For nineteen centuries the years of Dia-thìr were counted from that turn, thoug
 
 That same year a report of the fleet came into Seann Skell. By whom it came, or in what boat, the custody-book will not say; only that the harbour scribe copied it in a hand that shook. The copy came down to later keepers stained by water, and its end is gone.
 
-It tells of two landfalls, two separate coasts reached, and the keepers have read in it the seed of two later peoples where one had sailed. Which hulls went to which shore, and whether storm or quarrel or purpose parted them, is dark. Sixteen centuries later Beathag nic Thòmais of Muileann chaol found three copies of the report, and they differed in the order of the coasts and in the number of hulls. She wrote all three out side by side and chose none of them, and the library has followed her ever since.
+It tells of two landfalls, two separate coasts reached, and the keepers have read in it the seed of two later peoples where one had sailed. Which hulls went to which shore, and whether storm or quarrel or purpose parted them, is dark. Sixteen centuries later Beathag nic Thòmais of Muileann chaol found three copies of the report, and they differed in the order of the coasts and in the number of hulls. She wrote all three out side by side and chose none of them, and the Library has followed her ever since.
 
 In {{year:III-0028}} Queen Beathag struck her sister Mòrag, and Mòrag's children, from the order of succession, as persons no longer on Dia-thìr. The act stands in the roll without comment, between a grain ruling and the mending of a bridge. It is the last time the crown of Dia-thìr wrote Mòrag's name, and it wrote it in the ordinary way.
 
@@ -180,7 +180,7 @@ Raghnall had a list in his hand. His clerk had drawn it up the night before: the
 
 "None of these," he said.
 
-The master of the store looked at the list, and then at him. Since the Small-Burning Law began it had measured the coal out; no one in that yard had ever seen it used to hold the coal back. "Lord," the man said, and got no further.
+The master of the store looked at the list, and then at him. Since the Small-Burning Law began, the store had measured the coal out; no one in that yard had ever seen it used to hold the coal back. "Lord," the man said, and got no further.
 
 "None of these," said Raghnall again, and went in out of the wind.
 
@@ -278,12 +278,12 @@ At Àth shean the granary found that its firlot had worn smaller than the standa
 
 Sìleas Òg, named for the queen of the firlot, was crowned in {{year:III-0205}}, the first ruler to visit every shire seat. She ordered a new count of the households holding the right to the coal. It came out smaller than any before it, for the right had narrowed into fewer and larger households, and she had it entered without comment. In {{year:III-0208}} Clann Choinnich asked leave to burn the coal beyond the measured handful to smelt silver at Muileann chiar, arguing that it burned hotter than charcoal. The council refused. Until then the coal had been burned only for worship, and this was the first asking to burn it for work. The keepers know where that asking leads in the next age, and here they only set it down.
 
-Ailean the Fourth had the shortest reign in the king-list. His sister Mòrag nic Ailein, who followed him, reigned forty years, and her entries record nothing but good harvests and the rite. In {{year:III-0212}} the priests of Manannan met in synod at Seann Skell, restated the rule of sight-of-land, and added a prayer to be said at the foot of the river pool:
+Ailean the Fourth had the shortest reign in the king-list. His sister Mòrag nic Raghnaill, who followed him, reigned forty years, and her entries record nothing but good harvests and the rite. In {{year:III-0212}} the priests of Manannan met in synod at Seann Skell, restated the rule of sight-of-land, and added a prayer to be said at the foot of the river pool:
 
 > *A Mhanannain, cùm a' mhuir dùinte.*
 > Manannan, keep the sea shut.
 
-The library that keeps this record begins here. In {{year:III-0217}} Beathag nic Thòmais, a mill-owner's widow of Muileann chaol, began buying up old copies of the custody-book and the harbour rolls from houses that no longer read them, and stacked them in a loft over her mill. Soon a mill in the same town began making paper from rags, the first on Dia-thìr, and the custody-book was copied onto paper for the first time. Among her papers were the three copies of the landfall report. She died in {{year:III-0221}} and left the loft to the town on condition that nothing in it be burned. The town kept that condition, and very little else of her wishes.
+The Library that keeps this record begins here. In {{year:III-0217}} Beathag nic Thòmais, a mill-owner's widow of Muileann chaol, began buying up old copies of the custody-book and the harbour rolls from houses that no longer read them, and stacked them in a loft over her mill. Soon a mill in the same town began making paper from rags, the first on Dia-thìr, and the custody-book was copied onto paper for the first time. Among her papers were the three copies of the landfall report. She died in {{year:III-0221}} and left the loft to the town on condition that nothing in it be burned. The town kept that condition, and very little else of her wishes.
 
 The crown sent a reeve to list the households of the north-west coast between Baile chrom and Ceann mhòr, and he counted fewer households than harbour berths. Tormod mac Ruairidh, crowned in {{year:III-0222}}, reigned more than fifty years. In {{year:III-0223}} Manannan's priests at Seann Skell began saying their prayer to keep the sea shut on the same day as the empty-harbour rite, so that the two were kept together on Cidhe an Diosail. Neither side was pleased.
 

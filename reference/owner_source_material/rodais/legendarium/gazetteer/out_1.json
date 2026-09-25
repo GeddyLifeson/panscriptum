@@ -30,7 +30,7 @@
  "174": {
   "founded_age": "IV",
   "founded_by": "Dia-thìrich ford-wardens, resettled by the Tuathaich",
-  "history": "A long ford on the north-western roads, held by a Dia-thìrich warden-family through the quiet centuries of the Sundering. After the Severance its houses were emptied and given to Tuathaich families shepherded north, who raised the present walls and made it one of the chief towns of their homeland. The Tuathaich here keep the faith of the Church, and their church stands among the shrines the Dia-thìrich left behind; the ford is still paid for in toll. Its dubhan works, the largest in the north-west, are now its chief trade, and it binds books, a craft the Tuathaich learned at Muileann leathan.",
+  "history": "A long ford on the north-western roads, held by a Dia-thìreach warden-family through the quiet centuries of the Sundering. After the Severance its houses were emptied and given to Tuathaich families shepherded north, who raised the present walls and made it one of the chief towns of their homeland. The Tuathaich here keep the faith of the Church, and their church stands among the shrines the Dia-thìrich left behind; the ford is still paid for in toll. Its dubhan works, the largest in the north-west, are now its chief trade, and it binds books, a craft the Tuathaich learned at Muileann leathan.",
   "known_for": "the long ford and its toll"
  },
  "175": {
@@ -170,7 +170,7 @@
  "196": {
   "founded_age": "III",
   "founded_by": "grain-millers of the Holy Age",
-  "history": "The smaller and older of the two Muileann chaols, a narrow mill beside a small keep in the eastern hills. The great library stands in its namesake to the south-east, and the library's carriers are said still to bring misaddressed parcels here. It is a town of the druid schools, and its mill feeds the villages of Achadh gharbh and Tobar dhubh.",
+  "history": "The smaller of the two Muileann chaols, a narrow mill beside a small keep in the eastern hills. The great library stands in its namesake to the south-east, and the library's carriers are said still to bring misaddressed parcels here. It is a town of the druid schools, and its mill feeds the villages of Achadh gharbh and Tobar dhubh.",
   "known_for": "the library's misaddressed parcels"
  },
  "197": {
@@ -190,7 +190,7 @@
    -2868
   ],
   "founded_by": "charcoal-burners of the black hill",
-  "history": "A black hill where charcoal burners worked through the long centuries of the Sundering, the Small-Burning Law forbidding them the coloured coal. It is the largest of the cluster of Cnocs in the eastern hills and their common market. It follows the druid schools of the Old Faith, and its charcoal is still sold to smiths who will not work with dubhan.",
+  "history": "A black hill where charcoal burners worked through the long centuries of the Sundering, the Small-Burning Law allowing them no more than a handful of the coloured coal. It is the largest of the cluster of Cnocs in the eastern hills and their common market. It follows the druid schools of the Old Faith, and its charcoal is still sold to smiths who will not work with dubhan.",
   "known_for": "its charcoal for the smithies"
  },
  "199": {
@@ -271,7 +271,7 @@
  "210": {
   "founded_age": "IV",
   "founded_by": "the peat-cutters of the northern moor",
-  "history": "A black hill of peat in the north, cut for fuel since the Small-Burning Law left the coloured coal to the custodians and ordinary hearths to turf. It is the road-town for Baile mhòr and Àth shean and follows the druid schools of the Old Faith. The peat-banks are now nearly as worked out as the vein.",
+  "history": "A black hill of peat in the north, cut for fuel since the Small-Burning Law held every hearth to its handful of the coloured coal and left the rest of its fire to turf. It is the road-town for Baile mhòr and Àth shean and follows the druid schools of the Old Faith. The peat-banks are now nearly as worked out as the vein.",
   "known_for": "its peat cut from the black hill"
  },
  "211": {
@@ -290,7 +290,7 @@
   "founded_age": "IV",
   "founded_by": "Dia-thìrich millers of the Seann Skell country",
   "history": "A crooked mill on the edge of the north-west, left in Dia-thìrich hands when the Tuathaich homeland was fixed around it. It keeps the order of Manannan, whose sea-feasts its Tuathaich neighbours keep beside their church's, and its millers have ground for both peoples since the Severance. Cnoc ghlas and Àth àrsaidh over the line buy its flour.",
-  "known_for": "a Dia-thìrich mill on the Tuathaich line"
+  "known_for": "a Dia-thìreach mill on the Tuathaich line"
  },
  "214": {
   "founded_age": "III",
@@ -313,7 +313,7 @@
  "217": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich hill-lords, resettled by the Tuathaich",
-  "history": "A pale hill with a citadel built by a Dia-thìrich family in the Holy Age, taken over by the Tuathaich when their homeland was fixed. The Tuathaich garrison it as a guard-post on their southern marches, and it follows the faith of the Church. The town sells cattle and hides to Cnoc àrsaidh.",
+  "history": "A pale hill with a citadel built by a Dia-thìreach family in the Holy Age, taken over by the Tuathaich when their homeland was fixed. The Tuathaich garrison it as a guard-post on their southern marches, and it follows the faith of the Church. The town sells cattle and hides to Cnoc àrsaidh.",
   "known_for": "the Tuathaich southern guard-post"
  },
  "218": {
@@ -411,7 +411,7 @@
  "231": {
   "founded_age": "III",
   "founded_by": "wood-watchers of the western wood",
-  "history": "A holy city near the ruins of Làrach an Dùin-fhaire, built in the last years of the Holy Age as a seat of learning by the wood-watchers, whose rite became the order of Macha. The ruins are said to have been older than any Dia-thìrich memory when the city was founded, and the druids left them as they were. It is unwalled and trades with the harbour of Seann Chwen and with Ceann leathan.",
+  "history": "A holy city near the ruins of Làrach an Dùin-fhaire, built in the last years of the Holy Age as a seat of learning by the wood-watchers, whose rite became the order of Macha. The ruins are said to have been older than any Dia-thìreach memory when the city was founded, and the druids left them as they were. It is unwalled and trades with the harbour of Seann Chwen and with Ceann leathan.",
   "known_for": "the druids' city by the old outpost"
  },
  "232": {
@@ -438,7 +438,7 @@
    -5974
   ],
   "founded_by": "weaving households of the north; resettled by the Tuathaich",
-  "history": "A wide mill on a northern stream, walled with a citadel, and the seat of Siorrachd Muileann leathan. It was a Dia-thìrich town until the Severance, when the Tuathaich took it over as one of the principal towns of their homeland. It is a centre of the Tuathaich Church, and its keep is where the Tuathaich northern coast is governed.",
+  "history": "A wide mill on a northern stream, walled with a citadel, and the seat of Siorrachd Muileann leathan. It was a Dia-thìreach town until the Severance, when the Tuathaich took it over as one of the principal towns of their homeland. It is a centre of the Tuathaich Church, and its keep is where the Tuathaich northern coast is governed.",
   "known_for": "the Tuathaich mill-citadel"
  },
  "235": {
@@ -450,7 +450,7 @@
  "236": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich shore-lords, resettled by the Tuathaich",
-  "history": "An ancient walled town near the harbour of Caol mhòr, one of the Dia-thìrich towns resettled by the Tuathaich after the Severance. The walls are older than any Dia-thìrich memory of them, and the Tuathaich have kept them. It follows the faith of the Church.",
+  "history": "An ancient walled town near the harbour of Caol mhòr, one of the Dia-thìrich towns resettled by the Tuathaich after the Severance. The walls are older than any Dia-thìreach memory of them, and the Tuathaich have kept them. It follows the faith of the Church.",
   "known_for": "its old walls in the Tuathaich north"
  },
  "237": {
@@ -542,7 +542,7 @@
  "249": {
   "founded_age": "I",
   "founded_by": "the Seann-Dhaoine",
-  "history": "A harbour of the Seann-Dhaoine on the eastern coast, named Seann Tarr by the Dia-thìrich, and the seat of the shire of the same name. It is a large village that follows the Old Spirits. The eastern pirates made it unsafe in the Age of Strangers, and it has a small fleet of its own.",
+  "history": "A harbour of the Seann-Dhaoine on the eastern coast, named Seann Tarr by the Dia-thìrich, and the seat of the shire of the same name. It is a large village that follows the Old Spirits. Gailleann Ghlas, the grey storm, destroyed its harbour in the Age of Sundering, and for long its boats sailed from Cuan ruadh. The eastern pirates made it unsafe in the Age of Strangers, and it has a small fleet of its own again.",
   "known_for": "the old eastern harbour and fleet"
  },
  "250": {
@@ -625,7 +625,7 @@
  "260": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich headland-fishers, resettled by the Tuathaich",
-  "history": "A black headland harbour on the north-west coast, all but joined to the city of Inis àrsaidh. It was a Dia-thìrich fishing town until the Severance and has been a Tuathaich harbour since. It follows the faith of the Church, and its boats sail with Inis àrsaidh's.",
+  "history": "A black headland harbour on the north-west coast, all but joined to the city of Inis àrsaidh. It was a Dia-thìreach fishing town until the Severance and has been a Tuathaich harbour since. It follows the faith of the Church, and its boats sail with Inis àrsaidh's.",
   "known_for": "the black headland beside Inis àrsaidh"
  },
  "261": {
@@ -714,7 +714,7 @@
  "274": {
   "founded_age": "III",
   "founded_by": "millers of the green wood",
-  "history": "A green mill in the wooded middle west, one of the few towns where Òrd an t-Seabhaig, the Hawk order, whose rite is the older form of Òrd Bhrìde's, still holds. The carved hawk over the mill-door is said to be as old as the Binding of the First Flame. A' Phlàigh Uaine, the Green Death, struck it in the Age of Strangers, and since then the second sense of 'uaine' has clung to its name.",
+  "history": "A green mill in the wooded middle west, one of the few towns where Òrd an t-Seabhaig, the Hawk order, which never took Òrd Bhrìde's written order of worship, still holds. The carved hawk over the mill-door is said to be as old as the Binding of the First Flame. A' Phlàigh Uaine, the Green Death, struck it in the Age of Strangers, and since then the second sense of 'uaine' has clung to its name.",
   "known_for": "the Hawk-order mill"
  },
  "275": {
@@ -894,8 +894,8 @@
  "301": {
   "founded_age": "III",
   "founded_by": "fishers of the north coast",
-  "history": "A small harbour on the northern strait, older than its far larger namesake inland and the one that gave that town its name. It keeps the Old Spirits and is a quiet fishing town, though An ceathramh rèisimeid, stationed at the larger Caol bheag, sends its patrols here. It stands on Eilean fhada, the long island off the north coast, and the strait it is named for is the sound between that island and Dia-thìr.",
-  "known_for": "the elder Caol bheag on the strait"
+  "history": "A small harbour on the northern strait, whose name, the small strait, fits it better than it fits its far larger namesake inland. It keeps the Old Spirits and is a quiet fishing town, though An ceathramh rèisimeid, stationed at the larger Caol bheag, sends its patrols here. It stands on Eilean fhada, the long island off the north coast, and the strait it is named for is the sound between that island and Dia-thìr.",
+  "known_for": "the Caol bheag of the strait"
  },
  "302": {
   "founded_age": "III",
@@ -953,7 +953,7 @@
    1900
   ],
   "founded_by": "miners of the western hills",
-  "history": "A deep well-village in the western hills, dug to supply a mining camp that has since been abandoned. It is one of the smallest villages on the island and follows the order of Manannan. The grassland above the village is where the Leaden Hawk company kept its watch on the road from Ros bheag in the first spring of the Severance war.",
+  "history": "A deep well-village in the western hills, dug to supply a mining camp that has since been abandoned. It is one of the smallest villages on the island and follows the order of Manannan. The grassland above the village is where the Leaden Hawk company kept its watch on the road from Ros bheag in the second spring of the Severance war.",
   "known_for": "the well of a lost camp"
  },
  "309": {
@@ -1086,7 +1086,7 @@
  "327": {
   "founded_age": "IV",
   "founded_by": "Dia-thìrich millers, resettled by the Tuathaich",
-  "history": "A small mill town on the north coast beside Taigh-solais Muileann bheag, one of the five lighthouses built in the Age of Strangers. It became Tuathaich at the Severance, and the Tuathaich lighthouse-keepers tended the beacon for the kingdom until it was converted to dubhan. It follows the Tuathaich Church.",
+  "history": "A small mill town on the north coast beside Taigh-solais Muileann bheag, one of the five lighthouses built in the Age of Strangers. It became Tuathaich at the Severance, but the beacon was tended by the kingdom's Dia-thìrich keepers until it was converted to dubhan. It follows the Tuathaich Church.",
   "known_for": "Taigh-solais Muileann bheag"
  },
  "328": {
@@ -1104,7 +1104,7 @@
  "330": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich island-lords, resettled by the Tuathaich",
-  "history": "An ancient island city on the north-west coast, all but joined to Ceann dhubh. It was a Dia-thìrich harbour-city until the Severance and has been Tuathaich since. It follows the faith of the Church and is one of the few Tuathaich harbours with a fleet of its own.",
+  "history": "An ancient island city on the north-west coast, all but joined to Ceann dhubh. It was a Dia-thìreach harbour-city until the Severance and has been Tuathaich since. It follows the faith of the Church and is one of the few Tuathaich harbours with a fleet of its own.",
   "known_for": "the Tuathaich island harbour"
  },
  "331": {
@@ -1145,13 +1145,13 @@
  "336": {
   "founded_age": "IV",
   "founded_by": "druids of the Hungry Hawk",
-  "history": "A long field village in the wooded middle west, one of the few settlements where Òrd an t-Seabhaig, the Hawk order, whose rite is the older form of Òrd Bhrìde's, still holds. A' Phlàigh Uaine, the Green Death, struck it in the Age of Strangers. Its fields feed the Hawk-order mill at Muileann uaine.",
+  "history": "A long field village in the wooded middle west, one of the few settlements where Òrd an t-Seabhaig, the Hawk order, which never took Òrd Bhrìde's written order of worship, still holds. A' Phlàigh Uaine, the Green Death, struck it in the Age of Strangers. Its fields feed the Hawk-order mill at Muileann uaine.",
   "known_for": "the Hawk-order fields"
  },
  "337": {
   "founded_age": "III",
   "founded_by": "Dia-thìrich hill-lords, resettled by the Tuathaich",
-  "history": "A tiny ancient hill with a citadel, far larger than the handful of people who now live in it. It was a Dia-thìrich keep until the Severance and has been a Tuathaich watch-post since. It follows the faith of the Church.",
+  "history": "A tiny ancient hill with a citadel, far larger than the handful of people who now live in it. It was a Dia-thìreach keep until the Severance and has been a Tuathaich watch-post since. It follows the faith of the Church.",
   "known_for": "an empty citadel on the southern march"
  },
  "338": {

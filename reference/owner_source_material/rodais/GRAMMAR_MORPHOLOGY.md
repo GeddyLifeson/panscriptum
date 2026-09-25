@@ -139,7 +139,7 @@ Seann Tarr, Seann Toll* beside *Seann Chwen, Seann Bhral*.
 | masc. dat. sg. | *s* + vowel, *sl, sn, sr* | *anns an t-sabhal, air an t-sliabh* |
 
 Where the article would lenite an *s*, it prefixes *t-* instead, and the *s* goes silent: *an
-t-sùil* /ən̪ˠ ˈt̪uːl/. The *t* is the article's own old final consonant, kept where the *s* has given
+t-sùil* /ən̪ˠ ˈt̪uːlʲ/. The *t* is the article's own old final consonant, kept where the *s* has given
 way to it. *sc, sp, st, sm* take nothing: *an sporan, an stòl, an sceul*.
 
 ### 1.6 The prefixed *h-* and *n-*; traces of eclipsis
@@ -167,7 +167,7 @@ traces:
 |---|---|---|
 | the *-n/-m* of the trigger itself, *m* before a labial | *nan / nam, an / am, gun / gum, ann an / ann am* | *nam bàtaichean, am bàta aca, gum faic, ann am bàta* |
 | *n-* before vowels after *ar, ur* | *n-* | *ar n-òran, ur n-eich* |
-| the nasalised stop in speech | not written | *am bàta* is said [əm ˈbaːht̪ə] with voiced *b*, *nan con* with [ŋg] |
+| the nasalised stop in speech | not written | *an cù* is said [əŋ ˈɡuː] with voiced *g*; *nam bàtaichean* [nə ˈmaːʰt̪ɪçan], with the nasal in place of *b* |
 
 The assimilation of *n* to *m* before *b, f, m, p* is written everywhere a particle ends in *-n*:
 *am* (article, interrogative, "their"), *nam* (gen. pl. article; unreal "if"), *gum* ("that"),
@@ -272,7 +272,7 @@ the rest (§0.1).
 
 ### 3.1 Gender
 
-Every noun is masculine or feminine; the Dictionary gives the gender of each of its 2,520
+Every noun is masculine or feminine; the Dictionary gives the gender of each of its 11,965
 nouns. Gender shows in the article (*am balach, a' bhean*), in adjective lenition (*balach mòr,
 bean mhòr*), in the pronoun that refers back (*e, i*), and in the genitive and dative forms.
 Natural gender mostly wins (*bean, màthair, piuthar, nighean* f.; *fear, athair, bràthair, mac*
@@ -523,7 +523,7 @@ The vocative follows the particle *a*, which lenites. Before a vowel the particl
 |---|---|---|
 | singular | *a* + *L* + slender (= gen. sg.): *a bhalaich!, a bhàird!, a fhir!, a Fhinn!, a Chiain!* | *a* + *L* + nom.: *a bhean!, a mhàthair!, a Mhàiri!* |
 | vowel-initial names | *a Aonghais!* (slenderised) | *a Aisling!* (unchanged) |
-| vowel-final nouns | *a dhuine!, a ghobha!, a ghille!* (unchanged but lenited) | *a nighean!* |
+| vowel-final nouns | *a dhuine!, a ghobha!, a ghille!* (unchanged but lenited) | *a bhò!* |
 | plural | strong plurals: nom. sg. + *-a*: *a fheara!, a bhalacha!, a bhàrda!*; weak plurals: nom. pl. + *L*: *a chàirdean!, a dhaoine!* | *a mhnathan!, a chaileagan!* |
 
 *Cian* → *a Chiain*, *Dubhan* → *a Dhubhain*: Dia-thìris slenderises every masculine name in the
@@ -564,7 +564,7 @@ Each noun's plural is given in the Dictionary, but plurals fall into classes:
 | **-aichean / -ichean** | nouns in a vowel, and many in *-ar, -air* with syncope | *bàta → bàtaichean, bliadhna → bliadhnaichean, leabhar → leabhraichean, litir → litrichean, obair → obraichean, cathair → cathraichean, màthair → màthraichean, athair → athraichean, abhainn → aibhnichean, tobar → tobraichean* |
 | **-achan / -eachan** | vowel-final nouns, many masculine | *cridhe → cridheachan, talla → tallachan, co-ogha → co-oghaichean* |
 | **-annan / -eannan** | | *oidhche → oidhcheannan, muir → marannan, leabaidh → leapannan, àm → amannan* |
-| **-(e)an with syncope** | a medial unstressed vowel drops | *muileann → muilnean, ùbhal → ùbhlan, seòmar → seòmraichean, dorus → dorsan, tùr → tùir* |
+| **-(e)an with syncope** | a medial unstressed vowel drops | *muileann → muilnean, ubhal → ùbhlan, seòmar → seòmraichean, dorus → dorsan, tùr → tùir* |
 | **irregular** | | *bean → mnathan, duine → daoine, bò → bà, piuthar → peathraichean, bràthair → bràithrean, latha → làithean, taigh → taighean, dia → diathan, sluagh → slòigh* |
 
 **Older plurals.** Dia-thìris keeps its strong plurals and has not let *-an* take their place, as the
@@ -577,10 +577,12 @@ noun of its own, "a small loch" (pl. *lochain*).
 eòin-iarainn, taigh-freiceadain → taighean-freiceadain, each-cuibhle → eich-chuibhle* (the
 describer lenites after the slender plural, §4.1 rule 4).
 
-**Nouns after numerals** take the plural from 3 to 10 (*trì coin, còig brògan*) and the singular
-after 11 and upwards (*fichead cù, ceud bliadhna*). A small old set keeps the singular after every
-numeral, relics of the old counted forms: *bliadhna, latha, uair*: *trì bliadhna, còig latha,
-dà uair* "twice; two o'clock". See §8.
+**Nouns after numerals** take the plural from 3 to 10 (*trì coin, còig brògan*), follow the unit
+in the teens (*trì bàtaichean deug*), and take the singular after *fichead* and the other tens, *ceud*
+and *mìle* (*fichead cù, ceud bliadhna*). A small old set keeps the singular after every numeral,
+relics of the old counted forms: *bliadhna* and *latha*: *trì bliadhna, còig latha*. *Uair* is
+singular after *aon* and *dà* (*dà uair* "twice; two o'clock") and plural from three (*trì uairean*).
+See §8.
 
 ### 3.10 Collective nouns
 
@@ -743,7 +745,7 @@ copula's tenses (§7): *as* in the present and future, *a bu* + *L* in the past 
 caora* "as gentle as a sheep", *cho domhainn ris an talamh* "as deep as the earth"; with a clause,
 *cho ... 's a*: *cho luath 's a b' urrainn dha* "as fast as he could". *Cho* does not lenite: *cho
 mòr, cho beag*. Before a following clause of result, *cho ... 's gun*: *bha e cho ciùin 's gun
-deach sianar dhiubh air a mhuin* "it was so calm that six of them got on its back".
+deach sianar dhiubh air a mhuin* "it was so gentle that six of them got on its back".
 
 **Nouns of degree.** Beside the comparative, most common adjectives have a noun of degree, used
 for "how big", "its length": *meud* "size" (*a mheud*), *fad* "length" (*fad na h-oidhche* "all
@@ -768,7 +770,7 @@ adjective does not inflect.
 | *seann* (pred. *sean*) | old | *L*, dental block | *seann bhean, seann chù, seann taigh, seann duine, seann sagart*; pl. *seann daoine, na seann bhailtean* |
 | *deagh* | good | *L* | *deagh dhuine, deagh bhiadh, deagh shìde* |
 | *droch* | bad | *L* | *droch dhuine, droch shìde, droch bhliadhna* |
-| *sàr* | excellent, supreme | *L* | *sàr-bhàrd, sàr-ghaisgeach, sàr-mhath* |
+| *sàr* | excellent, supreme | *L* | *sàr-bhàrd, sàr-ghaisceach, sàr-mhath* |
 | *fìor* | true, very | *L* | *fìor charaid, fìor-uisce* "spring water", *fìor mhath* |
 | *prìomh* | chief | *L* | *prìomh-bhaile* "capital town", *prìomh-chathair* "capital city" |
 | *àrd* | high, chief (in compounds) | *L* | *àrd-rìgh* "high king", *àrd-bhàrd* |
@@ -1040,7 +1042,7 @@ Four models: *tog* "lift, build" (broad), *bris* "break" (slender), *òl* "drink
 and *fàg* "leave" (*f*-initial). The ending is broad or slender by the last vowel of the root;
 the initial is lenited in the independent past and conditional, with *dh'*
 before a vowel and before *fh* + vowel (*dh'fhàg*); before *fh* + consonant the lenited form stands
-alone (*fhreagair* "answered", *fhliuch* "wetted", as in the tale of Fionn).
+alone (*fhreagair* "answered", as in the tale of Fionn; *fhliuch* "wetted").
 
 **Past**
 
@@ -1222,7 +1224,7 @@ take a plural ending.
 | *tog* | *togte* "built" | *cruinnich* | *cruinnichte* "gathered" |
 
 *An cnoc loiscte* "the burnt hill" (tale of the coal-blood), *bean phòsta* "a married woman", *bròg
-thollta* "a holed shoe" (the kenning for "flat tyre"). The ending is written *-te* after
+thollta* "a holed shoe" (hyphenated, *bròg-thollta*, the kenning for "flat tyre"). The ending is written *-te* after
 a broad consonant too (*togte, pòsta* beside *loiscte*); the ending stands outside *caol le caol*.
 
 Two other adjectival forms of the verb:
@@ -1575,8 +1577,8 @@ tales (*The grammar in brief* §10). Twenty is the unit, and the units above it 
 | 80 | *ceithir fichead* | |
 | 100 | *ceud* (older *còig fichead*) | |
 
-*Tha e trì fichead bliadhna 's a deich a dh'aois* "he is seventy years old". *Bliadhna*, *latha*
-and *uair* stay singular after every numeral (§3.9).
+*Tha e trì fichead bliadhna 's a deich a dh'aois* "he is seventy years old". *Bliadhna* and *latha*
+stay singular after every numeral (§3.9).
 
 ### 8.3 Ordinals
 
@@ -1780,7 +1782,7 @@ Anchor Era, and later the kingdom needed words for things of its own making. Dia
 humans' words for these things (*The grammar in brief* §13). For most of them its speakers made a
 name as the language had long named the *each-uisce* and the *taigh-òsta*: a loose compound of old
 roots that says what the thing does or what it is like. Such a name is called a kenning. The
-Dictionary lists 609 of them, each with its literal sense.
+Dictionary lists 1,634 of them, each with its literal sense.
 
 In its forms a kenning is an ordinary **head-first loose compound** (§9.6): a head noun, a
 describer in the genitive (or an adjective, a genitive plural, a prepositional phrase),

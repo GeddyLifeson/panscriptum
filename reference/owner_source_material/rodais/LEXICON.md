@@ -1915,6 +1915,8 @@ Here are 21313 words of the Dia-thìris tongue, in the order of their headwords;
 - **ban-ogha** n. (f., gen. *ban-ogha*, pl. *ban-oghaichean*) — granddaughter (daughter's or son's daughter) /ˈpanˈɔ.ə/ `F10`
 - **ban-oide** n. (f., gen. *ban-oide*, pl. *ban-oidean*) — governess (woman who teaches children at home) /ˈpanˈɔtʃə/ `F16`
 - **ban-oighre** n. (f., gen. *ban-oighre*, pl. *ban-oighrean*) — heiress (female heir) /ˈpanˈɤiɾʲə/ `F16`
+- **ban-rìgh** n. (f., gen. *ban-rìgh*, pl. *ban-rìghrean*) — queen (queen) /ˈpanˈr̪ˠiː/ `F2`
+- **ban-rìgh** n. (f., gen. *ban-rìgh*, pl. *ban-rìghrean*) — rani (Hindu queen) /ˈpanˈr̪ˠiː/ `F16`
 - **ban-sagart** n. (f., gen. *ban-sagairt*, pl. *ban-sagartan*) — priestess (female priest) /ˈpanˈsakəɾt̪/ `F16`
 - **ban-sheinneadair** n. (f., gen. *ban-sheinneadair*, pl. *ban-sheinneadairean*) — diva (celebrated female singer) /ˈpanˈheɲət̪ɪɾʲ/ `F12`
 - **bana-bharan** n. (f., gen. *bana-bharain*, pl. *bana-bharanan*) — baroness (woman holding a barony) /ˈpanəˈvaɾan/ `F13`
@@ -1948,8 +1950,6 @@ Here are 21313 words of the Dia-thìris tongue, in the order of their headwords;
 - **banntrach uasal** n. (f., gen. *banntraich uasail*, pl. *banntraichean uasal*) — dowager (widow holding a title) /ˈpaun̪ˠt̪ɾəx ˈuəsəl̪ˠ/ `F16`
 - **banntrachan** n. (m., gen. *banntrachain*, pl. *banntrachain*) — widower (man whose wife has died) /ˈpaun̪ˠt̪ɾəxan/ `F16`
 - **na banntraich** phr. — widowed (having lost one's spouse ('tha i na banntraich')) /nə ˈpaun̪ˠt̪ɾɪç/ `F16`
-- **banrigh** n. (f., gen. *banrigh*, pl. *banrighrean*) — queen (queen) /ˈpanʲɾʲi/ `F2`
-- **banrigh** n. (f., gen. *banrigh*, pl. *banrighrean*) — rani (Hindu queen) /ˈpanʲɾʲi/ `F16`
 - **baobh** n. (f., gen. *baoibhe*, pl. *baobhan*) — hag (ugly old woman, witch) /ˈpɯːv/ `F16`
 - **baoth** adj. — dumb (foolish) /ˈpɯː/ `F3`
 - **baoth** adj. — goofy (silly) /ˈpɯː/ `F10`
@@ -4361,8 +4361,8 @@ Here are 21313 words of the Dia-thìris tongue, in the order of their headwords;
 - **ciste-fhiodha** n. (f., pl. *cisteachan-fiodha*) — crate (wooden chest for goods) /ˈkʲʰiʃtʃəˈi.ə/ `F12`
 - **ciste-fiosa** ✦ n. (f.) — database; lit. "knowledge-chest" /ˈkʲʰiʃtʃəˈfisə/ `B2`
 - **ciste-ghaoithe** ✦ n. (f., gen. *ciste-gaoithe*, pl. *cisteachan-gaoithe*) — accordion (bellows instrument with keys); lit. "wind-chest" /ˈkʲʰiʃtʃəˈɣɯː.ə/ `F16`
-- **cìste-ghlais** n. (f., gen. *cìste-glais*, pl. *cìstean-glais*) — locker (lockable chest or cupboard) /ˈkʲʰiːʃtʃəˈɣl̪ˠaʃ/ `F6`
-- **cìste-guir** ✦ n. (f., gen. *cìste-guir*, pl. *cìstean-guir*) — incubator (heated box for hatching eggs or tending newborns); lit. "brooding-chest" /ˈkʲʰiːʃtʃəˈkuɾʲ/ `F16`
+- **ciste-ghlais** n. (f., gen. *ciste-glais*, pl. *cistean-glais*) — locker (lockable chest or cupboard) /ˈkʲʰiʃtʃəˈɣl̪ˠaʃ/ `F6`
+- **ciste-guir** ✦ n. (f., gen. *ciste-guir*, pl. *cistean-guir*) — incubator (heated box for hatching eggs or tending newborns); lit. "brooding-chest" /ˈkʲʰiʃtʃəˈkuɾʲ/ `F16`
 - **ciste-laighe** n. (f., gen. *ciste-laighe*, pl. *cisteachan-laighe*) — casket (coffin; small chest) /ˈkʲʰiʃtʃəˈl̪ˠa.ə/ `F15`
 - **ciste-laighe** n. (f., gen. *ciste-laighe*, pl. *cisteachan-laighe*) — coffin (box for burying the dead) /ˈkʲʰiʃtʃəˈl̪ˠa.ə/ `F7`
 - **ciste-litreach** ✦ n. (f., gen. *ciste-litreach*, pl. *cisteachan-litreach*) — inbox (place where incoming letters land); lit. "letter-chest" /ˈkʲʰiʃtʃəˈʎiʰtʃɾʲəx/ `F11`
@@ -4370,7 +4370,7 @@ Here are 21313 words of the Dia-thìris tongue, in the order of their headwords;
 - **ciste-mhullaich** ✦ n. (f.) — overhead compartment; lit. "roof-chest" /ˈkʲʰiʃtʃəˈvul̪ˠɪç/ `C2`
 - **ciste-reothaidh** ✦ n. (f., gen. *ciste-reothaidh*, pl. *cisteachan-reothaidh*) — freezer (cold store that freezes food); lit. "frost-chest" /ˈkʲʰiʃtʃəˈr̪ˠɔhi/ `F9`
 - **ciste-rothan** ✦ n. (f., gen. *ciste-rothan*, pl. *cisteachan-rothan*) — gearbox (box of gears in an engine); lit. "wheel-chest" /ˈkʲʰiʃtʃəˈr̪ˠɔhan/ `F16`
-- **cìste-scàile** ✦ n. (f., pl. *cìstean-scàile*) — camera; lit. "shadow-chest" /ˈkʲʰiːʃtʃəˈskaːlʲə/ `A1`
+- **ciste-scàile** ✦ n. (f., pl. *cistean-scàile*) — Camera; lit. "shadow-chest" /ˈkʲʰiʃtʃəˈskaːlʲə/ `A1`
 - **ciste-scudail** n. (f., gen. *ciste-scudail*, pl. *cisteachan-scudail*) — bin (container for rubbish) /ˈkʲʰiʃtʃəˈskut̪ɪlʲ/ `F4`
 - **ciste-spionnaidh** ✦ n. (f.) — battery; lit. "strength-chest" /ˈkʲʰiʃtʃəˈspin̪ˠi/ `A2`
 - **ciste-tharraing** ✦ n. (f., gen. *ciste-tarraing*, pl. *cisteachan-tarraing*) — drawer (sliding box in furniture); lit. "pull-chest" /ˈkʲʰiʃtʃəˈhaːr̪ˠɪɲkʲ/ `F8`

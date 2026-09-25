@@ -19,7 +19,7 @@ and these are marked (T).
 ### 0.1 Register: the Dia-thìris norm is the conservative one
 
 Dia-thìris is the tongue of an old island that has long kept to itself, and its norm is the
-conservative one. For centuries the island's scribes and the library at Muileann chaol have held
+conservative one. For centuries the island's scribes and the Library at Muileann chaol have held
 good speech close to the written language. Where the language has an older, literary construction
 beside a newer spoken one, the norm is the older, in speech as well as in writing (*Word forms*
 §0.1). The newer constructions are heard in casual talk, and this chapter marks them
@@ -209,8 +209,8 @@ nad, na, na, nar, nur, nan* (see the table in §2.7):
 
 (16)  Nuair  a    bha     mi   nam          bhalach,  bha     mi   a'    fuireach  aig
       when   REL  be.PST  1SG  in.1SG.POSS  boy       be.PST  1SG  PROG  live.VN   at
-      Ceann  Dubh.
-      Ceann  Dubh
+      Ceann  dhubh.
+      Ceann  dhubh
       ‘When I was a boy, I lived at Ceann Dubh.’
 ```
 
@@ -402,7 +402,7 @@ ann*:
 
 (44)  Cha  b'       e      ainm  a    thagh       iad  fhèin  a    bh'     ann.
       NEG  COP.PST  3SG.M  name  REL  choose.PST  3PL  self   REL  be.PST  in.3SG.M
-      ‘It was not a name they chose themselves. (T)’
+      ‘It was not a name they chose themselves.’
 ```
 
 A fronted adjective with *is ann* is common in exclamation and contrast; the older pattern puts the
@@ -566,7 +566,7 @@ object is grammatically the possessor of the verbal noun ("at the reading of the
 
 (66)  Bidh    iad  a'    loscadh  mònach    an àite     guail.
       be.FUT  3PL  PROG  burn.VN  peat.GEN  instead.of  coal.GEN
-      ‘They burn peat instead of coal. (T)’
+      ‘They burn peat instead of coal.’
 ```
 
 **Usage.** Speech often leaves an indefinite object in the nominative (*a' leughadh leabhar*).
@@ -641,7 +641,7 @@ possessive fuses into *gam, gad, ga, ga, gar, gur, gan*:
 
 (76)  Cha  robh        duine   eile   ga          iarraidh.
       NEG  be.PST.DEP  person  other  PROG.3SG.M  want.VN
-      ‘No one else wanted it. (T)’
+      ‘No one else wanted it.’
 
 (77)  Feumaidh  mi   a    dùnadh.
       must.FUT  1SG  her  close.VN
@@ -1330,7 +1330,7 @@ rather". The thing liked is the subject of the copula; the one who likes is in *
 
 (156) Is   fheàrr  leinn     a   bhith  fuar  agus  saor.
       COP  better  with.1PL  to  be.VN  cold  and   free
-      ‘We would rather be cold and free. (T)’
+      ‘We would rather be cold and free.’
 
 (157) Bu        toil      leam      deoch  uisce.
       COP.COND  pleasing  with.1SG  drink  water.GEN
@@ -1442,7 +1442,7 @@ can be ambiguous; word order and sense decide:
       the  families       REL  say.PST  NEG    be.PRS.DEP  1PL   for     to  be.VN  under
       fhiachan"
       debts
-      ‘the families who said "We don't want to be in debt" (T)’
+      ‘the families who said "We don't want to be in debt"’
 ```
 
 Before a vowel and before *f* the particle is *a dh'*: *an duine a dh'òl an t-uisce* "the man who
@@ -1496,7 +1496,7 @@ a-deir*). Of all these the language has kept one, the future.
 
 In a relative clause the copula is *as* (present) and *a bu* / *a b'* (past): *an rud as toil
 leam* "the thing I like", *an duine as sine* "the eldest person" (the superlative, §8.6), *na bha
-aca de ghoireasan* "whatever goods they had" (T). Negative *nach*: *an rud nach toil leam*.
+aca* "what they had" (T). Negative *nach*: *an rud nach toil leam*.
 
 ### 6.4 Indirect and prepositional relatives
 
@@ -1518,13 +1518,13 @@ ris an, leis an, don, bhon, fon*:
       the  man    to   REL  PST  speak.PST   1SG
       ‘the man I spoke to’
 
-(182) loch  dorcha  ris  an   canadh        daoine  Loch  Dubh
-      loch  dark    to   REL  say.COND.DEP  people  Loch  Dubh
+(182) loch  dorcha  ris  an   canadh        daoine  Loch  dhubh
+      loch  dark    to   REL  say.COND.DEP  people  Loch  dhubh
       ‘a dark loch that people called Loch Dubh (T)’
 
 (183) na   daoine  aig  an   robh        an   fhuil-ghuail
       the  people  at   REL  be.PST.DEP  the  coal-blood
-      ‘the people who had the coal-blood (T)’
+      ‘the people who had the coal-blood’
 ```
 
 **Colloquial.** Speech leaves the preposition at the end, as a prepositional pronoun, after a
@@ -1788,7 +1788,7 @@ scàth 's gun* "because" take the dependent form; *on a* "since, seeing that" th
       take.PST  3PL  to   the  name  with  pride   for  NEG  be.PST.DEP  debts    on.3PL
       do  dhuine.
       to  person
-      ‘They took the name with pride, for they owed no debt to anyone. (T)’
+      ‘They took the name with pride, for they owed no debt to anyone.’
 
 (214) Canaidh   sinn  na   Seann-Dhaoine  riutha,  a chionn 's  nach  eil
       call.FUT  1PL   the  Old-People     to.3PL   because      NEG   be.PRS.DEP
@@ -1888,7 +1888,7 @@ A noun that qualifies another follows it in the genitive. The article in the gen
 
 (224) clann     nan  Tuathach
       children  the  northerners.GEN
-      ‘the children of the Tuathaich (T)’
+      ‘the children of the Tuathaich’
 ```
 
 An indefinite masculine genitive is lenited: *pìos arain* "a piece of bread", *làn dhaoine* "full of
@@ -2079,11 +2079,11 @@ rìoghachd* "there was neither king nor kingdom", T).
 The numeral stands before the noun (*The grammar in brief* §10):
 
 - *aon* "one" and *dà* "two" lenite a **singular** noun (*aon* not *d, t, s*): *aon long*, *aon
-  taigh*, *dà long*, *dà bhàta*. After *dà* a feminine noun takes its dative form where it has one:
+  taigh*, *dà luing*, *dà bhàta*. After *dà* a feminine noun takes its dative form where it has one:
   *dà làimh* "two hands", *dà chloich*.
 - *trì* to *deich* take the plural: *trì coin*, *seachd longan*. Nouns of measure keep the singular:
   *trì bliadhna*, *seachd bliadhna* (T).
-- *deug* follows the noun in the teens: *aon long deug* "eleven ships", *dà long dheug* "twelve".
+- *deug* follows the noun in the teens: *aon long deug* "eleven ships", *dà luing dheug* "twelve".
 - *fichead*, *ceud*, *mìle* and the decimal tens take the **singular**: *fichead long*, *ceud
   bliadhna*, *mìle bliadhna*. A noun counted by a decimal compound follows the whole numeral:
   *ceathrad còig long* "forty-five ships".
@@ -2348,7 +2348,7 @@ between-moon *Eadrach*. They are names and take no article: *ann an Samhnas* "in
 chiad oidhche de Ghearras* "the first night of Gearras". The old reckoning counts nights, not days,
 and halves the moon: *an treas oidhche den leth gheal* "the third night of the bright half".
 
-The quarter-days are feasts on the first of their civil month: *Là Fhèill Brìghde* (1 an Gearran),
+The quarter-days are feasts on the first of their civil month: *Là Fhèill Brìde* (1 an Gearran),
 *Bealltainn* (1 an Cèitean), *Lùnastal* (1 an Lùnastal), *Samhain* (1 an t-Samhain). The Old Faith
 keeps them on the first night of their moons. "At Samhain" is *aig an t-Samhain* or *air Samhain*.
 
@@ -2536,8 +2536,8 @@ kept them; the days are given as the Library's copyists give them, turned from t
       keep.VN  in    the  court.DAT  the  first  time
       ‘The twenty-seventh of an Dàmhair. The White Sorrow kept at court for the first time.’
 
-(298) Chùm      a'   bhanrigh  Beathag  e      airson  a    peathar,    ann an  clòimh
-      keep.PST  the  queen     Beathag  3SG.M  for     her  sister.GEN  in      wool
+(298) Chùm      a'   bhan-rìgh  Beathag  e      airson  a    peathar,    ann an  clòimh
+      keep.PST  the  queen      Beathag  3SG.M  for     her  sister.GEN  in      wool
       gun      dath,   le    àite   falamh  aig  biadh  nach     b'       e      fèill
       without  colour  with  place  empty   at   meal   NEG.REL  COP.PST  3SG.M  feast
       no   trasc.

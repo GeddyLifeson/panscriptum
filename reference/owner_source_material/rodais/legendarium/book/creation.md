@@ -9,7 +9,7 @@
 
 ## I. Of Caoran and the Coals
 
-This is the telling that Coimhdeach na Fine, the Keeper of the Kin, gave in the grove of Doire ghlas to one of the mason's line, who had asked it why the coal of Dia-thìr has colours in it when the coal of the common earth has none. The Keeper answered from the beginning, as the old do when a child asks a short question. The mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down. It is set here before the Seven Books because it is older than any of them.
+This is the telling that Coimhdeach na Fine, the Keeper of the Kin, gave in the grove of Doire ghlas to one of the Mason's line, who had asked it why the coal of Dia-thìr has colours in it when the coal of the common earth has none. The Keeper answered from the beginning, as the old do when a child asks a short question. The Mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down. It is set here before the Seven Books because it is older than any of them.
 
 Before there was a world there were the gods, and they were many, and they were a line. Mother bore daughter and father begot son, back and back into a dark where no name is kept; and every one of that line, when he came to the fullness of his years, went out from the hall of his kin and made a world. That was their coming of age. A god of that line was a child until he had made a thing and kept it, and was grown when it lived.
 
@@ -107,7 +107,7 @@ When it shows itself it comes as a figure of smoke, grey and upright, of the hei
 
 It does not rule the kin, and it does not help them in their work. It will not fight for them. It comes seldom, generations apart, and when it comes it asks after the island as a guest asks after the health of the house. When it is asked a question it answers truly, but it does not always answer the whole of what is asked, for its charge is from Caoran, and some things Caoran has kept for the island to find.
 
-The mason's children say that it came first in the grove, and that it came there to be asked; that it had waited through the whole long life of the kin on the island for one of them to wonder aloud about the colours. And when one of the mason's line did wonder, it came and sat down with him under the oaks in the evening, and it told him all that is written here, from the hall of the gods to the forgetting of the coal. It told him more, and he asked it more, and what passed between them after is told in the First Book.
+The Mason's children say that it came first in the grove, and that it came there to be asked; that it had waited through the whole long life of the kin on the island for one of them to wonder aloud about the colours. And when one of the Mason's line did wonder, it came and stood with him by his fire under the oaks, and it told him all that is written here, from the hall of the gods to the forgetting of the coal. It told him more, and he asked it more, and what passed between them after is told in the First Book.
 
 ## IV. Of the Forgotten Coal
 
@@ -129,7 +129,7 @@ That was the whole of the godfolk's first finding. No one asked why the stones h
 
 The children grew and forgot their games. The stones were kicked into the heather, and the heather grew over them. The stream moved in its bed and covered the broken bank with gravel, and the grass came over the gravel, and there was nothing to show where the hill had torn. The child who had found the coal grew old and died and went over the sea to Taigh Dhuinn, and those who had known her followed. In a few lives there was no one left on the island who remembered that any such stones had been.
 
-When the Keeper told this in the grove, the one of the mason's line was ashamed for his forebears, and he asked whether the Young God had been angry.
+When the Keeper told this in the grove, the one of the Mason's line was ashamed for his forebears, and he asked whether the Young God had been angry.
 
 The Keeper said that he had not. It said that Caoran had watched it all from his father's hall, and had laughed, as a father laughs who sees his child set aside the finest gift of the feast to play with the wrapping. It said: "A gift that is not opened is still given. He could wait. The coal was in no hurry, and neither was he."
 

@@ -16,7 +16,7 @@ of it as one, and so it is set down here with the rest.
 | The Old Ones | *na Seann-Dhaoine* | Ages I and II; their works end before the Holy Age | no town; thirty towns and thirteen shires bear their names |
 | The people of Dia-thìr | *na Dia-thìrich* (sg. *Dia-thìreach*) | every age | 441 of 505 towns; the capital and the sea |
 | The humans | the chronicles' plain name for them | Age V | none by that name; their descendants are the Tuathaich |
-| The northerners | *na Tuathaich* (sg. *Tuathach*) | Age VI | 64 towns in the north and north-west |
+| The northerners | *na Tuathaich* (sg. *Tuathach*) | Ages VI and VII | 64 towns in the north and north-west |
 | The coal-blooded | *an fhuil-ghuail*; in the humans' tongue, *coal-touched* | from Age V | not counted on the map; counted, briefly, in the censuses |
 
 #### The Seann-Dhaoine
@@ -58,9 +58,9 @@ raised in the Ancient Age ({{date:I-0069}}, {{date:I-0071}}, {{date:I-0073}}), a
 says by whom. The upper face of Carragh Cnoc bheag bears a line of the unread script; the
 four Dia-thìris words, *Bha teine sa chloich*, "there was fire in the stone", lie lower down, cut with
 a narrower tool by another hand, and "when that second hand came is not known"
-({{date:I-0070}}). On these stones, and nowhere else, the marks of two peoples lie on
-the same face. The wind-stone at the central Seann Chwen is another: a Dia-thìris wind-name cut over an
-older mark of the Seann-Dhaoine ({{date:I-0180}}).
+({{date:I-0070}}). So on Carragh Cnoc bheag the marks of two peoples lie on the same face. In few
+other places do they touch; one is the wind-stone at the central Seann Chwen, where a Dia-thìris wind-name
+is cut over an older mark of the Seann-Dhaoine ({{date:I-0180}}).
 
 **Their counting.** Late in their time the Seann-Dhaoine began cutting single strokes on flat
 stones at the edges of their middens, one stone to a household ({{date:I-0090}}). At the eastern
@@ -96,7 +96,7 @@ people-ending, written *-ich* after the slender vowel of *thìr*; a single perso
 **Custodians.** The Dia-thìrich enter history as custodians. In the Age of Ailean a custom set in across
 the hill settlements that no fire should take more of the coal than one cupped hand could hold. The
 Binding of the First Flame ({{date:II-0001}}) made the custodianship of the vein a formal order,
-"older by centuries than any rìgh after Ailean", and the Small-Burning Law ({{date:II-0027}}) made the
+whose keepers were "older by centuries than any rìgh after Ailean", and the Small-Burning Law ({{date:II-0027}}) made the
 custom into rule. The Binding was sworn by the heirs of Ailean Mòr, gathered to part his kingdom, and the
 parting they swore after it, *Roinn na Rìoghachd* ({{date:II-0001b}}), cut the Dia-thìrich into
 great shares, provinces, counties and holdings under the king's kin, whose feuds, *Aimhreit nan
@@ -236,9 +236,9 @@ north coast, Eaglais nan Tuathach, whose towns lie together in the shires of Doi
 Muileann leathan, Inis mhin and Àth àrsaidh. One, Baile chrom, keeps the vigil of the Grey Night,
 Rùn-dìomhair na h-Oidhche Glaise, which the Church's bishops call irregular. The old congregations
 keep, quietly, the First Canoe fragment ({{date:V-0042}}): among coastal Tuathaich families, "a
-named steersman, a first crossing", which their church tells as the voyage of Naomh Breandan to
+steersman with a name, and a first crossing", which their church tells as the voyage of Naomh Breandan to
 the Isle of the Blessed, and which the druids of the Old Faith dismiss as superstition
-({{date:I-0038}}). The fragment is set at the head of the Ancient Age, for there its
+({{date:I-0038}}). The fragment is set in the Ancient Age, for there its
 tellers place it.
 The Library has neither upheld it nor struck it out. It is one of the two suppressed histories
 that stand at either end of the island's story, and it is left here as it was found.
@@ -247,9 +247,9 @@ that stand at either end of the island's story, and it is left here as it was fo
 
 This section holds to what the rolls and chronicles say.
 
-A child born into the mining camps was exposed to more raw coal across her lifetime than any Dia-thìrian
+A child born into the mining camps was exposed to more raw coal across her lifetime than any Dia-thìreach
 in living memory, and did not age the way the people around her did. Her name is Aisling
-({{date:IV-0146}}). What was happening to her had no word, in any language spoken on the island
+({{date:IV-0146}}). What was happening to her had no word, in any tongue spoken on the island
 ({{date:IV-0149}}). A second, Fionnan, was born half a century later ({{date:IV-0245}}), and
 it became plain that this was no single mischance: it came of the working of the pits, and would come
 again while they were worked. With two sure cases before them, the Dia-thìreach custodians settled on a word
@@ -402,7 +402,7 @@ record. So the harbour-names of an older people outlived them inside a newer ton
 hard like shells in a stone, and never put into Dia-thìris.
 
 **What can be said.** The roots are single syllables. Seven of the ten end in a doubled consonant
-(*-nn, -ll, -rr*). Three of them hold letters that Dia-thìris writes nowhere else: *k* in *Skell*, *v* in
+(*-nn, -ll, -rr*). Four of them hold letters that Dia-thìris writes nowhere else: *k* in *Skell*, *v* in
 *Vell*, *w* in *Cwen* and *Warr*. Everywhere else Dia-thìris writes the sound *sk* as *sc*, yet no scribe
 has ever written Seann Scell; they kept the foreign *k* as they found it, and the grammarians count
 *sk-* among the clusters that do not lenite.
@@ -554,7 +554,7 @@ oldest Dia-thìris words in stone. When they were cut no roll tells. The stones 
 the Ancient Age; the Dia-thìris on Carragh Cnoc bheag was cut later, by another hand. The words on Calbh
 Cnoc ghorm were recut along their old grooves by a hand from the Stone Kings' hill, and some later
 readers say the recutting changed a letter ({{date:I-0251}}). This does not prove that there were
-letters to change in that day; the Library keeps the claim and passes no judgment on it.
+letters to change in that day; the Library keeps the claim and passes no judgement on it.
 
 **The stag-letters.** The first letters in use by the Dia-thìrich were made at Muileann chiar in the far
 east, where the teachers of the stag's people, the first of the druid schools, later called
@@ -576,7 +576,7 @@ and the custody-book was copied onto paper in that generation ({{date:III-0218}}
 
 **Two tongues of record.** The humans brought paper in quantity, and the custodians of
 Cathair naomh asked for their first payment in paper and ink ({{date:IV-0013}}). They brought, too, a
-written tongue the Dia-thìrich could not read, and for a century the island kept its records in two.
+written tongue the Dia-thìrich could not read, and for a century and a half the island kept its records in two.
 Whether the humans' letters and the stag-letters share any shapes, no roll says. The
 earliest Dia-thìreach grievance text to survive, Leabhar Baile thais, was set down in Dia-thìris by many
 hands ({{date:IV-0208}}).

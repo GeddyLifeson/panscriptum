@@ -412,7 +412,7 @@
   "id": "II-0038",
   "canon": false,
   "title": "The road-peace",
-  "body": "The keepers of the waypoint houses agree that no feud may be pursued under an inn roof or within a spear's throw of its door. The custom is first set down at the house on the site of An Sligeanach Fad' às. It is the oldest law on the island that no Keeper made.",
+  "body": "The keepers of the waypoint houses agree that no feud may be pursued under an inn roof or within a spear's throw of its door. The custom is first set down at the house on the site of An Sligeanach Fad' às. It is the oldest law on the island that neither Keeper nor lord made.",
   "place": "marker:11",
   "kind": "law"
  },
@@ -460,7 +460,7 @@
   "id": "II-0043",
   "canon": true,
   "title": "The mausoleum consecrated",
-  "body": "Tuam Cnoc dhìreach, already ancient, receives its first burial that is set down by name. The burial-ground that no one claimed is claimed.",
+  "body": "Tuam Cnoc dhìreach, already ancient, is hallowed by the Keepers over the grave of Fionnlagh Dall, the first burial there that is set down by name. The burial-ground that no one claimed is claimed.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"
@@ -1426,7 +1426,7 @@
   "id": "II-0134",
   "canon": false,
   "title": "Beathag Mhòr",
-  "body": "Beathag Mhòr, great-granddaughter of Fearchar Òg, takes the hall at Dùn dhearg. The list calls her banrìgh, queen, the first so called, and not rìgh with a woman's name after it; the change of word is the list's own.",
+  "body": "Beathag Mhòr, great-granddaughter of Fearchar Òg, takes the hall at Dùn dhearg. The list calls her ban-rìgh, queen, the first so called, and not rìgh with a woman's name after it; the change of word is the list's own.",
   "place": "burg:422",
   "kind": "reign",
   "within": [
@@ -1880,7 +1880,7 @@
   "id": "II-0179",
   "canon": true,
   "title": "The first recorded famine averted",
-  "body": "A poor mining season brings three settlements near to starving. The shared-meal law, made a generation before, holds and saves them. It is the first true trial of the custom.",
+  "body": "A poor mining season brings three settlements near to starving. The shared-meal law, made in the reign before, holds and saves them. It is the first true trial of the custom.",
   "place": null,
   "kind": "disaster",
   "canon_date": "undated"
@@ -2514,7 +2514,7 @@
   "id": "II-0249",
   "canon": true,
   "title": "The last age of even population",
-  "body": "So ends the Holy Age. The chroniclers of after days look back on it with some unease: it is the last time in the history of Dia-thìr that no family's lives ran longer than any other's. The long years had gone out of the king's kin many generations before.",
+  "body": "So ends the Holy Age. The long years had gone out of the king's kin many generations before its end, and the chroniclers of after days look back on its later centuries with some unease: they are the last time in the history of Dia-thìr that no family's lives ran longer than any other's.",
   "place": null,
   "kind": "record",
   "canon_date": "undated"

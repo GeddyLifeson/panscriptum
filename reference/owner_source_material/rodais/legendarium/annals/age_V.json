@@ -114,7 +114,7 @@
   "id": "IV-0012a",
   "canon": false,
   "title": "The first hull on Loch chrom",
-  "body": "Pilots of Caol leathan bring the first of the strangers' ships up the Abhainn gheal into Loch chrom, towing her with boats through the shallows below Baile ghlas, and she anchors off Ros dhomhain. Thereafter the humans' goods come to the capital shore by water, and the pilots charge a stranger's hull twice the toll of a Dia-thìrich boat.",
+  "body": "Pilots of Caol leathan bring the first of the strangers' ships up the Abhainn gheal into Loch chrom, towing her with boats through the shallows below Baile ghlas, and she anchors off Ros dhomhain. Thereafter the humans' goods come to the capital shore by water, and the pilots charge a stranger's hull twice the toll of a Dia-thìreach boat.",
   "place": "river:115",
   "kind": "voyage",
   "between": [
@@ -174,7 +174,7 @@
   "id": "IV-0019",
   "canon": false,
   "title": "Salt from Seann Warr",
-  "body": "The salt-pans of Seann Warr begin to sell to Pike's post by the barrel. It is the first goods of Dia-thìr that the humans come back asking for twice.",
+  "body": "The salt-pans of Seann Warr begin to sell to Pike's post by the barrel. They are the first goods of Dia-thìr that the humans come back asking for twice.",
   "place": "burg:64",
   "kind": "trade"
  },
@@ -240,7 +240,7 @@
   "id": "IV-0027",
   "canon": false,
   "title": "The beacon headlands walked",
-  "body": "The human navigator James Fenn and the Dia-thìrich mason Torcall Clachair walk the coast together to choose the places of the new beacons, and mark the five headlands of the old fires. Fenn's chart survives; Torcall's cairns for the most part do not.",
+  "body": "The human navigator James Fenn and the Dia-thìreach mason Torcall Clachair walk the coast together to choose the places of the new beacons, and mark the five headlands of the old fires. Fenn's chart survives; Torcall's cairns for the most part do not.",
   "place": "marker:16",
   "kind": "building"
  },
@@ -297,7 +297,7 @@
   "id": "IV-0033",
   "canon": false,
   "title": "The warehouse at Cathair dhomhain",
-  "body": "The Company leases a stone warehouse at Cathair dhomhain, along the lake shore from the capital, to keep its tools from the harbour thieves of Ros dhomhain. It is the first building on Dia-thìr the Company owns outright.",
+  "body": "The Company builds a stone warehouse at Cathair dhomhain, along the lake shore from the capital, to keep its tools from the harbour thieves of Ros dhomhain. It is the first building on Dia-thìr the Company owns outright.",
   "place": "burg:26",
   "kind": "trade"
  },
@@ -354,7 +354,7 @@
   "id": "IV-0040",
   "canon": false,
   "title": "The first pit at Muileann chrom",
-  "body": "Under the first contract a Dia-thìrich crew of thirty opens a working at Muileann chrom, paid by the ton in iron tools and lamp-oil. The custodians' own cuttings had never been measured by weight at all.",
+  "body": "Under the first contract a Dia-thìreach crew of thirty opens a working at Muileann chrom, paid by the ton in iron tools and lamp-oil. The custodians' own cuttings had never been measured by weight at all.",
   "place": "burg:354",
   "kind": "craft"
  },
@@ -419,7 +419,7 @@
   "id": "IV-0048",
   "canon": false,
   "title": "Taigh-solais Tobar dhearg lit",
-  "body": "The first of the new beacons is finished on the southern headland at Tobar dhearg: a round tower of grey stone raised over the old fire-tower, paid for by the Company, with a Dia-thìrich keeper. Torcall Clachair builds it; James Fenn sets its lens.",
+  "body": "The first of the new beacons is finished on the southern headland at Tobar dhearg: a round tower of grey stone raised over the old fire-tower, paid for by the Company, with a Dia-thìreach keeper. Torcall Clachair builds it; James Fenn sets its lens.",
   "place": "marker:16",
   "kind": "building"
  },
@@ -617,7 +617,7 @@
   "id": "IV-0071",
   "canon": true,
   "title": "The first deaths of haste",
-  "body": "A tunnel worked faster than any Dia-thìrich crew would have worked it falls in and kills eleven. It is entered as an accident.",
+  "body": "A tunnel worked faster than any Dia-thìreach crew would have worked it falls in and kills eleven. It is entered as an accident.",
   "place": null,
   "kind": "disaster",
   "canon_date": "c. 1804 DE"
@@ -791,7 +791,7 @@
   "id": "IV-0089",
   "canon": false,
   "title": "The carters of Doire chaol",
-  "body": "The carters of Doire chaol, on the road just east of the capital, band together in a guild to bargain with the Company over the rates for hauling coal. It is the first Dia-thìrich guild of the age, and the Company owns it because that is cheaper than breaking it.",
+  "body": "The carters of Doire chaol, on the road just east of the capital, band together in a guild to bargain with the Company over the rates for hauling coal. It is the first Dia-thìreach guild of the age, and the Company owns it because that is cheaper than breaking it.",
   "place": "burg:164",
   "kind": "trade"
  },
@@ -818,7 +818,7 @@
  {
   "id": "IV-0091",
   "canon": true,
-  "title": "The first Dia-thìrich overseer",
+  "title": "The first Dia-thìreach overseer",
   "body": "A Dia-thìreach is set over other Dia-thìrich miners, answerable to human masters. It is the first open crack within the Dia-thìrich themselves, and not only between them and the humans.",
   "place": null,
   "kind": "people",
@@ -1001,7 +1001,7 @@
   "id": "IV-0113",
   "canon": false,
   "title": "Baile ruadh loses its seed",
-  "body": "At Baile ruadh in the east the drought kills the seed corn in the ground, and the town borrows seed from the Company's store at Seann Dunn, at a price paid back over five harvests. It is the first Dia-thìrich town to owe the Company a debt in grain.",
+  "body": "At Baile ruadh in the east the drought kills the seed corn in the ground, and the town borrows seed from the Company's store at Seann Dunn, at a price paid back over five harvests. It is the first Dia-thìreach town to owe the Company a debt in grain.",
   "place": "burg:241",
   "kind": "disaster"
  },
@@ -1009,7 +1009,7 @@
   "id": "IV-0114",
   "canon": false,
   "title": "Aonghas mac Coinnich's question",
-  "body": "At Dùn thais the druid master Aonghas mac Coinnich puts to his students a question the school's register calls new: why the humans cannot see the colour in broken coal that every Dia-thìrich child sees. He does not answer it, and the register notes that he called it the wrong question.",
+  "body": "At Dùn thais the druid master Aonghas mac Coinnich puts to his students a question the school's register calls new: why the humans cannot see the colour in broken coal that every Dia-thìreach child sees. He does not answer it, and the register notes that he called it the wrong question.",
   "place": "burg:77",
   "kind": "faith"
  },
@@ -1048,7 +1048,7 @@
  {
   "id": "IV-0119",
   "canon": true,
-  "title": "The first Dia-thìrich child sent over the sea",
+  "title": "The first Dia-thìreach child sent over the sea",
   "body": "One family, hoping for better treatment, sends a son to be schooled in the humans' homeland. He is never known to return.",
   "place": null,
   "kind": "people",
@@ -1573,7 +1573,7 @@
   "id": "IV-0172",
   "canon": false,
   "title": "A second Muileann chiar",
-  "body": "The silver trade crowds the old town, and the guild founds a daughter settlement to the west for its refiners and carters, which takes the same name. The rolls call them the old town and the new, and do not always say which they mean.",
+  "body": "The silver trade crowds the old town, and the guild settles its refiners and carters in the coal-breakers' mill town to the west, which is called by the silver town's name from then on. The rolls call them the old town and the new, and do not always say which they mean.",
   "place": "burg:355",
   "kind": "founding"
  },
@@ -1589,7 +1589,7 @@
   "id": "IV-0174",
   "canon": false,
   "title": "Silversmiths at Muileann bhàn",
-  "body": "Silversmiths settle at Muileann bhàn on the road to the silver town and live by working the guild's bar into ornaments for the humans' market. Theirs is the one Dia-thìrich craft sold in an Tìr Thall under a Dia-thìrich name.",
+  "body": "Silversmiths settle at Muileann bhàn on the road to the silver town and live by working the guild's bar into ornaments for the humans' market. Theirs is the one Dia-thìreach craft sold in an Tìr Thall under a Dia-thìreach name.",
   "place": "burg:502",
   "kind": "craft"
  },
@@ -2073,7 +2073,7 @@
   "id": "IV-0230",
   "canon": true,
   "title": "The first inheritance of mixed blood",
-  "body": "A suit over whether a child of one Dia-thìrich and one human parent may inherit the customary rights of mining is decided, and the Administration makes the ruling wholly to its own gain.",
+  "body": "A suit over whether the grandchild of a marriage between a Dia-thìreach and a human may inherit the customary rights of mining is decided, and the Administration makes the ruling wholly to its own gain.",
   "place": null,
   "kind": "law",
   "canon_date": "c. 1890 DE"
@@ -2238,7 +2238,7 @@
   "id": "IV-0247",
   "canon": false,
   "title": "Seònaid nic Dhùghaill, last of the druid masters",
-  "body": "Seònaid nic Dhùghaill, the last master of Scoiltean nan Draoidhean to teach openly in the Age of Strangers, dies at Dùn thais. No one is named after her, and the school's register ends with her death. It is taken up again only long after the humans are gone.",
+  "body": "Seònaid nic Dhùghaill, the last master of Scoiltean nan Draoidhean to teach openly in this age, dies at Dùn thais. No one is named after her, and the school's register ends with her death. It is taken up again only long after the humans are gone.",
   "place": "burg:77",
   "kind": "faith"
  },
@@ -2296,7 +2296,7 @@
   "id": "IV-0252",
   "canon": false,
   "title": "The Administration's register",
-  "body": "The Residency, hearing of the word, orders that any Dia-thìrich child showing the change be reported to the Commissioner's office. The custodians obey by reporting none.",
+  "body": "The Residency, hearing of the word, orders that any Dia-thìreach child showing the change be reported to the Commissioner's office. The custodians obey by reporting none.",
   "place": "burg:27",
   "kind": "law"
  },
@@ -2654,7 +2654,7 @@
   "id": "IV-0288",
   "canon": false,
   "title": "Muileann fhionn shut in",
-  "body": "Muileann fhionn, a Dia-thìrich mill town in the north-west, shuts its roads against the fever and keeps them shut for a season. Human carters of the concession are turned back with their loads at the town's edge.",
+  "body": "Muileann fhionn, a Dia-thìreach mill town in the north-west, shuts its roads against the fever and keeps them shut for a season. Human carters of the concession are turned back with their loads at the town's edge.",
   "place": "burg:160",
   "kind": "disaster"
  },
@@ -3272,8 +3272,8 @@
  {
   "id": "IV-0352",
   "canon": false,
-  "title": "The winter lines",
-  "body": "Through the first winter of the war the council holds the hills, the east and the capital; Strake holds the Residency, the harbour quarter below it, and the western ports. Neither side has the strength to attack the other.",
+  "title": "The lines at midsummer",
+  "body": "The lines stand at midsummer where the first winter of the war left them: the council holds the hills, the east and the capital; Strake holds the Residency, the harbour quarter below it, and the western ports. Neither side has the strength to attack the other.",
   "place": "burg:27",
   "kind": "war"
  },
@@ -3281,7 +3281,7 @@
   "id": "IV-0353",
   "canon": false,
   "title": "Grain from Seann Warr",
-  "body": "Seann Warr, the farming town in the south-east and not the salt port of that name in the west, sends grain to the hills through the winter by the eastern roads. The council's roll lists the carts.",
+  "body": "Seann Warr, the farming town in the south-east and not the salt port of that name in the west, has sent grain to the hills by the eastern roads since the winter. The council's roll lists the carts.",
   "place": "burg:128",
   "kind": "people"
  },
@@ -3289,7 +3289,7 @@
   "id": "IV-0354",
   "canon": false,
   "title": "Hunger in the capital",
-  "body": "Its harbour held by the Residency, Cathair dhearg goes short through the winter. The custodians share out the grain by household, and the roll records that they took the same share as everyone else.",
+  "body": "Its harbour held by the Residency, Cathair dhearg has gone short since the winter. The custodians share out the grain by household, and the roll records that they took the same share as everyone else.",
   "place": "burg:19",
   "kind": "disaster"
  },
