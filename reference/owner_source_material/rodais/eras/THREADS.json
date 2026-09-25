@@ -1,0 +1,117 @@
+{
+ "about": "The threads of the Atlas timeline: named storylines that run across the ages. An annals event names the threads it belongs to in \"threads\": [id, ...]. Writers add threads through the lead; a new thread needs an id (lower-case words joined by hyphens), its Dia-thìris name (dt, which passes rodais_engine.normalize() and check_agreement(), and agrees with eras/NAMES.json), an English gloss, a colour and one sentence of description. status: canon (the name is attested in the master record) or proposed (the name awaits the lead's confirmation against NAMES.json).",
+ "threads": [
+  {
+   "id": "line-of-the-mason",
+   "dt": "Sloinneadh a' Chlachair",
+   "gloss": "the Line of the Mason",
+   "colour": "#8c5a2b",
+   "description": "Neachdan the mason and his descendants, from the first fire to the end of the line.",
+   "status": "proposed"
+  },
+  {
+   "id": "line-of-aisling",
+   "dt": "Sloinneadh Aisling",
+   "gloss": "the Line of Aisling",
+   "colour": "#b0476b",
+   "description": "Aisling and her line, as the copyists kept it.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-seven-coals",
+   "dt": "na Seachd Guail",
+   "gloss": "the Seven Coals",
+   "colour": "#3d6fb6",
+   "description": "The seven coals of the vein: their finding, their lighting, their rule and their failing.",
+   "status": "canon"
+  },
+  {
+   "id": "the-stone-kings",
+   "dt": "Rìghrean na Cloiche",
+   "gloss": "the Stone Kings",
+   "colour": "#7a7a7a",
+   "description": "The Stone Kings of the Age of Ailean and what was remembered of them.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-division",
+   "dt": "Roinn na Rìoghachd",
+   "gloss": "the Division",
+   "colour": "#a0522d",
+   "description": "The Roinn: the sharing of the land among the heirs and the shares' long history.",
+   "status": "canon"
+  },
+  {
+   "id": "the-keepers-promise",
+   "dt": "Gealladh Coimhdeach na Fine",
+   "gloss": "the Keeper's promise",
+   "colour": "#c9a227",
+   "description": "The promise of Coimhdeach na Fine, the Keeper of the Kin, and how it was kept or broken.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-coal-blood",
+   "dt": "An Fhuil-ghuail",
+   "gloss": "the coal-blood",
+   "colour": "#5b2c83",
+   "description": "The coal-blooded: who carried the coal in their blood, and what became of them.",
+   "status": "canon"
+  },
+  {
+   "id": "the-church-on-the-island",
+   "dt": "An Eaglais",
+   "gloss": "the Church on the island",
+   "colour": "#2e7d6b",
+   "description": "The humans' faith on the island, from the first chapel to the Church of the present day.",
+   "status": "canon"
+  },
+  {
+   "id": "the-long-war",
+   "dt": "An Cogadh Fada",
+   "gloss": "the Long War",
+   "colour": "#8b1e1e",
+   "description": "An Cogadh Fada, the Long War of the Age of Dubhan: its causes, campaigns and peace.",
+   "status": "canon"
+  },
+  {
+   "id": "the-library",
+   "dt": "Leabharlann Muileann chaol",
+   "gloss": "the Library at Muileann chaol",
+   "colour": "#4a6b2f",
+   "description": "The Library at Muileann chaol and the record it keeps.",
+   "status": "canon"
+  },
+  {
+   "id": "the-company",
+   "dt": "A' Chompanaidh",
+   "gloss": "the Company",
+   "colour": "#1f4e79",
+   "description": "The humans' Company: its charter, camps, quays and coal ships.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-mist",
+   "dt": "Ceò Mhanannain",
+   "gloss": "Manannan's mist",
+   "colour": "#6f8fa8",
+   "description": "Manannan's mist, which hid the island from the ships beyond it, and its thinning.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-tuathaich",
+   "dt": "Na Tuathaich",
+   "gloss": "the Tuathaich",
+   "colour": "#9a6b3f",
+   "description": "The Tuathaich: their homeland, their shires and their part in the Kingdom.",
+   "status": "canon"
+  },
+  {
+   "id": "the-orders-of-the-old-faith",
+   "dt": "Òird a' Chreidimh Shean",
+   "gloss": "the orders of the Old Faith",
+   "colour": "#5f7d3a",
+   "description": "The orders of An Creideamh Sean, the Old Faith: their founding, rules and quarrels.",
+   "status": "proposed"
+  }
+ ]
+}

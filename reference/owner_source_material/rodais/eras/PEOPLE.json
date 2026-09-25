@@ -1,0 +1,21 @@
+{
+ "about": "The people of the annals, for the Atlas's people pages and family trees. An annals event names who took part in it in \"people\": [id, ...]. Humans' personal names stay as the humans wrote them; every other name is in Dia-thìris. Fields: id (lower-case words joined by hyphens, unique), name, born and died (event ids, or null when the annals do not tell it), parents and children (person ids), houses (house names as in legendarium/appendices/houses.json), first and last (the ids of the first and last annals events the person takes part in). Writers add people through the lead.",
+ "schema": {
+  "id": "string, unique",
+  "name": "string",
+  "born": "event id or null",
+  "died": "event id or null",
+  "parents": [
+   "person id"
+  ],
+  "children": [
+   "person id"
+  ],
+  "houses": [
+   "house name"
+  ],
+  "first": "event id",
+  "last": "event id"
+ },
+ "people": []
+}

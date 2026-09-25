@@ -1,0 +1,801 @@
+[
+ {
+  "id": "I-0001",
+  "canon": true,
+  "title": "The mason's fire",
+  "body": "Neachdan, a mason splitting rock for a well, breaks into a vein of hard coal that shows every colour in the break. That night a storm comes over the hills, and lightning strikes the broken vein, and it takes fire. He carries a burning coal home and lays the first hearth: it is the first fire of the Dia-thìrich. On it he tries the other coals he broke out, and all burn alike, with a low black flame; he is glad of the fire all the same.",
+  "place": null,
+  "kind": "discovery",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0002",
+  "canon": false,
+  "title": "Three wells claim the crack",
+  "body": "Tobar dhìreach, Tobar dhubh and Tobar òg each tell that the mason's well was theirs, and that the lightning fell there. Tobar dhìreach can show a capped shaft with a scorched stain on its lip; the other two have only the telling. Between the three no chronicler has ever judged.",
+  "place": "burg:276",
+  "kind": "record"
+ },
+ {
+  "id": "I-0003",
+  "canon": false,
+  "title": "The slab over the burnt vein",
+  "body": "When the fire in the vein has burned itself out, the mason's people dig no further. They lay a flat stone over the broken vein, draw no water beside it, and cut their well again a stone's throw off. In this all the tellings agree.",
+  "place": "burg:276",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0004",
+  "canon": false,
+  "title": "The high snowfields shrink",
+  "body": "Meltwater off the central mountains cuts the bed that Abhainn uaine follows still. On the gravel terraces of its lower reach lie hearth-stones at three heights, each left as the water rose to it.",
+  "place": "river:15",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0005",
+  "canon": false,
+  "title": "The first hearths of the high valleys",
+  "body": "Hearths are made at Achadh dhìreach, of pine and heather charcoal, with scrapers of grey flint and the split bones of red deer about them. There is no coloured coal in them: those who sat there had none of it, or would not burn it.",
+  "place": "burg:454",
+  "kind": "people"
+ },
+ {
+  "id": "I-0006",
+  "canon": false,
+  "title": "The oak comes to the lowlands",
+  "body": "The birch and pine of the cold years give way to oak and hazel, as the pollen in the bog under Doire ghlas shows. The grove that names the place stands on ground that was open heath when the vein was first broken.",
+  "place": "burg:209",
+  "kind": "discovery"
+ },
+ {
+  "id": "I-0006a",
+  "canon": false,
+  "title": "The bare north-west",
+  "body": "The oak never reaches the north-western horn of the island. The gales off the north-western sea keep it bare, low heather and blanket bog behind the shore without a tree, as it is still. No hearth of that age has been found there.",
+  "place": null,
+  "kind": "record",
+  "between": [
+   -12500,
+   -12440
+  ]
+ },
+ {
+  "id": "I-0007",
+  "canon": false,
+  "title": "Eilean dhubh cut off",
+  "body": "The rising sea floods the low neck of land that joined Eilean dhubh to the main island. The hearths of the neck lie drowned under the sand of the sound, and the deer of the island, cut off, grow smaller in the lifetimes after.",
+  "place": "feature:3",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0008",
+  "canon": false,
+  "title": "Hunters on Eilean mhin",
+  "body": "Seal-hunters pitch camps on Eilean mhin, coming there by boat: the first sure sign that anyone on Dia-thìr crossed open water of set purpose. The camps are kept a season at a time and left.",
+  "place": "feature:14",
+  "kind": "voyage"
+ },
+ {
+  "id": "I-0008a",
+  "canon": false,
+  "title": "Seals on the skerries",
+  "body": "Hunters of the north shore go out in skin boats in the autumn gales to the skerries off Eilean fhada, where the grey seals haul out to pup, and take them there. The seal bones in the middens of the north coast bear the same cut-marks as those of Eilean mhin. On Eilean fhada a hard year is counted by the boats the gales kept ashore.",
+  "place": "feature:4",
+  "kind": "craft",
+  "between": [
+   -12340,
+   -12285
+  ]
+ },
+ {
+  "id": "I-0009",
+  "canon": false,
+  "title": "The flood-plain of Abhainn ìseal",
+  "body": "Abhainn ìseal, the longest river of the island, settles into the wide bed it keeps now. Fish-weirs of hazel stakes are set across its side channels, and the stakes are renewed in the same holes for generations.",
+  "place": "river:16",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0010",
+  "canon": false,
+  "title": "The middens of Seann Dunn",
+  "body": "The Seann-Dhaoine begin the great mound at Seann Dunn: limpet shell, seal bone and burnt weed, laid down over many lifetimes until it stands taller than a man. It is the first sure trace of them. No tool in it is shaped as any later Dia-thìreach shaped tools.",
+  "place": "burg:347",
+  "kind": "people"
+ },
+ {
+  "id": "I-0011",
+  "canon": false,
+  "title": "The notched net-weights of Seann Chwen",
+  "body": "At Seann Chwen the Seann-Dhaoine sink their nets with beach stones, and every stone is notched with the same three strokes. It is the eldest mark on Dia-thìr made again and again of purpose.",
+  "place": "burg:36",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0011a",
+  "canon": false,
+  "title": "The Keeper in the grove",
+  "body": "In the oak grove at Doire ghlas a figure of grey smoke comes to Diarmad of the Mason's line, who has asked why the coal of the vein has colours. It names itself Coimhdeach na Fine, the kin's keeper, and tells him of the making of the world by Caoran, the Young God, and of the gift hidden in the coal. Asked how the colours may be opened, it gives a riddle: the sky, the earth and the sea each carry their own spirit; merge the spirits, and they become almighty. From Diarmad's line the telling of the making goes to every hearth.",
+  "place": "burg:209",
+  "kind": "faith",
+  "between": [
+   -12044,
+   -12024
+  ]
+ },
+ {
+  "id": "I-0012",
+  "canon": false,
+  "title": "The mole at Seann Skell",
+  "body": "A mole of unmortared boulders is laid out into the Abhainn naomh from the bank at Seann Skell, long enough to shelter a dozen boats from the current. Its foot lies under water still at the lowest tides, and every quay wall built there since stands on it.",
+  "place": "burg:489",
+  "kind": "building"
+ },
+ {
+  "id": "I-0013",
+  "canon": false,
+  "title": "The steps of Seann Bhral",
+  "body": "Two hundred and twelve steps are cut up the cliff at Seann Bhral, from the shingle to the grazing above. Their treads are worn hollow in the middle. How many feet that took, none has reckoned.",
+  "place": "burg:47",
+  "kind": "building"
+ },
+ {
+  "id": "I-0014",
+  "canon": false,
+  "title": "The dead of Seann Vell go to Eilean dhearg",
+  "body": "The Seann-Dhaoine of Seann Vell row their dead out to Eilean dhearg and lay them in stone boxes facing the mainland. Forty boxes are counted there. No grave of theirs of this time is found on the mainland.",
+  "place": "feature:12",
+  "kind": "death"
+ },
+ {
+  "id": "I-0015",
+  "canon": false,
+  "title": "The fish-channel of Seann Toll",
+  "body": "At Seann Toll a channel is cut through a shelf of rock into a pool beside the Abhainn uaine, with a slot for a wattle gate. When the river falls the gate is dropped and the pool emptied by hand. The slot is sharp still.",
+  "place": "burg:313",
+  "kind": "building"
+ },
+ {
+  "id": "I-0016",
+  "canon": false,
+  "title": "The shell causeway of Seann Warr",
+  "body": "A road of crushed shell is laid across the reed marsh at Seann Warr, on the western shore of Loch chrom, a little over a mile long and raised a forearm above the reeds. It is the eldest made road on the island that may still be walked.",
+  "place": "burg:64",
+  "kind": "building"
+ },
+ {
+  "id": "I-0017",
+  "canon": false,
+  "title": "The script appears at Seann Tarr",
+  "body": "Rows of signs are cut into the cliff above Seann Tarr, in the script that is found afterwards on the standing stones. It is not Dia-thìris, and none has read it. No sign of it has a meaning that all accept.",
+  "place": "burg:249",
+  "kind": "record"
+ },
+ {
+  "id": "I-0017a",
+  "canon": false,
+  "title": "The gold coal takes fire on the sea",
+  "body": "Aodh of the Mason's line carries the seven coals of the vein down to the northern shore, below where Ceann thais now stands, and throws them into the sea one by one. The coal with the sheen of gold takes fire on the water and burns gold until the waves put it under; the other six sink. It is the first of the Seven Coals to be lit from its own spirit.",
+  "place": "burg:84",
+  "kind": "discovery",
+  "between": [
+   -11564,
+   -11544
+  ]
+ },
+ {
+  "id": "I-0018",
+  "canon": false,
+  "title": "The fish-kilns of Seann Mhorn",
+  "body": "Stone-lined pits with short flues are built above the beach at Seann Mhorn, to dry the catch over peat smoke. Seven are known. They are the first buildings on Dia-thìr made for a trade, and not for sleep or for the dead.",
+  "place": "burg:186",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0019",
+  "canon": false,
+  "title": "The slipways of Seann Bhrenn",
+  "body": "Long ramps of flat stone are laid down into the water at Seann Bhrenn, wide enough for hulls greater than any hide boat. Of the hulls nothing is left, nor any telling of where they went.",
+  "place": "burg:328",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0020",
+  "canon": false,
+  "title": "The lake dwellings of Loch chrom",
+  "body": "Platforms on oak piles are raised in the shallows of Loch chrom and joined to the shore by plank walks. Whether the Seann-Dhaoine built them, or some other people of those years, is not known.",
+  "place": "feature:9",
+  "kind": "building"
+ },
+ {
+  "id": "I-0021",
+  "canon": false,
+  "title": "The whale-rib houses of Seann Dunn",
+  "body": "A whale strands below the southern Seann Dunn, and its ribs are raised for the frames of three round houses roofed with turf. The ribs are set up again in new houses at least twice before they rot.",
+  "place": "burg:295",
+  "kind": "building"
+ },
+ {
+  "id": "I-0022",
+  "canon": false,
+  "title": "The round houses of the eastern Seann Vell",
+  "body": "At the eastern Seann Vell the Seann-Dhaoine build round houses of dry stone, each with a hearth sunk in the middle of the floor and a drain running out under the wall. Fourteen house-rings are counted there.",
+  "place": "burg:94",
+  "kind": "building"
+ },
+ {
+  "id": "I-0023",
+  "canon": false,
+  "title": "The tower at the north-western Seann Skell",
+  "body": "At the least of the Seann Skell places, on the north-west coast, a single round tower of dry stone is raised, hollow-walled, with a stair in the thickness of the wall. It looks out over the water where the Sea-Watcher is afterwards seen.",
+  "place": "burg:16",
+  "kind": "building"
+ },
+ {
+  "id": "I-0024",
+  "canon": false,
+  "title": "The huts of the northern Seann Toll",
+  "body": "At Seann Toll on the north coast a cluster of stone huts is built in the lee of a dune. The dune afterwards buries them whole, and the sand keeps them.",
+  "place": "burg:37",
+  "kind": "building"
+ },
+ {
+  "id": "I-0025",
+  "canon": false,
+  "title": "The eastern Seann Bhral",
+  "body": "At the Seann Bhral of the south-east coast the Seann-Dhaoine keep a landing and a line of fish-kilns like those of Seann Mhorn. The two places lie within a day's rowing of each other.",
+  "place": "burg:110",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0026",
+  "canon": false,
+  "title": "The shell beds of the southern Seann Mhorn",
+  "body": "At the second Seann Mhorn, on the southern coast, oyster, whelk and cockle shell is heaped over a whole headland, and there is little else. The oysters of its lowest layers are larger than any taken there since.",
+  "place": "burg:465",
+  "kind": "people"
+ },
+ {
+  "id": "I-0027",
+  "canon": false,
+  "title": "The twin landings of Seann Bhrenn",
+  "body": "A second Seann Bhrenn, far to the north-east of the first, has the same long ramps into the water. Whether the two were of one people, or only the name was carried, is not known.",
+  "place": "burg:440",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0027a",
+  "canon": false,
+  "title": "The snowflake coal takes fire in the air",
+  "body": "Fearghas of the Mason's line climbs to the highest ground of the island, above where Muileann gheal now stands, and lets the six unlit coals fall from the top. The coal flecked with white stars takes fire as it falls and burns white in the air; the others strike the stones cold. The summit is called after the kindred: Binnean a' Chlachair, the Mason's Point.",
+  "place": "marker:48",
+  "kind": "discovery",
+  "between": [
+   -10764,
+   -10744
+  ]
+ },
+ {
+  "id": "I-0028",
+  "canon": false,
+  "title": "The cliff-house at Seann Tarr in the east",
+  "body": "At the Seann Tarr of the north-eastern headlands a single long house is built into a cleft of the cliff, with the living rock for its back wall. The rock behind the hearth is black with soot to the height of a man.",
+  "place": "burg:34",
+  "kind": "building"
+ },
+ {
+  "id": "I-0029",
+  "canon": false,
+  "title": "The north-eastern Seann Vell",
+  "body": "The Seann Vell on the Abhainn bheag, a short way above its mouth in the north-east, is a small place of four houses and a boat-shed. No Seann-Dhaoine dwelling on the main island is known further to the north-east.",
+  "place": "burg:97",
+  "kind": "people"
+ },
+ {
+  "id": "I-0030",
+  "canon": false,
+  "title": "The northern Seann Skell",
+  "body": "At the Seann Skell below the later Ros gheal, on the north coast, the Seann-Dhaoine lay a second breakwater, shorter than the southern one and curved against the swell of the open sea. The two moles are built the same way, stone by stone.",
+  "place": "burg:132",
+  "kind": "building"
+ },
+ {
+  "id": "I-0031",
+  "canon": false,
+  "title": "The western Seann Vell",
+  "body": "At the Seann Vell of the west coast the Seann-Dhaoine dig a line of storage pits into the dune, lined with clay and lidded with slabs. Some held fish bones still when they were opened.",
+  "place": "burg:127",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0032",
+  "canon": false,
+  "title": "Làrach an Dùin-fhaire raised",
+  "body": "On a spur above the ground where Cathair mhòr now stands, the Seann-Dhaoine build the walled outpost afterwards called Làrach an Dùin-fhaire. Its stones are dressed on the outer face only, and its single gate looks inland, away from the sea.",
+  "place": "marker:31",
+  "kind": "building",
+  "between": [
+   -11200,
+   -9600
+  ]
+ },
+ {
+  "id": "I-0033",
+  "canon": false,
+  "title": "Làrach an Dùin raised",
+  "body": "A greater work is raised on the height near Ceann mhin: three rings of wall, a cistern cut into the bedrock, and room within, as it was later reckoned, for four hundred people and their beasts. Whether the builders of the outpost built this also has never been settled.",
+  "place": "marker:32",
+  "kind": "building"
+ },
+ {
+  "id": "I-0034",
+  "canon": false,
+  "title": "The kerbed way between the forts",
+  "body": "A kerbed track, a cart's width and paved with flat slabs, is laid through the ground near Àth fhionn toward both strongholds. It is the only road the Seann-Dhaoine are known to have made away from the shore.",
+  "place": "burg:46",
+  "kind": "building"
+ },
+ {
+  "id": "I-0035",
+  "canon": false,
+  "title": "Làrach an Teampaill raised",
+  "body": "A stepped platform of fitted stone is built in the eastern hills, with an altar block on its top step. The altar is set square to the central mountains. Every later temple on Dia-thìr faces some other way.",
+  "place": "marker:33",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0036",
+  "canon": false,
+  "title": "The shaft of Toll-dubh in the south-east",
+  "body": "A shaft is sunk straight down through the rock at the eastern Toll-dubh, its walls tooled smooth as far as a lamp will show. No spoil lies beside it. Whatever was taken out was carried away, or nothing was.",
+  "place": "marker:20",
+  "kind": "discovery"
+ },
+ {
+  "id": "I-0037",
+  "canon": false,
+  "title": "The shaft of Toll-dubh in the west",
+  "body": "A second shaft of the same making is cut at the western Toll-dubh, far across the island from the first. Stones thrown into either are not heard to land.",
+  "place": "marker:19",
+  "kind": "discovery"
+ },
+ {
+  "id": "I-0038",
+  "canon": true,
+  "title": "The First Canoe",
+  "body": "Among the coastal Tuathaich families a half-forgotten telling of a voyage is kept, long hushed: a steersman with a name, and a first crossing to an isle of the blessed. Their church tells it as the voyage of Naomh Breandan. The druids of the Old Faith call it idle belief.",
+  "place": null,
+  "kind": "voyage",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0038a",
+  "canon": false,
+  "title": "The black coal warm in the ground",
+  "body": "Brian of the Mason's line buries the five unlit coals deep in the ground beside the slab at Tobar dhìreach. When he digs them up on the next day the black coal, as black as a wet crow, is warm in his hand and smoulders as the air comes to it; the other four are as cold as the clay.",
+  "place": "burg:276",
+  "kind": "discovery",
+  "between": [
+   -10049,
+   -10029
+  ]
+ },
+ {
+  "id": "I-0039",
+  "canon": false,
+  "title": "Stakes in the mud below Ceann mhòr",
+  "body": "The first sure boats of the north-west coast leave their trace in the tidal mud below Ceann mhòr: a row of mooring stakes and a scrap of stitched hide. Who rowed them, and from where, is not known.",
+  "place": "burg:143",
+  "kind": "voyage"
+ },
+ {
+  "id": "I-0040",
+  "canon": true,
+  "title": "The Sea-Watcher first sighted",
+  "body": "Old sailors tell of a vast creature dwelling in the waters off the north-western coast. No wreck has ever been brought up to prove them wrong.",
+  "place": "marker:21",
+  "kind": "omen",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0041",
+  "canon": false,
+  "title": "The beacon on the Baile chrom headland",
+  "body": "A fire is kept on the headland where Taigh-solais Baile chrom now stands, and its ash lies a man's height deep. The tellings say it was lit to warn boats off the water where the Sea-Watcher was seen, and never to bring them in.",
+  "place": "marker:12",
+  "kind": "building"
+ },
+ {
+  "id": "I-0042",
+  "canon": false,
+  "title": "Seven boats lost off Ros ruadh",
+  "body": "Seven boats are lost from Ros ruadh in one calm season, with no storm to blame. It is the first loss laid at the door of the Sea-Watcher by name; before this it was feared only in general.",
+  "place": "burg:238",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0043",
+  "canon": false,
+  "title": "The seal hunt moves south",
+  "body": "The hunters of the north-west leave the open water and work the southern side of the headlands, out of the Sea-Watcher's sight. The seal bones thin in the middens of the north-west and grow at Caol mhòr and Cuan bheag.",
+  "place": "burg:95",
+  "kind": "people"
+ },
+ {
+  "id": "I-0044",
+  "canon": false,
+  "title": "Signs cut in the Doire uaine hills",
+  "body": "Inscriptions are cut on rock faces all across the Doire uaine hills, more than anywhere else on the island, in lines that run for yards. Some lines are cut over and defaced with the same kind of tool that made them.",
+  "place": "burg:148",
+  "kind": "record"
+ },
+ {
+  "id": "I-0045",
+  "canon": true,
+  "title": "The Hollow Man of Doire uaine",
+  "body": "The inscriptions of the Doire uaine hills tell of something that walked without breathing, and fell upon any who lit a fire in its sight.",
+  "place": "marker:22",
+  "kind": "omen",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0046",
+  "canon": false,
+  "title": "The hill fires go under the ground",
+  "body": "After the inscriptions the hearths of the Doire uaine hills are dug into pits and roofed with slabs. No open hearth shows in those hills for many lifetimes. The people stay, and hide their light.",
+  "place": "burg:148",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0047",
+  "canon": false,
+  "title": "The nine at the hill camp",
+  "body": "Nine people die inside a hut at the camp where Muileann chiar was afterwards built, and lie where they fell beside a hearth of fresh ash. No wound is found on any bone. The hut is never opened again, and none is buried from it.",
+  "place": "burg:355",
+  "kind": "death"
+ },
+ {
+  "id": "I-0048",
+  "canon": true,
+  "title": "Coille Naomh Muileann chiar set aside",
+  "body": "A forest is held sacred long before any order of the Old Faith claims it. The trees knew it first, the old telling says, and the people after.",
+  "place": "marker:23",
+  "kind": "faith",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0049",
+  "canon": false,
+  "title": "No axe in the grove",
+  "body": "The families at the edge of Coille Naomh Muileann chiar carry their fuel a half-day's walk sooner than cut a branch within it. The charcoal in their hearths is of every wood but that one.",
+  "place": "marker:23",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0050",
+  "canon": false,
+  "title": "The white stag of the grove",
+  "body": "Three hunters see a white stag at the edge of Coille Naomh Muileann chiar, and none of them draws. This is the first telling of it. The stag returns in the tellings of every age after, and the druids of later ages name it the white stag of Flidais; in this age it has no god.",
+  "place": "marker:23",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0051",
+  "canon": true,
+  "title": "Coille Naomh Cnoc bheag left unclaimed",
+  "body": "A second forest, that seems older than the first, is never settled, never felled, and never walked from end to end.",
+  "place": "marker:24",
+  "kind": "faith",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0052",
+  "canon": false,
+  "title": "The paths that stop at a line of stones",
+  "body": "Tracks are worn toward Coille Naomh Cnoc bheag from three quarters, and all three end at a low line of set stones some way short of the trees. Beyond the stones the ground is not worn.",
+  "place": "marker:24",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0052a",
+  "canon": false,
+  "title": "The blood of the misstrike",
+  "body": "Cormac of the Mason's line carries the four unlit coals to the grove at Doire ghlas, where the Keeper first spoke, and sets about breaking them there. His hammer misses and opens the back of his hand, and where the blood falls on the red-brown coal it takes fire. The kindred call it the coal of life.",
+  "place": "burg:209",
+  "kind": "discovery",
+  "between": [
+   -9264,
+   -9244
+  ]
+ },
+ {
+  "id": "I-0053",
+  "canon": false,
+  "title": "The deer-drives of the eastern forest",
+  "body": "Lines of stakes and brush are set to drive the red deer of the eastern woods into a gully near Doire fhionn, where they are killed with spears. The antlers of the greatest stags are stacked apart from the rest.",
+  "place": "burg:117",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0054",
+  "canon": false,
+  "title": "The first dog graves",
+  "body": "At Cnoc fhionn in the east dogs are buried beside people, each with a shell at its head. No beast was given a grave on Dia-thìr before.",
+  "place": "burg:61",
+  "kind": "death"
+ },
+ {
+  "id": "I-0055",
+  "canon": false,
+  "title": "The geese of Eilean ghorm",
+  "body": "The grey geese that winter on Eilean ghorm come into the tellings for the first time. They come in with the first storm and leave with the last, and none hunts them there.",
+  "place": "feature:8",
+  "kind": "omen"
+ },
+ {
+  "id": "I-0056",
+  "canon": false,
+  "title": "The widest reach of the Seann-Dhaoine",
+  "body": "At their height the Seann-Dhaoine hold every coast of the island: the ten places whose names begin with Seann, and the islands off them. Their greatest landing is at Seann Skell, up the Abhainn naomh, where the mole already stands.",
+  "place": "province:3",
+  "kind": "people"
+ },
+ {
+  "id": "I-0057",
+  "canon": false,
+  "title": "The warm springs used",
+  "body": "Stone basins are set into the springs at Fuarain Theth Muileann ruadh. The people buried near them have old breaks that knitted clean. Here the sick of Dia-thìr are first brought for healing.",
+  "place": "marker:0",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0058",
+  "canon": false,
+  "title": "The gate of the outpost walled up",
+  "body": "The single gate of Làrach an Dùin-fhaire is blocked with rubble from within. Those who did it left by another way, or did not leave.",
+  "place": "marker:31",
+  "kind": "war"
+ },
+ {
+  "id": "I-0059",
+  "canon": true,
+  "title": "Làrach an Dùin-fhaire abandoned",
+  "body": "The outpost is deserted. It lay in ruin before the first trusty chronicles, and it is older than any dwelling of the Dia-thìrich. Who built it none knows.",
+  "place": "marker:31",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0060",
+  "canon": false,
+  "title": "The fortress cistern fouled",
+  "body": "The cistern of Làrach an Dùin is choked with the bones of cattle, thrown in whole. Its water had served four hundred people. No one draws from it again.",
+  "place": "marker:32",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0061",
+  "canon": true,
+  "title": "Làrach an Dùin abandoned",
+  "body": "The fortress is deserted in like manner, and is as much a riddle as the outpost. Whether both had the same builders has never been settled.",
+  "place": "marker:32",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0062",
+  "canon": false,
+  "title": "The temple altar stripped",
+  "body": "The top stone of the altar at Làrach an Teampaill is prised off and carried away; the sockets that held it are sharp still. It has never been found, and what was cut on it, if anything, is not known.",
+  "place": "marker:33",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0062a",
+  "canon": false,
+  "title": "The silver coal in the river",
+  "body": "Eòghann of the Mason's line drinks from the Abhainn ghorm below Tobar dhìreach and says, 'This water tastes different from the sea water.' He throws the three unlit coals into the stream, and the coal with the sheen of silver takes fire in the current and burns silver under the water. The coal of fire and the rainbow coal lie dark.",
+  "place": "river:8",
+  "kind": "discovery",
+  "between": [
+   -8709,
+   -8689
+  ]
+ },
+ {
+  "id": "I-0063",
+  "canon": true,
+  "title": "Làrach an Teampaill abandoned",
+  "body": "The temple is deserted. It is older than any faith that has a name, and its altar looks to the central mountains and the vein beneath them, away from the sea.",
+  "place": "marker:33",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0064",
+  "canon": false,
+  "title": "The Seann-Dhaoine keep to the shore",
+  "body": "The high places are left, and every new work of the Seann-Dhaoine is made within sight of salt water. The middens at the southern Seann Chwen begin to grow as fast as those of Seann Dunn once did.",
+  "place": "burg:14",
+  "kind": "people"
+ },
+ {
+  "id": "I-0064a",
+  "canon": false,
+  "title": "The ancient sea-way",
+  "body": "The boats of the Seann-Dhaoine keep a lane along the south-east coast, from the river mouth below Seann Dunn round the cape where Taigh-solais Tobar dhearg now stands to the bay of Ceann chaol. Flat landing-stones lie along it a day's rowing apart, some grooved still by hauled keels. The Dia-thìrich call it Slighe-mhara àrsaidh, the ancient sea-way, and the fishers of that coast keep to it yet.",
+  "place": "burg:18",
+  "kind": "voyage"
+ },
+ {
+  "id": "I-0065",
+  "canon": false,
+  "title": "The hill-folk of the vein",
+  "body": "In the high valleys about the crack dwells a people other than the Seann-Dhaoine, who call themselves Clann nan Dè, the godkin. They bury their dead in the ground and not on islands, and they cut no script. Whether they shared the island with the Seann-Dhaoine or came after them, no telling knows; their own word, later, is that they were always there.",
+  "place": "burg:277",
+  "kind": "people"
+ },
+ {
+  "id": "I-0066",
+  "canon": false,
+  "title": "The first small burning",
+  "body": "At Àth gharbh a sliver of the coloured coal is burnt to a bead in a peat fire by a household not of the Mason's line. It burns black-flamed like any other coal, and the hearthstone round it is stained through with colour. No older burning of the coal by other hands is known. It is a small thing: one sliver, one fire.",
+  "place": "burg:277",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0067",
+  "canon": false,
+  "title": "The stained cloth of Achadh dhìreach",
+  "body": "At Achadh dhìreach the hill-folk rub broken coal from the vein into the wool of the dead, and it takes streaks of a colour no plant dye makes. It is seldom done: one grave in some thirty.",
+  "place": "burg:454",
+  "kind": "craft"
+ },
+ {
+  "id": "I-0068",
+  "canon": false,
+  "title": "A sliver in a Seann Bhral midden",
+  "body": "A chip of the coloured coal, still staining the shell about it, is thrown on a midden at Seann Bhral on the far western coast. By gift, by trade or by theft a piece of the vein came to the Seann-Dhaoine; which, is not known.",
+  "place": "burg:47",
+  "kind": "trade"
+ },
+ {
+  "id": "I-0068a",
+  "canon": false,
+  "title": "The Children of the Question",
+  "body": "The households of the high valleys begin to call the Mason's line Luchd-ceasnachaidh a' Ghuail Dhìomhair, the Inquisitors of the Mystic Coal, for their long questioning of the two dark coals; the lists shorten it to Clann na Ceiste, the Children of the Question. The kindred take the name, and Clann a' Chlachair is heard less after.",
+  "place": "burg:276",
+  "kind": "people",
+  "between": [
+   -8309,
+   -8289
+  ]
+ },
+ {
+  "id": "I-0069",
+  "canon": true,
+  "title": "Carragh Cnoc bheag raised",
+  "body": "A standing stone is raised, on which four words are afterwards found carved: Bha teine sa chloich, \"there was fire in the stone.\"",
+  "place": "marker:28",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0070",
+  "canon": false,
+  "title": "The older face of Carragh Cnoc bheag",
+  "body": "On the upper face of the stone runs a line of the unread script. The four Dia-thìris words lie lower, cut with a narrower tool by another hand. When that second hand came is not known.",
+  "place": "marker:28",
+  "kind": "record"
+ },
+ {
+  "id": "I-0071",
+  "canon": true,
+  "title": "Colbh Cnoc chiar raised",
+  "body": "A second stone is raised, bearing only three words: Cuimhnich an teine, \"remember the fire.\" Who is bidden, and why, none has ever said.",
+  "place": "marker:29",
+  "kind": "building",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0072",
+  "canon": false,
+  "title": "A ring of fire-stones round the pillar",
+  "body": "The ground about Colbh Cnoc chiar is trodden hard in a ring and paved with fire-cracked stones. Fires the size of hearths are kept there again and again. Nothing else is left.",
+  "place": "marker:29",
+  "kind": "faith"
+ },
+ {
+  "id": "I-0073",
+  "canon": true,
+  "title": "Calbh Cnoc ghorm raised",
+  "body": "A third stone is raised, and on it the whole of the saying: Cha do thàinig sinn; bha sinn ann. Here, it may be, the belief was first spoken.",
+  "place": "marker:30",
+  "kind": "faith",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0073a",
+  "canon": false,
+  "title": "The fire in the fingers",
+  "body": "Seathan of Clann na Ceiste, who has handled the coal of fire all his days to no end, snaps his fingers when a thought strikes him, and the coal-dust on his hand takes fire. He beats it out against his coat and is not burned. So the sixth coal is lit, by the fire that is in the hand itself.",
+  "place": "burg:276",
+  "kind": "discovery",
+  "between": [
+   -8029,
+   -8009
+  ]
+ },
+ {
+  "id": "I-0074",
+  "canon": false,
+  "title": "The gatherings at the column",
+  "body": "People come to the column at Cnoc ghorm in numbers. The post-holes of shelters for some hundreds lie about it, used and rebuilt many times. Whatever was said there was said to a crowd.",
+  "place": "burg:392",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0075",
+  "canon": true,
+  "title": "Tuam Cnoc dhìreach consecrated",
+  "body": "A burial-ground grows about a place that none remembers hallowing. Its oldest graves are older than the oldest names that can be read there.",
+  "place": "marker:41",
+  "kind": "death",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0076",
+  "canon": false,
+  "title": "The black chip in the child's grave",
+  "body": "A child is buried at Tuam Cnoc dhìreach with a sliver of the coloured coal closed in one hand. The sliver stains still the cloth it is kept in. No other piece of the vein is found with the dead of this age.",
+  "place": "marker:41",
+  "kind": "death"
+ },
+ {
+  "id": "I-0077",
+  "canon": false,
+  "title": "The rows at Tuam Cnoc dhìreach",
+  "body": "The graves at Tuam Cnoc dhìreach begin to be laid in rows, heads toward the central mountains. The first rows are straight. The later ones bend round older graves that no one will disturb.",
+  "place": "marker:41",
+  "kind": "death"
+ },
+ {
+  "id": "I-0078",
+  "canon": true,
+  "title": "The panther roads",
+  "body": "The great cats of the island are first seen to keep their roads, crossing the mountains by fixed ways at fixed seasons. Why they do so no one has learned.",
+  "place": null,
+  "kind": "discovery",
+  "canon_date": "undated"
+ },
+ {
+  "id": "I-0079",
+  "canon": false,
+  "title": "The crossing season kept",
+  "body": "The hill-folk learn the panthers' seasons and keep off the high passes while the cats cross. The camps in the passes stand empty at the same point in every year.",
+  "place": "marker:40",
+  "kind": "culture"
+ },
+ {
+  "id": "I-0080",
+  "canon": false,
+  "title": "Eleven lost on the panther road",
+  "body": "A party of eleven from the southern shore goes up into the hills near Cnoc àrsaidh in the crossing season and does not return. Years afterwards their bones are found along the line the cats use still.",
+  "place": "burg:433",
+  "kind": "disaster"
+ },
+ {
+  "id": "I-0080a",
+  "canon": false,
+  "title": "The rainbow coal lit by the Keeper",
+  "body": "Ailean of Clann na Ceiste, having lit each of the six coals again by its own way, carries them burning to the grove at Doire ghlas with the last coal, which his kindred have tried for more than four hundred years. The Keeper comes to him there and lights the rainbow coal, and for the first time all seven burn together, each from its own spirit. It bids him stay with them until they are cold.",
+  "place": "burg:209",
+  "kind": "faith",
+  "between": [
+   -7600,
+   -7600
+  ],
+  "eve": 7
+ }
+]
