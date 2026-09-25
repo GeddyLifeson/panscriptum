@@ -1,0 +1,365 @@
+[
+ {
+  "title": "Lisle's clerks bind the agreements in one book",
+  "era_year": {
+   "after": "IV-0100"
+  },
+  "summary": "Arthur Lisle's two clerks spend the winter at Taigh an Àrd-mhaoir copying every agreement made between the island and the strangers since the leave, with Cairt na Companaidh bound at the back. Lisle reads the book through with a pen and writes his queries in the margins; the letter-books keep forty pages of his notes.",
+  "category": "law",
+  "people": [
+   "Arthur Lisle"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0099",
+   "IV-0100"
+  ]
+ },
+ {
+  "title": "The hawk-faithful carry the customs officer out of Ros gheal",
+  "era_year": {
+   "after": "IV-0100"
+  },
+  "summary": "Eleven days after the customs house opens, some thirty hawk-faithful of Ros gheal come down from the hawk-house at dusk, carry the officer's table, book and scale into the street, and walk him to the last house on the road south. He returns within the month with two clerks and a letter from Lisle.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:24"
+  ],
+  "threads": [
+   "the-company",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0100",
+   "III-0063"
+  ]
+ },
+ {
+  "title": "Ros gheal rows the customs officer down the coast",
+  "era_year": {
+   "after": "IV-0100"
+  },
+  "summary": "At the autumn herring the fishing families of Ros gheal put the customs officer, his clerks, his table and his scale into a boat and set them ashore on a roadless beach two miles down the coast. The town's roll says only that he went away by water. Lisle writes that the town has broken no page, since none yet binds it.",
+  "category": "humans",
+  "people": [
+   "Arthur Lisle"
+  ],
+  "places": [
+   "burg:24"
+  ],
+  "threads": [
+   "the-company",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0100"
+  ]
+ },
+ {
+  "title": "Ùna nic Choinnich calls the guild to the hall",
+  "era_year": {
+   "after": "IV-0101"
+  },
+  "summary": "The agent of A' Chompanaidh at Muileann chrom sends notice to Muileann chiar that surveyors will measure the silver seam in spring under the charter's first refusal. Ùna nic Choinnich reads the letter in both tongues to forty-one members of Comann an Airgid gathered in the guild hall by night, and resolves to ask the council what it holds.",
+  "category": "trade",
+  "people": [
+   "Ùna nic Choinnich"
+  ],
+  "places": [
+   "burg:419",
+   "marker:2"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0101",
+   "IV-0032"
+  ]
+ },
+ {
+  "title": "Coinneach Glas lends Ùna the council's copies",
+  "era_year": {
+   "after": "IV-0101"
+  },
+  "summary": "Ùna nic Choinnich rides three days to Cathair dhearg. Coinneach Glas, Ceann a' Chùraim, aged sixty-eight and ailing, hears her out in the room of the rolls and gives her the council's own copies of Cùmhnant Cathair dhearg, Puingean a' Chalaidh and the pit contracts, bidding her look for the silver before the humans do.",
+  "category": "law",
+  "people": [
+   "Ùna nic Choinnich",
+   "Coinneach Glas"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0101",
+   "IV-0029",
+   "IV-0058"
+  ]
+ },
+ {
+  "title": "Ùna finds no silver in Cùmhnant Cathair dhearg",
+  "era_year": {
+   "after": "IV-0101"
+  },
+  "summary": "Reading the council's copies by rushlight at the inns of Rathad na Mèinne on her way home, Ùna nic Choinnich finds coal named on every page of Cùmhnant Cathair dhearg and no word of silver, nor of any metal but the iron the humans paid with. At the inn below Muileann chrom she tells her grandson that A' Chompanaidh holds no paper for the seam.",
+  "category": "law",
+  "people": [
+   "Ùna nic Choinnich"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0029"
+  ]
+ },
+ {
+  "title": "The surveyor's report reaches Taigh an Àrd-mhaoir",
+  "era_year": {
+   "after": "IV-0102"
+  },
+  "summary": "The chief surveyor reports to Taigh an Àrd-mhaoir that the whole of Muileann chiar met him at the working, silent, and that he found no grant or payment to A' Chompanaidh in either of the guild's books and did not think it prudent to proceed. Lisle writes beneath it that he would not have found it either, and sends for the bound book.",
+  "category": "humans",
+  "people": [
+   "Arthur Lisle"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0102"
+  ]
+ },
+ {
+  "title": "Lisle writes that the charter gives A' Chompanaidh nothing",
+  "era_year": {
+   "after": "IV-0102"
+  },
+  "summary": "In a long letter to the master of A' Chompanaidh, Arthur Lisle sets out that Cairt na Companaidh is a promise made by its own masters and grants nothing on the island, where the only title is Cùmhnant Cathair dhearg, which speaks of coal and says nothing of silver. The master of A' Chompanaidh protests; Lisle answers in two lines.",
+  "category": "law",
+  "people": [
+   "Arthur Lisle"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0102",
+   "IV-0032",
+   "IV-0029"
+  ]
+ },
+ {
+  "title": "The guild asks for the compact in both tongues",
+  "era_year": {
+   "after": "IV-0102"
+  },
+  "summary": "Answering Lisle's proposal of a compact, Ùna nic Choinnich writes in the humans' letters that the guild will sign, that it must be signed at Muileann chiar where the seam lies, and that it be written in both tongues line against line. Lisle strikes out his clerk's query and agrees, and says he will come himself on Là Fhèill Brìde.",
+  "category": "law",
+  "people": [
+   "Ùna nic Choinnich",
+   "Arthur Lisle"
+  ],
+  "places": [
+   "burg:419"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0102"
+  ]
+ },
+ {
+  "title": "The compact read in the guild hall",
+  "era_year": {
+   "after": "IV-0103"
+  },
+  "summary": "On the evening of the signing, after Lisle's carriage has gone down the valley, Cùmhnant an Airgid is read aloud to Comann an Airgid in the guild hall of Muileann chiar from its Dia-thìris column, and read a second time for the apprentices. It is laid that night in the guild chest under three locks.",
+  "category": "trade",
+  "people": [
+   "Ùna nic Choinnich"
+  ],
+  "places": [
+   "burg:419",
+   "marker:2"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0103"
+  ]
+ },
+ {
+  "title": "Lisle sees the silver seam",
+  "era_year": {
+   "after": "IV-0103"
+  },
+  "summary": "Before leaving Muileann chiar Arthur Lisle asks to see the seam, and Ùna nic Choinnich takes him into the adit with a lamp. He tells her he has never seen the colours in the coal but can see the silver; she answers that the Dia-thìrich see it the same, and that this is why silver is not holy.",
+  "category": "humans",
+  "people": [
+   "Arthur Lisle",
+   "Ùna nic Choinnich"
+  ],
+  "places": [
+   "marker:2"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "IV-0103",
+   "II-0017"
+  ]
+ },
+ {
+  "title": "Death of Coinneach Glas",
+  "era_year": {
+   "after": "IV-0103"
+  },
+  "summary": "Coinneach Glas, Ceann a' Chùraim since the death of Tormod mac Ailein, dies in his chair in the room of the rolls at Cathair dhearg, aged sixty-nine, after twenty-four years in the seat. He has had Cùmhnant an Airgid read to him twice and called it a better paper than any he signed.",
+  "category": "rulers",
+  "people": [
+   "Coinneach Glas"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0061",
+   "IV-0103"
+  ]
+ },
+ {
+  "title": "Alasdair Liath chosen Ceann a' Chùraim",
+  "era_year": {
+   "after": "IV-0103"
+  },
+  "summary": "Comhairle a' Chùraim chooses Alasdair Liath, aged forty-nine, to sit as Ceann a' Chùraim after Coinneach Glas. He has sat on the council since before Puingean a' Chalaidh and voted to sign them. The roll records his age and the number of voices and nothing more.",
+  "category": "rulers",
+  "people": [
+   "Alasdair Liath"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0061",
+   "IV-0058"
+  ]
+ },
+ {
+  "title": "The council's copies returned from Muileann chiar",
+  "era_year": {
+   "after": "IV-0103"
+  },
+  "summary": "In the spring after the compact Ùna nic Choinnich sends the council's leaves of Cùmhnant Cathair dhearg, Puingean a' Chalaidh and the pit contracts back to Cathair dhearg by her grandson Fionnlagh, wrapped in the same oilcloth they came in, with a bar of silver for the clerk who keeps the presses.",
+  "category": "law",
+  "people": [
+   "Ùna nic Choinnich"
+  ],
+  "places": [
+   "burg:19",
+   "burg:419"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The first silver carts go down to Seann Bhral",
+  "era_year": {
+   "after": "IV-0104"
+  },
+  "summary": "Refusing the request of A' Chompanaidh that its silver pass through the quays of Ros dhomhain, Comann an Airgid sends its first carts of bar silver eighteen miles down the valley to Seann Bhral, and pays the port's custodians by the Muileann chiar weight on every bar. Taigh an Àrd-mhaoir tells the agent of A' Chompanaidh the compact gives no ground to object.",
+  "category": "trade",
+  "people": [
+   "Ùna nic Choinnich"
+  ],
+  "places": [
+   "burg:110",
+   "burg:419"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0104",
+   "II-0153"
+  ]
+ },
+ {
+  "title": "The guild's book of weighings filled",
+  "era_year": {
+   "after": "IV-0104"
+  },
+  "summary": "In the summer after the compact the smelting-floors of Muileann chiar work from dawn to dark, and the guild's paper book of the weighings, begun in An Aois Scaraidh and kept in a dozen hands, is filled by the autumn and a new one begun.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:419"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0104"
+  ]
+ },
+ {
+  "title": "The guild enters the Baile gheal salt in its ledger",
+  "era_year": {
+   "after": "IV-0105"
+  },
+  "summary": "A carter from the west brings word to Muileann chiar that the carters of Baile gheal have taken up the Seann Warr salt trade round the lake. Ùna nic Choinnich has it written into the guild's new ledger as a thing the humans did not take.",
+  "category": "trade",
+  "people": [
+   "Ùna nic Choinnich"
+  ],
+  "places": [
+   "burg:419",
+   "burg:232"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0105"
+  ]
+ },
+ {
+  "title": "Ùna locks the compact in the guild chest",
+  "era_year": {
+   "after": "IV-0105"
+  },
+  "summary": "On the day Comann an Airgid reckons its year, the three keyholders open the guild chest and Cùmhnant an Airgid is read aloud in both tongues. Ùna nic Choinnich, aged fifty-nine, lays it back on the new book of weighings beside the notched boards of the old ledger, and the three locks are turned.",
+  "category": "trade",
+  "people": [
+   "Ùna nic Choinnich"
+  ],
+  "places": [
+   "burg:419"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0103"
+  ]
+ }
+]

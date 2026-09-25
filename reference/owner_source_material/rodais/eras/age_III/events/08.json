@@ -1,0 +1,132 @@
+[
+ {
+  "title": "Aodh Crom's charge to the new Keeper",
+  "era_year": 4,
+  "summary": "At the choosing on the slope below the slab, Aodh Crom, eldest of the keepers, holds out a lit rush to Beathag Bhàn and charges her to hold it for Brìde and answer to Crom for what is taken from the vein. She says nothing, and the keepers count her silence in her favour.",
+  "category": "faith",
+  "people": ["Aodh Crom", "Beathag Bhàn"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0002", "type": "cause"}]
+ },
+ {
+  "title": "The flame kept in a turf hut",
+  "era_year": 4,
+  "summary": "With no hall yet raised, the households build Beathag Bhàn a one-room hut of turf at the mountain's foot, and she carries the newly given flame into it and sits up with it through the first night, having found no words to answer the keepers with.",
+  "category": "faith",
+  "people": ["Beathag Bhàn"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0002", "type": "sequel"}]
+ },
+ {
+  "title": "Beathag Bhàn learns the galleries",
+  "era_year": 5,
+  "summary": "Aodh Crom leads Beathag Bhàn down into the low galleries under Dùn ìseal and names them for her one by one, though he will not let her cut the coal herself, telling her that the hand which holds the flame does not also cut the vein.",
+  "category": "coal",
+  "people": ["Aodh Crom", "Beathag Bhàn"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0002", "type": "sequel"}]
+ },
+ {
+  "title": "The watch set on the cairns above Cnoc ghlas",
+  "era_year": 6,
+  "summary": "Beitris, an old keeper of the slab, teaches Beathag Bhàn to read the cloud on the high passes from the cairns above Cnoc ghlas, the sign by which the Hall judges when a gallery may safely be opened for the season.",
+  "category": "faith",
+  "people": ["Beitris", "Beathag Bhàn"],
+  "places": ["burg:390"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0002", "type": "sequel"}]
+ },
+ {
+  "title": "The nine districts argue the turn of the hearths",
+  "era_year": 9,
+  "summary": "Before the first season is set, two of the nine districts about the mountain's foot claim the tending of the flame for themselves alone, on the ground that their people sat nearest the old slab the longest, and are outvoted by the other seven.",
+  "category": "faith",
+  "people": [],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0003", "type": "cause"}]
+ },
+ {
+  "title": "Cailean of the northern hearth sits the first season",
+  "era_year": 10,
+  "summary": "Cailean, a boy of the northern district, is the first of the nine hearths sent up to sit a season with Beathag Bhàn and the flame, arriving expecting a shrine and finding a cold hut with one keeper barely older than himself.",
+  "category": "faith",
+  "people": ["Cailean", "Beathag Bhàn"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0003", "type": "sequel"}]
+ },
+ {
+  "title": "Niall Òg offers Beathag Bhàn a silver cup",
+  "era_year": 12,
+  "summary": "Niall Òg climbs to the Hall's ground alone and offers Beathag Bhàn a cup of worked silver beaten with running deer, so that she might have one thing of her own.",
+  "category": "rulers",
+  "people": ["Niall Òg", "Beathag Bhàn"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": []
+ },
+ {
+  "title": "Beathag Bhàn refuses the gift",
+  "era_year": 12,
+  "summary": "Beathag Bhàn gives the silver cup back to Niall Òg, saying that whatever she holds she holds for every hand in the valley, and that taking a gift from one heir would oblige her to answer for refusing every other.",
+  "category": "faith",
+  "people": ["Beathag Bhàn", "Niall Òg"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": []
+ },
+ {
+  "title": "The door of Talla na Lasrach set toward the vein",
+  "era_year": 14,
+  "summary": "Aodh Crom walks the ground of the new hall with Beathag Bhàn before the first stone is laid and marks where its one door must stand, facing the vein and turned from the sea, giving no reason he will afterward repeat the same way twice.",
+  "category": "faith",
+  "people": ["Aodh Crom", "Beathag Bhàn"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0004", "type": "cause"}]
+ },
+ {
+  "title": "The nine hearths raise the hall's walls",
+  "era_year": 15,
+  "summary": "Sons and daughters of the nine households build Talla na Lasrach's walls of dry stone and turf under Beathag Bhàn's eye, each household's work known afterward by the set of its stones, straight where the ninth hearth laid it and less so where the second did.",
+  "category": "faith",
+  "people": ["Beathag Bhàn"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0004", "type": "sequel"}]
+ },
+ {
+  "title": "Ruairidh Glas and Eachann Ruadh stand at one fire",
+  "era_year": 15,
+  "summary": "At Samhain on the Hall's ground, Ruairidh Glas, who killed Aonghas Bàn at Dùn thais, and Eachann Ruadh, the dead man's brother, stand at opposite sides of the same fire the whole night and speak no word to one another, but neither draws.",
+  "category": "law",
+  "people": ["Ruairidh Glas", "Eachann Ruadh"],
+  "places": ["burg:315"],
+  "threads": ["the-division", "the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0001c", "type": "legacy"}]
+ },
+ {
+  "title": "Sìne nan Snaidhm ties a knot for good news",
+  "era_year": 15,
+  "summary": "Sìne nan Snaidhm comes up to Dùn ìseal for the carrying of the flame into the finished hall and ties a plain unmarked length into her long cord-record, the first knot she has ever tied for good news alone rather than for a claim or a grief.",
+  "category": "law",
+  "people": ["Sìne nan Snaidhm", "Beathag Bhàn"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0004", "type": "sequel"}]
+ },
+ {
+  "title": "The flame carried into Talla na Lasrach",
+  "era_year": 15,
+  "summary": "On the shortest day of the year Beathag Bhàn lifts the flame from the hearth-stone of the turf hut that had held it eleven years and carries it into the finished hall, where it burns that evening for the first time under a roof built to hold it.",
+  "category": "faith",
+  "people": ["Beathag Bhàn", "Aodh Crom"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0004", "type": "sequel"}]
+ }
+]

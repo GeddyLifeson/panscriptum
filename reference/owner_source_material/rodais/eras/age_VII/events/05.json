@@ -1,0 +1,308 @@
+[
+ {
+  "title": "Comhairle nan Taighean-solais allows a trial in the yard at Baile ìseal",
+  "era_year": 5,
+  "summary": "The secretary of Comhairle nan Taighean-solais writes to its engineer Peigi nic Ascaill that the Comhairle sees no objection to a trial of her burner in the yard of Taigh-solais Baile ìseal, at her own charge, so long as the light is not touched and the keeper not hindered. The letter asks under what head twenty barrels of fuel were entered to the Comhairle's account at Seann Skell.",
+  "category": "law",
+  "people": [
+   "peigi-nic-ascaill"
+  ],
+  "places": [
+   "marker:13",
+   "burg:19"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "cause"
+   },
+   {
+    "to": "VI-0010",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#i-of-the-barrels-at-the-slip"
+ },
+ {
+  "title": "The twenty barrels landed at Baile ìseal",
+  "era_year": 5,
+  "summary": "A salt-boat of Àth bheag, coming home empty from Seann Skell of the south, lands twenty barrels of dubhan on the slip at Baile ìseal for the engineer of Comhairle nan Taighean-solais. Her skipper complains of the smell. A carter of Baile ruadh carries the barrels out along the cape to the yard below Taigh-solais Baile ìseal, at twice his rate.",
+  "category": "trade",
+  "people": [
+   "peigi-nic-ascaill"
+  ],
+  "places": [
+   "burg:285",
+   "burg:492",
+   "burg:431",
+   "burg:125",
+   "marker:13"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0010",
+    "type": "sequel"
+   },
+   {
+    "to": "VI-0011",
+    "type": "cause"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#i-of-the-barrels-at-the-slip"
+ },
+ {
+  "title": "The keeper of Taigh-solais Baile ìseal keeps the new fuel off her stair",
+  "era_year": 5,
+  "summary": "Seonag nic Thòmais, keeper of Taigh-solais Baile ìseal, tells the engineer Peigi nic Ascaill that the yard is hers for the trial and the tower's stair is not, and that the new fuel shall not come past the tower door. She names the old keeper Murchadh mac Coinnich to keep the trial's log.",
+  "category": "trade",
+  "people": [
+   "seonag-nic-thomais",
+   "peigi-nic-ascaill",
+   "murchadh-mac-coinnich"
+  ],
+  "places": [
+   "marker:13"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "location"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#i-of-the-barrels-at-the-slip"
+ },
+ {
+  "title": "Murchadh mac Coinnich rules the log of the trial lamp",
+  "era_year": 5,
+  "summary": "Murchadh mac Coinnich, seventy-one, keeper of Taigh-solais Baile ìseal for thirty-one years, rules a log-book at his cottage by the yard wall for the engineer's trial, one line to a night, with headings of his own: wind, weather, lit, out, wick, smoke, and what the boats said. He takes an under-keeper's wage for it.",
+  "category": "law",
+  "people": [
+   "murchadh-mac-coinnich",
+   "peigi-nic-ascaill"
+  ],
+  "places": [
+   "marker:13"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "same"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#ii-of-the-spare-lamp-and-the-log"
+ },
+ {
+  "title": "The trial lamp's chimney-glass cracked in a squall",
+  "era_year": 5,
+  "after": "VI-0011",
+  "summary": "On the eleventh night of the trial at Baile ìseal a squall of cold rain off the sea cracks the hot chimney-glass of the trial lamp from top to foot. The flame holds. The engineer puts in a new glass in the rain, and the tinsmith of Àth bheag makes a hood of sheet iron for the lantern, after which the glasses hold.",
+  "category": "trade",
+  "people": [
+   "peigi-nic-ascaill",
+   "murchadh-mac-coinnich"
+  ],
+  "places": [
+   "marker:13",
+   "burg:492"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#iii-of-what-the-boats-said"
+ },
+ {
+  "title": "Calum mac Iain comes home by the trial lamp in the haar",
+  "era_year": 5,
+  "after": "VI-0011",
+  "summary": "On the forty-first night of the trial a haar lies high on the eastern cape and hides the light of Taigh-solais Baile ìseal from the sea. Calum mac Iain, last of the Baile ìseal boats home from the lines, steers in under it by the trial lamp in the yard and finds the slip. He asks the log-keeper not to write it; it is written.",
+  "category": "land",
+  "people": [
+   "calum-mac-iain",
+   "murchadh-mac-coinnich"
+  ],
+  "places": [
+   "marker:13",
+   "burg:285"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#iii-of-what-the-boats-said"
+ },
+ {
+  "title": "The trial lamp lit from the Bealltainn fire",
+  "era_year": 5,
+  "after": "VI-0011",
+  "summary": "On the feast of Bealltainn a girl of Baile ìseal carries a pail of the dunes' fire out to the tower, as the town has done for its keepers since the light was lit. At the old keeper's word the engineer lights the trial lamp that night from a spill kindled at the Bealltainn coals, and the log records it so.",
+  "category": "faith",
+  "people": [
+   "murchadh-mac-coinnich",
+   "peigi-nic-ascaill"
+  ],
+  "places": [
+   "marker:13",
+   "burg:285"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#iii-of-what-the-boats-said"
+ },
+ {
+  "title": "The coal flame of Baile ìseal fails in a gale and the trial lamp holds",
+  "era_year": 5,
+  "after": "VI-0011",
+  "summary": "On the seventieth night of the trial a south-easterly gale lifts the roof of the coal-store at Taigh-solais Baile ìseal and wets the coal. A down-draught drives the smoke back into the lantern, and the tower's light fails from the second hour after midnight to the fourth while the keeper Seonag nic Thòmais fights the grate. The trial lamp in the yard burns through the night.",
+  "category": "coal",
+  "people": [
+   "seonag-nic-thomais",
+   "peigi-nic-ascaill",
+   "murchadh-mac-coinnich"
+  ],
+  "places": [
+   "marker:13"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#iv-of-the-seventieth-night"
+ },
+ {
+  "title": "Two boats of Baile ìseal come home by the trial lamp",
+  "era_year": 5,
+  "after": "VI-0011",
+  "summary": "Two boats of Baile ìseal, caught far out at their lines by the south-easterly gale, come round the eastern cape in the small hours while the tower's light is dark, and steer in by the trial lamp in the yard. One comes in with a torn sail and a man with a broken arm. Both reach the slip.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "marker:13",
+   "burg:285"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#iv-of-the-seventieth-night"
+ },
+ {
+  "title": "The coal-store at Taigh-solais Baile ìseal new-roofed",
+  "era_year": 5,
+  "after": "VI-0011",
+  "summary": "A roofer of Baile ruadh puts the coal-store at Taigh-solais Baile ìseal to rights after the gale. The secretary of Comhairle nan Taighean-solais answers the keeper's report of the night with a request for particulars of the wet coal and the down-draught, and says nothing of the trial in the yard.",
+  "category": "coal",
+  "people": [
+   "seonag-nic-thomais"
+  ],
+  "places": [
+   "marker:13",
+   "burg:125",
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#v-of-the-hundredth-night"
+ },
+ {
+  "title": "The hundredth night of the trial lamp",
+  "era_year": 5,
+  "after": "VI-0011",
+  "summary": "The trial of the dubhan lamp in the yard below Taigh-solais Baile ìseal ends on its hundredth night, fair with a light west wind. Eleven barrels of the twenty and part of a twelfth have been burned. Murchadh mac Coinnich writes the last line of the log: the boats have said nothing about the lamp, being used to it.",
+  "category": "trade",
+  "people": [
+   "murchadh-mac-coinnich",
+   "peigi-nic-ascaill"
+  ],
+  "places": [
+   "marker:13"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#v-of-the-hundredth-night"
+ },
+ {
+  "title": "Peigi nic Ascaill's report to Comhairle nan Taighean-solais",
+  "era_year": 5,
+  "after": "VI-0011",
+  "summary": "Peigi nic Ascaill, engineer to Comhairle nan Taighean-solais, sends the Comhairle her report of the hundred nights at Baile ìseal, with Murchadh mac Coinnich's log. It sets the fuel burned against the tower's coal night by night, at the works' price and the pit-head's, and gives the seventieth night in full.",
+  "category": "law",
+  "people": [
+   "peigi-nic-ascaill",
+   "murchadh-mac-coinnich"
+  ],
+  "places": [
+   "marker:13",
+   "burg:19"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0011",
+    "type": "sequel"
+   },
+   {
+    "to": "VI-0014",
+    "type": "cause"
+   }
+  ],
+  "told_in": "book/05_the_hundred_nights.md#v-of-the-hundredth-night"
+ }
+]

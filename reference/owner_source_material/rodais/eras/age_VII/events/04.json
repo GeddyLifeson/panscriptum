@@ -1,0 +1,245 @@
+[
+ {
+  "title": "Comann nan Sciobairean leases the salt-sheds at Seann Skell",
+  "era_year": 4,
+  "summary": "The company of shipmasters takes a lease of the old salt-sheds on the east side of the harbour at Seann Skell on the southern coast. The sheds have stood empty since the humans' time, the salt trade having gone east, and the town takes the rent gladly. The company brings slack and spoil down the coast in its own hulls and stacks it in the first shed.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:431"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0008"
+  ]
+ },
+ {
+  "title": "Peigi nic Ascaill sees the works at Seann Skell",
+  "era_year": {
+   "after": "VI-0008"
+  },
+  "summary": "Peigi nic Ascaill, engineer to Comhairle nan Taighean-solais, comes down from Cathair dhearg to see the dubhan works at Seann Skell on the southern coast. She is shown the heaps, the retorts and a lamp burning the new fuel, and the making-shed is kept locked. When she asks where the company learned the making, its master gives her wine.",
+  "category": "trade",
+  "people": [
+   "Peigi nic Ascaill"
+  ],
+  "places": [
+   "burg:431",
+   "burg:19"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0008",
+   "VI-0003"
+  ]
+ },
+ {
+  "title": "Tuathaich hands at the southern works",
+  "era_year": {
+   "after": "VI-0008"
+  },
+  "summary": "The dubhan works at Seann Skell on the southern coast keep Tuathaich hands at the retorts, among them Joe Ashby of Caol mhòr. Five work there in the spring and nine by midsummer. It is rare to see Tuathaich working in the south, and the town's foremen say only that the northern hands know the stuff.",
+  "category": "trade",
+  "people": [
+   "Joe Ashby"
+  ],
+  "places": [
+   "burg:431",
+   "burg:95"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0008"
+  ]
+ },
+ {
+  "title": "Peigi nic Ascaill's first report on the new fuel",
+  "era_year": {
+   "after": "VI-0008"
+  },
+  "summary": "Peigi nic Ascaill reports to Comhairle nan Taighean-solais that the new fuel burns clean enough for a lamp and may serve for the five lights, and that the works at Seann Skell will not say how it is made. The report is filed. No answer is written.",
+  "category": "trade",
+  "people": [
+   "Peigi nic Ascaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0008"
+  ]
+ },
+ {
+  "title": "The chimney of Obair-dhubhain Seann Skell finished",
+  "era_year": {
+   "after": "VI-0008"
+  },
+  "summary": "The brick chimney of Obair-dhubhain Seann Skell is finished at the end of the row of salt-sheds. Its smoke lies along the shore on windy days, and the fishwives of the harbour say the herring taste of it. The town petitions the maor against the reek; the maor answers that the company pays its harbour-due, and the petition goes no further.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:431"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0008",
+   "VI-0010"
+  ]
+ },
+ {
+  "title": "A retort bursts at the southern works",
+  "era_year": {
+   "after": "VI-0008"
+  },
+  "summary": "In the summer a retort of the dubhan works at Seann Skell on the southern coast splits along its lower seam, and a hand of the town is scalded on the arm. Peigi nic Ascaill, in the town for the lantern-glass of Taigh-solais Tobar dhearg, draws a baffle for the furnaces and sends it to the works unsigned. The company fits it to every furnace in the row.",
+  "category": "trade",
+  "people": [
+   "Peigi nic Ascaill",
+   "Joe Ashby"
+  ],
+  "places": [
+   "burg:431",
+   "marker:16"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0008"
+  ]
+ },
+ {
+  "title": "New glass set in the lantern at Tobar dhearg",
+  "era_year": {
+   "after": "VI-0008"
+  },
+  "summary": "The lantern of Taigh-solais Tobar dhearg on the southern cape is fitted with new glass blown at Seann Skell from the white sand of its own shore, at half the price of the capital's glass. Peigi nic Ascaill orders it in an t-Ògmhios and sees it set in an t-Samhain. The tower still burns the island's coal.",
+  "category": "trade",
+  "people": [
+   "Peigi nic Ascaill"
+  ],
+  "places": [
+   "marker:16",
+   "burg:398",
+   "burg:431"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Alasdair mac Ìomhair reads his letter in Brìde's house",
+  "era_year": {
+   "after": "VI-0008"
+  },
+  "summary": "At Seann Skell on the southern coast Alasdair mac Ìomhair, Àrd-choimheadaiche, reads Litir an Àrd-choimheadaiche himself at the evening lamp in the great house of Òrd Bhrìde, on the day it is sent to every house of the order. The hall is full. Many of those who hear it already burn dubhan lamps at home, bought off the works' carts that summer.",
+  "category": "faith",
+  "people": [
+   "Alasdair mac Ìomhair",
+   "Peigi nic Ascaill"
+  ],
+  "places": [
+   "burg:431"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0009"
+  ]
+ },
+ {
+  "title": "The school at Caol shean disputes Litir an Àrd-choimheadaiche",
+  "era_year": {
+   "after": "VI-0009"
+  },
+  "summary": "The school of Feallsanachd an Fhèidh at Caol shean writes that a fuel made from the vein's own waste cannot be called wholly not coal, since the spoil has lain against the seam for a thousand years. The houses of Òrd an t-Seabhaig round Cnoc bheag write that they did not ask the Àrd-choimheadaiche's opinion and are glad to have it.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:197",
+   "burg:20"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0009"
+  ]
+ },
+ {
+  "title": "The south-coast boats buy dubhan at Seann Skell",
+  "era_year": {
+   "after": "VI-0009"
+  },
+  "summary": "The fishing boats of the south coast come in to Seann Skell from Tobar dhearg and the coves along the shore to load the works' dubhan for their galley-stoves and riding-lamps. It is cheaper than coal by a third. For five years they have burned driftwood and fish-oil, and more than one boat has gone on the rocks for want of a lamp that would stay lit in a gale.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:431",
+   "burg:398"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0010"
+  ]
+ },
+ {
+  "title": "The first dubhan barrels go to the lamp-houses of Cathair dhearg",
+  "era_year": {
+   "after": "VI-0010"
+  },
+  "summary": "Eleven carts of six barrels each leave the works at Seann Skell on the southern coast for the lamp-houses of Cathair dhearg, bought on the lamp-houses' account. They are the first dubhan landed at the capital's lamp-houses, for the poorer streets that have been left dark three winters to save coal.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:431",
+   "burg:19"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0010",
+   "VI-0004"
+  ]
+ },
+ {
+  "title": "Peigi nic Ascaill's twenty barrels",
+  "era_year": {
+   "after": "VI-0010"
+  },
+  "summary": "Peigi nic Ascaill buys twenty barrels of dubhan at the works of Comann nan Sciobairean at Seann Skell, entered in the company's ledger to Comhairle nan Taighean-solais on account, without her masters' leave. Joe Ashby chalks a lantern on each barrel. That night she writes asking leave to run a trial of the fuel in a spare lamp below one of the lights for a hundred nights.",
+  "category": "trade",
+  "people": [
+   "Peigi nic Ascaill",
+   "Joe Ashby"
+  ],
+  "places": [
+   "burg:431"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0010"
+  ]
+ }
+]

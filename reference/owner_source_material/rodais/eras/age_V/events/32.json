@@ -1,0 +1,172 @@
+[
+ {
+  "title": "Edward Vane dies at the Residency",
+  "era_year": 132,
+  "summary": "Commissioner Edward Vane, born at the Residency above Ros dhomhain, dies there in the bed he was born in. The custodians who come to acknowledge the change of stewards find, as they had all his rule, that they had liked him rather more than they meant to.",
+  "category": "humans",
+  "people": ["Edward Vane"],
+  "places": ["burg:27"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0259"]
+ },
+ {
+  "title": "Charles Merriman lands with thirty constables",
+  "era_year": 132,
+  "summary": "Charles Merriman comes out from an Tìr Thall to take up the Commissioner's staff, bringing thirty armed men in grey coats, the first standing force the Administration has kept on Dia-thìr. He tells the custodians who meet the ship that they are constables sworn under his own commission, not soldiers.",
+  "category": "humans",
+  "people": ["Charles Merriman", "Mòrag nic Iain Maor"],
+  "places": ["burg:27"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0259"]
+ },
+ {
+  "title": "The constable post built at Muileann shean",
+  "era_year": 132,
+  "summary": "Merriman's first post is raised at Muileann shean on the northern coal road, a stone house with a horse-yard, its flagpole cut from timber the Company never paid the custodian for. The townsfolk call it the humans' second Residency, and the name outlasts every other name tried for the place.",
+  "category": "law",
+  "people": ["Charles Merriman"],
+  "places": ["burg:212"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0260"]
+ },
+ {
+  "title": "The post at Tobar ghorm and the custodian's rent",
+  "era_year": 132,
+  "summary": "A second constable post rises at Tobar ghorm. The village's custodian, Uilleam Glas, takes the rent paid for the ground and clears the village of every debt it owes the Company's own store, to the written complaint of the Company's agent.",
+  "category": "law",
+  "people": ["Uilleam Glas"],
+  "places": ["burg:438"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0261"]
+ },
+ {
+  "title": "Ruth Pallant teaches Hannah Webb the night watch",
+  "era_year": 133,
+  "summary": "At Ceann mhòr, an old net-mender named Ruth Pallant tells the field-worker Hannah Webb of a night watch her own people's fisher-forebears learned from the island folk, kept in silence under a grey goose said to hold the sea shut. Hannah carries the telling of it home to the concession.",
+  "category": "faith",
+  "people": ["Ruth Pallant", "Hannah Webb"],
+  "places": ["burg:143"],
+  "threads": ["the-church-on-the-island", "the-orders-of-the-old-faith"],
+  "master_links": ["IV-0262"]
+ },
+ {
+  "title": "Hannah Webb's first vigil",
+  "era_year": 133,
+  "summary": "In a field behind her landlord's byre near Baile chrom, Hannah Webb keeps the silent watch for the first time, and sees, or believes she sees, a pale shape cross the night sky before she sleeps through a whole night for the first time in ten years on the island.",
+  "category": "faith",
+  "people": ["Hannah Webb"],
+  "places": ["burg:305"],
+  "threads": ["the-church-on-the-island", "the-orders-of-the-old-faith"],
+  "master_links": ["IV-0262"]
+ },
+ {
+  "title": "The watch spreads along the concession's edge",
+  "era_year": 133,
+  "summary": "Word of Hannah Webb's night vigil passes among the human labourers of the concession after a field hand sees her keeping it. Within a season a handful of others try it, and by autumn six or seven keep the field together on clear nights, spaced apart and silent.",
+  "category": "faith",
+  "people": ["Hannah Webb", "Colm Ashe"],
+  "places": ["burg:305"],
+  "threads": ["the-church-on-the-island"],
+  "master_links": ["IV-0262"]
+ },
+ {
+  "title": "Minister Renn writes the vigil irregular",
+  "era_year": 133,
+  "summary": "Obadiah Renn, the Mission's minister at Cathair gheal's chapel, questions Hannah Webb about the watch and, finding no scripture that knows a goose, writes to the Mission's house that the practice is irregular and its origin uncertain, though he does not call it wrongdoing.",
+  "category": "faith",
+  "people": ["Hannah Webb", "Obadiah Renn"],
+  "places": ["burg:476"],
+  "threads": ["the-church-on-the-island"],
+  "master_links": ["IV-0262"]
+ },
+ {
+  "title": "Baile chrom disowns the humans' watch",
+  "era_year": 133,
+  "summary": "The custodian of Baile chrom's lower row refuses any part of the human labourers' vigil, saying the town's own name should be left out of the keeping of it. The field folk, who had hoped to call the watch a thing shared between the two peoples, learn to call it their own alone.",
+  "category": "faith",
+  "people": ["Hannah Webb"],
+  "places": ["burg:305"],
+  "threads": ["the-church-on-the-island"],
+  "master_links": ["IV-0262"]
+ },
+ {
+  "title": "Manannan's priest names the goose gone astray",
+  "era_year": 134,
+  "summary": "A priest of the harbour temple at Ceann mhòr walks to Baile chrom, watches Hannah Webb's vigil through a night, and tells her the goose she keeps is an Gèadh Fiadhaich, the wild goose of the Spirit, wandered from Manannan's own harbours into a shape no longer entirely his people's to reclaim or to stop.",
+  "category": "faith",
+  "people": ["Hannah Webb"],
+  "places": ["burg:305"],
+  "threads": ["the-church-on-the-island", "the-orders-of-the-old-faith"],
+  "master_links": ["IV-0262"]
+ },
+ {
+  "title": "The berth toll and the docker Tòmas Ruadh",
+  "era_year": 134,
+  "summary": "The Company posts a new toll on every ton loaded at the Ros dhomhain coal berths. The docker Tòmas Ruadh, whom Daniel Webb once pulled clear of a falling beam, tells him of it, and the two speak for the first time of standing off the hooks together.",
+  "category": "law",
+  "people": ["Daniel Webb", "Tòmas Ruadh"],
+  "places": ["burg:27"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0263"]
+ },
+ {
+  "title": "The dockers' strike at Ros dhomhain",
+  "era_year": 134,
+  "summary": "Dia-thìrich and human dockers put down their hooks together at Ros dhomhain over the berth toll, the only stoppage of the age in which the two peoples stand on the same side of a quay. The harbour lies idle nine days, coal piling faster than any store can take it.",
+  "category": "law",
+  "people": ["Daniel Webb", "Tòmas Ruadh"],
+  "places": ["burg:27"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0263"]
+ },
+ {
+  "title": "Merriman's constables break the stoppage",
+  "era_year": 134,
+  "summary": "On the stoppage's tenth morning, Merriman's constables stand a rifle-line the length of the Ros dhomhain quay. The dockers, who had held nine days without a blow struck, go back to the hooks within the hour rather than test a tenth day against thirty grey coats.",
+  "category": "law",
+  "people": ["Charles Merriman"],
+  "places": ["burg:27"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0263"]
+ },
+ {
+  "title": "The human dockers shipped over the sea",
+  "era_year": 134,
+  "summary": "The Company takes the names of every human docker who struck and offers them passage over the sea within the week, once, with the plain understanding that it will not be offered twice. Hannah Webb watches her brother Daniel go up the gangway from the Ros dhomhain quay.",
+  "category": "humans",
+  "people": ["Hannah Webb", "Daniel Webb"],
+  "places": ["burg:27"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0263"]
+ },
+ {
+  "title": "Seann Vell's dockers stay off the coal",
+  "era_year": 134,
+  "summary": "At the neighbouring harbour of Seann Vell, where no human has ever worked the berths, the dockers refuse on their own account to load the coal held back by the Ros dhomhain strike. Not shipped for want of any human among them, they are also not readily hired again for two years.",
+  "category": "law",
+  "people": [],
+  "places": ["burg:29"],
+  "threads": ["the-company", "the-tuathaich"],
+  "master_links": ["IV-0264"]
+ },
+ {
+  "title": "A daughter born who does not weigh her years",
+  "era_year": 133,
+  "summary": "In a settled mining town south of Baile chrom, the first coal-blooded child born outside a camp comes into the world not crying and not, the midwife notes, weighing what a child her size ought to. The custodian records the birth plainly and says nothing of the word already spoken in the lane.",
+  "category": "coalblood",
+  "people": [],
+  "places": ["zone:0"],
+  "threads": ["the-coal-blood"],
+  "master_links": ["IV-0265"]
+ },
+ {
+  "title": "A son born a year and a day after",
+  "era_year": 134,
+  "summary": "A second child, a son, is born in a settlement a few miles off, near enough a year after the first. The custodian who records him has heard the low word before her pen touches the page, and afterward keeps a closer watch than before on every birth brought to her table.",
+  "category": "coalblood",
+  "people": [],
+  "places": ["zone:0"],
+  "threads": ["the-coal-blood"],
+  "master_links": ["IV-0266"]
+ }
+]

@@ -1,0 +1,280 @@
+[
+ {
+  "title": "The hill's coal carried to Cuan shean",
+  "era_year": 9,
+  "summary": "Eleven carriers of the hills bring the measured coal for the western hearths down from the store at Taigh na Fèithe to Cuan shean, five days on the road with ponies and a custodian's clerk. Raghnall mac Dhòmhnaill of Muileann chrom goes among them for the first time. Oighrig nic Leòid counts the baskets in by lamplight at the custodians' store.",
+  "category": "coal",
+  "people": [
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)",
+   "Oighrig nic Leòid"
+  ],
+  "places": [
+   "burg:282",
+   "burg:491",
+   "burg:354"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0034"
+  ]
+ },
+ {
+  "title": "The carriers kept at Cuan shean",
+  "era_year": 9,
+  "summary": "When the fever breaks out among the net-sheds, the clerk of the hill carriers and Oighrig nic Leòid forbid the eleven to take the road home, lest they carry the sickness into the hills. The carriers stay in the town through an t-Samhain, carrying water to the fever houses and the dead to their burying.",
+  "category": "land",
+  "people": [
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)",
+   "Oighrig nic Leòid"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0034"
+  ]
+ },
+ {
+  "title": "Oighrig answers Pell's protest",
+  "era_year": 9,
+  "summary": "Pell's letter protesting the shutting of Cuan shean is read to Oighrig nic Leòid in the custodians' store by the humans' trader of the quay. It claims the harbour open under Cùmhnant Cathair dhearg and holds the town answerable for spoiled cargo. She asks whether it says anything of the dead, and sends back the number, forty-one, and word that the ships may wait.",
+  "category": "law",
+  "people": [
+   "Oighrig nic Leòid",
+   "Josiah Pell"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0034",
+   "IV-0030"
+  ]
+ },
+ {
+  "title": "The fever dead buried beyond the dunes",
+  "era_year": 10,
+  "summary": "The custodians of Cuan shean will not lay the fever dead in the old ground by the harbour, and bury them in the sand beyond the dunes, out of sight of the town. The human dead lie in the same ground in a row of their own, read over by their priest. The burying slackens at the dark of the year and ends before Là Fhèill Brìde.",
+  "category": "faith",
+  "people": [
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0034"
+  ]
+ },
+ {
+  "title": "The hills keep their roads open",
+  "era_year": 10,
+  "summary": "After the fever at Baile àrsaidh, where no human lived, the custodians of the hills meet at Taigh na Fèithe and talk of shutting the hill roads. They decide against it, since the roads carry the meal, the salt and the lamp-oil. Their roll gives the reason in the words of Seonag Liath of the old cutting: nine years of salt eaten with the strangers.",
+  "category": "law",
+  "people": [
+   "Seonag Liath"
+  ],
+  "places": [
+   "burg:491",
+   "province:76"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0035",
+   "IV-0036"
+  ]
+ },
+ {
+  "title": "Cnoc àrsaidh pays its fine in wool",
+  "era_year": 10,
+  "summary": "Cnoc àrsaidh, fined by Riaghaltas nan Coigreach for turning back travellers with its carts, pays the fine in sacks of wool. The hill carters carry the story east and tell it at the mill of Muileann chrom as a jest against the strangers, who have no use for so much wool.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:433",
+   "burg:354"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0036"
+  ]
+ },
+ {
+  "title": "The prospectors find no guide",
+  "era_year": 10,
+  "summary": "Abel Stone and Hugh Mercer come up the road to Muileann chrom with a letter of A' Chompanaidh asking lodging and a guide into the hills. The miller houses and feeds them, but no man of the hill will lead strangers onto it with a hammer. Raghnall mac Dhòmhnaill offers himself for a silver coin of an Tìr Thall, against his father's wish.",
+  "category": "humans",
+  "people": [
+   "Abel Stone",
+   "Hugh Mercer",
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0037"
+  ]
+ },
+ {
+  "title": "The seam walked with the prospectors",
+  "era_year": 10,
+  "summary": "For eleven days Raghnall mac Dhòmhnaill leads Stone and Mercer through the hills north and east of Muileann chrom, by the stream-cuts where the seam shows. They break coal at every gully, a sack to each, and Mercer counts the paces between. Raghnall names the colours of the broken coal; the prospectors have one word for all of it. He carries a sack down on his own back.",
+  "category": "coal",
+  "people": [
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)",
+   "Abel Stone",
+   "Hugh Mercer"
+  ],
+  "places": [
+   "province:76",
+   "burg:354",
+   "burg:101"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0037"
+  ]
+ },
+ {
+  "title": "The custodians write for the coal",
+  "era_year": 10,
+  "summary": "The custodians of the vein send a letter in Dia-thìris to Thomas Pike at Ros dhomhain, asking that all the coal broken on the hill above Muileann chrom without leave be brought back to be laid in the rock with the proper words. They write twice more in the spring before any answer comes.",
+  "category": "faith",
+  "people": [
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:27",
+   "burg:491"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0037",
+   "IV-0038"
+  ]
+ },
+ {
+  "title": "Six sacks come back to Muileann chrom",
+  "era_year": 11,
+  "summary": "At the summer's end a human carter brings six of the thirteen sacks back up the road to the mill of Muileann chrom with a paper no one there can read. Asked for the rest, he points west, towards Ros dhomhain and the ships, and turns his cart round.",
+  "category": "humans",
+  "people": [
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)"
+  ],
+  "places": [
+   "burg:354",
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0038"
+  ]
+ },
+ {
+  "title": "The returned half laid in the rock",
+  "era_year": 11,
+  "summary": "At the old cutting above Muileann chrom the custodians of Taigh na Fèithe and Seonag Liath sort the returned coal by colour and by gully, and the hewers lay it back into the clefts with clay while the custodians say the words for a thing taken out of season. Raghnall mac Dhòmhnaill carries all six sacks up to the face. He gives the clerk the word \"west\" for the rest.",
+  "category": "faith",
+  "people": [
+   "Seonag Liath",
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0038"
+  ]
+ },
+ {
+  "title": "The first contract read at the mill",
+  "era_year": 11,
+  "summary": "Abel Stone brings the first contract of A' Chompanaidh to Muileann chrom with two carts of steel-pointed picks, bar-iron and lamp-oil. It is read at the mill in both tongues. The interpreter from Ros dhomhain can find no Dia-thìris for the ton and calls it \"a great load, weighed\". Some of the older hewers walk out before the end.",
+  "category": "trade",
+  "people": [
+   "Abel Stone"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0039"
+  ]
+ },
+ {
+  "title": "Raghnall chosen to lead the thirty",
+  "era_year": 11,
+  "summary": "Abel Stone names Raghnall mac Dhòmhnaill, who walked the seam with him, to lead the first crew of the hill. The crew is thirty: young men of the hewers' and shepherds' households, two from the mill and three older hewers of the old cutting. Raghnall's father, a hewer of that cutting, will not join it.",
+  "category": "coal",
+  "people": [
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)",
+   "Abel Stone"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0039",
+   "IV-0040"
+  ]
+ },
+ {
+  "title": "The first ton weighed at Muileann chrom",
+  "era_year": 11,
+  "summary": "On the day the first pit is opened below the old cutting, A' Chompanaidh sets up an iron beam on a timber tripod at the pit-mouth. At dusk the clerk adds his figures and Stone calls out one ton, the first coal of the hills ever weighed. The crew cheers, and the figure is written in the pit-book against Raghnall's name.",
+  "category": "coal",
+  "people": [
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)",
+   "Abel Stone"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0040"
+  ]
+ },
+ {
+  "title": "The first crew paid in iron and oil",
+  "era_year": 11,
+  "summary": "On the first market-day after the opening of the pit, the crew of thirty at Muileann chrom are paid for their tons in picks and lamp-oil at the rate written on the contract, to the last measure of oil. The pit-book of A' Chompanaidh balances to the line.",
+  "category": "trade",
+  "people": [
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0040"
+  ]
+ }
+]

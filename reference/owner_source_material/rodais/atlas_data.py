@@ -211,6 +211,12 @@ def trees_and_people(rec, out):
         if key in by_name:
             p = people[by_name[key]]
         else:
+            pid = slug(key) or pid                        # a stable id: the name itself, as a share link can keep it
+            if pid in people:
+                pid = '%s-%s' % (pid, tree[:40].strip('-'))
+            base, n = pid, 2
+            while pid in people:
+                pid, n = '%s-%d' % (base, n), n + 1
             p = people.setdefault(pid, {'id': pid, 'name': re.sub(r'[*_]', '', name), 'trees': [], 'events': [],
                                         'parents': [], 'children': [], 'houses': []})
             by_name[key] = pid
@@ -231,6 +237,44 @@ def trees_and_people(rec, out):
                 people[parent]['children'].append(child)
             if parent not in people[child]['parents']:
                 people[child]['parents'].append(parent)
+
+    # eras/RULERS.json (the lead's register of every ruler, with parent, birth, accession and death): first, so the
+    # appendix's rows and the writers' people merge into its ids
+    rulers = []
+    rp = os.path.join(ERAS, 'RULERS.json')
+    if os.path.exists(rp):
+        try:
+            raw = json.load(open(rp, encoding='utf-8'))
+            rulers = [r for r in (raw.get('rulers', []) if isinstance(raw, dict) else raw) if isinstance(r, dict) and r.get('id')]
+        except (ValueError, OSError) as ex:
+            warn(out, 'eras/RULERS.json unreadable (%s)' % ex)
+    for r in rulers:
+        people[r['id']] = {'id': r['id'], 'name': r.get('name') or r['id'], 'trees': [], 'events': [], 'parents': [],
+                           'children': [], 'houses': [r['house']] if r.get('house') else [], 'office': r.get('office'),
+                           'born_date': r.get('born'), 'died_date': r.get('died'), 'note': r.get('notes') or '',
+                           'reign': ' – '.join(x for x in (r.get('accession') or r.get('in_office'), r.get('reign_end')) if x)}
+        people[r['id']]['events'] = [e for e in (r.get('accession_event'), r.get('in_office_event'), r.get('reign_end_event'),
+                                                 r.get('died_event')) if e]
+        people[r['id']]['events'] = list(dict.fromkeys(people[r['id']]['events']))
+        for n in [r.get('name')] + list(r.get('aliases') or []):
+            if n:
+                by_name.setdefault(fold(re.sub(r'[*_]', '', n.split(',')[0])).strip(), r['id'])
+    for r in rulers:
+        if r.get('parent') in people:
+            kin(r['parent'], r['id'])
+    if rulers:
+        byid = {r['id']: r for r in rulers}
+        linked = [r for r in rulers if r.get('parent') in byid or any(x.get('parent') == r['id'] for x in rulers)]
+        if linked:
+            trees.append({'id': 'rulers-descent', 'title': 'The descent of the rulers', 'kind': 'house',
+                          'intro': 'Every ruler of the register whose parent or child is also a ruler, father or mother '
+                                   'to child, from Ailean Mòr on (eras/RULERS.json).',
+                          'members': [{'id': r['id'], 'person': r['id'], 'name': r['name'],
+                                       'parent': r.get('parent') if r.get('parent') in byid else None,
+                                       'born': r.get('born'), 'died': r.get('died'),
+                                       'spouse': None, 'note': r.get('office') or '', 'events': []} for r in linked]})
+            for r in linked:
+                people[r['id']]['trees'].append('rulers-descent')
 
     path = os.path.join(LEG, 'appendices', 'A_rulers.md')
     if os.path.exists(path):

@@ -1,0 +1,178 @@
+[
+  {
+    "id": "EV-5004a",
+    "title": "Robert Haskins leaves Ros dhomhain",
+    "era_year": 114,
+    "summary": "Robert Haskins, sixty-nine years old and Commissioner nine years, sails from Ros dhomhain after a quarrel with the Company over the price of a steamship berth. He never once, in nine years, spoke a full sentence of Dia-thìris without a clerk at his elbow to mend it.",
+    "category": "humans",
+    "people": ["Robert Haskins"],
+    "places": ["burg:27"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0235"]
+  },
+  {
+    "id": "EV-5004",
+    "title": "Edward Vane answers the port custodian",
+    "era_year": 114,
+    "summary": "Edward Vane, come up the same quay eleven days after Haskins sails, answers the custodian's customary greeting in Dia-thìris, badly and unprompted, the first Commissioner in living memory to do so without a clerk beside him.",
+    "category": "humans",
+    "people": ["Edward Vane"],
+    "places": ["burg:27"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0235"]
+  },
+  {
+    "id": "EV-5004b",
+    "title": "Vane speaks Dia-thìris before the council at Cathair dhearg",
+    "era_year": 115,
+    "summary": "Edward Vane goes up to Cathair dhearg unsummoned and speaks three sentences of Dia-thìris to Comhairle a' Chùraim before finishing through the Mission's interpreter, telling the council he has come home. The clerk enters the word exactly, wrong tense and all.",
+    "category": "humans",
+    "people": ["Edward Vane"],
+    "places": ["burg:19"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0235"]
+  },
+  {
+    "id": "EV-5004c",
+    "title": "The tram-road to Ros dhìreach carries its first load",
+    "era_year": 116,
+    "summary": "The mule-drawn tram-road from the southern workings opens without ceremony, thirty tons carried by the third bell. The custodian's roll counts only the weight and the hour, and says nothing of the carters' trade the iron rail has already begun to end.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:152"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0236"]
+  },
+  {
+    "id": "EV-5005a",
+    "title": "The custodian of Cnoc chaol writes the bare page",
+    "era_year": 116,
+    "summary": "Vane's night-shift order is read at every pit-mouth from Cnoc chaol to Muileann chiar. The young custodian of Cnoc chaol enters it in her roll and writes beneath it a single line, that the hill is given no silence at all, and leaves the rest of the page blank.",
+    "category": "coal",
+    "people": [],
+    "places": ["burg:415"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0237", "IV-0238"]
+  },
+  {
+    "id": "EV-5005b",
+    "title": "The day shift stands in the yard at Cnoc chaol",
+    "era_year": 116,
+    "summary": "Three hundred hewers of the day shift refuse to go down for the night change and stand in the yard through the last light, saying nothing to the overseer who twice asks their meaning. No chant is raised and no threat made; they simply do not move.",
+    "category": "coal",
+    "people": [],
+    "places": ["burg:415"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0239"]
+  },
+  {
+    "id": "EV-5005c",
+    "title": "New crews replace the standing shift within the week",
+    "era_year": 116,
+    "summary": "The Company brings crews up the tram-road from the coast towns within a week, humans and Dia-thìrich both, and sets them to the night shift before the stand at Cnoc chaol is a fortnight old. The camp's own crews go back to the day shift they still have.",
+    "category": "coal",
+    "people": [],
+    "places": ["burg:415"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0239"]
+  },
+  {
+    "id": "EV-5005d",
+    "title": "Muileann dhomhain shuts every door",
+    "era_year": 116,
+    "summary": "The milling town of Muileann dhomhain refuses to house or feed the strikebreaking crews sent up from the coast. Every inn and counter turns them away, and the well at the crossroads is found blocked with stones on the second morning, by no hand the custodian troubled to guess at.",
+    "category": "coal",
+    "people": [],
+    "places": ["burg:202"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0240"]
+  },
+  {
+    "id": "EV-5005",
+    "title": "The Lamp-Watch's purse runs dry",
+    "era_year": 117,
+    "summary": "The Lamp-Watch, keeping the households of the crews who stood at Cnoc chaol, empties its purse by the second winter. Its own reckoning, kept in an unnamed hand, closes the year's account at nothing, and beneath it notes only that the hill was not given back its silence.",
+    "category": "coal",
+    "people": [],
+    "places": ["burg:415"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0234", "IV-0239"]
+  },
+  {
+    "id": "EV-5006a",
+    "title": "Matthew Dunne preaches the fallow year",
+    "era_year": 118,
+    "summary": "Matthew Dunne preaches at Ros dhomhain that the Dia-thìrich are right, and that ground owed no season of rest was owed the same fallow year the humans' own scripture asks of a field. He does not name the Company; the chapel knows his meaning without it.",
+    "category": "faith",
+    "people": ["Matthew Dunne"],
+    "places": ["burg:27"],
+    "threads": ["the-company", "the-church-on-the-island"],
+    "master_links": ["IV-0241"]
+  },
+  {
+    "id": "EV-5006",
+    "title": "Matthew Dunne sails for an Tìr Thall",
+    "era_year": 118,
+    "summary": "Recalled within the season on the Company's complaint, Matthew Dunne, three-and-thirty, preaches a last, ordinary sermon to a full chapel and goes down to the Ros dhomhain quay in the rain. The Lamp-Watch has a copy of his fallow-year sermon within the week.",
+    "category": "faith",
+    "people": ["Matthew Dunne"],
+    "places": ["burg:27"],
+    "threads": ["the-company", "the-church-on-the-island"],
+    "master_links": ["IV-0241"]
+  },
+  {
+    "id": "EV-5006b",
+    "title": "The camps begin saying Donnchadh's cough",
+    "era_year": 118,
+    "summary": "Among the Dia-thìrich hewers of Cnoc chaol the lung-rot spares more than it takes, unlike among the humans of the night crews. The camp women, tending an old hewer named Donnchadh mac Ailein through a cough that does not kill him, take to calling any hard cough among their own only Donnchadh's cough, and saying no more.",
+    "category": "coal",
+    "people": ["Donnchadh mac Ailein"],
+    "places": ["burg:415"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0242"]
+  },
+  {
+    "id": "EV-5006c",
+    "title": "Iain Maor writes to the Company",
+    "era_year": 119,
+    "summary": "Iain Maor, overseer of Muileann chrom four-and-forty years, writes plainly to the Company that its own night-shift order is killing his crews faster than the coal cut in the dark repays it, weighing the dead against the tired, slower cutting of the survivors.",
+    "category": "law",
+    "people": ["Iain Maor"],
+    "places": ["burg:354"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0243"]
+  },
+  {
+    "id": "EV-5006d",
+    "title": "Iain Maor dismissed and restored",
+    "era_year": 119,
+    "summary": "The Residency answers Iain Maor's letter with a notice relieving him of the overseer's staff for conduct unbecoming his office. His daughter Mòrag reads it to him by lamplight. Within a month, the crews having slowed the galleries to nothing, an unsigned notice restores him with no mention of the first.",
+    "category": "law",
+    "people": ["Iain Maor", "Mòrag nic Iain Maor"],
+    "places": ["burg:354"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0243"]
+  },
+  {
+    "id": "EV-5006e",
+    "title": "Baile ghorm's potteries take the lamp-body contract",
+    "era_year": 116,
+    "summary": "The potteries of Baile ghorm take the Company's contract for clay coal-lamp bodies, thousands fired in a season on the same wheels that once turned bowls for the coast trade. Their own book notes them the first lamps made on the island for work commanded in the dark.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:3"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0244"]
+  },
+  {
+    "id": "EV-5006f",
+    "title": "The first coal train runs to Ros dhomhain",
+    "era_year": 120,
+    "summary": "The Company's iron road opens from the pits at Muileann chrom, past the hill below Cathair dhearg, to the deep-water quay at Ros dhomhain. Iain Maor and his daughter Mòrag watch the first loaded train take the grade at a pace no mule ever kept; the crews name it carbad-iarainn before the day is out.",
+    "category": "coal",
+    "people": ["Iain Maor", "Mòrag nic Iain Maor"],
+    "places": ["burg:354", "burg:27"],
+    "threads": ["the-company"],
+    "master_links": ["IV-0243a"]
+  }
+]

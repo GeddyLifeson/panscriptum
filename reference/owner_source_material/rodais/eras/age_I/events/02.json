@@ -1,0 +1,112 @@
+[
+  {
+    "title": "Ailbhe born by the hearth",
+    "era_year": 3,
+    "summary": "A daughter is born to Neachdan and Sorcha so close to the fire that the women turn her aside for fear of a spark. She is the first child of the hill country to open her eyes by firelight rather than daylight alone. They name her Ailbhe.",
+    "category": "faith",
+    "people": ["Neachdan", "Sorcha", "Ailbhe"],
+    "places": ["burg:276"],
+    "threads": ["line-of-the-mason"],
+    "master_links": ["I-0001"]
+  },
+  {
+    "title": "The first fire begged and given",
+    "era_year": 4,
+    "summary": "A neighbouring household, its own hearth cold, comes asking for a coal of the mason's fire. Neachdan gives it freely and will not hear of any debt for it, telling his children that a fire withheld from a cold house is worse than a fire given away unthanked.",
+    "category": "coal",
+    "people": ["Neachdan"],
+    "places": ["burg:276"],
+    "threads": ["line-of-the-mason", "the-masons-fire"],
+    "master_links": ["I-0001"]
+  },
+  {
+    "title": "Fire first carried in a pot",
+    "era_year": 5,
+    "summary": "The household hearth drowns in a night of driving rain. The boy Conall runs alone in the dark to the burning vein, scrapes a live coal into a clay water-pot banked round with cold ash, and carries it home to relight the fire. It is learned that fire need not stay where it is born.",
+    "category": "coal",
+    "people": ["Conall"],
+    "places": ["burg:276"],
+    "threads": ["line-of-the-mason", "the-masons-fire"],
+    "master_links": ["I-0001"]
+  },
+  {
+    "title": "The hut on the heather burns",
+    "era_year": 12,
+    "summary": "A near household's fire, laid on packed heather, catches unseen from beneath and breaks into open flame under a heather roof. The family escapes with nothing saved. It is the first house lost to fire since the mason carried his home.",
+    "category": "land",
+    "people": ["Conall"],
+    "places": [],
+    "threads": ["line-of-the-mason"],
+    "master_links": []
+  },
+  {
+    "title": "Conall's word: fire keeps to stone",
+    "era_year": 12,
+    "summary": "Watching the burned household in its ruined yard, the young Conall says plainly what he has half understood since he was eleven: that a fire kept on stone can be trusted, and a fire laid on heather waits only for a moment's neglect to remember what it is.",
+    "category": "law",
+    "people": ["Conall"],
+    "places": [],
+    "threads": ["line-of-the-mason"],
+    "master_links": []
+  },
+  {
+    "title": "Fire reaches the northern moor",
+    "era_year": 25,
+    "summary": "Ailbhe, grown sure of the ground, carries a banked coal a full day's walk north to the edge of the moor at the limit of any household's grazing. The mason's fire, walked outward hearth by hearth, now burns in dozens of houses that were once each other's strangers.",
+    "category": "coal",
+    "people": ["Ailbhe"],
+    "places": ["burg:276"],
+    "threads": ["line-of-the-mason", "the-masons-fire"],
+    "master_links": ["I-0001"]
+  },
+  {
+    "title": "Sorcha dies",
+    "era_year": 29,
+    "summary": "Sorcha, who bore Ailbhe by the hearth and was herself the first to be burned by the fire her husband brought home, dies at Tobar dhìreach. The household keeps its fire fed through the mourning without letting it fall.",
+    "category": "land",
+    "people": ["Sorcha"],
+    "places": ["burg:276"],
+    "threads": ["line-of-the-mason"],
+    "master_links": []
+  },
+  {
+    "title": "Neachdan dies",
+    "era_year": 38,
+    "summary": "Neachdan, the Mason, dies old by the hearth he lit from the burning vein, having asked once more to be carried to see the well-cut still burning. The household keeps the fire through the mourning as it has kept it every night since the lightning.",
+    "category": "coal",
+    "people": ["Neachdan"],
+    "places": ["burg:276"],
+    "threads": ["line-of-the-mason"],
+    "master_links": ["I-0001"]
+  },
+  {
+    "title": "Conall's rule of the stone",
+    "era_year": 40,
+    "summary": "At a gathering of the near hearths in the dark half of the year, Conall sets down standing what he has held since the burned hut: that fire kept from the mason's line should be laid on stone and never on packed heather. The near households take it as their own law.",
+    "category": "law",
+    "people": ["Conall"],
+    "places": [],
+    "threads": ["line-of-the-mason"],
+    "master_links": []
+  },
+  {
+    "title": "Conall dies",
+    "era_year": 71,
+    "summary": "Conall, who first carried the vein-fire home in a water-pot as a boy, dies by the hearth in old age, with the vein in the well-cut still burning as it has burned since the night of the lightning, unchanged through two of the mason's line.",
+    "category": "coal",
+    "people": ["Conall"],
+    "places": ["burg:276"],
+    "threads": ["line-of-the-mason", "the-masons-fire"],
+    "master_links": ["I-0001"]
+  },
+  {
+    "title": "The watch passed to Conall's son",
+    "era_year": 71,
+    "summary": "Without ceremony, Conall's son takes up the watch of the burning vein his father and grandfather kept before him, sitting the dark half of the year on the two flat stones above the cut, understanding it is not his to let go out.",
+    "category": "coal",
+    "people": ["Conall"],
+    "places": ["burg:276"],
+    "threads": ["line-of-the-mason", "the-masons-fire"],
+    "master_links": ["I-0001"]
+  }
+]

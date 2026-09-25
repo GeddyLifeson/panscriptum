@@ -1,0 +1,193 @@
+[
+ {
+  "title": "The first household asks to be written",
+  "era_year": 2,
+  "summary": "In the moon of Pailteach a fisher of Inis àrsaidh and his wife come into the harbour-house of Seann Skell and ask to be written down as meaning to go. The harbour scribe Calum mac Nèill planes a new board and heads it: Those who mean to go.",
+  "category": "land",
+  "people": [
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0004",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The rule of the whole household",
+  "era_year": 2,
+  "summary": "Calum mac Nèill will write a household whole or not at all, since the vein-house measures the handful to the hearth and not to a single man or woman. The roll is kept by household from its first board.",
+  "category": "law",
+  "people": [
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The first striking-out",
+  "era_year": 2,
+  "summary": "Iain, a net-maker of Seann Skell, strikes his household from the roll before the moon is out, having woken at night unable to breathe for thought of the open sea. He enters again in spring and strikes out again by midsummer.",
+  "category": "land",
+  "people": [
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A struck name is cut through",
+  "era_year": 2,
+  "summary": "Asked to scrape a struck name from the board, the harbour scribe refuses and cuts it through with one stroke, so that the roll shows both the meaning to go and the change of mind. The custom holds for every board of the roll.",
+  "category": "law",
+  "people": [
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The widow of the strand",
+  "era_year": 2,
+  "summary": "A boat-wright's widow of the Seann Skell strand is entered alone and struck three times over the first year, her name standing on the board three times like a ladder. She does not come back.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0004",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The late lamp in the harbour-house",
+  "era_year": 2,
+  "summary": "For those who cannot say it by day, Calum mac Nèill keeps a lamp burning in the harbour-house late into the night and pays for the oil himself. The harbour-house becomes a place between a court and a shrine.",
+  "category": "land",
+  "people": [
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The vein-house sends to read the roll",
+  "era_year": 2,
+  "summary": "A custodian's servant comes by night to read the roll of the willing and ask how many households on it hold the right to the coal. From then on the harbour scribe marks each hearth that takes the handful with a notch like a flame.",
+  "category": "coal",
+  "people": [
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0006",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Dòmhnall mac Chaluim asks that the boards be closed",
+  "era_year": 2,
+  "summary": "The harbour scribe's son and clerk asks his father to close the roll and send the people to the queen. Calum will not close what the queen has not closed.",
+  "category": "law",
+  "people": [
+   "Dòmhnall mac Chaluim",
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0005",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Alasdair mac Iain reads the roll",
+  "era_year": 2,
+  "summary": "A boat-wright of the strand, Alasdair mac Iain, reads every board of the roll and says there is not a boat on the island that could carry the half of them, and that somebody had better build one.",
+  "category": "trade",
+  "people": [
+   "Alasdair mac Iain, Alasdair Saor",
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0008",
+    "type": "cause"
+   }
+  ]
+ }
+]

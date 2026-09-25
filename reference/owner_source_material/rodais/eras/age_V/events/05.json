@@ -1,0 +1,331 @@
+[
+ {
+  "id": "EV-1504",
+  "title": "The nine drowned buried on the western shore",
+  "era_year": 6,
+  "after": "IV-0025",
+  "summary": "The nine drowned of the human supply-brig are buried in the dunes above the tide-line at Baile fhiadhaich, on ground the custodian gives. A townswoman wets each grave with sea-water as the coast does for its own drowned. The mason Torcall Clachair cuts nine headstones with a line for the sea, and the ship's mate scratches the names beneath.",
+  "category": "humans",
+  "people": [
+   "Torcall Clachair"
+  ],
+  "places": [
+   "burg:134"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0025"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#i-of-the-nine-on-the-western-shore"
+ },
+ {
+  "id": "EV-1504a",
+  "title": "The chart from memory brought to the post",
+  "era_year": 6,
+  "after": "IV-0025",
+  "summary": "The mate of the lost brig carries her drowned master's chart, drawn from memory, to the post at Ros dhomhain. It sets the point where she struck a mile too far out to sea and shows no reefs below it. The ships' masters at the post argue over it at Thomas Pike's counter.",
+  "category": "humans",
+  "people": [
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0025",
+   "IV-0026"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#ii-of-the-asking"
+ },
+ {
+  "id": "EV-1504b",
+  "title": "The masters of building answer the strangers",
+  "era_year": 6,
+  "after": "IV-0026",
+  "summary": "Comhairle a' Chùraim passes the strangers' asking to the seven master builders of Cathair dhearg. They agree that towers may be raised on the headlands where each place's custodian gives leave, with a Dia-thìreach builder to choose the ground. Torcall Clachair alone asks about coal, and the old ruling that no coal feeds a sea-fire is kept.",
+  "category": "law",
+  "people": [
+   "Torcall Clachair",
+   "Tormod mac Ailein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0026",
+   "II-0029"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#ii-of-the-asking"
+ },
+ {
+  "id": "EV-1504c",
+  "title": "Pike writes of the natives",
+  "era_year": 6,
+  "after": "IV-0026",
+  "summary": "Thomas Pike enters in the post's letter-book that the islanders have agreed to the lights without difficulty and without asking what they would cost. It is the first page of his letter-book to call the Dia-thìrich the natives. The custodians' roll sets down the same asking as a request that the old sea-fires be built higher and kept all night.",
+  "category": "humans",
+  "people": [
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0026"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#ii-of-the-asking"
+ },
+ {
+  "id": "EV-1505",
+  "title": "Torcall's first cairn on the Tobar dhearg headland",
+  "era_year": 6,
+  "after": "IV-0027",
+  "summary": "On the southern cape at Tobar dhearg, beside the old dry-stone fire-tower where the village households burn driftwood and seal fat in turn, Torcall Clachair builds a cairn to mark ground for a new tower. James Fenn writes a name from his own shore on the cape in his chart. Torcall answers that the cape has a name.",
+  "category": "land",
+  "people": [
+   "Torcall Clachair",
+   "James Fenn"
+  ],
+  "places": [
+   "burg:398",
+   "marker:16"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0027",
+   "I-0164",
+   "II-0029"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#iii-of-the-southern-cape"
+ },
+ {
+  "id": "EV-1505a",
+  "title": "The second cairn on the eastern cape",
+  "era_year": 6,
+  "after": "IV-0027",
+  "summary": "At Baile ìseal, whose fire is lit to bring the boats home in a storm, Torcall Clachair and James Fenn sit up with the watch and see a raiders' light on the nearest islet. The watchman says a greater light would bring home more men of both kinds. He helps Torcall lift the capstone of the second cairn.",
+  "category": "land",
+  "people": [
+   "Torcall Clachair",
+   "James Fenn"
+  ],
+  "places": [
+   "burg:285",
+   "marker:13"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0027",
+   "I-0161"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#iv-of-the-eastern-cape-and-the-north-east-steps"
+ },
+ {
+  "id": "EV-1505b",
+  "title": "The households of Àth dhearg asked hearth by hearth",
+  "era_year": 6,
+  "after": "IV-0027",
+  "summary": "The custodian of Àth dhearg will not give away the fire-shelf above the rock-cut stair, saying it belongs to the households who cut it. Torcall Clachair and James Fenn go round the hearths for eleven days. Most say yes and two say no. The third cairn is raised at the end of the shelf, and the custodian climbs up with bread.",
+  "category": "law",
+  "people": [
+   "Torcall Clachair",
+   "James Fenn"
+  ],
+  "places": [
+   "burg:258",
+   "marker:15"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0027",
+   "I-0163"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#iv-of-the-eastern-cape-and-the-north-east-steps"
+ },
+ {
+  "id": "EV-1505c",
+  "title": "Three yards of ash at Muileann bheag",
+  "era_year": 6,
+  "after": "IV-0027",
+  "summary": "Seeking the depth for a tower's footing, James Fenn digs beside the old shore-fire on the northern point at Muileann bheag with Torcall Clachair and a boy of the village. They go down through bands of black ash and red earth and find no rock at three yards. Torcall sets the fourth cairn inland on sound rock.",
+  "category": "land",
+  "people": [
+   "James Fenn",
+   "Torcall Clachair"
+  ],
+  "places": [
+   "burg:327",
+   "marker:14"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0027",
+   "I-0162"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#v-of-the-northern-point-and-the-north-west-headland"
+ },
+ {
+  "id": "EV-1505d",
+  "title": "Baile chrom's condition for the fifth cairn",
+  "era_year": 6,
+  "after": "IV-0027",
+  "summary": "The households of Baile chrom, whose headland fire has always warned boats off the water of Uilebheist na Mara, say the old fire cannot both warn and call. They give leave for a tower on condition that the old fire be kept alight beside it on driftwood. James Fenn agrees, and Torcall Clachair builds the fifth cairn.",
+  "category": "land",
+  "people": [
+   "James Fenn",
+   "Torcall Clachair"
+  ],
+  "places": [
+   "burg:305",
+   "marker:12"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   "IV-0027",
+   "I-0041"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#v-of-the-northern-point-and-the-north-west-headland"
+ },
+ {
+  "id": "EV-1505e",
+  "title": "The fire on the north-west headland raised for Fenn",
+  "era_year": 6,
+  "after": "IV-0027",
+  "summary": "At Lùnastal Torcall Clachair keeps a high fire of driftwood and seal fat on the headland at Baile chrom for three nights, burning no coal. On the third night James Fenn, rowed west by fishers of Achadh àrsaidh past the meeting of the ships, sees it sink below the sea's rim at near thirty miles. The sea end of his line is fixed there.",
+  "category": "land",
+  "people": [
+   "Torcall Clachair",
+   "James Fenn"
+  ],
+  "places": [
+   "burg:305",
+   "burg:242",
+   "marker:12",
+   "marker:45"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   "IV-0027a",
+   "IV-0001a"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#vi-of-fenn-s-line"
+ },
+ {
+  "id": "EV-1505f",
+  "title": "The cairns of the line laid across the island",
+  "era_year": 6,
+  "after": "IV-0027",
+  "summary": "Through the autumn James Fenn sights station after station east from the Baile chrom headland, and Torcall Clachair raises a narrow cairn capped with a white stone on each chosen top. Hired boys carry a chain of iron links between them. The string of cairns crosses the moors south of Cnoc bheag and the hills of the interior.",
+  "category": "land",
+  "people": [
+   "James Fenn",
+   "Torcall Clachair"
+  ],
+  "places": [
+   "burg:20",
+   "feature:2"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0027a"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#vi-of-fenn-s-line"
+ },
+ {
+  "id": "EV-1505g",
+  "title": "No fire on Binnean a' Chlachair",
+  "era_year": 6,
+  "after": "IV-0027",
+  "summary": "James Fenn asks for a night fire on the summit of Binnean a' Chlachair, the highest ground of the island. Torcall Clachair and the herders of Muileann gheal refuse, keeping the custom of the hills. Torcall lays one stone on the herders' cairn, and Fenn takes his sights by day to a linen square, four days slower. The two winter at Muileann gheal.",
+  "category": "faith",
+  "people": [
+   "Torcall Clachair",
+   "James Fenn"
+  ],
+  "places": [
+   "burg:493",
+   "marker:48"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0027a"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#vi-of-fenn-s-line"
+ },
+ {
+  "id": "EV-1506",
+  "title": "The council asked for a ruling on the marriage",
+  "era_year": 7,
+  "after": "IV-0027a",
+  "summary": "Iain mac Chaluim writes for the council of Baile dhìreach to the custodians at Cathair dhearg, asking whether the marriage of a Dia-thìreach net-maker to a human cooper may be entered in the custodians' roll, and whether its children stand as a Dia-thìreach mother's. The rider returns with no answer. The council resolves to enter the marriage itself.",
+  "category": "law",
+  "people": [
+   "Iain mac Chaluim",
+   "Eilidh nic Ruairidh",
+   "Samuel Hale"
+  ],
+  "places": [
+   "burg:105",
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0028",
+   "IV-0022",
+   "IV-0023"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#vii-of-the-two-books-at-baile-dhireach"
+ },
+ {
+  "id": "EV-1506a",
+  "title": "Torcall witnesses in the Dia-thìreach book",
+  "era_year": 7,
+  "after": "IV-0028",
+  "summary": "At the wedding on the quay of Baile dhìreach no custodian comes to witness. James Fenn signs for the bridegroom in the humans' book, and Iain mac Chaluim calls the mason Torcall Clachair from the crowd to sign the Dia-thìreach book. William Rook and Iain mac Chaluim close the two books side by side.",
+  "category": "humans",
+  "people": [
+   "Torcall Clachair",
+   "James Fenn",
+   "Iain mac Chaluim",
+   "William Rook",
+   "Eilidh nic Ruairidh",
+   "Samuel Hale"
+  ],
+  "places": [
+   "burg:105"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0028"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#vii-of-the-two-books-at-baile-dhireach"
+ },
+ {
+  "id": "EV-1506b",
+  "title": "The island's names written on Fenn's chart",
+  "era_year": 7,
+  "after": "IV-0028",
+  "summary": "On the night of the wedding at Baile dhìreach James Fenn writes the Dia-thìris names of the five headlands under his own on his chart, as Torcall Clachair tells them: Tobar dhearg, Baile ìseal, Àth dhearg, Muileann bheag and Baile chrom. At the mountain in the middle of his line he writes Binnean a' Chlachair.",
+  "category": "law",
+  "people": [
+   "James Fenn",
+   "Torcall Clachair"
+  ],
+  "places": [
+   "burg:105"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0027",
+   "IV-0027a"
+  ],
+  "told_in": "book/05_of_the_five_headlands.md#vii-of-the-two-books-at-baile-dhireach"
+ }
+]

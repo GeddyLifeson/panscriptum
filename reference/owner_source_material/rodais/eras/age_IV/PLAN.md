@@ -307,16 +307,16 @@ Part epigraph (ch 13): *Beathaich an seabhag, ach na sàsaich e.* / Feed the haw
 
 **13. Of the Moulds in the Fire** [4,400] — POV Niall (old), then Donnchadh (old). LE 68–109. Masters III-0045 to
 III-0050. The crown's scribes begin to date by the Diosal (c. 70). Coal-breakers build at the foot of the vein-house
-hill; Eachann Briseadair's houses become the mill-town of Muileann dhearg. The fellowship of the strand ends (84):
-Coinneach mac Fhearghais dismisses the last apprentices; next hard winter the moulds and patterns in the shed are
+hill; Eachann Briseadair's houses become the mill-town of Muileann dhearg. Coinneach mac Fhearghais, master of the fellowship after Alasdair, dies (78); six years on
+the fellowship of the strand ends (84) and its last journeymen scatter; next hard winter the moulds and patterns in the shed are
 burned for firewood (85) and the harbour-master notes only the shed. Niall dies (104) without ever saying his count
 aloud. LE 109: at the vein-house the seven houses draw lots for the galleries; the lot-stones, Clachan a' Chrannchuir,
 go into a bag; Doire fhionn's coppice law; the lamps still kept. Donnchadh, very old, writes the season's burning
 household by household and dies; his last entry in the same hand as his first. End on the bag of lot-stones hung on
 its peg.
 New events: the crown's scribes take up the Diosal count (70, burg:19); coal-breakers found the town below the
-vein-house (72, burg:491; gazetteer founding); death of Alasdair's last apprentice-master, Coinneach mac Fhearghais
-(90); death of Niall mac Dhòmhnaill (104, burg:489); the lot-stones first shown to a visitor (109, burg:491).
+vein-house (72, burg:491; gazetteer founding); death of Coinneach mac Fhearghais, master of the fellowship
+(78, burg:489); death of Niall mac Dhòmhnaill (104, burg:489); the lot-stones first shown to a visitor (109, burg:491).
 
 **14. Of the King the Houses Made** [4,400] — POV Fearchar mac Lachlainn. LE 125–211. Masters III-0051 to III-0061.
 Raghnall mac Uilleim's death gets one line (125); Ìomhar crowned. The silver neck-rings of Muileann chiar (149)

@@ -1,0 +1,253 @@
+[
+    {
+        "title": "Coinneach follows his brother north",
+        "era_year": 1,
+        "summary": "Coinneach mac Shuibhne, unable to wait out a year of silence, sets off after his brother with a sack of oatcake and a skin of buttermilk, following the roads he judges Ailean must have taken toward the grove of Doire ghlas.",
+        "category": "faith",
+        "people": [
+            "Coinneach mac Shuibhne",
+            "Ailean Mòr"
+        ],
+        "places": [
+            "burg:209"
+        ],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0080b",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "The camp beyond the oaks",
+        "era_year": 1,
+        "summary": "Coinneach comes within sight of the seven fires at Doire ghlas and finds he cannot cross into the ring of oaks. The Keeper allows him to camp at the tree-line and no nearer, and he keeps his own vigil there through the seven nights of his brother's watch.",
+        "category": "faith",
+        "people": [
+            "Coinneach mac Shuibhne"
+        ],
+        "places": [
+            "burg:209"
+        ],
+        "threads": [
+            "line-of-the-mason",
+            "the-keepers-promise"
+        ],
+        "master_links": [
+            {
+                "to": "I-0080b",
+                "type": "parallel"
+            }
+        ]
+    },
+    {
+        "title": "Voices heard on the fifth night",
+        "era_year": 1,
+        "summary": "On the fifth night of the vigil Coinneach hears, low under the sound of the fires, what he takes for voices, one of them shaped almost like his brother's speech though fallen into a rhythm Ailean never used. He never swears to more than that he heard something.",
+        "category": "faith",
+        "people": [
+            "Coinneach mac Shuibhne"
+        ],
+        "places": [
+            "burg:209"
+        ],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0080b",
+                "type": "parallel"
+            }
+        ]
+    },
+    {
+        "title": "The grove fills with light",
+        "era_year": 1,
+        "summary": "On the eighth night, when the seven fires go dark together, Coinneach watches the grove of Doire ghlas fill with a light that is not firelight, and sees shapes moving among the oaks. His feet will not carry him past the tree-line to follow them.",
+        "category": "faith",
+        "people": [
+            "Coinneach mac Shuibhne"
+        ],
+        "places": [
+            "burg:209"
+        ],
+        "threads": [
+            "line-of-the-mason",
+            "the-keepers-promise"
+        ],
+        "master_links": [
+            {
+                "to": "I-0080b",
+                "type": "parallel"
+            }
+        ]
+    },
+    {
+        "title": "The six pots left cold",
+        "era_year": 1,
+        "summary": "At dawn the six pots that carried Ailean's fires north are found lying empty on the leaves of Doire ghlas, their turf lids scattered, and the pale stone that held the seventh coal lies among them, giving no light but warm to the touch.",
+        "category": "faith",
+        "people": [
+            "Ailean Mòr"
+        ],
+        "places": [
+            "burg:209"
+        ],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0080b",
+                "type": "location"
+            }
+        ]
+    },
+    {
+        "title": "Coinneach finds his brother warm at dawn",
+        "era_year": 1,
+        "summary": "Ailean walks out of the grove at morning and catches his stumbling brother by the arm. Coinneach feels a warmth in it like a hearthstone long after the fire is swept, and knows before any word is said that the night has changed his brother.",
+        "category": "rulers",
+        "people": [
+            "Coinneach mac Shuibhne",
+            "Ailean Mòr"
+        ],
+        "places": [
+            "burg:209"
+        ],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0080b",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "\"They named me king\"",
+        "era_year": 1,
+        "summary": "Ailean tells his brother only this much of the night in the grove: that he has been named king. He says nothing of who named him, of what a king might be king of, or of what was put into him, and Coinneach asks no further, having seen enough from outside the trees.",
+        "category": "rulers",
+        "people": [
+            "Ailean Mòr",
+            "Coinneach mac Shuibhne"
+        ],
+        "places": [
+            "burg:209"
+        ],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0080b",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "The brothers turn south",
+        "era_year": 1,
+        "summary": "Ailean gathers the six empty pots onto his shoulder-pole, leaves the pale seventh stone lying uncovered among the leaves of Doire ghlas, and sets out south with his brother, never lighting the six fires again.",
+        "category": "rulers",
+        "people": [
+            "Ailean Mòr",
+            "Coinneach mac Shuibhne"
+        ],
+        "places": [
+            "burg:209"
+        ],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0081",
+                "type": "cause"
+            }
+        ]
+    },
+    {
+        "title": "Ailean passes the high valleys",
+        "era_year": 1,
+        "summary": "Ailean walks south past the households of Clann na Ceiste in the high valleys without turning aside to any hearth, though he has kin enough among them to be fed and questioned there.",
+        "category": "rulers",
+        "people": [
+            "Ailean Mòr"
+        ],
+        "places": [],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0081",
+                "type": "cause"
+            }
+        ]
+    },
+    {
+        "title": "Eleven kin walk south with him",
+        "era_year": 1,
+        "summary": "Households of Clann na Ceiste near the high valleys leave byre and field to follow Ailean south, eleven in all, none able afterward to give a better reason than a feeling not to be argued with. The king shares out Coinneach's sack among them on the road.",
+        "category": "rulers",
+        "people": [
+            "Ailean Mòr",
+            "Coinneach mac Shuibhne"
+        ],
+        "places": [],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0081",
+                "type": "cause"
+            }
+        ]
+    },
+    {
+        "title": "The bare ring in the frost",
+        "era_year": 1,
+        "summary": "Twice on the road south the company sleeps in the open, and both mornings the frost that silvers the field leaves a bare, warm ring the size of a sleeping man where Ailean lay, as it did at his feet in the grove.",
+        "category": "faith",
+        "people": [
+            "Ailean Mòr"
+        ],
+        "places": [],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0080b",
+                "type": "parallel"
+            }
+        ]
+    },
+    {
+        "title": "Coinneach keeps the first telling",
+        "era_year": 1,
+        "summary": "Walking south behind his brother, Coinneach turns over what little he saw from outside the ring of oaks and fits it into an account he is careful never to swell beyond what he truly witnessed, the seed of the telling Clann na Ceiste keep of the seven nights.",
+        "category": "faith",
+        "people": [
+            "Coinneach mac Shuibhne"
+        ],
+        "places": [],
+        "threads": [
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            {
+                "to": "I-0080b",
+                "type": "legacy"
+            }
+        ]
+    }
+]

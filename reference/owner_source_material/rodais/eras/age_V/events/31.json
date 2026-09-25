@@ -1,0 +1,156 @@
+[
+ {
+  "id": "EV-5551",
+  "title": "Cailean reads the Àth ìseal marriage line",
+  "era_year": 126,
+  "summary": "Copying the roll of the camp at Àth ìseal in the cellar at Muileann chaol, Cailean mac Eachainn reads past the first name of a marriage line for the first time in a year of copying, and finds Donnchadh mac Thormoid's line carried seven fathers back to a name far older than a hewer's line should hold.",
+  "category": "law",
+  "people": ["Cailean mac Eachainn", "Donnchadh mac Thormoid"],
+  "places": ["burg:246"],
+  "threads": ["line-of-aisling"],
+  "master_links": ["IV-0251a"]
+ },
+ {
+  "id": "EV-5552",
+  "title": "The third mark beside a birth",
+  "era_year": 126,
+  "summary": "On the same page Cailean finds the birth of Aisling entered with a mark he has seen only three or four times in a year of copying, never explained in any book given him, and recognises it for the mark the camps' whisper had already fixed to one child in the settlement.",
+  "category": "coalblood",
+  "people": ["Cailean mac Eachainn"],
+  "places": ["burg:246"],
+  "threads": ["line-of-aisling"],
+  "master_links": ["IV-0251a"]
+ },
+ {
+  "id": "EV-5553",
+  "title": "Cailean walks to Tobar dhìreach",
+  "era_year": 126,
+  "summary": "Rather than report to the cellar, Cailean walks the coast road to Tobar dhìreach with the seven names copied onto a scrap of paper inside his coat, to ask whether a line so old could truly be Donnchadh's own.",
+  "category": "law",
+  "people": ["Cailean mac Eachainn"],
+  "places": ["burg:276"],
+  "threads": ["line-of-aisling"],
+  "master_links": ["IV-0251a"]
+ },
+ {
+  "id": "EV-5554",
+  "title": "Ealasaid of Clann na Ceiste says the Line of Aisling",
+  "era_year": 126,
+  "summary": "Ealasaid, last of Clann na Ceiste who still says the old lines at Tobar dhìreach, hears the seven names Cailean brings and gives him Aisling's whole line back to Somhairle son of Ailean Mòr, the first king, telling him plainly that she has told him whose son the child's forebear was and no more than that.",
+  "category": "coalblood",
+  "people": ["Ealasaid", "Cailean mac Eachainn"],
+  "places": ["burg:276"],
+  "threads": ["line-of-aisling"],
+  "master_links": ["IV-0251a"]
+ },
+ {
+  "id": "EV-5555",
+  "title": "Cailean writes the line in the margin",
+  "era_year": 126,
+  "summary": "Cailean carries Ealasaid's recital back to Muileann chaol and writes it small in the margin of the Àth ìseal roll beside Aisling's birth, telling no one at the cellar what he has done.",
+  "category": "coalblood",
+  "people": ["Cailean mac Eachainn"],
+  "places": ["burg:246"],
+  "threads": ["line-of-aisling"],
+  "master_links": ["IV-0251a"]
+ },
+ {
+  "id": "EV-5501",
+  "title": "The custodians' first return to the Residency: none",
+  "era_year": 127,
+  "summary": "When the Residency orders every coal-touched child reported to the Commissioner's office, the custodians from Cathair dhearg to the coast make their first return and report none, though every roll among them keeps its own quiet note of such births in a physician's plain word.",
+  "category": "law",
+  "people": [],
+  "places": ["burg:27"],
+  "threads": ["line-of-aisling"],
+  "master_links": ["IV-0252"]
+ },
+ {
+  "id": "EV-5556",
+  "title": "A custodian of Cill ghlas answers the Company's agent",
+  "era_year": 127,
+  "summary": "Asked by a Company agent whether she knows of any coal-touched child in her district, a custodian of Cill ghlas answers that she keeps no roll of miracles, only of births and deaths, and that the office is welcome to search her books for either.",
+  "category": "coalblood",
+  "people": [],
+  "places": ["burg:123"],
+  "threads": ["line-of-aisling"],
+  "master_links": ["IV-0252"]
+ },
+ {
+  "id": "EV-5557",
+  "title": "The doors of the barter houses nailed",
+  "era_year": 128,
+  "summary": "The barter houses of Ros dhomhain and Cathair dhearg are shut and their doors nailed by written order; a Residency clerk sets down that the Company's ledgers are, for the first time in the island's keeping, complete.",
+  "category": "trade",
+  "people": [],
+  "places": ["burg:27"],
+  "threads": [],
+  "master_links": ["IV-0253", "IV-0254"]
+ },
+ {
+  "id": "EV-5558",
+  "title": "The fishwives' week of fish given away",
+  "era_year": 128,
+  "summary": "The fishwives of Inis mhòr take no coin at the river steps for a full week after the barter houses close, giving their catch away rather than sell it for marks; the Company's clerks record the week as a glut in the season's catch.",
+  "category": "trade",
+  "people": [],
+  "places": ["burg:17"],
+  "threads": [],
+  "master_links": ["IV-0254", "IV-0255"]
+ },
+ {
+  "id": "EV-5502",
+  "title": "Peigi Ghlas dies at Cill ghlas",
+  "era_year": 128,
+  "summary": "Peigi Ghlas dies at Cill ghlas, her petition still unanswered, having trimmed Brìde's lamp herself the week before her death and said that she had asked the Residency once and meant to leave the asking there.",
+  "category": "rulers",
+  "people": ["Peigi Ghlas"],
+  "places": ["burg:123"],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "id": "EV-5559",
+  "title": "The villages of Muileann chrom borrow marks at interest",
+  "era_year": 129,
+  "summary": "With barter struck down, the villages about Muileann chrom begin borrowing marks at interest from the Company's stores to buy seed; within a few years most owe the Company more marks than a year's crop can answer for.",
+  "category": "trade",
+  "people": [],
+  "places": ["burg:19"],
+  "threads": [],
+  "master_links": ["IV-0256"]
+ },
+ {
+  "id": "EV-5560",
+  "title": "The last season of the market at Muileann òg",
+  "era_year": 130,
+  "summary": "The old barter market at Muileann òg, where hill and coast met to trade directly since before the Holy Age, closes after a poor last season, and the green shoulder of ground above the ford stands empty from that year on.",
+  "category": "trade",
+  "people": [],
+  "places": ["burg:151"],
+  "threads": [],
+  "master_links": ["IV-0257"]
+ },
+ {
+  "id": "EV-5503",
+  "title": "Iain Maor buried at Muileann chrom",
+  "era_year": 131,
+  "summary": "Iain Maor, third of that name to hold the overseer's staff at Muileann chrom, dies in the same house he held it from and is buried within the week, the camp's custom allowing no longer delay for an office that cannot sit empty.",
+  "category": "rulers",
+  "people": ["Iain Maor"],
+  "places": ["burg:354"],
+  "threads": [],
+  "master_links": ["IV-0258"]
+ },
+ {
+  "id": "EV-5561",
+  "title": "Mòrag hangs the staff over her hearth",
+  "era_year": 131,
+  "summary": "Mòrag nic Iain Maor, first woman to hold the overseer's staff at Muileann chrom, hangs it over her own hearth on iron hooks her father never had fitted, rather than keep it across her knees as he had.",
+  "category": "rulers",
+  "people": ["Mòrag nic Iain Maor"],
+  "places": ["burg:354"],
+  "threads": [],
+  "master_links": ["IV-0258"]
+ }
+]

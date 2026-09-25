@@ -1,0 +1,134 @@
+[
+ {
+  "id": "EV-6001",
+  "title": "Eilidh nic Raghnaill drafts the second petition",
+  "era_year": 138,
+  "summary": "In the burial club's room at Baile thais, Eilidh nic Raghnaill drafts the second petition over three nights by a single coal lamp, with Griogal and two others reading each page back to her aloud. She writes its last sentence twice before settling the wording Griogal judges means it rather than asks permission to mean it.",
+  "category": "law",
+  "people": ["Eilidh nic Raghnaill"],
+  "places": ["burg:44"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0279", "IV-0281"]
+ },
+ {
+  "id": "EV-6002",
+  "title": "The first constables' company reaches Baile thais",
+  "era_year": 140,
+  "summary": "Forty constables under an officer named Prosser march into Baile thais on the twenty-fifth of Gearran and wall the settlement's old open store within the fortnight, taking the camp's well inside the new wall. Eilidh nic Raghnaill and the burial club watch the company make camp on ground that had been common land that same morning.",
+  "category": "humans",
+  "people": ["Eilidh nic Raghnaill"],
+  "places": ["burg:44"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0282"]
+ },
+ {
+  "id": "EV-6017",
+  "title": "Tormod Buidhe's sister's boy dies of the grey fever",
+  "era_year": 138,
+  "summary": "A boy not yet old enough for his first wage dies of the grey fever at Baile thais under Eilidh nic Raghnaill's sitting, having asked her, near the end, what month it was. His mother keeps his name from the burial club's book, and Eilidh does not ask for it twice.",
+  "category": "humans",
+  "people": ["Eilidh nic Raghnaill"],
+  "places": ["burg:44"],
+  "threads": [],
+  "master_links": ["IV-0276"]
+ },
+ {
+  "id": "EV-6018",
+  "title": "Eilidh nic Raghnaill begins the burial club's book",
+  "era_year": 138,
+  "summary": "Eilidh nic Raghnaill begins keeping a plain hand-written record for the burial club at Baile thais, answering to no custodian's roll, after watching her father Raghnall Breac carry twenty years of names in his memory and give none of them to paper. She means not to do the same.",
+  "category": "law",
+  "people": ["Eilidh nic Raghnaill"],
+  "places": ["burg:44"],
+  "threads": [],
+  "master_links": ["IV-0276"]
+ },
+ {
+  "id": "EV-6019",
+  "title": "The Company dismisses Coinneach Ruadh at his own store",
+  "era_year": 139,
+  "summary": "The Company's agent at Cnoc dhìreach delivers Coinneach Ruadh's letter of dismissal at the store's door in front of the week's flour queue, the day his signature to the second petition dries. He is offered twice the chance to withdraw his name and twice declines it, saying a name once given is not the giver's to take back.",
+  "category": "law",
+  "people": ["Coinneach Ruadh"],
+  "places": ["burg:462"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0280"]
+ },
+ {
+  "id": "EV-6020",
+  "title": "The Residency's clerk underlines the petition's last sentence",
+  "era_year": 139,
+  "summary": "A clerk of the Residency underlines in red ink the second petition's last sentence, that the hill will not go on being worked by people who are not asked, before passing the fair copy Eilidh nic Raghnaill made up the office. The custodians afterward agree it is the first sign the Administration has read a Dia-thìrich word and understood it.",
+  "category": "law",
+  "people": ["Eilidh nic Raghnaill"],
+  "places": ["zone:0"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0279", "IV-0281"]
+ },
+ {
+  "id": "EV-6021",
+  "title": "The barracks at Dùn chrom stands empty",
+  "era_year": 140,
+  "summary": "The barracks raised at Dùn chrom for two hundred constables stands empty most of its first year for want of men to fill it. Eilidh nic Raghnaill's burial club records the fact without comment, judging it needs none.",
+  "category": "humans",
+  "people": ["Eilidh nic Raghnaill"],
+  "places": ["burg:255"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0283"]
+ },
+ {
+  "id": "EV-6022",
+  "title": "The fourth shrine stands at Ros gheal",
+  "era_year": 140,
+  "summary": "After the constables tear down the hawk-faithful's shrine on the Ros gheal harbour wall three mornings running, unnamed hands raise it a fourth time and the constables stop trying. The shrine stands afterward as the ordinary furniture of a wall that had always carried something.",
+  "category": "faith",
+  "people": [],
+  "places": ["burg:24"],
+  "threads": ["the-orders-of-the-old-faith"],
+  "master_links": ["IV-0285"]
+ },
+ {
+  "id": "EV-6023",
+  "title": "The hawk-priests and the druid teachers sign together at Inis bhàn",
+  "era_year": 140,
+  "summary": "The hawk-priests and the old druid teachers of Inis bhàn part their disputation having settled none of the six generations of disagreement between their orders, and sign the same petition before they part. The hawk-priest who called the meeting says afterward he is no surer of the druids' answers, and prouder of them for it.",
+  "category": "faith",
+  "people": [],
+  "places": ["burg:371"],
+  "threads": ["the-orders-of-the-old-faith"],
+  "master_links": ["IV-0286"]
+ },
+ {
+  "id": "EV-6024",
+  "title": "An overman gives up his cot at Cathair gheal",
+  "era_year": 140,
+  "summary": "In the crowded shared ward at Cathair gheal a Dia-thìreach overman of the north-west galleries gives up his own bed to a human boy of the concession no more than nine years old, and sits the night on the floor beside him. Hannah Webb writes of it to Eilidh nic Raghnaill at Baile thais.",
+  "category": "humans",
+  "people": ["Hannah Webb"],
+  "places": ["burg:476"],
+  "threads": [],
+  "master_links": ["IV-0287"]
+ },
+ {
+  "id": "EV-6025",
+  "title": "Muileann fhionn shuts its roads a second season",
+  "era_year": 141,
+  "summary": "Muileann fhionn keeps its roads shut a full season against the returning grey fever, turning back the concession's human carters with their loads still on the carts. No custodian there has ordered it, and every custodian there afterward defends it, while the thin garrison so far north neither undoes it nor tries.",
+  "category": "land",
+  "people": [],
+  "places": ["burg:160"],
+  "threads": [],
+  "master_links": ["IV-0288"]
+ },
+ {
+  "id": "EV-6026",
+  "title": "Eilidh nic Raghnaill reads Ìomhar Seabhag's sermon to the Lamp-Watch",
+  "era_year": 141,
+  "summary": "A fowler leaves a written copy of Ìomhar Seabhag's Seann Skell sermon with the burial club's door-keeper at Baile thais, and Eilidh nic Raghnaill reads it aloud to the room by the same lamp she drafted the second petition by. For once she does not write anything in the club's book afterward.",
+  "category": "faith",
+  "people": ["Eilidh nic Raghnaill"],
+  "places": ["burg:44"],
+  "threads": ["the-orders-of-the-old-faith"],
+  "master_links": ["IV-0284"]
+ }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Laoghaire begins the first pit-hearth",
+    "era_year": 3304,
+    "summary": "On a shoulder of ground below his own house, Laoghaire digs a hearth a man's height into the earth, with a blind angled shaft down to it and a slab dragged over the top, and sleeps beside it the first night to learn whether it holds its heat and shows no light above.",
+    "category": "culture",
+    "people": ["Laoghaire"],
+    "places": ["place:1007"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0046", "type": "cause"}]
+  },
+  {
+    "title": "Two more households dig the like",
+    "era_year": 3305,
+    "summary": "Within the season two households of Laoghaire's own kin dig covered hearths beside their own doors on the pattern he showed them, the first word of the pit under the slab carried hearth to hearth the way any useful thing travelled in those hills.",
+    "category": "culture",
+    "people": ["Laoghaire"],
+    "places": ["place:1007"],
+    "threads": [],
+    "master_links": [{"to": "I-0046", "type": "sequel"}]
+  },
+  {
+    "title": "The line at Tobar dhìreach is asked to cover its fire",
+    "era_year": 3308,
+    "summary": "Kin by marriage from the Doire uaine households ask outright at Tobar dhìreach why the household of the mason's own fire alone keeps an open hearth. The keeper of the pot answers that a fire never once let go dark cannot now be hidden without being treated as any lesser fire, and the line's hearth stays open.",
+    "category": "faith",
+    "people": [],
+    "places": [],
+    "threads": ["the-masons-fire"],
+    "master_links": [{"to": "I-0046", "type": "cause"}]
+  },
+  {
+    "title": "The custom spreads through the hills",
+    "era_year": 3320,
+    "summary": "Within a handful of years it is the open hearth that wants explaining and the covered one that needs none; households across the Doire uaine hills dig their own, some by Laoghaire's own hand, until no open hearth shows in that country any longer.",
+    "category": "culture",
+    "people": ["Laoghaire"],
+    "places": ["place:1007"],
+    "threads": [],
+    "master_links": [{"to": "I-0046", "type": "sequel"}]
+  },
+  {
+    "title": "A branch at Tobar dhìreach digs a hearth apart",
+    "era_year": 3325,
+    "summary": "One branch of the Mason's kin digs itself a covered hearth away from the line's own house, keeping the open fire only for the recital nights. The compromise satisfies no one fully and is quietly let drop again within two generations.",
+    "category": "culture",
+    "people": [],
+    "places": [],
+    "threads": ["the-masons-fire"],
+    "master_links": [{"to": "I-0046", "type": "sequel"}]
+  },
+  {
+    "title": "Laoghaire dies",
+    "era_year": 3341,
+    "summary": "Laoghaire dies at six-and-sixty in his own house, having outlived two of his own children and dug covered hearths for kin across the hills. He is buried on the shoulder of ground above the pit he dug first, which his sons keep in use for three generations after him.",
+    "category": "death",
+    "people": ["Laoghaire"],
+    "places": ["place:1007"],
+    "threads": [],
+    "master_links": [{"to": "I-0046", "type": "sequel"}]
+  },
+  {
+    "title": "The hill camp found silent",
+    "era_year": 3352,
+    "summary": "A shepherd going up to a wintering camp in the south of the massif, seeing no smoke rise from it, finds a hut's door standing open and nine people within lying dead beside a cold hearth, unmarked by wound or struggle. None who come after will go in to bury them.",
+    "category": "death",
+    "people": [],
+    "places": ["burg:355"],
+    "threads": [],
+    "master_links": [{"to": "I-0047", "type": "cause"}]
+  },
+  {
+    "title": "The camp is left for good",
+    "era_year": 3352,
+    "summary": "The hut with the nine dead in it is left standing, its door swinging, until the wattle rots and the roof falls over them. Other households drive their beasts wide of that shoulder of hill from that season on, and none resettles the camp.",
+    "category": "land",
+    "people": [],
+    "places": ["burg:355"],
+    "threads": [],
+    "master_links": [{"to": "I-0047", "type": "sequel"}]
+  },
+  {
+    "title": "A family new to the hills builds an open hearth",
+    "era_year": 3379,
+    "summary": "Kin from the eastern farms, new to grazing left unclaimed since the camp was given up, build their first house on the old pattern with the hearth open to the roof-hole, hearing the custom of the covered hearth only as a traveller's tale and keeping their fire open through their first autumn despite their neighbours' warning.",
+    "category": "people",
+    "people": [],
+    "places": [],
+    "threads": [],
+    "master_links": [{"to": "I-0046", "type": "cause"}]
+  },
+  {
+    "title": "The empty house with the fire still burning",
+    "era_year": 3380,
+    "summary": "A boy sent at dawn to borrow fire finds the new household's door standing open, the beds thrown back, and every soul of the house gone without blood, struggle or track in the fresh snow. The banked hearth burns on into the empty room exactly as it was left the night before.",
+    "category": "death",
+    "people": [],
+    "places": [],
+    "threads": [],
+    "master_links": [{"to": "I-0046", "type": "sequel"}]
+  },
+  {
+    "title": "Two herders see the walker on the ridge",
+    "era_year": 3400,
+    "summary": "A man and his sister-in-law, out after strayed ewes above the old camp in failing light, see a shape walk the skyline like a man and give off no breath into the cold air. They neither call out nor light a fire near them that evening, and come home unharmed.",
+    "category": "omen",
+    "people": [],
+    "places": ["burg:355"],
+    "threads": [],
+    "master_links": [{"to": "I-0045", "type": "sequel"}]
+  },
+  {
+    "title": "The covered hearth becomes the hills' law",
+    "era_year": 3407,
+    "summary": "By the year the two herders come down off the ridge, the pit under the slab is no longer a new thing spreading household by household but simply how a hearth is built in that country; a child born there that year will grow old without ever seeing an open fire under any roof but the one at Tobar dhìreach.",
+    "category": "culture",
+    "people": [],
+    "places": ["place:1007"],
+    "threads": ["the-masons-fire"],
+    "master_links": [{"to": "I-0046", "type": "sequel"}]
+  }
+]

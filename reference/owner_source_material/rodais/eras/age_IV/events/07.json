@@ -1,0 +1,165 @@
+[
+    {
+        "title": "Fearchar's petition for the coal",
+        "era_year": 19,
+        "summary": "Fearchar mac Ruairidh comes to the vein-house and asks that each hull found fit to sail be allowed to carry one sealed measure of the coal, no more than a single household's season under the Small-Burning Law. The custodians send him down the hill with a promise only to put the matter to the board.",
+        "category": "coal",
+        "people": [
+            "Fearchar mac Ruairidh",
+            "Eòghann mac Mhuirich"
+        ],
+        "places": [
+            "burg:491"
+        ],
+        "threads": [
+            "the-sundering",
+            "the-small-burning-law"
+        ],
+        "master_links": [
+            {
+                "to": "III-0016",
+                "type": "cause"
+            }
+        ]
+    },
+    {
+        "title": "The custodians' debate at the winter burning",
+        "era_year": 22,
+        "summary": "After three winters of argument the vein-house's board finally votes on Fearchar's petition. Cailean and others hold that the coal has never crossed water and should not; Fearchar answers that the Law measures a hearth wherever a hearth chooses to stand. The custody-book is opened and the question is put to writing.",
+        "category": "coal",
+        "people": [
+            "Fearchar mac Ruairidh",
+            "Eòghann mac Mhuirich"
+        ],
+        "places": [
+            "burg:491"
+        ],
+        "threads": [
+            "the-sundering",
+            "the-seven-coals",
+            "the-small-burning-law"
+        ],
+        "master_links": [
+            {
+                "to": "III-0016",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "The fair copy of the ruling, Donnchadh's first entry",
+        "era_year": 25,
+        "summary": "Donnchadh mac Thormoid, the boy-clerk, is set to render the ruling clean for the custody-book: one sealed measure a ship, a single household's season, the vein-house's own mark. He copies it exactly as given, though he notices it carries no blessing, as other entries do.",
+        "category": "law",
+        "people": [
+            "Donnchadh mac Thormoid"
+        ],
+        "places": [
+            "burg:491"
+        ],
+        "threads": [
+            "the-small-burning-law"
+        ],
+        "master_links": [
+            {
+                "to": "III-0016",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "Death of Eòghann mac Mhuirich",
+        "era_year": 27,
+        "summary": "The master of the vein-house, who wrote the first count of the departing households in LE 3, dies at the vein-house grown very old, not long after seeing the ruling of the coal for the departing set down and its first measures sealed.",
+        "category": "coal",
+        "people": [
+            "Eòghann mac Mhuirich"
+        ],
+        "places": [
+            "burg:491"
+        ],
+        "threads": [],
+        "master_links": []
+    },
+    {
+        "title": "The sealed measures made",
+        "era_year": 26,
+        "summary": "The first measures of coal are weighed and sealed at the vein-house, each against the words \"for each hull that shall be ready\", with no count kept against any known number of hulls. Fearchar mac Ruairidh stands by in silence to see the first one made.",
+        "category": "coal",
+        "people": [
+            "Fearchar mac Ruairidh",
+            "Eòghann mac Mhuirich"
+        ],
+        "places": [
+            "burg:491"
+        ],
+        "threads": [
+            "the-seven-coals",
+            "the-small-burning-law"
+        ],
+        "master_links": [
+            {
+                "to": "III-0016",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "The queen lends masons for the quay",
+        "era_year": 28,
+        "summary": "Beathag nic Dhòmhnaill sends a gang of masons from the capital, under Ailean mac Nèill, down to Seann Skell to lengthen the west quay with dressed stone \"for the harbour's trade\", the crown's word for it and no other named.",
+        "category": "trade",
+        "people": [
+            "Beathag nic Dhòmhnaill",
+            "Ailean mac Nèill"
+        ],
+        "places": [
+            "burg:19"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0017",
+                "type": "cause"
+            }
+        ]
+    },
+    {
+        "title": "The queen at Seann Skell to see the stones laid",
+        "era_year": 30,
+        "summary": "Beathag rides the twenty-four miles to Seann Skell and stands on the new-laid stone of the west quay in the evening light, the only time she is known to have come to see the fleet's building with her own eyes. Her sister Mòrag joins her there, and the two speak of small things, not of the roll.",
+        "category": "rulers",
+        "people": [
+            "Beathag nic Dhòmhnaill",
+            "Mòrag nic Dhòmhnaill"
+        ],
+        "places": [
+            "burg:489"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0017",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "Death of Uilleam mac Iain, the queen's consort",
+        "era_year": 31,
+        "summary": "Uilleam mac Iain, husband to Queen Beathag and father of her son, dies after a summer's illness. The queen keeps the funeral small, a single day at Cathair dhearg with the household and a few custodian heads, and no great muster of the shires.",
+        "category": "rulers",
+        "people": [
+            "Beathag nic Dhòmhnaill"
+        ],
+        "places": [
+            "burg:19"
+        ],
+        "threads": [],
+        "master_links": []
+    }
+]

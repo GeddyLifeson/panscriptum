@@ -1,0 +1,106 @@
+# Of the Truce and the Closing of the Crossing
+
+*AE 150 – 151*
+
+> *Cha tàinig long.*
+> No ship came.
+
+## I. Of Ros Bheag and the Last Seat
+
+By an t-Sultain there was no seat left to the Administration but Ros bheag.
+
+Ros dhomhain was gone to the council's companies, the harbour quarter first and then the Residency, stripped of its letter-books and its silver and left standing empty for the rats. Cuan uaine's quays had opened in the night without a shot fired. Lionel Strake, fifty years old that autumn and Commissioner of a government that now governed three streets and a wall, took what was left of it, his officers, the Mission's clergy, a handful of clerks who had nowhere else to be Company men, down the Abhainn gheal by water and set it up behind the old walls of Ros bheag, the western port the humans had used since the earliest years, before there had been an Administration to house. He had been a soldier before he was ever a Commissioner, sent out young to a war he had never expected to end in a room with a view of a harbour and nothing left to command but the harbour's stores, and those who served under him in that last season said he gave his orders the way a man gives orders on a sinking ship, plainly, and without asking whether they would be obeyed a second time.
+
+The human families of the west and the south came in behind him, a few thousand souls in all where there had once been tens of thousands, walking or riding or carried in Company carts with what they could load in a day, and Ros bheag, a town built to hold a few thousand of its own, took them in the way a burn takes a flood: badly, and not for long. The Dia-thìrich of the town, who had kept their own houses and their own market cross through three generations of Company officers coming and going at the quay below, watched the walls fill with strangers and found, most of them, that there was nowhere left in the town to be a stranger from, since the strangers now outnumbered them within their own gates.
+
+Strake set constables along the coast road at Ros àrsaidh, to hold the way north and bring him word, and the townsfolk of Ros àrsaidh, who had watched three generations of Company officers come and go through their gates, brought the constables food and news both, the news always a day old by the time it reached them and older still by the time Strake heard it. At Cuan shean, where the first of the strangers' boats had ever touched the island, the custodians shut the harbour to every ship that flew the Company's colours, and set nothing further down about it. The roll that kept the record of that season wrote only that the harbour was shut, and let the silence stand for whatever else there was to say.
+
+The roads cut and no ship from over the sea in months, Ros bheag ran short of food within weeks of the last family's coming in behind its walls. It was Eilidh Hale, Thomas Hale's daughter, who carried Strake's order down to the Company store on the quay in the last week of an t-Sultain and read it out herself to the storekeeper, because the clerk whose task it should have been had taken fever and there was no one else free to send: that the stores were to be opened, from that day, to the human families and to the Dia-thìrich townsfolk of Ros bheag alike, at one measure, and no ledger kept of who took what.
+
+It was the one order of Strake's that the custodians' own rolls, writing of that autumn afterward, allowed him credit for. Eilidh, who had grown up as much in the custodians' kitchens as in her father's house and answered to a name in both tongues, thought at the time only that it was the plainest sense a man in his place could have shown, and did not think Strake would be remembered for it, or remembered much at all.
+
+## II. Of the Question at Baile Dhìreach
+
+She left Ros bheag herself before the month turned, on an errand of her father's that no longer had anywhere to deliver its answer, and came south along the coast road to Baile dhìreach, where her mother's people had kept a house since before the walls at Ros dhomhain went up.
+
+Baile dhìreach had sat, for as long as anyone living could say, under a council that was neither wholly the custodians' nor wholly the Administration's, six of each, chosen by the town and answerable to it before either side; and it had gone on sitting through the burning of the ledgers and the fall of the Residency and the shutting of Cuan shean, because both the companies that might have broken it up had other towns to take first. Its children, the sons and daughters of the joint council's own families, were of both peoples in a way the rest of the war had stopped allowing anyone to be. Some had a human father and a Dia-thìrich mother, or the other way about; some had two parents of one people who had raised them, all the same, in both houses of worship and both sets of festival, because it was the custom of the town and no one before the war had thought to ask why. When the companies came at last, the council's men from the east and Strake's constables from the west arriving within the same week to claim the town for their own sides, each asked those children, one by one, which people they were.
+
+Eilidh Hale was twenty-two years past being anyone's child and was asked all the same, because she had kept the joint council's books three winters running and everyone in Baile dhìreach knew her face. A young officer of the forest companies, no older than she had been when she first came to the town, put the question to her plainly, not unkindly, on the steps of the council hall with half the street watching: which was she.
+
+She stood a while before she answered, long enough that the officer shifted his weight and looked past her at the crowd, as if the crowd might answer for her. She had her father's colouring and her mother's tongue and a ledger under her arm written half in each, and she had buried people on both sides of the question inside a year, and she found, standing on the steps with the whole of the street waiting, that she did not have an answer to give that would not be a lie to one half of what she was.
+
+"I keep the books," she said at last, which was true, and no answer, and she went on keeping them.
+
+Most of the joint council's children gave some version of the same reply, or none at all, and it is written of that season, plainly, without more said, that neither side made them choose. Eilidh Hale stayed at Baile dhìreach through what was left of the war, and stayed after, when staying had become the harder thing to do.
+
+## III. Of the Last Ship
+
+The last ship known to come from over the sea anchored off Ros bheag at an t-Samhain, in weather too rough for a longboat, so that she lay out a full day and a night before a boat could be got to her at all. Word of her went round the walls faster than any boat could carry a man, and by the time the harbour master's launch put out to her there were families standing three deep along the quay who had not been told to come and had come anyway, on the chance of it.
+
+She brought no soldiers and no grain. What she brought, the harbour roll set down afterward, was one sealed letter for the Commissioner, carried up from the boat by a sailor who would not say who had written it or from how far it had come, and who took his passage money for the return in silver and would not be drawn into speaking of the crossing beyond that it had been long, and that he did not care to make it again. Her berths, once the letter was ashore, filled with every family in Ros bheag who could buy or beg a place in them, and she put out on the next tide, deep in the water and low on stores, and was not seen again from Dia-thìr.
+
+What the letter said to Strake, no roll of the island ever recorded. He read it alone in the room the townsmen had given him for an office, by a window that showed him the harbour and the ship standing out from it, and he was seen afterward by his own clerks to burn the outer wrapping in the grate and to keep the letter inside his coat for the rest of that winter. No man who worked under him claimed to have read a word of it before or after, and those who watched him that evening said only that he stood a long while at the window once the ship was gone from it, looking at nothing the window still showed him.
+
+## IV. Of the Truce of Àth Àrsaidh
+
+Envoys of the forest council and of what remained of the Administration met at Àth àrsaidh, on the edge of the country the humans had first settled and now alone still held, in the first week of an Dàmhair.
+
+They met in the town's meeting-house, a plain building of stone and turf with a single long table down its middle, the council's men on the one side and Strake's officers on the other, and between them, because neither side would trust the other's clerk alone with the writing of it, two scribes, one of each people, setting down the same words in two hands at once. The first day went on the naming of who should sign for whom, since the council had no crown to speak in the name of and the Administration, by then, had scarcely a government; the second went on the line the two sides drew on the map between them, argued mile by mile along a coast neither delegation had walked in full; the third settled, in less than an hour once the argument was spent, what three days had failed to agree in a morning: that the humans still on Dia-thìr should withdraw into the north-west country under the council's safe-conduct, unharmed on the road and unhindered at its end, and that the council in its turn would leave the towns of that country standing, their walls unbroken and their people, human and Dia-thìrich both, in possession of what they held.
+
+Baile Mòr ruadh, the greatest town of that country, was named the place the columns would be received, and its own Dia-thìrich folk, who had lived under the humans' governance longer than any other town on the island and knew no other, were given the choice, plainly put to them at a gathering in the market square, of staying under the truce or going south with the council's men. The roll that counted them afterward set the two numbers side by side, and they came out close, near enough that no one afterward could say the town had chosen with one voice.
+
+Eilidh Hale, who had kept books long enough to know a fair reckoning from an unfair one, read the truce when a copy of it reached Baile dhìreach, and found nothing in it she could fault, which she set down, for herself, as the strangest thing the war had shown her.
+
+## V. Of the Columns North
+
+They went in an t-Samhain and the first weeks of an Dùbhlachd, the human families of Ros bheag, of Cuan shean, of Baile dhìreach and the towns of the south-west, walking the western roads under the guard of the forest council's companies, in columns that took the better part of a day to pass any one point on the road.
+
+Hannah Webb went with them. She had come to the island as a girl half her lifetime before, to nurse in the wards at Cathair gheal through the grey fever and stayed on after, and she walked north now with a bundle on her back and a woman older than her mother on her arm, one of the last of the families to leave Cuan shean, because the woman could not walk fast and would not be carried, and Hannah would not leave her to walk alone.
+
+Few in that column had ever seen the north country they were walking into. Fewer still, by the time they reached it, had anything left to carry that they had not carried the whole way on their own backs; the carts went to the old, the sick and the very young, and everyone who could stand walked. The roll of that march, kept afterward from the companies' own reports, records that no column was attacked on the road, and that none was helped beyond what the truce required, food at the stations the council had named and water where the road passed a well, and no more.
+
+At Àth chrom the custodians of the town stood at the ford and counted the column over, family by family, the last count the Dia-thìrich made of the humans on Dia-thìr in that age, and it is written that the counting took from first light until past noon, and that no one on either side of the ford spoke more than the counting needed.
+
+At Àth leathan, the last stage before the north country proper, the columns camped a night in the fields below the town, and it is written that several of the humans who camped there asked the custodians the name of the place, and wrote it down for themselves before they slept, in whatever hand and whatever tongue each of them had. What they meant to do with the name, the custodians who gave it did not ask and were not told.
+
+## VI. Of the Keeper's Watch
+
+At Taigh-solais Baile chrom, on the north-western headland, Lachlann mac Uisdein kept the light his father had kept before him, and his father's daybook before that, the same worn cover, filling now with a second man's hand.
+
+He was forty that winter, and had known no other work; his father Uisdean had lit the tower first in his own youth and kept it through the years of the Green Death, and had died with the daybook's ink not yet dry on the last page he wrote, and Lachlann had taken up the pen the same evening because the light did not keep itself and the wind did not wait on grief. He wrote what his father had written before him: the wind, the state of the oil, the ships seen and their bearing, and, on the nights there were none, the same three words his father had written on nights there were none.
+
+A boat came up from Baile chrom below one evening with word, third or fourth hand by the time it reached him, that the last Commissioner had gone down to Cuan shean to take ship, and that the ship would go north-about past the headland on the evening tide, as every ship bound over the eastern sea had gone since before Lachlann's grandfather kept any book at all. Lachlann had never seen a Commissioner, nor any human of rank higher than the surveyors who had once come up the coast road with their chains, and he found, turning the word over as he climbed the tower stair, that he had no picture in his mind of the man he was about to watch leave, only of the ship.
+
+He watched for her from the gallery through the last of the light, and saw her come up past the point further out than the coasting boats ever ran, three-masted and low in the water, showing no lamp he could see until she was nearly past, when a single light appeared at her stern, small and steady, and held so a long while that he thought at first she had anchored. She had not. She was standing out, slow against the ebb, and the light went with her, smaller each glass, until the dark of the water and the dark of the sky came together and there was nothing left to tell one from the other, and Lachlann stood at the rail of the gallery a good while after that, in case his eyes had been wrong about the last of it, before he went in and lit the lamp himself, because it wanted lighting, and wrote in the daybook, in his father's hand more than his own: *a ship of the strangers, three masts, going north about, showing one light. Did not come back.*
+
+He was still keeper twelve years after, and kept the same book, and it is that book, more than any order of the council's, that the roll of that winter leans on for the day and the hour of the last human commissioner's leaving Dia-thìr.
+
+## VII. Of the Keys at Cuan Shean
+
+The harbour officers of Ceann mhòr, of Cathair gheal and of Inis àrsaidh, the three ports of the north that had kept the Administration's charts and tallies since the earliest post at Ros dhomhain, rode down together to Cuan shean in the same week, each with his town's chest of harbour keys strapped behind his saddle, to give them into Strake's own hand before his ship sailed.
+
+It was no part of the truce that required it. The council's writ did not run to those ports, tucked as they were behind the northern capes where the truce had drawn its line, and the three men might as well have kept the keys, or buried them, or thrown them into the sea their towns looked out on. They chose instead to ride two days south with the weight of them, and stood on the quay at Cuan shean in the last of the daylight and set the three chests down at Strake's feet. They said, between them, no more than that the accounts were even and the harbours in good order; that who would want the keys after was not for them to say; and that they had brought them, all the same, to the one man whose office it plainly still was, for as long as he held it. Each of the three had kept his father's post before him, as Lachlann kept his; none of them, that evening on the quay, spoke of what he would do when he rode home to a harbour with no office left to answer to.
+
+Strake took the chests aboard with him. What became of them after, on a sea no ship of Dia-thìr had followed since, no roll of the island records.
+
+## VIII. Of the Beacons Relit
+
+The forest council, once the truce was signed and the columns on the road, ordered the five beacons lit again from Baile chrom round the coast to Tobar dhearg, the same ring that had burned through the years of the Levy to count human ships coming in.
+
+They burned now for nothing that came. The keepers' daybooks, Lachlann's among them, went on being kept as they had always been kept, oil bought, wick trimmed, wind recorded, and the line beneath the weather where a ship would once have been noted stood empty night after night through an Dùbhlachd, until the keepers stopped troubling to leave the line and simply wrote, some of them, the same three words that had first been Uisdean mac Lachlainn's alone and were now half the coast's. *Cha tàinig long.*
+
+No ship came. It was not grief in the writing of it, by the time the winter was old, so much as habit; the sentence had outlived the asking it once answered.
+
+## IX. Of the First Chest
+
+The rolls of that age, what the custodians could gather of them before the year turned, the copies of the two petitions, the book kept at Baile thais through the eleven days, the letter-books left behind in the stripped Residency and whatever else had not gone west with Strake's own clerks, came to Muileann chaol by cart in the last days of an Dùbhlachd, four chests bound in oiled cloth against the weather, with a single custodian riding beside them the whole way and sleeping across the lids at night.
+
+Cailean mac Eachainn was fifty that winter, copyist of the three households of Muileann chaol since before any of this had a name, and it was into his hands the chests were given, because there was no one else at the mill house whose writing every custodian on the island already trusted. He signed for them on the step, in the cold, with the carter still stamping to warm his feet, and had them carried down into the cellar he had cleared for them through the autumn on nothing more than the word that they would be coming.
+
+He opened the first chest alone, by lamp, on the last evening of the year, and found it filled less neatly than he had hoped and more fully than he had feared: papers out of order, some scorched at the corner, some still smelling of the smoke of the rooms they had been carried out of, a petition in a hand he knew and a ledger in a hand he did not, and under them all, wrapped apart in its own cloth as if someone at the last had thought to spare it, the book kept at Baile thais through its eleven days, whole.
+
+He set that one aside, and did not read it that night, and sat a while instead with his hand flat on the closed lid of the chest, the lamp burning low beside him, thinking less of what had been kept than of what the other three chests, still bound, might turn out to lack.
+
+At am Faoilleach's turning, on the first day of the new year, word came down from Cathair dhearg that the war was ended and the crossing itself shut, whatever way had ever let the strangers reach the island closed behind the last of them; that the humans still on Dia-thìr had gone north under the council's safe-conduct into the country their children's children would hold after them; and that two boys not yet twenty, born within a year of each other in a mining town under the hill, would grow to manhood not knowing the island any other way.
+
+Cailean set the news down in no roll of his own that night. He only lit a second lamp against the dark, and drew the second chest toward him across the cellar floor, and began, again, to see what had been kept, and what had not.

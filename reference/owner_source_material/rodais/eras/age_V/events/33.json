@@ -1,0 +1,167 @@
+[
+ {
+  "id": "EV-5507",
+  "title": "Fairley marks the custodians' asking on his plan",
+  "era_year": 136,
+  "summary": "The Company engineer Robert Fairley writes the custodians' request, that no charge be set within sight of the shrine at Cill ghlas, into the margin of his working plan. The plan shows the shrine as a bare shape with no depth drawn beneath it, and the numbered headings below are never measured against it.",
+  "category": "coal",
+  "people": ["Robert Fairley", "Aonghas Mòr"],
+  "places": ["burg:123"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0267"]
+ },
+ {
+  "id": "EV-5507a",
+  "title": "Beathag Ruadh's roll at Caol ìseal",
+  "era_year": 136,
+  "summary": "The custodian of Caol ìseal counts forty casks of blasting-powder off a Company ship, told to her carters as lamp-oil, and writes in her roll that the staves smelled of nothing when she put her hand to them. Her line goes unanswered into the cellar at Muileann chaol with the rest of the year's roll.",
+  "category": "trade",
+  "people": ["Beathag Ruadh"],
+  "places": ["burg:86"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0268"]
+ },
+ {
+  "id": "EV-5507b",
+  "title": "Raghnall Breac walks to Cill ghlas",
+  "era_year": 134,
+  "summary": "With his knees gone stiff for the low work at Baile thais and two grandchildren to feed, the ageing hewer Raghnall Breac walks two days to the new galleries at Cill ghlas, where the pay is better and the headings still stand tall enough for a man to work upright. He writes to his daughter Eilidh twice a year.",
+  "category": "coal",
+  "people": ["Raghnall Breac", "Eilidh nic Raghnaill"],
+  "places": ["burg:44", "burg:123"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0267"]
+ },
+ {
+  "id": "EV-5507c",
+  "title": "Eilidh nic Raghnaill given a seat at the Lamp-Watch's table",
+  "era_year": 136,
+  "summary": "The crew-leader Eilidh nic Raghnaill of Baile thais is asked, for the first time, to sit at the table where the Lamp-Watch keeps its business, and copies its minutes into a second book kept in her own linen chest, where no Company clerk would think to look.",
+  "category": "law",
+  "people": ["Eilidh nic Raghnaill"],
+  "places": ["burg:44"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0234"]
+ },
+ {
+  "id": "EV-5508",
+  "title": "The Rending kills the thirty-one",
+  "era_year": 137,
+  "summary": "On the ninth of an t-Ògmhios the fault beneath Cill ghlas tears open and the ground above the eighth heading and the old shrine cutting comes down together. The custodians' roll names thirty-one dead, among them the hewer Raghnall Breac, and says four bodies more were never brought up.",
+  "category": "land",
+  "people": ["Raghnall Breac"],
+  "places": ["burg:123"],
+  "threads": ["the-company", "the-long-war"],
+  "master_links": ["IV-0269"]
+ },
+ {
+  "id": "EV-5508a",
+  "title": "The shrine and the keeper lost",
+  "era_year": 137,
+  "summary": "The old shrine cutting at Cill ghlas goes down in the Rending with Brìde's lamp, its stone bench and its cairn of first coal, and the keeper Sìne nic Aonghais, nineteen years at her watch, is never found. The custodians' roll sets the loss of the shrine before the loss of the dead in one hand, and after it in another, and both stand uncrossed.",
+  "category": "faith",
+  "people": ["Sìne nic Aonghais"],
+  "places": ["burg:123"],
+  "threads": ["the-keepers-promise"],
+  "master_links": ["IV-0271"]
+ },
+ {
+  "id": "EV-5508b",
+  "title": "The Company fences the closed district",
+  "era_year": 137,
+  "summary": "A' Chompanaidh's surveyors return within the week to fence the district from Cill ghlas to Àth chaol, and the Residency's order forbids any wage or working on any ground inside the fence. Households leave through the autumn and winter, first in twos and threes, then whole villages together.",
+  "category": "land",
+  "people": [],
+  "places": ["burg:123"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0272"]
+ },
+ {
+  "id": "EV-5508c",
+  "title": "The meeting at the standing stone",
+  "era_year": 137,
+  "summary": "The custodians of Muileann dhomhain meet the eldest of the dispossessed at an old standing stone on the moor road, away from the town hall and the Company's clerk, and lend them the poorest of the common land for a new village. The place is named Coinneachadh an Fhearainn, the meeting of the land.",
+  "category": "land",
+  "people": [],
+  "places": ["burg:202"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0272a"]
+ },
+ {
+  "id": "EV-5508d",
+  "title": "Achadh chaol's first roll opened",
+  "era_year": 138,
+  "summary": "Aonghas Mòr, once keeper of the lost shrine, opens the first custodians' roll of Achadh chaol on the day the new village's well is finished, its first line giving the well's depth and naming no shrine and no dead. It is the only settlement of the age raised without any Company surveyor's hand in it.",
+  "category": "land",
+  "people": ["Aonghas Mòr"],
+  "places": ["burg:389"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0273"]
+ },
+ {
+  "id": "EV-5508e",
+  "title": "Eilidh nic Raghnaill at the fenced ground",
+  "era_year": 137,
+  "summary": "Eilidh nic Raghnaill walks to Cill ghlas to find her father's grave and finds instead the fence and the fallen headgear of the eighth heading. A constable turns her away from the closed ground. She writes nothing of the hour in the Lamp-Watch's book.",
+  "category": "coalblood",
+  "people": ["Eilidh nic Raghnaill"],
+  "places": ["burg:123"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0272"]
+ },
+ {
+  "id": "EV-5508f",
+  "title": "Fionnlagh's warning at Muileann chrom",
+  "era_year": 137,
+  "summary": "The overseer Fionnlagh tells the new agent Edgar Holt that the flooded ground under one heading at Muileann chrom has never gone a night without its pumps, drawing as it does from an unmapped old working above it. Holt orders the pumps stopped regardless, to spare coal for the winding-gear until a delayed barge arrives.",
+  "category": "coal",
+  "people": ["Fionnlagh", "Edgar Holt"],
+  "places": ["burg:354"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0274"]
+ },
+ {
+  "id": "EV-5508g",
+  "title": "The flooded gallery takes seven",
+  "era_year": 137,
+  "summary": "With the pumps idle overnight, the gallery at Muileann chrom fills to the roof, and seven men of the change of shift, Fionnlagh among them, do not come up. Mòrag nic Iain Maor stands at the pit-mouth as they are brought up and laid in a row on the wet boards.",
+  "category": "coal",
+  "people": ["Mòrag nic Iain Maor", "Fionnlagh"],
+  "places": ["burg:354"],
+  "threads": ["the-company"],
+  "master_links": ["IV-0274"]
+ },
+ {
+  "id": "EV-5508h",
+  "title": "The stones and the rifle at Muileann chrom",
+  "era_year": 137,
+  "summary": "When the agent Edgar Holt speaks at the pit-mouth of the loss to the working, a stone takes him on the shoulder and the crews and constables come to blows. A constable fires into the crowd, and when it is over four Dia-thìrich and one constable, killed by his own fellow's shot, lie dead beside the seven of the flood.",
+  "category": "war",
+  "people": ["Mòrag nic Iain Maor", "Edgar Holt"],
+  "places": ["burg:354"],
+  "threads": ["the-company", "the-long-war"],
+  "master_links": ["IV-0274"]
+ },
+ {
+  "id": "EV-5509",
+  "title": "Mòrag's testimony struck from the inquiry",
+  "era_year": 137,
+  "summary": "At the Administration's inquiry at Ros dhomhain, the fourth Steward Mòrag nic Iain Maor carries the Company's own staff into the room and testifies that Edgar Holt ordered the pumps stopped against his overseer's warning. The commissioners rule her account improper and have the clerk strike it from the record.",
+  "category": "law",
+  "people": ["Mòrag nic Iain Maor"],
+  "places": ["burg:27"],
+  "threads": ["the-company", "the-long-war"],
+  "master_links": ["IV-0275"]
+ },
+ {
+  "id": "EV-5509a",
+  "title": "The Lamp-Watch keeps the struck copy",
+  "era_year": 138,
+  "summary": "A Dia-thìreach clerk who keeps the Company's own file copy of the inquiry's minutes has the struck-through page carried north to Baile thais folded inside sailcloth. Eilidh nic Raghnaill copies it a second time into the Lamp-Watch's linen-chest book, the stricken line copied as stricken, and is given a full seat at the table that winter.",
+  "category": "law",
+  "people": ["Eilidh nic Raghnaill", "Mòrag nic Iain Maor"],
+  "places": ["burg:44"],
+  "threads": ["the-company", "the-long-war"],
+  "master_links": ["IV-0275", "IV-0234"]
+ }
+]

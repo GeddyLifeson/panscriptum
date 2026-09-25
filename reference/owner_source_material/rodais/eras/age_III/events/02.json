@@ -1,0 +1,153 @@
+[
+ {
+  "title": "The tidings at Dùn ìseal",
+  "era_year": 1,
+  "summary": "Donnan, a herd-boy of the eastern hills who watched the ford from the ridge, comes over the tops to the spring below Dùn ìseal on the fourth evening after the battle. The first word said in the camps of the kin is a question: who holds the hill now?",
+  "category": "rulers",
+  "people": [
+   "Donnan Buachaille",
+   "Sìne nan Snaidhm"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "I-0098a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The keening in the valley",
+  "era_year": 1,
+  "summary": "Mairsile, an aged daughter of the king, begins to keen alone at her fire in the upper valley, and the whole valley of the kin takes it up fire by fire.",
+  "category": "rulers",
+  "people": [
+   "Mairsile nic Ailein"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   {
+    "to": "I-0098a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The bier at the gathering-house",
+  "era_year": 1,
+  "summary": "The bier of spears comes up the valley road with two grey sons of the king behind it. Sìne nan Snaidhm gives the twelve bearers water at the spring. The keepers of the slab take the king from them at the door of the gathering-house.",
+  "category": "rulers",
+  "people": [
+   "Sìne nan Snaidhm",
+   "Ailean Mòr"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "I-0098a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The king laid in the earth",
+  "era_year": 1,
+  "summary": "After three nights in the gathering-house Ailean Mòr is carried out before dawn and laid in the earth under a mound. The tellers of Dùn ìseal show a mound on the slope facing the vein; the reciters of the Mason's line, following Seathan Crom of Clann na Ceiste, show another. The two have never been reconciled.",
+  "category": "rulers",
+  "people": [
+   "Ailean Mòr",
+   "Seathan Crom"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings",
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0098a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Ìomhar Dearg comes up as lord of Dùn dhearg",
+  "era_year": 1,
+  "summary": "Ìomhar Dearg rides up the valley road with his household in the cloaks of the east and stands in the door of the gathering-house as lord of Dùn dhearg. Aodh Crom bids him sit.",
+  "category": "rulers",
+  "people": [
+   "Ìomhar Dearg",
+   "Aodh Crom"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "I-0098a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Runners to every coast",
+  "era_year": 1,
+  "summary": "The kin in the valley send runners in pairs from fires that do not trust each other to every coast of the island, to call in the king's blood who had not come.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Aodh Crom asks for a cord of the heirs",
+  "era_year": 1,
+  "summary": "The eldest keeper of the slab, Aodh Crom, comes to the house of the knot-keeper Sìne nan Snaidhm by night and asks her for a new cord, to count the heirs, since none of them will believe another's count.",
+  "category": "law",
+  "people": [
+   "Aodh Crom",
+   "Sìne nan Snaidhm"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "cause"
+   }
+  ]
+ }
+]

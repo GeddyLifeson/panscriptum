@@ -1,0 +1,181 @@
+[
+ {
+  "title": "The sisters in the bower",
+  "era_year": 2,
+  "summary": "Mòrag nic Dhòmhnaill rides to Cathair dhearg and asks her sister to command or forbid the crossing. The queen answers that the crown has never sent anyone anywhere, nor kept back anyone free, and will not begin with her sister.",
+  "category": "rulers",
+  "people": [
+   "Mòrag nic Dhòmhnaill",
+   "Beathag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0005",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The queen's word sent to the harbours",
+  "era_year": 2,
+  "summary": "The queen's word, written by Murchadh mac Eòghainn and sealed, goes by rider to Seann Skell and every harbour of the west and to the vein-house: the crown will send no one and keep no one back, and will judge any quarrel of the venture by the old law.",
+  "category": "rulers",
+  "people": [
+   "Beathag nic Dhòmhnaill",
+   "Murchadh mac Eòghainn"
+  ],
+  "places": [
+   "burg:19",
+   "burg:489",
+   "burg:491"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0005",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The word read at the harbour-house door",
+  "era_year": 2,
+  "summary": "Calum mac Nèill reads the queen's word twice from the harbour-house door to the town standing in the rain. Few cheer; most had wanted the crown to choose for them.",
+  "category": "rulers",
+  "people": [
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0005",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The queen's word made a song",
+  "era_year": 2,
+  "summary": "On the quay at Seann Skell the fishers say the queen's word over until it becomes a line of song: I will send no one over, and I will keep no one back. The harbour songs keep it so.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0005",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Aonghas mac Fhionnlaigh says yes",
+  "era_year": 2,
+  "summary": "At Inis àrsaidh Mòrag's husband, Aonghas mac Fhionnlaigh, a farmer of the land up the river, agrees that their household will go before she has finished asking.",
+  "category": "humans",
+  "people": [
+   "Aonghas mac Fhionnlaigh",
+   "Mòrag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:55"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0005",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The custodians dispute the right of those who go",
+  "era_year": 3,
+  "summary": "Through the winter the custodians at the vein-house argue whether the right to the coal goes with a hearth that crosses the sea or is struck on the day it sails. Fearchar mac Ruairidh holds that the right lives in the hands.",
+  "category": "coal",
+  "people": [
+   "Fearchar mac Ruairidh",
+   "Eòghann mac Mhuirich"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-sundering",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0016",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The roll copied for the vein-house",
+  "era_year": 3,
+  "summary": "The harbour scribe's son copies the roll of the willing onto skin, with a flame-mark beside each household that holds the right to the coal, and sends it up the coal-road to the vein-house.",
+  "category": "coal",
+  "people": [
+   "Dòmhnall mac Chaluim"
+  ],
+  "places": [
+   "burg:489",
+   "burg:491"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0006",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Fearchar mac Ruairidh's household on the roll",
+  "era_year": 3,
+  "summary": "Fearchar mac Ruairidh tells the custodians, after the second count, that he entered his own household on the roll at Seann Skell in the moon of Samhnas and ticked his own name twice.",
+  "category": "coal",
+  "people": [
+   "Fearchar mac Ruairidh",
+   "Eòghann mac Mhuirich"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0006",
+    "type": "sequel"
+   },
+   {
+    "to": "III-0015",
+    "type": "cause"
+   }
+  ]
+ }
+]

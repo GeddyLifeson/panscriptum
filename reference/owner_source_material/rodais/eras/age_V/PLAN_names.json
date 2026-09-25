@@ -1,25 +1,152 @@
 [
- {"en": "The Colour of the Coal (the title of this volume)", "dt": "Dath a' Ghuail", "gloss": "the colour of the coal", "kind": "section-title"},
- {"en": "the strangers' fever", "dt": "Fiabhras nan Coigreach", "gloss": "the fever of the strangers (AE 9, IV-0034)", "kind": "calamity"},
- {"en": "the dry cough", "dt": "An Casad Tioram", "gloss": "the coughing sickness of the camps (AE 26, IV-0073)", "kind": "calamity"},
- {"en": "the spotted pox", "dt": "A' Bhreac Bhallach", "gloss": "the spotted pox (AE 39, IV-0096)", "kind": "calamity"},
- {"en": "the bloody flux", "dt": "An Scàird Fhuilteach", "gloss": "the bloody flux of the quays (AE 59, IV-0133)", "kind": "calamity"},
- {"en": "the lung-rot", "dt": "Grodadh nan Scamhan", "gloss": "the rot of the lungs, the crews' word for the wasting sickness (AE 119, IV-0242)", "kind": "calamity"},
- {"en": "Donnchadh's cough", "dt": "Casad Dhonnchaidh", "gloss": "the old women's name for the cough the kin survive (IV-0242)", "kind": "calamity"},
- {"en": "the grey fever", "dt": "Am Fiabhras Glas", "gloss": "the fever of the chest that took the young and strong (AE 138, IV-0276)", "kind": "calamity"},
- {"en": "the list of the forty colours", "dt": "Clàr nan Dà Fhichead Dath", "gloss": "Gormshuil nic Fhearchair's first leaf: forty words for the colours of broken coal (IV-0010)", "kind": "document"},
- {"en": "the orphans' house at Cill thais", "dt": "Taigh nan Dìlleachdan", "gloss": "the house of the orphans (IV-0074)", "kind": "landmark"},
- {"en": "the Mission school", "dt": "Scoil na Teachdaireachd", "gloss": "the school of the Mission at Ros dhomhain (IV-0121)", "kind": "institution"},
- {"en": "the charter of Cathair gheal", "dt": "Cairt Chathair gheal", "gloss": "the market charter of the concession town, which names no custodian (IV-0116)", "kind": "charter"},
- {"en": "the steelyard at Ros dhomhain", "dt": "Crann-tomhais a' Chalaidh", "gloss": "the weighing-beam of the harbour (IV-0147)", "kind": "landmark"},
- {"en": "the Company's granary", "dt": "Sìol-lann na Companaidh", "gloss": "the granary at Muileann chrom and its week's ration (IV-0167)", "kind": "landmark"},
- {"en": "the Administration's count of the people", "dt": "Cunntas an Riaghaltais", "gloss": "the census by district (IV-0246)", "kind": "document"},
- {"en": "the night-shift order", "dt": "Àithne na h-Oidhche", "gloss": "the order of the night (IV-0237)", "kind": "edict"},
- {"en": "the night-shift strike", "dt": "Stad-oibre Cnoc chaol", "gloss": "the stoppage at Cnoc chaol (IV-0239)", "kind": "event"},
- {"en": "the dockers' strike", "dt": "Stad-oibre a' Chalaidh", "gloss": "the stoppage of the harbour (IV-0263)", "kind": "event"},
- {"en": "the burial club", "dt": "Comann an Adhlacaidh", "gloss": "the fellowship of burial under whose cover the Lamp-Watch met (IV-0234)", "kind": "institution"},
- {"en": "the three households", "dt": "Na Trì Teaghlaichean", "gloss": "the three copying families of Muileann chaol (IV-0248)", "kind": "house"},
- {"en": "the cellar at Muileann chaol", "dt": "Seilear Muileann chaol", "gloss": "the cellar where the copies of the rolls were kept (IV-0248, IV-0376)", "kind": "landmark"},
- {"en": "the beacon hill of the stoppage", "dt": "Cnoc an Rabhaidh", "gloss": "the hill of the warning, above Doire mhòr (IV-0306, IV-0309)", "kind": "landmark"},
- {"en": "the council's companies", "dt": "Buidhnean na Comhairle", "gloss": "the companies raised by the forest council in the War of the Hills (IV-0332)", "kind": "company"}
+    {
+        "en": "The Colour of the Coal (the title of this volume)",
+        "dt": "Dath a' Ghuail",
+        "gloss": "the colour of the coal",
+        "kind": "section-title"
+    },
+    {
+        "en": "the strangers' fever",
+        "dt": "Fiabhras nan Coigreach",
+        "gloss": "the fever of the strangers (AE 9, IV-0034)",
+        "kind": "calamity"
+    },
+    {
+        "en": "the dry cough",
+        "dt": "An Casad Tioram",
+        "gloss": "the coughing sickness of the camps (AE 26, IV-0073)",
+        "kind": "calamity"
+    },
+    {
+        "en": "the spotted pox",
+        "dt": "A' Bhreac Bhallach",
+        "gloss": "the spotted pox (AE 39, IV-0096)",
+        "kind": "calamity"
+    },
+    {
+        "en": "the bloody flux",
+        "dt": "An Scàird Fhuilteach",
+        "gloss": "the bloody flux of the quays (AE 59, IV-0133)",
+        "kind": "calamity"
+    },
+    {
+        "en": "the lung-rot",
+        "dt": "Grodadh nan Scamhan",
+        "gloss": "the rot of the lungs, the crews' word for the wasting sickness (AE 119, IV-0242)",
+        "kind": "calamity"
+    },
+    {
+        "en": "Donnchadh's cough",
+        "dt": "Casad Dhonnchaidh",
+        "gloss": "the old women's name for the cough the kin survive (IV-0242)",
+        "kind": "calamity"
+    },
+    {
+        "en": "the grey fever",
+        "dt": "Am Fiabhras Glas",
+        "gloss": "the fever of the chest that took the young and strong (AE 138, IV-0276)",
+        "kind": "calamity"
+    },
+    {
+        "en": "the list of the forty colours",
+        "dt": "Clàr nan Dà Fhichead Dath",
+        "gloss": "Gormshuil nic Fhearchair's first leaf: forty words for the colours of broken coal (IV-0010)",
+        "kind": "document"
+    },
+    {
+        "en": "the orphans' house at Cill thais",
+        "dt": "Taigh nan Dìlleachdan",
+        "gloss": "the house of the orphans (IV-0074)",
+        "kind": "landmark"
+    },
+    {
+        "en": "the Mission school",
+        "dt": "Scoil na Teachdaireachd",
+        "gloss": "the school of the Mission at Ros dhomhain (IV-0121)",
+        "kind": "institution"
+    },
+    {
+        "en": "the charter of Cathair gheal",
+        "dt": "Cairt Chathair gheal",
+        "gloss": "the market charter of the concession town, which names no custodian (IV-0116)",
+        "kind": "charter"
+    },
+    {
+        "en": "the steelyard at Ros dhomhain",
+        "dt": "Crann-tomhais a' Chalaidh",
+        "gloss": "the weighing-beam of the harbour (IV-0147)",
+        "kind": "landmark"
+    },
+    {
+        "en": "the Company's granary",
+        "dt": "Sìol-lann na Companaidh",
+        "gloss": "the granary at Muileann chrom and its week's ration (IV-0167)",
+        "kind": "landmark"
+    },
+    {
+        "en": "the Administration's count of the people",
+        "dt": "Cunntas an Riaghaltais",
+        "gloss": "the census by district (IV-0246)",
+        "kind": "document"
+    },
+    {
+        "en": "the night-shift order",
+        "dt": "Àithne na h-Oidhche",
+        "gloss": "the order of the night (IV-0237)",
+        "kind": "edict"
+    },
+    {
+        "en": "the night-shift strike",
+        "dt": "Stad-oibre Cnoc chaol",
+        "gloss": "the stoppage at Cnoc chaol (IV-0239)",
+        "kind": "event"
+    },
+    {
+        "en": "the dockers' strike",
+        "dt": "Stad-oibre a' Chalaidh",
+        "gloss": "the stoppage of the harbour (IV-0263)",
+        "kind": "event"
+    },
+    {
+        "en": "the burial club",
+        "dt": "Comann an Adhlacaidh",
+        "gloss": "the fellowship of burial under whose cover the Lamp-Watch met (IV-0234)",
+        "kind": "institution"
+    },
+    {
+        "en": "the three households",
+        "dt": "Na Trì Teaghlaichean",
+        "gloss": "the three copying families of Muileann chaol (IV-0248)",
+        "kind": "house"
+    },
+    {
+        "en": "the cellar at Muileann chaol",
+        "dt": "Seilear Muileann chaol",
+        "gloss": "the cellar where the copies of the rolls were kept (IV-0248, IV-0376)",
+        "kind": "landmark"
+    },
+    {
+        "en": "the beacon hill of the stoppage",
+        "dt": "Cnoc an Rabhaidh",
+        "gloss": "the hill of the warning, above Doire mhòr (IV-0306, IV-0309)",
+        "kind": "landmark"
+    },
+    {
+        "en": "the council's companies",
+        "dt": "Buidhnean na Comhairle",
+        "gloss": "the companies raised by the forest council in the War of the Hills (IV-0332)",
+        "kind": "company"
+    },
+    {
+        "en": "the two who washed together",
+        "dt": "An Dithis a Nigh Còmhla",
+        "gloss": "the camp's name for Anne Colby and Beitris Bhàn, who washed the Green Death's dead side by side (IV-0152–0162)",
+        "kind": "epithet"
+    },
+    {
+        "en": "the king's daughter (the camps' name for the girl who does not grow)",
+        "dt": "nighean an rìgh",
+        "gloss": "the king's daughter; the washing-women's name for Aisling among the camp folk (IV-0146)",
+        "kind": "byname"
+    }
 ]

@@ -124,5 +124,11 @@
   "dt": "Reul na Stiùire",
   "gloss": "the steering star",
   "kind": "star"
+ },
+ {
+  "en": "the second hull",
+  "dt": "An Dara Fhaoileag",
+  "gloss": "the second gull, the hull built to the changed keel pattern after the loss of An Fhaoileag",
+  "kind": "ship"
  }
 ]

@@ -177,7 +177,7 @@
  },
  {
   "name": "Daniel Frayne",
-  "born": "SE 6",
+  "born": "SE 5",
   "died": null,
   "role": "pupil of Agnes Pike; Moot clerk; bookbinder of Muileann leathan; speaker from SE 55 (V-0168, V-0189)",
   "first_chapter": 14,
@@ -425,23 +425,23 @@
  },
  {
   "name": "Niall",
-  "born": null,
-  "died": null,
+  "born": "AE 128",
+  "died": "SE 22",
   "role": "first ruler of the restored kingdom",
   "first_chapter": 5,
   "notes": "owner: chronicle facts only (V-0012, V-0092)."
  },
  {
   "name": "Brìghde",
-  "born": null,
-  "died": null,
+  "born": "SE 1",
+  "died": "SE 28",
   "role": "Niall's daughter; ruler SE 22–28",
   "first_chapter": 20,
   "notes": "owner: chronicle facts only; no cause of death."
  },
  {
   "name": "Eòghan",
-  "born": null,
+  "born": "AE 146",
   "died": null,
   "role": "Brìghde's cousin; ruler SE 28–58",
   "first_chapter": 23,
@@ -449,7 +449,7 @@
  },
  {
   "name": "Mairead",
-  "born": null,
+  "born": "SE 20",
   "died": null,
   "role": "ruler from SE 58",
   "first_chapter": 35,

@@ -25,7 +25,7 @@
  },
  {
   "name": "Mairead",
-  "born": null,
+  "born": "SE 20",
   "died": null,
   "role": "ruler of Rìoghachd Dia-thìr until DE 3",
   "first_chapter": 1,
@@ -33,7 +33,7 @@
  },
  {
   "name": "Cathal",
-  "born": null,
+  "born": "SE 45",
   "died": null,
   "role": "ruler of Rìoghachd Dia-thìr, crowned 1 an Lùnastal DE 3 by Macha's rite; reigning DE 27",
   "first_chapter": 3,

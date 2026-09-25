@@ -1,0 +1,125 @@
+[
+ {
+  "title": "The keepers bring down their fire",
+  "era_year": 1,
+  "summary": "The nine keepers of the slab come down from Tobar dhìreach to Dùn ìseal with the fire of their hut in a covered pot. The reciters of the Mason's line hold that it came down from the mason's fire; the keepers say only that it is old and must not go out.",
+  "category": "faith",
+  "people": [
+   "Aodh Crom"
+  ],
+  "places": [
+   "burg:276",
+   "burg:315"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The heirs' first quarrel over the hill",
+  "era_year": 1,
+  "summary": "The kin of Ailean Mòr meet in the gathering-house below Dùn ìseal and quarrel three days over the hill, which stands over the vein: by the eldest, by the living, by the dead, and by a gallery to each line. Eithne nic Ailein and Murchadh Mòr nearly come to blood on the first day.",
+  "category": "rulers",
+  "people": [
+   "Murchadh Mòr",
+   "Eithne nic Ailein",
+   "Niall Òg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Aodh Crom's asking",
+  "era_year": 1,
+  "summary": "Aodh Crom, eldest of the keepers of the slab, asks the heirs to declare the keepers' charge, as the keepers had asked of Catrìona Mhòr, and to put the vein and the hill over it into no share, held by no one of the king's blood. Each line would sooner nobody had it than a cousin.",
+  "category": "law",
+  "people": [
+   "Aodh Crom",
+   "Eithne nic Ailein",
+   "Murchadh Mòr",
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division",
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001",
+    "type": "cause"
+   },
+   {
+    "to": "I-0255",
+    "type": "fulfils"
+   }
+  ]
+ },
+ {
+  "title": "Gille-Brìde carries a coal of the First Flame home",
+  "era_year": 1,
+  "summary": "Gille-Brìde of the line of Somhairle comes down from the high valleys, swears the Binding last of the king's blood, and asks for a coal of the flame. He carries it home in a clay pot and asks for nothing more, and no knot is tied for him.",
+  "category": "faith",
+  "people": [
+   "Gille-Brìde",
+   "Aodh Crom"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "line-of-aisling",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The flame kept in the keepers' hut",
+  "era_year": 1,
+  "summary": "After the Binding the First Flame is kept in the keepers' hut on the slope above the gathering-house at Dùn ìseal, fed with a little of the coloured coal each night.",
+  "category": "faith",
+  "people": [
+   "Aodh Crom"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001",
+    "type": "sequel"
+   },
+   {
+    "to": "II-0004",
+    "type": "cause"
+   }
+  ]
+ }
+]

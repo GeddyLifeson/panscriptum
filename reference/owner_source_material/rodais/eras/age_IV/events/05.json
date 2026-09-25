@@ -1,0 +1,175 @@
+[
+ {
+  "title": "An Fhaoileag launched",
+  "era_year": 6,
+  "summary": "The first deep-keeled hull, planked and rigged, is floated off the blocks below Seann Skell with a coal from the vein-house set at her step. The town calls her An Fhaoileag, the gull, for the way she rides the water.",
+  "category": "trade",
+  "people": [
+   "Alasdair mac Iain, Alasdair Saor",
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0011",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The nine named at Inis àrsaidh",
+  "era_year": 6,
+  "summary": "The roll-keeper of Inis àrsaidh cuts nine names into the village's board on the night of the drowning, the village sitting up with her as the custom asks. Alasdair's sister's son Tormod Beag is among the six bodies brought back; two more are never found.",
+  "category": "land",
+  "people": [
+   "Tormod Beag",
+   "Alasdair mac Iain, Alasdair Saor"
+  ],
+  "places": [
+   "burg:55"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0011",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The keening at Inis àrsaidh",
+  "era_year": 6,
+  "summary": "The six recovered dead are keened on the shingle under sailcloth and a lamp at each head; for the three never found a single lamp is lit and burns down unwatched. Alasdair stays three days doing whatever the village asks of him.",
+  "category": "land",
+  "people": [
+   "Alasdair mac Iain, Alasdair Saor"
+  ],
+  "places": [
+   "burg:55"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0011",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Households struck and households entered",
+  "era_year": 6,
+  "summary": "Eleven households strike themselves from the Seann Skell roll after word of the drowning, and eleven others enter in the same weeks, among them kin of a survivor and a widow of Ros bheag who gives her daughters' names. Calum mac Nèill records both counts without comment.",
+  "category": "trade",
+  "people": [
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0011",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The second keel laid to the changed pattern",
+  "era_year": 7,
+  "summary": "Alasdair Saor lays a second keel on the strand below Seann Skell, built to the fuller, hollow-bowed run he redrew by a driftwood fire after the drowning. Mòrag nic Dhòmhnaill sends silver again to see her built.",
+  "category": "trade",
+  "people": [
+   "Alasdair mac Iain, Alasdair Saor",
+   "Coinneach mac Fhearghais",
+   "Mòrag nic Dhòmhnaill",
+   "Aonghas mac Fhionnlaigh"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0011",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The rope-walks learn the names of a keel",
+  "era_year": 8,
+  "summary": "After shroud-lines sent west from Cuan shean fail within a season, the wrights walk the rope-walks and name the parts of a hull to the spinners and walkers. Iain Ròpaire, master of the walks, takes to walking one himself to learn the words in his own hands.",
+  "category": "trade",
+  "people": [
+   "Iain Ròpaire",
+   "Coinneach mac Fhearghais"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0012",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The sail-cloth tallies at Baile àrsaidh",
+  "era_year": 9,
+  "summary": "The shire seat's tally-keeper cuts notches for close-woven lengths from households across Siorrachd Baile àrsaidh, far more than expected, some sent by weavers with no kin on the roll and no thought of sailing. The sticks fill a chest that wants a second lid.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:420"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0013",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "An Dara Fhaoileag planked",
+  "era_year": 9,
+  "summary": "The second hull stands planked from keel to sheer and steps her mast on the strand below Seann Skell. The wrights name her An Dara Fhaoileag, the second gull, and the doubt among the older wrights over her fuller, hollow-bowed lines goes quiet.",
+  "category": "trade",
+  "people": [
+   "Alasdair mac Iain, Alasdair Saor",
+   "Coinneach mac Fhearghais"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0011",
+    "type": "sequel"
+   }
+  ]
+ }
+]

@@ -1,0 +1,394 @@
+[
+ {
+  "id": "EV-1507a",
+  "title": "Harrow asks for the terms in writing",
+  "era_year": 7,
+  "after": "IV-0028",
+  "summary": "Edmund Harrow comes up the lake road to Cathair dhearg with Thomas Pike to speak for him and asks Tormod mac Ailein that the terms on which the humans stay be written and signed by both sides. He says that a man is coming from an Tìr Thall to speak for its government, and that he himself has asked for him. The council's leave, he says, stands only in the council's roll.",
+  "category": "humans",
+  "people": [
+   "Edmund Harrow",
+   "Thomas Pike",
+   "Tormod mac Ailein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   {
+    "to": "IV-0005",
+    "type": "sequel"
+   },
+   {
+    "to": "IV-0029",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "id": "EV-1507b",
+  "title": "Tull draws the high custodian's tooth",
+  "era_year": 7,
+  "after": "IV-0028",
+  "summary": "Passing through Cathair dhearg on his way to the post at Ros dhomhain, the surgeon Jonas Tull draws a rotten tooth from the jaw of Tormod mac Ailein, which the capital's physician had left to wait a month. Tormod keeps the tooth in a box. It is the second debt owed to a stranger that the custodians know of, and it is owed by Ceann a' Chùraim.",
+  "category": "humans",
+  "people": [
+   "Jonas Tull",
+   "Tormod mac Ailein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "IV-0018",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "id": "EV-1507",
+  "title": "Pell lands at Cuan shean",
+  "era_year": 8,
+  "after": "IV-0028",
+  "summary": "Josiah Pell comes ashore at Cuan shean from the first ship of the year down from the north, dry-shod on a plank, with a leather case he lets no one carry. He asks for a horse. Oighrig nic Leòid, who gave Harrow water, lends him her own and writes to the council the same day that he did not ask for water.",
+  "category": "humans",
+  "people": [
+   "Josiah Pell",
+   "Oighrig nic Leòid"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   {
+    "to": "IV-0002",
+    "type": "parallel",
+    "note": "Harrow's landing"
+   },
+   {
+    "to": "IV-0030",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "id": "EV-1507c",
+  "title": "Pell rides to the council hall",
+  "era_year": 8,
+  "after": "IV-0028",
+  "summary": "Josiah Pell rides the twenty-six miles from Cuan shean to Cathair dhearg in a day and, passing by the humans' post, asks at dusk for the council hall and Ceann a' Chùraim. Tormod mac Ailein comes down to him in his house-shoes. With no one to carry words between them, Pell greets him with the island's word of leave-taking, learned on the ship.",
+  "category": "humans",
+  "people": [
+   "Josiah Pell",
+   "Tormod mac Ailein"
+  ],
+  "places": [
+   "burg:282",
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "IV-0030",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "id": "EV-1507d",
+  "title": "The terms asked for in two tongues",
+  "era_year": 8,
+  "after": "IV-0028",
+  "summary": "In the talks at Cathair dhearg and Ros dhomhain, with Samuel Wren putting each sentence into the other tongue, Tormod mac Ailein asks that the terms be written twice, as the compact of Baile dhìreach was. Pell answers that one text must govern before the lawyers of an Tìr Thall, and that a copy in Dia-thìris will follow when there is leisure. Wren gives it as an dèidh làimh.",
+  "category": "law",
+  "people": [
+   "Tormod mac Ailein",
+   "Josiah Pell",
+   "Samuel Wren"
+  ],
+  "places": [
+   "burg:19",
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "IV-0022",
+    "type": "answers",
+    "note": "the compact written twice"
+   },
+   {
+    "to": "IV-0029",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "id": "EV-1507e",
+  "title": "Gormshuil called back from Muileann chaol",
+  "era_year": 8,
+  "after": "IV-0028",
+  "summary": "Gormshuil nic Fhearchair, gone east with the season's copies for the loft of Beathag nic Thòmais at Muileann chaol, is sent for by rider when the talks with Pell run fast. She starts back the day the rider finds her, but the rain is on the hills and the fords are up, and she is still on the road when the terms are signed.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Fhearchair",
+   "Tormod mac Ailein"
+  ],
+  "places": [
+   "burg:246",
+   "burg:19"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "IV-0030",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "id": "EV-1508",
+  "title": "The clerk leaves the day blank",
+  "era_year": 8,
+  "after": "IV-0030",
+  "summary": "Entering Cùmhnant Cathair dhearg in the council's roll, the custodians' clerk writes the year by the count of An Diosal and the moon of Bealltach. The strangers have dated their sheets by their own day and month, and no one in the hall can turn the one into the other, so he leaves the day empty. It is the first such page in the roll.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "IV-0030",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "id": "EV-1508a",
+  "title": "Gormshuil given a copy of the terms",
+  "era_year": 8,
+  "after": "IV-0030",
+  "summary": "Two days after the signing Gormshuil nic Fhearchair comes in from the hills, reads the entry in the roll standing, and asks Pell through Samuel Wren for the terms in the strangers' tongue, since the copy in Dia-thìris is to wait for leisure. Pell's secretary makes one within the week. She begins to read it a word at a time, and does not bring it before the council.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Fhearchair",
+   "Josiah Pell",
+   "Samuel Wren"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "IV-0030",
+    "type": "sequel"
+   },
+   {
+    "to": "IV-0010",
+    "type": "person"
+   }
+  ]
+ },
+ {
+  "id": "EV-1508b",
+  "title": "The rise above Ros dhomhain given",
+  "era_year": 8,
+  "after": "IV-0030",
+  "summary": "Pell asks the council for the bare rise behind the harbour of Ros dhomhain, where the town's goats graze, to build a house for Riaghaltas nan Coigreach. The goat-keepers are paid in iron pots and are glad of it, and the council gives the ground without a vote, holding it a matter of goats.",
+  "category": "humans",
+  "people": [
+   "Josiah Pell"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "IV-0031",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "id": "EV-1508c",
+  "title": "The masons of the capital build for Pell",
+  "era_year": 8,
+  "after": "IV-0030",
+  "summary": "The masons of the masons' lane at Cathair dhearg take up Pell's house on the rise, paid in bar-iron by the humans' day, which begins at midnight where the island's begins at dusk. They float grey stone over the lake on rafts and build the house square to Pell's drawn plan, facing the harbour, with its back to the capital. The council does not ask it turned.",
+  "category": "humans",
+  "people": [
+   "Josiah Pell",
+   "Tormod mac Ailein"
+  ],
+  "places": [
+   "burg:19",
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "IV-0031",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "id": "EV-1508d",
+  "title": "Harrow takes his leave of Tormod",
+  "era_year": 9,
+  "after": "IV-0031",
+  "summary": "Edmund Harrow comes up to Cathair dhearg with Thomas Pike to say that Pell will govern now and a ship's master is needed ashore no longer. He tells Tormod mac Ailein that he and Pike are to have a licence to trade, and that the charter will be sent to the council and found in order. He sails north-about from Ros dhomhain two tides later.",
+  "category": "humans",
+  "people": [
+   "Edmund Harrow",
+   "Thomas Pike",
+   "Tormod mac Ailein"
+  ],
+  "places": [
+   "burg:19",
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   {
+    "to": "IV-0031",
+    "type": "sequel"
+   },
+   {
+    "to": "IV-0032",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "id": "EV-1508e",
+  "title": "The charter lodged with the council",
+  "era_year": 9,
+  "after": "IV-0032",
+  "summary": "A copy of Cairt na Companaidh comes to the council at Cathair dhearg in the strangers' tongue, four sheets under a red seal. The clerk enters its coming in the roll and lays it in the chest under the east window of the hall, beside the unanswered letter from Baile dhìreach, and there it lies a month unread.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   {
+    "to": "IV-0032",
+    "type": "sequel"
+   },
+   {
+    "to": "IV-0028",
+    "type": "parallel",
+    "note": "the letter left unanswered"
+   }
+  ]
+ },
+ {
+  "id": "EV-1509",
+  "title": "Gormshuil reads the charter to Tormod",
+  "era_year": 9,
+  "after": "IV-0032",
+  "summary": "At midsummer Gormshuil nic Fhearchair takes the charter from the council's chest and reads it by night to Tormod mac Ailein at his hearth. In the clause of all fuels, ores and minerals the island may yield she finds Wren's one word for the coal, and she shows him that the charter's licence hangs from the line on goods he had asked to hear twice. He asks her to keep it between them.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Fhearchair",
+   "Tormod mac Ailein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-company",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "IV-0032",
+    "type": "answers"
+   },
+   {
+    "to": "IV-0030",
+    "type": "sequel"
+   },
+   {
+    "to": "IV-0010",
+    "type": "legacy",
+    "note": "the one word for the coal"
+   }
+  ]
+ },
+ {
+  "id": "EV-1509a",
+  "title": "The shore at Cathair dhomhain sold",
+  "era_year": 9,
+  "after": "IV-0032",
+  "summary": "Thomas Pike buys a strip of shingle and rough grass above the lake at Cathair dhomhain from a fishing family that has drawn its nets there since An Aois Naomh, for a keg of nails, two lamps and a sheet of window-glass. The custodian of the lake shore enters the sale. It is the first ground on Dia-thìr the strangers hold by sale and not by the council's leave.",
+  "category": "trade",
+  "people": [
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:26"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   {
+    "to": "IV-0033",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "id": "EV-1509b",
+  "title": "The warehouse door hung",
+  "era_year": 9,
+  "after": "IV-0033",
+  "same_day": true,
+  "summary": "The oak door of A' Chompanaidh's warehouse at Cathair dhomhain comes down the shore road from Cathair dhearg and is hung at dusk on strap hinges forged by Gilleasbuig Gobha in the smiths' lane below the bridge. Thomas Pike locks it with a long iron key. Tormod mac Ailein, who has walked out from the capital, watches it hung; the lake-shore roll calls it a good door.",
+  "category": "trade",
+  "people": [
+   "Thomas Pike",
+   "Gilleasbuig Gobha",
+   "Tormod mac Ailein"
+  ],
+  "places": [
+   "burg:26",
+   "burg:19"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   {
+    "to": "IV-0033",
+    "type": "sequel"
+   },
+   {
+    "to": "IV-0014",
+    "type": "legacy",
+    "note": "the smith's bar-iron"
+   }
+  ]
+ }
+]

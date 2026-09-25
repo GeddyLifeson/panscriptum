@@ -65,7 +65,7 @@
  },
  {
   "name": "Eithne nic Ailein",
-  "born": "GE 2,704",
+  "born": "GE 2,703",
   "died": "FE 1,122",
   "role": "daughter of Ailean; lowland share at Cathair mhòr; youngest of the nine",
   "first_chapter": 3,
@@ -353,7 +353,7 @@
  },
  {
   "name": "Goraidh mac Ìomhair",
-  "born": "FE 540",
+  "born": "FE 494",
   "died": "FE 753",
   "role": "Goraidh Mòr, first rìgh of the lowlands; the division of keeping",
   "first_chapter": 23,
@@ -361,7 +361,7 @@
  },
  {
   "name": "Mòrag nan Rathad",
-  "born": "FE 640",
+  "born": "FE 619",
   "died": "FE 834",
   "role": "daughter of Goraidh; walks every road",
   "first_chapter": 24,
@@ -369,7 +369,7 @@
  },
  {
   "name": "Dòmhnall Crùbach",
-  "born": "FE 720",
+  "born": "FE 734",
   "died": "FE 914",
   "role": "son of Mòrag; rules through the waypoint-keepers",
   "first_chapter": 24,
@@ -385,7 +385,7 @@
  },
  {
   "name": "Sìleas Dhonn",
-  "born": "FE 800",
+  "born": "FE 839",
   "died": "FE 994",
   "role": "niece of Dòmhnall Crùbach; makes the waypoint-keepers render account",
   "first_chapter": 25,
@@ -393,7 +393,7 @@
  },
  {
   "name": "Iain Garbh",
-  "born": "FE 900",
+  "born": "FE 909",
   "died": "FE 1,044",
   "role": "rìgh; the War of the Roads",
   "first_chapter": 26,
@@ -417,8 +417,8 @@
  },
  {
   "name": "Catrìona Ghlic",
-  "born": "FE 990",
-  "died": "FE 1,100",
+  "born": "FE 1,002",
+  "died": "FE 1,124",
   "role": "daughter of Iain Garbh; mends the breach",
   "first_chapter": 27,
   "notes": "master canon"
@@ -457,7 +457,7 @@
  },
  {
   "name": "Fearchar Òg",
-  "born": "FE 1,585",
+  "born": "FE 1,590",
   "died": "FE 1,684",
   "role": "rìgh who divided the woods; came as a boy; the silver rings",
   "first_chapter": 29,
@@ -673,7 +673,7 @@
  },
  {
   "name": "Beathag nic Dhòmhnaill",
-  "born": "FE 2,930",
+  "born": "FE 2,938",
   "died": null,
   "role": "daughter of Mòr; takes the red hall FE 2,953 without the cup",
   "first_chapter": 40,
@@ -694,5 +694,21 @@
   "role": "clerk of the red hall who begins a new roll",
   "first_chapter": 40,
   "notes": "new"
+ },
+ {
+  "name": "Beitris",
+  "born": "GE 4,530",
+  "died": "FE 30",
+  "role": "old keeper of the slab; watches the choosing; teaches Beathag the cairns",
+  "first_chapter": 8,
+  "notes": "new; of no heir's blood, ordinary lifespan"
+ },
+ {
+  "name": "Cailean",
+  "born": "FE -8",
+  "died": null,
+  "role": "boy of the northern hearth; first of the nine to sit a season with the flame",
+  "first_chapter": 8,
+  "notes": "new; alive at the chapter's close"
  }
 ]

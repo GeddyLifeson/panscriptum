@@ -1,0 +1,176 @@
+[
+    {
+        "title": "Six pilots sent east to Cuan ruadh",
+        "era_year": 11,
+        "summary": "Fearchar mac Ruairidh finds that no pilot of the west coast has ever held a course by night, and six are chosen to walk the hundred miles to the old steersmen of Cuan ruadh: two of Ceann mhòr, two of Ros bheag, one of Cuan shean, and Catrìona nic Iain, who asks to be sent before she is asked.",
+        "category": "trade",
+        "people": [
+            "Fearchar mac Ruairidh",
+            "Catrìona nic Iain"
+        ],
+        "places": [
+            "burg:63"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0014",
+                "type": "cause"
+            }
+        ]
+    },
+    {
+        "title": "The six pilots reach Cuan ruadh",
+        "era_year": 12,
+        "summary": "After seven days on foot over the mountain country the six pilots come down to Cuan ruadh on the eastern coast and are given lodging without question. They are sent, the next morning, to the steersman Seumas Reultach.",
+        "category": "land",
+        "people": [
+            "Catrìona nic Iain"
+        ],
+        "places": [
+            "burg:119"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0014",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "Seumas Reultach begins the teaching",
+        "era_year": 12,
+        "summary": "On the headland above Cuan ruadh the old steersman Seumas Reultach begins teaching the six pilots the wheel of the sky and the steering star, Reul na Stiùire, by which it is held. Most of what he gives them is spoken, night after night, and set down nowhere.",
+        "category": "trade",
+        "people": [
+            "Seumas Reultach",
+            "Catrìona nic Iain"
+        ],
+        "places": [
+            "burg:119"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0014",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "Part of the star-lore set on hide",
+        "era_year": 13,
+        "summary": "At the vein-house's asking, Seumas Reultach has his granddaughter cut onto a scraped hide the wheel of the sky, the steering star and the four turning marks of the year. He keeps back the swell-reading and the wind-smell, saying some things a hide can hold and some things only a life can.",
+        "category": "law",
+        "people": [
+            "Seumas Reultach",
+            "Catrìona nic Iain"
+        ],
+        "places": [
+            "burg:119"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0014",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "Death of Seumas Reultach",
+        "era_year": 16,
+        "summary": "In the moon of Faolach the old steersman of Cuan ruadh dies on the cliff path above the town where he taught the six pilots the stars, and is buried there among his own people. His granddaughter gives the hide of star-marks into Catrìona nic Iain's keeping to carry west.",
+        "category": "trade",
+        "people": [
+            "Seumas Reultach",
+            "Catrìona nic Iain"
+        ],
+        "places": [
+            "burg:119"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0014",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "The pilots return west",
+        "era_year": 16,
+        "summary": "The five surviving pilots cross the mountain country again to the west coast, carrying the hide of star-marks and what they have learned of the wheel of the sky, the steering star and the smell of the dark before a change of wind.",
+        "category": "land",
+        "people": [
+            "Catrìona nic Iain"
+        ],
+        "places": [
+            "burg:119"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0014",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "The first night-steering trial off Ros àrsaidh",
+        "era_year": 17,
+        "summary": "Off Ros àrsaidh two boats go out after dark, one steered close along the shore by lantern, the other by Catrìona nic Iain alone by Reul na Stiùire with every lantern doused. She brings her boat home first, exactly where and when she had said she would.",
+        "category": "trade",
+        "people": [
+            "Catrìona nic Iain"
+        ],
+        "places": [
+            "burg:122"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0014",
+                "type": "sequel"
+            }
+        ]
+    },
+    {
+        "title": "Catrìona nic Iain made pilot of An Ròn Glas",
+        "era_year": 18,
+        "summary": "Catrìona nic Iain reaches Seann Skell after the households of the roll have chosen Mòrag nic Dhòmhnaill and Fearchar mac Ruairidh to lead them. On the west quay Mòrag asks her to be pilot of her hull, An Ròn Glas, and Catrìona names her the steering star.",
+        "category": "trade",
+        "people": [
+            "Catrìona nic Iain",
+            "Mòrag nic Dhòmhnaill",
+            "Fearchar mac Ruairidh"
+        ],
+        "places": [
+            "burg:489"
+        ],
+        "threads": [
+            "the-sundering"
+        ],
+        "master_links": [
+            {
+                "to": "III-0015",
+                "type": "parallel"
+            }
+        ]
+    }
+]

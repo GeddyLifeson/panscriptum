@@ -1,0 +1,254 @@
+[
+ {
+  "title": "Coinneach Beag puts his name forward",
+  "era_year": 150,
+  "summary": "When the crew-leaders of the river towns ask for seven men who can keep their feet on a hill road and hold their tongues, Coinneach Beag, a boatman of Cuan dhearg raised on the river since boyhood and no stranger to the Company's rule over his own family, puts his name forward before he has properly decided to.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:10"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0342a"
+  ]
+ },
+ {
+  "title": "Word of Ashdown's retreat reaches Cuan dhearg",
+  "era_year": 150,
+  "summary": "Through the fire's talk at Cuan dhearg the news of Ashdown's beaten column travels garbled and half-doubted: that Dùn chrom shut its gates on the soldiers who had slept a night in its barracks, and let the column go on to the coast without its own wounded, whom the town kept to nurse.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:10",
+   "burg:255"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0336"
+  ]
+ },
+ {
+  "title": "The seven wait nine hours at An Cupa Dàna",
+  "era_year": 150,
+  "summary": "Seven men of the river towns gather at the inn of An Cupa Dàna and wait nine hours for the council's last letter, and in the waiting learn one another's names and fears: Coinneach Beag, Tormod the hawk-priest's server, the coal-barge brothers, Ailig, and Pàdraig Buidhe, who says nothing at all.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:10"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0342a"
+  ]
+ },
+ {
+  "title": "The lead hawks given out",
+  "era_year": 150,
+  "summary": "Each of the seven is given a small hawk cast in lead from cartridges taken at the store at Muileann chrom, worn at the throat on a cord of tarred twine as a token of the council's trust to whoever along the road might read it rightly.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:10"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0342a",
+   "IV-0325"
+  ]
+ },
+ {
+  "title": "The letter read at a nameless hawk-house",
+  "era_year": 150,
+  "summary": "On the road past Seann Toll, Coinneach Beag reads the council's letter aloud in a bare hawk-house of six benches, his voice unsteady at first; an old woman by the fire answers only that it has come to that, and no one else speaks.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:313"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0342b"
+  ]
+ },
+ {
+  "title": "The boy of Baile thais shows the wall",
+  "era_year": 150,
+  "summary": "Passing through Baile thais, the Leaden Hawk company is shown by a boy of nine or ten the marks on the store's outer wall from the siege's eleven days, told with more pride than fear, the town's memory of its own fight already settling into telling.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0327"
+  ]
+ },
+ {
+  "title": "The carter of Inis mhin",
+  "era_year": 150,
+  "summary": "At Inis mhin, warned that Strake's constables now ride the western roads out of Ros bheag daily, the seven hire a carter with a covered cart and a mule, and leave the road for cart-tracks and field-edges known to no map, asking nothing of what he carries.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:9"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0342c"
+  ]
+ },
+ {
+  "title": "Eleven hours in the grass above Tobar dhomhain",
+  "era_year": 150,
+  "summary": "The Leaden Hawk company lies eleven hours in the long grass above the road from Ros bheag to the northern concession, counting every rider that passes; Tormod keeps the tally on a strip of bark, a line for each rider and a cross for each leader.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:308"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0342d"
+  ]
+ },
+ {
+  "title": "Forty-one riders, all going south",
+  "era_year": 150,
+  "summary": "The company's count ends at forty-one constables' riders in a single day, and not one riding north; Tormod reads the sign as Strake's attention turned elsewhere, and Coinneach Beag cannot say whether the empty road is the safest on the island or the most dangerous.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:308"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0342d"
+  ]
+ },
+ {
+  "title": "The priests of the Stone hear the letter",
+  "era_year": 150,
+  "summary": "In the low temple above the harbour at Inis thais, the priests of Òrd na Cloiche hear the council's letter through in silence and will send no men, but shut the harbour to the Company's ships and open the Fianna's own roads to the hawk-faithful.",
+  "category": "faith",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:166"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0342e"
+  ]
+ },
+ {
+  "title": "The seven become one company",
+  "era_year": 150,
+  "summary": "At the muster of the hawk-faithful under Ìomhar Seabhag at the western Seann Skell, the seven of Cuan dhearg stand in the company's first rank and are told they are one thing now, with one name: Buidheann an t-Seabhaig Luaidhe, the Leaden Hawk.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag",
+   "Ìomhar Seabhag"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0348",
+   "IV-0349"
+  ]
+ },
+ {
+  "title": "Raonaid nic Dhòmhnaill puts out her own light",
+  "era_year": 150,
+  "summary": "At Tobar dhearg, Raonaid nic Dhòmhnaill, keeper of the light since her mother's death, climbs the tower alone on a night of her own choosing and puts out the beacon on her own authority, before any order from the council reaches her; the order finds the tower already dark.",
+  "category": "war",
+  "people": [
+   "Raonaid nic Dhòmhnaill"
+  ],
+  "places": [
+   "marker:16"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0350"
+  ]
+ },
+ {
+  "title": "Word of the burned coal at Inis mhòr",
+  "era_year": 150,
+  "summary": "At the Seann Skell muster the Leaden Hawk hears that the townsfolk of Inis mhòr fired their own coal stacks rather than let a Company ship carry them off to burn against another Seann Toll, and that the ships put in at Ros dhomhain and burned their own stores instead.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:2"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0343"
+  ]
+ },
+ {
+  "title": "One ship from over the sea",
+  "era_year": 150,
+  "summary": "A priest at Seann Skell tells the muster that in the whole first half-year of the war a single ship came from an Tìr Thall, with dispatches and a few crates of cartridges for a Residency that had asked for regiments, and sailed again within the week.",
+  "category": "humans",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "feature:1"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0351"
+  ]
+ },
+ {
+  "title": "Coinneach Beag stands his first watch",
+  "era_year": 150,
+  "summary": "By midsummer Coinneach Beag stands watch on the road north of Ros bheag with a rifle he has not yet fired, still turning over the forty-one riders and what road Strake judged worth watching instead, while the war's lines hold unmoved from where the first winter left them.",
+  "category": "war",
+  "people": [
+   "Coinneach Beag"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0352"
+  ]
+ }
+]

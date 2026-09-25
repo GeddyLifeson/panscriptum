@@ -1,0 +1,61 @@
+[
+ {"title": "Dùghall counts the grain carts from Seann Warr",
+  "era_year": {"after": "IV-0353"},
+  "summary": "At the harbour quarter's upper gate Dùghall Dubh, once a weigher of coal for the Company, keeps the council's tally of the grain train down from Seann Warr, twelve carts against a capital's hunger, and sends the last load on to the sharing-yard behind the custodians' hall.",
+  "category": "land", "people": ["Dùghall Dubh"], "places": ["burg:27", "burg:128"], "threads": ["the-company"], "master_links": ["IV-0353"]},
+
+ {"title": "The sharing-yard of Cathair dhearg keeps an equal share",
+  "era_year": {"after": "IV-0354"},
+  "summary": "Through the siege the custodians of Cathair dhearg measure the city's grain out by household at a scale behind their hall, and take no more from it than any household waiting in the line before them, a fairness the city's own hunger remembers afterward better than any speech.",
+  "category": "people", "people": ["Dùghall Dubh"], "places": ["burg:19"], "threads": [], "master_links": ["IV-0354"]},
+
+ {"title": "Dùghall puts the question to six men of the quarter",
+  "era_year": {"after": "IV-0355"},
+  "summary": "Asked by the council's captains whether the harbour quarter can reach the Company's counting-house without a shot fired, Dùghall Dubh puts the question first to six men born within sight of its roof, and all six answer that a fire lit quietly will hold Strake's men longer than a shot ever could.",
+  "category": "war", "people": ["Dùghall Dubh", "Fearchar Beag"], "places": ["burg:27"], "threads": ["the-company"], "master_links": ["IV-0355", "IV-0356"]},
+
+ {"title": "Seven men cross the roofs in stocking feet",
+  "era_year": {"after": "IV-0356"},
+  "summary": "On a night of low cloud Dùghall Dubh and six men of the harbour quarter cross the net-loft roof-ridge to the Company's counting-house on hands and knees, in their stocking feet, and go down by rope through garret windows marked beforehand in daylight.",
+  "category": "war", "people": ["Dùghall Dubh", "Fearchar Beag"], "places": ["burg:27"], "threads": ["the-company"], "master_links": ["IV-0356"]},
+
+ {"title": "The night clerk of the counting-house is taken without a blow",
+  "era_year": {"after": "IV-0356"},
+  "summary": "The counting-house's night clerk is found sitting on its steps in his shirt with his hands laced over his head before the raiders reach the ground floor, and Dùghall Dubh judges, from the look of him, that some part of the man had waited a year for the night to come.",
+  "category": "war", "people": ["Dùghall Dubh"], "places": ["burg:27"], "threads": ["the-company"], "master_links": ["IV-0356"]},
+
+ {"title": "Word of the spared ledger refused reaches the harbour quarter",
+  "era_year": {"after": "IV-0357"},
+  "summary": "A rider from Ceann àrsaidh brings the harbour quarter word that the custodian there asked one tithe ledger be kept whole for the record, and that his own townsfolk, naming the danger of any debt kept on paper, carried it to the burning pile with the rest.",
+  "category": "law", "people": ["Dùghall Dubh"], "places": ["burg:27", "burg:88"], "threads": ["the-company"], "master_links": ["IV-0357"]},
+
+ {"title": "The camps set the burning of the ledgers to a verse",
+  "era_year": {"after": "IV-0358"},
+  "summary": "Before the ash of the Muileann chrom weigh-house has cooled, the camp folk are already singing eight words of it at market, and the verse travels the coast faster than any rider: they burned the book, but they did not burn the hill.",
+  "category": "law", "people": ["Dùghall Dubh"], "places": ["burg:27", "burg:354"], "threads": ["the-company"], "master_links": ["IV-0358"]},
+
+ {"title": "Fearchar Beag sights the fight at Cnoc ghorm",
+  "era_year": {"after": "IV-0359"},
+  "summary": "Sent up to the net-loft roof with a borrowed glass, Fearchar Beag reads Strake's last sally on the eastern road by its riderless horses coming back down alone, and brings the harbour quarter word by noon that the guns have gone quiet.",
+  "category": "war", "people": ["Fearchar Beag", "Dùghall Dubh"], "places": ["burg:27", "burg:392"], "threads": [], "master_links": ["IV-0359"]},
+
+ {"title": "The captain of Muileann dhearg asks first for the wounded",
+  "era_year": {"after": "IV-0360"},
+  "summary": "When the harbour quarter's lower gates open, the council company's captain, a woman of Muileann dhearg unknown to Dùghall Dubh by name, thanks the gate-wardens and asks before anything else where the wounded of the counting-house alarm had been carried.",
+  "category": "war", "people": ["Dùghall Dubh"], "places": ["burg:27"], "threads": ["the-company"], "master_links": ["IV-0360"]},
+
+ {"title": "The letter-books found whole at the Residency",
+  "era_year": {"after": "IV-0362"},
+  "summary": "Where Strake has taken plate and account-papers down the river by night, Dùghall Dubh finds a room of the Residency's letter-books left standing untouched on an unlocked shelf, thirty years of the Administration's own correspondence with an Tìr Thall, and sends word of it to the council's clerks that evening.",
+  "category": "law", "people": ["Dùghall Dubh"], "places": ["burg:27"], "threads": ["the-company"], "master_links": ["IV-0362"]},
+
+ {"title": "Clerks of the council begin to read the Residency's letter-books",
+  "era_year": {"after": "IV-0362"},
+  "summary": "By the morning after the Residency falls, a table stands in its stripped hall with the first of the letter-books open under a lamp, and men who have never before read a stranger's hand bend over the close foreign script with the patience of a scale that will not balance.",
+  "category": "law", "people": [], "places": ["burg:27"], "threads": ["the-company"], "master_links": ["IV-0362"]},
+
+ {"title": "Prentice the counting-house clerk goes down the river",
+  "era_year": {"after": "IV-0362"},
+  "summary": "Dùghall Dubh learns from a clerk taken at the Residency that Prentice, who weighed coal beside him nine years at the counting-house scales, went down the river with Strake's household the night the Residency fell, leaving the ledgers he had kept behind as ash.",
+  "category": "people", "people": ["Dùghall Dubh"], "places": ["burg:27"], "threads": ["the-company"], "master_links": ["IV-0362"]}
+]
