@@ -40,7 +40,9 @@ dubhan.json, loose_ends.json), then the tellings read against the Gaelic tales (
     {"record": 11, "action": "recompute_temperature"}                    grid.cells.temp made anew, as Azgaar's
         Temperature.compute() makes it, from the settings (record 1: climate.temperature, geography.coordinates,
         units.height.exponent, graph.height), the grid's points and cellsX (record 6) and its heights (record 7);
-        so the temperatures always agree with the latitude and climate set in record 1
+        so the temperatures always agree with the latitude and climate set in record 1; with "frame": {latT, latN,
+        ...} they are computed for that frame instead of record 1's (the climate was set for the frame of
+        climate.json, and the later place layer moves the frame without changing the weather)
     {"record": 5, "action": "empty_svg_group", "group": "ice"}           a saved SVG group emptied (the drawn ice)
     {"record": 37, "action": "split_route", "route": 119, "points": [...], "pieces": [{"i": 119, "from": 0,
         "to": 3, "group": "trails", "name": "...", "d": "M..."}, {"i": 446, ...}, ...]}
@@ -55,6 +57,10 @@ line, Binnean a' Chlachair, as a marker of its own (record 35).
 After the creation comes the prose (reconcile/prose.json): the map's visible notes, the markers' (record 35) and
 the regiments' and fleets' (record 14), each set whole in the voice of the island's place-lore; the earlier edits
 of those same notes are set aside by its "skip" list, so the notes as they stand are the only ones checked.
+
+Last comes the place (reconcile/place.json): the distance scale (0.14 miles to the unit, an island about the size
+of Northern Ireland) and the map's frame in the Atlantic west of the Hebrides; its "skip" list sets aside the
+earlier layers' scale and frame, and its temperatures stay those computed for the climate layer's frame.
 
 Beside the edits it derives what follows from them: a route regrouped to "roads" has its saved
 <path id="routeN"> moved from <g id="trails"> into <g id="roads"> (record 5), in route order as Azgaar draws
@@ -88,7 +94,7 @@ RECORDS_TOUCHED = CELL_ARRAYS | JSON_RECORDS | {L_SVG, L_NAMEBASES}
 
 # the order the layers are applied in: the state and its shires first, the land (whole cell arrays) last
 ORDER = ['state', 'heraldry', 'religions', 'economy', 'military', 'markers_routes', 'land', 'integration', 'faiths',
-         'climate', 'dubhan', 'loose_ends', 'tales', 'calendar', 'creation', 'prose']
+         'climate', 'dubhan', 'loose_ends', 'tales', 'calendar', 'creation', 'prose', 'place']
 
 
 def dump(data):
@@ -242,7 +248,7 @@ def js_round(v, d=0):
     return math.floor(v * m + 0.5) / m
 
 
-def recompute_temperature(settings, grid, heights):
+def recompute_temperature(settings, grid, heights, frame=None):
     """grid.cells.temp, as Azgaar's Temperature.compute() makes it: a sea-level temperature for each row of the
     grid from its latitude (between the equator's and the pole's), less a lapse with height above sea level."""
     t = settings['climate']['temperature']
@@ -261,7 +267,7 @@ def recompute_temperature(settings, grid, heights):
 
     def lapse(h):
         return 0 if h < 20 else js_round((h - 18) ** exponent / 1000 * 6.5)
-    co = settings['geography']['coordinates']
+    co = frame or settings['geography']['coordinates']
     height = settings['graph']['height']
     cx, points = grid['cellsX'], grid['points']
     out = []
@@ -374,7 +380,8 @@ def reconcile_records(lines, edits=None):
                 continue
         if e.get('action') == 'recompute_temperature':
             assert n == L_TEMP, where
-            arrays[n] = recompute_temperature(parsed[L_SETTINGS], json.loads(lines[L_GRID]), cells(lines[L_HEIGHT]))
+            arrays[n] = recompute_temperature(parsed[L_SETTINGS], json.loads(lines[L_GRID]), cells(lines[L_HEIGHT]),
+                                              e.get('frame'))
             assert len(arrays[n]) == len(cells(before[n])), where
         elif e.get('action') == 'empty_svg_group':
             assert n == L_SVG, where

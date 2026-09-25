@@ -146,7 +146,7 @@ descend from the departed, no one on Dia-thìr knows.
 #### The humans of an Tìr Thall
 
 **The Crossing.** Humans made landfall on Dia-thìr and were granted leave to stay
-({{date:IV-0001}}): the first contact since the Sundering. Three ships out of the west anchored off
+({{date:IV-0001}}): the first contact since the Sundering. Three ships down from the north anchored off
 Cuan shean, and their master, whom the chronicles call Edmund Harrow, came ashore unarmed and asked by
 signs for water ({{date:IV-0002}}). So the first dealing between the two peoples was made without
 words.
@@ -418,7 +418,7 @@ likeness has tempted scholars in every age and proves nothing, and the Library t
 has never been read, and not one sign of it has an agreed meaning. The stag-scholars of the Holy Age
 set their own new letters against the obelisk at Carragh Cnoc bheag and found that they matched
 nothing, and wrote down that the stone's writers were not their teachers ({{date:II-0089}}).
-Samuel Wren copied the obelisk and sent it west to the scholars of an Tìr Thall; no reply is
+Samuel Wren copied the obelisk and sent it over the sea to the scholars of an Tìr Thall; no reply is
 recorded ({{date:IV-0051}}). Edwin Lowe copied the pillar near Cnoc chiar, compared it with Wren's
 copy, and decided that the two were not the same script and that neither was Dia-thìreach; his notes stop
 there ({{date:IV-0141}}). The strokes on the midden stones are a count, and have nothing to do with

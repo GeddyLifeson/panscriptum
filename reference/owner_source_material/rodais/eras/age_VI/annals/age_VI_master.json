@@ -84,8 +84,8 @@
  {
   "id": "V-0011",
   "canon": false,
-  "title": "The ship sent west",
-  "body": "The council sends a ship out past the western capes to seek the crossing the humans used. She returns after a month of open water with nothing to tell: no land, no ship, no sign of the passage. No second ship is sent. The priests of Manannan at Seann Skell say that the lord of the sea has shut the western sea again, as they have prayed him to since the Crossing.",
+  "title": "The ship sent north",
+  "body": "The council sends a ship out past the north-western capes and north-about to seek the crossing the humans used. She returns after a month of grey water with nothing to tell: no land, no ship, no sign of the passage. No second ship is sent. The priests of Manannan at Seann Skell say that the lord of the sea has shut the eastern sea again, as they have prayed him to since the Crossing.",
   "place": "feature:1",
   "kind": "voyage"
  },
@@ -1360,7 +1360,7 @@
   "id": "V-0147",
   "canon": false,
   "title": "The Tuathaich wool carts",
-  "body": "The Rail Board will not carry goods sent by the Moot, pleading the fair's rule on factors. The wool of the north goes south to Muileann òg by cart, a week on the road, and is sold by factors when it comes.",
+  "body": "The Rail Board will not carry goods sent by the Moot, pleading the fair's rule on factors. The wool of the north goes south to Muileann òg by cart, five days on the road, and is sold by factors when it comes.",
   "place": "burg:234",
   "kind": "trade"
  },

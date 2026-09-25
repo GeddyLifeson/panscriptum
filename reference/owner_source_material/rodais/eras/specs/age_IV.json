@@ -12,11 +12,6 @@
    "eraShort": "LE"
   }
  },
- "units": {
-  "distance": {
-   "scale": 0.14
-  }
- },
  "cultures": {
   "edit": {
    "2": {
@@ -4919,7 +4914,7 @@
   "add": [
    {
     "key": "IV_Z01",
-    "name": "Ceò Mhanannain on the western sea",
+    "name": "Ceò Mhanannain on the eastern sea",
     "type": "Custom",
     "note": "cites: III-0023, III-0120, III-0239a",
     "water_box": [

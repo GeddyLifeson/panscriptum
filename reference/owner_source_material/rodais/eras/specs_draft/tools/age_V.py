@@ -38,7 +38,7 @@ def build():
                        'IV-0346', 'IV-0341', 'V-0039', 'IV-0063', 'IV-0266', 'IV-0375']),
         ])),
         ('land_changes', [
-            collections.OrderedDict([('what', 'Manannan\'s mist lifted in the winter of the Crossing (AE 1); the western sea is open water at the snapshot, but no ship will come again.'),
+            collections.OrderedDict([('what', 'Manannan\'s mist lifted in the winter of the Crossing (AE 1); the northern water is open at the snapshot, but no ship will come again.'),
                                      ('cites', ['IV-0001a', 'IV-0377', 'V-0011'])]),
             collections.OrderedDict([('what', 'The Rending: the earth torn open along a fault about Cill ghlas (AE 137); the district fenced and closed, left to the thorn.'),
                                      ('cites', ['IV-0269', 'IV-0271', 'IV-0272'])]),
@@ -147,9 +147,9 @@ def build():
              cites=['IV-0103', 'IV-0143', 'IV-0320', 'IV-0337'])
     s.polity('administration', None, 'the Administration of an Tìr Thall and the Company (gone at the snapshot)',
              form='a Commissioner at the Residency above Ros dhomhain governing by districts drawn for the pits, the customs and the Levy; the Company its partner and at last its master',
-             status='withdrawn: Strake left the Residency (AE 150) and sailed west from Cuan shean with the last ship able to cross; its districts are drawn below as an earlier moment',
+             status='withdrawn: Strake left the Residency (AE 150) and sailed from Cuan shean for an Tìr Thall with the last ship able to cross; its districts are drawn below as an earlier moment',
              capital=None,
-             ruler={'name': 'Lionel Strake', 'title': 'Commissioner (the last)', 'note': 'sailed west; nothing on Dia-thìr tells of his coming anywhere', 'cites': ['IV-0314', 'IV-0362', 'IV-0374']},
+             ruler={'name': 'Lionel Strake', 'title': 'Commissioner (the last)', 'note': 'sailed for an Tìr Thall; nothing on Dia-thìr tells of his coming anywhere', 'cites': ['IV-0314', 'IV-0362', 'IV-0374']},
              culture='humans', color='#6e2c2c (the Company\'s ledger red, inferred)',
              cites=['IV-0030', 'IV-0031', 'IV-0032', 'IV-0246', 'IV-0374'],
              admin_units=[{'name': None, 'name_en': 'the districts of the Administration (AE 122 to AE 146)', 'kind': 'district; the council kept most of their lines as shires in SE 3',
@@ -197,7 +197,7 @@ def build():
         476: dict(population=4000, kind='town', walls=True, role=HUMAN_TOWNS[476], cites=['IV-0116', 'IV-0199', 'IV-0287', 'IV-0346']),
         54: dict(population=700, kind='large village', role=HUMAN_TOWNS[54], cites=['IV-0347']),
         160: dict(population=700, kind='large village', walls=True, role=HUMAN_TOWNS[160], cites=['gazetteer B160', 'IV-0288']),
-        63: dict(population=6000, kind='town', role='the last seat of the Administration, hungry behind its walls; the last ship from the west anchored here; its human families gone north in the columns', cites=['IV-0363', 'IV-0365', 'IV-0368', 'IV-0371']),
+        63: dict(population=6000, kind='town', role='the last seat of the Administration, hungry behind its walls; the last ship from the east anchored here; its human families gone north in the columns', cites=['IV-0363', 'IV-0365', 'IV-0368', 'IV-0371']),
         282: dict(population=9000, kind='town', role='where the humans first came ashore and whence the last Commissioner sailed; its custodians shut the harbour to the Company\'s ships', cites=['IV-0002', 'IV-0366', 'IV-0374']),
         304: dict(population=4000, kind='town', role='the truce was agreed here, on the edge of the concession', cites=['IV-0369']),
         303: dict(population=2500, kind='town', role='the greatest town of the north-west, named in the truce to receive the columns; its Dia-thìrich given the choice of staying or going south', cites=['IV-0370']),
@@ -356,7 +356,7 @@ def build():
         25: dict(note='A Company brig boarded and stripped; the raiders never known.', cites=['IV-0050']),
         26: dict(note='A Company coal ship burned; the silver guild\'s rifles come ashore here.', cites=['IV-0108', 'IV-0321']),
         27: dict(note='No raid recorded in this age.', cites=['II-0201'], inferred=True),
-        28: dict(note='Copied by Samuel Wren and sent west; no answer came.', cites=['IV-0051']),
+        28: dict(note='Copied by Samuel Wren and sent over the sea; no answer came.', cites=['IV-0051']),
         29: dict(note='Copied by Edwin Lowe; not the same script as the obelisk\'s.', cites=['IV-0141']),
         30: dict(note='Lowe\'s last copy.', cites=['IV-0142']),
         31: dict(note='Ruin.', cites=['I-0059']),
@@ -372,7 +372,7 @@ def build():
         44: dict(note='The stone on the neck of the strait.', cites=['III-0167a']),
         45: dict(note='Where the boats of Achadh àrsaidh met the three ships out of the thinning mist.', cites=['IV-0001a']),
         46: dict(note='The meeting of the cups.', cites=['I-0154a'], inferred=True),
-        47: dict(note='The Leaden Hawk company ended its road at Inis thais, eight days out of Cuan dhearg.', cites=['IV-0342a', 'IV-0342e']),
+        47: dict(note='The Leaden Hawk company ended its road at Inis thais, six days out of Cuan dhearg.', cites=['IV-0342a', 'IV-0342e']),
         48: dict(note='The Mason\'s Point.', cites=['I-0027a']),
     }
     for i in sorted(MARKERS):
@@ -422,7 +422,7 @@ def build():
         Zz('V-Z07', None, 'the lines at midsummer AE 150', 'front', [], 'The council held the hills, the east and the capital; Strake held the Residency, the harbour quarter below it and the western ports.', ['IV-0352'],
            sides={'council': [p for p in range(1, 124) if p not in (5, 77, 38, 3, 64, 15, 2, 73, 117, 120, 108)], 'administration': [5, 77, 38, 3, 64, 15, 2, 73, 117, 120, 108]}, inferred=True),
         Zz('V-Z08', None, 'the mining country of the rising (AE 149)', 'war', [76, 96, 112, 42, 35, 87, 44, 34, 55], 'Where the war opened: Muileann chrom, Ceann fhada, Baile thais, the northern pits.', ['IV-0324', 'IV-0325', 'IV-0326', 'IV-0327', 'IV-0328']),
-        Zz('V-Z09', None, 'the lifted mist (AE 1)', 'sea', [], 'The mist that lay on the western sea since the Sundering lifted in the winter of the Crossing.', ['IV-0001a'], sea='the western sea'),
+        Zz('V-Z09', None, 'the lifted mist (AE 1)', 'sea', [], 'The mist that lay on the eastern sea since the Sundering lifted from the northern water in the winter of the Crossing.', ['IV-0001a'], sea='the eastern sea'),
     ]
     d['labels'] = [
         {'text': None, 'text_en': 'the Severance', 'at': {'burg': 282}, 'cites': ['IV-0374', 'IV-0377']},
@@ -479,7 +479,7 @@ def build():
         ('council', 'The custodians gave the strangers leave, signed their treaty in a tongue they could not read, and watched their tally ignored, their Law lapse and their hall locked. The council made in the forest at Cnoc bheag fought the war that ended the age, and now sits in Cathair dhearg with the country from the hills to every coast in its hand. It will stand its companies down in the spring and make itself a kingdom.'),
         ('north', 'The human families left on the island, a few thousand, march north under the council\'s safe-conduct into the country of the old concession. Cathair gheal and Muileann àrsaidh kept out of the war; Baile Mòr ruadh receives the columns. They are about to be called the Tuathaich.'),
         ('silver-guild', 'The refiners of Muileann chiar kept their seam in their own hands through the whole age, by ledger, by compact and at last by rifle. They sold bar silver to the Company at their own price and paid the raiders in it for guns.'),
-        ('administration', 'The Commissioners governed from the Residency by districts drawn for the pits, the customs and the Levy, and the Company grew into the office. The last of them locked out the custodians and flew an iron bird over the coal country. He sailed west from Cuan shean and was not heard of again.'),
+        ('administration', 'The Commissioners governed from the Residency by districts drawn for the pits, the customs and the Levy, and the Company grew into the office. The last of them locked out the custodians and flew an iron bird over the coal country. He sailed from Cuan shean for an Tìr Thall and was not heard of again.'),
     ])
     d['notes']['burgs'] = collections.OrderedDict([
         ('27', 'Ros dhomhain: the Residency on the rise above it, the Company\'s quays, the chapel of the Mission; its harbour quarter opened its gates to the council in the last autumn of the war.'),

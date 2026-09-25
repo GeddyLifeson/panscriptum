@@ -9,9 +9,9 @@ check_rodais.py -- verify everything in this folder in one run.
   3. TEXTS.json: every line paired with its translation, Dia-thìris spelling
   4. Rodos_finished.map: the rewritten sections parse, no pre-Ròdais name
      survives, every saved burg label matches its burg, every layer edit of
-     legendarium/reconcile/ is in, the roads are drawn as roads, the climate is
-     that of an island between Ireland and Scotland (no glacier, no ice, a mild
-     sea-level temperature), and dubhan, not charcoal, is the traded fuel
+     legendarium/reconcile/ is in, the roads are drawn as roads, the island
+     lies in the Atlantic west of the Hebrides at 0.14 miles to the unit, with a
+     mild oceanic climate (no glacier, no ice, a mild sea-level temperature), and dubhan, not charcoal, is the traded fuel
   5. the legendarium: every event dated and in order, every reference
      resolves, world.json is the digest of the map as it stands, and no glacier,
      ice cap or iceberg anywhere in the history
@@ -131,7 +131,8 @@ road_ids = {r['i'] for r in routes if r.get('group') == 'roads'}
 g = re.search(r'<g id="roads" data-group="roads"[^>]*>(.*?)</g>', lines[5])
 check(road_ids and g and {int(i) for i in re.findall(r'<path id="route(\d+)"', g.group(1))} == road_ids,
       'map: the %d roads are drawn in the roads group and nowhere else' % len(road_ids))
-# the climate of an island between Ireland and Scotland: no glacier, no ice, a mild sea-level temperature
+# an island alone in the Atlantic west of the Hebrides, about the size of Northern Ireland, with a mild oceanic
+# climate: no glacier, no ice, a mild sea-level temperature
 biomes = json.loads(lines[3])
 glacier = [b['i'] for b in biomes if b['name'] == 'Glacier']
 cell_biome = lines[16].split(',')
@@ -140,8 +141,11 @@ ice = re.search(r'<g id="ice"[^>]*?(/?)>', lines[5])
 check(json.loads(lines[39]) == [] and ice and ice.group(1) == '/', 'map: no icebergs, and the ice layer saved empty')
 geo = json.loads(lines[1])['geography']['coordinates']
 temps = [int(v) for v in lines[11].split(',')]
-check(54 <= geo['latS'] and geo['latN'] <= 57 and min(temps) > -5,
-      'map: the island at %s-%s N, and no grid cell cold enough for ice (the coldest %d C)' % (geo['latS'], geo['latN'], min(temps)))
+units = json.loads(lines[1])['units']['distance']
+check(56 <= geo['latS'] and geo['latN'] <= 57.6 and geo['lonE'] < -7.6 and units == {'unit': 'mi', 'scale': 0.14}
+      and min(temps) > -5,
+      'map: the frame at %s-%s N, %s-%s W (no real coast in it), %s mi to the unit, and no grid cell cold enough for ice'
+      ' (the coldest %d C)' % (geo['latS'], geo['latN'], -geo['lonW'], -geo['lonE'], units['scale'], min(temps)))
 goods = [g['name'] for g in json.loads(lines[41]) if isinstance(g, dict)]
 check('Dubhan' in goods and 'Charcoal' not in goods and 'Coal' not in goods, 'map: dubhan is a trade good, and charcoal and coal are not')
 world = json.load(open(os.path.join(HERE, 'legendarium', 'world.json'), encoding='utf-8'))

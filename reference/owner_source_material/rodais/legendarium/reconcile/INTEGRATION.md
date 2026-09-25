@@ -49,6 +49,8 @@ where two of them, or a proposal and the rest of the record, disagreed.
 2. **Distance scale and latitude.** Both applied: record 1 `units.distance.scale` 4 → 0.2 mi per unit
    (markers_routes) and `geography.mapSize` 33 → 1.13, `latitude` 20.5 → 14.33 with the recomputed
    coordinates, 62.5–64.5 N (land). FMG's scale bar reads 30 mi after load; the quest journey is 156 mi.
+   *Superseded (2026-09-25):* `place.json` sets 0.14 mi per unit (an island about the size of Northern Ireland)
+   and the frame at 56.12–57.54 N, 13.56–7.87 W, in the Atlantic west of the Hebrides (`../../eras/RESCALE_LOG.md`).
 3. **Olives on a subarctic island.** Record 41 good 14 *Olives* → *Flax* (unit bale, hemp icon). The good
    *Oil*, whose recipes are this good or whales, is left as Oil: it is now linseed or whale oil. History: G's
    olive-yard became the flax-fields of Seann Warr pressed for linseed oil (text, raw-goods table, market table,

@@ -39,7 +39,7 @@ def build():
             ('last_event_shown', 'III-0239a'),
             ('next_event', 'IV-0001'),
             ('description',
-             "Eighteen centuries after the fleet of the willing sailed west into Manannan's mist, the island is one realm with "
+             "Eighteen centuries after the fleet of the willing sailed north-about into Manannan's mist, the island is one realm with "
              "an empty crown. The Council of Custodians sits at Cathair dhearg in the crown's place, for the ruler of Dia-thìr "
              "has been master of the vein-house too since Dòmhnall Ruadh, and the heads of the seven houses of custody are "
              "the council; the kingdom seals with the vein-house's trellis and hollow stone. The shires keep the firlot of "
@@ -48,12 +48,12 @@ def build():
              "the right, and the silver petition lies unanswered. The orders of the Old Faith have their houses: the Hawk at "
              "Cnoc bheag, the Stone at Inis thais, Manannan at Seann Skell, Macha with the crown, the schools arguing at Dùn "
              "thais; the Old Spirits keep the spirit-house at Dùn ìseal. The north-west is thinly held since the dearth. On the "
-             "west the mist lies thinner each winter, and on still mornings the fishers see the line of the open sea."),
+             "north-west the mist lies thinner each winter, and on still mornings the fishers see the line of the open sea."),
             ('cites', ['IV-0005', 'III-0138', 'III-0138a', 'III-0145', 'III-0069', 'III-0235', 'III-0239', 'III-0239a',
                        'III-0056', 'III-0134', 'III-0023', 'App.A §IV']),
         ])),
         ('land_changes', [
-            collections.OrderedDict([('what', 'Manannan\'s mist lies on the western sea beyond the headlands (from the Setting-Out, LE 40), thinning in the last years; draw as a sea zone, not a coast change.'),
+            collections.OrderedDict([('what', 'Manannan\'s mist lies on the eastern sea beyond the northern and eastern headlands (from the Setting-Out, LE 40), thinning in the last years; draw as a sea zone, not a coast change.'),
                                      ('cites', ['III-0023', 'III-0120', 'III-0239a'])]),
             collections.OrderedDict([('what', 'The oak grove that named Doire fhionn is gone, felled for the keels of the fleet (LE 5); the northern Doire shires cut their woods by coppice.'),
                                      ('cites', ['III-0009', 'III-0048'])]),
@@ -345,7 +345,7 @@ def build():
             dt(name, 'zone ' + key)
         return z
     d['zones'] = [
-        Zz('IV-Z01', None, 'Manannan\'s mist on the western sea', 'sea', [], 'Hides Dia-thìr from every ship beyond it since the fleet sailed into it; thinner each winter at the snapshot.', ['III-0023', 'III-0120', 'III-0239a'], sea='the open sea west of the western headlands'),
+        Zz('IV-Z01', None, 'Manannan\'s mist on the eastern sea', 'sea', [], 'Hides Dia-thìr from every ship beyond it since the fleet sailed into it; thinner each winter at the snapshot.', ['III-0023', 'III-0120', 'III-0239a'], sea='the open sea west of the western headlands'),
         Zz('IV-Z02', None, 'the roll of the willing and the Setting-Out (LE 2–40)', 'earlier moment', [3, 38, 64, 15, 2, 1],
            'The willing entered on boards at Seann Skell by household; nearly one household in five of the coal-right went; nineteen hulls (or twenty-one).', ['III-0003', 'III-0004', 'III-0006', 'III-0021', 'III-0023']),
         Zz('IV-Z03', None, 'the cold hearths of the War of the Three Claimants (LE 558)', 'war', [p for p in range(1, 124) if p not in (96, 111, 85, 76)],
@@ -363,7 +363,7 @@ def build():
         Zz('IV-Z12', None, 'the lordship of Seann Chwen for life (LE 1,276–1,291)', 'earlier moment', [31], 'Given to Alasdair Bàn at the brothers\' peace; returned to the crown at his death.', ['III-0180', 'III-0181']),
     ]
     d['labels'] = [
-        {'text': None, 'text_en': 'the departed: west, beyond the mist', 'at': {'cell': FEATURE_FIRST_CELL[8]}, 'cites': ['III-0023', 'III-0027']},
+        {'text': None, 'text_en': 'the departed: north-about, beyond the mist', 'at': {'cell': FEATURE_FIRST_CELL[8]}, 'cites': ['III-0023', 'III-0027']},
         {'text': 'A Mhanannain, cùm a\' mhuir dùinte', 'text_en': 'Manannan, keep the sea shut', 'at': {'burg': 489}, 'cites': ['III-0212']},
         {'text': 'Dh\'fhalbh iad, agus cha do dh\'fhalbh iad', 'text_en': 'they went, and they did not go', 'at': {'burg': 489}, 'cites': ['III-0036', 'App.B §II']},
         {'text': None, 'text_en': 'the cold way of the grain barges (laid up LE 1,634)', 'at': {'burg': 215}, 'cites': ['III-0215']},

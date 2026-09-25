@@ -351,6 +351,14 @@ def annals_html(rec, link_places=True):
     return '\n'.join(out)
 
 
+# the gazetteer's opening lines: what it holds, and the size and place of the island (Appendix I)
+GAZ_LEDE = ('Every town of the island, by shire: when and by whom it was founded, its history, and what the annals '
+            'record there. Dia-thìr is some hundred and fifty miles from the north-western capes to the eastern cape '
+            "and some 5,340 square miles with its islands, alone in Manannan's sea. The humans' land lies east of it, "
+            'behind the mist, and the one way through the mist ran north-about and came down on the north-west, so '
+            'the harbours of the Crossing are all on the west coast.')
+
+
 def gazetteer_html(rec):
     out = []
     provs = {p['name']: p for p in rec.world['provinces']}
@@ -406,8 +414,8 @@ def compose(rec, link_places=True):
         toc.append((2, 'houses', 'The Houses of Dia-thìr'))
         body.append('<section class="app">%s</section>' % houses_html(rec))
     toc.append((1, 'part-gaz', 'Gazetteer'))
-    body.append('<section class="gazetteer" id="part-gaz"><h2>A Gazetteer of Dia-thìr</h2><p class="lede">Every town of the island, by '
-                'shire: when and by whom it was founded, its history, and what the annals record there.</p>%s</section>' % tip(gazetteer_html(rec), r'<div class="gz"'))
+    body.append('<section class="gazetteer" id="part-gaz"><h2>A Gazetteer of Dia-thìr</h2><p class="lede">%s</p>%s</section>'
+                % (GAZ_LEDE, tip(gazetteer_html(rec), r'<div class="gz"')))
     return toc, '\n'.join(body)
 
 
@@ -502,7 +510,7 @@ def to_markdown(rec):
         out.append('')
     for _, _, md in appendix_parts(rec):
         out += [plain(md), '']
-    out += ['# A Gazetteer of Dia-thìr', '']
+    out += ['# A Gazetteer of Dia-thìr', '', GAZ_LEDE, '']
     letter = None
     for bid, b in sorted(rec.burg.items(), key=lambda kv: fold(kv[1]['name'])):
         g = rec.gaz.get(bid)

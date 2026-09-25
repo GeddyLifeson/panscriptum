@@ -161,17 +161,17 @@
       for (const k of ['year', 'era', 'eraShort']) if (L.calendar[k] !== undefined) lore.calendar[k] = L.calendar[k];
     }
   }
-  // map units (options.map.units): e.g. {"distance": {"scale": 0.14}}; merged into the master's
+  // map settings: the era map keeps the master's units and geography (it is the master, edited) unless the spec
+  // overrides them: "units" merges into options.map.units, "geography" into options.map.geography
   function applyUnits(spec) {
-    const U = spec.units;
-    if (!U) return;
     const merge = (dst, src) => {
       for (const [k, v] of Object.entries(src)) {
         if (v && typeof v === 'object' && !Array.isArray(v) && dst[k] && typeof dst[k] === 'object') merge(dst[k], v);
         else dst[k] = clone(v);
       }
     };
-    merge(options.map.units, U);
+    if (spec.units) merge(options.map.units, spec.units);
+    if (spec.geography) merge(options.map.geography, spec.geography);
   }
   function applyRenames(spec) {
     for (const [id, name] of Object.entries(spec.features?.rename || {})) {

@@ -18,7 +18,7 @@
   "d": 1,
   "last_event_shown": "IV-0377",
   "next_event": "V-0001",
-  "description": "The War of the Hills is over and the crossing is shut. The Administration is gone: its last Commissioner sailed west from Cuan shean with his officers, the Residency above Ros dhomhain stands stripped, the Company's ledgers are ash, and its steamships no longer come. The custodians sit again in their council hall at Cathair dhearg, and the council of the mining country chosen in the forest at Cnoc bheag, with Eilidh nic Raghnaill for its voice, holds the hills, the east, the capital and every coast; its companies, the silver guild's riflemen and the hawk-faithful stand to arms still. Under the truce of Àth àrsaidh the humans left on Dia-thìr, a few thousand of them, go north in columns under safe-conduct into the country of the old concession, where Cathair gheal kept its gates and the Dia-thìrich of the north-west are choosing whether to stay or go south. The pits are flooded or idle, the coal line is broken in three places, the Small-Burning Law is long lapsed, and four children of the coal-blood are alive. The five beacons burn coal again, and their daybooks count no ships.",
+  "description": "The War of the Hills is over and the crossing is shut. The Administration is gone: its last Commissioner sailed from Cuan shean for an Tìr Thall with his officers, the Residency above Ros dhomhain stands stripped, the Company's ledgers are ash, and its steamships no longer come. The custodians sit again in their council hall at Cathair dhearg, and the council of the mining country chosen in the forest at Cnoc bheag, with Eilidh nic Raghnaill for its voice, holds the hills, the east, the capital and every coast; its companies, the silver guild's riflemen and the hawk-faithful stand to arms still. Under the truce of Àth àrsaidh the humans left on Dia-thìr, a few thousand of them, go north in columns under safe-conduct into the country of the old concession, where Cathair gheal kept its gates and the Dia-thìrich of the north-west are choosing whether to stay or go south. The pits are flooded or idle, the coal line is broken in three places, the Small-Burning Law is long lapsed, and four children of the coal-blood are alive. The five beacons burn coal again, and their daybooks count no ships.",
   "cites": [
    "IV-0377",
    "IV-0374",
@@ -39,7 +39,7 @@
  },
  "land_changes": [
   {
-   "what": "Manannan's mist lifted in the winter of the Crossing (AE 1); the western sea is open water at the snapshot, but no ship will come again.",
+   "what": "Manannan's mist lifted in the winter of the Crossing (AE 1); the northern water is open at the snapshot, but no ship will come again.",
    "cites": [
     "IV-0001a",
     "IV-0377",
@@ -989,7 +989,7 @@
    "master_name": "Ros bheag",
    "population": 6000,
    "kind": "town",
-   "role": "the last seat of the Administration, hungry behind its walls; the last ship from the west anchored here; its human families gone north in the columns",
+   "role": "the last seat of the Administration, hungry behind its walls; the last ship from the east anchored here; its human families gone north in the columns",
    "culture": "dia-thirich",
    "faith": "old-faith",
    "order": "manannan",
@@ -7686,12 +7686,12 @@
    "name": null,
    "name_en": "the Administration of an Tìr Thall and the Company (gone at the snapshot)",
    "form": "a Commissioner at the Residency above Ros dhomhain governing by districts drawn for the pits, the customs and the Levy; the Company its partner and at last its master",
-   "status": "withdrawn: Strake left the Residency (AE 150) and sailed west from Cuan shean with the last ship able to cross; its districts are drawn below as an earlier moment",
+   "status": "withdrawn: Strake left the Residency (AE 150) and sailed from Cuan shean for an Tìr Thall with the last ship able to cross; its districts are drawn below as an earlier moment",
    "capital": null,
    "ruler": {
     "name": "Lionel Strake",
     "title": "Commissioner (the last)",
-    "note": "sailed west; nothing on Dia-thìr tells of his coming anywhere",
+    "note": "sailed for an Tìr Thall; nothing on Dia-thìr tells of his coming anywhere",
     "cites": [
      "IV-0314",
      "IV-0362",
@@ -13066,7 +13066,7 @@
    {
     "id": 28,
     "master_name": "Carragh Cnoc bheag",
-    "note": "Copied by Samuel Wren and sent west; no answer came.",
+    "note": "Copied by Samuel Wren and sent over the sea; no answer came.",
     "cites": [
      "IV-0051"
     ]
@@ -13205,7 +13205,7 @@
    {
     "id": 47,
     "master_name": "A' Bhuidheann",
-    "note": "The Leaden Hawk company ended its road at Inis thais, eight days out of Cuan dhearg.",
+    "note": "The Leaden Hawk company ended its road at Inis thais, six days out of Cuan dhearg.",
     "cites": [
      "IV-0342a",
      "IV-0342e"
@@ -13739,9 +13739,9 @@
    "name": null,
    "name_en": "the lifted mist (AE 1)",
    "type": "sea",
-   "sea": "the western sea",
+   "sea": "the eastern sea",
    "provinces": [],
-   "note": "The mist that lay on the western sea since the Sundering lifted in the winter of the Crossing.",
+   "note": "The mist that lay on the eastern sea since the Sundering lifted from the northern water in the winter of the Crossing.",
    "cites": [
     "IV-0001a"
    ]
@@ -14106,7 +14106,7 @@
    "council": "The custodians gave the strangers leave, signed their treaty in a tongue they could not read, and watched their tally ignored, their Law lapse and their hall locked. The council made in the forest at Cnoc bheag fought the war that ended the age, and now sits in Cathair dhearg with the country from the hills to every coast in its hand. It will stand its companies down in the spring and make itself a kingdom.",
    "north": "The human families left on the island, a few thousand, march north under the council's safe-conduct into the country of the old concession. Cathair gheal and Muileann àrsaidh kept out of the war; Baile Mòr ruadh receives the columns. They are about to be called the Tuathaich.",
    "silver-guild": "The refiners of Muileann chiar kept their seam in their own hands through the whole age, by ledger, by compact and at last by rifle. They sold bar silver to the Company at their own price and paid the raiders in it for guns.",
-   "administration": "The Commissioners governed from the Residency by districts drawn for the pits, the customs and the Levy, and the Company grew into the office. The last of them locked out the custodians and flew an iron bird over the coal country. He sailed west from Cuan shean and was not heard of again."
+   "administration": "The Commissioners governed from the Residency by districts drawn for the pits, the customs and the Levy, and the Company grew into the office. The last of them locked out the custodians and flew an iron bird over the coal country. He sailed from Cuan shean for an Tìr Thall and was not heard of again."
   },
   "burgs": {
    "27": "Ros dhomhain: the Residency on the rise above it, the Company's quays, the chapel of the Mission; its harbour quarter opened its gates to the council in the last autumn of the war.",

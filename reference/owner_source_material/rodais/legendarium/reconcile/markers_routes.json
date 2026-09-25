@@ -128,7 +128,7 @@
    "record": 35,
    "path": "[45].note",
    "old": "<div>You have encountered a character.</div><iframe src=\"https://deorum.vercel.app/encounter/704\" width=\"375\" height=\"600\" sandbox=\"allow-scripts allow-same-origin allow-popups\"></iframe>",
-   "value": "The water off the north-west cape where boats out of Achadh àrsaidh met the three ships from the west in the first days of the Crossing and led them down the coast toward Cuan shean. The fishing boats of Achadh àrsaidh still slow when they pass it.",
+   "value": "The water off the north-west cape where boats out of Achadh àrsaidh met the three ships coming down from the north in the first days of the Crossing and led them down the coast toward Cuan shean. The fishing boats of Achadh àrsaidh still slow when they pass it.",
    "why": "In-world note for the meeting-place; see annals IV-0001a."
   },
   {
@@ -478,7 +478,7 @@
     "id": "IV-0001a",
     "canon": false,
     "title": "The ships met off the north-west",
-    "body": "Two fishing boats out of Achadh àrsaidh, working the water off the north-west cape where the Sea-Watcher is seen, meet three ships out of the west and hail them. Neither side understands the other. The fishers turn south and the ships follow them down the coast toward Cuan shean. The fishers call the place of the meeting Coinneachadh nan Long, the meeting of the ships, and the boats of Achadh àrsaidh still slow there.",
+    "body": "Two fishing boats out of Achadh àrsaidh, working the water off the north-west cape where the Sea-Watcher is seen, meet three ships coming down from the north and hail them. Neither side understands the other. The fishers turn south and the ships follow them down the coast toward Cuan shean. The fishers call the place of the meeting Coinneachadh nan Long, the meeting of the ships, and the boats of Achadh àrsaidh still slow there.",
     "place": "marker:45",
     "kind": "voyage",
     "between": [
@@ -494,7 +494,7 @@
     "id": "IV-0027a",
     "canon": false,
     "title": "Fenn's line",
-    "body": "On the same survey James Fenn runs a line of sights across the whole island, from the open sea off the north-west, where ships from the west first raise the land, to the water off the eastern cape. He measures it at two hundred and twenty-one miles, some forty-five of them sea at the western end. It is the first measure of Dia-thìr from side to side, and every chart the Company draws afterwards is scaled to it.",
+    "body": "On the same survey James Fenn runs a line of sights across the whole island, from the open sea off the north-west, where ships coming down from the north first raise the land, to the water off the eastern cape. He measures it at a hundred and fifty-five miles, some thirty of them sea at the western end. It is the first measure of Dia-thìr from side to side, and every chart the Company draws afterwards is scaled to it.",
     "place": "feature:2",
     "kind": "record"
    }
@@ -506,7 +506,7 @@
     "id": "IV-0076a",
     "canon": false,
     "title": "Seòlaid Ceann òg",
-    "body": "The traders' boats from the new quay at Ceann òg go down the Abhainn ìseal past Cnoc bheag and Inis bhàn to the north coast, west along it, round the western capes, and south past Inis thais into the capital's water. Their lane is called Seòlaid Ceann òg after the quay. Off the north-west it swings far out into open sea, and there the ships bound for an Tìr Thall leave it and the ships from the west come in.",
+    "body": "The traders' boats from the new quay at Ceann òg go down the Abhainn ìseal past Cnoc bheag and Inis bhàn to the north coast, west along it, round the western capes, and south past Inis thais into the capital's water. Their lane is called Seòlaid Ceann òg after the quay. Off the north-west it swings far out into open sea, and there the ships bound for an Tìr Thall leave it for the passage north-about, and the ships coming down from the north come in.",
     "place": "burg:450",
     "kind": "voyage",
     "between": [
@@ -618,7 +618,7 @@
     "id": "IV-0342b",
     "canon": false,
     "title": "The Leaden Hawk walks to the Hawk coast",
-    "body": "The company goes on foot and lightly laden: past the burned stage at Seann Toll, through Baile thais, up over the hills by Achadh dhomhain and Cuan bheag, down the Abhainn ìseal by Ceann òg and Inis ìseal to Cnoc bheag, and along the Hawk coast by Inis bhàn, Ros gheal and Seann Skell to Inis mhin, some eighty miles in a little over three days. At every hawk-house on the way they read the council's letter aloud, and at Seann Skell they leave it with Ìomhar Seabhag.",
+    "body": "The company goes on foot and lightly laden: past the burned stage at Seann Toll, through Baile thais, up over the hills by Achadh dhomhain and Cuan bheag, down the Abhainn ìseal by Ceann òg and Inis ìseal to Cnoc bheag, and along the Hawk coast by Inis bhàn, Ros gheal and Seann Skell to Inis mhin, some fifty-five miles in a little over two days. At every hawk-house on the way they read the council's letter aloud, and at Seann Skell they leave it with Ìomhar Seabhag.",
     "place": "burg:20",
     "kind": "war",
     "between": [
@@ -650,7 +650,7 @@
     "id": "IV-0342d",
     "canon": false,
     "title": "The watch in the grasslands",
-    "body": "Two days by carriage across country, off every road, bring the company to the grasslands above Tobar dhomhain in the western hills. They lie eleven hours in the long grass over the road from Ros bheag to the concession and count the constables' riders who pass. The company's own list gives forty-one riders, and none of them going north.",
+    "body": "A day and a half by carriage across country, off every road, brings the company to the grasslands above Tobar dhomhain in the western hills. They lie eleven hours in the long grass over the road from Ros bheag to the concession and count the constables' riders who pass. The company's own list gives forty-one riders, and none of them going north.",
     "place": "burg:308",
     "kind": "war",
     "between": [
@@ -666,7 +666,7 @@
     "id": "IV-0342e",
     "canon": false,
     "title": "The Leaden Hawk at Inis thais",
-    "body": "Two more days by carriage, still off the roads, bring the company down to Inis thais, nine days after it left Cuan dhearg. The priests of Clach hear the council's letter in the Direwolf's temple. They will send no men, but they close the harbour of Inis thais to the Company's ships and give the hawk-faithful the use of the Wolf's roads. The Leaden Hawk ends its road there, and its seven join the hawk company when it is mustered at the western Seann Skell.",
+    "body": "A day and a half more by carriage, still off the roads, brings the company down to Inis thais, nine days after it left Cuan dhearg. The priests of Clach hear the council's letter in the Direwolf's temple. They will send no men, but they close the harbour of Inis thais to the Company's ships and give the hawk-faithful the use of the Wolf's roads. The Leaden Hawk ends its road there, and its seven join the hawk company when it is mustered at the western Seann Skell.",
     "place": "burg:166",
     "kind": "war",
     "between": [
@@ -911,7 +911,7 @@
   {
    "file": "book/age_IV.md",
    "old": "At Seann Skell Ìomhar Seabhag declared that the war was Mòd's own hunger turned back on those who had fed it, and the hawk-shrines of the west became recruiting-houses.",
-   "new": "Earlier that winter the council had sent its letters to the Hawk coast by the hands of seven hawk-faithful crewmen of the river towns, who wore hawks cast from the lead of the cartridges taken at Muileann chrom and were called Buidheann an t-Seabhaig Luaidhe, the Leaden Hawk company. They gathered at An Cupa Dàna in Cuan dhearg ({{date:IV-0342a}}) and walked north past the burned stage at Seann Toll, over the hills by Achadh dhomhain and down the Abhainn ìseal to Cnoc bheag, reading the letter at every hawk-house along the coast to Inis mhin. There they heard that Strake's constables rode the western roads, and they went on by carriage across country, off every road, watched the Ros bheag road a night and a day from the grasslands above Tobar dhomhain ({{date:IV-0342d}}), and came down to Inis thais nine days after they had set out. The priests of Clach would send no men, but they shut the harbour of Inis thais to the Company's ships ({{date:IV-0342e}}). At Seann Skell Ìomhar Seabhag declared that the war was Mòd's own hunger turned back on those who had fed it, and the hawk-shrines of the west became recruiting-houses.",
+   "new": "Earlier that winter the council had sent its letters to the Hawk coast by the hands of seven hawk-faithful crewmen of the river towns, who wore hawks cast from the lead of the cartridges taken at Muileann chrom and were called Buidheann an t-Seabhaig Luaidhe, the Leaden Hawk company. They gathered at An Cupa Dàna in Cuan dhearg ({{date:IV-0342a}}) and walked north past the burned stage at Seann Toll, over the hills by Achadh dhomhain and down the Abhainn ìseal to Cnoc bheag, reading the letter at every hawk-house along the coast to Inis mhin. There they heard that Strake's constables rode the western roads, and they went on by carriage across country, off every road, watched the Ros bheag road a night and a day from the grasslands above Tobar dhomhain ({{date:IV-0342d}}), and came down to Inis thais six days after they had set out. The priests of Clach would send no men, but they shut the harbour of Inis thais to the Company's ships ({{date:IV-0342e}}). At Seann Skell Ìomhar Seabhag declared that the war was Mòd's own hunger turned back on those who had fed it, and the hawk-shrines of the west became recruiting-houses.",
    "why": "The quest journey (record 52) as a passage of the Age of Strangers book, before the hawk-shrines open (IV-0348)."
   }
  ],

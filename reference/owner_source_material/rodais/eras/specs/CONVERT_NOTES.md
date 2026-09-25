@@ -10,7 +10,7 @@ Written by `eras/engine/convert_draft.py` from `eras/specs_draft/age_<K>.json` (
 - **Place ids.** New burgs take 1000×K+n from their draft key `<Age>-N<n>`.
 - **Provinces.** The era's provinces are the admin list that partitions the most shires (merged where a unit spans shires); other non-overlapping holdings are added; unbounded or overlapping ones are logged.
 - **Economy.** `prune`: markets move to the largest burg left or close; no `add_markets` (it clears every deal).
-- **Scale.** `units.distance.scale` is the master's, or 0.14 mi/px while the master still says 0.2.
+- **Settings.** Distance scale, geography and coordinates are the master's (the spec overrides none); rebuild every age after the master changes.
 
 ## Age I
 
@@ -233,7 +233,7 @@ Counts: diplomacy: "the division of keeping" -> Neutral 1; diplomacy: "tributary
 **names**
 
 - polity north-west: no Dia-thìris name; named after its capital, "Caol mhòr"
-- new burg III-N01: no Dia-thìris name; English gloss used: "the masons' lodge by the western An t-Aiseag"
+- new burg III-N01: no Dia-thìris name; English gloss used: "the masons' lodge by the western crossing"
 - new burg III-N02: no Dia-thìris name; English gloss used: "the pilgrims' guest-shelters at Allt an Àigh"
 - new burg III-N03: no Dia-thìris name; English gloss used: "the summer shelters on Eilean ruadh"
 - province "the ground of the Hall and the galleries": no Dia-thìris name; named after its largest burg, "Dùn ìseal"
@@ -298,12 +298,12 @@ Counts: name from NAMES.json 4; name from the English gloss 25; state arms from 
 
 **labels**
 
-- label "the departed: west, beyond Ceò Mhanannain": no Dia-thìris text; not drawn
+- label "the departed: north-about, beyond Ceò Mhanannain": no Dia-thìris text; not drawn
 - label "the cold way of the grain barges (laid up LE 1,634)": no Dia-thìris text; not drawn
 
 **land**
 
-- land change 1: "Manannan's mist lies on the western sea beyond the headlands (from the Setting-Out, LE 40), thinning in the la" -- not drawn (the engine keeps the master's land, biomes and rivers)
+- land change 1: "Manannan's mist lies on the eastern sea beyond the northern and eastern headlands (from the Setting-Out, LE 40" -- not drawn (the engine keeps the master's land, biomes and rivers)
 - land change 2: "The oak grove that named Doire fhionn is gone, felled for the keels of the fleet (LE 5); the northern Doire sh" -- not drawn (the engine keeps the master's land, biomes and rivers)
 - land change 3: "The Abhainn bheag below Ros fhionn is silted by a shifting bar (LE 1,159); the salt barges cannot reach its qu" -- not drawn (the engine keeps the master's land, biomes and rivers)
 - land change 4: "The salt pans of Caol gharbh are under the sea (LE 1,734)." -- no land/water flip; a Flood zone instead
@@ -340,7 +340,7 @@ Counts: name from NAMES.json 4; name from the English gloss 25; state arms from 
 - marker IV-K18: no Dia-thìris name; English gloss used: "the timber from beyond Ceò Mhanannain"
 - route IV-R01: no Dia-thìris name; English gloss used: "the cairned drove road of Àth chiar"
 - route IV-R02: no Dia-thìris name; English gloss used: "the grain barges down the Abhainn dhomhain"
-- zone IV-Z01: no Dia-thìris name; English gloss used: "Ceò Mhanannain on the western sea"
+- zone IV-Z01: no Dia-thìris name; English gloss used: "Ceò Mhanannain on the eastern sea"
 - zone IV-Z02: no Dia-thìris name; English gloss used: "Rolla nan Deònach and Am Falbh (LE 2–40)"
 - zone IV-Z03: no Dia-thìris name; English gloss used: "the cold hearths of Cogadh nan Trì Tagraichean (LE 558)"
 - zone IV-Z04: no Dia-thìris name; English gloss used: "the swallowing cough and the closed coast road (LE 1,079–1,082)"
@@ -390,7 +390,7 @@ Counts: diplomacy: "allies" -> Ally 1; diplomacy: "truce (the truce of Àth àrs
 
 **land**
 
-- land change 1: "Manannan's mist lifted in the winter of the Crossing (AE 1); the western sea is open water at the snapshot, bu" -- not drawn (the engine keeps the master's land, biomes and rivers)
+- land change 1: "Manannan's mist lifted in the winter of the Crossing (AE 1); the northern water is open at the snapshot, but n" -- not drawn (the engine keeps the master's land, biomes and rivers)
 - land change 2: "The Rending: the earth torn open along a fault about Cill ghlas (AE 137); the district fenced and closed, left" -- not drawn (the engine keeps the master's land, biomes and rivers)
 - land change 3: "The Abhainn uaine silted black with the washing of coal (AE 33); its salmon runs failed." -- not drawn (the engine keeps the master's land, biomes and rivers)
 - land change 4: "The oak woods about Cathair fhada felled for pit-props (AE 24)." -- not drawn (the engine keeps the master's land, biomes and rivers)
@@ -546,7 +546,7 @@ Counts: culture: shires keeping the master's cells 123; diplomacy: "defeated and
 
 **diplomacy**
 
-- kingdom / beyond the western capes (the charter of export: dubhan only, loaded at Ros dhomhain; the kingdom does not know who buys): not both states on the map; not drawn
+- kingdom / beyond the north-western capes (the charter of export: dubhan only, loaded at Ros dhomhain; the kingdom does not know who buys): not both states on the map; not drawn
 - kingdom / moot: "Suspicion" in the diplomacy list, but kingdom is its suzerain; drawn as Suzerain/Vassal
 
 **faiths**

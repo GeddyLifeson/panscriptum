@@ -20,7 +20,7 @@ def build():
             ('description',
              "The coal is all but gone. Every lamp, engine, ship and lorry on the island runs on dubhan, the fuel one Tuathach "
              "made from the waste of the mines; the coin is pegged to it, a tithe laid for a war is taken at every pump, and "
-             "this autumn the first tank-hull went out past the western capes under Dubhan's narrow charter while the priests "
+             "this autumn the first tank-hull went out past the north-western capes under Dubhan's narrow charter while the priests "
              "of Manannan prayed the sea shut. Cathal reigns at Cathair dhearg over one hundred and twenty-three shires; nine "
              "regiments and four fleets raised for the Long War stand on the stations they were raised at; the western seams "
              "are flooded and capped, and a pass is needed on the northern road. The Moot at Caol mhòr meets under Peter Hale "
@@ -68,7 +68,7 @@ def build():
         {'a': 'kingdom', 'b': 'moot', 'relation': 'defeated and unreconciled: seann-chunntas, an old reckoning none in power will settle and none has cancelled',
          'note': 'The motion for amends allowed to die; the request that Tuathaich witness be kept in the Library lies on the table; passes on the northern road since DE 26.',
          'cites': ['VI-0059', 'VI-0138', 'VI-0139', 'VI-0143', 'VI-0149']},
-        {'a': 'kingdom', 'b': 'beyond the western capes', 'relation': 'the charter of export: dubhan only, loaded at Ros dhomhain; the kingdom does not know who buys', 'cites': ['VI-0154b']},
+        {'a': 'kingdom', 'b': 'beyond the north-western capes', 'relation': 'the charter of export: dubhan only, loaded at Ros dhomhain; the kingdom does not know who buys', 'cites': ['VI-0154b']},
     ]
     pol_of = {int(k): v for k, v in d['province_polity'].items()}
     for i in sorted(BURGS):

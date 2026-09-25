@@ -12,11 +12,6 @@
    "eraShort": "FE"
   }
  },
- "units": {
-  "distance": {
-   "scale": 0.14
-  }
- },
  "cultures": {
   "edit": {
    "2": {
@@ -2905,7 +2900,7 @@
    {
     "key": "III_N01",
     "id": 3001,
-    "name": "the masons' lodge by the western An t-Aiseag",
+    "name": "the masons' lodge by the western crossing",
     "cell": 3064,
     "population": 0.04,
     "group": "monastery",

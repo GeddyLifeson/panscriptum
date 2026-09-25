@@ -1,0 +1,83 @@
+{
+ "layer": "place",
+ "summary": "The owner's decisions of 2026-09-25: Dia-thìr is about the size of Northern Ireland, and it lies alone in the Atlantic west of the Outer Hebrides and north-west of Donegal, hidden by Manannan's mist. Record 1: the distance scale 0.2 -> 0.14 miles to the map unit (lengths x0.7, areas x0.49: the land 272,668 units is some 5,340 square miles, about 13,840 km2; the island about 154 by 72 miles), and the map frame (215 x 98 miles) set at 56.12-57.54 N, 13.56-7.87 W, the island's middle near 56.9 N 11.1 W, with no real coast inside the frame (Barra is about 62 miles east of the eastern cape, the Donegal coast about 100 miles south-east of the south coast). The humans' homeland lies east; the mist never cleared on the eastern sea, and the one passage through it ran north-about and came down on the north-west, which is why every port of the Crossing is on the west coast. The note of the ships' meeting off the north-west cape (markers_routes, record 35 [45]) now has them coming down from the north. The latitude is metadata: the grid temperatures stay those the climate layer computed (its recompute_temperature edit names the frame it was computed for), so the climate stays mild and oceanic.",
+ "skip": [
+  {
+   "layer": "markers_routes",
+   "record": 1,
+   "path": ".units.distance.scale"
+  },
+  {
+   "layer": "land",
+   "record": 1,
+   "path": ".geography.mapSize"
+  },
+  {
+   "layer": "climate",
+   "record": 1,
+   "path": ".geography.latitude"
+  },
+  {
+   "layer": "climate",
+   "record": 1,
+   "path": ".geography.longitude"
+  },
+  {
+   "layer": "climate",
+   "record": 1,
+   "path": ".geography.coordinates"
+  }
+ ],
+ "skip_why": "The earlier layers' scale (0.2 miles to the unit, markers_routes) and frame (between Ireland and Scotland, land and climate) are set aside: the edits here take the map from the generator's values straight to the owner's.",
+ "map_edits": [
+  {
+   "record": 1,
+   "path": ".units.distance.scale",
+   "old": 4,
+   "value": 0.14,
+   "why": "The owner: Dia-thìr about the size of Northern Ireland. At 0.14 miles to the unit the land (272,668 units of area) is some 5,340 square miles and the island about 154 miles from the north-western capes to the eastern cape. Every length in the history is scaled by 0.7 and every area by 0.49 (eras/RESCALE_LOG.md); Cathair dhomhain and the capital stay 'a few miles apart' (5 mi), Muileann ghlas 'a day's walk' from Cathair dhearg (15 mi), the wool cart from the north some five days on the road (46 mi)."
+  },
+  {
+   "record": 1,
+   "path": ".geography.mapSize",
+   "old": 33,
+   "value": 0.79,
+   "why": "The frame is 98 miles tall at the new scale, about 1.42 degrees of latitude; Azgaar's slider value for it (0.79 of 180 degrees)."
+  },
+  {
+   "record": 1,
+   "path": ".geography.latitude",
+   "old": 20.5,
+   "value": 18.18,
+   "why": "The slider value whose latN (Azgaar's Coordinates.calculate) is 57.5 N, the top of the frame below."
+  },
+  {
+   "record": 1,
+   "path": ".geography.longitude",
+   "old": 19.5,
+   "value": 53.0,
+   "why": "The slider value that keeps the frame's middle at 10.7 W if the sliders are moved and Azgaar recomputes the frame (it then takes the longitude span as width/height x latitude span, 3.1 degrees, not the true 5.7 at this latitude)."
+  },
+  {
+   "record": 1,
+   "path": ".geography.coordinates",
+   "old": {
+    "latT": 59.4,
+    "latN": 65.3,
+    "latS": 5.9,
+    "lonT": 130,
+    "lonW": 5.2,
+    "lonE": 135.2
+   },
+   "value": {
+    "latT": 1.42,
+    "latN": 57.54,
+    "latS": 56.12,
+    "lonT": 5.69,
+    "lonW": -13.56,
+    "lonE": -7.87
+   },
+   "why": "The owner: out of the North Channel into the open Atlantic, west of the Outer Hebrides and north-west of Donegal. The frame is 215 x 98 miles (1536 x 702 units at 0.14 miles); 1.42 degrees of latitude at 69 miles to the degree, 5.69 degrees of longitude at 37.8 miles to the degree at 56.9 N. The land (x 115-1213, y 60-574) lies at 56.38-57.42 N, 13.13-9.07 W, its middle near 56.9 N 11.1 W. No real coast is inside the frame: the eastern edge (7.87 W) is west of Barra (7.45 W) and Mingulay, the southern edge (56.12 N) north of Donegal (55.2 N), the northern edge (57.54 N) south of St Kilda (57.8 N)."
+  }
+ ]
+}

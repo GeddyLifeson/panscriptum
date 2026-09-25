@@ -76,7 +76,15 @@
   {
    "record": 11,
    "action": "recompute_temperature",
-   "why": "The grid temperatures made anew from the settings above, as Azgaar makes them: 9 C at sea level, falling only with height (to about 2 C on the highest summit, some 3,500 ft); nowhere below freezing, nowhere near the -5 C at which Azgaar lays down glacier."
+   "why": "The grid temperatures made anew from the settings above, as Azgaar makes them: 9 C at sea level, falling only with height (to about 2 C on the highest summit, some 3,500 ft); nowhere below freezing, nowhere near the -5 C at which Azgaar lays down glacier. The frame is given (the one set above), so the later place layer (place.json), which moves the island into the Atlantic, leaves the temperatures as they are.",
+   "frame": {
+    "latT": 2,
+    "latN": 56.2,
+    "latS": 54.2,
+    "lonT": 4.4,
+    "lonW": -8,
+    "lonE": -3.6
+   }
   },
   {
    "record": 16,

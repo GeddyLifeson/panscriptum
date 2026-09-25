@@ -12,11 +12,6 @@
    "eraShort": "VE"
   }
  },
- "units": {
-  "distance": {
-   "scale": 0.14
-  }
- },
  "cultures": {
   "edit": {
    "2": {
@@ -1264,7 +1259,7 @@
    },
    {
     "key": "I_R04",
-    "name": "the seal-hunters' An t-Aiseag to Eilean mhin",
+    "name": "the seal-hunters' crossing to Eilean mhin",
     "group": "searoutes",
     "stops": [
      3937,

@@ -53,7 +53,7 @@ Your file:
    "body": "Pilots on the quays repeat the word of a far shore to anyone who will stand them a cup.",
    "place": "burg:19", "kind": "discovery", "category": "land",
    "links": [{"to": "III-0002", "type": "location"}],
-   "threads": ["the-mist"], "people": [], "told_in": "book/01_the_word_from_the_west.md#i-of-the-pilots-tale"},
+   "threads": ["the-mist"], "people": [], "told_in": "book/01_the_word_of_a_far_shore.md#i-of-the-pilots-tale"},
   {"after": "III-0003"},
   {"id": "EIV-1002", "...": "..."}
 ]}
@@ -201,7 +201,7 @@ resolve, or the build stops.
 **A Book** (`book/NN_slug.md`) is one part of the age: a generation, a reign, a war. It opens like a master Book:
 
 ```markdown
-# Of the Word from the West, the Choosing and the Keels
+# Of the Word of a Far Shore, the Choosing and the Keels
 
 *LE 1 – 40*
 
@@ -277,3 +277,25 @@ These ranges are ceilings for each section alone, not all at once. At the house 
 master PDF: annals ~540 words a page, books ~405, appendices ~445, gazetteer ~620), all four at their midpoints come
 to ~660 pages. **Aim for about 250–270k words in all.** For example: annals ~95k, books ~100–105k, gazetteer ~40k,
 appendices ~30k, which comes to about 565–580 pages. `check_era.py` prints the running estimate.
+
+## 13. The island: geography, distance and compass
+
+Every place, distance and compass line must agree with the master map and with Appendix I.
+
+- **Where it is.** Dia-thìr lies alone in the Atlantic, west of the Outer Hebrides and north-west of Donegal, its
+  middle near 56.9 N 11.1 W. Never name a real place or a real sea in the text: in the world of the book there is
+  Muir Mhanannain, the island, and an Tìr Thall.
+- **The humans' homeland is east.** An Tìr Thall lies over the eastern sea; its nearest shore, by the humans' charts,
+  is some sixty miles east of the eastern cape, and a greater coast lies a hundred miles to the south-east. No one on
+  the island has ever seen either: Manannan's mist lies on the sea to the north and east.
+- **The passage is north-about.** The straight way east was never found through the mist. The one passage ran out past
+  the north cape and down on the north-west, so the ships of the Crossing came *down from the north*, met the island
+  off the north-west cape, and used the west-coast harbours (Cuan shean, Ros bheag, Ceann mhòr, the western Seann
+  Skell, Baile dhìreach). Ships bound for an Tìr Thall leave north-about, past the north-western capes. The fleet of the
+  Sundering went out by the same road.
+- **The Otherworld is west.** Tìr nan Òg and Magh Meall lie west over the open ocean, with Taigh Dhuinn on its rock in
+  the south-western sea. The west is open water to the edge of sight; the weather comes from there.
+- **Size and distance.** The map is 0.14 miles to the unit. The island is about 154 miles from the north-western capes
+  to the eastern cape and about 72 from north to south, some 5,340 square miles with its islands. Measure a distance
+  on the map before you write it, and keep travel times to it: about 15–25 miles a day on foot, 10–15 by laden cart,
+  25 by carriage on a road, a day's sail along the coast for 20–30 miles. Round as a teller would ("a few miles", "a day's walk").

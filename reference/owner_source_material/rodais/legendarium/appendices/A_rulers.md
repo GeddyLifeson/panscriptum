@@ -32,7 +32,7 @@ No ruler stands in the tables whom the lists and chronicles do not name. Where a
 | 14 | Beathan mac Shomhairle | Sat by the slab through the dark half of the year, as the households near the crack did | {{year:I-0112}} | 2,213 years | six, each shorter-lived than the one before: 1,594, 1,148, 826, 597, 431 and 308 years |
 | 15 | Gille-Brìde | Carried a coal of the First Flame home to the hills | {{year:II-0001}} | 224 years | none: his son follows |
 | 16 | Ceallach mac Ghille-Bhrìde | The last of the line in whom the long years showed; his son lived as other men live | — | 140 years | a hundred and sixteen |
-| 17 | Fionnlagh | Stood on the quay at Seann Skell when the ships went west, and did not go | {{year:III-0023}} |  | seventy, the last of them the father of Ruairidh |
+| 17 | Fionnlagh | Stood on the quay at Seann Skell when the ships went out, and did not go | {{year:III-0023}} |  | seventy, the last of them the father of Ruairidh |
 | 18 | Ruairidh of Doire mhòr | Stood behind Beathag Dhubh when Doire mhòr refused the Company | {{year:IV-0046}} |  | none: his son follows |
 | 19 | Tormod mac Ruairidh | Carried water up to Doire mhòr two summers when the stream was taken, then went down to the camp at Àth ìseal | {{year:IV-0078}} |  | none: his son follows |
 | 20 | Donnchadh mac Thormoid | Hewer of the deep galleries at Achadh dhomhain; coughed a year with what the physicians took for the lung-rot, and the cough left him the night his daughter was born | {{year:IV-0144}} |  | none: his daughter follows |
@@ -170,7 +170,7 @@ The years agree with the annals as the Library reckons them. Ailean was crowned 
 | Robert Haskins | successor to Tolley | {{year:IV-0202}} – {{year:IV-0235}} | Set the tithe before the council met; recalled after a quarrel with the Company |
 | Edward Vane | the first Commissioner born on Dia-thìr | {{year:IV-0235}} – {{year:IV-0259}} | The tram-road to Ros dhìreach; spoke Dia-thìris, badly, but he spoke it; died at the Residency |
 | Charles Merriman | successor to Vane | {{year:IV-0259}} – {{year:IV-0314}} | Brought the first armed constables; left in ill health |
-| Lionel Strake | a soldier | {{year:IV-0314}} – {{year:IV-0374}} | Locked the council out; the last Commissioner; sailed west, and of his landing nothing is known |
+| Lionel Strake | a soldier | {{year:IV-0314}} – {{year:IV-0374}} | Locked the council out; the last Commissioner; sailed for an Tìr Thall, and of his landing nothing is known |
 
 **The Maoir of Muileann chrom, Age V.** The Company's overseers at {{place:burg:354}}, holders of its staff. The Dia-thìrich called the first of them *maor*, steward, and the byname went down the line.
 
@@ -227,7 +227,7 @@ The house of Catrìona ended with Eilidh Bhàn. She is called its fifth ruler, t
 
 The Council of Custodians gave the humans leave to stay, and its high custodian signed the first treaty in a tongue he could not read ({{date:IV-0030}}). Thereafter the council's power dwindled. It asked for its tally, and was sent the Company's accounts. From {{date:IV-0216}} it could not agree on a high custodian. The last Commissioner locked it out of its hall ({{date:IV-0315}}). Such authority as the custodians still had went with them into the forest council of the mining regions ({{date:IV-0322}}). That council chose Eilidh nic Raghnaill to speak for it, and fought the war that ended the age.
 
-The Commissioners governed from the Residency at Ros dhomhain. As the age went on the office and the Company grew together. Walter Crane rose from chief agent at the pits to Commissioner, and after his death an agent of the Company held the seal. The last Commissioner sailed west, and where he came to land is not known on Dia-thìr ({{date:IV-0374}}).
+The Commissioners governed from the Residency at Ros dhomhain. As the age went on the office and the Company grew together. Walter Crane rose from chief agent at the pits to Commissioner, and after his death an agent of the Company held the seal. The last Commissioner sailed for an Tìr Thall, and where he came to land is not known on Dia-thìr ({{date:IV-0374}}).
 
 The overseers were the Company's rulers at the pithead, all of them Dia-thìrich ({{date:IV-0093}}). At Muileann chrom the staff went from father to son, against the custodians' hope, and the byname *Maor* went with it, until Mòrag nic Iain Maor broke the staff rather than carry out evictions ({{date:IV-0319}}).
 

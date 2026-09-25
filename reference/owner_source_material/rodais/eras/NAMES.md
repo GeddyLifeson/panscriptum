@@ -404,7 +404,7 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 | English | Dia-thìris | Gloss | First | Status |
 |---|---|---|---|---|
 | Manannan's sea <br>*also:* the sea of Manannan | **Muir Mhanannain** | Manannan's sea, round Dia-thìr | — | existing |
-| Manannan's mist <br>*also:* the mist | **Ceò Mhanannain** | Manannan's mist over the western sea | III-0239a | coined |
+| Manannan's mist <br>*also:* the mist | **Ceò Mhanannain** | Manannan's mist over the eastern sea | III-0239a | coined |
 | the Hawk bay | **Bàgh an t-Seabhaig** | the Hawk bay | I-0116a | coined |
 | the ancient sea-way | **Slighe-mhara àrsaidh** | the ancient sea-way | I-0064a | existing |
 | the southern lane | **Slighe-mhara Caol fhiadhaich** | the southern sea-lane | III-0189a | existing |
@@ -567,8 +567,8 @@ These may be common nouns rather than names. Each has a proposed form; the build
 | the constabulary <br>*also:* the constables | **Na Constabalan** | the constabulary; Merriman's constables <br>*note:* ambiguous; constabal is a dictionary loan | IV-0259 | coined |
 | the grey fever | **Am Fiabhras Glas** | the grey fever <br>*note:* ambiguous: lower case in the books | IV-0276 | coined |
 | the strangers' fever | **Fiabhras nan Coigreach** | the strangers' fever <br>*note:* ambiguous | IV-0034 | coined |
-| the last ship from the west <br>*also:* the last ship | **An Long Mu Dheireadh** | the last ship from an Tìr Thall <br>*note:* ambiguous | IV-0368 | coined |
-| the ship that sailed west | **An Long a Sheòl an Iar** | the ship that sailed west with Strake <br>*note:* ambiguous | IV-0374 | coined |
+| the last ship from the east <br>*also:* the last ship | **An Long Mu Dheireadh** | the last ship from an Tìr Thall <br>*note:* ambiguous | IV-0368 | coined |
+| the ship that sailed east | **An Long a Sheòl an Ear** | the ship that sailed east with Strake <br>*note:* ambiguous | IV-0374 | coined |
 | the boundary stones | **Clachan-crìche** | the boundary stones <br>*note:* ambiguous; clachan-crìche is attested for the Roinn's stones | V-0003 | existing |
 | the mint | **Taigh a' Bhuinn** | the mint at Cathair dhearg <br>*note:* ambiguous | V-0024 | coined |
 | the hewers | **na Gualadairean** | the hewers, the coal-cutters of the pits <br>*note:* ambiguous: common noun | V-0060 | coined |

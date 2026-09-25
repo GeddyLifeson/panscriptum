@@ -36,7 +36,7 @@ L_MARKERS, L_ROUTES, L_ZONES = 35, 37, 38
 KNOWN = {'name', 'seed', 'master', 'description', 'lore', 'features', 'rivers', 'cultures', 'religions', 'burgs',
          'states', 'provinces', 'diplomacy', 'diplomacy_default', 'campaigns', 'military', 'routes', 'markers',
          'zones', 'labels', 'economy', 'journeys', 'notes', 'rural_population', 'layers', 'land', 'comment',
-         'expect', 'units'}
+         'expect', 'units', 'geography'}
 
 
 def fail(msg):

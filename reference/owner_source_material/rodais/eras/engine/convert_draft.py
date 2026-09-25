@@ -14,7 +14,7 @@ Map text and notes
 - Free labels with no Dia-thìris text are not drawn.
 - Notes carry no English prose by default: the order or church body (Dia-thìris names), the annals event, the
   date as the annals write it, the draft's `inferred` flag, and the citations, joined by " · ".
-- The map's distance scale is the master's (0.14 mi/px forced while the master still says 0.2).
+- The map's settings (distance scale, geography and coordinates) are the master's: the spec overrides none.
 """
 import argparse
 import json
@@ -32,8 +32,8 @@ MASTER = os.path.join(ROOT, 'Diathir_Atlas', 'Diathir.map')
 MASTER_REL = '../../Diathir_Atlas/Diathir.map'           # relative to eras/specs/
 AGES = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
 NUM = {k: i + 1 for i, k in enumerate(AGES)}
-SCALE_NEW = 0.14                                          # the island's new distance scale (mi per px)
 PERSONAL = {'person', 'people-personal', 'human'}
+COMMON_NOUNS = {'crossing'}          # NAMES variants that are also plain nouns in the drafts' glosses (a river crossing)
 POLITY_KINDS = {'institution', 'guild', 'company', 'people', 'house', 'region'}
 MANUAL = '<!-- manual: everything below this line is kept when convert_draft.py rewrites the file -->'
 
@@ -89,7 +89,7 @@ class Names:
             for en in [e['en']] + [v for v in e.get('variants') or [] if isinstance(v, str)]:
                 self.exact.setdefault(self.key(en), e['dt'])
                 core = re.sub(r'^(?i:the)\s+', '', en)
-                if len(core) >= 3 and core != e['dt']:
+                if len(core) >= 3 and core != e['dt'] and core not in COMMON_NOUNS:
                     forms.append((core, e['dt']))
                     if e.get('kind') in POLITY_KINDS:
                         self.polity_forms.append((core, e['dt']))
@@ -320,10 +320,7 @@ class Converter:
                      'calendar': {'year': era_year(snap['date']),
                                   'era': re.sub(r'^the\s+', '', era['name_en']).strip(), 'eraShort': era['abbr']}},
         }
-        scale = M.scale if abs(M.scale - 0.2) > 1e-9 else SCALE_NEW
-        if abs(scale - M.scale) > 1e-9:
-            self.note('map', 'distance scale %s mi/px (the master still says %s)' % (scale, M.scale))
-        self.spec['units'] = {'distance': {'scale': scale}}
+        # units and geography (scale, latitude, longitude, coordinates) are the master's: the spec sets none
         self.province_culture = {}
         self.new_cells = {nb['key']: nb['cell'] for nb in d['new_burgs']}
         self.new_marker_cells = {}
@@ -1038,7 +1035,8 @@ def write_notes(results):
            '- **Provinces.** The era\'s provinces are the admin list that partitions the most shires (merged where a unit '
            'spans shires); other non-overlapping holdings are added; unbounded or overlapping ones are logged.',
            '- **Economy.** `prune`: markets move to the largest burg left or close; no `add_markets` (it clears every deal).',
-           '- **Scale.** `units.distance.scale` is the master\'s, or 0.14 mi/px while the master still says 0.2.', '']
+           '- **Settings.** Distance scale, geography and coordinates are the master\'s (the spec overrides none); '
+           'rebuild every age after the master changes.', '']
     for K, conv in results:
         out += ['## Age %s' % K, '']
         if conv.counts:

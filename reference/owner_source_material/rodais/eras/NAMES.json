@@ -2768,7 +2768,7 @@
   {
    "en": "Manannan's mist",
    "dt": "Ceò Mhanannain",
-   "gloss": "Manannan's mist over the western sea",
+   "gloss": "Manannan's mist over the eastern sea",
    "kind": "sea",
    "first": "III-0239a",
    "status": "coined",
@@ -3755,7 +3755,7 @@
    "note": "ambiguous"
   },
   {
-   "en": "the last ship from the west",
+   "en": "the last ship from the east",
    "dt": "An Long Mu Dheireadh",
    "gloss": "the last ship from an Tìr Thall",
    "kind": "ship",
@@ -3767,9 +3767,9 @@
    "note": "ambiguous"
   },
   {
-   "en": "the ship that sailed west",
-   "dt": "An Long a Sheòl an Iar",
-   "gloss": "the ship that sailed west with Strake",
+   "en": "the ship that sailed east",
+   "dt": "An Long a Sheòl an Ear",
+   "gloss": "the ship that sailed east with Strake",
    "kind": "ship",
    "first": "IV-0374",
    "status": "coined",

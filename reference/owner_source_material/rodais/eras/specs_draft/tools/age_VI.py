@@ -21,7 +21,7 @@ def faith_setup(d, age):
         ('cloch', dict(name='Òrd na Cloiche', name_en='the order of the Stone', gods='Lia Fàil, called Clach', seat=166,
                        note='Its houses serve as banks as well as churches; sent the Rite a letter wishing it well.', cites=['V-0027', 'V-0031', 'V-0119', 'V-0219'])),
         ('manannan', dict(name='Òrd Mhanannain', name_en='the order of Manannan', gods='Manannan mac Lir', seat=489,
-                          note='Says the lord of the sea has shut the western sea again; the house at Seann Bhral turned away the Tuathaich from its feast.', cites=['V-0011', 'V-0103'])),
+                          note='Says the lord of the sea has shut the eastern sea again; the house at Seann Bhral turned away the Tuathaich from its feast.', cites=['V-0011', 'V-0103'])),
     ])
     d['faiths'] = [
         collections.OrderedDict([('key', 'old-faith'), ('name', dt('An Creideamh Sean', 'faith')), ('name_en', 'the Old Faith'), ('master_religion', 1),

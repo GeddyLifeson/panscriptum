@@ -272,7 +272,7 @@
   "id": "III-0023",
   "canon": true,
   "title": "The Setting-Out",
-  "body": "The willing sail west. The chronicles of the island fall silent on them as the ships clear the harbour; the Dia-thìrich tell that the fleet sailed into Manannan's mist, toward the Otherworld.",
+  "body": "The willing sail out past the north cape. The chronicles of the island fall silent on them as the ships clear the harbour; the Dia-thìrich tell that the fleet sailed into Manannan's mist, toward the Otherworld.",
   "place": null,
   "kind": "voyage",
   "between": [
@@ -1507,7 +1507,7 @@
   "id": "III-0120",
   "canon": false,
   "title": "Manannan preached at Seann Skell",
-  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, the preacher Mànas mac Ruairidh proclaims its one power to be Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion. He teaches that Manannan shut the western sea behind the fleet with his mist, which hides Dia-thìr from every ship beyond it, and that the crossing must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
+  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, the preacher Mànas mac Ruairidh proclaims its one power to be Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion. He teaches that Manannan shut the eastern sea behind the fleet with his mist, which hides Dia-thìr from every ship beyond it, and that the crossing must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -3057,7 +3057,7 @@
  {
   "id": "III-0236",
   "canon": false,
-  "title": "Timber from the west",
+  "title": "Timber out of the mist",
   "body": "A worked timber, longer than any tree on the island and fastened with nails of a make no smith of Dia-thìr knows, comes ashore at Ceann mhòr on the north-west coast, from beyond Manannan's mist, as the fishers say. It is carried to Seann Skell, shown to Manannan's priests, and burned.",
   "place": "burg:143",
   "kind": "omen",
@@ -3111,7 +3111,7 @@
   "id": "III-0239a",
   "canon": false,
   "title": "The mist thins",
-  "body": "The priests of Manannan at Seann Skell write that the mist on the western sea, which has hidden Dia-thìr from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and on still mornings the fishers of the west coast begin to see the line of the open sea beyond the headlands.",
+  "body": "The priests of Manannan at Seann Skell write that the mist on the eastern sea, which has hidden Dia-thìr from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and on still mornings the fishers of the north-west coast begin to see the line of the open sea beyond the headlands.",
   "place": "burg:489",
   "kind": "omen",
   "between": [

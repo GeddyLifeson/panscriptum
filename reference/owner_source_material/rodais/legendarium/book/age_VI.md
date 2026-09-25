@@ -11,7 +11,7 @@
 
 *So the old people of the north tell it, at the hearths of Doire ghlas, when the fire is low and the children will not sleep.*
 
-In the last days of the Age of Strangers, whatever road had brought the humans over the western water shut behind their last ships, and those still on Dia-thìr were marched north under the council's guard. That was the Severance, and it fell on the first day of {{year:IV-0377}}, in the dead of winter, when the roads north were mud to the knee.
+In the last days of the Age of Strangers, whatever road had brought the humans over the eastern water shut behind their last ships, and those still on Dia-thìr were marched north under the council's guard. That was the Severance, and it fell on the first day of {{year:IV-0377}}, in the dead of winter, when the roads north were mud to the knee.
 
 On {{date:V-0001}}, with the lambs coming, the homeland of the Tuathaich was fixed. The children of the stranded humans were settled in the north by the council's word, and its guard stood at the head of the roads. It was a confinement, and everyone on both sides of the guard knew it. Their grandchildren would call it home all the same, having no other. Cian and Lorccan of the immortal generation grew up in the wake of those days; of them the chronicles of this age tell nothing further.
 
@@ -41,7 +41,7 @@ That autumn a royal council of twelve was seated at Cathair dhearg, drawn from t
 
 At Ros dhomhain the first Dia-thìrich harbour-master, Dùghall mac Iain, kept the humans' tariff in force for want of another, and spent years turning it into Dia-thìris, clause by clause.
 
-In the early summer of {{year:V-0011}} a ship was sent out past the western capes to seek the crossing the humans had used. She came home after a month of open water. She had seen no land and no sign of any passage, and no second ship was sent. At Seann Skell the priests of Manannan said that the lord of the sea had shut his sea again, as they had begged him to ever since the Crossing, and they said the old prayer at the harbour mouth:
+In the early summer of {{year:V-0011}} a ship was sent out past the north-western capes and north-about to seek the crossing the humans had used. She came home after a month of grey water. She had seen no land and no sign of any passage, and no second ship was sent. At Seann Skell the priests of Manannan said that the lord of the sea had shut his sea again, as they had begged him to ever since the Crossing, and they said the old prayer at the harbour mouth:
 
 > *A Mhanannain, cùm a' mhuir dùinte.*
 > Manannan, keep the sea shut.
@@ -80,7 +80,7 @@ The law came north in the same fashion. In {{year:V-0038}}, at Seann Bhral, Eili
 
 Seven summers later she carried it north herself.
 
-The court at Ceann mhòr sat in the heat of an t-Iuchar, late in the month, in {{year:V-0068}}, with the windows open on the square and the flies drifting in. Eilidh nic Leòid had nineteen cases before her. Seventeen were Tuathaich suits over land, and in each the same kind of paper came up to the bench: a human title, brown at the folds, under the seal of a magistrate who had sailed west. She read every one to the end, and would not be hurried, while the suitors stood in their best coats and sweated. Then she took up her own ruling and read that too, aloud, so that the room should hear what the law was, and gave judgment.
+The court at Ceann mhòr sat in the heat of an t-Iuchar, late in the month, in {{year:V-0068}}, with the windows open on the square and the flies drifting in. Eilidh nic Leòid had nineteen cases before her. Seventeen were Tuathaich suits over land, and in each the same kind of paper came up to the bench: a human title, brown at the folds, under the seal of a magistrate who had sailed home. She read every one to the end, and would not be hurried, while the suitors stood in their best coats and sweated. Then she took up her own ruling and read that too, aloud, so that the room should hear what the law was, and gave judgment.
 
 In fifteen of the seventeen she found for the Crown. She was exact. The law she was exact about had been made for one people, and she had made it. Her rulings became the kingdom's first law-book.
 
@@ -159,7 +159,7 @@ On the first day of an t-Iuchar in {{year:V-0141}} a gallery gave way under Muil
 
 ## VIII. Of the Search for a Second Vein
 
-After Muileann dhearg the Guild of Hewers bound sixty apprentices to fill its rolls, and not one of them was Tuathaich. On Samhain eve of {{year:V-0146}} fire ran through the fair at Muileann òg. Its court sat in a field the next morning, and the fair went on, and Oighrig nic Mhathain died of her burns. That winter the Rail Board refused to carry the Moot's goods, and the north's wool went south by cart, a week on the road. The north calls that way the Carters' Road. The south has no name for it.
+After Muileann dhearg the Guild of Hewers bound sixty apprentices to fill its rolls, and not one of them was Tuathaich. On Samhain eve of {{year:V-0146}} fire ran through the fair at Muileann òg. Its court sat in a field the next morning, and the fair went on, and Oighrig nic Mhathain died of her burns. That winter the Rail Board refused to carry the Moot's goods, and the north's wool went south by cart, five days on the road. The north calls that way the Carters' Road. The south has no name for it.
 
 In the dark of the year's end in {{year:V-0150}} the Moot began a register of Tuathaich hewers killed or maimed in the western pits, since no Dia-thìreach book counted them. It has been kept ever since, and never sent south. In those years Dubhan was a child in the north, watching a caste that did not age hold every true advantage on an island to whose edge his own forebears had been pushed. The coal was never his to inherit.
 

@@ -18,7 +18,7 @@
   "d": 21,
   "last_event_shown": "VI-0157",
   "next_event": null,
-  "description": "The coal is all but gone. Every lamp, engine, ship and lorry on the island runs on dubhan, the fuel one Tuathach made from the waste of the mines; the coin is pegged to it, a tithe laid for a war is taken at every pump, and this autumn the first tank-hull went out past the western capes under Dubhan's narrow charter while the priests of Manannan prayed the sea shut. Cathal reigns at Cathair dhearg over one hundred and twenty-three shires; nine regiments and four fleets raised for the Long War stand on the stations they were raised at; the western seams are flooded and capped, and a pass is needed on the northern road. The Moot at Caol mhòr meets under Peter Hale with a grievance five years old, and the holdouts of no shire went out onto the windy coast. The Rite's twelve hewers cut four baskets of altar-coal from the last face of the Sloc Mòr, the Library keeps the war sealed, and the north keeps its Church and the telling of Naomh Breandan's voyage.",
+  "description": "The coal is all but gone. Every lamp, engine, ship and lorry on the island runs on dubhan, the fuel one Tuathach made from the waste of the mines; the coin is pegged to it, a tithe laid for a war is taken at every pump, and this autumn the first tank-hull went out past the north-western capes under Dubhan's narrow charter while the priests of Manannan prayed the sea shut. Cathal reigns at Cathair dhearg over one hundred and twenty-three shires; nine regiments and four fleets raised for the Long War stand on the stations they were raised at; the western seams are flooded and capped, and a pass is needed on the northern road. The Moot at Caol mhòr meets under Peter Hale with a grievance five years old, and the holdouts of no shire went out onto the windy coast. The Rite's twelve hewers cut four baskets of altar-coal from the last face of the Sloc Mòr, the Library keeps the war sealed, and the north keeps its Church and the telling of Naomh Breandan's voyage.",
   "cites": [
    "VI-0157",
    "VI-0154",
@@ -9906,7 +9906,7 @@
   },
   {
    "a": "kingdom",
-   "b": "beyond the western capes",
+   "b": "beyond the north-western capes",
    "relation": "the charter of export: dubhan only, loaded at Ros dhomhain; the kingdom does not know who buys",
    "cites": [
     "VI-0154b"
@@ -10336,7 +10336,7 @@
       95,
       117
      ],
-     "note": "Says the lord of the sea has shut the western sea again; the house at Seann Bhral turned away the Tuathaich from its feast.",
+     "note": "Says the lord of the sea has shut the eastern sea again; the house at Seann Bhral turned away the Tuathaich from its feast.",
      "cites": [
       "V-0011",
       "V-0103"
@@ -14211,7 +14211,7 @@
    {
     "id": 45,
     "master_name": "Coinneachadh nan Long",
-    "note": "The water off the north-west cape where boats out of Achadh àrsaidh met the three ships from the west in the first days of the Crossing and led them down the coast toward Cuan shean. The fishing boats of Achadh àrsaidh still slow when they pass it.",
+    "note": "The water off the north-west cape where boats out of Achadh àrsaidh met the three ships coming down from the north in the first days of the Crossing and led them down the coast toward Cuan shean. The fishing boats of Achadh àrsaidh still slow when they pass it.",
     "cites": [
      "map Rodos_finished.map record 35"
     ]

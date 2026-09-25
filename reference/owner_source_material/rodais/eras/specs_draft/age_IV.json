@@ -18,7 +18,7 @@
   "d": 4,
   "last_event_shown": "III-0239a",
   "next_event": "IV-0001",
-  "description": "Eighteen centuries after the fleet of the willing sailed west into Manannan's mist, the island is one realm with an empty crown. The Council of Custodians sits at Cathair dhearg in the crown's place, for the ruler of Dia-thìr has been master of the vein-house too since Dòmhnall Ruadh, and the heads of the seven houses of custody are the council; the kingdom seals with the vein-house's trellis and hollow stone. The shires keep the firlot of Cathair dhearg and their seats keep the crown's measures; the coal-roads from the mountain are the crown's, posted and ridden. The Small-Burning Law still holds, though three of the seven houses now hold more than half the right, and the silver petition lies unanswered. The orders of the Old Faith have their houses: the Hawk at Cnoc bheag, the Stone at Inis thais, Manannan at Seann Skell, Macha with the crown, the schools arguing at Dùn thais; the Old Spirits keep the spirit-house at Dùn ìseal. The north-west is thinly held since the dearth. On the west the mist lies thinner each winter, and on still mornings the fishers see the line of the open sea.",
+  "description": "Eighteen centuries after the fleet of the willing sailed north-about into Manannan's mist, the island is one realm with an empty crown. The Council of Custodians sits at Cathair dhearg in the crown's place, for the ruler of Dia-thìr has been master of the vein-house too since Dòmhnall Ruadh, and the heads of the seven houses of custody are the council; the kingdom seals with the vein-house's trellis and hollow stone. The shires keep the firlot of Cathair dhearg and their seats keep the crown's measures; the coal-roads from the mountain are the crown's, posted and ridden. The Small-Burning Law still holds, though three of the seven houses now hold more than half the right, and the silver petition lies unanswered. The orders of the Old Faith have their houses: the Hawk at Cnoc bheag, the Stone at Inis thais, Manannan at Seann Skell, Macha with the crown, the schools arguing at Dùn thais; the Old Spirits keep the spirit-house at Dùn ìseal. The north-west is thinly held since the dearth. On the north-west the mist lies thinner each winter, and on still mornings the fishers see the line of the open sea.",
   "cites": [
    "IV-0005",
    "III-0138",
@@ -36,7 +36,7 @@
  },
  "land_changes": [
   {
-   "what": "Manannan's mist lies on the western sea beyond the headlands (from the Setting-Out, LE 40), thinning in the last years; draw as a sea zone, not a coast change.",
+   "what": "Manannan's mist lies on the eastern sea beyond the northern and eastern headlands (from the Setting-Out, LE 40), thinning in the last years; draw as a sea zone, not a coast change.",
    "cites": [
     "III-0023",
     "III-0120",
@@ -13290,7 +13290,7 @@
   {
    "key": "IV-Z01",
    "name": null,
-   "name_en": "Manannan's mist on the western sea",
+   "name_en": "Manannan's mist on the eastern sea",
    "type": "sea",
    "sea": "the open sea west of the western headlands",
    "provinces": [],
@@ -13615,7 +13615,7 @@
  "labels": [
   {
    "text": null,
-   "text_en": "the departed: west, beyond the mist",
+   "text_en": "the departed: north-about, beyond the mist",
    "at": {
     "cell": 1751
    },

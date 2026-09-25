@@ -20,7 +20,7 @@ Dia-thìr is a wet and windy island, mild for so northerly a place, and most of 
 
 Some goods grow in only one or two places. Flax grows only in the lake-shore fields of Seann Warr, and its seed is pressed there for linseed oil, in which the road-houses were frying their oatcakes as early as {{year:III-0073}}. Tobacco grows only on the old concession farms behind Ceann mhòr, where the humans first planted it ({{date:IV-0122a}}). Gold is washed only from the streams below {{place:burg:384}} and Cnoc dhìreach, and the pearl-mussels lie only in the shallows of the south-eastern coast off Cnoc bhàn and Caol ruadh.
 
-Dia-thìr grows no spices, tea, sugar, silk or dates, and has no camels or elephants. Before the Severance the ships of an Tìr Thall brought small amounts of spice, tea and sugar to the Company's stores. No ship has come from the west since the last one sailed from Ros bheag ({{date:IV-0368}}), and those goods are not sold on the island now.
+Dia-thìr grows no spices, tea, sugar, silk or dates, and has no camels or elephants. Before the Severance the ships of an Tìr Thall brought small amounts of spice, tea and sugar to the Company's stores. No ship has come from an Tìr Thall since the last one sailed from Ros bheag ({{date:IV-0368}}), and those goods are not sold on the island now.
 
 #### The raw goods of Dia-thìr
 

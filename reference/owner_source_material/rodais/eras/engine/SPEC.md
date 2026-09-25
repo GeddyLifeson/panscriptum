@@ -78,7 +78,7 @@ verification.
 | `name`, `seed`, `comment` | Name, random seed, free comment. |
 | `master` | The master map, relative to the spec (default `Rodos_finished.map`). |
 | `lore` | `{name, description, calendar: {year, era, eraShort}}`, which is `options.map.lore`. |
-| `units` | Merged into `options.map.units`, e.g. `{"distance": {"scale": 0.14}}` (the scale bar is redrawn from it). |
+| `units`, `geography` | Overrides merged into `options.map.units` (e.g. `{"distance": {"scale": 0.14}}`; the scale bar is redrawn from it) and `options.map.geography` (`latitude`, `longitude`, `coordinates`...). Left out, the era map carries the master's settings, since it is the master edited. |
 | `features` | `{rename: {featureId: name}}`: islands, lakes and the ocean. |
 | `rivers` | `{rename: {riverId: name or {name, type, ...}}}` |
 | `cultures`, `religions`, `burgs`, `states`, `provinces` | See below (applied in the order cultures, religions, burgs, states, provinces). |
