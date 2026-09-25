@@ -94,5 +94,41 @@
   "dt": "Clàr Thormoid",
   "gloss": "the first written king-list, set down by Tormod Scrìobhaiche at Dùn dhearg",
   "kind": "document"
+ },
+ {
+  "en": "the Auspicious Buffalo (Mòr nic Dhùghaill's house)",
+  "dt": "Am Buabhall Fortanach",
+  "gloss": "the first waypoint house, kept by Mòr nic Dhùghaill above Doire shean",
+  "kind": "landmark"
+ },
+ {
+  "en": "the Great Ale-House (the house at the crossing)",
+  "dt": "An Taigh-seinnse Mòr",
+  "gloss": "the second waypoint house, a turf longhouse with a hearth at either end",
+  "kind": "landmark"
+ },
+ {
+  "en": "the Far-Off Shell-House",
+  "dt": "An Sligeanach Fad' às",
+  "gloss": "the waypoint house where the road-peace is first set down",
+  "kind": "landmark"
+ },
+ {
+  "en": "the old wood",
+  "dt": "Doire shean",
+  "gloss": "the mountainside croft and village where Mòr nic Dhùghaill was born and kept her house",
+  "kind": "place"
+ },
+ {
+  "en": "the old marsh",
+  "dt": "Seann Mhorn",
+  "gloss": "a harbour on the western shore of Loch chrom, resettled with its old name kept",
+  "kind": "place"
+ },
+ {
+  "en": "the old ford",
+  "dt": "Seann Warr",
+  "gloss": "a harbour beside Seann Mhorn on Loch chrom, resettled with its old name kept",
+  "kind": "place"
  }
 ]

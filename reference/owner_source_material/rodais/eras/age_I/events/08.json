@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Diarmad reaches Doire ghlas after three days on the road",
+    "era_year": 890,
+    "summary": "After three days walking north-west from Tobar dhìreach, footsore and short of food, Diarmad comes down into the oak grove at Doire ghlas in the last light with a gale already roaring in the crowns of the trees.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "cause"}]
+  },
+  {
+    "title": "Diarmad builds his fire in the lee of a fallen oak",
+    "era_year": 890,
+    "summary": "In the shelter of a fallen trunk's torn roots, the one spot in the gale-driven grove where a small fire might live, Diarmad builds a fire of oak twigs from an ember he has carried the whole way from Tobar dhìreach in a moss-packed pot.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason"],
+    "master_links": [{"to": "I-0011a", "type": "cause"}]
+  },
+  {
+    "title": "A grey figure stands still in the gale",
+    "era_year": 890,
+    "summary": "Across Diarmad's fire a figure of grey smoke, the height of a tall man, stands unmoving in a wind that flattens the flame and tears every leaf and branch in the grove; Diarmad does not run, and asks it what it is.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  },
+  {
+    "title": "The Keeper names itself to Diarmad",
+    "era_year": 890,
+    "summary": "The figure names itself Coimhdeach na Fine, the keeper of the kin, made from the smoke of the first coal the Young God woke, watching the island's people for the one who made them; it tells Diarmad it has watched his line since the mason and bids him ask his question.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  },
+  {
+    "title": "Diarmad hears the Telling of the Making",
+    "era_year": 890,
+    "summary": "The Keeper tells Diarmad the whole Telling of the Making, from Caoran's choosing of coal to the shaping of the world and the island's own birth of fire, and of the seven spirits hidden colour by colour in the vein under the mountains.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  },
+  {
+    "title": "Diarmad asks whether the Young God was angry",
+    "era_year": 890,
+    "summary": "Shamed by the telling of how the godfolk once found the coloured stones and let them fall back into the heather unknown, Diarmad asks the Keeper whether the Young God was angry at the forgetting; the Keeper answers that he only laughed, for a gift not opened is still given.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  },
+  {
+    "title": "The Keeper gives Diarmad the riddle",
+    "era_year": 890,
+    "summary": "Asked why the mason's fire burned the colour out of every coal alike, the Keeper answers that they are burned all in one fire and none in its own, and gives Diarmad the riddle of the sky, the earth and the sea, first in the old words and then in his own tongue.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  },
+  {
+    "title": "The Keeper leaves Diarmad by his dying fire",
+    "era_year": 890,
+    "summary": "When Diarmad calls the riddle no answer, the Keeper tells him it is the one it was given to give, and the wind that had gone round it all night long passes through the place where it stood and finds nothing there.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  },
+  {
+    "title": "Diarmad tries the riddle alone against sky, earth and fire",
+    "era_year": 890,
+    "summary": "Unwilling to leave the grove, Diarmad spends two days trying the rainbow coal by himself: held up to a gap of open sky, buried in the wet earth by the fallen trunk, and set back into his own small fire alone, with no sea near enough to try and none of the other six coals in hand.",
+    "category": "coal",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  },
+  {
+    "title": "Diarmad speaks the riddle over the bare coal",
+    "era_year": 890,
+    "summary": "On the second morning Diarmad kneels and speaks the riddle's words aloud over the coal laid bare on the fallen trunk's bark; nothing in it changes, and he gives up trying it alone after that.",
+    "category": "coal",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  },
+  {
+    "title": "Diarmad turns south for Tobar dhìreach",
+    "era_year": 890,
+    "summary": "After two days failing to open the riddle alone, Diarmad banks his fire under turf, wraps the rainbow coal back against his chest, and sets out on the three-day road home, saying the words over to himself so as not to lose them.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": ["burg:209"],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  },
+  {
+    "title": "Diarmad returns to Tobar dhìreach",
+    "era_year": 890,
+    "summary": "Diarmad comes down into the high valleys on the evening of the third day with the Telling of the Making whole in him and the Keeper's riddle unopened, not yet sure which of the two the hearths of his own kin will find harder to believe.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "sequel"}]
+  }
+]

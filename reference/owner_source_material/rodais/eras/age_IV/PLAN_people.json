@@ -568,6 +568,30 @@
   "notes": "master record; birth inferred"
  },
  {
+  "name": "Aonghas mac Ruairidh",
+  "born": "LE 770",
+  "died": "LE 801",
+  "role": "fisherman's son of Baile chrom named among the sea-thieves; killed in the raid on Eilean dhubh",
+  "first_chapter": 28,
+  "notes": "invented"
+ },
+ {
+  "name": "Beathag nic Artair",
+  "born": "LE 752",
+  "died": "LE 819",
+  "role": "wife of Coinneach mac Nèill, reeve of Baile chrom",
+  "first_chapter": 28,
+  "notes": "invented"
+ },
+ {
+  "name": "Iain mac Thormoid",
+  "born": "LE 748",
+  "died": "LE 826",
+  "role": "captain sent north by Eilidh Bhàn against the sea-thieves of the small islands",
+  "first_chapter": 28,
+  "notes": "invented"
+ },
+ {
   "name": "Beathag nic Sheumais",
   "born": "LE 870",
   "died": "LE 935",
@@ -766,6 +790,14 @@
   "role": "crowned ruler, LE 182–LE 211",
   "first_chapter": 14,
   "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 25; died at 54. chosen by the heads of the seven houses."
+ },
+ {
+  "name": "Iain mac Lachlainn",
+  "born": "LE 154",
+  "died": "LE 219",
+  "role": "elder brother of King Fearchar mac Lachlainn; head of Clann Fhearchair; kept the house's hall at Baile Mòr dhomhain when the double court was at Cathair dhearg",
+  "first_chapter": 14,
+  "notes": "invented"
  },
  {
   "name": "Fearchar Donn",

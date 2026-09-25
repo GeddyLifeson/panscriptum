@@ -1,0 +1,91 @@
+[
+  {"title": "Calum Liath sends cutters to measure the vein",
+   "after": "II-0119",
+   "body": "The Keeper Calum Liath gives every cutter of Dùn ìseal a knotted cord and a lamp of the Hall's own oil, and sends them into the galleries to walk the vein from end to end and mark on slates where it runs thick and where it runs to blind rock.",
+   "category": "coal", "kind": "craft", "places": ["burg:315"], "threads": ["the-seven-coals", "the-keepers-of-the-flame"], "people": [], "master_links": ["II-0119"]},
+
+  {"title": "The households of the northern road go short",
+   "era_between": [1601, 1604],
+   "body": "With cutters set to counting rather than cutting, the waypoint-keepers send less than the Law's full measure to households a day's carry and more from the mountain, marking each short delivery against a day it might be made good.",
+   "category": "coal", "kind": "loss", "places": ["burg:365"], "threads": ["the-seven-coals"], "people": [], "master_links": []},
+
+  {"title": "A steward of the northern road questions the Keeper",
+   "after": "II-0119",
+   "body": "Three households short of their measure send the steward Uisdean to Dùn ìseal to ask whether the counting will end before their own stores do. Calum Liath answers only that he cannot yet say, and the steward walks home with the truth and nothing else.",
+   "category": "coal", "kind": "court", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": []},
+
+  {"title": "Two cutters lost a day in an old working",
+   "after": "II-0119",
+   "body": "Sent to measure a gallery cut and abandoned in Fionnlagh Dall's time, two young cutters lose a full day in the dark and come out half starved, saying only that they heard something moving beyond their lamp's reach.",
+   "category": "coal", "kind": "loss", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": []},
+
+  {"title": "The clerk Mór nic Aonghais cuts the reckoning",
+   "after": "II-0120",
+   "body": "A clerk of the Hall who learned her letters from a wanderer of the stag's school sets the sum of the cords into a slab of grey stone, reckoning the mountain's coal against the grains in the granaries of Dùn dhearg, the largest measure a household could hold in its own hand and believe.",
+   "category": "coal", "kind": "craft", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": ["II-0120", "II-0121"]},
+
+  {"title": "The reckoning read and met with silence",
+   "after": "II-0121",
+   "body": "Calum Liath reads the slab's sum to the assembled stewards and hearths at Dùn ìseal. No one speaks against it and no one praises it; the northern stewards, who paid for the counting in short seasons, say nothing at all, and the Hall takes the silence for assent.",
+   "category": "law", "kind": "court", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": ["II-0121"]},
+
+  {"title": "Griogair mac Dhonnchaidh and Sìne Bheag crushed in the lower gallery",
+   "after": "II-0122",
+   "body": "Sent without a Keeper's cutter to bring up a left basket, two youths of one season in the galleries break a face already marked unsound on Aonghas's own slates two years before. Griogair dies at once; Sìne Bheag does not outlive the digging.",
+   "category": "coal", "kind": "loss", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": ["II-0122"]},
+
+  {"title": "Ealasaid Rìoghach asks the council what is owed",
+   "era_between": [1620, 1622],
+   "body": "Griogair's mother stands before the council at Dùn ìseal and asks what the Hall owes her son, sent into a gallery already marked dangerous by a slate no cutter had carried down in memory. The council has no answer ready.",
+   "category": "law", "kind": "court", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": ["II-0122"]},
+
+  {"title": "The council sits three days and turns from fault to custom",
+   "after": "II-0122",
+   "body": "The stewards of the great shares spend a first day laying blame before Ealasaid Rìoghach's second asking turns the council from fault to remedy: a binding of seven years before any young Dia-thìrich may touch the vein alone.",
+   "category": "law", "kind": "court", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": ["II-0123"]},
+
+  {"title": "The apprentice-binding custom is agreed",
+   "after": "II-0122",
+   "body": "The council of Dùn ìseal sets down that no young Dia-thìrich will go into any gallery of the vein's custody until bound seven years to a master cutter of proven years, to learn the mountain's marks and unsound faces before working it alone.",
+   "category": "law", "kind": "court", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": ["II-0123"]},
+
+  {"title": "Calum Liath dies at the Hall's door",
+   "after": "II-0123",
+   "body": "The Keeper Calum Liath dies by the doorway where he had the reckoning-slab set, in the ninth year after it was cut, and is carried up to lie among the Keepers' own dead near the two youths he had buried before him.",
+   "category": "faith", "kind": "loss", "places": ["burg:315"], "threads": ["the-keepers-of-the-flame"], "people": [], "master_links": []},
+
+  {"title": "Oighrig Bhàn chosen Keeper",
+   "after": "II-0123",
+   "body": "The nine hearths choose Oighrig Bhàn, a woman of the northern road who had sat with Calum Liath through his last winter, to hold the flame after him.",
+   "category": "faith", "kind": "rite", "places": ["burg:315"], "threads": ["the-keepers-of-the-flame"], "people": [], "master_links": []},
+
+  {"title": "Oighrig Bhàn asks why the binding stands unkept",
+   "after": "II-0123",
+   "body": "Within her first year Oighrig Bhàn asks why the apprentice-binding, agreed by the council after Griogair and Sìne Bheag's deaths, still stands only as a thing sworn and not a thing done, and finds no better answer than that grief cools faster than custom is kept.",
+   "category": "law", "kind": "court", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": ["II-0123"]},
+
+  {"title": "Oighrig Bhàn binds the first twelve apprentices",
+   "after": "II-0124",
+   "body": "In the Hall's own doorway Oighrig Bhàn binds twelve apprentices by name to twelve master cutters, each swearing on the stone cup to serve seven years before touching the vein alone. She stands through every oath and does not sit until the last is sworn.",
+   "category": "coal", "kind": "rite", "places": ["burg:315"], "threads": ["the-seven-coals", "the-keepers-of-the-flame"], "people": [], "master_links": ["II-0124"]},
+
+  {"title": "Four of the twelve later hold the flame",
+   "after": "II-0124",
+   "body": "Of the twelve first bound under Oighrig Bhàn, four in later years are themselves chosen Keeper, which the reciters of Dùn ìseal count the custom's best proof, though none of it answers in full the question Ealasaid Rìoghach asked.",
+   "category": "faith", "kind": "rite", "places": ["burg:315"], "threads": ["the-seven-coals", "the-keepers-of-the-flame"], "people": [], "master_links": []},
+
+  {"title": "Cnoc bhàn takes up the seven-year binding",
+   "after": "II-0125",
+   "body": "Hearing of the binding at Dùn ìseal, the stag's teachers of Cnoc bhàn take up the seven years for their own cutters, binding each apprentice to a master of the school as the Hall bound its own.",
+   "category": "law", "kind": "craft", "places": ["burg:343"], "threads": ["the-orders-of-the-old-faith"], "people": [], "master_links": ["II-0125"]},
+
+  {"title": "Cnoc bhàn adds the written account of every stroke",
+   "after": "II-0125",
+   "body": "The teachers of Cnoc bhàn set a rule the Hall never made: that every bound apprentice keep, once the stag-letters are learned, a written account of every stroke cut in a season, so a master may read back exactly where the hand went wrong.",
+   "category": "law", "kind": "craft", "places": ["burg:343"], "threads": ["the-orders-of-the-old-faith"], "people": [], "master_links": ["II-0125"]},
+
+  {"title": "Rìoghnach writes the first strike-book entry",
+   "era_between": [1640, 1642],
+   "body": "A novice of the first bound company at Cnoc bhàn, Rìoghnach, sets down the school's first written account by lamp-light in a hand still stiff from her letters: three words, I struck a stroke, and the day beneath them.",
+   "category": "law", "kind": "craft", "places": ["burg:343"], "threads": ["the-orders-of-the-old-faith"], "people": [], "master_links": ["II-0125"]}
+]

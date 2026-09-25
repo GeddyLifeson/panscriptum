@@ -182,31 +182,10 @@
    "told_in": "book/19_of_the_smoke_in_the_gallery.md#i-of-the-first-winter-of-achadh-dhomhain"
   },
   {
-   "id": "EV-3509",
-   "title": "A boy of the deep gallery will not stop shaking",
-   "body": "In the camp's second winter a young hewer of Donnchadh mac Thormoid's crew comes up from the deep gallery shaking and says something stood in the draught without stirring. His crew-mates laugh him down as cold and dark playing him false; Donnchadh says nothing at all, which Beitris Bhàn afterward remembers longer than the boy's fright.",
-   "place": "burg:135",
-   "kind": "birth",
-   "category": "coalblood",
-   "links": [
-    {
-     "to": "IV-0144",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-keepers-promise"
-   ],
-   "people": [
-    "beitris-bhan"
-   ],
-   "told_in": "book/19_of_the_smoke_in_the_gallery.md#ii-of-the-coach-and-the-steelyard"
-  },
-  {
    "after": "IV-0145"
   },
   {
-   "id": "EV-3510",
+   "id": "EV-3509",
    "title": "Cormag mac Ailein raises the first house of spoil",
    "body": "The hewer Cormag mac Ailein builds the first house of Achadh dhomhain's camp from stacked spoil chinked with clay and roofs it with Dùn chiar's first bolts of canvas before the frost, tarring the seams himself, his household under it before the year's shortest day.",
    "place": "burg:135",
@@ -230,6 +209,33 @@
    "era_between": [
     68,
     68
+   ]
+  },
+  {
+   "after": "IV-0148"
+  },
+  {
+   "id": "EV-3510",
+   "title": "Ùna nic Choinnich dies at Muileann chiar",
+   "body": "Ùna nic Choinnich dies in her own bed at Muileann chiar, eighty-five years old, having led the silver guild since before the strangers' fever and twice put the Company's offers to a show of hands and twice seen them refused. Achadh dhomhain, which never saw her, mourns her by the sayings that came down the road ahead of the coach.",
+   "place": "burg:419",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "IV-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "una-nic-choinnich",
+    "beitris-bhan"
+   ],
+   "told_in": "book/19_of_the_smoke_in_the_gallery.md#v-of-una-nic-choinnich-and-the-shrines",
+   "era_between": [
+    70,
+    70
    ]
   },
   {
@@ -260,7 +266,7 @@
   {
    "id": "EV-3512",
    "title": "The wash-house women first mark the child's stillness",
-   "body": "Season on season the women who handle the camp's dying by hand and wrist and throat notice, before anyone else in Achadh dhomhain, that Aisling is not changing as a growing child should: no tooth lost and regrown, no wrist outgrowing last year's sleeve, no voice dropping.",
+   "body": "Season on season the women who handle the camp's dying notice, before anyone else in Achadh dhomhain, that Aisling is not changing as a growing child should, and keep what they notice among themselves.",
    "place": "burg:135",
    "kind": "birth",
    "category": "coalblood",

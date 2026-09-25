@@ -7,8 +7,8 @@
  "events": [
   {
    "id": "EV-6501",
-   "title": "Cailean Odhar's hand on the gatepost",
-   "body": "At the fallen gate of the Muileann chrom store the old hewer Cailean Odhar rests his hand flat on the gatepost and says he has carried coal out through it for six-and-thirty years and never thought to see rifles carried out through it instead. His words are repeated round the camp for a week after.",
+   "title": "Tòmas Odhar's hand on the gatepost",
+   "body": "At the fallen gate of the Muileann chrom store the old hewer Tòmas Odhar rests his hand flat on the gatepost and says he has carried coal out through it for six-and-thirty years and never thought to see rifles carried out through it instead. His words are repeated round the camp for a week after.",
    "place": "burg:354",
    "kind": "craft",
    "category": "coal",
@@ -22,7 +22,7 @@
     "the-company"
    ],
    "people": [
-    "cailean-odhar",
+    "tomas-odhar",
     "morag-nic-iain-maor"
    ],
    "told_in": "book/37_of_the_rising_in_the_hills.md#i-of-the-first-light-at-muileann-chrom"
@@ -30,7 +30,7 @@
   {
    "id": "EV-6502",
    "title": "Mòrag takes the sergeant's rifle herself",
-   "body": "Mòrag nic Iain Maor lifts the surrendered sergeant's rifle from the cobbles of the Muileann chrom store with her own hand rather than leave it to be gathered by another, the first weapon she has carried since she broke the Steward's staff the year before.",
+   "body": "Mòrag nic Iain Maor lifts the surrendered sergeant's rifle from the cobbles of the Muileann chrom store with her own hand rather than leave it to be gathered by another, the first weapon she has carried since she broke the overseer's staff the summer before.",
    "place": "burg:354",
    "kind": "war",
    "category": "war",
@@ -325,7 +325,7 @@
    "people": [
     "dughall-dubh"
    ],
-   "told_in": "book/39_of_the_burning_of_the_ledgers.md#i-of-the-grain-from-seann-warr"
+   "told_in": "book/39_of_the_burning_of_the_ledgers.md#vii-of-the-residency-stripped"
   },
   {
    "after": "IV-0376"
@@ -356,7 +356,7 @@
   {
    "id": "EV-6516",
    "title": "The seven wait nine hours at An Cupa Dàna",
-   "body": "Seven men of the river towns gather at the inn of An Cupa Dàna and wait nine hours for the council's last letter, and in the waiting learn one another's names and fears: Coinneach Beag, Tormod the hawk-priest's server, the coal-barge brothers, Ailig, and Pàdraig Buidhe, who says nothing at all.",
+   "body": "Seven men of the river towns gather at the inn of An Cupa Dàna and wait nine hours for the council's last letter, and in the waiting learn one another's names and fears: Coinneach Beag, Gillebrìde the hawk-priest's server, the coal-barge brothers, Ailig, and Pàdraig Buidhe, who says nothing at all.",
    "place": "burg:10",
    "kind": "war",
    "category": "war",
@@ -425,7 +425,7 @@
   {
    "id": "EV-6519",
    "title": "Forty-one riders, all going south",
-   "body": "The company's count ends at forty-one constables' riders in a single day, and not one riding north; Tormod reads the sign as Strake's attention turned elsewhere, and Coinneach Beag cannot say whether the empty road is the safest on the island or the most dangerous.",
+   "body": "The company's count ends at forty-one constables' riders in a single day, and not one riding north; Gillebrìde reads the sign as Strake's attention turned elsewhere, and Coinneach Beag cannot say whether the empty road is the safest on the island or the most dangerous.",
    "place": "burg:308",
    "kind": "war",
    "category": "war",
@@ -541,8 +541,29 @@
   },
   {
    "id": "EV-6524",
+   "title": "Two scribes, one truce",
+   "body": "At the meeting-house of Àth àrsaidh, envoys of the forest council and of the Administration set down the truce of the withdrawal in two hands at once, neither side trusting the other's clerk alone with the writing of it. Three days of argument over the line on the map are settled in less than an hour once the terms are agreed.",
+   "place": "burg:304",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0369",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/40_of_the_truce_and_the_closing_of_the_crossing.md#iv-of-the-truce-of-ath-arsaidh",
+   "era_between": [
+    150,
+    150
+   ]
+  },
+  {
+   "id": "EV-6525",
    "title": "Hannah Webb walks north",
-   "body": "Among the last families to leave Cuan shean, Hannah Webb walks the western road north under the council's guard with an old woman on her arm who will not be carried. She has nursed at Cathair gheal since the grey fever and never before set foot in the country she now walks into, carrying what little the road allows.",
+   "body": "Hannah Webb, who keeps her vigil behind Baile chrom and nursed at Cathair gheal through the fever, walks out to meet the columns at the concession's southern edge and walks back north with them, an old woman of the last families out of Cuan shean on her arm who will not be carried.",
    "place": "burg:282",
    "kind": "humans",
    "category": "humans",
@@ -565,7 +586,7 @@
    ]
   },
   {
-   "id": "EV-6525",
+   "id": "EV-6526",
    "title": "The keeper watches her out of sight",
    "body": "From the gallery of Taigh-solais Baile chrom, Lachlann mac Uisdein watches Lionel Strake's ship stand out north-about past the headland at evening, showing one light at her stern until the dark of sea and sky close over it. He writes the passing into his father's daybook in his father's own words for a night with no ship left to come.",
    "place": "marker:12",
@@ -591,7 +612,7 @@
    ]
   },
   {
-   "id": "EV-6526",
+   "id": "EV-6527",
    "title": "The keys given up at Cuan shean",
    "body": "The harbour officers of Ceann mhòr, Cathair gheal and Inis àrsaidh ride two days south with their towns' chests of harbour keys and set them at Strake's feet on the quay at Cuan shean before his ship sails, saying only that the accounts are even and that who wants the keys after is not theirs to decide. Strake takes the chests aboard with him.",
    "place": "burg:282",
@@ -614,7 +635,7 @@
    ]
   },
   {
-   "id": "EV-6527",
+   "id": "EV-6528",
    "title": "Four chests to Muileann chaol",
    "body": "The petitions, the book of Baile thais and the letter-books left in the stripped Residency come by cart to Muileann chaol in four chests bound against the weather, a single custodian riding beside them the whole way. Cailean mac Eachainn signs for them on the step and clears a cellar to hold them, and opens the first alone by lamp on the last evening of the year.",
    "place": "burg:246",
@@ -636,34 +657,6 @@
    "era_between": [
     150,
     150
-   ]
-  },
-  {
-   "after": "IV-0377"
-  },
-  {
-   "id": "EV-6528",
-   "title": "Cailean turns to the second chest",
-   "body": "Word of the Severance reaches Muileann chaol on the first day of the new year. Cailean mac Eachainn sets no account of it down that night, and instead lights a second lamp against the dark and draws the second of the four chests toward him across the cellar floor, to see what more of the age's record has been kept, and what has not.",
-   "place": "burg:246",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0377",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-library"
-   ],
-   "people": [
-    "cailean-mac-eachainn"
-   ],
-   "told_in": "book/40_of_the_truce_and_the_closing_of_the_crossing.md#ix-of-the-first-chest",
-   "era_between": [
-    151,
-    151
    ]
   }
  ]

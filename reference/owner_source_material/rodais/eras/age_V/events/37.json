@@ -1,11 +1,11 @@
 [
  {
   "id": "EV-6511",
-  "title": "Cailean Odhar's hand on the gatepost",
+  "title": "Tòmas Odhar's hand on the gatepost",
   "era_year": {"after": "IV-0325"},
-  "summary": "At the fallen gate of the Muileann chrom store the old hewer Cailean Odhar rests his hand flat on the gatepost and says he has carried coal out through it for six-and-thirty years and never thought to see rifles carried out through it instead. His words are repeated round the camp for a week after.",
+  "summary": "At the fallen gate of the Muileann chrom store the old hewer Tòmas Odhar rests his hand flat on the gatepost and says he has carried coal out through it for six-and-thirty years and never thought to see rifles carried out through it instead. His words are repeated round the camp for a week after.",
   "category": "coal",
-  "people": ["Cailean Odhar", "Mòrag nic Iain Maor"],
+  "people": ["Tòmas Odhar", "Mòrag nic Iain Maor"],
   "places": ["burg:354"],
   "threads": ["the-company"],
   "master_links": ["IV-0325"]
@@ -14,7 +14,7 @@
   "id": "EV-6512",
   "title": "Mòrag takes the sergeant's rifle herself",
   "era_year": {"after": "IV-0325"},
-  "summary": "Mòrag nic Iain Maor lifts the surrendered sergeant's rifle from the cobbles of the Muileann chrom store with her own hand rather than leave it to be gathered by another, the first weapon she has carried since she broke the Steward's staff the year before.",
+  "summary": "Mòrag nic Iain Maor lifts the surrendered sergeant's rifle from the cobbles of the Muileann chrom store with her own hand rather than leave it to be gathered by another, the first weapon she has carried since she broke the overseer's staff the summer before.",
   "category": "war",
   "people": ["Mòrag nic Iain Maor"],
   "places": ["burg:354"],
@@ -113,9 +113,9 @@
   "id": "EV-6519",
   "title": "Aonghas shuts his own gates on the coal road",
   "era_year": {"after": "IV-0329"},
-  "summary": "Aonghas mac Coinnich shuts the gates of An Taigh-seinnse Mòr across the coal road with his own hands, and the men he has kept in its loft since autumn come down armed, cutting the road at its half-way stage.",
+  "summary": "Aonghas (of An Taigh-seinnse Mòr) shuts the gates of An Taigh-seinnse Mòr across the coal road with his own hands, and the men he has kept in its loft since autumn come down armed, cutting the road at its half-way stage.",
   "category": "war",
-  "people": ["Aonghas mac Coinnich"],
+  "people": ["Aonghas (of An Taigh-seinnse Mòr)"],
   "places": ["marker:10"],
   "threads": ["the-company"],
   "master_links": ["IV-0329"]

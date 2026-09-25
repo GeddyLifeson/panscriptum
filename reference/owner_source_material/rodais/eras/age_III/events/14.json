@@ -1,0 +1,142 @@
+[
+  {
+    "title": "Ailean Clachair takes on the steps to Ceann chaol",
+    "era_year": 149,
+    "summary": "The council at Dùn ìseal asks the nine hearths' cutters whether any will cut a proper path down the steep mile above the harbour of Ceann chaol, where carriers going down sideways on bare rock have turned more ankles than the Hall has troubled to count. Ailean Clachair, a cutter of the fourth hearth four and twenty years old, steps forward first.",
+    "category": "trade",
+    "people": ["Ailean Clachair"],
+    "places": ["burg:397"],
+    "threads": ["line-of-the-mason"],
+    "master_links": [{"to": "II-0030", "type": "cause"}]
+  },
+  {
+    "title": "The steps to Ceann chaol are finished",
+    "era_year": 151,
+    "summary": "After two years of work by Ailean Clachair and six others of the fourth hearth, the stepped path down to the harbour of Ceann chaol is finished, cut stone where the rock allows a step and fitted stone where it does not. A carrier with a full basket can go down to the harbour on a wet morning without setting a hand to the rock.",
+    "category": "trade",
+    "people": ["Ailean Clachair"],
+    "places": ["burg:397"],
+    "threads": ["line-of-the-mason"],
+    "master_links": [{"to": "II-0030", "type": "sequel"}]
+  },
+  {
+    "title": "Eleven carriers drown at the ford of the Abhainn dhomhain",
+    "era_year": 154,
+    "summary": "A party of eleven carriers bound south with the Hall's baskets crosses the ford of the Abhainn dhomhain on a night of hard rain, led by Beathag nan Cliabh on her own word that the rising water looks no worse than a flood she remembers from her youth. The river rises over a tall man's head before the last of them is across; only the one carrier who turned back at the water's edge survives to carry word of it.",
+    "category": "land",
+    "people": ["Beathag nan Cliabh"],
+    "places": ["river:63"],
+    "threads": [],
+    "master_links": [{"to": "II-0031", "type": "cause"}]
+  },
+  {
+    "title": "The Hall sets the names of the drowned upon its roll",
+    "era_year": 154,
+    "summary": "Fionnlagh Dall has the eleven names read to him twice before he will let the roll be closed, among them Beathag nan Cliabh, Griogair mac Ailig, Sìneag nighean Dhonnchaidh, and a boy the roll gives only as young Tormod of the salt shore, who went on the crossing in place of an uncle whose knee had gone bad in the wet.",
+    "category": "faith",
+    "people": ["Fionnlagh Dall", "Calum Beag"],
+    "places": ["burg:315"],
+    "threads": ["the-keepers-promise"],
+    "master_links": [{"to": "II-0031", "type": "sequel"}]
+  },
+  {
+    "title": "The carriers' joke of the mourned coal",
+    "era_year": 154,
+    "summary": "The carriers who come after the drowning make a joke of their own grief, saying the Hall mourns its coal along with its dead, since eleven baskets went into the river with the eleven who carried them. Fionnlagh, hearing it repeated to him, does not rebuke it, and says a mountain that measures its coal so carefully may be allowed to grieve a basketful lost the same way its people grieve a life.",
+    "category": "faith",
+    "people": ["Fionnlagh Dall", "Calum Beag"],
+    "places": ["river:63"],
+    "threads": ["the-keepers-promise"],
+    "master_links": [{"to": "II-0031", "type": "sequel"}]
+  },
+  {
+    "title": "Fionnlagh asks the council for a crossing the river cannot take",
+    "era_year": 154,
+    "summary": "Fionnlagh brings the drowning before the council within the fortnight and asks for a crossing the Abhainn dhomhain cannot take in any weather. An elder of the southern hearths argues the river's risk is no worse than any ordinary misfortune; Fionnlagh answers that he asked only whether the risk could be made smaller, and asks who can name him a mason proved against water and weight.",
+    "category": "law",
+    "people": ["Fionnlagh Dall"],
+    "places": ["burg:315"],
+    "threads": ["the-keepers-promise"],
+    "master_links": [{"to": "II-0031", "type": "sequel"}, {"to": "II-0033", "type": "cause"}]
+  },
+  {
+    "title": "Ailean Clachair is charged with the crossing at Ros fhionn",
+    "era_year": 155,
+    "summary": "The council calls Ailean Clachair, whose steps above Ceann chaol a wet winter has not yet broken, and charges him with a single stone span above Ros fhionn, where the river runs narrower and its banks stand higher and firmer than anywhere else along its reach. Ailean answers that he does not know whether such a span can be built at all, but will try rather than tell a Keeper who has just buried eleven carriers that it cannot.",
+    "category": "trade",
+    "people": ["Ailean Clachair", "Fionnlagh Dall"],
+    "places": ["marker:4"],
+    "threads": ["line-of-the-mason"],
+    "master_links": [{"to": "II-0033", "type": "cause"}]
+  },
+  {
+    "title": "Ailean gathers the forty of the nine hearths",
+    "era_year": 156,
+    "summary": "Over a winter Ailean draws forty cutters and masons from the nine hearths, none of whom has ever cut anything meant to hold a river's weight rather than a roof's. They quarry grey stone near Ros fhionn and spend a season learning how stone cut to a wedge's shape leans upon its neighbours and holds itself up by leaning.",
+    "category": "trade",
+    "people": ["Ailean Clachair"],
+    "places": ["burg:76"],
+    "threads": ["line-of-the-mason"],
+    "master_links": [{"to": "II-0033", "type": "cause"}]
+  },
+  {
+    "title": "Aonghas Beag falls on the centring",
+    "era_year": 158,
+    "summary": "In the sixth week of the building, a mason of the ninth hearth named Aonghas Beag puts a foot wrong on wet timber and is caught at the edge of the fall by two others. Ailean keeps him off the scaffold for two days, saying a mason frightened in his own body cuts stone worse than one who has never learned fear.",
+    "category": "trade",
+    "people": ["Ailean Clachair", "Aonghas Beag"],
+    "places": ["marker:4"],
+    "threads": ["line-of-the-mason"],
+    "master_links": [{"to": "II-0033", "type": "cause"}]
+  },
+  {
+    "title": "The single span above Ros fhionn is closed",
+    "era_year": 160,
+    "summary": "The keystone is raised on ropes and levers and set into the arch above Ros fhionn, Ailean himself guiding it the last hand's-width into place while the forty stand silent on both banks. The scaffold comes down within the week and the span stands alone over the water on its own weight and shape.",
+    "category": "trade",
+    "people": ["Ailean Clachair"],
+    "places": ["marker:4"],
+    "threads": ["line-of-the-mason"],
+    "master_links": [{"to": "II-0033", "type": "sequel"}]
+  },
+  {
+    "title": "Ailean cuts the first hearth-sign in a keystone",
+    "era_year": 160,
+    "summary": "Before the scaffold comes down, Ailean cuts the fourth hearth's own mark into the keystone's face, unasked, so that any eye that looks for it may know the stone was raised by hands that answer for their own work. The mark spreads to every span the forty raise after, and within a handful of years a crossing without it is said, not always fairly, to be a crossing built by hands that had not troubled to answer for themselves.",
+    "category": "craft",
+    "people": ["Ailean Clachair"],
+    "places": ["marker:4"],
+    "threads": ["line-of-the-mason"],
+    "master_links": [{"to": "II-0033", "type": "sequel"}, {"to": "II-0034", "type": "cause"}]
+  },
+  {
+    "title": "The masons swear the oath of the stone cup",
+    "era_year": 161,
+    "summary": "Gathered at Dùn ìseal to be paid for the season's labour, the forty ask Fionnlagh whether they may swear a fellowship of their own. Each lays a hand on the stone cup at the threshold of Talla na Lasrach and swears that no span will ever be closed to a traveller in the dark, and none ever paid for in coal.",
+    "category": "law",
+    "people": ["Ailean Clachair", "Fionnlagh Dall", "Aonghas Beag"],
+    "places": ["burg:315"],
+    "threads": ["line-of-the-mason", "the-keepers-promise"],
+    "master_links": [{"to": "II-0034", "type": "sequel"}]
+  },
+  {
+    "title": "The masons' lodge is raised at the western crossing",
+    "era_year": 163,
+    "summary": "Having kept together under Ailean's leading and raised three crossings more, the forty build a plain stone lodge beside the widest of the three, above a badly-used ford in the country of Ros dhomhain, where a mason called from any share may find a roof, a fire, and a fellow of the trade.",
+    "category": "trade",
+    "people": ["Ailean Clachair"],
+    "places": ["province:5"],
+    "threads": ["line-of-the-mason"],
+    "master_links": [{"to": "II-0034", "type": "sequel"}]
+  },
+  {
+    "title": "A carrier refuses an unsigned bridge",
+    "era_year": 163,
+    "summary": "A cart-builder of Ros dhomhain throws an unmarked crossing of his own upriver of the western span. A carrier of the Hall's baskets, reaching it after dark, will not cross it, saying he knows whose oath a bridge without the fourth hearth's sign was not built under, and sleeps cold on the near bank rather than trust it.",
+    "category": "trade",
+    "people": ["Fionnlagh Dall", "Calum Beag"],
+    "places": ["province:5"],
+    "threads": ["line-of-the-mason", "the-keepers-promise"],
+    "master_links": [{"to": "II-0034", "type": "sequel"}]
+  }
+]

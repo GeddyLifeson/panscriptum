@@ -1,0 +1,123 @@
+[
+    {
+        "title": "Daniel Frayne rides the wool carts south",
+        "era_year": 41,
+        "after": "V-0147",
+        "summary": "With the Rail Board still refusing the Moot's goods, the north's wool goes south by cart, and Daniel Frayne asks leave to ride with the second train, five days on the old way by Cnoc ghorm, Àth fhada and Inis àrsaidh to the fair at Muileann òg.",
+        "category": "trade",
+        "people": ["Daniel Frayne"],
+        "places": ["burg:234", "burg:174"],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0147", "V-0148"]
+    },
+    {
+        "title": "The first lamp lit at Àth fhada",
+        "era_year": 41,
+        "summary": "A widow of Àth fhada who has fed carters at her own table for two winters begins taking payment for it, keeping a lamp lit past every other house's hour. Two more households on the road do the same within the season, and carters find their beds by the lights alone.",
+        "category": "trade",
+        "people": [],
+        "places": ["burg:174"],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0148"]
+    },
+    {
+        "title": "The north's name and the south's silence",
+        "era_year": 41,
+        "summary": "Frayne asks the widow at Àth fhada what the carters call their road and learns it has long been called the Carters' Road in the north, its name simply grown to fit the wool's going by cart. He learns too that no map south of Cnoc ghorm troubles to name the road at all, and writes both facts down.",
+        "category": "law",
+        "people": ["Daniel Frayne"],
+        "places": ["burg:174"],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0148"]
+    },
+    {
+        "title": "A season's wages weighed against the road",
+        "era_year": 41,
+        "summary": "Waiting out a flood at a crossing short of Inis àrsaidh, Frayne hears from a shunting family how the road's five days are reckoned against a season's whole earning, a toll no southern ledger is ever asked to set against the fair's own profit. He writes the figure down.",
+        "category": "trade",
+        "people": ["Daniel Frayne"],
+        "places": ["burg:330"],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0148"]
+    },
+    {
+        "title": "Dubhan at the pit-head wall",
+        "era_year": 41,
+        "summary": "In the copper town a boy of three watches the shift change at the pit-head, the hewers bent from the western faces and the Board's own clerks unbowed at the gate, and takes in, without yet words for it, that an aristocracy standing very near the undying will never share the coal his father cuts.",
+        "category": "coalblood",
+        "people": ["Dubhan"],
+        "places": [],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0149"]
+    },
+    {
+        "title": "Mary Coyle opens the register of the hurt",
+        "era_year": 41,
+        "summary": "Mary Coyle tells the Moot's clerks that the Board keeps no true count of the Tuathaich dead and maimed of the western pits, and that the Moot will begin a book naming them on the families' own word, since no other word will be offered.",
+        "category": "law",
+        "people": ["Mary Coyle", "Daniel Frayne"],
+        "places": ["burg:95"],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0150"]
+    },
+    {
+        "title": "The first name entered in Clàr nan Leòn",
+        "era_year": 41,
+        "summary": "The widow of Àth fhada's husband, lost under the western pits, is the first name Daniel Frayne writes into the new register, carried south by a neighbour rather than wait on the widow's own journey. Frayne sets the pen down before the ink is dry.",
+        "category": "law",
+        "people": ["Daniel Frayne", "Mary Coyle"],
+        "places": ["burg:95"],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0150"]
+    },
+    {
+        "title": "A second copy of the register kept apart",
+        "era_year": 42,
+        "summary": "By the year's end the register holds above thirty names. A second copy is made against fire or flood and kept at a house in Muileann leathan, so that no single hand's slipping can lose the names a second time.",
+        "category": "law",
+        "people": ["Daniel Frayne"],
+        "places": ["burg:234"],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0150"]
+    },
+    {
+        "title": "Gormshuil nic Dhùghaill's last entry",
+        "era_year": 42,
+        "summary": "Feeling her hand begin to shake on a long day's writing, Gormshuil lays down the office of royal chronicler after four and twenty years, her final entry a plain list of what the chronicle under her hand had never held: the northern towns' own accounts, the humans' old treaties, and the Board's surveys left unrolled.",
+        "category": "law",
+        "people": ["Gormshuil nic Dhùghaill"],
+        "places": ["marker:34"],
+        "threads": [],
+        "master_links": ["V-0152"]
+    },
+    {
+        "title": "Tormod Pinn copies the list of gaps",
+        "era_year": 42,
+        "summary": "Tormod mac Sheumais, called Tormod Pinn for the speed of his hand, succeeds Gormshuil as royal chronicler and opens his own first book by copying her last list whole, striking nothing from it, so it is not lost to be rewritten by a less patient hand.",
+        "category": "law",
+        "people": ["Gormshuil nic Dhùghaill", "Tormod mac Sheumais, Tormod Pinn"],
+        "places": ["marker:34"],
+        "threads": [],
+        "master_links": ["V-0152"]
+    },
+    {
+        "title": "The keel laid at Ros mhòr",
+        "era_year": 41,
+        "summary": "Shipwrights turned out of the southern guild yards gather enough coin and timber at last to lay a keel of their own at Ros mhòr. Harry Marlow, grey now, cuts it to the humans' old lines, low and full in the bow, that the southern guilds no longer let a Tuathaich hand build.",
+        "category": "trade",
+        "people": ["Harry Marlow"],
+        "places": ["burg:60"],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0151"]
+    },
+    {
+        "title": "The first Ros mhòr hull launched",
+        "era_year": 42,
+        "summary": "Built on evenings and Sabbaths through a year, the yard's first hull takes the water clean at Ros mhòr, swifter than anything the southern yards have launched in a long season. Harry Marlow tells the men beside him he means to live to see the north sail hulls built with no southern guild's leave.",
+        "category": "trade",
+        "people": ["Harry Marlow"],
+        "places": ["burg:60"],
+        "threads": ["the-tuathaich"],
+        "master_links": ["V-0151"]
+    }
+]

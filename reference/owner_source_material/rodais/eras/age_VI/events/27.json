@@ -1,0 +1,143 @@
+[
+  {
+    "title": "Iain Mapa proves the deep gallery",
+    "era_year": 37,
+    "after": "V-0136",
+    "summary": "Sent to measure a new shaft cut on a guild captain's thirty-year hunch, Iain mac Ruairidh finds the silver at Muileann chiar running richer with depth rather than thinner, the ore darker and heavier the further the gallery goes. He checks the figures three times before he writes them fair.",
+    "category": "coal",
+    "people": ["Iain Mapa"],
+    "places": ["burg:78"],
+    "threads": ["the-seven-coals", "the-depletion"],
+    "master_links": ["V-0137"]
+  },
+  {
+    "title": "The guild masters read the survey entire",
+    "era_year": 37,
+    "summary": "Iain carries the deep gallery's figures to the guild hall himself and unrolls them before three masters who argue over the timbering a new shaft will need. He tells them plainly it will hold only if timbered as he has drawn it, and not an inch cheaper.",
+    "category": "coal",
+    "people": ["Iain Mapa"],
+    "places": ["burg:78"],
+    "threads": ["the-seven-coals"],
+    "master_links": ["V-0137"]
+  },
+  {
+    "title": "The silver guild of Muileann chiar chartered anew",
+    "era_year": 37,
+    "summary": "On the strength of the deep gallery's yield the council renews under the restored custom the charter the humans' own Administration had let stand and then let lapse, binding the guild's captains to the Crown's tithe on every bar struck and giving the guild the courts' weight behind its bindings.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:78"],
+    "threads": ["the-seven-coals"],
+    "master_links": ["V-0137"]
+  },
+  {
+    "title": "Gold found in the stream below Baile dhìreach",
+    "era_year": 37,
+    "summary": "A village smith washing his pan of an evening finds fine gold in the gravel of the stream that turns his forge's own wheel, and tells a maor's clerk the plain truth when the coin he has put by draws the clerk's question rather than invent a lie he would have to keep.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:105"],
+    "threads": [],
+    "master_links": ["V-0137a"]
+  },
+  {
+    "title": "The first blanks struck for the mint",
+    "era_year": 37,
+    "summary": "More silver comes up from Muileann chiar than the mint at Cathair dhearg can refine, and the council gives the eastern hill villages the refining of the guild's bar, with the gold washed below Baile dhìreach, into blanks for the realm-coin, paid by weight; the first blanks go north in am Faoilleach.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:105", "burg:19"],
+    "threads": [],
+    "master_links": ["V-0137a"]
+  },
+  {
+    "title": "Iain Mapa marries Mòr nic Dhòmhnaill",
+    "era_year": 38,
+    "summary": "Iain marries Mòr, a refiner's daughter of Muileann chiar who first proved his own scale a hair off true in front of three of the guild's captains. They are married at the guild hall in am Faoilleach, her father giving her hand and the guild's captains standing witness in place of Iain's own western kin.",
+    "category": "humans",
+    "people": ["Iain Mapa", "Mòr nic Dhòmhnaill"],
+    "places": ["burg:78"],
+    "threads": [],
+    "master_links": ["V-0137"]
+  },
+  {
+    "title": "Dùn thais in the west granted a sea court",
+    "era_year": 38,
+    "summary": "The western Dùn thais is granted a court of the sea to judge salvage and wreck along its shore, after a wrecked hulk driven ashore proves too rich a prize for custom alone to divide. The court's first sitting, held on the strand, awards the wreck whole to the crews who drove it aground.",
+    "category": "law",
+    "people": [],
+    "places": ["burg:8"],
+    "threads": [],
+    "master_links": ["V-0138"]
+  },
+  {
+    "title": "Dùn thais in the east opens its covered market",
+    "era_year": 38,
+    "summary": "The eastern Dùn thais raises a covered market at its own shire's charge for the hill farms that had traded in its square uncovered since the town was walled, its first trading held under a roof that smells more of new-cut wood than of the produce it shelters.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:77"],
+    "threads": [],
+    "master_links": ["V-0139"]
+  },
+  {
+    "title": "The royal record confuses the two Dùn thais",
+    "era_year": 38,
+    "summary": "A clerk at Cathair dhearg files the western court's petition and the eastern market's petition against the one town's name, both signed only \"Dùn thais\", and a second clerk's hand-correction holds only until the next season's post brings the same confusion again.",
+    "category": "law",
+    "people": [],
+    "places": ["burg:8", "burg:77"],
+    "threads": [],
+    "master_links": ["V-0139"]
+  },
+  {
+    "title": "Baile chiar's maor petitions to cut out Doire chaol",
+    "era_year": 38,
+    "summary": "The maor of Baile chiar writes plainly that Doire chaol, grown from a scattering of household-clerks' houses into a town proper, has outgrown a seat five miles distant, and asks that it be given a maor of its own rather than go on being governed badly at second hand.",
+    "category": "law",
+    "people": [],
+    "places": ["burg:106", "burg:164"],
+    "threads": [],
+    "master_links": ["V-0139a"]
+  },
+  {
+    "title": "Siorrachd Doire chaol cut from Baile chiar",
+    "era_year": 38,
+    "summary": "The council grants the petition before the summer is old, the only shire cut new from an older one since the original drawing, Doire chaol entered onto the roll with its own arms, its own dues, and a maor of its own choosing.",
+    "category": "law",
+    "people": [],
+    "places": ["burg:164"],
+    "threads": [],
+    "master_links": ["V-0139a"]
+  },
+  {
+    "title": "A shepherd lost above Doire uaine",
+    "era_year": 39,
+    "summary": "A shepherd new to the country puts his flock to the one shoulder of hill the town's shepherds will not graze, where the old writings tell of the Marbh-bheò, and does not come down. His dog returns alone; the town finds only his crook, driven upright into the turf.",
+    "category": "land",
+    "people": [],
+    "places": ["burg:148"],
+    "threads": [],
+    "master_links": ["V-0140"]
+  },
+  {
+    "title": "The magistrate enters wolves at Doire uaine",
+    "era_year": 39,
+    "summary": "The magistrate writes wolves as the cause in the shire's own book, a finding no shepherd argues and none believes, since no wolf has been seen on that hill in living memory. He tells the shepherd's mother the book wanted a cause it could hold.",
+    "category": "law",
+    "people": [],
+    "places": ["burg:148"],
+    "threads": [],
+    "master_links": ["V-0140"]
+  },
+  {
+    "title": "Iain Mapa keeps a second copy of the guild's charter",
+    "era_year": 39,
+    "summary": "Iain writes the silver guild's new charter into his own private book beside the receipt he carried from the Sloc Mòr and the deep gallery's own figures, telling Mòr at last that the Board never once told him his first survey of the thinning vein had proved true.",
+    "category": "coal",
+    "people": ["Iain Mapa", "Mòr nic Dhòmhnaill"],
+    "places": ["burg:78"],
+    "threads": ["the-seven-coals", "the-depletion"],
+    "master_links": ["V-0137", "V-0140"]
+  }
+]

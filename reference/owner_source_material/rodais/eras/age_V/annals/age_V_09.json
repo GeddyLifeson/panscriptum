@@ -56,7 +56,7 @@
   },
   {
    "id": "EV-5003",
-   "title": "Mairead nic Amhlaidh stops entering marriages in the roll",
+   "title": "Mairead nic Aoidh stops entering marriages in the roll",
    "body": "The custodian of Baile dhìreach ceases to enter marriages between Dia-thìrich and humans in her roll, judging that under Dunstan's rule such an entry has become a paper a family's enemies may use against it rather than one that protects anything.",
    "place": "burg:105",
    "kind": "record",
@@ -71,7 +71,7 @@
     "the-company"
    ],
    "people": [
-    "mairead-nic-amhlaidh",
+    "mairead-nic-aoidh",
     "thomas-hale"
    ],
    "told_in": "book/28_of_the_law_of_one_line.md#v-of-the-eleven-cuttings"
@@ -174,10 +174,38 @@
    "told_in": "book/28_of_the_law_of_one_line.md#vi-of-the-lamp-watch-and-griogair-mac-ailein"
   },
   {
-   "after": "IV-0236"
+   "after": "IV-0235"
   },
   {
    "id": "EV-5008",
+   "title": "Edward Vane answers the port custodian",
+   "body": "Edward Vane, come up the same quay eleven days after Haskins sails, answers the custodian's customary greeting in Dia-thìris, badly and unprompted, the first Commissioner in living memory to do so without a clerk beside him.",
+   "place": "burg:27",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0235",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "edward-vane"
+   ],
+   "told_in": "book/29_of_the_night_shift.md#i-of-the-man-who-spoke-it-badly",
+   "era_between": [
+    114,
+    114
+   ]
+  },
+  {
+   "after": "IV-0236"
+  },
+  {
+   "id": "EV-5009",
    "title": "Vane speaks Dia-thìris before the council at Cathair dhearg",
    "body": "Edward Vane goes up to Cathair dhearg unsummoned and speaks three sentences of Dia-thìris to Comhairle a' Chùraim before finishing through the Mission's interpreter, telling the council he has come home. The clerk enters the word exactly, wrong tense and all.",
    "place": "burg:19",
@@ -205,7 +233,7 @@
    "after": "IV-0238"
   },
   {
-   "id": "EV-5009",
+   "id": "EV-5010",
    "title": "The day shift stands in the yard at Cnoc chaol",
    "body": "Three hundred hewers of the day shift refuse to go down for the night change and stand in the yard through the last light, saying nothing to the overseer who twice asks their meaning. No chant is raised and no threat made; they simply do not move.",
    "place": "burg:415",
@@ -228,7 +256,7 @@
    ]
   },
   {
-   "id": "EV-5010",
+   "id": "EV-5011",
    "title": "Muileann dhomhain shuts every door",
    "body": "The milling town of Muileann dhomhain refuses to house or feed the strikebreaking crews sent up from the coast. Every inn and counter turns them away, and the well at the crossroads is found blocked with stones on the second morning, by no hand the custodian troubled to guess at.",
    "place": "burg:202",
@@ -254,7 +282,7 @@
    "after": "IV-0240"
   },
   {
-   "id": "EV-5011",
+   "id": "EV-5012",
    "title": "The Lamp-Watch's purse runs dry",
    "body": "The Lamp-Watch, keeping the households of the crews who stood at Cnoc chaol, empties its purse by the second winter. Its own reckoning, kept in an unnamed hand, closes the year's account at nothing, and beneath it notes only that the hill was not given back its silence.",
    "place": "burg:415",
@@ -284,7 +312,7 @@
    "after": "IV-0241"
   },
   {
-   "id": "EV-5012",
+   "id": "EV-5013",
    "title": "Matthew Dunne sails for an Tìr Thall",
    "body": "Recalled within the season on the Company's complaint, Matthew Dunne, three-and-thirty, preaches a last, ordinary sermon to a full chapel and goes down to the Ros dhomhain quay in the rain. The Lamp-Watch has a copy of his fallow-year sermon within the week.",
    "place": "burg:27",
@@ -304,31 +332,6 @@
     "matthew-dunne"
    ],
    "told_in": "book/29_of_the_night_shift.md#iv-of-the-sermon-at-ros-dhomhain",
-   "era_between": [
-    118,
-    118
-   ]
-  },
-  {
-   "id": "EV-5013",
-   "title": "The camps begin saying Donnchadh's cough",
-   "body": "Among the Dia-thìrich hewers of Cnoc chaol the lung-rot spares more than it takes, unlike among the humans of the night crews. The camp women, tending an old hewer named Donnchadh mac Ailein through a cough that does not kill him, take to calling any hard cough among their own only Donnchadh's cough, and saying no more.",
-   "place": "burg:415",
-   "kind": "craft",
-   "category": "coal",
-   "links": [
-    {
-     "to": "IV-0242",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "donnchadh-mac-ailein"
-   ],
-   "told_in": "book/29_of_the_night_shift.md#v-of-donnchadh-s-cough",
    "era_between": [
     118,
     118

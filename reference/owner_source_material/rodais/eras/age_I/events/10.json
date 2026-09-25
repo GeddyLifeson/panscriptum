@@ -1,0 +1,142 @@
+[
+    {
+        "title": "The old man begins choosing stones at Skell",
+        "era_year": 951,
+        "summary": "On the first day of the warm month an old man of the river bank at Skell walks the shingle at first light and chooses, by a judgement none of the younger men beside him can name, the boulder that will be rolled and set as the first stone of a mole into the current.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:489"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0012", "type": "same_day"}]
+    },
+    {
+        "title": "A grandson stands against the current",
+        "era_year": 958,
+        "summary": "A boy of the old man's own kin takes to standing chest-deep at the mole's outer edge on calm summer days, bracing his feet on the last stone set and letting the river push at him without giving ground, watched from the bank by a grandfather who says nothing of it either way.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:489"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0012", "type": "cause"}]
+    },
+    {
+        "title": "The mole's first winter",
+        "era_year": 960,
+        "summary": "By the turn of the second year the low ridge of unmortared boulders reaches far enough from the bank at Skell that boats which once beached in the open now lie sheltered in its lee, a dozen at a time on a hard night, and the households along that stretch stop thinking of their landing as open water.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:489"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0012", "type": "cause"}]
+    },
+    {
+        "title": "The flood the mole holds against",
+        "era_year": 966,
+        "summary": "A flood the old man says he has not seen the like of in all his years on the bank takes one small boat downstream and out of reach, but drives its whole weight against the mole's upstream face without shifting a single stone the old man has set, and the ridge stands scoured clean when the water falls.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:489"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0012", "type": "cause"}]
+    },
+    {
+        "title": "Other households ask for the same lee",
+        "era_year": 968,
+        "summary": "After the flood, households that had watched the mole rise from a distance come to the old man and ask to have their own landings brought under its shelter, and he sets them to the rolling and placing exactly as he learned it, so the work outgrows any one household's hands.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:489"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0012", "type": "cause"}]
+    },
+    {
+        "title": "The trying of the riddle is let rest at the mason's hearth",
+        "era_year": 955,
+        "summary": "After coals have been carried to unceasing rain, sunk in sea-water fetched home in skins, and set together seven at once in the hottest fire the line's hands can build, and have come out of every trial the same dull stones, the Mason's line lets the trying rest, the leather bag closed and kept rather than opened again.",
+        "category": "coal",
+        "people": [],
+        "places": [],
+        "threads": ["line-of-the-mason", "the-seven-coals"],
+        "master_links": [{"to": "I-0011a", "type": "cause"}]
+    },
+    {
+        "title": "The first slab set on the worst scramble at Bral",
+        "era_year": 962,
+        "summary": "A woman of the grazing household above the western cliffs at Bral works a frost-loosened slab, over most of a season, into a single set step at the foot of the worst stretch of the scramble down to the shingle, wedging it level with smaller stones packed beneath.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:47"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0013", "type": "cause"}]
+    },
+    {
+        "title": "The steps reach the first shelf at Bral",
+        "era_year": 1005,
+        "summary": "Cut a slab at a time in whatever season allows it, the steps from the shingle at Bral now run unbroken to a shelf a third of the way up the cliff, wide enough for two to pass, while above it the bare scramble still wants both hands free.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:47"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0013", "type": "cause"}]
+    },
+    {
+        "title": "A boy runs the finished stretch without a hand to the rock",
+        "era_year": 1012,
+        "summary": "Sent down for shellfish on a morning the household is short-handed, a boy runs the whole finished stretch of the Bral steps down and up again without once touching the rock, and laughs at the top of it while the women above, none of whom has ever gone that way without a hand out, laugh with him.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:47"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0013", "type": "cause"}]
+    },
+    {
+        "title": "The two hundred and twelfth step is cut at Bral",
+        "era_year": 1080,
+        "summary": "The steps from the shingle to the grazing above Bral are finished at two hundred and twelve, cut across three generations of hands that never once all worked in the same season, the last stretch of hard rock giving up only three steps for a whole season's work.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:47"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0013", "type": "same_day"}]
+    },
+    {
+        "title": "The recital said to a gathering that came unsent-for",
+        "era_year": 1100,
+        "summary": "On the dark-of-the-year night the keeper of the Mason's hearth stands to say the fathers' names before a gathering that has walked up from the lower valleys of its own will, without any household sending word ahead, and says the riddle after as she has said it every year, and closes the bag again unopened.",
+        "category": "faith",
+        "people": [],
+        "places": [],
+        "threads": ["line-of-the-mason"],
+        "master_links": [{"to": "I-0011a", "type": "cause"}]
+    },
+    {
+        "title": "The first stone box raised for the dead of Vell",
+        "era_year": 964,
+        "summary": "A household of the low south-eastern headland rows one of its own dead out to the near island for the first time in a boat built broad enough for the crossing, and raises a box of four slabs and a lid over the body, its face set toward the mainland shore rather than the open sea beyond.",
+        "category": "faith",
+        "people": [],
+        "places": ["feature:12"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0014", "type": "cause"}]
+    },
+    {
+        "title": "A woman rows her mother out, then her daughter",
+        "era_year": 1131,
+        "summary": "A woman of the same shore rows her own mother's body to the island one autumn and her own daughter's the spring after, and is remembered to have gone to the boat the second time with a face that told the household this crossing was not, for her, a labour like any other.",
+        "category": "faith",
+        "people": [],
+        "places": ["feature:12"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0014", "type": "cause"}]
+    },
+    {
+        "title": "The fortieth box is counted at Vell",
+        "era_year": 1169,
+        "summary": "By whatever reckoning that shore keeps among itself, the box set in this season is counted the fortieth to stand on the low ground of the island, its lid laid last and turned, like every lid before it, back toward the water it was rowed across.",
+        "category": "faith",
+        "people": [],
+        "places": ["feature:12"],
+        "threads": ["the-old-ones"],
+        "master_links": [{"to": "I-0014", "type": "same_day"}]
+    }
+]

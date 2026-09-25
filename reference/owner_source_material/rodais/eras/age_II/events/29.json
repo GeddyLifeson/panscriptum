@@ -1,0 +1,202 @@
+[
+  {
+    "title": "Griogair bores the first bone pipes",
+    "era_year": 2428,
+    "summary": "At Cnoc àrsaidh, Griogair bores four holes along a hollow bird-bone and finds a note he can raise and lower at will; children of three households gather to hear him play, the first instrument the island's tellers count as more than a horn blown flat.",
+    "category": "craft",
+    "people": ["Griogair"],
+    "places": ["burg:433"],
+    "threads": [],
+    "master_links": [{"to": "I-0176", "type": "dramatisation"}]
+  },
+  {
+    "title": "Three cats turn back at the pass",
+    "era_year": 2428,
+    "summary": "Watchers along the panther road see three great cats, on three different days, halt at the throat of the highest pass and turn back south rather than finish the crossing every household's memory says they always finish.",
+    "category": "omen",
+    "people": [],
+    "places": ["marker:40"],
+    "threads": [],
+    "master_links": [{"to": "I-0177", "type": "dramatisation"}]
+  },
+  {
+    "title": "The households along the road store double",
+    "era_year": 2428,
+    "summary": "Reading the cats' turning for a kinder ground left behind and a harder winter ahead, the households nearest the pass lay in double against a season no cat that year would risk crossing into, and go short of nothing before the thaw.",
+    "category": "omen",
+    "people": [],
+    "places": ["marker:40"],
+    "threads": [],
+    "master_links": [{"to": "I-0177", "type": "sequel"}]
+  },
+  {
+    "title": "Iain drives cattle onto the panther road",
+    "era_year": 2428,
+    "summary": "With the household's grazing run thin, Iain of Muileann bhàn takes four men and forty head of thin cattle up into the passes against the custom that keeps the crossing season's road clear of herds, meaning to bring them down fattened within the week.",
+    "category": "custom",
+    "people": ["Iain Buachaille"],
+    "places": ["burg:502"],
+    "threads": [],
+    "master_links": [{"to": "I-0178", "type": "dramatisation"}]
+  },
+  {
+    "title": "The panthers take thirty head in the night",
+    "era_year": 2428,
+    "summary": "On the fourth night a string of cats, the last and largest of that year's crossing, comes down on the herd; by first light thirty of the forty head are taken or scattered beyond finding.",
+    "category": "disaster",
+    "people": ["Iain Buachaille"],
+    "places": ["marker:40"],
+    "threads": [],
+    "master_links": [{"to": "I-0178", "type": "dramatisation"}]
+  },
+  {
+    "title": "Iain is lamed in the dark",
+    "era_year": 2428,
+    "summary": "Throwing himself clear of a claw he never clearly sees, Iain twists his leg under him against a hidden stone; it sets crooked at the hip, and he walks from that winter with a stick and a roll to one side.",
+    "category": "disaster",
+    "people": ["Iain Buachaille"],
+    "places": ["marker:40"],
+    "threads": [],
+    "master_links": [{"to": "I-0178", "type": "parallel"}]
+  },
+  {
+    "title": "Baile dhomhain cuts the first season's sign",
+    "era_year": 2431,
+    "summary": "The households of Baile dhomhain begin cutting a mark into every gatepost at the start of the crossing season and scraping it away at its close, the first mark the island's tellers know cut for a season rather than for any single event.",
+    "category": "culture",
+    "people": [],
+    "places": ["burg:257"],
+    "threads": [],
+    "master_links": [{"to": "I-0179", "type": "dramatisation"}]
+  },
+  {
+    "title": "Caol bheag names its boats for the winds",
+    "era_year": 2434,
+    "summary": "The fishing households of Caol bheag fix the custom of naming each boat for the wind it is built to fish in, holding a boat unlucky under any other wind and never giving a drowned boat's name again.",
+    "category": "culture",
+    "people": [],
+    "places": ["burg:475"],
+    "threads": [],
+    "master_links": [{"to": "I-0181", "type": "dramatisation"}]
+  },
+  {
+    "title": "A wind-name is cut at Seann Chwen",
+    "era_year": 2440,
+    "summary": "A cutter of that household sets one of the eight winds' names beside the Old Ones' own marks on the great boulder at Seann Chwen, choosing that stone, by his own word, because the name wanted a stone already old.",
+    "category": "record",
+    "people": [],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0180", "type": "dramatisation"}]
+  },
+  {
+    "title": "A family takes up the old burial ground unasked",
+    "era_year": 2444,
+    "summary": "Kin new to that country begin clearing the thorn from the old burial ground's rows each spring though none of their own dead lie there, and within a few years every household near it has come to trust the keeping to them alone.",
+    "category": "culture",
+    "people": [],
+    "places": ["marker:41"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0182", "type": "dramatisation"}]
+  },
+  {
+    "title": "Diggers break into a slab-lined grave",
+    "era_year": 2447,
+    "summary": "Cutting a new row further back than any before it, the keepers' own diggers break into an older grave lined close with cut slabs in the manner of the Old Ones; they close it as carefully as they opened it and move the row a spear's length off.",
+    "category": "death",
+    "people": [],
+    "places": ["marker:41"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0183", "type": "dramatisation"}]
+  },
+  {
+    "title": "No digger tries the older grave again",
+    "era_year": 2447,
+    "summary": "The keeping family's eldest holds that a ground kept for the dead does not want its keepers asking after graves it was never given to keep, and no digger of that ground troubles the older grave a second time.",
+    "category": "death",
+    "people": [],
+    "places": ["marker:41"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0183", "type": "sequel"}]
+  },
+  {
+    "title": "Pilgrims begin sitting at the stag's grove",
+    "era_year": 2449,
+    "summary": "People from households that have never before walked so far begin coming singly and in pairs to sit a single night at the edge of the stag's grove, keeping a small fire that burns out before morning, and go home saying only that the night leaves them quieter.",
+    "category": "faith",
+    "people": [],
+    "places": ["burg:355"],
+    "threads": [],
+    "master_links": [{"to": "I-0184", "type": "dramatisation"}]
+  },
+  {
+    "title": "Settlers from the Red Hill raise the first house at Cnoc bheag",
+    "era_year": 2450,
+    "summary": "Households come down from the Red Hill to build at the edge of the sacred forest at Cnoc bheag, taking timber only from the river's far side and never from the unclaimed wood, a line later marked by a row of unhewn stones.",
+    "category": "founding",
+    "people": [],
+    "places": ["burg:504"],
+    "threads": [],
+    "master_links": [{"to": "I-0186", "type": "dramatisation"}]
+  },
+  {
+    "title": "A child of Cnoc bheag is lost past the stones",
+    "era_year": 2451,
+    "summary": "A boy not yet seven goes missing near the line of stones at the sacred forest's edge; the settlement and its neighbours search three days into the wood without one sign of him.",
+    "category": "omen",
+    "people": [],
+    "places": ["marker:24"],
+    "threads": [],
+    "master_links": [{"to": "I-0185", "type": "dramatisation"}]
+  },
+  {
+    "title": "Iain among the searchers who stop at the stones",
+    "era_year": 2451,
+    "summary": "Lame still from the passes, Iain of Muileann bhàn joins the search at Cnoc bheag and is the first to say aloud that a wood no household will fell or build nearer than its own river is not a wood that gives back what it takes; the searchers stop at the line of stones, and no teller lays the stopping at their door.",
+    "category": "omen",
+    "people": ["Iain Buachaille"],
+    "places": ["marker:24"],
+    "threads": [],
+    "master_links": [{"to": "I-0185", "type": "dramatisation"}]
+  },
+  {
+    "title": "Iain goes to the warm springs",
+    "era_year": 2455,
+    "summary": "Seven-and-twenty years lame, and told by a neighbour of a warm water under the mountain that has eased other travellers' old hurts, Iain walks south on his stick and sits in the pool at first light, the heat working into the crooked hip as no binding ever had.",
+    "category": "faith",
+    "people": ["Iain Buachaille"],
+    "places": ["marker:0"],
+    "threads": [],
+    "master_links": [{"to": "I-0187", "type": "dramatisation"}]
+  },
+  {
+    "title": "Iain walks home whole; the cure-tale is set",
+    "era_year": 2455,
+    "summary": "Iain stays three days at the warm water and walks the road home to Muileann bhàn on his own two legs without the stick, in half the days the journey south had cost him; his own household, seeing him come up the rise, takes him at first for a stranger. The tale kept of it is the oldest cure the springs are told for: he came lame, and he walked home.",
+    "category": "faith",
+    "people": ["Iain Buachaille"],
+    "places": ["marker:0", "burg:502"],
+    "threads": [],
+    "master_links": [{"to": "I-0187", "type": "dramatisation"}]
+  },
+  {
+    "title": "Two herders see the Hollow Man on the ridge",
+    "era_year": 2457,
+    "summary": "Caught by dark on the way home, two herders near the Hollow Man's hills see a shape walk the ridge above them showing no breath in the bitter cold, though their own hangs white before them; they had lit no fire that evening, and so, the telling says, they lived.",
+    "category": "omen",
+    "people": [],
+    "places": ["marker:22"],
+    "threads": [],
+    "master_links": [{"to": "I-0188", "type": "dramatisation"}]
+  },
+  {
+    "title": "The covered hearth spreads and the night rule hardens",
+    "era_year": 2460,
+    "summary": "The pit-dug, stone-lidded hearth spreads from the Hollow Man's hills toward the settlements nearer the stag's grove, and it hardens there into a rule no council ever set: no open fire is lit on those slopes after dark.",
+    "category": "law",
+    "people": [],
+    "places": ["burg:355"],
+    "threads": [],
+    "master_links": [{"to": "I-0189", "type": "dramatisation"}]
+  }
+]

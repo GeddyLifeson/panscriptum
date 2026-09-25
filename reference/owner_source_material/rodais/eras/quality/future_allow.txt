@@ -1,5 +1,6 @@
 # future_allow.txt -- the hits future_check.py lets stand, each with its reason. Keep it tight: fix the text first.
 # <file, relative to rodais/> | <rule> | <matched text> | <snippet that must be on the same line> | <reason>
+eras/age_IV/book/29_of_the_crown_joined_to_the_vein.md | name | the Crown | # Of the Crown Joined to the Vein | PLAN.md's required chapter title, title-cased; the common noun "crown" (the monarchy), not the Age V institution An Crùn, which is never named or invoked in the text
 legendarium/book/creation.md | burg | Doire ghlas | grove of Doire ghlas | the oak grove's own name, where the Keeper spoke (I-0011a); the town founded in Age II took it from the grove
 legendarium/book/creation.md | name | Cup of Truth | His Cup of Truth breaks at a lie | Manannan's cup in the Keeper's account of the gods, a myth as old as the telling; the relic of that name comes later and is not meant
 legendarium/book/age_I.md | burg | Doire ghlas | oak grove at Doire ghlas | the grove's own name (I-0011a), older than the town that took it
@@ -27,3 +28,9 @@ eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md | burg | Doire uaine |
 eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md | burg | Doire uaine | lived among the Doire uaine hills | the hills' own name (see above)
 eras/age_II/book/24_oighrigs_lot_and_the_stone_cup.md | name | the Stone | # Of Oighrig's Lot and the Stone Cup | Oighrig's stone cup, not Lia Fàil
 eras/age_II/book/24_oighrigs_lot_and_the_stone_cup.md | name | the Cup | ## IV. Of the Cup Ground to Her Hand | Oighrig's stone cup, not Manannan's Cup of Truth
+eras/age_I/book/28_of_the_warm_springs_and_the_walled_gate.md | burg | Muileann ruadh | Below the mountain called Muileann ruadh | the mountain's own name (I-0057, Fuarain Theth Muileann ruadh, existing in Age I), older than the Age III town that later took it
+eras/age_I/book/28_of_the_warm_springs_and_the_walled_gate.md | burg | Muileann ruadh | She walked out of Muileann ruadh before the winter turned | the springs' own place-name (I-0057), older than the Age III town that later took it
+eras/age_I/book/28_of_the_warm_springs_and_the_walled_gate.md | burg | Muileann ruadh | The springs at Muileann ruadh went on running warm | the springs' own place-name (I-0057), older than the Age III town that later took it
+eras/age_I/book/29_of_the_empty_rings_and_the_stripped_altar.md | burg | Muileann ruadh | the springs at Muileann ruadh went on running warm | the springs' own place-name (I-0057), older than the Age III town that later took it
+eras/age_III/book/32_of_the_red_hall_and_the_census_of_hands.md | burg | Baile ìseal | were rebuilt in those same years, at Baile ìseal on the eastern cape | the cape's own name (marker:13, Taigh-solais Baile ìseal, master event II-0145 of this age), older than the Age IV town that later took it
+eras/age_III/book/32_of_the_red_hall_and_the_census_of_hands.md | burg | Baile ìseal | the driftwood fire at Baile ìseal's rebuilt light | the cape's own name (marker:13, master event II-0145 of this age), older than the Age IV town that later took it

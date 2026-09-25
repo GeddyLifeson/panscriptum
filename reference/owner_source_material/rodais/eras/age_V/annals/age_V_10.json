@@ -59,7 +59,7 @@
   {
    "id": "EV-5503",
    "title": "Cailean walks to Tobar dhìreach",
-   "body": "Rather than report to the cellar, Cailean walks the coast road to Tobar dhìreach with the seven names copied onto a scrap of paper inside his coat, to ask whether a line so old could truly be Donnchadh's own.",
+   "body": "Rather than report to the cellar, Cailean walks the hill road to Tobar dhìreach with the seven names copied onto a scrap of paper inside his coat, to ask whether a line so old could truly be Donnchadh's own.",
    "place": "burg:276",
    "kind": "record",
    "category": "law",
@@ -178,7 +178,7 @@
    ]
   },
   {
-   "after": "IV-0262a"
+   "after": "IV-0260"
   },
   {
    "id": "EV-5508",
@@ -190,7 +190,7 @@
    "links": [
     {
      "to": "IV-0262",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -203,8 +203,8 @@
    ],
    "told_in": "book/32_of_the_grey_goose_and_the_dockers.md#ii-of-hannah-webb",
    "era_between": [
-    133,
-    133
+    132,
+    132
    ]
   },
   {
@@ -217,7 +217,7 @@
    "links": [
     {
      "to": "IV-0262",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -229,8 +229,8 @@
    ],
    "told_in": "book/32_of_the_grey_goose_and_the_dockers.md#ii-of-hannah-webb",
    "era_between": [
-    133,
-    133
+    132,
+    132
    ]
   },
   {
@@ -243,7 +243,7 @@
    "links": [
     {
      "to": "IV-0262",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -255,9 +255,12 @@
    ],
    "told_in": "book/32_of_the_grey_goose_and_the_dockers.md#ii-of-hannah-webb",
    "era_between": [
-    133,
-    133
+    132,
+    132
    ]
+  },
+  {
+   "after": "IV-0262a"
   },
   {
    "id": "EV-5511",

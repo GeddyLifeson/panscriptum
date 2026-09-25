@@ -1048,14 +1048,6 @@
   "notes": "named by the chapter writer in chapter 28."
  },
  {
-  "name": "Donnchadh mac Ailein",
-  "born": null,
-  "died": null,
-  "role": "The camps begin saying Donnchadh's cough",
-  "first_chapter": 29,
-  "notes": "named by the chapter writer in chapter 29."
- },
- {
   "name": "Ruth Pallant",
   "born": null,
   "died": null,
@@ -1120,10 +1112,10 @@
   "notes": "named by the chapter writer in chapter 36."
  },
  {
-  "name": "Cailean Odhar",
+  "name": "Tòmas Odhar",
   "born": null,
   "died": null,
-  "role": "Cailean Odhar's hand on the gatepost",
+  "role": "old hewer at the Muileann chrom store gate",
   "first_chapter": 37,
   "notes": "named by the chapter writer in chapter 37."
  },
@@ -1150,5 +1142,13 @@
   "role": "The nineteen of Àth chiar buried",
   "first_chapter": 37,
   "notes": "named by the chapter writer in chapter 37."
+ },
+ {
+  "name": "Mairead nic Aoidh",
+  "born": null,
+  "died": null,
+  "role": "Mairead nic Aoidh stops entering marriages in the roll",
+  "first_chapter": 28,
+  "notes": "named by the chapter writer in chapter 28."
  }
 ]

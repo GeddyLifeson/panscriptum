@@ -1,0 +1,132 @@
+[
+  {
+    "title": "Coinneach mac Fhearghais named master of the fellowship",
+    "era_year": 67,
+    "summary": "After Alasdair Saor's death Coinneach mac Fhearghais, the first apprentice Alasdair ever swore, takes the mastership of the fellowship of the strand, keeping its oath and its coal exactly as Alasdair had kept them before him.",
+    "category": "trade",
+    "people": ["Coinneach mac Fhearghais"],
+    "places": ["burg:489"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0044", "type": "sequel"}]
+  },
+  {
+    "title": "The Diosal count taken up at Cathair dhearg",
+    "era_year": 70,
+    "summary": "The crown's own scribes at the red hall begin dating their rolls by the count Donnchadh mac Thormoid had kept alone at the vein-house for fifty years and more, setting aside the reckoning by a king's reign for the turning he first set his own hand to as a boy.",
+    "category": "record",
+    "people": ["Donnchadh mac Thormoid"],
+    "places": ["burg:19", "burg:491"],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "Eachann Briseadair raises the first house below the vein-house",
+    "era_year": 72,
+    "summary": "Eachann Briseadair, whose household breaks and sorts the coal brought down from the galleries, builds the first house of stone below the vein-house's own gate; his sons build three more beside it within the decade, the beginning of the coal-breakers' row.",
+    "category": "trade",
+    "people": ["Eachann Briseadair"],
+    "places": ["burg:491"],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "Founding of Muileann dhearg",
+    "era_year": 72,
+    "summary": "The row of houses the coal-breakers raise below the vein-house's gate grows, within Eachann Briseadair's own lifetime, into a settled town with its own well, smith and reeve, taking the name the vein-house had long given that ground: Muileann dhearg, the red mill.",
+    "category": "land",
+    "people": ["Eachann Briseadair"],
+    "places": ["burg:491"],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "Death of Coinneach mac Fhearghais",
+    "era_year": 78,
+    "summary": "Coinneach mac Fhearghais dies at Seann Skell in the house where he had lived since his marriage, leaving the fellowship's coal to his eldest journeyman Griogair rather than to any man claiming it by right of years alone.",
+    "category": "death",
+    "people": ["Coinneach mac Fhearghais", "Griogair"],
+    "places": ["burg:489"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0044", "type": "sequel"}]
+  },
+  {
+    "title": "Death of Eachann Briseadair",
+    "era_year": 80,
+    "summary": "Eachann Briseadair dies at sixty in the shed where he broke his first load of coal as a boy, his sons and grandsons already keeping the work; he is buried on the rise above the row with a lump of unbroken coal set over him rather than a mason's stone.",
+    "category": "death",
+    "people": ["Eachann Briseadair"],
+    "places": ["burg:491"],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "The fellowship of the strand released",
+    "era_year": 84,
+    "summary": "Griogair calls the fellowship's remaining journeymen to the strand and releases every man from the oath, judging there is no longer craft enough in the island's own boat-building to keep it; the journeymen scatter to the rope-walks, their fathers' land and Doire fhionn's coppice-cutting.",
+    "category": "trade",
+    "people": ["Griogair"],
+    "places": ["burg:489"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0045", "type": "sequel"}]
+  },
+  {
+    "title": "The keel-moulds burned for firewood",
+    "era_year": 85,
+    "summary": "In the hard winter of Faolach the fellowship's old patterns and keel-moulds, untouched for years in the shed on the strand, are carried out and burned; the harbour-master notes only that the shed came down, and nothing of what it held.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:489"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0046", "type": "sequel"}]
+  },
+  {
+    "title": "Death of Raghnall mac Uilleim and the crowning of his son",
+    "era_year": 92,
+    "summary": "Raghnall mac Uilleim dies in his four-and-eightieth year after eight-and-thirty years on the red hall; his son Raghnall mac Raghnaill, seven-and-forty years old, is crowned in his place without dispute, the custody-book giving the closed reign one line and the new one another.",
+    "category": "law",
+    "people": ["Raghnall mac Uilleim", "Raghnall mac Raghnaill"],
+    "places": ["burg:19"],
+    "threads": [],
+    "master_links": []
+  },
+  {
+    "title": "The lots drawn among the seven houses",
+    "era_year": 86,
+    "summary": "The heads of the seven houses that hold the right to the coal are called to the vein-house and each draws a marked stone from a covered bag before the custodians and the household, the galleries falling as the stones fall so that no house may claim its ground was given rather than drawn.",
+    "category": "law",
+    "people": ["Donnchadh mac Thormoid"],
+    "places": ["burg:491"],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "III-0047", "type": "sequel"}]
+  },
+  {
+    "title": "Death of Niall mac Dhòmhnaill",
+    "era_year": 104,
+    "summary": "Niall mac Dhòmhnaill dies at Seann Skell in the harbour-house itself, six-and-forty years after taking up the boards, his grandfather's notched hazel stick set in his hand at his own asking and buried with him, the count it held never once spoken aloud.",
+    "category": "death",
+    "people": ["Niall mac Dhòmhnaill"],
+    "places": ["burg:489"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0024", "type": "legacy"}]
+  },
+  {
+    "title": "The lot-stones shown to a visitor",
+    "era_year": 109,
+    "summary": "Old Donnchadh takes the bag of lot-stones down from its peg to let a grandson of Eachann Briseadair's, waiting idle in the vein-house hall, hold it and hear how the seven heads once drew their galleries, though he tells the boy nothing of which stone fell to which house.",
+    "category": "culture",
+    "people": ["Donnchadh mac Thormoid"],
+    "places": ["burg:491"],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "III-0047", "type": "sequel"}]
+  },
+  {
+    "title": "Death of Donnchadh mac Thormoid",
+    "era_year": 109,
+    "summary": "Donnchadh mac Thormoid dies at Muileann dhearg in his ninety-fifth year, his last entry the season's burning of coal household by household, set down in the same careful hand he had used since he was sixteen.",
+    "category": "record",
+    "people": ["Donnchadh mac Thormoid"],
+    "places": ["burg:491"],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "III-0050", "type": "sequel"}]
+  }
+]

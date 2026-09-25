@@ -1,0 +1,91 @@
+[
+ {"title": "Màiri hears the seven names of Mòrag's raid",
+  "era_year": 721,
+  "summary": "As a child at Baile ghorm, Màiri nan Làn learns the seven names kept from Mòrag Chruaidh's raid on the salt-pans a generation before, said slowly at the fire the way a thing is said that must not be said carelessly, and takes the telling for a settled account, its ending already closed.",
+  "category": "faith", "people": ["Màiri nan Làn"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0099", "type": "legacy"}]},
+
+ {"title": "Iain Dubh comes down to the salt-pans at dawn",
+  "era_year": 727,
+  "summary": "Iain Dubh, sixth of the Stone Kings and eight years holder of the hill, rides south to the salt shore as Mòrag Chruaidh had once done, and comes on the pans at Baile ghorm in the grey hour before full light, with more spears behind him than the shore's low bank was ever built to answer.",
+  "category": "war", "people": ["Màiri nan Làn"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104", "type": "sequel"}]},
+
+ {"title": "Tadhg Garbh's spear kills Iain Dubh",
+  "era_year": 727,
+  "summary": "In the fighting at the bank's gap, Tadhg Garbh of Baile ghorm throws a spear among a scatter of others thrown at the same moment, and it alone finds its mark, taking Iain Dubh through the throat before he closes half the distance to the pans. He is the first of Ailean Mòr's children to die by a spear.",
+  "category": "war", "people": ["Tadhg Garbh", "Màiri nan Làn"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104", "type": "cause"}]},
+
+ {"title": "The hill men carry Iain Dubh home",
+  "era_year": 727,
+  "summary": "The hill spears draw back from the bank around their fallen lord rather than press on for the salt, and carry him north at a pace no one on the shore is willing to call a retreat, though it can honestly be called little else.",
+  "category": "war", "people": [], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104", "type": "sequel"}]},
+
+ {"title": "Baile ghorm learns whose son fell on its clay",
+  "era_year": 727,
+  "summary": "Days after the fighting, traders carrying word south tell the salt-folk that the man who fell on the pan's clay was Iain Dubh, holder of the hill and Ailean Mòr's own son, and that no man of the blood has ever before died by a spear.",
+  "category": "rulers", "people": ["Màiri nan Làn"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104", "type": "parallel"}]},
+
+ {"title": "Iain Dubh's cairn raised on the hill",
+  "era_year": 727,
+  "summary": "Tormod, Iain Dubh's eldest living son, stands the whole of the cairn's raising without being seen to weep, a young man of eighty-seven still holding nothing in his own right, while the king is away in the north settling a quarrel of grazing.",
+  "category": "rulers", "people": ["Tormod Liath"], "places": ["burg:19"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104", "type": "sequel"}]},
+
+ {"title": "The king comes home to a cairn already raised",
+  "era_year": 727,
+  "summary": "Ailean Mòr returns from the north to find his son already under the cairn, and stands by it three days speaking to no one, neither Tormod nor the reciters who stand ready to add his words to the list.",
+  "category": "rulers", "people": ["Tormod Liath"], "places": ["burg:19"], "threads": ["the-stone-kings", "the-seven-coals"],
+  "master_links": [{"to": "I-0104", "type": "sequel"}]},
+
+ {"title": "The king walks south alone",
+  "era_year": 727,
+  "summary": "On the fourth day the king leaves the hill on foot, alone, taking no household and no spears, and walks the old track through the dunes toward the salt shore, so that it is some while before anyone understands where he is bound.",
+  "category": "rulers", "people": [], "places": ["burg:19"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104b", "type": "cause"}]},
+
+ {"title": "The salt-folk raise spears against him",
+  "era_year": 728,
+  "summary": "Màiri, first to see the man alone on the shingle, screams for the men before she can put a name to what she sees. Thirty and more come running with the same spears that killed Iain Dubh, and make a line across the shore between the king and the pans.",
+  "category": "war", "people": ["Màiri nan Làn"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104b", "type": "sequel"}]},
+
+ {"title": "Tadhg Garbh lowers his spear a second time",
+  "era_year": 728,
+  "summary": "Tadhg Garbh raises his spear to his shoulder as the king closes the line, holds it until his arm shakes, then lowers it and looks at it in his own hand as though someone else had given it to him.",
+  "category": "war", "people": ["Tadhg Garbh"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104b", "type": "sequel"}]},
+
+ {"title": "Seonag gives the double handful of salt",
+  "era_year": 728,
+  "summary": "Old Seonag of the salt-folk kneels on the shingle and holds up a double handful of wet salt from the nearest pan. The king takes it, eats a little, and closes her fingers back over the rest before he lets go and walks away north the way he came.",
+  "category": "rulers", "people": ["Màiri nan Làn"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104b", "type": "answers"}]},
+
+ {"title": "The salt shore called the king's",
+  "era_year": 728,
+  "summary": "By evening word runs the length of the shore that the salt is the king's, though none can afterward say who first put it in those words. No blood is shed that day, the first time in two raids Baile ghorm's dead need no new name kept.",
+  "category": "rulers", "people": [], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104b", "type": "sequel"}]},
+
+ {"title": "The salt-folk raise their own cairn for Iain Dubh",
+  "era_year": 728,
+  "summary": "The salt-folk of Baile ghorm build a small cairn of their own on the rise above the pans, working in seven stones for the seven of Mòrag Chruaidh's raid though none of the seven died in this second fight, having come to think of both raids as one account.",
+  "category": "faith", "people": ["Màiri nan Làn"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104", "type": "legacy"}]},
+
+ {"title": "Tormod comes to the shore and absolves Tadhg Garbh",
+  "era_year": 729,
+  "summary": "Tormod rides south with four men to stand at the new cairn and see the pan where his father fell, asks Tadhg Garbh's name without anyone softening the telling, and says a man defending his own pans with his own hand owes no account for it.",
+  "category": "rulers", "people": ["Tormod Liath", "Tadhg Garbh"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104", "type": "sequel"}]},
+
+ {"title": "Tadhg Garbh rows out and does not return",
+  "era_year": 729,
+  "summary": "Tadhg Garbh takes a hide boat out alone before first light one spring morning and does not come back with the tide or any tide after. No storm is remembered that night, and no wreckage of the boat is ever found.",
+  "category": "land", "people": ["Tadhg Garbh", "Màiri nan Làn"], "places": ["burg:170"], "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0104", "type": "legacy"}]}
+]
