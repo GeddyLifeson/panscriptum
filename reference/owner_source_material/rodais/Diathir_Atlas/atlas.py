@@ -23,6 +23,14 @@ class Quiet(http.server.SimpleHTTPRequestHandler):
                       '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml',
                       '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.map': 'text/plain'}
 
+    def guess_type(self, path):
+        # decide the type from our own table first: on some Windows machines the registry says .js is text/plain,
+        # and a browser will not run the map-maker's main script (a module) served as plain text
+        ext = os.path.splitext(path)[1].lower()
+        if ext in self.extensions_map:
+            return self.extensions_map[ext]
+        return super().guess_type(path)
+
     def log_message(self, *args):
         pass
 
@@ -42,7 +50,22 @@ def free_port(preferred=8765):
     return 0
 
 
+def check_files():
+    """Say so plainly if a file the map needs is missing: an antivirus sometimes removes one when the zip is unpacked."""
+    fmg = os.path.join(HERE, 'fmg')
+    main_js = [f for f in os.listdir(fmg) if f.startswith('index-') and f.endswith('.js')] if os.path.isdir(fmg) else []
+    missing = [n for n in ('index.html', 'Diathir.map') if not os.path.isfile(os.path.join(HERE, n))]
+    if not os.path.isdir(fmg) or not main_js or not os.path.isfile(os.path.join(fmg, 'index.html')):
+        missing.append('fmg/index-*.js (the map-maker)')
+    if missing:
+        print('A file the Atlas needs is missing: ' + ', '.join(missing))
+        print('Your antivirus may have removed it when the zip was unpacked. Restore it from quarantine,')
+        print('or add this folder to the antivirus exceptions, and unpack the zip again.')
+        print()
+
+
 def main():
+    check_files()
     port = free_port()
     server = http.server.ThreadingHTTPServer(('127.0.0.1', port), functools.partial(Quiet, directory=HERE))
     url = 'http://127.0.0.1:%d/index.html' % server.server_address[1]

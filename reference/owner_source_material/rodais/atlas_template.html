@@ -214,10 +214,25 @@ function showDiagnostics(){
     '<div id="ldErr" style="margin-top:8px; font-size:13px; opacity:.85"></div>';
   l.appendChild(d); updateErrors();
 }
+var probed = {};
+function probeFile(name){   // ask the server for a file the map-maker could not load, and say what came back
+  if (probed[name]) return; probed[name] = 'checking';
+  fetch('fmg/' + name, {cache: 'no-store'}).then(function(r){
+    var type = r.headers.get('Content-Type') || 'no type'; return r.text().then(function(b){
+      var why = !r.ok ? 'the file is missing from the fmg folder (HTTP ' + r.status + '); an antivirus may have quarantined it'
+        : !/javascript/i.test(type) ? 'the server sent it as "' + type + '" instead of JavaScript; start the Atlas with its launcher from this new version'
+        : b.length < 1000 ? 'the file came back almost empty (' + b.length + ' bytes); an antivirus or web filter may have replaced it'
+        : 'the file arrived whole (' + Math.round(b.length / 1024) + ' KB, ' + type + '), so the browser or an extension refused to run it; try a private window or another browser';
+      probed[name] = name + ': ' + why; updateErrors(); }); })
+  .catch(function(e){ probed[name] = name + ': the request was blocked (' + e.message + '); an antivirus web shield or extension may be stopping it'; updateErrors(); });
+}
 function updateErrors(){
   var el = document.getElementById('ldErr'); if (!el) return;
   try { var early = (fmg() || {}).__atlasErrors || []; early.forEach(function(m){ if (fmgErrors.indexOf(m) < 0) fmgErrors.push(m); }); } catch(e){}
-  el.textContent = fmgErrors.length ? 'The map-maker reported: ' + fmgErrors.slice(-3).join(' | ') : 'No errors reported yet.';
+  fmgErrors.forEach(function(m){ var f = /failed to load \(([^)?]+)/.exec(m); if (f) probeFile(f[1]); });
+  var found = Object.keys(probed).map(function(k){ return probed[k]; }).filter(function(v){ return v !== 'checking'; });
+  el.textContent = (found.length ? 'Found: ' + found.join(' | ') + ' — ' : '') +
+    (fmgErrors.length ? 'The map-maker reported: ' + fmgErrors.slice(-3).join(' | ') : 'No errors reported yet.');
 }
 function peekMap(){ document.getElementById('loading').hidden = true; }
 function openGenerator(link){
