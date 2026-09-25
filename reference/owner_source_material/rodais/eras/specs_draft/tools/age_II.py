@@ -226,9 +226,9 @@ def build():
                          ['gazetteer B192', 'II-0054'], inferred=True, state='ring of stones, unsettled')
                 continue
             fb = g.get('founded_between')
-            # the tellings' villages, sized against the master's towns as they were counted at 1,000 people to the
-            # unit (the Age of Ailean does not shrink with the present; eras/POP_LOG.md)
-            pop = int(max(30, min(220, math.sqrt(BURGS[i]['pop'] * 1000.0 / RATE) * 1.0)))
+            # the tellings' villages, sized against the generator's towns (the Age of Ailean does not change with the
+            # present; eras/POP_LOG.md)
+            pop = int(max(30, min(220, math.sqrt(GEN_POP[i]) * 1.0)))
             pop = rnd(pop, AGE)
             fbtxt = g['founded_by'].split(';')[0]
             role = fbtxt[0].upper() + fbtxt[1:]

@@ -69,7 +69,9 @@ verification.
 - A section left out means "as on the master". For lists, `keep` gives the master ids to keep; everything
   else is dropped. `remove` drops the listed ids and keeps the rest.
 - Populations are in Azgaar's units: a burg's `population` times the master's `units.population.scale`
-  (50 people to the unit since the owner's decision of 2026-09-25) is its people (8.6 = 430). The drafts give
+  (38 people to the unit on the master since round 2 of eras/pop_sweep.py) is its people (8.6 = 327). The
+  master sets each town's population outright; the drafts may give `population_scale.people`, the island's whole
+  people, and the country is then scaled to hold the rest. The drafts give
   people; `convert_draft.py` divides by the master's scale.
 - Units follow `options.map.military.units`: `infantry`, `cavalry`, `riflemen`, `artillery` and `fleet`.
 

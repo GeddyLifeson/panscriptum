@@ -1,5 +1,5 @@
 """Age IV, the Age of Sundering (Landfall Era): the island on the eve of the Crossing."""
-# populations at the master's 50 people to the unit (eras/pop_sweep.py)
+# populations: the drafts' own figures, never above a town's present size (eras/pop_sweep.py, round 2)
 from common import *  # noqa: F401,F403
 
 AGE = 'IV'
@@ -159,33 +159,33 @@ def build():
 
     # ---------------------------------------------------------------- burgs
     SPECIAL = {
-        19: dict(population=514, kind='town', role='seat of the crown and of the Council of Custodians; the tally-houses, the firlot, the king-list; the lesser town beside Cathair mhòr', cites=['III-0069', 'III-0070', 'III-0148', 'IV-0005']),
-        23: dict(population=1700, kind='city', walls=True, role='the largest town on the island since LE 969: the market of all the south, Macha\'s great house with its floor of black and white, the copper-workers', cites=['III-0148', 'III-0150', 'III-0198']),
-        491: dict(population=440, kind='town', role='the vein-house above the town: keeper of Crom\'s stone and the custody-book, heir to the Keepers\' Hall; the lot-stones; Dòmhnall Ruadh\'s grave', cites=['III-0006', 'III-0034', 'III-0047', 'III-0138', 'III-0139']),
-        489: dict(population=1200, kind='town', role='the port of the fleet: the roll of the willing, the first keel, the west quay renamed Cidhe an Diosail; the seat of Manannan\'s order', cites=['III-0004', 'III-0008', 'III-0021', 'III-0041', 'III-0120']),
-        315: dict(population=600, kind='town', role='the spirit-house of the Old Spirits with the ancestor-posts of the eastern shires; the old Hall', cites=['III-0056', 'III-0165', 'III-0216']),
-        422: dict(population=510, kind='town', walls=True, role='the walled seat of Clann Ìomhair, makers of the ceremonial blades (their folding lost LE 1,569)', cites=['III-0068', 'III-0209']),
-        273: dict(population=360, kind='town', role='Clann Fhearchair\'s town and the king\'s second court near the mountain; the white stone of its hills', cites=['III-0058', 'III-0059', 'III-0181a']),
-        76: dict(population=141, kind='large village', role='once the richest place in the north-east on its salt (the fair of LE 959); its river silted, it keeps the market-court on the headland', cites=['III-0079', 'III-0147', 'III-0166', 'III-0168a']),
-        166: dict(population=510, kind='town', role='the first temple to Lia Fàil by name, roofed with northern slate; Queen Catrìona\'s own town', cites=['III-0087', 'III-0104', 'III-0114']),
-        20: dict(population=510, kind='town', role='the first house of the Hawk and the Book of the Hawk; the Hungry Hawk kept its house here after the schism', cites=['III-0062', 'III-0065', 'III-0140']),
-        132: dict(population=390, kind='town', walls=True, role='walled, with a market inside the landward gate; amber of the Hawk bay; the Fed Hawk\'s refuge', cites=['III-0088a', 'III-0142', 'III-0143']),
-        64: dict(population=350, kind='town', walls=True, role='kept its gates shut to all three claimants and holds its own gates and tolls by grant', cites=['III-0105', 'III-0115']),
-        17: dict(population=440, kind='town', role='the grain fleet of the cold way (laid up LE 1,634) and a house of disputation', cites=['III-0053', 'III-0128', 'III-0173', 'III-0215']),
-        297: dict(population=360, kind='town', role='its ridge market at every full moon and the tally-house of the south; its merchants go as one company to Muileann òg', cites=['III-0070a']),
-        246: dict(population=120, kind='large village', role='the first paper mill; Beathag nic Thòmais\'s loft of old copies, left to the town on condition nothing in it be burned', cites=['III-0217', 'III-0218', 'III-0221']),
-        443: dict(population=130, kind='large village', role='the salt port of the north-east after Ros fhionn silted, poorer since its pans went under the sea', cites=['III-0167', 'III-0226']),
-        77: dict(population=290, kind='town', walls=True, role='the house of disputation of the schools, shut for a generation after the table of years and reopened on condition', cites=['III-0074', 'III-0171', 'III-0172', 'III-0230']),
-        119: dict(population=180, kind='large village', role='a second harbour arm for the boats of Seann Tarr; the star-lore of its old steersmen, now lost', cites=['III-0014', 'III-0194']),
-        249: dict(population=130, kind='large village', role='its harbour destroyed by Gailleann Ghlas (LE 1,399), not rebuilt; its boats sail from Cuan ruadh', cites=['III-0192']),
-        305: dict(population=45, kind='village', role='half its houses empty since the sea-thieves and the poor harvests; its grain dues remitted', cites=['III-0132', 'III-0220']),
-        143: dict(population=35, kind='village', role='the watch from the headland (lapsed); the timber from beyond the mist came ashore here', cites=['III-0039', 'III-0236']),
+        19: dict(population=6000, kind='town', role='seat of the crown and of the Council of Custodians; the tally-houses, the firlot, the king-list; the lesser town beside Cathair mhòr', cites=['III-0069', 'III-0070', 'III-0148', 'IV-0005']),
+        23: dict(population=10468, kind='city', walls=True, role='the largest town on the island since LE 969: the market of all the south, Macha\'s great house with its floor of black and white, the copper-workers', cites=['III-0148', 'III-0150', 'III-0198']),
+        491: dict(population=975, kind='town', role='the vein-house above the town: keeper of Crom\'s stone and the custody-book, heir to the Keepers\' Hall; the lot-stones; Dòmhnall Ruadh\'s grave', cites=['III-0006', 'III-0034', 'III-0047', 'III-0138', 'III-0139']),
+        489: dict(population=8500, kind='town', role='the port of the fleet: the roll of the willing, the first keel, the west quay renamed Cidhe an Diosail; the seat of Manannan\'s order', cites=['III-0004', 'III-0008', 'III-0021', 'III-0041', 'III-0120']),
+        315: dict(population=2651, kind='town', role='the spirit-house of the Old Spirits with the ancestor-posts of the eastern shires; the old Hall', cites=['III-0056', 'III-0165', 'III-0216']),
+        422: dict(population=3490, kind='town', walls=True, role='the walled seat of Clann Ìomhair, makers of the ceremonial blades (their folding lost LE 1,569)', cites=['III-0068', 'III-0209']),
+        273: dict(population=1483, kind='town', role='Clann Fhearchair\'s town and the king\'s second court near the mountain; the white stone of its hills', cites=['III-0058', 'III-0059', 'III-0181a']),
+        76: dict(population=189, kind='large village', role='once the richest place in the north-east on its salt (the fair of LE 959); its river silted, it keeps the market-court on the headland', cites=['III-0079', 'III-0147', 'III-0166', 'III-0168a']),
+        166: dict(population=3500, kind='town', role='the first temple to Lia Fàil by name, roofed with northern slate; Queen Catrìona\'s own town', cites=['III-0087', 'III-0104', 'III-0114']),
+        20: dict(population=3500, kind='town', role='the first house of the Hawk and the Book of the Hawk; the Hungry Hawk kept its house here after the schism', cites=['III-0062', 'III-0065', 'III-0140']),
+        132: dict(population=2532, kind='town', walls=True, role='walled, with a market inside the landward gate; amber of the Hawk bay; the Fed Hawk\'s refuge', cites=['III-0088a', 'III-0142', 'III-0143']),
+        64: dict(population=2044, kind='town', walls=True, role='kept its gates shut to all three claimants and holds its own gates and tolls by grant', cites=['III-0105', 'III-0115']),
+        17: dict(population=3000, kind='town', role='the grain fleet of the cold way (laid up LE 1,634) and a house of disputation', cites=['III-0053', 'III-0128', 'III-0173', 'III-0215']),
+        297: dict(population=2275, kind='town', role='its ridge market at every full moon and the tally-house of the south; its merchants go as one company to Muileann òg', cites=['III-0070a']),
+        246: dict(population=368, kind='large village', role='the first paper mill; Beathag nic Thòmais\'s loft of old copies, left to the town on condition nothing in it be burned', cites=['III-0217', 'III-0218', 'III-0221']),
+        443: dict(population=900, kind='large village', role='the salt port of the north-east after Ros fhionn silted, poorer since its pans went under the sea', cites=['III-0167', 'III-0226']),
+        77: dict(population=2000, kind='town', walls=True, role='the house of disputation of the schools, shut for a generation after the table of years and reopened on condition', cites=['III-0074', 'III-0171', 'III-0172', 'III-0230']),
+        119: dict(population=1200, kind='large village', role='a second harbour arm for the boats of Seann Tarr; the star-lore of its old steersmen, now lost', cites=['III-0014', 'III-0194']),
+        249: dict(population=900, kind='large village', role='its harbour destroyed by Gailleann Ghlas (LE 1,399), not rebuilt; its boats sail from Cuan ruadh', cites=['III-0192']),
+        305: dict(population=300, kind='village', role='half its houses empty since the sea-thieves and the poor harvests; its grain dues remitted', cites=['III-0132', 'III-0220']),
+        143: dict(population=250, kind='village', role='the watch from the headland (lapsed); the timber from beyond the mist came ashore here', cites=['III-0039', 'III-0236']),
         355: dict(era_name=None, era_name_en='the coal-breakers\' mill of the eastern diggings', name_note='called Muileann chiar only from AE 82, when the silver guild settles its refiners here (IV-0172)',
-                  population=45, kind='village', role='a coal-breaking mill for the houses\' galleries in the hills', cites=['IV-0172', 'gazetteer B355'], inferred=True),
-        288: dict(population=60, kind='village', role='the potters of the grey-green glaze, lost with the last of Clann Mhic Phàil', cites=['III-0196', 'III-0203']),
-        324: dict(population=230, kind='large village', role='a shire seat on the wealth of its oyster beds', cites=['III-0119']),
-        30: dict(population=380, kind='town', role='burned twice: by Alasdair Bàn\'s ships in the Brothers\' War and by the great fire of LE 1,549; rebuilt with gable walls of stone', cites=['III-0178', 'III-0207']),
-        34: dict(population=190, kind='large village', role='the ancestor shrine and its feast-market of honey and wax lights', cites=['III-0119a']),
+                  population=300, kind='village', role='a coal-breaking mill for the houses\' galleries in the hills', cites=['IV-0172', 'gazetteer B355'], inferred=True),
+        288: dict(population=400, kind='village', role='the potters of the grey-green glaze, lost with the last of Clann Mhic Phàil', cites=['III-0196', 'III-0203']),
+        324: dict(population=1600, kind='large village', role='a shire seat on the wealth of its oyster beds', cites=['III-0119']),
+        30: dict(population=2600, kind='town', role='burned twice: by Alasdair Bàn\'s ships in the Brothers\' War and by the great fire of LE 1,549; rebuilt with gable walls of stone', cites=['III-0178', 'III-0207']),
+        34: dict(population=263, kind='large village', role='the ancestor shrine and its feast-market of honey and wax lights', cites=['III-0119a']),
     }
     pol_of = {int(k): v for k, v in d['province_polity'].items()}
     present = set()

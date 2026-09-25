@@ -90,9 +90,10 @@
   }
  ],
  "population_scale": {
-  "people_per_unit": 50,
+  "people_per_unit": 38,
   "kind_scale": 1.0,
-  "note": "populations are people; the master counts 50 to its population unit; kinds are read from population / kind_scale"
+  "people": 18000,
+  "note": "populations are people; the master counts 38 to its population unit in the country and sets each town outright; \"people\" is the whole island at the close of the age"
  },
  "burgs": [
   {

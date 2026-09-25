@@ -576,7 +576,7 @@
   "edit": {
    "489": {
     "name": "Skell",
-    "population": 6.0,
+    "population": 7.895,
     "features": {
      "citadel": 0,
      "plaza": 0,
@@ -587,7 +587,7 @@
    },
    "16": {
     "name": "Skell",
-    "population": 0.5,
+    "population": 0.658,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -597,7 +597,7 @@
    },
    "132": {
     "name": "Skell",
-    "population": 1.6,
+    "population": 2.105,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -609,7 +609,7 @@
    },
    "18": {
     "name": "Dunn",
-    "population": 3.0,
+    "population": 3.947,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -620,7 +620,7 @@
    },
    "295": {
     "name": "Dunn",
-    "population": 0.6,
+    "population": 0.789,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -630,7 +630,7 @@
    },
    "347": {
     "name": "Dunn",
-    "population": 1.2,
+    "population": 1.579,
     "group": "hamlet",
     "features": {
      "citadel": 0
@@ -639,7 +639,7 @@
    },
    "36": {
     "name": "Cwen",
-    "population": 2.4,
+    "population": 3.158,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -648,7 +648,7 @@
    },
    "14": {
     "name": "Cwen",
-    "population": 1.2,
+    "population": 1.579,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -658,13 +658,13 @@
    },
    "139": {
     "name": "Cwen",
-    "population": 1.6,
+    "population": 2.105,
     "group": "hamlet",
     "note": "inferred · cites: gazetteer B139, I-0097"
    },
    "47": {
     "name": "Bral",
-    "population": 1.8,
+    "population": 2.368,
     "group": "hamlet",
     "features": {
      "temple": 0,
@@ -674,7 +674,7 @@
    },
    "110": {
     "name": "Bral",
-    "population": 1.6,
+    "population": 2.105,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -685,7 +685,7 @@
    },
    "186": {
     "name": "Morn",
-    "population": 1.4,
+    "population": 1.842,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -695,13 +695,13 @@
    },
    "465": {
     "name": "Morn",
-    "population": 1.0,
+    "population": 1.316,
     "group": "hamlet",
     "note": "inferred · cites: I-0026, I-0097"
    },
    "328": {
     "name": "Brenn",
-    "population": 1.2,
+    "population": 1.579,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -710,13 +710,13 @@
    },
    "440": {
     "name": "Brenn",
-    "population": 0.8,
+    "population": 1.053,
     "group": "hamlet",
     "note": "inferred · cites: I-0027, I-0097"
    },
    "37": {
     "name": "Toll",
-    "population": 0.8,
+    "population": 1.053,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -725,7 +725,7 @@
    },
    "313": {
     "name": "Toll",
-    "population": 1.0,
+    "population": 1.316,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -736,13 +736,13 @@
    },
    "404": {
     "name": "Toll",
-    "population": 0.6,
+    "population": 0.789,
     "group": "hamlet",
     "note": "inferred · cites: gazetteer B404, I-0097"
    },
    "94": {
     "name": "Vell",
-    "population": 1.8,
+    "population": 2.368,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -752,13 +752,13 @@
    },
    "97": {
     "name": "Vell",
-    "population": 0.5,
+    "population": 0.658,
     "group": "hamlet",
     "note": "inferred · cites: I-0029, I-0097"
    },
    "127": {
     "name": "Vell",
-    "population": 1.0,
+    "population": 1.316,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -768,7 +768,7 @@
    },
    "162": {
     "name": "Vell",
-    "population": 0.8,
+    "population": 1.053,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -778,7 +778,7 @@
    },
    "64": {
     "name": "Warr",
-    "population": 1.4,
+    "population": 1.842,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -789,13 +789,13 @@
    },
    "128": {
     "name": "Warr",
-    "population": 0.8,
+    "population": 1.053,
     "group": "hamlet",
     "note": "inferred · cites: gazetteer B128, I-0097"
    },
    "249": {
     "name": "Tarr",
-    "population": 1.2,
+    "population": 1.579,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -804,7 +804,7 @@
    },
    "34": {
     "name": "Tarr",
-    "population": 0.6,
+    "population": 0.789,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -815,34 +815,34 @@
    },
    "402": {
     "name": "Tarr",
-    "population": 0.8,
+    "population": 1.053,
     "group": "hamlet",
     "note": "inferred · cites: gazetteer B402, I-0097"
    },
    "276": {
-    "population": 1.8,
+    "population": 2.368,
     "features": {
      "temple": 0
     },
     "note": "cites: I-0001, I-0002, I-0003, I-0038a, I-0068a, I-0073a"
    },
    "277": {
-    "population": 0.8,
+    "population": 1.053,
     "group": "hamlet",
     "note": "inferred · cites: I-0065, I-0066"
    },
    "454": {
-    "population": 0.7,
+    "population": 0.921,
     "group": "hamlet",
     "note": "inferred · cites: I-0005, I-0067"
    },
    "148": {
-    "population": 1.0,
+    "population": 1.316,
     "group": "hamlet",
     "note": "inferred · cites: I-0044, I-0046"
    },
    "392": {
-    "population": 0.4,
+    "population": 0.526,
     "group": "hamlet",
     "features": {
      "temple": 0
@@ -850,7 +850,7 @@
     "note": "inferred · cites: I-0073, I-0074"
    },
    "315": {
-    "population": 1.6,
+    "population": 2.105,
     "features": {
      "citadel": 0,
      "walls": 0,
@@ -860,15 +860,15 @@
     "note": "inferred · cites: I-0081, I-0082"
    },
    "61": {
-    "population": 1.2,
+    "population": 1.579,
     "note": "cites: I-0054, gazetteer B61"
    },
    "238": {
-    "population": 0.8,
+    "population": 1.053,
     "note": "cites: I-0042, gazetteer B238"
    },
    "95": {
-    "population": 0.6,
+    "population": 0.789,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -877,7 +877,7 @@
     "note": "inferred · cites: I-0043"
    },
    "19": {
-    "population": 1.2,
+    "population": 1.579,
     "features": {
      "citadel": 0,
      "walls": 0,
@@ -893,7 +893,7 @@
     "id": 1001,
     "name": "the seal-hunters' camp on Eilean mhin",
     "cell": 4226,
-    "population": 0.3,
+    "population": 0.395,
     "group": "hamlet",
     "note": "inferred · cites: I-0008, V-0022",
     "culture": 2
@@ -903,7 +903,7 @@
     "id": 1002,
     "name": "the autumn seal camp on Eilean fhada",
     "cell": 420,
-    "population": 0.3,
+    "population": 0.395,
     "group": "hamlet",
     "note": "inferred · cites: I-0008a",
     "culture": 2
@@ -913,7 +913,7 @@
     "id": 1003,
     "name": "Crannagan Loch chrom",
     "cell": 3064,
-    "population": 1.2,
+    "population": 1.579,
     "group": "hamlet",
     "note": "inferred · cites: I-0020, I-0122",
     "culture": 2
@@ -923,7 +923,7 @@
     "id": 1004,
     "name": "the summer camps in the passes",
     "cell": 4113,
-    "population": 0.02,
+    "population": 0.026,
     "group": "hamlet",
     "note": "inferred · cites: I-0079",
     "culture": 2
@@ -933,7 +933,7 @@
     "id": 1005,
     "name": "the deer-drive camp of the eastern forest",
     "cell": 1834,
-    "population": 0.5,
+    "population": 0.658,
     "group": "hamlet",
     "note": "inferred · cites: I-0053",
     "culture": 2
@@ -943,7 +943,7 @@
     "id": 1006,
     "name": "the hearths of the southern shore",
     "cell": 4108,
-    "population": 0.8,
+    "population": 1.053,
     "group": "hamlet",
     "note": "inferred · cites: I-0080",
     "culture": 2
@@ -1493,6 +1493,6 @@
   "keep": []
  },
  "rural_population": {
-  "scale": 0.0102
+  "scale": 0.0134
  }
 }

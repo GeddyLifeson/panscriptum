@@ -61,7 +61,8 @@ TARGETS = [
 ]
 
 # ---------------------------------------------------------------------------------------------- the map's numbers
-_L = open(MAP, encoding='utf-8', newline='').read().split('\r\n')
+# round 1 reads the generator's units (Rodos_renamed.map; the finished map's town units are set anew in round 2)
+_L = open(os.path.join(ROOT, 'Rodos_renamed.map'), encoding='utf-8', newline='').read().split('\r\n')
 _BURGS = {b['i']: b for b in json.loads(_L[15]) if isinstance(b, dict) and b.get('i') and not b.get('removed')}
 
 
@@ -497,7 +498,7 @@ def apply_table(text, old, new):
     """The appendix J rows: '{{place:burg:N}} | %s | OLD |' with the shire cell in the middle."""
     pre, post = old.split('%s')
     npre, npost = new.split('%s')
-    pat = re.compile(re.escape(pre) + r'([^|\n]*)' + re.escape(post))
+    pat = re.compile(re.escape(pre) + r'([^\n]*?)' + re.escape(post))
     n = len(pat.findall(text))
     return pat.sub(lambda m: npre + m.group(1) + npost, text), n
 
@@ -537,7 +538,7 @@ def where(files, texts, old, new):
     for p in files:
         if '%s' in new:
             pre, post = new.split('%s')
-            m = re.search(re.escape(pre) + r'[^|\n]*' + re.escape(post), texts[p])
+            m = re.search(re.escape(pre) + r'[^\n]*?' + re.escape(post), texts[p])
             if m:
                 out.append('%s:%d' % (os.path.relpath(p, ROOT), texts[p].count('\n', 0, m.start()) + 1))
             continue
@@ -647,7 +648,7 @@ def era_rows():
     return rows
 
 
-def main():
+def main_round1():
     check = '--check' in sys.argv
     place_layer(check)
     previews(check)
@@ -669,5 +670,562 @@ def main():
         print('log: %s' % os.path.relpath(LOG, ROOT))
 
 
+import collections  # noqa: E402
+
+# ================================================================================================= round 2
+# The coordinator, for the owner (2026-09-25, later the same day): the towns of a real country of 1.8 million.
+# Round 1 kept the generator's shares: one in seven in a town, the largest town 3,706 and the capital 514. Round 2:
+#   - about a third of the people in towns (19th-century mines, rail and ports): 613,288 in the 505 towns;
+#   - the capital, Cathair dhearg, the largest town, at 55,000; six towns of 10,000-28,000 (the western and southern
+#     Seann Skell, Ros dhomhain, Seann Bhral, Cnoc bheag, Cathair mhòr); market towns of 1,000-10,000; villages of a
+#     few hundred; the smallest hamlets some sixty;
+#   - the others keep their order (the generator's ranking), each set to the size of its rank on a smooth curve through
+#     those points, scaled so the shires hold 1,770,800 as before (so the head-due and the Treasury's roll still hold);
+#   - the country is lowered to match: 38 people to the map's unit (units.population.scale), and each town's
+#     population set explicitly (reconcile/place.json, record 15), with the urbanization rate left at 1;
+#   - the era drafts go back to their own shares of the present (0.035, 0.12, 0.45, 0.85) and their own town sizes
+#     (never above a town's present size), and each age's people is given outright, so the older ages are rural.
+RATE2 = 38
+CAPITAL, CAPITAL_PEOPLE = 19, 55000
+SHIRES_HEADS = 1770800
+ANCHORS = [(1, 28000), (6, 10500), (15, 5200), (16, 4900), (120, 1000), (504, 60)]
+ERA_PEOPLE = {'I': 18000, 'II': 111000, 'III': 300000, 'IV': 570000, 'V': 1000000, 'VI': 1500000}
+
+_F = open(MAP, encoding='utf-8', newline='').read().split('\r\n')
+_FB = {b['i']: b for b in json.loads(_F[15]) if isinstance(b, dict) and b.get('i') and not b.get('removed')}
+_RURAL = {st['i']: st.get('rural', 0) for st in json.loads(_F[14])}           # the cells' people, in units
+_CRURAL = {c['i']: c.get('rural', 0) for c in json.loads(_F[13])}
+
+
+def _curve(r):
+    for (r0, p0), (r1, p1) in zip(ANCHORS, ANCHORS[1:]):
+        if r0 <= r <= r1:
+            return p0 * (p1 / p0) ** ((r - r0) / float(r1 - r0))
+    raise ValueError(r)
+
+
+def town_people():
+    others = sorted((i for i in _BURGS if i != CAPITAL), key=lambda i: (-_BURGS[i]['population'], i))
+    urban = SHIRES_HEADS - int(round(_RURAL[1] * RATE2))
+    raw = [_curve(r) for r in range(1, len(others) + 1)]
+    k = (urban - CAPITAL_PEOPLE) / sum(raw)
+    out = {i: int(round(v * k)) for i, v in zip(others, raw)}
+    out[CAPITAL] = CAPITAL_PEOPLE
+    return out
+
+
+P2 = town_people()
+URBAN2 = sum(P2.values())
+RURAL2 = {c: v * RATE2 for c, v in _CRURAL.items()}
+WINDY2 = int(round(_RURAL[0] * RATE2))
+CULT_URBAN2 = {}
+for _i, _b in _FB.items():
+    CULT_URBAN2[_b['culture']] = CULT_URBAN2.get(_b['culture'], 0) + P2[_i]
+
+
+def r100(x):
+    return int(round(x / 100.0)) * 100
+
+
+# the peoples as the head-due counts them (to the hundred; the four add up to the shires' heads)
+DIA_TOWN, TUA_TOWN = r100(CULT_URBAN2[2]), r100(CULT_URBAN2[1])
+TUA_COUNTRY = r100(RURAL2[1] - WINDY2)
+DIA_COUNTRY = SHIRES_HEADS - DIA_TOWN - TUA_TOWN - TUA_COUNTRY
+
+
+def say(n):
+    """A number as a teller writes it: 55000 -> fifty-five thousand, 4323 -> four thousand three hundred."""
+    if n >= 1000:
+        th, rest = divmod(n, 1000)
+        head = (say(th) if th >= 100 else words(th)) + ' thousand'
+        return head + (' ' + say(rest) if rest else '')
+    if n >= 100:
+        h, rest = divmod(n, 100)
+        return ONES[h] + ' hundred' + (' and ' + words(rest) if rest else '')
+    return words(n) if n else 'none'
+
+
+def rounded(n):
+    if n >= 10000:
+        return int(round(n, -3))
+    if n >= 1000:
+        return int(round(n, -2))
+    if n >= 100:
+        return int(round(n, -1))
+    return int(round(n / 5.0) * 5) or 5
+
+
+def about(n):
+    """'nearly two thousand', 'some four thousand three hundred', 'more than twelve thousand'."""
+    r = rounded(n)
+    if r == n:
+        return say(r)
+    return ('nearly ' if r > n else 'more than ' if n - r > r * 0.02 else 'some ') + say(r)
+
+
+def under(n):
+    """'fewer than seventy': the next round figure above n."""
+    step = 10 if n < 100 else 50 if n < 1000 else 500
+    return say((n // step + 1) * step)
+
+
+# (burg, the text as round 1 left it, the text now); applied inside that burg's gazetteer entry and burg_features line
+G = []
+
+
+def g(bid, old, new):
+    G.append((bid, old, new))
+
+
+g(353, 'which has never numbered more than fifty or so,', 'which has never numbered more than %s or so,' % say(rounded(P2[353])))
+g(362, 'though it holds only a hundred or so people,', 'though it holds only %s people,' % about(P2[362]))
+g(363, 'a walled port town of nearly a thousand', 'a walled port town of %s' % about(P2[363]))
+g(371, 'a town of nearly two thousand on the Abhainn ìseal', 'a town of %s on the Abhainn ìseal' % about(P2[371]))
+g(371, 'a port of nearly two thousand', 'a port of %s' % about(P2[371]))
+g(385, 'It has never grown past thirty-five people.', 'It has never grown past %s people.' % under(P2[385]))
+g(405, 'It is now a village of some twelve hundred and the seat', 'It is now a village of %s and the seat' % about(P2[405]))
+g(411, 'the old field, is a village of some twelve hundred', 'the old field, is a village of %s' % about(P2[411]))
+g(415, 'Fewer than forty people live there now, among the spoil heaps.',
+  'Fewer than %s people live there now, among the spoil heaps.' % under(P2[415]))
+g(415, 'some thirty people among the spoil heaps', '%s people among the spoil heaps' % about(P2[415]))
+g(416, 'It is a large village now, of nearly five hundred.', 'It is a large village now, of %s.' % about(P2[416]))
+g(420, 'It is a large town of a thousand.', 'It is a large town of %s.' % about(P2[420]))
+g(422, 'a city of more than twelve hundred.', 'a city of %s.' % about(P2[422]))
+g(424, 'It is a town of more than a thousand, with grain-halls', 'It is a town of %s, with grain-halls' % about(P2[424]))
+g(431, 'a town of nearly three thousand whose harbour', 'a town of %s whose harbour' % about(P2[431]))
+g(436, 'the seat of its province, a town of six hundred.', 'the seat of its province, a town of %s.' % about(P2[436]))
+g(440, 'It is a port town of some four hundred and thirty and the older of the two',
+  'It is a port town of %s and the older of the two' % about(P2[440]))
+g(442, 'with seven hundred people.', 'with %s people.' % about(P2[442]))
+g(443, 'a town of some thirteen hundred in fact', 'a town of %s in fact' % about(P2[443]))
+g(447, 'It is small, fewer than fifty people, and its inn', 'It is small, fewer than %s people, and its inn' % under(P2[447]))
+g(453, 'A farming village of three hundred just south', 'A farming village of %s just south' % about(P2[453]))
+g(454, 'It is small, fewer than forty people.', 'It is small, fewer than %s people.' % under(P2[454]))
+g(455, 'It is a small place of fewer than a hundred.', 'It is a small place of fewer than %s.' % under(P2[455]))
+g(456, 'It is a large town of more than eight hundred,', 'It is a large town of %s,' % about(P2[456]))
+g(460, 'It is a town of some two hundred and sixty.', 'It is a town of %s.' % about(P2[460]))
+g(461, 'a temple village of Macha of some twelve hundred', 'a temple village of Macha of %s' % about(P2[461]))
+g(461, 'a church village of some twelve hundred', 'a church village of %s' % about(P2[461]))
+g(462, 'the eastern mining district, a town of nearly a thousand.', 'the eastern mining district, a town of %s.' % about(P2[462]))
+g(464, 'It is a town of some five hundred and seventy.', 'It is a town of %s.' % about(P2[464]))
+g(487, 'It is a town of some five hundred and seventy.', 'It is a town of %s.' % about(P2[487]))
+g(465, 'It is a fishing village of a hundred and fifty.', 'It is a fishing village of %s.' % about(P2[465]))
+g(466, 'is a town of a thousand built around', 'is a town of %s built around' % about(P2[466]))
+g(467, 'Fewer than fifty people live there now.', 'Fewer than %s people live there now.' % under(P2[467]))
+g(471, 'though it holds under a hundred and fifty people.', 'though it holds under %s people.' % under(P2[471]))
+g(472, 'It is a town of some four hundred and fifty and the market', 'It is a town of %s and the market' % about(P2[472]))
+g(475, 'a river port of more than two thousand', 'a river port of %s' % about(P2[475]))
+g(475, 'harbour town of two thousand crowned', 'harbour town of %s crowned' % about(P2[475]))
+g(477, 'a mill town of some seven hundred', 'a mill town of %s' % about(P2[477]))
+g(478, 'It has fewer than fifty people.', 'It has fewer than %s people.' % under(P2[478]))
+g(485, 'It is a town of nearly five hundred.', 'It is a town of %s.' % about(P2[485]))
+g(488, 'It is a small village of fewer than a hundred.', 'It is a small village of fewer than %s.' % under(P2[488]))
+g(489, 'a city of some three thousand seven hundred and the largest place on the island,',
+  'a city of %s and, after the capital, the largest place on the island,' % about(P2[489]))
+g(492, 'a town of a thousand at a ford', 'a town of %s at a ford' % about(P2[492]))
+g(493, 'It is small, fewer than forty people.', 'It is small, fewer than %s people.' % under(P2[493]))
+g(495, 'a white town of some four hundred and seventy', 'a white town of %s' % about(P2[495]))
+g(496, 'It is a town of a hundred and fifty in the eastern mining district.',
+  'It is a town of %s in the eastern mining district.' % about(P2[496]))
+g(497, 'It is a port town of two hundred.', 'It is a port town of %s.' % about(P2[497]))
+g(500, 'a town of five hundred that grew', 'a town of %s that grew' % about(P2[500]))
+g(501, 'a town of some two hundred and thirty, of quarrymen', 'a town of %s, of quarrymen' % about(P2[501]))
+g(502, 'a town of some seventeen hundred with a citadel', 'a town of %s with a citadel' % about(P2[502]))
+g(503, 'It has fewer than forty people and lives on the garrison.',
+  'It has fewer than %s people and lives on the garrison.' % under(P2[503]))
+g(504, 'its six hundred people guard', 'its %s people guard' % say(rounded(P2[504])))
+
+
+def row(i):
+    return format(P2[i], ',')
+
+
+def row10(i):
+    return format(int(round(P2[i] / 10.0)) * 10, ',')
+
+
+RULES2 = [
+    (HEADS, '| 220,600 | 1,361,200 |', '| %s | %s |' % (fmt(DIA_TOWN), fmt(DIA_COUNTRY))),
+    (HEADS, '| 27,200 | 161,800 within the shires;', '| %s | %s within the shires;' % (fmt(TUA_TOWN), fmt(TUA_COUNTRY))),
+    (HEADS, 'some 27,200 people in them.', 'some %s people in them.' % fmt(TUA_TOWN)),
+    (HEADS, 'Together the two peoples number some 1,770,800 within the shires, one in seven of them in a town.',
+            'Together the two peoples number some 1,770,800 within the shires, about one in three of them in a town.'),
+    (HEADS, 'The Moot\'s tallies put them near four hundred and fifty,', 'The Moot\'s tallies put them near %s,' % say(rounded(WINDY2))),
+    (HEADS, 'The windy coast keeps, by the Moot\'s tally, about four hundred and fifty people,',
+            'The windy coast keeps, by the Moot\'s tally, about %s people,' % say(rounded(WINDY2))),
+    (HEADS, 'Sealers, fowlers and herders, near four hundred and fifty by the Moot\'s tally;',
+            'Sealers, fowlers and herders, near %s by the Moot\'s tally;' % say(rounded(WINDY2))),
+    (KINGDOM, 'at nearly a hundred and sixty thousand. The Old Spirits come next, at a little over sixty thousand, and the '
+              'Church holds some twenty-seven thousand. Among the orders Macha\'s is the largest in people, at nearly '
+              'sixty thousand, close behind the Old Spirits,',
+              'at some four hundred and thirty thousand. The Old Spirits come next, at nearly a hundred and thirty '
+              'thousand, and the Church holds some fifty-four thousand. Among the orders Macha\'s is the largest in '
+              'people, at nearly a hundred and ninety thousand with the capital, more than the Old Spirits hold,'),
+    (KINGDOM, 'The largest\ntowns on the map today stand on the sea or on the rivers that run down to it, and the two largest bear a name older than Dia-thìris:',
+              'The largest\ntowns on the map today stand on the sea or on the rivers that run down to it. The largest of all is the capital, and the next two bear a name older than Dia-thìris:'),
+    (KINGDOM, '| {{place:burg:489}} | Seann Skell | An Creideamh Sean (Òrd Mhanannain) |',
+              '| {{place:burg:19}} | Cathair dhearg | An Creideamh Sean (Òrd Mhacha) | %s |\n'
+              '| {{place:burg:489}} | Seann Skell | An Creideamh Sean (Òrd Mhanannain) |' % row(19)),
+    (KINGDOM, 'The capital itself is not among them. Cathair dhearg is counted at 514; its harbour, Ros\ndhomhain, is five times its size.',
+              'Cathair dhearg is twice the size of the western Seann Skell, and nearly three times that of its own harbour, Ros\ndhomhain.'),
+    (KINGDOM, 'The capital and every city of more than a thousand people, largest first.',
+              'The capital and every city of more than two thousand people, largest first.'),
+    (KINGDOM, 'The seat of Manannan\'s order and the largest town on Dia-thìr.',
+              'The seat of Manannan\'s order and the largest town on Dia-thìr after the capital.'),
+    (KINGDOM, 'Its seat, the western Seann Skell, is the largest town on Dia-thìr.',
+              'Its seat, the western Seann Skell, is the largest town on Dia-thìr after the capital.'),
+    (KINGDOM, 'The largest towns are {{place:burg:27}}, Cathair mhòr, {{place:burg:67}}, {{place:burg:36}} and {{place:burg:45}}.',
+              'The largest towns are the capital, {{place:burg:27}}, Cathair mhòr, {{place:burg:67}} and {{place:burg:36}}.'),
+    (TOWNS, 'population 3,706 is the largest of all 505 burgs', 'population %s is the largest of all 505 burgs after the capital\'s' % row(489)),
+]
+for _i, _cur in [(489, '3,706'), (431, '2,895'), (27, '2,579'), (110, '2,484'), (20, '2,483'), (23, '2,465'), (475, '2,132'),
+                 (395, '2,107'), (95, '2,100'), (209, '2,037'), (143, '1,621'), (305, '1,366'), (142, '1,256')]:
+    RULES2.append((TOWNS, '{{place:burg:%d}} | %%s | %s |' % (_i, _cur), '{{place:burg:%d}} | %%s | %s |' % (_i, row(_i))))
+for _i, _cur in [(19, '510'), (489, '3,710'), (27, '2,580'), (23, '2,460'), (365, '1,790'), (166, '1,750'), (77, '1,710'),
+                 (30, '1,620'), (26, '1,470'), (422, '1,280'), (17, '1,200'), (63, '1,190'), (315, '1,130'), (132, '1,110'),
+                 (255, '1,050'), (297, '1,050')]:
+    RULES2.append((TOWNS, '{{place:burg:%d}} | {{place:province:%%s | %s |' % (_i, _cur),
+                   '{{place:burg:%d}} | {{place:province:%%s | %s |' % (_i, row10(_i))))
+
+
+def place_layer2(check):
+    raw = open(PLACE, encoding='utf-8').read()
+    d = json.loads(raw)
+    edits = d['map_edits']
+    for e in edits:
+        if e['record'] == 1 and e['path'] == '.units.population.scale':
+            e['value'] = RATE2
+            e['why'] = ('The owner: about as many people as Northern Ireland, some 1.8 million in DE 27, where the generator '
+                        'gave the island 35.4 million. At %d people to the unit the country (the cells) holds %s and the '
+                        'shires %s with their towns; the towns are set one by one below (record 15), %s people, about '
+                        'a third, the capital the largest. The urbanization rate stays 1. Every figure in the history that '
+                        'follows is scaled with them (eras/POP_LOG.md).' % (
+                            RATE2, fmt(int(round(sum(_RURAL.values()) * RATE2))), fmt(SHIRES_HEADS), fmt(URBAN2)))
+    have = {(e['record'], e['path']): e for e in edits}
+    n = 0
+    for i in sorted(P2):
+        path = '[%d].population' % i
+        val = round(P2[i] / float(RATE2), 3)
+        e = have.get((15, path))
+        if e is None:
+            edits.append({'record': 15, 'path': path, 'old': _BURGS[i]['population'], 'value': val,
+                          'why': '%s: %s people (the %s town of 505).' % (_FB[i]['name'], fmt(P2[i]), ordinal(i))})
+            n += 1
+        elif e['value'] != val:
+            e['value'] = val
+            n += 1
+    urban = collections.OrderedDict()
+    urban[(14, '[1].urban')] = round(URBAN2 / float(RATE2), 3)
+    for c, v in sorted(CULT_URBAN2.items()):
+        urban[(13, '[%d].urban' % c)] = round(v / float(RATE2), 3)
+    for (rec, path), val in urban.items():
+        e = have.get((rec, path))
+        if e is None:
+            edits.append({'record': rec, 'path': path, 'value': val,
+                          'why': 'The towns\' people, in units, as Azgaar sums them, after the towns set above.'})
+            n += 1
+        elif e['value'] != val:
+            e['value'] = val
+            n += 1
+    note = (' Round 2: 38 people to the unit, and every town\'s people set here, a third of the people in towns and '
+            'the capital the largest (55,000).')
+    if note.strip() not in d['summary']:
+        d['summary'] += note
+    new = json.dumps(d, ensure_ascii=False, indent=1) + ('\n' if raw.endswith('\n') else '')
+    if new != raw:
+        print('place.json: %d map edits added or changed' % n)
+        if not check:
+            open(PLACE, 'w', encoding='utf-8').write(new)
+
+
+_RANK = {i: k + 1 for k, i in enumerate(sorted(P2, key=lambda i: (-P2[i], i)))}
+
+
+def ordinal(i):
+    r = _RANK[i]
+    return '%d%s' % (r, 'th' if 10 <= r % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(r % 10, 'th'))
+
+
+def previews2(check):
+    raw = open(PREVIEWS, encoding='utf-8').read()
+    rows = json.loads(raw)
+    changed = 0
+    for r in rows:
+        pop = P2[r['id']]
+        url = urllib.parse.urlsplit(r['link'])
+        q = urllib.parse.parse_qsl(url.query, keep_blank_values=True)
+        d = dict(q)
+        if 'city-generator' in url.path:
+            size = min(100, max(6, int(-(-(2.13 * (pop / 10.0) ** 0.385) // 1))))
+            d['population'], d['size'] = str(pop), str(size)
+        else:
+            c = pop
+            w = 1600 if c > 1500 else 1400 if c > 1000 else 1000 if c > 500 else 800 if c > 200 else 600 if c > 100 else 400
+            tags = [t for t in d['tags'].split(',') if t not in ('sparse', 'dense')]
+            if c < 100:
+                tags.append('sparse')
+            elif c > 300:
+                tags.append('dense')
+            d['pop'], d['width'], d['height'], d['tags'] = str(c), str(w), str(int(round(w / 2.05))), ','.join(tags)
+        link = urllib.parse.urlunsplit((url.scheme, url.netloc, url.path,
+                                        urllib.parse.urlencode([(k, d[k]) for k, _ in q]), url.fragment))
+        if link != r['link']:
+            r['link'] = link
+            changed += 1
+    new = '[\n' + ',\n'.join(json.dumps(r, ensure_ascii=False) for r in rows) + '\n]' + ('\n' if raw.endswith('\n') else '')
+    if new != raw:
+        print('town_previews.json: %d links' % changed)
+        if not check:
+            open(PREVIEWS, 'w', encoding='utf-8').write(new)
+
+
+# ------------------------------------------------------------------ the era tools: back to their own figures
+ORIG_REV = '5eb06a5'           # the commit before round 1 touched the tools
+MARK2 = '# populations: the drafts\' own figures, never above a town\'s present size (eras/pop_sweep.py, round 2)'
+
+
+def era_tools2(check):
+    import subprocess
+    out = []
+    prev = {int(m.group(1)): int(m.group(2)) for m in re.finditer(
+        r'(\d+): dict\(population=(\d+)', open(os.path.join(TOOLS, 'age_II.py'), encoding='utf-8').read())}
+    for age in ('III', 'IV', 'V', 'VII'):
+        path = os.path.join(TOOLS, 'age_%s.py' % age)
+        text = open(path, encoding='utf-8').read()
+        if MARK2 in text:
+            continue
+        rel = os.path.relpath(path, os.path.dirname(ROOT))
+        git_root = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'], cwd=ROOT, text=True).strip()
+        orig = subprocess.check_output(['git', 'show', '%s:%s' % (ORIG_REV, os.path.relpath(path, git_root))],
+                                       cwd=ROOT, text=True)
+        olines = orig.split('\n')
+        text = text.replace('\n' + MARK, '')
+        lines = text.split('\n')
+        assert len(lines) == len(olines), 'age_%s.py: lines added since round 1' % age
+        for n, (line, oline) in enumerate(zip(lines, olines)):
+            a = re.findall(r'population=(\d+)', line)
+            b = re.findall(r'population=(\d+)', oline)
+            if not a or a == b:
+                continue
+            assert len(a) == len(b), 'age_%s.py:%d' % (age, n + 1)
+            bid = re.match(r'\s*(\d+): dict\(', line)
+            bid = int(bid.group(1)) if bid else None
+            new_vals = []
+            for v in map(int, b):
+                nv = v
+                if age == 'VII':
+                    nv = rnd(v * MIL)                    # the regimental post: the regiments are at three tenths
+                elif bid is not None:
+                    nv = max(nv, prev.get(bid, 0))
+                    nv = min(nv, P2[bid])               # never above the town's present size
+                    prev[bid] = nv
+                new_vals.append(nv)
+            it = iter(new_vals)
+            new_line = re.sub(r'population=\d+', lambda m: 'population=%d' % next(it), line)
+            lines[n] = new_line
+            out.append((age, bid, int(a[0]), new_vals[0], n + 1))
+        text = '\n'.join(lines)
+        i = text.find('"""', text.find('"""') + 3) + 3
+        text = text[:i] + '\n' + MARK2 + text[i:]
+        if not check:
+            open(path, 'w', encoding='utf-8').write(text)
+    for age, bid, v, nv, ln in out:
+        print('era tool age_%s.py:%d  burg %s  %d -> %d' % (age, ln, bid, v, nv))
+    return out
+
+
+def apply_scoped(text, bid, old, new, path):
+    """old -> new inside burg bid's gazetteer entry or burg_features line only."""
+    if path.endswith('burg_features.json'):
+        m = re.search(r'(?m)^"%d": \{.*$' % bid, text)
+    else:
+        m = re.search(r'(?ms)^ "%d": \{.*?(?=^ "\d+": \{|\Z)' % bid, text)
+    if not m or old not in m.group(0):
+        return text, 0
+    seg = m.group(0).replace(old, new)
+    return text[:m.start()] + seg + text[m.end():], 1
+
+
+def run_rules2(check):
+    files = targets()
+    applied = []
+    for path in files:
+        text = open(path, encoding='utf-8').read()
+        new_text = text
+        for kind, old, new in RULES2 + EXTRA2:
+            if '%s' in old:
+                new_text, k = apply_table(new_text, old, new)
+                if k:
+                    applied.append((kind, os.path.relpath(path, ROOT), k, old[:80]))
+                continue
+            for o, n in forms(old, new, path):
+                new_text, k = apply(new_text, o, n)
+                if k:
+                    applied.append((kind, os.path.relpath(path, ROOT), k, o[:80]))
+        if '/gazetteer/' in path or path.endswith('burg_features.json'):
+            for bid, old, new in G:
+                new_text, k = apply_scoped(new_text, bid, old, new, path)
+                if k:
+                    applied.append((TOWNS, os.path.relpath(path, ROOT), k, '%d: %s' % (bid, old[:70])))
+        if new_text != text and not check:
+            if open(path, encoding='utf-8').read() != text:
+                raise SystemExit('%s changed while it was being swept; run again' % path)
+            open(path, 'w', encoding='utf-8').write(new_text)
+    for kind, rel, k, o in applied:
+        print('%-8s %-50s x%d  %s' % (kind, rel, k, o.replace('\n', ' ')))
+    return files
+
+
+# the deaths counted in one town, weighed again against the towns as round 2 sizes them in their ages (IV: Caol
+# fhiadhaich some 210, Inis chrom some 500; V: Ros dhomhain some 18,900, Baile Mòr ruadh some 510, Seann Toll some
+# 530; the start of VI: Doire ghlas some 2,400, the three wave towns some 500-600 together). Round 1 cut them for towns
+# a twentieth of their size; where the old count fits the town again it comes back.
+EXTRA2 = [
+    (DEAD, 'kills some thirty before it burns out', 'kills some ten before it burns out'),
+    (DEAD, 'A coughing sickness killed some thirty at', 'A coughing sickness killed some ten at'),
+    (DEAD, 'The Mission counts twenty-seven dead.', 'The Mission counts four hundred and six dead.'),
+    (DEAD, 'The Mission counted twenty-seven dead.', 'The Mission counted four hundred and six dead.'),
+    (DEAD, 'the Mission counts twenty-seven\ndead', 'the Mission counts four hundred and six\ndead'),
+    (DEAD, 'killed twenty-seven by the Mission\'s count', 'killed four hundred and six by the Mission\'s count'),
+    (DEAD, '| 27 by the Mission;', '| 406 by the Mission;'),
+    (DEAD, 'the pox killed 27.', 'the pox killed 406.'),
+    (DEAD, 'kept the dead below fifteen', 'kept the dead below two hundred'),
+    (DEAD, 'keeping the dead under fifteen', 'keeping the dead under two hundred'),
+    (DEAD, 'puts the dead at Doire ghlas above ten', 'puts the dead at Doire ghlas above two hundred'),
+    (DEAD, 'more than ten were buried that winter', 'more than two hundred were buried that winter'),
+    (DEAD, '| above 10 (Tuathaich memory) |', '| above 200 (Tuathaich memory) |'),
+    (DEAD, 'Three townsfolk die.', 'Twenty-three townsfolk die.'),
+    (DEAD, 'and burned the town behind it, killing three', 'and burned the town behind it, killing twenty-three'),
+    (DEAD, '| Three townsfolk dead |', '| Twenty-three townsfolk dead |'),
+    (DEAD, 'and three townsfolk died.', 'and twenty-three townsfolk died.'),
+    (DEAD, 'the fishing town behind it set burning; three dead', 'the fishing town behind it set burning; twenty-three dead'),
+    # the Tuathaich: the humans left on the island were a few thousand; the northern shires held some hundred thousand at
+    # the Severance, most of them Dia-thìrich who stayed under the truce, and they are the Tuathaich's forebears too
+    (ERAS, 'A few thousand left on the island: the concession families of the north-west, and the families of Ros bheag, '
+           'Cuan shean, Baile dhìreach and the south-west now in the columns going north.',
+           'A few thousand left on the island: the concession families of the north-west, and the families of Ros bheag, '
+           'Cuan shean, Baile dhìreach and the south-west now in the columns going north. With the Dia-thìrich of the '
+           'north-west who stay under the truce and cast in their lot with them, the northern shires hold some hundred '
+           'thousand people at the Severance, and all of them are the forebears of the Tuathaich.'),
+]
+
+
+def write_log2(files, tools):
+    texts = {p: open(p, encoding='utf-8').read() for p in files}
+    prev = open(LOG, encoding='utf-8').read() if os.path.exists(LOG) else ''
+    head = prev.split('\n## Round 2')[0].rstrip('\n')
+    if 'Round 2 below' not in head:
+        head = head.replace('The script is `eras/pop_sweep.py`; its docstring gives the rules.',
+                            'The script is `eras/pop_sweep.py`; its docstring gives the rules. **Round 2 below supersedes '
+                            'the town sizes, the peoples\' split, the faiths\' counts and the era shares of round 1.**')
+    ranked = sorted(P2, key=lambda i: (-P2[i], i))
+    out = [head, '', '## Round 2: the towns of a real country (2026-09-25)', '',
+           'The coordinator, for the owner: a real country of 1.8 million, with a third of its people in towns (mines, '
+           'rail and ports), the capital the largest town (40,000-70,000), a handful of towns of 10,000-30,000, market '
+           'towns of 1,000-5,000 and villages of a few hundred, the total kept. The round-2 code in `eras/pop_sweep.py` '
+           'gives the rules.', '',
+           '| | round 1 | round 2 |', '|---|---|---|',
+           '| people to the map\'s unit (units.population.scale) | 50 | %d (the country); each town set outright |' % RATE2,
+           '| people on the land | 1,771,220 | %s |' % fmt(int(round(sum(_RURAL.values()) * RATE2)) + URBAN2),
+           '| within the shires (the head-due\'s count) | 1,770,800 | %s |' % fmt(SHIRES_HEADS),
+           '| in towns | 247,732 (one in seven) | %s (%.1f%%, about one in three) |' % (fmt(URBAN2), 100.0 * URBAN2 / SHIRES_HEADS),
+           '| Dia-thìrich: in towns / in the country | 220,600 / 1,361,200 | %s / %s |' % (fmt(DIA_TOWN), fmt(DIA_COUNTRY)),
+           '| Tuathaich: in towns / in the country within the shires | 27,200 / 161,800 | %s / %s |' % (fmt(TUA_TOWN), fmt(TUA_COUNTRY)),
+           '| the windy coast | 447 | %d |' % WINDY2,
+           '| the capital, Cathair dhearg | 514 (the 61st town) | %s (the largest) |' % fmt(P2[CAPITAL]),
+           '| the Old Faith / Old Spirits / Church, in their towns | 158,875 / 61,696 / 27,160 | 431,845 / 126,993 / 54,451 |',
+           '| Òrd Mhacha, in its towns | about 60,000 | 187,920 (with the capital) |',
+           '| towns of 10,000 and more / 1,000-9,999 / 100-999 / under 100 | 0 / 26 / 222 / 257 | %d / %d / %d / %d |' % (
+               sum(1 for v in P2.values() if v >= 10000), sum(1 for v in P2.values() if 1000 <= v < 10000),
+               sum(1 for v in P2.values() if 100 <= v < 1000), sum(1 for v in P2.values() if v < 100)),
+           '', 'The largest towns:', '', '| rank | town | people |', '|---|---|---|']
+    for k, i in enumerate(ranked[:16]):
+        out.append('| %d | %s (burg %d) | %s |' % (k + 1, _FB[i]['name'], i, fmt(P2[i])))
+    out += ['', 'The curve (rank among the other 504 towns -> people, geometric between the points, then scaled by %.4f to '
+                'the towns\' total): %s.' % ((URBAN2 - CAPITAL_PEOPLE) / sum(_curve(r) for r in range(1, 505)),
+                                              ', '.join('%d -> %s' % (r, fmt(p)) for r, p in ANCHORS)), '',
+            '### The ages', '',
+            'The era drafts go back to their own figures: the shares of the present (III 0.035, IV 0.12, V 0.45, VI 0.85, '
+            'as first drafted), their clamps, and the towns the annals give a size to at the drafts\' own sizes, each '
+            'never above its present size and never below its size in the age before. Each age\'s people is given '
+            'outright (`ERA_PEOPLE` in `eras/specs_draft/tools/common.py`), so the country is scaled to it and the older '
+            'ages are rural:', '', '| age | people | in towns |', '|---|---|---|']
+    out += ERA_ROWS2
+    out += ['', 'The drafts\' towns, round 1 -> round 2:', '']
+    for age, bid, v, nv, ln in tools:
+        out.append('- age_%s.py:%d, %s: %s -> %s' % (age, ln, 'burg %d (%s)' % (bid, _FB[bid]['name']) if bid else 'new burg',
+                                                     fmt(v), fmt(nv)))
+    out += ['', '### The changes', '']
+    for kind, old, new in RULES2 + EXTRA2:
+        w = where(files, texts, old, new)
+        out += ['- **before:** %s' % old.replace('\n', ' ').replace('%s', '…'),
+                '  **after:** %s' % new.replace('\n', ' ').replace('%s', '…'),
+                '  **in:** %s' % (', '.join(w) or '(nowhere: text not present)'), '']
+    out += ['#### The gazetteer (inside each town\'s entry; burg_features.json quotes it)', '']
+    for bid, old, new in G:
+        w = []
+        for p in files:
+            if ('/gazetteer/' in p or p.endswith('burg_features.json')) and new in texts[p]:
+                w.append('%s:%d' % (os.path.relpath(p, ROOT), line_of(texts[p], new)))
+        out += ['- **%s (burg %d, %s):** %s -> %s  (%s)' % (_FB[bid]['name'], bid, fmt(P2[bid]), old, new, ', '.join(w) or 'not present')]
+    out += ['', '### Reviewed and kept in round 2', '']
+    out += KEPT2
+    out.append('')
+    open(LOG, 'w', encoding='utf-8').write('\n'.join(out))
+
+
+ERA_ROWS2 = []
+KEPT2 = [
+    '- The other deaths of round 1 stand: some forty of the spotted fever at Inis chrom (a town of some 500 in the Age '
+    'of Sundering), seventeen of the drought-fever at Baile Mòr ruadh (some 510), a little over forty drowned by the '
+    'Great Wave (three towns of some 500-600 together).',
+    '- The Tuathaich: some 178,000 today (54,451 in their 64 towns, 123,000 in the country within the shires, 340 on the '
+    'windy coast). The humans left on the island were a few thousand (IV-0363 and the truce); the northern shires held '
+    'some 101,000 at the Severance (the era V map: 72,700 in the country, 28,400 in the towns), most of them Dia-thìrich '
+    'of the north-west who stayed under the truce, as the Age V draft has them choosing. From some 101,000 to some '
+    '150,000 at SE 71 (the era VI map) and 178,000 today is growth of about six in a thousand a year. The Age V draft\'s '
+    'note on the humans now says so, and so does the People rule in WRITERS_GUIDE.md.',
+    '- The capital\'s gazetteer entry ("the royal precinct is small for a capital, ringed by the great harbours") speaks '
+    'of the precinct, and stands; the gazetteer\'s "one of the largest" and "the largest of the ..." stand, since every '
+    'town but the capital keeps its rank.',
+    '- The regiments (some 3,300 men) and the head-due (18 purses on every 5,000 heads, 1,770,800 heads) stand as round 1 '
+    'left them: the shires\' heads are the same.',
+]
+
+
+def era_rows2():
+    rows = []
+    for age in ('I', 'II', 'III', 'IV', 'V', 'VI', 'VII'):
+        d = json.load(open(os.path.join(ROOT, 'eras', 'specs_draft', 'age_%s.json' % age), encoding='utf-8'))
+        town = sum(b['population'] for b in d['burgs']) + sum(b['population'] for b in d['new_burgs'])
+        ppl = ERA_PEOPLE.get(age, SHIRES_HEADS + WINDY2)
+        rows.append('| %s | ~%s | %s (%d%%) |' % (age, fmt(ppl), fmt(town), round(100.0 * town / ppl)))
+    return rows
+
+
+def main():
+    check = '--check' in sys.argv
+    place_layer2(check)
+    previews2(check)
+    tools = era_tools2(check)
+    files = run_rules2(check)
+    if check:
+        return
+    try:
+        ERA_ROWS2[:] = era_rows2()
+    except (OSError, KeyError, ValueError):
+        ERA_ROWS2[:] = ['| (run again after the era drafts are rebuilt) | | |']
+    prev = open(LOG, encoding='utf-8').read().split('\n## Round 2')[1] if '\n## Round 2' in open(LOG, encoding='utf-8').read() else ''
+    tl = tools or [(m.group(1), int(m.group(3)) if m.group(3) else None, int(m.group(4).replace(',', '')),
+                    int(m.group(5).replace(',', '')), int(m.group(2)))
+                   for m in (re.match(r'- age_(\w+)\.py:(\d+), (?:burg (\d+) \([^)]*\)|new burg): ([\d,]+) -> ([\d,]+)', l)
+                             for l in prev.split('\n')) if m]
+    write_log2(files, tl)
+    print('log: %s' % os.path.relpath(LOG, ROOT))
+
+
 if __name__ == '__main__':
-    main()
+    if '--round1' in sys.argv:
+        main_round1()
+    else:
+        main()

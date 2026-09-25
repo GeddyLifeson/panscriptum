@@ -1,0 +1,128 @@
+[
+ {
+  "en": "the harbour-house of Seann Skell",
+  "dt": "Taigh a' Chalaidh",
+  "gloss": "the harbour-house",
+  "kind": "landmark"
+ },
+ {
+  "en": "the harbour rolls",
+  "dt": "Rolla a' Chalaidh",
+  "gloss": "the harbour rolls of Seann Skell",
+  "kind": "document"
+ },
+ {
+  "en": "the years of the Diosal",
+  "dt": "Bliadhnaichean an Diosail",
+  "gloss": "the years of the Diosal, counted from the sunwise turn",
+  "kind": "reckoning"
+ },
+ {
+  "en": "the keel-song",
+  "dt": "Òran na Druime",
+  "gloss": "the song of the keel",
+  "kind": "song"
+ },
+ {
+  "en": "the trial hull",
+  "dt": "An Fhaoileag",
+  "gloss": "the Gull, the first finished hull, lost off Ros àrsaidh",
+  "kind": "ship"
+ },
+ {
+  "en": "Mòrag's hull",
+  "dt": "An Ròn Glas",
+  "gloss": "the Grey Seal, the hull that carried Mòrag nic Dhòmhnaill's household",
+  "kind": "ship"
+ },
+ {
+  "en": "the headland watch",
+  "dt": "Faire a' Chinn",
+  "gloss": "the watch of the headland at Ceann mhòr",
+  "kind": "custom"
+ },
+ {
+  "en": "Iain Ciar's grain law",
+  "dt": "Lagh an Stòir",
+  "gloss": "the law of the store",
+  "kind": "law"
+ },
+ {
+  "en": "the table of years",
+  "dt": "Clàr nam Bliadhnachan",
+  "gloss": "the table of years",
+  "kind": "document"
+ },
+ {
+  "en": "the account of the Brothers' War",
+  "dt": "Leabhar nam Bràithrean",
+  "gloss": "the book of the brothers",
+  "kind": "book"
+ },
+ {
+  "en": "the book of grievances",
+  "dt": "Leabhar nan Gearan",
+  "gloss": "the book of complaints",
+  "kind": "document"
+ },
+ {
+  "en": "the house of the Hawk at Cnoc bheag",
+  "dt": "Taigh an t-Seabhaig",
+  "gloss": "the house of the Hawk",
+  "kind": "landmark"
+ },
+ {
+  "en": "the thinning",
+  "dt": "An Tanachadh",
+  "gloss": "the thinning of the departed",
+  "kind": "event"
+ },
+ {
+  "en": "the second silence",
+  "dt": "An Dara Sàmhchair",
+  "gloss": "the second silence",
+  "kind": "event"
+ },
+ {
+  "en": "the lot-stones",
+  "dt": "Clachan a' Chrannchuir",
+  "gloss": "the stones of the lot",
+  "kind": "relic"
+ },
+ {
+  "en": "the charter of the road-houses",
+  "dt": "Cairt nan Taighean-seinnse",
+  "gloss": "the charter of the road-houses",
+  "kind": "charter"
+ },
+ {
+  "en": "the cold hearths",
+  "dt": "Na Teallaichean Fuara",
+  "gloss": "the cold hearths",
+  "kind": "event"
+ },
+ {
+  "en": "the salt fair of Ros fhionn",
+  "dt": "Fèill an t-Salainn",
+  "gloss": "the salt fair",
+  "kind": "fair"
+ },
+ {
+  "en": "the stone of the fourteen names",
+  "dt": "Clach nan Ceithir Ainmean Deug",
+  "gloss": "the stone of the fourteen names",
+  "kind": "landmark"
+ },
+ {
+  "en": "the queen's road",
+  "dt": "Rathad na Banrighinn",
+  "gloss": "the queen's road",
+  "kind": "landmark"
+ },
+ {
+  "en": "the steering star",
+  "dt": "Reul na Stiùire",
+  "gloss": "the steering star",
+  "kind": "star"
+ }
+]

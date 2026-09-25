@@ -62,7 +62,8 @@ class Master:
         self.burg_province = {i: self.cell_province[b['cell']] for i, b in self.burgs.items()}
         self.cell_burg = {b['cell']: i for i, b in self.burgs.items()}
         self.scale = self.options['units']['distance']['scale']
-        self.rate = self.options['units']['population']['scale']     # people to Azgaar's population unit (50)
+        self.rate = self.options['units']['population']['scale']     # people to Azgaar's population unit (38)
+        self.rural = sum(float(x) for x in lines[21].split(','))     # the country's people, in units
         xs = [b['x'] for b in self.burgs.values()]
         ys = [b['y'] for b in self.burgs.values()]
         self.bbox = (min(xs), min(ys), max(xs), max(ys))    # the island, by its burgs
@@ -1030,9 +1031,15 @@ class Converter:
             self.note('map', 'the master\'s journey (%s) is later than this age; dropped' % ', '.join(j.get('name', '?') for j in M.journeys))
             master_pop = sum(b.get('population', 0) for b in M.burgs.values())
             era_pop = (sum(b['population'] for b in d['burgs']) + sum(nb['population'] for nb in d['new_burgs'])) / float(M.rate)
-            scale = round(max(0.002, min(1.0, era_pop / master_pop)), 4)
+            people = d.get('population_scale', {}).get('people')
+            if people:      # the whole island given outright: the country holds what the towns do not
+                scale = round(max(0.002, min(1.0, (people / float(M.rate) - era_pop) / M.rural)), 4)
+                self.note('map', 'rural population scaled by %.4f, so the island holds some %s people (%s of them in its '
+                                 'towns)' % (scale, format(people, ','), format(int(round(era_pop * M.rate)), ',')))
+            else:
+                scale = round(max(0.002, min(1.0, era_pop / master_pop)), 4)
+                self.note('map', 'rural population scaled by %.4f (the era\'s town population over the master\'s)' % scale)
             self.spec['rural_population'] = {'scale': scale}
-            self.note('map', 'rural population scaled by %.4f (the era\'s town population over the master\'s)' % scale)
             self.note('map', 'the master\'s markets, goods and deals are pruned to this age\'s burgs (Azgaar\'s economy has no era)')
         self.note('map', 'draft popup prose (notes.polities, notes.burgs, roles, reasons) %s' % (
             'carried into the notes (--prose-notes)' if self.prose else 'not carried: map notes hold no English prose'))

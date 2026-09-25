@@ -31,6 +31,10 @@ assert len(_L) == 53
 # the people one of Azgaar's population units stands for (units.population.scale, record 1): 50 since the owner's
 # decision of 2026-09-25, some 1.8 million on the island (eras/POP_LOG.md). Every population in the drafts is people.
 RATE = json.loads(_L[1])['units']['population']['scale']
+# the generator's own town sizes (1,000 people to the unit), against which the Age of Ailean's villages were sized
+_G = open(os.path.join(RODAIS, 'Rodos_renamed.map'), encoding='utf-8', newline='').read().split('\r\n')
+GEN_POP = {b['i']: int(round(b['population'] * 1000)) for b in json.loads(_G[15])
+           if isinstance(b, dict) and b.get('i') and not b.get('removed')}
 
 
 def _cells(n):
@@ -192,9 +196,9 @@ class Spec:
         self.d['schema'] = 'era-spec-draft/1'
         self.d.update(header)
         self.d['population_scale'] = collections.OrderedDict([
-            ('people_per_unit', RATE), ('kind_scale', round(KIND_SCALE[age], 6)),
-            ('note', 'populations are people; the master counts %d to its population unit; kinds are read from '
-                     'population / kind_scale' % RATE)])
+            ('people_per_unit', RATE), ('kind_scale', round(KIND_SCALE[age], 6)), ('people', ERA_PEOPLE.get(age)),
+            ('note', 'populations are people; the master counts %d to its population unit in the country and sets '
+                     'each town outright; "people" is the whole island at the close of the age' % RATE)])
         self.d['burgs'] = []
         self.d['burgs_absent'] = []
         self.d['new_burgs'] = []
@@ -538,15 +542,15 @@ def generic_role(i):
 
 
 # the share of the master (present-day) population each age is drawn at, where the annals give no figure
-# (the present is some 1.8 million; the shares keep every age between the Age of Ailean, whose figures come from the
-# tellings, and the present: some 300,000 at the close of the Holy Age, 570,000, a million, 1.5 million)
-POP_FACTOR = {'III': 0.2, 'IV': 0.35, 'V': 0.6, 'VI': 0.85, 'VII': 1.0}
-POP_CLAMP = {'III': (10, 700), 'IV': (10, 1300), 'V': (10, 2700), 'VI': (10, 3500), 'VII': (0, 10 ** 9)}
-# how each age's town sizes stand to those the kinds (kind_for) were set for, when the master counted 1,000 people to
-# the unit and the shares were 0.035, 0.12, 0.45 and 0.85: a kind is read from pop / KIND_SCALE, so each town keeps
-# the kind it had
-KIND_SCALE = {'I': 1.0, 'II': 1.0, 'III': 0.2 / 0.035 / 20, 'IV': 0.35 / 0.12 / 20, 'V': 0.6 / 0.45 / 20,
-              'VI': 0.85 / 0.85 / 20, 'VII': RATE / 1000.0}
+# (the present-day towns are those of a real country of 1.8 million since round 2 of eras/pop_sweep.py: a third of the
+# people in towns, the capital the largest at 55,000; the shares and clamps are the drafts' own, in people)
+POP_FACTOR = {'III': 0.035, 'IV': 0.12, 'V': 0.45, 'VI': 0.85, 'VII': 1.0}
+POP_CLAMP = {'III': (40, 2500), 'IV': (60, 9000), 'V': (100, 40000), 'VI': (150, 70000), 'VII': (0, 10 ** 9)}
+# kinds are read from people as they stand (kind_for); the scale is kept for the drafts' population_scale record
+KIND_SCALE = {a: 1.0 for a in AGES}
+# the people on the island at the close of each age, given outright: the era map's country is scaled so that its
+# towns and country together hold this many (the present is the master's own, some 1.8 million)
+ERA_PEOPLE = {'I': 18000, 'II': 111000, 'III': 300000, 'IV': 570000, 'V': 1000000, 'VI': 1500000}
 
 
 def default_pop(i, age):

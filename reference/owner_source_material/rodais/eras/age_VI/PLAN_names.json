@@ -1,0 +1,143 @@
+[
+ {
+  "en": "Now Written",
+  "dt": "Scrìobhte a-nis",
+  "gloss": "now written",
+  "kind": "section-title",
+  "note": "the volume's title"
+ },
+ {
+  "en": "the Seeking",
+  "dt": "An Sireadh",
+  "gloss": "the seeking",
+  "kind": "ship",
+  "note": "the ship sent north-about, SE 3"
+ },
+ {
+  "en": "the boat of the field",
+  "dt": "Bàta an Achaidh",
+  "gloss": "the boat of the field",
+  "kind": "ship",
+  "note": "the relic boat of Cuan dhearg"
+ },
+ {
+  "en": "the hungry year",
+  "dt": "A' Bhliadhna Acrach",
+  "gloss": "the hungry year",
+  "kind": "calamity",
+  "note": "SE 1 in the north"
+ },
+ {
+  "en": "the book of lines",
+  "dt": "Leabhar nan Sloinnidhean",
+  "gloss": "the book of lines",
+  "kind": "book",
+  "note": "the Library's"
+ },
+ {
+  "en": "the book of tellings",
+  "dt": "Leabhar nan Aithrisean",
+  "gloss": "the book of tellings",
+  "kind": "book",
+  "note": "the Library's"
+ },
+ {
+  "en": "the Book of Rulings",
+  "dt": "Leabhar nam Breith",
+  "gloss": "the book of rulings",
+  "kind": "book",
+  "note": "Eilidh nic Leòid's rulings bound"
+ },
+ {
+  "en": "the realm-coin",
+  "dt": "Bonn na Rìoghachd",
+  "gloss": "the coin of the kingdom",
+  "kind": "coin"
+ },
+ {
+  "en": "the flagless ships",
+  "dt": "Na Longan gun Bhratach",
+  "gloss": "the ships without a flag",
+  "kind": "company",
+  "note": "the raiders"
+ },
+ {
+  "en": "the Black Seal",
+  "dt": "An Ròn Dubh",
+  "gloss": "the black seal",
+  "kind": "ship",
+  "note": "a raider"
+ },
+ {
+  "en": "the Gull",
+  "dt": "An Fhaoileag",
+  "gloss": "the gull",
+  "kind": "ship",
+  "note": "a raider"
+ },
+ {
+  "en": "the white thread",
+  "dt": "An Snàthainn Geal",
+  "gloss": "the white thread",
+  "kind": "mark",
+  "note": "the Doire ghlas weavers' mark"
+ },
+ {
+  "en": "the Moot's schools",
+  "dt": "Scoiltean an Tionail",
+  "gloss": "the schools of the Moot",
+  "kind": "institution"
+ },
+ {
+  "en": "the register of the hurt",
+  "dt": "Clàr nan Leòn",
+  "gloss": "the register of the wounded",
+  "kind": "document",
+  "note": "the Moot's pit register"
+ },
+ {
+  "en": "the search for a second vein",
+  "dt": "Sireadh na Dàrna Fèithe",
+  "gloss": "the search for the second vein",
+  "kind": "event"
+ },
+ {
+  "en": "the head-due book",
+  "dt": "Leabhar a' Chìs-chinn",
+  "gloss": "the book of the head-due",
+  "kind": "document"
+ },
+ {
+  "en": "the Moot's house at Caol mhòr",
+  "dt": "Taigh an Tionail",
+  "gloss": "the house of the Moot",
+  "kind": "landmark"
+ },
+ {
+  "en": "the Board's rule",
+  "dt": "Riaghailt a' Bhùird",
+  "gloss": "the rule of the Board",
+  "kind": "law",
+  "note": "surveys kept at Cathair mhòr"
+ },
+ {
+  "en": "the sheet of the vein",
+  "dt": "Duilleag na Fèithe",
+  "gloss": "the sheet of the vein",
+  "kind": "document",
+  "note": "Catrìona nic Neacail's map"
+ },
+ {
+  "en": "the vigil-book of Baile chrom",
+  "dt": "Leabhar na Faire",
+  "gloss": "the book of the vigil",
+  "kind": "book"
+ },
+ {
+  "en": "the empty floor",
+  "dt": "An t-Ùrlar Falamh",
+  "gloss": "the empty floor",
+  "kind": "landmark",
+  "note": "the Library's fourth floor"
+ }
+]

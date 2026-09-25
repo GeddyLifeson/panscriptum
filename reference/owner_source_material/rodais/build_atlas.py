@@ -81,6 +81,10 @@ ages = [[k, build_book.AGE_NAMES[k][0], build_book.AGE_NAMES[k][1], '--' + build
 records = open(MAP, encoding='utf-8', newline='').read().split('\r\n')
 assert len(records) == 53, 'Rodos_finished.map should have 53 CRLF records'
 
+# ---------------------------------------------------------------- the eras: timelines, maps, people, names
+import atlas_data  # noqa: E402   (atlas_data.py, next to this file)
+ERA_DATA = atlas_data.collect(rec, MAP)
+
 # ---------------------------------------------------------------- write the program
 if os.path.exists(OUT):
     shutil.rmtree(OUT)

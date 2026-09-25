@@ -20,7 +20,7 @@ burg id), the counts and the verification. `shots/` holds the states, cultures, 
 pictures of each map.
 
 Every map carries the master's settings, since the engine edits the master and the specs override none: distance
-scale 0.14 mi/px; population scale 50 people to the unit (some 1.8 million); latitude 18.18, longitude 53; coordinates latN 57.54, latS 56.12, lonW −13.56, lonE −7.87
+scale 0.14 mi/px; population scale 38 people to the unit in the country, each town set outright (some 1.8 million, a third in towns); latitude 18.18, longitude 53; coordinates latN 57.54, latS 56.12, lonW −13.56, lonE −7.87
 (latT 1.42, lonT 5.69); mapSize 0.79. After the master changes, rebuild every age.
 
 To rebuild:

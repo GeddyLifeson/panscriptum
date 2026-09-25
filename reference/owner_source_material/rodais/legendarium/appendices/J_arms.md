@@ -177,26 +177,26 @@ Of the hundred and twenty-three shires, twelve bear the heater: the eleven Tuath
 
 **By kind.** The roll holds the arms of five hundred and five towns. Four hundred and forty-one are on the wedge and sixty-four on the heater, one heater for every Tuathaich town. A hundred and five are on the crown's trellis, and seventeen of these carry the mascle as well, so that their arms come close to the kingdom's own. Of the other fields, argent is the commonest, then azure, Or and gules, then sable, purpure and vert. Ninety-five towns bear no charge, and eighteen of those bear nothing but their field and its partition. The commonest charge is the mascle. Crosses of one kind or another are on sixty-three town arms. A hundred and five towns bear a beast, and thirty-one of those are beasts no one on Dia-thìr has seen: lions, griffins, dragons, crocodiles, elephants, a rhinoceros. Twenty bear figures: horsemen, archers, monks, angels and two skeletons. Ships and anchors are on the harbours, and ploughs, scythes, saws and anvils on the farm and mill towns, but only twenty-eight of the hundred and thirty-three harbour towns carry anything from the sea.
 
-**The capital and the great cities.** The capital and every city of more than a thousand people, largest first.
+**The capital and the great cities.** The capital and every city of more than two thousand people, largest first.
 
 | Town | Shire | People | Arms | Notes |
 |---|---|---|---|---|
-| {{place:burg:19}} | {{place:province:1}} | 510 | Ermine, flaunches gules. | The capital reads its ermine as the black and white of Macha's floors, and the flaunches as the red of the red city. |
-| {{place:burg:489}} | {{place:province:3}} | 3,710 | Or, a cross azure, three dolphins Or in pale. | The seat of Manannan's order and the largest town on Dia-thìr. Its own arms bear dolphins; the scorpion is on its shire's arms. |
-| {{place:burg:27}} | {{place:province:5}} | 2,580 | Argent, a cross of eight points purpure. |  |
-| {{place:burg:23}} | {{place:province:24}} | 2,460 | Gules, a cross paty argent. |  |
-| {{place:burg:365}} | {{place:province:27}} | 1,790 | Azure trellised Or, three mascles argent, two and one. | The crown's field with the hollow stone three times over. |
-| {{place:burg:166}} | {{place:province:15}} | 1,750 | Per chevron reversed argent masoned sable and gules, a pale azure. | Masoned, like the arms of its shire. |
-| {{place:burg:77}} | {{place:province:16}} | 1,710 | Azure trellised Or, a saw argent. |  |
-| {{place:burg:30}} | {{place:province:21}} | 1,620 | Azure trellised Or, six mascles argent in orle. |  |
-| {{place:burg:26}} | {{place:province:32}} | 1,470 | Per bend azure trellised Or and argent, a bone Or in sinister chief, a spear sable in dexter base. |  |
-| {{place:burg:422}} | {{place:province:85}} | 1,280 | Argent, three lions rampant gules in chief. |  |
-| {{place:burg:17}} | {{place:province:98}} | 1,200 | Sable, a point in base argent, six plaice argent, three and three. |  |
-| {{place:burg:63}} | {{place:province:77}} | 1,190 | Sable, a cross nowy argent between four mascles argent. |  |
-| {{place:burg:315}} | {{place:province:35}} | 1,130 | Argent, three mascles gules, two and one. | The hollow stone in red, on the hill of the Keepers' Hall. |
-| {{place:burg:132}} | {{place:province:51}} | 1,110 | Azure trellised Or, a cross Or, three columns gules in pale. | The crown's field; see its shire. |
-| {{place:burg:255}} | {{place:province:44}} | 1,050 | Quarterly azure trellised Or and argent, an orle Or. |  |
-| {{place:burg:297}} | {{place:province:49}} | 1,050 | Azure trellised Or, four mascles argent, two, one and one. |  |
+| {{place:burg:19}} | {{place:province:1}} | 55,000 | Ermine, flaunches gules. | The capital reads its ermine as the black and white of Macha's floors, and the flaunches as the red of the red city. |
+| {{place:burg:489}} | {{place:province:3}} | 27,910 | Or, a cross azure, three dolphins Or in pale. | The seat of Manannan's order and the largest town on Dia-thìr after the capital. Its own arms bear dolphins; the scorpion is on its shire's arms. |
+| {{place:burg:27}} | {{place:province:5}} | 18,860 | Argent, a cross of eight points purpure. |  |
+| {{place:burg:23}} | {{place:province:24}} | 10,470 | Gules, a cross paty argent. |  |
+| {{place:burg:365}} | {{place:province:27}} | 5,600 | Azure trellised Or, three mascles argent, two and one. | The crown's field with the hollow stone three times over. |
+| {{place:burg:166}} | {{place:province:15}} | 4,740 | Per chevron reversed argent masoned sable and gules, a pale azure. | Masoned, like the arms of its shire. |
+| {{place:burg:77}} | {{place:province:16}} | 4,600 | Azure trellised Or, a saw argent. |  |
+| {{place:burg:30}} | {{place:province:21}} | 4,260 | Azure trellised Or, six mascles argent in orle. |  |
+| {{place:burg:26}} | {{place:province:32}} | 4,000 | Per bend azure trellised Or and argent, a bone Or in sinister chief, a spear sable in dexter base. |  |
+| {{place:burg:422}} | {{place:province:85}} | 3,490 | Argent, three lions rampant gules in chief. |  |
+| {{place:burg:17}} | {{place:province:98}} | 3,040 | Sable, a point in base argent, six plaice argent, three and three. |  |
+| {{place:burg:63}} | {{place:province:77}} | 3,000 | Sable, a cross nowy argent between four mascles argent. |  |
+| {{place:burg:315}} | {{place:province:35}} | 2,650 | Argent, three mascles gules, two and one. | The hollow stone in red, on the hill of the Keepers' Hall. |
+| {{place:burg:132}} | {{place:province:51}} | 2,530 | Azure trellised Or, a cross Or, three columns gules in pale. | The crown's field; see its shire. |
+| {{place:burg:255}} | {{place:province:44}} | 2,350 | Quarterly azure trellised Or and argent, an orle Or. |  |
+| {{place:burg:297}} | {{place:province:49}} | 2,280 | Azure trellised Or, four mascles argent, two, one and one. |  |
 
 **The seats and holy towns.** Other towns whose arms have a part in the history.
 

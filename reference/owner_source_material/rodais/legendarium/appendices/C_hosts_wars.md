@@ -80,7 +80,7 @@ Here it is called the War of the Hills, after the country where it began. Later 
 
 The first relief column, under Major Peter Ashdown, was met at the ford of {{place:burg:163}} on {{date:IV-0335}}. Ashdown lost forty men and his baggage. The rebels lost nineteen, and the council's roll names every one. Dùn chrom shut its gates behind the retreating column and nursed the wounded it left ({{date:IV-0336}}). In the east the silver town rose ({{date:IV-0337}}), and the post at {{place:burg:315}} surrendered after one exchange of fire ({{date:IV-0338}}).
 
-The humans struck back from the sea. A Company steamship came up the Abhainn uaine and shelled the coal stage at {{place:burg:313}} and burned the town behind it, killing three ({{date:IV-0342}}). On {{date:IV-0344}} fishing boats from {{place:burg:36}} and Ros ruadh burned a Company coaster at anchor. The keepers of the southern beacons put out their fires, and two Company ships were lost on the reefs ({{date:IV-0350}}).
+The humans struck back from the sea. A Company steamship came up the Abhainn uaine and shelled the coal stage at {{place:burg:313}} and burned the town behind it, killing twenty-three ({{date:IV-0342}}). On {{date:IV-0344}} fishing boats from {{place:burg:36}} and Ros ruadh burned a Company coaster at anchor. The keepers of the southern beacons put out their fires, and two Company ships were lost on the reefs ({{date:IV-0350}}).
 
 Through the first winter neither side could come at the other ({{date:IV-0352}}), and the capital went hungry ({{date:IV-0354}}). While the war stood still the rebels burned the tithe ledgers in three raids, at Ros dhomhain, Ceann àrsaidh and Muileann chrom ({{date:IV-0355}}). The Administration's last sally toward the mining country was driven back at {{place:burg:392}} on {{date:IV-0359}}. The Ros dhomhain harbour quarter opened its gates to the council ({{date:IV-0360}}), Strake left the Residency by water ({{date:IV-0362}}), and {{place:burg:63}} became the last seat of the Administration ({{date:IV-0363}}), where the human families went hungry within months ({{date:IV-0365}}).
 
@@ -124,7 +124,7 @@ After the Severance, ships flying no flag, some crewed by men who had served the
 | Siege of the store at Baile thais | {{date:IV-0327}} | {{place:burg:44}} | War of the Hills | Surrender on the twelfth day |
 | Ford of Àth chiar | {{date:IV-0335}} | {{place:burg:163}} | War of the Hills | Ashdown turned back; forty and nineteen dead |
 | Surrender at Dùn ìseal | {{date:IV-0338}} | {{place:burg:315}} | War of the Hills | The east cleared of human arms |
-| Shelling of Seann Toll | {{date:IV-0342}} | {{place:burg:313}} | War of the Hills | Three townsfolk dead |
+| Shelling of Seann Toll | {{date:IV-0342}} | {{place:burg:313}} | War of the Hills | Twenty-three townsfolk dead |
 | The fishermen of Seann Chwen | {{date:IV-0344}} | {{place:burg:36}} | War of the Hills | Company coaster burned |
 | Fight at Cnoc ghorm | {{date:IV-0359}} | {{place:burg:392}} | War of the Hills | Last sally of the Administration repulsed |
 | Battle of Àth leathan | {{date:VI-0081}} | {{place:marker:18}} | An Cogadh Fada | Holdouts' dead in the hundreds (Tuathaich telling) |
@@ -178,9 +178,9 @@ The map shades five districts, each for the calamity that gave it a name. All fi
 
 ### Other calamities of the annals
 
-**Plagues.** A coughing sickness killed some thirty at {{place:burg:191}} ({{date:III-0054}}); a spotted fever some forty at {{place:burg:92}}, where the Fianna of the Stone nursed the sick and many of them died of it ({{date:III-0118}}); the swallowing cough near a third of {{place:burg:466}} ({{date:III-0158}}). The strangers' fever came ashore with a crowded ship and killed ninety-one Dia-thìrich and eleven humans ({{date:IV-0034}}). The spotted pox at Ros dhomhain killed twenty-seven by the Mission's count, and more by the custodians' ({{date:IV-0096}}). The grey fever ({{date:IV-0276}}) killed the young and strong more readily than the old, and in the north-west put Dia-thìrich and humans in the same wards for the first time ({{date:IV-0287}}).
+**Plagues.** A coughing sickness killed some ten at {{place:burg:191}} ({{date:III-0054}}); a spotted fever some forty at {{place:burg:92}}, where the Fianna of the Stone nursed the sick and many of them died of it ({{date:III-0118}}); the swallowing cough near a third of {{place:burg:466}} ({{date:III-0158}}). The strangers' fever came ashore with a crowded ship and killed ninety-one Dia-thìrich and eleven humans ({{date:IV-0034}}). The spotted pox at Ros dhomhain killed four hundred and six by the Mission's count, and more by the custodians' ({{date:IV-0096}}). The grey fever ({{date:IV-0276}}) killed the young and strong more readily than the old, and in the north-west put Dia-thìrich and humans in the same wards for the first time ({{date:IV-0287}}).
 
-**Famines.** The first hunger of the Holy Age with a place is the winter after the burning of Achadh mhòr ({{date:II-0064b}}), whose dead the Hall counted with the dead of the war. The first famine known to have been turned aside ({{date:II-0179}}) was the first trial of the shared-meal custom, and the custom held. Beyond the Great Hunger the annals record hunger in the capital and in Ros bheag during the War of the Hills ({{date:IV-0354}}, {{date:IV-0365}}), and the north's first year alone, when Tuathaich memory puts the dead at Doire ghlas above ten and no Dia-thìrich count was made ({{date:V-0004}}).
+**Famines.** The first hunger of the Holy Age with a place is the winter after the burning of Achadh mhòr ({{date:II-0064b}}), whose dead the Hall counted with the dead of the war. The first famine known to have been turned aside ({{date:II-0179}}) was the first trial of the shared-meal custom, and the custom held. Beyond the Great Hunger the annals record hunger in the capital and in Ros bheag during the War of the Hills ({{date:IV-0354}}, {{date:IV-0365}}), and the north's first year alone, when Tuathaich memory puts the dead at Doire ghlas above two hundred and no Dia-thìrich count was made ({{date:V-0004}}).
 
 **Storms, floods and fires.** The first storm given a name is remembered only for the naming ({{date:I-0086}}); the oldest whose name survives is A' Ghaoth Dhubh ({{date:I-0159}}). Am Fuath Mòr drowned eighteen at Seann Toll ({{date:III-0066}}), a storm drowned twenty-three at Baile ghorm ({{date:III-0227}}), and another eleven Tuathaich off Cuan bheag ({{date:V-0082}}). The Abhainn ìseal cut the coal line for most of a year ({{date:V-0130}}). Fire burned Ceann mhin twice ({{date:III-0207}}) and the fair at Muileann òg once ({{date:V-0146}}).
 
@@ -194,13 +194,13 @@ The map shades five districts, each for the calamity that gave it a name. All fi
 | Hunger at Baile chrom | {{date:I-0134}} | {{place:zone:1}} | grave-rows doubled | Oldest hunger with a place |
 | Swallowing cough | {{date:III-0158}} | {{place:burg:466}} | near a third of the town | Seann Bhral closes itself |
 | Strangers' fever | {{date:IV-0034}} | {{place:burg:282}} | 91 Dia-thìrich, 11 humans | Town closed to ships |
-| Spotted pox | {{date:IV-0096}} | {{place:burg:27}} | 27 by the Mission; more by the custodians | Dead cut on the lintel at Baile chiar |
+| Spotted pox | {{date:IV-0096}} | {{place:burg:27}} | 406 by the Mission; more by the custodians | Dead cut on the lintel at Baile chiar |
 | A' Phlàigh Uaine | {{date:IV-0152}} | {{place:zone:0}} | not totalled; 26 settlements | The first strike |
 | Gorta Baile chrom | {{date:IV-0194}} | {{place:zone:1}} | worst at Baile chrom; not totalled | Levy suspended |
 | Tiormachd Achadh shean | {{date:IV-0217}} | {{place:zone:2}} | 17 of drought-fever at Baile Mòr ruadh | Cause first named rightly |
 | Scàineadh Cill ghlas | {{date:IV-0269}} | {{place:zone:3}} | dozens | District closed a generation |
 | Grey fever | {{date:IV-0276}} | island-wide | not totalled | Shared wards at Cathair gheal |
-| Hungry year in the north | {{date:V-0004}} | {{place:burg:209}} | above 10 (Tuathaich memory) | No Dia-thìrich count |
+| Hungry year in the north | {{date:V-0004}} | {{place:burg:209}} | above 200 (Tuathaich memory) | No Dia-thìrich count |
 | Tonn Mhòr Cnoc chaol | {{date:V-0017}} | {{place:zone:4}} | a little over 40 | Cuan dhearg's harbour lost |
 | Fall at Muileann dhearg | {{date:V-0141}} | {{place:burg:491}} | 31 | The same fault |
 

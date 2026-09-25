@@ -1,0 +1,394 @@
+[
+ {
+  "name": "Neachdan",
+  "born": null,
+  "died": 38,
+  "role": "the Mason (An Clachair); broke the vein, carried the first fire home",
+  "first_chapter": 1,
+  "notes": "canon I-0001; born some 27 years before the count; head of the Line of the Mason"
+ },
+ {
+  "name": "Sorcha",
+  "born": null,
+  "died": 29,
+  "role": "wife of Neachdan; first to be burned by the hearth",
+  "first_chapter": 1,
+  "notes": "born before the count"
+ },
+ {
+  "name": "Conall mac Neachdain",
+  "born": null,
+  "died": 71,
+  "role": "son of Neachdan; kept the burning vein",
+  "first_chapter": 1,
+  "notes": "canon (App. A); a boy of six at VE 1"
+ },
+ {
+  "name": "Ailbhe nic Neachdain",
+  "born": 3,
+  "died": 82,
+  "role": "daughter of Neachdan, the first child born by a hearth; the fire-bearer who carried fire to the hearths of the hills",
+  "first_chapter": 2,
+  "notes": ""
+ },
+ {
+  "name": "Tadhg",
+  "born": 30,
+  "died": 97,
+  "role": "elder of the household of the black well; first to claim the mason's crack for his well",
+  "first_chapter": 3,
+  "notes": "I-0002"
+ },
+ {
+  "name": "Muirne",
+  "born": 112,
+  "died": 181,
+  "role": "of Conall's line; keeper of the vein-fire when it died; bade them lay the slab",
+  "first_chapter": 3,
+  "notes": "I-0003"
+ },
+ {
+  "name": "Conn",
+  "born": 205,
+  "died": 266,
+  "role": "herder who followed the shrinking snow up the Abhainn uaine",
+  "first_chapter": 4,
+  "notes": "I-0004"
+ },
+ {
+  "name": "Eachna",
+  "born": 281,
+  "died": 349,
+  "role": "laid the first hearths at Achadh dhìreach",
+  "first_chapter": 4,
+  "notes": "I-0005"
+ },
+ {
+  "name": "Luag",
+  "born": 425,
+  "died": 497,
+  "role": "walker who went to the north-western horn and found no tree and no hearth",
+  "first_chapter": 4,
+  "notes": "I-0006a"
+ },
+ {
+  "name": "Gràinne",
+  "born": 455,
+  "died": 531,
+  "role": "last to leave her hearth on the drowned neck of Eilean dhubh",
+  "first_chapter": 5,
+  "notes": "I-0007"
+ },
+ {
+  "name": "Oisean",
+  "born": 528,
+  "died": 596,
+  "role": "seal-hunter of the south shore; first to cross open water on purpose, to Eilean mhin",
+  "first_chapter": 5,
+  "notes": "I-0008"
+ },
+ {
+  "name": "Scàire",
+  "born": 590,
+  "died": 652,
+  "role": "seal-hunter of the north shore; took seals on the skerries off Eilean fhada; saw the grey on the northern sea",
+  "first_chapter": 5,
+  "notes": "I-0008a; the-mist"
+ },
+ {
+  "name": "Fionnghuala",
+  "born": 838,
+  "died": 902,
+  "role": "mother of Diarmad; keeper of the fire-pot",
+  "first_chapter": 7,
+  "notes": ""
+ },
+ {
+  "name": "Diarmad",
+  "born": 862,
+  "died": 931,
+  "role": "of the Mason's line; asked why the coal has colours; heard the Telling and the riddle from the Keeper; fixed the recital of the Line",
+  "first_chapter": 7,
+  "notes": "canon I-0011a"
+ },
+ {
+  "name": "Niamh",
+  "born": 866,
+  "died": 925,
+  "role": "wife of Diarmad",
+  "first_chapter": 9,
+  "notes": ""
+ },
+ {
+  "name": "Deirbhile nic Dhiarmaid",
+  "born": 894,
+  "died": 968,
+  "role": "daughter of Diarmad; kept the Telling word for word and taught it",
+  "first_chapter": 9,
+  "notes": ""
+ },
+ {
+  "name": "Muirgheal",
+  "born": 1290,
+  "died": 1381,
+  "role": "old woman of the line who wept at the gold coal's lighting",
+  "first_chapter": 12,
+  "notes": ""
+ },
+ {
+  "name": "Aodh",
+  "born": 1344,
+  "died": 1412,
+  "role": "of the Mason's line; threw the seven into the sea; the gold coal took fire",
+  "first_chapter": 12,
+  "notes": "canon I-0017a"
+ },
+ {
+  "name": "Gormal",
+  "born": 1930,
+  "died": 2004,
+  "role": "woman of the line; kept the pot and the recital in the lean years",
+  "first_chapter": 15,
+  "notes": ""
+ },
+ {
+  "name": "Mathan",
+  "born": 2135,
+  "died": 2190,
+  "role": "brother of Fearghas; climbed the height with him",
+  "first_chapter": 16,
+  "notes": "not a father of the direct Line"
+ },
+ {
+  "name": "Fearghas",
+  "born": 2138,
+  "died": 2199,
+  "role": "of the Mason's line; let the six fall from the highest ground; the snowflake coal took fire",
+  "first_chapter": 16,
+  "notes": "canon I-0027a"
+ },
+ {
+  "name": "Bran",
+  "born": 2801,
+  "died": null,
+  "role": "steersman of the north-west shore who sailed west for an isle of the blessed and did not come back",
+  "first_chapter": 20,
+  "notes": "I-0038; lost at sea VE 2,833"
+ },
+ {
+  "name": "Blàthnaid",
+  "born": 2805,
+  "died": 2880,
+  "role": "sister of Bran; kept his telling hushed",
+  "first_chapter": 20,
+  "notes": "I-0038"
+ },
+ {
+  "name": "Brian",
+  "born": 2858,
+  "died": 2921,
+  "role": "of the Mason's line; grave-digger; buried the five; the black coal was warm",
+  "first_chapter": 21,
+  "notes": "canon I-0038a"
+ },
+ {
+  "name": "Caoimhe",
+  "born": 2860,
+  "died": 2930,
+  "role": "wife of Brian",
+  "first_chapter": 21,
+  "notes": ""
+ },
+ {
+  "name": "Criomthann",
+  "born": 3015,
+  "died": 3079,
+  "role": "lit the warning fire on the north-western headland",
+  "first_chapter": 22,
+  "notes": "I-0041"
+ },
+ {
+  "name": "Eimhir",
+  "born": 3180,
+  "died": 3262,
+  "role": "herder girl of the Doire uaine hills who found the cut lines",
+  "first_chapter": 23,
+  "notes": "I-0044, I-0045"
+ },
+ {
+  "name": "Laoghaire",
+  "born": 3275,
+  "died": 3341,
+  "role": "dug the first covered hearth in the Doire uaine hills",
+  "first_chapter": 24,
+  "notes": "I-0046"
+ },
+ {
+  "name": "Sadhbh",
+  "born": 3490,
+  "died": 3566,
+  "role": "hunter of the east, one of the three who saw the white stag and did not draw",
+  "first_chapter": 25,
+  "notes": "I-0050"
+ },
+ {
+  "name": "Muireall",
+  "born": 3611,
+  "died": null,
+  "role": "child who went past the line of stones at Coille Naomh Cnoc bheag and was never found",
+  "first_chapter": 25,
+  "notes": "lost VE 3,620"
+ },
+ {
+  "name": "Cormac",
+  "born": 3640,
+  "died": 3712,
+  "role": "of the Mason's line, 'of the Misstrike'; his blood lit the mahogany coal in the grove",
+  "first_chapter": 26,
+  "notes": "canon I-0052a"
+ },
+ {
+  "name": "Dubhghall",
+  "born": 3695,
+  "died": 3760,
+  "role": "drove the red deer in the eastern woods; his grandson buried a dog at Cnoc fhionn",
+  "first_chapter": 27,
+  "notes": "I-0053, I-0054"
+ },
+ {
+  "name": "Eòghann",
+  "born": 4196,
+  "died": 4262,
+  "role": "of the Mason's line; tasted the river; the silver coal took fire under the water",
+  "first_chapter": 30,
+  "notes": "canon I-0062a"
+ },
+ {
+  "name": "Rathnait",
+  "born": 4400,
+  "died": 4468,
+  "role": "woman of the line who heard the households first name themselves Clann nan Dè",
+  "first_chapter": 31,
+  "notes": "I-0065"
+ },
+ {
+  "name": "Barabal",
+  "born": 4440,
+  "died": 4512,
+  "role": "of Àth gharbh, not of the line; burnt a sliver of coloured coal in her peat fire",
+  "first_chapter": 32,
+  "notes": "I-0066"
+ },
+ {
+  "name": "Giorsal",
+  "born": 4490,
+  "died": 4560,
+  "role": "of Achadh dhìreach; rubbed broken coal into the wool of the dead",
+  "first_chapter": 32,
+  "notes": "I-0067"
+ },
+ {
+  "name": "Oscar",
+  "born": 4580,
+  "died": 4648,
+  "role": "wit of Àth gharbh who named the line the Inquisitors of the Mystic Coal",
+  "first_chapter": 32,
+  "notes": "I-0068a"
+ },
+ {
+  "name": "Colla",
+  "born": 4590,
+  "died": 4655,
+  "role": "of the Mason's line; in his days the line took the name Clann na Ceiste",
+  "first_chapter": 32,
+  "notes": "canon (App. A), I-0068a"
+ },
+ {
+  "name": "Lughaidh",
+  "born": 4650,
+  "died": 4720,
+  "role": "shepherd of the west who saw Carragh Cnoc bheag standing new",
+  "first_chapter": 33,
+  "notes": "I-0069"
+ },
+ {
+  "name": "Mòrnait",
+  "born": 4785,
+  "died": 4850,
+  "role": "woman of Clann na Ceiste who kept fire at the ring about Colbh Cnoc chiar",
+  "first_chapter": 33,
+  "notes": "I-0072"
+ },
+ {
+  "name": "Ciannait",
+  "born": 4820,
+  "died": 4891,
+  "role": "of the hills; heard the saying first spoken at the column",
+  "first_chapter": 34,
+  "notes": "I-0073"
+ },
+ {
+  "name": "Seathan",
+  "born": 4862,
+  "died": 4934,
+  "role": "of Clann na Ceiste; snapped his fingers and the fire coal's dust took fire",
+  "first_chapter": 35,
+  "notes": "canon I-0073a"
+ },
+ {
+  "name": "Caitir",
+  "born": 4868,
+  "died": 4940,
+  "role": "wife of Seathan",
+  "first_chapter": 35,
+  "notes": ""
+ },
+ {
+  "name": "Aoife",
+  "born": 5040,
+  "died": 5110,
+  "role": "mother of the child buried with a sliver of the coal at Tuam Cnoc dhìreach",
+  "first_chapter": 36,
+  "notes": "I-0076; the child is not named"
+ },
+ {
+  "name": "Cairbre",
+  "born": 5240,
+  "died": null,
+  "role": "led the eleven from the southern shore into the hills in the crossing season",
+  "first_chapter": 37,
+  "notes": "I-0080; lost VE 5,272"
+ },
+ {
+  "name": "Suibhne",
+  "born": 5272,
+  "died": 5318,
+  "role": "of Clann na Ceiste, father of Ailean; tried the rainbow coal in the grove",
+  "first_chapter": 37,
+  "notes": "canon (App. A)"
+ },
+ {
+  "name": "Ailean mac Shuibhne",
+  "born": 5300,
+  "died": null,
+  "role": "of Clann na Ceiste; lit the six again and brought them to the grove; the Keeper lit the rainbow",
+  "first_chapter": 38,
+  "notes": "canon I-0080a; living at the close; never 'Ailean Mòr' in this volume"
+ },
+ {
+  "name": "Lìobhan",
+  "born": 5302,
+  "died": null,
+  "role": "wife of Ailean, mother of Gormshuil",
+  "first_chapter": 38,
+  "notes": "living at the close"
+ },
+ {
+  "name": "Gormshuil nic Ailein",
+  "born": 5322,
+  "died": null,
+  "role": "infant daughter of Ailean, born before the grove",
+  "first_chapter": 38,
+  "notes": "canon (Age II, I-0084); only her birth in this volume"
+ }
+]

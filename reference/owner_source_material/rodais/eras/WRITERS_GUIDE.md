@@ -326,13 +326,16 @@ Every place, distance and compass line must agree with the master map and with A
   on the map before you write it, and keep travel times to it: about 15–25 miles a day on foot, 10–15 by laden cart,
   25 by carriage on a road, a day's sail along the coast for 20–30 miles. Round as a teller would ("a few miles", "a day's walk").
 - **People.** The present-day island (DE 27) holds some 1.8 million people (1,770,800 within the shires, the
-  head-due's count; about 337 to the square mile), one in seven of them in a town. The map counts 50 people to its
-  population unit, so its towns are small: the largest, Seann Skell of the west, has 3,706 people, the capital,
-  Cathair dhearg, 514, and most towns a few hundred. Take a town's size from the map (world.json, the gazetteer)
-  at the size it had in your age, never from memory. At the close of each age the island holds roughly: Age I some
-  18,000; Age II some 110,000 (the tellings' own figures); Age III some 300,000; Age IV some 570,000; Age V about a
-  million; Age VI some 1.5 million; Age VII some 1.8 million. A town in an older age is that age's share of its
-  present size (III 0.2, IV 0.35, V 0.6, VI 0.85), unless the annals give it one. Deaths, crowds and musters must fit
-  the place and the age: a fever in a town of a few hundred kills tens, not hundreds. The regiments of DE 27 muster
-  some 3,300 men and 23 guns (Appendix C); the head-due is eighteen purses on every five thousand heads. See
-  POP_LOG.md.
+  head-due's count; about 337 to the square mile), about a third of them in its 505 towns. The capital, Cathair
+  dhearg, is the largest town, at 55,000; then the two Seann Skells (some 28,000 and 23,000), Ros dhomhain (19,000),
+  Seann Bhral, Cnoc bheag and Cathair mhòr (10,000–15,500); nine market towns and ports of 5,000–10,000, a
+  hundred of 1,000–5,000, and villages of a few hundred. Take a town's size from the map (world.json, the gazetteer),
+  never from memory. At the close of each age the island holds roughly: Age I some 18,000; Age II some 110,000 (the
+  tellings' own figures); Age III some 300,000 (a seventh in towns); Age IV some 570,000 (a fifth); Age V about a
+  million (under a third); Age VI some 1.5 million; Age VII some 1.8 million (a third). A town in an older age is
+  that age's share of its present size (III 0.035, IV 0.12, V 0.45, VI 0.85), unless the annals give it one; the era
+  drafts give each. Deaths, crowds and musters must fit the place and the age: a fever in a town of a few hundred kills
+  tens, not hundreds. The Tuathaich number some 178,000 today; the humans left at the Severance were a few thousand,
+  and the northern shires then held some 100,000, most of them Dia-thìrich of the north-west who stayed under the
+  truce: they are the Tuathaich's forebears too (some 150,000 at SE 71). The regiments of DE 27 muster some 3,300 men
+  and 23 guns (Appendix C); the head-due is eighteen purses on every five thousand heads. See POP_LOG.md.

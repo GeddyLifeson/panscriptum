@@ -580,7 +580,7 @@
   ],
   "edit": {
    "1": {
-    "population": 1.8,
+    "population": 2.368,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -591,7 +591,7 @@
     "note": "inferred · cites: gazetteer B1"
    },
    "12": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -600,7 +600,7 @@
     "note": "inferred · cites: gazetteer B12, I-0237"
    },
    "15": {
-    "population": 2.2,
+    "population": 2.895,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -608,7 +608,7 @@
     "note": "inferred · cites: gazetteer B15, I-0199"
    },
    "16": {
-    "population": 0.2,
+    "population": 0.263,
     "group": "fort",
     "features": {
      "citadel": 0,
@@ -617,7 +617,7 @@
     "note": "inferred · cites: I-0165, I-0023"
    },
    "17": {
-    "population": 3.0,
+    "population": 3.947,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -625,7 +625,7 @@
     "note": "inferred · cites: gazetteer B17, I-0240"
    },
    "18": {
-    "population": 1.2,
+    "population": 1.579,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -636,7 +636,7 @@
    },
    "19": {
     "name": "Cnoc dhearg",
-    "population": 6.0,
+    "population": 7.895,
     "features": {
      "citadel": 0,
      "walls": 0,
@@ -646,7 +646,7 @@
     "note": "inferred · cites: I-0083, I-0089, I-0172, II-0076"
    },
    "20": {
-    "population": 4.4,
+    "population": 5.789,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -657,7 +657,7 @@
     "note": "inferred · cites: gazetteer B20, I-0227"
    },
    "22": {
-    "population": 1.9,
+    "population": 2.5,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -667,7 +667,7 @@
     "note": "inferred · cites: gazetteer B22"
    },
    "23": {
-    "population": 4.4,
+    "population": 5.789,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -678,7 +678,7 @@
     "note": "inferred · cites: I-0205"
    },
    "26": {
-    "population": 1.6,
+    "population": 2.105,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -690,7 +690,7 @@
     "note": "inferred · cites: I-0117, II-0075"
    },
    "27": {
-    "population": 9.0,
+    "population": 11.842,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -701,12 +701,12 @@
     "note": "inferred · cites: I-0127, I-0171, I-0169"
    },
    "28": {
-    "population": 0.5,
+    "population": 0.658,
     "group": "hamlet",
     "note": "inferred · cites: I-0129"
    },
    "32": {
-    "population": 3.0,
+    "population": 3.947,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -715,7 +715,7 @@
     "note": "inferred · cites: gazetteer B32"
    },
    "45": {
-    "population": 3.8,
+    "population": 5.0,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -723,12 +723,12 @@
     "note": "inferred · cites: gazetteer B45, I-0230"
    },
    "61": {
-    "population": 2.0,
+    "population": 2.632,
     "group": "hamlet",
     "note": "inferred · cites: gazetteer B61"
    },
    "63": {
-    "population": 3.0,
+    "population": 3.947,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -739,7 +739,7 @@
     "note": "inferred · cites: gazetteer B63, I-0116"
    },
    "77": {
-    "population": 3.6,
+    "population": 4.737,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -750,7 +750,7 @@
     "note": "inferred · cites: gazetteer B77, I-0195"
    },
    "88": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -759,7 +759,7 @@
     "note": "inferred · cites: gazetteer B88, I-0238"
    },
    "95": {
-    "population": 4.0,
+    "population": 5.263,
     "group": "village",
     "features": {
      "plaza": 0,
@@ -768,7 +768,7 @@
     "note": "inferred · cites: I-0190, I-0043"
    },
    "119": {
-    "population": 3.6,
+    "population": 4.737,
     "group": "village",
     "features": {
      "plaza": 0
@@ -776,12 +776,12 @@
     "note": "inferred · cites: I-0159, I-0197"
    },
    "123": {
-    "population": 1.0,
+    "population": 1.316,
     "group": "hamlet",
     "note": "inferred · cites: I-0106, I-0107, I-0226"
    },
    "131": {
-    "population": 3.8,
+    "population": 5.0,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -790,7 +790,7 @@
     "note": "inferred · cites: gazetteer B131, I-0201"
    },
    "134": {
-    "population": 3.2,
+    "population": 4.211,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -798,7 +798,7 @@
     "note": "inferred · cites: gazetteer B134, I-0202"
    },
    "142": {
-    "population": 3.2,
+    "population": 4.211,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -807,7 +807,7 @@
     "note": "inferred · cites: gazetteer B142"
    },
    "145": {
-    "population": 3.2,
+    "population": 4.211,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -816,7 +816,7 @@
     "note": "inferred · cites: gazetteer B145, I-0231"
    },
    "166": {
-    "population": 3.8,
+    "population": 5.0,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -827,7 +827,7 @@
     "note": "inferred · cites: gazetteer B166"
    },
    "170": {
-    "population": 5.0,
+    "population": 6.579,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -836,7 +836,7 @@
     "note": "inferred · cites: I-0099, I-0100, I-0104, I-0104b, I-0175"
    },
    "191": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -845,7 +845,7 @@
     "note": "inferred · cites: gazetteer B191"
    },
    "197": {
-    "population": 3.6,
+    "population": 4.737,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -854,7 +854,7 @@
     "note": "inferred · cites: gazetteer B197"
    },
    "198": {
-    "population": 0.4,
+    "population": 0.526,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -862,7 +862,7 @@
     "note": "inferred · cites: I-0143, I-0249"
    },
    "209": {
-    "population": 5.0,
+    "population": 6.579,
     "features": {
      "plaza": 0,
      "temple": 0,
@@ -871,7 +871,7 @@
     "note": "inferred · cites: I-0194, I-0080b"
    },
    "221": {
-    "population": 1.2,
+    "population": 1.579,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -880,7 +880,7 @@
     "note": "inferred · cites: gazetteer B221, I-0212"
    },
    "232": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -889,7 +889,7 @@
     "note": "inferred · cites: gazetteer B232, I-0241"
    },
    "234": {
-    "population": 3.0,
+    "population": 3.947,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -900,12 +900,12 @@
     "note": "inferred · cites: gazetteer B234"
    },
    "238": {
-    "population": 1.8,
+    "population": 2.368,
     "group": "hamlet",
     "note": "inferred · cites: gazetteer B238"
    },
    "244": {
-    "population": 2.2,
+    "population": 2.895,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -915,7 +915,7 @@
     "note": "inferred · cites: gazetteer B244, I-0192"
    },
    "246": {
-    "population": 1.5,
+    "population": 1.974,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -924,7 +924,7 @@
     "note": "inferred · cites: gazetteer B246, I-0213"
    },
    "255": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -934,12 +934,12 @@
     "note": "inferred · cites: gazetteer B255, I-0204"
    },
    "257": {
-    "population": 1.9,
+    "population": 2.5,
     "group": "hamlet",
     "note": "inferred · cites: gazetteer B257"
    },
    "269": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -948,19 +948,19 @@
     "note": "inferred · cites: gazetteer B269, I-0239"
    },
    "276": {
-    "population": 3.0,
+    "population": 3.947,
     "features": {
      "temple": 0
     },
     "note": "inferred · cites: I-0112, I-0151, I-0152, I-0246, I-0104a"
    },
    "277": {
-    "population": 0.8,
+    "population": 1.053,
     "group": "hamlet",
     "note": "inferred · cites: gazetteer B277"
    },
    "282": {
-    "population": 3.6,
+    "population": 4.737,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -969,7 +969,7 @@
     "note": "inferred · cites: gazetteer B282, I-0203"
    },
    "297": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -978,7 +978,7 @@
     "note": "inferred · cites: gazetteer B297, I-0198"
    },
    "304": {
-    "population": 0.8,
+    "population": 1.053,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -986,7 +986,7 @@
     "note": "inferred · cites: I-0219, I-0220"
    },
    "305": {
-    "population": 3.2,
+    "population": 4.211,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -995,11 +995,11 @@
     "note": "inferred · cites: gazetteer B305, I-0191"
    },
    "315": {
-    "population": 12.0,
+    "population": 15.789,
     "note": "inferred · cites: I-0081, I-0082, I-0139, I-0147, I-0250, I-0255a"
    },
    "318": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -1010,7 +1010,7 @@
     "note": "inferred · cites: gazetteer B318, I-0206"
    },
    "324": {
-    "population": 3.8,
+    "population": 5.0,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -1019,7 +1019,7 @@
     "note": "inferred · cites: gazetteer B324"
    },
    "326": {
-    "population": 2.2,
+    "population": 2.895,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -1028,7 +1028,7 @@
     "note": "inferred · cites: gazetteer B326, I-0208"
    },
    "333": {
-    "population": 3.0,
+    "population": 3.947,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -1036,7 +1036,7 @@
     "note": "inferred · cites: gazetteer B333, I-0233"
    },
    "363": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -1046,12 +1046,12 @@
     "note": "inferred · cites: gazetteer B363, I-0209"
    },
    "364": {
-    "population": 1.2,
+    "population": 1.579,
     "group": "hamlet",
     "note": "inferred · cites: I-0105, I-0225"
    },
    "365": {
-    "population": 9.6,
+    "population": 12.632,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1061,7 +1061,7 @@
     "note": "inferred · cites: I-0200"
    },
    "371": {
-    "population": 3.8,
+    "population": 5.0,
     "group": "hamlet",
     "features": {
      "plaza": 0,
@@ -1070,7 +1070,7 @@
     "note": "inferred · cites: gazetteer B371"
    },
    "387": {
-    "population": 2.4,
+    "population": 3.158,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -1080,7 +1080,7 @@
     "note": "inferred · cites: gazetteer B387, I-0215"
    },
    "395": {
-    "population": 4.0,
+    "population": 5.263,
     "features": {
      "plaza": 0,
      "temple": 0
@@ -1088,7 +1088,7 @@
     "note": "inferred · cites: gazetteer B395, I-0229"
    },
    "398": {
-    "population": 5.0,
+    "population": 6.579,
     "features": {
      "plaza": 0,
      "temple": 0
@@ -1096,7 +1096,7 @@
     "note": "inferred · cites: I-0207, I-0164"
    },
    "411": {
-    "population": 3.2,
+    "population": 4.211,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -1104,7 +1104,7 @@
     "note": "inferred · cites: gazetteer B411, I-0211"
    },
    "415": {
-    "population": 0.6,
+    "population": 0.789,
     "group": "hamlet",
     "features": {
      "shanty": 0
@@ -1112,11 +1112,11 @@
     "note": "inferred · cites: gazetteer B415"
    },
    "422": {
-    "population": 10.0,
+    "population": 13.158,
     "note": "inferred · cites: I-0235, I-0255b"
    },
    "431": {
-    "population": 3.0,
+    "population": 3.947,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -1126,7 +1126,7 @@
     "note": "inferred · cites: I-0210"
    },
    "433": {
-    "population": 2.6,
+    "population": 3.421,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -1136,7 +1136,7 @@
     "note": "inferred · cites: gazetteer B433"
    },
    "435": {
-    "population": 2.6,
+    "population": 3.421,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -1144,7 +1144,7 @@
     "note": "inferred · cites: gazetteer B435"
    },
    "436": {
-    "population": 2.2,
+    "population": 2.895,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -1153,7 +1153,7 @@
     "note": "inferred · cites: gazetteer B436"
    },
    "443": {
-    "population": 3.2,
+    "population": 4.211,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -1162,7 +1162,7 @@
     "note": "inferred · cites: gazetteer B443, I-0232"
    },
    "449": {
-    "population": 2.4,
+    "population": 3.158,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -1170,12 +1170,12 @@
     "note": "inferred · cites: gazetteer B449, I-0196"
    },
    "454": {
-    "population": 0.6,
+    "population": 0.789,
     "group": "hamlet",
     "note": "inferred · cites: gazetteer B454, I-0005"
    },
    "457": {
-    "population": 1.6,
+    "population": 2.105,
     "group": "hamlet",
     "features": {
      "walls": 0
@@ -1183,7 +1183,7 @@
     "note": "inferred · cites: gazetteer B457"
    },
    "475": {
-    "population": 4.2,
+    "population": 5.526,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1193,7 +1193,7 @@
     "note": "inferred · cites: gazetteer B475"
    },
    "476": {
-    "population": 2.4,
+    "population": 3.158,
     "group": "hamlet",
     "features": {
      "walls": 0,
@@ -1203,7 +1203,7 @@
     "note": "inferred · cites: I-0119"
    },
    "489": {
-    "population": 7.0,
+    "population": 9.211,
     "group": "village",
     "features": {
      "citadel": 0,
@@ -1214,7 +1214,7 @@
     "note": "inferred · cites: I-0098, I-0097"
    },
    "492": {
-    "population": 2.8,
+    "population": 3.684,
     "group": "hamlet",
     "features": {
      "plaza": 0
@@ -1222,7 +1222,7 @@
     "note": "inferred · cites: gazetteer B492, I-0242"
    },
    "502": {
-    "population": 3.6,
+    "population": 4.737,
     "group": "hamlet",
     "features": {
      "citadel": 0,
@@ -1231,7 +1231,7 @@
     "note": "inferred · cites: gazetteer B502"
    },
    "504": {
-    "population": 2.2,
+    "population": 2.895,
     "group": "hamlet",
     "features": {
      "citadel": 0
@@ -1245,7 +1245,7 @@
     "id": 2001,
     "name": "the heirs' camp in the valley under Dùn ìseal",
     "cell": 3195,
-    "population": 40.0,
+    "population": 52.632,
     "group": "village",
     "note": "inferred · cites: I-0256, I-0208a, II-0001a, book III",
     "culture": 2
@@ -1255,7 +1255,7 @@
     "id": 2002,
     "name": "the war-camp of the eastern host",
     "cell": 3107,
-    "population": 30.0,
+    "population": 39.474,
     "group": "village",
     "note": "inferred · cites: I-0255b, I-0256, I-0098a",
     "culture": 2
@@ -1265,7 +1265,7 @@
     "id": 2003,
     "name": "the salt-folk's shelters at the ford gathering",
     "cell": 3419,
-    "population": 0.02,
+    "population": 0.026,
     "group": "hamlet",
     "note": "inferred · cites: I-0113, I-0114, I-0218, I-0236, I-0208a",
     "culture": 2
@@ -1275,7 +1275,7 @@
     "id": 2004,
     "name": "the ring of shelters at Fuarain Theth Muileann ruadh",
     "cell": 2920,
-    "population": 0.4,
+    "population": 0.526,
     "group": "hamlet",
     "note": "inferred · cites: I-0187, II-0063",
     "culture": 2
@@ -2041,6 +2041,6 @@
   "keep": []
  },
  "rural_population": {
-  "scale": 0.0628
+  "scale": 0.0824
  }
 }

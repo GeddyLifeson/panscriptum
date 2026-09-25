@@ -1,0 +1,570 @@
+[
+ {
+  "name": "Ailean Mòr mac Shuibhne",
+  "born": "VE 5,300",
+  "died": "FE 1 (falls at the ford; told, not dated)",
+  "role": "Rìgh Chlann nan Dè; never a POV",
+  "first_chapter": 1,
+  "notes": "canon; crowned GE 1 aged 24; warmth, unageing; hair grey in one winter c. GE 1,700"
+ },
+ {
+  "name": "Coinneach mac Shuibhne",
+  "born": "VE 5,303",
+  "died": "GE 55",
+  "role": "Ailean's younger brother, mortal; first teller of the king's deeds",
+  "first_chapter": 1,
+  "notes": "new; POV ch 1"
+ },
+ {
+  "name": "Muireall",
+  "born": "VE 5,302",
+  "died": "GE 24",
+  "role": "Ailean's first wife; mother of Gormshuil, Dòmhnall, Fearchar",
+  "first_chapter": 1,
+  "notes": "new"
+ },
+ {
+  "name": "Gormshuil nic Ailein",
+  "born": "VE 5,318",
+  "died": "GE 76",
+  "role": "daughter born before the grove; 2nd of the Stone Kings",
+  "first_chapter": 1,
+  "notes": "canon; POV ch 3; no long years"
+ },
+ {
+  "name": "the knapper's son",
+  "born": "VE 5,311",
+  "died": "GE 68",
+  "role": "lad on the hill at the taking; later the king's spear-maker",
+  "first_chapter": 2,
+  "notes": "canon, unnamed as in the master; POV ch 2"
+ },
+ {
+  "name": "Dòmhnall Clachach",
+  "born": "GE 2",
+  "died": "GE 3,310",
+  "role": "son; 3rd Stone King; sent north GE 227",
+  "first_chapter": 2,
+  "notes": "canon; first child born after the grove; POV ch 4; dies after Somhairle"
+ },
+ {
+  "name": "Fearchar Bacach",
+  "born": "GE 10",
+  "died": "GE 3,140",
+  "role": "son; 4th Stone King; lamed GE 189",
+  "first_chapter": 3,
+  "notes": "canon"
+ },
+ {
+  "name": "Sorcha",
+  "born": "GE 8",
+  "died": "GE 96",
+  "role": "Ailean's second wife; mother of Somhairle and Iain Dubh",
+  "first_chapter": 3,
+  "notes": "new"
+ },
+ {
+  "name": "Somhairle mac Ailein",
+  "born": "GE 38",
+  "died": "GE 3,025",
+  "role": "son; keeper of the lines among Clann na Ceiste; takes no share",
+  "first_chapter": 3,
+  "notes": "canon; POV ch 7, 30"
+ },
+ {
+  "name": "Iain Dubh",
+  "born": "GE 45",
+  "died": "GE 727",
+  "role": "son; 6th Stone King; killed on the shingle",
+  "first_chapter": 3,
+  "notes": "canon; the only son buried before Somhairle"
+ },
+ {
+  "name": "Beathag Ruadh",
+  "born": "VE 5,290",
+  "died": "GE 40",
+  "role": "first holder of the Red Hill",
+  "first_chapter": 3,
+  "notes": "canon"
+ },
+ {
+  "name": "Uisdean Mòr",
+  "born": "GE 225",
+  "died": "GE 312",
+  "role": "2nd holder of the Red Hill; kneels GE 290",
+  "first_chapter": 5,
+  "notes": "canon"
+ },
+ {
+  "name": "Uilleam Faire",
+  "born": "GE 262",
+  "died": "GE 330",
+  "role": "watchman of the Red Hill palisade",
+  "first_chapter": 5,
+  "notes": "new; POV ch 5"
+ },
+ {
+  "name": "Dùghall Ceannaiche",
+  "born": "GE 281",
+  "died": "GE 352",
+  "role": "hill-folk carrier to the Old Ones' coasts",
+  "first_chapter": 6,
+  "notes": "new; POV ch 6"
+ },
+ {
+  "name": "Cairistìona",
+  "born": "GE 540",
+  "died": "GE 612",
+  "role": "Somhairle's wife, mother of Beathan",
+  "first_chapter": 7,
+  "notes": "new"
+ },
+ {
+  "name": "Beathan mac Shomhairle",
+  "born": "GE 591",
+  "died": "GE 2,804",
+  "role": "Somhairle's son; watcher of the slab",
+  "first_chapter": 8,
+  "notes": "canon; POV ch 13; 2,213 years"
+ },
+ {
+  "name": "Marsaili nic Iain",
+  "born": "GE 600",
+  "died": "GE 671",
+  "role": "settler of the empty harbour at Seann Skell",
+  "first_chapter": 8,
+  "notes": "new; POV ch 8"
+ },
+ {
+  "name": "Mòrag Chruaidh",
+  "born": "GE 290",
+  "died": "GE 1,610",
+  "role": "granddaughter (Dòmhnall's daughter); 5th Stone King; the salt raid",
+  "first_chapter": 9,
+  "notes": "canon; POV ch 9"
+ },
+ {
+  "name": "Seonag nic Uisdein",
+  "born": "GE 670",
+  "died": "GE 741",
+  "role": "holder of the Red Hill; the pebble bag",
+  "first_chapter": 9,
+  "notes": "canon; 'after her father' = of Uisdean's line"
+ },
+ {
+  "name": "Tormod Liath",
+  "born": "GE 640",
+  "died": "GE 2,390",
+  "role": "son of Iain Dubh; 9th Stone King; second bank",
+  "first_chapter": 10,
+  "notes": "canon; POV ch 20"
+ },
+ {
+  "name": "Màiri nan Làn",
+  "born": "GE 690",
+  "died": "GE 780",
+  "role": "salt-raker of Baile ghorm",
+  "first_chapter": 10,
+  "notes": "new; POV ch 10"
+ },
+ {
+  "name": "Tadhg Garbh",
+  "born": "GE 695",
+  "died": "GE 729",
+  "role": "salt-man whose spear killed Iain Dubh",
+  "first_chapter": 10,
+  "notes": "new"
+ },
+ {
+  "name": "Seasaidh",
+  "born": "GE 770",
+  "died": "GE 852",
+  "role": "survivor of the wave at Cnoc chaol; lays the white stones",
+  "first_chapter": 11,
+  "notes": "new; POV ch 11"
+ },
+ {
+  "name": "Anna nic Coinnich",
+  "born": "GE 1,000",
+  "died": "GE 1,080",
+  "role": "neighbour at Achadh dhìreach at the basket burning",
+  "first_chapter": 12,
+  "notes": "new; POV ch 12"
+ },
+ {
+  "name": "Raghnall Ceannfhionn",
+  "born": "GE 760",
+  "died": "GE 2,160",
+  "role": "grandson (son of Fearchar); 7th Stone King; salt for wool",
+  "first_chapter": 14,
+  "notes": "canon; POV ch 14"
+ },
+ {
+  "name": "Murchadh Gearr",
+  "born": "GE 1,215",
+  "died": "GE 1,280",
+  "role": "holder of the Red Hill; walks the salt road",
+  "first_chapter": 14,
+  "notes": "canon"
+ },
+ {
+  "name": "Flòraidh",
+  "born": "GE 1,285",
+  "died": "GE 1,352",
+  "role": "amber-gatherer of the Hawk bay",
+  "first_chapter": 15,
+  "notes": "new; POV ch 15"
+ },
+ {
+  "name": "Iseabail",
+  "born": "GE 1,430",
+  "died": "GE 1,510",
+  "role": "sister of Eachann Ròpa; holds the rope",
+  "first_chapter": 16,
+  "notes": "new; POV ch 16"
+ },
+ {
+  "name": "Eachann Ròpa",
+  "born": "GE 1,435",
+  "died": "GE 1,499",
+  "role": "the youth let down Toll-dubh; never tells",
+  "first_chapter": 16,
+  "notes": "new"
+ },
+ {
+  "name": "Beitris",
+  "born": "GE 1,670",
+  "died": "GE 1,744",
+  "role": "weaver of Muileann leathan; the king's wife; mother of Murchadh Mòr",
+  "first_chapter": 17,
+  "notes": "new; POV ch 17"
+ },
+ {
+  "name": "Murchadh Mòr",
+  "born": "GE 1,705",
+  "died": "beyond (after this volume; never told in it); eldest living son at the ford, near 2,900",
+  "role": "son; holds the northern plain at Baile Mòr mhòr; eleven sons",
+  "first_chapter": 17,
+  "notes": "canon (Book III); POV ch 18, 31"
+ },
+ {
+  "name": "Ailig Spor",
+  "born": "GE 1,770",
+  "died": "GE 1,838",
+  "role": "flint-carrier, Murchadh's friend",
+  "first_chapter": 18,
+  "notes": "new"
+ },
+ {
+  "name": "Sìleas Bhàn",
+  "born": "GE 1,500",
+  "died": "GE 2,380",
+  "role": "of the king's blood; 8th Stone King; the hungry years",
+  "first_chapter": 19,
+  "notes": "canon; POV ch 19"
+ },
+ {
+  "name": "Ealag",
+  "born": "GE 2,205",
+  "died": "GE 2,300",
+  "role": "woman of the forbidden marriage",
+  "first_chapter": 21,
+  "notes": "new; POV ch 21; the reason is never given"
+ },
+ {
+  "name": "Torcall Tochlair",
+  "born": "GE 2,200",
+  "died": "GE 2,318",
+  "role": "digger of the trench for another vein; stays by it",
+  "first_chapter": 21,
+  "notes": "new; his household is the one that refuses its handful GE 4,358"
+ },
+ {
+  "name": "Lachann",
+  "born": "GE 2,245",
+  "died": "GE 2,267",
+  "role": "Torcall's brother, crushed in the trench",
+  "first_chapter": 21,
+  "notes": "new"
+ },
+ {
+  "name": "Beasag",
+  "born": "GE 2,360",
+  "died": "GE 2,440",
+  "role": "daughter of the household turned out at Àth shean",
+  "first_chapter": 22,
+  "notes": "new; POV ch 22"
+ },
+ {
+  "name": "Eilidh Ghlas",
+  "born": "GE 2,050",
+  "died": "GE 2,780",
+  "role": "of the king's blood; 10th Stone King; sends her younger son to be fostered",
+  "first_chapter": 22,
+  "notes": "canon"
+ },
+ {
+  "name": "Calum Ciar",
+  "born": "GE 2,250",
+  "died": "GE 2,960",
+  "role": "elder son of Eilidh; 11th Stone King; refused the lot",
+  "first_chapter": 23,
+  "notes": "canon"
+ },
+ {
+  "name": "the fosterling",
+  "born": "GE 2,394",
+  "died": "GE 3,005",
+  "role": "younger son of Eilidh Ghlas; never named",
+  "first_chapter": 23,
+  "notes": "canon, unnamed; POV ch 23, 28"
+ },
+ {
+  "name": "Lachlann Ruadh (Lachlann an Altraim)",
+  "born": "GE 2,360",
+  "died": "GE 2,425",
+  "role": "holder of the Red Hill; foster-father",
+  "first_chapter": 23,
+  "notes": "canon"
+ },
+ {
+  "name": "Peigi Dhubh",
+  "born": "GE 2,385",
+  "died": "GE 2,460",
+  "role": "Lachlann's daughter; holder of the Red Hill after him",
+  "first_chapter": 23,
+  "notes": "canon"
+ },
+ {
+  "name": "Oighrig nic Dhòmhnaill",
+  "born": "GE 2,370",
+  "died": "GE 2,441",
+  "role": "first keeper of the slab by lot; the stone cup",
+  "first_chapter": 24,
+  "notes": "canon; POV ch 24; her father is a herder, not Dòmhnall Clachach"
+ },
+ {
+  "name": "Niocol Snaidhear",
+  "born": "GE 2,360",
+  "died": "GE 2,430",
+  "role": "stone-worker who grinds the cup",
+  "first_chapter": 24,
+  "notes": "new"
+ },
+ {
+  "name": "Gilleasbuig Beag",
+  "born": "GE 2,375",
+  "died": "GE 2,409",
+  "role": "keeper by lot exiled to Eilean chrom",
+  "first_chapter": 25,
+  "notes": "canon"
+ },
+ {
+  "name": "Ciorstaidh Bhàn",
+  "born": "GE 2,380",
+  "died": "GE 2,451",
+  "role": "keeper after Gilleasbuig; lays the coal back",
+  "first_chapter": 25,
+  "notes": "new; POV ch 25"
+ },
+ {
+  "name": "Lìleas",
+  "born": "GE 2,396",
+  "died": "GE 2,470",
+  "role": "woman of Cuan ruadh; keeps the eastern storm fire",
+  "first_chapter": 26,
+  "notes": "new; POV ch 26"
+ },
+ {
+  "name": "Anndra Breac",
+  "born": "GE 2,380",
+  "died": "GE 2,450",
+  "role": "teller of the western coast; 'we came'",
+  "first_chapter": 27,
+  "notes": "canon; POV ch 27"
+ },
+ {
+  "name": "Seònaid Mhòr",
+  "born": "GE 2,395",
+  "died": "GE 2,470",
+  "role": "keeper of the Ros dhomhain tide-rock; paired marks",
+  "first_chapter": 28,
+  "notes": "canon"
+ },
+ {
+  "name": "Iain Buachaille",
+  "born": "GE 2,405",
+  "died": "GE 2,480",
+  "role": "herder of Muileann bhàn; lamed in the passes; the cure at the warm springs",
+  "first_chapter": 29,
+  "notes": "new; POV ch 29"
+ },
+ {
+  "name": "Eithne nic Ailein",
+  "born": "GE 2,703",
+  "died": "beyond (after this volume; never told in it); ~1,900 at the ford",
+  "role": "daughter; holds the plain below the outpost",
+  "first_chapter": 31,
+  "notes": "canon (Book III)"
+ },
+ {
+  "name": "the Red Hill girl",
+  "born": "GE 2,991",
+  "died": "GE 3,080",
+  "role": "nine years old at the great gathering",
+  "first_chapter": 32,
+  "notes": "canon, unnamed; POV ch 32"
+ },
+ {
+  "name": "Diorbhail",
+  "born": "GE 2,990",
+  "died": "GE 3,070",
+  "role": "reciter of Clann na Ceiste",
+  "first_chapter": 33,
+  "notes": "new; POV ch 33"
+ },
+ {
+  "name": "Beathan's son",
+  "born": "GE 1,990",
+  "died": "GE 3,584",
+  "role": "next of Somhairle's line (1,594 years); unnamed in the short form",
+  "first_chapter": 33,
+  "notes": "canon, unnamed"
+ },
+ {
+  "name": "Alasdair Làidir",
+  "born": "GE 3,380",
+  "died": "GE 3,452",
+  "role": "wrestler at the Ceann leathan gathering",
+  "first_chapter": 34,
+  "notes": "new; POV ch 34"
+ },
+ {
+  "name": "Ìomhar Dearg",
+  "born": "GE 3,203",
+  "died": "beyond (after this volume; never told in it); ~1,400 at the ford",
+  "role": "son; river-grazing on the eastern marches",
+  "first_chapter": 34,
+  "notes": "canon (Book III); POV ch 35"
+ },
+ {
+  "name": "Raonaid nic Ailein",
+  "born": "GE 3,100",
+  "died": "GE 4,480",
+  "role": "daughter; mother of Niall Òg",
+  "first_chapter": 35,
+  "notes": "new"
+ },
+ {
+  "name": "Niall Òg",
+  "born": "GE 3,703",
+  "died": "beyond (after this volume; never told in it); ~900 at the ford",
+  "role": "grandson, claims through both parents; the laughing messenger",
+  "first_chapter": 35,
+  "notes": "canon (Book III); POV ch 38"
+ },
+ {
+  "name": "Ailis",
+  "born": "GE 4,240",
+  "died": "GE 4,325",
+  "role": "woman of the east at the raising of Dùn dhearg",
+  "first_chapter": 36,
+  "notes": "new; POV ch 36"
+ },
+ {
+  "name": "Catrìona Mhòr",
+  "born": "GE 4,100",
+  "died": "GE 4,391",
+  "role": "of the king's blood; 12th and last Stone King",
+  "first_chapter": 36,
+  "notes": "canon; POV ch 37"
+ },
+ {
+  "name": "Seumas Òg",
+  "born": "GE 4,320",
+  "died": "GE 4,390",
+  "role": "last holder in the Red Hill list",
+  "first_chapter": 37,
+  "notes": "canon"
+ },
+ {
+  "name": "Eòin Beul-binn",
+  "born": "GE 4,300",
+  "died": "GE 4,380",
+  "role": "reciter of Dùn ìseal",
+  "first_chapter": 37,
+  "notes": "new"
+ },
+ {
+  "name": "Ùna Ruadh",
+  "born": "GE 4,305",
+  "died": "GE 4,378",
+  "role": "reciter of the Red Hill",
+  "first_chapter": 37,
+  "notes": "new"
+ },
+ {
+  "name": "Fearghal Donn",
+  "born": "GE 4,480",
+  "died": "GE 4,570",
+  "role": "holder of Dùn dhearg who sends the messenger back",
+  "first_chapter": 38,
+  "notes": "new"
+ },
+ {
+  "name": "Artair mac Fhearghail",
+  "born": "GE 4,540",
+  "died": "beyond (after this volume; never told in it)",
+  "role": "holder of Dùn dhearg; the greybeard's counsel at the fires",
+  "first_chapter": 39,
+  "notes": "new"
+ },
+ {
+  "name": "Gille-Brìde",
+  "born": "GE 4,431",
+  "died": "beyond (after this volume; never told in it) (FE 53)",
+  "role": "of Somhairle's line; 172 at the Binding",
+  "first_chapter": 39,
+  "notes": "canon; POV ch 39"
+ },
+ {
+  "name": "Ceallach mac Ghille-Bhrìde",
+  "born": "GE 4,543",
+  "died": "beyond (after this volume; never told in it) (FE 79)",
+  "role": "last of the line in whom the long years show",
+  "first_chapter": 39,
+  "notes": "canon"
+ },
+ {
+  "name": "Sìne nan Snaidhm",
+  "born": "GE 4,570",
+  "died": "beyond (after this volume; never told in it)",
+  "role": "knot-keeper of the household cord at Dùn ìseal",
+  "first_chapter": 39,
+  "notes": "canon (Book III)"
+ },
+ {
+  "name": "Aonghas Bàn mac Mhurchaidh",
+  "born": "GE 4,203",
+  "died": "beyond (after this volume; never told in it)",
+  "role": "grandson of Murchadh Mòr",
+  "first_chapter": 39,
+  "notes": "canon (Book III); background only"
+ },
+ {
+  "name": "Ruairidh Glas",
+  "born": "GE 4,303",
+  "died": "beyond (after this volume; never told in it)",
+  "role": "grandson of Ìomhar Dearg",
+  "first_chapter": 39,
+  "notes": "canon (Book III); background only"
+ },
+ {
+  "name": "the eastern lad",
+  "born": "GE 4,587",
+  "died": "beyond (after this volume; never told in it)",
+  "role": "sixteen, youngest spear of his household at the ford",
+  "first_chapter": 40,
+  "notes": "canon, unnamed; POV ch 40"
+ }
+]
