@@ -95,9 +95,11 @@ else:
 _fi = os.path.join(OUT, 'fmg', 'index.html')
 _h = open(_fi, encoding='utf-8').read()
 _catch = ('<script>window.__atlasErrors=[];window.addEventListener("error",function(e){window.__atlasErrors.push((e.message||"a file failed to load")'
-          '+(e.filename?" ("+e.filename.split("/").pop()+")":(e.target&&e.target.src?" ("+String(e.target.src).split("/").pop()+")":"")))},true);'
+          '+(e.filename?" ("+e.filename.split("/").pop()+")":(e.target&&e.target.src?" ("+new URL(e.target.src).pathname.replace(/^.*?\/fmg\//,"")+")":"")))},true);'
           'window.addEventListener("unhandledrejection",function(e){var r=e.reason;window.__atlasErrors.push(String(r&&(r.stack||r.message)||r).slice(0,300))});</script>')
-if '__atlasErrors' not in _h:
+import re as _re
+_h = _re.sub(r'<script>window.__atlasErrors=.*?</script>', '', _h, flags=_re.S)
+if True:
     _h = _h.replace('<head>', '<head>' + _catch, 1)
     open(_fi, 'w', encoding='utf-8').write(_h)
 with open(os.path.join(OUT, 'Diathir.map'), 'w', encoding='utf-8', newline='') as fh:
